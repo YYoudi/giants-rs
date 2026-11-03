@@ -10,6 +10,7 @@ rustup target add x86_64-pc-windows-gnu --toolchain stable-x86_64-pc-windows-gnu
 . ./tools/dev-env.ps1
 cargo test --locked --workspace --target x86_64-pc-windows-gnu
 python -m unittest discover -s tests -v
+python -m tools.audit_source_tree --output .local/source-history-review.json
 cargo fmt --all -- --check
 cargo clippy --locked --workspace --all-targets --target x86_64-pc-windows-gnu -- -D warnings
 ./tools/build_preview.ps1 -OutputDirectory .local/build

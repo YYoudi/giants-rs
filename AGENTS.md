@@ -1,7 +1,9 @@
 # Working on giants-rs
 
-This is the intended primary runtime repository after owner-approved cutover.
-Until that approval, prepare locally and do not publish or change repository visibility.
+The owner authorized public source publication on 3 November 2026 after a technical
+review. Complete the documented review and cutover before changing visibility.
+This repository is the primary runtime authority after that cutover. Source
+publication does not clear binary distribution or establish third-party rights.
 The previous private repository is a research archive, not a competing runtime branch.
 
 Work alone. Do not move other discussions' worktrees. Use codex/ branches for new
@@ -9,8 +11,9 @@ work unless the owner requests main. Read PROGRESS.json, BACKLOG.md and docs/REL
 Keep README in English. Preserve the owner's approximate 99% AI-generated estimate
 and the absence of comprehensive human review; never call it a completion metric.
 
-Background only: no visible windows, focus, injected input or sound unless the owner
-explicitly changes this instruction. Original installations and research corpora
+Prefer background work. The owner subsequently authorized manual tests in this
+chat, including necessary test windows and interactions; avoid unrelated focus
+changes and sound. Original installations and research corpora
 are read-only. No original data, screenshots, dumps, decompilations, native byte
 signatures, secrets, personal paths or executables in Git. Private research stays
 in the private archive. Evidence does not establish redistribution rights.

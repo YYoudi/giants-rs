@@ -1,9 +1,10 @@
 # Working-repository transition
 
-Intended destination: `YYoudi/giants-rs`, fresh history. This local repository has
-a private GitHub staging remote and is not approved for public exposure yet.
-MIT was chosen under the owner's delegation; provenance/distribution review
-remains open. Do not expose this candidate publicly.
+Destination: `YYoudi/giants-rs`, fresh history. The owner has now authorized the
+agent to finish the source review and make this candidate public. The AI-assisted
+technical review found no concrete source-publication blocker within its stated
+scope; see PUBLICATION_REVIEW.md. This is not legal clearance. MIT applies within
+NOTICE.md's scope. Binary distribution review remains open.
 
 The private staging remote already uses the intended destination name. After
 explicit owner approval, recheck that remote and push the reviewed candidate if
@@ -38,6 +39,9 @@ Research observers, CPU replay examples and reference inputs stay private.
    Keep research documents and original data outside public history and assets.
 
 ## Preparation checkpoint — 3 November 2026
+
+The following records the earlier private preparation, before the owner's later
+explicit publication instruction. It does not override that later authorization.
 
 Observed: GitHub reports `YYoudi/giants-rs` as PRIVATE. Both baseline CI workflows
 passed for `0d43e84c1dd61b344174786ac44f3bd5f286f7f5`; see docs/AUTOMATION.md
@@ -83,3 +87,12 @@ Draft ZIP SHA-256:
 
 These hashes identify this local build only. The later documentation checkpoint
 does not change its recorded source identity. No push or remote setting was changed.
+
+## Authorized source cutover
+
+The owner asked the agent to perform the verification and then make the repository
+public. The documented source review is now complete within its technical scope.
+The cutover will fast-forward reviewed source into main, verify a clean clone of
+the private remote, then change this repository's visibility and activate its
+asset-free Pages dashboard. Binary approval remains unset and the draft packager
+still refuses public packages. The archive and all of its worktrees stay in place.

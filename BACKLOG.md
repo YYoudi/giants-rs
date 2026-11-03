@@ -15,18 +15,15 @@ automatically wired into the main menu-to-mission build.
 - Integrate cinematic work through reviewed patches from its current branch,
   preserving concurrent gameplay changes. Pending branch work is not yet in main.
 - Menu-to-mission, controls, return-to-menu and cleanup require interactive checks.
-- Source/provenance review, the constgebra 0.1.4 notice, compiler/runtime notice
-  applicability and initial public approval remain release blockers. MIT has been
-  selected for independent project source; its scope is recorded in NOTICE.md.
-- Revalidate subsequent publication-preparation changes in hosted CI. The baseline
-  Windows and dashboard runs passed; no binary or Pages upload was performed.
-- Before source exposure, review the provenance of reconstructed implementations
-  and synthetic fixtures, including whether any protected source expression or
-  original data was carried over. A history-pattern scan cannot decide this.
-  Record the review scope and unresolved questions; see docs/PUBLICATION_REVIEW.md.
-- After source-publication approval, integrate the reviewed candidate into main,
-  validate that exact remote revision and enable Pages for this repository.
-  Keep binary distribution gated separately by its notice/applicability review.
+- Binary distribution remains blocked by human provenance/release review, the
+  constgebra 0.1.4 notice and compiler/runtime notice applicability. MIT applies
+  within NOTICE.md's scope. No executable release is authorized by source exposure.
+- Preserve the AI-assisted source-review limitations recorded in
+  docs/PUBLICATION_REVIEW.md; future reconstructed code and fixtures need their own
+  provenance checks. Escalate concrete protected-material concerns before exposure.
+- Complete the now owner-authorized source cutover: integrate the reviewed candidate,
+  verify a clean remote clone and exact revision, and activate this project's Pages.
+  Record actual hosted validation separately from the already passing local checks.
 
 ## All other game systems
 

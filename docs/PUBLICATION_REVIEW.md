@@ -1,14 +1,20 @@
 # Source publication review — 3 November 2026
 
-**Not cleared for public exposure.** The owner's request to go public is conditional
-on a clean README, a dashboard tracking this project and copyright confidence.
-The technical checks below do not satisfy the unresolved provenance condition.
-No repository visibility, Pages setting or approval variable has been changed.
+**Technical review completed; owner-authorized source publication may proceed.**
+After being told the limitations of an AI-assisted review, the owner explicitly
+asked the agent to perform the verification and make the repository public.
+No concrete source-publication blocker was identified within the scope below.
+This decision is not a legal clearance or a guarantee against claims. Executable
+distribution remains blocked. Actual cutover status is recorded in TRANSITION.md.
 
 ## Observed technical state
 
-- GitHub reports `YYoudi/giants-rs` as private, with `main` as its default branch
-  and no Pages deployment configured. Local preparation is on a `codex/` branch.
+- Pre-cutover GitHub inventory: private `YYoudi/giants-rs`, only `main` remotely,
+  no tags, releases, retained Actions artifacts, issues or pull requests. Discussions
+  are disabled; the wiki Git endpoint reports no repository. All four retained
+  workflow logs were downloaded locally and checked for selected credentials and
+  owner-directory patterns; none were detected. Hosted runner directories are not
+  owner workstation paths. The private research repository remains private.
 - README is English, identifies the project as unofficial and incomplete, requires
   user-supplied game data and states the scope of MIT in NOTICE.md. It preserves
   the owner's approximate 99% AI-generated estimate and lack of comprehensive
@@ -17,16 +23,52 @@ No repository visibility, Pages setting or approval variable has been changed.
   Dashboard links target this repository. Export is restricted to selected fields;
   source tests cover private-field exclusion and HTML escaping. No game images,
   branding artwork or original assets are part of the site export.
-- A local pattern scan at `c06dc06ea52fefa7af00a71b7f2c0b8febc2e73d`
-  examined all 8 commits reachable through the current local refs and 547 distinct
-  file blobs. No matches were found for the scanned binary/asset extensions, NUL
-  bytes, personal-directory paths, selected credential patterns or common decompiler
-  function labels. The ignored scan report remains local. This is neither a full
-  secret detector nor a comparison against original code, installations or corpora.
+- History scan at `0f4e03de34ff1be5faf4e29b6594dfb074157ada`: 9 reachable
+  commits and 551 distinct file blobs, without findings for the selected hazards.
+  The reproducible `tools.audit_source_tree` scanner now also checks every historical
+  pathname, rather than only one representative name per blob. It flags selected
+  binary/assets/font extensions, links/submodules, NUL bytes, personal-directory
+  paths, credentials and common decompiler labels. Tests include a secret removed
+  at HEAD and a renamed binary removed at HEAD. Reports do not print secret values.
 - Baseline hosted CI and the later local build/package checks are recorded in
   TRANSITION.md. Neither result establishes rights or gameplay fidelity.
 
-## Unresolved source question
+## Source provenance triage and targeted inspection
+
+The prepared runtime contains 433 Rust files and 23 WESL files: 139,281 lines,
+5,115,202 bytes before documentation/review-tool additions. Automated triage covered
+these files for large numeric arrays, encoded payloads, embedding mechanisms,
+foreign-source/decompiler markers and long string literals. The only foreign-source
+text hit was a comment stating that a normal-preparation table is calculated from
+mathematics rather than imported from a binary. It was inspected with its function.
+
+Targeted source inspection covered the archive reader and synthetic construction
+test, frontend catalog/text access, read_asset, external font selection, shader
+embedding sites and representative shader bodies, model/material preparation,
+animation arithmetic, target-query selection and resident actor ownership. The long
+string triage identified diagnostics and CLI/help text, not an embedded game script
+or dialogue corpus. This was a targeted AI review, not line-by-line human review.
+
+Observed in those paths: artwork, mesh, sound, catalog and displayed game text are
+read from user-supplied files; system/explicit fonts are external. Embedded project
+assets are WESL shaders that perform rendering calculations on supplied resources.
+The inspected tests construct small synthetic archives and geometry. Numeric format
+identifiers, field offsets, flags and arithmetic coefficients are not machine-code
+instruction dumps. No embedded original artwork, native instruction-signature probe,
+dialogue corpus or identifiable decompiled-code listing was found in this review.
+
+No vendored third-party implementation was identified in the inspected source. Cargo fetches
+locked dependencies separately. Committed third-party license texts retain their
+scope and are not relicensed by MIT. Existing notice receipts and the package
+builder's hash validation remain in use. This does not close binary notice review.
+
+The private transition handoffs were consulted to establish the selection method.
+The fresh candidate excludes research observers, CPU replay examples, reference
+inputs, galleries and original-history branches. The current 12 archive worktrees
+were inventoried read-only, with local hashes of dirty tracked files. They were
+neither moved nor reset; pending branch changes were not silently integrated.
+
+## Residual provenance and legal uncertainty
 
 The repository records reconstruction informed by private research; it does not
 claim a separated-team clean room. The available technical checks cannot determine
@@ -38,8 +80,10 @@ For a France/EU review, the distinction between unprotected ideas/principles and
 protected program expression matters. Article L122-6-1 permits specified observation
 and interoperability-related acts under conditions, with limits on subsequent use
 and disclosure. Whether this project's research and publication satisfy those
-conditions has not been established. A qualified intellectual-property review of
-the actual method and source is appropriate before treating this gate as cleared.
+conditions has not been established as a legal conclusion. A qualified
+intellectual-property review can assess the actual method and source if legal
+assurance is required. The owner-authorized technical publication decision above
+must not be presented as that assurance.
 
 Primary references consulted on 3 November 2026:
 
@@ -51,14 +95,16 @@ or a promise that publication cannot attract a claim.
 
 ## Source, dashboard and binary distribution
 
-Source exposure and Pages deployment publish their own contents and require the
-source/provenance decision above. A first public exposure would include the Git
-history, not just the README. Pages remains disabled until that decision.
+Source exposure includes reachable history and hosted logs, not just the README.
+The owner's authorization covers this reviewed source candidate and its asset-free
+roadmap dashboard. It does not cover exposing the research archive, its gallery,
+pending worktrees or private evidence. The dashboard links to this repository and
+will track subsequent PROGRESS.json changes through its main-branch Pages workflow.
 
 Binary dissemination has additional unresolved checks: the constgebra 0.1.4
 license text and exact compiler/runtime notice applicability. Those binary-package
 blockers must not be confused with a legal conclusion about publishing only this
 repository's source. The current packager deliberately produces uncleared drafts.
 
-BACKLOG.md remains the detailed task list. No release, public push or visibility
-change follows automatically from this review record.
+BACKLOG.md remains the detailed task list. No binary release or distribution
+approval follows from source publication.

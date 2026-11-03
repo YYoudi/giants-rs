@@ -13,6 +13,8 @@ completion statistic. The owner chose to proceed with the current audited
 reimplementation and an honest method description. It does not claim a clean room
 with separate analysts and implementers. Technical scans are not legal clearance.
 
-Source/provenance and binary distribution review remain open. See
-third_party/README.md and docs/AUTOMATION.md for outstanding notice review and
-publication gates. MIT selection does not clear those gates automatically.
+An AI-assisted technical source-publication review is recorded in
+docs/PUBLICATION_REVIEW.md. It is not a comprehensive human provenance review or
+legal clearance. Binary distribution review remains open; see third_party/README.md
+and docs/AUTOMATION.md for outstanding notice review and publication gates.
+MIT selection does not clear third-party rights automatically.
