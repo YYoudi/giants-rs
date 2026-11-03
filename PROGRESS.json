@@ -587,9 +587,10 @@
       "id": "gallery",
       "title": "Approved reference and Bevy comparison gallery",
       "status": "done",
-      "scope": "Tooling",
+      "scope": "Private research tooling",
       "kind": "enabler",
-      "group": "Technical foundations"
+      "group": "Technical foundations",
+      "detail": "Historical comparison work is retained privately; no comparison screenshots are included in this public candidate."
     },
     {
       "id": "mecc-primary",

@@ -5,11 +5,33 @@ import unittest
 import zipfile
 import shutil
 import subprocess
+from unittest.mock import patch
 
-from tools.package_preview import package, sha256
+from tools.package_preview import package, sha256, dependency_notices
 
 
 class PreviewDistributionTests(unittest.TestCase):
+    def test_supplemental_notice_must_match_receipt_and_stay_in_notice_tree(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root,exe,metadata,receipt=self.fixture(directory)
+            (root/'dependency/LICENSE').unlink()
+            notice=root/'third_party/notices/synthetic-1/LICENSE'
+            notice.parent.mkdir(parents=True)
+            notice.write_text('Synthetic permission notice',encoding='utf8')
+            entry=dict(file='third_party/notices/synthetic-1/LICENSE',sha256=sha256(notice))
+            records=[dict(name='synthetic',version='1',license='MIT',files=[entry])]
+            source=root/'third_party/notice-sources.json'
+            source.write_text(json.dumps(records),encoding='utf8')
+            with patch('tools.package_preview.ROOT',root):
+                self.assertEqual(dependency_notices(metadata)[2],[])
+                notice.write_text('tampered text',encoding='utf8')
+                with self.assertRaisesRegex(ValueError,'notice receipt'):
+                    dependency_notices(metadata)
+                entry['file']='dependency/Cargo.toml'
+                source.write_text(json.dumps(records),encoding='utf8')
+                with self.assertRaisesRegex(ValueError,'notice receipt'):
+                    dependency_notices(metadata)
+
     @unittest.skipUnless(shutil.which('pwsh'), 'PowerShell is required')
     def test_launcher_checks_paths_without_running_a_game(self):
         with tempfile.TemporaryDirectory() as directory:

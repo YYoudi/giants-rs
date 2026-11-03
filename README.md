@@ -121,6 +121,6 @@ mean a complete playable feature. No global completion percentage is claimed.
 - [x] **Controlled normal Mecc cycle, orientation and complete payload** — done; CPU only. 
 - [x] **Controlled herd and Vimp kernels** — done; CPU only. 
 - [x] **Controlled actor callback policy and acquired owned adapters** — done; CPU only. 
-- [x] **Approved reference and Bevy comparison gallery** — done; Tooling. 
+- [x] **Approved reference and Bevy comparison gallery** — done; Private research tooling. Historical comparison work is retained privately; no comparison screenshots are included in this public candidate.
 - [x] **Controlled offline normal Mecc header and primary contract** — done; CPU only. 
 <!-- progress:end -->
