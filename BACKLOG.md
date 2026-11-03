@@ -21,9 +21,9 @@ automatically wired into the main menu-to-mission build.
 - Preserve the AI-assisted source-review limitations recorded in
   docs/PUBLICATION_REVIEW.md; future reconstructed code and fixtures need their own
   provenance checks. Escalate concrete protected-material concerns before exposure.
-- Complete the now owner-authorized source cutover: integrate the reviewed candidate,
-  verify a clean remote clone and exact revision, and activate this project's Pages.
-  Record actual hosted validation separately from the already passing local checks.
+- Source cutover is complete after technical review and clean-clone checks; the
+  owner-authorized repository is public, with Pages enabled for this project.
+  Continue checking exact-revision hosted results and keep binary distribution gated.
 
 ## All other game systems
 

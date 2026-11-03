@@ -1,6 +1,6 @@
 # Source publication review — 3 November 2026
 
-**Technical review completed; owner-authorized source publication may proceed.**
+**Technical review completed; source publication performed under owner authorization.**
 After being told the limitations of an AI-assisted review, the owner explicitly
 asked the agent to perform the verification and make the repository public.
 No concrete source-publication blocker was identified within the scope below.

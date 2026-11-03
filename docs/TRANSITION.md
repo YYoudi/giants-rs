@@ -1,15 +1,11 @@
 # Working-repository transition
 
-Destination: `YYoudi/giants-rs`, fresh history. The owner has now authorized the
-agent to finish the source review and make this candidate public. The AI-assisted
-technical review found no concrete source-publication blocker within its stated
-scope; see PUBLICATION_REVIEW.md. This is not legal clearance. MIT applies within
-NOTICE.md's scope. Binary distribution review remains open.
+`YYoudi/giants-rs` is now public and is the primary runtime, roadmap and release
+authority, following the owner's explicit instruction. The AI-assisted technical
+review found no concrete source-publication blocker within its stated scope; see
+PUBLICATION_REVIEW.md. This is not legal clearance. MIT applies within NOTICE.md's
+scope. Binary distribution review remains open.
 
-The private staging remote already uses the intended destination name. After
-explicit owner approval, recheck that remote and push the reviewed candidate if
-needed before changing visibility. Use it directly for all runtime development,
-roadmap updates and releases after cutover.
 The previous private repository remains a research archive with its history and
 visibility preserved. Do not mirror ongoing runtime changes into two authorities.
 
@@ -90,9 +86,28 @@ does not change its recorded source identity. No push or remote setting was chan
 
 ## Authorized source cutover
 
-The owner asked the agent to perform the verification and then make the repository
-public. The documented source review is now complete within its technical scope.
-The cutover will fast-forward reviewed source into main, verify a clean clone of
-the private remote, then change this repository's visibility and activate its
-asset-free Pages dashboard. Binary approval remains unset and the draft packager
-still refuses public packages. The archive and all of its worktrees stay in place.
+Completed on 3 November 2026, after the owner asked the agent to perform the
+verification and then make the repository public:
+
+- Reviewed `dc99be9948b4dfcf6ead88d7edf38b947b0dafee` was pushed to private main
+  first. A new remote clone passed all 12 Python tests, generated-roadmap consistency,
+  site export and JavaScript syntax validation. Its full history scan covered 10
+  commits / 560 distinct file blobs with zero selected-hazard findings.
+- [Hosted source/dashboard validation](https://github.com/YYoudi/giants-rs/actions/runs/41724991825)
+  passed on that exact revision before exposure. Runtime Rust source and its
+  dependency lockfile are unchanged from the previously tested baseline.
+- GitHub visibility was changed to PUBLIC under the owner's explicit authorization.
+  The private research repository was checked and remains private. All 12 existing
+  archive worktrees remain in place; dirty-file hashes were recorded privately.
+- Pages uses Actions with `PUBLIC_SITE_APPROVED=true` and a main-only deployment
+  environment. The [first public dashboard deployment](https://github.com/YYoudi/giants-rs/actions/runs/41725146683)
+  succeeded. Repository homepage and README point to this new dashboard.
+- The latest Windows CI is tracked in Actions; a running/cancelled newer run is not
+  a substitute for a completed exact-revision result. The baseline Windows workflow
+  and local Rust tests, Clippy and optimized build have passed as recorded above.
+- `PUBLIC_DISTRIBUTION_APPROVED` remains unset. The draft packager refuses public
+  packages and no GitHub executable release has been published.
+
+Subsequent documentation commits record the completed operation without changing
+the already recorded executable/package identities. The old discussions require
+explicit new runtime checkouts; none was moved automatically.

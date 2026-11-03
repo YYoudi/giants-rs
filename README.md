@@ -14,15 +14,16 @@ binaries, screenshots or extracted data are distributed here.
 
 [Quick start](docs/QUICK_START.md) · [Build](docs/BUILD.md) · [Release policy](docs/RELEASES.md)
 
-The roadmap dashboard is generated from this repository's `PROGRESS.json` and
-prepared for [GitHub Pages](https://yyoudi.github.io/giants-rs/); it is not deployed yet.
+The [roadmap dashboard](https://yyoudi.github.io/giants-rs/) is generated from this
+repository's `PROGRESS.json` and updates through GitHub Pages on main-branch pushes.
 [Automatic Windows build checks](https://github.com/YYoudi/giants-rs/actions) are
-active in private staging. See [automation and activation](docs/AUTOMATION.md)
+active. See [automation and activation](docs/AUTOMATION.md)
 and the [publication review status](docs/PUBLICATION_REVIEW.md).
 
 Project source is under the [MIT license](LICENSE), within the scope described in
-[NOTICE.md](NOTICE.md). Provenance/distribution review is still pending.
-The repository is private staging until the owner approves initial public exposure.
+[NOTICE.md](NOTICE.md). Public source publication follows the owner's approval and
+an AI-assisted technical review; it is not legal clearance or comprehensive human
+review. Windows executable releases remain withheld pending distribution review.
 
 ## Whole-game roadmap
 

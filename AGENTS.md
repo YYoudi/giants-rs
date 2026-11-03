@@ -1,7 +1,7 @@
 # Working on giants-rs
 
 The owner authorized public source publication on 3 November 2026 after a technical
-review. Complete the documented review and cutover before changing visibility.
+review, and the reviewed repository is now public.
 This repository is the primary runtime authority after that cutover. Source
 publication does not clear binary distribution or establish third-party rights.
 The previous private repository is a research archive, not a competing runtime branch.

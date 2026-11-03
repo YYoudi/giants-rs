@@ -14,9 +14,9 @@ After each meaningful validated milestone:
    separate. A build that only compiles is not a gameplay milestone.
 3. Verify menu launch, mission selection/loading, supported player controls,
    return to menu and resource cleanup. Compare the new behavior appropriately.
-   Respect the owner's current background-only restriction: interactive checks
-   requiring focus remain pending until permitted. Use silent offscreen checks
-   where available; label missing human interaction validation explicitly.
+   The owner has authorized manual tests, including necessary test windows and
+   interactions. Use silent offscreen checks where appropriate; preserve unrelated
+   applications and label missing human interaction validation explicitly.
 4. Build from the recorded source commit and toolchain. Package only the independent
    executable, the launcher, instructions, checksums, manifest and necessary
    third-party notices. Never add original archives, extracted assets, original

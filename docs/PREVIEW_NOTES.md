@@ -32,7 +32,7 @@ Some mission entries may stay inspection views.
 
 This session performs silent source/build/package checks only. Interactive
 menu-to-mission testing on this exact package and human gameplay review are
-pending under the owner's background-only instruction. Historical offscreen
+pending; the owner has since authorized manual tests. Historical offscreen
 comparisons retain their original executable identities.
 
 ## Package checks
