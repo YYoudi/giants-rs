@@ -19,8 +19,9 @@ The [roadmap dashboard](https://yyoudi.github.io/giants-rs/) and
 are prepared for the initial approved publication. They are not live yet.
 See [automation and activation](docs/AUTOMATION.md).
 
-Source license selection and provenance/distribution review are pending.
-This local candidate is not yet a public release or an open-source license grant.
+Project source is under the [MIT license](LICENSE), within the scope described in
+[NOTICE.md](NOTICE.md). Provenance/distribution review is still pending.
+The repository is private staging until the owner approves initial public exposure.
 
 ## Whole-game roadmap
 

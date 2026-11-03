@@ -1,7 +1,8 @@
 # Roadmap, Pages and automatic builds
 
-Prepared locally; no hosted run or public deployment has been performed yet.
-The candidate remains subject to initial owner approval, source licensing and
+The repository is now private staging; hosted checks have started, with no public deployment.
+The dashboard validation run succeeded. Windows validation is tracked in Actions.
+The candidate remains subject to initial owner approval and
 provenance/distribution review. A repository with fresh history is not evidence
 of a separated-team clean-room process; this project makes no such claim.
 
@@ -40,8 +41,8 @@ and dependency versions are recorded, and Cargo uses the lockfile.
 
 ## Activation after the initial owner-approved cutover
 
-1. Create the reviewed `YYoudi/giants-rs` repository with the chosen project license
-   and fresh history. Push this candidate directly; retain the private research
+1. Review the private staging `YYoudi/giants-rs` repository with MIT source license
+   and fresh history, then approve its first public exposure. Retain the private research
    repository unchanged as an archive. Attach agent checkouts explicitly.
 2. Enable Actions and inspect the first hosted Windows and site-validation runs.
    Local compilation does not validate the hosted MSYS2 installation sequence.
@@ -56,7 +57,8 @@ and dependency versions are recorded, and Cargo uses the lockfile.
    automatically by this candidate. Resolve notices, source licensing and recorded
    runtime-compiler applicability before implementing the reviewed release path.
 
-Current blockers: project source license, human provenance/distribution review,
+MIT was selected under the owner's delegated choice; see LICENSE and NOTICE.md.
+Current blockers: human provenance/distribution review,
 constgebra 0.1.4 notice text, exact compiler runtime notice applicability. The
 current packager deliberately always marks drafts uncleared. CI can compile while
 binary distribution remains blocked. After review, prepare one manifest-based

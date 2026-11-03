@@ -15,4 +15,5 @@ the copyright notice or treat its SPDX expression as a completed notice review.
 The compiler/MinGW runtime redistribution notices also need explicit review.
 
 This is a technical inventory, not comprehensive human provenance review or a
-legal opinion. The owner has not yet selected a license for project source.
+legal opinion. MIT was selected for project source under the owner's delegated
+choice; see LICENSE and NOTICE.md. This does not clear third-party distribution.

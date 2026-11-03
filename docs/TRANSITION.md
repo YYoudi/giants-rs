@@ -1,8 +1,9 @@
 # Working-repository transition
 
 Intended destination: `YYoudi/giants-rs`, fresh history. This local repository has
-no remote and is not approved for publication yet. Source license selection and
-provenance/distribution review remain open. Do not expose this candidate publicly.
+a private GitHub staging remote and is not approved for public exposure yet.
+MIT was chosen under the owner's delegation; provenance/distribution review
+remains open. Do not expose this candidate publicly.
 
 After explicit owner approval, create the destination, push this reviewed history,
 and use it directly for all runtime development, roadmap updates and releases.

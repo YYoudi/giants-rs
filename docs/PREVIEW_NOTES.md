@@ -1,7 +1,8 @@
 # Windows x64 preview — draft for review
 
-**Not cleared for public distribution.** Source licensing, dependency notices and
-the source/provenance review are still pending. This draft is a review artifact,
+**Not cleared for public distribution.** Dependency notice applicability and
+the source/provenance review are still pending. Project source is MIT-licensed
+within the scope described in NOTICE.md. This draft is a review artifact,
 not a completed gameplay milestone or a public release promise.
 
 Approximately 99% of current project content is AI-generated according to the
