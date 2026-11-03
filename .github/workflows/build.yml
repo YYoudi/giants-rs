@@ -1,0 +1,81 @@
+name: Windows MinGW build
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: windows-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      GIANTS_AUDIO_MUTE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+      - uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2
+        id: msys
+        with:
+          msystem: UCRT64
+          update: true
+          install: mingw-w64-ucrt-x86_64-gcc
+      - name: Configure GNU compiler
+        env:
+          MSYS_LOCATION: ${{ steps.msys.outputs.msys2-location }}
+        run: |
+          "$env:MSYS_LOCATION/ucrt64/bin" >> $env:GITHUB_PATH
+          rustup toolchain install stable-x86_64-pc-windows-gnu --profile minimal --component rustfmt,clippy
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Synthetic checks without installed game data
+        run: |
+          . ./tools/dev-env.ps1
+          python -m unittest discover -s tests -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m tools.update_roadmap
+          git diff --exit-code -- README.md docs/roadmap.svg
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cargo fmt --all -- --check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cargo test --locked --workspace --target x86_64-pc-windows-gnu
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cargo clippy --locked --workspace --all-targets --target x86_64-pc-windows-gnu -- -D warnings
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Build independent runtime and draft package
+        run: |
+          ./tools/build_preview.ps1 -OutputDirectory .local/build
+          ./.local/build/giants-app.exe --help
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m tools.package_preview --executable .local/build/giants-app.exe --receipt .local/build/build-receipt.json --metadata .local/build/cargo-metadata.json --notes docs/PREVIEW_NOTES.md --output .local/giants-rs-windows-x64.zip --draft
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Check distribution clearance
+        id: distribution
+        env:
+          DISTRIBUTION_APPROVED: ${{ vars.PUBLIC_DISTRIBUTION_APPROVED }}
+        run: |
+          $manifest = Get-Content .local/build/build-receipt.json -Raw | ConvertFrom-Json
+          python -c "import zipfile,json; z=zipfile.ZipFile('.local/giants-rs-windows-x64.zip'); m=json.loads(z.read('manifest.json')); print(json.dumps({'cleared':m['cleared_for_publication'],'blockers':m['distribution_blockers']}))" > .local/distribution.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $review = Get-Content .local/distribution.json -Raw | ConvertFrom-Json
+          $allowed = $env:DISTRIBUTION_APPROVED -eq 'true' -and $review.cleared -and $review.blockers.Count -eq 0
+          "approved=$($allowed.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+          if (-not $allowed) { Write-Output 'Compilation checked; binary upload withheld while distribution review is open.' }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && steps.distribution.outputs.approved == 'true'
+        with:
+          name: windows-x64-${{ github.sha }}
+          path: |
+            .local/giants-rs-windows-x64.zip
+            .local/giants-rs-windows-x64.zip.sha256
+          if-no-files-found: error
+          retention-days: 14

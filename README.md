@@ -14,6 +14,11 @@ binaries, screenshots or extracted data are distributed here.
 
 [Quick start](docs/QUICK_START.md) · [Build](docs/BUILD.md) · [Release policy](docs/RELEASES.md)
 
+The [roadmap dashboard](https://yyoudi.github.io/giants-rs/) and
+[automatic Windows build checks](https://github.com/YYoudi/giants-rs/actions)
+are prepared for the initial approved publication. They are not live yet.
+See [automation and activation](docs/AUTOMATION.md).
+
 Source license selection and provenance/distribution review are pending.
 This local candidate is not yet a public release or an open-source license grant.
 
