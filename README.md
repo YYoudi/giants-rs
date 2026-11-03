@@ -14,10 +14,11 @@ binaries, screenshots or extracted data are distributed here.
 
 [Quick start](docs/QUICK_START.md) · [Build](docs/BUILD.md) · [Release policy](docs/RELEASES.md)
 
-The [roadmap dashboard](https://yyoudi.github.io/giants-rs/) and
-[automatic Windows build checks](https://github.com/YYoudi/giants-rs/actions)
-are prepared for the initial approved publication. They are not live yet.
-See [automation and activation](docs/AUTOMATION.md).
+The roadmap dashboard is generated from this repository's `PROGRESS.json` and
+prepared for [GitHub Pages](https://yyoudi.github.io/giants-rs/); it is not deployed yet.
+[Automatic Windows build checks](https://github.com/YYoudi/giants-rs/actions) are
+active in private staging. See [automation and activation](docs/AUTOMATION.md)
+and the [publication review status](docs/PUBLICATION_REVIEW.md).
 
 Project source is under the [MIT license](LICENSE), within the scope described in
 [NOTICE.md](NOTICE.md). Provenance/distribution review is still pending.

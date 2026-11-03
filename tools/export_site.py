@@ -67,7 +67,7 @@ No complete scene or campaign is certified by this dashboard.</p>
 <label>Status <select id="status"><option value="">All</option><option>partial</option><option>todo</option><option>done</option></select></label>
 <p id="results" aria-live="polite"></p>'''+''.join(sections)
     document += '''<footer>Generated from PROGRESS.json in the working repository.
-Only reviewed source metadata is exported. No private evidence, original assets or screenshots are included.
+Only allowlisted roadmap fields are exported. No private evidence, original assets or screenshots are included.
 Build checks do not certify playable missions, fidelity or redistribution rights.</footer>
 <script src="app.js"></script></html>'''
     output.mkdir(parents=True)

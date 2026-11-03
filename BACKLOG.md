@@ -20,6 +20,13 @@ automatically wired into the main menu-to-mission build.
   selected for independent project source; its scope is recorded in NOTICE.md.
 - Revalidate subsequent publication-preparation changes in hosted CI. The baseline
   Windows and dashboard runs passed; no binary or Pages upload was performed.
+- Before source exposure, review the provenance of reconstructed implementations
+  and synthetic fixtures, including whether any protected source expression or
+  original data was carried over. A history-pattern scan cannot decide this.
+  Record the review scope and unresolved questions; see docs/PUBLICATION_REVIEW.md.
+- After source-publication approval, integrate the reviewed candidate into main,
+  validate that exact remote revision and enable Pages for this repository.
+  Keep binary distribution gated separately by its notice/applicability review.
 
 ## All other game systems
 
