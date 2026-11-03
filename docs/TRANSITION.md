@@ -54,3 +54,32 @@ Unknown/pending: comprehensive human provenance review, the missing constgebra
 license text and exact compiler/runtime notice applicability. Interactive checks
 remain pending under the background-only instruction. No whole-game roadmap
 status changes follow from CI or packaging checks.
+
+### Local validation of the preparation commit
+
+Source/build identity: `8f7c3659bfc1fa87c93115359a23fdfeb27bec3a`, Rust 1.98.0,
+GNU Windows x64, MinGW GCC 16.2.0. No runtime source changed relative to the hosted
+baseline. Local results:
+
+- Synthetic Rust tests: 684 passed, 14 ignored, none failed. Ignored tests were
+  not enabled; no original game data or audio devices were supplied.
+- Python: 10 tests passed, including tampering/allowlist rejection and preservation
+  of LICENSE plus NOTICE.md. Rustfmt, Clippy with warnings denied, generated roadmap
+  consistency, dashboard export and JavaScript syntax checks passed.
+- Optimized Windows build and CLI `--help` passed. The help path returns before
+  Bevy initialization; this is not a menu, gameplay or rendering check.
+- Draft packaging and independent ZIP verification passed: 10 allowlisted files,
+  matching receipt/executable, manifest, internal SHA256SUMS and external checksum.
+  The package remains uncleared with all three recorded distribution blockers.
+
+Private local output: `.local/preview-2026-11-03-transition/`. The dependency
+metadata and build logs remain ignored and are not release members.
+
+Executable SHA-256:
+`0ed83d501d5cfe94ada27d672c55134aa82e911018019ebaa02d5aa9c4c48690`
+
+Draft ZIP SHA-256:
+`02bffa22230c6fdcc201fec32faeb9dd5e872d522699e73d226c2de52bb972c8`
+
+These hashes identify this local build only. The later documentation checkpoint
+does not change its recorded source identity. No push or remote setting was changed.

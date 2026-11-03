@@ -24,9 +24,10 @@ After each meaningful validated milestone:
 5. Generate the README/Dashboard status and checklist. Release notes must state
    the features accessible from the menu, their limitations, data compatibility,
    changes since the last preview and exact validation performed.
-6. Create a draft prerelease, inspect its archive and dependency notices, then
-   publish only when its distribution review passes. The current public-release
-   audit and source-license decision remain open; a draft does not imply clearance.
+6. Prepare the draft locally and inspect its archive and dependency notices. Create
+   a hosted draft only after owner authorization, then publish only when its
+   distribution review passes. MIT is selected within the scope of NOTICE.md;
+   provenance and distribution review remain open. A draft does not imply clearance.
 
 Use `preview-YYYY.MM.DD.N` tags; keep older previews and their source identities
 available. Do not replace a tested executable silently. A public release must
