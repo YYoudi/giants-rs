@@ -1,0 +1,603 @@
+{
+  "schema_version": 1,
+  "project": "giants-rs",
+  "overall_fidelity_verified": false,
+  "readme_roadmap": [
+    {
+      "id": "campaign-mecc",
+      "kind": "feature",
+      "group": "Campaigns and progression",
+      "title": "Complete Mecc campaign",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "All missions, allies, scripted sequences and chapter completion."
+    },
+    {
+      "id": "campaign-delphi",
+      "kind": "feature",
+      "group": "Campaigns and progression",
+      "title": "Complete Delphi campaign",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "All missions and character-specific objectives and encounters."
+    },
+    {
+      "id": "campaign-kabuto",
+      "kind": "feature",
+      "group": "Campaigns and progression",
+      "title": "Complete Kabuto campaign",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "All missions, growth stages, encounters and ending."
+    },
+    {
+      "id": "mission-rules",
+      "kind": "feature",
+      "group": "Campaigns and progression",
+      "title": "Mission objectives and scripts",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Triggers, dialogue events, timers, escort/defence tasks, victory, failure and restart."
+    },
+    {
+      "id": "mission-continuity",
+      "kind": "feature",
+      "group": "Campaigns and progression",
+      "title": "Chapter and mission continuity",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Unlocks, entry/exit transitions and transfer of the required player state."
+    },
+    {
+      "id": "cinematics",
+      "kind": "feature",
+      "group": "Campaigns and progression",
+      "title": "Complete cinematic playback",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "All required scenes, cameras, actors, effects, voices, skipping and return to gameplay."
+    },
+    {
+      "id": "ending-credits",
+      "kind": "feature",
+      "group": "Campaigns and progression",
+      "title": "Ending and credits flow",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Final sequence, credits presentation and return to menus."
+    },
+    {
+      "id": "mecc-movement",
+      "kind": "feature",
+      "group": "Meccs",
+      "title": "Mecc movement and jetpack",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Walking, running, jumping, jet fuel/recharge, nitro, carried weight, terrain contact and water hazards."
+    },
+    {
+      "id": "mecc-squad",
+      "kind": "feature",
+      "group": "Meccs",
+      "title": "Mecc squad and orders",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Following, moving to a location, attacking, jet use, incapacitation, recovery and repair."
+    },
+    {
+      "id": "mecc-weapons",
+      "kind": "feature",
+      "group": "Meccs",
+      "title": "Complete Mecc weapon arsenal",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each."
+    },
+    {
+      "id": "mecc-inventory",
+      "kind": "feature",
+      "group": "Meccs",
+      "title": "Mecc inventory and ammunition",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Carry limits, weapon selection, ammunition, reload/cadence, pickups, drops and resupply."
+    },
+    {
+      "id": "mecc-packs",
+      "kind": "feature",
+      "group": "Meccs",
+      "title": "Mecc packs and upgrades",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Jetpack upgrade, repair, shield and bush camouflage, with their energy costs and restrictions."
+    },
+    {
+      "id": "mecc-deployables",
+      "kind": "feature",
+      "group": "Meccs",
+      "title": "Mecc items and deployables",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Mines, grenades, health syringes, flares, deployable turrets and pop-up bombs."
+    },
+    {
+      "id": "mecc-gyrocopter",
+      "kind": "feature",
+      "group": "Meccs",
+      "title": "Gyrocopter",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Access, piloting, passengers, machine gun, bombs, landing, repair, resupply and destruction."
+    },
+    {
+      "id": "mecc-interactions",
+      "kind": "feature",
+      "group": "Meccs",
+      "title": "Mecc carrying and interaction rules",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Carry/rescue Smarties, collect meat and use shops, platforms, vehicles and mission objects."
+    },
+    {
+      "id": "delphi-movement",
+      "kind": "feature",
+      "group": "Sea Reapers / Delphi",
+      "title": "Delphi movement and water",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Land movement, jumping, swimming, water interactions and turbo energy."
+    },
+    {
+      "id": "delphi-sword",
+      "kind": "feature",
+      "group": "Sea Reapers / Delphi",
+      "title": "Sword combat and combinations",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Melee attacks, combinations, targeting, contact and damage."
+    },
+    {
+      "id": "delphi-bows",
+      "kind": "feature",
+      "group": "Sea Reapers / Delphi",
+      "title": "Complete Sea Reaper bow arsenal",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Regular, Lightning, Hellfire, Screamer and Power-Up bows; charging, lock-on and multiple targets."
+    },
+    {
+      "id": "delphi-offensive-spells",
+      "kind": "feature",
+      "group": "Sea Reapers / Delphi",
+      "title": "Offensive spells",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Cluster, Cluster Mine, Firewall, Fire Circle, Hail and Tornado, including their targeting and duration rules."
+    },
+    {
+      "id": "delphi-control-spells",
+      "kind": "feature",
+      "group": "Sea Reapers / Delphi",
+      "title": "Time and target-control spells",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Slow Time, Shrink and Follow; area effects, exclusions and restoration."
+    },
+    {
+      "id": "delphi-utility-spells",
+      "kind": "feature",
+      "group": "Sea Reapers / Delphi",
+      "title": "Utility spells and spell inventory",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Smartie Grab/Bubble, Cloak, Teleport and Repair; spell slots, charges and replenishment."
+    },
+    {
+      "id": "delphi-reaper-ski",
+      "kind": "feature",
+      "group": "Sea Reapers / Delphi",
+      "title": "Reaper Ski",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Mounting, water/land handling, turbo and missile pickups, vehicle health and destruction."
+    },
+    {
+      "id": "kabuto-growth",
+      "kind": "feature",
+      "group": "Kabuto",
+      "title": "Kabuto movement and growth",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Movement, jumping and traversal at each size, growth requirements and changing reach/collision."
+    },
+    {
+      "id": "kabuto-feeding",
+      "kind": "feature",
+      "group": "Kabuto",
+      "title": "Grabbing, storing and eating creatures",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Grab creatures, store them on horns, eat them and restore health."
+    },
+    {
+      "id": "kabuto-combat",
+      "kind": "feature",
+      "group": "Kabuto",
+      "title": "Kabuto attacks and adrenaline",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Hand and foot attacks, adrenaline levels, combinations and area damage."
+    },
+    {
+      "id": "kabuto-throwing",
+      "kind": "feature",
+      "group": "Kabuto",
+      "title": "Throwing and environmental attacks",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Throw creatures and boulders; collisions, fragments, damage and replenishing rock columns."
+    },
+    {
+      "id": "kabuto-offspring",
+      "kind": "feature",
+      "group": "Kabuto",
+      "title": "Kabuto offspring",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Lay eggs, hatch and grow offspring; command them to defend, attack, eat or fetch creatures."
+    },
+    {
+      "id": "kabuto-special",
+      "kind": "feature",
+      "group": "Kabuto",
+      "title": "Kabuto weak spot and gemstone attack",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Weak-spot exposure, lethal hits and the controllable gemstone beam."
+    },
+    {
+      "id": "base-interface",
+      "kind": "feature",
+      "group": "Bases, Smarties and resources",
+      "title": "Base-building interface",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Access platforms, overhead camera, placement, build choices, prerequisites, upgrades and indicators."
+    },
+    {
+      "id": "smartie-workers",
+      "kind": "feature",
+      "group": "Bases, Smarties and resources",
+      "title": "Smarties and worker behaviour",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Capture/rescue, faction ownership, transport, work orders, hunger, rest, departure and hostile variants."
+    },
+    {
+      "id": "base-resources",
+      "kind": "feature",
+      "group": "Bases, Smarties and resources",
+      "title": "Resource economy",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Vimp meat and souls, expiry, carrying limits, deposits, consumption and worker upkeep."
+    },
+    {
+      "id": "base-mecc",
+      "kind": "feature",
+      "group": "Bases, Smarties and resources",
+      "title": "Mecc base development",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Pit/pub, build platform, workshop/generator, wood/stone walls and command centre."
+    },
+    {
+      "id": "base-mecc-shops",
+      "kind": "feature",
+      "group": "Bases, Smarties and resources",
+      "title": "Mecc shops and advanced projects",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Gift-shop tiers, party house, research/access requirements, healing and equipment supply."
+    },
+    {
+      "id": "base-reaper",
+      "kind": "feature",
+      "group": "Bases, Smarties and resources",
+      "title": "Sea Reaper base development",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Persuader, build platform, spell school/shield generator, spell shops, force fields, command centre and party house."
+    },
+    {
+      "id": "base-defences",
+      "kind": "feature",
+      "group": "Bases, Smarties and resources",
+      "title": "Base defence, repair and destruction",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Bulldog and Hellfire turrets, SAM and Screamer SAM; targeting, player control, shields, building damage, repairs and loss of services."
+    },
+    {
+      "id": "base-field-projects",
+      "kind": "feature",
+      "group": "Bases, Smarties and resources",
+      "title": "Remote structures and faction projects",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Tower and cloaked tower, mini-shop and mini-spell shop, mine shaft and portal, gyrocopter pad and pier; access, travel and services."
+    },
+    {
+      "id": "base-sea-monster",
+      "kind": "feature",
+      "group": "Bases, Smarties and resources",
+      "title": "Sea Monster attack",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Summoning cinematic, countdown, targeted fireball and resulting damage."
+    },
+    {
+      "id": "actor-admission",
+      "kind": "feature",
+      "group": "Actors and shared combat",
+      "title": "Complete mission actor population",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Spawn, activation, update order, attachments, lifecycle and removal for the required actors."
+    },
+    {
+      "id": "enemy-ai",
+      "kind": "feature",
+      "group": "Actors and shared combat",
+      "title": "Enemy and boss behaviour",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Detection, navigation, pursuit, attacks, reactions, faction relationships and scripted boss encounters."
+    },
+    {
+      "id": "wildlife",
+      "kind": "feature",
+      "group": "Actors and shared combat",
+      "title": "Wildlife and non-player inhabitants",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Vimps, herds and other creatures: movement, feeding, fleeing, interactions and mission roles."
+    },
+    {
+      "id": "combat",
+      "kind": "feature",
+      "group": "Actors and shared combat",
+      "title": "Complete projectile and damage rules",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Direct/explosive/guided attacks, impacts, hit ownership, shields, friendly fire and environmental reactions."
+    },
+    {
+      "id": "death-respawn",
+      "kind": "feature",
+      "group": "Actors and shared combat",
+      "title": "Injury, death and respawning",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Reactions, incapacitation, corpses/drops, recovery, player death and mode-specific respawn rules."
+    },
+    {
+      "id": "game-menus",
+      "kind": "feature",
+      "group": "Interface, worlds and audio",
+      "title": "Complete game menus and profiles",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Start, mission selection, loading, pause, inventory/shop screens, errors and returns to menus."
+    },
+    {
+      "id": "input-settings",
+      "kind": "feature",
+      "group": "Interface, worlds and audio",
+      "title": "Controls and settings",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Keyboard/mouse bindings, sensitivity, display and audio settings, persistence and focus handling."
+    },
+    {
+      "id": "cameras",
+      "kind": "feature",
+      "group": "Interface, worlds and audio",
+      "title": "All gameplay camera modes",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "First/third person, aiming/zoom, camera movement and obstruction, vehicles, base building and special attacks."
+    },
+    {
+      "id": "hud-map",
+      "kind": "feature",
+      "group": "Interface, worlds and audio",
+      "title": "Character HUDs, maps and objectives",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Health, fuel, magic, adrenaline, weapons, items, resources, targeting, map, notifications and score."
+    },
+    {
+      "id": "rendering",
+      "kind": "feature",
+      "group": "Interface, worlds and audio",
+      "title": "Complete world and actor rendering",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "All required maps, terrain layers, buildings, scenery, characters, materials, lighting and shadows."
+    },
+    {
+      "id": "water-environment",
+      "kind": "feature",
+      "group": "Interface, worlds and audio",
+      "title": "Water and environmental presentation",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Waves, reflections, sky, fog, vegetation and environment interactions."
+    },
+    {
+      "id": "animation-effects",
+      "kind": "feature",
+      "group": "Interface, worlds and audio",
+      "title": "Animations and active effects",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Character/equipment animation, attachments, particles, trails, explosions, magic and effect lifecycles."
+    },
+    {
+      "id": "hud-audio",
+      "kind": "feature",
+      "group": "Interface, worlds and audio",
+      "title": "Music, voices and gameplay audio",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Music, dialogue/subtitles, footsteps, weapons, spells, ambience, spatial mixing and stopping/releasing sounds."
+    },
+    {
+      "id": "save",
+      "kind": "feature",
+      "group": "Interface, worlds and audio",
+      "title": "Saving and restoring a game",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Restore progression and the required mission/player state reliably, including restart and profile selection."
+    },
+    {
+      "id": "mp-network",
+      "kind": "feature",
+      "group": "Multiplayer",
+      "title": "Networked game simulation",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Hosting/joining, state replication, ownership, latency, disconnects and game transitions."
+    },
+    {
+      "id": "mp-lobby",
+      "kind": "feature",
+      "group": "Multiplayer",
+      "title": "Lobby, teams and communication",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Map/race/team choice, match options, readiness, chat, scores and server controls."
+    },
+    {
+      "id": "mp-deathmatch",
+      "kind": "feature",
+      "group": "Multiplayer",
+      "title": "Deathmatch and faction matchups",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Mecc/Reaper/Kabuto combinations, with or without full bases, scoring, friendly fire and respawning."
+    },
+    {
+      "id": "mp-capture",
+      "kind": "feature",
+      "group": "Multiplayer",
+      "title": "Capture the Smartie",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Capture, carrying, stealing, returning, scoring and victory, including the base-building variant."
+    },
+    {
+      "id": "mp-building",
+      "kind": "feature",
+      "group": "Multiplayer",
+      "title": "Multiplayer base-building rules",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Resource competition, faction construction, victory options and timed protection/d\u00e9tente rules."
+    },
+    {
+      "id": "content-coverage",
+      "kind": "feature",
+      "group": "Whole-game validation",
+      "title": "Complete content coverage",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Audit every required mission, actor, weapon, spell, building, vehicle and presentation variant."
+    },
+    {
+      "id": "localization",
+      "kind": "feature",
+      "group": "Whole-game validation",
+      "title": "Text and language coverage",
+      "status": "todo",
+      "scope": "Runtime integration",
+      "detail": "Menus, objectives, subtitles, fonts and available dialogue/audio variants."
+    },
+    {
+      "id": "stability",
+      "kind": "feature",
+      "group": "Whole-game validation",
+      "title": "Playable Windows build stability",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Full-session play, repeated loading/restart, resource cleanup, performance and supported rendering paths."
+    },
+    {
+      "id": "fidelity",
+      "kind": "feature",
+      "group": "Whole-game validation",
+      "title": "Complete gameplay and presentation fidelity",
+      "status": "partial",
+      "scope": "Fidelity",
+      "detail": "Compare complete scenes and mission outcomes, timing and behaviour across all three characters and game modes."
+    },
+    {
+      "id": "build",
+      "title": "Reproducible Windows MinGW build",
+      "status": "done",
+      "scope": "Build",
+      "kind": "enabler",
+      "group": "Technical foundations"
+    },
+    {
+      "id": "menus",
+      "title": "Test-build menus and mission selection",
+      "status": "done",
+      "scope": "Runtime",
+      "kind": "enabler",
+      "group": "Technical foundations"
+    },
+    {
+      "id": "mecc-cpu",
+      "title": "Controlled normal Mecc cycle, orientation and complete payload",
+      "status": "done",
+      "scope": "CPU only",
+      "kind": "enabler",
+      "group": "Technical foundations"
+    },
+    {
+      "id": "vimp-cpu",
+      "title": "Controlled herd and Vimp kernels",
+      "status": "done",
+      "scope": "CPU only",
+      "kind": "enabler",
+      "group": "Technical foundations"
+    },
+    {
+      "id": "actor-policy",
+      "title": "Controlled actor callback policy and acquired owned adapters",
+      "status": "done",
+      "scope": "CPU only",
+      "kind": "enabler",
+      "group": "Technical foundations"
+    },
+    {
+      "id": "gallery",
+      "title": "Approved reference and Bevy comparison gallery",
+      "status": "done",
+      "scope": "Tooling",
+      "kind": "enabler",
+      "group": "Technical foundations"
+    },
+    {
+      "id": "mecc-primary",
+      "title": "Controlled offline normal Mecc header and primary contract",
+      "status": "done",
+      "scope": "CPU only",
+      "kind": "enabler",
+      "group": "Technical foundations"
+    }
+  ]
+}

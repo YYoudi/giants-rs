@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="110" viewBox="0 0 720 110" role="img" aria-label="Whole-game feature families: 0 complete, 27 partial, 33 not started">
+<rect width="720" height="110" rx="12" fill="#17212f"/>
+<g fill="#eef4ff" font-family="sans-serif"><text x="20" y="30" font-size="18">Whole-game roadmap · feature families</text>
+<text x="20" y="62" font-size="16">Complete: 0   Partial: 27   Not started: 33</text>
+<text x="20" y="90" font-size="13">CPU acquisition ≠ runtime integration ≠ verified fidelity · no global percentage</text></g></svg>

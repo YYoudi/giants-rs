@@ -1,0 +1,7 @@
+/target/
+/.local/
+*.exe
+*.dll
+*.zip
+__pycache__/
+*.pyc

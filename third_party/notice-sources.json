@@ -1,0 +1,272 @@
+[
+  {
+    "name": "accesskit",
+    "version": "0.24.1",
+    "license": "MIT OR Apache-2.0",
+    "upstream_commit": "a55d3e1a18bb9ef0e4bccc9083fb13c3e0ad8969",
+    "files": [
+      {
+        "file": "third_party/notices/accesskit-0.24.1/LICENSE-MIT",
+        "url": "https://raw.githubusercontent.com/AccessKit/accesskit/a55d3e1a18bb9ef0e4bccc9083fb13c3e0ad8969/LICENSE-MIT",
+        "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      {
+        "file": "third_party/notices/accesskit-0.24.1/LICENSE-APACHE",
+        "url": "https://raw.githubusercontent.com/AccessKit/accesskit/a55d3e1a18bb9ef0e4bccc9083fb13c3e0ad8969/LICENSE-APACHE",
+        "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+      }
+    ]
+  },
+  {
+    "name": "accesskit_consumer",
+    "version": "0.38.0",
+    "license": "MIT OR Apache-2.0",
+    "upstream_commit": "c88605b96d04431f9c3c792464a0f2f253480e94",
+    "files": [
+      {
+        "file": "third_party/notices/accesskit_consumer-0.38.0/LICENSE-MIT",
+        "url": "https://raw.githubusercontent.com/AccessKit/accesskit/c88605b96d04431f9c3c792464a0f2f253480e94/LICENSE-MIT",
+        "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      {
+        "file": "third_party/notices/accesskit_consumer-0.38.0/LICENSE-APACHE",
+        "url": "https://raw.githubusercontent.com/AccessKit/accesskit/c88605b96d04431f9c3c792464a0f2f253480e94/LICENSE-APACHE",
+        "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+      }
+    ]
+  },
+  {
+    "name": "accesskit_windows",
+    "version": "0.34.0",
+    "license": "MIT OR Apache-2.0",
+    "upstream_commit": "c88605b96d04431f9c3c792464a0f2f253480e94",
+    "files": [
+      {
+        "file": "third_party/notices/accesskit_windows-0.34.0/LICENSE-MIT",
+        "url": "https://raw.githubusercontent.com/AccessKit/accesskit/c88605b96d04431f9c3c792464a0f2f253480e94/LICENSE-MIT",
+        "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      {
+        "file": "third_party/notices/accesskit_windows-0.34.0/LICENSE-APACHE",
+        "url": "https://raw.githubusercontent.com/AccessKit/accesskit/c88605b96d04431f9c3c792464a0f2f253480e94/LICENSE-APACHE",
+        "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+      }
+    ]
+  },
+  {
+    "name": "accesskit_winit",
+    "version": "0.33.2",
+    "license": "Apache-2.0",
+    "upstream_commit": "c88605b96d04431f9c3c792464a0f2f253480e94",
+    "files": [
+      {
+        "file": "third_party/notices/accesskit_winit-0.33.2/LICENSE-MIT",
+        "url": "https://raw.githubusercontent.com/AccessKit/accesskit/c88605b96d04431f9c3c792464a0f2f253480e94/LICENSE-MIT",
+        "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      {
+        "file": "third_party/notices/accesskit_winit-0.33.2/LICENSE-APACHE",
+        "url": "https://raw.githubusercontent.com/AccessKit/accesskit/c88605b96d04431f9c3c792464a0f2f253480e94/LICENSE-APACHE",
+        "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+      }
+    ]
+  },
+  {
+    "name": "constgebra",
+    "version": "0.1.4",
+    "license": "MIT OR Apache-2.0",
+    "upstream_commit": "eae8e094e5779f42f1db2a7adf9036aa33744bc8",
+    "files": []
+  },
+  {
+    "name": "dasp_sample",
+    "version": "0.11.0",
+    "license": "MIT OR Apache-2.0",
+    "upstream_commit": "97c3bb9b2363c0b46ac1633858bf1054fd02a980",
+    "files": [
+      {
+        "file": "third_party/notices/dasp_sample-0.11.0/LICENSE-MIT",
+        "url": "https://raw.githubusercontent.com/rustaudio/sample/97c3bb9b2363c0b46ac1633858bf1054fd02a980/LICENSE-MIT",
+        "sha256": "b1d6df41ed3aa96806e74c729444d7c121d90e6660a6aed01d298e03fde475a0"
+      },
+      {
+        "file": "third_party/notices/dasp_sample-0.11.0/LICENSE-APACHE",
+        "url": "https://raw.githubusercontent.com/rustaudio/sample/97c3bb9b2363c0b46ac1633858bf1054fd02a980/LICENSE-APACHE",
+        "sha256": "756c8d2ab2dc24f256e1455b5f03937f4933d83d7bc9f2d55009fc962377d512"
+      }
+    ]
+  },
+  {
+    "name": "encase_derive",
+    "version": "0.12.1",
+    "license": "MIT-0",
+    "upstream_commit": "561121cd17298355de74c07a7206eb8329fd8347",
+    "files": [
+      {
+        "file": "third_party/notices/encase_derive-0.12.1/LICENSE",
+        "url": "https://raw.githubusercontent.com/teoxoy/encase/561121cd17298355de74c07a7206eb8329fd8347/LICENSE",
+        "sha256": "8876cdca96eb380d16d5ea32bf4529d85e87dedc7765ae2861a9bec7f34acbed"
+      }
+    ]
+  },
+  {
+    "name": "encase_derive_impl",
+    "version": "0.12.1",
+    "license": "MIT-0",
+    "upstream_commit": "561121cd17298355de74c07a7206eb8329fd8347",
+    "files": [
+      {
+        "file": "third_party/notices/encase_derive_impl-0.12.1/LICENSE",
+        "url": "https://raw.githubusercontent.com/teoxoy/encase/561121cd17298355de74c07a7206eb8329fd8347/LICENSE",
+        "sha256": "8876cdca96eb380d16d5ea32bf4529d85e87dedc7765ae2861a9bec7f34acbed"
+      }
+    ]
+  },
+  {
+    "name": "mutants",
+    "version": "0.0.3",
+    "license": "MIT",
+    "upstream_commit": "9685de346012afb9c379432eaf9c6960e22185df",
+    "files": [
+      {
+        "file": "third_party/notices/mutants-0.0.3/LICENSE",
+        "url": "https://raw.githubusercontent.com/sourcefrog/cargo-mutants/9685de346012afb9c379432eaf9c6960e22185df/LICENSE",
+        "sha256": "479cbeb2506157776cf80abe31df18065d0fe50b5816ff77bfd75d5deb04ab5c"
+      }
+    ]
+  },
+  {
+    "name": "profiling",
+    "version": "1.0.18",
+    "license": "MIT OR Apache-2.0",
+    "upstream_commit": "8271551172eb6fa4cba47369aedd93790c623df9",
+    "files": [
+      {
+        "file": "third_party/notices/profiling-1.0.18/LICENSE-MIT",
+        "url": "https://raw.githubusercontent.com/aclysma/profiling/8271551172eb6fa4cba47369aedd93790c623df9/LICENSE-MIT",
+        "sha256": "c8167fdeeed46d3f244d3f85c5bf998ce889343691c32be2c61a8bc4b5c08333"
+      },
+      {
+        "file": "third_party/notices/profiling-1.0.18/LICENSE-APACHE",
+        "url": "https://raw.githubusercontent.com/aclysma/profiling/8271551172eb6fa4cba47369aedd93790c623df9/LICENSE-APACHE",
+        "sha256": "10d30a673cd5e9349bdc02aeb48f14b3386d27d0da32df8f0a555d4aa16aa551"
+      }
+    ]
+  },
+  {
+    "name": "spirv",
+    "version": "0.4.0+sdk-1.4.341.0",
+    "license": "Apache-2.0",
+    "upstream_commit": "8afc3d0ac8e158128cd1410bb2e4b4c26ab11bb4",
+    "files": [
+      {
+        "file": "third_party/notices/spirv-0.4.0+sdk-1.4.341.0/LICENSE",
+        "url": "https://raw.githubusercontent.com/gfx-rs/rspirv/8afc3d0ac8e158128cd1410bb2e4b4c26ab11bb4/LICENSE",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    ]
+  },
+  {
+    "name": "taffy",
+    "version": "0.14.0",
+    "license": "MIT",
+    "upstream_commit": "77f385683c1d698c91a23a259f87fdddf26925fb",
+    "files": [
+      {
+        "file": "third_party/notices/taffy-0.14.0/LICENSE",
+        "url": "https://raw.githubusercontent.com/DioxusLabs/taffy/77f385683c1d698c91a23a259f87fdddf26925fb/LICENSE",
+        "sha256": "f97daf1a0124413dccf399a4e6626b4b74acd05282f80b6d64ac82225650b77a"
+      }
+    ]
+  },
+  {
+    "name": "wesl",
+    "version": "0.6.0",
+    "license": "MIT OR Apache-2.0",
+    "upstream_commit": "3ab716c0910e77f30c20415c9263cfaf6994f777",
+    "files": [
+      {
+        "file": "third_party/notices/wesl-0.6.0/LICENSE-MIT",
+        "url": "https://raw.githubusercontent.com/webgpu-tools/wesl-rs/3ab716c0910e77f30c20415c9263cfaf6994f777/LICENSE-MIT",
+        "sha256": "1847e0e0698142ed4347c1441a9fa81c8fbddd44b1d8bbcd5e3647f991759d7f"
+      },
+      {
+        "file": "third_party/notices/wesl-0.6.0/LICENSE-APACHE",
+        "url": "https://raw.githubusercontent.com/webgpu-tools/wesl-rs/3ab716c0910e77f30c20415c9263cfaf6994f777/LICENSE-APACHE",
+        "sha256": "59899c6091b540582ed617e8eeaac4919dc985ccfc35459ee9752b699be5205b"
+      }
+    ]
+  },
+  {
+    "name": "wesl-core",
+    "version": "0.1.0",
+    "license": "MIT OR Apache-2.0",
+    "upstream_commit": "3840691945a378d433c7d8653da9cf03e5ff8a81",
+    "files": [
+      {
+        "file": "third_party/notices/wesl-core-0.1.0/LICENSE-MIT",
+        "url": "https://raw.githubusercontent.com/webgpu-tools/wesl-rs/3840691945a378d433c7d8653da9cf03e5ff8a81/LICENSE-MIT",
+        "sha256": "1847e0e0698142ed4347c1441a9fa81c8fbddd44b1d8bbcd5e3647f991759d7f"
+      },
+      {
+        "file": "third_party/notices/wesl-core-0.1.0/LICENSE-APACHE",
+        "url": "https://raw.githubusercontent.com/webgpu-tools/wesl-rs/3840691945a378d433c7d8653da9cf03e5ff8a81/LICENSE-APACHE",
+        "sha256": "59899c6091b540582ed617e8eeaac4919dc985ccfc35459ee9752b699be5205b"
+      }
+    ]
+  },
+  {
+    "name": "wesl-macros",
+    "version": "0.6.0",
+    "license": "MIT OR Apache-2.0",
+    "upstream_commit": "3ab716c0910e77f30c20415c9263cfaf6994f777",
+    "files": [
+      {
+        "file": "third_party/notices/wesl-macros-0.6.0/LICENSE-MIT",
+        "url": "https://raw.githubusercontent.com/webgpu-tools/wesl-rs/3ab716c0910e77f30c20415c9263cfaf6994f777/LICENSE-MIT",
+        "sha256": "1847e0e0698142ed4347c1441a9fa81c8fbddd44b1d8bbcd5e3647f991759d7f"
+      },
+      {
+        "file": "third_party/notices/wesl-macros-0.6.0/LICENSE-APACHE",
+        "url": "https://raw.githubusercontent.com/webgpu-tools/wesl-rs/3ab716c0910e77f30c20415c9263cfaf6994f777/LICENSE-APACHE",
+        "sha256": "59899c6091b540582ed617e8eeaac4919dc985ccfc35459ee9752b699be5205b"
+      }
+    ]
+  },
+  {
+    "name": "wgsl-parse",
+    "version": "0.6.0",
+    "license": "MIT OR Apache-2.0",
+    "upstream_commit": "3ab716c0910e77f30c20415c9263cfaf6994f777",
+    "files": [
+      {
+        "file": "third_party/notices/wgsl-parse-0.6.0/LICENSE-MIT",
+        "url": "https://raw.githubusercontent.com/webgpu-tools/wesl-rs/3ab716c0910e77f30c20415c9263cfaf6994f777/LICENSE-MIT",
+        "sha256": "1847e0e0698142ed4347c1441a9fa81c8fbddd44b1d8bbcd5e3647f991759d7f"
+      },
+      {
+        "file": "third_party/notices/wgsl-parse-0.6.0/LICENSE-APACHE",
+        "url": "https://raw.githubusercontent.com/webgpu-tools/wesl-rs/3ab716c0910e77f30c20415c9263cfaf6994f777/LICENSE-APACHE",
+        "sha256": "59899c6091b540582ed617e8eeaac4919dc985ccfc35459ee9752b699be5205b"
+      }
+    ]
+  },
+  {
+    "name": "wgsl-types",
+    "version": "0.6.0",
+    "license": "MIT OR Apache-2.0",
+    "upstream_commit": "3ab716c0910e77f30c20415c9263cfaf6994f777",
+    "files": [
+      {
+        "file": "third_party/notices/wgsl-types-0.6.0/LICENSE-MIT",
+        "url": "https://raw.githubusercontent.com/webgpu-tools/wesl-rs/3ab716c0910e77f30c20415c9263cfaf6994f777/LICENSE-MIT",
+        "sha256": "1847e0e0698142ed4347c1441a9fa81c8fbddd44b1d8bbcd5e3647f991759d7f"
+      },
+      {
+        "file": "third_party/notices/wgsl-types-0.6.0/LICENSE-APACHE",
+        "url": "https://raw.githubusercontent.com/webgpu-tools/wesl-rs/3ab716c0910e77f30c20415c9263cfaf6994f777/LICENSE-APACHE",
+        "sha256": "59899c6091b540582ed617e8eeaac4919dc985ccfc35459ee9752b699be5205b"
+      }
+    ]
+  }
+]

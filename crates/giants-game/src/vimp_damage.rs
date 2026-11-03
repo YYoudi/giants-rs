@@ -1,0 +1,44 @@
+//! Ordinary offline Vimp damage with no source actor or impact point. The
+//! stationary impulse prefix is empty; blood, sounds and death services run.
+use crate::{
+    audio_parameters::Random, blood_particles, resident_states::Id, vimp_chunks, vimp_death_proxy,
+};
+use giants_formats::global_data::GlobalData;
+
+#[derive(Clone, Copy, Debug)]
+pub struct DeathEffect {
+    pub position: [f32; 3],
+    /// Source death-program request, flags9, rotation [angle, 0, 0].
+    pub angle: f32,
+}
+/// The provider must consume the source death program, or report failure.
+/// A recorded zero-return request sink is only an explicit test boundary.
+pub trait Effects {
+    fn death(&mut self, effect: DeathEffect, random: &mut Random) -> Result<(), String>;
+}
+pub trait Sounds {
+    fn positional(
+        &mut self,
+        selector: u32,
+        position: [f32; 3],
+        random: &mut Random,
+    ) -> Result<(), String>;
+    fn attached(&mut self, selector: u32, actor: Id, random: &mut Random) -> Result<(), String>;
+}
+pub struct Services<'a, 'r> {
+    pub effects: &'a mut dyn Effects,
+    pub sounds: &'a mut dyn Sounds,
+    pub blood: &'a mut blood_particles::Pool,
+    pub chunks: &'a mut vimp_chunks::Factory<'r>,
+    pub proxy: &'a vimp_death_proxy::Factory,
+    pub globals: &'a GlobalData,
+}
+#[derive(Debug)]
+pub enum Outcome {
+    Ignored,
+    Hurt { blood_particles: usize },
+    Died { chunks: Vec<Id>, proxy: Option<Id> },
+}
+pub(crate) fn choice(random: &mut Random) -> u32 {
+    u32::from(((random.next_15() * 100) >> 15) >= 50)
+}

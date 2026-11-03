@@ -1,0 +1,12 @@
+[package]
+name = "giants-app"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+giants-formats.workspace = true
+giants-game.workspace = true
+bevy.workspace = true
+half = "=2.7.1"
