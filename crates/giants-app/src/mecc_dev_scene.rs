@@ -2071,7 +2071,7 @@ pub fn update(
 pub(crate) fn setup_hud(mut commands: Commands, mut fonts: ResMut<Assets<Font>>) {
     let path = std::env::var_os("GIANTS_INSPECTION_FONT")
         .map(std::path::PathBuf::from)
-        .unwrap_or_else(|| crate::inspection_font_path());
+        .unwrap_or_else(crate::inspection_font_path);
     let font = fonts.add(Font::from_bytes(
         std::fs::read(path).expect("development HUD inspection font"),
     ));

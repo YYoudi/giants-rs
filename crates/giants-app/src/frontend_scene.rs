@@ -137,7 +137,7 @@ impl Scene {
         let profiles = Profiles::open(&user_root)?;
         let font_path = std::env::var_os("GIANTS_INSPECTION_FONT")
             .map(std::path::PathBuf::from)
-            .unwrap_or_else(|| crate::inspection_font_path());
+            .unwrap_or_else(crate::inspection_font_path);
         let font = std::fs::read(&font_path)
             .map_err(|e| format!("Inspection font {}: {e}", font_path.display()))?;
         let data = Frontend::load(root)?;

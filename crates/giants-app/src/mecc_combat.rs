@@ -296,7 +296,7 @@ pub(crate) fn setup(
         .id();
     let path = std::env::var_os("GIANTS_INSPECTION_FONT")
         .map(std::path::PathBuf::from)
-        .unwrap_or_else(|| crate::inspection_font_path());
+        .unwrap_or_else(crate::inspection_font_path);
     let font = fonts.add(Font::from_bytes(
         std::fs::read(path).expect("development combat font"),
     ));

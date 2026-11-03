@@ -79,6 +79,17 @@ def package(executable, receipt, metadata, output, notes, draft=False, project_l
         raise ValueError('Expected a recorded GNU Windows build')
     third_party, inventory, missing = dependency_notices(metadata)
     blockers = ['Human source/provenance and release review is pending.']
+    toolchain_sources = ROOT/'third_party/toolchain-notice-sources.json'
+    if toolchain_sources.is_file():
+        third_party += '\n# Compiler and linker runtime notices — applicability review pending\n'
+        for entry in json.loads(toolchain_sources.read_text(encoding='utf8')):
+            if entry['status'] != 'retrieved_review_pending':
+                continue
+            path = (ROOT/entry['file']).resolve()
+            if not path.is_relative_to((ROOT/'third_party/toolchain').resolve()) or sha256(path) != entry['sha256']:
+                raise ValueError('Invalid toolchain dependency notice receipt')
+            third_party += '\n## '+entry['file']+'\n\n'+path.read_text(encoding='utf8')+'\n'
+    blockers.append('Compiler/linker runtime notice applicability review remains pending.')
     if missing:
         blockers.append('Dependency notice review required: '+', '.join(missing))
     if project_license is None:
@@ -95,6 +106,7 @@ def package(executable, receipt, metadata, output, notes, draft=False, project_l
     if project_license:
         files['LICENSE'] = Path(project_license).read_bytes()
     public_receipt = {k: receipt[k] for k in ('source_commit', 'executable_sha256', 'target', 'toolchain')}
+    public_receipt['linker'] = receipt.get('linker', 'unrecorded')
     manifest = dict(schema_version=1, **public_receipt, draft=True, cleared_for_publication=False,
                     distribution_blockers=blockers,
                     files={name: hashlib.sha256(data).hexdigest() for name, data in files.items()})
