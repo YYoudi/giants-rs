@@ -21,7 +21,7 @@ if (-not (Test-Path -LiteralPath $archiveDirectory -PathType Container) -or
 if (-not $UserDataRoot) {
     $UserDataRoot = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'Giants-Recomp\preview'
 }
-$resolvedUser = [System.IO.Path]::GetFullPath($UserDataRoot)
+$resolvedUser = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($UserDataRoot)
 $dataPrefix = $resolvedData.TrimEnd('\','/') + [System.IO.Path]::DirectorySeparatorChar
 if ($resolvedUser.Equals($resolvedData,[System.StringComparison]::OrdinalIgnoreCase) -or
     $resolvedUser.StartsWith($dataPrefix,[System.StringComparison]::OrdinalIgnoreCase)) {

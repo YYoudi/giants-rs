@@ -8,12 +8,15 @@ $ErrorActionPreference = 'Stop'
 $workspaceRoot = Split-Path -Parent $PSScriptRoot
 Push-Location $workspaceRoot
 try {
+    # .NET file APIs resolve against the process directory, which may differ
+    # from PowerShell's location when invoked by an editor or another script.
+    $OutputDirectory = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputDirectory)
     if (Test-Path -LiteralPath $OutputDirectory) { throw 'Refusing to overwrite a preview build.' }
     git diff --quiet HEAD -- crates Cargo.toml Cargo.lock rust-toolchain.toml
     if ($LASTEXITCODE -ne 0) { throw 'Commit runtime source changes before recording a build receipt.' }
     $sourceCommit = (git rev-parse HEAD).Trim()
     if (-not $TargetDirectory) { $TargetDirectory = Join-Path $workspaceRoot 'target' }
-    $TargetDirectory = [System.IO.Path]::GetFullPath($TargetDirectory)
+    $TargetDirectory = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($TargetDirectory)
     cargo "+$Toolchain" build --locked --release -p giants-app --target x86_64-pc-windows-gnu --target-dir $TargetDirectory
     if ($LASTEXITCODE -ne 0) { throw 'Preview build failed.' }
     $builtExecutable = Join-Path $TargetDirectory 'x86_64-pc-windows-gnu/release/giants-app.exe'
