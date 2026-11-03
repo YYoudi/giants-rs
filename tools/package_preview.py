@@ -98,6 +98,7 @@ def package(executable, receipt, metadata, output, notes, draft=False, project_l
     if not draft:
         raise ValueError('Only draft packaging is currently enabled; resolve the public-release audit first')
     files = {'giants-app.exe': executable.read_bytes(),
+             'NOTICE.md': (ROOT/'NOTICE.md').read_bytes(),
              'Play.ps1': (ROOT/'tools/Play.ps1').read_bytes(),
              'QUICK_START.md': (ROOT/'docs/QUICK_START.md').read_bytes(),
              'RELEASE_NOTES.md': notes.encode('utf8'),

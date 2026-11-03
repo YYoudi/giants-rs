@@ -58,6 +58,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m tools.package_preview --executable .local/build/giants-app.exe --receipt .local/build/build-receipt.json --metadata .local/build/cargo-metadata.json --notes docs/PREVIEW_NOTES.md --output .local/giants-rs-windows-x64.zip --draft --project-license LICENSE
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m tools.verify_preview .local/giants-rs-windows-x64.zip
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Check distribution clearance
         id: distribution
         env:

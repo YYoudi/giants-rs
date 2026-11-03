@@ -24,3 +24,8 @@ Package a draft with `python -m tools.package_preview --help`. Run the extracted
 bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Windows
 or GIANTS_INSPECTION_FONT, never bundled. Game data is read-only; user state goes
 outside the installation. Interactive validation remains pending in this candidate.
+
+Before extraction, run `python -m tools.verify_preview PATH_TO_DRAFT.zip` with its
+adjacent `.zip.sha256` file. This checks package integrity and the uncleared draft
+state; it does not run the executable or clear publication blockers. See
+docs/RELEASES.md for the complete local packaging sequence with the project license.

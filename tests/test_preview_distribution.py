@@ -8,6 +8,7 @@ import subprocess
 from unittest.mock import patch
 
 from tools.package_preview import package, sha256, dependency_notices
+from tools.verify_preview import verify
 
 
 class PreviewDistributionTests(unittest.TestCase):
@@ -70,11 +71,13 @@ class PreviewDistributionTests(unittest.TestCase):
             with zipfile.ZipFile(output) as archive:
                 self.assertNotIn('game.gzp',archive.namelist())
                 self.assertIn('Play.ps1',archive.namelist())
+                self.assertEqual(archive.read('NOTICE.md'), (Path(__file__).resolve().parents[1]/'NOTICE.md').read_bytes())
                 self.assertIn('Synthetic permission notice',archive.read('THIRD_PARTY_NOTICES.md').decode())
                 self.assertNotIn('PRIVATE_PATH',archive.read('manifest.json').decode())
                 for name,digest in report['files'].items():
                     import hashlib
                     self.assertEqual(hashlib.sha256(archive.read(name)).hexdigest(),digest)
+            self.assertEqual(verify(output)['executable_sha256'], receipt['executable_sha256'])
             with self.assertRaisesRegex(ValueError,'overwrite'):
                 package(exe,receipt,metadata,output,'',draft=True)
 
@@ -93,6 +96,53 @@ class PreviewDistributionTests(unittest.TestCase):
             (root/'dependency/LICENSE').unlink()
             report=package(exe,receipt,metadata,root/'draft.zip','',draft=True)
             self.assertTrue(any('synthetic 1' in text for text in report['distribution_blockers']))
+
+    def test_verifier_rejects_tampered_payload_and_unexpected_members(self):
+        for change in ('payload', 'extra', 'duplicate', 'missing', 'manifest', 'checksums'):
+            with self.subTest(change=change), tempfile.TemporaryDirectory() as directory:
+                root,exe,metadata,receipt=self.fixture(directory)
+                output=root/'draft.zip'
+                package(exe,receipt,metadata,output,'Draft',draft=True)
+                with zipfile.ZipFile(output) as archive:
+                    files={name:archive.read(name) for name in archive.namelist()}
+                if change=='payload': files['giants-app.exe']=b'MZ changed'
+                if change=='extra': files['../game.gzp']=b'forbidden'
+                if change=='missing': del files['NOTICE.md']
+                if change=='manifest':
+                    manifest=json.loads(files['manifest.json'])
+                    manifest['cleared_for_publication']=True
+                    files['manifest.json']=json.dumps(manifest).encode()
+                if change=='checksums': files['SHA256SUMS']=b'bad checksums'
+                with zipfile.ZipFile(output,'w') as archive:
+                    for name,data in files.items(): archive.writestr(name,data)
+                    if change=='duplicate':
+                        import warnings
+                        with warnings.catch_warnings():
+                            warnings.simplefilter('ignore', UserWarning)
+                            archive.writestr('NOTICE.md',files['NOTICE.md'])
+                output.with_suffix('.zip.sha256').write_text(f'{sha256(output)}  {output.name}\n',encoding='utf8')
+                with self.assertRaises(ValueError): verify(output)
+
+    def test_verifier_requires_matching_external_checksum(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root,exe,metadata,receipt=self.fixture(directory)
+            output=root/'draft.zip'
+            package(exe,receipt,metadata,output,'Draft',draft=True)
+            output.with_suffix('.zip.sha256').write_text('0'*64+'  draft.zip\n',encoding='utf8')
+            with self.assertRaisesRegex(ValueError,'Archive checksum'): verify(output)
+
+    def test_project_license_and_scope_notice_are_both_preserved(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root,exe,metadata,receipt=self.fixture(directory)
+            project_root=Path(__file__).resolve().parents[1]
+            output=root/'draft.zip'
+            report=package(exe,receipt,metadata,output,'Draft',draft=True,
+                           project_license=project_root/'LICENSE')
+            with zipfile.ZipFile(output) as archive:
+                for name in ('LICENSE','NOTICE.md'):
+                    self.assertEqual(archive.read(name),(project_root/name).read_bytes())
+            self.assertEqual(verify(output)['files'],10)
+            self.assertFalse(any('not selected' in text for text in report['distribution_blockers']))
 
 
 if __name__=='__main__':unittest.main()

@@ -15,8 +15,11 @@ automatically wired into the main menu-to-mission build.
 - Integrate cinematic work through reviewed patches from its current branch,
   preserving concurrent gameplay changes. Pending branch work is not yet in main.
 - Menu-to-mission, controls, return-to-menu and cleanup require interactive checks.
-- Source/provenance review, dependency notices, owner source license and initial
-  public approval remain release blockers.
+- Source/provenance review, the constgebra 0.1.4 notice, compiler/runtime notice
+  applicability and initial public approval remain release blockers. MIT has been
+  selected for independent project source; its scope is recorded in NOTICE.md.
+- Revalidate subsequent publication-preparation changes in hosted CI. The baseline
+  Windows and dashboard runs passed; no binary or Pages upload was performed.
 
 ## All other game systems
 

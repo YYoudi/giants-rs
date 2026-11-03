@@ -17,8 +17,10 @@ Supported entries include resident Mecc movement/jet and partial presentation.
 Read `QUICK_START.md` before testing. User state is kept outside the installation.
 
 The exact executable hash, source commit and compiler are in `manifest.json`.
-This packaging revision adds the launcher, instructions and distribution review;
-it does not claim a new combat or campaign integration.
+This packaging revision includes the launcher, instructions, license-scope
+NOTICE.md and distribution review. Local ZIP verification checks member names,
+manifest identity and internal/external checksums without running the game. It
+does not claim a new combat or campaign integration.
 
 ## Known limits
 

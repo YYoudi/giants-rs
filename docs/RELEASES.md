@@ -43,10 +43,17 @@ Example draft preparation (use fresh private output directories):
 
 ```powershell
 .\tools\build_preview.ps1 -OutputDirectory '.local\preview-build-NEW'
-python -m tools.package_preview --executable .local/preview-build-NEW/giants-app.exe --receipt .local/preview-build-NEW/build-receipt.json --metadata .local/preview-build-NEW/cargo-metadata.json --notes docs/PREVIEW_NOTES.md --output .local/preview-build-NEW/giants-preview-windows-x64.zip --draft
+python -m tools.package_preview --executable .local/preview-build-NEW/giants-app.exe --receipt .local/preview-build-NEW/build-receipt.json --metadata .local/preview-build-NEW/cargo-metadata.json --notes docs/PREVIEW_NOTES.md --output .local/preview-build-NEW/giants-preview-windows-x64.zip --draft --project-license LICENSE
+python -m tools.verify_preview .local/preview-build-NEW/giants-preview-windows-x64.zip
 ```
 
 The build receipt pins a source commit and hashes the copied executable. The
 metadata contains local dependency paths and remains private. Only the filtered
 inventory and applicable notices enter the archive. Current packaging deliberately
 refuses non-draft output until the public-release review is resolved.
+
+The bundle includes NOTICE.md to preserve the project license scope and method
+statement. The verifier reads the ZIP without extraction or execution, checks the
+exact member allowlist, executable identity, manifest hashes, internal SHA256SUMS
+and external archive checksum. It requires the current uncleared draft state;
+passing integrity checks does not grant distribution rights.

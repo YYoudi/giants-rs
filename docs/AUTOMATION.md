@@ -1,7 +1,12 @@
 # Roadmap, Pages and automatic builds
 
-The repository is now private staging; hosted checks have started, with no public deployment.
-The dashboard validation run succeeded. Windows validation is tracked in Actions.
+The repository is private staging, with no public deployment. On 3 November 2026,
+both hosted workflows succeeded for `0d43e84c1dd61b344174786ac44f3bd5f286f7f5`:
+[Windows MinGW build](https://github.com/YYoudi/giants-rs/actions/runs/41691166679)
+and [dashboard validation](https://github.com/YYoudi/giants-rs/actions/runs/41691166629).
+Binary artifact upload, Pages upload and Pages deployment were skipped. Neither
+approval variable was configured when checked. These results validate that source
+revision; subsequent local preparation still requires its own hosted validation.
 The candidate remains subject to initial owner approval and
 provenance/distribution review. A repository with fresh history is not evidence
 of a separated-team clean-room process; this project makes no such claim.
@@ -44,8 +49,9 @@ and dependency versions are recorded, and Cargo uses the lockfile.
 1. Review the private staging `YYoudi/giants-rs` repository with MIT source license
    and fresh history, then approve its first public exposure. Retain the private research
    repository unchanged as an archive. Attach agent checkouts explicitly.
-2. Enable Actions and inspect the first hosted Windows and site-validation runs.
-   Local compilation does not validate the hosted MSYS2 installation sequence.
+2. Actions is enabled and the first hosted Windows and site-validation runs passed.
+   Recheck the exact reviewed candidate revision before cutover; earlier successful
+   runs do not validate subsequent changes.
 3. Select GitHub Actions as the Pages publishing source and configure the
    `github-pages` environment for main. Set repository variable
    `PUBLIC_SITE_APPROVED=true` only after approving the generated site. The workflow
