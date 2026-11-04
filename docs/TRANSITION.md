@@ -156,3 +156,34 @@ The manifest remains uncleared with human provenance/release review, compiler
 runtime applicability and constgebra 0.1.4 notices unresolved. No binary was
 uploaded or published. This continuation is retained on a local `codex/` branch;
 the hosted main CI result above certifies `b98acbe`, not this later tooling change.
+
+## First downloadable Windows preview — 4 November 2026
+
+The owner removed the mandatory human-release-review gate and explicitly
+authorized Windows downloads. AGENTS.md and the release policy now preserve that
+decision. constgebra's declared Apache alternative, its upstream declaration and
+the full Apache license are included; conservative GCC/MinGW notices and Rust's
+complete standard-library inventory accompany the executable. The technical basis
+is recorded in DISTRIBUTION_REVIEW.md; no comprehensive human audit is claimed.
+
+[preview-2026.11.04.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.04.1)
+is public, with the Windows ZIP and two equivalent external checksum files.
+Its tag and build receipt identify `57ed1de83985122ee1ca7171b3b78501182eebac`.
+Concurrent authorized dashboard/gallery changes were merged without moving any
+other checkout. No gallery images or original game data entered the ZIP.
+
+- Executable SHA-256: `7c3d96dae3fe49f028c71f458b1535fc47700d18ed8f2ee7b7d896bf831c4fc2`.
+- ZIP SHA-256: `05456e2834880a6163114e44a21064491e477465598c3e6233ffe1b20cee8b0d`.
+- Final ZIP: 47,118,410 bytes, 10 allowlisted members, zero manifest blockers.
+- Anonymous download returned HTTP 200 and matched the local ZIP hash and
+  published SHA256SUMS. The release tag resolves to the recorded source commit.
+- All 18 Python tests passed, also from a fresh public clone. Rust checks remain
+  684 passed / 14 ignored, with Rustfmt, Clippy and optimized GNU build passing.
+- Both silent development lifecycle endpoints passed from the final extracted
+  package outside the source folder. Manual controls, campaign mission loading,
+  full-session stability and fidelity remain unverified.
+
+The exact-revision dashboard workflow succeeded. The newly triggered Windows
+workflow was still running at publication; this preview relies on the recorded
+local checks, not a claim that the later hosted build has finished. Linux and
+macOS packages remain in BACKLOG.md for future platform work.
