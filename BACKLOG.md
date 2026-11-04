@@ -23,6 +23,13 @@ automatically wired into the main menu-to-mission build.
 - Binary distribution remains blocked by human provenance/release review, the
   constgebra 0.1.4 notice and compiler/runtime notice applicability. MIT applies
   within NOTICE.md's scope. No executable release is authorized by source exposure.
+  The owner requested downloadable releases on 4 November 2026. An unpublished
+  GitHub draft `preview-2026.11.04.1` now records the prepared build and review
+  checklist; it has no assets. Rechecked: constgebra is a normal dependency via
+  hexasphere/Bevy and its recorded upstream tree has no license file. Obtain
+  authoritative notice material or replace the dependency and rebuild; do not
+  invent a copyright notice. PE imports list Windows system DLLs, which does not
+  resolve applicability for statically linked compiler/runtime components.
 - Preserve the AI-assisted source-review limitations recorded in
   docs/PUBLICATION_REVIEW.md; future reconstructed code and fixtures need their own
   provenance checks. Escalate concrete protected-material concerns before exposure.
