@@ -28,3 +28,10 @@ The site exporter validates all image hashes before creating output and emits
 only public comparison fields. Run `python -m tools.export_site NEW_OUTPUT_DIR`
 and `node --check NEW_OUTPUT_DIR/app.js`. No game installation is needed to build
 the dashboard. Pages continues to deploy main through the existing workflow.
+
+Each comparison opens as superimposed captures with a horizontal draggable divider.
+The native range control also supports arrow keys, Home and End; buttons reveal
+either full image or restore the 50/50 split. Both images keep their proportions
+in the same frame. Side-by-side views and full-size links remain in a disclosure
+below each comparator. A shared frame does not imply aligned cameras or phases;
+the historical context and limits still apply.
