@@ -532,7 +532,7 @@
       "title": "Playable Windows build stability",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Full-session play, repeated loading/restart, resource cleanup, performance and supported rendering paths."
+      "detail": "Full-session play, repeated loading/restart, resource cleanup, performance and supported rendering paths. Silent development-session launch/return cycles observed on 4 November 2026; campaign loading, manual input and complete memory reclamation remain unverified."
     },
     {
       "id": "fidelity",

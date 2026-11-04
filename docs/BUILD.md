@@ -26,6 +26,27 @@ bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Wind
 or GIANTS_INSPECTION_FONT, never bundled. Game data is read-only; user state goes
 outside the installation. Interactive validation remains pending in this candidate.
 
+## Optional silent runtime lifecycle check
+
+After building a preview, supply your own installation and a fresh private output:
+
+```powershell
+python -m tools.runtime_smoke --executable .local/build/giants-app.exe --receipt .local/build/build-receipt.json --data-root 'D:/Games/Giants' --output .local/runtime-smoke-NEW
+```
+
+This launches two offscreen GPU processes without a window or audio device. Each
+performs three development Mecc launches; one returns to the menu three times,
+the other finishes in the third development session after two returns. The runner
+checks exit status, fresh health/projectile markers, owned-entity cleanup markers,
+endpoint and capture completion. A timeout (default 120 seconds per process) or a
+missing checkpoint fails the run. The executable must match its build receipt.
+
+Profiles, logs, captures and their checksums remain in the output directory; keep
+them private and outside the original installation. They must never enter Git or
+release assets. This optional check requires real game data and a GPU and is not
+part of synthetic CI. A passing report does not validate manual input, campaign
+mission loading, total memory reclamation, pixel fidelity or distribution rights.
+
 Before extraction, run `python -m tools.verify_preview PATH_TO_DRAFT.zip` with its
 adjacent `.zip.sha256` file. This checks package integrity and the uncleared draft
 state; it does not run the executable or clear publication blockers. See

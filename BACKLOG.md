@@ -14,7 +14,12 @@ automatically wired into the main menu-to-mission build.
 - Actor/projectile/effect scheduling, damage, mission objectives and progression.
 - Integrate cinematic work through reviewed patches from its current branch,
   preserving concurrent gameplay changes. Pending branch work is not yet in main.
-- Menu-to-mission, controls, return-to-menu and cleanup require interactive checks.
+- Campaign menu-to-mission and manual controls require interactive checks.
+  Silent development-session cycles passed on 4 November 2026 for the recorded
+  transition binary: three launches/three returns and three launches/two returns
+  ending in development gameplay, with fresh state and owned-entity cleanup
+  markers. Reproduce with tools.runtime_smoke; this does not establish campaign
+  loading, complete memory reclamation, manual input or visual fidelity.
 - Binary distribution remains blocked by human provenance/release review, the
   constgebra 0.1.4 notice and compiler/runtime notice applicability. MIT applies
   within NOTICE.md's scope. No executable release is authorized by source exposure.

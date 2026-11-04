@@ -30,10 +30,17 @@ Active actors, damage, squad behavior, objectives, saved continuity, Delphi,
 Kabuto, bases, multiplayer and full visual/audio fidelity remain incomplete.
 Some mission entries may stay inspection views.
 
-This session performs silent source/build/package checks only. Interactive
-menu-to-mission testing on this exact package and human gameplay review are
-pending; the owner has since authorized manual tests. Historical offscreen
-comparisons retain their original executable identities.
+On 4 November 2026, silent offscreen development-session checks passed on the
+recorded transition executable: three launches/three menu returns, then a separate
+three launches/two returns ending in development gameplay. Fresh health/projectile
+state, owned-entity cleanup markers, GPU capture completion and exit status were
+checked. `tools.runtime_smoke` makes these checks repeatable with a build receipt
+and user-supplied data. Private captures and logs are not release members.
+
+Campaign menu-to-mission testing, manual controls and human gameplay review remain
+pending; the owner has authorized manual tests. This is not complete mission
+integration, total memory-reclamation proof or a fidelity comparison. Historical
+offscreen comparisons retain their original executable identities.
 
 ## Package checks
 

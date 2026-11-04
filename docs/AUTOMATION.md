@@ -13,8 +13,12 @@ Binary artifact upload, Pages upload and Pages deployment were skipped. Neither
 approval variable was configured at that earlier checkpoint. The reviewed cutover
 revision `dc99be9948b4dfcf6ead88d7edf38b947b0dafee` then passed
 [hosted dashboard validation and history scanning](https://github.com/YYoudi/giants-rs/actions/runs/41724991825).
-Its Windows workflow was relaunched; do not confuse an in-progress current run with
-the completed baseline build. See Actions for the latest exact-revision result.
+The subsequent public main revision `b98acbebbbd3254a679558554594546c9387cf1a`
+passed both the [Windows MinGW workflow](https://github.com/YYoudi/giants-rs/actions/runs/41725413930)
+and [dashboard deployment](https://github.com/YYoudi/giants-rs/actions/runs/41725413835).
+Verified on 4 November 2026: synthetic checks, optimized build, draft packaging
+and integrity verification completed; binary artifact upload was skipped and
+the run has no uploaded artifacts. This does not validate interactive gameplay.
 A repository with fresh history is not evidence
 of a separated-team clean-room process; this project makes no such claim.
 

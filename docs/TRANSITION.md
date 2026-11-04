@@ -111,3 +111,29 @@ verification and then make the repository public:
 Subsequent documentation commits record the completed operation without changing
 the already recorded executable/package identities. The old discussions require
 explicit new runtime checkouts; none was moved automatically.
+
+## Recovery continuation — 4 November 2026
+
+Observed: public main `b98acbebbbd3254a679558554594546c9387cf1a` completed
+[Windows MinGW CI](https://github.com/YYoudi/giants-rs/actions/runs/41725413930)
+successfully, including synthetic checks, optimized compilation, draft packaging
+and ZIP integrity verification. Artifact upload was skipped; no artifacts were
+attached to the run. The corresponding dashboard workflow also succeeded.
+
+Implemented: `tools.runtime_smoke` provides receipt-checked silent offscreen
+development-session lifecycle checks with private logs, profiles, captures and a
+path-free result report. It refuses output in the original installation or an
+existing output folder and records failure on timeout or missing checkpoints.
+
+Observed locally: both three-launch replay endpoints passed on the transition
+executable identified above (`8f7c3659bfc1fa87c93115359a23fdfeb27bec3a`, SHA-256
+`0ed83d501d5cfe94ada27d672c55134aa82e911018019ebaa02d5aa9c4c48690`).
+One ended at the menu after three returns; the other ended in development gameplay
+after two returns. Fresh-state and owned-entity cleanup markers, render capture
+completion and zero process exit were checked without a window or audio device.
+
+Local synthetic checks: 684 Rust tests passed, 14 ignored; Python checks,
+Rustfmt and Clippy passed. No ignored data/audio tests were enabled. The runtime
+Rust source and dependency lockfile are unchanged. The stability roadmap remains
+partial. Campaign mission loading, manual controls, total memory reclamation and
+visual fidelity remain unverified; binary distribution blockers remain open.
