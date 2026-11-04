@@ -1,4 +1,4 @@
-"""Verify a local draft ZIP without extracting or executing its contents.
+"""Verify a preview ZIP without extracting or executing its contents.
 
 Integrity checks do not establish provenance or distribution clearance.
 """
@@ -26,12 +26,20 @@ def verify(archive_path):
             raise ValueError('Unexpected, duplicate or missing archive members')
         contents = {name: archive.read(name) for name in names}
     manifest = json.loads(contents['manifest.json'])
-    if (manifest.get('schema_version') != 1 or manifest.get('draft') is not True or
-            manifest.get('cleared_for_publication') is not False or
+    if (manifest.get('schema_version') != 1 or type(manifest.get('draft')) is not bool or
+            manifest.get('cleared_for_publication') is not (not manifest['draft']) or
             not isinstance(manifest.get('distribution_blockers'), list) or
-            not manifest['distribution_blockers'] or
             not all(isinstance(b, str) and b.strip() for b in manifest['distribution_blockers'])):
-        raise ValueError('Expected an uncleared draft manifest with explicit blockers')
+        raise ValueError('Inconsistent preview distribution state')
+    if not manifest['draft']:
+        review = manifest.get('distribution_review', {})
+        keys = {'authorization', 'dependency_notices_sha256', 'toolchain_notices_sha256',
+                'review_document_sha256', 'project_license_sha256'}
+        if (manifest['distribution_blockers'] or 'LICENSE' not in members or set(review) != keys or
+                review.get('authorization') != 'owner_authorized_technical_review' or
+                any(not re.fullmatch(r'[a-f0-9]{64}', review.get(k, '')) for k in keys-{'authorization'}) or
+                review['project_license_sha256'] != hashlib.sha256(contents['LICENSE']).hexdigest()):
+            raise ValueError('Public preview lacks a consistent distribution review')
     if (not re.fullmatch(r'[a-f0-9]{40}', manifest.get('source_commit', '')) or
             manifest.get('target') != 'x86_64-pc-windows-gnu' or
             not manifest.get('toolchain')):
@@ -49,7 +57,7 @@ def verify(archive_path):
         raise ValueError('Internal checksum list mismatch')
     return dict(source_commit=manifest['source_commit'], archive_sha256=digest,
                 executable_sha256=manifest['executable_sha256'], files=len(members),
-                cleared_for_publication=False,
+                cleared_for_publication=manifest['cleared_for_publication'],
                 distribution_blockers=manifest['distribution_blockers'])
 
 

@@ -1,13 +1,18 @@
-# Windows x64 preview — draft for review
+# Windows x64 development preview — preview-2026.11.04.1
 
-**Not cleared for public distribution.** Dependency notice applicability and
-the source/provenance review are still pending. Project source is MIT-licensed
-within the scope described in NOTICE.md. This draft is a review artifact,
-not a completed gameplay milestone or a public release promise.
+First downloadable Windows preview. Includes the independent executable,
+launcher, instructions, project license and third-party notices. Supply your own
+Giants installation. Linux and macOS binaries are planned for later.
 
 Approximately 99% of current project content is AI-generated according to the
-owner's estimate and has not received comprehensive human review. Automated
-checks do not replace that review.
+owner's estimate and has not received comprehensive human review. This estimate
+is not a completion metric. The owner authorized this preview without requiring
+a separate human release review. Technical checks do not establish full gameplay
+fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+Compared with the previous local draft, this release adds repeatable silent
+lifecycle validation, completes dependency/runtime notice collection and enables
+receipt-bound public packaging. Runtime Rust and locked dependencies are unchanged.
 
 ## Accessible path
 

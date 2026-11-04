@@ -101,10 +101,11 @@ roadmap dashboard. It does not cover exposing the research archive, its gallery,
 pending worktrees or private evidence. The dashboard links to this repository and
 will track subsequent PROGRESS.json changes through its main-branch Pages workflow.
 
-Binary dissemination has additional unresolved checks: the constgebra 0.1.4
-license text and exact compiler/runtime notice applicability. Those binary-package
-blockers must not be confused with a legal conclusion about publishing only this
-repository's source. The current packager deliberately produces uncleared drafts.
+The source-only approval above did not itself authorize executable distribution.
+On 4 November 2026 the owner separately requested Windows downloads and removed
+the mandatory human release-review gate. The subsequent technical binary notice
+assessment and receipt-bound checks are in DISTRIBUTION_REVIEW.md. constgebra's
+Apache license alternative and complete conservative runtime notices are included.
+This does not turn the source review into a human audit or legal clearance.
 
-BACKLOG.md remains the detailed task list. No binary release or distribution
-approval follows from source publication.
+BACKLOG.md remains the detailed task list.

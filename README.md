@@ -23,7 +23,10 @@ and the [publication review status](docs/PUBLICATION_REVIEW.md).
 Project source is under the [MIT license](LICENSE), within the scope described in
 [NOTICE.md](NOTICE.md). Public source publication follows the owner's approval and
 an AI-assisted technical review; it is not legal clearance or comprehensive human
-review. Windows executable releases remain withheld pending distribution review.
+review. Download the experimental [Windows preview](https://github.com/YYoudi/giants-rs/releases)
+and follow the [quick start](docs/QUICK_START.md). The ZIP includes the executable,
+launcher and notices; your own game installation is required. Linux and macOS
+downloads are planned for later. See the [distribution review](docs/DISTRIBUTION_REVIEW.md).
 
 ## Whole-game roadmap
 

@@ -48,6 +48,6 @@ part of synthetic CI. A passing report does not validate manual input, campaign
 mission loading, total memory reclamation, pixel fidelity or distribution rights.
 
 Before extraction, run `python -m tools.verify_preview PATH_TO_DRAFT.zip` with its
-adjacent `.zip.sha256` file. This checks package integrity and the uncleared draft
-state; it does not run the executable or clear publication blockers. See
+adjacent `.zip.sha256` file. This checks package integrity and consistent draft/public review
+state; it does not run the executable or confer legal clearance. See
 docs/RELEASES.md for the complete local packaging sequence with the project license.

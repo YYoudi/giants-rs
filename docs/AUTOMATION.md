@@ -3,7 +3,7 @@
 The source repository is public following the owner's explicit instruction and
 the AI-assisted technical review in PUBLICATION_REVIEW.md. GitHub Pages is configured
 for Actions, `PUBLIC_SITE_APPROVED=true`, with the `github-pages` environment limited
-to main. The site contains the roadmap only; executable distribution is not approved.
+to main. The site contains the roadmap only; Windows downloads use GitHub Releases.
 
 Before cutover, both hosted workflows succeeded for
 `0d43e84c1dd61b344174786ac44f3bd5f286f7f5`:
@@ -65,19 +65,14 @@ and dependency versions are recorded, and Cargo uses the lockfile.
 3. Pages uses GitHub Actions and `PUBLIC_SITE_APPROVED=true`. It updates the roadmap
    on subsequent main pushes and never commits back into source. Source/site
    publication does not certify third-party rights or gameplay fidelity.
-4. Binary dissemination is a separate gate: set `PUBLIC_DISTRIBUTION_APPROVED=true`
-   only after distribution review. The artifact step ALSO requires an empty blocker
-   list and `cleared_for_publication=true` from the package manifest. A variable
-   alone cannot override the current draft-only packager. No release is published
-   automatically by this candidate. Resolve notices, human release review and
-   runtime-compiler applicability before implementing the reviewed release path.
+4. Windows previews are authorized by the owner as of 4 November 2026 without a
+   mandatory human release-review step. Public packaging requires complete notices
+   and a matching technical distribution review receipt; see RELEASES.md and
+   DISTRIBUTION_REVIEW.md. CI continues to prepare draft packages. Its artifact
+   gate cannot publish those drafts merely because a repository variable is set.
+   Reviewed Releases are published from an exact locally validated source/build.
 
-MIT was selected under the owner's delegated choice; see LICENSE and NOTICE.md.
-Current binary-release blockers: human provenance/distribution review,
-constgebra 0.1.4 notice text, exact compiler runtime notice applicability. The
-current packager deliberately always marks drafts uncleared. CI can compile while
-binary distribution remains blocked. After review, prepare one manifest-based
-release path; do not add a parallel unreviewed ZIP upload.
-
-References: [MSYS2 setup action](https://github.com/msys2/setup-msys2),
-[GitHub custom Pages workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
+The first public Windows package uses Rust 1.98.0 / GCC 16.2.0 / MinGW-w64 14.0.0
+with conservative runtime notices. A future rolling CI toolchain must receive its
+own applicability assessment before its binary is published. Linux and macOS
+builds and packages remain future work. MIT applies within NOTICE.md's scope.

@@ -7,11 +7,37 @@ import shutil
 import subprocess
 from unittest.mock import patch
 
-from tools.package_preview import package, sha256, dependency_notices
+from tools.package_preview import ROOT, package, sha256, dependency_notices
 from tools.verify_preview import verify
 
 
 class PreviewDistributionTests(unittest.TestCase):
+    def test_public_package_requires_matching_review_and_complete_notices(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root,exe,metadata,receipt=self.fixture(directory)
+            receipt['linker']='synthetic linker'
+            review={k:receipt[k] for k in ('source_commit','executable_sha256','target','toolchain','linker')}
+            review.update(authorization='owner_authorized_technical_review',
+                          dependency_notices_sha256=sha256(ROOT/'third_party/notice-sources.json'),
+                          toolchain_notices_sha256=sha256(ROOT/'third_party/toolchain-notice-sources.json'),
+                          review_document_sha256=sha256(ROOT/'docs/DISTRIBUTION_REVIEW.md'),
+                          project_license_sha256=sha256(ROOT/'LICENSE'))
+            output=root/'public.zip'
+            report=package(exe,receipt,metadata,output,'Experimental preview',
+                           project_license=ROOT/'LICENSE',review=review)
+            self.assertTrue(report['cleared_for_publication'])
+            self.assertEqual(report['distribution_blockers'],[])
+            self.assertTrue(verify(output)['cleared_for_publication'])
+            self.assertNotIn(str(ROOT),json.dumps(report))
+            for key in ('source_commit','executable_sha256','linker',
+                        'dependency_notices_sha256','review_document_sha256'):
+                with self.subTest(key=key), self.assertRaises(ValueError):
+                    package(exe,receipt,metadata,root/'bad.zip','',project_license=ROOT/'LICENSE',
+                            review=review | {key:'changed'})
+            (root/'dependency/LICENSE').unlink()
+            with self.assertRaisesRegex(ValueError,'synthetic 1'):
+                package(exe,receipt,metadata,root/'missing.zip','',project_license=ROOT/'LICENSE',review=review)
+
     def test_supplemental_notice_must_match_receipt_and_stay_in_notice_tree(self):
         with tempfile.TemporaryDirectory() as directory:
             root,exe,metadata,receipt=self.fixture(directory)
@@ -84,7 +110,7 @@ class PreviewDistributionTests(unittest.TestCase):
     def test_tampering_and_uncleared_publication_are_refused(self):
         with tempfile.TemporaryDirectory() as directory:
             root,exe,metadata,receipt=self.fixture(directory)
-            with self.assertRaisesRegex(ValueError,'Only draft'):
+            with self.assertRaisesRegex(ValueError,'Public packaging blocked'):
                 package(exe,receipt,metadata,root/'public.zip','')
             exe.write_bytes(b'MZ changed executable')
             with self.assertRaisesRegex(ValueError,'differs'):

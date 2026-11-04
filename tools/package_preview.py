@@ -1,4 +1,4 @@
-"""Build an asset-free preview ZIP; unresolved distribution reviews require --draft."""
+"""Build an asset-free preview ZIP with receipt-bound distribution review."""
 import argparse
 import hashlib
 import json
@@ -65,7 +65,27 @@ def dependency_notices(metadata):
     return '\n\n'.join(notices)+'\n', inventory, missing
 
 
-def package(executable, receipt, metadata, output, notes, draft=False, project_license=None):
+def distribution_review(review, receipt, project_license):
+    if not isinstance(review, dict) or review.get('authorization') != 'owner_authorized_technical_review':
+        raise ValueError('A receipt-bound distribution review is required')
+    for key in ('source_commit', 'executable_sha256', 'target', 'toolchain', 'linker'):
+        if review.get(key) != receipt.get(key) or not review.get(key):
+            raise ValueError('Distribution review differs from build receipt')
+    expected = {
+        'dependency_notices_sha256': sha256(ROOT/'third_party/notice-sources.json'),
+        'toolchain_notices_sha256': sha256(ROOT/'third_party/toolchain-notice-sources.json'),
+        'review_document_sha256': sha256(ROOT/'docs/DISTRIBUTION_REVIEW.md'),
+        'project_license_sha256': sha256(project_license) if project_license else None,
+    }
+    if not project_license or any(review.get(k) != v for k, v in expected.items()):
+        raise ValueError('Distribution review notice or license identity mismatch')
+    runtime_notices = json.loads((ROOT/'third_party/toolchain-notice-sources.json').read_text(encoding='utf8'))
+    if not runtime_notices or any(e.get('status') != 'included_conservatively' for e in runtime_notices):
+        raise ValueError('Toolchain notice assessment remains pending')
+    return {k: review[k] for k in ('authorization', *expected)}
+
+
+def package(executable, receipt, metadata, output, notes, draft=False, project_license=None, review=None):
     executable, output = Path(executable), Path(output)
     if output.exists():
         raise ValueError('Refusing overwrite')
@@ -78,25 +98,28 @@ def package(executable, receipt, metadata, output, notes, draft=False, project_l
     if receipt.get('target') != 'x86_64-pc-windows-gnu' or not receipt.get('toolchain'):
         raise ValueError('Expected a recorded GNU Windows build')
     third_party, inventory, missing = dependency_notices(metadata)
-    blockers = ['Human source/provenance and release review is pending.']
+    blockers = []
     toolchain_sources = ROOT/'third_party/toolchain-notice-sources.json'
     if toolchain_sources.is_file():
-        third_party += '\n# Compiler and linker runtime notices — applicability review pending\n'
+        third_party += '\n# Compiler and linker runtime notices\n'
         for entry in json.loads(toolchain_sources.read_text(encoding='utf8')):
-            if entry['status'] != 'retrieved_review_pending':
+            if entry['status'] not in ('retrieved_review_pending', 'included_conservatively'):
                 continue
             path = (ROOT/entry['file']).resolve()
             if not path.is_relative_to((ROOT/'third_party/toolchain').resolve()) or sha256(path) != entry['sha256']:
                 raise ValueError('Invalid toolchain dependency notice receipt')
             third_party += '\n## '+entry['file']+'\n\n'+path.read_text(encoding='utf8')+'\n'
-    blockers.append('Compiler/linker runtime notice applicability review remains pending.')
+    else:
+        blockers.append('Compiler/linker runtime notices are missing.')
     if missing:
         blockers.append('Dependency notice review required: '+', '.join(missing))
     if project_license is None:
         blockers.append('The owner has not selected the project source license.')
-    # This tool cannot grant legal clearance. Publication requires a separate review.
-    if not draft:
-        raise ValueError('Only draft packaging is currently enabled; resolve the public-release audit first')
+    approval = distribution_review(review, receipt, project_license) if review is not None else None
+    if approval is None:
+        blockers.append('Receipt-bound distribution review is pending.')
+    if not draft and blockers:
+        raise ValueError('Public packaging blocked: '+'; '.join(blockers))
     files = {'giants-app.exe': executable.read_bytes(),
              'NOTICE.md': (ROOT/'NOTICE.md').read_bytes(),
              'Play.ps1': (ROOT/'tools/Play.ps1').read_bytes(),
@@ -108,9 +131,11 @@ def package(executable, receipt, metadata, output, notes, draft=False, project_l
         files['LICENSE'] = Path(project_license).read_bytes()
     public_receipt = {k: receipt[k] for k in ('source_commit', 'executable_sha256', 'target', 'toolchain')}
     public_receipt['linker'] = receipt.get('linker', 'unrecorded')
-    manifest = dict(schema_version=1, **public_receipt, draft=True, cleared_for_publication=False,
+    manifest = dict(schema_version=1, **public_receipt, draft=draft, cleared_for_publication=not draft,
                     distribution_blockers=blockers,
                     files={name: hashlib.sha256(data).hexdigest() for name, data in files.items()})
+    if approval is not None:
+        manifest['distribution_review'] = approval
     files['manifest.json'] = (json.dumps(manifest, indent=2)+'\n').encode('utf8')
     files['SHA256SUMS'] = ''.join(f'{hashlib.sha256(data).hexdigest()}  {name}\n' for name, data in sorted(files.items())).encode('utf8')
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -130,11 +155,13 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--draft', action='store_true')
     parser.add_argument('--project-license', type=Path)
+    parser.add_argument('--review', type=Path, help='Receipt-bound distribution review JSON')
     args = parser.parse_args()
     report = package(args.executable, json.loads(args.receipt.read_text(encoding='utf8')),
                      json.loads(args.metadata.read_text(encoding='utf8')), args.output,
-                     args.notes.read_text(encoding='utf8'), args.draft, args.project_license)
-    print(json.dumps(dict(output=str(args.output), cleared_for_publication=False,
+                     args.notes.read_text(encoding='utf8'), args.draft, args.project_license,
+                     json.loads(args.review.read_text(encoding='utf8')) if args.review else None)
+    print(json.dumps(dict(output=str(args.output), cleared_for_publication=report['cleared_for_publication'],
                          distribution_blockers=report['distribution_blockers'])))
 
 

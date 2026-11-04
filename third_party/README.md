@@ -1,19 +1,18 @@
-# Dependency notice review
+# Dependency and runtime notices
 
-The inventory covers 338 conservative normal-dependency packages reached from
-the Windows GNU application metadata, including transitive build requirements.
-Root/declared crate license texts are collected in THIRD_PARTY_NOTICES.md.
+The inventory conservatively covers 338 normal-dependency packages from Windows
+GNU application metadata. THIRD_PARTY_NOTICES.md records dependency notices;
+packaging regenerates them from locked metadata and hash-verified supplements.
+No dependency in the current inventory lacks license text or metadata.
 
-Some published crates omit workspace notices. notice-sources.json records exact
-crate versions, VCS commits, upstream raw URLs and SHA-256 values for 27 additional
-texts covering 16 such packages. The packager verifies those receipts before use.
-It never modifies the Cargo registry or assumes that a successful filter clears rights.
+For constgebra 0.1.4, the Apache-2.0 option declared in its exact upstream manifest
+is selected. The official Apache text and unmodified upstream declaration are
+included with provenance; no copyright statement is invented. Rust's complete
+standard-library notices and conservative GCC/MinGW runtime notice sets are
+included in binary packages. See docs/DISTRIBUTION_REVIEW.md for the assessment.
 
-Unresolved: constgebra 0.1.4 declares MIT OR Apache-2.0 in package metadata, but its
-published crate and recorded upstream tree contain no license text. Do not invent
-the copyright notice or treat its SPDX expression as a completed notice review.
-The compiler/MinGW runtime redistribution notices also need explicit review.
-
-This is a technical inventory, not comprehensive human provenance review or a
-legal opinion. MIT was selected for project source under the owner's delegated
-choice; see LICENSE and NOTICE.md. This does not clear third-party distribution.
+The owner authorized Windows previews without a mandatory human review on
+4 November 2026. A public package still requires a distribution review bound to
+its source commit, binary, compiler, linker, license and notice catalogues. A
+changed compiler or dependency graph requires a fresh assessment. This is an
+AI-assisted technical process, not comprehensive human review or legal clearance.

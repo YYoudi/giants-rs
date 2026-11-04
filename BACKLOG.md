@@ -20,16 +20,13 @@ automatically wired into the main menu-to-mission build.
   ending in development gameplay, with fresh state and owned-entity cleanup
   markers. Reproduce with tools.runtime_smoke; this does not establish campaign
   loading, complete memory reclamation, manual input or visual fidelity.
-- Binary distribution remains blocked by human provenance/release review, the
-  constgebra 0.1.4 notice and compiler/runtime notice applicability. MIT applies
-  within NOTICE.md's scope. No executable release is authorized by source exposure.
-  The owner requested downloadable releases on 4 November 2026. An unpublished
-  GitHub draft `preview-2026.11.04.1` now records the prepared build and review
-  checklist; it has no assets. Rechecked: constgebra is a normal dependency via
-  hexasphere/Bevy and its recorded upstream tree has no license file. Obtain
-  authoritative notice material or replace the dependency and rebuild; do not
-  invent a copyright notice. PE imports list Windows system DLLs, which does not
-  resolve applicability for statically linked compiler/runtime components.
+- Windows downloads are owner-authorized without mandatory human release review.
+  Require complete dependency/toolchain notices, an exact build/review receipt,
+  asset-free package and independent checksum verification. See
+  docs/DISTRIBUTION_REVIEW.md. The constgebra Apache option and conservative
+  Rust/GCC/MinGW notices are now included; missing notices still block packaging.
+- Add native Linux and macOS previews later, with separate build, runtime and
+  notice validation. Do not label the Windows binary cross-platform.
 - Preserve the AI-assisted source-review limitations recorded in
   docs/PUBLICATION_REVIEW.md; future reconstructed code and fixtures need their own
   provenance checks. Escalate concrete protected-material concerns before exposure.

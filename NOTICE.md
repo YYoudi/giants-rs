@@ -15,6 +15,7 @@ with separate analysts and implementers. Technical scans are not legal clearance
 
 An AI-assisted technical source-publication review is recorded in
 docs/PUBLICATION_REVIEW.md. It is not a comprehensive human provenance review or
-legal clearance. Binary distribution review remains open; see third_party/README.md
-and docs/AUTOMATION.md for outstanding notice review and publication gates.
+legal clearance. The owner authorized Windows binary previews on 4 November 2026
+without a mandatory human release review; see docs/DISTRIBUTION_REVIEW.md for the
+technical notice assessment and receipt-bound publication checks.
 MIT selection does not clear third-party rights automatically.

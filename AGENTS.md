@@ -25,5 +25,8 @@ integration or visual fidelity. BACKLOG.md is the single detailed backlog.
 
 At each significant milestone integrate coherent validated features into the one
 menu-first main build, update remaining prerequisites, roadmap and draft release
-manifest/notices/checksums. Never publish a release with unresolved required notices
-or rights/license review. No public publication before the owner's initial approval.
+manifest/notices/checksums. On 4 November 2026 the owner authorized downloadable
+Windows previews and removed the mandatory human release-review gate. Complete
+technical notice collection and receipt-bound package validation, then publish;
+do not require another human approval for each preview. This does not establish
+third-party rights. Linux and macOS downloads are future work.

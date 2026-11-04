@@ -1195,7 +1195,10 @@
     "license": "MIT OR Apache-2.0",
     "authors": [],
     "repository": "https://github.com/knickish/constgebra",
-    "notice_files": []
+    "notice_files": [
+      "LICENSE-APACHE",
+      "LICENSE-DECLARATION.txt"
+    ]
   },
   {
     "name": "convert_case",
@@ -1296,7 +1299,7 @@
     "version": "3.5.2",
     "license": "MIT/Apache-2.0",
     "authors": [
-      "Antti Ker\u00e4nen <detegr@gmail.com>"
+      "Antti KerÃ¤nen <detegr@gmail.com>"
     ],
     "repository": "https://github.com/Detegr/rust-ctrlc.git",
     "notice_files": [
@@ -2086,7 +2089,7 @@
     "version": "1.5.1",
     "license": "MIT OR Apache-2.0",
     "authors": [
-      "Marvin L\u00f6bel <loebel.marvin@gmail.com>"
+      "Marvin LÃ¶bel <loebel.marvin@gmail.com>"
     ],
     "repository": "https://github.com/rust-lang-nursery/lazy-static.rs",
     "notice_files": [
@@ -2286,7 +2289,7 @@
     "license": "MIT OR Apache-2.0",
     "authors": [
       "Maciej Hirsz <hello@maciej.codes>",
-      "J\u00e9rome Eertmans (maintainer) <jeertmans@icloud.com>"
+      "JÃ©rome Eertmans (maintainer) <jeertmans@icloud.com>"
     ],
     "repository": "https://github.com/maciejhirsz/logos",
     "notice_files": [
@@ -2300,7 +2303,7 @@
     "license": "MIT OR Apache-2.0",
     "authors": [
       "Maciej Hirsz <hello@maciej.codes>",
-      "J\u00e9rome Eertmans (maintainer) <jeertmans@icloud.com>"
+      "JÃ©rome Eertmans (maintainer) <jeertmans@icloud.com>"
     ],
     "repository": "https://github.com/maciejhirsz/logos",
     "notice_files": [
@@ -2314,7 +2317,7 @@
     "license": "MIT OR Apache-2.0",
     "authors": [
       "Maciej Hirsz <hello@maciej.codes>",
-      "J\u00e9rome Eertmans (maintainer) <jeertmans@icloud.com>"
+      "JÃ©rome Eertmans (maintainer) <jeertmans@icloud.com>"
     ],
     "repository": "https://github.com/maciejhirsz/logos",
     "notice_files": [
@@ -3587,7 +3590,7 @@
     "version": "0.3.0",
     "license": "MIT OR Apache-2.0",
     "authors": [
-      "Christian Th\u00e4ter <ct@pipapo.org>"
+      "Christian ThÃ¤ter <ct@pipapo.org>"
     ],
     "repository": "https://seed.pipapo.org/nodes/seed.pipapo.org/rad:z39WbeupErKS8TwbDS5yU8eZSa3C",
     "notice_files": [

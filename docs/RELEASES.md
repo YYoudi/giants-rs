@@ -24,10 +24,11 @@ After each meaningful validated milestone:
 5. Generate the README/Dashboard status and checklist. Release notes must state
    the features accessible from the menu, their limitations, data compatibility,
    changes since the last preview and exact validation performed.
-6. Prepare the draft locally and inspect its archive and dependency notices. Create
-   a hosted draft only after owner authorization, then publish only when its
-   distribution review passes. MIT is selected within the scope of NOTICE.md;
-   provenance and distribution review remain open. A draft does not imply clearance.
+6. Prepare locally, review the member allowlist and notices, and publish the
+   Windows preview after technical validation. On 4 November 2026 the owner
+   authorized downloadable previews and removed the mandatory human release
+   review. Do not request another routine approval; do retain accurate limitations
+   and complete notices. Source publication alone does not confer third-party rights.
 
 Use `preview-YYYY.MM.DD.N` tags; keep older previews and their source identities
 available. Do not replace a tested executable silently. A public release must
@@ -48,13 +49,19 @@ python -m tools.package_preview --executable .local/preview-build-NEW/giants-app
 python -m tools.verify_preview .local/preview-build-NEW/giants-preview-windows-x64.zip
 ```
 
-The build receipt pins a source commit and hashes the copied executable. The
-metadata contains local dependency paths and remains private. Only the filtered
-inventory and applicable notices enter the archive. Current packaging deliberately
-refuses non-draft output until the public-release review is resolved.
+The build receipt pins the source commit and executable hash. Private metadata
+and logs remain outside the ZIP. A public package additionally requires `--review`
+with a JSON receipt whose authorization is `owner_authorized_technical_review`,
+matching source_commit, executable_sha256, target, toolchain and linker from the
+build receipt, plus SHA-256 values of the project license, notice catalogues and
+docs/DISTRIBUTION_REVIEW.md. The packager rejects missing notices and mismatches.
 
-The bundle includes NOTICE.md to preserve the project license scope and method
-statement. The verifier reads the ZIP without extraction or execution, checks the
-exact member allowlist, executable identity, manifest hashes, internal SHA256SUMS
-and external archive checksum. It requires the current uncleared draft state;
-passing integrity checks does not grant distribution rights.
+For public output, omit `--draft` and supply `--review` along with `--project-license`.
+Run tools.verify_preview on the final ZIP and its adjacent checksum. It accepts
+consistent uncleared drafts or reviewed public packages and verifies every member.
+Publish the exact source tag, the ZIP containing the executable and notices, and
+its external checksum. Do not offer a bare EXE detached from its notices.
+
+Local validation can support a preview even while a later hosted run is pending;
+state the exact local checks and the exact commit certified by hosted CI. Neither
+checksums nor a successful build certify complete gameplay or legal clearance.

@@ -3,60 +3,67 @@
     "file": "third_party/toolchain/gcc/COPYING.RUNTIME",
     "url": "https://raw.githubusercontent.com/gcc-mirror/gcc/releases/gcc-16.2.0/COPYING.RUNTIME",
     "sha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
-    "status": "retrieved_review_pending"
+    "status": "included_conservatively"
   },
   {
     "file": "third_party/toolchain/gcc/GPL-3.0.txt",
     "url": "https://www.gnu.org/licenses/gpl-3.0.txt",
     "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
-    "status": "retrieved_review_pending"
+    "status": "included_conservatively"
   },
   {
     "file": "third_party/toolchain/mingw-w64/COPYING",
     "url": "https://raw.githubusercontent.com/mingw-w64/mingw-w64/v14.0.0/COPYING",
     "sha256": "99a69660981156c21336fdb5661f89341b013c94e4bf9e1c7467b4745718397f",
-    "status": "retrieved_review_pending"
+    "status": "included_conservatively"
   },
   {
     "file": "third_party/toolchain/mingw-w64/COPYING.MinGW-w64-runtime.txt",
     "url": "https://raw.githubusercontent.com/mingw-w64/mingw-w64/v14.0.0/COPYING.MinGW-w64-runtime/COPYING.MinGW-w64-runtime.txt",
     "sha256": "1db8da07b436c68833c0673ffee3d9fcb2526047f3820b81661865dfedc79a1f",
-    "status": "retrieved_review_pending"
+    "status": "included_conservatively"
   },
   {
     "file": "third_party/toolchain/mingw-w64/COPYING.MinGW-w64.txt",
     "url": "https://raw.githubusercontent.com/mingw-w64/mingw-w64/v14.0.0/COPYING.MinGW-w64/COPYING.MinGW-w64.txt",
     "sha256": "f38e6194bd3bfa1b654f118e5acefe0aead437bbe669eee43957ccc65a7127f1",
-    "status": "retrieved_review_pending"
+    "status": "included_conservatively"
   },
   {
     "file": "third_party/toolchain/mingw-w64/AUTHORS",
     "url": "https://raw.githubusercontent.com/mingw-w64/mingw-w64/v14.0.0/AUTHORS",
     "sha256": "8f308316e7a94b8410f871868bd3948f126526dc1775aeee97a0e365f9a0fd9f",
-    "status": "retrieved_review_pending"
+    "status": "included_conservatively"
   },
   {
     "file": "third_party/toolchain/mingw-w64/COPYING.winpthreads",
     "url": "https://raw.githubusercontent.com/mingw-w64/mingw-w64/v14.0.0/mingw-w64-libraries/winpthreads/COPYING",
     "sha256": "63263614cdd29f2f93cba85e992f041b31f9fc7b4033692f31269489a8a1b177",
-    "status": "retrieved_review_pending"
+    "status": "included_conservatively"
   },
   {
     "file": "third_party/toolchain/rust/LICENSE-MIT",
     "url": "https://raw.githubusercontent.com/rust-lang/rust/1.98.0/LICENSE-MIT",
     "sha256": "b71bd43a069ca0641a9ecfe585ca7b3c53b5cc1608f8b68321168698e28b5ea1",
-    "status": "retrieved_review_pending"
+    "status": "included_conservatively"
   },
   {
     "file": "third_party/toolchain/rust/LICENSE-APACHE",
     "url": "https://raw.githubusercontent.com/rust-lang/rust/1.98.0/LICENSE-APACHE",
     "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
-    "status": "retrieved_review_pending"
+    "status": "included_conservatively"
   },
   {
     "file": "third_party/toolchain/rust/COPYRIGHT",
     "url": "https://raw.githubusercontent.com/rust-lang/rust/1.98.0/COPYRIGHT",
     "sha256": "172020dbfd5b53a226dfde77616190a48dcff519b0bc0e6deb91a8450782c4af",
-    "status": "retrieved_review_pending"
+    "status": "included_conservatively"
+  },
+  {
+    "file": "third_party/toolchain/rust/COPYRIGHT-library.txt",
+    "url": "https://static.rust-lang.org/dist/rust-1.98.0-x86_64-pc-windows-gnu.tar.xz",
+    "sha256": "a4bd7b11a9ccb0891ede2bc4272bc438de3a2e3baedecef9676c4d20bc2dc354",
+    "status": "included_conservatively",
+    "method": "Text extracted from COPYRIGHT-library.html shipped with installed Rust 1.98.0; original HTML SHA-256 68129500b616d5838629e68f55ff3aed5e096dacf60ce9eb41bbe599a563afa6"
   }
 ]
