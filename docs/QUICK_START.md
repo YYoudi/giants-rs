@@ -11,24 +11,35 @@ do not establish complete playable missions or fidelity.
 2. Download a published Windows x64 ZIP from
    [Releases](https://github.com/YYoudi/giants-rs/releases).
    Drafts are not public downloads. Read that preview's limitations first.
-3. Extract the complete ZIP into a writable folder outside the game installation.
-4. Open PowerShell in the extracted folder:
-
-   ```powershell
-   .\Play.ps1 -DataRoot 'D:\Games\Giants'
-   ```
+3. Extract the ZIP and keep its bundled notices. Move **giants-rs.exe** beside
+   the original **Giants.exe**, in the game folder containing `Bin`. The different
+   name preserves the original executable.
+4. Double-click **giants-rs.exe**. It detects the adjacent installation and opens
+   the integrated menu. No terminal, installer or launch arguments are needed.
+5. Alternatively, leave the preview in its extracted folder and run it there.
+   A folder picker asks for the installation and remembers that selection.
 
 Choose the installation directory containing `Bin` and its `.gzp` archives. Do not select `Bin` itself, the
 project source tree, a save directory or the directory above the installation.
 The launcher does not copy original data into the download folder. User state is
 stored separately under `%LOCALAPPDATA%\Giants-Recomp\preview` by default.
 
-If local PowerShell policy prevents the script from running, use the executable
-directly; no policy change is required:
+The independent **Preview All** profile is selected by default, with the mission
+catalog unlocked. This is preview progress, not an imported original save,
+restored inventory or completed campaign. Other profiles and original saves are
+preserved. If all five slots are occupied and Preview All is absent, free a slot
+in Player IDs to create it; the program never replaces an existing profile.
 
-```powershell
-.\giants-app.exe --data-root 'D:\Games\Giants' --scenario world --mecc-dev --mecc-menu --user-data-root "$env:LOCALAPPDATA\Giants-Recomp\preview"
-```
+Open **Preview tools** in the upper-right corner for **Browse all missions**,
+**Mecc test arena** and **Game installation...**. Changing the installation uses
+the folder picker and restarts the preview. Escape in the test arena returns to
+the menu. These actions do not require debug commands.
+
+Installation selection and the startup log (`installation.txt` and `Giants.log`)
+are stored beside the independent profiles in the user-data folder. A missing or
+stale selection opens the picker when no adjacent installation is found.
+Cancelling exits without loading. Startup errors appear in a dialog. `Play.ps1` is optional and also
+supports graphical startup without arguments.
 
 `Play.ps1 -DataRoot 'D:\Games\Giants' -CheckOnly` checks the selected directory
 and prints the launch arguments without opening a game window.
@@ -57,7 +68,7 @@ tag, selected mission, GPU and exact steps when a control fails.
   Earlier comparisons used version 1.449. Broad compatibility across retail/GOG
   editions is not yet certified. A recognized archive directory is not proof
   that every required asset exists or that the edition is supported.
-- Keep the console open to retain an error message. Include the preview tag and
+- Keep the startup error and Giants.log locally. Include the preview tag and
   GPU model in a bug report; do not attach original assets, archives, memory
   dumps, personal paths or private save data.
 - If Windows blocks the unsigned program, inspect the download source and the

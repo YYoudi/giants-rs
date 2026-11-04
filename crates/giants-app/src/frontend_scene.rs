@@ -17,6 +17,23 @@ pub(crate) use replay::{
     capture_allowed as mission_capture_allowed, install as install_mission_replay,
 };
 impl Scene {
+    pub(crate) fn browse_preview_missions(&mut self) -> Result<(), String> {
+        let name = self.profiles.preview_profile().map_err(|e| e.to_string())?
+            .ok_or("The five profile slots are occupied. Remove a profile in Player IDs to create Preview All.")?;
+        let missions = self.campaign.unlock_profile(&name)?;
+        self.screen = Screen::LoadWorlds;
+        self.selected = Some(0);
+        self.notice = Some(format!(
+            "{missions} missions unlocked for preview; playable support varies."
+        ));
+        self.revision += 1;
+        Ok(())
+    }
+
+    pub(crate) fn preview_notice(&mut self, message: String) {
+        self.notice = Some(message);
+        self.revision += 1;
+    }
     pub(crate) fn message_palette(
         &self,
     ) -> Result<giants_game::message_presentation::Palette, String> {
@@ -134,7 +151,19 @@ impl Scene {
                     .into(),
             );
         }
-        let profiles = Profiles::open(&user_root)?;
+        let mut profiles = Profiles::open(&user_root)?;
+        let mut campaign = Campaign::open(root, &user_root)?;
+        let normal = std::env::var_os("GIANTS_MISSION_REPLAY").is_none()
+            && std::env::var_os("GIANTS_MECC_DEV_REPLAY").is_none();
+        let preview = if normal {
+            profiles.preview_profile()?
+        } else {
+            None
+        };
+        if let Some(name) = &preview {
+            let missions = campaign.unlock_profile(name)?;
+            println!("preview_default_profile=true missions={missions} campaign_completed=false");
+        }
         let font_path = std::env::var_os("GIANTS_INSPECTION_FONT")
             .map(std::path::PathBuf::from)
             .unwrap_or_else(crate::inspection_font_path);
@@ -146,7 +175,7 @@ impl Scene {
             data.main.len()
         );
         Ok(Self {
-            campaign: Campaign::open(root, &user_root)?,
+            campaign,
             flow: Flow::default(),
             load_request: None,
             launch_intent: LaunchIntent::SavedMission,
@@ -155,8 +184,16 @@ impl Scene {
             prepared_mission: None,
             data,
             font,
-            screen: Screen::PlayerIds,
-            selected: Some(profiles.active),
+            screen: if preview.is_some() {
+                Screen::Main
+            } else {
+                Screen::PlayerIds
+            },
+            selected: if preview.is_some() {
+                Some(4)
+            } else {
+                Some(profiles.active)
+            },
             notice: None,
             revision: 0,
             profiles,

@@ -54,9 +54,9 @@ jobs:
       - name: Build independent runtime and draft package
         run: |
           ./tools/build_preview.ps1 -OutputDirectory .local/build
-          ./.local/build/giants-app.exe --help
+          ./.local/build/giants-rs.exe --help
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          python -m tools.package_preview --executable .local/build/giants-app.exe --receipt .local/build/build-receipt.json --metadata .local/build/cargo-metadata.json --notes docs/PREVIEW_NOTES.md --output .local/giants-rs-windows-x64.zip --draft --project-license LICENSE
+          python -m tools.package_preview --executable .local/build/giants-rs.exe --receipt .local/build/build-receipt.json --metadata .local/build/cargo-metadata.json --notes docs/PREVIEW_NOTES.md --output .local/giants-rs-windows-x64.zip --draft --project-license LICENSE
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m tools.verify_preview .local/giants-rs-windows-x64.zip
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

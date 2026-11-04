@@ -388,7 +388,7 @@
       "title": "Complete game menus and profiles",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Start, mission selection, loading, pause, inventory/shop screens, errors and returns to menus."
+      "detail": "Start, mission selection, loading, pause, inventory/shop screens, errors and returns to menus. Desktop entry detects adjacent game data, with a folder picker fallback, a Preview tools overlay and default independent unlocked mission catalog."
     },
     {
       "id": "input-settings",

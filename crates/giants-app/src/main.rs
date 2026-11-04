@@ -1,3 +1,4 @@
+#![cfg_attr(all(windows, not(debug_assertions)), windows_subsystem = "windows")]
 use bevy::{
     app::AppExit,
     asset::RenderAssetUsages,
@@ -28,6 +29,7 @@ mod cinematic_shadow_playback;
 mod cinematic_text_scene;
 mod cinematic_visibility;
 mod decoration_scene;
+mod desktop;
 mod foliage_scene;
 mod frontend_background;
 mod frontend_feedback;
@@ -142,12 +144,29 @@ impl UiMaterial for LoadingMaterial {
 }
 
 fn main() {
-    if let Err(error) = launch() {
+    let mut arguments: Vec<_> = std::env::args_os().skip(1).collect();
+    let desktop = arguments.is_empty();
+    if desktop {
+        match desktop::arguments() {
+            Ok(Some(args)) => arguments = args,
+            Ok(None) => return,
+            Err(error) => {
+                desktop::error(&error.to_string());
+                return;
+            }
+        }
+    }
+    if let Err(error) = launch(arguments) {
         eprintln!("Giants: {error}");
+        if desktop {
+            desktop::error(&format!(
+                "Unable to start Giants: {error}\nSee Giants.log in your preview user-data folder."
+            ));
+        }
         std::process::exit(1);
     }
 }
-fn launch() -> Result<(), Box<dyn std::error::Error>> {
+fn launch(arguments: Vec<std::ffi::OsString>) -> Result<(), Box<dyn std::error::Error>> {
     let mut root = std::env::var_os("GIANTS_DATA_ROOT").map(PathBuf::from);
     let mut user_data_root = std::env::var_os("GIANTS_USER_DATA_ROOT").map(PathBuf::from);
     let mut capture = None;
@@ -206,7 +225,7 @@ fn launch() -> Result<(), Box<dyn std::error::Error>> {
     let mut capture_effect_activation = false;
     let mut cinematic_tracer_only = false;
     let mut dump_cinematic_camera = None;
-    let mut args = std::env::args_os().skip(1);
+    let mut args = arguments.into_iter();
     while let Some(arg) = args.next() {
         match arg.to_str() {
             Some("--audit-cinematic-consumers") => {
@@ -1250,15 +1269,15 @@ fn launch() -> Result<(), Box<dyn std::error::Error>> {
             })
             .set(WindowPlugin {
                 primary_window: (!offscreen).then_some(Window {
-                    title: if scenario == Scenario::FrontendInspection {"Giants - Showcase / F8 hints / F10 quit"} else if water_preview {"Giants Â· water texture Â· diagnostic / static phases / Esc"} else if gamegauge {"Giants Â· gamegauge preview Â· PARTIAL RENDERING Â· Space pause / R restart / Esc"} else if cinematic_camera {"Giants Â· cinematic preview Â· partial rendering / Space pause / R restart / Esc"} else if world && validation_camera.is_some() {"Giants Â· world validation Â· recorded camera / Esc"} else if world {"Giants Â· textured terrain Â· inspection camera / WASD / RMB / R"} else if mesh {
+                    title: if mecc_dev {"Giants"} else if scenario == Scenario::FrontendInspection {"Giants - Showcase / F8 hints / F10 quit"} else if water_preview {"Giants Â· water texture Â· diagnostic / static phases / Esc"} else if gamegauge {"Giants Â· gamegauge preview Â· PARTIAL RENDERING Â· Space pause / R restart / Esc"} else if cinematic_camera {"Giants Â· cinematic preview Â· partial rendering / Space pause / R restart / Esc"} else if world && validation_camera.is_some() {"Giants Â· world validation Â· recorded camera / Esc"} else if world {"Giants Â· textured terrain Â· inspection camera / WASD / RMB / R"} else if mesh {
                         if textured { "Giants Â· material preview Â· inspection lights / no reflection Â· WASD / RMB / R" } else { "Giants Â· mesh viewer Â· diagnostic normals Â· WASD / RMB / R" }
                     } else {
                         "Giants Â· Rust + Bevy Â· loading slice"
                     }
                     .into(),
-                    resolution: WindowResolution::new(1920, 1080).with_scale_factor_override(1.0),
+                    resolution: if mecc_dev { WindowResolution::new(1280, 720) } else { WindowResolution::new(1920, 1080) }.with_scale_factor_override(1.0),
                     present_mode,
-                    resizable: false,
+                    resizable: mecc_dev,
                     ..default()
                 }),
                 exit_condition: if offscreen { bevy::window::ExitCondition::DontExit } else { bevy::window::ExitCondition::OnAllClosed },

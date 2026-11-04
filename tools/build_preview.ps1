@@ -27,7 +27,7 @@ try {
     $linkerVersion = (& gcc --version | Select-Object -First 1)
     if ($LASTEXITCODE -ne 0) { throw 'MinGW GCC is required on PATH (or GIANTS_MINGW_BIN).' }
     New-Item -ItemType Directory -Path $OutputDirectory | Out-Null
-    $copiedExecutable = Join-Path $OutputDirectory 'giants-app.exe'
+    $copiedExecutable = Join-Path $OutputDirectory 'giants-rs.exe'
     Copy-Item -LiteralPath $builtExecutable -Destination $copiedExecutable
     $receipt = @{
         source_commit = $sourceCommit

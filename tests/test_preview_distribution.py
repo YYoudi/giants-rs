@@ -65,7 +65,7 @@ class PreviewDistributionTests(unittest.TestCase):
             root=Path(directory);bundle=root/'preview with spaces';bundle.mkdir()
             script=bundle/'Play.ps1'
             shutil.copyfile(Path(__file__).resolve().parents[1]/'tools/Play.ps1',script)
-            (bundle/'giants-app.exe').write_bytes(b'MZ not runnable')
+            (bundle/'giants-rs.exe').write_bytes(b'MZ not runnable')
             data=root/'game with spaces';data.mkdir();(data/'Bin').mkdir();(data/'Bin/test.gzp').write_bytes(b'synthetic')
             command=['pwsh','-NoProfile','-File',str(script),'-DataRoot',str(data),'-UserDataRoot',str(root/'user'),'-CheckOnly']
             result=subprocess.run(command,capture_output=True,text=True)
@@ -79,7 +79,7 @@ class PreviewDistributionTests(unittest.TestCase):
 
     def fixture(self, directory):
         root=Path(directory)
-        exe=root/'giants-app.exe';exe.write_bytes(b'MZ synthetic test executable')
+        exe=root/'giants-rs.exe';exe.write_bytes(b'MZ synthetic test executable')
         dep=root/'dependency';dep.mkdir();(dep/'LICENSE').write_text('Synthetic permission notice',encoding='utf8')
         metadata=dict(packages=[dict(id='app',name='giants-app',version='0',source=None),
                                 dict(id='dep',name='synthetic',version='1',source='test',license='MIT',manifest_path=str(dep/'Cargo.toml'))],
@@ -131,7 +131,7 @@ class PreviewDistributionTests(unittest.TestCase):
                 package(exe,receipt,metadata,output,'Draft',draft=True)
                 with zipfile.ZipFile(output) as archive:
                     files={name:archive.read(name) for name in archive.namelist()}
-                if change=='payload': files['giants-app.exe']=b'MZ changed'
+                if change=='payload': files['giants-rs.exe']=b'MZ changed'
                 if change=='extra': files['../game.gzp']=b'forbidden'
                 if change=='missing': del files['NOTICE.md']
                 if change=='manifest':

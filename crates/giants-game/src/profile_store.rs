@@ -17,6 +17,22 @@ pub struct Profiles {
     file: PathBuf,
 }
 impl Profiles {
+    /// Dedicated preview identity; never replace another profile to make room.
+    pub fn preview_profile(&mut self) -> Result<Option<String>, Box<dyn std::error::Error>> {
+        const NAME: &str = "Preview All";
+        if let Some(index) = self
+            .names
+            .iter()
+            .position(|name| name.eq_ignore_ascii_case(NAME))
+        {
+            self.select(index)?;
+        } else if self.names.len() < 5 {
+            self.create(NAME)?;
+        } else {
+            return Ok(None);
+        }
+        Ok(Some(self.names[self.active].clone()))
+    }
     pub fn open(root: &Path) -> Result<Self, Box<dyn std::error::Error>> {
         std::fs::create_dir_all(root)?;
         let file = root.join("frontend-profiles.dat");
@@ -306,6 +322,28 @@ fn validate_name(name: &str) -> Result<&str, Box<dyn std::error::Error>> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn dedicated_preview_preserves_other_profiles_and_reuses_its_identity() {
+        let root = folder("preview");
+        let mut profiles = Profiles::open(&root).unwrap();
+        profiles.create("Existing").unwrap();
+        assert_eq!(
+            profiles.preview_profile().unwrap().as_deref(),
+            Some("Preview All")
+        );
+        assert_eq!(profiles.names.len(), 2);
+        let mut profiles = Profiles::open(&root).unwrap();
+        profiles.preview_profile().unwrap();
+        assert_eq!(profiles.names, ["Existing", "Preview All"]);
+        profiles.delete(1).unwrap();
+        for name in ["Second", "Third", "Fourth", "Fifth"] {
+            profiles.create(name).unwrap();
+        }
+        let previous = profiles.names.clone();
+        assert!(profiles.preview_profile().unwrap().is_none());
+        assert_eq!(Profiles::open(&root).unwrap().names, previous);
+        cleanup(root);
+    }
     fn folder(label: &str) -> PathBuf {
         let nonce = std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)

@@ -13,7 +13,9 @@ MIT project license within NOTICE.md's scope, third-party notices, dependency
 inventory, manifest and checksums. Original game assets, programs, profiles,
 captures and private research are excluded. The executable loads the user's own
 installation read-only. Public source review is recorded in PUBLICATION_REVIEW.md.
-The current runtime source and lockfile are unchanged from the tested cutover.
+The desktop preview adds independent launcher/profile/menu code. The locked
+dependency graph is unchanged. Windows shell/COM folder selection uses system
+APIs already covered by the Windows runtime; no extra library is redistributed.
 
 ## Dependency notice treatment
 

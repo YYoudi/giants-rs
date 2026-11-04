@@ -89,8 +89,8 @@ def package(executable, receipt, metadata, output, notes, draft=False, project_l
     executable, output = Path(executable), Path(output)
     if output.exists():
         raise ValueError('Refusing overwrite')
-    if executable.name != 'giants-app.exe' or executable.read_bytes()[:2] != b'MZ':
-        raise ValueError('Expected the independent Windows giants-app.exe')
+    if executable.name != 'giants-rs.exe' or executable.read_bytes()[:2] != b'MZ':
+        raise ValueError('Expected the independent Windows giants-rs.exe')
     if not re.fullmatch(r'[a-f0-9]{40}', receipt.get('source_commit', '')):
         raise ValueError('A full source commit is required')
     if receipt.get('executable_sha256') != sha256(executable):
@@ -120,7 +120,7 @@ def package(executable, receipt, metadata, output, notes, draft=False, project_l
         blockers.append('Receipt-bound distribution review is pending.')
     if not draft and blockers:
         raise ValueError('Public packaging blocked: '+'; '.join(blockers))
-    files = {'giants-app.exe': executable.read_bytes(),
+    files = {'giants-rs.exe': executable.read_bytes(),
              'NOTICE.md': (ROOT/'NOTICE.md').read_bytes(),
              'Play.ps1': (ROOT/'tools/Play.ps1').read_bytes(),
              'QUICK_START.md': (ROOT/'docs/QUICK_START.md').read_bytes(),

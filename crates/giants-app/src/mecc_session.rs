@@ -19,6 +19,7 @@ pub(crate) struct Session {
     returns: u32,
     phase_since: f32,
     done: bool,
+    tools_open: bool,
 }
 macro_rules! owned_assets {
     ($($field:ident : $ty:ty),* $(,)?) => {
@@ -282,6 +283,119 @@ fn eligible(
             giants_game::frontend::Screen::Main | giants_game::frontend::Screen::PlayerIds
         )
 }
+fn tools(world: &mut World, hints: &[Entity]) -> (bool, bool) {
+    let click = world
+        .resource::<ButtonInput<MouseButton>>()
+        .just_pressed(MouseButton::Left);
+    let point = world
+        .query::<&Window>()
+        .iter(world)
+        .find(|w| w.focused)
+        .and_then(|w| w.cursor_position().map(|p| (p, w.width())));
+    let open = world.resource::<Session>().tools_open;
+    let action = point.and_then(|(p, width)| {
+        if !click || p.x < width - 344. || p.x > width - 24. || p.y < 12. {
+            return None;
+        }
+        if p.y < 52. {
+            Some(0)
+        } else if open && p.y < 212. {
+            Some(1 + ((p.y - 52.) / 40.) as usize)
+        } else {
+            None
+        }
+    });
+    let mut launch = false;
+    if let Some(action) = action {
+        world
+            .resource_mut::<ButtonInput<MouseButton>>()
+            .reset(MouseButton::Left);
+        for e in hints {
+            world.despawn(*e);
+        }
+        world.resource_mut::<Session>().tools_open = action == 0 && !open;
+        match action {
+            1 => {
+                if let Err(error) = world
+                    .resource_mut::<crate::frontend_scene::Scene>()
+                    .browse_preview_missions()
+                {
+                    world
+                        .resource_mut::<crate::frontend_scene::Scene>()
+                        .preview_notice(error);
+                }
+                return (false, true);
+            }
+            2 => launch = true,
+            3 => {
+                match crate::desktop::change_installation() {
+                    Ok(true) => {
+                        world.write_message(AppExit::Success);
+                    }
+                    Ok(false) => {}
+                    Err(error) => world
+                        .resource_mut::<crate::frontend_scene::Scene>()
+                        .preview_notice(error.to_string()),
+                }
+                return (false, true);
+            }
+            _ => {}
+        }
+    }
+    if hints.is_empty() || action.is_some() {
+        let camera = world
+            .query_filtered::<Entity, With<crate::frontend_scene::FrontendCamera>>()
+            .iter(world)
+            .next()
+            .expect("frontend camera");
+        let font = world
+            .resource::<crate::frontend_scene::InspectionFont>()
+            .0
+            .clone();
+        let open = world.resource::<Session>().tools_open;
+        let panel = world
+            .spawn((
+                MenuHint,
+                UiTargetCamera(camera),
+                Node {
+                    position_type: PositionType::Absolute,
+                    right: px(24.),
+                    top: px(12.),
+                    width: px(320.),
+                    height: px(if open { 200. } else { 40. }),
+                    ..default()
+                },
+                BackgroundColor(Color::srgba(0.02, 0.03, 0.04, 0.88)),
+            ))
+            .id();
+        let labels: &[&str] = if open {
+            &[
+                "Preview tools",
+                "Browse all missions",
+                "Mecc test arena",
+                "Game installation...",
+                "Close",
+            ]
+        } else {
+            &["Preview tools"]
+        };
+        for (row, label) in labels.iter().enumerate() {
+            world.spawn((
+                ChildOf(panel),
+                Text::new(*label),
+                TextFont::from_font_size(FontSize::Px(20.)).with_font(font.clone()),
+                TextColor(Color::WHITE),
+                Node {
+                    position_type: PositionType::Absolute,
+                    left: px(12.),
+                    top: px(row as f32 * 40. + 8.),
+                    ..default()
+                },
+            ));
+        }
+    }
+    (launch, false)
+}
 fn menu(world: &mut World) {
     let ready = eligible(
         world.resource::<crate::frontend_scene::Scene>().flow.phase,
@@ -301,31 +415,9 @@ fn menu(world: &mut World) {
         }
         return;
     }
-    if hints.is_empty() {
-        let camera = world
-            .query_filtered::<Entity, With<crate::frontend_scene::FrontendCamera>>()
-            .iter(world)
-            .next()
-            .expect("frontend camera");
-        let font = world
-            .resource::<crate::frontend_scene::InspectionFont>()
-            .0
-            .clone();
-        world.spawn((
-            MenuHint,
-            UiTargetCamera(camera),
-            Text::new("DEVELOPMENT SESSION â€” F7: launch Mecc / Esc in game: return here"),
-            TextFont::from_font_size(FontSize::Px(18.)).with_font(font),
-            TextColor(Color::WHITE),
-            Node {
-                position_type: PositionType::Absolute,
-                left: px(24.),
-                top: px(12.),
-                padding: UiRect::all(px(8.)),
-                ..default()
-            },
-            BackgroundColor(Color::srgba(0.02, 0.03, 0.04, 0.88)),
-        ));
+    let (launch_from_menu, stop) = tools(world, &hints);
+    if stop {
+        return;
     }
     let now = world.resource::<Time>().elapsed_secs();
     let session = world.resource::<Session>();
@@ -344,6 +436,7 @@ fn menu(world: &mut World) {
         && now - session.phase_since >= 0.35;
     let focused = world.query::<&Window>().iter(world).any(|w| w.focused);
     if replay
+        || launch_from_menu
         || (focused
             && world
                 .resource::<ButtonInput<KeyCode>>()
@@ -459,6 +552,50 @@ fn clear_inputs(world: &mut World) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn tool_clicks_consume_input_and_only_explicit_arena_action_requests_launch() {
+        let mut world = World::new();
+        world.init_resource::<Session>();
+        world.init_resource::<ButtonInput<MouseButton>>();
+        world.insert_resource(crate::frontend_scene::InspectionFont(Handle::default()));
+        world.spawn(crate::frontend_scene::FrontendCamera);
+        let mut window = Window {
+            resolution: bevy::window::WindowResolution::new(1280, 720),
+            focused: true,
+            ..default()
+        };
+        window.set_cursor_position(Some(Vec2::new(980., 30.)));
+        let window = world.spawn(window).id();
+        world
+            .resource_mut::<ButtonInput<MouseButton>>()
+            .press(MouseButton::Left);
+        assert_eq!(tools(&mut world, &[]), (false, false));
+        assert!(world.resource::<Session>().tools_open);
+        assert!(
+            !world
+                .resource::<ButtonInput<MouseButton>>()
+                .just_pressed(MouseButton::Left)
+        );
+        let panels: Vec<_> = world
+            .query_filtered::<Entity, With<MenuHint>>()
+            .iter(&world)
+            .collect();
+        assert_eq!(panels.len(), 1);
+        world
+            .get_mut::<Window>(window)
+            .unwrap()
+            .set_cursor_position(Some(Vec2::new(980., 110.)));
+        world
+            .resource_mut::<ButtonInput<MouseButton>>()
+            .press(MouseButton::Left);
+        assert_eq!(tools(&mut world, &panels), (true, false));
+        assert!(!world.resource::<Session>().tools_open);
+        assert!(
+            !world
+                .resource::<ButtonInput<MouseButton>>()
+                .just_pressed(MouseButton::Left)
+        );
+    }
     #[test]
     fn development_launch_does_not_intercept_bindings_or_mission_flow() {
         use giants_game::{frontend::Screen, mission_loading::Phase};

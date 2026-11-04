@@ -2061,9 +2061,7 @@ pub fn update(
             state.terrain_edge_transitions
         );
         for (mut window, _) in &mut windows {
-            window.title =
-                "Giants - MECC DEVELOPMENT - Menu controls / Mouse look / F5 reset / F10 exit"
-                    .into();
+            window.title = "Giants-rs".into();
         }
     }
 }

@@ -29,7 +29,10 @@ Project source is under the [MIT license](LICENSE), within the scope described i
 an AI-assisted technical review; it is not legal clearance or comprehensive human
 review. Download the experimental [Windows preview](https://github.com/YYoudi/giants-rs/releases)
 and follow the [quick start](docs/QUICK_START.md). The ZIP includes the executable,
-launcher and notices; your own game installation is required. Linux and macOS
+launcher and notices. Place `giants-rs.exe` beside the original `Giants.exe` and
+double-click it to open the menu; no command line is required. From another folder,
+it offers an installation picker. The default Preview All profile
+unlocks mission selection. Your own game installation is required. Linux and macOS
 downloads are planned for later. See the [distribution review](docs/DISTRIBUTION_REVIEW.md).
 
 ## Whole-game roadmap
@@ -104,7 +107,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Interface, worlds and audio
 
-- [ ] **Complete game menus and profiles** — partial; Runtime integration. Start, mission selection, loading, pause, inventory/shop screens, errors and returns to menus.
+- [ ] **Complete game menus and profiles** — partial; Runtime integration. Start, mission selection, loading, pause, inventory/shop screens, errors and returns to menus. Desktop entry detects adjacent game data, with a folder picker fallback, a Preview tools overlay and default independent unlocked mission catalog.
 - [ ] **Controls and settings** — partial; Runtime integration. Keyboard/mouse bindings, sensitivity, display and audio settings, persistence and focus handling.
 - [ ] **All gameplay camera modes** — partial; Runtime integration. First/third person, aiming/zoom, camera movement and obstruction, vehicles, base building and special attacks.
 - [ ] **Character HUDs, maps and objectives** — partial; Runtime integration. Health, fuel, magic, adrenaline, weapons, items, resources, targeting, map, notifications and score.

@@ -45,7 +45,7 @@ Example draft preparation (use fresh private output directories):
 
 ```powershell
 .\tools\build_preview.ps1 -OutputDirectory '.local\preview-build-NEW'
-python -m tools.package_preview --executable .local/preview-build-NEW/giants-app.exe --receipt .local/preview-build-NEW/build-receipt.json --metadata .local/preview-build-NEW/cargo-metadata.json --notes docs/PREVIEW_NOTES.md --output .local/preview-build-NEW/giants-preview-windows-x64.zip --draft --project-license LICENSE
+python -m tools.package_preview --executable .local/preview-build-NEW/giants-rs.exe --receipt .local/preview-build-NEW/build-receipt.json --metadata .local/preview-build-NEW/cargo-metadata.json --notes docs/PREVIEW_NOTES.md --output .local/preview-build-NEW/giants-preview-windows-x64.zip --draft --project-license LICENSE
 python -m tools.verify_preview .local/preview-build-NEW/giants-preview-windows-x64.zip
 ```
 

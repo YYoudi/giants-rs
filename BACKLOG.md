@@ -6,6 +6,15 @@ automatically wired into the main menu-to-mission build.
 
 ## Immediate runtime prerequisites
 
+- Desktop preview entry: giants-rs.exe detects the adjacent game installation or
+  offers a folder picker, then opens the integrated menu with an independent
+  Preview All profile and unlocked
+  mission catalog. The overlay exposes mission browsing, Mecc test arena and
+  installation changes. Synthetic routing/profile checks and interactive adjacent
+  startup, mission browsing, arena launch/return and picker cancellation passed.
+  Broaden installation/edition and full-session coverage. These changes do not restore
+  original saves or implement missing mission/character services.
+
 - Owned Mecc targeting: preserve the current implementation; source header context
   and special-header producer remain unresolved. Effective declaration range 700;
   normal pistol caller distance 500. Do not substitute a default range of 1000.

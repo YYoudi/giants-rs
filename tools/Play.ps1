@@ -1,13 +1,18 @@
 param(
-    [Parameter(Mandatory=$true)][string]$DataRoot,
+    [string]$DataRoot,
     [string]$UserDataRoot,
     [ValidateSet('vulkan','dx12')][string]$Backend,
     [switch]$CheckOnly
 )
 $ErrorActionPreference = 'Stop'
-$executable = Join-Path $PSScriptRoot 'giants-app.exe'
+$executable = Join-Path $PSScriptRoot 'giants-rs.exe'
 if (-not (Test-Path -LiteralPath $executable -PathType Leaf)) {
-    throw 'giants-app.exe is missing. Extract the entire preview ZIP first.'
+    throw 'giants-rs.exe is missing. Extract the entire preview ZIP first.'
+}
+if (-not $DataRoot) {
+    if ($CheckOnly) { '[]'; exit 0 }
+    & $executable
+    exit $LASTEXITCODE
 }
 if (-not (Test-Path -LiteralPath $DataRoot -PathType Container)) {
     throw 'DataRoot must point to your own Giants installation directory.'

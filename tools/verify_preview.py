@@ -16,12 +16,17 @@ def verify(archive_path):
     expected = f'{digest}  {archive_path.name}\n'
     if archive_path.with_suffix(archive_path.suffix+'.sha256').read_text(encoding='utf8') != expected:
         raise ValueError('Archive checksum mismatch')
-    required = {'giants-app.exe', 'Play.ps1', 'NOTICE.md', 'QUICK_START.md',
+    required = {'Play.ps1', 'NOTICE.md', 'QUICK_START.md',
                 'RELEASE_NOTES.md', 'THIRD_PARTY_NOTICES.md', 'dependency-inventory.json',
                 'manifest.json', 'SHA256SUMS'}
     with zipfile.ZipFile(archive_path) as archive:
         names = archive.namelist()
         members = set(names)
+        executables = members & {'giants-rs.exe', 'giants-app.exe'}
+        if len(executables) != 1:
+            raise ValueError('Expected exactly one preview executable')
+        executable_name = executables.pop()
+        required.add(executable_name)
         if len(names) != len(members) or not required <= members or members - required - {'LICENSE'}:
             raise ValueError('Unexpected, duplicate or missing archive members')
         contents = {name: archive.read(name) for name in names}
@@ -48,8 +53,8 @@ def verify(archive_path):
     actual = {name: hashlib.sha256(contents[name]).hexdigest() for name in hashed}
     if manifest.get('files') != actual:
         raise ValueError('Manifest file checksum mismatch')
-    if (manifest.get('executable_sha256') != actual['giants-app.exe'] or
-            not contents['giants-app.exe'].startswith(b'MZ')):
+    if (manifest.get('executable_sha256') != actual[executable_name] or
+            not contents[executable_name].startswith(b'MZ')):
         raise ValueError('Executable identity mismatch')
     checksums = ''.join(f'{hashlib.sha256(contents[name]).hexdigest()}  {name}\n'
                         for name in sorted(members - {'SHA256SUMS'}))

@@ -31,7 +31,7 @@ outside the installation. Interactive validation remains pending in this candida
 After building a preview, supply your own installation and a fresh private output:
 
 ```powershell
-python -m tools.runtime_smoke --executable .local/build/giants-app.exe --receipt .local/build/build-receipt.json --data-root 'D:/Games/Giants' --output .local/runtime-smoke-NEW
+python -m tools.runtime_smoke --executable .local/build/giants-rs.exe --receipt .local/build/build-receipt.json --data-root 'D:/Games/Giants' --output .local/runtime-smoke-NEW
 ```
 
 This launches two offscreen GPU processes without a window or audio device. Each
