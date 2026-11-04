@@ -108,4 +108,22 @@ assessment and receipt-bound checks are in DISTRIBUTION_REVIEW.md. constgebra's
 Apache license alternative and complete conservative runtime notices are included.
 This does not turn the source review into a human audit or legal clearance.
 
-BACKLOG.md remains the detailed task list.
+BACKLOG.md remains the detailed task list. Binary authorization was given separately
+on 4 November 2026, as recorded above.
+
+## Dashboard update — 4 November 2026
+
+The owner explicitly authorized restoring all historical original / Bevy
+comparison screenshots to the public GitHub Pages dashboard. This replaces the
+previous asset-free/gallery exclusion for these selected display copies only.
+It does not authorize exposing private research reports, paths or executables,
+and does not establish third-party redistribution rights.
+
+The gallery contains 302 comparisons and 502 content-addressed, metadata-free
+WebP display copies. Labels, historical revisions and limitations are retained;
+private report links and source paths are omitted. Compression changes pixels,
+so these copies are not a fidelity-validation dataset. See gallery/README.md.
+The roadmap now uses grouped tables, state colors and counts by domain, with
+technical foundations separate from whole-game feature families. The approximate
+99% AI-generated estimate remains unrelated to game completion.
+

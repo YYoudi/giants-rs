@@ -17,6 +17,10 @@ changes and sound. Original installations and research corpora
 are read-only. No original data, screenshots, dumps, decompilations, native byte
 signatures, secrets, personal paths or executables in Git. Private research stays
 in the private archive. Evidence does not establish redistribution rights.
+On 4 November 2026 the owner explicitly authorized restoring all historical
+original / Bevy screenshot comparisons to the public dashboard. This exception
+covers the display copies pinned in docs/gallery/manifest.json, not private
+reports, research inputs or executable distribution.
 
 Use Rust + Bevy and MinGW, with configurable paths and a user-supplied game folder.
 Run the synthetic commands in docs/BUILD.md. Distinguish observed, inferred,

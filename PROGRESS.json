@@ -587,10 +587,10 @@
       "id": "gallery",
       "title": "Approved reference and Bevy comparison gallery",
       "status": "done",
-      "scope": "Private research tooling",
+      "scope": "Historical public gallery",
       "kind": "enabler",
       "group": "Technical foundations",
-      "detail": "Historical comparison work is retained privately; no comparison screenshots are included in this public candidate."
+      "detail": "Owner-authorized original / Bevy comparisons are available in the dashboard; historical captures do not certify the current build or full-game fidelity."
     },
     {
       "id": "mecc-primary",

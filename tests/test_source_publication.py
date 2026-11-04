@@ -1,4 +1,6 @@
 from pathlib import Path
+import hashlib
+import json
 import subprocess
 import tempfile
 import unittest
@@ -47,3 +49,26 @@ class SourcePublicationTests(unittest.TestCase):
             (root/'main.rs').write_text('fn main() {}\n', encoding='utf8')
             self.commit(root)
             self.assertEqual(scan(root)['findings'], [])
+
+    def test_gallery_exception_is_exact_and_does_not_hide_changed_or_aliased_binaries(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.initialize(root)
+            blob = b'RIFF\x00\x00\x00\x00WEBP synthetic display fixture'
+            digest = hashlib.sha256(blob).hexdigest()
+            folder = root/'docs/gallery'
+            (folder/'media').mkdir(parents=True)
+            name = f'media/{digest}.webp'
+            image = folder/name
+            image.write_bytes(blob)
+            (folder/'manifest.json').write_text(json.dumps({'images': {name: digest}}), encoding='utf8')
+            self.commit(root)
+            self.assertEqual(scan(root)['findings'], [])
+            (root/'unapproved.webp').write_bytes(blob)
+            image.write_bytes(blob+b'changed')
+            self.commit(root)
+            findings = scan(root)['findings']
+            self.assertIn('unapproved.webp', [f['path'] for f in findings])
+            flags = {flag for f in findings for flag in f['flags']}
+            self.assertIn('approved_image_hash_or_format_mismatch', flags)
+            self.assertIn('binary_nul', flags)

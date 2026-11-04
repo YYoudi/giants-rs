@@ -3,6 +3,7 @@
 This technical inventory does not establish provenance or legal clearance.
 """
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -16,10 +17,22 @@ PATTERNS = {
     'decompiler_label': re.compile(rb'\b(?:FUN_|DAT_|sub_)[0-9a-fA-F]{6,}\b'),
 }
 RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
-              '.jpeg', '.wav', '.ogg', '.mp3', '.ttf', '.otf', '.flk', '.gti', '.gb2'}
+              '.jpeg', '.webp', '.wav', '.ogg', '.mp3', '.ttf', '.otf', '.flk', '.gti', '.gb2'}
+
+
+def approved_images(root):
+    """Exact display copies authorized by the owner; no general binary exception."""
+    manifest = Path(root)/'docs/gallery/manifest.json'
+    if not manifest.exists():
+        return {}
+    images = json.loads(manifest.read_text(encoding='utf8')).get('images', {})
+    return {'docs/gallery/'+name: digest for name, digest in images.items()
+            if re.fullmatch(r'media/[a-f0-9]{64}\.webp', name)
+            and Path(name).stem == digest}
 
 
 def scan(root):
+    approved = approved_images(root)
     def git(*args):
         return subprocess.check_output(['git', '-C', str(root), *args])
 
@@ -33,21 +46,27 @@ def scan(root):
             fields, raw_path = row.split(b'\t', 1)
             mode, kind, identity = fields.decode().split()
             path = raw_path.decode('utf8')
-            if Path(path).suffix.lower() in RESTRICTED or mode in ('120000', '160000'):
+            if (Path(path).suffix.lower() in RESTRICTED and path not in approved) or mode in ('120000', '160000'):
                 restricted.add(path)
             if kind == 'blob':
-                blobs.setdefault(identity, path)
+                blobs.setdefault(identity, set()).add(path)
     findings = [dict(path=p, flags=['restricted_path_or_link']) for p in sorted(restricted)]
     with subprocess.Popen(['git', '-C', str(root), 'cat-file', '--batch'],
                           stdin=subprocess.PIPE, stdout=subprocess.PIPE) as reader:
-        for identity, path in blobs.items():
+        for identity, paths in blobs.items():
+            path = sorted(paths)[0]
             reader.stdin.write((identity+'\n').encode())
             reader.stdin.flush()
             header = reader.stdout.readline().decode().split()
             data = reader.stdout.read(int(header[2]))
             reader.stdout.read(1)
             flags = [name for name, pattern in PATTERNS.items() if pattern.search(data)]
-            if b'\0' in data:
+            approved_image = (all(p in approved for p in paths)
+                              and all(hashlib.sha256(data).hexdigest() == approved[p] for p in paths)
+                              and data.startswith(b'RIFF') and data[8:12] == b'WEBP')
+            if any(p in approved for p in paths) and not approved_image:
+                flags.append('approved_image_hash_or_format_mismatch')
+            if b'\0' in data and not approved_image:
                 flags.append('binary_nul')
             if flags:
                 findings.append(dict(path=path, blob=identity, flags=flags))

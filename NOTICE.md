@@ -5,7 +5,11 @@ for independent project material that its contributors can license. This does no
 assert that every AI-generated element attracts copyright, establish authorship,
 or grant rights held by others. Third-party dependency/toolchain notices retain
 their own scope. Original game software, data, artwork, audio and trademarks are
-not covered by the project license and are not distributed here.
+not covered by the project license. The owner-authorized dashboard gallery
+contains historical original / Bevy screenshot display copies; game artwork and
+trademarks visible in those captures remain outside MIT. Original game files,
+extracted assets and executables are not bundled. Screenshot publication does
+not establish third-party redistribution rights.
 
 The owner estimates approximately 99% AI-generated project content, without
 comprehensive human review. This is an estimate, not a measured authorship or

@@ -34,7 +34,8 @@ python -m tools.export_site .local/site-review
 The first command regenerates the README checklist and SVG; CI rejects stale
 generated output. The second generates the English dashboard with search and
 status filters, counts by feature family, and separate technical foundations.
-It exports only an explicit field list, without screenshots, private evidence,
+It exports an explicit field list and the owner-authorized comparison display
+copies pinned in docs/gallery/manifest.json, without private evidence,
 original data or research annexes. Automated tests cover field exclusion,
 rejection of private paths and HTML escaping. These are technical checks, not
 rights clearance. The owner's approximate 99% AI-generated estimate remains visible.

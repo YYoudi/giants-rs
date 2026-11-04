@@ -32,7 +32,11 @@ automatically wired into the main menu-to-mission build.
   provenance checks. Escalate concrete protected-material concerns before exposure.
 - Source cutover is complete after technical review and clean-clone checks; the
   owner-authorized repository is public, with Pages enabled for this project.
-  Continue checking exact-revision hosted results and keep binary distribution gated.
+  Continue checking exact-revision hosted results and validate each public binary package.
+- Dashboard: restore all 302 owner-authorized historical comparisons with public
+  labels and no private report paths; use grouped roadmap tables and explicit
+  state colors/counts. Keep historical captures separate from current-build proof.
+  Future captures require the same metadata/provenance filtering and hash inventory.
 
 ## All other game systems
 
