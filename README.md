@@ -10,7 +10,8 @@ gameplay fidelity, security, authorship or clearance of third-party rights.
 
 Unofficial project, unaffiliated with the original developers or rights holders.
 Supply your own legally obtained PC game installation. No original game assets,
-binaries, screenshots or extracted data are distributed here.
+binaries or extracted game data are bundled. The historical screenshot gallery
+described below is published under the owner's explicit authorization.
 
 [Quick start](docs/QUICK_START.md) · [Build](docs/BUILD.md) · [Release policy](docs/RELEASES.md)
 
