@@ -137,3 +137,22 @@ Rustfmt and Clippy passed. No ignored data/audio tests were enabled. The runtime
 Rust source and dependency lockfile are unchanged. The stability roadmap remains
 partial. Campaign mission loading, manual controls, total memory reclamation and
 visual fidelity remain unverified; binary distribution blockers remain open.
+
+### Validated continuation build
+
+The new local build receipt identifies
+`63ef034d3d326e1122d3c13f09ecc71f4e53d313`. Its executable hash is unchanged
+from the transition executable above, as no runtime Rust or lockfile changed.
+Both silent development lifecycle modes passed again with this new receipt.
+All 15 synthetic Python tests passed; the generated roadmap/site and JavaScript
+syntax checks passed. The reachable-history scan examined 12 commits / 577 blobs
+and reported zero selected-pattern findings (not provenance or rights clearance).
+
+The refreshed private draft ZIP contains 10 allowlisted files, preserves the
+license-scope and dependency notices and passes independent checksum verification.
+Its SHA-256 is
+`736c7062bc0c3d97842fbc073e2ebab7f60a7d2b0fc0029d56909c9af8edc35d`.
+The manifest remains uncleared with human provenance/release review, compiler
+runtime applicability and constgebra 0.1.4 notices unresolved. No binary was
+uploaded or published. This continuation is retained on a local `codex/` branch;
+the hosted main CI result above certifies `b98acbe`, not this later tooling change.
