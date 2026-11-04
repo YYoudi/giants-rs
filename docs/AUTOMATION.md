@@ -3,7 +3,8 @@
 The source repository is public following the owner's explicit instruction and
 the AI-assisted technical review in PUBLICATION_REVIEW.md. GitHub Pages is configured
 for Actions, `PUBLIC_SITE_APPROVED=true`, with the `github-pages` environment limited
-to main. The site contains the roadmap only; Windows downloads use GitHub Releases.
+to main. The site contains the roadmap and owner-authorized historical comparison
+gallery; Windows downloads use GitHub Releases.
 
 Before cutover, both hosted workflows succeeded for
 `0d43e84c1dd61b344174786ac44f3bd5f286f7f5`:
