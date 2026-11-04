@@ -1,0 +1,30 @@
+# Public comparison gallery
+
+On 4 November 2026 the owner explicitly requested publication of **all** historical
+original / Bevy comparisons from the previous private dashboard. This supersedes
+the earlier asset-free dashboard restriction only for these display captures.
+The private repository, reports, inputs, executables and research paths remain
+excluded. The archive was read without modifying it.
+
+`manifest.json` contains the 302 comparison records, their labels, limitations and
+historical source revisions. Its `images` map pins the SHA-256 of each of the 502
+distinct WebP display copies (508 source PNG files deduplicate to 502 copies).
+Only explicitly listed files are exported. Source paths and report links are not
+retained. Image metadata was stripped; dimensions were preserved. WebP quality 90
+reduces approximately 692 MB of source PNGs to 89 MB. These lossy display copies
+must not be used for pixel-validation claims. Original PNGs remain private.
+
+The gallery is historical evidence. It does not establish that a feature is in
+the current public build, that complete missions work or that fidelity is verified.
+Original/game-data-derived artwork and trademarks remain outside the project MIT
+license. Owner publication authorization is not third-party rights clearance.
+Executable publication and dependency notice review remain separately gated.
+
+The source-history auditor recognizes only exact hashes at the declared media
+paths, with a WebP format check. Undeclared images, changed payloads, historical
+aliases, other binaries and private path/credential findings remain reportable.
+
+The site exporter validates all image hashes before creating output and emits
+only public comparison fields. Run `python -m tools.export_site NEW_OUTPUT_DIR`
+and `node --check NEW_OUTPUT_DIR/app.js`. No game installation is needed to build
+the dashboard. Pages continues to deploy main through the existing workflow.

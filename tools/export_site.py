@@ -1,26 +1,69 @@
-"""Generate the asset-free public roadmap dashboard from an explicit field list."""
+"""Export the public roadmap and owner-authorized comparison gallery."""
 import argparse
+import hashlib
 import html
 import json
 from pathlib import Path
 import re
+import shutil
 
 ROOT = Path(__file__).resolve().parents[1]
+TEMPLATES = Path(__file__).resolve().parent / 'site'
 FIELDS = ('id', 'kind', 'group', 'title', 'status', 'scope', 'detail')
+LABELS = {'done': 'Complete in stated scope', 'partial': 'Partial', 'todo': 'Not started'}
+PRIVATE = re.compile(r'[A-Za-z]:[\\/]|(?:evidence|\.local)[\\/]|Users[\\/]', re.I)
 
 
 def project(source):
     rows = []
     for original in source['readme_roadmap']:
         row = {key: str(original[key]) for key in FIELDS if key in original}
-        if row['status'] not in ('done', 'partial', 'todo') or row['kind'] not in ('feature', 'enabler'):
+        if row['status'] not in LABELS or row['kind'] not in ('feature', 'enabler'):
             raise ValueError('Unknown roadmap state')
-        for value in row.values():
-            if re.search(r'[A-Za-z]:[\\/]|(?:evidence|\.local)[\\/]|Users[\\/]', value, re.I):
-                raise ValueError('Private path in public roadmap field')
+        if any(PRIVATE.search(value) for value in row.values()):
+            raise ValueError('Private path in public roadmap field')
         rows.append(row)
-    return {'project': 'giants-rs', 'overall_fidelity_verified': source.get('overall_fidelity_verified') is True,
-            'roadmap': rows}
+    return {'project': 'giants-rs', 'overall_fidelity_verified': source.get('overall_fidelity_verified') is True, 'roadmap': rows}
+
+
+def count(rows):
+    return {s: sum(r['status'] == s for r in rows) for s in LABELS}
+
+
+def table(rows, caption):
+    esc = html.escape
+    body = []
+    for group in dict.fromkeys(r['group'] for r in rows):
+        body.append(f'<tbody class="roadmap-group"><tr class="group-heading"><th colspan="3" scope="colgroup">{esc(group)}</th></tr>')
+        for row in (r for r in rows if r['group'] == group):
+            body.append(f'<tr class="entry" data-status="{row["status"]}"><th scope="row">{esc(row["title"])}'
+                        f'<span class="scope">{esc(row["scope"])}</span></th><td><span class="badge {row["status"]}">'
+                        f'{LABELS[row["status"]]}</span></td><td>{esc(row.get("detail", "—"))}</td></tr>')
+        body.append('</tbody>')
+    return f'<div class="table-scroll" role="region" aria-label="{caption}" tabindex="0"><table class="roadmap"><caption>{caption}</caption><thead><tr><th scope="col">Feature / scope</th><th scope="col">Status</th><th scope="col">Remaining scope / evidence limits</th></tr></thead>{"".join(body)}</table></div>'
+
+
+def gallery_data(root):
+    path = root/'docs/gallery/manifest.json'
+    if not path.exists():
+        return {'comparisons': [], 'images': {}}
+    data = json.loads(path.read_text(encoding='utf8'))
+    fields = {'title', 'level', 'event', 'commit', 'left', 'right', 'left_label', 'right_label', 'verification', 'alignment'}
+    for row in data['comparisons']:
+        if set(row) - fields:
+            raise ValueError('Unexpected gallery field')
+        if any(not isinstance(v, str) or PRIVATE.search(v) for v in row.values()):
+            raise ValueError('Private path in gallery')
+        for side in ('left', 'right'):
+            name = row[side]
+            if not re.fullmatch(r'media/[a-f0-9]{64}\.webp', name) or name not in data['images']:
+                raise ValueError('Unapproved gallery image')
+    for name, digest in data['images'].items():
+        if not re.fullmatch(r'media/[a-f0-9]{64}\.webp', name):
+            raise ValueError('Invalid image path')
+        if hashlib.sha256((path.parent/name).read_bytes()).hexdigest() != digest or Path(name).stem != digest:
+            raise ValueError('Gallery image hash mismatch')
+    return data
 
 
 def export(output, root=ROOT):
@@ -28,70 +71,32 @@ def export(output, root=ROOT):
     if output.exists():
         raise ValueError('Refusing to overwrite site output')
     data = project(json.loads((root/'PROGRESS.json').read_text(encoding='utf8')))
-    esc = html.escape
+    gallery = gallery_data(root)
     features = [r for r in data['roadmap'] if r['kind'] == 'feature']
-    counts = {s: sum(r['status'] == s for r in features) for s in ('done', 'partial', 'todo')}
-    sections = []
-    for group in dict.fromkeys(r['group'] for r in data['roadmap']):
-        cards = []
-        for row in (r for r in data['roadmap'] if r['group'] == group):
-            cards.append(f'<article data-status="{row["status"]}"><h3>{esc(row["title"])}</h3>'
-                         f'<p class="tag">{esc(row["status"])} · {esc(row["scope"])}</p>'
-                         f'<p>{esc(row.get("detail", ""))}</p></article>')
-        sections.append(f'<section><h2>{esc(group)}</h2><div class="cards">'+''.join(cards)+'</div></section>')
-    document = '''<!doctype html><html lang="en"><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>giants-rs · Whole-game roadmap</title><style>
-:root{color-scheme:dark;font:16px/1.6 system-ui;background:#111a27;color:#edf3ff}
-body{max-width:1120px;margin:auto;padding:32px}h1{font-size:2.6rem;line-height:1.15}
-a{color:#9ccfff}header,.notice{background:#1c2b40;padding:24px;border-radius:14px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
-article{background:#1b283a;border:1px solid #3b516c;border-radius:12px;padding:18px}
-h3{margin:0}.tag{color:#b7d6ff}label{display:inline-block;margin:8px 20px 8px 0}
-input[type=search]{padding:12px;width:min(440px,90%);font:inherit}section{margin-top:32px}
-[hidden]{display:none!important}footer{margin-top:40px;color:#b5c0d3}
-</style><header><h1>giants-rs</h1><p>Independent Rust + Bevy reconstruction of Giants: Citizen Kabuto.
-The goal is the complete game. The Windows menu-first preview is incomplete.</p>
-<p><a href="https://github.com/YYoudi/giants-rs">Source and README</a> ·
-<a href="https://github.com/YYoudi/giants-rs/actions">Build checks</a> ·
-<a href="https://github.com/YYoudi/giants-rs/releases">Reviewed releases</a></p></header>
-<p class="notice">The owner estimates approximately <strong>99% AI-generated content</strong>, without
-comprehensive human review. This is neither a measured authorship statistic nor a completion percentage.
-This project does not claim a separated-team clean room. Original game data must be supplied separately.</p>
-<h2>Whole-game feature families</h2>'''
-    document += f'<p>{counts["done"]} complete · {counts["partial"]} partial · {counts["todo"]} not started</p>'
-    document += '''<p>CPU acquisition, runtime integration and verified fidelity are separate.
-Technical foundations appear separately below. No global completion percentage is claimed.
-No complete scene or campaign is certified by this dashboard.</p>
-<label>Search <input id="search" type="search" placeholder="Feature or system"></label>
-<label>Status <select id="status"><option value="">All</option><option>partial</option><option>todo</option><option>done</option></select></label>
-<p id="results" aria-live="polite"></p>'''+''.join(sections)
-    document += '''<footer>Generated from PROGRESS.json in the working repository.
-Only allowlisted roadmap fields are exported. No private evidence, original assets or screenshots are included.
-Build checks do not certify playable missions, fidelity or redistribution rights.</footer>
-<script src="app.js"></script></html>'''
+    foundations = [r for r in data['roadmap'] if r['kind'] == 'enabler']
+    counts = count(features)
+    summary = []
+    for group in dict.fromkeys(r['group'] for r in features):
+        c = count([r for r in features if r['group'] == group])
+        segments = ''.join(f'<span class="{s}" style="flex:{c[s]}"></span>' for s in LABELS if c[s])
+        summary.append(f'<tr><th scope="row">{html.escape(group)}</th><td><div class="status-bar" role="img" aria-label="{c["done"]} complete, {c["partial"]} partial, {c["todo"]} not started">{segments}</div></td>'
+                       f'<td class="number done-text">{c["done"]}</td><td class="number partial-text">{c["partial"]}</td><td class="number todo-text">{c["todo"]}</td></tr>')
+    replacements = {'SUMMARY': ''.join(summary), 'FEATURES': table(features, 'Whole-game feature roadmap'),
+                    'FOUNDATIONS': table(foundations, 'Technical foundations — separate from game completion'),
+                    'DONE': str(counts['done']), 'PARTIAL': str(counts['partial']), 'TODO': str(counts['todo']), 'TOTAL': str(len(features))}
+    document = (TEMPLATES/'index.html').read_text(encoding='utf8')
+    for key, value in replacements.items():
+        document = document.replace('{{'+key+'}}', value)
     output.mkdir(parents=True)
     (output/'index.html').write_text(document, encoding='utf8')
+    for name in ('app.js', 'style.css'):
+        shutil.copyfile(TEMPLATES/name, output/name)
     (output/'status.json').write_text(json.dumps(data, indent=2)+'\n', encoding='utf8')
+    (output/'gallery.json').write_text(json.dumps({'comparisons': gallery['comparisons']}, indent=2)+'\n', encoding='utf8')
+    for name in gallery['images']:
+        (output/name).parent.mkdir(exist_ok=True)
+        shutil.copyfile(root/'docs/gallery'/name, output/name)
     (output/'.nojekyll').touch()
-    (output/'app.js').write_text('''const search = document.querySelector('#search');
-const status = document.querySelector('#status');
-function filter() {
-  let count = 0;
-  for (const card of document.querySelectorAll('article')) {
-    card.hidden = !card.textContent.toLowerCase().includes(search.value.toLowerCase()) ||
-      (status.value !== '' && card.dataset.status !== status.value);
-    if (!card.hidden) count++;
-  }
-  for (const section of document.querySelectorAll('section')) {
-    section.hidden = !section.querySelector('article:not([hidden])');
-  }
-  document.querySelector('#results').textContent = `${count} roadmap entries shown`;
-}
-search.addEventListener('input', filter);
-status.addEventListener('change', filter);
-filter();
-''', encoding='utf8')
     return data
 
 

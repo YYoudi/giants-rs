@@ -16,6 +16,9 @@ binaries, screenshots or extracted data are distributed here.
 
 The [roadmap dashboard](https://yyoudi.github.io/giants-rs/) is generated from this
 repository's `PROGRESS.json` and updates through GitHub Pages on main-branch pushes.
+It includes searchable status tables and 302 owner-authorized historical screenshot
+comparisons. Gallery captures are labeled development evidence, not certification
+of the current public build; game artwork remains outside the project MIT license.
 [Automatic Windows build checks](https://github.com/YYoudi/giants-rs/actions) are
 active. See [automation and activation](docs/AUTOMATION.md)
 and the [publication review status](docs/PUBLICATION_REVIEW.md).
@@ -129,6 +132,6 @@ mean a complete playable feature. No global completion percentage is claimed.
 - [x] **Controlled normal Mecc cycle, orientation and complete payload** — done; CPU only. 
 - [x] **Controlled herd and Vimp kernels** — done; CPU only. 
 - [x] **Controlled actor callback policy and acquired owned adapters** — done; CPU only. 
-- [x] **Approved reference and Bevy comparison gallery** — done; Private research tooling. Historical comparison work is retained privately; no comparison screenshots are included in this public candidate.
+- [x] **Approved reference and Bevy comparison gallery** — done; Historical public gallery. Owner-authorized original / Bevy comparisons are available in the dashboard; historical captures do not certify the current build or full-game fidelity.
 - [x] **Controlled offline normal Mecc header and primary contract** — done; CPU only. 
 <!-- progress:end -->

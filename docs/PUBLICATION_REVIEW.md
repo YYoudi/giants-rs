@@ -108,3 +108,19 @@ repository's source. The current packager deliberately produces uncleared drafts
 
 BACKLOG.md remains the detailed task list. No binary release or distribution
 approval follows from source publication.
+
+## Dashboard update — 4 November 2026
+
+The owner explicitly authorized restoring all historical original / Bevy
+comparison screenshots to the public GitHub Pages dashboard. This replaces the
+previous asset-free/gallery exclusion for these selected display copies only.
+It does not authorize exposing private research reports, paths or executables,
+and does not establish third-party redistribution rights.
+
+The gallery contains 302 comparisons and 502 content-addressed, metadata-free
+WebP display copies. Labels, historical revisions and limitations are retained;
+private report links and source paths are omitted. Compression changes pixels,
+so these copies are not a fidelity-validation dataset. See gallery/README.md.
+The roadmap now uses grouped tables, state colors and counts by domain, with
+technical foundations separate from whole-game feature families. The approximate
+99% AI-generated estimate remains unrelated to game completion.
