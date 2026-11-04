@@ -187,3 +187,43 @@ The exact-revision dashboard workflow succeeded. The newly triggered Windows
 workflow was still running at publication; this preview relies on the recorded
 local checks, not a claim that the later hosted build has finished. Linux and
 macOS packages remain in BACKLOG.md for future platform work.
+
+## Drop-in desktop preview — 4 November 2026
+
+The owner requested a distinct giants-rs.exe that can be placed beside the
+original game executable and started without a command line. The desktop entry
+now checks adjacent game data (including an executable in Bin), falls back to a
+native installation picker and stores logs/configuration outside the installation.
+The separate Preview All profile unlocks the installed mission catalog, retains
+existing profiles and does not import or overwrite original saves. Preview tools
+offers clickable mission browsing, the development Mecc arena and folder changes.
+The initial window is 1280x720 and resizable; the release uses the Windows GUI
+subsystem instead of opening a console.
+
+[preview-2026.11.04.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.04.2)
+is public, tagged at `2d9529ddbf866584b5535304598c40c74c9569a1`. The previous
+preview remains unchanged. The new archive contains 10 allowlisted members,
+including giants-rs.exe, documentation, notices and checksums; no original assets
+or gallery captures are bundled. Download verified anonymously: HTTP 200,
+47,069,741 bytes, matching published SHA256SUMS.
+
+- Executable SHA-256: `b1fdb81cda210c047e210abd14e46885143d8a3a6ef6ec6008139b45da00cdda`.
+- ZIP SHA-256: `ed0e99ed691b4fcf3821b8244d33063e51d316538914f851a4a45ddcc6f80baa`.
+- Synthetic checks: 687 Rust tests passed / 14 ignored; 18 Python tests passed,
+  also from a fresh public clone; Rustfmt, Clippy and optimized GNU build passed.
+- Interactive functional checks observed adjacent no-argument startup, default
+  preview progress (56 entries for the supplied installation), tools opening,
+  all-world browsing, arena launch/Escape return and native picker cancellation.
+  A private junction-based test layout preserved the original installation.
+- Both silent three-launch lifecycle modes passed from the final extracted ZIP
+  outside the source folder. The older preview's ZIP still passes the verifier.
+- The full-history selected-pattern scan covered 24 commits / 1,154 blobs with
+  zero findings, including the exact authorized gallery exception. This is not
+  a rights determination. The locked dependency graph and runtime notice set did
+  not change; new folder selection uses Windows system APIs.
+
+The exact-revision dashboard workflow passed. Hosted Windows CI was still running
+when the package was prepared; local checks identify the released executable.
+Game menus and stability remain partial: unlocked selection is not completed
+campaign gameplay, restored original inventory or verified fidelity. Broader
+edition, settings, input and full-session coverage remains in BACKLOG.md.
