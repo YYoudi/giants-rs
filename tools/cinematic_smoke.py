@@ -74,6 +74,9 @@ def validate(log, exit_code, capture, full=False, require_text=False):
         checks['audio_receipts_match_each_entry'] = len(cycle_audio) == cycles * 2 and all(cycle_audio)
         checks['no_unverified_audio_tail'] = 'cinematic_preview_audio_tail=true' not in log
         checks['no_playback_failure'] = 'playback_failed' not in log and ' ERROR ' not in log
+    else:
+        policies = re.findall(r'^mission_opening_audio_policy ticket=(\d+) playback_enabled=false queued_players=0$', log, re.MULTILINE)
+        checks['disabled_audio_queues_no_players'] = policies == mounts and len(policies) == cycles
     if require_text:
         text = re.findall(r'^mission_text_released ticket=(\d+) entities=(\d+) atlas_images=(\d+) remaining_assets=0 ', log, re.MULTILINE)
         checks['rendered_text_atlases_released'] = (
