@@ -36,6 +36,8 @@ pub struct Group {
     /// Optional acquired cold definitions. Process/world reset scheduling is
     /// still part of Pending::AnimationCache, not acknowledged by this value.
     pub cold_animation_cache: Option<Arc<crate::kabuto_animation_cache::ColdCache>>,
+    /// Optional CPU image. Material upload/routing remains pending.
+    pub procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
     pub pending: [Pending; 4],
 }
 impl std::fmt::Debug for Group {
@@ -55,7 +57,8 @@ pub struct Factory {
     auxiliary: Auxiliaries,
     globals: Arc<GlobalData>,
     bounds: Resolved,
-    cold_animation_cache: Option<Arc<crate::kabuto_animation_cache::ColdCache>>,
+    animation_cache: Option<crate::kabuto_animation_cache::Lifecycle>,
+    procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
     pub fn load(
@@ -76,7 +79,8 @@ impl Factory {
                 .map_err(|e| e.to_string())?,
             resources,
             globals,
-            cold_animation_cache: None,
+            animation_cache: None,
+            procedural_texture: None,
         })
     }
     /// Prepare cold data from an explicit external provider. Failure leaves
@@ -85,9 +89,34 @@ impl Factory {
         &mut self,
         definitions: &crate::kabuto_animation_cache::Definitions,
     ) -> Result<(), String> {
-        let cache = definitions.prepare(self.resources.specification.clone())?;
-        self.cold_animation_cache = Some(Arc::new(cache));
+        let mut cache = crate::kabuto_animation_cache::Lifecycle::new(definitions.clone());
+        cache.initialize(self.resources.specification.clone())?;
+        self.animation_cache = Some(cache);
         Ok(())
+    }
+    /// Explicit acquired reset phase; does not schedule world teardown.
+    pub fn reset_animation_cache(&mut self) -> Result<(), String> {
+        self.animation_cache
+            .as_mut()
+            .ok_or("Kabuto animation provider unavailable")?
+            .reset();
+        Ok(())
+    }
+    pub fn refresh_animation_cache(&mut self) -> Result<(), String> {
+        self.animation_cache
+            .as_mut()
+            .ok_or("Kabuto animation provider unavailable")?
+            .initialize(self.resources.specification.clone())?;
+        Ok(())
+    }
+    /// Normal cold generation profile, with shared caller-owned RNG. Reusing
+    /// the resource consumes no more draws. No GPU-resident bypass is implied.
+    pub fn prepare_procedural_texture(
+        &mut self,
+        random: &mut crate::audio_parameters::Random,
+    ) -> &Arc<crate::kabuto_texture::Texture> {
+        self.procedural_texture
+            .get_or_insert_with(|| Arc::new(crate::kabuto_texture::prepare(random)))
     }
     /// Atomic CPU group publication for the acquired normal cold profile. This
     /// does not perform marker relocation or satisfy the returned pending services.
@@ -98,6 +127,13 @@ impl Factory {
         blending: Blending,
         generation: u32,
     ) -> Result<Id, String> {
+        if self
+            .animation_cache
+            .as_ref()
+            .is_some_and(|c| !c.initialized())
+        {
+            return Err("Kabuto animation reset awaits refresh".into());
+        }
         session.stage_kabuto_group(|s| self.build(s, frame, blending, generation))
     }
     fn build(
@@ -197,7 +233,12 @@ impl Factory {
             geometry,
             radius: prepared.radius,
             physics: prepared.physics,
-            cold_animation_cache: self.cold_animation_cache.clone(),
+            cold_animation_cache: self
+                .animation_cache
+                .as_ref()
+                .and_then(|c| c.cached())
+                .cloned(),
+            procedural_texture: self.procedural_texture.clone(),
             pending: [
                 Pending::ProjectionReset,
                 Pending::AnimationCache,
@@ -348,9 +389,57 @@ mod tests {
         // Cold data does not acknowledge process/world reset scheduling.
         assert!(group.pending.contains(&Pending::AnimationCache));
         let weak = Arc::downgrade(cache);
+        factory.refresh_animation_cache().unwrap();
+        assert!(Arc::ptr_eq(
+            factory.animation_cache.as_ref().unwrap().cached().unwrap(),
+            group.cold_animation_cache.as_ref().unwrap()
+        ));
         session.clear();
         assert!(weak.upgrade().is_some()); // The resource factory still owns it.
+        factory.reset_animation_cache().unwrap();
+        let counts = session.counts();
+        assert!(
+            factory
+                .construct(&mut session, frame, Blending::Enabled, 1)
+                .is_err()
+        );
+        assert_eq!(session.counts(), counts);
+        // Reset preserves the prior snapshot until a successful refresh.
+        assert!(weak.upgrade().is_some());
+        factory.refresh_animation_cache().unwrap();
+        assert!(weak.upgrade().is_none());
+        let mut random = crate::audio_parameters::Random(37);
+        let mut expected = random;
+        for _ in 0..crate::kabuto_texture::WIDTH {
+            expected.next_15();
+        }
+        let texture = Arc::downgrade(factory.prepare_procedural_texture(&mut random));
+        assert_eq!(random.0, expected.0);
+        assert!(Arc::ptr_eq(
+            &texture.upgrade().unwrap(),
+            factory.prepare_procedural_texture(&mut random)
+        ));
+        assert_eq!(random.0, expected.0);
+        let owner = factory
+            .construct(&mut session, frame, Blending::Enabled, 1)
+            .unwrap();
+        let weak = Arc::downgrade(
+            session
+                .kabuto_group(owner)
+                .unwrap()
+                .cold_animation_cache
+                .as_ref()
+                .unwrap(),
+        );
+        let group = session.kabuto_group(owner).unwrap();
+        assert!(Arc::ptr_eq(
+            group.procedural_texture.as_ref().unwrap(),
+            &texture.upgrade().unwrap()
+        ));
+        assert!(group.pending.contains(&Pending::ProceduralMaterial));
+        session.clear();
         drop(factory);
         assert!(weak.upgrade().is_none());
+        assert!(texture.upgrade().is_none());
     }
 }

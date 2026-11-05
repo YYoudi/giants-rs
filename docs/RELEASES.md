@@ -21,12 +21,81 @@ failure. Earlier generic supplied-header controls did not validate the Session
 selector-rate adapter now exercised by stationary-turn controls.
 
 Camera production/eligibility, subjective resource presence and partial-world
-startup/population/order remain supplied; the positional sound bank is explicitly empty. Actual main-driver
-camera timing, posed-vertex/subjective drawing, target-context coverage and audio
+startup/population/order remain supplied; the positional sound bank is explicitly
+empty. Actual main-driver camera timing, posed-vertex/subjective drawing, target-context coverage and audio
 remain prerequisites. The main driver's `fire: None` and existing preview gates
 remain; these CPU controls do not certify live mission firing, complete world
 scheduling or visual/audible fidelity. No new playable download follows from this
 CPU milestone; prior package receipts retain their exact source identities.
+
+## Delphi owned physical/secondary/ANM composition - 5 November 2026
+
+The dry sword movement phase now consumes the acquired selector after physical
+history and before zero-time ANM, including jump latching and shared random idle
+variants. Six native/Rust 256-step cases match 12,243,456 normalized words over
+22 actors, references, owner payload and ordered lists, plus RNG endpoints.
+Installation clip definitions are supplied and resource-checked, not bundled.
+The full primary/camera/target producers, metadata-loader integration, auxiliary
+callbacks, water/turbo, effects and combat still gate gameplay admission.
+This CPU milestone adds no playable Delphi download or visual-fidelity claim.
+
+Combined source `b53e7b28d7705fefa8311848e67fae66691dca95` retains the latest
+Mecc subjective and Kabuto lifecycle work. It passes 736 Rust tests (22 ignored),
+36 Python tests, Rustfmt, Clippy, source-data ownership/refusal checks and the
+six repeated comparisons with stable source/input hashes. Source-history review
+has zero findings across 167 commits and 1,809 unique blobs.
+
+Its exact GNU build's private ten-member draft verifies notices, receipt/review
+and checksums without technical blockers. Executable SHA256:
+`446aa2bb7a6cfd70fb8b9f9a3038f0ed82f818255147eba8b6ef7ec45fdb5c56`;
+private draft ZIP SHA256:
+`9139daab22ad347686660f4d26db4821df39fada88020d4224045f50c2b9b7d4`.
+
+That exact executable passes both silent common-runtime lifecycle endpoints and
+three selected-opening cancellation cycles without a window or audio device.
+These checks do not execute Delphi controls, active effects, complete playback
+or visual-fidelity verification.
+
+The later Kabuto-texture merge at `4503331` retains unchanged Delphi/shared
+ANM/effect-initialization/RNG source and passes 737 Rust tests (22 ignored),
+36 Python tests, Rustfmt and Clippy. The earlier executable/package receipt
+remains bound to its exact source.
+
+## Kabuto generated procedural CPU texture - 5 November 2026
+
+The normal cold constructor's generated image now matches 64 native seed
+controls: 131,072 source pixel words and all final shared RNG states. The owned
+Factory/group shares this CPU image, consumes no further draws on warm reuse,
+and releases it with its owners. Native material residency and geometry-list
+observations remain separate from an owned backend. GPU interpretation/upload,
+world material lifetime, geometry registration and the other initializer gates
+remain pending. This CPU milestone adds no playable capability or replacement
+download/receipt and does not establish rendering or gameplay fidelity.
+
+Validation passes 732 synthetic Rust tests (22 ignored), 36 Python tests,
+Rustfmt, Clippy and site/JavaScript checks. The three silent Kabuto source-data
+controls pass, including image/RNG sharing and release. The complete sixteen-case
+group field/buffer/list comparison still matches 53,728 words, separately from
+the generated-image comparison. Mecc and Delphi source is preserved.
+
+## Kabuto owned animation-cache reset/rebind - 5 November 2026
+
+The acquired cache lifecycle now retains cumulative bounds and prior node-source
+ownership across reset/rebind. Six native CPU phases match 372 normalized cache
+records, including deliberately varied timelines and an absent animation. Actual
+native Kabuto hook registration, deduplication, dispatch/removal and reuse are
+observed. Owned refresh failures preserve prior records; dirty-provider group
+construction refuses atomically. These are resource/lifecycle controls, not full
+world teardown, live input, movement, growth or fidelity. World dispatch scheduling
+and the remaining initializer providers still gate admission. This CPU milestone
+does not issue a new playable download or replace prior exact-source receipts.
+
+Combined source `3b0a090` preserves the newer subjective Mecc composition and
+Delphi acquisition records. It passes 731 synthetic Rust tests (22 ignored),
+36 Python tests, Rustfmt, Clippy and site/JavaScript checks. All three selected
+silent Kabuto source-data controls, the six-phase cache comparison and the
+sixteen-context group comparison pass after the merge. Source history review
+reports no findings across 161 commits and 1,779 blobs; this is a technical scan.
 
 ## Persistent subjective Mecc composition - 5 November 2026
 
