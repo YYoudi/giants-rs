@@ -248,6 +248,11 @@ including disabled-audio queue and ownership cleanup checks. Full natural-ending
 transport, audible behavior and subjective firing integration are not added by
 these regressions.
 
+The later merge `0507f933844ffb6187e29c82059e55d49cda885b` preserves the
+concurrent Delphi jump and Kabuto physical-request services. Its full isolated
+workspace passes 728 Rust tests (18 ignored), formatting and Clippy. The draft
+above remains bound to `f0e2961`; it is not re-labelled as that later executable.
+
 ## Subjective firing dispatch contract - 5 November 2026
 
 The optional primary now requires actual camera-owner/active-display status
