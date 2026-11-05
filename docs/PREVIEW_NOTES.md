@@ -96,3 +96,9 @@ aim point and terrain-reticle flag. Controlled CPU comparison and failure/lifecy
 checks are recorded in OWNED_TARGETING.md. This API is not yet called at the live
 mission primary/fire boundary and does not add an accessible weapon or reticle
 to this preview.
+
+Source context work now connects class initialization/copies, Mecc child
+inheritance and acquired Ripper/projectile context publications to the owned
+target-header provider. Its controlled CPU checks are recorded in
+OWNED_TARGETING.md. Complete mission mutations, the class805 special header and
+live primary/camera/fire scheduling remain pending.

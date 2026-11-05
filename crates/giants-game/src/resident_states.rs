@@ -343,6 +343,7 @@ pub struct Resident {
     ordinary_motion: Option<crate::resident_motion::Owned>,
     ripper_primary:
         Option<crate::ripper_primary_turn::Machine<Id, crate::attached_effect_context::Id>>,
+    ripper_primary_running: bool,
     controlled_motion: Option<crate::controlled_mecc::Owned>,
     finalization: Option<crate::resident_finalization::Owned>,
     world_tick: Option<crate::actor_world_tick::Tick>,
@@ -543,6 +544,7 @@ impl Session {
                 environment: None,
                 ordinary_motion: None,
                 ripper_primary: None,
+                ripper_primary_running: false,
                 controlled_motion: None,
                 finalization: None,
                 world_tick: None,
@@ -701,6 +703,9 @@ impl Session {
                 return Err("cold player fields require unselected source Mecc constructor".into());
             }
             fields.scale = scale;
+            // The acquired fresh generic-to-player path retains context zero
+            // from the generic shell, rather than the Mecc class template.
+            fields.dispatch_context = 0;
             fields.angles[1] = 0.;
             fields.previous = fields.current;
             fields.current = fields.position;
@@ -719,6 +724,7 @@ impl Session {
         }
         let position = fields.position;
         let angles = fields.angles;
+        let dispatch_context = fields.dispatch_context;
         let mut payload = parent.seed.storage.data().unwrap().to_vec();
         for (index, input) in inputs.iter().enumerate() {
             if input.class != [84, 85, 781][index]
@@ -750,6 +756,7 @@ impl Session {
             staged.bind_actor_fields(id, input.fields)?;
             let child = staged.residents.get_mut(&id.serial).unwrap();
             let fields = child.construction_fields.as_mut().unwrap();
+            fields.dispatch_context = dispatch_context;
             if index < 2 {
                 fields.previous = fields.current;
                 fields.current = position;
@@ -765,7 +772,7 @@ impl Session {
                 parent: owner,
                 reference_word: if index == 1 { 0 } else { -1 },
                 binding_word: 2,
-                context: 0,
+                context: fields.dispatch_context,
             });
             ids.push(id);
         }
@@ -2173,7 +2180,7 @@ impl Session {
         Ok(crate::ripper_primary_turn::State {
             entry: crate::state23_entry::State {
                 class: 73,
-                context: 0,
+                context: f.dispatch_context,
                 mode: 0,
                 action: f.action,
                 flags: f.object_flags,
@@ -2252,6 +2259,7 @@ impl Session {
         let actor = self.residents.get_mut(&id.serial).unwrap();
         let f = actor.construction_fields.as_mut().unwrap();
         f.object_flags = s.entry.flags;
+        f.dispatch_context = s.entry.context;
         f.configuration[11] = s.entry.active_limit.to_bits();
         f.configuration[1] = s.entry.parameter.to_bits();
         actor.state23_combat = Some(combat);
@@ -2456,6 +2464,7 @@ impl Session {
         state.timer = combat.timer;
         state.retaliation = combat.retaliation;
         state.entry.action = fields.action;
+        state.entry.context = fields.dispatch_context;
         state.entry.flags = fields.object_flags;
         state.entry.control = fields.control_flags;
         state.entry.position = fields.position;
@@ -2477,6 +2486,10 @@ impl Session {
             .ripper_primary
             .take()
             .unwrap();
+        self.residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .ripper_primary_running = true;
         let result = (|| {
             machine.refresh_owned_frame(state)?;
             let outcome = callback(self, &mut machine, input, random, services)?;
@@ -2493,6 +2506,7 @@ impl Session {
             let actor = self.residents.get_mut(&id.serial).unwrap();
             let fields = actor.construction_fields.as_mut().unwrap();
             fields.object_flags = state.entry.flags;
+            fields.dispatch_context = state.entry.context;
             fields.control_flags = state.entry.control;
             fields.configuration[1] = state.entry.parameter.to_bits();
             fields.configuration[11] = state.entry.active_limit.to_bits();
@@ -2500,7 +2514,9 @@ impl Session {
             actor.state23_combat = Some(combat);
             Ok(outcome)
         })();
-        self.residents.get_mut(&id.serial).unwrap().ripper_primary = Some(machine);
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        actor.ripper_primary_running = false;
+        actor.ripper_primary = Some(machine);
         result
     }
     /// Consume the commands with the resident's real rates/history once, then
@@ -3509,6 +3525,53 @@ impl Session {
             order,
         })
     }
+    /// Read acquired current context; raw registrations and uncommitted callback
+    /// context changes are refused. No class805 special-header value is inferred.
+    pub fn mecc_target_header(&self, id: Id) -> Result<crate::mecc_target_query::Header, String> {
+        let actor = self
+            .get(id)
+            .ok_or("target header actor absent or foreign")?;
+        if !actor.acquired_construction
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.ripper_primary_running
+        {
+            return Err("target header requires acquired owned construction".into());
+        }
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("target header fields absent")?;
+        let context = fields.dispatch_context;
+        let disagrees = actor.vimp.is_some_and(|v| v.context != context)
+            || actor.vimp_chunk.is_some_and(|v| v.context != context)
+            || actor
+                .mecc_special_child
+                .is_some_and(|v| v.context != context)
+            || actor.wield_binding.is_some_and(|v| v.context != context)
+            || actor
+                .basic_projectile
+                .as_ref()
+                .is_some_and(|v| v.dispatch_context != context)
+            || actor.enemy_projectile.as_ref().is_some_and(|v| {
+                v.phase == crate::enemy_projectile::Phase::Failed
+                    || v.launch
+                        .as_ref()
+                        .is_some_and(|v| v.dispatch_context != context)
+            })
+            || actor
+                .ripper_primary
+                .as_ref()
+                .is_some_and(|v| v.failure().is_some() || v.state().entry.context != context);
+        if disagrees {
+            return Err(
+                "target header context is uncommitted or disagrees with owned producer".into(),
+            );
+        }
+        Ok(crate::mecc_target_query::Header {
+            context,
+            word_e4: None,
+        })
+    }
     pub fn mecc_shot_failure(&self, id: Id) -> Option<&str> {
         self.get(id)?.mecc_shot_failure.as_deref()
     }
@@ -3566,6 +3629,7 @@ impl Session {
             || actor.seed.storage.profile() != Profile::Debug
             || actor.seed.storage.state() != 2
             || !actor.mecc_special.is_some_and(|s| s.player_fields)
+            || fields.dispatch_context != 0
             || actor.attachment.is_some()
             || actor.presentation_parent.is_some()
             || fields.object_flags & 0x8000 != 0
@@ -5805,6 +5869,7 @@ impl Session {
             || !input.seed.diagnostics.is_empty()
             || input.flags.active != input.fields.object_flags
             || input.flags.personality != input.fields.configuration[14]
+            || cold.context != input.fields.dispatch_context
         {
             return Err("Vimp constructor requires actual class8/state21 source resources".into());
         }
@@ -5837,6 +5902,7 @@ impl Session {
             || !input.seed.diagnostics.is_empty()
             || input.flags.active != input.fields.object_flags
             || input.flags.personality != input.fields.configuration[14]
+            || chunk.context != input.fields.dispatch_context
         {
             return Err("chunk constructor requires actual acquired D state80 resources".into());
         }
@@ -5917,6 +5983,7 @@ impl Session {
         fields.position = position;
         fields.angles[0] = yaw;
         fields.object_flags |= 0x20400000;
+        fields.dispatch_context = 0;
         actor.attachment = Some(Attachment {
             parent,
             child_reference: 0,
@@ -6198,6 +6265,7 @@ impl Session {
         let actor = self.residents.get_mut(&id.serial).unwrap();
         let f = actor.construction_fields.as_mut().unwrap();
         f.object_flags = snapshot.entry.flags;
+        f.dispatch_context = snapshot.entry.context;
         f.control_flags = snapshot.entry.control;
         f.configuration[14] = snapshot.steering.personality;
         combat.mode = snapshot.entry.mode;
@@ -6638,6 +6706,7 @@ impl Session {
         let f = source.construction_fields.as_mut().unwrap();
         f.object_flags = snapshot.entry.flags;
         f.control_flags = snapshot.entry.control;
+        f.dispatch_context = snapshot.entry.context;
         // Pose, channels, class parameters and geometry are not overwritten.
         Ok(())
     }
@@ -6760,6 +6829,7 @@ impl Session {
             fields.current = muzzle;
             fields.response_flags |= 0x80000000;
             fields.angles = [heading, 0., 0.];
+            fields.dispatch_context = input.dispatch_context;
             let bytes = actor.seed.storage.data_mut().unwrap();
             for at in [0, 4] {
                 bytes[at..at + 4].copy_from_slice(&calculation.lifetime.to_bits().to_le_bytes());
@@ -9689,6 +9759,7 @@ mod tests {
             .unwrap()
             .construction_fields = Some(crate::actor_fields::Fields {
             class: 73,
+            dispatch_context: 0,
             configuration: [0; 30],
             scale: 1.,
             object_flags: 0,
@@ -9789,6 +9860,7 @@ mod tests {
         }
         let fields = crate::actor_fields::Fields {
             class,
+            dispatch_context: 0,
             configuration,
             scale: 1.,
             object_flags: 0,
@@ -9825,6 +9897,44 @@ mod tests {
     }
     fn animation_actor(session: &mut Session) -> Id {
         fixture_actor(session, 73, 23)
+    }
+    #[test]
+    fn target_headers_require_owned_identity_and_keep_special_header_unknown() {
+        let mut session = Session::new(185);
+        let id = fixture_actor(&mut session, 805, 0);
+        session
+            .residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap()
+            .dispatch_context = u32::MAX;
+        let header = session.mecc_target_header(id).unwrap();
+        assert_eq!(header.context, u32::MAX);
+        assert!(header.word_e4.is_none());
+        session
+            .residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .ripper_primary_running = true;
+        assert!(session.mecc_target_header(id).is_err());
+        session
+            .residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .ripper_primary_running = false;
+        assert!(
+            session
+                .mecc_target_header(Id { ticket: 186, ..id })
+                .is_err()
+        );
+        let raw = session
+            .register(805, &seed(0), &[], DirectFlags::default())
+            .unwrap();
+        assert!(session.mecc_target_header(raw).is_err());
+        session.clear();
+        assert!(session.mecc_target_header(id).is_err());
     }
     #[test]
     fn cold_player_late_child_failure_preserves_pose_channels_and_list_order() {
@@ -9998,6 +10108,7 @@ mod tests {
             let id = sources[index];
             let source = fixtures.get(id).unwrap();
             let mut fields = source.construction_fields.clone().unwrap();
+            fields.dispatch_context = index as u32 + 1;
             if bad {
                 fields.class = 0;
             }
@@ -10013,6 +10124,14 @@ mod tests {
         };
         let mut session = Session::new(159);
         let owner = fixture_actor(&mut session, 2, 2);
+        session
+            .residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap()
+            .dispatch_context = 0x8055_ff42;
         let cold = seed(2);
         let before = session.counts();
         let lists = (0..15).map(|list| session.list(list)).collect::<Vec<_>>();
@@ -10078,6 +10197,8 @@ mod tests {
         );
         for id in initialized.children {
             assert_eq!(session.incoming_actor_references(id).unwrap(), [owner]);
+            assert_eq!(session.mecc_target_header(id).unwrap().context, 0x8055_ff42);
+            assert_eq!(session.mecc_special_child(id).unwrap().context, 0x8055_ff42);
         }
         assert_eq!(
             session
@@ -10270,6 +10391,8 @@ mod tests {
             session.ripper_primary(id).unwrap().state().entry.context,
             100
         );
+        assert!(!session.get(id).unwrap().ripper_primary_running);
+        assert!(session.mecc_target_header(id).is_err());
         assert!(
             session
                 .update_ripper_awakening(
@@ -12146,6 +12269,10 @@ mod tests {
         assert_eq!(launch.rates, launch.previous_rates);
         assert_eq!(launch.source, source);
         assert_eq!(launch.dispatch_context, 0x12345678);
+        assert_eq!(
+            session.mecc_target_header(shot).unwrap().context,
+            0x12345678
+        );
         assert_eq!(
             &session.get(shot).unwrap().seed.storage.data().unwrap()[..8],
             [2_f32.to_le_bytes(), 2_f32.to_le_bytes()].concat()

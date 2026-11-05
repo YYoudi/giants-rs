@@ -1,5 +1,5 @@
-//! Session-backed local targeting and typed publication. Context/header producers
-//! and camera/viewport timing remain required; no default context or center fallback.
+//! Session-backed local targeting and typed publication. Owned context producers
+//! are available; special headers and camera/viewport timing remain incomplete.
 use crate::{
     first_person::Camera,
     mecc_target_query as query,
@@ -10,6 +10,15 @@ use std::collections::BTreeMap;
 
 pub trait Headers {
     fn header(&mut self, session: &Session, root: Id) -> Result<query::Header, String>;
+}
+/// Current context from the acquired owned constructors and callback publications.
+/// The class805 special header remains unavailable; its predicate still refuses
+/// when that value is required. This does not create missing mission actors.
+pub struct OwnedHeaders;
+impl Headers for OwnedHeaders {
+    fn header(&mut self, session: &Session, root: Id) -> Result<query::Header, String> {
+        session.mecc_target_header(root)
+    }
 }
 pub struct Input<'a> {
     pub source: Id,

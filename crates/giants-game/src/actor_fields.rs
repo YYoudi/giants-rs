@@ -13,6 +13,10 @@ pub struct ShadowDescriptor {
 #[derive(Clone, Debug)]
 pub struct Fields {
     pub class: i32,
+    /// Owned header context. Class-group initialization supplies zero; ordered
+    /// class commands can replace it. Constructor and child producers must
+    /// preserve their acquired copy/override semantics.
+    pub dispatch_context: u32,
     /// Thirty source words, with pointer slots19/29 normalized to zero. The
     /// gun list is owned below; string-bearing declarations remain refused.
     pub configuration: [u32; 30],
@@ -39,22 +43,21 @@ impl Fields {
         class: i32,
         spec: &specification::Prepared,
     ) -> Result<Self, String> {
-        Self::load_inner(resources, class, spec, None)
+        Self::load_inner(resources, class, spec)
     }
     pub(crate) fn load_with_context(
         resources: &SceneResources,
         class: i32,
         spec: &specification::Prepared,
     ) -> Result<(Self, u32), String> {
-        let mut context = 0;
-        let fields = Self::load_inner(resources, class, spec, Some(&mut context))?;
+        let fields = Self::load(resources, class, spec)?;
+        let context = fields.dispatch_context;
         Ok((fields, context))
     }
     fn load_inner(
         resources: &SceneResources,
         class: i32,
         spec: &specification::Prepared,
-        mut context: Option<&mut u32>,
     ) -> Result<Self, String> {
         let declaration = resources
             .classes
@@ -75,6 +78,7 @@ impl Fields {
         }
         let mut out = Self {
             class,
+            dispatch_context: 0,
             configuration: crate::class_template::initial_configuration(),
             scale: 1.,
             object_flags: 0,
@@ -186,7 +190,7 @@ impl Fields {
                     out.configuration[21] = ((f64::from(center) * 0.5) as f32).to_bits();
                 }
                 0x29 => out.configuration[24] = word(1)?,
-                0x3b if context.is_some() => **context.as_mut().unwrap() = word(1)?,
+                0x3b => out.dispatch_context = word(1)?,
                 0x25 | 0x26 | 0x31 | 0x36 | 0x69 => {
                     crate::class_template::apply_configuration_extension(
                         &mut out.configuration,
@@ -304,6 +308,7 @@ mod tests {
         configuration[18] = 3;
         Fields {
             class: 2,
+            dispatch_context: 0x81ff_0246,
             configuration,
             scale: 0.6,
             object_flags: 0,
@@ -342,6 +347,8 @@ mod tests {
         assert_eq!(b.shadow.as_deref().unwrap().words[2], 6);
         assert_eq!(source.shadow.as_deref().unwrap().words[0], 123);
         assert_eq!(a.response_flags, 0x80000000);
+        assert_eq!(a.dispatch_context, source.dispatch_context);
+        assert_eq!(b.dispatch_context, source.dispatch_context);
     }
     #[test]
     fn placed_actor_retains_older_history_and_inherits_omitted_angles() {
@@ -358,6 +365,7 @@ mod tests {
         assert_eq!(placed.previous, [9., 8., 7.]);
         assert_eq!(placed.angles, [90., 7., -8.]);
         assert_eq!(placed.scale, 0.6);
+        assert_eq!(placed.dispatch_context, source.dispatch_context);
         assert!(
             source
                 .placed(crate::collider_init::DeclaredPose { class: 11, ..pose })
