@@ -19,7 +19,9 @@ matches probable and one unassigned. No gameplay status changes follow from name
   separate PC/PS2 identities and platform differences.
 - Revisit acquired services incrementally on touch: primary/animation, aim/target,
   collision, physics, wield/projectiles, audio and shared actor services. Preserve
-  old identifiers as aliases. Do not batch-apply naming tables.
+  old identifiers as aliases. Use the central continuation record and the lookup
+  tool's profile/alias fields so resumed work retains its exact evidence identity.
+  Do not batch-apply naming tables.
 - Delphi/Kabuto and cinematic continuations must record the same lookup for their
   next actual functions; resources or an inferred module name prove no controller.
 - Recover ambiguous demangling and any useful `.mdebug` types privately only when
