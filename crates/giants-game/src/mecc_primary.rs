@@ -17,6 +17,8 @@ pub struct FireView {
     pub viewport_origin: [f32; 3],
     pub viewport_forward: [f32; 3],
     pub first_person: bool,
+    /// The actual pre-world status, never inferred from `first_person`.
+    pub display: crate::first_person::Display<crate::resident_states::Id>,
     pub vertex_epoch: u32,
     pub force_vertices: bool,
     pub input_mode: i32,
@@ -47,6 +49,19 @@ impl FireServices<'_, '_, '_> {
     ) -> Result<(), String> {
         if self.view.source != source || self.view.number != number || self.view.vertex_epoch == 0 {
             return Err("primary fire requires the current owned view/frame binding".into());
+        }
+        if self
+            .view
+            .display
+            .camera_owner
+            .is_some_and(|id| id.ticket() != source.ticket())
+        {
+            return Err("primary fire display belongs to another mission".into());
+        }
+        if self.view.display.owns(&source) {
+            // The native primary defers this owner's fire to its subjective
+            // post-world phase. That phase is not bound by this primary API.
+            return Err("primary fire requires the unbound subjective post-world phase".into());
         }
         Ok(())
     }

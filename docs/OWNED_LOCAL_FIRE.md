@@ -4,6 +4,31 @@ Further acquisition and implementation follow [RECONSTRUCTION_METHOD.md](RECONST
 including the mandatory prototype PS2 name lookup. Existing PC evidence and
 aliases retain their scope; a recovered name does not validate fire scheduling.
 
+## Primary versus subjective dispatch
+
+The optional primary API now requires an explicit `first_person::Display` status:
+the actual camera owner and whether the pre-world subjective representation is
+active. This status is independent of `FireView::first_person`. A matching active
+display means the native primary defers firing to its subjective post-world
+phase. That phase is not bound by the current primary API, so its preflight
+refuses this route before physical/ANM, actor-payload, FX or RNG updates. A foreign
+mission display binding is also refused. This is an unsupported-phase guard,
+not a completed subjective scheduler; the application still supplies `fire: None`.
+
+The dispatch predicate matches 512 controlled cases against the full original PC
+helper and camera-owner getter, plus the prototype PS2 comparison body. Cases
+include differing/null camera owners, nonzero active-flag values and camera-mode
+changes. Valid source identities are nonzero; the PS2 comparison supplies the
+getter result and translates two integer return moves within the admitted
+32-bit domain. It excludes the EE entry/exit ABI and complete PS2 execution.
+
+Private native pre/post-world observations and actual primary-API preflight
+checks are recorded in [RELEASES.md](RELEASES.md). The required missing work is
+the owned subjective actor/channel/reference/event path, its camera placement,
+post-world firing/zero-time ANM tail and audio, with native ordering retained.
+The existing presentation-only subjective player is not a substitute for those
+services. A post-primary camera cache cannot supply an unacquired earlier view.
+
 `mecc_fire_primary::advance_local` now runs the actual Session local scan between
 fire-clock publication and the normal pistol firing branch. It uses the same
 source-backed projectile definition as the shot factory. A caller cannot supply

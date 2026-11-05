@@ -1,6 +1,20 @@
 //! Debug subjective-player placement with supplied previous/current cameras.
 //! Camera update, debug editing, actor construction and drawing remain external.
 
+/// Actual pre-world display status, independent of the selected camera mode.
+/// The caller must provide the camera owner and whether the subjective actor
+/// was prepared. This is not an acknowledgement of its post-world services.
+#[derive(Clone, Copy, Debug)]
+pub struct Display<T> {
+    pub camera_owner: Option<T>,
+    pub active: bool,
+}
+impl<T: PartialEq> Display<T> {
+    pub fn owns(&self, source: &T) -> bool {
+        self.active && self.camera_owner.as_ref() == Some(source)
+    }
+}
+
 #[derive(Clone, Copy, Debug)]
 pub struct Camera {
     pub position: [f32; 3],
