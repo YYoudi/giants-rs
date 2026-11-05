@@ -48,6 +48,17 @@ class CinematicInventoryTests(unittest.TestCase):
         row = parse(HEADER+case(extra=extra)+END, result(), [('Synthetic', 'sample')])[0]
         self.assertEqual({f['cause'] for f in row['findings']}, {'effect_partial', 'tracer_review'})
 
+    def test_empty_visual_preview_is_expected_for_a_terminal_only_mission_binding(self):
+        extra = ('cinematic_audit_mission_effect_binding result=bound live_execution_verified=false\n'
+                 'cinematic_effect_inspection_deferred offset=8 reason="empty scene phase or phase budget"\n')
+        row = parse(HEADER+case(extra=extra)+END, result(), [('Synthetic', 'sample')])[0]
+        self.assertEqual(row['terminal_fx_preview_rejections'], 1)
+        self.assertEqual(row['findings'], [])
+        refused = extra.replace('result=bound', 'result=refused')
+        row = parse(HEADER+case(extra=refused)+END, result(), [('Synthetic', 'sample')])[0]
+        self.assertEqual(row['terminal_fx_preview_rejections'], 0)
+        self.assertIn('effect_refused', {f['cause'] for f in row['findings']})
+
     def test_catches_downstream_commands_not_only_the_initial_frame(self):
         log = (HEADER+case()+END).replace('numeric_sound_requests=0 music_commands=0',
                                          'numeric_sound_requests=3 music_commands=2')

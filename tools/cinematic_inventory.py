@@ -22,8 +22,10 @@ CAUSES = {
     'camera_refused': (1, 'Camera binding refused', 'reported_refusal'),
     'body_part_refused': (1, 'Body material or part refused', 'reported_refusal'),
     'rigid_refused': (1, 'Attachment or rigid part refused', 'reported_refusal'),
-    'effect_refused': (1, 'Effect preview program refused', 'reported_refusal'),
+    'effect_refused': (3, 'Effect preview refusal needs request-level review', 'review_needed'),
     'main_fx_binding': (1, 'Mission FX binding refused (preview may still render)', 'reported_refusal'),
+    'fx_actor_prefix': (1, 'Actor mutations before FX attachment are not admitted', 'reported_refusal'),
+    'fx_queue_profile': (1, 'General FX queue exceeds the terminal-only profile', 'reported_refusal'),
     'numeric_audio': (1, 'Numeric Flick sound commands lack a live consumer', 'missing_consumer'),
     'unclassified_flk_review': (3, 'FLK command 28/30 needs consumer review', 'review_needed'),
     'credits': (1, 'Cinematic credits commands lack a live consumer', 'missing_consumer'),
@@ -76,7 +78,8 @@ def parse(log, result_tsv, expected_cases):
                 raise ValueError('Repeated source marker')
             current = dict(world=match[1], sequence=match[2], declarations=None,
                            commands={}, findings=[], routed_elsewhere=0,
-                           stream_resources=None, unverified=UNVERIFIED.copy(),
+                           stream_resources=None, mission_fx_binding=None,
+                           terminal_fx_preview_rejections=0, unverified=UNVERIFIED.copy(),
                            _seen=set())
             records[key] = current
             continue
@@ -114,8 +117,12 @@ def parse(log, result_tsv, expected_cases):
             current['stream_resources'] = {k: int(fields[k]) for k in ['checked', 'missing']}
         elif event == 'cinematic_audit_stream_missing':
             add('stream_missing')
-        elif event == 'cinematic_audit_mission_effect_binding' and fields['result'] == 'refused':
-            add('main_fx_binding')
+        elif event == 'cinematic_audit_mission_effect_binding':
+            current['mission_fx_binding'] = fields['result']
+            if fields['result'] == 'refused':
+                add('fx_actor_prefix' if 'effect attachment prefix requires unimplemented actor mutations' in line
+                    else 'fx_queue_profile' if 'live cinematic effect outside measured mode1/FX02 profile' in line
+                    else 'main_fx_binding')
         elif event == 'cinematic_rigid_attachment_deferred' and fields.get('reason') == 'existing_specialized_consumer':
             current['routed_elsewhere'] += 1
         elif event in {'cinematic_preview_omission', 'cinematic_common_attachment_request'}:
@@ -167,6 +174,12 @@ def parse(log, result_tsv, expected_cases):
         raise ValueError('Missing preparation results')
     for row in records.values():
         del row['_seen']
+        if row['mission_fx_binding'] == 'bound':
+            # Bindings::load accepts only inactive or terminator-only programs.
+            # An empty visual-preview phase is expected for such a request;
+            # the real mission queue owns it without needing particle geometry.
+            row['terminal_fx_preview_rejections'] = sum(f['count'] for f in row['findings'] if f['cause'] == 'effect_refused')
+            row['findings'] = [f for f in row['findings'] if f['cause'] != 'effect_refused']
         row['state'] = 'reported_gap' if any(CAUSES[f['cause']][0] < 3 for f in row['findings']) else 'no_reported_gap_unverified'
     return list(records.values())
 
