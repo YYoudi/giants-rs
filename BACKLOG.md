@@ -107,6 +107,14 @@ automatically wired into the main menu-to-mission build.
   audio preparation error: the local-player bank unconditionally requests Mecc
   cues absent from those worlds. Investigate class-based preparation; do not
   invent sound aliases or waive unsupported character/audio services.
+- Follow-up implemented, runtime-unverified: Mecc-specific cue/carry/footstep
+  preloads now require the actual single command11 declaration of kind2. Other
+  or ambiguous starts retain generic actor lookup from their real catalogs and
+  explicitly lack an implemented local-player cue profile. A failed Mecc player
+  preparation must not suppress required Mecc sounds. Read-only packet controls
+  identify kind3 in the failing Reaper entry and kind2 in the Mecc control.
+  Isolated synthetic tests and Clippy pass; revalidate both entry families before
+  integration. This does not implement Delphi/Kabuto audio or waive admission.
 - Exact-reference audio research: 32 CPU query controls cover absent streams,
   supplied device failures/cursors and wrap state. Six additional controls execute
   the worker's retirement path after a supplied EOF/end notification, then the
