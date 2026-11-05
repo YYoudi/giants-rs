@@ -1,5 +1,22 @@
 # Preview releases and milestone integration
 
+## Delphi jump service - 5 November 2026
+
+The standalone acquired jump/hold/release service now preserves launch/impulse
+gates, context-dependent hold acceleration, inline request reduction, shared
+object-local time, release flags and stored height. Eight hundred sixty-four
+scalar cases and 64 persistent 32-step sequences match 3,543,904 full normalized
+header/payload words. Contacts and external motion/orientation/context producers
+are supplied boundaries; no gravity trajectory, complete primary or live Session
+controller is claimed. This source stage adds no playable character or download.
+
+Combined source `0c0139d6212b7bdf5e3312596734b4f3e20492a2` retains concurrent
+Mecc/Kabuto/cinematic work and passes 725 Rust tests (17 ignored), 35 Python tests,
+Rustfmt, Clippy and the repeated native jump controls with stable source/runner
+hashes. Its GNU build and private ten-member draft pass receipt/notices/package
+verification without technical blockers. Common-runtime silent regressions are
+recorded separately; they do not execute this Delphi service.
+
 ## Kabuto auxiliary geometry preparation - 5 November 2026
 
 Owned auxiliary vertex/topology preparation matches 112 native controls and

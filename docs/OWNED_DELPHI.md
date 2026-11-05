@@ -64,6 +64,12 @@ Private jump REA evidence:
 request helper:
 `ev_bd13a1f19cef8f0c3769c135a72b17fb3b32bd885f86008246de9198f0ca116f`.
 
+The combined source at `0c0139d6212b7bdf5e3312596734b4f3e20492a2` repeats all
+2,912 jump controls with stable source/runner hashes and passes 725 Rust tests
+(17 ignored), 35 Python tests, Rustfmt and Clippy. The common build retains the
+latest Kabuto auxiliary geometry, Mecc and cinematic work. Session consumption
+of the jump kernel remains a prerequisite, not an acknowledged player frame.
+
 `Session::initialize_delphi_physics` now owns the first-primary physical setup as
 a distinct stage after special construction. `delphi_initial` loads the actual
 seven scalar declarations and signed limit, restores inline defaults through
