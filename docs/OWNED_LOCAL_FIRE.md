@@ -133,19 +133,27 @@ restart, released-trigger retention, channel end, side rate and angular rate.
 reactions, other weapon styles, real camera/view timing and positional audio
 remain prerequisites. The application still supplies `fire: None`.
 
-The isolated GNU build from
-`d1ed0f002a82fbab9dff5f38db82ba50ee4a5a0d` has an asset-free local draft with ten
-allowlisted members, complete notices, matching technical review and build
-receipt, and no package-verifier blockers. Executable SHA256:
-`e424114a8edf6566afbd01d5d57d2af3e6ddd6acb88dd08431aa912b83731aa5`.
+Combined source `aebc47c04f6c4ae7434953a9ab0915dfcb09bbff` retains the Delphi
+preparation and concurrent cinematic fixes. Its isolated GNU build passes 704
+Rust tests (15 ignored), 20 Python tests, Rustfmt, Clippy, source/site checks and
+the same complete 576-frame comparison matrix. Private source/runner snapshots
+retain the inputs pinned by the final comparison reports.
+
+The initial silent selected-opening replay exposed device-backed players being
+queued with the audio plugin disabled. The common build now applies its actual
+playback policy to selected-opening master/voice systems. The receipt-bound
+replay passes all three opening/cancellation cycles, with zero queued players
+at each retirement. Both silent menu/arena lifecycle endpoints also pass.
+These runs create no window or audio device. They do not exercise the optional
+fire phase, muted full transport, manual input or visual fidelity.
+
+The asset-free local draft has ten allowlisted members, complete notices,
+matching technical review/build receipt and no package-verifier blockers.
+Executable SHA256:
+`0573f047d307d3ad59f0b4758a5cef853e7be26ca02a4741333098b3808f6836`.
 Archive SHA256:
-`f11249429c8ee111b3ae159c5bd12591bace24a3a31cb20c3809b4e8556fe0bb`.
-This remains a private draft; the public download is unchanged by this CPU work.
-Its development lifecycle check passes, but the silent selected-opening check
-exposed device-backed audio players being queued with the audio plugin disabled.
-Source `4f68fae` adds an explicit playback policy and a zero-player retirement
-receipt; 701 Rust tests and 20 Python tests pass. A fresh combined runtime check
-is required before treating that correction as validated in the application.
+`6c90d55c7102d01833ca47b7f13b37d1ee90bcea2dadc74cfa796a6133cbdf61`.
+It remains private; the public download is unchanged by this CPU work.
 
 Private REA identities: viewport-origin accessor
 `ev_63f15249b41c8db2b91092642deed71a7537f1f96384bdf7d405c2a7952200e3`;

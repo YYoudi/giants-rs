@@ -80,6 +80,9 @@ This uses the integrated menu's selected-mission request and cancellation servic
 three times. It disables the audio device, creates no window and injects no input.
 The runner checks distinct text-owner tickets, releases and a final menu capture;
 its receipt must match the GNU executable. Mission indices are zero-based.
+The device-disabled profile retains prepared audio assets for ownership checks
+and queues no master/voice players. Its retirement receipts must confirm zero
+players for all three tickets; a startup audio flag alone is insufficient.
 Keep logs, profiles and captures private and separate from the installation.
 The sampled frame count is not proof of audio-clock progression, full playback,
 visible-subtitle atlas cleanup, natural ending, skip input or gameplay admission.

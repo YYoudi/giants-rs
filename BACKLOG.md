@@ -222,6 +222,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   natural end -> gameplay -> menu -> second-entry acceptance path. The silent
   opening-cycle replay calls the real selection and cancellation services without
   key/mouse injection; it samples an opening, not natural completion or gameplay.
+  Selected-opening master/voice systems now honor the explicit device-playback
+  policy. A slow silent replay exposed players being queued without an audio
+  plugin; the corrected combined build passes three cancellation cycles with
+  zero queued players for each ticket. Prepared audio assets remain owned and
+  released. Muted full-transport verification is separate from this control.
 - Menu opening inventory: 56 selectable mission requests across 19 menu world
   entries; 29 declared opening chains, 26 without an opening request and one
   unresolved Kabuto name. Menu world entries include catalogs outside the
