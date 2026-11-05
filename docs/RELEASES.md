@@ -278,3 +278,9 @@ and Clippy passed. Complete visual fidelity, native timing, MDV music, whole-ses
 behavior and audio/subtitle parity remain unverified. The separate old .4 menu
 matrix has 24 completed passes out of 29; it is no longer running, and the partial
 case/remaining roots have no completed result.
+
+The diagnostic field-label cleanup has an additional receipt-bound GNU build
+and a real CPU schema roundtrip on one source, without repeating the full corpus.
+The subsequent combined source preserves the independent cold Kabuto work and
+passes 705 Rust tests (16 ignored), 30 Python tests, formatting and Clippy. The
+full-corpus inventory remains explicitly pinned to its original executable.

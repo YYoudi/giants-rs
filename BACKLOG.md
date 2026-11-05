@@ -160,8 +160,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   command counts and evidence remain in private JSON/TSV/HTML reports.
 - Prioritize shared causes from that batch:
   - FX actor-mutation prefixes: 52 sources / eight worlds refuse mission FX
-    binding. Supply acquired, request-time mutation/pose/reference inputs before
-    replacing this guard; do not acknowledge absent inputs or delete the refusal.
+    binding. Inspect the actual rejected commands and dependency relevance first:
+    this is a reported admission refusal, not proof that every scene lacks an
+    actor. Supply acquired request-time mutation/pose/reference inputs where
+    required; do not acknowledge absent inputs or delete the guard blindly.
   - General nonterminal FX queue: six sources / four worlds exceed the admitted
     terminal-only profile. Connect real creation, update, retirement and ownership
     through the main dispatcher; partial preview geometry is not complete binding.
@@ -185,6 +187,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   terrain, build, camera and time attribution. Lighting, shadows, water, materials,
   temporal behavior and complete functional fidelity stay unknown until compared.
   This batch changes diagnostics only; it does not add cinematic playback features.
+  The subsequent merge preserves the separate cold Kabuto lane; its combined
+  source passes 705 Rust tests (16 ignored), 30 Python tests, formatting and
+  Clippy. These checks do not relabel the pinned 545-source audit as a fresh run
+  of that later executable.
 
 - Scope: 545 historical sources across 16 worlds, including all variants. The
   retained research records 317 engine images, 57 native render observations and
