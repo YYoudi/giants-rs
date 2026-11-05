@@ -155,8 +155,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   16,984 normalized header words plus list counts. Nonempty effects remain
   refused atomically; parent/reference binding and complete initialization are
   separate. See docs/OWNED_KABUTO.md.
-- Implement and compare first-primary initialization and its size composition,
-  including shared physical/animation services and owned auxiliary/effect links.
+- Implemented: post-prefix physical generation refresh composes shared inline
+  reset, Kabuto parameters and the acquired size/radius tail. All 512 native/Rust
+  controls match 206,848 header/payload words. Same-generation absence is retained
+  and cannot acknowledge gameplay readiness. Full first-initializer composition,
+  parent links and material/animation resources remain pending.
+- Implemented: atomic twelve-actor cold group field composition now matches
+  16 native contexts (53,728 words), including all actor headers, owner payload,
+  typed links, geometry buffers and ordered lists. Late failure preserves the
+  existing Session; clear/re-entry and generation-without-physics checks pass.
+  The group's pending camera/animation-cache/material/global-geometry services remain
+  explicit; this is not full first-initializer behavior or gameplay readiness.
+- Complete first-initializer behavior beyond the acquired field group: animation
+  definition-cache lookup/clamping/reset lifetime, generated material/global
+  geometry registration and camera reset
+  consumption. Acquire the native Kabuto-specific teardown and complete primary;
+  the current release proof covers whole-Session clear only.
   Reuse `physical_initial::reset`. The native effect auxiliaries pass through
   their declared effect state before becoming inactive; preserve the acquired
   transition/cleanup when composing the group, rather than using only a final-state seed.
@@ -222,6 +236,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   effects. Presentation-only subjective playback is insufficient. Retain the
   explicit initial camera-owner and partial-world acquisition boundaries in
   docs/OWNED_LOCAL_FIRE.md; main `fire: None` remains.
+- Subjective shared storage: native observations confirm that source state and
+  reference matrices are shared while channels remain independent. The acquired
+  reference composition now writes the authoritative source cache, preserves
+  undeclared slots and invalidates the old body's sample binding. Two reference
+  controls match 96 frames / 26,112 words; four failure and one empty-primary
+  control preserve publications. See docs/OWNED_LOCAL_FIRE.md. Next bind the actual
+  pre-copy/header and shared state, produce both ANM passes and camera placement,
+  and execute the real fire callback between them. Acquire posed-vertex storage
+  and its exact consumers before choosing their ownership; do not substitute
+  independent playback/vertex copies for an unverified sharing model. Current controlled flags are read after
+  primary; copied motion/channels and world-shared weapon history have distinct
+  producers. This remains a CPU prerequisite, not full subjective integration.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated

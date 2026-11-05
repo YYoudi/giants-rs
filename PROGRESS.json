@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local callback controls cover 18 shots/15 tracked shots. The optional primary owns physical/first-ANM storage, local time and shared FX/RNG. Standing-shot/aim, walking, side and turn transitions pass five continuous CPU controls: 576 frames, 22 shots and 341,220 normalized words, including held caches and deferred FX. Pre-primary/subjective camera, audio and fire scheduling, broader reactions, special headers and complete mission context coverage remain incomplete. The optional primary now rejects active matching subjective displays before mutation; 128 native phase observations distinguish actual display preparation from camera mode. Complete subjective post-world execution remains unbound."
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar need complete aiming/firing rules. Normal-pistol CPU services cover owned targeting, primary/animation, projectile creation and effects. Current work reconstructs the subjective actor and its shared source storage; reference-cache composition is implemented at CPU scope. The main mission driver still has no integrated owned firing. Subjective scheduling, positional audio, broader reactions and full mission-context coverage remain open. Evidence and boundaries: docs/OWNED_LOCAL_FIRE.md."
     },
     {
       "id": "mecc-inventory",
@@ -208,7 +208,7 @@
       "title": "Kabuto movement and growth",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Movement, jumping and traversal at each size, growth requirements and changing reach/collision. Ordinary cold allocation matches two native constructors. The public cold player-field initializer matches 64 native controls (25,856 header/payload words), with ownership and atomic refusal checks. Camera reset consumption, marker relocation, live movement and growth remain pending; CPU initialization is not playable readiness. Native-only acquisition now covers eight first-primary contexts and 288 size-refresh cases. The owned size-refresh candidate matches 544 native controls (219,776 header/payload words) and reuses shared radius calculation; first-primary composition, actual growth triggers and live integration remain pending. Auxiliary geometry vertex/topology preparation matches 112 native controls; material and initialization composition remain pending. Cold auxiliary construction/reset matches 88 native outcomes; the declared effect-state lifecycle is preserved."
+      "detail": "Movement, jumping, size-dependent collision and growth triggers remain unimplemented. The owned twelve-actor cold group field composition matches 16 native contexts (53,728 words), including typed auxiliary links, physics/size data, geometry buffers and ordered lists. Camera acknowledgement, animation-definition caching, generated material/global geometry registration, full first-primary behavior and live admission remain pending. CPU field parity is not playable readiness or visual fidelity."
     },
     {
       "id": "kabuto-feeding",

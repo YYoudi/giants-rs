@@ -15,6 +15,41 @@ primary/secondary turn. Mode selection, second ANM, auxiliary callbacks,
 water/turbo and live mission admission remain pending. No new playable Delphi
 feature, verified visuals or public download is claimed by this CPU milestone.
 
+## Kabuto atomic cold group field composition - 5 November 2026
+
+The owned twelve-actor cold group matches sixteen native contexts and 53,728
+normalized field/buffer words, including owner payload, typed links and ordered
+lists. Staging makes late failure atomic; source-data clear/re-entry checks pass.
+Camera, animation-definition cache, material/global geometry registration, full first-primary
+behavior and native character teardown remain pending. This field proof is not
+playable admission or fidelity and produces no new public binary/package receipt.
+See OWNED_KABUTO.md; earlier receipts stay bound to their exact source.
+
+
+Combined source `73910c8` retains the newer shared-reference and subjective-display
+work. It passes 728 synthetic Rust tests (19 ignored), 35 Python tests, Rustfmt,
+Clippy and site/JavaScript checks. The installed-data atomic group/re-entry check
+and the complete 16-context field/buffer/list comparison pass again after that
+merge. These checks do not acknowledge the group's pending providers or certify
+an executable gameplay/fidelity milestone.
+
+## Kabuto physical/size refresh composition - 5 November 2026
+
+The acquired post-prefix physical generation phase now composes shared inline
+physical defaults, Kabuto parameters and the size/radius service. All 512 native
+controls match 206,848 header/payload words. Same-generation absent physics stays
+absent; this is not a readiness acknowledgement. Parent/animation/material setup,
+full first initialization, live motion and growth remain pending. See
+OWNED_KABUTO.md. This CPU-only stage produces no new playable binary or package
+receipt; existing releases remain tied to their exact build sources.
+
+
+Combined source `c4bae0e` preserves Delphi jump and shared physical-request work.
+It passes 728 synthetic Rust tests (18 ignored), 35 Python tests, Rustfmt, Clippy
+and site/JavaScript checks. The 512-case native/Rust comparison passes again after
+that merge. The matched physical/size boundary does not certify a complete first
+initializer, live controls, movement, growth events or visual fidelity.
+
 ## Delphi jump service - 5 November 2026
 
 The standalone acquired jump/hold/release service now preserves launch/impulse
@@ -201,6 +236,55 @@ Rustfmt, Clippy and site/JavaScript checks. The installed-data Kabuto control an
 64-case public cold player-field comparison still pass. Those Rust checks cover
 the earlier implemented boundary; the new first-primary/size acquisitions remain
 native-only and must not be counted as implemented player behavior.
+
+## Shared subjective reference storage - 5 November 2026
+
+`actor_references::Owned::update_shared_current` composes an alternate evaluation
+context with the authoritative source matrix storage. Native pre/post observations
+show that the subjective actor shares this buffer as well as the Mecc state,
+while retaining independent channels. Undeclared slots preserve the last shared
+values; a successful alternate write invalidates the body's old sample binding.
+Failures leave both contexts and publications unchanged. The selector input is
+also clarified as current controlled-player flags, distinct from its earlier
+virtual-header copy and the world-shared previous-weapon history.
+
+Two continuous reference controls match 96 frames / 26,112 words, including 48
+active subjective evaluations. Four failure controls and an absent-primary
+preservation control pass. The reference comparison supplies completed body and
+subjective channels from the native phases; Rust calculates matrices from actual
+ANMs. It does not prove Rust channel timing, complete subjective actor ownership,
+posed-vertex storage, event execution, post-world firing or native whole-world
+order. The actual normal subjective specification's 16 inspected event tracks
+are empty; that observation does not establish event support for other profiles.
+
+The combined workspace retains the concurrent cinematic, Delphi and Kabuto work
+and passes 722 Rust tests (17 ignored), 35 Python tests, formatting and Clippy.
+Site generation and JavaScript syntax checks pass. See
+[OWNED_LOCAL_FIRE.md](OWNED_LOCAL_FIRE.md) for sharing and consumer boundaries.
+This is a CPU prerequisite for the pending subjective pipeline. No new playable
+route or binary is published, and existing receipt-bound previews remain tied
+to their recorded sources. Main-driver owned firing remains disabled.
+
+Final combined runtime source `f0e2961c32a3f3e44b15124acaf619fe26063df6`
+also preserves the concurrent Kabuto auxiliary changes. Its isolated workspace
+passes 722 Rust tests (18 ignored), 35 Python tests, formatting and Clippy.
+The GNU release build's executable SHA256 is
+`9924e64167789f4ad88d9b979642686512ba31834f7240a728144677c92173c3`.
+The receipt-bound local validation draft has ten members, complete technical
+notices/review, no packaging blockers and ZIP SHA256
+`4f8dabaf678e38d5a775d896f697b907173085e5ee3dfa0a2126775128e3e46a`.
+The same executable passes 128 silent owned-mission inspection updates and both
+three-launch development lifecycle endpoints. These are regression controls;
+the new shared-reference composition remains a separately controlled CPU service.
+Three selected-opening cancellation/re-entry cycles also pass on that executable,
+including disabled-audio queue and ownership cleanup checks. Full natural-ending
+transport, audible behavior and subjective firing integration are not added by
+these regressions.
+
+The later merge `0507f933844ffb6187e29c82059e55d49cda885b` preserves the
+concurrent Delphi jump and Kabuto physical-request services. Its full isolated
+workspace passes 728 Rust tests (18 ignored), formatting and Clippy. The draft
+above remains bound to `f0e2961`; it is not re-labelled as that later executable.
 
 ## Subjective firing dispatch contract - 5 November 2026
 

@@ -32,6 +32,8 @@ pub mod hit_routing;
 pub mod instances;
 pub mod kabuto_auxiliary;
 pub mod kabuto_geometry;
+pub mod kabuto_initial;
+pub mod kabuto_physics;
 pub mod kabuto_player;
 pub mod kabuto_resources;
 pub mod kabuto_size;
