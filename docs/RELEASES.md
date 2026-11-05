@@ -65,3 +65,13 @@ its external checksum. Do not offer a bare EXE detached from its notices.
 Local validation can support a preview even while a later hosted run is pending;
 state the exact local checks and the exact commit certified by hosted CI. Neither
 checksums nor a successful build certify complete gameplay or legal clearance.
+
+## Cinematic integration pass — 5 November 2026
+
+The dedicated Flick branch adapts individual reviewed runtime corrections; it does
+not import the historical private series. Ticket-owned text cleanup is connected
+to the common selected-mission film mount/release path. CPU support-basis and
+visibility fixes have existing private reference evidence and synthetic controls.
+The repeatable silent opening/cancellation check is documented in BUILD.md.
+It does not certify complete scenes, natural endings, skipping or gameplay entry.
+Keep BACKLOG.md authoritative for remaining cinematic coverage and prerequisites.

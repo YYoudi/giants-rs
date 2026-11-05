@@ -191,8 +191,9 @@ impl References {
                         (f64::from(z) + f64::from(object.height)) as f32,
                     ];
                     if object.size.is_none() {
-                        let mut values = [0.; 16];
-                        values[15] = 1.;
+                        // An unscaled point support still has an identity basis.
+                        // Immediate children transform model references through it.
+                        let mut values = Matrix::identity().values;
                         for (i, value) in [3, 7, 11].into_iter().zip(position) {
                             values[i] = value;
                         }
@@ -562,6 +563,45 @@ impl Runtime {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn unscaled_point_support_preserves_its_basis_for_child_references() {
+        let refs = super::References {
+            classes: std::collections::BTreeMap::new(),
+            surface: None,
+            contacts: std::collections::BTreeMap::new(),
+        };
+        let (mut objects, _) = plan(1.).start(&mut 17).unwrap();
+        objects[0].size = None;
+        let point = [7., -11., 13.];
+        let support = refs
+            .matrices(&objects[..1], super::Matrix::identity(), point)
+            .unwrap()[0];
+        assert_eq!(support.flags, 16);
+        for i in [0, 5, 10, 15] {
+            assert_eq!(support.values[i], 1.);
+        }
+        let mut reference = super::Matrix::identity();
+        reference.flags = 16;
+        for (i, value) in [3, 7, 11].into_iter().zip([2., -3., 5.]) {
+            reference.values[i] = value;
+        }
+        let child = crate::effect_attachment::initial_child_matrix(
+            support,
+            reference,
+            super::Matrix::identity(),
+            2.,
+            1.,
+        )
+        .unwrap();
+        assert_eq!(
+            [child.values[3], child.values[7], child.values[11]],
+            [9., -14., 18.]
+        );
+        assert_eq!(
+            [child.values[0], child.values[5], child.values[10]],
+            [2.; 3]
+        );
+    }
     #[test]
     fn retirement_requests_are_once_only_and_do_not_expire_duration_free_objects() {
         let refs = super::References {

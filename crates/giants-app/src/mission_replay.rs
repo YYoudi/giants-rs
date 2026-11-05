@@ -58,6 +58,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
         ) => 0,
         Some(
             "cancel-relaunch"
+            | "showcase-opening-cycles"
             | "player-motion-cycles"
             | "opening-cycles"
             | "campaign-entry-cycles"
@@ -228,10 +229,12 @@ fn drive(
     if replay.showcase {
         let mode = std::env::var("GIANTS_MISSION_REPLAY").unwrap();
         if replay.stage == 0 {
-            frontend
-                .campaign
-                .unlock_profile("Showcase")
-                .expect("independent showcase progress");
+            if replay.completed == 0 {
+                frontend
+                    .campaign
+                    .unlock_profile("Showcase")
+                    .expect("independent showcase progress");
+            }
             if mode == "showcase-menu" {
                 frontend.screen = Screen::LoadWorlds;
                 frontend.selected = Some(0);
@@ -283,6 +286,17 @@ fn drive(
                     && players.is_empty()
                     && cinematic.is_none()
                 {
+                    if mode == "showcase-opening-cycles" {
+                        replay.completed += 1;
+                        println!(
+                            "showcase_opening_cycle_released cycles={} remaining_entities=0 movie_released=true input_injected=false",
+                            replay.completed
+                        );
+                        if replay.completed < replay.cycles {
+                            replay.stage = 0;
+                            return;
+                        }
+                    }
                     replay.done = true;
                     println!(
                         "showcase_replay_cancelled remaining_entities=0 movie_released=true normal_ready_simulated=false"
@@ -296,7 +310,10 @@ fn drive(
                 false
             } else if mode == "showcase-mecc" {
                 playing && controllers.iter().any(|c| c.replay_done)
-            } else if mode == "showcase-opening" {
+            } else if matches!(
+                mode.as_str(),
+                "showcase-opening" | "showcase-opening-cycles"
+            ) {
                 opened
             } else {
                 playing
@@ -304,6 +321,26 @@ fn drive(
                     || showcase.unavailable()
                     || frontend.flow.phase == Phase::Failed
             };
+            // Service-level cancellation after a real rendered opening sample.
+            // No key/mouse injection, skip acknowledgement or gameplay admission.
+            if mode == "showcase-opening-cycles"
+                && opened
+                && environment.presentation_ready()
+                && pipelines.0
+            {
+                if let Some(cinematic) = &cinematic {
+                    println!(
+                        "showcase_opening_cycle_sample ticket={} director={} steps={} director_seconds={} input_injected=false audio_clock_verified=false",
+                        frontend.flow.ticket,
+                        cinematic.director_index(),
+                        cinematic.clock_steps(),
+                        cinematic.director_seconds()
+                    );
+                }
+                cancel_mission(&mut frontend, &mut cancelled);
+                replay.stage = 2;
+                return;
+            }
             if matches!(mode.as_str(), "showcase-free" | "showcase-cancel")
                 && (playing || opened)
                 && !showcase.is_free()
