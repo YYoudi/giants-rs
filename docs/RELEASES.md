@@ -1,5 +1,15 @@
 # Preview releases and milestone integration
 
+## Kabuto physical/size refresh composition - 5 November 2026
+
+The acquired post-prefix physical generation phase now composes shared inline
+physical defaults, Kabuto parameters and the size/radius service. All 512 native
+controls match 206,848 header/payload words. Same-generation absent physics stays
+absent; this is not a readiness acknowledgement. Parent/animation/material setup,
+full first initialization, live motion and growth remain pending. See
+OWNED_KABUTO.md. This CPU-only stage produces no new playable binary or package
+receipt; existing releases remain tied to their exact build sources.
+
 ## Kabuto cold auxiliary construction/reset - 5 November 2026
 
 The public cold auxiliary factory matches 88 native constructor/reset outcomes

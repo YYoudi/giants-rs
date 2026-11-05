@@ -136,6 +136,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   16,984 normalized header words plus list counts. Nonempty effects remain
   refused atomically; parent/reference binding and complete initialization are
   separate. See docs/OWNED_KABUTO.md.
+- Implemented: post-prefix physical generation refresh composes shared inline
+  reset, Kabuto parameters and the acquired size/radius tail. All 512 native/Rust
+  controls match 206,848 header/payload words. Same-generation absence is retained
+  and cannot acknowledge gameplay readiness. Full first-initializer composition,
+  parent links and material/animation resources remain pending.
 - Implement and compare first-primary initialization and its size composition,
   including shared physical/animation services and owned auxiliary/effect links.
   Reuse `physical_initial::reset`. The native effect auxiliaries pass through
