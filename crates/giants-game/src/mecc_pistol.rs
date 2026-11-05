@@ -113,8 +113,10 @@ impl Pistol {
         for mut shot in self.shots.drain(..) {
             let start = shot.motion.position;
             let event = shot.step(terrain, dt)?;
+            // Terrain runs first and can shorten this frame's segment. Match
+            // the owned projectile path: objects beyond that stop are occluded.
             let query =
-                crate::projectile_world::query(u32::MAX, 1, start, shot.segment_end, objects)?;
+                crate::projectile_world::query(u32::MAX, 1, start, shot.motion.position, objects)?;
             if query.selected.is_some() {
                 self.world_hits += 1;
                 self.impacts.push((query.point, 0.7));
@@ -268,5 +270,88 @@ mod tests {
         assert!(matches!(frame.impacts.as_slice(),[Impact::World(q)] if q.selected==Some(2)));
         assert!(p.shots.is_empty());
         assert_eq!((p.fired, p.retired, p.world_hits), (1, 1, 1));
+    }
+
+    fn wall(x: f32) -> crate::projectile_world::Object {
+        let a = [x, 0., -10.];
+        let b = [x, 10., -10.];
+        let c = [x, 0., 10.];
+        let d = [x, 10., 10.];
+        crate::projectile_world::Object {
+            id: 2,
+            parent: 0,
+            active: 0,
+            personality: 0x20000,
+            bounds: crate::volume_queries::Bounds {
+                min: [x - 0.1, 0., -10.],
+                max: [x + 0.1, 10., 10.],
+            },
+            mesh: crate::object_segment::Mesh::new(
+                2,
+                vec![[a, b, c], [c, b, a], [c, b, d], [d, b, c]],
+            )
+            .unwrap(),
+        }
+    }
+
+    #[test]
+    fn terrain_occludes_objects_beyond_its_contact_in_the_same_frame() {
+        let (catalog, terrain) = fixture();
+        let mut pistol = Pistol::from_initial(Initial::non_base(true), &catalog).unwrap();
+        // This flight crosses z=0 at x=11, then reaches the supplied wall at x=18.
+        // Prove the wall really is hittable along the unshortened movement ray.
+        let mut control = Shot::new(&pistol.definition, [1., 5., 5.], [29., 5., -9.]).unwrap();
+        assert!(matches!(
+            control.step(&terrain, 0.05).unwrap(),
+            Event::Impact(_)
+        ));
+        let objects = [wall(18.)];
+        assert_eq!(
+            crate::projectile_world::query(
+                u32::MAX,
+                1,
+                [1., 5., 5.],
+                control.segment_end,
+                &objects
+            )
+            .unwrap()
+            .selected,
+            Some(2)
+        );
+        let frame = pistol
+            .step(0.05, [1., 5., 5.], [29., 5., -9.], true, &terrain, &objects)
+            .unwrap();
+        assert!(
+            matches!(frame.impacts.as_slice(), [Impact::Ground(point)] if point[2].abs() < 0.00001)
+        );
+        assert_eq!(
+            (pistol.world_hits, pistol.ground_hits, pistol.retired),
+            (0, 1, 1)
+        );
+        assert!(pistol.shots.is_empty());
+    }
+
+    #[test]
+    fn object_before_terrain_still_takes_precedence() {
+        let (catalog, terrain) = fixture();
+        let mut pistol = Pistol::from_initial(Initial::non_base(true), &catalog).unwrap();
+        let frame = pistol
+            .step(
+                0.05,
+                [1., 5., 5.],
+                [29., 5., -9.],
+                true,
+                &terrain,
+                &[wall(8.)],
+            )
+            .unwrap();
+        assert!(
+            matches!(frame.impacts.as_slice(), [Impact::World(query)] if query.selected == Some(2) && (query.point[0] - 8.).abs() < 0.00001)
+        );
+        assert_eq!(
+            (pistol.world_hits, pistol.ground_hits, pistol.retired),
+            (1, 0, 1)
+        );
+        assert!(pistol.shots.is_empty());
     }
 }

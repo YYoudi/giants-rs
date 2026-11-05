@@ -21,6 +21,11 @@ automatically wired into the main menu-to-mission build.
 - Connect typed target/reticle results, actual camera/muzzle timing and fire phase
   at the real first-animation/physical boundary; then verify secondary reactions.
 - Actor/projectile/effect scheduling, damage, mission objectives and progression.
+- Projectile terrain occlusion: the selected-controller pistol and development
+  arena now limit object/target queries to the terrain-clipped segment, as the
+  owned-flight path already does. The old code fails the new behind-terrain
+  regression; corrected before/behind controls pass. This does not complete
+  owned firing, actor reactions, live list admission or native trajectory fidelity.
 - Integrate cinematic work through reviewed patches from its current branch,
   preserving concurrent gameplay changes. Pending branch work is not yet in main.
 - Campaign menu-to-mission and manual controls require interactive checks.

@@ -1,4 +1,4 @@
-# Windows x64 development preview — preview-2026.11.04.2
+# Windows x64 development preview — preview-2026.11.05.1
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -12,7 +12,14 @@ is not a completion metric. The owner authorized this preview without requiring
 a separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
 
-Compared with preview-2026.11.04.1: normal startup no longer requires a terminal;
+Compared with preview-2026.11.04.2: the preview pistol no longer reports an object
+hit behind a terrain stop in the same simulation step. Object and development
+target queries use the terrain-clipped segment, matching the existing owned
+projectile flight ordering. Objects before the terrain still stop the projectile.
+The fix reaches the selected-controller pistol and Mecc development arena;
+it does not enable the separately gated owned firing/targeting services.
+
+Retained from the preceding preview: normal startup requires no terminal;
 the downloadable executable is named giants-rs.exe; Preview All is selected with
 its mission catalog unlocked; Preview tools exposes mission browsing, a Mecc test
 arena and installation changes. Existing profiles are preserved. No original
@@ -31,12 +38,18 @@ The exact executable hash, source commit and compiler are in `manifest.json`.
 This packaging revision includes the launcher, instructions, license-scope
 NOTICE.md and distribution review. Local ZIP verification checks member names,
 manifest identity and internal/external checksums without running the game. It
-does not claim a new combat or campaign integration.
+does not claim complete combat or campaign integration.
 
 ## Known limits
 
-This revision passed 687 synthetic Rust tests (14 ignored), 18 Python tests,
-Rustfmt and Clippy. Interactive checks observed no-argument adjacent startup,
+The new terrain-occlusion regression fails against the prior unbounded segment
+and passes with the correction; an object-before-terrain control also passes.
+This proves the bounded synthetic collision cases, not native image/trajectory
+fidelity or complete mission combat. See the release description for this
+revision's full build, package and runtime checks.
+
+The preceding preview passed 687 synthetic Rust tests (14 ignored), 18 Python
+tests, Rustfmt and Clippy. Its interactive checks observed no-argument adjacent startup,
 the default unlocked profile, clickable mission browsing, Mecc arena launch and
 Escape return; the native folder picker also displayed and cancelled cleanly.
 The initial window is 1280x720 and resizable. These checks are not complete

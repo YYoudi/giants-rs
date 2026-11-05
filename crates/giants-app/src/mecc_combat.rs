@@ -93,25 +93,26 @@ impl Combat {
         for mut s in self.shots.drain(..) {
             let start = s.motion.position;
             let event = s.step(terrain, dt)?;
+            let collision_end = s.motion.position;
             let query = giants_game::projectile_world::query(
                 u32::MAX,
                 1,
                 start,
-                s.segment_end,
+                collision_end,
                 if self.world_free {
                     &[]
                 } else {
                     &actor.projectile_objects
                 },
             )?;
-            let target_point = object.trace(start, s.segment_end)?;
+            let target_point = object.trace(start, collision_end)?;
             let target_first = target_point.is_some_and(|point| {
                 let distance = (Vec3::from_array(point) - Vec3::from_array(start)).length_squared();
                 query.selected.is_none() || distance < query.distance_sq
             });
             if target_first {
                 let point = object
-                    .impact(start, s.segment_end, self.definition.direct_damage)?
+                    .impact(start, collision_end, self.definition.direct_damage)?
                     .ok_or("test target changed during supplied query")?;
                 self.object_hits += 1;
                 self.hits += 1;
