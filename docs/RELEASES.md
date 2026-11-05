@@ -57,7 +57,36 @@ Rustfmt, Clippy and site/JavaScript checks. The installed-data Kabuto control an
 the earlier implemented boundary; the new first-primary/size acquisitions remain
 native-only and must not be counted as implemented player behavior.
 
+## Subjective firing dispatch contract - 5 November 2026
+
+The optional primary now requires actual camera-owner/active-display status
+independently of the first-person camera-mode flag. A matching active display
+requires the native subjective post-world firing phase; the current primary API
+refuses it before actor, ANM, physical-cycle, FX or RNG mutation. Three controls
+verify refusal with either camera mode and continued admission of an inactive
+display in first-person mode. Rejected preflight does not quarantine the actor.
+
+The predicate matches 512 controlled PC/prototype-body/Rust cases within the
+declared boundaries in [OWNED_LOCAL_FIRE.md](OWNED_LOCAL_FIRE.md). Its literal
+prototype symbol is added as one minimal confirmed attribution; broader world
+routine names remain unassigned. Separate native acquisition executes the actual
+pre/post functions around a partial Mecc-then-held cohort for 128 frames: 64
+active displays transfer the dispatch after the primary, and 64 inactive displays
+retain it in the primary. The latter include 32 frames with first-person camera
+mode but no subjective model. The subjective path executes two extra ANM passes.
+Initial camera-owner binding, command/view/resource-presence schedules, flat world
+and the absent sound registry are supplied. This is neither full-world execution
+nor Rust parity of those complete subjective phases.
+
+The combined source preserves concurrent Delphi/Kabuto work and passes 714 Rust
+tests (17 ignored), 35 Python tests, formatting and Clippy. All five prior primary controls still
+match 576 frames, 22 shots and 341,220 words; their missing-muzzle/late-sound
+failure controls pass. The main driver still supplies `fire: None`. No new
+playable route, runtime fidelity or download is claimed; existing executable
+receipts and validation drafts remain bound to their own earlier source commits.
+
 ## Ordinary owned mission camera - 5 November 2026
+
 
 Runtime source `24a521001b55da80b4c2417a87b95e4d99bdaec8` adds the acquired
 ordinary direct-angle camera producer to the explicit mission-owned inspection

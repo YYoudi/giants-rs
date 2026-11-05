@@ -9,7 +9,7 @@ automatically wired into the main menu-to-mission build.
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
 native-function acquisition or implementation, including resumed tasks in every
 character lane. The read-only corpus audit verifies 4,769 literal function symbols;
-the reviewed initial summary confirms two routine identities, keeps two candidate
+the reviewed summary confirms three routine identities, keeps two candidate
 matches probable and one unassigned. No gameplay status changes follow from names.
 
 - Next Mecc work: retain completed name lookups for the ordinary-camera producer
@@ -162,6 +162,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   reactions and full scheduling. The application still supplies `fire: None`.
   A typed selected target cannot use the no-target fire
   profile merely because its raw pointer slots remain normalized.
+- Subjective dispatch: the optional primary now requires actual camera ownership
+  and pre-world display status separately from camera mode. It refuses a matching
+  active display before primary mutation because the required subjective
+  post-world execution is unbound. Predicate controls match 512 PC/PS2-body/Rust
+  cases; 128 native pre/post observations show the correct transfer and include
+  first-person mode with a missing subjective model. The existing 576-frame,
+  22-shot primary matrix remains identical. Next implement the actual owned
+  virtual actor/channels/references/events, camera placement and two post-world
+  ANM passes around firing; preserve pre-world channels and shared source-state
+  effects. Presentation-only subjective playback is insufficient. Retain the
+  explicit initial camera-owner and partial-world acquisition boundaries in
+  docs/OWNED_LOCAL_FIRE.md; main `fire: None` remains.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated
