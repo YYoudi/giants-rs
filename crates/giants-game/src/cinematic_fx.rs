@@ -261,41 +261,103 @@ pub fn load_terminal_proxies(
     prepare_terminal_proxies(resources, &bytes, director_seconds)
 }
 
-// Opcode34 targets its explicit actor slot. A mutation outside the attachment's
-// source-scoped ancestry cannot change that attachment; unknown opcodes still fail.
-fn irrelevant_actor_mutation(
-    opcode: u32,
-    words: &[u32],
+/// The caller validates FLK framing first. Text, shadow declarations, audio
+/// requests and ordinary draw range do not supply a local actor transform.
+/// Admission here does not acknowledge their rendering/playback. Mutations of
+/// the carrier or its ancestry still require their actual live inputs.
+fn placement_prefix_command(
+    command: &Command,
     dependencies: &std::collections::BTreeSet<usize>,
-) -> bool {
-    opcode == 34
-        && words
-            .first()
-            .is_some_and(|slot| !dependencies.contains(&(*slot as usize)))
+) -> Result<bool, &'static str> {
+    match command.opcode {
+        34 => {
+            crate::cinematic_shadow::Declaration::decode(command)?;
+            Ok(true)
+        }
+        13 | 27 => {
+            crate::cinematic_sound::Request::decode(command)?;
+            Ok(true)
+        }
+        38 => match command.words.as_slice() {
+            [word] if f32::from_bits(*word).is_finite() && f32::from_bits(*word) >= 0. => Ok(true),
+            _ => Err("effect prefix draw range outside finite nonnegative profile"),
+        },
+        32 => {
+            let slot = *command
+                .words
+                .last()
+                .ok_or("effect prefix offset slot absent")? as i32;
+            if slot < 0 {
+                return Ok(true);
+            }
+            if slot >= 32 {
+                return Err("effect prefix offset actor outside bounded profile");
+            }
+            // Validate its source payload, but never substitute this temporary
+            // state for a carrier's live local transform. Only an unrelated
+            // actor's offset can be irrelevant to this dependency chain.
+            crate::cinematic_offset::Offset::default().apply(&command.words)?;
+            Ok(!dependencies.contains(&(slot as usize)))
+        }
+        1 | 2 | 3 | 4 | 6 | 7 | 9 | 11 | 12 | 14..=25 | 31 | 37 | 39..=42 | 44..=46 | 52 => {
+            Ok(true)
+        }
+        _ => Ok(false),
+    }
 }
 
 #[cfg(test)]
 mod dispatch_guards {
     #[test]
-    fn explicit_other_actor_aim_does_not_block_but_parent_aim_does() {
-        let dependencies = [0, 3].into_iter().collect();
-        assert!(super::irrelevant_actor_mutation(
-            34,
-            &[1, 6, 5],
-            &dependencies
-        ));
-        assert!(!super::irrelevant_actor_mutation(
-            34,
-            &[3, 6, 5],
-            &dependencies
-        ));
-        assert!(!super::irrelevant_actor_mutation(
-            34,
-            &[0, 6, 5],
-            &dependencies
-        ));
-        assert!(!super::irrelevant_actor_mutation(34, &[], &dependencies));
-        assert!(!super::irrelevant_actor_mutation(17, &[1], &dependencies));
+    fn shadow_on_the_carrier_is_not_an_actor_placement_mutation() {
+        let dependencies = [3].into_iter().collect();
+        let mut command = super::Command {
+            offset: 24,
+            opcode: 34,
+            words: vec![
+                3,
+                5,
+                5,
+                (-1f32).to_bits(),
+                (-2f32).to_bits(),
+                1f32.to_bits(),
+                2f32.to_bits(),
+            ],
+            label: None,
+        };
+        assert!(super::placement_prefix_command(&command, &dependencies).unwrap());
+        command.words.pop();
+        assert!(super::placement_prefix_command(&command, &dependencies).is_err());
+        command.opcode = 32;
+        command.words = vec![0, 0, 3];
+        assert!(!super::placement_prefix_command(&command, &dependencies).unwrap());
+        command.words[2] = 4;
+        assert!(super::placement_prefix_command(&command, &dependencies).unwrap());
+        command.words[0] = f32::NAN.to_bits();
+        assert!(super::placement_prefix_command(&command, &dependencies).is_err());
+        command.opcode = 33;
+        assert!(!super::placement_prefix_command(&command, &dependencies).unwrap());
+    }
+    #[test]
+    fn text_and_range_admission_does_not_accept_missing_or_nonfinite_inputs() {
+        let dependencies = [3].into_iter().collect();
+        let mut command = super::Command {
+            offset: 24,
+            opcode: 17,
+            words: vec![0.25f32.to_bits()],
+            label: None,
+        };
+        assert!(super::placement_prefix_command(&command, &dependencies).unwrap());
+        command.opcode = 38;
+        assert!(super::placement_prefix_command(&command, &dependencies).unwrap());
+        command.words[0] = f32::NAN.to_bits();
+        assert!(super::placement_prefix_command(&command, &dependencies).is_err());
+        command.words.clear();
+        assert!(super::placement_prefix_command(&command, &dependencies).is_err());
+        command.opcode = 13;
+        assert!(super::placement_prefix_command(&command, &dependencies).is_err());
+        command.words = vec![3, 7];
+        assert!(super::placement_prefix_command(&command, &dependencies).unwrap());
     }
 }
 
@@ -315,6 +377,9 @@ impl Bindings {
     ) -> Result<Self, String> {
         let metadata =
             giants_formats::flick::discover_dependencies(bytes).map_err(|e| e.to_string())?;
+        // Dependency discovery alone does not validate text/audio payloads.
+        // Use the executable framing consumed by the actual cinematic preview.
+        giants_formats::flick::parse_preview(bytes).map_err(|e| e.to_string())?;
         let declarations = declarations(bytes, &metadata)?;
         if declarations.is_empty() {
             return Ok(Self {
@@ -344,38 +409,19 @@ impl Bindings {
                     .find(|l| l.offset < request.command_offset && l.child == actor)
                     .map(|l| l.parent);
             }
-            if request.slot >= 0
-                && metadata.commands.iter().any(|c| {
-                    c.offset < request.command_offset
-                        && !irrelevant_actor_mutation(c.opcode, &c.words, &dependencies)
-                        && !matches!(
-                            c.opcode,
-                            1 | 2
-                                | 3
-                                | 4
-                                | 6
-                                | 7
-                                | 9
-                                | 11
-                                | 12
-                                | 16
-                                | 25
-                                | 31
-                                | 37
-                                | 39
-                                | 40
-                                | 41
-                                | 42
-                                | 44
-                                | 45
-                                | 46
-                                | 52
-                        )
-                })
-            {
-                return Err(
-                    "effect attachment prefix requires unimplemented actor mutations".into(),
-                );
+            if request.slot >= 0 {
+                for command in metadata
+                    .commands
+                    .iter()
+                    .take_while(|c| c.offset < request.command_offset)
+                {
+                    if !placement_prefix_command(command, &dependencies).map_err(str::to_owned)? {
+                        return Err(
+                            "effect attachment prefix requires unimplemented actor mutations"
+                                .into(),
+                        );
+                    }
+                }
             }
             let program = if request.slot < 0 {
                 None

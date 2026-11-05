@@ -236,20 +236,59 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
-- Whole-corpus inventory completed on the recorded public-runtime source: 545
+- Published preview 2026.11.05.6 / FX-prefix milestone validated: the real source/ancestry audit covers 208 active
+  requests in 72 sources. The former guard conflated Flick34 shadow descriptors,
+  text state, ordinary draw range and numeric audio with placement mutations.
+  Two command32 records affect actors outside their FX carrier ancestry. Typed
+  framing/payload checks now admit these non-placement prefixes, while relevant
+  carrier/ancestor offsets, scales/animation changes, unknown commands and cycles
+  remain refused. Retained shadow construction research is reused, not converted
+  into a claim of shadow raster fidelity.
+  The full 545-source inventory now reports zero prefix refusals, 56 general
+  nonterminal FX queue refusals, and 59 sources with implementation/preparation
+  gaps (486 without reported gaps remain unverified). Fifty sources moved to the
+  next real blocker; only two additional terminal-only bindings became admitted.
+  Strict-profile review stays separate at 282 sources; zero complete scenes are
+  certified. The 52-source bucket is not 52 corrected renderings.
+  Exact-binary silent controls pass both 54-director natural/re-entry cycles for
+  Story4 mission 2, both Story4 mission 1 control cycles and both development
+  endpoints. The previously refused terminal pair actually spawns/retires in
+  director42 on both long-chain entries. Text atlases and tracked film assets
+  release; total GPU/process memory reclamation and native timing remain open.
+  The long chain still ends in its explicit Mecc partial preview, with readiness
+  gates intact. The control still reaches Gameplay.
+  Next: the 56-source general queue. A private program survey separates 22 root
+  programs, including a bounded persistent-attachment family with retained native
+  construction/startup controls. Existing visual preview is not sufficient to
+  acknowledge live queue, owner, opaque constructor fields or cleanup contracts.
+  The source-bound follow-up finds 28 persistent requests in 26 sources. Twenty-
+  three sources across four worlds contain only that nonterminal family (25
+  requests); three sources also need other families. All 28 use attached mode
+  and pass the existing initial class-facing profile. Prioritize that coherent
+  23-source cohort for shared queue/backend integration, then mixed families.
+  These are implementation candidates, not newly admitted or visually verified
+  sources. Reused native startup controls supply placeholder owners; real owner
+  updates, world admission, slot reuse and source-marked cleanup still require
+  their own integration evidence. Prototype PS2 candidate names were checked
+  against the pinned ELF before continuing; correspondence remains unknown.
+- Owner's active work order (5 November 2026): address the shared 52-source FX
+  prefix refusal first, then general queue admission and partial FX services,
+  followed by remaining audio/credits/resume prerequisites. Work alone, strictly
+  in the background. Re-run the whole-corpus inventory and actual silent menu
+  lifecycle/transport controls after coherent integrations, updating this backlog,
+  PROGRESS, the dashboard and receipt-bound MinGW previews. Keep unknown visual,
+  temporal and functional behavior explicitly open; do not waive a real mutation
+  or readiness guard merely to reduce an inventory count.
+
+- Previous whole-corpus inventory baseline on the recorded public-runtime source: 545
   sources / 16 worlds, zero top-level preparation errors, 61 sources with a
-  reported implementation/preparation gap. The 470 others remain unverified;
+  reported implementation/preparation gap. The 484 others remain unverified;
   they are not certified accurate. The independent strict-profile review queue
   contains 282 sources and overlaps the gap set. See the aggregate dashboard
   table and docs/cinematic-inventory-summary.json; per-source names, reasons,
   command counts and evidence remain in private JSON/TSV/HTML reports.
-- Prioritize shared causes from that batch:
-  - FX actor-mutation prefixes: 52 sources / eight worlds refuse mission FX
-    binding. Inspect the actual rejected commands and dependency relevance first:
-    this is a reported admission refusal, not proof that every scene lacks an
-    actor. Supply acquired request-time mutation/pose/reference inputs where
-    required; do not acknowledge absent inputs or delete the guard blindly.
-  - General nonterminal FX queue: six sources / four worlds exceed the admitted
+- Active priorities after the prefix correction (counts overlap):
+  - General nonterminal FX queue: 56 sources exceed the admitted
     terminal-only profile. Connect real creation, update, retirement and ownership
     through the main dispatcher; partial preview geometry is not complete binding.
   - Partial visual FX services: 15 sources / six worlds retain contacts, sounds,
