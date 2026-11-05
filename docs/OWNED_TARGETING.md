@@ -2,8 +2,10 @@
 
 `Session::scan_mecc_local_target` now runs the existing local query and publishes
 its result into the owning normal Mecc. The numerical-only query remains available
-separately. Header context, special-header values, camera and viewport snapshots,
-current collision geometry and vertex epoch are still explicit required inputs.
+separately. The header service remains explicit; `OwnedHeaders` now obtains
+current context from the acquired Session producers. Special-header values,
+camera and viewport snapshots, current collision geometry and vertex epoch
+still require their actual providers.
 
 The published state contains three typed relationships, the aim point, the
 terrain-proximity flag and the supplied vertex epoch. Original actor pointers are
@@ -23,7 +25,49 @@ The existing no-target fire callback also checks typed target state: normalized
 bytes cannot disguise a selected actor as a null-target firing profile. The actual
 local-target firing branch remains unacquired and is refused.
 
-## Evidence and limits — 5 November 2026
+## Owned context producers — 5 November 2026
+
+The class loader's group initialization establishes context zero, then ordered
+context commands replace it. `Fields::load` now owns this value and ordinary
+instantiation/placement preserve all its bits. This is measured initialization,
+not a default for an unavailable current provider. Mecc special children inherit
+the actual parent context instead of retaining their class contexts. The acquired
+cold generic-to-player path retains its zero context; the held-object profile
+continues to require that context.
+
+The acquired Ripper primary now starts from the owned context and publishes its
+context changes alongside its other fields. Source snapshots used by firing and
+surface-marker services also carry the actual context. Basic projectile
+construction and enemy launch preserve their explicitly supplied dispatch context
+in the header. These explicit launch inputs do not acquire new source/fire timing.
+Vimp and chunk constructors reject disagreement between their context owners.
+
+`Session::mecc_target_header` and `OwnedHeaders` read the resulting state. Foreign,
+raw or cancelled registrations, a running/failed primary and inconsistent owned
+context copies are refused. The class805 special header remains unavailable:
+the query still refuses a same-context candidate when that value is required.
+The special actor-header value is separate from the target aim point in the Mecc
+payload; no value is inferred from that payload.
+
+Controlled native/Rust checks match 64 ordered context-command cases and 64
+ordinary-constructor/three-child inheritance cases, comparing 384 scalar values.
+Separate native group-initialization controls cover 160 class contexts. The local
+scan comparison also passes its 64 cases / 1,085 words with the production
+`OwnedHeaders`, including 16 selections and 128 failure-preservation checks.
+Those scan cases supply the current class-context values, view/pose and clock
+inputs; they do not prove complete mission mutation coverage or scheduling.
+The main mission driver still does not execute the local scan or its fire phase.
+
+Additional private REA identities: ordinary constructor
+`ev_78f6054ad4b75e537feedb45437386dbf02474e4b148c0a0bc67199a800714b3`;
+second field copy
+`ev_abe5ec8143e50afd57f0be8e046327e3bcd09c98d687b10d3d2c7e74371c031c`;
+child/type inheritance
+`ev_d13386ab3ac355c0a7644636240d9bc509e4a22d01eb2bd66554f07330fa58cc`.
+These identify static inspection; the controlled execution comparisons are
+separate evidence. All original instructions and probe inputs remain private.
+
+## Publication evidence and limits — 5 November 2026
 
 Static REA inspection located the publication immediately after the local query.
 A private controlled execution then compared the original local prepass with
@@ -68,11 +112,10 @@ The portable publication regressions can be run without game data:
 cargo test --locked -p giants-game --target x86_64-pc-windows-gnu local_target_publication
 ```
 
-The class-loader investigation also identified initial template zeroing and a
-class-program context assignment. That narrows the next producer investigation;
-current context inheritance and mission mutations must be represented and
-validated before replacing the required header service. The special-header
-producer remains open. BACKLOG.md is the detailed task list.
+The owned producers above replace the earlier requirement for a fixture-only
+context service. Complete mission mutation coverage, the special-header producer
+and the actual primary/camera/muzzle/fire boundary remain open. BACKLOG.md is the
+detailed task list.
 
 Private REA evidence identities: local primary
 `ev_4cbaf1fe40899a74005249b38e09aceed0a0426287582f4ec7302085179138a1`;

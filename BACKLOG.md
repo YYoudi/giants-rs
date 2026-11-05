@@ -19,9 +19,10 @@ automatically wired into the main menu-to-mission build.
   links, aim point and terrain-reticle state. The 64 controlled source-backed
   CPU cases match the reference; 128 provider/epoch failure checks preserve the
   earlier publication. See docs/OWNED_TARGETING.md. The main driver does not yet
-  execute this scan. Source context inheritance/mission mutation and special-header
-  producers remain unresolved; class-loader zeroing/context assignment is identified
-  but not yet wired into current owned headers. Effective declaration range 700;
+  execute this scan. OwnedHeaders now reads class initialization/copies, Mecc
+  child inheritance and acquired Ripper/projectile context publications; 128
+  producer cases match the reference. Complete mission mutation coverage and the
+  class805 special-header producer remain unresolved. Effective declaration range 700;
   normal pistol caller distance 500. Do not substitute a default range of 1000.
 - Connect the acquired target/reticle publication, actual camera/muzzle timing
   and fire phase at the real first-animation/physical boundary; then verify

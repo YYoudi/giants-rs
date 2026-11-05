@@ -129,6 +129,7 @@ pub fn prepare(
         put(bytes, 0x1e8 + i * 4, value.to_bits());
     }
     let mut fields = fields.clone();
+    fields.dispatch_context = dispatch_context;
     let matrix = crate::object_transform::euler(fields.position, fields.angles, fields.scale)
         .map_err(str::to_owned)?;
     fields.object_flags |= 0x20;

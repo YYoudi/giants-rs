@@ -367,6 +367,7 @@ mod tests {
         let channels = crate::actor_context::initial_channels(Some(2), false);
         let header = actor_fields::Fields {
             class: 73,
+            dispatch_context: 0,
             configuration: c,
             scale: 1.,
             object_flags: 0x20,

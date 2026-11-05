@@ -372,6 +372,7 @@ mod tests {
         configuration[20] = 2;
         let fields = crate::actor_fields::Fields {
             class: 2,
+            dispatch_context: 0,
             configuration,
             scale: 1.,
             object_flags: 0,
