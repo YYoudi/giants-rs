@@ -319,3 +319,10 @@ staged children, verifies existing counts/lists remain unchanged, checks parent
 reference ownership and effect/cache/resource identities, rejects duplicate
 publication, and clears/re-enters with fresh identities. It also checks initial
 size when the generation gate leaves physics absent. No window or audio runs.
+
+Combined source `73910c8` retains the newer shared-reference and subjective-display
+work. It passes 728 synthetic Rust tests (19 ignored), 35 Python tests, Rustfmt,
+Clippy and site/JavaScript checks. The installed-data atomic group/re-entry check
+and the complete 16-context field/buffer/list comparison pass again after that
+merge. These checks do not acknowledge the group's pending providers or certify
+an executable gameplay/fidelity milestone.

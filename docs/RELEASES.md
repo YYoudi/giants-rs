@@ -10,6 +10,14 @@ behavior and native character teardown remain pending. This field proof is not
 playable admission or fidelity and produces no new public binary/package receipt.
 See OWNED_KABUTO.md; earlier receipts stay bound to their exact source.
 
+
+Combined source `73910c8` retains the newer shared-reference and subjective-display
+work. It passes 728 synthetic Rust tests (19 ignored), 35 Python tests, Rustfmt,
+Clippy and site/JavaScript checks. The installed-data atomic group/re-entry check
+and the complete 16-context field/buffer/list comparison pass again after that
+merge. These checks do not acknowledge the group's pending providers or certify
+an executable gameplay/fidelity milestone.
+
 ## Kabuto physical/size refresh composition - 5 November 2026
 
 The acquired post-prefix physical generation phase now composes shared inline
