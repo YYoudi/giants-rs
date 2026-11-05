@@ -20,6 +20,29 @@ visual fidelity. See OWNED_LOCAL_FIRE.md for remaining integration prerequisites
 This CPU prerequisite creates no new playable release or replacement binary;
 existing packages retain their original exact-source receipts and checksums.
 
+Combined runtime source `c64bd15a329de3c4e4d47d3a538d4001fa8d2de7` passes
+728 synthetic Rust tests (21 ignored), 36 Python tests, Rustfmt, Clippy and
+site/JavaScript checks. Both continuous subjective comparisons and the installed
+source-data lifecycle control pass again after that merge. Source history review
+reports no findings across 151 commits and 1,723 blobs.
+
+Its GNU main build has executable SHA256
+`ef580e1671b4c3c6212310e6240b96541c09fec9ff6bd3db60ef809396927bc3`.
+The receipt-bound ten-member private validation draft has SHA256
+`352b511ee8f0f0640921ba1dcfc7984ae76037be6c54d78971bc9e40b9ddf77c`;
+notice/review and independent package-integrity checks report no blockers.
+The same executable passes both silent three-launch development lifecycle
+endpoints and three selected-opening cancellation/re-entry cycles, without a
+window or audio device. These runtime regressions do not exercise the new
+subjective composition, real firing, complete cinematic playback or fidelity.
+Later source merges do not replace this binary's exact-source receipt.
+
+Subsequent combined source `108a6cd` preserves the concurrent Kabuto cold-cache
+addition and passes 731 Rust tests (21 ignored), 36 Python tests, Rustfmt, Clippy
+and site/JavaScript checks. The subjective module, Session adapter and lifecycle
+control source remain identical to the validated build above; its binary receipt
+continues to identify `c64bd15`, rather than this later source.
+
 ## Kabuto external definitions and cold animation cache - 5 November 2026
 
 An explicit user-supplied executable-data reader now prepares owned cold Kabuto
