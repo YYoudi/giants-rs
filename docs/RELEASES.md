@@ -194,6 +194,10 @@ notices/review, no packaging blockers and ZIP SHA256
 The same executable passes 128 silent owned-mission inspection updates and both
 three-launch development lifecycle endpoints. These are regression controls;
 the new shared-reference composition remains a separately controlled CPU service.
+Three selected-opening cancellation/re-entry cycles also pass on that executable,
+including disabled-audio queue and ownership cleanup checks. Full natural-ending
+transport, audible behavior and subjective firing integration are not added by
+these regressions.
 
 ## Subjective firing dispatch contract - 5 November 2026
 
