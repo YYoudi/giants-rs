@@ -32,7 +32,7 @@ context commands replace it. `Fields::load` now owns this value and ordinary
 instantiation/placement preserve all its bits. This is measured initialization,
 not a default for an unavailable current provider. Mecc special children inherit
 the actual parent context instead of retaining their class contexts. The acquired
-cold generic-to-player path retains its zero context; the held-object profile
+cold generic-to-player profile establishes context zero; the held-object profile
 continues to require that context.
 
 The acquired Ripper primary now starts from the owned context and publishes its
@@ -61,9 +61,7 @@ The main mission driver still does not execute the local scan or its fire phase.
 Additional private REA identities: ordinary constructor
 `ev_78f6054ad4b75e537feedb45437386dbf02474e4b148c0a0bc67199a800714b3`;
 second field copy
-`ev_abe5ec8143e50afd57f0be8e046327e3bcd09c98d687b10d3d2c7e74371c031c`;
-child/type inheritance
-`ev_d13386ab3ac355c0a7644636240d9bc509e4a22d01eb2bd66554f07330fa58cc`.
+`ev_abe5ec8143e50afd57f0be8e046327e3bcd09c98d687b10d3d2c7e74371c031c`.
 These identify static inspection; the controlled execution comparisons are
 separate evidence. All original instructions and probe inputs remain private.
 
