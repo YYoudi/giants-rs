@@ -19,7 +19,9 @@ matches probable and one unassigned. No gameplay status changes follow from name
   separate PC/PS2 identities and platform differences.
 - Revisit acquired services incrementally on touch: primary/animation, aim/target,
   collision, physics, wield/projectiles, audio and shared actor services. Preserve
-  old identifiers as aliases. Do not batch-apply naming tables.
+  old identifiers as aliases. Use the central continuation record and the lookup
+  tool's profile/alias fields so resumed work retains its exact evidence identity.
+  Do not batch-apply naming tables.
 - Delphi/Kabuto and cinematic continuations must record the same lookup for their
   next actual functions; resources or an inferred module name prove no controller.
 - Recover ambiguous demangling and any useful `.mdebug` types privately only when
@@ -93,8 +95,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Contacts, orientation/rates, context and external motion remain supplied
   boundaries; gravity, trajectories and Session/live-controller consumption are
   not implemented by this kernel.
-- Acquire land movement and physical/animation phases, wire the jump service to
-  their owned state, then acquire water entry/exit, swimming and turbo/energy;
+- Implemented: owned ordinary dry physical/jump/ANM/history composition uses
+  persistent Rust velocity, terrain/world contacts, affine state, class-shared
+  event descriptors and the actual 80-record history ring. The generic ANM core
+  is shared with Mecc without broadening its admission. Sixty-four continuous
+  native/Rust steps match 510,144 normalized words across all 22 actor headers,
+  reference buffers, full owner payload and fifteen ordered lists. Real class
+  animation bounds are applied on both sides; commands, flat terrain and time
+  are supplied boundaries, not native velocity/trajectory outputs. This executes
+  the entered primary prefix, jump and physical body, not a full primary turn.
+- Acquire primary mode/clip selection, heading/pitch producers, the second ANM
+  pass and auxiliary callbacks; compare against the acquired complete selected
+  actor iterations. Then acquire water entry/exit, swimming and turbo/energy;
   compare controlled continuous cycles before admitting live controls. Reuse
   shared terrain/collision/input services with the acquired character parameters.
 - Connect the validated controller through the existing selected-mission path,
@@ -150,8 +162,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   controls match 206,848 header/payload words. Same-generation absence is retained
   and cannot acknowledge gameplay readiness. Full first-initializer composition,
   parent links and material/animation resources remain pending.
-- Implement and compare first-primary initialization and its size composition,
-  including shared physical/animation services and owned auxiliary/effect links.
+- Implemented: atomic twelve-actor cold group field composition now matches
+  16 native contexts (53,728 words), including all actor headers, owner payload,
+  typed links, geometry buffers and ordered lists. Late failure preserves the
+  existing Session; clear/re-entry and generation-without-physics checks pass.
+  The group's pending camera/animation-cache/material/global-geometry services remain
+  explicit; this is not full first-initializer behavior or gameplay readiness.
+- Complete first-initializer behavior beyond the acquired field group: animation
+  definition-cache lookup/clamping/reset lifetime, generated material/global
+  geometry registration and camera reset
+  consumption. Acquire the native Kabuto-specific teardown and complete primary;
+  the current release proof covers whole-Session clear only.
   Reuse `physical_initial::reset`. The native effect auxiliaries pass through
   their declared effect state before becoming inactive; preserve the acquired
   transition/cleanup when composing the group, rather than using only a final-state seed.

@@ -283,3 +283,53 @@ It passes 728 synthetic Rust tests (18 ignored), 35 Python tests, Rustfmt, Clipp
 and site/JavaScript checks. The 512-case native/Rust comparison passes again after
 that merge. The matched physical/size boundary does not certify a complete first
 initializer, live controls, movement, growth events or visual fidelity.
+
+## Atomic cold group field composition
+
+`kabuto_initial::Factory` now composes source-backed player fields, both attached
+auxiliaries, nine inactive effects, normal cold-size fields, the physical refresh
+and auxiliary geometry buffers. Object/class/geometry references remain typed;
+no native pointer is inserted into the payload. The Session publishes all twelve
+actors only after every constructor, resource operation and list insertion has
+succeeded in staging. Existing actors remain unchanged if any late step fails.
+
+The first size pass runs before the physical generation gate. A second pass
+belongs to physical refresh when that generation changes. This preserves the
+native no-physics result for an unchanged generation while retaining the initial
+size/radius parameters. The factory covers the normal cold profile only, not
+live type replacement or a special-size override mode.
+
+Sixteen native contexts with varied supplied frame/blending inputs and both
+initial generation branches match 53,728 words: all 192 normalized actor headers,
+owner payloads, typed reference identities and auxiliary geometry headers,
+vertices and indices. Every ordered list matches. Unlike the earlier isolated
+component controls, the owned actor state is constructed from resources and the
+provided cold frame; native computed actor state is not an input to Rust.
+
+The generated material, animation-definition cache, global geometry registration and camera
+projection acknowledgement are explicitly pending on the group. They are not
+compared or acknowledged by this field/buffer proof. The seeded effect matrix is
+exposed separately from evaluated world/contact transforms. This is not complete
+first-initializer behavior equivalence, a first primary, playable admission,
+movement, growth or visual fidelity. Native Kabuto-specific individual teardown
+also remains unacquired; the validated release boundary is whole-Session clear.
+
+The installed-data control forces a late mass failure after constructing the
+staged children, verifies existing counts/lists remain unchanged, checks parent
+reference ownership and effect/cache/resource identities, rejects duplicate
+publication, and clears/re-enters with fresh identities. It also checks initial
+size when the generation gate leaves physics absent. No window or audio runs.
+
+Combined source `73910c8` retains the newer shared-reference and subjective-display
+work. It passes 728 synthetic Rust tests (19 ignored), 35 Python tests, Rustfmt,
+Clippy and site/JavaScript checks. The installed-data atomic group/re-entry check
+and the complete 16-context field/buffer/list comparison pass again after that
+merge. These checks do not acknowledge the group's pending providers or certify
+an executable gameplay/fidelity milestone.
+
+The callback passed by the inspected cold prefix clears its animation-cache
+initialized flag. It is a reset hook, not evidence that the prefix registers
+skeletal pose callbacks. The group's pending item is therefore named
+`AnimationCache`; definition lookup/clamping and reset lifetime remain to port.
+Any procedural pose callbacks belong to the still-unacquired primary/animation
+path and are not acknowledged by this field proof.

@@ -20,6 +20,67 @@ visual fidelity. See OWNED_LOCAL_FIRE.md for remaining integration prerequisites
 This CPU prerequisite creates no new playable release or replacement binary;
 existing packages retain their original exact-source receipts and checksums.
 
+## Research handoff tooling - 5 November 2026
+
+Prototype PS2 methodology follow-up (5 November 2026): private lookup worksheets
+now retain supplied PC build labels, earlier aliases and explicit demangler
+provenance/unknowns. The central method supplies a reusable continuation record.
+Synthetic controls cover alias retention and prevent naming metadata from
+promoting an attribution. This changes research tooling and documentation only;
+it adds no confirmed correspondence, gameplay integration or preview binary.
+
+## Delphi owned physical/jump/ANM/history composition - 5 November 2026
+
+The owned ordinary dry phase now carries persistent motion, terrain/world
+contacts, the acquired jump service, source-ordered animation/model-rate/force
+updates and the 80-record history ring. Class event descriptors are shared
+between Delphi owners. The common ANM core preserves the Mecc adapter and its
+admission profile. Sixty-four native/Rust continuous steps match 510,144
+normalized words over 22 actors, reference buffers, the complete owner payload
+and fifteen ordered lists, with real animation bounds applied on both sides.
+
+This is the entered primary prefix plus jump and physical body, not a complete
+primary/secondary turn. Mode selection, second ANM, auxiliary callbacks,
+water/turbo and live mission admission remain pending. No new playable Delphi
+feature, verified visuals or public download is claimed by this CPU milestone.
+
+Combined source `50472dc895370f9b8ec6a0d552fcc92fd3530187` retains the latest
+Kabuto and shared subjective-reference work. It passes 728 Rust tests (20
+ignored), 35 Python tests, Rustfmt, Clippy, site/JavaScript checks, the repeated
+64-step comparison and the two-owner source-data refusal/cleanup control. Source
+history review reports no findings across 145 commits and 1,693 unique blobs.
+
+The exact GNU build's ten-member private draft verifies receipt, technical
+review, notices and checksums with no package blockers. Executable SHA256:
+`a405ed6f6908570c32186f128bad88f644b8bd86aa7de4039a6bc8854844bd0f`;
+private draft ZIP SHA256:
+`84bf09999ddbeef66027408a9891f3d090307959b505f31e767f8a4bf6a94863`.
+
+That exact executable also passes both silent common-runtime lifecycle endpoints
+and three selected-opening cancellation cycles without a window or audio device.
+These regressions do not execute Delphi controls or verify complete playback or
+visual fidelity. The subsequent research-method tooling merge preserves identical
+runtime source and passes all 36 current Python/site controls; it does not replace
+the earlier executable's exact-source receipt.
+
+## Kabuto atomic cold group field composition - 5 November 2026
+
+The owned twelve-actor cold group matches sixteen native contexts and 53,728
+normalized field/buffer words, including owner payload, typed links and ordered
+lists. Staging makes late failure atomic; source-data clear/re-entry checks pass.
+Camera, animation-definition cache, material/global geometry registration, full first-primary
+behavior and native character teardown remain pending. This field proof is not
+playable admission or fidelity and produces no new public binary/package receipt.
+See OWNED_KABUTO.md; earlier receipts stay bound to their exact source.
+
+
+Combined source `73910c8` retains the newer shared-reference and subjective-display
+work. It passes 728 synthetic Rust tests (19 ignored), 35 Python tests, Rustfmt,
+Clippy and site/JavaScript checks. The installed-data atomic group/re-entry check
+and the complete 16-context field/buffer/list comparison pass again after that
+merge. These checks do not acknowledge the group's pending providers or certify
+an executable gameplay/fidelity milestone.
+
 ## Kabuto physical/size refresh composition - 5 November 2026
 
 The acquired post-prefix physical generation phase now composes shared inline

@@ -68,6 +68,166 @@ impl Session {
         actor.acquired_construction = true;
         self.publish_staged(staged, id)
     }
+    pub fn kabuto_group(&self, id: Id) -> Option<&crate::kabuto_initial::Group> {
+        self.get(id)?.kabuto_group.as_ref()
+    }
+    /// The actual seeded external-orientation cache, not an evaluated world
+    /// transform or contact-readiness acknowledgement.
+    pub fn kabuto_initial_effect_cache(
+        &self,
+        owner: Id,
+        id: Id,
+    ) -> Option<crate::actor_affine::Cache> {
+        let group = self.kabuto_group(owner)?;
+        if !group.effects.contains(&id) && group.final_effect != id {
+            return None;
+        }
+        let actor = self.get(id)?;
+        let fields = actor.construction_fields.as_ref()?;
+        let cache = actor.affine_cache.as_ref()?;
+        if actor.world_tick.is_some()
+            || actor.controlled_motion.is_some()
+            || actor.finalization.is_some()
+            || cache.pose != super::affine_pose_words(fields)
+            || cache.value.flags != 0
+        {
+            return None;
+        }
+        Some(cache.value)
+    }
+    pub(crate) fn stage_kabuto_group(
+        &mut self,
+        build: impl FnOnce(&mut Self) -> Result<Id, String>,
+    ) -> Result<Id, String> {
+        if self.residents.values().any(|a| a.kabuto_group.is_some()) {
+            return Err(
+                "Kabuto group already published; live type replacement is unacquired".into(),
+            );
+        }
+        let mut staged = Self::new(self.ticket);
+        staged.next = self.next;
+        let owner = build(&mut staged)?;
+        if staged.get(owner).is_none_or(|a| a.kabuto_group.is_none())
+            || staged.residents.len() != 12
+        {
+            return Err("Kabuto cold group is incomplete".into());
+        }
+        let mut links = self.links.clone();
+        for (&serial, actor) in &staged.residents {
+            links.construct(
+                serial,
+                actor.class,
+                u32::from(actor.seed.storage.state()),
+                actor.initial_flags,
+                actor.constructor_mask,
+            )?;
+        }
+        // No fallible operation follows publication of the fully checked group.
+        self.links = links;
+        self.next = staged.next;
+        self.residents.append(&mut staged.residents);
+        self.specifications.append(&mut staged.specifications);
+        self.state_resources.append(&mut staged.state_resources);
+        Ok(owner)
+    }
+    pub(crate) fn bind_kabuto_attachment(
+        &mut self,
+        owner: Id,
+        child: Id,
+        second: bool,
+    ) -> Result<(), String> {
+        let context = self
+            .get(owner)
+            .filter(|a| a.class == 1 && a.kabuto_player_fields)
+            .and_then(|a| a.construction_fields.as_ref())
+            .ok_or("Kabuto attachment owner absent")?
+            .dispatch_context;
+        let actor = self.get(child).ok_or("Kabuto attachment child absent")?;
+        if actor.class != if second { 1018 } else { 749 }
+            || actor.seed.storage.state() != 0
+            || !actor.acquired_construction
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+        {
+            return Err("Kabuto attachment requires its fresh acquired child".into());
+        }
+        let actor = self.residents.get_mut(&child.serial).unwrap();
+        let fields = actor.construction_fields.as_mut().unwrap();
+        fields.dispatch_context = context;
+        fields.configuration[14] |= if second { 0x20000000 } else { 0x24000000 };
+        fields.object_flags |= 0x400000;
+        fields.response_flags |= 0x2000000;
+        actor.attachment = Some(super::Attachment {
+            parent: owner,
+            child_reference: 0,
+            parent_reference: 10,
+            behavior: 0,
+        });
+        actor.presentation_parent = Some(owner);
+        Ok(())
+    }
+    pub(crate) fn bind_kabuto_effect(&mut self, owner: Id, id: Id) -> Result<(), String> {
+        let context = self
+            .get(owner)
+            .filter(|a| a.class == 1 && a.kabuto_player_fields)
+            .and_then(|a| a.construction_fields.as_ref())
+            .ok_or("Kabuto effect owner absent")?
+            .dispatch_context;
+        let actor = self.get(id).ok_or("Kabuto effect absent")?;
+        if !matches!(actor.class, 866 | 980)
+            || actor.seed.storage.state() != 0
+            || !actor.acquired_construction
+            || actor.affine_cache.is_some()
+        {
+            return Err("Kabuto effect requires its cold reset constructor".into());
+        }
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        let fields = actor.construction_fields.as_mut().unwrap();
+        fields.dispatch_context = context;
+        fields.configuration[14] |= 0xe00;
+        fields.object_flags |= 0x40010000;
+        actor.affine_cache = Some(super::OwnedAffine {
+            value: crate::actor_affine::Cache {
+                flags: 0,
+                matrix: crate::procedural_aim::Matrix::identity().values,
+            },
+            pose: super::affine_pose_words(fields),
+            external_orientation: true,
+        });
+        Ok(())
+    }
+    pub(crate) fn finish_kabuto_group(
+        &mut self,
+        id: Id,
+        fields: crate::actor_fields::Fields,
+        payload: Vec<u8>,
+        group: crate::kabuto_initial::Group,
+    ) -> Result<(), String> {
+        let actor = self.get(id).ok_or("Kabuto group owner absent")?;
+        if actor.class != 1
+            || !actor.kabuto_player_fields
+            || actor.kabuto_group.is_some()
+            || actor
+                .seed
+                .storage
+                .data()
+                .is_none_or(|p| p.len() != payload.len())
+            || payload.len() != 844
+        {
+            return Err("Kabuto group owner is not a fresh cold player".into());
+        }
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        actor
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()
+            .copy_from_slice(&payload);
+        actor.channels = Some(fields.channels);
+        actor.construction_fields = Some(fields);
+        actor.kabuto_group = Some(group);
+        Ok(())
+    }
     pub fn has_cold_kabuto_player_fields(&self, id: Id) -> bool {
         self.get(id).is_some_and(|a| a.kabuto_player_fields)
     }

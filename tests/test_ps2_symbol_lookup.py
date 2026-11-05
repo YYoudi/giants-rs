@@ -53,6 +53,24 @@ class SymbolLookupTests(unittest.TestCase):
         self.assertEqual(missing['candidates'], [])
         self.assertTrue(missing['lookup']['completed'])
 
+    def test_handoff_preserves_aliases_and_does_not_invent_decoder_provenance(self):
+        elf = synthetic_elf()
+        csv = ('addr,size,kind,demangled,mangled\n'
+               '0x00100000,32,FUNC,ordinary(void),ordinary__Fv\n')
+        address_alias = f'FUN_{0x401000:08x}'
+        with patch.object(lookup, 'PROTOTYPE_SHA256', hashlib.sha256(elf).hexdigest()):
+            report = lookup.worksheet(elf, b'PC', 0x401000, ['ordinary'],
+                                      'module::function', csv, pc_profile='synthetic debug',
+                                      aliases=['old_helper', address_alias, 'old_helper'])
+        self.assertEqual(report['pc']['profile'], 'synthetic debug')
+        self.assertEqual(report['pc']['aliases'], [address_alias, 'old_helper'])
+        self.assertEqual(report['demangling']['csv_text_sha256'],
+                         hashlib.sha256(csv.encode('utf8')).hexdigest())
+        self.assertIsNone(report['demangling']['decoder'])
+        self.assertEqual(report['demangling']['status'], 'unreviewed')
+        self.assertEqual(report['attribution_status'], 'unknown')
+        self.assertFalse(report['publication_reviewed'])
+
     def test_csv_cannot_substitute_a_raw_symbol_from_another_binary(self):
         elf = synthetic_elf()
         csv = ('addr,size,kind,demangled,mangled\n'
@@ -70,12 +88,18 @@ class SymbolLookupTests(unittest.TestCase):
             output = root / '.local' / 'record.json'
             args = ['lookup', '--elf', str(elf), '--pc-binary', str(pc),
                     '--pc-address', '00401000', '--query', 'ordinary',
+                    '--pc-profile', 'synthetic debug', '--alias', 'earlier_name',
+                    '--demangler', 'synthetic decoder v1',
                     '--rust', 'module::function', '--output', str(output)]
             with (patch.object(lookup, 'ROOT', root),
                   patch.object(lookup, 'PROTOTYPE_SHA256', hashlib.sha256(elf.read_bytes()).hexdigest()),
                   patch('sys.argv', args), patch('builtins.print')):
                 lookup.main()
-                self.assertEqual(json.loads(output.read_text())['attribution_status'], 'unknown')
+                report = json.loads(output.read_text())
+                self.assertEqual(report['attribution_status'], 'unknown')
+                self.assertEqual(report['pc']['profile'], 'synthetic debug')
+                self.assertIn('earlier_name', report['pc']['aliases'])
+                self.assertEqual(report['demangling']['decoder'], 'synthetic decoder v1')
                 with self.assertRaises(FileExistsError):
                     lookup.main()
                 args[-1] = str(root / 'public.json')

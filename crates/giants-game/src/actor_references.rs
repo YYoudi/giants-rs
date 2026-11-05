@@ -10,6 +10,12 @@ pub struct Update {
     pub cached_nodes: usize,
     pub missing_nodes: usize,
 }
+/// Read-only storage observation, including constructor-cleared unsampled slots.
+/// This is not permission to use an unsampled buffer as a current pose.
+pub struct Storage<'a> {
+    pub sampled: bool,
+    pub matrices: &'a [Matrix],
+}
 #[derive(Clone)]
 pub struct Owned {
     specification: Arc<Prepared>,
