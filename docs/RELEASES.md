@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Delphi owned manual rotation - 6 November 2026
+
+An explicit owned profile now composes manual heading/look between the entered
+prefix and jump/physical/history, then dry sword secondary and zero-time ANM.
+Class rates, input preferences, local ownership and object time remain actual
+inputs; look is separate actor state. Paused physical updates keep animation and
+history while skipping motion/placement/new rates/forces.
+
+Five 256-step native/Rust cases match 10,202,880 normalized words across all
+22 actor headers/reference buffers, full owner payload and fifteen ordered lists,
+plus shared RNG endpoints. They cover signed commands, wrap/clamps, variable
+frame time, pause/unpause with held jump and ordered time areas/owner exclusion.
+A separate 2,531-case scalar control matches 488,483 header words. The source-data
+control interleaves three owners and retains state after refused/failed updates.
+
+Full primary/camera/target/item producers, auxiliary callbacks, effects, water,
+turbo, combat and live mission admission remain pending. These CPU controls do
+not certify a complete controller, scheduled world turn or visual fidelity and
+add no playable Delphi download.
+
 ## Delphi external animation definitions - 6 November 2026
 
 The locomotion resource loader now reads external character definitions from two

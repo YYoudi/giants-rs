@@ -4,7 +4,7 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
-## Manual rotation kernel — 6 November 2026
+## Manual rotation kernel - 6 November 2026
 
 `player_rotation::advance` implements the acquired finite manual heading/look
 helpers with supplied object time, sensitivity, ownership and class rates in the
@@ -13,10 +13,28 @@ complete header words. It preserves wide upper-heading correction, stored-float
 lower correction, nonzero-input look clamping and the distinct pause behavior.
 Automatic target heading is refused. Prototype PS2 attribution remains unknown.
 
-This standalone kernel is not connected to the owned Delphi cycle. Full producer
-ordering, nonzero-input cohort trajectories, area-dependent time, camera, mission
-input and live admission remain pending. It adds no playable capability or
-verified visual fidelity; the comparison is not a full controller proof.
+`Resources::with_manual_rotation` now fixes this producer into a fresh owned
+locomotion profile. `Session::advance_delphi_controlled` executes entered prefix,
+manual heading/look, jump, physical/first ANM/history, dry sword secondary and
+zero-time ANM in source order. Look is actor-owned independently of body angles;
+class rotation rates and actual object-local time are consumed directly.
+
+Five continuous 256-step PC/Rust controls match 10,202,880 normalized words over
+all 22 actors, reference buffers, owner payload and fifteen ordered lists, plus
+shared RNG endpoints. They cover signed turn/look, heading wrap, local/nonlocal
+look limits, pause/unpause, movement/jump, variable global time and ordered
+slow-area boundaries with owner exclusion. Native snapshots remain outputs only.
+The paused physical branch retains first ANM/history while skipping integration,
+placement, new model rates and force production. Jump launch is pause-gated;
+existing hold/release semantics remain separate.
+
+The source-data lifecycle control now interleaves three owners across physical,
+locomotion and controlled profiles. It checks separate look state, pause without
+terrain queries, wrong-entry refusal and retained state after invalid rotation.
+Full primary/camera/target/item and auxiliary callbacks, nonordinary effects,
+water/turbo, mission input and live admission remain pending. These CPU controls
+add no playable capability or verified visual fidelity and are not a full
+controller or scheduled-world proof.
 
 `Factory::construct_player_fields` adds the acquired cold local-player field
 projection around the special phase. It restores class scale, resets pitch,

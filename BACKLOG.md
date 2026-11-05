@@ -121,11 +121,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   authentication or execution proof for every build.
   Impact/slide effects, nonordinary actions, water and equipment changes remain
   explicit unsupported boundaries. This does not execute the full primary.
-- The standalone manual heading/look kernel matches 2,531 supplied-boundary
-  cases / 488,483 header words in Double53. Connect it after the entered prefix
-  and before jump, with actor-owned look state and actual class rates/time.
-  Compare nonzero-input cohort trajectories and area-dependent timing before
-  admission; automatic target heading remains refused.
+- Implemented: the manual heading/look kernel matches 2,531 supplied-boundary
+  cases / 488,483 header words in Double53. Its explicit owned controlled profile
+  composes entered prefix -> heading/look -> jump/physical/history -> secondary
+  -> zero-time ANM. Five 256-step comparisons match 10,202,880 normalized words
+  over 22 actors, references, payload and ordered lists, plus shared RNG endpoints.
+  Controls cover signed input, wrap/clamps, pause/unpause with held jump, variable
+  global time and ordered slow areas/owner exclusion. Look stays actor-owned;
+  actual class rotation rates and source-position object time are consumed.
+  Paused physical work keeps first ANM/history but skips integration/placement/
+  new rates/forces. Three-owner lifecycle/profile/quarantine checks pass.
+  Automatic target heading, full primary and live admission remain pending.
 - Compose the surrounding full primary, heading/look/pitch producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
