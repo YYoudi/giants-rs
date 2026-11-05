@@ -151,6 +151,26 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- FX-prefix candidate: actual source/ancestry inspection covers 208 active requests
+  in 72 sources. The common refusal conflated Flick34 shadow descriptors, text
+  state, ordinary draw range and numeric sound requests with placement mutations.
+  Retained exact-reference shadow construction research is reused; no claim of
+  shadow raster fidelity follows. The two command32 records affect actors outside
+  their FX carrier ancestry. Typed framing and payload checks now admit those
+  non-placement prefixes. Carrier/ancestor local offsets, scaling/animation
+  mutations, unknown commands and cyclic graphs retain refusal guards. General
+  nonterminal FX admission is unchanged. Whole-corpus recount and main-menu
+  transport validation remain pending; do not equate rebucketing a refusal with
+  fixing a scene or completing its effects.
+- Owner's active work order (5 November 2026): address the shared 52-source FX
+  prefix refusal first, then general queue admission and partial FX services,
+  followed by remaining audio/credits/resume prerequisites. Work alone, strictly
+  in the background. Re-run the whole-corpus inventory and actual silent menu
+  lifecycle/transport controls after coherent integrations, updating this backlog,
+  PROGRESS, the dashboard and receipt-bound MinGW previews. Keep unknown visual,
+  temporal and functional behavior explicitly open; do not waive a real mutation
+  or readiness guard merely to reduce an inventory count.
+
 - Whole-corpus inventory completed on the recorded public-runtime source: 545
   sources / 16 worlds, zero top-level preparation errors, 61 sources with a
   reported implementation/preparation gap. The 470 others remain unverified;
