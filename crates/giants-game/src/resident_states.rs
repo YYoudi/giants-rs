@@ -315,7 +315,7 @@ pub struct Resident {
     pickup_notice_delivery: Option<crate::mission_notice::Delivery>,
     /// Numeric channel state, not evaluated poses or shared resource pointers.
     pub channels: Option<crate::animation_channels::Channels>,
-    /// Last actual Mecc ANM header stamp; allocation belongs to world services.
+    /// Last actual ANM header stamp (historical name); world services allocate it.
     pub mecc_animation_stamp: u32,
     /// Owned presentation metadata; not a constructed native actor pointer.
     presentation_parent: Option<Id>,
@@ -328,6 +328,7 @@ pub struct Resident {
     delphi_copy_source: Option<crate::delphi_special::CopySource>,
     delphi_copy_parameter: Option<f32>,
     delphi_physics_present: bool,
+    delphi_physical: Option<crate::delphi_physical::Owned>,
     mecc_special_child: Option<crate::mecc_special::Child>,
     wield_binding: Option<crate::mecc_wield::Binding>,
     wield_failure: Option<String>,
@@ -424,6 +425,7 @@ pub struct Session {
     common_walk_running: bool,
     common_walk_failure: Option<String>,
     mecc_events: Option<crate::mecc_animation_events::Bank>,
+    delphi_events: Option<crate::mecc_animation_events::Bank>,
     mecc_contact_materials: Option<Arc<crate::mecc_contact_materials::Catalog>>,
     vimp_events: Option<crate::mecc_animation_events::Bank>,
     mecc_countdown_world: Option<f32>,
@@ -446,6 +448,7 @@ impl Session {
             common_walk_running: false,
             common_walk_failure: None,
             mecc_events: None,
+            delphi_events: None,
             mecc_contact_materials: None,
             vimp_events: None,
             mecc_countdown_world: None,
@@ -539,6 +542,7 @@ impl Session {
                 delphi_copy_source: None,
                 delphi_copy_parameter: None,
                 delphi_physics_present: false,
+                delphi_physical: None,
                 mecc_special_child: None,
                 wield_binding: None,
                 wield_failure: None,
@@ -9177,6 +9181,22 @@ impl Session {
             .0
             .current_matrices(channels)
     }
+    pub fn reference_cache_storage(
+        &self,
+        id: Id,
+    ) -> Result<crate::actor_references::Storage<'_>, String> {
+        self.get(id)
+            .ok_or("reference storage owner absent or foreign")?;
+        let storage = &self
+            .specifications
+            .get(&id.serial)
+            .ok_or("reference storage absent")?
+            .0;
+        Ok(crate::actor_references::Storage {
+            sampled: storage.sampled(),
+            matrices: storage.matrices(),
+        })
+    }
     pub fn set_presentation_parent(
         &mut self,
         id: Id,
@@ -9729,6 +9749,7 @@ impl Session {
         self.declarations.clear();
         self.messages = crate::mission_messages::Queue::default();
         self.mecc_events = None;
+        self.delphi_events = None;
         self.mecc_contact_materials = None;
         self.vimp_events = None;
         self.mecc_reticle_owner = None;

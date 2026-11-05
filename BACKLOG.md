@@ -93,8 +93,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Contacts, orientation/rates, context and external motion remain supplied
   boundaries; gravity, trajectories and Session/live-controller consumption are
   not implemented by this kernel.
-- Acquire land movement and physical/animation phases, wire the jump service to
-  their owned state, then acquire water entry/exit, swimming and turbo/energy;
+- Implemented: owned ordinary dry physical/jump/ANM/history composition uses
+  persistent Rust velocity, terrain/world contacts, affine state, class-shared
+  event descriptors and the actual 80-record history ring. The generic ANM core
+  is shared with Mecc without broadening its admission. Sixty-four continuous
+  native/Rust steps match 510,144 normalized words across all 22 actor headers,
+  reference buffers, full owner payload and fifteen ordered lists. Real class
+  animation bounds are applied on both sides; commands, flat terrain and time
+  are supplied boundaries, not native velocity/trajectory outputs. This executes
+  the entered primary prefix, jump and physical body, not a full primary turn.
+- Acquire primary mode/clip selection, heading/pitch producers, the second ANM
+  pass and auxiliary callbacks; compare against the acquired complete selected
+  actor iterations. Then acquire water entry/exit, swimming and turbo/energy;
   compare controlled continuous cycles before admitting live controls. Reuse
   shared terrain/collision/input services with the acquired character parameters.
 - Connect the validated controller through the existing selected-mission path,

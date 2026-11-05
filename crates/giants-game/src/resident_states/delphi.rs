@@ -2,6 +2,163 @@
 use super::*;
 use crate::delphi_special::{CopySource, Initialized, State};
 impl Session {
+    pub fn prepare_delphi_physical(
+        &mut self,
+        id: Id,
+        resources: crate::delphi_physical::Resources,
+    ) -> Result<(), String> {
+        let actor = self
+            .get(id)
+            .ok_or("Delphi physical owner absent or foreign")?;
+        if !actor.delphi_physics_present
+            || actor.delphi_physical.is_some()
+            || !self
+                .specification(id)
+                .is_some_and(|s| std::sync::Arc::ptr_eq(s, &resources.specification))
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+            || actor.mecc_animation_stamp != 0
+        {
+            return Err(
+                "Delphi physical resources require their fresh initialized owned player".into(),
+            );
+        }
+        let cycle = crate::delphi_physical::Owned::fresh(
+            resources,
+            actor
+                .construction_fields
+                .as_ref()
+                .ok_or("Delphi fields absent")?,
+            actor.seed.storage.data().ok_or("Delphi payload absent")?,
+        )?;
+        self.residents.get_mut(&id.serial).unwrap().delphi_physical = Some(cycle);
+        Ok(())
+    }
+    pub fn delphi_physical(&self, id: Id) -> Option<&crate::delphi_physical::View> {
+        self.get(id)?.delphi_physical.as_ref().map(|c| &c.view)
+    }
+    pub fn advance_delphi_physical(
+        &mut self,
+        id: Id,
+        e: crate::delphi_physical::Environment<'_>,
+        ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+        services: &mut crate::actor_animation_phase::Services<'_>,
+    ) -> Result<crate::delphi_physical::View, String> {
+        let actor = self
+            .get(id)
+            .ok_or("Delphi physical owner absent or foreign")?;
+        let mut cycle = actor
+            .delphi_physical
+            .clone()
+            .ok_or("Delphi physical cycle unprepared")?;
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("Delphi fields absent")?
+            .clone();
+        let payload = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("Delphi payload absent")?
+            .to_vec();
+        let group = self
+            .delphi_special(id)
+            .ok_or("Delphi group absent")?
+            .clone();
+        for copy in &group.copies {
+            for child in [copy.actor, copy.held] {
+                self.get(child)
+                    .and_then(|a| a.construction_fields.as_ref())
+                    .ok_or("Delphi physical group member absent")?;
+            }
+        }
+        // Event descriptors are mutable class resources, shared by owners of
+        // the same prepared specification rather than reset per actor.
+        let specification = cycle.resources.specification.clone();
+        let bank = self
+            .delphi_events
+            .clone()
+            .unwrap_or_else(|| crate::mecc_animation_events::Bank::new(specification.clone()));
+        if !bank.belongs_to(&specification) {
+            return Err("Delphi event resources differ from shared class bank".into());
+        }
+        let mut pipeline = crate::actor_animation_phase::Pipeline {
+            specification: cycle.resources.specification.clone(),
+            references: self
+                .specifications
+                .get(&id.serial)
+                .ok_or("Delphi references absent")?
+                .0
+                .clone(),
+            bank,
+            contexts: services.contexts.staged_copy(),
+            random: *services.random,
+            channels: actor.channels.ok_or("Delphi channels absent")?,
+            owner: id,
+            stamp: services.stamp,
+            last_stamp: actor.mecc_animation_stamp,
+            blending: services.blending,
+            materials: Some(cycle.resources.materials.clone()),
+        };
+        let result = cycle.advance(&fields, &payload, e, ground, |fields, view, seconds| {
+            let pass = pipeline.advance_sample(
+                fields,
+                crate::actor_animation_phase::Sample {
+                    model: view.model,
+                    affine: view.affine,
+                    support: view.support,
+                    support_part: view.support_part,
+                },
+                seconds,
+            )?;
+            fields.channels = pass.channels;
+            Ok(())
+        });
+        match result {
+            Ok(out) => {
+                self.specifications.get_mut(&id.serial).unwrap().0 = pipeline.references;
+                self.delphi_events = Some(pipeline.bank);
+                *services.contexts = pipeline.contexts;
+                *services.random = pipeline.random;
+                let actor = self.residents.get_mut(&id.serial).unwrap();
+                actor.channels = Some(out.fields.channels);
+                actor.mecc_animation_stamp = pipeline.last_stamp;
+                actor.affine_cache = Some(OwnedAffine {
+                    value: cycle.view.affine.ok_or("Delphi physical affine absent")?,
+                    pose: affine_pose_words(&out.fields),
+                    external_orientation: false,
+                });
+                actor.construction_fields = Some(out.fields);
+                actor
+                    .seed
+                    .storage
+                    .data_mut()
+                    .unwrap()
+                    .copy_from_slice(&out.payload);
+                // Ordinary non-turbo Delphi hides the existing copies and held
+                // objects; this does not execute their separate callbacks.
+                for copy in group.copies {
+                    for child in [copy.actor, copy.held] {
+                        self.residents
+                            .get_mut(&child.serial)
+                            .unwrap()
+                            .construction_fields
+                            .as_mut()
+                            .unwrap()
+                            .object_flags |= 0x40000000;
+                    }
+                }
+                let view = cycle.view.clone();
+                self.residents.get_mut(&id.serial).unwrap().delphi_physical = Some(cycle);
+                Ok(view)
+            }
+            Err(error) => {
+                self.residents.get_mut(&id.serial).unwrap().delphi_physical = Some(cycle);
+                Err(error)
+            }
+        }
+    }
     pub fn initialize_delphi_physics(
         &mut self,
         id: Id,
@@ -348,5 +505,167 @@ impl Session {
                 Err(error) => State::Failed(error.clone()),
             });
         }
+    }
+}
+
+#[cfg(test)]
+mod physical_tests {
+    use super::*;
+
+    #[test]
+    #[ignore = "Requires GIANTS_DELPHI_ROOT; silent owned CPU composition, no live controller"]
+    fn source_delphi_physical_owns_motion_shares_events_and_quarantines_failure() {
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_DELPHI_ROOT").unwrap());
+        let resources =
+            crate::scene_resources::SceneResources::load(&root, "w_Rstory1.bin", "English")
+                .unwrap();
+        let globals =
+            giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+                .unwrap();
+        let weapons = giants_formats::weapons::parse_with_profile(
+            &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+            giants_formats::weapons::Profile::Debug,
+        )
+        .unwrap();
+        let factory = crate::delphi_special::Factory::load(&resources, &globals, &weapons).unwrap();
+        let mut session = Session::new(1281);
+        let mut owners = Vec::new();
+        for _ in 0..2 {
+            let id = factory
+                .construct_player_fields(
+                    &mut session,
+                    crate::delphi_player::ColdFrame {
+                        position: [0., 0., 10.],
+                        current: [0., 0., 10.],
+                        previous: [0., 0., 10.],
+                        angles: [0.; 3],
+                    },
+                    crate::animation_channels::Blending::Disabled,
+                )
+                .unwrap()
+                .owner;
+            session.initialize_delphi_physics(id, &globals).unwrap();
+            let prepared = crate::delphi_physical::Resources::load(
+                &resources,
+                session.specification(id).unwrap().clone(),
+                Arc::new(
+                    crate::mecc_contact_materials::Catalog::from_prepared(&[], Default::default())
+                        .unwrap(),
+                ),
+            )
+            .unwrap();
+            session
+                .prepare_delphi_physical(id, prepared.clone())
+                .unwrap();
+            assert!(session.prepare_delphi_physical(id, prepared).is_err());
+            owners.push(id);
+        }
+        let mut contexts =
+            crate::attached_effect_context::Pool::from_active_resources(1281, &resources);
+        let mut random = crate::audio_parameters::Random(1);
+        let mut stamp = crate::animation_epoch::Stamp::default();
+        let mut landed = false;
+        let mut jumped = false;
+        for number in 1..=64 {
+            for (index, &id) in owners.iter().enumerate() {
+                let commands = if (25..=30).contains(&number) {
+                    [0, 0, 0, 0, 0, 2, 0, 0]
+                } else {
+                    [0; 8]
+                };
+                let view = session
+                    .advance_delphi_physical(
+                        id,
+                        crate::delphi_physical::Environment {
+                            number,
+                            actor_key: index as u32 + 1,
+                            globals: &globals,
+                            global_seconds: 1. / 60.,
+                            areas: &[],
+                            commands,
+                            launch_blocked: false,
+                            objects: &[],
+                        },
+                        |_| {
+                            Ok(crate::physical_ground::Ground {
+                                height: 0.,
+                                plane: [0., 0., 1., 0.],
+                                key: [5, 0],
+                            })
+                        },
+                        &mut crate::actor_animation_phase::Services {
+                            contexts: &mut contexts,
+                            random: &mut random,
+                            stamp: &mut stamp,
+                            blending: crate::animation_channels::Blending::Disabled,
+                        },
+                    )
+                    .unwrap();
+                let fields = session
+                    .get(id)
+                    .unwrap()
+                    .construction_fields
+                    .as_ref()
+                    .unwrap();
+                // Terrain contact has no supporting actor identity.
+                landed |= fields.position[2] == 0. && view.velocity[2] == 0.;
+                jumped |= view.velocity[2] > 1. && fields.position[2] > 0.;
+                assert!(
+                    session
+                        .delphi_events
+                        .as_ref()
+                        .unwrap()
+                        .belongs_to(session.specification(id).unwrap())
+                );
+                assert!(session.reference_cache_storage(id).unwrap().sampled);
+            }
+        }
+        assert!(landed && jumped);
+        let id = owners[0];
+        let before = session
+            .get(id)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap()
+            .to_vec();
+        let contexts_before = contexts.active().to_vec();
+        let random_before = random;
+        assert!(
+            session
+                .advance_delphi_physical(
+                    id,
+                    crate::delphi_physical::Environment {
+                        number: 65,
+                        actor_key: 1,
+                        globals: &globals,
+                        global_seconds: 1. / 60.,
+                        areas: &[],
+                        commands: [0; 8],
+                        launch_blocked: true,
+                        objects: &[],
+                    },
+                    |_| panic!("Rejected profile must not query terrain"),
+                    &mut crate::actor_animation_phase::Services {
+                        contexts: &mut contexts,
+                        random: &mut random,
+                        stamp: &mut stamp,
+                        blending: crate::animation_channels::Blending::Disabled,
+                    }
+                )
+                .is_err()
+        );
+        assert_eq!(
+            session.get(id).unwrap().seed.storage.data().unwrap(),
+            before
+        );
+        assert!(session.delphi_physical(id).unwrap().failure.is_some());
+        assert_eq!(random.0, random_before.0);
+        assert_eq!(contexts.active(), contexts_before);
+        session.clear();
+        assert!(session.delphi_events.is_none());
+        assert!(session.delphi_physical(id).is_none());
+        assert_eq!(session.counts().residents, 0);
     }
 }

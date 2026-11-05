@@ -1,4 +1,4 @@
-# Owned cold Delphi construction and player fields
+# Owned Delphi construction, physical state and animation
 
 Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
@@ -35,6 +35,36 @@ special-phase failures retain the existing quarantine behavior. The normal
 special-only entry still leaves player selection and activation untouched.
 
 ## Evidence and scope
+
+`Session::prepare_delphi_physical` and `advance_delphi_physical` now compose the
+ordinary dry physical body with the acquired jump service and owned persistent
+motion. Integration, position limits, terrain/world contact, affine preparation,
+the first animation pass, new model rates, gravity/control forces and the actual
+80-record history ring execute in source order. The animation pass consumes the
+preceding rates. Class event descriptors are shared across prepared Delphi actors;
+reference buffers remain actor-owned. The common ANM implementation is reused by
+Mecc through its existing adapter, preserving its selection and admission rules.
+
+Sixty-four continuous steps match 510,144 normalized words over all 22 actor
+headers/reference buffers, the complete owner payload and all fifteen ordered
+lists. The native control applies real class animation bounds before execution.
+Both sides build their own state and receive the same commands, timestep and
+flat terrain; native velocity, contacts and trajectories are outputs only.
+The comparison executes the entered primary prefix, jump and physical body,
+including the first ANM pass. It does not execute the full primary mode/clip
+selector, second ANM pass, other actor callbacks or a complete world frame.
+
+A separate silent source-data control runs two owners against shared class
+resources, checks falling/contact/jump, duplicate preparation refusal, failure
+quarantine, retained payload/effect membership and Session cleanup. These backend
+guards do not claim native error-path parity. Nonordinary controls, immersion,
+turbo and unacquired context producers are refused. Prototype PS2 lookups retain
+unknown attribution; no prototype ABI/layout is imported.
+
+Full primary/secondary composition, copy updates, water/turbo, selected-mission
+admission, camera/HUD/audio and combat remain prerequisites. This CPU milestone
+does not make Delphi playable or establish visual fidelity. Earlier standalone
+results below retain their original, narrower scopes.
 
 `delphi_jump::step` adds the acquired standalone jump/hold/release service. It
 preserves the distinct impulse and launch-latch gates, hold acceleration and

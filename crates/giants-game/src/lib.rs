@@ -74,6 +74,7 @@ use giants_formats::{
     tga::{self, RgbImage},
 };
 use std::path::Path;
+pub mod actor_animation_phase;
 pub mod ambient_streams;
 pub mod animation;
 pub mod animation_event_dispatch;
@@ -99,6 +100,7 @@ pub mod declared_mesh_scene;
 pub mod decorations;
 pub mod delphi_initial;
 pub mod delphi_jump;
+pub mod delphi_physical;
 pub mod delphi_player;
 pub mod delphi_resources;
 pub mod delphi_special;

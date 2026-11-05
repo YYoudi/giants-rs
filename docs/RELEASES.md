@@ -1,5 +1,20 @@
 # Preview releases and milestone integration
 
+## Delphi owned physical/jump/ANM/history composition - 5 November 2026
+
+The owned ordinary dry phase now carries persistent motion, terrain/world
+contacts, the acquired jump service, source-ordered animation/model-rate/force
+updates and the 80-record history ring. Class event descriptors are shared
+between Delphi owners. The common ANM core preserves the Mecc adapter and its
+admission profile. Sixty-four native/Rust continuous steps match 510,144
+normalized words over 22 actors, reference buffers, the complete owner payload
+and fifteen ordered lists, with real animation bounds applied on both sides.
+
+This is the entered primary prefix plus jump and physical body, not a complete
+primary/secondary turn. Mode selection, second ANM, auxiliary callbacks,
+water/turbo and live mission admission remain pending. No new playable Delphi
+feature, verified visuals or public download is claimed by this CPU milestone.
+
 ## Delphi jump service - 5 November 2026
 
 The standalone acquired jump/hold/release service now preserves launch/impulse
