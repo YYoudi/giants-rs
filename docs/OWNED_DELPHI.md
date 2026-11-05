@@ -36,6 +36,34 @@ special-only entry still leaves player selection and activation untouched.
 
 ## Evidence and scope
 
+`delphi_jump::step` adds the acquired standalone jump/hold/release service. It
+preserves the distinct impulse and launch-latch gates, hold acceleration and
+countdown, release flags and stored height. The inline physical request chooses
+the smaller value unless its current value is zero; it is not a maximum setter.
+Object-local time uses the shared ordered-area clock, with no fixed timestep.
+
+Eight hundred sixty-four scalar cases and 64 persistent sequences of 32 steps
+match 3,543,904 normalized header/payload words. Original jump, request and time
+instructions execute. Both implementations carry their own state between steps;
+native output snapshots are never fed into Rust. Supplied boundary inputs cover
+commands, launch blocking, mode/contact, rates/orientation, position/vertical
+speed, two context words, declarations and ordered time areas. The controls
+include owner exclusion, area ordering and zero/varied timesteps. Unrelated seeded
+header/payload words are compared too. Original helper calls are retained in the
+private acquisition trace; no behavior return is substituted.
+
+This is not a gravity/trajectory, terrain or immersion producer, complete primary
+turn or Session/live-controller integration. Those consumers remain prerequisites
+before admitting gameplay. Finite-profile and clock guards are owned refusals,
+not claims of native NaN/error-path parity. Prototype PS2 lookup was performed;
+routine attribution remains unknown pending independent prototype algorithm
+review. The PC debug behavior, not a prototype layout, defines this service.
+
+Private jump REA evidence:
+`ev_81edd7f516b102ff9f375ac159cd56604a7513dce54e9ec99e66d6fb4059e124`;
+request helper:
+`ev_bd13a1f19cef8f0c3769c135a72b17fb3b32bd885f86008246de9198f0ca116f`.
+
 `Session::initialize_delphi_physics` now owns the first-primary physical setup as
 a distinct stage after special construction. `delphi_initial` loads the actual
 seven scalar declarations and signed limit, restores inline defaults through
