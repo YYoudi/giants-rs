@@ -12,6 +12,13 @@ world teardown, live input, movement, growth or fidelity. World dispatch schedul
 and the remaining initializer providers still gate admission. This CPU milestone
 does not issue a new playable download or replace prior exact-source receipts.
 
+Combined source `3b0a090` preserves the newer subjective Mecc composition and
+Delphi acquisition records. It passes 731 synthetic Rust tests (22 ignored),
+36 Python tests, Rustfmt, Clippy and site/JavaScript checks. All three selected
+silent Kabuto source-data controls, the six-phase cache comparison and the
+sixteen-context group comparison pass after the merge. Source history review
+reports no findings across 161 commits and 1,779 blobs; this is a technical scan.
+
 ## Persistent subjective Mecc composition - 5 November 2026
 
 The Rust subjective state now retains virtual channels across pre/post and
