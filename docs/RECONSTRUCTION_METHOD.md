@@ -110,11 +110,15 @@ not file offsets. Previous PC address labels remain aliases in private evidence.
 
 | PC address | PS2 address / literal symbol | Demangled interpretation | Attribution and Rust relationship |
 | --- | --- | --- | --- |
-| `0x0040d7b0` | `0x00114c00` / `SetupCameraDataNormal__FP6OBJECTT0` | `SetupCameraDataNormal(OBJECT*, /*same*/)`; second argument unresolved by the supplied decoder | **confirmed** routine identity, not full behavior equivalence. Published `mecc_camera::pose` covers only a steady-profile subset; the stateful producer remains unpublished work in progress. |
-| `0x00454bb0` | `0x00134738` / `chase_value_time` | Literal unmangled name; no complete signature inferred | **confirmed** service identity. Stateful camera approach implementation remains unpublished work in progress. |
-| `0x00416130` | `0x0011c0f8` / `collide_camera_check_walls` | Literal unmangled name | **probable** from camera caller role and clipping purpose; independent complete PS2 algorithm/control review remains pending. Rust clipping work is unpublished. |
-| `0x0040caa0` | `0x00113e28` / `camera_get_curcamdef__Fv` | `camera_get_curcamdef(void)`; decoder interpretation | **probable** from profile selection and caller context; variant-specific branches remain to compare. No complete published Rust counterpart. |
-| `0x0051e510` | Not assigned | Not assigned | **unknown**. PS2 camera-component services use a different renderer path; similar purpose is insufficient. No exact Rust attribution assigned. |
+| `0x0040d7b0` | `0x00114c00` / `SetupCameraDataNormal__FP6OBJECTT0` | `SetupCameraDataNormal(OBJECT*, /*same*/)`; second argument unresolved by the supplied decoder | **confirmed** routine identity, not full behavior equivalence. Rust `mecc_camera_update::State::advance` implements the acquired ordinary/direct-angle subset. |
+| `0x00454bb0` | `0x00134738` / `chase_value_time` | Literal unmangled name; no complete signature inferred | **confirmed** service identity. Rust `mecc_camera_update::approach` implements the acquired PC camera call profile. |
+| `0x00416130` | `0x0011c0f8` / `collide_camera_check_walls` | Literal unmangled name | **probable** from camera caller role and clipping purpose; independent complete PS2 algorithm/control review remains pending. Rust `mecc_camera_wall::clip` has separate PC controls. |
+| `0x0040caa0` | `0x00113e28` / `camera_get_curcamdef__Fv` | `camera_get_curcamdef(void)`; decoder interpretation | **probable** from profile selection and caller context; variant-specific branches remain to compare. Rust `mecc_camera_update::Profile::normal` covers only supplied normal Mecc profiles, not the full selector. |
+| `0x0051e510` | Not assigned | Not assigned | **unknown** PS2 counterpart. Rust `mecc_camera_update::State::advance` produces the acquired PC viewport cache; similar-purpose PS2 camera-component services use a different renderer path. |
+
+The Rust implementation and integration boundaries are recorded separately in
+[OWNED_CAMERA.md](OWNED_CAMERA.md); their addition does not promote the three
+remaining uncertain PS2 correspondences.
 
 Normal-camera attribution combines the characteristic 50-iteration adjustment,
 four calls to the same temporal-approach service with minimum-rate/maximum-gap

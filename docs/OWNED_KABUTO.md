@@ -94,3 +94,45 @@ checks and the separate installed-data Kabuto control. The 64-case native/Rust
 comparison also passes against that merged source. A source-history pattern
 review scans 88 commits and 1,438 distinct blobs with zero findings; it is not
 legal clearance. Live Kabuto behavior and visual fidelity remain unverified.
+
+## First-primary and size acquisition
+
+Native-only controls now execute the first Kabuto primary in eight supplied cold
+actor contexts using the actual declared resources. All return without warnings
+or diagnostics. Loaded resources and the animation-definition cache are shared;
+this is not eight complete engine restarts. The callback constructs two auxiliary
+objects and nine effect objects, and creates the inline physical state. Their
+callbacks are additional runtime prerequisites, not objects supplied by the
+cold player-field initializer above.
+
+A separate native-only control starts from an actually initialized actor and
+executes the complete size-refresh service for 288 independently supplied target
+and current size pairs. It restores the same actor header/payload before each
+case and observes the complete resulting header/payload. Boundary and fractional
+inputs exercise the piecewise size-dependent parameters. These are numeric
+service inputs, not observed gameplay growth events or proof of valid campaign
+size transitions. The actor's size, reach/collision parameters and subsequent
+movement still require an owned implementation and native/Rust comparison.
+
+Both controls supply the outer object pool, flat terrain grid, frame interval,
+thread/RNG context and inactive UID boundary. They execute the original class,
+model, animation and state bodies; graphics projection submission is intercepted
+and no device, window or audio playback runs. Input, controller and imported
+helper hashes are pinned and rechecked. Detailed outputs remain private. These
+acquisitions establish no Rust parity, complete world tick, growth trigger,
+interactive behavior or visual fidelity.
+
+Prototype PS2 literal-name searches for the primary, its initialization helper
+and size-refresh service are recorded against both pinned binary identities.
+Attribution remains **unknown**; candidate names are not approved PC aliases.
+Ghidra did not identify the primary as a procedure at either its PC virtual
+address or verified source-file coordinate. That failed analysis supplies no
+function Evidence. Direct private PE/instruction inspection and original CPU
+execution are distinct observations, not recovered source or REA function proof.
+
+The combined workspace based on `0537960` preserves the concurrent owned-camera
+and Delphi work. It passes 713 synthetic Rust tests (17 ignored), 35 Python tests,
+Rustfmt, Clippy and site/JavaScript checks. The installed-data Kabuto control and
+64-case public cold player-field comparison still pass. Those Rust checks cover
+the earlier implemented boundary; the new first-primary/size acquisitions remain
+native-only and must not be counted as implemented player behavior.

@@ -18,12 +18,15 @@ pub struct Frame {
     pub angles: [f32; 3],
     pub scale: f32,
     pub look_pitch: f32,
+    pub look_height: f32,
     pub model_rates: [f32; 4],
     pub channels: crate::animation_channels::Channels,
     pub positions: Vec<[f32; 3]>,
     pub geometry: crate::catalog_registry::Location,
     pub affine: [f32; 16],
     pub camera: crate::mecc_camera::Pose,
+    /// Produced by the owning driver after its actual primary and held pass.
+    pub camera_cache: Option<crate::mecc_camera_update::Output>,
     pub references: Vec<crate::procedural_aim::Matrix>,
     pub stamp: u32,
 }
@@ -114,6 +117,7 @@ pub fn sample(
         angles: fields.angles,
         scale: fields.scale,
         look_pitch: view.look_pitch,
+        look_height: f32::from_bits(fields.configuration[22]),
         model_rates: [
             view.model_rates[0],
             view.model_rates[1],
@@ -125,6 +129,7 @@ pub fn sample(
         geometry,
         affine,
         camera,
+        camera_cache: None,
         references,
         stamp,
     };
