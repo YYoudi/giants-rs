@@ -68,3 +68,22 @@ original archives, extracted assets, audio or reference screenshots are included
 Dependency/runtime notices and an inventory accompany it. Public packages require
 a matching technical review and build receipt, complete notices, and independent
 ZIP/checksum verification. A checksum confirms identity, not legal clearance.
+
+## Unreleased source work after this preview
+
+The owned Session can now publish the local target prepass's typed relationships,
+aim point and terrain-reticle flag. Controlled CPU comparison and failure/lifecycle
+checks are recorded in OWNED_TARGETING.md. This API is not yet called at the live
+mission primary/fire boundary and does not add an accessible weapon or reticle
+to this preview.
+
+Source context work now connects class initialization/copies, Mecc child
+inheritance and acquired Ripper/projectile context publications to the owned
+target-header provider. Its controlled CPU checks are recorded in
+OWNED_TARGETING.md. Complete mission mutations, the class805 special header and
+live primary/camera/fire scheduling remain pending.
+
+The local callback now couples the actual owned scan to range-reticle state and
+tracked/untracked pistol requests. Its controlled full-callback comparison is in
+OWNED_LOCAL_FIRE.md. The main mission driver still does not call this phase, so
+this source work does not add accessible firing or a new downloadable preview.

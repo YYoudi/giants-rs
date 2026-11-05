@@ -306,3 +306,25 @@ manifest and checksums passes independent ZIP verification without blockers.
 No new firing capability or public binary is claimed by this step; the published
 preview remains preview-2026.11.05.2. The class805 special header, complete mission
 mutation coverage and actual primary/camera/muzzle/fire scheduling remain open.
+
+## 5 November 2026 — coupled local targeting and pistol callback
+
+Source `a778f90efb99669134fed7cb85552427e9b7a867` adds the real owned scan to
+the normal pistol callback, including target-range reticle state, tracked and
+untracked shot paths, and the distinct auxiliary-timer cleanup branches. It does
+not replace missing view/muzzle providers or admit the main controller's firing
+input. See OWNED_LOCAL_FIRE.md for the observed scope and remaining prerequisites.
+
+The combined main source `7023ac998e94792ff232a9e0b89e1e7eb9bf3143` retains
+the concurrent cinematic changes. Isolated-target validation passes 696 Rust
+tests (14 ignored), 20 Python tests, formatting, Clippy and GNU release build.
+The local native/Rust callback comparison matches 64 cases / 16,890 words with
+18 shots, including 15 tracked shots. The legacy callback matches 64 cases /
+16,570 words with 18 untracked shots. Eight backend refusal checks pass; those
+checks are not native error-path parity.
+
+Both silent menu/arena endpoints and three cinematic opening/cancellation cycles
+pass on the recorded executable. An asset-free local draft has complete notices
+and receipt-bound manifest/checksums and passes independent ZIP verification.
+These lifecycle checks do not exercise the new callback. No new playable weapon
+or public download is claimed by this source milestone.

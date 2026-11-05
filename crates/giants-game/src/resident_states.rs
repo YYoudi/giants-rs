@@ -421,6 +421,7 @@ pub struct Session {
     mecc_countdown_world: Option<f32>,
     mecc_shot_record: Option<crate::mecc_shot::Record>,
     mecc_reticle_owner: Option<Id>,
+    mecc_target_range: Option<(Id, bool)>,
 }
 impl Session {
     pub fn new(ticket: u64) -> Self {
@@ -442,6 +443,7 @@ impl Session {
             mecc_countdown_world: None,
             mecc_shot_record: None,
             mecc_reticle_owner: None,
+            mecc_target_range: None,
         }
     }
     /// Bind known contact names from the owning mission's prepared colliders.
@@ -3375,6 +3377,21 @@ impl Session {
         self.get(source)?.mecc_local_target
     }
     /// Last explicitly scanned local owner and its terrain-proximity flag.
+    pub fn mecc_local_target_in_range(&self) -> Option<(Id, bool)> {
+        let (owner, in_range) = self.mecc_target_range?;
+        self.get(owner)?;
+        Some((owner, in_range))
+    }
+    pub(crate) fn publish_mecc_target_range(
+        &mut self,
+        source: Id,
+        in_range: bool,
+    ) -> Result<(), String> {
+        self.get(source)
+            .ok_or("target range source absent or foreign")?;
+        self.mecc_target_range = Some((source, in_range));
+        Ok(())
+    }
     pub fn mecc_local_reticle(&self) -> Option<(Id, bool)> {
         let owner = self.mecc_reticle_owner?;
         Some((owner, self.mecc_local_target(owner)?.near_terrain))
@@ -3435,6 +3452,7 @@ impl Session {
             vertex_epoch: epoch,
         });
         self.mecc_reticle_owner = Some(source);
+        self.mecc_target_range = Some((source, false));
         Ok(())
     }
     pub(crate) fn check_target_geometry(&self, id: Id) -> Result<(), String> {
@@ -9623,6 +9641,7 @@ impl Session {
         self.mecc_contact_materials = None;
         self.vimp_events = None;
         self.mecc_reticle_owner = None;
+        self.mecc_target_range = None;
         // A visitor can cancel while walk_common is on the stack. Its running
         // lease is released by the outer call, never by clearing registries.
         self.common_walk_failure = None;
@@ -9657,6 +9676,8 @@ mod tests {
         assert_eq!(published.point.map(f32::to_bits), point.map(f32::to_bits));
         assert_eq!(published.vertex_epoch, 17);
         assert_eq!(session.mecc_local_reticle(), Some((owner, true)));
+        assert_eq!(session.mecc_local_target_in_range(), Some((owner, false)));
+        session.publish_mecc_target_range(owner, true).unwrap();
         assert_eq!(session.incoming_actor_references(first).unwrap(), [owner]);
         let mut expected = before;
         for (at, value) in [0xe4, 0xe8, 0xec].into_iter().zip(point) {
@@ -9675,6 +9696,7 @@ mod tests {
             .publish_mecc_target(owner, 19, None, [1., 2., 3.], false)
             .unwrap();
         assert_eq!(session.mecc_local_target(owner).unwrap().links, [None; 3]);
+        assert_eq!(session.mecc_local_target_in_range(), Some((owner, false)));
         assert!(crate::mecc_fire_primary::check_local_target_profile(&session, owner).is_ok());
         assert!(
             session
@@ -9689,6 +9711,7 @@ mod tests {
         session.clear();
         assert!(session.mecc_local_target(owner).is_none());
         assert!(session.mecc_local_reticle().is_none());
+        assert!(session.mecc_local_target_in_range().is_none());
     }
     #[test]
     fn local_target_publication_rejects_invalid_inputs_without_replacing_state() {
