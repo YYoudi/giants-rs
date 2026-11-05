@@ -24,6 +24,15 @@ cycles pass. These observations concern that preceding common build, not the
 new initializer, Kabuto gameplay, full films, manual input or visual fidelity.
 No additional public binary is issued for this CPU-only capability.
 
+
+Combined source `3f566585b20ffed966178a66932a104be3a729d4` preserves the newer
+Delphi special-phase services and cinematic inventory. It passes 709 synthetic
+Rust tests (17 ignored), 30 Python tests, Rustfmt, Clippy, site export/JavaScript
+checks and the separate installed-data Kabuto control. The 64-case native/Rust
+comparison also passes against that merged source. A source-history pattern
+review scans 88 commits and 1,438 distinct blobs with zero findings; it is not
+legal clearance. Live Kabuto behavior and visual fidelity remain unverified.
+
 ## Cold Kabuto construction - 5 November 2026
 
 The dedicated `codex/kabuto-native` lane adds the acquired ordinary cold Kabuto

@@ -82,3 +82,11 @@ unavailable unevaluated reference matrices, no Mecc physics and full release.
 Marker relocation, camera consumption, first primary execution, controls,
 movement, collision at each size and growth remain pending. No playable Kabuto
 mission is admitted and the roadmap remains `todo`.
+
+Combined source `3f566585b20ffed966178a66932a104be3a729d4` preserves the newer
+Delphi special-phase services and cinematic inventory. It passes 709 synthetic
+Rust tests (17 ignored), 30 Python tests, Rustfmt, Clippy, site export/JavaScript
+checks and the separate installed-data Kabuto control. The 64-case native/Rust
+comparison also passes against that merged source. A source-history pattern
+review scans 88 commits and 1,438 distinct blobs with zero findings; it is not
+legal clearance. Live Kabuto behavior and visual fidelity remain unverified.
