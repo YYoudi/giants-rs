@@ -3864,7 +3864,18 @@ pub fn update(
                     }
                 }
                 Err(error) => {
-                    error!("Periodic update failed: {error}");
+                    error!(
+                        "Periodic update failed: {error}; sequence={} emitter={group} class={} child={} reserve={} slots={:?} parent={parent:?} reference={} position={} dt_bits={} source_state={:?}",
+                        cinematic.sequence(),
+                        emitter.recipe.class,
+                        emitter.recipe.child,
+                        emitter.reserve,
+                        runtime.slot_counts(),
+                        emitter.reference.is_some(),
+                        emitter.position.is_some(),
+                        animation_dt.to_bits(),
+                        runtime.source_state(),
+                    );
                     exit.write(AppExit::Error(std::num::NonZeroU8::MIN));
                     return;
                 }
