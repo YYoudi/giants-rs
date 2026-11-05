@@ -34,6 +34,13 @@ review, notices and checksums with no package blockers. Executable SHA256:
 private draft ZIP SHA256:
 `84bf09999ddbeef66027408a9891f3d090307959b505f31e767f8a4bf6a94863`.
 
+That exact executable also passes both silent common-runtime lifecycle endpoints
+and three selected-opening cancellation cycles without a window or audio device.
+These regressions do not execute Delphi controls or verify complete playback or
+visual fidelity. The subsequent research-method tooling merge preserves identical
+runtime source and passes all 36 current Python/site controls; it does not replace
+the earlier executable's exact-source receipt.
+
 ## Kabuto atomic cold group field composition - 5 November 2026
 
 The owned twelve-actor cold group matches sixteen native contexts and 53,728

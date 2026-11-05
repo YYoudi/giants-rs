@@ -81,6 +81,13 @@ draft ZIP SHA256:
 `84bf09999ddbeef66027408a9891f3d090307959b505f31e767f8a4bf6a94863`.
 This draft does not acknowledge live Delphi control or change the public download.
 
+The exact executable also passes both silent common-runtime lifecycle endpoints
+and three selected-opening cancellation cycles with no window or audio device.
+They exercise the common runtime, not this Delphi API, manual controls, complete
+cinematic playback or fidelity. The later research-method tooling merge retains
+identical runtime source and passes the 36 current Python/site controls; its
+source identity is separate from the original build receipt.
+
 `delphi_jump::step` adds the acquired standalone jump/hold/release service. It
 preserves the distinct impulse and launch-latch gates, hold acceleration and
 countdown, release flags and stored height. The inline physical request chooses
