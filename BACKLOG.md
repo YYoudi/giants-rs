@@ -9,7 +9,7 @@ automatically wired into the main menu-to-mission build.
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
 native-function acquisition or implementation, including resumed tasks in every
 character lane. The read-only corpus audit verifies 4,769 literal function symbols;
-the reviewed initial summary confirms two routine identities, keeps two candidate
+the reviewed summary confirms three routine identities, keeps two candidate
 matches probable and one unassigned. No gameplay status changes follow from names.
 
 - Next Mecc work: retain completed name lookups for the ordinary-camera producer
@@ -116,9 +116,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 - Acquired, native only: eight first-primary contexts return with actual auxiliary
   resources; the callback creates two auxiliary actors, nine effects and inline
   physics. A separate 288-case full size-refresh control passes on supplied size
-  pairs. No owned first-primary/size implementation or growth-trigger comparison
-  exists yet. See docs/OWNED_KABUTO.md for the supplied boundaries.
-- Implement and compare first-primary initialization and the full size refresh,
+  pairs. The owned size candidate is now implemented separately below; no owned
+  first-primary or growth-trigger comparison exists yet. See docs/OWNED_KABUTO.md for the supplied boundaries.
+- Implemented: `kabuto_size::prepare` prepares the full debug size-dependent
+  parameter/scale/category/radius candidate with Double53 arithmetic, typed source
+  resources and atomic refusal. It reuses the shared radius writer. The service
+  does not choose a growth target, advance growth or publish a Session phase.
+  All 544 native/Rust controls match 219,776 complete header/payload words,
+  including variable parameters/scales and absent-class cases.
+- Implement and compare first-primary initialization and its size composition,
   including shared physical/animation services and owned auxiliary/effect links.
   Acquire marker relocation and camera consumption, then land movement/jumping,
   size-dependent collision and actual feeding/growth triggers.
@@ -170,6 +176,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   reactions and full scheduling. The application still supplies `fire: None`.
   A typed selected target cannot use the no-target fire
   profile merely because its raw pointer slots remain normalized.
+- Subjective dispatch: the optional primary now requires actual camera ownership
+  and pre-world display status separately from camera mode. It refuses a matching
+  active display before primary mutation because the required subjective
+  post-world execution is unbound. Predicate controls match 512 PC/PS2-body/Rust
+  cases; 128 native pre/post observations show the correct transfer and include
+  first-person mode with a missing subjective model. The existing 576-frame,
+  22-shot primary matrix remains identical. Next implement the actual owned
+  virtual actor/channels/references/events, camera placement and two post-world
+  ANM passes around firing; preserve pre-world channels and shared source-state
+  effects. Presentation-only subjective playback is insufficient. Retain the
+  explicit initial camera-owner and partial-world acquisition boundaries in
+  docs/OWNED_LOCAL_FIRE.md; main `fire: None` remains.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated

@@ -136,3 +136,40 @@ Rustfmt, Clippy and site/JavaScript checks. The installed-data Kabuto control an
 64-case public cold player-field comparison still pass. Those Rust checks cover
 the earlier implemented boundary; the new first-primary/size acquisitions remain
 native-only and must not be counted as implemented player behavior.
+
+## Owned size refresh
+
+`kabuto_size::prepare` now expresses the complete acquired debug size-refresh
+service as an independently owned candidate. It reads parameters from the
+user-supplied global table and a typed declaration/bounds context, applies the
+piecewise current-size curves, updates scale and category fields, and reuses the
+shared collision-radius writer. Current size and target size remain separate:
+this service neither selects a target nor advances the growth clock.
+
+The absent-class path stores only the size multiplier. The owned API never
+follows a native pointer from the payload. It prepares separate field/payload
+storage, so missing parameters, nonfinite input and overflow cannot partially
+change the caller's actor. These are owned refusal semantics, not native
+error-path parity. The acquired arithmetic profile is Double53 only.
+
+The comparison boundary supplies complete actor input headers/payloads at the
+size-service entry; it does not claim they were produced by an owned first
+initializer. Parameter/bounds resources are loaded separately from source data.
+The earlier native first-primary acquisition remains distinct. Session has no
+published first-primary/size phase or live growth trigger yet. This source
+service does not admit a playable character or change the roadmap status.
+
+The public service matches 544 native controls: 288 source-parameter cases and
+256 additional cases with independently supplied positive finite global tables,
+declared scales and class presence (including 32 absent-class cases). All 219,776
+complete input-preserving header/payload words match. Three synthetic tests cover
+separate target/current semantics, absent-class preservation, and refusal without
+caller mutation after missing parameters, late failure or overflow. This is CPU
+validation at the isolated size boundary, not an owned first-primary composition.
+
+After retaining the newer Delphi cold-player fields and owned-camera work, the
+combined workspace passes 717 synthetic Rust tests (17 ignored), 35 Python tests,
+Rustfmt, Clippy and site/JavaScript checks. Both native/Rust size-control sets
+pass against the final shared source after the merge. This validates the size
+candidate and existing regressions; first-primary composition, motion and growth
+triggers remain pending.

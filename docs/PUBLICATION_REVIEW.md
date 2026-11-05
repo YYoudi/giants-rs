@@ -3,7 +3,7 @@
 ## Prototype PS2 methodology addition — 5 November 2026
 
 The reviewed public addition is the [central method](RECONSTRUCTION_METHOD.md),
-a read-only lookup tool, synthetic tests and a minimal five-row attribution
+a read-only lookup tool, synthetic tests and an initial minimal five-row attribution
 summary. It contains two confirmed identities, two probable candidates and one
 unassigned service, with explicit binary hashes and independent rationale.
 No corpus file, executable, ISO, raw table, listing, debug extraction or private
@@ -11,6 +11,12 @@ research report is included. Detailed receipts and personal provenance stay
 private. Available symbols grant no redistribution rights. This addition changes
 neither the historical review's scope nor the current binary-release policy in
 [RELEASES.md](RELEASES.md).
+
+The subsequent display-dispatch review adds one predicate row to the central
+summary: six reviewed services, three confirmed identities, two probable and one
+unassigned. Only its digests, addresses, literal symbol, interpreted name, Rust
+relationship and independently written rationale are public. Native phase traces,
+comparison inputs and complete private control receipts remain excluded.
 
 ## Historical source-publication review
 
