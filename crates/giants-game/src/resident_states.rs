@@ -9,6 +9,7 @@ use crate::{
 };
 use std::collections::BTreeMap;
 use std::sync::Arc;
+mod kabuto;
 
 struct OwnedSpecification(crate::actor_references::Owned);
 impl std::fmt::Debug for OwnedSpecification {
@@ -336,6 +337,7 @@ pub struct Resident {
     state23_animation_counter: i32,
     state23_animation_failed: bool,
     acquired_construction: bool,
+    kabuto_player_fields: bool,
     basic_projectile: Option<crate::basic_projectile::Metadata>,
     enemy_projectile: Option<crate::enemy_projectile::Metadata>,
     attached_effect: Option<crate::attached_effect_object::Metadata>,
@@ -541,6 +543,7 @@ impl Session {
                 state23_animation_counter: 0,
                 state23_animation_failed: false,
                 acquired_construction: false,
+                kabuto_player_fields: false,
                 basic_projectile: None,
                 enemy_projectile: None,
                 attached_effect: None,

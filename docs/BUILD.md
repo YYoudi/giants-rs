@@ -54,8 +54,9 @@ cargo test --locked -p giants-game source_cold_kabuto_keeps_player_setup_separat
 ```
 
 This reads the selected mission, constructs ordinary owned actors and checks
-resource release and refused profiles without a window or sound. It does not
-execute Kabuto player initialization, movement or growth. See OWNED_KABUTO.md.
+resource release, refused profiles and the cold player-field initializer without
+a window or sound. It does not execute live type changing, camera completion,
+movement or growth. See OWNED_KABUTO.md.
 
 ## Optional silent runtime lifecycle check
 

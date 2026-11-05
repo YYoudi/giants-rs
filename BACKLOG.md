@@ -59,13 +59,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 - Two ordinary cold Kabuto constructors match the native headers, state payloads
   and ordered registrations. Typed resources, independent reference/shadow caches,
   atomic failure and release are checked. See docs/OWNED_KABUTO.md. This does not
-  execute special/player initialization or relocate the actor to the mission marker.
+  relocate the actor to the mission marker.
   Unknown state-1 classes, legacy profiles and mission state writes remain refused.
-- Acquire and compare the actual player setup, shared reset/state/camera services
-  and activation; then land movement/jumping, size-dependent collision and growth.
-  Static inspection of the special dispatcher shows Mecc/Delphi branches and no
-  Kabuto branch. Do not copy their child creation into Kabuto or treat that return
-  as complete player initialization; compare the surrounding shared setup first.
+- Implemented: the public cold player-field initializer matches 64 native cold
+  setup controls (25,856 normalized header/payload words and list counts).
+  It uses the common primary-channel selector, preserves cold payload/caches,
+  enforces factory ownership and atomic refusal, and returns a pending projection
+  reset. This does not implement live type-change cleanup or camera completion.
+- Acquire marker relocation, camera consumption and the first primary/state
+  execution; then land movement/jumping, size-dependent collision and growth.
+  The special dispatcher returns for Kabuto without Mecc/Delphi child creation.
   Reuse owned actor, terrain, input, animation, effect and audio services with
   acquired Kabuto parameters and explicit phase order.
 - Connect validated behavior through selected missions, camera/HUD/audio and

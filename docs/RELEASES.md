@@ -4,6 +4,26 @@ The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
 
+## Cold Kabuto player fields - 5 November 2026
+
+The public resource/Session initializer matches 64 controlled native cold player
+setups: 25,856 complete normalized header/payload words and ordinary list counts.
+It reuses shared animation selection and retains payload/reference ownership.
+Projection reset is explicitly pending. Marker relocation, first primary tick,
+movement and growth remain unimplemented; this is a CPU source milestone, not a
+playable preview. See OWNED_KABUTO.md for the supplied native boundaries.
+
+The preceding common build at `63b58c8fbf863a17f30ba56685094fba1bdaa2dc`
+completed its isolated GNU receipt and private ten-member draft validation with
+complete notices and no technical blockers. Its executable SHA-256 is
+`a24329327d96aca81d1752840c952191fd96fd1168fd74530513c6a120df45a6`;
+private draft SHA-256 is
+`3853bb82a978b7da2f8c8223a869032c1e645cbf4beb2b8b916ae2df709422af`.
+Both silent development lifecycle endpoints and three selected-opening/cancel
+cycles pass. These observations concern that preceding common build, not the
+new initializer, Kabuto gameplay, full films, manual input or visual fidelity.
+No additional public binary is issued for this CPU-only capability.
+
 ## Cold Kabuto construction - 5 November 2026
 
 The dedicated `codex/kabuto-native` lane adds the acquired ordinary cold Kabuto
