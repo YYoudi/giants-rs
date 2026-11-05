@@ -6,6 +6,39 @@ from tools.export_site import export, project
 
 
 class PublicSiteTests(unittest.TestCase):
+    def test_cinematic_inventory_exports_only_canonical_aggregate_fields(self):
+        from tools.cinematic_inventory import public_summary
+        from tools.export_site import cinematic_inventory
+        row = dict(world='PRIVATE_WORLD', sequence='PRIVATE_SOURCE', preparation='prepared',
+                   state='reported_gap', findings=[dict(cause='numeric_audio', count=3,
+                                                       diagnostic='PRIVATE_REPORT')])
+        data = public_summary([row], {'source_commit': 'a'*40, 'executable_sha256': 'b'*64})
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root/'docs').mkdir()
+            path = root/'docs/cinematic-inventory-summary.json'
+            def save():
+                path.write_text(json.dumps(data), encoding='utf8')
+            save()
+            exported, section = cinematic_inventory(root)
+            self.assertIn('Cinematic gaps to prioritize', section)
+            self.assertNotIn('PRIVATE', json.dumps(exported)+section)
+            data['private_sources'] = ['PRIVATE_SOURCE']
+            save()
+            with self.assertRaisesRegex(ValueError, 'fields'):
+                cinematic_inventory(root)
+            del data['private_sources']
+            data['priorities'][0]['label'] = 'evidence/private/report'
+            save()
+            with self.assertRaisesRegex(ValueError, 'Noncanonical'):
+                cinematic_inventory(root)
+            data['priorities'][0]['label'] = public_summary([row], {
+                'source_commit': 'a'*40, 'executable_sha256': 'b'*64})['priorities'][0]['label']
+            data['visual_fidelity_checked'] = True
+            save()
+            with self.assertRaisesRegex(ValueError, 'verification claim'):
+                cinematic_inventory(root)
+
     def fixture(self):
         return {'secret': 'DO_NOT_EXPORT', 'private_annex': 'PRIVATE', 'readme_roadmap': [
             {'id': 'mission', 'kind': 'feature', 'group': 'Campaigns', 'title': '<script>alert(1)</script>',

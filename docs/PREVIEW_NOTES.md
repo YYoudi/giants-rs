@@ -75,7 +75,8 @@ pool growth and adoption of late draws on both entries; 7,702 tracked main-world
 film assets are absent after each release. Total GPU/process memory reclamation
 remains unverified. The historical .3 audit covered 29 declared roots: 18 transport
 passes, ten unrelated Mecc preload failures and this fixed reserve failure. The
-separate .4 full-matrix repeat is still in progress; its executable predates the
+separate .4 full-matrix repeat stopped after 24 completed passes out of 29; its
+partial case and remaining roots are unverified, and its executable predates the
 FX fix. These controls do not certify complete-scene fidelity or native scheduling.
 
 The executable is pinned to source 1bc8d6d7ec7286eaefd032c56abd3f074ed4a2c2.

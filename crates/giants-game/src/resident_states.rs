@@ -9,6 +9,7 @@ use crate::{
 };
 use std::collections::BTreeMap;
 use std::sync::Arc;
+mod delphi;
 mod kabuto;
 
 struct OwnedSpecification(crate::actor_references::Owned);
@@ -323,6 +324,9 @@ pub struct Resident {
     /// constructor bytes. No native pointer is encoded as an owned identity.
     state23_combat: Option<crate::state23_damage::State<Id>>,
     mecc_special: Option<crate::mecc_special::Initialized>,
+    delphi_special: Option<crate::delphi_special::State>,
+    delphi_copy_source: Option<crate::delphi_special::CopySource>,
+    delphi_copy_parameter: Option<f32>,
     mecc_special_child: Option<crate::mecc_special::Child>,
     wield_binding: Option<crate::mecc_wield::Binding>,
     wield_failure: Option<String>,
@@ -530,6 +534,9 @@ impl Session {
                 construction_fields: None,
                 state23_combat: None,
                 mecc_special: None,
+                delphi_special: None,
+                delphi_copy_source: None,
+                delphi_copy_parameter: None,
                 mecc_special_child: None,
                 wield_binding: None,
                 wield_failure: None,
@@ -7378,6 +7385,16 @@ impl Session {
             };
             if let Some(special) = actor.mecc_special {
                 refers |= special.children.contains(&id);
+            }
+            if let Some(copy) = actor.delphi_copy_source {
+                refers |= copy.owner == id;
+            }
+            if let Some(crate::delphi_special::State::Complete(special)) = &actor.delphi_special {
+                refers |= special.held == id
+                    || special
+                        .copies
+                        .iter()
+                        .any(|copy| copy.actor == id || copy.held == id);
             }
             if let Some(primary) = &actor.ripper_primary {
                 // A failed service can retain a newly selected target before

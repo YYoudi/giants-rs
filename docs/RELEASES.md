@@ -76,6 +76,21 @@ The draft remains private and adds no playable weapon to the public download.
 
 ## Delphi preparation lane - 5 November 2026
 
+The cold special phase is now acquired in source `e6c54bf`, with combined
+runtime source `6ead6a0088ef01d0aef700ec45a6fc2e7b03cb05` preserving concurrent
+Mecc, Kabuto and cinematic changes. Thirty-two native/Rust controls match
+127,692 normalized words across the owner, auxiliary copies, held equipment and
+ordered registrations; six declaration-reader controls pass. The combined
+workspace passes 707 Rust tests (17 ignored), 20 Python tests, Rustfmt and Clippy,
+and the source-data initialization/reference/replay/failure/clear control.
+See OWNED_DELPHI.md. Full local-player setup, live controls and visual fidelity
+remain unimplemented; this does not add a playable Delphi download.
+
+The following inventory merge, source `5187904951cd049d4db3532c5082d891a4b01765`,
+keeps the same compared game-crate code and passes the 707 Rust tests (17 ignored),
+all 30 current Python tests, Rustfmt and Clippy. Preserve the separate cinematic
+coverage limits when interpreting the combined build.
+
 The separate `codex/delphi-native` lane starts with declaration-backed kind-3
 marker, class/state template and body/state specification preparation. Its
 selected-mission resource control passes with user-supplied data; the existing
@@ -273,3 +288,34 @@ endpoints and three selected-opening/cancellation cycles. Executable SHA256:
 `21fdca07b393ac924cb95a40cd23d52d8f6a7cb80cc2605c0d361f4726ed0c11`.
 This separate local build is not the .5 release identity. Its short cancellation
 controls do not repeat the .5 long-film proof or verify the optional fire phase.
+
+## Whole-corpus cinematic inventory - 5 November 2026
+
+A CPU-only batch used the actual scene preparers on source
+`105ba24e14ce84d0e7e4e358b8a0cffcff08f0ab`, executable SHA256
+`2301ac17b5c66b3f6a83af28855ad3da5a4043fed7ecdef568e61303446bce78`.
+All 545 source declarations across 16 worlds completed preparation. There are
+61 sources with reported implementation/preparation gaps, not 61 visually
+certified broken scenes; 470 without reported gaps are still unverified.
+The strict-profile review queue has 282 sources and overlaps the gap set.
+The largest shared refusal affects 52 sources' FX actor-mutation prefixes;
+six exceed the general FX queue profile. Other overlapping limits and next
+prerequisites are tracked in BACKLOG.md.
+
+The reviewed analysis reuses the same raw batch, excluding specialized ownership
+routes and admitted terminal-only programs from missing-geometry counts. The
+aggregate public projection contains fixed cause labels, counts and build
+identity only. No original data, source-list snapshot, raw diagnostics, captures
+or private research reports are published. The inventory adds no playback
+capability, so the public runtime download remains preview-2026.11.05.5.
+Synthetic validation: 704 Rust passed, 15 ignored; 30 Python passed, formatting
+and Clippy passed. Complete visual fidelity, native timing, MDV music, whole-session
+behavior and audio/subtitle parity remain unverified. The separate old .4 menu
+matrix has 24 completed passes out of 29; it is no longer running, and the partial
+case/remaining roots have no completed result.
+
+The diagnostic field-label cleanup has an additional receipt-bound GNU build
+and a real CPU schema roundtrip on one source, without repeating the full corpus.
+The subsequent combined source preserves the independent cold Kabuto work and
+passes 705 Rust tests (16 ignored), 30 Python tests, formatting and Clippy. The
+full-corpus inventory remains explicitly pinned to its original executable.
