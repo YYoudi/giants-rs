@@ -383,13 +383,14 @@ fn drive(
             // Service-level cancellation after a real rendered opening sample.
             // No key/mouse injection, skip acknowledgement or gameplay admission.
             if mode == "showcase-opening-cycles"
-                && opened
                 && environment.presentation_ready()
-                && pipelines.0
-                && (std::env::var("GIANTS_CANCEL_PERSISTENT").ok().as_deref() != Some("1")
-                    || effects
+                && (if std::env::var("GIANTS_CANCEL_PERSISTENT").ok().as_deref() == Some("1") {
+                    effects
                         .as_ref()
-                        .is_some_and(|s| s.advanced_persistent_objects() > 0))
+                        .is_some_and(|s| s.advanced_persistent_objects() > 0)
+                } else {
+                    opened && pipelines.0
+                })
             {
                 if std::env::var("GIANTS_CANCEL_PERSISTENT").ok().as_deref() == Some("1") {
                     println!(
