@@ -40,6 +40,14 @@ The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
 
+
+After retaining the newer Delphi cold-player fields and owned-camera work, the
+combined workspace passes 717 synthetic Rust tests (17 ignored), 35 Python tests,
+Rustfmt, Clippy and site/JavaScript checks. Both native/Rust size-control sets
+pass against the final shared source after the merge. This validates the size
+candidate and existing regressions; first-primary composition, motion and growth
+triggers remain pending.
+
 ## Owned Kabuto size-refresh candidate - 5 November 2026
 
 The acquired debug size-refresh service is implemented as an immutable-input Rust

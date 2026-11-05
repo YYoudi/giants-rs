@@ -166,3 +166,10 @@ complete input-preserving header/payload words match. Three synthetic tests cove
 separate target/current semantics, absent-class preservation, and refusal without
 caller mutation after missing parameters, late failure or overflow. This is CPU
 validation at the isolated size boundary, not an owned first-primary composition.
+
+After retaining the newer Delphi cold-player fields and owned-camera work, the
+combined workspace passes 717 synthetic Rust tests (17 ignored), 35 Python tests,
+Rustfmt, Clippy and site/JavaScript checks. Both native/Rust size-control sets
+pass against the final shared source after the merge. This validates the size
+candidate and existing regressions; first-primary composition, motion and growth
+triggers remain pending.

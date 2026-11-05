@@ -30,8 +30,10 @@ pub fn prepare(
     }
     let mut next = fields.clone();
     let mut body: Vec<u32> = payload
-        .chunks_exact(4)
-        .map(|b| u32::from_le_bytes(b.try_into().unwrap()))
+        .as_chunks::<4>()
+        .0
+        .iter()
+        .map(|b| u32::from_le_bytes(*b))
         .collect();
     let x = f32::from_bits(body[0x15c / 4]) as f64;
     if !x.is_finite() {
