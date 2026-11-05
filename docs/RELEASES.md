@@ -28,6 +28,14 @@ identities and no technical verifier blockers; ZIP SHA256 is
 `7ba53f078ce24e9a2b894ba95f519acf7b80ba23ff3ac5786a4dd51db5aa8016`.
 The published playable preview retains its separate release identity.
 
+
+Combined source `d820c21ff5d94b62aac05a56437bd580324bfba5` preserves the
+concurrent persistent-film work and passes 741 Rust tests (22 ignored),
+38 Python tests, Rustfmt, Clippy and site generation/JavaScript checks. The
+Delphi metadata and owned physical modules are unchanged from the exact build
+above. These combined-source checks do not substitute a new binary receipt or
+repeat the independent persistent-film runtime controls.
+
 ## Delphi owned physical/secondary/ANM composition - 5 November 2026
 
 The dry sword movement phase now consumes the acquired selector after physical
