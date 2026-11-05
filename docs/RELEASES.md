@@ -20,6 +20,26 @@ visual fidelity. See OWNED_LOCAL_FIRE.md for remaining integration prerequisites
 This CPU prerequisite creates no new playable release or replacement binary;
 existing packages retain their original exact-source receipts and checksums.
 
+## Kabuto external definitions and cold animation cache - 5 November 2026
+
+An explicit user-supplied executable-data reader now prepares owned cold Kabuto
+animation definitions without launching native code or bundling original tables.
+Three inspected layouts match the reference prefix's 62 normalized records
+(61 resolved nodes), including signed ranges, flags and opaque parameter prefixes.
+The factory/group resource ownership and release control passes silently.
+Process/world cache-reset scheduling, material/registration, camera and full
+primary behavior still gate live admission. This CPU/data milestone produces no
+new playable preview, package checksum or binary receipt; prior receipts remain
+bound to their exact source. Runtime gameplay and fidelity are not certified.
+
+Combined source `6f03892` preserves the latest owned Delphi physical/jump/history
+composition and shared animation services. It passes 731 synthetic Rust tests
+(20 ignored), 36 Python tests, Rustfmt, Clippy and site/JavaScript checks. The
+installed-data group/cache ownership control, three-layout cold-cache comparison
+and sixteen-context group field/buffer/list comparison pass after the merge.
+Source history review reports no findings across 153 commits and 1,738 blobs;
+this is a technical scan, not redistribution clearance.
+
 ## Research handoff tooling - 5 November 2026
 
 Prototype PS2 methodology follow-up (5 November 2026): private lookup worksheets

@@ -168,8 +168,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   existing Session; clear/re-entry and generation-without-physics checks pass.
   The group's pending camera/animation-cache/material/global-geometry services remain
   explicit; this is not full first-initializer behavior or gameplay readiness.
+- Implemented: explicit external executable-data provider and immutable cold
+  animation-definition cache, reusing shared ANM reference resolution. Three
+  inspected PE layouts produce the same 62 normalized records as the native
+  reference (61 resolved nodes), including ranges, flags and opaque parameter
+  prefixes. No source table or native instructions are bundled. The optional
+  factory/group cache retains specification ownership and releases with its
+  owners. Native warm/reset controls preserve the cached records; process/world
+  reset scheduling is still pending, so `Pending::AnimationCache` stays explicit.
 - Complete first-initializer behavior beyond the acquired field group: animation
-  definition-cache lookup/clamping/reset lifetime, generated material/global
+  cache/reset service lifetime, generated material/global
   geometry registration and camera reset
   consumption. Acquire the native Kabuto-specific teardown and complete primary;
   the current release proof covers whole-Session clear only.
