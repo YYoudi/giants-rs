@@ -1,5 +1,16 @@
 # Preview releases and milestone integration
 
+## Delphi external animation definitions - 6 November 2026
+
+The locomotion resource loader now reads external character definitions from two
+independently inspected initialized PE data layouts, sharing bounded metadata
+parsing with Kabuto while preserving its existing profiles. Both inputs match all
+188 animation identifiers; repeated motion/ANM controls and a retail-metadata
+replay retain the reference behavior. No original table, code or executable is
+bundled or run. Layout recognition is separate from authentication and runtime
+fidelity. The full primary/camera/target producers and live admission remain
+pending, so this resource milestone adds no playable Delphi download.
+
 ## Delphi owned physical/secondary/ANM composition - 5 November 2026
 
 The dry sword movement phase now consumes the acquired selector after physical
