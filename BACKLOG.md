@@ -4,6 +4,30 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
+## Prototype PS2 attribution method — 5 November 2026
+
+Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
+native-function acquisition or implementation, including resumed tasks in every
+character lane. The read-only corpus audit verifies 4,769 literal function symbols;
+the reviewed initial summary confirms two routine identities, keeps two candidate
+matches probable and one unassigned. No gameplay status changes follow from names.
+
+- Next Mecc work: retain completed name lookups for the normal-camera producer and
+  approach helper; resolve wall-query/profile candidates before expanding their
+  reconstruction, then acquire camera/world/subjective fire and positional-audio
+  prerequisites with separate PC/PS2 identities and platform differences.
+- Revisit acquired services incrementally on touch: primary/animation, aim/target,
+  collision, physics, wield/projectiles, audio and shared actor services. Preserve
+  old identifiers as aliases. Do not batch-apply naming tables.
+- Delphi/Kabuto and cinematic continuations must record the same lookup for their
+  next actual functions; resources or an inferred module name prove no controller.
+- Recover ambiguous demangling and any useful `.mdebug` types privately only when
+  needed; validate layouts against the actual PC build. Retain explicit unknowns,
+  rejected candidates and missing evidence in each handoff.
+- Publish additional minimal attribution rows only after the central method's
+  evidence/confidentiality review. Corpus-wide mapping and type recovery remain
+  incomplete; `BACKLOG.md` retains these prerequisites, not a second task database.
+
 ## Parallel character work
 
 Each chat works alone in its own worktree and `codex/` branch. The Delphi fork

@@ -1,5 +1,9 @@
 # Owned cold Kabuto construction
 
+Further native acquisition and implementation follow the central
+[reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
+lookup and separate PC identity, aliases, platform differences and attribution.
+
 The Kabuto lane reuses the common class, actor, resource and Session services.
 `kabuto_resources::Resources` prepares a kind-1 mission start and the actual
 class/state specifications from a user-supplied installation. Its ordinary

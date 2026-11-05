@@ -1,5 +1,10 @@
 # Roadmap, Pages and automatic builds
 
+Native research and resumed context follow [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md).
+Carry the prototype PS2 lookup, exact binary identities, aliases, attribution
+status and unresolved differences in each private handoff. Pages exports only
+reviewed progress text; naming evidence is not a gameplay completion measure.
+
 The source repository is public following the owner's explicit instruction and
 the AI-assisted technical review in PUBLICATION_REVIEW.md. GitHub Pages is configured
 for Actions, `PUBLIC_SITE_APPROVED=true`, with the `github-pages` environment limited

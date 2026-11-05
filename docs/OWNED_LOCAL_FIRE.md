@@ -1,5 +1,9 @@
 # Owned local pistol callback
 
+Further acquisition and implementation follow [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md),
+including the mandatory prototype PS2 name lookup. Existing PC evidence and
+aliases retain their scope; a recovered name does not validate fire scheduling.
+
 `mecc_fire_primary::advance_local` now runs the actual Session local scan between
 fire-clock publication and the normal pistol firing branch. It uses the same
 source-backed projectile definition as the shot factory. A caller cannot supply

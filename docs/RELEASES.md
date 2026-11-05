@@ -4,6 +4,18 @@ The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
 
+## Prototype PS2 methodology — 5 November 2026
+
+The [central reconstruction method](RECONSTRUCTION_METHOD.md) now requires a
+prototype-name lookup at acquisition, implementation and context resumption.
+Read-only ELF/CSV audit, a private 256-case scalar control and independent PC/PS2
+algorithm/call review support the first minimal naming summary. Two routine
+identities are confirmed, two are probable and one remains unassigned. These are
+attributions, not new integrated behavior, PS2/PC ABI equivalence or fidelity.
+Private corpus inputs/outputs are excluded. No preview package or binary release
+is produced for this documentation/tooling milestone; existing release receipts,
+notices and concurrent character work remain authoritative for their own builds.
+
 ## Cold Kabuto construction - 5 November 2026
 
 The dedicated `codex/kabuto-native` lane adds the acquired ordinary cold Kabuto
