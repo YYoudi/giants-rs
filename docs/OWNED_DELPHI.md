@@ -36,6 +36,48 @@ special-only entry still leaves player selection and activation untouched.
 
 ## Evidence and scope
 
+`Session::initialize_delphi_physics` now owns the first-primary physical setup as
+a distinct stage after special construction. `delphi_initial` loads the actual
+seven scalar declarations and signed limit, restores inline defaults through
+`physical_initial` (also used by Mecc), preserves the opaque physical word, stores
+the current scale and clears controls. The native payload/physical link is an
+owned presence flag, never an emulated pointer. Replay and unrelated/live-profile
+inputs are refused; clearing the Session releases the group and physics together.
+
+Two hundred fifty-six native/Rust initializer controls match 311,552 words across
+the complete seeded headers and payloads. They vary all declared parameters,
+scale, arbitrary dirty payload/header words and signed limits, including negative
+values and the upper clamp. Original initialization instructions execute without
+behavior substitutes; only the asserted payload/inline links are normalized.
+The seeded payloads are supplied inputs, not native-output replay. Separate
+source-data checks exercise real resource-backed Session ownership and replay
+refusal. This initializer does not execute movement, frame scheduling or a
+complete primary callback. Native refusal/error-path equivalence is not claimed.
+
+REA initializer evidence:
+`ev_26038f778a560c7c81c4b8271dbafcb03bfc74182e23adbf114d9b47a76db515`.
+Prototype PS2 lookup remains an unknown attribution; no prototype ABI/layout is
+imported into this PC contract.
+
+Combined source `ea575f0d5500d5739a396203c07a02305e47b16f` repeats all 256
+initializer cases with stable source/executable hashes and the real parameter
+reader, and passes 719 Rust tests (17 ignored), 35 Python tests, Rustfmt, Clippy
+and the resource-backed physics ownership/replay/clear control. Mecc camera and
+dispatch plus Kabuto size work are retained in this shared build.
+
+That exact GNU build also passes both silent common-runtime lifecycle endpoints
+and three selected-opening cancellations. Its ten-member private draft verifies
+complete notices and matching receipt/review with no technical package blockers.
+Executable SHA256:
+`62c658b7e8c9f276b6e8ef9864ea2b7e3ca0df75d5b814c92b3558130226e7bc`;
+draft ZIP SHA256:
+`e915e5038d95cc0158bf1aacb35ca05ae40364d68afa607d9ba0bef01509d177`.
+These regressions do not execute Delphi control or establish visual fidelity.
+The subsequent cinematic-FX merge at
+`01ef47e9c4caf0bd01c829a658c1e6f04c0aab78` retains unchanged Delphi physical and
+shared actor source and passes 720 Rust tests (17 ignored), 35 Python tests,
+Rustfmt and Clippy; its later source is not substituted into the earlier receipt.
+
 Thirty-two exact-reference CPU cases compare 127,692 normalized words: every
 actor header, the full owner payload and all fifteen ordered registration lists.
 Cases vary pose, scale, finite copy parameters, group size, local-player identity

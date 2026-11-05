@@ -436,7 +436,26 @@ mod tests {
             );
             assert!(factory.initialize(&mut s, player.owner).is_err());
             assert_eq!(s.counts(), retained);
+            assert!(s.delphi_physics(player.owner).is_err());
+            let physics = s.initialize_delphi_physics(player.owner, &globals).unwrap();
+            assert_eq!(s.delphi_physics(player.owner).unwrap(), physics);
+            assert_eq!(s.counts(), retained);
+            let payload = s
+                .get(player.owner)
+                .unwrap()
+                .seed
+                .storage
+                .data()
+                .unwrap()
+                .to_vec();
+            assert!(s.initialize_delphi_physics(player.owner, &globals).is_err());
+            assert_eq!(
+                s.get(player.owner).unwrap().seed.storage.data().unwrap(),
+                payload
+            );
+            assert!(s.mecc_physics(player.owner).is_err());
             s.clear();
+            assert!(s.delphi_physics(player.owner).is_err());
             assert_eq!(s.counts().residents, 0);
             assert_eq!(s.counts().registrations, 0);
         }

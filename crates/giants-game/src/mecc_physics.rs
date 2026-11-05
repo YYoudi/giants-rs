@@ -79,9 +79,7 @@ pub(crate) fn prepare(
             if physics.words != [0; 15] {
                 return Err("new Mecc physics requires untouched inline storage".into());
             }
-            physics.words[1] = 1f32.to_bits();
-            physics.words[2] = 1f32.to_bits();
-            physics.words[4] = 1f32.to_bits();
+            crate::physical_initial::reset(&mut physics.words);
             put(&mut body, 0x4c, 100f32.to_bits());
         }
         for (index, value) in [

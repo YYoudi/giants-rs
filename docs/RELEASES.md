@@ -16,6 +16,37 @@ Clippy and site/JavaScript checks. The 112-case owned geometry comparison passes
 again after that merge. These regressions do not complete the native constructor,
 material, initialization, movement or growth integration.
 
+## Delphi initial physical state - 5 November 2026
+
+The acquired first-primary Delphi initializer now uses shared inline physical
+defaults, the actual seven declarations, scale/control stores and signed upper
+limit. Its owned Session entry tracks physics without native pointers, rejects
+replay and releases the state with the actor group. Two hundred fifty-six
+native/Rust seeded controls match 311,552 complete header/payload words, including
+the real declaration reader and preserved opaque inline word. Motion, complete
+primary scheduling, water and live Delphi admission remain pending.
+
+Combined source `ea575f0d5500d5739a396203c07a02305e47b16f` retains the latest
+Mecc camera/dispatch and Kabuto size work. The isolated workspace passes 719
+Rust tests (17 ignored), 35 Python tests, Rustfmt, Clippy, real-resource physics
+ownership/replay/clear controls and the repeated 256-case comparison. This CPU
+milestone adds no playable character or public Windows download.
+
+Its exact GNU build passes both silent common-runtime lifecycle endpoints and
+three selected-opening cancellations, without a window or audio device. The
+private ten-member draft has complete notices, matching receipt/review and no
+technical package blockers. Executable SHA256:
+`62c658b7e8c9f276b6e8ef9864ea2b7e3ca0df75d5b814c92b3558130226e7bc`;
+draft ZIP SHA256:
+`e915e5038d95cc0158bf1aacb35ca05ae40364d68afa607d9ba0bef01509d177`.
+These are common-runtime regressions, not Delphi controls or visual validation.
+
+Source `01ef47e9c4caf0bd01c829a658c1e6f04c0aab78` additionally preserves the
+concurrent cinematic FX-prefix changes and passes 720 Rust tests (17 ignored),
+35 Python tests, Rustfmt and Clippy. Delphi/physical/shared actor source remains
+unchanged from the compared initializer above. The earlier build receipt stays
+bound to its exact source; it is not a binary certification of this later merge.
+
 ## Cold Delphi local-player fields - 5 November 2026
 
 The common owned actor runtime now exposes the acquired Delphi cold player-field

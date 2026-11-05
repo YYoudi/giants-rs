@@ -74,7 +74,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Sea Reapers / Delphi
 
-- [ ] **Delphi movement and water** — todo; Runtime integration. Land movement, jumping, swimming, water interactions and turbo energy. Kind-3 resources and cold special construction match 32 CPU cases / 127,692 normalized words. Cold local-player fields add 32 cases / 123,792 words, including history, initial animation, activation and the copy/held-object group. Projection completion, copy updates, movement and a live controller remain unimplemented; this is not gameplay readiness.
+- [ ] **Delphi movement and water** — todo; Runtime integration. Land movement, jumping, swimming, water interactions and turbo energy. Kind-3 resources and cold special construction match 32 CPU cases / 127,692 normalized words. Cold local-player fields add 32 cases / 123,792 words, including history, initial animation, activation and the copy/held-object group. Initial physical setup adds 256 controls / 311,552 complete header/payload words through shared defaults and owned physics presence. Projection completion, copy updates, movement and a live controller remain unimplemented; this is not gameplay readiness.
 - [ ] **Sword combat and combinations** — todo; Runtime integration. Melee attacks, combinations, targeting, contact and damage.
 - [ ] **Complete Sea Reaper bow arsenal** — todo; Runtime integration. Regular, Lightning, Hellfire, Screamer and Power-Up bows; charging, lock-on and multiple targets.
 - [ ] **Offensive spells** — todo; Runtime integration. Cluster, Cluster Mine, Firewall, Fire Circle, Hail and Tornado, including their targeting and duration rules.
