@@ -108,3 +108,24 @@ were verified. Private exact-reference CPU controls cover 32 time queries and si
 retirement paths given supplied device/event inputs, not actual device timing.
 Full rendering, all-source transport/campaign coverage, native cadence, skip
 controls, audio/subtitle parity and complete memory reclamation remain open.
+
+## Character-scoped cinematic audio - 5 November 2026
+
+Published Windows preview: `preview-2026.11.05.4`, source
+`972d129431366c48a2aa162ca16cdba13a168214`.
+Executable SHA256: `3bdf9109b97171faf753845573262979e5f7c9621bf28b4a06aba4f47113d818`.
+ZIP SHA256: `1de1176837397c54556d8b805a46a5c6af9069243d2d687ab086a749a69e30fe`.
+Mecc cue/carry/footstep preloads now require the actual single Mecc start
+command. Other characters keep real-catalog generic actor lookup; no new local
+character cue profiles or gameplay admission are claimed.
+
+Exact-executable silent offscreen controls passed two natural-terminal/menu/
+re-entry cycles each for Rstory5 mission 2, Rstory1 mission 3, Story4 mission 1
+(with text-atlas cleanup) and Kstory1 mission 1. Both development lifecycle
+endpoints passed; 696 Rust tests passed, 14 ignored, 20 Python passed, formatting
+and Clippy passed. Receipt-bound packaging/notices and independently downloaded
+ZIP identities were verified. The .3 baseline completed 29 declared roots: 18
+transport passes, ten unrelated Mecc preload failures and one Story4 mission 2
+periodic-effect reserve failure. The full .4 repeat remains pending. Zero complete
+scenes have verified fidelity; rendering, cadence, effects, character gameplay,
+skipping and interactive checks retain the limits recorded in BACKLOG.md.

@@ -108,12 +108,13 @@ automatically wired into the main menu-to-mission build.
   14 ignored, 20 Python passed, formatting/Clippy passed. The earlier shared-cache
   inventory was rejected. Both development lifecycle endpoints passed on the
   exact packaged executable, and the downloaded ZIP/checksums were verified.
-  The 29-root menu transport matrix is running separately; its passes do not
-  certify full scenes or all 545 sources. Current non-Mecc entries expose a common
-  audio preparation error: the local-player bank unconditionally requests Mecc
-  cues absent from those worlds. Investigate class-based preparation; do not
-  invent sound aliases or waive unsupported character/audio services.
-- Candidate follow-up validated on an isolated executable: Mecc-specific cue/carry/footstep
+  The completed .3 baseline passed 18/29 declared menu roots. Ten failed on the
+  common unrelated Mecc cue preload; Story4 mission 2 failed on periodic-effect
+  preview reserve exhaustion. Do not drop effects or enlarge a constant to hide
+  that failure. Investigate actual scheduling, lifetime and render ownership.
+  The .4 full matrix is running separately; transport passes do not certify
+  complete scenes or all 545 sources.
+- Published preview 2026.11.05.4, validated on its isolated exact executable: Mecc-specific cue/carry/footstep
   preloads now require the actual single command11 declaration of kind2. Other
   or ambiguous starts retain generic actor lookup from their real catalogs and
   explicitly lack an implemented local-player cue profile. A failed Mecc player

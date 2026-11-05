@@ -60,6 +60,12 @@ scene. Story1 mission 5 has no declared bitmap-text block/call and exercises
 sync-track exhaustion. Story4 mission 1 exercises text-atlas cleanup. Their
 post-film gameplay/preview distinction must remain explicit in validation results.
 
+The preceding preview audit covered 29 declared menu-opening roots: 18 passed
+transport checks, ten failed on the unrelated Mecc cue preload now corrected,
+and Story4 mission 2 exhausted the periodic-effect preview reserve. Four targeted
+roots pass on this executable; the full matrix has not yet been repeated. The
+long Story4 effect failure remains open; effects are not silently dropped.
+
 All 545 historical sources across 16 worlds remain in scope; zero complete scenes
 have verified fidelity. Effects, actor variants, lighting, shadows, water, native
 cadence, audio/subtitle parity, skipping, full mission rules and all-source
