@@ -70,6 +70,19 @@ The combined source at `0c0139d6212b7bdf5e3312596734b4f3e20492a2` repeats all
 latest Kabuto auxiliary geometry, Mecc and cinematic work. Session consumption
 of the jump kernel remains a prerequisite, not an acknowledged player frame.
 
+The exact GNU build for that source passes both silent common-runtime lifecycle
+endpoints and three selected-opening cancellation cycles without a window or
+audio device. Its asset-free private ten-member draft passes receipt, notices and
+package verification without technical blockers. Executable SHA256:
+`df0a96c8f8d833a6cd00355b6d4fcd733285daec278a05a16ed3dc3a743fd34c`;
+draft ZIP SHA256:
+`64efdf4516892d86270fb8444cb983978a8f77f38c06d7b2fabbe5fd144f88c0`.
+These common-runtime checks do not execute the standalone jump service.
+The subsequent Kabuto-auxiliary merge at
+`60756cedcd4584974cdfad9486cc7979dea55c02` retains unchanged jump/request/time
+source and passes 725 Rust tests (18 ignored), 35 Python tests, Rustfmt and
+Clippy; its source identity does not replace the earlier build receipt.
+
 `Session::initialize_delphi_physics` now owns the first-primary physical setup as
 a distinct stage after special construction. `delphi_initial` loads the actual
 seven scalar declarations and signed limit, restores inline defaults through

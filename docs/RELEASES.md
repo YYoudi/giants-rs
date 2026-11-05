@@ -17,6 +17,21 @@ hashes. Its GNU build and private ten-member draft pass receipt/notices/package
 verification without technical blockers. Common-runtime silent regressions are
 recorded separately; they do not execute this Delphi service.
 
+That exact GNU build passes both silent common-runtime lifecycle endpoints and
+three selected-opening cancellation cycles with no window or audio device.
+Executable SHA256:
+`df0a96c8f8d833a6cd00355b6d4fcd733285daec278a05a16ed3dc3a743fd34c`;
+private draft ZIP SHA256:
+`64efdf4516892d86270fb8444cb983978a8f77f38c06d7b2fabbe5fd144f88c0`.
+It remains a validation draft; these checks do not certify Delphi controls,
+complete cinematic playback or visual fidelity.
+
+Source `60756cedcd4584974cdfad9486cc7979dea55c02` also retains concurrent
+Kabuto auxiliary construction/cleanup and passes 725 Rust tests (18 ignored),
+35 Python tests, Rustfmt and Clippy. The compared jump/request/time sources are
+unchanged. The earlier binary receipt remains bound to its exact source, rather
+than certifying this later merge.
+
 ## Kabuto cold auxiliary construction/reset - 5 November 2026
 
 The public cold auxiliary factory matches 88 native constructor/reset outcomes
