@@ -20,6 +20,12 @@ Kabuto source-data controls and both resource/custom-cleanup native comparisons
 pass again after integration. Source history review reports no findings across
 185 commits and 1,902 blobs; this is a technical scan, not a rights determination.
 
+The later shared PE-metadata integration at `590c30b` passes 743 Rust tests
+(22 ignored), 38 Python tests, formatting, Clippy, site checks and the same
+registered-cleanup comparisons. All three Kabuto metadata layouts still match
+their 62 reference records after the reader extraction. Existing preview receipts
+retain their own source identities; no new Kabuto binary is implied.
+
 ## Delphi external animation definitions - 6 November 2026
 
 The locomotion resource loader now reads external character definitions from two
