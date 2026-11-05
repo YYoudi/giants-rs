@@ -1,5 +1,28 @@
 # Preview releases and milestone integration
 
+## Kabuto auxiliary geometry preparation - 5 November 2026
+
+Owned auxiliary vertex/topology preparation matches 112 native controls and
+173,808 words. The isolated cold initializer has also been acquired separately
+from the primary remainder. Material generation, registration, deformation and
+complete owned initialization remain pending; this CPU dependency adds no live
+character, visual-fidelity claim or new downloadable package/receipt. See
+OWNED_KABUTO.md. Existing preview receipts remain tied to their exact sources.
+
+
+Combined source `379f874` retains newer Mecc subjective-dispatch and cinematic FX
+work. It passes 720 synthetic Rust tests (17 ignored), 35 Python tests, Rustfmt,
+Clippy and site/JavaScript checks. The 112-case owned geometry comparison passes
+again after that merge. These regressions do not complete the native constructor,
+material, initialization, movement or growth integration.
+
+
+The later combined source `b6eb0af` also retains Delphi physical initialization
+and its shared physical-default reset. It passes 722 Rust tests (17 ignored),
+35 Python tests, Rustfmt, Clippy and site/JavaScript checks. The 112-case geometry
+comparison passes again. Existing preview receipts remain bound to their earlier
+sources; no new playable Kabuto capability or binary is claimed.
+
 ## Delphi initial physical state - 5 November 2026
 
 The acquired first-primary Delphi initializer now uses shared inline physical
