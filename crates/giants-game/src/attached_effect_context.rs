@@ -89,6 +89,17 @@ impl Pool<crate::resident_states::Id> {
     }
 }
 impl<K: Copy + Eq> Pool<K> {
+    /// Flick mode1 supplies the measured parameter4 cinematic mark. The
+    /// ordinary named preparation still checks the complete deferred program
+    /// and requires identical normal/lite selection, without invented inputs.
+    pub fn prepare_cinematic(&mut self, name: &str, recipient: K) -> Result<Creation, String> {
+        let creation = self.prepare(name, recipient, 0, u32::MAX)?;
+        if let Creation::Prepared(id) = creation {
+            self.slots[id.slot].context.as_mut().unwrap().flags |= 0x8000;
+        }
+        Ok(creation)
+    }
+
     /// Private transaction staging for context preparation only. Existing
     /// identities keep their ticket/generation; no external update is replayed.
     pub(crate) fn staged_copy(&self) -> Self {
@@ -661,6 +672,29 @@ impl<K: Copy + Eq> Pool<K> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn cinematic_mark_survives_preparation_and_retirement_invalidates_reused_identity() {
+        let mut pool = Pool::new(7, Some(image()));
+        let Creation::Prepared(first) = pool.prepare_cinematic("A", 12).unwrap() else {
+            panic!("prepared")
+        };
+        let context = pool.get(first).unwrap();
+        assert_eq!(context.flags(), 0x8004);
+        assert_eq!(context.tag(), Some(u32::MAX));
+        assert_eq!(context.recipient(), Some(12));
+        assert_eq!(context.cursor(), 0);
+        assert_eq!(context.emitted_objects(), 0);
+        assert!(Pool::<u32>::new(8, Some(image())).get(first).is_none());
+        pool.release_prepared(first).unwrap();
+        let Creation::Prepared(second) = pool.prepare_cinematic("A", 13).unwrap() else {
+            panic!("prepared")
+        };
+        assert_eq!(first.slot(), second.slot());
+        assert_ne!(first, second);
+        assert!(pool.get(first).is_none());
+        assert!(pool.release_prepared(first).is_err());
+        assert_eq!(pool.get(second).unwrap().recipient(), Some(13));
+    }
     #[test]
     fn active_sound_preserves_failed_service_effects_and_refuses_replay() {
         struct Failure(usize);

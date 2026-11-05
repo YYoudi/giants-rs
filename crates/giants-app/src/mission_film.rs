@@ -12,6 +12,7 @@ pub(crate) struct Prepared {
     rigid: crate::rigid_attachment_scene::Scene,
     cube: bool,
     effects: Vec<Result<giants_game::cinematic_fx::Bindings, String>>,
+    persistent: Vec<Option<giants_game::cinematic_persistent::Bindings>>,
 }
 impl Prepared {
     pub(crate) fn effects_bound(&self) -> bool {
@@ -61,6 +62,15 @@ impl Prepared {
                     Ok(binding)
                 })
                 .collect::<Result<Vec<_>, String>>()?;
+            let persistent = cinematic.segments().iter().map(|segment| {
+                let path = giants_game::flick::sequence_path(root, segment.sequence())?;
+                let bytes = std::fs::read(path).map_err(|e| e.to_string())?;
+                let binding = giants_game::cinematic_persistent::Bindings::load(resources, &bytes).ok();
+                if binding.is_some() {
+                    println!("mission_persistent_binding sequence={} source_profile=attached_constant readiness_acknowledged=false", segment.sequence());
+                }
+                Ok(binding)
+            }).collect::<Result<Vec<_>, String>>()?;
             Ok(Self {
                 actors,
                 gun,
@@ -70,6 +80,7 @@ impl Prepared {
                 rigid,
                 cube,
                 effects,
+                persistent,
             })
         })();
         result.map_err(|e| e.to_string())
@@ -222,7 +233,10 @@ pub(crate) fn prepare_gpu(world: &mut World) {
     world.insert_resource(prepared.staff);
     world.insert_resource(prepared.spear);
     world.insert_resource(prepared.rigid);
-    world.insert_resource(crate::mission_effects::State::new(ticket, prepared.effects));
+    world.insert_resource(
+        crate::mission_effects::State::new(ticket, prepared.effects)
+            .with_persistent(prepared.persistent),
+    );
     if let Some(sword) = prepared.sword {
         world.insert_resource(sword);
     }

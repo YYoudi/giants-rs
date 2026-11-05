@@ -16,7 +16,7 @@ import subprocess
 from tools.package_preview import sha256
 
 
-def validate(log, exit_code, capture, full=False, require_text=False):
+def validate(log, exit_code, capture, full=False, require_text=False, persistent_cancel=False):
     cycles = 2 if full else 3
     mounts = re.findall(r'^mission_text_mounted ticket=(\d+) ', log, re.MULTILINE)
     releases = re.findall(r'^mission_text_released ticket=(\d+) .*remaining_assets=0 ', log, re.MULTILINE)
@@ -77,6 +77,14 @@ def validate(log, exit_code, capture, full=False, require_text=False):
     else:
         policies = re.findall(r'^mission_opening_audio_policy ticket=(\d+) playback_enabled=false queued_players=0$', log, re.MULTILINE)
         checks['disabled_audio_queues_no_players'] = policies == mounts and len(policies) == cycles
+    if persistent_cancel:
+        checks['persistent_backend_no_playback_failure'] = 'playback_failed' not in log and ' ERROR ' not in log
+        probes = list(re.finditer(r'^showcase_persistent_cancel ticket=(\d+) objects=([1-9]\d*) input_injected=false observation_gate=two_owned_updates$', log, re.MULTILINE))
+        cleaned = list(re.finditer(r'^mission_persistent_released ticket=(\d+) director=\d+ retired_objects=([1-9]\d*) remaining_objects=0 remaining_contexts=0 lifetime_children=0$', log, re.MULTILINE))
+        checks['cancelled_live_persistent_owners'] = ([p[1] for p in probes] == mounts and len(probes) == cycles)
+        checks['persistent_owners_released_after_cancel'] = len(probes) == cycles and all(
+            any(c[1] == p[1] and int(c[2]) >= int(p[2]) and c.start() > p.end() for c in cleaned)
+            for p in probes)
     if require_text:
         text = re.findall(r'^mission_text_released ticket=(\d+) entities=(\d+) atlas_images=(\d+) remaining_assets=0 ', log, re.MULTILINE)
         checks['rendered_text_atlases_released'] = (
@@ -85,8 +93,10 @@ def validate(log, exit_code, capture, full=False, require_text=False):
     return checks
 
 
-def run(executable, receipt_path, data_root, output, world, mission, timeout, full=False, require_text=False):
+def run(executable, receipt_path, data_root, output, world, mission, timeout, full=False, require_text=False, persistent_cancel=False):
     executable, data_root, output = (Path(p).resolve() for p in (executable, data_root, output))
+    if full and persistent_cancel:
+        raise ValueError('Choose natural transport or active persistent cancellation')
     if not math.isfinite(timeout) or timeout <= 0 or mission < 0:
         raise ValueError('Positive finite timeout and nonnegative mission index required')
     if not re.fullmatch(r'[A-Za-z0-9_]+', world):
@@ -107,6 +117,8 @@ def run(executable, receipt_path, data_root, output, world, mission, timeout, fu
                GIANTS_SHOWCASE_WORLD=world, GIANTS_SHOWCASE_MISSION=str(mission))
     if full:
         env['RUST_LOG'] = 'giants_app=info'
+    if persistent_cancel:
+        env['GIANTS_CANCEL_PERSISTENT'] = '1'
     output.mkdir(parents=True)
     capture, log_path = output/'menu.png', output/'run.log'
     command = [str(executable), '--data-root', str(data_root), '--mecc-menu',
@@ -120,7 +132,7 @@ def run(executable, receipt_path, data_root, output, world, mission, timeout, fu
                                   timeout=timeout, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0)).returncode
         except subprocess.TimeoutExpired:
             code = 'timeout'
-    checks = validate(log_path.read_text(encoding='utf8', errors='replace'), code, capture, full, require_text)
+    checks = validate(log_path.read_text(encoding='utf8', errors='replace'), code, capture, full, require_text, persistent_cancel)
     report = dict(schema_version=1, source_commit=receipt['source_commit'],
                   executable_sha256=receipt['executable_sha256'], world=world, mission=mission,
                   scope=('Selected-mission partial-renderer source-terminal transport and re-entry' if full else
@@ -129,6 +141,7 @@ def run(executable, receipt_path, data_root, output, world, mission, timeout, fu
                   full_playback_verified=False, full_scene_verified=False,
                   native_timing_verified=False, audio_verified=False, fidelity_verified=False,
                   interactive_controls_verified=False, exit_code=code, checks=checks,
+                  active_persistent_cancellation_verified=persistent_cancel and all(checks.values()),
                   passed=all(checks.values()), log_sha256=sha256(log_path),
                   capture_sha256=sha256(capture) if capture.is_file() else None)
     (output/'report.json').write_text(json.dumps(report, indent=2)+'\n', encoding='utf8')
@@ -143,9 +156,10 @@ if __name__ == '__main__':
     parser.add_argument('--mission', type=int, default=0, help='Zero-based selected mission')
     parser.add_argument('--timeout', type=float, help='Seconds; default 240, or 1800 with --full')
     parser.add_argument('--full', action='store_true', help='Two source-terminal transport cycles with real sinks at zero volume')
+    parser.add_argument('--persistent-cancel', action='store_true', help='Cancel only after a real persistent object has advanced twice; no input injection')
     parser.add_argument('--require-text', action='store_true', help='Require nonempty rendered glyph pools and atlas cleanup')
     args = parser.parse_args()
     report = run(args.executable, args.receipt, args.data_root, args.output, args.world, args.mission,
-                 args.timeout if args.timeout is not None else (1800 if args.full else 240), args.full, args.require_text)
+                 args.timeout if args.timeout is not None else (1800 if args.full else 240), args.full, args.require_text, args.persistent_cancel)
     print(json.dumps({'passed': report['passed'], 'checks': report['checks']}))
     raise SystemExit(0 if report['passed'] else 1)
