@@ -320,6 +320,328 @@ fn ground(_: [f32; 2]) -> Result<crate::physical_ground::Ground, &'static str> {
         key: [0, 0],
     })
 }
+
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; deferred primary/post ownership and injected sound failure only"]
+fn source_mecc_deferred_primary_requires_post_and_retains_real_fire_failure() {
+    struct Sound {
+        fail: bool,
+    }
+    impl crate::mecc_shot::Services for Sound {
+        fn aim(&mut self, _: &mut Session, _: Id, _: [f32; 3], _: f32) -> Result<[f32; 3], String> {
+            Err("post must execute owned aim".into())
+        }
+        fn muzzle(
+            &mut self,
+            _: &Session,
+            _: crate::mecc_fire_lock::Binding<Id>,
+        ) -> Result<[f32; 3], String> {
+            Err("post must consume the current held cache".into())
+        }
+        fn effect(
+            &mut self,
+            _: &mut Session,
+            _: Id,
+            _: &str,
+            _: &mut crate::audio_parameters::Random,
+        ) -> Result<crate::attached_effect_context::Creation, String> {
+            Err("post must prepare actual named effects".into())
+        }
+        fn sound(
+            &mut self,
+            _: &mut Session,
+            _: Id,
+            _: u32,
+        ) -> Result<crate::enemy_projectile::SoundOutcome, String> {
+            if self.fail {
+                Err("injected post-shot sound failure".into())
+            } else {
+                Ok(crate::enemy_projectile::SoundOutcome::ResourceUnavailable)
+            }
+        }
+    }
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let defs = crate::projectile_definition::DebugDefinitions::parse(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+    )
+    .unwrap();
+    let factory = crate::mecc_shot::Factory::load(&r, &defs).unwrap();
+    let terrain = giants_formats::gti::Terrain {
+        source_flags: 0,
+        width: 5,
+        height: 5,
+        origin: [-2000.; 2],
+        spacing: 1000.,
+        height_bounds: [0.; 2],
+        fallback_texture: String::new(),
+        heights: vec![0.; 25],
+        colors: vec![0; 25],
+        tags: vec![5; 25],
+        consumed_bytes: 0,
+        opaque_tail: vec![],
+    };
+    let query = crate::terrain_queries::StaticTerrainQuery::new(
+        &terrain,
+        0.001,
+        crate::arithmetic::Precision::Double53,
+    )
+    .unwrap();
+    for (index, (clock, fail_sound)) in [(0.25_f32, false), (0., false), (0., true)]
+        .into_iter()
+        .enumerate()
+    {
+        let mut s = Session::new(830 + index as u64);
+        let owner = actor(&mut s, &r, &g, &defs.catalog, None, 0.);
+        s.prepare_mecc_countdown_world(10.).unwrap();
+        let body = s
+            .residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap();
+        body[0x114..0x118].copy_from_slice(&25_f32.to_le_bytes());
+        body[0x118..0x11c].copy_from_slice(&0x1234_u32.to_le_bytes());
+        body[0x38..0x3c].copy_from_slice(&clock.to_le_bytes());
+        // Generic math inputs cannot stand in for an owned Session pre-copy.
+        let mut unbound =
+            crate::mecc_subjective::State::for_session(&s, owner, [[0; 9]; 4]).unwrap();
+        unbound
+            .prepare(
+                1,
+                crate::mecc_subjective::Source {
+                    source: owner,
+                    fields: s.get(owner).unwrap().construction_fields.as_ref().unwrap(),
+                    motion: [0.; 4],
+                    secondary_flags: 1,
+                    affine: None,
+                    animation_stamp: 0,
+                },
+            )
+            .unwrap();
+        assert!(unbound.prepared_for_primary(&s, owner, 1).is_err());
+        let mut state = crate::mecc_subjective::State::for_session(&s, owner, [[0; 9]; 4]).unwrap();
+        let mut p = Providers::new(&r);
+        s.begin_mecc_frame_history(owner, 1).unwrap();
+        state.prepare_from_session(1, &s, owner, 1).unwrap();
+        let env = crate::mecc_physical_cycle::Environment {
+            number: 1,
+            generation: 1,
+            globals: &g,
+            catalog: &defs.catalog,
+            global_seconds: 1. / 60.,
+            areas: &[],
+            controls: [0; 2],
+            facing_pitch: 0.,
+            orientation: Some(crate::mecc_physical_cycle::Orientation {
+                controls: [0; 2],
+                control_factor: 1.,
+                skip_heading: false,
+                controlled_actor: true,
+            }),
+            actor_key: 1,
+            objects: &[],
+        };
+        let mut primary = p.borrowed();
+        primary.jet.input.buttons = 1;
+        let result = s
+            .advance_mecc_subjective_world(&mut state, env, ground, primary)
+            .unwrap();
+        assert!(result.primary.unwrap().fire.is_none());
+        let body = s.get(owner).unwrap().seed.storage.data().unwrap();
+        assert_eq!(&body[0x114..0x118], &25_f32.to_le_bytes());
+        assert_eq!(&body[0x118..0x11c], &0x1234_u32.to_le_bytes());
+        assert_eq!(&body[0x38..0x3c], &clock.to_le_bytes());
+        assert_eq!(
+            state.phase(),
+            crate::mecc_subjective::Phase::PrimaryComplete
+        );
+        assert!(s.begin_mecc_frame_history(owner, 2).is_err());
+        let mut held = crate::mecc_wield_pose::Producer::new(owner);
+        let camera = crate::first_person::Camera {
+            position: [0., 0., 20.],
+            angles: [0.; 3],
+        };
+        let view = crate::mecc_primary::FireView {
+            source: owner,
+            number: 1,
+            camera,
+            viewport_origin: camera.position,
+            viewport_forward: [0., 1., 0.],
+            first_person: true,
+            display: state.display(Some(owner)),
+            vertex_epoch: p.stamp.0,
+            force_vertices: false,
+            input_mode: -1,
+            fire_disabled: false,
+            counter: 1,
+        };
+        let mut sound = Sound { fail: fail_sound };
+        let mut history = crate::mecc_subjective::History {
+            previous_weapon: -1,
+        };
+        {
+            let mut post = |s: &mut Session,
+                            state: &mut crate::mecc_subjective::State<Id>,
+                            held: &crate::mecc_wield_pose::Producer| {
+                s.advance_mecc_subjective_post(
+                    state,
+                    crate::mecc_subjective::WorldPost {
+                        number: 1,
+                        controlled: owner,
+                        camera_owner: Some(owner),
+                        previous_camera: camera,
+                        current_camera: camera,
+                    },
+                    &mut history,
+                    crate::mecc_subjective::WorldServices {
+                        animation: crate::mecc_animation_phase::Services {
+                            contexts: &mut p.contexts,
+                            random: &mut p.random,
+                            stamp: &mut p.stamp,
+                            blending: Blending::Enabled,
+                        },
+                        fire: crate::mecc_primary::FireServices {
+                            factory: &factory,
+                            resources: &r,
+                            terrain: &query,
+                            view,
+                            other: &mut sound,
+                        },
+                        held,
+                        globals: &g,
+                        catalog: &defs.catalog,
+                        global_seconds: 1. / 60.,
+                        areas: &[],
+                    },
+                )
+            };
+            assert!(post(&mut s, &mut state, &held).is_err());
+            assert_eq!(
+                state.phase(),
+                crate::mecc_subjective::Phase::PrimaryComplete
+            );
+        }
+        p.stamp.0 = p.stamp.0.wrapping_add(1).max(1);
+        assert!(
+            held.advance(&mut s, 1, 1. / 60., p.stamp.0)
+                .unwrap()
+                .is_some()
+        );
+        let before = (p.stamp.0, p.random.0, s.counts().residents);
+        let result = s.advance_mecc_subjective_post(
+            &mut state,
+            crate::mecc_subjective::WorldPost {
+                number: 1,
+                controlled: owner,
+                camera_owner: Some(owner),
+                previous_camera: camera,
+                current_camera: camera,
+            },
+            &mut history,
+            crate::mecc_subjective::WorldServices {
+                animation: crate::mecc_animation_phase::Services {
+                    contexts: &mut p.contexts,
+                    random: &mut p.random,
+                    stamp: &mut p.stamp,
+                    blending: Blending::Enabled,
+                },
+                fire: crate::mecc_primary::FireServices {
+                    factory: &factory,
+                    resources: &r,
+                    terrain: &query,
+                    view,
+                    other: &mut sound,
+                },
+                held: &held,
+                globals: &g,
+                catalog: &defs.catalog,
+                global_seconds: 1. / 60.,
+                areas: &[],
+            },
+        );
+        assert_eq!(p.stamp.0, before.0 + 1);
+        assert!(s.current_reference_matrices(owner).is_err());
+        if fail_sound {
+            assert!(result.is_err());
+            assert_eq!(state.phase(), crate::mecc_subjective::Phase::Failed);
+            assert!(s.mecc_physical_cycle_failure(owner).is_some());
+            assert!(s.mecc_shot_failure(owner).is_some());
+            assert_eq!(s.counts().residents, before.2 + 1);
+            assert!(!p.contexts.active().is_empty());
+            assert_ne!(p.random.0, before.1);
+            assert!(s.begin_mecc_frame_history(owner, 2).is_err());
+        } else {
+            let result = result.unwrap();
+            assert_eq!(result.fire.unwrap().shot.is_some(), clock == 0.);
+            assert_eq!(state.phase(), crate::mecc_subjective::Phase::Finished);
+            assert!(
+                s.residents[&owner.serial]
+                    .mecc_physical_cycle
+                    .as_ref()
+                    .unwrap()
+                    .subjective_pending
+                    .is_none()
+            );
+            s.begin_mecc_frame_history(owner, 2).unwrap();
+        }
+        let before_replay = (
+            p.stamp.0,
+            p.random.0,
+            s.counts().residents,
+            p.contexts.active().len(),
+        );
+        assert!(
+            s.advance_mecc_subjective_post(
+                &mut state,
+                crate::mecc_subjective::WorldPost {
+                    number: 1,
+                    controlled: owner,
+                    camera_owner: Some(owner),
+                    previous_camera: camera,
+                    current_camera: camera
+                },
+                &mut history,
+                crate::mecc_subjective::WorldServices {
+                    animation: crate::mecc_animation_phase::Services {
+                        contexts: &mut p.contexts,
+                        random: &mut p.random,
+                        stamp: &mut p.stamp,
+                        blending: Blending::Enabled
+                    },
+                    fire: crate::mecc_primary::FireServices {
+                        factory: &factory,
+                        resources: &r,
+                        terrain: &query,
+                        view,
+                        other: &mut sound
+                    },
+                    held: &held,
+                    globals: &g,
+                    catalog: &defs.catalog,
+                    global_seconds: 1. / 60.,
+                    areas: &[]
+                }
+            )
+            .is_err()
+        );
+        assert_eq!(
+            (
+                p.stamp.0,
+                p.random.0,
+                s.counts().residents,
+                p.contexts.active().len()
+            ),
+            before_replay
+        );
+        s.clear();
+        assert!(state.prepare_from_session(2, &s, owner, 0).is_err());
+    }
+}
 #[test]
 #[ignore = "Requires GIANTS_MECC_WORLD_ROOT pointing to the owned source clone; CPU-only, no window, sound or input"]
 fn source_mecc_world_history_admission_and_failed_tokens() {

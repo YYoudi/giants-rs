@@ -26,6 +26,60 @@ registered-cleanup comparisons. All three Kabuto metadata layouts still match
 their 62 reference records after the reader extraction. Existing preview receipts
 retain their own source identities; no new Kabuto binary is implied.
 
+## Deferred Mecc primary and real subjective fire - 6 November 2026
+
+The explicit Session-bound route now preserves native body-boundary fields and
+defers fire until the same frame's held-pose pass and first virtual ANM/reference
+publication. It executes actual local target/fire, projectile construction and
+named FX before the zero-time tail. A retained post obligation blocks the next
+frame; late failures retain completed effects and refuse replay. Current held
+caches supply post-world muzzles, while immediate fire retains its prior-cache
+contract. The selector's Session rate mapping now includes the angular rate.
+
+Four continuous controls pass 320 frames, 144 active subjective updates, twelve
+shots (eight post-world/four immediate) and 391,552 normalized snapshot words.
+Complete source state, acquired virtual fields, shared/held references, born
+projectiles, FX, RNG and epochs agree. The original 576-frame/22-shot primary
+matrix and ten failure controls pass again. A source-backed three-case lifecycle
+control verifies clock/auxiliary preservation, preparation/current-held ownership,
+pending-post blocking, a no-shot path, successful fire and retained late sound
+failure. Earlier generic supplied-header controls did not validate the Session
+selector-rate adapter now exercised by stationary-turn controls.
+
+Camera production/eligibility, subjective resource presence and partial-world
+startup/population/order remain supplied; the positional sound bank is explicitly
+empty. Actual main-driver camera timing, posed-vertex/subjective drawing, target-context coverage and audio
+remain prerequisites. The main driver's `fire: None` and existing preview gates
+remain; these CPU controls do not certify live mission firing, complete world
+scheduling or visual/audible fidelity. No new playable download follows from this
+CPU milestone; prior package receipts retain their exact source identities.
+
+Combined source `83a0b00d276c3d2c7053f414950b232992622cb6` preserves concurrent
+Delphi/Kabuto changes and passes 737 synthetic Rust tests (23 ignored), 36 Python
+tests, Rustfmt, Clippy and site/JavaScript checks. The four new comparisons,
+five immediate-primary matrices, ten failure controls and three source-data Mecc
+lifecycle controls pass again after the shared effect-service merge. Source
+history review reports no findings across 177 commits and 1,853 blobs.
+
+That exact GNU main build has executable SHA256
+`ce09e556ada1a6218ff53ac7e6e428085fb9d65dbfebfb60344d94556f186d57`;
+its ten-member private validation draft ZIP has SHA256
+`a9bf51c6d6c8198462adc22538d40df98aa19ca49518896d765ac1be8f4afc7f`.
+Receipt-bound notices/review and independent package-integrity checks report no
+blockers. The same executable passes both silent three-launch development
+lifecycle endpoints and three selected-opening cancellation/re-entry cycles,
+without a window or audio device. Those regressions do not execute the owned
+deferred-fire route or establish complete playback, controls or fidelity. Later
+source merges do not replace this executable's exact-source receipt.
+
+Later combined source `d6e6ef0` preserves the concurrent persistent-FX/main-driver
+integration. It passes 739 Rust tests (23 ignored), 38 Python tests, Rustfmt,
+Clippy and site/JavaScript checks. The four new Mecc comparisons, all five
+immediate matrices, ten failure controls and three source-data lifecycle controls
+pass again with the updated shared context services. History review reports no
+findings across 188 commits and 1,914 blobs. This later validation does not relabel
+the earlier `83a0b00` executable or replace any existing public preview.
+
 ## Delphi external animation definitions - 6 November 2026
 
 The locomotion resource loader now reads external character definitions from two

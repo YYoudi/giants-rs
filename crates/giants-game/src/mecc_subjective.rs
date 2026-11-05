@@ -17,6 +17,8 @@ use std::sync::Arc;
 pub enum Phase {
     Idle,
     Prepared,
+    Primary,
+    PrimaryComplete,
     Selected,
     Placed,
     FirstAnimation,
@@ -38,6 +40,7 @@ pub struct Header<K> {
 pub struct Source<'a, K> {
     pub source: K,
     pub fields: &'a Fields,
+    /// Current three model rates followed by angular rate, never previous rates.
     pub motion: [f32; 4],
     pub secondary_flags: u32,
     pub affine: Option<Cache>,
@@ -81,6 +84,28 @@ pub struct Output {
     pub stamp: Option<u32>,
     pub fire_called: bool,
 }
+/// Camera production remains external. The Session derives current source
+/// flags, selector metadata, offsets and object time from owned state/resources.
+pub struct WorldPost {
+    pub number: u64,
+    pub controlled: crate::resident_states::Id,
+    pub camera_owner: Option<crate::resident_states::Id>,
+    pub previous_camera: first_person::Camera,
+    pub current_camera: first_person::Camera,
+}
+pub struct WorldServices<'a, 'r, 't> {
+    pub animation: crate::mecc_animation_phase::Services<'a>,
+    pub fire: crate::mecc_primary::FireServices<'a, 'r, 't>,
+    pub held: &'a crate::mecc_wield_pose::Producer,
+    pub globals: &'r giants_formats::global_data::GlobalData,
+    pub catalog: &'r giants_formats::weapons::Catalog,
+    pub global_seconds: f32,
+    pub areas: &'r [crate::object_time::SlowArea],
+}
+pub struct WorldOutput {
+    pub animation: Option<Output>,
+    pub fire: Option<crate::mecc_fire_primary::Output>,
+}
 pub struct State<K> {
     number: u64,
     phase: Phase,
@@ -91,6 +116,7 @@ pub struct State<K> {
     durations: Vec<Option<f32>>,
     stamp: Option<u32>,
     failure: Option<String>,
+    owned_preparation: bool,
 }
 impl<K: Copy + Eq> State<K> {
     /// Initial channels are supplied explicitly. This does not infer native
@@ -122,6 +148,7 @@ impl<K: Copy + Eq> State<K> {
             durations,
             stamp: None,
             failure: None,
+            owned_preparation: false,
         })
     }
     pub fn phase(&self) -> Phase {
@@ -163,6 +190,7 @@ impl<K: Copy + Eq> State<K> {
         self.next(number)?;
         self.number = number;
         self.active = false;
+        self.owned_preparation = false;
         self.phase = Phase::Finished;
         Ok(())
     }
@@ -193,6 +221,7 @@ impl<K: Copy + Eq> State<K> {
         self.stamp = Some(input.animation_stamp);
         self.number = number;
         self.active = true;
+        self.owned_preparation = false;
         self.phase = Phase::Prepared;
         Ok(())
     }
@@ -206,7 +235,8 @@ impl<K: Copy + Eq> State<K> {
         if self.failure.is_none() && !self.active && self.phase == Phase::Finished {
             return Ok(None);
         }
-        if self.failure.is_some() || self.phase != Phase::Prepared {
+        if self.failure.is_some() || !matches!(self.phase, Phase::Prepared | Phase::PrimaryComplete)
+        {
             return Err("subjective post requires the current unfailed pre-copy".into());
         }
         if input.camera_owner != Some(input.controlled) {
@@ -239,7 +269,9 @@ impl<K: Copy + Eq> State<K> {
             channel_flags: self.channels[0][8],
             controlled_flags: input.controlled_flags,
             secondary_flags: header.secondary_flags,
-            motion: header.motion[..3].try_into().unwrap(),
+            // The selector reads current model rates1/2 and angular rate;
+            // the ANM playback service consumes all four current rates.
+            motion: header.motion[1..].try_into().unwrap(),
             icon_index: input.icon_index,
             weapon: input.weapon,
             previous_weapon: history.previous_weapon,
@@ -331,6 +363,40 @@ impl<K: Copy + Eq> State<K> {
 }
 
 impl State<crate::resident_states::Id> {
+    pub(crate) fn prepared_for_primary(
+        &self,
+        session: &crate::resident_states::Session,
+        source: crate::resident_states::Id,
+        number: u64,
+    ) -> Result<(), String> {
+        if !self.owned_preparation
+            || self.failure.is_some()
+            || self.phase != Phase::Prepared
+            || !self.active
+            || self.number != number
+            || self.header.as_ref().is_none_or(|h| h.source != source)
+            || !Arc::ptr_eq(
+                self.specification(),
+                session.mecc_subjective_specification(source)?,
+            )
+        {
+            return Err("subjective primary requires the matching prepared source/frame".into());
+        }
+        Ok(())
+    }
+    pub(crate) fn primary_started(&mut self) {
+        self.phase = Phase::Primary;
+    }
+    pub(crate) fn primary_completed(&mut self) {
+        self.phase = Phase::PrimaryComplete;
+    }
+    pub(crate) fn fail(&mut self, error: String) {
+        self.failure.get_or_insert(error);
+        self.phase = Phase::Failed;
+    }
+    pub(crate) fn frame_number(&self) -> u64 {
+        self.number
+    }
     /// Bind the actual state-resource specification. A normalized pointer word
     /// in serialized storage is not evidence that the resource is absent.
     pub fn for_session(
@@ -387,6 +453,8 @@ impl State<crate::resident_states::Id> {
                 affine,
                 animation_stamp: session.get(source).unwrap().mecc_animation_stamp,
             },
-        )
+        )?;
+        self.owned_preparation = true;
+        Ok(())
     }
 }
