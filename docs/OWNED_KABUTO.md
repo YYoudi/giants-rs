@@ -399,3 +399,34 @@ Prototype PS2 lookup was repeated for the touched helpers and the supplied secon
 corpus copy. Their raw ELF identity agrees; duplicated copies are not independent
 attribution evidence. PC-to-prototype correspondence remains unknown. No ABI,
 memory layout, generated name or raw corpus is imported into the implementation.
+
+## Generated procedural CPU texture
+
+`kabuto_texture::prepare` implements the normal cold constructor's 128 by 16
+image using the shared `audio_parameters::Random` scalar service. Despite that
+module's historical name, no audio backend is invoked. The integer interval is
+inclusive and distinct from the audio floating interval. Generation consumes
+exactly 128 draws from the caller's supplied stream. Float32 constants, Double53
+products, integer truncation, clamping and row-major source words are preserved.
+
+All 131,072 generated source pixel words and 64 final RNG states match full native
+constructor execution for 64 supplied seeds. Original integer RNG and conversion
+instructions execute with supplied TLS getter/outer-memory boundaries. Native
+warm construction reuses the image without consuming another draw; the two
+generated geometries retain insertion order. The native already-resident material
+bit also suppresses generation. These last registration/residency observations
+are native-only; the general owned registry and GPU-resident bypass are not ported.
+
+`Factory::prepare_procedural_texture` supplies the bounded normal-cold profile
+explicitly. Its image is shared by `Arc` with constructed groups. The silent
+source-data control checks RNG advancement, reuse, source ownership and release.
+No baked game image or native code is bundled. Only the source words' populated
+bit range is established; GPU color/alpha interpretation, upload and material
+routing are unverified. Do not assume a new Factory means the original global
+material would regenerate across world changes. World reset and residency must
+be acquired before connecting that lifecycle. `Pending::ProceduralMaterial` stays
+explicit, alongside camera, world cache dispatch and geometry registration.
+
+Prototype PS2 names were searched before the touched PC constructor, generator,
+integer RNG and conversion work; their correspondence remains unknown. The
+single mesh-name query result is not an attribution of the procedural generator.
