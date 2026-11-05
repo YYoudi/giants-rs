@@ -66,6 +66,26 @@ ownership control also covers both phase profiles with synthetic clip aliases,
 including a late secondary failure that retains payload/references and quarantines
 the owner. These are owned-backend guards, not native error-path equivalence.
 
+Combined source `b53e7b28d7705fefa8311848e67fae66691dca95` preserves the latest
+Mecc subjective and Kabuto cache-lifecycle work. All six comparisons pass again
+with stable source/runner/input hashes. The workspace passes 736 Rust tests
+(22 ignored), 36 Python tests, Rustfmt, Clippy, the source-data ownership control
+and site/JavaScript checks. Source-history review reports zero findings across
+167 commits and 1,809 unique blobs.
+
+Its exact GNU build has a private ten-member validation draft with complete
+dependency/toolchain notices and matching receipt/review, without technical
+package blockers. Executable SHA256:
+`446aa2bb7a6cfd70fb8b9f9a3038f0ed82f818255147eba8b6ef7ec45fdb5c56`;
+draft ZIP SHA256:
+`9139daab22ad347686660f4d26db4821df39fada88020d4224045f50c2b9b7d4`.
+The public download is unchanged by this CPU-only stage.
+
+That exact executable also passes both silent common-runtime lifecycle endpoints
+and three selected-opening cancellation cycles, without a window or audio device.
+These exercise the menu/Mecc/cinematic lifecycle, not Delphi input, active effects,
+complete playback or visual fidelity.
+
 Native-only continuation records the complete selected-owner primary/secondary
 flow around the acquired physical body. Observers retain 3,009 direct primary
 calls and 576 phase calls while preserving the original 64 final cohort states.

@@ -11,6 +11,23 @@ The full primary/camera/target producers, metadata-loader integration, auxiliary
 callbacks, water/turbo, effects and combat still gate gameplay admission.
 This CPU milestone adds no playable Delphi download or visual-fidelity claim.
 
+Combined source `b53e7b28d7705fefa8311848e67fae66691dca95` retains the latest
+Mecc subjective and Kabuto lifecycle work. It passes 736 Rust tests (22 ignored),
+36 Python tests, Rustfmt, Clippy, source-data ownership/refusal checks and the
+six repeated comparisons with stable source/input hashes. Source-history review
+has zero findings across 167 commits and 1,809 unique blobs.
+
+Its exact GNU build's private ten-member draft verifies notices, receipt/review
+and checksums without technical blockers. Executable SHA256:
+`446aa2bb7a6cfd70fb8b9f9a3038f0ed82f818255147eba8b6ef7ec45fdb5c56`;
+private draft ZIP SHA256:
+`9139daab22ad347686660f4d26db4821df39fada88020d4224045f50c2b9b7d4`.
+
+That exact executable passes both silent common-runtime lifecycle endpoints and
+three selected-opening cancellation cycles without a window or audio device.
+These checks do not execute Delphi controls, active effects, complete playback
+or visual-fidelity verification.
+
 ## Kabuto owned animation-cache reset/rebind - 5 November 2026
 
 The acquired cache lifecycle now retains cumulative bounds and prior node-source
