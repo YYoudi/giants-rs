@@ -12,6 +12,24 @@ The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
 
+## Owned Kabuto size-refresh candidate - 5 November 2026
+
+The acquired debug size-refresh service is implemented as an immutable-input Rust
+candidate using source parameters, typed declaration/bounds resources and the
+shared collision-radius calculation. It does not select or advance growth and is
+not yet composed with an owned first primary or live Session phase. No playable
+Kabuto capability or new binary/package receipt follows from this CPU service.
+See OWNED_KABUTO.md for its comparison boundary and remaining prerequisites.
+
+
+The public service matches 544 native controls: 288 source-parameter cases and
+256 additional cases with independently supplied positive finite global tables,
+declared scales and class presence (including 32 absent-class cases). All 219,776
+complete input-preserving header/payload words match. Three synthetic tests cover
+separate target/current semantics, absent-class preservation, and refusal without
+caller mutation after missing parameters, late failure or overflow. This is CPU
+validation at the isolated size boundary, not an owned first-primary composition.
+
 ## Kabuto first-primary/size acquisition - 5 November 2026
 
 Eight native cold first-primary contexts and 288 full native size-refresh
