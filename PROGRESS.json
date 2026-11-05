@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local callback controls cover 18 shots/15 tracked shots. The optional primary owns physical/first-ANM storage, local time and shared FX/RNG. Standing-shot/aim, walking, side and turn transitions pass five continuous CPU controls: 576 frames, 22 shots and 341,220 normalized words, including held caches and deferred FX. Main-driver camera/audio/fire scheduling, broader reactions, special headers and complete mission context coverage remain incomplete."
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local callback controls cover 18 shots/15 tracked shots. The optional primary owns physical/first-ANM storage, local time and shared FX/RNG. Standing-shot/aim, walking, side and turn transitions pass five continuous CPU controls: 576 frames, 22 shots and 341,220 normalized words, including held caches and deferred FX. Pre-primary/subjective camera, audio and fire scheduling, broader reactions, special headers and complete mission context coverage remain incomplete."
     },
     {
       "id": "mecc-inventory",
@@ -406,7 +406,7 @@
       "title": "All gameplay camera modes",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "First/third person, aiming/zoom, camera movement and obstruction, vehicles, base building and special attacks."
+      "detail": "First/third person, aiming/zoom, vehicles, base building and special attacks remain partial. The explicit owned mission inspection backend now produces the ordinary direct-angle camera with terrain adjustment, prepared-mesh clipping and exact view/cache consumption. CPU controls match 64 camera and 256 clipping cases; the exact build passes 128 silent owned-primary/render steps. Live native list admission, configured smoothing, special modes and subjective fire timing remain incomplete. See docs/OWNED_CAMERA.md."
     },
     {
       "id": "hud-map",

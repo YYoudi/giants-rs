@@ -4,6 +4,43 @@ The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
 
+## Ordinary owned mission camera - 5 November 2026
+
+Runtime source `24a521001b55da80b4c2417a87b95e4d99bdaec8` adds the acquired
+ordinary direct-angle camera producer to the explicit mission-owned inspection
+backend. It uses real scene terrain and prepared rigid geometry after the
+primary/held updates, then publishes its exact view/cache to presentation.
+See [OWNED_CAMERA.md](OWNED_CAMERA.md) for CPU evidence and provider boundaries.
+
+The isolated GNU build passes 713 Rust tests (17 ignored), 35 Python tests,
+formatting and Clippy. Camera controls match 64 cases / 2,688 words and 1,025
+native floor queries; prepared-mesh clipping matches 256 cases / 1,792 words.
+The exact executable also passes an offscreen, audio-device-disabled mission
+inspection: 128 real owned-primary updates and the actual body/view upload, with
+supplied controls and partial admission. The final capture was inspected for
+usable third-person framing. This route has zero eligible obstacle candidates;
+its runtime result does not extend the separate prepared-mesh CPU proof.
+
+On that same executable, both three-launch development lifecycle endpoints and
+three selected-opening cancellation/re-entry cycles also pass silently. All
+reported retired owned entities are released and disabled cinematic audio queues
+no players. These are regression controls, not a full natural-ending transport
+or audible/interactive validation.
+
+Executable SHA256:
+`4f2b144c4923a4e4daff39d27762f37a67f70462127e9831b7ac1fdd1dc07425`.
+The receipt-bound local draft ZIP SHA256 is
+`2494f4e0418e00382dc7fd9d7efd08a477f0936cda0f276b42de52b8f0012048`;
+its ten members, notices, review and hashes pass package verification with no
+technical distribution blockers. It remains a validation draft: the new route
+is an explicit inspection backend, not a newly exposed playable milestone.
+No public preview tag or existing-download replacement is made for this step.
+
+Normal campaign admission, live native mesh/list producers, camera smoothing and
+special modes, full subjective timing, positional audio and integrated owned
+firing remain incomplete. The application still supplies `fire: None`. Neither
+the prototype PS2 naming attribution nor these controls establish visual fidelity.
+
 ## Cold Kabuto player fields - 5 November 2026
 
 The public resource/Session initializer matches 64 controlled native cold player

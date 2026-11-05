@@ -12,10 +12,11 @@ character lane. The read-only corpus audit verifies 4,769 literal function symbo
 the reviewed initial summary confirms two routine identities, keeps two candidate
 matches probable and one unassigned. No gameplay status changes follow from names.
 
-- Next Mecc work: retain completed name lookups for the normal-camera producer and
-  approach helper; resolve wall-query/profile candidates before expanding their
-  reconstruction, then acquire camera/world/subjective fire and positional-audio
-  prerequisites with separate PC/PS2 identities and platform differences.
+- Next Mecc work: retain completed name lookups for the ordinary-camera producer
+  and approach helper; carry probable wall/profile candidates and their missing
+  PS2 comparisons without inferring types from them. Acquire pre-primary and
+  subjective fire timing, positional audio and native mesh/list producers, with
+  separate PC/PS2 identities and platform differences.
 - Revisit acquired services incrementally on touch: primary/animation, aim/target,
   collision, physics, wield/projectiles, audio and shared actor services. Preserve
   old identifiers as aliases. Do not batch-apply naming tables.
@@ -147,6 +148,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   reactions and full scheduling. The application still supplies `fire: None`.
   A typed selected target cannot use the no-target fire
   profile merely because its raw pointer slots remain normalized.
+- Ordinary camera: the owned mission inspection driver now owns sequential
+  direct-angle camera production after primary/held updates, using actual scene
+  terrain and prepared rigid meshes. The presentation consumes the generated
+  view/cache instead of recomputing it from the player look. Camera and clipping
+  CPU controls pass 64/256 cases respectively; see docs/OWNED_CAMERA.md and the
+  receipt-bound runtime checkpoint in docs/RELEASES.md. Normal campaign admission,
+  native list/model/part preparation, configured angle smoothing, special camera
+  modes and pre-primary/subjective firing timing remain prerequisites. The
+  existing inspection gate and `fire: None` remain; this is not a default-route
+  owned readiness claim.
 - Actor/projectile/effect scheduling, damage, mission objectives and progression.
 - Projectile terrain occlusion: the selected-controller pistol and development
   arena now limit object/target queries to the terrain-clipped segment, as the
