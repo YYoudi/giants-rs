@@ -208,7 +208,7 @@
       "title": "Kabuto movement and growth",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Movement, jumping, size-dependent collision and growth triggers remain unimplemented. The owned twelve-actor cold group field composition matches 16 native contexts (53,728 words), including typed auxiliary links, physics/size data, geometry buffers and ordered lists. An explicit external-data provider prepares the cold animation cache: three inspected layouts match 62 native reference records (61 resolved nodes), with owned specification lifetime. Owned cache reset/rebind matches six native phases (372 normalized records), retaining cumulative bounds and prior node-resource identity. World reset scheduling, camera acknowledgement, generated material/global geometry registration, full first-primary behavior and live admission remain pending. CPU field parity is not playable readiness or visual fidelity."
+      "detail": "Movement, jumping, collision at each size and growth triggers remain unimplemented. CPU controls cover the twelve-actor cold group (16 contexts, 53,728 words), externally supplied animation-cache reset/rebind (372 records), and generated texture/shared RNG (64 seeds, 131,072 source pixel words). World reset scheduling, camera acknowledgement, GPU material/geometry registration, full primary and live admission remain pending. CPU parity is not playable readiness or fidelity."
     },
     {
       "id": "kabuto-feeding",

@@ -38,6 +38,7 @@ pub mod kabuto_physics;
 pub mod kabuto_player;
 pub mod kabuto_resources;
 pub mod kabuto_size;
+pub mod kabuto_texture;
 pub mod mecc_collection;
 pub mod mecc_contact_materials;
 pub mod mecc_countdowns;

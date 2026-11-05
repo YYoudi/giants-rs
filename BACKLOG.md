@@ -203,6 +203,13 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   dispatch, deduplicated on registration and registered again on reuse. Group
   composition refuses a supplied provider awaiting refresh. Full world teardown
   ordering and runtime reset dispatch remain pending; no readiness gate is cleared.
+- Implemented: normal cold procedural texture generation reuses the shared RNG
+  and matches 64 native seeds (131,072 source pixel words and 64 final RNG states).
+  The Factory/group shares the CPU image, consumes no draws on reuse and releases
+  it with its owners. Native constructor controls also observe two-entry geometry
+  insertion and the already-resident material bypass. GPU material interpretation,
+  that bypass in the owned backend, world lifetime/reset and geometry registration
+  remain pending; CPU image data does not clear `Pending::ProceduralMaterial`.
 - Complete first-initializer behavior beyond the acquired field group: animation
   cache/reset service lifetime, generated material/global
   geometry registration and camera reset

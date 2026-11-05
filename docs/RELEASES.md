@@ -28,6 +28,23 @@ three selected-opening cancellation cycles without a window or audio device.
 These checks do not execute Delphi controls, active effects, complete playback
 or visual-fidelity verification.
 
+## Kabuto generated procedural CPU texture - 5 November 2026
+
+The normal cold constructor's generated image now matches 64 native seed
+controls: 131,072 source pixel words and all final shared RNG states. The owned
+Factory/group shares this CPU image, consumes no further draws on warm reuse,
+and releases it with its owners. Native material residency and geometry-list
+observations remain separate from an owned backend. GPU interpretation/upload,
+world material lifetime, geometry registration and the other initializer gates
+remain pending. This CPU milestone adds no playable capability or replacement
+download/receipt and does not establish rendering or gameplay fidelity.
+
+Validation passes 732 synthetic Rust tests (22 ignored), 36 Python tests,
+Rustfmt, Clippy and site/JavaScript checks. The three silent Kabuto source-data
+controls pass, including image/RNG sharing and release. The complete sixteen-case
+group field/buffer/list comparison still matches 53,728 words, separately from
+the generated-image comparison. Mecc and Delphi source is preserved.
+
 ## Kabuto owned animation-cache reset/rebind - 5 November 2026
 
 The acquired cache lifecycle now retains cumulative bounds and prior node-source
