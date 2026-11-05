@@ -36,6 +36,29 @@ special-only entry still leaves player selection and activation untouched.
 
 ## Evidence and scope
 
+`Session::initialize_delphi_physics` now owns the first-primary physical setup as
+a distinct stage after special construction. `delphi_initial` loads the actual
+seven scalar declarations and signed limit, restores inline defaults through
+`physical_initial` (also used by Mecc), preserves the opaque physical word, stores
+the current scale and clears controls. The native payload/physical link is an
+owned presence flag, never an emulated pointer. Replay and unrelated/live-profile
+inputs are refused; clearing the Session releases the group and physics together.
+
+Two hundred fifty-six native/Rust initializer controls match 311,552 words across
+the complete seeded headers and payloads. They vary all declared parameters,
+scale, arbitrary dirty payload/header words and signed limits, including negative
+values and the upper clamp. Original initialization instructions execute without
+behavior substitutes; only the asserted payload/inline links are normalized.
+The seeded payloads are supplied inputs, not native-output replay. Separate
+source-data checks exercise real resource-backed Session ownership and replay
+refusal. This initializer does not execute movement, frame scheduling or a
+complete primary callback. Native refusal/error-path equivalence is not claimed.
+
+REA initializer evidence:
+`ev_26038f778a560c7c81c4b8271dbafcb03bfc74182e23adbf114d9b47a76db515`.
+Prototype PS2 lookup remains an unknown attribution; no prototype ABI/layout is
+imported into this PC contract.
+
 Thirty-two exact-reference CPU cases compare 127,692 normalized words: every
 actor header, the full owner payload and all fifteen ordered registration lists.
 Cases vary pose, scale, finite copy parameters, group size, local-player identity

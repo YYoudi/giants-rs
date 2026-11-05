@@ -2,6 +2,69 @@
 use super::*;
 use crate::delphi_special::{CopySource, Initialized, State};
 impl Session {
+    pub fn initialize_delphi_physics(
+        &mut self,
+        id: Id,
+        globals: &giants_formats::global_data::GlobalData,
+    ) -> Result<crate::delphi_initial::Physics, String> {
+        let actor = self
+            .get(id)
+            .ok_or("Delphi physics owner absent or foreign")?;
+        if actor.class != 3
+            || !actor.acquired_construction
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 3
+            || !matches!(actor.delphi_special, Some(State::Complete(_)))
+            || actor.delphi_physics_present
+            || actor.mecc_physics_present
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+            || actor.controlled_motion.is_some()
+            || actor.ordinary_motion.is_some()
+            || actor.environment.is_some()
+            || actor.finalization.is_some()
+            || actor.world_tick.is_some()
+            || actor.world_tick_running
+            || actor.affine_cache.is_some()
+            || actor.mecc_animation_stamp != 0
+        {
+            return Err("Delphi physics requires its fresh unparented special group".into());
+        }
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("Delphi physical fields absent")?;
+        let initialized = crate::delphi_initial::initialize(
+            actor
+                .seed
+                .storage
+                .data()
+                .ok_or("Delphi physical payload absent")?,
+            fields.scale,
+            crate::delphi_initial::Parameters::from_globals(globals)?,
+        )?;
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        actor
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()
+            .copy_from_slice(&initialized.payload);
+        actor.construction_fields.as_mut().unwrap().control_flags = initialized.control_flags;
+        actor.delphi_physics_present = true;
+        Ok(initialized.physics)
+    }
+    pub fn delphi_physics(&self, id: Id) -> Result<crate::delphi_initial::Physics, String> {
+        let actor = self
+            .get(id)
+            .ok_or("Delphi physics owner absent or foreign")?;
+        if !actor.delphi_physics_present {
+            return Err("Delphi physics not initialized".into());
+        }
+        crate::delphi_initial::Physics::read(
+            actor.seed.storage.data().ok_or("Delphi payload absent")?,
+        )
+    }
     pub(crate) fn finish_delphi_player_fields(
         &mut self,
         id: Id,

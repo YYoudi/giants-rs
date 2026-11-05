@@ -77,6 +77,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   callbacks and normal player scheduling. Dynamic live retyping is not admitted.
   Preserve unresolved work explicitly; neither an allocated state-3 payload nor
   a completed special phase is a fully initialized player.
+- Implemented: Delphi's first-primary physical initializer loads its seven
+  declared physical parameters, preserves the acquired opaque inline word,
+  stores scale, clears controls and applies the signed upper limit. The shared
+  inline default kernel is reused by Mecc. A separate owned Session entry binds
+  physics presence without pointer emulation and rejects replay/foreign profiles.
+  The original initializer matches 256 seeded native/Rust controls (311,552 full
+  header/payload words). This does not execute motion, a complete primary turn
+  or copy callbacks; these are still the next controller dependencies.
 - Acquire land movement, jump, water entry/exit, swimming and turbo/energy;
   compare controlled continuous cycles before admitting live controls. Reuse
   shared terrain/collision/input services with the acquired character parameters.
