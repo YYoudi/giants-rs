@@ -49,6 +49,19 @@ It creates no window or sound and does not execute a Delphi constructor,
 controller, water behavior or mission admission. Game data and private outputs
 must stay outside Git. Keep a separate Cargo target for this worktree.
 
+## Optional cold Delphi special check
+
+The acquired Delphi cold special phase has a separate silent source-data control,
+using the same `GIANTS_DELPHI_ROOT` installation:
+
+```powershell
+cargo test --locked -p giants-game source_delphi_special_group_owns_references_and_refuses_replay --target x86_64-pc-windows-gnu -- --ignored
+```
+
+It constructs the owned copy/held-object group, checks reference ownership,
+replay/failure guards and registry clearing. It executes no original process,
+window or audio and does not admit a live Delphi controller. See OWNED_DELPHI.md.
+
 ## Optional cold Kabuto resource check
 
 For the cold Kabuto constructor/resource control, set `GIANTS_KABUTO_ROOT` to a

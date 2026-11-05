@@ -68,6 +68,21 @@ The draft remains private and adds no playable weapon to the public download.
 
 ## Delphi preparation lane - 5 November 2026
 
+The cold special phase is now acquired in source `e6c54bf`, with combined
+runtime source `6ead6a0088ef01d0aef700ec45a6fc2e7b03cb05` preserving concurrent
+Mecc, Kabuto and cinematic changes. Thirty-two native/Rust controls match
+127,692 normalized words across the owner, auxiliary copies, held equipment and
+ordered registrations; six declaration-reader controls pass. The combined
+workspace passes 707 Rust tests (17 ignored), 20 Python tests, Rustfmt and Clippy,
+and the source-data initialization/reference/replay/failure/clear control.
+See OWNED_DELPHI.md. Full local-player setup, live controls and visual fidelity
+remain unimplemented; this does not add a playable Delphi download.
+
+The following inventory merge, source `5187904951cd049d4db3532c5082d891a4b01765`,
+keeps the same compared game-crate code and passes the 707 Rust tests (17 ignored),
+all 30 current Python tests, Rustfmt and Clippy. Preserve the separate cinematic
+coverage limits when interpreting the combined build.
+
 The separate `codex/delphi-native` lane starts with declaration-backed kind-3
 marker, class/state template and body/state specification preparation. Its
 selected-mission resource control passes with user-supplied data; the existing
