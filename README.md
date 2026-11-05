@@ -84,7 +84,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Kabuto
 
-- [ ] **Kabuto movement and growth** — todo; Runtime integration. Movement, jumping and traversal at each size, growth requirements and changing reach/collision. Ordinary cold allocation matches two native constructors. The public cold player-field initializer matches 64 native controls (25,856 header/payload words), with ownership and atomic refusal checks. Camera reset consumption, marker relocation, live movement and growth remain pending; CPU initialization is not playable readiness.
+- [ ] **Kabuto movement and growth** — todo; Runtime integration. Movement, jumping and traversal at each size, growth requirements and changing reach/collision. Ordinary cold allocation matches two native constructors. The public cold player-field initializer matches 64 native controls (25,856 header/payload words), with ownership and atomic refusal checks. Camera reset consumption, marker relocation, live movement and growth remain pending; CPU initialization is not playable readiness. Native-only acquisition now covers eight first-primary contexts and 288 size-refresh cases; their owned implementation and actual growth triggers remain pending.
 - [ ] **Grabbing, storing and eating creatures** — todo; Runtime integration. Grab creatures, store them on horns, eat them and restore health.
 - [ ] **Kabuto attacks and adrenaline** — todo; Runtime integration. Hand and foot attacks, adrenaline levels, combinations and area damage.
 - [ ] **Throwing and environmental attacks** — todo; Runtime integration. Throw creatures and boulders; collisions, fragments, damage and replenishing rock columns.

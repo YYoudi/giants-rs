@@ -12,6 +12,23 @@ The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
 
+## Kabuto first-primary/size acquisition - 5 November 2026
+
+Eight native cold first-primary contexts and 288 full native size-refresh
+controls now return without diagnostics using actual declared resources and
+explicitly supplied outer boundaries. These are private native acquisitions;
+no owned first-primary, growth trigger or additional playable capability is
+implemented. See OWNED_KABUTO.md. The movement/growth roadmap stays `todo` and
+this research milestone produces no new Windows download or package receipt.
+
+
+The combined workspace based on `0537960` preserves the concurrent owned-camera
+and Delphi work. It passes 713 synthetic Rust tests (17 ignored), 35 Python tests,
+Rustfmt, Clippy and site/JavaScript checks. The installed-data Kabuto control and
+64-case public cold player-field comparison still pass. Those Rust checks cover
+the earlier implemented boundary; the new first-primary/size acquisitions remain
+native-only and must not be counted as implemented player behavior.
+
 ## Ordinary owned mission camera - 5 November 2026
 
 Runtime source `24a521001b55da80b4c2417a87b95e4d99bdaec8` adds the acquired

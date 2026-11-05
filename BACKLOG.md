@@ -103,8 +103,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   It uses the common primary-channel selector, preserves cold payload/caches,
   enforces factory ownership and atomic refusal, and returns a pending projection
   reset. This does not implement live type-change cleanup or camera completion.
-- Acquire marker relocation, camera consumption and the first primary/state
-  execution; then land movement/jumping, size-dependent collision and growth.
+- Acquired, native only: eight first-primary contexts return with actual auxiliary
+  resources; the callback creates two auxiliary actors, nine effects and inline
+  physics. A separate 288-case full size-refresh control passes on supplied size
+  pairs. No owned first-primary/size implementation or growth-trigger comparison
+  exists yet. See docs/OWNED_KABUTO.md for the supplied boundaries.
+- Implement and compare first-primary initialization and the full size refresh,
+  including shared physical/animation services and owned auxiliary/effect links.
+  Acquire marker relocation and camera consumption, then land movement/jumping,
+  size-dependent collision and actual feeding/growth triggers.
   The special dispatcher returns for Kabuto without Mecc/Delphi child creation.
   Reuse owned actor, terrain, input, animation, effect and audio services with
   acquired Kabuto parameters and explicit phase order.
