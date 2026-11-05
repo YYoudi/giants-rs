@@ -256,6 +256,23 @@ pub(crate) fn update(
 mod tests {
     use super::State;
     #[test]
+    fn replay_observer_sees_effect_state_mounted_after_system_initialization() {
+        use bevy::prelude::{App, Res, ResMut, Resource, Update};
+        #[derive(Resource, Default)]
+        struct Seen(Vec<Option<u64>>);
+        fn observe(state: Option<Res<State>>, mut seen: ResMut<Seen>) {
+            seen.0.push(state.as_ref().map(|s| s.ticket()));
+        }
+        let mut app = App::new();
+        app.init_resource::<Seen>().add_systems(Update, observe);
+        app.update();
+        app.insert_resource(State::new(9, vec![]));
+        app.update();
+        app.world_mut().remove_resource::<State>();
+        app.update();
+        assert_eq!(app.world().resource::<Seen>().0, [None, Some(9), None]);
+    }
+    #[test]
     fn pending_effect_binding_cannot_acknowledge_movie_completion() {
         let state = State::new(7, vec![Err("unknown actor service".into())]);
         assert!(!state.settled());

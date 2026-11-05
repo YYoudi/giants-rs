@@ -411,6 +411,11 @@ fn drive(
                 replay.stage = 2;
                 return;
             }
+            // A cyclic observer may still be waiting for the requested live
+            // object. It must never fall through to one-shot completion below.
+            if mode == "showcase-opening-cycles" {
+                return;
+            }
             if matches!(mode.as_str(), "showcase-free" | "showcase-cancel")
                 && (playing || opened)
                 && !showcase.is_free()
