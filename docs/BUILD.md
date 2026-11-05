@@ -135,6 +135,10 @@ and camera services remain unacknowledged; no mission is admitted by this contro
 The group control also prepares the optional normal-cold procedural CPU texture,
 checks its shared RNG phase, warm reuse, group ownership and release. It does not
 upload that image, infer GPU alpha/blending, or acknowledge a material binding.
+It now also checks the registered cold path: actor/registry/RNG rollback on a late
+foreign-ticket failure, same-ticket foreign-scope cleanup refusal, deferred marks,
+unchanged ordered lists, last-material retirement and clean regeneration after
+clear/re-entry. This is the custom callback phase, not common actor retirement.
 
 For cumulative animation-cache reset/rebind and retained node-owner checks, use
 the same two input variables and isolated target:

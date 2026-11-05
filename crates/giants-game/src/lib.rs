@@ -33,6 +33,7 @@ pub mod instances;
 pub mod kabuto_animation_cache;
 pub mod kabuto_auxiliary;
 pub mod kabuto_geometry;
+pub mod kabuto_geometry_registry;
 pub mod kabuto_initial;
 pub mod kabuto_physics;
 pub mod kabuto_player;

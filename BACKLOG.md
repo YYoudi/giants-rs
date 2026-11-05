@@ -199,6 +199,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   insertion and the already-resident material bypass. GPU material interpretation,
   that bypass in the owned backend, world lifetime/reset and geometry registration
   remain pending; CPU image data does not clear `Pending::ProceduralMaterial`.
+- Implemented: ordered normal-cold CPU geometry registry, last-entry material
+  retirement and regenerated RNG phase match 32 native scenarios / 144 removals.
+  Registered group construction stages actors, registry and RNG atomically.
+  The acquired custom cold cleanup reuses common deletion marking, preserves
+  actor/list ownership, and retires its geometry/image. Eight complete native
+  group contexts match 36,624 normalized words, all lists and 88 mark calls.
+  Same-ticket foreign scopes, replay and dirty/partial publication refuse.
+- Complete the remaining custom cleanup profiles: the additional object-reference
+  slot's nonzero behavior/role, GPU material release and dynamic/entered turns.
+  The owner remains state1 after the custom callback; common state transition
+  and actual marked-actor retirement must be acquired separately. `Session::clear`
+  alone does not dispatch the explicit external geometry registry.
 - Complete first-initializer behavior beyond the acquired field group: animation
   cache/reset service lifetime, generated material/global
   geometry registration and camera reset

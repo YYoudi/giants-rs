@@ -1,5 +1,18 @@
 # Preview releases and milestone integration
 
+## Kabuto CPU registration and custom cold cleanup - 6 November 2026
+
+The owned normal-cold registry preserves ordered geometry membership, retires
+the material at the last removal and regenerates it on re-entry using the shared
+RNG. Thirty-two native scenarios cover 144 removals. The registered twelve-actor
+group and its custom cleanup match eight native contexts / 36,624 normalized
+words, all lists and 88 deferred-mark calls. Actor, registry and RNG publication
+is atomic; invalid scopes and replay refuse. Marked actors remain owned; the
+common owner transition and actual retirement are separate. GPU backend release,
+dynamic/extra-reference profiles, world dispatch and playable admission remain
+pending. This CPU source milestone creates no new playable download or replacement
+binary/package receipt and establishes no visual fidelity.
+
 ## Kabuto generated procedural CPU texture - 5 November 2026
 
 The normal cold constructor's generated image now matches 64 native seed

@@ -84,7 +84,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Kabuto
 
-- [ ] **Kabuto movement and growth** — todo; Runtime integration. Movement, jumping, collision at each size and growth triggers remain unimplemented. CPU controls cover the twelve-actor cold group (16 contexts, 53,728 words), externally supplied animation-cache reset/rebind (372 records), and generated texture/shared RNG (64 seeds, 131,072 source pixel words). World reset scheduling, camera acknowledgement, GPU material/geometry registration, full primary and live admission remain pending. CPU parity is not playable readiness or fidelity.
+- [ ] **Kabuto movement and growth** — todo; Runtime integration. Movement, jumping, collision at each size and growth triggers remain unimplemented. CPU controls cover cold group fields, animation-cache lifecycle, generated texture/shared RNG, ordered geometry/material retirement (32 scenarios, 144 removals) and registered custom cleanup (8 contexts, 36,624 words, 88 marks). Marked actors stay owned. Common actor transition/retirement, world dispatch, camera acknowledgement, GPU material/geometry rendering, full primary and live admission remain pending. CPU parity is not playable readiness or fidelity.
 - [ ] **Grabbing, storing and eating creatures** — todo; Runtime integration. Grab creatures, store them on horns, eat them and restore health.
 - [ ] **Kabuto attacks and adrenaline** — todo; Runtime integration. Hand and foot attacks, adrenaline levels, combinations and area damage.
 - [ ] **Throwing and environmental attacks** — todo; Runtime integration. Throw creatures and boulders; collisions, fragments, damage and replenishing rock columns.
