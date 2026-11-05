@@ -18,6 +18,16 @@ hashes are stable throughout that comparison. Site export and generated
 JavaScript syntax checks pass. Windows receipt/package validation is recorded
 separately when complete; CPU controls do not establish graphics fidelity.
 
+The isolated GNU build for that exact source passes both silent development
+lifecycle endpoints and three selected-opening cancellation cycles, with no
+window or audio device. These check the common menu/runtime, not Delphi control,
+natural cinematic endings or fidelity. Its executable SHA256 is
+`8e4f4f161b1e51021a5d40d7980065c8eebc96090f3621ddeb5f2acf58652c83`.
+The private ten-member draft has complete notices, matching receipt/review and
+no technical package blockers; ZIP SHA256 is
+`5c90d0a864e21872950fe7d9ef12f3160c1739a26b9b6c6e4e3050bae649e9a5`.
+It remains a validation draft, with public downloads unchanged.
+
 Delphi continuation on combined source
 `dc2ea1678df973db19ad4657c7a213ac7f407712` retains the concurrent Kabuto cold-player
 fields and prototype attribution workflow. The isolated workspace passes 709

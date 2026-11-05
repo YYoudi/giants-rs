@@ -100,6 +100,16 @@ The combined camera/Kabuto/Delphi source at
 714 Rust tests (17 ignored), 35 Python tests, Rustfmt, Clippy and the source-data
 refusal/cleanup control. These cold-field results do not enlarge runtime admission.
 
+The receipt-bound GNU build for that same source also passes both silent common
+runtime lifecycle endpoints and three selected-opening cancellations. Its
+private ten-member draft passes receipt/notices/package verification without
+technical blockers. Executable SHA256:
+`8e4f4f161b1e51021a5d40d7980065c8eebc96090f3621ddeb5f2acf58652c83`;
+draft ZIP SHA256:
+`5c90d0a864e21872950fe7d9ef12f3160c1739a26b9b6c6e4e3050bae649e9a5`.
+These regressions do not call the Delphi factory or validate manual controls,
+complete playback or visuals. No window or audio device is created.
+
 Integrated source `6ead6a0088ef01d0aef700ec45a6fc2e7b03cb05` retains the
 parallel Mecc/Kabuto/cinematic changes. Its isolated workspace passes 707 Rust
 tests (17 ignored), 20 Python tests, Rustfmt, Clippy and the source-data control.
