@@ -66,6 +66,11 @@ and the source-data initialization/reference/replay/failure/clear control.
 See OWNED_DELPHI.md. Full local-player setup, live controls and visual fidelity
 remain unimplemented; this does not add a playable Delphi download.
 
+The following inventory merge, source `5187904951cd049d4db3532c5082d891a4b01765`,
+keeps the same compared game-crate code and passes the 707 Rust tests (17 ignored),
+all 30 current Python tests, Rustfmt and Clippy. Preserve the separate cinematic
+coverage limits when interpreting the combined build.
+
 The separate `codex/delphi-native` lane starts with declaration-backed kind-3
 marker, class/state template and body/state specification preparation. Its
 selected-mission resource control passes with user-supplied data; the existing

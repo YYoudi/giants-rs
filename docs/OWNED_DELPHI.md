@@ -63,3 +63,8 @@ parallel Mecc/Kabuto/cinematic changes. Its isolated workspace passes 707 Rust
 tests (17 ignored), 20 Python tests, Rustfmt, Clippy and the source-data control.
 The normalized comparison is rechecked against this combined source, with
 source and executable hashes captured before and after the run.
+
+Source `5187904951cd049d4db3532c5082d891a4b01765` additionally retains the
+cinematic inventory/diagnostic changes. The game-crate source is unchanged from
+the compared runtime above. The combined workspace again passes 707 Rust tests
+(17 ignored), Rustfmt and Clippy, with all 30 current Python/site tests passing.
