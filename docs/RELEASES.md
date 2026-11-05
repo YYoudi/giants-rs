@@ -1,5 +1,33 @@
 # Preview releases and milestone integration
 
+## Cold Delphi local-player fields - 5 November 2026
+
+The common owned actor runtime now exposes the acquired Delphi cold player-field
+stage around special construction: class scale, pitch/history, initial channel
+selection and activation, including the declared copy/held-object group.
+Thirty-two native/Rust controls match 123,792 normalized words with both blending
+modes and varied frame/copy/equipment inputs. Projection reset remains explicit
+and pending; movement, water, copy callbacks and live mission admission are not
+implemented. This CPU stage adds no playable character or public download.
+
+Combined source `facf988e7b868ed1225ee45da8ec825ea678d20f` preserves the acquired
+common camera integration and Kabuto work. Its isolated workspace passes 714
+Rust tests (17 ignored), 35 Python tests, Rustfmt, Clippy, the silent source-data
+refusal/cleanup control and the repeated 32-case comparison. Source/executable
+hashes are stable throughout that comparison. Site export and generated
+JavaScript syntax checks pass. Windows receipt/package validation is recorded
+separately when complete; CPU controls do not establish graphics fidelity.
+
+The isolated GNU build for that exact source passes both silent development
+lifecycle endpoints and three selected-opening cancellation cycles, with no
+window or audio device. These check the common menu/runtime, not Delphi control,
+natural cinematic endings or fidelity. Its executable SHA256 is
+`8e4f4f161b1e51021a5d40d7980065c8eebc96090f3621ddeb5f2acf58652c83`.
+The private ten-member draft has complete notices, matching receipt/review and
+no technical package blockers; ZIP SHA256 is
+`5c90d0a864e21872950fe7d9ef12f3160c1739a26b9b6c6e4e3050bae649e9a5`.
+It remains a validation draft, with public downloads unchanged.
+
 Delphi continuation on combined source
 `dc2ea1678df973db19ad4657c7a213ac7f407712` retains the concurrent Kabuto cold-player
 fields and prototype attribution workflow. The isolated workspace passes 709

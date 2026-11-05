@@ -170,6 +170,29 @@ impl Factory {
         input.fields.set_declared_scale(pose.scale)?;
         s.construct_delphi_cold(input, 0x80000000)
     }
+    /// Cold generic-to-Delphi field projection and complete special group.
+    /// The supplied frame is not a mission-marker or live type-change producer.
+    pub fn construct_player_fields(
+        &self,
+        s: &mut Session,
+        frame: crate::delphi_player::ColdFrame,
+        blending: crate::animation_channels::Blending,
+    ) -> Result<crate::delphi_player::Initialized, String> {
+        let mut input = self.owner.input();
+        input.fields = crate::delphi_player::prepare(&self.owner.fields, frame)?;
+        let channels = crate::delphi_player::selected(input.fields.channels, blending)?;
+        if !self.owner.specification.animations.contains_key(&1) {
+            return Err("Delphi initial player animation absent".into());
+        }
+        let owner = s.construct_delphi_cold(input, 0x80000000)?;
+        let special = self.initialize(s, owner)?;
+        s.finish_delphi_player_fields(owner, self.owner.fields.channels, channels)?;
+        Ok(crate::delphi_player::Initialized {
+            owner,
+            special,
+            camera_projection_reset_required: true,
+        })
+    }
     pub fn initialize(&self, s: &mut Session, owner: Id) -> Result<Initialized, String> {
         s.begin_delphi_special(owner, &self.owner.seed, &self.owner.fields)?;
         let result = (|| {
@@ -374,6 +397,61 @@ mod tests {
         assert_eq!(s.counts().residents, 0);
         assert_eq!(s.counts().registrations, 0);
         assert!(s.delphi_special(owner).is_none());
+        let frame = crate::delphi_player::ColdFrame {
+            position: [7., -11., 13.],
+            current: [6., -10., 12.],
+            previous: [5., -9., 11.],
+            angles: [37., -12., 8.],
+        };
+        for blending in [
+            crate::animation_channels::Blending::Disabled,
+            crate::animation_channels::Blending::Enabled,
+        ] {
+            let player = factory
+                .construct_player_fields(&mut s, frame, blending)
+                .unwrap();
+            assert!(player.camera_projection_reset_required);
+            assert_eq!(s.counts().residents, 2 * player.special.copies.len() + 2);
+            let fields = s
+                .get(player.owner)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap();
+            assert_eq!(fields.previous, frame.current);
+            assert_eq!(fields.current, frame.position);
+            assert_eq!(fields.angles, [37., 0., 8.]);
+            assert_eq!(fields.scale, factory.owner.fields.scale);
+            assert_eq!(fields.channels[0][0], 1);
+            assert_eq!(fields.configuration[14] & 1, 1);
+            let channels = fields.channels;
+            let retained = s.counts();
+            assert!(
+                s.finish_delphi_player_fields(
+                    player.owner,
+                    factory.owner.fields.channels,
+                    channels
+                )
+                .is_err()
+            );
+            assert!(factory.initialize(&mut s, player.owner).is_err());
+            assert_eq!(s.counts(), retained);
+            s.clear();
+            assert_eq!(s.counts().residents, 0);
+            assert_eq!(s.counts().registrations, 0);
+        }
+        let mut invalid = frame;
+        invalid.previous[0] = f32::INFINITY;
+        assert!(
+            factory
+                .construct_player_fields(
+                    &mut s,
+                    invalid,
+                    crate::animation_channels::Blending::Disabled
+                )
+                .is_err()
+        );
+        assert_eq!(s.counts().residents, 0);
         // A deliberately unbound list6 member is an owned-backend failure
         // control, not a native error-path comparison.
         let mut malformed = crate::state_storage::Seed {

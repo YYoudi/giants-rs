@@ -2,6 +2,41 @@
 use super::*;
 use crate::delphi_special::{CopySource, Initialized, State};
 impl Session {
+    pub(crate) fn finish_delphi_player_fields(
+        &mut self,
+        id: Id,
+        cold: crate::animation_channels::Channels,
+        selected: crate::animation_channels::Channels,
+    ) -> Result<(), String> {
+        let actor = self
+            .get(id)
+            .ok_or("Delphi player owner absent or foreign")?;
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("Delphi player fields absent")?;
+        if actor.class != 3
+            || !actor.acquired_construction
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 3
+            || !matches!(actor.delphi_special, Some(State::Complete(_)))
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+            || actor.channels != Some(cold)
+            || fields.channels != cold
+            || fields.configuration[14] & 1 != 0
+        {
+            return Err(
+                "Delphi player fields require their fresh completed cold special group".into(),
+            );
+        }
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        let fields = actor.construction_fields.as_mut().unwrap();
+        fields.channels = selected;
+        fields.configuration[14] |= 1;
+        actor.channels = Some(selected);
+        Ok(())
+    }
     pub fn delphi_special(&self, id: Id) -> Option<&Initialized> {
         match self.get(id)?.delphi_special.as_ref()? {
             State::Complete(value) => Some(value),
