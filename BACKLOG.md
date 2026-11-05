@@ -68,6 +68,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   These are CPU controls, not complete player initialization or live integration.
 - Acquire the surrounding local-player type change, reset, activation and camera
   services, then copy/held-object callbacks and normal player initialization.
+  Four native cold type-change acquisitions return with 22 actors and one finite
+  projection submission each, with supplied pose/history/viewport variations.
+  These are observations only: the surrounding Rust bootstrap comparison and
+  renderer acknowledgement remain pending. Prototype PS2 naming was searched;
+  attribution remains unknown pending independent algorithm/caller review.
   Preserve unresolved work explicitly; neither an allocated state-3 payload nor
   a completed special phase is a fully initialized player.
 - Acquire land movement, jump, water entry/exit, swimming and turbo/energy;

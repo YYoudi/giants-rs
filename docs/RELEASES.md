@@ -1,5 +1,13 @@
 # Preview releases and milestone integration
 
+Delphi continuation on combined source
+`dc2ea1678df973db19ad4657c7a213ac7f407712` retains the concurrent Kabuto cold-player
+fields and prototype attribution workflow. The isolated workspace passes 709
+Rust tests (17 ignored), 35 Python tests, Rustfmt and Clippy. Four additional
+native Delphi type-change observations are acquisition only; they do not add a
+Rust bootstrap, playable character or download. The receipt-bound Delphi draft
+recorded below remains tied to its earlier exact source, not this combined head.
+
 The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
@@ -148,6 +156,15 @@ The following inventory merge, source `5187904951cd049d4db3532c5082d891a4b01765`
 keeps the same compared game-crate code and passes the 707 Rust tests (17 ignored),
 all 30 current Python tests, Rustfmt and Clippy. Preserve the separate cinematic
 coverage limits when interpreting the combined build.
+
+The receipt-bound `6012206836aae5c594dd5250e632db604b5fa274` GNU build also
+passes both silent development lifecycle endpoints and three opening/cancellation
+cycles. These exercise the common menu build, not the new Delphi API or manual
+input/visual fidelity. Its private draft has ten allowlisted members, complete
+notices, matching receipt/review identities and no verifier blockers. Executable
+SHA256: `c227099f295063bc6827573884c41da7a0cc33c41977d87e56d5e547fcfaf3dc`;
+ZIP SHA256: `37880c59eb20426b8c5bdb7c1f6dfaa44d3d862a5efea883644cc3351880fd42`.
+No new public binary is offered for this CPU-only stage.
 
 The separate `codex/delphi-native` lane starts with declaration-backed kind-3
 marker, class/state template and body/state specification preparation. Its

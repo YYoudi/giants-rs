@@ -4,6 +4,15 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+The next acquisition covers the surrounding cold generic-to-Delphi type change.
+Four native observations return with 22 actors and one finite projection
+submission each, using varied supplied pose, position history, scale and viewport.
+They observe class-scale restoration, pitch reset and position-history transfer.
+No Rust bootstrap comparison or renderer acknowledgement is claimed. Prototype
+PS2 names were searched against the pinned symbol table; attribution remains
+unknown pending independent algorithm and caller review. Detailed records remain
+private. Movement, water, turbo and live player admission remain pending.
+
 `delphi_resources::Resources` prepares the kind-3 mission marker and immutable
 class/state specifications. `delphi_special::Factory` now also constructs an
 ordinary owned class-3 actor and executes its acquired cold special phase. These
@@ -72,3 +81,17 @@ Source `5187904951cd049d4db3532c5082d891a4b01765` additionally retains the
 cinematic inventory/diagnostic changes. The game-crate source is unchanged from
 the compared runtime above. The combined workspace again passes 707 Rust tests
 (17 ignored), Rustfmt and Clippy, with all 30 current Python/site tests passing.
+
+The receipt-bound Windows build at
+`6012206836aae5c594dd5250e632db604b5fa274` passes both silent development
+lifecycle endpoints and three selected-opening cancellation cycles. These
+regressions exercise the common menu build, not the Delphi special API, manual
+controls, natural cinematic endings or visual fidelity. No window or audio
+device is created by these controls.
+
+An asset-free private draft has ten allowlisted members, complete notices,
+matching build/review identities and no package-verifier blockers. Executable
+SHA256: `c227099f295063bc6827573884c41da7a0cc33c41977d87e56d5e547fcfaf3dc`.
+ZIP SHA256: `37880c59eb20426b8c5bdb7c1f6dfaa44d3d862a5efea883644cc3351880fd42`.
+It remains a private validation draft; the public download is unchanged by this
+CPU milestone.
