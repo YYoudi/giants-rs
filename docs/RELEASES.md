@@ -13,6 +13,13 @@ dynamic/extra-reference profiles, world dispatch and playable admission remain
 pending. This CPU source milestone creates no new playable download or replacement
 binary/package receipt and establishes no visual fidelity.
 
+Combined source `2ff676c` preserves the newer Delphi locomotion and persistent
+cinematic FX integration. It passes 741 synthetic Rust tests (22 ignored),
+38 Python tests, Rustfmt, Clippy and site/JavaScript checks. The three silent
+Kabuto source-data controls and both resource/custom-cleanup native comparisons
+pass again after integration. Source history review reports no findings across
+185 commits and 1,902 blobs; this is a technical scan, not a rights determination.
+
 ## Delphi owned physical/secondary/ANM composition - 5 November 2026
 
 The dry sword movement phase now consumes the acquired selector after physical
