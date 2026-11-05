@@ -85,3 +85,26 @@ development-session lifecycle endpoints. Synthetic checks: 694 Rust passed,
 14 ignored; 19 Python passed; formatting and Clippy passed. Package notices,
 receipt identities and the downloaded ZIP/checksum were independently verified.
 These checks do not certify the remaining cinematic coverage listed in BACKLOG.md.
+
+## Cinematic stream-retirement pass - 5 November 2026
+
+Published Windows preview: `preview-2026.11.05.3`, source
+`046e9f03e4202e9d66595baa78cfa1d4fc672484`.
+Executable SHA256: `55e7ee88d36961b54f4db0c2a4311cb97e9f8a290e205dc0ba524e08cd53572c`.
+ZIP SHA256: `83ad700fbbbe152a6e720837eaed57dfc75c381a7060abc8688edb00b6bcb157`.
+The common reader now reports unavailable audio time after stream retirement,
+without synthesizing a cursor from realtime. Receipt-bound controls passed two
+source-terminal/re-entry cycles for Story1 mission 5 (Mecc preview) and Story4
+mission 1 (Gameplay), including nonempty text-atlas release in Story4 and actual
+sync-track exhaustion before the Story1 director ended. A retirement receipt
+accounts for a voice that drains between the audio update and cleanup; active
+or missing sinks never count as finished voices.
+
+Final validation: 695 synthetic Rust passed, 14 ignored; 20 Python passed;
+formatting and Clippy passed. All artifacts were rebuilt in an isolated target
+after rejecting a shared-cache test mismatch. Both development lifecycle endpoints
+passed. Notices, build/review identities, ZIP members and downloaded checksums
+were verified. Private exact-reference CPU controls cover 32 time queries and six
+retirement paths given supplied device/event inputs, not actual device timing.
+Full rendering, all-source transport/campaign coverage, native cadence, skip
+controls, audio/subtitle parity and complete memory reclamation remain open.
