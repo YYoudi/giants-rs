@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar need complete aiming/firing rules. Normal-pistol CPU services cover owned targeting, primary/animation, projectile creation and effects. Current work reconstructs the subjective actor and its shared source storage; reference-cache composition is implemented at CPU scope. The main mission driver still has no integrated owned firing. Subjective scheduling, positional audio, broader reactions and full mission-context coverage remain open. Evidence and boundaries: docs/OWNED_LOCAL_FIRE.md."
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar need complete aiming/firing rules. Normal-pistol CPU services cover owned targeting, primary/animation, projectile creation and effects. Persistent subjective channels, placement and two animation passes now compose with shared source references at CPU scope; actual firing and camera production remain required boundaries. The main mission driver still has no integrated owned firing. Subjective scheduling, positional audio, broader reactions and full mission-context coverage remain open. Evidence and boundaries: docs/OWNED_LOCAL_FIRE.md."
     },
     {
       "id": "mecc-inventory",
@@ -208,7 +208,7 @@
       "title": "Kabuto movement and growth",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Movement, jumping, size-dependent collision and growth triggers remain unimplemented. The owned twelve-actor cold group field composition matches 16 native contexts (53,728 words), including typed auxiliary links, physics/size data, geometry buffers and ordered lists. An explicit external-data provider prepares the cold animation cache: three inspected layouts match 62 native reference records (61 resolved nodes), with owned specification lifetime. Process/world cache-reset scheduling, camera acknowledgement, generated material/global geometry registration, full first-primary behavior and live admission remain pending. CPU field parity is not playable readiness or visual fidelity."
+      "detail": "Movement, jumping, size-dependent collision and growth triggers remain unimplemented. The owned twelve-actor cold group field composition matches 16 native contexts (53,728 words), including typed auxiliary links, physics/size data, geometry buffers and ordered lists. An explicit external-data provider prepares the cold animation cache: three inspected layouts match 62 native reference records (61 resolved nodes), with owned specification lifetime. Owned cache reset/rebind matches six native phases (372 normalized records), retaining cumulative bounds and prior node-resource identity. World reset scheduling, camera acknowledgement, generated material/global geometry registration, full first-primary behavior and live admission remain pending. CPU field parity is not playable readiness or visual fidelity."
     },
     {
       "id": "kabuto-feeding",

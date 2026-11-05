@@ -55,7 +55,7 @@ pub struct Factory {
     auxiliary: Auxiliaries,
     globals: Arc<GlobalData>,
     bounds: Resolved,
-    cold_animation_cache: Option<Arc<crate::kabuto_animation_cache::ColdCache>>,
+    animation_cache: Option<crate::kabuto_animation_cache::Lifecycle>,
 }
 impl Factory {
     pub fn load(
@@ -76,7 +76,7 @@ impl Factory {
                 .map_err(|e| e.to_string())?,
             resources,
             globals,
-            cold_animation_cache: None,
+            animation_cache: None,
         })
     }
     /// Prepare cold data from an explicit external provider. Failure leaves
@@ -85,8 +85,24 @@ impl Factory {
         &mut self,
         definitions: &crate::kabuto_animation_cache::Definitions,
     ) -> Result<(), String> {
-        let cache = definitions.prepare(self.resources.specification.clone())?;
-        self.cold_animation_cache = Some(Arc::new(cache));
+        let mut cache = crate::kabuto_animation_cache::Lifecycle::new(definitions.clone());
+        cache.initialize(self.resources.specification.clone())?;
+        self.animation_cache = Some(cache);
+        Ok(())
+    }
+    /// Explicit acquired reset phase; does not schedule world teardown.
+    pub fn reset_animation_cache(&mut self) -> Result<(), String> {
+        self.animation_cache
+            .as_mut()
+            .ok_or("Kabuto animation provider unavailable")?
+            .reset();
+        Ok(())
+    }
+    pub fn refresh_animation_cache(&mut self) -> Result<(), String> {
+        self.animation_cache
+            .as_mut()
+            .ok_or("Kabuto animation provider unavailable")?
+            .initialize(self.resources.specification.clone())?;
         Ok(())
     }
     /// Atomic CPU group publication for the acquired normal cold profile. This
@@ -98,6 +114,13 @@ impl Factory {
         blending: Blending,
         generation: u32,
     ) -> Result<Id, String> {
+        if self
+            .animation_cache
+            .as_ref()
+            .is_some_and(|c| !c.initialized())
+        {
+            return Err("Kabuto animation reset awaits refresh".into());
+        }
         session.stage_kabuto_group(|s| self.build(s, frame, blending, generation))
     }
     fn build(
@@ -197,7 +220,11 @@ impl Factory {
             geometry,
             radius: prepared.radius,
             physics: prepared.physics,
-            cold_animation_cache: self.cold_animation_cache.clone(),
+            cold_animation_cache: self
+                .animation_cache
+                .as_ref()
+                .and_then(|c| c.cached())
+                .cloned(),
             pending: [
                 Pending::ProjectionReset,
                 Pending::AnimationCache,
@@ -348,8 +375,37 @@ mod tests {
         // Cold data does not acknowledge process/world reset scheduling.
         assert!(group.pending.contains(&Pending::AnimationCache));
         let weak = Arc::downgrade(cache);
+        factory.refresh_animation_cache().unwrap();
+        assert!(Arc::ptr_eq(
+            factory.animation_cache.as_ref().unwrap().cached().unwrap(),
+            group.cold_animation_cache.as_ref().unwrap()
+        ));
         session.clear();
         assert!(weak.upgrade().is_some()); // The resource factory still owns it.
+        factory.reset_animation_cache().unwrap();
+        let counts = session.counts();
+        assert!(
+            factory
+                .construct(&mut session, frame, Blending::Enabled, 1)
+                .is_err()
+        );
+        assert_eq!(session.counts(), counts);
+        // Reset preserves the prior snapshot until a successful refresh.
+        assert!(weak.upgrade().is_some());
+        factory.refresh_animation_cache().unwrap();
+        assert!(weak.upgrade().is_none());
+        let owner = factory
+            .construct(&mut session, frame, Blending::Enabled, 1)
+            .unwrap();
+        let weak = Arc::downgrade(
+            session
+                .kabuto_group(owner)
+                .unwrap()
+                .cold_animation_cache
+                .as_ref()
+                .unwrap(),
+        );
+        session.clear();
         drop(factory);
         assert!(weak.upgrade().is_none());
     }
