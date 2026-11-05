@@ -103,6 +103,7 @@ pub mod declared_mesh_scene;
 pub mod decorations;
 pub mod delphi_initial;
 pub mod delphi_jump;
+pub mod delphi_locomotion;
 pub mod delphi_physical;
 pub mod delphi_player;
 pub mod delphi_resources;

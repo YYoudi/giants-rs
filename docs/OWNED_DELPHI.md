@@ -36,6 +36,35 @@ special-only entry still leaves player selection and activation untouched.
 
 ## Evidence and scope
 
+`delphi_locomotion` and `Session::advance_delphi_locomotion` now compose the
+acquired ordinary living dry sword selector with owned physical state. Prepare
+the physical resources with `with_locomotion(clips)` and use that profile's
+explicit entry; the physical-only entry retains its earlier scope. Supplied
+clip identifiers must resolve in the actual owned class. The service embeds no
+original executable mode table; a production installation-metadata reader is
+still required before live admission.
+
+The order is physical/jump/first ANM, physical history, secondary selection and
+zero-time ANM. It preserves the jump latch across changed/released inputs,
+shared random idle/walk decisions, current-mode retention when a mapped clip
+does not change, and canonical references/stamps. Three independent 256-step
+native/Rust cases compare 6,121,728 normalized words over all 22 actor headers,
+reference buffers, complete owner payload and fifteen ordered lists, plus final
+shared RNG states. Both sides use real installation animation bounds/definitions,
+their own persistent trajectories, supplied flat terrain/time/commands and three
+explicit random seeds. Native outputs are not replayed into Rust.
+
+Those controls execute the original entered prefix, jump, physical/history body,
+secondary dispatch and second ANM. They exclude the surrounding full primary,
+camera/target/item producers, other actor callbacks and general world scheduling.
+The broader native-only acquisitions below remain separate. No live controller,
+water/turbo, nonordinary landing effects, combat or fidelity is certified.
+Four synthetic controls check latch/contact behavior, shared-clip semantics,
+idle draw ordering and refusal-state preservation. The silent source-data
+ownership control also covers both phase profiles with synthetic clip aliases,
+including a late secondary failure that retains payload/references and quarantines
+the owner. These are owned-backend guards, not native error-path equivalence.
+
 Native-only continuation records the complete selected-owner primary/secondary
 flow around the acquired physical body. Observers retain 3,009 direct primary
 calls and 576 phase calls while preserving the original 64 final cohort states.

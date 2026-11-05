@@ -104,8 +104,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   animation bounds are applied on both sides; commands, flat terrain and time
   are supplied boundaries, not native velocity/trajectory outputs. This executes
   the entered primary prefix, jump and physical body, not a full primary turn.
-- Implement and compare primary mode/clip selection, heading/pitch producers,
-  the second ANM pass and auxiliary callbacks against the acquired complete selected
+- Implemented: the owned dry sword locomotion phase composes physical/history,
+  the acquired secondary selector and a second zero-time ANM pass, preserving
+  latched jump states, random idle/walk variants and clip-based reselection.
+  Three continuous 256-step native/Rust cases match 6,121,728 normalized words
+  over all 22 actor headers/reference buffers, owner payload and ordered lists,
+  plus shared RNG endpoints. Rust owns its trajectory, contacts and history;
+  native snapshots are outputs only. Clip identifiers are supplied definitions,
+  checked against the owned class resources; no original mode table is bundled.
+  The public installation-metadata loader remains an integration prerequisite.
+  Impact/slide effects, nonordinary actions, water and equipment changes remain
+  explicit unsupported boundaries. This does not execute the full primary.
+- Compose the surrounding full primary, heading/look/pitch producers and
+  auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
   calls and 576 phase calls without changing the original 64 final cohort states.
   Three additional 256-step selected-owner controls cover landing, return to rest

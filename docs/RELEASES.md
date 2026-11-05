@@ -1,5 +1,16 @@
 # Preview releases and milestone integration
 
+## Delphi owned physical/secondary/ANM composition - 5 November 2026
+
+The dry sword movement phase now consumes the acquired selector after physical
+history and before zero-time ANM, including jump latching and shared random idle
+variants. Three native/Rust 256-step cases match 6,121,728 normalized words over
+22 actors, references, owner payload and ordered lists, plus RNG endpoints.
+Installation clip definitions are supplied and resource-checked, not bundled.
+The full primary/camera/target producers, metadata-loader integration, auxiliary
+callbacks, water/turbo, effects and combat still gate gameplay admission.
+This CPU milestone adds no playable Delphi download or visual-fidelity claim.
+
 ## Delphi full-turn native acquisition - 5 November 2026
 
 The selected-owner native control now traces primary/secondary ordering and
