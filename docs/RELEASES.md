@@ -92,7 +92,42 @@ Rustfmt, Clippy and site/JavaScript checks. The installed-data Kabuto control an
 the earlier implemented boundary; the new first-primary/size acquisitions remain
 native-only and must not be counted as implemented player behavior.
 
+## Subjective firing dispatch contract - 5 November 2026
+
+The optional primary now requires actual camera-owner/active-display status
+independently of the first-person camera-mode flag. A matching active display
+requires the native subjective post-world firing phase; the current primary API
+refuses it before actor, ANM, physical-cycle, FX or RNG mutation. Three controls
+verify refusal with either camera mode and continued admission of an inactive
+display in first-person mode. Rejected preflight does not quarantine the actor.
+
+The predicate matches 512 controlled PC/prototype-body/Rust cases within the
+declared boundaries in [OWNED_LOCAL_FIRE.md](OWNED_LOCAL_FIRE.md). Its literal
+prototype symbol is added as one minimal confirmed attribution; broader world
+routine names remain unassigned. Separate native acquisition executes the actual
+pre/post functions around a partial Mecc-then-held cohort for 128 frames: 64
+active displays transfer the dispatch after the primary, and 64 inactive displays
+retain it in the primary. The latter include 32 frames with first-person camera
+mode but no subjective model. The subjective path executes two extra ANM passes.
+Initial camera-owner binding, command/view/resource-presence schedules, flat world
+and the absent sound registry are supplied. This is neither full-world execution
+nor Rust parity of those complete subjective phases.
+
+The combined source preserves concurrent Delphi/Kabuto work and passes 714 Rust
+tests (17 ignored), 35 Python tests, formatting and Clippy. All five prior primary controls still
+match 576 frames, 22 shots and 341,220 words; their missing-muzzle/late-sound
+failure controls pass. The main driver still supplies `fire: None`. No new
+playable route, runtime fidelity or download is claimed; existing executable
+receipts and validation drafts remain bound to their own earlier source commits.
+
+Final combined runtime source `1b05c9110af6519ec57fa42211db9589704ed430`
+also retains the concurrent Kabuto size refresh. Its isolated full workspace
+passes 717 Rust tests (17 ignored), 35 Python tests, formatting and Clippy.
+The README/site generation checks pass on this combined state. These additional
+regressions do not turn the acquired subjective phases into a Rust implementation.
+
 ## Ordinary owned mission camera - 5 November 2026
+
 
 Runtime source `24a521001b55da80b4c2417a87b95e4d99bdaec8` adds the acquired
 ordinary direct-angle camera producer to the explicit mission-owned inspection
@@ -451,7 +486,7 @@ A CPU-only batch used the actual scene preparers on source
 `2301ac17b5c66b3f6a83af28855ad3da5a4043fed7ecdef568e61303446bce78`.
 All 545 source declarations across 16 worlds completed preparation. There are
 61 sources with reported implementation/preparation gaps, not 61 visually
-certified broken scenes; 470 without reported gaps are still unverified.
+certified broken scenes; 484 without reported gaps are still unverified.
 The strict-profile review queue has 282 sources and overlaps the gap set.
 The largest shared refusal affects 52 sources' FX actor-mutation prefixes;
 six exceed the general FX queue profile. Other overlapping limits and next
@@ -474,3 +509,38 @@ and a real CPU schema roundtrip on one source, without repeating the full corpus
 The subsequent combined source preserves the independent cold Kabuto work and
 passes 705 Rust tests (16 ignored), 30 Python tests, formatting and Clippy. The
 full-corpus inventory remains explicitly pinned to its original executable.
+
+## Typed FX-prefix admission - 5 November 2026
+
+Published Windows preview: `preview-2026.11.05.6`, source
+`73f7b1b14d5d9b8b813de68f2ab36c26c4db1ba0`.
+Executable SHA256: `26baf65be4613b6fe4088708654acde3e1ae16975d347fb50fc0c5db0173d04c`.
+ZIP SHA256: `af2d907ebc7a9115898947ae6a0fbbc4f2bc1fa179054fccd60f77e91146f7f3`.
+Typed shadow/text/range/audio admission and explicit actor ancestry remove the
+former 52-source prefix refusal while retaining real mutation and malformed-input
+guards. The new 545-source recount has zero prefix refusals, 56 general queue
+refusals and 59 sources with reported gaps. Fifty sources moved to the next real
+blocker; two additional terminal-only bindings are admitted. This is not 52
+accurate scenes; zero complete scenes have verified fidelity.
+
+The exact executable passes both silent 54-director Story4 mission 2 natural/
+menu/re-entry cycles, both Story4 mission 1 control cycles and both development
+lifecycle endpoints. The newly admitted pair actually spawns and retires in the
+long chain's director42 on both entries. Text atlases and tracked main-world film
+assets release. The long chain remains an explicit AwaitingRuntime Mecc preview;
+the control reaches Gameplay. No readiness gate is relaxed. 706 Rust tests pass,
+16 ignored; 30 Python tests, formatting and Clippy pass. Complete notices,
+receipt/member identities and the independently downloaded ZIP/checksums pass.
+
+Native scheduling, complete effects, total GPU/process memory reclamation,
+visual/audio/subtitle parity and interactive controls remain open. The next
+priority is the general FX queue, including its actual backend ownership and
+lifecycle requirements; visual preview alone is not an admission receipt.
+
+The subsequent combined source `30d8dc4522f3433a781ba971a81062d15d5db456`
+preserves the independent camera and cold-player work. Its isolated GNU executable
+SHA256 is `baa846bd3950fccf7a468254876a31f44ce067af65b8484e552c7505831a7f51`.
+It passes 715 Rust tests (17 ignored), 35 Python tests, formatting and Clippy,
+both silent development lifecycle endpoints and the selected-opening cancellation
+control. These shorter controls do not repeat the 54-director natural transport
+proof. The published preview and full inventory retain their exact source above.

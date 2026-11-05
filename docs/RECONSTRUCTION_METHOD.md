@@ -115,10 +115,20 @@ not file offsets. Previous PC address labels remain aliases in private evidence.
 | `0x00416130` | `0x0011c0f8` / `collide_camera_check_walls` | Literal unmangled name | **probable** from camera caller role and clipping purpose; independent complete PS2 algorithm/control review remains pending. Rust `mecc_camera_wall::clip` has separate PC controls. |
 | `0x0040caa0` | `0x00113e28` / `camera_get_curcamdef__Fv` | `camera_get_curcamdef(void)`; decoder interpretation | **probable** from profile selection and caller context; variant-specific branches remain to compare. Rust `mecc_camera_update::Profile::normal` covers only supplied normal Mecc profiles, not the full selector. |
 | `0x0051e510` | Not assigned | Not assigned | **unknown** PS2 counterpart. Rust `mecc_camera_update::State::advance` produces the acquired PC viewport cache; similar-purpose PS2 camera-component services use a different renderer path. |
+| `0x0049f5d0` | `0x001743f8` / `is_firstp_display__FP6OBJECT` | `is_firstp_display(OBJECT*)`; decoder interpretation, no return type inferred | **confirmed** predicate identity. Rust `first_person::Display::owns` compares actual camera ownership and active display status; it does not prepare a subjective actor. |
 
 The Rust implementation and integration boundaries are recorded separately in
 [OWNED_CAMERA.md](OWNED_CAMERA.md); their addition does not promote the three
 remaining uncertain PS2 correspondences.
+
+The display predicate adds an independently reviewed identity: both bodies
+compare the object with a camera-owner getter and require a nonzero active-display
+flag. A 512-case control agrees between the full original PC helper, Rust and the
+PS2 comparison body within declared boundaries. The latter supplies incoming
+source/getter values and translates two return moves within a 32-bit domain;
+it excludes the EE ABI. PS2 callers observed in effect/display services do not
+prove identical PC/PS2 world scheduling. The separate PC pre/post-world routines
+remain without assigned PS2 counterparts. See [OWNED_LOCAL_FIRE.md](OWNED_LOCAL_FIRE.md).
 
 Normal-camera attribution combines the characteristic 50-iteration adjustment,
 four calls to the same temporal-approach service with minimum-rate/maximum-gap

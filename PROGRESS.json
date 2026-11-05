@@ -55,7 +55,7 @@
       "title": "Complete cinematic playback",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "545 sources / 16 worlds; zero complete scenes verified. Whole-corpus CPU inventory completed: 61 sources report implementation/preparation gaps, zero top-level preparation failures. Largest shared cause: FX actor-mutation prefixes in 52 sources; general FX queue limits in six, partial FX services in 15 (overlapping counts). The separate 282-source strict-profile review queue is not a count of broken scenes. Published preview 2026.11.05.5 retains four targeted natural-ending/re-entry controls, including the 54-director Story4 chain twice. The older .4 menu matrix stopped after 24/29 completed passes. All-source visual/audio/subtitle fidelity, native cadence, complete effects, skipping and continuity remain open."
+      "detail": "545 sources / 16 worlds; zero complete scenes verified. Typed FX-prefix admission removes the former 52-source refusal without bypassing real actor-transform guards. Full recount: 59 sources with implementation/preparation gaps, zero preparation errors; 56 still require the general nonterminal FX queue. Fifty sources moved to that next blocker; two additional terminal-only bindings became admitted. Receipt-bound main-menu natural/re-entry checks pass the 54-director Story4 chain twice, its Gameplay control twice and both development endpoints, with actual terminal dispatch and tracked-resource cleanup. The next coherent queue candidate covers 23 sources in four worlds using persistent attachments; none is newly admitted by that classification. The 282-source strict-profile review queue is separate. Native cadence, complete effects, visual/audio/subtitle fidelity, skipping and continuity remain open."
     },
     {
       "id": "ending-credits",
@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local callback controls cover 18 shots/15 tracked shots. The optional primary owns physical/first-ANM storage, local time and shared FX/RNG. Standing-shot/aim, walking, side and turn transitions pass five continuous CPU controls: 576 frames, 22 shots and 341,220 normalized words, including held caches and deferred FX. Pre-primary/subjective camera, audio and fire scheduling, broader reactions, special headers and complete mission context coverage remain incomplete."
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local callback controls cover 18 shots/15 tracked shots. The optional primary owns physical/first-ANM storage, local time and shared FX/RNG. Standing-shot/aim, walking, side and turn transitions pass five continuous CPU controls: 576 frames, 22 shots and 341,220 normalized words, including held caches and deferred FX. Pre-primary/subjective camera, audio and fire scheduling, broader reactions, special headers and complete mission context coverage remain incomplete. The optional primary now rejects active matching subjective displays before mutation; 128 native phase observations distinguish actual display preparation from camera mode. Complete subjective post-world execution remains unbound."
     },
     {
       "id": "mecc-inventory",
@@ -505,7 +505,7 @@
       "title": "Multiplayer base-building rules",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Resource competition, faction construction, victory options and timed protection/d\u00e9tente rules."
+      "detail": "Resource competition, faction construction, victory options and timed protection/détente rules."
     },
     {
       "id": "content-coverage",
@@ -607,7 +607,7 @@
       "title": "Reviewed prototype PS2 function attribution",
       "status": "partial",
       "scope": "Research method; separate from runtime and fidelity",
-      "detail": "Mandatory name lookup with pinned PC/prototype identities, literal symbols, uncertain demangling, retained aliases and independent evidence. Initial read-only audit verifies 4,769 function symbols; five reviewed services include two confirmed identities, two probable candidates and one unassigned. Broader mapping and type recovery remain incomplete. Method: docs/RECONSTRUCTION_METHOD.md."
+      "detail": "Mandatory name lookup with pinned PC/prototype identities, literal symbols, uncertain demangling, retained aliases and independent evidence. Initial read-only audit verifies 4,769 function symbols; six reviewed services include three confirmed identities, two probable candidates and one unassigned. Broader mapping and type recovery remain incomplete. Method: docs/RECONSTRUCTION_METHOD.md."
     }
   ]
 }

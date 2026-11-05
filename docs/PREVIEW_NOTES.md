@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.05.5
+# Windows x64 development preview - preview-2026.11.05.6
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -12,19 +12,21 @@ is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
 
-Compared with preview-2026.11.05.4: fixed attached periodic emitters allocate
-actual catch-up births beyond the lifetime-based estimate, reusing expired slots.
-Their interval, cold constructor position cache, request times, random operand
-order and particle lifetimes are unchanged. Reference-channel admission remains
-separate. This preview allocation policy does not establish native pool capacity
-or global callback ordering.
+Compared with preview-2026.11.05.5: FX binding now distinguishes validated shadow,
+text, range and sound commands from actor-placement mutations. Explicit offsets
+on actors outside the carrier ancestry no longer block that carrier. Relevant
+local transforms, scaling/animation mutations, unknown commands and cycles retain
+refusal guards. FLK framing and typed payloads are validated before admission.
 
-Late particle meshes/materials/buffers and draws are now adopted by the film's
-mission ticket on ordinary updates, as well as director setup. They are retired
-with the film; resources present before each draw remain outside that delta.
-Other character cue profiles and gameplay admission remain incomplete. Mecc cue
-preloads remain scoped to the actual single Mecc start declaration; generic actor
-sounds retain actual catalog lookup, without aliases or fallback samples.
+The full 545-source inventory eliminates the former 52-source prefix refusal:
+50 sources still hit the general nonterminal FX queue limit, and two additional
+terminal-only bindings are admitted. Current counts: 59 sources report gaps,
+56 require that general queue; 282 strict-profile review items remain separate.
+This does not make 52 scenes accurate or implement those general effects.
+
+Catch-up particle allocation, ordinary-frame film ownership and character-scoped
+Mecc cue preparation from the preceding previews remain. No source placement,
+duration, effect, sound alias or fabricated audio cursor was added.
 
 Retained: exhausted synchronization streams report zero audio time, disabling
 drift correction while the director continues on its own clock. No realtime
@@ -54,7 +56,7 @@ a new accessible weapon or reticle in this preview. See OWNED_TARGETING.md.
 
 ## Validation scope and remaining limits
 
-Synthetic controls passed: 697 Rust tests, 14 ignored; 20 Python tests; Rustfmt
+Synthetic controls passed: 706 Rust tests, 16 ignored; 30 Python tests; Rustfmt
 and Clippy. Build artifacts use a dedicated target directory; a contaminated
 shared-cache test inventory was rejected. Exact-reference CPU controls cover
 32 stream-time queries and six retirement paths with supplied device/event
@@ -67,21 +69,18 @@ scene. Story1 mission 5 has no declared bitmap-text block/call and exercises
 sync-track exhaustion. Story4 mission 1 exercises text-atlas cleanup. Their
 post-film gameplay/preview distinction must remain explicit in validation results.
 
-This executable passes two silent natural-terminal/menu/re-entry cycles each
-for Story4 mission 2 (54 directors, previously failing), Story4 mission 1,
-Story1 mission 5 and Rstory5 mission 2, plus both development lifecycle endpoints.
-Both Story4 cases release nonempty text atlases. The long case observes actual
-pool growth and adoption of late draws on both entries; 7,702 tracked main-world
-film assets are absent after each release. Total GPU/process memory reclamation
-remains unverified. The historical .3 audit covered 29 declared roots: 18 transport
-passes, ten unrelated Mecc preload failures and this fixed reserve failure. The
-separate .4 full-matrix repeat stopped after 24 completed passes out of 29; its
-partial case and remaining roots are unverified, and its executable predates the
-FX fix. These controls do not certify complete-scene fidelity or native scheduling.
+This exact executable passes two silent natural-terminal/menu/re-entry cycles
+each for Story4 mission 2 (54 directors) and Story4 mission 1, plus both development
+lifecycle endpoints. The newly admitted terminal pair actually spawns and retires
+in director42 on both long-chain entries. The long chain retains its explicit
+AwaitingRuntime Mecc preview; the control reaches Gameplay. Text atlases and
+tracked main-world film assets are released. Complete GPU/process memory
+reclamation, native scheduling, visual/audio parity and interactive input remain
+unverified. General effect refusals stay explicit rather than being acknowledged.
 
-The executable is pinned to source 1bc8d6d7ec7286eaefd032c56abd3f074ed4a2c2.
-Subsequent optional Mecc primary-phase source changes are preserved on main and
-validated separately; their presence in current source is not this binary's receipt.
+The executable is pinned to source 73f7b1b14d5d9b8b813de68f2ab36c26c4db1ba0.
+The older .4 menu matrix stopped after 24 completed passes out of 29; its
+partial/remaining cases are unverified and belong to that separate executable.
 
 All 545 historical sources across 16 worlds remain in scope; zero complete scenes
 have verified fidelity. Effects, actor variants, lighting, shadows, water, native
