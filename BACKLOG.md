@@ -116,6 +116,13 @@ automatically wired into the main menu-to-mission build.
   natural end -> gameplay -> menu -> second-entry acceptance path. The silent
   opening-cycle replay calls the real selection and cancellation services without
   key/mouse injection; it samples an opening, not natural completion or gameplay.
+- Menu opening inventory: 56 selectable mission requests across 19 menu world
+  entries; 29 declared opening chains, 26 without an opening request and one
+  unresolved Kabuto name. Menu world entries include catalogs outside the
+  16-world cinematic corpus. These are declarations, not playback coverage.
+  The Kabuto case matches retained exact-reference name-resolution research:
+  an absent table name does not justify an invented alias or another movie.
+  Its live caller/world state and resulting mission flow remain unresolved.
 - Common blockers remain: general effect dispatch beyond the admitted terminal
   binding, deferred mixed attachments/body variants, real world visibility inputs,
   glare/occlusion integration, exact audio-clock/end behavior and material/light/

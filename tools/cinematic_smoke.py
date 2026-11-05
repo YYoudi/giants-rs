@@ -120,9 +120,11 @@ def run(executable, receipt_path, data_root, output, world, mission, timeout, fu
     checks = validate(log_path.read_text(encoding='utf8', errors='replace'), code, capture, full, require_text)
     report = dict(schema_version=1, source_commit=receipt['source_commit'],
                   executable_sha256=receipt['executable_sha256'], world=world, mission=mission,
-                  scope=('Selected-mission source-terminal playback and re-entry' if full else
+                  scope=('Selected-mission partial-renderer source-terminal transport and re-entry' if full else
                          'Selected-mission partial opening and cancellation lifecycle only'),
-                  full_playback_verified=full and all(checks.values()), audio_verified=False, fidelity_verified=False,
+                  source_terminal_transport_verified=full and all(checks.values()),
+                  full_playback_verified=False, full_scene_verified=False,
+                  native_timing_verified=False, audio_verified=False, fidelity_verified=False,
                   interactive_controls_verified=False, exit_code=code, checks=checks,
                   passed=all(checks.values()), log_sha256=sha256(log_path),
                   capture_sha256=sha256(capture) if capture.is_file() else None)
@@ -137,7 +139,7 @@ if __name__ == '__main__':
     parser.add_argument('--world', default='Story1')
     parser.add_argument('--mission', type=int, default=0, help='Zero-based selected mission')
     parser.add_argument('--timeout', type=float, help='Seconds; default 240, or 1800 with --full')
-    parser.add_argument('--full', action='store_true', help='Two full natural-ending cycles with real sinks at zero volume')
+    parser.add_argument('--full', action='store_true', help='Two source-terminal transport cycles with real sinks at zero volume')
     parser.add_argument('--require-text', action='store_true', help='Require nonempty rendered glyph pools and atlas cleanup')
     args = parser.parse_args()
     report = run(args.executable, args.receipt, args.data_root, args.output, args.world, args.mission,
