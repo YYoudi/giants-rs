@@ -45,6 +45,20 @@ manual input, damage, rendered reticles or complete playable missions. No new
 user-facing firing capability or binary preview is claimed by this source step.
 The main mission driver continues to reject unsupported firing commands.
 
+All 691 synthetic Rust tests passed (14 ignored), with 18 Python tests, Rustfmt,
+Clippy and the GNU Windows release build. Both silent three-launch menu/arena
+lifecycle regressions passed on runtime source
+`66074d4c6607fccd5ac3d1562abff7ec1942c5c8`. These checks do not exercise a live
+target scan. A local draft includes the receipt-bound executable, complete
+notices, manifest and checksums and passes the independent package verifier.
+It is retained locally; the current downloadable preview remains unchanged.
+
+The portable publication regressions can be run without game data:
+
+```powershell
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu local_target_publication
+```
+
 The class-loader investigation also identified initial template zeroing and a
 class-program context assignment. That narrows the next producer investigation;
 current context inheritance and mission mutations must be represented and
