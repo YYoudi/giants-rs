@@ -39,10 +39,10 @@ impl Emitter {
     }
 }
 #[derive(Clone, Debug)]
-pub struct Metadata {
+pub struct Metadata<K = Id> {
     /// Historical origin only: this context identity is retired after creation.
     pub origin: ContextId,
-    pub parent: Id,
+    pub parent: K,
     pub reference: u32,
     pub tag: u32,
     pub opaque: u32,
@@ -53,10 +53,10 @@ pub struct Metadata {
     /// Requested name retained even when the real symbol lookup is absent.
     pub emitter_request: Option<String>,
 }
-pub(crate) struct Prepared {
+pub(crate) struct Prepared<K = Id> {
     pub seed: Seed,
     pub fields: Fields,
-    pub metadata: Metadata,
+    pub metadata: Metadata<K>,
 }
 struct Recipe {
     class: i32,
@@ -67,7 +67,7 @@ struct Recipe {
     emitter_request: Option<String>,
 }
 impl Recipe {
-    fn project(context: &Context<Id>) -> Result<Option<Self>, String> {
+    fn project<K>(context: &Context<K>) -> Result<Option<Self>, String> {
         let program = context.program.as_ref().map_err(Clone::clone)?;
         let ops: Vec<_> = program.records.iter().map(|r| r.opcode).collect();
         if ops == [2] {
@@ -187,12 +187,12 @@ impl Template {
             states,
         })
     }
-    fn prepare(
+    fn prepare<K: Copy>(
         &self,
         recipe: Recipe,
         origin: ContextId,
-        context: &Context<Id>,
-    ) -> Result<Prepared, String> {
+        context: &Context<K>,
+    ) -> Result<Prepared<K>, String> {
         let mut seed = self.seed.instantiate()?;
         let data = seed.storage.data_mut().ok_or("attached payload absent")?;
         for at in [0xa4, 0xa8, 0xb0] {
@@ -206,6 +206,9 @@ impl Template {
         fields.configuration[22] = 50f32.to_bits();
         fields.object_flags |= 0x40410030;
         fields.control_flags |= 0x20 | if recipe.emitter.is_some() { 0x2000 } else { 0 };
+        if context.flags() & 0x8000 != 0 {
+            fields.response_flags |= 0x1000;
+        }
         fields.scale = recipe.scale;
         let mut matrix =
             crate::effect_orientation::matrix(fields.position, fields.angles, fields.scale)
@@ -229,6 +232,111 @@ impl Template {
         })
     }
 }
+/// Immutable constructor resources shared by cinematic objects. This reuses
+/// the ordinary attached constructor; it is not another actor/state factory.
+pub struct CinematicTemplate(Template);
+impl CinematicTemplate {
+    pub fn load(resources: &SceneResources, class: i32) -> Result<Self, String> {
+        Ok(Self(Template::load(resources, class)?))
+    }
+    pub fn construct<K: Copy>(
+        &self,
+        origin: ContextId,
+        context: &Context<K>,
+    ) -> Result<CinematicObject<K>, String> {
+        if context.flags() != 0x8004 || context.tag() != Some(u32::MAX) {
+            return Err("cinematic object requires source-marked attached support".into());
+        }
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        let bounded = crate::effect_attachment::Recipe::project(program).map_err(str::to_owned)?;
+        if bounded.class != self.0.fields.class {
+            return Err("cinematic effect constructor class mismatch".into());
+        }
+        let recipe = Recipe::project(context)?.ok_or("persistent effect program absent")?;
+        let prepared = self.0.prepare(recipe, origin, context)?;
+        let references = crate::actor_references::Owned::new(self.0.specification.clone())
+            .map_err(str::to_owned)?;
+        let mut durations = vec![None; 254];
+        for (slot, descriptor) in &self.0.specification.animations {
+            *durations
+                .get_mut(usize::from(*slot))
+                .ok_or("cinematic effect descriptor outside channel profile")? =
+                Some(descriptor.template.duration);
+        }
+        Ok(CinematicObject {
+            fields: prepared.fields,
+            seed: prepared.seed,
+            metadata: prepared.metadata,
+            references,
+            durations,
+            updates: 0,
+        })
+    }
+}
+/// The context can retire after this owned object has been constructed. Its
+/// class resources, channels, reference cache and state payload remain alive.
+pub struct CinematicObject<K> {
+    pub fields: Fields,
+    pub seed: Seed,
+    pub metadata: Metadata<K>,
+    references: crate::actor_references::Owned,
+    durations: Vec<Option<f32>>,
+    pub updates: u64,
+}
+impl<K> CinematicObject<K> {
+    pub fn world_matrix(&self) -> Option<crate::procedural_aim::Matrix> {
+        self.metadata.world_matrix
+    }
+    /// Consume the actual source support and this object's own current channel.
+    /// No scene-specific offset, clock, reference or lifetime is substituted.
+    pub fn update(
+        &mut self,
+        support: crate::procedural_aim::Matrix,
+        seconds: f32,
+    ) -> Result<(), String> {
+        let mut channels = self.fields.channels;
+        let tick = crate::animation_channels::advance(
+            &mut channels,
+            &self.durations,
+            [0.; 3],
+            seconds,
+            Precision::Double53,
+        )
+        .map_err(str::to_owned)?;
+        if tick.missing != 0 {
+            return Err("cinematic effect animation descriptor missing".into());
+        }
+        let mut references = self.references.clone();
+        references.update_current_unblended(&channels)?;
+        let reference = references
+            .current_matrices(&channels)?
+            .get(self.metadata.reference as usize)
+            .copied()
+            .ok_or("cinematic effect own reference absent")?;
+        let mut world = crate::effect_attachment::normal_matrix(
+            support,
+            self.fields.scale,
+            1., // The real Flick support has unit scale, independent of its carrier.
+            reference,
+        )
+        .map_err(str::to_owned)?;
+        world.values[11] = (f64::from(world.values[11])
+            + f64::from(f32::from_bits(self.fields.configuration[17])))
+            as f32;
+        if !world.values.iter().all(|v| v.is_finite()) {
+            return Err("cinematic effect world matrix nonfinite".into());
+        }
+        self.fields.channels = channels;
+        self.fields.previous = self.fields.current;
+        self.fields.position = [world.values[3], world.values[7], world.values[11]];
+        self.fields.current = self.fields.position;
+        self.references = references;
+        self.metadata.world_matrix = Some(world);
+        self.updates += 1;
+        Ok(())
+    }
+}
+
 pub struct Factory<'a> {
     resources: &'a SceneResources,
     templates: BTreeMap<i32, Result<Template, String>>,

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "scope": "CPU preparation and declared-consumer gaps only",
-  "source_commit": "73f7b1b14d5d9b8b813de68f2ab36c26c4db1ba0",
-  "executable_sha256": "26baf65be4613b6fe4088708654acde3e1ae16975d347fb50fc0c5db0173d04c",
+  "source_commit": "c66e73577efffd9a25844d290224da7b91c1f704",
+  "executable_sha256": "e89aed7663f152d676c488ed1b062a0add3242662d5628ceb85aeefb22412979",
   "sources": 545,
   "worlds": 16,
   "preparation_errors": 0,

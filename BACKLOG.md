@@ -345,6 +345,42 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- Persistent attached-FX implementation milestone: the main film now consumes
+  actual FLK39 events through source-marked, ticket-owned contexts and objects,
+  using the shared attached constructor and current owned channel/reference
+  outputs in the common renderer. Retiring a context keeps its object alive;
+  repeated source slots retain earlier objects on the same current support.
+  Director changes and film release discard the marked objects without lifetime
+  children. The existing mission-readiness refusal is retained.
+  The fresh whole-corpus inventory on source `c66e73577efffd9a25844d290224da7b91c1f704`
+  prepares all 545 sources / 16 worlds with zero top-level errors; it records
+  23 bounded persistent sources / 25 requests. CPU creation/update/retirement
+  controls pass both entries of all 23 (50 objects created and released), and
+  find no later carrier/ancestor link, offset or scale commands in those 25
+  requests. Four native/Rust supplied-support matrices match all 68 words.
+  Actual native source-helper reuse controls retain both objects on one support;
+  fixtures supply zero actors, resident resources and outer allocation services.
+  Prototype PS2 lookups precede this work; correspondence remains unknown.
+  Main-menu natural/re-entry controls pass both Rstory1 mission 3 and Kstory1
+  mission 1 on that exact executable, with real persistent births, owned clocks
+  and zero remaining objects/contexts at release. Rstory1 also records its actual
+  visible mesh parts. Both 54-director Story4 mission 2 natural/re-entry cycles
+  also pass on that executable, with persistent/terminal dispatch and tracked
+  resource cleanup. The subsequent exact GNU source
+  `0b050fbcf89eeae0ff0dd473133d496ac3496aa7` passes three service cancellations
+  after actual persistent objects advance, with zero remaining objects/contexts,
+  two Rstory1 natural/re-entry cycles and both development lifecycle endpoints.
+  The cyclic observer now stays pending until its requested object exists;
+  whole-world presentation and one-shot capture completion cannot end this probe
+  early. This tests cancellation services, not interactive skip gestures.
+  The 59-source gap total, 56 general-queue admission refusals and 282 strict-
+  profile reviews remain: this is a partial runtime path, not 23 fully admitted
+  or faithful scenes. In-mission producers are still needed for non-opening
+  sources. Live support generations, native world scheduling/admission and pool
+  capacity, complete rendering/audio/subtitle parity and interactive skip remain
+  open. Next: finish these persistent contracts, then the mixed/other queue
+  families and the overlapping partial FX/audio/credits/resume priorities below.
+
 - Published preview 2026.11.05.6 / FX-prefix milestone validated: the real source/ancestry audit covers 208 active
   requests in 72 sources. The former guard conflated Flick34 shadow descriptors,
   text state, ordinary draw range and numeric audio with placement mutations.
@@ -366,7 +402,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   release; total GPU/process memory reclamation and native timing remain open.
   The long chain still ends in its explicit Mecc partial preview, with readiness
   gates intact. The control still reaches Gameplay.
-  Next: the 56-source general queue. A private program survey separates 22 root
+  Initial queue plan: a private program survey separates 22 root
   programs, including a bounded persistent-attachment family with retained native
   construction/startup controls. Existing visual preview is not sufficient to
   acknowledge live queue, owner, opaque constructor fields or cleanup contracts.
@@ -375,8 +411,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   requests); three sources also need other families. All 28 use attached mode
   and pass the existing initial class-facing profile. Prioritize that coherent
   23-source cohort for shared queue/backend integration, then mixed families.
-  These are implementation candidates, not newly admitted or visually verified
-  sources. Reused native startup controls supply placeholder owners; real owner
+  These were implementation candidates, not newly admitted or visually verified
+  sources. Reused native startup controls supplied placeholder owners; real owner
   updates, world admission, slot reuse and source-marked cleanup still require
   their own integration evidence. Prototype PS2 candidate names were checked
   against the pinned ELF before continuing; correspondence remains unknown.

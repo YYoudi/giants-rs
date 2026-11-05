@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.05.6
+# Windows x64 development preview - preview-2026.11.06.1
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -12,17 +12,33 @@ is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
 
-Compared with preview-2026.11.05.5: FX binding now distinguishes validated shadow,
-text, range and sound commands from actor-placement mutations. Explicit offsets
-on actors outside the carrier ancestry no longer block that carrier. Relevant
-local transforms, scaling/animation mutations, unknown commands and cycles retain
-refusal guards. FLK framing and typed payloads are validated before admission.
+Compared with preview-2026.11.05.6: a bounded persistent attached-FX path now
+connects real Flick events to ticket-owned contexts and objects in the common
+film renderer. Context retirement preserves the object; repeated source slots
+retain earlier objects on the same current support. The renderer consumes the
+owned object's current world matrix and animation channel, without ticking a
+second animation clock. Director changes, cancellation and film release retire
+these source-marked objects without lifetime children.
 
-The full 545-source inventory eliminates the former 52-source prefix refusal:
-50 sources still hit the general nonterminal FX queue limit, and two additional
-terminal-only bindings are admitted. Current counts: 59 sources report gaps,
-56 require that general queue; 282 strict-profile review items remain separate.
-This does not make 52 scenes accurate or implement those general effects.
+The candidate family contains 25 requests in 23 sources across four worlds.
+CPU controls cover both entries of every source. This does not make all 23
+accessible from the menu: some depend on unfinished in-mission triggers.
+World admission, native scheduling/generation order, pool capacity and complete
+visual fidelity remain open. Persistent rendering does not waive the existing
+mission-readiness gate; the full inventory's general-queue refusals remain.
+
+This exact preview passes three silent main-menu cancellations with live
+persistent objects, two Rstory1 source-terminal/re-entry cycles and both
+development lifecycle endpoints. 733 Rust tests pass (22 ignored), 38 Python
+tests, formatting and Clippy pass. Interactive skipping and complete scenes
+remain unverified. The 545-source batch and longer Kstory1/Story4 natural controls
+are separately pinned to the initial implementation source; they are not fresh
+whole-corpus or long-chain measurements of this later executable.
+
+The prior typed FX-prefix correction is retained: shadow/text/range/audio state
+and unrelated actor offsets do not block placement; relevant local mutations,
+unknown commands and malformed payloads remain refused. Complete scenes have
+not been certified.
 
 Catch-up particle allocation, ordinary-frame film ownership and character-scoped
 Mecc cue preparation from the preceding previews remain. No source placement,
