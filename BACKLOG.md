@@ -81,8 +81,10 @@ automatically wired into the main menu-to-mission build.
   film release drops its glyph nodes, camera, all atlas versions, font and cached
   language. Another ticket and a live standalone reader cannot be taken over.
   Synthetic release/re-entry tests pass, including preservation of unrelated images.
-  Three offscreen selected-opening/cancellation cycles passed in the development
-  build with fresh tickets and zero reported owned film assets. These short samples
+  Preview 2026.11.05.2 passed three offscreen selected-opening/cancellation cycles
+  with fresh tickets and zero reported owned film assets, plus both main-build
+  development lifecycle endpoints. Its exact GNU build, notices, package and
+  downloaded checksums were verified. These short samples
   allocated no glyph atlas: GPU cleanup after visible subtitles, audio-clock
   progression and full subtitle visual/timing comparisons remain pending.
 - Preserve the menu -> selected mission -> preparation -> full movie -> skip or

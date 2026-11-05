@@ -75,3 +75,13 @@ visibility fixes have existing private reference evidence and synthetic controls
 The repeatable silent opening/cancellation check is documented in BUILD.md.
 It does not certify complete scenes, natural endings, skipping or gameplay entry.
 Keep BACKLOG.md authoritative for remaining cinematic coverage and prerequisites.
+
+Published Windows preview: `preview-2026.11.05.2`, source
+`d880f62ff5ff0bba9865824f1840c55d3616cebe`.
+Executable SHA256: `132535420ce13356a147c88a7d0b015a5447af5e2f5587298195be088f6561cd`.
+ZIP SHA256: `a7d0588656dde9da18392961a87847ef9574f3c09f8849e86ce0cb99cefe1051`.
+The packaged executable passed three silent opening/cancellation cycles and both
+development-session lifecycle endpoints. Synthetic checks: 694 Rust passed,
+14 ignored; 19 Python passed; formatting and Clippy passed. Package notices,
+receipt identities and the downloaded ZIP/checksum were independently verified.
+These checks do not certify the remaining cinematic coverage listed in BACKLOG.md.
