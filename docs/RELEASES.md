@@ -1,5 +1,21 @@
 # Preview releases and milestone integration
 
+## Delphi initial physical state - 5 November 2026
+
+The acquired first-primary Delphi initializer now uses shared inline physical
+defaults, the actual seven declarations, scale/control stores and signed upper
+limit. Its owned Session entry tracks physics without native pointers, rejects
+replay and releases the state with the actor group. Two hundred fifty-six
+native/Rust seeded controls match 311,552 complete header/payload words, including
+the real declaration reader and preserved opaque inline word. Motion, complete
+primary scheduling, water and live Delphi admission remain pending.
+
+Combined source `ea575f0d5500d5739a396203c07a02305e47b16f` retains the latest
+Mecc camera/dispatch and Kabuto size work. The isolated workspace passes 719
+Rust tests (17 ignored), 35 Python tests, Rustfmt, Clippy, real-resource physics
+ownership/replay/clear controls and the repeated 256-case comparison. This CPU
+milestone adds no playable character or public Windows download.
+
 ## Cold Delphi local-player fields - 5 November 2026
 
 The common owned actor runtime now exposes the acquired Delphi cold player-field

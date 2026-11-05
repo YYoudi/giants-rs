@@ -59,6 +59,12 @@ REA initializer evidence:
 Prototype PS2 lookup remains an unknown attribution; no prototype ABI/layout is
 imported into this PC contract.
 
+Combined source `ea575f0d5500d5739a396203c07a02305e47b16f` repeats all 256
+initializer cases with stable source/executable hashes and the real parameter
+reader, and passes 719 Rust tests (17 ignored), 35 Python tests, Rustfmt, Clippy
+and the resource-backed physics ownership/replay/clear control. Mecc camera and
+dispatch plus Kabuto size work are retained in this shared build.
+
 Thirty-two exact-reference CPU cases compare 127,692 normalized words: every
 actor header, the full owner payload and all fifteen ordered registration lists.
 Cases vary pose, scale, finite copy parameters, group size, local-player identity
