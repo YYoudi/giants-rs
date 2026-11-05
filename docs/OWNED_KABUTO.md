@@ -471,8 +471,8 @@ reference's role, entered/dynamic cleanup and actual GPU release remain pending.
 Plain `Session::clear` still does not dispatch an external registry automatically.
 
 The second material-flag reference identified during inventory belongs to a
-guarded geometry visitor, not another reset routine. Its actual draw/deformation
-callback and world scheduling are unimplemented. All four group prerequisites
+guarded geometry visitor, not another reset routine. Its per-entry callback behavior
+and world scheduling remain unacquired. All four group prerequisites
 remain explicit; CPU registration does not acknowledge menu-to-mission rendering
 or gameplay. Prototype PS2 attribution for the touched helpers remains unknown;
 raw names, ambiguous demangling and earlier address aliases stay in private records.
