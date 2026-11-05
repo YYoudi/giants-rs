@@ -35,7 +35,11 @@ automatically wired into the main menu-to-mission build.
   Missing muzzle
   and late sound failures quarantine without replay; constructor FX/RNG survive
   the latter. This controlled partial Mecc-then-held cohort is not a full world.
-  Armed walk selection is acquired; armed idle/side/turn variants remain refused.
+  Armed walk, standing-shot/aim, side and turn selections are acquired. Five
+  continuous CPU controls (576 frames, 22 shots, 341,220 normalized words) match
+  player/projectile state, held caches, FX contexts and RNG. Standing shots
+  restart without blending, retain their control flag until channel end, then
+  select the aiming idle. Broader reactions and other weapon styles remain open.
 - Connect the primary phase to actual main-driver camera/viewport producers,
   prior held muzzle caches and positional audio; acquire remaining secondary
   reactions and full scheduling. The application still supplies `fire: None`.

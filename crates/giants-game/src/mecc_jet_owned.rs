@@ -382,7 +382,7 @@ impl PhaseDriver for Driver<'_> {
         if body.len() != 524
             || [0x1e0, 0x144].into_iter().any(|at| word(&body, at) != 0)
             || word(&body, 0x190) != u32::MAX
-            || fields.control_flags & !0xbc00 != 0
+            || fields.control_flags & !crate::mecc_secondary::control_mask(self.fire) != 0
         {
             return Err(
                 "owned jet requires unmounted normal cold inventory and owned sequence binding"
