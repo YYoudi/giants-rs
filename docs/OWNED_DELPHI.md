@@ -39,7 +39,7 @@ special-only entry still leaves player selection and activation untouched.
 `delphi_jump::step` adds the acquired standalone jump/hold/release service. It
 preserves the distinct impulse and launch-latch gates, hold acceleration and
 countdown, release flags and stored height. The inline physical request chooses
-the smaller value unless its current value is zero; it is not a maximum setter.
+the smaller value unless its current value is zero.
 Object-local time uses the shared ordered-area clock, with no fixed timestep.
 
 Eight hundred sixty-four scalar cases and 64 persistent sequences of 32 steps
