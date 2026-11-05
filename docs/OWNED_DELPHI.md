@@ -36,6 +36,32 @@ special-only entry still leaves player selection and activation untouched.
 
 ## Evidence and scope
 
+Native-only continuation records the complete selected-owner primary/secondary
+flow around the acquired physical body. Observers retain 3,009 direct primary
+calls and 576 phase calls while preserving the original 64 final cohort states.
+The character secondary changes mode and clip after physical history storage,
+before the second zero-time ANM pass. Delphi retains some jump states across
+command changes; Mecc's locomotion selector is not a substitute.
+
+Three 256-step original-instruction controls additionally cover landing, return
+to rest and both idle variants under explicitly supplied random seeds, with 22
+actor headers/reference buffers and the full owner payload observed each step.
+The offline Windows TLS/error API boundary supplies one thread context; original
+CRT lookup and RNG instructions execute. An earlier missing TLS environment was
+diagnosed and corrected without replacing a game RNG result. Prototype PS2
+attributions remain unknown. These 768 steps are native acquisition, not a Rust
+full-primary comparison, complete world scheduling or live gameplay proof.
+
+The next implementation must compose the acquired secondary, heading/look/pitch,
+camera/target inputs, energy/item timers and second ANM with owned state. The
+existing Rust comparison below still covers only its stated physical-phase scope.
+
+The latest Kabuto cache integration at `2b3fd30` preserves the Delphi and shared
+ANM source. The combined workspace passes 731 Rust tests (20 ignored), 36 Python
+tests, Rustfmt, Clippy and site/JavaScript checks. No new executable is produced
+by this acquisition/documentation stage; earlier build receipts retain their
+exact source identities.
+
 `Session::prepare_delphi_physical` and `advance_delphi_physical` now compose the
 ordinary dry physical body with the acquired jump service and owned persistent
 motion. Integration, position limits, terrain/world contact, affine preparation,

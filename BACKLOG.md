@@ -104,9 +104,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   animation bounds are applied on both sides; commands, flat terrain and time
   are supplied boundaries, not native velocity/trajectory outputs. This executes
   the entered primary prefix, jump and physical body, not a full primary turn.
-- Acquire primary mode/clip selection, heading/pitch producers, the second ANM
-  pass and auxiliary callbacks; compare against the acquired complete selected
-  actor iterations. Then acquire water entry/exit, swimming and turbo/energy;
+- Implement and compare primary mode/clip selection, heading/pitch producers,
+  the second ANM pass and auxiliary callbacks against the acquired complete selected
+  actor iterations. Native-only acquisition now traces 3,009 original primary
+  calls and 576 phase calls without changing the original 64 final cohort states.
+  Three additional 256-step selected-owner controls cover landing, return to rest
+  and both random idle variants, with all 22 actor snapshots retained. Supplied
+  Windows TLS/error APIs permit the original CRT lookup and RNG instructions to
+  run; the earlier missing-environment stop is not a game defect. This is not a
+  Rust full-controller comparison. Preserve Delphi's latched jump states and
+  source-ordered post-physical secondary/second-ANM selection rather than copying
+  Mecc locomotion. Acquire the remaining camera/target producers and callback
+  composition with owned state, then water entry/exit, swimming and turbo/energy;
   compare controlled continuous cycles before admitting live controls. Reuse
   shared terrain/collision/input services with the acquired character parameters.
 - Connect the validated controller through the existing selected-mission path,

@@ -43,6 +43,20 @@ and site/JavaScript checks. The subjective module, Session adapter and lifecycle
 control source remain identical to the validated build above; its binary receipt
 continues to identify `c64bd15`, rather than this later source.
 
+## Delphi full-turn native acquisition - 5 November 2026
+
+The selected-owner native control now traces primary/secondary ordering and
+three 256-step trajectories through landing, rest and both random idle variants.
+The 22-actor snapshots and source identities are retained privately. Original
+CRT lookup and RNG instructions run against supplied offline Windows TLS/error
+APIs. This advances the reconstruction reference; it is not a new Rust
+full-controller comparison, gameplay admission or visual result. Runtime source
+and earlier executable/package receipts are unchanged by this research record.
+
+Combined source `2b3fd30` preserves Delphi/shared ANM and the newer Kabuto cache
+work, passing 731 Rust tests (20 ignored), 36 Python tests, Rustfmt, Clippy and
+site/JavaScript checks. This record produces no new executable or package receipt.
+
 ## Kabuto external definitions and cold animation cache - 5 November 2026
 
 An explicit user-supplied executable-data reader now prepares owned cold Kabuto
