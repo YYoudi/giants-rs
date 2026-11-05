@@ -95,9 +95,16 @@ cargo test --locked -p giants-game source_delphi_physical_owns_motion_shares_eve
 ```
 
 This silent CPU control checks two owners, persistent motion/contact/jump, shared
-class events, physical-only and locomotion profiles using synthetic clip aliases,
+class events, physical-only and locomotion profiles using external clip definitions,
 late secondary quarantine, profile refusal and cleanup. It creates no window or audio device
 and does not execute the complete Delphi primary/secondary or live controls.
+
+The locomotion profile reads the original executable's data as an external asset.
+Set `GIANTS_DELPHI_EXECUTABLE` for a separate configurable metadata file; otherwise
+this source-data control reads `Giants.exe` inside `GIANTS_DELPHI_ROOT`. The file
+is never launched. Delphi currently accepts two acquired PE data layouts; other
+variants refuse explicitly. These checks do not establish execution parity across
+all native builds.
 
 ## Optional cold Kabuto resource check
 

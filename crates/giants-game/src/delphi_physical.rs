@@ -20,6 +20,18 @@ impl std::fmt::Debug for Resources {
     }
 }
 impl Resources {
+    /// Read the caller-selected external metadata file without launching it.
+    /// This prepares the scoped locomotion profile, not a complete controller.
+    pub fn load_locomotion(
+        source: &crate::scene_resources::SceneResources,
+        specification: Arc<Prepared>,
+        materials: Arc<crate::mecc_contact_materials::Catalog>,
+        executable: &std::path::Path,
+    ) -> Result<Self, String> {
+        let definitions = crate::delphi_animation_definitions::Definitions::read(executable)?;
+        Self::load(source, specification, materials)?
+            .with_locomotion(definitions.sword_locomotion()?)
+    }
     pub fn load(
         source: &crate::scene_resources::SceneResources,
         specification: Arc<Prepared>,
