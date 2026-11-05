@@ -46,7 +46,15 @@ The new terrain-occlusion regression fails against the prior unbounded segment
 and passes with the correction; an object-before-terrain control also passes.
 This proves the bounded synthetic collision cases, not native image/trajectory
 fidelity or complete mission combat. See the release description for this
-revision's full build, package and runtime checks.
+revision's exact package identities in its manifest.
+
+This revision passed 689 synthetic Rust tests (14 ignored), 18 Python tests,
+Rustfmt, Clippy and the GNU Windows release build. Silent offscreen checks on
+the installed data passed both three-launch menu/arena lifecycle endpoints,
+four shots/four declared-object impacts, the empty-obstacle control, and nine
+hits/one death/reset on the explicitly synthetic development target. GPU captures
+were inspected. These are development-path regressions, not campaign completion,
+manual input validation or native trajectory/pixel fidelity.
 
 The preceding preview passed 687 synthetic Rust tests (14 ignored), 18 Python
 tests, Rustfmt and Clippy. Its interactive checks observed no-argument adjacent startup,

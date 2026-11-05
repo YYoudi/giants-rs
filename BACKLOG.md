@@ -26,6 +26,9 @@ automatically wired into the main menu-to-mission build.
   owned-flight path already does. The old code fails the new behind-terrain
   regression; corrected before/behind controls pass. This does not complete
   owned firing, actor reactions, live list admission or native trajectory fidelity.
+  The GNU build passed both silent three-launch lifecycle endpoints and the real-data
+  declared-obstacle, empty-obstacle and development-target damage/reset replays
+  on 5 November 2026. The exact behind-terrain case remains a synthetic proof.
 - Integrate cinematic work through reviewed patches from its current branch,
   preserving concurrent gameplay changes. Pending branch work is not yet in main.
 - Campaign menu-to-mission and manual controls require interactive checks.

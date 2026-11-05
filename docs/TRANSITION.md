@@ -227,3 +227,40 @@ when the package was prepared; local checks identify the released executable.
 Game menus and stability remain partial: unlocked selection is not completed
 campaign gameplay, restored original inventory or verified fidelity. Broader
 edition, settings, input and full-session coverage remains in BACKLOG.md.
+
+## 5 November 2026 — preview pistol terrain occlusion
+
+The preview pistol's object query now uses the terrain-clipped movement segment,
+matching the existing owned-flight ordering. The development arena applies the
+same limit to its static synthetic target. Objects beyond a terrain stop can no
+longer replace that stop; objects before it still receive contact. The shared
+native-compatible object-query scratch semantics are unchanged. This correction
+does not connect the separately gated owned firing/targeting services.
+
+The behind-terrain regression fails on the previous unbounded segment and passes
+with the correction. The before-terrain control and existing pistol tests pass.
+All 689 synthetic Rust tests passed (14 ignored), plus 18 Python tests, Rustfmt,
+Clippy and the GNU Windows release build. Silent real-data GPU replays passed
+both three-launch menu/arena lifecycle endpoints, four declared-object hits,
+the empty-obstacle control, and nine development-target hits/death/reset. Private
+captures were inspected; these are development-path checks, not native trajectory
+or pixel comparison, manual input validation or completed campaign combat.
+
+[preview-2026.11.05.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.05.1)
+is published at runtime source `47fe3f105fda48dc3a69ea8258d37c0e338a2aca`.
+Its ZIP has 10 allowlisted members and retains the independent executable,
+launcher, documentation, dependency/toolchain notices, manifest and checksums.
+The locked dependencies and notice applicability are unchanged. The verified ZIP
+was extracted outside the source tree; CLI startup and both silent lifecycle
+endpoints passed again with the extracted executable. Older previews are retained.
+The public ZIP and adjacent checksum were then downloaded anonymously and passed
+the independent verifier with the same archive and executable hashes.
+
+- Executable SHA-256: `e3245418b9e3474ca36a93c0f3b4fb84c977e33b5ef931eaaa80d7a63ba2777c`.
+- ZIP SHA-256: `f1b6a2d114a42d24c7c8d90ee3f18a65925949367143778d298ea2cbf13ff495`.
+- The runtime source's hosted Pages validation/deployment passed. Hosted Windows
+  CI was still running at publication; local checks cover the released binary.
+
+No complete game feature is newly marked done. Required owned target-header,
+camera/muzzle/fire-phase services, live actor admission and impact reactions,
+objectives and progression remain in BACKLOG.md.
