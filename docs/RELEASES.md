@@ -4,6 +4,28 @@ The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
 
+## Owned primary fire integration - 5 November 2026
+
+Combined source `36f992c362a0cfad6ba60aa3edae0c2ff9bc1fbe` retains the
+character-scoped mission audio changes and adds an optional owned primary fire
+phase. It executes target/fire after physical forces and first ANM, before jet
+and secondary. The 64-frame CPU control matches 31,532 normalized words, including
+two projectiles, prior held caches and deferred constructor contexts. The main
+driver still supplies `fire: None`; this does not add a playable weapon.
+
+Validation: 698 Rust tests passed, 14 ignored; 20 Python tests, formatting,
+Clippy and source/site checks passed in an isolated target. The receipt-bound
+build passes both silent development lifecycle endpoints and three selected-film
+opening/cancellation cycles. These runs do not exercise the new fire API, manual
+controls, natural cinematic transport or visual fidelity.
+
+The private draft has ten allowlisted members, complete notices, matching
+build/review identities and no verifier blockers. Its executable SHA256 is
+`d8d41a71a09f74525d6f1f1385116f0396f8e35ce5ddbbd0ba80855f0f9a70d2`;
+ZIP SHA256 is
+`30d6fd1cdf1aeab5ff25e73eaa7a7bce33624fdb216f75b0ee102189e31ab74c`.
+This source milestone keeps the current public Windows download unchanged.
+
 After each meaningful validated milestone:
 
 1. Review which acquired services can be connected safely to the main
@@ -66,7 +88,7 @@ Local validation can support a preview even while a later hosted run is pending;
 state the exact local checks and the exact commit certified by hosted CI. Neither
 checksums nor a successful build certify complete gameplay or legal clearance.
 
-## Cinematic integration pass — 5 November 2026
+## Cinematic integration pass - 5 November 2026
 
 The dedicated Flick branch adapts individual reviewed runtime corrections; it does
 not import the historical private series. Ticket-owned text cleanup is connected

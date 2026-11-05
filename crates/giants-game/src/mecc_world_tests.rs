@@ -45,6 +45,7 @@ impl<'r> Providers<'r> {
     }
     fn borrowed(&mut self) -> crate::mecc_primary::Services<'_, 'r, '_> {
         crate::mecc_primary::Services {
+            fire: None,
             animation: crate::mecc_animation_phase::Services {
                 contexts: &mut self.contexts,
                 random: &mut self.random,

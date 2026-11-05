@@ -179,6 +179,7 @@ impl Driver {
                 )
             },
             giants_game::mecc_primary::Services {
+                fire: None,
                 animation: giants_game::mecc_animation_phase::Services {
                     contexts: &mut self.contexts,
                     random,

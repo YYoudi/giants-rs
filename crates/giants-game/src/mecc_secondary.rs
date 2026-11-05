@@ -18,7 +18,9 @@ pub(crate) struct Output {
     pub context: u32,
     pub commit_weapon: bool,
 }
+
 pub(crate) struct Services<'a> {
+    pub fire: bool,
     pub blending: animation_channels::Blending,
     pub random: &'a mut crate::audio_parameters::Random,
 }
@@ -40,12 +42,16 @@ pub(crate) fn ordinary(
     seconds: f64,
     services: Services<'_>,
 ) -> Result<Output, String> {
-    let Services { blending, random } = services;
+    let Services {
+        blending,
+        random,
+        fire,
+    } = services;
     if payload.len() != 524
         || fields.class != 2
         || fields.action != 0
         || fields.control_flags & !0xbc00 != 0
-        || fields.response_flags & !0x80803000 != 0
+        || fields.response_flags & !(0x80803000 | if fire { 0x08000020 } else { 0 }) != 0
         || fields.object_flags & 0x88000800 != 0
         || fields.position[2] < 0.
         || [0x80, 0x1a8, 0x1dc]
@@ -54,6 +60,7 @@ pub(crate) fn ordinary(
         || word(payload, 0x64) != 0
         || word(payload, 0x180) != 1
         || ![0, 1, 5, 6, 11, 13, 14, 15, 16, 18].contains(&word(payload, 0x30))
+            && !(fire && word(payload, 0x30) == 12)
         || ![u32::MAX, 1].contains(&word(payload, 0x60))
     {
         return Err("ordinary secondary outside acquired source pistol profile".into());
@@ -172,6 +179,18 @@ pub(crate) fn ordinary(
     if logical == 16 && context & 0x2000 != 0 {
         return Err("turn secondary alternate idle provider pending".into());
     }
+    if fire && context & 0x2000 != 0 {
+        match logical {
+            11 => {
+                // The held-trigger timer selects the normal pistol's armed
+                // walk even while its ordinary walk channel has not ended.
+                logical = 12;
+                selection.clip = 44;
+            }
+            1 | 18 => return Err("armed idle/side secondary provider pending".into()),
+            _ => {}
+        }
+    }
     if logical == 1 && f.control_flags & 0x400 != 0 && ended && context & 0x8000 != 0 {
         return Err(
             "ordinary secondary idle variant requires actual RNG/selection provider".into(),
@@ -196,7 +215,10 @@ pub(crate) fn ordinary(
             selection.flags = 0x20;
         }
     }
-    let selecting = f.control_flags & flag == 0 || ended || logical == 5 && context & 0x200 != 0;
+    let selecting = f.control_flags & flag == 0
+        || ended
+        || logical == 12
+        || logical == 5 && context & 0x200 != 0;
     let request = (selecting && channels[0][0] != u32::from(selection.clip)).then_some(Request {
         slot: selection.clip,
         flags: selection.flags,
@@ -222,4 +244,128 @@ pub(crate) fn ordinary(
         context,
         commit_weapon: changed_weapon,
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    fn fixture() -> (Fields, Vec<u8>, View, GlobalData) {
+        let mut channels = [[0; 9]; 4];
+        channels[0][0] = 2;
+        let fields = Fields {
+            class: 2,
+            dispatch_context: 0,
+            configuration: [0; 30],
+            scale: 1.,
+            object_flags: 0,
+            response_flags: 0x08000020,
+            control_flags: 0x1000,
+            action: 0,
+            shadow_reciprocal: 0.,
+            shadow: None,
+            gunlist: Default::default(),
+            channels,
+            position: [0., 0., 10.],
+            current: [0., 0., 10.],
+            previous: [0., 0., 10.],
+            angles: [0.; 3],
+        };
+        let mut payload = vec![0; 524];
+        for (at, value) in [(0x30, 11), (0x60, 1), (0x180, 1)] {
+            put(&mut payload, at, value);
+        }
+        let view = View {
+            number: 1,
+            local_seconds: 1. / 60.,
+            velocity: [0.; 3],
+            previous_velocity: [0.; 3],
+            model_rates: [0., 15., 0.],
+            previous_model_rates: [0.; 4],
+            angular_rate: 0.,
+            look_pitch: 0.,
+            commands: [0; 8],
+            floor: 10.,
+            plane: [0., 0., 1., -10.],
+            radius: 1.,
+            hit: 0,
+            support: 0,
+            support_part: 0,
+            support_triangle: 0,
+            affine: None,
+        };
+        let mut globals = GlobalData {
+            words: vec![0; 0xc28 / 4],
+            array_words: vec![],
+        };
+        for at in [0x66c, 0xc10, 0xc14, 0xc18, 0xc1c, 0xc20, 0xc24] {
+            globals.words[at / 4] = 100f32.to_bits();
+        }
+        (fields, payload, view, globals)
+    }
+    #[test]
+    fn trigger_selects_armed_walk_before_the_existing_channel_ends() {
+        let (fields, payload, view, globals) = fixture();
+        let mut random = crate::audio_parameters::Random(1);
+        let output = ordinary(
+            &fields,
+            &payload,
+            fields.channels,
+            &view,
+            &globals,
+            1. / 60.,
+            Services {
+                fire: true,
+                blending: animation_channels::Blending::Enabled,
+                random: &mut random,
+            },
+        )
+        .unwrap();
+        assert_eq!(output.request.unwrap().slot, 44);
+        assert_eq!(word(&output.payload, 0x30), 12);
+        assert_eq!(f32::from_bits(word(&output.payload, 0x68)), 3.);
+        assert_eq!(output.fields.control_flags, 0x1000);
+        assert_eq!(random.0, 1);
+        assert_eq!(word(&payload, 0x30), 11);
+        assert!(
+            ordinary(
+                &fields,
+                &payload,
+                fields.channels,
+                &view,
+                &globals,
+                1. / 60.,
+                Services {
+                    fire: false,
+                    blending: animation_channels::Blending::Enabled,
+                    random: &mut random
+                }
+            )
+            .is_err()
+        );
+    }
+    #[test]
+    fn unacquired_armed_idle_is_refused() {
+        let (fields, payload, mut view, globals) = fixture();
+        view.model_rates = [0.; 3];
+        let mut random = crate::audio_parameters::Random(1);
+        assert!(
+            ordinary(
+                &fields,
+                &payload,
+                fields.channels,
+                &view,
+                &globals,
+                1. / 60.,
+                Services {
+                    fire: true,
+                    blending: animation_channels::Blending::Enabled,
+                    random: &mut random
+                }
+            )
+            .err()
+            .unwrap()
+            .contains("armed idle/side")
+        );
+        assert_eq!(random.0, 1);
+    }
 }

@@ -195,14 +195,14 @@ pub fn resolve(
 
 /// Supplies the actual target producer to the owned shot transaction.
 /// The caller must still supply the camera/view snapshot at the correct phase.
-pub struct Services<'a, 't, S> {
+pub struct Services<'a, 't, S: ?Sized> {
     pub terrain: &'a StaticTerrainQuery<'t>,
     pub source: crate::resident_states::Id,
     pub view: View,
     pub other: &'a mut S,
     pub sampled: Option<Target>,
 }
-impl<S: crate::mecc_shot::Services> crate::mecc_shot::Services for Services<'_, '_, S> {
+impl<S: crate::mecc_shot::Services + ?Sized> crate::mecc_shot::Services for Services<'_, '_, S> {
     fn aim(
         &mut self,
         session: &mut crate::resident_states::Session,

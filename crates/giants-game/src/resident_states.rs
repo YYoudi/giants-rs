@@ -393,9 +393,10 @@ pub struct Construction<'a> {
     pub state_resources: Arc<crate::state_resources::Prepared>,
     pub fields: crate::actor_fields::Fields,
 }
-struct MeccCycleServices<'a, 'r, 'c> {
+struct MeccCycleServices<'a, 'r, 'c, 'f> {
     primary: bool,
     prepared_history: bool,
+    fire: Option<&'a mut crate::mecc_primary::FireServices<'f, 'r, 'c>>,
     collection: Option<crate::mecc_collection::Services<'c>>,
     countdowns: bool,
     periodic: bool,
@@ -1010,6 +1011,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                fire: None,
                 primary: false,
                 prepared_history: false,
                 collection: None,
@@ -1038,6 +1040,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                fire: None,
                 primary: false,
                 prepared_history: false,
                 collection: None,
@@ -1065,6 +1068,7 @@ impl Session {
             input,
         } = services;
         let mut jet = crate::mecc_jet_owned::Driver {
+            fire: false,
             sequences,
             backend,
             input,
@@ -1075,6 +1079,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                fire: None,
                 primary: false,
                 prepared_history: false,
                 collection: None,
@@ -1114,6 +1119,7 @@ impl Session {
             input,
         } = services;
         let mut jet = crate::mecc_jet_owned::Driver {
+            fire: false,
             sequences,
             backend,
             input,
@@ -1124,6 +1130,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                fire: None,
                 primary: false,
                 prepared_history: false,
                 collection: None,
@@ -1151,6 +1158,7 @@ impl Session {
             input,
         } = services;
         let mut jet = crate::mecc_jet_owned::Driver {
+            fire: false,
             sequences,
             backend,
             input,
@@ -1161,6 +1169,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                fire: None,
                 primary: false,
                 prepared_history: false,
                 collection: None,
@@ -1188,6 +1197,7 @@ impl Session {
             input,
         } = services.jet;
         let mut jet = crate::mecc_jet_owned::Driver {
+            fire: false,
             sequences,
             backend,
             input,
@@ -1198,6 +1208,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                fire: None,
                 primary: false,
                 prepared_history: false,
                 countdowns: true,
@@ -1319,6 +1330,7 @@ impl Session {
             animation,
             jet,
             collection,
+            mut fire,
         } = services;
         let crate::mecc_jet_owned::Services {
             wield,
@@ -1327,6 +1339,7 @@ impl Session {
             input,
         } = jet;
         let mut driver = crate::mecc_jet_owned::Driver {
+            fire: fire.is_some(),
             sequences,
             backend,
             input,
@@ -1337,6 +1350,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                fire: fire.as_mut(),
                 primary: true,
                 prepared_history,
                 collection,
@@ -1353,7 +1367,7 @@ impl Session {
         environment: crate::mecc_physical_cycle::Environment<'_>,
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         animation: crate::mecc_animation_phase::Services<'_>,
-        services: MeccCycleServices<'_, '_, '_>,
+        services: MeccCycleServices<'_, '_, '_, '_>,
     ) -> Result<crate::mecc_physical_cycle::InterleavedProjection, String> {
         let crate::mecc_animation_phase::Services {
             contexts,
@@ -1364,6 +1378,7 @@ impl Session {
         let MeccCycleServices {
             primary,
             prepared_history,
+            mut fire,
             mut collection,
             countdowns,
             periodic,
@@ -1372,6 +1387,10 @@ impl Session {
         } = services;
         if primary && environment.orientation.is_none() {
             return Err("normal Mecc primary requires its orientation input provider".into());
+        }
+        let fire_mode = fire.is_some();
+        if let Some(service) = &fire {
+            service.preflight(id, environment.number)?;
         }
         let collection_mode = collection.is_some();
         if let Some(c) = &collection
@@ -1403,13 +1422,14 @@ impl Session {
             || actor.presentation_parent.is_some()
             || fields.action != 0
             || fields.control_flags & !(if secondary_mode { 0xbc00 } else { 0 }) != 0
-            || fields.response_flags & !0x80803000 != 0
+            || fields.response_flags & !(0x80803000 | if fire_mode { 0x08000020 } else { 0 }) != 0
             || [word(0x180), word(0x184), word(0x188)] != [1, u32::MAX, u32::MAX]
             || (!cycle.interleaved && cycle.view.number != 0)
             || cycle.view.number != 0 && cycle.secondary != secondary_mode
             || cycle.view.number != 0 && cycle.jet != jet_mode
             || cycle.view.number != 0 && cycle.countdowns != countdowns
             || cycle.view.number != 0 && cycle.periodic != periodic
+            || cycle.view.number != 0 && cycle.fire != fire_mode
             || cycle.view.number != 0 && cycle.primary != primary
             || cycle.view.number != 0 && cycle.orientation != environment.orientation.is_some()
             || cycle.world_stopped
@@ -1433,6 +1453,7 @@ impl Session {
             0.,
         )?;
         cycle.primary = primary;
+        cycle.fire = fire_mode;
         cycle.orientation = environment.orientation.is_some();
         cycle.secondary = secondary_mode;
         cycle.jet = jet_mode;
@@ -1575,11 +1596,47 @@ impl Session {
         );
         let mut secondary_projection = None;
         let mut jet_projection = None;
+        let mut fire_projection = None;
         let completed = result.and_then(|mut output| {
             let first = first.ok_or("first ANM boundary absent")?;
-            // Selected no-held-effect path of4803f0 precedes the jet phase.
-            for (at, value) in [0x114,0x118].into_iter().zip(effect_reset) {
-                output.payload[at..at+4].copy_from_slice(&value.to_le_bytes());
+            if let Some(service) = &mut fire {
+                // Physical forces and the first ANM precede firing. Publish
+                // their real channels/references once; never evaluate ANM again
+                // to manufacture a muzzle sample at this boundary.
+                output.fields.channels = pipeline.channels;
+                let actor = self.residents.get_mut(&id.serial).unwrap();
+                actor.channels = Some(pipeline.channels);
+                actor.mecc_animation_stamp = pipeline.last_stamp;
+                actor.construction_fields = Some(output.fields.clone());
+                actor.seed.storage.data_mut().unwrap().copy_from_slice(&output.payload);
+                actor.affine_cache = Some(OwnedAffine {
+                    value: cycle.view.affine.ok_or("fire physical affine absent")?,
+                    pose: affine_pose_words(&output.fields), external_orientation: false,
+                });
+                self.specifications.get_mut(&id.serial).unwrap().0 = pipeline.references.clone();
+                self.mecc_events = Some(pipeline.bank.clone());
+                *contexts = pipeline.contexts.staged_copy();
+                *random = pipeline.random;
+                let seconds = crate::object_time::seconds(global_seconds,
+                    Some(crate::object_time::Sample {owner: output.fields.dispatch_context, position: output.fields.position}), None, areas);
+                let result = service.run(self,
+                    crate::mecc_primary::FireFrame {
+                        frame: crate::mecc_fire_primary::Frame {fields: output.fields.clone(), payload: output.payload.clone()},
+                        view: &cycle.view, buttons: cycle.jet_buttons, seconds,
+                        auxiliary_reset: globals.scalar(0x8f4).map_err(|e|e.to_string())?,
+                    },
+                    &mut pipeline.contexts, &mut pipeline.random);
+                // Constructor effects/RNG survive a late sound/provider error.
+                *contexts = pipeline.contexts.staged_copy();
+                *random = pipeline.random;
+                fire_projection = Some(result?);
+                let actor = self.get(id).ok_or("fire removed its primary source")?;
+                output.fields = actor.construction_fields.as_ref().unwrap().clone();
+                output.payload = actor.seed.storage.data().unwrap().to_vec();
+            } else {
+                for (at, value) in [0x114,0x118].into_iter().zip(effect_reset) {
+                    output.payload[at..at+4].copy_from_slice(&value.to_le_bytes());
+                }
             }
             if let Some(driver) = &mut jet {
                 let phase = driver.run(
@@ -1668,6 +1725,7 @@ impl Session {
                         areas,
                     ),
                     crate::mecc_secondary::Services {
+                        fire: fire_mode,
                         blending: pipeline.blending,
                         random: &mut pipeline.random,
                     },
@@ -1780,6 +1838,7 @@ impl Session {
         *contexts = pipeline.contexts;
         *random = pipeline.random;
         Ok(crate::mecc_physical_cycle::InterleavedProjection {
+            fire: fire_projection,
             physical: view,
             channels: projection,
             event_visits: visits,
