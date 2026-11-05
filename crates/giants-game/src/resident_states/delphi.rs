@@ -649,21 +649,16 @@ mod physical_tests {
                 ),
             )
             .unwrap();
-            // The second owner uses synthetic aliases to exercise profile and
-            // ownership contracts; actual installation mappings are compared
-            // separately in the private native trajectory controls.
             let prepared = if profile == 0 {
                 prepared
             } else {
+                let executable = std::env::var_os("GIANTS_DELPHI_EXECUTABLE")
+                    .map(std::path::PathBuf::from)
+                    .unwrap_or_else(|| root.join("Giants.exe"));
+                let definitions =
+                    crate::delphi_animation_definitions::Definitions::read(&executable).unwrap();
                 prepared
-                    .with_locomotion(crate::delphi_locomotion::Clips {
-                        idle: [1; 3],
-                        side: [1; 2],
-                        forward: [1; 2],
-                        turn: 1,
-                        jump: [1; 2],
-                        fall: [1; 2],
-                    })
+                    .with_locomotion(definitions.sword_locomotion().unwrap())
                     .unwrap()
             };
             session

@@ -112,7 +112,13 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   plus shared RNG endpoints. Rust owns its trajectory, contacts and history;
   native snapshots are outputs only. Clip identifiers are supplied definitions,
   checked against the owned class resources; no original mode table is bundled.
-  The public installation-metadata loader remains an integration prerequisite.
+  `delphi_animation_definitions::Definitions` now reads both equipment columns
+  from two independently inspected external PE data layouts. The shared bounded
+  reader preserves Kabuto's three existing layouts. All 188 identifiers per input
+  match the inspected data references; a retail-metadata replay retains the
+  reference-profile behavior. No original tables or executable are bundled or run.
+  Other Delphi executable layouts remain unacquired; header recognition is not
+  authentication or execution proof for every build.
   Impact/slide effects, nonordinary actions, water and equipment changes remain
   explicit unsupported boundaries. This does not execute the full primary.
 - Compose the surrounding full primary, heading/look/pitch producers and

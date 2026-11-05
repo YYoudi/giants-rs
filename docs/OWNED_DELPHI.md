@@ -36,13 +36,28 @@ special-only entry still leaves player selection and activation untouched.
 
 ## Evidence and scope
 
+`delphi_animation_definitions::Definitions` and
+`delphi_physical::Resources::load_locomotion` now read the required animation
+definitions from an explicit user-selected executable-data file. The bounded
+initialized-data reader is shared with Kabuto; its existing three layout profiles
+are preserved. Delphi accepts the two independently inspected layouts, retains
+94 rows and both equipment columns, and refuses missing required definitions or
+other unacquired layouts. No original table or executable is bundled or run.
+
+Both inputs match all 188 identifiers at their independently inspected data
+references. The same six persistent motion/ANM comparisons pass through the public
+loader; a separate replay with retail metadata retains the reference behavior.
+This is data agreement against the acquired PC behavioral profile, not execution
+proof for every executable build. Header tuples identify layouts, not file
+authenticity. The complete primary/camera/target and live controller remain pending.
+
 `delphi_locomotion` and `Session::advance_delphi_locomotion` now compose the
 acquired ordinary living dry sword selector with owned physical state. Prepare
 the physical resources with `with_locomotion(clips)` and use that profile's
 explicit entry; the physical-only entry retains its earlier scope. Supplied
 clip identifiers must resolve in the actual owned class. The service embeds no
-original executable mode table; a production installation-metadata reader is
-still required before live admission.
+original executable mode table. `load_locomotion` supplies definitions through
+the read-only metadata provider; full controller integration still gates admission.
 
 The order is physical/jump/first ANM, physical history, secondary selection and
 zero-time ANM. It preserves the jump latch across changed/released inputs,
@@ -62,7 +77,7 @@ The broader native-only acquisitions below remain separate. No live controller,
 water/turbo, nonordinary landing effects, combat or fidelity is certified.
 Four synthetic controls check latch/contact behavior, shared-clip semantics,
 idle draw ordering and refusal-state preservation. The silent source-data
-ownership control also covers both phase profiles with synthetic clip aliases,
+ownership control also covers both phase profiles with external clip definitions,
 including a late secondary failure that retains payload/references and quarantines
 the owner. These are owned-backend guards, not native error-path equivalence.
 

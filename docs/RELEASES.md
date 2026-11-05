@@ -20,6 +20,42 @@ Kabuto source-data controls and both resource/custom-cleanup native comparisons
 pass again after integration. Source history review reports no findings across
 185 commits and 1,902 blobs; this is a technical scan, not a rights determination.
 
+## Delphi external animation definitions - 6 November 2026
+
+The locomotion resource loader now reads external character definitions from two
+independently inspected initialized PE data layouts, sharing bounded metadata
+parsing with Kabuto while preserving its existing profiles. Both inputs match all
+188 animation identifiers; repeated motion/ANM controls and a retail-metadata
+replay retain the reference behavior. No original table, code or executable is
+bundled or run. Layout recognition is separate from authentication and runtime
+fidelity. The full primary/camera/target producers and live admission remain
+pending, so this resource milestone adds no playable Delphi download.
+
+
+Source `2a907b04d582e97baea2055ab09266379b8d2928` passes 739 Rust tests
+(22 ignored), 36 Python tests, Rustfmt, Clippy, the Delphi ownership/refusal
+control and the retained Kabuto installed-data lifecycle control. Source-history
+review reports zero selected-pattern findings across 182 commits and 1,889 blobs.
+The six 256-step comparisons retain exact RNG endpoints; a separate replay uses
+retail metadata without claiming retail native behavioral execution.
+
+Its exact GNU executable SHA256 is
+`e9c78a91a520a13e19c6ae9712d185feee2f325f9818d2c1d4d7da855554eb62`.
+Both silent development lifecycle endpoints and three selected-opening
+cancellations pass. These are common-runtime regressions, not Delphi controls.
+The private ten-member draft has complete notices, matching receipt/review
+identities and no technical verifier blockers; ZIP SHA256 is
+`7ba53f078ce24e9a2b894ba95f519acf7b80ba23ff3ac5786a4dd51db5aa8016`.
+The published playable preview retains its separate release identity.
+
+
+Combined source `d820c21ff5d94b62aac05a56437bd580324bfba5` preserves the
+concurrent persistent-film work and passes 741 Rust tests (22 ignored),
+38 Python tests, Rustfmt, Clippy and site generation/JavaScript checks. The
+Delphi metadata and owned physical modules are unchanged from the exact build
+above. These combined-source checks do not substitute a new binary receipt or
+repeat the independent persistent-film runtime controls.
+
 ## Delphi owned physical/secondary/ANM composition - 5 November 2026
 
 The dry sword movement phase now consumes the acquired selector after physical
