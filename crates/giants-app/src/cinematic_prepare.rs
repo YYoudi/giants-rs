@@ -53,8 +53,9 @@ pub fn audit(root: &Path, cases: &Path, output: &Path) -> Result<(), Box<dyn std
             .open(output)?,
     );
     println!(
-        "cinematic_consumer_audit cpu_only=true app_created=false gpu_initialized=false audio_initialized=false"
+        "cinematic_consumer_audit schema_version=2 cpu_only=true app_created=false gpu_initialized=false audio_initialized=false"
     );
+    let voices = giants_game::stream_resources::Voices::load(root)?;
     for (world, sequences) in grouped {
         let source = giants_game::world_source::resolve(root, &world)?;
         let config = giants_formats::world::parse_world(&std::fs::read(
@@ -74,6 +75,63 @@ pub fn audit(root: &Path, cases: &Path, output: &Path) -> Result<(), Box<dyn std
                     return Err("Sequence is not declared in this world".into());
                 }
                 let bytes = std::fs::read(giants_game::flick::sequence_path(root, &sequence)?)?;
+                stage = "declarations";
+                let metadata = giants_formats::flick::discover_dependencies(&bytes)?;
+                let mut counts = BTreeMap::<u32, usize>::new();
+                let mut numeric = 0;
+                let mut checked = 0;
+                let mut missing = 0;
+                for command in &metadata.commands {
+                    *counts.entry(command.opcode).or_default() += 1;
+                    numeric += usize::from(
+                        giants_game::cinematic_sound::Request::decode(command)?.is_some(),
+                    );
+                    if matches!(command.opcode, 44 | 52) {
+                        checked += 1;
+                        let result = (|| -> Result<(), Box<dyn std::error::Error>> {
+                            let name = command.label.as_deref().ok_or("stream label absent")?;
+                            std::fs::metadata(voices.resolve(name)?)?;
+                            Ok(())
+                        })();
+                        if let Err(reason) = result {
+                            missing += 1;
+                            println!(
+                                "cinematic_audit_stream_missing offset={} opcode={} reason={reason:?}",
+                                command.offset, command.opcode
+                            );
+                        }
+                    }
+                }
+                let effects = giants_formats::flick::effect_commands(&bytes)?;
+                let count = |opcode| counts.get(&opcode).copied().unwrap_or(0);
+                println!(
+                    "cinematic_audit_declarations actors={} active_effect_requests={} voice_requests={} subtitle_calls={} sync_requests={} numeric_sound_requests={} unclassified_commands_28_30={} credits_commands={} declared_effect_slots={} runtime_profile_supported={}",
+                    metadata.actors.len(),
+                    effects.iter().filter(|e| e.slot >= 0).count(),
+                    count(44),
+                    count(16),
+                    count(52),
+                    numeric,
+                    count(28) + count(30),
+                    count(47) + count(49) + count(51) + count(53),
+                    metadata.opaque_blocks,
+                    metadata.runtime_profile_supported,
+                );
+                for (opcode, count) in counts {
+                    println!("cinematic_audit_command opcode={opcode} count={count}");
+                }
+                println!(
+                    "cinematic_audit_stream_resources checked={checked} missing={missing} scope=file_presence_only"
+                );
+                match giants_game::cinematic_fx::Bindings::load(&resources, &bytes) {
+                    Ok(_) => println!(
+                        "cinematic_audit_mission_effect_binding result=bound live_execution_verified=false"
+                    ),
+                    Err(reason) => println!(
+                        "cinematic_audit_mission_effect_binding result=refused reason={reason:?}"
+                    ),
+                }
+                stage = "director";
                 let animation = giants_formats::anm::inline_flk(&bytes)?;
                 let (cinematic, _) = cinematic_camera::Cinematic::load(
                     root,

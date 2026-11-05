@@ -19,3 +19,5 @@
 .wipe-controls button{font-size:.72rem;padding:6px 12px;min-height:36px}
 .side-by-side>summary{padding:14px 24px;cursor:pointer;font-size:.8rem;color:#c1ccd3;border-bottom:1px solid var(--line)}
 @media(max-width:760px){.wipe-labels{padding:10px 14px;font-size:.65rem;gap:10px}.wipe-controls{padding:12px 14px;gap:8px}.wipe-controls .wipe-help{flex-basis:100%}.wipe-handle{width:40px;height:40px}}
+
+.inventory-priority{display:inline-block;padding:.2em .65em;border-radius:.3em;font-weight:700;white-space:nowrap}.priority-0{background:#4c1d2c;color:#fda4af}.priority-1{background:#493516;color:#fcd58b}.priority-2{background:#183747;color:#9ed8f5}.priority-3{background:#303640;color:#c6ceda}

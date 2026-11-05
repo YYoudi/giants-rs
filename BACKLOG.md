@@ -158,6 +158,47 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- Whole-corpus inventory completed on the recorded public-runtime source: 545
+  sources / 16 worlds, zero top-level preparation errors, 61 sources with a
+  reported implementation/preparation gap. The 470 others remain unverified;
+  they are not certified accurate. The independent strict-profile review queue
+  contains 282 sources and overlaps the gap set. See the aggregate dashboard
+  table and docs/cinematic-inventory-summary.json; per-source names, reasons,
+  command counts and evidence remain in private JSON/TSV/HTML reports.
+- Prioritize shared causes from that batch:
+  - FX actor-mutation prefixes: 52 sources / eight worlds refuse mission FX
+    binding. Inspect the actual rejected commands and dependency relevance first:
+    this is a reported admission refusal, not proof that every scene lacks an
+    actor. Supply acquired request-time mutation/pose/reference inputs where
+    required; do not acknowledge absent inputs or delete the guard blindly.
+  - General nonterminal FX queue: six sources / four worlds exceed the admitted
+    terminal-only profile. Connect real creation, update, retirement and ownership
+    through the main dispatcher; partial preview geometry is not complete binding.
+  - Partial visual FX services: 15 sources / six worlds retain contacts, sounds,
+    trails, texture/density/cadence or cross-director lifetime limits. These counts
+    overlap the refused binding set; do not add them as distinct broken scenes.
+  - Numeric audio: 23 commands in two sources lack a live Flick consumer. Retained
+    native table snapshots found the concerned IDs absent at sampled instants;
+    audible impact at every dispatch remains unknown. Do not invent sound aliases.
+  - Credits: nine commands in two sources lack the cinematic credits renderer.
+  - External FX resume: one source still requires a real resume producer; do not
+    substitute an arbitrary delay.
+- Inventory review controls excluded 265 specialized attachment ownership routes
+  from missing-geometry counts. Another 28 empty visual-preview requests across
+  14 sources have admitted terminal-only mission bindings: no particle geometry
+  is expected from those programs. Two remaining visual-preview refusal sources
+  stay in the review queue. Strict-parser rejection is not evidence of a missing
+  live draw, and the legacy opaque_blocks metadata field is effect-slot capacity.
+  FLK and MDV opcode spaces remain distinct; this batch does not audit MDV music.
+- Continue visual/reference comparison for all 545 sources, with exact source,
+  terrain, build, camera and time attribution. Lighting, shadows, water, materials,
+  temporal behavior and complete functional fidelity stay unknown until compared.
+  This batch changes diagnostics only; it does not add cinematic playback features.
+  The subsequent merge preserves the separate cold Kabuto lane; its combined
+  source passes 705 Rust tests (16 ignored), 30 Python tests, formatting and
+  Clippy. These checks do not relabel the pinned 545-source audit as a fresh run
+  of that later executable.
+
 - Scope: 545 historical sources across 16 worlds, including all variants. The
   retained research records 317 engine images, 57 native render observations and
   18 transport checks; **zero complete scenes have verified fidelity**. Historical
@@ -198,8 +239,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   common unrelated Mecc cue preload; Story4 mission 2 failed on periodic-effect
   preview reserve exhaustion. Do not drop effects or enlarge a constant to hide
   that failure. Investigate actual scheduling, lifetime and render ownership.
-  The .4 full matrix is running separately; transport passes do not certify
-  complete scenes or all 545 sources.
+  The .4 matrix stopped after 24 completed, passing roots out of 29; its last
+  partial case and remaining roots are unverified. Transport passes do not
+  certify complete scenes or all 545 sources.
 - Published preview 2026.11.05.5 fixes fixed attached-emitter catch-up allocation.
   A diagnostic main build failed with four occupied slots after a measured
   215 ms callback; replaying its deltas with the actual source recipe reproduces
