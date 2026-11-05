@@ -89,6 +89,17 @@ declaration reader
 `ev_c91022ce991a3c2aad05c61700b742b707099a4a70e080c8b1ec3687ea42e2a6`.
 Static inspection and controlled execution are distinct evidence.
 
+Cold-player wrapper evidence:
+`ev_7c2221184c98a112a75e98586915d666730afe83184441c413781af0539517d2`;
+initial channel selection:
+`ev_e35d0b1a855c48844a3f24c0a7fd0daf40e0590f8d6c1035a5ec5be162674d38`;
+history transfer:
+`ev_4590785fe8aba76794f5d596f8774b8a7cfd49210f36854d366b5d5a4e0a2e20`.
+The combined camera/Kabuto/Delphi source at
+`facf988e7b868ed1225ee45da8ec825ea678d20f` passes the repeated 32-case comparison,
+714 Rust tests (17 ignored), 35 Python tests, Rustfmt, Clippy and the source-data
+refusal/cleanup control. These cold-field results do not enlarge runtime admission.
+
 Integrated source `6ead6a0088ef01d0aef700ec45a6fc2e7b03cb05` retains the
 parallel Mecc/Kabuto/cinematic changes. Its isolated workspace passes 707 Rust
 tests (17 ignored), 20 Python tests, Rustfmt, Clippy and the source-data control.
