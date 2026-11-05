@@ -95,11 +95,22 @@ automatically wired into the main menu-to-mission build.
   reach retirement between updates without its usual end log. Retirement now
   records the actual owned sink state; receipt-bound revalidation is pending.
   This closes neither scene fidelity nor coverage of the remaining cinematics.
+  Current-pass shared-cache validation was rejected after its test inventory
+  included a test absent from this source. Rebuild in the dedicated worktree
+  target before binding experimental observations or publishing another binary.
 - Exact-reference audio research: 32 CPU query controls cover absent streams,
-  supplied device failures/cursors and wrap state. They establish only the time
-  query given those inputs. Native stream disposal after PCM exhaustion remains
-  unresolved; do not replace it with local realtime or claim the old preview tail
-  has native timing evidence. New analysis and original code remain private.
+  supplied device failures/cursors and wrap state. Six additional controls execute
+  the worker's retirement path after a supplied EOF/end notification, then the
+  real cleanup and time query. Retiring the matching stream clears its clock;
+  retiring another stream preserves the selected clock. No device, original
+  thread or natural notification timing was verified by these controls.
+- The common audio master now supplies zero after stream retirement, disabling
+  drift correction while the director continues on its own clock. It no longer
+  invents a realtime audio tail or rejects a director solely because its sync
+  track ended first. Synthetic clock/restart/track-replacement controls pass in
+  the isolated target. Revalidate actual menu playback, including an exhausted
+  synchronization track, before publishing this correction. Native notification
+  timing, small-buffer admission and device mix remain open. Analysis stays private.
 - Preserve the menu -> selected mission -> preparation -> full movie -> skip or
   natural end -> gameplay -> menu -> second-entry acceptance path. The silent
   opening-cycle replay calls the real selection and cancellation services without

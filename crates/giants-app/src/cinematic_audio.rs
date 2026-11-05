@@ -11,7 +11,6 @@ pub struct Master {
     tracks: BTreeMap<String, MasterTrack>,
     name: String,
     position: f64,
-    tail_clock: bool,
     generation: u64,
     revision: u64,
     director: usize,
@@ -28,25 +27,17 @@ pub struct PlayingMaster {
 impl Master {
     fn reset_clock(&mut self) {
         self.position = 0.;
-        self.tail_clock = false;
     }
-    fn sample_position(&mut self, source: Option<f64>, delta: f64, paused: bool) {
-        if let Some(position) = source {
-            if !self.tail_clock {
-                self.position = position;
-            }
-        } else {
-            if !self.tail_clock {
-                info!(
-                    "cinematic_preview_audio_tail=true previous_seconds={} policy=local_realtime_after_track_end native_timing_verified=false",
-                    self.position
-                );
-                self.tail_clock = true;
-            }
-            if !paused {
-                self.position += delta;
-            }
+    fn sample_position(&mut self, source: Option<f64>) {
+        if source.is_none() && self.position > 0. {
+            info!(
+                "cinematic_master_retired={} audio_seconds=0 drift_correction=false local_tail=false",
+                self.name
+            );
         }
+        // A retired stream supplies zero, disabling the director's audio drift
+        // correction. Its own clock continues; never invent an audio cursor.
+        self.position = source.unwrap_or(0.);
     }
     pub fn position(&self) -> f64 {
         self.position
@@ -102,7 +93,6 @@ impl Master {
             tracks,
             name,
             position: 0.,
-            tail_clock: false,
             generation: 0,
             revision: 0,
             director: 0,
@@ -127,21 +117,16 @@ pub fn setup_master(mut master: ResMut<Master>, mut sources: ResMut<Assets<Audio
         });
     }
 }
-pub fn sample_master(
-    mut master: ResMut<Master>,
-    playing: Query<&AudioSink, With<PlayingMaster>>,
-    cinematic: Res<crate::cinematic_camera::Cinematic>,
-    time: Res<Time<Real>>,
-) {
+pub fn sample_master(mut master: ResMut<Master>, playing: Query<&AudioSink, With<PlayingMaster>>) {
     let Some(sink) = playing.iter().next() else {
         return;
     };
-    let source = if sink.empty() && cinematic.preview() && !cinematic.end_reached() {
+    let source = if sink.empty() {
         None
     } else {
         Some(sink.position().as_secs_f64())
     };
-    master.sample_position(source, time.delta_secs_f64(), cinematic.paused());
+    master.sample_position(source);
 }
 #[allow(clippy::too_many_arguments)]
 pub fn update_master(
@@ -186,10 +171,6 @@ pub fn update_master(
                 sink.pause();
             } else {
                 sink.play();
-            }
-            if sink.empty() && !cinematic.end_reached() && !cinematic.preview() {
-                error!("Synchronization track ended before the director");
-                exit.write(AppExit::Error(std::num::NonZeroU8::MIN));
             }
         } else if time.elapsed_secs_f64() - player.queued_at > 3. {
             error!("Synchronization track has no audio sink");
@@ -430,37 +411,44 @@ mod tests {
             tracks: Default::default(),
             name: String::new(),
             position: 0.,
-            tail_clock: false,
             generation: 0,
             revision: 0,
             director: 0,
         }
     }
     #[test]
-    fn preview_clock_continues_after_empty_sink_and_respects_pause() {
+    fn retired_stream_disables_correction_without_rewinding_the_director() {
         let mut master = master();
-        master.sample_position(Some(10.), 0.1, false);
-        master.sample_position(None, 0.25, false);
-        assert_eq!(master.position(), 10.25);
-        master.sample_position(None, 1., true);
-        assert_eq!(master.position(), 10.25);
-        master.sample_position(Some(0.), 1., false);
-        assert_eq!(master.position(), 10.25);
-        master.sample_position(None, 0.25, false);
-        assert_eq!(master.position(), 10.5);
+        master.sample_position(Some(10.));
+        master.sample_position(None);
+        assert_eq!(master.position(), 0.);
+        let step = giants_game::cinematic_clock::advance(giants_game::cinematic_clock::Input {
+            seconds: 5.,
+            raw_dt: 0.25,
+            finished: false,
+            sync: Some(giants_game::cinematic_clock::AudioTime {
+                origin: 0.,
+                seconds: master.position(),
+            }),
+        })
+        .unwrap();
+        assert_eq!(step.dt, 0.25);
+        assert_eq!(step.seconds, 5.25);
     }
     #[test]
-    fn restart_restores_audio_clock_after_preview_tail() {
+    fn restart_and_new_samples_do_not_keep_an_extrapolated_clock() {
         let mut master = master();
-        master.sample_position(None, 12., false);
+        master.sample_position(Some(12.));
         master.reset_clock();
         assert_eq!(master.position(), 0.);
-        master.sample_position(Some(0.5), 0.1, false);
+        master.sample_position(Some(0.5));
         assert_eq!(master.position(), 0.5);
-        assert!(!master.tail_clock);
+        master.sample_position(None);
+        master.sample_position(Some(0.125));
+        assert_eq!(master.position(), 0.125);
     }
     #[test]
-    fn source_track_replacement_resets_tail_and_does_not_discard_prepared_tracks() {
+    fn source_track_replacement_resets_clock_and_keeps_prepared_tracks() {
         let mut master = master();
         for name in ["first", "next"] {
             master.tracks.insert(
@@ -472,13 +460,11 @@ mod tests {
             );
         }
         master.activate("first").unwrap();
-        master.sample_position(None, 12., false);
-        assert!(master.tail_clock);
+        master.sample_position(Some(12.));
         master.activate("next").unwrap();
         assert_eq!(master.name, "next");
         assert_eq!(master.position(), 0.);
-        assert!(!master.tail_clock);
-        master.sample_position(Some(0.5), 0.1, false);
+        master.sample_position(Some(0.5));
         assert_eq!(master.position(), 0.5);
         assert!(master.activate("absent").is_err());
         assert_eq!(master.position(), 0.5);

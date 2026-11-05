@@ -25,7 +25,8 @@ class CinematicSmokeTests(unittest.TestCase):
             # A sink can finish between the audio system and retirement in the
             # same frame; an observed empty owned sink is required in that case.
             retirement = log.replace('cinematic_voice_finished=line position_seconds=1\n', '', 1)
-            retirement += 'cinematic_voice_released name=line ticket=1 reported_end=false sink_present=true sink_empty=true\n'
+            retirement = retirement.replace('mission_text_released ticket=1',
+                'cinematic_voice_released name=line ticket=1 reported_end=false sink_present=true sink_empty=true\nmission_text_released ticket=1')
             self.assertTrue(all(validate(retirement, 0, capture, full=True, require_text=True).values()))
             self.assertFalse(all(validate(retirement.replace('sink_empty=true', 'sink_empty=false'),
                                                 0, capture, full=True, require_text=True).values()))
@@ -35,6 +36,9 @@ class CinematicSmokeTests(unittest.TestCase):
                 log.replace('voice_finished=line', 'voice_missing=line'),
                 log.replace('volume_bits=0', 'volume_bits=1065353216'),
                 log.replace('atlas_images=2', 'atlas_images=0'),
+                log.replace('entities=4', 'entities=1'),
+                log.replace('cinematic_voice_finished=line position_seconds=1\n', '', 1)
+                    + 'cinematic_voice_finished=line position_seconds=1\n',
                 log+'cinematic_preview_audio_tail=true\n',
                 log+' ERROR giants_app: playback failed\n',
             ):

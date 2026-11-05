@@ -34,7 +34,8 @@ def validate(log, exit_code, capture, full=False, require_text=False):
         'no_panic_or_injected_skip': 'panicked at' not in log and 'cinematic_skip_probe ' not in log,
     }
     if full:
-        sources = re.findall(r'^mission_opening_source ticket=(\d+) directors=(\d+) voice_commands=(\d+) sync_commands=(\d+) ', log, re.MULTILINE)
+        source_matches = list(re.finditer(r'^mission_opening_source ticket=(\d+) directors=(\d+) voice_commands=(\d+) sync_commands=(\d+) ', log, re.MULTILINE))
+        sources = [s.groups() for s in source_matches]
         terminals = re.findall(r'^showcase_film_terminal ticket=(\d+) directors=(\d+) .*source_terminal=true voices_drained=true input_injected=false ', log, re.MULTILINE)
         endpoints = re.findall(r'^showcase_film_endpoint ticket=(\d+) phase=(\w+) mecc_preview=(true|false) free_inspection=(true|false) campaign_ready_claimed=false', log, re.MULTILINE)
         checks['source_terminals_match_prepared_chains'] = (
@@ -54,13 +55,30 @@ def validate(log, exit_code, capture, full=False, require_text=False):
                 retired_empty = Counter(re.findall(
                     r'cinematic_voice_released name=(\w+) ticket=\d+ reported_end=false sink_present=true sink_empty=true', log))
                 checks['voices_finished'] = played == finished + retired_empty
+        # Do not let duplicated receipts from one entry conceal a missing voice
+        # or sink in the other entry of the same source chain.
+        cycle_audio = []
+        for i, source in enumerate(source_matches):
+            block = log[source.start():source_matches[i + 1].start() if i + 1 < len(source_matches) else len(log)]
+            ticket, _, voice_count, sync_count = source.groups()
+            for kind, count in [('voice', int(voice_count)), ('master', int(sync_count))]:
+                played = Counter(re.findall(r'cinematic_'+kind+r'_play=(\w+)', block))
+                sinks = Counter(re.findall(r'cinematic_'+kind+r'_sink=(\w+) active=true ', block))
+                complete = sum(played.values()) == count and played == sinks
+                if kind == 'voice':
+                    finished = Counter(re.findall(r'cinematic_voice_finished=(\w+)', block))
+                    retired = Counter(re.findall(
+                        r'cinematic_voice_released name=(\w+) ticket='+ticket+r' reported_end=false sink_present=true sink_empty=true', block))
+                    complete = complete and played == finished + retired
+                cycle_audio.append(complete)
+        checks['audio_receipts_match_each_entry'] = len(cycle_audio) == cycles * 2 and all(cycle_audio)
         checks['no_unverified_audio_tail'] = 'cinematic_preview_audio_tail=true' not in log
         checks['no_playback_failure'] = 'playback_failed' not in log and ' ERROR ' not in log
     if require_text:
         text = re.findall(r'^mission_text_released ticket=(\d+) entities=(\d+) atlas_images=(\d+) remaining_assets=0 ', log, re.MULTILINE)
         checks['rendered_text_atlases_released'] = (
             [t[0] for t in text] == mounts and len(text) == cycles
-            and all(int(t[1]) > 0 and int(t[2]) > 0 for t in text))
+            and all(int(t[1]) > 1 and int(t[2]) > 0 for t in text))
     return checks
 
 

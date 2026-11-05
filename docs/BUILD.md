@@ -20,6 +20,10 @@ Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.
+Use a separate Cargo target directory for each active worktree. Sharing downloaded
+registry/toolchain caches is fine; sharing build artifacts between concurrently
+modified worktrees can produce a test inventory from the wrong source. Reject
+that result and rebuild in an isolated target before recording a release receipt.
 
 Package a draft with `python -m tools.package_preview --help`. Run the extracted
 bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Windows
