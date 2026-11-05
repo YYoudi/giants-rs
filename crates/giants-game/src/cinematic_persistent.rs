@@ -203,6 +203,7 @@ impl Queue {
             return Ok(());
         }
         let placement = binding.placement(request, seconds)?;
+        let slot = placement.slot;
         if let Some(program) = &bound.terminal {
             self.terminal
                 .push(TerminalProxy::new(placement, program.clone()).map_err(str::to_owned)?);
@@ -211,7 +212,6 @@ impl Queue {
                 return Err("persistent request dispatched twice in one director".into());
             }
             let name = request.effect.as_deref().ok_or("persistent name absent")?;
-            let slot = request.slot as usize;
             let Creation::Prepared(id) = self.contexts.prepare_cinematic(name, slot)? else {
                 return Err("persistent effect name absent from active image".into());
             };
@@ -232,10 +232,10 @@ impl Queue {
             };
             self.contexts.release_prepared(id)?;
             self.objects.insert(offset, object);
-            // Native helper reuse keeps earlier objects alive on this same
-            // support; it does not replace the previous object's identity.
-            self.supports.insert(slot, offset);
         }
+        // Every active source request refreshes this shared support, including
+        // a terminal program that creates no new object. Earlier objects live on.
+        self.supports.insert(slot, offset);
         self.dispatched += 1;
         Ok(())
     }
