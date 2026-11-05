@@ -199,3 +199,9 @@ scene admission, movement, growth or visual fidelity follows from buffer parity.
 The constructor and generator have separate prototype PS2 name searches against
 pinned inputs; attribution remains unknown. Private instruction observations,
 full original CPU execution and the owned geometry comparison remain distinct.
+
+Combined source `379f874` retains newer Mecc subjective-dispatch and cinematic FX
+work. It passes 720 synthetic Rust tests (17 ignored), 35 Python tests, Rustfmt,
+Clippy and site/JavaScript checks. The 112-case owned geometry comparison passes
+again after that merge. These regressions do not complete the native constructor,
+material, initialization, movement or growth integration.

@@ -9,6 +9,13 @@ complete owned initialization remain pending; this CPU dependency adds no live
 character, visual-fidelity claim or new downloadable package/receipt. See
 OWNED_KABUTO.md. Existing preview receipts remain tied to their exact sources.
 
+
+Combined source `379f874` retains newer Mecc subjective-dispatch and cinematic FX
+work. It passes 720 synthetic Rust tests (17 ignored), 35 Python tests, Rustfmt,
+Clippy and site/JavaScript checks. The 112-case owned geometry comparison passes
+again after that merge. These regressions do not complete the native constructor,
+material, initialization, movement or growth integration.
+
 ## Cold Delphi local-player fields - 5 November 2026
 
 The common owned actor runtime now exposes the acquired Delphi cold player-field
