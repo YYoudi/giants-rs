@@ -130,11 +130,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   eight contexts separately from the primary remainder. Generated material,
   owner/global-list registration and deformation are still prerequisites; this
   geometry allocation must not be treated as an audio sequence.
+- Implemented: the cold auxiliary factory uses actual source classes, constructor
+  masks and declared effect-state allocation followed by the acquired empty-state
+  destructor/release. Eight contexts match 88 constructor/reset outcomes and
+  16,984 normalized header words plus list counts. Nonempty effects remain
+  refused atomically; parent/reference binding and complete initialization are
+  separate. See docs/OWNED_KABUTO.md.
 - Implement and compare first-primary initialization and its size composition,
   including shared physical/animation services and owned auxiliary/effect links.
   Reuse `physical_initial::reset`. The native effect auxiliaries pass through
-  their declared effect state before becoming inactive; acquire that transition
-  and its cleanup rather than constructing only their observed final state.
+  their declared effect state before becoming inactive; preserve the acquired
+  transition/cleanup when composing the group, rather than using only a final-state seed.
   Acquire marker relocation and camera consumption, then land movement/jumping,
   size-dependent collision and actual feeding/growth triggers.
   The special dispatcher returns for Kabuto without Mecc/Delphi child creation.
