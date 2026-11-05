@@ -55,7 +55,7 @@
       "title": "Complete cinematic playback",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "545 historical sources / 16 worlds; zero complete scenes verified. Selected-mission partial renderer; ticket-owned subtitle resources with synthetic cleanup/re-entry checks and three silent opening/cancellation cycles in Windows preview 2026.11.05.2 (no visible-subtitle atlas in these short samples); reviewed support-basis and terrain-visibility corrections. Full effects, timing, visual parity and movie-to-gameplay cycles remain open."
+      "detail": "545 historical sources / 16 worlds; zero complete scenes verified. Selected-mission partial renderer; ticket-owned subtitle resources with synthetic cleanup/re-entry checks and three silent opening/cancellation cycles in Windows preview 2026.11.05.2 (no visible-subtitle atlas in these short samples); reviewed support-basis and terrain-visibility corrections. Natural-ending transport and re-entry observed for Story4 in development; receipt-bound check pending. Full effects, native timing, visual parity and all-source movie-to-gameplay coverage remain open."
     },
     {
       "id": "ending-credits",

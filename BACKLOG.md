@@ -87,6 +87,19 @@ automatically wired into the main menu-to-mission build.
   downloaded checksums were verified. These short samples
   allocated no glyph atlas: GPU cleanup after visible subtitles, audio-clock
   progression and full subtitle visual/timing comparisons remain pending.
+- Next transport pass: the development build completed two Story4 mission-zero
+  openings (13 directors each), reached Gameplay, returned and re-entered without
+  input injection. Each release retired 190 text entities and 12 atlas images.
+  All observed voice/master sinks had zero volume; no local audio tail was used.
+  The detailed verifier exposed a last-voice observation race: an empty sink can
+  reach retirement between updates without its usual end log. Retirement now
+  records the actual owned sink state; receipt-bound revalidation is pending.
+  This closes neither scene fidelity nor coverage of the remaining cinematics.
+- Exact-reference audio research: 32 CPU query controls cover absent streams,
+  supplied device failures/cursors and wrap state. They establish only the time
+  query given those inputs. Native stream disposal after PCM exhaustion remains
+  unresolved; do not replace it with local realtime or claim the old preview tail
+  has native timing evidence. New analysis and original code remain private.
 - Preserve the menu -> selected mission -> preparation -> full movie -> skip or
   natural end -> gameplay -> menu -> second-entry acceptance path. The silent
   opening-cycle replay calls the real selection and cancellation services without

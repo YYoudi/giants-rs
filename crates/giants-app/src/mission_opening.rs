@@ -242,6 +242,17 @@ fn release(world: &mut World) {
     assert_eq!(world.resource::<Owner>().0, mounted.ticket);
     crate::mission_film::release(world);
     crate::mission_environment::restore_full_view(world, mounted.ticket);
+    for (owner, voice, sink) in world
+        .query::<(
+            &OwnedAudio,
+            &cinematic_audio::PlayingVoice,
+            Option<&AudioSink>,
+        )>()
+        .iter(world)
+        .filter(|(owner, _, _)| owner.0 == mounted.ticket)
+    {
+        voice.report_release(owner.0, sink);
+    }
     let entities: Vec<_> = world
         .query::<(Entity, &OwnedAudio)>()
         .iter(world)
@@ -315,6 +326,21 @@ fn sync(world: &mut World) {
                 assert!(!world.contains_resource::<cinematic_audio::Master>());
                 assert!(!world.contains_resource::<cinematic_audio::Voices>());
                 let directors = prepared.cinematic.segments().len();
+                let voice_commands = prepared
+                    .cinematic
+                    .programs()
+                    .flat_map(|p| &p.commands)
+                    .filter(|c| c.opcode == 44)
+                    .count();
+                let sync_commands = prepared
+                    .cinematic
+                    .programs()
+                    .flat_map(|p| &p.commands)
+                    .filter(|c| c.opcode == 52)
+                    .count();
+                println!(
+                    "mission_opening_source ticket={ticket} directors={directors} voice_commands={voice_commands} sync_commands={sync_commands} source=selected_mission"
+                );
                 let master = prepared.master.is_some();
                 let render_failed = prepared.render.is_err();
                 match prepared.render {

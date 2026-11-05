@@ -2,6 +2,10 @@
 use bevy::{audio::Volume, prelude::*};
 use std::{collections::BTreeMap, path::Path};
 
+/// Explicit offscreen diagnostic: real sinks, zero output volume at creation.
+#[derive(Resource)]
+pub(crate) struct MutedTransport;
+
 #[derive(Resource)]
 pub struct Master {
     tracks: BTreeMap<String, MasterTrack>,
@@ -250,6 +254,19 @@ pub struct PlayingVoice {
     seen_sink: bool,
     queued_at: f64,
     reported_end: bool,
+}
+impl PlayingVoice {
+    /// Retirement can observe an empty sink after this frame's audio update.
+    /// Keep that observation distinct from the normal end notification.
+    pub(crate) fn report_release(&self, ticket: u64, sink: Option<&AudioSink>) {
+        println!(
+            "cinematic_voice_released name={} ticket={ticket} reported_end={} sink_present={} sink_empty={}",
+            self.name,
+            self.reported_end,
+            sink.is_some(),
+            sink.is_some_and(|sink| sink.empty())
+        );
+    }
 }
 impl Voices {
     pub fn load<'a>(
