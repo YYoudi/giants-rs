@@ -1,23 +1,44 @@
 //! Source text blocks and measured bitmap glyphs, presented as a UI preview.
 //! Native GPU sampling, blend/fade ordering and timing parity remain unverified.
-use bevy::{asset::RenderAssetUsages, prelude::*, render::render_resource::*};
+use bevy::{
+    asset::{AssetId, RenderAssetUsages},
+    prelude::*,
+    render::render_resource::*,
+};
 use giants_game::{arithmetic::Precision, font_atlas::Atlas, font_rasterizer::Font};
+use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 
 #[derive(Resource, Default)]
 pub(crate) struct CaptureImage(pub Option<Handle<Image>>);
 
 struct State {
+    owner: Option<u64>,
     root: PathBuf,
     table: Option<Result<giants_formats::gtext::TextTable, String>>,
     font: Option<Result<Font, &'static str>>,
     atlas: Atlas,
     image: Option<Handle<Image>>,
+    images: HashSet<AssetId<Image>>,
     nodes: Vec<Entity>,
     camera: Option<Entity>,
     last_notice: Option<(String, usize, String)>,
 }
 impl State {
+    fn new(root: &Path, owner: Option<u64>) -> Self {
+        Self {
+            owner,
+            root: root.into(),
+            table: None,
+            font: None,
+            atlas: Atlas::default(),
+            image: None,
+            images: HashSet::new(),
+            nodes: Vec::new(),
+            camera: None,
+            last_notice: None,
+        }
+    }
     fn text(&mut self, frame: &giants_game::cinematic_text::Frame) -> Result<Vec<u8>, String> {
         let root = &self.root;
         let table = self.table.get_or_insert_with(|| {
@@ -69,23 +90,74 @@ impl State {
 }
 
 pub fn install(app: &mut App, root: &Path) {
-    app.insert_non_send(State {
-        root: root.into(),
-        table: None,
-        font: None,
-        atlas: Atlas::default(),
-        image: None,
-        nodes: Vec::new(),
-        camera: None,
-        last_notice: None,
-    })
-    .init_resource::<CaptureImage>()
-    .add_systems(Update, update.after(crate::cinematic_camera::update));
+    app.insert_non_send(State::new(root, None))
+        .init_resource::<CaptureImage>()
+        .add_systems(Update, update.after(crate::cinematic_camera::update));
 }
 
+/// Reuse the common reader with the selected installation and a fresh ticket.
+/// A live standalone reader or another ticket must never be taken over.
+pub(crate) fn mount(world: &mut World, ticket: u64, root: &Path) -> Result<(), String> {
+    if let Some(state) = world.get_non_send::<State>() {
+        if state.owner == Some(ticket) && state.root == root {
+            return Ok(());
+        }
+        if state.owner.is_some()
+            || state.camera.is_some()
+            || !state.nodes.is_empty()
+            || !state.images.is_empty()
+            || state.table.is_some()
+            || state.font.is_some()
+        {
+            return Err("cinematic text reader is owned by another live context".into());
+        }
+    }
+    world.insert_non_send(State::new(root, Some(ticket)));
+    world.init_resource::<CaptureImage>();
+    println!(
+        "mission_text_mounted ticket={ticket} fresh_atlas=true fresh_language_cache=true glyphs=source_runtime"
+    );
+    Ok(())
+}
+
+pub(crate) fn release(world: &mut World, ticket: u64) {
+    if !world
+        .get_non_send::<State>()
+        .is_some_and(|state| state.owner == Some(ticket))
+    {
+        return;
+    }
+    let state = world.remove_non_send::<State>().unwrap();
+    for &entity in state.nodes.iter().chain(state.camera.iter()) {
+        world.despawn(entity);
+    }
+    if let Some(mut capture) = world.get_resource_mut::<CaptureImage>()
+        && capture
+            .0
+            .as_ref()
+            .is_some_and(|image| state.images.contains(&image.id()))
+    {
+        capture.0 = None;
+    }
+    let mut images = world.resource_mut::<Assets<Image>>();
+    for image in &state.images {
+        images.remove(*image);
+    }
+    assert!(state.images.iter().all(|id| !images.contains(*id)));
+    let entities = state.nodes.len() + usize::from(state.camera.is_some());
+    let count = state.images.len();
+    // The global system remains installed, with no old ticket, font or language.
+    world.insert_non_send(State::new(&state.root, None));
+    println!(
+        "mission_text_released ticket={ticket} entities={entities} atlas_images={count} remaining_assets=0 font_and_language_dropped=true"
+    );
+}
+
+#[allow(clippy::too_many_arguments)]
 fn update(
     mut commands: Commands,
     cinematic: Option<ResMut<crate::cinematic_camera::Cinematic>>,
+    owner: Option<Res<crate::mission_opening::Owner>>,
     mut state: NonSendMut<State>,
     mut images: ResMut<Assets<Image>>,
     mut capture: ResMut<CaptureImage>,
@@ -102,7 +174,12 @@ fn update(
     if let Some(entity) = state.camera
         && let Ok(mut camera) = cameras.get_mut(entity)
     {
-        camera.is_active = cinematic.is_some();
+        camera.is_active = cinematic.is_some() && state.owner == owner.as_ref().map(|o| o.0);
+    }
+    // A suspended mission transport can exist before film adoption. It must
+    // not populate the standalone pool while its ticket is still preparing.
+    if state.owner != owner.as_ref().map(|o| o.0) {
+        return;
     }
     let Some(mut cinematic) = cinematic else {
         return;
@@ -181,7 +258,9 @@ fn update(
             });
         // Fresh id lets capture preparation distinguish a newly uploaded atlas
         // from the previous version. Unreferenced old handles can be reclaimed.
-        state.image = Some(images.add(image));
+        let image = images.add(image);
+        state.images.insert(image.id());
+        state.image = Some(image);
     }
     let image = state.image.as_ref().unwrap().clone();
     capture.0 = Some(image.clone());
@@ -265,6 +344,62 @@ fn update(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn mission_release_removes_all_atlas_versions_and_reentry_changes_installation() {
+        let mut app = App::new();
+        app.init_resource::<Assets<Image>>();
+        install(&mut app, Path::new("startup-fixture"));
+        let world = app.world_mut();
+        mount(world, 7, Path::new("first-installation")).unwrap();
+        let first = world.resource_mut::<Assets<Image>>().add(Image::default());
+        let second = world.resource_mut::<Assets<Image>>().add(Image::default());
+        let shared = world.resource_mut::<Assets<Image>>().add(Image::default());
+        let node = world.spawn((Node::default(), ImageNode::default())).id();
+        let camera = world.spawn(Camera::default()).id();
+        {
+            let mut state = world.non_send_mut::<State>();
+            state.images.extend([first.id(), second.id()]);
+            state.image = Some(second.clone());
+            state.nodes.push(node);
+            state.camera = Some(camera);
+            state.table = Some(Err("cached first-installation diagnostic".into()));
+        }
+        world.resource_mut::<CaptureImage>().0 = Some(second.clone());
+        assert!(mount(world, 8, Path::new("second-installation")).is_err());
+        release(world, 8);
+        assert!(world.resource::<Assets<Image>>().contains(first.id()));
+        release(world, 7);
+        release(world, 7);
+        assert!(world.get_entity(node).is_err() && world.get_entity(camera).is_err());
+        for id in [first.id(), second.id()] {
+            assert!(!world.resource::<Assets<Image>>().contains(id));
+        }
+        assert!(world.resource::<Assets<Image>>().contains(shared.id()));
+        assert!(world.resource::<CaptureImage>().0.is_none());
+        mount(world, 8, Path::new("second-installation")).unwrap();
+        let state = world.non_send::<State>();
+        assert_eq!(state.root, Path::new("second-installation"));
+        assert!(state.table.is_none() && state.font.is_none());
+        assert!(state.nodes.is_empty() && state.images.is_empty() && state.camera.is_none());
+    }
+
+    #[test]
+    fn mission_mount_never_takes_over_a_live_standalone_text_reader() {
+        let mut app = App::new();
+        app.init_resource::<Assets<Image>>();
+        install(&mut app, Path::new("standalone-installation"));
+        let world = app.world_mut();
+        let camera = world.spawn(Camera::default()).id();
+        world.non_send_mut::<State>().camera = Some(camera);
+        assert!(mount(world, 7, Path::new("mission-installation")).is_err());
+        release(world, 7);
+        assert!(world.get_entity(camera).is_ok());
+        assert_eq!(
+            world.non_send::<State>().root,
+            Path::new("standalone-installation")
+        );
+    }
+
     #[cfg(target_os = "windows")]
     #[test]
     fn rejected_control_after_a_new_glyph_invalidates_the_old_gpu_atlas() {

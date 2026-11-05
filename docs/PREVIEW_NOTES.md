@@ -1,4 +1,4 @@
-# Windows x64 development preview — preview-2026.11.05.1
+# Windows x64 development preview — preview-2026.11.05.2
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -12,12 +12,12 @@ is not a completion metric. The owner authorized this preview without requiring
 a separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
 
-Compared with preview-2026.11.04.2: the preview pistol no longer reports an object
-hit behind a terrain stop in the same simulation step. Object and development
-target queries use the terrain-clipped segment, matching the existing owned
-projectile flight ordering. Objects before the terrain still stop the projectile.
-The fix reaches the selected-controller pistol and Mecc development arena;
-it does not enable the separately gated owned firing/targeting services.
+Compared with preview-2026.11.05.1: selected-mission cinematics now own their
+subtitle camera, glyph nodes, atlas images, font and language cache by mission
+ticket. Returning from a film releases these resources; a second entry selects
+its actual installation and starts with a fresh reader. Reviewed common fixes
+preserve the basis of unscaled point supports and the measured terrain visibility
+arithmetic. These changes do not complete cinematic effects or campaign admission.
 
 Retained from the preceding preview: normal startup requires no terminal;
 the downloadable executable is named giants-rs.exe; Preview All is selected with
@@ -42,19 +42,19 @@ does not claim complete combat or campaign integration.
 
 ## Known limits
 
-The new terrain-occlusion regression fails against the prior unbounded segment
-and passes with the correction; an object-before-terrain control also passes.
-This proves the bounded synthetic collision cases, not native image/trajectory
-fidelity or complete mission combat. See the release description for this
-revision's exact package identities in its manifest.
+This revision passed 692 synthetic Rust tests (14 ignored), 19 Python tests,
+Rustfmt and Clippy. Three silent selected-opening/cancellation cycles passed in
+the development build with fresh tickets and zero reported owned film assets.
+These short samples allocated no glyph atlas; actual visible-subtitle cleanup,
+audio-clock progression, complete playback, natural ending, skip controls and
+movie-to-gameplay continuity remain unverified. Repeat the receipt-bound check
+with tools.cinematic_smoke. The check uses service calls without injected input.
+Interactive tests are explicitly pending during background-only cinematic work.
 
-This revision passed 689 synthetic Rust tests (14 ignored), 18 Python tests,
-Rustfmt, Clippy and the GNU Windows release build. Silent offscreen checks on
-the installed data passed both three-launch menu/arena lifecycle endpoints,
-four shots/four declared-object impacts, the empty-obstacle control, and nine
-hits/one death/reset on the explicitly synthetic development target. GPU captures
-were inspected. These are development-path regressions, not campaign completion,
-manual input validation or native trajectory/pixel fidelity.
+A CPU baseline on the preceding public runtime prepared all 545 historical
+sources across 16 worlds, while retaining deferred consumers. Historical research
+has zero fully verified scenes. Neither CPU preparation, numerical tests nor a
+few captures establish scene completeness or visual/timing fidelity.
 
 The preceding preview passed 687 synthetic Rust tests (14 ignored), 18 Python
 tests, Rustfmt and Clippy. Its interactive checks observed no-argument adjacent startup,
@@ -77,7 +77,7 @@ checked. `tools.runtime_smoke` makes these checks repeatable with a build receip
 and user-supplied data. Private captures and logs are not release members.
 
 Campaign menu-to-mission testing, manual controls and human gameplay review remain
-pending; the owner has authorized manual tests. This is not complete mission
+pending. Current cinematic work is restricted to silent background checks. This is not complete mission
 integration, total memory-reclamation proof or a fidelity comparison. Historical
 offscreen comparisons retain their original executable identities.
 

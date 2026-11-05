@@ -51,3 +51,18 @@ Before extraction, run `python -m tools.verify_preview PATH_TO_DRAFT.zip` with i
 adjacent `.zip.sha256` file. This checks package integrity and consistent draft/public review
 state; it does not run the executable or confer legal clearance. See
 docs/RELEASES.md for the complete local packaging sequence with the project license.
+
+## Optional silent cinematic ownership check
+
+```powershell
+python -m tools.cinematic_smoke --executable .local/build/giants-rs.exe --receipt .local/build/build-receipt.json --data-root 'D:/Games/Giants' --output .local/cinematic-smoke-NEW --world Story1 --mission 0
+```
+
+This uses the integrated menu's selected-mission request and cancellation services
+three times. It disables the audio device, creates no window and injects no input.
+The runner checks distinct text-owner tickets, releases and a final menu capture;
+its receipt must match the GNU executable. Mission indices are zero-based.
+Keep logs, profiles and captures private and separate from the installation.
+The sampled frame count is not proof of audio-clock progression, full playback,
+visible-subtitle atlas cleanup, natural ending, skip input or gameplay admission.
+Interactive verification remains explicitly pending during background-only work.

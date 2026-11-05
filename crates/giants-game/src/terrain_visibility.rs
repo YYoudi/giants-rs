@@ -3,9 +3,9 @@ use crate::sun_glare::{Ray, normalize};
 use giants_formats::{Error, gti::Terrain};
 
 fn dot(a: [f32; 3], b: [f32; 3]) -> f64 {
-    f64::from(a[1]) * f64::from(b[1])
+    f64::from(a[0]) * f64::from(b[0])
         + f64::from(a[2]) * f64::from(b[2])
-        + f64::from(a[0]) * f64::from(b[0])
+        + f64::from(a[1]) * f64::from(b[1])
 }
 fn inside(point: [f32; 3], normal: [f32; 3], triangle: [[f32; 3]; 3]) -> bool {
     let [x, y, z] = normal.map(f32::abs);
@@ -49,17 +49,19 @@ fn intersects(ray: &Ray, triangle: [[f32; 3]; 3]) -> bool {
         return false;
     }
     let direction: [f32; 3] = std::array::from_fn(|i| ray.end[i] - ray.start[i]);
-    let denominator = dot(normal, direction) as f32;
+    // D retains this x+y+z accumulation in the x87 register through division.
+    let denominator = f64::from(normal[0]) * f64::from(direction[0])
+        + f64::from(normal[1]) * f64::from(direction[1])
+        + f64::from(normal[2]) * f64::from(direction[2]);
     if denominator == 0. {
         return false;
     }
-    let fraction = (-(f64::from(first) / f64::from(denominator))) as f32;
+    let fraction = (-(f64::from(first) / denominator)) as f32;
     if !(0. ..=1.).contains(&fraction) {
         return false;
     }
     let point = std::array::from_fn(|i| {
-        ((f64::from(ray.end[i]) - f64::from(ray.start[i])) * f64::from(fraction)
-            + f64::from(ray.start[i])) as f32
+        (f64::from(direction[i]) * f64::from(fraction) + f64::from(ray.start[i])) as f32
     });
     inside(point, normal, triangle)
 }

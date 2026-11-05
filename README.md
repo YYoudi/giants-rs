@@ -52,7 +52,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 - [ ] **Complete Kabuto campaign** — todo; Runtime integration. All missions, growth stages, encounters and ending.
 - [ ] **Mission objectives and scripts** — partial; Runtime integration. Triggers, dialogue events, timers, escort/defence tasks, victory, failure and restart.
 - [ ] **Chapter and mission continuity** — partial; Runtime integration. Unlocks, entry/exit transitions and transfer of the required player state.
-- [ ] **Complete cinematic playback** — partial; Runtime integration. All required scenes, cameras, actors, effects, voices, skipping and return to gameplay.
+- [ ] **Complete cinematic playback** — partial; Runtime integration. 545 historical sources / 16 worlds; zero complete scenes verified. Selected-mission partial renderer; ticket-owned subtitle resources with synthetic cleanup/re-entry checks; reviewed support-basis and terrain-visibility corrections. Full effects, timing, visual parity and movie-to-gameplay cycles remain open.
 - [ ] **Ending and credits flow** — todo; Runtime integration. Final sequence, credits presentation and return to menus.
 
 ### Meccs

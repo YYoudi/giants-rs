@@ -29,8 +29,8 @@ automatically wired into the main menu-to-mission build.
   The GNU build passed both silent three-launch lifecycle endpoints and the real-data
   declared-obstacle, empty-obstacle and development-target damage/reset replays
   on 5 November 2026. The exact behind-terrain case remains a synthetic proof.
-- Integrate cinematic work through reviewed patches from its current branch,
-  preserving concurrent gameplay changes. Pending branch work is not yet in main.
+- Cinematic integration proceeds through reviewed runtime patches; preserve the
+  concurrent gameplay implementation. See the dedicated coverage and prerequisites below.
 - Campaign menu-to-mission and manual controls require interactive checks.
   Silent development-session cycles passed on 4 November 2026 for the recorded
   transition binary: three launches/three returns and three launches/two returns
@@ -55,6 +55,42 @@ automatically wired into the main menu-to-mission build.
   private report paths. Use grouped roadmap tables and explicit state colors/counts.
   Keep historical captures separate from current-build proof.
   Future captures require the same metadata/provenance filtering and hash inventory.
+
+## Cinematics / Flick: coverage and next prerequisites
+
+- Scope: 545 historical sources across 16 worlds, including all variants. The
+  retained research records 317 engine images, 57 native render observations and
+  18 transport checks; **zero complete scenes have verified fidelity**. Historical
+  evidence is private and is not proof of the current menu build.
+- A fresh CPU preparation baseline on the preceding public runtime prepared all
+  545 declared sources without a top-level error. Preparation deliberately retains
+  deferred body-part, rigid-attachment and effect consumers. It does not verify
+  GPU output, complete playback, voices, timing, transitions or gameplay admission.
+- Reviewed runtime adaptations: unscaled point supports retain an identity basis
+  for child references; terrain visibility preserves the retained exact-reference
+  arithmetic order and division precision. The retained terrain control covers
+  2,048 rays over 16 worlds. Neither result certifies scene rendering.
+- Main-build text ownership: mission adoption selects the actual installation;
+  film release drops its glyph nodes, camera, all atlas versions, font and cached
+  language. Another ticket and a live standalone reader cannot be taken over.
+  Synthetic release/re-entry tests pass, including preservation of unrelated images.
+  Three offscreen selected-opening/cancellation cycles passed in the development
+  build with fresh tickets and zero reported owned film assets. These short samples
+  allocated no glyph atlas: GPU cleanup after visible subtitles, audio-clock
+  progression and full subtitle visual/timing comparisons remain pending.
+- Preserve the menu -> selected mission -> preparation -> full movie -> skip or
+  natural end -> gameplay -> menu -> second-entry acceptance path. The silent
+  opening-cycle replay calls the real selection and cancellation services without
+  key/mouse injection; it samples an opening, not natural completion or gameplay.
+- Common blockers remain: general effect dispatch beyond the admitted terminal
+  binding, deferred mixed attachments/body variants, real world visibility inputs,
+  glare/occlusion integration, exact audio-clock/end behavior and material/light/
+  shadow/water comparisons. Review existing private evidence before new analysis;
+  do not import the historical commit series or private fixtures in bulk.
+- Do not broaden campaign readiness or invent placement, delays, effects or an
+  audio tail to hide a mismatch. Supported partial previews remain explicit.
+  Interactive controls, skip gestures and full-session validation are pending;
+  current work is strictly offscreen, without focus changes, input or sound.
 
 ## All other game systems
 

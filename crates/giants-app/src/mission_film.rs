@@ -203,6 +203,12 @@ pub(crate) fn prepare_gpu(world: &mut World) {
     {
         return;
     }
+    let root = world
+        .resource::<crate::frontend_scene::Scene>()
+        .data_root()
+        .to_owned();
+    crate::cinematic_text_scene::mount(world, ticket, &root)
+        .expect("selected mission text ownership");
     let prepared = world
         .resource_mut::<State>()
         .mounted
@@ -313,6 +319,7 @@ pub(crate) fn release(world: &mut World) {
     let Some(mounted) = state.mounted.take() else {
         return;
     };
+    crate::cinematic_text_scene::release(world, mounted.ticket);
     let entities: Vec<_> = world
         .query::<(Entity, &Owned)>()
         .iter(world)
@@ -386,6 +393,12 @@ mod tests {
             ready: true,
             director: Some(0),
         });
+        crate::cinematic_text_scene::mount(
+            &mut world,
+            7,
+            std::path::Path::new("first-installation"),
+        )
+        .unwrap();
         // A returning frontend may already have installed its own producer.
         let mut borrowed = crate::reflection_cube::Build::new(None);
         borrowed.set_source(
@@ -396,6 +409,12 @@ mod tests {
         world.insert_resource(borrowed);
         release(&mut world);
         release(&mut world);
+        crate::cinematic_text_scene::mount(
+            &mut world,
+            8,
+            std::path::Path::new("second-installation"),
+        )
+        .unwrap();
         assert!(world.get_entity(draw).is_err());
         assert!(world.contains_resource::<crate::reflection_cube::Build>());
         assert_eq!(
