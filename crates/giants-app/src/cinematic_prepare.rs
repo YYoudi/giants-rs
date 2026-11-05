@@ -131,6 +131,14 @@ pub fn audit(root: &Path, cases: &Path, output: &Path) -> Result<(), Box<dyn std
                         "cinematic_audit_mission_effect_binding result=refused reason={reason:?}"
                     ),
                 }
+                if let Ok(binding) =
+                    giants_game::cinematic_persistent::Bindings::load(&resources, &bytes)
+                {
+                    println!(
+                        "cinematic_audit_persistent_effect_binding result=prepared requests={} readiness_acknowledged=false live_execution_verified=false",
+                        binding.persistent_requests()
+                    );
+                }
                 stage = "director";
                 let animation = giants_formats::anm::inline_flk(&bytes)?;
                 let (cinematic, _) = cinematic_camera::Cinematic::load(

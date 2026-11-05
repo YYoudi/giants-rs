@@ -421,7 +421,18 @@ impl Instance {
         tick: i32,
         view: [f32; 16],
     ) -> Result<([f32; 16], bool), String> {
-        let (mut binding, mut flags) = if let Some(mixed) = &self.mixed {
+        self.render_matrix_with_world(animation, tick, view, None)
+    }
+    fn render_matrix_with_world(
+        &self,
+        animation: &giants_game::animation::Animation,
+        tick: i32,
+        view: [f32; 16],
+        owned: Option<giants_game::procedural_aim::Matrix>,
+    ) -> Result<([f32; 16], bool), String> {
+        let (mut binding, mut flags) = if let Some(matrix) = owned {
+            (matrix.values, matrix.flags)
+        } else if let Some(mixed) = &self.mixed {
             let m = mixed
                 .presentation
                 .map_or_else(giants_game::procedural_aim::Matrix::identity, |p| p.matrix);
@@ -2810,6 +2821,7 @@ pub fn update(
     mut audio: Option<ResMut<crate::cinematic_effect_audio::Queue>>,
     mut last_paused_sample: Local<Option<(u64, usize, i32)>>,
     isolation: Option<Res<capture::EffectIsolation>>,
+    persistent: Option<Res<crate::mission_effects::State>>,
 ) {
     // Reflection preparation can run update before setup installs these draws.
     // Do not start effect lifetimes in that provisional, subsequently reset scene.
@@ -2873,7 +2885,12 @@ pub fn update(
                 || i.released.as_ref().is_some_and(|p| !p.playback.expired))
                 && i.source.visible(&cinematic)
         });
-    if scene.tick == cinematic.tick() && !world.is_changed() && !reset && !animating {
+    if scene.tick == cinematic.tick()
+        && !world.is_changed()
+        && !reset
+        && !animating
+        && !persistent.as_ref().is_some_and(|p| p.is_changed())
+    {
         return;
     }
     if reset {
@@ -3966,7 +3983,14 @@ pub fn update(
         // The director's enabled field gates its ordinary object clocks too.
         // Full transparency is only a draw gate. Reset still initializes every
         // clock below, and source-owned effects keep their separate lifecycle.
+        let owned = match &instance.source {
+            Source::Effect { request, .. } => persistent.as_ref().and_then(|state| {
+                state.persistent_frame(cinematic.director_index(), request.offset)
+            }),
+            Source::Actor(_) => None,
+        };
         let active = instance.visible(&cinematic)
+            && owned.is_none_or(|frame| frame.is_some())
             && match &instance.source {
                 Source::Actor(request) => cinematic.actor_visible(request.slot) == Some(true),
                 Source::Effect { .. } => true,
@@ -3977,7 +4001,13 @@ pub fn update(
         if reset {
             animation.reset();
         }
-        let advanced = if active {
+        let advanced = if let Some(Some(frame)) = owned {
+            // The owned object's channel is authoritative; do not tick a
+            // second independent animation clock in the renderer.
+            animation.clock = giants_game::animation_channels::clock(&frame.channels[0]);
+            animation.updates = frame.updates;
+            Ok(active && (animation_dt > 0. || reset))
+        } else if active {
             animation.advance(animation_dt)
         } else {
             Ok(false)
@@ -4144,7 +4174,23 @@ pub fn update(
     let matrices = scene
         .instances
         .iter()
-        .map(|i| i.render_matrix(cinematic.animation(), cinematic.tick(), camera.view))
+        .map(|i| {
+            let owned = match &i.source {
+                Source::Effect { request, .. } => persistent
+                    .as_ref()
+                    .and_then(|state| {
+                        state.persistent_frame(cinematic.director_index(), request.offset)
+                    })
+                    .flatten(),
+                Source::Actor(_) => None,
+            };
+            i.render_matrix_with_world(
+                cinematic.animation(),
+                cinematic.tick(),
+                camera.view,
+                owned.map(|frame| frame.world),
+            )
+        })
         .collect::<Result<Vec<_>, _>>();
     let matrices = match matrices {
         Ok(v) => v,
@@ -4191,11 +4237,36 @@ pub fn update(
                                 != 0
                         })
                     });
-                *visibility = if instance.visible(&cinematic) && route_enabled {
+                let owned = match &instance.source {
+                    Source::Effect { request, .. } => persistent.as_ref().and_then(|state| {
+                        state.persistent_frame(cinematic.director_index(), request.offset)
+                    }),
+                    Source::Actor(_) => None,
+                };
+                *visibility = if instance.visible(&cinematic)
+                    && route_enabled
+                    && owned.is_none_or(|frame| frame.is_some())
+                {
                     Visibility::Inherited
                 } else {
                     Visibility::Hidden
                 };
+                if previous != *visibility
+                    && let Some(Some(frame)) = owned
+                    && let Source::Effect { request, .. } = &instance.source
+                {
+                    println!(
+                        "mission_persistent_draw director={} offset={} class={} part={} entity={:?} visible={} updates={} matrix_bits={:?} native_pixels_verified=false",
+                        cinematic.director_index(),
+                        request.offset,
+                        instance.source.class(),
+                        draw.part,
+                        draw.entity,
+                        *visibility != Visibility::Hidden,
+                        frame.updates,
+                        source_matrix.map(f32::to_bits)
+                    );
+                }
                 if (previous != *visibility || reset)
                     && let Some(mixed) = &scene.instances[draw.instance].mixed
                 {

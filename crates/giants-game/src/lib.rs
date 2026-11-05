@@ -94,6 +94,7 @@ pub mod cinematic_fade;
 pub mod cinematic_frame;
 pub mod cinematic_fx;
 pub mod cinematic_offset;
+pub mod cinematic_persistent;
 pub mod cinematic_render_policy;
 pub mod cinematic_viewport;
 pub mod control_layout;
