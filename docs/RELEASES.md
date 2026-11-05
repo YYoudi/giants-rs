@@ -466,3 +466,11 @@ Native scheduling, complete effects, total GPU/process memory reclamation,
 visual/audio/subtitle parity and interactive controls remain open. The next
 priority is the general FX queue, including its actual backend ownership and
 lifecycle requirements; visual preview alone is not an admission receipt.
+
+The subsequent combined source `30d8dc4522f3433a781ba971a81062d15d5db456`
+preserves the independent camera and cold-player work. Its isolated GNU executable
+SHA256 is `baa846bd3950fccf7a468254876a31f44ce067af65b8484e552c7505831a7f51`.
+It passes 715 Rust tests (17 ignored), 35 Python tests, formatting and Clippy,
+both silent development lifecycle endpoints and the selected-opening cancellation
+control. These shorter controls do not repeat the 54-director natural transport
+proof. The published preview and full inventory retain their exact source above.
