@@ -183,6 +183,18 @@ This is a CPU prerequisite for the pending subjective pipeline. No new playable
 route or binary is published, and existing receipt-bound previews remain tied
 to their recorded sources. Main-driver owned firing remains disabled.
 
+Final combined runtime source `f0e2961c32a3f3e44b15124acaf619fe26063df6`
+also preserves the concurrent Kabuto auxiliary changes. Its isolated workspace
+passes 722 Rust tests (18 ignored), 35 Python tests, formatting and Clippy.
+The GNU release build's executable SHA256 is
+`9924e64167789f4ad88d9b979642686512ba31834f7240a728144677c92173c3`.
+The receipt-bound local validation draft has ten members, complete technical
+notices/review, no packaging blockers and ZIP SHA256
+`4f8dabaf678e38d5a775d896f697b907173085e5ee3dfa0a2126775128e3e46a`.
+The same executable passes 128 silent owned-mission inspection updates and both
+three-launch development lifecycle endpoints. These are regression controls;
+the new shared-reference composition remains a separately controlled CPU service.
+
 ## Subjective firing dispatch contract - 5 November 2026
 
 The optional primary now requires actual camera-owner/active-display status
