@@ -12,6 +12,14 @@ primary behavior still gate live admission. This CPU/data milestone produces no
 new playable preview, package checksum or binary receipt; prior receipts remain
 bound to their exact source. Runtime gameplay and fidelity are not certified.
 
+Combined source `6f03892` preserves the latest owned Delphi physical/jump/history
+composition and shared animation services. It passes 731 synthetic Rust tests
+(20 ignored), 36 Python tests, Rustfmt, Clippy and site/JavaScript checks. The
+installed-data group/cache ownership control, three-layout cold-cache comparison
+and sixteen-context group field/buffer/list comparison pass after the merge.
+Source history review reports no findings across 153 commits and 1,738 blobs;
+this is a technical scan, not redistribution clearance.
+
 Prototype PS2 methodology follow-up (5 November 2026): private lookup worksheets
 now retain supplied PC build labels, earlier aliases and explicit demangler
 provenance/unknowns. The central method supplies a reusable continuation record.
