@@ -90,7 +90,8 @@ cargo test --locked -p giants-game source_delphi_physical_owns_motion_shares_eve
 ```
 
 This silent CPU control checks two owners, persistent motion/contact/jump, shared
-class events, profile refusal and cleanup. It creates no window or audio device
+class events, physical-only and locomotion profiles using synthetic clip aliases,
+late secondary quarantine, profile refusal and cleanup. It creates no window or audio device
 and does not execute the complete Delphi primary/secondary or live controls.
 
 ## Optional cold Kabuto resource check

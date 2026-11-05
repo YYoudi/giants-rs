@@ -82,7 +82,9 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && ops[ops.len() - 4..] == [0x49, 7, 0x4a, 2];
     let sound_block = matches!(
         ops.as_slice(),
-        [0x24, 6, 4, 0x21, 0x87, 7, 2] | [0x24, 6, 0x87, 4, 0x21, 7, 2]
+        [0x24, 6, 4, 0x21, 0x87, 7, 2]
+            | [0x24, 6, 0x87, 4, 0x21, 7, 2]
+            | [0x24, 6, 0x21, 0x87, 4, 7, 2]
     );
     let positional_sound = ops.as_slice() == [0x2b, 2];
     if !old && !ranged && !flat_blocks(&ops) && !sound_block && !positional_sound {
@@ -163,6 +165,46 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn sound_before_vector_in_a_complete_block_keeps_the_shared_draw_and_guards() {
+        let mut bytes = vec![0x24];
+        for value in [0u32, 9, 0] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.extend([6, 0x21, 0x87]);
+        for value in [3u32, 7] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.push(4);
+        for value in [1.0f32, 2., 3.] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.extend([7, 2]);
+        let mut program = giants_formats::effect_program::parse(&bytes).unwrap();
+        let mut random = Random(1234);
+        let mut expected = random;
+        expected.next_15();
+        assert!(skip(&program, &mut random).unwrap().is_empty());
+        assert_eq!(random.0, expected.0);
+        program
+            .records
+            .iter_mut()
+            .find(|r| r.opcode == 0x87)
+            .unwrap()
+            .bytes[5..9]
+            .copy_from_slice(&2u32.to_le_bytes());
+        assert!(skip(&program, &mut random).is_err());
+        assert_eq!(random.0, expected.0);
+        bytes.insert(bytes.len() - 2, 0x15);
+        assert!(
+            skip(
+                &giants_formats::effect_program::parse(&bytes).unwrap(),
+                &mut random
+            )
+            .is_err()
+        );
+        assert_eq!(random.0, expected.0);
+    }
     #[test]
     fn late_invalid_range_cannot_consume_the_earlier_valid_range() {
         let mut bytes = vec![0x24];

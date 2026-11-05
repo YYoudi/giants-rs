@@ -8,12 +8,14 @@ pub struct Resources {
     pub(crate) specification: Arc<Prepared>,
     radius: crate::player_collision_radius::Bounds,
     pub(crate) materials: Arc<crate::mecc_contact_materials::Catalog>,
+    pub(crate) locomotion: Option<crate::delphi_locomotion::Clips>,
 }
 impl std::fmt::Debug for Resources {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("DelphiPhysicalResources")
             .field("class", &self.specification.class)
             .field("radius", &self.radius)
+            .field("locomotion", &self.locomotion)
             .finish()
     }
 }
@@ -31,11 +33,27 @@ impl Resources {
         Ok(Self {
             specification,
             materials,
+            locomotion: None,
             radius: crate::player_collision_radius::Bounds {
                 primary: bounds.primary,
                 animation_one: bounds.radius_auxiliary,
             },
         })
+    }
+    pub fn with_locomotion(
+        mut self,
+        clips: crate::delphi_locomotion::Clips,
+    ) -> Result<Self, String> {
+        if clips
+            .slots()
+            .any(|slot| slot >= 254 || !self.specification.animations.contains_key(&slot))
+        {
+            return Err(
+                "Delphi locomotion requires its actual prepared animation descriptors".into(),
+            );
+        }
+        self.locomotion = Some(clips);
+        Ok(self)
     }
 }
 pub struct Environment<'a> {
@@ -51,6 +69,8 @@ pub struct Environment<'a> {
 #[derive(Clone, Debug)]
 pub struct View {
     pub number: u64,
+    /// Acquired zero cold header damage; damage producers are not admitted yet.
+    pub accumulated_damage: f32,
     pub velocity: [f32; 3],
     pub previous_velocity: [f32; 3],
     pub model: [f32; 4],
@@ -105,6 +125,7 @@ impl Owned {
             key: None,
             view: View {
                 number: 0,
+                accumulated_damage: 0.,
                 velocity: [0.; 3],
                 previous_velocity: [0.; 3],
                 model: [0.; 4],
