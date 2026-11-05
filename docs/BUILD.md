@@ -184,6 +184,14 @@ The device-disabled profile retains prepared audio assets for ownership checks
 and queues no master/voice players. Its retirement receipts must confirm zero
 players for all three tickets; a startup audio flag alone is insufficient.
 Keep logs, profiles and captures private and separate from the installation.
+
+Add `--persistent-cancel` on a mission with a bounded persistent opening effect
+to wait for an actual owned object to advance twice before calling the same
+cancellation service. This is an observation gate, not an effect duration or
+native scheduling claim. The runner requires three distinct owner tickets and
+matching object/context release receipts after each cancellation. It still
+injects no input and does not validate interactive skipping. This mode is
+separate from `--full` natural transport.
 The sampled frame count is not proof of audio-clock progression, full playback,
 visible-subtitle atlas cleanup, natural ending, skip input or gameplay admission.
 Interactive verification remains explicitly pending during background-only work.

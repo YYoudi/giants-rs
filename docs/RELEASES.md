@@ -862,3 +862,48 @@ It passes 715 Rust tests (17 ignored), 35 Python tests, formatting and Clippy,
 both silent development lifecycle endpoints and the selected-opening cancellation
 control. These shorter controls do not repeat the 54-director natural transport
 proof. The published preview and full inventory retain their exact source above.
+
+## Persistent attached Flick objects - 6 November 2026
+
+Windows preview `preview-2026.11.06.1` uses source
+`0b050fbcf89eeae0ff0dd473133d496ac3496aa7`.
+Executable SHA256: `7baa5be835e8343ad47f7a8985c2ecc6db185dc48c473af0855a45ea4dc01a23`.
+ZIP SHA256: `e0917f5386f0f41495513836d182c5d591a794fd3b6270278ac5cc55d603ff79`.
+
+Actual FLK39 events now create source-marked, ticket-owned persistent attached
+objects through the shared constructor. The temporary context retires while
+its object remains. Source slot reuse preserves earlier objects on the same
+current support. The common renderer consumes owned world/channel outputs;
+it does not advance a second animation clock. Director changes, cancellation
+and film release retire these objects without lifetime children.
+
+The bounded family covers 25 requests in 23 sources across four worlds. CPU
+controls cover both entries of every source (50 object lifecycles), and four
+supplied-support native/Rust matrices match all 68 words. Actual native helper
+reuse keeps both objects on one supplied zero-actor support. Resident resources,
+outer allocation and clocks are supplied; native world admission/order, live
+support generations and full fidelity are not established. Prototype PS2 name
+lookups retain unknown correspondence and add no ABI or layout assumptions.
+
+On the exact preview executable, three real main-menu service cancellations
+observe active persistent objects and release all owned objects/contexts; two
+Rstory1 natural/re-entry cycles and both development endpoints pass. The cyclic
+observer waits for its requested object without falling through to one-shot
+capture completion. 733 Rust tests pass (22 ignored), 38 Python tests,
+formatting and Clippy pass. Complete notice collection, receipt binding and
+local ZIP/member/checksum verification pass.
+
+The full 545-source inventory and two natural/re-entry cycles each for Kstory1
+and the 54-director Story4 chain are pinned separately to the initial
+implementation source `c66e73577efffd9a25844d290224da7b91c1f704`, executable
+`e89aed7663f152d676c488ed1b062a0add3242662d5628ceb85aeefb22412979`.
+That batch has zero preparation errors and 23 persistent prepared sources;
+59 gap sources, 56 general-queue admission refusals and 282 strict-profile
+reviews remain. It is not a fresh full batch of the later preview executable.
+
+Persistent preparation/rendering does not waive campaign readiness. Some sources
+still require real in-mission triggers. General FX services, native pool/world/
+scheduling behavior, complete visual/audio/subtitle parity, interactive skipping
+and total GPU/process memory reclamation remain open. Zero complete scenes are
+certified faithful. Private inputs, reports and new captures stay outside Git
+and release assets.
