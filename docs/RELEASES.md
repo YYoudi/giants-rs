@@ -1,5 +1,33 @@
 # Preview releases and milestone integration
 
+## Deferred Mecc primary and real subjective fire - 6 November 2026
+
+The explicit Session-bound route now preserves native body-boundary fields and
+defers fire until the same frame's held-pose pass and first virtual ANM/reference
+publication. It executes actual local target/fire, projectile construction and
+named FX before the zero-time tail. A retained post obligation blocks the next
+frame; late failures retain completed effects and refuse replay. Current held
+caches supply post-world muzzles, while immediate fire retains its prior-cache
+contract. The selector's Session rate mapping now includes the angular rate.
+
+Four continuous controls pass 320 frames, 144 active subjective updates, twelve
+shots (eight post-world/four immediate) and 391,552 normalized snapshot words.
+Complete source state, acquired virtual fields, shared/held references, born
+projectiles, FX, RNG and epochs agree. The original 576-frame/22-shot primary
+matrix and ten failure controls pass again. A source-backed three-case lifecycle
+control verifies clock/auxiliary preservation, preparation/current-held ownership,
+pending-post blocking, a no-shot path, successful fire and retained late sound
+failure. Earlier generic supplied-header controls did not validate the Session
+selector-rate adapter now exercised by stationary-turn controls.
+
+Camera production/eligibility, subjective resource presence and partial-world
+startup/population/order remain supplied; the positional sound bank is explicitly empty. Actual main-driver
+camera timing, posed-vertex/subjective drawing, target-context coverage and audio
+remain prerequisites. The main driver's `fire: None` and existing preview gates
+remain; these CPU controls do not certify live mission firing, complete world
+scheduling or visual/audible fidelity. No new playable download follows from this
+CPU milestone; prior package receipts retain their exact source identities.
+
 ## Persistent subjective Mecc composition - 5 November 2026
 
 The Rust subjective state now retains virtual channels across pre/post and

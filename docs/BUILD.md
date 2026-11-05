@@ -45,12 +45,17 @@ target directory described above:
 
 ```powershell
 cargo test --locked -p giants-game source_mecc_subjective_publishes_before_fire_and_retains_late_failure --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-game source_mecc_deferred_primary_requires_post_and_retains_real_fire_failure --target x86_64-pc-windows-gnu -- --ignored
 ```
 
 This silent CPU control checks the Session-bound subjective resource and shared
 reference publication, retained effects after failure, inhibited fire and stale
 identities after cancellation. Its fire failures are explicit test providers;
 it executes no original program, real shot, whole-world scheduler or audio device.
+The second control executes the owned deferred primary/held/post/local-fire path,
+including real Rust projectile/effect construction and an injected late sound
+failure. Camera inputs and an empty positional sound bank are controlled; it
+creates no window, original process, full mission or audio device.
 
 ## Optional Delphi resource check
 

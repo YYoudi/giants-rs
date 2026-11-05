@@ -11,6 +11,7 @@ use std::collections::BTreeMap;
 use std::sync::Arc;
 mod delphi;
 mod kabuto;
+mod subjective;
 
 struct OwnedSpecification(crate::actor_references::Owned);
 impl std::fmt::Debug for OwnedSpecification {
@@ -403,6 +404,7 @@ pub struct Construction<'a> {
     pub fields: crate::actor_fields::Fields,
 }
 struct MeccCycleServices<'a, 'r, 'c, 'f> {
+    deferred: bool,
     primary: bool,
     prepared_history: bool,
     fire: Option<&'a mut crate::mecc_primary::FireServices<'f, 'r, 'c>>,
@@ -1029,6 +1031,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                deferred: false,
                 fire: None,
                 primary: false,
                 prepared_history: false,
@@ -1058,6 +1061,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                deferred: false,
                 fire: None,
                 primary: false,
                 prepared_history: false,
@@ -1097,6 +1101,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                deferred: false,
                 fire: None,
                 primary: false,
                 prepared_history: false,
@@ -1148,6 +1153,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                deferred: false,
                 fire: None,
                 primary: false,
                 prepared_history: false,
@@ -1187,6 +1193,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                deferred: false,
                 fire: None,
                 primary: false,
                 prepared_history: false,
@@ -1226,6 +1233,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                deferred: false,
                 fire: None,
                 primary: false,
                 prepared_history: false,
@@ -1250,6 +1258,7 @@ impl Session {
                 .as_ref()
                 .is_some_and(|t| t.phase() != crate::actor_world_tick::Phase::Finished)
             || cycle.world_stopped
+            || cycle.subjective_pending.is_some()
             || cycle.view.number.checked_add(1) != Some(number)
             || cycle.world_history.is_some_and(|n| n != cycle.view.number)
             || cycle.view.number != 0 && cycle.world_history.is_none()
@@ -1276,8 +1285,26 @@ impl Session {
         id: Id,
         environment: crate::mecc_physical_cycle::Environment<'_>,
         controlled_actor: Option<Id>,
+        ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+        services: crate::mecc_primary::Services<'_, '_, '_>,
+    ) -> Result<crate::mecc_world::Projection, String> {
+        self.advance_mecc_world_offline_route(
+            id,
+            environment,
+            controlled_actor,
+            ground,
+            services,
+            false,
+        )
+    }
+    fn advance_mecc_world_offline_route(
+        &mut self,
+        id: Id,
+        environment: crate::mecc_physical_cycle::Environment<'_>,
+        controlled_actor: Option<Id>,
         mut ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         services: crate::mecc_primary::Services<'_, '_, '_>,
+        deferred: bool,
     ) -> Result<crate::mecc_world::Projection, String> {
         self.mecc_physical_cycle(id)?;
         let actor = self.get(id).unwrap();
@@ -1285,6 +1312,7 @@ impl Session {
         if actor.world_tick_running
             || actor.world_tick.is_some()
             || cycle.world_stopped
+            || cycle.subjective_pending.is_some()
             || cycle.world_history != Some(environment.number)
             || cycle.view.number.checked_add(1) != Some(environment.number)
         {
@@ -1296,6 +1324,7 @@ impl Session {
             .world_tick_running = true;
         let mut token = crate::actor_world_tick::Tick::new();
         let mut adapter = crate::mecc_world::Adapter {
+            deferred,
             environment: Some(environment),
             services: Some(services),
             ground: &mut ground,
@@ -1344,6 +1373,24 @@ impl Session {
         services: crate::mecc_primary::Services<'_, '_, '_>,
         prepared_history: bool,
     ) -> Result<crate::mecc_physical_cycle::InterleavedProjection, String> {
+        self.advance_mecc_primary_with_history_route(
+            id,
+            environment,
+            ground,
+            services,
+            prepared_history,
+            false,
+        )
+    }
+    pub(crate) fn advance_mecc_primary_with_history_route(
+        &mut self,
+        id: Id,
+        environment: crate::mecc_physical_cycle::Environment<'_>,
+        ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+        services: crate::mecc_primary::Services<'_, '_, '_>,
+        prepared_history: bool,
+        deferred: bool,
+    ) -> Result<crate::mecc_physical_cycle::InterleavedProjection, String> {
         let crate::mecc_primary::Services {
             animation,
             jet,
@@ -1357,7 +1404,7 @@ impl Session {
             input,
         } = jet;
         let mut driver = crate::mecc_jet_owned::Driver {
-            fire: fire.is_some(),
+            fire: fire.is_some() || deferred,
             sequences,
             backend,
             input,
@@ -1368,6 +1415,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                deferred,
                 fire: fire.as_mut(),
                 primary: true,
                 prepared_history,
@@ -1394,6 +1442,7 @@ impl Session {
             blending,
         } = animation;
         let MeccCycleServices {
+            deferred,
             primary,
             prepared_history,
             mut fire,
@@ -1406,7 +1455,10 @@ impl Session {
         if primary && environment.orientation.is_none() {
             return Err("normal Mecc primary requires its orientation input provider".into());
         }
-        let fire_mode = fire.is_some();
+        let fire_mode = fire.is_some() || deferred;
+        if deferred && (!primary || fire.is_some()) {
+            return Err("subjective primary cannot also execute immediate fire".into());
+        }
         if let Some(service) = &fire {
             service.preflight(id, environment.number)?;
         }
@@ -1457,6 +1509,7 @@ impl Session {
             || cycle.view.number != 0 && cycle.primary != primary
             || cycle.view.number != 0 && cycle.orientation != environment.orientation.is_some()
             || cycle.world_stopped
+            || cycle.subjective_pending.is_some()
             || prepared_history != cycle.world_history.is_some()
             || prepared_history && (!primary || cycle.world_history != Some(environment.number))
             || cycle.view.number != 0 && cycle.collection != collection_mode
@@ -1657,7 +1710,7 @@ impl Session {
                 let actor = self.get(id).ok_or("fire removed its primary source")?;
                 output.fields = actor.construction_fields.as_ref().unwrap().clone();
                 output.payload = actor.seed.storage.data().unwrap().to_vec();
-            } else {
+            } else if !deferred {
                 for (at, value) in [0x114,0x118].into_iter().zip(effect_reset) {
                     output.payload[at..at+4].copy_from_slice(&value.to_le_bytes());
                 }

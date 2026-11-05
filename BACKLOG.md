@@ -244,28 +244,29 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   A typed selected target cannot use the no-target fire
   profile merely because its raw pointer slots remain normalized.
 - Subjective dispatch: the optional primary now requires actual camera ownership
-  and pre-world display status separately from camera mode. It refuses a matching
-  active display before primary mutation because the required subjective
-  post-world execution is unbound. Predicate controls match 512 PC/PS2-body/Rust
-  cases; 128 native pre/post observations show the correct transfer and include
-  first-person mode with a missing subjective model. The existing 576-frame,
-  22-shot primary matrix remains identical. Persistent subjective composition now
-  produces acquired virtual channels, header/ANM stamp, placement/affine and two
-  ANM passes around a required fire-service boundary. Two continuous controls
-  match 128 frames / 42,880 header-reference words, with body channels, cameras,
-  selector getters and a no-edit fire boundary supplied. Bind the real deferred
-  primary obligation and actual local fire, not presentation playback. Retain the
-  explicit initial camera-owner and partial-world acquisition boundaries in
-  docs/OWNED_LOCAL_FIRE.md; main `fire: None` remains.
+  and pre-world display status separately from camera mode. The immediate API
+  retains its active-display refusal. The new Session-bound route requires a
+  genuine pre-copy and defers body fire without prematurely resetting auxiliary
+  fields/clocks. Its pending post blocks the next frame. The actual held pass,
+  virtual ANM/shared publication, local target/fire/projectile/FX and zero-time
+  tail now compose at CPU scope. Four controls match 320 frames, 144 active
+  subjective updates, twelve shots and 391,552 normalized snapshot words, with
+  camera production/eligibility and partial-world population/order supplied;
+  positional sound is explicitly absent. The 576-frame/22-shot immediate matrix
+  and ten failure controls remain identical. A source-backed lifecycle control
+  covers genuine preparation, current held ownership, no-shot/successful fire,
+  retained late sound failure, pending-post blocking and replay refusal.
+  Predicate evidence remains separate: 512 PC/PS2-body/Rust cases and 128 native
+  pre/post observations. Main `fire: None` remains; bind actual camera production,
+  posed-vertex/drawing policy, scene contexts and audio before main admission.
 - Subjective shared storage: native observations confirm that source state and
   reference matrices are shared while channels remain independent. The acquired
   reference composition now writes the authoritative source cache, preserves
   undeclared slots and invalidates the old body's sample binding. Two reference
   controls match 96 frames / 26,112 words; four failure and one empty-primary
-  control preserve publications. See docs/OWNED_LOCAL_FIRE.md. Next bind the actual
-  pre-copy/header and shared state to the world scheduler; the new Session-bound
-  composition produces both ANM passes and placement but its actual fire callback
-  remains required. Acquire posed-vertex storage
+  control preserve publications. See docs/OWNED_LOCAL_FIRE.md. The Session-bound
+  post now executes the actual fire callback using the current held cache rather
+  than reattaching from overwritten source references. Acquire posed-vertex storage
   and its exact consumers before choosing their ownership; do not substitute
   independent playback/vertex copies for an unverified sharing model. Current controlled flags are read after
   primary; copied motion/channels and world-shared weapon history have distinct
@@ -277,7 +278,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   CPU controls pass 64/256 cases respectively; see docs/OWNED_CAMERA.md and the
   receipt-bound runtime checkpoint in docs/RELEASES.md. Normal campaign admission,
   native list/model/part preparation, configured angle smoothing, special camera
-  modes and pre-primary/subjective firing timing remain prerequisites. The
+  modes, inner/outer camera pass timing and main-driver subjective fire binding
+  remain prerequisites. The
   existing inspection gate and `fire: None` remain; this is not a default-route
   owned readiness claim.
 - Actor/projectile/effect scheduling, damage, mission objectives and progression.
