@@ -1331,6 +1331,9 @@ fn launch(arguments: Vec<std::ffi::OsString>) -> Result<(), Box<dyn std::error::
         ready_frames: 0,
     })
     .init_resource::<PipelinesReady>()
+    .insert_resource(cinematic_audio::PlaybackEnabled(
+        !silent_capture || muted_transport,
+    ))
     .insert_resource(ClearColor(Color::BLACK))
     .add_plugins(plugins)
     .add_systems(

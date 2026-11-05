@@ -146,14 +146,16 @@ impl bevy::app::Plugin for Plugin {
                 Update,
                 (
                     cinematic_audio::sample_master
-                        .run_if(resource_exists::<cinematic_audio::Master>),
+                        .run_if(resource_exists::<cinematic_audio::Master>)
+                        .run_if(cinematic_audio::playback_enabled),
                     cinematic_camera::update,
                     crate::viewport_scene::update,
                     crate::mission_effects::update
                         .run_if(resource_exists::<crate::mission_effects::State>),
                     cinematic_audio::update_master
-                        .run_if(resource_exists::<cinematic_audio::Master>),
-                    cinematic_audio::update,
+                        .run_if(resource_exists::<cinematic_audio::Master>)
+                        .run_if(cinematic_audio::playback_enabled),
+                    cinematic_audio::update.run_if(cinematic_audio::playback_enabled),
                     follow,
                 )
                     .chain()
@@ -240,6 +242,21 @@ fn release(world: &mut World) {
         return;
     };
     assert_eq!(world.resource::<Owner>().0, mounted.ticket);
+    let playback_enabled = world
+        .get_resource::<cinematic_audio::PlaybackEnabled>()
+        .is_some_and(|p| p.0);
+    let queued_players = world
+        .query_filtered::<&OwnedAudio, Or<(
+            With<cinematic_audio::PlayingMaster>,
+            With<cinematic_audio::PlayingVoice>,
+        )>>()
+        .iter(world)
+        .filter(|owner| owner.0 == mounted.ticket)
+        .count();
+    println!(
+        "mission_opening_audio_policy ticket={} playback_enabled={playback_enabled} queued_players={queued_players}",
+        mounted.ticket
+    );
     crate::mission_film::release(world);
     crate::mission_environment::restore_full_view(world, mounted.ticket);
     for (owner, voice, sink) in world

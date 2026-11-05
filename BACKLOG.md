@@ -98,10 +98,13 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   local time and shared FX/RNG, before jet/secondary/second ANM. A continuous
   64-frame walking/pulsed-trigger control matches 31,532 normalized words,
   including two projectiles, 64 held-world/reference caches and deferred FX.
-  Missing muzzle
-  and late sound failures quarantine without replay; constructor FX/RNG survive
+  Missing muzzle and late sound failures quarantine without replay; FX/RNG survive
   the latter. This controlled partial Mecc-then-held cohort is not a full world.
-  Armed walk selection is acquired; armed idle/side/turn variants remain refused.
+  Armed walk, standing-shot/aim, side and turn selections are acquired. Five
+  continuous CPU controls (576 frames, 22 shots, 341,220 normalized words) match
+  player/projectile state, held caches, FX contexts and RNG. Standing shots
+  restart without blending, retain their control flag until channel end, then
+  select the aiming idle. Broader reactions and other weapon styles remain open.
 - Connect the primary phase to actual main-driver camera/viewport producers,
   prior held muzzle caches and positional audio; acquire remaining secondary
   reactions and full scheduling. The application still supplies `fire: None`.
@@ -243,6 +246,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   natural end -> gameplay -> menu -> second-entry acceptance path. The silent
   opening-cycle replay calls the real selection and cancellation services without
   key/mouse injection; it samples an opening, not natural completion or gameplay.
+  Selected-opening master/voice systems now honor the explicit device-playback
+  policy. A slow silent replay exposed players being queued without an audio
+  plugin; the corrected combined build passes three cancellation cycles with
+  zero queued players for each ticket. Prepared audio assets remain owned and
+  released. Muted full-transport verification is separate from this control.
 - Menu opening inventory: 56 selectable mission requests across 19 menu world
   entries; 29 declared opening chains, 26 without an opening request and one
   unresolved Kabuto name. Menu world entries include catalogs outside the

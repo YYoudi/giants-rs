@@ -24,6 +24,9 @@ pub(crate) struct Services<'a> {
     pub blending: animation_channels::Blending,
     pub random: &'a mut crate::audio_parameters::Random,
 }
+pub(crate) const fn control_mask(fire: bool) -> u32 {
+    0xbc00 | if fire { 0x4000 } else { 0 }
+}
 fn word(data: &[u8], at: usize) -> u32 {
     u32::from_le_bytes(data[at..at + 4].try_into().unwrap())
 }
@@ -50,7 +53,7 @@ pub(crate) fn ordinary(
     if payload.len() != 524
         || fields.class != 2
         || fields.action != 0
-        || fields.control_flags & !0xbc00 != 0
+        || fields.control_flags & !control_mask(fire) != 0
         || fields.response_flags & !(0x80803000 | if fire { 0x08000020 } else { 0 }) != 0
         || fields.object_flags & 0x88000800 != 0
         || fields.position[2] < 0.
@@ -60,7 +63,7 @@ pub(crate) fn ordinary(
         || word(payload, 0x64) != 0
         || word(payload, 0x180) != 1
         || ![0, 1, 5, 6, 11, 13, 14, 15, 16, 18].contains(&word(payload, 0x30))
-            && !(fire && word(payload, 0x30) == 12)
+            && !(fire && [12, 17, 19, 20, 21].contains(&word(payload, 0x30)))
         || ![u32::MAX, 1].contains(&word(payload, 0x60))
     {
         return Err("ordinary secondary outside acquired source pistol profile".into());
@@ -108,7 +111,7 @@ pub(crate) fn ordinary(
     {
         return Err("ordinary secondary contact landing effect provider pending".into());
     }
-    let (mut logical, flag) = match selection.clip {
+    let (mut logical, mut flag) = match selection.clip {
         1 => (1, 0x400),
         2 => (11, 0x1000),
         5 => (5, 0x800),
@@ -176,10 +179,28 @@ pub(crate) fn ordinary(
     if f32::from_bits(word(&body, 0x6c)) == 0. && context & 0x10000 == 0 {
         context |= 0x8000;
     }
-    if logical == 16 && context & 0x2000 != 0 {
+    if !fire && logical == 16 && context & 0x2000 != 0 {
         return Err("turn secondary alternate idle provider pending".into());
     }
-    if fire && context & 0x2000 != 0 {
+    let mut force_request = false;
+    let mut selecting_override = None;
+    let mut blend_seconds = f32::from_bits(0x3e2aaaab);
+    if fire && logical == 1 && context & 0x2200 != 0 {
+        if context & 0x200 != 0 {
+            logical = 21;
+            flag = 0x4000;
+            selection.clip = 10;
+            selection.flags = 0x28;
+            blend_seconds = 0.;
+            force_request = true;
+            selecting_override = Some(true);
+        } else {
+            logical = 20;
+            selection.clip = 43;
+            flag = 0;
+            selecting_override = Some(f.control_flags & 0x4000 == 0 || ended);
+        }
+    } else if fire && context & 0x2000 != 0 {
         match logical {
             11 => {
                 // The held-trigger timer selects the normal pistol's armed
@@ -187,7 +208,14 @@ pub(crate) fn ordinary(
                 logical = 12;
                 selection.clip = 44;
             }
-            1 | 18 => return Err("armed idle/side secondary provider pending".into()),
+            18 => {
+                logical = 19;
+                selection.clip = 51;
+            }
+            16 => {
+                logical = 17;
+                selection.clip = 45;
+            }
             _ => {}
         }
     }
@@ -215,17 +243,20 @@ pub(crate) fn ordinary(
             selection.flags = 0x20;
         }
     }
-    let selecting = f.control_flags & flag == 0
-        || ended
-        || logical == 12
-        || logical == 5 && context & 0x200 != 0;
-    let request = (selecting && channels[0][0] != u32::from(selection.clip)).then_some(Request {
-        slot: selection.clip,
-        flags: selection.flags,
-        speed_source: selection.speed_source,
-        reference_speed: selection.reference_speed,
-        blend_seconds: f32::from_bits(0x3e2aaaab),
-    });
+    let selecting = selecting_override.unwrap_or(
+        f.control_flags & flag == 0
+            || ended
+            || matches!(logical, 12 | 17 | 19)
+            || logical == 5 && context & 0x200 != 0,
+    );
+    let request = (selecting && (force_request || channels[0][0] != u32::from(selection.clip)))
+        .then_some(Request {
+            slot: selection.clip,
+            flags: selection.flags,
+            speed_source: selection.speed_source,
+            reference_speed: selection.reference_speed,
+            blend_seconds,
+        });
     if let Some(request) = request {
         animation_channels::select_primary(&mut channels, request, blending)?;
         f.control_flags = (f.control_flags & 0xfffe03ff) | flag;
@@ -344,28 +375,99 @@ mod tests {
         );
     }
     #[test]
-    fn unacquired_armed_idle_is_refused() {
+    fn trigger_selects_armed_turn_with_angular_playback_rate() {
         let (fields, payload, mut view, globals) = fixture();
         view.model_rates = [0.; 3];
+        view.angular_rate = 5.;
         let mut random = crate::audio_parameters::Random(1);
-        assert!(
-            ordinary(
-                &fields,
-                &payload,
-                fields.channels,
-                &view,
-                &globals,
-                1. / 60.,
-                Services {
-                    fire: true,
-                    blending: animation_channels::Blending::Enabled,
-                    random: &mut random
-                }
-            )
-            .err()
-            .unwrap()
-            .contains("armed idle/side")
-        );
+        let output = ordinary(
+            &fields,
+            &payload,
+            fields.channels,
+            &view,
+            &globals,
+            1. / 60.,
+            Services {
+                fire: true,
+                blending: animation_channels::Blending::Enabled,
+                random: &mut random,
+            },
+        )
+        .unwrap();
+        let request = output.request.unwrap();
+        assert_eq!((request.slot, request.speed_source), (45, 3));
+        assert_eq!(request.reference_speed, -321.);
+        assert_eq!(output.fields.control_flags, 0x8000);
+        assert_eq!(word(&output.payload, 0x30), 17);
+        assert_eq!(random.0, 1);
+    }
+    #[test]
+    fn standing_shot_restarts_without_blending_and_holds_until_channel_end() {
+        let (mut fields, payload, mut view, globals) = fixture();
+        view.model_rates = [0.; 3];
+        // A fresh shot must restart even an already selected firing clip.
+        fields.channels[0][0] = 10;
+        let mut random = crate::audio_parameters::Random(1);
+        let step =
+            |fields: &Fields, payload: &[u8], random: &mut crate::audio_parameters::Random| {
+                ordinary(
+                    fields,
+                    payload,
+                    fields.channels,
+                    &view,
+                    &globals,
+                    1. / 60.,
+                    Services {
+                        fire: true,
+                        blending: animation_channels::Blending::Enabled,
+                        random,
+                    },
+                )
+                .unwrap()
+            };
+        let shot = step(&fields, &payload, &mut random);
+        let request = shot.request.unwrap();
+        assert_eq!((request.slot, request.flags), (10, 0x28));
+        assert_eq!(request.blend_seconds, 0.);
+        assert_eq!(shot.fields.control_flags, 0x4000);
+        assert_eq!(word(&shot.payload, 0x30), 21);
+        let mut released = shot.fields;
+        released.response_flags = 0;
+        let held = step(&released, &shot.payload, &mut random);
+        assert!(held.request.is_none());
+        assert_eq!(word(&held.payload, 0x30), 21);
+        let mut ended = held.fields;
+        ended.channels[0][8] |= 2;
+        let aiming = step(&ended, &held.payload, &mut random);
+        assert_eq!(aiming.request.unwrap().slot, 43);
+        assert_eq!(aiming.fields.control_flags, 0);
+        assert_eq!(word(&aiming.payload, 0x30), 20);
+        assert_eq!(random.0, 1);
+    }
+    #[test]
+    fn trigger_selects_armed_side_before_channel_end() {
+        let (fields, payload, mut view, globals) = fixture();
+        view.model_rates = [0., 0., 15.];
+        let mut random = crate::audio_parameters::Random(1);
+        let output = ordinary(
+            &fields,
+            &payload,
+            fields.channels,
+            &view,
+            &globals,
+            1. / 60.,
+            Services {
+                fire: true,
+                blending: animation_channels::Blending::Enabled,
+                random: &mut random,
+            },
+        )
+        .unwrap();
+        let request = output.request.unwrap();
+        assert_eq!((request.slot, request.speed_source), (51, 2));
+        assert_eq!(request.reference_speed, -40.);
+        assert_eq!(output.fields.control_flags, 0x2000);
+        assert_eq!(word(&output.payload, 0x30), 19);
         assert_eq!(random.0, 1);
     }
 }

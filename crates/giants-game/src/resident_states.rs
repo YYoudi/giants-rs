@@ -1421,7 +1421,13 @@ impl Session {
             || actor.attachment.is_some()
             || actor.presentation_parent.is_some()
             || fields.action != 0
-            || fields.control_flags & !(if secondary_mode { 0xbc00 } else { 0 }) != 0
+            || fields.control_flags
+                & !(if secondary_mode {
+                    crate::mecc_secondary::control_mask(fire_mode)
+                } else {
+                    0
+                })
+                != 0
             || fields.response_flags & !(0x80803000 | if fire_mode { 0x08000020 } else { 0 }) != 0
             || [word(0x180), word(0x184), word(0x188)] != [1, u32::MAX, u32::MAX]
             || (!cycle.interleaved && cycle.view.number != 0)
