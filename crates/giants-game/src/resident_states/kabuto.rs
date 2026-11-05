@@ -8,6 +8,66 @@ use crate::{
 use std::sync::Arc;
 
 impl Session {
+    pub(crate) fn construct_kabuto_auxiliary(
+        &mut self,
+        input: super::Construction<'_>,
+        mask: u32,
+    ) -> Result<Id, String> {
+        let effect = matches!(
+            (input.class, input.seed.storage.state(), mask),
+            (866 | 980, 78, 0)
+        );
+        if !(effect
+            || matches!(
+                (input.class, input.seed.storage.state(), mask),
+                (749 | 1018, 0, 1)
+            ))
+            || input.seed.storage.profile() != Profile::Debug
+            || !input.seed.diagnostics.is_empty()
+            || !input.bindings.is_empty()
+            || input.fields.object_flags != input.flags.active
+            || input.fields.configuration[14] != input.flags.personality
+            || (effect
+                && input
+                    .seed
+                    .storage
+                    .data()
+                    .is_none_or(|p| p.len() != 268 || p.iter().any(|&b| b != 0)))
+        {
+            return Err(
+                "Kabuto auxiliary requires its acquired class/state/mask and cold resources".into(),
+            );
+        }
+        let mut staged = Self::new(self.ticket);
+        staged.next = self.next;
+        let id = staged.register_with_mask(
+            input.class,
+            input.seed,
+            input.bindings,
+            input.flags,
+            mask,
+        )?;
+        let channels = input.fields.channels;
+        staged.bind_specification(id, input.specification)?;
+        staged.bind_state_resources(id, input.state_resources)?;
+        staged.bind_actor_fields(id, input.fields)?;
+        let actor = staged.residents.get_mut(&id.serial).unwrap();
+        actor.channels = Some(channels);
+        if effect {
+            // The actual declared state is allocated first; only its observed
+            // all-zero destructor profile is admitted. Live emitters are refused.
+            actor.seed.storage.transition_with(0, |state, body| {
+                if state == 78 && body.len() == 268 && body.iter().all(|&b| b == 0) {
+                    Ok(())
+                } else {
+                    Err("Kabuto cold effect cleanup requires empty state78".into())
+                }
+            })?;
+            actor.construction_fields.as_mut().unwrap().configuration[20] = 0;
+        }
+        actor.acquired_construction = true;
+        self.publish_staged(staged, id)
+    }
     pub fn has_cold_kabuto_player_fields(&self, id: Id) -> bool {
         self.get(id).is_some_and(|a| a.kabuto_player_fields)
     }
