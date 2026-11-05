@@ -1,5 +1,19 @@
 # Source publication review — 3 November 2026
 
+## Prototype PS2 methodology addition — 5 November 2026
+
+The reviewed public addition is the [central method](RECONSTRUCTION_METHOD.md),
+a read-only lookup tool, synthetic tests and a minimal five-row attribution
+summary. It contains two confirmed identities, two probable candidates and one
+unassigned service, with explicit binary hashes and independent rationale.
+No corpus file, executable, ISO, raw table, listing, debug extraction or private
+research report is included. Detailed receipts and personal provenance stay
+private. Available symbols grant no redistribution rights. This addition changes
+neither the historical review's scope nor the current binary-release policy in
+[RELEASES.md](RELEASES.md).
+
+## Historical source-publication review
+
 **Technical review completed; source publication performed under owner authorization.**
 After being told the limitations of an AI-assisted review, the owner explicitly
 asked the agent to perform the verification and make the repository public.

@@ -24,6 +24,12 @@ of the current public build; game artwork remains outside the project MIT licens
 active. See [automation and activation](docs/AUTOMATION.md)
 and the [publication review status](docs/PUBLICATION_REVIEW.md).
 
+Native-function research now systematically checks names from the **prototype PS2**
+before analysis or implementation. The [reconstruction method](docs/RECONSTRUCTION_METHOD.md)
+separates literal ELF symbols, uncertain demangling, proposed PC correspondences
+and independently reviewed attributions. Private metadata stays outside the
+repository. Recovered names do not measure implementation or gameplay fidelity.
+
 Project source is under the [MIT license](LICENSE), within the scope described in
 [NOTICE.md](NOTICE.md). Public source publication follows the owner's approval and
 an AI-assisted technical review; it is not legal clearance or comprehensive human
@@ -78,7 +84,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Kabuto
 
-- [ ] **Kabuto movement and growth** — todo; Runtime integration. Movement, jumping and traversal at each size, growth requirements and changing reach/collision. Ordinary cold Kabuto allocation now matches two native constructors, including headers, state payloads, registrations and resource ownership. Special/player initialization, live movement and growth remain unimplemented; cold allocation is not playable readiness.
+- [ ] **Kabuto movement and growth** — todo; Runtime integration. Movement, jumping and traversal at each size, growth requirements and changing reach/collision. Ordinary cold allocation matches two native constructors. The public cold player-field initializer matches 64 native controls (25,856 header/payload words), with ownership and atomic refusal checks. Camera reset consumption, marker relocation, live movement and growth remain pending; CPU initialization is not playable readiness.
 - [ ] **Grabbing, storing and eating creatures** — todo; Runtime integration. Grab creatures, store them on horns, eat them and restore health.
 - [ ] **Kabuto attacks and adrenaline** — todo; Runtime integration. Hand and foot attacks, adrenaline levels, combinations and area damage.
 - [ ] **Throwing and environmental attacks** — todo; Runtime integration. Throw creatures and boulders; collisions, fragments, damage and replenishing rock columns.
@@ -141,4 +147,8 @@ mean a complete playable feature. No global completion percentage is claimed.
 - [x] **Controlled actor callback policy and acquired owned adapters** — done; CPU only. 
 - [x] **Approved reference and Bevy comparison gallery** — done; Historical public gallery. Owner-authorized original / Bevy comparisons are available in the dashboard; historical captures do not certify the current build or full-game fidelity.
 - [x] **Controlled offline normal Mecc header and primary contract** — done; CPU only. 
+
+### Research and validation
+
+- [ ] **Reviewed prototype PS2 function attribution** — partial; Research method; separate from runtime and fidelity. Mandatory name lookup with pinned PC/prototype identities, literal symbols, uncertain demangling, retained aliases and independent evidence. Initial read-only audit verifies 4,769 function symbols; five reviewed services include two confirmed identities, two probable candidates and one unassigned. Broader mapping and type recovery remain incomplete. Method: docs/RECONSTRUCTION_METHOD.md.
 <!-- progress:end -->

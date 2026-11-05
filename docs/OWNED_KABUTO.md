@@ -1,5 +1,9 @@
 # Owned cold Kabuto construction
 
+Further native acquisition and implementation follow the central
+[reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
+lookup and separate PC identity, aliases, platform differences and attribution.
+
 The Kabuto lane reuses the common class, actor, resource and Session services.
 `kabuto_resources::Resources` prepares a kind-1 mission start and the actual
 class/state specifications from a user-supplied installation. Its ordinary
@@ -28,8 +32,8 @@ checks rejection of a different character, a legacy payload profile and mission
 state writes without publication. These refusal controls describe the owned
 backend; they do not establish native error-path parity.
 
-This is implemented and CPU-validated ordinary construction. It does not execute
-Kabuto special/player initialization, marker relocation, actor ticks, movement,
+This is implemented and CPU-validated ordinary construction and cold player-field
+setup. It does not execute live type changing, marker relocation, actor ticks, movement,
 growth, combat, rendering or mission admission. The menu's live player path
 remains unchanged. No playable capability or visual fidelity is claimed, and no
 new downloadable preview is justified by this stage alone. BACKLOG.md retains
@@ -53,5 +57,40 @@ Private static setup/disposition evidence:
 `ev_7c2221184c98a112a75e98586915d666730afe83184441c413781af0539517d2`
 and `ev_888c71a02f9092e68ca24d197226e6c376c6c0044b233de7e9bf1b3fd25a35c4`.
 The inspected special dispatcher handles Mecc/Delphi and returns for Kabuto;
-surrounding shared player reset, state, camera and activation calls still require
-their own acquisition. This static observation is not an executed player setup.
+the surrounding cold field setup is now compared below. Live reset cleanup,
+camera consumption and primary execution still require their own acquisition.
+This static observation alone is not an executed player setup.
+
+## Cold player fields
+
+`Resources::initialize_player_fields` now publishes the acquired cold
+player-field fold on its own fresh ordinary actor through Session. A controlled
+comparison executes the original full cold setup from a generic shell for 64
+cases, supplying independent position/current/previous vectors, angles, old
+shell scale and blending mode. The public method matches all 25,856 normalized
+header/payload words and ordinary list counts. The declared class scale replaces
+the old shell scale; previous takes old current, current takes position, pitch
+resets, and the shared primary channel selects the acquired initial request.
+The class-1 special dispatch creates no Mecc/Delphi children.
+
+The native control supplies resource/memory/UID boundaries and intercepts device
+submission after the source projection calculation. Rust returns an explicit
+pending projection-reset requirement; it does not claim a graphics acknowledgement.
+This is a cold field boundary, not an implementation of live type-change cleanup.
+The owned API requires the same prepared resources, unchanged cold payload and
+unsampled reference caches. It refuses foreign owners/factories, nonfinite input,
+repeated initialization and actors already attached to live services, before
+publication. The installed-data check verifies atomic refusal, retained payload,
+unavailable unevaluated reference matrices, no Mecc physics and full release.
+
+Marker relocation, camera consumption, first primary execution, controls,
+movement, collision at each size and growth remain pending. No playable Kabuto
+mission is admitted and the roadmap remains `todo`.
+
+Combined source `3f566585b20ffed966178a66932a104be3a729d4` preserves the newer
+Delphi special-phase services and cinematic inventory. It passes 709 synthetic
+Rust tests (17 ignored), 30 Python tests, Rustfmt, Clippy, site export/JavaScript
+checks and the separate installed-data Kabuto control. The 64-case native/Rust
+comparison also passes against that merged source. A source-history pattern
+review scans 88 commits and 1,438 distinct blobs with zero findings; it is not
+legal clearance. Live Kabuto behavior and visual fidelity remain unverified.

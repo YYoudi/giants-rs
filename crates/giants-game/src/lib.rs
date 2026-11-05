@@ -30,6 +30,7 @@ pub mod ground_contact;
 pub mod held_weapon;
 pub mod hit_routing;
 pub mod instances;
+pub mod kabuto_player;
 pub mod kabuto_resources;
 pub mod mecc_collection;
 pub mod mecc_contact_materials;

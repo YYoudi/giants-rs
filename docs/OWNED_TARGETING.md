@@ -1,5 +1,9 @@
 # Owned local target publication
 
+Further acquisition and implementation follow [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md),
+including the mandatory prototype PS2 name lookup. Preserve earlier PC identifiers
+and query/control evidence separately from attribution and demangling.
+
 `Session::scan_mecc_local_target` now runs the existing local query and publishes
 its result into the owning normal Mecc. The numerical-only query remains available
 separately. The header service remains explicit; `OwnedHeaders` now obtains
