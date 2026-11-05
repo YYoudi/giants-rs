@@ -246,3 +246,40 @@ site/JavaScript checks. The optional installed-data auxiliary lifecycle/refusal
 control passes without a window or sound. The native/Rust constructor comparison
 passes against the final source. These checks remain separate from a complete
 Kabuto first primary, playable admission and visual fidelity.
+
+## Physical generation refresh
+
+`kabuto_physics::prepare` now composes the acquired physical refresh with the
+existing size/radius candidate. It requires the completed-prefix bit and a typed
+physical-presence token. A changed generation creates fresh inline physics or
+retains the existing block, refreshes the source parameters and derived ratio,
+then runs the actual size tail. Fresh storage uses `physical_initial::reset`;
+existing storage retains the source-preserved force/scalar words.
+
+An unchanged generation preserves the entire phase, including absent physics.
+This is an observed helper outcome, not an initialized-physics or gameplay-ready
+receipt. Unused globals and size resources are not consumed on that branch.
+Physical parameters use a finite positive-mass profile; missing/invalid data,
+overflow or inconsistent parameter contexts refuse without changing caller data.
+Those refusal rules do not establish native failure-path parity.
+
+The original full helper is acquired first from real cold initialization, then
+512 supplied post-prefix contexts vary physical presence, generation equality,
+raw inline words, global physical parameters, target/current size and saved-class
+presence/scale. The public service matches all 206,848 complete header/payload
+words, with the physical pointer normalized to presence and typed class/bounds
+resources supplied separately. The input actor state is a provided boundary,
+not an owned first-initializer result. No original outputs of this evaluated
+phase are fed back to Rust as computed state.
+
+This validates the physical/size composition only. Parent/effect links, material,
+geometry registration, animation callbacks and the complete first initializer
+remain separate prerequisites before full primary execution and live movement.
+The initializer and shared-reset prototype lookups remain unassigned; no PS2
+ABI or layout is substituted. Raw inputs and detailed reports stay private.
+
+Combined source `c4bae0e` preserves Delphi jump and shared physical-request work.
+It passes 728 synthetic Rust tests (18 ignored), 35 Python tests, Rustfmt, Clippy
+and site/JavaScript checks. The 512-case native/Rust comparison passes again after
+that merge. The matched physical/size boundary does not certify a complete first
+initializer, live controls, movement, growth events or visual fidelity.

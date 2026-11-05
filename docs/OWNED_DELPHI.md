@@ -36,6 +36,53 @@ special-only entry still leaves player selection and activation untouched.
 
 ## Evidence and scope
 
+`delphi_jump::step` adds the acquired standalone jump/hold/release service. It
+preserves the distinct impulse and launch-latch gates, hold acceleration and
+countdown, release flags and stored height. The inline physical request chooses
+the smaller value unless its current value is zero.
+Object-local time uses the shared ordered-area clock, with no fixed timestep.
+
+Eight hundred sixty-four scalar cases and 64 persistent sequences of 32 steps
+match 3,543,904 normalized header/payload words. Original jump, request and time
+instructions execute. Both implementations carry their own state between steps;
+native output snapshots are never fed into Rust. Supplied boundary inputs cover
+commands, launch blocking, mode/contact, rates/orientation, position/vertical
+speed, two context words, declarations and ordered time areas. The controls
+include owner exclusion, area ordering and zero/varied timesteps. Unrelated seeded
+header/payload words are compared too. Original helper calls are retained in the
+private acquisition trace; no behavior return is substituted.
+
+This is not a gravity/trajectory, terrain or immersion producer, complete primary
+turn or Session/live-controller integration. Those consumers remain prerequisites
+before admitting gameplay. Finite-profile and clock guards are owned refusals,
+not claims of native NaN/error-path parity. Prototype PS2 lookup was performed;
+routine attribution remains unknown pending independent prototype algorithm
+review. The PC debug behavior, not a prototype layout, defines this service.
+
+Private jump REA evidence:
+`ev_81edd7f516b102ff9f375ac159cd56604a7513dce54e9ec99e66d6fb4059e124`;
+request helper:
+`ev_bd13a1f19cef8f0c3769c135a72b17fb3b32bd885f86008246de9198f0ca116f`.
+
+The combined source at `0c0139d6212b7bdf5e3312596734b4f3e20492a2` repeats all
+2,912 jump controls with stable source/runner hashes and passes 725 Rust tests
+(17 ignored), 35 Python tests, Rustfmt and Clippy. The common build retains the
+latest Kabuto auxiliary geometry, Mecc and cinematic work. Session consumption
+of the jump kernel remains a prerequisite, not an acknowledged player frame.
+
+The exact GNU build for that source passes both silent common-runtime lifecycle
+endpoints and three selected-opening cancellation cycles without a window or
+audio device. Its asset-free private ten-member draft passes receipt, notices and
+package verification without technical blockers. Executable SHA256:
+`df0a96c8f8d833a6cd00355b6d4fcd733285daec278a05a16ed3dc3a743fd34c`;
+draft ZIP SHA256:
+`64efdf4516892d86270fb8444cb983978a8f77f38c06d7b2fabbe5fd144f88c0`.
+These common-runtime checks do not execute the standalone jump service.
+The subsequent Kabuto-auxiliary merge at
+`60756cedcd4584974cdfad9486cc7979dea55c02` retains unchanged jump/request/time
+source and passes 725 Rust tests (18 ignored), 35 Python tests, Rustfmt and
+Clippy; its source identity does not replace the earlier build receipt.
+
 `Session::initialize_delphi_physics` now owns the first-primary physical setup as
 a distinct stage after special construction. `delphi_initial` loads the actual
 seven scalar declarations and signed limit, restores inline defaults through

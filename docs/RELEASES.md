@@ -1,5 +1,54 @@
 # Preview releases and milestone integration
 
+## Kabuto physical/size refresh composition - 5 November 2026
+
+The acquired post-prefix physical generation phase now composes shared inline
+physical defaults, Kabuto parameters and the size/radius service. All 512 native
+controls match 206,848 header/payload words. Same-generation absent physics stays
+absent; this is not a readiness acknowledgement. Parent/animation/material setup,
+full first initialization, live motion and growth remain pending. See
+OWNED_KABUTO.md. This CPU-only stage produces no new playable binary or package
+receipt; existing releases remain tied to their exact build sources.
+
+
+Combined source `c4bae0e` preserves Delphi jump and shared physical-request work.
+It passes 728 synthetic Rust tests (18 ignored), 35 Python tests, Rustfmt, Clippy
+and site/JavaScript checks. The 512-case native/Rust comparison passes again after
+that merge. The matched physical/size boundary does not certify a complete first
+initializer, live controls, movement, growth events or visual fidelity.
+
+## Delphi jump service - 5 November 2026
+
+The standalone acquired jump/hold/release service now preserves launch/impulse
+gates, context-dependent hold acceleration, inline request reduction, shared
+object-local time, release flags and stored height. Eight hundred sixty-four
+scalar cases and 64 persistent 32-step sequences match 3,543,904 full normalized
+header/payload words. Contacts and external motion/orientation/context producers
+are supplied boundaries; no gravity trajectory, complete primary or live Session
+controller is claimed. This source stage adds no playable character or download.
+
+Combined source `0c0139d6212b7bdf5e3312596734b4f3e20492a2` retains concurrent
+Mecc/Kabuto/cinematic work and passes 725 Rust tests (17 ignored), 35 Python tests,
+Rustfmt, Clippy and the repeated native jump controls with stable source/runner
+hashes. Its GNU build and private ten-member draft pass receipt/notices/package
+verification without technical blockers. Common-runtime silent regressions are
+recorded separately; they do not execute this Delphi service.
+
+That exact GNU build passes both silent common-runtime lifecycle endpoints and
+three selected-opening cancellation cycles with no window or audio device.
+Executable SHA256:
+`df0a96c8f8d833a6cd00355b6d4fcd733285daec278a05a16ed3dc3a743fd34c`;
+private draft ZIP SHA256:
+`64efdf4516892d86270fb8444cb983978a8f77f38c06d7b2fabbe5fd144f88c0`.
+It remains a validation draft; these checks do not certify Delphi controls,
+complete cinematic playback or visual fidelity.
+
+Source `60756cedcd4584974cdfad9486cc7979dea55c02` also retains concurrent
+Kabuto auxiliary construction/cleanup and passes 725 Rust tests (18 ignored),
+35 Python tests, Rustfmt and Clippy. The compared jump/request/time sources are
+unchanged. The earlier binary receipt remains bound to its exact source, rather
+than certifying this later merge.
+
 ## Kabuto cold auxiliary construction/reset - 5 November 2026
 
 The public cold auxiliary factory matches 88 native constructor/reset outcomes

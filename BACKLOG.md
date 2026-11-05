@@ -85,7 +85,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   The original initializer matches 256 seeded native/Rust controls (311,552 full
   header/payload words). This does not execute motion, a complete primary turn
   or copy callbacks; these are still the next controller dependencies.
-- Acquire land movement, jump, water entry/exit, swimming and turbo/energy;
+- Implemented: the standalone Delphi jump/hold/release kernel, including impulse
+  gates, launch latch, context-dependent hold acceleration, source-ordered inline
+  request reduction, local-time countdown and release flags/height. It reuses the
+  shared object-local clock. Native/Rust controls match 3,543,904 full header/payload
+  words across 864 scalar cases and 64 persistent sequences (2,048 steps).
+  Contacts, orientation/rates, context and external motion remain supplied
+  boundaries; gravity, trajectories and Session/live-controller consumption are
+  not implemented by this kernel.
+- Acquire land movement and physical/animation phases, wire the jump service to
+  their owned state, then acquire water entry/exit, swimming and turbo/energy;
   compare controlled continuous cycles before admitting live controls. Reuse
   shared terrain/collision/input services with the acquired character parameters.
 - Connect the validated controller through the existing selected-mission path,
@@ -136,6 +145,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   16,984 normalized header words plus list counts. Nonempty effects remain
   refused atomically; parent/reference binding and complete initialization are
   separate. See docs/OWNED_KABUTO.md.
+- Implemented: post-prefix physical generation refresh composes shared inline
+  reset, Kabuto parameters and the acquired size/radius tail. All 512 native/Rust
+  controls match 206,848 header/payload words. Same-generation absence is retained
+  and cannot acknowledge gameplay readiness. Full first-initializer composition,
+  parent links and material/animation resources remain pending.
 - Implement and compare first-primary initialization and its size composition,
   including shared physical/animation services and owned auxiliary/effect links.
   Reuse `physical_initial::reset`. The native effect auxiliaries pass through
