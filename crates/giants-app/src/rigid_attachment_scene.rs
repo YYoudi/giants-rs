@@ -4251,12 +4251,13 @@ pub fn update(
                 } else {
                     Visibility::Hidden
                 };
-                if previous != *visibility
-                    && let Some(Some(frame)) = owned
+                if let Some(Some(frame)) = owned
+                    && (previous != *visibility || frame.updates == 1)
                     && let Source::Effect { request, .. } = &instance.source
                 {
                     println!(
-                        "mission_persistent_draw director={} offset={} class={} part={} entity={:?} visible={} updates={} matrix_bits={:?} native_pixels_verified=false",
+                        "mission_persistent_draw ticket={} director={} offset={} class={} part={} entity={:?} visible={} updates={} matrix_bits={:?} native_pixels_verified=false",
+                        persistent.as_ref().unwrap().ticket(),
                         cinematic.director_index(),
                         request.offset,
                         instance.source.class(),

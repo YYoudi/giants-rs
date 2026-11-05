@@ -6,6 +6,31 @@ from tools.cinematic_smoke import validate
 
 
 class CinematicSmokeTests(unittest.TestCase):
+    def test_persistent_cancel_requires_live_owners_then_matching_cleanup(self):
+        log = 'silent_capture=true audio_plugin=false audio_clock=false\n'
+        for n, ticket in enumerate((1, 3, 5), 1):
+            log += f'mission_text_mounted ticket={ticket} fresh_atlas=true\n'
+            log += f'mission_opening_audio_policy ticket={ticket} playback_enabled=false queued_players=0\n'
+            log += f'showcase_persistent_cancel ticket={ticket} objects=2 input_injected=false observation_gate=two_owned_updates\n'
+            log += f'mission_persistent_released ticket={ticket} director=1 retired_objects=2 remaining_objects=0 remaining_contexts=0 lifetime_children=0\n'
+            log += f'mission_text_released ticket={ticket} entities=4 atlas_images=2 remaining_assets=0 font_and_language_dropped=true\n'
+            log += f'showcase_opening_cycle_released cycles={n} remaining_entities=0 movie_released=true input_injected=false\n'
+        log += 'showcase_replay_cancelled remaining_entities=0 movie_released=true normal_ready_simulated=false\ncapture_ready frame=30\n'
+        with tempfile.TemporaryDirectory() as directory:
+            capture = Path(directory)/'menu.png'
+            capture.write_bytes(b'\x89PNG\r\n\x1a\nsynthetic')
+            self.assertTrue(all(validate(log, 0, capture, persistent_cancel=True).values()))
+            for bad in (log.replace('retired_objects=2', 'retired_objects=1'),
+                        log.replace('remaining_contexts=0', 'remaining_contexts=1'),
+                        log.replace('objects=2 input_injected', 'objects=0 input_injected'),
+                        log.replace('released ticket=3 director', 'released ticket=1 director'),
+                        log+' ERROR backend failed\n'):
+                self.assertFalse(all(validate(bad, 0, capture, persistent_cancel=True).values()))
+            lines = log.splitlines()
+            a = next(i for i, line in enumerate(lines) if line.startswith('showcase_persistent_cancel'))
+            lines[a], lines[a+1] = lines[a+1], lines[a]
+            self.assertFalse(all(validate('\n'.join(lines), 0, capture, persistent_cancel=True).values()))
+
     def test_full_run_rejects_truncated_chains_missing_audio_and_invented_clock(self):
         log = 'silent_capture=true audio_plugin=true audio_clock=true global_volume=0 muted_transport=true\n'
         for n, ticket in enumerate((1, 3), 1):

@@ -18,6 +18,14 @@ pub(crate) struct State {
     persistent_queue: Option<(usize, giants_game::cinematic_persistent::Queue)>,
 }
 impl State {
+    pub(crate) fn ticket(&self) -> u64 {
+        self.ticket
+    }
+    pub(crate) fn advanced_persistent_objects(&self) -> usize {
+        self.persistent_queue
+            .as_ref()
+            .map_or(0, |(_, queue)| queue.advanced_objects())
+    }
     pub(crate) fn settled(&self) -> bool {
         self.active.is_empty()
             && self.bindings.iter().all(Result::is_ok)

@@ -197,6 +197,7 @@ fn inject_skip_probe(
 #[allow(clippy::too_many_arguments)]
 #[derive(bevy::ecs::system::SystemParam)]
 struct Presentation<'w> {
+    effects: Option<Res<'w, crate::mission_effects::State>>,
     time: Res<'w, Time>,
     pipelines: Res<'w, crate::PipelinesReady>,
     audio: Res<'w, crate::mission_audio::ProbeStatus>,
@@ -224,6 +225,7 @@ fn drive(
     presentation: Presentation,
 ) {
     let Presentation {
+        effects,
         time,
         pipelines,
         audio,
@@ -384,7 +386,18 @@ fn drive(
                 && opened
                 && environment.presentation_ready()
                 && pipelines.0
+                && (std::env::var("GIANTS_CANCEL_PERSISTENT").ok().as_deref() != Some("1")
+                    || effects
+                        .as_ref()
+                        .is_some_and(|s| s.advanced_persistent_objects() > 0))
             {
+                if std::env::var("GIANTS_CANCEL_PERSISTENT").ok().as_deref() == Some("1") {
+                    println!(
+                        "showcase_persistent_cancel ticket={} objects={} input_injected=false observation_gate=two_owned_updates",
+                        frontend.flow.ticket,
+                        effects.as_ref().unwrap().advanced_persistent_objects()
+                    );
+                }
                 if let Some(cinematic) = &cinematic {
                     println!(
                         "showcase_opening_cycle_sample ticket={} director={} steps={} director_seconds={} input_injected=false audio_clock_verified=false",

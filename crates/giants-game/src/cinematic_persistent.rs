@@ -165,6 +165,12 @@ pub struct Queue {
     pub retired: usize,
 }
 impl Queue {
+    pub fn advanced_objects(&self) -> usize {
+        self.objects
+            .values()
+            .filter(|object| object.updates > 1)
+            .count()
+    }
     pub fn objects(&self) -> usize {
         self.objects.len()
     }
