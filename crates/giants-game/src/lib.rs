@@ -92,6 +92,7 @@ pub mod control_layout;
 pub mod control_options;
 pub mod declared_mesh_scene;
 pub mod decorations;
+pub mod delphi_resources;
 pub mod dependency_graph;
 pub mod director_initial;
 pub mod display_options;

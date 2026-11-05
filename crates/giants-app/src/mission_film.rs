@@ -250,12 +250,11 @@ pub(crate) fn draw(world: &mut World) {
     let ticket = mounted.ticket;
     let setup = mounted.director != Some(director);
     let first = mounted.director.is_none();
-    let before = setup.then(|| Gpu::snapshot(world));
-    let previous: HashSet<_> = if setup {
-        world.query::<Entity>().iter(world).collect()
-    } else {
-        HashSet::new()
-    };
+    // Particle/tracer renderers can allocate during an ordinary update, long
+    // after setup. Adopt only this draw's additions, including those late births;
+    // resources that another producer installed beforehand remain outside it.
+    let before = Gpu::snapshot(world);
+    let previous: HashSet<_> = world.query::<Entity>().iter(world).collect();
     macro_rules! run {
         ($system:path) => {
             world.run_system_cached($system).expect(stringify!($system));
@@ -291,15 +290,16 @@ pub(crate) fn draw(world: &mut World) {
         run!(crate::sword_scene::update);
     }
     run!(crate::cinematic_visibility::update);
-    if let Some(before) = before {
-        let entities = adopt_draws(world, ticket, &previous);
-        world.resource_scope::<State, _>(|world, mut state| {
-            let mounted = state.mounted.as_mut().unwrap();
-            mounted.gpu.collect_new(&before, world);
-            mounted.director = Some(director);
+    let entities = adopt_draws(world, ticket, &previous);
+    world.resource_scope::<State, _>(|world, mut state| {
+        let mounted = state.mounted.as_mut().unwrap();
+        let previous_assets = mounted.gpu.count();
+        mounted.gpu.collect_new(&before, world);
+        mounted.director = Some(director);
+        if setup || entities != 0 || mounted.gpu.count() != previous_assets {
             println!("mission_film_draw ticket={ticket} director={director} new_entities={} cumulative_assets={} ready_event=false", entities, mounted.gpu.count());
-        });
-    }
+        }
+    });
 }
 fn adopt_draws(world: &mut World, ticket: u64, before: &HashSet<Entity>) -> usize {
     let candidates: Vec<_> = world
@@ -385,6 +385,14 @@ mod tests {
         let mut gpu = Gpu::default();
         gpu.collect_new(&before, &world);
         let unrelated = world.resource_mut::<Assets<Image>>().add(Image::default());
+        // A later ordinary draw owns its new particles, while an intervening
+        // producer's image remains outside the film's snapshot delta.
+        let later_before = Gpu::snapshot(&world);
+        let later_entities = world.query::<Entity>().iter(&world).collect();
+        let late_image = world.resource_mut::<Assets<Image>>().add(Image::default());
+        let late_draw = world.spawn(Mesh3d::default()).id();
+        assert_eq!(adopt_draws(&mut world, 7, &later_entities), 1);
+        gpu.collect_new(&later_before, &world);
         world.resource_mut::<State>().mounted = Some(Mounted {
             ticket: 7,
             prepared: None,
@@ -416,6 +424,8 @@ mod tests {
         )
         .unwrap();
         assert!(world.get_entity(draw).is_err());
+        assert!(world.get_entity(late_draw).is_err());
+        assert!(!world.resource::<Assets<Image>>().contains(late_image.id()));
         assert!(world.contains_resource::<crate::reflection_cube::Build>());
         assert_eq!(
             world.resource::<crate::reflection_cube::Build>().handle(),

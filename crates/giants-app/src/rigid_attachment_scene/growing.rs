@@ -5,7 +5,9 @@ pub(super) fn instances(scene: &mut Prepared) -> Result<Vec<(usize, usize)>, Str
     let mut slots = BTreeMap::<(usize, usize), Vec<usize>>::new();
     for (index, instance) in scene.instances.iter().enumerate() {
         if let Some(emitted) = &instance.emitted
-            && scene.emitters[emitted.group].position.is_some()
+            && (scene.emitters[emitted.group].position.is_some()
+                || (scene.emitters[emitted.group].parent.is_some()
+                    && scene.emitters[emitted.group].reference.is_none()))
         {
             let indices = slots.entry((emitted.group, emitted.particle)).or_default();
             if emitted.slot != indices.len() {

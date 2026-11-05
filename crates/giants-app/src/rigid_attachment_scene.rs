@@ -3709,7 +3709,13 @@ pub fn update(
                     sample.constructor_position,
                 )
                 .map_err(str::to_owned)
-            } else if parent.is_some() || emitter.reference.is_some() {
+            } else if parent.is_some() && emitter.reference.is_none() {
+                giants_game::effect_emitter_runtime::Runtime::fixed_growing(
+                    emitter.recipe.clone(),
+                    emitter.reserve,
+                )
+                .map_err(str::to_owned)
+            } else if emitter.reference.is_some() {
                 giants_game::effect_emitter_runtime::Runtime::fixed(
                     emitter.recipe.clone(),
                     emitter.reserve,
@@ -3864,7 +3870,18 @@ pub fn update(
                     }
                 }
                 Err(error) => {
-                    error!("Periodic update failed: {error}");
+                    error!(
+                        "Periodic update failed: {error}; sequence={} emitter={group} class={} child={} reserve={} slots={:?} parent={parent:?} reference={} position={} dt_bits={} source_state={:?}",
+                        cinematic.sequence(),
+                        emitter.recipe.class,
+                        emitter.recipe.child,
+                        emitter.reserve,
+                        runtime.slot_counts(),
+                        emitter.reference.is_some(),
+                        emitter.position.is_some(),
+                        animation_dt.to_bits(),
+                        runtime.source_state(),
+                    );
                     exit.write(AppExit::Error(std::num::NonZeroU8::MIN));
                     return;
                 }
