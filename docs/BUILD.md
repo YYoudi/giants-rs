@@ -107,3 +107,29 @@ no text. The default full-run timeout is 1800 seconds; a timeout fails the check
 Passing this check establishes transport/lifecycle observations for the selected
 opening only. It does not establish native cadence, audio mixing, skip gestures,
 mission rules, other sources or visual fidelity. Preserve all outputs privately.
+
+## CPU-only whole-corpus cinematic inventory
+
+Use a private world/sequence TSV (one declaration per line, no header), a fresh
+private output directory and a receipt-bound build. The manifest must cover the
+installation's FLK directory exactly; the default expected count is 545.
+
+```powershell
+python -m tools.cinematic_inventory --executable .local/build/giants-rs.exe --receipt .local/build/build-receipt.json --data-root 'D:/Games/Giants' --cases .local/world-sequence.tsv --output .local/cinematic-inventory-NEW
+```
+
+This calls the real CPU scene preparers before creating an App, GPU, window or
+audio service. It inventories all source commands, declared stream file presence,
+main mission FX binding and final-consumer diagnostics. Specialized ownership
+routes are not counted as missing geometry; identical repeated preparation
+messages are deduplicated within each source. A truncated or incomplete run is
+rejected. `sources.tsv`, `inventory.json`, the HTML report and raw logs remain
+private. The separate `public-summary.json` contains only fixed cause labels,
+aggregate counts and build identity; review that projection before publishing it.
+
+Priorities put preparation barriers first, then order common causes by distinct
+affected sources within each level. Diagnostic units overlap and are not counts
+of missing rendered objects. A clean preparation result leaves visual quality,
+native timing, whole-session playback and full audio/subtitle parity unverified.
+This tool changes no cinematic behavior and does not require another gameplay
+preview merely to publish an inventory summary.
