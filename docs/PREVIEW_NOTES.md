@@ -88,3 +88,11 @@ no original archives, extracted textures, models, audio or screenshots are added
 Dependency/runtime notices and an inventory are included. Public packages require
 a matching technical distribution review with no blockers. A checksum confirms file
 identity, not legal clearance or absence of defects.
+
+## Unreleased source work after this preview
+
+The owned Session can now publish the local target prepass's typed relationships,
+aim point and terrain-reticle flag. Controlled CPU comparison and failure/lifecycle
+checks are recorded in OWNED_TARGETING.md. This API is not yet called at the live
+mission primary/fire boundary and does not add an accessible weapon or reticle
+to preview-2026.11.05.1. The existing Windows download remains unchanged.

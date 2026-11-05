@@ -1,5 +1,5 @@
-//! Session-backed local targeting. Context/header producers and camera/viewport
-//! timing remain required inputs; no default context or actor-center fallback.
+//! Session-backed local targeting and typed publication. Context/header producers
+//! and camera/viewport timing remain required; no default context or center fallback.
 use crate::{
     first_person::Camera,
     mecc_target_query as query,
@@ -32,6 +32,17 @@ pub struct Output {
     pub ray: crate::mecc_aim::Ray,
     pub geometry_visits: Vec<Id>,
     pub mesh_visits: Vec<Id>,
+}
+/// The local prepass publishes three initially equal relationships. Raw payload
+/// pointer slots stay normalized; later callbacks must use these owned identities.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Published {
+    /// Payload relationships at 0x14, 0xe0 and 0x120, in that order.
+    pub links: [Option<Id>; 3],
+    pub point: [f32; 3],
+    pub near_terrain: bool,
+    /// Supplied collision-vertex epoch, not an inferred simulation frame.
+    pub vertex_epoch: u32,
 }
 struct Services<'a, H> {
     session: &'a mut Session,
