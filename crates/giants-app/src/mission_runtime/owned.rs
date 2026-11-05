@@ -28,6 +28,7 @@ pub(super) struct Driver {
     actor_key: Option<u32>,
     children: giants_game::mecc_jet_presentation::Children,
     weapon_pose: giants_game::mecc_wield_pose::Producer,
+    camera: giants_game::mecc_camera_update::State,
 }
 impl Driver {
     fn prepare(active: &mut Active, input: &Input<'_>) -> Result<Self, String> {
@@ -105,6 +106,7 @@ impl Driver {
             actor_key: None,
             children,
             weapon_pose: giants_game::mecc_wield_pose::Producer::new(actor),
+            camera: Default::default(),
         }
     }
     fn advance(
@@ -216,16 +218,38 @@ impl Driver {
             frame.world_weapon =
                 self.weapon_pose
                     .advance(session, input.number, input.seconds, frame.stamp)?;
+            let mut camera_world = giants_game::mecc_camera_wall::World::new(
+                &query, self.actor_key.unwrap(), input.objects,
+            );
+            let camera = self.camera.advance(
+                giants_game::mecc_camera_update::Input {
+                    number: input.number,
+                    position: frame.position,
+                    yaw: frame.angles[0],
+                    pitch: frame.look_pitch,
+                    look_height: frame.look_height,
+                    scale: frame.scale,
+                    skip_floor: frame.object_flags & 0x10 != 0,
+                    seconds: input.seconds,
+                    profile: giants_game::mecc_camera_update::Profile::normal(input.first_person),
+                },
+                &mut camera_world,
+            )?;
+            if input.number == 1 || input.number.is_multiple_of(128) {
+                println!(
+                    "mission_owned_camera ticket={} frame={} floor_queries={} mesh_candidates={} mesh_triangles={} mesh_hits={} prepared_meshes=true native_list_order=false live_callbacks=false",
+                    self.ticket, input.number, camera.floor_queries,
+                    camera_world.visits.candidates, camera_world.visits.triangles, camera_world.visits.hits,
+                );
+            }
+            frame.camera = camera.pose;
             if !input.first_person
                 && let Some(weapon) = &frame.world_weapon
             {
                 frame.world_aim = Some(giants_game::mecc_aim::resolve(
                     &query,
                     giants_game::mecc_aim::View {
-                        camera: giants_game::first_person::Camera {
-                            position: frame.camera.eye,
-                            angles: [frame.angles[0], frame.look_pitch, 0.],
-                        },
+                        camera: camera.camera,
                         first_person: false,
                         force_owner_angles: false,
                         viewport_forward: None,
@@ -236,6 +260,7 @@ impl Driver {
                     giants_game::mecc_aim::NORMAL_PISTOL_RANGE,
                 )?);
             }
+            frame.camera_cache = Some(camera);
             Ok(frame)
         });
         if let Err(error) = &result {

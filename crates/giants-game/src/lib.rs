@@ -614,6 +614,8 @@ pub mod volume_queries;
 pub mod collider_init;
 
 pub mod mecc_camera;
+pub mod mecc_camera_update;
+pub mod mecc_camera_wall;
 pub mod mecc_load_mass;
 pub mod object_time_precision;
 

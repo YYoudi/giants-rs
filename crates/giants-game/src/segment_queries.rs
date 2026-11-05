@@ -61,7 +61,7 @@ pub fn triangle(
     Ok(inside(point, normal, vertices, precision)?.then_some(point))
 }
 
-fn inside(
+pub(crate) fn inside(
     point: [f32; 3],
     normal: [f32; 3],
     vertices: [[f32; 3]; 3],

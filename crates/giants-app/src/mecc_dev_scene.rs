@@ -147,6 +147,10 @@ impl State {
                 .as_ref()
                 .is_some_and(|old| old.owner != frame.owner || old.number >= frame.number)
             || self.owned_pose.is_none() && frame.number != 1
+            || frame
+                .camera_cache
+                .as_ref()
+                .is_none_or(|c| c.number != frame.number)
         {
             return Err(
                 "owned presentation is foreign, stale or bound to different body geometry".into(),
@@ -988,7 +992,14 @@ impl State {
             .expect("bounded Mecc camera inputs")
         };
         let eye = v3(pose.eye);
-        let view = camera_view(eye, v3(pose.forward), v3(pose.up));
+        let cache = self
+            .owned_pose
+            .as_ref()
+            .and_then(|f| f.camera_cache.as_ref());
+        let view = cache.map_or_else(
+            || camera_view(eye, v3(pose.forward), v3(pose.up)),
+            |c| Mat4::from_cols_array(&c.view),
+        );
         (
             crate::validation_camera::ValidationCamera {
                 view: view.to_cols_array(),
@@ -996,10 +1007,17 @@ impl State {
                     .expect("normal Mecc lens"),
                 viewport: UVec4::new(0, 0, 1920, 1080),
             },
-            eye.to_array(),
+            cache.map_or(eye.to_array(), |c| c.viewport_origin),
         )
     }
     pub(crate) fn subjective_inputs(&self) -> (giants_game::first_person::Camera, f32, [f32; 3]) {
+        if let Some(cache) = self
+            .owned_pose
+            .as_ref()
+            .and_then(|f| f.camera_cache.as_ref())
+        {
+            return (cache.camera, self.scale, self.model_motion.model);
+        }
         (
             giants_game::first_person::Camera {
                 position: self.camera().1,
