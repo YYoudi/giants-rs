@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## Kabuto cold auxiliary construction/reset - 5 November 2026
+
+The public cold auxiliary factory matches 88 native constructor/reset outcomes
+(16,984 normalized header words plus list counts), preserving the declared
+state-78 allocation and acquired empty-state destructor/release. Typed resources
+and atomic refusal/release checks are separate from full initialization. Parent
+binding, physical/animation/material composition, movement and growth remain
+pending. This CPU stage adds no playable character or new Windows package;
+existing build/package receipts remain tied to their exact sources.
+
+
+The isolated workspace retains the newer Delphi shared physical defaults and
+passes 722 synthetic Rust tests (18 ignored), 35 Python tests, Rustfmt, Clippy and
+site/JavaScript checks. The optional installed-data auxiliary lifecycle/refusal
+control passes without a window or sound. The native/Rust constructor comparison
+passes against the final source. These checks remain separate from a complete
+Kabuto first primary, playable admission and visual fidelity.
+
 ## Kabuto auxiliary geometry preparation - 5 November 2026
 
 Owned auxiliary vertex/topology preparation matches 112 native controls and

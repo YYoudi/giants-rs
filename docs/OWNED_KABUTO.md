@@ -211,3 +211,38 @@ and its shared physical-default reset. It passes 722 Rust tests (17 ignored),
 35 Python tests, Rustfmt, Clippy and site/JavaScript checks. The 112-case geometry
 comparison passes again. Existing preview receipts remain bound to their earlier
 sources; no new playable Kabuto capability or binary is claimed.
+
+## Owned cold auxiliary constructors
+
+`kabuto_auxiliary::Factory` loads the actual two auxiliary and two effect class
+profiles from the selected source resources. It constructs unparented actors
+through the common Session storage, references, shadow and list services. Effect
+classes first allocate their declared state-78 payload. The acquired all-zero
+profile then runs the existing storage transition with its destructor boundary,
+releases the old payload and reaches inactive state zero. This does not bypass
+the declared effect state by substituting an empty seed.
+
+Eight native contexts supply 88 constructor/reset outcomes. The public factory
+matches all 16,984 normalized header words and final list counts. Separate native
+observations record 72 empty payloads at destructor entry and 72 released/null
+payloads after transition. Typed resource identities, final empty storage and
+owned release are checked on Rust. Unknown/nonempty effect cleanup remains
+refused; these are owned refusal semantics, not native failure-path parity.
+
+The source-data check also refuses a wrong constructor mask and a nonempty
+prepared effect payload without changing counts or list membership. It verifies
+resource/cache release and distinct subsequent construction. Constructor and
+reset/destructor prototype-name searches remain unassigned; no PS2 ABI/layout
+is imported. Original inputs, headers and detailed cleanup records remain private.
+
+Parent/reference binding, post-construction flags, generated material, auxiliary
+geometry registration, physical/animation initialization and their complete
+composition still require validation. These cold constructors do not execute
+movement, growth or a full first primary and do not admit a Kabuto mission.
+
+The isolated workspace retains the newer Delphi shared physical defaults and
+passes 722 synthetic Rust tests (18 ignored), 35 Python tests, Rustfmt, Clippy and
+site/JavaScript checks. The optional installed-data auxiliary lifecycle/refusal
+control passes without a window or sound. The native/Rust constructor comparison
+passes against the final source. These checks remain separate from a complete
+Kabuto first primary, playable admission and visual fidelity.

@@ -77,6 +77,17 @@ resource release, refused profiles and the cold player-field initializer without
 a window or sound. It does not execute live type changing, camera completion,
 movement or growth. See OWNED_KABUTO.md.
 
+For the separate cold auxiliary constructor/reset control, use the same data
+variable and isolated target:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_auxiliaries_construct_declared_states_then_clear_empty_effects --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This checks the declared effect-state lifecycle, typed resource ownership,
+refused nonempty/mask profiles and release without a window or sound. It does
+not bind the auxiliaries to the player, tick them or admit a mission.
+
 ## Optional silent runtime lifecycle check
 
 After building a preview, supply your own installation and a fresh private output:
