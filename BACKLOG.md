@@ -17,6 +17,11 @@ matches probable and one unassigned. No gameplay status changes follow from name
   PS2 comparisons without inferring types from them. Acquire pre-primary and
   subjective fire timing, positional audio and native mesh/list producers, with
   separate PC/PS2 identities and platform differences.
+- The central method now records seven current primary/subjective function
+  lookups as unassigned, with their exact PC aliases, current owned Rust
+  relationships and missing comparisons. Reuse those identity-bound searches;
+  preserve older presentation-module references as historical aliases rather
+  than attributing the owned pipeline to that presentation implementation.
 - Revisit acquired services incrementally on touch: primary/animation, aim/target,
   collision, physics, wield/projectiles, audio and shared actor services. Preserve
   old identifiers as aliases. Use the central continuation record and the lookup

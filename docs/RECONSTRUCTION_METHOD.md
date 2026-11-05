@@ -184,9 +184,42 @@ does not cover all EE/MMI instructions and can mislabel them as other extensions
 those renderings were excluded from the attribution evidence. No claim of complete
 PS2 disassembly, `.mdebug` recovery or original source reconstruction is made.
 
+## Current-function lookup follow-up — 6 November 2026
+
+The following PC functions have private, identity-bound name-search worksheets.
+They use the PC debug digest stated above. These are **unknown attributions**,
+not additional matches in the six-service reviewed summary. Literal vocabulary
+hits identify candidates to investigate; they do not establish a counterpart.
+No PS2 address, raw symbol or demangled signature is assigned to these rows.
+
+| PC address / retained alias | Current Rust relationship | Missing attribution evidence |
+| --- | --- | --- |
+| `0x0047c3d0` / `FUN_0047c3d0` | `Session::advance_mecc_primary_with_history`, including its deferred-fire route | Independent PS2 primary/controller algorithm and call-order comparison |
+| `0x0049e620` / `FUN_0049e620` | `mecc_subjective::State::prepare_from_session` | Independent pre-world copy/resource and caller correspondence |
+| `0x0049eaf0` / `FUN_0049eaf0` | `Session::advance_mecc_subjective_post` and `mecc_subjective::State::post` | Independent post-world selection/ANM/fire ordering correspondence |
+| `0x0049f1e0` / `FUN_0049f1e0` | `first_person::animation` | Independent selector branches, constants and caller correspondence |
+| `0x0049ece0` / `FUN_0049ece0` | `first_person::place` | Independent placement/camera invocation and transform correspondence |
+| `0x0045b520` / `FUN_0045b520` | Selected-weapon boundary in `resident_states/subjective.rs`; no standalone getter equivalence claimed | Independent getter/storage and caller correspondence |
+| `0x004b1450` / `FUN_004b1450` | Authored icon-family boundary in `resident_states/subjective.rs`; no standalone getter equivalence claimed | Independent resource-selection and caller correspondence |
+
+Earlier private worksheets referring to `subjective_player::State` remain
+retrievable aliases, not proof that the presentation player implements the native
+pre/post-world contract. Subsequent records must name the current owned module
+and retain that older relationship as historical. A worksheet's default
+`unknown` is also retained after a separate reviewed record confirms a match:
+the discovery worksheet is immutable evidence, not the attribution authority.
+For the three confirmed rows above, use the reviewed rationale and scoped control
+receipts rather than silently editing the original searches to look confirmed.
+
 ## Publication boundary
 
-The table above is a deliberately small reviewed attribution summary: binary
+Before publishing any additional attribution, select only the necessary binary
+digests, virtual addresses, raw symbol, qualified demangling, retained PC alias,
+Rust relationship, status and independently written evidence/limits. Review that
+selection separately from the full private record; never export a worksheet or
+candidate table as the public representation.
+
+The six-service table is a deliberately small reviewed attribution summary: binary
 digests, addresses, a few literal names, uncertain interpretations, existing Rust
 relationships and independently written rationale. It is not a raw symbol-table
 export. Before adding a row, review necessity, identity, ambiguity, aliases,

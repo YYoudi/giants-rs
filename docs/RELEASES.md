@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Prototype PS2 method follow-up — 6 November 2026
+
+The central reconstruction method now makes seven current Mecc primary/subjective
+lookups explicitly unassigned, preserves their PC aliases and relates historical
+worksheet labels to the current owned Rust modules. Both read-only ELF copies
+again match the recorded SHA256, 4,769 nonzero-size functions and 1,015,349-byte
+`.mdebug` section. The reviewed attribution total remains three confirmed,
+two probable and one unassigned service; the seven new lookup summaries are
+separate unknowns, not new routine matches. Private tables, executables and
+research receipts remain excluded. This documentation follow-up produces no
+runtime change, fidelity promotion or new preview package.
+
+Validation: all 38 Python tests pass, including private-output, binary-identity,
+alias/demangling and non-promotion controls. Roadmap regeneration, site export and
+JavaScript syntax checks pass. The source/history pattern audit reports zero
+findings across 198 reachable commits and 1,947 distinct blobs at base `148a57c`.
+No Rust implementation changed; existing runtime/build receipts keep their exact
+source identities.
+
 ## Kabuto CPU registration and custom cold cleanup - 6 November 2026
 
 The owned normal-cold registry preserves ordered geometry membership, retires

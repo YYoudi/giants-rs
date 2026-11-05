@@ -18,6 +18,12 @@ unassigned. Only its digests, addresses, literal symbol, interpreted name, Rust
 relationship and independently written rationale are public. Native phase traces,
 comparison inputs and complete private control receipts remain excluded.
 
+The 6 November follow-up adds seven explicit unknown current-function lookups,
+retained PC address aliases, current Rust relationships and missing independent
+comparisons. It publishes no candidate symbols or research excerpts and does not
+increase the count of confirmed identities. Read-only rechecking of both supplied
+ELFs reproduces the pinned digest, function count and `.mdebug` byte count.
+
 ## Historical source-publication review
 
 **Technical review completed; source publication performed under owner authorization.**
