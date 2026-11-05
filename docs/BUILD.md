@@ -8,6 +8,9 @@ Native research follows [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md).
 The optional read-only `python -m tools.ps2_symbol_lookup --help` tool uses private,
 locally configured inputs; its worksheets stay under ignored `.local`. Synthetic
 CI requires neither prototype data nor an original installation.
+Preserve build labels and previous identifiers with `--pc-profile` and repeated
+`--alias`; the central method defines the private continuation record and the
+separate, reviewed public attribution summary.
 
 ```powershell
 rustup toolchain install stable-x86_64-pc-windows-gnu --profile minimal --component rustfmt,clippy
@@ -62,6 +65,19 @@ It constructs the owned copy/held-object group, checks reference ownership,
 special-only versus cold-player fields, owned initial physics, replay/failure
 guards, rejected invalid frames and registry clearing. It executes no original process,
 window or audio and does not admit a live Delphi controller. See OWNED_DELPHI.md.
+
+## Optional owned Delphi physical composition check
+
+For the owned ordinary Delphi physical/jump/ANM/history composition, with the same
+`GIANTS_DELPHI_ROOT` and isolated target, run:
+
+```powershell
+cargo test --locked -p giants-game source_delphi_physical_owns_motion_shares_events_and_quarantines_failure --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This silent CPU control checks two owners, persistent motion/contact/jump, shared
+class events, profile refusal and cleanup. It creates no window or audio device
+and does not execute the complete Delphi primary/secondary or live controls.
 
 ## Optional cold Kabuto resource check
 

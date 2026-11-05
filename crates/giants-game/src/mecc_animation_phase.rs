@@ -1,100 +1,24 @@
-//! Real owned ordinary ANM tail at a caller-selected physical boundary.
-//! Selection is still the acquired normal profile, not the whole secondary.
-use crate::{
-    actor_fields::Fields,
-    actor_references,
-    animation_channels::{self, Channels},
-    attached_effect_context::Pool,
-    audio_parameters::Random,
-    mecc_animation_events,
-    mecc_physical_cycle::View,
-    procedural_aim::Matrix,
-    resident_states::Id,
-    specification::Prepared,
-};
-use std::sync::Arc;
-
-/// World-owned dependencies shared across actors and both ANM passes.
-pub struct Services<'a> {
-    pub contexts: &'a mut Pool<Id>,
-    pub random: &'a mut Random,
-    pub stamp: &'a mut crate::animation_epoch::Stamp,
-    pub blending: animation_channels::Blending,
-}
-pub(crate) struct Pipeline<'a> {
-    pub materials: Option<Arc<crate::mecc_contact_materials::Catalog>>,
-    pub specification: Arc<Prepared>,
-    pub references: actor_references::Owned,
-    pub bank: mecc_animation_events::Bank,
-    pub contexts: Pool<Id>,
-    pub random: Random,
-    pub channels: Channels,
-    pub owner: Id,
-    pub stamp: &'a mut crate::animation_epoch::Stamp,
-    pub last_stamp: u32,
-    pub blending: animation_channels::Blending,
-}
-pub(crate) struct Pass {
-    pub channels: Channels,
-    pub references: Option<Vec<Matrix>>,
-    pub processed: bool,
-    pub visits: u32,
-    pub stamp: u32,
-}
+//! Mecc selection and compatibility adapter over the shared owned ANM core.
+pub use crate::actor_animation_phase::Services;
+pub(crate) use crate::actor_animation_phase::{Pass, Pipeline};
+use crate::{actor_fields::Fields, animation_channels, mecc_physical_cycle::View};
 impl Pipeline<'_> {
     pub fn advance(&mut self, fields: &Fields, view: &View, seconds: f32) -> Result<Pass, String> {
-        let mut durations = vec![None; 256];
-        for (&slot, descriptor) in &self.specification.animations {
-            durations[usize::from(slot)] = Some(descriptor.template.duration);
-        }
-        let tick = animation_channels::advance(
-            &mut self.channels,
-            &durations,
-            [
-                view.model_rates[0],
-                view.model_rates[1],
-                view.model_rates[2],
-                view.angular_rate,
-            ],
+        self.advance_sample(
+            fields,
+            crate::actor_animation_phase::Sample {
+                model: [
+                    view.model_rates[0],
+                    view.model_rates[1],
+                    view.model_rates[2],
+                    view.angular_rate,
+                ],
+                affine: view.affine,
+                support: view.support,
+                support_part: view.support_part,
+            },
             seconds,
-            crate::arithmetic::Precision::Double53,
-        )?;
-        if tick.missing != 0 {
-            return Err("interleaved ANM descriptor absent".into());
-        }
-        let mut references = None;
-        let mut visits = 0;
-        if tick.processed != 0 {
-            self.last_stamp = self.stamp.advance();
-            self.references
-                .update_current(&self.channels, self.last_stamp)?;
-            let matrices = self.references.matrices();
-            visits = self.bank.dispatch(
-                mecc_animation_events::Input {
-                    owner: self.owner,
-                    fields,
-                    channels: &self.channels,
-                    references: matrices,
-                    affine: view.affine.ok_or("interleaved ANM affine absent")?.matrix,
-                    material: match &self.materials {
-                        Some(catalog) => mecc_animation_events::Material::Acquired(
-                            catalog.resolve(view.support, view.support_part)?,
-                        ),
-                        None => mecc_animation_events::Material::Unknown,
-                    },
-                },
-                &mut self.contexts,
-                &mut self.random,
-            )?;
-            references = Some(matrices.to_vec());
-        }
-        Ok(Pass {
-            channels: self.channels,
-            references,
-            processed: tick.processed != 0,
-            visits,
-            stamp: self.last_stamp,
-        })
+        )
     }
     pub fn select_normal(
         &mut self,

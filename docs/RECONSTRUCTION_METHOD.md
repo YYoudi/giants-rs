@@ -67,12 +67,43 @@ Supply `--elf`, `--pc-binary`, `--pc-address`, one or more `--query` values,
 Optionally supply `--symbol-csv` for unreviewed demangled labels. Configure private
 input paths locally; do not add them to repository documents or commands.
 
+Use `--pc-profile` to retain the build label and repeat `--alias` for every earlier
+identifier. These supplement the PC digest/address; a profile name cannot replace
+the digest. Supply `--demangler` only when the actual decoder/version is known.
+An omitted profile or decoder stays null, never inferred from a filename. The
+worksheet records a digest of the supplied CSV text re-encoded as UTF-8 (after
+Python newline normalization), separately from the exact binary digests. Retain
+the original CSV file digest in the private resource inventory as well.
+
 The tool pins the prototype hash, reads its actual ELF function symbols, checks
 supplied CSV function facts against that ELF, hashes the PC input and records
 the lookup even with zero candidates. It never executes inputs, imports research
 scripts, applies renames, assigns confidence scores or promotes an attribution.
 Its output starts at `unknown`, with publication review false. It is a private
 worksheet, not the complete reviewed record or a public export format.
+
+### Continuation record
+
+Every private task handoff must contain the following short record for its next
+function, including services already implemented and revisited on touch:
+
+```text
+PC: SHA256 / profile / virtual address / previous aliases
+Lookup: queries / literal ELF verification / explicit match or no-match result
+Prototype PS2: SHA256 / virtual address / raw symbol, or unassigned
+Demangling: interpretation / actual decoder version or unknown / ambiguities
+Attribution: confirmed, probable or unknown / independent evidence / alternatives
+Rust: module::symbol / source commit / implemented and unverified boundaries
+Next: missing comparisons / platform divergences / next behavioral control
+Publication: private by default / minimal-summary review if publication is needed
+```
+
+Link the existing private record instead of copying corpus excerpts into the
+handoff. On resume, verify that the recorded binary and source identities still
+apply; reuse a valid completed lookup rather than mechanically repeating it.
+A changed binary needs a new identity-bound lookup. Missing evidence remains an
+explicit prerequisite; neither a recovered name nor a successful lookup permits
+automatic renaming, a new ABI assumption or a gameplay progress promotion.
 
 ## Resource audit — 5 November 2026
 

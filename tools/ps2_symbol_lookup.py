@@ -35,7 +35,8 @@ def functions(data):
     return result
 
 
-def worksheet(elf, pc, address, queries, rust, symbol_csv=None):
+def worksheet(elf, pc, address, queries, rust, symbol_csv=None, *, pc_profile=None,
+              aliases=(), demangler=None):
     if not 0 <= address <= 0xffffffff or not queries or any(not q.strip() for q in queries):
         raise ValueError('Expected a PC virtual address and nonempty name queries')
     digest = hashlib.sha256(elf).hexdigest()
@@ -58,9 +59,13 @@ def worksheet(elf, pc, address, queries, rust, symbol_csv=None):
         if any(q.casefold() in (symbol['raw_symbol'] + ' ' + (label or '')).casefold()
                for q in queries):
             candidates.append(symbol | dict(demangled=label, demangle_status='unreviewed'))
+    previous_aliases = list(dict.fromkeys([f'FUN_{address:08x}', *aliases]))
     return dict(schema_version=1, pc=dict(sha256=hashlib.sha256(pc).hexdigest(),
-                address=f'0x{address:08x}', aliases=[f'FUN_{address:08x}']),
+                profile=pc_profile, address=f'0x{address:08x}', aliases=previous_aliases),
                 prototype=dict(sha256=digest), lookup=dict(queries=queries, completed=True),
+                demangling=dict(decoder=demangler, status='unreviewed',
+                    csv_text_sha256=hashlib.sha256(symbol_csv.encode('utf8')).hexdigest()
+                    if symbol_csv is not None else None),
                 rust=rust, attribution_status='unknown', candidates=candidates,
                 evidence=[], divergences=[], publication_reviewed=False)
 
@@ -70,9 +75,12 @@ def main():
     parser.add_argument('--elf', type=Path, required=True)
     parser.add_argument('--pc-binary', type=Path, required=True)
     parser.add_argument('--pc-address', type=lambda v: int(v, 16), required=True)
+    parser.add_argument('--pc-profile', help='Local build/profile label; digest remains authoritative')
+    parser.add_argument('--alias', action='append', default=[], help='Preserve an earlier PC identifier')
     parser.add_argument('--query', action='append', required=True)
     parser.add_argument('--rust', required=True)
     parser.add_argument('--symbol-csv', type=Path)
+    parser.add_argument('--demangler', help='Decoder/version for supplied labels, if actually known')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     output = args.output.resolve()
@@ -81,7 +89,8 @@ def main():
         raise ValueError('Worksheet output must be fresh, private and separate from inputs')
     report = worksheet(args.elf.read_bytes(), args.pc_binary.read_bytes(), args.pc_address,
                        args.query, args.rust,
-                       args.symbol_csv.read_text(encoding='utf8') if args.symbol_csv else None)
+                       args.symbol_csv.read_text(encoding='utf8') if args.symbol_csv else None,
+                       pc_profile=args.pc_profile, aliases=args.alias, demangler=args.demangler)
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open('x', encoding='utf8') as stream:
         json.dump(report, stream, indent=2)
