@@ -61,8 +61,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   atomic failure and release are checked. See docs/OWNED_KABUTO.md. This does not
   execute special/player initialization or relocate the actor to the mission marker.
   Unknown state-1 classes, legacy profiles and mission state writes remain refused.
-- Acquire and compare cold initialization, equipment/children and the actual
-  player setup; then land movement/jumping, size-dependent collision and growth.
+- Acquire and compare the actual player setup, shared reset/state/camera services
+  and activation; then land movement/jumping, size-dependent collision and growth.
+  Static inspection of the special dispatcher shows Mecc/Delphi branches and no
+  Kabuto branch. Do not copy their child creation into Kabuto or treat that return
+  as complete player initialization; compare the surrounding shared setup first.
   Reuse owned actor, terrain, input, animation, effect and audio services with
   acquired Kabuto parameters and explicit phase order.
 - Connect validated behavior through selected missions, camera/HUD/audio and

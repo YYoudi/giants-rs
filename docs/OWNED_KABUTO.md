@@ -43,3 +43,15 @@ The isolated workspace passes 702 synthetic Rust tests (16 ignored), 20 Python
 tests, Rustfmt, Clippy and the site/JavaScript checks. The separate installed-data
 cold construction/refusal control also passes. These checks do not execute a
 Kabuto gameplay frame.
+
+Combined source `3bcc719090949dc043121d332d11f704267c34e1` preserves the newer
+Mecc armed transitions and silent cinematic-audio correction. It passes 705 Rust
+tests (16 ignored), 20 Python tests, Rustfmt, Clippy and the site checks. These
+regressions remain distinct from Kabuto player integration.
+
+Private static setup/disposition evidence:
+`ev_7c2221184c98a112a75e98586915d666730afe83184441c413781af0539517d2`
+and `ev_888c71a02f9092e68ca24d197226e6c376c6c0044b233de7e9bf1b3fd25a35c4`.
+The inspected special dispatcher handles Mecc/Delphi and returns for Kabuto;
+surrounding shared player reset, state, camera and activation calls still require
+their own acquisition. This static observation is not an executed player setup.

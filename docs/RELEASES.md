@@ -19,6 +19,11 @@ tests, Rustfmt, Clippy, source-data cold-construction controls and site checks.
 Playable milestones still require the common menu-first build, receipt-bound
 package checks and accurately scoped runtime validation.
 
+Combined source `3bcc719090949dc043121d332d11f704267c34e1` retains the Mecc
+armed-transition and silent-audio corrections and passes 705 Rust tests (16
+ignored), 20 Python tests, Rustfmt, Clippy and site checks. Kabuto player setup
+and runtime movement remain separate from this validated ordinary constructor.
+
 ## Normal pistol armed transitions - 5 November 2026
 
 Source `d1ed0f002a82fbab9dff5f38db82ba50ee4a5a0d` extends the optional owned
