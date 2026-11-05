@@ -94,7 +94,7 @@ For the atomic cold group composition/refusal/re-entry control, use:
 cargo test --locked -p giants-game source_kabuto_group_composes_fields_links_and_physics_atomically --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-It uses `GIANTS_KABUTO_ROOT` and creates no window or sound. Pending model,
+It uses `GIANTS_KABUTO_ROOT` and creates no window or sound. Pending animation-cache,
 material, registration and camera services are not acknowledged; no mission
 is admitted by this control.
 

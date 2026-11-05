@@ -154,10 +154,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   16 native contexts (53,728 words), including all actor headers, owner payload,
   typed links, geometry buffers and ordered lists. Late failure preserves the
   existing Session; clear/re-entry and generation-without-physics checks pass.
-  The group's pending camera/model/material/global-geometry services remain
+  The group's pending camera/animation-cache/material/global-geometry services remain
   explicit; this is not full first-initializer behavior or gameplay readiness.
-- Complete first-initializer behavior beyond the acquired field group: model
-  callbacks, generated material/global geometry registration and camera reset
+- Complete first-initializer behavior beyond the acquired field group: animation
+  definition-cache lookup/clamping/reset lifetime, generated material/global
+  geometry registration and camera reset
   consumption. Acquire the native Kabuto-specific teardown and complete primary;
   the current release proof covers whole-Session clear only.
   Reuse `physical_initial::reset`. The native effect auxiliaries pass through

@@ -5,7 +5,7 @@
 The owned twelve-actor cold group matches sixteen native contexts and 53,728
 normalized field/buffer words, including owner payload, typed links and ordered
 lists. Staging makes late failure atomic; source-data clear/re-entry checks pass.
-Camera, model callbacks, material/global geometry registration, full first-primary
+Camera, animation-definition cache, material/global geometry registration, full first-primary
 behavior and native character teardown remain pending. This field proof is not
 playable admission or fidelity and produces no new public binary/package receipt.
 See OWNED_KABUTO.md; earlier receipts stay bound to their exact source.

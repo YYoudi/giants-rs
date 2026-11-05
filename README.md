@@ -84,7 +84,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Kabuto
 
-- [ ] **Kabuto movement and growth** — todo; Runtime integration. Movement, jumping, size-dependent collision and growth triggers remain unimplemented. The owned twelve-actor cold group field composition matches 16 native contexts (53,728 words), including typed auxiliary links, physics/size data, geometry buffers and ordered lists. Camera acknowledgement, model callbacks, generated material/global geometry registration, full first-primary behavior and live admission remain pending. CPU field parity is not playable readiness or visual fidelity.
+- [ ] **Kabuto movement and growth** — todo; Runtime integration. Movement, jumping, size-dependent collision and growth triggers remain unimplemented. The owned twelve-actor cold group field composition matches 16 native contexts (53,728 words), including typed auxiliary links, physics/size data, geometry buffers and ordered lists. Camera acknowledgement, animation-definition caching, generated material/global geometry registration, full first-primary behavior and live admission remain pending. CPU field parity is not playable readiness or visual fidelity.
 - [ ] **Grabbing, storing and eating creatures** — todo; Runtime integration. Grab creatures, store them on horns, eat them and restore health.
 - [ ] **Kabuto attacks and adrenaline** — todo; Runtime integration. Hand and foot attacks, adrenaline levels, combinations and area damage.
 - [ ] **Throwing and environmental attacks** — todo; Runtime integration. Throw creatures and boulders; collisions, fragments, damage and replenishing rock columns.

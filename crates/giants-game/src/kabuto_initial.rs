@@ -1,5 +1,5 @@
 //! Ticket-owned composition of cold Kabuto actor fields, auxiliary links and
-//! physics. Missing model/material/camera services are explicit pending work;
+//! physics. Missing animation-cache/material/camera services are explicit pending work;
 //! this group is not admitted to live gameplay.
 use crate::{
     animation_channels::Blending,
@@ -19,7 +19,7 @@ use std::sync::Arc;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Pending {
     ProjectionReset,
-    ModelCallbacks,
+    AnimationCache,
     ProceduralMaterial,
     GeometryRegistration,
 }
@@ -184,7 +184,7 @@ impl Factory {
             physics: prepared.physics,
             pending: [
                 Pending::ProjectionReset,
-                Pending::ModelCallbacks,
+                Pending::AnimationCache,
                 Pending::ProceduralMaterial,
                 Pending::GeometryRegistration,
             ],

@@ -306,7 +306,7 @@ vertices and indices. Every ordered list matches. Unlike the earlier isolated
 component controls, the owned actor state is constructed from resources and the
 provided cold frame; native computed actor state is not an input to Rust.
 
-The generated material, model callbacks, global geometry registration and camera
+The generated material, animation-definition cache, global geometry registration and camera
 projection acknowledgement are explicitly pending on the group. They are not
 compared or acknowledged by this field/buffer proof. The seeded effect matrix is
 exposed separately from evaluated world/contact transforms. This is not complete
@@ -326,3 +326,10 @@ Clippy and site/JavaScript checks. The installed-data atomic group/re-entry chec
 and the complete 16-context field/buffer/list comparison pass again after that
 merge. These checks do not acknowledge the group's pending providers or certify
 an executable gameplay/fidelity milestone.
+
+The callback passed by the inspected cold prefix clears its animation-cache
+initialized flag. It is a reset hook, not evidence that the prefix registers
+skeletal pose callbacks. The group's pending item is therefore named
+`AnimationCache`; definition lookup/clamping and reset lifetime remain to port.
+Any procedural pose callbacks belong to the still-unacquired primary/animation
+path and are not acknowledged by this field proof.
