@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.05.3
+# Windows x64 development preview - preview-2026.11.05.4
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -12,11 +12,16 @@ is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
 
-Compared with preview-2026.11.05.2: an exhausted synchronization stream now supplies
-zero audio time, disabling drift correction while the director continues on its
-own clock. The reader no longer fabricates a realtime audio tail, and a track
-ending before its director no longer causes the strict reader to fail by itself.
-The common reader serves both the selected-mission opening and explicit viewers.
+Compared with preview-2026.11.05.3: local-player Mecc sound recipes are now
+preloaded only for the actual single Mecc start declaration. Reaper, Kabuto or
+ambiguous starts no longer request unrelated Mecc jet/carry/footstep cues from
+their catalogs. Generic actor sounds retain lazy lookup in the real catalogs.
+No sound aliases or fallback samples were added. Other local-player cue profiles
+remain unimplemented, and character/gameplay admission gates remain in place.
+
+Retained: exhausted synchronization streams report zero audio time, disabling
+drift correction while the director continues on its own clock. No realtime
+audio cursor is fabricated after track retirement.
 
 Natural-ending transport checks now use the integrated menu path, real audio
 sinks at zero volume, actual source terminals and a second mission entry. They
@@ -42,7 +47,7 @@ a new accessible weapon or reticle in this preview. See OWNED_TARGETING.md.
 
 ## Validation scope and remaining limits
 
-Synthetic controls passed: 695 Rust tests, 14 ignored; 20 Python tests; Rustfmt
+Synthetic controls passed: 696 Rust tests, 14 ignored; 20 Python tests; Rustfmt
 and Clippy. Build artifacts use a dedicated target directory; a contaminated
 shared-cache test inventory was rejected. Exact-reference CPU controls cover
 32 stream-time queries and six retirement paths with supplied device/event
@@ -54,6 +59,12 @@ source-terminal transport and re-entry; it does not certify a complete rendered
 scene. Story1 mission 5 has no declared bitmap-text block/call and exercises
 sync-track exhaustion. Story4 mission 1 exercises text-atlas cleanup. Their
 post-film gameplay/preview distinction must remain explicit in validation results.
+
+The preceding preview audit covered 29 declared menu-opening roots: 18 passed
+transport checks, ten failed on the unrelated Mecc cue preload now corrected,
+and Story4 mission 2 exhausted the periodic-effect preview reserve. Four targeted
+roots pass on this executable; the full matrix has not yet been repeated. The
+long Story4 effect failure remains open; effects are not silently dropped.
 
 All 545 historical sources across 16 worlds remain in scope; zero complete scenes
 have verified fidelity. Effects, actor variants, lighting, shadows, water, native
@@ -69,7 +80,7 @@ Dependency/runtime notices and an inventory accompany it. Public packages requir
 a matching technical review and build receipt, complete notices, and independent
 ZIP/checksum verification. A checksum confirms identity, not legal clearance.
 
-## Unreleased source work after this preview
+## Source capabilities without live mission integration
 
 The owned Session can now publish the local target prepass's typed relationships,
 aim point and terrain-reticle flag. Controlled CPU comparison and failure/lifecycle
@@ -85,5 +96,5 @@ live primary/camera/fire scheduling remain pending.
 
 The local callback now couples the actual owned scan to range-reticle state and
 tracked/untracked pistol requests. Its controlled full-callback comparison is in
-OWNED_LOCAL_FIRE.md. The main mission driver still does not call this phase, so
-this source work does not add accessible firing or a new downloadable preview.
+OWNED_LOCAL_FIRE.md. The main mission driver still does not call this phase;
+including this source API does not add accessible firing to this preview.

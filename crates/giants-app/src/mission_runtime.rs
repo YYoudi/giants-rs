@@ -442,16 +442,37 @@ impl Runtime {
             .filter(|a| a.ticket == ticket)
             .ok_or("audio ticket not active")?;
         let resources = active.payload.plan.resources();
-        let mut ids = vec![
-            0x5f7, 0x5f8, 0x5b0, 0x5b1, 0x5b2, 0x5b3, 0x5b5, 0x5b6, 0x5b7,
-        ];
+        // These are controlled Mecc cue recipes, not universal mission sounds.
+        // Use the actual single start declaration; a failed player preparation
+        // must not hide missing Mecc resources in an otherwise Mecc mission.
+        let player_kind =
+            active
+                .payload
+                .packet
+                .mission
+                .as_ref()
+                .and_then(|m| match m.starts.as_slice() {
+                    [start] => Some(start.words[0]),
+                    _ => None,
+                });
+        let mecc_cues = player_kind == Some(2);
+        let mut ids = if mecc_cues {
+            vec![
+                0x5f7, 0x5f8, 0x5b0, 0x5b1, 0x5b2, 0x5b3, 0x5b5, 0x5b6, 0x5b7,
+            ]
+        } else {
+            Vec::new()
+        };
         ids.extend(active.payload.impact_sounds.iter().copied());
-        if matches!(&active.payload.carried, Ok(Some(_))) {
+        if mecc_cues && matches!(&active.payload.carried, Ok(Some(_))) {
             ids.extend([1510, 1705, 1706]);
         }
-        if let Ok(footsteps) = giants_game::mecc_footsteps::Prepared::load(resources) {
+        if mecc_cues && let Ok(footsteps) = giants_game::mecc_footsteps::Prepared::load(resources) {
             ids.extend(footsteps.sound_ids());
         }
+        println!(
+            "mission_audio_player_profile ticket={ticket} declared_kind={player_kind:?} mecc_cues={mecc_cues} other_local_profiles_implemented=false generic_actor_sounds=actual_catalog_lazy_lookup"
+        );
         let (language, inferred) = giants_game::gameplay_sound_bank::voice_language(
             &resources.archives,
             &resources.language,
