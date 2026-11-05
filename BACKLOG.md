@@ -32,8 +32,7 @@ automatically wired into the main menu-to-mission build.
   local time and shared FX/RNG, before jet/secondary/second ANM. A continuous
   64-frame walking/pulsed-trigger control matches 31,532 normalized words,
   including two projectiles, 64 held-world/reference caches and deferred FX.
-  Missing muzzle
-  and late sound failures quarantine without replay; constructor FX/RNG survive
+  Missing muzzle and late sound failures quarantine without replay; FX/RNG survive
   the latter. This controlled partial Mecc-then-held cohort is not a full world.
   Armed walk, standing-shot/aim, side and turn selections are acquired. Five
   continuous CPU controls (576 frames, 22 shots, 341,220 normalized words) match

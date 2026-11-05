@@ -4,6 +4,30 @@ The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
 
+## Normal pistol armed transitions - 5 November 2026
+
+Source `d1ed0f002a82fbab9dff5f38db82ba50ee4a5a0d` extends the optional owned
+primary with standing-shot/aim, side and turn selections. Five continuous CPU
+controls match 576 frames, 22 shots and 341,220 normalized words, including
+player/projectile state, held caches and deferred FX. Same-clip standing shots
+restart with zero blending; trigger release retains the firing channel until
+its actual end. These are acquired CPU services; the main driver still supplies
+`fire: None` pending real camera/view timing and positional audio.
+
+700 synthetic Rust tests pass (14 ignored), with 20 Python tests, formatting,
+Clippy and source/site checks. The isolated GNU build has a local draft with ten
+allowlisted members, complete notices, matching build/review receipts and no
+verifier blockers. Executable SHA256:
+`e424114a8edf6566afbd01d5d57d2af3e6ddd6acb88dd08431aa912b83731aa5`.
+ZIP SHA256:
+`f11249429c8ee111b3ae159c5bd12591bace24a3a31cb20c3809b4e8556fe0bb`.
+The draft remains private and adds no playable weapon to the public download.
+Its development lifecycle passes; its silent selected-opening check fails
+because device-backed audio players were queued with the audio plugin disabled.
+Source `4f68fae` corrects that policy and adds a zero-player retirement receipt;
+701 Rust tests and 20 Python tests pass. Receipt-bound application revalidation
+is pending in a fresh build.
+
 ## Owned primary fire integration - 5 November 2026
 
 Combined source `36f992c362a0cfad6ba60aa3edae0c2ff9bc1fbe` retains the

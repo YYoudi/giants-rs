@@ -133,6 +133,20 @@ restart, released-trigger retention, channel end, side rate and angular rate.
 reactions, other weapon styles, real camera/view timing and positional audio
 remain prerequisites. The application still supplies `fire: None`.
 
+The isolated GNU build from
+`d1ed0f002a82fbab9dff5f38db82ba50ee4a5a0d` has an asset-free local draft with ten
+allowlisted members, complete notices, matching technical review and build
+receipt, and no package-verifier blockers. Executable SHA256:
+`e424114a8edf6566afbd01d5d57d2af3e6ddd6acb88dd08431aa912b83731aa5`.
+Archive SHA256:
+`f11249429c8ee111b3ae159c5bd12591bace24a3a31cb20c3809b4e8556fe0bb`.
+This remains a private draft; the public download is unchanged by this CPU work.
+Its development lifecycle check passes, but the silent selected-opening check
+exposed device-backed audio players being queued with the audio plugin disabled.
+Source `4f68fae` adds an explicit playback policy and a zero-player retirement
+receipt; 701 Rust tests and 20 Python tests pass. A fresh combined runtime check
+is required before treating that correction as validated in the application.
+
 Private REA identities: viewport-origin accessor
 `ev_63f15249b41c8db2b91092642deed71a7537f1f96384bdf7d405c2a7952200e3`;
 distance metric
