@@ -28,6 +28,11 @@ three selected-opening cancellation cycles without a window or audio device.
 These checks do not execute Delphi controls, active effects, complete playback
 or visual-fidelity verification.
 
+The later Kabuto-texture merge at `4503331` retains unchanged Delphi/shared
+ANM/effect-initialization/RNG source and passes 737 Rust tests (22 ignored),
+36 Python tests, Rustfmt and Clippy. The earlier executable/package receipt
+remains bound to its exact source.
+
 ## Kabuto generated procedural CPU texture - 5 November 2026
 
 The normal cold constructor's generated image now matches 64 native seed

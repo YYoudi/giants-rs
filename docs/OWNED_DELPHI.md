@@ -86,6 +86,11 @@ and three selected-opening cancellation cycles, without a window or audio device
 These exercise the menu/Mecc/cinematic lifecycle, not Delphi input, active effects,
 complete playback or visual fidelity.
 
+The subsequent Kabuto-texture merge at `4503331` retains identical Delphi,
+shared ANM, effect-initialization and RNG source. It passes 737 Rust tests
+(22 ignored), 36 Python tests, Rustfmt and Clippy. This later source identity
+does not replace the exact source in the earlier executable/package receipt.
+
 Native-only continuation records the complete selected-owner primary/secondary
 flow around the acquired physical body. Observers retain 3,009 direct primary
 calls and 576 phase calls while preserving the original 64 final cohort states.
