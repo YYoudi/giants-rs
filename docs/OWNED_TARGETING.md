@@ -53,6 +53,15 @@ target scan. A local draft includes the receipt-bound executable, complete
 notices, manifest and checksums and passes the independent package verifier.
 It is retained locally; the current downloadable preview remains unchanged.
 
+The combined main build at
+`7fd24444f41c4dcbae9fc5c18e1a72690f678a96`, including the independently developed
+cinematic changes, subsequently passed 694 Rust tests (14 ignored), 19 Python
+tests, Rustfmt, Clippy and the GNU Windows release build. Both silent
+three-launch menu/arena regressions passed again. The cinematic regression also
+passed three fresh text-owner releases and real cancellations, with no panic or
+injected skip. These lifecycle checks do not establish live targeting or visual
+fidelity.
+
 The portable publication regressions can be run without game data:
 
 ```powershell
