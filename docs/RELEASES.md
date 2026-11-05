@@ -957,3 +957,11 @@ scheduling behavior, complete visual/audio/subtitle parity, interactive skipping
 and total GPU/process memory reclamation remain open. Zero complete scenes are
 certified faithful. Private inputs, reports and new captures stay outside Git
 and release assets.
+
+The published ZIP was downloaded independently and passed the same member,
+notice-review, executable, archive and checksum identity checks. The subsequent
+combined source `32edb54f903b8d0a891c47877ea7d461566be1ff` preserves the independent
+locomotion/texture work and passes 739 Rust tests (22 ignored), 38 Python tests,
+formatting, Clippy and source audit. These synthetic checks do not relabel the
+preview's runtime controls or the earlier full-corpus inventory as runs of that
+later combined source.
