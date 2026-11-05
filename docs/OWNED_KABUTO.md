@@ -173,3 +173,29 @@ Rustfmt, Clippy and site/JavaScript checks. Both native/Rust size-control sets
 pass against the final shared source after the merge. This validates the size
 candidate and existing regressions; first-primary composition, motion and growth
 triggers remain pending.
+
+## Auxiliary geometry dependency
+
+The isolated cold initialization helper also returns successfully in eight
+native contexts without executing the primary remainder. This separates its
+actor/effect/physics setup from the later animation and movement work.
+
+One allocation in that helper is auxiliary procedural geometry, with generated
+vertex and index buffers. It is not an audio-sequence allocation. Its precise
+visual/gameplay role and prototype PS2 correspondence remain unknown. The public
+`kabuto_geometry::prepare` now owns the vertex/topology preparation for this
+acquired constructor profile, including its normals, seams, texture-coordinate
+offsets, signed zero and accumulated height. It rejects invalid dimensions and
+buffers beyond the 16-bit index budget before allocation.
+
+The vertex/topology subset matches 112 native controls (173,808 words): 48
+structured dimension/radius cases and 64 independently supplied fractional and
+irregular-dimension cases. The original full constructor/generator, its normalized
+headers and ordered native list linkage were acquired separately. Rust does not
+yet implement its generated material/texture, owner/global-list registration,
+deformation callbacks or complete initialization composition. No rendered result,
+scene admission, movement, growth or visual fidelity follows from buffer parity.
+
+The constructor and generator have separate prototype PS2 name searches against
+pinned inputs; attribution remains unknown. Private instruction observations,
+full original CPU execution and the owned geometry comparison remain distinct.

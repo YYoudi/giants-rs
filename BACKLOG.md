@@ -116,6 +116,12 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   does not choose a growth target, advance growth or publish a Session phase.
   All 544 native/Rust controls match 219,776 complete header/payload words,
   including variable parameters/scales and absent-class cases.
+- Implemented: auxiliary geometry vertex/topology preparation matches 112 native
+  controls (173,808 words), preserving generated normals, seams, UV offsets and
+  height accumulation. The isolated cold initialization helper is acquired in
+  eight contexts separately from the primary remainder. Generated material,
+  owner/global-list registration and deformation are still prerequisites; this
+  geometry allocation must not be treated as an audio sequence.
 - Implement and compare first-primary initialization and its size composition,
   including shared physical/animation services and owned auxiliary/effect links.
   Acquire marker relocation and camera consumption, then land movement/jumping,

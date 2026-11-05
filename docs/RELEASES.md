@@ -1,5 +1,14 @@
 # Preview releases and milestone integration
 
+## Kabuto auxiliary geometry preparation - 5 November 2026
+
+Owned auxiliary vertex/topology preparation matches 112 native controls and
+173,808 words. The isolated cold initializer has also been acquired separately
+from the primary remainder. Material generation, registration, deformation and
+complete owned initialization remain pending; this CPU dependency adds no live
+character, visual-fidelity claim or new downloadable package/receipt. See
+OWNED_KABUTO.md. Existing preview receipts remain tied to their exact sources.
+
 ## Cold Delphi local-player fields - 5 November 2026
 
 The common owned actor runtime now exposes the acquired Delphi cold player-field
