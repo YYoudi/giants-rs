@@ -49,8 +49,9 @@ no audio device or active effect playback is certified by this CPU control.
 
 The legacy callback also passes 64 native/Rust regressions / 16,570 words,
 including 18 untracked shots. All 696 synthetic Rust tests pass (14 ignored),
-with 19 Python tests, Rustfmt and Clippy. These checks remain separate from live
-mission input, complete primary scheduling and rendered fidelity.
+with 20 Python tests, Rustfmt and Clippy after the main integration. These checks
+remain separate from live mission input, complete primary scheduling and rendered
+fidelity.
 
 Eight additional owned-backend checks cover origin disagreement before mutation
 and missing-header failures with quarantine/no replay. These are refusal checks,
@@ -72,3 +73,25 @@ enclosing callback
 `ev_4cbaf1fe40899a74005249b38e09aceed0a0426287582f4ec7302085179138a1`.
 Static inspection and controlled execution are separate evidence. Neither is
 redistribution clearance or proof of a complete mission.
+
+## Integrated Windows validation
+
+Source `7023ac998e94792ff232a9e0b89e1e7eb9bf3143` preserves the concurrent
+cinematic transport work and the local callback. Project crates, tests, both CPU
+comparison runners and the GNU release were rebuilt in an isolated target;
+workspace artifacts from the shared cache were excluded. The isolated comparisons
+and all 696 Rust tests (14 ignored), 20 Python tests, Rustfmt, Clippy, source
+inventory and site/JavaScript checks pass.
+
+The receipt-bound executable passes both silent three-launch menu/arena
+regressions and three cinematic opening/cancellation cycles. These runs disable
+the audio device and create no window. They do not call the new local fire API,
+test natural cinematic transport or verify manual input and visual fidelity.
+
+An asset-free local draft has 10 allowlisted members, complete notices, a matching
+technical review/build receipt, manifest and checksums, and no verifier blockers.
+Executable SHA256:
+`8b8092e0edc6b398ba3fa9669ce676fcbce9f7e641ff103e7e145901b7fc91ac`.
+Archive SHA256:
+`aab736b598904fef6dcca0d2963baa2d05eac006dcb7d85914ec006c5ae75e71`.
+It remains a private draft; this CPU boundary does not publish another binary.
