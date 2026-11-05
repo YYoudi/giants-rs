@@ -121,6 +121,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   authentication or execution proof for every build.
   Impact/slide effects, nonordinary actions, water and equipment changes remain
   explicit unsupported boundaries. This does not execute the full primary.
+- The standalone manual heading/look kernel matches 2,531 supplied-boundary
+  cases / 488,483 header words in Double53. Connect it after the entered prefix
+  and before jump, with actor-owned look state and actual class rates/time.
+  Compare nonzero-input cohort trajectories and area-dependent timing before
+  admission; automatic target heading remains refused.
 - Compose the surrounding full primary, heading/look/pitch producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary

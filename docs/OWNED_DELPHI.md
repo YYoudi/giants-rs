@@ -4,6 +4,20 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Manual rotation kernel — 6 November 2026
+
+`player_rotation::advance` implements the acquired finite manual heading/look
+helpers with supplied object time, sensitivity, ownership and class rates in the
+measured Double53 profile. A 2,531-case PC/Rust scalar comparison matches 488,483
+complete header words. It preserves wide upper-heading correction, stored-float
+lower correction, nonzero-input look clamping and the distinct pause behavior.
+Automatic target heading is refused. Prototype PS2 attribution remains unknown.
+
+This standalone kernel is not connected to the owned Delphi cycle. Full producer
+ordering, nonzero-input cohort trajectories, area-dependent time, camera, mission
+input and live admission remain pending. It adds no playable capability or
+verified visual fidelity; the comparison is not a full controller proof.
+
 `Factory::construct_player_fields` adds the acquired cold local-player field
 projection around the special phase. It restores class scale, resets pitch,
 transfers supplied position history, creates the special group, selects the
