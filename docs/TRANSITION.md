@@ -264,3 +264,27 @@ the independent verifier with the same archive and executable hashes.
 No complete game feature is newly marked done. Required owned target-header,
 camera/muzzle/fire-phase services, live actor admission and impact reactions,
 objectives and progression remain in BACKLOG.md.
+
+## 5 November 2026 — owned local target publication
+
+Runtime source `66074d4c6607fccd5ac3d1562abff7ec1942c5c8` adds an explicit
+Session local scan that publishes three typed target relationships, the aim point
+and terrain-reticle state. Raw actor pointer slots remain normalized. Reference
+inventory protects selected actors from orphaning during retirement. Cancellation,
+misses, self exclusion and provider failures retain their stated scope. A typed
+selected actor cannot pass as the existing no-target fire profile.
+
+The controlled original/Rust comparison matches 64 cases / 1,085 words, including
+16 selections; 128 missing-provider/invalid-epoch checks preserve earlier state.
+All 691 synthetic Rust tests pass (14 ignored), with 18 Python tests, Rustfmt,
+Clippy, GNU release compilation and both silent menu/arena lifecycle endpoints.
+The lifecycle runs do not execute the new target scan. Details and limits are in
+OWNED_TARGETING.md; original instructions, artifacts and private paths are excluded.
+
+A local reviewed draft contains 10 allowlisted members, complete notices and
+receipt-bound manifest/checksums; independent ZIP validation passes without notice
+blockers. Executable SHA-256:
+`722d02bd634fe8f43660bc3d0053e94aa5835e65f1499166bfa0d68ebcdab9ef`.
+No new downloadable binary is published for this CPU boundary. The main driver
+still needs real current header providers and the primary/camera/muzzle/fire
+scheduling boundary. The existing preview-2026.11.05.1 download is unchanged.
