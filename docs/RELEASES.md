@@ -111,6 +111,12 @@ failure controls pass. The main driver still supplies `fire: None`. No new
 playable route, runtime fidelity or download is claimed; existing executable
 receipts and validation drafts remain bound to their own earlier source commits.
 
+Final combined runtime source `1b05c9110af6519ec57fa42211db9589704ed430`
+also retains the concurrent Kabuto size refresh. Its isolated full workspace
+passes 717 Rust tests (17 ignored), 35 Python tests, formatting and Clippy.
+The README/site generation checks pass on this combined state. These additional
+regressions do not turn the acquired subjective phases into a Rust implementation.
+
 ## Ordinary owned mission camera - 5 November 2026
 
 
