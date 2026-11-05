@@ -1,5 +1,12 @@
 # Preview releases and milestone integration
 
+Prototype PS2 methodology follow-up (5 November 2026): private lookup worksheets
+now retain supplied PC build labels, earlier aliases and explicit demangler
+provenance/unknowns. The central method supplies a reusable continuation record.
+Synthetic controls cover alias retention and prevent naming metadata from
+promoting an attribution. This changes research tooling and documentation only;
+it adds no confirmed correspondence, gameplay integration or preview binary.
+
 ## Delphi owned physical/jump/ANM/history composition - 5 November 2026
 
 The owned ordinary dry phase now carries persistent motion, terrain/world
