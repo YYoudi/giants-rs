@@ -1,17 +1,17 @@
-# Owned cold Delphi special phase
+# Owned cold Delphi construction and player fields
 
 Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
-The next acquisition covers the surrounding cold generic-to-Delphi type change.
-Four native observations return with 22 actors and one finite projection
-submission each, using varied supplied pose, position history, scale and viewport.
-They observe class-scale restoration, pitch reset and position-history transfer.
-No Rust bootstrap comparison or renderer acknowledgement is claimed. Prototype
-PS2 names were searched against the pinned symbol table; attribution remains
-unknown pending independent algorithm and caller review. Detailed records remain
-private. Movement, water, turbo and live player admission remain pending.
+`Factory::construct_player_fields` adds the acquired cold local-player field
+projection around the special phase. It restores class scale, resets pitch,
+transfers supplied position history, creates the special group, selects the
+initial animation through the shared channel service and sets the activation
+field. It returns a separate, explicit projection-reset requirement; no renderer
+acknowledgement or live player scheduling is invented. Prototype PS2 names were
+searched against the pinned symbol table; attribution remains unknown pending
+independent algorithm and caller review. Detailed records remain private.
 
 `delphi_resources::Resources` prepares the kind-3 mission marker and immutable
 class/state specifications. `delphi_special::Factory` now also constructs an
@@ -29,6 +29,11 @@ registered in their actual constructor order. Later field changes do not silentl
 reclassify list membership. Native addresses remain typed owned identities and
 resource references; none are stored as emulated pointers in the Rust payload.
 
+The cold player entry takes a supplied finite frame. It does not destroy or
+retype an arbitrary existing actor. Invalid input is rejected before allocation;
+special-phase failures retain the existing quarantine behavior. The normal
+special-only entry still leaves player selection and activation untouched.
+
 ## Evidence and scope
 
 Thirty-two exact-reference CPU cases compare 127,692 normalized words: every
@@ -38,6 +43,17 @@ and the supplied charge declaration. Original constructor, special, held-object
 and declaration-reader instructions execute in the acquisition. The Rust side
 constructs its own actors and lists; native state snapshots are not replayed as
 inputs. Private reference inputs and reports remain outside the public source.
+
+An additional 32 cold generic-to-Delphi native/Rust cases match 123,792 normalized
+words across complete actor headers, owner payload and all fifteen ordered
+lists. They vary supplied position/current/previous/angles, discarded generic
+shell scale, enabled/disabled animation blending, copy counts/parameters, initial
+charges and viewport. Original generic construction, type change, projection
+math, history, special phase and animation selection execute. Only external
+projection submission is intercepted; its finite matrix is retained privately
+but not compared to a Rust renderer. Rust receives the supplied inputs, not
+native actor snapshots. These controls do not cover arbitrary dynamic switches,
+UID-managed multiplayer, mission producers, live ticking or graphics fidelity.
 
 Six additional original-instruction declaration-reader controls distinguish the
 charge field from its neighbor, last-write behavior and declaration reset. The
@@ -51,8 +67,10 @@ unbound held-list member exercises a late backend failure: partial work is
 retained, the owner is quarantined and a second attempt cannot allocate again.
 These are owned-backend refusal checks, not native error-path parity claims.
 
-This phase does not execute player type change, shared player reset/activation,
-copy or held-object updates, animation/physics, camera/HUD/audio, water behavior,
+The special-only phase does not execute surrounding player field selection;
+the new cold player entry covers that field subset, not a complete live type
+change. Neither executes copy or held-object updates, animation/physics ticks,
+camera/HUD/audio integration, water behavior,
 combat or campaign admission. The main selected-player path still prepares a
 Mecc controller only. Delphi campaign and movement remain `todo` in the runtime
 roadmap. No playable feature or visual fidelity is claimed by CPU comparisons.

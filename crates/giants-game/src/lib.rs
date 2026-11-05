@@ -94,6 +94,7 @@ pub mod control_layout;
 pub mod control_options;
 pub mod declared_mesh_scene;
 pub mod decorations;
+pub mod delphi_player;
 pub mod delphi_resources;
 pub mod delphi_special;
 pub mod dependency_graph;

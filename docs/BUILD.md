@@ -59,7 +59,8 @@ cargo test --locked -p giants-game source_delphi_special_group_owns_references_a
 ```
 
 It constructs the owned copy/held-object group, checks reference ownership,
-replay/failure guards and registry clearing. It executes no original process,
+special-only versus cold-player fields, replay/failure guards, rejected invalid
+frames and registry clearing. It executes no original process,
 window or audio and does not admit a live Delphi controller. See OWNED_DELPHI.md.
 
 ## Optional cold Kabuto resource check

@@ -145,7 +145,7 @@
       "title": "Delphi movement and water",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Land movement, jumping, swimming, water interactions and turbo energy. Kind-3 resources and the cold constructor/special phase are acquired: 32 CPU cases match 127,692 normalized words, including the auxiliary-copy/held-object group and initial equipment. Full player setup, copy updates and a live controller remain unimplemented; this is not gameplay readiness."
+      "detail": "Land movement, jumping, swimming, water interactions and turbo energy. Kind-3 resources and cold special construction match 32 CPU cases / 127,692 normalized words. Cold local-player fields add 32 cases / 123,792 words, including history, initial animation, activation and the copy/held-object group. Projection completion, copy updates, movement and a live controller remain unimplemented; this is not gameplay readiness."
     },
     {
       "id": "delphi-sword",
