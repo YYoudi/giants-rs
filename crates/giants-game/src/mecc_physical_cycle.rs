@@ -260,7 +260,13 @@ impl Owned {
             || e.actor_key == 0
             || self.actor_key.is_some_and(|key| key != e.actor_key)
             || fields.object_flags & 0x1c000 != 0
-            || fields.control_flags & !(if self.secondary { 0xbc00 } else { 0 }) != 0
+            || fields.control_flags
+                & !(if self.secondary {
+                    crate::mecc_secondary::control_mask(self.fire)
+                } else {
+                    0
+                })
+                != 0
             || e.objects
                 .iter()
                 .any(|o| o.fields.id == 0 || o.response_flags & 0x10 != 0)

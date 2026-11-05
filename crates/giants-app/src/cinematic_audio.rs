@@ -6,6 +6,15 @@ use std::{collections::BTreeMap, path::Path};
 #[derive(Resource)]
 pub(crate) struct MutedTransport;
 
+/// Whether a device-backed player may be queued. Silent captures retain owned
+/// audio assets but must not wait for sinks from a disabled AudioPlugin.
+#[derive(Resource)]
+pub(crate) struct PlaybackEnabled(pub bool);
+
+pub(crate) fn playback_enabled(policy: Option<Res<PlaybackEnabled>>) -> bool {
+    policy.is_some_and(|policy| policy.0)
+}
+
 #[derive(Resource)]
 pub struct Master {
     tracks: BTreeMap<String, MasterTrack>,
@@ -406,6 +415,36 @@ pub fn update(
 mod tests {
     use super::{Master, MasterTrack};
     use bevy::prelude::Handle;
+    #[test]
+    fn disabled_device_does_not_run_sink_dependent_players() {
+        use super::{
+            MutedTransport, PlaybackEnabled, playback_enabled, sample_master, update, update_master,
+        };
+        use bevy::{ecs::system::RunSystemOnce, prelude::*};
+        let mut app = App::new();
+        app.insert_resource(PlaybackEnabled(false)).add_systems(
+            Update,
+            (sample_master, update_master, update)
+                .chain()
+                .run_if(playback_enabled),
+        );
+        // No audio plugin, device, cinematic or voice resources. The actual
+        // sink-dependent systems must not be evaluated in this capture mode.
+        app.update();
+        let world = app.world_mut();
+        assert_eq!(
+            world.query::<&super::PlayingMaster>().iter(world).count(),
+            0
+        );
+        assert_eq!(world.query::<&super::PlayingVoice>().iter(world).count(), 0);
+        assert!(!world.contains_resource::<super::Master>());
+        assert!(!world.contains_resource::<super::Voices>());
+        app.world_mut().insert_resource(PlaybackEnabled(true));
+        app.world_mut().insert_resource(MutedTransport);
+        assert!(app.world_mut().run_system_once(playback_enabled).unwrap());
+        app.world_mut().resource_mut::<PlaybackEnabled>().0 = false;
+        assert!(!app.world_mut().run_system_once(playback_enabled).unwrap());
+    }
     fn master() -> Master {
         Master {
             tracks: Default::default(),

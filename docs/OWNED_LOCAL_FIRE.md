@@ -89,8 +89,8 @@ not execute those contexts' effects or certify their later rendered behavior.
 
 The control exposed a missing armed-walk transition while an ordinary walk was
 still active. The held-trigger timer now selects that acquired pistol clip.
-Synthetic regressions cover this transition and refusal of unacquired armed
-idle. Armed idle, side and turn reactions remain explicit refusals.
+Synthetic regressions cover this transition. The later controls below extend
+the normal pistol's standing, side and turn selections.
 
 Two additional backend-failure controls verify missing muzzle and late sound
 failure, primary/shot quarantine and no replay. The latter retains its allocated
@@ -106,6 +106,54 @@ are prerequisites in BACKLOG.md.
 Validation for this primary-phase change: 698 synthetic Rust tests pass (14
 ignored), 20 Python tests pass, with Rustfmt, Clippy and exported-site JavaScript
 checks. No additional playable capability is claimed by these checks.
+
+## Normal pistol armed secondary transitions
+
+The owned phase now supports a fresh standing shot, its held firing animation
+and the subsequent aiming idle, plus armed side steps and stationary turns.
+Standing shots force a restart even when the firing clip is already selected,
+with zero blend time. Their control flag is admitted only with the optional fire
+profile. A released trigger does not interrupt the active firing channel; the
+channel-end transition selects the aiming idle. Side and turn playback keep
+their actual model/angular rate sources. No extra RNG is introduced.
+
+Five continuous native/Rust controls pass on the same executable: 128 frames
+each standing, strafing, turning and mixing movement directions, plus the prior
+64-frame walking/pulsed-trigger regression. In total, 576 frames, 22 shots and
+341,220 normalized words match. This includes full player/projectile storage,
+prior held-world matrices/references and deferred FX context chains; RNG and
+shot decisions also match. Each acquisition still supplies a partial
+Mecc-then-held cohort, view inputs, flat world and an empty sound registry.
+Projectiles and deferred effects are not advanced by these controls.
+
+The pre-change implementation refuses the standing, side and turn controls at
+their first grounded armed selection. Synthetic regressions now cover same-clip
+restart, released-trigger retention, channel end, side rate and angular rate.
+700 synthetic Rust tests pass (14 ignored), with formatting and Clippy. Broader
+reactions, other weapon styles, real camera/view timing and positional audio
+remain prerequisites. The application still supplies `fire: None`.
+
+Combined source `aebc47c04f6c4ae7434953a9ab0915dfcb09bbff` retains the Delphi
+preparation and concurrent cinematic fixes. Its isolated GNU build passes 704
+Rust tests (15 ignored), 20 Python tests, Rustfmt, Clippy, source/site checks and
+the same complete 576-frame comparison matrix. Private source/runner snapshots
+retain the inputs pinned by the final comparison reports.
+
+The initial silent selected-opening replay exposed device-backed players being
+queued with the audio plugin disabled. The common build now applies its actual
+playback policy to selected-opening master/voice systems. The receipt-bound
+replay passes all three opening/cancellation cycles, with zero queued players
+at each retirement. Both silent menu/arena lifecycle endpoints also pass.
+These runs create no window or audio device. They do not exercise the optional
+fire phase, muted full transport, manual input or visual fidelity.
+
+The asset-free local draft has ten allowlisted members, complete notices,
+matching technical review/build receipt and no package-verifier blockers.
+Executable SHA256:
+`0573f047d307d3ad59f0b4758a5cef853e7be26ca02a4741333098b3808f6836`.
+Archive SHA256:
+`6c90d55c7102d01833ca47b7f13b37d1ee90bcea2dadc74cfa796a6133cbdf61`.
+It remains private; the public download is unchanged by this CPU work.
 
 Private REA identities: viewport-origin accessor
 `ev_63f15249b41c8db2b91092642deed71a7537f1f96384bdf7d405c2a7952200e3`;

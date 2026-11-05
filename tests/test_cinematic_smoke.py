@@ -48,6 +48,7 @@ class CinematicSmokeTests(unittest.TestCase):
         log = 'silent_capture=true audio_plugin=false audio_clock=false\n'
         for n, ticket in enumerate((1, 3, 5), 1):
             log += f'mission_text_mounted ticket={ticket} fresh_atlas=true\n'
+            log += f'mission_opening_audio_policy ticket={ticket} playback_enabled=false queued_players=0\n'
             log += f'mission_text_released ticket={ticket} entities=4 atlas_images=2 remaining_assets=0 font_and_language_dropped=true\n'
             log += f'showcase_opening_cycle_released cycles={n} remaining_entities=0 movie_released=true input_injected=false\n'
         log += 'showcase_replay_cancelled remaining_entities=0 movie_released=true normal_ready_simulated=false\n'
@@ -61,6 +62,9 @@ class CinematicSmokeTests(unittest.TestCase):
                 log.replace('remaining_assets=0', 'remaining_assets=1'),
                 log.replace('cycles=2', 'cycles=1'),
                 log.replace('audio_plugin=false', 'audio_plugin=true'),
+                log.replace('playback_enabled=false', 'playback_enabled=true'),
+                log.replace('queued_players=0', 'queued_players=1'),
+                log.replace('audio_policy ticket=3', 'audio_policy ticket=1'),
                 log+'cinematic_skip_probe input=escape simulated=true\n',
                 log+'panicked at test',
             ):

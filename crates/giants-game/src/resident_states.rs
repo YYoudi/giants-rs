@@ -1428,7 +1428,13 @@ impl Session {
             || actor.attachment.is_some()
             || actor.presentation_parent.is_some()
             || fields.action != 0
-            || fields.control_flags & !(if secondary_mode { 0xbc00 } else { 0 }) != 0
+            || fields.control_flags
+                & !(if secondary_mode {
+                    crate::mecc_secondary::control_mask(fire_mode)
+                } else {
+                    0
+                })
+                != 0
             || fields.response_flags & !(0x80803000 | if fire_mode { 0x08000020 } else { 0 }) != 0
             || [word(0x180), word(0x184), word(0x188)] != [1, u32::MAX, u32::MAX]
             || (!cycle.interleaved && cycle.view.number != 0)
@@ -8490,11 +8496,15 @@ impl Session {
         input: Construction<'_>,
         writes: &[&giants_formats::mission::StateWriteKind],
     ) -> Result<Id, String> {
-        if !matches!(input.seed.storage.state(), 0 | 2 | 18 | 23)
+        let kabuto_cold = input.class == 1
+            && input.seed.storage.state() == 1
+            && input.seed.storage.profile() == Profile::Debug
+            && writes.is_empty();
+        if (!matches!(input.seed.storage.state(), 0 | 2 | 18 | 23) && !kabuto_cold)
             || !input.seed.diagnostics.is_empty()
         {
             return Err(
-                "owned constructor outside acquired state0/state2/state18/state23 profile".into(),
+                "owned constructor outside acquired ordinary or cold Kabuto profile".into(),
             );
         }
         if input.seed.storage.state() == 0 && input.seed.storage.data().is_some() {
