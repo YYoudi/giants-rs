@@ -9016,6 +9016,48 @@ impl Session {
         self.get(id)?;
         self.state_resources.get(&id.serial)
     }
+    /// Ordinary subjective resource, distinct from the body's specification.
+    pub fn mecc_subjective_specification(
+        &self,
+        id: Id,
+    ) -> Result<&Arc<crate::specification::Prepared>, String> {
+        let actor = self.get(id).ok_or("subjective source absent or foreign")?;
+        if actor.class != 2
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 2
+            || actor
+                .construction_fields
+                .as_ref()
+                .is_none_or(|f| f.configuration[20] != 2)
+        {
+            return Err("subjective source outside acquired ordinary Mecc profile".into());
+        }
+        self.state_resources(id)
+            .ok_or("subjective state resources absent")?
+            .specification(0x70)
+    }
+    /// Publish the subjective ANM into the source's shared reference allocation.
+    /// This does not certify the resulting bytes as a pose of the body channels.
+    pub fn update_mecc_subjective_references(
+        &mut self,
+        id: Id,
+        context: &mut crate::actor_references::Owned,
+        channels: &crate::animation_channels::Channels,
+        epoch: u32,
+    ) -> Result<crate::actor_references::Update, String> {
+        if !Arc::ptr_eq(
+            context.specification(),
+            self.mecc_subjective_specification(id)?,
+        ) {
+            return Err("subjective reference context belongs to another resource".into());
+        }
+        let storage = &mut self
+            .specifications
+            .get_mut(&id.serial)
+            .ok_or("subjective source reference allocation absent")?
+            .0;
+        context.update_shared_current(storage, channels, epoch)
+    }
     pub fn state_resource_counts(&self) -> (usize, usize) {
         (
             self.state_resources.len(),

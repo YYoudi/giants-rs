@@ -23,9 +23,10 @@ getter result and translates two integer return moves within the admitted
 32-bit domain. It excludes the EE entry/exit ABI and complete PS2 execution.
 
 Private native pre/post-world observations and actual primary-API preflight
-checks are recorded in [RELEASES.md](RELEASES.md). The required missing work is
-the owned subjective actor/channel/reference/event path, its camera placement,
-post-world firing/zero-time ANM tail and audio, with native ordering retained.
+checks are recorded in [RELEASES.md](RELEASES.md). The owned subjective composition
+below now produces its acquired channel/header/placement/ANM subset. Remaining
+world binding must provide real camera timing, deferred firing, vertices and
+audio with native ordering retained.
 The existing presentation-only subjective player is not a substitute for those
 services. A post-primary camera cache cannot supply an unacquired earlier view.
 
@@ -36,6 +37,55 @@ buffer with the controlled source, while preserving separate subjective channels
 Treating the subjective actor as an independent state/reference copy loses these
 observable writes. Posed-vertex storage and complete actor/header lifecycle
 still need their own acquired integration; reference sharing alone is insufficient.
+
+## Persistent subjective composition
+
+`mecc_subjective::State` now preserves four virtual channels across pre/post-world
+updates and inactive periods. The pre-copy retains those channels, copies acquired
+source fields, motion, input buttons and ANM stamp, and holds the source identity
+for shared state. It does not clone the source payload. World-shared weapon-change
+history and initial channels are explicit lifecycle inputs, rather than invented
+per-actor defaults. Actual pre-world camera/model eligibility remains external.
+
+The post phase reads current controlled-player flags, selects a channel, places
+the virtual header from supplied previous/current cameras and authored offsets,
+then updates its affine. It advances ANM at object time and publishes into the
+source's authoritative reference store before invoking the required fire service.
+The acquired inhibition flag skips that fire call. A second, zero-time ANM pass
+follows. Missing descriptors retain the native skip behavior, including dummy
+backup channels; there is no fabricated clip or default successful fire service.
+This profile requires genuinely prepared event-free ordinary Mecc resources.
+
+`State::for_session` binds the actual typed subjective specification;
+`prepare_from_session` copies pre-primary fields/rates and supplied current input.
+`Session::update_mecc_subjective_references` checks the owner ticket, ordinary
+profile and exact bound specification identity before writing shared matrices.
+Normalized pointer words never imply a missing typed resource. The service borrow
+ends before fire, allowing the actual source payload and services to remain owned
+by the Session. Late errors retain completed animation/publication/service effects
+and quarantine this state against replay. Invalid time is rejected before execution.
+
+Two continuous private native/Rust comparisons pass 128 frames, including 64
+active subjective updates and 42,880 acquired header/reference words. They cover
+view changes, missing/present subjective resources, neutral/walk/side/back motion,
+turning and held/released trigger pulses. Rust produces the persistent virtual
+channels rather than receiving their completed native values. Initial camera-owner
+binding, completed body channels, camera production and selector-getter results
+remain supplied. The fire boundary explicitly supplies no virtual-channel edits;
+native observations verify that boundary for this cohort. This is not an actual
+Rust fire callback comparison, complete world scheduler or visual-fidelity result.
+
+A source-backed lifecycle control covers exact resource ownership, foreign tickets,
+invalid time, reference/fire failures, retained source writes, inhibited firing,
+inactive channel retention and cancellation. It runs silently using a supplied
+installation; see [BUILD.md](BUILD.md). The primary's active-display refusal and
+the application's `fire: None` remain until the real deferred-primary obligation,
+inner/outer camera pass timing, posed-vertex/muzzle consumers, targeting headers
+and positional audio can be composed coherently. Existing presentation playback
+does not satisfy these prerequisites. Prototype PS2 lookups for the pre/post and
+selector routines remain unassigned; this module imports no PS2 signature/layout.
+
+## Shared reference evaluation controls
 
 `actor_references::Owned::update_shared_current` now evaluates a context's
 specification into the authoritative source matrix storage. Rust evaluation
