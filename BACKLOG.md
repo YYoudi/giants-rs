@@ -107,7 +107,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 - Implemented: the owned dry sword locomotion phase composes physical/history,
   the acquired secondary selector and a second zero-time ANM pass, preserving
   latched jump states, random idle/walk variants and clip-based reselection.
-  Three continuous 256-step native/Rust cases match 6,121,728 normalized words
+  Six continuous 256-step native/Rust cases match 12,243,456 normalized words
   over all 22 actor headers/reference buffers, owner payload and ordered lists,
   plus shared RNG endpoints. Rust owns its trajectory, contacts and history;
   native snapshots are outputs only. Clip identifiers are supplied definitions,

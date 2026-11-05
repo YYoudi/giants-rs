@@ -4,7 +4,7 @@
 
 The dry sword movement phase now consumes the acquired selector after physical
 history and before zero-time ANM, including jump latching and shared random idle
-variants. Three native/Rust 256-step cases match 6,121,728 normalized words over
+variants. Six native/Rust 256-step cases match 12,243,456 normalized words over
 22 actors, references, owner payload and ordered lists, plus RNG endpoints.
 Installation clip definitions are supplied and resource-checked, not bundled.
 The full primary/camera/target producers, metadata-loader integration, auxiliary

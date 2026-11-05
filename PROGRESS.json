@@ -145,7 +145,7 @@
       "title": "Delphi movement and water",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Owned cold construction, physical initialization and jump services are CPU-validated. Dry sword physical/history -> secondary selection -> zero-time ANM now matches three 256-step native/Rust cases / 6,121,728 normalized words over 22 actors, reference buffers, payload and ordered lists, plus shared RNG endpoints. Installation clip definitions are supplied and checked; the production metadata loader remains pending. Full primary/camera/target producers, auxiliary callbacks, nonordinary effects, water/turbo, combat and live admission remain unimplemented. Separate native-only full selected-owner acquisition covers 768 steps; it does not enlarge the Rust comparison. CPU composition is not gameplay readiness or verified fidelity."
+      "detail": "Owned cold construction, physical initialization and jump services are CPU-validated. Dry sword physical/history -> secondary selection -> zero-time ANM now matches six 256-step native/Rust cases / 12,243,456 normalized words over 22 actors, reference buffers, payload and ordered lists, plus shared RNG endpoints. Installation clip definitions are supplied and checked; the production metadata loader remains pending. Full primary/camera/target producers, auxiliary callbacks, nonordinary effects, water/turbo, combat and live admission remain unimplemented. Separate native-only full selected-owner acquisition covers 768 steps; it does not enlarge the Rust comparison. CPU composition is not gameplay readiness or verified fidelity."
     },
     {
       "id": "delphi-sword",

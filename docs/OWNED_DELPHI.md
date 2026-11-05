@@ -47,12 +47,13 @@ still required before live admission.
 The order is physical/jump/first ANM, physical history, secondary selection and
 zero-time ANM. It preserves the jump latch across changed/released inputs,
 shared random idle/walk decisions, current-mode retention when a mapped clip
-does not change, and canonical references/stamps. Three independent 256-step
-native/Rust cases compare 6,121,728 normalized words over all 22 actor headers,
+does not change, and canonical references/stamps. Six independent 256-step
+native/Rust cases compare 12,243,456 normalized words over all 22 actor headers,
 reference buffers, complete owner payload and fifteen ordered lists, plus final
 shared RNG states. Both sides use real installation animation bounds/definitions,
 their own persistent trajectories, supplied flat terrain/time/commands and three
-explicit random seeds. Native outputs are not replayed into Rust.
+explicit random seeds, continuous forward/side/back movement and deferred foot
+sound-block preparation. Native outputs are not replayed into Rust.
 
 Those controls execute the original entered prefix, jump, physical/history body,
 secondary dispatch and second ANM. They exclude the surrounding full primary,
