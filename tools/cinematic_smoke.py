@@ -82,7 +82,7 @@ def validate(log, exit_code, capture, full=False, require_text=False, persistent
         probes = list(re.finditer(r'^showcase_persistent_cancel ticket=(\d+) objects=([1-9]\d*) input_injected=false observation_gate=two_owned_updates$', log, re.MULTILINE))
         cleaned = list(re.finditer(r'^mission_persistent_released ticket=(\d+) director=\d+ retired_objects=([1-9]\d*) remaining_objects=0 remaining_contexts=0 lifetime_children=0$', log, re.MULTILINE))
         checks['cancelled_live_persistent_owners'] = ([p[1] for p in probes] == mounts and len(probes) == cycles)
-        checks['persistent_owners_released_after_cancel'] = all(
+        checks['persistent_owners_released_after_cancel'] = len(probes) == cycles and all(
             any(c[1] == p[1] and int(c[2]) >= int(p[2]) and c.start() > p.end() for c in cleaned)
             for p in probes)
     if require_text:
