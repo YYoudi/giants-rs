@@ -137,6 +137,34 @@ Rustfmt, Clippy and site/JavaScript checks. The installed-data Kabuto control an
 the earlier implemented boundary; the new first-primary/size acquisitions remain
 native-only and must not be counted as implemented player behavior.
 
+## Shared subjective reference storage - 5 November 2026
+
+`actor_references::Owned::update_shared_current` composes an alternate evaluation
+context with the authoritative source matrix storage. Native pre/post observations
+show that the subjective actor shares this buffer as well as the Mecc state,
+while retaining independent channels. Undeclared slots preserve the last shared
+values; a successful alternate write invalidates the body's old sample binding.
+Failures leave both contexts and publications unchanged. The selector input is
+also clarified as current controlled-player flags, distinct from its earlier
+virtual-header copy and the world-shared previous-weapon history.
+
+Two continuous reference controls match 96 frames / 26,112 words, including 48
+active subjective evaluations. Four failure controls and an absent-primary
+preservation control pass. The reference comparison supplies completed body and
+subjective channels from the native phases; Rust calculates matrices from actual
+ANMs. It does not prove Rust channel timing, complete subjective actor ownership,
+posed-vertex storage, event execution, post-world firing or native whole-world
+order. The actual normal subjective specification's 16 inspected event tracks
+are empty; that observation does not establish event support for other profiles.
+
+The combined workspace retains the concurrent cinematic, Delphi and Kabuto work
+and passes 722 Rust tests (17 ignored), 35 Python tests, formatting and Clippy.
+Site generation and JavaScript syntax checks pass. See
+[OWNED_LOCAL_FIRE.md](OWNED_LOCAL_FIRE.md) for sharing and consumer boundaries.
+This is a CPU prerequisite for the pending subjective pipeline. No new playable
+route or binary is published, and existing receipt-bound previews remain tied
+to their recorded sources. Main-driver owned firing remains disabled.
+
 ## Subjective firing dispatch contract - 5 November 2026
 
 The optional primary now requires actual camera-owner/active-display status

@@ -63,6 +63,41 @@ impl Owned {
     pub fn matrices(&self) -> &[Matrix] {
         &self.matrices
     }
+    /// Evaluate this specification into another actor's shared matrix storage.
+    /// Resource/node caches stay separate, while undeclared matrix slots retain
+    /// the latest shared values. Both publications remain unchanged on failure.
+    /// `storage` remains authoritative between evaluations; this context holds
+    /// only its last produced result, not a second live storage allocation.
+    pub fn update_shared_current(
+        &mut self,
+        storage: &mut Self,
+        channels: &crate::animation_channels::Channels,
+        epoch: u32,
+    ) -> Result<Update, String> {
+        if epoch == 0 {
+            return Err("shared reference epoch must be nonzero".into());
+        }
+        if self.matrices.len() != storage.matrices.len() {
+            return Err("shared reference storage has a different slot count".into());
+        }
+        if channels[0][0] == 254 {
+            return Ok(Update::default());
+        }
+        let mut next = self.clone();
+        next.matrices.clone_from(&storage.matrices);
+        next.sampled = storage.sampled;
+        next.sample = None;
+        next.current_sample = None;
+        let update = next.update_current(channels, epoch)?;
+        storage.matrices.clone_from(&next.matrices);
+        storage.sampled = next.sampled;
+        // The bytes are current, but no longer a sample of the storage owner's
+        // own channels/specification. Do not certify that previous binding.
+        storage.sample = None;
+        storage.current_sample = None;
+        *self = next;
+        Ok(update)
+    }
     pub fn sampled(&self) -> bool {
         self.sampled
     }

@@ -197,6 +197,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   effects. Presentation-only subjective playback is insufficient. Retain the
   explicit initial camera-owner and partial-world acquisition boundaries in
   docs/OWNED_LOCAL_FIRE.md; main `fire: None` remains.
+- Subjective shared storage: native observations confirm that source state and
+  reference matrices are shared while channels remain independent. The acquired
+  reference composition now writes the authoritative source cache, preserves
+  undeclared slots and invalidates the old body's sample binding. Two reference
+  controls match 96 frames / 26,112 words; four failure and one empty-primary
+  control preserve publications. See docs/OWNED_LOCAL_FIRE.md. Next bind the actual
+  pre-copy/header and shared state, produce both ANM passes and camera placement,
+  and execute the real fire callback between them. Acquire posed-vertex storage
+  and its exact consumers before choosing their ownership; do not substitute
+  independent playback/vertex copies for an unverified sharing model. Current controlled flags are read after
+  primary; copied motion/channels and world-shared weapon history have distinct
+  producers. This remains a CPU prerequisite, not full subjective integration.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated
