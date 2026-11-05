@@ -4,6 +4,15 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+The next acquisition covers the surrounding cold generic-to-Delphi type change.
+Four native observations return with 22 actors and one finite projection
+submission each, using varied supplied pose, position history, scale and viewport.
+They observe class-scale restoration, pitch reset and position-history transfer.
+No Rust bootstrap comparison or renderer acknowledgement is claimed. Prototype
+PS2 names were searched against the pinned symbol table; attribution remains
+unknown pending independent algorithm and caller review. Detailed records remain
+private. Movement, water, turbo and live player admission remain pending.
+
 `delphi_resources::Resources` prepares the kind-3 mission marker and immutable
 class/state specifications. `delphi_special::Factory` now also constructs an
 ordinary owned class-3 actor and executes its acquired cold special phase. These

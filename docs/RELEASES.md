@@ -1,5 +1,13 @@
 # Preview releases and milestone integration
 
+Delphi continuation on combined source
+`dc2ea1678df973db19ad4657c7a213ac7f407712` retains the concurrent Kabuto cold-player
+fields and prototype attribution workflow. The isolated workspace passes 709
+Rust tests (17 ignored), 35 Python tests, Rustfmt and Clippy. Four additional
+native Delphi type-change observations are acquisition only; they do not add a
+Rust bootstrap, playable character or download. The receipt-bound Delphi draft
+recorded below remains tied to its earlier exact source, not this combined head.
+
 The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
