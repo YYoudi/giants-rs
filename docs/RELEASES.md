@@ -28,6 +28,24 @@ remain; these CPU controls do not certify live mission firing, complete world
 scheduling or visual/audible fidelity. No new playable download follows from this
 CPU milestone; prior package receipts retain their exact source identities.
 
+Combined source `83a0b00d276c3d2c7053f414950b232992622cb6` preserves concurrent
+Delphi/Kabuto changes and passes 737 synthetic Rust tests (23 ignored), 36 Python
+tests, Rustfmt, Clippy and site/JavaScript checks. The four new comparisons,
+five immediate-primary matrices, ten failure controls and three source-data Mecc
+lifecycle controls pass again after the shared effect-service merge. Source
+history review reports no findings across 177 commits and 1,853 blobs.
+
+That exact GNU main build has executable SHA256
+`ce09e556ada1a6218ff53ac7e6e428085fb9d65dbfebfb60344d94556f186d57`;
+its ten-member private validation draft ZIP has SHA256
+`a9bf51c6d6c8198462adc22538d40df98aa19ca49518896d765ac1be8f4afc7f`.
+Receipt-bound notices/review and independent package-integrity checks report no
+blockers. The same executable passes both silent three-launch development
+lifecycle endpoints and three selected-opening cancellation/re-entry cycles,
+without a window or audio device. Those regressions do not execute the owned
+deferred-fire route or establish complete playback, controls or fidelity. Later
+source merges do not replace this executable's exact-source receipt.
+
 ## Delphi owned physical/secondary/ANM composition - 5 November 2026
 
 The dry sword movement phase now consumes the acquired selector after physical
