@@ -68,7 +68,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Sea Reapers / Delphi
 
-- [ ] **Delphi movement and water** — todo; Runtime integration. Land movement, jumping, swimming, water interactions and turbo energy.
+- [ ] **Delphi movement and water** — todo; Runtime integration. Land movement, jumping, swimming, water interactions and turbo energy. A separate Delphi lane now prepares actual kind-3 mission markers, class/state templates and animation resources. Cold initialization and a live controller remain unimplemented; resource preparation is not gameplay readiness.
 - [ ] **Sword combat and combinations** — todo; Runtime integration. Melee attacks, combinations, targeting, contact and damage.
 - [ ] **Complete Sea Reaper bow arsenal** — todo; Runtime integration. Regular, Lightning, Hellfire, Screamer and Power-Up bows; charging, lock-on and multiple targets.
 - [ ] **Offensive spells** — todo; Runtime integration. Cluster, Cluster Mine, Firewall, Fire Circle, Hail and Tornado, including their targeting and duration rules.

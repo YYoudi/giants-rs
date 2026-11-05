@@ -4,6 +4,48 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
+## Parallel character work
+
+Each chat works alone in its own worktree and `codex/` branch. The Delphi fork
+starts from the current public main, not the older fork snapshot. Keep one menu
+and mission runtime; do not create separate character executables or copy the
+Mecc controller into another engine. Use an isolated Cargo target per worktree.
+
+| Lane | Scope and primary files | Shared dependencies |
+| --- | --- | --- |
+| Mecc | Existing `mecc_*` services, owned primary/target/fire and live integration | Actor storage, physics, animation, camera, effects and audio |
+| Delphi (active in `codex/delphi-native`) | `delphi_*`: declaration/resource preparation, cold initialization, land/water movement, energy, then sword/bows/spells | Reuse the same actor and mission services; acquire character-specific callbacks separately |
+| Kabuto (available for a separate user-created fork) | `kabuto_*`: declaration/resource preparation, cold initialization, movement/growth, then feeding/attacks/offspring | Reuse actor/world services; do not change Delphi or Mecc rules |
+| Worlds and mission presentation (separate future lane) | Missing building/scenery admission, NPC scheduling, ambient emitters, loading/briefing flow | Shared scene loader and renderer; coordinate changes to runtime admission |
+
+Formats, actor ownership/storage, collisions, animation clocks, effect pools,
+audio and the menu/loader are shared infrastructure, not three character copies.
+Prefer character modules and small additive integration hooks. If a shared service
+needs a behavior change, preserve other character profiles and validate their
+regressions. Merge the latest main before integration, retain concurrent work,
+and serialize main/release publication; never force-push over another lane.
+BACKLOG.md, PROGRESS.json, generated README and release notes are also shared:
+update the relevant rows and preserve other lanes' evidence and limitations.
+
+### Delphi next steps
+
+- Implemented: `delphi_resources::Resources` projects the actual kind-3 mission
+  marker, class fields, state template and body/state specifications. The shared
+  declaration helper takes an explicit expected kind; the existing Mecc entry
+  remains kind 2 only. A source-data check on Rstory1's selected mission passes;
+  source resources and probe outputs remain private. This is resource preparation,
+  not execution of Delphi initialization, movement or a playable controller.
+- Acquire and compare the cold Delphi constructor, its children/equipment and
+  normal player initialization. Preserve unresolved callback work explicitly;
+  an allocated state-3 payload is not an initialized player.
+- Acquire land movement, jump, water entry/exit, swimming and turbo/energy;
+  compare controlled continuous cycles before admitting live controls. Reuse
+  shared terrain/collision/input services with the acquired character parameters.
+- Connect the validated controller through the existing selected-mission path,
+  camera/HUD/audio and return/second-entry cleanup. Then acquire combat and spells.
+- Keep Delphi movement/campaign roadmap rows at `todo` until actual runtime
+  integration exists. Resource loading alone must not change completion status.
+
 ## Immediate runtime prerequisites
 
 - Desktop preview entry: giants-rs.exe detects the adjacent game installation or

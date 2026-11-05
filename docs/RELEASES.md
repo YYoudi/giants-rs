@@ -4,6 +4,19 @@ The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
 
+## Delphi preparation lane - 5 November 2026
+
+The separate `codex/delphi-native` lane starts with declaration-backed kind-3
+marker, class/state template and body/state specification preparation. Its
+selected-mission resource control passes with user-supplied data; the existing
+Mecc preparation still refuses that character. This source-only stage does not
+execute Delphi initialization, movement or combat and adds no playable capability
+or Windows download. Parallel lane boundaries and next steps are in BACKLOG.md.
+
+The isolated workspace passes 700 synthetic Rust tests (15 ignored), with 20
+Python tests and the separate source-data preparation control. No native Delphi
+callback comparison or gameplay/visual validation is claimed by these checks.
+
 ## Owned primary fire integration - 5 November 2026
 
 Combined source `36f992c362a0cfad6ba60aa3edae0c2ff9bc1fbe` retains the

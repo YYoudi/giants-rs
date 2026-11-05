@@ -30,6 +30,20 @@ bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Wind
 or GIANTS_INSPECTION_FONT, never bundled. Game data is read-only; user state goes
 outside the installation. Interactive validation remains pending in this candidate.
 
+## Optional Delphi resource check
+
+For the separate Delphi resource-preparation control, set `GIANTS_DELPHI_ROOT`
+to a user-supplied installation and run:
+
+```powershell
+cargo test --locked -p giants-game source_delphi_start_and_resources_remain_separate_from_mecc --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This reads one selected mission's marker/class/state/specification resources.
+It creates no window or sound and does not execute a Delphi constructor,
+controller, water behavior or mission admission. Game data and private outputs
+must stay outside Git. Keep a separate Cargo target for this worktree.
+
 ## Optional silent runtime lifecycle check
 
 After building a preview, supply your own installation and a fresh private output:

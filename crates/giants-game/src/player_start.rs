@@ -79,15 +79,21 @@ pub fn declared(
     world: &giants_formats::world::WorldConfig,
     mission: &giants_formats::mission::Mission,
 ) -> Result<Declared, String> {
+    declared_for_kind(plan, world, mission, 2)
+}
+
+/// Project the requested character's cold marker declarations. This does not
+/// run its constructor, establish a live common list or admit player controls.
+/// The existing Mecc entry point remains restricted to kind 2.
+pub fn declared_for_kind(
+    plan: &crate::instances::Plan,
+    world: &giants_formats::world::WorldConfig,
+    mission: &giants_formats::mission::Mission,
+    expected_kind: i32,
+) -> Result<Declared, String> {
     use giants_formats::mission::ObjectRef;
-    if mission.starts.len() != 1 {
-        return Err("initial start projection requires one command 11".into());
-    }
-    let start = &mission.starts[0];
+    let start = cold_start(&mission.starts, expected_kind)?;
     let kind = start.words[0] as i32;
-    if kind != 2 || start.words[2] == 0 {
-        return Err("initial Mecc marker relocation not requested by command 11".into());
-    }
     if plan
         .entries
         .windows(2)
@@ -188,5 +194,66 @@ pub fn declared(
             angles,
         });
     }
-    selected.ok_or_else(|| "no eligible declared Mecc start marker".into())
+    selected.ok_or_else(|| "no eligible declared character start marker".into())
+}
+
+fn cold_start(
+    starts: &[giants_formats::mission::Start],
+    expected_kind: i32,
+) -> Result<&giants_formats::mission::Start, String> {
+    if starts.len() != 1 {
+        return Err("initial start projection requires one command 11".into());
+    }
+    let start = &starts[0];
+    if !matches!(expected_kind, 1..=3)
+        || start.words[0] as i32 != expected_kind
+        || start.words[2] == 0
+    {
+        return Err("initial character marker relocation not requested by command 11".into());
+    }
+    Ok(start)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn character_preparation_cannot_reinterpret_another_character_start() {
+        for kind in 1..=3 {
+            let starts = [giants_formats::mission::Start {
+                source_offset: 12,
+                words: [kind, 0, 1, 0],
+            }];
+            for expected in 1..=3 {
+                assert_eq!(
+                    cold_start(&starts, expected).is_ok(),
+                    kind as i32 == expected
+                );
+            }
+            assert_eq!(
+                wanted_selector(kind as i32),
+                if kind == 2 {
+                    1
+                } else if kind == 3 {
+                    2
+                } else {
+                    3
+                }
+            );
+        }
+    }
+    #[test]
+    fn resource_preparation_requires_one_explicit_relocation() {
+        let mut starts = vec![giants_formats::mission::Start {
+            source_offset: 12,
+            words: [3, 0, 0, 0],
+        }];
+        assert!(cold_start(&starts, 3).is_err());
+        starts[0].words[2] = 1;
+        assert!(cold_start(&starts, 3).is_ok());
+        starts.push(starts[0].clone());
+        assert!(cold_start(&starts, 3).is_err());
+        assert!(cold_start(&[], 3).is_err());
+        assert!(cold_start(&starts[..1], 133).is_err());
+    }
 }
