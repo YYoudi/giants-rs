@@ -4,6 +4,11 @@ Install Rust with the GNU Windows toolchain (Rust 1.98 or newer), Python 3.11+,
 Git, and x86-64 MinGW-w64 GCC/binutils. Put their bin directories on PATH.
 Visual Studio is not required. The lockfile pins dependency versions.
 
+Native research follows [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md).
+The optional read-only `python -m tools.ps2_symbol_lookup --help` tool uses private,
+locally configured inputs; its worksheets stay under ignored `.local`. Synthetic
+CI requires neither prototype data nor an original installation.
+
 ```powershell
 rustup toolchain install stable-x86_64-pc-windows-gnu --profile minimal --component rustfmt,clippy
 rustup target add x86_64-pc-windows-gnu --toolchain stable-x86_64-pc-windows-gnu

@@ -1,5 +1,9 @@
 # Owned cold Delphi special phase
 
+Further native acquisition and implementation follow the central
+[reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
+lookup and separate PC identity, aliases, platform differences and attribution.
+
 `delphi_resources::Resources` prepares the kind-3 mission marker and immutable
 class/state specifications. `delphi_special::Factory` now also constructs an
 ordinary owned class-3 actor and executes its acquired cold special phase. These
