@@ -71,6 +71,15 @@ keeps the same compared game-crate code and passes the 707 Rust tests (17 ignore
 all 30 current Python tests, Rustfmt and Clippy. Preserve the separate cinematic
 coverage limits when interpreting the combined build.
 
+The receipt-bound `6012206836aae5c594dd5250e632db604b5fa274` GNU build also
+passes both silent development lifecycle endpoints and three opening/cancellation
+cycles. These exercise the common menu build, not the new Delphi API or manual
+input/visual fidelity. Its private draft has ten allowlisted members, complete
+notices, matching receipt/review identities and no verifier blockers. Executable
+SHA256: `c227099f295063bc6827573884c41da7a0cc33c41977d87e56d5e547fcfaf3dc`;
+ZIP SHA256: `37880c59eb20426b8c5bdb7c1f6dfaa44d3d862a5efea883644cc3351880fd42`.
+No new public binary is offered for this CPU-only stage.
+
 The separate `codex/delphi-native` lane starts with declaration-backed kind-3
 marker, class/state template and body/state specification preparation. Its
 selected-mission resource control passes with user-supplied data; the existing

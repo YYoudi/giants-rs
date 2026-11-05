@@ -68,3 +68,17 @@ Source `5187904951cd049d4db3532c5082d891a4b01765` additionally retains the
 cinematic inventory/diagnostic changes. The game-crate source is unchanged from
 the compared runtime above. The combined workspace again passes 707 Rust tests
 (17 ignored), Rustfmt and Clippy, with all 30 current Python/site tests passing.
+
+The receipt-bound Windows build at
+`6012206836aae5c594dd5250e632db604b5fa274` passes both silent development
+lifecycle endpoints and three selected-opening cancellation cycles. These
+regressions exercise the common menu build, not the Delphi special API, manual
+controls, natural cinematic endings or visual fidelity. No window or audio
+device is created by these controls.
+
+An asset-free private draft has ten allowlisted members, complete notices,
+matching build/review identities and no package-verifier blockers. Executable
+SHA256: `c227099f295063bc6827573884c41da7a0cc33c41977d87e56d5e547fcfaf3dc`.
+ZIP SHA256: `37880c59eb20426b8c5bdb7c1f6dfaa44d3d862a5efea883644cc3351880fd42`.
+It remains a private validation draft; the public download is unchanged by this
+CPU milestone.
