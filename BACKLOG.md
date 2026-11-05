@@ -94,10 +94,49 @@ automatically wired into the main menu-to-mission build.
   downloaded checksums were verified. These short samples
   allocated no glyph atlas: GPU cleanup after visible subtitles, audio-clock
   progression and full subtitle visual/timing comparisons remain pending.
+- Preview 2026.11.05.3: isolated, receipt-bound checks completed two natural
+  source-terminal cycles for Story4 mission 1 (13 directors, 11 voices each,
+  Gameplay) and Story1 mission 5 (one director, two voices, Mecc preview with
+  campaign admission still incomplete). Both returned to the menu and re-entered.
+  Story1's sync track retired before its director, with zero audio time and no
+  fabricated tail. It declares no bitmap-text blocks/calls; automatic voice-caption
+  policy is not established. Story4 retired 190 text entities and 12 atlas images
+  per entry, including a last voice observed empty at retirement. Main-world
+  owned image entries were gone; total GPU/process memory reclamation and subtitle
+  pixel/timing parity remain unverified.
+- Final synthetic validation used the isolated worktree target: 695 Rust passed,
+  14 ignored, 20 Python passed, formatting/Clippy passed. The earlier shared-cache
+  inventory was rejected. Both development lifecycle endpoints passed on the
+  exact packaged executable, and the downloaded ZIP/checksums were verified.
+  The 29-root menu transport matrix is running separately; its passes do not
+  certify full scenes or all 545 sources. Current non-Mecc entries expose a common
+  audio preparation error: the local-player bank unconditionally requests Mecc
+  cues absent from those worlds. Investigate class-based preparation; do not
+  invent sound aliases or waive unsupported character/audio services.
+- Exact-reference audio research: 32 CPU query controls cover absent streams,
+  supplied device failures/cursors and wrap state. Six additional controls execute
+  the worker's retirement path after a supplied EOF/end notification, then the
+  real cleanup and time query. Retiring the matching stream clears its clock;
+  retiring another stream preserves the selected clock. No device, original
+  thread or natural notification timing was verified by these controls.
+- The common audio master now supplies zero after stream retirement, disabling
+  drift correction while the director continues on its own clock. It no longer
+  invents a realtime audio tail or rejects a director solely because its sync
+  track ended first. Synthetic clock/restart/track-replacement controls pass in
+  the isolated target. The exhausted-track Story1 menu control passed on the
+  published executable. Native notification timing, small-buffer admission and
+  device mix remain open. Analysis stays private.
 - Preserve the menu -> selected mission -> preparation -> full movie -> skip or
   natural end -> gameplay -> menu -> second-entry acceptance path. The silent
   opening-cycle replay calls the real selection and cancellation services without
   key/mouse injection; it samples an opening, not natural completion or gameplay.
+- Menu opening inventory: 56 selectable mission requests across 19 menu world
+  entries; 29 declared opening chains, 26 without an opening request and one
+  unresolved Kabuto name. Menu world entries include catalogs outside the
+  16-world cinematic corpus. These are declarations, not playback coverage.
+  The Kabuto case matches retained exact-reference name-resolution research:
+  an absent table name does not justify an invented alias or another movie.
+  Its live caller/world state and resulting mission flow remain unresolved.
 - Common blockers remain: general effect dispatch beyond the admitted terminal
   binding, deferred mixed attachments/body variants, real world visibility inputs,
   glare/occlusion integration, exact audio-clock/end behavior and material/light/

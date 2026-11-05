@@ -15,6 +15,7 @@ pub(crate) struct Replay {
     since: f32,
     done: bool,
     showcase: bool,
+    film_finished: bool,
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
     if let Ok(step) = std::env::var("GIANTS_MISSION_OWNED_JET_CAPTURE_STEP")
@@ -68,6 +69,17 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
             | "campaign-ambient-cycles"
             | "campaign-flight-cycles",
         ) => 3,
+        Some("showcase-film-cycles") => {
+            if !app
+                .world()
+                .contains_resource::<crate::cinematic_audio::MutedTransport>()
+            {
+                return Err(
+                    "Film cycles require --offscreen --silent-capture --muted-transport".into(),
+                );
+            }
+            2
+        }
         Some(_) => return Err("unknown GIANTS_MISSION_REPLAY mode".into()),
     };
     install_skip_probe(app);
@@ -121,6 +133,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
         since: 0.,
         done: false,
         showcase,
+        film_finished: false,
     })
     .add_systems(
         Update,
@@ -222,13 +235,19 @@ fn drive(
     if replay.done {
         return;
     }
+    let mode = std::env::var("GIANTS_MISSION_REPLAY").unwrap();
     assert!(
-        time.elapsed_secs() < 300.,
+        time.elapsed_secs()
+            < if mode == "showcase-film-cycles" {
+                1800.
+            } else {
+                300.
+            },
         "mission replay timed out before its real endpoint"
     );
     if replay.showcase {
-        let mode = std::env::var("GIANTS_MISSION_REPLAY").unwrap();
         if replay.stage == 0 {
+            replay.film_finished = false;
             if replay.completed == 0 {
                 frontend
                     .campaign
@@ -286,7 +305,10 @@ fn drive(
                     && players.is_empty()
                     && cinematic.is_none()
                 {
-                    if mode == "showcase-opening-cycles" {
+                    if matches!(
+                        mode.as_str(),
+                        "showcase-opening-cycles" | "showcase-film-cycles"
+                    ) {
                         replay.completed += 1;
                         println!(
                             "showcase_opening_cycle_released cycles={} remaining_entities=0 movie_released=true input_injected=false",
@@ -306,6 +328,41 @@ fn drive(
             }
             let playing = showcase.controls(frontend.flow.phase);
             let opened = cinematic.as_ref().is_some_and(|c| c.clock_steps() > 180);
+            if mode == "showcase-film-cycles" {
+                if !replay.film_finished
+                    && let Some(cinematic) = &cinematic
+                    && cinematic.end_reached()
+                    && voices
+                        .iter()
+                        .all(|sink| sink.is_some_and(|sink| sink.empty()))
+                {
+                    replay.film_finished = true;
+                    println!(
+                        "showcase_film_terminal ticket={} directors={} sequence={} tick={} source_terminal=true voices_drained=true input_injected=false fidelity_verified=false",
+                        frontend.flow.ticket,
+                        cinematic.segments().len(),
+                        cinematic.sequence(),
+                        cinematic.tick()
+                    );
+                }
+                if replay.film_finished
+                    && cinematic.is_none()
+                    && opening.idle()
+                    && (playing || showcase.is_free())
+                    && environment.presentation_ready()
+                {
+                    println!(
+                        "showcase_film_endpoint ticket={} phase={:?} mecc_preview={} free_inspection={} campaign_ready_claimed=false",
+                        frontend.flow.ticket,
+                        frontend.flow.phase,
+                        playing,
+                        showcase.is_free()
+                    );
+                    cancel_mission(&mut frontend, &mut cancelled);
+                    replay.stage = 2;
+                }
+                return;
+            }
             let ready = if mode == "showcase-audio-cancel" {
                 false
             } else if mode == "showcase-mecc" {

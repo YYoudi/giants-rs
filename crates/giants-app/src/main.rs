@@ -585,9 +585,20 @@ fn launch(arguments: Vec<std::ffi::OsString>) -> Result<(), Box<dyn std::error::
         );
     }
     if muted_transport
-        && (!silent_capture || !cinematic_camera || cinematic_tick.is_some() || gamegauge)
+        && (!silent_capture
+            || !(cinematic_camera || mecc_menu)
+            || cinematic_tick.is_some()
+            || gamegauge)
     {
-        return Err("--muted-transport requires silent offscreen live cinematic capture".into());
+        return Err(
+            "--muted-transport requires silent offscreen live cinematic or menu capture".into(),
+        );
+    }
+    if muted_transport && mecc_menu && !mission_audio::muted() {
+        return Err(
+            "Menu muted transport requires GIANTS_AUDIO_MUTE=1 for every mission audio service"
+                .into(),
+        );
     }
     if hold_cinematic_at_capture
         && (capture_after_seconds.is_none()
@@ -1334,6 +1345,9 @@ fn launch(arguments: Vec<std::ffi::OsString>) -> Result<(), Box<dyn std::error::
         // Frontend/Mecc systems still own and retire their audio assets in a
         // silent replay. Register storage without installing a device or sinks.
         app.init_asset::<AudioSource>();
+    }
+    if muted_transport {
+        app.insert_resource(cinematic_audio::MutedTransport);
     }
     capture_readiness::install(&mut app);
     if let Some(offset) = cinematic_effect_offset {

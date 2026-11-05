@@ -20,6 +20,10 @@ Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.
+Use a separate Cargo target directory for each active worktree. Sharing downloaded
+registry/toolchain caches is fine; sharing build artifacts between concurrently
+modified worktrees can produce a test inventory from the wrong source. Reject
+that result and rebuild in an isolated target before recording a release receipt.
 
 Package a draft with `python -m tools.package_preview --help`. Run the extracted
 bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Windows
@@ -66,3 +70,23 @@ Keep logs, profiles and captures private and separate from the installation.
 The sampled frame count is not proof of audio-clock progression, full playback,
 visible-subtitle atlas cleanup, natural ending, skip input or gameplay admission.
 Interactive verification remains explicitly pending during background-only work.
+
+For natural-ending transport and second-entry checks, use the explicit muted
+transport mode (real audio sinks, zero volume before creation):
+
+```powershell
+python -m tools.cinematic_smoke --executable .local/build/giants-rs.exe --receipt .local/build/build-receipt.json --data-root 'D:/Games/Giants' --output .local/cinematic-full-NEW --world Story4 --mission 0 --full --require-text
+```
+
+This performs two complete selected-opening cycles, waits for the source terminal
+and drained voices, observes the real post-film endpoint, returns to the menu and
+re-enters. It does not press keys or mouse buttons. The runner compares declared
+director/voice/sync counts with observed terminals and sinks, requires zero sink
+volumes, and rejects an unverified local audio tail. A voice may be observed empty
+at retirement if it finished after that frame's audio update; a missing or active
+sink cannot count as a finished voice. `--require-text` additionally requires
+nonempty glyph pools and atlas release on both entries. Omit it for sources with
+no text. The default full-run timeout is 1800 seconds; a timeout fails the check.
+Passing this check establishes transport/lifecycle observations for the selected
+opening only. It does not establish native cadence, audio mixing, skip gestures,
+mission rules, other sources or visual fidelity. Preserve all outputs privately.

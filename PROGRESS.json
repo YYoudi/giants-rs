@@ -55,7 +55,7 @@
       "title": "Complete cinematic playback",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "545 historical sources / 16 worlds; zero complete scenes verified. Selected-mission partial renderer; ticket-owned subtitle resources with synthetic cleanup/re-entry checks and three silent opening/cancellation cycles in Windows preview 2026.11.05.2 (no visible-subtitle atlas in these short samples); reviewed support-basis and terrain-visibility corrections. Full effects, timing, visual parity and movie-to-gameplay cycles remain open."
+      "detail": "545 historical sources / 16 worlds; zero complete scenes verified. Selected-mission partial renderer; ticket-owned subtitle resources with synthetic cleanup/re-entry checks and three silent opening/cancellation cycles in Windows preview 2026.11.05.2 (no visible-subtitle atlas in these short samples); reviewed support-basis and terrain-visibility corrections. Preview 2026.11.05.3 removes extrapolated audio tails; receipt-bound natural-ending transport/re-entry passed for Story1 mission 5 (Mecc preview) and Story4 mission 1 (Gameplay and nonempty text-pool cleanup). A 29-root menu transport audit is running; this is not complete-scene verification. Full effects, native timing, visual parity and all-source movie-to-gameplay coverage remain open."
     },
     {
       "id": "ending-credits",
