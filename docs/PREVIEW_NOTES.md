@@ -67,11 +67,20 @@ scene. Story1 mission 5 has no declared bitmap-text block/call and exercises
 sync-track exhaustion. Story4 mission 1 exercises text-atlas cleanup. Their
 post-film gameplay/preview distinction must remain explicit in validation results.
 
-The .4 full-menu matrix and long-film checks of this candidate are still pending.
-The preceding .3 audit covered 29 declared roots: 18 transport passes, ten unrelated
-Mecc preload failures, and one long Story4 periodic-effect reserve failure. These
-are separate executable identities. Exact runtime outcomes must accompany any
-published package; CPU checks alone do not validate the attached-emitter fix.
+This executable passes two silent natural-terminal/menu/re-entry cycles each
+for Story4 mission 2 (54 directors, previously failing), Story4 mission 1,
+Story1 mission 5 and Rstory5 mission 2, plus both development lifecycle endpoints.
+Both Story4 cases release nonempty text atlases. The long case observes actual
+pool growth and adoption of late draws on both entries; 7,702 tracked main-world
+film assets are absent after each release. Total GPU/process memory reclamation
+remains unverified. The historical .3 audit covered 29 declared roots: 18 transport
+passes, ten unrelated Mecc preload failures and this fixed reserve failure. The
+separate .4 full-matrix repeat is still in progress; its executable predates the
+FX fix. These controls do not certify complete-scene fidelity or native scheduling.
+
+The executable is pinned to source 1bc8d6d7ec7286eaefd032c56abd3f074ed4a2c2.
+Subsequent optional Mecc primary-phase source changes are preserved on main and
+validated separately; their presence in current source is not this binary's receipt.
 
 All 545 historical sources across 16 worlds remain in scope; zero complete scenes
 have verified fidelity. Effects, actor variants, lighting, shadows, water, native

@@ -151,3 +151,39 @@ transport passes, ten unrelated Mecc preload failures and one Story4 mission 2
 periodic-effect reserve failure. The full .4 repeat remains pending. Zero complete
 scenes have verified fidelity; rendering, cadence, effects, character gameplay,
 skipping and interactive checks retain the limits recorded in BACKLOG.md.
+
+## Attached-emitter catch-up and film ownership - 5 November 2026
+
+Published Windows preview: `preview-2026.11.05.5`, source
+`1bc8d6d7ec7286eaefd032c56abd3f074ed4a2c2`.
+Executable SHA256: `68f8180af257e067e01ef083b68e8bfac40170196deceefc44da57d6c1d4e3e7`.
+ZIP SHA256: `0cfc67da5a95956617bf729b4499a0ac07feec1fc092da16b497a4619c041eda`.
+Fixed attached emitters allocate actual catch-up births beyond a lifetime-based
+reserve, retaining requests, intervals, random order and retirement. Late draws
+and render assets are adopted by the film ticket on ordinary updates. Reference
+channels and campaign admission gates remain separate.
+
+The exact executable passes two silent offscreen natural-terminal/menu/re-entry
+cycles each for Story4 missions 1 and 2, Story1 mission 5 and Rstory5 mission 2,
+plus both development endpoints. The long case completes 54 directors twice,
+observes actual render-pool growth, adopts 38 late entities per ticket and removes
+7,702 tracked main-world film assets per release. Both Story4 cases release
+nonempty text atlases. 697 Rust tests passed, 14 ignored; 20 Python tests,
+formatting and Clippy passed. Source audit found no selected-pattern findings;
+this is not legal clearance. The independently downloaded ZIP, notices, member
+allowlist and receipt/checksum identities passed verification.
+
+The optional Mecc primary-phase source merge after this executable is retained
+on main and validated separately. Its source/API presence must not be attributed
+to this earlier binary. The .4 transport matrix is still running on its separate
+executable. Zero complete scenes have verified fidelity. Native scheduling,
+allocator policy, full effects, visual/audio/subtitle parity, skip input, total
+GPU/process memory reclamation and interactive checks remain open.
+
+The subsequent combined-main source `d2d18094ee0300999358e055e9349402e1f3f581`
+preserves the independent optional Mecc primary-phase work. Its isolated GNU
+build passes 699 Rust tests (14 ignored), Clippy, both development lifecycle
+endpoints and three selected-opening/cancellation cycles. Executable SHA256:
+`21fdca07b393ac924cb95a40cd23d52d8f6a7cb80cc2605c0d361f4726ed0c11`.
+This separate local build is not the .5 release identity. Its short cancellation
+controls do not repeat the .5 long-film proof or verify the optional fire phase.
