@@ -16,6 +16,21 @@ Rust tests (17 ignored), 35 Python tests, Rustfmt, Clippy, real-resource physics
 ownership/replay/clear controls and the repeated 256-case comparison. This CPU
 milestone adds no playable character or public Windows download.
 
+Its exact GNU build passes both silent common-runtime lifecycle endpoints and
+three selected-opening cancellations, without a window or audio device. The
+private ten-member draft has complete notices, matching receipt/review and no
+technical package blockers. Executable SHA256:
+`62c658b7e8c9f276b6e8ef9864ea2b7e3ca0df75d5b814c92b3558130226e7bc`;
+draft ZIP SHA256:
+`e915e5038d95cc0158bf1aacb35ca05ae40364d68afa607d9ba0bef01509d177`.
+These are common-runtime regressions, not Delphi controls or visual validation.
+
+Source `01ef47e9c4caf0bd01c829a658c1e6f04c0aab78` additionally preserves the
+concurrent cinematic FX-prefix changes and passes 720 Rust tests (17 ignored),
+35 Python tests, Rustfmt and Clippy. Delphi/physical/shared actor source remains
+unchanged from the compared initializer above. The earlier build receipt stays
+bound to its exact source; it is not a binary certification of this later merge.
+
 ## Cold Delphi local-player fields - 5 November 2026
 
 The common owned actor runtime now exposes the acquired Delphi cold player-field

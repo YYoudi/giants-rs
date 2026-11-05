@@ -65,6 +65,19 @@ reader, and passes 719 Rust tests (17 ignored), 35 Python tests, Rustfmt, Clippy
 and the resource-backed physics ownership/replay/clear control. Mecc camera and
 dispatch plus Kabuto size work are retained in this shared build.
 
+That exact GNU build also passes both silent common-runtime lifecycle endpoints
+and three selected-opening cancellations. Its ten-member private draft verifies
+complete notices and matching receipt/review with no technical package blockers.
+Executable SHA256:
+`62c658b7e8c9f276b6e8ef9864ea2b7e3ca0df75d5b814c92b3558130226e7bc`;
+draft ZIP SHA256:
+`e915e5038d95cc0158bf1aacb35ca05ae40364d68afa607d9ba0bef01509d177`.
+These regressions do not execute Delphi control or establish visual fidelity.
+The subsequent cinematic-FX merge at
+`01ef47e9c4caf0bd01c829a658c1e6f04c0aab78` retains unchanged Delphi physical and
+shared actor source and passes 720 Rust tests (17 ignored), 35 Python tests,
+Rustfmt and Clippy; its later source is not substituted into the earlier receipt.
+
 Thirty-two exact-reference CPU cases compare 127,692 normalized words: every
 actor header, the full owner payload and all fifteen ordered registration lists.
 Cases vary pose, scale, finite copy parameters, group size, local-player identity
