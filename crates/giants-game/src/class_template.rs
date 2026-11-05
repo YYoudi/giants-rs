@@ -59,6 +59,9 @@ pub(crate) fn apply_configuration_extension(
         }
     };
     match record.opcode {
+        0x15 => configuration[17] = word()?,
+        0x4f => configuration[16] |= 0x0f,
+        0x50 => configuration[16] |= 0x0f00,
         0x25 => configuration[27] = word()?,
         0x26 => {
             configuration[25] = (configuration[25] & 0x00ff_ffff) | ((word()? & 0xff) << 24);
@@ -136,7 +139,7 @@ impl DebugScalar {
                     out.configuration[20] = u32::from(state);
                 }
                 0x17 => out.scale_bits = word(1)?,
-                0x25 | 0x26 | 0x31 | 0x36 | 0x69 => {
+                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x4f | 0x50 | 0x69 => {
                     apply_configuration_extension(&mut out.configuration, record)
                         .map_err(|_| Need::Framing)?;
                 }
@@ -160,6 +163,33 @@ impl DebugScalar {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn ground_offset_is_an_ordered_bit_copy_and_masks_preserve_other_bits() {
+        let mut commands = vec![0x15];
+        commands.extend(12.5f32.to_le_bytes());
+        commands.extend([0x4f, 0x50, 0x4f, 0x15]);
+        commands.extend(0x7fc0_0042u32.to_le_bytes());
+        commands.push(0xff);
+        let program = giants_formats::class_program::parse(&commands).unwrap();
+        let mut configuration = initial_configuration();
+        configuration[16] = 0xa5a5_5a5a;
+        for record in program.records.iter().take(program.records.len() - 1) {
+            apply_configuration_extension(&mut configuration, record).unwrap();
+        }
+        assert_eq!(configuration[16], 0xa5a5_5f5f);
+        assert_eq!(configuration[17], 0x7fc0_0042);
+        let expected = initial_configuration();
+        for index in (0..30).filter(|i| ![16, 17].contains(i)) {
+            assert_eq!(configuration[index], expected[index]);
+        }
+        let malformed = giants_formats::class_program::Record {
+            offset: 0,
+            opcode: 0x15,
+            bytes: vec![0x15, 0],
+        };
+        assert!(apply_configuration_extension(&mut configuration, &malformed).is_err());
+        assert_eq!(configuration[17], 0x7fc0_0042);
+    }
     #[test]
     fn resource_or_state_dependency_prevents_a_ready_scalar_template() {
         for (bytes, expected) in [

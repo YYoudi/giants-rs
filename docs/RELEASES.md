@@ -4,6 +4,21 @@ The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
 
+## Cold Kabuto construction - 5 November 2026
+
+The dedicated `codex/kabuto-native` lane adds the acquired ordinary cold Kabuto
+constructor through the common Session and declaration-backed resource loader.
+Missing shared ground-offset/mask stores pass 256 native/Rust controls; complete
+headers/payloads/registrations match for two ordinary Kabuto constructors. See
+OWNED_KABUTO.md. Special/player initialization, marker relocation, movement and
+growth remain unimplemented. This source stage does not add a playable character
+or justify another public Windows download.
+
+The isolated source workspace passes 702 Rust tests (16 ignored), 20 Python
+tests, Rustfmt, Clippy, source-data cold-construction controls and site checks.
+Playable milestones still require the common menu-first build, receipt-bound
+package checks and accurately scoped runtime validation.
+
 ## Delphi preparation lane - 5 November 2026
 
 The separate `codex/delphi-native` lane starts with declaration-backed kind-3

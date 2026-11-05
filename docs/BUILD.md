@@ -44,6 +44,19 @@ It creates no window or sound and does not execute a Delphi constructor,
 controller, water behavior or mission admission. Game data and private outputs
 must stay outside Git. Keep a separate Cargo target for this worktree.
 
+## Optional cold Kabuto resource check
+
+For the cold Kabuto constructor/resource control, set `GIANTS_KABUTO_ROOT` to a
+user-supplied installation and run:
+
+```powershell
+cargo test --locked -p giants-game source_cold_kabuto_keeps_player_setup_separate_and_refuses_unacquired_profiles --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This reads the selected mission, constructs ordinary owned actors and checks
+resource release and refused profiles without a window or sound. It does not
+execute Kabuto player initialization, movement or growth. See OWNED_KABUTO.md.
+
 ## Optional silent runtime lifecycle check
 
 After building a preview, supply your own installation and a fresh private output:

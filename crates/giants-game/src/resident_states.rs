@@ -8473,11 +8473,15 @@ impl Session {
         input: Construction<'_>,
         writes: &[&giants_formats::mission::StateWriteKind],
     ) -> Result<Id, String> {
-        if !matches!(input.seed.storage.state(), 0 | 2 | 18 | 23)
+        let kabuto_cold = input.class == 1
+            && input.seed.storage.state() == 1
+            && input.seed.storage.profile() == Profile::Debug
+            && writes.is_empty();
+        if (!matches!(input.seed.storage.state(), 0 | 2 | 18 | 23) && !kabuto_cold)
             || !input.seed.diagnostics.is_empty()
         {
             return Err(
-                "owned constructor outside acquired state0/state2/state18/state23 profile".into(),
+                "owned constructor outside acquired ordinary or cold Kabuto profile".into(),
             );
         }
         if input.seed.storage.state() == 0 && input.seed.storage.data().is_some() {

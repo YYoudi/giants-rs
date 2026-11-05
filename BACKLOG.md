@@ -51,11 +51,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 - The dedicated user-created fork owns Kabuto only, working alone with an
   isolated Cargo target and no windows, focus changes or sound. Preserve the
   Mecc/Delphi lanes and the single menu-first runtime.
-- Read-only preparation of the first selected Kabuto mission identifies its
-  kind-1 start and body/state declarations. Ordinary actor-field preparation
-  currently refuses class command `0x15`. Acquire and validate that shared
-  command's ordered effects before treating Kabuto's fields as prepared; do not
-  bypass it, substitute Mecc fields or call a resource projection initialization.
+- Implemented: the missing ordered ground-offset and configuration-mask class
+  stores now match 256 native/Rust scalar controls (98,816 complete header words)
+  and 768 additional native seeded-mask controls. `kabuto_resources::Resources`
+  prepares the kind-1 marker and actual body/state resources and can construct
+  the ordinary cold class through the existing owned Session.
+- Two ordinary cold Kabuto constructors match the native headers, state payloads
+  and ordered registrations. Typed resources, independent reference/shadow caches,
+  atomic failure and release are checked. See docs/OWNED_KABUTO.md. This does not
+  execute special/player initialization or relocate the actor to the mission marker.
+  Unknown state-1 classes, legacy profiles and mission state writes remain refused.
 - Acquire and compare cold initialization, equipment/children and the actual
   player setup; then land movement/jumping, size-dependent collision and growth.
   Reuse owned actor, terrain, input, animation, effect and audio services with
