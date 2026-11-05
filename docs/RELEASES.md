@@ -261,7 +261,7 @@ A CPU-only batch used the actual scene preparers on source
 `2301ac17b5c66b3f6a83af28855ad3da5a4043fed7ecdef568e61303446bce78`.
 All 545 source declarations across 16 worlds completed preparation. There are
 61 sources with reported implementation/preparation gaps, not 61 visually
-certified broken scenes; 470 without reported gaps are still unverified.
+certified broken scenes; 484 without reported gaps are still unverified.
 The strict-profile review queue has 282 sources and overlaps the gap set.
 The largest shared refusal affects 52 sources' FX actor-mutation prefixes;
 six exceed the general FX queue profile. Other overlapping limits and next
@@ -284,3 +284,30 @@ and a real CPU schema roundtrip on one source, without repeating the full corpus
 The subsequent combined source preserves the independent cold Kabuto work and
 passes 705 Rust tests (16 ignored), 30 Python tests, formatting and Clippy. The
 full-corpus inventory remains explicitly pinned to its original executable.
+
+## Typed FX-prefix admission - 5 November 2026
+
+Published Windows preview: `preview-2026.11.05.6`, source
+`73f7b1b14d5d9b8b813de68f2ab36c26c4db1ba0`.
+Executable SHA256: `26baf65be4613b6fe4088708654acde3e1ae16975d347fb50fc0c5db0173d04c`.
+ZIP SHA256: `af2d907ebc7a9115898947ae6a0fbbc4f2bc1fa179054fccd60f77e91146f7f3`.
+Typed shadow/text/range/audio admission and explicit actor ancestry remove the
+former 52-source prefix refusal while retaining real mutation and malformed-input
+guards. The new 545-source recount has zero prefix refusals, 56 general queue
+refusals and 59 sources with reported gaps. Fifty sources moved to the next real
+blocker; two additional terminal-only bindings are admitted. This is not 52
+accurate scenes; zero complete scenes have verified fidelity.
+
+The exact executable passes both silent 54-director Story4 mission 2 natural/
+menu/re-entry cycles, both Story4 mission 1 control cycles and both development
+lifecycle endpoints. The newly admitted pair actually spawns and retires in the
+long chain's director42 on both entries. Text atlases and tracked main-world film
+assets release. The long chain remains an explicit AwaitingRuntime Mecc preview;
+the control reaches Gameplay. No readiness gate is relaxed. 706 Rust tests pass,
+16 ignored; 30 Python tests, formatting and Clippy pass. Complete notices,
+receipt/member identities and the independently downloaded ZIP/checksums pass.
+
+Native scheduling, complete effects, total GPU/process memory reclamation,
+visual/audio/subtitle parity and interactive controls remain open. The next
+priority is the general FX queue, including its actual backend ownership and
+lifecycle requirements; visual preview alone is not an admission receipt.

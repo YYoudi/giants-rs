@@ -1,34 +1,25 @@
 {
   "schema_version": 1,
   "scope": "CPU preparation and declared-consumer gaps only",
-  "source_commit": "105ba24e14ce84d0e7e4e358b8a0cffcff08f0ab",
-  "executable_sha256": "2301ac17b5c66b3f6a83af28855ad3da5a4043fed7ecdef568e61303446bce78",
+  "source_commit": "73f7b1b14d5d9b8b813de68f2ab36c26c4db1ba0",
+  "executable_sha256": "26baf65be4613b6fe4088708654acde3e1ae16975d347fb50fc0c5db0173d04c",
   "sources": 545,
   "worlds": 16,
   "preparation_errors": 0,
-  "sources_with_reported_gaps": 61,
+  "sources_with_reported_gaps": 59,
   "sources_requiring_review": 282,
   "complete_scene_fidelity_verified": 0,
   "visual_fidelity_checked": false,
   "priority_rule": "Preparation barriers first; then distinct affected sources within each priority level.",
   "priorities": [
     {
-      "cause": "fx_actor_prefix",
-      "priority": 1,
-      "label": "Actor mutations before FX attachment are not admitted",
-      "evidence_kind": "reported_refusal",
-      "affected_sources": 52,
-      "affected_worlds": 8,
-      "diagnostic_units": 52
-    },
-    {
       "cause": "fx_queue_profile",
       "priority": 1,
       "label": "General FX queue exceeds the terminal-only profile",
       "evidence_kind": "reported_refusal",
-      "affected_sources": 6,
-      "affected_worlds": 4,
-      "diagnostic_units": 6
+      "affected_sources": 56,
+      "affected_worlds": 10,
+      "diagnostic_units": 56
     },
     {
       "cause": "numeric_audio",
@@ -83,15 +74,6 @@
       "affected_sources": 4,
       "affected_worlds": 2,
       "diagnostic_units": 10
-    },
-    {
-      "cause": "effect_refused",
-      "priority": 3,
-      "label": "Effect preview refusal needs request-level review",
-      "evidence_kind": "review_needed",
-      "affected_sources": 2,
-      "affected_worlds": 2,
-      "diagnostic_units": 4
     },
     {
       "cause": "tracer_review",
