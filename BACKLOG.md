@@ -30,8 +30,9 @@ automatically wired into the main menu-to-mission build.
   eight backend failure/refusal checks pass. See docs/OWNED_LOCAL_FIRE.md.
   The optional owned primary phase now supplies physical/first-ANM storage,
   local time and shared FX/RNG, before jet/secondary/second ANM. A continuous
-  64-frame walking/pulsed-trigger control matches 25,724 normalized words,
-  including two projectiles and 64 held-world/reference caches. Missing muzzle
+  64-frame walking/pulsed-trigger control matches 31,532 normalized words,
+  including two projectiles, 64 held-world/reference caches and deferred FX.
+  Missing muzzle
   and late sound failures quarantine without replay; constructor FX/RNG survive
   the latter. This controlled partial Mecc-then-held cohort is not a full world.
   Armed walk selection is acquired; armed idle/side/turn variants remain refused.

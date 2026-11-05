@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local callback controls cover 18 shots/15 tracked shots. An optional primary phase now supplies physical/first-ANM storage, local time and shared FX/RNG; 64 continuous walking frames match 25,724 words, two projectiles and held caches. Armed walk is acquired; other armed secondary variants remain refused. Main-driver camera/audio/fire scheduling, special headers and complete mission context coverage remain incomplete."
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local callback controls cover 18 shots/15 tracked shots. An optional primary phase now supplies physical/first-ANM storage, local time and shared FX/RNG; 64 continuous walking frames match 31,532 words, two projectiles, held caches and deferred constructor FX. Armed walk is acquired; other armed secondary variants remain refused. Main-driver camera/audio/fire scheduling, special headers and complete mission context coverage remain incomplete."
     },
     {
       "id": "mecc-inventory",

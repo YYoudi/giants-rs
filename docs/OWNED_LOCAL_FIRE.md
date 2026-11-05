@@ -82,6 +82,11 @@ executes a supplied partial Mecc-then-held cohort, not full native world order;
 projectile world updates are excluded. The camera boundary is supplied and the
 positional sound registry is explicitly empty. This is CPU evidence.
 
+An extended control also compares all 5,808 words of active deferred constructor
+contexts over these frames: 31,532 normalized words in total, with no differences.
+The actual recipients remain bound to the two produced projectiles. This does
+not execute those contexts' effects or certify their later rendered behavior.
+
 The control exposed a missing armed-walk transition while an ordinary walk was
 still active. The held-trigger timer now selects that acquired pistol clip.
 Synthetic regressions cover this transition and refusal of unacquired armed
@@ -132,3 +137,18 @@ Executable SHA256:
 Archive SHA256:
 `aab736b598904fef6dcca0d2963baa2d05eac006dcb7d85914ec006c5ae75e71`.
 It remains a private draft; this CPU boundary does not publish another binary.
+
+For the optional primary phase, combined runtime source
+`36f992c362a0cfad6ba60aa3edae0c2ff9bc1fbe` also preserves the character-scoped
+mission audio changes. Its isolated build passes 698 Rust tests (14 ignored),
+20 Python tests, Rustfmt, Clippy and the source/site checks. The local draft has
+10 allowlisted members, complete notices and receipt-bound review, and no
+verifier blockers. Executable SHA256:
+`d8d41a71a09f74525d6f1f1385116f0396f8e35ce5ddbbd0ba80855f0f9a70d2`.
+Archive SHA256:
+`30d6fd1cdf1aeab5ff25e73eaa7a7bce33624fdb216f75b0ee102189e31ab74c`.
+The draft remains private; the public download is unchanged by this CPU step.
+Both receipt-bound development lifecycle endpoints and three selected-opening
+cancellation cycles pass with no window or audio device. These checks exercise
+the common menu build, not the optional fire phase, natural cinematic transport,
+manual input or visual fidelity.
