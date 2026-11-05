@@ -326,6 +326,7 @@ pub struct Resident {
     wield_binding: Option<crate::mecc_wield::Binding>,
     wield_failure: Option<String>,
     mecc_shot_failure: Option<String>,
+    mecc_local_target: Option<crate::mecc_target_owned::Published>,
     mecc_jet: Option<crate::mecc_jet_owned::Owner>,
     /// Native accumulated header damage, owned separately from the payload.
     mecc_damage: Option<f32>,
@@ -418,6 +419,7 @@ pub struct Session {
     vimp_events: Option<crate::mecc_animation_events::Bank>,
     mecc_countdown_world: Option<f32>,
     mecc_shot_record: Option<crate::mecc_shot::Record>,
+    mecc_reticle_owner: Option<Id>,
 }
 impl Session {
     pub fn new(ticket: u64) -> Self {
@@ -438,6 +440,7 @@ impl Session {
             vimp_events: None,
             mecc_countdown_world: None,
             mecc_shot_record: None,
+            mecc_reticle_owner: None,
         }
     }
     /// Bind known contact names from the owning mission's prepared colliders.
@@ -525,6 +528,7 @@ impl Session {
                 wield_binding: None,
                 wield_failure: None,
                 mecc_shot_failure: None,
+                mecc_local_target: None,
                 mecc_jet: None,
                 mecc_damage: None,
                 mecc_physics_present: false,
@@ -3327,6 +3331,95 @@ impl Session {
             return Err("local targeting source requires its unparented owned profile".into());
         }
         crate::mecc_target_owned::run(self, source, input, terrain, headers)
+    }
+    /// Execute the acquired local query and publish its target relationships,
+    /// aim point and reticle flag. Required header/view/geometry providers stay
+    /// explicit. This is not admission of local input or the fire callback.
+    pub fn scan_mecc_local_target(
+        &mut self,
+        resources: &crate::scene_resources::SceneResources,
+        input: crate::mecc_target_owned::Input<'_>,
+        terrain: &crate::terrain_queries::StaticTerrainQuery<'_>,
+        headers: &mut impl crate::mecc_target_owned::Headers,
+    ) -> Result<crate::mecc_target_owned::Output, String> {
+        let source = input.source;
+        let epoch = input.vertex_epoch;
+        self.check_mecc_target_publication(source)?;
+        let output = self.query_mecc_local_target(resources, input, terrain, headers)?;
+        self.publish_mecc_target(
+            source,
+            epoch,
+            output.target,
+            output.point,
+            output.near_terrain,
+        )?;
+        Ok(output)
+    }
+    pub fn mecc_local_target(&self, source: Id) -> Option<crate::mecc_target_owned::Published> {
+        self.get(source)?.mecc_local_target
+    }
+    /// Last explicitly scanned local owner and its terrain-proximity flag.
+    pub fn mecc_local_reticle(&self) -> Option<(Id, bool)> {
+        let owner = self.mecc_reticle_owner?;
+        Some((owner, self.mecc_local_target(owner)?.near_terrain))
+    }
+    fn check_mecc_target_publication(&self, source: Id) -> Result<(), String> {
+        let actor = self
+            .get(source)
+            .ok_or("local target source absent or foreign")?;
+        let body = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("local target payload absent")?;
+        if actor.class != 2
+            || actor.seed.storage.state() != 2
+            || actor.seed.storage.profile() != Profile::Debug
+            || !actor.acquired_construction
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+            || body.len() != 524
+            || [0x14, 0xe0, 0x120]
+                .into_iter()
+                .any(|at| body[at..at + 4] != [0; 4])
+        {
+            return Err(
+                "local target publication requires its normal owned Mecc and normalized links"
+                    .into(),
+            );
+        }
+        Ok(())
+    }
+    fn publish_mecc_target(
+        &mut self,
+        source: Id,
+        epoch: u32,
+        target: Option<Id>,
+        point: [f32; 3],
+        near_terrain: bool,
+    ) -> Result<(), String> {
+        self.check_mecc_target_publication(source)?;
+        if epoch == 0
+            || !point.into_iter().all(f32::is_finite)
+            || target.is_some_and(|id| self.get(id).is_none())
+        {
+            return Err("local target publication has unavailable identity, epoch or point".into());
+        }
+        // The native prepass discards a self result before writing all three links.
+        let target = target.filter(|id| *id != source);
+        let actor = self.residents.get_mut(&source.serial).unwrap();
+        let body = actor.seed.storage.data_mut().unwrap();
+        for (at, value) in [0xe4, 0xe8, 0xec].into_iter().zip(point) {
+            body[at..at + 4].copy_from_slice(&value.to_le_bytes());
+        }
+        actor.mecc_local_target = Some(crate::mecc_target_owned::Published {
+            links: [target; 3],
+            point,
+            near_terrain,
+            vertex_epoch: epoch,
+        });
+        self.mecc_reticle_owner = Some(source);
+        Ok(())
     }
     pub(crate) fn check_target_geometry(&self, id: Id) -> Result<(), String> {
         let actor = self.get(id).ok_or("target actor absent or foreign")?;
@@ -7119,6 +7212,9 @@ impl Session {
             }
             let mut refers = actor.attachment.as_ref().is_some_and(|a| a.parent == id)
                 || actor.presentation_parent == Some(id);
+            if let Some(target) = actor.mecc_local_target {
+                refers |= target.links.contains(&Some(id));
+            }
             refers |= match actor.surface_link {
                 Some(SurfaceLink::Owner { marker }) => marker == id,
                 Some(SurfaceLink::Marker { owner, .. }) => owner == id,
@@ -9456,6 +9552,7 @@ impl Session {
         self.mecc_events = None;
         self.mecc_contact_materials = None;
         self.vimp_events = None;
+        self.mecc_reticle_owner = None;
         // A visitor can cancel while walk_common is on the stack. Its running
         // lease is released by the outer call, never by clearing registries.
         self.common_walk_failure = None;
@@ -9466,6 +9563,117 @@ impl Session {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn local_target_publication_owns_links_preserves_payload_and_replaces_misses() {
+        let mut session = Session::new(921);
+        let owner = fixture_actor(&mut session, 2, 2);
+        let first = fixture_actor(&mut session, 73, 23);
+        let second = fixture_actor(&mut session, 73, 23);
+        let before = session
+            .get(owner)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap()
+            .to_vec();
+        let point = [-0., 15., -3.5];
+        session
+            .publish_mecc_target(owner, 17, Some(first), point, true)
+            .unwrap();
+        let published = session.mecc_local_target(owner).unwrap();
+        assert_eq!(published.links, [Some(first); 3]);
+        assert!(crate::mecc_fire_primary::check_local_target_profile(&session, owner).is_err());
+        assert_eq!(published.point.map(f32::to_bits), point.map(f32::to_bits));
+        assert_eq!(published.vertex_epoch, 17);
+        assert_eq!(session.mecc_local_reticle(), Some((owner, true)));
+        assert_eq!(session.incoming_actor_references(first).unwrap(), [owner]);
+        let mut expected = before;
+        for (at, value) in [0xe4, 0xe8, 0xec].into_iter().zip(point) {
+            expected[at..at + 4].copy_from_slice(&value.to_le_bytes());
+        }
+        assert_eq!(
+            session.get(owner).unwrap().seed.storage.data().unwrap(),
+            expected
+        );
+        session
+            .publish_mecc_target(owner, 18, Some(second), [9., 8., 7.], false)
+            .unwrap();
+        assert!(session.incoming_actor_references(first).unwrap().is_empty());
+        assert_eq!(session.incoming_actor_references(second).unwrap(), [owner]);
+        session
+            .publish_mecc_target(owner, 19, None, [1., 2., 3.], false)
+            .unwrap();
+        assert_eq!(session.mecc_local_target(owner).unwrap().links, [None; 3]);
+        assert!(crate::mecc_fire_primary::check_local_target_profile(&session, owner).is_ok());
+        assert!(
+            session
+                .incoming_actor_references(second)
+                .unwrap()
+                .is_empty()
+        );
+        session
+            .publish_mecc_target(owner, 20, Some(owner), [4., 5., 6.], true)
+            .unwrap();
+        assert_eq!(session.mecc_local_target(owner).unwrap().links, [None; 3]);
+        session.clear();
+        assert!(session.mecc_local_target(owner).is_none());
+        assert!(session.mecc_local_reticle().is_none());
+    }
+    #[test]
+    fn local_target_publication_rejects_invalid_inputs_without_replacing_state() {
+        let mut session = Session::new(922);
+        let owner = fixture_actor(&mut session, 2, 2);
+        let target = fixture_actor(&mut session, 73, 23);
+        let foreign = fixture_actor(&mut Session::new(923), 73, 23);
+        session
+            .publish_mecc_target(owner, 1, Some(target), [1., 2., 3.], true)
+            .unwrap();
+        let state = session.mecc_local_target(owner);
+        let bytes = session
+            .get(owner)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap()
+            .to_vec();
+        for (source, epoch, selected, point) in [
+            (owner, 2, Some(foreign), [0.; 3]),
+            (foreign, 2, Some(target), [0.; 3]),
+            (target, 2, None, [0.; 3]),
+            (owner, 0, None, [0.; 3]),
+            (owner, 2, None, [f32::NAN, 0., 0.]),
+        ] {
+            assert!(
+                session
+                    .publish_mecc_target(source, epoch, selected, point, false)
+                    .is_err()
+            );
+            assert_eq!(session.mecc_local_target(owner), state);
+            assert_eq!(
+                session.get(owner).unwrap().seed.storage.data().unwrap(),
+                bytes
+            );
+            assert_eq!(session.mecc_local_reticle(), Some((owner, true)));
+        }
+        // Raw identities are never silently adopted or converted into typed ones.
+        session
+            .residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()[0xe0..0xe4]
+            .copy_from_slice(&1_u32.to_le_bytes());
+        assert!(
+            session
+                .publish_mecc_target(owner, 2, None, [0.; 3], false)
+                .is_err()
+        );
+        assert_eq!(session.mecc_local_target(owner), state);
+    }
     #[test]
     fn current_affine_requires_preparation_rejects_stale_pose_and_preserves_failure_state() {
         let mut session = Session::new(95);

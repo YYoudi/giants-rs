@@ -15,11 +15,18 @@ automatically wired into the main menu-to-mission build.
   Broaden installation/edition and full-session coverage. These changes do not restore
   original saves or implement missing mission/character services.
 
-- Owned Mecc targeting: preserve the current implementation; source header context
-  and special-header producer remain unresolved. Effective declaration range 700;
+- Owned Mecc targeting: the explicit Session scan now publishes typed target
+  links, aim point and terrain-reticle state. The 64 controlled source-backed
+  CPU cases match the reference; 128 provider/epoch failure checks preserve the
+  earlier publication. See docs/OWNED_TARGETING.md. The main driver does not yet
+  execute this scan. Source context inheritance/mission mutation and special-header
+  producers remain unresolved; class-loader zeroing/context assignment is identified
+  but not yet wired into current owned headers. Effective declaration range 700;
   normal pistol caller distance 500. Do not substitute a default range of 1000.
-- Connect typed target/reticle results, actual camera/muzzle timing and fire phase
-  at the real first-animation/physical boundary; then verify secondary reactions.
+- Connect the acquired target/reticle publication, actual camera/muzzle timing
+  and fire phase at the real first-animation/physical boundary; then verify
+  secondary reactions. A typed selected target cannot use the no-target fire
+  profile merely because its raw pointer slots remain normalized.
 - Actor/projectile/effect scheduling, damage, mission objectives and progression.
 - Projectile terrain occlusion: the selected-controller pistol and development
   arena now limit object/target queries to the terrain-clipped segment, as the

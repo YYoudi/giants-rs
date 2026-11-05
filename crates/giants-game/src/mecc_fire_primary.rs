@@ -37,6 +37,17 @@ fn word(body: &[u8], at: usize) -> u32 {
 fn put(body: &mut [u8], at: usize, value: u32) {
     body[at..at + 4].copy_from_slice(&value.to_le_bytes());
 }
+pub(crate) fn check_local_target_profile(session: &Session, source: Id) -> Result<(), String> {
+    if session
+        .mecc_local_target(source)
+        .is_some_and(|state| state.links.iter().any(Option::is_some))
+    {
+        // Normalized pointer bytes cannot disguise an actual owned target as
+        // the already acquired no-target fire profile.
+        return Err("fire callback requires its acquired local-target branch".into());
+    }
+    Ok(())
+}
 pub fn advance(
     session: &mut Session,
     factory: &crate::mecc_shot::Factory,
@@ -48,6 +59,7 @@ pub fn advance(
     if session.mecc_shot_failure(input.source).is_some() {
         return Err("fire callback source quarantined".into());
     }
+    check_local_target_profile(session, input.source)?;
     let mut fields = input.frame.fields;
     let mut body = input.frame.payload;
     let actor = session.get(input.source).unwrap();
