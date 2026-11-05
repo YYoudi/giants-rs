@@ -11,6 +11,23 @@ bundled or run. Layout recognition is separate from authentication and runtime
 fidelity. The full primary/camera/target producers and live admission remain
 pending, so this resource milestone adds no playable Delphi download.
 
+
+Source `2a907b04d582e97baea2055ab09266379b8d2928` passes 739 Rust tests
+(22 ignored), 36 Python tests, Rustfmt, Clippy, the Delphi ownership/refusal
+control and the retained Kabuto installed-data lifecycle control. Source-history
+review reports zero selected-pattern findings across 182 commits and 1,889 blobs.
+The six 256-step comparisons retain exact RNG endpoints; a separate replay uses
+retail metadata without claiming retail native behavioral execution.
+
+Its exact GNU executable SHA256 is
+`e9c78a91a520a13e19c6ae9712d185feee2f325f9818d2c1d4d7da855554eb62`.
+Both silent development lifecycle endpoints and three selected-opening
+cancellations pass. These are common-runtime regressions, not Delphi controls.
+The private ten-member draft has complete notices, matching receipt/review
+identities and no technical verifier blockers; ZIP SHA256 is
+`7ba53f078ce24e9a2b894ba95f519acf7b80ba23ff3ac5786a4dd51db5aa8016`.
+The published playable preview retains its separate release identity.
+
 ## Delphi owned physical/secondary/ANM composition - 5 November 2026
 
 The dry sword movement phase now consumes the acquired selector after physical
