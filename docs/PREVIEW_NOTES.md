@@ -42,7 +42,7 @@ does not claim complete combat or campaign integration.
 
 ## Known limits
 
-This revision passed 692 synthetic Rust tests (14 ignored), 19 Python tests,
+This revision passed 694 synthetic Rust tests (14 ignored), 19 Python tests,
 Rustfmt and Clippy. Three silent selected-opening/cancellation cycles passed in
 the development build with fresh tickets and zero reported owned film assets.
 These short samples allocated no glyph atlas; actual visible-subtitle cleanup,
@@ -95,4 +95,4 @@ The owned Session can now publish the local target prepass's typed relationships
 aim point and terrain-reticle flag. Controlled CPU comparison and failure/lifecycle
 checks are recorded in OWNED_TARGETING.md. This API is not yet called at the live
 mission primary/fire boundary and does not add an accessible weapon or reticle
-to preview-2026.11.05.1. The existing Windows download remains unchanged.
+to this preview.
