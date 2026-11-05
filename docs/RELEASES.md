@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Persistent subjective Mecc composition - 5 November 2026
+
+The Rust subjective state now retains virtual channels across pre/post and
+inactive frames, copies acquired pre-primary fields/rates/stamp without cloning
+the Mecc payload, and composes selection, supplied-camera placement, affine and
+two ANM passes around a mandatory fire-service boundary. Session adapters bind
+the actual typed resource and publish to the source's shared references before
+fire. An inhibited fire call is skipped; late failures retain completed effects
+and refuse replay. The primary guard and main application's `fire: None` remain.
+
+Two private continuous native/Rust controls pass 128 frames / 64 active subjective
+updates / 42,880 acquired header-reference words, plus epoch, history and service
+ordering checks. Completed body channels, camera production, selector getters,
+initial camera-owner binding and a no-edit fire boundary remain supplied. The
+source-backed failure/ownership/cancellation control also passes silently. These
+controls do not establish real Rust firing, complete world scheduling, audio or
+visual fidelity. See OWNED_LOCAL_FIRE.md for remaining integration prerequisites.
+This CPU prerequisite creates no new playable release or replacement binary;
+existing packages retain their original exact-source receipts and checksums.
+
 ## Kabuto physical/size refresh composition - 5 November 2026
 
 The acquired post-prefix physical generation phase now composes shared inline

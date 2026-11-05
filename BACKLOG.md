@@ -211,10 +211,12 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   post-world execution is unbound. Predicate controls match 512 PC/PS2-body/Rust
   cases; 128 native pre/post observations show the correct transfer and include
   first-person mode with a missing subjective model. The existing 576-frame,
-  22-shot primary matrix remains identical. Next implement the actual owned
-  virtual actor/channels/references/events, camera placement and two post-world
-  ANM passes around firing; preserve pre-world channels and shared source-state
-  effects. Presentation-only subjective playback is insufficient. Retain the
+  22-shot primary matrix remains identical. Persistent subjective composition now
+  produces acquired virtual channels, header/ANM stamp, placement/affine and two
+  ANM passes around a required fire-service boundary. Two continuous controls
+  match 128 frames / 42,880 header-reference words, with body channels, cameras,
+  selector getters and a no-edit fire boundary supplied. Bind the real deferred
+  primary obligation and actual local fire, not presentation playback. Retain the
   explicit initial camera-owner and partial-world acquisition boundaries in
   docs/OWNED_LOCAL_FIRE.md; main `fire: None` remains.
 - Subjective shared storage: native observations confirm that source state and
@@ -223,8 +225,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   undeclared slots and invalidates the old body's sample binding. Two reference
   controls match 96 frames / 26,112 words; four failure and one empty-primary
   control preserve publications. See docs/OWNED_LOCAL_FIRE.md. Next bind the actual
-  pre-copy/header and shared state, produce both ANM passes and camera placement,
-  and execute the real fire callback between them. Acquire posed-vertex storage
+  pre-copy/header and shared state to the world scheduler; the new Session-bound
+  composition produces both ANM passes and placement but its actual fire callback
+  remains required. Acquire posed-vertex storage
   and its exact consumers before choosing their ownership; do not substitute
   independent playback/vertex copies for an unverified sharing model. Current controlled flags are read after
   primary; copied motion/channels and world-shared weapon history have distinct

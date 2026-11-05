@@ -35,6 +35,20 @@ bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Wind
 or GIANTS_INSPECTION_FONT, never bundled. Game data is read-only; user state goes
 outside the installation. Interactive validation remains pending in this candidate.
 
+## Optional subjective Mecc lifecycle check
+
+Set `GIANTS_MECC_WORLD_ROOT` to a user-supplied installation and use the isolated
+target directory described above:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_subjective_publishes_before_fire_and_retains_late_failure --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This silent CPU control checks the Session-bound subjective resource and shared
+reference publication, retained effects after failure, inhibited fire and stale
+identities after cancellation. Its fire failures are explicit test providers;
+it executes no original program, real shot, whole-world scheduler or audio device.
+
 ## Optional Delphi resource check
 
 For the separate Delphi resource-preparation control, set `GIANTS_DELPHI_ROOT`

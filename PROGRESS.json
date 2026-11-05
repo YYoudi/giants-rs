@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar need complete aiming/firing rules. Normal-pistol CPU services cover owned targeting, primary/animation, projectile creation and effects. Current work reconstructs the subjective actor and its shared source storage; reference-cache composition is implemented at CPU scope. The main mission driver still has no integrated owned firing. Subjective scheduling, positional audio, broader reactions and full mission-context coverage remain open. Evidence and boundaries: docs/OWNED_LOCAL_FIRE.md."
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar need complete aiming/firing rules. Normal-pistol CPU services cover owned targeting, primary/animation, projectile creation and effects. Persistent subjective channels, placement and two animation passes now compose with shared source references at CPU scope; actual firing and camera production remain required boundaries. The main mission driver still has no integrated owned firing. Subjective scheduling, positional audio, broader reactions and full mission-context coverage remain open. Evidence and boundaries: docs/OWNED_LOCAL_FIRE.md."
     },
     {
       "id": "mecc-inventory",
