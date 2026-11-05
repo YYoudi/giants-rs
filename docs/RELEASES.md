@@ -46,6 +46,14 @@ without a window or audio device. Those regressions do not execute the owned
 deferred-fire route or establish complete playback, controls or fidelity. Later
 source merges do not replace this executable's exact-source receipt.
 
+Later combined source `d6e6ef0` preserves the concurrent persistent-FX/main-driver
+integration. It passes 739 Rust tests (23 ignored), 38 Python tests, Rustfmt,
+Clippy and site/JavaScript checks. The four new Mecc comparisons, all five
+immediate matrices, ten failure controls and three source-data lifecycle controls
+pass again with the updated shared context services. History review reports no
+findings across 188 commits and 1,914 blobs. This later validation does not relabel
+the earlier `83a0b00` executable or replace any existing public preview.
+
 ## Delphi owned physical/secondary/ANM composition - 5 November 2026
 
 The dry sword movement phase now consumes the acquired selector after physical
