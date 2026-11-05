@@ -66,6 +66,21 @@ admission, camera/HUD/audio and combat remain prerequisites. This CPU milestone
 does not make Delphi playable or establish visual fidelity. Earlier standalone
 results below retain their original, narrower scopes.
 
+Combined source `50472dc895370f9b8ec6a0d552fcc92fd3530187` preserves the latest
+Kabuto cold group/physical refresh and shared subjective-reference work. The
+64-step native/Rust comparison passes again with stable source/runner hashes,
+as does the two-owner source-data control. Its isolated workspace passes 728
+Rust tests (20 ignored), 35 Python tests, Rustfmt, Clippy, site/JavaScript checks
+and source-history review (145 commits, 1,693 unique blobs, zero findings).
+
+Its exact MinGW build has a private ten-member validation draft with complete
+dependency/toolchain notices and matching receipt/review, with zero technical
+package blockers. Executable SHA256:
+`a405ed6f6908570c32186f128bad88f644b8bd86aa7de4039a6bc8854844bd0f`;
+draft ZIP SHA256:
+`84bf09999ddbeef66027408a9891f3d090307959b505f31e767f8a4bf6a94863`.
+This draft does not acknowledge live Delphi control or change the public download.
+
 `delphi_jump::step` adds the acquired standalone jump/hold/release service. It
 preserves the distinct impulse and launch-latch gates, hold acceleration and
 countdown, release flags and stored height. The inline physical request chooses

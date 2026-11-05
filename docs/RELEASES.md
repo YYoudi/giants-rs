@@ -15,6 +15,18 @@ primary/secondary turn. Mode selection, second ANM, auxiliary callbacks,
 water/turbo and live mission admission remain pending. No new playable Delphi
 feature, verified visuals or public download is claimed by this CPU milestone.
 
+Combined source `50472dc895370f9b8ec6a0d552fcc92fd3530187` retains the latest
+Kabuto and shared subjective-reference work. It passes 728 Rust tests (20
+ignored), 35 Python tests, Rustfmt, Clippy, site/JavaScript checks, the repeated
+64-step comparison and the two-owner source-data refusal/cleanup control. Source
+history review reports no findings across 145 commits and 1,693 unique blobs.
+
+The exact GNU build's ten-member private draft verifies receipt, technical
+review, notices and checksums with no package blockers. Executable SHA256:
+`a405ed6f6908570c32186f128bad88f644b8bd86aa7de4039a6bc8854844bd0f`;
+private draft ZIP SHA256:
+`84bf09999ddbeef66027408a9891f3d090307959b505f31e767f8a4bf6a94863`.
+
 ## Kabuto atomic cold group field composition - 5 November 2026
 
 The owned twelve-actor cold group matches sixteen native contexts and 53,728
