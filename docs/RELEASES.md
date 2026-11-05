@@ -10,6 +10,13 @@ full first initialization, live motion and growth remain pending. See
 OWNED_KABUTO.md. This CPU-only stage produces no new playable binary or package
 receipt; existing releases remain tied to their exact build sources.
 
+
+Combined source `c4bae0e` preserves Delphi jump and shared physical-request work.
+It passes 728 synthetic Rust tests (18 ignored), 35 Python tests, Rustfmt, Clippy
+and site/JavaScript checks. The 512-case native/Rust comparison passes again after
+that merge. The matched physical/size boundary does not certify a complete first
+initializer, live controls, movement, growth events or visual fidelity.
+
 ## Delphi jump service - 5 November 2026
 
 The standalone acquired jump/hold/release service now preserves launch/impulse

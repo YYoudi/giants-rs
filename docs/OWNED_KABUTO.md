@@ -277,3 +277,9 @@ geometry registration, animation callbacks and the complete first initializer
 remain separate prerequisites before full primary execution and live movement.
 The initializer and shared-reset prototype lookups remain unassigned; no PS2
 ABI or layout is substituted. Raw inputs and detailed reports stay private.
+
+Combined source `c4bae0e` preserves Delphi jump and shared physical-request work.
+It passes 728 synthetic Rust tests (18 ignored), 35 Python tests, Rustfmt, Clippy
+and site/JavaScript checks. The 512-case native/Rust comparison passes again after
+that merge. The matched physical/size boundary does not certify a complete first
+initializer, live controls, movement, growth events or visual fidelity.
