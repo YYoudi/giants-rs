@@ -176,6 +176,13 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   factory/group cache retains specification ownership and releases with its
   owners. Native warm/reset controls preserve the cached records; process/world
   reset scheduling is still pending, so `Pending::AnimationCache` stays explicit.
+- Implemented: owned cache lifecycle now preserves cumulative bounds and prior
+  node-source ownership across reset/rebind, with atomic failed refresh and warm
+  identity guards. Six native phases match 372 normalized records, including an
+  absent animation after reset. The actual Kabuto hook is removed by native reset
+  dispatch, deduplicated on registration and registered again on reuse. Group
+  composition refuses a supplied provider awaiting refresh. Full world teardown
+  ordering and runtime reset dispatch remain pending; no readiness gate is cleared.
 - Complete first-initializer behavior beyond the acquired field group: animation
   cache/reset service lifetime, generated material/global
   geometry registration and camera reset

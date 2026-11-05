@@ -1,5 +1,17 @@
 # Preview releases and milestone integration
 
+## Kabuto owned animation-cache reset/rebind - 5 November 2026
+
+The acquired cache lifecycle now retains cumulative bounds and prior node-source
+ownership across reset/rebind. Six native CPU phases match 372 normalized cache
+records, including deliberately varied timelines and an absent animation. Actual
+native Kabuto hook registration, deduplication, dispatch/removal and reuse are
+observed. Owned refresh failures preserve prior records; dirty-provider group
+construction refuses atomically. These are resource/lifecycle controls, not full
+world teardown, live input, movement, growth or fidelity. World dispatch scheduling
+and the remaining initializer providers still gate admission. This CPU milestone
+does not issue a new playable download or replace prior exact-source receipts.
+
 ## Kabuto external definitions and cold animation cache - 5 November 2026
 
 An explicit user-supplied executable-data reader now prepares owned cold Kabuto

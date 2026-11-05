@@ -118,6 +118,18 @@ archive fallback or bundled original table is used. It checks cache/specificatio
 ownership and release. Process/world cache-reset scheduling, material, registration
 and camera services remain unacknowledged; no mission is admitted by this control.
 
+For cumulative animation-cache reset/rebind and retained node-owner checks, use
+the same two input variables and isolated target:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_cache_retains_bounds_and_node_owners_across_reset --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This uses supplied data plus deliberate timeline/absent-slot variations in owned
+memory. It checks warm reuse, retained bounds, source identity, failed refresh
+and release without launching the original executable, a window or audio. It
+does not execute the full world teardown or acknowledge runtime admission.
+
 ## Optional silent runtime lifecycle check
 
 After building a preview, supply your own installation and a fresh private output:
