@@ -150,8 +150,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   controls match 206,848 header/payload words. Same-generation absence is retained
   and cannot acknowledge gameplay readiness. Full first-initializer composition,
   parent links and material/animation resources remain pending.
-- Implement and compare first-primary initialization and its size composition,
-  including shared physical/animation services and owned auxiliary/effect links.
+- Implemented: atomic twelve-actor cold group field composition now matches
+  16 native contexts (53,728 words), including all actor headers, owner payload,
+  typed links, geometry buffers and ordered lists. Late failure preserves the
+  existing Session; clear/re-entry and generation-without-physics checks pass.
+  The group's pending camera/model/material/global-geometry services remain
+  explicit; this is not full first-initializer behavior or gameplay readiness.
+- Complete first-initializer behavior beyond the acquired field group: model
+  callbacks, generated material/global geometry registration and camera reset
+  consumption. Acquire the native Kabuto-specific teardown and complete primary;
+  the current release proof covers whole-Session clear only.
   Reuse `physical_initial::reset`. The native effect auxiliaries pass through
   their declared effect state before becoming inactive; preserve the acquired
   transition/cleanup when composing the group, rather than using only a final-state seed.

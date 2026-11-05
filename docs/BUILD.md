@@ -88,6 +88,16 @@ This checks the declared effect-state lifecycle, typed resource ownership,
 refused nonempty/mask profiles and release without a window or sound. It does
 not bind the auxiliaries to the player, tick them or admit a mission.
 
+For the atomic cold group composition/refusal/re-entry control, use:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_group_composes_fields_links_and_physics_atomically --target x86_64-pc-windows-gnu -- --ignored
+```
+
+It uses `GIANTS_KABUTO_ROOT` and creates no window or sound. Pending model,
+material, registration and camera services are not acknowledged; no mission
+is admitted by this control.
+
 ## Optional silent runtime lifecycle check
 
 After building a preview, supply your own installation and a fresh private output:
