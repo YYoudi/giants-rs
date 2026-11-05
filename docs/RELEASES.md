@@ -1,8 +1,139 @@
 # Preview releases and milestone integration
 
+## Cold Delphi local-player fields - 5 November 2026
+
+The common owned actor runtime now exposes the acquired Delphi cold player-field
+stage around special construction: class scale, pitch/history, initial channel
+selection and activation, including the declared copy/held-object group.
+Thirty-two native/Rust controls match 123,792 normalized words with both blending
+modes and varied frame/copy/equipment inputs. Projection reset remains explicit
+and pending; movement, water, copy callbacks and live mission admission are not
+implemented. This CPU stage adds no playable character or public download.
+
+Combined source `facf988e7b868ed1225ee45da8ec825ea678d20f` preserves the acquired
+common camera integration and Kabuto work. Its isolated workspace passes 714
+Rust tests (17 ignored), 35 Python tests, Rustfmt, Clippy, the silent source-data
+refusal/cleanup control and the repeated 32-case comparison. Source/executable
+hashes are stable throughout that comparison. Site export and generated
+JavaScript syntax checks pass. Windows receipt/package validation is recorded
+separately when complete; CPU controls do not establish graphics fidelity.
+
+The isolated GNU build for that exact source passes both silent development
+lifecycle endpoints and three selected-opening cancellation cycles, with no
+window or audio device. These check the common menu/runtime, not Delphi control,
+natural cinematic endings or fidelity. Its executable SHA256 is
+`8e4f4f161b1e51021a5d40d7980065c8eebc96090f3621ddeb5f2acf58652c83`.
+The private ten-member draft has complete notices, matching receipt/review and
+no technical package blockers; ZIP SHA256 is
+`5c90d0a864e21872950fe7d9ef12f3160c1739a26b9b6c6e4e3050bae649e9a5`.
+It remains a validation draft, with public downloads unchanged.
+
+Delphi continuation on combined source
+`dc2ea1678df973db19ad4657c7a213ac7f407712` retains the concurrent Kabuto cold-player
+fields and prototype attribution workflow. The isolated workspace passes 709
+Rust tests (17 ignored), 35 Python tests, Rustfmt and Clippy. Four additional
+native Delphi type-change observations are acquisition only; they do not add a
+Rust bootstrap, playable character or download. The receipt-bound Delphi draft
+recorded below remains tied to its earlier exact source, not this combined head.
+
 The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
+
+## Kabuto first-primary/size acquisition - 5 November 2026
+
+Eight native cold first-primary contexts and 288 full native size-refresh
+controls now return without diagnostics using actual declared resources and
+explicitly supplied outer boundaries. These are private native acquisitions;
+no owned first-primary, growth trigger or additional playable capability is
+implemented. See OWNED_KABUTO.md. The movement/growth roadmap stays `todo` and
+this research milestone produces no new Windows download or package receipt.
+
+
+The combined workspace based on `0537960` preserves the concurrent owned-camera
+and Delphi work. It passes 713 synthetic Rust tests (17 ignored), 35 Python tests,
+Rustfmt, Clippy and site/JavaScript checks. The installed-data Kabuto control and
+64-case public cold player-field comparison still pass. Those Rust checks cover
+the earlier implemented boundary; the new first-primary/size acquisitions remain
+native-only and must not be counted as implemented player behavior.
+
+## Ordinary owned mission camera - 5 November 2026
+
+Runtime source `24a521001b55da80b4c2417a87b95e4d99bdaec8` adds the acquired
+ordinary direct-angle camera producer to the explicit mission-owned inspection
+backend. It uses real scene terrain and prepared rigid geometry after the
+primary/held updates, then publishes its exact view/cache to presentation.
+See [OWNED_CAMERA.md](OWNED_CAMERA.md) for CPU evidence and provider boundaries.
+
+The isolated GNU build passes 713 Rust tests (17 ignored), 35 Python tests,
+formatting and Clippy. Camera controls match 64 cases / 2,688 words and 1,025
+native floor queries; prepared-mesh clipping matches 256 cases / 1,792 words.
+The exact executable also passes an offscreen, audio-device-disabled mission
+inspection: 128 real owned-primary updates and the actual body/view upload, with
+supplied controls and partial admission. The final capture was inspected for
+usable third-person framing. This route has zero eligible obstacle candidates;
+its runtime result does not extend the separate prepared-mesh CPU proof.
+
+On that same executable, both three-launch development lifecycle endpoints and
+three selected-opening cancellation/re-entry cycles also pass silently. All
+reported retired owned entities are released and disabled cinematic audio queues
+no players. These are regression controls, not a full natural-ending transport
+or audible/interactive validation.
+
+Executable SHA256:
+`4f2b144c4923a4e4daff39d27762f37a67f70462127e9831b7ac1fdd1dc07425`.
+The receipt-bound local draft ZIP SHA256 is
+`2494f4e0418e00382dc7fd9d7efd08a477f0936cda0f276b42de52b8f0012048`;
+its ten members, notices, review and hashes pass package verification with no
+technical distribution blockers. It remains a validation draft: the new route
+is an explicit inspection backend, not a newly exposed playable milestone.
+No public preview tag or existing-download replacement is made for this step.
+
+Normal campaign admission, live native mesh/list producers, camera smoothing and
+special modes, full subjective timing, positional audio and integrated owned
+firing remain incomplete. The application still supplies `fire: None`. Neither
+the prototype PS2 naming attribution nor these controls establish visual fidelity.
+
+## Cold Kabuto player fields - 5 November 2026
+
+The public resource/Session initializer matches 64 controlled native cold player
+setups: 25,856 complete normalized header/payload words and ordinary list counts.
+It reuses shared animation selection and retains payload/reference ownership.
+Projection reset is explicitly pending. Marker relocation, first primary tick,
+movement and growth remain unimplemented; this is a CPU source milestone, not a
+playable preview. See OWNED_KABUTO.md for the supplied native boundaries.
+
+The preceding common build at `63b58c8fbf863a17f30ba56685094fba1bdaa2dc`
+completed its isolated GNU receipt and private ten-member draft validation with
+complete notices and no technical blockers. Its executable SHA-256 is
+`a24329327d96aca81d1752840c952191fd96fd1168fd74530513c6a120df45a6`;
+private draft SHA-256 is
+`3853bb82a978b7da2f8c8223a869032c1e645cbf4beb2b8b916ae2df709422af`.
+Both silent development lifecycle endpoints and three selected-opening/cancel
+cycles pass. These observations concern that preceding common build, not the
+new initializer, Kabuto gameplay, full films, manual input or visual fidelity.
+No additional public binary is issued for this CPU-only capability.
+
+
+Combined source `3f566585b20ffed966178a66932a104be3a729d4` preserves the newer
+Delphi special-phase services and cinematic inventory. It passes 709 synthetic
+Rust tests (17 ignored), 30 Python tests, Rustfmt, Clippy, site export/JavaScript
+checks and the separate installed-data Kabuto control. The 64-case native/Rust
+comparison also passes against that merged source. A source-history pattern
+review scans 88 commits and 1,438 distinct blobs with zero findings; it is not
+legal clearance. Live Kabuto behavior and visual fidelity remain unverified.
+
+## Prototype PS2 methodology — 5 November 2026
+
+The [central reconstruction method](RECONSTRUCTION_METHOD.md) now requires a
+prototype-name lookup at acquisition, implementation and context resumption.
+Read-only ELF/CSV audit, a private 256-case scalar control and independent PC/PS2
+algorithm/call review support the first minimal naming summary. Two routine
+identities are confirmed, two are probable and one remains unassigned. These are
+attributions, not new integrated behavior, PS2/PC ABI equivalence or fidelity.
+Private corpus inputs/outputs are excluded. No preview package or binary release
+is produced for this documentation/tooling milestone; existing release receipts,
+notices and concurrent character work remain authoritative for their own builds.
 
 ## Cold Kabuto construction - 5 November 2026
 
@@ -55,6 +186,30 @@ ZIP SHA256:
 The draft remains private and adds no playable weapon to the public download.
 
 ## Delphi preparation lane - 5 November 2026
+
+The cold special phase is now acquired in source `e6c54bf`, with combined
+runtime source `6ead6a0088ef01d0aef700ec45a6fc2e7b03cb05` preserving concurrent
+Mecc, Kabuto and cinematic changes. Thirty-two native/Rust controls match
+127,692 normalized words across the owner, auxiliary copies, held equipment and
+ordered registrations; six declaration-reader controls pass. The combined
+workspace passes 707 Rust tests (17 ignored), 20 Python tests, Rustfmt and Clippy,
+and the source-data initialization/reference/replay/failure/clear control.
+See OWNED_DELPHI.md. Full local-player setup, live controls and visual fidelity
+remain unimplemented; this does not add a playable Delphi download.
+
+The following inventory merge, source `5187904951cd049d4db3532c5082d891a4b01765`,
+keeps the same compared game-crate code and passes the 707 Rust tests (17 ignored),
+all 30 current Python tests, Rustfmt and Clippy. Preserve the separate cinematic
+coverage limits when interpreting the combined build.
+
+The receipt-bound `6012206836aae5c594dd5250e632db604b5fa274` GNU build also
+passes both silent development lifecycle endpoints and three opening/cancellation
+cycles. These exercise the common menu build, not the new Delphi API or manual
+input/visual fidelity. Its private draft has ten allowlisted members, complete
+notices, matching receipt/review identities and no verifier blockers. Executable
+SHA256: `c227099f295063bc6827573884c41da7a0cc33c41977d87e56d5e547fcfaf3dc`;
+ZIP SHA256: `37880c59eb20426b8c5bdb7c1f6dfaa44d3d862a5efea883644cc3351880fd42`.
+No new public binary is offered for this CPU-only stage.
 
 The separate `codex/delphi-native` lane starts with declaration-backed kind-3
 marker, class/state template and body/state specification preparation. Its

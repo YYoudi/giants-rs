@@ -1,5 +1,9 @@
 # Owned cold Kabuto construction
 
+Further native acquisition and implementation follow the central
+[reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
+lookup and separate PC identity, aliases, platform differences and attribution.
+
 The Kabuto lane reuses the common class, actor, resource and Session services.
 `kabuto_resources::Resources` prepares a kind-1 mission start and the actual
 class/state specifications from a user-supplied installation. Its ordinary
@@ -28,8 +32,8 @@ checks rejection of a different character, a legacy payload profile and mission
 state writes without publication. These refusal controls describe the owned
 backend; they do not establish native error-path parity.
 
-This is implemented and CPU-validated ordinary construction. It does not execute
-Kabuto special/player initialization, marker relocation, actor ticks, movement,
+This is implemented and CPU-validated ordinary construction and cold player-field
+setup. It does not execute live type changing, marker relocation, actor ticks, movement,
 growth, combat, rendering or mission admission. The menu's live player path
 remains unchanged. No playable capability or visual fidelity is claimed, and no
 new downloadable preview is justified by this stage alone. BACKLOG.md retains
@@ -53,5 +57,82 @@ Private static setup/disposition evidence:
 `ev_7c2221184c98a112a75e98586915d666730afe83184441c413781af0539517d2`
 and `ev_888c71a02f9092e68ca24d197226e6c376c6c0044b233de7e9bf1b3fd25a35c4`.
 The inspected special dispatcher handles Mecc/Delphi and returns for Kabuto;
-surrounding shared player reset, state, camera and activation calls still require
-their own acquisition. This static observation is not an executed player setup.
+the surrounding cold field setup is now compared below. Live reset cleanup,
+camera consumption and primary execution still require their own acquisition.
+This static observation alone is not an executed player setup.
+
+## Cold player fields
+
+`Resources::initialize_player_fields` now publishes the acquired cold
+player-field fold on its own fresh ordinary actor through Session. A controlled
+comparison executes the original full cold setup from a generic shell for 64
+cases, supplying independent position/current/previous vectors, angles, old
+shell scale and blending mode. The public method matches all 25,856 normalized
+header/payload words and ordinary list counts. The declared class scale replaces
+the old shell scale; previous takes old current, current takes position, pitch
+resets, and the shared primary channel selects the acquired initial request.
+The class-1 special dispatch creates no Mecc/Delphi children.
+
+The native control supplies resource/memory/UID boundaries and intercepts device
+submission after the source projection calculation. Rust returns an explicit
+pending projection-reset requirement; it does not claim a graphics acknowledgement.
+This is a cold field boundary, not an implementation of live type-change cleanup.
+The owned API requires the same prepared resources, unchanged cold payload and
+unsampled reference caches. It refuses foreign owners/factories, nonfinite input,
+repeated initialization and actors already attached to live services, before
+publication. The installed-data check verifies atomic refusal, retained payload,
+unavailable unevaluated reference matrices, no Mecc physics and full release.
+
+Marker relocation, camera consumption, first primary execution, controls,
+movement, collision at each size and growth remain pending. No playable Kabuto
+mission is admitted and the roadmap remains `todo`.
+
+Combined source `3f566585b20ffed966178a66932a104be3a729d4` preserves the newer
+Delphi special-phase services and cinematic inventory. It passes 709 synthetic
+Rust tests (17 ignored), 30 Python tests, Rustfmt, Clippy, site export/JavaScript
+checks and the separate installed-data Kabuto control. The 64-case native/Rust
+comparison also passes against that merged source. A source-history pattern
+review scans 88 commits and 1,438 distinct blobs with zero findings; it is not
+legal clearance. Live Kabuto behavior and visual fidelity remain unverified.
+
+## First-primary and size acquisition
+
+Native-only controls now execute the first Kabuto primary in eight supplied cold
+actor contexts using the actual declared resources. All return without warnings
+or diagnostics. Loaded resources and the animation-definition cache are shared;
+this is not eight complete engine restarts. The callback constructs two auxiliary
+objects and nine effect objects, and creates the inline physical state. Their
+callbacks are additional runtime prerequisites, not objects supplied by the
+cold player-field initializer above.
+
+A separate native-only control starts from an actually initialized actor and
+executes the complete size-refresh service for 288 independently supplied target
+and current size pairs. It restores the same actor header/payload before each
+case and observes the complete resulting header/payload. Boundary and fractional
+inputs exercise the piecewise size-dependent parameters. These are numeric
+service inputs, not observed gameplay growth events or proof of valid campaign
+size transitions. The actor's size, reach/collision parameters and subsequent
+movement still require an owned implementation and native/Rust comparison.
+
+Both controls supply the outer object pool, flat terrain grid, frame interval,
+thread/RNG context and inactive UID boundary. They execute the original class,
+model, animation and state bodies; graphics projection submission is intercepted
+and no device, window or audio playback runs. Input, controller and imported
+helper hashes are pinned and rechecked. Detailed outputs remain private. These
+acquisitions establish no Rust parity, complete world tick, growth trigger,
+interactive behavior or visual fidelity.
+
+Prototype PS2 literal-name searches for the primary, its initialization helper
+and size-refresh service are recorded against both pinned binary identities.
+Attribution remains **unknown**; candidate names are not approved PC aliases.
+Ghidra did not identify the primary as a procedure at either its PC virtual
+address or verified source-file coordinate. That failed analysis supplies no
+function Evidence. Direct private PE/instruction inspection and original CPU
+execution are distinct observations, not recovered source or REA function proof.
+
+The combined workspace based on `0537960` preserves the concurrent owned-camera
+and Delphi work. It passes 713 synthetic Rust tests (17 ignored), 35 Python tests,
+Rustfmt, Clippy and site/JavaScript checks. The installed-data Kabuto control and
+64-case public cold player-field comparison still pass. Those Rust checks cover
+the earlier implemented boundary; the new first-primary/size acquisitions remain
+native-only and must not be counted as implemented player behavior.

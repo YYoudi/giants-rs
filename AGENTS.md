@@ -11,6 +11,14 @@ work unless the owner requests main. Read PROGRESS.json, BACKLOG.md and docs/REL
 Keep README in English. Preserve the owner's approximate 99% AI-generated estimate
 and the absence of comprehensive human review; never call it a completion metric.
 
+Before native-function analysis or implementation, including resumed work, follow
+docs/RECONSTRUCTION_METHOD.md: search prototype PS2 names, pin both binary
+identities and preserve raw symbols, demangling uncertainty, PC aliases, Rust
+relationships and independent evidence. Scores/generated names never confirm an
+attribution. Keep corpus inputs and detailed records private; publish only reviewed
+minimal summaries. Use only the neutral designation "prototype PS2" and never
+disclose personal provenance. Context handoffs must retain this lookup step.
+
 Prefer background work. The owner subsequently authorized manual tests in this
 chat, including necessary test windows and interactions; avoid unrelated focus
 changes and sound. Original installations and research corpora

@@ -74,6 +74,19 @@ impl Resources {
         &self.seed
     }
 
+    /// Publish the acquired cold generic-to-Kabuto CPU fields on this factory's
+    /// ordinary actor. Projection reset remains required, not acknowledged.
+    /// This does not change a live actor's type or admit gameplay.
+    pub fn initialize_player_fields(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        frame: crate::kabuto_player::ColdFrame,
+        blending: crate::animation_channels::Blending,
+    ) -> Result<crate::kabuto_player::Initialized, String> {
+        session.initialize_cold_kabuto_player_fields(owner, self, frame, blending)
+    }
+
     /// Allocate the ordinary cold class instance, with independent payload,
     /// references and shadow storage. This deliberately leaves the declaration's
     /// marker pose separate until the actual player relocation phase is acquired.
@@ -94,7 +107,7 @@ impl Resources {
 mod tests {
     use super::*;
     #[test]
-    #[ignore = "Requires GIANTS_KABUTO_ROOT with user-supplied data; cold constructor only, no window or sound"]
+    #[ignore = "Requires GIANTS_KABUTO_ROOT with user-supplied data; cold constructor and player fields only, no window or sound"]
     fn source_cold_kabuto_keeps_player_setup_separate_and_refuses_unacquired_profiles() {
         let root = std::path::PathBuf::from(std::env::var("GIANTS_KABUTO_ROOT").unwrap());
         let source = crate::world_source::resolve(&root, "Kstory1").unwrap();
@@ -164,7 +177,82 @@ mod tests {
         assert!(session.declaration(key).is_none());
         assert_eq!(session.counts(), before);
         assert!(session.mecc_physical_cycle(first).is_err());
+        // The public CPU initializer is atomic, bound to the prepared factory,
+        // and does not advance animation, physics or mission admission.
+        let frame = crate::kabuto_player::ColdFrame {
+            position: [1., 2., 3.],
+            current: [4., 5., 6.],
+            previous: [7., 8., 9.],
+            angles: [10., 20., 30.],
+        };
+        let blending = crate::animation_channels::Blending::Enabled;
+        let saved = format!("{:?}", session.get(first).unwrap().construction_fields);
+        let payload = session
+            .get(first)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap()
+            .to_vec();
+        assert!(session.current_reference_matrices(first).is_err());
+        assert!(session.reference_matrix(first, 0).is_err());
+        let mut invalid = frame;
+        invalid.previous[0] = f32::NAN;
+        assert!(
+            prepared
+                .initialize_player_fields(&mut session, first, invalid, blending)
+                .is_err()
+        );
+        assert_eq!(
+            format!("{:?}", session.get(first).unwrap().construction_fields),
+            saved
+        );
+        assert!(!session.has_cold_kabuto_player_fields(first));
+        let foreign = Resources::load(
+            &plan,
+            packet.world.as_ref().unwrap(),
+            packet.mission.as_ref().unwrap(),
+        )
+        .unwrap();
+        assert!(
+            foreign
+                .initialize_player_fields(&mut session, first, frame, blending)
+                .is_err()
+        );
+        let mut other = Session::new(942);
+        assert!(
+            prepared
+                .initialize_player_fields(&mut other, first, frame, blending)
+                .is_err()
+        );
+        let receipt = prepared
+            .initialize_player_fields(&mut session, first, frame, blending)
+            .unwrap();
+        assert_eq!(receipt.owner, first);
+        assert!(receipt.camera_projection_reset_required);
+        assert!(session.has_cold_kabuto_player_fields(first));
+        assert!(!session.has_cold_kabuto_player_fields(second));
+        assert_eq!(session.counts(), before);
+        assert_eq!(
+            session.get(first).unwrap().seed.storage.data().unwrap(),
+            payload
+        );
+        assert!(session.current_reference_matrices(first).is_err());
+        assert!(session.reference_matrix(first, 0).is_err());
+        assert!(session.mecc_physical_cycle(first).is_err());
+        let selected = format!("{:?}", session.get(first).unwrap().construction_fields);
+        assert!(
+            prepared
+                .initialize_player_fields(&mut session, first, frame, blending)
+                .is_err()
+        );
+        assert_eq!(
+            format!("{:?}", session.get(first).unwrap().construction_fields),
+            selected
+        );
         session.clear();
+        assert!(!session.has_cold_kabuto_player_fields(first));
         assert_eq!(session.counts().residents, 0);
         assert_eq!(session.state_resource_counts(), (0, 0));
         assert_eq!(session.actor_field_counts(), (0, 0, 0));

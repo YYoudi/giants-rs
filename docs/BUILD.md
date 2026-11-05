@@ -4,6 +4,11 @@ Install Rust with the GNU Windows toolchain (Rust 1.98 or newer), Python 3.11+,
 Git, and x86-64 MinGW-w64 GCC/binutils. Put their bin directories on PATH.
 Visual Studio is not required. The lockfile pins dependency versions.
 
+Native research follows [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md).
+The optional read-only `python -m tools.ps2_symbol_lookup --help` tool uses private,
+locally configured inputs; its worksheets stay under ignored `.local`. Synthetic
+CI requires neither prototype data nor an original installation.
+
 ```powershell
 rustup toolchain install stable-x86_64-pc-windows-gnu --profile minimal --component rustfmt,clippy
 rustup target add x86_64-pc-windows-gnu --toolchain stable-x86_64-pc-windows-gnu
@@ -44,6 +49,20 @@ It creates no window or sound and does not execute a Delphi constructor,
 controller, water behavior or mission admission. Game data and private outputs
 must stay outside Git. Keep a separate Cargo target for this worktree.
 
+## Optional cold Delphi special check
+
+The acquired Delphi cold special phase has a separate silent source-data control,
+using the same `GIANTS_DELPHI_ROOT` installation:
+
+```powershell
+cargo test --locked -p giants-game source_delphi_special_group_owns_references_and_refuses_replay --target x86_64-pc-windows-gnu -- --ignored
+```
+
+It constructs the owned copy/held-object group, checks reference ownership,
+special-only versus cold-player fields, replay/failure guards, rejected invalid
+frames and registry clearing. It executes no original process,
+window or audio and does not admit a live Delphi controller. See OWNED_DELPHI.md.
+
 ## Optional cold Kabuto resource check
 
 For the cold Kabuto constructor/resource control, set `GIANTS_KABUTO_ROOT` to a
@@ -54,8 +73,9 @@ cargo test --locked -p giants-game source_cold_kabuto_keeps_player_setup_separat
 ```
 
 This reads the selected mission, constructs ordinary owned actors and checks
-resource release and refused profiles without a window or sound. It does not
-execute Kabuto player initialization, movement or growth. See OWNED_KABUTO.md.
+resource release, refused profiles and the cold player-field initializer without
+a window or sound. It does not execute live type changing, camera completion,
+movement or growth. See OWNED_KABUTO.md.
 
 ## Optional silent runtime lifecycle check
 

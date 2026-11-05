@@ -24,6 +24,12 @@ of the current public build; game artwork remains outside the project MIT licens
 active. See [automation and activation](docs/AUTOMATION.md)
 and the [publication review status](docs/PUBLICATION_REVIEW.md).
 
+Native-function research now systematically checks names from the **prototype PS2**
+before analysis or implementation. The [reconstruction method](docs/RECONSTRUCTION_METHOD.md)
+separates literal ELF symbols, uncertain demangling, proposed PC correspondences
+and independently reviewed attributions. Private metadata stays outside the
+repository. Recovered names do not measure implementation or gameplay fidelity.
+
 Project source is under the [MIT license](LICENSE), within the scope described in
 [NOTICE.md](NOTICE.md). Public source publication follows the owner's approval and
 an AI-assisted technical review; it is not legal clearance or comprehensive human
@@ -59,7 +65,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 - [ ] **Mecc movement and jetpack** — partial; Runtime integration. Walking, running, jumping, jet fuel/recharge, nitro, carried weight, terrain contact and water hazards.
 - [ ] **Mecc squad and orders** — todo; Runtime integration. Following, moving to a location, attacking, jet use, incapacitation, recovery and repair.
-- [ ] **Complete Mecc weapon arsenal** — partial; Runtime integration. Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local callback controls cover 18 shots/15 tracked shots. The optional primary owns physical/first-ANM storage, local time and shared FX/RNG. Standing-shot/aim, walking, side and turn transitions pass five continuous CPU controls: 576 frames, 22 shots and 341,220 normalized words, including held caches and deferred FX. Main-driver camera/audio/fire scheduling, broader reactions, special headers and complete mission context coverage remain incomplete.
+- [ ] **Complete Mecc weapon arsenal** — partial; Runtime integration. Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local callback controls cover 18 shots/15 tracked shots. The optional primary owns physical/first-ANM storage, local time and shared FX/RNG. Standing-shot/aim, walking, side and turn transitions pass five continuous CPU controls: 576 frames, 22 shots and 341,220 normalized words, including held caches and deferred FX. Pre-primary/subjective camera, audio and fire scheduling, broader reactions, special headers and complete mission context coverage remain incomplete.
 - [ ] **Mecc inventory and ammunition** — partial; Runtime integration. Carry limits, weapon selection, ammunition, reload/cadence, pickups, drops and resupply.
 - [ ] **Mecc packs and upgrades** — partial; Runtime integration. Jetpack upgrade, repair, shield and bush camouflage, with their energy costs and restrictions.
 - [ ] **Mecc items and deployables** — todo; Runtime integration. Mines, grenades, health syringes, flares, deployable turrets and pop-up bombs.
@@ -68,7 +74,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Sea Reapers / Delphi
 
-- [ ] **Delphi movement and water** — todo; Runtime integration. Land movement, jumping, swimming, water interactions and turbo energy. A separate Delphi lane now prepares actual kind-3 mission markers, class/state templates and animation resources. Cold initialization and a live controller remain unimplemented; resource preparation is not gameplay readiness.
+- [ ] **Delphi movement and water** — todo; Runtime integration. Land movement, jumping, swimming, water interactions and turbo energy. Kind-3 resources and cold special construction match 32 CPU cases / 127,692 normalized words. Cold local-player fields add 32 cases / 123,792 words, including history, initial animation, activation and the copy/held-object group. Projection completion, copy updates, movement and a live controller remain unimplemented; this is not gameplay readiness.
 - [ ] **Sword combat and combinations** — todo; Runtime integration. Melee attacks, combinations, targeting, contact and damage.
 - [ ] **Complete Sea Reaper bow arsenal** — todo; Runtime integration. Regular, Lightning, Hellfire, Screamer and Power-Up bows; charging, lock-on and multiple targets.
 - [ ] **Offensive spells** — todo; Runtime integration. Cluster, Cluster Mine, Firewall, Fire Circle, Hail and Tornado, including their targeting and duration rules.
@@ -78,7 +84,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Kabuto
 
-- [ ] **Kabuto movement and growth** — todo; Runtime integration. Movement, jumping and traversal at each size, growth requirements and changing reach/collision. Ordinary cold Kabuto allocation now matches two native constructors, including headers, state payloads, registrations and resource ownership. Special/player initialization, live movement and growth remain unimplemented; cold allocation is not playable readiness.
+- [ ] **Kabuto movement and growth** — todo; Runtime integration. Movement, jumping and traversal at each size, growth requirements and changing reach/collision. Ordinary cold allocation matches two native constructors. The public cold player-field initializer matches 64 native controls (25,856 header/payload words), with ownership and atomic refusal checks. Camera reset consumption, marker relocation, live movement and growth remain pending; CPU initialization is not playable readiness. Native-only acquisition now covers eight first-primary contexts and 288 size-refresh cases; their owned implementation and actual growth triggers remain pending.
 - [ ] **Grabbing, storing and eating creatures** — todo; Runtime integration. Grab creatures, store them on horns, eat them and restore health.
 - [ ] **Kabuto attacks and adrenaline** — todo; Runtime integration. Hand and foot attacks, adrenaline levels, combinations and area damage.
 - [ ] **Throwing and environmental attacks** — todo; Runtime integration. Throw creatures and boulders; collisions, fragments, damage and replenishing rock columns.
@@ -109,7 +115,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 - [ ] **Complete game menus and profiles** — partial; Runtime integration. Start, mission selection, loading, pause, inventory/shop screens, errors and returns to menus. Desktop entry detects adjacent game data, with a folder picker fallback, a Preview tools overlay and default independent unlocked mission catalog.
 - [ ] **Controls and settings** — partial; Runtime integration. Keyboard/mouse bindings, sensitivity, display and audio settings, persistence and focus handling.
-- [ ] **All gameplay camera modes** — partial; Runtime integration. First/third person, aiming/zoom, camera movement and obstruction, vehicles, base building and special attacks.
+- [ ] **All gameplay camera modes** — partial; Runtime integration. First/third person, aiming/zoom, vehicles, base building and special attacks remain partial. The explicit owned mission inspection backend now produces the ordinary direct-angle camera with terrain adjustment, prepared-mesh clipping and exact view/cache consumption. CPU controls match 64 camera and 256 clipping cases; the exact build passes 128 silent owned-primary/render steps. Live native list admission, configured smoothing, special modes and subjective fire timing remain incomplete. See docs/OWNED_CAMERA.md.
 - [ ] **Character HUDs, maps and objectives** — partial; Runtime integration. Health, fuel, magic, adrenaline, weapons, items, resources, targeting, map, notifications and score.
 - [ ] **Complete world and actor rendering** — partial; Runtime integration. All required maps, terrain layers, buildings, scenery, characters, materials, lighting and shadows.
 - [ ] **Water and environmental presentation** — partial; Runtime integration. Waves, reflections, sky, fog, vegetation and environment interactions.
@@ -141,4 +147,8 @@ mean a complete playable feature. No global completion percentage is claimed.
 - [x] **Controlled actor callback policy and acquired owned adapters** — done; CPU only. 
 - [x] **Approved reference and Bevy comparison gallery** — done; Historical public gallery. Owner-authorized original / Bevy comparisons are available in the dashboard; historical captures do not certify the current build or full-game fidelity.
 - [x] **Controlled offline normal Mecc header and primary contract** — done; CPU only. 
+
+### Research and validation
+
+- [ ] **Reviewed prototype PS2 function attribution** — partial; Research method; separate from runtime and fidelity. Mandatory name lookup with pinned PC/prototype identities, literal symbols, uncertain demangling, retained aliases and independent evidence. Initial read-only audit verifies 4,769 function symbols; five reviewed services include two confirmed identities, two probable candidates and one unassigned. Broader mapping and type recovery remain incomplete. Method: docs/RECONSTRUCTION_METHOD.md.
 <!-- progress:end -->

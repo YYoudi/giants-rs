@@ -30,6 +30,7 @@ pub mod ground_contact;
 pub mod held_weapon;
 pub mod hit_routing;
 pub mod instances;
+pub mod kabuto_player;
 pub mod kabuto_resources;
 pub mod mecc_collection;
 pub mod mecc_contact_materials;
@@ -93,7 +94,9 @@ pub mod control_layout;
 pub mod control_options;
 pub mod declared_mesh_scene;
 pub mod decorations;
+pub mod delphi_player;
 pub mod delphi_resources;
+pub mod delphi_special;
 pub mod dependency_graph;
 pub mod director_initial;
 pub mod display_options;
@@ -612,6 +615,8 @@ pub mod volume_queries;
 pub mod collider_init;
 
 pub mod mecc_camera;
+pub mod mecc_camera_update;
+pub mod mecc_camera_wall;
 pub mod mecc_load_mass;
 pub mod object_time_precision;
 

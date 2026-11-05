@@ -4,6 +4,31 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
+## Prototype PS2 attribution method — 5 November 2026
+
+Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
+native-function acquisition or implementation, including resumed tasks in every
+character lane. The read-only corpus audit verifies 4,769 literal function symbols;
+the reviewed initial summary confirms two routine identities, keeps two candidate
+matches probable and one unassigned. No gameplay status changes follow from names.
+
+- Next Mecc work: retain completed name lookups for the ordinary-camera producer
+  and approach helper; carry probable wall/profile candidates and their missing
+  PS2 comparisons without inferring types from them. Acquire pre-primary and
+  subjective fire timing, positional audio and native mesh/list producers, with
+  separate PC/PS2 identities and platform differences.
+- Revisit acquired services incrementally on touch: primary/animation, aim/target,
+  collision, physics, wield/projectiles, audio and shared actor services. Preserve
+  old identifiers as aliases. Do not batch-apply naming tables.
+- Delphi/Kabuto and cinematic continuations must record the same lookup for their
+  next actual functions; resources or an inferred module name prove no controller.
+- Recover ambiguous demangling and any useful `.mdebug` types privately only when
+  needed; validate layouts against the actual PC build. Retain explicit unknowns,
+  rejected candidates and missing evidence in each handoff.
+- Publish additional minimal attribution rows only after the central method's
+  evidence/confidentiality review. Corpus-wide mapping and type recovery remain
+  incomplete; `BACKLOG.md` retains these prerequisites, not a second task database.
+
 ## Parallel character work
 
 Each chat works alone in its own worktree and `codex/` branch. The Delphi fork
@@ -34,10 +59,24 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   declaration helper takes an explicit expected kind; the existing Mecc entry
   remains kind 2 only. A source-data check on Rstory1's selected mission passes;
   source resources and probe outputs remain private. This is resource preparation,
-  not execution of Delphi initialization, movement or a playable controller.
-- Acquire and compare the cold Delphi constructor, its children/equipment and
-  normal player initialization. Preserve unresolved callback work explicitly;
-  an allocated state-3 payload is not an initialized player.
+  not execution of movement or a playable controller.
+- Implemented: `delphi_special::Factory` constructs the ordinary class and its
+  cold special phase, including the auxiliary-copy/held-object group and initial
+  equipment. Thirty-two native/Rust cases match 127,692 normalized header,
+  payload and ordered-list words; six declaration-reader controls pass. Owned
+  reference/replay/failure/clear checks pass. See docs/OWNED_DELPHI.md.
+  These are CPU controls, not complete player initialization or live integration.
+- Implemented: the surrounding cold local-player fields restore class scale,
+  transfer supplied history, reset pitch, select the initial animation and set
+  activation after special construction. Thirty-two native/Rust cases match
+  123,792 normalized words across full actor headers/payload and ordered lists,
+  with both blending modes and varied copy/equipment/frame inputs. Projection
+  reset is explicitly pending. Prototype PS2 naming was searched; attribution
+  remains unknown pending independent algorithm/caller review.
+- Acquire projection completion and mission frame producers, then copy/held-object
+  callbacks and normal player scheduling. Dynamic live retyping is not admitted.
+  Preserve unresolved work explicitly; neither an allocated state-3 payload nor
+  a completed special phase is a fully initialized player.
 - Acquire land movement, jump, water entry/exit, swimming and turbo/energy;
   compare controlled continuous cycles before admitting live controls. Reuse
   shared terrain/collision/input services with the acquired character parameters.
@@ -59,13 +98,23 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 - Two ordinary cold Kabuto constructors match the native headers, state payloads
   and ordered registrations. Typed resources, independent reference/shadow caches,
   atomic failure and release are checked. See docs/OWNED_KABUTO.md. This does not
-  execute special/player initialization or relocate the actor to the mission marker.
+  relocate the actor to the mission marker.
   Unknown state-1 classes, legacy profiles and mission state writes remain refused.
-- Acquire and compare the actual player setup, shared reset/state/camera services
-  and activation; then land movement/jumping, size-dependent collision and growth.
-  Static inspection of the special dispatcher shows Mecc/Delphi branches and no
-  Kabuto branch. Do not copy their child creation into Kabuto or treat that return
-  as complete player initialization; compare the surrounding shared setup first.
+- Implemented: the public cold player-field initializer matches 64 native cold
+  setup controls (25,856 normalized header/payload words and list counts).
+  It uses the common primary-channel selector, preserves cold payload/caches,
+  enforces factory ownership and atomic refusal, and returns a pending projection
+  reset. This does not implement live type-change cleanup or camera completion.
+- Acquired, native only: eight first-primary contexts return with actual auxiliary
+  resources; the callback creates two auxiliary actors, nine effects and inline
+  physics. A separate 288-case full size-refresh control passes on supplied size
+  pairs. No owned first-primary/size implementation or growth-trigger comparison
+  exists yet. See docs/OWNED_KABUTO.md for the supplied boundaries.
+- Implement and compare first-primary initialization and the full size refresh,
+  including shared physical/animation services and owned auxiliary/effect links.
+  Acquire marker relocation and camera consumption, then land movement/jumping,
+  size-dependent collision and actual feeding/growth triggers.
+  The special dispatcher returns for Kabuto without Mecc/Delphi child creation.
   Reuse owned actor, terrain, input, animation, effect and audio services with
   acquired Kabuto parameters and explicit phase order.
 - Connect validated behavior through selected missions, camera/HUD/audio and
@@ -113,6 +162,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   reactions and full scheduling. The application still supplies `fire: None`.
   A typed selected target cannot use the no-target fire
   profile merely because its raw pointer slots remain normalized.
+- Ordinary camera: the owned mission inspection driver now owns sequential
+  direct-angle camera production after primary/held updates, using actual scene
+  terrain and prepared rigid meshes. The presentation consumes the generated
+  view/cache instead of recomputing it from the player look. Camera and clipping
+  CPU controls pass 64/256 cases respectively; see docs/OWNED_CAMERA.md and the
+  receipt-bound runtime checkpoint in docs/RELEASES.md. Normal campaign admission,
+  native list/model/part preparation, configured angle smoothing, special camera
+  modes and pre-primary/subjective firing timing remain prerequisites. The
+  existing inspection gate and `fire: None` remain; this is not a default-route
+  owned readiness claim.
 - Actor/projectile/effect scheduling, damage, mission objectives and progression.
 - Projectile terrain occlusion: the selected-controller pistol and development
   arena now limit object/target queries to the terrain-clipped segment, as the

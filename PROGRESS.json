@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local callback controls cover 18 shots/15 tracked shots. The optional primary owns physical/first-ANM storage, local time and shared FX/RNG. Standing-shot/aim, walking, side and turn transitions pass five continuous CPU controls: 576 frames, 22 shots and 341,220 normalized words, including held caches and deferred FX. Main-driver camera/audio/fire scheduling, broader reactions, special headers and complete mission context coverage remain incomplete."
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local callback controls cover 18 shots/15 tracked shots. The optional primary owns physical/first-ANM storage, local time and shared FX/RNG. Standing-shot/aim, walking, side and turn transitions pass five continuous CPU controls: 576 frames, 22 shots and 341,220 normalized words, including held caches and deferred FX. Pre-primary/subjective camera, audio and fire scheduling, broader reactions, special headers and complete mission context coverage remain incomplete."
     },
     {
       "id": "mecc-inventory",
@@ -145,7 +145,7 @@
       "title": "Delphi movement and water",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Land movement, jumping, swimming, water interactions and turbo energy. A separate Delphi lane now prepares actual kind-3 mission markers, class/state templates and animation resources. Cold initialization and a live controller remain unimplemented; resource preparation is not gameplay readiness."
+      "detail": "Land movement, jumping, swimming, water interactions and turbo energy. Kind-3 resources and cold special construction match 32 CPU cases / 127,692 normalized words. Cold local-player fields add 32 cases / 123,792 words, including history, initial animation, activation and the copy/held-object group. Projection completion, copy updates, movement and a live controller remain unimplemented; this is not gameplay readiness."
     },
     {
       "id": "delphi-sword",
@@ -208,7 +208,7 @@
       "title": "Kabuto movement and growth",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Movement, jumping and traversal at each size, growth requirements and changing reach/collision. Ordinary cold Kabuto allocation now matches two native constructors, including headers, state payloads, registrations and resource ownership. Special/player initialization, live movement and growth remain unimplemented; cold allocation is not playable readiness."
+      "detail": "Movement, jumping and traversal at each size, growth requirements and changing reach/collision. Ordinary cold allocation matches two native constructors. The public cold player-field initializer matches 64 native controls (25,856 header/payload words), with ownership and atomic refusal checks. Camera reset consumption, marker relocation, live movement and growth remain pending; CPU initialization is not playable readiness. Native-only acquisition now covers eight first-primary contexts and 288 size-refresh cases; their owned implementation and actual growth triggers remain pending."
     },
     {
       "id": "kabuto-feeding",
@@ -406,7 +406,7 @@
       "title": "All gameplay camera modes",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "First/third person, aiming/zoom, camera movement and obstruction, vehicles, base building and special attacks."
+      "detail": "First/third person, aiming/zoom, vehicles, base building and special attacks remain partial. The explicit owned mission inspection backend now produces the ordinary direct-angle camera with terrain adjustment, prepared-mesh clipping and exact view/cache consumption. CPU controls match 64 camera and 256 clipping cases; the exact build passes 128 silent owned-primary/render steps. Live native list admission, configured smoothing, special modes and subjective fire timing remain incomplete. See docs/OWNED_CAMERA.md."
     },
     {
       "id": "hud-map",
@@ -599,6 +599,15 @@
       "scope": "CPU only",
       "kind": "enabler",
       "group": "Technical foundations"
+    },
+    {
+      "id": "prototype-naming",
+      "kind": "enabler",
+      "group": "Research and validation",
+      "title": "Reviewed prototype PS2 function attribution",
+      "status": "partial",
+      "scope": "Research method; separate from runtime and fidelity",
+      "detail": "Mandatory name lookup with pinned PC/prototype identities, literal symbols, uncertain demangling, retained aliases and independent evidence. Initial read-only audit verifies 4,769 function symbols; five reviewed services include two confirmed identities, two probable candidates and one unassigned. Broader mapping and type recovery remain incomplete. Method: docs/RECONSTRUCTION_METHOD.md."
     }
   ]
 }
