@@ -13,9 +13,12 @@ Mecc preparation still refuses that character. This source-only stage does not
 execute Delphi initialization, movement or combat and adds no playable capability
 or Windows download. Parallel lane boundaries and next steps are in BACKLOG.md.
 
-The isolated workspace passes 700 synthetic Rust tests (15 ignored), with 20
-Python tests and the separate source-data preparation control. No native Delphi
-callback comparison or gameplay/visual validation is claimed by these checks.
+Source `c80ba264a822f45a8b1a806f3345ad4fbdb3bfac` passes 700 synthetic Rust
+tests (15 ignored). Combined source `fc6fbc652576c65fd370cd236b908aa8f24e638c`
+also retains the concurrent cinematic fixes and passes 701 Rust tests (15
+ignored), 20 Python tests, Rustfmt and Clippy. The separate source-data
+preparation control passes. No native Delphi callback comparison or
+gameplay/visual validation is claimed by these checks.
 
 ## Owned primary fire integration - 5 November 2026
 
