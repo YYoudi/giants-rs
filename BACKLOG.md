@@ -34,10 +34,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   declaration helper takes an explicit expected kind; the existing Mecc entry
   remains kind 2 only. A source-data check on Rstory1's selected mission passes;
   source resources and probe outputs remain private. This is resource preparation,
-  not execution of Delphi initialization, movement or a playable controller.
-- Acquire and compare the cold Delphi constructor, its children/equipment and
-  normal player initialization. Preserve unresolved callback work explicitly;
-  an allocated state-3 payload is not an initialized player.
+  not execution of movement or a playable controller.
+- Implemented: `delphi_special::Factory` constructs the ordinary class and its
+  cold special phase, including the auxiliary-copy/held-object group and initial
+  equipment. Thirty-two native/Rust cases match 127,692 normalized header,
+  payload and ordered-list words; six declaration-reader controls pass. Owned
+  reference/replay/failure/clear checks pass. See docs/OWNED_DELPHI.md.
+  These are CPU controls, not complete player initialization or live integration.
+- Acquire the surrounding local-player type change, reset, activation and camera
+  services, then copy/held-object callbacks and normal player initialization.
+  Preserve unresolved work explicitly; neither an allocated state-3 payload nor
+  a completed special phase is a fully initialized player.
 - Acquire land movement, jump, water entry/exit, swimming and turbo/energy;
   compare controlled continuous cycles before admitting live controls. Reuse
   shared terrain/collision/input services with the acquired character parameters.

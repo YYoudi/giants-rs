@@ -145,7 +145,7 @@
       "title": "Delphi movement and water",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Land movement, jumping, swimming, water interactions and turbo energy. A separate Delphi lane now prepares actual kind-3 mission markers, class/state templates and animation resources. Cold initialization and a live controller remain unimplemented; resource preparation is not gameplay readiness."
+      "detail": "Land movement, jumping, swimming, water interactions and turbo energy. Kind-3 resources and the cold constructor/special phase are acquired: 32 CPU cases match 127,692 normalized words, including the auxiliary-copy/held-object group and initial equipment. Full player setup, copy updates and a live controller remain unimplemented; this is not gameplay readiness."
     },
     {
       "id": "delphi-sword",
