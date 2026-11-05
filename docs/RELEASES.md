@@ -1,5 +1,17 @@
 # Preview releases and milestone integration
 
+## Kabuto external definitions and cold animation cache - 5 November 2026
+
+An explicit user-supplied executable-data reader now prepares owned cold Kabuto
+animation definitions without launching native code or bundling original tables.
+Three inspected layouts match the reference prefix's 62 normalized records
+(61 resolved nodes), including signed ranges, flags and opaque parameter prefixes.
+The factory/group resource ownership and release control passes silently.
+Process/world cache-reset scheduling, material/registration, camera and full
+primary behavior still gate live admission. This CPU/data milestone produces no
+new playable preview, package checksum or binary receipt; prior receipts remain
+bound to their exact source. Runtime gameplay and fidelity are not certified.
+
 ## Kabuto atomic cold group field composition - 5 November 2026
 
 The owned twelve-actor cold group matches sixteen native contexts and 53,728

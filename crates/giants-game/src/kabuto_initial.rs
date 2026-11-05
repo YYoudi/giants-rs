@@ -33,6 +33,9 @@ pub struct Group {
     pub geometry: Geometry,
     pub radius: f32,
     pub physics: Option<Physics>,
+    /// Optional acquired cold definitions. Process/world reset scheduling is
+    /// still part of Pending::AnimationCache, not acknowledged by this value.
+    pub cold_animation_cache: Option<Arc<crate::kabuto_animation_cache::ColdCache>>,
     pub pending: [Pending; 4],
 }
 impl std::fmt::Debug for Group {
@@ -52,6 +55,7 @@ pub struct Factory {
     auxiliary: Auxiliaries,
     globals: Arc<GlobalData>,
     bounds: Resolved,
+    cold_animation_cache: Option<Arc<crate::kabuto_animation_cache::ColdCache>>,
 }
 impl Factory {
     pub fn load(
@@ -72,7 +76,18 @@ impl Factory {
                 .map_err(|e| e.to_string())?,
             resources,
             globals,
+            cold_animation_cache: None,
         })
+    }
+    /// Prepare cold data from an explicit external provider. Failure leaves
+    /// this factory unchanged; no native process-global hook is manufactured.
+    pub fn prepare_animation_definitions(
+        &mut self,
+        definitions: &crate::kabuto_animation_cache::Definitions,
+    ) -> Result<(), String> {
+        let cache = definitions.prepare(self.resources.specification.clone())?;
+        self.cold_animation_cache = Some(Arc::new(cache));
+        Ok(())
     }
     /// Atomic CPU group publication for the acquired normal cold profile. This
     /// does not perform marker relocation or satisfy the returned pending services.
@@ -182,6 +197,7 @@ impl Factory {
             geometry,
             radius: prepared.radius,
             physics: prepared.physics,
+            cold_animation_cache: self.cold_animation_cache.clone(),
             pending: [
                 Pending::ProjectionReset,
                 Pending::AnimationCache,
@@ -214,7 +230,7 @@ mod tests {
             giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
                 .unwrap(),
         );
-        let factory = Factory::load(
+        let mut factory = Factory::load(
             &plan,
             packet.world.as_ref().unwrap(),
             packet.mission.as_ref().unwrap(),
@@ -313,5 +329,28 @@ mod tests {
         assert_eq!(session.counts().residents, 12);
         session.clear();
         assert_eq!(session.actor_field_counts(), (0, 0, 0));
+        let executable = std::env::var_os("GIANTS_KABUTO_EXECUTABLE")
+            .map(std::path::PathBuf::from)
+            .unwrap_or_else(|| root.join("Giants.exe"));
+        let definitions = crate::kabuto_animation_cache::Definitions::read(&executable).unwrap();
+        factory.prepare_animation_definitions(&definitions).unwrap();
+        let owner = factory
+            .construct(&mut session, frame, Blending::Enabled, 1)
+            .unwrap();
+        let group = session.kabuto_group(owner).unwrap();
+        let cache = group.cold_animation_cache.as_ref().unwrap();
+        assert!(Arc::ptr_eq(cache.specification(), &group.declared_class));
+        assert_eq!(cache.entries().len(), 62);
+        assert_eq!(
+            cache.entries().iter().filter(|e| e.node.is_some()).count(),
+            61
+        );
+        // Cold data does not acknowledge process/world reset scheduling.
+        assert!(group.pending.contains(&Pending::AnimationCache));
+        let weak = Arc::downgrade(cache);
+        session.clear();
+        assert!(weak.upgrade().is_some()); // The resource factory still owns it.
+        drop(factory);
+        assert!(weak.upgrade().is_none());
     }
 }

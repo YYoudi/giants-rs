@@ -94,9 +94,13 @@ For the atomic cold group composition/refusal/re-entry control, use:
 cargo test --locked -p giants-game source_kabuto_group_composes_fields_links_and_physics_atomically --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-It uses `GIANTS_KABUTO_ROOT` and creates no window or sound. Pending animation-cache,
-material, registration and camera services are not acknowledged; no mission
-is admitted by this control.
+It uses `GIANTS_KABUTO_ROOT` and creates no window or sound. The extended control
+also reads `GIANTS_KABUTO_EXECUTABLE`, defaulting to `Giants.exe` in that supplied
+installation, to prepare optional cold animation definitions from a supported
+PE data layout. It never launches that executable. Unknown layouts refuse; no
+archive fallback or bundled original table is used. It checks cache/specification
+ownership and release. Process/world cache-reset scheduling, material, registration
+and camera services remain unacknowledged; no mission is admitted by this control.
 
 ## Optional silent runtime lifecycle check
 

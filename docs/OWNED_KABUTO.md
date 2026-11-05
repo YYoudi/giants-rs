@@ -333,3 +333,36 @@ skeletal pose callbacks. The group's pending item is therefore named
 `AnimationCache`; definition lookup/clamping and reset lifetime remain to port.
 Any procedural pose callbacks belong to the still-unacquired primary/animation
 path and are not acknowledged by this field proof.
+
+## External definitions and cold animation cache
+
+`kabuto_animation_cache` reads bounded initialized data from an explicitly supplied
+PE32 file. Three inspected layout tuples are supported. Section mapping uses RVAs
+and raw file ranges separately; executable, overlapping, truncated and out-of-data
+ranges refuse. No original table, executable, instruction bytes or private report
+is included. Layout recognition is not cryptographic authentication of modified
+files. The original executable remains an external user asset and is never run.
+
+The cold preparer reuses shared ANM reference resolution and owns its immutable
+specification through `Arc`. It resolves only present animations with nonnegative
+references, retains absent slots and clamps signed bounds to the ANM timeline.
+Reversed intervals are preserved. Native pointers become serialized node offsets;
+flags and opaque six-word parameter prefixes are retained without assigning their
+unacquired behavior or claiming a complete parameter schema.
+
+All three inspected input layouts produce the same 62 normalized cold records as
+execution of the pinned reference prefix: 61 resolved nodes, one absent animation,
+with matching ranges, reference indexes, flags and parameter prefixes. This is
+cross-layout data agreement against one native behavioral profile, not execution
+proof for every executable build. Native warm reuse and reset/reinitialization
+also preserve those records. Reset clears the initialized flag without restoring
+the original bounds; the owned process/world scheduling contract remains pending.
+Prototype PS2 attribution for this prefix and reset hook remains unknown.
+
+`Factory::prepare_animation_definitions` stages this optional data before group
+construction. Failure preserves the old provider. Groups retain its specification
+identity and release the cache when its factory and groups are gone. The silent
+installed-data control checks that ownership and release. `Pending::AnimationCache`
+still covers service lifetime/reset scheduling; supplying cold data does not
+acknowledge it. Material, global geometry registration, camera consumption, full
+primary behavior, movement, growth and live mission admission remain pending.
