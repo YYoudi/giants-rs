@@ -36,6 +36,8 @@ def functions(data):
 
 
 def worksheet(elf, pc, address, queries, rust, symbol_csv=None):
+    if not 0 <= address <= 0xffffffff or not queries or any(not q.strip() for q in queries):
+        raise ValueError('Expected a PC virtual address and nonempty name queries')
     digest = hashlib.sha256(elf).hexdigest()
     if digest != PROTOTYPE_SHA256:
         raise ValueError('Prototype digest mismatch; do not mix binary identities')
