@@ -133,3 +133,10 @@ of missing rendered objects. A clean preparation result leaves visual quality,
 native timing, whole-session playback and full audio/subtitle parity unverified.
 This tool changes no cinematic behavior and does not require another gameplay
 preview merely to publish an inventory summary.
+
+The inventory distinguishes final ownership from preparation logs: specialized
+attachment routes and admitted terminator-only FX are not missing geometry.
+Strict-profile rejection is a review item when preview consumers prepare the
+source. FLK and MDV opcode spaces are distinct; music commands inside MDV are
+outside this batch's scope. Detailed output remains private, including cases with
+no reported gap; all complete-scene fidelity fields remain unverified.
