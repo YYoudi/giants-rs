@@ -288,3 +288,21 @@ blockers. Executable SHA-256:
 No new downloadable binary is published for this CPU boundary. The main driver
 still needs real current header providers and the primary/camera/muzzle/fire
 scheduling boundary. The existing preview-2026.11.05.1 download is unchanged.
+
+## 5 November 2026 — owned target contexts
+
+Runtime source `9211e93b882451ae9e8a8f67d1874c0d45ddc7e2` owns class context
+initialization/copies, Mecc child inheritance and acquired Ripper/projectile
+context publications. OwnedHeaders serves that state and refuses uncommitted or
+inconsistent producers. The 128 controlled producer cases and 64 scan cases match
+the reference; see OWNED_TARGETING.md for exact scope and retained evidence IDs.
+
+All 695 Rust tests pass (14 ignored), with 19 Python tests, Rustfmt, Clippy, source
+inventory, site/JavaScript validation and GNU release compilation. The exact
+executable passes both silent menu/arena endpoints and three cinematic
+opening/cancellation cycles. A local receipt-bound draft with complete notices,
+manifest and checksums passes independent ZIP verification without blockers.
+
+No new firing capability or public binary is claimed by this step; the published
+preview remains preview-2026.11.05.2. The class805 special header, complete mission
+mutation coverage and actual primary/camera/muzzle/fire scheduling remain open.

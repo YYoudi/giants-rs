@@ -67,6 +67,21 @@ child/type inheritance
 These identify static inspection; the controlled execution comparisons are
 separate evidence. All original instructions and probe inputs remain private.
 
+Runtime source `9211e93b882451ae9e8a8f67d1874c0d45ddc7e2` passes 695 synthetic
+Rust tests (14 ignored), 19 Python tests, Rustfmt, Clippy, site export/JavaScript
+validation and the GNU Windows release build. Both silent three-launch menu/arena
+checks and the three-cycle cinematic opening/cancellation check pass on that
+receipt-bound executable. These regressions do not execute the local target scan.
+Pages validation/deployment passed; the hosted Windows build was still running
+when these local results were recorded.
+
+An asset-free local draft has 10 allowlisted members, complete notices and no
+package-verifier blockers. Its executable SHA256 is
+`2fb9eceaa5565f6dcf92685696e49b27c3f231959fb25c012140685a35fd9537`;
+archive SHA256 is
+`97b1034abce3ceec6d071462f9e76917b26529ef0e169fbd2fd9ebd3c52be761`.
+It remains a draft, with no new accessible weapon and no new public download.
+
 ## Publication evidence and limits — 5 November 2026
 
 Static REA inspection located the publication immediately after the local query.
