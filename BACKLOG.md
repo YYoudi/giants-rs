@@ -163,6 +163,33 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   that failure. Investigate actual scheduling, lifetime and render ownership.
   The .4 full matrix is running separately; transport passes do not certify
   complete scenes or all 545 sources.
+- Published preview 2026.11.05.5 fixes fixed attached-emitter catch-up allocation.
+  A diagnostic main build failed with four occupied slots after a measured
+  215 ms callback; replaying its deltas with the actual source recipe reproduces
+  the failure. Demand allocation preserves the fixed constructor's cold cache,
+  requests, RNG order, lifetimes and retirement; expired slots are reused.
+  Reference-channel admission is unchanged. The unlit renderer creates actual
+  additional slots. Ordinary film updates now adopt late meshes, materials,
+  buffers and draw entities, not only those created at director setup.
+  The exact published executable passes two natural-terminal/menu/re-entry
+  cycles each for Story4 missions 1 and 2, Story1 mission 5 and Rstory5 mission 2,
+  plus both development endpoints. The previously failing long chain completes
+  all 54 directors twice, with nonempty text-atlas cleanup, 38 late draw entities
+  adopted per ticket and 7,702 tracked main-world film assets absent per release.
+  697 Rust tests pass (14 ignored), 20 Python tests and Clippy pass. Independent
+  downloaded package/notices/receipt checks pass. The later optional Mecc source
+  work is preserved by merge and checked separately; do not attribute that newer
+  source identity to the published executable.
+  The subsequent combined-main source passes 699 Rust tests (14 ignored), Clippy,
+  an isolated GNU build, both development endpoints and three selected-opening/
+  cancellation cycles. That separate build does not repeat the long natural
+  transport proof or verify the optional Mecc fire phase.
+  Native allocator capacity, global scheduling, visual/audio/subtitle parity,
+  skip input and complete GPU/process memory reclamation remain unverified.
+- Read-only sync-track size inventory: all 545 files parsed, 51 declarations,
+  49 distinct tracks; none falls below the acquired streaming-buffer size.
+  This limits the immediate relevance of the unresolved short-stream constructor
+  profile; it does not prove hardware timing, admission or the live caller state.
 - Published preview 2026.11.05.4, validated on its isolated exact executable: Mecc-specific cue/carry/footstep
   preloads now require the actual single command11 declaration of kind2. Other
   or ambiguous starts retain generic actor lookup from their real catalogs and

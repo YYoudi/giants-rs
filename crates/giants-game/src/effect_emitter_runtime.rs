@@ -214,6 +214,18 @@ impl Runtime {
         let interval = recipe.interval[0];
         Self::with_cache(recipe, reserve, interval, [0.; 3], false)
     }
+    /// Preserve fixed-service construction and the cold cache, growing only for
+    /// actual births. A lifetime estimate cannot bound a callback's catch-up
+    /// batch, whose requests activate together on the next positive callback.
+    /// This does not establish the native allocator's capacity policy.
+    pub fn fixed_growing(
+        recipe: std::sync::Arc<Recipe>,
+        reserve: usize,
+    ) -> Result<Self, &'static str> {
+        let mut runtime = Self::fixed(recipe, reserve)?;
+        runtime.growing = true;
+        Ok(runtime)
+    }
     /// The parent constructor already sampled the interval. Preserve its cache
     /// point without consuming RNG again; this is distinct from command5b cold0.
     pub fn sampled_at(
@@ -469,6 +481,64 @@ impl Runtime {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn fixed_catch_up_growth_preserves_requests_randomness_and_retirement() {
+        let mut leaf = (*recipe(0.005)).clone();
+        leaf.particles.truncate(1);
+        leaf.particles[0].retirement = None;
+        let reserve = leaf.reserve(0.).unwrap();
+        let leaf = std::sync::Arc::new(leaf);
+        let mut growing = super::Runtime::fixed_growing(leaf.clone(), reserve).unwrap();
+        let mut control = super::Runtime::fixed(leaf.clone(), 512).unwrap();
+        let mut bounded = super::Runtime::fixed(leaf, reserve).unwrap();
+        let (mut seed, mut control_seed, mut bounded_seed) = (17, 17, 17);
+        let mut bounded_exhausted = false;
+        let mut high_water = reserve;
+        // The delayed callback requests a batch larger than a steady-state
+        // lifetime estimate. No callback time or emission count is modified.
+        for (dt, emitting) in [(0.006, true), (0.6, true), (0.006, false)]
+            .into_iter()
+            .chain(std::iter::repeat_n((0.01, false), 60))
+            .chain([(0.6, true), (0.006, false)])
+        {
+            let events = growing
+                .advance_source(dt, [3., 4., 5.], emitting, &mut seed)
+                .unwrap();
+            let expected = control
+                .advance_source(dt, [3., 4., 5.], emitting, &mut control_seed)
+                .unwrap();
+            assert_eq!(seed, control_seed);
+            assert_eq!(events.len(), expected.len());
+            for (event, expected) in events.iter().zip(&expected) {
+                assert_eq!(event.kind, expected.kind);
+                assert_eq!(event.serial, expected.serial);
+                assert_eq!(event.particle, expected.particle);
+                assert_eq!(event.position, expected.position);
+            }
+            for slot in 0..growing.slot_counts()[0] {
+                match (growing.presentation(0, slot), control.presentation(0, slot)) {
+                    (Some(a), Some(b)) => {
+                        assert_eq!(a.serial, b.serial);
+                        assert_eq!(a.expired, b.expired);
+                        assert_eq!(a.age.to_bits(), b.age.to_bits());
+                        assert_eq!(a.size.to_bits(), b.size.to_bits());
+                    }
+                    (None, None) => {}
+                    _ => panic!("different particle allocation"),
+                }
+            }
+            high_water = high_water.max(growing.slot_counts()[0]);
+            if !bounded_exhausted {
+                bounded_exhausted = bounded
+                    .advance_source(dt, [3., 4., 5.], emitting, &mut bounded_seed)
+                    .is_err();
+            }
+        }
+        assert!(bounded_exhausted);
+        assert!(high_water > reserve);
+        assert_eq!(growing.slot_counts(), vec![high_water]);
+        assert_eq!(growing.source_state().interval, 0.005);
+    }
     #[test]
     fn growing_pool_crosses_fixed_capacity_and_reuses_expired_slots() {
         let mut seed = 1;
