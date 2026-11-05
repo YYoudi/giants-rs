@@ -36,6 +36,8 @@ pub struct Group {
     /// Optional acquired cold definitions. Process/world reset scheduling is
     /// still part of Pending::AnimationCache, not acknowledged by this value.
     pub cold_animation_cache: Option<Arc<crate::kabuto_animation_cache::ColdCache>>,
+    /// Optional CPU image. Material upload/routing remains pending.
+    pub procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
     pub pending: [Pending; 4],
 }
 impl std::fmt::Debug for Group {
@@ -56,6 +58,7 @@ pub struct Factory {
     globals: Arc<GlobalData>,
     bounds: Resolved,
     animation_cache: Option<crate::kabuto_animation_cache::Lifecycle>,
+    procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
     pub fn load(
@@ -77,6 +80,7 @@ impl Factory {
             resources,
             globals,
             animation_cache: None,
+            procedural_texture: None,
         })
     }
     /// Prepare cold data from an explicit external provider. Failure leaves
@@ -104,6 +108,15 @@ impl Factory {
             .ok_or("Kabuto animation provider unavailable")?
             .initialize(self.resources.specification.clone())?;
         Ok(())
+    }
+    /// Normal cold generation profile, with shared caller-owned RNG. Reusing
+    /// the resource consumes no more draws. No GPU-resident bypass is implied.
+    pub fn prepare_procedural_texture(
+        &mut self,
+        random: &mut crate::audio_parameters::Random,
+    ) -> &Arc<crate::kabuto_texture::Texture> {
+        self.procedural_texture
+            .get_or_insert_with(|| Arc::new(crate::kabuto_texture::prepare(random)))
     }
     /// Atomic CPU group publication for the acquired normal cold profile. This
     /// does not perform marker relocation or satisfy the returned pending services.
@@ -225,6 +238,7 @@ impl Factory {
                 .as_ref()
                 .and_then(|c| c.cached())
                 .cloned(),
+            procedural_texture: self.procedural_texture.clone(),
             pending: [
                 Pending::ProjectionReset,
                 Pending::AnimationCache,
@@ -394,6 +408,18 @@ mod tests {
         assert!(weak.upgrade().is_some());
         factory.refresh_animation_cache().unwrap();
         assert!(weak.upgrade().is_none());
+        let mut random = crate::audio_parameters::Random(37);
+        let mut expected = random;
+        for _ in 0..crate::kabuto_texture::WIDTH {
+            expected.next_15();
+        }
+        let texture = Arc::downgrade(factory.prepare_procedural_texture(&mut random));
+        assert_eq!(random.0, expected.0);
+        assert!(Arc::ptr_eq(
+            &texture.upgrade().unwrap(),
+            factory.prepare_procedural_texture(&mut random)
+        ));
+        assert_eq!(random.0, expected.0);
         let owner = factory
             .construct(&mut session, frame, Blending::Enabled, 1)
             .unwrap();
@@ -405,8 +431,15 @@ mod tests {
                 .as_ref()
                 .unwrap(),
         );
+        let group = session.kabuto_group(owner).unwrap();
+        assert!(Arc::ptr_eq(
+            group.procedural_texture.as_ref().unwrap(),
+            &texture.upgrade().unwrap()
+        ));
+        assert!(group.pending.contains(&Pending::ProceduralMaterial));
         session.clear();
         drop(factory);
         assert!(weak.upgrade().is_none());
+        assert!(texture.upgrade().is_none());
     }
 }

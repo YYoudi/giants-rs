@@ -36,6 +36,61 @@ special-only entry still leaves player selection and activation untouched.
 
 ## Evidence and scope
 
+`delphi_locomotion` and `Session::advance_delphi_locomotion` now compose the
+acquired ordinary living dry sword selector with owned physical state. Prepare
+the physical resources with `with_locomotion(clips)` and use that profile's
+explicit entry; the physical-only entry retains its earlier scope. Supplied
+clip identifiers must resolve in the actual owned class. The service embeds no
+original executable mode table; a production installation-metadata reader is
+still required before live admission.
+
+The order is physical/jump/first ANM, physical history, secondary selection and
+zero-time ANM. It preserves the jump latch across changed/released inputs,
+shared random idle/walk decisions, current-mode retention when a mapped clip
+does not change, and canonical references/stamps. Six independent 256-step
+native/Rust cases compare 12,243,456 normalized words over all 22 actor headers,
+reference buffers, complete owner payload and fifteen ordered lists, plus final
+shared RNG states. Both sides use real installation animation bounds/definitions,
+their own persistent trajectories, supplied flat terrain/time/commands and three
+explicit random seeds, continuous forward/side/back movement and deferred foot
+sound-block preparation. Native outputs are not replayed into Rust.
+
+Those controls execute the original entered prefix, jump, physical/history body,
+secondary dispatch and second ANM. They exclude the surrounding full primary,
+camera/target/item producers, other actor callbacks and general world scheduling.
+The broader native-only acquisitions below remain separate. No live controller,
+water/turbo, nonordinary landing effects, combat or fidelity is certified.
+Four synthetic controls check latch/contact behavior, shared-clip semantics,
+idle draw ordering and refusal-state preservation. The silent source-data
+ownership control also covers both phase profiles with synthetic clip aliases,
+including a late secondary failure that retains payload/references and quarantines
+the owner. These are owned-backend guards, not native error-path equivalence.
+
+Combined source `b53e7b28d7705fefa8311848e67fae66691dca95` preserves the latest
+Mecc subjective and Kabuto cache-lifecycle work. All six comparisons pass again
+with stable source/runner/input hashes. The workspace passes 736 Rust tests
+(22 ignored), 36 Python tests, Rustfmt, Clippy, the source-data ownership control
+and site/JavaScript checks. Source-history review reports zero findings across
+167 commits and 1,809 unique blobs.
+
+Its exact GNU build has a private ten-member validation draft with complete
+dependency/toolchain notices and matching receipt/review, without technical
+package blockers. Executable SHA256:
+`446aa2bb7a6cfd70fb8b9f9a3038f0ed82f818255147eba8b6ef7ec45fdb5c56`;
+draft ZIP SHA256:
+`9139daab22ad347686660f4d26db4821df39fada88020d4224045f50c2b9b7d4`.
+The public download is unchanged by this CPU-only stage.
+
+That exact executable also passes both silent common-runtime lifecycle endpoints
+and three selected-opening cancellation cycles, without a window or audio device.
+These exercise the menu/Mecc/cinematic lifecycle, not Delphi input, active effects,
+complete playback or visual fidelity.
+
+The subsequent Kabuto-texture merge at `4503331` retains identical Delphi,
+shared ANM, effect-initialization and RNG source. It passes 737 Rust tests
+(22 ignored), 36 Python tests, Rustfmt and Clippy. This later source identity
+does not replace the exact source in the earlier executable/package receipt.
+
 Native-only continuation records the complete selected-owner primary/secondary
 flow around the acquired physical body. Observers retain 3,009 direct primary
 calls and 576 phase calls while preserving the original 64 final cohort states.

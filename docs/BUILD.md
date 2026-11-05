@@ -90,7 +90,8 @@ cargo test --locked -p giants-game source_delphi_physical_owns_motion_shares_eve
 ```
 
 This silent CPU control checks two owners, persistent motion/contact/jump, shared
-class events, profile refusal and cleanup. It creates no window or audio device
+class events, physical-only and locomotion profiles using synthetic clip aliases,
+late secondary quarantine, profile refusal and cleanup. It creates no window or audio device
 and does not execute the complete Delphi primary/secondary or live controls.
 
 ## Optional cold Kabuto resource check
@@ -131,6 +132,10 @@ PE data layout. It never launches that executable. Unknown layouts refuse; no
 archive fallback or bundled original table is used. It checks cache/specification
 ownership and release. Process/world cache-reset scheduling, material, registration
 and camera services remain unacknowledged; no mission is admitted by this control.
+
+The group control also prepares the optional normal-cold procedural CPU texture,
+checks its shared RNG phase, warm reuse, group ownership and release. It does not
+upload that image, infer GPU alpha/blending, or acknowledge a material binding.
 
 For cumulative animation-cache reset/rebind and retained node-owner checks, use
 the same two input variables and isolated target:

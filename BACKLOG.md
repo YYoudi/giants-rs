@@ -104,8 +104,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   animation bounds are applied on both sides; commands, flat terrain and time
   are supplied boundaries, not native velocity/trajectory outputs. This executes
   the entered primary prefix, jump and physical body, not a full primary turn.
-- Implement and compare primary mode/clip selection, heading/pitch producers,
-  the second ANM pass and auxiliary callbacks against the acquired complete selected
+- Implemented: the owned dry sword locomotion phase composes physical/history,
+  the acquired secondary selector and a second zero-time ANM pass, preserving
+  latched jump states, random idle/walk variants and clip-based reselection.
+  Six continuous 256-step native/Rust cases match 12,243,456 normalized words
+  over all 22 actor headers/reference buffers, owner payload and ordered lists,
+  plus shared RNG endpoints. Rust owns its trajectory, contacts and history;
+  native snapshots are outputs only. Clip identifiers are supplied definitions,
+  checked against the owned class resources; no original mode table is bundled.
+  The public installation-metadata loader remains an integration prerequisite.
+  Impact/slide effects, nonordinary actions, water and equipment changes remain
+  explicit unsupported boundaries. This does not execute the full primary.
+- Compose the surrounding full primary, heading/look/pitch producers and
+  auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
   calls and 576 phase calls without changing the original 64 final cohort states.
   Three additional 256-step selected-owner controls cover landing, return to rest
@@ -192,6 +203,13 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   dispatch, deduplicated on registration and registered again on reuse. Group
   composition refuses a supplied provider awaiting refresh. Full world teardown
   ordering and runtime reset dispatch remain pending; no readiness gate is cleared.
+- Implemented: normal cold procedural texture generation reuses the shared RNG
+  and matches 64 native seeds (131,072 source pixel words and 64 final RNG states).
+  The Factory/group shares the CPU image, consumes no draws on reuse and releases
+  it with its owners. Native constructor controls also observe two-entry geometry
+  insertion and the already-resident material bypass. GPU material interpretation,
+  that bypass in the owned backend, world lifetime/reset and geometry registration
+  remain pending; CPU image data does not clear `Pending::ProceduralMaterial`.
 - Complete first-initializer behavior beyond the acquired field group: animation
   cache/reset service lifetime, generated material/global
   geometry registration and camera reset
