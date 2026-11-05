@@ -253,6 +253,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   programs, including a bounded persistent-attachment family with retained native
   construction/startup controls. Existing visual preview is not sufficient to
   acknowledge live queue, owner, opaque constructor fields or cleanup contracts.
+  The source-bound follow-up finds 28 persistent requests in 26 sources. Twenty-
+  three sources across four worlds contain only that nonterminal family (25
+  requests); three sources also need other families. All 28 use attached mode
+  and pass the existing initial class-facing profile. Prioritize that coherent
+  23-source cohort for shared queue/backend integration, then mixed families.
+  These are implementation candidates, not newly admitted or visually verified
+  sources. Reused native startup controls supply placeholder owners; real owner
+  updates, world admission, slot reuse and source-marked cleanup still require
+  their own integration evidence. Prototype PS2 candidate names were checked
+  against the pinned ELF before continuing; correspondence remains unknown.
 - Owner's active work order (5 November 2026): address the shared 52-source FX
   prefix refusal first, then general queue admission and partial FX services,
   followed by remaining audio/credits/resume prerequisites. Work alone, strictly
