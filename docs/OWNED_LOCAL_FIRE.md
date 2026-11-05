@@ -58,12 +58,49 @@ and missing-header failures with quarantine/no replay. These are refusal checks,
 not parity claims for native error paths. Original data, listings, private probe
 inputs and reports remain excluded from the public repository.
 
-Physical/first-animation completion, camera/viewport snapshots, cache epoch and
-time are supplied at this API boundary. The main mission driver still does not
-execute it: actual primary/view/muzzle scheduling, complete actor admission and
-mission context coverage, the class805 special header, projectile world updates
-and secondary reactions remain prerequisites in BACKLOG.md. This does not add a
-playable weapon to the downloadable preview or establish visual fidelity.
+At the standalone callback boundary, physical/first-animation completion,
+camera/viewport snapshots, cache epoch and time are supplied. The optional owned
+primary integration below now produces part of this boundary. The main mission
+driver still does not execute it. This does not add a playable weapon to the
+downloadable preview or establish visual fidelity.
+
+## Optional owned primary phase
+
+`mecc_primary::Services.fire` now connects the real local callback after physical
+forces and the first ANM, before jet, secondary and the second ANM. The primary
+publishes its actual fields, payload, channels and references, uses its local
+object time and shares its constructor-effect pool and RNG. It does not evaluate
+an extra animation pass to create a muzzle sample. The caller still supplies
+the actual camera/viewport, cache epoch, prior held-world muzzle and audio.
+
+A continuous 64-frame native/Rust walking control with pulsed trigger input
+matches all 25,724 normalized words: full player header/payload, both projectile
+headers/payloads and all 64 held-world matrices/reference caches. RNG and shot
+decisions also match. The initial frame has no held pistol; secondary creates
+it, and the next frame can fire from its prior completed cache. This acquisition
+executes a supplied partial Mecc-then-held cohort, not full native world order;
+projectile world updates are excluded. The camera boundary is supplied and the
+positional sound registry is explicitly empty. This is CPU evidence.
+
+The control exposed a missing armed-walk transition while an ordinary walk was
+still active. The held-trigger timer now selects that acquired pistol clip.
+Synthetic regressions cover this transition and refusal of unacquired armed
+idle. Armed idle, side and turn reactions remain explicit refusals.
+
+Two additional backend-failure controls verify missing muzzle and late sound
+failure, primary/shot quarantine and no replay. The latter retains its allocated
+projectile, constructor context and consumed RNG. These checks establish owned
+error behavior, not parity with native error paths. Private REA selector evidence:
+`ev_21602305947167bb2bc69a4addfa617054d1154db3074740a845ced4112a8e77`.
+
+The application still supplies `fire: None`. Actual main-driver view/audio
+producers, complete actor admission and mission context coverage, the class805
+special header, projectile world updates and the remaining secondary reactions
+are prerequisites in BACKLOG.md.
+
+Validation for this primary-phase change: 698 synthetic Rust tests pass (14
+ignored), 20 Python tests pass, with Rustfmt, Clippy and exported-site JavaScript
+checks. No additional playable capability is claimed by these checks.
 
 Private REA identities: viewport-origin accessor
 `ev_63f15249b41c8db2b91092642deed71a7537f1f96384bdf7d405c2a7952200e3`;

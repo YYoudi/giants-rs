@@ -336,6 +336,7 @@ pub(crate) trait PhaseDriver {
     ) -> Result<Output, String>;
 }
 pub(crate) struct Driver<'a> {
+    pub fire: bool,
     pub sequences: &'a mut Pool,
     pub backend: &'a mut dyn Backend<Handle = u32>,
     pub input: Input,
@@ -349,7 +350,9 @@ fn put(b: &mut [u8], at: usize, v: u32) {
 impl PhaseDriver for Driver<'_> {
     fn preflight(&self, session: &Session, actor: Actor) -> Result<(), String> {
         session.check_wield_owner(actor)?;
-        if self.input.buttons & !0xc00 != 0 || self.input.audio_key == 0 {
+        if self.input.buttons & !(0xc00 | if self.fire { 0x1001 } else { 0 }) != 0
+            || self.input.audio_key == 0
+        {
             return Err(
                 "owned jet requires declared jet/boost input and actual audio owner key".into(),
             );

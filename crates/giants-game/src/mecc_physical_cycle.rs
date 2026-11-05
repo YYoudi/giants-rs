@@ -112,6 +112,7 @@ pub(crate) struct Owned {
     pub(crate) periodic: bool,
     pub(crate) collection: bool,
     pub(crate) primary: bool,
+    pub(crate) fire: bool,
     pub(crate) orientation: bool,
     pub(crate) world_history: Option<u64>,
     pub(crate) world_stopped: bool,
@@ -134,6 +135,7 @@ pub struct ChannelProjection {
     pub(crate) second_processed: bool,
 }
 pub struct InterleavedProjection {
+    pub fire: Option<crate::mecc_fire_primary::Output>,
     pub physical: View,
     pub channels: ChannelProjection,
     pub event_visits: u32,
@@ -187,6 +189,7 @@ impl Owned {
             periodic: false,
             collection: false,
             primary: false,
+            fire: false,
             orientation: false,
             world_history: None,
             world_stopped: false,

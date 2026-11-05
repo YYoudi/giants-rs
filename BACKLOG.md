@@ -28,11 +28,17 @@ automatically wired into the main menu-to-mission build.
   range-reticle decision and tracked/untracked pistol transaction. Its 64-case
   full callback control matches 16,890 words, including 18 shots/15 tracked shots;
   eight backend failure/refusal checks pass. See docs/OWNED_LOCAL_FIRE.md.
-  This remains an explicit physical/first-ANM/view/cache/time boundary, not a
-  callable firing phase in the main driver.
-- Connect the acquired target/reticle publication, actual camera/muzzle timing
-  and fire phase at the real first-animation/physical boundary; then verify
-  secondary reactions. A typed selected target cannot use the no-target fire
+  The optional owned primary phase now supplies physical/first-ANM storage,
+  local time and shared FX/RNG, before jet/secondary/second ANM. A continuous
+  64-frame walking/pulsed-trigger control matches 25,724 normalized words,
+  including two projectiles and 64 held-world/reference caches. Missing muzzle
+  and late sound failures quarantine without replay; constructor FX/RNG survive
+  the latter. This controlled partial Mecc-then-held cohort is not a full world.
+  Armed walk selection is acquired; armed idle/side/turn variants remain refused.
+- Connect the primary phase to actual main-driver camera/viewport producers,
+  prior held muzzle caches and positional audio; acquire remaining secondary
+  reactions and full scheduling. The application still supplies `fire: None`.
+  A typed selected target cannot use the no-target fire
   profile merely because its raw pointer slots remain normalized.
 - Actor/projectile/effect scheduling, damage, mission objectives and progression.
 - Projectile terrain occlusion: the selected-controller pistol and development
