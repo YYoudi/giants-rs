@@ -24,6 +24,12 @@ automatically wired into the main menu-to-mission build.
   producer cases match the reference. Complete mission mutation coverage and the
   class805 special-header producer remain unresolved. Effective declaration range 700;
   normal pistol caller distance 500. Do not substitute a default range of 1000.
+- Local target/fire coupling: advance_local now executes the actual owned scan,
+  range-reticle decision and tracked/untracked pistol transaction. Its 64-case
+  full callback control matches 16,890 words, including 18 shots/15 tracked shots;
+  eight backend failure/refusal checks pass. See docs/OWNED_LOCAL_FIRE.md.
+  This remains an explicit physical/first-ANM/view/cache/time boundary, not a
+  callable firing phase in the main driver.
 - Connect the acquired target/reticle publication, actual camera/muzzle timing
   and fire phase at the real first-animation/physical boundary; then verify
   secondary reactions. A typed selected target cannot use the no-target fire

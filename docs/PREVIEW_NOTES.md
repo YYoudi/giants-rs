@@ -102,3 +102,8 @@ inheritance and acquired Ripper/projectile context publications to the owned
 target-header provider. Its controlled CPU checks are recorded in
 OWNED_TARGETING.md. Complete mission mutations, the class805 special header and
 live primary/camera/fire scheduling remain pending.
+
+The local callback now couples the actual owned scan to range-reticle state and
+tracked/untracked pistol requests. Its controlled full-callback comparison is in
+OWNED_LOCAL_FIRE.md. The main mission driver still does not call this phase, so
+this source work does not add accessible firing or a new downloadable preview.

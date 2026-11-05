@@ -23,7 +23,10 @@ preparation is a separate service and is not described as a transaction rollback
 
 The existing no-target fire callback also checks typed target state: normalized
 bytes cannot disguise a selected actor as a null-target firing profile. The actual
-local-target firing branch remains unacquired and is refused.
+local-target firing branch is now connected through the separate
+`mecc_fire_primary::advance_local` API, which executes the actual scan and owned
+shot transaction. The legacy no-target callback still refuses selected actors.
+See OWNED_LOCAL_FIRE.md for its controlled comparison and remaining live boundary.
 
 ## Owned context producers — 5 November 2026
 

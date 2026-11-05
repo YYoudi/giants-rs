@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local scan publishes target links, aim point and terrain-reticle state; 64 controlled CPU cases match the reference. Owned contexts now cover class initialization/copies, Mecc child inheritance and acquired callback/projectile updates (128 producer cases). Special headers, complete mission mutation coverage and live primary/camera/fire scheduling remain incomplete."
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local scan, target-range reticle and tracked/untracked pistol requests now run through one explicit callback; 64 controlled full-callback cases match, including 18 shots/15 tracked shots. Owned context producers pass 128 controls. Special headers, complete mission mutation coverage and live primary/camera/muzzle/fire scheduling remain incomplete."
     },
     {
       "id": "mecc-inventory",
