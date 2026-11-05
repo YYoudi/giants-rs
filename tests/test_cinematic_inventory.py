@@ -52,7 +52,21 @@ class CinematicInventoryTests(unittest.TestCase):
         log = (HEADER+case()+END).replace('numeric_sound_requests=0 music_commands=0',
                                          'numeric_sound_requests=3 music_commands=2')
         row = parse(log, result(), [('Synthetic', 'sample')])[0]
-        self.assertEqual({f['cause']: f['count'] for f in row['findings']}, {'numeric_audio': 3, 'music': 2})
+        self.assertEqual({f['cause']: f['count'] for f in row['findings']}, {'numeric_audio': 3, 'unclassified_flk_review': 2})
+        # Distinct FLK/MDV opcode spaces cannot establish a missing music cue.
+        updated = log.replace('music_commands=2', 'unclassified_commands_28_30=2')
+        self.assertEqual([(f['cause'], f['count']) for f in parse(updated, result(), [('Synthetic', 'sample')])[0]['findings']],
+                         [('numeric_audio', 3), ('unclassified_flk_review', 2)])
+
+    def test_strict_profile_refusal_and_effect_slot_capacity_are_not_missing_objects(self):
+        log = (HEADER+case()+END).replace('opaque_blocks=0 runtime_profile_supported=true',
+                                         'opaque_blocks=8 runtime_profile_supported=false')
+        row = parse(log, result(), [('Synthetic', 'sample')])[0]
+        self.assertEqual(row['state'], 'no_reported_gap_unverified')
+        self.assertEqual(row['findings'][0]['cause'], 'strict_profile_review')
+        summary = public_summary([row], {'source_commit': 'a'*40, 'executable_sha256': 'b'*64})
+        self.assertEqual(summary['sources_with_reported_gaps'], 0)
+        self.assertEqual(summary['sources_requiring_review'], 1)
 
     def test_rejects_truncation_missing_results_and_repeated_cases(self):
         for log, table in [(HEADER+case(), result()), (HEADER+case()+END, ''),

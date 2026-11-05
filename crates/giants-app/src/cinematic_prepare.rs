@@ -105,7 +105,7 @@ pub fn audit(root: &Path, cases: &Path, output: &Path) -> Result<(), Box<dyn std
                 let effects = giants_formats::flick::effect_commands(&bytes)?;
                 let count = |opcode| counts.get(&opcode).copied().unwrap_or(0);
                 println!(
-                    "cinematic_audit_declarations actors={} active_effect_requests={} voice_requests={} subtitle_calls={} sync_requests={} numeric_sound_requests={} music_commands={} credits_commands={} opaque_blocks={} runtime_profile_supported={}",
+                    "cinematic_audit_declarations actors={} active_effect_requests={} voice_requests={} subtitle_calls={} sync_requests={} numeric_sound_requests={} unclassified_commands_28_30={} credits_commands={} declared_effect_slots={} runtime_profile_supported={}",
                     metadata.actors.len(),
                     effects.iter().filter(|e| e.slot >= 0).count(),
                     count(44),

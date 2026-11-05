@@ -25,18 +25,18 @@ CAUSES = {
     'effect_refused': (1, 'Effect preview program refused', 'reported_refusal'),
     'main_fx_binding': (1, 'Mission FX binding refused (preview may still render)', 'reported_refusal'),
     'numeric_audio': (1, 'Numeric Flick sound commands lack a live consumer', 'missing_consumer'),
-    'music': (1, 'Cinematic music commands lack a live consumer', 'missing_consumer'),
+    'unclassified_flk_review': (3, 'FLK command 28/30 needs consumer review', 'review_needed'),
     'credits': (1, 'Cinematic credits commands lack a live consumer', 'missing_consumer'),
     'effect_partial': (2, 'Effect preview retains incomplete services', 'partial_implementation'),
     'effect_resume': (2, 'External effect resume source unresolved', 'partial_implementation'),
-    'opaque_profile': (2, 'Opaque blocks or unsupported executable profile', 'unresolved_profile'),
+    'strict_profile_review': (3, 'Strict FLK profile requires preview handling', 'review_needed'),
     'mixed_objects': (2, 'Mixed effect objects deferred by preparation', 'reported_refusal'),
     'fx_audio_review': (3, 'Prepared FX audio needs live-consumer verification', 'review_needed'),
     'tracer_review': (3, 'Prepared tracer needs live-consumer verification', 'review_needed'),
     'other_diagnostic': (3, 'Other consumer diagnostic requires review', 'review_needed'),
 }
 UNVERIFIED = ['complete_visual_fidelity', 'native_timing', 'complete_functional_playback',
-              'lighting_shadows_water', 'audio_mix_and_subtitle_parity']
+              'lighting_shadows_water', 'audio_mix_and_subtitle_parity', 'MDV_music_commands_not_audited']
 CASE = re.compile(r'^cinematic_consumer_audit_case world=(\w+) sequence=(\w+)$')
 FIELDS = re.compile(r'(\w+)=([^ ]+)')
 
@@ -96,11 +96,18 @@ def parse(log, result_tsv, expected_cases):
             if current['declarations'] is not None:
                 raise ValueError('Repeated declaration summary')
             current['declarations'] = {k: int(v) if v.isdigit() else v for k, v in fields.items()}
-            for field, cause in [('numeric_sound_requests', 'numeric_audio'), ('music_commands', 'music'),
-                                 ('credits_commands', 'credits')]:
+            for field, cause in [('numeric_sound_requests', 'numeric_audio'), ('credits_commands', 'credits')]:
                 add(cause, int(fields[field]))
-            if int(fields['opaque_blocks']) or fields['runtime_profile_supported'] != 'true':
-                add('opaque_profile')
+            # Schema-2 producer's legacy music_commands label counts FLK
+            # 28/30, not the distinct MDV music opcodes. Never infer missing
+            # music from their coincident numeric values.
+            add('unclassified_flk_review', int(fields.get('unclassified_commands_28_30', fields.get('music_commands', 0))))
+            # The legacy metadata field named opaque_blocks is the raw effect
+            # slot capacity. It is not evidence of unknown executable content.
+            # Strict-parser rejection also does not prove a missing live draw:
+            # this audit deliberately invokes the actual preview consumers.
+            if fields['runtime_profile_supported'] != 'true':
+                add('strict_profile_review')
         elif event == 'cinematic_audit_command':
             current['commands'][fields['opcode']] = int(fields['count'])
         elif event == 'cinematic_audit_stream_resources':
@@ -182,6 +189,7 @@ def public_summary(records, identity):
         sources=len(records), worlds=len({r['world'] for r in records}),
         preparation_errors=sum(r['preparation'] == 'error' for r in records),
         sources_with_reported_gaps=sum(r['state'] == 'reported_gap' for r in records),
+        sources_requiring_review=sum(any(CAUSES[f['cause']][0] == 3 for f in r['findings']) for r in records),
         complete_scene_fidelity_verified=0, visual_fidelity_checked=False,
         priority_rule='Preparation barriers first; then distinct affected sources within each priority level.',
         priorities=aggregate(records), unverified=UNVERIFIED.copy())
