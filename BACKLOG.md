@@ -108,9 +108,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 - Acquired, native only: eight first-primary contexts return with actual auxiliary
   resources; the callback creates two auxiliary actors, nine effects and inline
   physics. A separate 288-case full size-refresh control passes on supplied size
-  pairs. No owned first-primary/size implementation or growth-trigger comparison
-  exists yet. See docs/OWNED_KABUTO.md for the supplied boundaries.
-- Implement and compare first-primary initialization and the full size refresh,
+  pairs. The owned size candidate is now implemented separately below; no owned
+  first-primary or growth-trigger comparison exists yet. See docs/OWNED_KABUTO.md for the supplied boundaries.
+- Implemented: `kabuto_size::prepare` prepares the full debug size-dependent
+  parameter/scale/category/radius candidate with Double53 arithmetic, typed source
+  resources and atomic refusal. It reuses the shared radius writer. The service
+  does not choose a growth target, advance growth or publish a Session phase.
+  All 544 native/Rust controls match 219,776 complete header/payload words,
+  including variable parameters/scales and absent-class cases.
+- Implement and compare first-primary initialization and its size composition,
   including shared physical/animation services and owned auxiliary/effect links.
   Acquire marker relocation and camera consumption, then land movement/jumping,
   size-dependent collision and actual feeding/growth triggers.
