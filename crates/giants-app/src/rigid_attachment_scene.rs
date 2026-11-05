@@ -3709,7 +3709,13 @@ pub fn update(
                     sample.constructor_position,
                 )
                 .map_err(str::to_owned)
-            } else if parent.is_some() || emitter.reference.is_some() {
+            } else if parent.is_some() && emitter.reference.is_none() {
+                giants_game::effect_emitter_runtime::Runtime::fixed_growing(
+                    emitter.recipe.clone(),
+                    emitter.reserve,
+                )
+                .map_err(str::to_owned)
+            } else if emitter.reference.is_some() {
                 giants_game::effect_emitter_runtime::Runtime::fixed(
                     emitter.recipe.clone(),
                     emitter.reserve,

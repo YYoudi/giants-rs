@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.05.4
+# Windows x64 development preview - preview-2026.11.05.5
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -12,12 +12,19 @@ is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
 
-Compared with preview-2026.11.05.3: local-player Mecc sound recipes are now
-preloaded only for the actual single Mecc start declaration. Reaper, Kabuto or
-ambiguous starts no longer request unrelated Mecc jet/carry/footstep cues from
-their catalogs. Generic actor sounds retain lazy lookup in the real catalogs.
-No sound aliases or fallback samples were added. Other local-player cue profiles
-remain unimplemented, and character/gameplay admission gates remain in place.
+Compared with preview-2026.11.05.4: fixed attached periodic emitters allocate
+actual catch-up births beyond the lifetime-based estimate, reusing expired slots.
+Their interval, cold constructor position cache, request times, random operand
+order and particle lifetimes are unchanged. Reference-channel admission remains
+separate. This preview allocation policy does not establish native pool capacity
+or global callback ordering.
+
+Late particle meshes/materials/buffers and draws are now adopted by the film's
+mission ticket on ordinary updates, as well as director setup. They are retired
+with the film; resources present before each draw remain outside that delta.
+Other character cue profiles and gameplay admission remain incomplete. Mecc cue
+preloads remain scoped to the actual single Mecc start declaration; generic actor
+sounds retain actual catalog lookup, without aliases or fallback samples.
 
 Retained: exhausted synchronization streams report zero audio time, disabling
 drift correction while the director continues on its own clock. No realtime
@@ -47,7 +54,7 @@ a new accessible weapon or reticle in this preview. See OWNED_TARGETING.md.
 
 ## Validation scope and remaining limits
 
-Synthetic controls passed: 696 Rust tests, 14 ignored; 20 Python tests; Rustfmt
+Synthetic controls passed: 697 Rust tests, 14 ignored; 20 Python tests; Rustfmt
 and Clippy. Build artifacts use a dedicated target directory; a contaminated
 shared-cache test inventory was rejected. Exact-reference CPU controls cover
 32 stream-time queries and six retirement paths with supplied device/event
@@ -60,11 +67,11 @@ scene. Story1 mission 5 has no declared bitmap-text block/call and exercises
 sync-track exhaustion. Story4 mission 1 exercises text-atlas cleanup. Their
 post-film gameplay/preview distinction must remain explicit in validation results.
 
-The preceding preview audit covered 29 declared menu-opening roots: 18 passed
-transport checks, ten failed on the unrelated Mecc cue preload now corrected,
-and Story4 mission 2 exhausted the periodic-effect preview reserve. Four targeted
-roots pass on this executable; the full matrix has not yet been repeated. The
-long Story4 effect failure remains open; effects are not silently dropped.
+The .4 full-menu matrix and long-film checks of this candidate are still pending.
+The preceding .3 audit covered 29 declared roots: 18 transport passes, ten unrelated
+Mecc preload failures, and one long Story4 periodic-effect reserve failure. These
+are separate executable identities. Exact runtime outcomes must accompany any
+published package; CPU checks alone do not validate the attached-emitter fix.
 
 All 545 historical sources across 16 worlds remain in scope; zero complete scenes
 have verified fidelity. Effects, actor variants, lighting, shadows, water, native

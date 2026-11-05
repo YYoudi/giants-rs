@@ -114,6 +114,18 @@ automatically wired into the main menu-to-mission build.
   that failure. Investigate actual scheduling, lifetime and render ownership.
   The .4 full matrix is running separately; transport passes do not certify
   complete scenes or all 545 sources.
+- Fixed attached-emitter catch-up candidate: a source-derived CPU case reproduces
+  a batch exceeding the lifetime-based reserve after a delayed callback. Fixed
+  constructors now retain their cold cache and RNG rules while allocating actual
+  births on demand, reusing expired slots. Reference-channel admission is unchanged.
+  The unlit renderer follows the grown slots. Film ownership now collects draw
+  additions on ordinary frames as well as director setup, including late particle
+  meshes/materials/buffers; resources installed before each draw remain separate.
+  A differential CPU control preserves events, random state, ages and retirement
+  against a sufficiently provisioned bounded control. 697 Rust tests pass, 14
+  ignored; 20 Python tests and Clippy pass. Exact-executable long-film integration
+  and cleanup are pending; this is not evidence of native allocator capacity,
+  global scheduling, visual parity or complete GPU memory reclamation.
 - Published preview 2026.11.05.4, validated on its isolated exact executable: Mecc-specific cue/carry/footstep
   preloads now require the actual single command11 declaration of kind2. Other
   or ambiguous starts retain generic actor lookup from their real catalogs and
