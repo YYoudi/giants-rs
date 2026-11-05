@@ -132,6 +132,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   geometry allocation must not be treated as an audio sequence.
 - Implement and compare first-primary initialization and its size composition,
   including shared physical/animation services and owned auxiliary/effect links.
+  Reuse `physical_initial::reset`. The native effect auxiliaries pass through
+  their declared effect state before becoming inactive; acquire that transition
+  and its cleanup rather than constructing only their observed final state.
   Acquire marker relocation and camera consumption, then land movement/jumping,
   size-dependent collision and actual feeding/growth triggers.
   The special dispatcher returns for Kabuto without Mecc/Delphi child creation.

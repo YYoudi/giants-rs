@@ -205,3 +205,9 @@ work. It passes 720 synthetic Rust tests (17 ignored), 35 Python tests, Rustfmt,
 Clippy and site/JavaScript checks. The 112-case owned geometry comparison passes
 again after that merge. These regressions do not complete the native constructor,
 material, initialization, movement or growth integration.
+
+The later combined source `b6eb0af` also retains Delphi physical initialization
+and its shared physical-default reset. It passes 722 Rust tests (17 ignored),
+35 Python tests, Rustfmt, Clippy and site/JavaScript checks. The 112-case geometry
+comparison passes again. Existing preview receipts remain bound to their earlier
+sources; no new playable Kabuto capability or binary is claimed.
