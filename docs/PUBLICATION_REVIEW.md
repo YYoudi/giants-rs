@@ -23,6 +23,12 @@ retained PC address aliases, current Rust relationships and missing independent
 comparisons. It publishes no candidate symbols or research excerpts and does not
 increase the count of confirmed identities. Read-only rechecking of both supplied
 ELFs reproduces the pinned digest, function count and `.mdebug` byte count.
+The seven explicitly reviewed PC aliases triggered the generic analysis-label
+scanner after publication. Its exception now accepts only the exact reviewed
+central-document bytes at their sole approved path; altered content and copies
+remain flagged. All other hazard patterns still apply. Synthetic controls cover
+the exact document, changed content, an additional path and a separate secret
+pattern. This exception permits no raw listing or automatic attribution export.
 
 ## Historical source-publication review
 

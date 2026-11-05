@@ -19,6 +19,13 @@ findings across 198 reachable commits and 1,947 distinct blobs at base `148a57c`
 No Rust implementation changed; existing runtime/build receipts keep their exact
 source identities.
 
+Publication follow-up: the generic label scanner initially rejected the seven
+reviewed PC aliases. The exact-document/path exception described in
+PUBLICATION_REVIEW.md preserves all other hazard checks. All 39 Python tests
+pass, including altered-document, copied-path and secret-pattern controls; site
+export and JavaScript checks pass again. With that correction the audit reports
+zero findings across 199 reachable commits and 1,954 blobs at base `ac73eb1`.
+
 ## Kabuto CPU registration and custom cold cleanup - 6 November 2026
 
 The owned normal-cold registry preserves ordered geometry membership, retires
