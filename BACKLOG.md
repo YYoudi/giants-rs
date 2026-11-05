@@ -15,7 +15,7 @@ Mecc controller into another engine. Use an isolated Cargo target per worktree.
 | --- | --- | --- |
 | Mecc | Existing `mecc_*` services, owned primary/target/fire and live integration | Actor storage, physics, animation, camera, effects and audio |
 | Delphi (active in `codex/delphi-native`) | `delphi_*`: declaration/resource preparation, cold initialization, land/water movement, energy, then sword/bows/spells | Reuse the same actor and mission services; acquire character-specific callbacks separately |
-| Kabuto (available for a separate user-created fork) | `kabuto_*`: declaration/resource preparation, cold initialization, movement/growth, then feeding/attacks/offspring | Reuse actor/world services; do not change Delphi or Mecc rules |
+| Kabuto (active in `codex/kabuto-native`) | `kabuto_*`: declaration/resource preparation, cold initialization, movement/growth, then feeding/attacks/offspring | Reuse actor/world services; do not change Delphi or Mecc rules |
 | Worlds and mission presentation (separate future lane) | Missing building/scenery admission, NPC scheduling, ambient emitters, loading/briefing flow | Shared scene loader and renderer; coordinate changes to runtime admission |
 
 Formats, actor ownership/storage, collisions, animation clocks, effect pools,
@@ -45,6 +45,25 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   camera/HUD/audio and return/second-entry cleanup. Then acquire combat and spells.
 - Keep Delphi movement/campaign roadmap rows at `todo` until actual runtime
   integration exists. Resource loading alone must not change completion status.
+
+### Kabuto next steps
+
+- The dedicated user-created fork owns Kabuto only, working alone with an
+  isolated Cargo target and no windows, focus changes or sound. Preserve the
+  Mecc/Delphi lanes and the single menu-first runtime.
+- Read-only preparation of the first selected Kabuto mission identifies its
+  kind-1 start and body/state declarations. Ordinary actor-field preparation
+  currently refuses class command `0x15`. Acquire and validate that shared
+  command's ordered effects before treating Kabuto's fields as prepared; do not
+  bypass it, substitute Mecc fields or call a resource projection initialization.
+- Acquire and compare cold initialization, equipment/children and the actual
+  player setup; then land movement/jumping, size-dependent collision and growth.
+  Reuse owned actor, terrain, input, animation, effect and audio services with
+  acquired Kabuto parameters and explicit phase order.
+- Connect validated behavior through selected missions, camera/HUD/audio and
+  return/second-entry cleanup. Keep the campaign/movement/growth roadmap at
+  `todo` until live integration is established. Private probes are not runtime
+  integration, a playable preview or visual-fidelity evidence.
 
 ## Immediate runtime prerequisites
 
