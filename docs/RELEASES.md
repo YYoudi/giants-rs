@@ -1,5 +1,103 @@
 # Preview releases and milestone integration
 
+## Kabuto owned animation-cache reset/rebind - 5 November 2026
+
+The acquired cache lifecycle now retains cumulative bounds and prior node-source
+ownership across reset/rebind. Six native CPU phases match 372 normalized cache
+records, including deliberately varied timelines and an absent animation. Actual
+native Kabuto hook registration, deduplication, dispatch/removal and reuse are
+observed. Owned refresh failures preserve prior records; dirty-provider group
+construction refuses atomically. These are resource/lifecycle controls, not full
+world teardown, live input, movement, growth or fidelity. World dispatch scheduling
+and the remaining initializer providers still gate admission. This CPU milestone
+does not issue a new playable download or replace prior exact-source receipts.
+
+Combined source `3b0a090` preserves the newer subjective Mecc composition and
+Delphi acquisition records. It passes 731 synthetic Rust tests (22 ignored),
+36 Python tests, Rustfmt, Clippy and site/JavaScript checks. All three selected
+silent Kabuto source-data controls, the six-phase cache comparison and the
+sixteen-context group comparison pass after the merge. Source history review
+reports no findings across 161 commits and 1,779 blobs; this is a technical scan.
+
+## Persistent subjective Mecc composition - 5 November 2026
+
+The Rust subjective state now retains virtual channels across pre/post and
+inactive frames, copies acquired pre-primary fields/rates/stamp without cloning
+the Mecc payload, and composes selection, supplied-camera placement, affine and
+two ANM passes around a mandatory fire-service boundary. Session adapters bind
+the actual typed resource and publish to the source's shared references before
+fire. An inhibited fire call is skipped; late failures retain completed effects
+and refuse replay. The primary guard and main application's `fire: None` remain.
+
+Two private continuous native/Rust controls pass 128 frames / 64 active subjective
+updates / 42,880 acquired header-reference words, plus epoch, history and service
+ordering checks. Completed body channels, camera production, selector getters,
+initial camera-owner binding and a no-edit fire boundary remain supplied. The
+source-backed failure/ownership/cancellation control also passes silently. These
+controls do not establish real Rust firing, complete world scheduling, audio or
+visual fidelity. See OWNED_LOCAL_FIRE.md for remaining integration prerequisites.
+This CPU prerequisite creates no new playable release or replacement binary;
+existing packages retain their original exact-source receipts and checksums.
+
+Combined runtime source `c64bd15a329de3c4e4d47d3a538d4001fa8d2de7` passes
+728 synthetic Rust tests (21 ignored), 36 Python tests, Rustfmt, Clippy and
+site/JavaScript checks. Both continuous subjective comparisons and the installed
+source-data lifecycle control pass again after that merge. Source history review
+reports no findings across 151 commits and 1,723 blobs.
+
+Its GNU main build has executable SHA256
+`ef580e1671b4c3c6212310e6240b96541c09fec9ff6bd3db60ef809396927bc3`.
+The receipt-bound ten-member private validation draft has SHA256
+`352b511ee8f0f0640921ba1dcfc7984ae76037be6c54d78971bc9e40b9ddf77c`;
+notice/review and independent package-integrity checks report no blockers.
+The same executable passes both silent three-launch development lifecycle
+endpoints and three selected-opening cancellation/re-entry cycles, without a
+window or audio device. These runtime regressions do not exercise the new
+subjective composition, real firing, complete cinematic playback or fidelity.
+Later source merges do not replace this binary's exact-source receipt.
+
+Subsequent combined source `108a6cd` preserves the concurrent Kabuto cold-cache
+addition and passes 731 Rust tests (21 ignored), 36 Python tests, Rustfmt, Clippy
+and site/JavaScript checks. The subjective module, Session adapter and lifecycle
+control source remain identical to the validated build above; its binary receipt
+continues to identify `c64bd15`, rather than this later source.
+
+## Delphi full-turn native acquisition - 5 November 2026
+
+The selected-owner native control now traces primary/secondary ordering and
+three 256-step trajectories through landing, rest and both random idle variants.
+The 22-actor snapshots and source identities are retained privately. Original
+CRT lookup and RNG instructions run against supplied offline Windows TLS/error
+APIs. This advances the reconstruction reference; it is not a new Rust
+full-controller comparison, gameplay admission or visual result. Runtime source
+and earlier executable/package receipts are unchanged by this research record.
+
+Combined source `2b3fd30` preserves Delphi/shared ANM and the newer Kabuto cache
+work, passing 731 Rust tests (20 ignored), 36 Python tests, Rustfmt, Clippy and
+site/JavaScript checks. This record produces no new executable or package receipt.
+
+## Kabuto external definitions and cold animation cache - 5 November 2026
+
+An explicit user-supplied executable-data reader now prepares owned cold Kabuto
+animation definitions without launching native code or bundling original tables.
+Three inspected layouts match the reference prefix's 62 normalized records
+(61 resolved nodes), including signed ranges, flags and opaque parameter prefixes.
+The factory/group resource ownership and release control passes silently.
+Process/world cache-reset scheduling, material/registration, camera and full
+primary behavior still gate live admission. This CPU/data milestone produces no
+new playable preview, package checksum or binary receipt; prior receipts remain
+bound to their exact source. Runtime gameplay and fidelity are not certified.
+
+Combined source `6f03892` preserves the latest owned Delphi physical/jump/history
+composition and shared animation services. It passes 731 synthetic Rust tests
+(20 ignored), 36 Python tests, Rustfmt, Clippy and site/JavaScript checks. The
+installed-data group/cache ownership control, three-layout cold-cache comparison
+and sixteen-context group field/buffer/list comparison pass after the merge.
+Source history review reports no findings across 153 commits and 1,738 blobs;
+this is a technical scan, not redistribution clearance.
+
+## Research handoff tooling - 5 November 2026
+
 Prototype PS2 methodology follow-up (5 November 2026): private lookup worksheets
 now retain supplied PC build labels, earlier aliases and explicit demangler
 provenance/unknowns. The central method supplies a reusable continuation record.

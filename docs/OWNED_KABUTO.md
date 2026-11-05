@@ -330,6 +330,72 @@ an executable gameplay/fidelity milestone.
 The callback passed by the inspected cold prefix clears its animation-cache
 initialized flag. It is a reset hook, not evidence that the prefix registers
 skeletal pose callbacks. The group's pending item is therefore named
-`AnimationCache`; definition lookup/clamping and reset lifetime remain to port.
+`AnimationCache`; the later sections describe definition lookup/clamping and the
+owned reset contract. World scheduling remains pending.
 Any procedural pose callbacks belong to the still-unacquired primary/animation
 path and are not acknowledged by this field proof.
+
+## External definitions and cold animation cache
+
+`kabuto_animation_cache` reads bounded initialized data from an explicitly supplied
+PE32 file. Three inspected layout tuples are supported. Section mapping uses RVAs
+and raw file ranges separately; executable, overlapping, truncated and out-of-data
+ranges refuse. No original table, executable, instruction bytes or private report
+is included. Layout recognition is not cryptographic authentication of modified
+files. The original executable remains an external user asset and is never run.
+
+The cold preparer reuses shared ANM reference resolution and owns its immutable
+specification through `Arc`. It resolves only present animations with nonnegative
+references, retains absent slots and clamps signed bounds to the ANM timeline.
+Reversed intervals are preserved. Native pointers become serialized node offsets;
+flags and opaque six-word parameter prefixes are retained without assigning their
+unacquired behavior or claiming a complete parameter schema.
+
+All three inspected input layouts produce the same 62 normalized cold records as
+execution of the pinned reference prefix: 61 resolved nodes, one absent animation,
+with matching ranges, reference indexes, flags and parameter prefixes. This is
+cross-layout data agreement against one native behavioral profile, not execution
+proof for every executable build. Native warm reuse and reset/reinitialization
+also preserve those records. Reset clears the initialized flag without restoring
+the original bounds; the owned process/world scheduling contract remains pending.
+Prototype PS2 attribution for this prefix and reset hook remains unknown.
+
+`Factory::prepare_animation_definitions` stages this optional data before group
+construction. Failure preserves the old provider. Groups retain its specification
+identity and release the cache when its factory and groups are gone. The silent
+installed-data control checks that ownership and release. `Pending::AnimationCache`
+still covers service lifetime/reset scheduling; supplying cold data does not
+acknowledge it. Material, global geometry registration, camera consumption, full
+primary behavior, movement, growth and live mission admission remain pending.
+
+## Owned animation-cache reset and rebind
+
+`kabuto_animation_cache::Lifecycle` now carries the acquired initialized flag,
+working definitions and owned snapshot. Warm reuse preserves the same snapshot;
+reset clears only the flag. Subsequent preparation clamps the already modified
+bounds, rather than restoring the external file's original thresholds. Every
+resolved node has its own specification owner. An absent animation can retain a
+previous node, but that offset remains bound to the earlier resource instead of
+being reinterpreted against the new ANM. Owners release when no snapshot needs them.
+
+Six native phases match 372 normalized cache records: cold, warm, reset/reuse,
+narrower supplied timelines, wider supplied timelines and a subsequently absent
+animation. The timeline and absent-slot variations are deliberate CPU fixtures,
+not measured gameplay changes. The actual reset dispatcher calls the actual
+Kabuto hook, removes its zero-return entry and permits re-registration on reuse;
+duplicate registration keeps one entry. This does not validate all generic hook
+types, registry capacity failures or the complete world-teardown body.
+
+Owned refresh stages all fallible preparation. Failure preserves prior records
+and the dirty state. Changing resources without reset is an explicit owned
+refusal; it is not claimed as a native diagnostic. `Factory` retains this service
+and exposes explicit reset/refresh phases. Group construction with a dirty supplied
+provider refuses before staging actors. The installed-data controls check warm
+identity, retained owners and bounds, refused refresh, unchanged Session counts
+and release. The group's `AnimationCache` prerequisite still covers actual world
+scheduling; no camera/material/registration or gameplay readiness is acknowledged.
+
+Prototype PS2 lookup was repeated for the touched helpers and the supplied second
+corpus copy. Their raw ELF identity agrees; duplicated copies are not independent
+attribution evidence. PC-to-prototype correspondence remains unknown. No ABI,
+memory layout, generated name or raw corpus is imported into the implementation.

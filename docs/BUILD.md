@@ -38,6 +38,20 @@ bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Wind
 or GIANTS_INSPECTION_FONT, never bundled. Game data is read-only; user state goes
 outside the installation. Interactive validation remains pending in this candidate.
 
+## Optional subjective Mecc lifecycle check
+
+Set `GIANTS_MECC_WORLD_ROOT` to a user-supplied installation and use the isolated
+target directory described above:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_subjective_publishes_before_fire_and_retains_late_failure --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This silent CPU control checks the Session-bound subjective resource and shared
+reference publication, retained effects after failure, inhibited fire and stale
+identities after cancellation. Its fire failures are explicit test providers;
+it executes no original program, real shot, whole-world scheduler or audio device.
+
 ## Optional Delphi resource check
 
 For the separate Delphi resource-preparation control, set `GIANTS_DELPHI_ROOT`
@@ -110,9 +124,25 @@ For the atomic cold group composition/refusal/re-entry control, use:
 cargo test --locked -p giants-game source_kabuto_group_composes_fields_links_and_physics_atomically --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-It uses `GIANTS_KABUTO_ROOT` and creates no window or sound. Pending animation-cache,
-material, registration and camera services are not acknowledged; no mission
-is admitted by this control.
+It uses `GIANTS_KABUTO_ROOT` and creates no window or sound. The extended control
+also reads `GIANTS_KABUTO_EXECUTABLE`, defaulting to `Giants.exe` in that supplied
+installation, to prepare optional cold animation definitions from a supported
+PE data layout. It never launches that executable. Unknown layouts refuse; no
+archive fallback or bundled original table is used. It checks cache/specification
+ownership and release. Process/world cache-reset scheduling, material, registration
+and camera services remain unacknowledged; no mission is admitted by this control.
+
+For cumulative animation-cache reset/rebind and retained node-owner checks, use
+the same two input variables and isolated target:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_cache_retains_bounds_and_node_owners_across_reset --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This uses supplied data plus deliberate timeline/absent-slot variations in owned
+memory. It checks warm reuse, retained bounds, source identity, failed refresh
+and release without launching the original executable, a window or audio. It
+does not execute the full world teardown or acknowledge runtime admission.
 
 ## Optional silent runtime lifecycle check
 
