@@ -208,7 +208,7 @@
       "title": "Kabuto movement and growth",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Movement, jumping and traversal at each size, growth requirements and changing reach/collision."
+      "detail": "Movement, jumping and traversal at each size, growth requirements and changing reach/collision. Ordinary cold Kabuto allocation now matches two native constructors, including headers, state payloads, registrations and resource ownership. Special/player initialization, live movement and growth remain unimplemented; cold allocation is not playable readiness."
     },
     {
       "id": "kabuto-feeding",

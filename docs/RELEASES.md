@@ -4,6 +4,26 @@ The main deliverable is one Windows preview reached through the integrated menu,
 using a user-supplied game installation. Individual CPU examples are research
 controls and are not a substitute for a playable milestone.
 
+## Cold Kabuto construction - 5 November 2026
+
+The dedicated `codex/kabuto-native` lane adds the acquired ordinary cold Kabuto
+constructor through the common Session and declaration-backed resource loader.
+Missing shared ground-offset/mask stores pass 256 native/Rust controls; complete
+headers/payloads/registrations match for two ordinary Kabuto constructors. See
+OWNED_KABUTO.md. Special/player initialization, marker relocation, movement and
+growth remain unimplemented. This source stage does not add a playable character
+or justify another public Windows download.
+
+The isolated source workspace passes 702 Rust tests (16 ignored), 20 Python
+tests, Rustfmt, Clippy, source-data cold-construction controls and site checks.
+Playable milestones still require the common menu-first build, receipt-bound
+package checks and accurately scoped runtime validation.
+
+Combined source `3bcc719090949dc043121d332d11f704267c34e1` retains the Mecc
+armed-transition and silent-audio corrections and passes 705 Rust tests (16
+ignored), 20 Python tests, Rustfmt, Clippy and site checks. Kabuto player setup
+and runtime movement remain separate from this validated ordinary constructor.
+
 ## Normal pistol armed transitions - 5 November 2026
 
 Source `d1ed0f002a82fbab9dff5f38db82ba50ee4a5a0d` extends the optional owned
