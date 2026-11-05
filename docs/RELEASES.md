@@ -214,6 +214,55 @@ Rustfmt, Clippy and site/JavaScript checks. The installed-data Kabuto control an
 the earlier implemented boundary; the new first-primary/size acquisitions remain
 native-only and must not be counted as implemented player behavior.
 
+## Shared subjective reference storage - 5 November 2026
+
+`actor_references::Owned::update_shared_current` composes an alternate evaluation
+context with the authoritative source matrix storage. Native pre/post observations
+show that the subjective actor shares this buffer as well as the Mecc state,
+while retaining independent channels. Undeclared slots preserve the last shared
+values; a successful alternate write invalidates the body's old sample binding.
+Failures leave both contexts and publications unchanged. The selector input is
+also clarified as current controlled-player flags, distinct from its earlier
+virtual-header copy and the world-shared previous-weapon history.
+
+Two continuous reference controls match 96 frames / 26,112 words, including 48
+active subjective evaluations. Four failure controls and an absent-primary
+preservation control pass. The reference comparison supplies completed body and
+subjective channels from the native phases; Rust calculates matrices from actual
+ANMs. It does not prove Rust channel timing, complete subjective actor ownership,
+posed-vertex storage, event execution, post-world firing or native whole-world
+order. The actual normal subjective specification's 16 inspected event tracks
+are empty; that observation does not establish event support for other profiles.
+
+The combined workspace retains the concurrent cinematic, Delphi and Kabuto work
+and passes 722 Rust tests (17 ignored), 35 Python tests, formatting and Clippy.
+Site generation and JavaScript syntax checks pass. See
+[OWNED_LOCAL_FIRE.md](OWNED_LOCAL_FIRE.md) for sharing and consumer boundaries.
+This is a CPU prerequisite for the pending subjective pipeline. No new playable
+route or binary is published, and existing receipt-bound previews remain tied
+to their recorded sources. Main-driver owned firing remains disabled.
+
+Final combined runtime source `f0e2961c32a3f3e44b15124acaf619fe26063df6`
+also preserves the concurrent Kabuto auxiliary changes. Its isolated workspace
+passes 722 Rust tests (18 ignored), 35 Python tests, formatting and Clippy.
+The GNU release build's executable SHA256 is
+`9924e64167789f4ad88d9b979642686512ba31834f7240a728144677c92173c3`.
+The receipt-bound local validation draft has ten members, complete technical
+notices/review, no packaging blockers and ZIP SHA256
+`4f8dabaf678e38d5a775d896f697b907173085e5ee3dfa0a2126775128e3e46a`.
+The same executable passes 128 silent owned-mission inspection updates and both
+three-launch development lifecycle endpoints. These are regression controls;
+the new shared-reference composition remains a separately controlled CPU service.
+Three selected-opening cancellation/re-entry cycles also pass on that executable,
+including disabled-audio queue and ownership cleanup checks. Full natural-ending
+transport, audible behavior and subjective firing integration are not added by
+these regressions.
+
+The later merge `0507f933844ffb6187e29c82059e55d49cda885b` preserves the
+concurrent Delphi jump and Kabuto physical-request services. Its full isolated
+workspace passes 728 Rust tests (18 ignored), formatting and Clippy. The draft
+above remains bound to `f0e2961`; it is not re-labelled as that later executable.
+
 ## Subjective firing dispatch contract - 5 November 2026
 
 The optional primary now requires actual camera-owner/active-display status

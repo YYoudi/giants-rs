@@ -209,7 +209,7 @@ impl Playback {
             primary: self.channels[0][0],
             channel_flags: self.channels[0][8],
             // Explicit presentation mapping; native input flag phase is not claimed.
-            response: if held { 0x4000 } else { 0 },
+            controlled_flags: if held { 0x4000 } else { 0 },
             secondary_flags: 0,
             motion,
             icon_index: resources.icon_index,

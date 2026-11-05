@@ -32,12 +32,14 @@ pub struct Pose {
 pub struct AnimationInput {
     pub primary: u32,
     pub channel_flags: u32,
-    pub response: u32,
+    /// Current controlled actor flags, read after its primary; not the copied virtual flags.
+    pub controlled_flags: u32,
     pub secondary_flags: u32,
     pub motion: [f32; 3],
     /// Result of the icon-index service, not an assumed weapon number.
     pub icon_index: usize,
     pub weapon: i32,
+    /// World-shared selector history; this is not copied actor-state storage.
     pub previous_weapon: i32,
     pub inventory_present: bool,
 }
@@ -69,7 +71,7 @@ pub fn animation(input: AnimationInput) -> Result<AnimationUpdate, &'static str>
     let AnimationInput {
         primary,
         channel_flags,
-        response,
+        controlled_flags,
         secondary_flags,
         motion,
         icon_index,
@@ -89,7 +91,7 @@ pub fn animation(input: AnimationInput) -> Result<AnimationUpdate, &'static str>
         previous_weapon,
         invalidate_primary: false,
     };
-    let command = if response & 0x40000 != 0 {
+    let command = if controlled_flags & 0x40000 != 0 {
         Some((Method::Select, 36))
     } else if primary == 36 {
         Some((
@@ -100,7 +102,7 @@ pub fn animation(input: AnimationInput) -> Result<AnimationUpdate, &'static str>
                 primary
             },
         ))
-    } else if response & 0x4000 != 0 {
+    } else if controlled_flags & 0x4000 != 0 {
         Some((Method::Select, fire[icon_index]))
     } else if motion.into_iter().any(|v| v != 0.) {
         Some((Method::User, run[icon_index]))
@@ -242,7 +244,7 @@ mod tests {
             animation(AnimationInput {
                 primary: 20,
                 channel_flags: 0,
-                response: 0,
+                controlled_flags: 0,
                 secondary_flags: 0,
                 motion: [0.; 3],
                 icon_index: 4,

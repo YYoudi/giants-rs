@@ -29,6 +29,43 @@ post-world firing/zero-time ANM tail and audio, with native ordering retained.
 The existing presentation-only subjective player is not a substitute for those
 services. A post-primary camera cache cannot supply an unacquired earlier view.
 
+## Shared subjective reference storage
+
+The native pre-copy shares both the Mecc state storage and the reference-matrix
+buffer with the controlled source, while preserving separate subjective channels.
+Treating the subjective actor as an independent state/reference copy loses these
+observable writes. Posed-vertex storage and complete actor/header lifecycle
+still need their own acquired integration; reference sharing alone is insufficient.
+
+`actor_references::Owned::update_shared_current` now evaluates a context's
+specification into the authoritative source matrix storage. Rust evaluation
+caches remain separate, but undeclared slots start from the latest shared values.
+The source's previous body-channel sample binding is invalidated after another
+context writes its matrices. The stored values remain available without claiming
+that they were produced by the source body's own channels. The caller must use
+the authoritative storage between evaluations, rather than an old context-local
+snapshot. Neither publication changes on a failed evaluation.
+
+Two continuous reference controls match 96 frames and 26,112 words, including
+48 active subjective updates. They cover missing/present subjective resources,
+view-mode transitions and neutral/walking/side/back motion. Native pointer and
+buffer-content observations establish the sharing; Rust calculates the matrices
+from the actual ANMs and supplied completed channels. Channel production/timing,
+whole-world scheduling, events and firing are not proved by this comparison.
+
+Four failure controls cover zero epochs with present/absent primaries, a nonfinite
+clock and mismatched reference counts. A fifth checks that an absent primary with
+a valid epoch preserves both publications. The older body binding is not
+recertified by those operations, and the subjective binding remains retrievable.
+
+The selector's flag input is now named `controlled_flags`: the native callback
+reads current controlled-player flags after its primary, rather than the virtual
+header's earlier copy. Its previous-weapon history belongs to the world selector,
+not to a cloned Mecc payload. The presentation-only playback's explicit held-input
+mapping remains a preview policy, not that native producer. The selector's PS2
+name remains unassigned after the required lookup; no signature or layout is
+imported from a candidate name.
+
 `mecc_fire_primary::advance_local` now runs the actual Session local scan between
 fire-clock publication and the normal pistol firing branch. It uses the same
 source-backed projectile definition as the shot factory. A caller cannot supply

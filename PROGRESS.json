@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar; aiming and firing rules for each. Owned local callback controls cover 18 shots/15 tracked shots. The optional primary owns physical/first-ANM storage, local time and shared FX/RNG. Standing-shot/aim, walking, side and turn transitions pass five continuous CPU controls: 576 frames, 22 shots and 341,220 normalized words, including held caches and deferred FX. Pre-primary/subjective camera, audio and fire scheduling, broader reactions, special headers and complete mission context coverage remain incomplete. The optional primary now rejects active matching subjective displays before mutation; 128 native phase observations distinguish actual display preparation from camera mode. Complete subjective post-world execution remains unbound."
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar need complete aiming/firing rules. Normal-pistol CPU services cover owned targeting, primary/animation, projectile creation and effects. Current work reconstructs the subjective actor and its shared source storage; reference-cache composition is implemented at CPU scope. The main mission driver still has no integrated owned firing. Subjective scheduling, positional audio, broader reactions and full mission-context coverage remain open. Evidence and boundaries: docs/OWNED_LOCAL_FIRE.md."
     },
     {
       "id": "mecc-inventory",
