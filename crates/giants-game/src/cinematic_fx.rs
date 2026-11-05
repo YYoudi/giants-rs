@@ -361,6 +361,40 @@ mod dispatch_guards {
     }
 }
 
+pub(crate) fn validate_request_prefix(
+    metadata: &DependencyMetadata,
+    actors: &crate::actor_links::Projection,
+    request: &Request,
+) -> Result<(), String> {
+    let mut dependencies = std::collections::BTreeSet::new();
+    let mut slot = usize::try_from(request.actor).ok();
+    while let Some(actor) = slot {
+        if !dependencies.insert(actor) {
+            return Err("cyclic effect actor dependencies".into());
+        }
+        slot = actors
+            .links
+            .iter()
+            .rev()
+            .find(|l| l.offset < request.command_offset && l.child == actor)
+            .map(|l| l.parent);
+    }
+    if request.slot >= 0 {
+        for command in metadata
+            .commands
+            .iter()
+            .take_while(|c| c.offset < request.command_offset)
+        {
+            if !placement_prefix_command(command, &dependencies).map_err(str::to_owned)? {
+                return Err(
+                    "effect attachment prefix requires unimplemented actor mutations".into(),
+                );
+            }
+        }
+    }
+    Ok(())
+}
+
 /// Bind source requests without constructing their live queue entries. This is
 /// the measured mode1 / FX02 profile, not a general effect interpreter.
 pub struct Bindings {
@@ -396,33 +430,7 @@ impl Bindings {
         let actors = crate::actor_links::Factory::new(resources, &active.image).project(bytes)?;
         let mut requests = std::collections::BTreeMap::new();
         for request in declarations {
-            let mut dependencies = std::collections::BTreeSet::new();
-            let mut slot = usize::try_from(request.actor).ok();
-            while let Some(actor) = slot {
-                if !dependencies.insert(actor) {
-                    return Err("cyclic effect actor dependencies".into());
-                }
-                slot = actors
-                    .links
-                    .iter()
-                    .rev()
-                    .find(|l| l.offset < request.command_offset && l.child == actor)
-                    .map(|l| l.parent);
-            }
-            if request.slot >= 0 {
-                for command in metadata
-                    .commands
-                    .iter()
-                    .take_while(|c| c.offset < request.command_offset)
-                {
-                    if !placement_prefix_command(command, &dependencies).map_err(str::to_owned)? {
-                        return Err(
-                            "effect attachment prefix requires unimplemented actor mutations"
-                                .into(),
-                        );
-                    }
-                }
-            }
+            validate_request_prefix(&metadata, &actors, &request)?;
             let program = if request.slot < 0 {
                 None
             } else {

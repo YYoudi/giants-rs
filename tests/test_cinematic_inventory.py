@@ -23,6 +23,17 @@ def result(world='Synthetic', sequence='sample'):
 
 
 class CinematicInventoryTests(unittest.TestCase):
+    def test_persistent_preparation_preserves_the_actual_admission_refusal(self):
+        extra = ('cinematic_audit_mission_effect_binding result=refused reason="live cinematic effect outside measured mode1/FX02 profile"\n'
+                 'cinematic_audit_persistent_effect_binding result=prepared requests=2 readiness_acknowledged=false live_execution_verified=false\n')
+        row = parse(HEADER+case(extra=extra)+END, result(), [('Synthetic', 'sample')])[0]
+        self.assertEqual(row['persistent_fx_prepared_requests'], 2)
+        self.assertEqual(row['mission_fx_binding'], 'refused')
+        self.assertIn('fx_queue_profile', {f['cause'] for f in row['findings']})
+        with self.assertRaises(ValueError):
+            parse(HEADER+case(extra=extra.replace('live_execution_verified=false', 'live_execution_verified=true'))+END,
+                  result(), [('Synthetic', 'sample')])
+
     def test_final_consumer_route_does_not_count_as_missing_geometry(self):
         extra = ('cinematic_preview_omission attachment_slot=4 class=900\n'
                  'cinematic_common_attachment_request common_created=false common_drawn=false\n'

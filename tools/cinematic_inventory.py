@@ -79,6 +79,7 @@ def parse(log, result_tsv, expected_cases):
             current = dict(world=match[1], sequence=match[2], declarations=None,
                            commands={}, findings=[], routed_elsewhere=0,
                            stream_resources=None, mission_fx_binding=None,
+                           persistent_fx_prepared_requests=0,
                            terminal_fx_preview_rejections=0, unverified=UNVERIFIED.copy(),
                            _seen=set())
             records[key] = current
@@ -123,6 +124,11 @@ def parse(log, result_tsv, expected_cases):
                 add('fx_actor_prefix' if 'effect attachment prefix requires unimplemented actor mutations' in line
                     else 'fx_queue_profile' if 'live cinematic effect outside measured mode1/FX02 profile' in line
                     else 'main_fx_binding')
+        elif event == 'cinematic_audit_persistent_effect_binding':
+            if (fields.get('result') != 'prepared' or fields.get('readiness_acknowledged') != 'false'
+                    or fields.get('live_execution_verified') != 'false'):
+                raise ValueError('Persistent preparation cannot acknowledge live execution')
+            current['persistent_fx_prepared_requests'] = int(fields['requests'])
         elif event == 'cinematic_rigid_attachment_deferred' and fields.get('reason') == 'existing_specialized_consumer':
             current['routed_elsewhere'] += 1
         elif event in {'cinematic_preview_omission', 'cinematic_common_attachment_request'}:
