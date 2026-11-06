@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar need complete aiming/firing rules. Normal-pistol CPU services now compose the owned primary, current held cache, subjective animation, targeting, projectile creation and effects, including deferred post-world firing. The main mission driver still has no integrated owned firing. Actual camera timing, posed-vertex/drawing integration, complete scene contexts and positional audio remain open. Evidence and boundaries: docs/OWNED_LOCAL_FIRE.md."
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar need complete aiming/firing rules. Normal-pistol CPU services compose the owned primary, current held cache, subjective animation, targeting, projectile creation and effects. The controlled subjective post now produces its inner camera before placement and deferred firing. The main mission driver still has no integrated owned firing. Main-driver post/drawing binding, posed vertices, complete target contexts and positional audio remain open. Evidence and boundaries: docs/OWNED_LOCAL_FIRE.md."
     },
     {
       "id": "mecc-inventory",
@@ -406,7 +406,7 @@
       "title": "All gameplay camera modes",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "First/third person, aiming/zoom, vehicles, base building and special attacks remain partial. The explicit owned mission inspection backend now produces the ordinary direct-angle camera with terrain adjustment, prepared-mesh clipping and exact view/cache consumption. CPU controls match 64 camera and 256 clipping cases; the exact build passes 128 silent owned-primary/render steps. Live native list admission, configured smoothing, special modes and subjective fire timing remain incomplete. See docs/OWNED_CAMERA.md."
+      "detail": "First/third person, aiming/zoom, vehicles, base building and special attacks remain partial. Owned mission inspection consumes a Session-bound outer view with terrain adjustment and prepared-mesh clipping. Controlled subjective post now produces the inner camera before placement/fire, with camera invocation counts separate from world frames. Four controls match 320 frames/12 shots and both camera caches; another 64-frame control checks inner view matrices. Full world/list admission, smoothing, special modes and main-driver subjective drawing/fire remain open. See docs/OWNED_CAMERA.md."
     },
     {
       "id": "hud-map",
