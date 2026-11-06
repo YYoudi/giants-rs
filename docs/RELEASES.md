@@ -25,6 +25,94 @@ changes no Rust runtime or package; existing build/checksum receipts retain thei
 own source identities, and the 545-source inventory and zero certified scenes
 are unchanged.
 
+## Ordered inner/outer Mecc camera and subjective fire - 6 November 2026
+
+The Session-produced subjective post now calculates the ordinary inner camera
+after virtual selection and before placement, ANM/reference publication and
+actual local fire. A source-bound owner separates camera invocation numbers from
+world frames, retains previous globals, refuses unfinished/replayed phases and
+permits rendering only from that frame's completed outer publication. The main
+owned inspection driver consumes this outer route with actual Session inputs.
+See [OWNED_CAMERA.md](OWNED_CAMERA.md) and [OWNED_LOCAL_FIRE.md](OWNED_LOCAL_FIRE.md).
+
+Four native/Rust controls match 320 frames, 144 inner and 320 outer calls, twelve
+shots and 404,560 normalized words. The former supplied-camera input words are
+deliberately invalid in the new runner; all camera/cache production executes in
+Rust. An additional 64-frame capture also matches the native inner view upload
+and full prior state checks (79,666 words). It repeats a selected input profile
+to acquire another boundary, rather than expanding world coverage. Four
+source-backed Mecc lifecycle tests pass, including a produced-camera three-case
+control for no-shot/success/late-sound failure and post-before-outer admission.
+
+The combined source `6fd86bd5d874d4d761fe8c09a526a4f1b0463d93` preserves concurrent
+Kabuto, PS2-method and dashboard work. It passes 745 synthetic Rust tests
+(24 ignored), 40 Python tests, Rustfmt, Clippy and site/JavaScript checks.
+Camera eligibility/resource presence, known zero startup globals, flat-world and
+empty-mesh population and partial world ordering remain supplied controls. The
+sound bank is empty. Subjective posed-vertex/drawing integration, complete target
+contexts, audio and full mission scheduling remain open; the main driver's
+`fire: None` and explicit inspection gate remain. This CPU prerequisite does not
+establish live owned firing or fidelity and produces no new playable download.
+
+The exact GNU executable has SHA256
+`d3ceee07137b68b8bc44a0456742de8ca6ba5d3f4b1f6de1ccd2880ddca53b80`.
+It passes the actual menu-request/owned-inspection path through 128 primary
+updates, terrain-camera queries and eight body uploads; the inspected endpoint
+capture is byte-identical to the earlier ordinary-camera control. Both
+three-launch development lifecycle endpoints and three selected-opening
+cancellation/re-entry cycles pass on that same executable, without an audio
+device. These regressions do not execute main-driver subjective fire or certify
+interactive controls, full cinematic transport or fidelity.
+
+The rebuilt private runners again pass all five camera comparisons and the
+original 576-frame/22-shot immediate-primary matrix with ten failure controls.
+Receipt-bound notices/review and independent verification pass for the ten-member
+private draft ZIP (SHA256
+`7ed94bd1909fd2ddff44223a5f2c7cd03d4a6128dfe2d8e72a0951d5ace75026`),
+with no technical blockers. The draft remains private and existing public preview
+identities are preserved. Source/history pattern review at `6fd86bd` reports zero
+findings across 211 reachable commits and 2,004 distinct blobs.
+
+Later combined source `35474a3` preserves the concurrent Kabuto submission packet
+and passes 749 Rust tests (24 ignored), 40 Python tests, Rustfmt, Clippy and
+site/JavaScript checks. Its source/history review reports no findings across 214
+commits and 2,021 blobs. The Mecc implementation is unchanged from `6fd86bd`;
+the shared aim-basis change only exposes that existing helper within the crate.
+This later source checkpoint does not replace the exact executable/package
+receipts above.
+
+## Kabuto CPU geometry submission - 6 November 2026
+
+The normal per-entry geometry callback now has an owned Rust command packet.
+It reuses common basis/matrix, SIMD trigonometry and RNG services, preserving the
+transposed transform, source material/state words, full buffers and seven-call
+order. Sixty-four native controls match 24,876 words. Synthetic controls cover
+disabled and refused profiles, buffer ownership and each backend failure point.
+The source state producer, guarded visitor, world scheduling and actual GPU
+consumer remain open. No initializer gate or playable status is promoted.
+
+Validation: 747 synthetic Rust tests pass (23 ignored), all three silent Kabuto
+installed-data controls pass, and 40 Python tests, Rustfmt, Clippy with warnings
+denied, site export and JavaScript syntax checks pass. Prototype PS2 attributions
+remain unknown, with lookup lineage and native receipts kept private.
+
+This changes no dependency or bundled asset and creates no playable download.
+Existing release manifests, executable checksums and notice receipts retain their
+original build identities; they do not attest to this CPU source milestone.
+
+## Dashboard screenshot visibility — 6 November 2026
+
+Three existing reviewed engine captures (jet boost, subjective view and cinematic
+gunfire) now appear immediately below the cover. Static HTML supplies both the
+cover and screenshot strip, preserving image visibility without JavaScript. The
+302-comparison archive now precedes the progress tables; horizontal wipe controls,
+filters and full-size views remain available. Display copies and their pinned
+hashes are unchanged. These historical captures certify no new runtime behavior.
+
+All 40 Python tests, site export and JavaScript syntax checks pass. Browser checks
+confirm the four cover/featured images load and the comparison control reaches
+both endpoints. No Rust runtime or preview package changes are included.
+
 ## Prototype PS2 method follow-up — 6 November 2026
 
 The central reconstruction method now makes seven current Mecc primary/subjective

@@ -16,6 +16,16 @@ fn source_mecc_subjective_publishes_before_fire_and_retains_late_failure() {
         fail_fire: bool,
     }
     impl subjective::Services<Id> for SubjectiveServices<'_> {
+        fn cameras(
+            &mut self,
+            _: Id,
+            _: u64,
+            previous: crate::first_person::Camera,
+            current: crate::first_person::Camera,
+        ) -> Result<(crate::first_person::Camera, crate::first_person::Camera), String> {
+            self.phases.push("camera");
+            Ok((previous, current))
+        }
         fn references(
             &mut self,
             id: Id,
@@ -126,9 +136,9 @@ fn source_mecc_subjective_publishes_before_fire_and_retains_late_failure() {
         assert_eq!(
             phases,
             if fail_references {
-                vec!["references"]
+                vec!["camera", "references"]
             } else {
-                vec!["references", "fire"]
+                vec!["camera", "references", "fire"]
             }
         );
         assert!(
@@ -176,7 +186,7 @@ fn source_mecc_subjective_publishes_before_fire_and_retains_late_failure() {
     assert!(!out.fire_called);
     assert_eq!(out.tail.processed, 0);
     assert_eq!(stamp.0, 20);
-    assert_eq!(services.phases, vec!["references"]);
+    assert_eq!(services.phases, vec!["camera", "references"]);
     let retained = *state.channels();
     state.inactive(2).unwrap();
     assert!(
@@ -324,6 +334,14 @@ fn ground(_: [f32; 2]) -> Result<crate::physical_ground::Ground, &'static str> {
 #[test]
 #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; deferred primary/post ownership and injected sound failure only"]
 fn source_mecc_deferred_primary_requires_post_and_retains_real_fire_failure() {
+    deferred_primary_controls(false);
+}
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; produced camera/post/fire lifecycle, no window or sound"]
+fn source_mecc_produced_camera_orders_post_fire_and_outer_publication() {
+    deferred_primary_controls(true);
+}
+fn deferred_primary_controls(produced: bool) {
     struct Sound {
         fail: bool,
     }
@@ -466,6 +484,15 @@ fn source_mecc_deferred_primary_requires_post_and_retains_real_fire_failure() {
             position: [0., 0., 20.],
             angles: [0.; 3],
         };
+        let mut cameras = crate::mecc_world_camera::State::new(owner, Some(camera));
+        let mut camera_world = crate::mecc_camera_wall::World::new(&query, 1, &[]);
+        assert!(
+            cameras
+                .outer(&s, 1, true, 1. / 60., &mut camera_world)
+                .is_err()
+        );
+        let unknown = crate::mecc_world_camera::State::new(owner, None);
+        assert!(unknown.check_inner(&s, owner, 1).is_err());
         let view = crate::mecc_primary::FireView {
             source: owner,
             number: 1,
@@ -533,37 +560,59 @@ fn source_mecc_deferred_primary_requires_post_and_retains_real_fire_failure() {
                 .is_some()
         );
         let before = (p.stamp.0, p.random.0, s.counts().residents);
-        let result = s.advance_mecc_subjective_post(
-            &mut state,
-            crate::mecc_subjective::WorldPost {
-                number: 1,
-                controlled: owner,
-                camera_owner: Some(owner),
-                previous_camera: camera,
-                current_camera: camera,
+        let services = crate::mecc_subjective::WorldServices {
+            animation: crate::mecc_animation_phase::Services {
+                contexts: &mut p.contexts,
+                random: &mut p.random,
+                stamp: &mut p.stamp,
+                blending: Blending::Enabled,
             },
-            &mut history,
-            crate::mecc_subjective::WorldServices {
-                animation: crate::mecc_animation_phase::Services {
-                    contexts: &mut p.contexts,
-                    random: &mut p.random,
-                    stamp: &mut p.stamp,
-                    blending: Blending::Enabled,
-                },
-                fire: crate::mecc_primary::FireServices {
-                    factory: &factory,
-                    resources: &r,
-                    terrain: &query,
-                    view,
-                    other: &mut sound,
-                },
-                held: &held,
-                globals: &g,
-                catalog: &defs.catalog,
-                global_seconds: 1. / 60.,
-                areas: &[],
+            fire: crate::mecc_primary::FireServices {
+                factory: &factory,
+                resources: &r,
+                terrain: &query,
+                view,
+                other: &mut sound,
             },
-        );
+            held: &held,
+            globals: &g,
+            catalog: &defs.catalog,
+            global_seconds: 1. / 60.,
+            areas: &[],
+        };
+        let result = if produced {
+            s.advance_mecc_subjective_post_produced(
+                &mut state,
+                crate::mecc_subjective::ProducedWorldPost {
+                    number: 1,
+                    controlled: owner,
+                    camera_owner: owner,
+                },
+                &mut history,
+                services,
+                &mut cameras,
+                &mut camera_world,
+            )
+        } else {
+            s.advance_mecc_subjective_post(
+                &mut state,
+                crate::mecc_subjective::WorldPost {
+                    number: 1,
+                    controlled: owner,
+                    camera_owner: Some(owner),
+                    previous_camera: camera,
+                    current_camera: camera,
+                },
+                &mut history,
+                services,
+            )
+        };
+        if produced {
+            let inner = cameras.last().unwrap();
+            assert_eq!(inner.pass(), crate::mecc_world_camera::Pass::Inner);
+            assert_eq!(inner.output().number, 1);
+            assert!(cameras.outer_output(1).is_err());
+        }
         assert_eq!(p.stamp.0, before.0 + 1);
         assert!(s.current_reference_matrices(owner).is_err());
         if fail_sound {
@@ -575,6 +624,13 @@ fn source_mecc_deferred_primary_requires_post_and_retains_real_fire_failure() {
             assert!(!p.contexts.active().is_empty());
             assert_ne!(p.random.0, before.1);
             assert!(s.begin_mecc_frame_history(owner, 2).is_err());
+            if produced {
+                assert!(
+                    cameras
+                        .outer(&s, 1, true, 1. / 60., &mut camera_world)
+                        .is_err()
+                );
+            }
         } else {
             let result = result.unwrap();
             assert_eq!(result.fire.unwrap().shot.is_some(), clock == 0.);
@@ -587,6 +643,20 @@ fn source_mecc_deferred_primary_requires_post_and_retains_real_fire_failure() {
                     .subjective_pending
                     .is_none()
             );
+            if produced {
+                let publication = result.camera.unwrap();
+                assert_eq!(publication.frame(), 1);
+                let outer = cameras
+                    .outer(&s, 1, true, 1. / 60., &mut camera_world)
+                    .unwrap();
+                assert_eq!(outer.output().number, 2);
+                assert_eq!(cameras.outer_output(1).unwrap().number, 2);
+                assert!(
+                    cameras
+                        .outer(&s, 1, true, 1. / 60., &mut camera_world)
+                        .is_err()
+                );
+            }
             s.begin_mecc_frame_history(owner, 2).unwrap();
         }
         let before_replay = (
@@ -639,6 +709,11 @@ fn source_mecc_deferred_primary_requires_post_and_retains_real_fire_failure() {
             before_replay
         );
         s.clear();
+        assert!(
+            cameras
+                .outer(&s, 2, true, 1. / 60., &mut camera_world)
+                .is_err()
+        );
         assert!(state.prepare_from_session(2, &s, owner, 0).is_err());
     }
 }

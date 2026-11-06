@@ -59,12 +59,78 @@ def gallery_data(root):
             name = row[side]
             if not re.fullmatch(r'media/[a-f0-9]{64}\.webp', name) or name not in data['images']:
                 raise ValueError('Unapproved gallery image')
+    for row in data.get('screenshots', []):
+        if set(row) != {'title', 'image', 'caption', 'commit'}:
+            raise ValueError('Unexpected screenshot field')
+        if any(not isinstance(v, str) or PRIVATE.search(v) for v in row.values()):
+            raise ValueError('Private path in screenshot')
+        if (not re.fullmatch(r'media/[a-f0-9]{64}\.webp', row['image'])
+                or row['image'] not in data['images']
+                or not re.fullmatch(r'[a-f0-9]{40}', row['commit'])):
+            raise ValueError('Unapproved screenshot image or revision')
     for name, digest in data['images'].items():
         if not re.fullmatch(r'media/[a-f0-9]{64}\.webp', name):
             raise ValueError('Invalid image path')
         if hashlib.sha256((path.parent/name).read_bytes()).hexdigest() != digest or Path(name).stem != digest:
             raise ValueError('Gallery image hash mismatch')
     return data
+
+
+def screenshots_html(gallery):
+    rows = gallery.get('screenshots', [])
+    if not rows:
+        return '', '<figure id="hero-image" hidden></figure>'
+    esc = html.escape
+    cards = []
+    for row in rows:
+        cards.append(f'<figure class="build-capture"><a href="{row["image"]}" target="_blank" rel="noopener" aria-label="Open full-size image: {esc(row["title"])}">'
+                     f'<img src="{row["image"]}" alt="{esc(row["title"])}" width="1920" height="1080" decoding="async"></a>'
+                     f'<figcaption><h3>{esc(row["title"])}</h3><p>{esc(row["caption"])}</p>'
+                     f'<a class="capture-revision" href="https://github.com/YYoudi/giants-rs/commit/{row["commit"]}">Recorded build {row["commit"][:7]} ↗</a></figcaption></figure>')
+    section = ('<section id="latest-captures" aria-labelledby="latest-captures-title"><div class="section-heading"><div>'
+               '<p class="eyebrow">ACTUAL BEVY RENDERS</p><h2 id="latest-captures-title">Inside the preview</h2></div>'
+               '<a href="#captures">Browse before / after comparisons ↓</a></div>'
+               '<p>Recorded engine screenshots. Open an image for the full-size view; the linked build identifies what was captured. Visual fidelity remains unverified.</p>'
+               f'<div class="capture-grid">{"".join(cards)}</div></section>')
+    hero = (f'<figure id="hero-image"><img src="{rows[0]["image"]}" alt="" decoding="async">'
+            f'<figcaption>Bevy development render · build {rows[0]["commit"][:7]} · fidelity unverified</figcaption></figure>')
+    return section, hero
+
+
+def featured_captures(gallery):
+    """Render reviewed display copies even when gallery JavaScript is unavailable."""
+    titles = gallery.get('featured_comparisons', [])
+    if (not isinstance(titles, list) or any(not isinstance(title, str) for title in titles)
+            or len(titles) > 3 or len(set(titles)) != len(titles)):
+        raise ValueError('Invalid featured comparison selection')
+    rows = []
+    for title in titles:
+        matches = [row for row in gallery['comparisons'] if row['title'] == title]
+        if len(matches) != 1:
+            raise ValueError('Featured comparison must identify one reviewed gallery row')
+        rows.append(matches[0])
+    if not rows:
+        return '', ''
+    esc = html.escape
+    cards = []
+    for row in rows:
+        cards.append(f'<figure><a href="{esc(row["right"])}" target="_blank" rel="noopener">'
+                     f'<img src="{esc(row["right"])}" alt="{esc(row["right_label"])}" '
+                     f'loading="eager" decoding="async" width="960" height="600"></a>'
+                     f'<figcaption><strong>{esc(row["title"])}</strong>'
+                     f'<span>{esc(row["right_label"])}</span></figcaption></figure>')
+    section = ('<section id="highlights" aria-labelledby="highlights-title">'
+               '<div class="section-heading"><div><p class="eyebrow">RUST + BEVY / DEVELOPMENT CAPTURES</p>'
+               '<h2 id="highlights-title">Inside the engine</h2></div>'
+               '<a href="#captures">Open all comparisons ↘</a></div>'
+               '<p>Historical engine captures: jetpack, first-person view and cinematic rendering. '
+               'Each image retains its archive context in the full gallery; current-build fidelity remains unverified.</p>'
+               f'<div class="capture-highlights">{"".join(cards)}</div></section>')
+    hero = (f'<img src="{esc(rows[0]["right"])}" alt="{esc(rows[0]["right_label"])}" '
+            'fetchpriority="high" decoding="async">'
+            '<figcaption>Historical Bevy development render · fidelity unverified</figcaption>')
+    return hero, section
+
 
 
 def cinematic_inventory(root):
@@ -118,6 +184,10 @@ def export(output, root=ROOT):
         raise ValueError('Refusing to overwrite site output')
     data = project(json.loads((root/'PROGRESS.json').read_text(encoding='utf8')))
     gallery = gallery_data(root)
+    screenshots, hero = screenshots_html(gallery)
+    historical_hero, featured = featured_captures(gallery)
+    if not screenshots and historical_hero:
+        hero = f'<figure id="hero-image">{historical_hero}</figure>'
     inventory, inventory_html = cinematic_inventory(root)
     features = [r for r in data['roadmap'] if r['kind'] == 'feature']
     foundations = [r for r in data['roadmap'] if r['kind'] == 'enabler']
@@ -131,7 +201,7 @@ def export(output, root=ROOT):
     replacements = {'SUMMARY': ''.join(summary), 'FEATURES': table(features, 'Whole-game feature roadmap'),
                     'FOUNDATIONS': table(foundations, 'Technical foundations — separate from game completion'),
                     'DONE': str(counts['done']), 'PARTIAL': str(counts['partial']), 'TODO': str(counts['todo']), 'TOTAL': str(len(features)),
-                    'CINEMATIC_INVENTORY': inventory_html}
+                    'CINEMATIC_INVENTORY': inventory_html, 'SCREENSHOTS': screenshots, 'HERO': hero, 'FEATURED_CAPTURES': featured}
     document = (TEMPLATES/'index.html').read_text(encoding='utf8')
     for key, value in replacements.items():
         document = document.replace('{{'+key+'}}', value)
