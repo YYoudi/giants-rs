@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "authorization": "Owner explicitly authorized publication of all historical original / Bevy comparisons on 4 November 2026. Research reports and source paths remain private.",
+  "authorization": "Owner explicitly authorized publication of all historical original / Bevy comparisons on 4 November 2026. Research reports and source paths remain private. Owner requested new Bevy dashboard captures on 6 November 2026; the pinned display copies include the dated world inspections.",
   "encoding": "WebP quality 90; original dimensions; metadata stripped. Lossy display copies, not pixel-validation evidence.",
   "comparisons": [
     {
@@ -3619,6 +3619,30 @@
       "right_label": "Independent engine - later source instant",
       "verification": "ENGINE TIMELINE - NATIVE PARITY UNVERIFIED",
       "alignment": "Two held local source instants from one unchanged build,at frames 255 and 269. An impact event starts a mixed explosion before the director cut;63 descendant meshes are enabled and GPU-prepared in the later sample. Camera and animation times differ. Native timing and individual effect pixels remain unverified."
+    },
+    {
+      "level": "Kabuto campaign / world inspection",
+      "commit": "0b050fbcf89eeae0ff0dd473133d496ac3496aa7",
+      "verification": "BEVY INSPECTION; KABUTO NOT PLAYABLE; FIDELITY UNVERIFIED",
+      "title": "KStory1: terrain, sky and sea",
+      "event": "6 November 2026 / world layers",
+      "left": "media/29fb549417ee3d2ffa5c000079725f1a6dc7cdc4b4d57203783ac658bcad59e6.webp",
+      "right": "media/221dfe320301e0314fa4e67cd2313f2d9a2b549bb7449ebd85f7a601acb34616.webp",
+      "left_label": "Bevy: terrain only, fog disabled",
+      "right_label": "Bevy: terrain, sky and sea, fog disabled",
+      "alignment": "Captured on 6 November 2026 with published preview-2026.11.06.1, source 0b050fb, at 1920 x 1080. Same diagnostic overview camera; offscreen rendering with audio disabled. Fog is disabled in both images to expose the terrain. Sky and water are animated, so the independent captures are not time-aligned. World objects, NPCs, gameplay and scene fidelity remain incomplete; this is not a playable Kabuto milestone."
+    },
+    {
+      "level": "Kabuto campaign / world inspection",
+      "commit": "0b050fbcf89eeae0ff0dd473133d496ac3496aa7",
+      "verification": "BEVY INSPECTION; KABUTO NOT PLAYABLE; FIDELITY UNVERIFIED",
+      "title": "KStory1: inspecting the fog",
+      "event": "6 November 2026 / fog diagnostic",
+      "left": "media/f2054a6d60f35918b1d75f2caa9c6cd85e2050b5193d0bb963795f5e5b6c4a9b.webp",
+      "right": "media/221dfe320301e0314fa4e67cd2313f2d9a2b549bb7449ebd85f7a601acb34616.webp",
+      "left_label": "Bevy: configured fog enabled",
+      "right_label": "Bevy: fog disabled for inspection",
+      "alignment": "Captured on 6 November 2026 with published preview-2026.11.06.1, source 0b050fb. Same diagnostic overview camera and world layers; only fog is toggled. These are two settings of the same build, not a before/after implementation claim. The distant overview is largely obscured with configured fog. Animated sky and water are not time-aligned. Neither image is an original-engine reference or proof of scene fidelity."
     }
   ],
   "images": {
@@ -4123,6 +4147,9 @@
     "media/e666c1d15bbf0e1175f4549668a5d29b22a4574eb78d700ab17deac439b04f9f.webp": "e666c1d15bbf0e1175f4549668a5d29b22a4574eb78d700ab17deac439b04f9f",
     "media/4dc3055c895b994459fd0e4348b3981f287be53790a6a5b03e6df5d5e10bb853.webp": "4dc3055c895b994459fd0e4348b3981f287be53790a6a5b03e6df5d5e10bb853",
     "media/deafe01413420493dd0480c36a562263fddf47413970db6b4af40be6dc3f8e05.webp": "deafe01413420493dd0480c36a562263fddf47413970db6b4af40be6dc3f8e05",
-    "media/fd4e2e877005364ecbf74bb7441ea2c17094b765aaef27e9477627ce6cd8537e.webp": "fd4e2e877005364ecbf74bb7441ea2c17094b765aaef27e9477627ce6cd8537e"
+    "media/fd4e2e877005364ecbf74bb7441ea2c17094b765aaef27e9477627ce6cd8537e.webp": "fd4e2e877005364ecbf74bb7441ea2c17094b765aaef27e9477627ce6cd8537e",
+    "media/29fb549417ee3d2ffa5c000079725f1a6dc7cdc4b4d57203783ac658bcad59e6.webp": "29fb549417ee3d2ffa5c000079725f1a6dc7cdc4b4d57203783ac658bcad59e6",
+    "media/221dfe320301e0314fa4e67cd2313f2d9a2b549bb7449ebd85f7a601acb34616.webp": "221dfe320301e0314fa4e67cd2313f2d9a2b549bb7449ebd85f7a601acb34616",
+    "media/f2054a6d60f35918b1d75f2caa9c6cd85e2050b5193d0bb963795f5e5b6c4a9b.webp": "f2054a6d60f35918b1d75f2caa9c6cd85e2050b5193d0bb963795f5e5b6c4a9b"
   }
 }
