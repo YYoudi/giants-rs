@@ -811,6 +811,111 @@ mod physical_tests {
             }
         }
         assert!(landed && jumped);
+        // The standalone camera callback consumes real owned pose/reference
+        // storage. Its mode/target inputs remain supplied world boundaries.
+        let camera_owner = owners[0];
+        let foreign = Id {
+            ticket: 1252,
+            serial: camera_owner.serial,
+        };
+        let mut camera = crate::delphi_camera::State::default();
+        let request =
+            |local_owner, mode, buttons, aspect, target| crate::delphi_camera::Environment {
+                local_owner,
+                mode,
+                buttons,
+                aspect,
+                target,
+            };
+        let before_stamp = stamp.0;
+        session
+            .advance_delphi_camera(
+                camera_owner,
+                request(true, -1, 0x8000, 16. / 9., None),
+                &mut camera,
+                &mut stamp,
+            )
+            .unwrap();
+        assert!(camera.active_view().unwrap().is_some());
+        assert!(camera.vertical_fov.is_some_and(|angle| angle > 0.));
+        // This actor still uses animation1; its current reference buffer is
+        // consumed without advancing the fallback hierarchy epoch.
+        assert_eq!(stamp.0, before_stamp);
+        let view_words = |camera: &crate::delphi_camera::State| {
+            camera.retained_view.map(|view| {
+                std::iter::once(view.flags)
+                    .chain(view.values.map(f32::to_bits))
+                    .collect::<Vec<_>>()
+            })
+        };
+        let retained = view_words(&camera);
+        let retained_fov = camera.vertical_fov;
+        for (local, mode) in [(false, -1), (true, 0)] {
+            session
+                .advance_delphi_camera(
+                    camera_owner,
+                    request(local, mode, 0x8000, f32::NAN, Some(foreign)),
+                    &mut camera,
+                    &mut stamp,
+                )
+                .unwrap();
+            assert_eq!(view_words(&camera), retained);
+            assert_eq!(camera.vertical_fov, retained_fov);
+            assert_eq!(stamp.0, before_stamp);
+        }
+        session
+            .advance_delphi_camera(
+                camera_owner,
+                request(true, -1, 0, f32::NAN, Some(foreign)),
+                &mut camera,
+                &mut stamp,
+            )
+            .unwrap();
+        assert!(camera.active_view().unwrap().is_none());
+        assert!(camera.vertical_fov.is_none());
+        assert_eq!(view_words(&camera), retained);
+        // A supplied self-target uses hand reference0, not a camera node; the
+        // unused lens/aspect is not read or replaced by a default camera.
+        session
+            .advance_delphi_camera(
+                camera_owner,
+                request(true, -1, 0x8000, f32::NAN, Some(camera_owner)),
+                &mut camera,
+                &mut stamp,
+            )
+            .unwrap();
+        assert!(camera.active_view().unwrap().is_some());
+        assert!(camera.vertical_fov.is_none());
+        let retained = view_words(&camera);
+        assert!(
+            session
+                .advance_delphi_camera(
+                    camera_owner,
+                    request(true, -1, 0x8000, 1., Some(foreign)),
+                    &mut camera,
+                    &mut stamp
+                )
+                .is_err()
+        );
+        assert_eq!(view_words(&camera), retained);
+        assert!(camera.active_view().is_err());
+        assert!(
+            session
+                .advance_delphi_camera(
+                    camera_owner,
+                    request(true, -1, 0, 1., None),
+                    &mut camera,
+                    &mut stamp
+                )
+                .is_err()
+        );
+        assert_eq!(stamp.0, before_stamp);
+        assert!(
+            session
+                .sample_reference_camera(camera_owner, 255, usize::MAX, f32::NAN, &mut stamp)
+                .unwrap()
+                .is_none()
+        );
         let id = owners[0];
         let before = session
             .get(id)

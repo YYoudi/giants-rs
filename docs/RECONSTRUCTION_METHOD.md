@@ -205,6 +205,8 @@ No PS2 address, raw symbol or demangled signature is assigned to these rows.
 | `0x0049f560` / `FUN_0049f560` | `mecc_draw_policy::update_held_pose`; historical alias `submit_held`; owner getter and attachment update remain external | Independent PS2 temporary-parent and detachment-order comparison |
 | `0x00473b30` / `FUN_00473b30` | Normal matrix-only profile in `mecc_wield_pose::sample` and `sample_subjective`; position/history/spatial tail remains external | Independent PS2 attachment/reference/scale algorithm and caller comparison |
 | `0x00432330` / `FUN_00432330` | Observed model-submission entry; existing `render_parts` is a resolved-snapshot planner, not live entry integration | Independent PS2 model/material/queue and caller comparison |
+| `0x0042fcf0` / `FUN_0042fcf0` | `lod::Table::select_positioned`, used by `mecc_model_draw::prepare` with current owned source/camera | Independent PS2 table/sentinel, distance/quality and caller comparison |
+| `0x00430bd0` / `FUN_00430bd0` | Model preparation relates to `mecc_model_draw`, `camera_facing`, `body_pipeline` and `material_descriptor`; full consumer/graphics equivalence is not claimed | Independent PS2 model/material/lighting and primitive-submission comparison |
 
 Earlier private worksheets referring to `subjective_player::State` remain
 retrievable aliases, not proof that the presentation player implements the native

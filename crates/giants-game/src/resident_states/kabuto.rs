@@ -12,6 +12,110 @@ use std::sync::Arc;
 mod transition_tests;
 
 impl Session {
+    /// Select the second auxiliary from this owner's size parameter and the
+    /// published actor positions. World pose/list production and ANM are separate.
+    pub fn select_kabuto_auxiliary_animation(
+        &mut self,
+        owner: Id,
+        local_player: Id,
+    ) -> Result<f32, String> {
+        use crate::kabuto_auxiliary_animation::{Input, Observers, prepare};
+        let actor = self
+            .get(owner)
+            .ok_or("Kabuto auxiliary owner absent or foreign")?;
+        let group = actor
+            .kabuto_group
+            .as_ref()
+            .ok_or("Kabuto auxiliary group absent")?;
+        if actor.class != 1
+            || actor.seed.storage.state() != 1
+            || group.cleaned_up
+            || group.geometry_transition_failure.is_some()
+        {
+            return Err("Kabuto auxiliary group retired or quarantined".into());
+        }
+        let payload = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("Kabuto auxiliary payload absent")?;
+        if payload.len() != 844 {
+            return Err("Kabuto auxiliary payload profile differs".into());
+        }
+        let radius = f32::from_le_bytes(payload[0x330..0x334].try_into().unwrap());
+        let child = group.second;
+        let auxiliary = self
+            .get(child)
+            .ok_or("Kabuto second auxiliary absent or foreign")?;
+        if auxiliary.class != 1018
+            || auxiliary.seed.storage.state() != 0
+            || auxiliary.attachment.is_none_or(|a| {
+                a.parent != owner || a.child_reference != 0 || a.parent_reference != 10
+            })
+            || self
+                .specification(child)
+                .is_none_or(|s| !s.animations.contains_key(&1))
+        {
+            return Err("Kabuto second auxiliary outside acquired binding".into());
+        }
+        let fields = auxiliary
+            .construction_fields
+            .as_ref()
+            .ok_or("Kabuto auxiliary fields absent")?;
+        let local = self
+            .get(local_player)
+            .and_then(|a| a.construction_fields.as_ref())
+            .ok_or("Kabuto auxiliary local player absent or foreign")?;
+        let positions = |list| {
+            self.list(list)
+                .into_iter()
+                .map(|id| {
+                    self.get(id)
+                        .and_then(|a| a.construction_fields.as_ref())
+                        .map(|f| f.position)
+                        .ok_or_else(|| "Kabuto auxiliary list member fields absent".to_owned())
+                })
+                .collect::<Result<Vec<_>, String>>()
+        };
+        let first;
+        let second;
+        let observers = if owner == local_player {
+            first = positions(2)?;
+            second = positions(3)?;
+            Observers::Local {
+                first: &first,
+                second: &second,
+            }
+        } else {
+            Observers::Remote(local.position)
+        };
+        let next = prepare(
+            Some(
+                auxiliary
+                    .channels
+                    .as_ref()
+                    .ok_or("Kabuto auxiliary channels absent")?,
+            ),
+            Input {
+                position: fields.position,
+                radius,
+                observers,
+            },
+        )
+        .map_err(str::to_owned)?
+        .unwrap();
+        let auxiliary = self.residents.get_mut(&child.serial).unwrap();
+        auxiliary.channels = Some(next.channels);
+        auxiliary.construction_fields.as_mut().unwrap().channels = next.channels;
+        self.residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .kabuto_group
+            .as_mut()
+            .unwrap()
+            .primary_started = true;
+        Ok(next.normalized_clock)
+    }
     /// Acquired transition prefix. The mode and physical/contact samples are
     /// outputs of upstream phases; this does not schedule a primary or render.
     pub fn advance_kabuto_geometry_transition(
@@ -88,7 +192,7 @@ impl Session {
             .kabuto_group
             .as_mut()
             .unwrap()
-            .geometry_transition_started = true;
+            .primary_started = true;
         self.residents
             .get_mut(&owner.serial)
             .unwrap()
@@ -439,7 +543,7 @@ impl Session {
         if actor.class != 1
             || actor.seed.storage.state() != 1
             || group.cleaned_up
-            || group.geometry_transition_started
+            || group.primary_started
             || group.extra.is_some()
             || actor.world_tick.is_some()
             || actor.controlled_motion.is_some()

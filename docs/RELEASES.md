@@ -1,5 +1,162 @@
 # Preview releases and milestone integration
 
+## Delphi owned authored-camera callback - 6 November 2026
+
+The common Session reference sampler now consumes prepared class resources and
+actual owned world/reference caches. Delphi's standalone pre-heading callback
+adds local/mode gating, current-reference and animation1 fallback, retained/reset
+view state and a supplied target identity branch. Non-current sampling consumes
+the shared ANM epoch; it does not create a separate animation player.
+
+Three 256-step private test-driver compositions match 6,137,856 normalized words
+across all 22 actors, reference buffers, owner payload, ordered lists and 21
+override-state fields per step, with exact RNG endpoints. The separate 2,048-case
+cached-reference arithmetic comparison matches 36,864 matrix/lens words. These
+controls retain supplied mode/aspect/local-owner/self-target boundaries. They do
+not prove target/viewport production, production full-primary scheduling, live
+camera rendering, mission admission or fidelity. Owned failure guards preserve
+the prior view and quarantine replay; they are not native error-path equivalence.
+
+The remaining primary/auxiliary producers, ordinary camera and runtime wiring,
+water/turbo and combat stay on the backlog. This CPU/API stage adds no playable
+Delphi download. Prototype PS2 attribution remains unknown.
+
+The debug and optimized probes repeat all three compositions and the separate
+arithmetic controls at source `728786f`. The camera implementation is unchanged
+in combined source `983217f60ec95a74e114c14f464799207a9766c9`, which preserves the
+Mecc model uploads, Kabuto geometry transition, Flick replay and 509 gallery
+images / 305 comparisons. It passes 764 Rust tests (26 ignored), four installed-
+data Mecc controls, the enriched Delphi lifecycle control, 40 Python tests,
+Rustfmt, Clippy and site checks. The selected-pattern history audit reports no
+findings across 285 commits and 2,318 blobs.
+
+Its exact GNU executable passes both silent development endpoints, three Rstory1
+mission-index-2 cancellations after persistent-object birth/update, and three
+128-step owned Mecc render/cancel/re-entry cycles. Each render cycle uploads the
+selected model's six body parts and releases the ticket's entities. These are
+common-runtime regressions, not Delphi live controls or cinematic fidelity.
+The private ten-member draft has matching notices, receipt/review identities and
+checksums with zero technical verifier blockers. Executable SHA256:
+`b1a4bc75510576dddc95a42547b85b37b2873b681e1cbd3ae80e98bde81601e4`;
+private ZIP SHA256:
+`33a96376cfbdaef7f85a6404e78118b12e036c4729764eba145fef63dec0a14c`.
+Subsequent source changes and the public preview retain their separate identities.
+
+Source merge `4bd556c` preserves the subsequent Mecc descent correction and
+Kabuto auxiliary-animation work. It passes 767 Rust tests (27 ignored), all four
+installed-data Mecc controls, the enriched Delphi control, 40 Python tests,
+Rustfmt, Clippy and site checks. The selected-pattern source/history audit reports
+no findings across 292 commits and 2,337 blobs. The executable and package above
+remain bound to `983217f`; later Mecc runtime receipts are recorded separately.
+
+## Owned secondary descent guard - 6 November 2026
+
+Source `d3f2ef9` corrects the ordinary secondary's inverted height comparison.
+The original PC branch requires both strictly fast downward velocity and height
+strictly above its threshold, including the scaled center offset. Independent
+original-instruction controls pass 1,049 cases; the previous condition differs in
+255. Synthetic tests cover actual selector continuation, both equalities and the
+retained explicit high-descent refusal. See MECC_DESCENT_GUARD.md.
+
+The exact GNU executable refuses the unacquired high-descent transition at step
+143 in the longer general owned movement replay, then the replay times out.
+This remains a failed trajectory, separate from the older incorrect-guard step-152
+failure. The transition's logical state 2 observation does not acquire its common
+tail or animation/effect contract. Impact and contact landing providers also
+remain missing. Main campaign readiness, owned firing and fidelity are not promoted.
+
+This source passes 765 synthetic Rust tests (26 ignored), 40 Python tests,
+Rustfmt and Clippy. Rebuilt native regression controls pass 576 primary frames,
+22 shots and 341,220 words, plus ten declared provider-failure controls.
+The receipt-bound executable SHA256 is
+`05e3dd154c13fa5042e390a6474b25d19703dd9dea17e20ce522fe4ca296325e`.
+Its private ten-member validation draft has complete notices and no technical
+blockers; ZIP SHA256 is
+`ce3fbd447a828ead1c6ae31466e92ea9a7db61edf4664c0ed261e6085e57ee99`.
+This bounded correction is not a new public playable preview. Prototype PS2 name
+attribution remains unknown; the identity-bound lookup is retained privately.
+
+The same executable passes three actual 128-step owned inspection launches,
+cancellations and re-entries. Each retires 59 meshes, 26 images, 59 materials and
+five buffers with no remaining tracked assets/entities. This measures the acquired
+short profile and GPU resource lifecycle, not full RAM reclamation or longer
+movement. Combined source `a170b42` preserves concurrent Kabuto auxiliary work
+and passes 767 synthetic Rust tests (27 ignored), four installed-data Mecc controls,
+40 Python tests, Rustfmt, Clippy and exported site/JavaScript checks. These source
+checks do not change the older executable and package receipt identities above.
+
+## Kabuto second-auxiliary selection — 6 November 2026
+
+The owned primary subphase now selects the second auxiliary's normalized pose
+from its acquired size parameter, published actor positions and ordered lists,
+reusing the common channel setter. The actual public kernel matches 1,024 native
+controls / 197,632 full child-header words; an actual-resource Session binding
+matches another 64 contexts / 6,720 channel/clock/list words. Initial pose/root
+identity boundaries and the corrected cold initialization boundary are recorded
+in OWNED_KABUTO.md. This does not advance ANM, produce world poses or implement
+movement/growth. Cold-only cleanup refuses entered acquired primary subphases.
+
+Combined checkpoint `aff0231` preserves the incoming owned model renderer,
+frontend inspection and dashboard captures. It passes 766 synthetic Rust tests
+(27 ignored), all six silent Kabuto installed-data controls, 40 Python tests,
+Rustfmt, Clippy with warnings denied and generated site/JavaScript checks.
+Rebuilt actual-public kernel and Session/resource comparisons pass again.
+The selected-pattern history audit reports zero findings over 285 commits and
+2,318 blobs. This is separate from the other renderer's exact executable receipts.
+
+No dependency, bundled resource, new playable capability or preview package is
+introduced. Existing package manifests/notices/checksums retain their exact
+previous runtime and receipt identities; they do not attest to this source API
+or to Kabuto visual fidelity. Full primary and live admission remain pending.
+
+## Owned camera-selected body models - 6 November 2026
+
+The experimental owned mission driver selects the body model from its actual
+completed outer camera and source specification, evaluates current Session
+channels in the shared position bank and uploads the selected geometry to Bevy.
+Model assets retain registered geometry identities. Staging counts initial
+resources independently of alternate models; upload checks use the selected part
+count, including zero for an absent model. Explicit quality/forced-slot settings
+and remaining draw/cache ordering are documented in OWNED_MODEL_DRAW.md.
+
+Native controls match 1,280 selections, 256 complete posed-model snapshots and
+309,472 words. Source `c798370` passes six menu-request/128-step Bevy endpoints:
+two automatic settings, forced models 1/4/7 and absent model 9. Automatic setting 2
+ends on model 0 (736 vertices/eight parts); setting 0 ends on model 7 (57/six).
+The latter capture matches forced model 7 exactly. Inspected display copies and
+a same-build comparison are pinned in the gallery; these are not original-engine
+references or fidelity results.
+
+Combined source `b077a5c` preserves concurrent Delphi/Kabuto work and the completion
+replay menu. It passes 764 Rust tests (25 ignored), 40 Python tests, Rustfmt, Clippy
+and site/JavaScript checks. Rebuilt model/held/camera controls and the complete
+576-frame/22-shot immediate-fire matrix with ten failure controls pass. Four
+installed-data Mecc controls cover model/frame/source, missing-slot, unchanged
+animation and invalid-setting boundaries.
+
+Its exact GNU executable passes three real owned-inspection requests/cancellations,
+retiring 59 meshes, 26 images, 59 materials and five buffers per ticket, using the
+acquired 128-step profile. Both three-launch development lifecycle endpoints and
+three opening cancellation/re-entry cycles pass without an audio device. A separate
+longer movement replay still refuses at step 152 under the existing secondary
+guard; its native condition and later reactions/effects require further comparison.
+Short resource cycles do not establish that longer movement.
+
+Executable SHA256:
+`ad8ee93cbaf9a254c29ab4d171684ffe965547f37aee952ae28523b6d8d8ae83`.
+The private ten-member validation draft has complete receipt-bound notices,
+independent verification and no technical blockers; archive SHA256:
+`75e63c658ccb22ce6744071124d58ad1d6dd080a3fc133f5f0fb7a8f51e3105b`.
+It is not another public playable preview. Main owned firing remains disabled;
+full culling/part/material admission, subjective drawing, world scheduling and
+longer movement remain prerequisites. Prototype PS2 attributions remain unknown.
+
+Subsequent source `348010a` retains the later Kabuto transition and Flick-stock
+census. It passes 764 Rust tests (26 ignored), four installed-data Mecc controls,
+40 Python tests, Clippy and site checks. History review has no findings across
+281 commits/2,294 blobs. The GPU/build/package receipts above retain their exact
+`c798370`/`b077a5c` identities; they are not relabelled after this merge.
+
 ## Flick physical object stock and actor population — 6 November 2026
 
 The original PC initializer supplies 3,000 physical object slots. A private

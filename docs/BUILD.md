@@ -41,6 +41,16 @@ and mission recorded in RELEASES.md; broader gameplay and fidelity remain pendin
 
 ## Optional subjective Mecc lifecycle check
 
+The main owned inspection's model settings and limits are documented in
+[OWNED_MODEL_DRAW.md](OWNED_MODEL_DRAW.md). For a silent repeated resource check,
+set `GIANTS_MISSION_MECC_BACKEND=owned-inspection`,
+`GIANTS_MISSION_REPLAY=owned-player-inspection-cycles` and optionally
+`GIANTS_MISSION_MODEL_QUALITY=0`. Launch the same executable with `--mecc-menu`,
+your `--data-root`, a separate `--user-data-root`, and
+`--offscreen --silent-capture --capture` pointing into ignored local output.
+This repeats the acquired 128-step inspection and cancellation, not normal
+campaign admission or the unresolved longer movement/landing trajectory.
+
 Set `GIANTS_MECC_WORLD_ROOT` to a user-supplied installation and use the isolated
 target directory described above:
 
@@ -112,6 +122,12 @@ clip definitions, separate look state, body roll settling, paused terrain exclus
 and invalid-rotation quarantine, profile refusal and cleanup. It creates no window or audio device
 and does not execute the complete Delphi primary/secondary or live controls.
 
+The same control also samples real owned camera references and checks Delphi's
+standalone camera callback: retained/reset views, inactive input boundaries,
+foreign targets and failure quarantine. It does not acknowledge camera rendering
+or production full-primary scheduling. Private native comparisons retain their
+separate arithmetic and test-driver scope in [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
 The locomotion profile reads the original executable's data as an external asset.
 Set `GIANTS_DELPHI_EXECUTABLE` for a separate configurable metadata file; otherwise
 this source-data control reads `Giants.exe` inside `GIANTS_DELPHI_ROOT`. The file
@@ -165,6 +181,19 @@ It now also checks the registered cold path: actor/registry/RNG rollback on a la
 foreign-ticket failure, same-ticket foreign-scope cleanup refusal, deferred marks,
 unchanged ordered lists, last-material retirement and clean regeneration after
 clear/re-entry. This is the custom callback phase, not common actor retirement.
+
+For second-auxiliary selection from actual owned resources and actor lists:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_auxiliary_animation_binds_owned_fields_and_refuses_stale_inputs --target x86_64-pc-windows-gnu -- --ignored
+```
+
+The control checks channel publication, unchanged payload/lists/ownership,
+unsampled references, invalid-input rollback, foreign/stale identities and clear.
+Private source-resource controls/receipts may use `GIANTS_KABUTO_AUXILIARY_CONTROLS`
+and `GIANTS_KABUTO_AUXILIARY_RECEIPT`. Keep those inputs and outputs outside Git.
+This is selection over supplied preceding poses/root identity, not world-pose
+production, ANM advancement or a playable Kabuto controller.
 
 For the owned geometry-transition composition, with that same supplied root:
 

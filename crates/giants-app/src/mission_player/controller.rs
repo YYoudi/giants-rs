@@ -171,8 +171,7 @@ impl Controller {
             owned_jet_probe: std::env::var("GIANTS_MISSION_OWNED_JET_PROBE").as_deref() == Ok("1"),
             owned_audio_backend: std::env::var("GIANTS_MISSION_MECC_AUDIO").as_deref()
                 == Ok("reserved"),
-            owned_replay: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
-                == Ok("owned-player-inspection"),
+            owned_replay: crate::frontend_scene::owned_inspection_replay(),
             owned_draw_reported: false,
             owned_backend: std::env::var("GIANTS_MISSION_MECC_BACKEND").as_deref()
                 == Ok("owned-inspection"),
@@ -191,6 +190,7 @@ impl Controller {
                 Some(
                     "player-motion"
                         | "owned-player-inspection"
+                        | "owned-player-inspection-cycles"
                         | "player-motion-cycles"
                         | "player-motion-air"
                         | "campaign-entry"
@@ -212,6 +212,7 @@ impl Controller {
                         | "player-motion-cycles"
                         | "player-motion-air"
                         | "owned-player-inspection"
+                        | "owned-player-inspection-cycles"
                 )
             ),
             fire_replay: matches!(
@@ -227,9 +228,7 @@ impl Controller {
                         | "showcase-mecc"
                 )
             ),
-            finish_step: if std::env::var("GIANTS_MISSION_REPLAY").as_deref()
-                == Ok("owned-player-inspection")
-            {
+            finish_step: if crate::frontend_scene::owned_inspection_replay() {
                 std::env::var("GIANTS_MISSION_OWNED_JET_CAPTURE_STEP")
                     .ok()
                     .and_then(|v| v.parse().ok())
@@ -829,14 +828,15 @@ pub(super) fn update(
         let mut owned_body_parts = 0usize;
         for (handle, mut visibility, body, gun, arms) in &mut draws {
             if let Some(body) = body.filter(|p| p.ticket == controller.ticket) {
-                if let Some(mut mesh) = meshes.get_mut(&handle.0) {
-                    mesh.insert_attribute(
-                        Mesh::ATTRIBUTE_POSITION,
-                        controller.state.expanded(body.part),
-                    );
+                if let Some(positions) = controller.state.expanded_draw_model(body.slot, body.part)
+                    && let Some(mut mesh) = meshes.get_mut(&handle.0)
+                {
+                    mesh.insert_attribute(Mesh::ATTRIBUTE_POSITION, positions);
                     owned_body_parts += 1;
                 }
-                *visibility = if controller.state.first_person_view() {
+                *visibility = if controller.state.first_person_view()
+                    || controller.state.body_draw_slot() != Some(body.slot)
+                {
                     Visibility::Hidden
                 } else {
                     Visibility::Visible
@@ -949,10 +949,7 @@ pub(super) fn update(
             }
         }
         if controller.owned_replay && controller.replay_done && !controller.owned_draw_reported {
-            assert_eq!(
-                owned_body_parts,
-                controller.state.body.mesh.subobjects.len()
-            );
+            assert_eq!(owned_body_parts, controller.state.body_draw_part_count());
             println!(
                 "mission_owned_inspection_upload ticket={} steps={} body_parts={owned_body_parts} camera_eye_bits={:?} mesh_from_owned_pose=true anm_repeated=false ready=false",
                 controller.ticket,

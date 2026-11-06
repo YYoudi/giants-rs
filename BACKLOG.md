@@ -148,6 +148,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 - Acquire paused positional-event lazy transform production before admitting
   events needing an absent/stale affine cache. ANM preserves cold absence and
   the older cached pose during body settling; no placeholder matrix is used.
+- Implemented: the common owned reference-camera sampler and Delphi's local/mode
+  gate, current-reference/animation1 fallback, reset/retained-view and supplied
+  target branch. A 2,048-case cached-reference arithmetic comparison matches
+  36,864 matrix/lens words. Three 256-step test-driver compositions match 6,137,856
+  normalized actor/reference/payload/list/override words plus exact RNG. Fallback
+  sampling advances the shared ANM epoch. Mode/aspect/local-owner and self-target
+  are supplied boundaries; target selection, viewport production, production
+  primary ordering, normal camera/render/mission wiring remain open. The owned
+  lifecycle check covers unconsumed invalid inputs, foreign targets and quarantine.
+  These APIs do not admit live Delphi controls or establish visual fidelity.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -307,6 +317,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   boundaries. Late provider failure retains prior publication and quarantines
   replay. Cold-only cleanup refuses entered transitions. Full primary, dynamic
   cleanup, geometry-header/render consumption and live admission remain open.
+- Implemented: second-auxiliary normalized-pose selection uses the shared channel
+  setter, source distance arithmetic and ordered local-list minimum stores. The
+  public kernel matches 1,024 original-helper controls / 197,632 full child-header
+  words, including absent-child, local/remote, signed-radius and finite-extreme
+  profiles. Actual Session child/size/pose/list binding matches another 64 source-
+  resource contexts / 6,720 channel/clock/list words. Root identity and preceding
+  poses are supplied; this does not produce a live local player or world pose.
+  Invalid inputs/foreign identities refuse before publication. Owner payload,
+  allocations, lists, unsampled references and pending gates remain unchanged;
+  entered subphases refuse cold-only cleanup. Next acquire the following helper,
+  physical/mode producers and full primary; ANM cadence and movement remain open.
 - Complete the remaining custom cleanup profiles: the active additional-reference
   teardown, GPU material release and dynamic/entered turns. The acquired geometry
   prefix stores class1199 in that reference; its broader gameplay role is unassigned.
@@ -433,6 +454,27 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   checks refuse stale/foreign/cleared/skipped/numeric and replaced-reference input.
   Next acquire the enclosing held pose/finalization scheduling and connect actual
   body/subjective/held rendering through live culling, LOD, parts and materials.
+- Owned body models: `mecc_model_draw` binds the actual completed outer camera,
+  source/specification and shared-channel positions to the main inspection
+  renderer. The native selector and full model snapshots match 1,280 selections /
+  256 snapshots / 309,472 words. Six receipt-bound Bevy endpoints cover automatic,
+  forced and absent models; model 0 uses 736 vertices/eight parts, model 7 uses
+  57 vertices/six parts. Quality/override settings remain explicit inspection
+  inputs. See docs/OWNED_MODEL_DRAW.md. Next bind native culling, node/part masks,
+  material/normal context and immediate/deferred scheduling; model selection
+  alone is not full world or subjective draw admission.
+  Migrate the retained model-0 diagnostic presentation consumers before claiming
+  native shared-bank ordering across actors; this inspection still prepares that
+  diagnostic pose separately from its selected-model upload.
+- Extended owned movement remains incomplete. The inverted secondary height
+  comparison is corrected after 1,049 controlled original-PC branch executions;
+  both velocity and height thresholds are strict. The corrected general replay
+  now explicitly refuses the unacquired high-descent transition at step 143.
+  Retain both this result and the older incorrect-guard step-152 failure.
+  Next acquire logical state 2's complete common tail, animation and owned writes,
+  then impact reactions and contact landing effects; do not infer their contract
+  from the guard alone. See docs/MECC_DESCENT_GUARD.md. The 128-step inspection
+  cycles cover resource retirement separately and do not validate this trajectory.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated

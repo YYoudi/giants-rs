@@ -23,6 +23,9 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Bind the exception to the exact Git blob bytes and its sole public path.
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
+    'docs/MECC_DESCENT_GUARD.md': {
+        '314abf495905a93b662e78674834cac06439378ced9e33b4e1bc856eb2b96760',
+    },
     'docs/RECONSTRUCTION_METHOD.md': {
         '2c8a49007d040af5c353ce6921860566a63b61fbb67c95c2a57b7da479567e0d',
         '07638b2e77f9a2eeb7bd63e55e91c9c0e72f5643dcf536571733f74397b3d94f',

@@ -151,6 +151,10 @@ impl State {
                 .camera_cache
                 .as_ref()
                 .is_none_or(|c| c.number != frame.number)
+            || frame
+                .draw_model
+                .as_ref()
+                .is_some_and(|d| d.source() != frame.owner || d.number() != frame.number)
         {
             return Err(
                 "owned presentation is foreign, stale or bound to different body geometry".into(),
@@ -1182,6 +1186,49 @@ impl State {
                 [s[0], s[2], -s[1]]
             })
             .collect()
+    }
+    pub(crate) fn body_draw_slot(&self) -> Option<usize> {
+        self.owned_pose
+            .as_ref()
+            .and_then(|f| f.draw_model.as_ref())
+            .map_or(Some(0), |d| d.positions().map(|_| d.slot()))
+    }
+    pub(crate) fn body_draw_part_count(&self) -> usize {
+        self.owned_pose
+            .as_ref()
+            .and_then(|f| f.draw_model.as_ref())
+            .map_or(self.body.mesh.subobjects.len(), |d| {
+                d.model().map_or(0, |m| m.prepared.mesh.subobjects.len())
+            })
+    }
+    pub(crate) fn expanded_draw_model(&self, slot: usize, part: usize) -> Option<Vec<[f32; 3]>> {
+        let Some(draw) = self.owned_pose.as_ref().and_then(|f| f.draw_model.as_ref()) else {
+            return (slot == 0).then(|| self.expanded(part));
+        };
+        if slot != draw.slot() {
+            return None;
+        }
+        let mesh = &draw.model()?.prepared.mesh;
+        let positions = draw.positions()?;
+        let matrix = self.object_matrix();
+        Some(
+            mesh.subobjects
+                .get(part)?
+                .triangles
+                .iter()
+                .flatten()
+                .map(|id| {
+                    let p = positions[usize::from(mesh.indices[usize::from(*id)])];
+                    let s = std::array::from_fn::<_, 3, _>(|r| {
+                        matrix[r * 4] * p[0]
+                            + matrix[r * 4 + 1] * p[1]
+                            + matrix[r * 4 + 2] * p[2]
+                            + matrix[r * 4 + 3]
+                    });
+                    [s[0], s[2], -s[1]]
+                })
+                .collect(),
+        )
     }
     pub(crate) fn standing_positions(&self) -> &[[f32; 3]] {
         &self.clips[&1].initial_positions
