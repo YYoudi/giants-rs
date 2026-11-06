@@ -3,6 +3,13 @@
 //! injects operating-system input or claims normal-game interaction fidelity.
 use super::*;
 
+pub(crate) fn owned_inspection_replay() -> bool {
+    matches!(
+        std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
+        Ok("owned-player-inspection" | "owned-player-inspection-cycles")
+    )
+}
+
 #[derive(Resource)]
 pub(crate) struct Replay {
     cycles: u32,
@@ -32,7 +39,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
     {
         return Err("owned jet probe requires owned-player-inspection and reserved audio".into());
     }
-    if std::env::var("GIANTS_MISSION_REPLAY").as_deref() == Ok("owned-player-inspection")
+    if owned_inspection_replay()
         && std::env::var("GIANTS_MISSION_MECC_BACKEND").as_deref() != Ok("owned-inspection")
     {
         return Err("owned-player-inspection requires the explicit owned Mecc backend".into());
@@ -61,6 +68,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
             "cancel-relaunch"
             | "showcase-opening-cycles"
             | "player-motion-cycles"
+            | "owned-player-inspection-cycles"
             | "opening-cycles"
             | "campaign-entry-cycles"
             | "campaign-fire-cycles"
@@ -122,6 +130,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
                     | "player-motion-cycles"
                     | "player-motion-air"
                     | "owned-player-inspection"
+                    | "owned-player-inspection-cycles"
             )
         ),
         completed: 0,

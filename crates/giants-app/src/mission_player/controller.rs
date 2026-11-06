@@ -171,8 +171,7 @@ impl Controller {
             owned_jet_probe: std::env::var("GIANTS_MISSION_OWNED_JET_PROBE").as_deref() == Ok("1"),
             owned_audio_backend: std::env::var("GIANTS_MISSION_MECC_AUDIO").as_deref()
                 == Ok("reserved"),
-            owned_replay: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
-                == Ok("owned-player-inspection"),
+            owned_replay: crate::mission_replay::owned_inspection_replay(),
             owned_draw_reported: false,
             owned_backend: std::env::var("GIANTS_MISSION_MECC_BACKEND").as_deref()
                 == Ok("owned-inspection"),
@@ -191,6 +190,7 @@ impl Controller {
                 Some(
                     "player-motion"
                         | "owned-player-inspection"
+                        | "owned-player-inspection-cycles"
                         | "player-motion-cycles"
                         | "player-motion-air"
                         | "campaign-entry"
@@ -212,6 +212,7 @@ impl Controller {
                         | "player-motion-cycles"
                         | "player-motion-air"
                         | "owned-player-inspection"
+                        | "owned-player-inspection-cycles"
                 )
             ),
             fire_replay: matches!(
@@ -227,9 +228,7 @@ impl Controller {
                         | "showcase-mecc"
                 )
             ),
-            finish_step: if std::env::var("GIANTS_MISSION_REPLAY").as_deref()
-                == Ok("owned-player-inspection")
-            {
+            finish_step: if crate::mission_replay::owned_inspection_replay() {
                 std::env::var("GIANTS_MISSION_OWNED_JET_CAPTURE_STEP")
                     .ok()
                     .and_then(|v| v.parse().ok())
