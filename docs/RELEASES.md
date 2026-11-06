@@ -1,5 +1,27 @@
 # Preview releases and milestone integration
 
+## Delphi entered controlled-camera phase - 6 November 2026
+
+The owned controlled Session entry now runs the authored-camera callback after
+entered-prefix bookkeeping and before heading/look. Its frozen resource profile
+shares the animation epoch with both ANM passes and derives buttons/ownership
+from the same movement invocation. Existing physical, locomotion and manual-only
+profiles retain their entry checks.
+
+Three repeated 256-step native/Rust controls pass through this combined API:
+6,137,856 normalized words across 22 actors, references, payload, ordered lists
+and camera state, with exact RNG. Fifteen repeated legacy controls preserve
+30,608,640 words over 3,840 steps. The four-owner source-data lifecycle verifies
+wrong-profile refusal and retention of completed camera effects after a later
+rotation failure, with replay quarantined. These are existing inputs exercised
+through the new phase dispatch, not additional unique native trajectories.
+
+This remains controlled-phase CPU integration. Full-primary/world scheduling,
+target/viewport producers, ordinary camera, renderer/mission wiring, water/turbo
+and combat remain pending. No Delphi playable download or fidelity claim follows.
+Prototype PS2 attributions remain unknown; the private lookup and alias records
+are retained separately from these reviewed summaries.
+
 ## Delphi owned authored-camera callback - 6 November 2026
 
 The common Session reference sampler now consumes prepared class resources and
