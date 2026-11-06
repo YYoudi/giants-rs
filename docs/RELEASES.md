@@ -22,6 +22,12 @@ reviews and zero verified complete scenes remain unchanged. Preview 2026.11.06.3
 retains its exact source, executable, package, notice and checksum identities;
 these additional controls do not justify a new playable-preview claim.
 
+Combined source `b1f0741` preserves the newer Delphi controlled-camera and Kabuto
+growth work. Rebuilt selector controls repeat all 900 cases and four-world source
+checks. The combined source passes 771 Rust tests (28 ignored), 40 Python tests,
+Rustfmt, Clippy with warnings denied and generated roadmap/site/JavaScript checks.
+These results do not expand the existing exact executable/package receipts.
+
 ## Delphi entered controlled-camera phase - 6 November 2026
 
 The owned controlled Session entry now runs the authored-camera callback after
