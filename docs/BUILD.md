@@ -51,6 +51,12 @@ your `--data-root`, a separate `--user-data-root`, and
 This repeats the acquired 128-step inspection and cancellation, not normal
 campaign admission or the unresolved longer movement/landing trajectory.
 
+For a single silent descent snapshot, use the same owned backend and
+`GIANTS_MISSION_REPLAY=owned-player-descent-inspection`. This follows the general
+movement replay prefix through step 145, asserts its owned descent clip and checks
+mesh upload before allowing capture. It stops before the known pending contact
+branch at step 158. It does not validate that landing or the complete trajectory.
+
 Set `GIANTS_MECC_WORLD_ROOT` to a user-supplied installation and use the isolated
 target directory described above:
 
@@ -121,6 +127,12 @@ shared class events, physical-only/locomotion/controlled profiles using external
 clip definitions, separate look state, body roll settling, paused terrain exclusion, late secondary
 and invalid-rotation quarantine, profile refusal and cleanup. It creates no window or audio device
 and does not execute the complete Delphi primary/secondary or live controls.
+
+The same control also samples real owned camera references and checks Delphi's
+standalone camera callback: retained/reset views, inactive input boundaries,
+foreign targets and failure quarantine. It does not acknowledge camera rendering
+or production full-primary scheduling. Private native comparisons retain their
+separate arithmetic and test-driver scope in [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
 The locomotion profile reads the original executable's data as an external asset.
 Set `GIANTS_DELPHI_EXECUTABLE` for a separate configurable metadata file; otherwise

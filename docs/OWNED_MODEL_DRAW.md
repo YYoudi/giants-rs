@@ -84,6 +84,11 @@ for an absent model. It no longer assumes the first model's count.
 `owned-player-inspection-cycles` uses the same acquired 128-step profile for
 repeated real cancellation/re-entry, with no readiness event or OS input injection.
 It checks retirement of additional model assets. A separate longer general
-movement replay is retained as a failure at step 152 under the existing secondary
-guard. That guard and later reaction/effect branches require independent native
-comparison; a successful short resource cycle does not establish longer movement.
+movement replay is retained as a historical failure at step 152 under the previous
+secondary guard. Independent native comparison then confirmed an inverted height
+comparison. With that correction, the longer replay explicitly refuses the
+then-unacquired high-descent transition at step 143. Its subsequent native-checked
+implementation reaches the pending contact-landing effect branch at step 158; see
+[MECC_DESCENT_GUARD.md](MECC_DESCENT_GUARD.md). Later reaction/effect
+branches remain open; a successful short resource cycle does not establish longer
+movement.

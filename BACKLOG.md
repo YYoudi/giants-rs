@@ -148,6 +148,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 - Acquire paused positional-event lazy transform production before admitting
   events needing an absent/stale affine cache. ANM preserves cold absence and
   the older cached pose during body settling; no placeholder matrix is used.
+- Implemented: the common owned reference-camera sampler and Delphi's local/mode
+  gate, current-reference/animation1 fallback, reset/retained-view and supplied
+  target branch. A 2,048-case cached-reference arithmetic comparison matches
+  36,864 matrix/lens words. Three 256-step test-driver compositions match 6,137,856
+  normalized actor/reference/payload/list/override words plus exact RNG. Fallback
+  sampling advances the shared ANM epoch. Mode/aspect/local-owner and self-target
+  are supplied boundaries; target selection, viewport production, production
+  primary ordering, normal camera/render/mission wiring remain open. The owned
+  lifecycle check covers unconsumed invalid inputs, foreign targets and quarantine.
+  These APIs do not admit live Delphi controls or establish visual fidelity.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -468,13 +478,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Migrate the retained model-0 diagnostic presentation consumers before claiming
   native shared-bank ordering across actors; this inspection still prepares that
   diagnostic pose separately from its selected-model upload.
-- Extended owned movement remains incomplete: the general movement-cycle replay
-  refuses at step 152 under the secondary guard currently labelled "landing
-  reaction provider". Retain that failed control. Before widening admission,
-  independently verify its gap/velocity condition against the pinned native
-  selector and acquire the actual transition, impact and landing-effect branches.
-  The new 128-step owned inspection cycles test resource retirement separately;
-  they neither repair nor validate that longer trajectory.
+- Extended owned movement remains incomplete. The inverted secondary height
+  comparison is corrected after 1,049 controlled original-PC branch executions;
+  both velocity and height thresholds are strict. The corrected general replay
+  previously refused the unacquired high-descent transition at step 143.
+  That ordinary transition now matches 128 complete native-selector/channel
+  controls with blending disabled/enabled (41,920 words), including hold and
+  precedence over later reactions. The actual owned Bevy replay reaches step 158
+  and explicitly refuses its pending contact-landing effect provider.
+  Retain all earlier failed controls. Next acquire that contact branch's logical
+  state 60, effect creation/retirement and common-tail ownership, followed by
+  impact reactions; do not substitute a normal locomotion clip or empty effect.
+  See docs/MECC_DESCENT_GUARD.md. The 128-step inspection
+  cycles cover resource retirement separately and do not validate this trajectory.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated

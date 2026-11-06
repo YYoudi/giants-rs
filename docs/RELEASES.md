@@ -16,6 +16,142 @@ Existing preview manifests/notices/checksums retain their exact previous runtime
 and receipt identities. No existing executable receipt attests to this new API
 or to Kabuto rendering/collision fidelity.
 
+## Owned high-descent transition - 6 November 2026
+
+The ordinary pistol secondary now follows the acquired high-descent branch into
+its common animation tail. It selects the dedicated descent channel with the
+scaled source-axis playback rate, retains an already selected channel, and updates
+the acquired control/payload fields only on a real request. This branch precedes
+independent impact and contact-landing handling. Subsequent logical state 2 frames
+are admitted; other unsupported reactions remain explicit refusals.
+
+Two original-selector controls execute actual loaded channel descriptors and the
+original primary setter with blending off/on. All 128 cases / 41,920 header,
+payload and request words agree with Rust, including channel-end, trigger, scale,
+prior-state, current-clip and later-reaction precedence controls. The earlier
+1,049 native threshold cases remain separate evidence. See MECC_DESCENT_GUARD.md.
+
+Source `871540c` passes 768 synthetic Rust tests (27 ignored), 40 Python tests,
+Rustfmt, Clippy and the rebuilt 576-frame / 22-shot / 341,220-word primary matrix
+with ten provider-failure controls. Its exact GNU Bevy replay now reaches step
+158 and explicitly refuses the pending contact-landing effect. The test harness
+stops on that refusal; it is not a successful full trajectory or lifecycle test.
+Its executable SHA256 is
+`f9bc4ce58134d9d2294dc9c9c2cbcca22ce64f8a834f501dd598fa32bd059084`.
+The private ten-member validation draft has complete notices and no technical
+blockers; archive SHA256 is
+`395d0ab95cef41fad8f2c740100f4959fd21a4e4d9001adbf0b0fdefbd6ea7b7`.
+
+Combined source `8f52358` retains concurrent Delphi authored-camera and Kabuto
+auxiliary work. Its synthetic suite, Clippy and four installed-data Mecc controls
+pass. Prototype PS2 attribution remains unknown. Full movement, impact/landing
+providers, native world rendering, owned firing and campaign admission remain
+open. This is not a new public playable preview.
+
+Receipt-bound source `214553b` adds the explicit
+`owned-player-descent-inspection` replay. It follows the general motion prefix to
+step 145, verifies actual owned clip 41, uploads eight body parts and captures
+the resulting Bevy endpoint. The inspected display copy is pinned in the gallery;
+all 305 existing comparisons, previous captures and their image pins are preserved.
+It does not execute the pending contact branch. An earlier step-157 capture probe
+correctly failed its clip assertion after locomotion had resumed and is excluded
+from successful evidence; completion is now published only after that assertion.
+
+This exact source passes 768 synthetic Rust tests (27 ignored), 40 Python tests,
+Rustfmt and Clippy. Its GNU executable SHA256 is
+`a264a1686229050573c6228ec47c4b83f2275876bba9829a11f8a063a289612d`.
+The private ten-member validation draft has receipt-bound notices and zero
+technical blockers; archive SHA256 is
+`ce967b83e26f6e31e5a6bec4ed18fe69efcb38b50e47ff507a421331c01677ec`.
+These receipts supersede the failed capture probe and retain their own source
+identities rather than attesting to later documentation commits.
+
+
+## Delphi owned authored-camera callback - 6 November 2026
+
+The common Session reference sampler now consumes prepared class resources and
+actual owned world/reference caches. Delphi's standalone pre-heading callback
+adds local/mode gating, current-reference and animation1 fallback, retained/reset
+view state and a supplied target identity branch. Non-current sampling consumes
+the shared ANM epoch; it does not create a separate animation player.
+
+Three 256-step private test-driver compositions match 6,137,856 normalized words
+across all 22 actors, reference buffers, owner payload, ordered lists and 21
+override-state fields per step, with exact RNG endpoints. The separate 2,048-case
+cached-reference arithmetic comparison matches 36,864 matrix/lens words. These
+controls retain supplied mode/aspect/local-owner/self-target boundaries. They do
+not prove target/viewport production, production full-primary scheduling, live
+camera rendering, mission admission or fidelity. Owned failure guards preserve
+the prior view and quarantine replay; they are not native error-path equivalence.
+
+The remaining primary/auxiliary producers, ordinary camera and runtime wiring,
+water/turbo and combat stay on the backlog. This CPU/API stage adds no playable
+Delphi download. Prototype PS2 attribution remains unknown.
+
+The debug and optimized probes repeat all three compositions and the separate
+arithmetic controls at source `728786f`. The camera implementation is unchanged
+in combined source `983217f60ec95a74e114c14f464799207a9766c9`, which preserves the
+Mecc model uploads, Kabuto geometry transition, Flick replay and 509 gallery
+images / 305 comparisons. It passes 764 Rust tests (26 ignored), four installed-
+data Mecc controls, the enriched Delphi lifecycle control, 40 Python tests,
+Rustfmt, Clippy and site checks. The selected-pattern history audit reports no
+findings across 285 commits and 2,318 blobs.
+
+Its exact GNU executable passes both silent development endpoints, three Rstory1
+mission-index-2 cancellations after persistent-object birth/update, and three
+128-step owned Mecc render/cancel/re-entry cycles. Each render cycle uploads the
+selected model's six body parts and releases the ticket's entities. These are
+common-runtime regressions, not Delphi live controls or cinematic fidelity.
+The private ten-member draft has matching notices, receipt/review identities and
+checksums with zero technical verifier blockers. Executable SHA256:
+`b1a4bc75510576dddc95a42547b85b37b2873b681e1cbd3ae80e98bde81601e4`;
+private ZIP SHA256:
+`33a96376cfbdaef7f85a6404e78118b12e036c4729764eba145fef63dec0a14c`.
+Subsequent source changes and the public preview retain their separate identities.
+
+Source merge `4bd556c` preserves the subsequent Mecc descent correction and
+Kabuto auxiliary-animation work. It passes 767 Rust tests (27 ignored), all four
+installed-data Mecc controls, the enriched Delphi control, 40 Python tests,
+Rustfmt, Clippy and site checks. The selected-pattern source/history audit reports
+no findings across 292 commits and 2,337 blobs. The executable and package above
+remain bound to `983217f`; later Mecc runtime receipts are recorded separately.
+
+## Owned secondary descent guard - 6 November 2026
+
+Source `d3f2ef9` corrects the ordinary secondary's inverted height comparison.
+The original PC branch requires both strictly fast downward velocity and height
+strictly above its threshold, including the scaled center offset. Independent
+original-instruction controls pass 1,049 cases; the previous condition differs in
+255. Synthetic tests cover actual selector continuation, both equalities and the
+retained explicit high-descent refusal. See MECC_DESCENT_GUARD.md.
+
+The exact GNU executable refuses the unacquired high-descent transition at step
+143 in the longer general owned movement replay, then the replay times out.
+This remains a failed trajectory, separate from the older incorrect-guard step-152
+failure. The transition's logical state 2 observation does not acquire its common
+tail or animation/effect contract. Impact and contact landing providers also
+remain missing. Main campaign readiness, owned firing and fidelity are not promoted.
+
+This source passes 765 synthetic Rust tests (26 ignored), 40 Python tests,
+Rustfmt and Clippy. Rebuilt native regression controls pass 576 primary frames,
+22 shots and 341,220 words, plus ten declared provider-failure controls.
+The receipt-bound executable SHA256 is
+`05e3dd154c13fa5042e390a6474b25d19703dd9dea17e20ce522fe4ca296325e`.
+Its private ten-member validation draft has complete notices and no technical
+blockers; ZIP SHA256 is
+`ce3fbd447a828ead1c6ae31466e92ea9a7db61edf4664c0ed261e6085e57ee99`.
+This bounded correction is not a new public playable preview. Prototype PS2 name
+attribution remains unknown; the identity-bound lookup is retained privately.
+
+The same executable passes three actual 128-step owned inspection launches,
+cancellations and re-entries. Each retires 59 meshes, 26 images, 59 materials and
+five buffers with no remaining tracked assets/entities. This measures the acquired
+short profile and GPU resource lifecycle, not full RAM reclamation or longer
+movement. Combined source `a170b42` preserves concurrent Kabuto auxiliary work
+and passes 767 synthetic Rust tests (27 ignored), four installed-data Mecc controls,
+40 Python tests, Rustfmt, Clippy and exported site/JavaScript checks. These source
+checks do not change the older executable and package receipt identities above.
+
 ## Kabuto second-auxiliary selection — 6 November 2026
 
 The owned primary subphase now selects the second auxiliary's normalized pose

@@ -32,6 +32,7 @@ pub(crate) struct Controller {
     owned_audio_backend: bool,
     owned_jet_probe: bool,
     owned_replay: bool,
+    descent_replay: bool,
     owned_draw_reported: bool,
     owned_input: giants_game::player_input_channels::State,
     pending_mouse: Vec2,
@@ -172,6 +173,8 @@ impl Controller {
             owned_audio_backend: std::env::var("GIANTS_MISSION_MECC_AUDIO").as_deref()
                 == Ok("reserved"),
             owned_replay: crate::frontend_scene::owned_inspection_replay(),
+            descent_replay: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
+                == Ok("owned-player-descent-inspection"),
             owned_draw_reported: false,
             owned_backend: std::env::var("GIANTS_MISSION_MECC_BACKEND").as_deref()
                 == Ok("owned-inspection"),
@@ -189,6 +192,7 @@ impl Controller {
                 std::env::var("GIANTS_MISSION_REPLAY").ok().as_deref(),
                 Some(
                     "player-motion"
+                        | "owned-player-descent-inspection"
                         | "owned-player-inspection"
                         | "owned-player-inspection-cycles"
                         | "player-motion-cycles"
@@ -209,6 +213,7 @@ impl Controller {
                 std::env::var("GIANTS_MISSION_REPLAY").ok().as_deref(),
                 Some(
                     "player-motion"
+                        | "owned-player-descent-inspection"
                         | "player-motion-cycles"
                         | "player-motion-air"
                         | "owned-player-inspection"
@@ -228,7 +233,11 @@ impl Controller {
                         | "showcase-mecc"
                 )
             ),
-            finish_step: if crate::frontend_scene::owned_inspection_replay() {
+            finish_step: if std::env::var("GIANTS_MISSION_REPLAY").as_deref()
+                == Ok("owned-player-descent-inspection")
+            {
+                145
+            } else if crate::frontend_scene::owned_inspection_replay() {
                 std::env::var("GIANTS_MISSION_OWNED_JET_CAPTURE_STEP")
                     .ok()
                     .and_then(|v| v.parse().ok())
@@ -572,7 +581,9 @@ pub(super) fn update(
                         controller.maximum_height = controller.maximum_height.max(position[2]);
                         owned_advanced_seconds += seconds;
                         controller.update_subjective(&prepared.prepared, &runtime, seconds, false);
-                        if controller.owned_replay && controller.steps == controller.finish_step {
+                        if (controller.owned_replay || controller.descent_replay)
+                            && controller.steps == controller.finish_step
+                        {
                             let position = controller.state.mission_snapshot().0;
                             let distance =
                                 Vec3::from(position).distance(Vec3::from(controller.initial));
@@ -594,6 +605,17 @@ pub(super) fn update(
                                 assert!(
                                     distance > 1.,
                                     "owned inspection did not exercise movement"
+                                );
+                            }
+                            if controller.descent_replay {
+                                let clip = controller.state.mission_snapshot().2;
+                                assert_eq!(
+                                    clip, 41,
+                                    "descent endpoint must retain the owned descent clip"
+                                );
+                                println!(
+                                    "mission_owned_descent_snapshot ticket={} steps={} clip={clip} supplied_commands=true primary_owned=true contact_landing_validated=false ready=false",
+                                    controller.ticket, controller.steps
                                 );
                             }
                             controller.replay_done = true;
@@ -948,7 +970,10 @@ pub(super) fn update(
                 }
             }
         }
-        if controller.owned_replay && controller.replay_done && !controller.owned_draw_reported {
+        if (controller.owned_replay || controller.descent_replay)
+            && controller.replay_done
+            && !controller.owned_draw_reported
+        {
             assert_eq!(owned_body_parts, controller.state.body_draw_part_count());
             println!(
                 "mission_owned_inspection_upload ticket={} steps={} body_parts={owned_body_parts} camera_eye_bits={:?} mesh_from_owned_pose=true anm_repeated=false ready=false",
