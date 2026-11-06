@@ -22,6 +22,89 @@ angle smoothing/shake, full-primary/world scheduling and renderer/mission wiring
 remain open. This is CPU/API integration, with no new playable Delphi download or
 fidelity claim. Delphi-specific prototype PS2 attribution remains unknown; common
 reviewed service identities are retained separately from behavior coverage.
+## Owned contact selector and slide-context ownership - 6 November 2026
+
+The ordinary Mecc pistol secondary now admits the acquired contact entry and
+logical-state-60 hold. It preserves a held current channel, then creates, retains
+or releases the actual prepared slide context according to the previous logical
+state. The source link is an owned generational identity; its payload word is a
+normalized presence marker. Foreign/stale links are refused, and earlier selector
+writes and context/RNG side effects survive later failure without replay.
+
+Native controls match 256 original preparation/empty-cleanup pairs, 512 operations
+and 17,920 context/queue/RNG/interval words. The full null-object source program
+consumes two float-range draws and one integer draw. Three full-selector sequences
+match 14 calls / 4,622 header, payload, request, queue-presence and RNG words,
+including the delayed lifetime, differing-current-channel hold and blending.
+The invariant named lookup requires identical normal/lite resolution; distinct
+entries still require actual load/quality/camera providers. See OWNED_MECC_CONTACT.md.
+
+Source `2d30144` passes 770 synthetic Rust tests (28 ignored), 40 Python tests,
+Rustfmt and Clippy. Its exact GNU Bevy replay now prepares the slide context at
+step 159 and reaches step 190 before explicitly refusing the next profile. The
+queue then contains six contexts in total, not six slide effects. No successful
+long trajectory, cancellation cycle, active emission or visible dust is claimed.
+The executable SHA256 is
+`3a59ffd399c074dfab42f05e4d385393872da6da73d108b03fa754f7c25a8f64`.
+Its private ten-member receipt-bound validation draft has complete notices and
+zero technical blockers; archive SHA256 is
+`288b668e8bcf6654470540826313c8fbcd0c6e0d36fe38401c8fdffa917de393`.
+
+Source `2e40a91` retains concurrent Flick traversal/preview and Kabuto growth work,
+adds the stale-link resource control and makes the refused guard identifiable.
+Its exact replay confirms the step-190 boundary is negative actor height while
+logical state 60 remains active. The subzero native primary/secondary path and
+its environment/health inputs remain unacquired; this is not evidence of a water,
+death or floor-clamping rule. The replay is stopped on its explicit refusal.
+The executable SHA256 is
+`f7298d7af1e22d2b664c7930c6bc3537e0927af18caf2522945177e71b54cb15`.
+Its private ten-member validation draft has complete notices and no technical
+blockers; archive SHA256 is
+`139582a702df93cd801ae31d0496df6c8dcf82caa251c4979fc5b22fecdb0ae9`.
+
+This source passes 773 synthetic Rust tests (29 ignored), five installed-resource
+Mecc controls, 40 Python tests, Rustfmt and Clippy. Rebuilt contact comparisons and
+the existing 576-primary-frame / 22-shot / 341,220-word matrix with ten declared
+provider-failure controls pass. The later active effect interpreter, emitted-object
+cleanup, world scheduling and independent impacts remain open. Prototype PS2 name
+attributions remain unknown. All 305 gallery comparisons and four screenshots
+are preserved unchanged; no unvalidated effect image is added. These bounded
+inspection changes are not another public playable preview.
+
+Merged source `fda990e` additionally preserves the latest entered Delphi
+controlled-camera phase and its separate runtime receipts. It passes 773 synthetic
+Rust tests (29 ignored), 40 Python tests, Rustfmt, Clippy and generated roadmap/site
+checks. History review reports no findings across 324 commits and 2,443 blobs.
+These source checks do not relabel either contact executable receipt above.
+
+## Flick selector boundary follow-up — 6 November 2026
+
+Private original-PC controls now execute the actual model selector and prepared-
+format query instead of returning fixed slot-zero/alpha answers. Across two
+source programs, birth/four preparations, automatic/forced entry modes, formats
+0 through 8 and five range cases, 900 controls agree with the existing Rust
+kernels: 2,376 format answers and 1,188 model selections. The source model table
+and both material-routing scalars agree in all four bounded-cohort worlds.
+
+The source materials keep eligible parts deferred across this controlled format
+domain. This strengthens the previous queue-selection evidence; actual resident
+texture descriptors, texture preparation, global sorting, material/device state
+and scene pixels remain unverified. Cameras, descriptors and outer services are
+still explicit supplied boundaries. Prototype PS2 searches remain unknown
+attributions. Detailed records, controllers and source data stay private.
+
+This is a CPU evidence milestone on source `9d29a83`, with no runtime code or
+dependency change. The 59 gap sources, 56 general-FX prerequisites, 282 profile
+reviews and zero verified complete scenes remain unchanged. Preview 2026.11.06.3
+retains its exact source, executable, package, notice and checksum identities;
+these additional controls do not justify a new playable-preview claim.
+
+Combined source `b1f0741` preserves the newer Delphi controlled-camera and Kabuto
+growth work. Rebuilt selector controls repeat all 900 cases and four-world source
+checks. The combined source passes 771 Rust tests (28 ignored), 40 Python tests,
+Rustfmt, Clippy with warnings denied and generated roadmap/site/JavaScript checks.
+These results do not expand the existing exact executable/package receipts.
+
 
 ## Delphi entered controlled-camera phase - 6 November 2026
 
@@ -68,6 +151,7 @@ kernel and updated public cinematic preview inventory. It passes 771 Rust tests
 (28 ignored), 40 Python tests, Rustfmt, Clippy and site checks. The selected-pattern
 history audit reports no findings across 316 commits and 2,418 blobs. This later
 source result does not relabel the earlier receipt-bound executable.
+
 ## Kabuto owned size pursuit — 6 November 2026
 
 The factory-bound size phase now preserves the actor-local wide timestep,

@@ -87,13 +87,17 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
             | [0x24, 6, 0x21, 0x87, 4, 7, 2]
     );
     let positional_sound = ops.as_slice() == [0x2b, 2];
-    if !old && !ranged && !flat_blocks(&ops) && !sound_block && !positional_sound {
+    let contact = ops.as_slice()
+        == [
+            0x24, 6, 0x1b, 0x17, 0x21, 0x28, 0x28, 0x83, 0x49, 7, 0x4a, 2,
+        ];
+    if !old && !ranged && !flat_blocks(&ops) && !sound_block && !positional_sound && !contact {
         return Err("effect initial skip pass outside acquired complete profile".into());
     }
     for record in program
         .records
         .iter()
-        .filter(|r| matches!(r.opcode, 0x87 | 0x2b))
+        .filter(|r| matches!(r.opcode, 0x83 | 0x87 | 0x2b))
     {
         let operands = record
             .bytes
@@ -141,9 +145,9 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
     let mut staged = *random;
     let mut values = intervals.iter_mut();
     for record in &program.records {
-        if matches!(record.opcode, 0x87 | 0x2b) {
-            // Native integer sound selection consumes a draw even in the
-            // null-object pass. It neither plays audio nor stores the choice.
+        if matches!(record.opcode, 0x83 | 0x87 | 0x2b) {
+            // Native integer selection consumes a draw even in the null-object
+            // pass. The selected value is not stored on an absent object.
             staged.next_15();
             continue;
         }
@@ -165,6 +169,48 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn contact_skip_consumes_both_intervals_then_integer_selection_atomically() {
+        let mut bytes = vec![0x24];
+        for value in [0u32, 9, 0] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.extend([6, 0x1b]);
+        bytes.extend(1f32.to_le_bytes());
+        bytes.push(0x17);
+        bytes.extend(0u32.to_le_bytes());
+        bytes.push(0x21);
+        for name in [b"A\0", b"B\0"] {
+            bytes.push(0x28);
+            bytes.extend(name);
+            for value in [1f32.to_bits(), 2f32.to_bits(), 0, 0] {
+                bytes.extend(value.to_le_bytes());
+            }
+        }
+        bytes.push(0x83);
+        for value in [2u32, 5] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.extend([0x49, 7, 0x4a, 2]);
+        let mut program = giants_formats::effect_program::parse(&bytes).unwrap();
+        let mut random = Random(17);
+        let mut expected = random;
+        for _ in 0..3 {
+            expected.next_15();
+        }
+        let intervals = skip(&program, &mut random).unwrap();
+        assert_eq!(intervals.len(), 2);
+        assert_eq!(random.0, expected.0);
+        program
+            .records
+            .iter_mut()
+            .find(|r| r.opcode == 0x83)
+            .unwrap()
+            .bytes[5..9]
+            .copy_from_slice(&1u32.to_le_bytes());
+        assert!(skip(&program, &mut random).is_err());
+        assert_eq!(random.0, expected.0);
+    }
     #[test]
     fn sound_before_vector_in_a_complete_block_keeps_the_shared_draw_and_guards() {
         let mut bytes = vec![0x24];

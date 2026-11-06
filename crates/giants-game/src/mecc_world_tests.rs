@@ -1194,3 +1194,189 @@ fn source_mecc_world_history_admission_and_failed_tokens() {
     assert_eq!(p.stamp.0, 0);
     assert_eq!(s.actor_world_tick(id).unwrap().phase(), Phase::Failed);
 }
+
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; ordinary contact queue ownership only, no active FX or GPU"]
+fn source_mecc_contact_effect_preserves_prior_state_delay_and_stale_binding_refusals() {
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    let mut s = Session::new(913);
+    let source = actor(&mut s, &r, &g, &c, None, 0.);
+    let other = actor(&mut s, &r, &g, &c, None, 10.);
+    let mut fields = s
+        .get(source)
+        .unwrap()
+        .construction_fields
+        .as_ref()
+        .unwrap()
+        .clone();
+    fields.object_flags = 0;
+    fields.response_flags = 0;
+    fields.control_flags = 0;
+    fields.configuration[17] = 0;
+    fields.scale = 1.;
+    fields.position[2] = 15.;
+    fields.channels = [[0; 9]; 4];
+    fields.channels[0][0] = 41;
+    let mut payload = vec![0; 524];
+    for (at, value) in [(0x30, 2u32), (0x60, 1), (0x180, 1), (0x84, 2)] {
+        payload[at..at + 4].copy_from_slice(&value.to_le_bytes());
+    }
+    let mut view = crate::mecc_physical_cycle::View {
+        number: 1,
+        local_seconds: 1. / 60.,
+        velocity: [0., 0., -15.],
+        previous_velocity: [0., 0., -15.],
+        model_rates: [-15., 15., 0.],
+        previous_model_rates: [0.; 4],
+        angular_rate: 0.,
+        look_pitch: 0.,
+        commands: [0; 8],
+        floor: 10.,
+        plane: [0., 0., 1., -10.],
+        radius: 1.,
+        hit: 0,
+        support: 0,
+        support_part: 0,
+        support_triangle: 0,
+        affine: None,
+    };
+    let mut pool = crate::attached_effect_context::Pool::from_active_resources(913, &r);
+    let mut contact = crate::mecc_secondary::Contact::default();
+    let mut random = crate::audio_parameters::Random(1);
+    let run = |fields: &crate::actor_fields::Fields,
+               payload: &[u8],
+               view: &crate::mecc_physical_cycle::View,
+               source,
+               contact: &mut crate::mecc_secondary::Contact,
+               pool: &mut crate::attached_effect_context::Pool<Id>,
+               random: &mut crate::audio_parameters::Random| {
+        let mut checkpoint = None;
+        crate::mecc_secondary::ordinary(
+            fields,
+            payload,
+            fields.channels,
+            view,
+            &g,
+            1. / 60.,
+            crate::mecc_secondary::Services {
+                fire: false,
+                blending: Blending::Disabled,
+                random,
+                contact: Some(crate::mecc_secondary::ContactServices {
+                    state: contact,
+                    pool,
+                    source,
+                    checkpoint: &mut checkpoint,
+                }),
+            },
+        )
+    };
+    let entered = run(
+        &fields,
+        &payload,
+        &view,
+        source,
+        &mut contact,
+        &mut pool,
+        &mut random,
+    )
+    .unwrap();
+    assert_eq!(entered.request.unwrap().slot, 181);
+    assert!(pool.active().is_empty());
+    assert_eq!(random.0, 1);
+    let prepared = run(
+        &entered.fields,
+        &entered.payload,
+        &view,
+        source,
+        &mut contact,
+        &mut pool,
+        &mut random,
+    )
+    .unwrap();
+    assert!(prepared.request.is_none());
+    assert_eq!(pool.active().len(), 1);
+    let handle = pool.active()[0];
+    let mut stale_contact = contact.clone();
+    assert_eq!(pool.get(handle).unwrap().recipient(), Some(source));
+    assert!(pool.get(handle).unwrap().require_first_update().is_err());
+    let mut expected = crate::audio_parameters::Random(1);
+    for _ in 0..3 {
+        expected.next_15();
+    }
+    assert_eq!(random.0, expected.0);
+    assert!(
+        run(
+            &prepared.fields,
+            &prepared.payload,
+            &view,
+            other,
+            &mut contact,
+            &mut pool,
+            &mut random
+        )
+        .is_err()
+    );
+    assert_eq!(pool.active(), [handle]);
+    assert_eq!(random.0, expected.0);
+    view.velocity[2] = 0.;
+    view.previous_velocity[2] = 0.;
+    let mut body = prepared.payload.clone();
+    body[0x84..0x88].fill(0);
+    let exited = run(
+        &prepared.fields,
+        &body,
+        &view,
+        source,
+        &mut contact,
+        &mut pool,
+        &mut random,
+    )
+    .unwrap();
+    assert!(pool.get(handle).is_some()); // previous logical60 retains it for this call
+    let cleaned = run(
+        &exited.fields,
+        &exited.payload,
+        &view,
+        source,
+        &mut contact,
+        &mut pool,
+        &mut random,
+    )
+    .unwrap();
+    assert!(pool.active().is_empty());
+    assert_eq!(&cleaned.payload[0x1a8..0x1ac], &[0; 4]);
+    assert!(
+        run(
+            &prepared.fields,
+            &prepared.payload,
+            &view,
+            source,
+            &mut stale_contact,
+            &mut pool,
+            &mut random,
+        )
+        .is_err()
+    );
+    assert!(
+        run(
+            &prepared.fields,
+            &prepared.payload,
+            &view,
+            source,
+            &mut contact,
+            &mut pool,
+            &mut random
+        )
+        .is_err()
+    );
+    assert_eq!(random.0, expected.0);
+}

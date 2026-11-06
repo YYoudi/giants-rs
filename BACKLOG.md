@@ -499,12 +499,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   previously refused the unacquired high-descent transition at step 143.
   That ordinary transition now matches 128 complete native-selector/channel
   controls with blending disabled/enabled (41,920 words), including hold and
-  precedence over later reactions. The actual owned Bevy replay reaches step 158
-  and explicitly refuses its pending contact-landing effect provider.
-  Retain all earlier failed controls. Next acquire that contact branch's logical
-  state 60, effect creation/retirement and common-tail ownership, followed by
-  impact reactions; do not substitute a normal locomotion clip or empty effect.
-  See docs/MECC_DESCENT_GUARD.md. The 128-step inspection
+  precedence over later reactions. The ordinary contact selector now owns logical
+  state 60 and a real prepared slide-effect context. Native controls match 14
+  selector calls / 4,622 words and 256 preparation/empty-cleanup pairs / 17,920
+  words, including the previous-state delay, held-channel preservation, source
+  ownership and three shared RNG draws. See docs/OWNED_MECC_CONTACT.md.
+  The actual owned Bevy replay prepares its context at step 159 and reaches step
+  190, where the actor crosses below zero height and the acquired ordinary profile
+  explicitly refuses further updates. Retain the earlier step-143/152/158 failures.
+  Next acquire the original subzero primary/secondary path and its actual
+  physical/environment/health inputs; do not assume water, death or a clamp.
+  Bind the prepared effect's later active interpreter, emitted-object cleanup
+  and real world scheduling, then independent impact reactions. Prepared-only
+  cleanup is not active-effect cleanup. The 128-step inspection
   cycles cover resource retirement separately and do not validate this trajectory.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
@@ -556,6 +563,26 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   the complete comparison gallery appears before the progress tables.
 
 ## Cinematics / Flick: coverage and next prerequisites
+
+- Persistent selector follow-up: 900 private original-PC/Rust controls now
+  execute the real model selector and prepared-format query instead of supplying
+  slot zero and a positive alpha answer. The controlled descriptor formats cover
+  0 through 8, with automatic/forced selector entry modes, birth and four owned
+  preparations, and near/boundary/far draw-range cases for two source programs.
+  All 2,376 format answers and 1,188 model selections match the existing public
+  kernels. The source model table and both nonzero material-routing scalars also
+  match resources in all four cohort worlds. Within this bounded domain the
+  eligible parts remain deferred across all supplied formats; this does not
+  acquire the actual resident descriptor producer, GPU preparation, global queue
+  ordering or pixels. No runtime code, dependency, downloadable capability or
+  inventory count changes; the exact preview and receipts above remain separate.
+  Prototype PS2 searches precede this follow-up; attribution stays unknown.
+  Retained ordinary-world population evidence remains diagnostic: the exact-
+  binary capture contains only a post-attachment sample, while the older loading
+  trace has a separate, incomplete identity chain. Neither proves an atomic
+  allocator census or whole-world admission. Next: acquire identity-bound world
+  population/scheduling and actual texture/material consumers, then the general
+  and mixed queue families. Do not derive a shared quota from a list length.
 
 - Persistent draw-traversal milestone: first owned constant-effect preparation
   now consumes the acquired constructor gate and publishes active geometry,

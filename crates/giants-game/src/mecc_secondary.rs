@@ -23,6 +23,61 @@ pub(crate) struct Services<'a> {
     pub fire: bool,
     pub blending: animation_channels::Blending,
     pub random: &'a mut crate::audio_parameters::Random,
+    pub contact: Option<ContactServices<'a>>,
+}
+
+#[derive(Clone, Debug, Default)]
+pub(crate) struct Contact {
+    binding: Option<crate::attached_effect_context::Id>,
+}
+pub(crate) struct ContactServices<'a> {
+    pub state: &'a mut Contact,
+    pub pool: &'a mut crate::attached_effect_context::Pool<crate::resident_states::Id>,
+    pub source: crate::resident_states::Id,
+    pub checkpoint: &'a mut Option<(Fields, Vec<u8>)>,
+}
+impl ContactServices<'_> {
+    fn advance(
+        &mut self,
+        previous: u32,
+        marker: u32,
+        flags: u32,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<u32, String> {
+        if marker != u32::from(self.state.binding.is_some()) {
+            return Err("contact effect marker differs from its owned binding".into());
+        }
+        if let Some(id) = self.state.binding {
+            let context = self
+                .pool
+                .get(id)
+                .ok_or("contact effect binding absent, foreign or stale")?;
+            if context.recipient() != Some(self.source)
+                || context.tag() != Some(u32::MAX)
+                || context.flags() != 0x20004
+            {
+                return Err("contact effect binding belongs to another profile/source".into());
+            }
+        }
+        if previous == 60 {
+            if self.state.binding.is_none() {
+                let (creation, _) = self.pool.prepare_extended_invariant(
+                    "FX_mecc_slide",
+                    self.source,
+                    flags,
+                    u32::MAX,
+                    random,
+                )?;
+                if let crate::attached_effect_context::Creation::Prepared(id) = creation {
+                    self.state.binding = Some(id);
+                }
+            }
+        } else if let Some(id) = self.state.binding {
+            self.pool.release_prepared(id)?;
+            self.state.binding = None;
+        }
+        Ok(u32::from(self.state.binding.is_some()))
+    }
 }
 pub(crate) const fn control_mask(fire: bool) -> u32 {
     0xbc00 | if fire { 0x4000 } else { 0 }
@@ -49,24 +104,50 @@ pub(crate) fn ordinary(
         blending,
         random,
         fire,
+        mut contact,
     } = services;
-    if payload.len() != 524
-        || fields.class != 2
-        || fields.action != 0
-        || fields.control_flags & !control_mask(fire) != 0
-        || fields.response_flags & !(0x80803000 | if fire { 0x08000020 } else { 0 }) != 0
-        || fields.object_flags & 0x88000800 != 0
-        || fields.position[2] < 0.
-        || [0x80, 0x1a8, 0x1dc]
-            .into_iter()
-            .any(|at| word(payload, at) != 0)
-        || word(payload, 0x64) != 0
-        || word(payload, 0x180) != 1
-        || ![0, 1, 2, 4, 5, 6, 11, 13, 14, 15, 16, 18].contains(&word(payload, 0x30))
-            && !(fire && [12, 17, 19, 20, 21].contains(&word(payload, 0x30)))
-        || ![u32::MAX, 1].contains(&word(payload, 0x60))
-    {
-        return Err("ordinary secondary outside acquired source pistol profile".into());
+    if payload.len() != 524 {
+        return Err(
+            "ordinary secondary outside acquired source pistol profile: payload length".into(),
+        );
+    }
+    let logical_state = word(payload, 0x30);
+    let unsupported = [
+        (fields.class != 2, "class"),
+        (fields.action != 0, "action"),
+        (
+            fields.control_flags & !control_mask(fire) != 0,
+            "control flags",
+        ),
+        (
+            fields.response_flags & !(0x80803000 | if fire { 0x08000020 } else { 0 }) != 0,
+            "response flags",
+        ),
+        (fields.object_flags & 0x88000800 != 0, "object flags"),
+        (fields.position[2] < 0., "negative height"),
+        (
+            [0x80, 0x1dc].into_iter().any(|at| word(payload, at) != 0),
+            "active auxiliary",
+        ),
+        (word(payload, 0x64) != 0, "weapon transition"),
+        (word(payload, 0x180) != 1, "weapon inventory"),
+        (
+            ![0, 1, 2, 4, 5, 6, 11, 13, 14, 15, 16, 18, 60].contains(&logical_state)
+                && !(fire && [12, 17, 19, 20, 21].contains(&logical_state)),
+            "logical state",
+        ),
+        (
+            ![u32::MAX, 1].contains(&word(payload, 0x60)),
+            "weapon cache",
+        ),
+    ]
+    .into_iter()
+    .find(|(failed, _)| *failed);
+    if let Some((_, reason)) = unsupported {
+        return Err(format!(
+            "ordinary secondary outside acquired source pistol profile: {reason}; logical={logical_state} action={} height={}",
+            fields.action, fields.position[2]
+        ));
     }
     let parameters =
         mecc_locomotion::Parameters::from_globals(globals).map_err(|e| e.to_string())?;
@@ -114,12 +195,21 @@ pub(crate) fn ordinary(
     {
         return Err("ordinary secondary requires acquired impact reaction provider".into());
     }
-    if !descending
+    let contact_selection = !descending
         && word(payload, 0x84) & 2 != 0
         && (view.velocity[2] < -scalar(0x664)?
-            || word(payload, 0x30) == 2 && view.velocity[2] < -scalar(0x668)?)
-    {
-        return Err("ordinary secondary contact landing effect provider pending".into());
+            || word(payload, 0x30) == 2 && view.velocity[2] < -scalar(0x668)?);
+    let contact_hold = !descending
+        && !contact_selection
+        && word(payload, 0x30) == 60
+        && view.velocity[2] < -scalar(0x668)?;
+    if contact_selection || contact_hold {
+        selection = mecc_locomotion::Request {
+            clip: 181,
+            flags: 0x21,
+            speed_source: -1,
+            reference_speed: 0.,
+        };
     }
     let (mut logical, mut flag) = match selection.clip {
         1 => (1, 0x400),
@@ -130,6 +220,7 @@ pub(crate) fn ordinary(
         50 => (18, 0x2000),
         38 => (16, 0x8000),
         41 => (2, 0),
+        181 => (60, 0),
         _ => return Err("ordinary secondary directional-air variant pending".into()),
     };
     let mut f = fields.clone();
@@ -261,14 +352,37 @@ pub(crate) fn ordinary(
             || matches!(logical, 12 | 17 | 19)
             || logical == 5 && context & 0x200 != 0,
     );
-    let request = (selecting && (force_request || channels[0][0] != u32::from(selection.clip)))
-        .then_some(Request {
-            slot: selection.clip,
-            flags: selection.flags,
-            speed_source: selection.speed_source,
-            reference_speed: selection.reference_speed,
-            blend_seconds,
-        });
+    // Native ownership uses the previous logical state, independently of this
+    // frame's selection. Creation/cleanup precedes the primary channel setter.
+    if word(payload, 0x30) == 60
+        || word(payload, 0x1a8) != 0
+        || contact.as_ref().is_some_and(|c| c.state.binding.is_some())
+    {
+        let service = contact
+            .as_mut()
+            .ok_or("ordinary contact requires the owned effect pool/binding")?;
+        let mut checkpoint_fields = f.clone();
+        checkpoint_fields.channels = channels;
+        *service.checkpoint = Some((checkpoint_fields.clone(), body.clone()));
+        let marker = service.advance(
+            word(payload, 0x30),
+            word(payload, 0x1a8),
+            f.object_flags,
+            random,
+        )?;
+        put(&mut body, 0x1a8, marker);
+        *service.checkpoint = Some((checkpoint_fields, body.clone()));
+    }
+    let request = (!contact_hold
+        && selecting
+        && (force_request || channels[0][0] != u32::from(selection.clip)))
+    .then_some(Request {
+        slot: selection.clip,
+        flags: selection.flags,
+        speed_source: selection.speed_source,
+        reference_speed: selection.reference_speed,
+        blend_seconds,
+    });
     if let Some(request) = request {
         animation_channels::select_primary(&mut channels, request, blending)?;
         f.control_flags = (f.control_flags & 0xfffe03ff) | flag;
@@ -369,6 +483,7 @@ mod tests {
                 &globals,
                 1. / 60.,
                 Services {
+                    contact: None,
                     fire: true,
                     blending: animation_channels::Blending::Enabled,
                     random: &mut random,
@@ -410,6 +525,7 @@ mod tests {
             &globals,
             1. / 60.,
             Services {
+                contact: None,
                 fire: true,
                 blending: animation_channels::Blending::Enabled,
                 random: &mut random,
@@ -428,6 +544,7 @@ mod tests {
             &globals,
             1. / 60.,
             Services {
+                contact: None,
                 fire: true,
                 blending: animation_channels::Blending::Enabled,
                 random: &mut random,
@@ -439,18 +556,38 @@ mod tests {
         assert_eq!(word(&held.payload, 0xd8), 1);
         assert_eq!(random.0, 1);
         view.velocity[2] = -20.;
+        view.previous_velocity[2] = -20.;
+        let contact = ordinary(
+            &held.fields,
+            &held.payload,
+            held.channels,
+            &view,
+            &globals,
+            1. / 60.,
+            Services {
+                fire: true,
+                blending: animation_channels::Blending::Enabled,
+                random: &mut random,
+                contact: None,
+            },
+        )
+        .unwrap();
+        assert_eq!(contact.request.unwrap().slot, 181);
+        assert_eq!(word(&contact.payload, 0x30), 60);
+        assert_eq!(word(&contact.payload, 0x1a8), 0);
         assert!(
             ordinary(
-                &held.fields,
-                &held.payload,
-                held.channels,
+                &contact.fields,
+                &contact.payload,
+                contact.channels,
                 &view,
                 &globals,
                 1. / 60.,
                 Services {
                     fire: true,
                     blending: animation_channels::Blending::Enabled,
-                    random: &mut random
+                    random: &mut random,
+                    contact: None
                 },
             )
             .is_err()
@@ -468,6 +605,7 @@ mod tests {
             &globals,
             1. / 60.,
             Services {
+                contact: None,
                 fire: true,
                 blending: animation_channels::Blending::Enabled,
                 random: &mut random,
@@ -489,6 +627,7 @@ mod tests {
                 &globals,
                 1. / 60.,
                 Services {
+                    contact: None,
                     fire: false,
                     blending: animation_channels::Blending::Enabled,
                     random: &mut random
@@ -511,6 +650,7 @@ mod tests {
             &globals,
             1. / 60.,
             Services {
+                contact: None,
                 fire: true,
                 blending: animation_channels::Blending::Enabled,
                 random: &mut random,
@@ -541,6 +681,7 @@ mod tests {
                     &globals,
                     1. / 60.,
                     Services {
+                        contact: None,
                         fire: true,
                         blending: animation_channels::Blending::Enabled,
                         random,
@@ -580,6 +721,7 @@ mod tests {
             &globals,
             1. / 60.,
             Services {
+                contact: None,
                 fire: true,
                 blending: animation_channels::Blending::Enabled,
                 random: &mut random,

@@ -482,7 +482,66 @@ impl<K: Copy + Eq> Pool<K> {
                 "extended context requires acquired recipient parameter inheritance".into(),
             );
         }
+        self.prepare_extended_entry(
+            name,
+            recipient,
+            tag,
+            (entry_index, entry.offset),
+            image,
+            random,
+        )
+    }
+    /// Resolve only when normal and lite lookup identify the same actual entry.
+    /// No synthetic load, quality or camera inputs stand in for their producer.
+    pub fn prepare_extended_invariant(
+        &mut self,
+        name: &str,
+        recipient: K,
+        recipient_flags: u32,
+        tag: u32,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        if name.contains('\0') {
+            return Err("effect name contains an embedded terminator".into());
+        }
+        let Some(image) = self.image.clone() else {
+            return Ok((Creation::Absent, vec![]));
+        };
+        let normal = image
+            .adaptive_find(name, false)
+            .map_err(|e| e.to_string())?;
+        let lite = image.adaptive_find(name, true).map_err(|e| e.to_string())?;
+        if normal.map(|(_, e)| e.offset) != lite.map(|(_, e)| e.offset) {
+            return Err("effect selection requires the actual quality/distance producer".into());
+        }
+        let Some((entry_index, entry)) = normal else {
+            return Ok((Creation::Absent, vec![]));
+        };
+        if recipient_flags & 0x400 != 0 {
+            return Err(
+                "extended context requires acquired recipient parameter inheritance".into(),
+            );
+        }
         let entry_offset = entry.offset;
+        self.prepare_extended_entry(
+            name,
+            recipient,
+            tag,
+            (entry_index, entry_offset),
+            image,
+            random,
+        )
+    }
+    fn prepare_extended_entry(
+        &mut self,
+        name: &str,
+        recipient: K,
+        tag: u32,
+        entry: (usize, u32),
+        image: Arc<Image>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        let (entry_index, entry_offset) = entry;
         let program = Arc::new(image.program(entry_offset).map_err(|e| e.to_string())?);
         let mut staged = *random;
         let intervals = crate::effect_initialization::skip(&program, &mut staged)?;
@@ -672,6 +731,28 @@ impl<K: Copy + Eq> Pool<K> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn invariant_extended_lookup_refuses_distinct_entries_before_allocation_or_rng() {
+        let mut payload = b"A\0".to_vec();
+        payload.extend(17u32.to_le_bytes());
+        payload.extend(b"A_lite\0");
+        payload.extend(18u32.to_le_bytes());
+        payload.extend([2, 2]);
+        let mut bytes = vec![];
+        for word in [1, payload.len() as u32, 2] {
+            bytes.extend(word.to_le_bytes());
+        }
+        bytes.extend(payload);
+        let image = Arc::new(giants_formats::effect_image::parse(&bytes).unwrap());
+        let mut pool = Pool::new(12, Some(image));
+        let mut random = crate::audio_parameters::Random(123);
+        assert!(
+            pool.prepare_extended_invariant("A", 1u32, 0, u32::MAX, &mut random)
+                .is_err()
+        );
+        assert!(pool.active().is_empty());
+        assert_eq!(random.0, 123);
+    }
     #[test]
     fn cinematic_mark_survives_preparation_and_retirement_invalidates_reused_identity() {
         let mut pool = Pool::new(7, Some(image()));

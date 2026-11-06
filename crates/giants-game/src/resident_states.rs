@@ -338,6 +338,7 @@ pub struct Resident {
     mecc_shot_failure: Option<String>,
     mecc_local_target: Option<crate::mecc_target_owned::Published>,
     mecc_jet: Option<crate::mecc_jet_owned::Owner>,
+    mecc_contact: crate::mecc_secondary::Contact,
     /// Native accumulated header damage, owned separately from the payload.
     mecc_damage: Option<f32>,
     mecc_physics_present: bool,
@@ -556,6 +557,7 @@ impl Session {
                 mecc_shot_failure: None,
                 mecc_local_target: None,
                 mecc_jet: None,
+                mecc_contact: Default::default(),
                 mecc_damage: None,
                 mecc_physics_present: false,
                 mecc_physical_cycle: None,
@@ -1790,6 +1792,8 @@ impl Session {
                 output.payload[0x1d4..0x1d8].copy_from_slice(&tick.timer.to_le_bytes());
             }
             let selected = if let Some(factory) = &mut wield {
+                let mut contact = self.get(id).unwrap().mecc_contact.clone();
+                let mut contact_checkpoint = None;
                 let stage = crate::mecc_secondary::ordinary(
                     &output.fields,
                     &output.payload,
@@ -1807,10 +1811,26 @@ impl Session {
                     ),
                     crate::mecc_secondary::Services {
                         fire: fire_mode,
+                        contact: Some(crate::mecc_secondary::ContactServices {
+                            state: &mut contact, pool: &mut pipeline.contexts, source: id,
+                            checkpoint: &mut contact_checkpoint,
+                        }),
                         blending: pipeline.blending,
                         random: &mut pipeline.random,
                     },
                 );
+                // Preserve effect ownership and earlier selector writes even if
+                // the later channel setter fails. The failed cycle cannot replay.
+                self.residents.get_mut(&id.serial).unwrap().mecc_contact = contact;
+                if let Some((fields, payload)) = contact_checkpoint {
+                    let actor = self.residents.get_mut(&id.serial).unwrap();
+                    actor.channels = Some(fields.channels);
+                    actor.construction_fields = Some(fields);
+                    actor.seed.storage.data_mut().unwrap().copy_from_slice(&payload);
+                    self.specifications.get_mut(&id.serial).unwrap().0 = pipeline.references.clone();
+                    self.mecc_events = Some(pipeline.bank.clone());
+                    *contexts = pipeline.contexts.staged_copy();
+                }
                 // A selector can consume shared RNG before a later channel error.
                 *random = pipeline.random;
                 let stage = stage?;
