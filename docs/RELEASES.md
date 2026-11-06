@@ -17,6 +17,13 @@ Rebuilt private controls pass the 512 template ticks, 512 seeded class masks and
 24-context / 11,596-word auxiliary lifecycle slice. Prototype PS2 correspondences
 remain unknown and their raw/demangled/generated-name lineage remains private.
 
+Subsequent combined checkpoint `990ef4c` preserves Delphi body alignment and the
+newer Mecc held-matrix/event controls. It passes 764 synthetic Rust tests (25
+ignored), all four Kabuto installed-data checks, 40 Python tests, Rustfmt and
+Clippy. Rebuilt template and auxiliary lifecycle controls pass again. The source
+history audit uses the incoming exact-document alias exception for the separately
+reviewed attribution summary; no general label exception is introduced here.
+
 No dependency, bundled asset or playable package changes. Existing manifests,
 executable/package checksums and dependency-notice receipts retain their exact
 build identities; they do not attest to this source milestone or visual fidelity.
