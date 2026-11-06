@@ -102,7 +102,7 @@ cargo test --locked -p giants-game source_delphi_physical_owns_motion_shares_eve
 
 This silent CPU control checks three owners, persistent motion/contact/jump,
 shared class events, physical-only/locomotion/controlled profiles using external
-clip definitions, separate look state, paused terrain exclusion, late secondary
+clip definitions, separate look state, body roll settling, paused terrain exclusion, late secondary
 and invalid-rotation quarantine, profile refusal and cleanup. It creates no window or audio device
 and does not execute the complete Delphi primary/secondary or live controls.
 

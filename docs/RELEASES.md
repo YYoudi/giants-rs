@@ -1,5 +1,20 @@
 # Preview releases and milestone integration
 
+## Delphi owned body alignment - 6 November 2026
+
+The explicit controlled phase now runs body pitch/roll alignment between jump
+and physics, preserving the acquired float conversion and angular approach order.
+Four 256-step native/Rust tilted-start cases match 8,162,304 normalized words over
+all 22 actors, reference buffers, owner payload and ordered lists, plus exact RNG
+endpoints, including cold pause and pause during settling with retained affine
+cache state. Positional events requiring an absent/stale paused cache remain
+refused pending their producer. Scalar controls and a hardware arithmetic cross-check
+retain the distinct verification limits in OWNED_DELPHI.md, including a quarantined
+large-angle emulator remainder discrepancy. Full primary, camera/target/item
+producers, water/turbo, live mission controls and fidelity remain pending.
+
+This source/API stage adds no playable Delphi download.
+
 ## Delphi owned manual rotation - 6 November 2026
 
 An explicit owned profile now composes manual heading/look between the entered

@@ -316,21 +316,31 @@ impl Owned {
         ] {
             put(&mut body, at, value);
         }
+        if manual.is_some() {
+            let aligned =
+                crate::delphi_body_alignment::advance(crate::delphi_body_alignment::Input {
+                    mode: word(&body, 0x5c) as i32,
+                    controls: f.control_flags,
+                    previous: f.previous,
+                    position: f.position,
+                    pitch_roll: [f.angles[1], f.angles[2]],
+                    seconds: crate::object_time::seconds(
+                        e.global_seconds,
+                        Some(crate::object_time::Sample {
+                            owner: f.dispatch_context,
+                            position: f.position,
+                        }),
+                        None,
+                        e.areas,
+                    ),
+                })?;
+            f.angles[1..3].copy_from_slice(&aligned);
+        }
         if manual.is_some_and(|m| m.paused) {
             // The physical callback keeps first ANM/history while skipping
             // integration, placement, new model rates and force production.
-            let (flags, affine) = crate::actor_affine::update(
-                crate::uncached_pose::Pose {
-                    position: f.position,
-                    angles: f.angles,
-                    scale: f.scale,
-                },
-                f.object_flags,
-                self.view.affine,
-                Precision::Double53,
-            )?;
-            f.object_flags = flags;
-            self.view.affine = Some(affine);
+            // ANM does not by itself request an actor world transform. Keep
+            // an absent or older cache until a real consumer requires it.
             self.view.number = e.number;
             let seconds = crate::object_time::seconds(
                 e.global_seconds,

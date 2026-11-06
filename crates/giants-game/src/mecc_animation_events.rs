@@ -17,7 +17,7 @@ pub(crate) struct Input<'a> {
     pub fields: &'a Fields,
     pub channels: &'a Channels,
     pub references: &'a [Matrix],
-    pub affine: [f32; 16],
+    pub affine: Option<[f32; 16]>,
     pub material: Material<'a>,
 }
 #[derive(Clone, Copy)]
@@ -102,7 +102,7 @@ impl Bank {
                 Material::Acquired(value) => value,
             },
             position: fields.position,
-            world: affine[..12].try_into().unwrap(),
+            world: affine.map(|m| m[..12].try_into().unwrap()),
             references: &points,
             contact_scalar: 0.,
             cinematic: false,

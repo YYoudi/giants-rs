@@ -137,7 +137,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Paused physical work keeps first ANM/history but skips integration/placement/
   new rates/forces. Three-owner lifecycle/profile/quarantine checks pass.
   Automatic target heading, full primary and live admission remain pending.
-- Compose the surrounding full primary, heading/look/pitch producers and
+- Implemented: controlled body pitch/roll alignment follows jump and precedes
+  physics, retaining the acquired conversion factor, shortest-turn normalization,
+  object-local time and paused-frame ordering. Four 256-step tilted-start cases
+  match 8,162,304 normalized words across the complete 22-actor cohort and RNG
+  endpoint. Scalar verification separates 3,484 original-instruction emulator
+  cases from a 3,964-case hardware arithmetic translation; the documented huge-
+  angle emulator discrepancy is excluded from original-instruction parity.
+  Special pose inputs do not implement water detection, swimming or turbo.
+- Acquire paused positional-event lazy transform production before admitting
+  events needing an absent/stale affine cache. ANM preserves cold absence and
+  the older cached pose during body settling; no placeholder matrix is used.
+- Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
   calls and 576 phase calls without changing the original 64 final cohort states.
