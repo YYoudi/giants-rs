@@ -17,7 +17,7 @@ matches probable and one unassigned. No gameplay status changes follow from name
   PS2 comparisons without inferring types from them. Acquire pre-primary and
   subjective fire timing, positional audio and native mesh/list producers, with
   separate PC/PS2 identities and platform differences.
-- The central method now records seven current primary/subjective function
+- The central method records current primary/subjective function
   lookups as unassigned, with their exact PC aliases, current owned Rust
   relationships and missing comparisons. Reuse those identity-bound searches;
   preserve older presentation-module references as historical aliases rather
@@ -257,18 +257,41 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   24,876 words, including complete vertices/indices and the final RNG state.
   Disabled entries consume nothing; owned invalid profiles refuse before RNG
   publication. Backend failure retains the completed prefix and consumed draw.
-  The mode/scalar producer, registry visitor/world scheduling and real GPU
+  The scalar/mode kernel is acquired below; registry visitor/world scheduling and real GPU
   consumer remain prerequisites; this is a CPU packet, not rendered Kabuto.
 - Implemented: the geometry-header tail selects the supplied local-camera or
   body/target route, preserves inactive fields, transforms the current attachment,
   and measures the target distance. All 384 native controls match 4,992 complete
   header words across modes, selected/unselected owners, target presence and
   matrix flags. The shared Double53 point kernel preserves its distinct operation
-  order without changing the existing aiming kernel. The preceding mode/scalar,
-  animation/sound and extra-reference phases remain unported; header preparation
+  order without changing the existing aiming kernel. The scalar/mode kernel is acquired below;
+  animation/sound and extra-reference phases remain unported. Header preparation
   alone does not complete this helper, full primary or world rendering.
-- Complete the remaining custom cleanup profiles: the additional object-reference
-  slot's nonzero behavior/role, GPU material release and dynamic/entered turns.
+- Implemented: the scalar/mode and target-reference phase matches 768 native
+  controls, 7,816 final/notification words and all 209 notification calls. It
+  preserves source bit toggles, Double53 timer stores, scalar updates, identity
+  comparisons and notification-before-target / mode-before-notification order.
+  The eligibility guard retains the first matching peer, fallback and low-byte
+  owner comparison. Transport is an explicit supplied boundary, not a network
+  implementation. Five synthetic controls cover ordering, inactive bypass,
+  atomic refusal, signed zero and unchanged reference identity. Actual Session
+  field binding, preceding/following transitions and world dispatch remain open.
+- Implemented: separately prepared class1199 auxiliary construction uses actual
+  class/specification resources and the shared Session constructor. Sixteen
+  native contexts match 3,872 normalized header/list words. Its required class
+  command `0x4e` is a one-byte mask operation; 512 seeded/mixed native controls
+  match the public configuration kernel. No declaration bytes are bundled.
+- Implemented: atomic owner binding and explicit mark/reference-clear use the
+  common ticket-owned actor IDs, attachment metadata and deletion-bit writer.
+  Twenty-four native geometry-prefix contexts match the auxiliary lifecycle
+  slice (11,596 words, four creates, three marks, every extra header and all
+  fifteen lists). Marked actors retain ownership and attachment; re-entry
+  allocates a new ID. Active-extra group cleanup is refused until that teardown
+  profile is acquired. Full animation/sound/root-motion parity and world dispatch
+  remain separate; the full native prefix is not yet a full Rust comparison.
+- Complete the remaining custom cleanup profiles: the active additional-reference
+  teardown, GPU material release and dynamic/entered turns. The acquired geometry
+  prefix stores class1199 in that reference; its broader gameplay role is unassigned.
   The owner remains state1 after the custom callback; common state transition
   and actual marked-actor retirement must be acquired separately. `Session::clear`
   alone does not dispatch the explicit external geometry registry.
@@ -353,9 +376,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   controls match 96 frames / 26,112 words; four failure and one empty-primary
   control preserve publications. See docs/OWNED_LOCAL_FIRE.md. The Session-bound
   post now executes the actual fire callback using the current held cache rather
-  than reattaching from overwritten source references. Acquire posed-vertex storage
-  and its exact consumers before choosing their ownership; do not substitute
-  independent playback/vertex copies for an unverified sharing model. Current controlled flags are read after
+  than reattaching from overwritten source references. The position producer now
+  uses the existing model-resource bank and actual virtual channels/stamp. Acquire
+  its real draw consumers and admission; do not substitute an independent
+  presentation player. Current controlled flags are read after
   primary; copied motion/channels and world-shared weapon history have distinct
   producers. This remains a CPU prerequisite, not full subjective integration.
 - Ordered subjective camera: the Session-produced post now calculates the inner
@@ -364,8 +388,24 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   matching outer view for rendering. Four controls pass 320 frames/12 shots with
   generated cameras; a separate 64-frame capture also checks inner renderer
   matrices. Preserve explicit startup/eligibility/static-world boundaries. Next,
-  acquire posed-vertex ownership/consumers and actual subjective drawing before
+  bind the acquired position producer to actual subjective drawing before
   enabling main-driver fire; complete target contexts and positional audio remain.
+- Subjective vertices: the Session API refuses incomplete, skipped, failed,
+  inactive, stale, foreign and cleared post states. Two controls pass 64 frames,
+  544 model snapshots and 716,414 words, including full positions/cache and the
+  earlier world/fire snapshots. Forced and mixed cache gates are explicit inputs;
+  live LOD, part masks, material submission and world draw policy remain open.
+  The same trajectory exposed a backward-air secondary transition, now acquired
+  for the normal pistol. Other directional-air variants and reactions remain
+  separate prerequisites. These CPU checks enable no new campaign or live fire.
+- Subjective submission: the class-2 body/virtual dispatcher and temporary held
+  parent redirection now match 8,192 + 144 native cases. Callback interception is
+  not geometry execution. Next bind actual completed-post/held identities and
+  acquire the preparation and immediate/deferred model consumers. Reuse existing
+  `render_parts`, `render_sort`, `lod` and the shared model bank; the observed
+  submission entry is distinct from the previously examined draw helper. Keep
+  other-character rules separate and retain detached parents and late failures.
+  Main-driver startup camera, target contexts and positional audio remain open.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated
@@ -462,6 +502,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   still renews generations. Actual source construction/render/cache phase and
   world scheduling remain prerequisites; these controls add no runtime behavior.
   Identity-bound prototype PS2 lookups remain unknown, separate from PC behavior.
+  Follow-up source-actor controls cover 158 actors in all 23 bounded sources.
+  Forty have independent channel clocks, but the source/reference audit finds
+  none used by these 25 FX supports. With actual source camera binding, the
+  original time/epoch routine and actual actor-channel updates, four supplied
+  phase deltas produce 100 support samples / 1,700 words matching both the
+  explicit-clock Rust projection and the current runtime clock selection.
+  Twenty-five initial support caches are cold; a clean repetition agrees.
+  This closes no whole-world admission or fidelity requirement. Full VM/frame
+  scheduling, object-channel cadence and capacity remain to acquire; do not add
+  a synthetic delay, first-frame pose or independent-clock substitution based
+  only on the count of independent actors. The phase records and raw proofs
+  remain private.
   The 59-source gap total, 56 general-queue admission refusals and 282 strict-
   profile reviews remain: this is a partial runtime path, not 23 fully admitted
   or faithful scenes. In-mission producers are still needed for non-opening

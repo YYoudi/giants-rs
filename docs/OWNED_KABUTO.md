@@ -502,7 +502,7 @@ boundaries. Synthetic tests additionally cover disabled/invalid inputs, ordered
 owned-buffer emission and failure at each of the seven backend calls. Prototype
 PS2 lookup sheets retain unknown attributions and their earlier PC aliases.
 
-This ports CPU command preparation only. Actual producer fields, the guarded
+This ports CPU command preparation only. Session producer binding, the guarded
 registry visitor, world scheduling, material upload and Bevy GPU consumption
 remain open. All initializer readiness prerequisites and live admission remain
 unchanged; this result establishes neither playable movement nor visual fidelity.
@@ -532,9 +532,83 @@ are exercised. This is a header-tail comparison, not a full helper comparison.
 The earlier primary write observer returns for one cold and immediately repeated
 supplied primary, keeping this geometry disabled. That native-only observation
 locates the writers; it does not validate a Rust primary or assign gameplay names
-to the mode byte. Its scalar/mode selector, animation and sound transitions,
-extra-reference creation/retirement and world dispatch remain open. A synthetic
+to the mode byte. The scalar/mode kernel is acquired below. Session binding,
+animation and sound transitions, extra-reference creation/retirement and world
+dispatch remain open. A synthetic
 control composes the prepared header with the consumable submission packet; no
 actual GPU backend runs. Prototype PS2 attributions remain unknown. Private
 records distinguish instruction write sites from actual direct-call entries and
 retain failed REA requests separately from Capstone/native execution evidence.
+
+
+## Scalar/mode and target-reference phase
+
+`kabuto_geometry_mode::advance` ports the preceding scalar/mode helper with
+explicit typed reference identities. Its generic identity can use the common
+Session `Id`; no original pointer or native memory layout is imported. The
+source flags and control bits select toggling, accumulation/decrement and timer
+bounds. Float stores and negative zero are retained. A positive scalar can
+remain when the resulting mode is zero; no gameplay label is inferred from that
+case. Inactive reset bypasses otherwise invalid time inputs. Owned active-profile
+refusals occur before mutation or notifications.
+
+Changed target identity notifies before reference/status publication. Changed
+mode publishes the byte before notifying. Each observer receives the state at
+that boundary. An unchanged identity keeps its status and sends nothing, even
+when supplied target metadata changes. Notification eligibility preserves the
+acquired session-mode guard, first matching peer, fallback and low-byte owner
+comparison. This is a supplied stable context, not an active peer list or
+network transport. The callback is infallible because the source ignores the
+transport return; no invented retry or rollback is added.
+
+All 768 full native helper controls match 7,816 words and 209 notifications,
+including final fields, return value and state snapshots at each send. Original
+eligibility and Double53 math execute; message transport is intercepted at its
+entry. Early collector failures were missing transport interception in the test
+harness, not verified source failures. Private records retain those failures
+separately from the corrected control. Five synthetic tests cover ordering,
+reset/refusal, unchanged identity, signed zero and ownership guard details.
+
+This is a CPU service. Session field/reference binding, actual notification
+transport, animation/effect transitions, the extra reference and complete world
+scheduling remain open. It neither changes live admission nor implements a full
+Kabuto primary. Prototype PS2 correspondences remain unknown; raw names,
+unreviewed demangling and historical aliases stay separate in private lineage.
+
+
+## Dynamic auxiliary ownership slice
+
+`kabuto_auxiliary::ExtraFactory` loads the source class1199 and its specification
+through the existing resource registry, separately from the twelve-actor cold
+factory. Its unparented constructor uses the common acquired Session path.
+Sixteen native contexts match 3,872 normalized header/list words. The class's
+previously unsupported command `0x4e` consumes no operand and sets the low-byte
+mask in the existing configuration word. The shared parser, actor-field and scalar
+paths now accept it. Five hundred twelve seeded/repeated/mixed native controls
+match that exact public configuration implementation, preserving other words.
+Native template/copy mask equality is checked separately from full-header parity.
+
+`ExtraFactory::construct_for` stages construction before publishing a ticket-owned
+extra identity in the group. It sets the acquired response flag and parent/
+reference binding without copying unrelated dispatch fields. Duplicate references,
+foreign owners and retired groups refuse. `Session::mark_kabuto_extra` reuses the
+common deletion-bit writer and then clears the active reference. The marked actor
+and its attachment/list membership remain owned. Another construction receives a
+new identity. The cold group remains unchanged until this phase is explicitly run.
+
+Twenty-four native prefix contexts execute real source animation transitions,
+actual auxiliary construction and deletion marking with an absent sound bank.
+The Rust comparison replays only the auxiliary lifecycle slice: all extra headers,
+active identity and all fifteen ordered lists match 11,596 words, four creates and
+three marks. Owner animation, sound and geometry-tail fields are excluded from
+this parity claim. This is not a full prefix or primary comparison. Source bank
+absence follows the real sound early-return path; it certifies no audible output.
+
+An installed-data control checks acquired class/state/specification ownership,
+parent/reference fields, replay and foreign-session refusal, marking without
+retirement, second construction and Session clear. Registered group cleanup
+refuses while an extra is active: that nonzero-reference teardown remains open.
+Actual actor retirement, animation/sound/root-motion composition, world scheduling
+and live admission remain prerequisites. No initializer gate is cleared and no
+visual fidelity follows. Prototype PS2 correspondences remain unknown; raw ELF,
+uncertain demangling, source aliases and control receipts remain private.

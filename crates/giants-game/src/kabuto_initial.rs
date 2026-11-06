@@ -29,6 +29,9 @@ pub struct Group {
     pub second: Id,
     pub effects: [Id; 8],
     pub final_effect: Id,
+    /// Active dynamic auxiliary identity; marked actors can remain owned after
+    /// this reference is cleared. No original pointer is stored in the payload.
+    pub extra: Option<Id>,
     pub declared_class: Arc<specification::Prepared>,
     pub geometry: Geometry,
     pub radius: f32,
@@ -271,6 +274,7 @@ impl Factory {
             second,
             effects: effects.try_into().unwrap(),
             final_effect,
+            extra: None,
             declared_class: self.resources.specification.clone(),
             geometry,
             radius: prepared.radius,

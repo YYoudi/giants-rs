@@ -62,7 +62,7 @@ pub(crate) fn ordinary(
             .any(|at| word(payload, at) != 0)
         || word(payload, 0x64) != 0
         || word(payload, 0x180) != 1
-        || ![0, 1, 5, 6, 11, 13, 14, 15, 16, 18].contains(&word(payload, 0x30))
+        || ![0, 1, 4, 5, 6, 11, 13, 14, 15, 16, 18].contains(&word(payload, 0x30))
             && !(fire && [12, 17, 19, 20, 21].contains(&word(payload, 0x30)))
         || ![u32::MAX, 1].contains(&word(payload, 0x60))
     {
@@ -116,6 +116,7 @@ pub(crate) fn ordinary(
         2 => (11, 0x1000),
         5 => (5, 0x800),
         6 => (6, 0),
+        39 => (4, 0),
         50 => (18, 0x2000),
         38 => (16, 0x8000),
         _ => return Err("ordinary secondary directional-air variant pending".into()),

@@ -82,13 +82,95 @@ clocks, genuine preparation, required current held pass, next-frame blocking,
 successful/no-shot callbacks and late sound failure. The latter retains the real
 born projectile, named FX, RNG and first virtual ANM; failed or completed posts
 cannot replay. Cancellation invalidates the source identities. See BUILD.md.
-Main admission still needs the actual inner/outer camera pass sequence, acquired
-posed-vertex sharing and subjective/body drawing policy, complete scene target
+Main admission still needs enclosing-world binding of the acquired camera and
+position producers, subjective/body drawing policy, complete scene target
 contexts and positional audio. Existing previews do not expose this owned fire
 route. Prototype PS2 names remain unassigned for the pre/post/selector/primary
 correspondences; no platform ABI or layout is inferred from candidate names.
 
 ## Shared subjective reference storage
+
+### Owned subjective model positions - 6 November 2026
+
+`Session::prepare_mecc_subjective_positions` now updates the existing shared,
+model-resource-keyed position bank from the completed virtual channels and actual
+virtual animation stamp. It uses the Session's prepared state specification,
+without an independent presentation animation player or another position bank.
+The matching position/cache getters retain source, frame and resource checks.
+They expose the latest shared bank contents, not an immutable actor-owned pose.
+Callers must prepare immediately before consuming or uploading a model; another
+actor using the same model resource can replace that buffer through its own pass.
+Skipped, inactive, incomplete, failed, foreign and cleared sources cannot publish
+geometry through this entry. A late fire failure preserves earlier bank writes;
+refusing a new geometry request does not erase those completed effects.
+
+Native instruction/call inspection identifies the position buffer and its cache
+on the model resource. These observations do not identify the copied auxiliary
+header pointer as a position buffer. Its cleanup ownership test is separate; its full
+semantic role and draw-time consumers remain unassigned. No pointer is recast
+as a vertex buffer from address similarity or the header copy alone.
+
+Two continuous controls pass 64 frames, 544 body/subjective model snapshots and
+716,414 normalized words, including 641,376 vertex/cache words. They compare all
+eight declared body model slots and the active subjective model, alongside source,
+held/virtual references, cameras, actual fire/projectile/FX, RNG and epochs. One
+control supplies forced recalculation; the other mixes forced and normal cache
+gates. These are supplied slot/phase controls, not acquired live LOD/visibility
+admission. Their 32-frame motion schedule also exposed a missing backward-air
+secondary transition. Its acquired normal-pistol logical state now selects the
+native backward-air clip; the original failing sequence completes unchanged.
+Other directional-air variants and reaction providers remain separately refused.
+
+Source-backed lifecycle checks additionally cover pre-post refusal, skipped
+camera ownership, cached/forced repeats, unchanged invalid body-reference binding,
+foreign/frame mismatch, late failure and clearing. Prototype PS2 lookups precede
+the new acquisitions; their attributions remain unknown.
+Geometry permission is acknowledged by the actual Session post. A generic numeric
+post following a genuine pre-copy cannot certify that publication, even when its
+local math reaches the finished phase; a source-backed bypass control verifies this.
+
+The main driver's `fire: None` remains. Live model-slot/force admission, part masks,
+materials and binding the acquired subjective/body submission policy, complete target contexts
+and positional audio remain prerequisites. CPU positions are not a rendered
+subjective scene, a complete mission or verified fidelity.
+
+### Mecc body and held-object submission policy - 6 November 2026
+
+`mecc_draw_policy::submit` acquires the class-2 body/subjective dispatcher.
+Inactive subjective display submits the body, with its separately gated ordinary
+prelude. Active display preserves a non-controlled Mecc's parent suppression;
+for the controlled Mecc it either suppresses submission or prepares/submits the
+subjective actor, followed by the optional auxiliary actor. Camera mode alone
+cannot select this route. Other character classes are refused before callbacks.
+
+`submit_held` preserves a separate native rule: an attached object's camera-owner
+query occurs even if subjective display is inactive or inhibited. Only an eligible
+owner redirects its parent to the subjective actor during submission. A detached
+parent remains absent afterward; a remaining parent, including a replacement
+made by the provider, is restored to the original identity. Rust provider failure
+retains completed mutations and requires caller quarantine rather than replay.
+
+The controls match 8,192 original-PC class-2 dispatches and 144 held-parent
+dispatches, including strict height boundaries, NaN/infinity, parent-class/control
+combinations, owner mismatch, inhibition and kept/detached/replaced parents.
+The native class/flag predicates execute; prelude, preparation and model-submission
+callbacks are intercepted rather than executed. The held owner getter and its
+submission outcomes are supplied. Two synthetic checks separately verify other
+class refusal and retained effects on provider failures. These are CPU contracts,
+not a new live renderer, world admission, completed Session post or fidelity proof.
+
+Native call inspection also distinguishes the actual model-submission entry from
+the previously examined position/draw helper. The submission entry routes parts
+through immediate and deferred work; reaching it does not certify a GPU draw.
+Reuse `render_parts`, `render_sort`, `lod` and the existing shared position bank
+when acquiring its live callers and preparation, rather than adding a parallel
+animation player or inferring material admission from the dispatcher. These
+acquisitions followed prototype PS2 searches; their attributions remain unknown.
+
+Next bind the dispatcher to the completed owned post and actual held identity,
+acquire preparation and the selected immediate/deferred model consumers, and
+retain the menu-to-world camera-startup, target-context and positional-audio
+prerequisites. Main `fire: None` and the existing presentation route remain.
 
 The native pre-copy shares both the Mecc state storage and the reference-matrix
 buffer with the controlled source, while preserving separate subjective channels.

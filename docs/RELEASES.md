@@ -14,6 +14,149 @@ large-angle emulator remainder discrepancy. Full primary, camera/target/item
 producers, water/turbo, live mission controls and fidelity remain pending.
 
 This source/API stage adds no playable Delphi download.
+## Mecc body/subjective submission prerequisite - 6 November 2026
+
+The new class-2 dispatcher preserves body/subjective/auxiliary callback order and
+suppression. A separate held-object wrapper preserves temporary parent redirection,
+owner-query timing and provider detachment/replacement semantics. Native controls
+match 8,192 body-policy cases and 144 held-parent cases; geometry callbacks and
+held owner/results remain supplied. Other character profiles remain separate.
+Synthetic failure checks preserve completed effects and refuse unrelated classes.
+
+This is an unbound CPU prerequisite. The actual model entry schedules immediate
+and deferred parts; invoking it is not itself a GPU draw. Main-driver fire remains
+disabled, with completed-post/held binding, live model/material preparation,
+startup camera, target contexts and positional audio still required. Prototype
+PS2 lookup results remain unknown; no new symbol attribution is confirmed.
+No new playable download, executable receipt or package checksum is claimed by
+this source-only change. The last exact GNU build and private draft below retain
+their own source and checksum identities.
+
+Combined source `9afd57b` preserves the concurrent Kabuto auxiliary lifecycle.
+It passes 761 synthetic Rust tests (25 ignored), all four installed-data Mecc
+lifecycle controls, 40 Python tests, Rustfmt, Clippy and site/JavaScript checks.
+The rebuilt submission runner again matches all 8,336 native cases. Minimal
+unknown-attribution rows are reviewed separately from private evidence, with
+the source scanner's exception bound to the exact document bytes and public path.
+
+## Kabuto auxiliary ownership and class-command gap - 6 November 2026
+
+The dynamic auxiliary now loads actual resources through a separate factory and
+uses the common owned Session constructor. Class command `0x4e` is framed and
+applied by the shared scalar/actor-field services, with 512 seeded native mask
+controls. Sixteen constructor contexts match 3,872 normalized header/list words.
+Atomic owner binding and deferred marking/reference-clear match the auxiliary
+slice of 24 native prefix contexts: 11,596 words, four creates and three marks.
+Marked actors and their parent/list membership remain owned. Full owner animation,
+audio, root motion, active-extra teardown and world scheduling remain open; this
+is not a full-prefix Rust comparison or live Kabuto admission.
+
+Combined runtime source `5b0e455` preserves current Mecc subjective-position and
+Delphi work. It passes 759 synthetic Rust tests (25 ignored), all four silent
+Kabuto installed-data controls, 40 Python tests, Rustfmt, Clippy with warnings
+denied and site/JavaScript checks. Rebuilt constructor/lifecycle runners pass
+again on that combined source. Prototype PS2 attributions remain unknown with
+separate raw/demangled/generated-name lineage in private records.
+
+No dependency, bundled asset or playable download changes. Existing executable,
+package manifest/checksum and notice receipts keep their exact source identities.
+These CPU checks do not replace package validation or establish visual fidelity.
+
+## Owned subjective position bank and backward-air continuation - 6 November 2026
+
+The Session now prepares subjective model positions from the actual completed
+virtual channels, specification and animation stamp in the existing shared model
+bank. It refuses skipped/inactive/incomplete/failed, stale, foreign and cleared
+post states; no independent presentation animation player is substituted. Normal
+and forced cache reuse preserve the body's invalidated reference binding. The
+original failing backward-air continuation now selects the acquired normal-pistol
+state/clip and completes the same input trajectory.
+
+Two continuous controls match 64 frames, 544 body/subjective model snapshots and
+716,414 words, including 641,376 position/cache words and complete prior
+source/held/virtual/camera/fire/projectile/FX/RNG checks. The all-forced and mixed
+cache profiles supply model-slot/phase admission, force gates, known startup,
+flat terrain and an empty camera-mesh/sound cohort. They establish CPU behavior,
+not live draw admission, complete world scheduling, audio or visual fidelity.
+The interrupted first mixed-cache output is retained privately; its process was
+confirmed terminal before the successful fresh acquisition.
+
+The source-data lifecycle controls pass with new checks for skipped camera
+ownership, normal/forced cache repeats, foreign/frame identity and clearing.
+The bank retains writes completed before a late fire failure; rejecting another
+geometry request cannot roll those back. Permission comes from the actual Session
+post; generic numeric completion after a genuine pre-copy cannot certify it.
+A source-backed bypass control verifies this distinction. Prototype PS2 searches precede the
+new acquisitions; attribution remains unknown. Detailed receipts, binaries,
+raw captures and research tables stay private. Main `fire: None`, live LOD/part
+and material admission, subjective/body drawing, target contexts and positional
+audio remain separate prerequisites; no new playable download follows.
+
+Combined source `a343b01427a93c0f155b941ab06992898f4ceb26` preserves concurrent
+Delphi, Kabuto and Flick-support acquisition work. It passes 759 Rust tests
+(24 ignored), 40 Python tests, Rustfmt, Clippy and site/JavaScript checks. All
+four source-data Mecc controls pass, including the new generic-post bypass check.
+The rebuilt runners pass both position controls, all five camera controls and
+the 576-frame/22-shot immediate matrix with ten failure controls. Source/history
+pattern review reports no findings across 237 commits and 2,104 blobs.
+
+The exact GNU executable has SHA256
+`e4263b12972490f32a5a5732ad5e38f23c2570a2f6e93dad3d95b355f80537a6`.
+It passes the 128-step menu-request/owned-inspection path with eight body uploads,
+both three-launch development endpoints and three opening cancellation/re-entry
+cycles without an audio device. The ordinary-camera endpoint capture remains
+byte-identical to its previous control. These regressions do not execute live
+subjective drawing/fire or validate manual controls and fidelity.
+
+Receipt-bound notice/review collection and independent verification pass for the
+ten-member private draft ZIP, SHA256
+`24af589faaeb5d9318271e279644383611842549ba460b8bac5b202131b505d0`,
+with zero technical blockers. It remains a private validation draft; existing
+public preview/source identities are preserved. Later source checkpoints do not
+replace these exact executable and package receipts.
+
+## Flick source support phases â€” 6 November 2026
+
+Private controls now construct 158 source actors across all 23 bounded persistent
+sources. Forty have independent animation clocks; none of their animated
+references contributes to these 25 FX supports. Actual source camera binding,
+the original PC time/epoch producer and actor-channel updates produce 100 support
+samples at four supplied phase deltas. All 1,700 words match both the explicit-
+clock Rust projection and its current runtime clock selection. All 25 initial
+support caches are cold, and a clean repetition gives identical matrices.
+
+This acquires a bounded support boundary, not full VM/frame scheduling or native
+pixels. Object-channel cadence, world admission/capacity, non-opening triggers
+and full rendering/audio/subtitle parity remain open. Prototype PS2 lookups stay
+unassigned. No runtime behavior or package changes; previous exact executable
+receipts remain authoritative. The 545-source inventory, 59 gap sources and zero
+certified complete scenes are unchanged.
+
+The Rust comparison rebuilt on combined source `4c839be` repeats all 100 matches
+without a runtime-clock difference. Forty Python tests, site export and JavaScript
+syntax checks pass. Source/history review reports zero findings across 234
+reachable commits / 2,094 blobs. These source controls add no new playable build.
+
+## Kabuto CPU scalar/mode and ordered notifications - 6 November 2026
+
+The scalar/mode helper now preserves source toggles, timer stores, scalar values,
+target identities and notification ordering. Its acquired eligibility guard keeps
+the first matching peer, fallback and low-byte owner comparison. All 768 native
+controls match 7,816 words and 209 notifications, including snapshots at the
+transport boundary. Message transport is supplied; no live network is implemented.
+
+Combined source `83fb4f3` preserves the newer Delphi rotation and ordered Mecc
+camera work. It passes 759 synthetic Rust tests (24 ignored), 40 Python tests,
+Rustfmt, Clippy with warnings denied, site export and JavaScript checks. The
+rebuilt private runner again matches all 768 native cases. Prototype PS2
+attributions remain unknown, with raw names, uncertain demangling and aliases
+retained privately. Session field/reference binding, animation/effect transitions,
+extra-reference lifetime and world scheduling remain open; no readiness gate or
+whole-game status changes.
+
+No dependency, bundled asset or playable download changes. Existing executable,
+package manifest/checksum and notice receipts retain their exact build identities;
+they do not attest to this source-only CPU milestone.
 
 ## Delphi owned manual rotation - 6 November 2026
 
@@ -107,7 +250,7 @@ There are no dependency or bundled-asset changes and no new playable download.
 Published preview notices, package manifests and checksums retain their original
 build identities; this source milestone does not replace their receipts.
 
-## Flick generation acquisition and interactive transport — 6 November 2026
+## Flick generation acquisition and interactive transport â€” 6 November 2026
 
 The existing `preview-2026.11.06.1`, source
 `0b050fbcf89eeae0ff0dd473133d496ac3496aa7`, now has an additional silent manual
@@ -213,7 +356,7 @@ This changes no dependency or bundled asset and creates no playable download.
 Existing release manifests, executable checksums and notice receipts retain their
 original build identities; they do not attest to this CPU source milestone.
 
-## Dashboard screenshot visibility — 6 November 2026
+## Dashboard screenshot visibility â€” 6 November 2026
 
 Three existing reviewed engine captures (jet boost, subjective view and cinematic
 gunfire) now appear immediately below the cover. Static HTML supplies both the
@@ -226,7 +369,7 @@ All 40 Python tests, site export and JavaScript syntax checks pass. Browser chec
 confirm the four cover/featured images load and the comparison control reaches
 both endpoints. No Rust runtime or preview package changes are included.
 
-## Prototype PS2 method follow-up — 6 November 2026
+## Prototype PS2 method follow-up â€” 6 November 2026
 
 The central reconstruction method now makes seven current Mecc primary/subjective
 lookups explicitly unassigned, preserves their PC aliases and relates historical
@@ -929,7 +1072,7 @@ comparison also passes against that merged source. A source-history pattern
 review scans 88 commits and 1,438 distinct blobs with zero findings; it is not
 legal clearance. Live Kabuto behavior and visual fidelity remain unverified.
 
-## Prototype PS2 methodology — 5 November 2026
+## Prototype PS2 methodology â€” 5 November 2026
 
 The [central reconstruction method](RECONSTRUCTION_METHOD.md) now requires a
 prototype-name lookup at acquisition, implementation and context resumption.
