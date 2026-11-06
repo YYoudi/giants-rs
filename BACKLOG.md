@@ -17,7 +17,7 @@ matches probable and one unassigned. No gameplay status changes follow from name
   PS2 comparisons without inferring types from them. Acquire pre-primary and
   subjective fire timing, positional audio and native mesh/list producers, with
   separate PC/PS2 identities and platform differences.
-- The central method now records seven current primary/subjective function
+- The central method records current primary/subjective function
   lookups as unassigned, with their exact PC aliases, current owned Rust
   relationships and missing comparisons. Reuse those identity-bound searches;
   preserve older presentation-module references as historical aliases rather
@@ -137,7 +137,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Paused physical work keeps first ANM/history but skips integration/placement/
   new rates/forces. Three-owner lifecycle/profile/quarantine checks pass.
   Automatic target heading, full primary and live admission remain pending.
-- Compose the surrounding full primary, heading/look/pitch producers and
+- Implemented: controlled body pitch/roll alignment follows jump and precedes
+  physics, retaining the acquired conversion factor, shortest-turn normalization,
+  object-local time and paused-frame ordering. Four 256-step tilted-start cases
+  match 8,162,304 normalized words across the complete 22-actor cohort and RNG
+  endpoint. Scalar verification separates 3,484 original-instruction emulator
+  cases from a 3,964-case hardware arithmetic translation; the documented huge-
+  angle emulator discrepancy is excluded from original-instruction parity.
+  Special pose inputs do not implement water detection, swimming or turbo.
+- Acquire paused positional-event lazy transform production before admitting
+  events needing an absent/stale affine cache. ANM preserves cold absence and
+  the older cached pose during body settling; no placeholder matrix is used.
+- Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
   calls and 576 phase calls without changing the original 64 final cohort states.
@@ -254,7 +265,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   header words across modes, selected/unselected owners, target presence and
   matrix flags. The shared Double53 point kernel preserves its distinct operation
   order without changing the existing aiming kernel. The scalar/mode kernel is acquired below;
-  animation/sound and extra-reference phases remain unported. Header preparation
+  animation/sound composition and active-extra teardown remain open. Header preparation
   alone does not complete this helper, full primary or world rendering.
 - Implemented: the scalar/mode and target-reference phase matches 768 native
   controls, 7,816 final/notification words and all 209 notification calls. It
@@ -265,8 +276,29 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   implementation. Five synthetic controls cover ordering, inactive bypass,
   atomic refusal, signed zero and unchanged reference identity. Actual Session
   field binding, preceding/following transitions and world dispatch remain open.
-- Complete the remaining custom cleanup profiles: the additional object-reference
-  slot's nonzero behavior/role, GPU material release and dynamic/entered turns.
+- Implemented: separately prepared class1199 auxiliary construction uses actual
+  class/specification resources and the shared Session constructor. Sixteen
+  native contexts match 3,872 normalized header/list words. Its required class
+  command `0x4e` is a one-byte mask operation; 512 seeded/mixed native controls
+  match the public configuration kernel. No declaration bytes are bundled.
+- Implemented: atomic owner binding and explicit mark/reference-clear use the
+  common ticket-owned actor IDs, attachment metadata and deletion-bit writer.
+  Twenty-four native geometry-prefix contexts match the auxiliary lifecycle
+  slice (11,596 words, four creates, three marks, every extra header and all
+  fifteen lists). Marked actors retain ownership and attachment; re-entry
+  allocates a new ID. Active-extra group cleanup is refused until that teardown
+  profile is acquired. Full animation/sound/epoch/event parity and world dispatch
+  remain separate; the full native prefix is not yet a full Rust comparison.
+- Implemented: the standalone template clock preserves base-before-truncation
+  and the signed-64 conversion's low word; 512 native cases match, including
+  signed coefficients and wrapping/indefinite conversions. The existing channel
+  converter retains its separate arithmetic. The Session geometry-gate query
+  uses its current primary channel and immutable owner descriptor, refusing
+  foreign/stale, retired and nonselected contexts. Full transition scheduling,
+  epoch/reference/event publication and live controls remain open.
+- Complete the remaining custom cleanup profiles: the active additional-reference
+  teardown, GPU material release and dynamic/entered turns. The acquired geometry
+  prefix stores class1199 in that reference; its broader gameplay role is unassigned.
   The owner remains state1 after the custom callback; common state transition
   and actual marked-actor retirement must be acquired separately. `Session::clear`
   alone does not dispatch the explicit external geometry registry.
@@ -373,6 +405,23 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   The same trajectory exposed a backward-air secondary transition, now acquired
   for the normal pistol. Other directional-air variants and reactions remain
   separate prerequisites. These CPU checks enable no new campaign or live fire.
+- Subjective submission: the class-2 body/virtual dispatcher and temporary held
+  parent redirection now match 8,192 + 144 native cases. Callback interception is
+  not geometry execution. Next bind actual completed-post/held identities and
+  acquire the preparation and immediate/deferred model consumers. Reuse existing
+  `render_parts`, `render_sort`, `lod` and the shared model bank; the observed
+  submission entry is distinct from the previously examined draw helper. Keep
+  other-character rules separate and retain detached parents and late failures.
+  Main-driver startup camera, target contexts and positional audio remain open.
+- Subjective held pose: provider inspection identifies the held wrapper as an
+  attachment/world-pose phase, not graphics submission; `submit_held` remains a
+  deprecated alias of `update_held_pose`. The normal pistol now samples the actual
+  completed virtual affine and shared references without advancing ANM or changing
+  its real binding/frozen firing cache. Two 32-frame controls match 32 matrices
+  (544 words); position/history/spatial finalization is intercepted. Lifecycle
+  checks refuse stale/foreign/cleared/skipped/numeric and replaced-reference input.
+  Next acquire the enclosing held pose/finalization scheduling and connect actual
+  body/subjective/held rendering through live culling, LOD, parts and materials.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated

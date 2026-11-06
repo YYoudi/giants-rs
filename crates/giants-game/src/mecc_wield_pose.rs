@@ -1,6 +1,7 @@
 //! Owned normal-hand ANM/reference/world-pose service for inspection.
 //! The composing caller supplies phase order/time. This does not certify full
-//! child history/finalization, global world order or the subjective-view parent.
+//! child history/finalization or global world order. Subjective matrix sampling
+//! additionally requires the actual completed Session post and shared references.
 use crate::{
     procedural_aim::Matrix,
     resident_states::{Id, Session},
@@ -76,8 +77,6 @@ fn validate_child(session: &Session, child: Id) -> Result<crate::mecc_wield::Bin
 
 pub fn sample(session: &Session, child: Id) -> Result<Pose, String> {
     let binding = validate_child(session, child)?;
-    let actor = session.get(child).unwrap();
-    let fields = actor.construction_fields.as_ref().unwrap();
     let parent = session
         .get(binding.parent)
         .ok_or("held pose parent absent")?;
@@ -94,6 +93,57 @@ pub fn sample(session: &Session, child: Id) -> Result<Pose, String> {
         .ok_or("held pose parent fields absent")?;
     let cached = session.actor_current_affine(binding.parent)?;
     let parent_refs = session.current_reference_matrices(binding.parent)?;
+    compose(
+        session,
+        child,
+        binding,
+        cached,
+        parent_fields.scale,
+        parent_refs,
+    )
+}
+
+/// Pose-only projection after the actual subjective post. Keep the ordinary
+/// producer's frozen cache for firing; this neither advances child ANM nor
+/// changes its real owner/binding to manufacture a virtual resident identity.
+/// Inherited opacity, position history and spatial finalization remain external.
+pub fn sample_subjective(
+    session: &Session,
+    state: &crate::mecc_subjective::State<Id>,
+    number: u64,
+    child: Id,
+) -> Result<Pose, String> {
+    let parent_refs = session.mecc_subjective_reference_matrices(state, number)?;
+    let binding = validate_child(session, child)?;
+    let header = state.header().ok_or("subjective held parent absent")?;
+    if binding.parent != header.source {
+        return Err("subjective held object belongs to another source".into());
+    }
+    compose(
+        session,
+        child,
+        binding,
+        header
+            .affine
+            .ok_or("subjective held parent affine absent")?,
+        header.fields.scale,
+        parent_refs,
+    )
+}
+
+fn compose(
+    session: &Session,
+    child: Id,
+    binding: crate::mecc_wield::Binding,
+    cached: crate::actor_affine::Cache,
+    parent_scale: f32,
+    parent_refs: &[Matrix],
+) -> Result<Pose, String> {
+    let actor = session.get(child).ok_or("held pose actor absent")?;
+    let fields = actor
+        .construction_fields
+        .as_ref()
+        .ok_or("held pose fields absent")?;
     let parent_ref = if parent_refs.is_empty() {
         Matrix::identity()
     } else {
@@ -110,12 +160,8 @@ pub fn sample(session: &Session, child: Id) -> Result<Pose, String> {
         values: cached.matrix,
     }
     .mul(parent_ref)?;
-    let mut world = crate::effect_attachment::normal_matrix(
-        anchor,
-        fields.scale,
-        parent_fields.scale,
-        child_ref,
-    )?;
+    let mut world =
+        crate::effect_attachment::normal_matrix(anchor, fields.scale, parent_scale, child_ref)?;
     world.values[11] =
         (f64::from(world.values[11]) + f64::from(f32::from_bits(fields.configuration[17]))) as f32;
     if !world.values.iter().all(|v| v.is_finite()) {

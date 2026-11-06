@@ -155,7 +155,7 @@ impl Prepared {
             wet,
             material,
             position: [0.; 3],
-            world: [0.; 12],
+            world: None,
             references: &[],
             contact_scalar: 0.,
             cinematic: false,

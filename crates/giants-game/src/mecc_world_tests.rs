@@ -472,6 +472,7 @@ fn deferred_primary_controls(produced: bool) {
         let mut p = Providers::new(&r);
         s.begin_mecc_frame_history(owner, 1).unwrap();
         state.prepare_from_session(1, &s, owner, 1).unwrap();
+        assert!(s.mecc_subjective_reference_matrices(&state, 1).is_err());
         let env = crate::mecc_physical_cycle::Environment {
             number: 1,
             generation: 1,
@@ -654,6 +655,7 @@ fn deferred_primary_controls(produced: bool) {
                     .is_err()
             );
             assert_eq!(s.position_buffer_count(), buffers);
+            assert!(s.mecc_subjective_reference_matrices(&state, 1).is_err());
             s.begin_mecc_frame_history(owner, 2).unwrap();
             s.clear();
             continue;
@@ -671,6 +673,7 @@ fn deferred_primary_controls(produced: bool) {
             assert_eq!(state.phase(), crate::mecc_subjective::Phase::Failed);
             assert!(s.mecc_physical_cycle_failure(owner).is_some());
             assert!(s.mecc_shot_failure(owner).is_some());
+            assert!(s.mecc_subjective_reference_matrices(&state, 1).is_err());
             let buffers_after_fire = s.position_buffer_count();
             assert!(
                 s.prepare_mecc_subjective_positions(&state, 1, 0, false)
@@ -692,6 +695,46 @@ fn deferred_primary_controls(produced: bool) {
             let result = result.unwrap();
             assert_eq!(result.fire.unwrap().shot.is_some(), clock == 0.);
             assert_eq!(state.phase(), crate::mecc_subjective::Phase::Finished);
+            let child = s
+                .wield_list()
+                .unwrap()
+                .into_iter()
+                .find(|c| c.parent == Some(owner) && c.reference == 1 && c.flags & 0x8000 == 0)
+                .unwrap()
+                .id;
+            let binding = s.wield_binding(child).unwrap();
+            let child_before = s.get(child).unwrap().channels;
+            let frozen = held
+                .current_world_point(&s, 1, factory.definition())
+                .unwrap()
+                .1;
+            let virtual_pose =
+                crate::mecc_wield_pose::sample_subjective(&s, &state, 1, child).unwrap();
+            assert!(virtual_pose.world.values.iter().all(|v| v.is_finite()));
+            assert!(
+                virtual_pose
+                    .point(&s, 1)
+                    .unwrap()
+                    .iter()
+                    .all(|v| v.is_finite())
+            );
+            assert_eq!(s.wield_binding(child), Some(binding));
+            assert_eq!(s.get(child).unwrap().channels, child_before);
+            assert_eq!(
+                held.current_world_point(&s, 1, factory.definition())
+                    .unwrap()
+                    .1,
+                frozen
+            );
+            assert!(s.current_reference_matrices(owner).is_err());
+            assert!(crate::mecc_wield_pose::sample_subjective(&s, &state, 2, child).is_err());
+            assert!(crate::mecc_wield_pose::sample_subjective(&s, &state, 1, owner).is_err());
+            let saved = s.specifications[&owner.serial].0.clone();
+            s.update_current_references_at(owner, p.stamp.0 + 1)
+                .unwrap();
+            assert!(s.mecc_subjective_reference_matrices(&state, 1).is_err());
+            s.specifications.get_mut(&owner.serial).unwrap().0 = saved;
+            assert!(s.mecc_subjective_reference_matrices(&state, 1).is_ok());
             s.prepare_mecc_subjective_positions(&state, 1, 0, false)
                 .unwrap();
             let positions = s
@@ -735,6 +778,11 @@ fn deferred_primary_controls(produced: bool) {
             let foreign = Session::new(980 + index as u64);
             assert!(
                 foreign
+                    .mecc_subjective_reference_matrices(&state, 1)
+                    .is_err()
+            );
+            assert!(
+                foreign
                     .mecc_subjective_model_positions(&state, 1, 0)
                     .is_err()
             );
@@ -771,6 +819,7 @@ fn deferred_primary_controls(produced: bool) {
                     .is_some()
             );
             assert_eq!(numeric.phase(), crate::mecc_subjective::Phase::Finished);
+            assert!(s.mecc_subjective_reference_matrices(&numeric, 1).is_err());
             assert!(
                 s.prepare_mecc_subjective_positions(&numeric, 1, 0, false)
                     .is_err()
@@ -851,6 +900,7 @@ fn deferred_primary_controls(produced: bool) {
         );
         s.clear();
         assert!(s.mecc_subjective_model_positions(&state, 1, 0).is_err());
+        assert!(s.mecc_subjective_reference_matrices(&state, 1).is_err());
         assert_eq!(s.position_buffer_count(), 0);
         assert!(
             cameras

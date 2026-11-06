@@ -574,3 +574,73 @@ transport, animation/effect transitions, the extra reference and complete world
 scheduling remain open. It neither changes live admission nor implements a full
 Kabuto primary. Prototype PS2 correspondences remain unknown; raw names,
 unreviewed demangling and historical aliases stay separate in private lineage.
+
+
+## Dynamic auxiliary ownership slice
+
+`kabuto_auxiliary::ExtraFactory` loads the source class1199 and its specification
+through the existing resource registry, separately from the twelve-actor cold
+factory. Its unparented constructor uses the common acquired Session path.
+Sixteen native contexts match 3,872 normalized header/list words. The class's
+previously unsupported command `0x4e` consumes no operand and sets the low-byte
+mask in the existing configuration word. The shared parser, actor-field and scalar
+paths now accept it. Five hundred twelve seeded/repeated/mixed native controls
+match that exact public configuration implementation, preserving other words.
+Native template/copy mask equality is checked separately from full-header parity.
+
+`ExtraFactory::construct_for` stages construction before publishing a ticket-owned
+extra identity in the group. It sets the acquired response flag and parent/
+reference binding without copying unrelated dispatch fields. Duplicate references,
+foreign owners and retired groups refuse. `Session::mark_kabuto_extra` reuses the
+common deletion-bit writer and then clears the active reference. The marked actor
+and its attachment/list membership remain owned. Another construction receives a
+new identity. The cold group remains unchanged until this phase is explicitly run.
+
+Twenty-four native prefix contexts execute real source animation transitions,
+actual auxiliary construction and deletion marking with an absent sound bank.
+The Rust comparison replays only the auxiliary lifecycle slice: all extra headers,
+active identity and all fifteen ordered lists match 11,596 words, four creates and
+three marks. Owner animation, sound and geometry-tail fields are excluded from
+this parity claim. This is not a full prefix or primary comparison. Source bank
+absence follows the real sound early-return path; it certifies no audible output.
+
+An installed-data control checks acquired class/state/specification ownership,
+parent/reference fields, replay and foreign-session refusal, marking without
+retirement, second construction and Session clear. Registered group cleanup
+refuses while an extra is active: that nonzero-reference teardown remains open.
+Actual actor retirement, animation/sound/root-motion composition, world scheduling
+and live admission remain prerequisites. No initializer gate is cleared and no
+visual fidelity follows. Prototype PS2 correspondences remain unknown; raw ELF,
+uncertain demangling, source aliases and control receipts remain private.
+
+
+## Owned template-clock query
+
+`animation_frames::frame_at_time` implements the standalone Double53 template
+clock used by the geometry transition gate. It multiplies the signed rate/step,
+adds the signed base before conversion and retains the signed-64 conversion's
+low word. It does not clamp to the descriptor end or consult descriptor flags.
+Finite owned inputs are required; nonfinite-time refusal is owned policy. The
+shared integer conversion is reused by class configuration with its earlier
+behavior preserved. The separate channel converter keeps its existing arithmetic.
+
+All 512 native helper controls match 512 returned words, including fractional
+reverse timing, signed coefficients, low-word wrapping and integer-indefinite
+cases. The original helper and conversion execute with supplied descriptor/time
+and an explicit Double53 control word. No channel scheduler or pose is provided
+by this result. In the real transition caller the threshold is a source tick
+value, not an inferred count of displayed frames.
+
+`Session::kabuto_geometry_frame` reads the descriptor and clock from its actual
+owned specification and current primary channel. The gate requires the selected
+source slot; foreign/absent, retired or nonselected owners refuse. The extended
+installed-data control checks this resource binding and stale identity after
+clear. This query does not select an animation or advance its clocks.
+
+The remaining conditional branch selects actor-local time and invokes the
+ordinary ANM phase. Shared `object_time`/`object_time_precision`, channel clocks,
+reference evaluation, epochs and class-event services already exist. Their full
+composition and callback ordering for Kabuto still require comparison; no new
+movement primitive is established by the inspected calls. Actual mode/reference
+binding, complete primary, movement/growth and live admission remain open.
+Prototype PS2 attributions stay unknown, separately from the observed PC behavior.

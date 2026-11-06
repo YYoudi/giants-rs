@@ -50,15 +50,9 @@ pub(crate) fn apply_configuration_extension(
                 .unwrap(),
         ))
     };
-    let integer = |bits| {
-        let value = f64::from(f32::from_bits(bits));
-        if value.is_finite() && (-9223372036854775808.0..9223372036854775808.0).contains(&value) {
-            value.trunc() as i64 as u32
-        } else {
-            0
-        }
-    };
+    let integer = |bits| crate::arithmetic::integer_low_word(f64::from(f32::from_bits(bits)));
     match record.opcode {
+        0x4e => configuration[16] |= 0xf0,
         0x15 => configuration[17] = word()?,
         0x4f => configuration[16] |= 0x0f,
         0x50 => configuration[16] |= 0x0f00,
@@ -139,7 +133,7 @@ impl DebugScalar {
                     out.configuration[20] = u32::from(state);
                 }
                 0x17 => out.scale_bits = word(1)?,
-                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x4f | 0x50 | 0x69 => {
+                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x4e | 0x4f | 0x50 | 0x69 => {
                     apply_configuration_extension(&mut out.configuration, record)
                         .map_err(|_| Need::Framing)?;
                 }
@@ -167,7 +161,7 @@ mod tests {
     fn ground_offset_is_an_ordered_bit_copy_and_masks_preserve_other_bits() {
         let mut commands = vec![0x15];
         commands.extend(12.5f32.to_le_bytes());
-        commands.extend([0x4f, 0x50, 0x4f, 0x15]);
+        commands.extend([0x4f, 0x50, 0x4e, 0x4f, 0x15]);
         commands.extend(0x7fc0_0042u32.to_le_bytes());
         commands.push(0xff);
         let program = giants_formats::class_program::parse(&commands).unwrap();
@@ -176,7 +170,7 @@ mod tests {
         for record in program.records.iter().take(program.records.len() - 1) {
             apply_configuration_extension(&mut configuration, record).unwrap();
         }
-        assert_eq!(configuration[16], 0xa5a5_5f5f);
+        assert_eq!(configuration[16], 0xa5a5_5fff);
         assert_eq!(configuration[17], 0x7fc0_0042);
         let expected = initial_configuration();
         for index in (0..30).filter(|i| ![16, 17].contains(i)) {

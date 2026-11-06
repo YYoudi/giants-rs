@@ -36,6 +36,45 @@ water/turbo, mission input and live admission remain pending. These CPU controls
 add no playable capability or verified visual fidelity and are not a full
 controller or scheduled-world proof.
 
+## Body pitch and roll - 6 November 2026
+
+`delphi_body_alignment::advance` implements the acquired angular targets,
+shortest-turn normalization and float-store ordering in the finite Double53
+profile. It retains the actual promoted float conversion factor for movement
+pitch. The controlled Session phase runs it after jump and before physical work,
+including paused frames. Body pitch/roll remain separate from the look angle.
+
+Four 256-step trajectories with supplied initial roll +30/-30 degrees match
+8,162,304 normalized words across all 22 actors, reference buffers, full owner
+payload and fifteen ordered lists, plus exact RNG endpoints. They include cold
+pause and pause during settling: ANM/history advance while the affine cache
+remains absent or retains its older matrix. The owned cache retains its actual
+sampled pose rather than relabelling that matrix with the new body angles.
+The three-owner
+lifecycle control also checks settling from initial roll and state isolation.
+The preceding five zero-roll controlled cases remain separate regressions.
+
+Event dispatch accepts an explicitly absent world transform when no crossed
+positional-reference event needs it. No identity/zero matrix is fabricated.
+A paused event needing an absent or stale transform is refused until its actual
+lazy cache producer is acquired; this does not establish native error parity.
+
+The scalar controls retain 3,484 original-instruction emulator cases matching
+672,412 complete header words. An extended group exposed a concrete x87
+remainder difference for two huge finite angles: the generic emulator loop
+returns zero while a hardware x87 loop returns the same remainder as the host
+math library. The 480 affected cases are quarantined from original-instruction
+parity counts. An independent hardware translation of the acquired arithmetic
+matches Rust on all 3,964 cases (7,928 returned scalar words), including optimized
+Rust. This translation executes its own arithmetic on the CPU; it does not run
+the original PC binary or establish whole-program hardware fidelity.
+
+Special pose-state inputs are supplied in the scalar controls. Actual immersion,
+swimming, turbo, complete primary/camera/target/item callbacks, live player
+admission and visual fidelity retain their remaining prerequisites.
+
+## Cold construction
+
 `Factory::construct_player_fields` adds the acquired cold local-player field
 projection around the special phase. It restores class scale, resets pitch,
 transfers supplied position history, creates the special group, selects the
