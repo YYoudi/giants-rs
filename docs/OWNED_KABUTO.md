@@ -430,3 +430,49 @@ explicit, alongside camera, world cache dispatch and geometry registration.
 Prototype PS2 names were searched before the touched PC constructor, generator,
 integer RNG and conversion work; their correspondence remains unknown. The
 single mesh-name query result is not an attribution of the procedural generator.
+
+## Ordered CPU registration and custom cold cleanup
+
+`kabuto_geometry_registry::Registry` owns ticket-bound ordered registrations and
+the normal-cold CPU material. Handles carry a private scope identity and are never
+reused. First insertion generates the image from the supplied shared RNG; later
+entries reuse it. Unlink preserves survivor order. Last removal retires the active
+material binding; a subsequent insertion generates it again and advances the RNG.
+External snapshots may still retain CPU image bytes; retirement is not a GPU or
+total-memory receipt. Generic actor ownership remains in the existing Session.
+
+Thirty-two native resource scenarios with one to eight geometries and varied
+removal orders match all 144 owned removals, material-lifetime states and RNG
+re-entry results. The original constructor and state1 custom callback run with
+supplied outer allocation/free and material-backend release boundaries. Minimal
+owner bodies deliberately omit child/effect/additional-reference branches in
+this resource-only control; those observations do not prove a full world teardown.
+
+`Factory::construct_registered` stages the twelve actors, registry membership and
+RNG before publication. Failure preserves all three destinations. The detached
+image-preparation helper is a separate CPU profile: registered construction uses
+the registry-owned image and refuses mixing these two ownership paths.
+
+`Session::cleanup_registered_kabuto` ports the custom callback for the acquired
+cold group with a zero additional-object slot. It scans owned attachments in
+list order and marks them, then marks the eight effect references and final
+effect, reusing the common deletion-bit writer. Marked actors remain owned and
+listed. Geometry is unregistered, active image ownership and geometry buffers
+are dropped, and the group records completion. Eight full native group contexts
+match 36,624 normalized words, all fifteen lists and 88 mark calls, including the
+generated image and RNG phase. Released native geometry pointers normalize to
+absence; the common state payload is still present in both controls.
+
+The owner remains state1: this is not the common state transition, actual actor
+retirement or permission to create a second live player. Replaying the owned
+cleanup or presenting a foreign registry refuses before mutation. These guards
+are explicit owned policy, not asserted native diagnostics. The nonzero extra
+reference's role, entered/dynamic cleanup and actual GPU release remain pending.
+Plain `Session::clear` still does not dispatch an external registry automatically.
+
+The second material-flag reference identified during inventory belongs to a
+guarded geometry visitor, not another reset routine. Its per-entry callback behavior
+and world scheduling remain unacquired. All four group prerequisites
+remain explicit; CPU registration does not acknowledge menu-to-mission rendering
+or gameplay. Prototype PS2 attribution for the touched helpers remains unknown;
+raw names, ambiguous demangling and earlier address aliases stay in private records.

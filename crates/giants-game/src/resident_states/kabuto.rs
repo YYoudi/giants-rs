@@ -8,6 +8,108 @@ use crate::{
 use std::sync::Arc;
 
 impl Session {
+    pub(crate) fn bind_kabuto_geometry_registry(
+        &mut self,
+        owner: Id,
+        handle: crate::kabuto_geometry_registry::Handle,
+        texture: Arc<crate::kabuto_texture::Texture>,
+    ) -> Result<(), String> {
+        let group = self
+            .residents
+            .get_mut(&owner.serial)
+            .filter(|_| owner.ticket() == self.ticket)
+            .and_then(|a| a.kabuto_group.as_mut())
+            .ok_or("Kabuto registered group absent")?;
+        if group.cleaned_up
+            || group.geometry_registration.is_some()
+            || group.procedural_texture.is_some()
+        {
+            return Err("Kabuto geometry already bound or retired".into());
+        }
+        group.geometry_registration = Some(handle);
+        group.procedural_texture = Some(texture);
+        Ok(())
+    }
+    /// Acquired custom destructor phase for a registered cold group. Marking
+    /// retains actors/lists. The common state transition and GPU release remain
+    /// separate; this does not retire the owner or admit another player.
+    pub fn cleanup_registered_kabuto(
+        &mut self,
+        owner: Id,
+        registry: &mut crate::kabuto_geometry_registry::Registry,
+    ) -> Result<crate::kabuto_geometry_registry::Cleanup, String> {
+        let actor = self
+            .get(owner)
+            .ok_or("Kabuto cleanup owner absent or foreign")?;
+        let group = actor
+            .kabuto_group
+            .as_ref()
+            .ok_or("Kabuto cleanup group absent")?;
+        if actor.class != 1
+            || actor.seed.storage.state() != 1
+            || group.cleaned_up
+            || actor.world_tick.is_some()
+            || actor.controlled_motion.is_some()
+            || actor
+                .seed
+                .storage
+                .data()
+                .is_none_or(|p| p.len() != 844 || p[0x32c..0x330] != [0; 4])
+        {
+            return Err(
+                "Kabuto cleanup outside acquired cold/empty-extra-reference profile".into(),
+            );
+        }
+        let handle = group
+            .geometry_registration
+            .as_ref()
+            .ok_or("Kabuto geometry registration absent")?
+            .clone();
+        if registry.owner(&handle)? != owner {
+            return Err("Kabuto geometry owner mismatch".into());
+        }
+        let mut marked: Vec<_> = self
+            .list(0)
+            .into_iter()
+            .filter(|id| {
+                self.get(*id)
+                    .and_then(|a| a.attachment)
+                    .is_some_and(|a| a.parent == owner)
+            })
+            .collect();
+        marked.extend(group.effects);
+        marked.push(group.final_effect);
+        if marked.iter().any(|id| {
+            self.get(*id)
+                .and_then(|a| a.construction_fields.as_ref())
+                .is_none()
+        }) {
+            return Err("Kabuto cleanup child fields absent or foreign".into());
+        }
+        // No fallible publication follows preflight. Reuse the common deletion
+        // bit writer; despite its earlier adapter name it has no class gate.
+        for id in &marked {
+            self.mark_wield_child(*id).unwrap();
+        }
+        let retirement = registry.retire(&handle).unwrap();
+        let group = self
+            .residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .kabuto_group
+            .as_mut()
+            .unwrap();
+        group.cleaned_up = true;
+        group.geometry_registration = None;
+        group.procedural_texture = None;
+        // Source buffers cease to be active here, before common payload release.
+        drop(std::mem::take(&mut group.geometry.vertices));
+        drop(std::mem::take(&mut group.geometry.indices));
+        Ok(crate::kabuto_geometry_registry::Cleanup {
+            marked,
+            material_retired: retirement.material_retired,
+        })
+    }
     pub(crate) fn construct_kabuto_auxiliary(
         &mut self,
         input: super::Construction<'_>,

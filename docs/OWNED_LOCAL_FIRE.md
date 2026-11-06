@@ -3,6 +3,9 @@
 Further acquisition and implementation follow [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md),
 including the mandatory prototype PS2 name lookup. Existing PC evidence and
 aliases retain their scope; a recovered name does not validate fire scheduling.
+The central method's current-function follow-up records the primary, pre/post,
+selector, placement and getter searches separately: all seven PS2 attributions
+remain unknown despite the PC/Rust controls below.
 
 ## Primary versus subjective dispatch
 

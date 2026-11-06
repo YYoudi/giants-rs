@@ -116,12 +116,6 @@ async function initGallery() {
   }
   $('#gallery-search').addEventListener('input', filterGallery);
   $('#load-more').addEventListener('click', loadMore);
-  const hero = comparisons.find(row => row.title === 'Owned Mecc jet: normal thrust and boost');
-  if (hero) {
-    const img = el('img'); img.src = imagePath(hero.right); img.alt = ''; img.decoding = 'async';
-    $('#hero-image').append(img, el('figcaption', 'Historical Bevy development render · fidelity unverified'));
-    $('#hero-image').hidden = false;
-  }
   filterGallery();
 }
 initGallery().catch(() => { $('#gallery-count').textContent = 'The comparison archive could not be loaded. Reload to retry.'; });

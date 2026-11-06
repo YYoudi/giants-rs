@@ -17,6 +17,11 @@ matches probable and one unassigned. No gameplay status changes follow from name
   PS2 comparisons without inferring types from them. Acquire pre-primary and
   subjective fire timing, positional audio and native mesh/list producers, with
   separate PC/PS2 identities and platform differences.
+- The central method now records seven current primary/subjective function
+  lookups as unassigned, with their exact PC aliases, current owned Rust
+  relationships and missing comparisons. Reuse those identity-bound searches;
+  preserve older presentation-module references as historical aliases rather
+  than attributing the owned pipeline to that presentation implementation.
 - Revisit acquired services incrementally on touch: primary/animation, aim/target,
   collision, physics, wield/projectiles, audio and shared actor services. Preserve
   old identifiers as aliases. Use the central continuation record and the lookup
@@ -216,6 +221,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   insertion and the already-resident material bypass. GPU material interpretation,
   that bypass in the owned backend, world lifetime/reset and geometry registration
   remain pending; CPU image data does not clear `Pending::ProceduralMaterial`.
+- Implemented: ordered normal-cold CPU geometry registry, last-entry material
+  retirement and regenerated RNG phase match 32 native scenarios / 144 removals.
+  Registered group construction stages actors, registry and RNG atomically.
+  The acquired custom cold cleanup reuses common deletion marking, preserves
+  actor/list ownership, and retires its geometry/image. Eight complete native
+  group contexts match 36,624 normalized words, all lists and 88 mark calls.
+  Same-ticket foreign scopes, replay and dirty/partial publication refuse.
+- Complete the remaining custom cleanup profiles: the additional object-reference
+  slot's nonzero behavior/role, GPU material release and dynamic/entered turns.
+  The owner remains state1 after the custom callback; common state transition
+  and actual marked-actor retirement must be acquired separately. `Session::clear`
+  alone does not dispatch the explicit external geometry registry.
 - Complete first-initializer behavior beyond the acquired field group: animation
   cache/reset service lifetime, generated material/global
   geometry registration and camera reset
@@ -348,6 +365,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   private report paths. Use grouped roadmap tables and explicit state colors/counts.
   Keep historical captures separate from current-build proof.
   Future captures require the same metadata/provenance filtering and hash inventory.
+  Three reviewed engine captures and the cover now render directly in HTML;
+  the complete comparison gallery appears before the progress tables.
 
 ## Cinematics / Flick: coverage and next prerequisites
 

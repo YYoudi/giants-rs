@@ -4,6 +4,7 @@ import json
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from tools.audit_source_tree import scan
 
@@ -49,6 +50,34 @@ class SourcePublicationTests(unittest.TestCase):
             (root/'main.rs').write_text('fn main() {}\n', encoding='utf8')
             self.commit(root)
             self.assertEqual(scan(root)['findings'], [])
+
+    def test_reviewed_alias_exception_is_exact_and_keeps_other_checks(self):
+        alias = b'FUN_' + b'00401000'
+        for variant in ('reviewed', 'changed', 'other_path', 'secret'):
+            with self.subTest(variant=variant), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                self.initialize(root)
+                data = b'Reviewed minimal alias: ' + alias
+                if variant == 'secret':
+                    data += b' ghp_' + b'a' * 36
+                approved = {'summary.md': {hashlib.sha256(data).hexdigest()}}
+                (root/'summary.md').write_bytes(data)
+                self.commit(root)
+                if variant == 'changed':
+                    (root/'summary.md').write_bytes(data + b' appended')
+                    self.commit(root)
+                if variant == 'other_path':
+                    (root/'copy.md').write_bytes(data)
+                    self.commit(root)
+                with patch('tools.audit_source_tree.REVIEWED_ATTRIBUTION_LABELS', approved):
+                    findings = scan(root)['findings']
+                flags = {flag for finding in findings for flag in finding['flags']}
+                if variant == 'reviewed':
+                    self.assertEqual(findings, [])
+                elif variant == 'secret':
+                    self.assertIn('github_token', flags)
+                else:
+                    self.assertIn('decompiler_label', flags)
 
     def test_gallery_exception_is_exact_and_does_not_hide_changed_or_aliased_binaries(self):
         with tempfile.TemporaryDirectory() as directory:

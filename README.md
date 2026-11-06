@@ -17,7 +17,8 @@ described below is published under the owner's explicit authorization.
 
 The [roadmap dashboard](https://yyoudi.github.io/giants-rs/) is generated from this
 repository's `PROGRESS.json` and updates through GitHub Pages on main-branch pushes.
-It includes searchable status tables and 302 owner-authorized historical screenshot
+It opens with featured engine screenshots and includes searchable status tables
+and 302 owner-authorized historical screenshot
 comparisons. Gallery captures are labeled development evidence, not certification
 of the current public build; game artwork remains outside the project MIT license.
 [Automatic Windows build checks](https://github.com/YYoudi/giants-rs/actions) are
@@ -84,7 +85,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Kabuto
 
-- [ ] **Kabuto movement and growth** — todo; Runtime integration. Movement, jumping, collision at each size and growth triggers remain unimplemented. CPU controls cover the twelve-actor cold group (16 contexts, 53,728 words), externally supplied animation-cache reset/rebind (372 records), and generated texture/shared RNG (64 seeds, 131,072 source pixel words). World reset scheduling, camera acknowledgement, GPU material/geometry registration, full primary and live admission remain pending. CPU parity is not playable readiness or fidelity.
+- [ ] **Kabuto movement and growth** — todo; Runtime integration. Movement, jumping, collision at each size and growth triggers remain unimplemented. CPU controls cover cold group fields, animation-cache lifecycle, generated texture/shared RNG, ordered geometry/material retirement (32 scenarios, 144 removals) and registered custom cleanup (8 contexts, 36,624 words, 88 marks). Marked actors stay owned. Common actor transition/retirement, world dispatch, camera acknowledgement, GPU material/geometry rendering, full primary and live admission remain pending. CPU parity is not playable readiness or fidelity.
 - [ ] **Grabbing, storing and eating creatures** — todo; Runtime integration. Grab creatures, store them on horns, eat them and restore health.
 - [ ] **Kabuto attacks and adrenaline** — todo; Runtime integration. Hand and foot attacks, adrenaline levels, combinations and area damage.
 - [ ] **Throwing and environmental attacks** — todo; Runtime integration. Throw creatures and boulders; collisions, fragments, damage and replenishing rock columns.
@@ -150,5 +151,5 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Research and validation
 
-- [ ] **Reviewed prototype PS2 function attribution** — partial; Research method; separate from runtime and fidelity. Mandatory name lookup with pinned PC/prototype identities, literal symbols, uncertain demangling, retained aliases and independent evidence. Initial read-only audit verifies 4,769 function symbols; six reviewed services include three confirmed identities, two probable candidates and one unassigned. Broader mapping and type recovery remain incomplete. Method: docs/RECONSTRUCTION_METHOD.md.
+- [ ] **Reviewed prototype PS2 function attribution** — partial; Research method; separate from runtime and fidelity. Mandatory name lookup with pinned PC/prototype identities, literal symbols, uncertain demangling, retained aliases and independent evidence. Initial read-only audit verifies 4,769 function symbols; six reviewed services include three confirmed identities, two probable candidates and one unassigned. Seven current primary/subjective lookups remain explicitly unassigned, with retained PC aliases and owned Rust relationships. Broader mapping and type recovery remain incomplete. Method: docs/RECONSTRUCTION_METHOD.md.
 <!-- progress:end -->
