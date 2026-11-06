@@ -97,6 +97,9 @@ model-resource-keyed position bank from the completed virtual channels and actua
 virtual animation stamp. It uses the Session's prepared state specification,
 without an independent presentation animation player or another position bank.
 The matching position/cache getters retain source, frame and resource checks.
+They expose the latest shared bank contents, not an immutable actor-owned pose.
+Callers must prepare immediately before consuming or uploading a model; another
+actor using the same model resource can replace that buffer through its own pass.
 Skipped, inactive, incomplete, failed, foreign and cleared sources cannot publish
 geometry through this entry. A late fire failure preserves earlier bank writes;
 refusing a new geometry request does not erase those completed effects.

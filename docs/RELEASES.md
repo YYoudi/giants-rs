@@ -30,6 +30,29 @@ raw captures and research tables stay private. Main `fire: None`, live LOD/part
 and material admission, subjective/body drawing, target contexts and positional
 audio remain separate prerequisites; no new playable download follows.
 
+Combined source `a343b01427a93c0f155b941ab06992898f4ceb26` preserves concurrent
+Delphi, Kabuto and Flick-support acquisition work. It passes 759 Rust tests
+(24 ignored), 40 Python tests, Rustfmt, Clippy and site/JavaScript checks. All
+four source-data Mecc controls pass, including the new generic-post bypass check.
+The rebuilt runners pass both position controls, all five camera controls and
+the 576-frame/22-shot immediate matrix with ten failure controls. Source/history
+pattern review reports no findings across 237 commits and 2,104 blobs.
+
+The exact GNU executable has SHA256
+`e4263b12972490f32a5a5732ad5e38f23c2570a2f6e93dad3d95b355f80537a6`.
+It passes the 128-step menu-request/owned-inspection path with eight body uploads,
+both three-launch development endpoints and three opening cancellation/re-entry
+cycles without an audio device. The ordinary-camera endpoint capture remains
+byte-identical to its previous control. These regressions do not execute live
+subjective drawing/fire or validate manual controls and fidelity.
+
+Receipt-bound notice/review collection and independent verification pass for the
+ten-member private draft ZIP, SHA256
+`24af589faaeb5d9318271e279644383611842549ba460b8bac5b202131b505d0`,
+with zero technical blockers. It remains a private validation draft; existing
+public preview/source identities are preserved. Later source checkpoints do not
+replace these exact executable and package receipts.
+
 ## Flick source support phases — 6 November 2026
 
 Private controls now construct 158 source actors across all 23 bounded persistent
