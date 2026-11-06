@@ -25,6 +25,12 @@ changes no Rust runtime or package; existing build/checksum receipts retain thei
 own source identities, and the 545-source inventory and zero certified scenes
 are unchanged.
 
+The combined checkpoint `df763e1` preserves the current Mecc/Kabuto/gallery work
+and passes 749 synthetic Rust tests (24 ignored), 40 Python tests, Rustfmt,
+Clippy with warnings denied, site export and JavaScript syntax checks. Source
+history review reports zero findings across 218 reachable commits / 2,034 blobs.
+These source checks do not replace the exact-preview interactive receipt above.
+
 ## Ordered inner/outer Mecc camera and subjective fire - 6 November 2026
 
 The Session-produced subjective post now calculates the ordinary inner camera
