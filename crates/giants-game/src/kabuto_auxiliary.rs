@@ -1,7 +1,7 @@
-//! Acquired unparented Kabuto auxiliary constructors. Effect actors are allocated
-//! in their declared cold state before the acquired zero-state cleanup.
-//! Parent binding, material/geometry setup and complete player initialization
-//! remain separate phases.
+//! Acquired Kabuto auxiliary construction and explicit dynamic owner binding.
+//! Cold effects pass through their declared state before zero-state cleanup.
+//! Animation, rendering, retirement and complete player initialization remain
+//! separate phases.
 use crate::{
     actor_fields::Fields,
     arithmetic::Precision,

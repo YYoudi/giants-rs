@@ -1,5 +1,28 @@
 # Preview releases and milestone integration
 
+## Kabuto auxiliary ownership and class-command gap - 6 November 2026
+
+The dynamic auxiliary now loads actual resources through a separate factory and
+uses the common owned Session constructor. Class command `0x4e` is framed and
+applied by the shared scalar/actor-field services, with 512 seeded native mask
+controls. Sixteen constructor contexts match 3,872 normalized header/list words.
+Atomic owner binding and deferred marking/reference-clear match the auxiliary
+slice of 24 native prefix contexts: 11,596 words, four creates and three marks.
+Marked actors and their parent/list membership remain owned. Full owner animation,
+audio, root motion, active-extra teardown and world scheduling remain open; this
+is not a full-prefix Rust comparison or live Kabuto admission.
+
+Combined runtime source `5b0e455` preserves current Mecc subjective-position and
+Delphi work. It passes 759 synthetic Rust tests (25 ignored), all four silent
+Kabuto installed-data controls, 40 Python tests, Rustfmt, Clippy with warnings
+denied and site/JavaScript checks. Rebuilt constructor/lifecycle runners pass
+again on that combined source. Prototype PS2 attributions remain unknown with
+separate raw/demangled/generated-name lineage in private records.
+
+No dependency, bundled asset or playable download changes. Existing executable,
+package manifest/checksum and notice receipts keep their exact source identities.
+These CPU checks do not replace package validation or establish visual fidelity.
+
 ## Owned subjective position bank and backward-air continuation - 6 November 2026
 
 The Session now prepares subjective model positions from the actual completed

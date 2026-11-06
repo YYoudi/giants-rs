@@ -574,3 +574,41 @@ transport, animation/effect transitions, the extra reference and complete world
 scheduling remain open. It neither changes live admission nor implements a full
 Kabuto primary. Prototype PS2 correspondences remain unknown; raw names,
 unreviewed demangling and historical aliases stay separate in private lineage.
+
+
+## Dynamic auxiliary ownership slice
+
+`kabuto_auxiliary::ExtraFactory` loads the source class1199 and its specification
+through the existing resource registry, separately from the twelve-actor cold
+factory. Its unparented constructor uses the common acquired Session path.
+Sixteen native contexts match 3,872 normalized header/list words. The class's
+previously unsupported command `0x4e` consumes no operand and sets the low-byte
+mask in the existing configuration word. The shared parser, actor-field and scalar
+paths now accept it. Five hundred twelve seeded/repeated/mixed native controls
+match that exact public configuration implementation, preserving other words.
+Native template/copy mask equality is checked separately from full-header parity.
+
+`ExtraFactory::construct_for` stages construction before publishing a ticket-owned
+extra identity in the group. It sets the acquired response flag and parent/
+reference binding without copying unrelated dispatch fields. Duplicate references,
+foreign owners and retired groups refuse. `Session::mark_kabuto_extra` reuses the
+common deletion-bit writer and then clears the active reference. The marked actor
+and its attachment/list membership remain owned. Another construction receives a
+new identity. The cold group remains unchanged until this phase is explicitly run.
+
+Twenty-four native prefix contexts execute real source animation transitions,
+actual auxiliary construction and deletion marking with an absent sound bank.
+The Rust comparison replays only the auxiliary lifecycle slice: all extra headers,
+active identity and all fifteen ordered lists match 11,596 words, four creates and
+three marks. Owner animation, sound and geometry-tail fields are excluded from
+this parity claim. This is not a full prefix or primary comparison. Source bank
+absence follows the real sound early-return path; it certifies no audible output.
+
+An installed-data control checks acquired class/state/specification ownership,
+parent/reference fields, replay and foreign-session refusal, marking without
+retirement, second construction and Session clear. Registered group cleanup
+refuses while an extra is active: that nonzero-reference teardown remains open.
+Actual actor retirement, animation/sound/root-motion composition, world scheduling
+and live admission remain prerequisites. No initializer gate is cleared and no
+visual fidelity follows. Prototype PS2 correspondences remain unknown; raw ELF,
+uncertain demangling, source aliases and control receipts remain private.
