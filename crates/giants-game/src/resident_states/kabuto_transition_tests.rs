@@ -217,7 +217,7 @@ fn source_kabuto_auxiliary_animation_binds_owned_fields_and_refuses_stale_inputs
     assert_eq!(session.counts().residents, 0);
 }
 
-fn factories() -> (
+pub(super) fn factories() -> (
     crate::kabuto_initial::Factory,
     crate::kabuto_auxiliary::ExtraFactory,
 ) {

@@ -1,5 +1,21 @@
 # Preview releases and milestone integration
 
+## Kabuto owned size pursuit — 6 November 2026
+
+The factory-bound size phase now preserves the actor-local wide timestep,
+source step/clamp and complete size-dependent parameter/radius refresh, then
+composes with the existing second-auxiliary selector. Two 512-context original-
+PC/owned controls match 627,712 normalized words, including a continuous
+four-size trajectory with retargeting, shrinkage and ordered time areas.
+Targets, poses and root identity are supplied boundaries. Growth decisions,
+feeding, full primary, movement and live admission remain pending. The dashboard
+now lists the acquired Kabuto CPU foundation separately from gameplay readiness.
+
+This source stage adds no dependencies, bundled game data or playable package.
+Existing preview manifests/notices/checksums retain their exact previous runtime
+and receipt identities. No existing executable receipt attests to this new API
+or to Kabuto rendering/collision fidelity.
+
 ## Kabuto second-auxiliary selection — 6 November 2026
 
 The owned primary subphase now selects the second auxiliary's normalized pose
