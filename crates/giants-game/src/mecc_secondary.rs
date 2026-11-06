@@ -106,21 +106,48 @@ pub(crate) fn ordinary(
         fire,
         mut contact,
     } = services;
-    if payload.len() != 524
-        || fields.class != 2
-        || fields.action != 0
-        || fields.control_flags & !control_mask(fire) != 0
-        || fields.response_flags & !(0x80803000 | if fire { 0x08000020 } else { 0 }) != 0
-        || fields.object_flags & 0x88000800 != 0
-        || fields.position[2] < 0.
-        || [0x80, 0x1dc].into_iter().any(|at| word(payload, at) != 0)
-        || word(payload, 0x64) != 0
-        || word(payload, 0x180) != 1
-        || ![0, 1, 2, 4, 5, 6, 11, 13, 14, 15, 16, 18, 60].contains(&word(payload, 0x30))
-            && !(fire && [12, 17, 19, 20, 21].contains(&word(payload, 0x30)))
-        || ![u32::MAX, 1].contains(&word(payload, 0x60))
-    {
-        return Err("ordinary secondary outside acquired source pistol profile".into());
+    if payload.len() != 524 {
+        return Err(
+            "ordinary secondary outside acquired source pistol profile: payload length".into(),
+        );
+    }
+    let logical_state = word(payload, 0x30);
+    let unsupported = [
+        (fields.class != 2, "class"),
+        (fields.action != 0, "action"),
+        (
+            fields.control_flags & !control_mask(fire) != 0,
+            "control flags",
+        ),
+        (
+            fields.response_flags & !(0x80803000 | if fire { 0x08000020 } else { 0 }) != 0,
+            "response flags",
+        ),
+        (fields.object_flags & 0x88000800 != 0, "object flags"),
+        (fields.position[2] < 0., "negative height"),
+        (
+            [0x80, 0x1dc].into_iter().any(|at| word(payload, at) != 0),
+            "active auxiliary",
+        ),
+        (word(payload, 0x64) != 0, "weapon transition"),
+        (word(payload, 0x180) != 1, "weapon inventory"),
+        (
+            ![0, 1, 2, 4, 5, 6, 11, 13, 14, 15, 16, 18, 60].contains(&logical_state)
+                && !(fire && [12, 17, 19, 20, 21].contains(&logical_state)),
+            "logical state",
+        ),
+        (
+            ![u32::MAX, 1].contains(&word(payload, 0x60)),
+            "weapon cache",
+        ),
+    ]
+    .into_iter()
+    .find(|(failed, _)| *failed);
+    if let Some((_, reason)) = unsupported {
+        return Err(format!(
+            "ordinary secondary outside acquired source pistol profile: {reason}; logical={logical_state} action={} height={}",
+            fields.action, fields.position[2]
+        ));
     }
     let parameters =
         mecc_locomotion::Parameters::from_globals(globals).map_err(|e| e.to_string())?;

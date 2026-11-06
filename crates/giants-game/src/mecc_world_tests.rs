@@ -1305,6 +1305,7 @@ fn source_mecc_contact_effect_preserves_prior_state_delay_and_stale_binding_refu
     assert!(prepared.request.is_none());
     assert_eq!(pool.active().len(), 1);
     let handle = pool.active()[0];
+    let mut stale_contact = contact.clone();
     assert_eq!(pool.get(handle).unwrap().recipient(), Some(source));
     assert!(pool.get(handle).unwrap().require_first_update().is_err());
     let mut expected = crate::audio_parameters::Random(1);
@@ -1353,6 +1354,18 @@ fn source_mecc_contact_effect_preserves_prior_state_delay_and_stale_binding_refu
     .unwrap();
     assert!(pool.active().is_empty());
     assert_eq!(&cleaned.payload[0x1a8..0x1ac], &[0; 4]);
+    assert!(
+        run(
+            &prepared.fields,
+            &prepared.payload,
+            &view,
+            source,
+            &mut stale_contact,
+            &mut pool,
+            &mut random,
+        )
+        .is_err()
+    );
     assert!(
         run(
             &prepared.fields,
