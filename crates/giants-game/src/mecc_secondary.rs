@@ -90,8 +90,8 @@ pub(crate) fn ordinary(
     let gap = (f64::from(input.position_z) - f64::from(input.floor))
         - f64::from(input.center_offset) * f64::from(input.scale);
     let scalar = |at| globals.scalar(at).map_err(|e| e.to_string());
-    if view.velocity[2] < -scalar(0xc10)? && gap < f64::from(scalar(0xc14)?) {
-        return Err("ordinary secondary requires acquired landing reaction provider".into());
+    if view.velocity[2] < -scalar(0xc10)? && f64::from(scalar(0xc14)?) < gap {
+        return Err("ordinary secondary requires acquired high-descent transition provider".into());
     }
     let norm = |v: [f32; 3]| {
         let [x, y, z] = v.map(f64::from);
@@ -333,6 +333,49 @@ mod tests {
             globals.words[at / 4] = 100f32.to_bits();
         }
         (fields, payload, view, globals)
+    }
+    #[test]
+    fn descent_transition_requires_both_strict_velocity_and_height_thresholds() {
+        let (mut fields, payload, mut view, mut globals) = fixture();
+        globals.words[0xc10 / 4] = 10f32.to_bits();
+        globals.words[0xc14 / 4] = 3f32.to_bits();
+        for (velocity, height, refused) in [
+            (-11., 12.999, false),
+            (-11., 13., false),
+            (-11., 13.001, true),
+            (-10., 13.001, false),
+            (-9., 13.001, false),
+        ] {
+            fields.position[2] = height;
+            view.velocity[2] = velocity;
+            view.previous_velocity[2] = velocity;
+            let mut random = crate::audio_parameters::Random(1);
+            let result = ordinary(
+                &fields,
+                &payload,
+                fields.channels,
+                &view,
+                &globals,
+                1. / 60.,
+                Services {
+                    fire: true,
+                    blending: animation_channels::Blending::Enabled,
+                    random: &mut random,
+                },
+            );
+            if refused {
+                assert_eq!(
+                    result.err().unwrap(),
+                    "ordinary secondary requires acquired high-descent transition provider"
+                );
+            } else {
+                let output = result.unwrap();
+                assert_eq!(output.request.unwrap().slot, 44);
+                assert_eq!(word(&output.payload, 0x30), 12);
+            }
+            assert_eq!(random.0, 1);
+            assert_eq!(word(&payload, 0x30), 11);
+        }
     }
     #[test]
     fn trigger_selects_armed_walk_before_the_existing_channel_ends() {

@@ -317,6 +317,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   boundaries. Late provider failure retains prior publication and quarantines
   replay. Cold-only cleanup refuses entered transitions. Full primary, dynamic
   cleanup, geometry-header/render consumption and live admission remain open.
+- Implemented: second-auxiliary normalized-pose selection uses the shared channel
+  setter, source distance arithmetic and ordered local-list minimum stores. The
+  public kernel matches 1,024 original-helper controls / 197,632 full child-header
+  words, including absent-child, local/remote, signed-radius and finite-extreme
+  profiles. Actual Session child/size/pose/list binding matches another 64 source-
+  resource contexts / 6,720 channel/clock/list words. Root identity and preceding
+  poses are supplied; this does not produce a live local player or world pose.
+  Invalid inputs/foreign identities refuse before publication. Owner payload,
+  allocations, lists, unsampled references and pending gates remain unchanged;
+  entered subphases refuse cold-only cleanup. Next acquire the following helper,
+  physical/mode producers and full primary; ANM cadence and movement remain open.
 - Complete the remaining custom cleanup profiles: the active additional-reference
   teardown, GPU material release and dynamic/entered turns. The acquired geometry
   prefix stores class1199 in that reference; its broader gameplay role is unassigned.
@@ -455,13 +466,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Migrate the retained model-0 diagnostic presentation consumers before claiming
   native shared-bank ordering across actors; this inspection still prepares that
   diagnostic pose separately from its selected-model upload.
-- Extended owned movement remains incomplete: the general movement-cycle replay
-  refuses at step 152 under the secondary guard currently labelled "landing
-  reaction provider". Retain that failed control. Before widening admission,
-  independently verify its gap/velocity condition against the pinned native
-  selector and acquire the actual transition, impact and landing-effect branches.
-  The new 128-step owned inspection cycles test resource retirement separately;
-  they neither repair nor validate that longer trajectory.
+- Extended owned movement remains incomplete. The inverted secondary height
+  comparison is corrected after 1,049 controlled original-PC branch executions;
+  both velocity and height thresholds are strict. The corrected general replay
+  now explicitly refuses the unacquired high-descent transition at step 143.
+  Retain both this result and the older incorrect-guard step-152 failure.
+  Next acquire logical state 2's complete common tail, animation and owned writes,
+  then impact reactions and contact landing effects; do not infer their contract
+  from the guard alone. See docs/MECC_DESCENT_GUARD.md. The 128-step inspection
+  cycles cover resource retirement separately and do not validate this trajectory.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated

@@ -182,6 +182,19 @@ foreign-ticket failure, same-ticket foreign-scope cleanup refusal, deferred mark
 unchanged ordered lists, last-material retirement and clean regeneration after
 clear/re-entry. This is the custom callback phase, not common actor retirement.
 
+For second-auxiliary selection from actual owned resources and actor lists:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_auxiliary_animation_binds_owned_fields_and_refuses_stale_inputs --target x86_64-pc-windows-gnu -- --ignored
+```
+
+The control checks channel publication, unchanged payload/lists/ownership,
+unsampled references, invalid-input rollback, foreign/stale identities and clear.
+Private source-resource controls/receipts may use `GIANTS_KABUTO_AUXILIARY_CONTROLS`
+and `GIANTS_KABUTO_AUXILIARY_RECEIPT`. Keep those inputs and outputs outside Git.
+This is selection over supplied preceding poses/root identity, not world-pose
+production, ANM advancement or a playable Kabuto controller.
+
 For the owned geometry-transition composition, with that same supplied root:
 
 ```powershell

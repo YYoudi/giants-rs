@@ -675,3 +675,40 @@ The geometry-header tail and renderer remain separate consumers. No pending
 initializer gate is cleared, no player is admitted and no playable Kabuto preview
 is claimed. Complete primary, movement/jumping, size-dependent collision, feeding
 and growth remain open. No dependency, bundled resource or package changed.
+
+## Second-auxiliary animation selection — 6 November 2026
+
+`kabuto_auxiliary_animation::prepare` implements the early primary helper that
+selects a normalized pose on the second auxiliary. A remote owner's child uses
+its squared distance from the supplied local-root object. For the local owner,
+the helper scans both ordered actor lists and stores each selected minimum as
+float32 before comparing the next candidate. Empty lists retain the source's
+zero normalized clock. The remote distance stays wide until final conversion.
+The acquired size parameter supplies the radius; the final clock is stored
+before invoking the shared numeric channel selector. No ANM clock or pose is
+advanced by this selection.
+
+The actual public kernel matches 1,024 original-helper controls / 197,632 complete
+child-header words. These cover absent-child bypass, both root routes, ordered
+list candidates, both blending settings, signed nonzero finite radii, very small
+and large radii and finite coordinate extremes. Nonfinite positions and zero or
+nonfinite radius refuse in the owned profile; this is not native error parity.
+
+`Session::select_kabuto_auxiliary_animation` binds the actual group-owned second
+child, its published pose/channels, owner size payload and Session lists. The
+local-root identity is supplied and must belong to the Session. Sixty-four
+additional source-resource controls match 6,720 before/after channel, clock and
+ordered-list words. Per-actor poses and radius are explicit inputs of preceding
+phases; the remote-root fixture uses an actually constructed auxiliary object
+as a supplied object boundary, not a live local-player producer. An early control
+used a complete native primary against a cold owned group and differed in its
+initial channel flags; its receipt is excluded from these passing counts.
+
+The installed-data control preserves owner payload, actor/list counts and
+unsampled references, synchronizes the child's field/channel views and checks
+foreign/stale identities, retired groups, failed-input rollback and clear. Any
+entered acquired primary subphase now prevents cold-only custom cleanup. Pending
+initializer gates remain intact. Actual world-pose/list production, subsequent
+ANM/reference cadence, the following helper, full primary, movement and growth
+are still prerequisites. Prototype PS2 attributions remain unknown; no raw
+corpus, listings, reports or executable data are included in this milestone.

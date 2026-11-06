@@ -42,6 +42,66 @@ private ZIP SHA256:
 `33a96376cfbdaef7f85a6404e78118b12e036c4729764eba145fef63dec0a14c`.
 Subsequent source changes and the public preview retain their separate identities.
 
+## Owned secondary descent guard - 6 November 2026
+
+Source `d3f2ef9` corrects the ordinary secondary's inverted height comparison.
+The original PC branch requires both strictly fast downward velocity and height
+strictly above its threshold, including the scaled center offset. Independent
+original-instruction controls pass 1,049 cases; the previous condition differs in
+255. Synthetic tests cover actual selector continuation, both equalities and the
+retained explicit high-descent refusal. See MECC_DESCENT_GUARD.md.
+
+The exact GNU executable refuses the unacquired high-descent transition at step
+143 in the longer general owned movement replay, then the replay times out.
+This remains a failed trajectory, separate from the older incorrect-guard step-152
+failure. The transition's logical state 2 observation does not acquire its common
+tail or animation/effect contract. Impact and contact landing providers also
+remain missing. Main campaign readiness, owned firing and fidelity are not promoted.
+
+This source passes 765 synthetic Rust tests (26 ignored), 40 Python tests,
+Rustfmt and Clippy. Rebuilt native regression controls pass 576 primary frames,
+22 shots and 341,220 words, plus ten declared provider-failure controls.
+The receipt-bound executable SHA256 is
+`05e3dd154c13fa5042e390a6474b25d19703dd9dea17e20ce522fe4ca296325e`.
+Its private ten-member validation draft has complete notices and no technical
+blockers; ZIP SHA256 is
+`ce3fbd447a828ead1c6ae31466e92ea9a7db61edf4664c0ed261e6085e57ee99`.
+This bounded correction is not a new public playable preview. Prototype PS2 name
+attribution remains unknown; the identity-bound lookup is retained privately.
+
+The same executable passes three actual 128-step owned inspection launches,
+cancellations and re-entries. Each retires 59 meshes, 26 images, 59 materials and
+five buffers with no remaining tracked assets/entities. This measures the acquired
+short profile and GPU resource lifecycle, not full RAM reclamation or longer
+movement. Combined source `a170b42` preserves concurrent Kabuto auxiliary work
+and passes 767 synthetic Rust tests (27 ignored), four installed-data Mecc controls,
+40 Python tests, Rustfmt, Clippy and exported site/JavaScript checks. These source
+checks do not change the older executable and package receipt identities above.
+
+## Kabuto second-auxiliary selection — 6 November 2026
+
+The owned primary subphase now selects the second auxiliary's normalized pose
+from its acquired size parameter, published actor positions and ordered lists,
+reusing the common channel setter. The actual public kernel matches 1,024 native
+controls / 197,632 full child-header words; an actual-resource Session binding
+matches another 64 contexts / 6,720 channel/clock/list words. Initial pose/root
+identity boundaries and the corrected cold initialization boundary are recorded
+in OWNED_KABUTO.md. This does not advance ANM, produce world poses or implement
+movement/growth. Cold-only cleanup refuses entered acquired primary subphases.
+
+Combined checkpoint `aff0231` preserves the incoming owned model renderer,
+frontend inspection and dashboard captures. It passes 766 synthetic Rust tests
+(27 ignored), all six silent Kabuto installed-data controls, 40 Python tests,
+Rustfmt, Clippy with warnings denied and generated site/JavaScript checks.
+Rebuilt actual-public kernel and Session/resource comparisons pass again.
+The selected-pattern history audit reports zero findings over 285 commits and
+2,318 blobs. This is separate from the other renderer's exact executable receipts.
+
+No dependency, bundled resource, new playable capability or preview package is
+introduced. Existing package manifests/notices/checksums retain their exact
+previous runtime and receipt identities; they do not attest to this source API
+or to Kabuto visual fidelity. Full primary and live admission remain pending.
+
 ## Owned camera-selected body models - 6 November 2026
 
 The experimental owned mission driver selects the body model from its actual
