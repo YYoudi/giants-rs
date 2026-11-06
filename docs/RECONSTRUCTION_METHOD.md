@@ -201,6 +201,9 @@ No PS2 address, raw symbol or demangled signature is assigned to these rows.
 | `0x0049ece0` / `FUN_0049ece0` | `first_person::place` | Independent placement/camera invocation and transform correspondence |
 | `0x0045b520` / `FUN_0045b520` | Selected-weapon boundary in `resident_states/subjective.rs`; no standalone getter equivalence claimed | Independent getter/storage and caller correspondence |
 | `0x004b1450` / `FUN_004b1450` | Authored icon-family boundary in `resident_states/subjective.rs`; no standalone getter equivalence claimed | Independent resource-selection and caller correspondence |
+| `0x0049f3f0` / `FUN_0049f3f0` | Class-2 profile of `mecc_draw_policy::submit`; preparation and model callbacks remain external | Independent PS2 dispatcher/caller and character-branch comparison |
+| `0x0049f560` / `FUN_0049f560` | `mecc_draw_policy::submit_held`; owner getter and held submission remain external | Independent PS2 temporary-parent and detachment-order comparison |
+| `0x00432330` / `FUN_00432330` | Observed model-submission entry; existing `render_parts` is a resolved-snapshot planner, not live entry integration | Independent PS2 model/material/queue and caller comparison |
 
 Earlier private worksheets referring to `subjective_player::State` remain
 retrievable aliases, not proof that the presentation player implements the native

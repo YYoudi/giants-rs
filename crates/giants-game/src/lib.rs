@@ -663,6 +663,7 @@ mod mecc_animation_events;
 pub mod mecc_animation_phase;
 pub mod mecc_audio;
 pub mod mecc_auxiliary;
+pub mod mecc_draw_policy;
 pub mod mecc_footsteps;
 pub mod mecc_impacts;
 pub mod mecc_pistol;

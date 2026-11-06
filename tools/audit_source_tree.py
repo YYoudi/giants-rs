@@ -25,6 +25,7 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/RECONSTRUCTION_METHOD.md': {
         '2c8a49007d040af5c353ce6921860566a63b61fbb67c95c2a57b7da479567e0d',
+        '07638b2e77f9a2eeb7bd63e55e91c9c0e72f5643dcf536571733f74397b3d94f',
     },
 }
 

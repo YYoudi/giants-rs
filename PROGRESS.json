@@ -424,7 +424,7 @@
       "title": "Complete world and actor rendering",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "All required maps, terrain layers, buildings, scenery, characters, materials, lighting and shadows remain incomplete. Owned subjective positions now consume actual virtual channels/stamps in the shared model bank: 64 controlled frames / 544 model snapshots. Live LOD/part/material admission and subjective drawing remain unbound; CPU positions do not certify a rendered scene."
+      "detail": "All required maps, terrain layers, buildings, scenery, characters, materials, lighting and shadows remain incomplete. Owned subjective positions use the shared model bank (64 controlled frames / 544 snapshots); body/subjective and held-parent submission policies match 8,192 + 144 native cases. Callbacks, live post/held binding, LOD/part/material preparation and drawing remain unbound; CPU contracts do not certify a rendered scene."
     },
     {
       "id": "water-environment",
