@@ -11,6 +11,15 @@ Targets, poses and root identity are supplied boundaries. Growth decisions,
 feeding, full primary, movement and live admission remain pending. The dashboard
 now lists the acquired Kabuto CPU foundation separately from gameplay readiness.
 
+Combined checkpoint `0c08601` preserves the newer Delphi authored-camera and
+Mecc descent/render corrections. It passes 770 synthetic Rust tests (28 ignored),
+all seven silent Kabuto installed-data controls, 40 Python tests, Rustfmt,
+Clippy with warnings denied and generated roadmap/site/JavaScript checks.
+Both original-PC/owned composition controls pass again on the rebuilt test
+executable. The selected-pattern history audit reports zero findings across
+304 commits and 2,376 blobs. These checks do not expand the other lanes' exact
+runtime/package receipts or verify Kabuto live scheduling.
+
 This source stage adds no dependencies, bundled game data or playable package.
 Existing preview manifests/notices/checksums retain their exact previous runtime
 and receipt identities. No existing executable receipt attests to this new API
