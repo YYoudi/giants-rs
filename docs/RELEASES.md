@@ -1,5 +1,39 @@
 # Preview releases and milestone integration
 
+## Flick physical object stock and actor population — 6 November 2026
+
+The original PC initializer supplies 3,000 physical object slots. A private
+source-program control fills them using the original constructors, marks three
+objects, executes the actual global cleanup, reuses those slots and retires all
+objects. The 3,003 retirements restore all 3,000 slots and leave the active count
+and list empty. Marking alone does not release capacity. Resident resources,
+support and outer memory are supplied; actual mission population and rendering
+are excluded. Three empty-free-head fixtures stop at the original diagnostic
+entry, so they establish no fatal-handler, recovery or successful-return contract.
+
+A separate batch executes source actor/link construction for all 23 bounded
+persistent sources: 158 Flick actors leave the ordinary object stock's count,
+list and free head unchanged, with zero calls to its allocator. That observation
+applies to construction, not subsequent VM/effect callbacks or full missions.
+Flick actor counts therefore cannot stand in for live ordinary-world occupancy.
+
+Early controls omitted the global cleanup phase or assumed an unproved field
+meaning; those failures remain private and are not counted as passing controls.
+Prototype PS2 lookups precede acquisition; their attributions remain unknown.
+Inputs, resource copies, detailed allocation records and controllers stay private.
+This acquires a physical capacity/recycle boundary, not shared runtime admission.
+Real mission occupancy, error handling, complete world scheduling, general/mixed
+FX and visual/temporal/audio parity remain open. No new Rust quota, gameplay
+capability or downloadable executable is claimed; preview 2026.11.06.2 keeps its
+exact existing source/executable/package identities and validation scope.
+
+Combined runtime checkpoint `d1ef59b` preserves the newer Kabuto transition work.
+It passes 764 synthetic Rust tests (26 ignored), 40 Python tests, Rustfmt, Clippy
+with warnings denied, generated roadmap/site checks and JavaScript syntax checks.
+These synthetic checks are separate from the native acquisition above and do
+not exercise new live world admission or expand the existing preview's receipts.
+
+
 ## Kabuto owned geometry transition - 6 November 2026
 
 The owned transition now composes animation selection, ordered owner-sound

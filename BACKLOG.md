@@ -564,6 +564,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   and draw, returning to the menu with tracked cleanup and no reserved Mecc audio
   override. This verifies that gesture on Rstory5 mission 2 only; other scene and
   gesture combinations remain open. Both development lifecycle endpoints pass.
+  Physical object-stock acquisition now executes the original initializer and
+  constructs 3,000 simultaneous source-program objects with supplied resident
+  resources/support. Three marked objects still occupy slots until the actual
+  global cleanup pass; their freed slots are reused in observed order. All 3,003
+  retirements finish with zero active objects and all 3,000 free slots restored.
+  Three empty-free-head fixtures reach the original diagnostic entry; its fatal
+  handler and recovery are not executed or certified. Failed early controls and
+  an unproven generation-field interpretation remain private and rejected.
+  A separate batch constructs all 158 Flick actors in the 23 bounded sources in
+  an actual initialized stock: their construction leaves its counter, list and
+  free head unchanged and never calls its object allocator. This observation
+  excludes later VM callbacks, source FX and mission population. Do not equate
+  Flick actor counts with ordinary-world occupancy or invent a per-film quota.
+  The physical capacity/recycle boundary is acquired; real mission occupancy,
+  shared admission, error handling and full world scheduling remain open. No
+  shared Rust capacity policy or new gameplay admission follows from CPU proof.
   The 59-source gap total, 56 general-queue admission refusals and 282 strict-
   profile reviews remain: this is a partial runtime path, not 23 fully admitted
   or faithful scenes. Native in-mission producers remain required for gameplay triggers; the
