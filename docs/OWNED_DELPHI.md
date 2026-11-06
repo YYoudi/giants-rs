@@ -4,6 +4,48 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Authored camera reference and callback - 6 November 2026
+
+`Session::sample_reference_camera` resolves a declared reference from the actual
+prepared specification. A current-clip query consumes the owned reference buffer;
+a non-current clip evaluates its hierarchy at the declared start frame and
+advances the shared ANM epoch. The existing world cache is consumed as stored,
+including an older sampled pose during pause. Missing references return absence;
+missing usable caches remain explicit refusals rather than identity poses.
+
+`authored_camera_reference::compose` reuses common matrix operations, vector
+normalization and cross products. It preserves the original direction in the
+first cross product, then normalizes the resulting basis, inverts and transposes
+it. The authored lens conversion retains its intermediate float store. In 2,048
+supplied cached-reference native/Rust cases, all 36,864 matrix/lens words match.
+These synthetic PC boundaries are separate from the real-resource controls below.
+
+`Session::advance_delphi_camera` implements the local-owner/mode gate, release
+reset, current-reference query and animation1 fallback, plus a supplied target
+identity branch. Reset retains the prior matrix; inactive gates preserve state.
+The selected view remains absent until produced. Late failures preserve the last
+view and quarantine replay as an owned policy, not native error-path parity.
+
+Three private test-driver compositions interleave this callback with the controlled
+Delphi phases. Each covers 256 steps across 22 actors, reference buffers, full
+owner payload and fifteen ordered lists, plus 21 override-state words per step.
+All 6,137,856 normalized words and RNG endpoints match. Mode, aspect, local-owner
+and optional self-target are supplied inputs; the external target pointer is
+identity-normalized after checking that boundary. Absent inactive view storage is
+serialized diagnostically, never supplied as a usable matrix. The source-data
+lifecycle control checks retained/reset views, unconsumed invalid inputs, foreign
+target rejection and failure quarantine.
+
+The third composition activates the view while body roll settles through pause:
+the actual older world matrix is retained and consumed. The real-resource lens
+in these controls is static; animated lens tracks and non-self target actors
+remain outside this integration proof.
+
+These are owned callback APIs and a test-driver composition, not the production
+full-primary scheduler or a live player camera. Target and viewport producers,
+ordinary camera updates, renderer/mission wiring, other primary/auxiliary phases,
+water/turbo and fidelity remain pending. Prototype PS2 attribution stays unknown.
+
 ## Manual rotation kernel - 6 November 2026
 
 `player_rotation::advance` implements the acquired finite manual heading/look

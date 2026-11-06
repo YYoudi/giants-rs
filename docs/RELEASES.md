@@ -1,5 +1,54 @@
 # Preview releases and milestone integration
 
+## Delphi owned authored-camera callback - 6 November 2026
+
+The common Session reference sampler now consumes prepared class resources and
+actual owned world/reference caches. Delphi's standalone pre-heading callback
+adds local/mode gating, current-reference and animation1 fallback, retained/reset
+view state and a supplied target identity branch. Non-current sampling consumes
+the shared ANM epoch; it does not create a separate animation player.
+
+Three 256-step private test-driver compositions match 6,137,856 normalized words
+across all 22 actors, reference buffers, owner payload, ordered lists and 21
+override-state fields per step, with exact RNG endpoints. The separate 2,048-case
+cached-reference arithmetic comparison matches 36,864 matrix/lens words. These
+controls retain supplied mode/aspect/local-owner/self-target boundaries. They do
+not prove target/viewport production, production full-primary scheduling, live
+camera rendering, mission admission or fidelity. Owned failure guards preserve
+the prior view and quarantine replay; they are not native error-path equivalence.
+
+The remaining primary/auxiliary producers, ordinary camera and runtime wiring,
+water/turbo and combat stay on the backlog. This CPU/API stage adds no playable
+Delphi download. Prototype PS2 attribution remains unknown.
+
+The debug and optimized probes repeat all three compositions and the separate
+arithmetic controls at source `728786f`. The camera implementation is unchanged
+in combined source `983217f60ec95a74e114c14f464799207a9766c9`, which preserves the
+Mecc model uploads, Kabuto geometry transition, Flick replay and 509 gallery
+images / 305 comparisons. It passes 764 Rust tests (26 ignored), four installed-
+data Mecc controls, the enriched Delphi lifecycle control, 40 Python tests,
+Rustfmt, Clippy and site checks. The selected-pattern history audit reports no
+findings across 285 commits and 2,318 blobs.
+
+Its exact GNU executable passes both silent development endpoints, three Rstory1
+mission-index-2 cancellations after persistent-object birth/update, and three
+128-step owned Mecc render/cancel/re-entry cycles. Each render cycle uploads the
+selected model's six body parts and releases the ticket's entities. These are
+common-runtime regressions, not Delphi live controls or cinematic fidelity.
+The private ten-member draft has matching notices, receipt/review identities and
+checksums with zero technical verifier blockers. Executable SHA256:
+`b1a4bc75510576dddc95a42547b85b37b2873b681e1cbd3ae80e98bde81601e4`;
+private ZIP SHA256:
+`33a96376cfbdaef7f85a6404e78118b12e036c4729764eba145fef63dec0a14c`.
+Subsequent source changes and the public preview retain their separate identities.
+
+Source merge `4bd556c` preserves the subsequent Mecc descent correction and
+Kabuto auxiliary-animation work. It passes 767 Rust tests (27 ignored), all four
+installed-data Mecc controls, the enriched Delphi control, 40 Python tests,
+Rustfmt, Clippy and site checks. The selected-pattern source/history audit reports
+no findings across 292 commits and 2,337 blobs. The executable and package above
+remain bound to `983217f`; later Mecc runtime receipts are recorded separately.
+
 ## Owned secondary descent guard - 6 November 2026
 
 Source `d3f2ef9` corrects the ordinary secondary's inverted height comparison.
