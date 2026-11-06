@@ -526,14 +526,32 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   explicit-clock Rust projection and the current runtime clock selection.
   Twenty-five initial support caches are cold; a clean repetition agrees.
   This closes no whole-world admission or fidelity requirement. Full VM/frame
-  scheduling, object-channel cadence and capacity remain to acquire; do not add
+  scheduling and capacity remain to acquire; do not add
   a synthetic delay, first-frame pose or independent-clock substitution based
   only on the count of independent actors. The phase records and raw proofs
   remain private.
+  The native active-context/preparation path now advances two retained object
+  programs through eight preparations, including birth-frame channel advancement.
+  Rust matches all 496 compared words; the context can retire while its object
+  survives. The private harness now supplies sufficient stack for the real
+  interpreter; no byte patch or invented first-frame delay is used. This bounded
+  control does not establish whole-world allocation, capacity or scheduling.
+  Source-declared completion replay is now integrated into Preview tools and the
+  existing menu/loader/film lifecycle, with a distinct inspection launch intent.
+  All 23 cohort sources have declared routes: four startup and 19 completion.
+  Five completion choices across four cohort worlds preserve original mission
+  indices; changed source bytes are refused. No guessed alias is added.
+  Exact implementation source `4ef72a1` passes actual muted UI controls for
+  Rstory5 mission 2 (19 directors) and mission 3 (33): both natural endings,
+  then mission 2 re-entry and Escape after persistent birth. Tracked film assets,
+  objects/contexts and session entities are released; the three preview profile
+  files remain unchanged after initial unlock. Existing attachment omissions and
+  a reserved Mecc audio-source refusal remain visible. The replay route does not
+  reconstruct native live replay state, mark victory or admit Delphi gameplay.
   The 59-source gap total, 56 general-queue admission refusals and 282 strict-
   profile reviews remain: this is a partial runtime path, not 23 fully admitted
-  or faithful scenes. In-mission producers are still needed for non-opening
-  sources. Live support generations, native world scheduling/admission and pool
+  or faithful scenes. Native in-mission producers remain required for gameplay triggers; the
+  source-backed inspection route does not implement those callbacks. Live support generations, native world scheduling/admission and pool
   capacity, complete rendering/audio/subtitle parity and broader interactive coverage remain
   open. Next: finish these persistent contracts, then the mixed/other queue
   families and the overlapping partial FX/audio/credits/resume priorities below.

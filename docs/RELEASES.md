@@ -1,5 +1,35 @@
 # Preview releases and milestone integration
 
+## Source-declared Flick completion replay — 6 November 2026
+
+Preview tools now exposes completion cinematics using actual mission declarations
+and the existing main menu/loader/film lifecycle. The bounded persistent cohort's
+23 sources have four opening and 19 completion routes; a fresh Core API control
+finds five completion choices in four cohort worlds and preserves original slots.
+Changed-input controls refuse all five altered mission sources. Replay is an
+inspection intent: no campaign completion, original live replay-state restoration
+or gameplay-readiness claim is made.
+
+Implementation source `4ef72a1ca6cb7114269fadd5d7d72162f0fe8f5c` passes 759 Rust
+tests (24 ignored), 40 Python tests, formatting and Clippy. Its GNU executable
+SHA256 is `8d9aa91547fd771a4e2ac0945594c43e65a1bab4d31dbded5167f666dda60851`.
+Actual muted menu controls reach the natural ends of Rstory5 mission 2 (19
+directors) and mission 3 (33), then re-enter mission 2 and skip with Escape after
+a persistent birth. All three tracked sessions release their entities, owned film
+assets and persistent objects/contexts. Three preview profile files remain
+unchanged after initial preview unlock. Existing legacy attachment omissions and
+the test's reserved Mecc jet-source refusal remain; audible playback, exact
+pixels/timing, whole-device resource lifetime and complete scenes are unverified.
+These receipts refer to this implementation build, not subsequent combined builds.
+
+Separate original-PC/Rust object-phase controls match two programs, eight actual
+preparations and 496 channel/matrix words. Native birth-frame advancement is
+observed within the supplied context/resource/allocation fixture; no invented
+first-frame delay is added. Whole-world scheduling/admission/capacity and native
+gameplay triggers remain prerequisites. Prototype PS2 searches preceded the work;
+attributions remain unknown. Raw evidence and retained binaries remain private.
+
+
 ## Kabuto owned template-clock query - 6 November 2026
 
 The standalone template clock now preserves base-before-truncation and signed-64

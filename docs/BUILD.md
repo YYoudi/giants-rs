@@ -296,3 +296,14 @@ Strict-profile rejection is a review item when preview consumers prepare the
 source. FLK and MDV opcode spaces are distinct; music commands inside MDV are
 outside this batch's scope. Detailed output remains private, including cases with
 no reported gap; all complete-scene fidelity fields remain unverified.
+
+## Completion cinematic inspection
+
+In the main menu choose **Preview tools → Completion cinematics**, then a world
+and one of its source-declared completion entries. Choices retain their original
+mission slot, even when the filtered list is shorter. The normal mission loader
+prepares the declared film; no startup-name alias or slot-zero fallback is used.
+Escape or double-click skips the film into the partial free-camera preview;
+Escape returns to the list. A natural ending uses that same preview boundary.
+This route does not mark campaign victory, restore original live replay state or
+admit gameplay. Original data is read-only; preview unlock uses a dedicated profile.
