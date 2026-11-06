@@ -11,6 +11,14 @@ identity boundaries and the corrected cold initialization boundary are recorded
 in OWNED_KABUTO.md. This does not advance ANM, produce world poses or implement
 movement/growth. Cold-only cleanup refuses entered acquired primary subphases.
 
+Combined checkpoint `aff0231` preserves the incoming owned model renderer,
+frontend inspection and dashboard captures. It passes 766 synthetic Rust tests
+(27 ignored), all six silent Kabuto installed-data controls, 40 Python tests,
+Rustfmt, Clippy with warnings denied and generated site/JavaScript checks.
+Rebuilt actual-public kernel and Session/resource comparisons pass again.
+The selected-pattern history audit reports zero findings over 285 commits and
+2,318 blobs. This is separate from the other renderer's exact executable receipts.
+
 No dependency, bundled resource, new playable capability or preview package is
 introduced. Existing package manifests/notices/checksums retain their exact
 previous runtime and receipt identities; they do not attest to this source API
