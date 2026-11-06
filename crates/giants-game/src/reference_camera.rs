@@ -77,18 +77,18 @@ pub fn sample(
         .camera
         .is_some()
     {
-        let [start, _, rate, samples] = descriptor.animation.timeline;
-        let tick = (f64::from(samples) * f64::from(rate) * f64::from(source.current_seconds)
-            + f64::from(start))
-        .trunc();
-        if !tick.is_finite() || tick < f64::from(i32::MIN) || tick > f64::from(i32::MAX) {
-            return Err("camera lens clock outside acquired integer profile".into());
-        }
+        let tick = crate::animation_frames::frame_at_time(
+            crate::animation_frames::Descriptor {
+                timeline: descriptor.animation.timeline,
+                flags: descriptor.template.flags,
+            },
+            source.current_seconds,
+        )?;
         Some(
             animation::Evaluator {
                 animation: &descriptor.animation,
             }
-            .camera_fov(node, tick as i32)
+            .camera_fov(node, tick)
             .map_err(|e| e.to_string())?,
         )
     } else {
