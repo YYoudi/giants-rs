@@ -112,6 +112,12 @@ clip definitions, separate look state, body roll settling, paused terrain exclus
 and invalid-rotation quarantine, profile refusal and cleanup. It creates no window or audio device
 and does not execute the complete Delphi primary/secondary or live controls.
 
+The same control also samples real owned camera references and checks Delphi's
+standalone camera callback: retained/reset views, inactive input boundaries,
+foreign targets and failure quarantine. It does not acknowledge camera rendering
+or production full-primary scheduling. Private native comparisons retain their
+separate arithmetic and test-driver scope in [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
 The locomotion profile reads the original executable's data as an external asset.
 Set `GIANTS_DELPHI_EXECUTABLE` for a separate configurable metadata file; otherwise
 this source-data control reads `Giants.exe` inside `GIANTS_DELPHI_ROOT`. The file

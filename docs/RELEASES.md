@@ -1,5 +1,26 @@
 # Preview releases and milestone integration
 
+## Delphi owned authored-camera callback - 6 November 2026
+
+The common Session reference sampler now consumes prepared class resources and
+actual owned world/reference caches. Delphi's standalone pre-heading callback
+adds local/mode gating, current-reference and animation1 fallback, retained/reset
+view state and a supplied target identity branch. Non-current sampling consumes
+the shared ANM epoch; it does not create a separate animation player.
+
+Three 256-step private test-driver compositions match 6,137,856 normalized words
+across all 22 actors, reference buffers, owner payload, ordered lists and 21
+override-state fields per step, with exact RNG endpoints. The separate 2,048-case
+cached-reference arithmetic comparison matches 36,864 matrix/lens words. These
+controls retain supplied mode/aspect/local-owner/self-target boundaries. They do
+not prove target/viewport production, production full-primary scheduling, live
+camera rendering, mission admission or fidelity. Owned failure guards preserve
+the prior view and quarantine replay; they are not native error-path equivalence.
+
+The remaining primary/auxiliary producers, ordinary camera and runtime wiring,
+water/turbo and combat stay on the backlog. This CPU/API stage adds no playable
+Delphi download. Prototype PS2 attribution remains unknown.
+
 ## Delphi owned body alignment - 6 November 2026
 
 The explicit controlled phase now runs body pitch/roll alignment between jump

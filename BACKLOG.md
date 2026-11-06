@@ -148,6 +148,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 - Acquire paused positional-event lazy transform production before admitting
   events needing an absent/stale affine cache. ANM preserves cold absence and
   the older cached pose during body settling; no placeholder matrix is used.
+- Implemented: the common owned reference-camera sampler and Delphi's local/mode
+  gate, current-reference/animation1 fallback, reset/retained-view and supplied
+  target branch. A 2,048-case cached-reference arithmetic comparison matches
+  36,864 matrix/lens words. Three 256-step test-driver compositions match 6,137,856
+  normalized actor/reference/payload/list/override words plus exact RNG. Fallback
+  sampling advances the shared ANM epoch. Mode/aspect/local-owner and self-target
+  are supplied boundaries; target selection, viewport production, production
+  primary ordering, normal camera/render/mission wiring remain open. The owned
+  lifecycle check covers unconsumed invalid inputs, foreign targets and quarantine.
+  These APIs do not admit live Delphi controls or establish visual fidelity.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary

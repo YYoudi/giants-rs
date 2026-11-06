@@ -10,7 +10,9 @@ use crate::{
 use std::collections::BTreeMap;
 use std::sync::Arc;
 mod delphi;
+mod delphi_camera;
 mod kabuto;
+mod reference_camera;
 mod subjective;
 
 struct OwnedSpecification(crate::actor_references::Owned);
