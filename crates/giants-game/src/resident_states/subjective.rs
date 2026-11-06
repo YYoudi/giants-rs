@@ -20,6 +20,8 @@ impl Session {
             || cycle.view.number != number
             || cycle.failure.is_some()
             || cycle.subjective_pending.is_some()
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
             || actor
                 .world_tick
                 .as_ref()
@@ -395,6 +397,9 @@ impl Session {
                     .as_mut()
                     .unwrap()
                     .subjective_pending = None;
+                if animation.is_some() {
+                    state.acknowledge_owned_post();
+                }
                 Ok(WorldOutput {
                     animation,
                     fire: adapter.output,

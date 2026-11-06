@@ -342,6 +342,30 @@ fn source_mecc_produced_camera_orders_post_fire_and_outer_publication() {
     deferred_primary_controls(true);
 }
 fn deferred_primary_controls(produced: bool) {
+    struct NumericBoundary;
+    impl crate::mecc_subjective::Services<Id> for NumericBoundary {
+        fn cameras(
+            &mut self,
+            _: Id,
+            _: u64,
+            previous: crate::first_person::Camera,
+            current: crate::first_person::Camera,
+        ) -> Result<(crate::first_person::Camera, crate::first_person::Camera), String> {
+            Ok((previous, current))
+        }
+        fn references(
+            &mut self,
+            _: Id,
+            _: &mut crate::actor_references::Owned,
+            _: &crate::animation_channels::Channels,
+            _: u32,
+        ) -> Result<(), String> {
+            Ok(())
+        }
+        fn fire(&mut self, _: Id, _: u64) -> Result<(), String> {
+            Ok(())
+        }
+    }
     struct Sound {
         fail: bool,
     }
@@ -714,6 +738,44 @@ fn deferred_primary_controls(produced: bool) {
                     .mecc_subjective_model_positions(&state, 1, 0)
                     .is_err()
             );
+            // Generic numeric completion cannot certify native Session post
+            // publication, even when it starts from an actual source pre-copy.
+            let mut numeric =
+                crate::mecc_subjective::State::for_session(&s, owner, [[0; 9]; 4]).unwrap();
+            numeric.prepare_from_session(1, &s, owner, 0).unwrap();
+            let mut numeric_history = crate::mecc_subjective::History {
+                previous_weapon: -1,
+            };
+            let mut numeric_stamp = crate::animation_epoch::Stamp(100);
+            assert!(
+                numeric
+                    .post(
+                        crate::mecc_subjective::Post {
+                            controlled: owner,
+                            camera_owner: Some(owner),
+                            controlled_flags: 0,
+                            icon_index: 0,
+                            weapon: 1,
+                            inventory_present: false,
+                            previous_camera: camera,
+                            current_camera: camera,
+                            offset: [0.; 3],
+                            seconds: 0.,
+                            blending: Blending::Enabled,
+                        },
+                        &mut numeric_history,
+                        &mut numeric_stamp,
+                        &mut NumericBoundary
+                    )
+                    .unwrap()
+                    .is_some()
+            );
+            assert_eq!(numeric.phase(), crate::mecc_subjective::Phase::Finished);
+            assert!(
+                s.prepare_mecc_subjective_positions(&numeric, 1, 0, false)
+                    .is_err()
+            );
+            assert_eq!(s.position_buffer_count(), buffers);
             assert!(
                 s.residents[&owner.serial]
                     .mecc_physical_cycle

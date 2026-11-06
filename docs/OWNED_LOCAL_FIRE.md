@@ -102,8 +102,8 @@ geometry through this entry. A late fire failure preserves earlier bank writes;
 refusing a new geometry request does not erase those completed effects.
 
 Native instruction/call inspection identifies the position buffer and its cache
-on the model resource. The copied auxiliary header pointer is not used by that
-vertex producer. Its cleanup ownership test is a separate observation; its full
+on the model resource. These observations do not identify the copied auxiliary
+header pointer as a position buffer. Its cleanup ownership test is separate; its full
 semantic role and draw-time consumers remain unassigned. No pointer is recast
 as a vertex buffer from address similarity or the header copy alone.
 
@@ -122,6 +122,9 @@ Source-backed lifecycle checks additionally cover pre-post refusal, skipped
 camera ownership, cached/forced repeats, unchanged invalid body-reference binding,
 foreign/frame mismatch, late failure and clearing. Prototype PS2 lookups precede
 the new acquisitions; their attributions remain unknown.
+Geometry permission is acknowledged by the actual Session post. A generic numeric
+post following a genuine pre-copy cannot certify that publication, even when its
+local math reaches the finished phase; a source-backed bypass control verifies this.
 
 The main driver's `fire: None` remains. Live model-slot/force admission, part masks,
 materials and the actual subjective/body drawing policy, complete target contexts

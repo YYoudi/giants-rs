@@ -22,8 +22,9 @@ confirmed terminal before the successful fresh acquisition.
 The source-data lifecycle controls pass with new checks for skipped camera
 ownership, normal/forced cache repeats, foreign/frame identity and clearing.
 The bank retains writes completed before a late fire failure; rejecting another
-geometry request cannot roll those back. Source `081eaaf` passes 749 synthetic
-Rust tests (24 ignored), Rustfmt and Clippy. Prototype PS2 searches precede the
+geometry request cannot roll those back. Permission comes from the actual Session
+post; generic numeric completion after a genuine pre-copy cannot certify it.
+A source-backed bypass control verifies this distinction. Prototype PS2 searches precede the
 new acquisitions; attribution remains unknown. Detailed receipts, binaries,
 raw captures and research tables stay private. Main `fire: None`, live LOD/part
 and material admission, subjective/body drawing, target contexts and positional

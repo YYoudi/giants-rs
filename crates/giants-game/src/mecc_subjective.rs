@@ -355,7 +355,6 @@ impl<K: Copy + Eq> State<K> {
         self.phase = Phase::Fire;
         let tail = self.animate(0., stamp, services)?;
         self.phase = Phase::Finished;
-        self.geometry_ready = true;
         Ok(Output {
             number: self.number,
             first,
@@ -390,6 +389,10 @@ impl<K: Copy + Eq> State<K> {
 }
 
 impl State<crate::resident_states::Id> {
+    pub(crate) fn acknowledge_owned_post(&mut self) {
+        debug_assert!(self.owned_preparation && self.phase == Phase::Finished);
+        self.geometry_ready = true;
+    }
     pub(crate) fn completed_owned_source(
         &self,
         number: u64,
