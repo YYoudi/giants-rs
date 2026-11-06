@@ -530,6 +530,26 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- Persistent selector follow-up: 900 private original-PC/Rust controls now
+  execute the real model selector and prepared-format query instead of supplying
+  slot zero and a positive alpha answer. The controlled descriptor formats cover
+  0 through 8, with automatic/forced selector entry modes, birth and four owned
+  preparations, and near/boundary/far draw-range cases for two source programs.
+  All 2,376 format answers and 1,188 model selections match the existing public
+  kernels. The source model table and both nonzero material-routing scalars also
+  match resources in all four cohort worlds. Within this bounded domain the
+  eligible parts remain deferred across all supplied formats; this does not
+  acquire the actual resident descriptor producer, GPU preparation, global queue
+  ordering or pixels. No runtime code, dependency, downloadable capability or
+  inventory count changes; the exact preview and receipts above remain separate.
+  Prototype PS2 searches precede this follow-up; attribution stays unknown.
+  Retained ordinary-world population evidence remains diagnostic: the exact-
+  binary capture contains only a post-attachment sample, while the older loading
+  trace has a separate, incomplete identity chain. Neither proves an atomic
+  allocator census or whole-world admission. Next: acquire identity-bound world
+  population/scheduling and actual texture/material consumers, then the general
+  and mixed queue families. Do not derive a shared quota from a list length.
+
 - Persistent draw-traversal milestone: first owned constant-effect preparation
   now consumes the acquired constructor gate and publishes active geometry,
   including zero-delta preparation. The common film submits each bounded

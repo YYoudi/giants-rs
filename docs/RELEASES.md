@@ -1,5 +1,27 @@
 # Preview releases and milestone integration
 
+## Flick selector boundary follow-up — 6 November 2026
+
+Private original-PC controls now execute the actual model selector and prepared-
+format query instead of returning fixed slot-zero/alpha answers. Across two
+source programs, birth/four preparations, automatic/forced entry modes, formats
+0 through 8 and five range cases, 900 controls agree with the existing Rust
+kernels: 2,376 format answers and 1,188 model selections. The source model table
+and both material-routing scalars agree in all four bounded-cohort worlds.
+
+The source materials keep eligible parts deferred across this controlled format
+domain. This strengthens the previous queue-selection evidence; actual resident
+texture descriptors, texture preparation, global sorting, material/device state
+and scene pixels remain unverified. Cameras, descriptors and outer services are
+still explicit supplied boundaries. Prototype PS2 searches remain unknown
+attributions. Detailed records, controllers and source data stay private.
+
+This is a CPU evidence milestone on source `9d29a83`, with no runtime code or
+dependency change. The 59 gap sources, 56 general-FX prerequisites, 282 profile
+reviews and zero verified complete scenes remain unchanged. Preview 2026.11.06.3
+retains its exact source, executable, package, notice and checksum identities;
+these additional controls do not justify a new playable-preview claim.
+
 ## Flick persistent ordinary/effect traversals — 6 November 2026
 
 First owned constant-attached preparation now consumes the constructor gate and
