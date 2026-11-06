@@ -171,6 +171,24 @@ mod tests {
                 &mut random,
             )
             .unwrap();
+        assert!(session.kabuto_geometry_frame(owner).is_err());
+        let first_frame = session.specification(owner).unwrap().animations[&199]
+            .animation
+            .timeline[0];
+        session
+            .select_primary(
+                owner,
+                crate::animation_channels::Request {
+                    slot: 199,
+                    flags: 0x20,
+                    speed_source: 0,
+                    reference_speed: 0.,
+                    blend_seconds: 0.25,
+                },
+                crate::animation_channels::Blending::Disabled,
+            )
+            .unwrap();
+        assert_eq!(session.kabuto_geometry_frame(owner).unwrap(), first_frame);
         let id = extra.construct_for(&mut session, owner).unwrap();
         assert_eq!(session.kabuto_group(owner).unwrap().extra, Some(id));
         assert_eq!(session.specification(id).unwrap().specification, 1208);
@@ -202,6 +220,7 @@ mod tests {
         assert_eq!((0..15).map(|i| session.list(i)).collect::<Vec<_>>(), lists);
         assert!(!registry.is_empty());
         let mut foreign = Session::new(949);
+        assert!(foreign.kabuto_geometry_frame(owner).is_err());
         assert!(extra.construct_for(&mut foreign, owner).is_err());
         assert_eq!(foreign.counts().residents, 0);
         assert_eq!(session.mark_kabuto_extra(owner).unwrap(), Some(id));
@@ -229,6 +248,7 @@ mod tests {
         assert_eq!(session.actor_field_counts(), (0, 0, 0));
         assert_eq!(session.state_resource_counts(), (0, 0));
         assert!(session.mark_kabuto_extra(owner).is_err());
+        assert!(session.kabuto_geometry_frame(owner).is_err());
     }
     #[test]
     #[ignore = "Requires GIANTS_KABUTO_ROOT with user-supplied data; no window or sound"]

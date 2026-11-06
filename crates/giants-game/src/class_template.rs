@@ -50,14 +50,7 @@ pub(crate) fn apply_configuration_extension(
                 .unwrap(),
         ))
     };
-    let integer = |bits| {
-        let value = f64::from(f32::from_bits(bits));
-        if value.is_finite() && (-9223372036854775808.0..9223372036854775808.0).contains(&value) {
-            value.trunc() as i64 as u32
-        } else {
-            0
-        }
-    };
+    let integer = |bits| crate::arithmetic::integer_low_word(f64::from(f32::from_bits(bits)));
     match record.opcode {
         0x4e => configuration[16] |= 0xf0,
         0x15 => configuration[17] = word()?,

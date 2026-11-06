@@ -7,6 +7,17 @@ pub struct Descriptor {
     pub timeline: [i32; 4],
     pub flags: u32,
 }
+/// Standalone template clock in the acquired Double53 profile. It adds the
+/// signed base before truncation, unlike the separate channel converter below.
+/// End bounds and flags are not consulted by this source routine.
+pub fn frame_at_time(descriptor: Descriptor, seconds: f32) -> Result<i32, &'static str> {
+    if !seconds.is_finite() {
+        return Err("template frame clock is nonfinite");
+    }
+    let rate = f64::from(descriptor.timeline[3]) * f64::from(descriptor.timeline[2]);
+    let value = rate * f64::from(seconds) + f64::from(descriptor.timeline[0]);
+    Ok(crate::arithmetic::integer_low_word(value) as i32)
+}
 #[derive(Clone, Copy, Debug)]
 pub struct Frame {
     pub channel: usize,
@@ -78,6 +89,27 @@ pub fn select(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn standalone_clock_adds_base_before_conversion_and_keeps_low_word_profile() {
+        let descriptor = Descriptor {
+            timeline: [10, -100, 1, -1],
+            flags: u32::MAX,
+        };
+        assert_eq!(frame_at_time(descriptor, 0.25).unwrap(), 9);
+        assert_eq!(frame_at_time(descriptor, -0.25).unwrap(), 10);
+        assert_eq!(frame_at_time(descriptor, -20.).unwrap(), 30);
+        assert!(frame_at_time(descriptor, f32::NAN).is_err());
+        let huge = Descriptor {
+            timeline: [0, 0, i32::MAX, i32::MAX],
+            flags: 0,
+        };
+        assert_eq!(frame_at_time(huge, 1e30).unwrap(), 0);
+        let wrap = Descriptor {
+            timeline: [0, 0, 65536, 65536],
+            flags: 0,
+        };
+        assert_eq!(frame_at_time(wrap, 1.).unwrap(), 0);
+    }
     #[test]
     fn secondary_transition_reaches_backup_and_ignores_unwritten_backup_weight() {
         let mut channels = crate::actor_context::initial_channels(None, false);
