@@ -558,7 +558,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   repeated source slots retain earlier objects on the same current support.
   Director changes and film release discard the marked objects without lifetime
   children. The existing mission-readiness refusal is retained.
-  The fresh whole-corpus inventory on source `c66e73577efffd9a25844d290224da7b91c1f704`
+  The refreshed whole-corpus inventory on source `da01d3b4306a168ea6aecfbcf864a7be6167a8e6`
   prepares all 545 sources / 16 worlds with zero top-level errors; it records
   23 bounded persistent sources / 25 requests. CPU creation/update/retirement
   controls pass both entries of all 23 (50 objects created and released), and

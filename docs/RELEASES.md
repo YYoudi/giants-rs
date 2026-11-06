@@ -32,7 +32,11 @@ before returning to the menu; they are not recorded as successful skip gestures.
 The ten-member Windows preview package has SHA256
 `e873a0ebdd0b8c79b36dd0dba6fb4ec0fb3873dbc91f51e6151853b990492e46`.
 Technical notice collection and local ZIP/member/checksum validation pass with
-zero blockers. Package source and executable identities above remain fixed after
+zero blockers. The package is published as
+[preview-2026.11.06.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.06.3).
+An independent public download matches the ZIP, executable, ten-member inventory
+and adjacent checksum, with zero technical verifier blockers. No standalone
+executable is offered. Package source and executable identities above remain fixed after
 later merges and documentation updates. Partial scene/free-camera endpoints and
 gameplay readiness refusals remain explicit. Zero complete scenes are verified;
 real world occupancy/admission, complete VM scheduling, native gameplay triggers,
@@ -40,9 +44,20 @@ full camera/material/light/shadow/water/effect, audible mix, subtitle and tempor
 parity remain open. The 59 gap sources, 56 general-FX prerequisites and 282 strict-
 profile reviews are not reduced by this bounded rendering correction.
 
+A fresh whole-corpus CPU consumer inventory of this exact executable prepares
+all 545 sources / 16 worlds with zero top-level errors. Its reviewed aggregate
+retains 59 sources with reported gaps, 56 general-FX queue prerequisites and 282
+strict-profile reviews; zero complete scenes are verified. The public inventory
+is now pinned to the same source/executable receipt. Detailed diagnostics remain
+private and are not interpreted as an exhaustive visual-error inventory.
+
 Combined source `4f874bac184b793c4f2f2affd8420e298022789b` preserves the newer Mecc
 high-descent transition and its inspected dashboard capture. It passes 769 Rust
-tests (27 ignored), Rustfmt and Clippy with warnings denied. This does not relabel
+tests (27 ignored), 40 Python tests, Rustfmt, Clippy with warnings denied and
+generated roadmap/site/JavaScript checks. Rebuilt private controls again match
+all 50 part-selection cases, 14 preparation states and both cohort entry/release
+cycles on that combined source. The selected-pattern source/history audit reports
+zero findings across 302 commits and 2,358 blobs. This does not relabel
 the older exact executable above as a measurement of the combined source.
 
 ## Owned high-descent transition - 6 November 2026
