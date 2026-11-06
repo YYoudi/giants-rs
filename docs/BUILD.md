@@ -65,6 +65,9 @@ camera. It does not draw a subjective actor or enable main-driver owned firing.
 The same source-data controls check completed-post model positions, normal/forced
 cache reuse and rejection of skipped, stale, failed, foreign or cleared geometry.
 They preserve the body's invalidated reference binding after virtual publication.
+The same installed-data checks cover the normal subjective held matrix, unchanged
+real binding/firing cache and rejection after shared reference replacement. They
+execute no live held geometry, position/spatial finalization or graphics upload.
 
 ## Optional Delphi resource check
 

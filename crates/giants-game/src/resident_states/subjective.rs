@@ -5,6 +5,27 @@ use crate::mecc_subjective::{
 };
 
 impl Session {
+    /// Borrow the authoritative shared reference allocation for this completed
+    /// virtual post. This does not recertify the source body's reference pose.
+    pub fn mecc_subjective_reference_matrices(
+        &self,
+        state: &State<Id>,
+        number: u64,
+    ) -> Result<&[crate::procedural_aim::Matrix], String> {
+        self.require_subjective_geometry(state, number)?;
+        let source = state.completed_owned_source(number)?;
+        let matrices = self
+            .specifications
+            .get(&source.serial)
+            .ok_or("subjective shared reference allocation absent")?
+            .0
+            .matrices();
+        if !state.matches_shared_references(matrices) {
+            return Err("subjective shared references were replaced after post".into());
+        }
+        Ok(matrices)
+    }
+
     fn require_subjective_geometry(&self, state: &State<Id>, number: u64) -> Result<(), String> {
         let source = state.completed_owned_source(number)?;
         let actor = self
