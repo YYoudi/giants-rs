@@ -471,6 +471,7 @@ fn prepare_inner(
                 }
             };
             instances.push(Instance {
+                persistent_attachment: false,
                 source: prototype.source.clone(),
                 geometry: prototype.geometry.clone(),
                 parts: prototype.parts.clone(),

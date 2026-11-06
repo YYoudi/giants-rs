@@ -62,7 +62,7 @@ pub(crate) fn ordinary(
             .any(|at| word(payload, at) != 0)
         || word(payload, 0x64) != 0
         || word(payload, 0x180) != 1
-        || ![0, 1, 4, 5, 6, 11, 13, 14, 15, 16, 18].contains(&word(payload, 0x30))
+        || ![0, 1, 2, 4, 5, 6, 11, 13, 14, 15, 16, 18].contains(&word(payload, 0x30))
             && !(fire && [12, 17, 19, 20, 21].contains(&word(payload, 0x30)))
         || ![u32::MAX, 1].contains(&word(payload, 0x60))
     {
@@ -90,8 +90,14 @@ pub(crate) fn ordinary(
     let gap = (f64::from(input.position_z) - f64::from(input.floor))
         - f64::from(input.center_offset) * f64::from(input.scale);
     let scalar = |at| globals.scalar(at).map_err(|e| e.to_string());
-    if view.velocity[2] < -scalar(0xc10)? && f64::from(scalar(0xc14)?) < gap {
-        return Err("ordinary secondary requires acquired high-descent transition provider".into());
+    let descending = view.velocity[2] < -scalar(0xc10)? && f64::from(scalar(0xc14)?) < gap;
+    if descending {
+        selection = mecc_locomotion::Request {
+            clip: 41,
+            flags: 0x21,
+            speed_source: 0,
+            reference_speed: (-160f64 * f64::from(input.scale)) as f32,
+        };
     }
     let norm = |v: [f32; 3]| {
         let [x, y, z] = v.map(f64::from);
@@ -100,12 +106,16 @@ pub(crate) fn ordinary(
     let difference = std::array::from_fn(|i| {
         (f64::from(view.velocity[i]) - f64::from(view.previous_velocity[i])) as f32
     });
-    if norm(difference) >= f64::from(scalar(0x66c)?)
+    // The high-descent branch goes directly to the shared animation tail,
+    // before the independent impact and contact-landing branches.
+    if !descending
+        && norm(difference) >= f64::from(scalar(0x66c)?)
         && norm(view.velocity) < norm(view.previous_velocity)
     {
         return Err("ordinary secondary requires acquired impact reaction provider".into());
     }
-    if word(payload, 0x84) & 2 != 0
+    if !descending
+        && word(payload, 0x84) & 2 != 0
         && (view.velocity[2] < -scalar(0x664)?
             || word(payload, 0x30) == 2 && view.velocity[2] < -scalar(0x668)?)
     {
@@ -119,6 +129,7 @@ pub(crate) fn ordinary(
         39 => (4, 0),
         50 => (18, 0x2000),
         38 => (16, 0x8000),
+        41 => (2, 0),
         _ => return Err("ordinary secondary directional-air variant pending".into()),
     };
     let mut f = fields.clone();
@@ -339,7 +350,7 @@ mod tests {
         let (mut fields, payload, mut view, mut globals) = fixture();
         globals.words[0xc10 / 4] = 10f32.to_bits();
         globals.words[0xc14 / 4] = 3f32.to_bits();
-        for (velocity, height, refused) in [
+        for (velocity, height, descending) in [
             (-11., 12.999, false),
             (-11., 13., false),
             (-11., 13.001, true),
@@ -363,19 +374,87 @@ mod tests {
                     random: &mut random,
                 },
             );
-            if refused {
-                assert_eq!(
-                    result.err().unwrap(),
-                    "ordinary secondary requires acquired high-descent transition provider"
-                );
+            let output = result.unwrap();
+            if descending {
+                let request = output.request.unwrap();
+                assert_eq!((request.slot, request.speed_source), (41, 0));
+                assert_eq!(request.reference_speed, -160.);
+                assert_eq!(word(&output.payload, 0x30), 2);
+                assert_eq!(output.fields.control_flags, 0);
             } else {
-                let output = result.unwrap();
                 assert_eq!(output.request.unwrap().slot, 44);
                 assert_eq!(word(&output.payload, 0x30), 12);
             }
             assert_eq!(random.0, 1);
             assert_eq!(word(&payload, 0x30), 11);
         }
+    }
+    #[test]
+    fn high_descent_bypasses_later_reactions_and_retains_an_already_selected_channel() {
+        let (mut fields, mut payload, mut view, mut globals) = fixture();
+        fields.position[2] = 500.;
+        fields.scale = 2.;
+        view.velocity[2] = -100.;
+        view.previous_velocity[2] = -200.;
+        globals.words[0xc10 / 4] = 80f32.to_bits();
+        globals.words[0xc14 / 4] = 10f32.to_bits();
+        globals.words[0x66c / 4] = 85f32.to_bits();
+        put(&mut payload, 0x84, 2);
+        put(&mut payload, 0xd4, 7);
+        let mut random = crate::audio_parameters::Random(1);
+        let first = ordinary(
+            &fields,
+            &payload,
+            fields.channels,
+            &view,
+            &globals,
+            1. / 60.,
+            Services {
+                fire: true,
+                blending: animation_channels::Blending::Enabled,
+                random: &mut random,
+            },
+        )
+        .unwrap();
+        assert_eq!(first.request.unwrap().reference_speed, -320.);
+        assert_eq!(word(&first.payload, 0x30), 2);
+        assert_eq!(word(&first.payload, 0xd4), 0);
+        assert_eq!(word(&first.payload, 0xd8), 1);
+        let held = ordinary(
+            &first.fields,
+            &first.payload,
+            first.channels,
+            &view,
+            &globals,
+            1. / 60.,
+            Services {
+                fire: true,
+                blending: animation_channels::Blending::Enabled,
+                random: &mut random,
+            },
+        )
+        .unwrap();
+        assert!(held.request.is_none());
+        assert_eq!(held.channels, first.channels);
+        assert_eq!(word(&held.payload, 0xd8), 1);
+        assert_eq!(random.0, 1);
+        view.velocity[2] = -20.;
+        assert!(
+            ordinary(
+                &held.fields,
+                &held.payload,
+                held.channels,
+                &view,
+                &globals,
+                1. / 60.,
+                Services {
+                    fire: true,
+                    blending: animation_channels::Blending::Enabled,
+                    random: &mut random
+                },
+            )
+            .is_err()
+        );
     }
     #[test]
     fn trigger_selects_armed_walk_before_the_existing_channel_ends() {

@@ -1,4 +1,4 @@
-# Owned Mecc descent threshold correction
+# Owned Mecc descent threshold and transition
 
 Native research follows [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md).
 The selector retains its historical PC alias `FUN_0050d8b0`; its prototype PS2
@@ -24,15 +24,36 @@ distributed here.
 `mecc_secondary::ordinary` now uses the confirmed comparison. A synthetic regression
 checks actual selector continuation below/at the height threshold and at/above
 the velocity threshold, the explicit refusal above both strict thresholds,
-unchanged caller payload and unchanged RNG. The refusal now names a high-descent
-transition rather than assigning an unverified landing meaning.
+unchanged caller payload and unchanged RNG. The initial correction retained an
+explicit high-descent refusal until the transition was acquired separately.
+
+## Acquired ordinary transition
+
+The ordinary pistol secondary now implements that high-descent branch through
+the common animation-channel service. It selects logical state 2 and the dedicated
+descent clip with its source-axis playback rate scaled by the actor. The common
+tail clears the acquired selection fields, updates control flags and toggles the
+payload alternation word only when an animation request actually occurs. An
+already selected descent clip is retained, including when its channel has ended;
+there is no unconditional restart.
+
+The native branch precedes impact and contact-landing decisions and goes directly
+to the common tail. Rust preserves that ordering, rather than asking those later
+providers to execute on this path. Outside high descent, their existing explicit
+refusals remain. Logical state 2 is accepted for subsequent ordinary frames.
+
+Two independent original-selector controls cover 128 cases with real loaded
+animation descriptors and blending disabled/enabled. They vary current clip,
+prior logical state, control flags, scale, trigger state and channel-end state.
+The actual original channel setter executes. All 41,920 compared header/payload
+and request words match Rust. Deliberately supplied velocity-change and contact
+inputs verify the high-descent path's precedence over the later branches.
+This is a selector/channel control, not original physics, ANM or GPU execution.
 
 ## Limits
 
-The taken native branch selects logical state 2 before its common tail. That
-observation alone does not acquire the complete transition, animation, writes or
-effect providers. Rust therefore continues to refuse that branch explicitly.
-Impact reaction and contact landing-effect providers are separate prerequisites.
+The acquired transition is limited to the living ordinary pistol profile.
+Impact reaction and contact landing-effect providers remain separate prerequisites.
 This correction does not establish full movement, normal campaign admission,
 original GPU rendering or visual fidelity.
 

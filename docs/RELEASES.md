@@ -22,6 +22,102 @@ and combat remain pending. No Delphi playable download or fidelity claim follows
 Prototype PS2 attributions remain unknown; the private lookup and alias records
 are retained separately from these reviewed summaries.
 
+## Flick persistent ordinary/effect traversals — 6 November 2026
+
+First owned constant-attached preparation now consumes the constructor gate and
+publishes active geometry, including zero-delta preparation. The main film draws
+each bounded part through both acquired traversals: ordinary admission uses the
+current source camera and director range, while adjacent effect admission remains
+independent of that range. Both share the owned matrix/channel, mesh and material.
+No independent animation clock, placement or duration is added.
+
+Private original-PC/Rust controls match 50 source-object part-selection cases and
+14 preparation states, within supplied camera/alpha-query/model-slot boundaries.
+Both entry/release cycles of all 23 sources / 25 requests pass near/far route
+checks. These are bounded CPU controls, not native global sorting, raster/material
+or complete-world equivalence. Prototype PS2 attribution remains unknown; inputs,
+raw records and comparison tooling stay private.
+
+Exact GNU source `da01d3b4306a168ea6aecfbcf864a7be6167a8e6` passes 768 synthetic
+Rust tests (27 ignored), 40 Python tests, Rustfmt and Clippy with warnings denied.
+Its receipt-bound executable SHA256 is
+`a5eaeeb1015846c71dc5f140ed64632fe155984b38a2aba57101785c3e22d470`.
+Both silent three-launch development endpoints, three real service cancellations
+after owned persistent birth/update, and two Rstory1 zero-based mission-index-2
+source-terminal/re-entry cycles pass, with silent voice/text and tracked resource
+cleanup. Actual muted UI checks on Rstory5 original mission index 2 pass two
+19-director natural endings, then third-entry double-click after birth and both
+rendered routes, Escape back to the menu and F10 exit. Three profile files remain
+unchanged after initial preview unlock. The two natural endings were observed
+before returning to the menu; they are not recorded as successful skip gestures.
+
+The ten-member Windows preview package has SHA256
+`e873a0ebdd0b8c79b36dd0dba6fb4ec0fb3873dbc91f51e6151853b990492e46`.
+Technical notice collection and local ZIP/member/checksum validation pass with
+zero blockers. Package source and executable identities above remain fixed after
+later merges and documentation updates. Partial scene/free-camera endpoints and
+gameplay readiness refusals remain explicit. Zero complete scenes are verified;
+real world occupancy/admission, complete VM scheduling, native gameplay triggers,
+full camera/material/light/shadow/water/effect, audible mix, subtitle and temporal
+parity remain open. The 59 gap sources, 56 general-FX prerequisites and 282 strict-
+profile reviews are not reduced by this bounded rendering correction.
+
+Combined source `4f874bac184b793c4f2f2affd8420e298022789b` preserves the newer Mecc
+high-descent transition and its inspected dashboard capture. It passes 769 Rust
+tests (27 ignored), Rustfmt and Clippy with warnings denied. This does not relabel
+the older exact executable above as a measurement of the combined source.
+
+## Owned high-descent transition - 6 November 2026
+
+The ordinary pistol secondary now follows the acquired high-descent branch into
+its common animation tail. It selects the dedicated descent channel with the
+scaled source-axis playback rate, retains an already selected channel, and updates
+the acquired control/payload fields only on a real request. This branch precedes
+independent impact and contact-landing handling. Subsequent logical state 2 frames
+are admitted; other unsupported reactions remain explicit refusals.
+
+Two original-selector controls execute actual loaded channel descriptors and the
+original primary setter with blending off/on. All 128 cases / 41,920 header,
+payload and request words agree with Rust, including channel-end, trigger, scale,
+prior-state, current-clip and later-reaction precedence controls. The earlier
+1,049 native threshold cases remain separate evidence. See MECC_DESCENT_GUARD.md.
+
+Source `871540c` passes 768 synthetic Rust tests (27 ignored), 40 Python tests,
+Rustfmt, Clippy and the rebuilt 576-frame / 22-shot / 341,220-word primary matrix
+with ten provider-failure controls. Its exact GNU Bevy replay now reaches step
+158 and explicitly refuses the pending contact-landing effect. The test harness
+stops on that refusal; it is not a successful full trajectory or lifecycle test.
+Its executable SHA256 is
+`f9bc4ce58134d9d2294dc9c9c2cbcca22ce64f8a834f501dd598fa32bd059084`.
+The private ten-member validation draft has complete notices and no technical
+blockers; archive SHA256 is
+`395d0ab95cef41fad8f2c740100f4959fd21a4e4d9001adbf0b0fdefbd6ea7b7`.
+
+Combined source `8f52358` retains concurrent Delphi authored-camera and Kabuto
+auxiliary work. Its synthetic suite, Clippy and four installed-data Mecc controls
+pass. Prototype PS2 attribution remains unknown. Full movement, impact/landing
+providers, native world rendering, owned firing and campaign admission remain
+open. This is not a new public playable preview.
+
+Receipt-bound source `214553b` adds the explicit
+`owned-player-descent-inspection` replay. It follows the general motion prefix to
+step 145, verifies actual owned clip 41, uploads eight body parts and captures
+the resulting Bevy endpoint. The inspected display copy is pinned in the gallery;
+all 305 existing comparisons, previous captures and their image pins are preserved.
+It does not execute the pending contact branch. An earlier step-157 capture probe
+correctly failed its clip assertion after locomotion had resumed and is excluded
+from successful evidence; completion is now published only after that assertion.
+
+This exact source passes 768 synthetic Rust tests (27 ignored), 40 Python tests,
+Rustfmt and Clippy. Its GNU executable SHA256 is
+`a264a1686229050573c6228ec47c4b83f2275876bba9829a11f8a063a289612d`.
+The private ten-member validation draft has receipt-bound notices and zero
+technical blockers; archive SHA256 is
+`ce967b83e26f6e31e5a6bec4ed18fe69efcb38b50e47ff507a421331c01677ec`.
+These receipts supersede the failed capture probe and retain their own source
+identities rather than attesting to later documentation commits.
+
+
 ## Delphi owned authored-camera callback - 6 November 2026
 
 The common Session reference sampler now consumes prepared class resources and

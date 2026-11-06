@@ -473,11 +473,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 - Extended owned movement remains incomplete. The inverted secondary height
   comparison is corrected after 1,049 controlled original-PC branch executions;
   both velocity and height thresholds are strict. The corrected general replay
-  now explicitly refuses the unacquired high-descent transition at step 143.
-  Retain both this result and the older incorrect-guard step-152 failure.
-  Next acquire logical state 2's complete common tail, animation and owned writes,
-  then impact reactions and contact landing effects; do not infer their contract
-  from the guard alone. See docs/MECC_DESCENT_GUARD.md. The 128-step inspection
+  previously refused the unacquired high-descent transition at step 143.
+  That ordinary transition now matches 128 complete native-selector/channel
+  controls with blending disabled/enabled (41,920 words), including hold and
+  precedence over later reactions. The actual owned Bevy replay reaches step 158
+  and explicitly refuses its pending contact-landing effect provider.
+  Retain all earlier failed controls. Next acquire that contact branch's logical
+  state 60, effect creation/retirement and common-tail ownership, followed by
+  impact reactions; do not substitute a normal locomotion clip or empty effect.
+  See docs/MECC_DESCENT_GUARD.md. The 128-step inspection
   cycles cover resource retirement separately and do not validate this trajectory.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
@@ -529,6 +533,27 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   the complete comparison gallery appears before the progress tables.
 
 ## Cinematics / Flick: coverage and next prerequisites
+
+- Persistent draw-traversal milestone: first owned constant-effect preparation
+  now consumes the acquired constructor gate and publishes active geometry,
+  including zero-delta preparation. The common film submits each bounded
+  attached part through the ordinary and adjacent effect traversals. Only the
+  ordinary route uses the current source camera/director range; both use the
+  same owned matrix, channel, mesh and material, without a second clock.
+  Private original-PC/Rust controls match 50 actual source-object part-selection
+  cases and 14 preparation states, with supplied camera, alpha-query and model-
+  slot boundaries. Both entry/release cycles of all 23 sources / 25 requests
+  pass near/far route checks. Prototype PS2 lookups remain unknown attributions.
+  Exact GNU source `da01d3b` passes three live-object cancellations, both
+  development endpoints and two Rstory1 mission-index-2 source-terminal/re-entry
+  cycles with silent voice/text release. Actual muted menu controls on Rstory5
+  original mission index 2 pass two 19-director natural endings, then a third
+  entry with double-click after birth and both rendered routes, Escape back to
+  the menu and tracked cleanup. Three profile files remain unchanged after
+  initial unlock. These controls retain the partial free-camera endpoint and
+  gameplay refusal. Original global sort, raster/material equivalence, complete
+  world occupancy/admission, native cadence and full visual/audio/subtitle parity
+  remain open. Draw counts do not certify a scene or reduce the gap inventory.
 
 - Persistent attached-FX implementation milestone: the main film now consumes
   actual FLK39 events through source-marked, ticket-owned contexts and objects,
@@ -671,8 +696,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   against the pinned ELF before continuing; correspondence remains unknown.
 - Owner's active work order (5 November 2026): address the shared 52-source FX
   prefix refusal first, then general queue admission and partial FX services,
-  followed by remaining audio/credits/resume prerequisites. Work alone, strictly
-  in the background. Re-run the whole-corpus inventory and actual silent menu
+  followed by remaining audio/credits/resume prerequisites. Work alone, prefer
+  background checks; necessary test windows/interactions are authorized, with
+  sound muted and no unrelated focus changes. Re-run the whole-corpus inventory and actual silent menu
   lifecycle/transport controls after coherent integrations, updating this backlog,
   PROGRESS, the dashboard and receipt-bound MinGW previews. Keep unknown visual,
   temporal and functional behavior explicitly open; do not waive a real mutation
