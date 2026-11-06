@@ -44,7 +44,7 @@ impl Session {
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         services: &mut crate::actor_animation_phase::Services<'_>,
     ) -> Result<crate::delphi_physical::View, String> {
-        self.advance_delphi_phases(id, e, ground, services, false)
+        self.advance_delphi_phases(id, e, ground, services, false, None)
     }
     /// Acquired physical/history -> dry sword secondary -> zero-time ANM.
     /// This does not execute the surrounding full primary or auxiliary callbacks.
@@ -55,7 +55,19 @@ impl Session {
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         services: &mut crate::actor_animation_phase::Services<'_>,
     ) -> Result<crate::delphi_physical::View, String> {
-        self.advance_delphi_phases(id, e, ground, services, true)
+        self.advance_delphi_phases(id, e, ground, services, true, None)
+    }
+    /// Entered prefix -> manual heading/look -> jump/physical/history ->
+    /// dry sword secondary -> zero-time ANM. Full primary remains separate.
+    pub fn advance_delphi_controlled(
+        &mut self,
+        id: Id,
+        e: crate::delphi_physical::Environment<'_>,
+        manual: crate::delphi_physical::ManualRotation,
+        ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+        services: &mut crate::actor_animation_phase::Services<'_>,
+    ) -> Result<crate::delphi_physical::View, String> {
+        self.advance_delphi_phases(id, e, ground, services, true, Some(manual))
     }
     fn advance_delphi_phases(
         &mut self,
@@ -64,6 +76,7 @@ impl Session {
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         services: &mut crate::actor_animation_phase::Services<'_>,
         locomotion: bool,
+        manual: Option<crate::delphi_physical::ManualRotation>,
     ) -> Result<crate::delphi_physical::View, String> {
         let actor = self
             .get(id)
@@ -72,7 +85,9 @@ impl Session {
             .delphi_physical
             .clone()
             .ok_or("Delphi physical cycle unprepared")?;
-        if cycle.resources.locomotion.is_some() != locomotion {
+        if cycle.resources.locomotion.is_some() != locomotion
+            || cycle.resources.manual_rotation != manual.is_some()
+        {
             return Err("Delphi phase entry differs from its prepared profile".into());
         }
         let before_cycle = cycle.clone();
@@ -131,20 +146,27 @@ impl Session {
         };
         let globals = e.globals;
         let result = cycle
-            .advance(&fields, &payload, e, ground, |fields, view, seconds| {
-                let pass = pipeline.advance_sample(
-                    fields,
-                    crate::actor_animation_phase::Sample {
-                        model: view.model,
-                        affine: view.affine,
-                        support: view.support,
-                        support_part: view.support_part,
-                    },
-                    seconds,
-                )?;
-                fields.channels = pass.channels;
-                Ok(())
-            })
+            .advance(
+                &fields,
+                &payload,
+                e,
+                manual,
+                ground,
+                |fields, view, seconds| {
+                    let pass = pipeline.advance_sample(
+                        fields,
+                        crate::actor_animation_phase::Sample {
+                            model: view.model,
+                            affine: view.affine,
+                            support: view.support,
+                            support_part: view.support_part,
+                        },
+                        seconds,
+                    )?;
+                    fields.channels = pass.channels;
+                    Ok(())
+                },
+            )
             .and_then(|mut out| {
                 if let Some(clips) = cycle.resources.locomotion {
                     let word = crate::delphi_physical::word;
@@ -625,7 +647,7 @@ mod physical_tests {
         let factory = crate::delphi_special::Factory::load(&resources, &globals, &weapons).unwrap();
         let mut session = Session::new(1281);
         let mut owners = Vec::new();
-        for profile in 0..2 {
+        for profile in 0..3 {
             let id = factory
                 .construct_player_fields(
                     &mut session,
@@ -661,6 +683,11 @@ mod physical_tests {
                     .with_locomotion(definitions.sword_locomotion().unwrap())
                     .unwrap()
             };
+            let prepared = if profile == 2 {
+                prepared.with_manual_rotation().unwrap()
+            } else {
+                prepared
+            };
             session
                 .prepare_delphi_physical(id, prepared.clone())
                 .unwrap();
@@ -675,11 +702,23 @@ mod physical_tests {
         let mut jumped = false;
         for number in 1..=64 {
             for (index, &id) in owners.iter().enumerate() {
-                let commands = if (25..=30).contains(&number) {
+                let mut commands = if (25..=30).contains(&number) {
                     [0, 0, 0, 0, 0, 2, 0, 0]
                 } else {
                     [0; 8]
                 };
+                let paused = index == 2 && (35..=40).contains(&number);
+                let prior_position = session
+                    .get(id)
+                    .unwrap()
+                    .construction_fields
+                    .as_ref()
+                    .unwrap()
+                    .position;
+                if index == 2 {
+                    commands[0] = 32;
+                    commands[1] = 16;
+                }
                 let environment = crate::delphi_physical::Environment {
                     number,
                     actor_key: index as u32 + 1,
@@ -691,6 +730,7 @@ mod physical_tests {
                     objects: &[],
                 };
                 let ground = |_| {
+                    assert!(!paused, "Paused physical phase must not query terrain");
                     Ok(crate::physical_ground::Ground {
                         height: 0.,
                         plane: [0., 0., 1., 0.],
@@ -705,8 +745,20 @@ mod physical_tests {
                 };
                 let view = if index == 0 {
                     session.advance_delphi_physical(id, environment, ground, &mut services)
-                } else {
+                } else if index == 1 {
                     session.advance_delphi_locomotion(id, environment, ground, &mut services)
+                } else {
+                    session.advance_delphi_controlled(
+                        id,
+                        environment,
+                        crate::delphi_physical::ManualRotation {
+                            sensitivity: 1.,
+                            local_owner: true,
+                            paused,
+                        },
+                        ground,
+                        &mut services,
+                    )
                 }
                 .unwrap();
                 let fields = session
@@ -715,6 +767,15 @@ mod physical_tests {
                     .construction_fields
                     .as_ref()
                     .unwrap();
+                if index == 2 {
+                    assert!(view.look > 0.);
+                    if paused {
+                        assert_eq!(fields.position, prior_position);
+                    }
+                } else {
+                    assert_eq!(view.look, 0.);
+                    assert_eq!(fields.angles[0], 0.);
+                }
                 // Terrain contact has no supporting actor identity.
                 landed |= fields.position[2] == 0. && view.velocity[2] == 0.;
                 jumped |= view.velocity[2] > 1. && fields.position[2] > 0.;
@@ -841,6 +902,97 @@ mod physical_tests {
             retained
         );
         assert_eq!(reference_words(&session), references_before);
+        assert_eq!(random.0, random_before.0);
+        let controlled = owners[2];
+        let rotation_before = session.delphi_physical(controlled).unwrap().clone();
+        let fields_before = session
+            .get(controlled)
+            .unwrap()
+            .construction_fields
+            .as_ref()
+            .unwrap()
+            .clone();
+        let payload_before = session
+            .get(controlled)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap()
+            .to_vec();
+        let environment = || crate::delphi_physical::Environment {
+            number: 65,
+            actor_key: 3,
+            globals: &globals,
+            global_seconds: 1. / 60.,
+            areas: &[],
+            commands: [32, 16, 0, 0, 0, 0, 0, 0],
+            launch_blocked: false,
+            objects: &[],
+        };
+        let mut services = crate::actor_animation_phase::Services {
+            contexts: &mut contexts,
+            random: &mut random,
+            stamp: &mut stamp,
+            blending: crate::animation_channels::Blending::Disabled,
+        };
+        assert!(
+            session
+                .advance_delphi_locomotion(
+                    controlled,
+                    environment(),
+                    |_| panic!("Wrong entry must not query terrain"),
+                    &mut services,
+                )
+                .is_err()
+        );
+        assert!(
+            session
+                .delphi_physical(controlled)
+                .unwrap()
+                .failure
+                .is_none()
+        );
+        assert!(
+            session
+                .advance_delphi_controlled(
+                    controlled,
+                    environment(),
+                    crate::delphi_physical::ManualRotation {
+                        sensitivity: f32::NAN,
+                        local_owner: true,
+                        paused: false
+                    },
+                    |_| panic!("Invalid rotation must not query terrain"),
+                    &mut services,
+                )
+                .is_err()
+        );
+        let retained = session.delphi_physical(controlled).unwrap();
+        assert!(retained.failure.is_some());
+        assert_eq!(retained.number, rotation_before.number);
+        assert_eq!(retained.look, rotation_before.look);
+        assert_eq!(retained.model, rotation_before.model);
+        assert_eq!(
+            session
+                .get(controlled)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .angles,
+            fields_before.angles
+        );
+        assert_eq!(
+            session
+                .get(controlled)
+                .unwrap()
+                .seed
+                .storage
+                .data()
+                .unwrap(),
+            payload_before
+        );
         assert_eq!(random.0, random_before.0);
         session.clear();
         assert!(session.delphi_events.is_none());

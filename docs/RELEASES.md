@@ -29,6 +29,150 @@ raw captures and research tables stay private. Main `fire: None`, live LOD/part
 and material admission, subjective/body drawing, target contexts and positional
 audio remain separate prerequisites; no new playable download follows.
 
+## Kabuto CPU scalar/mode and ordered notifications - 6 November 2026
+
+The scalar/mode helper now preserves source toggles, timer stores, scalar values,
+target identities and notification ordering. Its acquired eligibility guard keeps
+the first matching peer, fallback and low-byte owner comparison. All 768 native
+controls match 7,816 words and 209 notifications, including snapshots at the
+transport boundary. Message transport is supplied; no live network is implemented.
+
+Combined source `83fb4f3` preserves the newer Delphi rotation and ordered Mecc
+camera work. It passes 759 synthetic Rust tests (24 ignored), 40 Python tests,
+Rustfmt, Clippy with warnings denied, site export and JavaScript checks. The
+rebuilt private runner again matches all 768 native cases. Prototype PS2
+attributions remain unknown, with raw names, uncertain demangling and aliases
+retained privately. Session field/reference binding, animation/effect transitions,
+extra-reference lifetime and world scheduling remain open; no readiness gate or
+whole-game status changes.
+
+No dependency, bundled asset or playable download changes. Existing executable,
+package manifest/checksum and notice receipts retain their exact build identities;
+they do not attest to this source-only CPU milestone.
+
+## Delphi owned manual rotation - 6 November 2026
+
+An explicit owned profile now composes manual heading/look between the entered
+prefix and jump/physical/history, then dry sword secondary and zero-time ANM.
+Class rates, input preferences, local ownership and object time remain actual
+inputs; look is separate actor state. Paused physical updates keep animation and
+history while skipping motion/placement/new rates/forces.
+
+Five 256-step native/Rust cases match 10,202,880 normalized words across all
+22 actor headers/reference buffers, full owner payload and fifteen ordered lists,
+plus shared RNG endpoints. They cover signed commands, wrap/clamps, variable
+frame time, pause/unpause with held jump and ordered time areas/owner exclusion.
+A separate 2,531-case scalar control matches 488,483 header words. The source-data
+control interleaves three owners and retains state after refused/failed updates.
+
+Full primary/camera/target/item producers, auxiliary callbacks, effects, water,
+turbo, combat and live mission admission remain pending. These CPU controls do
+not certify a complete controller, scheduled world turn or visual fidelity and
+add no playable Delphi download.
+
+
+Combined source `b7a899188df24678e6222a458ded03a681d72619` preserves the Mecc
+and Kabuto lifecycle work. The five controlled trajectories and six retained
+locomotion cases are repeated with exact RNG endpoints and stable source/input
+hashes. Its workspace passes 744 Rust tests (23 ignored), 40 Python tests,
+Rustfmt and Clippy. The source-history audit reports zero selected-pattern
+findings across 211 commits and 2,004 distinct blobs.
+
+The exact GNU executable passes both silent development lifecycle endpoints and
+three selected-opening cancellations. These are common-runtime regressions, not
+Delphi interaction or complete cinematic playback. Its private ten-member draft
+has complete notices, matching receipt/review identities and no technical
+verifier blockers. Executable SHA256:
+`45a7d588dac5c34b3fa597a6b83a737a988930e1db54e8795a159b3e84eb312f`;
+private ZIP SHA256:
+`e1ef8846b858178a59bde8c0f9e78d546078888f087ced430d4355f8031e4742`.
+The public Windows preview keeps its separately tested release identity.
+
+
+The subsequent Kabuto submission merge at
+`7bae59b9d241c9c36dd29b5f61be59b904906c5c` passes 748 Rust tests (23 ignored),
+Rustfmt and Clippy. The Delphi implementation is unchanged; the shared basis
+change only exposes its existing implementation within the crate. This combined
+source check does not replace the exact executable/package identity above or
+repeat the independent Kabuto rendering proof.
+
+
+The ordered-camera merge at `61d41052d72eab8cb97d6c4e50286d0ed7f34e04`
+passes 750 Rust tests (24 ignored), 40 Python tests, Rustfmt and Clippy. The
+five controlled Delphi cases are repeated against this exact source. Its GNU
+executable again passes both silent development lifecycle endpoints and three
+selected-opening cancellations. The private ten-member draft has matching
+receipt/review identities, complete notices and no technical verifier blockers.
+Executable SHA256:
+`8e2cd979f1bf053abf629fe870a8a7dba3532cb76bff4a49cb830da087958326`;
+private ZIP SHA256:
+`421ebd956deffb071c910659c0af6db75da48f21c94448d8bc08211198b94385`.
+The earlier b7a8991 controls keep their separate identity. No live Delphi,
+complete-primary, interactive-camera or visual-fidelity claim is added.
+
+
+The later Kabuto header and Flick documentation integration is validated on
+`b17eebb7e75399e14a69406af2e6e70f9beb92ae`: 754 Rust tests pass (24 ignored),
+with Rustfmt and Clippy. The added basis point-transform is a separate acquired
+profile; existing Delphi kernels are unchanged. The executable controls above
+remain tied to source 61d4105 rather than a later documentation/header commit.
+
+## Kabuto CPU geometry-header producer tail - 6 November 2026
+
+The owned header tail now selects the supplied local-camera or body/target route,
+preserves inactive fields, transforms the current attachment and measures target
+distance. The source point-array arithmetic is added to the common matrix type;
+existing aiming arithmetic is unchanged. All 384 native controls match 4,992
+header words across six modes, both selection states, target presence and eight
+matrix-flag profiles. Controlled prefix inputs bypass preceding transitions, so
+this does not validate the full helper, mode selector or live controller.
+
+Validation: 751 synthetic Rust tests pass (23 ignored), along with 40 Python
+tests, Rustfmt, Clippy with warnings denied, site export and JavaScript syntax.
+Prototype PS2 lookup lineage remains private and attribution remains unknown.
+Mode/scalar selection, preceding transitions, extra-reference lifetime, world
+scheduling and GPU consumption remain open. No gameplay status is promoted.
+
+Combined checkpoint `3adfad8` preserves the newer ordered Mecc camera and Flick
+transport evidence. It passes 753 synthetic Rust tests (24 ignored), 40 Python
+tests, Rustfmt, Clippy and site/JavaScript checks. Rebuilt private runners again
+match the 384-case header tail and 64-case / 24,876-word submission controls.
+
+There are no dependency or bundled-asset changes and no new playable download.
+Published preview notices, package manifests and checksums retain their original
+build identities; this source milestone does not replace their receipts.
+
+## Flick generation acquisition and interactive transport — 6 November 2026
+
+The existing `preview-2026.11.06.1`, source
+`0b050fbcf89eeae0ff0dd473133d496ac3496aa7`, now has an additional silent manual
+main-menu check on Rstory1 mission 3. Escape skips after persistent-object birth;
+the second entry reaches natural completion; the third entry double-clicks out
+before object birth. All three reach the partial free-camera scene and return to
+the mission menu. Tracked owned assets/session entities are released, with zero
+remaining persistent objects/contexts. First-mission loading cancellation also
+returns to the main menu, and F10 closes the test window. These are actual UI
+inputs without replay mode. They do not establish Delphi gameplay admission,
+native rendering/timing fidelity, audible voice/subtitle parity, double-click
+with a live persistent object, or coverage of other scenes.
+
+Separate private PC controls acquire the generation producer and its original
+wait caller: 153 producer cases / 2,461 generation words and 20 wait cases /
+1,294 process calls. An unsatisfied wait advances time and then renews director
+and actor generations; a satisfied wait proceeds without that update. Source
+construction/render-cache phase, world scheduling and capacity remain open.
+Prototype PS2 lookups precede the acquisition and remain unassigned. No private
+inputs, listings or receipts are published. This evidence/documentation milestone
+changes no Rust runtime or package; existing build/checksum receipts retain their
+own source identities, and the 545-source inventory and zero certified scenes
+are unchanged.
+
+The combined checkpoint `df763e1` preserves the current Mecc/Kabuto/gallery work
+and passes 749 synthetic Rust tests (24 ignored), 40 Python tests, Rustfmt,
+Clippy with warnings denied, site export and JavaScript syntax checks. Source
+history review reports zero findings across 218 reachable commits / 2,034 blobs.
+These source checks do not replace the exact-preview interactive receipt above.
+
 ## Ordered inner/outer Mecc camera and subjective fire - 6 November 2026
 
 The Session-produced subjective post now calculates the ordinary inner camera

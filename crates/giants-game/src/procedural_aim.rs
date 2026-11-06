@@ -126,6 +126,33 @@ impl Matrix {
             }
         })
     }
+    /// Acquired Double53 point-array kernel. Its arithmetic order differs from
+    /// the homogeneous aiming kernel; retain both source profiles explicitly.
+    pub(crate) fn transform_point(self, point: [f32; 3]) -> [f32; 3] {
+        std::array::from_fn(|r| {
+            let m = &self.values[r * 4..];
+            if self.flags & 11 == 0 {
+                if self.flags & 16 != 0 {
+                    (d(point[r]) + d(m[3])) as f32
+                } else {
+                    point[r]
+                }
+            } else {
+                let [x, y, z] = point.map(d);
+                let [a, b, c] = [m[0], m[1], m[2]].map(d);
+                let sum = if r == 2 {
+                    (z * c + y * b) + x * a
+                } else {
+                    (y * b + x * a) + z * c
+                };
+                if self.flags & 16 != 0 {
+                    (sum + d(m[3])) as f32
+                } else {
+                    sum as f32
+                }
+            }
+        })
+    }
 }
 fn d(v: f32) -> f64 {
     f64::from(v)

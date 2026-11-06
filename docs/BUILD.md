@@ -36,7 +36,8 @@ that result and rebuild in an isolated target before recording a release receipt
 Package a draft with `python -m tools.package_preview --help`. Run the extracted
 bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Windows
 or GIANTS_INSPECTION_FONT, never bundled. Game data is read-only; user state goes
-outside the installation. Interactive validation remains pending in this candidate.
+outside the installation. Interactive coverage is limited to the exact preview
+and mission recorded in RELEASES.md; broader gameplay and fidelity remain pending.
 
 ## Optional subjective Mecc lifecycle check
 
@@ -102,9 +103,10 @@ For the owned ordinary Delphi physical/jump/ANM/history composition, with the sa
 cargo test --locked -p giants-game source_delphi_physical_owns_motion_shares_events_and_quarantines_failure --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-This silent CPU control checks two owners, persistent motion/contact/jump, shared
-class events, physical-only and locomotion profiles using external clip definitions,
-late secondary quarantine, profile refusal and cleanup. It creates no window or audio device
+This silent CPU control checks three owners, persistent motion/contact/jump,
+shared class events, physical-only/locomotion/controlled profiles using external
+clip definitions, separate look state, paused terrain exclusion, late secondary
+and invalid-rotation quarantine, profile refusal and cleanup. It creates no window or audio device
 and does not execute the complete Delphi primary/secondary or live controls.
 
 The locomotion profile reads the original executable's data as an external asset.
