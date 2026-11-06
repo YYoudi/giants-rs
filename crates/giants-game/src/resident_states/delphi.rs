@@ -57,7 +57,7 @@ impl Session {
     ) -> Result<crate::delphi_physical::View, String> {
         self.advance_delphi_phases(id, e, ground, services, true, None)
     }
-    /// Entered prefix -> manual heading/look -> jump/physical/history ->
+    /// Entered prefix -> manual heading/look -> jump/body alignment/physical/history ->
     /// dry sword secondary -> zero-time ANM. Full primary remains separate.
     pub fn advance_delphi_controlled(
         &mut self,
@@ -91,6 +91,8 @@ impl Session {
             return Err("Delphi phase entry differs from its prepared profile".into());
         }
         let before_cycle = cycle.clone();
+        let paused = manual.is_some_and(|m| m.paused);
+        let prior_affine = actor.affine_cache.clone();
         let fields = actor
             .construction_fields
             .as_ref()
@@ -157,7 +159,12 @@ impl Session {
                         fields,
                         crate::actor_animation_phase::Sample {
                             model: view.model,
-                            affine: view.affine,
+                            affine: view.affine.filter(|_| {
+                                !paused
+                                    || prior_affine.as_ref().is_some_and(|cache| {
+                                        cache.pose == affine_pose_words(fields)
+                                    })
+                            }),
                             support: view.support,
                             support_part: view.support_part,
                         },
@@ -218,7 +225,12 @@ impl Session {
                         &out.fields,
                         crate::actor_animation_phase::Sample {
                             model: view.model,
-                            affine: view.affine,
+                            affine: view.affine.filter(|_| {
+                                !paused
+                                    || prior_affine.as_ref().is_some_and(|cache| {
+                                        cache.pose == affine_pose_words(&out.fields)
+                                    })
+                            }),
                             support: view.support,
                             support_part: view.support_part,
                         },
@@ -237,11 +249,15 @@ impl Session {
                 let actor = self.residents.get_mut(&id.serial).unwrap();
                 actor.channels = Some(out.fields.channels);
                 actor.mecc_animation_stamp = pipeline.last_stamp;
-                actor.affine_cache = Some(OwnedAffine {
-                    value: cycle.view.affine.ok_or("Delphi physical affine absent")?,
-                    pose: affine_pose_words(&out.fields),
-                    external_orientation: false,
-                });
+                actor.affine_cache = if paused {
+                    prior_affine
+                } else {
+                    cycle.view.affine.map(|value| OwnedAffine {
+                        value,
+                        pose: affine_pose_words(&out.fields),
+                        external_orientation: false,
+                    })
+                };
                 actor.construction_fields = Some(out.fields);
                 actor
                     .seed
@@ -655,7 +671,7 @@ mod physical_tests {
                         position: [0., 0., 10.],
                         current: [0., 0., 10.],
                         previous: [0., 0., 10.],
-                        angles: [0.; 3],
+                        angles: [0., 0., if profile == 2 { 30. } else { 0. }],
                     },
                     crate::animation_channels::Blending::Disabled,
                 )
@@ -769,6 +785,11 @@ mod physical_tests {
                     .unwrap();
                 if index == 2 {
                     assert!(view.look > 0.);
+                    if number == 1 {
+                        assert!(fields.angles[2] > 0. && fields.angles[2] < 30.);
+                    } else if number >= 20 {
+                        assert_eq!(fields.angles[2], 0.);
+                    }
                     if paused {
                         assert_eq!(fields.position, prior_position);
                     }

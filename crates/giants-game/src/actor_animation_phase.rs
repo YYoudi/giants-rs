@@ -85,7 +85,7 @@ impl Pipeline<'_> {
                     fields,
                     channels: &self.channels,
                     references: matrices,
-                    affine: sample.affine.ok_or("interleaved ANM affine absent")?.matrix,
+                    affine: sample.affine.map(|cache| cache.matrix),
                     material: match &self.materials {
                         Some(catalog) => mecc_animation_events::Material::Acquired(
                             catalog.resolve(sample.support, sample.support_part)?,

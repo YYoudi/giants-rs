@@ -8,6 +8,42 @@ use crate::{
 use std::sync::Arc;
 
 impl Session {
+    /// Acquired frame query used by the geometry transition gate. Both the
+    /// descriptor and clock come from this owner's resources/current channels.
+    /// Selection, advancement and the transition decision remain caller phases.
+    pub fn kabuto_geometry_frame(&self, owner: Id) -> Result<i32, String> {
+        let actor = self
+            .get(owner)
+            .ok_or("Kabuto frame owner absent or foreign")?;
+        if actor.class != 1
+            || actor.seed.storage.state() != 1
+            || actor.kabuto_group.as_ref().is_none_or(|g| g.cleaned_up)
+        {
+            return Err("Kabuto frame requires an active owned group".into());
+        }
+        let channel = actor
+            .channels
+            .as_ref()
+            .ok_or("Kabuto frame channels absent")?[0];
+        if channel[0] != 199 {
+            return Err("Kabuto geometry gate animation is not selected".into());
+        }
+        let specification = self
+            .specification(owner)
+            .ok_or("Kabuto frame specification absent")?;
+        let descriptor = specification
+            .animations
+            .get(&199)
+            .ok_or("Kabuto geometry gate descriptor absent")?;
+        crate::animation_frames::frame_at_time(
+            crate::animation_frames::Descriptor {
+                timeline: descriptor.animation.timeline,
+                flags: descriptor.template.flags,
+            },
+            f32::from_bits(channel[1]),
+        )
+        .map_err(str::to_owned)
+    }
     pub(crate) fn construct_kabuto_extra(
         &mut self,
         owner: Id,

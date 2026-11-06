@@ -2051,7 +2051,7 @@ impl Session {
                         fields,
                         channels,
                         references: references.as_ref().ok_or("event reference tail absent")?,
-                        affine,
+                        affine: Some(affine),
                     },
                     &mut staged_contexts,
                     &mut staged_random,
@@ -5684,7 +5684,7 @@ impl Session {
                         fields: &fields,
                         channels: &channels,
                         references: references.matrices(),
-                        affine: physical.view.affine.ok_or("Vimp ANM affine absent")?.matrix,
+                        affine: Some(physical.view.affine.ok_or("Vimp ANM affine absent")?.matrix),
                         // Actual material helper returns null when support224 is0.
                         // Ordinary Vimp physics enforces the source400 object-walk gate
                         // and refuses any support: this is acquired absence, not a default.
