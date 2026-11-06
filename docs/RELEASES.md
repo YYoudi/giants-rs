@@ -20,6 +20,32 @@ turbo, combat and live mission admission remain pending. These CPU controls do
 not certify a complete controller, scheduled world turn or visual fidelity and
 add no playable Delphi download.
 
+
+Combined source `b7a899188df24678e6222a458ded03a681d72619` preserves the Mecc
+and Kabuto lifecycle work. The five controlled trajectories and six retained
+locomotion cases are repeated with exact RNG endpoints and stable source/input
+hashes. Its workspace passes 744 Rust tests (23 ignored), 40 Python tests,
+Rustfmt and Clippy. The source-history audit reports zero selected-pattern
+findings across 211 commits and 2,004 distinct blobs.
+
+The exact GNU executable passes both silent development lifecycle endpoints and
+three selected-opening cancellations. These are common-runtime regressions, not
+Delphi interaction or complete cinematic playback. Its private ten-member draft
+has complete notices, matching receipt/review identities and no technical
+verifier blockers. Executable SHA256:
+`45a7d588dac5c34b3fa597a6b83a737a988930e1db54e8795a159b3e84eb312f`;
+private ZIP SHA256:
+`e1ef8846b858178a59bde8c0f9e78d546078888f087ced430d4355f8031e4742`.
+The public Windows preview keeps its separately tested release identity.
+
+
+The subsequent Kabuto submission merge at
+`7bae59b9d241c9c36dd29b5f61be59b904906c5c` passes 748 Rust tests (23 ignored),
+Rustfmt and Clippy. The Delphi implementation is unchanged; the shared basis
+change only exposes its existing implementation within the crate. This combined
+source check does not replace the exact executable/package identity above or
+repeat the independent Kabuto rendering proof.
+
 ## Kabuto CPU geometry submission - 6 November 2026
 
 The normal per-entry geometry callback now has an owned Rust command packet.
