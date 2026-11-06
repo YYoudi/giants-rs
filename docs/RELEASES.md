@@ -48,6 +48,14 @@ with no technical blockers. The draft remains private and existing public previe
 identities are preserved. Source/history pattern review at `6fd86bd` reports zero
 findings across 211 reachable commits and 2,004 distinct blobs.
 
+Later combined source `35474a3` preserves the concurrent Kabuto submission packet
+and passes 749 Rust tests (24 ignored), 40 Python tests, Rustfmt, Clippy and
+site/JavaScript checks. Its source/history review reports no findings across 214
+commits and 2,021 blobs. The Mecc implementation is unchanged from `6fd86bd`;
+the shared aim-basis change only exposes that existing helper within the crate.
+This later source checkpoint does not replace the exact executable/package
+receipts above.
+
 ## Kabuto CPU geometry submission - 6 November 2026
 
 The normal per-entry geometry callback now has an owned Rust command packet.
