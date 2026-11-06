@@ -332,6 +332,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented: factory-bound size pursuit publishes the supplied target, retains
+  actor-local time as Double53 through the fixed step, clamps current size and
+  invokes the existing complete parameter/radius refresh whenever the incoming
+  sizes differ (including zero time). Equality bypasses time selection. Composed
+  with second-auxiliary selection, 1,024 native contexts match 627,712 normalized
+  owner/child header, owner-payload, physical-buffer and refresh words. One
+  512-step trajectory reaches all four sizes and retargets/shrinks; controls
+  include ordered time areas and owner-skip/first-hit behavior. Source targets,
+  preceding poses and root identity are explicit inputs, not growth/feeding rules.
+  Owned factory identity, invalid-input rollback and clear are checked. No cached
+  world collision/affine refresh, target producer or live growth is acknowledged;
+  full primary, following helper and movement remain open.
 - Complete the remaining custom cleanup profiles: the active additional-reference
   teardown, GPU material release and dynamic/entered turns. The acquired geometry
   prefix stores class1199 in that reference; its broader gameplay role is unassigned.
@@ -562,7 +574,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   repeated source slots retain earlier objects on the same current support.
   Director changes and film release discard the marked objects without lifetime
   children. The existing mission-readiness refusal is retained.
-  The fresh whole-corpus inventory on source `c66e73577efffd9a25844d290224da7b91c1f704`
+  The refreshed whole-corpus inventory on source `da01d3b4306a168ea6aecfbcf864a7be6167a8e6`
   prepares all 545 sources / 16 worlds with zero top-level errors; it records
   23 bounded persistent sources / 25 requests. CPU creation/update/retirement
   controls pass both entries of all 23 (50 objects created and released), and
