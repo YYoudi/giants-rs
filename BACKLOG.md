@@ -287,15 +287,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   slice (11,596 words, four creates, three marks, every extra header and all
   fifteen lists). Marked actors retain ownership and attachment; re-entry
   allocates a new ID. Active-extra group cleanup is refused until that teardown
-  profile is acquired. Full animation/sound/epoch/event parity and world dispatch
-  remain separate; the full native prefix is not yet a full Rust comparison.
+  profile is acquired. This auxiliary-only receipt excludes animation/sound/
+  epoch/event comparison; the owned transition receipt is recorded below.
 - Implemented: the standalone template clock preserves base-before-truncation
   and the signed-64 conversion's low word; 512 native cases match, including
   signed coefficients and wrapping/indefinite conversions. The existing channel
   converter retains its separate arithmetic. The Session geometry-gate query
   uses its current primary channel and immutable owner descriptor, refusing
-  foreign/stale, retired and nonselected contexts. Full transition scheduling,
-  epoch/reference/event publication and live controls remain separate controls.
+  foreign/stale, retired and nonselected contexts. This query alone does not
+  advance clocks or publish references.
 - Implemented: owned geometry transition composes upstream mode publication,
   ordered selections/sound-service calls, the 1,600-tick gate, typed auxiliary
   create/mark and the shared actor-local ANM/reference/epoch/event pipeline.

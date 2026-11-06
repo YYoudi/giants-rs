@@ -10,6 +10,14 @@ checks success, partial failure quarantine and clear. Upstream samples and the
 absent sound bank are explicit boundaries; full event/effect/device-audio parity,
 dynamic cleanup, primary/movement/growth and live admission remain open.
 
+Combined source `366bf64` preserves the completion-replay preview and existing
+Mecc/Delphi work. It passes 764 synthetic Rust tests (26 ignored), all five silent
+Kabuto installed-data controls, 40 Python tests, Rustfmt, Clippy with warnings
+denied and site/JavaScript checks. Both transition comparisons pass again on
+that source. The selected-pattern history audit reports zero findings across
+271 commits and 2,242 blobs, including an exact-hash review of the separate
+minimal attribution document; no general alias exception is introduced.
+
 This source milestone changes no dependencies, bundled assets or playable
 package. Existing Windows preview manifests, technical notice collection and
 receipt-bound checksums continue to refer to their exact builds. They do not
