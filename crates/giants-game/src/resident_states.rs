@@ -429,6 +429,7 @@ pub struct Session {
     common_walk_failure: Option<String>,
     mecc_events: Option<crate::mecc_animation_events::Bank>,
     delphi_events: Option<crate::mecc_animation_events::Bank>,
+    kabuto_events: Option<crate::mecc_animation_events::Bank>,
     mecc_contact_materials: Option<Arc<crate::mecc_contact_materials::Catalog>>,
     vimp_events: Option<crate::mecc_animation_events::Bank>,
     mecc_countdown_world: Option<f32>,
@@ -452,6 +453,7 @@ impl Session {
             common_walk_failure: None,
             mecc_events: None,
             delphi_events: None,
+            kabuto_events: None,
             mecc_contact_materials: None,
             vimp_events: None,
             mecc_countdown_world: None,
@@ -9846,6 +9848,7 @@ impl Session {
         self.declarations.clear();
         self.messages = crate::mission_messages::Queue::default();
         self.mecc_events = None;
+        self.kabuto_events = None;
         self.delphi_events = None;
         self.mecc_contact_materials = None;
         self.vimp_events = None;

@@ -176,6 +176,19 @@ foreign-ticket failure, same-ticket foreign-scope cleanup refusal, deferred mark
 unchanged ordered lists, last-material retirement and clean regeneration after
 clear/re-entry. This is the custom callback phase, not common actor retirement.
 
+For the owned geometry-transition composition, with that same supplied root:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_transition_preserves_order_and_quarantines_partial_failure --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This silent installed-data control exercises successful create/mark and shared
+ANM/reference publication, then an injected sound-provider failure and refusal
+to replay. Pending initializer gates remain. Optional private control/receipt
+paths can be supplied through `GIANTS_KABUTO_TRANSITION_CONTROLS` and
+`GIANTS_KABUTO_TRANSITION_RECEIPT`; neither control inputs nor receipts belong in
+Git. This test does not admit a player or verify actual audio/rendering.
+
 For separately prepared dynamic auxiliary ownership, with the same supplied root:
 
 ```powershell

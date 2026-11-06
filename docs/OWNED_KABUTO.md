@@ -638,9 +638,40 @@ installed-data control checks this resource binding and stale identity after
 clear. This query does not select an animation or advance its clocks.
 
 The remaining conditional branch selects actor-local time and invokes the
-ordinary ANM phase. Shared `object_time`/`object_time_precision`, channel clocks,
-reference evaluation, epochs and class-event services already exist. Their full
-composition and callback ordering for Kabuto still require comparison; no new
-movement primitive is established by the inspected calls. Actual mode/reference
-binding, complete primary, movement/growth and live admission remain open.
-Prototype PS2 attributions stay unknown, separately from the observed PC behavior.
+ordinary ANM phase; it is not a new movement primitive. The owned transition
+composition is described below. Prototype PS2 attributions stay unknown,
+separately from the observed PC behavior.
+
+## Owned geometry transition composition — 6 November 2026
+
+`Session::advance_kabuto_geometry_transition` binds an explicit upstream mode to
+its owned payload, preserves the ordered animation selections and owner-sound
+requests, evaluates the template-clock gate, and constructs or marks the typed
+additional auxiliary. The threshold is 1,600 source ticks: equality retains an
+existing auxiliary in the closing branch and does not create one in the opening
+branch. This is not a count of displayed frames. The forced ANM branch reuses
+actor-local time, the four-channel clock, references, world epoch and registered
+class-event pipeline. Caller-stored float precision is retained.
+
+Across 84 native/Rust contexts, 23,322 compared words agree: ordered selections,
+sound-service calls and frame-query counts, all four channels, owner/world epochs,
+all 11 reference matrices, auxiliary identity/flags/attachment and all 15 ordered
+lists. The 24 disabled-blend cases and 60 enabled-blend cases include modes that
+make no transition, retained/created/marked auxiliaries, scalar-driven alternate
+selections and independently observed ticks immediately below, at and above the
+threshold. Supplied boundaries are upstream mode, initial channel/scalar state,
+model/time samples, no time areas and a genuinely absent native sound bank.
+These controls do not verify device audio, a fired event's complete effect cadence,
+all contact-material/affine branches, or the preceding physical/mode producers.
+
+A late provider failure retains prior publication and quarantines the group;
+retry cannot replay sound/effect requests. This refusal is owned error policy,
+not a claim about native exceptions. The installed-data control checks successful
+create/mark composition, reference ownership, channel publication, failure/retry,
+retained pending gates and Session clear. The cold-only custom cleanup now also
+refuses any group whose transition has started, pending dynamic cleanup acquisition.
+
+The geometry-header tail and renderer remain separate consumers. No pending
+initializer gate is cleared, no player is admitted and no playable Kabuto preview
+is claimed. Complete primary, movement/jumping, size-dependent collision, feeding
+and growth remain open. No dependency, bundled resource or package changed.
