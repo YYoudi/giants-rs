@@ -41,7 +41,8 @@ pub struct Context<'a> {
     pub wet: bool,
     pub material: Option<&'a str>,
     pub position: [f32; 3],
-    pub world: [f32; 12],
+    /// Only positional reference events require an actor world transform.
+    pub world: Option<[f32; 12]>,
     pub references: &'a [[f32; 3]],
     pub contact_scalar: f32,
     pub cinematic: bool,
@@ -127,20 +128,24 @@ fn choice(context: &Context<'_>) -> usize {
     }
 }
 
-fn reference_position(index: i32, context: &Context<'_>) -> [f32; 3] {
+fn reference_position(index: i32, context: &Context<'_>) -> Result<[f32; 3], Error> {
     let local = if index as u8 & 0x80 != 0 {
         [0.; 3]
     } else if index < 0 || index as usize >= context.references.len() {
-        return context.position;
+        return Ok(context.position);
     } else {
         context.references[index as usize]
     };
-    std::array::from_fn(|r| {
-        let m = &context.world[r * 4..];
+    let world = context
+        .world
+        .as_ref()
+        .ok_or(Error("positional event requires actor world transform"))?;
+    Ok(std::array::from_fn(|r| {
+        let m = &world[r * 4..];
         (((f64::from(m[2]) * f64::from(local[2]) + f64::from(m[0]) * f64::from(local[0]))
             + f64::from(m[1]) * f64::from(local[1]))
             + f64::from(m[3])) as f32
-    })
+    }))
 }
 
 impl State {
@@ -152,7 +157,7 @@ impl State {
             || !context
                 .position
                 .iter()
-                .chain(&context.world)
+                .chain(context.world.iter().flatten())
                 .chain(context.references.iter().flatten())
                 .all(|v| v.is_finite())
             || !context.contact_scalar.is_finite()
@@ -205,7 +210,7 @@ impl State {
             result.requests.push(Request::Effect {
                 flags: 0x18,
                 target,
-                anchor: Anchor::Position(reference_position(self.parameters[5] as i32, context)),
+                anchor: Anchor::Position(reference_position(self.parameters[5] as i32, context)?),
             });
         }
         if before & 0x80 != 0 {
@@ -222,6 +227,53 @@ impl State {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn world_transform_is_required_only_for_a_crossed_positional_reference() {
+        let mut event = State {
+            source_offset: 0,
+            kind: 0x40,
+            time: 0.5,
+            parameters: [1, 1, 1, 1, 1, 0],
+        };
+        let mut context = Context {
+            wet: false,
+            material: None,
+            position: [2., 3., 4.],
+            world: None,
+            references: &[[1., 0., 0.]],
+            contact_scalar: 0.,
+            cinematic: false,
+        };
+        assert!(
+            !event
+                .dispatch(Window::classify(0., 0.25, 2.).unwrap(), &context)
+                .unwrap()
+                .fired
+        );
+        let crossed = Window::classify(0.25, 0.75, 2.).unwrap();
+        assert!(event.dispatch(crossed, &context).is_err());
+        context.world = Some([1., 0., 0., 2., 0., 1., 0., 3., 0., 0., 1., 4.]);
+        let dispatch = event.dispatch(crossed, &context).unwrap();
+        assert!(matches!(
+            dispatch.requests[0],
+            Request::Effect {
+                anchor: Anchor::Position([3., 3., 4.]),
+                ..
+            }
+        ));
+        context.world = None;
+        event.parameters[5] = 3;
+        let dispatch = event.dispatch(crossed, &context).unwrap();
+        assert!(matches!(
+            dispatch.requests[0],
+            Request::Effect {
+                anchor: Anchor::Position([2., 3., 4.]),
+                ..
+            }
+        ));
+        event.kind = 0x80;
+        assert!(event.dispatch(crossed, &context).is_ok());
+    }
     #[test]
     fn invalid_intervals_are_not_replaced_with_a_default_clock() {
         assert!(Window::classify(0., 1., 0.).is_err());

@@ -137,7 +137,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Paused physical work keeps first ANM/history but skips integration/placement/
   new rates/forces. Three-owner lifecycle/profile/quarantine checks pass.
   Automatic target heading, full primary and live admission remain pending.
-- Compose the surrounding full primary, heading/look/pitch producers and
+- Implemented: controlled body pitch/roll alignment follows jump and precedes
+  physics, retaining the acquired conversion factor, shortest-turn normalization,
+  object-local time and paused-frame ordering. Four 256-step tilted-start cases
+  match 8,162,304 normalized words across the complete 22-actor cohort and RNG
+  endpoint. Scalar verification separates 3,484 original-instruction emulator
+  cases from a 3,964-case hardware arithmetic translation; the documented huge-
+  angle emulator discrepancy is excluded from original-instruction parity.
+  Special pose inputs do not implement water detection, swimming or turbo.
+- Acquire paused positional-event lazy transform production before admitting
+  events needing an absent/stale affine cache. ANM preserves cold absence and
+  the older cached pose during body settling; no placeholder matrix is used.
+- Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
   calls and 576 phase calls without changing the original 64 final cohort states.
@@ -402,6 +413,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   submission entry is distinct from the previously examined draw helper. Keep
   other-character rules separate and retain detached parents and late failures.
   Main-driver startup camera, target contexts and positional audio remain open.
+- Subjective held pose: provider inspection identifies the held wrapper as an
+  attachment/world-pose phase, not graphics submission; `submit_held` remains a
+  deprecated alias of `update_held_pose`. The normal pistol now samples the actual
+  completed virtual affine and shared references without advancing ANM or changing
+  its real binding/frozen firing cache. Two 32-frame controls match 32 matrices
+  (544 words); position/history/spatial finalization is intercepted. Lifecycle
+  checks refuse stale/foreign/cleared/skipped/numeric and replaced-reference input.
+  Next acquire the enclosing held pose/finalization scheduling and connect actual
+  body/subjective/held rendering through live culling, LOD, parts and materials.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated

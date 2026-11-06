@@ -134,7 +134,7 @@ materials and binding the acquired subjective/body submission policy, complete t
 and positional audio remain prerequisites. CPU positions are not a rendered
 subjective scene, a complete mission or verified fidelity.
 
-### Mecc body and held-object submission policy - 6 November 2026
+### Mecc body submission and held-parent pose policy - 6 November 2026
 
 `mecc_draw_policy::submit` acquires the class-2 body/subjective dispatcher.
 Inactive subjective display submits the body, with its separately gated ordinary
@@ -143,9 +143,9 @@ for the controlled Mecc it either suppresses submission or prepares/submits the
 subjective actor, followed by the optional auxiliary actor. Camera mode alone
 cannot select this route. Other character classes are refused before callbacks.
 
-`submit_held` preserves a separate native rule: an attached object's camera-owner
+`mecc_draw_policy::update_held_pose` preserves a separate native rule: an attached object's camera-owner
 query occurs even if subjective display is inactive or inhibited. Only an eligible
-owner redirects its parent to the subjective actor during submission. A detached
+owner redirects its parent to the subjective actor during pose update. A detached
 parent remains absent afterward; a remaining parent, including a replacement
 made by the provider, is restored to the original identity. Rust provider failure
 retains completed mutations and requires caller quarantine rather than replay.
@@ -155,9 +155,30 @@ dispatches, including strict height boundaries, NaN/infinity, parent-class/contr
 combinations, owner mismatch, inhibition and kept/detached/replaced parents.
 The native class/flag predicates execute; prelude, preparation and model-submission
 callbacks are intercepted rather than executed. The held owner getter and its
-submission outcomes are supplied. Two synthetic checks separately verify other
+pose-update outcomes are supplied. Two synthetic checks separately verify other
 class refusal and retained effects on provider failures. These are CPU contracts,
 not a new live renderer, world admission, completed Session post or fidelity proof.
+
+Further provider inspection corrects the earlier submission terminology: this
+held wrapper updates an attachment transform and position/history, rather than
+submitting graphics. The old `submit_held` entry remains a deprecated historical
+alias; its 144 controls prove parent redirection, not rendering.
+
+`mecc_wield_pose::sample_subjective` now projects the normal pistol's matrix from
+the genuine completed virtual post, its affine/scale and the authoritative shared
+reference allocation, plus the actual child's current handle reference. It reuses
+ordinary attachment composition and advances no ANM. The child's real binding and
+the frozen world cache used by post-world firing remain unchanged. This projects
+a pose only: inherited opacity, position/history and spatial finalization are not
+applied. A matching numeric post cannot authorize it; missing, skipped, failed,
+stale, foreign, cleared or subsequently replaced shared references are refused.
+
+Two controls span 64 source frames and compare 32 subjective held matrices
+(544 words) against the original wrapper and normal attachment calculation over
+captured post/reference snapshots. The position/history/spatial tail is intercepted.
+This is separate from native whole-world execution and a live GPU upload. The
+four installed-data lifecycle checks also exercise the new ownership boundaries,
+unchanged firing cache and replaced-reference refusal.
 
 Native call inspection also distinguishes the actual model-submission entry from
 the previously examined position/draw helper. The submission entry routes parts

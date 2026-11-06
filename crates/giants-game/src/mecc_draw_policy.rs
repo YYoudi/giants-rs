@@ -1,6 +1,7 @@
 //! Debug Mecc body/subjective submission policy with caller-owned world inputs.
 //! This orders draw callbacks; it does not prepare the subjective actor, choose
 //! LODs/materials, draw geometry or certify a completed Session post.
+//! The held-parent helper is a separate world-pose phase, not drawing.
 
 #[derive(Clone, Copy, Debug)]
 pub struct Parent {
@@ -81,19 +82,19 @@ pub fn submit(
     Ok(())
 }
 
-/// The actual held-object provider owns its parent slot. `submit` may detach it.
+/// The actual held-object pose provider owns its parent slot and may detach it.
 pub trait HeldServices {
     type Id: Copy + PartialEq;
     fn parent(&self) -> Option<Self::Id>;
     fn camera_owner(&mut self) -> Result<Option<Self::Id>, String>;
     fn set_parent(&mut self, parent: Self::Id);
-    fn submit(&mut self) -> Result<(), String>;
+    fn update_pose(&mut self) -> Result<(), String>;
 }
 
 /// Redirect only the active camera owner's held object, unless inhibited.
 /// A detached parent stays absent; any remaining parent is restored to the
 /// original identity. A failed provider retains its completed mutations.
-pub fn submit_held<K: Copy + PartialEq>(
+pub fn update_held_pose<K: Copy + PartialEq>(
     subjective_active: bool,
     inhibited: bool,
     subjective: K,
@@ -105,14 +106,26 @@ pub fn submit_held<K: Copy + PartialEq>(
     // The native getter executes even when display is inactive or inhibited.
     let owner = services.camera_owner()?;
     if !subjective_active || inhibited || owner != Some(parent) {
-        return services.submit();
+        return services.update_pose();
     }
     services.set_parent(subjective);
-    services.submit()?;
+    services.update_pose()?;
     if services.parent().is_some() {
         services.set_parent(parent);
     }
     Ok(())
+}
+
+/// Historical alias retained for earlier evidence. This updates a held pose;
+/// it does not submit geometry or draw the held object.
+#[deprecated(note = "This is a world-pose wrapper; use update_held_pose")]
+pub fn submit_held<K: Copy + PartialEq>(
+    subjective_active: bool,
+    inhibited: bool,
+    subjective: K,
+    services: &mut impl HeldServices<Id = K>,
+) -> Result<(), String> {
+    update_held_pose(subjective_active, inhibited, subjective, services)
 }
 
 #[cfg(test)]
@@ -177,14 +190,14 @@ mod tests {
             fn set_parent(&mut self, parent: u32) {
                 self.0 = Some(parent);
             }
-            fn submit(&mut self) -> Result<(), String> {
+            fn update_pose(&mut self) -> Result<(), String> {
                 assert_eq!(self.0, Some(9));
                 self.0 = None;
-                Err("injected held submission failure".into())
+                Err("injected held pose failure".into())
             }
         }
         let mut held = Held(Some(7), 0);
-        assert!(submit_held(true, false, 9, &mut held).is_err());
+        assert!(update_held_pose(true, false, 9, &mut held).is_err());
         assert_eq!(held.0, None);
         assert_eq!(held.1, 1);
     }

@@ -21,12 +21,81 @@ No dependency, bundled asset or playable package changes. Existing manifests,
 executable/package checksums and dependency-notice receipts retain their exact
 build identities; they do not attest to this source milestone or visual fidelity.
 
+## Delphi owned body alignment - 6 November 2026
+
+The explicit controlled phase now runs body pitch/roll alignment between jump
+and physics, preserving the acquired float conversion and angular approach order.
+Four 256-step native/Rust tilted-start cases match 8,162,304 normalized words over
+all 22 actors, reference buffers, owner payload and ordered lists, plus exact RNG
+endpoints, including cold pause and pause during settling with retained affine
+cache state. Positional events requiring an absent/stale paused cache remain
+refused pending their producer. Scalar controls and a hardware arithmetic cross-check
+retain the distinct verification limits in OWNED_DELPHI.md, including a quarantined
+large-angle emulator remainder discrepancy. Full primary, camera/target/item
+producers, water/turbo, live mission controls and fidelity remain pending.
+
+This source/API stage adds no playable Delphi download.
+
+Combined source `adfe9733c765b00d1fd05e6d990b01aff58c80ff` preserves the Mecc
+submission and Kabuto auxiliary work. It passes 763 synthetic Rust tests
+(25 ignored), 40 Python tests, Rustfmt, Clippy, all four installed-data Mecc
+lifecycle controls and the three-owner Delphi lifecycle control. The four
+tilted-start comparisons pass again on that source, alongside the five
+zero-roll regressions. The selected-pattern source/history audit reports no
+findings across 246 commits and 2,154 distinct blobs.
+
+Its exact GNU executable passes both silent development lifecycle endpoints and
+three opening/cancellation cycles. These are common-runtime regressions, not
+Delphi live controls or cinematic fidelity. The private ten-member draft has
+complete notices, matching receipt/review identities and no technical verifier
+blockers. Executable SHA256:
+`0753a8e685c8786d24a13de673cd16a7fa4e7bbae8c7ed58714b2979def24d5b`;
+private ZIP SHA256:
+`226d0879fd9e2fd554ef7143e7eb6f2c9dca6480d80edf44aa7be7ace6a662e2`.
+The public Windows preview retains its separately tested release identity.
+
+The subsequent source merge `468df55` preserves the Session-bound subjective
+held-matrix work. Its 763 synthetic Rust tests (25 ignored), four installed-data
+Mecc lifecycle controls, 40 Python tests, Rustfmt, Clippy and site/JavaScript
+checks pass. The source/history audit reports no findings across 252 commits
+and 2,179 blobs. Delphi's acquired modules are unchanged from the exact build
+above; that executable and draft retain their earlier source identity.
+
+## Session-bound subjective held matrix - 6 November 2026
+
+The normal pistol's subjective matrix now reads the actual completed Session post,
+virtual affine/scale, shared source references and current child handle. It reuses
+ordinary attachment composition without a second animation player, real-parent
+mutation or overwrite of the frozen cache used by firing. Replaced shared
+references are refused alongside the existing stale/foreign/failed/skipped and
+numeric-post boundaries. Installed-data lifecycle controls exercise these cases.
+
+Provider inspection corrects the earlier name: the held-parent wrapper is a
+world-pose update, not graphics submission. `update_held_pose` is its current entry;
+`submit_held` remains a deprecated historical alias. Two controls compare 32
+subjective matrices / 544 words across 64 source frames against original attachment
+execution over captured post/reference snapshots. Position/history/spatial
+finalization is intercepted. The existing 144 wrapper cases retain their narrower
+parent/owner/provider scope; they never established a GPU draw.
+
+Live held scheduling/finalization, body/subjective model admission and rendering,
+startup camera, target contexts and positional audio remain required. Prototype
+PS2 attributions remain unknown. No new playable preview or executable/package
+receipt follows this CPU prerequisite; previous receipts retain their identities.
+
+Source `dace127` passes 761 synthetic Rust tests (25 ignored), the four installed-data
+Mecc controls, 40 Python tests, Rustfmt, Clippy and site/JavaScript checks. Rebuilt
+runners pass both new matrix comparisons, the earlier 716,414-word shared-position
+and world/fire regression, and all 8,336 dispatch/parent-policy cases. Source/history
+review reports no findings across 249 commits and 2,172 blobs. These checks retain
+their controlled camera startup, flat/partial world and absent positional sound.
+
 ## Mecc body/subjective submission prerequisite - 6 November 2026
 
 The new class-2 dispatcher preserves body/subjective/auxiliary callback order and
-suppression. A separate held-object wrapper preserves temporary parent redirection,
+suppression. A separate held-object pose wrapper preserves temporary parent redirection,
 owner-query timing and provider detachment/replacement semantics. Native controls
-match 8,192 body-policy cases and 144 held-parent cases; geometry callbacks and
+match 8,192 body-policy cases and 144 held-parent pose cases; geometry callbacks and
 held owner/results remain supplied. Other character profiles remain separate.
 Synthetic failure checks preserve completed effects and refuse unrelated classes.
 
