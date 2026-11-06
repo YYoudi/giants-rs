@@ -469,11 +469,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 - Extended owned movement remains incomplete. The inverted secondary height
   comparison is corrected after 1,049 controlled original-PC branch executions;
   both velocity and height thresholds are strict. The corrected general replay
-  now explicitly refuses the unacquired high-descent transition at step 143.
-  Retain both this result and the older incorrect-guard step-152 failure.
-  Next acquire logical state 2's complete common tail, animation and owned writes,
-  then impact reactions and contact landing effects; do not infer their contract
-  from the guard alone. See docs/MECC_DESCENT_GUARD.md. The 128-step inspection
+  previously refused the unacquired high-descent transition at step 143.
+  That ordinary transition now matches 128 complete native-selector/channel
+  controls with blending disabled/enabled (41,920 words), including hold and
+  precedence over later reactions. The actual owned Bevy replay reaches step 158
+  and explicitly refuses its pending contact-landing effect provider.
+  Retain all earlier failed controls. Next acquire that contact branch's logical
+  state 60, effect creation/retirement and common-tail ownership, followed by
+  impact reactions; do not substitute a normal locomotion clip or empty effect.
+  See docs/MECC_DESCENT_GUARD.md. The 128-step inspection
   cycles cover resource retirement separately and do not validate this trajectory.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene

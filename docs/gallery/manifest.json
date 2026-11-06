@@ -4166,9 +4166,16 @@
     "media/221dfe320301e0314fa4e67cd2313f2d9a2b549bb7449ebd85f7a601acb34616.webp": "221dfe320301e0314fa4e67cd2313f2d9a2b549bb7449ebd85f7a601acb34616",
     "media/f2054a6d60f35918b1d75f2caa9c6cd85e2050b5193d0bb963795f5e5b6c4a9b.webp": "f2054a6d60f35918b1d75f2caa9c6cd85e2050b5193d0bb963795f5e5b6c4a9b",
     "media/285c194e6536293e8607ae29e0415ce92edfc889a36146559e8b239b6260b5f0.webp": "285c194e6536293e8607ae29e0415ce92edfc889a36146559e8b239b6260b5f0",
-    "media/c38cc0350debd47743b24784bb54375d3cd5d938e416f47a560dbc8d41c26a60.webp": "c38cc0350debd47743b24784bb54375d3cd5d938e416f47a560dbc8d41c26a60"
+    "media/c38cc0350debd47743b24784bb54375d3cd5d938e416f47a560dbc8d41c26a60.webp": "c38cc0350debd47743b24784bb54375d3cd5d938e416f47a560dbc8d41c26a60",
+    "media/e4bc6dfe3a3e8a76e22921659145dc70dec97d3af6b106e50725332d433b11a9.webp": "e4bc6dfe3a3e8a76e22921659145dc70dec97d3af6b106e50725332d433b11a9"
   },
   "screenshots": [
+    {
+      "title": "Owned Mecc high descent",
+      "image": "media/e4bc6dfe3a3e8a76e22921659145dc70dec97d3af6b106e50725332d433b11a9.webp",
+      "caption": "Bevy render after 145 controlled movement steps through an actual menu mission request. The owned descent animation reaches the body mesh. Experimental inspection only: the later contact effect and full movement remain incomplete; visual fidelity is unverified.",
+      "commit": "214553b0ac8557510978b7f7ad4b73bfafc042d5"
+    },
     {
       "title": "Owned Mecc model selection",
       "image": "media/285c194e6536293e8607ae29e0415ce92edfc889a36146559e8b239b6260b5f0.webp",

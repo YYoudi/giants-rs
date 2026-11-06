@@ -39,7 +39,9 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
     {
         return Err("owned jet probe requires owned-player-inspection and reserved audio".into());
     }
-    if owned_inspection_replay()
+    if (owned_inspection_replay()
+        || std::env::var("GIANTS_MISSION_REPLAY").as_deref()
+            == Ok("owned-player-descent-inspection"))
         && std::env::var("GIANTS_MISSION_MECC_BACKEND").as_deref() != Ok("owned-inspection")
     {
         return Err("owned-player-inspection requires the explicit owned Mecc backend".into());
@@ -49,6 +51,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
         Some(
             "initial-player"
             | "owned-player-inspection"
+            | "owned-player-descent-inspection"
             | "player-motion"
             | "player-motion-air"
             | "opening"
@@ -131,6 +134,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
                     | "player-motion-air"
                     | "owned-player-inspection"
                     | "owned-player-inspection-cycles"
+                    | "owned-player-descent-inspection"
             )
         ),
         completed: 0,
