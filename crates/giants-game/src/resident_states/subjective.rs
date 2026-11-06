@@ -5,6 +5,75 @@ use crate::mecc_subjective::{
 };
 
 impl Session {
+    fn require_subjective_geometry(&self, state: &State<Id>, number: u64) -> Result<(), String> {
+        let source = state.completed_owned_source(number)?;
+        let actor = self
+            .get(source)
+            .ok_or("subjective geometry source absent or foreign")?;
+        let cycle = actor
+            .mecc_physical_cycle
+            .as_ref()
+            .ok_or("subjective geometry cycle absent")?;
+        if actor.class != 2
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 2
+            || cycle.view.number != number
+            || cycle.failure.is_some()
+            || cycle.subjective_pending.is_some()
+            || actor
+                .world_tick
+                .as_ref()
+                .is_none_or(|t| t.phase() != crate::actor_world_tick::Phase::Finished)
+            || !Arc::ptr_eq(
+                state.specification(),
+                self.mecc_subjective_specification(source)?,
+            )
+        {
+            return Err("subjective geometry source/frame/resource binding changed".into());
+        }
+        Ok(())
+    }
+
+    /// Update the shared model-position bank from the completed virtual channels.
+    /// The force gate and model-slot admission remain explicit caller inputs.
+    /// This does not acknowledge visibility, materials, GPU upload or drawing.
+    pub fn prepare_mecc_subjective_positions(
+        &mut self,
+        state: &State<Id>,
+        number: u64,
+        slot: usize,
+        force: bool,
+    ) -> Result<crate::actor_position_buffers::Update, String> {
+        self.require_subjective_geometry(state, number)?;
+        self.position_buffers.update(
+            state.specification(),
+            slot,
+            state.channels(),
+            state.header().unwrap().animation_stamp,
+            force,
+        )
+    }
+
+    pub fn mecc_subjective_model_positions(
+        &self,
+        state: &State<Id>,
+        number: u64,
+        slot: usize,
+    ) -> Result<Option<&[[f32; 3]]>, String> {
+        self.require_subjective_geometry(state, number)?;
+        self.position_buffers.positions(state.specification(), slot)
+    }
+
+    pub fn mecc_subjective_model_cache(
+        &self,
+        state: &State<Id>,
+        number: u64,
+        slot: usize,
+    ) -> Result<Option<crate::vertex_cache::Cache>, String> {
+        self.require_subjective_geometry(state, number)?;
+        self.position_buffers.cache(state.specification(), slot)
+    }
+
     pub(crate) fn mecc_camera_phase_input(
         &self,
         source: Id,

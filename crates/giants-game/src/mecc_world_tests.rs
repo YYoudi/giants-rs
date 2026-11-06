@@ -407,10 +407,12 @@ fn deferred_primary_controls(produced: bool) {
         crate::arithmetic::Precision::Double53,
     )
     .unwrap();
-    for (index, (clock, fail_sound)) in [(0.25_f32, false), (0., false), (0., true)]
-        .into_iter()
-        .enumerate()
-    {
+    let mut cases = vec![(0.25_f32, false), (0., false), (0., true)];
+    if !produced {
+        cases.push((0.25, false));
+    }
+    for (index, (clock, fail_sound)) in cases.into_iter().enumerate() {
+        let skipped_camera_owner = index == 3;
         let mut s = Session::new(830 + index as u64);
         let owner = actor(&mut s, &r, &g, &defs.catalog, None, 0.);
         s.prepare_mecc_countdown_world(10.).unwrap();
@@ -479,6 +481,12 @@ fn deferred_primary_controls(produced: bool) {
             crate::mecc_subjective::Phase::PrimaryComplete
         );
         assert!(s.begin_mecc_frame_history(owner, 2).is_err());
+        let buffers_before_post = s.position_buffer_count();
+        assert!(
+            s.prepare_mecc_subjective_positions(&state, 1, 0, false)
+                .is_err()
+        );
+        assert_eq!(s.position_buffer_count(), buffers_before_post);
         let mut held = crate::mecc_wield_pose::Producer::new(owner);
         let camera = crate::first_person::Camera {
             position: [0., 0., 20.],
@@ -599,7 +607,11 @@ fn deferred_primary_controls(produced: bool) {
                 crate::mecc_subjective::WorldPost {
                     number: 1,
                     controlled: owner,
-                    camera_owner: Some(owner),
+                    camera_owner: if skipped_camera_owner {
+                        None
+                    } else {
+                        Some(owner)
+                    },
                     previous_camera: camera,
                     current_camera: camera,
                 },
@@ -607,6 +619,21 @@ fn deferred_primary_controls(produced: bool) {
                 services,
             )
         };
+        if skipped_camera_owner {
+            let result = result.unwrap();
+            assert!(result.animation.is_none() && result.fire.is_none());
+            assert_eq!(state.phase(), crate::mecc_subjective::Phase::Finished);
+            assert_eq!(p.stamp.0, before.0);
+            let buffers = s.position_buffer_count();
+            assert!(
+                s.prepare_mecc_subjective_positions(&state, 1, 0, false)
+                    .is_err()
+            );
+            assert_eq!(s.position_buffer_count(), buffers);
+            s.begin_mecc_frame_history(owner, 2).unwrap();
+            s.clear();
+            continue;
+        }
         if produced {
             let inner = cameras.last().unwrap();
             assert_eq!(inner.pass(), crate::mecc_world_camera::Pass::Inner);
@@ -620,6 +647,12 @@ fn deferred_primary_controls(produced: bool) {
             assert_eq!(state.phase(), crate::mecc_subjective::Phase::Failed);
             assert!(s.mecc_physical_cycle_failure(owner).is_some());
             assert!(s.mecc_shot_failure(owner).is_some());
+            let buffers_after_fire = s.position_buffer_count();
+            assert!(
+                s.prepare_mecc_subjective_positions(&state, 1, 0, false)
+                    .is_err()
+            );
+            assert_eq!(s.position_buffer_count(), buffers_after_fire);
             assert_eq!(s.counts().residents, before.2 + 1);
             assert!(!p.contexts.active().is_empty());
             assert_ne!(p.random.0, before.1);
@@ -635,6 +668,52 @@ fn deferred_primary_controls(produced: bool) {
             let result = result.unwrap();
             assert_eq!(result.fire.unwrap().shot.is_some(), clock == 0.);
             assert_eq!(state.phase(), crate::mecc_subjective::Phase::Finished);
+            s.prepare_mecc_subjective_positions(&state, 1, 0, false)
+                .unwrap();
+            let positions = s
+                .mecc_subjective_model_positions(&state, 1, 0)
+                .unwrap()
+                .unwrap()
+                .to_vec();
+            assert_eq!(positions.len(), 270);
+            assert!(positions.iter().flatten().all(|x| x.is_finite()));
+            let cache = s
+                .mecc_subjective_model_cache(&state, 1, 0)
+                .unwrap()
+                .unwrap();
+            assert_eq!(cache.epoch, state.header().unwrap().animation_stamp);
+            assert_eq!(
+                s.prepare_mecc_subjective_positions(&state, 1, 0, false)
+                    .unwrap(),
+                crate::actor_position_buffers::Update::KeepEpoch
+            );
+            s.prepare_mecc_subjective_positions(&state, 1, 0, true)
+                .unwrap();
+            let cache = s
+                .mecc_subjective_model_cache(&state, 1, 0)
+                .unwrap()
+                .unwrap();
+            assert_eq!(cache.epoch, 0);
+            assert_eq!(cache.seconds, -1.);
+            assert_eq!(
+                s.mecc_subjective_model_positions(&state, 1, 0)
+                    .unwrap()
+                    .unwrap(),
+                positions
+            );
+            assert!(s.current_reference_matrices(owner).is_err());
+            let buffers = s.position_buffer_count();
+            assert!(
+                s.prepare_mecc_subjective_positions(&state, 2, 0, false)
+                    .is_err()
+            );
+            assert_eq!(s.position_buffer_count(), buffers);
+            let foreign = Session::new(980 + index as u64);
+            assert!(
+                foreign
+                    .mecc_subjective_model_positions(&state, 1, 0)
+                    .is_err()
+            );
             assert!(
                 s.residents[&owner.serial]
                     .mecc_physical_cycle
@@ -709,6 +788,8 @@ fn deferred_primary_controls(produced: bool) {
             before_replay
         );
         s.clear();
+        assert!(s.mecc_subjective_model_positions(&state, 1, 0).is_err());
+        assert_eq!(s.position_buffer_count(), 0);
         assert!(
             cameras
                 .outer(&s, 2, true, 1. / 60., &mut camera_world)

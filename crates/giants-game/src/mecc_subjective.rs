@@ -133,6 +133,7 @@ pub struct State<K> {
     stamp: Option<u32>,
     failure: Option<String>,
     owned_preparation: bool,
+    geometry_ready: bool,
 }
 impl<K: Copy + Eq> State<K> {
     /// Initial channels are supplied explicitly. This does not infer native
@@ -165,6 +166,7 @@ impl<K: Copy + Eq> State<K> {
             stamp: None,
             failure: None,
             owned_preparation: false,
+            geometry_ready: false,
         })
     }
     pub fn phase(&self) -> Phase {
@@ -207,6 +209,7 @@ impl<K: Copy + Eq> State<K> {
         self.number = number;
         self.active = false;
         self.owned_preparation = false;
+        self.geometry_ready = false;
         self.phase = Phase::Finished;
         Ok(())
     }
@@ -238,6 +241,7 @@ impl<K: Copy + Eq> State<K> {
         self.number = number;
         self.active = true;
         self.owned_preparation = false;
+        self.geometry_ready = false;
         self.phase = Phase::Prepared;
         Ok(())
     }
@@ -351,6 +355,7 @@ impl<K: Copy + Eq> State<K> {
         self.phase = Phase::Fire;
         let tail = self.animate(0., stamp, services)?;
         self.phase = Phase::Finished;
+        self.geometry_ready = true;
         Ok(Output {
             number: self.number,
             first,
@@ -385,6 +390,25 @@ impl<K: Copy + Eq> State<K> {
 }
 
 impl State<crate::resident_states::Id> {
+    pub(crate) fn completed_owned_source(
+        &self,
+        number: u64,
+    ) -> Result<crate::resident_states::Id, String> {
+        if !self.owned_preparation
+            || !self.geometry_ready
+            || !self.active
+            || self.failure.is_some()
+            || self.phase != Phase::Finished
+            || self.number != number
+        {
+            return Err("subjective geometry requires its completed owned post frame".into());
+        }
+        Ok(self
+            .header
+            .as_ref()
+            .ok_or("subjective geometry header absent")?
+            .source)
+    }
     pub(crate) fn prepared_for_primary(
         &self,
         session: &crate::resident_states::Session,
