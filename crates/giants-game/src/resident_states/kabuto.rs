@@ -7,7 +7,281 @@ use crate::{
 };
 use std::sync::Arc;
 
+#[cfg(test)]
+#[path = "kabuto_transition_tests.rs"]
+mod transition_tests;
+
 impl Session {
+    /// Acquired transition prefix. The mode and physical/contact samples are
+    /// outputs of upstream phases; this does not schedule a primary or render.
+    pub fn advance_kabuto_geometry_transition(
+        &mut self,
+        owner: Id,
+        extra: &crate::kabuto_auxiliary::ExtraFactory,
+        frame: crate::kabuto_geometry_transition::Frame<'_>,
+        services: &mut crate::actor_animation_phase::Services<'_>,
+        mut sound: impl FnMut(crate::kabuto_geometry_transition::Sound) -> Result<(), String>,
+    ) -> Result<crate::kabuto_geometry_transition::View, String> {
+        use crate::{
+            animation_channels::Request,
+            kabuto_geometry_transition::{Sound, SoundAction, View},
+        };
+        let actor = self
+            .get(owner)
+            .ok_or("Kabuto transition owner absent or foreign")?;
+        let group = actor
+            .kabuto_group
+            .as_ref()
+            .ok_or("Kabuto transition group absent")?;
+        if actor.class != 1
+            || actor.seed.storage.state() != 1
+            || group.cleaned_up
+            || group.geometry_transition_failure.is_some()
+        {
+            return Err("Kabuto transition group retired or quarantined".into());
+        }
+        if !frame.global_seconds.is_finite() || frame.global_seconds < 0. {
+            return Err("Kabuto transition delta outside finite nonnegative profile".into());
+        }
+        let mut fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("Kabuto transition fields absent")?
+            .clone();
+        let payload = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("Kabuto transition payload absent")?
+            .to_vec();
+        if payload.len() != 844 {
+            return Err("Kabuto transition payload profile differs".into());
+        }
+        let specification = self
+            .specification(owner)
+            .ok_or("Kabuto transition specification absent")?
+            .clone();
+        let bank = self
+            .kabuto_events
+            .clone()
+            .unwrap_or_else(|| crate::mecc_animation_events::Bank::new(specification.clone()));
+        if !bank.belongs_to(&specification) {
+            return Err("Kabuto event bank specification differs".into());
+        }
+        let mut pipeline = crate::actor_animation_phase::Pipeline {
+            materials: frame.materials,
+            specification,
+            references: self.specifications.get(&owner.serial).unwrap().0.clone(),
+            bank,
+            contexts: services.contexts.staged_copy(),
+            random: *services.random,
+            channels: actor.channels.ok_or("Kabuto transition channels absent")?,
+            owner,
+            stamp: services.stamp,
+            last_stamp: actor.mecc_animation_stamp,
+            blending: services.blending,
+        };
+        fields.channels = pipeline.channels;
+        self.residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .kabuto_group
+            .as_mut()
+            .unwrap()
+            .geometry_transition_started = true;
+        self.residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()[0x228] = frame.mode;
+        let mut view = View::default();
+        let mut audio = |action, identifier, view: &mut View| {
+            view.sound_calls += 1;
+            sound(Sound {
+                owner,
+                identifier,
+                action,
+            })
+        };
+        fn select(
+            p: &mut crate::actor_animation_phase::Pipeline<'_>,
+            f: &mut crate::actor_fields::Fields,
+            v: &mut View,
+            slot: u8,
+            flags: u32,
+            blend_seconds: f32,
+        ) -> Result<(), String> {
+            crate::animation_channels::select_primary(
+                &mut p.channels,
+                Request {
+                    slot,
+                    flags,
+                    speed_source: 0,
+                    reference_speed: 0.,
+                    blend_seconds,
+                },
+                p.blending,
+            )
+            .map_err(str::to_owned)?;
+            f.channels = p.channels;
+            v.selections += 1;
+            Ok(())
+        }
+        fn tick(
+            p: &crate::actor_animation_phase::Pipeline<'_>,
+            v: &mut View,
+        ) -> Result<i32, String> {
+            let descriptor = p
+                .specification
+                .animations
+                .get(&199)
+                .ok_or("Kabuto gate descriptor absent")?;
+            v.frame_queries += 1;
+            crate::animation_frames::frame_at_time(
+                crate::animation_frames::Descriptor {
+                    timeline: descriptor.animation.timeline,
+                    flags: descriptor.template.flags,
+                },
+                f32::from_bits(p.channels[0][1]),
+            )
+            .map_err(str::to_owned)
+        }
+        let result: Result<(), String> = (|| {
+            match frame.mode {
+                0 => {
+                    match pipeline.channels[0][0] {
+                        200 | 202 => {
+                            audio(SoundAction::Start, 0x452, &mut view)?;
+                            audio(SoundAction::Stop, 0x453, &mut view)?;
+                            select(&mut pipeline, &mut fields, &mut view, 199, 0x30, 0.25)?;
+                        }
+                        199 => {
+                            let flags = pipeline.channels[0][8];
+                            if flags & 0x10 == 0 {
+                                audio(SoundAction::Start, 0x452, &mut view)?;
+                                audio(SoundAction::Stop, 0x453, &mut view)?;
+                                select(&mut pipeline, &mut fields, &mut view, 199, 0x10, 0.)?;
+                            } else if flags & 2 != 0 {
+                                let word = |at| {
+                                    u32::from_le_bytes(payload[at..at + 4].try_into().unwrap())
+                                };
+                                if word(0xc) != 0 {
+                                    select(&mut pipeline, &mut fields, &mut view, 94, 0x20, 0.25)?;
+                                } else if word(8) != 0 {
+                                    select(&mut pipeline, &mut fields, &mut view, 125, 0x20, 0.25)?;
+                                }
+                                select(
+                                    &mut pipeline,
+                                    &mut fields,
+                                    &mut view,
+                                    if f32::from_bits(word(4)) == 0. {
+                                        1
+                                    } else {
+                                        104
+                                    },
+                                    0x20,
+                                    0.25,
+                                )?;
+                            }
+                        }
+                        _ => {}
+                    }
+                    if pipeline.channels[0][0] != 199 || tick(&pipeline, &mut view)? < 1600 {
+                        view.marks += u32::from(self.mark_kabuto_extra(owner)?.is_some());
+                    }
+                }
+                1 => {
+                    match pipeline.channels[0][0] {
+                        200 => {}
+                        202 => {
+                            audio(SoundAction::Stop, 0x453, &mut view)?;
+                            select(&mut pipeline, &mut fields, &mut view, 200, 0x21, 0.25)?;
+                        }
+                        199 => {
+                            if pipeline.channels[0][8] & 0x10 != 0 {
+                                audio(SoundAction::Start, 0x455, &mut view)?;
+                                select(&mut pipeline, &mut fields, &mut view, 199, 0, 0.)?;
+                            } else if pipeline.channels[0][8] & 2 != 0 {
+                                audio(SoundAction::Start, 0x453, &mut view)?;
+                                select(&mut pipeline, &mut fields, &mut view, 200, 0x21, 0.25)?;
+                            }
+                        }
+                        _ => {
+                            audio(SoundAction::Start, 0x455, &mut view)?;
+                            select(&mut pipeline, &mut fields, &mut view, 199, 0x20, 0.25)?;
+                        }
+                    }
+                    if (pipeline.channels[0][0] != 199 || tick(&pipeline, &mut view)? > 1600)
+                        && self.kabuto_group(owner).unwrap().extra.is_none()
+                    {
+                        extra.construct_for(self, owner)?;
+                        view.creates += 1;
+                    }
+                }
+                3 => {
+                    if pipeline.channels[0][0] != 202 {
+                        audio(SoundAction::Start, 0x453, &mut view)?;
+                        select(&mut pipeline, &mut fields, &mut view, 202, 0x20, 0.25)?;
+                    }
+                    if self.kabuto_group(owner).unwrap().extra.is_none() {
+                        extra.construct_for(self, owner)?;
+                        view.creates += 1;
+                    }
+                }
+                _ => {}
+            }
+            if pipeline.channels[0][8] & 0x100 != 0 {
+                let seconds = crate::object_time_precision::seconds(
+                    frame.global_seconds,
+                    Some(crate::object_time_precision::Actor {
+                        owner_id: fields.dispatch_context,
+                        position: fields.position[..2].try_into().unwrap(),
+                    }),
+                    None,
+                    frame.areas,
+                    crate::arithmetic::Precision::Double53,
+                )
+                .map_err(str::to_owned)? as f32;
+                let pass = pipeline.advance_sample(
+                    &fields,
+                    crate::actor_animation_phase::Sample {
+                        model: frame.model,
+                        affine: frame.affine,
+                        support: frame.support,
+                        support_part: frame.support_part,
+                    },
+                    seconds,
+                )?;
+                view.animation_processed = pass.processed;
+                view.event_visits = pass.visits;
+                fields.channels = pass.channels;
+            }
+            Ok(())
+        })();
+        // Preserve earlier selection, epoch, references, effects and RNG even if
+        // a later provider fails. Retry requires a new Session rather than replay.
+        fields.channels = pipeline.channels;
+        view.stamp = pipeline.last_stamp;
+        self.specifications.get_mut(&owner.serial).unwrap().0 = pipeline.references;
+        self.kabuto_events = Some(pipeline.bank);
+        *services.contexts = pipeline.contexts;
+        *services.random = pipeline.random;
+        let actor = self.residents.get_mut(&owner.serial).unwrap();
+        actor.channels = Some(fields.channels);
+        actor.construction_fields = Some(fields);
+        actor.mecc_animation_stamp = view.stamp;
+        if let Err(error) = result {
+            actor
+                .kabuto_group
+                .as_mut()
+                .unwrap()
+                .geometry_transition_failure = Some(error.clone());
+            return Err(error);
+        }
+        Ok(view)
+    }
     /// Acquired frame query used by the geometry transition gate. Both the
     /// descriptor and clock come from this owner's resources/current channels.
     /// Selection, advancement and the transition decision remain caller phases.
@@ -17,7 +291,10 @@ impl Session {
             .ok_or("Kabuto frame owner absent or foreign")?;
         if actor.class != 1
             || actor.seed.storage.state() != 1
-            || actor.kabuto_group.as_ref().is_none_or(|g| g.cleaned_up)
+            || actor
+                .kabuto_group
+                .as_ref()
+                .is_none_or(|g| g.cleaned_up || g.geometry_transition_failure.is_some())
         {
             return Err("Kabuto frame requires an active owned group".into());
         }
@@ -56,6 +333,7 @@ impl Session {
         if actor.class != 1
             || actor.seed.storage.state() != 1
             || group.cleaned_up
+            || group.geometry_transition_failure.is_some()
             || group.extra.is_some()
             || input.class != 1199
             || input.seed.storage.state() != 0
@@ -91,7 +369,11 @@ impl Session {
             .get(owner)
             .ok_or("Kabuto extra owner absent or foreign")?;
         let group = actor.kabuto_group.as_ref().ok_or("Kabuto group absent")?;
-        if actor.class != 1 || actor.seed.storage.state() != 1 || group.cleaned_up {
+        if actor.class != 1
+            || actor.seed.storage.state() != 1
+            || group.cleaned_up
+            || group.geometry_transition_failure.is_some()
+        {
             return Err("Kabuto extra group outside acquired phase".into());
         }
         let Some(id) = group.extra else {
@@ -157,6 +439,7 @@ impl Session {
         if actor.class != 1
             || actor.seed.storage.state() != 1
             || group.cleaned_up
+            || group.geometry_transition_started
             || group.extra.is_some()
             || actor.world_tick.is_some()
             || actor.controlled_motion.is_some()

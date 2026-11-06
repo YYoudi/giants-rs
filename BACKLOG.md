@@ -297,15 +297,26 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   slice (11,596 words, four creates, three marks, every extra header and all
   fifteen lists). Marked actors retain ownership and attachment; re-entry
   allocates a new ID. Active-extra group cleanup is refused until that teardown
-  profile is acquired. Full animation/sound/epoch/event parity and world dispatch
-  remain separate; the full native prefix is not yet a full Rust comparison.
+  profile is acquired. This auxiliary-only receipt excludes animation/sound/
+  epoch/event comparison; the owned transition receipt is recorded below.
 - Implemented: the standalone template clock preserves base-before-truncation
   and the signed-64 conversion's low word; 512 native cases match, including
   signed coefficients and wrapping/indefinite conversions. The existing channel
   converter retains its separate arithmetic. The Session geometry-gate query
   uses its current primary channel and immutable owner descriptor, refusing
-  foreign/stale, retired and nonselected contexts. Full transition scheduling,
-  epoch/reference/event publication and live controls remain open.
+  foreign/stale, retired and nonselected contexts. This query alone does not
+  advance clocks or publish references.
+- Implemented: owned geometry transition composes upstream mode publication,
+  ordered selections/sound-service calls, the 1,600-tick gate, typed auxiliary
+  create/mark and the shared actor-local ANM/reference/epoch/event pipeline.
+  Eighty-four native contexts match 23,322 words over four channels, eleven
+  reference matrices, epochs, auxiliary flags/links and fifteen lists, including
+  enabled/disabled blending and below/equal/above-threshold cases. The sound bank
+  is absent in these controls; device audio and fired-event effect cadence are
+  unverified. Upstream mode/physical/contact producers and time areas are supplied
+  boundaries. Late provider failure retains prior publication and quarantines
+  replay. Cold-only cleanup refuses entered transitions. Full primary, dynamic
+  cleanup, geometry-header/render consumption and live admission remain open.
 - Complete the remaining custom cleanup profiles: the active additional-reference
   teardown, GPU material release and dynamic/entered turns. The acquired geometry
   prefix stores class1199 in that reference; its broader gameplay role is unassigned.
@@ -563,6 +574,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   and draw, returning to the menu with tracked cleanup and no reserved Mecc audio
   override. This verifies that gesture on Rstory5 mission 2 only; other scene and
   gesture combinations remain open. Both development lifecycle endpoints pass.
+  Physical object-stock acquisition now executes the original initializer and
+  constructs 3,000 simultaneous source-program objects with supplied resident
+  resources/support. Three marked objects still occupy slots until the actual
+  global cleanup pass; their freed slots are reused in observed order. All 3,003
+  retirements finish with zero active objects and all 3,000 free slots restored.
+  Three empty-free-head fixtures reach the original diagnostic entry; its fatal
+  handler and recovery are not executed or certified. Failed early controls and
+  an unproven generation-field interpretation remain private and rejected.
+  A separate batch constructs all 158 Flick actors in the 23 bounded sources in
+  an actual initialized stock: their construction leaves its counter, list and
+  free head unchanged and never calls its object allocator. This observation
+  excludes later VM callbacks, source FX and mission population. Do not equate
+  Flick actor counts with ordinary-world occupancy or invent a per-film quota.
+  The physical capacity/recycle boundary is acquired; real mission occupancy,
+  shared admission, error handling and full world scheduling remain open. No
+  shared Rust capacity policy or new gameplay admission follows from CPU proof.
   The 59-source gap total, 56 general-queue admission refusals and 282 strict-
   profile reviews remain: this is a partial runtime path, not 23 fully admitted
   or faithful scenes. Native in-mission producers remain required for gameplay triggers; the

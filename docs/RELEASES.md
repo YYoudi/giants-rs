@@ -21,6 +21,63 @@ The remaining primary/auxiliary producers, ordinary camera and runtime wiring,
 water/turbo and combat stay on the backlog. This CPU/API stage adds no playable
 Delphi download. Prototype PS2 attribution remains unknown.
 
+## Flick physical object stock and actor population — 6 November 2026
+
+The original PC initializer supplies 3,000 physical object slots. A private
+source-program control fills them using the original constructors, marks three
+objects, executes the actual global cleanup, reuses those slots and retires all
+objects. The 3,003 retirements restore all 3,000 slots and leave the active count
+and list empty. Marking alone does not release capacity. Resident resources,
+support and outer memory are supplied; actual mission population and rendering
+are excluded. Three empty-free-head fixtures stop at the original diagnostic
+entry, so they establish no fatal-handler, recovery or successful-return contract.
+
+A separate batch executes source actor/link construction for all 23 bounded
+persistent sources: 158 Flick actors leave the ordinary object stock's count,
+list and free head unchanged, with zero calls to its allocator. That observation
+applies to construction, not subsequent VM/effect callbacks or full missions.
+Flick actor counts therefore cannot stand in for live ordinary-world occupancy.
+
+Early controls omitted the global cleanup phase or assumed an unproved field
+meaning; those failures remain private and are not counted as passing controls.
+Prototype PS2 lookups precede acquisition; their attributions remain unknown.
+Inputs, resource copies, detailed allocation records and controllers stay private.
+This acquires a physical capacity/recycle boundary, not shared runtime admission.
+Real mission occupancy, error handling, complete world scheduling, general/mixed
+FX and visual/temporal/audio parity remain open. No new Rust quota, gameplay
+capability or downloadable executable is claimed; preview 2026.11.06.2 keeps its
+exact existing source/executable/package identities and validation scope.
+
+Combined runtime checkpoint `d1ef59b` preserves the newer Kabuto transition work.
+It passes 764 synthetic Rust tests (26 ignored), 40 Python tests, Rustfmt, Clippy
+with warnings denied, generated roadmap/site checks and JavaScript syntax checks.
+These synthetic checks are separate from the native acquisition above and do
+not exercise new live world admission or expand the existing preview's receipts.
+
+
+## Kabuto owned geometry transition - 6 November 2026
+
+The owned transition now composes animation selection, ordered owner-sound
+requests, the source-tick gate, auxiliary ownership and the common ANM/reference/
+epoch/event pipeline. Eighty-four native/Rust controls match 23,322 words with
+blending disabled/enabled and threshold boundary cases. An installed-data control
+checks success, partial failure quarantine and clear. Upstream samples and the
+absent sound bank are explicit boundaries; full event/effect/device-audio parity,
+dynamic cleanup, primary/movement/growth and live admission remain open.
+
+Combined source `366bf64` preserves the completion-replay preview and existing
+Mecc/Delphi work. It passes 764 synthetic Rust tests (26 ignored), all five silent
+Kabuto installed-data controls, 40 Python tests, Rustfmt, Clippy with warnings
+denied and site/JavaScript checks. Both transition comparisons pass again on
+that source. The selected-pattern history audit reports zero findings across
+271 commits and 2,242 blobs, including an exact-hash review of the separate
+minimal attribution document; no general alias exception is introduced.
+
+This source milestone changes no dependencies, bundled assets or playable
+package. Existing Windows preview manifests, technical notice collection and
+receipt-bound checksums continue to refer to their exact builds. They do not
+attest to this API milestone or to playable Kabuto fidelity.
+
 ## Source-declared Flick completion replay — 6 November 2026
 
 Preview tools now exposes completion cinematics using actual mission declarations
