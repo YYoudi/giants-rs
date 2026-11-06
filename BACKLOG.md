@@ -17,7 +17,7 @@ matches probable and one unassigned. No gameplay status changes follow from name
   PS2 comparisons without inferring types from them. Acquire pre-primary and
   subjective fire timing, positional audio and native mesh/list producers, with
   separate PC/PS2 identities and platform differences.
-- The central method now records seven current primary/subjective function
+- The central method records current primary/subjective function
   lookups as unassigned, with their exact PC aliases, current owned Rust
   relationships and missing comparisons. Reuse those identity-bound searches;
   preserve older presentation-module references as historical aliases rather
@@ -373,6 +373,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   The same trajectory exposed a backward-air secondary transition, now acquired
   for the normal pistol. Other directional-air variants and reactions remain
   separate prerequisites. These CPU checks enable no new campaign or live fire.
+- Subjective submission: the class-2 body/virtual dispatcher and temporary held
+  parent redirection now match 8,192 + 144 native cases. Callback interception is
+  not geometry execution. Next bind actual completed-post/held identities and
+  acquire the preparation and immediate/deferred model consumers. Reuse existing
+  `render_parts`, `render_sort`, `lod` and the shared model bank; the observed
+  submission entry is distinct from the previously examined draw helper. Keep
+  other-character rules separate and retain detached parents and late failures.
+  Main-driver startup camera, target contexts and positional audio remain open.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated

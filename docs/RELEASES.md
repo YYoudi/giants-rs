@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## Mecc body/subjective submission prerequisite - 6 November 2026
+
+The new class-2 dispatcher preserves body/subjective/auxiliary callback order and
+suppression. A separate held-object wrapper preserves temporary parent redirection,
+owner-query timing and provider detachment/replacement semantics. Native controls
+match 8,192 body-policy cases and 144 held-parent cases; geometry callbacks and
+held owner/results remain supplied. Other character profiles remain separate.
+Synthetic failure checks preserve completed effects and refuse unrelated classes.
+
+This is an unbound CPU prerequisite. The actual model entry schedules immediate
+and deferred parts; invoking it is not itself a GPU draw. Main-driver fire remains
+disabled, with completed-post/held binding, live model/material preparation,
+startup camera, target contexts and positional audio still required. Prototype
+PS2 lookup results remain unknown; no new symbol attribution is confirmed.
+No new playable download, executable receipt or package checksum is claimed by
+this source-only change. The last exact GNU build and private draft below retain
+their own source and checksum identities.
+
 ## Owned subjective position bank and backward-air continuation - 6 November 2026
 
 The Session now prepares subjective model positions from the actual completed

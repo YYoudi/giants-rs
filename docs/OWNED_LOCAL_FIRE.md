@@ -130,9 +130,47 @@ post following a genuine pre-copy cannot certify that publication, even when its
 local math reaches the finished phase; a source-backed bypass control verifies this.
 
 The main driver's `fire: None` remains. Live model-slot/force admission, part masks,
-materials and the actual subjective/body drawing policy, complete target contexts
+materials and binding the acquired subjective/body submission policy, complete target contexts
 and positional audio remain prerequisites. CPU positions are not a rendered
 subjective scene, a complete mission or verified fidelity.
+
+### Mecc body and held-object submission policy - 6 November 2026
+
+`mecc_draw_policy::submit` acquires the class-2 body/subjective dispatcher.
+Inactive subjective display submits the body, with its separately gated ordinary
+prelude. Active display preserves a non-controlled Mecc's parent suppression;
+for the controlled Mecc it either suppresses submission or prepares/submits the
+subjective actor, followed by the optional auxiliary actor. Camera mode alone
+cannot select this route. Other character classes are refused before callbacks.
+
+`submit_held` preserves a separate native rule: an attached object's camera-owner
+query occurs even if subjective display is inactive or inhibited. Only an eligible
+owner redirects its parent to the subjective actor during submission. A detached
+parent remains absent afterward; a remaining parent, including a replacement
+made by the provider, is restored to the original identity. Rust provider failure
+retains completed mutations and requires caller quarantine rather than replay.
+
+The controls match 8,192 original-PC class-2 dispatches and 144 held-parent
+dispatches, including strict height boundaries, NaN/infinity, parent-class/control
+combinations, owner mismatch, inhibition and kept/detached/replaced parents.
+The native class/flag predicates execute; prelude, preparation and model-submission
+callbacks are intercepted rather than executed. The held owner getter and its
+submission outcomes are supplied. Two synthetic checks separately verify other
+class refusal and retained effects on provider failures. These are CPU contracts,
+not a new live renderer, world admission, completed Session post or fidelity proof.
+
+Native call inspection also distinguishes the actual model-submission entry from
+the previously examined position/draw helper. The submission entry routes parts
+through immediate and deferred work; reaching it does not certify a GPU draw.
+Reuse `render_parts`, `render_sort`, `lod` and the existing shared position bank
+when acquiring its live callers and preparation, rather than adding a parallel
+animation player or inferring material admission from the dispatcher. These
+acquisitions followed prototype PS2 searches; their attributions remain unknown.
+
+Next bind the dispatcher to the completed owned post and actual held identity,
+acquire preparation and the selected immediate/deferred model consumers, and
+retain the menu-to-world camera-startup, target-context and positional-audio
+prerequisites. Main `fire: None` and the existing presentation route remain.
 
 The native pre-copy shares both the Mecc state storage and the reference-matrix
 buffer with the controlled source, while preserving separate subjective channels.
