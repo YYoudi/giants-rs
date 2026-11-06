@@ -30,6 +30,28 @@ raw captures and research tables stay private. Main `fire: None`, live LOD/part
 and material admission, subjective/body drawing, target contexts and positional
 audio remain separate prerequisites; no new playable download follows.
 
+## Flick source support phases — 6 November 2026
+
+Private controls now construct 158 source actors across all 23 bounded persistent
+sources. Forty have independent animation clocks; none of their animated
+references contributes to these 25 FX supports. Actual source camera binding,
+the original PC time/epoch producer and actor-channel updates produce 100 support
+samples at four supplied phase deltas. All 1,700 words match both the explicit-
+clock Rust projection and its current runtime clock selection. All 25 initial
+support caches are cold, and a clean repetition gives identical matrices.
+
+This acquires a bounded support boundary, not full VM/frame scheduling or native
+pixels. Object-channel cadence, world admission/capacity, non-opening triggers
+and full rendering/audio/subtitle parity remain open. Prototype PS2 lookups stay
+unassigned. No runtime behavior or package changes; previous exact executable
+receipts remain authoritative. The 545-source inventory, 59 gap sources and zero
+certified complete scenes are unchanged.
+
+The Rust comparison rebuilt on combined source `4c839be` repeats all 100 matches
+without a runtime-clock difference. Forty Python tests, site export and JavaScript
+syntax checks pass. Source/history review reports zero findings across 234
+reachable commits / 2,094 blobs. These source controls add no new playable build.
+
 ## Kabuto CPU scalar/mode and ordered notifications - 6 November 2026
 
 The scalar/mode helper now preserves source toggles, timer stores, scalar values,
