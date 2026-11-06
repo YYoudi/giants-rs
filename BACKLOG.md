@@ -307,6 +307,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   boundaries. Late provider failure retains prior publication and quarantines
   replay. Cold-only cleanup refuses entered transitions. Full primary, dynamic
   cleanup, geometry-header/render consumption and live admission remain open.
+- Implemented: second-auxiliary normalized-pose selection uses the shared channel
+  setter, source distance arithmetic and ordered local-list minimum stores. The
+  public kernel matches 1,024 original-helper controls / 197,632 full child-header
+  words, including absent-child, local/remote, signed-radius and finite-extreme
+  profiles. Actual Session child/size/pose/list binding matches another 64 source-
+  resource contexts / 6,720 channel/clock/list words. Root identity and preceding
+  poses are supplied; this does not produce a live local player or world pose.
+  Invalid inputs/foreign identities refuse before publication. Owner payload,
+  allocations, lists, unsampled references and pending gates remain unchanged;
+  entered subphases refuse cold-only cleanup. Next acquire the following helper,
+  physical/mode producers and full primary; ANM cadence and movement remain open.
 - Complete the remaining custom cleanup profiles: the active additional-reference
   teardown, GPU material release and dynamic/entered turns. The acquired geometry
   prefix stores class1199 in that reference; its broader gameplay role is unassigned.

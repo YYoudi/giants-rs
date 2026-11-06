@@ -3,7 +3,224 @@ use crate::{actor_animation_phase::Services, kabuto_geometry_transition::*};
 
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private controls and receipt; no window or sound"]
-fn source_kabuto_transition_preserves_order_and_quarantines_partial_failure() {
+fn source_kabuto_auxiliary_animation_binds_owned_fields_and_refuses_stale_inputs() {
+    let (factory, _) = factories();
+    let mut session = Session::new(951);
+    let owner = factory
+        .construct(
+            &mut session,
+            ColdFrame {
+                position: [0., 0., 10.],
+                current: [0.; 3],
+                previous: [0.; 3],
+                angles: [0.; 3],
+            },
+            Blending::Disabled,
+            1,
+        )
+        .unwrap();
+    let group = session.kabuto_group(owner).unwrap();
+    let child = group.second;
+    let ids = std::iter::once(owner)
+        .chain([group.first, group.second])
+        .chain(group.effects)
+        .chain([group.final_effect])
+        .collect::<Vec<_>>();
+    let mut receipt = String::new();
+    let controls = std::env::var_os("GIANTS_KABUTO_AUXILIARY_CONTROLS")
+        .map(|p| std::fs::read_to_string(p).unwrap());
+    let controls = controls.unwrap_or_else(|| {
+        let radius = f32::from_le_bytes(
+            session.get(owner).unwrap().seed.storage.data().unwrap()[0x330..0x334]
+                .try_into()
+                .unwrap(),
+        );
+        [true, false]
+            .map(|local| {
+                let mut words = vec![u32::from(local), radius.to_bits()];
+                for &id in &ids {
+                    words.extend(
+                        session
+                            .get(id)
+                            .unwrap()
+                            .construction_fields
+                            .as_ref()
+                            .unwrap()
+                            .position
+                            .map(f32::to_bits),
+                    );
+                }
+                words
+                    .iter()
+                    .map(|v| format!("{v:08x}"))
+                    .collect::<Vec<_>>()
+                    .join(" ")
+            })
+            .join("\n")
+    });
+    for line in controls.lines() {
+        let words = line
+            .split_whitespace()
+            .map(|v| u32::from_str_radix(v, 16).unwrap())
+            .collect::<Vec<_>>();
+        assert_eq!(words.len(), 38);
+        session
+            .residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()[0x330..0x334]
+            .copy_from_slice(&words[1].to_le_bytes());
+        for (index, &id) in ids.iter().enumerate() {
+            session
+                .residents
+                .get_mut(&id.serial)
+                .unwrap()
+                .construction_fields
+                .as_mut()
+                .unwrap()
+                .position = std::array::from_fn(|i| f32::from_bits(words[2 + index * 3 + i]));
+        }
+        let payload = session
+            .get(owner)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap()
+            .to_vec();
+        let lists = (0..15).map(|i| session.list(i)).collect::<Vec<_>>();
+        let before = session.get(child).unwrap().channels.unwrap();
+        let counts = session.counts();
+        let result = session
+            .select_kabuto_auxiliary_animation(owner, if words[0] != 0 { owner } else { ids[1] })
+            .unwrap();
+        assert!(result.is_finite());
+        assert_eq!(
+            session.get(owner).unwrap().seed.storage.data().unwrap(),
+            payload
+        );
+        assert_eq!((0..15).map(|i| session.list(i)).collect::<Vec<_>>(), lists);
+        assert_eq!(session.counts(), counts);
+        let actor = session.get(child).unwrap();
+        assert_eq!(
+            actor.channels.unwrap(),
+            actor.construction_fields.as_ref().unwrap().channels
+        );
+        assert!(!session.reference_cache_storage(child).unwrap().sampled);
+        let mut output = before
+            .into_iter()
+            .flatten()
+            .chain(actor.channels.unwrap().into_iter().flatten())
+            .collect::<Vec<_>>();
+        output.push(result.to_bits());
+        for members in lists {
+            output.push(members.len() as u32);
+            output.extend(
+                members
+                    .into_iter()
+                    .map(|id| ids.iter().position(|v| *v == id).unwrap() as u32 + 1),
+            );
+        }
+        receipt.push_str(
+            &output
+                .iter()
+                .map(|v| format!("{v:08x}"))
+                .collect::<Vec<_>>()
+                .join(" "),
+        );
+        receipt.push('\n');
+    }
+    if let Some(path) = std::env::var_os("GIANTS_KABUTO_AUXILIARY_RECEIPT") {
+        std::fs::write(path, receipt).unwrap();
+    }
+    assert!(session.kabuto_group(owner).unwrap().primary_started);
+    let before = session.get(child).unwrap().channels.unwrap();
+    session
+        .residents
+        .get_mut(&owner.serial)
+        .unwrap()
+        .seed
+        .storage
+        .data_mut()
+        .unwrap()[0x330..0x334]
+        .copy_from_slice(&0f32.to_le_bytes());
+    assert!(
+        session
+            .select_kabuto_auxiliary_animation(owner, owner)
+            .is_err()
+    );
+    assert_eq!(session.get(child).unwrap().channels.unwrap(), before);
+    session
+        .residents
+        .get_mut(&owner.serial)
+        .unwrap()
+        .seed
+        .storage
+        .data_mut()
+        .unwrap()[0x330..0x334]
+        .copy_from_slice(&1f32.to_le_bytes());
+    session
+        .residents
+        .get_mut(&owner.serial)
+        .unwrap()
+        .kabuto_group
+        .as_mut()
+        .unwrap()
+        .cleaned_up = true;
+    assert!(
+        session
+            .select_kabuto_auxiliary_animation(owner, owner)
+            .is_err()
+    );
+    session
+        .residents
+        .get_mut(&owner.serial)
+        .unwrap()
+        .kabuto_group
+        .as_mut()
+        .unwrap()
+        .cleaned_up = false;
+    let foreign = factory
+        .construct(
+            &mut Session::new(952),
+            ColdFrame {
+                position: [0.; 3],
+                current: [0.; 3],
+                previous: [0.; 3],
+                angles: [0.; 3],
+            },
+            Blending::Disabled,
+            1,
+        )
+        .unwrap();
+    assert!(
+        session
+            .select_kabuto_auxiliary_animation(owner, foreign)
+            .is_err()
+    );
+    assert!(
+        session
+            .select_kabuto_auxiliary_animation(foreign, owner)
+            .is_err()
+    );
+    assert_eq!(session.get(child).unwrap().channels.unwrap(), before);
+    assert_eq!(session.kabuto_group(owner).unwrap().pending.len(), 4);
+    session.clear();
+    assert!(
+        session
+            .select_kabuto_auxiliary_animation(owner, owner)
+            .is_err()
+    );
+    assert_eq!(session.counts().residents, 0);
+}
+
+fn factories() -> (
+    crate::kabuto_initial::Factory,
+    crate::kabuto_auxiliary::ExtraFactory,
+) {
     let root = std::path::PathBuf::from(std::env::var("GIANTS_KABUTO_ROOT").unwrap());
     let source = crate::world_source::resolve(&root, "Kstory1").unwrap();
     let menu = crate::mission_selection::MissionMenu::parse(
@@ -27,6 +244,13 @@ fn source_kabuto_transition_preserves_order_and_quarantines_partial_failure() {
     )
     .unwrap();
     let extra = crate::kabuto_auxiliary::ExtraFactory::load(plan.resources()).unwrap();
+    (factory, extra)
+}
+
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; optional private controls and receipt; no window or sound"]
+fn source_kabuto_transition_preserves_order_and_quarantines_partial_failure() {
+    let (factory, extra) = factories();
     let mut session = Session::new(950);
     let owner = factory
         .construct(

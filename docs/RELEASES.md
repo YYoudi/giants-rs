@@ -1,5 +1,21 @@
 # Preview releases and milestone integration
 
+## Kabuto second-auxiliary selection — 6 November 2026
+
+The owned primary subphase now selects the second auxiliary's normalized pose
+from its acquired size parameter, published actor positions and ordered lists,
+reusing the common channel setter. The actual public kernel matches 1,024 native
+controls / 197,632 full child-header words; an actual-resource Session binding
+matches another 64 contexts / 6,720 channel/clock/list words. Initial pose/root
+identity boundaries and the corrected cold initialization boundary are recorded
+in OWNED_KABUTO.md. This does not advance ANM, produce world poses or implement
+movement/growth. Cold-only cleanup refuses entered acquired primary subphases.
+
+No dependency, bundled resource, new playable capability or preview package is
+introduced. Existing package manifests/notices/checksums retain their exact
+previous runtime and receipt identities; they do not attest to this source API
+or to Kabuto visual fidelity. Full primary and live admission remain pending.
+
 ## Flick physical object stock and actor population — 6 November 2026
 
 The original PC initializer supplies 3,000 physical object slots. A private
