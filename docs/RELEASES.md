@@ -14,6 +14,25 @@ large-angle emulator remainder discrepancy. Full primary, camera/target/item
 producers, water/turbo, live mission controls and fidelity remain pending.
 
 This source/API stage adds no playable Delphi download.
+
+Combined source `adfe9733c765b00d1fd05e6d990b01aff58c80ff` preserves the Mecc
+submission and Kabuto auxiliary work. It passes 763 synthetic Rust tests
+(25 ignored), 40 Python tests, Rustfmt, Clippy, all four installed-data Mecc
+lifecycle controls and the three-owner Delphi lifecycle control. The four
+tilted-start comparisons pass again on that source, alongside the five
+zero-roll regressions. The selected-pattern source/history audit reports no
+findings across 246 commits and 2,154 distinct blobs.
+
+Its exact GNU executable passes both silent development lifecycle endpoints and
+three opening/cancellation cycles. These are common-runtime regressions, not
+Delphi live controls or cinematic fidelity. The private ten-member draft has
+complete notices, matching receipt/review identities and no technical verifier
+blockers. Executable SHA256:
+`0753a8e685c8786d24a13de673cd16a7fa4e7bbae8c7ed58714b2979def24d5b`;
+private ZIP SHA256:
+`226d0879fd9e2fd554ef7143e7eb6f2c9dca6480d80edf44aa7be7ace6a662e2`.
+The public Windows preview retains its separately tested release identity.
+
 ## Mecc body/subjective submission prerequisite - 6 November 2026
 
 The new class-2 dispatcher preserves body/subjective/auxiliary callback order and
