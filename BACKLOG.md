@@ -509,7 +509,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   assets are released, with zero objects/contexts remaining. This does not admit
   Delphi gameplay or verify other scene/gesture combinations, audible playback,
   native pixels or whole-device resource lifetime. Double-click with an active
-  persistent object remains untested.
+  persistent object was not tested on that earlier preview; the later combined
+  build's Rstory5 completion control below covers that gesture separately.
   Native support-generation acquisition now covers 153 bounded producer cases
   (2,461 generation words) plus 20 original command-processor wait cases (1,294
   calls / 1,274 time updates). Within supplied silent scene/header boundaries,
@@ -526,14 +527,36 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   explicit-clock Rust projection and the current runtime clock selection.
   Twenty-five initial support caches are cold; a clean repetition agrees.
   This closes no whole-world admission or fidelity requirement. Full VM/frame
-  scheduling, object-channel cadence and capacity remain to acquire; do not add
+  scheduling and capacity remain to acquire; do not add
   a synthetic delay, first-frame pose or independent-clock substitution based
   only on the count of independent actors. The phase records and raw proofs
   remain private.
+  The native active-context/preparation path now advances two retained object
+  programs through eight preparations, including birth-frame channel advancement.
+  Rust matches all 496 compared words; the context can retire while its object
+  survives. The private harness now supplies sufficient stack for the real
+  interpreter; no byte patch or invented first-frame delay is used. This bounded
+  control does not establish whole-world allocation, capacity or scheduling.
+  Source-declared completion replay is now integrated into Preview tools and the
+  existing menu/loader/film lifecycle, with a distinct inspection launch intent.
+  All 23 cohort sources have declared routes: four startup and 19 completion.
+  Five completion choices across four cohort worlds preserve original mission
+  indices; changed source bytes are refused. No guessed alias is added.
+  Exact implementation source `4ef72a1` passes actual muted UI controls for
+  Rstory5 mission 2 (19 directors) and mission 3 (33): both natural endings,
+  then mission 2 re-entry and Escape after persistent birth. Tracked film assets,
+  objects/contexts and session entities are released; the three preview profile
+  files remain unchanged after initial unlock. Existing attachment omissions and
+  a reserved Mecc audio-source refusal remain visible. The replay route does not
+  reconstruct native live replay state, mark victory or admit Delphi gameplay.
+  Combined source `c96c4a2` also passes actual muted UI double-click after birth
+  and draw, returning to the menu with tracked cleanup and no reserved Mecc audio
+  override. This verifies that gesture on Rstory5 mission 2 only; other scene and
+  gesture combinations remain open. Both development lifecycle endpoints pass.
   The 59-source gap total, 56 general-queue admission refusals and 282 strict-
   profile reviews remain: this is a partial runtime path, not 23 fully admitted
-  or faithful scenes. In-mission producers are still needed for non-opening
-  sources. Live support generations, native world scheduling/admission and pool
+  or faithful scenes. Native in-mission producers remain required for gameplay triggers; the
+  source-backed inspection route does not implement those callbacks. Live support generations, native world scheduling/admission and pool
   capacity, complete rendering/audio/subtitle parity and broader interactive coverage remain
   open. Next: finish these persistent contracts, then the mixed/other queue
   families and the overlapping partial FX/audio/credits/resume priorities below.

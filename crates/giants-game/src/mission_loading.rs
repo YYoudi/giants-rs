@@ -7,6 +7,8 @@ use std::path::{Path, PathBuf};
 pub enum LaunchIntent {
     NewCampaign,
     SavedMission,
+    /// Source-declared completion film in a fresh mission inspection context.
+    CompletionReplay,
 }
 
 #[derive(Clone, Debug)]
@@ -191,6 +193,35 @@ impl Campaign {
             .request(&self.world.as_ref().ok_or("World missing")?.name, index)
             .map_err(|e| e.to_string())
     }
+    /// Menu choices retain the original mission index and context. Only exact
+    /// source-declared completion names are accepted; no startup aliases or
+    /// fallback mission slots are invented for replay.
+    pub fn completion_replays(&self) -> Result<Vec<LoadRequest>, String> {
+        let world = self.world.as_ref().ok_or("World missing")?;
+        let decoded = giants_formats::world::parse_world(&self.catalog(&world.name)?)
+            .map_err(|e| e.to_string())?;
+        let menu = self.menu.as_ref().ok_or("Mission menu missing")?;
+        let mut requests = Vec::new();
+        for index in 0..menu.entries.len() {
+            let request = self.request(index)?;
+            let mission = giants_formats::mission::parse(&read_member(
+                &self.root,
+                &format!("wm_{}.bin", request.mission_name),
+            )?)
+            .map_err(|e| e.to_string())?;
+            if crate::mission_cinematics::select_completion(
+                &decoded,
+                &mission,
+                &request.mission_name,
+            )?
+            .director
+            .is_some()
+            {
+                requests.push(request);
+            }
+        }
+        Ok(requests)
+    }
     /// New campaign requests the first source mission without overwriting progress.
     pub fn new_campaign(&self) -> Result<LoadRequest, String> {
         let first = self
@@ -318,6 +349,14 @@ impl PreparedMission {
     pub fn opening(&self, root: &Path) -> Result<crate::mission_cinematics::Opening, String> {
         self.validate_inputs(root)?;
         crate::mission_cinematics::select(
+            self.world.as_ref().ok_or("prepared world missing")?,
+            self.mission.as_ref().ok_or("prepared mission missing")?,
+            &self.request.mission_name,
+        )
+    }
+    pub fn completion(&self, root: &Path) -> Result<crate::mission_cinematics::Opening, String> {
+        self.validate_inputs(root)?;
+        crate::mission_cinematics::select_completion(
             self.world.as_ref().ok_or("prepared world missing")?,
             self.mission.as_ref().ok_or("prepared mission missing")?,
             &self.request.mission_name,
