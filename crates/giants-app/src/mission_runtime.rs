@@ -731,6 +731,9 @@ impl Runtime {
         let Some(active) = &self.active else {
             return Ok(None);
         };
+        if active.start.intent == LaunchIntent::CompletionReplay {
+            return Err("completion cinematic replay is an inspection context; gameplay admission is not available".into());
+        }
         let p = &active.payload;
         if !p.packet.needs.is_empty() {
             return Err("mission data still has needs".into());
@@ -1616,6 +1619,7 @@ fn drive(
     }
     for event in requested.read() {
         if event.ticket != scene.flow.ticket
+            || event.intent != scene.launch_intent()
             || cancelled_tickets.contains(&event.ticket)
             || scene.flow.phase != Phase::AwaitingRuntime
             || runtime.handled == Some(event.ticket)
@@ -1642,6 +1646,7 @@ fn drive(
         let cancel = Arc::new(AtomicBool::new(false));
         let worker_cancel = Arc::clone(&cancel);
         let showcase = showcase.enabled();
+        let intent = event.intent;
         let (tx, rx) = mpsc::channel();
         std::thread::spawn(move || {
             let result = (|| {
@@ -1673,7 +1678,25 @@ fn drive(
                 if worker_cancel.load(Ordering::Relaxed) {
                     return Err("mission staging cancelled".into());
                 }
-                let opening = packet.opening(&root);
+                let opening = if intent == LaunchIntent::CompletionReplay {
+                    packet.completion(&root).and_then(|selection| {
+                        if selection.director.is_some() {
+                            Ok(selection)
+                        } else {
+                            Err("selected mission has no declared completion cinematic".into())
+                        }
+                    })
+                } else {
+                    packet.opening(&root)
+                };
+                println!(
+                    "mission_cinematic_selection intent={intent:?} source_role={} native_replay_state_reconstructed=false",
+                    if intent == LaunchIntent::CompletionReplay {
+                        "completion"
+                    } else {
+                        "startup"
+                    }
+                );
                 let mut playback = opening
                     .as_ref()
                     .map_err(Clone::clone)
@@ -2761,6 +2784,11 @@ mod tests {
             }),
             ..Default::default()
         };
+        runtime.active.as_mut().unwrap().start.intent = LaunchIntent::CompletionReplay;
+        assert!(
+            matches!(runtime.startup(), Err(reason) if reason.contains("replay is an inspection context"))
+        );
+        runtime.active.as_mut().unwrap().start.intent = LaunchIntent::SavedMission;
         cancel_ticket(&mut runtime, &mut Commands::new(&mut queue, &world), 8);
         queue.apply(&mut world);
         assert!(runtime.active.is_some());

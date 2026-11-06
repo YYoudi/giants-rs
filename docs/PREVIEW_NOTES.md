@@ -1,10 +1,10 @@
-# Windows x64 development preview - preview-2026.11.06.1
+# Windows x64 development preview - preview-2026.11.06.2
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
 another folder, a picker asks for the installation and remembers the selection.
-The package includes the executable, launcher, instructions, license and notices.
-Linux and macOS binaries remain future work. Supply your own game installation.
+The ZIP includes the executable, launcher, instructions, license and notices.
+Supply your own game installation. Linux and macOS downloads remain future work.
 
 Approximately 99% of current project content is AI-generated according to the
 owner's estimate and has not received comprehensive human review. This estimate
@@ -12,125 +12,45 @@ is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
 
-Compared with preview-2026.11.05.6: a bounded persistent attached-FX path now
-connects real Flick events to ticket-owned contexts and objects in the common
-film renderer. Context retirement preserves the object; repeated source slots
-retain earlier objects on the same current support. The renderer consumes the
-owned object's current world matrix and animation channel, without ticking a
-second animation clock. Director changes, cancellation and film release retire
-these source-marked objects without lifetime children.
+## New completion cinematic route
 
-The candidate family contains 25 requests in 23 sources across four worlds.
-CPU controls cover both entries of every source. This does not make all 23
-accessible from the menu: some depend on unfinished in-mission triggers.
-World admission, native scheduling/generation order, pool capacity and complete
-visual fidelity remain open. Persistent rendering does not waive the existing
-mission-readiness gate; the full inventory's general-queue refusals remain.
+Compared with preview-2026.11.06.1, **Preview tools → Completion cinematics** opens
+source-declared completion films through the existing menu and mission loader.
+Filtered choices retain original mission slots. The bounded persistent-FX cohort
+now has four opening and 19 completion source routes. No guessed name alias or
+slot-zero fallback is used. Replay does not record victory, restore original live
+replay state or admit character gameplay. Natural ending or skipping enters the
+partial free-camera preview; Escape returns to the menu.
 
-This exact preview passes three silent main-menu cancellations with live
-persistent objects, two Rstory1 source-terminal/re-entry cycles and both
-development lifecycle endpoints. 733 Rust tests pass (22 ignored), 38 Python
-tests, formatting and Clippy pass. A later silent manual main-menu control of this
-same executable checks Rstory1 mission 3: Escape after persistent birth, natural
-completion on a second entry and double-click before birth on a third entry.
-Each returns through the partial free-camera scene to the menu with tracked
-cleanup. Delphi gameplay, double-click with a live persistent object, broader
-interactive coverage and complete scenes remain unverified. The 545-source batch and longer Kstory1/Story4 natural controls
-are separately pinned to the initial implementation source; they are not fresh
-whole-corpus or long-chain measurements of this later executable.
+Actual muted UI controls on the implementation build cover Rstory5 mission 2's
+19-director and mission 3's 33-director chains, both natural endings, then mission
+2 re-entry and Escape after persistent birth. Tracked cleanup and unchanged
+preview profile files after initial unlock are recorded. Existing legacy
+attachment omissions remain. Implementation and subsequent combined-build
+identities and their distinct checks are retained in RELEASES.md.
 
-The prior typed FX-prefix correction is retained: shadow/text/range/audio state
-and unrelated actor offsets do not block placement; relevant local mutations,
-unknown commands and malformed payloads remain refused. Complete scenes have
-not been certified.
+The preceding persistent queue, repeated-slot support reuse and source-marked
+cleanup remain integrated. Its 23 sources contain 25 requests. Native support
+controls compare 100 samples / 1,700 words; separate object-channel controls compare
+two programs / eight preparations / 496 words. Bounded CPU matches do not verify
+full VM/world scheduling, allocation or capacity. These routes do not implement
+native in-mission triggers. The existing mission-readiness gate remains.
 
-Catch-up particle allocation, ordinary-frame film ownership and character-scoped
-Mecc cue preparation from the preceding previews remain. No source placement,
-duration, effect, sound alias or fabricated audio cursor was added.
+## Accessible path and limits
 
-Retained: exhausted synchronization streams report zero audio time, disabling
-drift correction while the director continues on its own clock. No realtime
-audio cursor is fabricated after track retirement.
+The dedicated Preview All profile exposes mission browsing, completion cinematics,
+a Mecc development arena and installation changes. Existing profiles are preserved;
+original saves are not imported. Selected missions can present partial cinematics
+and supported Mecc controls. Unsupported entries may remain scene inspection or
+refuse startup. User state is outside the read-only installation. Read QUICK_START.md.
 
-Natural-ending transport checks now use the integrated menu path, real audio
-sinks at zero volume, actual source terminals and a second mission entry. They
-compare prepared director/voice/sync counts against observed playback and release
-receipts. Voice retirement records whether the owned sink was actually empty;
-a missing or active sink cannot count as a completed voice.
+The combined source passes 764 synthetic Rust tests (25 ignored), 40 Python tests,
+Rustfmt and Clippy. Exact executable/package receipts and runtime checks are
+recorded in RELEASES.md and the release manifest. Earlier previews' UI or natural-
+ending checks are not re-labelled as measurements of this combined executable.
 
-## Accessible path and retained features
-
-The independent Preview All profile exposes the mission catalog. Preview tools
-provides mission browsing, a Mecc development arena and installation changes.
-Original saves are not imported; existing profiles are preserved. Unlocking the
-catalog does not implement missing gameplay or character services.
-
-Selected missions can present partial cinematics and supported Mecc controls.
-Unsupported entries may remain scene inspection or refuse startup. Read
-QUICK_START.md. User state is kept outside the installation. Ticket-owned text
-cleanup and the preceding support-basis, visibility and projectile fixes remain.
-
-Concurrent owned target-context source work is retained. Its provider is still
-not connected at the live mission primary/camera/fire boundary; it does not add
-a new accessible weapon or reticle in this preview. See OWNED_TARGETING.md.
-
-## Validation scope and remaining limits
-
-Synthetic controls passed: 706 Rust tests, 16 ignored; 30 Python tests; Rustfmt
-and Clippy. Build artifacts use a dedicated target directory; a contaminated
-shared-cache test inventory was rejected. Exact-reference CPU controls cover
-32 stream-time queries and six retirement paths with supplied device/event
-inputs. They do not establish real device notification timing or audio mix.
-
-The receipt-bound runtime checks and exact package identities are recorded in
-the release description and manifest.json. tools.cinematic_smoke --full checks
-source-terminal transport and re-entry; it does not certify a complete rendered
-scene. Story1 mission 5 has no declared bitmap-text block/call and exercises
-sync-track exhaustion. Story4 mission 1 exercises text-atlas cleanup. Their
-post-film gameplay/preview distinction must remain explicit in validation results.
-
-This exact executable passes two silent natural-terminal/menu/re-entry cycles
-each for Story4 mission 2 (54 directors) and Story4 mission 1, plus both development
-lifecycle endpoints. The newly admitted terminal pair actually spawns and retires
-in director42 on both long-chain entries. The long chain retains its explicit
-AwaitingRuntime Mecc preview; the control reaches Gameplay. Text atlases and
-tracked main-world film assets are released. Complete GPU/process memory
-reclamation, native scheduling, visual/audio parity and interactive input remain
-unverified. General effect refusals stay explicit rather than being acknowledged.
-
-The executable is pinned to source 73f7b1b14d5d9b8b813de68f2ab36c26c4db1ba0.
-The older .4 menu matrix stopped after 24 completed passes out of 29; its
-partial/remaining cases are unverified and belong to that separate executable.
-
-All 545 historical sources across 16 worlds remain in scope; zero complete scenes
-have verified fidelity. Effects, actor variants, lighting, shadows, water, native
-cadence, audio/subtitle parity, skipping, full mission rules and all-source
-continuity remain incomplete. Interactive verification is explicitly pending
-during background-only work. Keep captures, logs and research evidence private.
-
-## Package checks
-
-The ZIP contains the independent runtime and project documentation only; no
-original archives, extracted assets, audio or reference screenshots are included.
-Dependency/runtime notices and an inventory accompany it. Public packages require
-a matching technical review and build receipt, complete notices, and independent
-ZIP/checksum verification. A checksum confirms identity, not legal clearance.
-
-## Source capabilities without live mission integration
-
-The owned Session can now publish the local target prepass's typed relationships,
-aim point and terrain-reticle flag. Controlled CPU comparison and failure/lifecycle
-checks are recorded in OWNED_TARGETING.md. This API is not yet called at the live
-mission primary/fire boundary and does not add an accessible weapon or reticle
-to this preview.
-
-Source context work now connects class initialization/copies, Mecc child
-inheritance and acquired Ripper/projectile context publications to the owned
-target-header provider. Its controlled CPU checks are recorded in
-OWNED_TARGETING.md. Complete mission mutations, the class805 special header and
-live primary/camera/fire scheduling remain pending.
-
-The local callback now couples the actual owned scan to range-reticle state and
-tracked/untracked pistol requests. Its controlled full-callback comparison is in
-OWNED_LOCAL_FIRE.md. The main mission driver still does not call this phase;
-including this source API does not add accessible firing to this preview.
+Zero complete cinematic scenes are verified. The inventory retains 59 gap sources,
+including 56 general-FX queue prerequisites, and 282 separate strict-profile
+reviews. Native gameplay triggers, world admission/capacity, full character
+controllers, exact camera/material/light/shadow/water/effect rendering, audible
+voice mix, subtitles and temporal parity remain incomplete or unverified.
