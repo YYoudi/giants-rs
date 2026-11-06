@@ -950,10 +950,7 @@ pub(super) fn update(
             }
         }
         if controller.owned_replay && controller.replay_done && !controller.owned_draw_reported {
-            assert_eq!(
-                owned_body_parts,
-                controller.state.body.mesh.subobjects.len()
-            );
+            assert_eq!(owned_body_parts, controller.state.body_draw_part_count());
             println!(
                 "mission_owned_inspection_upload ticket={} steps={} body_parts={owned_body_parts} camera_eye_bits={:?} mesh_from_owned_pose=true anm_repeated=false ready=false",
                 controller.ticket,

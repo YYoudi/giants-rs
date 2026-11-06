@@ -1193,6 +1193,14 @@ impl State {
             .and_then(|f| f.draw_model.as_ref())
             .map_or(Some(0), |d| d.positions().map(|_| d.slot()))
     }
+    pub(crate) fn body_draw_part_count(&self) -> usize {
+        self.owned_pose
+            .as_ref()
+            .and_then(|f| f.draw_model.as_ref())
+            .map_or(self.body.mesh.subobjects.len(), |d| {
+                d.model().map_or(0, |m| m.prepared.mesh.subobjects.len())
+            })
+    }
     pub(crate) fn expanded_draw_model(&self, slot: usize, part: usize) -> Option<Vec<[f32; 3]>> {
         let Some(draw) = self.owned_pose.as_ref().and_then(|f| f.draw_model.as_ref()) else {
             return (slot == 0).then(|| self.expanded(part));
