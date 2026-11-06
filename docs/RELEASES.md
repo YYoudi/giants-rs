@@ -1,5 +1,30 @@
 # Preview releases and milestone integration
 
+## Flick generation acquisition and interactive transport — 6 November 2026
+
+The existing `preview-2026.11.06.1`, source
+`0b050fbcf89eeae0ff0dd473133d496ac3496aa7`, now has an additional silent manual
+main-menu check on Rstory1 mission 3. Escape skips after persistent-object birth;
+the second entry reaches natural completion; the third entry double-clicks out
+before object birth. All three reach the partial free-camera scene and return to
+the mission menu. Tracked owned assets/session entities are released, with zero
+remaining persistent objects/contexts. First-mission loading cancellation also
+returns to the main menu, and F10 closes the test window. These are actual UI
+inputs without replay mode. They do not establish Delphi gameplay admission,
+native rendering/timing fidelity, audible voice/subtitle parity, double-click
+with a live persistent object, or coverage of other scenes.
+
+Separate private PC controls acquire the generation producer and its original
+wait caller: 153 producer cases / 2,461 generation words and 20 wait cases /
+1,294 process calls. An unsatisfied wait advances time and then renews director
+and actor generations; a satisfied wait proceeds without that update. Source
+construction/render-cache phase, world scheduling and capacity remain open.
+Prototype PS2 lookups precede the acquisition and remain unassigned. No private
+inputs, listings or receipts are published. This evidence/documentation milestone
+changes no Rust runtime or package; existing build/checksum receipts retain their
+own source identities, and the 545-source inventory and zero certified scenes
+are unchanged.
+
 ## Prototype PS2 method follow-up — 6 November 2026
 
 The central reconstruction method now makes seven current Mecc primary/subjective

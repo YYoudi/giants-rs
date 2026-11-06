@@ -396,11 +396,28 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   The cyclic observer now stays pending until its requested object exists;
   whole-world presentation and one-shot capture completion cannot end this probe
   early. This tests cancellation services, not interactive skip gestures.
+  A later silent interactive control of that same preview uses the actual main
+  menu and Rstory1 mission 3: Escape skips after a persistent object is born,
+  a second entry reaches natural completion, and a third entry skips with a
+  double-click before the object is born. Each returns through the partial
+  free-camera scene to the mission menu; tracked session entities and owned
+  assets are released, with zero objects/contexts remaining. This does not admit
+  Delphi gameplay or verify other scene/gesture combinations, audible playback,
+  native pixels or whole-device resource lifetime. Double-click with an active
+  persistent object remains untested.
+  Native support-generation acquisition now covers 153 bounded producer cases
+  (2,461 generation words) plus 20 original command-processor wait cases (1,294
+  calls / 1,274 time updates). Within supplied silent scene/header boundaries,
+  an unsatisfied wait updates the clock and renews director then actor generations;
+  a satisfied wait dispatches onward without that update. Initial clock reset
+  still renews generations. Actual source construction/render/cache phase and
+  world scheduling remain prerequisites; these controls add no runtime behavior.
+  Identity-bound prototype PS2 lookups remain unknown, separate from PC behavior.
   The 59-source gap total, 56 general-queue admission refusals and 282 strict-
   profile reviews remain: this is a partial runtime path, not 23 fully admitted
   or faithful scenes. In-mission producers are still needed for non-opening
   sources. Live support generations, native world scheduling/admission and pool
-  capacity, complete rendering/audio/subtitle parity and interactive skip remain
+  capacity, complete rendering/audio/subtitle parity and broader interactive coverage remain
   open. Next: finish these persistent contracts, then the mixed/other queue
   families and the overlapping partial FX/audio/credits/resume priorities below.
 
