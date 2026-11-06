@@ -35,7 +35,7 @@ control. It does not repeat the implementation build's two natural-ending checks
 Three silent selected-mission cancellations also pass after actual persistent
 birth and two owned updates on Rstory1 zero-based mission index 2, with released
 text/film assets and zero objects/contexts. An earlier runner request incorrectly
-used index 3, whose startup chain has no target object; that pending/failed attempt
+used index 3, whose startup chain has no target object; that timed-out attempt
 is retained privately and is not counted as a successful cancellation control.
 
 The receipt-bound, ten-member Windows package has SHA256
@@ -43,6 +43,10 @@ The receipt-bound, ten-member Windows package has SHA256
 Notice collection and independent local ZIP/member/checksum validation pass with
 zero technical blockers. Runtime source and package identities above remain fixed
 when later documentation checkpoints are published.
+The package is published as
+[preview-2026.11.06.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.06.2).
+An independent download from that release matches the local archive, executable,
+ten-member inventory and adjacent checksum. No standalone executable is offered.
 
 Separate original-PC/Rust object-phase controls match two programs, eight actual
 preparations and 496 channel/matrix words. Native birth-frame advancement is
