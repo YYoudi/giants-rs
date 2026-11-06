@@ -22,6 +22,24 @@ and combat remain pending. No Delphi playable download or fidelity claim follows
 Prototype PS2 attributions remain unknown; the private lookup and alias records
 are retained separately from these reviewed summaries.
 
+Combined source `a1b29db` preserves the newer Mecc descent inspection and persistent
+Flick traversals. It passes 769 Rust tests (27 ignored), the enriched Delphi
+source-data lifecycle, four installed-data Mecc controls, 40 Python tests,
+Rustfmt and Clippy. The selected-pattern source/history audit reports no findings
+across 311 commits and 2,404 blobs. The dashboard retains 510 pinned images,
+305 comparisons and four recorded Bevy captures; none is a live Delphi capture.
+
+The exact GNU executable passes both silent development lifecycle endpoints and
+three Rstory1 mission-index-2 cancellations after real persistent-object updates,
+with tracked resource release. The ten-member private validation draft includes
+complete notices and passes receipt-bound checksum/member validation with zero
+technical blockers. Executable SHA256:
+`dd2f55811520d736ec603743dff95630dc9ccccb2f7e165f107faa9d90456f80`;
+private archive SHA256:
+`7cd766fdf86f7e757330bd920846148a9d475abd12d8277e5f84f70d8d4e7dc5`.
+These common-runtime checks are not Delphi gameplay controls; subsequent source
+merges retain their own identity and do not alter these binary receipts.
+
 ## Flick persistent ordinary/effect traversals — 6 November 2026
 
 First owned constant-attached preparation now consumes the constructor gate and
