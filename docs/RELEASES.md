@@ -21,6 +21,27 @@ The remaining primary/auxiliary producers, ordinary camera and runtime wiring,
 water/turbo and combat stay on the backlog. This CPU/API stage adds no playable
 Delphi download. Prototype PS2 attribution remains unknown.
 
+The debug and optimized probes repeat all three compositions and the separate
+arithmetic controls at source `728786f`. The camera implementation is unchanged
+in combined source `983217f60ec95a74e114c14f464799207a9766c9`, which preserves the
+Mecc model uploads, Kabuto geometry transition, Flick replay and 509 gallery
+images / 305 comparisons. It passes 764 Rust tests (26 ignored), four installed-
+data Mecc controls, the enriched Delphi lifecycle control, 40 Python tests,
+Rustfmt, Clippy and site checks. The selected-pattern history audit reports no
+findings across 285 commits and 2,318 blobs.
+
+Its exact GNU executable passes both silent development endpoints, three Rstory1
+mission-index-2 cancellations after persistent-object birth/update, and three
+128-step owned Mecc render/cancel/re-entry cycles. Each render cycle uploads the
+selected model's six body parts and releases the ticket's entities. These are
+common-runtime regressions, not Delphi live controls or cinematic fidelity.
+The private ten-member draft has matching notices, receipt/review identities and
+checksums with zero technical verifier blockers. Executable SHA256:
+`b1a4bc75510576dddc95a42547b85b37b2873b681e1cbd3ae80e98bde81601e4`;
+private ZIP SHA256:
+`33a96376cfbdaef7f85a6404e78118b12e036c4729764eba145fef63dec0a14c`.
+Subsequent source changes and the public preview retain their separate identities.
+
 ## Owned camera-selected body models - 6 November 2026
 
 The experimental owned mission driver selects the body model from its actual
