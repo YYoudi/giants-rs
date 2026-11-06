@@ -42,6 +42,13 @@ private ZIP SHA256:
 `33a96376cfbdaef7f85a6404e78118b12e036c4729764eba145fef63dec0a14c`.
 Subsequent source changes and the public preview retain their separate identities.
 
+Source merge `4bd556c` preserves the subsequent Mecc descent correction and
+Kabuto auxiliary-animation work. It passes 767 Rust tests (27 ignored), all four
+installed-data Mecc controls, the enriched Delphi control, 40 Python tests,
+Rustfmt, Clippy and site checks. The selected-pattern source/history audit reports
+no findings across 292 commits and 2,337 blobs. The executable and package above
+remain bound to `983217f`; later Mecc runtime receipts are recorded separately.
+
 ## Owned secondary descent guard - 6 November 2026
 
 Source `d3f2ef9` corrects the ordinary secondary's inverted height comparison.
