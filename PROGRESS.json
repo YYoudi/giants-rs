@@ -424,7 +424,7 @@
       "title": "Complete world and actor rendering",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "All required maps, terrain layers, buildings, scenery, characters, materials, lighting and shadows remain incomplete. Owned subjective positions use the shared model bank (64 controlled frames / 544 snapshots); body/subjective and held-parent submission policies match 8,192 + 144 native cases. Callbacks, live post/held binding, LOD/part/material preparation and drawing remain unbound; CPU contracts do not certify a rendered scene."
+      "detail": "All required maps, terrain layers, buildings, scenery, characters, materials, lighting and shadows remain incomplete. Owned subjective positions use the shared model bank (64 controlled frames / 544 snapshots). The body dispatcher and held-parent pose wrapper match 8,192 + 144 native cases; 32 post-bound normal-pistol matrices match original attachment execution. Live scheduling/finalization, LOD/part/material preparation and drawing remain unbound; CPU contracts do not certify a rendered scene."
     },
     {
       "id": "water-environment",

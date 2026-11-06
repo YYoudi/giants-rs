@@ -389,6 +389,17 @@ impl<K: Copy + Eq> State<K> {
 }
 
 impl State<crate::resident_states::Id> {
+    pub(crate) fn matches_shared_references(
+        &self,
+        matrices: &[crate::procedural_aim::Matrix],
+    ) -> bool {
+        let expected = self.references.matrices();
+        expected.len() == matrices.len()
+            && expected.iter().zip(matrices).all(|(a, b)| {
+                a.flags == b.flags && a.values.map(f32::to_bits) == b.values.map(f32::to_bits)
+            })
+    }
+
     pub(crate) fn acknowledge_owned_post(&mut self) {
         debug_assert!(self.owned_preparation && self.phase == Phase::Finished);
         self.geometry_ready = true;

@@ -1,11 +1,33 @@
 # Preview releases and milestone integration
 
+## Session-bound subjective held matrix - 6 November 2026
+
+The normal pistol's subjective matrix now reads the actual completed Session post,
+virtual affine/scale, shared source references and current child handle. It reuses
+ordinary attachment composition without a second animation player, real-parent
+mutation or overwrite of the frozen cache used by firing. Replaced shared
+references are refused alongside the existing stale/foreign/failed/skipped and
+numeric-post boundaries. Installed-data lifecycle controls exercise these cases.
+
+Provider inspection corrects the earlier name: the held-parent wrapper is a
+world-pose update, not graphics submission. `update_held_pose` is its current entry;
+`submit_held` remains a deprecated historical alias. Two controls compare 32
+subjective matrices / 544 words across 64 source frames against original attachment
+execution over captured post/reference snapshots. Position/history/spatial
+finalization is intercepted. The existing 144 wrapper cases retain their narrower
+parent/owner/provider scope; they never established a GPU draw.
+
+Live held scheduling/finalization, body/subjective model admission and rendering,
+startup camera, target contexts and positional audio remain required. Prototype
+PS2 attributions remain unknown. No new playable preview or executable/package
+receipt follows this CPU prerequisite; previous receipts retain their identities.
+
 ## Mecc body/subjective submission prerequisite - 6 November 2026
 
 The new class-2 dispatcher preserves body/subjective/auxiliary callback order and
-suppression. A separate held-object wrapper preserves temporary parent redirection,
+suppression. A separate held-object pose wrapper preserves temporary parent redirection,
 owner-query timing and provider detachment/replacement semantics. Native controls
-match 8,192 body-policy cases and 144 held-parent cases; geometry callbacks and
+match 8,192 body-policy cases and 144 held-parent pose cases; geometry callbacks and
 held owner/results remain supplied. Other character profiles remain separate.
 Synthetic failure checks preserve completed effects and refuse unrelated classes.
 

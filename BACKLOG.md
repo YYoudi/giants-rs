@@ -395,6 +395,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   submission entry is distinct from the previously examined draw helper. Keep
   other-character rules separate and retain detached parents and late failures.
   Main-driver startup camera, target contexts and positional audio remain open.
+- Subjective held pose: provider inspection identifies the held wrapper as an
+  attachment/world-pose phase, not graphics submission; `submit_held` remains a
+  deprecated alias of `update_held_pose`. The normal pistol now samples the actual
+  completed virtual affine and shared references without advancing ANM or changing
+  its real binding/frozen firing cache. Two 32-frame controls match 32 matrices
+  (544 words); position/history/spatial finalization is intercepted. Lifecycle
+  checks refuse stale/foreign/cleared/skipped/numeric and replaced-reference input.
+  Next acquire the enclosing held pose/finalization scheduling and connect actual
+  body/subjective/held rendering through live culling, LOD, parts and materials.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated
