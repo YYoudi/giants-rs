@@ -3,6 +3,9 @@
 Further acquisition and implementation follow [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md),
 including the mandatory prototype PS2 name lookup. Existing PC evidence and
 aliases retain their scope; a recovered name does not validate fire scheduling.
+The central method's current-function follow-up records the primary, pre/post,
+selector, placement and getter searches separately: all seven PS2 attributions
+remain unknown despite the PC/Rust controls below.
 
 ## Primary versus subjective dispatch
 
@@ -10,10 +13,11 @@ The optional primary API now requires an explicit `first_person::Display` status
 the actual camera owner and whether the pre-world subjective representation is
 active. This status is independent of `FireView::first_person`. A matching active
 display means the native primary defers firing to its subjective post-world
-phase. That phase is not bound by the current primary API, so its preflight
+phase. That phase is not bound by the immediate primary API, so its preflight
 refuses this route before physical/ANM, actor-payload, FX or RNG updates. A foreign
 mission display binding is also refused. This is an unsupported-phase guard,
-not a completed subjective scheduler; the application still supplies `fire: None`.
+not a completed world scheduler. The explicit deferred route below now composes
+the acquired post phase; the application still supplies `fire: None`.
 
 The dispatch predicate matches 512 controlled cases against the full original PC
 helper and camera-owner getter, plus the prototype PS2 comparison body. Cases
@@ -25,10 +29,55 @@ getter result and translates two integer return moves within the admitted
 Private native pre/post-world observations and actual primary-API preflight
 checks are recorded in [RELEASES.md](RELEASES.md). The owned subjective composition
 below now produces its acquired channel/header/placement/ANM subset. Remaining
-world binding must provide real camera timing, deferred firing, vertices and
+world binding must provide real camera timing, vertex/rendering integration and
 audio with native ordering retained.
 The existing presentation-only subjective player is not a substitute for those
 services. A post-primary camera cache cannot supply an unacquired earlier view.
+
+## Deferred primary and actual post-world fire
+
+`Session::advance_mecc_subjective_world` requires an actual Session pre-copy for
+the matching source, resource and frame. Generic supplied-field preparation is
+insufficient. It executes the ordinary world/primary/secondary path with firing
+commands admitted, while skipping the local fire callback and its auxiliary reset
+at the body boundary. Native sentinel observations independently distinguish this
+preservation from the non-firing profile's reset. Completed bodies retain a post
+obligation that blocks another history/primary until it is consumed or cleared.
+
+After the actual held-pose producer has finished the same frame,
+`Session::advance_mecc_subjective_post` derives current flags, selected pistol,
+authored icon family/offset and object time from owned state/resources. It runs
+virtual selection/placement and first ANM, publishes shared references, executes
+the real local target/fire/projectile/effect callback, then runs zero-time ANM.
+Its muzzle adapter reads the **current** held world cache; the immediate primary
+continues to read the prior completed cache. Virtual reference writes never
+reattach/recompute that frozen held cache from the newly overwritten body store.
+The generic selector now consumes current model rates1/2 and angular rate; the
+ANM updater retains all four current rates. Earlier supplied-header controls did
+not establish the Session adapter's rate mapping.
+
+Four continuous native/Rust comparisons pass 320 frames / 144 active subjective
+updates / 12 shots (8 post-world, 4 immediate) / 391,552 normalized snapshot words.
+They include stationary turning, view/resource transitions and held/pulsed input,
+and compare complete source header/payload, acquired virtual fields, shared and
+held reference caches, projectile construction, FX contexts, RNG and epochs.
+Both ordinary and deferred fire execute in Rust. Camera production/eligibility,
+initial camera ownership and the partial Mecc-then-held world population/order
+remain supplied; the positional sound registry is explicitly empty. This proves
+neither a complete mission scheduler, targeted subjective encounters nor visual
+or audible fidelity. The original 576-frame / 22-shot primary matrix and its ten
+failure controls still pass independently.
+
+A source-backed lifecycle control covers preserved nonzero auxiliary fields and
+clocks, genuine preparation, required current held pass, next-frame blocking,
+successful/no-shot callbacks and late sound failure. The latter retains the real
+born projectile, named FX, RNG and first virtual ANM; failed or completed posts
+cannot replay. Cancellation invalidates the source identities. See BUILD.md.
+Main admission still needs the actual inner/outer camera pass sequence, acquired
+posed-vertex sharing and subjective/body drawing policy, complete scene target
+contexts and positional audio. Existing previews do not expose this owned fire
+route. Prototype PS2 names remain unassigned for the pre/post/selector/primary
+correspondences; no platform ABI or layout is inferred from candidate names.
 
 ## Shared subjective reference storage
 
@@ -79,9 +128,10 @@ A source-backed lifecycle control covers exact resource ownership, foreign ticke
 invalid time, reference/fire failures, retained source writes, inhibited firing,
 inactive channel retention and cancellation. It runs silently using a supplied
 installation; see [BUILD.md](BUILD.md). The primary's active-display refusal and
-the application's `fire: None` remain until the real deferred-primary obligation,
-inner/outer camera pass timing, posed-vertex/muzzle consumers, targeting headers
-and positional audio can be composed coherently. Existing presentation playback
+the application's `fire: None` remain. The new deferred API supplies its own
+obligation and actual normal-pistol callback, but inner/outer camera production,
+posed-vertex/render consumers, complete targeting headers and positional audio
+still need coherent main-driver binding. Existing presentation playback
 does not satisfy these prerequisites. Prototype PS2 lookups for the pre/post and
 selector routines remain unassigned; this module imports no PS2 signature/layout.
 

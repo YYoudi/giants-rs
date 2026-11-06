@@ -116,6 +116,7 @@ pub(crate) struct Owned {
     pub(crate) orientation: bool,
     pub(crate) world_history: Option<u64>,
     pub(crate) world_stopped: bool,
+    pub(crate) subjective_pending: Option<u64>,
 }
 /// Channel projection and its optional gated reference snapshots. ANM events,
 /// further procedural/vertex consumers and secondary writes remain required.
@@ -193,6 +194,7 @@ impl Owned {
             orientation: false,
             world_history: None,
             world_stopped: false,
+            subjective_pending: None,
             failure: None,
             view: View {
                 number: 0,

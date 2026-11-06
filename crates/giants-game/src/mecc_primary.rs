@@ -47,6 +47,21 @@ impl FireServices<'_, '_, '_> {
         source: crate::resident_states::Id,
         number: u64,
     ) -> Result<(), String> {
+        self.preflight_route(source, number, false)
+    }
+    pub(crate) fn preflight_subjective(
+        &self,
+        source: crate::resident_states::Id,
+        number: u64,
+    ) -> Result<(), String> {
+        self.preflight_route(source, number, true)
+    }
+    fn preflight_route(
+        &self,
+        source: crate::resident_states::Id,
+        number: u64,
+        subjective: bool,
+    ) -> Result<(), String> {
         if self.view.source != source || self.view.number != number || self.view.vertex_epoch == 0 {
             return Err("primary fire requires the current owned view/frame binding".into());
         }
@@ -58,10 +73,13 @@ impl FireServices<'_, '_, '_> {
         {
             return Err("primary fire display belongs to another mission".into());
         }
-        if self.view.display.owns(&source) {
+        if self.view.display.owns(&source) && !subjective {
             // The native primary defers this owner's fire to its subjective
             // post-world phase. That phase is not bound by this primary API.
             return Err("primary fire requires the unbound subjective post-world phase".into());
+        }
+        if subjective && !self.view.display.owns(&source) {
+            return Err("subjective fire requires the matching active display".into());
         }
         Ok(())
     }
@@ -72,6 +90,25 @@ impl FireServices<'_, '_, '_> {
         contexts: &mut crate::attached_effect_context::Pool<crate::resident_states::Id>,
         random: &mut crate::audio_parameters::Random,
     ) -> Result<crate::mecc_fire_primary::Output, String> {
+        self.run_route(session, input, contexts, random, false)
+    }
+    pub(crate) fn run_subjective(
+        &mut self,
+        session: &mut crate::resident_states::Session,
+        input: FireFrame<'_>,
+        contexts: &mut crate::attached_effect_context::Pool<crate::resident_states::Id>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<crate::mecc_fire_primary::Output, String> {
+        self.run_route(session, input, contexts, random, true)
+    }
+    fn run_route(
+        &mut self,
+        session: &mut crate::resident_states::Session,
+        input: FireFrame<'_>,
+        contexts: &mut crate::attached_effect_context::Pool<crate::resident_states::Id>,
+        random: &mut crate::audio_parameters::Random,
+        subjective: bool,
+    ) -> Result<crate::mecc_fire_primary::Output, String> {
         let FireFrame {
             frame,
             view,
@@ -79,7 +116,7 @@ impl FireServices<'_, '_, '_> {
             seconds,
             auxiliary_reset,
         } = input;
-        self.preflight(self.view.source, view.number)?;
+        self.preflight_route(self.view.source, view.number, subjective)?;
         let mut aim = crate::mecc_aim::Services {
             terrain: self.terrain,
             source: self.view.source,

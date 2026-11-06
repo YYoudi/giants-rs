@@ -8,6 +8,7 @@ pub struct Projection {
 }
 
 pub(crate) struct Adapter<'e, 'a, 'r, 'c, 'g> {
+    pub deferred: bool,
     pub environment: Option<crate::mecc_physical_cycle::Environment<'e>>,
     pub services: Option<crate::mecc_primary::Services<'a, 'r, 'c>>,
     pub ground: &'g mut dyn FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
@@ -20,7 +21,7 @@ impl ActorWorldServices for Adapter<'_, '_, '_, '_, '_> {
     }
     fn primary(&mut self, session: &mut Session, source: Id) -> Result<(), String> {
         self.primary = Some(
-            session.advance_mecc_primary_with_history(
+            session.advance_mecc_primary_with_history_route(
                 source,
                 self.environment
                     .take()
@@ -30,6 +31,7 @@ impl ActorWorldServices for Adapter<'_, '_, '_, '_, '_> {
                     .take()
                     .ok_or("Mecc primary services already consumed")?,
                 true,
+                self.deferred,
             )?,
         );
         Ok(())

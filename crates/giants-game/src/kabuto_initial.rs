@@ -38,6 +38,8 @@ pub struct Group {
     pub cold_animation_cache: Option<Arc<crate::kabuto_animation_cache::ColdCache>>,
     /// Optional CPU image. Material upload/routing remains pending.
     pub procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
+    pub geometry_registration: Option<crate::kabuto_geometry_registry::Handle>,
+    pub(crate) cleaned_up: bool,
     pub pending: [Pending; 4],
 }
 impl std::fmt::Debug for Group {
@@ -50,6 +52,12 @@ impl std::fmt::Debug for Group {
             .field("final_effect", &self.final_effect)
             .field("pending", &self.pending)
             .finish_non_exhaustive()
+    }
+}
+impl Group {
+    /// Custom cold cleanup only; the common owner state transition is separate.
+    pub fn cleaned_up(&self) -> bool {
+        self.cleaned_up
     }
 }
 pub struct Factory {
@@ -135,6 +143,40 @@ impl Factory {
             return Err("Kabuto animation reset awaits refresh".into());
         }
         session.stage_kabuto_group(|s| self.build(s, frame, blending, generation))
+    }
+    /// Atomic actor/resource publication for the normal cold CPU profile. The
+    /// caller owns the mission registry and shared RNG; no GPU admission follows.
+    pub fn construct_registered(
+        &self,
+        session: &mut Session,
+        frame: ColdFrame,
+        blending: Blending,
+        generation: u32,
+        registry: &mut crate::kabuto_geometry_registry::Registry,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Id, String> {
+        if self.procedural_texture.is_some()
+            || self
+                .animation_cache
+                .as_ref()
+                .is_some_and(|c| !c.initialized())
+        {
+            return Err(
+                "Registered Kabuto requires registry-owned material and refreshed animation data"
+                    .into(),
+            );
+        }
+        let mut staged = registry.staged();
+        let mut next_random = *random;
+        let owner = session.stage_kabuto_group(|s| {
+            let owner = self.build(s, frame, blending, generation)?;
+            let handle = staged.register(owner, &mut next_random)?;
+            s.bind_kabuto_geometry_registry(owner, handle, staged.texture().unwrap().clone())?;
+            Ok(owner)
+        })?;
+        *registry = staged;
+        *random = next_random;
+        Ok(owner)
     }
     fn build(
         &self,
@@ -239,6 +281,8 @@ impl Factory {
                 .and_then(|c| c.cached())
                 .cloned(),
             procedural_texture: self.procedural_texture.clone(),
+            geometry_registration: None,
+            cleaned_up: false,
             pending: [
                 Pending::ProjectionReset,
                 Pending::AnimationCache,
@@ -441,5 +485,115 @@ mod tests {
         drop(factory);
         assert!(weak.upgrade().is_none());
         assert!(texture.upgrade().is_none());
+        let factory = Factory::load(
+            &plan,
+            packet.world.as_ref().unwrap(),
+            packet.mission.as_ref().unwrap(),
+            globals,
+        )
+        .unwrap();
+        let mut registry = crate::kabuto_geometry_registry::Registry::new(946);
+        let mut wrong_ticket = crate::kabuto_geometry_registry::Registry::new(947);
+        let mut random = crate::audio_parameters::Random(1);
+        let counts = session.counts();
+        assert!(
+            factory
+                .construct_registered(
+                    &mut session,
+                    frame,
+                    Blending::Enabled,
+                    1,
+                    &mut wrong_ticket,
+                    &mut random
+                )
+                .is_err()
+        );
+        assert_eq!(session.counts(), counts);
+        assert_eq!(random.0, 1);
+        assert!(wrong_ticket.is_empty());
+        let owner = factory
+            .construct_registered(
+                &mut session,
+                frame,
+                Blending::Enabled,
+                1,
+                &mut registry,
+                &mut random,
+            )
+            .unwrap();
+        let group = session.kabuto_group(owner).unwrap();
+        let handle = group.geometry_registration.as_ref().unwrap().clone();
+        let image = Arc::downgrade(group.procedural_texture.as_ref().unwrap());
+        let counts = session.counts();
+        let lists = (0..15).map(|i| session.list(i)).collect::<Vec<_>>();
+        let mut wrong_scope = crate::kabuto_geometry_registry::Registry::new(946);
+        assert!(
+            session
+                .cleanup_registered_kabuto(owner, &mut wrong_scope)
+                .is_err()
+        );
+        assert!(!session.kabuto_group(owner).unwrap().cleaned_up());
+        let cleanup = session
+            .cleanup_registered_kabuto(owner, &mut registry)
+            .unwrap();
+        assert_eq!(cleanup.marked.len(), 11);
+        assert!(cleanup.material_retired);
+        assert!(registry.is_empty());
+        assert!(image.upgrade().is_none());
+        assert_eq!(session.counts(), counts);
+        assert_eq!((0..15).map(|i| session.list(i)).collect::<Vec<_>>(), lists);
+        for id in cleanup.marked {
+            assert_ne!(
+                session
+                    .get(id)
+                    .unwrap()
+                    .construction_fields
+                    .as_ref()
+                    .unwrap()
+                    .object_flags
+                    & 0x8000,
+                0
+            );
+        }
+        assert_eq!(session.get(owner).unwrap().seed.storage.state(), 1);
+        assert!(session.kabuto_group(owner).unwrap().cleaned_up());
+        assert!(
+            session
+                .kabuto_group(owner)
+                .unwrap()
+                .geometry
+                .vertices
+                .is_empty()
+        );
+        assert!(
+            session
+                .cleanup_registered_kabuto(owner, &mut registry)
+                .is_err()
+        );
+        let mut expected = crate::audio_parameters::Random(1);
+        for _ in 0..128 {
+            expected.next_15();
+        }
+        assert_eq!(random.0, expected.0);
+        session.clear();
+        let owner = factory
+            .construct_registered(
+                &mut session,
+                frame,
+                Blending::Enabled,
+                1,
+                &mut registry,
+                &mut random,
+            )
+            .unwrap();
+        assert!(registry.owner(&handle).is_err());
+        for _ in 0..128 {
+            expected.next_15();
+        }
+        assert_eq!(random.0, expected.0);
+        session
+            .cleanup_registered_kabuto(owner, &mut registry)
+            .unwrap();
+        session.clear();
     }
 }

@@ -276,4 +276,42 @@ impl Producer {
             .ok_or("selected gun has no produced pose cache")?;
         Ok((binding, frame.pose.point(session, binding.reference)?))
     }
+    /// Post-world firing consumes this frame's completed held cache. Updating
+    /// subjective source references must not recompute its frozen world pose.
+    pub fn current_world_point(
+        &self,
+        session: &Session,
+        number: u64,
+        definition: &crate::projectile_definition::Definition,
+    ) -> Result<(crate::mecc_fire_lock::Binding<Id>, [f32; 3]), String> {
+        self.require_current(session, self.owner, number)?;
+        if definition.id != 17 {
+            return Err("current held muzzle outside normal pistol profile".into());
+        }
+        let binding = session.mecc_fire_lock(self.owner, 17, definition)?;
+        let frame = self
+            .frames
+            .iter()
+            .find(|f| f.pose.child == binding.parent)
+            .ok_or("selected gun has no current produced pose cache")?;
+        Ok((binding, frame.pose.point(session, binding.reference)?))
+    }
+    pub(crate) fn require_current(
+        &self,
+        session: &Session,
+        owner: Id,
+        number: u64,
+    ) -> Result<(), String> {
+        if self.failed
+            || self.owner != owner
+            || self.number == 0
+            || self.number != number
+            || session.actor_world_tick(owner)?.phase() != crate::actor_world_tick::Phase::Finished
+            || session.mecc_physical_cycle(owner)?.number != number
+            || session.mecc_physical_cycle_failure(owner).is_some()
+        {
+            return Err("subjective post requires this source's completed held pass".into());
+        }
+        Ok(())
+    }
 }
