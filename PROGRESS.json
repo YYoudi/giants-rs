@@ -55,7 +55,7 @@
       "title": "Complete cinematic playback",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "545 sources / 16 worlds; zero complete scenes verified. The shared 52-source prefix guard is corrected. The main film now owns source-dispatched persistent attached contexts/objects, shared-support reuse, current animation/world render inputs and source-marked cleanup. The new exact-build CPU inventory prepares 23 bounded persistent sources / 25 requests; creation/update/re-entry/release controls cover all 23 (50 object lifecycles). The initial build passes two natural/re-entry cycles each for Rstory1, Kstory1 and the 54-director Story4 chain. The final preview separately passes three live-object service cancellations, two Rstory1 natural cycles and both development endpoints; evidence stays scoped to its exact build. Mission admission remains refused: 59 sources still report gaps, including 56 general FX queue prerequisites; 282 strict-profile reviews remain separate. The same preview now passes actual menu UI checks on Rstory1 mission 3: Escape after persistent birth, natural completion on re-entry and double-click before birth, followed by partial free-camera preview and menu return with tracked cleanup; Delphi gameplay remains refused. Separate original-PC controls acquire generation ordering and wait dispatch (153 producer and 20 wait cases), without adding runtime behavior. Non-opening triggers, live native render/cache phase and world scheduling/capacity, full visual/audio/subtitle parity and broader interactive coverage remain open."
+      "detail": "545 sources / 16 worlds; zero complete scenes verified. The main film integrates a bounded persistent attached-FX queue, shared support reuse and source-marked cleanup: 23 sources / 25 requests, with CPU creation/re-entry/release controls over 50 object lifecycles. Native source-actor phase controls match 100 support samples / 1,700 words; complete VM/world cadence is unverified. Preview 2026.11.06.1 has exact-build natural/re-entry and live-object cancellation controls, plus Rstory1 mission 3 UI checks: Escape after birth, natural re-entry and double-click before birth, returning through partial free camera with tracked cleanup. Delphi gameplay remains refused. The inventory retains 59 gap sources, including 56 general FX queue prerequisites, and 282 separate strict-profile reviews. Non-opening triggers, effect-object channel cadence, world scheduling/admission/capacity and complete visual/audio/subtitle parity remain open."
     },
     {
       "id": "ending-credits",
@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar need complete aiming/firing rules. Normal-pistol CPU services compose the owned primary, current held cache, subjective animation, targeting, projectile creation and effects. The controlled subjective post now produces its inner camera before placement and deferred firing. The main mission driver still has no integrated owned firing. Main-driver post/drawing binding, posed vertices, complete target contexts and positional audio remain open. Evidence and boundaries: docs/OWNED_LOCAL_FIRE.md."
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar need complete aiming/firing rules. Normal-pistol CPU services compose owned primary, held cache, subjective animation/camera, targeting, projectiles and effects. Completed subjective positions now use the shared model bank; two 32-frame controls also validate backward-air continuation. Main mission owned firing remains disabled. Live slot/part/material and subjective drawing admission, complete target contexts and positional audio remain open. See docs/OWNED_LOCAL_FIRE.md."
     },
     {
       "id": "mecc-inventory",
@@ -424,7 +424,7 @@
       "title": "Complete world and actor rendering",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "All required maps, terrain layers, buildings, scenery, characters, materials, lighting and shadows."
+      "detail": "All required maps, terrain layers, buildings, scenery, characters, materials, lighting and shadows remain incomplete. Owned subjective positions now consume actual virtual channels/stamps in the shared model bank: 64 controlled frames / 544 model snapshots. Live LOD/part/material admission and subjective drawing remain unbound; CPU positions do not certify a rendered scene."
     },
     {
       "id": "water-environment",
