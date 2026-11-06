@@ -1,5 +1,10 @@
 {
   "schema_version": 1,
+  "featured_comparisons": [
+    "Owned Mecc jet: normal thrust and boost",
+    "Owned Mecc mission driver: third-person and first-person views",
+    "Gunfire scene compared with the original"
+  ],
   "authorization": "Owner explicitly authorized publication of all historical original / Bevy comparisons on 4 November 2026. Research reports and source paths remain private.",
   "encoding": "WebP quality 90; original dimensions; metadata stripped. Lossy display copies, not pixel-validation evidence.",
   "comparisons": [

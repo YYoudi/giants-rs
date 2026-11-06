@@ -112,12 +112,48 @@ def cinematic_inventory(root):
     return data, section
 
 
+def featured_captures(gallery):
+    """Render reviewed display copies even when gallery JavaScript is unavailable."""
+    titles = gallery.get('featured_comparisons', [])
+    if (not isinstance(titles, list) or any(not isinstance(title, str) for title in titles)
+            or len(titles) > 3 or len(set(titles)) != len(titles)):
+        raise ValueError('Invalid featured comparison selection')
+    rows = []
+    for title in titles:
+        matches = [row for row in gallery['comparisons'] if row['title'] == title]
+        if len(matches) != 1:
+            raise ValueError('Featured comparison must identify one reviewed gallery row')
+        rows.append(matches[0])
+    if not rows:
+        return '', ''
+    esc = html.escape
+    cards = []
+    for row in rows:
+        cards.append(f'<figure><a href="{esc(row["right"])}" target="_blank" rel="noopener">'
+                     f'<img src="{esc(row["right"])}" alt="{esc(row["right_label"])}" '
+                     f'loading="eager" decoding="async" width="960" height="600"></a>'
+                     f'<figcaption><strong>{esc(row["title"])}</strong>'
+                     f'<span>{esc(row["right_label"])}</span></figcaption></figure>')
+    section = ('<section id="highlights" aria-labelledby="highlights-title">'
+               '<div class="section-heading"><div><p class="eyebrow">RUST + BEVY / DEVELOPMENT CAPTURES</p>'
+               '<h2 id="highlights-title">Inside the engine</h2></div>'
+               '<a href="#captures">Open all comparisons ↘</a></div>'
+               '<p>Historical engine captures: jetpack, first-person view and cinematic rendering. '
+               'Each image retains its archive context in the full gallery; current-build fidelity remains unverified.</p>'
+               f'<div class="capture-highlights">{"".join(cards)}</div></section>')
+    hero = (f'<img src="{esc(rows[0]["right"])}" alt="{esc(rows[0]["right_label"])}" '
+            'fetchpriority="high" decoding="async">'
+            '<figcaption>Historical Bevy development render · fidelity unverified</figcaption>')
+    return hero, section
+
+
 def export(output, root=ROOT):
     output = Path(output)
     if output.exists():
         raise ValueError('Refusing to overwrite site output')
     data = project(json.loads((root/'PROGRESS.json').read_text(encoding='utf8')))
     gallery = gallery_data(root)
+    hero, highlights = featured_captures(gallery)
     inventory, inventory_html = cinematic_inventory(root)
     features = [r for r in data['roadmap'] if r['kind'] == 'feature']
     foundations = [r for r in data['roadmap'] if r['kind'] == 'enabler']
@@ -131,7 +167,8 @@ def export(output, root=ROOT):
     replacements = {'SUMMARY': ''.join(summary), 'FEATURES': table(features, 'Whole-game feature roadmap'),
                     'FOUNDATIONS': table(foundations, 'Technical foundations — separate from game completion'),
                     'DONE': str(counts['done']), 'PARTIAL': str(counts['partial']), 'TODO': str(counts['todo']), 'TOTAL': str(len(features)),
-                    'CINEMATIC_INVENTORY': inventory_html}
+                    'CINEMATIC_INVENTORY': inventory_html, 'HERO_IMAGE': hero,
+                    'FEATURED_CAPTURES': highlights}
     document = (TEMPLATES/'index.html').read_text(encoding='utf8')
     for key, value in replacements.items():
         document = document.replace('{{'+key+'}}', value)

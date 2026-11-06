@@ -365,6 +365,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   private report paths. Use grouped roadmap tables and explicit state colors/counts.
   Keep historical captures separate from current-build proof.
   Future captures require the same metadata/provenance filtering and hash inventory.
+  Three reviewed engine captures and the cover now render directly in HTML;
+  the complete comparison gallery appears before the progress tables.
 
 ## Cinematics / Flick: coverage and next prerequisites
 

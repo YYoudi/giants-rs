@@ -46,6 +46,12 @@ original data or research annexes. Automated tests cover field exclusion,
 rejection of private paths and HTML escaping. These are technical checks, not
 rights clearance. The owner's approximate 99% AI-generated estimate remains visible.
 
+`featured_comparisons` in the gallery manifest selects up to three existing,
+uniquely titled reviewed comparisons for the screenshot strip and cover image.
+Both render directly in exported HTML, including without JavaScript. The gallery
+precedes the progress tables and retains its horizontal before/after controls.
+Changing a featured selection adds no new image authorization or fidelity claim.
+
 ## GitHub workflows
 
 - `build.yml`: every push, PR and manual run installs a GNU toolchain and UCRT64

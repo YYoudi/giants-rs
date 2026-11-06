@@ -1,5 +1,18 @@
 # Preview releases and milestone integration
 
+## Dashboard screenshot visibility — 6 November 2026
+
+Three existing reviewed engine captures (jet boost, subjective view and cinematic
+gunfire) now appear immediately below the cover. Static HTML supplies both the
+cover and screenshot strip, preserving image visibility without JavaScript. The
+302-comparison archive now precedes the progress tables; horizontal wipe controls,
+filters and full-size views remain available. Display copies and their pinned
+hashes are unchanged. These historical captures certify no new runtime behavior.
+
+All 40 Python tests, site export and JavaScript syntax checks pass. Browser checks
+confirm the four cover/featured images load and the comparison control reaches
+both endpoints. No Rust runtime or preview package changes are included.
+
 ## Prototype PS2 method follow-up — 6 November 2026
 
 The central reconstruction method now makes seven current Mecc primary/subjective

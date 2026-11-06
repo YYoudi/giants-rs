@@ -17,7 +17,8 @@ described below is published under the owner's explicit authorization.
 
 The [roadmap dashboard](https://yyoudi.github.io/giants-rs/) is generated from this
 repository's `PROGRESS.json` and updates through GitHub Pages on main-branch pushes.
-It includes searchable status tables and 302 owner-authorized historical screenshot
+It opens with featured engine screenshots and includes searchable status tables
+and 302 owner-authorized historical screenshot
 comparisons. Gallery captures are labeled development evidence, not certification
 of the current public build; game artwork remains outside the project MIT license.
 [Automatic Windows build checks](https://github.com/YYoudi/giants-rs/actions) are

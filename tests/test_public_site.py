@@ -97,3 +97,33 @@ class PublicSiteTests(unittest.TestCase):
             (folder/name).write_bytes(b'changed')
             with self.assertRaisesRegex(ValueError, 'hash mismatch'):
                 gallery_data(root)
+
+    def test_featured_capture_is_static_escaped_and_requires_a_reviewed_row(self):
+        import hashlib
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root/'PROGRESS.json').write_text(json.dumps(self.fixture()), encoding='utf8')
+            folder = root/'docs/gallery'
+            (folder/'media').mkdir(parents=True)
+            blob = b'synthetic display fixture'
+            digest = hashlib.sha256(blob).hexdigest()
+            name = f'media/{digest}.webp'
+            (folder/name).write_bytes(blob)
+            title = '<script>untrusted title</script>'
+            data = {'featured_comparisons': [title], 'comparisons': [
+                dict(title=title, left=name, right=name, right_label='Engine "view"')],
+                'images': {name: digest}}
+            manifest = folder/'manifest.json'
+            manifest.write_text(json.dumps(data), encoding='utf8')
+            export(root/'site', root)
+            text = (root/'site/index.html').read_text(encoding='utf8')
+            self.assertIn('id="highlights"', text)
+            self.assertLess(text.index('id="highlights"'), text.index('id="overview"'))
+            self.assertIn(f'<img src="{name}"', text)
+            self.assertIn('&lt;script&gt;untrusted title&lt;/script&gt;', text)
+            self.assertIn('alt="Engine &quot;view&quot;"', text)
+            self.assertNotIn(title, text)
+            data['featured_comparisons'] = ['Unreviewed selection']
+            manifest.write_text(json.dumps(data), encoding='utf8')
+            with self.assertRaisesRegex(ValueError, 'reviewed gallery row'):
+                export(root/'invalid-site', root)
