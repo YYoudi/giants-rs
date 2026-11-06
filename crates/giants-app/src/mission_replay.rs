@@ -587,7 +587,12 @@ fn drive(
             if ticket != frontend.flow.ticket {
                 return;
             }
-            let count = players.iter().filter(|p| p.ticket == ticket).count();
+            // Staging waits for the initial body's resources. Alternate owned
+            // draw models are also mounted, then selected by the live controller.
+            let count = players
+                .iter()
+                .filter(|p| p.ticket == ticket && p.slot == 0)
+                .count();
             if count != player.body.mesh.subobjects.len() {
                 return;
             }
