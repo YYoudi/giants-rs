@@ -445,13 +445,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Migrate the retained model-0 diagnostic presentation consumers before claiming
   native shared-bank ordering across actors; this inspection still prepares that
   diagnostic pose separately from its selected-model upload.
-- Extended owned movement remains incomplete: the general movement-cycle replay
-  refuses at step 152 under the secondary guard currently labelled "landing
-  reaction provider". Retain that failed control. Before widening admission,
-  independently verify its gap/velocity condition against the pinned native
-  selector and acquire the actual transition, impact and landing-effect branches.
-  The new 128-step owned inspection cycles test resource retirement separately;
-  they neither repair nor validate that longer trajectory.
+- Extended owned movement remains incomplete. The inverted secondary height
+  comparison is corrected after 1,049 controlled original-PC branch executions;
+  both velocity and height thresholds are strict. The corrected general replay
+  now explicitly refuses the unacquired high-descent transition at step 143.
+  Retain both this result and the older incorrect-guard step-152 failure.
+  Next acquire logical state 2's complete common tail, animation and owned writes,
+  then impact reactions and contact landing effects; do not infer their contract
+  from the guard alone. See docs/MECC_DESCENT_GUARD.md. The 128-step inspection
+  cycles cover resource retirement separately and do not validate this trajectory.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated
