@@ -155,6 +155,34 @@ pub struct Frame {
     pub world: Matrix,
     pub channels: crate::animation_channels::Channels,
     pub updates: u64,
+    class: i32,
+    position: [f32; 3],
+    active: u32,
+    render_flags: u32,
+}
+impl Frame {
+    /// Fresh constant attachments have no source exclusion registrations,
+    /// transparency callback or camera ownership. Both measured traversals
+    /// consume the same owned geometry; only the ordinary one uses this range.
+    pub fn draw_routes(
+        &self,
+        eye: [f32; 3],
+        range: f32,
+    ) -> Result<crate::draw_routes::Routes, &'static str> {
+        crate::draw_routes::with_ordinary_admission(
+            &crate::cinematic_ordinary::Input {
+                class: self.class,
+                state: 78,
+                flick_slot: -1,
+                exclusion_words: [0; 3],
+                position: self.position,
+                eye,
+                range,
+            },
+            self.active,
+            self.render_flags,
+        )
+    }
 }
 pub struct Queue {
     contexts: Pool<usize>,
@@ -183,6 +211,10 @@ impl Queue {
             world: object.world_matrix()?,
             channels: object.fields.channels,
             updates: object.updates,
+            class: object.fields.class,
+            position: object.fields.position,
+            active: object.fields.object_flags,
+            render_flags: object.fields.response_flags,
         })
     }
     /// The supplied event is the actual FLK39 dispatch. A temporary context is

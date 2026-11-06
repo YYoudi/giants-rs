@@ -35,6 +35,7 @@ pub(super) fn instances(scene: &mut Prepared) -> Result<Vec<(usize, usize)>, Str
                 return Err("growing particles require admitted unlit parts".into());
             }
             let instance = Instance {
+                persistent_attachment: false,
                 source: p.source.clone(),
                 geometry: p.geometry.clone(),
                 parts: p.parts.clone(),
