@@ -235,8 +235,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   24,876 words, including complete vertices/indices and the final RNG state.
   Disabled entries consume nothing; owned invalid profiles refuse before RNG
   publication. Backend failure retains the completed prefix and consumed draw.
-  The state producer, registry visitor/world scheduling and real GPU consumer
-  remain prerequisites; this is a CPU packet, not rendered Kabuto.
+  The mode/scalar producer, registry visitor/world scheduling and real GPU
+  consumer remain prerequisites; this is a CPU packet, not rendered Kabuto.
+- Implemented: the geometry-header tail selects the supplied local-camera or
+  body/target route, preserves inactive fields, transforms the current attachment,
+  and measures the target distance. All 384 native controls match 4,992 complete
+  header words across modes, selected/unselected owners, target presence and
+  matrix flags. The shared Double53 point kernel preserves its distinct operation
+  order without changing the existing aiming kernel. The preceding mode/scalar,
+  animation/sound and extra-reference phases remain unported; header preparation
+  alone does not complete this helper, full primary or world rendering.
 - Complete the remaining custom cleanup profiles: the additional object-reference
   slot's nonzero behavior/role, GPU material release and dynamic/entered turns.
   The owner remains state1 after the custom callback; common state transition

@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Kabuto CPU geometry-header producer tail - 6 November 2026
+
+The owned header tail now selects the supplied local-camera or body/target route,
+preserves inactive fields, transforms the current attachment and measures target
+distance. The source point-array arithmetic is added to the common matrix type;
+existing aiming arithmetic is unchanged. All 384 native controls match 4,992
+header words across six modes, both selection states, target presence and eight
+matrix-flag profiles. Controlled prefix inputs bypass preceding transitions, so
+this does not validate the full helper, mode selector or live controller.
+
+Validation: 751 synthetic Rust tests pass (23 ignored), along with 40 Python
+tests, Rustfmt, Clippy with warnings denied, site export and JavaScript syntax.
+Prototype PS2 lookup lineage remains private and attribution remains unknown.
+Mode/scalar selection, preceding transitions, extra-reference lifetime, world
+scheduling and GPU consumption remain open. No gameplay status is promoted.
+
+There are no dependency or bundled-asset changes and no new playable download.
+Published preview notices, package manifests and checksums retain their original
+build identities; this source milestone does not replace their receipts.
+
 ## Kabuto CPU geometry submission - 6 November 2026
 
 The normal per-entry geometry callback now has an owned Rust command packet.
