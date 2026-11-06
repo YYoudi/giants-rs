@@ -83,6 +83,25 @@ class PublicSiteTests(unittest.TestCase):
                 (folder/'manifest.json').write_text(json.dumps(data), encoding='utf8')
             save()
             self.assertEqual(len(gallery_data(root)['comparisons']), 1)
+            screenshot = dict(title='Preview', image=name, caption='Display copy', commit='a'*40)
+            data['screenshots'] = [screenshot]
+            save()
+            self.assertEqual(len(gallery_data(root)['screenshots']), 1)
+            screenshot['caption'] = 'D:/private/capture.png'
+            save()
+            with self.assertRaisesRegex(ValueError, 'Private path in screenshot'):
+                gallery_data(root)
+            screenshot['caption'] = 'Display copy'
+            screenshot['image'] = 'media/'+'b'*64+'.webp'
+            save()
+            with self.assertRaisesRegex(ValueError, 'Unapproved screenshot'):
+                gallery_data(root)
+            screenshot['image'] = name
+            screenshot['commit'] = '../private'
+            save()
+            with self.assertRaisesRegex(ValueError, 'revision'):
+                gallery_data(root)
+            screenshot['commit'] = 'a'*40
             data['comparisons'][0]['manifest'] = 'private report'
             save()
             with self.assertRaisesRegex(ValueError, 'Unexpected gallery field'):
