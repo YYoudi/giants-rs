@@ -509,7 +509,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   assets are released, with zero objects/contexts remaining. This does not admit
   Delphi gameplay or verify other scene/gesture combinations, audible playback,
   native pixels or whole-device resource lifetime. Double-click with an active
-  persistent object remains untested.
+  persistent object was not tested on that earlier preview; the later combined
+  build's Rstory5 completion control below covers that gesture separately.
   Native support-generation acquisition now covers 153 bounded producer cases
   (2,461 generation words) plus 20 original command-processor wait cases (1,294
   calls / 1,274 time updates). Within supplied silent scene/header boundaries,
@@ -548,6 +549,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   files remain unchanged after initial unlock. Existing attachment omissions and
   a reserved Mecc audio-source refusal remain visible. The replay route does not
   reconstruct native live replay state, mark victory or admit Delphi gameplay.
+  Combined source `c96c4a2` also passes actual muted UI double-click after birth
+  and draw, returning to the menu with tracked cleanup and no reserved Mecc audio
+  override. This verifies that gesture on Rstory5 mission 2 only; other scene and
+  gesture combinations remain open. Both development lifecycle endpoints pass.
   The 59-source gap total, 56 general-queue admission refusals and 282 strict-
   profile reviews remain: this is a partial runtime path, not 23 fully admitted
   or faithful scenes. Native in-mission producers remain required for gameplay triggers; the
