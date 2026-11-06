@@ -162,6 +162,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   foreign targets, retained completed camera effects and replay quarantine.
   Fifteen repeated legacy controls preserve 30,608,640 words and exact RNG.
   These APIs do not admit live Delphi controls or establish visual fidelity.
+- Implemented: the owned ordinary third-person/direct-angle camera slice binds
+  the completed controlled actor's pose/look/flags and reuses the common camera
+  kernels with Delphi's distance policy. Scalar controls match 5,566 cases /
+  11,132 words; the complete native normal entry matches 768 steps / 14,592
+  pose/chase/cache words with floor excluded, no-hit walls and captured final
+  view arguments. A separate class-2 control preserves 768 steps / 14,592 words.
+  The immutable base profile loads read-only from acquired external debug data;
+  no table or executable is bundled. Source-data checks exercise 64 owned camera
+  updates and pre-provider frame/profile refusals. Full camera dispatch, target
+  selection, dynamic profile/FOV/projection, underwater floor, angle smoothing,
+  shake, real world providers and renderer/mission wiring remain prerequisites.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary

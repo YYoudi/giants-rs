@@ -1,5 +1,28 @@
 # Preview releases and milestone integration
 
+## Delphi ordinary third-person camera slice - 6 November 2026
+
+The shared camera producer now consumes Delphi's acquired distance policy while
+preserving the Mecc entry. A Session API binds actual owned position, heading,
+look, scale, look height and control flags after the matching controlled frame.
+Wrong profiles/frames and failed cycles refuse. The base third-person profile
+loads read-only from user-supplied acquired debug metadata; other layouts refuse.
+
+Distance controls match 5,566 original-PC cases / 11,132 words. Three 256-step
+normal-camera sequences match 14,592 pose/chase/cache words with original trig
+and an actual immutable profile. A separate class-2 regression matches 768 steps /
+14,592 words. Debug and optimized probes repeat the same inputs. The normal-entry
+controls use synthetic actors, exclude floor work, supply no-hit walls and capture
+final view arguments; they do not execute renderer publication. The enriched
+four-owner source-data lifecycle also performs 64 ordinary-camera updates and
+checks pre-provider refusals. Relocated metadata and invalid-input guards pass.
+
+Full camera dispatch/target selection, dynamic FOV/projection, underwater floor,
+angle smoothing/shake, full-primary/world scheduling and renderer/mission wiring
+remain open. This is CPU/API integration, with no new playable Delphi download or
+fidelity claim. Delphi-specific prototype PS2 attribution remains unknown; common
+reviewed service identities are retained separately from behavior coverage.
+
 ## Delphi entered controlled-camera phase - 6 November 2026
 
 The owned controlled Session entry now runs the authored-camera callback after
