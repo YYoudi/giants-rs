@@ -612,3 +612,35 @@ Actual actor retirement, animation/sound/root-motion composition, world scheduli
 and live admission remain prerequisites. No initializer gate is cleared and no
 visual fidelity follows. Prototype PS2 correspondences remain unknown; raw ELF,
 uncertain demangling, source aliases and control receipts remain private.
+
+
+## Owned template-clock query
+
+`animation_frames::frame_at_time` implements the standalone Double53 template
+clock used by the geometry transition gate. It multiplies the signed rate/step,
+adds the signed base before conversion and retains the signed-64 conversion's
+low word. It does not clamp to the descriptor end or consult descriptor flags.
+Finite owned inputs are required; nonfinite-time refusal is owned policy. The
+shared integer conversion is reused by class configuration with its earlier
+behavior preserved. The separate channel converter keeps its existing arithmetic.
+
+All 512 native helper controls match 512 returned words, including fractional
+reverse timing, signed coefficients, low-word wrapping and integer-indefinite
+cases. The original helper and conversion execute with supplied descriptor/time
+and an explicit Double53 control word. No channel scheduler or pose is provided
+by this result. In the real transition caller the threshold is a source tick
+value, not an inferred count of displayed frames.
+
+`Session::kabuto_geometry_frame` reads the descriptor and clock from its actual
+owned specification and current primary channel. The gate requires the selected
+source slot; foreign/absent, retired or nonselected owners refuse. The extended
+installed-data control checks this resource binding and stale identity after
+clear. This query does not select an animation or advance its clocks.
+
+The remaining conditional branch selects actor-local time and invokes the
+ordinary ANM phase. Shared `object_time`/`object_time_precision`, channel clocks,
+reference evaluation, epochs and class-event services already exist. Their full
+composition and callback ordering for Kabuto still require comparison; no new
+movement primitive is established by the inspected calls. Actual mode/reference
+binding, complete primary, movement/growth and live admission remain open.
+Prototype PS2 attributions stay unknown, separately from the observed PC behavior.

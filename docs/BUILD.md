@@ -178,7 +178,8 @@ For separately prepared dynamic auxiliary ownership, with the same supplied root
 cargo test --locked -p giants-game source_kabuto_extra_owns_binding_refuses_replay_and_marks_without_retirement --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-This checks actual class/specification preparation, parent/reference binding,
+This checks actual class/specification preparation, the selected template-clock
+query from owned channels/resources, parent/reference binding,
 foreign and replay refusal, active-extra cleanup refusal, deferred marking,
 second construction and Session clear. Marked actors remain owned/listed.
 It creates no window or sound, launches no original executable and admits no
@@ -301,3 +302,14 @@ Strict-profile rejection is a review item when preview consumers prepare the
 source. FLK and MDV opcode spaces are distinct; music commands inside MDV are
 outside this batch's scope. Detailed output remains private, including cases with
 no reported gap; all complete-scene fidelity fields remain unverified.
+
+## Completion cinematic inspection
+
+In the main menu choose **Preview tools → Completion cinematics**, then a world
+and one of its source-declared completion entries. Choices retain their original
+mission slot, even when the filtered list is shorter. The normal mission loader
+prepares the declared film; no startup-name alias or slot-zero fallback is used.
+Escape or double-click skips the film into the partial free-camera preview;
+Escape returns to the list. A natural ending uses that same preview boundary.
+This route does not mark campaign victory, restore original live replay state or
+admit gameplay. Original data is read-only; preview unlock uses a dedicated profile.

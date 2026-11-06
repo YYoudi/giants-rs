@@ -21,6 +21,90 @@ The remaining primary/auxiliary producers, ordinary camera and runtime wiring,
 water/turbo and combat stay on the backlog. This CPU/API stage adds no playable
 Delphi download. Prototype PS2 attribution remains unknown.
 
+## Source-declared Flick completion replay — 6 November 2026
+
+Preview tools now exposes completion cinematics using actual mission declarations
+and the existing main menu/loader/film lifecycle. The bounded persistent cohort's
+23 sources have four opening and 19 completion routes; a fresh Core API control
+finds five completion choices in four cohort worlds and preserves original slots.
+Changed-input controls refuse all five altered mission sources. Replay is an
+inspection intent: no campaign completion, original live replay-state restoration
+or gameplay-readiness claim is made.
+
+Implementation source `4ef72a1ca6cb7114269fadd5d7d72162f0fe8f5c` passes 759 Rust
+tests (24 ignored), 40 Python tests, formatting and Clippy. Its GNU executable
+SHA256 is `8d9aa91547fd771a4e2ac0945594c43e65a1bab4d31dbded5167f666dda60851`.
+Actual muted menu controls reach the natural ends of Rstory5 mission 2 (19
+directors) and mission 3 (33), then re-enter mission 2 and skip with Escape after
+a persistent birth. All three tracked sessions release their entities, owned film
+assets and persistent objects/contexts. Three preview profile files remain
+unchanged after initial preview unlock. Existing legacy attachment omissions and
+the test's reserved Mecc jet-source refusal remain; audible playback, exact
+pixels/timing, whole-device resource lifetime and complete scenes are unverified.
+These receipts refer to this implementation build, not subsequent combined builds.
+
+Combined source `c96c4a2a907037f34901c2948dabeaa24c61c73b` preserves the incoming
+Mecc, Delphi and Kabuto changes. It passes 764 synthetic Rust tests (25 ignored),
+40 Python tests, formatting, Clippy and the generated site/JavaScript checks.
+The exact GNU executable SHA256 is
+`423c341ea043735db03f64a486b2f56a81d48fe60fb310342d7da009a7eff82a`.
+Both silent three-launch development endpoints pass. Actual muted UI input using
+the normal launch environment checks the completion menu's filtered second entry,
+double-click after a persistent object's birth and draw, and Escape back to the
+menu with tracked cleanup. No Mecc audio-reservation override is used in this
+control. It does not repeat the implementation build's two natural-ending checks.
+Three silent selected-mission cancellations also pass after actual persistent
+birth and two owned updates on Rstory1 zero-based mission index 2, with released
+text/film assets and zero objects/contexts. An earlier runner request incorrectly
+used index 3, whose startup chain has no target object; that timed-out attempt
+is retained privately and is not counted as a successful cancellation control.
+
+The receipt-bound, ten-member Windows package has SHA256
+`bcdc647e4fdb7367ee45e77fe4b82c0b9a0387d2236713ed177a3ca9a3336051`.
+Notice collection and independent local ZIP/member/checksum validation pass with
+zero technical blockers. Runtime source and package identities above remain fixed
+when later documentation checkpoints are published.
+The package is published as
+[preview-2026.11.06.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.06.2).
+An independent download from that release matches the local archive, executable,
+ten-member inventory and adjacent checksum. No standalone executable is offered.
+
+Separate original-PC/Rust object-phase controls match two programs, eight actual
+preparations and 496 channel/matrix words. Native birth-frame advancement is
+observed within the supplied context/resource/allocation fixture; no invented
+first-frame delay is added. Whole-world scheduling/admission/capacity and native
+gameplay triggers remain prerequisites. Prototype PS2 searches preceded the work;
+attributions remain unknown. Raw evidence and retained binaries remain private.
+
+
+## Kabuto owned template-clock query - 6 November 2026
+
+The standalone template clock now preserves base-before-truncation and signed-64
+low-word conversion, matching 512 original-helper controls. The Session gate
+query reads its current primary clock and owner descriptor, with selected-slot,
+foreign/stale and retired-group guards. Shared class configuration reuses the
+integer conversion; its earlier behavior and the separate channel converter are
+preserved. Full ANM/reference/epoch/event composition and live admission remain
+open. This is a CPU clock/resource-binding milestone, not movement or pose parity.
+
+Combined source `805c1f1` retains the newer Mecc draw-policy work and passes 762
+synthetic Rust tests (25 ignored), all four silent Kabuto installed-data controls,
+40 Python tests, Rustfmt, Clippy with warnings denied and site/JavaScript checks.
+Rebuilt private controls pass the 512 template ticks, 512 seeded class masks and
+24-context / 11,596-word auxiliary lifecycle slice. Prototype PS2 correspondences
+remain unknown and their raw/demangled/generated-name lineage remains private.
+
+Subsequent combined checkpoint `990ef4c` preserves Delphi body alignment and the
+newer Mecc held-matrix/event controls. It passes 764 synthetic Rust tests (25
+ignored), all four Kabuto installed-data checks, 40 Python tests, Rustfmt and
+Clippy. Rebuilt template and auxiliary lifecycle controls pass again. The source
+history audit uses the incoming exact-document alias exception for the separately
+reviewed attribution summary; no general label exception is introduced here.
+
+No dependency, bundled asset or playable package changes. Existing manifests,
+executable/package checksums and dependency-notice receipts retain their exact
+build identities; they do not attest to this source milestone or visual fidelity.
+
 ## Delphi owned body alignment - 6 November 2026
 
 The explicit controlled phase now runs body pitch/roll alignment between jump

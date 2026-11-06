@@ -299,7 +299,7 @@ fn tools(world: &mut World, hints: &[Entity]) -> (bool, bool) {
         }
         if p.y < 52. {
             Some(0)
-        } else if open && p.y < 212. {
+        } else if open && p.y < 252. {
             Some(1 + ((p.y - 52.) / 40.) as usize)
         } else {
             None
@@ -326,8 +326,19 @@ fn tools(world: &mut World, hints: &[Entity]) -> (bool, bool) {
                 }
                 return (false, true);
             }
-            2 => launch = true,
-            3 => {
+            2 => {
+                if let Err(error) = world
+                    .resource_mut::<crate::frontend_scene::Scene>()
+                    .browse_completion_replays()
+                {
+                    world
+                        .resource_mut::<crate::frontend_scene::Scene>()
+                        .preview_notice(error);
+                }
+                return (false, true);
+            }
+            3 => launch = true,
+            4 => {
                 match crate::desktop::change_installation() {
                     Ok(true) => {
                         world.write_message(AppExit::Success);
@@ -362,7 +373,7 @@ fn tools(world: &mut World, hints: &[Entity]) -> (bool, bool) {
                     right: px(24.),
                     top: px(12.),
                     width: px(320.),
-                    height: px(if open { 200. } else { 40. }),
+                    height: px(if open { 240. } else { 40. }),
                     ..default()
                 },
                 BackgroundColor(Color::srgba(0.02, 0.03, 0.04, 0.88)),
@@ -372,6 +383,7 @@ fn tools(world: &mut World, hints: &[Entity]) -> (bool, bool) {
             &[
                 "Preview tools",
                 "Browse all missions",
+                "Completion cinematics",
                 "Mecc test arena",
                 "Game installation...",
                 "Close",
@@ -584,7 +596,7 @@ mod tests {
         world
             .get_mut::<Window>(window)
             .unwrap()
-            .set_cursor_position(Some(Vec2::new(980., 110.)));
+            .set_cursor_position(Some(Vec2::new(980., 150.))); // Arena follows both cinematic tools.
         world
             .resource_mut::<ButtonInput<MouseButton>>()
             .press(MouseButton::Left);

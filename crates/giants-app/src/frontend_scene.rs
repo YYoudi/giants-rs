@@ -21,12 +21,21 @@ impl Scene {
         let name = self.profiles.preview_profile().map_err(|e| e.to_string())?
             .ok_or("The five profile slots are occupied. Remove a profile in Player IDs to create Preview All.")?;
         let missions = self.campaign.unlock_profile(&name)?;
+        self.completion_replay = false;
+        self.completion_requests.clear();
         self.screen = Screen::LoadWorlds;
         self.selected = Some(0);
         self.notice = Some(format!(
             "{missions} missions unlocked for preview; playable support varies."
         ));
         self.revision += 1;
+        Ok(())
+    }
+    pub(crate) fn browse_completion_replays(&mut self) -> Result<(), String> {
+        self.browse_preview_missions()?;
+        self.completion_replay = true;
+        self.notice =
+            Some("Replay a completion cinematic; no mission completion is recorded.".into());
         Ok(())
     }
 
@@ -49,6 +58,8 @@ pub struct Scene {
     pub flow: Flow,
     load_request: Option<LoadRequest>,
     launch_intent: LaunchIntent,
+    completion_replay: bool,
+    completion_requests: Vec<LoadRequest>,
     splash: Option<Handle<Image>>,
     worker: Option<std::sync::Mutex<std::sync::mpsc::Receiver<Result<PreparedMission, String>>>>,
     pub prepared_mission: Option<std::sync::Arc<PreparedMission>>,
@@ -76,7 +87,12 @@ pub struct Scene {
 impl Scene {
     pub(crate) fn showcase_caption(&self) -> String {
         self.load_request.as_ref().map_or_else(String::new, |r| {
-            self.campaign.mission_title(&r.mission_name)
+            let title = self.campaign.mission_title(&r.mission_name);
+            if self.launch_intent == LaunchIntent::CompletionReplay {
+                format!("Completion cinematic: {title}")
+            } else {
+                title
+            }
         })
     }
     pub(crate) fn showcase_dismiss_objectives(&mut self) -> bool {
@@ -118,6 +134,9 @@ impl Scene {
     }
     pub fn data_root(&self) -> &std::path::Path {
         self.campaign.root()
+    }
+    pub(crate) fn launch_intent(&self) -> LaunchIntent {
+        self.launch_intent
     }
     pub(crate) fn music_volume(&self) -> f32 {
         if self.screen == Screen::Sound {
@@ -179,6 +198,8 @@ impl Scene {
             flow: Flow::default(),
             load_request: None,
             launch_intent: LaunchIntent::SavedMission,
+            completion_replay: false,
+            completion_requests: Vec::new(),
             splash: None,
             worker: None,
             prepared_mission: None,
@@ -266,6 +287,11 @@ impl Scene {
                     .unwrap_or_default()
                     .into_iter()
                     .map(|w| w.title.clone())
+                    .collect::<Vec<_>>()
+            } else if self.completion_replay {
+                self.completion_requests
+                    .iter()
+                    .map(|r| self.campaign.mission_title(&r.mission_name))
                     .collect::<Vec<_>>()
             } else {
                 self.campaign
@@ -505,6 +531,7 @@ fn begin_mission(
         );
         scene.load_request = Some(request);
         scene.launch_intent = intent;
+        scene.completion_replay = intent == LaunchIntent::CompletionReplay;
         scene.prepared_mission = None;
         scene.worker = None;
         scene.screen = Screen::MissionLoading;
@@ -1252,9 +1279,28 @@ pub fn input(
             } else {
                 match scene.campaign.select_world(index) {
                     Ok(()) => {
-                        scene.screen = Screen::LoadMissions;
-                        scene.selected = Some(0);
-                        scene.notice = None;
+                        let completion = if scene.completion_replay {
+                            scene.campaign.completion_replays()
+                        } else {
+                            Ok(Vec::new())
+                        };
+                        match completion {
+                            Ok(requests) => {
+                                scene.completion_requests = requests;
+                                scene.screen = Screen::LoadMissions;
+                                scene.selected = Some(0);
+                                scene.notice = if scene.completion_replay {
+                                    Some(if scene.completion_requests.is_empty() {
+                                        "No completion cinematic is declared for this world."
+                                    } else {
+                                        "Completion replay preview; no mission completion is recorded."
+                                    }.into())
+                                } else {
+                                    None
+                                };
+                            }
+                            Err(error) => scene.notice = Some(error),
+                        }
                     }
                     Err(e) => scene.notice = Some(e),
                 }
@@ -1263,18 +1309,30 @@ pub fn input(
             return;
         }
         if scene.screen == Screen::LoadMissions {
-            let count = scene
-                .campaign
-                .menu
-                .as_ref()
-                .map(|m| m.entries.len())
-                .unwrap_or(0);
+            let count = if scene.completion_replay {
+                scene.completion_requests.len()
+            } else {
+                scene.campaign.menu.as_ref().map_or(0, |m| m.entries.len())
+            };
             if index == count {
                 scene.screen = Screen::LoadWorlds;
                 scene.selected = Some(0);
             } else {
-                let request = scene.campaign.request(index);
-                begin_mission(&mut scene, request, &mut images, LaunchIntent::SavedMission);
+                let intent = if scene.completion_replay {
+                    LaunchIntent::CompletionReplay
+                } else {
+                    LaunchIntent::SavedMission
+                };
+                let request = if scene.completion_replay {
+                    scene
+                        .completion_requests
+                        .get(index)
+                        .cloned()
+                        .ok_or("No completion replay at this index".into())
+                } else {
+                    scene.campaign.request(index)
+                };
+                begin_mission(&mut scene, request, &mut images, intent);
             }
             scene.revision += 1;
             return;
@@ -1287,6 +1345,10 @@ pub fn input(
                 );
                 let previous = scene.screen;
                 scene.screen = next;
+                if next == Screen::LoadWorlds {
+                    scene.completion_replay = false;
+                    scene.completion_requests.clear();
+                }
                 if let Screen::Controls(_) = next {
                     scene.controls = scene
                         .profiles
@@ -1443,12 +1505,21 @@ pub fn draw(
         } else {
             b"LoadMission".as_slice()
         };
-        let title = scene
+        let source_title = scene
             .campaign
             .text
             .get(key)
             .and_then(|v| std::str::from_utf8(v).ok())
             .unwrap_or("Select mission");
+        let title = if scene.completion_replay {
+            if scene.screen == Screen::LoadWorlds {
+                "Select world for cinematic replay"
+            } else {
+                "Select completion cinematic"
+            }
+        } else {
+            source_title
+        };
         label(title, 0.07, 0.04, Color::WHITE, None);
     }
     if scene.screen == Screen::MissionLoading {
