@@ -20,6 +20,12 @@ executable. The selected-pattern history audit reports zero findings across
 304 commits and 2,376 blobs. These checks do not expand the other lanes' exact
 runtime/package receipts or verify Kabuto live scheduling.
 
+Subsequent combined checkpoint `9f5e3ae` preserves persistent Flick traversal
+and its separate preview receipt. It passes 771 synthetic Rust tests (28 ignored),
+all seven Kabuto installed-data controls, 40 Python tests, Rustfmt, Clippy and
+site/JavaScript checks. Both size/auxiliary controls pass again on its rebuilt
+executable; the history audit reports zero findings over 307 commits/2,386 blobs.
+
 This source stage adds no dependencies, bundled game data or playable package.
 Existing preview manifests/notices/checksums retain their exact previous runtime
 and receipt identities. No existing executable receipt attests to this new API
