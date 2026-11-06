@@ -20,6 +20,25 @@ turbo, combat and live mission admission remain pending. These CPU controls do
 not certify a complete controller, scheduled world turn or visual fidelity and
 add no playable Delphi download.
 
+## Kabuto CPU geometry submission - 6 November 2026
+
+The normal per-entry geometry callback now has an owned Rust command packet.
+It reuses common basis/matrix, SIMD trigonometry and RNG services, preserving the
+transposed transform, source material/state words, full buffers and seven-call
+order. Sixty-four native controls match 24,876 words. Synthetic controls cover
+disabled and refused profiles, buffer ownership and each backend failure point.
+The source state producer, guarded visitor, world scheduling and actual GPU
+consumer remain open. No initializer gate or playable status is promoted.
+
+Validation: 747 synthetic Rust tests pass (23 ignored), all three silent Kabuto
+installed-data controls pass, and 40 Python tests, Rustfmt, Clippy with warnings
+denied, site export and JavaScript syntax checks pass. Prototype PS2 attributions
+remain unknown, with lookup lineage and native receipts kept private.
+
+This changes no dependency or bundled asset and creates no playable download.
+Existing release manifests, executable checksums and notice receipts retain their
+original build identities; they do not attest to this CPU source milestone.
+
 ## Dashboard screenshot visibility — 6 November 2026
 
 Three existing reviewed engine captures (jet boost, subjective view and cinematic
