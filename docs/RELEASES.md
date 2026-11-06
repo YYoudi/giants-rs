@@ -60,6 +60,13 @@ private ZIP SHA256:
 The earlier b7a8991 controls keep their separate identity. No live Delphi,
 complete-primary, interactive-camera or visual-fidelity claim is added.
 
+
+The later Kabuto header and Flick documentation integration is validated on
+`b17eebb7e75399e14a69406af2e6e70f9beb92ae`: 754 Rust tests pass (24 ignored),
+with Rustfmt and Clippy. The added basis point-transform is a separate acquired
+profile; existing Delphi kernels are unchanged. The executable controls above
+remain tied to source 61d4105 rather than a later documentation/header commit.
+
 ## Kabuto CPU geometry-header producer tail - 6 November 2026
 
 The owned header tail now selects the supplied local-camera or body/target route,
