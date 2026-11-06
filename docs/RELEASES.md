@@ -60,6 +60,62 @@ private ZIP SHA256:
 The earlier b7a8991 controls keep their separate identity. No live Delphi,
 complete-primary, interactive-camera or visual-fidelity claim is added.
 
+## Kabuto CPU geometry-header producer tail - 6 November 2026
+
+The owned header tail now selects the supplied local-camera or body/target route,
+preserves inactive fields, transforms the current attachment and measures target
+distance. The source point-array arithmetic is added to the common matrix type;
+existing aiming arithmetic is unchanged. All 384 native controls match 4,992
+header words across six modes, both selection states, target presence and eight
+matrix-flag profiles. Controlled prefix inputs bypass preceding transitions, so
+this does not validate the full helper, mode selector or live controller.
+
+Validation: 751 synthetic Rust tests pass (23 ignored), along with 40 Python
+tests, Rustfmt, Clippy with warnings denied, site export and JavaScript syntax.
+Prototype PS2 lookup lineage remains private and attribution remains unknown.
+Mode/scalar selection, preceding transitions, extra-reference lifetime, world
+scheduling and GPU consumption remain open. No gameplay status is promoted.
+
+Combined checkpoint `3adfad8` preserves the newer ordered Mecc camera and Flick
+transport evidence. It passes 753 synthetic Rust tests (24 ignored), 40 Python
+tests, Rustfmt, Clippy and site/JavaScript checks. Rebuilt private runners again
+match the 384-case header tail and 64-case / 24,876-word submission controls.
+
+There are no dependency or bundled-asset changes and no new playable download.
+Published preview notices, package manifests and checksums retain their original
+build identities; this source milestone does not replace their receipts.
+
+## Flick generation acquisition and interactive transport — 6 November 2026
+
+The existing `preview-2026.11.06.1`, source
+`0b050fbcf89eeae0ff0dd473133d496ac3496aa7`, now has an additional silent manual
+main-menu check on Rstory1 mission 3. Escape skips after persistent-object birth;
+the second entry reaches natural completion; the third entry double-clicks out
+before object birth. All three reach the partial free-camera scene and return to
+the mission menu. Tracked owned assets/session entities are released, with zero
+remaining persistent objects/contexts. First-mission loading cancellation also
+returns to the main menu, and F10 closes the test window. These are actual UI
+inputs without replay mode. They do not establish Delphi gameplay admission,
+native rendering/timing fidelity, audible voice/subtitle parity, double-click
+with a live persistent object, or coverage of other scenes.
+
+Separate private PC controls acquire the generation producer and its original
+wait caller: 153 producer cases / 2,461 generation words and 20 wait cases /
+1,294 process calls. An unsatisfied wait advances time and then renews director
+and actor generations; a satisfied wait proceeds without that update. Source
+construction/render-cache phase, world scheduling and capacity remain open.
+Prototype PS2 lookups precede the acquisition and remain unassigned. No private
+inputs, listings or receipts are published. This evidence/documentation milestone
+changes no Rust runtime or package; existing build/checksum receipts retain their
+own source identities, and the 545-source inventory and zero certified scenes
+are unchanged.
+
+The combined checkpoint `df763e1` preserves the current Mecc/Kabuto/gallery work
+and passes 749 synthetic Rust tests (24 ignored), 40 Python tests, Rustfmt,
+Clippy with warnings denied, site export and JavaScript syntax checks. Source
+history review reports zero findings across 218 reachable commits / 2,034 blobs.
+These source checks do not replace the exact-preview interactive receipt above.
+
 ## Ordered inner/outer Mecc camera and subjective fire - 6 November 2026
 
 The Session-produced subjective post now calculates the ordinary inner camera

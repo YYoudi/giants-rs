@@ -36,7 +36,8 @@ that result and rebuild in an isolated target before recording a release receipt
 Package a draft with `python -m tools.package_preview --help`. Run the extracted
 bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Windows
 or GIANTS_INSPECTION_FONT, never bundled. Game data is read-only; user state goes
-outside the installation. Interactive validation remains pending in this candidate.
+outside the installation. Interactive coverage is limited to the exact preview
+and mission recorded in RELEASES.md; broader gameplay and fidelity remain pending.
 
 ## Optional subjective Mecc lifecycle check
 

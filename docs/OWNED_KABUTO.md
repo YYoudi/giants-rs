@@ -506,3 +506,35 @@ This ports CPU command preparation only. Actual producer fields, the guarded
 registry visitor, world scheduling, material upload and Bevy GPU consumption
 remain open. All initializer readiness prerequisites and live admission remain
 unchanged; this result establishes neither playable movement nor visual fidelity.
+
+
+## Geometry-header camera/body tail
+
+`kabuto_geometry_state::prepare` ports the header tail after the animation/effect
+phase, consuming an explicit source mode, selected-owner camera and current
+body/attachment/target inputs. It initially disables the geometry. Mode zero and
+nonselected mode one retain all other fields. A selected owner with nonzero mode
+uses the camera direction and an origin twenty source units ahead, with source
+width/material parameters. Other modes at least two transform the current model
+attachment through the flagged world matrix. They stay disabled without a target;
+a target supplies the bounds center, direction and measured length. The target's
+Z center has an intermediate float store that X/Y do not; this is preserved.
+
+The common matrix type gains the acquired Double53 point-array kernel with its
+own arithmetic order. The existing homogeneous aiming kernel is unchanged.
+Finite/affine/overflow refusals are owned policy outside the tested source profile.
+All 384 native controls match 4,992 complete header words. They execute the full
+original helper under supplied animation/extra-reference conditions that bypass
+its preceding transitions, with current camera/joint/matrix/bounds inputs. Both
+local selection states, target presence, six modes and eight matrix-flag profiles
+are exercised. This is a header-tail comparison, not a full helper comparison.
+
+The earlier primary write observer returns for one cold and immediately repeated
+supplied primary, keeping this geometry disabled. That native-only observation
+locates the writers; it does not validate a Rust primary or assign gameplay names
+to the mode byte. Its scalar/mode selector, animation and sound transitions,
+extra-reference creation/retirement and world dispatch remain open. A synthetic
+control composes the prepared header with the consumable submission packet; no
+actual GPU backend runs. Prototype PS2 attributions remain unknown. Private
+records distinguish instruction write sites from actual direct-call entries and
+retain failed REA requests separately from Capstone/native execution evidence.
