@@ -41,6 +41,7 @@ impl bevy::app::Plugin for Plugin {
 #[derive(Component)]
 pub struct DrawnPlayer {
     pub ticket: u64,
+    pub slot: usize,
     pub part: usize,
 }
 #[derive(Component)]
@@ -185,102 +186,145 @@ fn sync(
         lit: Vec::new(),
         buffers: Vec::new(),
     };
-    let mut textures = BTreeMap::new();
-    for source in &p.body.textures {
-        let mut image = Image::new(
-            bevy::render::render_resource::Extent3d {
-                width: source.width,
-                height: source.height,
-                depth_or_array_layers: 1,
-            },
-            bevy::render::render_resource::TextureDimension::D2,
-            source.rgba.clone(),
-            bevy::render::render_resource::TextureFormat::Rgba8Unorm,
-            RenderAssetUsages::default(),
-        );
-        image.sampler = crate::logo_material::sampler();
-        let handle = images.add(image);
-        textures.insert(source.name.to_ascii_lowercase(), handle.clone());
-        mounted.images.push(handle);
-    }
-    for (part_index, part) in p.body.mesh.subobjects.iter().enumerate() {
-        let ids: Vec<_> = part
-            .triangles
-            .iter()
-            .flatten()
-            .map(|i| usize::from(*i))
-            .collect();
-        let colors: Vec<_> = ids
-            .iter()
-            .map(|i| {
-                if part.material.flags & 0x20 != 0 {
-                    let rgb = p.body.mesh.rgb[*i];
-                    [
-                        rgb[0] as f32 / 255.,
-                        rgb[1] as f32 / 255.,
-                        rgb[2] as f32 / 255.,
-                        1.,
-                    ]
-                } else {
-                    [1.; 4]
+    let owned_models =
+        if std::env::var("GIANTS_MISSION_MECC_BACKEND").as_deref() == Ok("owned-inspection") {
+            match runtime.owned_body_models(player.ticket) {
+                Ok(models) => models,
+                Err(error) => {
+                    error!("Owned draw models refused: {error}");
+                    return;
                 }
-            })
-            .collect();
-        let mesh = Mesh::new(
-            bevy::render::render_resource::PrimitiveTopology::TriangleList,
-            RenderAssetUsages::default(),
-        )
-        .with_inserted_attribute(Mesh::ATTRIBUTE_POSITION, p.vertices(part_index))
-        .with_inserted_attribute(
-            Mesh::ATTRIBUTE_UV_0,
-            ids.iter().map(|i| p.body.mesh.uv[*i]).collect::<Vec<_>>(),
-        )
-        .with_inserted_attribute(Mesh::ATTRIBUTE_COLOR, colors);
-        let mesh = meshes.add(mesh);
-        let alpha = if part.material.flags & 1 != 0 {
-            ((1. - part.material.falloff) * 255.) as u8 as f32 / 255.
+            }
         } else {
-            1.
+            Vec::new()
         };
-        let fog = scene.asset.config.fog;
-        let material = materials.add(actor_scene::Material::from(actor_scene::Bindings {
-            texture: textures[&part.material.texture.to_ascii_lowercase()].clone(),
-            clip_from_bevy: view.buffer.clone(),
-            validation: Vec4::new(1., 1. / 1920., -1. / 1080., alpha),
-            fog: Vec4::new(fog.start, fog.end, 1., 0.),
-            fog_color: if part.material.flags & 1 != 0 {
-                Vec4::ZERO
-            } else {
-                Vec4::new(
-                    fog.color[0] as f32 / 255.,
-                    fog.color[1] as f32 / 255.,
-                    fog.color[2] as f32 / 255.,
-                    0.,
-                )
-            },
-            force_additive: false,
-            blend: p
-                .body
-                .alpha_textures
-                .contains(&part.material.texture.to_ascii_lowercase()),
-        }));
-        let entity = commands
-            .spawn((
-                DrawnPlayer {
-                    ticket: player.ticket,
-                    part: part_index,
+    let variants = if owned_models.is_empty() {
+        vec![(0, &p.body.mesh, &p.body.textures, &p.body.alpha_textures)]
+    } else {
+        owned_models
+            .iter()
+            .map(|(slot, m)| (*slot, &m.mesh, &m.textures, &m.alpha_textures))
+            .collect()
+    };
+    for (body_slot, body_mesh, body_textures, body_alpha) in variants {
+        let mut textures = BTreeMap::new();
+        for source in body_textures {
+            let mut image = Image::new(
+                bevy::render::render_resource::Extent3d {
+                    width: source.width,
+                    height: source.height,
+                    depth_or_array_layers: 1,
                 },
-                crate::mission_runtime::MissionOwned(player.ticket),
-                Name::new(format!("Mission initial Mecc / {}", part.name)),
-                Mesh3d(mesh.clone()),
-                MeshMaterial3d(material.clone()),
-                Visibility::Visible,
-                bevy::camera::visibility::NoFrustumCulling,
-            ))
-            .id();
-        mounted.entities.push(entity);
-        mounted.meshes.push(mesh);
-        mounted.materials.push(material);
+                bevy::render::render_resource::TextureDimension::D2,
+                source.rgba.clone(),
+                bevy::render::render_resource::TextureFormat::Rgba8Unorm,
+                RenderAssetUsages::default(),
+            );
+            image.sampler = crate::logo_material::sampler();
+            let handle = images.add(image);
+            textures.insert(source.name.to_ascii_lowercase(), handle.clone());
+            mounted.images.push(handle);
+        }
+        for (part_index, part) in body_mesh.subobjects.iter().enumerate() {
+            let ids: Vec<_> = part
+                .triangles
+                .iter()
+                .flatten()
+                .map(|i| usize::from(*i))
+                .collect();
+            let colors: Vec<_> = ids
+                .iter()
+                .map(|i| {
+                    if part.material.flags & 0x20 != 0 {
+                        let rgb = body_mesh.rgb[*i];
+                        [
+                            rgb[0] as f32 / 255.,
+                            rgb[1] as f32 / 255.,
+                            rgb[2] as f32 / 255.,
+                            1.,
+                        ]
+                    } else {
+                        [1.; 4]
+                    }
+                })
+                .collect();
+            let mesh = Mesh::new(
+                bevy::render::render_resource::PrimitiveTopology::TriangleList,
+                RenderAssetUsages::default(),
+            )
+            .with_inserted_attribute(
+                Mesh::ATTRIBUTE_POSITION,
+                if body_slot == 0 {
+                    p.vertices(part_index)
+                } else {
+                    ids.iter()
+                        .map(|i| {
+                            let q = body_mesh.positions[usize::from(body_mesh.indices[*i])];
+                            let m = p.matrix;
+                            let q = std::array::from_fn::<_, 3, _>(|r| {
+                                m[r * 4] * q[0]
+                                    + m[r * 4 + 1] * q[1]
+                                    + m[r * 4 + 2] * q[2]
+                                    + m[r * 4 + 3]
+                            });
+                            [q[0], q[2], -q[1]]
+                        })
+                        .collect::<Vec<_>>()
+                },
+            )
+            .with_inserted_attribute(
+                Mesh::ATTRIBUTE_UV_0,
+                ids.iter().map(|i| body_mesh.uv[*i]).collect::<Vec<_>>(),
+            )
+            .with_inserted_attribute(Mesh::ATTRIBUTE_COLOR, colors);
+            let mesh = meshes.add(mesh);
+            let alpha = if part.material.flags & 1 != 0 {
+                ((1. - part.material.falloff) * 255.) as u8 as f32 / 255.
+            } else {
+                1.
+            };
+            let fog = scene.asset.config.fog;
+            let material = materials.add(actor_scene::Material::from(actor_scene::Bindings {
+                texture: textures[&part.material.texture.to_ascii_lowercase()].clone(),
+                clip_from_bevy: view.buffer.clone(),
+                validation: Vec4::new(1., 1. / 1920., -1. / 1080., alpha),
+                fog: Vec4::new(fog.start, fog.end, 1., 0.),
+                fog_color: if part.material.flags & 1 != 0 {
+                    Vec4::ZERO
+                } else {
+                    Vec4::new(
+                        fog.color[0] as f32 / 255.,
+                        fog.color[1] as f32 / 255.,
+                        fog.color[2] as f32 / 255.,
+                        0.,
+                    )
+                },
+                force_additive: false,
+                blend: body_alpha.contains(&part.material.texture.to_ascii_lowercase()),
+            }));
+            let entity = commands
+                .spawn((
+                    DrawnPlayer {
+                        ticket: player.ticket,
+                        part: part_index,
+                        slot: body_slot,
+                    },
+                    crate::mission_runtime::MissionOwned(player.ticket),
+                    Name::new(format!("Mission initial Mecc / {}", part.name)),
+                    Mesh3d(mesh.clone()),
+                    MeshMaterial3d(material.clone()),
+                    if body_slot == 0 {
+                        Visibility::Visible
+                    } else {
+                        Visibility::Hidden
+                    },
+                    bevy::camera::visibility::NoFrustumCulling,
+                ))
+                .id();
+            mounted.entities.push(entity);
+            mounted.meshes.push(mesh);
+            mounted.materials.push(material);
+        }
     }
     // The selected cold equipment resolves through the common icon/class and
     // animated-hand consumers. This is a fixed initial attachment, not firing.

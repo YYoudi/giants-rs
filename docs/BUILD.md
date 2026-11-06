@@ -41,6 +41,16 @@ and mission recorded in RELEASES.md; broader gameplay and fidelity remain pendin
 
 ## Optional subjective Mecc lifecycle check
 
+The main owned inspection's model settings and limits are documented in
+[OWNED_MODEL_DRAW.md](OWNED_MODEL_DRAW.md). For a silent repeated resource check,
+set `GIANTS_MISSION_MECC_BACKEND=owned-inspection`,
+`GIANTS_MISSION_REPLAY=owned-player-inspection-cycles` and optionally
+`GIANTS_MISSION_MODEL_QUALITY=0`. Launch the same executable with `--mecc-menu`,
+your `--data-root`, a separate `--user-data-root`, and
+`--offscreen --silent-capture --capture` pointing into ignored local output.
+This repeats the acquired 128-step inspection and cancellation, not normal
+campaign admission or the unresolved longer movement/landing trajectory.
+
 Set `GIANTS_MECC_WORLD_ROOT` to a user-supplied installation and use the isolated
 target directory described above:
 

@@ -841,6 +841,62 @@ fn deferred_primary_controls(produced: bool) {
                     .unwrap();
                 assert_eq!(outer.output().number, 2);
                 assert_eq!(cameras.outer_output(1).unwrap().number, 2);
+                let publication = cameras.last().unwrap().clone();
+                let old_stamp = s.get(owner).unwrap().mecc_animation_stamp;
+                let old_channels = s.get(owner).unwrap().channels;
+                for slot in 0..10 {
+                    let draw = crate::mecc_model_draw::prepare(
+                        &mut s,
+                        &publication,
+                        crate::mecc_model_draw::Settings {
+                            quality: 2,
+                            forced: slot,
+                        },
+                    )
+                    .unwrap();
+                    assert_eq!(draw.source(), owner);
+                    assert_eq!(draw.number(), 1);
+                    assert_eq!(draw.slot(), slot as usize);
+                    assert_eq!(
+                        draw.positions().map(<[_]>::len),
+                        draw.model().map(|m| m.prepared.mesh.positions.len())
+                    );
+                }
+                assert_eq!(s.get(owner).unwrap().mecc_animation_stamp, old_stamp);
+                assert_eq!(s.get(owner).unwrap().channels, old_channels);
+                assert!(s.current_reference_matrices(owner).is_err());
+                let before = s.position_buffer_count();
+                assert!(
+                    crate::mecc_model_draw::prepare(
+                        &mut s,
+                        &publication,
+                        crate::mecc_model_draw::Settings {
+                            quality: 4,
+                            forced: -1
+                        }
+                    )
+                    .is_err()
+                );
+                assert!(
+                    crate::mecc_model_draw::prepare(
+                        &mut s,
+                        &publication,
+                        crate::mecc_model_draw::Settings {
+                            quality: 2,
+                            forced: 10
+                        }
+                    )
+                    .is_err()
+                );
+                assert_eq!(s.position_buffer_count(), before);
+                assert!(
+                    crate::mecc_model_draw::prepare(
+                        &mut Session::new(999),
+                        &publication,
+                        crate::mecc_model_draw::Settings::default()
+                    )
+                    .is_err()
+                );
                 assert!(
                     cameras
                         .outer(&s, 1, true, 1. / 60., &mut camera_world)
@@ -848,6 +904,16 @@ fn deferred_primary_controls(produced: bool) {
                 );
             }
             s.begin_mecc_frame_history(owner, 2).unwrap();
+            if produced {
+                assert!(
+                    crate::mecc_model_draw::prepare(
+                        &mut s,
+                        cameras.last().unwrap(),
+                        crate::mecc_model_draw::Settings::default()
+                    )
+                    .is_err()
+                );
+            }
         }
         let before_replay = (
             p.stamp.0,

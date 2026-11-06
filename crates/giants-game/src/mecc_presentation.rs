@@ -29,6 +29,7 @@ pub struct Frame {
     pub camera_cache: Option<crate::mecc_camera_update::Output>,
     pub references: Vec<crate::procedural_aim::Matrix>,
     pub stamp: u32,
+    pub draw_model: Option<crate::mecc_model_draw::Selection>,
 }
 
 /// The session's shared model bank is updated after the real owned primary;
@@ -132,6 +133,7 @@ pub fn sample(
         camera_cache: None,
         references,
         stamp,
+        draw_model: None,
     };
     session.prepare_actor_positions(actor, 0, stamp, false)?;
     frame.positions = session

@@ -444,6 +444,25 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   checks refuse stale/foreign/cleared/skipped/numeric and replaced-reference input.
   Next acquire the enclosing held pose/finalization scheduling and connect actual
   body/subjective/held rendering through live culling, LOD, parts and materials.
+- Owned body models: `mecc_model_draw` binds the actual completed outer camera,
+  source/specification and shared-channel positions to the main inspection
+  renderer. The native selector and full model snapshots match 1,280 selections /
+  256 snapshots / 309,472 words. Six receipt-bound Bevy endpoints cover automatic,
+  forced and absent models; model 0 uses 736 vertices/eight parts, model 7 uses
+  57 vertices/six parts. Quality/override settings remain explicit inspection
+  inputs. See docs/OWNED_MODEL_DRAW.md. Next bind native culling, node/part masks,
+  material/normal context and immediate/deferred scheduling; model selection
+  alone is not full world or subjective draw admission.
+  Migrate the retained model-0 diagnostic presentation consumers before claiming
+  native shared-bank ordering across actors; this inspection still prepares that
+  diagnostic pose separately from its selected-model upload.
+- Extended owned movement remains incomplete: the general movement-cycle replay
+  refuses at step 152 under the secondary guard currently labelled "landing
+  reaction provider". Retain that failed control. Before widening admission,
+  independently verify its gap/velocity condition against the pinned native
+  selector and acquire the actual transition, impact and landing-effect branches.
+  The new 128-step owned inspection cycles test resource retirement separately;
+  they neither repair nor validate that longer trajectory.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated
