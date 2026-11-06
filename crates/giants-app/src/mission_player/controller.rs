@@ -236,7 +236,7 @@ impl Controller {
             finish_step: if std::env::var("GIANTS_MISSION_REPLAY").as_deref()
                 == Ok("owned-player-descent-inspection")
             {
-                157
+                145
             } else if crate::frontend_scene::owned_inspection_replay() {
                 std::env::var("GIANTS_MISSION_OWNED_JET_CAPTURE_STEP")
                     .ok()
@@ -607,7 +607,6 @@ pub(super) fn update(
                                     "owned inspection did not exercise movement"
                                 );
                             }
-                            controller.replay_done = true;
                             if controller.descent_replay {
                                 let clip = controller.state.mission_snapshot().2;
                                 assert_eq!(
@@ -619,6 +618,7 @@ pub(super) fn update(
                                     controller.ticket, controller.steps
                                 );
                             }
+                            controller.replay_done = true;
                             println!(
                                 "mission_owned_inspection_finished ticket={} steps={} distance={distance} position_bits={:?} supplied_counters=true primary_owned=true ready=false",
                                 controller.ticket,
