@@ -22,6 +22,13 @@ startup camera, target contexts and positional audio remain required. Prototype
 PS2 attributions remain unknown. No new playable preview or executable/package
 receipt follows this CPU prerequisite; previous receipts retain their identities.
 
+Source `dace127` passes 761 synthetic Rust tests (25 ignored), the four installed-data
+Mecc controls, 40 Python tests, Rustfmt, Clippy and site/JavaScript checks. Rebuilt
+runners pass both new matrix comparisons, the earlier 716,414-word shared-position
+and world/fire regression, and all 8,336 dispatch/parent-policy cases. Source/history
+review reports no findings across 249 commits and 2,172 blobs. These checks retain
+their controlled camera startup, flat/partial world and absent positional sound.
+
 ## Mecc body/subjective submission prerequisite - 6 November 2026
 
 The new class-2 dispatcher preserves body/subjective/auxiliary callback order and
