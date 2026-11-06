@@ -18,6 +18,13 @@ No new playable download, executable receipt or package checksum is claimed by
 this source-only change. The last exact GNU build and private draft below retain
 their own source and checksum identities.
 
+Combined source `9afd57b` preserves the concurrent Kabuto auxiliary lifecycle.
+It passes 761 synthetic Rust tests (25 ignored), all four installed-data Mecc
+lifecycle controls, 40 Python tests, Rustfmt, Clippy and site/JavaScript checks.
+The rebuilt submission runner again matches all 8,336 native cases. Minimal
+unknown-attribution rows are reviewed separately from private evidence, with
+the source scanner's exception bound to the exact document bytes and public path.
+
 ## Kabuto auxiliary ownership and class-command gap - 6 November 2026
 
 The dynamic auxiliary now loads actual resources through a separate factory and
