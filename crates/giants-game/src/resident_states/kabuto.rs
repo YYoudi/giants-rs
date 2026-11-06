@@ -11,7 +11,107 @@ use std::sync::Arc;
 #[path = "kabuto_transition_tests.rs"]
 mod transition_tests;
 
+#[cfg(test)]
+#[path = "kabuto_growth_tests.rs"]
+mod growth_tests;
+
 impl Session {
+    pub(crate) fn advance_kabuto_growth(
+        &mut self,
+        owner: Id,
+        resources: &Resources,
+        globals: &giants_formats::global_data::GlobalData,
+        bounds: giants_formats::world_bounds::Resolved,
+        frame: crate::kabuto_growth::Frame<'_>,
+    ) -> Result<crate::kabuto_growth::View, String> {
+        let actor = self
+            .get(owner)
+            .ok_or("Kabuto growth owner absent or foreign")?;
+        let group = actor
+            .kabuto_group
+            .as_ref()
+            .ok_or("Kabuto growth group absent")?;
+        if actor.class != 1
+            || actor.seed.storage.state() != 1
+            || group.cleaned_up
+            || group.geometry_transition_failure.is_some()
+            || !Arc::ptr_eq(&group.declared_class, &resources.specification)
+            || self
+                .specification(owner)
+                .is_none_or(|s| !Arc::ptr_eq(s, &resources.specification))
+        {
+            return Err("Kabuto growth requires its active factory-owned group".into());
+        }
+        let mut fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("Kabuto growth fields absent")?
+            .clone();
+        fields.channels = actor.channels.ok_or("Kabuto growth channels absent")?;
+        let mut payload = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("Kabuto growth payload absent")?
+            .to_vec();
+        if payload.len() != 844 || !frame.target.is_finite() {
+            return Err("Kabuto growth payload or target outside acquired profile".into());
+        }
+        let current = f32::from_le_bytes(payload[0x15c..0x160].try_into().unwrap());
+        if !current.is_finite() {
+            return Err("Kabuto growth current size is nonfinite".into());
+        }
+        let seconds = if current == frame.target {
+            0.
+        } else {
+            crate::object_time_precision::seconds(
+                frame.global_seconds,
+                Some(crate::object_time_precision::Actor {
+                    owner_id: fields.dispatch_context,
+                    position: fields.position[..2].try_into().unwrap(),
+                }),
+                None,
+                frame.areas,
+                crate::arithmetic::Precision::Double53,
+            )
+            .map_err(str::to_owned)?
+        };
+        let view = crate::kabuto_growth::approach(current, frame.target, seconds)
+            .map_err(str::to_owned)?;
+        fields.object_flags |= 0x10000000;
+        payload[0x158..0x15c].copy_from_slice(&frame.target.to_le_bytes());
+        payload[0x15c..0x160].copy_from_slice(&view.current.to_le_bytes());
+        let next = if view.refreshed {
+            crate::kabuto_size::prepare(
+                &fields,
+                &payload,
+                group.radius,
+                Some(crate::kabuto_size::Source {
+                    globals,
+                    class_scale: resources.class_fields().scale,
+                    bounds,
+                }),
+            )?
+        } else {
+            crate::kabuto_size::Prepared {
+                fields,
+                payload,
+                radius: group.radius,
+            }
+        };
+        let actor = self.residents.get_mut(&owner.serial).unwrap();
+        actor
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()
+            .copy_from_slice(&next.payload);
+        actor.construction_fields = Some(next.fields);
+        let group = actor.kabuto_group.as_mut().unwrap();
+        group.radius = next.radius;
+        group.primary_started = true;
+        Ok(view)
+    }
     /// Select the second auxiliary from this owner's size parameter and the
     /// published actor positions. World pose/list production and ANM are separate.
     pub fn select_kabuto_auxiliary_animation(

@@ -187,6 +187,8 @@ struct Instance {
     mixed: Option<mixed::Slot>,
     detached: bool,
     creation_position: Option<[f32; 3]>,
+    /// Complete constant attached recipe; the live queue supplies traversal state.
+    persistent_attachment: bool,
 }
 struct Emitted {
     group: usize,
@@ -669,6 +671,7 @@ fn unlit_effect_instance(
         mixed: None,
         detached: false,
         creation_position: None,
+        persistent_attachment: false,
     })
 }
 fn periodic_instances(
@@ -772,6 +775,7 @@ fn periodic_instances(
                 mixed: None,
                 detached: false,
                 creation_position: None,
+                persistent_attachment: false,
             });
         }
     }
@@ -956,6 +960,7 @@ fn burst_instances(
                 mixed: None,
                 detached: false,
                 creation_position: None,
+                persistent_attachment: false,
             })
         })
         .collect()
@@ -1288,6 +1293,7 @@ fn particle_instance(
         mixed: None,
         detached: false,
         creation_position: None,
+        persistent_attachment: false,
     })
 }
 struct Draw {
@@ -1740,6 +1746,7 @@ impl Scene {
                         mixed: None,
                         detached: false,
                         creation_position: None,
+                        persistent_attachment: false,
                     })
                 })();
                 match result {
@@ -2078,6 +2085,7 @@ impl Scene {
                         normals: None,
                         facing,
                         animation,
+                        persistent_attachment: timed.is_none(),
                         timed,
                         released: None,
                         projectile: None,
@@ -2725,10 +2733,11 @@ pub fn setup(
                     part
                 );
             }
-            let routed = instance
-                .released
-                .as_ref()
-                .is_some_and(|r| r.routes.is_some());
+            let routed = instance.persistent_attachment
+                || instance
+                    .released
+                    .as_ref()
+                    .is_some_and(|r| r.routes.is_some());
             if routed {
                 let DrawMaterial::Unlit(handle) = &material else {
                     unreachable!("admitted particle material");
@@ -2736,7 +2745,7 @@ pub fn setup(
                 let extra = commands
                     .spawn((
                         Rendered,
-                        Name::new("FLK ordinary particle traversal"),
+                        Name::new("FLK ordinary effect traversal"),
                         Mesh3d(mesh.clone()),
                         MeshMaterial3d(handle.clone()),
                         Transform::from_matrix(matrix),
@@ -4223,25 +4232,45 @@ pub fn update(
             if matches!(scene.instances[draw.instance].source, Source::Effect { .. }) {
                 let previous = *visibility;
                 let instance = &scene.instances[draw.instance];
-                let route_enabled = draw.route == 0
-                    || instance.released.as_ref().is_some_and(|r| {
-                        r.routes.is_some_and(|profile| {
-                            profile
-                                .routes(
-                                    r.playback.requested(),
-                                    r.playback.visual.is_some(),
-                                    r.playback.expired,
-                                )
-                                .mask()
-                                & draw.route
-                                != 0
-                        })
-                    });
                 let owned = match &instance.source {
                     Source::Effect { request, .. } => persistent.as_ref().and_then(|state| {
                         state.persistent_frame(cinematic.director_index(), request.offset)
                     }),
                     Source::Actor(_) => None,
+                };
+                let route_enabled = if instance.persistent_attachment {
+                    match owned {
+                        Some(Some(frame)) => {
+                            let eye = cinematic.camera().expect("prepared source camera").origin;
+                            match frame.draw_routes(eye, cinematic.ordinary_range()) {
+                                Ok(routes) => routes.mask() & draw.route != 0,
+                                Err(error) => {
+                                    error!("Persistent effect admission failed: {error}");
+                                    exit.write(AppExit::Error(std::num::NonZeroU8::MIN));
+                                    return;
+                                }
+                            }
+                        }
+                        Some(None) => false,
+                        // Isolated inspection has no owned world traversal state.
+                        // Retain its single existing draw, with no ordinary claim.
+                        None => draw.route == 2,
+                    }
+                } else {
+                    draw.route == 0
+                        || instance.released.as_ref().is_some_and(|r| {
+                            r.routes.is_some_and(|profile| {
+                                profile
+                                    .routes(
+                                        r.playback.requested(),
+                                        r.playback.visual.is_some(),
+                                        r.playback.expired,
+                                    )
+                                    .mask()
+                                    & draw.route
+                                    != 0
+                            })
+                        })
                 };
                 *visibility = if instance.visible(&cinematic)
                     && route_enabled
@@ -4256,12 +4285,13 @@ pub fn update(
                     && let Source::Effect { request, .. } = &instance.source
                 {
                     println!(
-                        "mission_persistent_draw ticket={} director={} offset={} class={} part={} entity={:?} visible={} updates={} matrix_bits={:?} native_pixels_verified=false",
+                        "mission_persistent_draw ticket={} director={} offset={} class={} part={} route={} entity={:?} visible={} updates={} matrix_bits={:?} native_pixels_verified=false",
                         persistent.as_ref().unwrap().ticket(),
                         cinematic.director_index(),
                         request.offset,
                         instance.source.class(),
                         draw.part,
+                        draw.route,
                         draw.entity,
                         *visibility != Visibility::Hidden,
                         frame.updates,

@@ -712,3 +712,49 @@ initializer gates remain intact. Actual world-pose/list production, subsequent
 ANM/reference cadence, the following helper, full primary, movement and growth
 are still prerequisites. Prototype PS2 attributions remain unknown; no raw
 corpus, listings, reports or executable data are included in this milestone.
+
+## Owned size pursuit and composed early primary — 6 November 2026
+
+`kabuto_growth::approach` acquires the primary's current-size pursuit. The actor-
+local timestep remains wide through multiplication by the source float32 rate;
+there is no preliminary float32 timestep store. The current size moves toward
+an explicitly supplied target, retains the acquired store/clamp order and
+refreshes size-dependent parameters whenever the incoming sizes differ. A zero
+time step still invokes that refresh. Equal sizes preserve signed zero and bypass
+the time service, including otherwise unused invalid time inputs.
+
+`kabuto_initial::Factory::advance_growth` binds its actual class resources,
+global parameters and collision bounds to its own active Session group. It
+publishes the supplied target, current size, source flag, complete parameter
+projection and radius through the existing size service. The following auxiliary
+selector consumes those actual updated parameters. Failed preparation leaves the
+owned state unchanged. Foreign factories, absent/stale owners and retired or
+quarantined groups refuse. Entering the phase retains the pending gates and
+prevents cold-only custom cleanup. ANM, affine/collision caches and scheduling
+remain separate consumers.
+
+Two 512-context source controls match 627,712 normalized words through the
+ordered size/auxiliary composition: complete owner and second-child headers,
+owner payload, all 15 physical-buffer words and size-refresh decisions. One
+control varies independent input states; the other retains actual state across
+512 successive steps, reaches all four sizes and retargets/shrinks. The owned
+sequential driver checks its previous result against each native incoming size;
+it does not seed Rust with the native computed current size. Owner-skip,
+first-hit/overlapping/outside time areas, fractional multipliers, zero steps and
+equal-size clock bypass are included. Another earlier trajectory is retained
+privately as an additional regression, outside these selected counts.
+
+The source probe executes the actual bounded primary region and its full time,
+size and auxiliary helpers, after source-backed cold construction. Caller entry
+registers/stack, target, incoming poses and local-root identity are supplied.
+The remote-root fixture uses the constructed first auxiliary as an explicit
+object boundary. Actual cold eligible distance lists are empty; nonempty-list
+arithmetic remains covered by the earlier separate helper controls, not by this
+cold-world composition. The other ten actor headers are checked unchanged.
+Original source data and all probe inputs/results remain private.
+
+This implements size pursuit from a decision, not the decision itself. Feeding,
+growth triggers, earlier quantized target/notification logic, the following
+multi-target/effect helper, complete primary, locomotion/jumping, world cadence,
+rendering and live admission remain open. Prototype PS2 correspondences remain
+unknown; these PC behavior controls assign no recovered name or PS2 ABI.

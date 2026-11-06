@@ -1,5 +1,96 @@
 # Preview releases and milestone integration
 
+## Kabuto owned size pursuit — 6 November 2026
+
+The factory-bound size phase now preserves the actor-local wide timestep,
+source step/clamp and complete size-dependent parameter/radius refresh, then
+composes with the existing second-auxiliary selector. Two 512-context original-
+PC/owned controls match 627,712 normalized words, including a continuous
+four-size trajectory with retargeting, shrinkage and ordered time areas.
+Targets, poses and root identity are supplied boundaries. Growth decisions,
+feeding, full primary, movement and live admission remain pending. The dashboard
+now lists the acquired Kabuto CPU foundation separately from gameplay readiness.
+
+Combined checkpoint `0c08601` preserves the newer Delphi authored-camera and
+Mecc descent/render corrections. It passes 770 synthetic Rust tests (28 ignored),
+all seven silent Kabuto installed-data controls, 40 Python tests, Rustfmt,
+Clippy with warnings denied and generated roadmap/site/JavaScript checks.
+Both original-PC/owned composition controls pass again on the rebuilt test
+executable. The selected-pattern history audit reports zero findings across
+304 commits and 2,376 blobs. These checks do not expand the other lanes' exact
+runtime/package receipts or verify Kabuto live scheduling.
+
+Subsequent combined checkpoint `9f5e3ae` preserves persistent Flick traversal
+and its separate preview receipt. It passes 771 synthetic Rust tests (28 ignored),
+all seven Kabuto installed-data controls, 40 Python tests, Rustfmt, Clippy and
+site/JavaScript checks. Both size/auxiliary controls pass again on its rebuilt
+executable; the history audit reports zero findings over 307 commits/2,386 blobs.
+
+This source stage adds no dependencies, bundled game data or playable package.
+Existing preview manifests/notices/checksums retain their exact previous runtime
+and receipt identities. No existing executable receipt attests to this new API
+or to Kabuto rendering/collision fidelity.
+
+## Flick persistent ordinary/effect traversals — 6 November 2026
+
+First owned constant-attached preparation now consumes the constructor gate and
+publishes active geometry, including zero-delta preparation. The main film draws
+each bounded part through both acquired traversals: ordinary admission uses the
+current source camera and director range, while adjacent effect admission remains
+independent of that range. Both share the owned matrix/channel, mesh and material.
+No independent animation clock, placement or duration is added.
+
+Private original-PC/Rust controls match 50 source-object part-selection cases and
+14 preparation states, within supplied camera/alpha-query/model-slot boundaries.
+Both entry/release cycles of all 23 sources / 25 requests pass near/far route
+checks. These are bounded CPU controls, not native global sorting, raster/material
+or complete-world equivalence. Prototype PS2 attribution remains unknown; inputs,
+raw records and comparison tooling stay private.
+
+Exact GNU source `da01d3b4306a168ea6aecfbcf864a7be6167a8e6` passes 768 synthetic
+Rust tests (27 ignored), 40 Python tests, Rustfmt and Clippy with warnings denied.
+Its receipt-bound executable SHA256 is
+`a5eaeeb1015846c71dc5f140ed64632fe155984b38a2aba57101785c3e22d470`.
+Both silent three-launch development endpoints, three real service cancellations
+after owned persistent birth/update, and two Rstory1 zero-based mission-index-2
+source-terminal/re-entry cycles pass, with silent voice/text and tracked resource
+cleanup. Actual muted UI checks on Rstory5 original mission index 2 pass two
+19-director natural endings, then third-entry double-click after birth and both
+rendered routes, Escape back to the menu and F10 exit. Three profile files remain
+unchanged after initial preview unlock. The two natural endings were observed
+before returning to the menu; they are not recorded as successful skip gestures.
+
+The ten-member Windows preview package has SHA256
+`e873a0ebdd0b8c79b36dd0dba6fb4ec0fb3873dbc91f51e6151853b990492e46`.
+Technical notice collection and local ZIP/member/checksum validation pass with
+zero blockers. The package is published as
+[preview-2026.11.06.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.06.3).
+An independent public download matches the ZIP, executable, ten-member inventory
+and adjacent checksum, with zero technical verifier blockers. No standalone
+executable is offered. Package source and executable identities above remain fixed after
+later merges and documentation updates. Partial scene/free-camera endpoints and
+gameplay readiness refusals remain explicit. Zero complete scenes are verified;
+real world occupancy/admission, complete VM scheduling, native gameplay triggers,
+full camera/material/light/shadow/water/effect, audible mix, subtitle and temporal
+parity remain open. The 59 gap sources, 56 general-FX prerequisites and 282 strict-
+profile reviews are not reduced by this bounded rendering correction.
+
+A fresh whole-corpus CPU consumer inventory of this exact executable prepares
+all 545 sources / 16 worlds with zero top-level errors. Its reviewed aggregate
+retains 59 sources with reported gaps, 56 general-FX queue prerequisites and 282
+strict-profile reviews; zero complete scenes are verified. The public inventory
+is now pinned to the same source/executable receipt. Detailed diagnostics remain
+private and are not interpreted as an exhaustive visual-error inventory.
+
+Combined source `4f874bac184b793c4f2f2affd8420e298022789b` preserves the newer Mecc
+high-descent transition and its inspected dashboard capture. It passes 769 Rust
+tests (27 ignored), 40 Python tests, Rustfmt, Clippy with warnings denied and
+generated roadmap/site/JavaScript checks. Rebuilt private controls again match
+all 50 part-selection cases, 14 preparation states and both cohort entry/release
+cycles on that combined source. The selected-pattern source/history audit reports
+zero findings across 302 commits and 2,358 blobs. This does not relabel
+the older exact executable above as a measurement of the combined source.
+
 ## Owned high-descent transition - 6 November 2026
 
 The ordinary pistol secondary now follows the acquired high-descent branch into

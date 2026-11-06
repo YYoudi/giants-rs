@@ -306,6 +306,16 @@ impl<K> CinematicObject<K> {
         if tick.missing != 0 {
             return Err("cinematic effect animation descriptor missing".into());
         }
+        // The acquired constant state78 callback publishes preparation even at
+        // zero delta. Its first successful entry consumes the constructor gate;
+        // the independent response bit can retain ordinary-draw suppression.
+        self.fields.object_flags |= 0x40;
+        if self.fields.control_flags & 0x20 != 0 {
+            self.fields.control_flags &= !0x20;
+            if self.fields.response_flags & 0x10000 == 0 {
+                self.fields.object_flags &= !0x4000_0000;
+            }
+        }
         let mut references = self.references.clone();
         references.update_current_unblended(&channels)?;
         let reference = references

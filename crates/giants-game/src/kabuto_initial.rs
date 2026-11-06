@@ -77,6 +77,22 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    /// Acquired size-pursuit subphase using this factory's actual class, global
+    /// parameters and bounds. This does not choose a target or admit a player.
+    pub fn advance_growth(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        frame: crate::kabuto_growth::Frame<'_>,
+    ) -> Result<crate::kabuto_growth::View, String> {
+        session.advance_kabuto_growth(
+            owner,
+            &self.resources,
+            &self.globals,
+            self.bounds.clone(),
+            frame,
+        )
+    }
     pub fn load(
         plan: &Plan,
         world: &WorldConfig,
