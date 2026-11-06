@@ -21,6 +21,54 @@ The remaining primary/auxiliary producers, ordinary camera and runtime wiring,
 water/turbo and combat stay on the backlog. This CPU/API stage adds no playable
 Delphi download. Prototype PS2 attribution remains unknown.
 
+## Owned camera-selected body models - 6 November 2026
+
+The experimental owned mission driver selects the body model from its actual
+completed outer camera and source specification, evaluates current Session
+channels in the shared position bank and uploads the selected geometry to Bevy.
+Model assets retain registered geometry identities. Staging counts initial
+resources independently of alternate models; upload checks use the selected part
+count, including zero for an absent model. Explicit quality/forced-slot settings
+and remaining draw/cache ordering are documented in OWNED_MODEL_DRAW.md.
+
+Native controls match 1,280 selections, 256 complete posed-model snapshots and
+309,472 words. Source `c798370` passes six menu-request/128-step Bevy endpoints:
+two automatic settings, forced models 1/4/7 and absent model 9. Automatic setting 2
+ends on model 0 (736 vertices/eight parts); setting 0 ends on model 7 (57/six).
+The latter capture matches forced model 7 exactly. Inspected display copies and
+a same-build comparison are pinned in the gallery; these are not original-engine
+references or fidelity results.
+
+Combined source `b077a5c` preserves concurrent Delphi/Kabuto work and the completion
+replay menu. It passes 764 Rust tests (25 ignored), 40 Python tests, Rustfmt, Clippy
+and site/JavaScript checks. Rebuilt model/held/camera controls and the complete
+576-frame/22-shot immediate-fire matrix with ten failure controls pass. Four
+installed-data Mecc controls cover model/frame/source, missing-slot, unchanged
+animation and invalid-setting boundaries.
+
+Its exact GNU executable passes three real owned-inspection requests/cancellations,
+retiring 59 meshes, 26 images, 59 materials and five buffers per ticket, using the
+acquired 128-step profile. Both three-launch development lifecycle endpoints and
+three opening cancellation/re-entry cycles pass without an audio device. A separate
+longer movement replay still refuses at step 152 under the existing secondary
+guard; its native condition and later reactions/effects require further comparison.
+Short resource cycles do not establish that longer movement.
+
+Executable SHA256:
+`ad8ee93cbaf9a254c29ab4d171684ffe965547f37aee952ae28523b6d8d8ae83`.
+The private ten-member validation draft has complete receipt-bound notices,
+independent verification and no technical blockers; archive SHA256:
+`75e63c658ccb22ce6744071124d58ad1d6dd080a3fc133f5f0fb7a8f51e3105b`.
+It is not another public playable preview. Main owned firing remains disabled;
+full culling/part/material admission, subjective drawing, world scheduling and
+longer movement remain prerequisites. Prototype PS2 attributions remain unknown.
+
+Subsequent source `348010a` retains the later Kabuto transition and Flick-stock
+census. It passes 764 Rust tests (26 ignored), four installed-data Mecc controls,
+40 Python tests, Clippy and site checks. History review has no findings across
+281 commits/2,294 blobs. The GPU/build/package receipts above retain their exact
+`c798370`/`b077a5c` identities; they are not relabelled after this merge.
+
 ## Flick physical object stock and actor population — 6 November 2026
 
 The original PC initializer supplies 3,000 physical object slots. A private

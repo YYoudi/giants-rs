@@ -29,6 +29,7 @@ pub(super) struct Driver {
     children: giants_game::mecc_jet_presentation::Children,
     weapon_pose: giants_game::mecc_wield_pose::Producer,
     camera: giants_game::mecc_world_camera::State<ActorId>,
+    model_settings: giants_game::mecc_model_draw::Settings,
 }
 impl Driver {
     fn prepare(active: &mut Active, input: &Input<'_>) -> Result<Self, String> {
@@ -36,6 +37,21 @@ impl Driver {
             return Err("owned Mecc must start before any development motion publication".into());
         }
         let root = input.root;
+        let quality = std::env::var("GIANTS_MISSION_MODEL_QUALITY")
+            .map(|v| {
+                v.parse::<usize>()
+                    .map_err(|_| "invalid inspection model quality")
+            })
+            .unwrap_or(Ok(2))?;
+        let forced = std::env::var("GIANTS_MISSION_MODEL_SLOT")
+            .map(|v| {
+                v.parse::<i32>()
+                    .map_err(|_| "invalid inspection forced model")
+            })
+            .unwrap_or(Ok(-1))?;
+        if quality > 3 || forced >= 10 {
+            return Err("inspection model settings outside acquired range".into());
+        }
         let materials = giants_game::mecc_contact_materials::Catalog::from_prepared(
             input.objects,
             input.materials.clone(),
@@ -80,6 +96,7 @@ impl Driver {
             globals,
             catalog,
             children,
+            giants_game::mecc_model_draw::Settings { quality, forced },
         ))
     }
     fn new(
@@ -89,6 +106,7 @@ impl Driver {
         globals: giants_formats::global_data::GlobalData,
         catalog: giants_formats::weapons::Catalog,
         children: giants_game::mecc_jet_presentation::Children,
+        model_settings: giants_game::mecc_model_draw::Settings,
     ) -> Self {
         Self {
             ticket,
@@ -107,6 +125,7 @@ impl Driver {
             children,
             weapon_pose: giants_game::mecc_wield_pose::Producer::new(actor),
             camera: giants_game::mecc_world_camera::State::new(actor, None),
+            model_settings,
         }
     }
     fn advance(
@@ -255,6 +274,16 @@ impl Driver {
                 )?);
             }
             frame.camera_cache = Some(camera);
+            frame.draw_model = Some(giants_game::mecc_model_draw::prepare(
+                session,
+                self.camera.last().ok_or("completed draw camera absent")?,
+                self.model_settings,
+            )?);
+            if input.number == 1 || input.number.is_multiple_of(128) {
+                let draw = frame.draw_model.as_ref().unwrap();
+                println!("mission_owned_model ticket={} frame={} slot={} vertices={} quality={} forced={} source=owned_channels shared_bank=true visibility_policy=false material_admission=false",
+                    self.ticket, input.number, draw.slot(), draw.positions().map_or(0, <[_]>::len), self.model_settings.quality, self.model_settings.forced);
+            }
             Ok(frame)
         });
         if let Err(error) = &result {
@@ -264,6 +293,54 @@ impl Driver {
     }
 }
 impl Runtime {
+    pub(crate) fn owned_body_models(
+        &self,
+        ticket: u64,
+    ) -> Result<Vec<(usize, giants_game::scene_resources::ModelAsset)>, String> {
+        let active = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("owned draw ticket absent")?;
+        let player = active.payload.player.as_ref().map_err(Clone::clone)?;
+        let actor = active.resident_states.unique_class(player.start.kind)?;
+        let spec = active
+            .resident_states
+            .specification(actor)
+            .ok_or("owned draw specification absent")?;
+        let resources = active.payload.plan.resources();
+        spec.models
+            .iter()
+            .enumerate()
+            .filter_map(|(slot, model)| model.as_ref().map(|m| (slot, m)))
+            .map(|(slot, model)| {
+                let asset = resources
+                    .model_slot_for_body(
+                        player.start.kind,
+                        slot,
+                        giants_game::scene_resources::TextureEncoding::Rgb565OrArgb4444,
+                    )
+                    .map_err(|e| e.to_string())?
+                    .ok_or("owned draw asset absent")?;
+                if asset.name != model.name
+                    || resources
+                        .archives
+                        .select_bin(&format!("{}.gbs", asset.name), &resources.language)
+                        .map_err(|e| e.to_string())?
+                        != &model.geometry_source
+                    || asset.mesh.positions != model.prepared.mesh.positions
+                    || asset.mesh.indices != model.prepared.mesh.indices
+                    || asset.mesh.normal_count != 0
+                {
+                    return Err(
+                        "owned model differs from its acquired unlit resource profile".into(),
+                    );
+                }
+                Ok((slot, asset))
+            })
+            .collect()
+    }
+
     pub(crate) fn owned_jet_models(
         &self,
         ticket: u64,
