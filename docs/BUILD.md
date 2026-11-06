@@ -100,9 +100,10 @@ For the owned ordinary Delphi physical/jump/ANM/history composition, with the sa
 cargo test --locked -p giants-game source_delphi_physical_owns_motion_shares_events_and_quarantines_failure --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-This silent CPU control checks two owners, persistent motion/contact/jump, shared
-class events, physical-only and locomotion profiles using external clip definitions,
-late secondary quarantine, profile refusal and cleanup. It creates no window or audio device
+This silent CPU control checks three owners, persistent motion/contact/jump,
+shared class events, physical-only/locomotion/controlled profiles using external
+clip definitions, separate look state, paused terrain exclusion, late secondary
+and invalid-rotation quarantine, profile refusal and cleanup. It creates no window or audio device
 and does not execute the complete Delphi primary/secondary or live controls.
 
 The locomotion profile reads the original executable's data as an external asset.
