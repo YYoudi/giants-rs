@@ -246,16 +246,25 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   24,876 words, including complete vertices/indices and the final RNG state.
   Disabled entries consume nothing; owned invalid profiles refuse before RNG
   publication. Backend failure retains the completed prefix and consumed draw.
-  The mode/scalar producer, registry visitor/world scheduling and real GPU
+  The scalar/mode kernel is acquired below; registry visitor/world scheduling and real GPU
   consumer remain prerequisites; this is a CPU packet, not rendered Kabuto.
 - Implemented: the geometry-header tail selects the supplied local-camera or
   body/target route, preserves inactive fields, transforms the current attachment,
   and measures the target distance. All 384 native controls match 4,992 complete
   header words across modes, selected/unselected owners, target presence and
   matrix flags. The shared Double53 point kernel preserves its distinct operation
-  order without changing the existing aiming kernel. The preceding mode/scalar,
-  animation/sound and extra-reference phases remain unported; header preparation
+  order without changing the existing aiming kernel. The scalar/mode kernel is acquired below;
+  animation/sound and extra-reference phases remain unported. Header preparation
   alone does not complete this helper, full primary or world rendering.
+- Implemented: the scalar/mode and target-reference phase matches 768 native
+  controls, 7,816 final/notification words and all 209 notification calls. It
+  preserves source bit toggles, Double53 timer stores, scalar updates, identity
+  comparisons and notification-before-target / mode-before-notification order.
+  The eligibility guard retains the first matching peer, fallback and low-byte
+  owner comparison. Transport is an explicit supplied boundary, not a network
+  implementation. Five synthetic controls cover ordering, inactive bypass,
+  atomic refusal, signed zero and unchanged reference identity. Actual Session
+  field binding, preceding/following transitions and world dispatch remain open.
 - Complete the remaining custom cleanup profiles: the additional object-reference
   slot's nonzero behavior/role, GPU material release and dynamic/entered turns.
   The owner remains state1 after the custom callback; common state transition

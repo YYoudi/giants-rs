@@ -502,7 +502,7 @@ boundaries. Synthetic tests additionally cover disabled/invalid inputs, ordered
 owned-buffer emission and failure at each of the seven backend calls. Prototype
 PS2 lookup sheets retain unknown attributions and their earlier PC aliases.
 
-This ports CPU command preparation only. Actual producer fields, the guarded
+This ports CPU command preparation only. Session producer binding, the guarded
 registry visitor, world scheduling, material upload and Bevy GPU consumption
 remain open. All initializer readiness prerequisites and live admission remain
 unchanged; this result establishes neither playable movement nor visual fidelity.
@@ -532,9 +532,45 @@ are exercised. This is a header-tail comparison, not a full helper comparison.
 The earlier primary write observer returns for one cold and immediately repeated
 supplied primary, keeping this geometry disabled. That native-only observation
 locates the writers; it does not validate a Rust primary or assign gameplay names
-to the mode byte. Its scalar/mode selector, animation and sound transitions,
-extra-reference creation/retirement and world dispatch remain open. A synthetic
+to the mode byte. The scalar/mode kernel is acquired below. Session binding,
+animation and sound transitions, extra-reference creation/retirement and world
+dispatch remain open. A synthetic
 control composes the prepared header with the consumable submission packet; no
 actual GPU backend runs. Prototype PS2 attributions remain unknown. Private
 records distinguish instruction write sites from actual direct-call entries and
 retain failed REA requests separately from Capstone/native execution evidence.
+
+
+## Scalar/mode and target-reference phase
+
+`kabuto_geometry_mode::advance` ports the preceding scalar/mode helper with
+explicit typed reference identities. Its generic identity can use the common
+Session `Id`; no original pointer or native memory layout is imported. The
+source flags and control bits select toggling, accumulation/decrement and timer
+bounds. Float stores and negative zero are retained. A positive scalar can
+remain when the resulting mode is zero; no gameplay label is inferred from that
+case. Inactive reset bypasses otherwise invalid time inputs. Owned active-profile
+refusals occur before mutation or notifications.
+
+Changed target identity notifies before reference/status publication. Changed
+mode publishes the byte before notifying. Each observer receives the state at
+that boundary. An unchanged identity keeps its status and sends nothing, even
+when supplied target metadata changes. Notification eligibility preserves the
+acquired session-mode guard, first matching peer, fallback and low-byte owner
+comparison. This is a supplied stable context, not an active peer list or
+network transport. The callback is infallible because the source ignores the
+transport return; no invented retry or rollback is added.
+
+All 768 full native helper controls match 7,816 words and 209 notifications,
+including final fields, return value and state snapshots at each send. Original
+eligibility and Double53 math execute; message transport is intercepted at its
+entry. Early collector failures were missing transport interception in the test
+harness, not verified source failures. Private records retain those failures
+separately from the corrected control. Five synthetic tests cover ordering,
+reset/refusal, unchanged identity, signed zero and ownership guard details.
+
+This is a CPU service. Session field/reference binding, actual notification
+transport, animation/effect transitions, the extra reference and complete world
+scheduling remain open. It neither changes live admission nor implements a full
+Kabuto primary. Prototype PS2 correspondences remain unknown; raw names,
+unreviewed demangling and historical aliases stay separate in private lineage.

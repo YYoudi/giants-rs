@@ -1,5 +1,26 @@
 # Preview releases and milestone integration
 
+## Kabuto CPU scalar/mode and ordered notifications - 6 November 2026
+
+The scalar/mode helper now preserves source toggles, timer stores, scalar values,
+target identities and notification ordering. Its acquired eligibility guard keeps
+the first matching peer, fallback and low-byte owner comparison. All 768 native
+controls match 7,816 words and 209 notifications, including snapshots at the
+transport boundary. Message transport is supplied; no live network is implemented.
+
+Combined source `83fb4f3` preserves the newer Delphi rotation and ordered Mecc
+camera work. It passes 759 synthetic Rust tests (24 ignored), 40 Python tests,
+Rustfmt, Clippy with warnings denied, site export and JavaScript checks. The
+rebuilt private runner again matches all 768 native cases. Prototype PS2
+attributions remain unknown, with raw names, uncertain demangling and aliases
+retained privately. Session field/reference binding, animation/effect transitions,
+extra-reference lifetime and world scheduling remain open; no readiness gate or
+whole-game status changes.
+
+No dependency, bundled asset or playable download changes. Existing executable,
+package manifest/checksum and notice receipts retain their exact build identities;
+they do not attest to this source-only CPU milestone.
+
 ## Delphi owned manual rotation - 6 November 2026
 
 An explicit owned profile now composes manual heading/look between the entered
