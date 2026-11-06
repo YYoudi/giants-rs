@@ -30,6 +30,7 @@ pub(super) struct Driver {
     weapon_pose: giants_game::mecc_wield_pose::Producer,
     camera: giants_game::mecc_world_camera::State<ActorId>,
     model_settings: giants_game::mecc_model_draw::Settings,
+    contact_live: bool,
 }
 impl Driver {
     fn prepare(active: &mut Active, input: &Input<'_>) -> Result<Self, String> {
@@ -126,6 +127,7 @@ impl Driver {
             weapon_pose: giants_game::mecc_wield_pose::Producer::new(actor),
             camera: giants_game::mecc_world_camera::State::new(actor, None),
             model_settings,
+            contact_live: false,
         }
     }
     fn advance(
@@ -220,6 +222,22 @@ impl Driver {
                 collection: None,
             },
         );
+        if let Some(body) = session
+            .get(self.actor)
+            .and_then(|actor| actor.seed.storage.data())
+        {
+            let live = body.get(0x1a8..0x1ac).is_some_and(|word| word != [0; 4]);
+            if live != self.contact_live {
+                println!(
+                    "mission_owned_contact_effect ticket={} frame={} action={} queued_contexts={} active_fx_phase_bound=false ready=false",
+                    self.ticket,
+                    input.number,
+                    if live { "prepared" } else { "released" },
+                    self.contexts.active().len()
+                );
+                self.contact_live = live;
+            }
+        }
         let result = result.and_then(|projection| {
             if projection.outcome != giants_game::actor_world_tick::Outcome::UpdatedByPrimary {
                 return Err("owned Mecc needs an unacquired inactive/admission service".into());
