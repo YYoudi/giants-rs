@@ -49,6 +49,12 @@ attributions remain unknown. All 305 gallery comparisons and four screenshots
 are preserved unchanged; no unvalidated effect image is added. These bounded
 inspection changes are not another public playable preview.
 
+Merged source `fda990e` additionally preserves the latest entered Delphi
+controlled-camera phase and its separate runtime receipts. It passes 773 synthetic
+Rust tests (29 ignored), 40 Python tests, Rustfmt, Clippy and generated roadmap/site
+checks. History review reports no findings across 324 commits and 2,443 blobs.
+These source checks do not relabel either contact executable receipt above.
+
 ## Delphi entered controlled-camera phase - 6 November 2026
 
 The owned controlled Session entry now runs the authored-camera callback after
