@@ -6,9 +6,14 @@ the earlier asset-free dashboard restriction only for these display captures.
 The private repository, reports, inputs, executables and research paths remain
 excluded. The archive was read without modifying it.
 
-`manifest.json` contains the 302 comparison records, their labels, limitations and
-historical source revisions. Its `images` map pins the SHA-256 of each of the 502
-distinct WebP display copies (508 source PNG files deduplicate to 502 copies).
+The restored archive contains 302 comparison records and 502 distinct WebP
+display copies (508 source PNG files deduplicate to 502 copies). The owner
+requested fresh dashboard captures on 6 November 2026. Two additional KStory1
+inspection comparisons use three new Bevy display copies from published
+`preview-2026.11.06.1`: terrain versus sky/sea, and configured fog versus fog
+disabled. The manifest now pins 304 comparisons and 505 image hashes. These
+settings comparisons are not implementation before/after evidence, and Kabuto
+is not playable. Each entry retains its source revision and limitations.
 Only explicitly listed files are exported. Source paths and report links are not
 retained. Image metadata was stripped; dimensions were preserved. WebP quality 90
 reduces approximately 692 MB of source PNGs to 89 MB. These lossy display copies
