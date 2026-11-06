@@ -32,3 +32,12 @@
 #highlights .section-heading>a{font-size:.8rem;color:var(--done);white-space:nowrap}
 @media(max-width:760px){.capture-highlights{grid-template-columns:1fr;gap:18px}#highlights .section-heading{align-items:flex-start;flex-direction:column;gap:14px}}
 @media(prefers-reduced-motion:reduce){.capture-highlights img{transition:none}}
+
+/* Actual build screenshots are visible before the roadmap, without JavaScript. */
+.capture-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:24px}
+.build-capture{margin:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
+.build-capture>a{display:block;background:#080c10}.build-capture img{display:block;width:100%;height:auto}
+.build-capture figcaption{padding:18px 22px}.build-capture h3{font-size:1.05rem;margin:0 0 8px}.build-capture p{font-size:.82rem;color:var(--muted);margin:0 0 12px}
+.capture-revision{font-size:.72rem;color:var(--done)}
+@media(max-width:760px){.capture-grid{grid-template-columns:1fr}.build-capture figcaption{padding:16px}}
+@media(max-width:760px){#latest-captures .section-heading{flex-direction:column;align-items:flex-start;gap:12px}#hero-image figcaption{display:none}}
