@@ -1,5 +1,29 @@
 # Preview releases and milestone integration
 
+## Kabuto second-auxiliary selection — 6 November 2026
+
+The owned primary subphase now selects the second auxiliary's normalized pose
+from its acquired size parameter, published actor positions and ordered lists,
+reusing the common channel setter. The actual public kernel matches 1,024 native
+controls / 197,632 full child-header words; an actual-resource Session binding
+matches another 64 contexts / 6,720 channel/clock/list words. Initial pose/root
+identity boundaries and the corrected cold initialization boundary are recorded
+in OWNED_KABUTO.md. This does not advance ANM, produce world poses or implement
+movement/growth. Cold-only cleanup refuses entered acquired primary subphases.
+
+Combined checkpoint `aff0231` preserves the incoming owned model renderer,
+frontend inspection and dashboard captures. It passes 766 synthetic Rust tests
+(27 ignored), all six silent Kabuto installed-data controls, 40 Python tests,
+Rustfmt, Clippy with warnings denied and generated site/JavaScript checks.
+Rebuilt actual-public kernel and Session/resource comparisons pass again.
+The selected-pattern history audit reports zero findings over 285 commits and
+2,318 blobs. This is separate from the other renderer's exact executable receipts.
+
+No dependency, bundled resource, new playable capability or preview package is
+introduced. Existing package manifests/notices/checksums retain their exact
+previous runtime and receipt identities; they do not attest to this source API
+or to Kabuto visual fidelity. Full primary and live admission remain pending.
+
 ## Owned camera-selected body models - 6 November 2026
 
 The experimental owned mission driver selects the body model from its actual
