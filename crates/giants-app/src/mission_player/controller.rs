@@ -829,14 +829,15 @@ pub(super) fn update(
         let mut owned_body_parts = 0usize;
         for (handle, mut visibility, body, gun, arms) in &mut draws {
             if let Some(body) = body.filter(|p| p.ticket == controller.ticket) {
-                if let Some(mut mesh) = meshes.get_mut(&handle.0) {
-                    mesh.insert_attribute(
-                        Mesh::ATTRIBUTE_POSITION,
-                        controller.state.expanded(body.part),
-                    );
+                if let Some(positions) = controller.state.expanded_draw_model(body.slot, body.part)
+                    && let Some(mut mesh) = meshes.get_mut(&handle.0)
+                {
+                    mesh.insert_attribute(Mesh::ATTRIBUTE_POSITION, positions);
                     owned_body_parts += 1;
                 }
-                *visibility = if controller.state.first_person_view() {
+                *visibility = if controller.state.first_person_view()
+                    || controller.state.body_draw_slot() != Some(body.slot)
+                {
                     Visibility::Hidden
                 } else {
                     Visibility::Visible
