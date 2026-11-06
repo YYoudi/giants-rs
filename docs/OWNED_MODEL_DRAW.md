@@ -26,6 +26,11 @@ made visible by the existing presentation policy. The fixed-model development
 backend remains separately scoped. This does not replace that presentation
 policy with the full native world renderer.
 
+The earlier model-0 diagnostic pose is still retained by the presentation frame.
+Its shared-bank preparation precedes this selected-model upload. Complete native
+draw/cache ordering with other actors is therefore still unbound; migrate those
+remaining diagnostic consumers before treating this as a whole-world renderer.
+
 ## Explicit inspection settings
 
 `GIANTS_MISSION_MODEL_QUALITY` accepts indices 0 through 3; this inspection profile
@@ -59,3 +64,26 @@ while binding actual current providers. Model selection alone supplies none of
 these missing admission decisions. Full world/list scheduling, subjective arms
 and held rendering, owned firing, target contexts and positional audio remain
 prerequisites in [BACKLOG.md](../BACKLOG.md).
+
+## Recorded Bevy endpoints
+
+Receipt-bound source `c798370` passes six actual menu-request/owned-inspection
+runs of 128 supplied movement steps: automatic quality indices 2 and 0, forced
+models 1, 4 and 7, and absent model 9. The selected model reaches the Bevy mesh
+upload. At the recorded endpoint, model 0 has 736 positions/eight parts, model 4
+has 351 positions/six parts, and model 7 has 57 positions/six parts. Absent model 9
+uploads no body part. Automatic index 0 and forced model 7 produce identical
+endpoint captures; the original PNG difference between indices 2 and 0 is confined
+to the character region. Public WebP copies remain display evidence, not pixel
+validation or an original-engine reference.
+
+Staging counts the initial model's prepared resources separately from alternate
+models. The upload check counts the selected model's actual parts, including zero
+for an absent model. It no longer assumes the first model's count.
+
+`owned-player-inspection-cycles` uses the same acquired 128-step profile for
+repeated real cancellation/re-entry, with no readiness event or OS input injection.
+It checks retirement of additional model assets. A separate longer general
+movement replay is retained as a failure at step 152 under the existing secondary
+guard. That guard and later reaction/effect branches require independent native
+comparison; a successful short resource cycle does not establish longer movement.
