@@ -42,6 +42,12 @@ It is not another public playable preview. Main owned firing remains disabled;
 full culling/part/material admission, subjective drawing, world scheduling and
 longer movement remain prerequisites. Prototype PS2 attributions remain unknown.
 
+Subsequent source `348010a` retains the later Kabuto transition and Flick-stock
+census. It passes 764 Rust tests (26 ignored), four installed-data Mecc controls,
+40 Python tests, Clippy and site checks. History review has no findings across
+281 commits/2,294 blobs. The GPU/build/package receipts above retain their exact
+`c798370`/`b077a5c` identities; they are not relabelled after this merge.
+
 ## Flick physical object stock and actor population — 6 November 2026
 
 The original PC initializer supplies 3,000 physical object slots. A private
