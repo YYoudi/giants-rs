@@ -122,15 +122,16 @@ For the owned ordinary Delphi physical/jump/ANM/history composition, with the sa
 cargo test --locked -p giants-game source_delphi_physical_owns_motion_shares_events_and_quarantines_failure --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-This silent CPU control checks three owners, persistent motion/contact/jump,
-shared class events, physical-only/locomotion/controlled profiles using external
+This silent CPU control checks four owners, persistent motion/contact/jump,
+shared class events, physical/locomotion/controlled/authored-camera profiles using external
 clip definitions, separate look state, body roll settling, paused terrain exclusion, late secondary
 and invalid-rotation quarantine, profile refusal and cleanup. It creates no window or audio device
 and does not execute the complete Delphi primary/secondary or live controls.
 
 The same control also samples real owned camera references and checks Delphi's
-standalone camera callback: retained/reset views, inactive input boundaries,
-foreign targets and failure quarantine. It does not acknowledge camera rendering
+standalone and entered camera callbacks: retained/reset views, inactive inputs,
+foreign targets, rejected profiles and failure quarantine. It verifies that a late
+rotation failure retains completed camera effects and prevents their replay. It does not acknowledge camera rendering
 or production full-primary scheduling. Private native comparisons retain their
 separate arithmetic and test-driver scope in [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
@@ -187,6 +188,19 @@ It now also checks the registered cold path: actor/registry/RNG rollback on a la
 foreign-ticket failure, same-ticket foreign-scope cleanup refusal, deferred marks,
 unchanged ordered lists, last-material retirement and clean regeneration after
 clear/re-entry. This is the custom callback phase, not common actor retirement.
+
+For factory-bound size pursuit composed with the following auxiliary selection:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_growth_composes_size_and_auxiliary_without_admitting_gameplay --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This silent control uses `GIANTS_KABUTO_ROOT`, traverses sizes and checks factory
+ownership, failed-input rollback, retained gates and clear. Optional private
+`GIANTS_KABUTO_GROWTH_CONTROLS` / `GIANTS_KABUTO_GROWTH_RECEIPT` paths replay the
+acquired independent or successive-state source profiles. Neither the inputs
+nor receipts belong in Git. Targets/poses/root identity are supplied; this does
+not establish growth triggers, world collision-cache updates or live gameplay.
 
 For second-auxiliary selection from actual owned resources and actor lists:
 

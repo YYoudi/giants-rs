@@ -151,12 +151,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 - Implemented: the common owned reference-camera sampler and Delphi's local/mode
   gate, current-reference/animation1 fallback, reset/retained-view and supplied
   target branch. A 2,048-case cached-reference arithmetic comparison matches
-  36,864 matrix/lens words. Three 256-step test-driver compositions match 6,137,856
+  36,864 matrix/lens words. The frozen authored-camera profile now executes the
+  callback inside the controlled Session phase after the prefix and before heading,
+  sharing the ANM epoch. Three 256-step combined-entry compositions match 6,137,856
   normalized actor/reference/payload/list/override words plus exact RNG. Fallback
   sampling advances the shared ANM epoch. Mode/aspect/local-owner and self-target
   are supplied boundaries; target selection, viewport production, production
-  primary ordering, normal camera/render/mission wiring remain open. The owned
-  lifecycle check covers unconsumed invalid inputs, foreign targets and quarantine.
+  full-primary ordering, normal camera/render/mission wiring remain open. The
+  four-owner lifecycle check covers profile refusal, unconsumed invalid inputs,
+  foreign targets, retained completed camera effects and replay quarantine.
+  Fifteen repeated legacy controls preserve 30,608,640 words and exact RNG.
   These APIs do not admit live Delphi controls or establish visual fidelity.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
@@ -328,6 +332,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented: factory-bound size pursuit publishes the supplied target, retains
+  actor-local time as Double53 through the fixed step, clamps current size and
+  invokes the existing complete parameter/radius refresh whenever the incoming
+  sizes differ (including zero time). Equality bypasses time selection. Composed
+  with second-auxiliary selection, 1,024 native contexts match 627,712 normalized
+  owner/child header, owner-payload, physical-buffer and refresh words. One
+  512-step trajectory reaches all four sizes and retargets/shrinks; controls
+  include ordered time areas and owner-skip/first-hit behavior. Source targets,
+  preceding poses and root identity are explicit inputs, not growth/feeding rules.
+  Owned factory identity, invalid-input rollback and clear are checked. No cached
+  world collision/affine refresh, target producer or live growth is acknowledged;
+  full primary, following helper and movement remain open.
 - Complete the remaining custom cleanup profiles: the active additional-reference
   teardown, GPU material release and dynamic/entered turns. The acquired geometry
   prefix stores class1199 in that reference; its broader gameplay role is unassigned.

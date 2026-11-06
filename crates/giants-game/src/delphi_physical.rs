@@ -10,6 +10,7 @@ pub struct Resources {
     pub(crate) materials: Arc<crate::mecc_contact_materials::Catalog>,
     pub(crate) locomotion: Option<crate::delphi_locomotion::Clips>,
     pub(crate) manual_rotation: bool,
+    pub(crate) authored_camera: bool,
 }
 impl std::fmt::Debug for Resources {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -18,6 +19,7 @@ impl std::fmt::Debug for Resources {
             .field("radius", &self.radius)
             .field("locomotion", &self.locomotion)
             .field("manual_rotation", &self.manual_rotation)
+            .field("authored_camera", &self.authored_camera)
             .finish()
     }
 }
@@ -49,6 +51,7 @@ impl Resources {
             materials,
             locomotion: None,
             manual_rotation: false,
+            authored_camera: false,
             radius: crate::player_collision_radius::Bounds {
                 primary: bounds.primary,
                 animation_one: bounds.radius_auxiliary,
@@ -76,6 +79,26 @@ impl Resources {
             return Err("Delphi manual rotation requires its locomotion resources".into());
         }
         self.manual_rotation = true;
+        Ok(self)
+    }
+    /// Freeze the acquired pre-heading camera callback into the controlled
+    /// profile. World mode/aspect/target and startup pose remain actual inputs.
+    pub fn with_authored_camera(mut self) -> Result<Self, String> {
+        if !self.manual_rotation
+            || !self
+                .specification
+                .metadata
+                .references
+                .names
+                .get(10)
+                .is_some_and(Option::is_some)
+        {
+            return Err(
+                "Delphi authored camera requires controlled resources and its declared reference"
+                    .into(),
+            );
+        }
+        self.authored_camera = true;
         Ok(self)
     }
 }
@@ -126,6 +149,14 @@ pub(crate) struct Owned {
 pub(crate) struct Output {
     pub fields: Fields,
     pub payload: Vec<u8>,
+}
+pub(crate) enum Phase<'a> {
+    BeforeHeading,
+    Animation {
+        fields: &'a mut Fields,
+        view: &'a View,
+        seconds: f32,
+    },
 }
 pub(crate) fn word(data: &[u8], at: usize) -> u32 {
     u32::from_le_bytes(data[at..at + 4].try_into().unwrap())
@@ -182,13 +213,13 @@ impl Owned {
         e: Environment<'_>,
         manual: Option<ManualRotation>,
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
-        animate: impl FnMut(&mut Fields, &View, f32) -> Result<(), String>,
+        consume: impl FnMut(Phase<'_>) -> Result<(), String>,
     ) -> Result<Output, String> {
         if self.view.failure.is_some() || self.view.number.checked_add(1) != Some(e.number) {
             return Err("Delphi physical step failed or is not contiguous".into());
         }
         let mut next = self.clone();
-        match next.run(fields, payload, e, manual, ground, animate) {
+        match next.run(fields, payload, e, manual, ground, consume) {
             Ok(out) => {
                 *self = next;
                 Ok(out)
@@ -206,7 +237,7 @@ impl Owned {
         e: Environment<'_>,
         manual: Option<ManualRotation>,
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
-        mut animate: impl FnMut(&mut Fields, &View, f32) -> Result<(), String>,
+        mut consume: impl FnMut(Phase<'_>) -> Result<(), String>,
     ) -> Result<Output, String> {
         if payload.len() != 4096
             || e.launch_blocked
@@ -240,6 +271,9 @@ impl Owned {
         }
         f.configuration[14] = entry.binding_flags;
         self.view.previous_model = entry.previous_rates.map(f32::from_bits);
+        if self.resources.authored_camera {
+            consume(Phase::BeforeHeading)?;
+        }
         if let Some(manual) = manual {
             let seconds = crate::object_time::seconds(
                 e.global_seconds,
@@ -351,7 +385,11 @@ impl Owned {
                 None,
                 e.areas,
             );
-            animate(&mut f, &self.view, seconds as f32)?;
+            consume(Phase::Animation {
+                fields: &mut f,
+                view: &self.view,
+                seconds: seconds as f32,
+            })?;
             history(&mut body, &mut f, seconds)?;
             return Ok(Output {
                 fields: f,
@@ -460,7 +498,11 @@ impl Owned {
         // Delphi's first ANM consumes the preceding model rates. New rates are
         // produced afterwards, before gravity and control forces.
         let animation_seconds = seconds(f.position) as f32;
-        animate(&mut f, &self.view, animation_seconds)?;
+        consume(Phase::Animation {
+            fields: &mut f,
+            view: &self.view,
+            seconds: animation_seconds,
+        })?;
         let model = crate::mecc_model_motion::derive(
             crate::mecc_model_motion::Input {
                 current: f.position,

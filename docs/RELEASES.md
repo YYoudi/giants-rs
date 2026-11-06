@@ -22,6 +22,82 @@ reviews and zero verified complete scenes remain unchanged. Preview 2026.11.06.3
 retains its exact source, executable, package, notice and checksum identities;
 these additional controls do not justify a new playable-preview claim.
 
+## Delphi entered controlled-camera phase - 6 November 2026
+
+The owned controlled Session entry now runs the authored-camera callback after
+entered-prefix bookkeeping and before heading/look. Its frozen resource profile
+shares the animation epoch with both ANM passes and derives buttons/ownership
+from the same movement invocation. Existing physical, locomotion and manual-only
+profiles retain their entry checks.
+
+Three repeated 256-step native/Rust controls pass through this combined API:
+6,137,856 normalized words across 22 actors, references, payload, ordered lists
+and camera state, with exact RNG. Fifteen repeated legacy controls preserve
+30,608,640 words over 3,840 steps. The four-owner source-data lifecycle verifies
+wrong-profile refusal and retention of completed camera effects after a later
+rotation failure, with replay quarantined. These are existing inputs exercised
+through the new phase dispatch, not additional unique native trajectories.
+
+This remains controlled-phase CPU integration. Full-primary/world scheduling,
+target/viewport producers, ordinary camera, renderer/mission wiring, water/turbo
+and combat remain pending. No Delphi playable download or fidelity claim follows.
+Prototype PS2 attributions remain unknown; the private lookup and alias records
+are retained separately from these reviewed summaries.
+
+Combined source `a1b29db` preserves the newer Mecc descent inspection and persistent
+Flick traversals. It passes 769 Rust tests (27 ignored), the enriched Delphi
+source-data lifecycle, four installed-data Mecc controls, 40 Python tests,
+Rustfmt and Clippy. The selected-pattern source/history audit reports no findings
+across 311 commits and 2,404 blobs. The dashboard retains 510 pinned images,
+305 comparisons and four recorded Bevy captures; none is a live Delphi capture.
+
+The exact GNU executable passes both silent development lifecycle endpoints and
+three Rstory1 mission-index-2 cancellations after real persistent-object updates,
+with tracked resource release. The ten-member private validation draft includes
+complete notices and passes receipt-bound checksum/member validation with zero
+technical blockers. Executable SHA256:
+`dd2f55811520d736ec603743dff95630dc9ccccb2f7e165f107faa9d90456f80`;
+private archive SHA256:
+`7cd766fdf86f7e757330bd920846148a9d475abd12d8277e5f84f70d8d4e7dc5`.
+These common-runtime checks are not Delphi gameplay controls; subsequent source
+merges retain their own identity and do not alter these binary receipts.
+
+Source merge `7adb553` additionally preserves the concurrent owned Kabuto growth
+kernel and updated public cinematic preview inventory. It passes 771 Rust tests
+(28 ignored), 40 Python tests, Rustfmt, Clippy and site checks. The selected-pattern
+history audit reports no findings across 316 commits and 2,418 blobs. This later
+source result does not relabel the earlier receipt-bound executable.
+## Kabuto owned size pursuit — 6 November 2026
+
+The factory-bound size phase now preserves the actor-local wide timestep,
+source step/clamp and complete size-dependent parameter/radius refresh, then
+composes with the existing second-auxiliary selector. Two 512-context original-
+PC/owned controls match 627,712 normalized words, including a continuous
+four-size trajectory with retargeting, shrinkage and ordered time areas.
+Targets, poses and root identity are supplied boundaries. Growth decisions,
+feeding, full primary, movement and live admission remain pending. The dashboard
+now lists the acquired Kabuto CPU foundation separately from gameplay readiness.
+
+Combined checkpoint `0c08601` preserves the newer Delphi authored-camera and
+Mecc descent/render corrections. It passes 770 synthetic Rust tests (28 ignored),
+all seven silent Kabuto installed-data controls, 40 Python tests, Rustfmt,
+Clippy with warnings denied and generated roadmap/site/JavaScript checks.
+Both original-PC/owned composition controls pass again on the rebuilt test
+executable. The selected-pattern history audit reports zero findings across
+304 commits and 2,376 blobs. These checks do not expand the other lanes' exact
+runtime/package receipts or verify Kabuto live scheduling.
+
+Subsequent combined checkpoint `9f5e3ae` preserves persistent Flick traversal
+and its separate preview receipt. It passes 771 synthetic Rust tests (28 ignored),
+all seven Kabuto installed-data controls, 40 Python tests, Rustfmt, Clippy and
+site/JavaScript checks. Both size/auxiliary controls pass again on its rebuilt
+executable; the history audit reports zero findings over 307 commits/2,386 blobs.
+
+This source stage adds no dependencies, bundled game data or playable package.
+Existing preview manifests/notices/checksums retain their exact previous runtime
+and receipt identities. No existing executable receipt attests to this new API
+or to Kabuto rendering/collision fidelity.
+
 ## Flick persistent ordinary/effect traversals — 6 November 2026
 
 First owned constant-attached preparation now consumes the constructor gate and

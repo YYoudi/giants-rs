@@ -36,3 +36,12 @@ pub struct Environment {
     /// An acquired actor identity boundary, not a target-selection producer.
     pub target: Option<crate::resident_states::Id>,
 }
+
+/// Borrowed world camera state for the controlled owner's entered phase.
+/// Local ownership and buttons come from that same movement invocation.
+pub struct Context<'a> {
+    pub state: &'a mut State,
+    pub mode: i32,
+    pub aspect: f32,
+    pub target: Option<crate::resident_states::Id>,
+}

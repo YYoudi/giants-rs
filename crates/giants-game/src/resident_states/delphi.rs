@@ -1,6 +1,14 @@
 //! Delphi-specific owned mutations; ordinary Mecc admission stays unchanged.
 use super::*;
 use crate::delphi_special::{CopySource, Initialized, State};
+enum Entry<'a> {
+    Physical,
+    Locomotion,
+    Controlled {
+        manual: crate::delphi_physical::ManualRotation,
+        camera: Option<crate::delphi_camera::Context<'a>>,
+    },
+}
 impl Session {
     pub fn prepare_delphi_physical(
         &mut self,
@@ -44,7 +52,7 @@ impl Session {
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         services: &mut crate::actor_animation_phase::Services<'_>,
     ) -> Result<crate::delphi_physical::View, String> {
-        self.advance_delphi_phases(id, e, ground, services, false, None)
+        self.advance_delphi_phases(id, e, ground, services, Entry::Physical)
     }
     /// Acquired physical/history -> dry sword secondary -> zero-time ANM.
     /// This does not execute the surrounding full primary or auxiliary callbacks.
@@ -55,7 +63,7 @@ impl Session {
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         services: &mut crate::actor_animation_phase::Services<'_>,
     ) -> Result<crate::delphi_physical::View, String> {
-        self.advance_delphi_phases(id, e, ground, services, true, None)
+        self.advance_delphi_phases(id, e, ground, services, Entry::Locomotion)
     }
     /// Entered prefix -> manual heading/look -> jump/body alignment/physical/history ->
     /// dry sword secondary -> zero-time ANM. Full primary remains separate.
@@ -67,7 +75,38 @@ impl Session {
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         services: &mut crate::actor_animation_phase::Services<'_>,
     ) -> Result<crate::delphi_physical::View, String> {
-        self.advance_delphi_phases(id, e, ground, services, true, Some(manual))
+        self.advance_delphi_phases(
+            id,
+            e,
+            ground,
+            services,
+            Entry::Controlled {
+                manual,
+                camera: None,
+            },
+        )
+    }
+    /// Entered prefix -> authored camera -> heading/look -> jump/body/physics/
+    /// history -> dry sword secondary -> zero-time ANM. Full primary is separate.
+    pub fn advance_delphi_camera_controlled(
+        &mut self,
+        id: Id,
+        e: crate::delphi_physical::Environment<'_>,
+        manual: crate::delphi_physical::ManualRotation,
+        camera: crate::delphi_camera::Context<'_>,
+        ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+        services: &mut crate::actor_animation_phase::Services<'_>,
+    ) -> Result<crate::delphi_physical::View, String> {
+        self.advance_delphi_phases(
+            id,
+            e,
+            ground,
+            services,
+            Entry::Controlled {
+                manual,
+                camera: Some(camera),
+            },
+        )
     }
     fn advance_delphi_phases(
         &mut self,
@@ -75,9 +114,13 @@ impl Session {
         e: crate::delphi_physical::Environment<'_>,
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         services: &mut crate::actor_animation_phase::Services<'_>,
-        locomotion: bool,
-        manual: Option<crate::delphi_physical::ManualRotation>,
+        entry: Entry<'_>,
     ) -> Result<crate::delphi_physical::View, String> {
+        let (locomotion, manual, mut camera) = match entry {
+            Entry::Physical => (false, None, None),
+            Entry::Locomotion => (true, None, None),
+            Entry::Controlled { manual, camera } => (true, Some(manual), camera),
+        };
         let actor = self
             .get(id)
             .ok_or("Delphi physical owner absent or foreign")?;
@@ -87,6 +130,7 @@ impl Session {
             .ok_or("Delphi physical cycle unprepared")?;
         if cycle.resources.locomotion.is_some() != locomotion
             || cycle.resources.manual_rotation != manual.is_some()
+            || cycle.resources.authored_camera != camera.is_some()
         {
             return Err("Delphi phase entry differs from its prepared profile".into());
         }
@@ -147,14 +191,34 @@ impl Session {
             materials: Some(cycle.resources.materials.clone()),
         };
         let globals = e.globals;
+        let commands = e.commands;
         let result = cycle
-            .advance(
-                &fields,
-                &payload,
-                e,
-                manual,
-                ground,
-                |fields, view, seconds| {
+            .advance(&fields, &payload, e, manual, ground, |phase| match phase {
+                crate::delphi_physical::Phase::BeforeHeading => {
+                    let context = camera
+                        .as_mut()
+                        .ok_or("Delphi entered camera context absent")?;
+                    let manual = manual.ok_or("Delphi entered camera control absent")?;
+                    // Prefix history/rate bookkeeping does not change the
+                    // channels or prior caches read by this camera getter.
+                    self.advance_delphi_camera(
+                        id,
+                        crate::delphi_camera::Environment {
+                            local_owner: manual.local_owner,
+                            mode: context.mode,
+                            buttons: u32::from_le_bytes(commands[4..8].try_into().unwrap()),
+                            aspect: context.aspect,
+                            target: context.target,
+                        },
+                        context.state,
+                        pipeline.stamp,
+                    )
+                }
+                crate::delphi_physical::Phase::Animation {
+                    fields,
+                    view,
+                    seconds,
+                } => {
                     let pass = pipeline.advance_sample(
                         fields,
                         crate::actor_animation_phase::Sample {
@@ -172,8 +236,8 @@ impl Session {
                     )?;
                     fields.channels = pass.channels;
                     Ok(())
-                },
-            )
+                }
+            })
             .and_then(|mut out| {
                 if let Some(clips) = cycle.resources.locomotion {
                     let word = crate::delphi_physical::word;
@@ -663,7 +727,7 @@ mod physical_tests {
         let factory = crate::delphi_special::Factory::load(&resources, &globals, &weapons).unwrap();
         let mut session = Session::new(1281);
         let mut owners = Vec::new();
-        for profile in 0..3 {
+        for profile in 0..4 {
             let id = factory
                 .construct_player_fields(
                     &mut session,
@@ -671,7 +735,7 @@ mod physical_tests {
                         position: [0., 0., 10.],
                         current: [0., 0., 10.],
                         previous: [0., 0., 10.],
-                        angles: [0., 0., if profile == 2 { 30. } else { 0. }],
+                        angles: [0., 0., if profile >= 2 { 30. } else { 0. }],
                     },
                     crate::animation_channels::Blending::Disabled,
                 )
@@ -699,8 +763,13 @@ mod physical_tests {
                     .with_locomotion(definitions.sword_locomotion().unwrap())
                     .unwrap()
             };
-            let prepared = if profile == 2 {
+            let prepared = if profile >= 2 {
                 prepared.with_manual_rotation().unwrap()
+            } else {
+                prepared
+            };
+            let prepared = if profile == 3 {
+                prepared.with_authored_camera().unwrap()
             } else {
                 prepared
             };
@@ -714,6 +783,7 @@ mod physical_tests {
             crate::attached_effect_context::Pool::from_active_resources(1281, &resources);
         let mut random = crate::audio_parameters::Random(1);
         let mut stamp = crate::animation_epoch::Stamp::default();
+        let mut entered_camera = crate::delphi_camera::State::default();
         let mut landed = false;
         let mut jumped = false;
         for number in 1..=64 {
@@ -723,7 +793,7 @@ mod physical_tests {
                 } else {
                     [0; 8]
                 };
-                let paused = index == 2 && (35..=40).contains(&number);
+                let paused = index >= 2 && (35..=40).contains(&number);
                 let prior_position = session
                     .get(id)
                     .unwrap()
@@ -731,9 +801,12 @@ mod physical_tests {
                     .as_ref()
                     .unwrap()
                     .position;
-                if index == 2 {
+                if index >= 2 {
                     commands[0] = 32;
                     commands[1] = 16;
+                }
+                if index == 3 && (4..=18).contains(&number) {
+                    commands[5] |= 0x80;
                 }
                 let environment = crate::delphi_physical::Environment {
                     number,
@@ -763,7 +836,7 @@ mod physical_tests {
                     session.advance_delphi_physical(id, environment, ground, &mut services)
                 } else if index == 1 {
                     session.advance_delphi_locomotion(id, environment, ground, &mut services)
-                } else {
+                } else if index == 2 {
                     session.advance_delphi_controlled(
                         id,
                         environment,
@@ -771,6 +844,24 @@ mod physical_tests {
                             sensitivity: 1.,
                             local_owner: true,
                             paused,
+                        },
+                        ground,
+                        &mut services,
+                    )
+                } else {
+                    session.advance_delphi_camera_controlled(
+                        id,
+                        environment,
+                        crate::delphi_physical::ManualRotation {
+                            sensitivity: 1.,
+                            local_owner: true,
+                            paused,
+                        },
+                        crate::delphi_camera::Context {
+                            state: &mut entered_camera,
+                            mode: -1,
+                            aspect: 16. / 9.,
+                            target: None,
                         },
                         ground,
                         &mut services,
@@ -783,7 +874,7 @@ mod physical_tests {
                     .construction_fields
                     .as_ref()
                     .unwrap();
-                if index == 2 {
+                if index >= 2 {
                     assert!(view.look > 0.);
                     if number == 1 {
                         assert!(fields.angles[2] > 0. && fields.angles[2] < 30.);
@@ -1030,6 +1121,79 @@ mod physical_tests {
         assert_eq!(reference_words(&session), references_before);
         assert_eq!(random.0, random_before.0);
         let controlled = owners[2];
+        let camera_owner = owners[3];
+        let refused_environment = |actor_key| crate::delphi_physical::Environment {
+            number: 65,
+            actor_key,
+            globals: &globals,
+            global_seconds: 1. / 60.,
+            areas: &[],
+            commands: [0, 0, 0, 0, 0, 0x80, 0, 0],
+            launch_blocked: false,
+            objects: &[],
+        };
+        let mut refused_camera = crate::delphi_camera::State::default();
+        let stamp_before_refusal = stamp.0;
+        {
+            let mut services = crate::actor_animation_phase::Services {
+                contexts: &mut contexts,
+                random: &mut random,
+                stamp: &mut stamp,
+                blending: crate::animation_channels::Blending::Disabled,
+            };
+            assert!(
+                session
+                    .advance_delphi_camera_controlled(
+                        controlled,
+                        refused_environment(3),
+                        crate::delphi_physical::ManualRotation {
+                            sensitivity: 1.,
+                            local_owner: true,
+                            paused: false
+                        },
+                        crate::delphi_camera::Context {
+                            state: &mut refused_camera,
+                            mode: -1,
+                            aspect: 1.,
+                            target: None
+                        },
+                        |_| panic!("Unprepared camera profile must not query terrain"),
+                        &mut services
+                    )
+                    .is_err()
+            );
+            assert!(
+                session
+                    .advance_delphi_controlled(
+                        camera_owner,
+                        refused_environment(4),
+                        crate::delphi_physical::ManualRotation {
+                            sensitivity: 1.,
+                            local_owner: true,
+                            paused: false
+                        },
+                        |_| panic!("Camera profile requires its camera entry"),
+                        &mut services
+                    )
+                    .is_err()
+            );
+        }
+        assert_eq!(stamp.0, stamp_before_refusal);
+        assert!(refused_camera.retained_view.is_none() && refused_camera.failure.is_none());
+        assert!(
+            session
+                .delphi_physical(controlled)
+                .unwrap()
+                .failure
+                .is_none()
+        );
+        assert!(
+            session
+                .delphi_physical(camera_owner)
+                .unwrap()
+                .failure
+                .is_none()
+        );
         let rotation_before = session.delphi_physical(controlled).unwrap().clone();
         let fields_before = session
             .get(controlled)
@@ -1120,6 +1284,101 @@ mod physical_tests {
             payload_before
         );
         assert_eq!(random.0, random_before.0);
+        // Camera publication completes before a subsequent invalid rotation.
+        // The owned frame is quarantined; replay cannot consume another epoch.
+        let camera_owner = owners[3];
+        let payload_before = session
+            .get(camera_owner)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap()
+            .to_vec();
+        assert!(entered_camera.active_view().unwrap().is_none());
+        {
+            let mut services = crate::actor_animation_phase::Services {
+                contexts: &mut contexts,
+                random: &mut random,
+                stamp: &mut stamp,
+                blending: crate::animation_channels::Blending::Disabled,
+            };
+            assert!(
+                session
+                    .advance_delphi_camera_controlled(
+                        camera_owner,
+                        refused_environment(4),
+                        crate::delphi_physical::ManualRotation {
+                            sensitivity: f32::NAN,
+                            local_owner: true,
+                            paused: false
+                        },
+                        crate::delphi_camera::Context {
+                            state: &mut entered_camera,
+                            mode: -1,
+                            aspect: 16. / 9.,
+                            target: None
+                        },
+                        |_| panic!("Rotation failure precedes terrain"),
+                        &mut services
+                    )
+                    .is_err()
+            );
+        }
+        assert!(entered_camera.active_view().unwrap().is_some());
+        assert!(entered_camera.failure.is_none());
+        assert_eq!(session.delphi_physical(camera_owner).unwrap().number, 64);
+        assert!(
+            session
+                .delphi_physical(camera_owner)
+                .unwrap()
+                .failure
+                .is_some()
+        );
+        assert_eq!(
+            session
+                .get(camera_owner)
+                .unwrap()
+                .seed
+                .storage
+                .data()
+                .unwrap(),
+            payload_before
+        );
+        assert_eq!(random.0, random_before.0);
+        let stamp_after_failure = stamp.0;
+        let retained = view_words(&entered_camera);
+        {
+            let mut services = crate::actor_animation_phase::Services {
+                contexts: &mut contexts,
+                random: &mut random,
+                stamp: &mut stamp,
+                blending: crate::animation_channels::Blending::Disabled,
+            };
+            assert!(
+                session
+                    .advance_delphi_camera_controlled(
+                        camera_owner,
+                        refused_environment(4),
+                        crate::delphi_physical::ManualRotation {
+                            sensitivity: 1.,
+                            local_owner: true,
+                            paused: false
+                        },
+                        crate::delphi_camera::Context {
+                            state: &mut entered_camera,
+                            mode: -1,
+                            aspect: 1.,
+                            target: None
+                        },
+                        |_| panic!("Quarantined frame must not query terrain"),
+                        &mut services
+                    )
+                    .is_err()
+            );
+        }
+        assert_eq!(stamp.0, stamp_after_failure);
+        assert_eq!(view_words(&entered_camera), retained);
         session.clear();
         assert!(session.delphi_events.is_none());
         assert!(session.delphi_physical(id).is_none());
