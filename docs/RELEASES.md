@@ -1,5 +1,72 @@
 # Preview releases and milestone integration
 
+## Delphi owned manual rotation - 6 November 2026
+
+An explicit owned profile now composes manual heading/look between the entered
+prefix and jump/physical/history, then dry sword secondary and zero-time ANM.
+Class rates, input preferences, local ownership and object time remain actual
+inputs; look is separate actor state. Paused physical updates keep animation and
+history while skipping motion/placement/new rates/forces.
+
+Five 256-step native/Rust cases match 10,202,880 normalized words across all
+22 actor headers/reference buffers, full owner payload and fifteen ordered lists,
+plus shared RNG endpoints. They cover signed commands, wrap/clamps, variable
+frame time, pause/unpause with held jump and ordered time areas/owner exclusion.
+A separate 2,531-case scalar control matches 488,483 header words. The source-data
+control interleaves three owners and retains state after refused/failed updates.
+
+Full primary/camera/target/item producers, auxiliary callbacks, effects, water,
+turbo, combat and live mission admission remain pending. These CPU controls do
+not certify a complete controller, scheduled world turn or visual fidelity and
+add no playable Delphi download.
+
+
+Combined source `b7a899188df24678e6222a458ded03a681d72619` preserves the Mecc
+and Kabuto lifecycle work. The five controlled trajectories and six retained
+locomotion cases are repeated with exact RNG endpoints and stable source/input
+hashes. Its workspace passes 744 Rust tests (23 ignored), 40 Python tests,
+Rustfmt and Clippy. The source-history audit reports zero selected-pattern
+findings across 211 commits and 2,004 distinct blobs.
+
+The exact GNU executable passes both silent development lifecycle endpoints and
+three selected-opening cancellations. These are common-runtime regressions, not
+Delphi interaction or complete cinematic playback. Its private ten-member draft
+has complete notices, matching receipt/review identities and no technical
+verifier blockers. Executable SHA256:
+`45a7d588dac5c34b3fa597a6b83a737a988930e1db54e8795a159b3e84eb312f`;
+private ZIP SHA256:
+`e1ef8846b858178a59bde8c0f9e78d546078888f087ced430d4355f8031e4742`.
+The public Windows preview keeps its separately tested release identity.
+
+
+The subsequent Kabuto submission merge at
+`7bae59b9d241c9c36dd29b5f61be59b904906c5c` passes 748 Rust tests (23 ignored),
+Rustfmt and Clippy. The Delphi implementation is unchanged; the shared basis
+change only exposes its existing implementation within the crate. This combined
+source check does not replace the exact executable/package identity above or
+repeat the independent Kabuto rendering proof.
+
+
+The ordered-camera merge at `61d41052d72eab8cb97d6c4e50286d0ed7f34e04`
+passes 750 Rust tests (24 ignored), 40 Python tests, Rustfmt and Clippy. The
+five controlled Delphi cases are repeated against this exact source. Its GNU
+executable again passes both silent development lifecycle endpoints and three
+selected-opening cancellations. The private ten-member draft has matching
+receipt/review identities, complete notices and no technical verifier blockers.
+Executable SHA256:
+`8e2cd979f1bf053abf629fe870a8a7dba3532cb76bff4a49cb830da087958326`;
+private ZIP SHA256:
+`421ebd956deffb071c910659c0af6db75da48f21c94448d8bc08211198b94385`.
+The earlier b7a8991 controls keep their separate identity. No live Delphi,
+complete-primary, interactive-camera or visual-fidelity claim is added.
+
+
+The later Kabuto header and Flick documentation integration is validated on
+`b17eebb7e75399e14a69406af2e6e70f9beb92ae`: 754 Rust tests pass (24 ignored),
+with Rustfmt and Clippy. The added basis point-transform is a separate acquired
+profile; existing Delphi kernels are unchanged. The executable controls above
+remain tied to source 61d4105 rather than a later documentation/header commit.
+
 ## Kabuto CPU geometry-header producer tail - 6 November 2026
 
 The owned header tail now selects the supplied local-camera or body/target route,

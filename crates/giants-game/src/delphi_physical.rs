@@ -9,6 +9,7 @@ pub struct Resources {
     radius: crate::player_collision_radius::Bounds,
     pub(crate) materials: Arc<crate::mecc_contact_materials::Catalog>,
     pub(crate) locomotion: Option<crate::delphi_locomotion::Clips>,
+    pub(crate) manual_rotation: bool,
 }
 impl std::fmt::Debug for Resources {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -16,6 +17,7 @@ impl std::fmt::Debug for Resources {
             .field("class", &self.specification.class)
             .field("radius", &self.radius)
             .field("locomotion", &self.locomotion)
+            .field("manual_rotation", &self.manual_rotation)
             .finish()
     }
 }
@@ -46,6 +48,7 @@ impl Resources {
             specification,
             materials,
             locomotion: None,
+            manual_rotation: false,
             radius: crate::player_collision_radius::Bounds {
                 primary: bounds.primary,
                 animation_one: bounds.radius_auxiliary,
@@ -67,6 +70,21 @@ impl Resources {
         self.locomotion = Some(clips);
         Ok(self)
     }
+    /// Freeze the acquired manual-rotation producer into a locomotion cycle.
+    pub fn with_manual_rotation(mut self) -> Result<Self, String> {
+        if self.locomotion.is_none() {
+            return Err("Delphi manual rotation requires its locomotion resources".into());
+        }
+        self.manual_rotation = true;
+        Ok(self)
+    }
+}
+/// Actual per-frame preference/owner boundaries for the manual helpers.
+#[derive(Clone, Copy, Debug)]
+pub struct ManualRotation {
+    pub sensitivity: f32,
+    pub local_owner: bool,
+    pub paused: bool,
 }
 pub struct Environment<'a> {
     pub number: u64,
@@ -87,6 +105,8 @@ pub struct View {
     pub previous_velocity: [f32; 3],
     pub model: [f32; 4],
     pub previous_model: [f32; 4],
+    /// Independent look angle; this is not body pitch or roll.
+    pub look: f32,
     pub floor: f32,
     pub plane: [f32; 4],
     pub radius: f32,
@@ -142,6 +162,7 @@ impl Owned {
                 previous_velocity: [0.; 3],
                 model: [0.; 4],
                 previous_model: [0.; 4],
+                look: 0.,
                 floor: 0.,
                 plane: [0.; 4],
                 radius: 0.,
@@ -159,6 +180,7 @@ impl Owned {
         fields: &Fields,
         payload: &[u8],
         e: Environment<'_>,
+        manual: Option<ManualRotation>,
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         animate: impl FnMut(&mut Fields, &View, f32) -> Result<(), String>,
     ) -> Result<Output, String> {
@@ -166,7 +188,7 @@ impl Owned {
             return Err("Delphi physical step failed or is not contiguous".into());
         }
         let mut next = self.clone();
-        match next.run(fields, payload, e, ground, animate) {
+        match next.run(fields, payload, e, manual, ground, animate) {
             Ok(out) => {
                 *self = next;
                 Ok(out)
@@ -182,6 +204,7 @@ impl Owned {
         fields: &Fields,
         payload: &[u8],
         e: Environment<'_>,
+        manual: Option<ManualRotation>,
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         mut animate: impl FnMut(&mut Fields, &View, f32) -> Result<(), String>,
     ) -> Result<Output, String> {
@@ -217,6 +240,43 @@ impl Owned {
         }
         f.configuration[14] = entry.binding_flags;
         self.view.previous_model = entry.previous_rates.map(f32::from_bits);
+        if let Some(manual) = manual {
+            let seconds = crate::object_time::seconds(
+                e.global_seconds,
+                Some(crate::object_time::Sample {
+                    owner: f.dispatch_context,
+                    position: f.position,
+                }),
+                None,
+                e.areas,
+            );
+            let rotation = crate::player_rotation::advance(
+                crate::player_rotation::State {
+                    heading: f.angles[0],
+                    look: self.view.look,
+                    rate: self.view.model[3],
+                    previous_rate: self.view.previous_model[3],
+                },
+                crate::player_rotation::Parameters {
+                    acceleration: f32::from_bits(f.configuration[5]),
+                    maximum_rate: f32::from_bits(f.configuration[6]),
+                    deceleration: f32::from_bits(f.configuration[7]),
+                },
+                crate::player_rotation::Input {
+                    turn: e.commands[0] as i8,
+                    look: e.commands[1] as i8,
+                    seconds,
+                    sensitivity: manual.sensitivity,
+                    local_owner: manual.local_owner,
+                    paused: manual.paused,
+                    automatic_heading: f.object_flags & 0x1000000 != 0,
+                },
+            )?;
+            f.angles[0] = rotation.heading;
+            self.view.look = rotation.look;
+            self.view.model[3] = rotation.rate;
+            self.view.previous_model[3] = rotation.previous_rate;
+        }
         let jump = crate::delphi_jump::step(
             crate::delphi_jump::State {
                 mode: word(&body, 0x5c) as i32,
@@ -237,7 +297,7 @@ impl Owned {
             crate::delphi_jump::Parameters::from_globals(e.globals)?,
             crate::delphi_jump::Tick {
                 held: u32::from_le_bytes(e.commands[4..8].try_into().unwrap()) & 0x200 != 0,
-                launch_blocked: e.launch_blocked,
+                launch_blocked: e.launch_blocked || manual.is_some_and(|m| m.paused),
                 global_seconds: e.global_seconds,
                 owner: f.dispatch_context,
                 areas: e.areas,
@@ -255,6 +315,38 @@ impl Owned {
             (0xd20, jump.physical_acceleration_z.to_bits()),
         ] {
             put(&mut body, at, value);
+        }
+        if manual.is_some_and(|m| m.paused) {
+            // The physical callback keeps first ANM/history while skipping
+            // integration, placement, new model rates and force production.
+            let (flags, affine) = crate::actor_affine::update(
+                crate::uncached_pose::Pose {
+                    position: f.position,
+                    angles: f.angles,
+                    scale: f.scale,
+                },
+                f.object_flags,
+                self.view.affine,
+                Precision::Double53,
+            )?;
+            f.object_flags = flags;
+            self.view.affine = Some(affine);
+            self.view.number = e.number;
+            let seconds = crate::object_time::seconds(
+                e.global_seconds,
+                Some(crate::object_time::Sample {
+                    owner: f.dispatch_context,
+                    position: f.position,
+                }),
+                None,
+                e.areas,
+            );
+            animate(&mut f, &self.view, seconds as f32)?;
+            history(&mut body, &mut f, seconds)?;
+            return Ok(Output {
+                fields: f,
+                payload: body,
+            });
         }
         let mut p: [u32; 15] = std::array::from_fn(|i| word(&body, 0xd00 + i * 4));
         let pf = |i| f32::from_bits(p[i]);
@@ -433,19 +525,20 @@ impl Owned {
         for (i, value) in p.into_iter().enumerate() {
             put(&mut body, 0xd00 + i * 4, value);
         }
-        if f.angles[0] < 0. {
-            f.angles[0] = (f64::from(f.angles[0]) + 360.) as f32;
-        } else if f.angles[0] >= 360. {
-            f.angles[0] = (f64::from(f.angles[0]) - 360.) as f32;
-        }
-        history(&mut body, &f, seconds(f.position))?;
+        let history_seconds = seconds(f.position);
+        history(&mut body, &mut f, history_seconds)?;
         Ok(Output {
             fields: f,
             payload: body,
         })
     }
 }
-fn history(body: &mut [u8], fields: &Fields, seconds: f64) -> Result<(), String> {
+fn history(body: &mut [u8], fields: &mut Fields, seconds: f64) -> Result<(), String> {
+    if fields.angles[0] < 0. {
+        fields.angles[0] = (f64::from(fields.angles[0]) + 360.) as f32;
+    } else if fields.angles[0] >= 360. {
+        fields.angles[0] = (f64::from(fields.angles[0]) - 360.) as f32;
+    }
     let mut index = word(body, 0x68);
     let record = |fields: &Fields| -> [u32; 9] {
         [
