@@ -33,6 +33,13 @@ private ZIP SHA256:
 `226d0879fd9e2fd554ef7143e7eb6f2c9dca6480d80edf44aa7be7ace6a662e2`.
 The public Windows preview retains its separately tested release identity.
 
+The subsequent source merge `468df55` preserves the Session-bound subjective
+held-matrix work. Its 763 synthetic Rust tests (25 ignored), four installed-data
+Mecc lifecycle controls, 40 Python tests, Rustfmt, Clippy and site/JavaScript
+checks pass. The source/history audit reports no findings across 252 commits
+and 2,179 blobs. Delphi's acquired modules are unchanged from the exact build
+above; that executable and draft retain their earlier source identity.
+
 ## Session-bound subjective held matrix - 6 November 2026
 
 The normal pistol's subjective matrix now reads the actual completed Session post,
