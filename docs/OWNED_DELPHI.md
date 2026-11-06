@@ -26,8 +26,14 @@ identity branch. Reset retains the prior matrix; inactive gates preserve state.
 The selected view remains absent until produced. Late failures preserve the last
 view and quarantine replay as an owned policy, not native error-path parity.
 
-Three private test-driver compositions interleave this callback with the controlled
-Delphi phases. Each covers 256 steps across 22 actors, reference buffers, full
+The frozen `Resources::with_authored_camera` profile and
+`Session::advance_delphi_camera_controlled` now execute this callback inside the
+entered controlled phase, after prefix bookkeeping and before manual heading.
+A single phase consumer shares the actual ANM epoch with both animation passes;
+local ownership and buttons come from the same movement invocation. Existing
+physical, locomotion and manual-only entry points retain their frozen profiles.
+
+Three private native/Rust compositions exercise this combined Session entry. Each covers 256 steps across 22 actors, reference buffers, full
 owner payload and fifteen ordered lists, plus 21 override-state words per step.
 All 6,137,856 normalized words and RNG endpoints match. Mode, aspect, local-owner
 and optional self-target are supplied inputs; the external target pointer is
@@ -41,8 +47,16 @@ the actual older world matrix is retained and consumed. The real-resource lens
 in these controls is static; animated lens tracks and non-self target actors
 remain outside this integration proof.
 
-These are owned callback APIs and a test-driver composition, not the production
-full-primary scheduler or a live player camera. Target and viewport producers,
+The source-data lifecycle control interleaves four owners, including the camera
+profile. Wrong entries refuse before consuming terrain or animation state. A
+late invalid rotation retains the already completed camera result and quarantines
+the physical cycle; retry cannot consume another camera epoch. The same fifteen
+legacy movement/body/locomotion controls still match 30,608,640 normalized words
+over 3,840 steps with exact RNG endpoints. These repeat existing controls to
+check the changed shared phase dispatch; they are not new unique trajectories.
+
+This is owned controlled-phase integration, not the production full-primary
+scheduler or a live player camera. Target and viewport producers,
 ordinary camera updates, renderer/mission wiring, other primary/auxiliary phases,
 water/turbo and fidelity remain pending. Prototype PS2 attribution stays unknown.
 
@@ -70,8 +84,8 @@ The paused physical branch retains first ANM/history while skipping integration,
 placement, new model rates and force production. Jump launch is pause-gated;
 existing hold/release semantics remain separate.
 
-The source-data lifecycle control now interleaves three owners across physical,
-locomotion and controlled profiles. It checks separate look state, pause without
+The source-data lifecycle control now interleaves four owners across physical,
+locomotion, controlled and authored-camera profiles. It checks separate look state, pause without
 terrain queries, wrong-entry refusal and retained state after invalid rotation.
 Full primary/camera/target/item and auxiliary callbacks, nonordinary effects,
 water/turbo, mission input and live admission remain pending. These CPU controls

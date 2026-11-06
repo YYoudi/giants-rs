@@ -49,6 +49,51 @@ attributions remain unknown. All 305 gallery comparisons and four screenshots
 are preserved unchanged; no unvalidated effect image is added. These bounded
 inspection changes are not another public playable preview.
 
+## Delphi entered controlled-camera phase - 6 November 2026
+
+The owned controlled Session entry now runs the authored-camera callback after
+entered-prefix bookkeeping and before heading/look. Its frozen resource profile
+shares the animation epoch with both ANM passes and derives buttons/ownership
+from the same movement invocation. Existing physical, locomotion and manual-only
+profiles retain their entry checks.
+
+Three repeated 256-step native/Rust controls pass through this combined API:
+6,137,856 normalized words across 22 actors, references, payload, ordered lists
+and camera state, with exact RNG. Fifteen repeated legacy controls preserve
+30,608,640 words over 3,840 steps. The four-owner source-data lifecycle verifies
+wrong-profile refusal and retention of completed camera effects after a later
+rotation failure, with replay quarantined. These are existing inputs exercised
+through the new phase dispatch, not additional unique native trajectories.
+
+This remains controlled-phase CPU integration. Full-primary/world scheduling,
+target/viewport producers, ordinary camera, renderer/mission wiring, water/turbo
+and combat remain pending. No Delphi playable download or fidelity claim follows.
+Prototype PS2 attributions remain unknown; the private lookup and alias records
+are retained separately from these reviewed summaries.
+
+Combined source `a1b29db` preserves the newer Mecc descent inspection and persistent
+Flick traversals. It passes 769 Rust tests (27 ignored), the enriched Delphi
+source-data lifecycle, four installed-data Mecc controls, 40 Python tests,
+Rustfmt and Clippy. The selected-pattern source/history audit reports no findings
+across 311 commits and 2,404 blobs. The dashboard retains 510 pinned images,
+305 comparisons and four recorded Bevy captures; none is a live Delphi capture.
+
+The exact GNU executable passes both silent development lifecycle endpoints and
+three Rstory1 mission-index-2 cancellations after real persistent-object updates,
+with tracked resource release. The ten-member private validation draft includes
+complete notices and passes receipt-bound checksum/member validation with zero
+technical blockers. Executable SHA256:
+`dd2f55811520d736ec603743dff95630dc9ccccb2f7e165f107faa9d90456f80`;
+private archive SHA256:
+`7cd766fdf86f7e757330bd920846148a9d475abd12d8277e5f84f70d8d4e7dc5`.
+These common-runtime checks are not Delphi gameplay controls; subsequent source
+merges retain their own identity and do not alter these binary receipts.
+
+Source merge `7adb553` additionally preserves the concurrent owned Kabuto growth
+kernel and updated public cinematic preview inventory. It passes 771 Rust tests
+(28 ignored), 40 Python tests, Rustfmt, Clippy and site checks. The selected-pattern
+history audit reports no findings across 316 commits and 2,418 blobs. This later
+source result does not relabel the earlier receipt-bound executable.
 
 ## Kabuto owned size pursuit — 6 November 2026
 
