@@ -39,6 +39,49 @@ substitute for an unacquired pre-primary firing view.
 
 ## Validation and boundaries
 
+### Ordered subjective camera production - 6 November 2026
+
+`mecc_world_camera::State` binds the ordinary producer to one Session source and
+separates world-frame numbering from camera invocation numbering. An active
+subjective frame performs an inner call after virtual animation selection and
+before placement, first ANM/reference publication and fire. Its outer call runs
+after post completion. The following frame cannot replace either unfinished
+obligation. Only the matching completed outer publication is eligible for rendering.
+The mission inspection driver now uses that outer publication and reads camera
+inputs directly from the completed Session source.
+`Publication::frame()` identifies the world frame; its output's `number` identifies
+the camera invocation. Future consumers must retain that distinction when a world
+frame contains both calls.
+
+`Session::advance_mecc_subjective_post_produced` accepts no numeric camera packet.
+It supplies placement with the previous actual camera globals and the generated
+inner result, and replaces fire's camera/origin/forward before executing the real
+callback. Known startup globals are an explicit boundary; an unknown initial
+camera cannot enter subjective placement. Missing/stale owners or phases refuse
+before providers run. A failed camera pass retains its last completed diagnostic
+publication and refuses replay; it cannot become a new rendered view.
+
+Four continuous native/Rust controls now pass 320 frames, 144 inner calls and 320
+outer calls, twelve shots and 404,560 normalized state/cache/view words. Numeric
+camera inputs in the private runner are deliberately invalid; Rust produces both
+the prior immediate-fire view and the current subjective view. The controls retain
+their original source/held/virtual references, projectile, FX, RNG and epoch checks.
+A further 64-frame control captures the native inner renderer upload and matches
+all inner/outer matrices plus the original state checks (79,666 words). This is
+an additional observation of the same selected input profile, not another world.
+
+Two synthetic sequence controls and a source-backed three-case lifecycle control
+cover invocation/frame separation, unknown startup, wrong-order/replay refusal,
+camera-provider quarantine, successful post/outer completion and a retained late
+sound failure. The existing source-backed supplied-camera controls remain distinct.
+Native camera eligibility/resource presence, known zero startup globals, flat
+terrain/empty mesh population and partial outer-world ordering remain controlled.
+The positional sound bank is empty. Main-driver subjective drawing/posed vertices,
+complete target contexts and positional audio remain prerequisites; `fire: None`
+is retained. These checks establish neither live mission firing nor visual fidelity.
+
+### Earlier primitive and inspection controls
+
 On the pinned PC profile, 64 supplied camera cases match 2,688 normalized words,
 including view/cache values and 1,025 actual floor queries, with a maximum of 50
 in one case. They cover changing poses, profiles, frame deltas, scale/offsets,

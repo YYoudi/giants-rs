@@ -36,7 +36,8 @@ that result and rebuild in an isolated target before recording a release receipt
 Package a draft with `python -m tools.package_preview --help`. Run the extracted
 bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Windows
 or GIANTS_INSPECTION_FONT, never bundled. Game data is read-only; user state goes
-outside the installation. Interactive validation remains pending in this candidate.
+outside the installation. Interactive coverage is limited to the exact preview
+and mission recorded in RELEASES.md; broader gameplay and fidelity remain pending.
 
 ## Optional subjective Mecc lifecycle check
 
@@ -46,6 +47,7 @@ target directory described above:
 ```powershell
 cargo test --locked -p giants-game source_mecc_subjective_publishes_before_fire_and_retains_late_failure --target x86_64-pc-windows-gnu -- --ignored
 cargo test --locked -p giants-game source_mecc_deferred_primary_requires_post_and_retains_real_fire_failure --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-game source_mecc_produced_camera_orders_post_fire_and_outer_publication --target x86_64-pc-windows-gnu -- --ignored
 ```
 
 This silent CPU control checks the Session-bound subjective resource and shared
@@ -56,6 +58,10 @@ The second control executes the owned deferred primary/held/post/local-fire path
 including real Rust projectile/effect construction and an injected late sound
 failure. Camera inputs and an empty positional sound bank are controlled; it
 creates no window, original process, full mission or audio device.
+The produced-camera variant calculates the inner view before placement/fire and
+requires post completion before the outer publication. It exercises success,
+no-shot and late sound failure using a controlled flat world and known startup
+camera. It does not draw a subjective actor or enable main-driver owned firing.
 
 ## Optional Delphi resource check
 

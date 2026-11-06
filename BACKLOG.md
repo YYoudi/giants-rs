@@ -336,6 +336,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   independent playback/vertex copies for an unverified sharing model. Current controlled flags are read after
   primary; copied motion/channels and world-shared weapon history have distinct
   producers. This remains a CPU prerequisite, not full subjective integration.
+- Ordered subjective camera: the Session-produced post now calculates the inner
+  view after selector execution and before placement/ANM/fire. Its world owner
+  tracks camera invocations separately from world frames, then publishes the
+  matching outer view for rendering. Four controls pass 320 frames/12 shots with
+  generated cameras; a separate 64-frame capture also checks inner renderer
+  matrices. Preserve explicit startup/eligibility/static-world boundaries. Next,
+  acquire posed-vertex ownership/consumers and actual subjective drawing before
+  enabling main-driver fire; complete target contexts and positional audio remain.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated
@@ -343,7 +351,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   CPU controls pass 64/256 cases respectively; see docs/OWNED_CAMERA.md and the
   receipt-bound runtime checkpoint in docs/RELEASES.md. Normal campaign admission,
   native list/model/part preparation, configured angle smoothing, special camera
-  modes, inner/outer camera pass timing and main-driver subjective fire binding
+  modes, enclosing world admission and main-driver subjective fire/drawing binding
   remain prerequisites. The
   existing inspection gate and `fire: None` remain; this is not a default-route
   owned readiness claim.
@@ -415,11 +423,28 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   The cyclic observer now stays pending until its requested object exists;
   whole-world presentation and one-shot capture completion cannot end this probe
   early. This tests cancellation services, not interactive skip gestures.
+  A later silent interactive control of that same preview uses the actual main
+  menu and Rstory1 mission 3: Escape skips after a persistent object is born,
+  a second entry reaches natural completion, and a third entry skips with a
+  double-click before the object is born. Each returns through the partial
+  free-camera scene to the mission menu; tracked session entities and owned
+  assets are released, with zero objects/contexts remaining. This does not admit
+  Delphi gameplay or verify other scene/gesture combinations, audible playback,
+  native pixels or whole-device resource lifetime. Double-click with an active
+  persistent object remains untested.
+  Native support-generation acquisition now covers 153 bounded producer cases
+  (2,461 generation words) plus 20 original command-processor wait cases (1,294
+  calls / 1,274 time updates). Within supplied silent scene/header boundaries,
+  an unsatisfied wait updates the clock and renews director then actor generations;
+  a satisfied wait dispatches onward without that update. Initial clock reset
+  still renews generations. Actual source construction/render/cache phase and
+  world scheduling remain prerequisites; these controls add no runtime behavior.
+  Identity-bound prototype PS2 lookups remain unknown, separate from PC behavior.
   The 59-source gap total, 56 general-queue admission refusals and 282 strict-
   profile reviews remain: this is a partial runtime path, not 23 fully admitted
   or faithful scenes. In-mission producers are still needed for non-opening
   sources. Live support generations, native world scheduling/admission and pool
-  capacity, complete rendering/audio/subtitle parity and interactive skip remain
+  capacity, complete rendering/audio/subtitle parity and broader interactive coverage remain
   open. Next: finish these persistent contracts, then the mixed/other queue
   families and the overlapping partial FX/audio/credits/resume priorities below.
 

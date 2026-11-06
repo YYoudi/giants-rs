@@ -28,7 +28,7 @@ pub(super) struct Driver {
     actor_key: Option<u32>,
     children: giants_game::mecc_jet_presentation::Children,
     weapon_pose: giants_game::mecc_wield_pose::Producer,
-    camera: giants_game::mecc_camera_update::State,
+    camera: giants_game::mecc_world_camera::State<ActorId>,
 }
 impl Driver {
     fn prepare(active: &mut Active, input: &Input<'_>) -> Result<Self, String> {
@@ -106,7 +106,7 @@ impl Driver {
             actor_key: None,
             children,
             weapon_pose: giants_game::mecc_wield_pose::Producer::new(actor),
-            camera: Default::default(),
+            camera: giants_game::mecc_world_camera::State::new(actor, None),
         }
     }
     fn advance(
@@ -221,20 +221,14 @@ impl Driver {
             let mut camera_world = giants_game::mecc_camera_wall::World::new(
                 &query, self.actor_key.unwrap(), input.objects,
             );
-            let camera = self.camera.advance(
-                giants_game::mecc_camera_update::Input {
-                    number: input.number,
-                    position: frame.position,
-                    yaw: frame.angles[0],
-                    pitch: frame.look_pitch,
-                    look_height: frame.look_height,
-                    scale: frame.scale,
-                    skip_floor: frame.object_flags & 0x10 != 0,
-                    seconds: input.seconds,
-                    profile: giants_game::mecc_camera_update::Profile::normal(input.first_person),
-                },
+            self.camera.outer(
+                session,
+                input.number,
+                input.first_person,
+                input.seconds,
                 &mut camera_world,
             )?;
+            let camera = self.camera.outer_output(input.number)?.clone();
             if input.number == 1 || input.number.is_multiple_of(128) {
                 println!(
                     "mission_owned_camera ticket={} frame={} floor_queries={} mesh_candidates={} mesh_triangles={} mesh_hits={} prepared_meshes=true native_list_order=false live_callbacks=false",

@@ -36,6 +36,15 @@ services. A post-primary camera cache cannot supply an unacquired earlier view.
 
 ## Deferred primary and actual post-world fire
 
+The produced-camera entry `Session::advance_mecc_subjective_post_produced` now
+executes the inner camera between selection and placement, and passes its actual
+camera/cache to local fire. The world camera owner retains separate inner/outer
+invocation numbers and the prior completed globals. Four controls preserve all
+320 frames and twelve shots with generated camera values; a further 64-frame
+capture checks the inner view upload. See [OWNED_CAMERA.md](OWNED_CAMERA.md) for
+word counts, startup/provider boundaries and the remaining runtime prerequisites.
+The supplied-camera entry remains an explicitly separate numerical control.
+
 `Session::advance_mecc_subjective_world` requires an actual Session pre-copy for
 the matching source, resource and frame. Generic supplied-field preparation is
 insufficient. It executes the ordinary world/primary/secondary path with firing

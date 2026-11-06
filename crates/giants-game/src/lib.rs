@@ -667,6 +667,7 @@ pub mod mecc_pistol;
 pub mod mecc_primary;
 pub mod mecc_subjective;
 pub mod mecc_world;
+pub mod mecc_world_camera;
 pub mod positional_effect_audio;
 pub mod primary_enemy_fire;
 pub mod primary_surface_marker;

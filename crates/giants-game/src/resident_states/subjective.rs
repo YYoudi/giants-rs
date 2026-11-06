@@ -5,6 +5,56 @@ use crate::mecc_subjective::{
 };
 
 impl Session {
+    pub(crate) fn mecc_camera_phase_input(
+        &self,
+        source: Id,
+        frame: u64,
+        inner: bool,
+        first_person: bool,
+        seconds: f32,
+    ) -> Result<crate::mecc_camera_update::Input, String> {
+        let actor = self.get(source).ok_or("camera source absent or foreign")?;
+        let cycle = actor
+            .mecc_physical_cycle
+            .as_ref()
+            .ok_or("camera source physical cycle absent")?;
+        if actor.class != 2
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 2
+            || cycle.view.number != frame
+            || cycle.failure.is_some()
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+            || actor
+                .world_tick
+                .as_ref()
+                .is_none_or(|t| t.phase() != crate::actor_world_tick::Phase::Finished)
+            || if inner {
+                cycle.subjective_pending != Some(frame)
+            } else {
+                cycle.subjective_pending.is_some()
+            }
+        {
+            return Err(
+                "camera requires its completed ordinary source and matching world phase".into(),
+            );
+        }
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("camera source fields absent")?;
+        Ok(crate::mecc_camera_update::Input {
+            number: 0,
+            position: fields.position,
+            yaw: fields.angles[0],
+            pitch: cycle.view.look_pitch,
+            look_height: f32::from_bits(fields.configuration[22]),
+            scale: fields.scale,
+            skip_floor: fields.object_flags & 0x10 != 0,
+            seconds,
+            profile: crate::mecc_camera_update::Profile::normal(first_person),
+        })
+    }
     /// Defer this prepared source's actual fire while retaining fire-enabled
     /// primary/secondary commands. A completed body blocks its next history
     /// pass until the matching post phase has finished or the world is cleared.
@@ -67,6 +117,54 @@ impl Session {
         post: WorldPost,
         history: &mut subjective::History,
         services: WorldServices<'_, '_, '_>,
+    ) -> Result<WorldOutput, String> {
+        self.advance_mecc_subjective_post_inner(state, post, history, services, None)
+    }
+
+    /// Select the virtual animation, produce its inner camera, place and publish
+    /// references, execute actual local fire, then finish zero-time ANM.
+    pub fn advance_mecc_subjective_post_produced(
+        &mut self,
+        state: &mut State<Id>,
+        post: subjective::ProducedWorldPost,
+        history: &mut subjective::History,
+        services: WorldServices<'_, '_, '_>,
+        camera: &mut crate::mecc_world_camera::State<Id>,
+        world: &mut impl crate::mecc_camera_update::World,
+    ) -> Result<WorldOutput, String> {
+        if post.camera_owner != post.controlled {
+            return Err("produced subjective camera requires the controlled source owner".into());
+        }
+        camera.check_inner(self, post.controlled, post.number)?;
+        let previous = camera.placement_previous()?;
+        let mut producer = crate::mecc_world_camera::Inner {
+            state: camera,
+            first_person: services.fire.view.first_person,
+            seconds: services.global_seconds,
+            world,
+        };
+        self.advance_mecc_subjective_post_inner(
+            state,
+            WorldPost {
+                number: post.number,
+                controlled: post.controlled,
+                camera_owner: Some(post.camera_owner),
+                previous_camera: previous,
+                current_camera: previous,
+            },
+            history,
+            services,
+            Some(&mut producer),
+        )
+    }
+
+    fn advance_mecc_subjective_post_inner(
+        &mut self,
+        state: &mut State<Id>,
+        post: WorldPost,
+        history: &mut subjective::History,
+        services: WorldServices<'_, '_, '_>,
+        camera: Option<&mut dyn crate::mecc_world_camera::Producer>,
     ) -> Result<WorldOutput, String> {
         let source = state
             .header()
@@ -164,10 +262,11 @@ impl Session {
         }
         if post.camera_owner == Some(source) {
             services.fire.preflight_subjective(source, number)?;
-            if services.fire.view.camera.position.map(f32::to_bits)
-                != post.current_camera.position.map(f32::to_bits)
-                || services.fire.view.camera.angles.map(f32::to_bits)
-                    != post.current_camera.angles.map(f32::to_bits)
+            if camera.is_none()
+                && (services.fire.view.camera.position.map(f32::to_bits)
+                    != post.current_camera.position.map(f32::to_bits)
+                    || services.fire.view.camera.angles.map(f32::to_bits)
+                        != post.current_camera.angles.map(f32::to_bits))
             {
                 return Err(
                     "subjective fire view must use the supplied current inner camera".into(),
@@ -195,6 +294,8 @@ impl Session {
             seconds,
             auxiliary_reset,
             output: None,
+            camera,
+            camera_output: None,
         };
         let result = state.post(
             subjective::Post {
@@ -228,6 +329,7 @@ impl Session {
                 Ok(WorldOutput {
                     animation,
                     fire: adapter.output,
+                    camera: adapter.camera_output,
                 })
             }
             Err(error) => {
@@ -246,7 +348,7 @@ impl Session {
     }
 }
 
-struct PostAdapter<'a, 's, 'r, 't> {
+struct PostAdapter<'a, 's, 'r, 't, 'c> {
     session: &'s mut Session,
     fire: crate::mecc_primary::FireServices<'a, 'r, 't>,
     held: &'a crate::mecc_wield_pose::Producer,
@@ -255,8 +357,32 @@ struct PostAdapter<'a, 's, 'r, 't> {
     seconds: f64,
     auxiliary_reset: f32,
     output: Option<crate::mecc_fire_primary::Output>,
+    camera: Option<&'c mut dyn crate::mecc_world_camera::Producer>,
+    camera_output: Option<crate::mecc_world_camera::Publication<Id>>,
 }
-impl subjective::Services<Id> for PostAdapter<'_, '_, '_, '_> {
+impl subjective::Services<Id> for PostAdapter<'_, '_, '_, '_, '_> {
+    fn cameras(
+        &mut self,
+        source: Id,
+        number: u64,
+        previous: crate::first_person::Camera,
+        current: crate::first_person::Camera,
+    ) -> Result<(crate::first_person::Camera, crate::first_person::Camera), String> {
+        let Some(producer) = self.camera.as_mut() else {
+            return Ok((previous, current));
+        };
+        let publication = producer.publish(self.session, source, number)?;
+        let previous = publication
+            .previous()
+            .ok_or("inner camera previous globals absent")?;
+        let output = publication.output();
+        self.fire.view.camera = output.camera;
+        self.fire.view.viewport_origin = output.viewport_origin;
+        self.fire.view.viewport_forward = output.viewport_forward;
+        let current = output.camera;
+        self.camera_output = Some(publication);
+        Ok((previous, current))
+    }
     fn references(
         &mut self,
         source: Id,

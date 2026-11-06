@@ -30,8 +30,12 @@ mission-readiness gate; the full inventory's general-queue refusals remain.
 This exact preview passes three silent main-menu cancellations with live
 persistent objects, two Rstory1 source-terminal/re-entry cycles and both
 development lifecycle endpoints. 733 Rust tests pass (22 ignored), 38 Python
-tests, formatting and Clippy pass. Interactive skipping and complete scenes
-remain unverified. The 545-source batch and longer Kstory1/Story4 natural controls
+tests, formatting and Clippy pass. A later silent manual main-menu control of this
+same executable checks Rstory1 mission 3: Escape after persistent birth, natural
+completion on a second entry and double-click before birth on a third entry.
+Each returns through the partial free-camera scene to the menu with tracked
+cleanup. Delphi gameplay, double-click with a live persistent object, broader
+interactive coverage and complete scenes remain unverified. The 545-source batch and longer Kstory1/Story4 natural controls
 are separately pinned to the initial implementation source; they are not fresh
 whole-corpus or long-chain measurements of this later executable.
 
