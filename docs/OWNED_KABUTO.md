@@ -471,8 +471,38 @@ reference's role, entered/dynamic cleanup and actual GPU release remain pending.
 Plain `Session::clear` still does not dispatch an external registry automatically.
 
 The second material-flag reference identified during inventory belongs to a
-guarded geometry visitor, not another reset routine. Its per-entry callback behavior
-and world scheduling remain unacquired. All four group prerequisites
+guarded geometry visitor, not another reset routine. Its per-entry callback CPU packet is now acquired as described below;
+the visitor and world scheduling remain separate. All four group prerequisites
 remain explicit; CPU registration does not acknowledge menu-to-mission rendering
 or gameplay. Prototype PS2 attribution for the touched helpers remains unknown;
 raw names, ambiguous demangling and earlier address aliases stay in private records.
+
+
+## Normal geometry-entry submission packet
+
+`kabuto_submission::prepare` consumes explicit enabled state and owned geometry.
+The disabled path bypasses values, buffers and RNG. Enabled preparation uses the
+common direction/up basis, scale, shared random rotation and flagged matrix
+composition, then transposes the matrix for the backend. The scalar material
+word uses truncation after multiplication by 128; it is not a clamped opacity.
+The scalar's gameplay meaning remains unknown. Geometry preserves all eight
+words per vertex and the complete index sequence.
+
+The returned non-cloneable packet emits transform, mode, state, material,
+vertex-map/copy, unmap and indices in that order. A backend error stops at that
+call; earlier calls and the already consumed random draw remain observable.
+The material command selects the registry's generated material symbolically;
+no original pointer or native instruction is bundled. Finite/range/buffer guards
+are owned policy outside the acquired valid-input profile, not native diagnostics.
+
+Sixty-four native callback controls match 24,876 normalized words, including
+transform flags/values, material/state words, buffer copies and RNG. Original
+math and random instructions execute with supplied device, TLS and allocation
+boundaries. Synthetic tests additionally cover disabled/invalid inputs, ordered
+owned-buffer emission and failure at each of the seven backend calls. Prototype
+PS2 lookup sheets retain unknown attributions and their earlier PC aliases.
+
+This ports CPU command preparation only. Actual producer fields, the guarded
+registry visitor, world scheduling, material upload and Bevy GPU consumption
+remain open. All initializer readiness prerequisites and live admission remain
+unchanged; this result establishes neither playable movement nor visual fidelity.

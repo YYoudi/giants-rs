@@ -208,7 +208,7 @@
       "title": "Kabuto movement and growth",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Movement, jumping, collision at each size and growth triggers remain unimplemented. CPU controls cover cold group fields, animation-cache lifecycle, generated texture/shared RNG, ordered geometry/material retirement (32 scenarios, 144 removals) and registered custom cleanup (8 contexts, 36,624 words, 88 marks). Marked actors stay owned. Common actor transition/retirement, world dispatch, camera acknowledgement, GPU material/geometry rendering, full primary and live admission remain pending. CPU parity is not playable readiness or fidelity."
+      "detail": "Movement, jumping, collision at each size and growth triggers remain unimplemented. CPU controls cover cold group fields, animation-cache lifecycle, generated texture/shared RNG, ordered geometry/material retirement (32 scenarios, 144 removals) and registered custom cleanup (8 contexts, 36,624 words, 88 marks). The normal geometry-entry CPU packet also matches 64 native controls / 24,876 words; its state producer and real backend remain open. Marked actors stay owned. Common actor transition/retirement, world dispatch, camera acknowledgement, GPU material/geometry rendering, full primary and live admission remain pending. CPU parity is not playable readiness or fidelity."
     },
     {
       "id": "kabuto-feeding",
