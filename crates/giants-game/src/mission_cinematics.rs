@@ -1,4 +1,4 @@
-//! Mission startup request projection. No director clock, callbacks or runtime readiness.
+//! Source mission cinematic requests. No callbacks, clock or replay-state reconstruction.
 use giants_formats::{mission::Mission, world::WorldConfig};
 
 #[derive(Debug)]
@@ -12,6 +12,28 @@ pub struct Opening {
 }
 pub fn select(world: &WorldConfig, mission: &Mission, name: &str) -> Result<Opening, String> {
     let slot = crate::mission_slot::index(world, name)?;
+    let request = mission
+        .opening_cinematics
+        .last()
+        .map(|r| (r.source_offset, r.name));
+    resolve(world, slot, request, "startup")
+}
+/// The last command25 write supplies the completion film in this mission slot.
+/// Selecting it does not complete the mission or reconstruct native replay state.
+pub fn select_completion(
+    world: &WorldConfig,
+    mission: &Mission,
+    name: &str,
+) -> Result<Opening, String> {
+    let slot = crate::mission_slot::project(world, mission, name)?;
+    resolve(world, slot.index, slot.completion_cinematic, "completion")
+}
+fn resolve(
+    world: &WorldConfig,
+    slot: usize,
+    request: Option<(usize, [u8; 32])>,
+    role: &str,
+) -> Result<Opening, String> {
     let mut out = Opening {
         mission_slot: slot,
         source_offset: None,
@@ -19,20 +41,19 @@ pub fn select(world: &WorldConfig, mission: &Mission, name: &str) -> Result<Open
         world_index: None,
         director: None,
     };
-    let Some(request) = mission.opening_cinematics.last() else {
+    let Some((offset, raw)) = request else {
         return Ok(out); // No claim about constructor defaults or absence of a movie.
     };
-    out.source_offset = Some(request.source_offset);
-    out.raw_name = Some(request.name);
-    let end = request
-        .name
+    out.source_offset = Some(offset);
+    out.raw_name = Some(raw);
+    let end = raw
         .iter()
         .position(|b| *b == 0)
-        .ok_or("unterminated startup cinematic outside supported profile")?;
-    let label = std::str::from_utf8(&request.name[..end])
-        .map_err(|_| "invalid startup cinematic encoding")?;
+        .ok_or_else(|| format!("unterminated {role} cinematic outside supported profile"))?;
+    let label = std::str::from_utf8(&raw[..end])
+        .map_err(|_| format!("invalid {role} cinematic encoding"))?;
     if !label.is_ascii() {
-        return Err("startup cinematic outside ASCII matching profile".into());
+        return Err(format!("{role} cinematic outside ASCII matching profile"));
     }
     if label.is_empty() {
         return Ok(out);
@@ -41,13 +62,15 @@ pub fn select(world: &WorldConfig, mission: &Mission, name: &str) -> Result<Open
         .cinematics
         .iter()
         .position(|c| c.name.eq_ignore_ascii_case(label))
-        .ok_or("startup cinematic missing from world table")?;
+        .ok_or_else(|| format!("{role} cinematic missing from world table"))?;
     let canonical = &world.cinematics[index].name;
     if !canonical
         .bytes()
         .all(|b| b.is_ascii_alphanumeric() || b == b'_')
     {
-        return Err("startup cinematic identifier outside supported profile".into());
+        return Err(format!(
+            "{role} cinematic identifier outside supported profile"
+        ));
     }
     out.world_index = Some(index);
     out.director = Some(canonical.clone());
@@ -170,5 +193,39 @@ mod tests {
                 .unwrap_err()
                 .contains("unterminated")
         );
+        let mut completion = vec![4, 0, 0, 0, 1];
+        for label in [b"Alpha".as_slice(), b"bEtA".as_slice()] {
+            completion.push(25);
+            let mut field = [0xa5; 32];
+            field[..label.len()].copy_from_slice(label);
+            field[label.len()] = 0;
+            completion.extend(field);
+        }
+        completion.push(2);
+        let mission = giants_formats::mission::parse(&completion).unwrap();
+        assert!(
+            select(&world, &mission, "Selected")
+                .unwrap()
+                .director
+                .is_none()
+        );
+        let replay = select_completion(&world, &mission, "Selected").unwrap();
+        assert_eq!(replay.mission_slot, 1);
+        assert_eq!(replay.source_offset, Some(38));
+        assert_eq!(replay.director.as_deref(), Some("Beta"));
+        assert_eq!(replay.raw_name.unwrap()[31], 0xa5);
+        completion[39..71].fill(0);
+        let mission = giants_formats::mission::parse(&completion).unwrap();
+        let replay = select_completion(&world, &mission, "Selected").unwrap();
+        assert!(replay.raw_name.is_some());
+        assert!(replay.director.is_none());
+        completion[39..46].copy_from_slice(b"Missing");
+        let mission = giants_formats::mission::parse(&completion).unwrap();
+        assert!(
+            select_completion(&world, &mission, "Selected")
+                .unwrap_err()
+                .contains("world table")
+        );
+        assert!(select_completion(&world, &mission, "selected").is_err());
     }
 }
