@@ -67,6 +67,15 @@ pub struct Post<K> {
 /// firing. The callback must execute the actual source fire phase; there is no
 /// default implementation or implied audio/target/muzzle provider.
 pub trait Services<K> {
+    /// Invoked after virtual selection and before placement/ANM. Supplied-camera
+    /// controls must explicitly retain that boundary; owned adapters produce it.
+    fn cameras(
+        &mut self,
+        source: K,
+        number: u64,
+        previous: first_person::Camera,
+        current: first_person::Camera,
+    ) -> Result<(first_person::Camera, first_person::Camera), String>;
     fn references(
         &mut self,
         source: K,
@@ -93,6 +102,12 @@ pub struct WorldPost {
     pub previous_camera: first_person::Camera,
     pub current_camera: first_person::Camera,
 }
+/// Production entry: camera values come from the ordered world camera owner.
+pub struct ProducedWorldPost {
+    pub number: u64,
+    pub controlled: crate::resident_states::Id,
+    pub camera_owner: crate::resident_states::Id,
+}
 pub struct WorldServices<'a, 'r, 't> {
     pub animation: crate::mecc_animation_phase::Services<'a>,
     pub fire: crate::mecc_primary::FireServices<'a, 'r, 't>,
@@ -105,6 +120,7 @@ pub struct WorldServices<'a, 'r, 't> {
 pub struct WorldOutput {
     pub animation: Option<Output>,
     pub fire: Option<crate::mecc_fire_primary::Output>,
+    pub camera: Option<crate::mecc_world_camera::Publication<crate::resident_states::Id>>,
 }
 pub struct State<K> {
     number: u64,
@@ -304,7 +320,13 @@ impl<K: Copy + Eq> State<K> {
         }
         header.fields.channels = self.channels;
         self.phase = Phase::Selected;
-        let pose = first_person::place(input.previous_camera, input.current_camera, input.offset)?;
+        let (previous, current) = services.cameras(
+            header.source,
+            self.number,
+            input.previous_camera,
+            input.current_camera,
+        )?;
+        let pose = first_person::place(previous, current, input.offset)?;
         header.fields.position = pose.position;
         header.fields.angles = pose.angles;
         let (flags, affine) = crate::actor_affine::update(
