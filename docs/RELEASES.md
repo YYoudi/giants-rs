@@ -18,6 +18,29 @@ No new playable download, executable receipt or package checksum is claimed by
 this source-only change. The last exact GNU build and private draft below retain
 their own source and checksum identities.
 
+## Kabuto auxiliary ownership and class-command gap - 6 November 2026
+
+The dynamic auxiliary now loads actual resources through a separate factory and
+uses the common owned Session constructor. Class command `0x4e` is framed and
+applied by the shared scalar/actor-field services, with 512 seeded native mask
+controls. Sixteen constructor contexts match 3,872 normalized header/list words.
+Atomic owner binding and deferred marking/reference-clear match the auxiliary
+slice of 24 native prefix contexts: 11,596 words, four creates and three marks.
+Marked actors and their parent/list membership remain owned. Full owner animation,
+audio, root motion, active-extra teardown and world scheduling remain open; this
+is not a full-prefix Rust comparison or live Kabuto admission.
+
+Combined runtime source `5b0e455` preserves current Mecc subjective-position and
+Delphi work. It passes 759 synthetic Rust tests (25 ignored), all four silent
+Kabuto installed-data controls, 40 Python tests, Rustfmt, Clippy with warnings
+denied and site/JavaScript checks. Rebuilt constructor/lifecycle runners pass
+again on that combined source. Prototype PS2 attributions remain unknown with
+separate raw/demangled/generated-name lineage in private records.
+
+No dependency, bundled asset or playable download changes. Existing executable,
+package manifest/checksum and notice receipts keep their exact source identities.
+These CPU checks do not replace package validation or establish visual fidelity.
+
 ## Owned subjective position bank and backward-air continuation - 6 November 2026
 
 The Session now prepares subjective model positions from the actual completed
@@ -71,7 +94,7 @@ with zero technical blockers. It remains a private validation draft; existing
 public preview/source identities are preserved. Later source checkpoints do not
 replace these exact executable and package receipts.
 
-## Flick source support phases — 6 November 2026
+## Flick source support phases â€” 6 November 2026
 
 Private controls now construct 158 source actors across all 23 bounded persistent
 sources. Forty have independent animation clocks; none of their animated
@@ -206,7 +229,7 @@ There are no dependency or bundled-asset changes and no new playable download.
 Published preview notices, package manifests and checksums retain their original
 build identities; this source milestone does not replace their receipts.
 
-## Flick generation acquisition and interactive transport — 6 November 2026
+## Flick generation acquisition and interactive transport â€” 6 November 2026
 
 The existing `preview-2026.11.06.1`, source
 `0b050fbcf89eeae0ff0dd473133d496ac3496aa7`, now has an additional silent manual
@@ -312,7 +335,7 @@ This changes no dependency or bundled asset and creates no playable download.
 Existing release manifests, executable checksums and notice receipts retain their
 original build identities; they do not attest to this CPU source milestone.
 
-## Dashboard screenshot visibility — 6 November 2026
+## Dashboard screenshot visibility â€” 6 November 2026
 
 Three existing reviewed engine captures (jet boost, subjective view and cinematic
 gunfire) now appear immediately below the cover. Static HTML supplies both the
@@ -325,7 +348,7 @@ All 40 Python tests, site export and JavaScript syntax checks pass. Browser chec
 confirm the four cover/featured images load and the comparison control reaches
 both endpoints. No Rust runtime or preview package changes are included.
 
-## Prototype PS2 method follow-up — 6 November 2026
+## Prototype PS2 method follow-up â€” 6 November 2026
 
 The central reconstruction method now makes seven current Mecc primary/subjective
 lookups explicitly unassigned, preserves their PC aliases and relates historical
@@ -1028,7 +1051,7 @@ comparison also passes against that merged source. A source-history pattern
 review scans 88 commits and 1,438 distinct blobs with zero findings; it is not
 legal clearance. Live Kabuto behavior and visual fidelity remain unverified.
 
-## Prototype PS2 methodology — 5 November 2026
+## Prototype PS2 methodology â€” 5 November 2026
 
 The [central reconstruction method](RECONSTRUCTION_METHOD.md) now requires a
 prototype-name lookup at acquisition, implementation and context resumption.

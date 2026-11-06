@@ -8,6 +8,79 @@ use crate::{
 use std::sync::Arc;
 
 impl Session {
+    pub(crate) fn construct_kabuto_extra(
+        &mut self,
+        owner: Id,
+        input: super::Construction<'_>,
+    ) -> Result<Id, String> {
+        let actor = self
+            .get(owner)
+            .ok_or("Kabuto extra owner absent or foreign")?;
+        let group = actor.kabuto_group.as_ref().ok_or("Kabuto group absent")?;
+        if actor.class != 1
+            || actor.seed.storage.state() != 1
+            || group.cleaned_up
+            || group.extra.is_some()
+            || input.class != 1199
+            || input.seed.storage.state() != 0
+        {
+            return Err("Kabuto extra requires its live group and an empty reference".into());
+        }
+        let mut staged = Self::new(self.ticket);
+        staged.next = self.next;
+        let id = staged.construct_kabuto_auxiliary(input, 0x80000000)?;
+        let actor = staged.residents.get_mut(&id.serial).unwrap();
+        actor.construction_fields.as_mut().unwrap().response_flags |= 0x2000000;
+        actor.attachment = Some(super::Attachment {
+            parent: owner,
+            child_reference: 0,
+            parent_reference: 3,
+            behavior: 0,
+        });
+        actor.presentation_parent = Some(owner);
+        self.publish_staged(staged, id)?;
+        self.residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .kabuto_group
+            .as_mut()
+            .unwrap()
+            .extra = Some(id);
+        Ok(id)
+    }
+    /// Acquired reference-clear phase. Marking does not unlink the actor, clear
+    /// its parent or retire its resources. Full dynamic cleanup stays separate.
+    pub fn mark_kabuto_extra(&mut self, owner: Id) -> Result<Option<Id>, String> {
+        let actor = self
+            .get(owner)
+            .ok_or("Kabuto extra owner absent or foreign")?;
+        let group = actor.kabuto_group.as_ref().ok_or("Kabuto group absent")?;
+        if actor.class != 1 || actor.seed.storage.state() != 1 || group.cleaned_up {
+            return Err("Kabuto extra group outside acquired phase".into());
+        }
+        let Some(id) = group.extra else {
+            return Ok(None);
+        };
+        let extra = self
+            .get(id)
+            .ok_or("Kabuto extra reference absent or foreign")?;
+        if extra.class != 1199
+            || extra.seed.storage.state() != 0
+            || extra.attachment.is_none_or(|a| a.parent != owner)
+            || extra.construction_fields.is_none()
+        {
+            return Err("Kabuto extra reference outside acquired binding".into());
+        }
+        self.mark_wield_child(id)?;
+        self.residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .kabuto_group
+            .as_mut()
+            .unwrap()
+            .extra = None;
+        Ok(Some(id))
+    }
     pub(crate) fn bind_kabuto_geometry_registry(
         &mut self,
         owner: Id,
@@ -48,6 +121,7 @@ impl Session {
         if actor.class != 1
             || actor.seed.storage.state() != 1
             || group.cleaned_up
+            || group.extra.is_some()
             || actor.world_tick.is_some()
             || actor.controlled_motion.is_some()
             || actor
@@ -122,7 +196,7 @@ impl Session {
         if !(effect
             || matches!(
                 (input.class, input.seed.storage.state(), mask),
-                (749 | 1018, 0, 1)
+                (749 | 1018, 0, 1) | (1199, 0, 0x80000000)
             ))
             || input.seed.storage.profile() != Profile::Debug
             || !input.seed.diagnostics.is_empty()

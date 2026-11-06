@@ -1,7 +1,7 @@
-//! Acquired unparented Kabuto auxiliary constructors. Effect actors are allocated
-//! in their declared cold state before the acquired zero-state cleanup.
-//! Parent binding, material/geometry setup and complete player initialization
-//! remain separate phases.
+//! Acquired Kabuto auxiliary construction and explicit dynamic owner binding.
+//! Cold effects pass through their declared state before zero-state cleanup.
+//! Animation, rendering, retirement and complete player initialization remain
+//! separate phases.
 use crate::{
     actor_fields::Fields,
     arithmetic::Precision,
@@ -82,6 +82,24 @@ impl Template {
 pub struct Factory {
     templates: [Template; 4],
 }
+/// Separately prepared dynamic auxiliary. Loading the cold twelve-actor group
+/// does not acquire this extra resource or acknowledge its later parent binding.
+pub struct ExtraFactory {
+    template: Template,
+}
+impl ExtraFactory {
+    pub fn load(resources: &SceneResources) -> Result<Self, String> {
+        Ok(Self {
+            template: Template::load(resources, 1199, 0)?,
+        })
+    }
+    pub fn construct(&self, session: &mut Session) -> Result<Id, String> {
+        session.construct_kabuto_auxiliary(self.template.input(), 0x80000000)
+    }
+    pub fn construct_for(&self, session: &mut Session, owner: Id) -> Result<Id, String> {
+        session.construct_kabuto_extra(owner, self.template.input())
+    }
+}
 impl Factory {
     pub fn load(r: &SceneResources) -> Result<Self, String> {
         Ok(Self {
@@ -108,6 +126,110 @@ impl Factory {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "Requires GIANTS_KABUTO_ROOT with user-supplied data; no window or sound"]
+    fn source_kabuto_extra_owns_binding_refuses_replay_and_marks_without_retirement() {
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_KABUTO_ROOT").unwrap());
+        let source = crate::world_source::resolve(&root, "Kstory1").unwrap();
+        let menu = crate::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin").join(source.catalog)).unwrap(),
+            u32::MAX,
+            true,
+        )
+        .unwrap();
+        let packet =
+            crate::mission_loading::prepare(&root, menu.request("Kstory1", 0).unwrap()).unwrap();
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let globals = Arc::new(
+            giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+                .unwrap(),
+        );
+        let factory = crate::kabuto_initial::Factory::load(
+            &plan,
+            packet.world.as_ref().unwrap(),
+            packet.mission.as_ref().unwrap(),
+            globals,
+        )
+        .unwrap();
+        let extra = ExtraFactory::load(plan.resources()).unwrap();
+        let mut session = Session::new(948);
+        let mut registry = crate::kabuto_geometry_registry::Registry::new(948);
+        let mut random = crate::audio_parameters::Random(1);
+        let frame = crate::kabuto_player::ColdFrame {
+            position: [0., 0., 10.],
+            current: [0.; 3],
+            previous: [0.; 3],
+            angles: [0.; 3],
+        };
+        let owner = factory
+            .construct_registered(
+                &mut session,
+                frame,
+                crate::animation_channels::Blending::Disabled,
+                1,
+                &mut registry,
+                &mut random,
+            )
+            .unwrap();
+        let id = extra.construct_for(&mut session, owner).unwrap();
+        assert_eq!(session.kabuto_group(owner).unwrap().extra, Some(id));
+        assert_eq!(session.specification(id).unwrap().specification, 1208);
+        let actor = session.get(id).unwrap();
+        assert_eq!(actor.seed.storage.state(), 0);
+        assert!(actor.seed.storage.data().is_none());
+        let attachment = actor.attachment.unwrap();
+        assert_eq!(
+            (
+                attachment.parent,
+                attachment.child_reference,
+                attachment.parent_reference
+            ),
+            (owner, 0, 3)
+        );
+        assert_ne!(
+            actor.construction_fields.as_ref().unwrap().response_flags & 0x2000000,
+            0
+        );
+        let counts = session.counts();
+        let lists = (0..15).map(|i| session.list(i)).collect::<Vec<_>>();
+        assert!(extra.construct_for(&mut session, owner).is_err());
+        assert!(
+            session
+                .cleanup_registered_kabuto(owner, &mut registry)
+                .is_err()
+        );
+        assert_eq!(session.counts(), counts);
+        assert_eq!((0..15).map(|i| session.list(i)).collect::<Vec<_>>(), lists);
+        assert!(!registry.is_empty());
+        let mut foreign = Session::new(949);
+        assert!(extra.construct_for(&mut foreign, owner).is_err());
+        assert_eq!(foreign.counts().residents, 0);
+        assert_eq!(session.mark_kabuto_extra(owner).unwrap(), Some(id));
+        assert!(session.kabuto_group(owner).unwrap().extra.is_none());
+        assert_eq!(session.mark_kabuto_extra(owner).unwrap(), None);
+        assert_ne!(
+            session
+                .get(id)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .object_flags
+                & 0x8000,
+            0
+        );
+        assert!(session.get(id).unwrap().attachment.is_some());
+        assert_eq!(session.counts(), counts);
+        assert_eq!((0..15).map(|i| session.list(i)).collect::<Vec<_>>(), lists);
+        let next = extra.construct_for(&mut session, owner).unwrap();
+        assert_ne!(id, next);
+        assert!(session.get(id).is_some());
+        session.clear();
+        assert_eq!(session.counts().residents, 0);
+        assert_eq!(session.actor_field_counts(), (0, 0, 0));
+        assert_eq!(session.state_resource_counts(), (0, 0));
+        assert!(session.mark_kabuto_extra(owner).is_err());
+    }
     #[test]
     #[ignore = "Requires GIANTS_KABUTO_ROOT with user-supplied data; no window or sound"]
     fn source_kabuto_auxiliaries_construct_declared_states_then_clear_empty_effects() {

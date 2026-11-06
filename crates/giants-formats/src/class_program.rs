@@ -92,6 +92,7 @@ pub fn parse(data: &[u8]) -> Result<Program, Error> {
             | 0x46
             | 0x49
             | 0x4d
+            | 0x4e
             | 0x4f..=0x55
             | 0x7d..=0x7f
             | 0x83
@@ -229,6 +230,7 @@ mod tests {
         bytes.extend([0; 8]);
         bytes.push(0x17);
         bytes.extend(3f32.to_le_bytes());
+        bytes.push(0x4e);
         bytes.push(0xff);
         let program = parse(&bytes).unwrap();
         assert_eq!(program.declared_scale().unwrap(), 3.);

@@ -191,7 +191,7 @@ impl Fields {
                 }
                 0x29 => out.configuration[24] = word(1)?,
                 0x3b => out.dispatch_context = word(1)?,
-                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x4f | 0x50 | 0x69 => {
+                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x4e | 0x4f | 0x50 | 0x69 => {
                     crate::class_template::apply_configuration_extension(
                         &mut out.configuration,
                         record,

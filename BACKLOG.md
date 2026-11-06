@@ -265,8 +265,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   implementation. Five synthetic controls cover ordering, inactive bypass,
   atomic refusal, signed zero and unchanged reference identity. Actual Session
   field binding, preceding/following transitions and world dispatch remain open.
-- Complete the remaining custom cleanup profiles: the additional object-reference
-  slot's nonzero behavior/role, GPU material release and dynamic/entered turns.
+- Implemented: separately prepared class1199 auxiliary construction uses actual
+  class/specification resources and the shared Session constructor. Sixteen
+  native contexts match 3,872 normalized header/list words. Its required class
+  command `0x4e` is a one-byte mask operation; 512 seeded/mixed native controls
+  match the public configuration kernel. No declaration bytes are bundled.
+- Implemented: atomic owner binding and explicit mark/reference-clear use the
+  common ticket-owned actor IDs, attachment metadata and deletion-bit writer.
+  Twenty-four native geometry-prefix contexts match the auxiliary lifecycle
+  slice (11,596 words, four creates, three marks, every extra header and all
+  fifteen lists). Marked actors retain ownership and attachment; re-entry
+  allocates a new ID. Active-extra group cleanup is refused until that teardown
+  profile is acquired. Full animation/sound/root-motion parity and world dispatch
+  remain separate; the full native prefix is not yet a full Rust comparison.
+- Complete the remaining custom cleanup profiles: the active additional-reference
+  teardown, GPU material release and dynamic/entered turns. The acquired geometry
+  prefix stores class1199 in that reference; its broader gameplay role is unassigned.
   The owner remains state1 after the custom callback; common state transition
   and actual marked-actor retirement must be acquired separately. `Session::clear`
   alone does not dispatch the explicit external geometry registry.
