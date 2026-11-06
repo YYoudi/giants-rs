@@ -254,7 +254,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   header words across modes, selected/unselected owners, target presence and
   matrix flags. The shared Double53 point kernel preserves its distinct operation
   order without changing the existing aiming kernel. The scalar/mode kernel is acquired below;
-  animation/sound and extra-reference phases remain unported. Header preparation
+  animation/sound composition and active-extra teardown remain open. Header preparation
   alone does not complete this helper, full primary or world rendering.
 - Implemented: the scalar/mode and target-reference phase matches 768 native
   controls, 7,816 final/notification words and all 209 notification calls. It
@@ -276,8 +276,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   slice (11,596 words, four creates, three marks, every extra header and all
   fifteen lists). Marked actors retain ownership and attachment; re-entry
   allocates a new ID. Active-extra group cleanup is refused until that teardown
-  profile is acquired. Full animation/sound/root-motion parity and world dispatch
+  profile is acquired. Full animation/sound/epoch/event parity and world dispatch
   remain separate; the full native prefix is not yet a full Rust comparison.
+- Implemented: the standalone template clock preserves base-before-truncation
+  and the signed-64 conversion's low word; 512 native cases match, including
+  signed coefficients and wrapping/indefinite conversions. The existing channel
+  converter retains its separate arithmetic. The Session geometry-gate query
+  uses its current primary channel and immutable owner descriptor, refusing
+  foreign/stale, retired and nonselected contexts. Full transition scheduling,
+  epoch/reference/event publication and live controls remain open.
 - Complete the remaining custom cleanup profiles: the active additional-reference
   teardown, GPU material release and dynamic/entered turns. The acquired geometry
   prefix stores class1199 in that reference; its broader gameplay role is unassigned.

@@ -1,5 +1,26 @@
 # Preview releases and milestone integration
 
+## Kabuto owned template-clock query - 6 November 2026
+
+The standalone template clock now preserves base-before-truncation and signed-64
+low-word conversion, matching 512 original-helper controls. The Session gate
+query reads its current primary clock and owner descriptor, with selected-slot,
+foreign/stale and retired-group guards. Shared class configuration reuses the
+integer conversion; its earlier behavior and the separate channel converter are
+preserved. Full ANM/reference/epoch/event composition and live admission remain
+open. This is a CPU clock/resource-binding milestone, not movement or pose parity.
+
+Combined source `805c1f1` retains the newer Mecc draw-policy work and passes 762
+synthetic Rust tests (25 ignored), all four silent Kabuto installed-data controls,
+40 Python tests, Rustfmt, Clippy with warnings denied and site/JavaScript checks.
+Rebuilt private controls pass the 512 template ticks, 512 seeded class masks and
+24-context / 11,596-word auxiliary lifecycle slice. Prototype PS2 correspondences
+remain unknown and their raw/demangled/generated-name lineage remains private.
+
+No dependency, bundled asset or playable package changes. Existing manifests,
+executable/package checksums and dependency-notice receipts retain their exact
+build identities; they do not attest to this source milestone or visual fidelity.
+
 ## Mecc body/subjective submission prerequisite - 6 November 2026
 
 The new class-2 dispatcher preserves body/subjective/auxiliary callback order and

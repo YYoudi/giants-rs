@@ -169,7 +169,8 @@ For separately prepared dynamic auxiliary ownership, with the same supplied root
 cargo test --locked -p giants-game source_kabuto_extra_owns_binding_refuses_replay_and_marks_without_retirement --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-This checks actual class/specification preparation, parent/reference binding,
+This checks actual class/specification preparation, the selected template-clock
+query from owned channels/resources, parent/reference binding,
 foreign and replay refusal, active-extra cleanup refusal, deferred marking,
 second construction and Session clear. Marked actors remain owned/listed.
 It creates no window or sound, launches no original executable and admits no
