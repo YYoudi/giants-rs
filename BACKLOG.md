@@ -339,6 +339,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   independent playback/vertex copies for an unverified sharing model. Current controlled flags are read after
   primary; copied motion/channels and world-shared weapon history have distinct
   producers. This remains a CPU prerequisite, not full subjective integration.
+- Ordered subjective camera: the Session-produced post now calculates the inner
+  view after selector execution and before placement/ANM/fire. Its world owner
+  tracks camera invocations separately from world frames, then publishes the
+  matching outer view for rendering. Four controls pass 320 frames/12 shots with
+  generated cameras; a separate 64-frame capture also checks inner renderer
+  matrices. Preserve explicit startup/eligibility/static-world boundaries. Next,
+  acquire posed-vertex ownership/consumers and actual subjective drawing before
+  enabling main-driver fire; complete target contexts and positional audio remain.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated
@@ -346,7 +354,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   CPU controls pass 64/256 cases respectively; see docs/OWNED_CAMERA.md and the
   receipt-bound runtime checkpoint in docs/RELEASES.md. Normal campaign admission,
   native list/model/part preparation, configured angle smoothing, special camera
-  modes, inner/outer camera pass timing and main-driver subjective fire binding
+  modes, enclosing world admission and main-driver subjective fire/drawing binding
   remain prerequisites. The
   existing inspection gate and `fire: None` remain; this is not a default-route
   owned readiness claim.
