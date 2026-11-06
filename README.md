@@ -17,7 +17,8 @@ described below is published under the owner's explicit authorization.
 
 The [roadmap dashboard](https://yyoudi.github.io/giants-rs/) is generated from this
 repository's `PROGRESS.json` and updates through GitHub Pages on main-branch pushes.
-It includes searchable status tables and 302 owner-authorized historical screenshot
+It opens with featured engine screenshots and includes searchable status tables
+and 302 owner-authorized historical screenshot
 comparisons. Gallery captures are labeled development evidence, not certification
 of the current public build; game artwork remains outside the project MIT license.
 [Automatic Windows build checks](https://github.com/YYoudi/giants-rs/actions) are
@@ -150,5 +151,5 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Research and validation
 
-- [ ] **Reviewed prototype PS2 function attribution** — partial; Research method; separate from runtime and fidelity. Mandatory name lookup with pinned PC/prototype identities, literal symbols, uncertain demangling, retained aliases and independent evidence. Initial read-only audit verifies 4,769 function symbols; six reviewed services include three confirmed identities, two probable candidates and one unassigned. Broader mapping and type recovery remain incomplete. Method: docs/RECONSTRUCTION_METHOD.md.
+- [ ] **Reviewed prototype PS2 function attribution** — partial; Research method; separate from runtime and fidelity. Mandatory name lookup with pinned PC/prototype identities, literal symbols, uncertain demangling, retained aliases and independent evidence. Initial read-only audit verifies 4,769 function symbols; six reviewed services include three confirmed identities, two probable candidates and one unassigned. Seven current primary/subjective lookups remain explicitly unassigned, with retained PC aliases and owned Rust relationships. Broader mapping and type recovery remain incomplete. Method: docs/RECONSTRUCTION_METHOD.md.
 <!-- progress:end -->

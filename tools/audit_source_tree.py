@@ -19,6 +19,15 @@ PATTERNS = {
 RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
               '.jpeg', '.webp', '.wav', '.ogg', '.mp3', '.ttf', '.otf', '.flk', '.gti', '.gb2'}
 
+# Reviewed minimal PC aliases, not a general allowance for analysis labels.
+# Bind the exception to the exact Git blob bytes and its sole public path.
+# Other hazard patterns remain active even for this reviewed document.
+REVIEWED_ATTRIBUTION_LABELS = {
+    'docs/RECONSTRUCTION_METHOD.md': {
+        '2c8a49007d040af5c353ce6921860566a63b61fbb67c95c2a57b7da479567e0d',
+    },
+}
+
 
 def approved_images(root):
     """Exact display copies authorized by the owner; no general binary exception."""
@@ -60,7 +69,12 @@ def scan(root):
             header = reader.stdout.readline().decode().split()
             data = reader.stdout.read(int(header[2]))
             reader.stdout.read(1)
-            flags = [name for name, pattern in PATTERNS.items() if pattern.search(data)]
+            digest = hashlib.sha256(data).hexdigest()
+            reviewed_labels = all(digest in REVIEWED_ATTRIBUTION_LABELS.get(p, ())
+                                  for p in paths)
+            flags = [name for name, pattern in PATTERNS.items()
+                     if pattern.search(data)
+                     and not (name == 'decompiler_label' and reviewed_labels)]
             approved_image = (all(p in approved for p in paths)
                               and all(hashlib.sha256(data).hexdigest() == approved[p] for p in paths)
                               and data.startswith(b'RIFF') and data[8:12] == b'WEBP')

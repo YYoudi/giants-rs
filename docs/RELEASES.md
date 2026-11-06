@@ -1,5 +1,44 @@
 # Preview releases and milestone integration
 
+## Dashboard screenshot visibility — 6 November 2026
+
+Three existing reviewed engine captures (jet boost, subjective view and cinematic
+gunfire) now appear immediately below the cover. Static HTML supplies both the
+cover and screenshot strip, preserving image visibility without JavaScript. The
+302-comparison archive now precedes the progress tables; horizontal wipe controls,
+filters and full-size views remain available. Display copies and their pinned
+hashes are unchanged. These historical captures certify no new runtime behavior.
+
+All 40 Python tests, site export and JavaScript syntax checks pass. Browser checks
+confirm the four cover/featured images load and the comparison control reaches
+both endpoints. No Rust runtime or preview package changes are included.
+
+## Prototype PS2 method follow-up — 6 November 2026
+
+The central reconstruction method now makes seven current Mecc primary/subjective
+lookups explicitly unassigned, preserves their PC aliases and relates historical
+worksheet labels to the current owned Rust modules. Both read-only ELF copies
+again match the recorded SHA256, 4,769 nonzero-size functions and 1,015,349-byte
+`.mdebug` section. The reviewed attribution total remains three confirmed,
+two probable and one unassigned service; the seven new lookup summaries are
+separate unknowns, not new routine matches. Private tables, executables and
+research receipts remain excluded. This documentation follow-up produces no
+runtime change, fidelity promotion or new preview package.
+
+Validation: all 38 Python tests pass, including private-output, binary-identity,
+alias/demangling and non-promotion controls. Roadmap regeneration, site export and
+JavaScript syntax checks pass. The source/history pattern audit reports zero
+findings across 198 reachable commits and 1,947 distinct blobs at base `148a57c`.
+No Rust implementation changed; existing runtime/build receipts keep their exact
+source identities.
+
+Publication follow-up: the generic label scanner initially rejected the seven
+reviewed PC aliases. The exact-document/path exception described in
+PUBLICATION_REVIEW.md preserves all other hazard checks. All 39 Python tests
+pass, including altered-document, copied-path and secret-pattern controls; site
+export and JavaScript checks pass again. With that correction the audit reports
+zero findings across 199 reachable commits and 1,954 blobs at base `ac73eb1`.
+
 ## Kabuto CPU registration and custom cold cleanup - 6 November 2026
 
 The owned normal-cold registry preserves ordered geometry membership, retires

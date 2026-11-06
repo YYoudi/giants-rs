@@ -17,6 +17,11 @@ matches probable and one unassigned. No gameplay status changes follow from name
   PS2 comparisons without inferring types from them. Acquire pre-primary and
   subjective fire timing, positional audio and native mesh/list producers, with
   separate PC/PS2 identities and platform differences.
+- The central method now records seven current primary/subjective function
+  lookups as unassigned, with their exact PC aliases, current owned Rust
+  relationships and missing comparisons. Reuse those identity-bound searches;
+  preserve older presentation-module references as historical aliases rather
+  than attributing the owned pipeline to that presentation implementation.
 - Revisit acquired services incrementally on touch: primary/animation, aim/target,
   collision, physics, wield/projectiles, audio and shared actor services. Preserve
   old identifiers as aliases. Use the central continuation record and the lookup
@@ -360,6 +365,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   private report paths. Use grouped roadmap tables and explicit state colors/counts.
   Keep historical captures separate from current-build proof.
   Future captures require the same metadata/provenance filtering and hash inventory.
+  Three reviewed engine captures and the cover now render directly in HTML;
+  the complete comparison gallery appears before the progress tables.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
