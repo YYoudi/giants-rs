@@ -1,5 +1,20 @@
 # Preview releases and milestone integration
 
+## Kabuto owned geometry transition - 6 November 2026
+
+The owned transition now composes animation selection, ordered owner-sound
+requests, the source-tick gate, auxiliary ownership and the common ANM/reference/
+epoch/event pipeline. Eighty-four native/Rust controls match 23,322 words with
+blending disabled/enabled and threshold boundary cases. An installed-data control
+checks success, partial failure quarantine and clear. Upstream samples and the
+absent sound bank are explicit boundaries; full event/effect/device-audio parity,
+dynamic cleanup, primary/movement/growth and live admission remain open.
+
+This source milestone changes no dependencies, bundled assets or playable
+package. Existing Windows preview manifests, technical notice collection and
+receipt-bound checksums continue to refer to their exact builds. They do not
+attest to this API milestone or to playable Kabuto fidelity.
+
 ## Kabuto owned template-clock query - 6 November 2026
 
 The standalone template clock now preserves base-before-truncation and signed-64

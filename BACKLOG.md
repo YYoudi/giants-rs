@@ -295,7 +295,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   converter retains its separate arithmetic. The Session geometry-gate query
   uses its current primary channel and immutable owner descriptor, refusing
   foreign/stale, retired and nonselected contexts. Full transition scheduling,
-  epoch/reference/event publication and live controls remain open.
+  epoch/reference/event publication and live controls remain separate controls.
+- Implemented: owned geometry transition composes upstream mode publication,
+  ordered selections/sound-service calls, the 1,600-tick gate, typed auxiliary
+  create/mark and the shared actor-local ANM/reference/epoch/event pipeline.
+  Eighty-four native contexts match 23,322 words over four channels, eleven
+  reference matrices, epochs, auxiliary flags/links and fifteen lists, including
+  enabled/disabled blending and below/equal/above-threshold cases. The sound bank
+  is absent in these controls; device audio and fired-event effect cadence are
+  unverified. Upstream mode/physical/contact producers and time areas are supplied
+  boundaries. Late provider failure retains prior publication and quarantines
+  replay. Cold-only cleanup refuses entered transitions. Full primary, dynamic
+  cleanup, geometry-header/render consumption and live admission remain open.
 - Complete the remaining custom cleanup profiles: the active additional-reference
   teardown, GPU material release and dynamic/entered turns. The acquired geometry
   prefix stores class1199 in that reference; its broader gameplay role is unassigned.

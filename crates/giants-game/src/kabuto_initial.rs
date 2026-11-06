@@ -32,6 +32,8 @@ pub struct Group {
     /// Active dynamic auxiliary identity; marked actors can remain owned after
     /// this reference is cleared. No original pointer is stored in the payload.
     pub extra: Option<Id>,
+    pub(crate) geometry_transition_failure: Option<String>,
+    pub(crate) geometry_transition_started: bool,
     pub declared_class: Arc<specification::Prepared>,
     pub geometry: Geometry,
     pub radius: f32,
@@ -58,6 +60,9 @@ impl std::fmt::Debug for Group {
     }
 }
 impl Group {
+    pub fn geometry_transition_failure(&self) -> Option<&str> {
+        self.geometry_transition_failure.as_deref()
+    }
     /// Custom cold cleanup only; the common owner state transition is separate.
     pub fn cleaned_up(&self) -> bool {
         self.cleaned_up
@@ -275,6 +280,8 @@ impl Factory {
             effects: effects.try_into().unwrap(),
             final_effect,
             extra: None,
+            geometry_transition_failure: None,
+            geometry_transition_started: false,
             declared_class: self.resources.specification.clone(),
             geometry,
             radius: prepared.radius,
