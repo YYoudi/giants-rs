@@ -39,6 +39,12 @@ private archive SHA256:
 `7cd766fdf86f7e757330bd920846148a9d475abd12d8277e5f84f70d8d4e7dc5`.
 These common-runtime checks are not Delphi gameplay controls; subsequent source
 merges retain their own identity and do not alter these binary receipts.
+
+Source merge `7adb553` additionally preserves the concurrent owned Kabuto growth
+kernel and updated public cinematic preview inventory. It passes 771 Rust tests
+(28 ignored), 40 Python tests, Rustfmt, Clippy and site checks. The selected-pattern
+history audit reports no findings across 316 commits and 2,418 blobs. This later
+source result does not relabel the earlier receipt-bound executable.
 ## Kabuto owned size pursuit — 6 November 2026
 
 The factory-bound size phase now preserves the actor-local wide timestep,
