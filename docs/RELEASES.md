@@ -46,6 +46,20 @@ change only exposes its existing implementation within the crate. This combined
 source check does not replace the exact executable/package identity above or
 repeat the independent Kabuto rendering proof.
 
+
+The ordered-camera merge at `61d41052d72eab8cb97d6c4e50286d0ed7f34e04`
+passes 750 Rust tests (24 ignored), 40 Python tests, Rustfmt and Clippy. The
+five controlled Delphi cases are repeated against this exact source. Its GNU
+executable again passes both silent development lifecycle endpoints and three
+selected-opening cancellations. The private ten-member draft has matching
+receipt/review identities, complete notices and no technical verifier blockers.
+Executable SHA256:
+`8e2cd979f1bf053abf629fe870a8a7dba3532cb76bff4a49cb830da087958326`;
+private ZIP SHA256:
+`421ebd956deffb071c910659c0af6db75da48f21c94448d8bc08211198b94385`.
+The earlier b7a8991 controls keep their separate identity. No live Delphi,
+complete-primary, interactive-camera or visual-fidelity claim is added.
+
 ## Ordered inner/outer Mecc camera and subjective fire - 6 November 2026
 
 The Session-produced subjective post now calculates the ordinary inner camera
