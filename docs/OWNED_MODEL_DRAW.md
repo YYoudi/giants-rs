@@ -87,7 +87,8 @@ It checks retirement of additional model assets. A separate longer general
 movement replay is retained as a historical failure at step 152 under the previous
 secondary guard. Independent native comparison then confirmed an inverted height
 comparison. With that correction, the longer replay explicitly refuses the
-unacquired high-descent transition at step 143; see
-[MECC_DESCENT_GUARD.md](MECC_DESCENT_GUARD.md). The transition and later reaction/effect
+then-unacquired high-descent transition at step 143. Its subsequent native-checked
+implementation reaches the pending contact-landing effect branch at step 158; see
+[MECC_DESCENT_GUARD.md](MECC_DESCENT_GUARD.md). Later reaction/effect
 branches remain open; a successful short resource cycle does not establish longer
 movement.

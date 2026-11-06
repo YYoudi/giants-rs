@@ -532,7 +532,7 @@
       "title": "Playable Windows build stability",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Full-session play, repeated loading/restart, resource cleanup, performance and supported rendering paths. Silent development-session launch/return cycles observed on 4 November 2026; campaign loading, manual input and complete memory reclamation remain unverified. The owned secondary descent threshold is corrected against 1,049 native branch controls; the longer movement replay still refuses an unacquired high-descent transition at step 143. See docs/MECC_DESCENT_GUARD.md."
+      "detail": "Full-session play, repeated loading/restart, resource cleanup, performance and supported rendering paths. Silent development-session launch/return cycles observed on 4 November 2026; campaign loading, manual input and complete memory reclamation remain unverified. The owned high-descent animation transition matches 128 native selector controls (41,920 words); the Bevy movement replay reaches the still-unacquired contact-landing effect at step 158. Earlier threshold controls cover 1,049 cases. See docs/MECC_DESCENT_GUARD.md."
     },
     {
       "id": "fidelity",

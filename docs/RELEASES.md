@@ -1,5 +1,56 @@
 # Preview releases and milestone integration
 
+## Owned high-descent transition - 6 November 2026
+
+The ordinary pistol secondary now follows the acquired high-descent branch into
+its common animation tail. It selects the dedicated descent channel with the
+scaled source-axis playback rate, retains an already selected channel, and updates
+the acquired control/payload fields only on a real request. This branch precedes
+independent impact and contact-landing handling. Subsequent logical state 2 frames
+are admitted; other unsupported reactions remain explicit refusals.
+
+Two original-selector controls execute actual loaded channel descriptors and the
+original primary setter with blending off/on. All 128 cases / 41,920 header,
+payload and request words agree with Rust, including channel-end, trigger, scale,
+prior-state, current-clip and later-reaction precedence controls. The earlier
+1,049 native threshold cases remain separate evidence. See MECC_DESCENT_GUARD.md.
+
+Source `871540c` passes 768 synthetic Rust tests (27 ignored), 40 Python tests,
+Rustfmt, Clippy and the rebuilt 576-frame / 22-shot / 341,220-word primary matrix
+with ten provider-failure controls. Its exact GNU Bevy replay now reaches step
+158 and explicitly refuses the pending contact-landing effect. The test harness
+stops on that refusal; it is not a successful full trajectory or lifecycle test.
+Its executable SHA256 is
+`f9bc4ce58134d9d2294dc9c9c2cbcca22ce64f8a834f501dd598fa32bd059084`.
+The private ten-member validation draft has complete notices and no technical
+blockers; archive SHA256 is
+`395d0ab95cef41fad8f2c740100f4959fd21a4e4d9001adbf0b0fdefbd6ea7b7`.
+
+Combined source `8f52358` retains concurrent Delphi authored-camera and Kabuto
+auxiliary work. Its synthetic suite, Clippy and four installed-data Mecc controls
+pass. Prototype PS2 attribution remains unknown. Full movement, impact/landing
+providers, native world rendering, owned firing and campaign admission remain
+open. This is not a new public playable preview.
+
+Receipt-bound source `214553b` adds the explicit
+`owned-player-descent-inspection` replay. It follows the general motion prefix to
+step 145, verifies actual owned clip 41, uploads eight body parts and captures
+the resulting Bevy endpoint. The inspected display copy is pinned in the gallery;
+all 305 existing comparisons, previous captures and their image pins are preserved.
+It does not execute the pending contact branch. An earlier step-157 capture probe
+correctly failed its clip assertion after locomotion had resumed and is excluded
+from successful evidence; completion is now published only after that assertion.
+
+This exact source passes 768 synthetic Rust tests (27 ignored), 40 Python tests,
+Rustfmt and Clippy. Its GNU executable SHA256 is
+`a264a1686229050573c6228ec47c4b83f2275876bba9829a11f8a063a289612d`.
+The private ten-member validation draft has receipt-bound notices and zero
+technical blockers; archive SHA256 is
+`ce967b83e26f6e31e5a6bec4ed18fe69efcb38b50e47ff507a421331c01677ec`.
+These receipts supersede the failed capture probe and retain their own source
+identities rather than attesting to later documentation commits.
+
+
 ## Delphi owned authored-camera callback - 6 November 2026
 
 The common Session reference sampler now consumes prepared class resources and

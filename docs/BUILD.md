@@ -51,6 +51,12 @@ your `--data-root`, a separate `--user-data-root`, and
 This repeats the acquired 128-step inspection and cancellation, not normal
 campaign admission or the unresolved longer movement/landing trajectory.
 
+For a single silent descent snapshot, use the same owned backend and
+`GIANTS_MISSION_REPLAY=owned-player-descent-inspection`. This follows the general
+movement replay prefix through step 145, asserts its owned descent clip and checks
+mesh upload before allowing capture. It stops before the known pending contact
+branch at step 158. It does not validate that landing or the complete trajectory.
+
 Set `GIANTS_MECC_WORLD_ROOT` to a user-supplied installation and use the isolated
 target directory described above:
 
