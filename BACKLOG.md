@@ -484,12 +484,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   previously refused the unacquired high-descent transition at step 143.
   That ordinary transition now matches 128 complete native-selector/channel
   controls with blending disabled/enabled (41,920 words), including hold and
-  precedence over later reactions. The actual owned Bevy replay reaches step 158
-  and explicitly refuses its pending contact-landing effect provider.
-  Retain all earlier failed controls. Next acquire that contact branch's logical
-  state 60, effect creation/retirement and common-tail ownership, followed by
-  impact reactions; do not substitute a normal locomotion clip or empty effect.
-  See docs/MECC_DESCENT_GUARD.md. The 128-step inspection
+  precedence over later reactions. The ordinary contact selector now owns logical
+  state 60 and a real prepared slide-effect context. Native controls match 14
+  selector calls / 4,622 words and 256 preparation/empty-cleanup pairs / 17,920
+  words, including the previous-state delay, held-channel preservation, source
+  ownership and three shared RNG draws. See docs/OWNED_MECC_CONTACT.md.
+  The actual owned Bevy replay prepares its context at step 159 and reaches step
+  190, where the actor crosses below zero height and the acquired ordinary profile
+  explicitly refuses further updates. Retain the earlier step-143/152/158 failures.
+  Next acquire the original subzero primary/secondary path and its actual
+  physical/environment/health inputs; do not assume water, death or a clamp.
+  Bind the prepared effect's later active interpreter, emitted-object cleanup
+  and real world scheduling, then independent impact reactions. Prepared-only
+  cleanup is not active-effect cleanup. The 128-step inspection
   cycles cover resource retirement separately and do not validate this trajectory.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene

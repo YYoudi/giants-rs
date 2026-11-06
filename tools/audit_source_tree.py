@@ -24,6 +24,7 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/MECC_DESCENT_GUARD.md': {
+        'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
         '878226a742b54851495e1c4c8de62951ab030502d55c460d685fba6c669d0c3c',
         '314abf495905a93b662e78674834cac06439378ced9e33b4e1bc856eb2b96760',
     },

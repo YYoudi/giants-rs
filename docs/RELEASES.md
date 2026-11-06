@@ -1,5 +1,55 @@
 # Preview releases and milestone integration
 
+## Owned contact selector and slide-context ownership - 6 November 2026
+
+The ordinary Mecc pistol secondary now admits the acquired contact entry and
+logical-state-60 hold. It preserves a held current channel, then creates, retains
+or releases the actual prepared slide context according to the previous logical
+state. The source link is an owned generational identity; its payload word is a
+normalized presence marker. Foreign/stale links are refused, and earlier selector
+writes and context/RNG side effects survive later failure without replay.
+
+Native controls match 256 original preparation/empty-cleanup pairs, 512 operations
+and 17,920 context/queue/RNG/interval words. The full null-object source program
+consumes two float-range draws and one integer draw. Three full-selector sequences
+match 14 calls / 4,622 header, payload, request, queue-presence and RNG words,
+including the delayed lifetime, differing-current-channel hold and blending.
+The invariant named lookup requires identical normal/lite resolution; distinct
+entries still require actual load/quality/camera providers. See OWNED_MECC_CONTACT.md.
+
+Source `2d30144` passes 770 synthetic Rust tests (28 ignored), 40 Python tests,
+Rustfmt and Clippy. Its exact GNU Bevy replay now prepares the slide context at
+step 159 and reaches step 190 before explicitly refusing the next profile. The
+queue then contains six contexts in total, not six slide effects. No successful
+long trajectory, cancellation cycle, active emission or visible dust is claimed.
+The executable SHA256 is
+`3a59ffd399c074dfab42f05e4d385393872da6da73d108b03fa754f7c25a8f64`.
+Its private ten-member receipt-bound validation draft has complete notices and
+zero technical blockers; archive SHA256 is
+`288b668e8bcf6654470540826313c8fbcd0c6e0d36fe38401c8fdffa917de393`.
+
+Source `2e40a91` retains concurrent Flick traversal/preview and Kabuto growth work,
+adds the stale-link resource control and makes the refused guard identifiable.
+Its exact replay confirms the step-190 boundary is negative actor height while
+logical state 60 remains active. The subzero native primary/secondary path and
+its environment/health inputs remain unacquired; this is not evidence of a water,
+death or floor-clamping rule. The replay is stopped on its explicit refusal.
+The executable SHA256 is
+`f7298d7af1e22d2b664c7930c6bc3537e0927af18caf2522945177e71b54cb15`.
+Its private ten-member validation draft has complete notices and no technical
+blockers; archive SHA256 is
+`139582a702df93cd801ae31d0496df6c8dcf82caa251c4979fc5b22fecdb0ae9`.
+
+This source passes 773 synthetic Rust tests (29 ignored), five installed-resource
+Mecc controls, 40 Python tests, Rustfmt and Clippy. Rebuilt contact comparisons and
+the existing 576-primary-frame / 22-shot / 341,220-word matrix with ten declared
+provider-failure controls pass. The later active effect interpreter, emitted-object
+cleanup, world scheduling and independent impacts remain open. Prototype PS2 name
+attributions remain unknown. All 305 gallery comparisons and four screenshots
+are preserved unchanged; no unvalidated effect image is added. These bounded
+inspection changes are not another public playable preview.
+
+
 ## Kabuto owned size pursuit — 6 November 2026
 
 The factory-bound size phase now preserves the actor-local wide timestep,

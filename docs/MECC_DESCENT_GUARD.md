@@ -53,7 +53,9 @@ This is a selector/channel control, not original physics, ANM or GPU execution.
 ## Limits
 
 The acquired transition is limited to the living ordinary pistol profile.
-Impact reaction and contact landing-effect providers remain separate prerequisites.
+Impact reactions and later active contact effects remain separate prerequisites.
+The ordinary contact selector and its prepared slide-context ownership have since
+been acquired separately; see [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
 This correction does not establish full movement, normal campaign admission,
 original GPU rendering or visual fidelity.
 

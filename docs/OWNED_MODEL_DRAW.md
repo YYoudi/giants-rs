@@ -88,7 +88,9 @@ movement replay is retained as a historical failure at step 152 under the previo
 secondary guard. Independent native comparison then confirmed an inverted height
 comparison. With that correction, the longer replay explicitly refuses the
 then-unacquired high-descent transition at step 143. Its subsequent native-checked
-implementation reaches the pending contact-landing effect branch at step 158; see
+implementation reached the then-pending contact branch at step 158; see
 [MECC_DESCENT_GUARD.md](MECC_DESCENT_GUARD.md). Later reaction/effect
 branches remain open; a successful short resource cycle does not establish longer
-movement.
+movement. The subsequently acquired contact selector and real deferred-effect
+preparation now pass that point; their separate active-effect boundary is recorded
+in [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
