@@ -17,6 +17,11 @@ unassigned. No runtime behavior or package changes; previous exact executable
 receipts remain authoritative. The 545-source inventory, 59 gap sources and zero
 certified complete scenes are unchanged.
 
+The Rust comparison rebuilt on combined source `4c839be` repeats all 100 matches
+without a runtime-clock difference. Forty Python tests, site export and JavaScript
+syntax checks pass. Source/history review reports zero findings across 234
+reachable commits / 2,094 blobs. These source controls add no new playable build.
+
 ## Kabuto CPU scalar/mode and ordered notifications - 6 November 2026
 
 The scalar/mode helper now preserves source toggles, timer stores, scalar values,
