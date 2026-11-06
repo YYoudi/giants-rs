@@ -16,6 +16,11 @@ Prototype PS2 lookup lineage remains private and attribution remains unknown.
 Mode/scalar selection, preceding transitions, extra-reference lifetime, world
 scheduling and GPU consumption remain open. No gameplay status is promoted.
 
+Combined checkpoint `3adfad8` preserves the newer ordered Mecc camera and Flick
+transport evidence. It passes 753 synthetic Rust tests (24 ignored), 40 Python
+tests, Rustfmt, Clippy and site/JavaScript checks. Rebuilt private runners again
+match the 384-case header tail and 64-case / 24,876-word submission controls.
+
 There are no dependency or bundled-asset changes and no new playable download.
 Published preview notices, package manifests and checksums retain their original
 build identities; this source milestone does not replace their receipts.
