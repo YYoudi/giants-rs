@@ -61,6 +61,9 @@ The produced-camera variant calculates the inner view before placement/fire and
 requires post completion before the outer publication. It exercises success,
 no-shot and late sound failure using a controlled flat world and known startup
 camera. It does not draw a subjective actor or enable main-driver owned firing.
+The same source-data controls check completed-post model positions, normal/forced
+cache reuse and rejection of skipped, stale, failed, foreign or cleared geometry.
+They preserve the body's invalidated reference binding after virtual publication.
 
 ## Optional Delphi resource check
 

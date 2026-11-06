@@ -323,9 +323,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   controls match 96 frames / 26,112 words; four failure and one empty-primary
   control preserve publications. See docs/OWNED_LOCAL_FIRE.md. The Session-bound
   post now executes the actual fire callback using the current held cache rather
-  than reattaching from overwritten source references. Acquire posed-vertex storage
-  and its exact consumers before choosing their ownership; do not substitute
-  independent playback/vertex copies for an unverified sharing model. Current controlled flags are read after
+  than reattaching from overwritten source references. The position producer now
+  uses the existing model-resource bank and actual virtual channels/stamp. Acquire
+  its real draw consumers and admission; do not substitute an independent
+  presentation player. Current controlled flags are read after
   primary; copied motion/channels and world-shared weapon history have distinct
   producers. This remains a CPU prerequisite, not full subjective integration.
 - Ordered subjective camera: the Session-produced post now calculates the inner
@@ -334,8 +335,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   matching outer view for rendering. Four controls pass 320 frames/12 shots with
   generated cameras; a separate 64-frame capture also checks inner renderer
   matrices. Preserve explicit startup/eligibility/static-world boundaries. Next,
-  acquire posed-vertex ownership/consumers and actual subjective drawing before
+  bind the acquired position producer to actual subjective drawing before
   enabling main-driver fire; complete target contexts and positional audio remain.
+- Subjective vertices: the Session API refuses incomplete, skipped, failed,
+  inactive, stale, foreign and cleared post states. Two controls pass 64 frames,
+  544 model snapshots and 716,414 words, including full positions/cache and the
+  earlier world/fire snapshots. Forced and mixed cache gates are explicit inputs;
+  live LOD, part masks, material submission and world draw policy remain open.
+  The same trajectory exposed a backward-air secondary transition, now acquired
+  for the normal pistol. Other directional-air variants and reactions remain
+  separate prerequisites. These CPU checks enable no new campaign or live fire.
 - Ordinary camera: the owned mission inspection driver now owns sequential
   direct-angle camera production after primary/held updates, using actual scene
   terrain and prepared rigid meshes. The presentation consumes the generated

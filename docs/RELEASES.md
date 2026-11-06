@@ -1,5 +1,34 @@
 # Preview releases and milestone integration
 
+## Owned subjective position bank and backward-air continuation - 6 November 2026
+
+The Session now prepares subjective model positions from the actual completed
+virtual channels, specification and animation stamp in the existing shared model
+bank. It refuses skipped/inactive/incomplete/failed, stale, foreign and cleared
+post states; no independent presentation animation player is substituted. Normal
+and forced cache reuse preserve the body's invalidated reference binding. The
+original failing backward-air continuation now selects the acquired normal-pistol
+state/clip and completes the same input trajectory.
+
+Two continuous controls match 64 frames, 544 body/subjective model snapshots and
+716,414 words, including 641,376 position/cache words and complete prior
+source/held/virtual/camera/fire/projectile/FX/RNG checks. The all-forced and mixed
+cache profiles supply model-slot/phase admission, force gates, known startup,
+flat terrain and an empty camera-mesh/sound cohort. They establish CPU behavior,
+not live draw admission, complete world scheduling, audio or visual fidelity.
+The interrupted first mixed-cache output is retained privately; its process was
+confirmed terminal before the successful fresh acquisition.
+
+The source-data lifecycle controls pass with new checks for skipped camera
+ownership, normal/forced cache repeats, foreign/frame identity and clearing.
+The bank retains writes completed before a late fire failure; rejecting another
+geometry request cannot roll those back. Source `081eaaf` passes 749 synthetic
+Rust tests (24 ignored), Rustfmt and Clippy. Prototype PS2 searches precede the
+new acquisitions; attribution remains unknown. Detailed receipts, binaries,
+raw captures and research tables stay private. Main `fire: None`, live LOD/part
+and material admission, subjective/body drawing, target contexts and positional
+audio remain separate prerequisites; no new playable download follows.
+
 ## Ordered inner/outer Mecc camera and subjective fire - 6 November 2026
 
 The Session-produced subjective post now calculates the ordinary inner camera

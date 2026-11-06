@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar need complete aiming/firing rules. Normal-pistol CPU services compose the owned primary, current held cache, subjective animation, targeting, projectile creation and effects. The controlled subjective post now produces its inner camera before placement and deferred firing. The main mission driver still has no integrated owned firing. Main-driver post/drawing binding, posed vertices, complete target contexts and positional audio remain open. Evidence and boundaries: docs/OWNED_LOCAL_FIRE.md."
+      "detail": "Handgun, RPG, machine gun, proximity missile, sniper gun, missile launcher, homing missile and Millennium Mortar need complete aiming/firing rules. Normal-pistol CPU services compose owned primary, held cache, subjective animation/camera, targeting, projectiles and effects. Completed subjective positions now use the shared model bank; two 32-frame controls also validate backward-air continuation. Main mission owned firing remains disabled. Live slot/part/material and subjective drawing admission, complete target contexts and positional audio remain open. See docs/OWNED_LOCAL_FIRE.md."
     },
     {
       "id": "mecc-inventory",
@@ -424,7 +424,7 @@
       "title": "Complete world and actor rendering",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "All required maps, terrain layers, buildings, scenery, characters, materials, lighting and shadows."
+      "detail": "All required maps, terrain layers, buildings, scenery, characters, materials, lighting and shadows remain incomplete. Owned subjective positions now consume actual virtual channels/stamps in the shared model bank: 64 controlled frames / 544 model snapshots. Live LOD/part/material admission and subjective drawing remain unbound; CPU positions do not certify a rendered scene."
     },
     {
       "id": "water-environment",
