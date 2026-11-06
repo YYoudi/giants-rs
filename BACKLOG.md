@@ -432,6 +432,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   still renews generations. Actual source construction/render/cache phase and
   world scheduling remain prerequisites; these controls add no runtime behavior.
   Identity-bound prototype PS2 lookups remain unknown, separate from PC behavior.
+  Follow-up source-actor controls cover 158 actors in all 23 bounded sources.
+  Forty have independent channel clocks, but the source/reference audit finds
+  none used by these 25 FX supports. With actual source camera binding, the
+  original time/epoch routine and actual actor-channel updates, four supplied
+  phase deltas produce 100 support samples / 1,700 words matching both the
+  explicit-clock Rust projection and the current runtime clock selection.
+  Twenty-five initial support caches are cold; a clean repetition agrees.
+  This closes no whole-world admission or fidelity requirement. Full VM/frame
+  scheduling, object-channel cadence and capacity remain to acquire; do not add
+  a synthetic delay, first-frame pose or independent-clock substitution based
+  only on the count of independent actors. The phase records and raw proofs
+  remain private.
   The 59-source gap total, 56 general-queue admission refusals and 282 strict-
   profile reviews remain: this is a partial runtime path, not 23 fully admitted
   or faithful scenes. In-mission producers are still needed for non-opening

@@ -1,5 +1,22 @@
 # Preview releases and milestone integration
 
+## Flick source support phases — 6 November 2026
+
+Private controls now construct 158 source actors across all 23 bounded persistent
+sources. Forty have independent animation clocks; none of their animated
+references contributes to these 25 FX supports. Actual source camera binding,
+the original PC time/epoch producer and actor-channel updates produce 100 support
+samples at four supplied phase deltas. All 1,700 words match both the explicit-
+clock Rust projection and its current runtime clock selection. All 25 initial
+support caches are cold, and a clean repetition gives identical matrices.
+
+This acquires a bounded support boundary, not full VM/frame scheduling or native
+pixels. Object-channel cadence, world admission/capacity, non-opening triggers
+and full rendering/audio/subtitle parity remain open. Prototype PS2 lookups stay
+unassigned. No runtime behavior or package changes; previous exact executable
+receipts remain authoritative. The 545-source inventory, 59 gap sources and zero
+certified complete scenes are unchanged.
+
 ## Flick generation acquisition and interactive transport — 6 November 2026
 
 The existing `preview-2026.11.06.1`, source
