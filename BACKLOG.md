@@ -148,7 +148,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 ### Kabuto next steps
 
 - The dedicated user-created fork owns Kabuto only, working alone with an
-  isolated Cargo target and no windows, focus changes or sound. Preserve the
+  isolated Cargo target. The owner permits necessary test windows; avoid unrelated
+  focus changes and sound. Preserve the
   Mecc/Delphi lanes and the single menu-first runtime.
 - Implemented: the missing ordered ground-offset and configuration-mask class
   stores now match 256 native/Rust scalar controls (98,816 complete header words)
@@ -228,6 +229,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   actor/list ownership, and retires its geometry/image. Eight complete native
   group contexts match 36,624 normalized words, all lists and 88 mark calls.
   Same-ticket foreign scopes, replay and dirty/partial publication refuse.
+- Implemented: normal geometry-entry submission prepares the acquired transposed
+  transform and seven ordered backend commands using the common basis/matrix,
+  SIMD trigonometry and shared RNG services. Sixty-four native controls match
+  24,876 words, including complete vertices/indices and the final RNG state.
+  Disabled entries consume nothing; owned invalid profiles refuse before RNG
+  publication. Backend failure retains the completed prefix and consumed draw.
+  The state producer, registry visitor/world scheduling and real GPU consumer
+  remain prerequisites; this is a CPU packet, not rendered Kabuto.
 - Complete the remaining custom cleanup profiles: the additional object-reference
   slot's nonzero behavior/role, GPU material release and dynamic/entered turns.
   The owner remains state1 after the custom callback; common state transition

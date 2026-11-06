@@ -141,7 +141,7 @@ pub fn local_matrix(pose: &Pose, parent: Option<Matrix>) -> Result<Matrix, &'sta
         Ok(local)
     }
 }
-fn basis(forward: [f32; 3], up: [f32; 3]) -> Result<Matrix, &'static str> {
+pub(crate) fn basis(forward: [f32; 3], up: [f32; 3]) -> Result<Matrix, &'static str> {
     let right = normalize(cross(up, forward)).map_err(|_| "degenerate aiming axes")?;
     let forward = normalize(forward).map_err(|_| "degenerate aiming forward")?;
     let up = cross(forward, right);
