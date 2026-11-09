@@ -128,6 +128,7 @@ pub mod delphi_body_alignment;
 pub mod delphi_initial;
 pub mod delphi_jump;
 pub mod delphi_locomotion;
+pub mod delphi_pending_target;
 pub mod delphi_physical;
 pub mod delphi_player;
 pub mod delphi_resources;
