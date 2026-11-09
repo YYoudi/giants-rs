@@ -42,6 +42,10 @@ profiles remain separate. No live Delphi admission or fidelity status changes.
 Prototype PS2 correspondence remains unknown; detailed evidence and identities
 remain private, with only this bounded independent summary reviewed for source.
 
+The common build and exact validation identities are pinned in
+[RELEASES.md](RELEASES.md). Its silent menu/cinematic lifecycle checks exercise
+the common runtime, not Delphi manual input or rendered character fidelity.
+
 ## Delphi reserve callback and owned passive composition - 9 November 2026
 
 `delphi_reserve::advance` implements the acquired finite PC delay, recharge,
