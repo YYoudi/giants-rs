@@ -18,6 +18,24 @@ In particular, the historical jet/descent/contact captures do not close the Mecc
 input-to-landing integration prerequisite. No gallery assets or receipts change.
 
 
+## Mecc nonlethal impact voice composition — 9 November 2026, source only
+
+The owned kind-16 voice tail now composes actual Session health, its shared
+countdown and the VM RNG in acquired order. Two original-PC/Rust controls agree
+on 136 declared contexts / 136 cue entries / 1,224 selected words, including
+half-health and integer-choice boundaries. The voice checkpoint precedes later
+selector effect draws. Native and Rust cue services are supplied boundaries;
+this is not original-process playback or device fidelity.
+
+The optional primary provider completes one controlled falling-entry frame and
+prepares its real positional context. Injected pain/shared-cue failures retain
+damage and completed timing and refuse another frame. Actual App voice transport,
+wounded continuation, world scheduling and main-driver impact admission remain
+open. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md). This branch handoff adds
+no dependency, new playable capture or downloadable preview; all earlier source,
+executable, notices and package/checksum receipts retain their exact identities.
+The main integration lane owns combined publication after review and validation.
+
 ## Kabuto owned post-control/resource composition — 9 November 2026
 
 The actual Factory/Session phase now continues from its control-force token
