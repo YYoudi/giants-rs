@@ -556,7 +556,13 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   step 441 with seven actual muted sink starts, then refuses the independent
   impact-reaction provider. Acquire that reaction before extending the replay;
   equipped shield/cloak depletion remains excluded. Long-run cancellation/re-entry
-  remains unvalidated. Keep the low-floor flag/state/health
+  remains unvalidated. The shared positional hard-landing preparation now matches
+  256 native controls / 512 operations / 17,920 words, including its integer cue
+  draw and two ordered floating intervals. Invalid late operands preserve RNG.
+  This is preparation only. Bind the actual impact damage context and retained
+  health/channel writes, contact precedence, positional cue transport, active
+  effect execution and emitted-object cleanup before admitting the reaction.
+  Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup
   and real world scheduling, then independent impact reactions. Prepared-only

@@ -136,3 +136,32 @@ movement/cancellation replay remains unsuccessful. Acquire that independent
 reaction next; retain the separate low-floor object-flag/state/health prerequisite
 and prepared slide-effect active interpreter. No fuel refill, dummy effect,
 complete trajectory or visual-fidelity claim is introduced.
+
+## Positional hard-landing context preparation - 9 November 2026
+
+The shared effect initializer now admits the acquired complete positional-impact
+program frame. Its null-object preparation consumes an integer cue selection
+followed by two floating intervals, even though no actor is created during this
+pass. Both intervals retain their source-record offset and execution order.
+All range operands are checked before committing the shared RNG; a truncated or
+nonfinite second interval cannot consume the preceding draws.
+
+The actual PC named-position wrapper, complete null-object pass and prepared
+context retirement match 256 controls / 512 operations / 17,920 words. These
+include the full normalized context, both interval results, shared RNG, varying
+positions, quality/load/camera inputs and case-insensitive names. The native
+controls observe 768 random draws and no actor creation or context-growth
+substitution. Existing slide-context and positional-popup controls also match
+again. Source `a1e7bc72a39b3745805aa26f0f3b2f220318bf67` includes this shared
+initializer and an atomicity/order regression. Prototype PS2 attribution remains
+unknown under the central reconstruction method.
+
+This preparation is not an active hard-landing effect or an impact callback.
+The separate native selector acquisition observes damage before contact/impact
+selection: eligible contact can select logical state 60 without creating the
+hard-landing context, whereas the independent impact branches select states
+61/62 and create it. Their real damage context, channel/health publication,
+positional cue transport, first active effect update and emitted-object cleanup
+must be bound before the main replay can proceed through its step-441 refusal.
+The earlier low-floor state/health and active slide-effect prerequisites remain
+separate. No new movement endpoint, capture or playable admission is claimed.
