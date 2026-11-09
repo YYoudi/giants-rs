@@ -104,6 +104,8 @@ impl OwnedPerceptionSubset {
 #[derive(Clone, Copy)]
 pub struct MeccDamageContext {
     pub globally_disabled: bool,
+    /// Historical label for the acquired suppression input. Its actual producer
+    /// and relationship to cinematic state remain unverified.
     pub cutscene: bool,
     pub shield_percent: f32,
     pub ambient_voice_timer: f32,
