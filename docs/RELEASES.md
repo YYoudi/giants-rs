@@ -56,6 +56,41 @@ that comparison. These are common-runtime regressions, not live Delphi control.
 No playable Delphi download is claimed; published previews retain their own
 source receipts. No original assets or private research enter the draft.
 
+## Owned timed-impact callback and deferred mark - 9 November 2026
+
+The actual owned class-867 effect now advances its age/size/fades, angles and
+affine cache, descriptor clocks and local reference matrices using a shared ANM
+epoch. First entry initializes animation without aging, including at zero time.
+Expiry writes age, requires recipient-bound cue stop, then marks the actor.
+Late stop failure preserves completed writes and ownership without replay.
+Marked actors remain owned; common retirement and main-world scheduling stay open.
+
+Original-PC/Rust controls match 64 sequences / 384 callbacks / 512 complete
+snapshots, including stop entry: 141,824 normalized header, payload and reference
+words. The native original audio-disabled gate and supplied object-local time
+remain explicit. The 256 birth endpoints / four cue snapshots / 67,600-word
+comparison also passes again. Source-data controls check shared epoch ownership,
+real reference/cache availability, deferred marking, failure/foreign/replay guards
+and retained actor counts until Session clear. No live voice stop, completed
+retirement, new main trajectory or visual-fidelity result follows.
+
+Implementation `4b20537` passes 806 synthetic Rust tests (34 ignored), seven silent
+Mecc/impact resource controls, 40 Python tests, Rustfmt and Clippy with warnings
+denied. Roadmap/site generation and JavaScript syntax checks pass. Concurrent
+Delphi, Kabuto and world work is preserved. Prototype PS2 attributions remain
+unknown; exact function identities, aliases and the next lookup step stay in the
+private continuation record. Existing preview receipts retain their source and
+package identities. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+GNU build source `53c7e75da9914a43a4a1b609c45490914eab9cb6` has executable
+SHA256 `977174d3c2c8787bc5890254a86f4bca0f0bee9b16dabf547499da46bd0e954d`.
+Its private ten-member validation draft has complete receipt-bound notices and
+independent archive verification with zero technical blockers; ZIP SHA256 is
+`0773fc2b1fc5d61305a54ad4620c27d173e1df220870975ebd264d5721daae5b`.
+Source/history pattern review at the preceding documentation checkpoint covers
+412 reachable commits / 2,777 blobs with zero findings. This is a CPU dependency
+draft, not a new playable preview or third-party redistribution clearance.
+
 ## Owned positional-impact birth - 9 November 2026
 
 The single-body positional constructor publishes an actual owned Session state-78

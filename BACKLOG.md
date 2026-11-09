@@ -650,11 +650,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   controls cover interleaved provider draws, retained late failure, cross-factory
   replay refusal and image/cache ownership. Successful birth retires its temporary
   context; failed active contexts cannot use prepared-only cleanup. This is CPU
-  birth, not live cue transport or complete effect execution. Next search prototype
-  PS2 names for the state-78 callback before analyzing it, acquire origin use,
-  cadence and actor retirement, then bind real positional audio and the independent
-  impact damage/channel composition. Preserve exact identities and old aliases;
-  current constructor/helper attributions remain unknown.
+  birth, not live cue transport or complete effect execution. The owned timed
+  class-867 callback now advances actual age/size/fades, angles/cache, descriptor
+  clocks and local references with a shared world-owned ANM epoch. First entry
+  does not age even at zero time; expiry stops the retained cue before marking.
+  Late stop failure keeps completed writes and forbids another attempt. Across
+  64 native sequences / 384 callbacks, all 512 normalized full snapshots including
+  stop entry match 141,824 words. Native audio remains disabled and local time
+  supplied. Marked actors remain owned; common retirement, live positional audio,
+  other effect profiles and enclosing scheduling stay open. Next search prototype
+  PS2 names for the actual common retirement path before analyzing it, acquire
+  release/origin semantics there, then bind the independent impact damage/channel
+  composition. Preserve exact identities and aliases; current callback and touched
+  helper attributions remain unknown.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup
