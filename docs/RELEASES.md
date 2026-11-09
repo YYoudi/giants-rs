@@ -38,6 +38,14 @@ receipt and checksums pass independent checks, repeated after downloading all
 three public assets. These are existing partial-renderer lifecycle observations;
 no interactive test, complete film or new general-queue admission is claimed.
 
+Combined source `c54c0fb` preserves the later Mecc reaction, Delphi geometry and
+Kabuto activity-timer work plus the queued dashboard-deployment policy. It passes
+827 workspace Rust tests (45 ignored), formatting and strict Clippy; the three
+silent installed-data impact controls pass again. The released binary and its
+runtime/package receipts remain pinned to `faa7195`, independently of later
+source merges. Python and generated site checks also pass after the merge.
+
+
 ## Kabuto isolated resource timers and speed-latch producer — 9 November 2026
 
 The acquired activity/resource kernel now preserves frame queries, rolling
