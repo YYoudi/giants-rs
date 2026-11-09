@@ -4,6 +4,62 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Controlled dry post-physical composition - 9 November 2026
+
+`delphi_dry_reset::advance` restores the acquired physical reset after first ANM
+and before model-rate production. It uses the actual inline physical flags,
+current owner/held list and external reset parameter. Held visibility follows the
+supplied shared view mode and current damage/limit. The positional sound-stop
+provider must be bound to this owner; there is no acknowledgement fallback.
+The branch copies the reset parameter before the later timed subtraction. No
+gameplay meaning is assigned to that observed state word.
+
+`delphi_post_physical::advance` implements finite object-local subtraction,
+selected-owner global clearing, paused/inhibited empty-context cleanup and the
+ordinary non-strike sword route. Time is queried at the post-placement position;
+reusing a pre-movement or actor-slowed camera delta would be wrong. Pause does not
+skip the timing prefix. Equipment switching, active context retirement, water,
+spells, strike windows/notification and hit services remain explicit refusals,
+with completed prefix writes retained. These are scoped PC contracts, without
+prototype PS2 ABI/layout imports or newly assigned correspondences.
+
+`Resources::with_post_physical` freezes the new controlled profile.
+`Session::advance_delphi_post_physical_controlled` orders the physical reset,
+post callback, dry secondary and zero-time ANM. It binds actual owned fields,
+physical flags, local ownership, context words and updated position. The view
+retains the post-processed input word. Completed physical/post effects survive
+later post/secondary refusal, and the owner is quarantined against replay. Earlier
+physical/locomotion/manual/authored-camera profiles keep their separate behavior.
+This does not establish complete native error-path parity or full-primary entry.
+
+Original block/helper controls match 1,536 reset cases / 12,288 selected words,
+including requested/object-flag/ordinary branches, jump exclusions, absent/dead/
+foreign held candidates, view modes, visibility thresholds and signed-zero reset.
+The post-ANM registers/stack and scalar/list inputs are supplied; execution stops
+before the next model producer. Original held/visibility/stop helper bodies run
+with an actual null sound bank. Unselected native memory stays unchanged. These
+controls do not claim the surrounding physical callback or device audio.
+
+Separate complete original dry post-callback controls match 1,232 cases /
+1,500,576 header/payload/global words, with no replaced behavior. They cover
+pause, inhibition, signed/negative timed words, local/other ownership, modes and
+ordered slow areas. Debug and optimized kernel probes repeat these same inputs.
+Two persistent owned comparisons additionally match 512 frames / 4,081,152 words
+across 22 actor headers/reference buffers, owner payload, lists and shared RNG.
+Commands/preferences/global time, a flat world and external metadata remain
+supplied boundaries. The inactive pre-heading global-camera reset, other actor
+callbacks and full-world scheduling are excluded.
+
+The installed-resource lifecycle now checks five owners and 64 new-profile
+updates. Wrong frozen entries refuse before providers/epoch changes. A late
+secondary refusal retains completed first ANM, history, timing, global clearing
+and input cleanup; retry consumes neither the epoch nor those effects again.
+Actual live input/view/audio providers, authored-camera/post integration, the
+remaining primary/target/item and auxiliary callbacks, renderer/mission admission,
+water/swim/turbo and combat stay open. No playable Delphi or fidelity status is
+promoted. Detailed acquisitions, failed intermediate comparisons and attribution
+records stay private; new prototype PS2 correspondences remain unknown.
+
 ## Owned ordinary view composition - 9 November 2026
 
 `delphi_ordinary_view::State` composes the acquired local class-3 mode-zero

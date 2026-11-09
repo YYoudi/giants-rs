@@ -1,5 +1,202 @@
 # Preview releases and milestone integration
 
+## Kabuto additional-contact callback dependency — 9 November 2026
+
+The callback required by the next object-contact traversal now preserves its
+existing authority guard, gated service request and post-service flag reread
+before publishing the peer reference. A 512-context original-PC control matches
+2,520 state/request words, including 59 requests and 157 reference writes. Actual
+PC authority helpers execute; the action dispatcher is a supplied provider that
+changes peer state to verify ordering. The request's gameplay effects remain
+unassigned and unimplemented.
+
+Validation: 800 synthetic Rust tests pass (32 ignored), all ten silent Kabuto
+installed-data controls pass, plus 40 Python tests, Rustfmt, strict Clippy and
+generated roadmap/site/JavaScript checks.
+
+This is a CPU dependency. The whole additional geometry traversal, its transform/
+response services, actual action execution and its Session consumer remain open.
+The call after classification must not be reduced to its global early return or
+misidentified as simple spatial publication. World/current-force/primary cadence
+still block another frame. No initializer gate, live movement, screenshot or
+package receipt is promoted. No dependency or bundled asset is added; existing
+Windows preview binaries, notices and checksums retain their identities.
+
+
+Final combined checkpoint `a6106fb` additionally retains the newer sized-FX
+initialization prerequisite. It passes 805 Rust tests (32 ignored), all ten Kabuto
+installed-data controls, 40 Python tests, Rustfmt, strict Clippy and site/JavaScript
+checks. Source audit covers 401 commits / 2,740 blobs with zero findings. The rebuilt
+512-context callback runner repeats its comparison. This is source validation;
+the common executable receipt below remains pinned to `7d0692a`.
+
+## Sized FX initial preparation — 9 November 2026
+
+The common effect initialization service now handles the acquired complete frame
+containing random size, lifetime and a retirement-effect binding. A full original
+named-preparation control, with supplied TLS seeds, object count and quality,
+executes 64 cases: each consumes exactly one RNG draw, creates no object and
+retains the source cursor for later active updates. Equal and reversed finite
+ranges are included. Rust agrees on all 64 seed transitions; nonfinite operands and unacquired
+framing preserve the caller's RNG on refusal.
+
+The actual source image resolves normal/lite lookup to the same entry. The shared
+extended-context preparation path accepts that invariant entry with a supplied
+recipient and RNG. This removes an initialization prerequisite for 77 requests
+in seven sources; it does not supply the world RNG, execute the active queue or
+retirement effects, admit those films or certify rendering, cadence or fidelity.
+The 545-source inventory, 59 gaps, 56 general queue prerequisites, 282 strict
+reviews and zero certified complete scenes remain unchanged. Prototype PS2
+attribution remains unknown.
+
+Published [preview-2026.11.09.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.3)
+pins source `95b5b4345acbc20a4e92cdd5a74fb04571a971b8`, executable SHA256
+`62e45a36c57d4b15e77e9828cf4b6a4aa768cf9b7b49a18afab142169558d0dc` and ZIP SHA256
+`3e2a6eb09f24fb5056fa4fae4cbd4e57e982bccf323f2665509f4cd0e6a3075f`.
+That exact source passes 798 Rust tests (30 ignored), 40 Python tests, formatting,
+strict Clippy and source audit (393 commits / 2,713 blobs / zero findings). The
+MinGW binary passes both silent offscreen development endpoints, three live
+persistent-object cancellations and two Rstory1 source-terminal/re-entry cycles
+with voice/text cleanup. These retain their partial-renderer scope. Ten package
+members, notices, receipt and checksums pass independent validation, repeated
+after downloading all three public assets. No interactive checks were run.
+
+Combined source `eab04e48e2907cabefeda68225bbcc0a712fb489` retains newer Delphi
+and Kabuto work and passes 803 Rust tests (32 ignored), 40 Python tests,
+formatting, strict Clippy and site/JavaScript checks. Its source audit covers
+394 commits / 2,717 blobs with zero findings. The released executable and runtime
+controls retain their exact `95b5b434` identities; no combined-source binary
+or additional scene fidelity is claimed.
+
+## Delphi controlled dry post-physical composition - 9 November 2026
+
+The acquired physical reset now runs after first ANM and before model-rate
+production, using the actual held list, supplied shared view context, external
+reset parameter and a required owner-bound positional-stop provider. The later
+post callback queries object time at the updated position, handles its selected
+owner/global word and paused empty-context cleanup, then enters the ordinary
+non-strike sword route. The frozen owned entry composes those phases before
+secondary/zero-time ANM, retaining completed effects after later refusal and
+quarantining replay. Earlier entry profiles are preserved.
+
+Reset block/helper controls match 1,536 cases / 12,288 words with supplied
+post-ANM registers/stack and an actual null sound bank. Complete original dry
+post controls match 1,232 cases / 1,500,576 words, without behavior replacements.
+Debug and optimized kernel probes repeat the same inputs. Two persistent owned
+comparisons match 512 frames / 4,081,152 words across 22 actors and exact shared
+RNG. Commands, time, a flat world and metadata remain supplied. The five-owner
+source lifecycle adds 64 new-profile updates and late-failure/no-replay checks.
+
+This is CPU/API integration. Authored-camera/post composition, actual live input /
+view/audio producers, remaining primary/target/item and auxiliary scheduling,
+active cleanup, water/swim/turbo and combat stay open. No live Delphi controls,
+new playable capability, full native error-path parity or visual/audio fidelity
+are claimed. Prior executable/package and capture identities remain unchanged.
+
+The implementation checkpoint passes 794 synthetic Rust tests (30 ignored),
+the enriched five-owner installed-resource control, Rustfmt and Clippy with
+warnings denied. The standalone and owned comparisons retain their exact source
+hashes and declared supplied boundaries. Common-build receipts and subsequent
+combined-source validation are recorded separately.
+
+Combined source `aefcc0c7a2cbe36fbea1a3c953034c8ec5062c27` retains the newer
+mission-affine and Kabuto contact work. It passes 799 synthetic Rust tests
+(30 ignored), 40 Python tests, Rustfmt, Clippy, generated site/JavaScript checks
+and the enriched Delphi installed-resource control. Rebuilt owned comparisons
+again match both complete 256-frame cohorts. History review reports no pattern
+findings across 380 reachable commits and 2,660 blobs.
+
+Its exact GNU executable passes both silent common development lifecycle
+endpoints and three Rstory1 mission-2 persistent-owner opening/cancellation
+cycles. These are common-runtime regressions, not live Delphi controls.
+Executable SHA256:
+`8bcfcfb5655d8da1659fdc822d367f0c82d1ddc7df220077815b23e12bf122e0`.
+The ten-member private draft has complete notices, matching receipt/review and
+checksums, an unchanged reviewed PE import set and zero package-verifier blockers.
+ZIP SHA256:
+`76caed8da82a186bd5a652bb303576360e60a781caeacdbd2f463956510e70b3`.
+This CPU milestone does not replace the public playable preview or its receipts.
+
+Final combined checkpoint `476344d` preserves the newer separated effect
+preparation/activation work. It passes 801 synthetic Rust tests (30 ignored),
+40 Python tests, Rustfmt, Clippy, generated site/JavaScript checks and the enriched
+Delphi installed-resource control. Rebuilt owned comparisons again match both
+256-frame cohorts and exact shared RNG. These source checks keep the earlier
+exact executable/package receipts unchanged.
+
+Subsequent combined checkpoint `5801ac3` preserves Kabuto classification/radius
+work and the reciprocal collision-response boundary. It passes 802 Rust tests
+(32 ignored), 40 Python tests, Rustfmt, Clippy and site/JavaScript checks.
+Both rebuilt 256-frame Delphi comparisons again match all 4,081,152 words and
+shared RNG. This remains separate source validation of the unchanged Delphi
+profile, with no relabeling of the earlier executable or package.
+Combined checkpoint `7d0692a` preserves the newer Delphi dry-reset and post-physical
+composition. It passes 804 Rust tests (32 ignored), all ten Kabuto installed-data
+controls, 40 Python tests, Rustfmt, strict Clippy and generated site/JavaScript
+checks. Source audit covers 397 commits / 2,731 blobs with zero findings. Rebuilt
+callback and prior Session-classification runners repeat their native comparisons.
+
+The common GNU executable was built from that exact checkpoint, SHA256
+`989ed5836af5a36db49c65167b4fcdbdf9eb4158b099e8a981d46fad5a52ea78`.
+Its private build receipt records the compiler, MinGW linker and dependency
+metadata. This is a compilation receipt, without a new runtime, package,
+playability or fidelity claim. Existing downloadable preview identities remain.
+
+## Kabuto owned physical classification — 9 November 2026
+
+The exact factory-owned motion prefix now feeds the shared physical-player
+collision/terrain and affine services. The Session owns contact state, resource-
+derived radius, physical output and its current matrix. A 384-context actual
+Session composition matches 155,136 original-PC header/payload words. The PC
+common history wrapper and Rust history gate execute; prepared empty geometry
+and controlled flat terrain remain explicit boundaries. Rust produces its own
+intermediate motion and refreshes radius from actual resource bounds.
+
+Prepared peer callbacks preserve both the class policy's write and the narrow
+response's reciprocal reference before later providers. Silent source controls
+exercise nonempty prepared triangles and retained peer effects on late terrain
+failure, with replay quarantine. Atomic owner publication on success and quarantine
+on provider failure are explicit owned policy; no native exception behavior is
+claimed. Numbered history and all initializer prerequisites remain unconsumed.
+
+Validation: 796 synthetic Rust tests pass (32 ignored), all ten silent Kabuto
+installed-data controls pass, plus 40 Python tests, Rustfmt, strict Clippy and
+generated roadmap/site/JavaScript checks.
+
+This CPU integration adds no dependency, bundled asset or playable preview.
+Live scene/peer production, world publication, current forces and the remainder
+of the primary still block continuous movement. Existing preview notices,
+checksums and runtime/screenshot receipts retain their exact package identities.
+Prototype PS2 attribution remains unknown; private inputs and evidence stay private.
+
+Combined checkpoint `fec0133` preserves the newer positional-impact configuration
+and post-load boundary acquisition. It passes 798 Rust tests (32 ignored), all ten
+Kabuto installed-data controls, 40 Python tests, Rustfmt, strict Clippy and generated
+site/JavaScript checks. Source audit covers 385 commits / 2,687 blobs with zero
+findings. The rebuilt actual Session runner repeats the 384-context classification
+comparison. Earlier binary/package/runtime receipts retain their exact identities.
+
+## Existing mission marker producer verified — 9 November 2026
+
+The source-ordered marker producer is already implemented by the shared class
+configuration projection. Reusing the retained exact-debug 512-case native
+control, current Rust agrees on all 30,720 template/instance configuration words.
+The historical controller was recovered by its recorded digest from the private
+archive rather than substituting a later revision. No retail offsets or results
+were transferred to the debug profile.
+
+A fresh CPU source sweep prepares all 56 named missions / 19 menu worlds. All
+2,104 constructed residents carry a zero marker and are released; the 840
+class-profile refusals and 10,852 other-state exclusions remain separate. Counts
+repeat per mission and do not establish complete native world population. This
+post-load marker pass is consequently a no-op for these acquired resident
+profiles, not a demonstrated cause of their cinematic discrepancies.
+
+No Rust behavior or preview package changes. Actual terrain-cell production,
+world phase ordering, shared admission, general/mixed FX RNG/selection and full
+scene fidelity remain open. Prototype PS2 attribution remains unknown. Existing
+preview source, executable, notices and checksum receipts are unchanged.
+
 ## Positional impact activation configuration - 9 November 2026
 
 The explicit single-body impact planner retains its integer cue identity and
@@ -53,8 +250,8 @@ diagnostic branch; the error handler and recovery are not executed or verified.
 
 This identifies one post-load dependency and excludes this helper as an affine
 refresh in the supplied cases. It does not establish complete loading, actual
-mission population, world scheduling or a new Rust consumer. The pending-marker
-producer and wider world phases remain prerequisites. Prototype PS2 attribution
+mission population, world scheduling or a new Rust consumer. The exact-debug marker producer and wider world phases were initially retained
+as prerequisites; the producer follow-up below resolves only the former. Prototype PS2 attribution
 remains unknown. No runtime code or preview package changes; the existing
 `preview-2026.11.09.2` binary, notices and checksums retain their exact receipts.
 The 545-source cinematic inventory and zero certified complete scenes remain.

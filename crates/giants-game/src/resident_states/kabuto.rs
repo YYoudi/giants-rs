@@ -19,6 +19,9 @@ mod growth_tests;
 #[path = "kabuto_motion_tests.rs"]
 mod motion_tests;
 
+#[path = "kabuto_classification.rs"]
+mod classification;
+
 impl Session {
     /// Common history entry before the bounded Kabuto motion prefix. No complete
     /// primary is acknowledged; a completed prefix cannot start another frame

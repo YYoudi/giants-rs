@@ -197,6 +197,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   cannot replay. Actual input/viewport/depth producers, initial view, complete
   dispatch and renderer/mission scheduling remain prerequisites; no live Delphi
   admission or fidelity status changes follow.
+- Implemented: the frozen controlled dry post-physical profile restores the
+  physical reset after first ANM, then runs post-placement timing/global clearing,
+  paused empty-context cleanup, ordinary non-strike handling, secondary and
+  zero-time ANM in source order. Reset controls match 1,536 cases / 12,288 words;
+  complete dry post controls match 1,232 cases / 1,500,576 words. Two persistent
+  256-frame owned comparisons match 4,081,152 words across 22 actors and exact
+  shared RNG. Reset controls supply the post-ANM boundary and a null sound bank;
+  composed controls supply commands/time/flat world and external metadata.
+  The five-owner lifecycle adds 64 post-profile updates and late-failure retention /
+  no-replay checks. Held visibility and sound-stop providers are explicit;
+  authored-camera/post composition, real input/view/audio producers, equipment,
+  active cleanup, spells, strike/hit routes and full-primary scheduling stay open.
+  See docs/OWNED_DELPHI.md. This does not admit live Delphi or certify fidelity.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -367,6 +380,36 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented CPU dependency: the callback used by the subsequent object-contact
+  traversal retains the original authority guard, gated service-11 request and
+  post-service peer-flag reread before its peer-reference store. Its native return
+  is always zero; the owned result reports only the reference publication intent.
+  A 512-context original-PC control matches 2,520 request/state words, including
+  59 requests and 157 writes. The original authority helpers run; the action
+  dispatcher is an explicit provider that mutates flags/reference to check order.
+  State-1 scaling consumes an opaque state scalar; other states bypass it. No
+  gameplay meaning, damage execution, feeding rule or Session/world admission is
+  inferred. The full additional geometry traversal, its indirect transform callback and
+  geometry/response dependencies still need controls and a real owned consumer.
+  Static inspection shows that the call following classification is this extra
+  object-contact pass, not merely spatial publication. Keep the entered history
+  until it, world publication, current forces and the primary remainder complete.
+- Implemented: factory-bound physical classification consumes the exact owned
+  motion prefix and publishes contact fields, physical flags/force, resource-
+  derived radius and the current affine cache. A composed actual Session control
+  matches 384 original-PC contexts / 155,136 complete owner-header/payload words;
+  the PC common history and Rust history gate both execute. This control supplies
+  an empty prepared geometry scene and analytic flat terrain; Rust does not
+  consume the PC intermediate state. Nonempty synthetic prepared-mesh controls
+  check peer-support effects before terrain, including retained effects and
+  replay quarantine after late provider failure. The shared response boundary
+  also exposes the acquired reciprocal peer-reference write before later queries.
+  Scene keys are explicit logical identities, not allocation serials or native
+  pointers. The scene/peer producer and publication into a live mission remain
+  pending. Owner publication is atomic on success; failure preserves external
+  effects and quarantines the group (owned policy, not native exception parity).
+  Classification still retains the numbered history and all four initializer
+  gates: actual world publication, new forces and the primary remainder are next.
 - Implemented CPU kernel: Kabuto's acquired contact callback distinguishes the
   handled result from the peer-support write. Null/class-669 peers bypass numeric
   reads; strict height/scaled-radius thresholds and independent exclusion masks
@@ -375,8 +418,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   exposes object identity and current contact state to an explicit class handler;
   its legacy callers retain their unhandled-event default. A synthetic composed
   contact checks support-before-callback and retained peer effects on late terrain
-  failure. Source scene/peer binding, actual mutation publication, full terrain/
-  affine classification, new forces and Session scheduling remain prerequisites.
+  failure. Source scene/peer binding, live mutation publication, whole-world
+  classification, new forces and complete Session scheduling remain prerequisites.
   This kernel does not advance the owned history or enable a second frame.
 - Implemented: factory-bound input/orientation and force-to-position prefix now
   owns its model/velocity/history fields and reuses common primary history,
@@ -823,9 +866,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   240 object visits / 64 pending-marker clears; all other object bytes, including
   affine caches, remain unchanged. Sixteen outside-grid cases stop at the original
   diagnostic branch, without running its handler or proving recovery. This is not
-  a final-cache rewrite, full mission loading or a new Rust consumer. Acquire the
-  pending-marker producer and wider caller/world phases before integrating it;
-  retain actual later affine writers and shared admission as open prerequisites.
+  a final-cache rewrite, full mission loading or a new Rust consumer. Producer
+  follow-up reuses the exact-debug 512-case class configuration proof: all 30,720
+  template/instance words match current Rust. The marker already comes from the
+  shared class projection. All 2,104 acquired residents in the 56-mission CPU
+  sweep have zero markers; 840 class-profile refusals and 10,852 other-state
+  exclusions remain outside that result. Deprioritize this no-op dependency for
+  these acquired profiles. Actual terrain-cell classification, wider caller/world
+  phases, later affine writers and shared admission remain open. Continue the
+  general/mixed FX selection, RNG and ownership producers; terminal-only requests
+  in the older program survey must not be counted as nonterminal queue blockers.
   The physical capacity/recycle boundary is acquired; real mission occupancy,
   shared admission, error handling and full world scheduling remain open. No
   shared Rust capacity policy or new gameplay admission follows from CPU proof.
@@ -841,6 +891,21 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation requests. All 2,104 constructed residents release. Preserve the
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
+
+- General FX follow-up: the largest remaining family has 77 requests in seven
+  sources, five with no other non-persistent family. The complete original named
+  preparation consumes exactly one size-range RNG draw before creating any
+  object. The shared Rust initialization service now implements this acquired
+  seven-record frame, with finite operand validation and atomic RNG failure.
+  All 64 supplied-seed native preparations agree with Rust. Normal/lite lookup
+  resolves to the same source entry, so this frame needs no invented selection
+  input. This is preparation only: actual world RNG, active object ownership and
+  queue, lifetime/retirement-effect execution, source VM cadence and rendering
+  remain open. No new film admission or gap-count reduction is claimed.
+  Preview 2026.11.09.3 binds the preparation dependency to source95b5b434:
+  798 Rust tests / 30 ignored, 40 Python tests and silent offscreen menu lifecycle,
+  active-effect cancellation and source-terminal/re-entry checks pass. Package
+  contents/notices/checksums are independently verified after public download.
 
 - Published preview 2026.11.05.6 / FX-prefix milestone validated: the real source/ancestry audit covers 208 active
   requests in 72 sources. The former guard conflated Flick34 shadow descriptors,
