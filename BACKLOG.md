@@ -1019,11 +1019,35 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   actual shared countdown; an optional primary voice provider completes one
   falling-entry frame with supplied cues and preserves both late-failure paths
   without replay. This is CPU composition, not actual voice transport. Next bind
-  pain/ambient local sources, owner routing and ready sinks with their distinct
-  shared-cue flag policy and separate audio/VM RNG owners. The main inspection still supplies no impact provider and keeps
+  the actual mission gates and wounded continuation before binding the App
+  primary. Local pain/ambient transport is now independently device-tested:
+  960 native/Rust 2D caller cases / 16,968 selected words cover required-service
+  order and descriptor/owner reuse. Four damage cues plus one jet cue reach real
+  muted sinks; two reuse calls draw nothing. The typed-root adapter shares the
+  actual backend without mutable aliasing, and selected sink loss refuses while
+  unrelated loss preserves reuse. Quarantine/release removes owned assets.
+  General instance retirement/cadence, nonlocal routing and restart transport
+  remain open; no complete player trajectory or audible fidelity follows. The main inspection still supplies no impact provider and keeps
   step 441; native gate production, wounded continuation, heavy carried channel,
   active effect scheduling and cleanup remain prerequisites. The existing
   positional effect transport is for later activation, not secondary preparation.
+  Post-impact selector continuation now admits states 61/62 and all acquired
+  air directions: 1,680 native contexts / 560,640 selected words agree, including
+  816 pre-weapon-commit boundaries. Another 48 contexts explicitly refuse the
+  actual idle-draw callback; no fabricated pointer or immediate commit substitutes
+  for it. These unblended controls supply floor, damage, velocity history and
+  positive idle timer. They do not validate a wounded whole primary. Next acquire
+  the real draw callback/frame ownership and full health-positive primary before
+  relaxing that entry guard or enabling impact/voice in the App.
+  Full-primary discovery now identifies damage-smoke preparation as an additional
+  prerequisite: three original 128-frame controls expose the context/VM draw
+  after a supplied wound. The bounded policy matches 2,080 contexts / 18,780
+  selected words; separate real preparation/release matches 256 contexts /
+  16,640 words. The actual prepared adapter passes source-resource reuse,
+  replacement, display-reset, stale/foreign and late-failure controls. Bind its
+  persistent owner and actual display decision at the pre-secondary boundary,
+  then validate the wounded whole primary. Active smoke/world retirement remains
+  separate; no main health gate or missing impact/voice provider is relaxed.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

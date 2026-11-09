@@ -1827,3 +1827,155 @@ fn source_mecc_impact_primary_voice_uses_countdown_owner_and_retains_failed_fram
         session.clear();
     }
 }
+
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; prepared damage smoke ownership, no active effect/window/audio"]
+fn source_mecc_damage_smoke_owns_reuse_release_and_late_failure() {
+    use crate::mecc_damage_effect::{Input, Prepared, State};
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    let mut session = Session::new(851);
+    let source = actor(&mut session, &r, &g, &c, None, 0.);
+    let mut pool = crate::attached_effect_context::Pool::from_active_resources(851, &r);
+    let mut random = crate::audio_parameters::Random(1);
+    let mut state = State::default();
+    let input = |damage| Input::from_globals(damage, 100., &g).unwrap();
+    for (damage, level) in [(55., 1), (75., 2), (95., 3)] {
+        let before = state.binding;
+        state
+            .advance(
+                input(damage),
+                &mut Prepared {
+                    reset: false,
+                    pool: &mut pool,
+                    source,
+                    source_flags: 0,
+                    random: &mut random,
+                },
+            )
+            .unwrap();
+        assert_eq!(state.level, level);
+        let id = state.binding.unwrap();
+        assert_eq!(pool.active(), [id]);
+        let context = pool.get(id).unwrap();
+        assert_eq!(context.recipient(), Some(source));
+        assert_eq!(context.tag(), Some(3));
+        assert_eq!(context.flags(), 0x20004);
+        if let Some(old) = before {
+            assert!(pool.get(old).is_none());
+        }
+        let seed = random.0;
+        state
+            .advance(
+                input(damage),
+                &mut Prepared {
+                    reset: false,
+                    pool: &mut pool,
+                    source,
+                    source_flags: 0,
+                    random: &mut random,
+                },
+            )
+            .unwrap();
+        assert_eq!(state.binding, Some(id));
+        assert_eq!(random.0, seed);
+        if level == 1 {
+            assert_eq!(seed, 2745024);
+        }
+    }
+    let old = state.binding.unwrap();
+    state
+        .advance(
+            input(95.),
+            &mut Prepared {
+                reset: true,
+                pool: &mut pool,
+                source,
+                source_flags: 0,
+                random: &mut random,
+            },
+        )
+        .unwrap();
+    assert!(pool.get(old).is_none());
+    assert_eq!(pool.active(), [state.binding.unwrap()]);
+    let current = state.binding.unwrap();
+    let seed = random.0;
+    let mut foreign_session = Session::new(852);
+    let foreign = actor(&mut foreign_session, &r, &g, &c, None, 0.);
+    assert!(
+        state
+            .advance(
+                input(95.),
+                &mut Prepared {
+                    reset: false,
+                    pool: &mut pool,
+                    source: foreign,
+                    source_flags: 0,
+                    random: &mut random
+                }
+            )
+            .is_err()
+    );
+    assert_eq!(state.binding, Some(current));
+    assert_eq!(random.0, seed);
+    // A required inherited-parameter producer is absent after the real old release.
+    assert!(
+        state
+            .advance(
+                input(55.),
+                &mut Prepared {
+                    reset: false,
+                    pool: &mut pool,
+                    source,
+                    source_flags: 0x400,
+                    random: &mut random
+                }
+            )
+            .is_err()
+    );
+    assert_eq!(state.level, 1);
+    assert!(state.binding.is_none());
+    assert!(pool.active().is_empty());
+    assert_eq!(random.0, seed);
+    state
+        .advance(
+            input(55.),
+            &mut Prepared {
+                reset: false,
+                pool: &mut pool,
+                source,
+                source_flags: 0,
+                random: &mut random,
+            },
+        )
+        .unwrap();
+    let current = state.binding.unwrap();
+    pool.release_prepared(current).unwrap();
+    let seed = random.0;
+    assert!(
+        state
+            .advance(
+                input(55.),
+                &mut Prepared {
+                    reset: false,
+                    pool: &mut pool,
+                    source,
+                    source_flags: 0,
+                    random: &mut random
+                }
+            )
+            .is_err()
+    );
+    assert_eq!(random.0, seed);
+    assert_eq!(state.binding, Some(current));
+    // Context cancellation belongs to the enclosing owner; this test has no actor birth.
+    assert_eq!(session.mecc_health(source).unwrap().damage, 0.);
+    session.clear();
+}

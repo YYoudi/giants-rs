@@ -66,6 +66,7 @@ pub mod mecc_collection;
 pub mod mecc_contact_materials;
 pub mod mecc_countdowns;
 pub mod mecc_damage;
+pub mod mecc_damage_effect;
 pub mod mecc_death;
 pub mod mecc_fire;
 pub mod mecc_fire_lock;
@@ -811,6 +812,7 @@ pub mod mecc_impact;
 pub mod mecc_impact_voice;
 pub mod positional_impact;
 pub mod sound_device;
+pub mod sound_local_start;
 pub mod sound_owner;
 pub mod sound_spatial;
 
