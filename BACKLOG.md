@@ -416,9 +416,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   attribute is now implemented in the shared field loader: 512 original dispatch/
   defaults/termination/base-copy programs match 31,744 projected words, including
   neighboring writes and raw operand high bits. Three Delphi mission catalogs
-  now prepare those fields; an installed control retains constructor refusal and
-  empty ownership/lists for the unacquired support state. Next: acquire that
-  state's constructor/update/lifecycle, actual scene key registry and phase-correct owned
+  now prepare those fields; an installed control retains ordinary constructor
+  refusal. An explicit cold support factory now uses the shared staged Session
+  constructor: eight original-PC creations agree on 1,584 normalized header/
+  payload words and 32 ordered registrations; Rust repeats with three world
+  catalogs selecting the same source template. Payloads are private and immutable
+  model/resources shared. Failed construction, source release, clear/stale IDs and
+  re-entry pass; current geometry/physical access remains refused. Pointer/UID
+  storage is normalized, UID matching-table/counter and retained source/heap/
+  texture policies supplied. Native state-payload cleanup is checked; full actor/
+  list retirement is not compared. Next: acquire that state's first-update
+  initialization, context/geometry producers and complete lifetime, actual scene
+  key registry and phase-correct owned
   header publication, other actor
   writers and caller/world/ANM timing. Do not equate scene keys with Session serials,
   conflate support with held/surfacing relationships or substitute zero for a

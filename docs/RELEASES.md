@@ -1,5 +1,30 @@
 # Preview releases and milestone integration
 
+## Delphi cold support construction - 10 November 2026
+
+An explicit source-backed cold factory now owns the support class through the
+shared staged Session constructor. Eight original-PC creations match 1,584
+normalized header/payload words and 32 ordered registrations. Rust repeats the
+comparison with three mission catalogs selecting the same source template.
+Identifiers/pointers, source preparation policies and UID lookup inputs retain
+their declared control boundaries. Ordinary construction remains refused.
+
+Private payloads, shared immutable resources, failed-construction rollback,
+resource release, stale identities and clear/re-entry have installed controls.
+Current geometry/physical access is still refused. Native state-payload cleanup
+is checked; full native actor/list retirement, first-update initialization,
+world lifetime, scene keys and phase-correct header publication remain open.
+This introduces no live Delphi control, capture, dependency, asset or new
+download. The separately published quiet-ambient preview retains its exact
+source, executable, notices and package/checksum receipts. Prototype PS2
+attribution remains unknown; complete source inputs and evidence stay private.
+
+The combined tree passes 866 workspace Rust tests (58 ignored), seven installed
+Delphi controls, six Mecc impact/voice/wounded-primary controls and the NPC
+ownership regression. All 43 Python tests, Rustfmt, strict Clippy and
+roadmap/site/JavaScript checks pass. The current ambient and shared actor work
+is preserved; these checks retain their declared source/CPU scope.
+
 ## Combined Windows preview with bounded ambient diagnostics — 10 November 2026
 
 Published [preview-2026.11.10.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.1)
