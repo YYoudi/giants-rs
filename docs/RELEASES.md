@@ -38,6 +38,24 @@ harness results and independent controls remain private. Remaining full-primary,
 item/target, auxiliary and authored-camera composition, water/swim/turbo, combat,
 renderer/HUD/audio and menu-to-mission integration stay open.
 
+Combined source `ca4bf6401991a8307c5a0ca9a27725dab8a1a9b5` passes 808 Rust
+tests (33 ignored), the six-owner Delphi installed-data control, 40 Python tests,
+Rustfmt, strict Clippy and generated roadmap/site/JavaScript checks. The pattern
+audit reports zero findings across 415 commits / 2,794 blobs. Both rebuilt owned
+trajectory comparisons repeat successfully after integration with other lanes.
+
+The exact common MinGW executable has SHA256
+`fb16fb2cf80648b73ef7a017dfd048c9e2aa692e51dce1a7e2cc94c177ac7de3`.
+It passes both silent offscreen development endpoints and three Rstory1 mission-2
+persistent-owner birth/update/cancel/re-entry cycles with text cleanup. The private
+ten-member validation draft binds complete notices, source/executable/toolchain
+receipt and checksums; independent verification reports zero technical blockers.
+ZIP SHA256 is `9e7613c30ca350a6bf07526db4299ae41c29f8b635cf5b91613e3391d8b37a6d`.
+The PE import symbol sets are unchanged; import-table ordering is excluded from
+that comparison. These are common-runtime regressions, not live Delphi control.
+No playable Delphi download is claimed; published previews retain their own
+source receipts. No original assets or private research enter the draft.
+
 ## Owned positional-impact birth - 9 November 2026
 
 The single-body positional constructor publishes an actual owned Session state-78

@@ -42,6 +42,12 @@ harness results and independent controls remain private. Remaining full-primary,
 item/target, auxiliary and authored-camera composition, water/swim/turbo, combat,
 renderer/HUD/audio and menu-to-mission integration stay open.
 
+The combined source/build validation is pinned in [RELEASES.md](RELEASES.md):
+808 synthetic Rust tests, the six-owner source-data control and both rebuilt
+512-frame comparisons pass. Its exact common executable passes silent menu and
+persistent cinematic cancellation regressions. Those runs do not call this
+Delphi controller or certify manual input, full scenes or visual fidelity.
+
 ## Controlled dry post-physical composition - 9 November 2026
 
 `delphi_dry_reset::advance` restores the acquired physical reset after first ANM
