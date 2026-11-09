@@ -7,7 +7,42 @@ enum Entry<'a> {
     Controlled {
         manual: crate::delphi_physical::ManualRotation,
         camera: Option<crate::delphi_camera::Context<'a>>,
+        post: Option<crate::delphi_post_physical::Context<'a>>,
     },
+}
+struct DryResetWorld<'a, 'b> {
+    session: &'a mut Session,
+    owner: Id,
+    stop_sound: &'b mut dyn FnMut(u32) -> Result<(), String>,
+}
+impl crate::delphi_dry_reset::World for DryResetWorld<'_, '_> {
+    type Held = Id;
+    fn held(&mut self) -> Result<Option<Id>, String> {
+        Ok(self
+            .session
+            .wield_list()?
+            .into_iter()
+            .find(|child| {
+                child.flags & 0x8000 == 0
+                    && child.parent == Some(self.owner)
+                    && child.reference == 1
+            })
+            .map(|child| child.id))
+    }
+    fn reveal(&mut self, held: Id) -> Result<(), String> {
+        self.session
+            .residents
+            .get_mut(&held.serial)
+            .ok_or("Delphi reset held owner absent")?
+            .construction_fields
+            .as_mut()
+            .ok_or("Delphi reset held fields absent")?
+            .object_flags &= !0x40000000;
+        Ok(())
+    }
+    fn stop_sound(&mut self, cue: u32) -> Result<(), String> {
+        (self.stop_sound)(cue)
+    }
 }
 impl Session {
     pub fn prepare_delphi_physical(
@@ -83,6 +118,7 @@ impl Session {
             Entry::Controlled {
                 manual,
                 camera: None,
+                post: None,
             },
         )
     }
@@ -105,6 +141,31 @@ impl Session {
             Entry::Controlled {
                 manual,
                 camera: Some(camera),
+                post: None,
+            },
+        )
+    }
+    /// Controlled physical/history -> acquired dry post-physical callback ->
+    /// secondary -> zero-time ANM. Later service failures retain the completed
+    /// physical/post effects and quarantine the owner. Full primary is separate.
+    pub fn advance_delphi_post_physical_controlled(
+        &mut self,
+        id: Id,
+        e: crate::delphi_physical::Environment<'_>,
+        manual: crate::delphi_physical::ManualRotation,
+        post: crate::delphi_post_physical::Context<'_>,
+        ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+        services: &mut crate::actor_animation_phase::Services<'_>,
+    ) -> Result<crate::delphi_physical::View, String> {
+        self.advance_delphi_phases(
+            id,
+            e,
+            ground,
+            services,
+            Entry::Controlled {
+                manual,
+                camera: None,
+                post: Some(post),
             },
         )
     }
@@ -116,10 +177,14 @@ impl Session {
         services: &mut crate::actor_animation_phase::Services<'_>,
         entry: Entry<'_>,
     ) -> Result<crate::delphi_physical::View, String> {
-        let (locomotion, manual, mut camera) = match entry {
-            Entry::Physical => (false, None, None),
-            Entry::Locomotion => (true, None, None),
-            Entry::Controlled { manual, camera } => (true, Some(manual), camera),
+        let (locomotion, manual, mut camera, mut post) = match entry {
+            Entry::Physical => (false, None, None, None),
+            Entry::Locomotion => (true, None, None, None),
+            Entry::Controlled {
+                manual,
+                camera,
+                post,
+            } => (true, Some(manual), camera, post),
         };
         let actor = self
             .get(id)
@@ -131,6 +196,7 @@ impl Session {
         if cycle.resources.locomotion.is_some() != locomotion
             || cycle.resources.manual_rotation != manual.is_some()
             || cycle.resources.authored_camera != camera.is_some()
+            || cycle.resources.post_physical != post.is_some()
         {
             return Err("Delphi phase entry differs from its prepared profile".into());
         }
@@ -192,6 +258,10 @@ impl Session {
         };
         let globals = e.globals;
         let commands = e.commands;
+        let global_seconds = e.global_seconds;
+        let areas = e.areas;
+        let keep_completed = post.is_some();
+        let mut retained = None;
         let result = cycle
             .advance(&fields, &payload, e, manual, ground, |phase| match phase {
                 crate::delphi_physical::Phase::BeforeHeading => {
@@ -213,6 +283,51 @@ impl Session {
                         context.state,
                         pipeline.stamp,
                     )
+                }
+                crate::delphi_physical::Phase::DryReset {
+                    fields,
+                    payload,
+                    physics_flags,
+                    damage,
+                } => {
+                    let context = post
+                        .as_mut()
+                        .ok_or("Delphi physical reset context absent")?;
+                    let word = crate::delphi_physical::word;
+                    let mut state = crate::delphi_dry_reset::State {
+                        controls: fields.control_flags,
+                        internal: word(payload, 0),
+                        second_context: word(payload, 0xf24),
+                        timed_word: f32::from_bits(word(payload, 0xf1c)),
+                    };
+                    let result = crate::delphi_dry_reset::advance(
+                        &mut state,
+                        crate::delphi_dry_reset::Input {
+                            physics_flags,
+                            object_flags: fields.object_flags,
+                            mode: word(payload, 0x5c) as i32,
+                            first_context: word(payload, 0xf20),
+                            equipment_context: word(payload, 0xe2c),
+                            view_mode: context.view_mode,
+                            damage,
+                            limit: f32::from_bits(fields.configuration[12]),
+                            reset: globals.scalar(0x828).map_err(|e| e.to_string())?,
+                        },
+                        &mut DryResetWorld {
+                            session: self,
+                            owner: id,
+                            stop_sound: context.stop_sound,
+                        },
+                    );
+                    fields.control_flags = state.controls;
+                    for (at, value) in [
+                        (0, state.internal),
+                        (0xf24, state.second_context),
+                        (0xf1c, state.timed_word.to_bits()),
+                    ] {
+                        payload[at..at + 4].copy_from_slice(&value.to_le_bytes());
+                    }
+                    result
                 }
                 crate::delphi_physical::Phase::Animation {
                     fields,
@@ -239,73 +354,136 @@ impl Session {
                 }
             })
             .and_then(|mut out| {
-                if let Some(clips) = cycle.resources.locomotion {
-                    let word = crate::delphi_physical::word;
-                    if [0xdb4, 0xf20, 0xf24, 0xe2c, 0xfd0]
-                        .into_iter()
-                        .any(|at| word(&out.payload, at) != 0)
-                    {
-                        return Err(
-                            "Delphi secondary equipment/context/effect producer pending".into()
-                        );
-                    }
-                    let view = &cycle.view;
-                    let selection = crate::delphi_locomotion::select(
-                        crate::delphi_locomotion::State {
-                            mode: word(&out.payload, 0x5c) as i32,
-                            internal: word(&out.payload, 0),
-                            active: out.fields.object_flags,
+                let followup = (|| -> Result<(), String> {
+                    if let Some(context) = post.as_mut() {
+                        let word = crate::delphi_physical::word;
+                        let mut state = crate::delphi_post_physical::State {
+                            timed_word: f32::from_bits(word(&out.payload, 0xf1c)),
                             controls: out.fields.control_flags,
-                            physics: word(&out.payload, 0xd00),
-                            clip: pipeline.channels[0][0],
-                            wrapped: pipeline.channels[0][8] & 2 != 0,
-                            model: view.model,
-                            velocity: view.velocity,
-                            previous_velocity: view.previous_velocity,
-                            position_z: out.fields.position[2],
-                            floor: view.floor,
-                            offset: f32::from_bits(out.fields.configuration[17]),
-                            scale: out.fields.scale,
-                            damage: view.accumulated_damage,
-                            maximum_damage: f32::from_bits(out.fields.configuration[12]),
-                        },
-                        crate::delphi_locomotion::Parameters::from_globals(globals)?,
-                        clips,
-                        &mut pipeline.random,
-                    )?;
-                    for (at, value) in [(0, selection.internal), (0x5c, selection.mode as u32)] {
-                        out.payload[at..at + 4].copy_from_slice(&value.to_le_bytes());
+                            response: out.fields.response_flags,
+                            buttons: u32::from_le_bytes(commands[4..8].try_into().unwrap()),
+                            internal: word(&out.payload, 0),
+                            attack_serial: word(&out.payload, 4),
+                            cleanup_context: word(&out.payload, 0xe38),
+                        };
+                        let result = crate::delphi_post_physical::advance(
+                            &mut state,
+                            crate::delphi_post_physical::Input {
+                                global_seconds,
+                                actor: crate::object_time::Sample {
+                                    owner: out.fields.dispatch_context,
+                                    position: out.fields.position,
+                                },
+                                areas,
+                                local_owner: manual.unwrap().local_owner,
+                                paused,
+                                inhibited: false,
+                                physics_flags: word(&out.payload, 0xd00),
+                                spell: word(&out.payload, 0xdb4) as i32,
+                                mode: word(&out.payload, 0x5c) as i32,
+                                busy_contexts: [
+                                    word(&out.payload, 0xf20),
+                                    word(&out.payload, 0xf24),
+                                    word(&out.payload, 0xe2c),
+                                ],
+                            },
+                            context.world,
+                        );
+                        out.fields.control_flags = state.controls;
+                        out.fields.response_flags = state.response;
+                        cycle.view.post_buttons = Some(state.buttons);
+                        for (at, value) in [
+                            (0xf1c, state.timed_word.to_bits()),
+                            (0, state.internal),
+                            (4, state.attack_serial),
+                            (0xe38, state.cleanup_context),
+                        ] {
+                            out.payload[at..at + 4].copy_from_slice(&value.to_le_bytes());
+                        }
+                        result?;
                     }
-                    out.fields.control_flags = selection.controls;
-                    if let Some(request) = selection.request {
-                        crate::animation_channels::select_primary(
-                            &mut pipeline.channels,
-                            request,
-                            pipeline.blending,
+                    if let Some(clips) = cycle.resources.locomotion {
+                        let word = crate::delphi_physical::word;
+                        if [0xdb4, 0xf20, 0xf24, 0xe2c, 0xfd0]
+                            .into_iter()
+                            .any(|at| word(&out.payload, at) != 0)
+                        {
+                            return Err(
+                                "Delphi secondary equipment/context/effect producer pending".into(),
+                            );
+                        }
+                        let view = &cycle.view;
+                        let selection = crate::delphi_locomotion::select(
+                            crate::delphi_locomotion::State {
+                                mode: word(&out.payload, 0x5c) as i32,
+                                internal: word(&out.payload, 0),
+                                active: out.fields.object_flags,
+                                controls: out.fields.control_flags,
+                                physics: word(&out.payload, 0xd00),
+                                clip: pipeline.channels[0][0],
+                                wrapped: pipeline.channels[0][8] & 2 != 0,
+                                model: view.model,
+                                velocity: view.velocity,
+                                previous_velocity: view.previous_velocity,
+                                position_z: out.fields.position[2],
+                                floor: view.floor,
+                                offset: f32::from_bits(out.fields.configuration[17]),
+                                scale: out.fields.scale,
+                                damage: view.accumulated_damage,
+                                maximum_damage: f32::from_bits(out.fields.configuration[12]),
+                            },
+                            crate::delphi_locomotion::Parameters::from_globals(globals)?,
+                            clips,
+                            &mut pipeline.random,
                         )?;
+                        for (at, value) in [(0, selection.internal), (0x5c, selection.mode as u32)]
+                        {
+                            out.payload[at..at + 4].copy_from_slice(&value.to_le_bytes());
+                        }
+                        out.fields.control_flags = selection.controls;
+                        if let Some(request) = selection.request {
+                            crate::animation_channels::select_primary(
+                                &mut pipeline.channels,
+                                request,
+                                pipeline.blending,
+                            )?;
+                        }
+                        out.fields.channels = pipeline.channels;
+                        let pass = pipeline.advance_sample(
+                            &out.fields,
+                            crate::actor_animation_phase::Sample {
+                                model: view.model,
+                                affine: view.affine.filter(|_| {
+                                    !paused
+                                        || prior_affine.as_ref().is_some_and(|cache| {
+                                            cache.pose == affine_pose_words(&out.fields)
+                                        })
+                                }),
+                                support: view.support,
+                                support_part: view.support_part,
+                            },
+                            0.,
+                        )?;
+                        out.fields.channels = pass.channels;
                     }
-                    out.fields.channels = pipeline.channels;
-                    let pass = pipeline.advance_sample(
-                        &out.fields,
-                        crate::actor_animation_phase::Sample {
-                            model: view.model,
-                            affine: view.affine.filter(|_| {
-                                !paused
-                                    || prior_affine.as_ref().is_some_and(|cache| {
-                                        cache.pose == affine_pose_words(&out.fields)
-                                    })
-                            }),
-                            support: view.support,
-                            support_part: view.support_part,
-                        },
-                        0.,
-                    )?;
-                    out.fields.channels = pass.channels;
+                    Ok(())
+                })();
+                if keep_completed {
+                    retained = Some(out.clone());
                 }
-                Ok(out)
+                followup.map(|()| out)
             });
-        match result {
-            Ok(out) => {
+        let failure = result.as_ref().err().cloned();
+        let completed = match result {
+            Ok(out) => Some(out),
+            Err(_) => retained,
+        };
+        match completed {
+            Some(out) => {
+                if let Some(error) = &failure {
+                    cycle.view.failure = Some(error.clone());
+                }
+
                 self.specifications.get_mut(&id.serial).unwrap().0 = pipeline.references;
                 self.delphi_events = Some(pipeline.bank);
                 *services.contexts = pipeline.contexts;
@@ -344,9 +522,13 @@ impl Session {
                 }
                 let view = cycle.view.clone();
                 self.residents.get_mut(&id.serial).unwrap().delphi_physical = Some(cycle);
-                Ok(view)
+                match failure {
+                    Some(error) => Err(error),
+                    None => Ok(view),
+                }
             }
-            Err(error) => {
+            None => {
+                let error = failure.unwrap();
                 if cycle.view.failure.is_none() {
                     cycle = before_cycle;
                     cycle.view.failure = Some(error.clone());
@@ -727,7 +909,7 @@ mod physical_tests {
         let factory = crate::delphi_special::Factory::load(&resources, &globals, &weapons).unwrap();
         let mut session = Session::new(1281);
         let mut owners = Vec::new();
-        for profile in 0..4 {
+        for profile in 0..5 {
             let id = factory
                 .construct_player_fields(
                     &mut session,
@@ -773,6 +955,11 @@ mod physical_tests {
             } else {
                 prepared
             };
+            let prepared = if profile == 4 {
+                prepared.with_post_physical().unwrap()
+            } else {
+                prepared
+            };
             session
                 .prepare_delphi_physical(id, prepared.clone())
                 .unwrap();
@@ -784,6 +971,8 @@ mod physical_tests {
         let mut random = crate::audio_parameters::Random(1);
         let mut stamp = crate::animation_epoch::Stamp::default();
         let mut entered_camera = crate::delphi_camera::State::default();
+        let mut post_world = crate::delphi_post_physical::World::default();
+        let mut stop_cues = Vec::new();
         let mut ordinary_camera = crate::mecc_camera_update::State::default();
         let mut ordinary_view = crate::delphi_ordinary_view::State::default();
         let executable = std::env::var_os("GIANTS_DELPHI_EXECUTABLE")
@@ -890,7 +1079,7 @@ mod physical_tests {
                         ground,
                         &mut services,
                     )
-                } else {
+                } else if index == 3 {
                     session.advance_delphi_camera_controlled(
                         id,
                         environment,
@@ -908,8 +1097,32 @@ mod physical_tests {
                         ground,
                         &mut services,
                     )
+                } else {
+                    session.advance_delphi_post_physical_controlled(
+                        id,
+                        environment,
+                        crate::delphi_physical::ManualRotation {
+                            sensitivity: 1.,
+                            local_owner: true,
+                            paused,
+                        },
+                        crate::delphi_post_physical::Context {
+                            world: &mut post_world,
+                            view_mode: 0,
+                            stop_sound: &mut |cue| {
+                                stop_cues.push(cue);
+                                Ok(())
+                            },
+                        },
+                        ground,
+                        &mut services,
+                    )
                 }
                 .unwrap();
+                if index == 4 {
+                    assert!(view.post_buttons.is_some());
+                }
+
                 let fields = session
                     .get(id)
                     .unwrap()
@@ -1001,6 +1214,134 @@ mod physical_tests {
             }
         }
         assert!(landed && jumped);
+        assert!(!stop_cues.is_empty() && stop_cues.iter().all(|&cue| cue == 0x34c));
+        let post_owner = owners[4];
+        let environment = |number| crate::delphi_physical::Environment {
+            number,
+            actor_key: 5,
+            globals: &globals,
+            global_seconds: 1. / 60.,
+            areas: &[],
+            commands: [0, 0, 0, 0, 0, 0, 0, 2],
+            launch_blocked: false,
+            objects: &[],
+        };
+        let manual = crate::delphi_physical::ManualRotation {
+            sensitivity: 1.,
+            local_owner: true,
+            paused: true,
+        };
+        let stamp_before = stamp.0;
+        assert!(
+            session
+                .advance_delphi_controlled(
+                    post_owner,
+                    environment(65),
+                    manual,
+                    |_| panic!("Wrong frozen entry must not query terrain"),
+                    &mut crate::actor_animation_phase::Services {
+                        contexts: &mut contexts,
+                        random: &mut random,
+                        stamp: &mut stamp,
+                        blending: crate::animation_channels::Blending::Disabled
+                    },
+                )
+                .is_err()
+        );
+        assert_eq!(stamp.0, stamp_before);
+        assert!(
+            session
+                .delphi_physical(post_owner)
+                .unwrap()
+                .failure
+                .is_none()
+        );
+        let payload = session
+            .residents
+            .get_mut(&post_owner.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap();
+        let old_timed = f32::from_bits(crate::delphi_physical::word(payload, 0xf1c));
+        payload[0xdb4..0xdb8].copy_from_slice(&1_u32.to_le_bytes());
+        post_world.local_word = 77;
+        assert!(
+            session
+                .advance_delphi_post_physical_controlled(
+                    post_owner,
+                    environment(65),
+                    manual,
+                    crate::delphi_post_physical::Context {
+                        world: &mut post_world,
+                        view_mode: 0,
+                        stop_sound: &mut |_| panic!("Paused physical must not stop sound")
+                    },
+                    |_| panic!("Paused physical must not query terrain"),
+                    &mut crate::actor_animation_phase::Services {
+                        contexts: &mut contexts,
+                        random: &mut random,
+                        stamp: &mut stamp,
+                        blending: crate::animation_channels::Blending::Disabled
+                    },
+                )
+                .unwrap_err()
+                .contains("secondary")
+        );
+        let view = session.delphi_physical(post_owner).unwrap();
+        assert_eq!(view.number, 65);
+        assert!(view.failure.is_some());
+        assert_eq!(view.post_buttons, Some(0));
+        assert_eq!(post_world.local_word, 0);
+        assert!(stamp.0 > stamp_before);
+        let payload = session
+            .get(post_owner)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap();
+        assert_eq!(
+            crate::delphi_physical::word(payload, 0xf1c),
+            ((f64::from(old_timed) - f64::from(1_f32 / 60.)) as f32).to_bits()
+        );
+        let retained_payload = payload.to_vec();
+        let retained_stamp = stamp.0;
+        post_world.local_word = 88;
+        assert!(
+            session
+                .advance_delphi_post_physical_controlled(
+                    post_owner,
+                    environment(66),
+                    manual,
+                    crate::delphi_post_physical::Context {
+                        world: &mut post_world,
+                        view_mode: 0,
+                        stop_sound: &mut |_| panic!("Failed cycle must not stop sound")
+                    },
+                    |_| panic!("Failed cycle must not query terrain"),
+                    &mut crate::actor_animation_phase::Services {
+                        contexts: &mut contexts,
+                        random: &mut random,
+                        stamp: &mut stamp,
+                        blending: crate::animation_channels::Blending::Disabled
+                    },
+                )
+                .is_err()
+        );
+        assert_eq!(post_world.local_word, 88);
+        assert_eq!(stamp.0, retained_stamp);
+        assert_eq!(
+            session
+                .get(post_owner)
+                .unwrap()
+                .seed
+                .storage
+                .data()
+                .unwrap(),
+            retained_payload
+        );
         let valid_owner = owners[2];
         let fields = session
             .get(valid_owner)

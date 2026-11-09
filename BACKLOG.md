@@ -197,6 +197,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   cannot replay. Actual input/viewport/depth producers, initial view, complete
   dispatch and renderer/mission scheduling remain prerequisites; no live Delphi
   admission or fidelity status changes follow.
+- Implemented: the frozen controlled dry post-physical profile restores the
+  physical reset after first ANM, then runs post-placement timing/global clearing,
+  paused empty-context cleanup, ordinary non-strike handling, secondary and
+  zero-time ANM in source order. Reset controls match 1,536 cases / 12,288 words;
+  complete dry post controls match 1,232 cases / 1,500,576 words. Two persistent
+  256-frame owned comparisons match 4,081,152 words across 22 actors and exact
+  shared RNG. Reset controls supply the post-ANM boundary and a null sound bank;
+  composed controls supply commands/time/flat world and external metadata.
+  The five-owner lifecycle adds 64 post-profile updates and late-failure retention /
+  no-replay checks. Held visibility and sound-stop providers are explicit;
+  authored-camera/post composition, real input/view/audio producers, equipment,
+  active cleanup, spells, strike/hit routes and full-primary scheduling stay open.
+  See docs/OWNED_DELPHI.md. This does not admit live Delphi or certify fidelity.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary

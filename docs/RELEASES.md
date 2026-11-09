@@ -1,5 +1,36 @@
 # Preview releases and milestone integration
 
+## Delphi controlled dry post-physical composition - 9 November 2026
+
+The acquired physical reset now runs after first ANM and before model-rate
+production, using the actual held list, supplied shared view context, external
+reset parameter and a required owner-bound positional-stop provider. The later
+post callback queries object time at the updated position, handles its selected
+owner/global word and paused empty-context cleanup, then enters the ordinary
+non-strike sword route. The frozen owned entry composes those phases before
+secondary/zero-time ANM, retaining completed effects after later refusal and
+quarantining replay. Earlier entry profiles are preserved.
+
+Reset block/helper controls match 1,536 cases / 12,288 words with supplied
+post-ANM registers/stack and an actual null sound bank. Complete original dry
+post controls match 1,232 cases / 1,500,576 words, without behavior replacements.
+Debug and optimized kernel probes repeat the same inputs. Two persistent owned
+comparisons match 512 frames / 4,081,152 words across 22 actors and exact shared
+RNG. Commands, time, a flat world and metadata remain supplied. The five-owner
+source lifecycle adds 64 new-profile updates and late-failure/no-replay checks.
+
+This is CPU/API integration. Authored-camera/post composition, actual live input /
+view/audio producers, remaining primary/target/item and auxiliary scheduling,
+active cleanup, water/swim/turbo and combat stay open. No live Delphi controls,
+new playable capability, full native error-path parity or visual/audio fidelity
+are claimed. Prior executable/package and capture identities remain unchanged.
+
+The implementation checkpoint passes 794 synthetic Rust tests (30 ignored),
+the enriched five-owner installed-resource control, Rustfmt and Clippy with
+warnings denied. The standalone and owned comparisons retain their exact source
+hashes and declared supplied boundaries. Common-build receipts and subsequent
+combined-source validation are recorded separately.
+
 ## Owned Delphi ordinary view composition - 9 November 2026
 
 The local class-3 mode-zero view now selects acquired external base/scaled
