@@ -21,6 +21,23 @@ service. It does not implement physical stock accounting, run the omitted initia
 callbacks, reconstruct complete world occupancy or admit gameplay. The 545-source
 inventory, 59 reported gaps and zero fully verified cinematic scenes are unchanged.
 
+Source `2a9037590bfac07cf906bae866f7d6a95c731af5` passes 775 synthetic Rust tests
+(29 ignored), 40 Python tests, Rustfmt, Clippy with warnings denied, site export
+and JavaScript syntax checks. Source/history review finds no issues across 337
+reachable commits / 2,497 blobs. The combined-source header comparison and
+four-world source construction/release control pass again.
+
+Its exact GNU executable SHA256 is
+`de683ea64e27ff76fecec8d57ca5c13d1f2caa80c0a9a97b98268645a133195b`.
+CLI startup and both silent offscreen development lifecycle endpoints pass.
+Rstory1 mission-index-2 controls separately pass three active-persistent-object
+service cancellations and two source-terminal/re-entry cycles, including silent
+voice/text ownership and cleanup. No new interactive controls or audible/native
+fidelity are claimed. Receipt-bound notice collection, the unchanged reviewed PE
+import set and all ten ZIP members/checksums are verified. Windows preview
+`preview-2026.11.09.1` has ZIP SHA256
+`7dc78fe22f65e5475d96c82d014e9c1097fdb87fdc9158526b3e86536c1fec15`.
+
 ## Unequipped Mecc jet reserve depletion - 9 November 2026
 
 The owned normal jet driver no longer refuses zero fuel when its existing
