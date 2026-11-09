@@ -1,5 +1,36 @@
 # Preview releases and milestone integration
 
+## Positional hard-landing context preparation - 9 November 2026
+
+The shared null-object effect initializer now preserves both floating intervals
+of the acquired positional-impact frame after its integer cue-selection draw.
+Late invalid/truncated operands cannot commit a partial RNG update. The actual
+PC named wrapper, prepared context and empty retirement match 256 controls /
+512 operations / 17,920 words, including both interval values and all 768 shared
+random draws. Existing slide and positional-popup preparation regressions match
+another 33,280 words. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+Source `a1e7bc72a39b3745805aa26f0f3b2f220318bf67` passes 777 synthetic Rust
+tests (29 ignored), 40 Python tests, Rustfmt, Clippy with warnings denied and all
+five silent installed-resource Mecc controls. It preserves the concurrent Kabuto
+target-decision work. Detailed controls and research remain private; prototype
+PS2 attribution is still unknown.
+
+Its exact GNU executable SHA256 is
+`a77449f6bd7fabd08c176deab21287d258e90c06df2f52ed125857823bffe6b6`.
+The private ten-member validation draft has complete receipt-bound notices and
+independent package verification with zero technical blockers; archive SHA256 is
+`352aa94540a4e261252c928ca915bafc76be657c34a093e676c4b109ad45eae8`.
+Source/history pattern review reports no findings across 344 reachable commits
+and 2,519 blobs. This prerequisite does not establish a new gameplay preview.
+
+The effect is prepared only. Real impact damage/context publication, channel
+selection and subsequent active effect execution remain to be integrated.
+The full movement replay's previous exact step-441 refusal remains its latest
+runtime endpoint; these CPU controls do not certify a later movement step,
+rendered effect, new capture, playable readiness or visual fidelity. Prior
+preview/capture identities retain their original receipts and limitations.
+
 ## Kabuto owned target decision — 9 November 2026
 
 The factory-bound decision now reads the actual owner state threshold and target,

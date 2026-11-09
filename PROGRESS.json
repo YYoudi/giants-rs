@@ -442,7 +442,7 @@
       "title": "Animations and active effects",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Character/equipment animation, attachments, particles, trails, explosions, magic and effect lifecycles."
+      "detail": "Character/equipment animation, attachments, particles, trails, explosions, magic and effect lifecycles. Positional hard-landing context preparation matches 256 native controls, including three ordered shared RNG draws and empty-context retirement. Active impact effects, emitted-object cleanup and full world scheduling remain open."
     },
     {
       "id": "hud-audio",
@@ -532,7 +532,7 @@
       "title": "Playable Windows build stability",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Full-session play, repeated loading/restart, resource cleanup, performance and supported rendering paths. Silent development-session launch/return cycles observed on 4 November 2026; campaign loading, manual input and complete memory reclamation remain unverified. Owned descent/contact selection and real deferred slide-effect preparation now pass the former step-158 boundary. The Bevy replay reaches negative height at step 190 and stops explicitly; that native path and active world effects remain unacquired. See docs/OWNED_MECC_CONTACT.md."
+      "detail": "Full-session play, repeated loading/restart, resource cleanup, performance and supported rendering paths. Silent development-session launch/return cycles observed on 4 November 2026; campaign loading, manual input and complete memory reclamation remain unverified. Owned descent/contact selection and real deferred slide-effect preparation now pass the former step-158 boundary. The latest exact muted-sink Mecc movement replay passes the former height and unequipped fuel-depletion refusals, then stops explicitly at step 441 on an unacquired impact reaction. Hard-landing preparation now has bounded CPU controls; complete impact/health integration and active world effects remain open. See docs/OWNED_MECC_CONTACT.md."
     },
     {
       "id": "fidelity",
