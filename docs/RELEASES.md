@@ -16,6 +16,35 @@ tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript checks. The
 512-case original-PC comparison is a separate private control, not a live gameplay
 or whole-world query validation.
 
+## Kabuto owned post-gravity control forces — 9 November 2026
+
+The Factory-bound Session now consumes its real ANM/gravity state and reuses the
+shared control-target/quaternion/basis/force services. The acquired caller reads
+actual globals/header configuration, position/scale and the incoming speed latch,
+then preserves the original attenuation stores and helper eligibility gates.
+Common helper controls match 512 contexts / 10,462 words; a separate actual source
+Session caller control matches 512 / 210,517 header/payload/parameter/target words,
+including 199 eligible target entries. PC receives an exported post-gravity
+boundary and does not rerun the preceding source phases for each case.
+
+The prior speed latch, commands/time/opaque flags and flat terrain/prepared scene
+remain supplied inputs. The later native latch producer is still required;
+no first-frame speed, new-frame finish or primary completion is fabricated.
+Cache/mirror/factory/order/replay refusals precede mutation, and an ANM failure
+cannot be bypassed. All history and initializer prerequisites remain entered.
+Active event/contact/audio services and the primary/world remainder still block
+live admission. No new asset/dependency or playable Kabuto preview is added;
+existing package/notices/checksum/runtime receipts retain their exact identities.
+Prototype PS2 correspondences remain unknown.
+
+The expanded source control exercises 76 intermediate attenuation ratios,
+43 capped ratios and 393 bypasses, with controlled flat terrains at two heights.
+The combined source passes 817 synthetic Rust tests (42 ignored), fifteen silent
+Kabuto phase controls plus the separate cold-resource control, 40 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The limited source/
+history pattern audit reports zero findings across 473 commits / 3,053 blobs at
+the preceding merge checkpoint; runtime/package receipts retain exact identities.
+
 ## Delphi owned held cache and target ray - 9 November 2026
 
 The owned Delphi service now publishes the acquired normal held matrix and actual

@@ -281,6 +281,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: the owned post-ANM/gravity control-force phase reuses common
+  target/quaternion/basis/force arithmetic. Actual Factory globals, header
+  configuration, position/scale, affine/contact/physics, commands and incoming
+  speed latch feed the acquired caller attenuation and helper gates. The common
+  helpers match 512 original contexts / 10,462 words; the actual source-backed
+  caller interval matches 512 / 210,517, including 199 eligible target entries.
+  Airborne bypass and grounded/default-basis branches retain acquired ordering.
+  The incoming speed latch is supplied in the control; its later producer is
+  still required. Whole-header/payload retention, cache/factory/order/replay
+  refusals and no advance after ANM failure are checked. Pure preparation failure
+  is atomic and does not consume the phase. No primary/history completion occurs.
 - Implemented: the numbered Factory-bound clock/ANM/gravity phase consumes its
   owned model phase, reusing shared channel/reference/epoch/event and gravity
   services. The complete original PC interval matches 512 source-backed contexts
@@ -290,8 +301,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   supplied; preceding phases execute on Rust, not rerun on PC in this control.
   A crossed real resource contact event retains channels/references/epoch,
   quarantines replay and leaves gravity unexecuted when its service is missing.
-  Current event/contact/audio services and control-target/force production still
-  block live primary/frame completion; all history/prerequisites remain entered.
+  Current event/contact/audio services, the later speed-latch producer and the
+  primary remainder still block live completion; all prerequisites remain entered.
 - Implemented: the Factory-bound post-contact model-rate phase reuses the shared
   displacement-to-model service and object-local clock. It requires the real
   numbered classification/additional contacts, owned affine/physics and factory
