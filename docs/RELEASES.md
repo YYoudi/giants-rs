@@ -27,6 +27,13 @@ controls, 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
 checks. Its source/history pattern audit reports zero findings across 459 commits
 and 2,982 blobs; this remains a bounded pattern review.
 
+The later combined checkpoint `142d589f5a390c3c412bb50ad19131e65ab14752`
+additionally retains Kabuto ANM-to-gravity work and passes 817 synthetic tests
+(41 ignored), both actual impact controls, 40 Python tests, Rustfmt, strict
+Clippy and roadmap/site/JavaScript checks. Its bounded source/history audit finds
+zero matches across 465 commits / 3,016 blobs. The executable, main-prefix and
+package receipts below remain bound to the earlier `ad508a4` runtime source.
+
 The common GNU executable SHA256 is
 `8396a9dfb2831f126caa274ed3719db3c0de55fe3e98d22cf885fd768405320d`.
 Its private ten-member draft includes receipt-bound dependency/toolchain notices
