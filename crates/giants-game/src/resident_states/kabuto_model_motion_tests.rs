@@ -84,7 +84,7 @@ fn run_model(animation: bool, control: bool) {
         ];
         f.current = f.position;
         if control {
-            f.position[2] = [-1., -0.01, 10., 40., 50., 100.][case % 6];
+            f.position[2] = [-100., -10., -1., 1., 50., 100.][case % 6];
             f.current = f.position;
             if case % 7 == 0 {
                 f.object_flags |= 0x10;
@@ -154,6 +154,11 @@ fn run_model(animation: bool, control: bool) {
                 },
             )
             .unwrap();
+        let floor = if control && case % 5 == 0 {
+            -200f32
+        } else {
+            0f32
+        };
         factory
             .advance_classification(
                 &mut s,
@@ -166,8 +171,9 @@ fn run_model(animation: bool, control: bool) {
                 },
                 |xy| {
                     Ok(crate::physical_ground::Ground {
-                        plane: [0., 0., 1., -0.],
-                        height: -((f64::from(xy[0]) * 0. + f64::from(xy[1]) * 0.) + -0.) as f32,
+                        plane: [0., 0., 1., -floor],
+                        height: -((f64::from(xy[0]) * 0. + f64::from(xy[1]) * 0.)
+                            - f64::from(floor)) as f32,
                         key: [0, 0],
                     })
                 },

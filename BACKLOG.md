@@ -278,7 +278,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   configuration, position/scale, affine/contact/physics, commands and incoming
   speed latch feed the acquired caller attenuation and helper gates. The common
   helpers match 512 original contexts / 10,462 words; the actual source-backed
-  caller interval matches 512 / 210,253, including 111 eligible target entries.
+  caller interval matches 512 / 210,517, including 199 eligible target entries.
   Airborne bypass and grounded/default-basis branches retain acquired ordering.
   The incoming speed latch is supplied in the control; its later producer is
   still required. Whole-header/payload retention, cache/factory/order/replay

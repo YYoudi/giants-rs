@@ -1138,8 +1138,8 @@ A separate actual Factory/Session control runs cold construction, numbered histo
 motion, classification, additional contacts, model rates and the real cold ANM/
 gravity phase. It exports its post-gravity input before the Rust consumer. The
 original complete caller interval then computes attenuation and executes the
-common target/force path. All 512 contexts / 210,253 normalized header/payload/
-caller-parameter/target words match, including 111 eligible target entries and
+common target/force path. All 512 contexts / 210,517 normalized header/payload/
+caller-parameter/target words match, including 199 eligible target entries and
 both grounded and airborne contexts. Other header/payload words, counts/lists and
 prior phase state remain unchanged. PC does not rerun the preceding source phases
 in this control and never supplies computed output to Rust.
