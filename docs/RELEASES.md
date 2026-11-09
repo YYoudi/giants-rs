@@ -18,6 +18,13 @@ Native function-name lookups remain unassigned. This is a test/documentation
 milestone, enabling no new ordinary gameplay and producing no new public binary;
 existing preview receipts, notices and checksums keep their original identities.
 
+Combined source `4ae238d1bd786c35d095cfcf3079434107054495` preserves the current
+Flick, Kabuto and integration work. It passes 829 workspace Rust tests (47
+ignored), the separate installed NPC control, 41 Python tests, Rustfmt, strict
+workspace Clippy and generated roadmap/site/JavaScript checks. The limited source
+history audit reports zero findings across 527 commits / 3,330 blobs. These
+results are source/CPU validation, not a new executable or gameplay receipt.
+
 The main integration lane follows [INTEGRATION.md](INTEGRATION.md) to combine
 reviewed Flick, Mecc, Delphi, Kabuto and NPC contributions in one public build.
 Source merge, CPU validation, ordinary gameplay reachability and downloadable
