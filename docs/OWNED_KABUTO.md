@@ -1407,6 +1407,9 @@ Both retain original normalization and observe ordered clock/announcement/marker
 prefixes. Source and candidate headers remain unchanged; marker storage is an
 explicit separate output. Mode, reference/current actors, parameters, bounds,
 pose, viewport, list and publication storage remain declared inputs.
+Used geometry and intermediate directional values require the acquired finite,
+nonzero-scale profile; the query score may retain negative infinity. Aliased
+component storage and nonfinite geometry remain outside these controls.
 
 These kernels are not a numbered Factory/Session target phase. Actual typed target
 ownership and lifetime, backing bounds/view producers, marker/global publication,

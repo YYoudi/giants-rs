@@ -92,10 +92,10 @@ pub fn advance<K: Copy + Eq>(
     if !source_reference_present {
         state.retained = None;
     }
-    if let Some(target) = state.retained {
-        if services.parent(target)? == Some(owner) {
-            state.retained = None;
-        }
+    if let Some(target) = state.retained
+        && services.parent(target)? == Some(owner)
+    {
+        state.retained = None;
     }
     if let Some(target) = state.retained {
         let p = services.pose()?;
@@ -128,10 +128,9 @@ pub fn advance<K: Copy + Eq>(
             return Err("Kabuto retained-reference directional input overflow".into());
         }
         let normal = crate::sun_glare::normalize(delta);
-        let expression = (((f64::from(p.axis[2]) + f64::from(p.axis[0])) * f64::from(normal[0])
+        let expression = -(((f64::from(p.axis[2]) + f64::from(p.axis[0])) * f64::from(normal[0])
             + f64::from(normal[1]) * f64::from(p.axis[1]))
-            * f64::from(inverse_scale))
-            * -1.;
+            * f64::from(inverse_scale));
         if expression < f64::from(0.707_f32) {
             state.retained = None;
         }
