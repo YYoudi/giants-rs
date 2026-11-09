@@ -1,5 +1,34 @@
 # Preview releases and milestone integration
 
+## Owned positional-impact birth - 9 November 2026
+
+The single-body positional constructor publishes an actual owned Session state-78
+actor before invoking its required cue provider. Later size, lifetime, fade and
+angular commands use the same RNG after that call. Success retires the temporary
+context; late failure preserves the actor, context reservation and prior effects
+and refuses replay through replacement factories. Source images, class/state
+bindings, typed origin and actual affine cache remain owned.
+
+With the original audio-disabled gate, 256 native endpoints and four cue-entry
+snapshots match 67,600 complete normalized header/payload words. A silent resource
+control additionally checks provider RNG interleaving, failure/foreign/replay
+guards and ownership after the pool and resources are released. These are CPU
+birth controls. Live cue transport, actor callback/retirement and the independent
+impact damage/channel integration remain prerequisites. The latest exact main
+movement endpoint stays bound to its earlier step-441 refusal; no new screenshot,
+playable admission or fidelity is claimed. Prototype PS2 attribution remains
+unknown, with the next callback lookup retained privately.
+
+Implementation `841c6a8` passes 798 synthetic Rust tests (31 ignored), the new
+source-resource control, strict Clippy and 40 Python tests. Combined source
+`ea47ca1005401ae101395062aa2063d6c45c852c` preserves concurrent Delphi dry-reset/
+post-physical, Kabuto contact/classification and sized-effect initialization.
+It passes 806 synthetic Rust tests (33 ignored), five installed-resource Mecc
+controls and the new birth control, Rustfmt, strict Clippy, 40 Python tests and
+roadmap/site/JavaScript checks. Its private build/package receipts are recorded
+separately below when complete; previous previews retain their exact identities.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
 ## Kabuto additional-contact callback dependency — 9 November 2026
 
 The callback required by the next object-contact traversal now preserves its
