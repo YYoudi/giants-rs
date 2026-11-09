@@ -23,6 +23,13 @@ package receipt is promoted. No dependency or bundled asset is added; existing
 Windows preview binaries, notices and checksums retain their identities.
 
 
+Final combined checkpoint `a6106fb` additionally retains the newer sized-FX
+initialization prerequisite. It passes 805 Rust tests (32 ignored), all ten Kabuto
+installed-data controls, 40 Python tests, Rustfmt, strict Clippy and site/JavaScript
+checks. Source audit covers 401 commits / 2,740 blobs with zero findings. The rebuilt
+512-context callback runner repeats its comparison. This is source validation;
+the common executable receipt below remains pinned to `7d0692a`.
+
 ## Sized FX initial preparation — 9 November 2026
 
 The common effect initialization service now handles the acquired complete frame
