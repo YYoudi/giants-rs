@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Detection, navigation, pursuit, attacks, reactions, faction relationships and scripted boss encounters."
+      "detail": "Detection, navigation, pursuit, attacks, reactions, faction relationships and scripted boss encounters. Existing Ripper perception, primary/attack and awakening/emergence services plus shared enemy response/projectile kernels are inventoried in docs/OWNED_NPCS.md. Complete live actor/world scheduling, real firing/effect/audio providers and remaining enemy/boss profiles remain open; this inventory enables no new ordinary gameplay."
     },
     {
       "id": "wildlife",
@@ -361,7 +361,7 @@
       "title": "Wildlife and non-player inhabitants",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Vimps, herds and other creatures: movement, feeding, fleeing, interactions and mission roles."
+      "detail": "Vimps, herds and other creatures: movement, feeding, fleeing, interactions and mission roles. Existing source-backed herd/Vimp services now have a retained authored-resource ownership regression: 28 parents, 313 initialized children and 26 injected terrain failures on the tested installation. Two parents become inactive without eligible world-only markers; mission markers are outside this fixture and two world files are parser-refused. Flat floor, clock and RNG are supplied. Ordinary live AI, player threat/feeding responses, world scheduling, rendering and audio remain open. See docs/OWNED_NPCS.md."
     },
     {
       "id": "combat",

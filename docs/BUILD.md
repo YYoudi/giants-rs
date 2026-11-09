@@ -53,6 +53,22 @@ or GIANTS_INSPECTION_FONT, never bundled. Game data is read-only; user state goe
 outside the installation. Interactive coverage is limited to the exact preview
 and mission recorded in RELEASES.md; broader gameplay and fidelity remain pending.
 
+## Optional NPC source-resource lifecycle check
+
+For NPC source-resource ownership regression, set `GIANTS_NPC_ROOT` to the
+user-supplied installation and use an isolated Cargo target:
+
+```powershell
+cargo test --locked -p giants-game source_npc_herd --target x86_64-pc-windows-gnu -- --ignored --nocapture
+```
+
+This silent CPU check uses authored herd/marker values with a supplied flat
+floor, clock and RNG. It covers births, first initialization, owner identity,
+terrain-failure quarantine, replay refusal and cleanup. It does not establish
+live NPC AI, player interaction, world scheduling or rendering. See
+[OWNED_NPCS.md](OWNED_NPCS.md).
+It loads world declarations only; mission markers are outside this fixture.
+
 ## Optional subjective Mecc lifecycle check
 
 The main owned inspection's model settings and limits are documented in

@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## NPC reconstruction inventory and source ownership regression — 9 November 2026
+
+The dedicated NPC lane consolidates existing herd/Vimp, Ripper, shared enemy
+projectile/response and Smartie interaction services in
+[OWNED_NPCS.md](OWNED_NPCS.md), with remaining work in `BACKLOG.md`.
+The optional installed-data regression retains authored herd/marker values and
+order, composes real Rust births and first initialization, checks parent/session
+ownership, repeated-initialization refusal and terrain-failure quarantine without
+service/RNG replay. A supplied flat floor, timestep and seed remain boundaries.
+
+The first run covers 28 parents / 313 initialized children and 26 injected
+terrain failures. Two parents become inactive without eligible world-only markers; two
+world files are refused by the parser. Both exclusions remain explicit. No
+original executable, complete living AI, rendering or audio is exercised.
+Native function-name lookups remain unassigned. This is a test/documentation
+milestone, enabling no new ordinary gameplay and producing no new public binary;
+existing preview receipts, notices and checksums keep their original identities.
+
 The main integration lane follows [INTEGRATION.md](INTEGRATION.md) to combine
 reviewed Flick, Delphi, Kabuto and future Mecc contributions in one public build.
 Source merge, CPU validation, ordinary gameplay reachability and downloadable
