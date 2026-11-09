@@ -67,8 +67,9 @@ and cross-lane regression checks over additional stand-alone demonstrations.
 
 Delivery milestone, 9 November: NPC baseline PR #2 is merged and combined Windows
 preview `preview-2026.11.09.12` is published with independently verified public
-assets. `docs/public-preview.json` pins that download separately from newer source
-progress. This does not close ordinary native Mecc motion/impact or other-character/
+assets. Each build retains its immutable receipts; `docs/public-preview.json`
+pins the current verified download separately from newer source progress.
+This does not close ordinary native Mecc motion/impact or other-character/
 NPC world admission; continue connecting ready services through the common runtime.
 
 The following combined source integration retains Mecc local-voice transport,
@@ -81,15 +82,17 @@ suppression-gate producers (historical `cutscene` field), keeping the non-mode-4
 authority path distinct from the still
 supplied mode-4 delegate. A selected camera mode does not establish a prepared
 subjective actor. Preserve these prerequisites when consuming the next Mecc lot.
-The current independently verified download is `.13`; its snapshot and receipts
+The current independently verified download is `preview-2026.11.10.1`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
 The 10 November integration review exercised the published `.13` menu, opening
 skip, ordinary Mecc entry and menu return on an independent muted profile. Its
 per-emitter ambient step trace produced about 183 MiB of local output during the
-session. Make this detailed trace opt-in while preserving lifecycle/error events,
-validate both trace settings against real muted sinks, and carry the correction
-into the next receipt-bound combined Windows preview. This does not close the
+session. The detailed trace is now opt-in, lifecycle/error events remain enabled,
+and both settings pass the existing silent zero-PCM/gain-zero real-sink controls.
+The correction is published in the receipt-bound combined Windows preview above,
+with a manual menu/skip/mission/return/re-entry check on its exact executable.
+This does not close the
 ordinary native jet/descent/landing or held-input/fidelity prerequisites above.
 
 - Review committed Flick, Mecc, Delphi, Kabuto and NPC contributions against actual
