@@ -37,6 +37,14 @@ fidelity are claimed. Receipt-bound notice collection, the unchanged reviewed PE
 import set and all ten ZIP members/checksums are verified. Windows preview
 `preview-2026.11.09.1` has ZIP SHA256
 `7dc78fe22f65e5475d96c82d014e9c1097fdb87fdc9158526b3e86536c1fec15`.
+The published ZIP and both adjacent checksum files were independently downloaded;
+all ten members and their manifest/checksum entries agree.
+
+Combined checkpoint `f9df92d` preserves the newer owned Kabuto target-decision
+work and passes 777 Rust tests (29 ignored), 40 Python tests, Rustfmt, Clippy,
+site/JavaScript checks and the 512-case / four-world header control. Source/history
+review reports no findings across 343 commits / 2,518 blobs. This source checkpoint
+does not relabel the exact executable, runtime or ZIP receipts above.
 
 ## Kabuto owned target decision — 9 November 2026
 
