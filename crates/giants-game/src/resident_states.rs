@@ -4778,8 +4778,7 @@ impl Session {
         actor.acquired_construction = true;
         if mission {
             let fields = actor.construction_fields.as_mut().unwrap();
-            fields.object_flags |= 0x400;
-            fields.response_flags |= 0x20000000;
+            fields.mark_mission_placement();
             staged.prepare_actor_affine(id)?;
         }
         self.publish_staged(staged, id)
@@ -8688,8 +8687,24 @@ impl Session {
         input: Construction<'_>,
         writes: &[&giants_formats::mission::StateWriteKind],
     ) -> Result<Id, String> {
+        // The generic main-loader profiles currently acquired here are
+        // ordinary state0/state23. Other character constructors retain their
+        // own startup ordering until their complete load path is acquired.
+        let mission_header = key.scope == crate::declared_residents::Scope::Mission
+            && matches!(input.seed.storage.state(), 0 | 23);
         self.construct_source_declaration(key, |session| {
-            session.construct_with_state_writes(input, writes)
+            let id = session.construct_with_state_writes(input, writes)?;
+            if mission_header {
+                session
+                    .residents
+                    .get_mut(&id.serial)
+                    .unwrap()
+                    .construction_fields
+                    .as_mut()
+                    .unwrap()
+                    .mark_mission_placement();
+            }
+            Ok(id)
         })
     }
     /// Trusted acquired constructors publish the source key only after their
@@ -10154,6 +10169,91 @@ mod tests {
     }
     fn animation_actor(session: &mut Session) -> Id {
         fixture_actor(session, 73, 23)
+    }
+    #[test]
+    fn mission_declaration_header_follows_validated_construction_and_preserves_scope() {
+        use crate::declared_residents::{Key, Scope};
+        let mut session = Session::new(187);
+        for state in [0, 23] {
+            let template = fixture_actor(&mut session, 73, state);
+            let body = session.specification(template).unwrap().clone();
+            let resources = session.state_resources(template).unwrap().clone();
+            let mut fields = session
+                .get(template)
+                .unwrap()
+                .construction_fields
+                .clone()
+                .unwrap();
+            fields.configuration[13] = 17;
+            let seed = seed(state);
+            let make = |fields| Construction {
+                class: 73,
+                seed: &seed,
+                bindings: &[],
+                flags: DirectFlags::default(),
+                specification: body.clone(),
+                state_resources: resources.clone(),
+                fields,
+            };
+            let world_key = Key {
+                scope: Scope::World,
+                index: usize::from(state),
+            };
+            let world = session
+                .construct_declaration(world_key, make(fields.clone()))
+                .unwrap();
+            let mission_key = Key {
+                scope: Scope::Mission,
+                index: usize::from(state),
+            };
+            let before = session.counts();
+            let next = session.next;
+            let mut invalid = fields.clone();
+            invalid.configuration[19] = 1;
+            assert!(
+                session
+                    .construct_declaration(mission_key, make(invalid))
+                    .is_err()
+            );
+            assert_eq!(session.counts(), before);
+            assert_eq!(session.next, next);
+            assert!(session.declaration(mission_key).is_none());
+            let mission = session
+                .construct_declaration(mission_key, make(fields.clone()))
+                .unwrap();
+            let w = session
+                .get(world)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap();
+            let m = session
+                .get(mission)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap();
+            assert_eq!(w.object_flags, fields.object_flags);
+            assert_eq!(w.response_flags, fields.response_flags);
+            assert_eq!(m.entry_contribution().word_1c4, 17);
+            assert_eq!(
+                crate::mission_selection::EntryContribution::total([
+                    w.entry_contribution(),
+                    m.entry_contribution()
+                ]),
+                17
+            );
+            assert_eq!(m.channels, w.channels);
+            assert_eq!(m.configuration, w.configuration);
+            let before = session.counts();
+            assert!(
+                session
+                    .construct_declaration(mission_key, make(fields))
+                    .is_err()
+            );
+            assert_eq!(session.counts(), before);
+            assert_eq!(session.declaration(mission_key), Some(mission));
+        }
     }
     #[test]
     fn target_headers_require_owned_identity_and_keep_special_header_unknown() {
