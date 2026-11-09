@@ -17,6 +17,55 @@ not establish availability in the ordinary controller of a current download.
 In particular, the historical jet/descent/contact captures do not close the Mecc
 input-to-landing integration prerequisite. No gallery assets or receipts change.
 
+
+## Mecc nonlethal impact voice composition — 9 November 2026, source only
+
+The owned kind-16 voice tail now composes actual Session health, its shared
+countdown and the VM RNG in acquired order. Two original-PC/Rust controls agree
+on 136 declared contexts / 136 cue entries / 1,224 selected words, including
+half-health and integer-choice boundaries. The voice checkpoint precedes later
+selector effect draws. Native and Rust cue services are supplied boundaries;
+this is not original-process playback or device fidelity.
+
+The optional primary provider completes one controlled falling-entry frame and
+prepares its real positional context. Injected pain/shared-cue failures retain
+damage and completed timing and refuse another frame. Actual App voice transport,
+wounded continuation, world scheduling and main-driver impact admission remain
+open. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md). This branch handoff adds
+no dependency, new playable capture or downloadable preview; all earlier source,
+executable, notices and package/checksum receipts retain their exact identities.
+The main integration lane owns combined publication after review and validation.
+
+## Kabuto owned post-control/resource composition — 9 November 2026
+
+The actual Factory/Session phase now continues from its control-force token
+through the acquired guard into resource/charge/next-speed-latch production.
+Current owner damage/class limit, descriptor/channels, model/buttons and repeated
+shared object-clock queries drive it. The original combined interval matches 512
+source-backed contexts / 1,317,724 final/scratch/clock/service-prefix words,
+including 2,389 clocks, 170 sound requests and 170 notifications.
+
+Required entry providers observe the published Session; later consumers reread
+changed header/payload values. Failure retains prefix/provider effects and blocks
+replay; cancellation avoids stale owner writes. Source lifecycle refusal and ANM
+failure are checked. Prior state/commands, sine tables, raw world/network context
+and flat/empty prepared scene remain boundaries. Entry providers do not execute
+audio/network backends or the original reinitialization internals; the required
+global tail, following action/animation and full primary/world cadence remain
+open. No history/initializer prerequisite is cleared or gameplay admitted.
+
+No dependency, asset, new capture or downloadable Kabuto preview is introduced.
+Existing preview notices/checksums and runtime/package receipts keep their exact
+source identities. Prototype PS2 correspondence remains unknown.
+
+Combined checkpoint `7635261` passes 829 synthetic Rust tests (46 ignored), all
+sixteen silent Kabuto phase controls plus the separate cold-resource control,
+41 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The
+source-backed comparison repeats 512 / 1,317,724 after the merge; the isolated
+kernel comparisons also repeat successfully. The limited source/history pattern
+review reports zero findings across 519 commits / 3,290 blobs. Existing binaries
+retain their independent source and runtime/package receipt identities.
+
 ## Timed effect program configuration — 9 November 2026
 
 Independent main-lane delivery checks downloaded all three `.9` assets and
