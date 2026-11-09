@@ -4,6 +4,73 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Lens and projection arithmetic - 9 November 2026
+
+`camera_lens::State` implements the acquired finite transition, selected-kind
+eligibility, input scale and explicit FOV override. Lens transition uses global
+frame time, not actor-local slowed time. `camera_projection::build`
+produces the source-space perspective matrix and lens caches from actual supplied
+viewport/depth parameters. `camera_projection::advance` composes them in order;
+a completed transition survives a later projection refusal. These are CPU
+services. They do not select a camera profile, source input state, produce the
+world depth terms, publish to a device or adapt the matrix to Bevy coordinates.
+
+Original PC controls match 25,091 lens cases / 50,182 words, 9,720 projection
+cases / 184,680 words and 1,571 composed calls / 31,420 words. Both ordinary and
+optimized Rust probes repeat these same inputs; they are not additional unique
+trajectories. The original profile getter and kind predicates run with supplied
+FOV fields in the lens controls. Projection math executes before an observed,
+skipped device-publication boundary. The combined controls execute both original
+bodies; Rust receives requested inputs, not native transition/matrix outcomes.
+
+The finite perspective profile refuses unusable depth intervals and lens values;
+this is not a claim of native error-path parity. Real profile/input/viewport/depth
+production, complete camera dispatch, owned-view/renderer/mission integration,
+water/turbo and combat remain pending. Prototype PS2 attribution of these added
+services remains unknown. Detailed controls and original data remain private.
+
+## Ordinary third-person camera slice - 6 November 2026
+
+`mecc_camera_update::State::advance_delphi_third_person` reuses the common camera
+pose, floor iteration, wall-provider, view and viewport kernels. Its acquired
+class-3 distance policy consumes the actual control word: one flag adds a stored
+float offset and changes the temporal-approach coefficient. The common approach
+kernel now takes that coefficient explicitly; the Mecc entry retains its former
+coefficient and behavior. Geometry remains calculated before the chase update.
+No gameplay meaning or producer is assigned to this flag by the camera helper.
+
+`delphi_camera::ordinary_profile` reads the base third-person class-3 record from
+user-supplied initialized PE data, without executing or bundling native code.
+Only the acquired debug-reference layout is accepted. Other layouts refuse;
+profile switching, zoom and projection remain separate. Synthetic relocated-data
+and invalid-input checks pass; the private installed-data reader matches all five
+fields of the actual native-selected immutable profile.
+
+`Session::advance_delphi_ordinary_camera` binds position, heading, independent
+look angle, scale, look height and control word from the actual owned actor after
+its completed controlled frame. Foreign identities, wrong profiles/frames and
+failed physical cycles refuse. The caller still supplies global time, profile
+and floor/wall providers. The source-data lifecycle exercises 64 such updates,
+including paused body settling, and rejects future-frame calls before providers.
+
+A 5,566-case original-PC/Rust distance control matches 11,132 output words. A
+separate three-sequence ordinary camera control matches 768 steps / 14,592 pose,
+chase and cached position/angle words. It runs the complete native normal-camera
+entry and original trig initialization with a synthetic class-3 actor and actual
+immutable profile. Floor queries are excluded; walls are a declared no-hit
+provider and final view arguments are captured instead of renderer publication.
+The same 768-step / 14,592-word class-2 control preserves the shared Mecc path.
+Debug and optimized probes repeat these same inputs, not additional unique cases.
+
+These controls do not compare the newly returned Rust view/viewport matrices
+against the complete native renderer; their common kernels retain their previous
+separate evidence. Vehicle/carried actors, scale modifiers, underwater floor
+rules, smoothed angles, shake, dynamic FOV/projection, dispatcher/target selection,
+full-primary/world scheduling and mission/renderer wiring remain open. Below-water
+floor work refuses explicitly. This adds no live Delphi admission or fidelity
+claim. Delphi-specific prototype PS2 attribution remains unknown; previously
+reviewed common-service identities keep their separate status.
+
 ## Authored camera reference and callback - 6 November 2026
 
 `Session::sample_reference_camera` resolves a declared reference from the actual

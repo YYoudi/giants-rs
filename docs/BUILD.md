@@ -132,7 +132,11 @@ The same control also samples real owned camera references and checks Delphi's
 standalone and entered camera callbacks: retained/reset views, inactive inputs,
 foreign targets, rejected profiles and failure quarantine. It verifies that a late
 rotation failure retains completed camera effects and prevents their replay. It does not acknowledge camera rendering
-or production full-primary scheduling. Private native comparisons retain their
+or production full-primary scheduling. It also performs 64 ordinary third-person
+camera updates from the completed controlled actor, using a supplied synthetic
+profile and flat/no-hit providers. Future frames and other profiles refuse before
+querying those providers. This is separate from the external immutable profile
+reader and from production camera dispatch. Private native comparisons retain their
 separate arithmetic and test-driver scope in [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
 The locomotion profile reads the original executable's data as an external asset.

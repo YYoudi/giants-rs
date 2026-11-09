@@ -1,6 +1,58 @@
 //! Owned pre-heading camera callback; callers still supply actual world context.
 use super::*;
 impl Session {
+    /// Ordinary third-person/direct-angle camera after a completed controlled
+    /// frame. Profile, global time and world providers remain supplied boundaries;
+    /// this does not execute the full camera dispatcher or acknowledge rendering.
+    pub fn advance_delphi_ordinary_camera(
+        &self,
+        id: Id,
+        frame: u64,
+        seconds: f32,
+        profile: crate::mecc_camera_update::Profile,
+        state: &mut crate::mecc_camera_update::State,
+        world: &mut impl crate::mecc_camera_update::World,
+    ) -> Result<crate::mecc_camera_update::Output, String> {
+        let actor = self
+            .get(id)
+            .ok_or("Delphi camera owner absent or foreign")?;
+        let cycle = actor
+            .delphi_physical
+            .as_ref()
+            .ok_or("Delphi ordinary camera requires its controlled frame")?;
+        if actor.class != 3
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 3
+            || !cycle.resources.manual_rotation
+            || cycle.view.number != frame
+            || cycle.view.failure.is_some()
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+        {
+            return Err(
+                "Delphi ordinary camera requires its completed ordinary controlled frame".into(),
+            );
+        }
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("Delphi camera fields absent")?;
+        state.advance_delphi_third_person(
+            crate::mecc_camera_update::Input {
+                number: frame,
+                position: fields.position,
+                yaw: fields.angles[0],
+                pitch: cycle.view.look,
+                look_height: f32::from_bits(fields.configuration[22]),
+                scale: fields.scale,
+                skip_floor: fields.object_flags & 0x10 != 0,
+                seconds,
+                profile,
+            },
+            fields.control_flags,
+            world,
+        )
+    }
     pub fn advance_delphi_camera(
         &self,
         id: Id,

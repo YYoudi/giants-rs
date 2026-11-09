@@ -37,6 +37,73 @@ runtime endpoint; these CPU controls do not certify a later movement step,
 rendered effect, new capture, playable readiness or visual fidelity. Prior
 preview/capture identities retain their original receipts and limitations.
 
+
+## Camera lens and projection kernels - 9 November 2026
+
+The acquired common lens transition/scaling and finite source-space perspective
+kernels now compose in source order. Native/Rust controls match 25,091 lens cases
+/ 50,182 words, 9,720 projection cases / 184,680 words and 1,571 composed calls /
+31,420 words. Debug and optimized probes repeat the same inputs. Override keeps
+the transition; completed lens effects survive a later projection refusal.
+
+The native profile getter/kind predicates execute with supplied profile values.
+The composed native controls execute projection math before an observed, skipped
+device publication. Profile/input/viewport/depth production, complete dispatch,
+owned-view/renderer/mission integration, water/turbo and combat remain pending.
+CPU arithmetic is not visual fidelity or a new playable Delphi capability.
+
+Combined source `b1879512d4e178c095512c9fee67348879714141` passes 781
+synthetic Rust tests (29 ignored), 40 Python tests, Rustfmt, Clippy and generated
+site/JavaScript checks. Its exact GNU executable passes both silent development
+lifecycle endpoints and three persistent-owner opening/cancellation cycles for
+Rstory1 mission 2. These are common-runtime regressions, not Delphi gameplay.
+Executable SHA256:
+`f08aa0188027c87e8ab2e72ca50660677c59af0c4b2f4c0a2ef86e490557d92c`.
+The ten-member private validation draft has complete receipt-bound notices and
+no technical verifier blockers; ZIP SHA256:
+`e317a5cb7eb9df277c2853a6fa6fc6283d1b6b887668cb22531838fd9a954a40`.
+No playable download follows from this CPU milestone.
+
+Combined checkpoint `2b476d1` additionally preserves current mission-header,
+Kabuto target-decision and Mecc reserve-depletion work. It passes 784 synthetic
+Rust tests (29 ignored), 40 Python tests, Rustfmt, Clippy and generated site /
+JavaScript checks. This source checkpoint retains the exact earlier executable
+and package identities above; it does not relabel them as later runtime tests.
+
+## Delphi ordinary third-person camera slice - 6 November 2026
+
+The shared camera producer now consumes Delphi's acquired distance policy while
+preserving the Mecc entry. A Session API binds actual owned position, heading,
+look, scale, look height and control flags after the matching controlled frame.
+Wrong profiles/frames and failed cycles refuse. The base third-person profile
+loads read-only from user-supplied acquired debug metadata; other layouts refuse.
+
+Distance controls match 5,566 original-PC cases / 11,132 words. Three 256-step
+normal-camera sequences match 14,592 pose/chase/cache words with original trig
+and an actual immutable profile. A separate class-2 regression matches 768 steps /
+14,592 words. Debug and optimized probes repeat the same inputs. The normal-entry
+controls use synthetic actors, exclude floor work, supply no-hit walls and capture
+final view arguments; they do not execute renderer publication. The enriched
+four-owner source-data lifecycle also performs 64 ordinary-camera updates and
+checks pre-provider refusals. Relocated metadata and invalid-input guards pass.
+
+Full camera dispatch/target selection, dynamic FOV/projection, underwater floor,
+angle smoothing/shake, full-primary/world scheduling and renderer/mission wiring
+remain open. This is CPU/API integration, with no new playable Delphi download or
+fidelity claim. Delphi-specific prototype PS2 attribution remains unknown; common
+reviewed service identities are retained separately from behavior coverage.
+
+
+The exact `22a301ec43a706ea628310d3a7c8eef540a7a5e5` GNU build passes both
+silent development lifecycle endpoints and three persistent-owner opening /
+cancellation cycles for Rstory1 mission 2. These are common-runtime regressions,
+not Delphi gameplay or complete cinematic transport. Its ten-member private
+draft has complete notices, matching receipt/review identities and no technical
+verifier blockers. Executable SHA256:
+`50225a58f1791f1fe41029b019fe3d7c24bb07a9b2f28460c964715006fa00ae`;
+private ZIP SHA256:
+`987a98e9249ca3c7841127abdd904477a785b0d79eb518d31b18146a8eb3051e`.
+This earlier binary does not include the later lens/projection kernels.
 ## Ordinary mission placement header — 9 November 2026
 
 The common owned declaration constructor now preserves the original mission
