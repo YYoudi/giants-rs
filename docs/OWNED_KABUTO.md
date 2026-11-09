@@ -1272,3 +1272,34 @@ Actual reinitialization internals, global-tail execution, class sound/notificati
 backends and following action/animation consumers remain required before whole
 primary or live world admission. No new gameplay capture, playable preview or
 visual-fidelity claim follows. Prototype PS2 correspondence remains unknown.
+
+
+## Shared velocity-addition dependency after resources — 9 November 2026
+
+`actor_velocity_impulse::apply` acquires the required shared helper used by the
+following actor-reference consumer. It ignores absent/unsupported actor states,
+uses the supplied explicit vector or the acquired scale/physical-factor/basis
+default, and stores the complete target velocity before querying source-owner
+notification eligibility. The message preserves the full target owner word;
+source eligibility uses the existing shared low-byte guard. Its observer receives
+the actual post-store target, rather than a recomputed copy. A failed transport
+retains those stores; this is owned refusal rather than native exception parity.
+
+Original-PC controls match 512 declared cases / 208,572 source/target header,
+delta and service-prefix words: 277 applications and 23 notification requests.
+They cover source/target alias, absent or rejected targets, explicit/default
+vectors, signed zero, varying raw peer/mode context and different full-width
+source/target owner words. The Double53 caller profile, finite velocities/outputs,
+finite nonzero source scale/default parameters and separate explicit vector
+storage are declared boundaries. Invalid unused fallback data is not consumed
+on explicit-vector or rejected-target paths. The network entry records the
+published prefix and ignores its return as in the acquired caller; it executes
+no transport backend. Synthetic controls also check lazy rejection and retained
+post-store state after transport failure.
+
+This helper is not yet a typed Session target/velocity dispatcher or a new Kabuto
+phase. The following reference timer, target-specific release, view/range/query
+and action/animation composition remain pending. Player/NPC interactions require
+both lane contracts and actual runtime validation. No live control, new capture,
+downloadable preview or fidelity claim follows. Prototype PS2 correspondence is
+unknown; detailed lookup and acquisition records remain private.

@@ -328,6 +328,21 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented, shared CPU dependency of the following actor-reference consumer:
+  state-filtered velocity addition accepts an explicit vector or computes the
+  acquired default from source scale/physical factor/basis. All 512 original
+  cases match 208,572 source/target/header/delta/service-prefix words, including
+  277 applications and 23 notification requests. Source/target alias, absent or
+  rejected targets, signed zero, raw peer fallback and distinct source/target
+  owner words are covered in a declared Double53 profile. Explicit vector storage
+  is separate; finite nonzero-scale defaults and finite outputs bound the control.
+  Transport entry is observed, not executed. The source guard is reused and the
+  observer sees completed target velocity; failure retains completed stores.
+- Next reference/action composition still requires typed target ownership and
+  actual Session velocity/physical-cache dispatch, the local reference timer,
+  target-specific release, current view/range/query producers and following
+  animation/actions. The shared helper alone establishes no player/NPC
+  interaction or new ordinary gameplay. Keep those lane contracts separate.
 - Implemented: the actual Factory/Session resource phase now follows its owned
   control-force token, executes the acquired guard, and binds actual accumulated
   damage/class limit, current descriptor/channels, model/buttons and the shared

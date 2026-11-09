@@ -7,6 +7,7 @@ pub mod actor_finalization;
 pub mod actor_references;
 pub mod actor_surface_reset;
 pub mod actor_terrain;
+pub mod actor_velocity_impulse;
 pub mod actor_volume;
 pub mod actor_world_tick;
 pub mod arithmetic;

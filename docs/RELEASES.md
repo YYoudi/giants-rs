@@ -18,6 +18,23 @@ In particular, the historical jet/descent/contact captures do not close the Mecc
 input-to-landing integration prerequisite. No gallery assets or receipts change.
 
 
+## Kabuto following-reference velocity dependency — 9 November 2026
+
+The acquired shared velocity helper filters actor states, accepts an explicit
+vector or computes its source-scale/physical-factor/basis default, then stores
+target velocity before source-owner notification gating. Original-PC controls
+match 512 declared cases / 208,572 header/delta/service-prefix words, including
+277 applications and 23 notification requests. Full target ownership is retained
+in the message independently of source eligibility. The observer sees actual
+post-store state; owned transport failure retains completed velocity stores.
+
+Supplied headers, raw peer/mode context, separate explicit vector storage and a
+finite Double53 default/output profile remain boundaries. This does not execute
+network transport, bind target/physical ownership in Session, or complete the
+following Kabuto reference/actions. No gameplay, new screenshot or downloadable
+preview is admitted. Existing binary/notices/checksum/runtime receipts retain
+independent identities. Prototype PS2 correspondence remains unknown.
+
 ## Kabuto owned post-control/resource composition — 9 November 2026
 
 The actual Factory/Session phase now continues from its control-force token
