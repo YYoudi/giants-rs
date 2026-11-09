@@ -165,3 +165,40 @@ positional cue transport, first active effect update and emitted-object cleanup
 must be bound before the main replay can proceed through its step-441 refusal.
 The earlier low-floor state/health and active slide-effect prerequisites remain
 separate. No new movement endpoint, capture or playable admission is claimed.
+
+## Positional impact activation configuration - 9 November 2026
+
+The shared burst planner now projects the acquired single-body positional-impact
+frame through an explicit entry point. It keeps the integer cue identity in the
+projected configuration, the pending recipient-bound request, two size intervals
+and fixed angular rates. Complete named construction includes root preparation;
+activation of an already-prepared context does not repeat those draws. Child
+creation retains its own preparation order. Invalid later configuration cannot
+commit a partial projected RNG update. The general/timed phase entry points do
+not acquire this new profile implicitly.
+
+With the original audio-disabled gate, 256 PC controls match 3,840 configuration
+words: retained/pending cue, size and lifetime fields, angular rates and final
+shared RNG. The separately compared full-versus-prepared Rust paths agree too.
+Nine existing named-burst controls still match 315 objects / 6,018 words. These
+are configuration comparisons, not complete actor/header or live audio controls.
+The existing effect-orientation helpers also reproduce the initial size-derived
+affine cache and extracted angles in those 256 controls / 5,632 protocol words.
+This supports reuse of their math; it does not publish an owned actor/cache or
+validate all header/state fields.
+
+Further native boundary observations establish that cue delivery precedes the
+size draws, lifetime and angular configuration. At that cue entry the actor
+still has its constructor scale and unset later fields. An actual audio provider
+can consume shared RNG before those later draws; a precomputed projection cannot
+replace its ordered execution. The projected request remains unresolved, and the
+existing positional consumer still refuses unbound sound services.
+
+The temporary native context is retired after the first successful update; its
+origin reference in the object is pointer-valued provenance, not a flag literal.
+The owned constructor must represent that origin explicitly and preserve the
+actor's real state, cache, resource and cue ownership. Full header/state comparison,
+constructor/provider failure retention, lifetime retirement and the impact's real
+damage/channel services remain prerequisites. The exact main replay's latest
+endpoint remains the earlier step-441 refusal. No later trajectory, active effect
+rendering, new capture, campaign readiness or visual fidelity is certified.

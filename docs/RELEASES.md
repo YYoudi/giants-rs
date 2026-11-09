@@ -48,6 +48,65 @@ checksums, an unchanged reviewed PE import set and zero package-verifier blocker
 ZIP SHA256:
 `76caed8da82a186bd5a652bb303576360e60a781caeacdbd2f463956510e70b3`.
 This CPU milestone does not replace the public playable preview or its receipts.
+## Positional impact activation configuration - 9 November 2026
+
+The explicit single-body impact planner retains its integer cue identity and
+pending recipient-bound request, size/lifetime fields and fixed angular rates.
+Full named preparation and already-prepared activation have separate RNG phases;
+projected failure is atomic. General/timed phase admission stays unchanged.
+With the original audio-disabled gate, 256 PC controls match 3,840 configuration
+words. Nine legacy burst controls match 315 objects / 6,018 words. Full actor
+headers/state, live cue transport and lifetime cleanup are outside these proofs.
+Existing orientation helpers separately match the initial affine cache and
+extracted angles on 256 controls / 5,632 protocol words; owned cache publication
+remains a separate prerequisite.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+Source `74fe137db3985cb1f3d18947f6a638d51e4b2e90` preserves the concurrent
+Delphi ordinary-view and Kabuto motion-prefix work. It passes 792 synthetic Rust
+tests (30 ignored), 40 Python tests, Rustfmt, Clippy with warnings denied and five
+silent installed-resource Mecc controls. Roadmap/site generation and JavaScript
+checks pass. Source/history pattern review reports no findings across 370
+reachable commits / 2,616 blobs. Prototype PS2 attribution remains unknown.
+
+The exact GNU executable SHA256 is
+`5453e49a6461b02f0a4b7a431e166dbbd5c7324d3cbcbc7fbc422bfd06142dde`.
+The private ten-member validation draft has complete receipt-bound notices and
+independent package verification with zero technical blockers; ZIP SHA256 is
+`42fe6271ef07e2e930651ce70c486ea75a2256f566ad0f9c4492bd88d08db4d2`.
+This configuration prerequisite does not establish a new playable preview.
+
+Combined checkpoint `c18a4ad` also preserves the subsequently published mission
+affine-placement work. It passes 793 Rust tests (30 ignored), 40 Python tests,
+Rustfmt, Clippy, five installed-resource Mecc controls and roadmap/site/JavaScript
+checks. The earlier executable/package and native configuration receipts keep
+their original source identities.
+
+Native cue-entry controls show the required service precedes later size draws,
+lifetime and angular writes. A real provider can consume shared RNG there;
+precomputed configuration does not replace its ordered execution. Actual owned
+birth with explicit origin/cache ownership, provider failure retention, retirement
+and impact damage/channel integration remain open. The latest exact movement
+endpoint retains its earlier step-441 refusal; no later runtime trajectory,
+new capture or visual fidelity is claimed. Existing preview receipts stay bound
+to their original executables and source commits.
+
+## Mission post-load boundary acquisition — 9 November 2026
+
+A CPU follow-up executes the complete original post-load list helper on supplied
+object and terrain-cell fixtures. All 96 completed lists cover 240 object visits
+and 64 pending-marker clears. Every other supplied object byte, including the
+affine cache, remains unchanged. Sixteen outside-grid cases stop at the original
+diagnostic branch; the error handler and recovery are not executed or verified.
+
+This identifies one post-load dependency and excludes this helper as an affine
+refresh in the supplied cases. It does not establish complete loading, actual
+mission population, world scheduling or a new Rust consumer. The pending-marker
+producer and wider world phases remain prerequisites. Prototype PS2 attribution
+remains unknown. No runtime code or preview package changes; the existing
+`preview-2026.11.09.2` binary, notices and checksums retain their exact receipts.
+The 545-source cinematic inventory and zero certified complete scenes remain.
+
 ## Kabuto contact policy and shared callback boundary — 9 November 2026
 
 The acquired finite contact kernel now returns separate handled and peer-support
