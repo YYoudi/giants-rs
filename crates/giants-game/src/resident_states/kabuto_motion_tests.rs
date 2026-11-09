@@ -69,7 +69,7 @@ fn header(s: &Session, id: Id) -> Vec<u32> {
     }
     h
 }
-fn snapshot(s: &Session, id: Id) -> Vec<u32> {
+pub(super) fn snapshot(s: &Session, id: Id) -> Vec<u32> {
     let mut w = header(s, id);
     let mut p: Vec<_> = s
         .get(id)

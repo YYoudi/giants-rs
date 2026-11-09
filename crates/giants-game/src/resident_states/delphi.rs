@@ -61,9 +61,12 @@ impl crate::delphi_items::World for ItemWorld<'_> {
     }
     fn action(
         &mut self,
-        _: crate::delphi_items::Action,
-        _: &mut crate::delphi_items::State,
+        action: crate::delphi_items::Action,
+        state: &mut crate::delphi_items::State,
     ) -> Result<(), String> {
+        if action == crate::delphi_items::Action::TargetMovement && !state.movement_ready {
+            return Ok(());
+        }
         Err("Delphi item action producer unprepared".into())
     }
     fn scan(&mut self, _: &mut crate::delphi_items::State) -> Result<bool, String> {
@@ -646,6 +649,7 @@ impl Session {
                                 .ok_or("Delphi item tail requires completed post input")?,
                             controls: out.fields.control_flags,
                             physics_flags: word(&out.payload, 0xd00),
+                            movement_ready: word(&out.payload, 0xf40) != 0,
                             selected: word(&out.payload, 0xdb0) as i32,
                             items: std::array::from_fn(|i| {
                                 word(&out.payload, 0xd3c + i * 12) as i32
@@ -1335,6 +1339,9 @@ mod physical_tests {
                 }
                 if index == 3 && (4..=18).contains(&number) {
                     commands[5] |= 0x80;
+                }
+                if index == 6 && number % 16 == 5 {
+                    commands[4] |= 0x10;
                 }
                 let environment = crate::delphi_physical::Environment {
                     number,

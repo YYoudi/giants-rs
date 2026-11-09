@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.09.4
+# Windows x64 development preview - preview-2026.11.09.5
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -11,6 +11,20 @@ owner's estimate and has not received comprehensive human review. This estimate
 is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+## Retirement child initialization dependency
+
+The shared initial skip service now accepts the acquired complete fixed-size,
+lifetime and gravity frame without consuming RNG or constructing an object. This
+covers the child program requested by the largest remaining cinematic FX family.
+
+A separate original-PC CPU control now follows 32 supplied parent/child lifecycles
+through real context updates, deferred marks, global cleanup and slot reuse.
+All finish with no active objects/contexts and both eight-slot fixtures restored.
+Rust matches 1,024 selected preparation, construction and matrix words. These
+controls do not integrate physical slot ownership or the retirement context's
+inherited flags into the main cinematic queue. Full film admission, world RNG,
+actual cadence, rendering and broader zero-time physics/contact remain open.
 
 ## Timed effect callback initialization
 

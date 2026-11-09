@@ -30,12 +30,12 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
     },
     'docs/RECONSTRUCTION_METHOD.md': {
+        # RNG ownership prose only; the reviewed alias list is unchanged.
+        '0cb7e8d16f16186d5552729a1ec077b453a8f0dfea3de16858d1c966edbf6af5',
         '2c8a49007d040af5c353ce6921860566a63b61fbb67c95c2a57b7da479567e0d',
         '07638b2e77f9a2eeb7bd63e55e91c9c0e72f5643dcf536571733f74397b3d94f',
         '28763ac079e17b02931cc074f17ae85238f9d9d7f87f69d1251d176bbf719b1a',
         'b95db50f67716523141c0bf3d11ccf1928ea2299c48f39fea32501ee09f0c44f',
-        # Added module RNG ownership guidance; the reviewed PC aliases are unchanged.
-        '0cb7e8d16f16186d5552729a1ec077b453a8f0dfea3de16858d1c966edbf6af5',
     },
 }
 
