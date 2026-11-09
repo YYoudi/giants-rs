@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Delphi viewport bounds-centre selection - 9 November 2026
+
+The separate ordered viewport selector matches 768 complete original-PC searches,
+including multi-axis and precision/endpoint/tie cases. It retains perpendicular
+ranking and reuses readiness eligibility. The signed range-mode guard agrees on
+1,024 original calls; 130 original argument-prefix executions at both caller
+sites agree with source-backed Rust parameters. The two caller relationships
+remain distinct; target assignment is not synthesized.
+
+Current headers, population order, bounds and viewport remain supplied. Header
+production, target/proxy lifetime and caller/world composition are still open.
+This source milestone admits no ordinary Delphi gameplay, asset, screenshot or
+downloadable preview. Earlier binary/package/notices/checksum receipts retain
+their exact source identities. Prototype PS2 correspondences remain unknown.
+
+Combined source validation passes 836 synthetic Rust tests (49 ignored), five
+installed Delphi controls, the installed NPC ownership regression, 41 Python
+tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The NPC control
+retains its authored-world exclusions and supplied floor/clock/RNG boundaries.
+
 ## NPC reconstruction inventory and source ownership regression — 9 November 2026
 
 The dedicated NPC lane consolidates existing herd/Vimp, Ripper, shared enemy
