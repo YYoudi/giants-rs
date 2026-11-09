@@ -50,6 +50,27 @@ retain their independent source and runtime/package receipt identities.
 
 ## Timed effect program configuration — 9 November 2026
 
+Independent main-lane delivery checks downloaded all three `.9` assets and
+verified the public tag against the package source `241739c`. The ten-member ZIP,
+its external/internal checksums, executable identity and publication clearance
+pass. Running that downloaded executable passes both offscreen development
+endpoints (six launches), then two Rstory1 mission-index-2 source-terminal and
+re-entry cycles with muted real sinks and tracked voice/text cleanup. These are
+delivery/lifecycle observations; manual controls, native timing and full-scene
+fidelity remain unverified. Private profiles, logs and captures are not published.
+
+Combined main source `c8217b4a78e6eefc23f52f695496740644ab80d6` also includes the
+newer Delphi scan/range changes absent from `.9`. Its 647 synthetic game-core
+tests, strict game-core Clippy, 41 Python tests and workspace formatting pass.
+Installed-data composition passes four Delphi, fifteen Kabuto and two Mecc impact
+controls. Two initial Delphi controls explicitly refused a different executable
+layout; they pass with the identity-checked acquisition reference specified as
+documented in BUILD.md. No parser gate was weakened. These tests retain supplied
+service/geometry/time boundaries and do not admit playable Delphi/Kabuto/NPCs.
+The main history-pattern audit reports zero findings across 517 commits / 3,268
+blobs. A separate combined Windows build is still being prepared; these source
+checks do not relabel the public `.9` executable or certify a newer download.
+
 The bounded attached timed and detached linear-gravity frames now compose their
 following source VM commands with the shared owned initial constructor. Size,
 lifetime/fade, retirement binding and gravity changes were isolated at command
