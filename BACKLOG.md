@@ -71,6 +71,14 @@ assets. `docs/public-preview.json` pins that download separately from newer sour
 progress. This does not close ordinary native Mecc motion/impact or other-character/
 NPC world admission; continue connecting ready services through the common runtime.
 
+The following combined source integration retains Mecc local-voice transport,
+landing/directional-air continuation and prepared damage-smoke services alongside
+the latest other lanes. Ordinary App impact/voice binding still needs actual
+mission gates and persistent wounded-primary ownership; prepared smoke is not an
+active renderer. Preserve those prerequisites when consuming the next Mecc lot.
+The current independently verified download is `.13`; its snapshot and receipts
+retain their immutable source identity despite newer source-only integrations.
+
 - Review committed Flick, Mecc, Delphi, Kabuto and NPC contributions against actual
   runtime entry points; retain CPU-only and supplied-provider boundaries.
 - Wire ready contributions into the shared menu-to-mission application, including
@@ -375,10 +383,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   In 128 supplied four-actor schedules, independently calculated Rust production
   and target search match 640 native output words (512 scalar intervals / 128
   searches). Registers, headers/links/current-player, positions, bounds, viewport
-  and schedule remain supplied. Next: actual owned relationship/header publication,
-  other actor writers and caller/world/ANM timing; do not identify the relationship
-  as an arbitrary held object or substitute a zero value. Target/proxy lifetime,
-  main integration and fidelity remain open.
+  and schedule remain supplied. The relationship is now independently acquired
+  as physical support: the common location wrapper/contact output feeds a required
+  class/context resolver, with unknown nonzero keys refused. A separate 320-case
+  original-PC/Rust composition matches 3,840 exact control/position/scalar words;
+  floor/plane error is below 0.00000012 within a 0.002 absolute budget. Frozen
+  support retention and reset-before-contact are preserved. Single-object traversal,
+  prepared geometry/model/part eligibility, headers and the collision-then-scalar
+  schedule remain supplied; no same-frame order is inferred. Next: actual scene
+  key registry/lifetime and phase-correct owned header publication, other actor
+  writers and caller/world/ANM timing. Do not equate scene keys with Session serials,
+  conflate support with held/surfacing relationships or substitute zero for a
+  missing provider. Target/proxy lifetime, main integration and fidelity remain open.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -400,6 +416,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: reference-query argument production selects the acquired three
+  parameter pairs from actual mode words, current-state predicates and declared
+  reference presence. It uses either actor bounds/negative basis or the supplied
+  viewport origin/direction, preserving wide arithmetic and stored results.
+  The complete original argument prefix plus query/filter matches 512 contexts /
+  5,120 argument/selection/score words. Unused malformed geometry/parameter pairs,
+  signed zeros and wide multiply/add are covered. The source resource-phase
+  control composes real owned size parameters with the guarded Session query;
+  viewport, visibility/category and analytic bounds remain declared inputs.
+  Real mode/current-view production, typed reference lifetime, current bounds,
+  target publication and later actions still require integration. This is not
+  another primary completion or live camera/player admission.
 - Implemented: the reference eligibility and ordered bounds query match 512
   declared original scenes / 1,536 selection/score/policy words, with 48 selected
   targets. Preserve source masks versus candidate configuration16 (not personality
@@ -1007,11 +1035,35 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   actual shared countdown; an optional primary voice provider completes one
   falling-entry frame with supplied cues and preserves both late-failure paths
   without replay. This is CPU composition, not actual voice transport. Next bind
-  pain/ambient local sources, owner routing and ready sinks with their distinct
-  shared-cue flag policy and separate audio/VM RNG owners. The main inspection still supplies no impact provider and keeps
+  the actual mission gates and wounded continuation before binding the App
+  primary. Local pain/ambient transport is now independently device-tested:
+  960 native/Rust 2D caller cases / 16,968 selected words cover required-service
+  order and descriptor/owner reuse. Four damage cues plus one jet cue reach real
+  muted sinks; two reuse calls draw nothing. The typed-root adapter shares the
+  actual backend without mutable aliasing, and selected sink loss refuses while
+  unrelated loss preserves reuse. Quarantine/release removes owned assets.
+  General instance retirement/cadence, nonlocal routing and restart transport
+  remain open; no complete player trajectory or audible fidelity follows. The main inspection still supplies no impact provider and keeps
   step 441; native gate production, wounded continuation, heavy carried channel,
   active effect scheduling and cleanup remain prerequisites. The existing
   positional effect transport is for later activation, not secondary preparation.
+  Post-impact selector continuation now admits states 61/62 and all acquired
+  air directions: 1,680 native contexts / 560,640 selected words agree, including
+  816 pre-weapon-commit boundaries. Another 48 contexts explicitly refuse the
+  actual idle-draw callback; no fabricated pointer or immediate commit substitutes
+  for it. These unblended controls supply floor, damage, velocity history and
+  positive idle timer. They do not validate a wounded whole primary. Next acquire
+  the real draw callback/frame ownership and full health-positive primary before
+  relaxing that entry guard or enabling impact/voice in the App.
+  Full-primary discovery now identifies damage-smoke preparation as an additional
+  prerequisite: three original 128-frame controls expose the context/VM draw
+  after a supplied wound. The bounded policy matches 2,080 contexts / 18,780
+  selected words; separate real preparation/release matches 256 contexts /
+  16,640 words. The actual prepared adapter passes source-resource reuse,
+  replacement, display-reset, stale/foreign and late-failure controls. Bind its
+  persistent owner and actual display decision at the pre-secondary boundary,
+  then validate the wounded whole primary. Active smoke/world retirement remains
+  separate; no main health gate or missing impact/voice provider is relaxed.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

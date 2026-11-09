@@ -6,6 +6,16 @@ pub struct Link {
     pub class: i32,
     pub context: u32,
 }
+/// Snapshot at scalar-production time, retaining the physical support identity
+/// produced by player contact. Scene keys are not Session allocation serials.
+#[derive(Clone, Copy, Debug)]
+pub struct SupportInput {
+    pub shared_mode: i32,
+    pub owner_context: u32,
+    pub owner_position: [f32; 3],
+    pub support: u32,
+    pub current_player: Option<CurrentPlayer>,
+}
 #[derive(Clone, Copy, Debug)]
 pub struct CurrentPlayer {
     pub context: u32,
@@ -17,9 +27,35 @@ pub struct Input {
     pub shared_mode: i32,
     pub owner_context: u32,
     pub owner_position: [f32; 3],
-    /// Actual caller relationship, not an arbitrary held or parent actor.
+    /// Physical support header. Retained name for existing scalar callers;
+    /// this is not the held, parent or surfacing-marker relationship.
     pub linked: Option<Link>,
     pub current_player: Option<CurrentPlayer>,
+}
+/// Resolve metadata only for a nonzero support in the active shared mode.
+/// Unknown/stale keys must fail in the required resolver, not become absence.
+/// This does not schedule contact and primary in the same frame: callers must
+/// supply the support and positions belonging to the actual primary phase.
+pub fn produce_from_support(
+    input: SupportInput,
+    parameters: Parameters,
+    mut resolve: impl FnMut(u32) -> Result<Link, String>,
+) -> Result<f32, String> {
+    let linked = if input.shared_mode == 4 && input.support != 0 {
+        Some(resolve(input.support)?)
+    } else {
+        None
+    };
+    produce(
+        Input {
+            shared_mode: input.shared_mode,
+            owner_context: input.owner_context,
+            owner_position: input.owner_position,
+            linked,
+            current_player: input.current_player,
+        },
+        parameters,
+    )
 }
 #[derive(Clone, Copy, Debug)]
 pub struct Parameters {
@@ -132,6 +168,52 @@ mod tests {
                 }
             )
             .unwrap(),
+            0.
+        );
+    }
+    #[test]
+    fn produced_support_requires_its_actual_header_and_preserves_short_circuit() {
+        let mut i = SupportInput {
+            shared_mode: 4,
+            owner_context: 1,
+            owner_position: [1.5, 0., 0.],
+            support: 91,
+            current_player: Some(CurrentPlayer {
+                context: 0,
+                position: [0.; 3],
+            }),
+        };
+        let p = Parameters { near: 1., far: 2. };
+        assert_eq!(
+            produce_from_support(i, p, |key| {
+                assert_eq!(key, 91);
+                Ok(Link {
+                    class: 0x4a5,
+                    context: 1,
+                })
+            })
+            .unwrap(),
+            0.5
+        );
+        assert!(produce_from_support(i, p, |_| Err("stale scene key".into())).is_err());
+        assert_eq!(
+            produce_from_support(i, p, |_| Ok(Link {
+                class: 73,
+                context: 1
+            }))
+            .unwrap(),
+            0.
+        );
+        i.support = 0;
+        i.current_player = None;
+        assert_eq!(
+            produce_from_support(i, p, |_| panic!("absent support has no header")).unwrap(),
+            0.
+        );
+        i.support = 91;
+        i.shared_mode = 0;
+        assert_eq!(
+            produce_from_support(i, p, |_| panic!("inactive mode does not read support")).unwrap(),
             0.
         );
     }

@@ -478,3 +478,121 @@ continuation, gate production, death/equipment profiles, active FX and full
 cleanup/scheduling remain open. The positional class-867 transport is not the
 local Mecc pain service. Prototype PS2 attribution remains unknown; there is no
 new confirmed function name or imported platform layout.
+
+## Reserved local damage voices — 9 November 2026
+
+The acquired debug 2D caller now has a required-service policy in
+`sound_local_start`. It prepares descriptor distances before examining existing
+instances. Exact zero distances receive defaults; finite negative values remain
+unchanged in this kernel. A unique-source request with an owner reuses the first
+matching source/owner whose inactive bits are clear. The restart flag requires
+actual stop services; a forced request stops the descriptor before construction
+and does not take the normal owner-binding tail. Normal new owner binding follows
+successful construction. No default service acknowledges allocation or playback.
+
+Original-DLL/Rust controls agree on 960 contexts / 16,968 selected distance,
+instance and ordered-service words. Descriptor preparation and the actual caller
+execute in the native control. Stop/stop-all outcomes and successful construction
+are explicitly supplied. This proves the caller policy within those boundaries,
+not complete allocation, device ABI, pool lifetime or native global audio cadence.
+
+The reserved Bevy backend now admits the actual local pain/shared-cue sources in
+addition to its existing jet cues. Source preparation creates paused/muted ready
+reservations without RNG. Accepted descriptor flags are bounded to these sources;
+restart/forced transport remains refused. Unique live reuse performs no new start
+or parameter draw. A catalog miss is distinct from an unprepared/decode/device
+failure and never claims playback. Source, root and ready-sink checks retain late
+failures without replay. Local owner keys remain scoped to the one typed
+controlled root in the mounted ticket; general positional/NPC voice admission is
+not established by this provider.
+
+`mission_audio::SharedBackend` lends the same real backend exclusively to the jet
+and impact interfaces. The impact adapter resolves the actual typed Session root
+and refuses foreign/nonlocal sources; nested backend calls refuse rather than
+aliasing mutable state. Its registered-root device control executes the acquired
+voice tail with supplied health/timers and actual installed voice PCM. Four damage
+cue starts and one jet start reach real muted sinks; two unique-reuse requests
+preserve the audio RNG. Pitch/gain state and the VM/audio seeds match the separate
+calculations. Loss of an unrelated sink preserves valid reuse; loss of the selected
+sink refuses without a new draw or start. Quarantine/release leaves no owned voices
+or AudioSource assets. The installed data uses the existing language fallback;
+native locale startup and audible fidelity remain unverified. No window is used.
+
+These are independent transport and CPU-primary controls. The App driver still
+supplies neither an impact context nor a voice provider. Acquire its real mission
+gates and wounded continuation before binding these services to the live primary.
+Full world cadence, general instance retirement, equipment/death reactions,
+nonlocal routing and active effects remain open. No new normal-control screenshot
+or downloadable build claim follows. Prototype PS2 counterparts remain unknown.
+
+## Post-impact selector continuation — 9 November 2026
+
+The ordinary pistol selector admits previous logical states 61/62 and all seven
+acquired directional-air states. Landing hold is conditional: stationary grounded
+selection retains an unended landing channel while its idle flag remains set;
+channel completion permits idle, and movement can select locomotion before that
+completion. No unconditional landing-animation lock is added. Fast forward,
+fast backward and lateral air variants retain their acquired logical states and
+zero control flags on subsequent calls.
+
+Original-PC controls cover 1,728 supplied contexts: eight previous states,
+channel completion, zero/15/55 damage, nine movement profiles, weapon-cache change
+and grounded/airborne placement. Of these, 1,680 agree on 560,640 selected full
+header/payload, animation-request, VM-seed and commit-presence words. For 816
+weapon commits the comparison stops at the real commit helper entry; its body
+and subsequent weapon effects are outside this comparison. The remaining 48
+cases request the native idle draw callback. All 48 are explicitly refused by
+Rust because the owned animation callback/frame provider is absent. They are
+not numerical matches or successful weapon changes.
+
+The controls use disabled blending, a positive supplied idle-variant timer,
+flat supplied floor, stable velocity history and initialized local sources.
+They produce no new impact or voice request. Damage is a supplied selector input;
+these cases do not establish health-positive full-primary continuation. That
+primary's health guard remains, as do the App's missing impact/voice providers.
+Synthetic regressions check landing hold/release, continued air states and draw
+refusal without a weapon commit or VM draw. Native mission-gate production,
+actual draw callbacks, wounded primary, carried/death/equipment profiles and
+active world effects remain integration prerequisites. No new gameplay or
+executable receipt follows. Prototype PS2 correspondence for both the selector
+and the observed commit boundary remains unknown; prior PC aliases are retained.
+
+## Damage-smoke preparation prerequisite — 9 November 2026
+
+A separate original-PC experiment executes three 128-frame complete primaries
+with the same supplied command sequence and flat floor. Damage is injected after
+eight healthy frames. At 55 damage the primary prepares a light-smoking context
+and consumes an additional VM draw. A health-positive selector comparison alone
+therefore cannot justify dropping the full-primary health guard. These native
+runs are discovery evidence, not a Rust whole-primary agreement or actual injury.
+
+`mecc_damage_effect` now owns the bounded smoke-selection and replacement policy.
+It uses the wide damage percentage and data-driven light/medium/heavy thresholds,
+with heavy-to-light priority and inclusive boundaries. The required display-reset
+service executes first. A reset clears the level and releases an existing
+binding, then selection can recreate it in the same call. A level change releases
+before storing the new level and preparing. A same-level live binding is reused;
+true source absence leaves the level stored and permits a later retry. Completed
+stores/releases survive a later provider failure; the enclosing failed turn must
+be quarantined. Retained handles are validated before even a reuse-only call.
+
+The original policy and Rust agree on 2,080 contexts / 18,780 selected state and
+ordered-service words, including five health limits, threshold neighbors,
+previous levels/bindings, reset and source presence. Display, release and
+constructor outcomes are explicit providers in this comparison. Separately,
+256 actual original constructions and empty-context releases agree on 16,640
+normalized context/queue/interval/RNG words with Rust. All three installed smoke
+programs use the same acquired complete initialization frame and consume one
+random interval. Load, quality, camera, free slots, recipient fields and CRT
+state remain supplied. There is no active effect update, emitted actor or device.
+
+The prepared-context adapter uses the real effect pool, current source identity,
+tag and inherited-parameter refusal. Its installed-resource regression checks
+all three levels, same-level reuse without draws, forced recreation, stale and
+foreign source refusal and retained old release after a later required-parameter
+failure. Health and the display-reset decision remain explicit inputs; this is
+not a Session health binding. The App and full-primary health guard are unchanged.
+Next bind the real display-owner decision and persistent context ownership at
+the acquired pre-secondary point, including retirement/failure cleanup, before
+admitting wounded primary continuation. Active smoke rendering and full world
+cadence are further dependencies. Prototype PS2 correspondences remain unknown.

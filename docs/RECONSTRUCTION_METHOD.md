@@ -208,6 +208,8 @@ No PS2 address, raw symbol or demangled signature is assigned to these rows.
 
 | PC address / retained alias | Current Rust relationship | Missing attribution evidence |
 | --- | --- | --- |
+| `0x0050d8b0` / `FUN_0050d8b0` | Bounded pistol profile in `mecc_secondary::ordinary`, including post-impact/directional-air continuation; no complete controller equivalence | Independent PS2 selector branches, constants and call ordering |
+| `0x0045b580` / `FUN_0045b580` | Observed weapon-commit entry following `mecc_secondary`; helper body and idle-draw callback are not acquired by the continuation control | Independent PS2 commit/callback algorithm and caller comparison |
 | `0x0047c3d0` / `FUN_0047c3d0` | `Session::advance_mecc_primary_with_history`, including its deferred-fire route | Independent PS2 primary/controller algorithm and call-order comparison |
 | `0x0049e620` / `FUN_0049e620` | `mecc_subjective::State::prepare_from_session` | Independent pre-world copy/resource and caller correspondence |
 | `0x0049eaf0` / `FUN_0049eaf0` | `Session::advance_mecc_subjective_post` and `mecc_subjective::State::post` | Independent post-world selection/ANM/fire ordering correspondence |
