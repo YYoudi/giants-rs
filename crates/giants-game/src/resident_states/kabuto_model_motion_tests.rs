@@ -20,6 +20,14 @@ fn words_line(w: impl IntoIterator<Item = u32>) -> String {
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private stage-input/receipt exports; no window or sound"]
 fn source_kabuto_model_motion_reuses_owned_classified_state_and_preserves_primary() {
+    run_model(false);
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; optional private ANM/gravity inputs and receipts; no window or sound"]
+fn source_kabuto_animation_gravity_uses_model_phase_and_retains_primary() {
+    run_model(true);
+}
+fn run_model(animation: bool) {
     let (factory, _) = super::transition_tests::factories();
     let (foreign, _) = super::transition_tests::factories();
     let mut s = Session::new(991);
@@ -38,6 +46,12 @@ fn source_kabuto_model_motion_reuses_owned_classified_state_and_preserves_primar
         .unwrap();
     let baseline_fields = s.get(id).unwrap().construction_fields.clone().unwrap();
     let baseline_payload = s.get(id).unwrap().seed.storage.data().unwrap().to_vec();
+    let baseline_references = s.specifications.get(&id.serial).unwrap().0.clone();
+    let mut contexts = crate::attached_effect_context::Pool::new(991, None);
+    let mut random = crate::audio_parameters::Random(1);
+    let mut stamp = crate::animation_epoch::Stamp(0);
+    let mut animation_inputs = String::new();
+    let mut animation_receipt = String::new();
     let radius = s.kabuto_group(id).unwrap().radius;
     let root = std::path::PathBuf::from(std::env::var("GIANTS_KABUTO_ROOT").unwrap());
     let globals =
@@ -46,11 +60,14 @@ fn source_kabuto_model_motion_reuses_owned_classified_state_and_preserves_primar
     let mut inputs = String::new();
     let mut receipt = String::new();
     let mut moving = 0;
-    for case in 0..512 {
+    for case in 0..if animation { 513 } else { 512 } {
         // Independent contexts replay the real preceding phases; resetting this
         // fixture is not acknowledgment of a completed native frame.
+        s.specifications.get_mut(&id.serial).unwrap().0 = baseline_references.clone();
         let a = s.residents.get_mut(&id.serial).unwrap();
         a.construction_fields = Some(baseline_fields.clone());
+        a.channels = Some(baseline_fields.channels);
+        a.mecc_animation_stamp = 0;
         let f = a.construction_fields.as_mut().unwrap();
         f.position = [
             case as f32 * 0.125 - 32.,
@@ -89,6 +106,8 @@ fn source_kabuto_model_motion_reuses_owned_classified_state_and_preserves_primar
         g.object_contacts_entered = None;
         g.object_contacts_completed = None;
         g.model_motion_completed = None;
+        g.animation_gravity_entered = None;
+        g.animation_gravity_completed = None;
         let number = case as u64 + 1;
         let seconds = [0., 0.001, 1. / 60., 0.1][case % 4];
         let command = [0u8, 1, 32, 127, 255, 224, 128];
@@ -264,6 +283,234 @@ fn source_kabuto_model_motion_reuses_owned_classified_state_and_preserves_primar
         if out.world_speed > 0. {
             moving += 1;
         }
+        if animation {
+            if case == 255 {
+                stamp.0 = u32::MAX;
+            }
+            if case == 512 {
+                // A separate real-resource context crosses an actual required
+                // contact event. Missing services must retain ANM effects and
+                // prevent gravity, not silently discard the event.
+                let spec = s.specification(id).unwrap();
+                let (slot, time) = spec
+                    .metadata
+                    .events
+                    .iter()
+                    .find_map(|t| {
+                        let duration = spec.animations.get(&t.slot)?.template.duration;
+                        t.events
+                            .iter()
+                            .find(|e| {
+                                e.kind & 0x10008 != 0 && e.time > 0.02 && e.time < duration - 0.02
+                            })
+                            .map(|e| (t.slot, e.time))
+                    })
+                    .expect("Kabuto declared contact event");
+                let a = s.residents.get_mut(&id.serial).unwrap();
+                let mut channels = a.channels.unwrap();
+                crate::animation_channels::select_primary(
+                    &mut channels,
+                    crate::animation_channels::Request {
+                        slot,
+                        flags: 1,
+                        speed_source: 0,
+                        reference_speed: 0.,
+                        blend_seconds: 0.,
+                    },
+                    Blending::Disabled,
+                )
+                .unwrap();
+                channels[0][1] = (time - 0.01).to_bits();
+                channels[0][2] = channels[0][1];
+                a.channels = Some(channels);
+                let f = a.construction_fields.as_mut().unwrap();
+                f.channels = channels;
+                f.object_flags |= 0x100000;
+                let payload = a.seed.storage.data().unwrap().to_vec();
+                let epoch = stamp.0;
+                let mut services = crate::actor_animation_phase::Services {
+                    contexts: &mut contexts,
+                    random: &mut random,
+                    stamp: &mut stamp,
+                    blending: Blending::Disabled,
+                };
+                let error = factory
+                    .advance_animation_gravity(
+                        &mut s,
+                        id,
+                        number,
+                        crate::kabuto_animation_gravity::Frame {
+                            global_seconds: 0.02,
+                            areas: &[],
+                            materials: None,
+                        },
+                        &mut services,
+                    )
+                    .unwrap_err();
+                assert!(error.contains("unsupported service"), "{error}");
+                assert_ne!(services.stamp.0, epoch);
+                assert_eq!(s.get(id).unwrap().seed.storage.data().unwrap(), payload);
+                assert_ne!(s.get(id).unwrap().channels.unwrap(), channels);
+                assert!(s.reference_cache_storage(id).unwrap().sampled);
+                let g = s.kabuto_group(id).unwrap();
+                assert_eq!(g.animation_gravity_entered, Some(number));
+                assert_eq!(g.animation_gravity_completed, None);
+                assert!(g.geometry_transition_failure.is_some());
+                assert_eq!(g.model_motion_completed, Some(number));
+                assert_eq!(g.motion_history, Some(number));
+                assert_eq!(g.pending.len(), 4);
+                assert!(
+                    factory
+                        .advance_animation_gravity(
+                            &mut s,
+                            id,
+                            number,
+                            crate::kabuto_animation_gravity::Frame {
+                                global_seconds: 0.02,
+                                areas: &[],
+                                materials: None,
+                            },
+                            &mut services
+                        )
+                        .is_err()
+                );
+                continue;
+            }
+            let before = super::motion_tests::snapshot(&s, id);
+            let refs = s.reference_cache_storage(id).unwrap();
+            let refs_words: Vec<_> = refs
+                .matrices
+                .iter()
+                .flat_map(|m| std::iter::once(m.flags).chain(m.values.map(f32::to_bits)))
+                .collect();
+            let mut input = vec![seconds.to_bits(), stamp.0, random.0, areas.len() as u32];
+            input.extend(&before);
+            input.push(refs.matrices.len() as u32);
+            input.extend(refs_words);
+            for a in areas {
+                input.extend([
+                    a.source_owner,
+                    a.center[0].to_bits(),
+                    a.center[1].to_bits(),
+                    a.center[2].to_bits(),
+                    a.radius_squared.to_bits(),
+                    a.factor.to_bits(),
+                ]);
+            }
+            animation_inputs.push_str(&words_line(input));
+            let mut services = crate::actor_animation_phase::Services {
+                contexts: &mut contexts,
+                random: &mut random,
+                stamp: &mut stamp,
+                blending: Blending::Disabled,
+            };
+            assert!(
+                foreign
+                    .advance_animation_gravity(
+                        &mut s,
+                        id,
+                        number,
+                        crate::kabuto_animation_gravity::Frame {
+                            global_seconds: seconds,
+                            areas: &areas,
+                            materials: None
+                        },
+                        &mut services
+                    )
+                    .is_err()
+            );
+            assert!(
+                factory
+                    .advance_animation_gravity(
+                        &mut s,
+                        id,
+                        number + 1,
+                        crate::kabuto_animation_gravity::Frame {
+                            global_seconds: seconds,
+                            areas: &areas,
+                            materials: None
+                        },
+                        &mut services
+                    )
+                    .is_err()
+            );
+            assert!(
+                factory
+                    .advance_animation_gravity(
+                        &mut s,
+                        id,
+                        number,
+                        crate::kabuto_animation_gravity::Frame {
+                            global_seconds: f32::NAN,
+                            areas: &areas,
+                            materials: None,
+                        },
+                        &mut services
+                    )
+                    .is_err()
+            );
+            assert_eq!(before, super::motion_tests::snapshot(&s, id));
+            let view = factory
+                .advance_animation_gravity(
+                    &mut s,
+                    id,
+                    number,
+                    crate::kabuto_animation_gravity::Frame {
+                        global_seconds: seconds,
+                        areas: &areas,
+                        materials: None,
+                    },
+                    &mut services,
+                )
+                .unwrap();
+            let after = super::motion_tests::snapshot(&s, id);
+            assert!(before.iter().zip(&after).enumerate().all(|(i, (a, b))| {
+                i == 3
+                    || (4..40).contains(&i)
+                    || [6, 7, 8, 11]
+                        .into_iter()
+                        .any(|n| i == 193 + (0xe4 + n * 4) / 4)
+                    || a == b
+            }));
+            let mut output = after;
+            output.extend([services.stamp.0, services.random.0]);
+            output.extend(
+                s.reference_cache_storage(id)
+                    .unwrap()
+                    .matrices
+                    .iter()
+                    .flat_map(|m| std::iter::once(m.flags).chain(m.values.map(f32::to_bits))),
+            );
+            animation_receipt.push_str(&words_line(output));
+            let g = s.kabuto_group(id).unwrap();
+            assert_eq!(g.animation_gravity_entered, Some(number));
+            assert_eq!(g.animation_gravity_completed, Some(number));
+            assert_eq!(g.model_motion_completed, Some(number));
+            assert_eq!(g.motion_history, Some(number));
+            assert_eq!(g.pending.len(), 4);
+            assert_eq!(view.stamp, services.stamp.0);
+            assert_eq!(s.counts(), counts);
+            assert_eq!((0..15).map(|i| s.list(i)).collect::<Vec<_>>(), lists);
+            assert!(
+                factory
+                    .advance_animation_gravity(
+                        &mut s,
+                        id,
+                        number,
+                        crate::kabuto_animation_gravity::Frame {
+                            global_seconds: seconds,
+                            areas: &areas,
+                            materials: None
+                        },
+                        &mut services
+                    )
+                    .is_err()
+            );
+            assert!(
+                s.begin_kabuto_motion_history(id, number + 1, commands)
+                    .is_err()
+            );
+        }
     }
     assert!(moving > 300);
     if let Some(p) = std::env::var_os("GIANTS_KABUTO_MODEL_INPUTS") {
@@ -271,5 +518,13 @@ fn source_kabuto_model_motion_reuses_owned_classified_state_and_preserves_primar
     }
     if let Some(p) = std::env::var_os("GIANTS_KABUTO_MODEL_RECEIPT") {
         std::fs::write(p, receipt).unwrap();
+    }
+    if animation {
+        if let Some(p) = std::env::var_os("GIANTS_KABUTO_ANIMATION_INPUTS") {
+            std::fs::write(p, animation_inputs).unwrap();
+        }
+        if let Some(p) = std::env::var_os("GIANTS_KABUTO_ANIMATION_RECEIPT") {
+            std::fs::write(p, animation_receipt).unwrap();
+        }
     }
 }
