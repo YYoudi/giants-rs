@@ -44,6 +44,9 @@ pub struct Group {
     pub(crate) animation_gravity_entered: Option<u64>,
     pub(crate) animation_gravity_completed: Option<u64>,
     pub(crate) control_force_completed: Option<u64>,
+    pub(crate) resource_phase_entered: Option<u64>,
+    pub(crate) resource_phase_completed: Option<u64>,
+    pub(crate) resource_phase_view: Option<crate::kabuto_resource_phase::View>,
     pub(crate) contact: crate::kabuto_classification::Contact,
     pub declared_class: Arc<specification::Prepared>,
     pub geometry: Geometry,
@@ -96,6 +99,15 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    pub fn advance_resources(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        services: &mut impl crate::kabuto_resource_phase::Services,
+    ) -> Result<crate::kabuto_resource_phase::View, String> {
+        session.advance_kabuto_resources(owner, (&self.resources, &self.globals), number, services)
+    }
     pub fn advance_control_force(
         &self,
         session: &mut Session,
@@ -427,6 +439,9 @@ impl Factory {
             animation_gravity_entered: None,
             animation_gravity_completed: None,
             control_force_completed: None,
+            resource_phase_entered: None,
+            resource_phase_completed: None,
+            resource_phase_view: None,
             contact: Default::default(),
             declared_class: self.resources.specification.clone(),
             geometry,

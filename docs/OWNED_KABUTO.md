@@ -1232,3 +1232,43 @@ Session phases. Preserve all initializer/history prerequisites and later primary
 action/animation, world/camera/GPU, jump/feeding and growth-threshold work. No
 playable, visual-fidelity or new downloadable-preview claim follows. Prototype PS2
 correspondence remains unknown; detailed attribution and control records stay private.
+
+
+## Factory/Session post-control and resource phase — 9 November 2026
+
+`Factory::advance_resources` requires the actual unconsumed control-force token,
+matching resource/specification identity, current physical mirror and cold damage
+field. It executes the preceding guard before resource timers. The current primary
+channel selects the actual owner descriptor; model/buttons and damage/class limit
+come from that same owner. Every required clock query uses current owned position
+and dispatch context with the shared Double53 object-time service and supplied
+ordered areas, retaining its wide result. Scratch from both kernels is retained.
+
+The acquired combined original interval matches 512 source-backed contexts /
+1,317,724 final, scratch, clock and service-prefix words. These include 2,389 clock
+queries, 170 sound requests and 170 notifications. Rust executes actual cold groups,
+history, motion, classification, contacts, model, ANM/gravity and control forces
+before export. The original interval consumes that exported frontier; it does not
+reexecute those upstream producers. Prior resource/latch state, commands, flat
+terrain/empty prepared scene, global delta/raw network context and D-style sine
+tables remain supplied. This control uses cold retained damage and the actual
+loaded class limit. The separately acquired guard controls retain their wider
+exit profile.
+
+Sound/network entry providers observe the published real Session. A declared
+provider changes payload reserve, header damage/limit and buttons; the original
+and Rust later consumers independently reread them. This verifies service-boundary
+composition, not playback, transport or the inner original sound handler. The
+Session adapter retains prefix/provider effects on failure, refuses replay and
+foreign/wrong-order contexts, and avoids stale publication after owner removal.
+Separate controls exercise missing lifecycle service, cancellation and refusal
+after the actual preceding ANM phase fails. Error/quarantine behavior is owned
+policy, not original exception equivalence. A changed class/state/specification or
+missing owner is refused without overwriting the provider's completed lifecycle.
+
+Continuation/exit/global-tail requests do not finish a primary. A normal resource
+pass marks only this numbered phase; initializer/history prerequisites remain.
+Actual reinitialization internals, global-tail execution, class sound/notification
+backends and following action/animation consumers remain required before whole
+primary or live world admission. No new gameplay capture, playable preview or
+visual-fidelity claim follows. Prototype PS2 correspondence remains unknown.

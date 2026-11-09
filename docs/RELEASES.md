@@ -17,7 +17,59 @@ not establish availability in the ordinary controller of a current download.
 In particular, the historical jet/descent/contact captures do not close the Mecc
 input-to-landing integration prerequisite. No gallery assets or receipts change.
 
+
+## Kabuto owned post-control/resource composition — 9 November 2026
+
+The actual Factory/Session phase now continues from its control-force token
+through the acquired guard into resource/charge/next-speed-latch production.
+Current owner damage/class limit, descriptor/channels, model/buttons and repeated
+shared object-clock queries drive it. The original combined interval matches 512
+source-backed contexts / 1,317,724 final/scratch/clock/service-prefix words,
+including 2,389 clocks, 170 sound requests and 170 notifications.
+
+Required entry providers observe the published Session; later consumers reread
+changed header/payload values. Failure retains prefix/provider effects and blocks
+replay; cancellation avoids stale owner writes. Source lifecycle refusal and ANM
+failure are checked. Prior state/commands, sine tables, raw world/network context
+and flat/empty prepared scene remain boundaries. Entry providers do not execute
+audio/network backends or the original reinitialization internals; the required
+global tail, following action/animation and full primary/world cadence remain
+open. No history/initializer prerequisite is cleared or gameplay admitted.
+
+No dependency, asset, new capture or downloadable Kabuto preview is introduced.
+Existing preview notices/checksums and runtime/package receipts keep their exact
+source identities. Prototype PS2 correspondence remains unknown.
+
+Combined checkpoint `7635261` passes 829 synthetic Rust tests (46 ignored), all
+sixteen silent Kabuto phase controls plus the separate cold-resource control,
+41 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The
+source-backed comparison repeats 512 / 1,317,724 after the merge; the isolated
+kernel comparisons also repeat successfully. The limited source/history pattern
+review reports zero findings across 519 commits / 3,290 blobs. Existing binaries
+retain their independent source and runtime/package receipt identities.
+
 ## Timed effect program configuration — 9 November 2026
+
+Independent main-lane delivery checks downloaded all three `.9` assets and
+verified the public tag against the package source `241739c`. The ten-member ZIP,
+its external/internal checksums, executable identity and publication clearance
+pass. Running that downloaded executable passes both offscreen development
+endpoints (six launches), then two Rstory1 mission-index-2 source-terminal and
+re-entry cycles with muted real sinks and tracked voice/text cleanup. These are
+delivery/lifecycle observations; manual controls, native timing and full-scene
+fidelity remain unverified. Private profiles, logs and captures are not published.
+
+Combined main source `c8217b4a78e6eefc23f52f695496740644ab80d6` also includes the
+newer Delphi scan/range changes absent from `.9`. Its 647 synthetic game-core
+tests, strict game-core Clippy, 41 Python tests and workspace formatting pass.
+Installed-data composition passes four Delphi, fifteen Kabuto and two Mecc impact
+controls. Two initial Delphi controls explicitly refused a different executable
+layout; they pass with the identity-checked acquisition reference specified as
+documented in BUILD.md. No parser gate was weakened. These tests retain supplied
+service/geometry/time boundaries and do not admit playable Delphi/Kabuto/NPCs.
+The main history-pattern audit reports zero findings across 517 commits / 3,268
+blobs. A separate combined Windows build is still being prepared; these source
+checks do not relabel the public `.9` executable or certify a newer download.
 
 The bounded attached timed and detached linear-gravity frames now compose their
 following source VM commands with the shared owned initial constructor. Size,

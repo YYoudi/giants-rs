@@ -20,9 +20,11 @@ pub enum Event {
 /// These services must execute or refuse. The predicate is the actual world
 /// notification decision, not inferred from actor ownership or a peer count.
 pub trait World {
-    fn seconds(&mut self) -> Result<f64, String>;
-    fn event(&mut self, event: Event, payload: &mut [u8]) -> Result<(), String>;
-    fn notifications(&mut self) -> Result<bool, String>;
+    fn seconds(&mut self, payload: &[u8]) -> Result<f64, String>;
+    /// Refresh damage/limit/buttons after the service; preserve earlier
+    /// descriptor/model/mode scratch. Payload/provider effects remain on error.
+    fn event(&mut self, event: Event, payload: &mut [u8], input: &mut Input) -> Result<(), String>;
+    fn notifications(&mut self, payload: &[u8]) -> Result<bool, String>;
 }
 #[derive(Clone, Copy, Debug)]
 pub struct View {
@@ -59,8 +61,8 @@ fn put(p: &mut [u8], at: usize, v: f64) -> Result<(), String> {
     put_word(p, at, v.to_bits());
     Ok(())
 }
-fn seconds(w: &mut impl World) -> Result<f64, String> {
-    let v = w.seconds()?;
+fn seconds(w: &mut impl World, p: &[u8]) -> Result<f64, String> {
+    let v = w.seconds(p)?;
     if v.is_finite() && v >= 0. {
         Ok(v)
     } else {
@@ -74,7 +76,12 @@ fn interval(g: &GlobalData, damage: f32, limit: f32, at: [usize; 2]) -> Result<f
 }
 /// Prefix and service effects remain on failure. The caller must quarantine
 /// replay and must not acknowledge the enclosing primary/frame on success.
-pub fn advance(p: &mut [u8], i: Input, g: &GlobalData, w: &mut impl World) -> Result<View, String> {
+pub fn advance(
+    p: &mut [u8],
+    mut i: Input,
+    g: &GlobalData,
+    w: &mut impl World,
+) -> Result<View, String> {
     if p.len() != 844
         || !i
             .model
@@ -85,7 +92,7 @@ pub fn advance(p: &mut [u8], i: Input, g: &GlobalData, w: &mut impl World) -> Re
     {
         return Err("Kabuto timers require the acquired payload and finite positive limit".into());
     }
-    let v = f64::from(scalar(p, 0xe0)?) + seconds(w)?;
+    let v = f64::from(scalar(p, 0xe0)?) + seconds(w, p)?;
     put(p, 0xe0, v)?;
     let previous_selection = word(p, 0x90);
     let previous_frame =
@@ -98,7 +105,7 @@ pub fn advance(p: &mut [u8], i: Input, g: &GlobalData, w: &mut impl World) -> Re
     let count = old.wrapping_add((history & 1).wrapping_sub(history >> 4));
     p[0x8c..0x8e].copy_from_slice(&count.to_le_bytes());
     p[0x8e..0x90].copy_from_slice(&(history & 15).to_le_bytes());
-    let delay = f64::from(scalar(p, 4)?) - seconds(w)?;
+    let delay = f64::from(scalar(p, 4)?) - seconds(w, p)?;
     put(p, 4, delay)?;
     if delay < 0. {
         put_word(p, 4, 0);
@@ -116,7 +123,7 @@ pub fn advance(p: &mut [u8], i: Input, g: &GlobalData, w: &mut impl World) -> Re
         let wide = interval(g, i.damage, i.limit, [0x10bc, 0x10b8])?;
         t = wide as f32;
         let reserve = if wide != 0. {
-            f64::from(scalar(p, 0x128)?) - seconds(w)? / f64::from(t)
+            f64::from(scalar(p, 0x128)?) - seconds(w, p)? / f64::from(t)
         } else {
             0.
         };
@@ -126,16 +133,16 @@ pub fn advance(p: &mut [u8], i: Input, g: &GlobalData, w: &mut impl World) -> Re
         }
     } else {
         if word(p, 0x12c) != 0 {
-            w.event(Event::StartSound(0x40a), p)?;
-            if w.notifications()? {
-                w.event(Event::NotifySound(0x40a), p)?;
+            w.event(Event::StartSound(0x40a), p, &mut i)?;
+            if w.notifications(p)? {
+                w.event(Event::NotifySound(0x40a), p, &mut i)?;
             }
         }
         put_word(p, 0x12c, 0);
         let wide = interval(g, i.damage, i.limit, [0x10b4, 0x10b0])?;
         t = wide as f32;
         let reserve = if wide != 0. {
-            f64::from(scalar(p, 0x128)?) + seconds(w)? / f64::from(t)
+            f64::from(scalar(p, 0x128)?) + seconds(w, p)? / f64::from(t)
         } else {
             1.
         };
@@ -144,7 +151,7 @@ pub fn advance(p: &mut [u8], i: Input, g: &GlobalData, w: &mut impl World) -> Re
             put(p, 0x128, 1.)?;
         }
     }
-    let cooldown = f64::from(scalar(p, 0x140)?) - seconds(w)?;
+    let cooldown = f64::from(scalar(p, 0x140)?) - seconds(w, p)?;
     put(p, 0x140, cooldown)?;
     if cooldown < 0. {
         put_word(p, 0x140, 0);
@@ -153,7 +160,7 @@ pub fn advance(p: &mut [u8], i: Input, g: &GlobalData, w: &mut impl World) -> Re
         let wide = interval(g, i.damage, i.limit, [0x11a0, 0x11a4])?;
         t = wide as f32;
         let cap = if wide != 0. {
-            f64::from(scalar(p, 0x134)?) + seconds(w)? / f64::from(t)
+            f64::from(scalar(p, 0x134)?) + seconds(w, p)? / f64::from(t)
         } else {
             1.
         };
@@ -163,7 +170,7 @@ pub fn advance(p: &mut [u8], i: Input, g: &GlobalData, w: &mut impl World) -> Re
         }
     }
     if i.buttons & 0x10 != 0 && scalar(p, 0x140)? == 0. && scalar(p, 0x15c)? >= 3. {
-        let charge = f64::from(scalar(p, 0x13c)?) + seconds(w)?;
+        let charge = f64::from(scalar(p, 0x13c)?) + seconds(w, p)?;
         put(p, 0x13c, charge)?;
         let upper = g.scalar(0x11a8).map_err(|e| e.to_string())?;
         if charge > f64::from(upper) {
@@ -207,7 +214,7 @@ pub fn advance(p: &mut [u8], i: Input, g: &GlobalData, w: &mut impl World) -> Re
     let at = if word(p, 0x12c) != 0 { 0x9ec } else { 0x9f0 };
     let duration = g.scalar(at).map_err(|e| e.to_string())?;
     let fraction = if duration != 0. {
-        let step = seconds(w)? / f64::from(duration);
+        let step = seconds(w, p)? / f64::from(duration);
         if word(p, 0x12c) != 0 {
             f64::from(scalar(p, 0x130)?) + step
         } else {
@@ -254,15 +261,15 @@ mod tests {
         predicates: usize,
     }
     impl World for Services {
-        fn seconds(&mut self) -> Result<f64, String> {
+        fn seconds(&mut self, _: &[u8]) -> Result<f64, String> {
             self.clock_calls += 1;
             Ok(0.1)
         }
-        fn notifications(&mut self) -> Result<bool, String> {
+        fn notifications(&mut self, _: &[u8]) -> Result<bool, String> {
             self.predicates += 1;
             Ok(true)
         }
-        fn event(&mut self, event: Event, p: &mut [u8]) -> Result<(), String> {
+        fn event(&mut self, event: Event, p: &mut [u8], _: &mut Input) -> Result<(), String> {
             self.calls.push(event);
             match event {
                 Event::StartSound(0x40a) => {

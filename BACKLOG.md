@@ -328,6 +328,23 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: the actual Factory/Session resource phase now follows its owned
+  control-force token, executes the acquired guard, and binds actual accumulated
+  damage/class limit, current descriptor/channels, model/buttons and the shared
+  object-local clock to resource/charge/next-speed-latch production. All 512
+  source-backed contexts match 1,317,724 final/scratch/clock/service-prefix words,
+  including 2,389 clock queries, 170 sound and 170 notification requests. Prior
+  resource/latch state, world time/raw network context and flat/empty prepared
+  scene remain supplied. The original interval consumes the exported stage
+  frontier; it does not reexecute the upstream Rust phases.
+- Required service callbacks see the published real Session and can mutate it.
+  Later native consumers reread changed damage/limit/buttons and payload; late
+  failure keeps effects, owner removal prevents stale publication, foreign/order/
+  replay contexts refuse, and ANM failure cannot bypass into resources. Scratch
+  is retained for following action selection; history and all four initializer
+  prerequisites remain entered. Source lifecycle refusal is explicit, not a
+  successful empty reset. These are CPU controls with service entry providers,
+  not device sound, transport or live world admission.
 - Implemented, isolated CPU guard: heading/forward-vector and flag publication,
   accumulated-damage gate, shared local timer and ordered growth-decrement,
   sound/notification/reinitialization requests match 512 declared contexts /
@@ -346,15 +363,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   All 512 declared contexts / 141,758 payload/scratch/service-prefix words match
   the original interval, including 108 sound and 21 notification requests at
   explicit provider boundaries. The common frame converter and notification
-  predicate are reused. This does not execute audio/network transport or bind a
-  new Session phase. Failed services retain prefix effects and stop the tail;
+  predicate are reused. Those isolated controls alone do not execute audio/
+  network transport; Session binding is now composed above. Failed services retain prefix effects and stop the tail;
   failure behavior is owned policy, not native exception equivalence.
-- Next: bind that kernel to actual owned accumulated damage/limit, current
-  descriptor/clock and services. Bind the acquired intervening heading/flag/state/
-  global guard instead of jumping directly from control forces to timers.
-  The later action/animation consumers must retain native scratch state and
-  ordering. Complete primary/frame/world admission and all prerequisites remain
-  open; do not acknowledge another frame from the isolated kernel.
+- Next: acquire and connect actual class sound, notification and reinitialization
+  consumers, execute the required global tail and continue the native action/
+  animation selection from the retained scratch. The supplied service entries
+  are not those backends. Complete primary/frame/world admission and all
+  prerequisites remain open; do not acknowledge another frame from resources.
 - Implemented: the owned post-ANM/gravity control-force phase reuses common
   target/quaternion/basis/force arithmetic. Actual Factory globals, header
   configuration, position/scale, affine/contact/physics, commands and incoming

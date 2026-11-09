@@ -16,6 +16,7 @@ pub enum Notification {
     Growth(u8),
 }
 pub trait World {
+    fn checkpoint(&mut self, actor: &Actor, payload: &[u8]) -> Result<(), String>;
     fn local_owner(&mut self) -> Result<bool, String>;
     fn timer(&mut self) -> Result<f32, String>;
     fn global_seconds(&mut self) -> Result<f32, String>;
@@ -68,6 +69,7 @@ pub fn advance(actor: &mut Actor, p: &mut [u8], w: &mut impl World) -> Result<Vi
     let forward = [sine as f32, -cosine as f32, 0.];
     // This store precedes the guard and every external service.
     actor.flags |= 0x40;
+    w.checkpoint(actor, p)?;
     let damage = finite(actor.damage)?;
     let limit = finite(actor.limit)?;
     if damage < limit {
@@ -102,6 +104,7 @@ pub fn advance(actor: &mut Actor, p: &mut [u8], w: &mut impl World) -> Result<Vi
                     w.notify(Notification::Sound(0x6e4), actor, p)?;
                 }
                 p[0x158..0x15c].copy_from_slice(&target_scalar.to_le_bytes());
+                w.checkpoint(actor, p)?;
                 if w.notifications()? {
                     w.notify(Notification::Growth(target), actor, p)?;
                 }
@@ -133,6 +136,9 @@ mod tests {
         calls: Vec<u32>,
     }
     impl World for Services {
+        fn checkpoint(&mut self, _: &Actor, _: &[u8]) -> Result<(), String> {
+            Ok(())
+        }
         fn local_owner(&mut self) -> Result<bool, String> {
             Ok(true)
         }
