@@ -1637,3 +1637,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 Track concrete tasks here as each whole-game roadmap family is opened, including
 Delphi, Kabuto, squad AI, bases/economy, multiplayer, saving, UI, audio and fidelity.
 Preserve untouched families in the roadmap; do not replace it with recent CPU work.
+
+## Parented preparation delivery checkpoint — 9 November 2026
+
+Windows preview `preview-2026.11.09.13` retains exact source `ca6b2f8` and the
+parented preparation dependency described above. Its silent development,
+active-effect cancellation and source-terminal/re-entry checks pass; all three
+downloaded assets and ten ZIP members are independently verified. Exact hashes
+and validation scopes are in `docs/RELEASES.md` and `docs/public-preview.json`.
+The 545-source census still has zero complete scenes verified. Next: canonical
+Session state/resources, actual dispatcher rates/clock, detached environment,
+stock/retirement providers and world scheduling before timed-film admission.
+Manual input and complete visual/audio/temporal comparisons remain pending.

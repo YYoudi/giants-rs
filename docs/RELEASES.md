@@ -2,6 +2,22 @@
 
 ## Parented timed preparation and retirement sampling — 9 November 2026
 
+Published [preview-2026.11.09.13](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.13)
+pins source `ca6b2f8fb5dc4da85904a6b58111f55de37eac72`, executable SHA256
+`25e89be2717669c045ba449467b1055c3fc12d587fcf7e7f5139e0786c41d6ce`
+and ZIP SHA256 `f16533bcbf92a63d14d9f5b23e22d42902c795f3e627f4145bc1269323de74b3`.
+This exact MinGW binary passes both silent development endpoints, three active
+persistent-effect cancellations and two source-terminal/re-entry cycles with
+muted real voice sinks and text cleanup. Its source passes 838 Rust tests (51
+ignored), 43 Python tests, Rustfmt and strict Clippy. The limited history audit
+reports zero findings across 581 commits / 3,553 blobs after exact-document review
+of two explicitly unassigned PC aliases. All three public assets were downloaded
+fresh; ten package members, notices, receipts and checksums were independently
+verified. This does not certify interactive gestures or complete scene fidelity.
+Later Delphi target-scalar source changes retain separate CPU-only boundaries
+and do not relabel this binary. The published-download dashboard snapshot retains
+this executable's immutable identity separately from later source progress.
+
 The bounded parented preparation composes the acquired callback, shared ordinary
 finalization and source attachment/history writer. Retirement samples the current
 point before the new binding; a marked parent still completes that binding pass.
