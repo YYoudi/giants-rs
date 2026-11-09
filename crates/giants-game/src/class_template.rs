@@ -82,6 +82,13 @@ pub(crate) fn apply_configuration_extension(
                 .ok_or("class configuration byte absent")?;
             configuration[25] = (configuration[25] & !0x00ff_0000) | (u32::from(byte) << 16);
         }
+        0x39 => {
+            // A full word is consumed, but only its low byte replaces this
+            // packed control. Adjacent controls retain their ordered writes.
+            let value = word()?;
+            configuration[25] = (configuration[25] & !0x0000_ff00) | ((value & 0xff) << 8);
+            configuration[14] |= 0x20000;
+        }
         0x69 => configuration[13] = word()?,
         _ => return Err("unsupported class configuration extension"),
     }
@@ -133,7 +140,7 @@ impl DebugScalar {
                     out.configuration[20] = u32::from(state);
                 }
                 0x17 => out.scale_bits = word(1)?,
-                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x4e | 0x4f | 0x50 | 0x69 => {
+                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x39 | 0x4e | 0x4f | 0x50 | 0x69 => {
                     apply_configuration_extension(&mut out.configuration, record)
                         .map_err(|_| Need::Framing)?;
                 }
@@ -183,6 +190,38 @@ mod tests {
         };
         assert!(apply_configuration_extension(&mut configuration, &malformed).is_err());
         assert_eq!(configuration[17], 0x7fc0_0042);
+    }
+    #[test]
+    fn word_operand_preserves_neighbor_controls_and_rejects_partial_records() {
+        let mut configuration = [0xa5b6_c7d8; 30];
+        configuration[14] = 0x440000;
+        let before = configuration;
+        let mut commands = vec![0x39];
+        commands.extend(0x7fc0_0012u32.to_le_bytes());
+        commands.extend([0x36, 0x34, 0x26]);
+        commands.extend(0x8000_0056u32.to_le_bytes());
+        commands.extend(0x1234_5678u32.to_le_bytes());
+        commands.push(0x39);
+        commands.extend(0xffff_009au32.to_le_bytes());
+        commands.push(0xff);
+        let program = giants_formats::class_program::parse(&commands).unwrap();
+        for record in program.records.iter().take(program.records.len() - 1) {
+            apply_configuration_extension(&mut configuration, record).unwrap();
+        }
+        assert_eq!(configuration[25], 0x5634_9ad8);
+        assert_eq!(configuration[26], 0x1234_5678);
+        assert_eq!(configuration[14], 0x460000);
+        for i in (0..30).filter(|i| ![14, 25, 26].contains(i)) {
+            assert_eq!(configuration[i], before[i]);
+        }
+        let malformed = giants_formats::class_program::Record {
+            offset: 0,
+            opcode: 0x39,
+            bytes: vec![0x39, 0x12],
+        };
+        let before = configuration;
+        assert!(apply_configuration_extension(&mut configuration, &malformed).is_err());
+        assert_eq!(configuration, before);
     }
     #[test]
     fn resource_or_state_dependency_prevents_a_ready_scalar_template() {
