@@ -1,5 +1,10 @@
 # Build on Windows with MinGW
 
+For combined character/cinematic contributions, follow
+[INTEGRATION.md](INTEGRATION.md) before recording a public preview milestone.
+Keep the exact source/build identity and test scope separate from source-only
+and diagnostic coverage.
+
 Install Rust with the GNU Windows toolchain (Rust 1.98 or newer), Python 3.11+,
 Git, and x86-64 MinGW-w64 GCC/binutils. Put their bin directories on PATH.
 Visual Studio is not required. The lockfile pins dependency versions.

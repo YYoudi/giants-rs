@@ -38,6 +38,24 @@ matches probable and one unassigned. No gameplay status changes follow from name
 
 ## Parallel character work
 
+The main integration lane owns combined runtime wiring and delivery, using
+[INTEGRATION.md](docs/INTEGRATION.md). Prioritize ordinary gameplay reachability
+and cross-lane regression checks over additional stand-alone demonstrations.
+
+- Review committed Flick, Delphi and Kabuto contributions against actual runtime
+  entry points; retain CPU-only and supplied-provider boundaries. Add a dedicated
+  Mecc lane to this process if the owner creates one.
+- Wire ready contributions into the shared menu-to-mission application, including
+  lifecycle/cleanup and re-entry. Resolve shared-service dependencies without
+  weakening readiness or inventing missing behavior.
+- Validate combined source, then publish receipt-bound Windows previews and
+  accurate dashboard availability. Serialize each publication with outstanding
+  builds/drafts; preserve active specialized releases during the transition.
+- Current Mecc visual discrepancy: ordinary right-click thrust, descent and
+  contact must use the integrated controller/effects, with release and landing
+  verified. Historical scripted captures are not proof of that ordinary path.
+  Keep incomplete inspection-menu experiments out of the release until reviewed.
+
 Each chat works alone in its own worktree and `codex/` branch. The Delphi fork
 starts from the current public main, not the older fork snapshot. Keep one menu
 and mission runtime; do not create separate character executables or copy the
@@ -45,6 +63,8 @@ Mecc controller into another engine. Use an isolated Cargo target per worktree.
 
 | Lane | Scope and primary files | Shared dependencies |
 | --- | --- | --- |
+| Main integration | Common menu-to-mission wiring, combined regressions, main/Windows preview/dashboard publication | Consume reviewed lane contributions; preserve ownership and evidence boundaries |
+| Flick | Cinematic lifecycle, attached/timed effects and source traversal | Shared actors, animation, effects, renderer, audio and menu transitions |
 | Mecc | Existing `mecc_*` services, owned primary/target/fire and live integration | Actor storage, physics, animation, camera, effects and audio |
 | Delphi (active in `codex/delphi-native`) | `delphi_*`: declaration/resource preparation, cold initialization, land/water movement, energy, then sword/bows/spells | Reuse the same actor and mission services; acquire character-specific callbacks separately |
 | Kabuto (active in `codex/kabuto-native`) | `kabuto_*`: declaration/resource preparation, cold initialization, movement/growth, then feeding/attacks/offspring | Reuse actor/world services; do not change Delphi or Mecc rules |

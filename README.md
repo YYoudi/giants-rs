@@ -15,6 +15,11 @@ described below is published under the owner's explicit authorization.
 
 [Quick start](docs/QUICK_START.md) · [Build](docs/BUILD.md) · [Release policy](docs/RELEASES.md)
 
+The [main integration process](docs/INTEGRATION.md) connects the cinematic and
+character work to the shared application and validated Windows previews. CPU
+services, diagnostic captures and ordinary gameplay availability are tracked
+separately; a source merge alone does not make a feature playable.
+
 The [roadmap dashboard](https://yyoudi.github.io/giants-rs/) is generated from this
 repository's `PROGRESS.json` and updates through GitHub Pages on main-branch pushes.
 It opens with featured engine screenshots and includes searchable status tables
