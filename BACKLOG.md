@@ -366,9 +366,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   actual argument-preparation sites match 130 executions using source GData and
   64 variants. Current headers/list/bounds/view inputs remain supplied. The same
   search feeds distinct caller relationships, not one interchangeable target.
-  Next: acquire the remaining current-header scalar/producer and actual target
+  Next: bind the Delphi scalar writer below, acquire other actor writers and actual target
   publications/lifetime, then bind proxy updates/retirement and primary/world
   order. The range-mode guard alone cannot decide readiness or activation.
+- Implemented: Delphi's current target-scalar writer matches 513 original-PC
+  contexts, preserving shared-mode/link/context gates, source global parameters,
+  wide distance and stored lower comparison. Eight negative-zero cases agree.
+  In 128 supplied four-actor schedules, independently calculated Rust production
+  and target search match 640 native output words (512 scalar intervals / 128
+  searches). Registers, headers/links/current-player, positions, bounds, viewport
+  and schedule remain supplied. Next: actual owned relationship/header publication,
+  other actor writers and caller/world/ANM timing; do not identify the relationship
+  as an arbitrary held object or substitute a zero value. Target/proxy lifetime,
+  main integration and fidelity remain open.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -390,6 +400,24 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: the reference eligibility and ordered bounds query match 512
+  declared original scenes / 1,536 selection/score/policy words, with 48 selected
+  targets. Preserve source masks versus candidate configuration16 (not personality
+  configuration14), null/self/parent exclusions and the state51 attached exception
+  for kind1. Wide Z and the wide negative-dot test precede the stored dot/range
+  comparison; range and score ties are strict. Direction is not normalized and
+  negative scores are not clamped. Supplied list/header/parent/bounds/ray and
+  Double53 caller state remain boundaries, including tested signed underflow.
+- The read-only Factory query requires this owner's completed resource token and
+  actual source/spec identity, reads masks from current payload, and traverses
+  real Session list0 and typed parent/state/flag/category metadata. Bounds are
+  requested only for eligible actors; no radius/first-model or stale/foreign
+  fallback exists. Source controls check ordinary construction, declared analytic
+  bounds/visibility/category, parent rejection, missing bounds, foreign/order
+  refusal, repeatability and unchanged owner/history/prerequisites. No live ray/
+  bounds producer, reference publication, target lifetime or actor interaction
+  is admitted. Next: local reference release/timer, actual view/range/bounds
+  producers, target publication and the following action/animation consumers.
 - Implemented, shared CPU dependency of the following actor-reference consumer:
   state-filtered velocity addition accepts an explicit vector or computes the
   acquired default from source scale/physical factor/basis. All 512 original

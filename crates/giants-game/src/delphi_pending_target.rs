@@ -33,8 +33,9 @@ pub struct Input {
 }
 pub trait Services<K> {
     fn candidate(&mut self, key: K) -> Result<readiness::Candidate, String>;
-    /// Current scalar tested after eligibility/personality. Its live producer
-    /// and semantic name remain unassigned; no implicit cold/default value.
+    /// Current scalar tested after eligibility/personality. The Delphi writer
+    /// is acquired in delphi_target_scalar; owned publication and other actors'
+    /// writers remain separate. No implicit cold/default value is supplied.
     fn threshold_value(&mut self, key: K) -> Result<f32, String>;
     fn current_bounds(&mut self, key: K) -> Result<Bounds, String>;
 }
