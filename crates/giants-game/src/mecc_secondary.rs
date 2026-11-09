@@ -33,6 +33,16 @@ pub(crate) struct Services<'a> {
 pub(crate) trait ImpactDamage {
     fn apply(&mut self, fields: &mut Fields, payload: &mut [u8], amount: f32)
     -> Result<(), String>;
+
+    fn apply_with_random(
+        &mut self,
+        fields: &mut Fields,
+        payload: &mut [u8],
+        amount: f32,
+        _random: &mut crate::audio_parameters::Random,
+    ) -> Result<(), String> {
+        self.apply(fields, payload, amount)
+    }
 }
 
 #[derive(Clone, Debug, Default)]
@@ -308,10 +318,12 @@ pub(crate) fn ordinary(
             .ok_or("impact requires the owned effect pool")?;
         f.channels = channels;
         *service.checkpoint = Some((f.clone(), body.clone()));
-        let result = impact
-            .as_mut()
-            .unwrap()
-            .apply(&mut f, &mut body, reaction.amount.unwrap());
+        let result = impact.as_mut().unwrap().apply_with_random(
+            &mut f,
+            &mut body,
+            reaction.amount.unwrap(),
+            random,
+        );
         *service.checkpoint = Some((f.clone(), body.clone()));
         result?;
         // Damage precedes contact selection. Contact suppresses the positional

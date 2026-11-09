@@ -246,6 +246,7 @@ impl<'r> Providers<'r> {
     fn borrowed(&mut self) -> crate::mecc_primary::Services<'_, 'r, '_> {
         crate::mecc_primary::Services {
             impact: None,
+            impact_voice: None,
             fire: None,
             animation: crate::mecc_animation_phase::Services {
                 contexts: &mut self.contexts,
@@ -1269,6 +1270,7 @@ fn source_mecc_contact_effect_preserves_prior_state_delay_and_stale_binding_refu
             1. / 60.,
             crate::mecc_secondary::Services {
                 impact: None,
+
                 fire: false,
                 blending: Blending::Disabled,
                 random,
@@ -1447,6 +1449,7 @@ fn source_mecc_impact_secondary_orders_owned_health_context_and_channel() {
         let mut checkpoint = None;
         let counts = session.counts();
         let mut damage = super::mecc_impact::Damage {
+            voice: None,
             session: &mut session,
             source,
             context: crate::mecc_impact::Context {
@@ -1605,4 +1608,222 @@ fn source_mecc_impact_primary_retains_health_before_required_voice_and_quarantin
     assert_eq!(s.mecc_health(id).unwrap().damage, health);
     assert_eq!(p.random.0, 1);
     assert!(p.contexts.active().is_empty());
+}
+
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; owned damage/voice publication with explicit cue provider, no window or device"]
+fn source_mecc_impact_voice_publishes_health_and_retains_late_timer_failure() {
+    struct Voice {
+        calls: Vec<(u32, f32, f32)>,
+        fail_at: usize,
+    }
+    impl MeccImpactVoice for Voice {
+        fn play(&mut self, session: &Session, source: Id, sound: u32) -> Result<(), String> {
+            let health = session.mecc_health(source)?;
+            let payload = session.get(source).unwrap().seed.storage.data().unwrap();
+            let timer = f32::from_le_bytes(payload[0x1fc..0x200].try_into().unwrap());
+            self.calls.push((sound, health.damage, timer));
+            if self.calls.len() == self.fail_at {
+                Err("required cue failed after observing owned state".into())
+            } else {
+                Ok(())
+            }
+        }
+    }
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    for (fail_at, start_damage) in [(0, 55.), (1, 0.), (2, 0.)] {
+        let mut session = Session::new(912);
+        let source = actor(&mut session, &r, &g, &c, None, 0.);
+        let resident = session.residents.get_mut(&source.serial).unwrap();
+        resident.mecc_damage = Some(start_damage);
+        resident.seed.storage.data_mut().unwrap()[0x1fc..0x200]
+            .copy_from_slice(&(-0.1f32).to_le_bytes());
+        let context = crate::mecc_impact::Context {
+            offline: true,
+            damage: MeccDamageContext {
+                globally_disabled: false,
+                cutscene: false,
+                shield_percent: 0.,
+                ambient_voice_timer: -1.,
+            },
+        };
+        session.prepare_mecc_countdown_world(-1.).unwrap();
+        let mut random = crate::audio_parameters::Random(42);
+        let mut voice = Voice {
+            calls: Vec::new(),
+            fail_at,
+        };
+        let counts = session.counts();
+        let outcome =
+            session.damage_mecc_impact_nonlethal(source, 1., context, &mut random, &mut voice);
+        assert_eq!(outcome.is_err(), fail_at != 0);
+        assert_eq!(
+            session.mecc_health(source).unwrap().damage,
+            start_damage + 1.
+        );
+        assert_eq!(session.counts(), counts);
+        assert_eq!(
+            voice.calls[0],
+            (
+                if start_damage == 0. { 1504 } else { 1505 },
+                start_damage + 1.,
+                -0.1
+            )
+        );
+        let mut expected = crate::audio_parameters::Random(42);
+        let timer = if fail_at == 1 {
+            -0.1
+        } else {
+            let timer = (f64::from(expected.next_15()) / 32768. + 1.) as f32;
+            let cue = 1683 + ((expected.next_15() * 100) >> 15) / 25;
+            assert_eq!(voice.calls[1], (cue, start_damage + 1., timer));
+            timer
+        };
+        let payload = session.get(source).unwrap().seed.storage.data().unwrap();
+        assert_eq!(
+            f32::from_le_bytes(payload[0x1fc..0x200].try_into().unwrap()),
+            timer
+        );
+        assert_eq!(
+            session.mecc_countdown_world().unwrap(),
+            if fail_at == 0 { 10. } else { -1. }
+        );
+        assert_eq!(random.0, expected.0);
+        let damage = session.mecc_health(source).unwrap().damage;
+        session.mecc_countdown_world = Some(99.);
+        assert!(
+            session
+                .damage_mecc_impact_nonlethal(source, 1., context, &mut random, &mut voice,)
+                .is_err()
+        );
+        assert_eq!(session.mecc_health(source).unwrap().damage, damage);
+        let mut foreign = Session::new(913);
+        assert!(
+            foreign
+                .damage_mecc_impact_nonlethal(source, 1., context, &mut random, &mut voice,)
+                .is_err()
+        );
+        session.clear();
+        assert!(session.get(source).is_none());
+    }
+}
+
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; real primary/impact voice composition with supplied cues, no device"]
+fn source_mecc_impact_primary_voice_uses_countdown_owner_and_retains_failed_frame() {
+    struct Voice {
+        count: usize,
+        fail_at: usize,
+    }
+    impl MeccImpactVoice for Voice {
+        fn play(&mut self, session: &Session, source: Id, sound: u32) -> Result<(), String> {
+            self.count += 1;
+            assert_eq!(session.mecc_health(source)?.damage, 15.);
+            assert!(session.mecc_countdown_world().unwrap() < 0.);
+            assert_eq!(sound == 1504, self.count == 1);
+            if self.count == self.fail_at {
+                Err("controlled actual cue-entry failure".into())
+            } else {
+                Ok(())
+            }
+        }
+    }
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    for fail_at in [1, 2, 0] {
+        let mut session = Session::new(810);
+        let source = actor(&mut session, &r, &g, &c, None, 0.);
+        session.prepare_mecc_countdown_world(-1.).unwrap();
+        session
+            .bind_mecc_contact_materials(
+                crate::mecc_contact_materials::Catalog::from_prepared(&[], Default::default())
+                    .unwrap(),
+            )
+            .unwrap();
+        let actor = session.residents.get_mut(&source.serial).unwrap();
+        let fields = actor.construction_fields.as_mut().unwrap();
+        fields.position = [0., 0., 5.];
+        fields.current = fields.position;
+        fields.previous = fields.position;
+        actor.mecc_physical_cycle.as_mut().unwrap().view.velocity = [0., 0., -145.];
+        let mut providers = Providers::new(&r);
+        let mut voice = Voice { count: 0, fail_at };
+        let context = crate::mecc_impact::Context {
+            offline: true,
+            damage: MeccDamageContext {
+                globally_disabled: false,
+                cutscene: false,
+                shield_percent: 0.,
+                ambient_voice_timer: 999.,
+            }, // Caller snapshot is not the live owner.
+        };
+        let env = |number| crate::mecc_physical_cycle::Environment {
+            number,
+            generation: 1,
+            globals: &g,
+            catalog: &c,
+            global_seconds: 0.1,
+            areas: &[],
+            controls: [0; 2],
+            facing_pitch: 0.,
+            orientation: Some(crate::mecc_physical_cycle::Orientation {
+                controls: [0; 2],
+                control_factor: 1.,
+                skip_heading: false,
+                controlled_actor: true,
+            }),
+            actor_key: 1,
+            objects: &[],
+        };
+        session.begin_mecc_frame_history(source, 1).unwrap();
+        let mut services = providers.borrowed();
+        services.impact = Some(context);
+        services.impact_voice = Some(&mut voice);
+        let outcome =
+            session.advance_mecc_world_offline(source, env(1), Some(source), ground, services);
+        eprintln!(
+            "impact_voice_primary fail_at={fail_at} outcome={:?} cue_entries={} contexts={}",
+            outcome.as_ref().map(|_| ()),
+            voice.count,
+            providers.contexts.active().len()
+        );
+        if fail_at != 0 {
+            assert!(
+                outcome
+                    .err()
+                    .expect("controlled cue must fail")
+                    .contains("controlled actual cue-entry failure")
+            );
+            assert_eq!(
+                session.actor_world_tick(source).unwrap().phase(),
+                Phase::Failed
+            );
+            assert!(session.begin_mecc_frame_history(source, 2).is_err());
+            assert_eq!(session.mecc_health(source).unwrap().damage, 15.);
+            assert_eq!(voice.count, fail_at);
+            assert!(providers.contexts.active().is_empty());
+            assert!(session.mecc_countdown_world().unwrap() < 0.);
+        } else {
+            outcome.unwrap();
+            assert_eq!(voice.count, 2);
+            assert_eq!(session.mecc_countdown_world(), Some(10.));
+            assert_eq!(providers.contexts.active().len(), 1);
+        }
+        session.clear();
+    }
 }

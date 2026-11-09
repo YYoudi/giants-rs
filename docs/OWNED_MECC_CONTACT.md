@@ -440,3 +440,41 @@ context cancellation and the enclosing cleanup prepass remain open. The existing
 positional effect-audio transport belongs to the later effect activation phase.
 Prototype PS2 attributions remain unknown; exact PC aliases and both binary
 identities are retained privately. No new name, ABI or fidelity promotion follows.
+
+## Owned nonlethal impact voice tail — 9 November 2026
+
+`mecc_impact_voice::after_damage` now preserves the acquired cue/timer order after
+positive nonlethal kind-16 damage. An expired actor timer selects pain from the
+post-hit damage ratio, calls the required cue service, then draws its replacement
+interval from the VM RNG. An expired shared timer draws the four-way cue choice
+before calling the service and stores ten seconds only after success. Both timer
+tests are strict: zero and negative zero are not expired. Audio variation must
+keep its separate backend random owner.
+
+Two original-PC/Rust comparisons agree on 136 declared contexts, 136 cue entries
+and 1,224 selected words: cue IDs, post-hit health, pre-cue timers/VM seeds and
+final voice-tail timers/seed. The additional cases straddle the half-health ratio
+and the integer cue boundaries at 25, 50 and 75. The checkpoint is at the actual
+voice-tail return, before the selector's later effect draws. Native cue execution
+is an explicit service returning zero; Rust records requests. This is not wrapper
+routing, device playback, complete selector or whole-world fidelity.
+
+`Session::damage_mecc_impact_nonlethal` binds this tail to actual owned health and
+the existing shared countdown owner. `mecc_primary::Services::impact_voice`
+optionally connects it to the secondary, using that live post-countdown owner
+rather than a caller's stale timer snapshot. Cue callbacks can inspect the real
+Session but cannot mutate its health or timer state. Completed health/timer/VM
+writes survive later service failures. Installed-data controls cover direct
+publication and an actual falling-entry primary: with supplied cues it completes
+the frame and prepares one positional context; failures at either cue preserve
+the damage, prepare no positional context and leave the enclosing frame failed,
+refusing a second frame. These providers create no window or audio device.
+
+The App still supplies no impact context or voice provider. Its existing step-441
+refusal, ordinary controls and downloadable preview claims are unchanged. Next
+bind actual local-owner cue routing and ready audio, including the distinct
+shared-cue flag policy, before enabling this primary service in the App. Wounded
+continuation, gate production, death/equipment profiles, active FX and full
+cleanup/scheduling remain open. The positional class-867 transport is not the
+local Mecc pain service. Prototype PS2 attribution remains unknown; there is no
+new confirmed function name or imported platform layout.

@@ -967,9 +967,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   The actual supplied falling-entry primary retains 15 damage, zero contexts and
   unchanged VM RNG, then quarantines its missing voice service without replay.
   Its actor countdown is deliberately negative: do not clamp/reset it or supply
-  silent audio. Next bind actual pain/ambient local sources, routing and ready
-  sinks, then the replacement cooldown/shared timer and their separate audio/VM
-  RNG ordering. The main inspection still supplies no impact provider and keeps
+  silent audio. The owned voice tail now preserves replacement cooldown/shared
+  timer ordering: 136 native/Rust contexts / 136 cue entries / 1,224 selected words
+  agree, including ratio and integer-choice boundaries. The Session binds its
+  actual shared countdown; an optional primary voice provider completes one
+  falling-entry frame with supplied cues and preserves both late-failure paths
+  without replay. This is CPU composition, not actual voice transport. Next bind
+  pain/ambient local sources, owner routing and ready sinks with their distinct
+  shared-cue flag policy and separate audio/VM RNG owners. The main inspection still supplies no impact provider and keeps
   step 441; native gate production, wounded continuation, heavy carried channel,
   active effect scheduling and cleanup remain prerequisites. The existing
   positional effect transport is for later activation, not secondary preparation.

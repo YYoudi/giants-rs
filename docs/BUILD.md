@@ -188,6 +188,14 @@ required missing pain-voice boundary, without cooldown/FX RNG draws or replay.
 No window, device, active effect actor or complete trajectory is exercised.
 See OWNED_MECC_CONTACT.md for the separate native comparisons and open services.
 
+The same command also runs two additional installed-data controls. The voice
+publication control observes committed Session health and timers through explicit
+cue callbacks, including late failures and stale/foreign owner refusal. The
+primary voice control uses the real post-prefix shared countdown: supplied cues
+complete one falling-entry frame and prepare one context; either cue failure
+retains health and prevents replay. These are required-service CPU controls,
+not an audio device, main-driver admission or a playable trajectory.
+
 ## Optional actual impact audio checks
 
 Set `GIANTS_MECC_WORLD_ROOT` to a user-supplied installation and isolate the Cargo

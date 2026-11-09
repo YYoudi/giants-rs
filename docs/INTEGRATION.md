@@ -84,6 +84,14 @@ with their actual released build and menu/input path. Verify the deployed site,
 not just local generated files. Report source integration, runtime validation,
 download availability and fidelity separately.
 
+`docs/public-preview.json` is the minimal reviewed snapshot of the actual public
+Windows download: release tag, immutable source/executable/ZIP identities, scoped
+checks and known integration limits. Update it only after publishing and
+independently downloading/verifying the assets. Never derive it from current
+main or a draft reservation. The dashboard exports it separately from the source
+roadmap so later CPU/source progress cannot silently relabel the existing binary.
+Detailed prerequisites remain in `BACKLOG.md`; raw runtime reports stay private.
+
 On continuation, inspect outstanding lane work and publication state first,
 retain exact evidence identities and native-name lookups, then select the next
 runtime dependency from `BACKLOG.md`. Waiting for a necessary lane dependency is
