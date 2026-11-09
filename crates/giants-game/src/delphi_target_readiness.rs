@@ -63,6 +63,7 @@ pub fn prepare(
     Ok(affordable)
 }
 
+#[derive(Clone, Copy, Debug)]
 pub struct Candidate {
     pub state: u32,
     pub class: u32,
@@ -135,5 +136,36 @@ mod tests {
         assert!(prepare(&mut state, [0.; 3], [3.; 3], f32::NAN, p).is_err());
         assert_eq!(state.fallback, [3.; 3]);
         assert_eq!(state.readiness, 3);
+    }
+
+    #[test]
+    fn eligibility_keeps_special_state_policy_and_actual_player_context_distinct() {
+        let mut candidate = Candidate {
+            state: 23,
+            class: 11,
+            flags: 0,
+            personality: 0,
+            limit: 10.,
+            accumulated: 0.,
+            exclusion: 0,
+            shares_current_player_context: false,
+            position: [0., -1., 0.],
+        };
+        let owner = [0.; 3];
+        let column = [0., 2., 0.];
+        let check = |c| eligible(c, owner, column).unwrap();
+        assert!(check(candidate));
+        candidate.shares_current_player_context = true;
+        assert!(!check(candidate));
+        candidate.shares_current_player_context = false;
+        candidate.state = 0x4a;
+        assert!(!check(candidate));
+        candidate.personality = 0x20000;
+        candidate.limit = 0.;
+        candidate.accumulated = 100.;
+        candidate.exclusion = 1;
+        assert!(check(candidate));
+        candidate.flags = 0x4000;
+        assert!(!check(candidate));
     }
 }

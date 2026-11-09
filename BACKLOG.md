@@ -307,6 +307,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   fallback. Next: typed pending/active target publication and readiness, including
   source power/comparison ties and optional retarget/proxy paths, then real movement/
   sequence/audio/physics scheduling. No live Delphi/fidelity promotion follows.
+- Implemented: linked-readiness cost/prefix, its distinct eligibility policy and
+  target-proxy matrix match 2,048 original-PC/Rust contexts / 12,288 words.
+  Preserve stored f32 squared distance and the wide cost comparison, incoming
+  readiness on insufficient reserve, actual selected-player context and raw
+  affine column. Direct class3d4/state78 birth reuses common resources without
+  inventing FX origin/physical initialization; 156 selected normalized words
+  match one original birth. Three concurrent source constructors, clear and
+  re-entry are checked. Headers/context/rates/dimensions/dispatch and native
+  resource/heap setup remain supplied. Next: actual typed pending/active target
+  producer/lifetime, optional Kabuto relationship and retarget, owned proxy
+  update/retirement and complete readiness/primary composition before movement,
+  sequence/audio/physics scheduling. No live Delphi or fidelity promotion follows.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary

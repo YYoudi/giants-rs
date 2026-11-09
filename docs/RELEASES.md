@@ -18,6 +18,27 @@ In particular, the historical jet/descent/contact captures do not close the Mecc
 input-to-landing integration prerequisite. No gallery assets or receipts change.
 
 
+## Delphi linked readiness and direct target proxy - 9 November 2026
+
+Acquired CPU readiness, distinct target eligibility and target-proxy matrix
+controls match 2,048 original-PC/Rust contexts / 12,288 words. The comparison
+preserves squared-distance storage, the wide reserve test, current-player context
+and physical/matrix flags. One source-backed direct proxy birth matches 156
+selected normalized words; installed-data controls check three concurrent
+constructors, clear and re-entry without an invented FX origin or physical block.
+
+Headers/context, reserve/rates, dimensions, dispatch and native resource/heap
+setup remain supplied. Typed live target production/lifetime, optional retarget,
+proxy update/retirement and primary/world composition stay open. This source-only
+milestone adds no ordinary Delphi gameplay, screenshot, asset or downloadable
+preview. Existing package, technical notices and checksum receipts retain their
+exact source identities. Prototype PS2 attribution remains unknown.
+
+Combined validation passes 831 synthetic Rust tests (47 ignored), five installed
+Delphi resource/lifecycle controls, 41 Python tests, Rustfmt, strict Clippy and
+roadmap/site/JavaScript checks. These checks retain their supplied CPU boundaries
+and do not relabel an existing executable as containing this source milestone.
+
 ## Kabuto owned post-control/resource composition — 9 November 2026
 
 The actual Factory/Session phase now continues from its control-force token
