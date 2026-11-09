@@ -73,9 +73,13 @@ NPC world admission; continue connecting ready services through the common runti
 
 The following combined source integration retains Mecc local-voice transport,
 landing/directional-air continuation and prepared damage-smoke services alongside
-the latest other lanes. Ordinary App impact/voice binding still needs actual
-mission gates and persistent wounded-primary ownership; prepared smoke is not an
-active renderer. Preserve those prerequisites when consuming the next Mecc lot.
+the latest other lanes. The resident now owns bounded wounded-primary smoke with
+an explicit source/frame-bound display snapshot. Ordinary App impact/voice/display
+binding still needs actual mission gates and pre-world subjective ownership;
+prepared smoke is not an active renderer. Resolve the damage-inhibit and cinematic
+state producers, keeping the non-mode-4 authority path distinct from the still
+supplied mode-4 delegate. A selected camera mode does not establish a prepared
+subjective actor. Preserve these prerequisites when consuming the next Mecc lot.
 The current independently verified download is `.13`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
