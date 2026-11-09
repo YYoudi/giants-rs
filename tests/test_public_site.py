@@ -6,6 +6,45 @@ from tools.export_site import export, project
 
 
 class PublicSiteTests(unittest.TestCase):
+    def preview_fixture(self):
+        return dict(schema_version=1, tag='preview-2026.11.09.12', source_commit='a'*40,
+                    executable_sha256='b'*64, archive_sha256='c'*64,
+                    checks=['offscreen_menu_cycles'], limitations=['ordinary_mecc_native_motion'])
+
+    def test_download_snapshot_stays_pinned_when_source_roadmap_advances(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root/'docs').mkdir()
+            preview = self.preview_fixture()
+            (root/'docs/public-preview.json').write_text(json.dumps(preview), encoding='utf8')
+            progress = self.fixture()
+            progress['readme_roadmap'][0]['detail'] = 'Later source-only service '+ 'd'*40
+            (root/'PROGRESS.json').write_text(json.dumps(progress), encoding='utf8')
+            export(root/'site', root)
+            emitted = json.loads((root/'site/public-preview.json').read_text(encoding='utf8'))
+            self.assertEqual(emitted, preview)
+            text = (root/'site/index.html').read_text(encoding='utf8')
+            self.assertIn('Current Windows download', text)
+            self.assertIn('/commit/'+'a'*40, text)
+            self.assertIn('/releases/download/preview-2026.11.09.12/giants-preview-windows-x64.zip', text)
+            self.assertIn('Later source-only service', text)
+            self.assertNotIn('{{PUBLIC_PREVIEW}}', text)
+
+    def test_download_snapshot_rejects_private_fields_mutable_refs_and_unreviewed_scopes(self):
+        from tools.export_site import public_preview
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root/'docs').mkdir()
+            path = root/'docs/public-preview.json'
+            for change in [dict(private_path='D:/private/research'), dict(source_commit='main'),
+                           dict(tag='../draft'), dict(archive_sha256='not a digest'),
+                           dict(checks=['complete_game']), dict(checks=[]),
+                           dict(limitations=['PRIVATE_REPORT'])]:
+                with self.subTest(change=change):
+                    path.write_text(json.dumps(self.preview_fixture() | change), encoding='utf8')
+                    with self.assertRaises(ValueError):
+                        public_preview(root)
+
     def test_archived_screenshot_retains_identity_without_claiming_preview_availability(self):
         from tools.export_site import screenshots_html
         revision = 'a'*40

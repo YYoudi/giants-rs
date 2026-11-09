@@ -145,6 +145,24 @@ Delphi resource/lifecycle controls, 41 Python tests, Rustfmt, strict Clippy and
 roadmap/site/JavaScript checks. These checks retain their supplied CPU boundaries
 and do not relabel an existing executable as containing this source milestone.
 
+## Mecc nonlethal impact voice composition — 9 November 2026, source only
+
+The owned kind-16 voice tail now composes actual Session health, its shared
+countdown and the VM RNG in acquired order. Two original-PC/Rust controls agree
+on 136 declared contexts / 136 cue entries / 1,224 selected words, including
+half-health and integer-choice boundaries. The voice checkpoint precedes later
+selector effect draws. Native and Rust cue services are supplied boundaries;
+this is not original-process playback or device fidelity.
+
+The optional primary provider completes one controlled falling-entry frame and
+prepares its real positional context. Injected pain/shared-cue failures retain
+damage and completed timing and refuse another frame. Actual App voice transport,
+wounded continuation, world scheduling and main-driver impact admission remain
+open. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md). This branch handoff adds
+no dependency, new playable capture or downloadable preview; all earlier source,
+executable, notices and package/checksum receipts retain their exact identities.
+The main integration lane owns combined publication after review and validation.
+
 ## Kabuto owned post-control/resource composition — 9 November 2026
 
 The actual Factory/Session phase now continues from its control-force token
@@ -235,8 +253,16 @@ layout; they pass with the identity-checked acquisition reference specified as
 documented in BUILD.md. No parser gate was weakened. These tests retain supplied
 service/geometry/time boundaries and do not admit playable Delphi/Kabuto/NPCs.
 The main history-pattern audit reports zero findings across 517 commits / 3,268
-blobs. A separate combined Windows build is still being prepared; these source
-checks do not relabel the public `.9` executable or certify a newer download.
+blobs. The separate combined MinGW executable has SHA256
+`e7f5581e198e23b62cae506e7cf6a0aed466ddeee960d326c4a9f2ba9c320a90`.
+Its exact runtime tree passes 829 release-profile workspace tests (45 ignored),
+strict workspace/all-target Clippy, six offscreen development launches and two
+Rstory1 mission-index-2 source-terminal/re-entry cycles with muted voice/text
+cleanup. CLI help exits successfully when explicitly awaited; CI now does so
+instead of relying on a bare PowerShell GUI invocation. PE imports contain Windows
+system/UCRT libraries; the dependency preflight finds 338 packages with notices
+and verifies eleven toolchain notice files. These checks do not relabel `.9` or
+certify ordinary controls/fidelity; this candidate remains a private checkpoint.
 
 The bounded attached timed and detached linear-gravity frames now compose their
 following source VM commands with the shared owned initial constructor. Size,

@@ -21,6 +21,21 @@ and zero-delta controls pass within declared boundaries. Detached environment,
 ordinary stock and full timed-film admission remain prerequisites; no additional
 complete movie is certified by this dependency.
 
+## Combined character and effect checkpoint
+
+This source combines the timed-effect configuration dependency with Delphi's
+source-range and held/camera terrain scans, Kabuto's owned guard/resource phase,
+and Mecc's nonlethal impact voice ordering. These are partial CPU services and
+composition controls, not complete character or world scheduling. The Mecc cue
+provider preserves damage/timing after late failure, but actual App voice
+transport and main-driver impact admission remain open.
+
+Delphi, Kabuto and NPC AI are not newly playable in this preview. Ordinary Mecc
+jet-plume, descent/contact and complete landing integration remain pending.
+Historical scripted gallery captures do not establish availability in ordinary
+gameplay. The existing menu-first development application remains incomplete;
+no additional full-scene or gameplay-fidelity result is certified.
+
 ## Owned timed effect callbacks
 
 Timed-effect resource ownership and callback ordering now have broader CPU
