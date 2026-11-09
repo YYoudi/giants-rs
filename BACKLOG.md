@@ -73,9 +73,14 @@ NPC world admission; continue connecting ready services through the common runti
 
 The following combined source integration retains Mecc local-voice transport,
 landing/directional-air continuation and prepared damage-smoke services alongside
-the latest other lanes. Ordinary App impact/voice binding still needs actual
-mission gates and persistent wounded-primary ownership; prepared smoke is not an
-active renderer. Preserve those prerequisites when consuming the next Mecc lot.
+the latest other lanes. The resident now owns bounded wounded-primary smoke with
+an explicit source/frame-bound display snapshot. Ordinary App impact/voice/display
+binding still needs actual mission gates and pre-world subjective ownership;
+prepared smoke is not an active renderer. Resolve the damage-inhibit and separate
+suppression-gate producers (historical `cutscene` field), keeping the non-mode-4
+authority path distinct from the still
+supplied mode-4 delegate. A selected camera mode does not establish a prepared
+subjective actor. Preserve these prerequisites when consuming the next Mecc lot.
 The current independently verified download is `.13`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
@@ -1056,7 +1061,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   actual shared countdown; an optional primary voice provider completes one
   falling-entry frame with supplied cues and preserves both late-failure paths
   without replay. This is CPU composition, not actual voice transport. Next bind
-  the actual mission gates and wounded continuation before binding the App
+  the actual mission gates and complete movement/injury lifecycle before binding the App
   primary. Local pain/ambient transport is now independently device-tested:
   960 native/Rust 2D caller cases / 16,968 selected words cover required-service
   order and descriptor/owner reuse. Four damage cues plus one jet cue reach real
@@ -1065,7 +1070,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   unrelated loss preserves reuse. Quarantine/release removes owned assets.
   General instance retirement/cadence, nonlocal routing and restart transport
   remain open; no complete player trajectory or audible fidelity follows. The main inspection still supplies no impact provider and keeps
-  step 441; native gate production, wounded continuation, heavy carried channel,
+  step 441; native gate production, full wounded trajectory, heavy carried channel,
   active effect scheduling and cleanup remain prerequisites. The existing
   positional effect transport is for later activation, not secondary preparation.
   Post-impact selector continuation now admits states 61/62 and all acquired
@@ -1073,18 +1078,27 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   816 pre-weapon-commit boundaries. Another 48 contexts explicitly refuse the
   actual idle-draw callback; no fabricated pointer or immediate commit substitutes
   for it. These unblended controls supply floor, damage, velocity history and
-  positive idle timer. They do not validate a wounded whole primary. Next acquire
-  the real draw callback/frame ownership and full health-positive primary before
-  relaxing that entry guard or enabling impact/voice in the App.
+  positive idle timer. Those selector-only controls did not validate a wounded
+  whole primary. The subsequent whole-primary binding is recorded below; real
+  draw callback/frame ownership still precedes the refused draw transition.
   Full-primary discovery now identifies damage-smoke preparation as an additional
   prerequisite: three original 128-frame controls expose the context/VM draw
   after a supplied wound. The bounded policy matches 2,080 contexts / 18,780
   selected words; separate real preparation/release matches 256 contexts /
   16,640 words. The actual prepared adapter passes source-resource reuse,
   replacement, display-reset, stale/foreign and late-failure controls. Bind its
-  persistent owner and actual display decision at the pre-secondary boundary,
-  then validate the wounded whole primary. Active smoke/world retirement remains
-  separate; no main health gate or missing impact/voice provider is relaxed.
+  persistent owner and actual display decision at the pre-secondary boundary.
+  This subsequent binding now passes 384 complete acquired primary frames /
+  124,800 normalized header/payload/VM words with supplied wounds and display
+  snapshots. The typed resident owns smoke across frames before the periodic scan;
+  its required display is source/frame checked. Late selector failure retains
+  context/RNG and quarantines replay; prepared cancellation preserves peers.
+  Real owned impact -> following wounded frame also preserves health and completed
+  supplied cues. The primary now admits its bounded nonlethal profile with that
+  explicit service; independent healthy-only APIs keep their guards. Acquire App
+  camera-owner/global gate production, active smoke/emitted-object lifetime and
+  full movement/injury trajectory before ordinary gameplay admission. The App
+  still supplies no impact/voice/display provider for this path.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

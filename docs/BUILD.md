@@ -628,3 +628,21 @@ reuse/recreation, actual context release and refusal/late-failure ownership.
 Damage and the display-reset decision are supplied. It performs no active effect
 update, original-process launch, window or audio; the full primary remains guarded.
 See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+## Optional wounded Mecc primary controls
+
+With `GIANTS_MECC_WORLD_ROOT` and the isolated target directory:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_wounded_primary --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_mecc_impact_primary_voice --target x86_64-pc-windows-gnu -- --ignored --nocapture
+```
+
+The first command checks persistent prepared smoke during 384 supplied command
+frames, owner/frame binding, cancellation and late-failure quarantine. The second
+also checks the next wounded frame after an actual owned falling-entry impact
+with required supplied cues. Floor, clocks, wounds/display snapshots and cue
+providers remain controlled inputs. No active effect, device or normal mission
+input is exercised. An optional `GIANTS_MECC_PRIMARY_RECEIPT` path writes a fresh
+private normalized-state receipt; it must stay outside tracked/public artifacts.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md) for native comparison scope.
