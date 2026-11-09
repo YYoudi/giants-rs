@@ -922,7 +922,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   ordinary preparation produces the Rust attachment matrix, so no placement
   change is justified. Retirement helper execution, child activation, parent
   release, actual world scheduling/RNG and complete rendering remain open. The
-  queue/readiness guards and cinematic gap counts are preserved.
+  queue/readiness guards and cinematic gap counts are preserved. These supplied
+  contexts use the acquired nonphysical class; zero-time motion/contact profiles
+  beyond that fixture still need their own native comparisons.
   Preview 2026.11.09.4 pins source7d639880 with 805 Rust tests / 32 ignored,
   40 Python tests and silent offscreen menu/cancel/natural-re-entry controls.
   Package receipt/notices/all ten member checksums pass again after download.

@@ -21,6 +21,8 @@ The retirement helper is intercepted before child preparation or parent release.
 These controls supply support, resources, pools, RNG seeds and callback deltas;
 they do not prove world scheduling, physical cleanup, film readiness or visual
 fidelity. The source inventory and zero certified complete scenes are unchanged.
+The measured class is nonphysical. Additional zero-time motion/contact profiles
+remain unverified; this control does not certify their broader callbacks.
 Prototype PS2 correspondence remains unknown.
 
 Published [preview-2026.11.09.4](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.4)
@@ -48,6 +50,12 @@ owned impact callback and passes 806 Rust tests (34 ignored), 40 Python tests,
 formatting, strict Clippy and site/JavaScript checks. Its source audit covers
 419 commits / 2,809 blobs with zero findings; this remains source validation,
 with no replacement executable or expanded runtime receipt.
+
+Later source `e10454be18935bd7bf29932867aee1c4c3eb086b` retains the additional
+Delphi reserve callback. All 627 game-crate unit tests pass (21 ignored), along
+with workspace strict Clippy, formatting, 40 Python tests and site/JavaScript
+checks. Its source audit covers 422 commits / 2,815 blobs with zero findings.
+This is a game-crate test run, separate from the full-workspace counts above.
 
 ## Delphi reserve callback and owned passive composition - 9 November 2026
 
