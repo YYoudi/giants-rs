@@ -35,6 +35,14 @@ following Kabuto reference/actions. No gameplay, new screenshot or downloadable
 preview is admitted. Existing binary/notices/checksum/runtime receipts retain
 independent identities. Prototype PS2 correspondence remains unknown.
 
+Combined checkpoint `e6f29ff` passes 833 synthetic Rust tests (47 ignored), all
+sixteen silent Kabuto phase controls plus the separate cold-resource check,
+41 Python tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript
+checks. The rebuilt helper comparison repeats 512 / 208,572 after merging the
+new Delphi readiness/proxy work. The limited source/history pattern review finds
+zero matches across 541 commits / 3,385 blobs. Existing executable and package
+receipts retain their own exact source and runtime identities.
+
 ## Delphi linked readiness and direct target proxy - 9 November 2026
 
 Acquired CPU readiness, distinct target eligibility and target-proxy matrix
