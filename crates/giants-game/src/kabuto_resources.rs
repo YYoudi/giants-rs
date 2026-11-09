@@ -131,6 +131,7 @@ mod tests {
         let first = prepared.construct_ordinary(&mut session).unwrap();
         let second = prepared.construct_ordinary(&mut session).unwrap();
         assert_ne!(first, second);
+        assert!(session.kabuto_damage_state(first).is_err());
         let actor = session.get(first).unwrap();
         assert_eq!(actor.class, 1);
         assert_eq!(actor.seed.storage.data(), prepared.seed.storage.data());
@@ -209,6 +210,7 @@ mod tests {
             saved
         );
         assert!(!session.has_cold_kabuto_player_fields(first));
+        assert!(session.kabuto_damage_state(first).is_err());
         let foreign = Resources::load(
             &plan,
             packet.world.as_ref().unwrap(),
@@ -232,6 +234,15 @@ mod tests {
         assert_eq!(receipt.owner, first);
         assert!(receipt.camera_projection_reset_required);
         assert!(session.has_cold_kabuto_player_fields(first));
+        assert_eq!(
+            session.kabuto_damage_state(first).unwrap(),
+            (
+                0.,
+                f32::from_bits(prepared.class_fields().configuration[12])
+            )
+        );
+        assert!(session.kabuto_damage_state(second).is_err());
+        assert!(other.kabuto_damage_state(first).is_err());
         assert!(!session.has_cold_kabuto_player_fields(second));
         assert_eq!(session.counts(), before);
         assert_eq!(
@@ -253,6 +264,7 @@ mod tests {
         );
         session.clear();
         assert!(!session.has_cold_kabuto_player_fields(first));
+        assert!(session.kabuto_damage_state(first).is_err());
         assert_eq!(session.counts().residents, 0);
         assert_eq!(session.state_resource_counts(), (0, 0));
         assert_eq!(session.actor_field_counts(), (0, 0, 0));

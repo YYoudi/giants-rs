@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## Kabuto post-control guard and fresh damage field — 9 November 2026
+
+The isolated post-control guard now preserves heading/forward-vector and flag
+publication, damage/limit gating, the shared local timer and ordered growth,
+sound/notification and required reinitialization requests. Original-PC controls
+agree on 512 declared contexts / 256,743 words across continuation, primary exit
+and global-tail request. Supplied sine tables and service entry providers remain
+boundaries. Reinitialization internals, global-tail execution and actual Session
+composition remain open; no lifecycle success is synthesized.
+
+Fresh cold player initialization retains the acquired zero generic damage and
+exposes the actual class-limit query, refusing missing live fields. This does not
+reset active health, route Kabuto through Mecc-only hit logic or admit gameplay.
+All initializer/history prerequisites remain. No dependency/asset, new gameplay
+capture or downloadable preview is introduced; existing package/notices/checksum
+and runtime receipts retain their exact source identities. Prototype PS2
+correspondence remains unknown.
+
 ## Kabuto isolated resource timers and speed-latch producer — 9 November 2026
 
 The acquired activity/resource kernel now preserves frame queries, rolling
