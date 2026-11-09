@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Parented timed preparation and retirement sampling — 9 November 2026
+
+The bounded parented preparation composes the acquired callback, shared ordinary
+finalization and source attachment/history writer. Retirement samples the current
+point before the new binding; a marked parent still completes that binding pass.
+Both timed preparation and existing main cinematic attached objects reuse the
+same attachment writer, without an invented offset, timestep or delay.
+
+Positive and zero-delta moving-support controls match 256 parent preparation
+states /44,544 selected words. Those runs retain 320 detached callback regressions
+/55,680 selected words; detached initial post-preparation remains supplied.
+Parent physical storage, no relative displacement/history and no-sleep dispatcher
+inputs bound this profile. Unexpected footprint/environment services refuse.
+A full detached preparation attempt reaches unavailable terrain in the native
+fixture, retained as an open prerequisite rather than replaced with a flat world.
+Canonical Session storage, dispatcher model rates/clock ownership, ordinary stock,
+full environment/retirement integration and main-film admission remain open.
+Prototype PS2 correspondences and all complete-scene fidelity remain unverified;
+the last full 545-source census and counts stay unchanged.
+
 ## Delphi viewport bounds-centre selection - 9 November 2026
 
 The separate ordered viewport selector matches 768 complete original-PC searches,

@@ -60,6 +60,27 @@ pub(crate) fn callback_entry(fields: &mut Fields, render_flags: u32) -> bool {
     first
 }
 
+/// Source attachment writer after callback/finalization, including its actual
+/// history publication. Never use this to move a retirement request early.
+pub(crate) fn bind_parented(
+    fields: &mut Fields,
+    support: Matrix,
+    support_scale: f32,
+    reference: Matrix,
+) -> Result<Matrix, String> {
+    let mut world =
+        crate::effect_attachment::normal_matrix(support, fields.scale, support_scale, reference)?;
+    world.values[11] =
+        (f64::from(world.values[11]) + f64::from(f32::from_bits(fields.configuration[17]))) as f32;
+    if !world.values.iter().all(|v| v.is_finite()) {
+        return Err("effect attachment world matrix nonfinite".into());
+    }
+    fields.previous = fields.current;
+    fields.position = [world.values[3], world.values[7], world.values[11]];
+    fields.current = fields.position;
+    Ok(world)
+}
+
 /// Shared acquired lifetime operands. This does not publish an actor or advance
 /// time. Kept separate from size, spin, gravity and retirement command effects.
 pub(crate) fn lifetime_fade(life: [f32; 3]) -> Result<[f32; 4], String> {
