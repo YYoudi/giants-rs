@@ -39,6 +39,7 @@ pub mod kabuto_auxiliary;
 pub mod kabuto_auxiliary_animation;
 pub mod kabuto_classification;
 pub mod kabuto_contact;
+pub mod kabuto_control_force;
 pub mod kabuto_geometry;
 pub mod kabuto_geometry_mode;
 pub mod kabuto_geometry_registry;
