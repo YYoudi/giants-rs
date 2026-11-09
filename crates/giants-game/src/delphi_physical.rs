@@ -11,6 +11,7 @@ pub struct Resources {
     pub(crate) locomotion: Option<crate::delphi_locomotion::Clips>,
     pub(crate) manual_rotation: bool,
     pub(crate) authored_camera: bool,
+    pub(crate) post_physical: bool,
 }
 impl std::fmt::Debug for Resources {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -20,6 +21,7 @@ impl std::fmt::Debug for Resources {
             .field("locomotion", &self.locomotion)
             .field("manual_rotation", &self.manual_rotation)
             .field("authored_camera", &self.authored_camera)
+            .field("post_physical", &self.post_physical)
             .finish()
     }
 }
@@ -52,6 +54,7 @@ impl Resources {
             locomotion: None,
             manual_rotation: false,
             authored_camera: false,
+            post_physical: false,
             radius: crate::player_collision_radius::Bounds {
                 primary: bounds.primary,
                 animation_one: bounds.radius_auxiliary,
@@ -101,6 +104,15 @@ impl Resources {
         self.authored_camera = true;
         Ok(self)
     }
+    /// Freeze the acquired dry post-physical callback into a controlled cycle.
+    /// This is not the surrounding full-primary or auxiliary scheduler.
+    pub fn with_post_physical(mut self) -> Result<Self, String> {
+        if !self.manual_rotation {
+            return Err("Delphi post-physical callback requires controlled resources".into());
+        }
+        self.post_physical = true;
+        Ok(self)
+    }
 }
 /// Actual per-frame preference/owner boundaries for the manual helpers.
 #[derive(Clone, Copy, Debug)]
@@ -138,6 +150,8 @@ pub struct View {
     pub support_part: u32,
     pub support_triangle: u32,
     pub affine: Option<crate::actor_affine::Cache>,
+    /// Actual input word after the optional completed/retained post callback.
+    pub post_buttons: Option<u32>,
     pub failure: Option<String>,
 }
 #[derive(Clone, Debug)]
@@ -146,12 +160,19 @@ pub(crate) struct Owned {
     pub view: View,
     key: Option<u32>,
 }
+#[derive(Clone)]
 pub(crate) struct Output {
     pub fields: Fields,
     pub payload: Vec<u8>,
 }
 pub(crate) enum Phase<'a> {
     BeforeHeading,
+    DryReset {
+        fields: &'a mut Fields,
+        payload: &'a mut [u8],
+        physics_flags: u32,
+        damage: f32,
+    },
     Animation {
         fields: &'a mut Fields,
         view: &'a View,
@@ -202,6 +223,7 @@ impl Owned {
                 support_part: 0,
                 support_triangle: 0,
                 affine: None,
+                post_buttons: None,
                 failure: None,
             },
         })
@@ -503,6 +525,14 @@ impl Owned {
             view: &self.view,
             seconds: animation_seconds,
         })?;
+        if self.resources.post_physical {
+            consume(Phase::DryReset {
+                fields: &mut f,
+                payload: &mut body,
+                physics_flags: c.physics_flags,
+                damage: self.view.accumulated_damage,
+            })?;
+        }
         let model = crate::mecc_model_motion::derive(
             crate::mecc_model_motion::Input {
                 current: f.position,
