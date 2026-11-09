@@ -1181,6 +1181,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   inventory totals and zero certified scenes remain unchanged; prototype PS2
   counterparts remain unknown.
 
+  Published `preview-2026.11.09.11` pins this dependency to source
+  `cf12894bb487da0395509eff112d35b6c40ef62a`, with 831 Rust tests /48 ignored,
+  41 Python tests, formatting, strict Clippy and MinGW. One-time context consumption
+  refuses stale creation without another RNG draw. The ownership/failure source
+  control, all 23 persistent queue route/lifecycle checks and three source impact
+  checks pass; five Delphi and the new Kabuto Session resource-phase check pass
+  in the combined source. Exact-binary silent offscreen development endpoints,
+  three active cancellations and two source-terminal/re-entry voice/text cleanup
+  cycles pass. The fresh downloaded three-asset/ten-member bundle passes receipt,
+  notices and checksum checks. This does not certify timed main-film admission or
+  change the preview-6 full-corpus inventory. Transfer callback state into the
+  existing Session's canonical fields/payload/reference owners before world
+  binding; do not duplicate live actor state or add another actor registry.
+
 - The acquired timed attached and detached linear-gravity frames now compose
   their following VM commands with the shared owned initial constructor. Separate
   command-boundary controls isolate size, lifetime/fade, retirement binding and

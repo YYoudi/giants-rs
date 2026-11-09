@@ -92,6 +92,23 @@ Actual ordinary preparation, physical/context/stock producers, world RNG/cadence
 and menu-first timed-film admission remain open. The last full 545-source census,
 zero complete scenes and unknown prototype PS2 correspondences are unchanged.
 
+Published [preview-2026.11.09.11](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.11)
+pins source `cf12894bb487da0395509eff112d35b6c40ef62a`, executable SHA256
+`0e5787a92134cb6ddd3a158b6b30aa902c1f34a03d0568b0720221c7018aff5a` and ZIP SHA256
+`65c28d0a1b445d60e2cc6a84f209291598ce63df1a4971cba238c7f8b48d633d`.
+That source passes 831 synthetic Rust tests (48 ignored), 41 Python tests,
+formatting, strict Clippy and the limited history-pattern audit (539 commits /
+3,373 blobs / zero findings). The originating context is consumed once; stale
+creation refuses without another draw. All 23 persistent queues, three silent
+source impact checks, five Delphi source checks and the newer Kabuto Session
+resource-phase check pass in the combined source. Both silent offscreen development
+endpoints, three active persistent cancellations and two source-terminal/re-entry
+cycles with voice/text cleanup pass on the exact executable. All three public
+assets were downloaded fresh; ten bundle members, notices, receipt and checksums
+were independently verified. The new timed owner remains a CPU integration
+dependency; these observations do not admit additional complete movies or manual
+controls. The full corpus inventory remains pinned to its earlier source.
+
 ## Timed effect program configuration — 9 November 2026
 
 Independent main-lane delivery checks downloaded all three `.9` assets and
