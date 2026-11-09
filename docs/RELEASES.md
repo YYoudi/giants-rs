@@ -1,5 +1,22 @@
 # Preview releases and milestone integration
 
+## Kabuto reference-query argument production — 9 November 2026
+
+The acquired argument producer selects actor or viewport geometry and the three
+parameter pairs using the actual mode/current-state predicates and declared
+reference presence. The complete original argument prefix plus query/filter
+matches 512 contexts / 5,120 argument, selection and score words. Wide arithmetic,
+signed zeros and unused malformed inputs retain their acquired behavior.
+The installed resource-phase control composes actual owned size parameters with
+this producer and the guarded Session query under a declared analytic viewport.
+
+Mode/reference/current-view ownership, current actor bounds and candidate metadata
+remain supplied control boundaries. Real camera production, reference release
+and lifetime, target publication and later actions/world/animation are still
+open. This source milestone adds no live control, capture, dependency, asset or
+downloadable preview; earlier receipts retain their exact source identities.
+Prototype PS2 correspondences remain unknown. Detailed evidence stays private.
+
 ## Delphi target-scalar production and selector composition - 9 November 2026
 
 The Delphi writer feeding bounds-centre selection now matches 513 original-PC

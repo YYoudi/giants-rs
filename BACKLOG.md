@@ -400,6 +400,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: reference-query argument production selects the acquired three
+  parameter pairs from actual mode words, current-state predicates and declared
+  reference presence. It uses either actor bounds/negative basis or the supplied
+  viewport origin/direction, preserving wide arithmetic and stored results.
+  The complete original argument prefix plus query/filter matches 512 contexts /
+  5,120 argument/selection/score words. Unused malformed geometry/parameter pairs,
+  signed zeros and wide multiply/add are covered. The source resource-phase
+  control composes real owned size parameters with the guarded Session query;
+  viewport, visibility/category and analytic bounds remain declared inputs.
+  Real mode/current-view production, typed reference lifetime, current bounds,
+  target publication and later actions still require integration. This is not
+  another primary completion or live camera/player admission.
 - Implemented: the reference eligibility and ordered bounds query match 512
   declared original scenes / 1,536 selection/score/policy words, with 48 selected
   targets. Preserve source masks versus candidate configuration16 (not personality
