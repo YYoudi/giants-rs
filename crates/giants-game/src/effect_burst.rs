@@ -281,7 +281,7 @@ impl Plan {
         {
             return Err("positional impact outside acquired complete frame");
         }
-        Self::from_records(image, &program.records, 1)
+        Self::from_records_profile(image, &program.records, 1, true)
     }
     pub fn project(image: &Image, name: &str) -> Result<Self, &'static str> {
         let (_, entry) = image.find(name).ok_or("burst symbol absent")?;
@@ -304,6 +304,14 @@ impl Plan {
         records: &[Record],
         minimum_bodies: usize,
     ) -> Result<Self, &'static str> {
+        Self::from_records_profile(image, records, minimum_bodies, false)
+    }
+    fn from_records_profile(
+        image: &Image,
+        records: &[Record],
+        minimum_bodies: usize,
+        positional_impact: bool,
+    ) -> Result<Self, &'static str> {
         let mut records = records;
         let sound = if records.first().map(|r| r.opcode) == Some(0x2b) {
             let range = [word(&records[0], 1)?, word(&records[0], 5)?];
@@ -324,6 +332,14 @@ impl Plan {
                 .iter()
                 .position(|r| r.opcode == 7)
                 .ok_or("burst body end absent")?;
+            if !positional_impact
+                && records[..=end]
+                    .iter()
+                    .map(|r| r.opcode)
+                    .eq([3, 6, 0x83, 9, 4, 0x32, 7])
+            {
+                return Err("positional impact requires its explicit activation profile");
+            }
             bodies.push(body(&records[..=end], image, false)?);
             records = &records[end + 1..];
         }
@@ -340,6 +356,8 @@ impl Plan {
     }
     /// Activation after the actual context's null-object preparation. Child
     /// creations still execute their own preparation in construction order.
+    /// Cue transport is unbound here. A real provider must interleave its own
+    /// shared RNG effects before subsequent command draws, not replay this result.
     pub fn create_active(&self, seed: &mut u32) -> Result<Vec<Spawn>, &'static str> {
         self.create_phase(seed, false)
     }
@@ -984,6 +1002,39 @@ mod tests {
         let before = prepared.0;
         assert!(invalid.create_active(&mut prepared.0).is_err());
         assert_eq!(prepared.0, before);
+    }
+    #[test]
+    fn single_impact_does_not_admit_an_unacquired_general_phase() {
+        let name = b"synthetic\0";
+        let mut program = vec![3];
+        program.extend(900u32.to_le_bytes());
+        program.extend([6, 0x83]);
+        for v in [101u32, 103] {
+            program.extend(v.to_le_bytes());
+        }
+        program.push(9);
+        for v in [1f32, 3., 4., 6.] {
+            program.extend(v.to_le_bytes());
+        }
+        for (op, values) in [(4, [2f32, 0., 1.]), (0x32, [7., 11., 13.])] {
+            program.push(op);
+            for v in values {
+                program.extend(v.to_le_bytes());
+            }
+        }
+        program.extend([7, 2]);
+        let mut payload = name.to_vec();
+        payload.extend(((name.len() + 4) as u32).to_le_bytes());
+        payload.extend(program);
+        let mut bytes = vec![];
+        for v in [1, payload.len() as u32, 1] {
+            bytes.extend(v.to_le_bytes());
+        }
+        bytes.extend(payload);
+        let image = giants_formats::effect_image::parse(&bytes).unwrap();
+        let frame = image.program(image.entries[0].offset).unwrap();
+        assert!(super::Plan::from_records(&image, &frame.records, 1).is_err());
+        assert!(super::Plan::project_positional_impact(&image, "synthetic").is_ok());
     }
     #[test]
     fn default_gravity_value_without_physics_driver_does_not_move_a_flash() {
