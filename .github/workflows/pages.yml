@@ -8,7 +8,8 @@ permissions:
   contents: read
 concurrency:
   group: pages-${{ github.ref }}
-  cancel-in-progress: true
+  # Finish an admitted deployment; concurrent main pushes may replace the pending run.
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
