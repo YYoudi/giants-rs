@@ -375,7 +375,7 @@ mod tests {
                 .clone(),
         );
         let mut service = Provider {
-            pool: Pool::new(ticket, Some(image)),
+            pool: Pool::new(ticket + 200_000, Some(image)),
             random: Random(seed),
             retirements: 0,
             fail: false,

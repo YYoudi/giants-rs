@@ -85,7 +85,7 @@ impl Pool<crate::resident_states::Id> {
             .ok_or("timed context absent, foreign or retired")?;
         if context
             .recipient()
-            .is_none_or(|parent| parent.ticket() != self.ticket || session.get(parent).is_none())
+            .is_none_or(|parent| session.get(parent).is_none())
         {
             return Err("timed context and recipient must belong to the actual Session".into());
         }
