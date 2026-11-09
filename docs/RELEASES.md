@@ -15,12 +15,15 @@ new capture, asset, dependency or downloadable preview; existing package/notices
 checksum/runtime receipts keep their identities. Prototype PS2 counterparts
 remain unknown and detailed evidence remains private.
 
-The combined tree passes 858 workspace Rust tests (55 ignored), 36 installed-data
+The combined tree passes 858 workspace Rust tests (56 ignored), 37 installed-data
 source controls, 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
 checks. Its exact MinGW build passes both silent offscreen development endpoints,
 with six fresh launches, menu return/re-entry and cleanup. This is development
 lifecycle coverage, not manual controls, live Kabuto or visual fidelity. The
-latest persistent Mecc wounded-primary work remains integrated with its guards.
+latest persistent Mecc wounded-primary and canonical timed-effect work remain
+integrated with their guards. The final combined tree repeats the source controls,
+including both timed-owner profiles; each build/lifecycle receipt keeps its own
+source identity.
 
 ## Canonical attached timed-effect ownership — 9 November 2026
 
