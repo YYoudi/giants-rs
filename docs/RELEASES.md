@@ -1,5 +1,30 @@
 # Preview releases and milestone integration
 
+## NPC reconstruction inventory and source ownership regression — 9 November 2026
+
+The dedicated NPC lane consolidates existing herd/Vimp, Ripper, shared enemy
+projectile/response and Smartie interaction services in
+[OWNED_NPCS.md](OWNED_NPCS.md), with remaining work in `BACKLOG.md`.
+The optional installed-data regression retains authored herd/marker values and
+order, composes real Rust births and first initialization, checks parent/session
+ownership, repeated-initialization refusal and terrain-failure quarantine without
+service/RNG replay. A supplied flat floor, timestep and seed remain boundaries.
+
+The first run covers 28 parents / 313 initialized children and 26 injected
+terrain failures. Two parents become inactive without eligible world-only markers; two
+world files are refused by the parser. Both exclusions remain explicit. No
+original executable, complete living AI, rendering or audio is exercised.
+Native function-name lookups remain unassigned. This is a test/documentation
+milestone, enabling no new ordinary gameplay and producing no new public binary;
+existing preview receipts, notices and checksums keep their original identities.
+
+Combined source `4ae238d1bd786c35d095cfcf3079434107054495` preserves the current
+Flick, Kabuto and integration work. It passes 829 workspace Rust tests (47
+ignored), the separate installed NPC control, 41 Python tests, Rustfmt, strict
+workspace Clippy and generated roadmap/site/JavaScript checks. The limited source
+history audit reports zero findings across 527 commits / 3,330 blobs. These
+results are source/CPU validation, not a new executable or gameplay receipt.
+
 The main integration lane follows [INTEGRATION.md](INTEGRATION.md) to combine
 reviewed Flick, Mecc, Delphi, Kabuto and NPC contributions in one public build.
 Source merge, CPU validation, ordinary gameplay reachability and downloadable
@@ -132,6 +157,23 @@ checks the nonzero shared ANM epoch and prevents late physical/retirement replay
 Actual ordinary preparation, physical/context/stock producers, world RNG/cadence
 and menu-first timed-film admission remain open. The last full 545-source census,
 zero complete scenes and unknown prototype PS2 correspondences are unchanged.
+
+Published [preview-2026.11.09.11](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.11)
+pins source `cf12894bb487da0395509eff112d35b6c40ef62a`, executable SHA256
+`0e5787a92134cb6ddd3a158b6b30aa902c1f34a03d0568b0720221c7018aff5a` and ZIP SHA256
+`65c28d0a1b445d60e2cc6a84f209291598ce63df1a4971cba238c7f8b48d633d`.
+That source passes 831 synthetic Rust tests (48 ignored), 41 Python tests,
+formatting, strict Clippy and the limited history-pattern audit (539 commits /
+3,373 blobs / zero findings). The originating context is consumed once; stale
+creation refuses without another draw. All 23 persistent queues, three silent
+source impact checks, five Delphi source checks and the newer Kabuto Session
+resource-phase check pass in the combined source. Both silent offscreen development
+endpoints, three active persistent cancellations and two source-terminal/re-entry
+cycles with voice/text cleanup pass on the exact executable. All three public
+assets were downloaded fresh; ten bundle members, notices, receipt and checksums
+were independently verified. The new timed owner remains a CPU integration
+dependency; these observations do not admit additional complete movies or manual
+controls. The full corpus inventory remains pinned to its earlier source.
 
 ## Timed effect program configuration — 9 November 2026
 

@@ -808,3 +808,6 @@ pub mod positional_impact;
 pub mod sound_device;
 pub mod sound_owner;
 pub mod sound_spatial;
+
+#[cfg(test)]
+mod npc_source_tests;
