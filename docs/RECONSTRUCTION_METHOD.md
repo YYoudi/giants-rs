@@ -49,6 +49,16 @@ Automatic scores, `SAFE_APPLY`, similar sizes, byte-hash labels, graph propagati
 module proximity and generated names are candidate-discovery aids only. None is
 sufficient confirmation. A script named "verify" is not itself independent proof.
 
+Retaining generated PC aliases in a reviewed public summary can trigger the
+history scanner's label pattern. After reviewing the exact minimal document,
+record only its normalized Git-blob SHA256 and sole public path in
+`tools.audit_source_tree.REVIEWED_ATTRIBUTION_LABELS`. Do not broaden the pattern
+or approve an extraction/listing. Other hazard checks remain active. Stage the
+document before hashing its blob, and rerun the all-reference history audit after
+publication-related fetches; a concurrent branch can introduce a new document
+revision even when the current main file has not changed. Review every finding
+before treating the publication audit as passed.
+
 ## Private record and repeatable lookup
 
 Keep a private record per PC function, with these separate fields:
