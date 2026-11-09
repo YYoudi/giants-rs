@@ -89,6 +89,40 @@ impl Pool<crate::resident_states::Id> {
     }
 }
 impl<K: Copy + Eq> Pool<K> {
+    /// Consume a bounded timed request into its owned callback/resources, not a
+    /// world slot or renderer token. Failed staging preserves context and RNG.
+    pub fn consume_timed_attached(
+        &mut self,
+        id: Id,
+        resources: &crate::scene_resources::SceneResources,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<crate::timed_effect_object::Timed<K>, String> {
+        let context = self
+            .get(id)
+            .ok_or("timed context absent, foreign or retired")?;
+        let mut staged = *random;
+        let owned =
+            crate::timed_effect_object::Timed::attached(resources, id, context, &mut staged)?;
+        self.release_prepared(id)?;
+        *random = staged;
+        Ok(owned)
+    }
+
+    /// The retirement request must already carry its acquired source/position
+    /// binding. This retires only the context, never an ordinary actor slot.
+    pub fn consume_timed_positioned(
+        &mut self,
+        id: Id,
+        resources: &crate::scene_resources::SceneResources,
+    ) -> Result<crate::timed_effect_object::Timed<K>, String> {
+        let context = self
+            .get(id)
+            .ok_or("timed context absent, foreign or retired")?;
+        let owned = crate::timed_effect_object::Timed::positioned(resources, id, context)?;
+        self.release_prepared(id)?;
+        Ok(owned)
+    }
+
     /// Flick mode1 supplies the measured parameter4 cinematic mark. The
     /// ordinary named preparation still checks the complete deferred program
     /// and requires identical normal/lite selection, without invented inputs.

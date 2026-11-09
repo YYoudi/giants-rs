@@ -15,6 +15,8 @@ use giants_formats::effect_image::Image;
 /// Physical services own the remaining motion/world state and update this
 /// object's actual fields/payload. Retirement prepares its real child/services;
 /// deferred marking follows success. Neither operation frees ordinary slots.
+/// `seconds` is the effect callback's sampled time; a physical provider must
+/// retain its own acquired clock queries rather than assume all phases share it.
 pub trait Services<K> {
     fn physical(&mut self, object: &mut Initial<K>, seconds: f32) -> Result<(), String>;
     fn retire(
@@ -44,6 +46,8 @@ pub struct Timed<K> {
 }
 
 impl<K: Copy> Timed<K> {
+    /// Stage ownership while the caller retains the context transaction. The
+    /// pool's consume method additionally guards and retires its live identity.
     pub fn attached(
         resources: &crate::scene_resources::SceneResources,
         origin: crate::attached_effect_context::Id,
@@ -177,11 +181,17 @@ impl<K> Timed<K> {
             .data()
             .ok_or("timed callback payload absent")?;
         let allowed = 0x800000 | 0x80 | 0x20 | 0x08 | 0x04 | 0x02 | 0x01;
+        let physical = matches!(b.placement, crate::effect_actor::Placement::Position(_));
         if b.seed.storage.profile() != crate::state_storage::Profile::Debug
             || b.seed.storage.state() != 78
             || data.len() != 268
+            || word(data, 0) != 1
             || b.fields.class != self.template.fields.class
             || b.fields.control_flags & !allowed != 0
+            || b.fields.control_flags & 2 == 0
+            || (b.fields.control_flags & 0x80 != 0) != physical
+            || (b.fields.control_flags & 8 != 0)
+                != (self.immutable_words[1] != self.immutable_words[2])
             || (b.fields.control_flags & 1 != 0) != self.configured.retirement.is_some()
             || !matches!(b.render_flags, 0 | 0x1000)
             || [4, 0x10, 0x14].map(|at| word(data, at)) != self.immutable_words
@@ -333,9 +343,16 @@ mod tests {
         let Creation::Prepared(origin) = creation else {
             panic!("timed source absent")
         };
-        let mut parent =
-            Timed::attached(&resources, origin, pool.get(origin).unwrap(), &mut random).unwrap();
-        pool.release_prepared(origin).unwrap();
+        let mut parent = pool
+            .consume_timed_attached(origin, &resources, &mut random)
+            .unwrap();
+        assert!(pool.get(origin).is_none());
+        let after_birth = random.0;
+        assert!(
+            pool.consume_timed_attached(origin, &resources, &mut random)
+                .is_err()
+        );
+        assert_eq!(random.0, after_birth);
         let (creation, _) = pool
             .prepare_retirement_offset_invariant(
                 Some(parent.retirement().unwrap().program_offset),
@@ -348,8 +365,9 @@ mod tests {
         let Creation::Prepared(origin) = creation else {
             panic!("retirement source absent")
         };
-        let mut child = Timed::positioned(&resources, origin, pool.get(origin).unwrap()).unwrap();
-        pool.release_prepared(origin).unwrap();
+        let mut child = pool.consume_timed_positioned(origin, &resources).unwrap();
+        assert!(pool.get(origin).is_none());
+        assert!(pool.consume_timed_positioned(origin, &resources).is_err());
         // Context and external resource owners can retire; actual class/state/
         // reference/image owners must remain alive in each timed object.
         drop(pool);

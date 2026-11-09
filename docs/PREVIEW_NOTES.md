@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.09.9
+# Windows x64 development preview - preview-2026.11.09.11
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -11,6 +11,14 @@ owner's estimate and has not received comprehensive human review. This estimate
 is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+## Owned timed effect callbacks
+
+Timed-effect resource ownership and callback ordering now have broader CPU
+controls, including zero-delta updates and late service failures. Existing main
+attached effects and impacts share the acquired first-entry helper. The new timed
+owner still needs actual world preparation/physics/retirement/stock providers
+before admission to the main film; no additional complete cinematic is certified.
 
 ## Timed effect configuration dependency
 
