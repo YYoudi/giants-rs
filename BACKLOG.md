@@ -73,9 +73,14 @@ NPC world admission; continue connecting ready services through the common runti
 
 The following combined source integration retains Mecc local-voice transport,
 landing/directional-air continuation and prepared damage-smoke services alongside
-the latest other lanes. Ordinary App impact/voice binding still needs actual
-mission gates and persistent wounded-primary ownership; prepared smoke is not an
-active renderer. Preserve those prerequisites when consuming the next Mecc lot.
+the latest other lanes. The resident now owns bounded wounded-primary smoke with
+an explicit source/frame-bound display snapshot. Ordinary App impact/voice/display
+binding still needs actual mission gates and pre-world subjective ownership;
+prepared smoke is not an active renderer. Resolve the damage-inhibit and separate
+suppression-gate producers (historical `cutscene` field), keeping the non-mode-4
+authority path distinct from the still
+supplied mode-4 delegate. A selected camera mode does not establish a prepared
+subjective actor. Preserve these prerequisites when consuming the next Mecc lot.
 The current independently verified download is `.13`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
@@ -416,6 +421,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented at the CPU boundary: post-query target filtering preserves the raw
+  result, rejects a positive score outside squared bounds extents, decrements the
+  retained-target timer, announces accepted selection before marker reset, and
+  applies source-reference, parent and acquired directional gates. Required
+  clock/geometry/parent/announcement/marker services have no defaults; late errors
+  retain preceding writes and effects. Existing shared normalization is reused.
+  Independent original controls match 512 transitions / 12,512 final/prefix words;
+  a complete ray-production/query/filter/retention chain matches another 512
+  contexts / 13,248 argument/final/prefix words. Geometry, references, actor state,
+  clock inputs and publication storage remain supplied. Typed Session target
+  ownership/lifetime, actual marker/global publication and preceding release
+  still require integration; no new phase/history completion or gameplay follows.
 - Implemented: reference-query argument production selects the acquired three
   parameter pairs from actual mode words, current-state predicates and declared
   reference presence. It uses either actor bounds/negative basis or the supplied

@@ -106,8 +106,9 @@ pub struct MeccDamageContext {
     /// Shared native input/UI inhibition snapshot; its complete owner is still
     /// required. This is not the startup no-play option or device muting.
     pub globally_disabled: bool,
-    /// Historical parameter label retained as an alias. Producer semantics are
-    /// not established by damage arithmetic; do not derive it from a film alone.
+    /// Historical label for the acquired suppression input. Its actual producer
+    /// and relationship to cinematic state remain unverified.
+    /// Do not derive this snapshot from film activity alone.
     pub cutscene: bool,
     pub shield_percent: f32,
     pub ambient_voice_timer: f32,

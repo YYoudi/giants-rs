@@ -1,5 +1,60 @@
 # Preview releases and milestone integration
 
+## Main integration of persistent wounded Mecc primary — 9 November 2026
+
+The reviewed Mecc follow-up `0d08196e2dbe459fe0a94db67ecbecfc1c2f43be` is combined
+with current Delphi support and Kabuto retained-target services. Mecc owns its
+prepared smoke context across frames, validates current display/source/frame
+identity and retains completed preparation after a later failed service. The
+ordinary App still needs actual mission-gate and pre-world subjective owners
+before binding impact, voice and display providers. Active smoke rendering,
+full-world scheduling and complete normal controls remain open.
+
+Integration source `e76bf527959742b723253179d2afba582bcf7204` passes 856 workspace
+Rust tests (55 ignored), strict workspace/all-target Clippy, 43 Python tests and
+twelve installed Mecc controls. Its freshly generated normalized receipt repeats
+the 384-frame / 124,800-word original-PC agreement, including supplied wounds,
+display snapshots, floor, clocks and command sequence. This is not live injury,
+device playback or visual-fidelity proof. No original input or receipt is published.
+
+The subsequent combined runtime at `4b3b019735d0ad3f59bb124bfc4dfa28fcfd4638`
+preserves Kabuto's newly acquired post-query transition. It passes 857 workspace
+Rust tests (55 ignored), strict Clippy, Rustfmt and sixteen installed Kabuto
+controls. No Mecc runtime source changed in that merge. The current published
+download remains `.13`, with its existing source, notices and checksum identities;
+source-only progress does not relabel that executable or its capabilities.
+
+The exact MinGW build at source `8854431de67dbcc169f256de450bcfc422f83622` passes
+both offscreen development lifecycle endpoints: six fresh launches, return,
+cleanup and re-entry, plus explicitly awaited CLI help. The combined runtime
+also passes five installed Delphi, one NPC and one timed-effect control and
+three actual-audio regressions with muted sinks. The private build receipt pins
+its executable; it is not a new public package or a manual-input/fidelity result.
+
+## Kabuto post-query target transition — 9 November 2026
+
+The acquired post-query transition preserves raw/filtered/retained identities,
+volume filtering, timer expiry and ordered selection/marker writes before
+source-reference, parent and directional gates. It reuses the independently
+compared shared normalizer and retains completed effects after service refusal.
+Original controls match 512 transitions / 12,512 final/prefix words. A complete
+ray-production/query/filter/retention comparison matches 512 contexts / 13,248
+argument/final/prefix words, with its absent previous-retained boundary explicit.
+
+Actor/reference/context, geometry, frame time and publication storage remain
+supplied. Typed Session target ownership/lifetime, actual marker/global services,
+preceding release and following actions/world/animation are still open. No live
+Kabuto controls, new capture, asset, dependency or downloadable preview is added.
+Existing download/package/notices/checksum receipts retain their exact identities.
+Prototype PS2 correspondences remain unknown; detailed evidence stays private.
+
+Combined validation passes 857 workspace Rust tests (53 ignored), sixteen
+installed Kabuto phase controls plus the separate cold control, 43 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. Both original-PC
+comparisons pass again against the combined runtime. Current Mecc/Delphi and
+shared effect/audio changes are preserved; these checks do not certify live
+Kabuto admission or relabel the separately published Windows preview.
+
 ## Main integration of local Mecc voice and landing continuation — 9 November 2026
 
 Combined runtime source `e655c67620c2dec6d15f36d7f646f4ca4fca9d9c` merges the

@@ -641,6 +641,12 @@ service for this path. Its mission-gate production, active effects, general
 retirement, death/equipment/carried profiles and complete trajectory remain open.
 Prototype PS2 attributions remain unknown; no additional correspondence is confirmed.
 
+The damage context's `cutscene` field retains a historical label for the acquired
+raw suppression input. Its actual producer, lifetime and relationship to cinematic
+state remain unverified. Cinematic activity alone is not an acquired producer for
+this input. The separate inhibit, authority and pre-world display owners must
+also retain their independent identities and phases during App integration.
+
 ## Native no-play option and local impact cues — 9 November 2026
 
 `startup_playback::Playback` now retains the acquired startup no-play projection.
