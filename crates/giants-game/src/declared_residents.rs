@@ -119,23 +119,29 @@ impl Template {
             yaw: source.yaw,
             pitch_roll,
         })?;
+        let initial = crate::uncached_pose::Pose {
+            position: fields.position,
+            angles: fields.angles,
+            scale: fields.scale,
+        };
         fields.set_declared_scale(source.scale)?;
         if let Some(selector) = source.mission_selector {
             fields.action = u32::from(selector);
         }
-        session.construct_declaration_with_state_writes(
-            key,
-            Construction {
-                class: source.class,
-                seed: &self.seed,
-                bindings: &self.bindings,
-                flags: self.flags,
-                specification: self.specification.clone(),
-                state_resources: self.resources.clone(),
-                fields,
-            },
-            writes,
-        )
+        let input = Construction {
+            class: source.class,
+            seed: &self.seed,
+            bindings: &self.bindings,
+            flags: self.flags,
+            specification: self.specification.clone(),
+            state_resources: self.resources.clone(),
+            fields,
+        };
+        if key.scope == Scope::Mission {
+            session.construct_mission_declaration_with_pose(key, input, writes, initial)
+        } else {
+            session.construct_declaration_with_state_writes(key, input, writes)
+        }
     }
 }
 

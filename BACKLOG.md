@@ -380,6 +380,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented CPU kernel: Kabuto's acquired contact callback distinguishes the
+  handled result from the peer-support write. Null/class-669 peers bypass numeric
+  reads; strict height/scaled-radius thresholds and independent exclusion masks
+  retain their order. A 512-context original-PC control matches 1,024 decision
+  words, including 217 peer-support writes. The shared prepared-geometry path
+  exposes object identity and current contact state to an explicit class handler;
+  its legacy callers retain their unhandled-event default. A synthetic composed
+  contact checks support-before-callback and retained peer effects on late terrain
+  failure. Source scene/peer binding, actual mutation publication, full terrain/
+  affine classification, new forces and Session scheduling remain prerequisites.
+  This kernel does not advance the owned history or enable a second frame.
 - Implemented: factory-bound input/orientation and force-to-position prefix now
   owns its model/velocity/history fields and reuses common primary history,
   actor orientation, object time, integration and position limiting. A 384-context
@@ -783,13 +794,27 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   declarations and character-specific cold startup keep their existing routes;
   the already-acquired mission herd-marker path reuses the same header helper.
   A native 512-case control checks all 395,264 object bytes across the bounded
-  template-copy/flag-store fragment, stopping before the initial object update.
+  template-copy/flag-store fragment, stopping before the initial affine writer.
   Rust agrees on all 512 header cases. The real source preparation path in four
   cohort worlds constructs and marks 32 mission actors and releases all tracked
   residents; its 40 existing declaration refusals remain explicit. Synthetic
   ownership controls reject failed/duplicate declarations without publishing or
   allocating another identity. This corrects owned header inputs, not physical
-  stock accounting, complete mission admission or the omitted initial callbacks.
+  stock accounting or complete mission admission.
+  Initial-affine follow-up: the call after those placement marks is the acquired
+  affine writer, not a behavior callback. The shared main-loader path now stages
+  that cache from the source root pose and class scale before applying a later
+  scale override. An override retains the real initial cache; current-pose queries
+  refuse it until a genuine later writer runs. Failed preparation publishes no
+  declaration, actor or resource identity. The unchanged affine kernels reuse
+  their retained 2,048-case native control. A separate 64-case root/scale/writer
+  control matches 2,304 words, including 42 scale changes that leave the cache
+  untouched before an explicit rewrite. The first menu mission in each of four
+  cohort worlds retains 24 current and eight stale mission caches, releases all
+  101 tracked residents and preserves the 40 existing refusals. These 32 root declarations have no separate
+  orientation-store requests. Other mission commands, locked-child construction,
+  post-load services and full world/frame scheduling remain open; this does not
+  establish complete native mission state or visual fidelity.
   The physical capacity/recycle boundary is acquired; real mission occupancy,
   shared admission, error handling and full world scheduling remain open. No
   shared Rust capacity policy or new gameplay admission follows from CPU proof.
@@ -800,6 +825,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   capacity, complete rendering/audio/subtitle parity and broader interactive coverage remain
   open. Next: finish these persistent contracts, then the mixed/other queue
   families and the overlapping partial FX/audio/credits/resume priorities below.
+  All-menu CPU follow-up: 56 named missions / 19 menu worlds prepare; acquired
+  mission roots retain 438 current and 235 stale caches, with no additional root
+  orientation requests. All 2,104 constructed residents release. Preserve the
+  840 class-profile refusals and 10,852 other-state exclusions (per-mission
+  counts). Actual world admission and scene fidelity remain unverified.
 
 - Published preview 2026.11.05.6 / FX-prefix milestone validated: the real source/ancestry audit covers 208 active
   requests in 72 sources. The former guard conflated Flick34 shadow descriptors,
