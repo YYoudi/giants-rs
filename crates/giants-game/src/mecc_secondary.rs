@@ -24,6 +24,15 @@ pub(crate) struct Services<'a> {
     pub blending: animation_channels::Blending,
     pub random: &'a mut crate::audio_parameters::Random,
     pub contact: Option<ContactServices<'a>>,
+    /// Real current actor damage/authority provider; absent keeps reaction refusal.
+    pub impact: Option<&'a mut dyn ImpactDamage>,
+}
+
+/// Damage executes before contact precedence and positional effect preparation.
+/// The provider must retain its actual health/service effects on a late error.
+pub(crate) trait ImpactDamage {
+    fn apply(&mut self, fields: &mut Fields, payload: &mut [u8], amount: f32)
+    -> Result<(), String>;
 }
 
 #[derive(Clone, Debug, Default)]
@@ -105,6 +114,7 @@ pub(crate) fn ordinary(
         random,
         fire,
         mut contact,
+        mut impact,
     } = services;
     if payload.len() != 524 {
         return Err(
@@ -179,19 +189,16 @@ pub(crate) fn ordinary(
             reference_speed: (-160f64 * f64::from(input.scale)) as f32,
         };
     }
-    let norm = |v: [f32; 3]| {
-        let [x, y, z] = v.map(f64::from);
-        (x * x + y * y + z * z).sqrt()
+    let reaction = if descending {
+        None
+    } else {
+        Some(crate::mecc_impact::classify(
+            view.velocity,
+            view.previous_velocity,
+            crate::mecc_impact::Parameters::from_globals(globals)?,
+        )?)
     };
-    let difference = std::array::from_fn(|i| {
-        (f64::from(view.velocity[i]) - f64::from(view.previous_velocity[i])) as f32
-    });
-    // The high-descent branch goes directly to the shared animation tail,
-    // before the independent impact and contact-landing branches.
-    if !descending
-        && norm(difference) >= f64::from(scalar(0x66c)?)
-        && norm(view.velocity) < norm(view.previous_velocity)
-    {
+    if reaction.is_some_and(|r| r.severity != 0) && impact.is_none() {
         return Err("ordinary secondary requires acquired impact reaction provider".into());
     }
     let contact_selection = !descending
@@ -199,6 +206,7 @@ pub(crate) fn ordinary(
         && (view.velocity[2] < -scalar(0x664)?
             || word(payload, 0x30) == 2 && view.velocity[2] < -scalar(0x668)?);
     let contact_hold = !descending
+        && !reaction.is_some_and(|r| r.severity != 0)
         && !contact_selection
         && word(payload, 0x30) == 60
         && view.velocity[2] < -scalar(0x668)?;
@@ -206,6 +214,14 @@ pub(crate) fn ordinary(
         selection = mecc_locomotion::Request {
             clip: 181,
             flags: 0x21,
+            speed_source: -1,
+            reference_speed: 0.,
+        };
+    }
+    if !contact_selection && let Some(reaction) = reaction.filter(|r| r.severity != 0) {
+        selection = mecc_locomotion::Request {
+            clip: if reaction.severity == 2 { 178 } else { 175 },
+            flags: 0x20,
             speed_source: -1,
             reference_speed: 0.,
         };
@@ -220,6 +236,8 @@ pub(crate) fn ordinary(
         38 => (16, 0x8000),
         41 => (2, 0),
         181 => (60, 0),
+        175 => (61, 0x400),
+        178 => (62, 0x400),
         _ => return Err("ordinary secondary directional-air variant pending".into()),
     };
     let mut f = fields.clone();
@@ -283,6 +301,31 @@ pub(crate) fn ordinary(
     }
     if !fire && logical == 16 && context & 0x2000 != 0 {
         return Err("turn secondary alternate idle provider pending".into());
+    }
+    if let Some(reaction) = reaction.filter(|r| r.severity != 0) {
+        let service = contact
+            .as_mut()
+            .ok_or("impact requires the owned effect pool")?;
+        f.channels = channels;
+        *service.checkpoint = Some((f.clone(), body.clone()));
+        let result = impact
+            .as_mut()
+            .unwrap()
+            .apply(&mut f, &mut body, reaction.amount.unwrap());
+        *service.checkpoint = Some((f.clone(), body.clone()));
+        result?;
+        // Damage precedes contact selection. Contact suppresses the positional
+        // context, not the damage that has already executed.
+        if !contact_selection {
+            service
+                .pool
+                .prepare_positional_invariant("fx_mecc_hard_land", f.position, random)?;
+            if reaction.severity == 2 && f.response_flags & 0x800000 != 0 {
+                return Err(
+                    "heavy impact requires the actual carried actor channel service".into(),
+                );
+            }
+        }
     }
     let mut force_request = false;
     let mut selecting_override = None;
@@ -482,6 +525,7 @@ mod tests {
                     &globals,
                     1. / 60.,
                     Services {
+                        impact: None,
                         contact: None,
                         fire: true,
                         blending: animation_channels::Blending::Enabled,
@@ -539,6 +583,7 @@ mod tests {
                 &globals,
                 1. / 60.,
                 Services {
+                    impact: None,
                     contact: None,
                     fire: true,
                     blending: animation_channels::Blending::Enabled,
@@ -581,6 +626,7 @@ mod tests {
             &globals,
             1. / 60.,
             Services {
+                impact: None,
                 contact: None,
                 fire: true,
                 blending: animation_channels::Blending::Enabled,
@@ -600,6 +646,7 @@ mod tests {
             &globals,
             1. / 60.,
             Services {
+                impact: None,
                 contact: None,
                 fire: true,
                 blending: animation_channels::Blending::Enabled,
@@ -621,6 +668,7 @@ mod tests {
             &globals,
             1. / 60.,
             Services {
+                impact: None,
                 fire: true,
                 blending: animation_channels::Blending::Enabled,
                 random: &mut random,
@@ -640,6 +688,7 @@ mod tests {
                 &globals,
                 1. / 60.,
                 Services {
+                    impact: None,
                     fire: true,
                     blending: animation_channels::Blending::Enabled,
                     random: &mut random,
@@ -661,6 +710,7 @@ mod tests {
             &globals,
             1. / 60.,
             Services {
+                impact: None,
                 contact: None,
                 fire: true,
                 blending: animation_channels::Blending::Enabled,
@@ -683,6 +733,7 @@ mod tests {
                 &globals,
                 1. / 60.,
                 Services {
+                    impact: None,
                     contact: None,
                     fire: false,
                     blending: animation_channels::Blending::Enabled,
@@ -706,6 +757,7 @@ mod tests {
             &globals,
             1. / 60.,
             Services {
+                impact: None,
                 contact: None,
                 fire: true,
                 blending: animation_channels::Blending::Enabled,
@@ -737,6 +789,7 @@ mod tests {
                     &globals,
                     1. / 60.,
                     Services {
+                        impact: None,
                         contact: None,
                         fire: true,
                         blending: animation_channels::Blending::Enabled,
@@ -777,6 +830,7 @@ mod tests {
             &globals,
             1. / 60.,
             Services {
+                impact: None,
                 contact: None,
                 fire: true,
                 blending: animation_channels::Blending::Enabled,

@@ -768,6 +768,21 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   The exact ad508a4 common executable repeats seven muted jet starts and real
   paused impact reservations, then the expected step-441 refusal. This confirms
   the prefix regression, not impact playback or completed movement cycles.
+  The owned secondary now composes actual Session health and positional
+  preparation before normal pistol states61/62, with damage preceding contact
+  precedence and previous-state slide work preceding the channel setter.
+  Original controls match628 complete selectors /209,615 state/protocol words;
+  differing live/current-history positions are acquired for self-point kind16.
+  A separate64-prefix control matches21,056 words at the pain-voice entry.
+  The actual supplied falling-entry primary retains15 damage, zero contexts and
+  unchanged VM RNG, then quarantines its missing voice service without replay.
+  Its actor countdown is deliberately negative: do not clamp/reset it or supply
+  silent audio. Next bind actual pain/ambient local sources, routing and ready
+  sinks, then the replacement cooldown/shared timer and their separate audio/VM
+  RNG ordering. The main inspection still supplies no impact provider and keeps
+  step441; native gate production, wounded continuation, heavy carried channel,
+  active effect scheduling and cleanup remain prerequisites. The existing
+  positional effect transport is for later activation, not secondary preparation.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup
