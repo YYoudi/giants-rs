@@ -1,6 +1,70 @@
 use super::*;
 
 #[test]
+#[ignore = "Requires GIANTS_DELPHI_ROOT; support header resources only, no state83 actor admission"]
+fn source_delphi_support_fields_keep_unacquired_constructor_refused() {
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_DELPHI_ROOT").unwrap());
+    for world in ["w_Rstory2.bin", "w_Rstory4.bin", "w_Rstory5.bin"] {
+        let resources =
+            crate::scene_resources::SceneResources::load(&root, world, "English").unwrap();
+        let class = 1189;
+        let program = resources
+            .classes
+            .models
+            .first_program(class)
+            .unwrap()
+            .program
+            .as_ref()
+            .unwrap();
+        let seed = Seed::from_program_for(
+            program,
+            Profile::Debug,
+            crate::arithmetic::Precision::Double53,
+        )
+        .unwrap();
+        assert_eq!(seed.storage.state(), 83);
+        let specification =
+            Arc::new(crate::specification::Prepared::load_registered(&resources, class).unwrap());
+        let fields = crate::actor_fields::Fields::load(&resources, class, &specification).unwrap();
+        let operand = program
+            .records
+            .iter()
+            .rev()
+            .find(|r| r.opcode == 0x39)
+            .unwrap();
+        assert_eq!(
+            (fields.configuration[25] >> 8) & 0xff,
+            u32::from(operand.bytes[1])
+        );
+        assert_ne!(fields.configuration[14] & 0x20000, 0);
+        let bindings = resources
+            .class_state_bindings_for(class, Profile::Debug)
+            .unwrap();
+        let state_resources = Arc::new(
+            crate::state_resources::Prepared::load(&resources, class, Profile::Debug).unwrap(),
+        );
+        let mut session = Session::new(972);
+        let error = session
+            .construct(Construction {
+                class,
+                seed: &seed,
+                bindings: &bindings,
+                flags: DirectFlags::project(class, program),
+                specification,
+                state_resources,
+                fields,
+            })
+            .unwrap_err();
+        assert!(
+            error.contains("outside acquired ordinary or cold Kabuto profile"),
+            "{error}"
+        );
+        assert_eq!(session.counts(), Counts::default());
+        assert!(session.list(0).is_empty());
+    }
+}
+
+#[test]
 #[ignore = "Requires GIANTS_DELPHI_ROOT; silent owned target composition, no live controller"]
 fn source_delphi_candidates_use_current_geometry_and_preserve_target_payload() {
     let root = std::path::PathBuf::from(std::env::var("GIANTS_DELPHI_ROOT").unwrap());

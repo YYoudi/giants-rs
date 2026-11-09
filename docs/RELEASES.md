@@ -20,6 +20,43 @@ and roadmap/site/JavaScript checks. Three new synthetic tests exercise publicati
 before callbacks, retained effects after a late error and lazy signed/full-word
 gates; these do not certify native backend execution.
 
+## Delphi support-class fields and object-list control - 9 November 2026
+
+The shared class loader now prepares the support class's packed attribute,
+preserving neighboring controls and its personality flag. Original dispatch,
+defaults, termination and base-copy controls agree on 512 ordered programs /
+31,744 projected words. Actual header resources prepare in three Delphi mission
+catalogs; the unacquired support-state constructor remains refused without
+publishing ownership or list entries. This changes field preparation, not live
+support/header ownership or character admission.
+
+The support/scalar comparison now executes the original object-list traversal,
+radius production and bounds helper, replacing the earlier supplied traversal
+boundary. The existing Rust services agree on 512 bounded contexts / 4,608 exact
+control, radius and scalar words plus 910 ordered contact identities. Geometric
+error is below 0.00000012 within the declared 0.002 absolute budget.
+
+Membership/headers, prepared geometry/model/part eligibility and schedule remain
+supplied. Active traversal, floor contacts and excluded terrain bound the control;
+it does not establish mission construction, live actor/header ownership or full
+primary/world order. Support-state construction/update/lifetime is the next
+prerequisite. No dependency, asset, capture or downloadable preview changes.
+Current Mecc integration and its separate release identities
+are preserved; prototype PS2 attribution remains unknown.
+
+Combined runtime `7bb0926` passes 858 workspace Rust tests (56 ignored), six
+installed Delphi controls, six Mecc impact/voice/wounded-primary controls and the
+NPC ownership regression.
+All 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks
+pass. Supplied providers and diagnostic coverage remain separate from gameplay.
+
+Resumed validation on 10 November preserves the current common attachment,
+reset and timed-effect work. Runtime `ffded07` passes 866 workspace Rust tests
+(57 ignored), six installed Delphi, six Mecc impact/voice/wounded-primary and
+one NPC control, 43 Python tests, Rustfmt and strict Clippy. Both original-PC
+comparisons are repeated against that runtime. These source checks do not
+change the separately published preview or certify ordinary Delphi gameplay.
+
 ## Retained parent-binding storage — 9 November 2026
 
 Session parent removal now retains the supplied child/parent reference indices
