@@ -31,6 +31,11 @@ supplied. Actual owned target/proxy lifetime and caller/world integration stay
 open. No live feature, capture, new package or replacement of earlier notices/
 checksums follows; prototype PS2 attribution remains unknown.
 
+Combined source validation passes 832 synthetic Rust tests (48 ignored), five
+installed Delphi controls, 41 Python tests, Rustfmt, strict Clippy and roadmap/
+site/JavaScript checks. The current shared timed-effect work is preserved; these
+checks do not turn supplied readiness providers into ordinary gameplay services.
+
 Acquired CPU readiness, distinct target eligibility and target-proxy matrix
 controls match 2,048 original-PC/Rust contexts / 12,288 words. The comparison
 preserves squared-distance storage, the wide reserve test, current-player context
