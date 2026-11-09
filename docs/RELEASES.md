@@ -14,8 +14,9 @@ lifetimes and full primary integration are still unbound. The created transport
 request has eight unknown bytes beyond its thirteen established bytes; no packet
 padding or delivery is invented. This source/CPU milestone adds no live controller,
 initializer/history completion, capture or downloadable gameplay preview.
-Validation passes 868 workspace Rust tests (56 ignored), sixteen installed Kabuto
-controls and the separate cold control, 43 Python tests, Rustfmt, strict Clippy
+Validation passes 869 workspace Rust tests (57 ignored), sixteen installed Kabuto
+controls and the separate cold control, twelve Mecc and six Delphi controls,
+43 Python tests, Rustfmt, strict Clippy
 and roadmap/site/JavaScript checks. Three new synthetic tests exercise publication
 before callbacks, retained effects after a late error and lazy signed/full-word
 gates; these do not certify native backend execution.
