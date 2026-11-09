@@ -38,6 +38,9 @@ notice/import checks and all three freshly downloaded public assets pass;
 the ten-member package, internal/external hashes and immutable tag agree.
 Later main contributions remain source-only relative to this frozen preview.
 Complete scene fidelity remains unverified.
+The later combined tree passes 869 Rust tests (58 ignored), the retained timed
+positive/zero and positional-impact controls, Rustfmt, strict Clippy, 43 Python
+tests and roadmap/site/JavaScript checks. These checks do not relabel the download.
 
 ## Kabuto held-reference handoff — 10 November 2026
 
