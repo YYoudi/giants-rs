@@ -4,6 +4,43 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Owned range, terrain and two-route target scan - 9 November 2026
+
+`Session::scan_delphi_target` reads the owner's actual selected slot and the shared
+debug declaration bank. Nonpositive selection keeps the acquired long-range
+branch; the four selectable slots resolve the five acquired spell kinds. Missing
+declarations, unsupported indices and the unacquired default-kind branch refuse.
+Inventory mutation and held-object transitions are still separate producers.
+
+The actual three-word view predicate chooses between the published held ray and
+the camera/viewport route. The latter derives the terrain direction from camera
+angles but uses the separate viewport origin/basis for candidates, and requires
+no held cache. Both reuse the common static terrain and current collision buffers.
+Candidate clipping preserves the sampled/refined distance, including half-cell
+overshoot on a miss. The returned terrain intersection, candidate point and final
+aim point remain distinct; no target/readiness payload is published by this API.
+
+An original-PC selected-owner geometry-prefix comparison agrees on 256 contexts /
+4,677 output words: 128 per view route, 72 terrain hits, 23 targets, 408 geometry
+visits and 173 mesh visits. Range selection, actual view getters, casts, candidate
+traversal and final point stores execute. Gates/initial flags, current headers,
+reference/list snapshots, flat static grid, camera/viewport snapshots and posed
+indexed triangles are supplied; this does not prove their native producers or
+enclosing primary/world order. Native actor headers remain unchanged.
+
+Separate controls execute the original declaration loader and selected-range
+prefix: Rust agrees on 256 bank-backed cases / 512 words, including actual
+definition choices. All 216 signed view-selector cases agree. The source-data
+lifecycle now checks viewport access before held publication, held-route refusal,
+terrain intersection, both frame/epoch guards, unsupported range refusal, payload
+preservation and cleanup. The existing seven-owner regression remains separate.
+
+Live camera/inventory/held transitions, default-kind semantics, typed pending and
+active target lifetime, readiness, sequence/audio/physics binding and native phase
+ordering remain open. Delphi stays unavailable in missions; water/swim/turbo,
+combat and rendered fidelity are unprepared. Prototype PS2 attributions remain
+unknown; detailed lookup, stack ambiguity and control records stay private.
+
 ## Owned candidate geometry query - 9 November 2026
 
 `Session::query_delphi_target` now derives the held ray from its published frame,
@@ -29,7 +66,7 @@ and return the same target/point after valid restoration. The existing seven-own
 dry/held regression remains separate. Prototype PS2 correspondences stay unknown.
 
 Range remains an explicit upstream input. This service publishes neither pending
-movement links nor readiness flags. Terrain/range production, typed target/sequence
+movement links nor readiness flags. Runtime terrain/range binding, typed target/sequence
 lifetime, active physics/audio and primary/world ordering remain required before
 live admission; water, combat and rendered fidelity are still unprepared.
 

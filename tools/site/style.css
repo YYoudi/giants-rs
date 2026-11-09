@@ -39,5 +39,6 @@
 .build-capture>a{display:block;background:#080c10}.build-capture img{display:block;width:100%;height:auto}
 .build-capture figcaption{padding:18px 22px}.build-capture h3{font-size:1.05rem;margin:0 0 8px}.build-capture p{font-size:.82rem;color:var(--muted);margin:0 0 12px}
 .capture-revision{font-size:.72rem;color:var(--done)}
+.capture-availability,.build-capture p.capture-availability{display:block;padding:10px 12px;border-left:3px solid var(--partial);background:#251f15;color:#f0d59c;font-size:.8rem;line-height:1.5}
 @media(max-width:760px){.capture-grid{grid-template-columns:1fr}.build-capture figcaption{padding:16px}}
 @media(max-width:760px){#latest-captures .section-heading{flex-direction:column;align-items:flex-start;gap:12px}#hero-image figcaption{display:none}}

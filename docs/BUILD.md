@@ -1,5 +1,10 @@
 # Build on Windows with MinGW
 
+For combined character/cinematic contributions, follow
+[INTEGRATION.md](INTEGRATION.md) before recording a public preview milestone.
+Keep the exact source/build identity and test scope separate from source-only
+and diagnostic coverage.
+
 Install Rust with the GNU Windows toolchain (Rust 1.98 or newer), Python 3.11+,
 Git, and x86-64 MinGW-w64 GCC/binutils. Put their bin directories on PATH.
 Visual Studio is not required. The lockfile pins dependency versions.
@@ -30,8 +35,10 @@ With `GIANTS_DELPHI_ROOT` set to the user's installation (and optional
 `GIANTS_DELPHI_EXECUTABLE`), the ignored
 `source_delphi_candidates_use_current_geometry_and_preserve_target_payload`
 test checks actual owned Delphi/ordinary-actor construction, held-ray targeting,
-current geometry/mesh access, stale/foreign refusal and cleanup. It is silent
-CPU composition with supplied time, flat terrain and range; it enables no live
+current geometry/mesh access, bank-backed terrain/target scanning in both view
+routes, viewport access before held publication, unsupported range and stale/
+foreign refusal, payload preservation and cleanup. It is silent CPU composition
+with supplied time, flat terrain and camera/viewport snapshots; it enables no live
 input or complete mission/world schedule.
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.

@@ -11,6 +11,13 @@ work unless the owner requests main. Read PROGRESS.json, BACKLOG.md and docs/REL
 Keep README in English. Preserve the owner's approximate 99% AI-generated estimate
 and the absence of comprehensive human review; never call it a completion metric.
 
+The main integration lane connects the Flick, Mecc, Delphi, Kabuto and NPC contributions
+to the common menu-to-game runtime, validates combined regressions and publishes
+coherent main/Windows-preview/dashboard milestones. Follow
+docs/INTEGRATION.md; BACKLOG.md remains the detailed
+task authority. Preserve each lane's worktree and evidence boundaries. A merged
+CPU service or scripted capture does not establish ordinary gameplay availability.
+
 Before native-function analysis or implementation, including resumed work, follow
 docs/RECONSTRUCTION_METHOD.md: search prototype PS2 names, pin both binary
 identities and preserve raw symbols, demangling uncertainty, PC aliases, Rust

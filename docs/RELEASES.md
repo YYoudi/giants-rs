@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+The main integration lane follows [INTEGRATION.md](INTEGRATION.md) to combine
+reviewed Flick, Mecc, Delphi, Kabuto and NPC contributions in one public build.
+Source merge, CPU validation, ordinary gameplay reachability and downloadable
+preview availability are reported separately. This process change alone enables
+no additional gameplay and replaces no existing release receipt.
+
+Main Windows CI now completes an already-admitted validation rather than
+cancelling it on each concurrent main push; topic-branch checks can still replace
+obsolete runs. Pending main validation tracks the newest queued source. This
+workflow policy alone is not a downloadable preview or a gameplay validation.
+
+The dashboard identifies existing screenshots and comparisons as archived
+diagnostic evidence. Their source revisions remain available, but the images do
+not establish availability in the ordinary controller of a current download.
+In particular, the historical jet/descent/contact captures do not close the Mecc
+input-to-landing integration prerequisite. No gallery assets or receipts change.
+
+
 ## Kabuto owned post-control/resource composition — 9 November 2026
 
 The actual Factory/Session phase now continues from its control-force token
@@ -21,6 +39,72 @@ open. No history/initializer prerequisite is cleared or gameplay admitted.
 No dependency, asset, new capture or downloadable Kabuto preview is introduced.
 Existing preview notices/checksums and runtime/package receipts keep their exact
 source identities. Prototype PS2 correspondence remains unknown.
+
+## Timed effect program configuration — 9 November 2026
+
+The bounded attached timed and detached linear-gravity frames now compose their
+following source VM commands with the shared owned initial constructor. Size,
+lifetime/fade, retirement binding and gravity changes were isolated at command
+boundaries within the same original interpreter invocation. Sixty-four complete
+parent/child configuration states match 10,624 selected configuration, header,
+payload, channel, matrix, position and RNG words. Attachment consumes only its
+active size draw after context preparation. Wrong classes refuse without RNG.
+The size writer preserves the existing bottom row; existing main attached effects
+and positional impacts reuse acquired size/lifetime helpers.
+
+These are configuration dependencies before ordinary preparation. Context
+consumption, resource/reference/ANM ownership, physical stock admission, callbacks,
+retirement and native world RNG/cadence remain open. The general FX queue and last
+full 545-source census are unchanged. Prototype PS2 counterparts remain unknown;
+no complete movie or visual fidelity result is certified by these CPU controls.
+
+Published [preview-2026.11.09.9](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.9)
+pins source `241739c14772a35cd3de73ab95a7693a9742db77`, executable SHA256
+`0a1006b4f06d59cc54056fd2f108df9eba579e0f42b24ab5dfa1157369c5bb77` and ZIP SHA256
+`52d0683d07ff38387d6b7c330834c7718e9574c13bef4ca9fe041bd3ace7359e`.
+That source passes 829 synthetic Rust tests (45 ignored), 40 Python tests,
+formatting and strict Clippy; its history-pattern audit reports zero findings
+across 511 commits / 3,240 blobs. Both silent offscreen development endpoints,
+three active persistent cancellations and two source-terminal/re-entry cycles
+with voice/text cleanup pass on the exact executable. All three public assets
+were downloaded fresh and their ten-member bundle independently verified.
+Four controlled equal-size native variants and eight parent/child states confirm
+that equal endpoints leave interpolation disabled. These are bounded CPU and
+partial-renderer lifecycle observations; interactive tests remain pending.
+
+Later source integration preserves the newer Delphi terrain/view scan and main
+integration/dashboard policy. Its 829 synthetic Rust tests (45 ignored), four
+silent Delphi source controls and three source impact controls pass with Rustfmt
+and strict Clippy. This does not relabel the released executable or promote its
+ordinary gameplay coverage. The full source census still belongs to preview 6.
+
+## Delphi range, terrain and view-dependent scan - 9 November 2026
+
+The owned scan now reads actual selection/source definitions and reuses common
+terrain and current collision buffers for both held and camera/viewport routes.
+It keeps terrain intersections, candidate points and final aim points distinct.
+Original-PC geometry-prefix controls match 256 contexts / 4,677 output words,
+including 128 per view route, 72 terrain hits and 23 targets. Separate original
+loader/range controls match 256 cases / 512 words and 216 view-selector cases.
+
+Gates/initial flags, native pose/reference/list snapshots, grid, views and posed
+triangles remain supplied. Extended source-data controls check lifecycle/refusal
+and payload preservation; native camera/inventory/held transitions, default-kind
+semantics, target lifetime/readiness and primary/world order remain open. No live
+Delphi, new gameplay capture or playable preview follows. Prior package/notices/
+checksums retain exact identities. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Source checkpoint `557a386` passes 822 synthetic Rust tests (45 ignored), both installed
+Delphi controls, 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks. These checks do not relabel any earlier executable or runtime receipt.
+
+Combined source `d5e77a231a13c06f22fd4cf50302c082544cec53` preserves the newer
+shared effect-constructor and Kabuto guard/timer work. It passes 829 synthetic
+Rust tests (45 ignored), both installed Delphi controls, 40 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. Rebuilt native scan,
+range and selector comparisons pass again. The limited history-pattern audit
+reports zero findings across 508 commits / 3,231 blobs. Existing preview/runtime
+receipts remain pinned to their original sources.
 
 ## Kabuto post-control guard and fresh damage field — 9 November 2026
 

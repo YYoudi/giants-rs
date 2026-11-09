@@ -61,6 +61,30 @@ impl query::Services for Services<'_> {
     }
 }
 impl Session {
+    pub(crate) fn check_delphi_target_frame(
+        &self,
+        owner: Id,
+        number: u64,
+        epoch: u32,
+    ) -> Result<(), String> {
+        self.check_target_geometry(owner)?;
+        let actor = self.get(owner).ok_or("Delphi target owner absent")?;
+        let view = self
+            .delphi_physical(owner)
+            .ok_or("Delphi target frame not produced")?;
+        if actor.class != 3
+            || actor.seed.storage.state() != 3
+            || actor.attachment.is_some()
+            || epoch == 0
+            || number == 0
+            || view.number != number
+            || view.failure.is_some()
+        {
+            return Err("Delphi target query requires its completed unfailed selected owner frame and vertex epoch".into());
+        }
+        self.actor_current_affine(owner)?;
+        Ok(())
+    }
     /// Query current candidates from the published completed-frame held cache.
     /// This leaves target links/readiness untouched and refuses missing geometry.
     pub fn query_delphi_target(
@@ -68,20 +92,19 @@ impl Session {
         resources: &SceneResources,
         input: Input,
     ) -> Result<Output, String> {
-        self.check_target_geometry(input.owner)?;
-        let owner = self.get(input.owner).ok_or("Delphi target owner absent")?;
-        if owner.class != 3
-            || owner.seed.storage.state() != 3
-            || owner.attachment.is_some()
-            || input.vertex_epoch == 0
-        {
-            return Err(
-                "Delphi target query requires its selected unparented owner and vertex epoch"
-                    .into(),
-            );
-        }
+        self.check_delphi_target_frame(input.owner, input.number, input.vertex_epoch)?;
         let ray =
             self.delphi_target_ray(input.owner, input.number, input.normalization_threshold)?;
+        self.query_delphi_target_with_ray(resources, input, ray)
+    }
+    pub(crate) fn query_delphi_target_with_ray(
+        &mut self,
+        resources: &SceneResources,
+        input: Input,
+        ray: crate::delphi_target_ray::Ray,
+    ) -> Result<Output, String> {
+        self.check_delphi_target_frame(input.owner, input.number, input.vertex_epoch)?;
+        let owner = self.get(input.owner).ok_or("Delphi target owner absent")?;
         let position = owner
             .construction_fields
             .as_ref()

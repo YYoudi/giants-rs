@@ -87,6 +87,7 @@ function loadMore() {
     pair.append(picture(row.left, row.left_label, false), picture(row.right, row.right_label, false));
     sideBySide.append(el('summary', 'Side-by-side & full-size images'), pair);
     const notes = el('div', undefined, 'comparison-notes'), detail = el('details');
+    notes.append(el('p', 'Historical diagnostic comparison. This image does not establish that the shown behavior is available in ordinary gameplay in the current download.', 'capture-availability'));
     notes.append(el('strong', row.verification || 'Fidelity unverified'));
     detail.append(el('summary', `Context & limits · archive revision ${(row.commit || 'unrecorded').slice(0, 7)}`), el('p', row.alignment || 'No additional context recorded.'));
     notes.append(detail); article.append(heading, wipeComparison(row, eager), sideBySide, notes); $('#gallery').append(article);

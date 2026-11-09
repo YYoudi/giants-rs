@@ -38,6 +38,25 @@ matches probable and one unassigned. No gameplay status changes follow from name
 
 ## Parallel character work
 
+The main integration lane owns combined runtime wiring and delivery, using
+[INTEGRATION.md](docs/INTEGRATION.md). Prioritize ordinary gameplay reachability
+and cross-lane regression checks over additional stand-alone demonstrations.
+
+- Review committed Flick, Mecc, Delphi, Kabuto and NPC contributions against actual
+  runtime entry points; retain CPU-only and supplied-provider boundaries.
+- Wire ready contributions into the shared menu-to-mission application, including
+  lifecycle/cleanup and re-entry. Resolve shared-service dependencies without
+  weakening readiness or inventing missing behavior.
+- Validate combined source, then publish receipt-bound Windows previews and
+  accurate dashboard availability. Serialize each publication with outstanding
+  builds/drafts; preserve active specialized releases during the transition.
+- Current Mecc visual discrepancy: ordinary right-click thrust, descent and
+  contact must use the integrated controller/effects, with release and landing
+  verified. Historical scripted captures are not proof of that ordinary path.
+  Keep incomplete inspection-menu experiments out of the release until reviewed.
+  Dashboard capture labels now make this diagnostic boundary explicit; that
+  presentation correction does not close the controller integration task.
+
 Each chat works alone in its own worktree and `codex/` branch. The Delphi fork
 starts from the current public main, not the older fork snapshot. Keep one menu
 and mission runtime; do not create separate character executables or copy the
@@ -45,10 +64,13 @@ Mecc controller into another engine. Use an isolated Cargo target per worktree.
 
 | Lane | Scope and primary files | Shared dependencies |
 | --- | --- | --- |
-| Mecc | Existing `mecc_*` services, owned primary/target/fire and live integration | Actor storage, physics, animation, camera, effects and audio |
+| Main integration | Common menu-to-mission wiring, combined regressions, main/Windows preview/dashboard publication | Consume reviewed lane contributions; preserve ownership and evidence boundaries |
+| Flick | Cinematic lifecycle, attached/timed effects and source traversal | Shared actors, animation, effects, renderer, audio and menu transitions |
+| Mecc (active in `codex/mecc-native`) | Existing `mecc_*` services, owned primary/target/fire, jet/descent/contact and remaining Mecc features | Actor storage, physics, animation, camera, effects and audio; main lane validates ordinary-gameplay integration |
 | Delphi (active in `codex/delphi-native`) | `delphi_*`: declaration/resource preparation, cold initialization, land/water movement, energy, then sword/bows/spells | Reuse the same actor and mission services; acquire character-specific callbacks separately |
 | Kabuto (active in `codex/kabuto-native`) | `kabuto_*`: declaration/resource preparation, cold initialization, movement/growth, then feeding/attacks/offspring | Reuse actor/world services; do not change Delphi or Mecc rules |
-| Worlds and mission presentation (separate future lane) | Missing building/scenery admission, NPC scheduling, ambient emitters, loading/briefing flow | Shared scene loader and renderer; coordinate changes to runtime admission |
+| NPCs (active in `codex/npc-native`) | Existing PNJ/AI work, non-player behavior, scheduling and interactions with the player | Shared actors, targeting, contacts, damage, factions, world lifecycle and player interfaces; coordinate with every character lane |
+| Worlds and mission presentation (separate future lane) | Missing building/scenery admission, ambient emitters, loading/briefing flow | Shared scene loader and renderer; coordinate with NPC scheduling and runtime admission |
 
 Formats, actor ownership/storage, collisions, animation clocks, effect pools,
 audio and the menu/loader are shared infrastructure, not three character copies.
@@ -257,8 +279,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   identity, without a team restriction. The shared query accepts an explicit
   required policy before geometry while preserving common hierarchy exclusions
   and existing Mecc policies; two synthetic ordering/refusal controls pass.
-  Its owned geometry binding is implemented below; acquire terrain/range/readiness
-  and typed target lifetime before live admission.
+  Its owned geometry and scan bindings are implemented below; acquire readiness,
+  native phase/camera/inventory producers and typed lifetime before live admission.
   This CPU dependency does not enable live Delphi or establish fidelity.
 - Implemented: the selected-owner held query resolves actual typed candidates
   through the shared current-affine/bounds/collision-model/posed-buffer provider.
@@ -267,10 +289,24 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   lists, bounds/LOD and posed indexed triangles are supplied; native vertex
   production and world timing are unverified. An installed-data lifecycle checks
   pre-frame/pre-held, epoch/future/stale/presentation-parent/foreign refusals,
-  unchanged owner payload, repeated results and clear. Range is still an explicit
-  input; produce terrain/range/readiness and typed pending/active target lifetime,
-  then bind movement/audio/physics in the actual primary order. No live Delphi or
-  fidelity promotion follows from the query API.
+  unchanged owner payload, repeated results and clear. Range is explicit in this
+  lower-level API; the scan below binds acquired range/terrain. Produce readiness
+  and typed pending/active target lifetime, then bind movement/audio/physics in the
+  actual primary order. No live Delphi or fidelity promotion follows from the API.
+- Implemented: the completed-frame target scan reads actual selection and shared
+  source definitions, supports held and camera/viewport routes and preserves the
+  separate terrain intersection, query point and final aim point. Original-PC
+  prefix controls match 256 contexts / 4,677 words, 128 per route, 72 terrain hits,
+  23 targets, 408 geometry visits and 173 mesh visits. Native gates/initial flags,
+  pose/reference/list snapshots, grid and views/posed triangles are supplied.
+  Bank-backed range controls match 256 cases / 512 words and 216 selector cases.
+  Installed lifecycle checks viewport use without held cache, held refusal, frame/
+  epoch guards, unsupported ranges, unchanged payload and cleanup. Inventory/held
+  transitions, camera/viewport production and actual primary/world/child-ANM order
+  remain unbound. Default-kind semantics are unknown and refuse; no guessed weapon
+  fallback. Next: typed pending/active target publication and readiness, including
+  source power/comparison ties and optional retarget/proxy paths, then real movement/
+  sequence/audio/physics scheduling. No live Delphi/fidelity promotion follows.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -1113,6 +1149,33 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation requests. All 2,104 constructed residents release. Preserve the
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
+
+- The acquired timed attached and detached linear-gravity frames now compose
+  their following VM commands with the shared owned initial constructor. Separate
+  command-boundary controls isolate size, lifetime/fade, retirement binding and
+  gravity effects within each original interpreter invocation. Sixty-four
+  parent/child full-program states match 10,624 selected configuration, header,
+  payload, channel, matrix, position and RNG words. Active attachment samples only
+  once after context preparation; equal-size endpoints retain a disabled
+  interpolation flag in four controlled native variants. Gravity preserves the distinct render word and
+  physical payload alias. Wrong classes refuse without consuming RNG. The size
+  writer preserves the existing affine bottom row; existing ordinary/cinematic
+  attached effects and owned impacts reuse these acquired size/lifetime helpers.
+  This is a bounded configuration dependency before ordinary preparation, not
+  full actor/stock admission or a completed film. Context consumption, resources,
+  references/ANM, live physical owner, callbacks, world RNG/cadence and retirement
+  remain to compose. The last full 545-source census and fidelity counts remain
+  unchanged; prototype PS2 counterparts remain unknown.
+
+  Published `preview-2026.11.09.9` pins the configuration dependency to source
+  `241739c14772a35cd3de73ab95a7693a9742db77`, with 829 Rust tests / 45 ignored,
+  40 Python tests, MinGW/Rustfmt/strict Clippy and zero source-audit findings.
+  Both offscreen development endpoints, three active cancellations and two
+  source-terminal/re-entry voice/text cleanup cycles pass on that executable.
+  The downloaded ten-member bundle and all three assets pass independent checks.
+  Later combined source retains Delphi terrain/view scans and passes four silent
+  Delphi and three impact controls. Keep the exact binary receipt and unchanged
+  preview-6 full-corpus inventory separate from these dependency checks.
 
 - Shared state78 construction now serves both existing attached/cinematic FX and
   owned positional impacts through one immutable class/spec/state preparation.
