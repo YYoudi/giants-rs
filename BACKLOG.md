@@ -416,6 +416,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Shared dependency corrected: the affine product used by the reference-release
+  path now preserves native translation addition order under cancellation.
+  All 512 finite flagged-matrix controls / 8,704 output words agree, including
+  native destination/input aliasing and unchanged separate inputs. The observed
+  indirect slot selects the same internal product for all three examined modes;
+  no external DLL, clock or RNG owner is needed for this acquired profile.
+  Projective products, partial buffer overlap and other initialization paths
+  remain outside this control. Reference-release construction/lifecycle and the
+  complete reset handler still require their own acquisition and integration.
 - Implemented at the CPU boundary: post-query target filtering preserves the raw
   result, rejects a positive score outside squared bounds extents, decrements the
   retained-target timer, announces accepted selection before marker reset, and

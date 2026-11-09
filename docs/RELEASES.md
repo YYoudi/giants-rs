@@ -1,5 +1,20 @@
 # Preview releases and milestone integration
 
+## Shared affine translation for Kabuto's release dependency — 9 November 2026
+
+The shared matrix product retains the original translation addition order under
+cancellation. All 512 finite flagged-matrix cases / 8,704 output words match the
+complete original affine product, including exact destination/input aliasing.
+The three examined explicit dispatch modes select the same internal PC routine.
+The existing service is reused across characters; no duplicate engine is added.
+
+Double53, finite affine storage and explicit dispatch modes bound this control.
+Projective products, partial overlap, automatic dispatch and release-constructor
+lifecycle remain outside it. This source correction adds no gameplay admission,
+new capture, asset, dependency or downloadable preview; existing package/notices/
+checksum/runtime receipts keep their identities. Prototype PS2 counterparts
+remain unknown and detailed evidence remains private.
+
 ## Kabuto post-query target transition — 9 November 2026
 
 The acquired post-query transition preserves raw/filtered/retained identities,

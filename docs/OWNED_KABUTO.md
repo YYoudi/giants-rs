@@ -1416,3 +1416,28 @@ ownership and lifetime, backing bounds/view producers, marker/global publication
 preceding reference release and subsequent actions/animation remain required.
 All initializer/history prerequisites remain. No live control, new capture,
 download or fidelity claim follows; prototype PS2 correspondences remain unknown.
+
+## Shared affine product in the release path — 9 November 2026
+
+The indirect product dependency resolves to an internal PC routine for the three
+examined explicit dispatch modes. Original selector executions and the pinned
+table agree on that target. This observation replaces the earlier unknown-owner
+boundary for this profile; it establishes no external DLL, clock or RNG owner and
+does not cover automatic mode detection or later dispatcher replacement.
+
+The existing `procedural_aim::Matrix::mul` now preserves the acquired translation
+addition order. A cancellation control gives one where the former order gave
+zero. No alternate matrix engine or character-specific implementation is added.
+The original complete affine product agrees on 512 finite flagged-storage cases /
+8,704 output words, including exact native destination-left/destination-right
+aliasing, flags, translation/linear shortcuts and unchanged separate inputs.
+The Rust control compiles the actual existing matrix source and animation helpers;
+an unused asset-loading entry refuses explicitly. Double53 is supplied. Projective
+products, partial overlaps and other binary/initialization profiles are excluded.
+
+This corrects a shared CPU dependency, without completing the release constructor,
+reset or lifetime services. Actual Session reference/target ownership, marker and
+global publication, world/ANM/camera/GPU cadence and live Kabuto admission remain
+open. No new capture, download or fidelity claim follows. Prototype PS2 identities
+remain unassigned; literal candidates and ambiguous/generated names stay separate
+in private records. No PS2 ABI or memory layout is imported.
