@@ -31,7 +31,15 @@ scene-timing checks remain open.
 Preview `preview-2026.11.09.2` pins that exact source; executable SHA256
 `b6f0f30c72853f9ddee1530b0ad53908eaf5376c5930063e010ff37d0d5a3e96`, ZIP SHA256
 `944491cd3faed9f35dc42d3b3bd8b20c10bfc27f727ccac2e26a0b2f98e0659e`. The ten-member package passes receipt, notice and checksum
-checks. Later combined-source checks must retain their own identity.
+checks; the three uploaded assets were downloaded again and all ten package
+members and adjacent checksums verified independently.
+
+Combined source `50866e4ea247e6620fab32e7dbc291c4373bac42` retains the newer
+Delphi ordinary-view work and passes 791 Rust tests (30 ignored), 40 Python
+tests, formatting, strict Clippy and site/JavaScript checks. Its source audit
+covers 368 commits / 2,606 blobs with zero findings. These are combined-source
+checks; the published binary and its offscreen controls remain pinned to
+`6eaa3d0`, with no additional runtime or fidelity claim.
 
 This is initial-cache integration, not a complete mission VM, shared physical
 stock accounting, world admission or visual/temporal fidelity result. Prototype
