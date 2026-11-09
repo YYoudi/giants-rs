@@ -6990,11 +6990,7 @@ impl Session {
         } else {
             None
         };
-        fields.object_flags |= 0x40;
-        if next == crate::effect_visual::Step::FirstFrame {
-            fields.control_flags &= !0x20;
-            fields.object_flags &= !0x40000000;
-        }
+        crate::effect_actor::callback_entry(&mut fields, 0);
         // Publish age before the expiry services. Completed writes survive a
         // late stop failure, and the failure latch forbids repeating that stop.
         let actor = self.residents.get_mut(&id.serial).unwrap();

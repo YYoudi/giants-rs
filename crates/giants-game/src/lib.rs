@@ -718,6 +718,7 @@ pub mod sound_sample;
 pub mod world_source;
 
 pub mod timed_effect;
+pub mod timed_effect_object;
 
 pub mod cinematic_ordinary;
 pub mod cinematic_shadow;
