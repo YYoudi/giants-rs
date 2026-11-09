@@ -672,6 +672,7 @@ pub mod delphi_camera_distance;
 pub mod delphi_dry_reset;
 pub mod delphi_ordinary_view;
 pub mod delphi_post_physical;
+pub mod delphi_reserve;
 pub mod gameplay_sound_bank;
 pub mod mecc_aim;
 pub mod mecc_ammunition;

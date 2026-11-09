@@ -210,6 +210,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   authored-camera/post composition, real input/view/audio producers, equipment,
   active cleanup, spells, strike/hit routes and full-primary scheduling stay open.
   See docs/OWNED_DELPHI.md. This does not admit live Delphi or certify fidelity.
+- Implemented: the acquired reserve callback preserves delay/recharge/cap/drain,
+  cancellation order and repeated actual object-time queries. Complete original
+  controls match 2,280 cases / 2,774,760 words; 64 movement/splash entry prefixes
+  match 77,888 words without acknowledging those services. The frozen dry passive
+  owned profile composes physical/reset/post/reserve/secondary/zero-time ANM;
+  two 256-frame, 22-actor sequences match 4,081,152 words and exact RNG. A sixth
+  source-data owner checks 64 updates, supplied recharge inhibition, wrong-entry
+  refusal and completed-prefix retention/replay quarantine after late failure.
+  Active-control/immersion admission, real linked-actor movement, nonempty context
+  retirement, splash, activation and actual recharge-inhibition production remain
+  open. No active turbo, live Delphi or fidelity promotion follows.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -899,6 +910,24 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation requests. All 2,104 constructed residents release. Preserve the
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
+
+- Timed FX callback ordering: the shared Playback wrapper formerly discarded
+  every zero-time callback, leaving its native first-update gate pending. It now
+  executes that callback without inventing elapsed time. Native/Rust comparison
+  covers 32 source constructions, two RNG phases, prepared matrices, lifetime
+  aging and retirement requests (1,120 selected words). A further zero-time
+  schedule matches 1,152 words across the same 32 contexts; a direct native
+  initial-zero control confirms the gate independently of matrix preparation.
+  The initial positional mismatch was an incomplete control phase: the actual
+  ordinary preparation produces the Rust attachment matrix, so no placement
+  change is justified. Retirement helper execution, child activation, parent
+  release, actual world scheduling/RNG and complete rendering remain open. The
+  queue/readiness guards and cinematic gap counts are preserved. These supplied
+  contexts use the acquired nonphysical class; zero-time motion/contact profiles
+  beyond that fixture still need their own native comparisons.
+  Preview 2026.11.09.4 pins source7d639880 with 805 Rust tests / 32 ignored,
+  40 Python tests and silent offscreen menu/cancel/natural-re-entry controls.
+  Package receipt/notices/all ten member checksums pass again after download.
 
 - General FX follow-up: the largest remaining family has 77 requests in seven
   sources, five with no other non-persistent family. The complete original named

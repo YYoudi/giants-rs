@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.09.3
+# Windows x64 development preview - preview-2026.11.09.4
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -11,6 +11,19 @@ owner's estimate and has not received comprehensive human review. This estimate
 is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+## Timed effect callback initialization
+
+The common timed-effect wrapper now runs a zero-time callback instead of skipping
+it. The original consumes its constructor gate without aging, so the following
+positive callback can age the effect and expire it at the correct supplied step.
+The wrapper keeps expired objects terminal. This corrects a shared callback-order
+cause; no placement or extra delay is added.
+
+Original/Rust source controls compare 32 constructions, prepared matrices, ages
+and retirement requests. Additional zero-time schedules agree. Retirement child
+activation, parent release, actual world scheduling and the seven films' full
+rendering remain open. No new cinematic readiness is acknowledged.
 
 ## Sized effect initialization dependency
 
