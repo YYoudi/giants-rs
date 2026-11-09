@@ -18,8 +18,14 @@ pub fn accepts(
     {
         return Ok(false);
     }
-    if !candidate
-        .position
+    in_front(candidate.position, owner_position, owner_second_column)
+}
+pub(crate) fn in_front(
+    position: [f32; 3],
+    owner_position: [f32; 3],
+    owner_second_column: [f32; 3],
+) -> Result<bool, String> {
+    if !position
         .into_iter()
         .chain(owner_position)
         .chain(owner_second_column)
@@ -27,9 +33,8 @@ pub fn accepts(
     {
         return Err("Delphi target predicate outside finite source profile".into());
     }
-    let delta: [f32; 3] = std::array::from_fn(|at| {
-        (f64::from(candidate.position[at]) - f64::from(owner_position[at])) as f32
-    });
+    let delta: [f32; 3] =
+        std::array::from_fn(|at| (f64::from(position[at]) - f64::from(owner_position[at])) as f32);
     if !delta.into_iter().all(f32::is_finite) {
         return Err("Delphi target predicate displacement overflow".into());
     }

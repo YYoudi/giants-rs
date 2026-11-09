@@ -46,6 +46,13 @@ has that layout. When it differs, set `GIANTS_DELPHI_EXECUTABLE` explicitly to t
 read-only, identity-checked reference used for the acquisition. A layout refusal
 is an unsupported input profile, not permission to bypass the reader or claim a
 successful composition. The portable synthetic checks need no such executable.
+With the same `GIANTS_DELPHI_ROOT`, the ignored
+`source_delphi_proxy_is_direct_zero_state_without_effect_origin` control checks
+three actual source-backed direct target proxies, zero state78 payload, unchanged
+class flags, common-list-only membership, refused ordinary affine access, clear
+and re-entry. It is silent CPU construction, with no live target assignment,
+proxy update, render submission or world scheduler.
+
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.
 Use a separate Cargo target directory for each active worktree. Sharing downloaded
