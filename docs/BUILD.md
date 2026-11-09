@@ -109,6 +109,24 @@ provider, reference rechecks, preserved peers, reuse and late-failure quarantine
 It does not execute the enclosing global cleanup prepass or a real device release.
 See OWNED_MECC_CONTACT.md.
 
+## Optional actual impact audio checks
+
+Set `GIANTS_MECC_WORLD_ROOT` to a user-supplied installation and isolate the Cargo
+target as above. The positive control requires an actual audio device and explicit
+muting; the negative control creates no audio device. Neither creates a window.
+
+```powershell
+$env:GIANTS_AUDIO_MUTE = '1'
+cargo test --locked -p giants-app source_owned_impact_audio --target x86_64-pc-windows-gnu -- --ignored --nocapture --test-threads=1
+```
+
+This runs actual owned birth/callback/retirement with real muted ready sinks,
+checks separate RNG, exact owner/sound stop, late sink loss and full audio-asset
+release. The queued-without-device control refuses playback without audio draws
+and retains the failed actor/context without replay. Local anchor/listener inputs
+are supplied. These tests do not bind the main secondary impact reaction, execute
+the global cleanup prepass or certify audible/native-device fidelity.
+
 ## Optional Delphi resource check
 
 For the separate Delphi resource-preparation control, set `GIANTS_DELPHI_ROOT`
@@ -189,6 +207,13 @@ resource is injected. Retry preserves both payload and epoch. The actual common
 actor list is scanned using acquired hidden/state/owner gates; eligible target
 services remain refusals. This control supplies offline mode context and does not
 execute active item/spell services, network transport or live Delphi gameplay.
+
+The seventh owner also publishes 64 acquired debug held caches and target rays.
+It keeps constructor reference storage unevaluated, checks replay/future refusal,
+stale held position, replaced references and failed-parent rejection. These use
+actual owned fields/bindings/reference buffers; the supplied normalization threshold
+is a test input. Whole-world order, point/candidate selection and live Delphi
+controls are not certified by this source-data check.
 
 The locomotion profile reads the original executable's data as an external asset.
 Set `GIANTS_DELPHI_EXECUTABLE` for a separate configurable metadata file; otherwise

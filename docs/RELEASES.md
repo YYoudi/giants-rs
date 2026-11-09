@@ -21,6 +21,105 @@ live admission. No new asset/dependency or playable Kabuto preview is added;
 existing package/notices/checksum/runtime receipts retain their exact identities.
 Prototype PS2 correspondences remain unknown.
 
+## Delphi owned held cache and target ray - 9 November 2026
+
+The owned Delphi service now publishes the acquired normal held matrix and actual
+position history after a completed parent frame, then derives its held-origin ray.
+It reuses common affine/reference arithmetic and preserves the distinct zeroed
+constructor reference buffer. Cache provenance rejects replay, future/stale data,
+changed references and failed parents. Debug-only zero-footprint/ordinary-lock
+scope is explicit; child ANM, alternate locks and other source profiles remain
+unprepared. Full world/camera/target scheduling and active movement stay separate.
+
+Original-PC/Rust controls match 768 rays / 4,608 outputs and two persistent
+256-frame sequences / 4,084,224 words across 22 actor headers/reference buffers,
+owner payload, lists and ray outputs, with exact RNG. The seven-owner source-data
+check adds 64 cache/ray publications and stale/refusal controls. Supplied commands,
+time, flat world and metadata remain boundaries. No live Delphi or fidelity
+promotion follows; point/candidate queries, readiness, typed target lifetime,
+audio/physics binding, water and combat remain open. See
+[OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `99ec68577655e1d370dc68d43b07ea0af67f0c50` retains newer
+Kabuto model-rate and shared runtime work. It passes 816 Rust tests (39 ignored),
+the extended seven-owner Delphi source-data control, 40 Python tests, Rustfmt,
+strict Clippy and generated roadmap/site/JavaScript checks. The pattern audit
+reports zero findings across 463 commits / 3,008 blobs.
+
+The exact common GNU executable SHA256 is
+`582336dfb774946968d039d17a9a1f013e47bed8e9171278febb622c1b22361b`.
+Both silent offscreen development endpoints and three Rstory1 mission-2 persistent
+birth/update/cancel/re-entry cycles pass, with text cleanup. Canonical PE import
+sets are unchanged. The private ten-member validation draft includes complete
+receipt-bound notices/checksums; independent verification reports zero technical
+blockers. ZIP SHA256 is
+`a2d2eef774e0b66d7a14bdd45c9b5e0f31c669a1f8d3d89e2c9b3e8a0405742e`.
+These are common-runtime regressions, not live Delphi control. Published previews
+retain their own receipts; this geometry dependency claims no new playable
+Delphi download and includes no original assets or private research.
+
+
+Final source checkpoint `861c9bf18a4e6abbb69bf58012957d7eb5d4dec2` retains
+the newer shared impact transport work and passes 817 synthetic Rust tests
+(41 ignored), 40 Python tests, Rustfmt, strict Clippy and site/JavaScript checks.
+Its source pattern audit reports zero findings across 470 commits / 3,034 blobs.
+The executable and runtime/package receipts above remain pinned to `99ec6857`;
+this later source validation does not relabel that binary.
+
+## Actual ready owned impact audio transport - 9 November 2026
+
+The application reserves actual positional PCM sources from the acquired impact
+cue range and provides required ready-sink play, owner/sound-specific stop and
+tracked release. It keeps the audio RNG separate from the effect VM, applies the
+acquired owner-position attenuation/pan profile, and uses actual owned actor
+positions. Paused reservations consume no parameters or RNG and do not count as
+playback. Catalog absence remains distinct from decode/readiness/device errors.
+Only the acquired one-shot source profile is admitted.
+
+Thirty-two original-PC parameter cases match 160 numeric words. Separately, two
+real muted Bevy starts for different actors sharing one sound match ten native
+parameter/RNG words. Source controls preserve the peer during stop, release core
+ownership and audio assets, retain late sink-loss failure without replay, and
+refuse queued-only playback without audio draws when no device exists. Native
+heap/pose/thread/device services and the source tests' local anchor/listener are
+supplied boundaries. No audible or original-process device fidelity is certified.
+
+Combined runtime source `ad508a48d7f15cd4e3c824d9b1c9b16b9ed451f6` preserves the
+concurrent Delphi target-movement, retirement-child and Kabuto contact/model-rate
+work. It passes 817 synthetic Rust tests (40 ignored), the two impact device/
+no-device controls, the existing real-sink jet control, three source impact actor
+controls, 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks. Its source/history pattern audit reports zero findings across 459 commits
+and 2,982 blobs; this remains a bounded pattern review.
+
+The later combined checkpoint `142d589f5a390c3c412bb50ad19131e65ab14752`
+additionally retains Kabuto ANM-to-gravity work and passes 817 synthetic tests
+(41 ignored), both actual impact controls, 40 Python tests, Rustfmt, strict
+Clippy and roadmap/site/JavaScript checks. Its bounded source/history audit finds
+zero matches across 465 commits / 3,016 blobs. The executable, main-prefix and
+package receipts below remain bound to the earlier `ad508a4` runtime source.
+
+The common GNU executable SHA256 is
+`8396a9dfb2831f126caa274ed3719db3c0de55fe3e98d22cf885fd768405320d`.
+Its private ten-member draft includes receipt-bound dependency/toolchain notices
+and checksums; independent verification reports zero technical blockers. ZIP
+SHA256 is `24eaf535571510630996b6607c53e4fea22f5a04e20e233348e2f6206e5bcde0`.
+This prerequisite does not create a newly published playable preview; existing
+preview release identities remain unchanged.
+
+The exact executable also repeats the offscreen menu-to-owned-inspection prefix:
+seven actual muted jet starts and real paused impact reservations, with no
+reservation error. It explicitly stops at step 441 on the missing impact reaction.
+This expected-refusal regression passes; complete movement/cancellation cycles and
+main impact playback do not. No capture is produced by this bounded run.
+
+The owned inspection now reserves impact sources, but its secondary reaction does
+not yet call this provider. Independent damage/health/channel/context composition,
+global cleanup prepass, active cancellation and full world scheduling remain open.
+No completed feature, new capture or visual fidelity claim follows. Prototype PS2
+attributions remain unknown; binary identities and previous aliases remain in
+private continuation records. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
 ## Kabuto owned animation-to-gravity sequence — 9 November 2026
 
 The Factory-bound Session now queries its actual local clock, advances channels/

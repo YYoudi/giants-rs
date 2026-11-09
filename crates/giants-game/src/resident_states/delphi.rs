@@ -1480,6 +1480,24 @@ mod physical_tests {
                 if index == 4 {
                     assert!(view.post_buttons.is_some());
                 }
+                if index == 6 {
+                    assert!(session.delphi_target_ray(id, number, 1e-4).is_err());
+                    let held = session.advance_delphi_held_pose(id, number).unwrap();
+                    let ray = session.delphi_target_ray(id, number, 1e-4).unwrap();
+                    assert!(
+                        ray.origin
+                            .into_iter()
+                            .chain(ray.direction)
+                            .all(f32::is_finite)
+                    );
+                    assert!(session.advance_delphi_held_pose(id, number).is_err());
+                    assert!(session.delphi_target_ray(id, number + 1, 1e-4).is_err());
+                    let storage = session.reference_cache_storage(held).unwrap();
+                    assert!(!storage.sampled);
+                    assert_eq!(storage.matrices.len(), 1);
+                    assert_eq!(storage.matrices[0].flags, 0);
+                    assert_eq!(storage.matrices[0].values.map(f32::to_bits), [0; 16]);
+                }
 
                 let fields = session
                     .get(id)
@@ -1572,6 +1590,42 @@ mod physical_tests {
             }
         }
         assert!(landed && jumped);
+        let held = session
+            .wield_list()
+            .unwrap()
+            .into_iter()
+            .find(|c| c.parent == Some(owners[6]) && c.reference == 1 && c.flags & 0x8000 == 0)
+            .unwrap()
+            .id;
+        let held_position = session
+            .get(held)
+            .unwrap()
+            .construction_fields
+            .as_ref()
+            .unwrap()
+            .position;
+        session
+            .residents
+            .get_mut(&held.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap()
+            .position[0] += 1.;
+        assert!(session.delphi_target_ray(owners[6], 64, 1e-4).is_err());
+        session
+            .residents
+            .get_mut(&held.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap()
+            .position = held_position;
+        assert!(session.delphi_target_ray(owners[6], 64, 1e-4).is_ok());
+        session
+            .update_current_references_at(held, stamp.0 + 1)
+            .unwrap();
+        assert!(session.delphi_target_ray(owners[6], 64, 1e-4).is_err());
         let tail_owner = owners[6];
         let payload = session
             .get(tail_owner)
@@ -1661,6 +1715,8 @@ mod physical_tests {
             }
         }
         assert!(stamp.0 > stamp_before);
+        assert!(session.advance_delphi_held_pose(owners[6], 65).is_err());
+        assert!(session.delphi_target_ray(owners[6], 64, 1e-4).is_err());
         let reserve_owner = owners[5];
         let payload = session
             .get(reserve_owner)

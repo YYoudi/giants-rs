@@ -11,6 +11,25 @@ use crate::{
 };
 use std::sync::Arc;
 
+/// Read the acquired frame's cue range from the active source image, without
+/// preparing a context, creating an actor or consuming either random stream.
+pub fn cue_range(resources: &SceneResources, name: &str) -> Result<Option<[u32; 2]>, String> {
+    let Some(effect) = resources.classes.models.effects.last() else {
+        return Ok(None);
+    };
+    let Some((_, entry)) = effect.image.find(name) else {
+        return Ok(None);
+    };
+    let p = effect
+        .image
+        .program(entry.offset)
+        .map_err(|e| e.to_string())?;
+    crate::effect_burst::Plan::positional_impact_frame(&effect.image, &p.records)?;
+    Ok(Some([1, 5].map(|at| {
+        u32::from_le_bytes(p.records[2].bytes[at..at + 4].try_into().unwrap())
+    })))
+}
+
 #[derive(Clone)]
 pub struct Metadata {
     /// Retained identity of the retired originating VM cursor, never an address.

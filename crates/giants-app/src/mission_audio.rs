@@ -708,38 +708,61 @@ fn process(
                 spatial.position = position;
             }
         }
-        if let Some(spatial) = &mut voice.spatial {
+        if let Some(spatial) = &mut voice.spatial
+            && !voice.deferred_parameters
+        {
             if let Some(matrix) = view {
-                let values = giants_game::audio_spatial::update(
-                    &giants_game::audio_spatial::Inputs {
-                        matrix,
-                        position: spatial.position,
-                        flags: 0x1000e,
-                        previous_pan: 0.,
-                        previous_gain: 0.,
-                        minimum: spatial.minimum,
-                        maximum: spatial.maximum,
-                    },
-                    Precision::Double53,
-                )?;
-                spatial.pan.set(giants_game::audio_spatial::pan_units(
-                    values.pan,
-                    Precision::Double53,
-                )?)?;
-                spatial.gain = values.gain;
-                if !voice.started {
-                    println!(
-                        "mission_audio_spatial ticket={} voice={id} distance_bits={} pan_bits={} gain_bits={} point={:?} matrix_bits={:?} minimum_bits={} maximum_bits={} pan_units={}",
-                        mounted.ticket,
-                        values.distance.to_bits(),
-                        values.pan.to_bits(),
-                        values.gain.to_bits(),
-                        spatial.position,
-                        matrix.map(f32::to_bits),
-                        spatial.minimum.to_bits(),
-                        spatial.maximum.to_bits(),
-                        giants_game::audio_spatial::pan_units(values.pan, Precision::Double53)?
-                    );
+                if voice.owned_reservation && voice.actor_owner.is_some() {
+                    let state =
+                        giants_game::sound_spatial::update(giants_game::sound_spatial::Input {
+                            flags: 0x2800e,
+                            hardware: false,
+                            fixed_position: [0.; 3],
+                            owner_position: spatial.position,
+                            previous: giants_game::sound_spatial::State {
+                                position: spatial.position,
+                                pan: 0.,
+                                attenuation: 0.,
+                            },
+                            distances: [spatial.minimum, spatial.maximum],
+                            matrix,
+                        })?;
+                    spatial
+                        .pan
+                        .set(giants_game::sound_device::pan_units(state.pan)?)?;
+                    spatial.gain = state.attenuation;
+                } else {
+                    let values = giants_game::audio_spatial::update(
+                        &giants_game::audio_spatial::Inputs {
+                            matrix,
+                            position: spatial.position,
+                            flags: 0x1000e,
+                            previous_pan: 0.,
+                            previous_gain: 0.,
+                            minimum: spatial.minimum,
+                            maximum: spatial.maximum,
+                        },
+                        Precision::Double53,
+                    )?;
+                    spatial.pan.set(giants_game::audio_spatial::pan_units(
+                        values.pan,
+                        Precision::Double53,
+                    )?)?;
+                    spatial.gain = values.gain;
+                    if !voice.started {
+                        println!(
+                            "mission_audio_spatial ticket={} voice={id} distance_bits={} pan_bits={} gain_bits={} point={:?} matrix_bits={:?} minimum_bits={} maximum_bits={} pan_units={}",
+                            mounted.ticket,
+                            values.distance.to_bits(),
+                            values.pan.to_bits(),
+                            values.gain.to_bits(),
+                            spatial.position,
+                            matrix.map(f32::to_bits),
+                            spatial.minimum.to_bits(),
+                            spatial.maximum.to_bits(),
+                            giants_game::audio_spatial::pan_units(values.pan, Precision::Double53)?
+                        );
+                    }
                 }
             } else {
                 spatial.gain = 0.;
@@ -1139,7 +1162,13 @@ fn update(world: &mut World) {
         }
         let mut mounted = engine.mounted.take().unwrap();
         if owned::requested()
-            && let Err(error) = owned::reserve(world, &mut mounted)
+            && let Err(error) = (|| -> Result<(), String> {
+                owned::reserve(world, &mut mounted)?;
+                let cues = world
+                    .resource::<crate::mission_runtime::Runtime>()
+                    .owned_impact_cues(mounted.ticket)?;
+                owned::impact::reserve(world, &mut mounted, &cues)
+            })()
         {
             error!(
                 "mission_owned_audio_reserve_failed ticket={} error={error}",
