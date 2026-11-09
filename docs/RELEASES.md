@@ -4328,3 +4328,11 @@ workspace Rust tests (55 ignored), twelve silent installed-resource Mecc control
 strict workspace Clippy and Rustfmt pass, and its fresh 384-frame receipt repeats
 the same 124,800-word native agreement. Existing public preview identities remain
 separate from these CPU/source validations.
+
+After the main lane merged the earlier smoke-policy handoff, checkpoint
+`ba6bbda` preserves its additional Delphi physical-support scalar composition.
+It passes 856 synthetic Rust tests (55 ignored), all twelve silent installed
+Mecc controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
+roadmap/site/JavaScript checks. A fresh 384-frame receipt is identical and repeats
+the 124,800-word native agreement. The persistent wounded-primary change is a
+separate follow-up from the already merged policy milestone.
