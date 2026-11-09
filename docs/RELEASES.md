@@ -22,6 +22,38 @@ with six fresh launches, menu return/re-entry and cleanup. This is development
 lifecycle coverage, not manual controls, live Kabuto or visual fidelity. The
 latest persistent Mecc wounded-primary work remains integrated with its guards.
 
+## Canonical attached timed-effect ownership — 9 November 2026
+
+The source transfers acquired attached timed objects into the common Session
+registry and reuses one callback/parent-preparation kernel over its actual
+fields, inline payload, channels and reference cache. Required services observe
+the registered actor after prefix publication; pending re-entry and late-failure
+replay are refused. Context/RNG rollback on failed construction, stale/foreign
+identities, clear and second entry have installed-data controls.
+
+Replaying retained original-PC controls through Session matches 256 parent
+preparation states /44,544 selected words. The staged-owner regression preserves
+576 rows /100,224 words, including its 320 detached callback states with supplied
+post-preparation. This reuses existing native evidence; it adds no original-world
+or complete-film coverage. Support/time, detached construction/environment,
+physical/stock retirement, world RNG/cadence and main timed-film admission remain
+open. Prototype PS2 attributions remain unknown. No new downloadable preview is
+introduced: preview13 keeps its exact executable, notice and checksum receipts.
+
+Source `0f03388754c21022e53fc66d8db19b36760dff87` passes 856 synthetic Rust tests
+(54 ignored), 43 Python tests, Rustfmt and strict Clippy. Both timed source checks
+and three positional-impact controls pass; the canonical preparation control is
+replayed with positive and zero-delta inputs. The limited history audit reports
+zero findings across 628 commits /3,700 blobs.
+
+Its private MinGW build pins executable SHA256
+`85c3674f9a8ce2eea0a9ec12466d6fb52b111194c0a4fa7a678703aef018caf6`.
+That exact executable passes awaited CLI startup, both offscreen development
+endpoints, three active-effect cancellations and two source-terminal/re-entry
+cycles with muted real voice sinks and text cleanup. These are selected transport
+regressions, not interactive gestures, native cadence or complete visual fidelity.
+The build remains a private validation artifact; the public download is unchanged.
+
 ## Main integration of persistent wounded Mecc primary — 9 November 2026
 
 The reviewed Mecc follow-up `0d08196e2dbe459fe0a94db67ecbecfc1c2f43be` is combined

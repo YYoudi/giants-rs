@@ -1347,6 +1347,26 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Attached timed actors now transfer into the existing Session registry: actual
+  fields, inline payload, canonical channels and reference cache are borrowed by
+  the same callback kernel as the staged owner. Source image, typed resources,
+  origin and parent binding stay owned; no second live actor registry is added.
+  Required physical/retirement services see the registered actor after the
+  callback prefix has been published. Pending calls refuse re-entry; late errors
+  preserve completed writes and actual child-context requests without replay.
+  Shared ordinary parent preparation still retires from the pre-binding point.
+  Replaying the retained original-PC controls through Session matches 256 parent
+  preparation states /44,544 selected words. The standalone regression retains
+  all 576 rows /100,224 words (256 parent preparation plus 320 detached callback
+  states); these are reused controls, not new native coverage. Source checks also
+  cover foreign-session refusal without context/RNG consumption, stale creation,
+  payload allocation stability, pending-service refusal, clear and second entry.
+  Next: acquire/bind the detached Session constructor/list contract, actual
+  dispatcher rates/clock, environment and physical/stock retirement producers,
+  then connect this owner to main-film admission and rendering. Parent support
+  and time are still supplied. This source-only dependency does not change the
+  published preview13, the full-corpus counts or zero certified complete scenes.
+
 - The acquired parented preparation now composes callback, existing common
   finalization and actual source attachment/history in native order. Retirement
   captures the current pre-binding point; even a marked parent then completes
@@ -1361,8 +1381,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   cinematic physics implementation. Full detached preparation reaches an absent
   terrain service in the controlled native fixture; preserve that failure and
   acquire/bind actual environment inputs. Dispatcher model rates/clock producers,
-  canonical Session transfer, ordinary stock/world admission and scene fidelity
-  remain open. The last full inventory and zero certified scenes are unchanged.
+  ordinary stock/world admission and scene fidelity remain open. Canonical
+  attached Session transfer is now covered by the source follow-up above. The last full inventory and zero certified scenes are unchanged.
 
 - Bounded timed effects now retain their source image, class/state resources,
   owned reference cache and one actual inline payload across context retirement.
@@ -1393,9 +1413,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   three active cancellations and two source-terminal/re-entry voice/text cleanup
   cycles pass. The fresh downloaded three-asset/ten-member bundle passes receipt,
   notices and checksum checks. This does not certify timed main-film admission or
-  change the preview-6 full-corpus inventory. Transfer callback state into the
-  existing Session's canonical fields/payload/reference owners before world
-  binding; do not duplicate live actor state or add another actor registry.
+  change the preview-6 full-corpus inventory. The later canonical Session
+  transfer above closes that storage prerequisite for attached actors only;
+  real world binding and complete timed-film admission remain open.
 
 - The acquired timed attached and detached linear-gravity frames now compose
   their following VM commands with the shared owned initial constructor. Separate
@@ -1750,7 +1770,7 @@ parented preparation dependency described above. Its silent development,
 active-effect cancellation and source-terminal/re-entry checks pass; all three
 downloaded assets and ten ZIP members are independently verified. Exact hashes
 and validation scopes are in `docs/RELEASES.md` and `docs/public-preview.json`.
-The 545-source census still has zero complete scenes verified. Next: canonical
-Session state/resources, actual dispatcher rates/clock, detached environment,
+The 545-source census still has zero complete scenes verified. The later source
+checkpoint transfers attached state into Session. Next: actual dispatcher rates/clock, detached environment,
 stock/retirement providers and world scheduling before timed-film admission.
 Manual input and complete visual/audio/temporal comparisons remain pending.
