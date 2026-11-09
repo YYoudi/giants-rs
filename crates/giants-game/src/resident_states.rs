@@ -8583,6 +8583,14 @@ impl Session {
         input: Construction<'_>,
         writes: &[&giants_formats::mission::StateWriteKind],
     ) -> Result<Id, String> {
+        self.construct_with_placement(input, writes, None)
+    }
+    fn construct_with_placement(
+        &mut self,
+        input: Construction<'_>,
+        writes: &[&giants_formats::mission::StateWriteKind],
+        initial_pose: Option<crate::uncached_pose::Pose>,
+    ) -> Result<Id, String> {
         let kabuto_cold = input.class == 1
             && input.seed.storage.state() == 1
             && input.seed.storage.profile() == Profile::Debug
@@ -8609,6 +8617,30 @@ impl Session {
         staged.bind_specification(id, input.specification)?;
         staged.bind_state_resources(id, input.state_resources)?;
         staged.bind_actor_fields(id, input.fields)?;
+        if let Some(initial) = initial_pose {
+            // The source placement writes its first affine before later
+            // command9 scale overrides. Preserve that real cache and let the
+            // ordinary stale-pose guard require a later writer when needed.
+            let fields = staged
+                .residents
+                .get_mut(&id.serial)
+                .unwrap()
+                .construction_fields
+                .as_mut()
+                .unwrap();
+            let final_scale = fields.scale;
+            fields.mark_mission_placement();
+            fields.scale = initial.scale;
+            staged.prepare_actor_affine(id)?;
+            staged
+                .residents
+                .get_mut(&id.serial)
+                .unwrap()
+                .construction_fields
+                .as_mut()
+                .unwrap()
+                .scale = final_scale;
+        }
         // Construction precedes mission writes. Keep updates private until
         // every write and typed-resource check succeeds.
         if !writes.is_empty() {
@@ -8705,6 +8737,27 @@ impl Session {
                     .mark_mission_placement();
             }
             Ok(id)
+        })
+    }
+    /// Original mission root placement phase for the generic acquired profiles.
+    /// The source class scale precedes later overrides; a resulting old cache
+    /// must remain unavailable through actor_current_affine until rewritten.
+    pub(crate) fn construct_mission_declaration_with_pose(
+        &mut self,
+        key: crate::declared_residents::Key,
+        input: Construction<'_>,
+        writes: &[&giants_formats::mission::StateWriteKind],
+        initial: crate::uncached_pose::Pose,
+    ) -> Result<Id, String> {
+        if key.scope != crate::declared_residents::Scope::Mission
+            || !matches!(input.seed.storage.state(), 0 | 23)
+            || initial.position.map(f32::to_bits) != input.fields.position.map(f32::to_bits)
+            || initial.angles.map(f32::to_bits) != input.fields.angles.map(f32::to_bits)
+        {
+            return Err("mission initial affine requires matching acquired root placement".into());
+        }
+        self.construct_source_declaration(key, |session| {
+            session.construct_with_placement(input, writes, Some(initial))
         })
     }
     /// Trusted acquired constructors publish the source key only after their
@@ -10254,6 +10307,97 @@ mod tests {
             assert_eq!(session.counts(), before);
             assert_eq!(session.declaration(mission_key), Some(mission));
         }
+    }
+    #[test]
+    fn source_mission_affine_retains_initial_scale_and_refuses_stale_or_failed_publication() {
+        use crate::declared_residents::{Key, Scope};
+        let mut session = Session::new(188);
+        let template = fixture_actor(&mut session, 73, 0);
+        let body = session.specification(template).unwrap().clone();
+        let resources = session.state_resources(template).unwrap().clone();
+        let fields = session
+            .get(template)
+            .unwrap()
+            .construction_fields
+            .clone()
+            .unwrap();
+        let initial = crate::uncached_pose::Pose {
+            position: fields.position,
+            angles: fields.angles,
+            scale: fields.scale,
+        };
+        let seed = seed(0);
+        let make = |fields| Construction {
+            class: 73,
+            seed: &seed,
+            bindings: &[],
+            flags: DirectFlags::default(),
+            specification: body.clone(),
+            state_resources: resources.clone(),
+            fields,
+        };
+        let key = Key {
+            scope: Scope::Mission,
+            index: 0,
+        };
+        let before = session.counts();
+        let next = session.next;
+        assert!(
+            session
+                .construct_mission_declaration_with_pose(
+                    key,
+                    make(fields.clone()),
+                    &[],
+                    crate::uncached_pose::Pose {
+                        scale: f32::MAX,
+                        ..initial
+                    },
+                )
+                .is_err()
+        );
+        assert_eq!(session.counts(), before);
+        assert_eq!(session.next, next);
+        assert!(session.declaration(key).is_none());
+        let mut changed = fields.clone();
+        changed.scale = 3.;
+        let id = session
+            .construct_mission_declaration_with_pose(key, make(changed), &[], initial)
+            .unwrap();
+        assert!(session.actor_current_affine(id).is_err());
+        let retained = session.get(id).unwrap().affine_cache.as_ref().unwrap();
+        assert_eq!(retained.value.matrix[0], 1.);
+        assert_eq!(retained.pose[6], 1_f32.to_bits());
+        assert_eq!(
+            session
+                .get(id)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .scale,
+            3.
+        );
+        session.prepare_actor_affine(id).unwrap();
+        assert_eq!(session.actor_current_affine(id).unwrap().matrix[0], 3.);
+        let fresh = session
+            .construct_mission_declaration_with_pose(
+                Key { index: 1, ..key },
+                make(fields.clone()),
+                &[],
+                initial,
+            )
+            .unwrap();
+        assert_eq!(
+            session.actor_current_affine(fresh).unwrap().matrix[3],
+            fields.position[0]
+        );
+        let before = session.counts();
+        assert!(
+            session
+                .construct_mission_declaration_with_pose(key, make(fields), &[], initial)
+                .is_err()
+        );
+        assert_eq!(session.counts(), before);
     }
     #[test]
     fn target_headers_require_owned_identity_and_keep_special_header_unknown() {

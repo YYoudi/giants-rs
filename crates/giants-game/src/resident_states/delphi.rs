@@ -785,6 +785,26 @@ mod physical_tests {
         let mut stamp = crate::animation_epoch::Stamp::default();
         let mut entered_camera = crate::delphi_camera::State::default();
         let mut ordinary_camera = crate::mecc_camera_update::State::default();
+        let mut ordinary_view = crate::delphi_ordinary_view::State::default();
+        let executable = std::env::var_os("GIANTS_DELPHI_EXECUTABLE")
+            .map(std::path::PathBuf::from)
+            .unwrap_or_else(|| root.join("Giants.exe"));
+        let camera_profiles = crate::delphi_camera::OrdinaryProfiles::read(&executable).unwrap();
+        let view_controls = |number| crate::delphi_ordinary_view::Controls {
+            seconds: 1. / 60.,
+            transition_input: number % 16 < 10,
+            scaled_input: number % 32 >= 16,
+            input_scale: 0.8,
+            projection: crate::camera_projection::Parameters {
+                aspect: None,
+                viewport: [1920., 1080.],
+                near: 1.,
+                far: 10_000.,
+                limit_far: true,
+                depth_reference: [0.; 3],
+                depth_axis: [1., 0., 0.],
+            },
+        };
         #[derive(Default)]
         struct CameraWorld(u32);
         impl crate::mecc_camera_update::World for CameraWorld {
@@ -926,6 +946,19 @@ mod physical_tests {
                         .unwrap();
                     assert_eq!(output.camera.angles, [fields.angles[0], view.look, 0.]);
                     assert!(output.view.into_iter().all(f32::is_finite));
+                    let output = session
+                        .advance_delphi_ordinary_view(
+                            id,
+                            number,
+                            view_controls(number),
+                            camera_profiles,
+                            &mut ordinary_view,
+                            &mut camera_world,
+                        )
+                        .unwrap();
+                    assert_eq!(output.pose.camera.angles, [fields.angles[0], view.look, 0.]);
+                    assert!(output.projection.matrix.into_iter().all(f32::is_finite));
+                    let transition = ordinary_view.transition();
                     let calls = camera_world.0;
                     assert!(
                         session
@@ -941,6 +974,21 @@ mod physical_tests {
                     );
                     assert_eq!(camera_world.0, calls);
                     assert!(ordinary_camera.failure().is_none());
+                    assert!(
+                        session
+                            .advance_delphi_ordinary_view(
+                                id,
+                                number + 1,
+                                view_controls(number + 1),
+                                camera_profiles,
+                                &mut ordinary_view,
+                                &mut camera_world,
+                            )
+                            .is_err()
+                    );
+                    assert_eq!(camera_world.0, calls);
+                    assert_eq!(ordinary_view.transition(), transition);
+                    assert!(ordinary_view.failure().is_none());
                 }
                 assert!(
                     session
@@ -953,6 +1001,54 @@ mod physical_tests {
             }
         }
         assert!(landed && jumped);
+        let valid_owner = owners[2];
+        let fields = session
+            .get(valid_owner)
+            .unwrap()
+            .construction_fields
+            .as_ref()
+            .unwrap();
+        let original_kind = fields.configuration[20];
+        let original_flags = fields.object_flags;
+        let calls = camera_world.0;
+        let transition = ordinary_view.transition();
+        for (kind, flags) in [
+            (4, original_flags),
+            (original_kind, original_flags | 0x8000),
+        ] {
+            let fields = session
+                .residents
+                .get_mut(&valid_owner.serial)
+                .unwrap()
+                .construction_fields
+                .as_mut()
+                .unwrap();
+            fields.configuration[20] = kind;
+            fields.object_flags = flags;
+            let error = session
+                .advance_delphi_ordinary_view(
+                    valid_owner,
+                    64,
+                    view_controls(64),
+                    camera_profiles,
+                    &mut ordinary_view,
+                    &mut camera_world,
+                )
+                .unwrap_err();
+            assert!(error.contains("selected kind/profile"));
+            assert_eq!(ordinary_view.transition(), transition);
+            assert!(ordinary_view.failure().is_none());
+            assert_eq!(camera_world.0, calls);
+        }
+        let fields = session
+            .residents
+            .get_mut(&valid_owner.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap();
+        fields.configuration[20] = original_kind;
+        fields.object_flags = original_flags;
         // The standalone camera callback consumes real owned pose/reference
         // storage. Its mode/target inputs remain supplied world boundaries.
         let camera_owner = owners[0];
@@ -962,6 +1058,18 @@ mod physical_tests {
         };
         let calls = camera_world.0;
         for invalid in [foreign, camera_owner] {
+            assert!(
+                session
+                    .advance_delphi_ordinary_view(
+                        invalid,
+                        65,
+                        view_controls(65),
+                        camera_profiles,
+                        &mut ordinary_view,
+                        &mut camera_world,
+                    )
+                    .is_err()
+            );
             assert!(
                 session
                     .advance_delphi_ordinary_camera(

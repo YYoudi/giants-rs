@@ -181,9 +181,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   viewport and depth terms remain supplied boundaries. Only device publication
   is skipped. Override preserves the transition; projection refusal retains a
   completed lens update. No renderer or visual-fidelity claim is made.
-  Next bind actual profile selection, input/viewport/depth producers and camera
-  invocation ordering to the owned ordinary view, then use the common Bevy
-  projection/coordinate adapter. Full dispatch and alternate branches stay open.
+  The next composition below binds the ordinary profile selector and invocation
+  order. Actual input/viewport/depth producers and the common Bevy projection /
+  coordinate adapter remain pending. Full dispatch and alternate branches stay open.
+- Implemented: the owned local class-3 mode-zero ordinary view selects external
+  base/scaled profiles, then executes lens, projection and direct-angle pose in
+  source order. The actual native dispatcher branch matches 384 invocations /
+  14,976 words across three persistent sequences. A separate 384-call control
+  executes original view/cache math and matches 23,424 words, with each next Rust
+  depth input produced from its own prior Rust view. Initial cache remains supplied.
+  Device publication is skipped,
+  walls are no-hit and final view arguments are captured. The source lifecycle
+  adds 64 composed owned views with actual actor fields/kind and pre-provider
+  refusal checks. Completed lens/projection effects survive later failure and
+  cannot replay. Actual input/viewport/depth producers, initial view, complete
+  dispatch and renderer/mission scheduling remain prerequisites; no live Delphi
+  admission or fidelity status changes follow.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -768,13 +781,27 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   declarations and character-specific cold startup keep their existing routes;
   the already-acquired mission herd-marker path reuses the same header helper.
   A native 512-case control checks all 395,264 object bytes across the bounded
-  template-copy/flag-store fragment, stopping before the initial object update.
+  template-copy/flag-store fragment, stopping before the initial affine writer.
   Rust agrees on all 512 header cases. The real source preparation path in four
   cohort worlds constructs and marks 32 mission actors and releases all tracked
   residents; its 40 existing declaration refusals remain explicit. Synthetic
   ownership controls reject failed/duplicate declarations without publishing or
   allocating another identity. This corrects owned header inputs, not physical
-  stock accounting, complete mission admission or the omitted initial callbacks.
+  stock accounting or complete mission admission.
+  Initial-affine follow-up: the call after those placement marks is the acquired
+  affine writer, not a behavior callback. The shared main-loader path now stages
+  that cache from the source root pose and class scale before applying a later
+  scale override. An override retains the real initial cache; current-pose queries
+  refuse it until a genuine later writer runs. Failed preparation publishes no
+  declaration, actor or resource identity. The unchanged affine kernels reuse
+  their retained 2,048-case native control. A separate 64-case root/scale/writer
+  control matches 2,304 words, including 42 scale changes that leave the cache
+  untouched before an explicit rewrite. The first menu mission in each of four
+  cohort worlds retains 24 current and eight stale mission caches, releases all
+  101 tracked residents and preserves the 40 existing refusals. These 32 root declarations have no separate
+  orientation-store requests. Other mission commands, locked-child construction,
+  post-load services and full world/frame scheduling remain open; this does not
+  establish complete native mission state or visual fidelity.
   The physical capacity/recycle boundary is acquired; real mission occupancy,
   shared admission, error handling and full world scheduling remain open. No
   shared Rust capacity policy or new gameplay admission follows from CPU proof.
@@ -785,6 +812,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   capacity, complete rendering/audio/subtitle parity and broader interactive coverage remain
   open. Next: finish these persistent contracts, then the mixed/other queue
   families and the overlapping partial FX/audio/credits/resume priorities below.
+  All-menu CPU follow-up: 56 named missions / 19 menu worlds prepare; acquired
+  mission roots retain 438 current and 235 stale caches, with no additional root
+  orientation requests. All 2,104 constructed residents release. Preserve the
+  840 class-profile refusals and 10,852 other-state exclusions (per-mission
+  counts). Actual world admission and scene fidelity remain unverified.
 
 - Published preview 2026.11.05.6 / FX-prefix milestone validated: the real source/ancestry audit covers 208 active
   requests in 72 sources. The former guard conflated Flick34 shadow descriptors,

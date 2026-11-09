@@ -21,6 +21,101 @@ expanded. No dependency, bundled data or preview package is added; existing
 notices/checksums retain their package identities. Prototype PS2 attribution
 remains unknown. Full-controller reconstruction continues in BACKLOG.md.
 
+## Source-ordered initial mission affine — 9 November 2026
+
+The call following the acquired placement header is the existing affine writer,
+not a behavior callback. The common loader now stages that initial cache for its
+ordinary state0/state23 mission roots, using the class scale before a later
+mission scale override. It retains the initial matrix after the override and
+refuses a stale current-pose query until a real subsequent writer runs. Failure
+publishes no declaration, resident or resource identity. World declarations and
+other character startup ordering keep their existing routes.
+
+The unchanged math kernels reuse their retained 2,048-case native proof. A new
+64-case original root/scale/writer control matches 2,304 words: 42 actual scale
+changes preserve the old cache until an explicit rewrite. Four-world source
+construction of the first menu mission in each of four cohort worlds retains
+24 current and eight stale mission caches, releases all 101
+tracked residents and keeps 40 existing refusals. The 32 selected root declarations
+have no separate orientation-store requests. Synthetic controls also cover failed
+preparation, duplicate source keys and the actual later-cache rewrite.
+
+A separate CPU sweep prepares all 56 named menu missions across 19 menu worlds. Among the acquired mission roots, 438 caches remain current and 235 retain an earlier scale; no additional orientation-store request occurs in these roots. All 2,104 constructed residents are released. The 840 class-profile refusals and 10,852 declarations in other state profiles remain explicit exclusions. These are repeated per-mission counts, not unique world objects or complete gameplay admission.
+
+Validation of binary source `6eaa3d0ee04b93033510ea875dc5e9c23d54d76c`: 788 Rust tests pass
+(30 ignored), 40 Python tests, formatting and strict Clippy pass. Source audit
+examines 362 commits / 2,591 blobs with zero findings. Silent offscreen controls
+pass both development endpoints, three live-effect cancellations and two Rstory1
+source-terminal/re-entry cycles with voice/text cleanup. Interactive and native
+scene-timing checks remain open.
+
+Preview `preview-2026.11.09.2` pins that exact source; executable SHA256
+`b6f0f30c72853f9ddee1530b0ad53908eaf5376c5930063e010ff37d0d5a3e96`, ZIP SHA256
+`944491cd3faed9f35dc42d3b3bd8b20c10bfc27f727ccac2e26a0b2f98e0659e`. The ten-member package passes receipt, notice and checksum
+checks; the three uploaded assets were downloaded again and all ten package
+members and adjacent checksums verified independently.
+
+Combined source `50866e4ea247e6620fab32e7dbc291c4373bac42` retains the newer
+Delphi ordinary-view work and passes 791 Rust tests (30 ignored), 40 Python
+tests, formatting, strict Clippy and site/JavaScript checks. Its source audit
+covers 368 commits / 2,606 blobs with zero findings. These are combined-source
+checks; the published binary and its offscreen controls remain pinned to
+`6eaa3d0`, with no additional runtime or fidelity claim.
+
+This is initial-cache integration, not a complete mission VM, shared physical
+stock accounting, world admission or visual/temporal fidelity result. Prototype
+PS2 correspondence remains unknown. The full 545-source scope and zero certified
+complete scenes remain unchanged; other mission commands and loading services
+remain open.
+
+## Owned Delphi ordinary view composition - 9 November 2026
+
+The local class-3 mode-zero view now selects acquired external base/scaled
+profiles and executes lens, source-space projection and direct-angle pose in
+source order. Original dispatcher-branch controls match 384 invocations /
+14,976 words across three persistent sequences. A separate 384-call control
+also executes original view/cache math and matches 23,424 words. Each next Rust
+projection uses its own previous Rust view cache; only initial depth is supplied.
+Both original virtual device calls are skipped; shared-world view scheduling and
+rendered pixels remain unverified. Walls are a declared no-hit provider; final
+view arguments are also captured.
+No table or executable is bundled. The owned four-owner lifecycle adds 64
+composed views and verifies refusal before state/provider consumption. Late
+failures retain completed lens/projection effects and quarantine replay.
+
+Actual input/viewport/depth producers, initial common view and Bevy coordinate /
+projection adapter, complete dispatch, full-primary/auxiliary scheduling,
+renderer/mission admission, water/turbo and combat remain pending. These CPU/API
+controls do not add playable Delphi controls or visual-fidelity claims. Earlier
+executable/package receipts below retain their original source identities.
+
+Validation: 787 synthetic Rust tests pass (29 ignored), together with 40 Python
+tests, Rustfmt, Clippy with warnings denied and generated roadmap/site/JavaScript
+checks. The enriched silent installed-resource Delphi lifecycle also passes,
+including selected-kind and alternate-profile refusal without lens/provider
+consumption. Exact build/package and common runtime checks are recorded separately.
+
+The exact `56f0687656b2b40fefa84f3ec76c5debd45df57e` GNU executable passes
+both silent common development lifecycle endpoints and three Rstory1 mission-2
+persistent-owner opening/cancellation cycles. These check common runtime cleanup,
+not live Delphi controls. Executable SHA256:
+`048d867baed9f6ce01e46d8ad9b64110f68c7bbb5a2ce0f4c6962e9f9267505b`.
+The ten-member private draft has complete receipt-bound notices/review, matching
+checksums and zero technical verifier blockers. ZIP SHA256:
+`6a6d9e7b81f3c2dbb756971d54e77aa71cfc6321d6ea64304f7236d56fd465d3`.
+This CPU milestone does not change the public playable download.
+
+Combined checkpoint `39b89ef` preserves the newer shared positional-impact
+preparation work. It passes 788 synthetic Rust tests (29 ignored), the enriched
+Delphi installed-resource control, 40 Python tests, Rustfmt, Clippy and generated
+site/JavaScript checks. The exact executable/package receipts above keep their
+original source identity; the combined checkpoint is separate source validation.
+
+Final combined checkpoint `8ac8922` additionally retains the newer Kabuto motion
+prefix. It passes 790 synthetic Rust tests (30 ignored), 40 Python tests,
+Rustfmt, Clippy and generated site/JavaScript checks. Delphi camera sources and
+their recorded control identities are unchanged; this is not another runtime run.
+
 ## Kabuto owned input/orientation and force integration — 9 November 2026
 
 The bounded prefix now owns model rates, velocities, look and input state and
