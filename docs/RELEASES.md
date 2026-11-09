@@ -24,6 +24,12 @@ independent package verification with zero technical blockers; archive SHA256 is
 Source/history pattern review reports no findings across 344 reachable commits
 and 2,519 blobs. This prerequisite does not establish a new gameplay preview.
 
+Combined checkpoint `bb6a474` also preserves the subsequently published mission
+placement-header changes. It passes 778 Rust tests (29 ignored), 40 Python tests,
+Rustfmt, Clippy, five installed-resource Mecc controls and the rebuilt 256-case
+hard-landing preparation comparison. Roadmap, site and JavaScript checks pass.
+The exact executable/package receipts above remain bound to their original source.
+
 The effect is prepared only. Real impact damage/context publication, channel
 selection and subsequent active effect execution remain to be integrated.
 The full movement replay's previous exact step-441 refusal remains its latest
