@@ -26,6 +26,22 @@ tests, Rustfmt, Clippy with warnings denied and generated roadmap/site/JavaScrip
 checks. The enriched silent installed-resource Delphi lifecycle also passes,
 including selected-kind and alternate-profile refusal without lens/provider
 consumption. Exact build/package and common runtime checks are recorded separately.
+
+The exact `56f0687656b2b40fefa84f3ec76c5debd45df57e` GNU executable passes
+both silent common development lifecycle endpoints and three Rstory1 mission-2
+persistent-owner opening/cancellation cycles. These check common runtime cleanup,
+not live Delphi controls. Executable SHA256:
+`048d867baed9f6ce01e46d8ad9b64110f68c7bbb5a2ce0f4c6962e9f9267505b`.
+The ten-member private draft has complete receipt-bound notices/review, matching
+checksums and zero technical verifier blockers. ZIP SHA256:
+`6a6d9e7b81f3c2dbb756971d54e77aa71cfc6321d6ea64304f7236d56fd465d3`.
+This CPU milestone does not change the public playable download.
+
+Combined checkpoint `39b89ef` preserves the newer shared positional-impact
+preparation work. It passes 788 synthetic Rust tests (29 ignored), the enriched
+Delphi installed-resource control, 40 Python tests, Rustfmt, Clippy and generated
+site/JavaScript checks. The exact executable/package receipts above keep their
+original source identity; the combined checkpoint is separate source validation.
 ## Positional hard-landing context preparation - 9 November 2026
 
 The shared null-object effect initializer now preserves both floating intervals
