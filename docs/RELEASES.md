@@ -25,6 +25,12 @@ independent package verification with zero technical blockers; ZIP SHA256 is
 `42fe6271ef07e2e930651ce70c486ea75a2256f566ad0f9c4492bd88d08db4d2`.
 This configuration prerequisite does not establish a new playable preview.
 
+Combined checkpoint `c18a4ad` also preserves the subsequently published mission
+affine-placement work. It passes 793 Rust tests (30 ignored), 40 Python tests,
+Rustfmt, Clippy, five installed-resource Mecc controls and roadmap/site/JavaScript
+checks. The earlier executable/package and native configuration receipts keep
+their original source identities.
+
 Native cue-entry controls show the required service precedes later size draws,
 lifetime and angular writes. A real provider can consume shared RNG there;
 precomputed configuration does not replace its ordered execution. Actual owned
