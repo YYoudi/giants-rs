@@ -4169,3 +4169,11 @@ PS2 correspondences remain unknown. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTA
 No new dependency, asset, screenshot or public executable is produced. Existing
 Windows preview, notices and checksum receipts retain independent identities;
 main integration owns delivery after the remaining runtime prerequisites.
+
+Combined source `81b3532a130c8fe4b33e25ca34e40c4dfdce7860` preserves the latest
+Kabuto reference-query and Delphi scalar-selection work, as well as main's
+independent preview-13 records. It passes 854 synthetic workspace Rust tests
+(53 ignored), ten silent installed-resource Mecc controls including the new
+smoke owner, 43 Python tests, Rustfmt, strict workspace Clippy and generated
+roadmap/site/JavaScript checks. Both new native comparators repeat on rebuilt
+runners from that source. No public executable is relabelled by these tests.
