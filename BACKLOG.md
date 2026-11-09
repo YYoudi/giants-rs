@@ -38,6 +38,29 @@ matches probable and one unassigned. No gameplay status changes follow from name
 
 ## Parallel character work
 
+### NPC and interaction lane
+
+The dedicated NPC lane resumes existing work; see
+[OWNED_NPCS.md](docs/OWNED_NPCS.md) for the service inventory and boundaries.
+
+- Revalidate the authored herd -> Vimp birth -> initialization chain on current
+  source, retaining terrain/clock/RNG test boundaries and failure quarantine.
+  First installed control passes 28 parents / 313 initialized children and 26
+  injected terrain failures. Preserve two inactive-parent exclusions and two
+  parser-refused world files; they are not empty or fully covered populations.
+- Connect herd scheduling and admitted Vimp updates to actual world ownership,
+  then acquire threat/feeding services and active effects/audio before ordinary
+  mission admission. Preserve existing refusal and late-failure behavior.
+- Resume the persistent Ripper primary/perception/attack services, actual player
+  target identities, physical/ANM order and required firing/audio/effect providers.
+  Do not replace them with a generic new AI or enable unsupported modes.
+- Reuse Smartie carry/drop ownership; acquire initialization and independent
+  rescue/follow/work/fear behavior separately. Workers/economy, allied squad AI,
+  other enemies/bosses and interactive world objects remain explicit scope.
+- Keep character-player and Flick changes separate, preserve concurrent shared
+  service work, and hand coherent validated runtime patches to main integration.
+  No private research records or original data may enter the public repository.
+
 The main integration lane owns combined runtime wiring and delivery, using
 [INTEGRATION.md](docs/INTEGRATION.md). Prioritize ordinary gameplay reachability
 and cross-lane regression checks over additional stand-alone demonstrations.
@@ -351,6 +374,21 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented, shared CPU dependency of the following actor-reference consumer:
+  state-filtered velocity addition accepts an explicit vector or computes the
+  acquired default from source scale/physical factor/basis. All 512 original
+  cases match 208,572 source/target/header/delta/service-prefix words, including
+  277 applications and 23 notification requests. Source/target alias, absent or
+  rejected targets, signed zero, raw peer fallback and distinct source/target
+  owner words are covered in a declared Double53 profile. Explicit vector storage
+  is separate; finite nonzero-scale defaults and finite outputs bound the control.
+  Transport entry is observed, not executed. The source guard is reused and the
+  observer sees completed target velocity; failure retains completed stores.
+- Next reference/action composition still requires typed target ownership and
+  actual Session velocity/physical-cache dispatch, the local reference timer,
+  target-specific release, current view/range/query producers and following
+  animation/actions. The shared helper alone establishes no player/NPC
+  interaction or new ordinary gameplay. Keep those lane contracts separate.
 - Implemented: the actual Factory/Session resource phase now follows its owned
   control-force token, executes the acquired guard, and binds actual accumulated
   damage/class limit, current descriptor/channels, model/buttons and the shared
@@ -1203,6 +1241,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   physical/retirement/context/stock owners and world RNG/cadence. All 545-source
   inventory totals and zero certified scenes remain unchanged; prototype PS2
   counterparts remain unknown.
+
+  Published `preview-2026.11.09.11` pins this dependency to source
+  `cf12894bb487da0395509eff112d35b6c40ef62a`, with 831 Rust tests /48 ignored,
+  41 Python tests, formatting, strict Clippy and MinGW. One-time context consumption
+  refuses stale creation without another RNG draw. The ownership/failure source
+  control, all 23 persistent queue route/lifecycle checks and three source impact
+  checks pass; five Delphi and the new Kabuto Session resource-phase check pass
+  in the combined source. Exact-binary silent offscreen development endpoints,
+  three active cancellations and two source-terminal/re-entry voice/text cleanup
+  cycles pass. The fresh downloaded three-asset/ten-member bundle passes receipt,
+  notices and checksum checks. This does not certify timed main-film admission or
+  change the preview-6 full-corpus inventory. Transfer callback state into the
+  existing Session's canonical fields/payload/reference owners before world
+  binding; do not duplicate live actor state or add another actor registry.
 
 - The acquired timed attached and detached linear-gravity frames now compose
   their following VM commands with the shared owned initial constructor. Separate

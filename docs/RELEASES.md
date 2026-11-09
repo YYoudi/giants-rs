@@ -1,5 +1,30 @@
 # Preview releases and milestone integration
 
+## NPC reconstruction inventory and source ownership regression — 9 November 2026
+
+The dedicated NPC lane consolidates existing herd/Vimp, Ripper, shared enemy
+projectile/response and Smartie interaction services in
+[OWNED_NPCS.md](OWNED_NPCS.md), with remaining work in `BACKLOG.md`.
+The optional installed-data regression retains authored herd/marker values and
+order, composes real Rust births and first initialization, checks parent/session
+ownership, repeated-initialization refusal and terrain-failure quarantine without
+service/RNG replay. A supplied flat floor, timestep and seed remain boundaries.
+
+The first run covers 28 parents / 313 initialized children and 26 injected
+terrain failures. Two parents become inactive without eligible world-only markers; two
+world files are refused by the parser. Both exclusions remain explicit. No
+original executable, complete living AI, rendering or audio is exercised.
+Native function-name lookups remain unassigned. This is a test/documentation
+milestone, enabling no new ordinary gameplay and producing no new public binary;
+existing preview receipts, notices and checksums keep their original identities.
+
+Combined source `4ae238d1bd786c35d095cfcf3079434107054495` preserves the current
+Flick, Kabuto and integration work. It passes 829 workspace Rust tests (47
+ignored), the separate installed NPC control, 41 Python tests, Rustfmt, strict
+workspace Clippy and generated roadmap/site/JavaScript checks. The limited source
+history audit reports zero findings across 527 commits / 3,330 blobs. These
+results are source/CPU validation, not a new executable or gameplay receipt.
+
 The main integration lane follows [INTEGRATION.md](INTEGRATION.md) to combine
 reviewed Flick, Mecc, Delphi, Kabuto and NPC contributions in one public build.
 Source merge, CPU validation, ordinary gameplay reachability and downloadable
@@ -18,69 +43,30 @@ In particular, the historical jet/descent/contact captures do not close the Mecc
 input-to-landing integration prerequisite. No gallery assets or receipts change.
 
 
-## Mecc reserved local damage transport — 9 November 2026, source only
+## Kabuto following-reference velocity dependency — 9 November 2026
 
-The independent local transport now reserves real pain/shared PCM and exposes a
-typed-root impact provider sharing the actual jet backend. The acquired 2D caller
-policy matches 960 native/Rust cases / 16,968 selected words with explicit
-construction/stop boundaries. Descriptor defaults apply to exact zero distances.
-Unique source/owner reuse avoids a second instance and parameter draw; unsupported
-restart transport remains refused.
+The acquired shared velocity helper filters actor states, accepts an explicit
+vector or computes its source-scale/physical-factor/basis default, then stores
+target velocity before source-owner notification gating. Original-PC controls
+match 512 declared cases / 208,572 header/delta/service-prefix words, including
+277 applications and 23 notification requests. Full target ownership is retained
+in the message independently of source eligibility. The observer sees actual
+post-store state; owned transport failure retains completed velocity stores.
 
-A silent installed-data control starts four damage cues and one jet cue on real
-muted sinks, checks two unique-reuse calls, separate VM/audio seeds and source
-parameters, root/nonlocal refusal and late sink loss. Quarantine/release leaves
-no owned voices or source assets. Health/timers and typed actor registration are
-controlled inputs; this is not full player/primary admission, native DLL device
-execution, process-seed/locale startup or audible fidelity.
+Supplied headers, raw peer/mode context, separate explicit vector storage and a
+finite Double53 default/output profile remain boundaries. This does not execute
+network transport, bind target/physical ownership in Session, or complete the
+following Kabuto reference/actions. No gameplay, new screenshot or downloadable
+preview is admitted. Existing binary/notices/checksum/runtime receipts retain
+independent identities. Prototype PS2 correspondence remains unknown.
 
-The App primary still supplies neither impact nor voice services. Gate production,
-wounded continuation, full world cleanup, nonlocal and equipment/death profiles
-remain prerequisites. Existing preview identities and receipts are unchanged;
-the main integration lane owns combined publication. No dependency, new playable
-capture or downloadable package is added by this source handoff.
-
-Combined source `bac6bdf2bd8cac2035598802f2c90798ef7e3e97` passes 839 synthetic
-workspace Rust tests (51 ignored), all four installed impact-primary controls,
-the new silent real-voice control and the existing jet/positional transport
-controls. Rustfmt, strict workspace Clippy, 41 Python tests and roadmap/site/
-JavaScript checks pass. Rebuilt comparators retain the 960 caller-policy cases
-and both earlier voice-tail datasets. The limited history-pattern audit reports
-zero findings across 551 commits / 3,437 blobs.
-
-A private MinGW debug executable from that source also runs the actual offscreen
-menu/inspection prefix: all six local damage sources reserve successfully, seven
-muted jet starts occur, and the existing missing-impact-provider refusal remains
-at step 441. The process is stopped at that explicit boundary. This is a prefix
-regression, without an impact start, completed movement cycle or cleanup/re-entry
-claim. The debug test binary is not a release asset; public preview identities
-remain independent.
-
-## Mecc nonlethal impact voice composition — 9 November 2026, source only
-
-The owned kind-16 voice tail now composes actual Session health, its shared
-countdown and the VM RNG in acquired order. Two original-PC/Rust controls agree
-on 136 declared contexts / 136 cue entries / 1,224 selected words, including
-half-health and integer-choice boundaries. The voice checkpoint precedes later
-selector effect draws. Native and Rust cue services are supplied boundaries;
-this is not original-process playback or device fidelity.
-
-The optional primary provider completes one controlled falling-entry frame and
-prepares its real positional context. Injected pain/shared-cue failures retain
-damage and completed timing and refuse another frame. Actual App voice transport,
-wounded continuation, world scheduling and main-driver impact admission remain
-open. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md). This branch handoff adds
-no dependency, new playable capture or downloadable preview; all earlier source,
-executable, notices and package/checksum receipts retain their exact identities.
-The main integration lane owns combined publication after review and validation.
-
-Combined source `7cb17c5882e9e415f8504902e4f673563fea9c52` retains the latest
-published Flick/Kabuto dependencies and passes 831 synthetic workspace Rust tests
-(48 ignored), all four silent installed-data impact controls, 41 Python tests,
-Rustfmt, strict workspace Clippy and roadmap/site/JavaScript checks. The rebuilt
-voice comparator repeats both native datasets on that source. The limited
-history-pattern audit reports zero findings across 524 commits / 3,316 blobs.
-These source controls do not relabel any existing executable or runtime receipt.
+Combined checkpoint `6a09994` passes 834 synthetic Rust tests (49 ignored), all
+sixteen silent Kabuto phase controls plus the separate cold-resource check,
+41 Python tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript
+checks. The rebuilt helper comparison repeats 512 / 208,572 after merging the
+new Delphi readiness/proxy and timed-context callback work. The limited source/
+history pattern review finds zero matches across 552 commits / 3,442 blobs. Existing executable and package
+receipts retain their own exact source and runtime identities.
 
 ## Delphi linked readiness and direct target proxy - 9 November 2026
 
@@ -171,6 +157,23 @@ checks the nonzero shared ANM epoch and prevents late physical/retirement replay
 Actual ordinary preparation, physical/context/stock producers, world RNG/cadence
 and menu-first timed-film admission remain open. The last full 545-source census,
 zero complete scenes and unknown prototype PS2 correspondences are unchanged.
+
+Published [preview-2026.11.09.11](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.11)
+pins source `cf12894bb487da0395509eff112d35b6c40ef62a`, executable SHA256
+`0e5787a92134cb6ddd3a158b6b30aa902c1f34a03d0568b0720221c7018aff5a` and ZIP SHA256
+`65c28d0a1b445d60e2cc6a84f209291598ce63df1a4971cba238c7f8b48d633d`.
+That source passes 831 synthetic Rust tests (48 ignored), 41 Python tests,
+formatting, strict Clippy and the limited history-pattern audit (539 commits /
+3,373 blobs / zero findings). The originating context is consumed once; stale
+creation refuses without another draw. All 23 persistent queues, three silent
+source impact checks, five Delphi source checks and the newer Kabuto Session
+resource-phase check pass in the combined source. Both silent offscreen development
+endpoints, three active persistent cancellations and two source-terminal/re-entry
+cycles with voice/text cleanup pass on the exact executable. All three public
+assets were downloaded fresh; ten bundle members, notices, receipt and checksums
+were independently verified. The new timed owner remains a CPU integration
+dependency; these observations do not admit additional complete movies or manual
+controls. The full corpus inventory remains pinned to its earlier source.
 
 ## Timed effect program configuration — 9 November 2026
 
@@ -3943,3 +3946,67 @@ locomotion/texture work and passes 739 Rust tests (22 ignored), 38 Python tests,
 formatting, Clippy and source audit. These synthetic checks do not relabel the
 preview's runtime controls or the earlier full-corpus inventory as runs of that
 later combined source.
+
+## Mecc reserved local damage transport — 9 November 2026, source only
+
+The independent local transport now reserves real pain/shared PCM and exposes a
+typed-root impact provider sharing the actual jet backend. The acquired 2D caller
+policy matches 960 native/Rust cases / 16,968 selected words with explicit
+construction/stop boundaries. Descriptor defaults apply to exact zero distances.
+Unique source/owner reuse avoids a second instance and parameter draw; unsupported
+restart transport remains refused.
+
+A silent installed-data control starts four damage cues and one jet cue on real
+muted sinks, checks two unique-reuse calls, separate VM/audio seeds and source
+parameters, root/nonlocal refusal and late sink loss. Quarantine/release leaves
+no owned voices or source assets. Health/timers and typed actor registration are
+controlled inputs; this is not full player/primary admission, native DLL device
+execution, process-seed/locale startup or audible fidelity.
+
+The App primary still supplies neither impact nor voice services. Gate production,
+wounded continuation, full world cleanup, nonlocal and equipment/death profiles
+remain prerequisites. Existing preview identities and receipts are unchanged;
+the main integration lane owns combined publication. No dependency, new playable
+capture or downloadable package is added by this source handoff.
+
+Combined source `bac6bdf2bd8cac2035598802f2c90798ef7e3e97` passes 839 synthetic
+workspace Rust tests (51 ignored), all four installed impact-primary controls,
+the new silent real-voice control and the existing jet/positional transport
+controls. Rustfmt, strict workspace Clippy, 41 Python tests and roadmap/site/
+JavaScript checks pass. Rebuilt comparators retain the 960 caller-policy cases
+and both earlier voice-tail datasets. The limited history-pattern audit reports
+zero findings across 551 commits / 3,437 blobs.
+
+A private MinGW debug executable from that source also runs the actual offscreen
+menu/inspection prefix: all six local damage sources reserve successfully, seven
+muted jet starts occur, and the existing missing-impact-provider refusal remains
+at step 441. The process is stopped at that explicit boundary. This is a prefix
+regression, without an impact start, completed movement cycle or cleanup/re-entry
+claim. The debug test binary is not a release asset; public preview identities
+remain independent.
+
+## Mecc nonlethal impact voice composition — 9 November 2026, source only
+
+The owned kind-16 voice tail now composes actual Session health, its shared
+countdown and the VM RNG in acquired order. Two original-PC/Rust controls agree
+on 136 declared contexts / 136 cue entries / 1,224 selected words, including
+half-health and integer-choice boundaries. The voice checkpoint precedes later
+selector effect draws. Native and Rust cue services are supplied boundaries;
+this is not original-process playback or device fidelity.
+
+The optional primary provider completes one controlled falling-entry frame and
+prepares its real positional context. Injected pain/shared-cue failures retain
+damage and completed timing and refuse another frame. Actual App voice transport,
+wounded continuation, world scheduling and main-driver impact admission remain
+open. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md). This branch handoff adds
+no dependency, new playable capture or downloadable preview; all earlier source,
+executable, notices and package/checksum receipts retain their exact identities.
+The main integration lane owns combined publication after review and validation.
+
+Combined source `7cb17c5882e9e415f8504902e4f673563fea9c52` retains the latest
+published Flick/Kabuto dependencies and passes 831 synthetic workspace Rust tests
+(48 ignored), all four silent installed-data impact controls, 41 Python tests,
+Rustfmt, strict workspace Clippy and roadmap/site/JavaScript checks. The rebuilt
+voice comparator repeats both native datasets on that source. The limited
+history-pattern audit reports zero findings across 524 commits / 3,316 blobs.
+These source controls do not relabel any existing executable or runtime receipt.
