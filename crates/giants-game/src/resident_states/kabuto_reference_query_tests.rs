@@ -166,7 +166,15 @@ pub(super) fn probe(
             .target,
         None
     );
-    s.residents.get_mut(&target.serial).unwrap().attachment = None;
+    s.clear_actor_parent(target).unwrap();
+    assert_eq!(
+        s.get(target).unwrap().attachment_words(),
+        Some(crate::resident_states::AttachmentWords {
+            child_reference: 0,
+            parent_reference: 0,
+            behavior: 0,
+        })
+    );
     assert_eq!(before, super::motion_tests::snapshot(s, owner));
     let g = s.kabuto_group(owner).unwrap();
     assert_eq!(g.resource_phase_completed, Some(number));

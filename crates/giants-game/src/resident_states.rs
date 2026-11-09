@@ -12,13 +12,18 @@ use std::sync::Arc;
 mod delphi;
 mod delphi_camera;
 mod delphi_held;
+mod parent_binding;
+pub use parent_binding::AttachmentWords;
 #[cfg(test)]
 mod delphi_target_tests;
 mod kabuto;
 mod mecc_impact;
 pub use mecc_impact::Voice as MeccImpactVoice;
 mod reference_camera;
+mod state18_reference_reset;
 mod subjective;
+mod timed_effect;
+pub use timed_effect::Services as TimedEffectServices;
 
 struct OwnedSpecification(crate::actor_references::Owned);
 impl std::fmt::Debug for OwnedSpecification {
@@ -324,6 +329,9 @@ pub struct Resident {
     /// Owned fields initialized by construction, then updated by acquired kernels.
     pub construction_fields: Option<crate::actor_fields::Fields>,
     pub attachment: Option<Attachment>,
+    // A removed parent does not clear the acquired reference/behavior words.
+    // None means no producer has supplied them, rather than assumed zeros.
+    retained_attachment_words: Option<AttachmentWords>,
     pub pickup_notice_pending: bool,
     pickup_notice_delivery: Option<crate::mission_notice::Delivery>,
     /// Numeric channel state, not evaluated poses or shared resource pointers.
@@ -365,6 +373,7 @@ pub struct Resident {
     enemy_projectile: Option<crate::enemy_projectile::Metadata>,
     attached_effect: Option<crate::attached_effect_object::Metadata>,
     positional_impact: Option<crate::positional_impact::Metadata>,
+    timed_effect: Option<timed_effect::Metadata>,
     environment: Option<crate::resident_environment::Prepared>,
     ordinary_motion: Option<crate::resident_motion::Owned>,
     ripper_primary:
@@ -589,6 +598,7 @@ impl Session {
                 enemy_projectile: None,
                 attached_effect: None,
                 positional_impact: None,
+                timed_effect: None,
                 environment: None,
                 ordinary_motion: None,
                 ripper_primary: None,
@@ -599,6 +609,7 @@ impl Session {
                 world_tick_running: false,
                 surface_link: None,
                 attachment: None,
+                retained_attachment_words: None,
                 pickup_notice_pending: false,
                 pickup_notice_delivery: None,
                 channels: None,
@@ -10501,8 +10512,8 @@ impl Session {
             registrations: (0..15).map(|list| self.links.list(list).len()).sum(),
         }
     }
-    /// Unlink before dropping unbound byte copies. This does not invoke a
-    /// native actor destructor: no native resource/service was constructed.
+    /// Unlink before dropping Rust-owned payloads and resource caches. This
+    /// cancels Session ownership; native world retirement services are separate.
     pub fn clear(&mut self) -> Counts {
         let counts = self.counts();
         for serial in self.residents.keys() {

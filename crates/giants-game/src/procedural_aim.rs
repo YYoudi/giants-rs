@@ -41,8 +41,8 @@ impl Matrix {
             out.values[r * 4 + 3] = if b.flags & 16 == 0 {
                 a[3]
             } else {
-                (((d(a[1]) * d(b.values[7]) + d(a[0]) * d(b.values[3]))
-                    + d(a[2]) * d(b.values[11]))
+                (((d(a[2]) * d(b.values[11]) + d(a[0]) * d(b.values[3]))
+                    + d(a[1]) * d(b.values[7]))
                     + d(a[3])) as f32
             };
         }
@@ -246,6 +246,18 @@ pub fn apply(
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn affine_translation_keeps_native_cancellation_order() {
+        let mut a = super::Matrix::identity();
+        a.flags = 1;
+        a.values[..3].copy_from_slice(&[1., 1., 1.]);
+        let mut b = super::Matrix::identity();
+        b.flags = 16;
+        b.values[3] = 1e20;
+        b.values[7] = 1.;
+        b.values[11] = -1e20;
+        assert_eq!(a.mul(b).unwrap().values[3], 1.);
+    }
     use super::*;
     fn pose() -> Pose {
         Pose {

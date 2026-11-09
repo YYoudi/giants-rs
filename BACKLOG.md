@@ -421,6 +421,71 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented at the CPU boundary: the common attachment request used by Kabuto
+  matches 512 original calls / 389,023 normalized header/service words. The first
+  128 use the actual initialized executable rule table; its read-only bounded
+  reader independently matches 99 scalar words. First match, terminator, current
+  animation and scale, complete parent-reference words and low-byte transport
+  are preserved. State3/state99 preparation, animation, transport and action
+  dispatch remain declared required services. The catalog supports only its
+  acquired executable layout; no table bytes are embedded or published.
+  The reset body now uses the canonical control word and a separate behavior
+  writer, preserving independent response flags. Its 919,700-word body control
+  and the 1,331,545-word release composition still agree. Session now retains
+  supplied attachment indices and behavior after clearing the parent, without
+  manufacturing defaults for actors lacking a producer. Repeated detach,
+  rebind, foreign identity and cleanup controls cover that storage primitive.
+  Bind actual current-reference publication, channels, constructor behavior,
+  lifetimes and backend
+  services before gameplay admission; the existing Mecc/Delphi paths are retained.
+- Implemented at the CPU boundary: pre-query reference release matches 512
+  original intervals / 1,331,545 normalized header/payload/service words. The
+  first 128 compose the actual state18 route and false-mode reset body; the
+  other reset branches retain an explicit mutating entry provider. Original
+  clock/slow-area selection, state89 parameter store, state3 scale predicate,
+  normalization and velocity dispatch execute. Required transport and animation
+  providers remain declared. Captured-target cleanup stays separate from the
+  post-service reference used for the impulse; wide timer subtraction and the
+  second stored-timer comparison retain their distinct arithmetic. Eight late
+  impulse-transport failures preserve published velocity and the uncleared
+  reference. Bind actual Session reference/parent/physical/global ownership and
+  lifetime, animation/reset services and transport before consuming this as a
+  numbered Kabuto phase. Full primary, world scheduling and live movement remain
+  open; this does not finish the initializer/history prerequisites.
+- Implemented at the CPU boundary: the complete state18 reference-reset body
+  agrees on 512 original calls / 919,700 normalized-header, service-prefix and argument
+  words. It restores the source's stored pose when the mode predicate is false, or uses the
+  current point and optional constructed actor in the other branch. Shared affine
+  multiplication and the existing planar-angle algorithm are reused, preserving
+  the wide heading addition before its final store. Common velocity/scale/action,
+  preferred-reference/context and conditional child-attachment stores are retained.
+  Construction, footprint invalidation, transform preparation and animation have
+  declared mutating entry providers in this control; their original bodies and
+  real Session ownership/lifetime are not established by this comparison. Required
+  services have no defaults. Bind their actual runtime producers, including the
+  preferred-reference lifetime and global cache, before connecting this body to
+  the preceding Kabuto reference-release phase. A failed late service retains
+  preceding effects; callers must quarantine rather than replay the operation.
+- Implemented: the action-gated state18 reset route matches 512 original calls /
+  136,510 source-header, route and service-prefix words. Preferred state32/82
+  wins without a context test; otherwise the first matching full context in
+  list13 wins, without added visibility/state filters. Only action10 enters
+  selection; failure to find a point requests the acquired current position.
+  This earlier route-only control supplies declared mutations at the reset
+  entry; the separate body control above does not establish constructor parity.
+  A read-only Session adapter resolves actual header metadata and list13 lazily;
+  its preferred relationship is still an explicit caller input. Synthetic
+  header-only ownership tests add no resource constructor, target publication,
+  completed Kabuto phase, NPC behavior or ordinary gameplay admission.
+- Shared dependency corrected: the affine product used by the reference-release
+  path now preserves native translation addition order under cancellation.
+  All 512 finite flagged-matrix controls / 8,704 output words agree, including
+  native destination/input aliasing and unchanged separate inputs. The observed
+  indirect slot selects the same internal product for all three examined modes;
+  no external DLL, clock or RNG owner is needed for this acquired profile.
+  Projective products, partial buffer overlap and other initialization paths
+  remain outside this control. Reference-release construction/lifecycle and the
+  reset-handler services still require their own acquisition and integration.
 - Implemented at the CPU boundary: post-query target filtering preserves the raw
   result, rejects a positive score outside squared bounds extents, decrements the
   retained-target timer, announces accepted selection before marker reset, and
@@ -1349,6 +1414,26 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Attached timed actors now transfer into the existing Session registry: actual
+  fields, inline payload, canonical channels and reference cache are borrowed by
+  the same callback kernel as the staged owner. Source image, typed resources,
+  origin and parent binding stay owned; no second live actor registry is added.
+  Required physical/retirement services see the registered actor after the
+  callback prefix has been published. Pending calls refuse re-entry; late errors
+  preserve completed writes and actual child-context requests without replay.
+  Shared ordinary parent preparation still retires from the pre-binding point.
+  Replaying the retained original-PC controls through Session matches 256 parent
+  preparation states /44,544 selected words. The standalone regression retains
+  all 576 rows /100,224 words (256 parent preparation plus 320 detached callback
+  states); these are reused controls, not new native coverage. Source checks also
+  cover foreign-session refusal without context/RNG consumption, stale creation,
+  payload allocation stability, pending-service refusal, clear and second entry.
+  Next: acquire/bind the detached Session constructor/list contract, actual
+  dispatcher rates/clock, environment and physical/stock retirement producers,
+  then connect this owner to main-film admission and rendering. Parent support
+  and time are still supplied. This source-only dependency does not change the
+  published preview13, the full-corpus counts or zero certified complete scenes.
+
 - The acquired parented preparation now composes callback, existing common
   finalization and actual source attachment/history in native order. Retirement
   captures the current pre-binding point; even a marked parent then completes
@@ -1363,8 +1448,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   cinematic physics implementation. Full detached preparation reaches an absent
   terrain service in the controlled native fixture; preserve that failure and
   acquire/bind actual environment inputs. Dispatcher model rates/clock producers,
-  canonical Session transfer, ordinary stock/world admission and scene fidelity
-  remain open. The last full inventory and zero certified scenes are unchanged.
+  ordinary stock/world admission and scene fidelity remain open. Canonical
+  attached Session transfer is now covered by the source follow-up above. The last full inventory and zero certified scenes are unchanged.
 
 - Bounded timed effects now retain their source image, class/state resources,
   owned reference cache and one actual inline payload across context retirement.
@@ -1395,9 +1480,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   three active cancellations and two source-terminal/re-entry voice/text cleanup
   cycles pass. The fresh downloaded three-asset/ten-member bundle passes receipt,
   notices and checksum checks. This does not certify timed main-film admission or
-  change the preview-6 full-corpus inventory. Transfer callback state into the
-  existing Session's canonical fields/payload/reference owners before world
-  binding; do not duplicate live actor state or add another actor registry.
+  change the preview-6 full-corpus inventory. The later canonical Session
+  transfer above closes that storage prerequisite for attached actors only;
+  real world binding and complete timed-film admission remain open.
 
 - The acquired timed attached and detached linear-gravity frames now compose
   their following VM commands with the shared owned initial constructor. Separate
@@ -1752,7 +1837,7 @@ parented preparation dependency described above. Its silent development,
 active-effect cancellation and source-terminal/re-entry checks pass; all three
 downloaded assets and ten ZIP members are independently verified. Exact hashes
 and validation scopes are in `docs/RELEASES.md` and `docs/public-preview.json`.
-The 545-source census still has zero complete scenes verified. Next: canonical
-Session state/resources, actual dispatcher rates/clock, detached environment,
+The 545-source census still has zero complete scenes verified. The later source
+checkpoint transfers attached state into Session. Next: actual dispatcher rates/clock, detached environment,
 stock/retirement providers and world scheduling before timed-film admission.
 Manual input and complete visual/audio/temporal comparisons remain pending.

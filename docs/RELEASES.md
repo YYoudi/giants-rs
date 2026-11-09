@@ -1,5 +1,176 @@
 # Preview releases and milestone integration
 
+## Retained parent-binding storage — 9 November 2026
+
+Session parent removal now retains the supplied child/parent reference indices
+and independent behavior word. Repeated detachment, rebinding, cleanup and
+foreign identities are covered; a matching presentation mirror is removed while
+independent presentation ownership is preserved. Unknown constructor words stay
+unknown. The source-backed Kabuto query control uses the new operation.
+
+This prepares the acquired release service's actual storage without enabling
+its remaining callbacks, a new primary phase or ordinary Kabuto gameplay. The
+existing Windows preview and historical comparison gallery remain unchanged.
+Validation passes 865 workspace Rust tests (56 ignored), sixteen installed Kabuto
+controls and its separate cold control, twelve Mecc and five Delphi controls,
+43 Python tests, Rustfmt, strict Clippy and the site/JavaScript checks. These are
+source/CPU regressions; no new interactive or fidelity claim follows.
+
+## Common attachment service for Kabuto — 9 November 2026
+
+The acquired attachment request matches 512 original calls / 389,023 normalized
+header/service words, including 128 controls with the real initialized rule
+table. Its read-only catalog matches 99 scalar words and supports only the
+acquired executable layout. Child/parent reference indices, current rule/slot
+selection, callback ordering, scale stores and ownership guards are retained.
+Required preparation, animation, transport and action services remain explicit;
+97 declared late-action failures preserve published binding/effect state.
+
+The reset contract now separates canonical control flags, independent response
+flags and actor behavior. Its full body and release composition revalidate on
+919,700 and 1,331,545 words respectively. Actual Session/reference/channel/global
+ownership and lifetimes remain unbound. This is CPU/source progress, without a
+new primary phase, initializer/history completion, live controller, capture,
+dependency, original data or downloadable preview. Existing preview identities
+remain exact; prototype PS2 attributions stay unknown.
+
+Validation passes 863 workspace Rust tests (56 ignored), sixteen installed
+Kabuto controls plus the separate cold-construction control, 43 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The three new synthetic
+controls cover external rule parsing and independent reset-field ownership.
+The common MinGW application compiles with this source. This is a private
+compilation receipt, without new runtime-input, package or playability evidence.
+After a terminal Pages synchronization timeout and cancelled retry, a fresh
+publication version succeeded. The action enforces a ten-minute maximum; the
+deployment job is bounded to fifteen minutes. No runtime change was needed.
+
+## Kabuto reference release — 9 November 2026
+
+The acquired pre-query release agrees on 512 original intervals / 1,331,545
+normalized header/payload/service words. This includes 128 original state18
+route/reset compositions under a declared animation service, alongside actual
+clock/ordered-area selection, normalization and velocity dispatch. Current
+reference rereads preserve changes after notifications and reset; the captured
+actor and scale retain their separate roles. Wide-clock subtraction and the
+stored-timer comparison are both retained.
+
+Transport and the other reset-entry cases use declared mutating providers.
+Actual Session reference/parent/physical/global ownership, lifetimes and
+animation/reset/transport backends remain unbound. Eight declared late transport
+errors retain velocity and the uncleared reference. This is CPU source progress,
+without a numbered primary phase, initializer/history completion, live movement,
+new capture, dependency, asset or downloadable preview. Existing preview receipts
+retain their exact source identities; prototype PS2 attributions remain unknown.
+
+Validation passes 860 workspace Rust tests (56 ignored), sixteen installed
+Kabuto controls and the separate cold-construction control, 43 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. These checks establish
+CPU/source behavior and preserve existing owner boundaries, without new runtime
+input, frame completion, package or playability validation.
+The common MinGW application compiles with this runtime source; its private
+build receipt is compilation evidence, without a new runtime or preview claim.
+
+## State18 reset body for Kabuto — 9 November 2026
+
+The acquired reset body agrees with 512 original calls / 919,700 normalized header,
+service-prefix and argument words. Stored pose/history restoration and the branch
+with constructed-actor placement preserve their distinct behavior. Shared matrix
+and planar-angle services are reused; common field/reference stores and the
+post-animation conditional attachment retain current-state ordering.
+
+Constructor, footprint, transform and animation entry providers are declared and
+mutating. Actual Session/global ownership, resource/reference lifetime, original
+provider bodies and the preceding primary release remain unbound. This is CPU
+source progress, without a new numbered phase, live Kabuto control, capture,
+dependency, asset or downloadable preview. Existing preview receipts retain
+their exact identities. Prototype PS2 attributions remain unknown.
+
+Validation passes 860 workspace Rust tests (56 ignored), sixteen installed
+Kabuto controls and the separate cold-construction control, 43 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The private body
+comparison also checks retained state after declared late-animation failure.
+The common MinGW application compiles with this runtime source; this compilation
+does not add runtime input, package or playable-Kabuto validation.
+
+## State18 reference-reset route for Kabuto — 9 November 2026
+
+The acquired action-gated route selects a preferred state32/82 or the first
+matching context in ordered list13, with explicit fallback position and required
+reset/position services. Original controls agree on 512 calls / 136,510 header,
+route and prefix words. The reset entry has a declared mutating provider; this
+does not acquire its constructor/lifecycle body.
+
+A read-only Session adapter reads current owned header/list metadata with lazy
+resolution and foreign-key refusal. Its preferred relationship remains supplied;
+the registry control uses synthetic headers, without resource construction or
+world admission. Full Kabuto reference release, reset, lifetime and subsequent
+primary/action/animation integration remain open. No new gameplay, capture,
+dependency, asset or downloadable preview is added. Existing receipts keep their
+exact source identities; prototype PS2 correspondences remain unknown.
+
+Validation passes 860 workspace Rust tests (56 ignored), sixteen installed
+Kabuto phase controls plus the separate cold control, 43 Python tests, Rustfmt,
+strict Clippy and roadmap/site/JavaScript checks. The common MinGW application
+compiles with this source. These are CPU/compilation checks, without a new
+numbered primary phase, runtime input, reset/lifetime backend or playable preview.
+
+## Shared affine translation for Kabuto's release dependency — 9 November 2026
+
+The shared matrix product retains the original translation addition order under
+cancellation. All 512 finite flagged-matrix cases / 8,704 output words match the
+complete original affine product, including exact destination/input aliasing.
+The three examined explicit dispatch modes select the same internal PC routine.
+The existing service is reused across characters; no duplicate engine is added.
+
+Double53, finite affine storage and explicit dispatch modes bound this control.
+Projective products, partial overlap, automatic dispatch and release-constructor
+lifecycle remain outside it. This source correction adds no gameplay admission,
+new capture, asset, dependency or downloadable preview; existing package/notices/
+checksum/runtime receipts keep their identities. Prototype PS2 counterparts
+remain unknown and detailed evidence remains private.
+
+The combined tree passes 858 workspace Rust tests (56 ignored), 37 installed-data
+source controls, 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks. Its exact MinGW build passes both silent offscreen development endpoints,
+with six fresh launches, menu return/re-entry and cleanup. This is development
+lifecycle coverage, not manual controls, live Kabuto or visual fidelity. The
+latest persistent Mecc wounded-primary and canonical timed-effect work remain
+integrated with their guards. The final combined tree repeats the source controls,
+including both timed-owner profiles; each build/lifecycle receipt keeps its own
+source identity.
+
+## Canonical attached timed-effect ownership — 9 November 2026
+
+The source transfers acquired attached timed objects into the common Session
+registry and reuses one callback/parent-preparation kernel over its actual
+fields, inline payload, channels and reference cache. Required services observe
+the registered actor after prefix publication; pending re-entry and late-failure
+replay are refused. Context/RNG rollback on failed construction, stale/foreign
+identities, clear and second entry have installed-data controls.
+
+Replaying retained original-PC controls through Session matches 256 parent
+preparation states /44,544 selected words. The staged-owner regression preserves
+576 rows /100,224 words, including its 320 detached callback states with supplied
+post-preparation. This reuses existing native evidence; it adds no original-world
+or complete-film coverage. Support/time, detached construction/environment,
+physical/stock retirement, world RNG/cadence and main timed-film admission remain
+open. Prototype PS2 attributions remain unknown. No new downloadable preview is
+introduced: preview13 keeps its exact executable, notice and checksum receipts.
+
+Source `0f03388754c21022e53fc66d8db19b36760dff87` passes 856 synthetic Rust tests
+(54 ignored), 43 Python tests, Rustfmt and strict Clippy. Both timed source checks
+and three positional-impact controls pass; the canonical preparation control is
+replayed with positive and zero-delta inputs. The limited history audit reports
+zero findings across 628 commits /3,700 blobs.
+
+Its private MinGW build pins executable SHA256
+`85c3674f9a8ce2eea0a9ec12466d6fb52b111194c0a4fa7a678703aef018caf6`.
+That exact executable passes awaited CLI startup, both offscreen development
+endpoints, three active-effect cancellations and two source-terminal/re-entry
+cycles with muted real voice sinks and text cleanup. These are selected transport
+regressions, not interactive gestures, native cadence or complete visual fidelity.
+The build remains a private validation artifact; the public download is unchanged.
+
 ## Main integration of persistent wounded Mecc primary — 9 November 2026
 
 The reviewed Mecc follow-up `0d08196e2dbe459fe0a94db67ecbecfc1c2f43be` is combined
