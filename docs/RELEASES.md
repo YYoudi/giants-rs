@@ -30,6 +30,13 @@ NPC ownership regression.
 All 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks
 pass. Supplied providers and diagnostic coverage remain separate from gameplay.
 
+Resumed validation on 10 November preserves the current common attachment,
+reset and timed-effect work. Runtime `ffded07` passes 866 workspace Rust tests
+(57 ignored), six installed Delphi, six Mecc impact/voice/wounded-primary and
+one NPC control, 43 Python tests, Rustfmt and strict Clippy. Both original-PC
+comparisons are repeated against that runtime. These source checks do not
+change the separately published preview or certify ordinary Delphi gameplay.
+
 ## Retained parent-binding storage — 9 November 2026
 
 Session parent removal now retains the supplied child/parent reference indices
