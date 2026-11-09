@@ -149,6 +149,30 @@ In particular, the historical jet/descent/contact captures do not close the Mecc
 input-to-landing integration prerequisite. No gallery assets or receipts change.
 
 
+## Kabuto ordered reference query — 9 November 2026
+
+The acquired filter and ordered query match 512 original-PC scenes / 1,536
+selection/score/policy words, including 48 targets, strict ties, attachment rules,
+wide/stored comparisons and nonunit/negative-score cases. A read-only Factory
+consumer reads actual Session owner masks, list order and typed actor metadata
+after its completed resource phase, with required caller ray/current bounds.
+Source controls preserve owner/history and check parent, foreign/order and
+missing-bound refusal. No guessed radius or first-model geometry is supplied.
+
+Declared scene/header/ray/bounds and Double53 state remain control boundaries.
+Source analytic boxes/visibility/category inputs do not establish a live world
+producer. Reference release/publication/lifetime, real view/range/bounds and
+following actions/animation/primary/world cadence remain open. No gameplay,
+screenshot, dependency/asset or downloadable preview is added; earlier package,
+notice, checksum and runtime receipts keep their exact source identities.
+Prototype PS2 correspondence remains unknown.
+
+Combined validation passes 842 workspace Rust tests (51 ignored), sixteen
+installed Kabuto phase controls plus the separate cold control, 43 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The original-PC query
+comparison also passes after merging current main. These checks preserve the
+separate public download snapshot and do not validate live Kabuto controls.
+
 ## Kabuto following-reference velocity dependency — 9 November 2026
 
 The acquired shared velocity helper filters actor states, accepts an explicit

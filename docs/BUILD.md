@@ -589,3 +589,9 @@ current descriptor/damage/clock binding, real Session prefix publication and
 provider mutations, retained late failures, missing lifecycle, cancellation and
 replay refusal. Sound/network entry providers are explicit test code; it opens
 no window, executes no device backend and enables no live mission controls.
+
+The same control then exercises the read-only reference query against actual
+Session masks, list membership and parent/category metadata. Its ordinary target,
+declared visibility/category context, ray and analytic bounds are test inputs;
+they do not establish current world bounds, target publication or live selection.
+Foreign factories, stale frames and missing eligible bounds refuse explicitly.

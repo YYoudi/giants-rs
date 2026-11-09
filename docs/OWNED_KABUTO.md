@@ -1303,3 +1303,42 @@ and action/animation composition remain pending. Player/NPC interactions require
 both lane contracts and actual runtime validation. No live control, new capture,
 downloadable preview or fidelity claim follows. Prototype PS2 correspondence is
 unknown; detailed lookup and acquisition records remain private.
+
+
+## Ordered reference eligibility/query and owned metadata — 9 November 2026
+
+`kabuto_reference_query` acquires the full candidate filter and ordered bounds
+query. Source payload masks compare with candidate category configuration16,
+separately from personality configuration14. Self/null, actor flags and parent
+relations exclude candidates; the attached state51 exception belongs only to the
+first kind. Exact comparison/storage order retains wide Z for the first dot term
+and tests the wide sign before the stored dot's strict range test. The stored
+score chooses only a strictly better candidate, retaining the first tie. No
+normalization, radius fallback or nonnegative clamp is added.
+
+Original-PC controls match 512 declared scenes / 1,536 selection, score and
+eligibility-bitset words with 48 targets. They execute the actual full query and
+filter and verify untouched source/candidate storage. Source/parent/header/list,
+current bounds, rays and the caller Double53 profile remain supplied. Controls
+include null/self/attachment/category rules, all kind bits, high mask words,
+strict range/score ties, a wide negative dot that stores as zero, nonunit
+vectors and negative scores, including a finite-input negative-infinity score.
+The supported input profile requires finite rays and eligible bounds; rejected
+malformed bounds do not poison other candidates.
+
+`Factory::query_reference` requires its actual completed resource token and
+matching owner/specification. It reads masks from that owner and actual list0,
+flags, state and typed parent/category data from Session, requesting bounds only
+for eligible actors. The caller still owns the acquired ray and current world
+bounds producer. A silent source control runs after the actual preceding phases,
+constructs an ordinary target and supplies declared visibility/category and
+analytic boxes. It checks repeated results, missing-bound refusal, foreign/wrong
+frame refusal, parent rejection and unchanged owner/history/initializer state.
+It preserves the existing one-special-group constructor guard; ordinary target
+construction is not another live playable character.
+
+This read-only query publishes no target or animation/action state. Local
+reference release/timer, actual view/range/bounds producers, target/reference
+lifetime and the following primary/world consumers remain required. No live
+player/NPC interaction, new capture, download or visual-fidelity claim follows.
+Prototype PS2 attribution stays unknown; detailed records remain private.

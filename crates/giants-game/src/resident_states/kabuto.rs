@@ -35,6 +35,11 @@ mod model_motion_tests;
 mod object_contact_tests;
 #[path = "kabuto_object_contacts.rs"]
 mod object_contacts;
+#[path = "kabuto_reference_query.rs"]
+mod reference_query;
+#[cfg(test)]
+#[path = "kabuto_reference_query_tests.rs"]
+mod reference_query_tests;
 #[path = "kabuto_resources_phase.rs"]
 mod resources_phase;
 
