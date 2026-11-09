@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.09.2
+# Windows x64 development preview - preview-2026.11.09.3
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -11,6 +11,19 @@ owner's estimate and has not received comprehensive human review. This estimate
 is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+## Sized effect initialization dependency
+
+The shared initialization service now accepts the acquired complete frame with
+random size, lifetime and retirement-effect registration. Its null-object pass
+consumes one random draw before any object is created. Sixty-four original-PC
+controls agree with Rust; equal and reversed finite ranges are covered. Source
+lookup identifies the same effect entry under normal and lite selection.
+
+This resolves a preparation prerequisite for a family requested 77 times in seven
+cinematic sources. It does not admit those films or implement their active queue,
+retirement effects, world RNG producer, full timing or rendering. The existing
+cinematic readiness refusals and zero certified complete scenes remain.
 
 ## Ordinary mission placement headers
 

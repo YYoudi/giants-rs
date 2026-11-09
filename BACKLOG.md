@@ -843,6 +843,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- General FX follow-up: the largest remaining family has 77 requests in seven
+  sources, five with no other non-persistent family. The complete original named
+  preparation consumes exactly one size-range RNG draw before creating any
+  object. The shared Rust initialization service now implements this acquired
+  seven-record frame, with finite operand validation and atomic RNG failure.
+  All 64 supplied-seed native preparations agree with Rust. Normal/lite lookup
+  resolves to the same source entry, so this frame needs no invented selection
+  input. This is preparation only: actual world RNG, active object ownership and
+  queue, lifetime/retirement-effect execution, source VM cadence and rendering
+  remain open. No new film admission or gap-count reduction is claimed.
+
 - Published preview 2026.11.05.6 / FX-prefix milestone validated: the real source/ancestry audit covers 208 active
   requests in 72 sources. The former guard conflated Flick34 shadow descriptors,
   text state, ordinary draw range and numeric audio with placement mutations.

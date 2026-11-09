@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Sized FX initial preparation — 9 November 2026
+
+The common effect initialization service now handles the acquired complete frame
+containing random size, lifetime and a retirement-effect binding. A full original
+named-preparation control, with supplied TLS seeds, object count and quality,
+executes 64 cases: each consumes exactly one RNG draw, creates no object and
+retains the source cursor for later active updates. Equal and reversed finite
+ranges are included. Rust agrees on all 64 seed transitions; invalid finite
+profile inputs and unacquired framing preserve the caller's RNG on refusal.
+
+The actual source image resolves normal/lite lookup to the same entry. The shared
+extended-context preparation path accepts that invariant entry with a supplied
+recipient and RNG. This removes an initialization prerequisite for 77 requests
+in seven sources; it does not supply the world RNG, execute the active queue or
+retirement effects, admit those films or certify rendering, cadence or fidelity.
+The 545-source inventory, 59 gaps, 56 general queue prerequisites, 282 strict
+reviews and zero certified complete scenes remain unchanged. Prototype PS2
+attribution remains unknown. Existing package receipts retain their identities
+until the new preview's exact build and package controls complete.
+
 ## Existing mission marker producer verified — 9 November 2026
 
 The source-ordered marker producer is already implemented by the shared class
