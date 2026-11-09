@@ -20,6 +20,15 @@ Prototype PS2 counterparts remain unassigned. No new downloadable gameplay
 preview, dependency or asset is introduced; earlier executable/package/notices
 receipts retain their exact identities. See [OWNED_NPCS.md](OWNED_NPCS.md).
 
+Combined source `0989835992b0a4280b08fc0a65ced19609dee029` preserves the newer
+Delphi support fields, shared attachment/reset contracts and Mecc runtime work.
+It passes 866 workspace Rust tests (60 ignored), three installed split-history
+controls and the retained herd ownership control, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated roadmap/site/JavaScript checks. The native
+history comparison is repeated against this combined source and still matches
+256 cases / 2,304 words. The limited history audit reports zero findings across
+679 commits / 3,910 blobs. These checks do not relabel any runtime/package receipt.
+
 ## Delphi support-class fields and object-list control - 9 November 2026
 
 The shared class loader now prepares the support class's packed attribute,

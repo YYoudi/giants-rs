@@ -78,10 +78,10 @@ supplied flat terrain, time and seed. It is a Rust composition regression, not
 an original-PC comparison of eight complete frames. The controlled actor
 identity is supplied; no complete world or ordinary mission is admitted.
 
-Next acquire newborn first-primary continuation and its history/initialization
-order, actual world admission and clock/RNG ownership. Bind the complete cohort
-and required threat/feeding/effect/audio services before enabling mission AI.
-Prototype PS2 attribution remains unassigned.
+Newborn first-primary/history ordering, actual world admission, clock/RNG
+ownership, the complete cohort and required threat/feeding/effect/audio services
+remain unbound. The next tasks are retained in `BACKLOG.md`. Prototype PS2
+attribution remains unassigned.
 
 ### Authored herd births
 
