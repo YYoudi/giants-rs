@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## Canonical detached timed ownership and registration — 10 November 2026
+
+Detached retirement requests now transfer their actual payload/reference owners
+into the common Session registry and share the existing callback with attached
+parents. Required physical/retirement services observe the registered actor.
+Partial physical writes survive errors; an unwritten affine remains stale.
+Completed matrix stores remain available after a later ANM failure.
+
+Replayed retained original-PC controls match 576 states /100,224 selected words
+through Session: 256 parent preparations plus 320 detached callbacks with supplied
+initial ordinary preparation. Eight additional original constructor/list cases
+agree with Rust; six distinguish registration before wrapper flag changes. This
+also preserves the class-field producer added by the Delphi lane. These controls
+establish neither terrain/physical ownership nor native stock, clock/RNG/world
+scheduling or main timed-film admission. Prototype PS2 attributions remain unknown.
+Complete scene fidelity remains unverified; the published download snapshot keeps
+its existing identity until a new package is independently verified.
+
 ## Delphi support-class fields and object-list control - 9 November 2026
 
 The shared class loader now prepares the support class's packed attribute,
