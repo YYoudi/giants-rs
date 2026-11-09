@@ -799,6 +799,7 @@ pub mod effect_tracer_registry;
 pub mod effect_tracer_ribbon;
 pub mod herd_markers;
 pub mod mecc_impact;
+pub mod mecc_impact_voice;
 pub mod positional_impact;
 pub mod sound_device;
 pub mod sound_owner;

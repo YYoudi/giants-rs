@@ -16,6 +16,7 @@ mod delphi_held;
 mod delphi_target_tests;
 mod kabuto;
 mod mecc_impact;
+pub use mecc_impact::Voice as MeccImpactVoice;
 mod reference_camera;
 mod subjective;
 
@@ -412,7 +413,7 @@ pub struct Construction<'a> {
     pub state_resources: Arc<crate::state_resources::Prepared>,
     pub fields: crate::actor_fields::Fields,
 }
-struct MeccCycleServices<'a, 'r, 'c, 'f> {
+struct MeccCycleServices<'a, 'r, 'c, 'f, 'v> {
     deferred: bool,
     primary: bool,
     prepared_history: bool,
@@ -423,6 +424,7 @@ struct MeccCycleServices<'a, 'r, 'c, 'f> {
     wield: Option<&'a mut crate::mecc_wield::Factory<'r>>,
     jet: Option<&'a mut dyn crate::mecc_jet_owned::PhaseDriver>,
     impact: Option<crate::mecc_impact::Context>,
+    impact_voice: Option<&'v mut dyn MeccImpactVoice>,
 }
 #[derive(Debug)]
 pub struct Session {
@@ -1047,6 +1049,7 @@ impl Session {
             animation,
             MeccCycleServices {
                 impact: None,
+                impact_voice: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1078,6 +1081,7 @@ impl Session {
             animation,
             MeccCycleServices {
                 impact: None,
+                impact_voice: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1119,6 +1123,7 @@ impl Session {
             animation,
             MeccCycleServices {
                 impact: None,
+                impact_voice: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1172,6 +1177,7 @@ impl Session {
             animation,
             MeccCycleServices {
                 impact: None,
+                impact_voice: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1213,6 +1219,7 @@ impl Session {
             animation,
             MeccCycleServices {
                 impact: None,
+                impact_voice: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1254,6 +1261,7 @@ impl Session {
             animation,
             MeccCycleServices {
                 impact: None,
+                impact_voice: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1414,6 +1422,7 @@ impl Session {
     ) -> Result<crate::mecc_physical_cycle::InterleavedProjection, String> {
         let crate::mecc_primary::Services {
             impact,
+            impact_voice,
             animation,
             jet,
             collection,
@@ -1438,6 +1447,7 @@ impl Session {
             animation,
             MeccCycleServices {
                 impact,
+                impact_voice,
                 deferred,
                 fire: fire.as_mut(),
                 primary: true,
@@ -1456,7 +1466,7 @@ impl Session {
         environment: crate::mecc_physical_cycle::Environment<'_>,
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         animation: crate::mecc_animation_phase::Services<'_>,
-        services: MeccCycleServices<'_, '_, '_, '_>,
+        services: MeccCycleServices<'_, '_, '_, '_, '_>,
     ) -> Result<crate::mecc_physical_cycle::InterleavedProjection, String> {
         let crate::mecc_animation_phase::Services {
             contexts,
@@ -1466,6 +1476,7 @@ impl Session {
         } = animation;
         let MeccCycleServices {
             impact,
+            mut impact_voice,
             deferred,
             primary,
             prepared_history,
@@ -1476,6 +1487,9 @@ impl Session {
             mut wield,
             mut jet,
         } = services;
+        if impact_voice.is_some() && impact.is_none() {
+            return Err("impact voice requires its explicit damage/authority context".into());
+        }
         if primary && environment.orientation.is_none() {
             return Err("normal Mecc primary requires its orientation input provider".into());
         }
@@ -1813,7 +1827,7 @@ impl Session {
                 let mut contact = self.get(id).unwrap().mecc_contact.clone();
                 let mut contact_checkpoint = None;
                 let stage = {
-                    let mut damage = impact.map(|context| mecc_impact::Damage { session: self, source: id, context });
+                    let mut damage = impact.map(|context| mecc_impact::Damage { session: self, source: id, context, voice: impact_voice.take() });
                     crate::mecc_secondary::ordinary(
                     &output.fields,
                     &output.payload,
@@ -2169,7 +2183,7 @@ impl Session {
         amount: f32,
         context: MeccDamageContext,
     ) -> Result<crate::mecc_damage::Result, String> {
-        self.damage_unattributed_mecc_nonlethal_inner(id, kind, amount, context, false)
+        self.damage_unattributed_mecc_nonlethal_inner(id, kind, amount, context, false, false)
     }
     fn damage_unattributed_mecc_nonlethal_inner(
         &mut self,
@@ -2178,6 +2192,7 @@ impl Session {
         amount: f32,
         context: MeccDamageContext,
         expired_impact_cooldown: bool,
+        expired_shared_voice: bool,
     ) -> Result<crate::mecc_damage::Result, String> {
         let state = self.mecc_health(id)?;
         let actor = self.get(id).unwrap();
@@ -2186,7 +2201,7 @@ impl Session {
         let word = |at| u32::from_le_bytes(payload[at..at + 4].try_into().unwrap());
         let cooldown = f32::from_bits(word(0x1fc));
         if !context.ambient_voice_timer.is_finite()
-            || context.ambient_voice_timer < 0.
+            || context.ambient_voice_timer < 0. && !(expired_shared_voice && kind == 16)
             || !cooldown.is_finite()
             || cooldown < 0. && !(expired_impact_cooldown && kind == 16)
             || !state.alive()
