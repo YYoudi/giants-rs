@@ -54,10 +54,14 @@ pub struct Published {
     pub vertex_epoch: u32,
 }
 struct Services<'a, H> {
+    geometry: GeometryServices<'a>,
+    headers: &'a mut H,
+}
+/// Shared current geometry provider; character policies remain outside it.
+pub(crate) struct GeometryServices<'a> {
     session: &'a mut Session,
     source: &'a SceneResources,
     identities: &'a BTreeMap<u32, Id>,
-    headers: &'a mut H,
     epoch: u32,
     force: bool,
     visits: Vec<Id>,
@@ -65,19 +69,48 @@ struct Services<'a, H> {
 }
 impl<H: Headers> query::Services for Services<'_, H> {
     fn header(&mut self, key: u32) -> Result<query::Header, String> {
-        self.headers.header(
-            self.session,
-            *self
-                .identities
-                .get(&key)
-                .ok_or("target root identity absent")?,
-        )
+        self.headers
+            .header(self.geometry.session(), self.geometry.identity(key)?)
     }
     fn geometry(&mut self, key: u32) -> Result<query::Geometry, String> {
-        let id = *self
-            .identities
+        self.geometry.geometry(key)
+    }
+    fn mesh(&mut self, key: u32) -> Result<crate::object_segment::Mesh, String> {
+        self.geometry.mesh(key)
+    }
+}
+impl<'a> GeometryServices<'a> {
+    pub(crate) fn new(
+        session: &'a mut Session,
+        source: &'a SceneResources,
+        identities: &'a BTreeMap<u32, Id>,
+        epoch: u32,
+        force: bool,
+    ) -> Self {
+        Self {
+            session,
+            source,
+            identities,
+            epoch,
+            force,
+            visits: Vec::new(),
+            meshes: Vec::new(),
+        }
+    }
+    pub(crate) fn session(&self) -> &Session {
+        self.session
+    }
+    pub(crate) fn identity(&self, key: u32) -> Result<Id, String> {
+        self.identities
             .get(&key)
-            .ok_or("target geometry identity absent")?;
+            .copied()
+            .ok_or("target owned identity absent".into())
+    }
+    pub(crate) fn visits(self) -> (Vec<Id>, Vec<Id>) {
+        (self.visits, self.meshes)
+    }
+    pub(crate) fn geometry(&mut self, key: u32) -> Result<query::Geometry, String> {
+        let id = self.identity(key)?;
         self.session.check_target_geometry(id)?;
         let actor = self
             .session
@@ -109,11 +142,8 @@ impl<H: Headers> query::Services for Services<'_, H> {
             mesh: None,
         })
     }
-    fn mesh(&mut self, key: u32) -> Result<crate::object_segment::Mesh, String> {
-        let id = *self
-            .identities
-            .get(&key)
-            .ok_or("target mesh identity absent")?;
+    pub(crate) fn mesh(&mut self, key: u32) -> Result<crate::object_segment::Mesh, String> {
+        let id = self.identity(key)?;
         let spec = self
             .session
             .specification(id)
@@ -158,14 +188,14 @@ pub(crate) fn run<H: Headers>(
         .find_map(|(&key, &id)| (id == input.source).then_some(key))
         .ok_or("target source absent from common population")?;
     let mut services = Services {
-        session,
-        source,
-        identities: &identities,
+        geometry: GeometryServices::new(
+            session,
+            source,
+            &identities,
+            input.vertex_epoch,
+            input.force_vertices,
+        ),
         headers,
-        epoch: input.vertex_epoch,
-        force: input.force_vertices,
-        visits: Vec::new(),
-        meshes: Vec::new(),
     };
     let result = query::local_with(
         query::Input {
@@ -182,12 +212,13 @@ pub(crate) fn run<H: Headers>(
         &order,
         &mut services,
     )?;
+    let (geometry_visits, mesh_visits) = services.geometry.visits();
     Ok(Output {
         target: result.target.actor.map(|id| identities[&id]),
         point: result.target.point,
         near_terrain: result.near_terrain,
         ray: result.ray,
-        geometry_visits: services.visits,
-        mesh_visits: services.meshes,
+        geometry_visits,
+        mesh_visits,
     })
 }

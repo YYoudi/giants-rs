@@ -257,9 +257,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   identity, without a team restriction. The shared query accepts an explicit
   required policy before geometry while preserving common hierarchy exclusions
   and existing Mecc policies; two synthetic ordering/refusal controls pass.
-  Bind this policy to actual owned candidate/header/current bounds/mesh services
-  and the held ray, then acquire terrain/range/readiness and typed target lifetime.
+  Its owned geometry binding is implemented below; acquire terrain/range/readiness
+  and typed target lifetime before live admission.
   This CPU dependency does not enable live Delphi or establish fidelity.
+- Implemented: the selected-owner held query resolves actual typed candidates
+  through the shared current-affine/bounds/collision-model/posed-buffer provider.
+  Original-PC controls match 256 source-resource contexts / 2,124 output words,
+  ten targets, 448 geometry visits and 140 mesh visits. Native headers/references,
+  lists, bounds/LOD and posed indexed triangles are supplied; native vertex
+  production and world timing are unverified. An installed-data lifecycle checks
+  pre-frame/pre-held, epoch/future/stale/presentation-parent/foreign refusals,
+  unchanged owner payload, repeated results and clear. Range is still an explicit
+  input; produce terrain/range/readiness and typed pending/active target lifetime,
+  then bind movement/audio/physics in the actual primary order. No live Delphi or
+  fidelity promotion follows from the query API.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary

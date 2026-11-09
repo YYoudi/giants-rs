@@ -4,6 +4,35 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Owned candidate geometry query - 9 November 2026
+
+`Session::query_delphi_target` now derives the held ray from its published frame,
+reads actual candidate headers and returns a typed resident identity and world
+point. It uses the same current-affine, animation/model bounds, collision-model
+selection and posed-buffer provider as Mecc. The character filter keeps the raw
+owner column separate from the normalized ray. Common list/hierarchy exclusions
+remain upstream of that policy; unavailable or stale geometry refuses.
+
+An original-PC comparison agrees on 256 source-resource contexts / 2,124 output
+words, including ten selected targets, 448 geometry visits and 140 mesh visits.
+The complete held-query wrapper, candidate predicate, nearest traversal,
+transforms and triangle tests execute. Native inputs are supplied current
+headers, reference buffers, lists, source bounds/LOD tables and posed indexed
+triangles; this does not compare native vertex production or whole-world timing.
+Original actor headers remain unchanged. The Rust control constructs its actual
+24-resident cohort and prepares collision positions through the common model bank.
+
+A separate installed-data lifecycle checks pre-frame/pre-held refusal, unavailable
+epochs, future frames, stale target poses, unsupported presentation parents,
+foreign identities and cleanup. Repeated queries preserve the owner's payload
+and return the same target/point after valid restoration. The existing seven-owner
+dry/held regression remains separate. Prototype PS2 correspondences stay unknown.
+
+Range remains an explicit upstream input. This service publishes neither pending
+movement links nor readiness flags. Terrain/range production, typed target/sequence
+lifetime, active physics/audio and primary/world ordering remain required before
+live admission; water, combat and rendered fidelity are still unprepared.
+
 ## Candidate predicate and shared query policy - 9 November 2026
 
 `delphi_target_predicate::accepts` implements the acquired candidate filter with
