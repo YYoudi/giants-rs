@@ -85,15 +85,18 @@ def screenshots_html(gallery):
     for row in rows:
         cards.append(f'<figure class="build-capture"><a href="{row["image"]}" target="_blank" rel="noopener" aria-label="Open full-size image: {esc(row["title"])}">'
                      f'<img src="{row["image"]}" alt="{esc(row["title"])}" width="1920" height="1080" decoding="async"></a>'
-                     f'<figcaption><h3>{esc(row["title"])}</h3><p>{esc(row["caption"])}</p>'
+                     f'<figcaption><h3>{esc(row["title"])}</h3>'
+                     '<p class="capture-availability">Archived diagnostic capture. Availability in the current download or ordinary gameplay is not established by this image.</p>'
+                     f'<p>{esc(row["caption"])}</p>'
                      f'<a class="capture-revision" href="https://github.com/YYoudi/giants-rs/commit/{row["commit"]}">Recorded build {row["commit"][:7]} ↗</a></figcaption></figure>')
     section = ('<section id="latest-captures" aria-labelledby="latest-captures-title"><div class="section-heading"><div>'
-               '<p class="eyebrow">ACTUAL BEVY RENDERS</p><h2 id="latest-captures-title">Inside the preview</h2></div>'
+               '<p class="eyebrow">ACTUAL BEVY RENDERS / ARCHIVE</p><h2 id="latest-captures-title">Recorded development builds</h2></div>'
                '<a href="#captures">Browse before / after comparisons ↓</a></div>'
-               '<p>Recorded engine screenshots. Open an image for the full-size view; the linked build identifies what was captured. Visual fidelity remains unverified.</p>'
+               '<p>These captures document specific development revisions, including scripted inspections. '
+               'They do not certify ordinary gameplay in the latest Windows preview. Open an image for its full-size view and recorded revision. Visual fidelity remains unverified.</p>'
                f'<div class="capture-grid">{"".join(cards)}</div></section>')
     hero = (f'<figure id="hero-image"><img src="{rows[0]["image"]}" alt="" decoding="async">'
-            f'<figcaption>Bevy development render · build {rows[0]["commit"][:7]} · fidelity unverified</figcaption></figure>')
+            f'<figcaption>Archived diagnostic render · build {rows[0]["commit"][:7]} · ordinary gameplay availability unverified</figcaption></figure>')
     return section, hero
 
 
@@ -118,12 +121,14 @@ def featured_captures(gallery):
                      f'<img src="{esc(row["right"])}" alt="{esc(row["right_label"])}" '
                      f'loading="eager" decoding="async" width="960" height="600"></a>'
                      f'<figcaption><strong>{esc(row["title"])}</strong>'
-                     f'<span>{esc(row["right_label"])}</span></figcaption></figure>')
+                     f'<span>{esc(row["right_label"])}</span>'
+                     '<span class="capture-availability">Historical diagnostic; not a current gameplay availability claim.</span></figcaption></figure>')
     section = ('<section id="highlights" aria-labelledby="highlights-title">'
                '<div class="section-heading"><div><p class="eyebrow">RUST + BEVY / DEVELOPMENT CAPTURES</p>'
-               '<h2 id="highlights-title">Inside the engine</h2></div>'
+               '<h2 id="highlights-title">Historical diagnostic highlights</h2></div>'
                '<a href="#captures">Open all comparisons ↘</a></div>'
                '<p>Historical engine captures: jetpack, first-person view and cinematic rendering. '
+               'These include scripted checks and do not establish current ordinary-gameplay availability. '
                'Each image retains its archive context in the full gallery; current-build fidelity remains unverified.</p>'
                f'<div class="capture-highlights">{"".join(cards)}</div></section>')
     hero = (f'<img src="{esc(rows[0]["right"])}" alt="{esc(rows[0]["right_label"])}" '

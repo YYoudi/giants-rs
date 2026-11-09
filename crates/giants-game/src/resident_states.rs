@@ -6882,15 +6882,9 @@ impl Session {
         }
         let mut fields = actor.construction_fields.as_ref().unwrap().clone();
         fields.scale = sizes[0];
-        fields.control_flags |= 2;
+        crate::effect_actor::lifetime_flags(&mut fields, life);
         if sizes[0] != sizes[1] {
             fields.control_flags |= 8;
-        }
-        if life[1] > 0. {
-            fields.control_flags |= 0x800000;
-        }
-        if life[2] > 0. && life[2] < life[0] {
-            fields.control_flags |= 4;
         }
         let matrix =
             crate::effect_orientation::matrix(fields.position, fields.angles, fields.scale)

@@ -7,6 +7,13 @@ their character/cinematic research; the integrator handles cross-lane contracts,
 runtime wiring, combined regressions and public delivery. Each chat works alone
 in its own worktree; this process creates no additional agents.
 
+The active specialized lanes are Flick, Mecc, Delphi, Kabuto and NPCs. Mecc owns
+its character reconstruction, including the jet/descent/landing prerequisites;
+NPCs owns non-player AI and player interactions. The main lane connects their
+reviewed contributions through shared actors, targeting, damage, world scheduling
+and lifecycle contracts. Player and NPC implementations must agree on those
+contracts; neither lane can claim an interaction validated using only one side.
+
 `BACKLOG.md` is the detailed task authority. This document defines the integration
 method, not another feature backlog. Native-function work still follows
 [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md), including prototype PS2

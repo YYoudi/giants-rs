@@ -161,7 +161,7 @@ impl<'r> Factory<'r> {
         if ranges.iter().flatten().any(|v| !v.is_finite() || *v <= 0.) {
             return Err("positional impact sizes outside acquired positive profile".into());
         }
-        let fade = fade(life)?;
+        let fade = crate::effect_actor::lifetime_fade(life)?;
         let template = Template::load(self.resources, class)?;
         let initial = template.positioned(context, &c)?;
         let fields = initial.fields;
@@ -228,30 +228,6 @@ impl<'r> Factory<'r> {
         }
         result
     }
-}
-fn fade(life: [f32; 3]) -> Result<[f32; 4], String> {
-    let [duration, fade_in, fade_out] = life;
-    if !life.into_iter().all(f32::is_finite) || duration <= 0. || fade_in < 0. || fade_out < 0. {
-        return Err("positional impact lifetime outside finite timed profile".into());
-    }
-    let v = [
-        if fade_in > 0. { fade_in } else { 0. },
-        if fade_out > 0. { fade_out } else { 0. },
-        if fade_out > 0. && fade_out < duration {
-            (1. / (f64::from(duration) - f64::from(fade_out))) as f32
-        } else {
-            0.
-        },
-        if fade_in > 0. {
-            (1. / f64::from(fade_in)) as f32
-        } else {
-            0.
-        },
-    ];
-    if !v.into_iter().all(f32::is_finite) {
-        return Err("positional impact fade reciprocal overflow".into());
-    }
-    Ok(v)
 }
 #[cfg(test)]
 mod tests {
