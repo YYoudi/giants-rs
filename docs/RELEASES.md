@@ -4260,3 +4260,12 @@ profiles remain open. Prototype PS2 correspondences remain unknown. This source
 lot adds no dependency, asset, screenshot or downloadable executable. Existing
 preview identities/notices/checksums remain independent; main integration owns
 combined gameplay admission and public Windows delivery.
+
+Combined runtime checkpoint `2820d1cb3bfc31e4c6731c0377699c6cd835206b` preserves
+the current Flick impulse and Kabuto ray/query work. It passes 855 synthetic
+workspace Rust tests (55 ignored), twelve silent installed-resource Mecc controls,
+43 Python tests and generated roadmap/site/JavaScript checks. The subsequent
+`0ec2e0c` changes the receipt projection's chunk syntax and clarifies documentation;
+strict workspace Clippy and Rustfmt pass, and its fresh 384-frame receipt repeats
+the same 124,800-word native agreement. Existing public preview identities remain
+separate from these CPU/source validations.
