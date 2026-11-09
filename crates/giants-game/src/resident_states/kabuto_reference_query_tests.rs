@@ -25,6 +25,7 @@ pub(super) fn probe(
     .unwrap();
     let target = ordinary.construct_ordinary(s).unwrap();
     let p = s.get(owner).unwrap().seed.storage.data().unwrap();
+    let ray_parameters = crate::kabuto_reference_ray::Parameters::from_owned_payload(p).unwrap();
     let mask = (0..3).fold(0, |mask, i| {
         mask | u32::from_le_bytes(p[0x334 + i * 4..0x338 + i * 4].try_into().unwrap())
     });
@@ -100,6 +101,48 @@ pub(super) fn probe(
         assert_eq!(found.target, Some(target));
         assert_eq!(found.score, 0.);
     }
+    // Compose acquired argument production with real owned size parameters.
+    // This declared viewport is an analytic input, not the live camera producer.
+    struct View(crate::kabuto_reference_ray::Viewport);
+    impl crate::kabuto_reference_ray::Geometry for View {
+        fn actor(&mut self) -> Result<crate::kabuto_reference_ray::ActorGeometry, String> {
+            panic!("viewport route requested actor geometry")
+        }
+        fn viewport(&mut self) -> Result<crate::kabuto_reference_ray::Viewport, String> {
+            Ok(crate::kabuto_reference_ray::Viewport {
+                origin: self.0.origin,
+                direction: self.0.direction,
+            })
+        }
+    }
+    let [offset, range] = ray_parameters.pairs[1];
+    let distance = (f64::from(range) - f64::from(offset)) * 0.5;
+    assert!(distance > 0.);
+    let produced = crate::kabuto_reference_ray::prepare(
+        crate::kabuto_reference_ray::Context {
+            words: [0; 3],
+            active: 0,
+            current_state: None,
+        },
+        false,
+        ray_parameters,
+        &mut View(crate::kabuto_reference_ray::Viewport {
+            origin: [
+                (f64::from(position[0]) - distance - f64::from(offset)) as f32,
+                position[1],
+                position[2],
+            ],
+            direction: [1., 0., 0.],
+        }),
+    )
+    .unwrap();
+    assert_eq!(
+        factory
+            .query_reference(s, owner, number, produced, bounds)
+            .unwrap()
+            .target,
+        Some(target)
+    );
     assert!(
         factory
             .query_reference(s, owner, number, ray(), |_, _| Err(

@@ -55,6 +55,7 @@ pub mod kabuto_physics;
 pub mod kabuto_player;
 pub mod kabuto_post_control;
 pub mod kabuto_reference_query;
+pub mod kabuto_reference_ray;
 pub mod kabuto_resource_phase;
 pub mod kabuto_resource_timers;
 pub mod kabuto_resources;

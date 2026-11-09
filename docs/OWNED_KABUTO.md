@@ -1342,3 +1342,36 @@ reference release/timer, actual view/range/bounds producers, target/reference
 lifetime and the following primary/world consumers remain required. No live
 player/NPC interaction, new capture, download or visual-fidelity claim follows.
 Prototype PS2 attribution stays unknown; detailed records remain private.
+
+## Reference-query argument production — 9 November 2026
+
+`kabuto_reference_ray::prepare` acquires the caller's three parameter-pair routes
+using the actual mode-word and current-state predicates, with explicit reference
+presence. Actor geometry supplies the bounds centre and negative basis Y. The
+viewport route supplies its current origin and basis index two, offsets the
+origin with wide multiply/add, subtracts that offset from range and uses the
+acquired score limit. It does not normalize the direction. Only the selected
+parameter pair and geometry service are required; missing selected geometry or
+nonfinite used inputs/outputs refuse explicitly.
+
+The complete original argument prefix and query/filter match 512 supplied
+contexts / 5,120 argument, selection and score words. Original viewport getters
+and mode/state predicates run without replacement. Inputs include actual-format
+mode/current-actor/reference data, six size parameters, actor bounds/basis and
+viewport storage, plus declared candidate metadata/list/parents/bounds and
+Double53 state. Controls include unused malformed geometry/parameter pairs,
+reference-dependent routes, high state words, signed zeros and wide multiply/add.
+Source/candidate storage remains unchanged except the caller's output score.
+The actor pair holds range/score; the viewport pair holds offset/range and its
+separate score limit is 10,000. These caller uses are not interchangeable.
+
+The installed resource-phase control also feeds actual owned size parameters to
+the new producer and then to the existing Factory/Session query. It supplies an
+analytic viewport and declared absent reference, visibility/category and target
+bounds. It retains the preceding real phases, owner/history and initializer
+gates. This is source composition under supplied geometry, not live camera or
+reference ownership. The getters only read existing viewport storage; they do
+not establish the missing backing camera producer. Target publication, lifetime,
+preceding release logic and following actions/world/animation remain open.
+No live gameplay, new capture, download or fidelity claim follows. Prototype PS2
+attributions stay unknown and no PS2 ABI or memory layout is imported.

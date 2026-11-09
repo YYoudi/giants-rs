@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.09.12
+# Windows x64 development preview - preview-2026.11.09.13
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -11,6 +11,15 @@ owner's estimate and has not received comprehensive human review. This estimate
 is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+## Parented effect preparation dependency
+
+The acquired parented timed-effect step now preserves callback, finalization and
+attachment order, including retirement from the previous bound position. Current
+main cinematic attachments share its history/attachment writer. Moving-support
+and zero-delta controls pass within declared boundaries. Detached environment,
+ordinary stock and full timed-film admission remain prerequisites; no additional
+complete movie is certified by this dependency.
 
 ## Combined character and effect checkpoint
 

@@ -611,6 +611,9 @@ Session masks, list membership and parent/category metadata. Its ordinary target
 declared visibility/category context, ray and analytic bounds are test inputs;
 they do not establish current world bounds, target publication or live selection.
 Foreign factories, stale frames and missing eligible bounds refuse explicitly.
+It also composes actual owned size parameters with the acquired ray producer and
+that guarded query. Mode/reference presence and analytic viewport remain supplied;
+the check does not establish a live camera, target lifetime or primary completion.
 
 ## Optional Mecc damage-smoke preparation control
 

@@ -400,6 +400,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: reference-query argument production selects the acquired three
+  parameter pairs from actual mode words, current-state predicates and declared
+  reference presence. It uses either actor bounds/negative basis or the supplied
+  viewport origin/direction, preserving wide arithmetic and stored results.
+  The complete original argument prefix plus query/filter matches 512 contexts /
+  5,120 argument/selection/score words. Unused malformed geometry/parameter pairs,
+  signed zeros and wide multiply/add are covered. The source resource-phase
+  control composes real owned size parameters with the guarded Session query;
+  viewport, visibility/category and analytic bounds remain declared inputs.
+  Real mode/current-view production, typed reference lifetime, current bounds,
+  target publication and later actions still require integration. This is not
+  another primary completion or live camera/player admission.
 - Implemented: the reference eligibility and ordered bounds query match 512
   declared original scenes / 1,536 selection/score/policy words, with 48 selected
   targets. Preserve source masks versus candidate configuration16 (not personality
@@ -1293,6 +1305,23 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- The acquired parented preparation now composes callback, existing common
+  finalization and actual source attachment/history in native order. Retirement
+  captures the current pre-binding point; even a marked parent then completes
+  the current binding pass. Moving-support controls match 256 parent preparation
+  states /44,544 selected words across positive and zero-delta variants. The same
+  runs retain 320 detached callback regressions /55,680 selected words, with their
+  initial detached post-preparation still supplied. Shared attachment/history
+  publication is also used by existing main cinematic attached effects.
+  This profile requires a real parent, physical storage, stationary-relative
+  history and acquired no-sleep dispatcher inputs; unexpected footprint or
+  environment work refuses. It reuses actor_finalization rather than a second
+  cinematic physics implementation. Full detached preparation reaches an absent
+  terrain service in the controlled native fixture; preserve that failure and
+  acquire/bind actual environment inputs. Dispatcher model rates/clock producers,
+  canonical Session transfer, ordinary stock/world admission and scene fidelity
+  remain open. The last full inventory and zero certified scenes are unchanged.
+
 - Bounded timed effects now retain their source image, class/state resources,
   owned reference cache and one actual inline payload across context retirement.
   Their acquired callback orders the first-frame gate, lifetime/transparency,
@@ -1671,3 +1700,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 Track concrete tasks here as each whole-game roadmap family is opened, including
 Delphi, Kabuto, squad AI, bases/economy, multiplayer, saving, UI, audio and fidelity.
 Preserve untouched families in the roadmap; do not replace it with recent CPU work.
+
+## Parented preparation delivery checkpoint — 9 November 2026
+
+Windows preview `preview-2026.11.09.13` retains exact source `ca6b2f8` and the
+parented preparation dependency described above. Its silent development,
+active-effect cancellation and source-terminal/re-entry checks pass; all three
+downloaded assets and ten ZIP members are independently verified. Exact hashes
+and validation scopes are in `docs/RELEASES.md` and `docs/public-preview.json`.
+The 545-source census still has zero complete scenes verified. Next: canonical
+Session state/resources, actual dispatcher rates/clock, detached environment,
+stock/retirement providers and world scheduling before timed-film admission.
+Manual input and complete visual/audio/temporal comparisons remain pending.
