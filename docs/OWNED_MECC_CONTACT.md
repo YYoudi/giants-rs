@@ -182,6 +182,10 @@ words: retained/pending cue, size and lifetime fields, angular rates and final
 shared RNG. The separately compared full-versus-prepared Rust paths agree too.
 Nine existing named-burst controls still match 315 objects / 6,018 words. These
 are configuration comparisons, not complete actor/header or live audio controls.
+The existing effect-orientation helpers also reproduce the initial size-derived
+affine cache and extracted angles in those 256 controls / 5,632 protocol words.
+This supports reuse of their math; it does not publish an owned actor/cache or
+validate all header/state fields.
 
 Further native boundary observations establish that cue delivery precedes the
 size draws, lifetime and angular configuration. At that cue entry the actor

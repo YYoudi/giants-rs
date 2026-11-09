@@ -9,6 +9,9 @@ projected failure is atomic. General/timed phase admission stays unchanged.
 With the original audio-disabled gate, 256 PC controls match 3,840 configuration
 words. Nine legacy burst controls match 315 objects / 6,018 words. Full actor
 headers/state, live cue transport and lifetime cleanup are outside these proofs.
+Existing orientation helpers separately match the initial affine cache and
+extracted angles on 256 controls / 5,632 protocol words; owned cache publication
+remains a separate prerequisite.
 See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
 
 Source `74fe137db3985cb1f3d18947f6a638d51e4b2e90` preserves the concurrent
