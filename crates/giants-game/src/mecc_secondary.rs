@@ -124,7 +124,6 @@ pub(crate) fn ordinary(
             "response flags",
         ),
         (fields.object_flags & 0x88000800 != 0, "object flags"),
-        (fields.position[2] < 0., "negative height"),
         (
             [0x80, 0x1dc].into_iter().any(|at| word(payload, at) != 0),
             "active auxiliary",
@@ -459,6 +458,63 @@ mod tests {
         }
         (fields, payload, view, globals)
     }
+    #[test]
+    fn living_selection_uses_floor_relative_gap_across_absolute_zero() {
+        let (mut fields, payload, mut view, mut globals) = fixture();
+        globals.words[0xc10 / 4] = 10f32.to_bits();
+        globals.words[0xc14 / 4] = 3f32.to_bits();
+        for gap in [0., 4.] {
+            let mut expected = None;
+            for height in [-100., -1., -0.000001, -0., 0., 0.000001, 1., 100.] {
+                fields.position[2] = height;
+                fields.current[2] = height;
+                fields.previous[2] = height;
+                view.floor = height - gap;
+                view.plane[3] = -view.floor;
+                view.velocity[2] = -11.;
+                view.previous_velocity = view.velocity;
+                let mut random = crate::audio_parameters::Random(1);
+                let output = ordinary(
+                    &fields,
+                    &payload,
+                    fields.channels,
+                    &view,
+                    &globals,
+                    1. / 60.,
+                    Services {
+                        contact: None,
+                        fire: true,
+                        blending: animation_channels::Blending::Enabled,
+                        random: &mut random,
+                    },
+                )
+                .unwrap();
+                let request = output.request.map(|q| {
+                    (
+                        q.slot,
+                        q.flags,
+                        q.speed_source,
+                        q.reference_speed.to_bits(),
+                        q.blend_seconds.to_bits(),
+                    )
+                });
+                let state = (
+                    output.payload,
+                    output.channels,
+                    output.fields.control_flags,
+                    request,
+                    random.0,
+                );
+                assert_eq!(output.fields.position[2].to_bits(), height.to_bits());
+                if let Some(previous) = &expected {
+                    assert_eq!(&state, previous);
+                } else {
+                    expected = Some(state);
+                }
+            }
+        }
+    }
+
     #[test]
     fn descent_transition_requires_both_strict_velocity_and_height_thresholds() {
         let (mut fields, payload, mut view, mut globals) = fixture();
