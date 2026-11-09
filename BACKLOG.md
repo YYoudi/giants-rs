@@ -42,9 +42,8 @@ The main integration lane owns combined runtime wiring and delivery, using
 [INTEGRATION.md](docs/INTEGRATION.md). Prioritize ordinary gameplay reachability
 and cross-lane regression checks over additional stand-alone demonstrations.
 
-- Review committed Flick, Delphi and Kabuto contributions against actual runtime
-  entry points; retain CPU-only and supplied-provider boundaries. Add a dedicated
-  Mecc lane to this process if the owner creates one.
+- Review committed Flick, Mecc, Delphi, Kabuto and NPC contributions against actual
+  runtime entry points; retain CPU-only and supplied-provider boundaries.
 - Wire ready contributions into the shared menu-to-mission application, including
   lifecycle/cleanup and re-entry. Resolve shared-service dependencies without
   weakening readiness or inventing missing behavior.
@@ -67,10 +66,11 @@ Mecc controller into another engine. Use an isolated Cargo target per worktree.
 | --- | --- | --- |
 | Main integration | Common menu-to-mission wiring, combined regressions, main/Windows preview/dashboard publication | Consume reviewed lane contributions; preserve ownership and evidence boundaries |
 | Flick | Cinematic lifecycle, attached/timed effects and source traversal | Shared actors, animation, effects, renderer, audio and menu transitions |
-| Mecc | Existing `mecc_*` services, owned primary/target/fire and live integration | Actor storage, physics, animation, camera, effects and audio |
+| Mecc (active in `codex/mecc-native`) | Existing `mecc_*` services, owned primary/target/fire, jet/descent/contact and remaining Mecc features | Actor storage, physics, animation, camera, effects and audio; main lane validates ordinary-gameplay integration |
 | Delphi (active in `codex/delphi-native`) | `delphi_*`: declaration/resource preparation, cold initialization, land/water movement, energy, then sword/bows/spells | Reuse the same actor and mission services; acquire character-specific callbacks separately |
 | Kabuto (active in `codex/kabuto-native`) | `kabuto_*`: declaration/resource preparation, cold initialization, movement/growth, then feeding/attacks/offspring | Reuse actor/world services; do not change Delphi or Mecc rules |
-| Worlds and mission presentation (separate future lane) | Missing building/scenery admission, NPC scheduling, ambient emitters, loading/briefing flow | Shared scene loader and renderer; coordinate changes to runtime admission |
+| NPCs (active in `codex/npc-native`) | Existing PNJ/AI work, non-player behavior, scheduling and interactions with the player | Shared actors, targeting, contacts, damage, factions, world lifecycle and player interfaces; coordinate with every character lane |
+| Worlds and mission presentation (separate future lane) | Missing building/scenery admission, ambient emitters, loading/briefing flow | Shared scene loader and renderer; coordinate with NPC scheduling and runtime admission |
 
 Formats, actor ownership/storage, collisions, animation clocks, effect pools,
 audio and the menu/loader are shared infrastructure, not three character copies.
