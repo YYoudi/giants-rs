@@ -24,7 +24,7 @@ prerequisite. No dependency, asset, capture or downloadable preview changes.
 Current Mecc integration and its separate release identities
 are preserved; prototype PS2 attribution remains unknown.
 
-Combined source passes 857 workspace Rust tests (54 ignored), six installed
+Combined source passes 858 workspace Rust tests (54 ignored), six installed
 Delphi controls, four Mecc impact/voice controls and the NPC ownership regression.
 All 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks
 pass. Supplied providers and diagnostic coverage remain separate from gameplay.
