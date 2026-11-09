@@ -556,3 +556,43 @@ actual draw callbacks, wounded primary, carried/death/equipment profiles and
 active world effects remain integration prerequisites. No new gameplay or
 executable receipt follows. Prototype PS2 correspondence for both the selector
 and the observed commit boundary remains unknown; prior PC aliases are retained.
+
+## Damage-smoke preparation prerequisite — 9 November 2026
+
+A separate original-PC experiment executes three 128-frame complete primaries
+with the same supplied command sequence and flat floor. Damage is injected after
+eight healthy frames. At 55 damage the primary prepares a light-smoking context
+and consumes an additional VM draw. A health-positive selector comparison alone
+therefore cannot justify dropping the full-primary health guard. These native
+runs are discovery evidence, not a Rust whole-primary agreement or actual injury.
+
+`mecc_damage_effect` now owns the bounded smoke-selection and replacement policy.
+It uses the wide damage percentage and data-driven light/medium/heavy thresholds,
+with heavy-to-light priority and inclusive boundaries. The required display-reset
+service executes first. A reset clears the level and releases an existing
+binding, then selection can recreate it in the same call. A level change releases
+before storing the new level and preparing. A same-level live binding is reused;
+true source absence leaves the level stored and permits a later retry. Completed
+stores/releases survive a later provider failure; the enclosing failed turn must
+be quarantined. Retained handles are validated before even a reuse-only call.
+
+The original policy and Rust agree on 2,080 contexts / 18,780 selected state and
+ordered-service words, including five health limits, threshold neighbors,
+previous levels/bindings, reset and source presence. Display, release and
+constructor outcomes are explicit providers in this comparison. Separately,
+256 actual original constructions and empty-context releases agree on 16,640
+normalized context/queue/interval/RNG words with Rust. All three installed smoke
+programs use the same acquired complete initialization frame and consume one
+random interval. Load, quality, camera, free slots, recipient fields and CRT
+state remain supplied. There is no active effect update, emitted actor or device.
+
+The prepared-context adapter uses the real effect pool, current source identity,
+tag and inherited-parameter refusal. Its installed-resource regression checks
+all three levels, same-level reuse without draws, forced recreation, stale and
+foreign source refusal and retained old release after a later required-parameter
+failure. Health and the display-reset decision remain explicit inputs; this is
+not a Session health binding. The App and full-primary health guard are unchanged.
+Next bind the real display-owner decision and persistent context ownership at
+the acquired pre-secondary point, including retirement/failure cleanup, before
+admitting wounded primary continuation. Active smoke rendering and full world
+cadence are further dependencies. Prototype PS2 correspondences remain unknown.

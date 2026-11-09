@@ -4075,3 +4075,23 @@ impact/primary controls, 43 Python tests, Rustfmt, strict workspace Clippy and
 roadmap/site/JavaScript checks. The rebuilt private continuation comparator
 repeats the selector agreement and all 48 required draw refusals on this source.
 These are CPU/source checks and do not relabel any public executable.
+
+## Mecc damage-smoke context policy — 9 November 2026, source only
+
+The owned damage-smoke policy preserves data-driven threshold priority, display
+reset, retained binding reuse and release-before-replacement. A real prepared
+context adapter preserves source/tag ownership and late-failure prefixes. Original
+controls match 2,080 policy contexts / 18,780 selected words with supplied display
+and construction services. Separate actual wrapper/initialization/release controls
+match 256 contexts / 16,640 words, including one interval draw per preparation.
+The installed-data ownership regression and synthetic threshold/failure controls
+keep these boundaries explicit; no active smoke actor is implied.
+
+Three original 128-frame primary experiments exposed this missing dependency
+after a supplied wound. They are not a whole-primary Rust match. Persistent
+primary ownership, actual display gating and active interpreter/world lifetime
+remain open. No App health guard or impact/voice admission is relaxed. Prototype
+PS2 correspondences remain unknown. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+No new dependency, asset, screenshot or public executable is produced. Existing
+Windows preview, notices and checksum receipts retain independent identities;
+main integration owns delivery after the remaining runtime prerequisites.

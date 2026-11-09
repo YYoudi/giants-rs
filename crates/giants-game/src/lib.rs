@@ -64,6 +64,7 @@ pub mod mecc_collection;
 pub mod mecc_contact_materials;
 pub mod mecc_countdowns;
 pub mod mecc_damage;
+pub mod mecc_damage_effect;
 pub mod mecc_death;
 pub mod mecc_fire;
 pub mod mecc_fire_lock;

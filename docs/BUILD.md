@@ -605,3 +605,17 @@ current descriptor/damage/clock binding, real Session prefix publication and
 provider mutations, retained late failures, missing lifecycle, cancellation and
 replay refusal. Sound/network entry providers are explicit test code; it opens
 no window, executes no device backend and enables no live mission controls.
+
+## Optional Mecc damage-smoke preparation control
+
+With `GIANTS_MECC_WORLD_ROOT` and an isolated GNU target directory, run:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_damage_smoke --target x86_64-pc-windows-gnu -- --ignored --nocapture
+```
+
+This silent source-resource control checks all three prepared smoke levels,
+reuse/recreation, actual context release and refusal/late-failure ownership.
+Damage and the display-reset decision are supplied. It performs no active effect
+update, original-process launch, window or audio; the full primary remains guarded.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).

@@ -993,6 +993,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   positive idle timer. They do not validate a wounded whole primary. Next acquire
   the real draw callback/frame ownership and full health-positive primary before
   relaxing that entry guard or enabling impact/voice in the App.
+  Full-primary discovery now identifies damage-smoke preparation as an additional
+  prerequisite: three original 128-frame controls expose the context/VM draw
+  after a supplied wound. The bounded policy matches 2,080 contexts / 18,780
+  selected words; separate real preparation/release matches 256 contexts /
+  16,640 words. The actual prepared adapter passes source-resource reuse,
+  replacement, display-reset, stale/foreign and late-failure controls. Bind its
+  persistent owner and actual display decision at the pre-secondary boundary,
+  then validate the wounded whole primary. Active smoke/world retirement remains
+  separate; no main health gate or missing impact/voice provider is relaxed.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

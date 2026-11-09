@@ -95,6 +95,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
     let positional_impact = ops.as_slice() == [3, 6, 0x83, 9, 4, 0x32, 7, 2];
     let sized_retirement = ops.as_slice() == [0x24, 6, 0x1c, 4, 0x0d, 7, 2];
     let fixed_size_gravity = ops.as_slice() == [3, 6, 8, 4, 0x0e, 7, 2];
+    let damage_smoke = ops.as_slice() == [0x24, 6, 0x21, 0x28, 0x49, 7, 0x4a, 2];
     if !old
         && !ranged
         && !flat_blocks(&ops)
@@ -104,6 +105,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !positional_impact
         && !sized_retirement
         && !fixed_size_gravity
+        && !damage_smoke
     {
         return Err("effect initial skip pass outside acquired complete profile".into());
     }
@@ -193,6 +195,31 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn damage_smoke_skip_consumes_one_interval_without_active_side_effects() {
+        let mut bytes = vec![0x24];
+        bytes.extend([0; 12]);
+        bytes.extend([6, 0x21, 0x28]);
+        bytes.extend(b"synthetic\0");
+        for value in [0.1f32.to_bits(), 0.2f32.to_bits(), 0, 0] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.extend([0x49, 7, 0x4a, 2]);
+        let mut program = giants_formats::effect_program::parse(&bytes).unwrap();
+        let mut random = Random(1729);
+        let mut expected = random;
+        let value = (f64::from(expected.next_15()) * (f64::from(0.2f32) - f64::from(0.1f32))
+            / 32768.
+            + f64::from(0.1f32)) as f32;
+        let intervals = skip(&program, &mut random).unwrap();
+        assert_eq!(intervals.len(), 1);
+        assert_eq!(intervals[0].value.to_bits(), value.to_bits());
+        assert_eq!(random.0, expected.0);
+        program.records[2].opcode = 0x1b;
+        let before = random.0;
+        assert!(skip(&program, &mut random).is_err());
+        assert_eq!(random.0, before);
+    }
     #[test]
     fn fixed_size_gravity_preparation_has_no_draw_or_active_object_effects() {
         let mut bytes = vec![3];
