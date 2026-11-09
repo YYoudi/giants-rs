@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Mecc canonical smoke ownership and bounded stop — 10 November 2026
+
+The topic branch now publishes retained smoke into the actual Session and effect
+list while keeping its context occupied. The acquired explicit stop marks the
+emitter dead before retiring the context; the actor, bank and list entries remain
+owned for later destruction. Normal wounded-primary reuse/reset and player
+cancellation share this canonical owner. Activation remains a separate explicit
+phase, with no automatic mission or particle-callback admission.
+
+Twenty-four additional original/Rust activation/stop cases agree on 4,632
+normalized words. A separate sixteen-frame installed wounded-primary composition
+checks retention, display-owner replacement, generation reuse, final cancellation
+and refused foreign/duplicate/unsupported requests. Combined validation passes
+868 workspace Rust tests (59 ignored), fourteen silent installed Mecc controls,
+43 Python tests, Rustfmt, strict Clippy and site/JavaScript checks. Current main's
+published-preview snapshot and all concurrent changes are preserved. These are
+source/CPU results; the downloaded preview is not relabeled. Parent-death
+processing, active particles, eventual dead-object destruction and normal-world
+scheduling remain prerequisites. Prototype PS2 attribution remains unknown.
+
 ## Combined Windows preview with bounded ambient diagnostics — 10 November 2026
 
 Published [preview-2026.11.10.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.1)

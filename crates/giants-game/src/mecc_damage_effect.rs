@@ -143,17 +143,17 @@ impl Services<crate::attached_effect_context::Id> for Bound<'_> {
         &mut self,
         binding: Option<crate::attached_effect_context::Id>,
     ) -> Result<(), String> {
-        if let Some(id) = binding {
-            if self.prepared.pool.damage_smoke_actor(id).is_some() {
-                let context = self.prepared.pool.get(id).unwrap();
-                if context.recipient() != Some(self.prepared.source)
-                    || context.tag() != Some(3)
-                    || context.label != *b"FX_mecc_smoking_"
-                {
-                    return Err("active damage smoke belongs to another source/profile".into());
-                }
-                return self.prepared.pool.validate_damage_smoke(id, self.session);
+        if let Some(id) = binding
+            && self.prepared.pool.damage_smoke_actor(id).is_some()
+        {
+            let context = self.prepared.pool.get(id).unwrap();
+            if context.recipient() != Some(self.prepared.source)
+                || context.tag() != Some(3)
+                || context.label != *b"FX_mecc_smoking_"
+            {
+                return Err("active damage smoke belongs to another source/profile".into());
             }
+            return self.prepared.pool.validate_damage_smoke(id, self.session);
         }
         self.prepared.validate_binding(binding)
     }

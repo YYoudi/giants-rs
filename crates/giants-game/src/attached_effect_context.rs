@@ -64,7 +64,11 @@ impl<K> Context<K> {
     }
     /// Preparation is not an effect interpreter or a completed update.
     pub fn require_first_update(&self) -> Result<(), &'static str> {
-        Err("first update requires owned factory and recipient session")
+        if self.retained_smoke.is_some() {
+            Err("retained smoke callbacks require their acquired object scheduler")
+        } else {
+            Err("first update requires owned factory and recipient session")
+        }
     }
 }
 impl<K: Copy> Context<K> {

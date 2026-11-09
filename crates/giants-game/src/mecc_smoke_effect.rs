@@ -121,7 +121,7 @@ impl<K: Copy> Staged<K> {
         initial.fields.object_flags |= 0x40000000;
         initial.fields.control_flags |= 0x2000;
         let result = Self {
-            template: template,
+            template,
             initial,
             emission: Emission {
                 configuration,

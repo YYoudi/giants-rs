@@ -2357,7 +2357,8 @@ fn source_mecc_primary_retains_and_stops_canonical_smoke() {
         giants_formats::weapons::Profile::Debug,
     )
     .unwrap();
-    for damage in [55.] {
+    {
+        let damage = 55.;
         let mut session = Session::new(865);
         let source = actor(&mut session, &r, &g, &c, None, 0.);
         session.prepare_mecc_countdown_world(10.).unwrap();
