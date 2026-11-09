@@ -1057,6 +1057,13 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   the owned timed parent/child wrapper, physical aliases and actual retirement
   binding; do not bypass the existing ordinary constructor's state78 refusal.
 
+- Fresh preview `.6` CPU census rechecks all 545 installed sources / 16 worlds:
+  zero top-level preparation errors, 59 gap sources, 56 general-queue prerequisites
+  and 282 overlapping strict reviews. All category/count aggregates are unchanged;
+  the reviewed public summary is repinned to the exact `2386822` executable
+  receipt. This inventories declared consumers, not all missing rendered elements.
+  No complete scene or visual/temporal/functional/audio parity is certified.
+
 - Shared effect-word separation: attached/cinematic metadata now owns its
   independent render/effect flags. The previous constructor mixed the cinematic
   mark into the shared actor response/status word and tested that conflated word

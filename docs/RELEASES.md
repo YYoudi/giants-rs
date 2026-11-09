@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## Fresh complete cinematic preparation inventory — 9 November 2026
+
+The exact preview `.6` binary/source receipt has completed a new CPU-only pass
+over all 545 installed sources / 16 cinematic worlds. All top-level preparations
+complete; 59 sources still report declared-consumer gaps, including 56 general-FX
+queue prerequisites, and 282 remain in the overlapping strict-profile review.
+Every aggregate category/count matches the previous reviewed census. The public
+summary now pins this fresh receipt, without publishing source identifiers or
+private diagnostics. Zero complete scenes are certified; visual/temporal/audio/
+functional fidelity and MDV music remain outside this preparation inventory.
+
+Final combined source `ecdfdf0a57f8ff358467ff111ff05189a7defa35` preserves newer
+Kabuto control-force and Delphi query-policy work. Its 639 game-crate tests pass
+(27 ignored), along with workspace strict Clippy and formatting. The source
+audit covers 482 commits / 3,090 blobs with zero findings. Earlier full-workspace,
+Python/site and exact preview/runtime/package checks retain their own identities;
+these later source merges do not relabel the published executable.
+
 ## Source timed-FX class field preparation — 9 November 2026
 
 The actor-field profile now accepts the acquired flag-only class opcode52,
