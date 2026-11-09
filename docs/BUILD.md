@@ -132,7 +132,11 @@ The same control also samples real owned camera references and checks Delphi's
 standalone and entered camera callbacks: retained/reset views, inactive inputs,
 foreign targets, rejected profiles and failure quarantine. It verifies that a late
 rotation failure retains completed camera effects and prevents their replay. It does not acknowledge camera rendering
-or production full-primary scheduling. Private native comparisons retain their
+or production full-primary scheduling. It also performs 64 ordinary third-person
+camera updates from the completed controlled actor, using a supplied synthetic
+profile and flat/no-hit providers. Future frames and other profiles refuse before
+querying those providers. This is separate from the external immutable profile
+reader and from production camera dispatch. Private native comparisons retain their
 separate arithmetic and test-driver scope in [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
 The locomotion profile reads the original executable's data as an external asset.
@@ -188,6 +192,20 @@ It now also checks the registered cold path: actor/registry/RNG rollback on a la
 foreign-ticket failure, same-ticket foreign-scope cleanup refusal, deferred marks,
 unchanged ordered lists, last-material retirement and clean regeneration after
 clear/re-entry. This is the custom callback phase, not common actor retirement.
+
+For the bounded owned input/orientation and force-to-position prefix:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_motion_prefix_owns_fields_and_retains_pending_primary --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This uses the same `GIANTS_KABUTO_ROOT`, real cold resources, actual common
+history and retained prefix state. Optional `GIANTS_KABUTO_MOTION_CONTROLS` /
+`GIANTS_KABUTO_MOTION_RECEIPT` paths select private controls and receipts; neither
+belongs in Git. Incoming commands/forces/preferences are supplied. It refuses
+foreign factories, bad time and repeated/unfinished phases; it cannot acknowledge
+the remaining contacts/control forces or start a second primary frame. No window,
+audio device, world scheduler or gameplay admission is created.
 
 For factory-bound target decisions and size pursuit composed with the following
 auxiliary selection:

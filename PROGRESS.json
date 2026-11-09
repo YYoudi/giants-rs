@@ -145,7 +145,7 @@
       "title": "Delphi movement and water",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Owned construction, dry physics/jump/locomotion, heading/look and body alignment are CPU-validated. The authored-camera callback now runs inside the owned controlled phase before heading, sharing its ANM epoch; four-owner lifecycle and fifteen legacy regression controls pass. The callback and shared reference sampler match 2,048 arithmetic cases plus three 256-step compositions over a 22-actor cohort, including paused caches and exact shared ANM/RNG state. Clip definitions load read-only from supported user-supplied metadata; no original table or executable is bundled. Remaining primary/ordinary-camera/target/item scheduling, auxiliary callbacks, renderer/mission integration, water/turbo and combat stay open. Live Delphi controls are still refused; CPU comparisons do not establish visual fidelity."
+      "detail": "Owned construction, dry physics/jump/locomotion, heading/look and body alignment are CPU-validated. The authored-camera callback now runs inside the owned controlled phase before heading, sharing its ANM epoch; four-owner lifecycle and fifteen legacy regression controls pass. The callback and shared reference sampler match 2,048 arithmetic cases plus three 256-step compositions over a 22-actor cohort, including paused caches and exact shared ANM/RNG state. Clip definitions load read-only from supported user-supplied metadata; no original table or executable is bundled. The ordinary third-person camera slice now binds owned actor fields and matches 768 native pose/chase steps; its distance policy matches 5,566 scalar cases. The base profile loads from acquired external debug metadata. Lens/projection arithmetic now matches 25,091/9,720 cases and 1,571 composed calls; device publication is excluded. Actual profile/input/viewport/depth producers, full camera dispatch, primary/target/item scheduling, auxiliary callbacks, renderer/mission integration, water/turbo and combat stay open. Live Delphi controls are still refused; CPU comparisons do not establish visual fidelity."
     },
     {
       "id": "delphi-sword",
@@ -208,7 +208,7 @@
       "title": "Kabuto movement and growth",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Live movement, jumping, feeding, production of the growth threshold and size-dependent collision scheduling remain pending. Owned CPU phases cover cold group construction, animation/geometry helpers, state-bound target selection and size pursuit. The size/radius/parameter phase composed with second-auxiliary selection matches 1,024 original-PC contexts / 627,712 normalized words, including a 512-step trajectory reaching sizes 0, 1, 2 and 3 with ordered time areas. A separate state-threshold decision plus size/auxiliary composition matches 512 contexts / 315,440 words. Full primary, threshold producers, following target/effect helper, dynamic teardown, camera/world/GPU cadence and live admission remain open. Marked actors stay owned. CPU parity is not playable readiness or visual fidelity."
+      "detail": "Continuous live movement, jumping, feeding, production of the growth threshold and size-dependent collision scheduling remain pending. A bounded input/orientation/force-to-position prefix now matches 384 Session contexts / 155,136 words; contact, new force production and the remaining primary still block another frame. Owned CPU phases cover cold group construction, animation/geometry helpers, state-bound target selection and size pursuit. The size/radius/parameter phase composed with second-auxiliary selection matches 1,024 original-PC contexts / 627,712 normalized words, including a 512-step trajectory reaching sizes 0, 1, 2 and 3 with ordered time areas. A separate state-threshold decision plus size/auxiliary composition matches 512 contexts / 315,440 words. Full primary, threshold producers, following target/effect helper, dynamic teardown, camera/world/GPU cadence and live admission remain open. Marked actors stay owned. CPU parity is not playable readiness or visual fidelity."
     },
     {
       "id": "kabuto-feeding",
@@ -442,7 +442,7 @@
       "title": "Animations and active effects",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Character/equipment animation, attachments, particles, trails, explosions, magic and effect lifecycles."
+      "detail": "Character/equipment animation, attachments, particles, trails, explosions, magic and effect lifecycles. Positional hard-landing context preparation matches 256 native controls, including three ordered shared RNG draws and empty-context retirement. Active impact effects, emitted-object cleanup and full world scheduling remain open."
     },
     {
       "id": "hud-audio",
@@ -532,7 +532,7 @@
       "title": "Playable Windows build stability",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Full-session play, repeated loading/restart, resource cleanup, performance and supported rendering paths. Silent development-session launch/return cycles observed on 4 November 2026; campaign loading, manual input and complete memory reclamation remain unverified. Owned descent/contact selection and real deferred slide-effect preparation now pass the former step-158 boundary. The Bevy replay reaches negative height at step 190 and stops explicitly; that native path and active world effects remain unacquired. See docs/OWNED_MECC_CONTACT.md."
+      "detail": "Full-session play, repeated loading/restart, resource cleanup, performance and supported rendering paths. Silent development-session launch/return cycles observed on 4 November 2026; campaign loading, manual input and complete memory reclamation remain unverified. Owned descent/contact selection and real deferred slide-effect preparation now pass the former step-158 boundary. The latest exact muted-sink Mecc movement replay passes the former height and unequipped fuel-depletion refusals, then stops explicitly at step 441 on an unacquired impact reaction. Hard-landing preparation now has bounded CPU controls; complete impact/health integration and active world effects remain open. See docs/OWNED_MECC_CONTACT.md."
     },
     {
       "id": "fidelity",
@@ -574,7 +574,7 @@
       "title": "Controlled Kabuto construction, size decisions and pursuit",
       "status": "partial",
       "scope": "CPU only; live admission pending",
-      "detail": "Owned cold groups, animation/geometry helpers and factory-bound size pursuit use shared actor, time, parameter, channel and radius services. Source controls include 1,024 size/auxiliary contexts and a continuous four-size trajectory. A state-bound target decision now composes with size/auxiliary updates in 512 PC/owned controls. Full primary, threshold production, movement and world admission remain prerequisites; earlier control receipts are retained in OWNED_KABUTO.md and BACKLOG.md."
+      "detail": "Owned cold groups, animation/geometry helpers and factory-bound size pursuit use shared actor, time, parameter, channel and radius services. Source controls include 1,024 size/auxiliary contexts and a continuous four-size trajectory. A state-bound target decision now composes with size/auxiliary updates in 512 PC/owned controls. The owned input/orientation/motion prefix also matches 384 Session contexts / 155,136 words using common history and motion services. Full primary, threshold production, contacts/current forces and world admission remain prerequisites; earlier control receipts are retained in OWNED_KABUTO.md and BACKLOG.md."
     },
     {
       "id": "vimp-cpu",

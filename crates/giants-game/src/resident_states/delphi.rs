@@ -784,6 +784,28 @@ mod physical_tests {
         let mut random = crate::audio_parameters::Random(1);
         let mut stamp = crate::animation_epoch::Stamp::default();
         let mut entered_camera = crate::delphi_camera::State::default();
+        let mut ordinary_camera = crate::mecc_camera_update::State::default();
+        #[derive(Default)]
+        struct CameraWorld(u32);
+        impl crate::mecc_camera_update::World for CameraWorld {
+            fn height(&mut self, _: [f32; 2]) -> Result<f32, String> {
+                self.0 += 1;
+                Ok(0.)
+            }
+            fn clip(&mut self, _: &mut [f32; 3], _: [f32; 3]) -> Result<(), String> {
+                self.0 += 1;
+                Ok(())
+            }
+        }
+        let mut camera_world = CameraWorld::default();
+        // Supplied synthetic profile; this test does not produce world profiles.
+        let camera_profile = crate::mecc_camera_update::Profile {
+            distance: 20.,
+            height: 5.,
+            side: 1.,
+            along: 0.,
+            vertical_fov: 70.,
+        };
         let mut landed = false;
         let mut jumped = false;
         for number in 1..=64 {
@@ -891,6 +913,35 @@ mod physical_tests {
                 // Terrain contact has no supporting actor identity.
                 landed |= fields.position[2] == 0. && view.velocity[2] == 0.;
                 jumped |= view.velocity[2] > 1. && fields.position[2] > 0.;
+                if index == 2 {
+                    let output = session
+                        .advance_delphi_ordinary_camera(
+                            id,
+                            number,
+                            1. / 60.,
+                            camera_profile,
+                            &mut ordinary_camera,
+                            &mut camera_world,
+                        )
+                        .unwrap();
+                    assert_eq!(output.camera.angles, [fields.angles[0], view.look, 0.]);
+                    assert!(output.view.into_iter().all(f32::is_finite));
+                    let calls = camera_world.0;
+                    assert!(
+                        session
+                            .advance_delphi_ordinary_camera(
+                                id,
+                                number + 1,
+                                1. / 60.,
+                                camera_profile,
+                                &mut ordinary_camera,
+                                &mut camera_world,
+                            )
+                            .is_err()
+                    );
+                    assert_eq!(camera_world.0, calls);
+                    assert!(ordinary_camera.failure().is_none());
+                }
                 assert!(
                     session
                         .delphi_events
@@ -909,6 +960,22 @@ mod physical_tests {
             ticket: 1252,
             serial: camera_owner.serial,
         };
+        let calls = camera_world.0;
+        for invalid in [foreign, camera_owner] {
+            assert!(
+                session
+                    .advance_delphi_ordinary_camera(
+                        invalid,
+                        64,
+                        1. / 60.,
+                        camera_profile,
+                        &mut ordinary_camera,
+                        &mut camera_world,
+                    )
+                    .is_err()
+            );
+        }
+        assert_eq!(camera_world.0, calls);
         let mut camera = crate::delphi_camera::State::default();
         let request =
             |local_owner, mode, buttons, aspect, target| crate::delphi_camera::Environment {

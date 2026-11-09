@@ -1,5 +1,145 @@
 # Preview releases and milestone integration
 
+## Kabuto owned input/orientation and force integration — 9 November 2026
+
+The bounded prefix now owns model rates, velocities, look and input state and
+composes existing common history, orientation, time, force integration and
+position-limit services. Its factory-bound Session publication is atomic and
+retains all four initializer prerequisites. A 384-context typed projection
+matches 89,472 words. A separate 384-context Session control matches 155,136
+complete header/payload words; the original common wrapper and the Rust history
+gate both execute. The source callback's earlier phases, incoming forces,
+commands, preferences and world/time inputs remain declared boundaries.
+
+This is a prefix, not a whole controller: contacts, current control-force
+production, reactions and the remaining primary have no consumer yet. A completed
+prefix cannot begin another history or acknowledge gameplay readiness. No live
+movement, keyboard mapping or visual fidelity is certified. Prototype PS2
+correspondences remain unknown, with private lookup/evidence lineage retained.
+
+Validation: 778 synthetic Rust tests pass (30 ignored), all eight silent Kabuto
+installed-data controls pass, together with 40 Python tests, Rustfmt, Clippy with
+warnings denied, generated roadmap/site and JavaScript checks. Foreign owners,
+wrong frame numbers, invalid pure preparation and repeated/unfinished phases
+refuse. Existing Mecc/Delphi code and common-kernel arithmetic are unchanged.
+This introduces no dependency or bundled asset and creates no playable preview;
+existing package/notices/checksum receipts retain their own build identities.
+
+Combined checkpoint `82cdad7` preserves the newer shared camera kernels,
+Delphi camera input production, mission-header stores and positional-impact
+preparation. It passes 787 Rust tests (30 ignored), all eight Kabuto installed-
+data controls, 40 Python tests, Rustfmt, Clippy and roadmap/site/JavaScript checks.
+The rebuilt typed-prefix and actual Session runners repeat the 384-context
+comparisons. Other lanes' runtime/capture/package receipts retain their own source
+identities and scopes; these checks do not expand those receipts.
+
+## Positional hard-landing context preparation - 9 November 2026
+
+The shared null-object effect initializer now preserves both floating intervals
+of the acquired positional-impact frame after its integer cue-selection draw.
+Late invalid/truncated operands cannot commit a partial RNG update. The actual
+PC named wrapper, prepared context and empty retirement match 256 controls /
+512 operations / 17,920 words, including both interval values and all 768 shared
+random draws. Existing slide and positional-popup preparation regressions match
+another 33,280 words. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+Source `a1e7bc72a39b3745805aa26f0f3b2f220318bf67` passes 777 synthetic Rust
+tests (29 ignored), 40 Python tests, Rustfmt, Clippy with warnings denied and all
+five silent installed-resource Mecc controls. It preserves the concurrent Kabuto
+target-decision work. Detailed controls and research remain private; prototype
+PS2 attribution is still unknown.
+
+Its exact GNU executable SHA256 is
+`a77449f6bd7fabd08c176deab21287d258e90c06df2f52ed125857823bffe6b6`.
+The private ten-member validation draft has complete receipt-bound notices and
+independent package verification with zero technical blockers; archive SHA256 is
+`352aa94540a4e261252c928ca915bafc76be657c34a093e676c4b109ad45eae8`.
+Source/history pattern review reports no findings across 344 reachable commits
+and 2,519 blobs. This prerequisite does not establish a new gameplay preview.
+
+Combined checkpoint `bb6a474` also preserves the subsequently published mission
+placement-header changes. It passes 778 Rust tests (29 ignored), 40 Python tests,
+Rustfmt, Clippy, five installed-resource Mecc controls and the rebuilt 256-case
+hard-landing preparation comparison. Roadmap, site and JavaScript checks pass.
+The exact executable/package receipts above remain bound to their original source.
+The later shared-camera merge `a5c3833` passes 785 Rust tests (29 ignored),
+40 Python tests, Rustfmt, Clippy, five installed-resource Mecc controls and site
+checks, while preserving the separate camera and mission-header scopes below.
+
+The effect is prepared only. Real impact damage/context publication, channel
+selection and subsequent active effect execution remain to be integrated.
+The full movement replay's previous exact step-441 refusal remains its latest
+runtime endpoint; these CPU controls do not certify a later movement step,
+rendered effect, new capture, playable readiness or visual fidelity. Prior
+preview/capture identities retain their original receipts and limitations.
+
+
+## Camera lens and projection kernels - 9 November 2026
+
+The acquired common lens transition/scaling and finite source-space perspective
+kernels now compose in source order. Native/Rust controls match 25,091 lens cases
+/ 50,182 words, 9,720 projection cases / 184,680 words and 1,571 composed calls /
+31,420 words. Debug and optimized probes repeat the same inputs. Override keeps
+the transition; completed lens effects survive a later projection refusal.
+
+The native profile getter/kind predicates execute with supplied profile values.
+The composed native controls execute projection math before an observed, skipped
+device publication. Profile/input/viewport/depth production, complete dispatch,
+owned-view/renderer/mission integration, water/turbo and combat remain pending.
+CPU arithmetic is not visual fidelity or a new playable Delphi capability.
+
+Combined source `b1879512d4e178c095512c9fee67348879714141` passes 781
+synthetic Rust tests (29 ignored), 40 Python tests, Rustfmt, Clippy and generated
+site/JavaScript checks. Its exact GNU executable passes both silent development
+lifecycle endpoints and three persistent-owner opening/cancellation cycles for
+Rstory1 mission 2. These are common-runtime regressions, not Delphi gameplay.
+Executable SHA256:
+`f08aa0188027c87e8ab2e72ca50660677c59af0c4b2f4c0a2ef86e490557d92c`.
+The ten-member private validation draft has complete receipt-bound notices and
+no technical verifier blockers; ZIP SHA256:
+`e317a5cb7eb9df277c2853a6fa6fc6283d1b6b887668cb22531838fd9a954a40`.
+No playable download follows from this CPU milestone.
+
+Combined checkpoint `2b476d1` additionally preserves current mission-header,
+Kabuto target-decision and Mecc reserve-depletion work. It passes 784 synthetic
+Rust tests (29 ignored), 40 Python tests, Rustfmt, Clippy and generated site /
+JavaScript checks. This source checkpoint retains the exact earlier executable
+and package identities above; it does not relabel them as later runtime tests.
+
+## Delphi ordinary third-person camera slice - 6 November 2026
+
+The shared camera producer now consumes Delphi's acquired distance policy while
+preserving the Mecc entry. A Session API binds actual owned position, heading,
+look, scale, look height and control flags after the matching controlled frame.
+Wrong profiles/frames and failed cycles refuse. The base third-person profile
+loads read-only from user-supplied acquired debug metadata; other layouts refuse.
+
+Distance controls match 5,566 original-PC cases / 11,132 words. Three 256-step
+normal-camera sequences match 14,592 pose/chase/cache words with original trig
+and an actual immutable profile. A separate class-2 regression matches 768 steps /
+14,592 words. Debug and optimized probes repeat the same inputs. The normal-entry
+controls use synthetic actors, exclude floor work, supply no-hit walls and capture
+final view arguments; they do not execute renderer publication. The enriched
+four-owner source-data lifecycle also performs 64 ordinary-camera updates and
+checks pre-provider refusals. Relocated metadata and invalid-input guards pass.
+
+Full camera dispatch/target selection, dynamic FOV/projection, underwater floor,
+angle smoothing/shake, full-primary/world scheduling and renderer/mission wiring
+remain open. This is CPU/API integration, with no new playable Delphi download or
+fidelity claim. Delphi-specific prototype PS2 attribution remains unknown; common
+reviewed service identities are retained separately from behavior coverage.
+
+
+The exact `22a301ec43a706ea628310d3a7c8eef540a7a5e5` GNU build passes both
+silent development lifecycle endpoints and three persistent-owner opening /
+cancellation cycles for Rstory1 mission 2. These are common-runtime regressions,
+not Delphi gameplay or complete cinematic transport. Its ten-member private
+draft has complete notices, matching receipt/review identities and no technical
+verifier blockers. Executable SHA256:
+`50225a58f1791f1fe41029b019fe3d7c24bb07a9b2f28460c964715006fa00ae`;
+private ZIP SHA256:
+`987a98e9249ca3c7841127abdd904477a785b0d79eb518d31b18146a8eb3051e`.
+This earlier binary does not include the later lens/projection kernels.
 ## Ordinary mission placement header — 9 November 2026
 
 The common owned declaration constructor now preserves the original mission

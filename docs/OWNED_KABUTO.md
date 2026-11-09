@@ -798,3 +798,50 @@ The threshold's gameplay meaning and producer remain unassigned. Feeding, input,
 full locomotion/primary, world/camera/GPU cadence and live admission remain open.
 Prototype PS2 attribution remains unknown, with raw symbols, ambiguous demangling,
 earlier PC aliases and scoped Rust relationships kept in private records.
+
+
+## Owned input/orientation and motion prefix — 9 November 2026
+
+`kabuto_motion_prefix::prepare` composes the acquired input-mask order, opaque
+header-mode gate, shared orientation, actor-local time, force integration and
+position limiter. It retains separate look/body angles, current/previous model
+rates and velocities. Input masks are applied in order: clearing an earlier bit
+can suppress a later branch, and the look-suppression bit remains set. The common
+orientation service handles manual rates and the acquired automatic-angle clamp;
+the existing Mecc/Ripper/Delphi kernels are reused without changing their logic.
+The force-to-position phase consumes the preceding force buffer, clears it and
+preserves the source acceleration-time versus full motion-time distinction.
+
+`Session::begin_kabuto_motion_history` runs the existing common primary gate and
+copies current model rates into history. `Factory::advance_motion_prefix` then
+requires that exact owner/history number, specification identity and actual
+parent presence. It publishes the prepared fields, state payload and matching
+owned physical snapshot atomically. Foreign factories, stale/cleared owners,
+wrong numbers, inconsistent physics and repeated prefixes refuse. Invalid pure
+preparation preserves the entered history for a corrected retry; this is owned
+policy, not a native exception. The owned source control uses an unparented group.
+
+The returned prefix has no acknowledgment for the unported remainder: another
+history cannot begin after it, and all four initializer prerequisites stay set.
+This does not manufacture a complete primary/world cycle. Contact classification,
+current control-force production, collision, camera/ANM cadence and the remaining
+reaction/state consumers must be acquired and connected before continuous live
+movement or gameplay admission. The header mode remains an opaque observed word;
+its reaction handler is not inferred from its numeric value.
+
+A 384-context original-PC/typed projection matches 89,472 words, covering input
+masks, angle/rate clamps, time areas, speed limits, force-time limits, position
+limits and supplied parent/frozen profiles. A separate source-backed Session
+control matches 155,136 words in 384 contexts, including complete owner header
+and payload. The original common primary wrapper executes before the bounded PC
+prefix; Rust history is initially poisoned, then overwritten by its actual
+common gate. The earlier source callback phases remain outside this bounded
+control. Commands, preferences, incoming forces/poses and time areas are
+supplied. Counts/lists and initializer gates are retained. A first exploratory
+control stopped before the position limiter while Rust included it; that failed
+receipt remains private, followed by the corrected call boundary and same-case
+comparison. No native computed output is used to seed the Rust step.
+
+Prototype PS2 lookups precede the touched helpers and remain unknown. Raw names,
+unreviewed demangling and generated aliases remain separate in private records.
+This CPU source milestone establishes no whole-controller or visual fidelity.

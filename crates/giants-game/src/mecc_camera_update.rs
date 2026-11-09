@@ -67,6 +67,28 @@ impl State {
         self.failure.as_deref()
     }
     pub fn advance(&mut self, input: Input, world: &mut impl World) -> Result<Output, String> {
+        self.advance_profile(input, world, None)
+    }
+    /// Ordinary third-person class-3 distance policy (source camera mode zero).
+    /// The caller still supplies acquired
+    /// profile/actor/world inputs; this does not select or schedule a player.
+    pub fn advance_delphi_third_person(
+        &mut self,
+        input: Input,
+        flags: u32,
+        world: &mut impl World,
+    ) -> Result<Output, String> {
+        if !input.skip_floor && input.position[2] < 0. {
+            return Err("Delphi underwater camera floor policy remains unacquired".into());
+        }
+        self.advance_profile(input, world, Some(flags))
+    }
+    fn advance_profile(
+        &mut self,
+        input: Input,
+        world: &mut impl World,
+        delphi_flags: Option<u32>,
+    ) -> Result<Output, String> {
         let p = input.profile;
         if self.failure.is_some()
             || self.number.checked_add(1) != Some(input.number)
@@ -97,7 +119,7 @@ impl State {
             return Err("camera requires the next finite ordinary source frame".into());
         }
         self.number = input.number;
-        let result = self.run(input, world);
+        let result = self.run(input, world, delphi_flags);
         match result {
             Ok(output) => {
                 self.output = Some(output.clone());
@@ -109,7 +131,12 @@ impl State {
             }
         }
     }
-    fn run(&mut self, input: Input, world: &mut impl World) -> Result<Output, String> {
+    fn run(
+        &mut self,
+        input: Input,
+        world: &mut impl World,
+        delphi_flags: Option<u32>,
+    ) -> Result<Output, String> {
         let p = input.profile;
         let mut distance = p.distance;
         let mut pitch = input.pitch;
@@ -154,12 +181,17 @@ impl State {
                 break (eye, forward, up);
             }
         };
-        for (current, target) in self
+        for (index, (current, target)) in self
             .chase
             .iter_mut()
             .zip([distance, p.height, p.side, p.along])
+            .enumerate()
         {
-            if *current != target {
+            if let Some(flags) = delphi_flags.filter(|_| index == 0) {
+                let adjusted =
+                    crate::delphi_camera_distance::advance(target, *current, flags, input.seconds)?;
+                *current = adjusted.chase;
+            } else if *current != target {
                 approach(current, target, input.seconds);
             }
         }
@@ -200,7 +232,10 @@ impl State {
     }
 }
 fn approach(current: &mut f32, target: f32, seconds: f32) {
-    let proportional = ((f64::from(*current) - f64::from(target)).abs() / f64::from(0.1_f32)
+    approach_with_time(current, target, seconds, 0.1_f32);
+}
+pub(crate) fn approach_with_time(current: &mut f32, target: f32, seconds: f32, time: f32) {
+    let proportional = ((f64::from(*current) - f64::from(target)).abs() / f64::from(time)
         * f64::from(seconds)) as f32;
     let amount = (f64::from(seconds) * 10.).max(f64::from(proportional));
     if *current > target {
@@ -375,5 +410,52 @@ mod tests {
         assert!(view([0.; 3], [0.; 3], [0., 0., 1.]).is_err());
         assert!(view([0.; 3], [0., 0., 1.], [0., 0., 1.]).is_err());
         assert!(view([f32::INFINITY, 0., 0.], [0., 1., 0.], [0., 0., 1.]).is_err());
+    }
+    #[test]
+    fn delphi_distance_policy_preserves_pose_order_and_common_failure_guards() {
+        let mut delphi = State::default();
+        let mut ordinary = State::default();
+        let mut provider = Provider::default();
+        let mut frame = input(1);
+        frame.skip_floor = true;
+        frame.position[2] = 100.;
+        frame.seconds = 0.1;
+        let baseline = ordinary.advance(frame, &mut provider).unwrap();
+        let acquired = delphi
+            .advance_delphi_third_person(frame, 0x100, &mut provider)
+            .unwrap();
+        // Native geometry is calculated before the distance chase callback.
+        assert_eq!(acquired.pose.eye, baseline.pose.eye);
+        assert_eq!(acquired.view, baseline.view);
+        assert!(acquired.chase[0] > baseline.chase[0]);
+        assert_eq!(acquired.chase[1..], baseline.chase[1..]);
+
+        frame.number = 2;
+        frame.skip_floor = false;
+        frame.position[2] = -1.;
+        let calls = (provider.floor_calls, provider.clip_calls);
+        assert!(
+            delphi
+                .advance_delphi_third_person(frame, 0, &mut provider)
+                .is_err()
+        );
+        assert_eq!((provider.floor_calls, provider.clip_calls), calls);
+        assert!(delphi.failure().is_none());
+        frame.position[2] = 100.;
+        provider.fail_clip = true;
+        assert!(
+            delphi
+                .advance_delphi_third_person(frame, 0, &mut provider)
+                .is_err()
+        );
+        assert_eq!(delphi.output().unwrap().view, acquired.view);
+        let calls = (provider.floor_calls, provider.clip_calls);
+        provider.fail_clip = false;
+        assert!(
+            delphi
+                .advance_delphi_third_person(frame, 0, &mut provider)
+                .is_err()
+        );
+        assert_eq!((provider.floor_calls, provider.clip_calls), calls);
     }
 }

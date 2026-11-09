@@ -15,7 +15,132 @@ mod transition_tests;
 #[path = "kabuto_growth_tests.rs"]
 mod growth_tests;
 
+#[cfg(test)]
+#[path = "kabuto_motion_tests.rs"]
+mod motion_tests;
+
 impl Session {
+    /// Common history entry before the bounded Kabuto motion prefix. No complete
+    /// primary is acknowledged; a completed prefix cannot start another frame
+    /// until the remaining native phases have a real consumer.
+    pub fn begin_kabuto_motion_history(
+        &mut self,
+        owner: Id,
+        number: u64,
+        commands: [u8; 8],
+    ) -> Result<bool, String> {
+        let actor = self
+            .get(owner)
+            .ok_or("Kabuto history owner absent or foreign")?;
+        let group = actor
+            .kabuto_group
+            .as_ref()
+            .ok_or("Kabuto history group absent")?;
+        if actor.class != 1
+            || actor.seed.storage.state() != 1
+            || group.cleaned_up
+            || group.geometry_transition_failure.is_some()
+            || group.motion_history.is_some()
+            || group.motion_prefix_completed.is_some()
+            || self
+                .specification(owner)
+                .is_none_or(|s| !Arc::ptr_eq(s, &group.declared_class))
+        {
+            return Err("Kabuto history requires its active group and unconsumed frame".into());
+        }
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("Kabuto history fields absent")?;
+        let entry = crate::actor_primary_gate::enter(
+            fields.object_flags,
+            fields.configuration[14],
+            commands,
+            group.motion.model.map(f32::to_bits),
+            group.motion.previous_model.map(f32::to_bits),
+        );
+        let actor = self.residents.get_mut(&owner.serial).unwrap();
+        let group = actor.kabuto_group.as_mut().unwrap();
+        group.motion.commands = commands;
+        if entry.invoke {
+            group.motion.previous_model = entry.previous_rates.map(f32::from_bits);
+            group.motion_history = Some(number);
+            group.primary_started = true;
+            actor.construction_fields.as_mut().unwrap().configuration[14] = entry.binding_flags;
+        }
+        Ok(entry.invoke)
+    }
+
+    pub(crate) fn advance_kabuto_motion_prefix(
+        &mut self,
+        owner: Id,
+        resources: &Resources,
+        number: u64,
+        frame: crate::kabuto_motion_prefix::Frame<'_>,
+    ) -> Result<(), String> {
+        let actor = self
+            .get(owner)
+            .ok_or("Kabuto motion owner absent or foreign")?;
+        let group = actor
+            .kabuto_group
+            .as_ref()
+            .ok_or("Kabuto motion group absent")?;
+        if actor.class != 1
+            || actor.seed.storage.state() != 1
+            || group.cleaned_up
+            || group.geometry_transition_failure.is_some()
+            || group.motion_history != Some(number)
+            || group.motion_prefix_completed.is_some()
+            || !Arc::ptr_eq(&group.declared_class, &resources.specification)
+            || self
+                .specification(owner)
+                .is_none_or(|s| !Arc::ptr_eq(s, &resources.specification))
+            || frame.parent_present
+                != (actor.attachment.is_some() || actor.presentation_parent.is_some())
+        {
+            return Err(
+                "Kabuto motion requires its factory-owned history and actual parent presence"
+                    .into(),
+            );
+        }
+        let payload = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("Kabuto motion payload absent")?;
+        let physics = group.physics.ok_or("Kabuto motion physics absent")?;
+        if payload.len() != 844
+            || physics.words()
+                != crate::kabuto_physics::Physics::from_owned_payload(payload).words()
+        {
+            return Err("Kabuto motion physics and owned payload differ".into());
+        }
+        let prepared = crate::kabuto_motion_prefix::prepare(
+            actor
+                .construction_fields
+                .as_ref()
+                .ok_or("Kabuto motion fields absent")?,
+            payload,
+            group.motion,
+            frame,
+        )?;
+        let actor = self.residents.get_mut(&owner.serial).unwrap();
+        actor.construction_fields = Some(prepared.fields);
+        actor
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()
+            .copy_from_slice(&prepared.payload);
+        let group = actor.kabuto_group.as_mut().unwrap();
+        group.physics = Some(crate::kabuto_physics::Physics::from_owned_payload(
+            &prepared.payload,
+        ));
+        group.motion = prepared.state;
+        group.motion_prefix_completed = Some(number);
+        Ok(())
+    }
+
     pub(crate) fn decide_kabuto_growth(
         &mut self,
         owner: Id,
