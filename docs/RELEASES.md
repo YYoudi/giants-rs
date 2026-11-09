@@ -13,20 +13,21 @@ proved. Failed providers retain prefix effects and stop later stores; error
 policy is owned rather than an original exception-equivalence claim.
 
 The kernel is not yet a numbered Session phase. Actual owner/descriptor/context
-binding, the intervening alive/global guard and required services remain pending.
+binding, the intervening state/global guard and required services remain pending.
 It must not skip directly from the integrated control-force phase or acknowledge
 another complete frame. The later action/animation/primary/world path remains
 open. No new dependency/asset, live Kabuto preview or fidelity promotion is added;
 existing package/notices/checksum/runtime receipts keep their own identities.
 Prototype PS2 correspondence remains unknown.
 
-Validation of the combined source: 824 synthetic Rust tests pass (44 ignored),
+Validation of the combined source: 824 synthetic Rust tests pass (45 ignored),
 all fifteen silent Kabuto phase controls plus the separate cold-resource check
 pass, alongside 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
 checks. The rebuilt final kernel comparison repeats 512 / 141,758 successfully.
-The limited source/history pattern review reports zero findings across 492
-commits / 3,159 blobs at the preceding merge checkpoint. Existing executable/
+The limited source/history pattern review reports zero findings across 496
+commits / 3,167 blobs at combined checkpoint `4d92824`. Existing executable/
 package receipts retain their exact source identities.
+
 ## Delphi owned candidate geometry query - 9 November 2026
 
 The selected-owner Delphi query now returns actual typed candidates and world
