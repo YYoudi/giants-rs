@@ -940,7 +940,7 @@ traversal. Static instruction exploration identifies peer filtering, geometry/
 volume paths, reference and possible position/velocity writes. It is not a simple
 spatial publication, and its global early return cannot replace those paths.
 The complete traversal still has no owned consumer or native/Rust comparison.
-Its indirect model service and geometry/response dependencies remain prerequisites.
+Its indirect point-transform service and geometry/response dependencies remain prerequisites.
 
 `kabuto_contact::followup` implements one callback of that traversal. A missing
 peer or entry exclusion bypasses all services. Request-mask and contact-flag

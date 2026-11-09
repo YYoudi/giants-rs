@@ -14,7 +14,7 @@ Validation: 800 synthetic Rust tests pass (32 ignored), all ten silent Kabuto
 installed-data controls pass, plus 40 Python tests, Rustfmt, strict Clippy and
 generated roadmap/site/JavaScript checks.
 
-This is a CPU dependency. The whole additional geometry traversal, its model/
+This is a CPU dependency. The whole additional geometry traversal, its transform/
 response services, actual action execution and its Session consumer remain open.
 The call after classification must not be reduced to its global early return or
 misidentified as simple spatial publication. World/current-force/primary cadence
@@ -85,6 +85,18 @@ work and the reciprocal collision-response boundary. It passes 802 Rust tests
 Both rebuilt 256-frame Delphi comparisons again match all 4,081,152 words and
 shared RNG. This remains separate source validation of the unchanged Delphi
 profile, with no relabeling of the earlier executable or package.
+Combined checkpoint `7d0692a` preserves the newer Delphi dry-reset and post-physical
+composition. It passes 804 Rust tests (32 ignored), all ten Kabuto installed-data
+controls, 40 Python tests, Rustfmt, strict Clippy and generated site/JavaScript
+checks. Source audit covers 397 commits / 2,731 blobs with zero findings. Rebuilt
+callback and prior Session-classification runners repeat their native comparisons.
+
+The common GNU executable was built from that exact checkpoint, SHA256
+`989ed5836af5a36db49c65167b4fcdbdf9eb4158b099e8a981d46fad5a52ea78`.
+Its private build receipt records the compiler, MinGW linker and dependency
+metadata. This is a compilation receipt, without a new runtime, package,
+playability or fidelity claim. Existing downloadable preview identities remain.
+
 ## Kabuto owned physical classification — 9 November 2026
 
 The exact factory-owned motion prefix now feeds the shared physical-player

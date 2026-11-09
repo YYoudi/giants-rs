@@ -389,7 +389,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   dispatcher is an explicit provider that mutates flags/reference to check order.
   State-1 scaling consumes an opaque state scalar; other states bypass it. No
   gameplay meaning, damage execution, feeding rule or Session/world admission is
-  inferred. The full additional geometry traversal, its model callback and
+  inferred. The full additional geometry traversal, its indirect transform callback and
   geometry/response dependencies still need controls and a real owned consumer.
   Static inspection shows that the call following classification is this extra
   object-contact pass, not merely spatial publication. Keep the entered history
