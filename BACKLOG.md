@@ -1019,7 +1019,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   actual shared countdown; an optional primary voice provider completes one
   falling-entry frame with supplied cues and preserves both late-failure paths
   without replay. This is CPU composition, not actual voice transport. Next bind
-  the actual mission gates and wounded continuation before binding the App
+  the actual mission gates and complete movement/injury lifecycle before binding the App
   primary. Local pain/ambient transport is now independently device-tested:
   960 native/Rust 2D caller cases / 16,968 selected words cover required-service
   order and descriptor/owner reuse. Four damage cues plus one jet cue reach real
@@ -1028,7 +1028,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   unrelated loss preserves reuse. Quarantine/release removes owned assets.
   General instance retirement/cadence, nonlocal routing and restart transport
   remain open; no complete player trajectory or audible fidelity follows. The main inspection still supplies no impact provider and keeps
-  step 441; native gate production, wounded continuation, heavy carried channel,
+  step 441; native gate production, full wounded trajectory, heavy carried channel,
   active effect scheduling and cleanup remain prerequisites. The existing
   positional effect transport is for later activation, not secondary preparation.
   Post-impact selector continuation now admits states 61/62 and all acquired
@@ -1036,9 +1036,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   816 pre-weapon-commit boundaries. Another 48 contexts explicitly refuse the
   actual idle-draw callback; no fabricated pointer or immediate commit substitutes
   for it. These unblended controls supply floor, damage, velocity history and
-  positive idle timer. They do not validate a wounded whole primary. Next acquire
-  the real draw callback/frame ownership and full health-positive primary before
-  relaxing that entry guard or enabling impact/voice in the App.
+  positive idle timer. Those selector-only controls did not validate a wounded
+  whole primary. The subsequent whole-primary binding is recorded below; real
+  draw callback/frame ownership still precedes the refused draw transition.
   Full-primary discovery now identifies damage-smoke preparation as an additional
   prerequisite: three original 128-frame controls expose the context/VM draw
   after a supplied wound. The bounded policy matches 2,080 contexts / 18,780

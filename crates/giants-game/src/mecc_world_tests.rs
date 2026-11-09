@@ -2181,8 +2181,10 @@ fn source_mecc_wounded_primary_preserves_smoke_and_cancellation() {
             payload[0x70..0x74].fill(0);
             words.extend(
                 payload
-                    .chunks_exact(4)
-                    .map(|b| u32::from_le_bytes(b.try_into().unwrap())),
+                    .as_chunks::<4>()
+                    .0
+                    .iter()
+                    .map(|b| u32::from_le_bytes(*b)),
             );
             words.push(p.random.0);
             receipt.push_str(&format!(

@@ -6,6 +6,10 @@ The PC selector keeps its historical alias recorded in
 selector, context constructor and context cleanup remain unknown. Literal name
 hits are candidates only; the PC profile remains the behavioral authority.
 
+The sections record successive acquisition checkpoints. For the current binding,
+see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026).
+Earlier missing-service statements retain the limits of their recorded checkpoint.
+
 ## Selector and ownership order
 
 The ordinary pistol secondary now admits the acquired contact branch and logical
