@@ -35,6 +35,8 @@ mod model_motion_tests;
 mod object_contact_tests;
 #[path = "kabuto_object_contacts.rs"]
 mod object_contacts;
+#[path = "kabuto_resources_phase.rs"]
+mod resources_phase;
 
 impl Session {
     /// Common history entry before the bounded Kabuto motion prefix. No complete

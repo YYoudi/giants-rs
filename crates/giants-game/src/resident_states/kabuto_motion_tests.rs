@@ -36,6 +36,8 @@ fn classify(
 fn header(s: &Session, id: Id) -> Vec<u32> {
     let mut h = super::growth_tests::header(s, id);
     let m = s.kabuto_group(id).unwrap().motion_prefix();
+    h[0x1e0 / 4] = u32::from(s.get(id).unwrap().seed.storage.state());
+    h[0x278 / 4] = s.kabuto_damage_state(id).unwrap().0.to_bits();
     h[0xd4 / 4] = m.look.to_bits();
     h[0xe4 / 4] = m.mode;
     h[0x158 / 4] = m.target_heading.to_bits();

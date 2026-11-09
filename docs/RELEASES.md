@@ -1,5 +1,27 @@
 # Preview releases and milestone integration
 
+## Kabuto owned post-control/resource composition — 9 November 2026
+
+The actual Factory/Session phase now continues from its control-force token
+through the acquired guard into resource/charge/next-speed-latch production.
+Current owner damage/class limit, descriptor/channels, model/buttons and repeated
+shared object-clock queries drive it. The original combined interval matches 512
+source-backed contexts / 1,317,724 final/scratch/clock/service-prefix words,
+including 2,389 clocks, 170 sound requests and 170 notifications.
+
+Required entry providers observe the published Session; later consumers reread
+changed header/payload values. Failure retains prefix/provider effects and blocks
+replay; cancellation avoids stale owner writes. Source lifecycle refusal and ANM
+failure are checked. Prior state/commands, sine tables, raw world/network context
+and flat/empty prepared scene remain boundaries. Entry providers do not execute
+audio/network backends or the original reinitialization internals; the required
+global tail, following action/animation and full primary/world cadence remain
+open. No history/initializer prerequisite is cleared or gameplay admitted.
+
+No dependency, asset, new capture or downloadable Kabuto preview is introduced.
+Existing preview notices/checksums and runtime/package receipts keep their exact
+source identities. Prototype PS2 correspondence remains unknown.
+
 ## Kabuto post-control guard and fresh damage field — 9 November 2026
 
 The isolated post-control guard now preserves heading/forward-vector and flag

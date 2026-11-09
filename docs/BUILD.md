@@ -509,3 +509,19 @@ preceding reference buffers, test ordered Session action effects, and refuse
 reentry/foreign/stale identities. They retain all initializer/history gates.
 Prepared scene/action providers and private supplied-boundary PC controls are
 separate from live world/ANM production, actual action execution and playability.
+
+
+## Optional owned Kabuto resource-phase check
+
+With `GIANTS_KABUTO_ROOT` and the isolated target described above:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_resources_publish_before_services_and_preserve_primary --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This silent CPU control runs the actual owned cold/history/motion/contact/model/
+ANM/gravity/control-force pipeline before the new guard/resource phase. It checks
+current descriptor/damage/clock binding, real Session prefix publication and
+provider mutations, retained late failures, missing lifecycle, cancellation and
+replay refusal. Sound/network entry providers are explicit test code; it opens
+no window, executes no device backend and enables no live mission controls.
