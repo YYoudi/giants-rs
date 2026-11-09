@@ -30,6 +30,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
     },
     'docs/RECONSTRUCTION_METHOD.md': {
+        # Combined review guidance; the existing reviewed PC alias rows are unchanged.
+        '0dab2114631cdbdee1414f5151d0295450ecee5db66be95f0aa4913a707f0eef',
         # Historical exact-blob review guidance; existing minimal alias rows unchanged.
         '0fc5c80adf51d81f0270c44ba86ddacb7728cc84cef0b6aed6d33ba21aca002c',
         # Historical source-lane variant: two additional bounded, explicitly
