@@ -1,5 +1,6 @@
 //! Current vertical slice; simulation cadence and physics remain undecided.
 pub mod actor_affine;
+pub mod actor_attachment_bind;
 pub mod actor_common_motion;
 pub mod actor_environment;
 pub mod actor_fields;
@@ -56,6 +57,7 @@ pub mod kabuto_player;
 pub mod kabuto_post_control;
 pub mod kabuto_reference_query;
 pub mod kabuto_reference_ray;
+pub mod kabuto_reference_release;
 pub mod kabuto_reference_target;
 pub mod kabuto_resource_phase;
 pub mod kabuto_resource_timers;
@@ -91,6 +93,7 @@ pub mod resident_finalization;
 pub mod resident_motion;
 pub mod scalar_track;
 pub mod specification;
+pub mod state18_reference_reset;
 mod state_attributes;
 pub mod state_resources;
 pub mod state_storage;

@@ -1416,3 +1416,238 @@ ownership and lifetime, backing bounds/view producers, marker/global publication
 preceding reference release and subsequent actions/animation remain required.
 All initializer/history prerequisites remain. No live control, new capture,
 download or fidelity claim follows; prototype PS2 correspondences remain unknown.
+
+## Shared affine product in the release path — 9 November 2026
+
+The indirect product dependency resolves to an internal PC routine for the three
+examined explicit dispatch modes. Original selector executions and the pinned
+table agree on that target. This observation replaces the earlier unknown-owner
+boundary for this profile; it establishes no external DLL, clock or RNG owner and
+does not cover automatic mode detection or later dispatcher replacement.
+
+The existing `procedural_aim::Matrix::mul` now preserves the acquired translation
+addition order. A cancellation control gives one where the former order gave
+zero. No alternate matrix engine or character-specific implementation is added.
+The original complete affine product agrees on 512 finite flagged-storage cases /
+8,704 output words, including exact native destination-left/destination-right
+aliasing, flags, translation/linear shortcuts and unchanged separate inputs.
+The Rust control compiles the actual existing matrix source and animation helpers;
+an unused asset-loading entry refuses explicitly. Double53 is supplied. Projective
+products, partial overlaps and other binary/initialization profiles are excluded.
+
+This corrects a shared CPU dependency, without completing the release constructor,
+reset or lifetime services. Actual Session reference/target ownership, marker and
+global publication, world/ANM/camera/GPU cadence and live Kabuto admission remain
+open. No new capture, download or fidelity claim follows. Prototype PS2 identities
+remain unassigned; literal candidates and ambiguous/generated names stay separate
+in private records. No PS2 ABI or memory layout is imported.
+
+## State18 reference-reset routing — 9 November 2026
+
+`state18_reference_reset::choose` implements the action10 route used by Kabuto's
+reference-release consumer. A preferred state32/82 wins independently of context;
+otherwise the first matching full 32-bit dispatch context in the supplied list
+wins. No candidate visibility or fallback-state filter is added. Without a point,
+the route requests current position `[0, 0, 200]`; it does not invent a history or
+affine-cache reset. `Plan::apply` requires actual reset and position services with
+no successful defaults. Inactive actions request neither preferred/fallback
+metadata nor a writer.
+Plans hold no actor alive; the required writer must validate current source/point
+ownership when executing one. A plan is not a deferred phase or readiness token.
+
+Original controls match 512 calls / 136,510 source-header, route and prefix words:
+322 inactive actions, 157 reset requests and 33 fallback writes. They execute the
+original route and state predicates. Source headers, preferred identities, eight
+candidate headers and ordered list nodes remain supplied. The reset entry records
+the published prefix and deliberately mutates source position/flags/action as a
+declared provider; its original constructor/reset body is not executed. Native
+fallback stores execute, and candidate headers remain unchanged. High action/state
+words, different preferred contexts and multiple fallback matches are covered.
+
+`Session::plan_state18_reference_reset` reads actual owned source action/context,
+preferred state and list13 metadata lazily, refusing absent/foreign used metadata.
+The preferred relationship is a caller input until its producer and lifetime are
+bound. A synthetic header-only registry control verifies list order, exact context,
+preferred priority, ignored inactive inputs, payload preservation and foreign-key
+refusal. It does not construct resource-backed actors or execute the reset body.
+
+This is a shared dependency route, not another Kabuto primary phase. Real reset
+construction, reference ownership/lifetime, current world services and the complete
+release/action/animation cadence remain open. No live NPC/player interaction,
+new capture, download or fidelity claim follows. Prototype PS2 attributions stay
+unknown; detailed records remain private and no PS2 ABI/layout is imported.
+
+## State18 reset body
+
+`state18_reference_reset::body::execute` implements the acquired reset body with
+required typed services and current owned `actor_fields::Fields` access. Its
+false mode branch restores position and heading from the stored state18 pose,
+updates position history and requests the acquired global-cache reset. The
+`birth_pose` service denotes supplied stored values; its writer remains unbound.
+The other
+branch reads the current point: a zero class copies its pose with the acquired
+horizontal offset; a nonzero class requests a distinct constructed actor, applies
+offsets, prepares its transform, selects and advances animation, then resolves
+the resulting cached/root-reference matrices. It reuses the shared affine product
+and planar-angle algorithm, adding the heading offset before the final f32 store.
+The temporary actor receives the acquired deferred-removal flag.
+
+The common tail publishes scale, zero velocity, action, preferred point, control,
+context and response fields before requesting the source animation. It rereads
+the mode and response afterward. A required conditional child construction uses
+the point's current full context, then publishes the acquired parent/reference,
+behavior and flags. The source and point may be the same actor; constructors
+must return distinct owned actors. Used resource/payload/reference storage must
+remain alive. These relationships are contracts for real integration, not an
+assumption that any supplied identity is currently owned.
+
+Original controls match 512 calls / 919,700 normalized-header, service-prefix and
+argument words. They execute the entire original reset, mode predicates, position
+and history writers, global-cache stores, deferred flag writer, affine product
+and planar-angle helper at Double53 precision. Construction, changed-position
+footprint invalidation, transform preparation and both animation calls have
+declared mutating entry providers. The controls preserve supplied full headers,
+payloads and current affine/reference matrices, cover source/point aliasing,
+preexisting preferred/parent identities, zero and near-wrap angle inputs, and
+mode/context/response changes after animation. They do not execute the original
+bodies of those supplied providers or establish their live ownership.
+
+An additional declared late-animation failure control checks that preceding
+scale, velocity, action and preferred-reference stores remain published and no
+later attachment is constructed. Errors are not rolled back; an owning caller
+must quarantine a failed operation rather than replay earlier effects. These are
+CPU contracts, without native exception-path equivalence.
+
+The read-only Session route is still separate: its preferred input is supplied,
+and this body has no Session writer, global/animation backend, lifetime binding or
+numbered Kabuto phase. All initializer/history prerequisites remain explicit.
+Full preceding release, primary/world integration, movement, feeding and growth
+remain open. No new capture, download, ordinary gameplay or fidelity claim is
+added. Prototype PS2 correspondences remain unknown.
+
+## Pre-query reference release
+
+`kabuto_reference_release::advance` implements the acquired interval between the
+resource stage and reference querying. The actual local-owner identity gates the
+whole interval; other owners skip it. An absent reference or unset acquired
+physical bit restores the release countdown. An active reference consumes the
+current object clock and ordered slow-area result. The clock remains wide for
+subtraction and the sign check; the next comparison reads the stored f32 timer.
+A positive value that underflows to stored zero can therefore trigger release.
+
+The release captures an actor and scale before the notification guard/transport.
+It preserves the captured scale across service effects, applies current scale
+division, clears only that actor's parent, then handles the acquired state89,
+state18 or state3 branch. State89 preserves the signed parent-reference comparison; the
+state3 scale comes from its current supplied payload. The captured actor receives
+the acquired flags. The impulse instead resolves the reference again after the
+services, reads current positions, uses shared normalization and requests the
+shared physical dispatch. Only after it returns is the source reference cleared.
+
+Required services expose current owned fields and metadata, parent/parameter
+writers, state18 reset, clock, transport and physical dispatch. Notification
+eligibility reuses `NotificationContext::eligible`; clock and impulse controls
+reuse `object_time::seconds` and `actor_velocity_impulse::apply`. No alternate
+normalizer, clock, actor backend or physical controller is introduced. Services
+may change the published reference/timer/scale and actor fields. Errors retain
+preceding effects; an owner must quarantine a failed call rather than replay it.
+
+Original controls match 512 intervals / 1,331,545 normalized header, payload,
+argument and service-prefix words. They execute the complete original interval,
+including ordered supplied slow areas, notification guards, state89/state3
+helpers, normalization and velocity dispatch. The first 128 also execute the
+original state18 route, preferred state32/82 predicates and full false-mode reset
+body, with declared current preferred identities and animation entry effects.
+The other reset cases use a declared mutating reset-entry provider. Transport is
+a declared mutating entry provider throughout; original transport and animation
+bodies are not acquired here. Other reset modes retain their independent body
+controls, rather than being claimed by this compound profile.
+
+Controls cover current-reference changes during transport/reset, captured scale
+preservation, full state/context/owner words, signed parent-reference words, source aliases,
+position and velocity prefixes, wide-clock cancellation, stored-timer underflow
+and final reference clearing after transport mutations. Eight additional declared
+late impulse-transport failures retain the published velocity and reference;
+these are owned error controls, without native exception-path equivalence.
+Full headers/payloads, local/peer identities, time/areas and service effects remain
+supplied. They are not resource-backed Session construction or ordinary gameplay.
+
+The interval is not yet a Factory/Session phase: actual reference and parent
+lifetime, physical ownership, global cache, reset/animation backend and transport
+must be bound before primary/history progress can be acknowledged. No pending
+initializer is cleared, no actor frame is finished, and no new capture, playable
+preview or visual-fidelity claim follows. Prototype PS2 correspondences remain
+unknown; raw evidence and symbol records stay private.
+
+## Common attachment request and external rules
+
+`actor_attachment_bind::bind` implements the acquired common request reached by
+Kabuto's reference producers. The child may first require a state3 or state99
+service. Optional notification precedes binding publication. The request then
+publishes the parent and full parent-reference index, resolves the current child
+type in source order, and publishes the selected child-reference index. A missing
+rule uses the acquired absent-reference value; an unknown table is an error.
+The current full animation slot is compared before selection, and the scale is
+read after service effects before multiplication. The later action request uses
+the captured signed parent-reference index and freshly read flags/authority.
+
+The child/parent indices follow the existing owned attachment representation;
+they are not the separate actor behavior. The transport carries only the low
+byte of the parent index while the binding preserves the complete word. Rule
+resolution retains first matches, negative termination and explicit refusal of
+unsupported matched indices. Child owner metadata is requested only if transport
+eligibility requires it. Shared notification ownership and `kabuto_contact::Request`
+are reused; there is no parallel peer or action-dispatch implementation.
+
+`actor_attachment_bind::catalog::Catalog` reads the caller-supplied executable as
+data through the existing bounded PE metadata reader. Only the acquired debug
+layout is supported. Its numeric header recognition is not authentication or code
+execution. The immutable rules preserve all acquired reference/animation words;
+no original table is embedded. Layout, missing terminator and matched-index
+refusals do not invent fallback rules. The key-to-live-actor identity still needs
+its actual constructor/type-change producer and lifetime binding.
+
+Original controls match 512 calls / 389,023 normalized header, argument and
+service-prefix words. The first 128 use the actual pinned initialized table;
+the remaining cases use declared duplicate/terminator tables. A separate reader
+control matches eleven rows including the terminator / 99 scalar words. Original
+state and ownership predicates and the action wrapper execute. State3/state99
+preparation, primary animation, transport and final action dispatch have declared
+mutating entry providers; their bodies/outcomes are not established here.
+Controls cover source/child aliasing, callback changes to type/scale/context,
+both indices, full animation words, complete unmatched parent-reference words,
+negative zero, and the nine defined transport bytes without a padding assumption.
+Ninety-seven declared late-action errors retain preceding bindings and effects;
+they do not prove native exception equivalence or delivered gameplay damage.
+
+The reset's typed interface also now updates `Fields::control_flags` and requires
+an independent behavior writer, preserving `Fields::response_flags`. Earlier
+standalone control views had assigned the control word to a response alias; their
+byte agreement did not establish a direct Session field mapping. Canonical field
+projections now retain exact agreement for the 919,700-word reset body and the
+1,331,545-word release composition. A synthetic late-animation failure control
+checks the three owners stay separate before and after failure.
+
+Actual Session binding, actor/channel/resource lifetime, preparation, animation,
+transport and action services remain required. No numbered Kabuto phase, pending
+initializer/history completion, live movement/feeding/growth, new capture or
+download is added. Existing Mecc/Delphi ownership remains unchanged; prototype
+PS2 correspondences remain unknown and detailed records stay private.
+
+Session now owns the supplied words beyond parent removal through
+`Resident::attachment_words` and `Session::clear_actor_parent`. Clearing the
+parent retains both reference indices and the separate supplied behavior word.
+A matching presentation mirror is cleared; an independent presentation parent
+is preserved. Repeated clearing does not discard retained words, and a new
+binding supersedes them. Foreign/removed identities refuse mutation, and owner
+cleanup drops the retained storage. The installed resource-phase query control
+also uses this operation rather than directly discarding its optional attachment.
+
+This is a storage primitive, not the complete release callback. It executes no
+animation, impulse, transport, wield cleanup or numbered primary phase. Actors
+without a supplied binding return unknown words rather than fabricated zeros.
+Fresh behavior still requires its actual constructor or type-change producer.
+The ordinary configuration initializer does not initialize that word; the later
+constructor copy handles response, control and behavior separately. Zeros observed
+under supplied cold templates establish no universal live default. Current-reference
+publication, backend services and complete lifecycle binding remain prerequisites.

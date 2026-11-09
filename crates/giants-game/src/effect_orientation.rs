@@ -1,7 +1,9 @@
 //! State78 matrix-to-angle extraction and angular stepping, kept distinct from
 //! the older render-cache Euler convention. Inputs and callback time are explicit.
 use crate::procedural_aim::Matrix;
-fn angle(y: f32, x: f32) -> f32 {
+/// Shared PC planar angle before the caller's final f32 store. Some callers
+/// add a heading offset while the result is still held at Double53 precision.
+pub(crate) fn angle_wide(y: f32, x: f32) -> f64 {
     let mut value = if x == 0. && y == 0. {
         0.
     } else {
@@ -13,7 +15,10 @@ fn angle(y: f32, x: f32) -> f32 {
     if value >= f64::from(359.99f32) {
         value = 0.;
     }
-    value as f32
+    value
+}
+fn angle(y: f32, x: f32) -> f32 {
+    angle_wide(y, x) as f32
 }
 pub fn from_matrix(matrix: Matrix) -> Result<[f32; 3], &'static str> {
     if matrix.flags & 0x20 != 0 || !matrix.values.iter().all(|v| v.is_finite()) {

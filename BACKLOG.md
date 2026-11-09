@@ -433,6 +433,71 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented at the CPU boundary: the common attachment request used by Kabuto
+  matches 512 original calls / 389,023 normalized header/service words. The first
+  128 use the actual initialized executable rule table; its read-only bounded
+  reader independently matches 99 scalar words. First match, terminator, current
+  animation and scale, complete parent-reference words and low-byte transport
+  are preserved. State3/state99 preparation, animation, transport and action
+  dispatch remain declared required services. The catalog supports only its
+  acquired executable layout; no table bytes are embedded or published.
+  The reset body now uses the canonical control word and a separate behavior
+  writer, preserving independent response flags. Its 919,700-word body control
+  and the 1,331,545-word release composition still agree. Session now retains
+  supplied attachment indices and behavior after clearing the parent, without
+  manufacturing defaults for actors lacking a producer. Repeated detach,
+  rebind, foreign identity and cleanup controls cover that storage primitive.
+  Bind actual current-reference publication, channels, constructor behavior,
+  lifetimes and backend
+  services before gameplay admission; the existing Mecc/Delphi paths are retained.
+- Implemented at the CPU boundary: pre-query reference release matches 512
+  original intervals / 1,331,545 normalized header/payload/service words. The
+  first 128 compose the actual state18 route and false-mode reset body; the
+  other reset branches retain an explicit mutating entry provider. Original
+  clock/slow-area selection, state89 parameter store, state3 scale predicate,
+  normalization and velocity dispatch execute. Required transport and animation
+  providers remain declared. Captured-target cleanup stays separate from the
+  post-service reference used for the impulse; wide timer subtraction and the
+  second stored-timer comparison retain their distinct arithmetic. Eight late
+  impulse-transport failures preserve published velocity and the uncleared
+  reference. Bind actual Session reference/parent/physical/global ownership and
+  lifetime, animation/reset services and transport before consuming this as a
+  numbered Kabuto phase. Full primary, world scheduling and live movement remain
+  open; this does not finish the initializer/history prerequisites.
+- Implemented at the CPU boundary: the complete state18 reference-reset body
+  agrees on 512 original calls / 919,700 normalized-header, service-prefix and argument
+  words. It restores the source's stored pose when the mode predicate is false, or uses the
+  current point and optional constructed actor in the other branch. Shared affine
+  multiplication and the existing planar-angle algorithm are reused, preserving
+  the wide heading addition before its final store. Common velocity/scale/action,
+  preferred-reference/context and conditional child-attachment stores are retained.
+  Construction, footprint invalidation, transform preparation and animation have
+  declared mutating entry providers in this control; their original bodies and
+  real Session ownership/lifetime are not established by this comparison. Required
+  services have no defaults. Bind their actual runtime producers, including the
+  preferred-reference lifetime and global cache, before connecting this body to
+  the preceding Kabuto reference-release phase. A failed late service retains
+  preceding effects; callers must quarantine rather than replay the operation.
+- Implemented: the action-gated state18 reset route matches 512 original calls /
+  136,510 source-header, route and service-prefix words. Preferred state32/82
+  wins without a context test; otherwise the first matching full context in
+  list13 wins, without added visibility/state filters. Only action10 enters
+  selection; failure to find a point requests the acquired current position.
+  This earlier route-only control supplies declared mutations at the reset
+  entry; the separate body control above does not establish constructor parity.
+  A read-only Session adapter resolves actual header metadata and list13 lazily;
+  its preferred relationship is still an explicit caller input. Synthetic
+  header-only ownership tests add no resource constructor, target publication,
+  completed Kabuto phase, NPC behavior or ordinary gameplay admission.
+- Shared dependency corrected: the affine product used by the reference-release
+  path now preserves native translation addition order under cancellation.
+  All 512 finite flagged-matrix controls / 8,704 output words agree, including
+  native destination/input aliasing and unchanged separate inputs. The observed
+  indirect slot selects the same internal product for all three examined modes;
+  no external DLL, clock or RNG owner is needed for this acquired profile.
+  Projective products, partial buffer overlap and other initialization paths
+  remain outside this control. Reference-release construction/lifecycle and the
+  reset-handler services still require their own acquisition and integration.
 - Implemented at the CPU boundary: post-query target filtering preserves the raw
   result, rejects a positive score outside squared bounds extents, decrements the
   retained-target timer, announces accepted selection before marker reset, and

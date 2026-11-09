@@ -50,10 +50,13 @@ pub(super) fn header(session: &Session, id: Id) -> Vec<u32> {
         words[0x104 / 4] = u32::from(group.physics.is_some());
         words[0x154 / 4] = group.radius.to_bits();
     }
-    if let Some(a) = actor.attachment {
+    if actor.attachment.is_some() {
         words[0x210 / 4] = 1;
+    }
+    if let Some(a) = actor.attachment_words() {
         words[0x214 / 4] = a.child_reference;
         words[0x218 / 4] = a.parent_reference;
+        words[0xe4 / 4] = a.behavior;
     }
     words
 }
