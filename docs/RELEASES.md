@@ -36,6 +36,14 @@ no dependency, new playable capture or downloadable preview; all earlier source,
 executable, notices and package/checksum receipts retain their exact identities.
 The main integration lane owns combined publication after review and validation.
 
+Combined source `7cb17c5882e9e415f8504902e4f673563fea9c52` retains the latest
+published Flick/Kabuto dependencies and passes 831 synthetic workspace Rust tests
+(48 ignored), all four silent installed-data impact controls, 41 Python tests,
+Rustfmt, strict workspace Clippy and roadmap/site/JavaScript checks. The rebuilt
+voice comparator repeats both native datasets on that source. The limited
+history-pattern audit reports zero findings across 524 commits / 3,316 blobs.
+These source controls do not relabel any existing executable or runtime receipt.
+
 ## Kabuto owned post-control/resource composition — 9 November 2026
 
 The actual Factory/Session phase now continues from its control-force token
