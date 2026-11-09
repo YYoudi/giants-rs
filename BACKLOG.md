@@ -332,6 +332,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented: factory-bound input/orientation and force-to-position prefix now
+  owns its model/velocity/history fields and reuses common primary history,
+  actor orientation, object time, integration and position limiting. A 384-context
+  typed projection matches 89,472 words; a separate 384-context Session control
+  matches 155,136 complete owner-header/payload words. Incoming forces, resolved
+  commands, preferences, poses and ordered time areas are supplied boundaries.
+  The owned profile is unparented; the kernel separately covers frozen-parent
+  behavior. Source input-mask order and the opaque header-mode gate are retained.
+  The prefix consumes a real history phase, publishes atomically, and refuses
+  replays/new histories while contacts, classification, new control forces and
+  the primary remainder have no consumer. All four initializer gates remain.
 - Implemented: factory-bound target decision reads the actual owner state threshold
   and target, preserves the shared wide integer conversion and four-value wrap,
   and publishes the target before its notification and the reset after it. The

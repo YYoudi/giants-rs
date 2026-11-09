@@ -1,6 +1,6 @@
 use super::*;
 
-fn header(session: &Session, id: Id) -> Vec<u32> {
+pub(super) fn header(session: &Session, id: Id) -> Vec<u32> {
     let actor = session.get(id).unwrap();
     let f = actor.construction_fields.as_ref().unwrap();
     let mut words = vec![0; 193];

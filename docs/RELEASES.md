@@ -1,5 +1,30 @@
 # Preview releases and milestone integration
 
+## Kabuto owned input/orientation and force integration — 9 November 2026
+
+The bounded prefix now owns model rates, velocities, look and input state and
+composes existing common history, orientation, time, force integration and
+position-limit services. Its factory-bound Session publication is atomic and
+retains all four initializer prerequisites. A 384-context typed projection
+matches 89,472 words. A separate 384-context Session control matches 155,136
+complete header/payload words; the original common wrapper and the Rust history
+gate both execute. The source callback's earlier phases, incoming forces,
+commands, preferences and world/time inputs remain declared boundaries.
+
+This is a prefix, not a whole controller: contacts, current control-force
+production, reactions and the remaining primary have no consumer yet. A completed
+prefix cannot begin another history or acknowledge gameplay readiness. No live
+movement, keyboard mapping or visual fidelity is certified. Prototype PS2
+correspondences remain unknown, with private lookup/evidence lineage retained.
+
+Validation: 778 synthetic Rust tests pass (30 ignored), all eight silent Kabuto
+installed-data controls pass, together with 40 Python tests, Rustfmt, Clippy with
+warnings denied, generated roadmap/site and JavaScript checks. Foreign owners,
+wrong frame numbers, invalid pure preparation and repeated/unfinished phases
+refuse. Existing Mecc/Delphi code and common-kernel arithmetic are unchanged.
+This introduces no dependency or bundled asset and creates no playable preview;
+existing package/notices/checksum receipts retain their own build identities.
+
 ## Kabuto owned target decision — 9 November 2026
 
 The factory-bound decision now reads the actual owner state threshold and target,
