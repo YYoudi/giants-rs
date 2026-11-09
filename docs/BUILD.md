@@ -92,6 +92,7 @@ With `GIANTS_MECC_WORLD_ROOT` and an isolated target directory, run:
 ```powershell
 cargo test --locked -p giants-game source_positional_impact_retains_ordered_actors_and_late_failure_without_replay --target x86_64-pc-windows-gnu -- --ignored
 cargo test --locked -p giants-game source_positional_impact_ticks_owned_clocks_and_marks_only_after_stop --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-game source_positional_impact_retires_only_after_tracked_release_and_rechecks_references --target x86_64-pc-windows-gnu -- --ignored
 ```
 
 This silent source-resource control constructs actual owned state-78 actors,
@@ -102,7 +103,11 @@ launches no original executable and does not admit the impact into the main worl
 scheduler. The second control executes the actual owned timed callback, descriptor
 clocks/references and shared ANM epoch; it checks deferred marking after a required
 test stop provider and retained late failure. Marked actors remain owned. Neither
-control performs live audio transport or common retirement. See OWNED_MECC_CONTACT.md.
+of the first two controls performs live audio transport or common retirement.
+The third checks actor-local core retirement after a required test release
+provider, reference rechecks, preserved peers, reuse and late-failure quarantine.
+It does not execute the enclosing global cleanup prepass or a real device release.
+See OWNED_MECC_CONTACT.md.
 
 ## Optional Delphi resource check
 
@@ -141,7 +146,7 @@ For the owned ordinary Delphi physical/jump/ANM/history composition, with the sa
 cargo test --locked -p giants-game source_delphi_physical_owns_motion_shares_events_and_quarantines_failure --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-This silent CPU control checks six owners, persistent motion/contact/jump,
+This silent CPU control checks seven owners, persistent motion/contact/jump,
 shared class events, physical/locomotion/controlled/authored-camera profiles using external
 clip definitions, separate look state, body roll settling, paused terrain exclusion, late secondary
 and invalid-rotation quarantine, profile refusal and cleanup. It creates no window or audio device
@@ -176,6 +181,13 @@ retry. Active turbo, immersion and required movement/splash/nonempty-retirement
 services remain unprepared. Native scalar and callback-prefix comparisons retain
 separate supplied boundaries; neither this control nor those CPU comparisons
 execute live Delphi gameplay.
+
+The seventh owner adds 64 item/absent-auxiliary-tail updates after reserve and
+checks retention of completed timing/history/ANM when a nonempty auxiliary
+resource is injected. Retry preserves both payload and epoch. The actual common
+actor list is scanned using acquired hidden/state/owner gates; eligible target
+services remain refusals. This control supplies offline mode context and does not
+execute active item/spell services, network transport or live Delphi gameplay.
 
 The locomotion profile reads the original executable's data as an external asset.
 Set `GIANTS_DELPHI_EXECUTABLE` for a separate configurable metadata file; otherwise
@@ -236,6 +248,7 @@ For the bounded owned input/orientation and force-to-position prefix:
 ```powershell
 cargo test --locked -p giants-game source_kabuto_motion_prefix_owns_fields_and_retains_pending_primary --target x86_64-pc-windows-gnu -- --ignored
 cargo test --locked -p giants-game source_kabuto_classification --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-game source_kabuto_object_contacts --target x86_64-pc-windows-gnu -- --ignored
 ```
 
 This uses the same `GIANTS_KABUTO_ROOT`, real cold resources, actual common
@@ -438,3 +451,9 @@ supply prepared geometry/peer and terrain services, check late-failure quarantin
 and retain all initializer gates. They do not enable live world admission or a
 second primary frame. Private native control inputs/receipts stay under ignored
 local output and are not required by the portable synthetic suite.
+
+The additional-contact source checks consume the real classified owner and raw
+preceding reference buffers, test ordered Session action effects, and refuse
+reentry/foreign/stale identities. They retain all initializer/history gates.
+Prepared scene/action providers and private supplied-boundary PC controls are
+separate from live world/ANM production, actual action execution and playability.

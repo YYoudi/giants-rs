@@ -221,6 +221,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Active-control/immersion admission, real linked-actor movement, nonempty context
   retirement, splash, activation and actual recharge-inhibition production remain
   open. No active turbo, live Delphi or fidelity promotion follows.
+- Implemented: the frozen owned item/absent-auxiliary tail composes acquired
+  inventory selection and actor-local/global timing after reserve, before
+  secondary/zero-time ANM. Two native controls match 1,358 complete callbacks and
+  690 required-action entry prefixes / 2,492,416 words, with ordered slow areas.
+  Two expanded 256-frame, 22-actor sequences match 4,081,152 words and exact RNG.
+  A seventh owner checks 64 updates and retained late auxiliary failure/no replay.
+  Actual common-list hidden/state/owner gates execute; eligible state-90 copy,
+  distance, held/interaction services, active item/spell actions and nonempty
+  auxiliary resources remain open. Mode/participant/owner identity context stays
+  supplied. No live Delphi, networking or fidelity promotion follows.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -391,6 +401,33 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented: the acquired additional object-contact traversal now filters the
+  prepared scene, selects height/radius or historical-reference probes, runs
+  cached/uncached transforms and box/radial queries, then executes the actual
+  callback's request/reference policy. Two 1,024-invocation original-PC controls
+  match 49,317 trace/state words, including dense caches and detailed query
+  coordinates/distances. They exercise 924 contacts, 83 requests and 551 writes.
+  The fixed PC callback always returns zero; its normal returns make the later
+  correction blocks unreachable. Positive native controls observe no entry there
+  and unchanged owner headers, despite arbitrary action-provider return values.
+  Do not add an invented motion response or replace the pass with an empty-list
+  return. The native result remains false even when peer effects occurred.
+- Implemented: the Factory/Session consumer requires its exact classified history,
+  specification and physical storage. It reads actual affine and preceding raw
+  reference storage, including constructor-cleared slots, plus Factory globals.
+  Another 1,024 source-backed controls match 26,543 original-helper words at an
+  explicitly supplied classified boundary; prior PC cold/history phases are not
+  rerun in that control. The earlier motion/classification proof stays separate.
+  An actual original cold construction independently confirms eleven cleared
+  reference buffers. This acquired historical read does not certify current ANM.
+  Actions see the real Session; their mutations are reread before later peers.
+  Reentry, foreign/stale factories and wrong numbers refuse. Late errors retain
+  effects and quarantine replay; source-owner cancellation does not resurrect it.
+  Complete/entered tokens retain all history and initializer prerequisites.
+  Prepared list/pose/reference inputs, supplied trig/default transform context,
+  action execution and dynamic membership remain boundaries, not live-world
+  integration. Next acquire current control forces/gravity and the primary
+  remainder while connecting the actual scene/action producers.
 - Implemented CPU dependency: the callback used by the subsequent object-contact
   traversal retains the original authority guard, gated service-11 request and
   post-service peer-flag reread before its peer-reference store. Its native return
@@ -399,9 +436,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   59 requests and 157 writes. The original authority helpers run; the action
   dispatcher is an explicit provider that mutates flags/reference to check order.
   State-1 scaling consumes an opaque state scalar; other states bypass it. No
-  gameplay meaning, damage execution, feeding rule or Session/world admission is
-  inferred. The full additional geometry traversal, its indirect transform callback and
-  geometry/response dependencies still need controls and a real owned consumer.
+  gameplay meaning, damage execution, feeding rule or live-world admission is
+  inferred. The additional traversal now has the separate owned consumer/control
+  described above; actual action and scene production remain prerequisites.
   Static inspection shows that the call following classification is this extra
   object-contact pass, not merely spatial publication. Keep the entered history
   until it, world publication, current forces and the primary remainder complete.
@@ -657,12 +694,28 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Late stop failure keeps completed writes and forbids another attempt. Across
   64 native sequences / 384 callbacks, all 512 normalized full snapshots including
   stop entry match 141,824 words. Native audio remains disabled and local time
-  supplied. Marked actors remain owned; common retirement, live positional audio,
-  other effect profiles and enclosing scheduling stay open. Next search prototype
-  PS2 names for the actual common retirement path before analyzing it, acquire
-  release/origin semantics there, then bind the independent impact damage/channel
-  composition. Preserve exact identities and aliases; current callback and touched
-  helper attributions remain unknown.
+  supplied. Actor-local core retirement now requires tracked external release,
+  rechecks references, drops the acquired payload/reference ownership and unlinks
+  its common registration. Native controls cover 192 retirements/reuses with a
+  preserved live peer: 53,184 release-entry state words and 2,880 ownership-protocol
+  words match. Source-data checks retain failed release/new-reference effects
+  without replay and reject foreign/stale/referenced identities. The enclosing
+  propagation, active-context, global audio/reference prepass, live positional
+  audio, other profiles and world scheduling remain open. Next search prototype
+  PS2 names for each actual cleanup-prepass or impact service before acquisition,
+  then bind the independent damage/channel composition. Explicit context
+  cancellation and pointer-slot reuse semantics remain separate from core actor
+  retirement. Preserve identities/aliases; current touched-helper attributions
+  remain unknown.
+  Before binding impact audio, retain separate effect-VM and audio-module RNG
+  owners. Original module-specific TLS allocation/getter controls and 20 native
+  interleavings keep six VM draws independent of one frequency draw. OS TLS and
+  existing thread blocks are supplied; no original launch/device is certified.
+  Both source impact cues vary frequency. Existing supplied-provider interleaving
+  tests do not prove shared live ownership. Reuse actual ready-voice transport
+  with its audio state, preserving attachment-root play/stop routing, source-miss
+  versus decode/device failure and real start acknowledgement. Do not redirect
+  audio variation into the VM state or acknowledge a merely queued entity.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

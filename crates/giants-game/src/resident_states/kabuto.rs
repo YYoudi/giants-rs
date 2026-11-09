@@ -21,6 +21,11 @@ mod motion_tests;
 
 #[path = "kabuto_classification.rs"]
 mod classification;
+#[cfg(test)]
+#[path = "kabuto_object_contact_tests.rs"]
+mod object_contact_tests;
+#[path = "kabuto_object_contacts.rs"]
+mod object_contacts;
 
 impl Session {
     /// Common history entry before the bounded Kabuto motion prefix. No complete
@@ -45,6 +50,8 @@ impl Session {
             || group.geometry_transition_failure.is_some()
             || group.motion_history.is_some()
             || group.motion_prefix_completed.is_some()
+            || group.object_contacts_completed.is_some()
+            || group.object_contacts_entered.is_some()
             || self
                 .specification(owner)
                 .is_none_or(|s| !Arc::ptr_eq(s, &group.declared_class))
@@ -94,6 +101,8 @@ impl Session {
             || group.geometry_transition_failure.is_some()
             || group.motion_history != Some(number)
             || group.motion_prefix_completed.is_some()
+            || group.object_contacts_completed.is_some()
+            || group.object_contacts_entered.is_some()
             || !Arc::ptr_eq(&group.declared_class, &resources.specification)
             || self
                 .specification(owner)

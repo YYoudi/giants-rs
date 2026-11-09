@@ -968,3 +968,67 @@ whole geometry traversal, live scene mutation, Session scheduling and gameplay
 remain outside this proof. Raw prototype PS2 names, demangling uncertainties,
 earlier aliases, PC/prototype hashes and relationships remain private; all new
 correspondences stay unknown. No initializer/history prerequisite is cleared.
+
+## Owned additional object contacts — 9 November 2026
+
+`kabuto_object_contacts::traverse` implements the acquired prepared-scene profile
+of the complete additional-contact routine after physical classification. It
+preserves filter order, strict height boundaries, three opaque probe masks,
+historical-reference transforms, radius/scale ordering, cached and uncached box
+queries and the inclusive radial-distance comparison. The existing inverse,
+uncached Euler, volume-query, authority and contact-policy services are reused.
+The default batch reference transform retains its own accumulation order.
+
+An important PC-specific constraint is acquired rather than guessed: the direct
+callback always returns zero after its normal service returns. Its reference and
+request effects execute, then the parent advances to the next peer. The later
+movement-response blocks cannot execute through that fixed callback. The port
+therefore does not invent a second collision correction. The routine's false
+native result means neither failure nor absence of contact, and never completes
+a primary frame. The original action provider's arbitrary integer return is
+cleared by the callback before that parent test.
+
+Two independent 1,024-invocation controls run the complete original routine on
+supplied linked scenes. Rust matches 49,317 trace/state words: selected probe
+coordinates/masks, local box coordinates/extents, distances, callback/request
+order and peer flags/references. The controls include cached/uncached poses,
+dense supplied caches, filtered/self/parent/classless objects, disabled/empty
+contexts, next-peer flag changes and owner-scalar mutations. They exercise 924
+contacts, 83 action requests and 551 reference writes. Original owner headers
+and other peer bytes remain unchanged; response-entry observations remain zero.
+A synthetic supplied trig table and the default indirect transform profile are
+boundaries, not evidence of Debug table initialization or optimized callbacks.
+
+`Factory::advance_object_contacts` binds the phase to the actual classified
+history number, factory specification, payload/physical cache and Session owner.
+It takes affine data and the preceding local reference-buffer translations from
+owned storage. This is the acquired consumer's historical read, including real
+constructor-cleared unsampled buffers; it does not make those buffers current
+ANM samples or loosen the current-pose query APIs. An independent actual original
+cold construction confirms eleven all-zero buffers, including these two slots.
+The global request scalar comes from this Factory's data and is consumed only
+at the acquired gated load boundary.
+
+The action boundary receives the real Session, preserving changes and rereading
+its owner before subsequent queries. Entered tokens prevent recursive/repeated
+calls. Wrong frame numbers, foreign factories and retired/cleared identities
+refuse. Provider failure retains prior effects and quarantines replay; cancellation
+inside an action cannot resurrect the owner. These refusal/error rules are owned
+policy, not native exception semantics. Prepared membership identities must stay
+stable; actual action execution and dynamic membership production remain pending.
+
+A separate 1,024-case source-backed phase matches 26,543 original-helper words.
+The Rust fixture constructs the actual group and runs its own history/motion/
+classification, then exports the classified stage-entry fixture before executing
+additional contacts. PC consumes that provided boundary, never supplying its
+computed outputs back to Rust. Earlier original-PC cold/history/classification
+receipts remain separate; this is not a new end-to-end native mission proof.
+Actual Factory globals, affine, preceding references, payload mutations and
+unchanged other header/payload/list/registration state are checked.
+
+All initializer prerequisites and entered history remain set after success.
+Current control forces, gravity, remaining primary/state consumers, live scene
+and action dispatch, ANM/camera/world/GPU cadence and dynamic cleanup remain open.
+No new playable controller, screenshot, package or visual-fidelity claim follows.
+Prototype PS2 correspondences remain unknown; raw symbols, demangling uncertainty,
+previous aliases and identity-bound evidence remain private and separate.

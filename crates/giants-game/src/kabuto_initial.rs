@@ -38,6 +38,8 @@ pub struct Group {
     pub(crate) motion_history: Option<u64>,
     pub(crate) motion_prefix_completed: Option<u64>,
     pub(crate) classification_completed: Option<u64>,
+    pub(crate) object_contacts_completed: Option<u64>,
+    pub(crate) object_contacts_entered: Option<u64>,
     pub(crate) contact: crate::kabuto_classification::Contact,
     pub declared_class: Arc<specification::Prepared>,
     pub geometry: Geometry,
@@ -90,6 +92,30 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    /// Acquired additional contacts after actual physical classification. Action
+    /// execution and scene membership remain explicit services, not readiness.
+    pub fn advance_object_contacts(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        scene: crate::kabuto_object_contacts::Scene<'_>,
+        execute: impl FnMut(
+            &mut Session,
+            crate::kabuto_contact::Request<u32>,
+            &mut [crate::kabuto_object_contacts::Peer<u32>],
+        ) -> Result<(), &'static str>,
+        observe: impl FnMut(crate::kabuto_object_contacts::Event<u32>),
+    ) -> Result<bool, String> {
+        session.advance_kabuto_object_contacts(
+            owner,
+            (&self.resources, &self.globals),
+            number,
+            scene,
+            execute,
+            observe,
+        )
+    }
     /// Consume the actual owned motion prefix. Prepared scene and terrain
     /// services remain explicit; this does not finish a primary/world frame.
     pub fn advance_classification(
@@ -355,6 +381,8 @@ impl Factory {
             motion_history: None,
             motion_prefix_completed: None,
             classification_completed: None,
+            object_contacts_completed: None,
+            object_contacts_entered: None,
             contact: Default::default(),
             declared_class: self.resources.specification.clone(),
             geometry,

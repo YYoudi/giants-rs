@@ -7050,6 +7050,105 @@ impl Session {
             m.failure = Some(error.into());
         }
     }
+    fn positional_impact_cleanup_preflight(&self, id: Id, started: bool) -> Result<Counts, String> {
+        let actor = self
+            .get(id)
+            .ok_or("impact retirement actor absent or foreign")?;
+        let metadata = actor
+            .positional_impact
+            .as_ref()
+            .ok_or("impact retirement owner absent")?;
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("impact retirement fields absent")?;
+        let data = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("impact retirement payload absent")?;
+        if actor.class != 867
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 78
+            || !actor.acquired_construction
+            || !metadata.complete
+            || metadata.failure.is_some()
+            || metadata.cleanup_started != started
+            || data.len() != 268
+            || !metadata.visual.as_ref().is_some_and(|v| {
+                let lifetime = f32::from_le_bytes(data[4..8].try_into().unwrap());
+                lifetime.is_finite()
+                    && lifetime > 0.
+                    && v.age.is_finite()
+                    && v.age >= lifetime
+                    && data[8..12] == v.age.to_le_bytes()
+            })
+            || data[0xf8..0x108].iter().any(|&b| b != 0)
+            || fields.object_flags & 0x8000 == 0
+            || fields.configuration[14] & 0x20 != 0
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+            || self.specification(id).is_none()
+            || self.state_resources(id).is_none()
+        {
+            return Err("impact retirement outside acquired marked class867 profile".into());
+        }
+        if self.declarations.values().any(|&value| value == id)
+            || !self.incoming_actor_references(id)?.is_empty()
+        {
+            return Err("impact retirement has unresolved declaration/actor references".into());
+        }
+        let links = self.links.memberships(id.serial);
+        if links.len() != 1 || links[0].1 != 0 {
+            return Err("impact retirement requires its common-only registration".into());
+        }
+        Ok(Counts {
+            residents: 1,
+            payload_bytes: 268,
+            registrations: 1,
+        })
+    }
+    /// Complete the acquired unreferenced, expired class867 core retirement.
+    /// Required external release runs while the real actor/resources are owned.
+    /// A late failure retains core storage and forbids replay. This does not run
+    /// the enclosing world's cascade, active-context or global audio cleanup.
+    pub fn cleanup_positional_impact(
+        &mut self,
+        id: Id,
+        services: &mut impl crate::actor_retirement::Services,
+    ) -> Result<Counts, String> {
+        let expected = self.positional_impact_cleanup_preflight(id, false)?;
+        self.residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .positional_impact
+            .as_mut()
+            .unwrap()
+            .cleanup_started = true;
+        let result = (|| -> Result<Counts, String> {
+            services.release(self, id)?;
+            self.positional_impact_cleanup_preflight(id, true)?;
+            // Source release precedes unlink; the shared class assets and model
+            // caches remain ticket-owned. The physics view aliases this payload.
+            let actor = self
+                .residents
+                .remove(&id.serial)
+                .expect("validated impact actor");
+            drop(actor);
+            self.state_resources
+                .remove(&id.serial)
+                .expect("validated impact state resources");
+            self.specifications
+                .remove(&id.serial)
+                .expect("validated impact specification");
+            assert_eq!(self.links.remove_object(id.serial), expected.registrations);
+            Ok(expected)
+        })();
+        if let Err(ref error) = result {
+            self.fail_positional_impact(id, error);
+        }
+        result
+    }
     /// Acquired attached flags4 constructor and constant-scale configuration.
     /// The native list mask is zero even when the resource class suggests more.
     /// The initial matrix is local; world attachment resolution remains separate.

@@ -26,6 +26,7 @@ pub struct Metadata {
     pub complete: bool,
     pub failure: Option<String>,
     pub(crate) visual: Option<crate::effect_visual::Visual>,
+    pub(crate) cleanup_started: bool,
     source: Arc<giants_formats::effect_image::Image>,
 }
 impl Metadata {
@@ -40,11 +41,15 @@ impl std::fmt::Debug for Metadata {
             .field("entry_offset", &self.entry_offset)
             .field("complete", &self.complete)
             .field("failure", &self.failure)
+            .field("cleanup_started", &self.cleanup_started)
             .finish_non_exhaustive()
     }
 }
 /// A real provider receives the already-published actor and shared RNG at the
 /// native cue boundary, before size/lifetime/angular commands execute.
+/// This is the effect VM's RNG. It does not imply ownership by an audio DLL:
+/// the acquired debug audio module uses its own CRT state. Keep those streams
+/// separate; a provider may touch this stream only for an acquired VM-side draw.
 pub trait Cue {
     fn play(
         &mut self,
@@ -188,6 +193,7 @@ impl<'r> Factory<'r> {
                 complete: false,
                 failure: None,
                 visual: None,
+                cleanup_started: false,
                 source: image,
             },
             self.ticket,
@@ -358,6 +364,176 @@ mod tests {
     struct StopProvider {
         calls: usize,
         fail: bool,
+    }
+    struct ReleaseProvider {
+        calls: usize,
+        fail: bool,
+        bind_peer: Option<Id>,
+    }
+    impl crate::actor_retirement::Services for ReleaseProvider {
+        fn release(&mut self, session: &mut Session, id: Id) -> Result<(), String> {
+            self.calls += 1;
+            let actor = session.get(id).unwrap();
+            assert_eq!(
+                actor.construction_fields.as_ref().unwrap().object_flags & 0x8000,
+                0x8000
+            );
+            assert_eq!(actor.seed.storage.data().unwrap().len(), 268);
+            assert!(session.specification(id).is_some());
+            assert!(session.state_resources(id).is_some());
+            assert!(session.list(0).contains(&id));
+            if let Some(peer) = self.bind_peer {
+                session.set_presentation_parent(peer, Some(id))?;
+            }
+            if self.fail {
+                Err("declared late tracked release failure".into())
+            } else {
+                Ok(())
+            }
+        }
+    }
+    #[test]
+    #[ignore = "requires GIANTS_MECC_WORLD_ROOT; silent owned retirement/control only"]
+    fn source_positional_impact_retires_only_after_tracked_release_and_rechecks_references() {
+        let root = std::env::var_os("GIANTS_MECC_WORLD_ROOT").expect("GIANTS_MECC_WORLD_ROOT");
+        let resources =
+            SceneResources::load(std::path::Path::new(&root), "w_Story1.bin", "English").unwrap();
+        let mut pool = Pool::<Id>::from_active_resources(943, &resources);
+        let mut session = Session::new(944);
+        let mut factory = Factory::new(&resources);
+        let mut random = Random(1);
+        let mut cue = Provider {
+            calls: 0,
+            draws: 0,
+            fail: false,
+        };
+        let mut release = ReleaseProvider {
+            calls: 0,
+            fail: false,
+            bind_peer: None,
+        };
+        let mut stop = StopProvider {
+            calls: 0,
+            fail: false,
+        };
+        let mut stamp = crate::animation_epoch::Stamp::default();
+        let mut ids = vec![];
+        for _ in 0..2 {
+            let context = prepare(&mut pool, &mut random);
+            ids.push(
+                factory
+                    .activate(&mut session, &mut pool, context, &mut random, &mut cue)
+                    .unwrap(),
+            );
+        }
+        let [first, peer] = [ids[0], ids[1]];
+        assert!(
+            session
+                .cleanup_positional_impact(first, &mut release)
+                .is_err()
+        );
+        assert_eq!(release.calls, 0);
+        session
+            .advance_positional_impact(first, 0., &mut stamp, &mut stop)
+            .unwrap();
+        assert_eq!(
+            session
+                .advance_positional_impact(first, 1., &mut stamp, &mut stop)
+                .unwrap(),
+            Step::Marked
+        );
+        session.set_presentation_parent(peer, Some(first)).unwrap();
+        assert!(
+            session
+                .cleanup_positional_impact(first, &mut release)
+                .is_err()
+        );
+        assert_eq!(release.calls, 0);
+        session.set_presentation_parent(peer, None).unwrap();
+        let removed = session
+            .cleanup_positional_impact(first, &mut release)
+            .unwrap();
+        assert_eq!(
+            removed,
+            crate::resident_states::Counts {
+                residents: 1,
+                payload_bytes: 268,
+                registrations: 1
+            }
+        );
+        assert_eq!(session.list(0), [peer]);
+        assert!(session.get(first).is_none());
+        assert!(session.specification(first).is_none());
+        assert!(session.state_resources(first).is_none());
+        assert!(
+            session
+                .cleanup_positional_impact(first, &mut release)
+                .is_err()
+        );
+        assert_eq!(release.calls, 1);
+        let context = prepare(&mut pool, &mut random);
+        let next = factory
+            .activate(&mut session, &mut pool, context, &mut random, &mut cue)
+            .unwrap();
+        assert_ne!(next, first);
+        assert_eq!(session.list(0), [peer, next]);
+        session
+            .advance_positional_impact(next, 0., &mut stamp, &mut stop)
+            .unwrap();
+        session
+            .advance_positional_impact(next, 1., &mut stamp, &mut stop)
+            .unwrap();
+        release.bind_peer = Some(peer); // A late successful service may create a new reference.
+        let before = session.counts();
+        assert!(
+            session
+                .cleanup_positional_impact(next, &mut release)
+                .is_err()
+        );
+        assert_eq!(session.counts(), before);
+        assert_eq!(release.calls, 2);
+        assert!(session.positional_impact(next).unwrap().failure.is_some());
+        session.set_presentation_parent(peer, None).unwrap();
+        assert!(
+            session
+                .cleanup_positional_impact(next, &mut release)
+                .is_err()
+        );
+        assert_eq!(release.calls, 2);
+        // Check a distinct late release error after a real expiry.
+        session
+            .advance_positional_impact(peer, 0., &mut stamp, &mut stop)
+            .unwrap();
+        session
+            .advance_positional_impact(peer, 1., &mut stamp, &mut stop)
+            .unwrap();
+        release.bind_peer = None;
+        release.fail = true;
+        let weak = Arc::downgrade(&session.positional_impact(peer).unwrap().source);
+        drop(factory);
+        drop(pool);
+        drop(resources);
+        assert!(weak.upgrade().is_some());
+        assert!(
+            session
+                .cleanup_positional_impact(peer, &mut release)
+                .is_err()
+        );
+        assert_eq!(session.counts(), before);
+        let mut foreign = Session::new(945);
+        assert!(
+            foreign
+                .cleanup_positional_impact(peer, &mut release)
+                .is_err()
+        );
+        assert!(
+            session
+                .cleanup_positional_impact(peer, &mut release)
+                .is_err()
+        );
+        assert_eq!(release.calls, 3);
+        session.clear();
+        assert!(weak.upgrade().is_none());
     }
     impl Stop for StopProvider {
         fn stop(&mut self, session: &mut Session, id: Id, cue: u32) -> Result<(), String> {
