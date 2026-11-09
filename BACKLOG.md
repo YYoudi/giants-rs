@@ -667,12 +667,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Late stop failure keeps completed writes and forbids another attempt. Across
   64 native sequences / 384 callbacks, all 512 normalized full snapshots including
   stop entry match 141,824 words. Native audio remains disabled and local time
-  supplied. Marked actors remain owned; common retirement, live positional audio,
-  other effect profiles and enclosing scheduling stay open. Next search prototype
-  PS2 names for the actual common retirement path before analyzing it, acquire
-  release/origin semantics there, then bind the independent impact damage/channel
-  composition. Preserve exact identities and aliases; current callback and touched
-  helper attributions remain unknown.
+  supplied. Actor-local core retirement now requires tracked external release,
+  rechecks references, drops the acquired payload/reference ownership and unlinks
+  its common registration. Native controls cover 192 retirements/reuses with a
+  preserved live peer: 53,184 release-entry state words and 2,880 ownership-protocol
+  words match. Source-data checks retain failed release/new-reference effects
+  without replay and reject foreign/stale/referenced identities. The enclosing
+  propagation, active-context, global audio/reference prepass, live positional
+  audio, other profiles and world scheduling remain open. Next search prototype
+  PS2 names for each actual cleanup-prepass or impact service before acquisition,
+  then bind the independent damage/channel composition. Explicit context
+  cancellation and pointer-slot reuse semantics remain separate from core actor
+  retirement. Preserve identities/aliases; current touched-helper attributions
+  remain unknown.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

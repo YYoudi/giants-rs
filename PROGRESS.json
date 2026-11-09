@@ -442,7 +442,7 @@
       "title": "Animations and active effects",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Character/equipment animation, attachments, particles, trails, explosions, magic and effect lifecycles. Owned positional-impact birth matches 256 native endpoints plus four cue-entry snapshots / 67,600 words. Its timed callback now advances actual age/size/fades, angles/cache and descriptor clocks/references using a shared ANM epoch. Across 64 native sequences / 384 callbacks, 512 full snapshots including stop entry match 141,824 words. First entry does not age; expiry requires cue stop before deferred marking, with retained late failure and replay refusal. Native audio is disabled and object-local time supplied. Common actor retirement, live cue transport, impact damage/channel integration, other profiles and full world scheduling remain open."
+      "detail": "Character/equipment animation, attachments, particles, trails, explosions, magic and effect lifecycles. Owned positional-impact birth and timed callbacks have complete normalized native state controls. Actor-local core retirement now follows required tracked release, rechecks references, drops payload/reference ownership and unlinks the common registration. Native controls cover 192 retirements/reuses with a live peer preserved: 53,184 release-entry state words and 2,880 ownership-protocol words match. Late release/reference failures retain ownership without replay. Native audio is disabled and object-local time supplied. The enclosing cleanup prepass, live cue transport, impact damage/channel integration, other profiles and full world scheduling remain open."
     },
     {
       "id": "hud-audio",

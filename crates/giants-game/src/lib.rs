@@ -595,6 +595,7 @@ pub mod mission_selection;
 
 pub mod actor_context;
 pub mod actor_links;
+pub mod actor_retirement;
 pub mod actor_sound;
 pub mod animation_channels;
 pub mod animation_loop;

@@ -268,7 +268,48 @@ replay/foreign refusal and unchanged actor counts until Session clear.
 Prototype PS2 searches for the callback and touched common animation/reference,
 epoch, stop and mark helpers remain unknown attributions. Their PC identities and
 aliases stay in private continuation records; no new name or ABI is imported.
-Next acquire the common retirement path and bind real positional audio plus the
-independent impact damage/channel services. This callback is not main-world
-scheduling, audible transport, completed retirement or a later movement replay.
+The actor-local core retirement described below now follows this callback. Bind
+the enclosing cleanup prepass, real positional audio and independent impact
+damage/channel services next. This callback alone is not main-world scheduling,
+audible transport, completed retirement or a later movement replay.
 The exact main runtime endpoint remains the earlier step-441 refusal.
+
+## Owned impact core retirement and reuse - 9 November 2026
+
+`Session::cleanup_positional_impact` now releases the acquired expired,
+unreferenced class-867 actor after a required tracked external-release service.
+Its native physics view aliases the state payload; there is no second physics
+allocation to free. The simple profile has no nested destructor allocations.
+Core retirement drops the actor/payload, per-actor state/resource bindings and
+reference storage, then removes its common registration. Shared class resources
+and ticket-owned model caches remain available to other actors.
+
+The release provider sees the actual marked actor, payload, resources and list
+registration. Ownership is checked again after that call. An unresolved incoming
+reference, unfinished birth/lifetime or unsupported destructor profile refuses
+before release. A late release error or newly introduced reference retains core
+ownership and quarantines the attempt without repeating external work. Old actor
+identities stay invalid after success; a later construction gets a fresh identity.
+The release trait is shared with enemy-projectile retirement, retaining its older
+public name as an alias.
+
+The complete original common retirement pass executes on 64 source sequences,
+with three successive retirements/reuses per sequence and one unmarked live peer.
+All 192 release-entry actor states match 53,184 normalized header, payload and
+local-reference words. A separate 2,880-word ownership protocol matches removal,
+counts, list order, preserved peer state and reuse outcomes. Native release
+requests retire the state and reference storage, with one null animation-storage
+free request; heap/device boundaries remain fixture-controlled. The source-data
+control also checks refusal while referenced, late reference creation, release
+failure, foreign/repeated identities, reuse and eventual ownership release.
+
+These controls use the original audio-disabled gate and supplied object-local
+time. The Rust actor-local API does not execute the enclosing native propagation,
+active-context, global audio or reference-cleanup prepass. Those remain real
+scheduler/provider prerequisites, alongside live cue transport and impact
+damage/channel composition. Explicit context cancellation and its pointer-slot
+reuse semantics remain separate; ordinary core retirement does not cancel a
+context or infer that every origin is a live generation. Prototype PS2 searches
+for the common retirement, release, destructor and unlink helpers remain unknown
+attributions. No later main replay, campaign admission, capture or fidelity result
+follows; the exact main endpoint remains the earlier step-441 refusal.
