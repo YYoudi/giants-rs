@@ -18,6 +18,48 @@ scheduling or main timed-film admission. Prototype PS2 attributions remain unkno
 Complete scene fidelity remains unverified; the published download snapshot keeps
 its existing identity until a new package is independently verified.
 
+## Combined Windows preview with bounded ambient diagnostics — 10 November 2026
+
+Published [preview-2026.11.10.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.1)
+pins source `b91578660f09e5cd72275f87ec291c9873ec51e7`, executable SHA256
+`d2bbe578eb9d2d998deb5794d95035e7fa88da5f9314197f7abf8686ad4db423` and ZIP SHA256
+`a63e639f6544c185c243b3371eff7f1359949fcd399c534ca5bae2db8bb77e57`.
+Ordinary missions no longer format/write every ambient emitter's state each
+frame. `GIANTS_TRACE_AMBIENT_STEPS=1` restores the detailed private trace;
+source/voice lifecycle and error messages remain enabled. Audio decisions,
+random draws, readiness and resource ownership are unchanged.
+
+A real muted `.13` menu-to-mission session produced 614,001 ambient step records
+(about 183 MiB). The corrected executable's manual two-entry session produced no
+such records while starting twelve ambient voices and releasing both mission
+tickets and their assets. The sessions are not a matched-duration performance
+benchmark. One local profile exercises the menu, actual opening skip, ordinary
+Mecc entry, menu return, second entry and quit; it does not validate held thrust,
+descent/landing, full combat or visual fidelity. Two existing zero-PCM/gain-zero
+real-device controls pass with each trace setting: zero detailed records with
+the option off, 85 with it on. The initial all-muted test invocation was refused
+by their gain-inspection precondition; the tests were not weakened.
+
+The shipped tree passes 865 workspace Rust tests (56 ignored), strict workspace/
+all-target Clippy, Rustfmt, 43 Python tests and 36 installed-resource controls
+across Mecc, Kabuto, Delphi, NPC and timed-effect owners. Three additional real
+local/positional voice controls pass with muted installed PCM. Its receipt-bound
+MinGW binary passes six offscreen development launches and two selected-mission
+source-terminal/re-entry cycles with real muted voice sinks and text cleanup.
+CLI help is explicitly awaited. Notice collection covers 338 dependency packages
+and eleven toolchain notice files; PE imports match the reviewed Windows/UCRT set.
+All three public assets were downloaded fresh and verified against the ten-member
+package, checksums, receipts, immutable tag and dashboard snapshot.
+
+The preview also carries the reviewed persistent wounded Mecc services, canonical
+timed-effect ownership and Kabuto reference-release/attachment contracts. Their
+remaining providers and normal-world admission are still explicit prerequisites.
+Ordinary native Mecc plume/descent/landing, live Delphi/Kabuto/NPC gameplay and
+complete campaigns/fidelity remain open. Later Delphi packed-support fields are
+source-only: the combined tree at `0abf1898b49413379368df839eb7627cc8eb5ba6` passes
+866 Rust tests (57 ignored), strict Clippy and six installed Delphi controls.
+These later source checks do not relabel the shipped binary.
+
 ## Delphi support-class fields and object-list control - 9 November 2026
 
 The shared class loader now prepares the support class's packed attribute,

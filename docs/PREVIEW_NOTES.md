@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.10.1
+# Windows x64 development preview - preview-2026.11.10.2
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -27,6 +27,23 @@ preserves the current Mecc wounded-primary, Delphi class-control and Kabuto
 attachment/reset dependencies, together with common matrix corrections. It does
 not establish complete normal character controls or complete scene fidelity.
 
+## Ambient diagnostic output
+
+Normal mission play keeps source, voice-lifecycle and error logging while the
+per-emitter, per-frame ambient trace is disabled. Set
+`GIANTS_TRACE_AMBIENT_STEPS=1` before launch to restore detailed private
+state/RNG/service diagnostics. The choice is captured at each mission mount.
+This changes diagnostic output and its formatting work, not sound selection,
+random draws, timing, playback readiness or resource ownership.
+
+## Combined shared-owner checkpoint
+
+This source also includes persistent wounded Mecc smoke preparation, local voice
+transport, Session-owned timed-effect callbacks and Kabuto reference release and
+attachment contracts. Their supplied-provider and missing-world-admission
+boundaries remain explicit. Native ordinary Mecc impact/voice/display integration,
+active smoke rendering and complete Delphi/Kabuto/NPC gameplay are still open.
+
 ## Parented effect preparation dependency
 
 The acquired parented timed-effect step now preserves callback, finalization and
@@ -42,8 +59,8 @@ This source combines the timed-effect configuration dependency with Delphi's
 source-range and held/camera terrain scans, Kabuto's owned guard/resource phase,
 and Mecc's nonlethal impact voice ordering. These are partial CPU services and
 composition controls, not complete character or world scheduling. The Mecc cue
-provider preserves damage/timing after late failure, but actual App voice
-transport and main-driver impact admission remain open.
+provider preserves damage/timing after late failure, but ordinary App
+impact/voice/display admission remains open.
 
 Delphi, Kabuto and NPC AI are not newly playable in this preview. Ordinary Mecc
 jet-plume, descent/contact and complete landing integration remain pending.

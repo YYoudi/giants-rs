@@ -37,6 +37,13 @@ and captures the child's `--help` result explicitly.
 
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
+Per-emitter ambient step traces are disabled during normal play. For a private
+diagnostic run, set `GIANTS_TRACE_AMBIENT_STEPS=1` before launching the application.
+The choice is captured when each mission's ambient resources are mounted. This
+restores the detailed `mission_ambient_step` state/RNG/service records; it can
+produce large logs. Source preparation, voice start/stop/retirement, cancellation
+and errors are still logged without this option. Keep diagnostic logs private.
+
 With `GIANTS_DELPHI_ROOT` set to the user's installation (and optional
 `GIANTS_DELPHI_EXECUTABLE`), the ignored
 `source_delphi_candidates_use_current_geometry_and_preserve_target_payload`
