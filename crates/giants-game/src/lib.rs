@@ -91,6 +91,7 @@ pub mod resident_finalization;
 pub mod resident_motion;
 pub mod scalar_track;
 pub mod specification;
+pub mod state18_reference_reset;
 mod state_attributes;
 pub mod state_resources;
 pub mod state_storage;

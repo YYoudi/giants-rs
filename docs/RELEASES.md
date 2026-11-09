@@ -1,5 +1,21 @@
 # Preview releases and milestone integration
 
+## State18 reference-reset route for Kabuto — 9 November 2026
+
+The acquired action-gated route selects a preferred state32/82 or the first
+matching context in ordered list13, with explicit fallback position and required
+reset/position services. Original controls agree on 512 calls / 136,510 header,
+route and prefix words. The reset entry has a declared mutating provider; this
+does not acquire its constructor/lifecycle body.
+
+A read-only Session adapter reads current owned header/list metadata with lazy
+resolution and foreign-key refusal. Its preferred relationship remains supplied;
+the registry control uses synthetic headers, without resource construction or
+world admission. Full Kabuto reference release, reset, lifetime and subsequent
+primary/action/animation integration remain open. No new gameplay, capture,
+dependency, asset or downloadable preview is added. Existing receipts keep their
+exact source identities; prototype PS2 correspondences remain unknown.
+
 ## Shared affine translation for Kabuto's release dependency — 9 November 2026
 
 The shared matrix product retains the original translation addition order under

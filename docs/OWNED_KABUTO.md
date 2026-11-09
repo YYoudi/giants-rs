@@ -1441,3 +1441,36 @@ global publication, world/ANM/camera/GPU cadence and live Kabuto admission remai
 open. No new capture, download or fidelity claim follows. Prototype PS2 identities
 remain unassigned; literal candidates and ambiguous/generated names stay separate
 in private records. No PS2 ABI or memory layout is imported.
+
+## State18 reference-reset routing — 9 November 2026
+
+`state18_reference_reset::choose` implements the action10 route used by Kabuto's
+reference-release consumer. A preferred state32/82 wins independently of context;
+otherwise the first matching full 32-bit dispatch context in the supplied list
+wins. No candidate visibility or fallback-state filter is added. Without a point,
+the route requests current position `[0, 0, 200]`; it does not invent a history or
+affine-cache reset. `Plan::apply` requires actual reset and position services with
+no successful defaults. Inactive actions request neither preferred/fallback
+metadata nor a writer.
+
+Original controls match 512 calls / 136,510 source-header, route and prefix words:
+322 inactive actions, 157 reset requests and 33 fallback writes. They execute the
+original route and state predicates. Source headers, preferred identities, eight
+candidate headers and ordered list nodes remain supplied. The reset entry records
+the published prefix and deliberately mutates source position/flags/action as a
+declared provider; its original constructor/reset body is not executed. Native
+fallback stores execute, and candidate headers remain unchanged. High action/state
+words, different preferred contexts and multiple fallback matches are covered.
+
+`Session::plan_state18_reference_reset` reads actual owned source action/context,
+preferred state and list13 metadata lazily, refusing absent/foreign used metadata.
+The preferred relationship is a caller input until its producer and lifetime are
+bound. A synthetic header-only registry control verifies list order, exact context,
+preferred priority, ignored inactive inputs, payload preservation and foreign-key
+refusal. It does not construct resource-backed actors or execute the reset body.
+
+This is a shared dependency route, not another Kabuto primary phase. Real reset
+construction, reference ownership/lifetime, current world services and the complete
+release/action/animation cadence remain open. No live NPC/player interaction,
+new capture, download or fidelity claim follows. Prototype PS2 attributions stay
+unknown; detailed records remain private and no PS2 ABI/layout is imported.

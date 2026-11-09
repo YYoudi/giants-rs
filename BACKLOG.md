@@ -421,6 +421,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: the action-gated state18 reset route matches 512 original calls /
+  136,510 source-header, route and service-prefix words. Preferred state32/82
+  wins without a context test; otherwise the first matching full context in
+  list13 wins, without added visibility/state filters. Only action10 enters
+  selection; failure to find a point requests the acquired current position.
+  The reset body remains a required service: the control supplies declared
+  mutations at its entry and does not establish constructor/lifecycle parity.
+  A read-only Session adapter resolves actual header metadata and list13 lazily;
+  its preferred relationship is still an explicit caller input. Synthetic
+  header-only ownership tests add no resource constructor, target publication,
+  completed Kabuto phase, NPC behavior or ordinary gameplay admission.
 - Shared dependency corrected: the affine product used by the reference-release
   path now preserves native translation addition order under cancellation.
   All 512 finite flagged-matrix controls / 8,704 output words agree, including

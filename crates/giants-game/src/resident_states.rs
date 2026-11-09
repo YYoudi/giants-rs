@@ -18,6 +18,7 @@ mod kabuto;
 mod mecc_impact;
 pub use mecc_impact::Voice as MeccImpactVoice;
 mod reference_camera;
+mod state18_reference_reset;
 mod subjective;
 mod timed_effect;
 pub use timed_effect::Services as TimedEffectServices;
