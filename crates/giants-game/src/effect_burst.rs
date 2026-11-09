@@ -273,15 +273,20 @@ impl Plan {
         let program = image
             .program(entry.offset)
             .map_err(|_| "impact effect program invalid")?;
-        if !program
-            .records
+        Self::positional_impact_frame(image, &program.records)
+    }
+    pub(crate) fn positional_impact_frame(
+        image: &Image,
+        records: &[Record],
+    ) -> Result<Self, &'static str> {
+        if !records
             .iter()
             .map(|r| r.opcode)
             .eq([3, 6, 0x83, 9, 4, 0x32, 7, 2])
         {
             return Err("positional impact outside acquired complete frame");
         }
-        Self::from_records_profile(image, &program.records, 1, true)
+        Self::from_records_profile(image, records, 1, true)
     }
     pub fn project(image: &Image, name: &str) -> Result<Self, &'static str> {
         let (_, entry) = image.find(name).ok_or("burst symbol absent")?;
@@ -774,7 +779,7 @@ impl Playback {
         if !dt.is_finite() || dt < 0. {
             return Err("invalid burst callback time");
         }
-        if dt == 0. || self.expired {
+        if self.expired {
             return Ok(false);
         }
         if self.contact.is_some() && query.is_none() {
@@ -915,12 +920,11 @@ mod tests {
         assert!(crate::effect_contact::Seed::from_class(&unsupported).is_err());
     }
     #[test]
-    fn source_lifetime_stops_motion_and_first_callback_keeps_birth_pose() {
+    fn zero_callback_consumes_first_gate_and_terminal_callback_keeps_last_pose() {
         let birth = crate::procedural_aim::Matrix::identity();
         let mut p = super::Playback::new(spawn(), birth).unwrap();
         assert!(p.advance_free(-0.01).is_err());
-        assert!(!p.advance_free(0.).unwrap());
-        p.advance_free(0.01).unwrap();
+        assert!(p.advance_free(0.).unwrap());
         assert_eq!(p.visual.age, 0.);
         assert_eq!(p.motion.position, [0.; 3]);
         assert!(p.angles.is_none());

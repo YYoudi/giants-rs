@@ -33,8 +33,12 @@ profile; prototype PS2 metadata is an independent source of naming evidence.
    candidates and reasons privately rather than silently promoting them later.
 6. Implement the acquired PC contract in Rust + Bevy. Keep PS2/PC version,
    platform, arithmetic, scheduling, calling convention and memory-layout
-   differences explicit. Do not import PS2 signatures, ABI or offsets into PC
-   services. Validate with the existing PC controls and the synthetic commands
+   differences explicit. Across executable/DLL boundaries, establish the owner
+   of each clock and random state. Identical RNG algorithms or supplied seed
+   controls do not prove a shared live stream. Verify TLS/initialization and
+   interleaving before merging streams or moving draws across service calls.
+   Do not import PS2 signatures, ABI or offsets into PC services. Validate with
+   the existing PC controls and the synthetic commands
    in [BUILD.md](BUILD.md); add scoped behavioral controls where needed.
 7. Preserve every previous identifier as an alias. Add reviewed attributions
    incrementally; do not mass-rename code or analysis databases from tables.

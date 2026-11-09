@@ -12,6 +12,8 @@ pub struct Resources {
     pub(crate) manual_rotation: bool,
     pub(crate) authored_camera: bool,
     pub(crate) post_physical: bool,
+    pub(crate) reserve: bool,
+    pub(crate) primary_tail: bool,
 }
 impl std::fmt::Debug for Resources {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -22,6 +24,8 @@ impl std::fmt::Debug for Resources {
             .field("manual_rotation", &self.manual_rotation)
             .field("authored_camera", &self.authored_camera)
             .field("post_physical", &self.post_physical)
+            .field("reserve", &self.reserve)
+            .field("primary_tail", &self.primary_tail)
             .finish()
     }
 }
@@ -55,6 +59,8 @@ impl Resources {
             manual_rotation: false,
             authored_camera: false,
             post_physical: false,
+            reserve: false,
+            primary_tail: false,
             radius: crate::player_collision_radius::Bounds {
                 primary: bounds.primary,
                 animation_one: bounds.radius_auxiliary,
@@ -111,6 +117,24 @@ impl Resources {
             return Err("Delphi post-physical callback requires controlled resources".into());
         }
         self.post_physical = true;
+        Ok(self)
+    }
+    /// Freeze reserve processing after the acquired controlled post callback.
+    /// Active movement/immersion and the remaining item callbacks stay separate.
+    pub fn with_reserve(mut self) -> Result<Self, String> {
+        if !self.post_physical {
+            return Err("Delphi reserve requires its post-physical controlled profile".into());
+        }
+        self.reserve = true;
+        Ok(self)
+    }
+    /// Add acquired item timing/selection and the absent auxiliary-context route.
+    /// Eligible interaction actions and nonempty auxiliary resources still refuse.
+    pub fn with_primary_tail(mut self) -> Result<Self, String> {
+        if !self.reserve {
+            return Err("Delphi primary tail requires reserve/post resources".into());
+        }
+        self.primary_tail = true;
         Ok(self)
     }
 }

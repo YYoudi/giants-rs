@@ -34,6 +34,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         '07638b2e77f9a2eeb7bd63e55e91c9c0e72f5643dcf536571733f74397b3d94f',
         '28763ac079e17b02931cc074f17ae85238f9d9d7f87f69d1251d176bbf719b1a',
         'b95db50f67716523141c0bf3d11ccf1928ea2299c48f39fea32501ee09f0c44f',
+        # Added module RNG ownership guidance; the reviewed PC aliases are unchanged.
+        '0cb7e8d16f16186d5552729a1ec077b453a8f0dfea3de16858d1c966edbf6af5',
     },
 }
 

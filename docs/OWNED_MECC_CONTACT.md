@@ -202,3 +202,148 @@ constructor/provider failure retention, lifetime retirement and the impact's rea
 damage/channel services remain prerequisites. The exact main replay's latest
 endpoint remains the earlier step-441 refusal. No later trajectory, active effect
 rendering, new capture, campaign readiness or visual fidelity is certified.
+
+## Owned positional-impact birth - 9 November 2026
+
+`positional_impact::Factory` now constructs and publishes a real Session state-78
+actor from supplied scene resources. Its source image, class/state bindings,
+originating context identity and actual affine cache remain owned. The native
+origin pointer is represented by a typed identity and a normalized presence word;
+its future callback semantics are not inferred from its value.
+
+The required cue provider sees the published actor before the size draws,
+lifetime, fades and angular writes. It receives the same RNG, so its draws affect
+the following commands. There is no default production substitute for transport.
+Successful birth retires the temporary context. Late failure retains the actor,
+context reservation, completed writes and RNG state, and prevents replay even
+through a replacement factory. Prepared-only cleanup refuses this active context.
+The actor retains its source image after the pool and scene resources are dropped.
+
+Independent original-PC controls, using the original audio-disabled gate, compare
+256 complete normalized actor headers and payloads, plus four complete snapshots
+at cue entry: 67,600 words match. Normalization covers process pointers and typed
+origin presence; numerical fields and flags remain compared. The silent source-
+resource control additionally exercises interleaved provider draws, retained late
+failure, foreign-session refusal, replay prevention and ownership after resource
+release. These controls validate ordered CPU birth, not audible transport.
+
+Before acquiring the state-78 callback, repeat the prototype PS2 name search under
+the central method and retain the exact PC/prototype identities and aliases. The
+constructor, lifetime-command and reused affine helpers remain unattributed;
+no PS2 ABI or layout is imported. Next acquire actor cadence/callback, origin use
+and retirement, then bind actual positional cue transport and the independent
+impact damage/channel services. The main replay still has its earlier step-441
+refusal. Birth completion is not lifetime completion, world integration, effect
+rendering, a new playable preview or visual fidelity.
+
+## Owned timed-impact callback and deferred mark - 9 November 2026
+
+`Session::advance_positional_impact` now runs the acquired unparented class-867
+callback over the real owned actor. It consumes supplied object-local time and
+uses the existing lifetime, size/fade and angular kernels. The first callback
+initializes animation without aging the effect, including when time is zero.
+Later callbacks publish the actual payload age, scale, transparency, angles and
+affine cache. The actual animation descriptors advance owned channels and local
+reference matrices using a caller-owned shared ANM epoch, including clock wraps.
+The supplied class has an empty event track; nonempty events, other classes and
+unacquired field profiles refuse explicitly rather than being ignored.
+
+At expiry, age is written before the required recipient-bound cue-stop provider
+is invoked. Only a successful stop permits the deferred object mark. A late stop
+failure retains the updated age, actor and earlier state, quarantines the callback
+and prevents another stop attempt. Marked actors remain owned and subsequent
+owner updates return inactive; this API does not unlink or release them.
+
+The original-PC constructor and callback execute 64 sequences / 384 callbacks.
+All 512 complete state snapshots, including the stop-entry boundary, match
+141,824 normalized header, payload and local-reference words. Numeric/flag fields
+remain compared; process addresses and typed origin presence are normalized as
+in the birth control. The native original audio-disabled gate and supplied local
+time remain explicit. These sequences observe no reads of the retired context;
+this does not establish origin semantics in other callback profiles. The source-
+resource control checks a shared epoch across two actors, zero-time first entry,
+actual reference/cache availability, mark-after-stop, retained stop failure,
+replay/foreign refusal and unchanged actor counts until Session clear.
+
+Prototype PS2 searches for the callback and touched common animation/reference,
+epoch, stop and mark helpers remain unknown attributions. Their PC identities and
+aliases stay in private continuation records; no new name or ABI is imported.
+The actor-local core retirement described below now follows this callback. Bind
+the enclosing cleanup prepass, real positional audio and independent impact
+damage/channel services next. This callback alone is not main-world scheduling,
+audible transport, completed retirement or a later movement replay.
+The exact main runtime endpoint remains the earlier step-441 refusal.
+
+## Owned impact core retirement and reuse - 9 November 2026
+
+`Session::cleanup_positional_impact` now releases the acquired expired,
+unreferenced class-867 actor after a required tracked external-release service.
+Its native physics view aliases the state payload; there is no second physics
+allocation to free. The simple profile has no nested destructor allocations.
+Core retirement drops the actor/payload, per-actor state/resource bindings and
+reference storage, then removes its common registration. Shared class resources
+and ticket-owned model caches remain available to other actors.
+
+The release provider sees the actual marked actor, payload, resources and list
+registration. Ownership is checked again after that call. An unresolved incoming
+reference, unfinished birth/lifetime or unsupported destructor profile refuses
+before release. A late release error or newly introduced reference retains core
+ownership and quarantines the attempt without repeating external work. Old actor
+identities stay invalid after success; a later construction gets a fresh identity.
+The release trait is shared with enemy-projectile retirement, retaining its older
+public name as an alias.
+
+The complete original common retirement pass executes on 64 source sequences,
+with three successive retirements/reuses per sequence and one unmarked live peer.
+All 192 release-entry actor states match 53,184 normalized header, payload and
+local-reference words. A separate 2,880-word ownership protocol matches removal,
+counts, list order, preserved peer state and reuse outcomes. Native release
+requests retire the state and reference storage, with one null animation-storage
+free request; heap/device boundaries remain fixture-controlled. The source-data
+control also checks refusal while referenced, late reference creation, release
+failure, foreign/repeated identities, reuse and eventual ownership release.
+
+These controls use the original audio-disabled gate and supplied object-local
+time. The Rust actor-local API does not execute the enclosing native propagation,
+active-context, global audio or reference-cleanup prepass. Those remain real
+scheduler/provider prerequisites, alongside live cue transport and impact
+damage/channel composition. Explicit context cancellation and its pointer-slot
+reuse semantics remain separate; ordinary core retirement does not cancel a
+context or infer that every origin is a live generation. Prototype PS2 searches
+for the common retirement, release, destructor and unlink helpers remain unknown
+attributions. No later main replay, campaign admission, capture or fidelity result
+follows; the exact main endpoint remains the earlier step-441 refusal.
+
+## Effect VM and audio RNG ownership - 9 November 2026
+
+The effect cue callback receives the VM's random state so acquired VM-side
+service draws can remain ordered before subsequent size draws. This interface
+does not establish that an audio DLL owns that same state. Earlier scalar audio
+controls supplied a thread-state pointer; their arithmetic agreement alone did
+not resolve the live owner.
+
+Observed in the identified debug executable and audio module: each has its own
+TLS-index storage, allocation/store instructions and thread-state getter. A
+bounded control executes both original allocation/store paths and complete
+getters against one supplied OS TLS service with distinct live slots. Twenty
+sequences then interleave the original executable interval helper and audio
+frequency/RNG helper. The VM retains its six draws while audio independently
+consumes one; the frequency draw does not advance the VM state. Existing
+thread-state blocks, OS TLS calls and initial seeds are supplied. Complete CRT
+startup, original process launch, voice allocation and device playback are not
+executed by this control.
+
+The inference for successful overlapping module initialization is separate
+random streams, following those allocation paths and the OS TLS contract. Keep
+the existing audio state distinct when binding the impact transport; do not
+redirect it into the effect VM merely because both use the same LCG. The two
+source impact cues have frequency variation, making that distinction observable
+in the later size/RNG results. The ordered failure/interleaving tests remain
+valid supplied-provider controls; they are not evidence of shared DLL ownership.
+
+The play wrapper resolves attachment roots and chooses local versus positional
+delivery when its descriptor is ready. Its stop wrapper also resolves the root.
+The acquired impact actor is unparented. Binding these routes to real ready
+voices and their cleanup remains open; no later main replay or audible result is
+claimed. Prototype PS2 lookups remain unknown, with executable and DLL identities
+kept separately in private continuation records.

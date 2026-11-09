@@ -210,6 +210,27 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   authored-camera/post composition, real input/view/audio producers, equipment,
   active cleanup, spells, strike/hit routes and full-primary scheduling stay open.
   See docs/OWNED_DELPHI.md. This does not admit live Delphi or certify fidelity.
+- Implemented: the acquired reserve callback preserves delay/recharge/cap/drain,
+  cancellation order and repeated actual object-time queries. Complete original
+  controls match 2,280 cases / 2,774,760 words; 64 movement/splash entry prefixes
+  match 77,888 words without acknowledging those services. The frozen dry passive
+  owned profile composes physical/reset/post/reserve/secondary/zero-time ANM;
+  two 256-frame, 22-actor sequences match 4,081,152 words and exact RNG. A sixth
+  source-data owner checks 64 updates, supplied recharge inhibition, wrong-entry
+  refusal and completed-prefix retention/replay quarantine after late failure.
+  Active-control/immersion admission, real linked-actor movement, nonempty context
+  retirement, splash, activation and actual recharge-inhibition production remain
+  open. No active turbo, live Delphi or fidelity promotion follows.
+- Implemented: the frozen owned item/absent-auxiliary tail composes acquired
+  inventory selection and actor-local/global timing after reserve, before
+  secondary/zero-time ANM. Two native controls match 1,358 complete callbacks and
+  690 required-action entry prefixes / 2,492,416 words, with ordered slow areas.
+  Two expanded 256-frame, 22-actor sequences match 4,081,152 words and exact RNG.
+  A seventh owner checks 64 updates and retained late auxiliary failure/no replay.
+  Actual common-list hidden/state/owner gates execute; eligible state-90 copy,
+  distance, held/interaction services, active item/spell actions and nonempty
+  auxiliary resources remain open. Mode/participant/owner identity context stays
+  supplied. No live Delphi, networking or fidelity promotion follows.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -658,13 +679,43 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   controls / 3,840 words with the original audio-disabled gate: retained/pending
   cue, sizes/lifetime, angular rates and shared RNG. Prepared activation avoids
   repeating root draws; general/timed phase admission stays unchanged. Legacy
-  burst controls still match 315 objects / 6,018 words. This does not construct an
-  owned Session actor or execute cue transport. Native cue-entry controls show
-  that delivery precedes later size/lifetime/angular writes; interleave its real
-  shared RNG effects rather than replaying a precomputed result. Next bind the
-  actual root constructor and explicit origin/cache ownership, compare full actor
-  header/state and preserve side effects on late provider failure, then complete
-  lifetime/retirement and the independent impact damage/channel composition.
+  burst controls still match 315 objects / 6,018 words. The separate owned birth
+  now publishes a real Session state-78 actor before the required cue provider,
+  then executes size/lifetime/angular commands with its shared RNG. Complete
+  normalized headers/payloads match 256 native endpoints and four cue-entry
+  snapshots / 67,600 words, using the original audio-disabled gate. Source-data
+  controls cover interleaved provider draws, retained late failure, cross-factory
+  replay refusal and image/cache ownership. Successful birth retires its temporary
+  context; failed active contexts cannot use prepared-only cleanup. This is CPU
+  birth, not live cue transport or complete effect execution. The owned timed
+  class-867 callback now advances actual age/size/fades, angles/cache, descriptor
+  clocks and local references with a shared world-owned ANM epoch. First entry
+  does not age even at zero time; expiry stops the retained cue before marking.
+  Late stop failure keeps completed writes and forbids another attempt. Across
+  64 native sequences / 384 callbacks, all 512 normalized full snapshots including
+  stop entry match 141,824 words. Native audio remains disabled and local time
+  supplied. Actor-local core retirement now requires tracked external release,
+  rechecks references, drops the acquired payload/reference ownership and unlinks
+  its common registration. Native controls cover 192 retirements/reuses with a
+  preserved live peer: 53,184 release-entry state words and 2,880 ownership-protocol
+  words match. Source-data checks retain failed release/new-reference effects
+  without replay and reject foreign/stale/referenced identities. The enclosing
+  propagation, active-context, global audio/reference prepass, live positional
+  audio, other profiles and world scheduling remain open. Next search prototype
+  PS2 names for each actual cleanup-prepass or impact service before acquisition,
+  then bind the independent damage/channel composition. Explicit context
+  cancellation and pointer-slot reuse semantics remain separate from core actor
+  retirement. Preserve identities/aliases; current touched-helper attributions
+  remain unknown.
+  Before binding impact audio, retain separate effect-VM and audio-module RNG
+  owners. Original module-specific TLS allocation/getter controls and 20 native
+  interleavings keep six VM draws independent of one frequency draw. OS TLS and
+  existing thread blocks are supplied; no original launch/device is certified.
+  Both source impact cues vary frequency. Existing supplied-provider interleaving
+  tests do not prove shared live ownership. Reuse actual ready-voice transport
+  with its audio state, preserving attachment-root play/stop routing, source-miss
+  versus decode/device failure and real start acknowledgement. Do not redirect
+  audio variation into the VM state or acknowledge a merely queued entity.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup
@@ -912,6 +963,24 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation requests. All 2,104 constructed residents release. Preserve the
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
+
+- Timed FX callback ordering: the shared Playback wrapper formerly discarded
+  every zero-time callback, leaving its native first-update gate pending. It now
+  executes that callback without inventing elapsed time. Native/Rust comparison
+  covers 32 source constructions, two RNG phases, prepared matrices, lifetime
+  aging and retirement requests (1,120 selected words). A further zero-time
+  schedule matches 1,152 words across the same 32 contexts; a direct native
+  initial-zero control confirms the gate independently of matrix preparation.
+  The initial positional mismatch was an incomplete control phase: the actual
+  ordinary preparation produces the Rust attachment matrix, so no placement
+  change is justified. Retirement helper execution, child activation, parent
+  release, actual world scheduling/RNG and complete rendering remain open. The
+  queue/readiness guards and cinematic gap counts are preserved. These supplied
+  contexts use the acquired nonphysical class; zero-time motion/contact profiles
+  beyond that fixture still need their own native comparisons.
+  Preview 2026.11.09.4 pins source7d639880 with 805 Rust tests / 32 ignored,
+  40 Python tests and silent offscreen menu/cancel/natural-re-entry controls.
+  Package receipt/notices/all ten member checksums pass again after download.
 
 - General FX follow-up: the largest remaining family has 77 requests in seven
   sources, five with no other non-persistent family. The complete original named

@@ -24,6 +24,307 @@ remainder still block another live frame. All initializer/history prerequisites
 remain set. No dependency, bundled asset or playable preview is added; existing
 notice/checksum/package/runtime receipts retain their exact source identities.
 Prototype PS2 attribution remains unknown.
+## Effect/audio RNG ownership acquisition - 9 November 2026
+
+The acquired debug executable and audio DLL use separate module-local CRT TLS
+index storage and allocation/getter paths. A bounded control executes their
+original allocation/store instructions and complete getters against a supplied
+OS TLS service. Twenty interleavings of the original VM interval and audio
+frequency/RNG helpers retain six VM draws independently of one audio draw.
+Existing thread blocks and seeds are supplied; full CRT startup, original process
+launch, voice allocation and device playback remain outside this proof.
+
+This resolves a prerequisite for impact transport: identical LCG arithmetic and
+earlier supplied-state scalar tests do not establish shared live ownership.
+The two actual impact cues vary frequency, so redirecting that draw into the VM
+would change later size draws. The central method now requires ownership checks
+across module boundaries, and the cue interface documentation identifies its RNG
+as the VM stream. The play/stop wrapper observations and separate binary identities
+remain in private records. Prototype PS2 attributions remain unknown.
+
+Combined checkpoint `189e59c6c06f51cdbde34413cd53bf32e3086bb0` preserves the new
+Delphi item-tail composition. It passes 810 synthetic Rust tests (35 ignored),
+three silent impact resource controls, 40 Python tests, Rustfmt, strict Clippy
+and roadmap/site/JavaScript checks. This acquisition changes method and interface
+documentation, without changing playback behavior or creating a new executable/
+package receipt. Existing runtime/package receipts keep their exact identities.
+Actual ready-voice transport, its cleanup and impact damage/channel integration
+remain open; the main replay retains its earlier step-441 refusal.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+## Delphi owned item-tail composition - 9 November 2026
+
+The new frozen dry controlled profile adds actual inventory selection and distinct
+actor/global item timing after reserve, then the acquired absent auxiliary route
+before secondary/zero-time ANM. It traverses the owned common list with acquired
+hidden/state/owner gates. Eligible interaction, active item/spell actions and
+nonempty auxiliary resources remain required refusals, preserving completed
+prefixes and quarantining replay. Supplied mode/participant context is separate
+from actual networking. No live Delphi or fidelity promotion follows.
+
+Two original-PC/Rust controls match 1,358 complete callbacks and 690 actual action
+entry prefixes / 2,492,416 header/payload words, including ordered slow areas.
+Two persistent expanded sequences additionally match 512 frames / 4,081,152 words
+over 22 actors and exact RNG. The seven-owner source-data check adds 64 updates
+and verifies retained late auxiliary failure without replay. Commands/time/flat
+world and metadata remain supplied; action bodies, remaining primary/camera/target
+and auxiliary paths, active movement/water, combat and live mission integration
+remain open. See [OWNED_DELPHI.md](OWNED_DELPHI.md) for exact scope.
+
+Combined source `dfaec7d21fec2f8f0eeec268f0aaa9b861f064c4` passes 810 Rust
+tests (34 ignored), the seven-owner installed-data control, 40 Python tests,
+Rustfmt, strict Clippy and generated roadmap/site/JavaScript checks. Its pattern
+audit finds zero matches across 429 commits / 2,846 blobs. Both rebuilt 256-frame
+owned comparisons repeat successfully with the newer zero-time FX dependency.
+
+The exact common GNU executable SHA256 is
+`464da687b9b1e42fad58f433fbf9ff62577ae35a1a0c377ee5bf2603a102a328`.
+Both silent offscreen development endpoints and three Rstory1 mission-2 live
+persistent-object birth/update/cancel/re-entry cycles pass, including text cleanup.
+Canonical PE import sets remain unchanged. The private ten-member validation
+draft includes complete receipt-bound notices and checksums, with independent
+verification reporting zero technical blockers; ZIP SHA256 is
+`e70cee35d6375f5775788452f53a3b349ee32c7f466b84ba44b6d71023c5ff26`.
+These common-runtime regressions do not execute live Delphi controls. Existing
+published previews retain their own identities; this CPU dependency does not
+claim another playable Delphi download or redistribute original data.
+
+Final source checkpoint `566fe5c0bb627953a9ba3dc215ec890986e3806f` retains
+newer shared impact retirement and passes 810 synthetic Rust tests (35 ignored),
+40 Python tests, Rustfmt, strict Clippy and site/JavaScript checks. The source
+pattern audit reports zero findings across 431 commits / 2,854 blobs. The common
+executable and its runtime/package receipts above remain pinned to `dfaec7d2`;
+this later source validation does not relabel that binary.
+
+## Owned impact core retirement and reuse - 9 November 2026
+
+The acquired expired class-867 actor now completes local core retirement after
+required tracked external release. It rechecks ownership/references, drops its
+state payload and reference storage, then unlinks the common registration. The
+physics view aliases that payload. Shared class resources remain available to
+other actors. Unfinished/referenced/foreign/stale actors refuse before release;
+a late service error or newly created reference retains core ownership without
+replaying external work. The release interface is shared with enemy projectiles,
+preserving the previous public name as an alias.
+
+The original common retirement pass executes 64 sequences / 192 retirements with
+three successive native object/context-slot reuses and a live peer preserved.
+All 53,184 release-entry actor/header/payload/reference words and 2,880 ownership-
+protocol words match Rust. Heap release boundaries and audio-disabled native
+operation remain explicit. This does not execute Rust's enclosing propagation,
+active-context, global audio/reference cleanup prepass or establish live device
+release, later main movement or visual fidelity. Explicit context cancellation
+and its pointer-slot semantics remain separate from ordinary actor retirement.
+
+Implementation `35b09a5` and combined checkpoint
+`39f16257c43b68e23abbe631058d3386193b8fa9` preserve the concurrent Delphi reserve
+and zero-time timed-FX changes. The combined source passes 808 synthetic Rust
+tests (35 ignored), eight silent Mecc/impact resource controls, 40 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The birth and timed-
+callback full-state comparisons pass again. Prototype PS2 helper attributions
+remain unknown; exact PC/prototype identities and aliases stay in the private
+continuation records. The latest main replay retains its earlier step-441 refusal.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+The exact GNU executable from combined source `39f1625` has SHA256
+`8fb12c0c3778493afafdc745361dc443704917d249a4879eaa05f920c1e51669`.
+Its private ten-member validation draft includes complete receipt-bound notices
+and independent package verification with zero technical blockers; ZIP SHA256 is
+`8b088be09082325c7b22f1fb53903aadaa0755fd39135ff69893a162c23a776a`.
+Source/history pattern review at the preceding documentation checkpoint covers
+426 reachable commits / 2,831 blobs with zero findings. This CPU dependency does
+not establish a new playable preview or third-party redistribution clearance.
+
+## Zero-time timed-FX callback — 9 November 2026
+
+The shared timed-effect wrapper used to discard every zero-time callback. The
+original consumes its constructor gate on that call without aging the object;
+its next positive callback can then age or expire it. The wrapper now invokes
+the existing visual callback at zero time and retains terminal-object refusal.
+No placement adjustment or extra delay is introduced.
+
+A source-family control executes original named preparation, first active object
+construction, ordinary matrix preparation and supplied lifetime callbacks. All
+32 Rust contexts match 1,120 selected scalar/matrix words, including both RNG
+phase boundaries and the retirement request. An added zero-time schedule matches
+1,152 words across the same 32 contexts. A separate direct native first-zero
+schedule confirms the gate without relying on ordinary matrix preparation.
+An earlier positional mismatch came from omitting that native preparation phase;
+including it produces the existing Rust matrix and needs no placement correction.
+
+The retirement helper is intercepted before child preparation or parent release.
+These controls supply support, resources, pools, RNG seeds and callback deltas;
+they do not prove world scheduling, physical cleanup, film readiness or visual
+fidelity. The source inventory and zero certified complete scenes are unchanged.
+The measured class is nonphysical. Additional zero-time motion/contact profiles
+remain unverified; this control does not certify their broader callbacks.
+Prototype PS2 correspondence remains unknown.
+
+Published [preview-2026.11.09.4](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.4)
+pins source `7d639880f594c972e78a36a369719224e494d464`, executable SHA256
+`752f7fa934a27b84a1b2c93bd6113f45a5ab8a4e4793490e4af8f8a47c8d9c3e` and ZIP SHA256
+`4c53f8b006b304a019e4cb79dbecaf9995cfebafabdbf27b25fa51aee0e3c031`.
+That exact source passes 805 Rust tests (32 ignored), 40 Python tests, formatting,
+strict Clippy and source audit (408 commits / 2,764 blobs / zero findings). Its
+MinGW binary passes both silent offscreen development endpoints, three active
+persistent-effect cancellations and two Rstory1 source-terminal/re-entry cycles
+with voice/text cleanup. These keep their existing partial-renderer scope.
+All ten package members, notices, receipt and checksums pass independent checks,
+repeated after downloading the three public assets. No interactive checks ran.
+
+Combined source `b0d37e8eca29e15201effe329737ee92840c1157` preserves newer owned
+impact birth and passes 806 Rust tests (33 ignored), 40 Python tests, formatting,
+strict Clippy and site/JavaScript checks. Its source audit covers 415 commits /
+2,794 blobs with zero findings. Rebuilt against that source, the private Rust
+zero-time projection still matches all 32 retained native contexts / 1,152 words.
+The public executable and runtime controls keep their exact `7d639880` identities;
+no later source merge expands their binary or visual evidence.
+
+Further combined source `c1a09a2631293d5708a747dd2abdce6114a14e86` preserves the
+owned impact callback and passes 806 Rust tests (34 ignored), 40 Python tests,
+formatting, strict Clippy and site/JavaScript checks. Its source audit covers
+419 commits / 2,809 blobs with zero findings; this remains source validation,
+with no replacement executable or expanded runtime receipt.
+
+Later source `e10454be18935bd7bf29932867aee1c4c3eb086b` retains the additional
+Delphi reserve callback. All 627 game-crate unit tests pass (21 ignored), along
+with workspace strict Clippy, formatting, 40 Python tests and site/JavaScript
+checks. Its source audit covers 422 commits / 2,815 blobs with zero findings.
+This is a game-crate test run, separate from the full-workspace counts above.
+
+## Delphi reserve callback and owned passive composition - 9 November 2026
+
+`delphi_reserve::advance` implements the acquired finite PC delay, recharge,
+capacity and drain arithmetic. It preserves wide comparisons, stored-float
+rounding, repeated object-local time queries and consumption after cancellation.
+Cancellation requires owner-bound retirement before restoring physical parameters;
+water splash and linked-actor movement must execute through required services or
+refuse. The explicit empty-context provider acknowledges only empty retirement.
+Activation, nonempty resource retirement and actual movement/effect producers
+remain prerequisites; naming does not establish their gameplay meaning.
+
+`Resources::with_reserve` and `Session::advance_delphi_reserve_controlled` compose
+physical/reset/post, reserve, secondary and zero-time ANM for the acquired dry
+passive profile. Actual owned state, physical flags, damage/limit, updated position
+and object-time areas are bound; the recharge-inhibition producer remains supplied.
+Existing active-control and immersion guards remain in force. Completed reserve
+writes survive a later failure, with replay quarantined. Earlier profiles remain
+separate. This is not active turbo movement or live mission admission.
+
+Complete original callback controls match 2,280 cases / 2,774,760 header/payload
+words, including passive recharge and dry active cancellation/drain with empty
+contexts. Original helpers run without behavior replacements. A separate 64-case /
+77,888-word control stops at actual movement or splash entry and matches the Rust
+refusal prefix; it does not execute or validate those service bodies. Synthetic
+checks verify renewed time queries after movement and retained cancellation before
+splash refusal. Two persistent owned sequences match 512 frames / 4,081,152 words
+over 22 actors and exact shared RNG. Commands/time, a flat world and metadata
+remain supplied; inactive pre-heading camera reset and full-world scheduling are
+excluded. The installed-data lifecycle adds a sixth owner, 64 reserve-profile
+updates, inhibition, wrong-entry refusal, retained late-failure effects and no
+replay. These are CPU controls, not input/render/audio or visual-fidelity proof.
+
+Prototype PS2 correspondence remains unknown. Private identity-bound lookups,
+raw-symbol/demangling distinctions, historical aliases, failed intermediate
+harness results and independent controls remain private. Remaining full-primary,
+item/target, auxiliary and authored-camera composition, water/swim/turbo, combat,
+renderer/HUD/audio and menu-to-mission integration stay open.
+
+Combined source `ca4bf6401991a8307c5a0ca9a27725dab8a1a9b5` passes 808 Rust
+tests (33 ignored), the six-owner Delphi installed-data control, 40 Python tests,
+Rustfmt, strict Clippy and generated roadmap/site/JavaScript checks. The pattern
+audit reports zero findings across 415 commits / 2,794 blobs. Both rebuilt owned
+trajectory comparisons repeat successfully after integration with other lanes.
+
+The exact common MinGW executable has SHA256
+`fb16fb2cf80648b73ef7a017dfd048c9e2aa692e51dce1a7e2cc94c177ac7de3`.
+It passes both silent offscreen development endpoints and three Rstory1 mission-2
+persistent-owner birth/update/cancel/re-entry cycles with text cleanup. The private
+ten-member validation draft binds complete notices, source/executable/toolchain
+receipt and checksums; independent verification reports zero technical blockers.
+ZIP SHA256 is `9e7613c30ca350a6bf07526db4299ae41c29f8b635cf5b91613e3391d8b37a6d`.
+The PE import symbol sets are unchanged; import-table ordering is excluded from
+that comparison. These are common-runtime regressions, not live Delphi control.
+No playable Delphi download is claimed; published previews retain their own
+source receipts. No original assets or private research enter the draft.
+
+The final source checkpoint `fdcbaee8d476397fc94a0a9bde2bd0f9d79712eb`
+retains the newer owned timed-impact callback and passes 808 synthetic Rust tests
+(34 ignored), 40 Python tests, Rustfmt, strict Clippy and site/JavaScript checks.
+Its source pattern audit reports zero findings across 419 commits / 2,809 blobs.
+The executable, runtime controls and private draft above remain bound to
+`ca4bf640`; this later source validation does not change those receipts.
+
+## Owned timed-impact callback and deferred mark - 9 November 2026
+
+The actual owned class-867 effect now advances its age/size/fades, angles and
+affine cache, descriptor clocks and local reference matrices using a shared ANM
+epoch. First entry initializes animation without aging, including at zero time.
+Expiry writes age, requires recipient-bound cue stop, then marks the actor.
+Late stop failure preserves completed writes and ownership without replay.
+Marked actors remain owned; common retirement and main-world scheduling stay open.
+
+Original-PC/Rust controls match 64 sequences / 384 callbacks / 512 complete
+snapshots, including stop entry: 141,824 normalized header, payload and reference
+words. The native original audio-disabled gate and supplied object-local time
+remain explicit. The 256 birth endpoints / four cue snapshots / 67,600-word
+comparison also passes again. Source-data controls check shared epoch ownership,
+real reference/cache availability, deferred marking, failure/foreign/replay guards
+and retained actor counts until Session clear. No live voice stop, completed
+retirement, new main trajectory or visual-fidelity result follows.
+
+Implementation `4b20537` passes 806 synthetic Rust tests (34 ignored), seven silent
+Mecc/impact resource controls, 40 Python tests, Rustfmt and Clippy with warnings
+denied. Roadmap/site generation and JavaScript syntax checks pass. Concurrent
+Delphi, Kabuto and world work is preserved. Prototype PS2 attributions remain
+unknown; exact function identities, aliases and the next lookup step stay in the
+private continuation record. Existing preview receipts retain their source and
+package identities. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+GNU build source `53c7e75da9914a43a4a1b609c45490914eab9cb6` has executable
+SHA256 `977174d3c2c8787bc5890254a86f4bca0f0bee9b16dabf547499da46bd0e954d`.
+Its private ten-member validation draft has complete receipt-bound notices and
+independent archive verification with zero technical blockers; ZIP SHA256 is
+`0773fc2b1fc5d61305a54ad4620c27d173e1df220870975ebd264d5721daae5b`.
+Source/history pattern review at the preceding documentation checkpoint covers
+412 reachable commits / 2,777 blobs with zero findings. This is a CPU dependency
+draft, not a new playable preview or third-party redistribution clearance.
+
+## Owned positional-impact birth - 9 November 2026
+
+The single-body positional constructor publishes an actual owned Session state-78
+actor before invoking its required cue provider. Later size, lifetime, fade and
+angular commands use the same RNG after that call. Success retires the temporary
+context; late failure preserves the actor, context reservation and prior effects
+and refuses replay through replacement factories. Source images, class/state
+bindings, typed origin and actual affine cache remain owned.
+
+With the original audio-disabled gate, 256 native endpoints and four cue-entry
+snapshots match 67,600 complete normalized header/payload words. A silent resource
+control additionally checks provider RNG interleaving, failure/foreign/replay
+guards and ownership after the pool and resources are released. These are CPU
+birth controls. Live cue transport, actor callback/retirement and the independent
+impact damage/channel integration remain prerequisites. The latest exact main
+movement endpoint stays bound to its earlier step-441 refusal; no new screenshot,
+playable admission or fidelity is claimed. Prototype PS2 attribution remains
+unknown, with the next callback lookup retained privately.
+
+Implementation `841c6a8` passes 798 synthetic Rust tests (31 ignored), the new
+source-resource control, strict Clippy and 40 Python tests. Combined source
+`ea47ca1005401ae101395062aa2063d6c45c852c` preserves concurrent Delphi dry-reset/
+post-physical, Kabuto contact/classification and sized-effect initialization.
+It passes 806 synthetic Rust tests (33 ignored), five installed-resource Mecc
+controls and the new birth control, Rustfmt, strict Clippy, 40 Python tests and
+roadmap/site/JavaScript checks. The exact GNU executable SHA256 is
+`897da0bd8350b25a985436da5e71ccb91782cf0f458e2756a5fe7e219d7b6b2d`.
+Its private ten-member draft has complete receipt-bound notices and independent
+package verification with zero technical blockers; ZIP SHA256 is
+`382581aeea622adab85c465c0a544502e55186833090c6e0be1f1914d4a6441b`.
+This CPU dependency does not establish a new playable preview; previous published
+previews retain their exact identities. Source/history pattern review of the
+preceding documentation checkpoint reports zero findings across 406 commits /
+2,757 blobs. This review is not third-party redistribution clearance.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
 
 ## Kabuto additional-contact callback dependency — 9 November 2026
 

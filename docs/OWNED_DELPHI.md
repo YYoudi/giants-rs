@@ -4,6 +4,92 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Owned item and absent auxiliary tail - 9 November 2026
+
+`delphi_items::advance` now follows the reserve callback with acquired inventory
+selection, item/spell action gates, actor-local elapsed time and the separate
+global-time interaction countdown. It rereads action-mutated selection/buttons,
+preserves the wide spell-threshold comparison and clears selection bits only
+after successful activation. Actions and eligible target interaction must execute
+through required services or refuse; recording a request is not execution.
+
+`Resources::with_primary_tail` and `Session::advance_delphi_tail_controlled`
+compose physical/reset/post/reserve/item, the absent auxiliary-context route,
+secondary and zero-time ANM. The item phase uses actual owned inventory, processed
+buttons and the ordered common actor list. Hidden, other-state and foreign-owner
+targets are excluded by acquired predicates; an eligible state-90 target refuses
+before its pending copy/parent, distance and interaction services. Nonempty
+auxiliary resources also refuse. Mode/participant context remains supplied; mode
+four additionally requires an explicitly acquired owner identity. The shared
+eligibility helper is reused without claiming network or live-world integration.
+
+Two 1,024-case original-PC controls cover 1,358 complete callbacks and 690 action
+entry prefixes, with 2,492,416 complete header/payload words compared to Rust.
+The second varies ordered slow areas and owner exclusion, retaining the distinct
+actor/global timing domains. Native reserve, time, eligibility and actor-kind
+helpers execute without behavior replacements. Prefix cases stop at actual
+required action entry and do not validate those action bodies. Synthetic controls
+check action-induced rereads and retained selection/timing on late scan refusal.
+Two persistent 256-frame comparisons over 22 actors match 4,081,152 words and exact
+shared RNG against the expanded native item/auxiliary sequence. Supplied commands,
+time, flat world and metadata remain boundaries; full primary/auxiliary scheduling,
+active effects, live input/render/HUD/audio, water/swim/turbo and combat stay open.
+
+The installed-data lifecycle adds a seventh owner and 64 tail-profile updates.
+A later nonempty auxiliary refusal retains completed timing/ANM/history and the
+owner quarantines retry, including unchanged retained payload and epoch. Earlier
+profiles remain separate. No live Delphi admission or fidelity status changes.
+Prototype PS2 correspondence remains unknown; detailed evidence and identities
+remain private, with only this bounded independent summary reviewed for source.
+
+The common build and exact validation identities are pinned in
+[RELEASES.md](RELEASES.md). Its silent menu/cinematic lifecycle checks exercise
+the common runtime, not Delphi manual input or rendered character fidelity.
+
+## Delphi reserve callback and owned passive composition - 9 November 2026
+
+`delphi_reserve::advance` implements the acquired finite PC delay, recharge,
+capacity and drain arithmetic. It preserves wide comparisons, stored-float
+rounding, repeated object-local time queries and consumption after cancellation.
+Cancellation requires owner-bound retirement before restoring physical parameters;
+water splash and linked-actor movement must execute through required services or
+refuse. The explicit empty-context provider acknowledges only empty retirement.
+Activation, nonempty resource retirement and actual movement/effect producers
+remain prerequisites; naming does not establish their gameplay meaning.
+
+`Resources::with_reserve` and `Session::advance_delphi_reserve_controlled` compose
+physical/reset/post, reserve, secondary and zero-time ANM for the acquired dry
+passive profile. Actual owned state, physical flags, damage/limit, updated position
+and object-time areas are bound; the recharge-inhibition producer remains supplied.
+Existing active-control and immersion guards remain in force. Completed reserve
+writes survive a later failure, with replay quarantined. Earlier profiles remain
+separate. This is not active turbo movement or live mission admission.
+
+Complete original callback controls match 2,280 cases / 2,774,760 header/payload
+words, including passive recharge and dry active cancellation/drain with empty
+contexts. Original helpers run without behavior replacements. A separate 64-case /
+77,888-word control stops at actual movement or splash entry and matches the Rust
+refusal prefix; it does not execute or validate those service bodies. Synthetic
+checks verify renewed time queries after movement and retained cancellation before
+splash refusal. Two persistent owned sequences match 512 frames / 4,081,152 words
+over 22 actors and exact shared RNG. Commands/time, a flat world and metadata
+remain supplied; inactive pre-heading camera reset and full-world scheduling are
+excluded. The installed-data lifecycle adds a sixth owner, 64 reserve-profile
+updates, inhibition, wrong-entry refusal, retained late-failure effects and no
+replay. These are CPU controls, not input/render/audio or visual-fidelity proof.
+
+Prototype PS2 correspondence remains unknown. Private identity-bound lookups,
+raw-symbol/demangling distinctions, historical aliases, failed intermediate
+harness results and independent controls remain private. Remaining full-primary,
+item/target, auxiliary and authored-camera composition, water/swim/turbo, combat,
+renderer/HUD/audio and menu-to-mission integration stay open.
+
+The combined source/build validation is pinned in [RELEASES.md](RELEASES.md):
+808 synthetic Rust tests, the six-owner source-data control and both rebuilt
+512-frame comparisons pass. Its exact common executable passes silent menu and
+persistent cinematic cancellation regressions. Those runs do not call this
+Delphi controller or certify manual input, full scenes or visual fidelity.
+
 ## Controlled dry post-physical composition - 9 November 2026
 
 `delphi_dry_reset::advance` restores the acquired physical reset after first ANM
