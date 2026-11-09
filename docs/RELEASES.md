@@ -1,5 +1,19 @@
 # Preview releases and milestone integration
 
+## Camera lens and projection kernels - 9 November 2026
+
+The acquired common lens transition/scaling and finite source-space perspective
+kernels now compose in source order. Native/Rust controls match 25,091 lens cases
+/ 50,182 words, 9,720 projection cases / 184,680 words and 1,571 composed calls /
+31,420 words. Debug and optimized probes repeat the same inputs. Override keeps
+the transition; completed lens effects survive a later projection refusal.
+
+The native profile getter/kind predicates execute with supplied profile values.
+The composed native controls execute projection math before an observed, skipped
+device publication. Profile/input/viewport/depth production, complete dispatch,
+owned-view/renderer/mission integration, water/turbo and combat remain pending.
+CPU arithmetic is not visual fidelity or a new playable Delphi capability.
+
 ## Delphi ordinary third-person camera slice - 6 November 2026
 
 The shared camera producer now consumes Delphi's acquired distance policy while
@@ -22,6 +36,19 @@ angle smoothing/shake, full-primary/world scheduling and renderer/mission wiring
 remain open. This is CPU/API integration, with no new playable Delphi download or
 fidelity claim. Delphi-specific prototype PS2 attribution remains unknown; common
 reviewed service identities are retained separately from behavior coverage.
+
+
+The exact `22a301ec43a706ea628310d3a7c8eef540a7a5e5` GNU build passes both
+silent development lifecycle endpoints and three persistent-owner opening /
+cancellation cycles for Rstory1 mission 2. These are common-runtime regressions,
+not Delphi gameplay or complete cinematic transport. Its ten-member private
+draft has complete notices, matching receipt/review identities and no technical
+verifier blockers. Executable SHA256:
+`50225a58f1791f1fe41029b019fe3d7c24bb07a9b2f28460c964715006fa00ae`;
+private ZIP SHA256:
+`987a98e9249ca3c7841127abdd904477a785b0d79eb518d31b18146a8eb3051e`.
+This earlier binary does not include the later lens/projection kernels.
+
 ## Owned contact selector and slide-context ownership - 6 November 2026
 
 The ordinary Mecc pistol secondary now admits the acquired contact entry and

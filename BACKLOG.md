@@ -173,6 +173,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   updates and pre-provider frame/profile refusals. Full camera dispatch, target
   selection, dynamic profile/FOV/projection, underwater floor, angle smoothing,
   shake, real world providers and renderer/mission wiring remain prerequisites.
+- Implemented: common lens transition/scaling and finite PC perspective kernels,
+  composed in source order. Controls match 25,091 lens cases / 50,182 words,
+  9,720 projection cases / 184,680 words and 1,571 complete lens-to-matrix calls /
+  31,420 words. Debug and optimized probes repeat the same native inputs.
+  Actual PC profile/kind helpers execute in controls; profile FOV, input flags,
+  viewport and depth terms remain supplied boundaries. Only device publication
+  is skipped. Override preserves the transition; projection refusal retains a
+  completed lens update. No renderer or visual-fidelity claim is made.
+  Next bind actual profile selection, input/viewport/depth producers and camera
+  invocation ordering to the owned ordinary view, then use the common Bevy
+  projection/coordinate adapter. Full dispatch and alternate branches stay open.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary

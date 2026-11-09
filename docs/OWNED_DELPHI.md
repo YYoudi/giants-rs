@@ -4,6 +4,30 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Lens and projection arithmetic - 9 November 2026
+
+`camera_lens::State` implements the acquired finite transition, selected-kind
+eligibility, input scale and explicit FOV override. `camera_projection::build`
+produces the source-space perspective matrix and lens caches from actual supplied
+viewport/depth parameters. `camera_projection::advance` composes them in order;
+a completed transition survives a later projection refusal. These are CPU
+services. They do not select a camera profile, source input state, produce the
+world depth terms, publish to a device or adapt the matrix to Bevy coordinates.
+
+Original PC controls match 25,091 lens cases / 50,182 words, 9,720 projection
+cases / 184,680 words and 1,571 composed calls / 31,420 words. Both ordinary and
+optimized Rust probes repeat these same inputs; they are not additional unique
+trajectories. The original profile getter and kind predicates run with supplied
+FOV fields in the lens controls. Projection math executes before an observed,
+skipped device-publication boundary. The combined controls execute both original
+bodies; Rust receives requested inputs, not native transition/matrix outcomes.
+
+The finite perspective profile refuses unusable depth intervals and lens values;
+this is not a claim of native error-path parity. Real profile/input/viewport/depth
+production, complete camera dispatch, owned-view/renderer/mission integration,
+water/turbo and combat remain pending. Prototype PS2 attribution of these added
+services remains unknown. Detailed controls and original data remain private.
+
 ## Ordinary third-person camera slice - 6 November 2026
 
 `mecc_camera_update::State::advance_delphi_third_person` reuses the common camera
