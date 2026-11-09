@@ -374,6 +374,24 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: the reference eligibility and ordered bounds query match 512
+  declared original scenes / 1,536 selection/score/policy words, with 48 selected
+  targets. Preserve source masks versus candidate configuration16 (not personality
+  configuration14), null/self/parent exclusions and the state51 attached exception
+  for kind1. Wide Z and the wide negative-dot test precede the stored dot/range
+  comparison; range and score ties are strict. Direction is not normalized and
+  negative scores are not clamped. Supplied list/header/parent/bounds/ray and
+  Double53 caller state remain boundaries, including tested signed underflow.
+- The read-only Factory query requires this owner's completed resource token and
+  actual source/spec identity, reads masks from current payload, and traverses
+  real Session list0 and typed parent/state/flag/category metadata. Bounds are
+  requested only for eligible actors; no radius/first-model or stale/foreign
+  fallback exists. Source controls check ordinary construction, declared analytic
+  bounds/visibility/category, parent rejection, missing bounds, foreign/order
+  refusal, repeatability and unchanged owner/history/prerequisites. No live ray/
+  bounds producer, reference publication, target lifetime or actor interaction
+  is admitted. Next: local reference release/timer, actual view/range/bounds
+  producers, target publication and the following action/animation consumers.
 - Implemented, shared CPU dependency of the following actor-reference consumer:
   state-filtered velocity addition accepts an explicit vector or computes the
   acquired default from source scale/physical factor/basis. All 512 original

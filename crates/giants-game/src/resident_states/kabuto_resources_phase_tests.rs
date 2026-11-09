@@ -173,6 +173,7 @@ impl Controls {
                 .is_err()
         );
         if self.cases == 512 {
+            super::super::reference_query_tests::probe(factory, foreign, s, id, number);
             // Separate controlled phase entry tests the real late failure path;
             // it is not part of the successful original interval comparison.
             let a = s.residents.get_mut(&id.serial).unwrap();

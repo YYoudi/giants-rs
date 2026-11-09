@@ -99,6 +99,18 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    /// Read-only query after this owner's resource phase. The caller supplies
+    /// its acquired ray and current world-bounds producer; no target is published.
+    pub fn query_reference(
+        &self,
+        session: &Session,
+        owner: Id,
+        number: u64,
+        ray: crate::kabuto_reference_query::Ray,
+        bounds: impl FnMut(&Session, Id) -> Result<([f32; 3], [f32; 3]), String>,
+    ) -> Result<crate::kabuto_reference_query::Selection<Id>, String> {
+        session.query_kabuto_reference(owner, &self.resources, number, ray, bounds)
+    }
     pub fn advance_resources(
         &self,
         session: &mut Session,
