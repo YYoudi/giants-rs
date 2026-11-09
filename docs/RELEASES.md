@@ -37,6 +37,13 @@ These common-runtime regressions do not execute live Delphi controls. Existing
 published previews retain their own identities; this CPU dependency does not
 claim another playable Delphi download or redistribute original data.
 
+Final source checkpoint `566fe5c0bb627953a9ba3dc215ec890986e3806f` retains
+newer shared impact retirement and passes 810 synthetic Rust tests (35 ignored),
+40 Python tests, Rustfmt, strict Clippy and site/JavaScript checks. The source
+pattern audit reports zero findings across 431 commits / 2,854 blobs. The common
+executable and its runtime/package receipts above remain pinned to `dfaec7d2`;
+this later source validation does not relabel that binary.
+
 ## Owned impact core retirement and reuse - 9 November 2026
 
 The acquired expired class-867 actor now completes local core retirement after
