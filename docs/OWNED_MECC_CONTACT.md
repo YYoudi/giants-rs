@@ -202,3 +202,36 @@ constructor/provider failure retention, lifetime retirement and the impact's rea
 damage/channel services remain prerequisites. The exact main replay's latest
 endpoint remains the earlier step-441 refusal. No later trajectory, active effect
 rendering, new capture, campaign readiness or visual fidelity is certified.
+
+## Owned positional-impact birth - 9 November 2026
+
+`positional_impact::Factory` now constructs and publishes a real Session state-78
+actor from supplied scene resources. Its source image, class/state bindings,
+originating context identity and actual affine cache remain owned. The native
+origin pointer is represented by a typed identity and a normalized presence word;
+its future callback semantics are not inferred from its value.
+
+The required cue provider sees the published actor before the size draws,
+lifetime, fades and angular writes. It receives the same RNG, so its draws affect
+the following commands. There is no default production substitute for transport.
+Successful birth retires the temporary context. Late failure retains the actor,
+context reservation, completed writes and RNG state, and prevents replay even
+through a replacement factory. Prepared-only cleanup refuses this active context.
+The actor retains its source image after the pool and scene resources are dropped.
+
+Independent original-PC controls, using the original audio-disabled gate, compare
+256 complete normalized actor headers and payloads, plus four complete snapshots
+at cue entry: 67,600 words match. Normalization covers process pointers and typed
+origin presence; numerical fields and flags remain compared. The silent source-
+resource control additionally exercises interleaved provider draws, retained late
+failure, foreign-session refusal, replay prevention and ownership after resource
+release. These controls validate ordered CPU birth, not audible transport.
+
+Before acquiring the state-78 callback, repeat the prototype PS2 name search under
+the central method and retain the exact PC/prototype identities and aliases. The
+constructor, lifetime-command and reused affine helpers remain unattributed;
+no PS2 ABI or layout is imported. Next acquire actor cadence/callback, origin use
+and retirement, then bind actual positional cue transport and the independent
+impact damage/channel services. The main replay still has its earlier step-441
+refusal. Birth completion is not lifetime completion, world integration, effect
+rendering, a new playable preview or visual fidelity.

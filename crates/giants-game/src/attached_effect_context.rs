@@ -113,6 +113,7 @@ impl<K: Copy + Eq> Pool<K> {
                     generation: slot.generation,
                     context: slot.context.clone(),
                     sound_started: slot.sound_started,
+                    positional_started: slot.positional_started,
                 })
                 .collect(),
             free: self.free.clone(),
@@ -179,6 +180,7 @@ struct Slot<K> {
     generation: u64,
     context: Option<Context<K>>,
     sound_started: bool,
+    positional_started: bool,
 }
 /// Real deferred context provider for the acquired enemy launch boundary.
 /// The remaining services stay required and are delegated to their owner.
@@ -616,6 +618,7 @@ impl<K: Copy + Eq> Pool<K> {
                 generation,
                 context: Some(context),
                 sound_started: false,
+                positional_started: false,
             });
         } else {
             self.free.pop();
@@ -623,6 +626,7 @@ impl<K: Copy + Eq> Pool<K> {
                 generation,
                 context: Some(context),
                 sound_started: false,
+                positional_started: false,
             };
         }
         let id = Id {
@@ -638,8 +642,32 @@ impl<K: Copy + Eq> Pool<K> {
     pub fn release_prepared(&mut self, id: Id) -> Result<Context<K>, String> {
         self.get(id)
             .ok_or("prepared effect absent, foreign or stale")?;
-        if self.slots[id.slot].sound_started {
-            return Err("sound activation began; context requires active cleanup".into());
+        if self.slots[id.slot].sound_started || self.slots[id.slot].positional_started {
+            return Err("effect activation began; context requires active cleanup".into());
+        }
+        self.retire_context(id)
+    }
+    pub(crate) fn claim_positional_impact(&mut self, id: Id) -> Result<(), String> {
+        self.get(id)
+            .ok_or("positional context absent, foreign or stale")?;
+        let slot = &mut self.slots[id.slot];
+        if slot.sound_started || slot.positional_started {
+            return Err("positional context activation already started".into());
+        }
+        slot.positional_started = true;
+        Ok(())
+    }
+    /// Only a constructor which published no actor can return this reservation.
+    pub(crate) fn undo_positional_claim(&mut self, id: Id) {
+        if self.get(id).is_some() {
+            self.slots[id.slot].positional_started = false;
+        }
+    }
+    pub(crate) fn complete_positional_impact(&mut self, id: Id) -> Result<Context<K>, String> {
+        self.get(id)
+            .ok_or("positional context absent, foreign or stale at completion")?;
+        if !self.slots[id.slot].positional_started || self.slots[id.slot].sound_started {
+            return Err("positional context completion ownership changed".into());
         }
         self.retire_context(id)
     }
@@ -906,6 +934,38 @@ mod tests {
         }
         raw.extend(payload);
         Arc::new(giants_formats::effect_image::parse(&raw).unwrap())
+    }
+    #[test]
+    fn positional_birth_claim_survives_staging_and_forbids_prepared_cleanup_or_replay() {
+        let mut pool = Pool::<u32>::new(937, Some(image()));
+        let (Creation::Prepared(id), _) = pool
+            .prepare_positional(
+                "A",
+                [1., 2., 3.],
+                crate::effect_initialization::Selection {
+                    active_objects: 0,
+                    quality: 1.,
+                    lite_distance: 500.,
+                    camera: [0.; 3],
+                    recipient_position: [0.; 3],
+                },
+                &mut crate::audio_parameters::Random(1),
+            )
+            .unwrap()
+        else {
+            panic!()
+        };
+        pool.claim_positional_impact(id).unwrap();
+        assert!(pool.claim_positional_impact(id).is_err());
+        assert!(pool.release_prepared(id).is_err());
+        let mut staged = pool.staged_copy();
+        assert!(staged.claim_positional_impact(id).is_err());
+        assert!(staged.release_prepared(id).is_err());
+        pool.complete_positional_impact(id).unwrap();
+        assert!(pool.get(id).is_none());
+        assert!(pool.complete_positional_impact(id).is_err());
+        staged.undo_positional_claim(id);
+        assert!(staged.release_prepared(id).is_ok());
     }
     #[test]
     fn positional_context_is_not_retired_with_an_unrelated_or_zero_recipient() {

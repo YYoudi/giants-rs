@@ -442,7 +442,7 @@
       "title": "Animations and active effects",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Character/equipment animation, attachments, particles, trails, explosions, magic and effect lifecycles. Positional hard-landing context preparation matches 256 native controls, including three ordered shared RNG draws and empty-context retirement. Explicit activation configuration also matches 256 original-PC controls for cue identity, size/lifetime, angular rates and shared RNG with audio disabled. Actual owned birth, interleaved cue transport, cleanup and full world scheduling remain open."
+      "detail": "Character/equipment animation, attachments, particles, trails, explosions, magic and effect lifecycles. Positional hard-landing preparation and explicit activation configuration have bounded native controls. Owned state-78 birth now publishes its actor before a required cue provider and retains late failures without replay. Complete normalized headers/payloads match 256 native endpoints plus four cue-entry snapshots / 67,600 words with audio disabled. Shared RNG interleaving and source/cache ownership pass silent resource controls. Live cue transport, actor lifetime/retirement, impact damage/channel integration and full world scheduling remain open."
     },
     {
       "id": "hud-audio",
