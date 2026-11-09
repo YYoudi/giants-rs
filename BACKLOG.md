@@ -55,6 +55,8 @@ and cross-lane regression checks over additional stand-alone demonstrations.
   contact must use the integrated controller/effects, with release and landing
   verified. Historical scripted captures are not proof of that ordinary path.
   Keep incomplete inspection-menu experiments out of the release until reviewed.
+  Dashboard capture labels now make this diagnostic boundary explicit; that
+  presentation correction does not close the controller integration task.
 
 Each chat works alone in its own worktree and `codex/` branch. The Delphi fork
 starts from the current public main, not the older fork snapshot. Keep one menu
@@ -1148,6 +1150,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   references/ANM, live physical owner, callbacks, world RNG/cadence and retirement
   remain to compose. The last full 545-source census and fidelity counts remain
   unchanged; prototype PS2 counterparts remain unknown.
+
+  Published `preview-2026.11.09.9` pins the configuration dependency to source
+  `241739c14772a35cd3de73ab95a7693a9742db77`, with 829 Rust tests / 45 ignored,
+  40 Python tests, MinGW/Rustfmt/strict Clippy and zero source-audit findings.
+  Both offscreen development endpoints, three active cancellations and two
+  source-terminal/re-entry voice/text cleanup cycles pass on that executable.
+  The downloaded ten-member bundle and all three assets pass independent checks.
+  Later combined source retains Delphi terrain/view scans and passes four silent
+  Delphi and three impact controls. Keep the exact binary receipt and unchanged
+  preview-6 full-corpus inventory separate from these dependency checks.
 
 - Shared state78 construction now serves both existing attached/cinematic FX and
   owned positional impacts through one immutable class/spec/state preparation.
