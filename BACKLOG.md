@@ -257,9 +257,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   identity, without a team restriction. The shared query accepts an explicit
   required policy before geometry while preserving common hierarchy exclusions
   and existing Mecc policies; two synthetic ordering/refusal controls pass.
-  Bind this policy to actual owned candidate/header/current bounds/mesh services
-  and the held ray, then acquire terrain/range/readiness and typed target lifetime.
+  Its owned geometry binding is implemented below; acquire terrain/range/readiness
+  and typed target lifetime before live admission.
   This CPU dependency does not enable live Delphi or establish fidelity.
+- Implemented: the selected-owner held query resolves actual typed candidates
+  through the shared current-affine/bounds/collision-model/posed-buffer provider.
+  Original-PC controls match 256 source-resource contexts / 2,124 output words,
+  ten targets, 448 geometry visits and 140 mesh visits. Native headers/references,
+  lists, bounds/LOD and posed indexed triangles are supplied; native vertex
+  production and world timing are unverified. An installed-data lifecycle checks
+  pre-frame/pre-held, epoch/future/stale/presentation-parent/foreign refusals,
+  unchanged owner payload, repeated results and clear. Range is still an explicit
+  input; produce terrain/range/readiness and typed pending/active target lifetime,
+  then bind movement/audio/physics in the actual primary order. No live Delphi or
+  fidelity promotion follows from the query API.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -281,6 +292,21 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented, isolated CPU kernel: activity history, resource/delay/cooldown/
+  charge counters and next-frame speed-latch production preserve source stores,
+  descriptor frame queries, repeated clock queries and sound/notification order.
+  All 512 declared contexts / 141,758 payload/scratch/service-prefix words match
+  the original interval, including 108 sound and 21 notification requests at
+  explicit provider boundaries. The common frame converter and notification
+  predicate are reused. This does not execute audio/network transport or bind a
+  new Session phase. Failed services retain prefix effects and stop the tail;
+  failure behavior is owned policy, not native exception equivalence.
+- Next: bind that kernel to actual owned accumulated damage/limit, current
+  descriptor/clock and services. Preserve the intervening heading/flag/alive/
+  global guard instead of jumping directly from control forces to timers.
+  The later action/animation consumers must retain native scratch state and
+  ordering. Complete primary/frame/world admission and all prerequisites remain
+  open; do not acknowledge another frame from the isolated kernel.
 - Implemented: the owned post-ANM/gravity control-force phase reuses common
   target/quaternion/basis/force arithmetic. Actual Factory globals, header
   configuration, position/scale, affine/contact/physics, commands and incoming
@@ -797,6 +823,21 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   The exact ad508a4 common executable repeats seven muted jet starts and real
   paused impact reservations, then the expected step-441 refusal. This confirms
   the prefix regression, not impact playback or completed movement cycles.
+  The owned secondary now composes actual Session health and positional
+  preparation before normal pistol states 61/62, with damage preceding contact
+  precedence and previous-state slide work preceding the channel setter.
+  Original controls match 628 complete selectors / 209,615 state/protocol words;
+  differing live/current-history positions are acquired for self-point kind16.
+  A separate 64-prefix control matches 21,056 words at the pain-voice entry.
+  The actual supplied falling-entry primary retains 15 damage, zero contexts and
+  unchanged VM RNG, then quarantines its missing voice service without replay.
+  Its actor countdown is deliberately negative: do not clamp/reset it or supply
+  silent audio. Next bind actual pain/ambient local sources, routing and ready
+  sinks, then the replacement cooldown/shared timer and their separate audio/VM
+  RNG ordering. The main inspection still supplies no impact provider and keeps
+  step 441; native gate production, wounded continuation, heavy carried channel,
+  active effect scheduling and cleanup remain prerequisites. The existing
+  positional effect transport is for later activation, not secondary preparation.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

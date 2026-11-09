@@ -1159,3 +1159,40 @@ primary acknowledgment is invented. Active event/contact/audio services, the
 later speed-latch/animation consumers, remaining primary and live world/camera/GPU
 cadence remain open. Prototype PS2 attributions stay unknown; detailed raw symbols,
 ambiguous demangling, PC aliases and identity-bound evidence remain private.
+
+## Isolated activity/resource and speed-latch kernel — 9 November 2026
+
+`kabuto_resource_timers::advance` implements the acquired arithmetic and service
+ordering after the preceding alive/global guard. It updates the four-sample
+activity history, timers, gated drain/recovery, charge envelope/cap and the later
+speed interpolation/latch. Actual nonzero model rates feed the activity bits;
+negative countdowns and exact zero retain distinct flag behavior. The existing
+frame converter supplies current/previous frame indices. Each original clock
+query remains a separate required `World::seconds` call.
+
+The World interface has no silent sound/transport defaults. An exhausted active
+resource requests the owner-sound service before checking the actual notification
+decision and optionally requesting transport, then clears its latch/recharges.
+An error retains earlier payload/provider effects and stops the later consumers.
+The caller must quarantine replay. Tests distinguish a failed sound service from
+a completed sound mutation followed by failed transport; neither reaches the
+later speed-latch store. These are owned refusal rules, without an original-PC
+exception-equivalence claim.
+
+A 512-context control executes the complete original interval, original frame/
+clock helpers and notification predicate. Rust matches 141,758 complete payload,
+scratch and service-prefix words, including 108 sound requests and 21 notification
+requests. Synthetic declared descriptor/header/payload/globals and a changing
+supplied clock are inputs. Sound and notification entry providers record the
+current prefix; this does not execute device playback or networking. Rust derives
+notification eligibility independently from raw mode/peer/owner context using
+the existing common predicate. No original computed output seeds Rust.
+
+This is an isolated kernel, not another Factory-bound Session phase or continuous
+frame. Actual owner/damage/limit and descriptor identity, preceding heading/flag/
+alive/global guard, service bindings and the enclosing action/animation/frame
+consumers still require acquisition and integration. The arithmetic labels do
+not assign gameplay action identities. Earlier integrated source controls retain
+their own scope; no readiness, playable preview or visual-fidelity promotion
+follows. Prototype PS2 attributions remain unknown, with raw symbols, demangling
+uncertainty, PC aliases and detailed evidence preserved privately.

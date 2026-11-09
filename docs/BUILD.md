@@ -26,6 +26,13 @@ cargo clippy --locked --workspace --all-targets --target x86_64-pc-windows-gnu -
 
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
+With `GIANTS_DELPHI_ROOT` set to the user's installation (and optional
+`GIANTS_DELPHI_EXECUTABLE`), the ignored
+`source_delphi_candidates_use_current_geometry_and_preserve_target_payload`
+test checks actual owned Delphi/ordinary-actor construction, held-ray targeting,
+current geometry/mesh access, stale/foreign refusal and cleanup. It is silent
+CPU composition with supplied time, flat terrain and range; it enables no live
+input or complete mission/world schedule.
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.
 Use a separate Cargo target directory for each active worktree. Sharing downloaded
@@ -108,6 +115,22 @@ The third checks actor-local core retirement after a required test release
 provider, reference rechecks, preserved peers, reuse and late-failure quarantine.
 It does not execute the enclosing global cleanup prepass or a real device release.
 See OWNED_MECC_CONTACT.md.
+
+## Optional owned impact damage boundary checks
+
+With `GIANTS_MECC_WORLD_ROOT` and an isolated target directory, run:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_impact --target x86_64-pc-windows-gnu -- --ignored --nocapture
+```
+
+The secondary control checks actual Session health before returned channel
+publication, damage-before-contact precedence, real positional preparation and
+retained late carried-service failure. The primary control supplies a falling
+entry, executes its real physical/ANM/secondary prefix and retains health at the
+required missing pain-voice boundary, without cooldown/FX RNG draws or replay.
+No window, device, active effect actor or complete trajectory is exercised.
+See OWNED_MECC_CONTACT.md for the separate native comparisons and open services.
 
 ## Optional actual impact audio checks
 
