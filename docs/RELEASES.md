@@ -23,6 +23,8 @@ Kabuto controls and the separate cold-construction control, 43 Python tests,
 Rustfmt, strict Clippy and roadmap/site/JavaScript checks. These checks establish
 CPU/source behavior and preserve existing owner boundaries, without new runtime
 input, frame completion, package or playability validation.
+The common MinGW application compiles with this runtime source; its private
+build receipt is compilation evidence, without a new runtime or preview claim.
 
 ## State18 reset body for Kabuto — 9 November 2026
 
