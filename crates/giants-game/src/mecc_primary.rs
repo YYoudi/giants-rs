@@ -12,6 +12,8 @@ pub struct Services<'a, 'r, 'c> {
     /// Required local cue transport for the acquired impact tail. Its shared
     /// timer comes from the Session countdown owner after the primary prefix.
     pub impact_voice: Option<&'a mut dyn crate::resident_states::MeccImpactVoice>,
+    /// Required for wounded smoke preparation; never inferred from a controller mode.
+    pub damage_display: Option<crate::mecc_damage_effect::Display>,
 }
 
 #[derive(Clone, Copy)]

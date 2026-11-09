@@ -2,6 +2,34 @@
 //! required owners; preparation does not execute an active effect or world turn.
 use giants_formats::global_data::GlobalData;
 
+/// Actual current pre-world display snapshot, with actor/frame ownership.
+#[derive(Clone, Copy)]
+pub struct Display {
+    pub source: crate::resident_states::Id,
+    pub number: u64,
+    pub display: crate::first_person::Display<crate::resident_states::Id>,
+}
+impl Display {
+    pub(crate) fn validate(
+        &self,
+        session: &crate::resident_states::Session,
+        source: crate::resident_states::Id,
+        number: u64,
+    ) -> Result<(), String> {
+        if self.source != source
+            || self.number != number
+            || session.get(source).is_none()
+            || self
+                .display
+                .camera_owner
+                .is_some_and(|owner| session.get(owner).is_none())
+        {
+            return Err("damage smoke requires the current owned display/frame snapshot".into());
+        }
+        Ok(())
+    }
+}
+
 #[derive(Clone, Copy, Debug)]
 pub struct Input {
     pub damage: f32,

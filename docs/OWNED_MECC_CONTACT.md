@@ -6,6 +6,10 @@ The PC selector keeps its historical alias recorded in
 selector, context constructor and context cleanup remain unknown. Literal name
 hits are candidates only; the PC profile remains the behavioral authority.
 
+The sections record successive acquisition checkpoints. For the current binding,
+see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026).
+Earlier missing-service statements retain the limits of their recorded checkpoint.
+
 ## Selector and ownership order
 
 The ordinary pistol secondary now admits the acquired contact branch and logical
@@ -591,8 +595,48 @@ tag and inherited-parameter refusal. Its installed-resource regression checks
 all three levels, same-level reuse without draws, forced recreation, stale and
 foreign source refusal and retained old release after a later required-parameter
 failure. Health and the display-reset decision remain explicit inputs; this is
-not a Session health binding. The App and full-primary health guard are unchanged.
-Next bind the real display-owner decision and persistent context ownership at
+not a Session health binding. At that checkpoint the App and full-primary health guard remained unchanged.
+The next subsection records the subsequent bounded binding; the earlier prerequisite was to bind the real display-owner decision and persistent context ownership at
 the acquired pre-secondary point, including retirement/failure cleanup, before
 admitting wounded primary continuation. Active smoke rendering and full world
 cadence are further dependencies. Prototype PS2 correspondences remain unknown.
+
+## Persistent wounded primary — 9 November 2026
+
+The acquired normal offline primary now admits finite nonlethal accumulated damage
+when its explicit current display service is provided. `mecc_primary::Services`
+accepts a source/frame-bound display snapshot, using the existing typed active
+camera-owner predicate. The original getter/predicate agrees with Rust on 80
+supplied owner/active contexts; this does not establish the global owner's writer
+or the App's complete camera schedule. Absent, stale and foreign display snapshots
+remain refused for the affected profiles. Independent physical/event entrypoints
+retain their earlier healthy-only guards.
+
+The resident owns the typed smoke binding and level across frames. The primary
+reads actual current Session health and prepares/reuses/releases the context after
+jet handling, before the periodic scan and secondary selector. Typed presence and
+level are checked against their payload markers. Prepared pool, RNG and resident
+stores are published before later services can fail. A late secondary failure
+retains the completed smoke preparation and health and leaves the enclosing frame
+failed, preventing replay. `release_mecc_damage_smoke` cancels only this owner's
+prepared smoke, preserving peers and RNG; the caller invokes it before retirement.
+Active emitted effects still require their separate lifecycle.
+
+A private comparison of complete acquired primaries agrees on 384 frames / 124,800
+normalized header, payload and VM-seed words: eight healthy frames followed by
+supplied damage 0, 15 or 55 under the same neutral/forward/side/back sequence.
+Pointer storage identities are normalized; animation, motion, damage, context
+presence/level and random states remain compared. Flat terrain, time, command
+sequence, generation, startup epoch and display snapshots are supplied. This is
+whole acquired-primary CPU agreement, without full-world traversal, actual injury,
+active smoke interpretation, visual/audio fidelity or normal-input availability.
+
+Installed controls also compose a real owned falling-entry impact with the next
+wounded frame: accumulated damage and the two completed supplied cues are not
+replayed. Other controls retain smoke after a later draw-callback refusal, reject
+missing/stale/foreign display context, quarantine failed frames and preserve peers
+on cancellation. These additional composition/failure controls are separate from
+the 384-frame native comparison. The App still supplies no impact/voice/display
+service for this path. Its mission-gate production, active effects, general
+retirement, death/equipment/carried profiles and complete trajectory remain open.
+Prototype PS2 attributions remain unknown; no additional correspondence is confirmed.
