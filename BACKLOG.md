@@ -772,9 +772,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   declaration, actor or resource identity. The unchanged affine kernels reuse
   their retained 2,048-case native control. A separate 64-case root/scale/writer
   control matches 2,304 words, including 42 scale changes that leave the cache
-  untouched before an explicit rewrite. Four-world source controls retain 24
-  current and eight stale mission caches, release all 101 tracked residents and
-  preserve the 40 existing refusals. These 32 root declarations have no separate
+  untouched before an explicit rewrite. The first menu mission in each of four
+  cohort worlds retains 24 current and eight stale mission caches, releases all
+  101 tracked residents and preserves the 40 existing refusals. These 32 root declarations have no separate
   orientation-store requests. Other mission commands, locked-child construction,
   post-load services and full world/frame scheduling remain open; this does not
   establish complete native mission state or visual fidelity.
@@ -788,6 +788,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   capacity, complete rendering/audio/subtitle parity and broader interactive coverage remain
   open. Next: finish these persistent contracts, then the mixed/other queue
   families and the overlapping partial FX/audio/credits/resume priorities below.
+  All-menu CPU follow-up: 56 named missions / 19 menu worlds prepare; acquired
+  mission roots retain 438 current and 235 stale caches, with no additional root
+  orientation requests. All 2,104 constructed residents release. Preserve the
+  840 class-profile refusals and 10,852 other-state exclusions (per-mission
+  counts). Actual world admission and scene fidelity remain unverified.
 
 - Published preview 2026.11.05.6 / FX-prefix milestone validated: the real source/ancestry audit covers 208 active
   requests in 72 sources. The former guard conflated Flick34 shadow descriptors,

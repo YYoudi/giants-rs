@@ -13,10 +13,25 @@ other character startup ordering keep their existing routes.
 The unchanged math kernels reuse their retained 2,048-case native proof. A new
 64-case original root/scale/writer control matches 2,304 words: 42 actual scale
 changes preserve the old cache until an explicit rewrite. Four-world source
-construction retains 24 current and eight stale mission caches, releases all 101
+construction of the first menu mission in each of four cohort worlds retains
+24 current and eight stale mission caches, releases all 101
 tracked residents and keeps 40 existing refusals. The 32 selected root declarations
 have no separate orientation-store requests. Synthetic controls also cover failed
 preparation, duplicate source keys and the actual later-cache rewrite.
+
+A separate CPU sweep prepares all 56 named menu missions across 19 menu worlds. Among the acquired mission roots, 438 caches remain current and 235 retain an earlier scale; no additional orientation-store request occurs in these roots. All 2,104 constructed residents are released. The 840 class-profile refusals and 10,852 declarations in other state profiles remain explicit exclusions. These are repeated per-mission counts, not unique world objects or complete gameplay admission.
+
+Validation of binary source `6eaa3d0ee04b93033510ea875dc5e9c23d54d76c`: 788 Rust tests pass
+(30 ignored), 40 Python tests, formatting and strict Clippy pass. Source audit
+examines 362 commits / 2,591 blobs with zero findings. Silent offscreen controls
+pass both development endpoints, three live-effect cancellations and two Rstory1
+source-terminal/re-entry cycles with voice/text cleanup. Interactive and native
+scene-timing checks remain open.
+
+Preview `preview-2026.11.09.2` pins that exact source; executable SHA256
+`b6f0f30c72853f9ddee1530b0ad53908eaf5376c5930063e010ff37d0d5a3e96`, ZIP SHA256
+`944491cd3faed9f35dc42d3b3bd8b20c10bfc27f727ccac2e26a0b2f98e0659e`. The ten-member package passes receipt, notice and checksum
+checks. Later combined-source checks must retain their own identity.
 
 This is initial-cache integration, not a complete mission VM, shared physical
 stock accounting, world admission or visual/temporal fidelity result. Prototype

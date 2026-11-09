@@ -18,8 +18,9 @@ Compared with preview-2026.11.09.1, the common loader now stages the acquired
 initial affine cache for its ordinary state0/state23 mission roots. It uses the
 source class scale before later mission scale overrides. An override retains the
 initial cache; current-pose queries refuse it until a real later writer runs.
-Failed preparation publishes no actor or declaration. Four-world CPU source
-controls retain 24 current and eight stale mission caches with tracked release.
+Failed preparation publishes no actor or declaration. CPU source controls of the
+first menu mission in each of four cohort worlds retain 24 current and eight
+stale mission caches with tracked release.
 This adds no full mission VM, world admission or verified scene fidelity.
 
 Retained from preview-2026.11.09.1, the common owned loader marks its acquired
