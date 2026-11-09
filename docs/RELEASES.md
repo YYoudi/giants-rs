@@ -22,6 +22,8 @@ Validation passes 863 workspace Rust tests (56 ignored), sixteen installed
 Kabuto controls plus the separate cold-construction control, 43 Python tests,
 Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The three new synthetic
 controls cover external rule parsing and independent reset-field ownership.
+The common MinGW application compiles with this source. This is a private
+compilation receipt, without new runtime-input, package or playability evidence.
 
 ## Kabuto reference release — 9 November 2026
 
