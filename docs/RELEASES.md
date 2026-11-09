@@ -30,6 +30,24 @@ the enriched five-owner installed-resource control, Rustfmt and Clippy with
 warnings denied. The standalone and owned comparisons retain their exact source
 hashes and declared supplied boundaries. Common-build receipts and subsequent
 combined-source validation are recorded separately.
+
+Combined source `aefcc0c7a2cbe36fbea1a3c953034c8ec5062c27` retains the newer
+mission-affine and Kabuto contact work. It passes 799 synthetic Rust tests
+(30 ignored), 40 Python tests, Rustfmt, Clippy, generated site/JavaScript checks
+and the enriched Delphi installed-resource control. Rebuilt owned comparisons
+again match both complete 256-frame cohorts. History review reports no pattern
+findings across 380 reachable commits and 2,660 blobs.
+
+Its exact GNU executable passes both silent common development lifecycle
+endpoints and three Rstory1 mission-2 persistent-owner opening/cancellation
+cycles. These are common-runtime regressions, not live Delphi controls.
+Executable SHA256:
+`8bcfcfb5655d8da1659fdc822d367f0c82d1ddc7df220077815b23e12bf122e0`.
+The ten-member private draft has complete notices, matching receipt/review and
+checksums, an unchanged reviewed PE import set and zero package-verifier blockers.
+ZIP SHA256:
+`76caed8da82a186bd5a652bb303576360e60a781caeacdbd2f463956510e70b3`.
+This CPU milestone does not replace the public playable preview or its receipts.
 ## Kabuto contact policy and shared callback boundary — 9 November 2026
 
 The acquired finite contact kernel now returns separate handled and peer-support
