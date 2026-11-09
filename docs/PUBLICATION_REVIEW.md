@@ -30,6 +30,11 @@ remain flagged. All other hazard patterns still apply. Synthetic controls cover
 the exact document, changed content, an additional path and a separate secret
 pattern. This exception permits no raw listing or automatic attribution export.
 
+The 9 November method revision adds executable/DLL clock and RNG ownership
+requirements. Its retained alias list is byte-for-byte unchanged. The revised
+whole-document digest was separately reviewed and added to the same exact-path
+exception; all other checks and altered-content/copy refusals remain active.
+
 ## Historical source-publication review
 
 **Technical review completed; source publication performed under owner authorization.**
