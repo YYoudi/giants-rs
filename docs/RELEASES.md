@@ -6,6 +6,17 @@ Source merge, CPU validation, ordinary gameplay reachability and downloadable
 preview availability are reported separately. This process change alone enables
 no additional gameplay and replaces no existing release receipt.
 
+Main Windows CI now completes an already-admitted validation rather than
+cancelling it on each concurrent main push; topic-branch checks can still replace
+obsolete runs. Pending main validation tracks the newest queued source. This
+workflow policy alone is not a downloadable preview or a gameplay validation.
+
+The dashboard identifies existing screenshots and comparisons as archived
+diagnostic evidence. Their source revisions remain available, but the images do
+not establish availability in the ordinary controller of a current download.
+In particular, the historical jet/descent/contact captures do not close the Mecc
+input-to-landing integration prerequisite. No gallery assets or receipts change.
+
 ## Delphi range, terrain and view-dependent scan - 9 November 2026
 
 The owned scan now reads actual selection/source definitions and reuses common

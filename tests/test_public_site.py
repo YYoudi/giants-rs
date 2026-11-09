@@ -6,6 +6,19 @@ from tools.export_site import export, project
 
 
 class PublicSiteTests(unittest.TestCase):
+    def test_archived_screenshot_retains_identity_without_claiming_preview_availability(self):
+        from tools.export_site import screenshots_html
+        revision = 'a'*40
+        section, hero = screenshots_html({'screenshots': [dict(
+            title='Jet <probe>', image='media/'+'b'*64+'.webp',
+            caption='Controlled thrust sample', commit=revision)]})
+        self.assertIn('Archived diagnostic capture', section)
+        self.assertIn('ordinary gameplay is not established', section)
+        self.assertIn('/commit/'+revision, section)
+        self.assertIn('Jet &lt;probe&gt;', section)
+        self.assertNotIn('Inside the preview', section)
+        self.assertIn('ordinary gameplay availability unverified', hero)
+
     def test_cinematic_inventory_exports_only_canonical_aggregate_fields(self):
         from tools.cinematic_inventory import public_summary
         from tools.export_site import cinematic_inventory

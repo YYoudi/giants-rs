@@ -55,6 +55,8 @@ and cross-lane regression checks over additional stand-alone demonstrations.
   contact must use the integrated controller/effects, with release and landing
   verified. Historical scripted captures are not proof of that ordinary path.
   Keep incomplete inspection-menu experiments out of the release until reviewed.
+  Dashboard capture labels now make this diagnostic boundary explicit; that
+  presentation correction does not close the controller integration task.
 
 Each chat works alone in its own worktree and `codex/` branch. The Delphi fork
 starts from the current public main, not the older fork snapshot. Keep one menu
