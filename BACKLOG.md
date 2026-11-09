@@ -65,6 +65,12 @@ The main integration lane owns combined runtime wiring and delivery, using
 [INTEGRATION.md](docs/INTEGRATION.md). Prioritize ordinary gameplay reachability
 and cross-lane regression checks over additional stand-alone demonstrations.
 
+Delivery milestone, 9 November: NPC baseline PR #2 is merged and combined Windows
+preview `preview-2026.11.09.12` is published with independently verified public
+assets. `docs/public-preview.json` pins that download separately from newer source
+progress. This does not close ordinary native Mecc motion/impact or other-character/
+NPC world admission; continue connecting ready services through the common runtime.
+
 - Review committed Flick, Mecc, Delphi, Kabuto and NPC contributions against actual
   runtime entry points; retain CPU-only and supplied-provider boundaries.
 - Wire ready contributions into the shared menu-to-mission application, including

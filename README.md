@@ -22,9 +22,9 @@ separately; a source merge alone does not make a feature playable.
 
 The [roadmap dashboard](https://yyoudi.github.io/giants-rs/) is generated from this
 repository's `PROGRESS.json` and updates through GitHub Pages on main-branch pushes.
-It opens with featured engine screenshots and includes searchable status tables
-and 302 owner-authorized historical screenshot
-comparisons. Gallery captures are labeled development evidence, not certification
+It separates the [published Windows build snapshot](https://yyoudi.github.io/giants-rs/#current-preview)
+from searchable source-status tables and the owner-authorized historical comparison
+gallery. Captures are labeled development evidence, not certification
 of the current public build; game artwork remains outside the project MIT license.
 [Automatic Windows build checks](https://github.com/YYoudi/giants-rs/actions) are
 active. See [automation and activation](docs/AUTOMATION.md)
@@ -141,7 +141,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 - [ ] **Complete content coverage** — partial; Runtime integration. Audit every required mission, actor, weapon, spell, building, vehicle and presentation variant.
 - [ ] **Text and language coverage** — todo; Runtime integration. Menus, objectives, subtitles, fonts and available dialogue/audio variants.
-- [ ] **Playable Windows build stability** — partial; Runtime integration. Full-session play, repeated loading/restart, resource cleanup, performance and supported rendering paths. Silent development-session launch/return cycles observed on 4 November 2026; campaign loading, manual input and complete memory reclamation remain unverified. Owned descent/contact selection and real deferred slide-effect preparation now pass the former step-158 boundary. The latest exact muted-sink Mecc movement replay passes the former height and unequipped fuel-depletion refusals, then stops explicitly at step 441 on an unacquired impact reaction. Hard-landing preparation now has bounded CPU controls; complete impact/health integration and active world effects remain open. See docs/OWNED_MECC_CONTACT.md.
+- [ ] **Playable Windows build stability** — partial; Runtime integration. Full-session play, repeated loading/restart, resource cleanup, performance and supported rendering paths. Silent development-session launch/return cycles observed on 4 November 2026; campaign loading, manual input and complete memory reclamation remain unverified. Owned descent/contact selection and real deferred slide-effect preparation now pass the former step-158 boundary. The latest exact muted-sink Mecc movement replay passes the former height and unequipped fuel-depletion refusals, then stops explicitly at step 441 on an unacquired impact reaction. Hard-landing preparation now has bounded CPU controls; complete impact/health integration and active world effects remain open. See docs/OWNED_MECC_CONTACT.md. Published preview preview-2026.11.09.12 pins the combined five-lane checkpoint: six offscreen development launches and two selected cinematic end/re-entry cycles pass on its exact executable. The dashboard keeps its download identities, checked scope and remaining native-gameplay limits separate from later source-only progress.
 - [ ] **Complete gameplay and presentation fidelity** — partial; Fidelity. Compare complete scenes and mission outcomes, timing and behaviour across all three characters and game modes.
 
 ### Technical foundations
