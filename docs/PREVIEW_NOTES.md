@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.09.6
+# Windows x64 development preview - preview-2026.11.09.7
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -11,6 +11,18 @@ owner's estimate and has not received comprehensive human review. This estimate
 is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+## Shared effect construction
+
+Attached/cinematic effects and positional impacts now share class/resource and
+initial physical preparation. Each effect keeps its physical storage in its
+owned payload and retains the originating context identity; attached construction
+now preserves the native presence marker it previously omitted. Sixty-four
+original-PC/Rust constructor states agree within declared boundaries. Existing
+persistent queue cleanup/reentry/routes and silent impact controls still pass.
+The bounded timed cinematic request preserves its preparatory RNG draw and mark.
+Full timed actor admission, VM/callback composition and native world scheduling
+remain prerequisites; no additional complete movie is certified.
 
 ## Independent cinematic effect flags
 

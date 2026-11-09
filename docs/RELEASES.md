@@ -20,6 +20,105 @@ The source checkpoint passes 822 synthetic Rust tests (45 ignored), both install
 Delphi controls, 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
 checks. These checks do not relabel any earlier executable or runtime receipt.
 
+## Kabuto post-control guard and fresh damage field — 9 November 2026
+
+The isolated post-control guard now preserves heading/forward-vector and flag
+publication, damage/limit gating, the shared local timer and ordered growth,
+sound/notification and required reinitialization requests. Original-PC controls
+agree on 512 declared contexts / 256,743 words across continuation, primary exit
+and global-tail request. Supplied sine tables and service entry providers remain
+boundaries. Reinitialization internals, global-tail execution and actual Session
+composition remain open; no lifecycle success is synthesized.
+
+Fresh cold player initialization retains the acquired zero generic damage and
+exposes the actual class-limit query, refusing missing live fields. This does not
+reset active health, route Kabuto through Mecc-only hit logic or admit gameplay.
+All initializer/history prerequisites remain. No dependency/asset, new gameplay
+capture or downloadable preview is introduced; existing package/notices/checksum
+and runtime receipts retain their exact source identities. Prototype PS2
+correspondence remains unknown.
+
+Combined checkpoint `240f718` passes 829 synthetic Rust tests (45 ignored), all
+fifteen silent Kabuto phase controls and the separate cold-resource control,
+40 Python tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript
+checks. The rebuilt guard comparison repeats 512 / 256,743 after the shared-effect
+constructor merge. The limited history-pattern review reports zero findings across
+504 commits / 3,206 blobs. These checks do not promote existing binary receipts.
+
+## Shared state78 effect construction and inline physical storage — 9 November 2026
+
+Attached/cinematic FX and positional impacts now reuse the same acquired class,
+specification, state and initial attach/detach preparation. Physical defaults use
+the existing common reset inside each owned payload. The originating context is
+retained as a typed historical identity and a payload presence marker, without a
+native pointer. The attached constructor previously omitted that presence.
+
+Sixty-four original-PC/Rust parent/child constructor states match 10,432 selected
+header, channel, matrix, payload, binding and RNG words, before later VM commands.
+Independent payload mutation is visible through the physical view after retiring
+the context and dropping its resource template; foreign classes/origins refuse.
+This is not complete-header, ordinary-stock ownership or world scheduling parity.
+The bounded timed cinematic preparation consumes its acquired initial draw and
+retains the cinematic mark, refusing distinct normal/lite targets or unacquired
+inheritance producers before allocation/RNG. No seed producer is invented.
+
+All 23 persistent source queues retain two entry/release cycles, both draw routes
+and cancellation guards; the 50 native part-selection and 14 preparation controls
+still agree. Three silent installed-data impact controls retain construction,
+callback, retirement and late-failure behavior. Prototype PS2 counterparts remain
+unknown. The general timed actor/VM/callback and physical-stock admission,
+complete retirement/world cadence and full scene fidelity remain open; current
+545-source census counts are not promoted by this constructor dependency.
+
+Published [preview-2026.11.09.7](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.7)
+pins source `faa7195f1dffdbad6214467558e84c3140917a73`, executable SHA256
+`6f670c62b1ef46846d08f536896772630495b1415fcd038e44202e4364e4118c` and ZIP SHA256
+`ed0c94155141ec5a3fbf7cdab557b4bf96a0d2ab0fd6221744f86db4aa67267d`.
+The exact source passes 824 Rust tests (42 ignored), 40 Python tests, formatting,
+strict Clippy and source audit (497 commits / 3,168 blobs / zero findings).
+Its MinGW binary passes both silent offscreen development endpoints, three
+Rstory1 mission-index-2 persistent-effect cancellations and two source-terminal/
+re-entry cycles with voice/text cleanup. All ten bundle members, notices,
+receipt and checksums pass independent checks, repeated after downloading all
+three public assets. These are existing partial-renderer lifecycle observations;
+no interactive test, complete film or new general-queue admission is claimed.
+
+Combined source `c54c0fb` preserves the later Mecc reaction, Delphi geometry and
+Kabuto activity-timer work plus the queued dashboard-deployment policy. It passes
+827 workspace Rust tests (45 ignored), formatting and strict Clippy; the three
+silent installed-data impact controls pass again. The released binary and its
+runtime/package receipts remain pinned to `faa7195`, independently of later
+source merges. Python and generated site checks also pass after the merge.
+
+
+## Kabuto isolated resource timers and speed-latch producer — 9 November 2026
+
+The acquired activity/resource kernel now preserves frame queries, rolling
+history, repeated local-clock queries, timers, gated drain/recovery/charge and
+next-frame speed interpolation. A complete original interval matches 512 declared
+contexts / 141,758 payload/scratch/service-prefix words, including 108 sound and
+21 notification requests. Synthetic declared resources/state/clock and sound/
+transport entry providers remain boundaries; Rust computes the notification
+predicate from raw context independently. No device playback or networking is
+proved. Failed providers retain prefix effects and stop later stores; error
+policy is owned rather than an original exception-equivalence claim.
+
+The kernel is not yet a numbered Session phase. Actual owner/descriptor/context
+binding, the intervening state/global guard and required services remain pending.
+It must not skip directly from the integrated control-force phase or acknowledge
+another complete frame. The later action/animation/primary/world path remains
+open. No new dependency/asset, live Kabuto preview or fidelity promotion is added;
+existing package/notices/checksum/runtime receipts keep their own identities.
+Prototype PS2 correspondence remains unknown.
+
+Validation of the combined source: 824 synthetic Rust tests pass (45 ignored),
+all fifteen silent Kabuto phase controls plus the separate cold-resource check
+pass, alongside 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks. The rebuilt final kernel comparison repeats 512 / 141,758 successfully.
+The limited source/history pattern review reports zero findings across 496
+commits / 3,167 blobs at combined checkpoint `4d92824`. Existing executable/
+package receipts retain their exact source identities.
+
 ## Delphi owned candidate geometry query - 9 November 2026
 
 The selected-owner Delphi query now returns actual typed candidates and world

@@ -4,10 +4,10 @@ use crate::{
     actor_fields::Fields,
     arithmetic::Precision,
     attached_effect_context::{Context, Id as ContextId},
-    model_registry::StateBinding,
+    effect_actor::Template,
     resident_states::{Construction, Id, Session},
     scene_resources::SceneResources,
-    state_storage::{Profile, Seed},
+    state_storage::Seed,
 };
 use giants_formats::{effect_image::Image, effect_program::Program};
 use std::{collections::BTreeMap, sync::Arc};
@@ -140,102 +140,42 @@ impl Recipe {
         }))
     }
 }
-struct Template {
-    seed: Seed,
-    bindings: Vec<StateBinding>,
-    fields: Fields,
-    specification: Arc<crate::specification::Prepared>,
-    states: Arc<crate::state_resources::Prepared>,
-}
-impl Template {
-    fn load(resources: &SceneResources, class: i32) -> Result<Self, String> {
-        let program = resources
-            .classes
-            .models
-            .first_program(class)
-            .ok_or("attached effect resource class absent")?
-            .program
-            .as_ref()
-            .map_err(Clone::clone)?;
-        let seed = Seed::from_program_for(program, Profile::Debug, Precision::Double53)?;
-        if seed.storage.state() != 78
-            || !seed.diagnostics.is_empty()
-            || !seed.unresolved.is_empty()
-            || seed
-                .storage
-                .data()
-                .is_none_or(|d| d.len() != 268 || d.iter().any(|b| *b != 0))
-        {
-            return Err(
-                "attached object requires acquired zero-initialized D state78 class".into(),
-            );
-        }
-        let specification = Arc::new(crate::specification::Prepared::load_registered(
-            resources, class,
-        )?);
-        let states = Arc::new(crate::state_resources::Prepared::load(
-            resources,
-            class,
-            Profile::Debug,
-        )?);
-        if !specification.needs.is_empty() || !states.needs().is_empty() {
-            return Err("attached effect resources incomplete".into());
-        }
-        let fields = Fields::load(resources, class, &specification)?;
-        Ok(Self {
-            seed,
-            bindings: resources.class_state_bindings_for(class, Profile::Debug)?,
-            fields,
-            specification,
-            states,
-        })
+fn prepare<K: Copy>(
+    template: &Template,
+    recipe: Recipe,
+    origin: ContextId,
+    context: &Context<K>,
+) -> Result<Prepared<K>, String> {
+    let initial = template.attached(origin, context)?;
+    let mut seed = initial.seed;
+    let data = seed.storage.data_mut().ok_or("attached payload absent")?;
+    for at in [0x10, 0x14] {
+        data[at..at + 4].copy_from_slice(&recipe.scale.to_le_bytes());
     }
-    fn prepare<K: Copy>(
-        &self,
-        recipe: Recipe,
-        origin: ContextId,
-        context: &Context<K>,
-    ) -> Result<Prepared<K>, String> {
-        let mut seed = self.seed.instantiate()?;
-        let data = seed.storage.data_mut().ok_or("attached payload absent")?;
-        for at in [0xa4, 0xa8, 0xb0] {
-            data[at..at + 4].copy_from_slice(&1f32.to_le_bytes());
-        }
-        for at in [0x10, 0x14] {
-            data[at..at + 4].copy_from_slice(&recipe.scale.to_le_bytes());
-        }
-        let mut fields = self.fields.instantiate();
-        fields.configuration[14] = (fields.configuration[14] & !0x20000) | 0x800;
-        fields.configuration[22] = 50f32.to_bits();
-        fields.object_flags |= 0x40410030;
-        fields.control_flags |= 0x20 | if recipe.emitter.is_some() { 0x2000 } else { 0 };
-        fields.scale = recipe.scale;
-        let mut matrix =
-            crate::effect_orientation::matrix(fields.position, fields.angles, fields.scale)
-                .map_err(str::to_owned)?;
-        // The native writer touches only3x4 of the initially cleared cache.
-        matrix.values[12..].fill(0.);
-        Ok(Prepared {
-            seed,
-            fields,
-            metadata: Metadata {
-                origin,
-                parent: context.recipient().ok_or("attached effect parent absent")?,
-                reference: recipe.reference,
-                tag: context.tag().ok_or("attached effect tag absent")?,
-                opaque: recipe.opaque,
-                render_flags: if context.flags() & 0x8000 != 0 {
-                    0x1000
-                } else {
-                    0
-                },
-                initial_matrix: matrix,
-                world_matrix: None,
-                emitter: recipe.emitter,
-                emitter_request: recipe.emitter_request,
-            },
-        })
-    }
+    let mut fields = initial.fields;
+    fields.control_flags |= if recipe.emitter.is_some() { 0x2000 } else { 0 };
+    fields.scale = recipe.scale;
+    let mut matrix =
+        crate::effect_orientation::matrix(fields.position, fields.angles, fields.scale)
+            .map_err(str::to_owned)?;
+    // The size writer touches only3x4 of the initially cleared cache.
+    matrix.values[12..].fill(0.);
+    Ok(Prepared {
+        seed,
+        fields,
+        metadata: Metadata {
+            origin,
+            parent: context.recipient().ok_or("attached effect parent absent")?,
+            reference: recipe.reference,
+            tag: context.tag().ok_or("attached effect tag absent")?,
+            opaque: recipe.opaque,
+            render_flags: initial.render_flags,
+            initial_matrix: matrix,
+            world_matrix: None,
+            emitter: recipe.emitter,
+            emitter_request: recipe.emitter_request,
+        },
+    })
 }
 /// Immutable constructor resources shared by cinematic objects. This reuses
 /// the ordinary attached constructor; it is not another actor/state factory.
@@ -258,7 +198,7 @@ impl CinematicTemplate {
             return Err("cinematic effect constructor class mismatch".into());
         }
         let recipe = Recipe::project(context)?.ok_or("persistent effect program absent")?;
-        let prepared = self.0.prepare(recipe, origin, context)?;
+        let prepared = prepare(&self.0, recipe, origin, context)?;
         let references = crate::actor_references::Owned::new(self.0.specification.clone())
             .map_err(str::to_owned)?;
         let mut durations = vec![None; 254];
@@ -390,7 +330,7 @@ impl<'a> Factory<'a> {
             .or_insert_with(|| Template::load(self.resources, recipe.class))
             .as_ref()
             .map_err(Clone::clone)?;
-        let prepared = template.prepare(recipe, origin, context)?;
+        let prepared = prepare(template, recipe, origin, context)?;
         let flags = crate::object_lists::DirectFlags {
             active: prepared.fields.object_flags,
             personality: prepared.fields.configuration[14],

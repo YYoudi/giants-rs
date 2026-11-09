@@ -306,6 +306,33 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented, isolated CPU guard: heading/forward-vector and flag publication,
+  accumulated-damage gate, shared local timer and ordered growth-decrement,
+  sound/notification/reinitialization requests match 512 declared contexts /
+  256,743 header/payload/forward/service-prefix words. All three native exits
+  are represented: continue to timers, exit primary, require global tail.
+  Supplied D-style sine tables and service entry providers remain boundaries;
+  reinitialization and the global tail are required consumers, not implemented
+  lifecycle success. Failed services retain prior stores/provider effects.
+- Fresh owned cold initialization now retains the acquired zero generic header
+  damage; the Kabuto query reads the actual class limit and refuses missing,
+  foreign, uninitialized or cleared owners. This does not reset live health or
+  enable Mecc-only damage operations for Kabuto.
+- Implemented, isolated CPU kernel: activity history, resource/delay/cooldown/
+  charge counters and next-frame speed-latch production preserve source stores,
+  descriptor frame queries, repeated clock queries and sound/notification order.
+  All 512 declared contexts / 141,758 payload/scratch/service-prefix words match
+  the original interval, including 108 sound and 21 notification requests at
+  explicit provider boundaries. The common frame converter and notification
+  predicate are reused. This does not execute audio/network transport or bind a
+  new Session phase. Failed services retain prefix effects and stop the tail;
+  failure behavior is owned policy, not native exception equivalence.
+- Next: bind that kernel to actual owned accumulated damage/limit, current
+  descriptor/clock and services. Bind the acquired intervening heading/flag/state/
+  global guard instead of jumping directly from control forces to timers.
+  The later action/animation consumers must retain native scratch state and
+  ordering. Complete primary/frame/world admission and all prerequisites remain
+  open; do not acknowledge another frame from the isolated kernel.
 - Implemented: the owned post-ANM/gravity control-force phase reuses common
   target/quaternion/basis/force arithmetic. Actual Factory globals, header
   configuration, position/scale, affine/contact/physics, commands and incoming
@@ -313,8 +340,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   helpers match 512 original contexts / 10,462 words; the actual source-backed
   caller interval matches 512 / 210,517, including 199 eligible target entries.
   Airborne bypass and grounded/default-basis branches retain acquired ordering.
-  The incoming speed latch is supplied in the control; its later producer is
-  still required. Whole-header/payload retention, cache/factory/order/replay
+  The incoming speed latch is supplied in the control; its isolated later
+  producer still requires actual Session binding. Whole-header/payload retention, cache/factory/order/replay
   refusals and no advance after ANM failure are checked. Pure preparation failure
   is atomic and does not consume the phase. No primary/history completion occurs.
 - Implemented: the numbered Factory-bound clock/ANM/gravity phase consumes its
@@ -1084,6 +1111,27 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation requests. All 2,104 constructed residents release. Preserve the
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
+
+- Shared state78 construction now serves both existing attached/cinematic FX and
+  owned positional impacts through one immutable class/spec/state preparation.
+  The acquired attach/detach wrappers initialize their physical block through the
+  shared reset and retain a typed originating cursor plus its payload presence.
+  Attached construction previously omitted that presence. The physical view reads
+  the actual owned payload; it survives context retirement without another block.
+  Sixty-four parent/child constructor states match 10,432 selected native/Rust
+  fields and RNG words before later VM commands. Class/origin refusals, independent
+  payload mutation and access after context/resource-template retirement pass.
+  A bounded cinematic timed-context API consumes the acquired preparatory draw
+  and preserves the cinematic mark; different normal/lite selections and unknown
+  inheritance producers refuse before allocation/RNG. All 23 persistent queues,
+  their two entry/release cycles and both routes pass; the three silent source
+  impact ownership/callback/retirement checks pass. These shared services are
+  integrated dependencies, not complete timed parent/child world actors. Ordinary
+  physical-slot ownership/admission, subsequent VM commands/callback composition,
+  source parent-field binding and full retirement scheduling remain open.
+  Published `preview-2026.11.09.7` pins the shared constructor to source
+  `faa7195`; silent lifecycle/source-terminal/re-entry and independently downloaded
+  package checks pass. Existing census/readiness/fidelity limits retain their scope.
 
 - Source timed-FX actor fields now admit the acquired flag-only class opcode52,
   reusing the existing common flag projection. A 256-case native dispatch control
