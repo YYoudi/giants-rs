@@ -16,9 +16,15 @@ remain open. No live Delphi control or new gameplay screenshot is admitted, and
 no new preview binary is published for this source dependency. Existing package,
 notice, checksum and runtime receipts retain their exact source identities.
 
-The source checkpoint passes 821 synthetic Rust tests (43 ignored), the new
+Source checkpoint `68a92bc` passes 821 synthetic Rust tests (43 ignored), the new
 installed-data candidate lifecycle and existing seven-owner Delphi physical/held
 control, 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks.
+
+Combined source `9783ff6d0df3f4327bb3ea1ac4d032218c696a2a` preserves the newer
+Mecc impact-reaction work and passes 822 synthetic Rust tests (45 ignored), both
+Delphi installed-data controls, 40 Python tests, Rustfmt, strict Clippy and
+roadmap/site/JavaScript checks. Its limited history-pattern audit reports zero
+findings across 488 commits / 3,136 blobs. Existing binary receipts stay separate.
 
 
 ## Owned impact health, contact precedence and positional preparation - 9 November 2026
