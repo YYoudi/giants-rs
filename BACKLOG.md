@@ -882,6 +882,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   input. This is preparation only: actual world RNG, active object ownership and
   queue, lifetime/retirement-effect execution, source VM cadence and rendering
   remain open. No new film admission or gap-count reduction is claimed.
+  Preview 2026.11.09.3 binds the preparation dependency to source95b5b434:
+  798 Rust tests / 30 ignored, 40 Python tests and silent offscreen menu lifecycle,
+  active-effect cancellation and source-terminal/re-entry checks pass. Package
+  contents/notices/checksums are independently verified after public download.
 
 - Published preview 2026.11.05.6 / FX-prefix milestone validated: the real source/ancestry audit covers 208 active
   requests in 72 sources. The former guard conflated Flick34 shadow descriptors,
