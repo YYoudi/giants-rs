@@ -311,6 +311,7 @@ impl Body {
                 parameter_b0: 1f32.to_bits(),
                 attribute: None,
                 sounds: Vec::new(),
+                retained_sound: None,
                 texture_animation: None,
                 size_configured: construction.size.is_some(),
                 child_services: Vec::new(),
