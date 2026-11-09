@@ -38,10 +38,24 @@ queues pass two entry/release cycles and near/far routing, retiring 50 objects
 with no retained prepared contexts. These are scoped controls, not complete
 films, native live bit producers or proof of whole-world admission/fidelity.
 
-Prototype PS2 correspondences remain unknown. The pending MinGW integration keeps
-its exact source receipt separate from earlier public previews. Physical parent/
-child ownership, full retirement binding, world RNG/cadence and broader rendering,
-audio, subtitle and functional coverage remain open.
+Prototype PS2 correspondences remain unknown. Physical parent/child ownership,
+full retirement binding, world RNG/cadence and broader rendering, audio, subtitle
+and functional coverage remain open.
+
+Published [preview-2026.11.09.6](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.6)
+binds this separation, retirement preparation and source class-field preparation
+to source `2386822b63ce05b8872529c964c46d9944a27e7c`. Executable SHA256:
+`1f505884bb914f925985bd130190a62c2d2494013dc8edb47eeecd554b1bface`;
+ZIP SHA256: `3db43426b7d5e2918ed011e9ea012e1734637c0860f0abad119023baa14104b0`.
+The exact source passes 819 Rust tests (41 ignored), 40 Python tests, formatting,
+strict Clippy and the source audit (470 commits / 3,034 blobs / zero findings).
+Its MinGW binary passes both silent offscreen development endpoints, three
+Rstory1 mission-index-2 persistent-effect cancellations and two source-terminal/
+re-entry cycles with voice/text cleanup. All ten package members, notices,
+receipt and checksums pass independent validation, repeated after downloading
+all three public assets. The retained native comparisons repeat successfully
+against this combined runtime source. No interactive tests ran, and the runtime
+checks retain their selected-opening partial-renderer scope.
 
 ## Retirement context inheritance service — 9 November 2026
 

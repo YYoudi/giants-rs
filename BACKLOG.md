@@ -1037,6 +1037,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   source-backed queues retain two entry/release cycles and near/far routing;
   50 part-selection cases and 14 preparation states still match. Real flag
   producers, full physical ownership/world scheduling and fidelity remain open.
+  Published `preview-2026.11.09.6` pins this correction and the adjacent retirement/
+  class-field prerequisites to source `2386822`. Silent lifecycle, source-terminal
+  transport and downloaded package checks pass; no interactive or full-scene
+  certification follows.
 
 - Retirement-chain follow-up: 32 supplied native parent/child lifecycles now
   execute the actual global context updater, retirement helper, deferred mark,
