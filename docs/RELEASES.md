@@ -1,5 +1,26 @@
 # Preview releases and milestone integration
 
+## Delphi target-scalar production and selector composition - 9 November 2026
+
+The Delphi writer feeding bounds-centre selection now matches 513 original-PC
+contexts, including its actual shared-mode/distance helpers, source interval and
+precision boundaries. A separate control over 128 supplied four-actor schedules matches 640
+normalized production/query output words, covering 512 producer intervals and
+128 searches. Rust calculates the scalar before searching; original scalar
+results are not replayed as inputs.
+
+Registers, headers/link/current-player identities, positions, bounds, viewport and
+schedule remain supplied. Owned publication, other actor writers, lifetime and
+native primary/world/ANM timing stay open. No ordinary Delphi gameplay, new asset,
+capture or downloadable preview is introduced; existing package/notices/checksum
+receipts retain their exact identities. Prototype PS2 attribution remains unknown.
+
+Combined validation passes 840 synthetic Rust tests (51 ignored), five installed
+Delphi controls, the NPC ownership regression and four installed Mecc impact/voice
+controls. All 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks pass. Supplied cue services remain distinct from an audio device or main
+gameplay admission; current Mecc, NPC and integration changes are preserved.
+
 ## Combined five-lane Windows preview - 9 November 2026
 
 Published [preview-2026.11.09.12](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.12)

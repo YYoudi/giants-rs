@@ -4,6 +4,33 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Delphi scalar production before target selection - 9 November 2026
+
+`delphi_target_scalar::produce` implements the Delphi writer of the current
+scalar consumed by the bounds-centre selector. Its actual shared-mode, linked
+class/context and current-player context gates reset the scalar on their inactive
+routes. The distance route uses the source global interval, preserving wide
+distance arithmetic, the upper comparison and the reloaded single-precision lower
+comparison, including stored negative zero. No broader rendering or gameplay name
+is assigned to this field.
+
+The original producer interval agrees with Rust on 513 contexts, including actual
+mode and distance helpers, source global parameters and eight negative-zero
+cases. A separate composition runs the original producer intervals followed by
+the original selector over 128 supplied four-actor schedules. Independently
+calculated Rust production/query results match 640 normalized output words;
+native scalar results are not supplied as Rust inputs. These schedules contain
+512 scalar intervals and 128 searches. Outer registers, actor/link/current-player
+headers, positions, bounds, viewport and schedule remain supplied. Construction,
+earlier primary work and complete world/ANM timing do not execute in this control.
+
+This acquires the Delphi writer, not owned header publication or the writers for
+other actor types. The linked relationship must be produced and resolved through
+actual ownership; an arbitrary held actor or default zero cannot replace it.
+Target lifetime, proxy update/retirement and main admission remain open. No new
+playable preview, capture or fidelity claim follows. Prototype PS2 attribution
+remains unknown; detailed discovery and controlled records stay private.
+
 ## Ordered bounds-centre selection and range-mode guard - 9 November 2026
 
 `delphi_pending_target::query` implements the separate viewport search used by
@@ -28,7 +55,7 @@ remain separate. The acquired signed `mode_skips_range_check` guard agrees on
 1,024 original calls, including integer extrema. It is one range-check guard,
 not a complete readiness or movement-activation decision.
 
-Actual current-header production, target publication/lifetime, both caller
+Owned current-header publication and other actor writers, target lifetime, both caller
 relationships, proxy update/retirement and full phase composition remain open.
 No Session target assignment, mission admission, new capture or playable preview
 is introduced. Prototype PS2 correspondences remain unknown; detailed lookup,

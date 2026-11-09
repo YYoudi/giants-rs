@@ -692,6 +692,7 @@ pub mod delphi_target_proxy;
 pub mod delphi_target_range;
 pub mod delphi_target_ray;
 pub mod delphi_target_readiness;
+pub mod delphi_target_scalar;
 pub mod delphi_target_scan;
 pub mod gameplay_sound_bank;
 pub mod mecc_aim;
