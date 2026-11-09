@@ -40,6 +40,14 @@ No dependency, asset, new capture or downloadable Kabuto preview is introduced.
 Existing preview notices/checksums and runtime/package receipts keep their exact
 source identities. Prototype PS2 correspondence remains unknown.
 
+Combined checkpoint `7635261` passes 829 synthetic Rust tests (46 ignored), all
+sixteen silent Kabuto phase controls plus the separate cold-resource control,
+41 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The
+source-backed comparison repeats 512 / 1,317,724 after the merge; the isolated
+kernel comparisons also repeat successfully. The limited source/history pattern
+review reports zero findings across 519 commits / 3,290 blobs. Existing binaries
+retain their independent source and runtime/package receipt identities.
+
 ## Timed effect program configuration — 9 November 2026
 
 The bounded attached timed and detached linear-gravity frames now compose their
