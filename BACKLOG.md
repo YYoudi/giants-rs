@@ -1033,9 +1033,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   selected words; separate real preparation/release matches 256 contexts /
   16,640 words. The actual prepared adapter passes source-resource reuse,
   replacement, display-reset, stale/foreign and late-failure controls. Bind its
-  persistent owner and actual display decision at the pre-secondary boundary,
-  then validate the wounded whole primary. Active smoke/world retirement remains
-  separate; no main health gate or missing impact/voice provider is relaxed.
+  persistent owner and actual display decision at the pre-secondary boundary.
+  This subsequent binding now passes 384 complete acquired primary frames /
+  124,800 normalized header/payload/VM words with supplied wounds and display
+  snapshots. The typed resident owns smoke across frames before the periodic scan;
+  its required display is source/frame checked. Late selector failure retains
+  context/RNG and quarantines replay; prepared cancellation preserves peers.
+  Real owned impact -> following wounded frame also preserves health and completed
+  supplied cues. The primary now admits its bounded nonlethal profile with that
+  explicit service; independent healthy-only APIs keep their guards. Acquire App
+  camera-owner/global gate production, active smoke/emitted-object lifetime and
+  full movement/injury trajectory before ordinary gameplay admission. The App
+  still supplies no impact/voice/display provider for this path.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

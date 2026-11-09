@@ -247,6 +247,7 @@ impl<'r> Providers<'r> {
         crate::mecc_primary::Services {
             impact: None,
             impact_voice: None,
+            damage_display: None,
             fire: None,
             animation: crate::mecc_animation_phase::Services {
                 contexts: &mut self.contexts,
@@ -1823,6 +1824,25 @@ fn source_mecc_impact_primary_voice_uses_countdown_owner_and_retains_failed_fram
             assert_eq!(voice.count, 2);
             assert_eq!(session.mecc_countdown_world(), Some(10.));
             assert_eq!(providers.contexts.active().len(), 1);
+            // The following frame owns wounded continuation; it must not reapply
+            // the previous landing damage or replay either completed cue.
+            session.begin_mecc_frame_history(source, 2).unwrap();
+            let mut services = providers.borrowed();
+            services.impact = Some(context);
+            services.impact_voice = Some(&mut voice);
+            services.damage_display = Some(crate::mecc_damage_effect::Display {
+                source,
+                number: 2,
+                display: crate::first_person::Display {
+                    camera_owner: None,
+                    active: false,
+                },
+            });
+            session
+                .advance_mecc_world_offline(source, env(2), Some(source), ground, services)
+                .unwrap();
+            assert_eq!(session.mecc_health(source).unwrap().damage, 15.);
+            assert_eq!(voice.count, 2);
         }
         session.clear();
     }
@@ -1978,4 +1998,347 @@ fn source_mecc_damage_smoke_owns_reuse_release_and_late_failure() {
     // Context cancellation belongs to the enclosing owner; this test has no actor birth.
     assert_eq!(session.mecc_health(source).unwrap().damage, 0.);
     session.clear();
+}
+
+fn smoke_control_header(
+    session: &Session,
+    owner: Id,
+    view: &crate::mecc_physical_cycle::View,
+) -> Result<Vec<u32>, String> {
+    let actor = session.get(owner).ok_or("header owner absent")?;
+    let f = actor
+        .construction_fields
+        .as_ref()
+        .ok_or("header fields absent")?;
+    let mut h = vec![0; 0x304 / 4];
+    for (i, &v) in f.configuration.iter().enumerate() {
+        h[0x190 / 4 + i] = v;
+    }
+    for (i, v) in view.previous_model_rates.into_iter().enumerate() {
+        h[0x118 / 4 + i] = v.to_bits();
+    }
+    h[0x208 / 4] = u32::from_le_bytes(view.commands[..4].try_into().unwrap());
+    h[0x20c / 4] = u32::from_le_bytes(view.commands[4..].try_into().unwrap());
+    for (at, v) in [
+        (4, actor.class as u32),
+        (0xc, actor.mecc_animation_stamp),
+        (0xc4, f.scale.to_bits()),
+        (0xd4, view.look_pitch.to_bits()),
+        (0x114, view.angular_rate.to_bits()),
+        (0xd8, f.object_flags),
+        (0xdc, f.response_flags),
+        (0xe0, f.control_flags),
+        (0xe8, f.action),
+        (0x104, u32::from(session.mecc_physics(owner).is_ok())),
+        (0x278, session.mecc_health(owner)?.damage.to_bits()),
+        (0x2e4, f.shadow_reciprocal.to_bits()),
+    ] {
+        h[at / 4] = v;
+    }
+    h[0x2d8 / 4] = session
+        .specification(owner)
+        .ok_or("header specification absent")?
+        .metadata
+        .references
+        .names
+        .len() as u32;
+    for (i, v) in actor
+        .channels
+        .ok_or("header channels absent")?
+        .into_iter()
+        .flatten()
+        .enumerate()
+    {
+        h[4 + i] = v;
+    }
+    for (at, values) in [
+        (0xa0, f.position),
+        (0xac, f.current),
+        (0xb8, f.previous),
+        (0xc8, f.angles),
+        (0x108, view.model_rates),
+        (0x128, view.velocity),
+        (0x134, view.previous_velocity),
+    ] {
+        for (i, v) in values.into_iter().enumerate() {
+            h[at / 4 + i] = v.to_bits();
+        }
+    }
+    for (at, v) in [
+        (0x140, view.floor.to_bits()),
+        (0x154, view.radius.to_bits()),
+        (0x220, view.hit),
+        (0x224, view.support),
+        (0x228, view.support_part),
+        (0x22c, view.support_triangle),
+    ] {
+        h[at / 4] = v;
+    }
+    for (i, v) in view.plane.into_iter().enumerate() {
+        h[0x144 / 4 + i] = v.to_bits();
+    }
+    if let Some(affine) = view.affine {
+        h[0x294 / 4] = affine.flags;
+        for (i, v) in affine.matrix.into_iter().enumerate() {
+            h[0x298 / 4 + i] = v.to_bits();
+        }
+    }
+    Ok(h)
+}
+
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; wounded primary/smoke CPU control, no active effects/window/audio"]
+fn source_mecc_wounded_primary_preserves_smoke_and_cancellation() {
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    let mut receipt = String::new();
+    for damage in [0., 15., 55.] {
+        let mut session = Session::new(865);
+        let source = actor(&mut session, &r, &g, &c, None, 0.);
+        session.prepare_mecc_countdown_world(10.).unwrap();
+        session
+            .bind_mecc_contact_materials(
+                crate::mecc_contact_materials::Catalog::from_prepared(&[], Default::default())
+                    .unwrap(),
+            )
+            .unwrap();
+        let mut p = Providers::new(&r);
+        p.stamp.0 = 4;
+        for frame in 0..128 {
+            if frame == 8 {
+                session
+                    .residents
+                    .get_mut(&source.serial)
+                    .unwrap()
+                    .mecc_damage = Some(damage);
+            }
+            let number = frame + 1;
+            let controls = match frame / 32 {
+                0 => [0, 0],
+                1 => [32, 0],
+                2 => [0, 32],
+                _ => [-32, 0],
+            };
+            let env = crate::mecc_physical_cycle::Environment {
+                number,
+                generation: 1,
+                globals: &g,
+                catalog: &c,
+                global_seconds: 1. / 60.,
+                areas: &[],
+                controls,
+                facing_pitch: 0.,
+                orientation: Some(crate::mecc_physical_cycle::Orientation {
+                    controls: [0, 0],
+                    control_factor: 1.,
+                    skip_heading: false,
+                    controlled_actor: true,
+                }),
+                actor_key: 1,
+                objects: &[],
+            };
+            session.begin_mecc_frame_history(source, number).unwrap();
+            let mut services = p.borrowed();
+            services.damage_display = Some(crate::mecc_damage_effect::Display {
+                source,
+                number,
+                display: crate::first_person::Display {
+                    camera_owner: None,
+                    active: false,
+                },
+            });
+            let step = session
+                .advance_mecc_world_offline(source, env, Some(source), ground, services)
+                .unwrap();
+            assert_eq!(step.outcome, Outcome::UpdatedByPrimary);
+            let view = &step.primary.unwrap().physical;
+            assert_eq!(
+                session.mecc_health(source).unwrap().damage,
+                if frame < 8 { 0. } else { damage }
+            );
+            let smoke = &session.get(source).unwrap().mecc_damage_smoke;
+            assert_eq!(smoke.level, u32::from(damage == 55. && frame >= 8));
+            assert_eq!(smoke.binding.is_some(), damage == 55. && frame >= 8);
+            if let Some(binding) = smoke.binding {
+                assert_eq!(p.contexts.get(binding).unwrap().recipient(), Some(source));
+            }
+            let mut words = smoke_control_header(&session, source, view).unwrap();
+            let mut payload = session
+                .get(source)
+                .unwrap()
+                .seed
+                .storage
+                .data()
+                .unwrap()
+                .to_vec();
+            payload[0x70..0x74].fill(0);
+            words.extend(
+                payload
+                    .chunks_exact(4)
+                    .map(|b| u32::from_le_bytes(b.try_into().unwrap())),
+            );
+            words.push(p.random.0);
+            receipt.push_str(&format!(
+                "{} {} {}\n",
+                damage as u32,
+                frame,
+                words
+                    .iter()
+                    .map(|x| format!("{x:08x}"))
+                    .collect::<Vec<_>>()
+                    .join(" ")
+            ));
+        }
+        let seed = p.random.0;
+        let peers = p.contexts.active().len()
+            - usize::from(
+                session
+                    .get(source)
+                    .unwrap()
+                    .mecc_damage_smoke
+                    .binding
+                    .is_some(),
+            );
+        session
+            .release_mecc_damage_smoke(source, &mut p.contexts)
+            .unwrap();
+        assert_eq!(p.contexts.active().len(), peers);
+        for id in p.contexts.active().to_vec() {
+            p.contexts.release_prepared(id).unwrap();
+        }
+        assert_eq!(p.random.0, seed);
+        session.clear();
+        assert!(
+            session
+                .release_mecc_damage_smoke(source, &mut p.contexts)
+                .is_err()
+        );
+    }
+    if let Ok(path) = std::env::var("GIANTS_MECC_PRIMARY_RECEIPT") {
+        use std::io::Write;
+        let mut file = std::fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(path)
+            .unwrap();
+        file.write_all(receipt.as_bytes()).unwrap();
+    }
+}
+
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; wounded display binding and late-secondary failure quarantine"]
+fn source_mecc_wounded_primary_rejects_stale_display_and_retains_smoke_before_late_failure() {
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    for profile in 0..4 {
+        let mut session = Session::new(867);
+        let source = actor(&mut session, &r, &g, &c, None, 0.);
+        let mut foreign_session = Session::new(868);
+        let foreign = actor(&mut foreign_session, &r, &g, &c, None, 0.);
+        session.prepare_mecc_countdown_world(10.).unwrap();
+        session
+            .bind_mecc_contact_materials(
+                crate::mecc_contact_materials::Catalog::from_prepared(&[], Default::default())
+                    .unwrap(),
+            )
+            .unwrap();
+        let actor = session.residents.get_mut(&source.serial).unwrap();
+        actor.mecc_damage = Some(55.);
+        let fields = actor.construction_fields.as_mut().unwrap();
+        fields.position = [0.; 3];
+        fields.current = fields.position;
+        fields.previous = fields.position;
+        let data = actor.seed.storage.data_mut().unwrap();
+        data[0x60..0x64].copy_from_slice(&u32::MAX.to_le_bytes());
+        data[0x6c..0x70].copy_from_slice(&1f32.to_le_bytes());
+        let mut p = Providers::new(&r);
+        let before = session
+            .get(source)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap()
+            .to_vec();
+        let env = crate::mecc_physical_cycle::Environment {
+            number: 1,
+            generation: 1,
+            globals: &g,
+            catalog: &c,
+            global_seconds: 1. / 60.,
+            areas: &[],
+            controls: [0; 2],
+            facing_pitch: 0.,
+            orientation: Some(crate::mecc_physical_cycle::Orientation {
+                controls: [0; 2],
+                control_factor: 1.,
+                skip_heading: false,
+                controlled_actor: true,
+            }),
+            actor_key: 1,
+            objects: &[],
+        };
+        session.begin_mecc_frame_history(source, 1).unwrap();
+        let mut services = p.borrowed();
+        if profile != 0 {
+            services.damage_display = Some(crate::mecc_damage_effect::Display {
+                source,
+                number: if profile == 1 { 2 } else { 1 },
+                display: crate::first_person::Display {
+                    camera_owner: if profile == 2 { Some(foreign) } else { None },
+                    active: false,
+                },
+            });
+        }
+        let error = session
+            .advance_mecc_world_offline(source, env, Some(source), ground, services)
+            .err()
+            .unwrap();
+        if profile < 3 {
+            assert!(error.contains(if profile == 0 {
+                "fresh normal"
+            } else {
+                "display/frame"
+            }));
+            assert_eq!(
+                session.get(source).unwrap().seed.storage.data().unwrap(),
+                before
+            );
+            assert!(p.contexts.active().is_empty());
+            assert_eq!(p.random.0, 1);
+            assert_eq!(p.stamp.0, 0);
+        } else {
+            assert!(error.contains("animation callback/frame"), "{error}");
+            let smoke = &session.get(source).unwrap().mecc_damage_smoke;
+            assert_eq!(smoke.level, 1);
+            assert!(p.contexts.get(smoke.binding.unwrap()).is_some());
+            assert_eq!(p.random.0, 2745024);
+        }
+        assert_eq!(
+            session.actor_world_tick(source).unwrap().phase(),
+            Phase::Failed
+        );
+        let seed = p.random.0;
+        assert!(session.begin_mecc_frame_history(source, 2).is_err());
+        assert_eq!(p.random.0, seed);
+        session
+            .release_mecc_damage_smoke(source, &mut p.contexts)
+            .unwrap();
+        assert!(p.contexts.active().is_empty());
+        session.clear();
+    }
 }

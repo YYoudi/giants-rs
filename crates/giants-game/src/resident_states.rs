@@ -345,6 +345,7 @@ pub struct Resident {
     mecc_local_target: Option<crate::mecc_target_owned::Published>,
     mecc_jet: Option<crate::mecc_jet_owned::Owner>,
     mecc_contact: crate::mecc_secondary::Contact,
+    mecc_damage_smoke: crate::mecc_damage_effect::State<crate::attached_effect_context::Id>,
     /// Native accumulated header damage, owned separately from the payload.
     mecc_damage: Option<f32>,
     mecc_physics_present: bool,
@@ -425,6 +426,7 @@ struct MeccCycleServices<'a, 'r, 'c, 'f, 'v> {
     jet: Option<&'a mut dyn crate::mecc_jet_owned::PhaseDriver>,
     impact: Option<crate::mecc_impact::Context>,
     impact_voice: Option<&'v mut dyn MeccImpactVoice>,
+    damage_display: Option<crate::mecc_damage_effect::Display>,
 }
 #[derive(Debug)]
 pub struct Session {
@@ -568,6 +570,7 @@ impl Session {
                 mecc_local_target: None,
                 mecc_jet: None,
                 mecc_contact: Default::default(),
+                mecc_damage_smoke: Default::default(),
                 mecc_damage: None,
                 mecc_physics_present: false,
                 mecc_physical_cycle: None,
@@ -1050,6 +1053,7 @@ impl Session {
             MeccCycleServices {
                 impact: None,
                 impact_voice: None,
+                damage_display: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1082,6 +1086,7 @@ impl Session {
             MeccCycleServices {
                 impact: None,
                 impact_voice: None,
+                damage_display: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1124,6 +1129,7 @@ impl Session {
             MeccCycleServices {
                 impact: None,
                 impact_voice: None,
+                damage_display: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1178,6 +1184,7 @@ impl Session {
             MeccCycleServices {
                 impact: None,
                 impact_voice: None,
+                damage_display: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1220,6 +1227,7 @@ impl Session {
             MeccCycleServices {
                 impact: None,
                 impact_voice: None,
+                damage_display: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1262,6 +1270,7 @@ impl Session {
             MeccCycleServices {
                 impact: None,
                 impact_voice: None,
+                damage_display: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1423,6 +1432,7 @@ impl Session {
         let crate::mecc_primary::Services {
             impact,
             impact_voice,
+            damage_display,
             animation,
             jet,
             collection,
@@ -1448,6 +1458,7 @@ impl Session {
             MeccCycleServices {
                 impact,
                 impact_voice,
+                damage_display,
                 deferred,
                 fire: fire.as_mut(),
                 primary: true,
@@ -1477,6 +1488,7 @@ impl Session {
         let MeccCycleServices {
             impact,
             mut impact_voice,
+            damage_display,
             deferred,
             primary,
             prepared_history,
@@ -1518,6 +1530,9 @@ impl Session {
         if let Some(factory) = &mut wield {
             factory.preflight_weapon(self, id, environment.catalog)?;
         }
+        if let Some(display) = &damage_display {
+            display.validate(self, id, environment.number)?;
+        }
         let health = self.mecc_health(id)?;
         self.mecc_physical_cycle(id)?;
         let actor = self.get(id).unwrap();
@@ -1525,7 +1540,11 @@ impl Session {
         let body = actor.seed.storage.data().unwrap();
         let word = |at| u32::from_le_bytes(body[at..at + 4].try_into().unwrap());
         let mut cycle = actor.mecc_physical_cycle.clone().unwrap();
-        if health.damage != 0.
+        if (health.damage != 0.
+            && !(primary
+                && damage_display.is_some()
+                && health.damage >= 0.
+                && health.damage < health.limit))
             || actor.attachment.is_some()
             || actor.presentation_parent.is_some()
             || fields.action != 0
@@ -1777,6 +1796,37 @@ impl Session {
                 output.fields = phase.fields;
                 output.payload = phase.payload;
                 jet_projection = Some(phase.projection);
+            }
+            if primary {
+                let health = self.mecc_health(id)?;
+                let mut smoke = self.get(id).unwrap().mecc_damage_smoke.clone();
+                let word = |at| u32::from_le_bytes(output.payload[at..at+4].try_into().unwrap());
+                if word(0x1a0) != u32::from(smoke.binding.is_some()) || word(0x1a4) != smoke.level {
+                    return Err("damage smoke payload differs from its persistent owner".into());
+                }
+                if let Some(display) = damage_display {
+                    let result = smoke.advance(
+                        crate::mecc_damage_effect::Input::from_globals(health.damage, health.limit, globals)?,
+                        &mut crate::mecc_damage_effect::Prepared { reset: display.display.owns(&id),
+                            pool: &mut pipeline.contexts, source: id, source_flags: output.fields.object_flags,
+                            random: &mut pipeline.random },
+                    );
+                    output.payload[0x1a0..0x1a4].copy_from_slice(&u32::from(smoke.binding.is_some()).to_le_bytes());
+                    output.payload[0x1a4..0x1a8].copy_from_slice(&smoke.level.to_le_bytes());
+                    let actor = self.residents.get_mut(&id.serial).unwrap();
+                    actor.mecc_damage_smoke = smoke;
+                    actor.mecc_animation_stamp = pipeline.last_stamp;
+                    actor.channels = Some(pipeline.channels);
+                    actor.construction_fields = Some(output.fields.clone());
+                    actor.seed.storage.data_mut().unwrap().copy_from_slice(&output.payload);
+                    self.specifications.get_mut(&id.serial).unwrap().0 = pipeline.references.clone();
+                    self.mecc_events = Some(pipeline.bank.clone());
+                    *contexts = pipeline.contexts.staged_copy();
+                    *random = pipeline.random;
+                    result?;
+                } else if health.damage != 0. || smoke.binding.is_some() || smoke.level != 0 {
+                    return Err("wounded primary requires its actual damage-smoke display provider".into());
+                }
             }
             if periodic {
                 let timer = f32::from_le_bytes(output.payload[0x1d4..0x1d8].try_into().unwrap());
@@ -2141,6 +2191,33 @@ impl Session {
             return Err("Mecc event resources differ from shared class bank".into());
         }
         bank.kinds(slot)
+    }
+    /// Cancel this player's prepared-only smoke before retirement. Active effects
+    /// require their separate interpreter and emitted-object lifecycle.
+    pub fn release_mecc_damage_smoke(
+        &mut self,
+        id: Id,
+        contexts: &mut crate::attached_effect_context::Pool<Id>,
+    ) -> Result<(), String> {
+        self.mecc_health(id)?;
+        let state = self.get(id).unwrap().mecc_damage_smoke.clone();
+        if let Some(binding) = state.binding {
+            let context = contexts
+                .get(binding)
+                .ok_or("damage smoke cancellation binding absent, foreign or stale")?;
+            if context.recipient() != Some(id)
+                || context.tag() != Some(3)
+                || context.flags() != 0x20004
+                || context.label != *b"FX_mecc_smoking_"
+            {
+                return Err("damage smoke cancellation belongs to another source/profile".into());
+            }
+            contexts.release_prepared(binding)?;
+        }
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        actor.mecc_damage_smoke = Default::default();
+        actor.seed.storage.data_mut().unwrap()[0x1a0..0x1a8].fill(0);
+        Ok(())
     }
     pub fn mecc_health(&self, id: Id) -> Result<crate::mecc_damage::State, String> {
         let actor = self.get(id).ok_or("Mecc health actor absent or foreign")?;

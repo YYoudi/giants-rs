@@ -4177,3 +4177,26 @@ independent preview-13 records. It passes 854 synthetic workspace Rust tests
 smoke owner, 43 Python tests, Rustfmt, strict workspace Clippy and generated
 roadmap/site/JavaScript checks. Both new native comparators repeat on rebuilt
 runners from that source. No public executable is relabelled by these tests.
+
+## Mecc persistent wounded primary and smoke ownership — 9 November 2026, source only
+
+The normal owned primary binds smoke to actual Session health and a required
+source/frame-checked display snapshot. Nonlethal wounded continuation is now
+admitted in that acquired profile. Preparation/replacement occurs after jet and
+before the periodic scan/secondary; resident binding, pool and RNG prefixes survive
+late failures. Prepared cancellation preserves peer contexts and performs no draw.
+
+Complete acquired-primary controls agree on 384 frames / 124,800 normalized
+header, payload and VM-seed words under supplied wound/display/flat-world inputs.
+The separate original display getter/predicate agrees on 80 supplied contexts.
+Additional installed controls compose real owned impact -> next wounded frame
+without damage/cue replay and verify missing/stale/foreign display refusal,
+retained preparation after a late selector error and failed-frame quarantine.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md) for boundaries.
+
+The App still has no impact/voice/display binding for this path. Actual camera/
+mission-gate production, active emitted effects and general world/death/equipment
+profiles remain open. Prototype PS2 correspondences remain unknown. This source
+lot adds no dependency, asset, screenshot or downloadable executable. Existing
+preview identities/notices/checksums remain independent; main integration owns
+combined gameplay admission and public Windows delivery.
