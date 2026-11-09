@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Delphi viewport bounds-centre selection - 9 November 2026
+
+The separate ordered viewport selector matches 768 complete original-PC searches,
+including multi-axis and precision/endpoint/tie cases. It retains perpendicular
+ranking and reuses readiness eligibility. The signed range-mode guard agrees on
+1,024 original calls; 130 original argument-prefix executions at both caller
+sites agree with source-backed Rust parameters. The two caller relationships
+remain distinct; target assignment is not synthesized.
+
+Current headers, population order, bounds and viewport remain supplied. Header
+production, target/proxy lifetime and caller/world composition are still open.
+This source milestone admits no ordinary Delphi gameplay, asset, screenshot or
+downloadable preview. Earlier binary/package/notices/checksum receipts retain
+their exact source identities. Prototype PS2 correspondences remain unknown.
+
+Combined source validation passes 836 synthetic Rust tests (49 ignored), five
+installed Delphi controls, the installed NPC ownership regression, 41 Python
+tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The NPC control
+retains its authored-world exclusions and supplied floor/clock/RNG boundaries.
+
 ## NPC reconstruction inventory and source ownership regression — 9 November 2026
 
 The dedicated NPC lane consolidates existing herd/Vimp, Ripper, shared enemy
@@ -105,6 +125,7 @@ Delphi resource/lifecycle controls, 41 Python tests, Rustfmt, strict Clippy and
 roadmap/site/JavaScript checks. These checks retain their supplied CPU boundaries
 and do not relabel an existing executable as containing this source milestone.
 
+
 ## Kabuto owned post-control/resource composition — 9 November 2026
 
 The actual Factory/Session phase now continues from its control-force token
@@ -195,8 +216,16 @@ layout; they pass with the identity-checked acquisition reference specified as
 documented in BUILD.md. No parser gate was weakened. These tests retain supplied
 service/geometry/time boundaries and do not admit playable Delphi/Kabuto/NPCs.
 The main history-pattern audit reports zero findings across 517 commits / 3,268
-blobs. A separate combined Windows build is still being prepared; these source
-checks do not relabel the public `.9` executable or certify a newer download.
+blobs. The separate combined MinGW executable has SHA256
+`e7f5581e198e23b62cae506e7cf6a0aed466ddeee960d326c4a9f2ba9c320a90`.
+Its exact runtime tree passes 829 release-profile workspace tests (45 ignored),
+strict workspace/all-target Clippy, six offscreen development launches and two
+Rstory1 mission-index-2 source-terminal/re-entry cycles with muted voice/text
+cleanup. CLI help exits successfully when explicitly awaited; CI now does so
+instead of relying on a bare PowerShell GUI invocation. PE imports contain Windows
+system/UCRT libraries; the dependency preflight finds 338 packages with notices
+and verifies eleven toolchain notice files. These checks do not relabel `.9` or
+certify ordinary controls/fidelity; this candidate remains a private checkpoint.
 
 The bounded attached timed and detached linear-gravity frames now compose their
 following source VM commands with the shared owned initial constructor. Size,
