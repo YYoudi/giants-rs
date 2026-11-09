@@ -4,6 +4,32 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Physical support feeding target-scalar production - 9 November 2026
+
+`delphi_target_scalar::produce_from_support` resolves the physical support key
+produced by player contact before applying the acquired scalar writer. A zero
+support is actual absence; a nonzero unknown or stale key must fail in the
+required header resolver. The inactive shared mode does not read that header.
+The older `Input::linked` name remains compatible and now documents its acquired
+physical-support role, distinct from held equipment and surfacing markers.
+
+A composed original-PC/Rust control covers 320 supplied schedules through the
+actual location wrapper, narrow floor-contact body and later scalar interval.
+All 3,840 control/position/scalar words agree exactly. Five floor/plane words per
+case agree within the declared 0.002 absolute budget, with maximum error below
+0.00000012. This includes 256 contact passes, 128 actual post-location event
+dispatches and 56 active distance routes. The acquired state3 event slot is
+absent; its original dispatcher executes rather than replacing a live callback.
+Frozen-location support retention and reset-before-contact remain distinct.
+
+Single-object traversal, prepared identity-world geometry, model/animation slot,
+part eligibility, header identities and the collision-then-scalar schedule are
+supplied. This does not establish same-frame primary/physics order. Scene keys
+must be bound to actual class/context ownership and lifetime, not assumed equal
+to Session serials. Owned header publication, other actor writers and full world
+admission remain open. No asset, screenshot, preview or fidelity claim is added.
+Prototype PS2 correspondences remain unknown; detailed records stay private.
+
 ## Delphi scalar production before target selection - 9 November 2026
 
 `delphi_target_scalar::produce` implements the Delphi writer of the current
@@ -25,8 +51,8 @@ headers, positions, bounds, viewport and schedule remain supplied. Construction,
 earlier primary work and complete world/ANM timing do not execute in this control.
 
 This acquires the Delphi writer, not owned header publication or the writers for
-other actor types. The linked relationship must be produced and resolved through
-actual ownership; an arbitrary held actor or default zero cannot replace it.
+other actor types. The physical support must be resolved through actual scene
+ownership; an arbitrary held actor or default zero cannot replace it.
 Target lifetime, proxy update/retirement and main admission remain open. No new
 playable preview, capture or fidelity claim follows. Prototype PS2 attribution
 remains unknown; detailed discovery and controlled records stay private.

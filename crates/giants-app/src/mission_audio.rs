@@ -13,6 +13,8 @@ use giants_game::{
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 mod owned;
 pub(crate) use owned::OwnedAudio;
+#[allow(unused_imports)] // Required-service adapter; normal mission gates remain unbound.
+pub(crate) use owned::damage::SharedBackend;
 
 pub fn muted() -> bool {
     std::env::var("GIANTS_AUDIO_MUTE").ok().as_deref() == Some("1")
@@ -134,6 +136,7 @@ struct Voice {
     owned_reservation: bool,
     deferred_parameters: bool,
     actor_owner: Option<giants_game::resident_states::Id>,
+    local_owner: Option<u64>,
     actor_moved: bool,
     spatial: Option<SpatialVoice>,
     entity: Entity,
@@ -422,6 +425,7 @@ fn stage(
             owned_reservation: false,
             deferred_parameters: false,
             actor_owner: None,
+            local_owner: None,
             actor_moved: false,
             spatial,
             entity,
@@ -1164,6 +1168,7 @@ fn update(world: &mut World) {
         if owned::requested()
             && let Err(error) = (|| -> Result<(), String> {
                 owned::reserve(world, &mut mounted)?;
+                owned::reserve_damage(world, &mut mounted)?;
                 let cues = world
                     .resource::<crate::mission_runtime::Runtime>()
                     .owned_impact_cues(mounted.ticket)?;
