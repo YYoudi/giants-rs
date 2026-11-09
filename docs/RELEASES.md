@@ -20,6 +20,14 @@ package/notices/checksum/runtime receipts retain their exact identities; no new
 asset/dependency, downloadable preview or playable/visual-fidelity claim is added.
 Prototype PS2 correspondences remain unknown.
 
+Combined-source validation: 816 synthetic Rust tests pass (38 ignored), all
+thirteen silent Kabuto phase controls and the separate cold-resource control
+pass, plus 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks. Rebuilt shared model/gravity comparisons and the source-backed model
+comparison pass again. The source/history pattern audit reports zero findings
+across 454 commits / 2,949 blobs at the combined checkpoint; it is a limited
+pattern review. Existing playable preview receipts retain their own source IDs.
+
 ## Retirement child initialization and native cleanup boundary — 9 November 2026
 
 The shared null-object initialization service now handles the acquired complete
