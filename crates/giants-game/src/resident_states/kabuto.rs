@@ -1132,6 +1132,33 @@ impl Session {
     pub fn has_cold_kabuto_player_fields(&self, id: Id) -> bool {
         self.get(id).is_some_and(|a| a.kabuto_player_fields)
     }
+    /// Accumulated generic header damage and the actual class limit. This does
+    /// not reset health, apply a hit or enable the death/reinitialization path.
+    pub fn kabuto_damage_state(&self, id: Id) -> Result<(f32, f32), String> {
+        let actor = self
+            .get(id)
+            .ok_or("Kabuto damage actor absent or foreign")?;
+        if actor.class != 1
+            || !actor.kabuto_player_fields
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 1
+            || actor.seed.storage.data().is_none_or(|p| p.len() != 844)
+        {
+            return Err("Kabuto damage requires acquired cold-player fields".into());
+        }
+        let damage = actor
+            .mecc_damage
+            .ok_or("Kabuto accumulated damage absent")?;
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("Kabuto damage fields absent")?;
+        let limit = f32::from_bits(fields.configuration[12]);
+        if !damage.is_finite() || !limit.is_finite() || limit <= 0. {
+            return Err("Kabuto damage outside finite positive-limit profile".into());
+        }
+        Ok((damage, limit))
+    }
     pub(crate) fn initialize_cold_kabuto_player_fields(
         &mut self,
         owner: Id,
@@ -1149,6 +1176,7 @@ impl Session {
         if actor.class != 1
             || !actor.acquired_construction
             || actor.kabuto_player_fields
+            || actor.mecc_damage.is_some()
             || actor.seed.storage.profile() != Profile::Debug
             || actor.seed.storage.state() != 1
             || actor.seed.storage.data() != resources.state_template().storage.data()
@@ -1187,6 +1215,9 @@ impl Session {
         let actor = self.residents.get_mut(&owner.serial).unwrap();
         actor.channels = Some(next.channels);
         actor.construction_fields = Some(next);
+        // The acquired fresh generic constructor and cold player initializer
+        // retain a zero generic header damage. Never default missing live data.
+        actor.mecc_damage = Some(0.);
         actor.kabuto_player_fields = true;
         Ok(Initialized {
             owner,

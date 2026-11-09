@@ -292,6 +292,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented, isolated CPU guard: heading/forward-vector and flag publication,
+  accumulated-damage gate, shared local timer and ordered growth-decrement,
+  sound/notification/reinitialization requests match 512 declared contexts /
+  256,743 header/payload/forward/service-prefix words. All three native exits
+  are represented: continue to timers, exit primary, require global tail.
+  Supplied D-style sine tables and service entry providers remain boundaries;
+  reinitialization and the global tail are required consumers, not implemented
+  lifecycle success. Failed services retain prior stores/provider effects.
+- Fresh owned cold initialization now retains the acquired zero generic header
+  damage; the Kabuto query reads the actual class limit and refuses missing,
+  foreign, uninitialized or cleared owners. This does not reset live health or
+  enable Mecc-only damage operations for Kabuto.
 - Implemented, isolated CPU kernel: activity history, resource/delay/cooldown/
   charge counters and next-frame speed-latch production preserve source stores,
   descriptor frame queries, repeated clock queries and sound/notification order.
@@ -302,7 +314,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   new Session phase. Failed services retain prefix effects and stop the tail;
   failure behavior is owned policy, not native exception equivalence.
 - Next: bind that kernel to actual owned accumulated damage/limit, current
-  descriptor/clock and services. Preserve the intervening heading/flag/alive/
+  descriptor/clock and services. Bind the acquired intervening heading/flag/state/
   global guard instead of jumping directly from control forces to timers.
   The later action/animation consumers must retain native scratch state and
   ordering. Complete primary/frame/world admission and all prerequisites remain
@@ -314,8 +326,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   helpers match 512 original contexts / 10,462 words; the actual source-backed
   caller interval matches 512 / 210,517, including 199 eligible target entries.
   Airborne bypass and grounded/default-basis branches retain acquired ordering.
-  The incoming speed latch is supplied in the control; its later producer is
-  still required. Whole-header/payload retention, cache/factory/order/replay
+  The incoming speed latch is supplied in the control; its isolated later
+  producer still requires actual Session binding. Whole-header/payload retention, cache/factory/order/replay
   refusals and no advance after ANM failure are checked. Pure preparation failure
   is atomic and does not consume the phase. No primary/history completion occurs.
 - Implemented: the numbered Factory-bound clock/ANM/gravity phase consumes its

@@ -1196,3 +1196,39 @@ not assign gameplay action identities. Earlier integrated source controls retain
 their own scope; no readiness, playable preview or visual-fidelity promotion
 follows. Prototype PS2 attributions remain unknown, with raw symbols, demangling
 uncertainty, PC aliases and detailed evidence preserved privately.
+
+
+## Post-control guard and cold damage ownership — 9 November 2026
+
+`kabuto_post_control` acquires the intervening heading/forward-vector and flag
+publication, damage/limit test, local timer, mode/button gate and ordered growth
+decrement, sound, notification and reinitialization requests. Its three outcomes
+retain continuation to resources, primary exit and a required global tail. A
+returned request does not execute that tail or finish the enclosing frame.
+
+The original complete guard interval agrees on 512 declared contexts / 256,743
+header, payload, forward-vector and service-prefix words: 379 continuations,
+116 primary exits and 17 global-tail requests. Original trig/conversion and
+notification/state predicates execute, with supplied D-style sine tables and
+synthetic declared actor, payload, timer/mode/local context. Sound/network and
+reinitialization entry providers record snapshots and apply declared mutations.
+This does not acquire the reinitialization helper's inner lifecycle, execute the
+global tail, or validate audio/network devices, actual startup tables or Session
+scheduling. Rust computes its notification predicate from raw supplied context.
+Two synthetic failure controls retain completed timer/flag/provider effects and
+check that a failed sound prevents target publication, while failed reinitialization
+retains the earlier target and ordered notifications. Errors use owned policy.
+
+The source cold player initializer now explicitly retains zero generic header
+damage under its existing fresh-constructor contract, refusing preexisting damage
+metadata. The separate Kabuto query returns that damage and the actual class
+limit, refusing missing/uninitialized/foreign/cleared owners. Earlier original
+cold controls retain zero damage in all sixteen contexts; this is a fresh initial
+field, not a default for missing live state or a general health reset.
+
+The guard and resource-timer kernels still require actual owner/descriptor/clock,
+class sound, notification and lifecycle service composition. They are not numbered
+Session phases. Preserve all initializer/history prerequisites and later primary,
+action/animation, world/camera/GPU, jump/feeding and growth-threshold work. No
+playable, visual-fidelity or new downloadable-preview claim follows. Prototype PS2
+correspondence remains unknown; detailed attribution and control records stay private.

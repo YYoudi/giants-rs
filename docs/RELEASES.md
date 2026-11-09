@@ -18,6 +18,31 @@ retirement and native world RNG/cadence remain open. The general FX queue and la
 full 545-source census are unchanged. Prototype PS2 counterparts remain unknown;
 no complete movie or visual fidelity result is certified by these CPU controls.
 
+## Kabuto post-control guard and fresh damage field — 9 November 2026
+
+The isolated post-control guard now preserves heading/forward-vector and flag
+publication, damage/limit gating, the shared local timer and ordered growth,
+sound/notification and required reinitialization requests. Original-PC controls
+agree on 512 declared contexts / 256,743 words across continuation, primary exit
+and global-tail request. Supplied sine tables and service entry providers remain
+boundaries. Reinitialization internals, global-tail execution and actual Session
+composition remain open; no lifecycle success is synthesized.
+
+Fresh cold player initialization retains the acquired zero generic damage and
+exposes the actual class-limit query, refusing missing live fields. This does not
+reset active health, route Kabuto through Mecc-only hit logic or admit gameplay.
+All initializer/history prerequisites remain. No dependency/asset, new gameplay
+capture or downloadable preview is introduced; existing package/notices/checksum
+and runtime receipts retain their exact source identities. Prototype PS2
+correspondence remains unknown.
+
+Combined checkpoint `240f718` passes 829 synthetic Rust tests (45 ignored), all
+fifteen silent Kabuto phase controls and the separate cold-resource control,
+40 Python tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript
+checks. The rebuilt guard comparison repeats 512 / 256,743 after the shared-effect
+constructor merge. The limited history-pattern review reports zero findings across
+504 commits / 3,206 blobs. These checks do not promote existing binary receipts.
+
 ## Shared state78 effect construction and inline physical storage — 9 November 2026
 
 Attached/cinematic FX and positional impacts now reuse the same acquired class,
