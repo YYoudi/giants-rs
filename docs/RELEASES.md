@@ -79,7 +79,8 @@ pass before upload and again after downloading all three public assets. The actu
 public tag resolves to the recorded source. Manual controls, full world cadence,
 campaign completion and visual/audio fidelity remain unverified.
 
-Later main source includes the separate Delphi bounds-centre selection service;
+Source checkpoint `54b0a3a84e5081a515ea08342a632f6efdb02ffa` includes the separate
+Delphi bounds-centre selection service;
 its combined runtime tree passes 838 standard Rust tests (51 ignored) and strict
 Clippy. Delivery-table support adds two Python tests (43 total). These newer source
 checks do not relabel the `.12` executable. The dashboard's reviewed download
