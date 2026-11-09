@@ -55,6 +55,13 @@ preparation/activation work. It passes 801 synthetic Rust tests (30 ignored),
 Delphi installed-resource control. Rebuilt owned comparisons again match both
 256-frame cohorts and exact shared RNG. These source checks keep the earlier
 exact executable/package receipts unchanged.
+
+Subsequent combined checkpoint `5801ac3` preserves Kabuto classification/radius
+work and the reciprocal collision-response boundary. It passes 802 Rust tests
+(32 ignored), 40 Python tests, Rustfmt, Clippy and site/JavaScript checks.
+Both rebuilt 256-frame Delphi comparisons again match all 4,081,152 words and
+shared RNG. This remains separate source validation of the unchanged Delphi
+profile, with no relabeling of the earlier executable or package.
 ## Kabuto owned physical classification — 9 November 2026
 
 The exact factory-owned motion prefix now feeds the shared physical-player
