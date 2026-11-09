@@ -1,5 +1,57 @@
 # Preview releases and milestone integration
 
+
+## Owned impact health, contact precedence and positional preparation - 9 November 2026
+
+The normal offline secondary now accepts an explicit acquired impact provider.
+Actual Session health/source writes precede contact precedence; contact can retain
+damage while suppressing hard-land preparation. Otherwise the real positional
+context is prepared before normal pistol states 61/62 and their channel selection.
+Previous state 60 still owns its separate slide context before the channel setter.
+This is preparation, not active effect birth, positional playback or full world
+scheduling. The main inspection still supplies no impact provider.
+
+Three original-PC comparisons match 628 complete selector snapshots / 209,615
+header, payload, request, damage-call, VM-RNG and context-count words. They cover
+inclusive thresholds, mixed axes, deliberately stored previous-speed rounding,
+previous contact and differing live/current-history positions. A separate 64-case
+original prefix control matches 21,056 words at required pain-cue entry. The latter
+executes no backend, replacement-cooldown draw or hard-land preparation.
+
+Source-resource checks execute actual owned health/context/channel work. A
+supplied falling-entry owned primary retains 15 damage at its missing actual pain
+voice, with zero positional contexts and unchanged VM RNG; its failed world token
+cannot replay health. This is a real owned primary prefix from a controlled entry,
+not an original-PC whole-primary comparison or the main movement trajectory.
+Do not reset its negative actor countdown or supply silent voice success.
+
+Combined checkpoint `64b11b7ae9c69e312b42265d46527eec543c13f2` retains concurrent
+cinematic flag/context inheritance, Delphi held-target/query and Kabuto control
+work. It passes 822 synthetic Rust tests (44 ignored), all seven source Mecc
+controls including the new two, both actual impact audio controls, 40 Python tests,
+Rustfmt, strict Clippy and generated roadmap/site/JavaScript checks. Its bounded
+source/history audit reports zero findings across 485 commits /3,116 blobs.
+
+The exact common GNU executable SHA256 is
+`ac890114eba6e8084508549e0493f052fdfdb8ecf33acdef297cef1b5bf9d12c`.
+Its offscreen menu-to-owned-inspection regression repeats seven actual muted jet
+starts, ready impact reservations and the same expected step441 missing-reaction
+refusal, with no capture. All four rebuilt native comparison runners pass again.
+The private ten-member validation draft includes receipt-bound notices/checksums;
+independent verification reports zero technical blockers. ZIP SHA256 is
+`2b2bb1c3255c121c28286d17896ed7227fc71108657c9ee89afe8ca02b334144`.
+This CPU dependency does not create a new downloadable playable preview; existing
+preview release identities remain unchanged.
+
+The next dependency is actual pain/ambient local cue routing and ready transport,
+then cooldown/shared voice-timer ordering and distinct VM/audio RNG effects.
+Native mission gate production, wounded continuation, heavy carried channels,
+active effects, context cancellation and enclosing cleanup remain open. The last
+main endpoint remains its explicit step 441 refusal; no new capture, playable
+feature or fidelity result follows. Prototype PS2 attributions remain unknown.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+
 ## Fresh complete cinematic preparation inventory — 9 November 2026
 
 The exact preview `.6` binary/source receipt has completed a new CPU-only pass
