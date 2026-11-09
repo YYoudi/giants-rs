@@ -73,7 +73,7 @@
       "title": "Mecc movement and jetpack",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Walking, running, jumping, jet fuel/recharge, nitro, carried weight, terrain contact and water hazards."
+      "detail": "Walking, running, jumping, jet fuel/recharge, nitro, carried weight, terrain contact and water hazards. The living owned selector now admits negative absolute heights using the acquired floor-relative gap. Native/Rust selector controls pass 144 cases; the full low-floor primary comparison matches 40 of 128 frames before refusing the next object-flag profile. The actual muted-sink inspection reaches step 348 before refusing jet-depletion services; long-cycle validation and complete environment/health behavior remain open."
     },
     {
       "id": "mecc-squad",

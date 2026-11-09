@@ -79,3 +79,35 @@ invalidates the retained identity is refused rather than replayed.
 
 Exact builds, runtime observations and remaining prerequisites are recorded in
 [RELEASES.md](RELEASES.md) and the single detailed [BACKLOG.md](../BACKLOG.md).
+
+## Living selection across absolute zero - 9 November 2026
+
+The ordinary living selector no longer refuses an actor solely because its
+absolute height is negative. The acquired locomotion/descent decision uses the
+floor-relative gap. The original selector's negative-height death check is inside
+its separate health-exhausted branch; it is not a general living admission rule.
+The Session still requires its acquired undamaged profile, and the remaining
+object-flag, action, reaction, inventory and context guards are retained.
+
+The original full selector and channel setter match 144 controls / 47,520 words,
+including 54 negative-height inputs, both signed zeros, relative floor gaps,
+descending rates and two scales. A synthetic translation control preserves the
+channel, logical/control state, request and RNG when actor/floor heights cross
+absolute zero together.
+
+A separate 128-frame native primary acquisition crosses zero and later enters
+another object-flag profile. Rust agrees on the first 40 frames, including seven
+negative-height endpoints, then explicitly refuses that next profile. The full
+128-frame comparison remains unsuccessful; no complete trajectory is claimed.
+The acquisition's added view/epoch observations preserve all previous native
+header/payload/RNG outputs. The next object's state/health/environment behavior
+still requires acquisition. No floor clamp, water reaction or death behavior is
+inferred from absolute height alone.
+
+The new exact main build passes the earlier step-190 height boundary. Without
+an audio device, the same controlled mission replay stops at step 242 on the
+existing audio requirement. With the actual reserved backend at zero volume,
+three real muted starts occur and the replay reaches step 348, then explicitly
+refuses the still-unacquired jet-depletion services. Both long-run/cancellation
+reports remain unsuccessful. This is a later observed inspection boundary, not
+a completed mission, audible validation or native whole-world comparison.
