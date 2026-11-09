@@ -422,9 +422,10 @@ impl PhaseDriver for Driver<'_> {
             Precision::Double53,
             mecc_jet::HeightCeiling::DebugFull,
         )?;
-        if step.shield_depleted {
-            return Err("owned jet depletion services pending".into());
-        }
+        // The admitted control mask above excludes shield/cloak equipment.
+        // In that exact PC profile, depletion only stores zero fuel (already
+        // done by the kernel); it invokes no inventory, effect or sound service.
+        // Keep equipped profiles excluded rather than substituting their services.
         if step.boost_started {
             self.backend
                 .play(0x5b3, self.input.audio_key, Route::Local)?;

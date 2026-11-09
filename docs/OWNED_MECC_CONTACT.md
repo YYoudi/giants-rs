@@ -79,3 +79,60 @@ invalidates the retained identity is refused rather than replayed.
 
 Exact builds, runtime observations and remaining prerequisites are recorded in
 [RELEASES.md](RELEASES.md) and the single detailed [BACKLOG.md](../BACKLOG.md).
+
+## Living selection across absolute zero - 9 November 2026
+
+The ordinary living selector no longer refuses an actor solely because its
+absolute height is negative. The acquired locomotion/descent decision uses the
+floor-relative gap. The original selector's negative-height death check is inside
+its separate health-exhausted branch; it is not a general living admission rule.
+The Session still requires its acquired undamaged profile, and the remaining
+object-flag, action, reaction, inventory and context guards are retained.
+
+The original full selector and channel setter match 144 controls / 47,520 words,
+including 54 negative-height inputs, both signed zeros, relative floor gaps,
+descending rates and two scales. A synthetic translation control preserves the
+channel, logical/control state, request and RNG when actor/floor heights cross
+absolute zero together.
+
+A separate 128-frame native primary acquisition crosses zero and later enters
+another object-flag profile. Rust agrees on the first 40 frames, including seven
+negative-height endpoints, then explicitly refuses that next profile. The full
+128-frame comparison remains unsuccessful; no complete trajectory is claimed.
+The acquisition's added view/epoch observations preserve all previous native
+header/payload/RNG outputs. The next object's state/health/environment behavior
+still requires acquisition. No floor clamp, water reaction or death behavior is
+inferred from absolute height alone.
+
+The new exact main build passes the earlier step-190 height boundary. Without
+an audio device, the same controlled mission replay stops at step 242 on the
+existing audio requirement. With the actual reserved backend at zero volume,
+three real muted starts occur and the replay reaches step 348, then explicitly
+refuses the still-unacquired jet-depletion services. Both long-run/cancellation
+reports remain unsuccessful. This is a later observed inspection boundary, not
+a completed mission, audible validation or native whole-world comparison.
+
+## Unequipped jet reserve depletion - 9 November 2026
+
+The owned jet driver now continues when fuel reaches zero within its existing
+unmounted, normal, unequipped profile. Its control-mask guard already excludes
+the shield/cloak branches. In the acquired PC inline depletion branch, every
+admitted control-flag combination skips those services and only stores zero
+fuel. The kernel already performs that store. Removing the blanket refusal
+therefore requires no replacement inventory, effect or sound service.
+
+The native branch executes 288 controls with no service substitutions, covering
+all admitted flag combinations in both fire modes and negative/signed-zero fuel.
+All other actor/payload bytes remain unchanged. The independent jet-prefix
+comparison still matches 1,536 cases / 19,968 words, including 66 depletion entries.
+These are bounded CPU observations, not equipped shield/cloak reconstruction.
+The prototype PS2 name lookup remains an unknown attribution; no new cross-build
+name or platform signature is imported.
+
+Exact main source `f24febd64d54ac7a801bb5cd4b2aa79f6792ed19` passes the former
+step-348 refusal with actual reserved, muted audio. Seven real sink starts occur
+before step 441 refuses the still-unacquired impact-reaction provider. The full
+movement/cancellation replay remains unsuccessful. Acquire that independent
+reaction next; retain the separate low-floor object-flag/state/health prerequisite
+and prepared slide-effect active interpreter. No fuel refill, dummy effect,
+complete trajectory or visual-fidelity claim is introduced.

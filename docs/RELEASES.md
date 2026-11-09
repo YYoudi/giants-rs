@@ -1,5 +1,75 @@
 # Preview releases and milestone integration
 
+## Unequipped Mecc jet reserve depletion - 9 November 2026
+
+The owned normal jet driver no longer refuses zero fuel when its existing
+inventory/control guards exclude shield and cloak equipment. The acquired PC
+branch only stores zero in this profile: 288 native controls cover every admitted
+flag combination with no service substitutions. The independent jet prefix still
+matches 1,536 cases / 19,968 words, including 66 depletion entries. Equipped
+depletion services remain open. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+Source `f24febd64d54ac7a801bb5cd4b2aa79f6792ed19` passes 774 Rust tests
+(29 ignored), 40 Python tests, Rustfmt, Clippy and five installed-resource Mecc
+controls. The 576-frame/22-shot primary regression matches 341,220 words and all
+ten declared provider-failure controls pass. Source/history review reports no
+findings across 331 reachable commits and 2,472 blobs.
+
+The exact GNU executable SHA256 is
+`8eba464b3d841350c799c1189557d2dcec708b4d945fbcb2c6e038b171885a0d`.
+The actual reserved/muted main replay passes the previous step-348 boundary,
+performs seven real sink starts and then refuses an unacquired impact reaction
+at step 441. The full long-cycle report remains unsuccessful. Low-floor
+state/health behavior and active slide effects remain separate prerequisites;
+neither the reaction nor a completed movement trajectory is certified.
+The separate bounded 128-step inspection regression completes three menu
+requests/cancellations and releases its owned draw assets on the same executable.
+
+The private ten-member validation draft has receipt-bound notices/review and
+independent package checks with zero technical blockers; archive SHA256 is
+`55b2bd8c9669e9d32dd341a7bd2689228428b18a5f7e18bab5e3cf8d88b6a9a8`.
+This bounded prerequisite does not establish a new playable download or capture.
+Earlier preview/capture identities and visual-fidelity limits are preserved.
+
+## Living Mecc selection across absolute zero - 9 November 2026
+
+The ordinary living secondary no longer rejects negative actor height by itself.
+The acquired floor-relative selection remains unchanged, while the Session's
+undamaged profile and other unsupported-path guards remain active. Full native
+selector/channel controls match 144 cases / 47,520 words, including 54 negative
+heights, signed zero, relative gaps, scales and downward velocities. A synthetic
+translation regression checks state/request/RNG invariance across absolute zero.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+The separate 128-frame original primary acquisition is not a completed Rust
+comparison: the first 40 frames agree, including seven negative-height endpoints,
+then Rust refuses the next object-flag profile. Original header/payload/RNG outputs
+are unchanged by the added camera/epoch observations. The following state/health
+and environment producers remain open; no generic water, death or clamping rule
+is introduced. Earlier step-190 runtime evidence retains its exact build identity.
+
+Source `3ee42190924661a16658145b1d2a74ccfa0d48ee` passes 774 Rust tests
+(29 ignored), 40 Python tests, Rustfmt, Clippy and five installed-resource Mecc
+controls. The original 576-frame/22-shot primary matrix matches 341,220 words,
+with all ten declared provider-failure controls passing again. Source/history
+pattern review reports no findings across 329 reachable commits and 2,466 blobs.
+
+Its exact GNU executable SHA256 is
+`bcfdfa4abdf2618b1452046989483d2a375e24e0a644017cc281b5c6df1d4337`.
+The controlled main mission replay passes step 190 and stops at step 242 without
+an audio device. Using the actual reserved backend at zero volume, it performs
+three muted sink starts and reaches step 348, then refuses jet-depletion services.
+Both long-cycle reports remain unsuccessful; no completed trajectory, successful
+cancellation/re-entry sequence or visible effect is claimed. Both independent
+three-launch development lifecycle endpoints and three selected-opening
+cancellation/re-entry regressions pass on that same executable.
+
+The private ten-member validation draft has complete receipt-bound notices,
+review and independent package checks, with zero technical blockers; archive
+SHA256 is `5a3bf4680b9f7c4793a42e63f5e6c81c120f95d2b2716f6bda351dca98a1ac88`.
+No new playable download follows from this bounded fix. Historical captures,
+prior preview identities and their fidelity limitations remain unchanged.
+
 ## Owned contact selector and slide-context ownership - 6 November 2026
 
 The ordinary Mecc pistol secondary now admits the acquired contact entry and

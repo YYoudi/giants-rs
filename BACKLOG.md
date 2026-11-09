@@ -498,6 +498,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   explicitly refuses further updates. Retain the earlier step-143/152/158 failures.
   Next acquire the original subzero primary/secondary path and its actual
   physical/environment/health inputs; do not assume water, death or a clamp.
+  The living selector's absolute-negative-height refusal is now removed after
+  144 original/Rust controls (47,520 words). A 128-frame native acquisition agrees
+  with Rust for 40 frames, including seven negative-height endpoints, then reaches
+  another still-refused object-flag profile. Preserve that failed full comparison
+  and acquire the following flag/state/health path; this is not a completed run.
+  The new exact Bevy replay passes the former step-190 gate, stops at step 242
+  without a device, and reaches step 348 with the real reserved/muted backend
+  (three actual sound starts). The later unequipped depletion acquisition now
+  covers all admitted control-mask combinations: 288 native branch controls
+  invoke no services and only zero fuel; 1,536 jet-prefix controls still agree.
+  Source f24febd passes step 348 without fuel refill or dummy effects, reaches
+  step 441 with seven actual muted sink starts, then refuses the independent
+  impact-reaction provider. Acquire that reaction before extending the replay;
+  equipped shield/cloak depletion remains excluded. Long-run cancellation/re-entry
+  remains unvalidated. Keep the low-floor flag/state/health
+  acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup
   and real world scheduling, then independent impact reactions. Prepared-only
   cleanup is not active-effect cleanup. The 128-step inspection
