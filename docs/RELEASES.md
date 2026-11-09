@@ -31,6 +31,12 @@ source/executable/archive identities, actual public Git tag and dashboard downlo
 snapshot agree. This newer source integration does not relabel that executable
 or change its notice/package receipts. Full gameplay and fidelity remain open.
 
+Concurrent Delphi physical-support work is retained in combined source
+`c7af067792ac874c8365fc13adc54f331d558d67`. That exact runtime tree passes 856
+workspace Rust tests (53 ignored), strict workspace/all-target Clippy, Rustfmt,
+43 Python tests and all five installed Delphi controls. These later source checks
+do not relabel the private MinGW build or the published `.13` package.
+
 ## Delphi physical-support scalar composition - 9 November 2026
 
 The acquired physical-support relationship now feeds Delphi scalar production
