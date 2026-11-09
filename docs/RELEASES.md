@@ -24,6 +24,9 @@ Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The three new synthet
 controls cover external rule parsing and independent reset-field ownership.
 The common MinGW application compiles with this source. This is a private
 compilation receipt, without new runtime-input, package or playability evidence.
+Pages synchronization exceeded its prior ten-minute limit, then its retry was
+cancelled by the deployment service. A fresh publication version permits twenty
+minutes for synchronization within a bounded twenty-five-minute deployment job.
 
 ## Kabuto reference release — 9 November 2026
 

@@ -1633,3 +1633,11 @@ transport and action services remain required. No numbered Kabuto phase, pending
 initializer/history completion, live movement/feeding/growth, new capture or
 download is added. Existing Mecc/Delphi ownership remains unchanged; prototype
 PS2 correspondences remain unknown and detailed records stay private.
+
+The next Session storage must retain both reference indices independently of
+parent presence and copy the separate behavior from its actual constructor or
+type-change producer. The ordinary configuration initializer does not initialize
+that word; the later constructor copy handles response, control and behavior
+separately. Zeros observed under supplied cold templates establish no universal
+live default. The existing optional attachment alone cannot represent retained
+indices after detachment, so that lifecycle binding remains a prerequisite.
