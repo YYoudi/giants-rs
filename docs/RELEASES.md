@@ -26,6 +26,15 @@ unknown; exact function identities, aliases and the next lookup step stay in the
 private continuation record. Existing preview receipts retain their source and
 package identities. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
 
+GNU build source `53c7e75da9914a43a4a1b609c45490914eab9cb6` has executable
+SHA256 `977174d3c2c8787bc5890254a86f4bca0f0bee9b16dabf547499da46bd0e954d`.
+Its private ten-member validation draft has complete receipt-bound notices and
+independent archive verification with zero technical blockers; ZIP SHA256 is
+`0773fc2b1fc5d61305a54ad4620c27d173e1df220870975ebd264d5721daae5b`.
+Source/history pattern review at the preceding documentation checkpoint covers
+412 reachable commits / 2,777 blobs with zero findings. This is a CPU dependency
+draft, not a new playable preview or third-party redistribution clearance.
+
 ## Owned positional-impact birth - 9 November 2026
 
 The single-body positional constructor publishes an actual owned Session state-78
