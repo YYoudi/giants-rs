@@ -235,13 +235,5 @@ pub trait GroundImpactServices {
     ) -> Result<SoundOutcome, String>;
 }
 
-/// Release/retire external actor-bound FX/audio/render handles before logical
-/// unlink. Implementations must perform their tracked work, or report missing
-/// services. Core ownership never guesses that a prepared effect has no owner.
-pub trait RetirementServices {
-    fn release(
-        &mut self,
-        session: &mut crate::resident_states::Session,
-        actor: crate::resident_states::Id,
-    ) -> Result<(), String>;
-}
+/// Historical alias for the shared tracked actor-release boundary.
+pub use crate::actor_retirement::Services as RetirementServices;
