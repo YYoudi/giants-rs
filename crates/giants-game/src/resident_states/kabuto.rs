@@ -21,6 +21,11 @@ mod motion_tests;
 
 #[path = "kabuto_classification.rs"]
 mod classification;
+#[path = "kabuto_model_motion.rs"]
+mod model_motion;
+#[cfg(test)]
+#[path = "kabuto_model_motion_tests.rs"]
+mod model_motion_tests;
 #[cfg(test)]
 #[path = "kabuto_object_contact_tests.rs"]
 mod object_contact_tests;

@@ -252,6 +252,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: the Factory-bound post-contact model-rate phase reuses the shared
+  displacement-to-model service and object-local clock. It requires the real
+  numbered classification/additional contacts, owned affine/physics and factory
+  resources. Controlled directional minimums and inactive-axis clears are retained.
+  A 512-case original wrapper/body/clock comparison matches 2,048 words; a separate
+  actual Session stage-boundary control repeats 512 / 2,048. Other header/payload,
+  model history/fourth rate, lists and prerequisites stay unchanged. Wrong order,
+  wrong factory/number, invalid clock/missing affine and replay refuse atomically.
+- Acquired and compared: the gravity/projection/friction/damping helper matches
+  512 contexts / 7,680 words against the unchanged common gravity service.
+  Its required ANM predecessor is not bypassed: shared ANM references, events,
+  class-resource mutation, RNG and failure ordering must be bound before actual
+  gravity scheduling. Control-target/force generation and the remaining primary
+  are still open; the model-rate phase does not finish a frame or admit gameplay.
 - The dedicated user-created fork owns Kabuto only, working alone with an
   isolated Cargo target. The owner permits necessary test windows; avoid unrelated
   focus changes and sound. Preserve the

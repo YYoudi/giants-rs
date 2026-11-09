@@ -1032,3 +1032,44 @@ and action dispatch, ANM/camera/world/GPU cadence and dynamic cleanup remain ope
 No new playable controller, screenshot, package or visual-fidelity claim follows.
 Prototype PS2 correspondences remain unknown; raw symbols, demangling uncertainty,
 previous aliases and identity-bound evidence remain private and separate.
+
+## Owned post-contact model rates — 9 November 2026
+
+`Factory::advance_model_motion` consumes the real numbered additional-contact
+phase and reuses the existing controlled displacement-to-model service. Actual
+position/previous position, physical velocity, affine, scale, signed commands and
+Factory directional minimums feed the common arithmetic. The actual object-local
+clock selects the first eligible supplied slow area. It publishes three model
+rates and physical world-speed magnitude, preserving the fourth rate and prior
+model/velocity history. All initializer/history prerequisites remain set.
+
+A 512-context original wrapper/body/clock control agrees on 2,048 output words,
+including dense affine inputs, zero/negative scales, signed commands, inactive
+axes, directional minimums, zero time and ordered slow areas. All other original
+header and physics words are independently checked unchanged. Rust reuses the
+common service without modifying Mecc/Delphi arithmetic.
+
+A separate 512-context source-data control builds a real group and executes its
+own numbered history, motion, physical classification and additional contacts
+before the new phase. Its actual stage-entry state is exported before the Rust
+consumer; the original PC helper consumes that supplied frontier and matches
+another 2,048 words. PC does not reexecute the preceding source phases in this
+control, nor supply computed intermediates to Rust. Analytic flat terrain,
+prepared empty scene and external command/time inputs remain boundaries. The
+complete owned snapshot changes only at the acquired three model rates and
+physical speed; list/counts, prior history and prerequisites are checked retained.
+
+Foreign factories, wrong numbers/order, repeated calls, invalid clock and missing
+affine refuse before mutation. The physical mirror must match the owned payload.
+Pure preparation failure can be corrected and retried without acknowledging the
+phase. This is owned error policy, not original exception behavior.
+
+The original subsequent gravity helper separately matches 512 / 7,680 physical
+words using unchanged shared gravity/projection/friction/damping arithmetic.
+It is not yet scheduled on Kabuto: original order requires an intervening ANM
+pass with references/events/resources and shared state. No empty callback or
+fabricated animation acknowledgment substitutes for it. Current control-target/
+force generation and the primary remainder, live world/camera/GPU cadence,
+jumping, feeding and live growth remain open. No new playable/visual claim or
+package follows. Prototype PS2 attributions remain unknown; detailed identity,
+raw-symbol/demangling distinctions and records remain private.

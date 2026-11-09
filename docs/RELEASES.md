@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Kabuto owned post-contact model rates — 9 November 2026
+
+The Factory-bound Session now publishes displacement-derived model rates and
+physical speed after its real additional-contact phase, reusing common model and
+clock services without changing Mecc/Delphi arithmetic. The original wrapper/body
+and clock match 512 controlled contexts / 2,048 words; an independent actual
+Session stage-boundary control repeats 512 / 2,048. Prior phases execute on Rust;
+the PC helper receives their exported stage-entry state. This is not a new
+end-to-end original primary or mission proof. Other owned header/payload/history,
+registrations and initializer prerequisites stay unchanged; stale/foreign/order/
+clock/cache and replay failures refuse before mutation.
+
+The shared gravity helper separately matches 512 contexts / 7,680 physical words.
+Actual Kabuto gravity remains pending the required intervening ANM pass, including
+references/events and shared resource/RNG ownership. Control-target/force
+production and the remaining primary/world still block live admission. Existing
+package/notices/checksum/runtime receipts retain their exact identities; no new
+asset/dependency, downloadable preview or playable/visual-fidelity claim is added.
+Prototype PS2 correspondences remain unknown.
+
 ## Kabuto owned additional-contact traversal — 9 November 2026
 
 The additional-contact routine now preserves prepared-scene filtering, probe
