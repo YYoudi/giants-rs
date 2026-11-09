@@ -273,6 +273,21 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented, isolated CPU kernel: activity history, resource/delay/cooldown/
+  charge counters and next-frame speed-latch production preserve source stores,
+  descriptor frame queries, repeated clock queries and sound/notification order.
+  All 512 declared contexts / 141,758 payload/scratch/service-prefix words match
+  the original interval, including 108 sound and 21 notification requests at
+  explicit provider boundaries. The common frame converter and notification
+  predicate are reused. This does not execute audio/network transport or bind a
+  new Session phase. Failed services retain prefix effects and stop the tail;
+  failure behavior is owned policy, not native exception equivalence.
+- Next: bind that kernel to actual owned accumulated damage/limit, current
+  descriptor/clock and services. Preserve the intervening heading/flag/alive/
+  global guard instead of jumping directly from control forces to timers.
+  The later action/animation consumers must retain native scratch state and
+  ordering. Complete primary/frame/world admission and all prerequisites remain
+  open; do not acknowledge another frame from the isolated kernel.
 - Implemented: the owned post-ANM/gravity control-force phase reuses common
   target/quaternion/basis/force arithmetic. Actual Factory globals, header
   configuration, position/scale, affine/contact/physics, commands and incoming

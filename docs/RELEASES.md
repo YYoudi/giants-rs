@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Kabuto isolated resource timers and speed-latch producer — 9 November 2026
+
+The acquired activity/resource kernel now preserves frame queries, rolling
+history, repeated local-clock queries, timers, gated drain/recovery/charge and
+next-frame speed interpolation. A complete original interval matches 512 declared
+contexts / 141,758 payload/scratch/service-prefix words, including 108 sound and
+21 notification requests. Synthetic declared resources/state/clock and sound/
+transport entry providers remain boundaries; Rust computes the notification
+predicate from raw context independently. No device playback or networking is
+proved. Failed providers retain prefix effects and stop later stores; error
+policy is owned rather than an original exception-equivalence claim.
+
+The kernel is not yet a numbered Session phase. Actual owner/descriptor/context
+binding, the intervening alive/global guard and required services remain pending.
+It must not skip directly from the integrated control-force phase or acknowledge
+another complete frame. The later action/animation/primary/world path remains
+open. No new dependency/asset, live Kabuto preview or fidelity promotion is added;
+existing package/notices/checksum/runtime receipts keep their own identities.
+Prototype PS2 correspondence remains unknown.
+
 ## Kabuto owned post-gravity control forces — 9 November 2026
 
 The Factory-bound Session now consumes its real ANM/gravity state and reuses the
