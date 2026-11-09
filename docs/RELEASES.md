@@ -1,5 +1,30 @@
 # Preview releases and milestone integration
 
+## Main integration of local Mecc voice and landing continuation — 9 November 2026
+
+Combined runtime source `e655c67620c2dec6d15f36d7f646f4ca4fca9d9c` merges the
+reviewed Mecc handoff `d325e6b31e0a83fcc19b73de18fde92f94599aca` with main's latest
+Kabuto ray/query, Delphi scalar selection and Flick parented-effect dependencies.
+It preserves directional-air and landing continuation, explicit missing draw
+callback refusal, local voice ownership and prepared damage-smoke replacement.
+The App's impact/voice providers and health admission remain guarded pending
+actual mission gates and persistent wounded-primary ownership; these services
+are not newly playable ordinary controls or active smoke rendering.
+
+The combined tree passes 855 workspace Rust tests (53 ignored), Rustfmt, strict
+workspace/all-target Clippy, 43 Python tests and site/JavaScript checks. Installed
+resource controls pass ten Mecc, sixteen Kabuto, five Delphi, one NPC and one
+timed-effect case. A separate actual-device control starts five muted local
+voices, checks unique reuse without additional RNG and releases all owned audio
+assets. It creates no window and is not whole-primary or audible-fidelity proof.
+Prototype PS2 attributions remain unknown; no native signature/layout is imported.
+
+The existing `.13` public ZIP and both external checksum files were independently
+downloaded again by the integration lane. All ten members, internal checksums,
+source/executable/archive identities, actual public Git tag and dashboard download
+snapshot agree. This newer source integration does not relabel that executable
+or change its notice/package receipts. Full gameplay and fidelity remain open.
+
 ## Kabuto reference-query argument production — 9 November 2026
 
 The acquired argument producer selects actor or viewport geometry and the three

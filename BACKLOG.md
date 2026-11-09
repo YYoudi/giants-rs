@@ -71,6 +71,14 @@ assets. `docs/public-preview.json` pins that download separately from newer sour
 progress. This does not close ordinary native Mecc motion/impact or other-character/
 NPC world admission; continue connecting ready services through the common runtime.
 
+The following combined source integration retains Mecc local-voice transport,
+landing/directional-air continuation and prepared damage-smoke services alongside
+the latest other lanes. Ordinary App impact/voice binding still needs actual
+mission gates and persistent wounded-primary ownership; prepared smoke is not an
+active renderer. Preserve those prerequisites when consuming the next Mecc lot.
+The current independently verified download is `.13`; its snapshot and receipts
+retain their immutable source identity despite newer source-only integrations.
+
 - Review committed Flick, Mecc, Delphi, Kabuto and NPC contributions against actual
   runtime entry points; retain CPU-only and supplied-provider boundaries.
 - Wire ready contributions into the shared menu-to-mission application, including
