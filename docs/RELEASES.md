@@ -49,6 +49,69 @@ formatting, strict Clippy and site/JavaScript checks. Its source audit covers
 419 commits / 2,809 blobs with zero findings; this remains source validation,
 with no replacement executable or expanded runtime receipt.
 
+## Delphi reserve callback and owned passive composition - 9 November 2026
+
+`delphi_reserve::advance` implements the acquired finite PC delay, recharge,
+capacity and drain arithmetic. It preserves wide comparisons, stored-float
+rounding, repeated object-local time queries and consumption after cancellation.
+Cancellation requires owner-bound retirement before restoring physical parameters;
+water splash and linked-actor movement must execute through required services or
+refuse. The explicit empty-context provider acknowledges only empty retirement.
+Activation, nonempty resource retirement and actual movement/effect producers
+remain prerequisites; naming does not establish their gameplay meaning.
+
+`Resources::with_reserve` and `Session::advance_delphi_reserve_controlled` compose
+physical/reset/post, reserve, secondary and zero-time ANM for the acquired dry
+passive profile. Actual owned state, physical flags, damage/limit, updated position
+and object-time areas are bound; the recharge-inhibition producer remains supplied.
+Existing active-control and immersion guards remain in force. Completed reserve
+writes survive a later failure, with replay quarantined. Earlier profiles remain
+separate. This is not active turbo movement or live mission admission.
+
+Complete original callback controls match 2,280 cases / 2,774,760 header/payload
+words, including passive recharge and dry active cancellation/drain with empty
+contexts. Original helpers run without behavior replacements. A separate 64-case /
+77,888-word control stops at actual movement or splash entry and matches the Rust
+refusal prefix; it does not execute or validate those service bodies. Synthetic
+checks verify renewed time queries after movement and retained cancellation before
+splash refusal. Two persistent owned sequences match 512 frames / 4,081,152 words
+over 22 actors and exact shared RNG. Commands/time, a flat world and metadata
+remain supplied; inactive pre-heading camera reset and full-world scheduling are
+excluded. The installed-data lifecycle adds a sixth owner, 64 reserve-profile
+updates, inhibition, wrong-entry refusal, retained late-failure effects and no
+replay. These are CPU controls, not input/render/audio or visual-fidelity proof.
+
+Prototype PS2 correspondence remains unknown. Private identity-bound lookups,
+raw-symbol/demangling distinctions, historical aliases, failed intermediate
+harness results and independent controls remain private. Remaining full-primary,
+item/target, auxiliary and authored-camera composition, water/swim/turbo, combat,
+renderer/HUD/audio and menu-to-mission integration stay open.
+
+Combined source `ca4bf6401991a8307c5a0ca9a27725dab8a1a9b5` passes 808 Rust
+tests (33 ignored), the six-owner Delphi installed-data control, 40 Python tests,
+Rustfmt, strict Clippy and generated roadmap/site/JavaScript checks. The pattern
+audit reports zero findings across 415 commits / 2,794 blobs. Both rebuilt owned
+trajectory comparisons repeat successfully after integration with other lanes.
+
+The exact common MinGW executable has SHA256
+`fb16fb2cf80648b73ef7a017dfd048c9e2aa692e51dce1a7e2cc94c177ac7de3`.
+It passes both silent offscreen development endpoints and three Rstory1 mission-2
+persistent-owner birth/update/cancel/re-entry cycles with text cleanup. The private
+ten-member validation draft binds complete notices, source/executable/toolchain
+receipt and checksums; independent verification reports zero technical blockers.
+ZIP SHA256 is `9e7613c30ca350a6bf07526db4299ae41c29f8b635cf5b91613e3391d8b37a6d`.
+The PE import symbol sets are unchanged; import-table ordering is excluded from
+that comparison. These are common-runtime regressions, not live Delphi control.
+No playable Delphi download is claimed; published previews retain their own
+source receipts. No original assets or private research enter the draft.
+
+The final source checkpoint `fdcbaee8d476397fc94a0a9bde2bd0f9d79712eb`
+retains the newer owned timed-impact callback and passes 808 synthetic Rust tests
+(34 ignored), 40 Python tests, Rustfmt, strict Clippy and site/JavaScript checks.
+Its source pattern audit reports zero findings across 419 commits / 2,809 blobs.
+The executable, runtime controls and private draft above remain bound to
+`ca4bf640`; this later source validation does not change those receipts.
+
 ## Owned timed-impact callback and deferred mark - 9 November 2026
 
 The actual owned class-867 effect now advances its age/size/fades, angles and

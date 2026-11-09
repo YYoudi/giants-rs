@@ -8,7 +8,39 @@ enum Entry<'a> {
         manual: crate::delphi_physical::ManualRotation,
         camera: Option<crate::delphi_camera::Context<'a>>,
         post: Option<crate::delphi_post_physical::Context<'a>>,
+        reserve: Option<ReserveEntry<'a>>,
     },
+}
+struct ReserveEntry<'a> {
+    recharge_inhibited: bool,
+    services: &'a mut dyn crate::delphi_reserve::Services,
+}
+struct ReserveWorld<'a, 'b> {
+    global_seconds: f32,
+    actor: crate::object_time::Sample,
+    areas: &'a [crate::object_time::SlowArea],
+    services: &'b mut dyn crate::delphi_reserve::Services,
+}
+impl crate::delphi_reserve::Services for ReserveWorld<'_, '_> {
+    fn retire(&mut self, present: &mut bool) -> Result<(), String> {
+        self.services.retire(present)
+    }
+    fn splash(&mut self, position: [f32; 3]) -> Result<(), String> {
+        self.services.splash(position)
+    }
+    fn movement(&mut self) -> Result<(), String> {
+        self.services.movement()
+    }
+}
+impl crate::delphi_reserve::World for ReserveWorld<'_, '_> {
+    fn seconds(&mut self) -> Result<f64, String> {
+        Ok(crate::object_time::seconds(
+            self.global_seconds,
+            Some(self.actor),
+            None,
+            self.areas,
+        ))
+    }
 }
 struct DryResetWorld<'a, 'b> {
     session: &'a mut Session,
@@ -119,6 +151,7 @@ impl Session {
                 manual,
                 camera: None,
                 post: None,
+                reserve: None,
             },
         )
     }
@@ -142,6 +175,7 @@ impl Session {
                 manual,
                 camera: Some(camera),
                 post: None,
+                reserve: None,
             },
         )
     }
@@ -166,6 +200,35 @@ impl Session {
                 manual,
                 camera: None,
                 post: Some(post),
+                reserve: None,
+            },
+        )
+    }
+    /// Controlled physical/reset/post -> reserve callback -> secondary/zeroANM.
+    /// The level flag and effects are supplied actual world services. This does
+    /// not admit active turbo movement, immersion, item inputs or live missions.
+    pub fn advance_delphi_reserve_controlled(
+        &mut self,
+        id: Id,
+        e: crate::delphi_physical::Environment<'_>,
+        manual: crate::delphi_physical::ManualRotation,
+        context: crate::delphi_reserve::Context<'_>,
+        ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+        services: &mut crate::actor_animation_phase::Services<'_>,
+    ) -> Result<crate::delphi_physical::View, String> {
+        self.advance_delphi_phases(
+            id,
+            e,
+            ground,
+            services,
+            Entry::Controlled {
+                manual,
+                camera: None,
+                post: Some(context.post),
+                reserve: Some(ReserveEntry {
+                    recharge_inhibited: context.recharge_inhibited,
+                    services: context.services,
+                }),
             },
         )
     }
@@ -177,14 +240,15 @@ impl Session {
         services: &mut crate::actor_animation_phase::Services<'_>,
         entry: Entry<'_>,
     ) -> Result<crate::delphi_physical::View, String> {
-        let (locomotion, manual, mut camera, mut post) = match entry {
-            Entry::Physical => (false, None, None, None),
-            Entry::Locomotion => (true, None, None, None),
+        let (locomotion, manual, mut camera, mut post, mut reserve) = match entry {
+            Entry::Physical => (false, None, None, None, None),
+            Entry::Locomotion => (true, None, None, None, None),
             Entry::Controlled {
                 manual,
                 camera,
                 post,
-            } => (true, Some(manual), camera, post),
+                reserve,
+            } => (true, Some(manual), camera, post, reserve),
         };
         let actor = self
             .get(id)
@@ -197,6 +261,7 @@ impl Session {
             || cycle.resources.manual_rotation != manual.is_some()
             || cycle.resources.authored_camera != camera.is_some()
             || cycle.resources.post_physical != post.is_some()
+            || cycle.resources.reserve != reserve.is_some()
         {
             return Err("Delphi phase entry differs from its prepared profile".into());
         }
@@ -399,6 +464,56 @@ impl Session {
                             (0xe38, state.cleanup_context),
                         ] {
                             out.payload[at..at + 4].copy_from_slice(&value.to_le_bytes());
+                        }
+                        result?;
+                    }
+                    if let Some(context) = reserve.as_mut() {
+                        let word = crate::delphi_physical::word;
+                        let mut state = crate::delphi_reserve::State {
+                            reserve: f32::from_bits(word(&out.payload, 0x28)),
+                            delay: f32::from_bits(word(&out.payload, 0x2c)),
+                            movement_seconds: f32::from_bits(word(&out.payload, 0x4c)),
+                            controls: out.fields.control_flags,
+                            internal: word(&out.payload, 0),
+                            gravity_mass: f32::from_bits(word(&out.payload, 0xd04)),
+                            mass: f32::from_bits(word(&out.payload, 0xd08)),
+                            context_present: word(&out.payload, 0xfec) != 0,
+                        };
+                        let result = crate::delphi_reserve::advance(
+                            &mut state,
+                            crate::delphi_reserve::Input {
+                                physics_flags: word(&out.payload, 0xd00),
+                                hit: cycle.view.hit != 0,
+                                damage: cycle.view.accumulated_damage,
+                                limit: f32::from_bits(out.fields.configuration[12]),
+                                linked_actor_present: word(&out.payload, 8) != 0,
+                                recharge_inhibited: context.recharge_inhibited,
+                                position: out.fields.position,
+                            },
+                            crate::delphi_reserve::Parameters::from_globals(globals)?,
+                            &mut ReserveWorld {
+                                global_seconds,
+                                actor: crate::object_time::Sample {
+                                    owner: out.fields.dispatch_context,
+                                    position: out.fields.position,
+                                },
+                                areas,
+                                services: context.services,
+                            },
+                        );
+                        out.fields.control_flags = state.controls;
+                        for (at, value) in [
+                            (0x28, state.reserve),
+                            (0x2c, state.delay),
+                            (0x4c, state.movement_seconds),
+                            (0xd04, state.gravity_mass),
+                            (0xd08, state.mass),
+                        ] {
+                            out.payload[at..at + 4].copy_from_slice(&value.to_bits().to_le_bytes());
+                        }
+                        out.payload[..4].copy_from_slice(&state.internal.to_le_bytes());
+                        if !state.context_present {
+                            out.payload[0xfec..0xff0].fill(0);
                         }
                         result?;
                     }
@@ -909,7 +1024,7 @@ mod physical_tests {
         let factory = crate::delphi_special::Factory::load(&resources, &globals, &weapons).unwrap();
         let mut session = Session::new(1281);
         let mut owners = Vec::new();
-        for profile in 0..5 {
+        for profile in 0..6 {
             let id = factory
                 .construct_player_fields(
                     &mut session,
@@ -955,8 +1070,13 @@ mod physical_tests {
             } else {
                 prepared
             };
-            let prepared = if profile == 4 {
+            let prepared = if profile >= 4 {
                 prepared.with_post_physical().unwrap()
+            } else {
+                prepared
+            };
+            let prepared = if profile == 5 {
+                prepared.with_reserve().unwrap()
             } else {
                 prepared
             };
@@ -1097,7 +1217,7 @@ mod physical_tests {
                         ground,
                         &mut services,
                     )
-                } else {
+                } else if index == 4 {
                     session.advance_delphi_post_physical_controlled(
                         id,
                         environment,
@@ -1113,6 +1233,30 @@ mod physical_tests {
                                 stop_cues.push(cue);
                                 Ok(())
                             },
+                        },
+                        ground,
+                        &mut services,
+                    )
+                } else {
+                    session.advance_delphi_reserve_controlled(
+                        id,
+                        environment,
+                        crate::delphi_physical::ManualRotation {
+                            sensitivity: 1.,
+                            local_owner: true,
+                            paused,
+                        },
+                        crate::delphi_reserve::Context {
+                            post: crate::delphi_post_physical::Context {
+                                world: &mut post_world,
+                                view_mode: 0,
+                                stop_sound: &mut |cue| {
+                                    stop_cues.push(cue);
+                                    Ok(())
+                                },
+                            },
+                            recharge_inhibited: (10..=14).contains(&number),
+                            services: &mut crate::delphi_reserve::EmptyContext,
                         },
                         ground,
                         &mut services,
@@ -1214,6 +1358,157 @@ mod physical_tests {
             }
         }
         assert!(landed && jumped);
+        let reserve_owner = owners[5];
+        let payload = session
+            .get(reserve_owner)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap();
+        let old_delay = f32::from_bits(crate::delphi_physical::word(payload, 0x2c));
+        assert!(old_delay < 0.);
+        assert!(f32::from_bits(crate::delphi_physical::word(payload, 0x28)) > 0.);
+        let reserve_environment = |number| crate::delphi_physical::Environment {
+            number,
+            actor_key: 6,
+            globals: &globals,
+            global_seconds: 1. / 60.,
+            areas: &[],
+            commands: [0; 8],
+            launch_blocked: false,
+            objects: &[],
+        };
+        let reserve_manual = crate::delphi_physical::ManualRotation {
+            sensitivity: 1.,
+            local_owner: true,
+            paused: true,
+        };
+        let stamp_before = stamp.0;
+        post_world.local_word = 91;
+        assert!(
+            session
+                .advance_delphi_post_physical_controlled(
+                    reserve_owner,
+                    reserve_environment(65),
+                    reserve_manual,
+                    crate::delphi_post_physical::Context {
+                        world: &mut post_world,
+                        view_mode: 0,
+                        stop_sound: &mut |_| panic!("Wrong profile cannot stop sound")
+                    },
+                    |_| panic!("Wrong profile cannot query terrain"),
+                    &mut crate::actor_animation_phase::Services {
+                        contexts: &mut contexts,
+                        random: &mut random,
+                        stamp: &mut stamp,
+                        blending: crate::animation_channels::Blending::Disabled
+                    },
+                )
+                .is_err()
+        );
+        assert_eq!((post_world.local_word, stamp.0), (91, stamp_before));
+        assert!(
+            session
+                .delphi_physical(reserve_owner)
+                .unwrap()
+                .failure
+                .is_none()
+        );
+        session
+            .residents
+            .get_mut(&reserve_owner.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()[0xdb4..0xdb8]
+            .copy_from_slice(&1_u32.to_le_bytes());
+        assert!(
+            session
+                .advance_delphi_reserve_controlled(
+                    reserve_owner,
+                    reserve_environment(65),
+                    reserve_manual,
+                    crate::delphi_reserve::Context {
+                        post: crate::delphi_post_physical::Context {
+                            world: &mut post_world,
+                            view_mode: 0,
+                            stop_sound: &mut |_| panic!("Paused reset cannot stop sound")
+                        },
+                        recharge_inhibited: true,
+                        services: &mut crate::delphi_reserve::EmptyContext,
+                    },
+                    |_| panic!("Paused physical cannot query terrain"),
+                    &mut crate::actor_animation_phase::Services {
+                        contexts: &mut contexts,
+                        random: &mut random,
+                        stamp: &mut stamp,
+                        blending: crate::animation_channels::Blending::Disabled
+                    },
+                )
+                .unwrap_err()
+                .contains("secondary")
+        );
+        let payload = session
+            .get(reserve_owner)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap();
+        assert_eq!(crate::delphi_physical::word(payload, 0x28), 0);
+        assert_eq!(
+            crate::delphi_physical::word(payload, 0x2c),
+            ((f64::from(old_delay) - f64::from(1_f32 / 60.)) as f32).to_bits()
+        );
+        let retained = payload.to_vec();
+        let retained_stamp = stamp.0;
+        assert_eq!(session.delphi_physical(reserve_owner).unwrap().number, 65);
+        assert!(
+            session
+                .delphi_physical(reserve_owner)
+                .unwrap()
+                .failure
+                .is_some()
+        );
+        post_world.local_word = 92;
+        assert!(
+            session
+                .advance_delphi_reserve_controlled(
+                    reserve_owner,
+                    reserve_environment(66),
+                    reserve_manual,
+                    crate::delphi_reserve::Context {
+                        post: crate::delphi_post_physical::Context {
+                            world: &mut post_world,
+                            view_mode: 0,
+                            stop_sound: &mut |_| panic!("Failed cycle cannot stop sound")
+                        },
+                        recharge_inhibited: false,
+                        services: &mut crate::delphi_reserve::EmptyContext
+                    },
+                    |_| panic!("Failed cycle cannot query terrain"),
+                    &mut crate::actor_animation_phase::Services {
+                        contexts: &mut contexts,
+                        random: &mut random,
+                        stamp: &mut stamp,
+                        blending: crate::animation_channels::Blending::Disabled
+                    },
+                )
+                .is_err()
+        );
+        assert_eq!((post_world.local_word, stamp.0), (92, retained_stamp));
+        assert_eq!(
+            session
+                .get(reserve_owner)
+                .unwrap()
+                .seed
+                .storage
+                .data()
+                .unwrap(),
+            retained
+        );
         assert!(!stop_cues.is_empty() && stop_cues.iter().all(|&cue| cue == 0x34c));
         let post_owner = owners[4];
         let environment = |number| crate::delphi_physical::Environment {
