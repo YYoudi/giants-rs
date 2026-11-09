@@ -40,6 +40,12 @@ Mecc/Delphi/Kabuto work and passes 814 synthetic Rust tests (37 ignored),
 checks. Its source audit covers 448 commits / 2,924 blobs with zero findings.
 This source validation does not relabel the published binary or certify rendering.
 
+Later combined source `06762d43ef43cf1a2734c3a73396453fcd6f314c` retains Delphi
+target movement. All 635 game-crate tests pass (24 ignored), along with workspace
+strict Clippy, formatting, 40 Python tests and roadmap/site/JavaScript checks.
+The source audit covers 451 commits / 2,933 blobs with zero findings. This is a
+game-crate validation, separate from the full-workspace count and binary receipt.
+
 ## Delphi target-movement and activation services - 9 November 2026
 
 The shared Rust library now contains acquired target/fallback movement arithmetic
