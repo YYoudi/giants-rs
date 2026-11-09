@@ -89,6 +89,28 @@ the existing published binary/package/runtime receipts keep their earlier exact
 source identities until a later coherent main-runtime integration.
 
 
+## Delphi candidate policy dependency - 9 November 2026
+
+The acquired Delphi candidate filter now agrees with all 512 original-PC
+finite-profile cases. The shared target traversal has an explicit required
+caller-policy route, with two synthetic ordering/refusal controls and unchanged
+Mecc filtering. Owned candidate geometry/mesh binding, terrain/range production,
+readiness and typed target lifetime remain open. This source dependency enables
+no live Delphi control or new gameplay screenshot and publishes no new preview
+binary. Existing build, package, notice and checksum receipts below retain their
+exact source identities. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Dependency checkpoint `5977d6a` passes 819 synthetic Rust tests (41 ignored), 40 Python
+tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript checks. The
+512-case original-PC comparison is a separate private control, not a live gameplay
+or whole-world query validation.
+
+Merged source `0963e1761bc3ac2442ffb7138ed475e84a754f8f` preserves the newer
+Kabuto control-force work and passes 819 synthetic Rust tests (42 ignored),
+40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks.
+The limited history-pattern audit reports zero findings across 480 commits /
+3,085 blobs. These source results do not relabel any existing executable receipt.
+
 ## Kabuto owned post-gravity control forces — 9 November 2026
 
 The Factory-bound Session now consumes its real ANM/gravity state and reuses the
