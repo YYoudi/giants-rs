@@ -27,6 +27,32 @@ checks. The rebuilt final kernel comparison repeats 512 / 141,758 successfully.
 The limited source/history pattern review reports zero findings across 492
 commits / 3,159 blobs at the preceding merge checkpoint. Existing executable/
 package receipts retain their exact source identities.
+## Delphi owned candidate geometry query - 9 November 2026
+
+The selected-owner Delphi query now returns actual typed candidates and world
+points from the published held ray and shared current geometry/model buffers.
+Original-PC controls agree on 256 source-resource contexts / 2,124 output words,
+including ten targets, 448 geometry visits and 140 mesh visits. Native headers,
+references/lists, bounds/LOD tables and posed indexed triangles remain supplied;
+native vertex production and world timing are unverified. Source-data lifecycle
+controls check stale/foreign/unprepared refusal, payload preservation, repeated
+results and clear. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Terrain/range/readiness production, target/sequence lifetime and active scheduling
+remain open. No live Delphi control or new gameplay screenshot is admitted, and
+no new preview binary is published for this source dependency. Existing package,
+notice, checksum and runtime receipts retain their exact source identities.
+
+Source checkpoint `68a92bc` passes 821 synthetic Rust tests (43 ignored), the new
+installed-data candidate lifecycle and existing seven-owner Delphi physical/held
+control, 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks.
+
+Combined source `9783ff6d0df3f4327bb3ea1ac4d032218c696a2a` preserves the newer
+Mecc impact-reaction work and passes 822 synthetic Rust tests (45 ignored), both
+Delphi installed-data controls, 40 Python tests, Rustfmt, strict Clippy and
+roadmap/site/JavaScript checks. Its limited history-pattern audit reports zero
+findings across 488 commits / 3,136 blobs. Existing binary receipts stay separate.
+
 
 ## Owned impact health, contact precedence and positional preparation - 9 November 2026
 

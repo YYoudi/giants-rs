@@ -12,6 +12,8 @@ use std::sync::Arc;
 mod delphi;
 mod delphi_camera;
 mod delphi_held;
+#[cfg(test)]
+mod delphi_target_tests;
 mod kabuto;
 mod mecc_impact;
 mod reference_camera;
