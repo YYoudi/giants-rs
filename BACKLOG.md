@@ -38,6 +38,29 @@ matches probable and one unassigned. No gameplay status changes follow from name
 
 ## Parallel character work
 
+### NPC and interaction lane
+
+The dedicated NPC lane resumes existing work; see
+[OWNED_NPCS.md](docs/OWNED_NPCS.md) for the service inventory and boundaries.
+
+- Revalidate the authored herd -> Vimp birth -> initialization chain on current
+  source, retaining terrain/clock/RNG test boundaries and failure quarantine.
+  First installed control passes 28 parents / 313 initialized children and 26
+  injected terrain failures. Preserve two inactive-parent exclusions and two
+  parser-refused world files; they are not empty or fully covered populations.
+- Connect herd scheduling and admitted Vimp updates to actual world ownership,
+  then acquire threat/feeding services and active effects/audio before ordinary
+  mission admission. Preserve existing refusal and late-failure behavior.
+- Resume the persistent Ripper primary/perception/attack services, actual player
+  target identities, physical/ANM order and required firing/audio/effect providers.
+  Do not replace them with a generic new AI or enable unsupported modes.
+- Reuse Smartie carry/drop ownership; acquire initialization and independent
+  rescue/follow/work/fear behavior separately. Workers/economy, allied squad AI,
+  other enemies/bosses and interactive world objects remain explicit scope.
+- Keep character-player and Flick changes separate, preserve concurrent shared
+  service work, and hand coherent validated runtime patches to main integration.
+  No private research records or original data may enter the public repository.
+
 The main integration lane owns combined runtime wiring and delivery, using
 [INTEGRATION.md](docs/INTEGRATION.md). Prioritize ordinary gameplay reachability
 and cross-lane regression checks over additional stand-alone demonstrations.
