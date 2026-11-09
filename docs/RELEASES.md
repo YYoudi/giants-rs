@@ -1,5 +1,21 @@
 # Preview releases and milestone integration
 
+## Mission post-load boundary acquisition — 9 November 2026
+
+A CPU follow-up executes the complete original post-load list helper on supplied
+object and terrain-cell fixtures. All 96 completed lists cover 240 object visits
+and 64 pending-marker clears. Every other supplied object byte, including the
+affine cache, remains unchanged. Sixteen outside-grid cases stop at the original
+diagnostic branch; the error handler and recovery are not executed or verified.
+
+This identifies one post-load dependency and excludes this helper as an affine
+refresh in the supplied cases. It does not establish complete loading, actual
+mission population, world scheduling or a new Rust consumer. The pending-marker
+producer and wider world phases remain prerequisites. Prototype PS2 attribution
+remains unknown. No runtime code or preview package changes; the existing
+`preview-2026.11.09.2` binary, notices and checksums retain their exact receipts.
+The 545-source cinematic inventory and zero certified complete scenes remain.
+
 ## Kabuto contact policy and shared callback boundary — 9 November 2026
 
 The acquired finite contact kernel now returns separate handled and peer-support

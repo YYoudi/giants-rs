@@ -802,6 +802,13 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation-store requests. Other mission commands, locked-child construction,
   post-load services and full world/frame scheduling remain open; this does not
   establish complete native mission state or visual fidelity.
+  Post-load CPU follow-up executes the complete acquired list helper: 96 lists /
+  240 object visits / 64 pending-marker clears; all other object bytes, including
+  affine caches, remain unchanged. Sixteen outside-grid cases stop at the original
+  diagnostic branch, without running its handler or proving recovery. This is not
+  a final-cache rewrite, full mission loading or a new Rust consumer. Acquire the
+  pending-marker producer and wider caller/world phases before integrating it;
+  retain actual later affine writers and shared admission as open prerequisites.
   The physical capacity/recycle boundary is acquired; real mission occupancy,
   shared admission, error handling and full world scheduling remain open. No
   shared Rust capacity policy or new gameplay admission follows from CPU proof.
