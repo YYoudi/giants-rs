@@ -21,6 +21,13 @@ expanded. No dependency, bundled data or preview package is added; existing
 notices/checksums retain their package identities. Prototype PS2 attribution
 remains unknown. Full-controller reconstruction continues in BACKLOG.md.
 
+Combined checkpoint `8f62c2e` preserves the newer Delphi ordinary-view and initial
+mission-affine work. It passes 795 Rust tests (30 ignored), all eight Kabuto
+installed-data controls, 40 Python tests, Rustfmt, strict Clippy and site/JavaScript
+checks. Its source audit covers 371 commits / 2,621 blobs with zero findings.
+Other lanes' executable/package/runtime receipts retain their own exact source
+identities. These source checks do not certify playable Kabuto.
+
 ## Source-ordered initial mission affine — 9 November 2026
 
 The call following the acquired placement header is the existing affine writer,
