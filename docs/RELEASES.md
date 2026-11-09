@@ -1,5 +1,64 @@
 # Preview releases and milestone integration
 
+## Main integration of local Mecc voice and landing continuation — 9 November 2026
+
+Combined runtime source `e655c67620c2dec6d15f36d7f646f4ca4fca9d9c` merges the
+reviewed Mecc handoff `d325e6b31e0a83fcc19b73de18fde92f94599aca` with main's latest
+Kabuto ray/query, Delphi scalar selection and Flick parented-effect dependencies.
+It preserves directional-air and landing continuation, explicit missing draw
+callback refusal, local voice ownership and prepared damage-smoke replacement.
+The App's impact/voice providers and health admission remain guarded pending
+actual mission gates and persistent wounded-primary ownership; these services
+are not newly playable ordinary controls or active smoke rendering.
+
+The combined tree passes 855 workspace Rust tests (53 ignored), Rustfmt, strict
+workspace/all-target Clippy, 43 Python tests and site/JavaScript checks. Installed
+resource controls pass ten Mecc, sixteen Kabuto, five Delphi, one NPC and one
+timed-effect case. A separate actual-device control starts five muted local
+voices, checks unique reuse without additional RNG and releases all owned audio
+assets. It creates no window and is not whole-primary or audible-fidelity proof.
+Prototype PS2 attributions remain unknown; no native signature/layout is imported.
+
+The MinGW release build at source `a359298dd2cf10a2ec7e437c8dad5f9d8932e707`
+passes both offscreen development lifecycle endpoints (six fresh launches with
+return/cleanup/re-entry) and explicitly awaited CLI help. Two additional installed
+impact-audio controls pass, including muted real positional sinks and cleanup.
+This build and its receipt remain private validation artifacts, not a new release.
+
+The existing `.13` public ZIP and both external checksum files were independently
+downloaded again by the integration lane. All ten members, internal checksums,
+source/executable/archive identities, actual public Git tag and dashboard download
+snapshot agree. This newer source integration does not relabel that executable
+or change its notice/package receipts. Full gameplay and fidelity remain open.
+
+Concurrent Delphi physical-support work is retained in combined source
+`c7af067792ac874c8365fc13adc54f331d558d67`. That exact runtime tree passes 856
+workspace Rust tests (53 ignored), strict workspace/all-target Clippy, Rustfmt,
+43 Python tests and all five installed Delphi controls. These later source checks
+do not relabel the private MinGW build or the published `.13` package.
+
+## Delphi physical-support scalar composition - 9 November 2026
+
+The acquired physical-support relationship now feeds Delphi scalar production
+through a required header resolver. Unknown nonzero scene keys fail; inactive
+mode and actual absent support preserve their short circuits. A separate
+original-PC/Rust composition agrees on 320 supplied schedules / 3,840 exact
+control, position and scalar words. Floor/plane error is below 0.00000012 within
+the declared 0.002 absolute budget. The original location wrapper, floor contact,
+state3 notification dispatcher and scalar interval execute in the control.
+
+Traversal, prepared geometry/model/part eligibility, headers and schedule remain
+supplied. Scene-key ownership/lifetime, phase-correct header publication and
+ordinary Delphi gameplay remain open. The latest Kabuto and parented-effect
+contributions are preserved. No capture, dependency, asset or new downloadable
+preview is introduced; published packages retain their exact identities.
+Prototype PS2 correspondences remain unknown and detailed evidence stays private.
+
+Combined validation passes 844 workspace Rust tests (51 ignored), five installed
+Delphi controls, four installed Mecc impact/voice controls and the NPC ownership
+regression. All 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks pass. These controls retain their supplied providers and CPU-only scope.
+
 ## Kabuto reference-query argument production — 9 November 2026
 
 The acquired argument producer selects actor or viewport geometry and the three

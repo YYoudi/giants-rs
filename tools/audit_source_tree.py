@@ -37,6 +37,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         # Historical source-lane variant: two additional bounded, explicitly
         # unassigned PC/Rust aliases; no corpus, native body or new PS2 claim.
         '47c224fb1d9581ee570e6399c8a868cf779824a58936242b8b2a4a23d06c2ee5',
+        # Same two reviewed, unassigned rows in the newer method revision;
+        # the remaining bytes match an already-reviewed document exactly.
+        '0dab2114631cdbdee1414f5151d0295450ecee5db66be95f0aa4913a707f0eef',
         # RNG ownership prose only; the reviewed alias list is unchanged.
         '0cb7e8d16f16186d5552729a1ec077b453a8f0dfea3de16858d1c966edbf6af5',
         '2c8a49007d040af5c353ce6921860566a63b61fbb67c95c2a57b7da479567e0d',
