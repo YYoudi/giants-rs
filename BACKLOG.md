@@ -754,6 +754,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   retain the supplied listener/local anchor and unverified process-seed timeline
   as separate prerequisites. Do not replace the step-441 refusal with a dummy
   reaction. Audible fidelity and enclosing cleanup/world scheduling remain open.
+  The exact ad508a4 common executable repeats seven muted jet starts and real
+  paused impact reservations, then the expected step-441 refusal. This confirms
+  the prefix regression, not impact playback or completed movement cycles.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

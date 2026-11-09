@@ -383,6 +383,8 @@ muted: audible output/fidelity and the original process's device are not tested.
 The inspection audio seed is still a declared policy, not a proven native process
 seed timeline. Main secondary impact damage/channel composition does not yet call
 this provider. The global cleanup prepass, active context cancellation, full world
-scheduling and other source profiles remain open; the exact main movement replay
-remains the earlier step-441 refusal. Prototype PS2 searches remain unknown;
+scheduling and other source profiles remain open. The new exact common executable
+repeats seven actual muted jet starts and ready impact reservations, then the same
+step-441 missing-reaction refusal. This prefix regression is separate from the
+standalone real impact starts; main impact playback remains unbound. Prototype PS2 searches remain unknown;
 previous PC aliases and separate executable/DLL identities stay in private records.
