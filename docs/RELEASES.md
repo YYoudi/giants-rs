@@ -1,5 +1,11 @@
 # Preview releases and milestone integration
 
+The main integration lane follows [INTEGRATION.md](INTEGRATION.md) to combine
+reviewed Flick, Delphi, Kabuto and future Mecc contributions in one public build.
+Source merge, CPU validation, ordinary gameplay reachability and downloadable
+preview availability are reported separately. This process change alone enables
+no additional gameplay and replaces no existing release receipt.
+
 ## Timed effect program configuration — 9 November 2026
 
 The bounded attached timed and detached linear-gravity frames now compose their
@@ -17,6 +23,34 @@ consumption, resource/reference/ANM ownership, physical stock admission, callbac
 retirement and native world RNG/cadence remain open. The general FX queue and last
 full 545-source census are unchanged. Prototype PS2 counterparts remain unknown;
 no complete movie or visual fidelity result is certified by these CPU controls.
+
+## Delphi range, terrain and view-dependent scan - 9 November 2026
+
+The owned scan now reads actual selection/source definitions and reuses common
+terrain and current collision buffers for both held and camera/viewport routes.
+It keeps terrain intersections, candidate points and final aim points distinct.
+Original-PC geometry-prefix controls match 256 contexts / 4,677 output words,
+including 128 per view route, 72 terrain hits and 23 targets. Separate original
+loader/range controls match 256 cases / 512 words and 216 view-selector cases.
+
+Gates/initial flags, native pose/reference/list snapshots, grid, views and posed
+triangles remain supplied. Extended source-data controls check lifecycle/refusal
+and payload preservation; native camera/inventory/held transitions, default-kind
+semantics, target lifetime/readiness and primary/world order remain open. No live
+Delphi, new gameplay capture or playable preview follows. Prior package/notices/
+checksums retain exact identities. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Source checkpoint `557a386` passes 822 synthetic Rust tests (45 ignored), both installed
+Delphi controls, 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks. These checks do not relabel any earlier executable or runtime receipt.
+
+Combined source `d5e77a231a13c06f22fd4cf50302c082544cec53` preserves the newer
+shared effect-constructor and Kabuto guard/timer work. It passes 829 synthetic
+Rust tests (45 ignored), both installed Delphi controls, 40 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. Rebuilt native scan,
+range and selector comparisons pass again. The limited history-pattern audit
+reports zero findings across 508 commits / 3,231 blobs. Existing preview/runtime
+receipts remain pinned to their original sources.
 
 ## Kabuto post-control guard and fresh damage field — 9 November 2026
 
