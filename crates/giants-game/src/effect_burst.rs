@@ -12,6 +12,7 @@ enum Op {
     RandomSize([f32; 2]),
     SizeRange([[f32; 2]; 2]),
     Spin([[f32; 2]; 3]),
+    FixedSpin([f32; 3]),
     Speed([f32; 2]),
     RandomGravity([f32; 2]),
     ChildService(ChildServiceNeed),
@@ -23,6 +24,7 @@ enum Op {
     Height(f32),
     Hidden,
     Sound(u32),
+    RandomSound([u32; 2]),
     TextureAnimation(crate::effect_texture_animation::Configuration),
     Child {
         reference: u32,
@@ -101,6 +103,8 @@ pub struct Spawn {
     /// outside the free-flight consumer; do not infer a physical name for it.
     pub parameter_b0: u32,
     pub sounds: Vec<SoundNeed>,
+    /// Retained state78 cue from command83; a request is not sound playback.
+    pub retained_sound: Option<u32>,
     pub texture_animation: Option<crate::effect_texture_animation::Configuration>,
     pub size_configured: bool,
     pub child_services: Vec<ChildServiceNeed>,
@@ -156,6 +160,11 @@ fn body(records: &[Record], image: &Image, child: bool) -> Result<Body, &'static
         return Err("invalid burst class");
     }
     let mut ops = Vec::new();
+    let positional_impact = !child
+        && records
+            .iter()
+            .map(|r| r.opcode)
+            .eq([3, 6, 0x83, 9, 4, 0x32, 7]);
     for record in &records[2..records.len() - 1] {
         ops.push(match record.opcode {
             4 => Op::Lifetime(floats(record)?),
@@ -163,8 +172,16 @@ fn body(records: &[Record], image: &Image, child: bool) -> Result<Body, &'static
             0x1b => Op::Size(floats::<1>(record)?[0]),
             8 => Op::Sizes(floats(record)?),
             0x1c if child => Op::RandomSize(pairs::<1>(record)?[0]),
-            9 if child => Op::SizeRange(pairs(record)?),
+            9 if child || positional_impact => Op::SizeRange(pairs(record)?),
             0x33 if child => Op::Spin(pairs(record)?),
+            0x32 if positional_impact => Op::FixedSpin(floats(record)?),
+            0x83 if positional_impact => {
+                let range = [word(record, 1)?, word(record, 5)?];
+                if range[0] > range[1] || range[1] > i32::MAX as u32 {
+                    return Err("invalid impact sound range");
+                }
+                Op::RandomSound(range)
+            }
             0x12 if child => Op::Speed(pairs::<1>(record)?[0]),
             0x0f if child => Op::RandomGravity(floats(record)?),
             0x5b if child => {
@@ -249,6 +266,23 @@ fn body(records: &[Record], image: &Image, child: bool) -> Result<Body, &'static
     Ok(Body { class, ops })
 }
 impl Plan {
+    /// Acquired complete single-body positional-impact frame. This projects
+    /// configuration and pending cues; it creates no actor or audio provider.
+    pub fn project_positional_impact(image: &Image, name: &str) -> Result<Self, &'static str> {
+        let (_, entry) = image.find(name).ok_or("impact effect symbol absent")?;
+        let program = image
+            .program(entry.offset)
+            .map_err(|_| "impact effect program invalid")?;
+        if !program
+            .records
+            .iter()
+            .map(|r| r.opcode)
+            .eq([3, 6, 0x83, 9, 4, 0x32, 7, 2])
+        {
+            return Err("positional impact outside acquired complete frame");
+        }
+        Self::from_records_profile(image, &program.records, 1, true)
+    }
     pub fn project(image: &Image, name: &str) -> Result<Self, &'static str> {
         let (_, entry) = image.find(name).ok_or("burst symbol absent")?;
         let program = image
@@ -270,6 +304,14 @@ impl Plan {
         records: &[Record],
         minimum_bodies: usize,
     ) -> Result<Self, &'static str> {
+        Self::from_records_profile(image, records, minimum_bodies, false)
+    }
+    fn from_records_profile(
+        image: &Image,
+        records: &[Record],
+        minimum_bodies: usize,
+        positional_impact: bool,
+    ) -> Result<Self, &'static str> {
         let mut records = records;
         let sound = if records.first().map(|r| r.opcode) == Some(0x2b) {
             let range = [word(&records[0], 1)?, word(&records[0], 5)?];
@@ -290,6 +332,14 @@ impl Plan {
                 .iter()
                 .position(|r| r.opcode == 7)
                 .ok_or("burst body end absent")?;
+            if !positional_impact
+                && records[..=end]
+                    .iter()
+                    .map(|r| r.opcode)
+                    .eq([3, 6, 0x83, 9, 4, 0x32, 7])
+            {
+                return Err("positional impact requires its explicit activation profile");
+            }
             bodies.push(body(&records[..=end], image, false)?);
             records = &records[end + 1..];
         }
@@ -302,14 +352,37 @@ impl Plan {
         Ok(result)
     }
     pub fn create(&self, seed: &mut u32) -> Result<Vec<Spawn>, &'static str> {
+        self.create_phase(seed, true)
+    }
+    /// Activation after the actual context's null-object preparation. Child
+    /// creations still execute their own preparation in construction order.
+    /// Cue transport is unbound here. A real provider must interleave its own
+    /// shared RNG effects before subsequent command draws, not replay this result.
+    pub fn create_active(&self, seed: &mut u32) -> Result<Vec<Spawn>, &'static str> {
+        self.create_phase(seed, false)
+    }
+    fn create_phase(&self, seed: &mut u32, prepare: bool) -> Result<Vec<Spawn>, &'static str> {
+        let mut staged = *seed;
+        let result = self.create_inner(&mut staged, prepare)?;
+        *seed = staged;
+        Ok(result)
+    }
+    fn create_inner(&self, seed: &mut u32, prepare: bool) -> Result<Vec<Spawn>, &'static str> {
         let mut result = Vec::new();
         // Native named preparation traverses the parent's random sound selector
         // once before activation, including ranges with identical endpoints.
         let sound = self.sound.map(|range| {
-            random_sound(seed, range);
+            if prepare {
+                random_sound(seed, range);
+            }
             random_sound(seed, range)
         });
         for b in &self.bodies {
+            if prepare {
+                for op in &b.ops {
+                    op.sample(seed);
+                }
+            }
             b.create(seed, None, 0, 0, &mut result)?;
         }
         // The selected sound is a pending service, not an audio success.
@@ -367,6 +440,7 @@ impl Body {
             attribute: None,
             parameter_b0: 1f32.to_bits(),
             sounds: Vec::new(),
+            retained_sound: None,
             texture_animation: None,
             size_configured: false,
             child_services: Vec::new(),
@@ -379,7 +453,16 @@ impl Body {
         let index = result.len();
         result.push(spawn.clone());
         for op in &self.ops {
-            let values = op.sample(seed);
+            let cue = if let Op::RandomSound(range) = op {
+                Some(random_sound(seed, *range))
+            } else {
+                None
+            };
+            let values = if cue.is_some() {
+                Vec::new()
+            } else {
+                op.sample(seed)
+            };
             match op {
                 Op::Lifetime(v) => {
                     spawn.visual.lifetime = v[0];
@@ -413,6 +496,12 @@ impl Body {
                 }
                 // Source pair order differs from the state78 Euler-rate fields.
                 Op::Spin(_) => spawn.spin = [values[1], values[0], values[2]],
+                Op::FixedSpin(v) => spawn.spin = [v[1], v[0], v[2]],
+                Op::RandomSound(_) => {
+                    let id = cue.unwrap();
+                    spawn.retained_sound = Some(id);
+                    spawn.sounds.push(SoundNeed { id, attached: true });
+                }
                 Op::Speed(_) => {
                     spawn.speed = values[0];
                     spawn.physics_enabled = true;
@@ -463,6 +552,10 @@ impl Op {
     fn sample(&self, seed: &mut u32) -> Vec<f32> {
         let sample = |r| crate::timed_effect::sample(seed, r);
         match self {
+            Self::RandomSound(range) => {
+                random_sound(seed, *range);
+                Vec::new()
+            }
             Self::RandomLifetime(r) | Self::Spin(r) => r.iter().copied().map(sample).collect(),
             Self::RandomSize(r) | Self::Speed(r) | Self::RandomGravity(r) => {
                 vec![crate::timed_effect::sample(seed, *r)]
@@ -791,6 +884,7 @@ mod tests {
             attribute: None,
             parameter_b0: 1f32.to_bits(),
             sounds: Vec::new(),
+            retained_sound: None,
             texture_animation: None,
             size_configured: false,
             child_services: Vec::new(),
@@ -867,6 +961,80 @@ mod tests {
         assert!(spawns[0].sounds[1].attached);
         assert_eq!(spawns[0].sounds[0].id, 77);
         assert_eq!(spawns[0].sounds[1].id, 77);
+    }
+    #[test]
+    fn prepared_activation_preserves_cue_bits_and_does_not_repeat_root_draws() {
+        let plan = super::Plan {
+            sound: None,
+            bodies: vec![super::Body {
+                class: 900,
+                ops: vec![
+                    super::Op::RandomSound([0x1000001, 0x1000001]),
+                    super::Op::SizeRange([[1., 2.], [3., 4.]]),
+                    super::Op::FixedSpin([7., 11., 13.]),
+                    super::Op::Lifetime([1., 0., 0.5]),
+                ],
+            }],
+        };
+        let mut full_seed = 1;
+        let full = plan.create(&mut full_seed).unwrap().remove(0);
+        let mut prepared = crate::audio_parameters::Random(1);
+        for _ in 0..3 {
+            prepared.next_15();
+        }
+        let active = plan.create_active(&mut prepared.0).unwrap().remove(0);
+        assert_eq!(full_seed, 1030492215);
+        assert_eq!(prepared.0, full_seed);
+        assert_eq!(active.retained_sound, Some(0x1000001));
+        assert_eq!(active.sounds[0].id, full.retained_sound.unwrap());
+        assert!(active.sounds[0].attached);
+        assert_eq!(
+            active.visual.start_size.to_bits(),
+            full.visual.start_size.to_bits()
+        );
+        assert_eq!(
+            active.visual.end_size.to_bits(),
+            full.visual.end_size.to_bits()
+        );
+        assert_eq!(active.spin, [11., 7., 13.]);
+        let mut invalid = plan;
+        invalid.bodies[0].ops[1] = super::Op::SizeRange([[-1.; 2], [3., 4.]]);
+        let before = prepared.0;
+        assert!(invalid.create_active(&mut prepared.0).is_err());
+        assert_eq!(prepared.0, before);
+    }
+    #[test]
+    fn single_impact_does_not_admit_an_unacquired_general_phase() {
+        let name = b"synthetic\0";
+        let mut program = vec![3];
+        program.extend(900u32.to_le_bytes());
+        program.extend([6, 0x83]);
+        for v in [101u32, 103] {
+            program.extend(v.to_le_bytes());
+        }
+        program.push(9);
+        for v in [1f32, 3., 4., 6.] {
+            program.extend(v.to_le_bytes());
+        }
+        for (op, values) in [(4, [2f32, 0., 1.]), (0x32, [7., 11., 13.])] {
+            program.push(op);
+            for v in values {
+                program.extend(v.to_le_bytes());
+            }
+        }
+        program.extend([7, 2]);
+        let mut payload = name.to_vec();
+        payload.extend(((name.len() + 4) as u32).to_le_bytes());
+        payload.extend(program);
+        let mut bytes = vec![];
+        for v in [1, payload.len() as u32, 1] {
+            bytes.extend(v.to_le_bytes());
+        }
+        bytes.extend(payload);
+        let image = giants_formats::effect_image::parse(&bytes).unwrap();
+        let frame = image.program(image.entries[0].offset).unwrap();
+        assert!(super::Plan::from_records(&image, &frame.records, 1).is_err());
+        assert!(super::Plan::project_positional_impact(&image, "synthetic").is_ok());
     }
     #[test]
     fn default_gravity_value_without_physics_driver_does_not_move_a_flash() {

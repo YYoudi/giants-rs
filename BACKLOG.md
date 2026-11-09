@@ -600,6 +600,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   This is preparation only. Bind the actual impact damage context and retained
   health/channel writes, contact precedence, positional cue transport, active
   effect execution and emitted-object cleanup before admitting the reaction.
+  Explicit positional activation configuration now matches 256 original-PC
+  controls / 3,840 words with the original audio-disabled gate: retained/pending
+  cue, sizes/lifetime, angular rates and shared RNG. Prepared activation avoids
+  repeating root draws; general/timed phase admission stays unchanged. Legacy
+  burst controls still match 315 objects / 6,018 words. This does not construct an
+  owned Session actor or execute cue transport. Native cue-entry controls show
+  that delivery precedes later size/lifetime/angular writes; interleave its real
+  shared RNG effects rather than replaying a precomputed result. Next bind the
+  actual root constructor and explicit origin/cache ownership, compare full actor
+  header/state and preserve side effects on late provider failure, then complete
+  lifetime/retirement and the independent impact damage/channel composition.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup
@@ -818,6 +829,13 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation-store requests. Other mission commands, locked-child construction,
   post-load services and full world/frame scheduling remain open; this does not
   establish complete native mission state or visual fidelity.
+  Post-load CPU follow-up executes the complete acquired list helper: 96 lists /
+  240 object visits / 64 pending-marker clears; all other object bytes, including
+  affine caches, remain unchanged. Sixteen outside-grid cases stop at the original
+  diagnostic branch, without running its handler or proving recovery. This is not
+  a final-cache rewrite, full mission loading or a new Rust consumer. Acquire the
+  pending-marker producer and wider caller/world phases before integrating it;
+  retain actual later affine writers and shared admission as open prerequisites.
   The physical capacity/recycle boundary is acquired; real mission occupancy,
   shared admission, error handling and full world scheduling remain open. No
   shared Rust capacity policy or new gameplay admission follows from CPU proof.

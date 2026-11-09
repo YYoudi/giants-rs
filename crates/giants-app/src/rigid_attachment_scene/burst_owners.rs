@@ -117,6 +117,7 @@ mod tests {
                 id: 12,
                 attached: true,
             }],
+            retained_sound: None,
             texture_animation: None,
             size_configured: true,
             child_services: Vec::new(),

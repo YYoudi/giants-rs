@@ -142,7 +142,7 @@ impl<K: Copy + Eq> Pool<K> {
         let plan = crate::effect_burst::Plan::from_records(&context.source, &program.records, 2)
             .map_err(str::to_owned)?;
         let mut staged = *random;
-        let spawns = plan.create(&mut staged.0).map_err(str::to_owned)?;
+        let spawns = plan.create_active(&mut staged.0).map_err(str::to_owned)?;
         if spawns
             .iter()
             .any(|s| !s.child_services.is_empty() || !s.sounds.is_empty())
