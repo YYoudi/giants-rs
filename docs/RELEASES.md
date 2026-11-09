@@ -42,6 +42,11 @@ preparation work. It passes 788 synthetic Rust tests (29 ignored), the enriched
 Delphi installed-resource control, 40 Python tests, Rustfmt, Clippy and generated
 site/JavaScript checks. The exact executable/package receipts above keep their
 original source identity; the combined checkpoint is separate source validation.
+
+Final combined checkpoint `8ac8922` additionally retains the newer Kabuto motion
+prefix. It passes 790 synthetic Rust tests (30 ignored), 40 Python tests,
+Rustfmt, Clippy and generated site/JavaScript checks. Delphi camera sources and
+their recorded control identities are unchanged; this is not another runtime run.
 ## Kabuto owned input/orientation and force integration — 9 November 2026
 
 The bounded prefix now owns model rates, velocities, look and input state and
