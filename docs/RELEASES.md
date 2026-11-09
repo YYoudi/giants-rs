@@ -18,6 +18,44 @@ physical/stock retirement, world RNG/cadence and main timed-film admission remai
 open. Prototype PS2 attributions remain unknown. No new downloadable preview is
 introduced: preview13 keeps its exact executable, notice and checksum receipts.
 
+Source `0f03388754c21022e53fc66d8db19b36760dff87` passes 856 synthetic Rust tests
+(54 ignored), 43 Python tests, Rustfmt and strict Clippy. Both timed source checks
+and three positional-impact controls pass; the canonical preparation control is
+replayed with positive and zero-delta inputs. The limited history audit reports
+zero findings across 628 commits /3,700 blobs.
+
+Its private MinGW build pins executable SHA256
+`85c3674f9a8ce2eea0a9ec12466d6fb52b111194c0a4fa7a678703aef018caf6`.
+That exact executable passes awaited CLI startup, both offscreen development
+endpoints, three active-effect cancellations and two source-terminal/re-entry
+cycles with muted real voice sinks and text cleanup. These are selected transport
+regressions, not interactive gestures, native cadence or complete visual fidelity.
+The build remains a private validation artifact; the public download is unchanged.
+
+## Kabuto post-query target transition — 9 November 2026
+
+The acquired post-query transition preserves raw/filtered/retained identities,
+volume filtering, timer expiry and ordered selection/marker writes before
+source-reference, parent and directional gates. It reuses the independently
+compared shared normalizer and retains completed effects after service refusal.
+Original controls match 512 transitions / 12,512 final/prefix words. A complete
+ray-production/query/filter/retention comparison matches 512 contexts / 13,248
+argument/final/prefix words, with its absent previous-retained boundary explicit.
+
+Actor/reference/context, geometry, frame time and publication storage remain
+supplied. Typed Session target ownership/lifetime, actual marker/global services,
+preceding release and following actions/world/animation are still open. No live
+Kabuto controls, new capture, asset, dependency or downloadable preview is added.
+Existing download/package/notices/checksum receipts retain their exact identities.
+Prototype PS2 correspondences remain unknown; detailed evidence stays private.
+
+Combined validation passes 857 workspace Rust tests (53 ignored), sixteen
+installed Kabuto phase controls plus the separate cold control, 43 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. Both original-PC
+comparisons pass again against the combined runtime. Current Mecc/Delphi and
+shared effect/audio changes are preserved; these checks do not certify live
+Kabuto admission or relabel the separately published Windows preview.
+
 ## Main integration of local Mecc voice and landing continuation — 9 November 2026
 
 Combined runtime source `e655c67620c2dec6d15f36d7f646f4ca4fca9d9c` merges the
