@@ -18,6 +18,13 @@ capture or downloadable preview is introduced; existing package/notices/checksum
 and runtime receipts retain their exact source identities. Prototype PS2
 correspondence remains unknown.
 
+Combined checkpoint `240f718` passes 829 synthetic Rust tests (45 ignored), all
+fifteen silent Kabuto phase controls and the separate cold-resource control,
+40 Python tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript
+checks. The rebuilt guard comparison repeats 512 / 256,743 after the shared-effect
+constructor merge. The limited history-pattern review reports zero findings across
+504 commits / 3,206 blobs. These checks do not promote existing binary receipts.
+
 ## Shared state78 effect construction and inline physical storage — 9 November 2026
 
 Attached/cinematic FX and positional impacts now reuse the same acquired class,
