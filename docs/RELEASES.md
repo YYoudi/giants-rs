@@ -1,5 +1,32 @@
 # Preview releases and milestone integration
 
+## Kabuto owned physical classification — 9 November 2026
+
+The exact factory-owned motion prefix now feeds the shared physical-player
+collision/terrain and affine services. The Session owns contact state, resource-
+derived radius, physical output and its current matrix. A 384-context actual
+Session composition matches 155,136 original-PC header/payload words. The PC
+common history wrapper and Rust history gate execute; prepared empty geometry
+and controlled flat terrain remain explicit boundaries. Rust produces its own
+intermediate motion and refreshes radius from actual resource bounds.
+
+Prepared peer callbacks preserve both the class policy's write and the narrow
+response's reciprocal reference before later providers. Silent source controls
+exercise nonempty prepared triangles and retained peer effects on late terrain
+failure, with replay quarantine. Atomic owner publication on success and quarantine
+on provider failure are explicit owned policy; no native exception behavior is
+claimed. Numbered history and all initializer prerequisites remain unconsumed.
+
+Validation: 796 synthetic Rust tests pass (32 ignored), all ten silent Kabuto
+installed-data controls pass, plus 40 Python tests, Rustfmt, strict Clippy and
+generated roadmap/site/JavaScript checks.
+
+This CPU integration adds no dependency, bundled asset or playable preview.
+Live scene/peer production, world publication, current forces and the remainder
+of the primary still block continuous movement. Existing preview notices,
+checksums and runtime/screenshot receipts retain their exact package identities.
+Prototype PS2 attribution remains unknown; private inputs and evidence stay private.
+
 ## Kabuto contact policy and shared callback boundary — 9 November 2026
 
 The acquired finite contact kernel now returns separate handled and peer-support

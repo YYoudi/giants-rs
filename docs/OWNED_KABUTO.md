@@ -878,3 +878,53 @@ new control forces and the primary remainder remain open. The existing prefix
 still refuses another frame and retains every initializer prerequisite. Native
 terrain-prefix acquisition is retained privately as acquisition only, not promoted
 to Rust parity or runtime evidence. No screenshot or live-play claim is added.
+
+## Factory-bound physical classification — 9 November 2026
+
+`Factory::advance_classification` consumes the exact numbered motion prefix and
+binds the contact pass to the existing owner, state, specification and physical
+payload. The owner retains floor/plane, contact identities and part/triangle
+selection. Radius refresh uses this Factory's resolved primary/animation-one
+bounds through the shared physical-player service. The same collision dispatcher,
+terrain response and affine writer already used by other characters are reused.
+Parented owners retain the acquired early exit before world/affine providers.
+The current owned group has no volume-query cache producer; this absent cache
+requires no synthetic allocation/free shim. A future cache producer must join
+this invalidation boundary rather than retain a stale volume cache.
+
+Prepared geometry and peer services are explicit: a callback obtains the peer
+profile, runs the acquired Kabuto policy and applies its peer-reference write
+before returning the handled decision. The narrow-phase response also publishes
+its reciprocal reference through the peer backend before later geometry/terrain.
+The historical `reciprocal_hit` output names that write; its receiver field is
+not the floor-support selection. No original pointer is stored. Scene membership,
+metadata and publication into the live mission remain external prerequisites.
+An empty scene is an explicit supplied profile, not an implicit world fallback.
+
+A 384-context original-PC/owned Session control matches 155,136 complete header/
+payload words. Rust constructs its actual source-backed group and runs its own
+history, motion, radius refresh, contact/terrain and affine stages. It consumes
+incoming commands/forces/preferences/poses/time areas, not PC-computed intermediate
+motion. The PC common history wrapper and bounded physical prefix both execute.
+The scene has no prepared mesh peers; the PC runs a controlled flat grid and Rust
+uses the corresponding analytic plane/key query. This does not certify terrain
+query production, nonempty original-PC scene traversal or full-world scheduling.
+An earlier private kernel experiment simplified the terrain height to a constant:
+99 floor-only signed-zero mismatches were retained. Evaluating plane height at
+query XY corrects that provider without changing any common arithmetic kernel.
+
+Silent source-backed tests additionally exercise nonempty prepared triangles and
+peer metadata. They verify handled events with peer writes, successful owner
+publication and retained peer effects on later terrain failure. Replays, foreign
+Factories, wrong frame numbers and absent/cleared owners refuse. Successful owner
+publication updates fields, cached physics, motion, contact, radius and affine
+together. A late provider failure leaves the owner at its previous checkpoint,
+retains external peer effects and quarantines further use. This is explicit owned
+failure policy, not a reconstruction of native exception/rollback semantics.
+
+The completed classification retains its history/prefix tokens and all four
+initializer prerequisites. World publication, current control forces, gravity,
+remaining primary branches, camera/ANM/GPU cadence and dynamic cleanup remain
+open. It supplies no second live frame or playable Kabuto preview. All touched
+prototype PS2 correspondences remain unknown; symbol/demangling/alias records
+and control identities remain private and separate from the PC contract.

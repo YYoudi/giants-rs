@@ -37,6 +37,8 @@ pub struct Group {
     pub(crate) motion: crate::kabuto_motion_prefix::State,
     pub(crate) motion_history: Option<u64>,
     pub(crate) motion_prefix_completed: Option<u64>,
+    pub(crate) classification_completed: Option<u64>,
+    pub(crate) contact: crate::kabuto_classification::Contact,
     pub declared_class: Arc<specification::Prepared>,
     pub geometry: Geometry,
     pub radius: f32,
@@ -63,9 +65,13 @@ impl std::fmt::Debug for Group {
     }
 }
 impl Group {
-    /// Owned prefix fields only; contacts and the primary remainder are pending.
+    /// Owned motion fields, including velocity after physical classification.
+    /// Remaining primary/world scheduling is still separate.
     pub fn motion_prefix(&self) -> &crate::kabuto_motion_prefix::State {
         &self.motion
+    }
+    pub fn contact(&self) -> &crate::kabuto_classification::Contact {
+        &self.contact
     }
     pub fn geometry_transition_failure(&self) -> Option<&str> {
         self.geometry_transition_failure.as_deref()
@@ -84,6 +90,25 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    /// Consume the actual owned motion prefix. Prepared scene and terrain
+    /// services remain explicit; this does not finish a primary/world frame.
+    pub fn advance_classification(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        scene: crate::kabuto_classification::Scene<'_>,
+        ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+    ) -> Result<(), String> {
+        session.advance_kabuto_classification(
+            owner,
+            &self.resources,
+            &self.bounds,
+            number,
+            scene,
+            ground,
+        )
+    }
     pub fn advance_motion_prefix(
         &self,
         session: &mut Session,
@@ -329,6 +354,8 @@ impl Factory {
             motion: crate::kabuto_motion_prefix::State::default(),
             motion_history: None,
             motion_prefix_completed: None,
+            classification_completed: None,
+            contact: Default::default(),
             declared_class: self.resources.specification.clone(),
             geometry,
             radius: prepared.radius,

@@ -1,5 +1,38 @@
 use super::*;
 use crate::kabuto_motion_prefix::{Frame, State};
+struct EmptyPeers;
+impl crate::kabuto_classification::Peers for EmptyPeers {
+    fn profile(&mut self, _: u32) -> Result<crate::kabuto_contact::Peer, &'static str> {
+        Err("no peer metadata supplied")
+    }
+    fn bind_support(&mut self, _: u32, _: u32) -> Result<(), &'static str> {
+        Err("no peer support backend supplied")
+    }
+}
+fn classify(
+    factory: &crate::kabuto_initial::Factory,
+    s: &mut Session,
+    owner: Id,
+    number: u64,
+) -> Result<(), String> {
+    factory.advance_classification(
+        s,
+        owner,
+        number,
+        crate::kabuto_classification::Scene {
+            owner: 17,
+            objects: &[],
+            peers: &mut EmptyPeers,
+        },
+        |xy| {
+            Ok(crate::physical_ground::Ground {
+                plane: [0., 0., 1., -0.],
+                height: -((f64::from(xy[0]) * 0. + f64::from(xy[1]) * 0.) + -0.) as f32,
+                key: [0, 0],
+            })
+        },
+    )
+}
 fn header(s: &Session, id: Id) -> Vec<u32> {
     let mut h = super::growth_tests::header(s, id);
     let m = s.kabuto_group(id).unwrap().motion_prefix();
@@ -18,6 +51,21 @@ fn header(s: &Session, id: Id) -> Vec<u32> {
     }
     for (i, v) in m.commands.as_chunks::<4>().0.iter().enumerate() {
         h[0x208 / 4 + i] = u32::from_le_bytes(*v);
+    }
+    let c = s.kabuto_group(id).unwrap().contact();
+    h[0x140 / 4] = c.floor.to_bits();
+    for (i, v) in c.plane.iter().enumerate() {
+        h[0x144 / 4 + i] = v.to_bits();
+    }
+    h[0x224 / 4] = c.support;
+    h[0x220 / 4] = c.hit;
+    h[0x228 / 4] = c.support_part;
+    h[0x22c / 4] = c.support_triangle;
+    if let Some(a) = &s.get(id).unwrap().affine_cache {
+        h[0x294 / 4] = a.value.flags;
+        for (i, v) in a.value.matrix.iter().enumerate() {
+            h[0x298 / 4 + i] = v.to_bits();
+        }
     }
     h
 }
@@ -48,6 +96,148 @@ fn snapshot(s: &Session, id: Id) -> Vec<u32> {
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private motion-prefix controls; no window or audio"]
 fn source_kabuto_motion_prefix_owns_fields_and_retains_pending_primary() {
+    run_motion(false);
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; optional private composed classification controls; no window or sound"]
+fn source_kabuto_classification_owns_contacts_radius_and_affine_without_finishing_primary() {
+    run_motion(true);
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; prepared mesh/peer services and late provider failure; no window or sound"]
+fn source_kabuto_classification_keeps_peer_effects_and_quarantines_late_failure() {
+    struct Peers {
+        support: u32,
+        calls: u32,
+    }
+    impl crate::kabuto_classification::Peers for Peers {
+        fn profile(&mut self, key: u32) -> Result<crate::kabuto_contact::Peer, &'static str> {
+            assert_eq!(key, 77);
+            self.calls += 1;
+            Ok(crate::kabuto_contact::Peer {
+                class: 2,
+                upper_z: 1.,
+                radius: 1.,
+                collision_mask: 0x3ffc,
+            })
+        }
+        fn bind_support(&mut self, peer: u32, owner: u32) -> Result<(), &'static str> {
+            assert_eq!(peer, 77);
+            self.support = owner;
+            Ok(())
+        }
+    }
+    let (factory, _) = super::transition_tests::factories();
+    for success in [true, false] {
+        let mut s = Session::new(if success { 978 } else { 979 });
+        let owner = factory
+            .construct(
+                &mut s,
+                ColdFrame {
+                    position: [0.; 3],
+                    current: [0., 0., 1.],
+                    previous: [0.; 3],
+                    angles: [0.; 3],
+                },
+                Blending::Disabled,
+                1,
+            )
+            .unwrap();
+        // Supply a preceding physical pose after cold construction. The cold
+        // projection itself deliberately initializes current == position.
+        s.residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap()
+            .current[2] = 1.;
+        s.begin_kabuto_motion_history(owner, 1, [0; 8]).unwrap();
+        factory
+            .advance_motion_prefix(
+                &mut s,
+                owner,
+                1,
+                Frame {
+                    global_seconds: 0.,
+                    areas: &[],
+                    sensitivity: 1.,
+                    local_owner: true,
+                    skip_heading: false,
+                    parent_present: false,
+                },
+            )
+            .unwrap();
+        let before = snapshot(&s, owner);
+        let objects = [crate::player_world_collision::Object {
+            fields: crate::mecc_collision_candidates::Object {
+                id: 77,
+                parent: 0,
+                has_model: true,
+                object_flags: 0,
+                collision_flags: 0,
+                bounds: crate::volume_queries::Bounds {
+                    min: [-100.; 3],
+                    max: [100.; 3],
+                },
+            },
+            response_flags: 0,
+            triangles: vec![crate::player_mesh_contact::Triangle {
+                vertices: [[-100., -100., 1.], [100., -100., 1.], [0., 100., 1.]],
+                part: 3,
+                ordinal: 4,
+            }],
+        }];
+        let mut peers = Peers {
+            support: 0,
+            calls: 0,
+        };
+        let mut queries = 0;
+        let result = factory.advance_classification(
+            &mut s,
+            owner,
+            1,
+            crate::kabuto_classification::Scene {
+                owner: 17,
+                objects: &objects,
+                peers: &mut peers,
+            },
+            |_| {
+                queries += 1;
+                if success {
+                    Ok(crate::physical_ground::Ground {
+                        plane: [0., 0., 1., -0.],
+                        height: -0.,
+                        key: [0, 0],
+                    })
+                } else {
+                    Err("late classification terrain failure")
+                }
+            },
+        );
+        assert!(peers.calls > 0);
+        assert_eq!(peers.support, 17);
+        assert!(queries > 0);
+        assert_eq!(result.is_ok(), success);
+        if success {
+            assert_eq!(s.kabuto_group(owner).unwrap().contact().support, 0);
+            assert!(s.actor_current_affine(owner).is_ok());
+        } else {
+            assert_eq!(snapshot(&s, owner), before);
+            assert!(
+                s.kabuto_group(owner)
+                    .unwrap()
+                    .geometry_transition_failure()
+                    .is_some()
+            );
+        }
+        assert!(classify(&factory, &mut s, owner, 1).is_err());
+        assert!(s.begin_kabuto_motion_history(owner, 2, [0; 8]).is_err());
+        s.clear();
+        assert_eq!(s.counts().residents, 0);
+    }
+}
+fn run_motion(with_classification: bool) {
     let (factory, _) = super::transition_tests::factories();
     let controls = std::env::var_os("GIANTS_KABUTO_MOTION_CONTROLS")
         .map(|p| std::fs::read_to_string(p).unwrap());
@@ -93,6 +283,7 @@ fn source_kabuto_motion_prefix_owns_fields_and_retains_pending_primary() {
             let p = &w[199..410];
             let f = |at: usize| f32::from_bits(h[at / 4]);
             let actor = s.residents.get_mut(&owner.serial).unwrap();
+            actor.affine_cache = None;
             let mut fields = baseline_fields.clone();
             fields.position = std::array::from_fn(|i| f(0xa0 + i * 4));
             fields.angles = std::array::from_fn(|i| f(0xc8 + i * 4));
@@ -115,6 +306,8 @@ fn source_kabuto_motion_prefix_owns_fields_and_retains_pending_primary() {
             group.physics = Some(physics);
             group.motion_history = None;
             group.motion_prefix_completed = None;
+            group.classification_completed = None;
+            group.contact = Default::default();
             group.motion = State {
                 commands: [0; 8],
                 mode: h[0xe4 / 4],
@@ -159,6 +352,9 @@ fn source_kabuto_motion_prefix_owns_fields_and_retains_pending_primary() {
                     },
                 )
                 .unwrap();
+            if with_classification {
+                classify(&factory, &mut s, owner, u64::from(w[0])).unwrap();
+            }
             receipt.push_str(
                 &snapshot(&s, owner)
                     .iter()
@@ -182,6 +378,9 @@ fn source_kabuto_motion_prefix_owns_fields_and_retains_pending_primary() {
                 .unwrap()
         );
         let before = snapshot(&s, owner);
+        if with_classification {
+            assert!(classify(&factory, &mut s, owner, 1).is_err());
+        }
         let frame = |seconds| Frame {
             global_seconds: seconds,
             areas: &[],
@@ -220,6 +419,20 @@ fn source_kabuto_motion_prefix_owns_fields_and_retains_pending_primary() {
                 > 0.
         );
         assert_ne!(snapshot(&s, owner), before);
+        if with_classification {
+            let (foreign, _) = super::transition_tests::factories();
+            let entered = snapshot(&s, owner);
+            assert!(classify(&foreign, &mut s, owner, 1).is_err());
+            assert!(classify(&factory, &mut s, owner, 2).is_err());
+            assert_eq!(snapshot(&s, owner), entered);
+            classify(&factory, &mut s, owner, 1).unwrap();
+            assert!(s.actor_current_affine(owner).is_ok());
+            assert_eq!(
+                s.kabuto_group(owner).unwrap().classification_completed,
+                Some(1)
+            );
+            assert!(classify(&factory, &mut s, owner, 1).is_err());
+        }
         assert!(
             factory
                 .advance_motion_prefix(&mut s, owner, 1, frame(0.1))
