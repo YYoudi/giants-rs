@@ -1,6 +1,5 @@
 # Preview releases and milestone integration
 
-<<<<<<< HEAD
 ## Kabuto reference-query argument production — 9 November 2026
 
 The acquired argument producer selects actor or viewport geometry and the three
@@ -17,7 +16,7 @@ and lifetime, target publication and later actions/world/animation are still
 open. This source milestone adds no live control, capture, dependency, asset or
 downloadable preview; earlier receipts retain their exact source identities.
 Prototype PS2 correspondences remain unknown. Detailed evidence stays private.
-=======
+
 ## Parented timed preparation and retirement sampling — 9 November 2026
 
 Published [preview-2026.11.09.13](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.13)
@@ -53,7 +52,6 @@ Canonical Session storage, dispatcher model rates/clock ownership, ordinary stoc
 full environment/retirement integration and main-film admission remain open.
 Prototype PS2 correspondences and all complete-scene fidelity remain unverified;
 the last full 545-source census and counts stay unchanged.
->>>>>>> origin/main
 
 ## Delphi target-scalar production and selector composition - 9 November 2026
 
