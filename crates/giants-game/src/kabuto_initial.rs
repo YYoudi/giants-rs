@@ -40,6 +40,9 @@ pub struct Group {
     pub(crate) classification_completed: Option<u64>,
     pub(crate) object_contacts_completed: Option<u64>,
     pub(crate) object_contacts_entered: Option<u64>,
+    pub(crate) model_motion_completed: Option<u64>,
+    pub(crate) animation_gravity_entered: Option<u64>,
+    pub(crate) animation_gravity_completed: Option<u64>,
     pub(crate) contact: crate::kabuto_classification::Contact,
     pub declared_class: Arc<specification::Prepared>,
     pub geometry: Geometry,
@@ -92,6 +95,34 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    pub fn advance_animation_gravity(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        frame: crate::kabuto_animation_gravity::Frame<'_>,
+        services: &mut crate::actor_animation_phase::Services<'_>,
+    ) -> Result<crate::kabuto_animation_gravity::View, String> {
+        session.advance_kabuto_animation_gravity(owner, &self.resources, number, frame, services)
+    }
+    /// Displacement-derived model rates after the owned additional contacts.
+    /// Animation, force production and the primary remainder stay pending.
+    pub fn advance_model_motion(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        global_seconds: f32,
+        areas: &[crate::object_time::SlowArea],
+    ) -> Result<crate::mecc_model_motion::Output, String> {
+        session.advance_kabuto_model_motion(
+            owner,
+            (&self.resources, &self.globals),
+            number,
+            global_seconds,
+            areas,
+        )
+    }
     /// Acquired additional contacts after actual physical classification. Action
     /// execution and scene membership remain explicit services, not readiness.
     pub fn advance_object_contacts(
@@ -383,6 +414,9 @@ impl Factory {
             classification_completed: None,
             object_contacts_completed: None,
             object_contacts_entered: None,
+            model_motion_completed: None,
+            animation_gravity_entered: None,
+            animation_gravity_completed: None,
             contact: Default::default(),
             declared_class: self.resources.specification.clone(),
             geometry,

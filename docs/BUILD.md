@@ -257,6 +257,8 @@ For the bounded owned input/orientation and force-to-position prefix:
 cargo test --locked -p giants-game source_kabuto_motion_prefix_owns_fields_and_retains_pending_primary --target x86_64-pc-windows-gnu -- --ignored
 cargo test --locked -p giants-game source_kabuto_classification --target x86_64-pc-windows-gnu -- --ignored
 cargo test --locked -p giants-game source_kabuto_object_contacts --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-game source_kabuto_model_motion --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-game source_kabuto_animation_gravity --target x86_64-pc-windows-gnu -- --ignored
 ```
 
 This uses the same `GIANTS_KABUTO_ROOT`, real cold resources, actual common

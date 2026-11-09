@@ -273,6 +273,31 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: the numbered Factory-bound clock/ANM/gravity phase consumes its
+  owned model phase, reusing shared channel/reference/epoch/event and gravity
+  services. The complete original PC interval matches 512 source-backed contexts
+  / 303,616 normalized header/payload/reference/epoch/TLS words. The actual cold
+  animation is selected; no event fires in this parity profile. Commands/time,
+  analytic flat terrain, prepared scene and default transform profile remain
+  supplied; preceding phases execute on Rust, not rerun on PC in this control.
+  A crossed real resource contact event retains channels/references/epoch,
+  quarantines replay and leaves gravity unexecuted when its service is missing.
+  Current event/contact/audio services and control-target/force production still
+  block live primary/frame completion; all history/prerequisites remain entered.
+- Implemented: the Factory-bound post-contact model-rate phase reuses the shared
+  displacement-to-model service and object-local clock. It requires the real
+  numbered classification/additional contacts, owned affine/physics and factory
+  resources. Controlled directional minimums and inactive-axis clears are retained.
+  A 512-case original wrapper/body/clock comparison matches 2,048 words; a separate
+  actual Session stage-boundary control repeats 512 / 2,048. Other header/payload,
+  model history/fourth rate, lists and prerequisites stay unchanged. Wrong order,
+  wrong factory/number, invalid clock/missing affine and replay refuse atomically.
+- Acquired and compared: the gravity/projection/friction/damping helper matches
+  512 contexts / 7,680 words against the unchanged common gravity service.
+  Its required ANM predecessor is now bound for the declared profile above,
+  preserving references, shared class-event resources, epoch and failure ordering.
+  Active event/contact/audio services, control-target/force generation and the
+  remaining primary are still open; no phase admits live gameplay.
 - The dedicated user-created fork owns Kabuto only, working alone with an
   isolated Cargo target. The owner permits necessary test windows; avoid unrelated
   focus changes and sound. Preserve the
@@ -985,6 +1010,23 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Retirement-chain follow-up: 32 supplied native parent/child lifecycles now
+  execute the actual global context updater, retirement helper, deferred mark,
+  global object cleanup and child activation. The mark keeps the parent slot
+  occupied; only cleanup frees it, and the child reuses that slot. All 64 object
+  retirements finish with zero active object/context heads and both supplied
+  eight-slot free lists fully restored. This is not mission population/capacity.
+  Rust matches 1,024 selected RNG, construction, position and matrix words.
+  Preview `preview-2026.11.09.5` pins this preparation dependency to source
+  `32286b7`; receipt-bound silent lifecycle checks and the downloaded ten-member
+  package pass. The mode/inheritance and physical-ownership prerequisites below
+  remain open; no additional film admission is counted.
+  The child initial frame is now implemented in the shared skip service with no
+  random draw. Actual retirement preparation uses its distinct mode and inherited
+  parameter; do not substitute the existing plain positional context API.
+  Main cinematic context/physical ownership, inherited flags, world RNG and frame
+  scheduling remain unbound. No source becomes admitted from this CPU proof.
+
 - Timed FX callback ordering: the shared Playback wrapper formerly discarded
   every zero-time callback, leaving its native first-update gate pending. It now
   executes that callback without inventing elapsed time. Native/Rust comparison
@@ -994,8 +1036,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   initial-zero control confirms the gate independently of matrix preparation.
   The initial positional mismatch was an incomplete control phase: the actual
   ordinary preparation produces the Rust attachment matrix, so no placement
-  change is justified. Retirement helper execution, child activation, parent
-  release, actual world scheduling/RNG and complete rendering remain open. The
+  change is justified. Main-runtime retirement-helper binding, child activation,
+  parent release, actual world scheduling/RNG and complete rendering remain open. The
   queue/readiness guards and cinematic gap counts are preserved. These supplied
   contexts use the acquired nonphysical class; zero-time motion/contact profiles
   beyond that fixture still need their own native comparisons.

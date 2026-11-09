@@ -34,6 +34,7 @@ pub mod held_weapon;
 pub mod hit_routing;
 pub mod instances;
 pub mod kabuto_animation_cache;
+pub mod kabuto_animation_gravity;
 pub mod kabuto_auxiliary;
 pub mod kabuto_auxiliary_animation;
 pub mod kabuto_classification;

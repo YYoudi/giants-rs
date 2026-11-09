@@ -19,6 +19,110 @@ promotion follows; point/candidate queries, readiness, typed target lifetime,
 audio/physics binding, water and combat remain open. See
 [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
+## Kabuto owned animation-to-gravity sequence — 9 November 2026
+
+The Factory-bound Session now queries its actual local clock, advances channels/
+references/shared epoch and event state, then applies common gravity to its owned
+physical payload. A complete original-PC interval matches 512 post-model source
+contexts / 303,616 normalized header/payload/reference/epoch/TLS words. This uses
+the real cold animation with no triggered events. Native resources/groups are
+constructed first; the preceding Rust phases are not reexecuted on PC per case.
+External commands/time, controlled terrain/prepared scene and default transform
+callbacks remain declared boundaries.
+
+A separate real resource contact-event check retains prior ANM effects, refuses
+the missing service and leaves gravity unexecuted. Wrong order/owner/factory,
+invalid clock and replay refuse; later errors quarantine replay. No initializer
+or history prerequisite is acknowledged. Active event/contact/audio services,
+control-target/force generation and the primary/world remainder still block
+live admission. Shared arithmetic is reused without changing Mecc/Delphi.
+Prototype PS2 correspondence remains unknown. Existing release manifests/notices/
+checksums/runtime receipts retain their exact source identities; no playable
+preview or visual-fidelity promotion follows this CPU dependency.
+
+Validation: 816 synthetic Rust tests pass (39 ignored), all fourteen silent
+Kabuto phase controls plus the separate cold-resource control pass, alongside
+40 Python tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript
+checks. The 512-context complete original interval comparison passes again on
+the final runtime source. The required-event failure check is a separate owned
+policy control, without an original-PC exception-equivalence claim. The limited
+source/history pattern audit reports zero findings across 457 commits / 2,967
+blobs at the preceding runtime checkpoint.
+
+## Kabuto owned post-contact model rates — 9 November 2026
+
+The Factory-bound Session now publishes displacement-derived model rates and
+physical speed after its real additional-contact phase, reusing common model and
+clock services without changing Mecc/Delphi arithmetic. The original wrapper/body
+and clock match 512 controlled contexts / 2,048 words; an independent actual
+Session stage-boundary control repeats 512 / 2,048. Prior phases execute on Rust;
+the PC helper receives their exported stage-entry state. This is not a new
+end-to-end original primary or mission proof. Other owned header/payload/history,
+registrations and initializer prerequisites stay unchanged; stale/foreign/order/
+clock/cache and replay failures refuse before mutation.
+
+The shared gravity helper separately matches 512 contexts / 7,680 physical words.
+Actual Kabuto gravity remains pending the required intervening ANM pass, including
+references/events and shared resource/RNG ownership. Control-target/force
+production and the remaining primary/world still block live admission. Existing
+package/notices/checksum/runtime receipts retain their exact identities; no new
+asset/dependency, downloadable preview or playable/visual-fidelity claim is added.
+Prototype PS2 correspondences remain unknown.
+
+Combined-source validation: 816 synthetic Rust tests pass (38 ignored), all
+thirteen silent Kabuto phase controls and the separate cold-resource control
+pass, plus 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks. Rebuilt shared model/gravity comparisons and the source-backed model
+comparison pass again. The source/history pattern audit reports zero findings
+across 454 commits / 2,949 blobs at the combined checkpoint; it is a limited
+pattern review. Existing playable preview receipts retain their own source IDs.
+
+## Retirement child initialization and native cleanup boundary — 9 November 2026
+
+The shared null-object initialization service now handles the acquired complete
+fixed-size/lifetime/gravity frame without consuming RNG. The source retirement
+child reaches this frame; whole-frame guards still refuse unacquired programs.
+
+A separate 32-case original-PC control executes parent preparation and birth,
+ordinary attachment preparation, lifetime callbacks, retirement preparation,
+deferred marking, global cleanup, child birth and final cleanup. A mark alone
+keeps the parent slot occupied; actual cleanup frees it and the child reuses it.
+All 64 parent/child object retirements finish with zero active object/context
+heads and both supplied eight-slot free lists restored. Thirty-two Rust cases
+match 1,024 selected RNG, construction, position and matrix words. This compares
+typed behavior; it does not establish Rust physical-pool ownership parity.
+
+The original retirement context carries a distinct mode and inherited parameter.
+Binding that context, caller-supplied world RNG, physical slot ownership and
+actual frame scheduling to the main film player remain open. This is not complete
+film admission, actual mission capacity, raster/voice/timing fidelity or broader
+zero-time physical/contact coverage. The source inventory and zero certified
+complete scenes remain unchanged. Prototype PS2 correspondence remains unknown.
+Published [preview-2026.11.09.5](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.5)
+pins source `32286b7852917d54fb9e4327aebb74be4984c194`, executable SHA256
+`55062d1c32ba9524693550247f1b485d62ed63328ade4cdf1e0c6edee2b871e8` and ZIP SHA256
+`d929a5bebafccadf0db529b5ab8a458d34d2d8f7ea4a466f196fb2b8f89a2002`.
+Its Rust tree is identical to the validated 809-test checkpoint (34 ignored);
+40 Python tests, formatting, strict Clippy and the source audit pass (443 commits /
+2,909 blobs / zero findings at the exact binary source). Both silent offscreen
+development endpoints, three active persistent cancellations and two Rstory1
+mission-index-2 source-terminal/re-entry cycles pass with voice/text cleanup.
+All ten package members, notices, receipt and checksums pass independent checks,
+repeated after downloading all three public assets. No interactive tests ran.
+The existing partial renderer and unresolved retirement binding retain their scope.
+
+Combined source `6000e05b566ae82646f35c953dc55ffdef13f3fc` preserves concurrent
+Mecc/Delphi/Kabuto work and passes 814 synthetic Rust tests (37 ignored),
+40 Python tests, formatting, strict Clippy and generated roadmap/site/JavaScript
+checks. Its source audit covers 448 commits / 2,924 blobs with zero findings.
+This source validation does not relabel the published binary or certify rendering.
+
+Later combined source `06762d43ef43cf1a2734c3a73396453fcd6f314c` retains Delphi
+target movement. All 635 game-crate tests pass (24 ignored), along with workspace
+strict Clippy, formatting, 40 Python tests and roadmap/site/JavaScript checks.
+The source audit covers 451 commits / 2,933 blobs with zero findings. This is a
+game-crate validation, separate from the full-workspace count and binary receipt.
+
 ## Delphi target-movement and activation services - 9 November 2026
 
 The shared Rust library now contains acquired target/fallback movement arithmetic

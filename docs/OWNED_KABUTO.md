@@ -1032,3 +1032,87 @@ and action dispatch, ANM/camera/world/GPU cadence and dynamic cleanup remain ope
 No new playable controller, screenshot, package or visual-fidelity claim follows.
 Prototype PS2 correspondences remain unknown; raw symbols, demangling uncertainty,
 previous aliases and identity-bound evidence remain private and separate.
+
+## Owned post-contact model rates — 9 November 2026
+
+`Factory::advance_model_motion` consumes the real numbered additional-contact
+phase and reuses the existing controlled displacement-to-model service. Actual
+position/previous position, physical velocity, affine, scale, signed commands and
+Factory directional minimums feed the common arithmetic. The actual object-local
+clock selects the first eligible supplied slow area. It publishes three model
+rates and physical world-speed magnitude, preserving the fourth rate and prior
+model/velocity history. All initializer/history prerequisites remain set.
+
+A 512-context original wrapper/body/clock control agrees on 2,048 output words,
+including dense affine inputs, zero/negative scales, signed commands, inactive
+axes, directional minimums, zero time and ordered slow areas. All other original
+header and physics words are independently checked unchanged. Rust reuses the
+common service without modifying Mecc/Delphi arithmetic.
+
+A separate 512-context source-data control builds a real group and executes its
+own numbered history, motion, physical classification and additional contacts
+before the new phase. Its actual stage-entry state is exported before the Rust
+consumer; the original PC helper consumes that supplied frontier and matches
+another 2,048 words. PC does not reexecute the preceding source phases in this
+control, nor supply computed intermediates to Rust. Analytic flat terrain,
+prepared empty scene and external command/time inputs remain boundaries. The
+complete owned snapshot changes only at the acquired three model rates and
+physical speed; list/counts, prior history and prerequisites are checked retained.
+
+Foreign factories, wrong numbers/order, repeated calls, invalid clock and missing
+affine refuse before mutation. The physical mirror must match the owned payload.
+Pure preparation failure can be corrected and retried without acknowledging the
+phase. This is owned error policy, not original exception behavior.
+
+The original subsequent gravity helper separately matches 512 / 7,680 physical
+words using unchanged shared gravity/projection/friction/damping arithmetic.
+It is not yet scheduled on Kabuto: original order requires an intervening ANM
+pass with references/events/resources and shared state. No empty callback or
+fabricated animation acknowledgment substitutes for it. Current control-target/
+force generation and the primary remainder, live world/camera/GPU cadence,
+jumping, feeding and live growth remain open. No new playable/visual claim or
+package follows. Prototype PS2 attributions remain unknown; detailed identity,
+raw-symbol/demangling distinctions and records remain private.
+
+## Owned ordered animation and gravity — 9 November 2026
+
+`Factory::advance_animation_gravity` consumes the real numbered model phase and
+runs the shared ANM pipeline before common gravity. The local clock is queried at
+its own current-position boundary and rounded to the original ANM argument store.
+Actual channels, model rates, prepared references, affine/support fields and
+physical words feed the existing services. The Session retains the shared class
+event bank, while the caller owns the shared epoch, context pool and VM RNG.
+No RNG ownership across an audio-device module boundary is inferred.
+
+The original PC interval executes its actual clock, channel loop, reference/model
+evaluation, epoch helper and gravity in source order. It matches 512 source-backed
+stage contexts / 303,616 complete normalized header/payload/reference/epoch/TLS
+words, including zero time, ordered time areas and epoch wrap. Native declared
+resources and cold groups are constructed first. Rust constructs its own group,
+then runs history, motion, classification, additional contacts and model rates;
+it exports the post-model frontier before consuming it. PC receives that supplied
+boundary, rather than reexecuting those preceding phases for each context.
+
+The successful profile uses the actual cold primary animation and triggers no
+event dispatch. It proves neither active walking/contact/audio events nor live
+class-event effects. Analytic flat terrain, prepared scene membership, external
+commands/time and default transform callbacks remain boundaries. The previously
+separate 512-context gravity comparison retains its declared scope.
+
+Entered/completed tokens prevent replay. Foreign factories, wrong numbers/order,
+channel/physical mirror mismatches and invalid clocks refuse before entering.
+Late failures retain actual completed channels/references/epoch/class-event/RNG/
+context effects and quarantine replay. A separate source-data context crosses a
+real declared contact event: its missing service produces a required refusal,
+retains its animation effects and leaves the physical payload unchanged, proving
+that gravity does not run after that error. These owned error rules do not claim
+original exception equivalence. No empty event handler or fabricated ANM sample
+is substituted for a missing service.
+
+All initializer prerequisites and entered history remain set. Required active
+event/contact/audio services, control-target/force production and the rest of the
+primary still prevent another complete frame and live mission admission. Camera,
+world/GPU cadence, jumping, feeding, growth-threshold production and dynamic
+cleanup remain open. No new playable preview, asset or visual-fidelity claim
+follows. Prototype PS2 correspondences stay unknown; identity-bound raw-symbol,
+demangling and PC-alias records remain private.
