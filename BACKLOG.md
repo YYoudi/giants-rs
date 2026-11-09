@@ -421,6 +421,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented at the CPU boundary: pre-query reference release matches 512
+  original intervals / 1,331,545 normalized header/payload/service words. The
+  first 128 compose the actual state18 route and false-mode reset body; the
+  other reset branches retain an explicit mutating entry provider. Original
+  clock/slow-area selection, state89 parameter store, state3 scale predicate,
+  normalization and velocity dispatch execute. Required transport and animation
+  providers remain declared. Captured-target cleanup stays separate from the
+  post-service reference used for the impulse; wide timer subtraction and the
+  second stored-timer comparison retain their distinct arithmetic. Eight late
+  impulse-transport failures preserve published velocity and the uncleared
+  reference. Bind actual Session reference/parent/physical/global ownership and
+  lifetime, animation/reset services and transport before consuming this as a
+  numbered Kabuto phase. Full primary, world scheduling and live movement remain
+  open; this does not finish the initializer/history prerequisites.
 - Implemented at the CPU boundary: the complete state18 reference-reset body
   agrees on 512 original calls / 919,700 normalized-header, service-prefix and argument
   words. It restores the source's stored pose when the mode predicate is false, or uses the

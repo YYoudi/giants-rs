@@ -1524,3 +1524,57 @@ numbered Kabuto phase. All initializer/history prerequisites remain explicit.
 Full preceding release, primary/world integration, movement, feeding and growth
 remain open. No new capture, download, ordinary gameplay or fidelity claim is
 added. Prototype PS2 correspondences remain unknown.
+
+## Pre-query reference release
+
+`kabuto_reference_release::advance` implements the acquired interval between the
+resource stage and reference querying. The actual local-owner identity gates the
+whole interval; other owners skip it. An absent reference or unset acquired
+physical bit restores the release countdown. An active reference consumes the
+current object clock and ordered slow-area result. The clock remains wide for
+subtraction and the sign check; the next comparison reads the stored f32 timer.
+A positive value that underflows to stored zero can therefore trigger release.
+
+The release captures an actor and scale before the notification guard/transport.
+It preserves the captured scale across service effects, applies current scale
+division, clears only that actor's parent, then handles the acquired state89,
+state18 or state3 branch. State89 preserves the signed behavior comparison; the
+state3 scale comes from its current supplied payload. The captured actor receives
+the acquired flags. The impulse instead resolves the reference again after the
+services, reads current positions, uses shared normalization and requests the
+shared physical dispatch. Only after it returns is the source reference cleared.
+
+Required services expose current owned fields and metadata, parent/parameter
+writers, state18 reset, clock, transport and physical dispatch. Notification
+eligibility reuses `NotificationContext::eligible`; clock and impulse controls
+reuse `object_time::seconds` and `actor_velocity_impulse::apply`. No alternate
+normalizer, clock, actor backend or physical controller is introduced. Services
+may change the published reference/timer/scale and actor fields. Errors retain
+preceding effects; an owner must quarantine a failed call rather than replay it.
+
+Original controls match 512 intervals / 1,331,545 normalized header, payload,
+argument and service-prefix words. They execute the complete original interval,
+including ordered supplied slow areas, notification guards, state89/state3
+helpers, normalization and velocity dispatch. The first 128 also execute the
+original state18 route, preferred state32/82 predicates and full false-mode reset
+body, with declared current preferred identities and animation entry effects.
+The other reset cases use a declared mutating reset-entry provider. Transport is
+a declared mutating entry provider throughout; original transport and animation
+bodies are not acquired here. Other reset modes retain their independent body
+controls, rather than being claimed by this compound profile.
+
+Controls cover current-reference changes during transport/reset, captured scale
+preservation, full state/context/owner words, signed behavior, source aliases,
+position and velocity prefixes, wide-clock cancellation, stored-timer underflow
+and final reference clearing after transport mutations. Eight additional declared
+late impulse-transport failures retain the published velocity and reference;
+these are owned error controls, without native exception-path equivalence.
+Full headers/payloads, local/peer identities, time/areas and service effects remain
+supplied. They are not resource-backed Session construction or ordinary gameplay.
+
+The interval is not yet a Factory/Session phase: actual reference and parent
+lifetime, physical ownership, global cache, reset/animation backend and transport
+must be bound before primary/history progress can be acknowledged. No pending
+initializer is cleared, no actor frame is finished, and no new capture, playable
+preview or visual-fidelity claim follows. Prototype PS2 correspondences remain
+unknown; raw evidence and symbol records stay private.

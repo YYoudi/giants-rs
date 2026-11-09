@@ -1,5 +1,29 @@
 # Preview releases and milestone integration
 
+## Kabuto reference release — 9 November 2026
+
+The acquired pre-query release agrees on 512 original intervals / 1,331,545
+normalized header/payload/service words. This includes 128 original state18
+route/reset compositions under a declared animation service, alongside actual
+clock/ordered-area selection, normalization and velocity dispatch. Current
+reference rereads preserve changes after notifications and reset; the captured
+actor and scale retain their separate roles. Wide-clock subtraction and the
+stored-timer comparison are both retained.
+
+Transport and the other reset-entry cases use declared mutating providers.
+Actual Session reference/parent/physical/global ownership, lifetimes and
+animation/reset/transport backends remain unbound. Eight declared late transport
+errors retain velocity and the uncleared reference. This is CPU source progress,
+without a numbered primary phase, initializer/history completion, live movement,
+new capture, dependency, asset or downloadable preview. Existing preview receipts
+retain their exact source identities; prototype PS2 attributions remain unknown.
+
+Validation passes 860 workspace Rust tests (56 ignored), sixteen installed
+Kabuto controls and the separate cold-construction control, 43 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. These checks establish
+CPU/source behavior and preserve existing owner boundaries, without new runtime
+input, frame completion, package or playability validation.
+
 ## State18 reset body for Kabuto — 9 November 2026
 
 The acquired reset body agrees with 512 original calls / 919,700 normalized header,
