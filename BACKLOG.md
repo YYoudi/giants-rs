@@ -181,9 +181,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   viewport and depth terms remain supplied boundaries. Only device publication
   is skipped. Override preserves the transition; projection refusal retains a
   completed lens update. No renderer or visual-fidelity claim is made.
-  Next bind actual profile selection, input/viewport/depth producers and camera
-  invocation ordering to the owned ordinary view, then use the common Bevy
-  projection/coordinate adapter. Full dispatch and alternate branches stay open.
+  The next composition below binds the ordinary profile selector and invocation
+  order. Actual input/viewport/depth producers and the common Bevy projection /
+  coordinate adapter remain pending. Full dispatch and alternate branches stay open.
+- Implemented: the owned local class-3 mode-zero ordinary view selects external
+  base/scaled profiles, then executes lens, projection and direct-angle pose in
+  source order. The actual native dispatcher branch matches 384 invocations /
+  14,976 words across three persistent sequences. A separate 384-call control
+  executes original view/cache math and matches 23,424 words, with each next Rust
+  depth input produced from its own prior Rust view. Initial cache remains supplied.
+  Device publication is skipped,
+  walls are no-hit and final view arguments are captured. The source lifecycle
+  adds 64 composed owned views with actual actor fields/kind and pre-provider
+  refusal checks. Completed lens/projection effects survive later failure and
+  cannot replay. Actual input/viewport/depth producers, initial view, complete
+  dispatch and renderer/mission scheduling remain prerequisites; no live Delphi
+  admission or fidelity status changes follow.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary

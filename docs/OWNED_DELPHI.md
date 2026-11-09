@@ -4,6 +4,46 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Owned ordinary view composition - 9 November 2026
+
+`delphi_ordinary_view::State` composes the acquired local class-3 mode-zero
+camera route: external profile selection, lens transition/scaling, source-space
+projection, then ordinary direct-angle pose. Scaled input selects the second
+immutable class-3 profile while the distance policy retains global mode zero.
+`delphi_camera::OrdinaryProfiles` reads both records from the acquired external
+debug layout; no original table is embedded. Other selectors remain excluded.
+
+`Session::advance_delphi_ordinary_view` binds the completed controlled owner's
+position, heading, independent look, scale, look height, control word and actual
+state kind. Foreign identities, incomplete/wrong frames and unsupported profiles
+refuse before consuming camera state or world providers. The four-owner source
+control adds 64 composed view updates, alternating profile selection and lens
+inputs, and checks future-frame/profile refusal. Its viewport/depth and terrain /
+wall providers remain supplied; it executes no renderer or live mission player.
+
+The original ordinary dispatcher, profile getter, kind predicates, lens,
+projection, distance and pose bodies match 384 Rust invocations / 14,976 words.
+Three persistent 128-step sequences vary actual profile selection, input scale,
+lens requests, global time and supplied viewport/depth. Native math executes
+before a skipped device call; the wall provider is no-hit and final view arguments
+are captured. The actor header stays unchanged. A separate 384-invocation comparison also
+executes the original view/cache math: all 23,424 pose, lens, projection, view and
+depth-cache words agree. Each next Rust projection consumes its own prior Rust
+view cache, never native previous-frame outcomes. Only the initial cache is
+supplied; both original virtual device calls are skipped. This validates the
+closed CPU calculation within the controlled ordinary route, not shared-world
+view ownership, device publication or rendered fidelity.
+
+The phase consumes each invocation once. Completed lens and projection effects
+survive later pose/provider refusal; a failure quarantines further invocations.
+Synthetic controls cover that ordering and a projection refusal before pose work.
+These refusal rules do not claim native error-path parity. Actual input and
+viewport/depth production, initial common view, coordinate/reversed-depth adapter,
+authored/alternate/vehicle/smoothed/shaken camera routes, full-primary/target/item
+and auxiliary scheduling, renderer/mission admission, water/turbo and combat stay
+open. Prototype PS2 dispatcher/lens/projection correspondences remain unknown;
+common reviewed routine identities remain separate from implemented coverage.
+
 ## Lens and projection arithmetic - 9 November 2026
 
 `camera_lens::State` implements the acquired finite transition, selected-kind

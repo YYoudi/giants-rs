@@ -145,7 +145,7 @@
       "title": "Delphi movement and water",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Owned construction, dry physics/jump/locomotion, heading/look and body alignment are CPU-validated. The authored-camera callback now runs inside the owned controlled phase before heading, sharing its ANM epoch; four-owner lifecycle and fifteen legacy regression controls pass. The callback and shared reference sampler match 2,048 arithmetic cases plus three 256-step compositions over a 22-actor cohort, including paused caches and exact shared ANM/RNG state. Clip definitions load read-only from supported user-supplied metadata; no original table or executable is bundled. The ordinary third-person camera slice now binds owned actor fields and matches 768 native pose/chase steps; its distance policy matches 5,566 scalar cases. The base profile loads from acquired external debug metadata. Lens/projection arithmetic now matches 25,091/9,720 cases and 1,571 composed calls; device publication is excluded. Actual profile/input/viewport/depth producers, full camera dispatch, primary/target/item scheduling, auxiliary callbacks, renderer/mission integration, water/turbo and combat stay open. Live Delphi controls are still refused; CPU comparisons do not establish visual fidelity."
+      "detail": "Owned construction, dry physics/jump/locomotion, heading/look and body alignment are CPU-validated. The authored-camera callback now runs inside the owned controlled phase before heading, sharing its ANM epoch; four-owner lifecycle and fifteen legacy regression controls pass. The callback and shared reference sampler match 2,048 arithmetic cases plus three 256-step compositions over a 22-actor cohort, including paused caches and exact shared ANM/RNG state. Clip definitions load read-only from supported user-supplied metadata; no original table or executable is bundled. The ordinary third-person camera slice now binds owned actor fields and matches 768 native pose/chase steps; its distance policy matches 5,566 scalar cases. The base profile loads from acquired external debug metadata. Lens/projection arithmetic now matches 25,091/9,720 cases and 1,571 composed calls; device publication is excluded. The owned ordinary mode-zero view now selects both external profiles and composes lens/projection/pose: 384 native invocations / 14,976 words match. A separate 384-call view/cache control matches 23,424 words using each prior Rust view as the next depth input; initial cache is supplied and device publication excluded; 64 owned lifecycle updates pass. Actual input/viewport/depth producers, full camera dispatch, primary/target/item scheduling, auxiliary callbacks, renderer/mission integration, water/turbo and combat stay open. Live Delphi controls are still refused; CPU comparisons do not establish visual fidelity."
     },
     {
       "id": "delphi-sword",
@@ -505,7 +505,7 @@
       "title": "Multiplayer base-building rules",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Resource competition, faction construction, victory options and timed protection/d\u00c3\u00a9tente rules."
+      "detail": "Resource competition, faction construction, victory options and timed protection/dÃ©tente rules."
     },
     {
       "id": "content-coverage",

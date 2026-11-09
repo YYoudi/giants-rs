@@ -55,12 +55,39 @@ pub fn ordinary_profile(
     decode_ordinary_profile(&crate::executable_metadata::read(path)?)
 }
 pub fn decode_ordinary_profile(bytes: &[u8]) -> Result<crate::mecc_camera_update::Profile, String> {
+    decode_profile(bytes, 0)
+}
+
+/// Acquired class-3 records for the ordinary mode-zero dispatcher. The second
+/// record is selected by scaled input; that does not change the global mode
+/// used by the Delphi distance policy. Other selectors remain unacquired.
+#[derive(Clone, Copy, Debug)]
+pub struct OrdinaryProfiles {
+    base: crate::mecc_camera_update::Profile,
+    scaled: crate::mecc_camera_update::Profile,
+}
+impl OrdinaryProfiles {
+    pub fn read(path: &std::path::Path) -> Result<Self, String> {
+        Self::decode(&crate::executable_metadata::read(path)?)
+    }
+    pub fn decode(bytes: &[u8]) -> Result<Self, String> {
+        Ok(Self {
+            base: decode_profile(bytes, 0)?,
+            scaled: decode_profile(bytes, 1)?,
+        })
+    }
+    pub fn select(&self, scaled_input: bool) -> crate::mecc_camera_update::Profile {
+        if scaled_input { self.scaled } else { self.base }
+    }
+}
+
+fn decode_profile(bytes: &[u8], index: u32) -> Result<crate::mecc_camera_update::Profile, String> {
     use crate::executable_metadata::{Image, Layout, word};
     let image = Image::decode(bytes)?;
     if image.layout != Layout::DebugReference {
         return Err("Delphi camera profile metadata layout not acquired".into());
     }
-    let data = image.data.data(0x15a2e0, 20)?;
+    let data = image.data.data(0x15a2e0 + index * 24, 20)?;
     let values = (0..5)
         .map(|i| word(data, i * 4).map(f32::from_bits))
         .collect::<Result<Vec<_>, _>>()?;
@@ -110,5 +137,28 @@ mod profile_tests {
             assert!(decode_ordinary_profile(&synthetic_image(layout)).is_err());
         }
         assert!(decode_ordinary_profile(&bytes[..at]).is_err());
+    }
+
+    #[test]
+    fn scaled_profile_is_a_separate_validated_external_record() {
+        use crate::executable_metadata::{Layout, synthetic_image};
+        let mut bytes = synthetic_image(Layout::DebugReference);
+        let at = 4096 + 0x15a2e0 - 1_413_120;
+        for (row, values) in [[27_f32, 9., 73., -2., 3.], [8., 4., 55., 1., -1.]]
+            .into_iter()
+            .enumerate()
+        {
+            for (i, value) in values.into_iter().enumerate() {
+                let offset = at + row * 24 + i * 4;
+                bytes[offset..offset + 4].copy_from_slice(&value.to_le_bytes());
+            }
+        }
+        let profiles = OrdinaryProfiles::decode(&bytes).unwrap();
+        assert_eq!(profiles.select(false).distance, 27.);
+        assert_eq!(profiles.select(true).distance, 8.);
+        assert_eq!(profiles.select(true).vertical_fov, 55.);
+        bytes[at + 32..at + 36].copy_from_slice(&0_f32.to_le_bytes());
+        assert!(OrdinaryProfiles::decode(&bytes).is_err());
+        assert!(decode_ordinary_profile(&bytes).is_ok());
     }
 }

@@ -665,6 +665,7 @@ pub mod cinematic_credits;
 pub mod cinematic_sound;
 pub mod delphi_camera;
 pub mod delphi_camera_distance;
+pub mod delphi_ordinary_view;
 pub mod gameplay_sound_bank;
 pub mod mecc_aim;
 pub mod mecc_ammunition;

@@ -1,5 +1,32 @@
 # Preview releases and milestone integration
 
+## Owned Delphi ordinary view composition - 9 November 2026
+
+The local class-3 mode-zero view now selects acquired external base/scaled
+profiles and executes lens, source-space projection and direct-angle pose in
+source order. Original dispatcher-branch controls match 384 invocations /
+14,976 words across three persistent sequences. A separate 384-call control
+also executes original view/cache math and matches 23,424 words. Each next Rust
+projection uses its own previous Rust view cache; only initial depth is supplied.
+Both original virtual device calls are skipped; shared-world view scheduling and
+rendered pixels remain unverified. Device publication is skipped;
+walls are a declared no-hit provider and final view arguments are captured.
+No table or executable is bundled. The owned four-owner lifecycle adds 64
+composed views and verifies refusal before state/provider consumption. Late
+failures retain completed lens/projection effects and quarantine replay.
+
+Actual input/viewport/depth producers, initial common view and Bevy coordinate /
+projection adapter, complete dispatch, full-primary/auxiliary scheduling,
+renderer/mission admission, water/turbo and combat remain pending. These CPU/API
+controls do not add playable Delphi controls or visual-fidelity claims. Earlier
+executable/package receipts below retain their original source identities.
+
+Validation: 787 synthetic Rust tests pass (29 ignored), together with 40 Python
+tests, Rustfmt, Clippy with warnings denied and generated roadmap/site/JavaScript
+checks. The enriched silent installed-resource Delphi lifecycle also passes,
+including selected-kind and alternate-profile refusal without lens/provider
+consumption. Exact build/package and common runtime checks are recorded separately.
+
 ## Camera lens and projection kernels - 9 November 2026
 
 The acquired common lens transition/scaling and finite source-space perspective
