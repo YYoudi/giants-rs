@@ -11,6 +11,7 @@ use crate::{
 use giants_formats::effect_image::Image;
 use std::sync::Arc;
 
+#[derive(Debug)]
 pub struct Emission {
     pub configuration: EmissionConfiguration,
     pub entry_offset: u32,
@@ -46,7 +47,7 @@ impl Emission {
 pub struct Staged<K> {
     // Keep the actual specification, state bindings and model/ANM resources
     // alive after the caller drops SceneResources. This is no Session token.
-    _template: Template,
+    pub(crate) template: Template,
     pub initial: Initial<K>,
     pub emission: Emission,
     /// Required result of registration/VM completion, not a committed pool flag.
@@ -120,7 +121,7 @@ impl<K: Copy> Staged<K> {
         initial.fields.object_flags |= 0x40000000;
         initial.fields.control_flags |= 0x2000;
         let result = Self {
-            _template: template,
+            template: template,
             initial,
             emission: Emission {
                 configuration,

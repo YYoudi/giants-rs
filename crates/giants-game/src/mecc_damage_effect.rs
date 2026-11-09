@@ -131,6 +131,53 @@ pub struct Prepared<'a, K> {
     pub source_flags: u32,
     pub random: &'a mut crate::audio_parameters::Random,
 }
+/// Normal primary ownership with explicit access to canonical active emitters.
+/// Creation still only prepares; the acquired world activation phase calls the
+/// pool separately. This accepts no presentation-only or foreign actor handle.
+pub struct Bound<'a> {
+    pub session: &'a mut crate::resident_states::Session,
+    pub prepared: Prepared<'a, crate::resident_states::Id>,
+}
+impl Services<crate::attached_effect_context::Id> for Bound<'_> {
+    fn validate_binding(
+        &mut self,
+        binding: Option<crate::attached_effect_context::Id>,
+    ) -> Result<(), String> {
+        if let Some(id) = binding {
+            if self.prepared.pool.damage_smoke_actor(id).is_some() {
+                let context = self.prepared.pool.get(id).unwrap();
+                if context.recipient() != Some(self.prepared.source)
+                    || context.tag() != Some(3)
+                    || context.label != *b"FX_mecc_smoking_"
+                {
+                    return Err("active damage smoke belongs to another source/profile".into());
+                }
+                return self.prepared.pool.validate_damage_smoke(id, self.session);
+            }
+        }
+        self.prepared.validate_binding(binding)
+    }
+    fn reset_before_selection(&mut self) -> Result<bool, String> {
+        self.prepared.reset_before_selection()
+    }
+    fn release(&mut self, effect: crate::attached_effect_context::Id) -> Result<(), String> {
+        self.validate_binding(Some(effect))?;
+        if self.prepared.pool.damage_smoke_actor(effect).is_some() {
+            self.prepared
+                .pool
+                .release_damage_smoke(effect, self.session)
+                .map(|_| ())
+        } else {
+            self.prepared.release(effect)
+        }
+    }
+    fn prepare(
+        &mut self,
+        level: u32,
+    ) -> Result<Option<crate::attached_effect_context::Id>, String> {
+        self.prepared.prepare(level)
+    }
+}
 impl<K: Copy + Eq> Services<crate::attached_effect_context::Id> for Prepared<'_, K> {
     fn validate_binding(
         &mut self,

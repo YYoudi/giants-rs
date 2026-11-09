@@ -1,5 +1,5 @@
-//! Owned exact-D named context preparation, before its first object update.
-//! A live program/recipient/queue entry is owned; no emitted actor is implied.
+//! Owned named preparation and acquired retained smoke activation.
+//! A prepared entry alone implies no actor; active smoke records its Session owner.
 use giants_formats::{effect_image::Image, effect_program::Program};
 use std::sync::Arc;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -27,6 +27,12 @@ pub struct Context<K> {
     pub program: Result<Arc<Program>, String>,
     source: Arc<Image>,
     flags: u32,
+    retained_smoke: Option<RetainedSmoke>,
+}
+#[derive(Clone, Copy, Debug)]
+struct RetainedSmoke {
+    actor: crate::resident_states::Id,
+    cursor: usize,
 }
 impl<K> Context<K> {
     pub fn tag(&self) -> Option<u32> {
@@ -45,13 +51,13 @@ impl<K> Context<K> {
         self.source.clone()
     }
     pub fn cursor(&self) -> usize {
-        0
+        self.retained_smoke.map_or(0, |state| state.cursor)
     }
     pub fn flags(&self) -> u32 {
         self.flags
     }
     pub fn emitted_objects(&self) -> usize {
-        0
+        usize::from(self.retained_smoke.is_some())
     }
     pub fn source_program(&self) -> Result<&[u8], giants_formats::Error> {
         self.source.program_tail(self.entry_offset)
@@ -70,6 +76,73 @@ impl<K: Copy> Context<K> {
     }
 }
 impl Pool<crate::resident_states::Id> {
+    /// Publish the acquired retained emitter into the canonical Session, then
+    /// retain this context rather than making its slot available for reuse.
+    pub fn activate_damage_smoke(
+        &mut self,
+        id: Id,
+        session: &mut crate::resident_states::Session,
+        resources: &crate::scene_resources::SceneResources,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<crate::resident_states::Id, String> {
+        let context = self
+            .get(id)
+            .ok_or("smoke context absent, foreign or retired")?;
+        if context.retained_smoke.is_some()
+            || self.slots[id.slot].sound_started
+            || self.slots[id.slot].positional_started
+        {
+            return Err("smoke context activation already began".into());
+        }
+        let mut staged_random = *random;
+        let staged =
+            crate::mecc_smoke_effect::Staged::attached(resources, id, context, &mut staged_random)?;
+        let cursor = staged.resume_cursor;
+        let flags = staged.retained_flags;
+        let actor = session.adopt_smoke(staged)?;
+        let context = self.slots[id.slot].context.as_mut().unwrap();
+        context.retained_smoke = Some(RetainedSmoke { actor, cursor });
+        context.flags = flags;
+        *random = staged_random;
+        Ok(actor)
+    }
+    pub fn damage_smoke_actor(&self, id: Id) -> Option<crate::resident_states::Id> {
+        Some(self.get(id)?.retained_smoke?.actor)
+    }
+    pub fn validate_damage_smoke(
+        &self,
+        id: Id,
+        session: &crate::resident_states::Session,
+    ) -> Result<(), String> {
+        let context = self
+            .get(id)
+            .ok_or("smoke context absent, foreign or retired")?;
+        let retained = context
+            .retained_smoke
+            .ok_or("smoke context is not active")?;
+        if context.flags != 0x60004 {
+            return Err("retained smoke context flags changed".into());
+        }
+        session.validate_smoke(
+            retained.actor,
+            id,
+            context.recipient().ok_or("smoke parent absent")?,
+        )
+    }
+    /// Stop marking precedes context retirement. The object and its actual list
+    /// entries remain owned until the separate dead-object pass is acquired.
+    pub fn release_damage_smoke(
+        &mut self,
+        id: Id,
+        session: &mut crate::resident_states::Session,
+    ) -> Result<Context<crate::resident_states::Id>, String> {
+        self.validate_damage_smoke(id, session)?;
+        let context = self.get(id).unwrap();
+        let actor = context.retained_smoke.unwrap().actor;
+        let parent = context.recipient().unwrap();
+        session.stop_smoke(actor, id, parent)?;
+        self.retire_context(id)
+    }
     /// Stage the acquired timed owner directly in canonical Session storage.
     /// Failed construction preserves the context and caller RNG. Ordinary
     /// world/stock admission and timed rendering remain separate prerequisites.
@@ -447,6 +520,7 @@ impl<K: Copy + Eq> Pool<K> {
             program,
             source: image.clone(),
             flags: 4,
+            retained_smoke: None,
         };
         self.insert(context)
     }
@@ -498,6 +572,7 @@ impl<K: Copy + Eq> Pool<K> {
             program: Ok(program),
             source: image.clone(),
             flags: 4,
+            retained_smoke: None,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -590,6 +665,7 @@ impl<K: Copy + Eq> Pool<K> {
             program: Ok(program),
             source: image.clone(),
             flags,
+            retained_smoke: None,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -697,6 +773,7 @@ impl<K: Copy + Eq> Pool<K> {
             program: Ok(program),
             source: image,
             flags: 0x20004,
+            retained_smoke: None,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -776,6 +853,7 @@ impl<K: Copy + Eq> Pool<K> {
             program: Ok(program),
             source: image,
             flags: 0,
+            retained_smoke: None,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -814,12 +892,15 @@ impl<K: Copy + Eq> Pool<K> {
         self.active.push(id);
         Ok(Creation::Prepared(id))
     }
-    /// Only the unadvanced preparation profile is represented by this pool.
-    /// Releasing it cannot stand in for cleanup of emitted effect actors.
+    /// Only cancel an unadvanced preparation. Active entries must use their
+    /// acquired cleanup owner, preserving actual emitted actors and registration.
     pub fn release_prepared(&mut self, id: Id) -> Result<Context<K>, String> {
         self.get(id)
             .ok_or("prepared effect absent, foreign or stale")?;
-        if self.slots[id.slot].sound_started || self.slots[id.slot].positional_started {
+        if self.slots[id.slot].sound_started
+            || self.slots[id.slot].positional_started
+            || self.get(id).unwrap().retained_smoke.is_some()
+        {
             return Err("effect activation began; context requires active cleanup".into());
         }
         self.retire_context(id)

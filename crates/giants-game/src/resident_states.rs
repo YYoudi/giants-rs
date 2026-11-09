@@ -18,6 +18,7 @@ pub use parent_binding::AttachmentWords;
 mod delphi_target_tests;
 mod kabuto;
 mod mecc_impact;
+mod mecc_smoke;
 pub use mecc_impact::Voice as MeccImpactVoice;
 mod reference_camera;
 mod state18_reference_reset;
@@ -374,6 +375,7 @@ pub struct Resident {
     attached_effect: Option<crate::attached_effect_object::Metadata>,
     positional_impact: Option<crate::positional_impact::Metadata>,
     timed_effect: Option<timed_effect::Metadata>,
+    smoke_effect: Option<mecc_smoke::Metadata>,
     environment: Option<crate::resident_environment::Prepared>,
     ordinary_motion: Option<crate::resident_motion::Owned>,
     ripper_primary:
@@ -599,6 +601,7 @@ impl Session {
                 attached_effect: None,
                 positional_impact: None,
                 timed_effect: None,
+                smoke_effect: None,
                 environment: None,
                 ordinary_motion: None,
                 ripper_primary: None,
@@ -1823,9 +1826,9 @@ impl Session {
                 if let Some(display) = damage_display {
                     let result = smoke.advance(
                         crate::mecc_damage_effect::Input::from_globals(health.damage, health.limit, globals)?,
-                        &mut crate::mecc_damage_effect::Prepared { reset: display.display.owns(&id),
+                        &mut crate::mecc_damage_effect::Bound { session: self, prepared: crate::mecc_damage_effect::Prepared { reset: display.display.owns(&id),
                             pool: &mut pipeline.contexts, source: id, source_flags: output.fields.object_flags,
-                            random: &mut pipeline.random },
+                            random: &mut pipeline.random } },
                     );
                     output.payload[0x1a0..0x1a4].copy_from_slice(&u32::from(smoke.binding.is_some()).to_le_bytes());
                     output.payload[0x1a4..0x1a8].copy_from_slice(&smoke.level.to_le_bytes());
@@ -2208,8 +2211,8 @@ impl Session {
         }
         bank.kinds(slot)
     }
-    /// Cancel this player's prepared-only smoke before retirement. Active effects
-    /// require their separate interpreter and emitted-object lifecycle.
+    /// Stop this player's prepared or acquired retained smoke before retirement.
+    /// Active emitters are marked dead; later actor destruction remains separate.
     pub fn release_mecc_damage_smoke(
         &mut self,
         id: Id,
@@ -2223,12 +2226,16 @@ impl Session {
                 .ok_or("damage smoke cancellation binding absent, foreign or stale")?;
             if context.recipient() != Some(id)
                 || context.tag() != Some(3)
-                || context.flags() != 0x20004
+                || !matches!(context.flags(), 0x20004 | 0x60004)
                 || context.label != *b"FX_mecc_smoking_"
             {
                 return Err("damage smoke cancellation belongs to another source/profile".into());
             }
-            contexts.release_prepared(binding)?;
+            if contexts.damage_smoke_actor(binding).is_some() {
+                contexts.release_damage_smoke(binding, self)?;
+            } else {
+                contexts.release_prepared(binding)?;
+            }
         }
         let actor = self.residents.get_mut(&id.serial).unwrap();
         actor.mecc_damage_smoke = Default::default();

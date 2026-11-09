@@ -79,6 +79,13 @@ three source smoke constructors, retained resources, separate active interval
 sample, profile/missing-descendant refusal and unchanged prepared pool. This is
 silent constructor staging; it admits no actor, active context or renderer.
 
+With the same `GIANTS_MECC_WORLD_ROOT`, the ignored
+`source_mecc_primary_retains_and_stops_canonical_smoke` control runs sixteen
+supplied wounded-primary frames with explicit canonical smoke activation,
+display-owner replacement and final cancellation. Foreign/duplicate activation
+and unsupported stop profiles preserve state. It emits no particles and does not
+launch the game; actor destruction and world scheduling remain prerequisites.
+
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.
 Use a separate Cargo target directory for each active worktree. Sharing downloaded

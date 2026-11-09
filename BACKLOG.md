@@ -1178,9 +1178,13 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   The retained smoke constructor now stages real state78 resources, hidden-effect
   flags and its ranged descendant bank: 24 native/Rust constructions / 11,880
   normalized words agree; 72 additional native retained-context callbacks do not
-  recreate the object or draw again. This does not activate the pool or Session.
-  Next acquire canonical retained registration/cancellation and parent death, then
-  actual emitter callbacks/descendant construction and world admission. Preserve
+  recreate the object or draw again. Canonical activation now keeps the occupied
+  context, actual Session emitter and head insertion into list14. A further 24
+  native activation/stop cases match 4,632 words; the bounded explicit stop marks
+  the object dead before retiring its context and preserves its lists/resources.
+  Sixteen supplied wounded-primary frames retain/reset/cancel active ownership.
+  Next acquire parent-death processing, emitter callbacks/descendants, eventual
+  dead-object destruction and world admission. Preserve
   the completed prototype PS2 lookups (all unassigned), exact PC identity, old
   aliases, separate preparation/active draws and source image ownership. See
   docs/OWNED_MECC_CONTACT.md for the staged constructor contract.

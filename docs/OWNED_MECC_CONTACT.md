@@ -727,3 +727,41 @@ Do not release a live emitted effect using `release_prepared`, or use this stagi
 API as a substitute for active cancellation. Before that work, follow the central
 reconstruction method and retain the completed identity-bound name lookups.
 Prototype PS2 attributions remain unknown; no additional name is confirmed.
+
+## Canonical retained smoke ownership and stop — 10 November 2026
+
+`Pool::activate_damage_smoke` now publishes the acquired emitter into the actual
+`Session`, keeping the context occupied with its required cursor and flags.
+The existing constructor publishes common-list membership; the active VM's
+additional retained-effect registration is inserted at the head of list 14.
+The canonical resident retains its specification, animation/state resources,
+physical payload, source image and ranged descendant bank. Repeat activation,
+foreign parents and prepared-only cancellation are refused without another draw.
+
+`release_damage_smoke` uses the actual stop path called by the damage service.
+In the acquired no-retirement/no-action/no-sound profile, it marks the emitter
+dead before retiring the context. The actor, payload, bank and list entries stay
+owned: a later dead-object pass must destroy them. This differs from the separate
+resume-program helper, which requires storage absent from these smoke emitters.
+The stop does not sample, create a descendant or immediately free an actor.
+
+The normal wounded-primary path now uses `mecc_damage_effect::Bound` to validate,
+reuse and stop canonical active contexts as well as prepared requests. Explicit
+player cancellation uses the same owner. Whole primary execution still prepares
+new contexts; activation remains a distinct supplied phase, never an implicit
+acknowledgement by the prepare callback.
+
+An additional 24 original/Rust activation/stop cases agree on 4,632 normalized
+field, RNG and list/pool-result words. The real constructor and stop bodies run;
+parent pools, quality, thread/seed and outer memory/texture providers are supplied.
+A separate installed composition runs sixteen actual wounded-primary frames,
+activates the light emitter after preparation, retains it on following frames,
+then stops/replaces it on a supplied display-owner change. Final cancellation
+marks the replacement and preserves RNG. Slot reuse keeps different generations;
+old stopped actors retain their historical origins and list entries. Foreign
+Session, duplicate activation and unsupported action-stop checks preserve state.
+
+This closes canonical first activation and bounded explicit stop, not active
+particle callbacks, owner-death processing, eventual dead-object destruction or
+world scheduling. No normal-input availability or new rendered comparison is
+claimed. The new stop-function prototype PS2 searches remain unassigned.

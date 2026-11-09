@@ -2344,3 +2344,185 @@ fn source_mecc_wounded_primary_rejects_stale_display_and_retains_smoke_before_la
         session.clear();
     }
 }
+
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; active smoke in actual wounded primary, reset and stop marking; no emission callbacks"]
+fn source_mecc_primary_retains_and_stops_canonical_smoke() {
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    for damage in [55.] {
+        let mut session = Session::new(865);
+        let source = actor(&mut session, &r, &g, &c, None, 0.);
+        session.prepare_mecc_countdown_world(10.).unwrap();
+        session
+            .bind_mecc_contact_materials(
+                crate::mecc_contact_materials::Catalog::from_prepared(&[], Default::default())
+                    .unwrap(),
+            )
+            .unwrap();
+        let mut p = Providers::new(&r);
+        p.stamp.0 = 4;
+        let mut emitters = Vec::new();
+        for frame in 0..16 {
+            if frame == 8 {
+                session
+                    .residents
+                    .get_mut(&source.serial)
+                    .unwrap()
+                    .mecc_damage = Some(damage);
+            }
+            let number = frame + 1;
+            let controls = match frame / 32 {
+                0 => [0, 0],
+                1 => [32, 0],
+                2 => [0, 32],
+                _ => [-32, 0],
+            };
+            let env = crate::mecc_physical_cycle::Environment {
+                number,
+                generation: 1,
+                globals: &g,
+                catalog: &c,
+                global_seconds: 1. / 60.,
+                areas: &[],
+                controls,
+                facing_pitch: 0.,
+                orientation: Some(crate::mecc_physical_cycle::Orientation {
+                    controls: [0, 0],
+                    control_factor: 1.,
+                    skip_heading: false,
+                    controlled_actor: true,
+                }),
+                actor_key: 1,
+                objects: &[],
+            };
+            session.begin_mecc_frame_history(source, number).unwrap();
+            let mut services = p.borrowed();
+            services.damage_display = Some(crate::mecc_damage_effect::Display {
+                source,
+                number,
+                display: crate::first_person::Display {
+                    camera_owner: (frame == 12).then_some(source),
+                    active: frame == 12,
+                },
+            });
+            let step = session
+                .advance_mecc_world_offline(source, env, Some(source), ground, services)
+                .unwrap();
+            assert_eq!(step.outcome, Outcome::UpdatedByPrimary);
+            assert!(step.primary.is_some());
+            assert_eq!(
+                session.mecc_health(source).unwrap().damage,
+                if frame < 8 { 0. } else { damage }
+            );
+            let smoke = &session.get(source).unwrap().mecc_damage_smoke;
+            assert_eq!(smoke.level, u32::from(damage == 55. && frame >= 8));
+            assert_eq!(smoke.binding.is_some(), damage == 55. && frame >= 8);
+            if let Some(binding) = smoke.binding {
+                assert_eq!(p.contexts.get(binding).unwrap().recipient(), Some(source));
+            }
+            if let Some(binding) = session.get(source).unwrap().mecc_damage_smoke.binding {
+                if p.contexts.damage_smoke_actor(binding).is_none() {
+                    let prior = p.random;
+                    let mut foreign = Session::new(966);
+                    assert!(
+                        p.contexts
+                            .activate_damage_smoke(binding, &mut foreign, &r, &mut p.random)
+                            .is_err()
+                    );
+                    assert_eq!(p.random.0, prior.0);
+                    assert!(p.contexts.damage_smoke_actor(binding).is_none());
+                    let emitter = p
+                        .contexts
+                        .activate_damage_smoke(binding, &mut session, &r, &mut p.random)
+                        .unwrap();
+                    let mut next = prior;
+                    next.next_15();
+                    assert_eq!(p.random.0, next.0);
+                    emitters.push(emitter);
+                    let saved = p.random;
+                    assert!(
+                        p.contexts
+                            .activate_damage_smoke(binding, &mut session, &r, &mut p.random)
+                            .is_err()
+                    );
+                    assert_eq!(p.random.0, saved.0);
+                    session
+                        .residents
+                        .get_mut(&emitter.serial)
+                        .unwrap()
+                        .construction_fields
+                        .as_mut()
+                        .unwrap()
+                        .action = 1;
+                    assert!(
+                        p.contexts
+                            .release_damage_smoke(binding, &mut session)
+                            .is_err()
+                    );
+                    assert!(p.contexts.get(binding).is_some());
+                    assert_eq!(session.smoke_effect_stopped(emitter), Some(false));
+                    session
+                        .residents
+                        .get_mut(&emitter.serial)
+                        .unwrap()
+                        .construction_fields
+                        .as_mut()
+                        .unwrap()
+                        .action = 0;
+                }
+                p.contexts.validate_damage_smoke(binding, &session).unwrap();
+                assert!(p.contexts.release_prepared(binding).is_err());
+            }
+            if frame == 12 {
+                assert_eq!(emitters.len(), 2);
+                assert_eq!(session.smoke_effect_stopped(emitters[0]), Some(true));
+                assert_eq!(session.smoke_effect_stopped(emitters[1]), Some(false));
+                assert_ne!(
+                    session.smoke_effect_origin(emitters[0]),
+                    session.smoke_effect_origin(emitters[1])
+                );
+            }
+        }
+        assert_eq!(emitters.len(), 2);
+        let before = p.random;
+        session
+            .release_mecc_damage_smoke(source, &mut p.contexts)
+            .unwrap();
+        assert_eq!(p.random.0, before.0);
+        assert_eq!(
+            session.list(14),
+            emitters.iter().rev().copied().collect::<Vec<_>>()
+        );
+        for emitter in emitters {
+            assert_eq!(session.smoke_effect_stopped(emitter), Some(true));
+            assert_ne!(
+                session
+                    .get(emitter)
+                    .unwrap()
+                    .construction_fields
+                    .as_ref()
+                    .unwrap()
+                    .object_flags
+                    & 0x8000,
+                0
+            );
+        }
+        assert!(
+            session
+                .get(source)
+                .unwrap()
+                .mecc_damage_smoke
+                .binding
+                .is_none()
+        );
+        session.clear();
+    }
+}
