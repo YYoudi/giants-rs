@@ -208,6 +208,7 @@ For the bounded owned input/orientation and force-to-position prefix:
 
 ```powershell
 cargo test --locked -p giants-game source_kabuto_motion_prefix_owns_fields_and_retains_pending_primary --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-game source_kabuto_classification --target x86_64-pc-windows-gnu -- --ignored
 ```
 
 This uses the same `GIANTS_KABUTO_ROOT`, real cold resources, actual common
@@ -403,3 +404,10 @@ Escape or double-click skips the film into the partial free-camera preview;
 Escape returns to the list. A natural ending uses that same preview boundary.
 This route does not mark campaign victory, restore original live replay state or
 admit gameplay. Original data is read-only; preview unlock uses a dedicated profile.
+
+The optional Kabuto classification controls bind the completed motion prefix to
+source-backed physical fields, resolved radius bounds and the affine cache. They
+supply prepared geometry/peer and terrain services, check late-failure quarantine,
+and retain all initializer gates. They do not enable live world admission or a
+second primary frame. Private native control inputs/receipts stay under ignored
+local output and are not required by the portable synthetic suite.

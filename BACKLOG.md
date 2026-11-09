@@ -380,6 +380,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented: factory-bound physical classification consumes the exact owned
+  motion prefix and publishes contact fields, physical flags/force, resource-
+  derived radius and the current affine cache. A composed actual Session control
+  matches 384 original-PC contexts / 155,136 complete owner-header/payload words;
+  the PC common history and Rust history gate both execute. This control supplies
+  an empty prepared geometry scene and analytic flat terrain; Rust does not
+  consume the PC intermediate state. Nonempty synthetic prepared-mesh controls
+  check peer-support effects before terrain, including retained effects and
+  replay quarantine after late provider failure. The shared response boundary
+  also exposes the acquired reciprocal peer-reference write before later queries.
+  Scene keys are explicit logical identities, not allocation serials or native
+  pointers. The scene/peer producer and publication into a live mission remain
+  pending. Owner publication is atomic on success; failure preserves external
+  effects and quarantines the group (owned policy, not native exception parity).
+  Classification still retains the numbered history and all four initializer
+  gates: actual world publication, new forces and the primary remainder are next.
 - Implemented CPU kernel: Kabuto's acquired contact callback distinguishes the
   handled result from the peer-support write. Null/class-669 peers bypass numeric
   reads; strict height/scaled-radius thresholds and independent exclusion masks
@@ -388,8 +404,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   exposes object identity and current contact state to an explicit class handler;
   its legacy callers retain their unhandled-event default. A synthetic composed
   contact checks support-before-callback and retained peer effects on late terrain
-  failure. Source scene/peer binding, actual mutation publication, full terrain/
-  affine classification, new forces and Session scheduling remain prerequisites.
+  failure. Source scene/peer binding, live mutation publication, whole-world
+  classification, new forces and complete Session scheduling remain prerequisites.
   This kernel does not advance the owned history or enable a second frame.
 - Implemented: factory-bound input/orientation and force-to-position prefix now
   owns its model/velocity/history fields and reuses common primary history,
@@ -830,9 +846,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   240 object visits / 64 pending-marker clears; all other object bytes, including
   affine caches, remain unchanged. Sixteen outside-grid cases stop at the original
   diagnostic branch, without running its handler or proving recovery. This is not
-  a final-cache rewrite, full mission loading or a new Rust consumer. Acquire the
-  pending-marker producer and wider caller/world phases before integrating it;
-  retain actual later affine writers and shared admission as open prerequisites.
+  a final-cache rewrite, full mission loading or a new Rust consumer. Producer
+  follow-up reuses the exact-debug 512-case class configuration proof: all 30,720
+  template/instance words match current Rust. The marker already comes from the
+  shared class projection. All 2,104 acquired residents in the 56-mission CPU
+  sweep have zero markers; 840 class-profile refusals and 10,852 other-state
+  exclusions remain outside that result. Deprioritize this no-op dependency for
+  these acquired profiles. Actual terrain-cell classification, wider caller/world
+  phases, later affine writers and shared admission remain open. Continue the
+  general/mixed FX selection, RNG and ownership producers; terminal-only requests
+  in the older program survey must not be counted as nonterminal queue blockers.
   The physical capacity/recycle boundary is acquired; real mission occupancy,
   shared admission, error handling and full world scheduling remain open. No
   shared Rust capacity policy or new gameplay admission follows from CPU proof.

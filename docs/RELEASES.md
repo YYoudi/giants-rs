@@ -55,6 +55,61 @@ preparation/activation work. It passes 801 synthetic Rust tests (30 ignored),
 Delphi installed-resource control. Rebuilt owned comparisons again match both
 256-frame cohorts and exact shared RNG. These source checks keep the earlier
 exact executable/package receipts unchanged.
+## Kabuto owned physical classification — 9 November 2026
+
+The exact factory-owned motion prefix now feeds the shared physical-player
+collision/terrain and affine services. The Session owns contact state, resource-
+derived radius, physical output and its current matrix. A 384-context actual
+Session composition matches 155,136 original-PC header/payload words. The PC
+common history wrapper and Rust history gate execute; prepared empty geometry
+and controlled flat terrain remain explicit boundaries. Rust produces its own
+intermediate motion and refreshes radius from actual resource bounds.
+
+Prepared peer callbacks preserve both the class policy's write and the narrow
+response's reciprocal reference before later providers. Silent source controls
+exercise nonempty prepared triangles and retained peer effects on late terrain
+failure, with replay quarantine. Atomic owner publication on success and quarantine
+on provider failure are explicit owned policy; no native exception behavior is
+claimed. Numbered history and all initializer prerequisites remain unconsumed.
+
+Validation: 796 synthetic Rust tests pass (32 ignored), all ten silent Kabuto
+installed-data controls pass, plus 40 Python tests, Rustfmt, strict Clippy and
+generated roadmap/site/JavaScript checks.
+
+This CPU integration adds no dependency, bundled asset or playable preview.
+Live scene/peer production, world publication, current forces and the remainder
+of the primary still block continuous movement. Existing preview notices,
+checksums and runtime/screenshot receipts retain their exact package identities.
+Prototype PS2 attribution remains unknown; private inputs and evidence stay private.
+
+Combined checkpoint `fec0133` preserves the newer positional-impact configuration
+and post-load boundary acquisition. It passes 798 Rust tests (32 ignored), all ten
+Kabuto installed-data controls, 40 Python tests, Rustfmt, strict Clippy and generated
+site/JavaScript checks. Source audit covers 385 commits / 2,687 blobs with zero
+findings. The rebuilt actual Session runner repeats the 384-context classification
+comparison. Earlier binary/package/runtime receipts retain their exact identities.
+
+## Existing mission marker producer verified — 9 November 2026
+
+The source-ordered marker producer is already implemented by the shared class
+configuration projection. Reusing the retained exact-debug 512-case native
+control, current Rust agrees on all 30,720 template/instance configuration words.
+The historical controller was recovered by its recorded digest from the private
+archive rather than substituting a later revision. No retail offsets or results
+were transferred to the debug profile.
+
+A fresh CPU source sweep prepares all 56 named missions / 19 menu worlds. All
+2,104 constructed residents carry a zero marker and are released; the 840
+class-profile refusals and 10,852 other-state exclusions remain separate. Counts
+repeat per mission and do not establish complete native world population. This
+post-load marker pass is consequently a no-op for these acquired resident
+profiles, not a demonstrated cause of their cinematic discrepancies.
+
+No Rust behavior or preview package changes. Actual terrain-cell production,
+world phase ordering, shared admission, general/mixed FX RNG/selection and full
+scene fidelity remain open. Prototype PS2 attribution remains unknown. Existing
+preview source, executable, notices and checksum receipts are unchanged.
+
 ## Positional impact activation configuration - 9 November 2026
 
 The explicit single-body impact planner retains its integer cue identity and
@@ -108,8 +163,8 @@ diagnostic branch; the error handler and recovery are not executed or verified.
 
 This identifies one post-load dependency and excludes this helper as an affine
 refresh in the supplied cases. It does not establish complete loading, actual
-mission population, world scheduling or a new Rust consumer. The pending-marker
-producer and wider world phases remain prerequisites. Prototype PS2 attribution
+mission population, world scheduling or a new Rust consumer. The exact-debug marker producer and wider world phases were initially retained
+as prerequisites; the producer follow-up below resolves only the former. Prototype PS2 attribution
 remains unknown. No runtime code or preview package changes; the existing
 `preview-2026.11.09.2` binary, notices and checksums retain their exact receipts.
 The 545-source cinematic inventory and zero certified complete scenes remain.
