@@ -54,6 +54,7 @@ struct Emitter {
 }
 struct Mounted {
     ticket: u64,
+    trace_steps: bool,
     sources: BTreeMap<String, Source>,
     emitters: Vec<Emitter>,
     voices: BTreeMap<u32, Voice>,
@@ -74,6 +75,7 @@ struct Planned {
 }
 struct Planner {
     next: u32,
+    trace_steps: bool,
     playing: BTreeMap<u32, bool>,
     requests: Vec<Planned>,
     free_slots: Vec<usize>,
@@ -85,8 +87,10 @@ impl Backend for Planner {
     fn play(&mut self, name: &str, _argument: u32, looping: bool) -> u32 {
         let name = name.to_ascii_lowercase();
         if self.free_slots.is_empty() || self.next >= i32::MAX as u32 {
-            self.services
-                .push(format!("start:{name}:{}:{}", u8::from(looping), u32::MAX));
+            if self.trace_steps {
+                self.services
+                    .push(format!("start:{name}:{}:{}", u8::from(looping), u32::MAX));
+            }
             return u32::MAX;
         }
         let slot = self.free_slots.remove(0);
@@ -97,25 +101,33 @@ impl Backend for Planner {
             looping,
             slot,
         });
-        self.services
-            .push(format!("start:{name}:{}:{}", u8::from(looping), self.next));
+        if self.trace_steps {
+            self.services
+                .push(format!("start:{name}:{}:{}", u8::from(looping), self.next));
+        }
         self.playing.insert(self.next, true);
         self.next
     }
     fn playing(&mut self, id: u32) -> bool {
         let result = self.playing.get(&id).copied().unwrap_or(false);
-        self.services
-            .push(format!("query:{id}:{}", u8::from(result)));
+        if self.trace_steps {
+            self.services
+                .push(format!("query:{id}:{}", u8::from(result)));
+        }
         result
     }
     fn stop(&mut self, id: u32) {
-        self.services.push(format!("stop:{id}"));
+        if self.trace_steps {
+            self.services.push(format!("stop:{id}"));
+        }
         self.stops.push(id);
         self.playing.insert(id, false);
     }
     fn volume(&mut self, id: u32, gain: f32) {
-        self.services
-            .push(format!("volume:{id}:{}", gain.to_bits()));
+        if self.trace_steps {
+            self.services
+                .push(format!("volume:{id}:{}", gain.to_bits()));
+        }
         self.volumes.push((id, gain));
     }
 }
@@ -128,6 +140,9 @@ fn volume(raw: f32, global: f32) -> Volume {
         (raw * global).clamp(0., 1.)
     })
 }
+fn trace_steps_enabled() -> bool {
+    std::env::var_os("GIANTS_TRACE_AMBIENT_STEPS").is_some_and(|value| value == "1")
+}
 fn mount(world: &mut World, ticket: u64) -> Result<Mounted, String> {
     let configurations = world
         .resource::<crate::mission_runtime::Runtime>()
@@ -139,6 +154,7 @@ fn mount(world: &mut World, ticket: u64) -> Result<Mounted, String> {
     let resolver = giants_game::stream_resources::Voices::load(&root).map_err(|e| e.to_string())?;
     let mut mounted = Mounted {
         ticket,
+        trace_steps: trace_steps_enabled(),
         sources: BTreeMap::new(),
         emitters: vec![],
         voices: BTreeMap::new(),
@@ -342,6 +358,7 @@ fn process(
             let mut next = emitter.driver.clone();
             let mut planner = Planner {
                 next: mounted.next,
+                trace_steps: mounted.trace_steps,
                 playing: playing.clone(),
                 requests: vec![],
                 free_slots: (0..10)
@@ -477,34 +494,36 @@ fn process(
             );
         }
         emitter.driver = pending.next;
-        println!(
-            "mission_ambient_step ticket={} emitter={} dt_bits={} before_phase={} before_timer={} before_random={} before_bed={} before_accent={} bed_playing={} accent_playing={} phase={} timer={} random={} bed={} accent={} gain_bits={} dummy={} listener_bits={},{},{} services={}",
-            mounted.ticket,
-            emitter.key,
-            pending.dt.to_bits(),
-            pending.before[0],
-            pending.before[1],
-            pending.before[2],
-            pending.before[3],
-            pending.before[4],
-            pending.polled[0],
-            pending.polled[1],
-            emitter.driver.phase,
-            emitter.driver.timer.to_bits(),
-            emitter.driver.random.0,
-            emitter.driver.bed,
-            emitter.driver.accent,
-            emitter.driver.gain.to_bits(),
-            emitter.driver.dummy,
-            pending.listener[0].to_bits(),
-            pending.listener[1].to_bits(),
-            pending.listener[2].to_bits(),
-            if pending.services.is_empty() {
-                "-".to_owned()
-            } else {
-                pending.services.join(";")
-            }
-        );
+        if mounted.trace_steps {
+            println!(
+                "mission_ambient_step ticket={} emitter={} dt_bits={} before_phase={} before_timer={} before_random={} before_bed={} before_accent={} bed_playing={} accent_playing={} phase={} timer={} random={} bed={} accent={} gain_bits={} dummy={} listener_bits={},{},{} services={}",
+                mounted.ticket,
+                emitter.key,
+                pending.dt.to_bits(),
+                pending.before[0],
+                pending.before[1],
+                pending.before[2],
+                pending.before[3],
+                pending.before[4],
+                pending.polled[0],
+                pending.polled[1],
+                emitter.driver.phase,
+                emitter.driver.timer.to_bits(),
+                emitter.driver.random.0,
+                emitter.driver.bed,
+                emitter.driver.accent,
+                emitter.driver.gain.to_bits(),
+                emitter.driver.dummy,
+                pending.listener[0].to_bits(),
+                pending.listener[1].to_bits(),
+                pending.listener[2].to_bits(),
+                if pending.services.is_empty() {
+                    "-".to_owned()
+                } else {
+                    pending.services.join(";")
+                }
+            );
+        }
     }
     if mounted.voices.len() > 10 {
         return Err("ambient stream capacity exceeded".into());
@@ -611,6 +630,7 @@ mod tests {
         }
         Mounted {
             ticket: 91,
+            trace_steps: trace_steps_enabled(),
             sources,
             emitters: vec![Emitter {
                 key: 7,

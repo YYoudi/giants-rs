@@ -505,7 +505,7 @@
       "title": "Multiplayer base-building rules",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Resource competition, faction construction, victory options and timed protection/d\u00c3\u0192\u00c6\u2019\u00c3\u201a\u00c2\u00a9tente rules."
+      "detail": "Resource competition, faction construction, victory options and timed protection/detente rules."
     },
     {
       "id": "content-coverage",
@@ -532,7 +532,7 @@
       "title": "Playable Windows build stability",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Full-session play, repeated loading/restart, resource cleanup, performance and supported rendering paths. Silent development-session launch/return cycles observed on 4 November 2026; campaign loading, manual input and complete memory reclamation remain unverified. Owned descent/contact selection and real deferred slide-effect preparation now pass the former step-158 boundary. The latest exact muted-sink Mecc movement replay passes the former height and unequipped fuel-depletion refusals, then stops explicitly at step 441 on an unacquired impact reaction. Hard-landing preparation now has bounded CPU controls; complete impact/health integration and active world effects remain open. See docs/OWNED_MECC_CONTACT.md. Published preview preview-2026.11.09.12 pins the combined five-lane checkpoint: six offscreen development launches and two selected cinematic end/re-entry cycles pass on its exact executable. The dashboard keeps its download identities, checked scope and remaining native-gameplay limits separate from later source-only progress."
+      "detail": "Long sessions, repeated loading/restart, complete resource reclamation, performance and supported rendering paths remain incomplete. Published preview-2026.11.10.1 makes per-emitter ambient step diagnostics opt-in while retaining source/voice lifecycle and error logs. Its exact executable passes six offscreen development launches and two selected cinematic end/re-entry cycles. One local muted manual profile covers the menu, opening skip, ordinary Mecc entry, return and second entry; held native jet/descent/landing and broad campaign/fidelity checks remain open. The dashboard pins the download separately from later source-only services."
     },
     {
       "id": "fidelity",
