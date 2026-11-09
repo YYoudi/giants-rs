@@ -19,6 +19,12 @@ voices, checks unique reuse without additional RNG and releases all owned audio
 assets. It creates no window and is not whole-primary or audible-fidelity proof.
 Prototype PS2 attributions remain unknown; no native signature/layout is imported.
 
+The MinGW release build at source `a359298dd2cf10a2ec7e437c8dad5f9d8932e707`
+passes both offscreen development lifecycle endpoints (six fresh launches with
+return/cleanup/re-entry) and explicitly awaited CLI help. Two additional installed
+impact-audio controls pass, including muted real positional sinks and cleanup.
+This build and its receipt remain private validation artifacts, not a new release.
+
 The existing `.13` public ZIP and both external checksum files were independently
 downloaded again by the integration lane. All ten members, internal checksums,
 source/executable/archive identities, actual public Git tag and dashboard download
