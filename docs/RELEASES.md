@@ -1,5 +1,29 @@
 # Preview releases and milestone integration
 
+## Zero-time timed-FX callback — 9 November 2026
+
+The shared timed-effect wrapper used to discard every zero-time callback. The
+original consumes its constructor gate on that call without aging the object;
+its next positive callback can then age or expire it. The wrapper now invokes
+the existing visual callback at zero time and retains terminal-object refusal.
+No placement adjustment or extra delay is introduced.
+
+A source-family control executes original named preparation, first active object
+construction, ordinary matrix preparation and supplied lifetime callbacks. All
+32 Rust contexts match 1,120 selected scalar/matrix words, including both RNG
+phase boundaries and the retirement request. An added zero-time schedule matches
+1,152 words across the same 32 contexts. A separate direct native first-zero
+schedule confirms the gate without relying on ordinary matrix preparation.
+An earlier positional mismatch came from omitting that native preparation phase;
+including it produces the existing Rust matrix and needs no placement correction.
+
+The retirement helper is intercepted before child preparation or parent release.
+These controls supply support, resources, pools, RNG seeds and callback deltas;
+they do not prove world scheduling, physical cleanup, film readiness or visual
+fidelity. The source inventory and zero certified complete scenes are unchanged.
+Prototype PS2 correspondence remains unknown. A new preview will retain its own
+source, runtime, notices and checksum receipts.
+
 ## Kabuto additional-contact callback dependency — 9 November 2026
 
 The callback required by the next object-contact traversal now preserves its
