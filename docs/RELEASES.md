@@ -1,5 +1,35 @@
 # Preview releases and milestone integration
 
+## Owned impact core retirement and reuse - 9 November 2026
+
+The acquired expired class-867 actor now completes local core retirement after
+required tracked external release. It rechecks ownership/references, drops its
+state payload and reference storage, then unlinks the common registration. The
+physics view aliases that payload. Shared class resources remain available to
+other actors. Unfinished/referenced/foreign/stale actors refuse before release;
+a late service error or newly created reference retains core ownership without
+replaying external work. The release interface is shared with enemy projectiles,
+preserving the previous public name as an alias.
+
+The original common retirement pass executes 64 sequences / 192 retirements with
+three successive native object/context-slot reuses and a live peer preserved.
+All 53,184 release-entry actor/header/payload/reference words and 2,880 ownership-
+protocol words match Rust. Heap release boundaries and audio-disabled native
+operation remain explicit. This does not execute Rust's enclosing propagation,
+active-context, global audio/reference cleanup prepass or establish live device
+release, later main movement or visual fidelity. Explicit context cancellation
+and its pointer-slot semantics remain separate from ordinary actor retirement.
+
+Implementation `35b09a5` and combined checkpoint
+`39f16257c43b68e23abbe631058d3386193b8fa9` preserve the concurrent Delphi reserve
+and zero-time timed-FX changes. The combined source passes 808 synthetic Rust
+tests (35 ignored), eight silent Mecc/impact resource controls, 40 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The birth and timed-
+callback full-state comparisons pass again. Prototype PS2 helper attributions
+remain unknown; exact PC/prototype identities and aliases stay in the private
+continuation records. The latest main replay retains its earlier step-441 refusal.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
 ## Zero-time timed-FX callback — 9 November 2026
 
 The shared timed-effect wrapper used to discard every zero-time callback. The

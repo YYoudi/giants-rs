@@ -92,6 +92,7 @@ With `GIANTS_MECC_WORLD_ROOT` and an isolated target directory, run:
 ```powershell
 cargo test --locked -p giants-game source_positional_impact_retains_ordered_actors_and_late_failure_without_replay --target x86_64-pc-windows-gnu -- --ignored
 cargo test --locked -p giants-game source_positional_impact_ticks_owned_clocks_and_marks_only_after_stop --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-game source_positional_impact_retires_only_after_tracked_release_and_rechecks_references --target x86_64-pc-windows-gnu -- --ignored
 ```
 
 This silent source-resource control constructs actual owned state-78 actors,
@@ -102,7 +103,11 @@ launches no original executable and does not admit the impact into the main worl
 scheduler. The second control executes the actual owned timed callback, descriptor
 clocks/references and shared ANM epoch; it checks deferred marking after a required
 test stop provider and retained late failure. Marked actors remain owned. Neither
-control performs live audio transport or common retirement. See OWNED_MECC_CONTACT.md.
+of the first two controls performs live audio transport or common retirement.
+The third checks actor-local core retirement after a required test release
+provider, reference rechecks, preserved peers, reuse and late-failure quarantine.
+It does not execute the enclosing global cleanup prepass or a real device release.
+See OWNED_MECC_CONTACT.md.
 
 ## Optional Delphi resource check
 
