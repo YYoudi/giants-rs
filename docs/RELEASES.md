@@ -1,9 +1,33 @@
 # Preview releases and milestone integration
 
+## Separate effect routing from shared actor response — 9 November 2026
+
+Attached cinematic objects now retain their independent render/effect word in
+owned metadata. Previously the cinematic mark was ORed into the shared actor
+response/status word, and the initial callback inspected that same conflated
+field. The constructor, first-update gate and main film's route snapshot now use
+the separate effect word; shared actor response flags retain their own meaning.
+Retirement inheritance accepts that effect word, independently of actor response.
+No visual offset, delay or scheduling workaround is added.
+
+A private original-PC/Rust comparison covers 18 states / 774 selected header,
+channel and position words, including four supplied combinations of distinct
+response/effect bits and two callbacks per combination. The original never uses
+the supplied response bit as the effect gate. Existing 50 native part-selection
+cases and 14 preparation states still match. All 23 source-backed persistent
+queues pass two entry/release cycles and near/far routing, retiring 50 objects
+with no retained prepared contexts. These are scoped controls, not complete
+films, native live bit producers or proof of whole-world admission/fidelity.
+
+Prototype PS2 correspondences remain unknown. The pending MinGW integration keeps
+its exact source receipt separate from earlier public previews. Physical parent/
+child ownership, full retirement binding, world RNG/cadence and broader rendering,
+audio, subtitle and functional coverage remain open.
+
 ## Retirement context inheritance service — 9 November 2026
 
 The common context pool now prepares the acquired direct-offset retirement mode
-from current parent object/response fields. It preserves all eight combinations
+from current parent object/render fields. It preserves all eight combinations
 of three inherited bits, source label, position and RNG. It is distinct from the
 plain positional mode. Normal/lite targets must resolve to the same source;
 otherwise preparation refuses before allocation or RNG, retaining the need for

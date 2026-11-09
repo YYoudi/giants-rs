@@ -419,7 +419,7 @@ impl<K: Copy + Eq> Pool<K> {
         self.prepare_direct_position(offset, position, 0, false, random)
     }
     /// Acquired retirement-helper direct-offset mode38. The caller supplies the
-    /// parent's current object/response fields, not a projected class template.
+    /// parent's current object/render fields, not a projected class template.
     /// Quality/load/camera producers are unnecessary only when both source
     /// selections resolve to this same offset; differing selections refuse.
     /// This prepares the child context without marking or freeing its parent.
@@ -428,22 +428,19 @@ impl<K: Copy + Eq> Pool<K> {
         offset: Option<u32>,
         position: [f32; 3],
         object_flags: u32,
-        response_flags: u32,
+        render_flags: u32,
         random: &mut crate::audio_parameters::Random,
     ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
         let flags = if object_flags & 0x400 != 0 {
             0x10000
         } else {
             0
-        } | if response_flags & 0x400 != 0 {
-            0x4000
-        } else {
-            0
-        } | if response_flags & 0x1000 != 0 {
-            0x8000
-        } else {
-            0
-        };
+        } | if render_flags & 0x400 != 0 { 0x4000 } else { 0 }
+            | if render_flags & 0x1000 != 0 {
+                0x8000
+            } else {
+                0
+            };
         self.prepare_direct_position(offset, position, flags, true, random)
     }
     fn prepare_direct_position(

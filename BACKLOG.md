@@ -989,6 +989,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Shared effect-word separation: attached/cinematic metadata now owns its
+  independent render/effect flags. The previous constructor mixed the cinematic
+  mark into the shared actor response/status word and tested that conflated word
+  at first update. Constructor, callback and main route snapshots now agree with
+  the actual separate native words. Eighteen controlled states / 774 header,
+  channel and position words match, including independent supplied bits. All 23
+  source-backed queues retain two entry/release cycles and near/far routing;
+  50 part-selection cases and 14 preparation states still match. Real flag
+  producers, full physical ownership/world scheduling and fidelity remain open.
+
 - Retirement-chain follow-up: 32 supplied native parent/child lifecycles now
   execute the actual global context updater, retirement helper, deferred mark,
   global object cleanup and child activation. The mark keeps the parent slot
@@ -1002,7 +1012,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   remain open; no additional film admission is counted.
   The child initial frame is implemented in the shared skip service with no
   random draw. The shared context pool now prepares the acquired retirement mode
-  from current parent object/response fields, preserving all eight combinations
+  from current parent object/render fields, preserving all eight combinations
   of its three inherited bits, source label, position and RNG. Thirty-two
   original-PC/Rust preparations match 320 selected words. Different normal/lite
   targets refuse before allocation or RNG; actual selection producers remain
