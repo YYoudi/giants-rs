@@ -1,5 +1,22 @@
 # Preview releases and milestone integration
 
+## Kabuto post-query target transition — 9 November 2026
+
+The acquired post-query transition preserves raw/filtered/retained identities,
+volume filtering, timer expiry and ordered selection/marker writes before
+source-reference, parent and directional gates. It reuses the independently
+compared shared normalizer and retains completed effects after service refusal.
+Original controls match 512 transitions / 12,512 final/prefix words. A complete
+ray-production/query/filter/retention comparison matches 512 contexts / 13,248
+argument/final/prefix words, with its absent previous-retained boundary explicit.
+
+Actor/reference/context, geometry, frame time and publication storage remain
+supplied. Typed Session target ownership/lifetime, actual marker/global services,
+preceding release and following actions/world/animation are still open. No live
+Kabuto controls, new capture, asset, dependency or downloadable preview is added.
+Existing download/package/notices/checksum receipts retain their exact identities.
+Prototype PS2 correspondences remain unknown; detailed evidence stays private.
+
 ## Kabuto reference-query argument production — 9 November 2026
 
 The acquired argument producer selects actor or viewport geometry and the three

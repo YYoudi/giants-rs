@@ -1375,3 +1375,41 @@ not establish the missing backing camera producer. Target publication, lifetime,
 preceding release logic and following actions/world/animation remain open.
 No live gameplay, new capture, download or fidelity claim follows. Prototype PS2
 attributions stay unknown and no PS2 ABI or memory layout is imported.
+
+## Post-query retained-target transition — 9 November 2026
+
+`kabuto_reference_target::advance` keeps raw and volume-filtered query results
+separate from a retained identity. Positive scores compare against the squared
+half-extents without an extra float32 radius store. The shared clock return is
+stored before timer subtraction, but the subtraction's wide sign controls expiry.
+Accepted selection announces first, then resets the marker only for a changed
+identity, before publishing the new timer/retained target. Absent source reference
+and an owner-parented target clear retention. The directional gate keeps its
+acquired asymmetric source-coefficient expression, float32 intermediate stores
+and threshold; it is not substituted with a conventional dot product.
+
+The existing `sun_glare::normalize` is reused after a separate 512-call / 1,536-word
+original-helper comparison under finite, distinct-component storage and Double53.
+This does not establish aliased-storage or extended-precision equivalence.
+Required services expose current bounds, parent, pose and clock, plus ordered
+announcement/marker publication. They have no successful defaults. A synthetic
+late-marker failure checks retained selection/clock writes and preceding external
+effects, without claiming native exception or rollback behavior.
+
+Original post-query controls match 512 transitions / 12,512 final/prefix words,
+including changing prior retained identities, strict radius endpoints, signed zero,
+negative-infinity query score, expired/nonexpired timers and owner parents. The
+actual clock runs with supplied frame time and an empty time-area list. A second
+control executes the complete original ray-production/query/filter/retention
+interval and matches 512 contexts / 13,248 argument/final/prefix words. Its previous
+retained identity is absent; the independent transition control covers that axis.
+Both retain original normalization and observe ordered clock/announcement/marker
+prefixes. Source and candidate headers remain unchanged; marker storage is an
+explicit separate output. Mode, reference/current actors, parameters, bounds,
+pose, viewport, list and publication storage remain declared inputs.
+
+These kernels are not a numbered Factory/Session target phase. Actual typed target
+ownership and lifetime, backing bounds/view producers, marker/global publication,
+preceding reference release and subsequent actions/animation remain required.
+All initializer/history prerequisites remain. No live control, new capture,
+download or fidelity claim follows; prototype PS2 correspondences remain unknown.
