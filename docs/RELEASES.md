@@ -4017,3 +4017,24 @@ Rustfmt, strict workspace Clippy and roadmap/site/JavaScript checks. The rebuilt
 voice comparator repeats both native datasets on that source. The limited
 history-pattern audit reports zero findings across 524 commits / 3,316 blobs.
 These source controls do not relabel any existing executable or runtime receipt.
+
+## Mecc post-impact and directional-air selection — 9 November 2026, source only
+
+The owned pistol secondary now continues logical landing states 61/62 and all
+acquired directional-air states. It preserves movement/channel-end-dependent
+landing hold and explicitly refuses idle weapon draw without the actual owned
+animation callback/frame service. It no longer substitutes an immediate weapon
+commit for that missing dependency.
+
+Original-PC controls agree on 1,680 contexts / 560,640 selected state/protocol
+words. Of these, 816 stop at the weapon-commit helper entry. Another 48 native
+draw-callback cases are checked as explicit Rust refusals, not matches. These are
+unblended selector controls with supplied damage, flat floor, stable history and
+positive idle timer, without a whole-primary or world-schedule claim. Three
+synthetic regressions retain these boundaries. Prototype PS2 attributions remain
+unknown. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+The health-positive primary and App impact/voice admission remain guarded.
+This lot adds no dependency or distribution asset and produces no new playable
+capture or Windows preview. Existing executable, notices and checksum receipts
+keep their identities; the main agent owns combined integration and delivery.

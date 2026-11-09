@@ -151,7 +151,10 @@ pub(crate) fn ordinary(
         (word(payload, 0x64) != 0, "weapon transition"),
         (word(payload, 0x180) != 1, "weapon inventory"),
         (
-            ![0, 1, 2, 4, 5, 6, 11, 13, 14, 15, 16, 18, 60].contains(&logical_state)
+            ![
+                0, 1, 2, 3, 4, 5, 6, 7, 11, 13, 14, 15, 16, 18, 58, 59, 60, 61, 62,
+            ]
+            .contains(&logical_state)
                 && !(fire && [12, 17, 19, 20, 21].contains(&logical_state)),
             "logical state",
         ),
@@ -242,6 +245,10 @@ pub(crate) fn ordinary(
         5 => (5, 0x800),
         6 => (6, 0),
         39 => (4, 0),
+        40 => (3, 0),
+        7 => (7, 0),
+        172 => (58, 0),
+        169 => (59, 0),
         50 => (18, 0x2000),
         38 => (16, 0x8000),
         41 => (2, 0),
@@ -376,6 +383,11 @@ pub(crate) fn ordinary(
             _ => {}
         }
     }
+    if logical == 1 && changed_weapon && context & 0x4000 != 0 && context & 0x2200 == 0 {
+        return Err(
+            "normal pistol draw requires the owned animation callback/frame service".into(),
+        );
+    }
     if logical == 1 && f.control_flags & 0x400 != 0 && ended && context & 0x8000 != 0 {
         return Err(
             "ordinary secondary idle variant requires actual RNG/selection provider".into(),
@@ -460,6 +472,134 @@ pub(crate) fn ordinary(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn landing_hold_depends_on_channel_end_and_movement() {
+        for (previous, clip) in [(61, 175), (62, 178)] {
+            for ended in [false, true] {
+                for moving in [false, true] {
+                    let (mut fields, mut body, mut view, globals) = fixture();
+                    fields.control_flags = 0x400;
+                    fields.response_flags = 0;
+                    fields.channels[0][0] = clip;
+                    fields.channels[0][8] = if ended { 2 } else { 0 };
+                    put(&mut body, 0x30, previous);
+                    put(&mut body, 0x6c, 1f32.to_bits());
+                    view.model_rates = [0., if moving { 30. } else { 0. }, 0.];
+                    let mut random = crate::audio_parameters::Random(42);
+                    let output = ordinary(
+                        &fields,
+                        &body,
+                        fields.channels,
+                        &view,
+                        &globals,
+                        1. / 60.,
+                        Services {
+                            fire: false,
+                            blending: animation_channels::Blending::Disabled,
+                            random: &mut random,
+                            contact: None,
+                            impact: None,
+                        },
+                    )
+                    .unwrap();
+                    if moving || ended {
+                        assert_eq!(output.request.unwrap().slot, if moving { 2 } else { 1 });
+                        assert_eq!(word(&output.payload, 0x30), if moving { 11 } else { 1 });
+                    } else {
+                        assert!(output.request.is_none());
+                        assert_eq!(word(&output.payload, 0x30), previous);
+                        assert_eq!(output.channels, fields.channels);
+                    }
+                    assert!(!output.commit_weapon);
+                    assert_eq!(random.0, 42);
+                    assert_eq!(word(&body, 0x30), previous);
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn all_air_directions_can_continue_from_their_selected_state() {
+        for (forward, side, clip, logical, flag) in [
+            (0., 0., 5, 5, 0x800),
+            (-75., 0., 39, 4, 0),
+            (-150., 0., 40, 3, 0),
+            (75., 0., 6, 6, 0),
+            (150., 0., 7, 7, 0),
+            (0., -150., 172, 58, 0),
+            (0., 150., 169, 59, 0),
+        ] {
+            let (mut fields, mut body, mut view, mut globals) = fixture();
+            fields.position[2] = 100.;
+            fields.response_flags = 0;
+            fields.control_flags = 0;
+            globals.words[0xc18 / 4] = 50f32.to_bits();
+            globals.words[0xc24 / 4] = 10f32.to_bits();
+            put(&mut body, 0x6c, 1f32.to_bits());
+            view.model_rates = [0., forward, side];
+            let mut random = crate::audio_parameters::Random(42);
+            let mut step = |f: &Fields, b: &[u8]| {
+                ordinary(
+                    f,
+                    b,
+                    f.channels,
+                    &view,
+                    &globals,
+                    1. / 60.,
+                    Services {
+                        fire: false,
+                        blending: animation_channels::Blending::Disabled,
+                        random: &mut random,
+                        contact: None,
+                        impact: None,
+                    },
+                )
+                .unwrap()
+            };
+            let selected = step(&fields, &body);
+            assert_eq!(selected.request.unwrap().slot, clip);
+            assert_eq!(word(&selected.payload, 0x30), logical);
+            assert_eq!(selected.fields.control_flags, flag);
+            let continued = step(&selected.fields, &selected.payload);
+            assert!(continued.request.is_none());
+            assert_eq!(word(&continued.payload, 0x30), logical);
+            assert_eq!(continued.channels, selected.channels);
+            assert_eq!(random.0, 42);
+        }
+    }
+
+    #[test]
+    fn idle_weapon_change_requires_real_draw_callback_before_commit() {
+        let (mut fields, mut body, mut view, globals) = fixture();
+        fields.response_flags = 0;
+        fields.control_flags = 0x400;
+        view.model_rates = [0.; 3];
+        put(&mut body, 0x60, u32::MAX);
+        put(&mut body, 0x6c, 1f32.to_bits());
+        let before = body.clone();
+        let mut random = crate::audio_parameters::Random(42);
+        let error = ordinary(
+            &fields,
+            &body,
+            fields.channels,
+            &view,
+            &globals,
+            1. / 60.,
+            Services {
+                fire: false,
+                blending: animation_channels::Blending::Disabled,
+                random: &mut random,
+                contact: None,
+                impact: None,
+            },
+        )
+        .err()
+        .unwrap();
+        assert!(error.contains("animation callback/frame service"));
+        assert_eq!(body, before);
+        assert_eq!(random.0, 42);
+    }
+
     fn fixture() -> (Fields, Vec<u8>, View, GlobalData) {
         let mut channels = [[0; 9]; 4];
         channels[0][0] = 2;

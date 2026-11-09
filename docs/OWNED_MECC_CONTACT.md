@@ -524,3 +524,35 @@ gates and wounded continuation before binding these services to the live primary
 Full world cadence, general instance retirement, equipment/death reactions,
 nonlocal routing and active effects remain open. No new normal-control screenshot
 or downloadable build claim follows. Prototype PS2 counterparts remain unknown.
+
+## Post-impact selector continuation — 9 November 2026
+
+The ordinary pistol selector admits previous logical states 61/62 and all seven
+acquired directional-air states. Landing hold is conditional: stationary grounded
+selection retains an unended landing channel while its idle flag remains set;
+channel completion permits idle, and movement can select locomotion before that
+completion. No unconditional landing-animation lock is added. Fast forward,
+fast backward and lateral air variants retain their acquired logical states and
+zero control flags on subsequent calls.
+
+Original-PC controls cover 1,728 supplied contexts: eight previous states,
+channel completion, zero/15/55 damage, nine movement profiles, weapon-cache change
+and grounded/airborne placement. Of these, 1,680 agree on 560,640 selected full
+header/payload, animation-request, VM-seed and commit-presence words. For 816
+weapon commits the comparison stops at the real commit helper entry; its body
+and subsequent weapon effects are outside this comparison. The remaining 48
+cases request the native idle draw callback. All 48 are explicitly refused by
+Rust because the owned animation callback/frame provider is absent. They are
+not numerical matches or successful weapon changes.
+
+The controls use disabled blending, a positive supplied idle-variant timer,
+flat supplied floor, stable velocity history and initialized local sources.
+They produce no new impact or voice request. Damage is a supplied selector input;
+these cases do not establish health-positive full-primary continuation. That
+primary's health guard remains, as do the App's missing impact/voice providers.
+Synthetic regressions check landing hold/release, continued air states and draw
+refusal without a weapon commit or VM draw. Native mission-gate production,
+actual draw callbacks, wounded primary, carried/death/equipment profiles and
+active world effects remain integration prerequisites. No new gameplay or
+executable receipt follows. Prototype PS2 correspondence for both the selector
+and the observed commit boundary remains unknown; prior PC aliases are retained.

@@ -975,6 +975,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   step 441; native gate production, wounded continuation, heavy carried channel,
   active effect scheduling and cleanup remain prerequisites. The existing
   positional effect transport is for later activation, not secondary preparation.
+  Post-impact selector continuation now admits states 61/62 and all acquired
+  air directions: 1,680 native contexts / 560,640 selected words agree, including
+  816 pre-weapon-commit boundaries. Another 48 contexts explicitly refuse the
+  actual idle-draw callback; no fabricated pointer or immediate commit substitutes
+  for it. These unblended controls supply floor, damage, velocity history and
+  positive idle timer. They do not validate a wounded whole primary. Next acquire
+  the real draw callback/frame ownership and full health-positive primary before
+  relaxing that entry guard or enabling impact/voice in the App.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup
