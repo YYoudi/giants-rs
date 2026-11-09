@@ -38,6 +38,13 @@ retain their own receipts; this geometry dependency claims no new playable
 Delphi download and includes no original assets or private research.
 
 
+Final source checkpoint `861c9bf18a4e6abbb69bf58012957d7eb5d4dec2` retains
+the newer shared impact transport work and passes 817 synthetic Rust tests
+(41 ignored), 40 Python tests, Rustfmt, strict Clippy and site/JavaScript checks.
+Its source pattern audit reports zero findings across 470 commits / 3,034 blobs.
+The executable and runtime/package receipts above remain pinned to `99ec6857`;
+this later source validation does not relabel that binary.
+
 ## Actual ready owned impact audio transport - 9 November 2026
 
 The application reserves actual positional PCM sources from the acquired impact
