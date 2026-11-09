@@ -18,6 +18,25 @@ live scheduling remain separate inputs/prerequisites. Synthetic late-failure
 checks retain completed effects. No live Delphi, active turbo/water integration
 or fidelity status changes follow. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
+Combined source `a4376eb18d73d72f42366f61e8169981b23ea8eb` retains the newer
+shared RNG ownership guidance and passes 812 Rust tests (35 ignored), the
+seven-owner Delphi installed-data control, 40 Python tests, Rustfmt, strict
+Clippy and generated roadmap/site/JavaScript checks. The pattern audit reports
+zero findings across 443 commits / 2,909 blobs. Earlier 2,048-case item controls
+also repeat against the corrected action label and readiness projection.
+
+The exact common GNU executable SHA256 is
+`edd79c3dd2deeeeb96570d4c83b6092c762ecd437a4a340ab84c2d4d611f7687`.
+It passes both silent offscreen development endpoints and three Rstory1 mission-2
+persistent-owner birth/update/cancel/re-entry cycles with text cleanup. Canonical
+PE imports remain unchanged. The private ten-member validation draft has complete
+receipt-bound notices/checksums and independent verification with zero technical
+blockers; ZIP SHA256 is
+`7a07e764ea348812ba83f62f939da294ccd1b0c8a6ba282be0372e7d1ae28ca7`.
+Those are common-runtime regressions, not live Delphi controls. Existing published
+previews retain their own receipts; this CPU dependency does not claim another
+playable Delphi download or distribute original data.
+
 ## Effect/audio RNG ownership acquisition - 9 November 2026
 
 The acquired debug executable and audio DLL use separate module-local CRT TLS

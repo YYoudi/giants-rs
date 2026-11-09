@@ -49,6 +49,10 @@ services do not certify visual fidelity or complete turbo/water behavior.
 Prototype PS2 correspondence remains unknown; literal symbols, demangling,
 generated aliases and PC relationships remain separate in private evidence.
 
+The exact common build, package and validation receipts are recorded in
+[RELEASES.md](RELEASES.md). Its silent menu/cinematic controls exercise the common
+runtime; they do not invoke ready Delphi movement or prove rendered fidelity.
+
 ## Owned item and absent auxiliary tail - 9 November 2026
 
 `delphi_items::advance` now follows the reserve callback with acquired inventory
