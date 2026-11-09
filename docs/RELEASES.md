@@ -1,5 +1,26 @@
 # Preview releases and milestone integration
 
+## Kabuto owned post-gravity control forces — 9 November 2026
+
+The Factory-bound Session now consumes its real ANM/gravity state and reuses the
+shared control-target/quaternion/basis/force services. The acquired caller reads
+actual globals/header configuration, position/scale and the incoming speed latch,
+then preserves the original attenuation stores and helper eligibility gates.
+Common helper controls match 512 contexts / 10,462 words; a separate actual source
+Session caller control matches 512 / 210,253 header/payload/parameter/target words,
+including 111 eligible target entries. PC receives an exported post-gravity
+boundary and does not rerun the preceding source phases for each case.
+
+The prior speed latch, commands/time/opaque flags and flat terrain/prepared scene
+remain supplied inputs. The later native latch producer is still required;
+no first-frame speed, new-frame finish or primary completion is fabricated.
+Cache/mirror/factory/order/replay refusals precede mutation, and an ANM failure
+cannot be bypassed. All history and initializer prerequisites remain entered.
+Active event/contact/audio services and the primary/world remainder still block
+live admission. No new asset/dependency or playable Kabuto preview is added;
+existing package/notices/checksum/runtime receipts retain their exact identities.
+Prototype PS2 correspondences remain unknown.
+
 ## Kabuto owned animation-to-gravity sequence — 9 November 2026
 
 The Factory-bound Session now queries its actual local clock, advances channels/

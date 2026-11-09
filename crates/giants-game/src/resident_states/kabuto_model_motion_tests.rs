@@ -20,14 +20,19 @@ fn words_line(w: impl IntoIterator<Item = u32>) -> String {
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private stage-input/receipt exports; no window or sound"]
 fn source_kabuto_model_motion_reuses_owned_classified_state_and_preserves_primary() {
-    run_model(false);
+    run_model(false, false);
 }
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private ANM/gravity inputs and receipts; no window or sound"]
 fn source_kabuto_animation_gravity_uses_model_phase_and_retains_primary() {
-    run_model(true);
+    run_model(true, false);
 }
-fn run_model(animation: bool) {
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; optional private post-gravity control inputs/receipts; no window or sound"]
+fn source_kabuto_control_force_uses_owned_animated_state_and_preserves_primary() {
+    run_model(true, true);
+}
+fn run_model(animation: bool, control: bool) {
     let (factory, _) = super::transition_tests::factories();
     let (foreign, _) = super::transition_tests::factories();
     let mut s = Session::new(991);
@@ -52,6 +57,9 @@ fn run_model(animation: bool) {
     let mut stamp = crate::animation_epoch::Stamp(0);
     let mut animation_inputs = String::new();
     let mut animation_receipt = String::new();
+    let mut control_inputs = String::new();
+    let mut control_receipt = String::new();
+    let mut targeted = 0;
     let radius = s.kabuto_group(id).unwrap().radius;
     let root = std::path::PathBuf::from(std::env::var("GIANTS_KABUTO_ROOT").unwrap());
     let globals =
@@ -75,6 +83,16 @@ fn run_model(animation: bool) {
             10. + (case % 5) as f32,
         ];
         f.current = f.position;
+        if control {
+            f.position[2] = [-1., -0.01, 10., 40., 50., 100.][case % 6];
+            f.current = f.position;
+            if case % 7 == 0 {
+                f.object_flags |= 0x10;
+            }
+            if case % 3 == 0 {
+                f.object_flags |= 0x8000000;
+            }
+        }
         f.angles[0] = (case % 27) as f32 * 13.;
         a.affine_cache = None;
         a.seed
@@ -83,6 +101,13 @@ fn run_model(animation: bool) {
             .unwrap()
             .copy_from_slice(&baseline_payload);
         let p = a.seed.storage.data_mut().unwrap();
+        if control {
+            // The preceding speed latch is a supplied input. Its later native
+            // producer is not implemented by this post-gravity consumer.
+            let at = [0x160, 0x164, 0x168, 0x16c][case % 4];
+            let incoming = p[at..at + 4].to_vec();
+            p[0x160..0x164].copy_from_slice(&incoming);
+        }
         for (i, v) in [
             case as f32 - 200.,
             100. - case as f32,
@@ -108,6 +133,7 @@ fn run_model(animation: bool) {
         g.model_motion_completed = None;
         g.animation_gravity_entered = None;
         g.animation_gravity_completed = None;
+        g.control_force_completed = None;
         let number = case as u64 + 1;
         let seconds = [0., 0.001, 1. / 60., 0.1][case % 4];
         let command = [0u8, 1, 32, 127, 255, 224, 128];
@@ -374,6 +400,7 @@ fn run_model(animation: bool) {
                         )
                         .is_err()
                 );
+                assert!(factory.advance_control_force(&mut s, id, number).is_err());
                 continue;
             }
             let before = super::motion_tests::snapshot(&s, id);
@@ -404,6 +431,9 @@ fn run_model(animation: bool) {
                 stamp: &mut stamp,
                 blending: Blending::Disabled,
             };
+            if control {
+                assert!(factory.advance_control_force(&mut s, id, number).is_err());
+            }
             assert!(
                 foreign
                     .advance_animation_gravity(
@@ -510,6 +540,62 @@ fn run_model(animation: bool) {
                 s.begin_kabuto_motion_history(id, number + 1, commands)
                     .is_err()
             );
+            if control {
+                let before = super::motion_tests::snapshot(&s, id);
+                let header = &before[..193];
+                let input = [globals.words[0x5fc / 4], globals.words[0x600 / 4]]
+                    .into_iter()
+                    .chain(before.iter().copied());
+                control_inputs.push_str(&words_line(input));
+                assert!(foreign.advance_control_force(&mut s, id, number).is_err());
+                assert!(
+                    factory
+                        .advance_control_force(&mut s, id, number + 1)
+                        .is_err()
+                );
+                let cached = s.residents.get_mut(&id.serial).unwrap().affine_cache.take();
+                assert!(factory.advance_control_force(&mut s, id, number).is_err());
+                s.residents.get_mut(&id.serial).unwrap().affine_cache = cached;
+                assert_eq!(before, super::motion_tests::snapshot(&s, id));
+                let view = factory.advance_control_force(&mut s, id, number).unwrap();
+                let after = super::motion_tests::snapshot(&s, id);
+                assert!(before.iter().zip(&after).enumerate().all(|(i, (a, b))| {
+                    [6, 7, 8, 11]
+                        .into_iter()
+                        .any(|n| i == 193 + (0xe4 + n * 4) / 4)
+                        || a == b
+                }));
+                let mut output = after;
+                output.extend([
+                    view.speed.to_bits(),
+                    view.speed.to_bits(),
+                    globals.words[0x5fc / 4],
+                    globals.words[0x600 / 4],
+                    header[0xd8 / 4] & 0x10,
+                ]);
+                output.push(if view.desired_velocity.is_some() {
+                    3
+                } else {
+                    0
+                });
+                if let Some(desired) = view.desired_velocity {
+                    output.extend(desired.map(f32::to_bits));
+                    targeted += 1;
+                }
+                control_receipt.push_str(&words_line(output));
+                let g = s.kabuto_group(id).unwrap();
+                assert_eq!(g.control_force_completed, Some(number));
+                assert_eq!(g.animation_gravity_completed, Some(number));
+                assert_eq!(g.motion_history, Some(number));
+                assert_eq!(g.pending.len(), 4);
+                assert_eq!(s.counts(), counts);
+                assert_eq!((0..15).map(|i| s.list(i)).collect::<Vec<_>>(), lists);
+                assert!(factory.advance_control_force(&mut s, id, number).is_err());
+                assert!(
+                    s.begin_kabuto_motion_history(id, number + 1, commands)
+                        .is_err()
+                );
+            }
         }
     }
     assert!(moving > 300);
@@ -525,6 +611,15 @@ fn run_model(animation: bool) {
         }
         if let Some(p) = std::env::var_os("GIANTS_KABUTO_ANIMATION_RECEIPT") {
             std::fs::write(p, animation_receipt).unwrap();
+        }
+    }
+    if control {
+        assert!(targeted > 50 && targeted < 500, "{targeted}");
+        if let Some(p) = std::env::var_os("GIANTS_KABUTO_CONTROL_INPUTS") {
+            std::fs::write(p, control_inputs).unwrap();
+        }
+        if let Some(p) = std::env::var_os("GIANTS_KABUTO_CONTROL_RECEIPT") {
+            std::fs::write(p, control_receipt).unwrap();
         }
     }
 }
