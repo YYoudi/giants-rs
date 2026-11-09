@@ -16,9 +16,17 @@ semantics, target lifetime/readiness and primary/world order remain open. No liv
 Delphi, new gameplay capture or playable preview follows. Prior package/notices/
 checksums retain exact identities. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
-The source checkpoint passes 822 synthetic Rust tests (45 ignored), both installed
+Source checkpoint `557a386` passes 822 synthetic Rust tests (45 ignored), both installed
 Delphi controls, 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
 checks. These checks do not relabel any earlier executable or runtime receipt.
+
+Combined source `d5e77a231a13c06f22fd4cf50302c082544cec53` preserves the newer
+shared effect-constructor and Kabuto guard/timer work. It passes 829 synthetic
+Rust tests (45 ignored), both installed Delphi controls, 40 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. Rebuilt native scan,
+range and selector comparisons pass again. The limited history-pattern audit
+reports zero findings across 508 commits / 3,231 blobs. Existing preview/runtime
+receipts remain pinned to their original sources.
 
 ## Kabuto post-control guard and fresh damage field — 9 November 2026
 
