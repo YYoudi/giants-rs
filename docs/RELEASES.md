@@ -1,5 +1,28 @@
 # Preview releases and milestone integration
 
+## Common attachment service for Kabuto — 9 November 2026
+
+The acquired attachment request matches 512 original calls / 389,023 normalized
+header/service words, including 128 controls with the real initialized rule
+table. Its read-only catalog matches 99 scalar words and supports only the
+acquired executable layout. Child/parent reference indices, current rule/slot
+selection, callback ordering, scale stores and ownership guards are retained.
+Required preparation, animation, transport and action services remain explicit;
+97 declared late-action failures preserve published binding/effect state.
+
+The reset contract now separates canonical control flags, independent response
+flags and actor behavior. Its full body and release composition revalidate on
+919,700 and 1,331,545 words respectively. Actual Session/reference/channel/global
+ownership and lifetimes remain unbound. This is CPU/source progress, without a
+new primary phase, initializer/history completion, live controller, capture,
+dependency, original data or downloadable preview. Existing preview identities
+remain exact; prototype PS2 attributions stay unknown.
+
+Validation passes 863 workspace Rust tests (56 ignored), sixteen installed
+Kabuto controls plus the separate cold-construction control, 43 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The three new synthetic
+controls cover external rule parsing and independent reset-field ownership.
+
 ## Kabuto reference release — 9 November 2026
 
 The acquired pre-query release agrees on 512 original intervals / 1,331,545

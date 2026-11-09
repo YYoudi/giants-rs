@@ -421,6 +421,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented at the CPU boundary: the common attachment request used by Kabuto
+  matches 512 original calls / 389,023 normalized header/service words. The first
+  128 use the actual initialized executable rule table; its read-only bounded
+  reader independently matches 99 scalar words. First match, terminator, current
+  animation and scale, complete parent-reference words and low-byte transport
+  are preserved. State3/state99 preparation, animation, transport and action
+  dispatch remain declared required services. The catalog supports only its
+  acquired executable layout; no table bytes are embedded or published.
+  The reset body now uses the canonical control word and a separate behavior
+  writer, preserving independent response flags. Its 919,700-word body control
+  and the 1,331,545-word release composition still agree. Bind actual Session
+  parent/child references, channels, actor behavior, lifetimes and backend
+  services before gameplay admission; the existing Mecc/Delphi paths are retained.
 - Implemented at the CPU boundary: pre-query reference release matches 512
   original intervals / 1,331,545 normalized header/payload/service words. The
   first 128 compose the actual state18 route and false-mode reset body; the

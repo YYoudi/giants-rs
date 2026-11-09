@@ -1538,7 +1538,7 @@ A positive value that underflows to stored zero can therefore trigger release.
 The release captures an actor and scale before the notification guard/transport.
 It preserves the captured scale across service effects, applies current scale
 division, clears only that actor's parent, then handles the acquired state89,
-state18 or state3 branch. State89 preserves the signed behavior comparison; the
+state18 or state3 branch. State89 preserves the signed parent-reference comparison; the
 state3 scale comes from its current supplied payload. The captured actor receives
 the acquired flags. The impulse instead resolves the reference again after the
 services, reads current positions, uses shared normalization and requests the
@@ -1564,7 +1564,7 @@ bodies are not acquired here. Other reset modes retain their independent body
 controls, rather than being claimed by this compound profile.
 
 Controls cover current-reference changes during transport/reset, captured scale
-preservation, full state/context/owner words, signed behavior, source aliases,
+preservation, full state/context/owner words, signed parent-reference words, source aliases,
 position and velocity prefixes, wide-clock cancellation, stored-timer underflow
 and final reference clearing after transport mutations. Eight additional declared
 late impulse-transport failures retain the published velocity and reference;
@@ -1578,3 +1578,58 @@ must be bound before primary/history progress can be acknowledged. No pending
 initializer is cleared, no actor frame is finished, and no new capture, playable
 preview or visual-fidelity claim follows. Prototype PS2 correspondences remain
 unknown; raw evidence and symbol records stay private.
+
+## Common attachment request and external rules
+
+`actor_attachment_bind::bind` implements the acquired common request reached by
+Kabuto's reference producers. The child may first require a state3 or state99
+service. Optional notification precedes binding publication. The request then
+publishes the parent and full parent-reference index, resolves the current child
+type in source order, and publishes the selected child-reference index. A missing
+rule uses the acquired absent-reference value; an unknown table is an error.
+The current full animation slot is compared before selection, and the scale is
+read after service effects before multiplication. The later action request uses
+the captured signed parent-reference index and freshly read flags/authority.
+
+The child/parent indices follow the existing owned attachment representation;
+they are not the separate actor behavior. The transport carries only the low
+byte of the parent index while the binding preserves the complete word. Rule
+resolution retains first matches, negative termination and explicit refusal of
+unsupported matched indices. Child owner metadata is requested only if transport
+eligibility requires it. Shared notification ownership and `kabuto_contact::Request`
+are reused; there is no parallel peer or action-dispatch implementation.
+
+`actor_attachment_bind::catalog::Catalog` reads the caller-supplied executable as
+data through the existing bounded PE metadata reader. Only the acquired debug
+layout is supported. Its numeric header recognition is not authentication or code
+execution. The immutable rules preserve all acquired reference/animation words;
+no original table is embedded. Layout, missing terminator and matched-index
+refusals do not invent fallback rules. The key-to-live-actor identity still needs
+its actual constructor/type-change producer and lifetime binding.
+
+Original controls match 512 calls / 389,023 normalized header, argument and
+service-prefix words. The first 128 use the actual pinned initialized table;
+the remaining cases use declared duplicate/terminator tables. A separate reader
+control matches eleven rows including the terminator / 99 scalar words. Original
+state and ownership predicates and the action wrapper execute. State3/state99
+preparation, primary animation, transport and final action dispatch have declared
+mutating entry providers; their bodies/outcomes are not established here.
+Controls cover source/child aliasing, callback changes to type/scale/context,
+both indices, full animation words, complete unmatched parent-reference words,
+negative zero, and the nine defined transport bytes without a padding assumption.
+Ninety-seven declared late-action errors retain preceding bindings and effects;
+they do not prove native exception equivalence or delivered gameplay damage.
+
+The reset's typed interface also now updates `Fields::control_flags` and requires
+an independent behavior writer, preserving `Fields::response_flags`. Earlier
+standalone control views had assigned the control word to a response alias; their
+byte agreement did not establish a direct Session field mapping. Canonical field
+projections now retain exact agreement for the 919,700-word reset body and the
+1,331,545-word release composition. A synthetic late-animation failure control
+checks the three owners stay separate before and after failure.
+
+Actual Session binding, actor/channel/resource lifetime, preparation, animation,
+transport and action services remain required. No numbered Kabuto phase, pending
+initializer/history completion, live movement/feeding/growth, new capture or
+download is added. Existing Mecc/Delphi ownership remains unchanged; prototype
+PS2 correspondences remain unknown and detailed records stay private.

@@ -31,13 +31,15 @@ pub trait Services<K> {
     /// Publish the acquired global-cache stores through its real owner.
     fn reset_global_cache(&mut self) -> Result<(), String>;
     fn zero_velocity(&mut self, actor: K) -> Result<(), String>;
+    /// Independent behavior word; it is not an alias of Fields control/response flags.
+    fn set_behavior(&mut self, source: K, value: u32) -> Result<(), String>;
     fn set_preferred(&mut self, source: K, point: K) -> Result<(), String>;
     fn bind_attachment(
         &mut self,
         child: K,
         parent: K,
-        reference: u32,
-        behavior: u32,
+        child_reference: u32,
+        parent_reference: u32,
     ) -> Result<(), String>;
 }
 
@@ -72,7 +74,7 @@ pub fn execute<K: Copy>(
     point: K,
     services: &mut impl Services<K>,
 ) -> Result<(), String> {
-    services.fields_mut(source)?.response_flags &= !0x100;
+    services.fields_mut(source)?.control_flags &= !0x100;
     if services.mode_is_four()? {
         let class = services.point_class(point)?;
         if class != 0 {
@@ -132,13 +134,13 @@ pub fn execute<K: Copy>(
     services.zero_velocity(source)?;
     services.fields_mut(source)?.action = 10;
     services.set_preferred(source, point)?;
-    services.fields_mut(source)?.control_flags = 0x33;
+    services.set_behavior(source, 0x33)?;
     let context = services.fields(point)?.dispatch_context;
     let fields = services.fields_mut(source)?;
     fields.dispatch_context = context;
-    fields.response_flags |= 8;
+    fields.control_flags |= 8;
     services.select_animation(source, select(101))?;
-    if services.mode_is_four()? && services.fields(source)?.response_flags & 0x80 == 0 {
+    if services.mode_is_four()? && services.fields(source)?.control_flags & 0x80 == 0 {
         let class = if services.fields(point)?.dispatch_context == 2 {
             951
         } else {
@@ -148,7 +150,109 @@ pub fn execute<K: Copy>(
         let flags = services.fields(child)?.object_flags | 0x400000;
         services.bind_attachment(child, source, 0, 2)?;
         services.fields_mut(child)?.object_flags = flags;
-        services.fields_mut(source)?.response_flags |= 0x80;
+        services.fields_mut(source)?.control_flags |= 0x80;
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    struct Owner {
+        fields: Fields,
+        behavior: u32,
+        preferred: Option<u32>,
+    }
+    impl Services<u32> for Owner {
+        fn fields(&self, _: u32) -> Result<&Fields, String> {
+            Ok(&self.fields)
+        }
+        fn fields_mut(&mut self, _: u32) -> Result<&mut Fields, String> {
+            Ok(&mut self.fields)
+        }
+        fn mode_is_four(&mut self) -> Result<bool, String> {
+            Ok(false)
+        }
+        fn birth_pose(&self, _: u32) -> Result<Pose, String> {
+            Ok(Pose {
+                position: [1., 2., 3.],
+                heading: 40.,
+            })
+        }
+        fn point_class(&self, _: u32) -> Result<u32, String> {
+            unreachable!()
+        }
+        fn point_offset(&self, _: u32) -> Result<Pose, String> {
+            unreachable!()
+        }
+        fn construct(&mut self, _: u32, _: u32) -> Result<u32, String> {
+            unreachable!()
+        }
+        fn position(&mut self, _: u32, _: [f32; 3]) -> Result<(), String> {
+            unreachable!()
+        }
+        fn prepare_transform(&mut self, _: u32) -> Result<(), String> {
+            unreachable!()
+        }
+        fn select_animation(&mut self, _: u32, request: Request) -> Result<(), String> {
+            assert_eq!(request.slot, 101);
+            // A real backend sees the published header before reporting failure.
+            assert_eq!(self.fields.response_flags, 0x80000100);
+            assert_eq!(self.fields.control_flags, 8);
+            assert_eq!(self.behavior, 0x33);
+            assert_eq!(self.preferred, Some(2));
+            Err("declared animation failure".into())
+        }
+        fn step_animation(&mut self, _: u32, _: f32) -> Result<(), String> {
+            unreachable!()
+        }
+        fn matrices(&self, _: u32) -> Result<(Matrix, Option<Matrix>), String> {
+            unreachable!()
+        }
+        fn reset_global_cache(&mut self) -> Result<(), String> {
+            Ok(())
+        }
+        fn zero_velocity(&mut self, _: u32) -> Result<(), String> {
+            Ok(())
+        }
+        fn set_behavior(&mut self, _: u32, value: u32) -> Result<(), String> {
+            self.behavior = value;
+            Ok(())
+        }
+        fn set_preferred(&mut self, _: u32, point: u32) -> Result<(), String> {
+            self.preferred = Some(point);
+            Ok(())
+        }
+        fn bind_attachment(&mut self, _: u32, _: u32, _: u32, _: u32) -> Result<(), String> {
+            unreachable!()
+        }
+    }
+    #[test]
+    fn late_failure_preserves_separate_response_control_and_behavior_owners() {
+        let mut owner = Owner {
+            fields: Fields {
+                class: 0,
+                dispatch_context: 0,
+                configuration: [0; 30],
+                scale: 1.,
+                object_flags: 0,
+                response_flags: 0x80000100,
+                control_flags: 0x100,
+                action: 0,
+                shadow_reciprocal: 0.,
+                shadow: None,
+                gunlist: Default::default(),
+                channels: [[0; 9]; 4],
+                position: [0.; 3],
+                current: [0.; 3],
+                previous: [0.; 3],
+                angles: [0.; 3],
+            },
+            behavior: 77,
+            preferred: None,
+        };
+        assert!(execute(1, 2, &mut owner).is_err());
+        assert_eq!(owner.fields.response_flags, 0x80000100);
+        assert_eq!((owner.fields.control_flags, owner.behavior), (8, 0x33));
+    }
 }

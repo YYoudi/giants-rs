@@ -12,7 +12,7 @@ pub struct State<K> {
 pub struct Metadata {
     pub physical_flags: u32,
     pub state: u32,
-    pub behavior: i32,
+    pub parent_reference: i32,
     pub owner_word: u32,
 }
 #[derive(Clone, Copy, Debug)]
@@ -121,7 +121,7 @@ pub fn advance<K: Copy + Eq>(
     let target_state = services.metadata(target)?.state;
     services.clear_parent(target)?;
     match target_state {
-        89 if services.metadata(target)?.behavior <= 1 => {
+        89 if services.metadata(target)?.parent_reference <= 1 => {
             services.set_state89_parameter(target, 1.)?;
         }
         18 => services.reset_state18(state, target)?,
