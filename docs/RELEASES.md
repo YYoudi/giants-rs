@@ -60,7 +60,7 @@ following Kabuto reference/actions. No gameplay, new screenshot or downloadable
 preview is admitted. Existing binary/notices/checksum/runtime receipts retain
 independent identities. Prototype PS2 correspondence remains unknown.
 
-Combined checkpoint `c8d0cf6` passes 834 synthetic Rust tests (48 ignored), all
+Combined checkpoint `6a09994` passes 834 synthetic Rust tests (49 ignored), all
 sixteen silent Kabuto phase controls plus the separate cold-resource check,
 41 Python tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript
 checks. The rebuilt helper comparison repeats 512 / 208,572 after merging the
