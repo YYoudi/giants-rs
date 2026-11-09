@@ -48,6 +48,35 @@ No completed feature, new capture or visual fidelity claim follows. Prototype PS
 attributions remain unknown; binary identities and previous aliases remain in
 private continuation records. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
 
+## Kabuto owned animation-to-gravity sequence — 9 November 2026
+
+The Factory-bound Session now queries its actual local clock, advances channels/
+references/shared epoch and event state, then applies common gravity to its owned
+physical payload. A complete original-PC interval matches 512 post-model source
+contexts / 303,616 normalized header/payload/reference/epoch/TLS words. This uses
+the real cold animation with no triggered events. Native resources/groups are
+constructed first; the preceding Rust phases are not reexecuted on PC per case.
+External commands/time, controlled terrain/prepared scene and default transform
+callbacks remain declared boundaries.
+
+A separate real resource contact-event check retains prior ANM effects, refuses
+the missing service and leaves gravity unexecuted. Wrong order/owner/factory,
+invalid clock and replay refuse; later errors quarantine replay. No initializer
+or history prerequisite is acknowledged. Active event/contact/audio services,
+control-target/force generation and the primary/world remainder still block
+live admission. Shared arithmetic is reused without changing Mecc/Delphi.
+Prototype PS2 correspondence remains unknown. Existing release manifests/notices/
+checksums/runtime receipts retain their exact source identities; no playable
+preview or visual-fidelity promotion follows this CPU dependency.
+
+Validation: 816 synthetic Rust tests pass (39 ignored), all fourteen silent
+Kabuto phase controls plus the separate cold-resource control pass, alongside
+40 Python tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript
+checks. The 512-context complete original interval comparison passes again on
+the final runtime source. The required-event failure check is a separate owned
+policy control, without an original-PC exception-equivalence claim. The limited
+source/history pattern audit reports zero findings across 457 commits / 2,967
+blobs at the preceding runtime checkpoint.
 
 ## Kabuto owned post-contact model rates — 9 November 2026
 

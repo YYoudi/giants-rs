@@ -263,6 +263,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: the numbered Factory-bound clock/ANM/gravity phase consumes its
+  owned model phase, reusing shared channel/reference/epoch/event and gravity
+  services. The complete original PC interval matches 512 source-backed contexts
+  / 303,616 normalized header/payload/reference/epoch/TLS words. The actual cold
+  animation is selected; no event fires in this parity profile. Commands/time,
+  analytic flat terrain, prepared scene and default transform profile remain
+  supplied; preceding phases execute on Rust, not rerun on PC in this control.
+  A crossed real resource contact event retains channels/references/epoch,
+  quarantines replay and leaves gravity unexecuted when its service is missing.
+  Current event/contact/audio services and control-target/force production still
+  block live primary/frame completion; all history/prerequisites remain entered.
 - Implemented: the Factory-bound post-contact model-rate phase reuses the shared
   displacement-to-model service and object-local clock. It requires the real
   numbered classification/additional contacts, owned affine/physics and factory
@@ -273,10 +284,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   wrong factory/number, invalid clock/missing affine and replay refuse atomically.
 - Acquired and compared: the gravity/projection/friction/damping helper matches
   512 contexts / 7,680 words against the unchanged common gravity service.
-  Its required ANM predecessor is not bypassed: shared ANM references, events,
-  class-resource mutation, RNG and failure ordering must be bound before actual
-  gravity scheduling. Control-target/force generation and the remaining primary
-  are still open; the model-rate phase does not finish a frame or admit gameplay.
+  Its required ANM predecessor is now bound for the declared profile above,
+  preserving references, shared class-event resources, epoch and failure ordering.
+  Active event/contact/audio services, control-target/force generation and the
+  remaining primary are still open; no phase admits live gameplay.
 - The dedicated user-created fork owns Kabuto only, working alone with an
   isolated Cargo target. The owner permits necessary test windows; avoid unrelated
   focus changes and sound. Preserve the
