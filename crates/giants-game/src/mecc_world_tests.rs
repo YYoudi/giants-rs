@@ -2493,6 +2493,32 @@ fn source_mecc_primary_retains_and_stops_canonical_smoke() {
             }
         }
         assert_eq!(emitters.len(), 2);
+        let binding = session
+            .get(source)
+            .unwrap()
+            .mecc_damage_smoke
+            .binding
+            .unwrap();
+        session
+            .residents
+            .get_mut(&source.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap()
+            .object_flags |= 0x8000;
+        assert_eq!(
+            p.contexts
+                .refresh_damage_smoke_parent(binding, &session)
+                .unwrap(),
+            crate::attached_effect_context::DamageSmokePhase::ParentLost
+        );
+        assert_eq!(p.contexts.get(binding).unwrap().recipient(), None);
+        assert_eq!(
+            p.contexts.get(binding).unwrap().origin_recipient(),
+            Some(source)
+        );
+        assert_eq!(session.smoke_effect_stopped(emitters[1]), Some(false));
         let before = p.random;
         session
             .release_mecc_damage_smoke(source, &mut p.contexts)

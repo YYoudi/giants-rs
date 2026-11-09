@@ -20,6 +20,7 @@ pub enum Binding<K> {
 }
 #[derive(Clone, Debug)]
 pub struct Context<K> {
+    /// Original binding; use recipient() for its current live reference.
     pub binding: Binding<K>,
     pub label: [u8; 16],
     pub entry_index: usize,
@@ -28,6 +29,13 @@ pub struct Context<K> {
     source: Arc<Image>,
     flags: u32,
     retained_smoke: Option<RetainedSmoke>,
+    parent_lost: bool,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum DamageSmokePhase {
+    Prepared,
+    Active,
+    ParentLost,
 }
 #[derive(Clone, Copy, Debug)]
 struct RetainedSmoke {
@@ -35,6 +43,29 @@ struct RetainedSmoke {
     cursor: usize,
 }
 impl<K> Context<K> {
+    /// Bounded smoke state only. Other extended programs need their own owner.
+    pub fn damage_smoke_phase(&self) -> Option<DamageSmokePhase> {
+        if !matches!(self.flags, 0x20004 | 0x60004)
+            || self
+                .program
+                .as_ref()
+                .ok()?
+                .records
+                .iter()
+                .map(|r| r.opcode)
+                .collect::<Vec<_>>()
+                != [0x24, 6, 0x21, 0x28, 0x49, 7, 0x4a, 2]
+        {
+            return None;
+        }
+        Some(if self.parent_lost {
+            DamageSmokePhase::ParentLost
+        } else if self.retained_smoke.is_some() {
+            DamageSmokePhase::Active
+        } else {
+            DamageSmokePhase::Prepared
+        })
+    }
     pub fn tag(&self) -> Option<u32> {
         match &self.binding {
             Binding::Attached { tag, .. } => Some(*tag),
@@ -73,6 +104,15 @@ impl<K> Context<K> {
 }
 impl<K: Copy> Context<K> {
     pub fn recipient(&self) -> Option<K> {
+        if self.parent_lost {
+            None
+        } else {
+            self.origin_recipient()
+        }
+    }
+    /// Historical recipient identity for ownership/stop validation. After
+    /// invalidation it must never be used as a current attachment reference.
+    pub fn origin_recipient(&self) -> Option<K> {
         match self.binding {
             Binding::Attached { recipient, .. } => Some(recipient),
             Binding::Position(_) => None,
@@ -80,6 +120,39 @@ impl<K: Copy> Context<K> {
     }
 }
 impl Pool<crate::resident_states::Id> {
+    /// Acquired smoke-only parent-reference cleanup. The dead bit invalidates
+    /// the live reference and retains the context in ParentLost, including a
+    /// request that has not constructed an emitter yet. No actor is marked or
+    /// destroyed here, and no activation, frame delta or RNG is consumed.
+    pub fn refresh_damage_smoke_parent(
+        &mut self,
+        id: Id,
+        session: &crate::resident_states::Session,
+    ) -> Result<DamageSmokePhase, String> {
+        let context = self
+            .get(id)
+            .ok_or("smoke context absent, foreign or retired")?;
+        let phase = context
+            .damage_smoke_phase()
+            .ok_or("parent cleanup outside acquired smoke frame")?;
+        let parent = context
+            .origin_recipient()
+            .ok_or("smoke origin recipient absent")?;
+        session.validate_smoke_parent_scope(parent)?;
+        if phase == DamageSmokePhase::ParentLost {
+            return Ok(phase);
+        }
+        let fields = session
+            .get(parent)
+            .and_then(|actor| actor.construction_fields.as_ref())
+            .ok_or("smoke parent storage absent; missing storage is not an observed death")?;
+        if fields.object_flags & 0x8000 != 0 {
+            self.slots[id.slot].context.as_mut().unwrap().parent_lost = true;
+            Ok(DamageSmokePhase::ParentLost)
+        } else {
+            Ok(phase)
+        }
+    }
     /// Publish the acquired retained emitter into the canonical Session, then
     /// retain this context rather than making its slot available for reuse.
     pub fn activate_damage_smoke(
@@ -130,7 +203,7 @@ impl Pool<crate::resident_states::Id> {
         session.validate_smoke(
             retained.actor,
             id,
-            context.recipient().ok_or("smoke parent absent")?,
+            context.origin_recipient().ok_or("smoke parent absent")?,
         )
     }
     /// Stop marking precedes context retirement. The object and its actual list
@@ -143,7 +216,7 @@ impl Pool<crate::resident_states::Id> {
         self.validate_damage_smoke(id, session)?;
         let context = self.get(id).unwrap();
         let actor = context.retained_smoke.unwrap().actor;
-        let parent = context.recipient().unwrap();
+        let parent = context.origin_recipient().unwrap();
         session.stop_smoke(actor, id, parent)?;
         self.retire_context(id)
     }
@@ -525,6 +598,7 @@ impl<K: Copy + Eq> Pool<K> {
             source: image.clone(),
             flags: 4,
             retained_smoke: None,
+            parent_lost: false,
         };
         self.insert(context)
     }
@@ -577,6 +651,7 @@ impl<K: Copy + Eq> Pool<K> {
             source: image.clone(),
             flags: 4,
             retained_smoke: None,
+            parent_lost: false,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -670,6 +745,7 @@ impl<K: Copy + Eq> Pool<K> {
             source: image.clone(),
             flags,
             retained_smoke: None,
+            parent_lost: false,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -778,6 +854,7 @@ impl<K: Copy + Eq> Pool<K> {
             source: image,
             flags: 0x20004,
             retained_smoke: None,
+            parent_lost: false,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -858,6 +935,7 @@ impl<K: Copy + Eq> Pool<K> {
             source: image,
             flags: 0,
             retained_smoke: None,
+            parent_lost: false,
         })?;
         *random = staged;
         Ok((creation, intervals))

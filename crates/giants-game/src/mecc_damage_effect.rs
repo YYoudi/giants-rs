@@ -147,7 +147,7 @@ impl Services<crate::attached_effect_context::Id> for Bound<'_> {
             && self.prepared.pool.damage_smoke_actor(id).is_some()
         {
             let context = self.prepared.pool.get(id).unwrap();
-            if context.recipient() != Some(self.prepared.source)
+            if context.origin_recipient() != Some(self.prepared.source)
                 || context.tag() != Some(3)
                 || context.label != *b"FX_mecc_smoking_"
             {

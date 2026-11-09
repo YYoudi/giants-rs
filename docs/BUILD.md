@@ -86,6 +86,13 @@ display-owner replacement and final cancellation. Foreign/duplicate activation
 and unsupported stop profiles preserve state. It emits no particles and does not
 launch the game; actor destruction and world scheduling remain prerequisites.
 
+With the same `GIANTS_MECC_WORLD_ROOT`, the ignored
+`source_mecc_smoke_parent_loss_retains_context_and_refuses_missing_storage`
+control checks prepared/active parent-reference invalidation, peer preservation,
+foreign/missing live storage refusal, retained origin/cursor and stop after loss.
+The existing wounded-primary smoke control also cancels after supplied parent
+death. These checks do not run a global cleanup pass or destroy dead actors.
+
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.
 Use a separate Cargo target directory for each active worktree. Sharing downloaded

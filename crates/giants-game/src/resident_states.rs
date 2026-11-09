@@ -2224,7 +2224,7 @@ impl Session {
             let context = contexts
                 .get(binding)
                 .ok_or("damage smoke cancellation binding absent, foreign or stale")?;
-            if context.recipient() != Some(id)
+            if context.origin_recipient() != Some(id)
                 || context.tag() != Some(3)
                 || !matches!(context.flags(), 0x20004 | 0x60004)
                 || context.label != *b"FX_mecc_smoking_"

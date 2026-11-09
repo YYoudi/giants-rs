@@ -1186,8 +1186,12 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   native activation/stop cases match 4,632 words; the bounded explicit stop marks
   the object dead before retiring its context and preserves its lists/resources.
   Sixteen supplied wounded-primary frames retain/reset/cancel active ownership.
-  Next acquire parent-death processing, emitter callbacks/descendants, eventual
-  dead-object destruction and world admission. Preserve
+  Parent-reference invalidation now retains the context in ParentLost before or
+  after construction: 48 native/Rust cases / 576 words agree, including repeated
+  cleanup and explicit stop after loss. Current and historical recipient
+  identities stay distinct; missing live storage/foreign Sessions are refused.
+  Next acquire global parent/child cleanup scheduling, emitter callbacks and
+  descendants, eventual dead-object destruction and world admission. Preserve
   the completed prototype PS2 lookups (all unassigned), exact PC identity, old
   aliases, separate preparation/active draws and source image ownership. See
   docs/OWNED_MECC_CONTACT.md for the staged constructor contract.

@@ -765,3 +765,37 @@ This closes canonical first activation and bounded explicit stop, not active
 particle callbacks, owner-death processing, eventual dead-object destruction or
 world scheduling. No normal-input availability or new rendered comparison is
 claimed. The new stop-function prototype PS2 searches remain unassigned.
+
+## Parent-reference invalidation — 10 November 2026
+
+`refresh_damage_smoke_parent` now projects the acquired parent-reference cleanup
+for this complete smoke frame, both before and after construction. Only the
+actual parent's dead flag invalidates its live reference. The context remains
+occupied in `DamageSmokePhase::ParentLost` (the measured PC state 3), with its
+flags, cursor, source program and historical recipient identity retained. The
+emitter is not marked dead by this context cleanup. Explicit stop remains the
+separate operation that marks it and retires the context.
+
+`recipient()` returns no live reference after invalidation; `origin_recipient()`
+keeps the identity required for cancellation and prior evidence. The original
+`binding` is historical at that point. It must not be used as a current world
+attachment. Activation of a lost request is refused without sampling. Repeating
+cleanup preserves the lost state; a missing live parent's Session storage is
+refused rather than interpreted as an observed dead flag. Foreign Session scope
+is also refused. Transactional context copies preserve the invalidation.
+
+Forty-eight original/Rust cases agree on 576 selected reference/state, flag,
+cursor, pool, RNG and child-status words across all three smoke programs, eight
+supplied flag masks and prepared/active entries. The actual native validity,
+cleanup and stop bodies run; 96 cleanup calls include the repeated-call control.
+Parent storage/pools, quality, CRT seed and outer heap/texture storage remain
+supplied. Other tested flag bits do not invalidate the reference. Separate
+installed checks preserve peers and historical identities, refuse missing or
+foreign owners and leave the emitter alive until explicit stop. The sixteen-frame
+wounded-primary composition now also invalidates the supplied dead parent before
+player cancellation; stopping still marks the actual retained emitter.
+
+This is per-context reference cleanup. The global world cleanup schedule,
+child-attachment invalidation, dead-object destruction and particle callbacks
+remain required before normal mission admission. Prototype PS2 correspondence
+for the acquired validity helper remains unknown.
