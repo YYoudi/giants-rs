@@ -906,6 +906,10 @@ payload words. Rust constructs its actual source-backed group and runs its own
 history, motion, radius refresh, contact/terrain and affine stages. It consumes
 incoming commands/forces/preferences/poses/time areas, not PC-computed intermediate
 motion. The PC common history wrapper and bounded physical prefix both execute.
+The selected control poisons only Rust's previous radius before each unlocked
+object walk, requiring actual resource refresh instead of retaining its cold
+value. Native previous radius stays initialized. Every case enters a moving,
+unlocked walk; this does not extend coverage to the radius-lock profile.
 The scene has no prepared mesh peers; the PC runs a controlled flat grid and Rust
 uses the corresponding analytic plane/key query. This does not certify terrain
 query production, nonempty original-PC scene traversal or full-world scheduling.

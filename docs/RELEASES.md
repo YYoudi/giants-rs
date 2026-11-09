@@ -27,6 +27,13 @@ of the primary still block continuous movement. Existing preview notices,
 checksums and runtime/screenshot receipts retain their exact package identities.
 Prototype PS2 attribution remains unknown; private inputs and evidence stay private.
 
+Combined checkpoint `fec0133` preserves the newer positional-impact configuration
+and post-load boundary acquisition. It passes 798 Rust tests (32 ignored), all ten
+Kabuto installed-data controls, 40 Python tests, Rustfmt, strict Clippy and generated
+site/JavaScript checks. Source audit covers 385 commits / 2,687 blobs with zero
+findings. The rebuilt actual Session runner repeats the 384-context classification
+comparison. Earlier binary/package/runtime receipts retain their exact identities.
+
 ## Positional impact activation configuration - 9 November 2026
 
 The explicit single-body impact planner retains its integer cue identity and

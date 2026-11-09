@@ -353,6 +353,18 @@ fn run_motion(with_classification: bool) {
                 )
                 .unwrap();
             if with_classification {
+                // These supplied controls enter an unlocked object walk. Poison
+                // only the Rust prior radius to prove the real resource writer
+                // runs; retaining the initialized radius must not pass parity.
+                let g = s
+                    .residents
+                    .get_mut(&owner.serial)
+                    .unwrap()
+                    .kabuto_group
+                    .as_mut()
+                    .unwrap();
+                assert_eq!(g.physics.unwrap().words()[0] & 0x100, 0);
+                g.radius = 123.;
                 classify(&factory, &mut s, owner, u64::from(w[0])).unwrap();
             }
             receipt.push_str(
