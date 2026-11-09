@@ -235,3 +235,40 @@ and retirement, then bind actual positional cue transport and the independent
 impact damage/channel services. The main replay still has its earlier step-441
 refusal. Birth completion is not lifetime completion, world integration, effect
 rendering, a new playable preview or visual fidelity.
+
+## Owned timed-impact callback and deferred mark - 9 November 2026
+
+`Session::advance_positional_impact` now runs the acquired unparented class-867
+callback over the real owned actor. It consumes supplied object-local time and
+uses the existing lifetime, size/fade and angular kernels. The first callback
+initializes animation without aging the effect, including when time is zero.
+Later callbacks publish the actual payload age, scale, transparency, angles and
+affine cache. The actual animation descriptors advance owned channels and local
+reference matrices using a caller-owned shared ANM epoch, including clock wraps.
+The supplied class has an empty event track; nonempty events, other classes and
+unacquired field profiles refuse explicitly rather than being ignored.
+
+At expiry, age is written before the required recipient-bound cue-stop provider
+is invoked. Only a successful stop permits the deferred object mark. A late stop
+failure retains the updated age, actor and earlier state, quarantines the callback
+and prevents another stop attempt. Marked actors remain owned and subsequent
+owner updates return inactive; this API does not unlink or release them.
+
+The original-PC constructor and callback execute 64 sequences / 384 callbacks.
+All 512 complete state snapshots, including the stop-entry boundary, match
+141,824 normalized header, payload and local-reference words. Numeric/flag fields
+remain compared; process addresses and typed origin presence are normalized as
+in the birth control. The native original audio-disabled gate and supplied local
+time remain explicit. These sequences observe no reads of the retired context;
+this does not establish origin semantics in other callback profiles. The source-
+resource control checks a shared epoch across two actors, zero-time first entry,
+actual reference/cache availability, mark-after-stop, retained stop failure,
+replay/foreign refusal and unchanged actor counts until Session clear.
+
+Prototype PS2 searches for the callback and touched common animation/reference,
+epoch, stop and mark helpers remain unknown attributions. Their PC identities and
+aliases stay in private continuation records; no new name or ABI is imported.
+Next acquire the common retirement path and bind real positional audio plus the
+independent impact damage/channel services. This callback is not main-world
+scheduling, audible transport, completed retirement or a later movement replay.
+The exact main runtime endpoint remains the earlier step-441 refusal.
