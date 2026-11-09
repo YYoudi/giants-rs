@@ -48,6 +48,13 @@ checksums, an unchanged reviewed PE import set and zero package-verifier blocker
 ZIP SHA256:
 `76caed8da82a186bd5a652bb303576360e60a781caeacdbd2f463956510e70b3`.
 This CPU milestone does not replace the public playable preview or its receipts.
+
+Final combined checkpoint `476344d` preserves the newer separated effect
+preparation/activation work. It passes 801 synthetic Rust tests (30 ignored),
+40 Python tests, Rustfmt, Clippy, generated site/JavaScript checks and the enriched
+Delphi installed-resource control. Rebuilt owned comparisons again match both
+256-frame cohorts and exact shared RNG. These source checks keep the earlier
+exact executable/package receipts unchanged.
 ## Positional impact activation configuration - 9 November 2026
 
 The explicit single-body impact planner retains its integer cue identity and
