@@ -208,6 +208,13 @@ actor list is scanned using acquired hidden/state/owner gates; eligible target
 services remain refusals. This control supplies offline mode context and does not
 execute active item/spell services, network transport or live Delphi gameplay.
 
+The seventh owner also publishes 64 acquired debug held caches and target rays.
+It keeps constructor reference storage unevaluated, checks replay/future refusal,
+stale held position, replaced references and failed-parent rejection. These use
+actual owned fields/bindings/reference buffers; the supplied normalization threshold
+is a test input. Whole-world order, point/candidate selection and live Delphi
+controls are not certified by this source-data check.
+
 The locomotion profile reads the original executable's data as an external asset.
 Set `GIANTS_DELPHI_EXECUTABLE` for a separate configurable metadata file; otherwise
 this source-data control reads `Giants.exe` inside `GIANTS_DELPHI_ROOT`. The file

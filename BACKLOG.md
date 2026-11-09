@@ -242,6 +242,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   lifetime, sequence construction/retirement, providers and active physical
   scheduling before admission. Existing-sequence/offline/empty-held/null-bank
   controls do not establish those integrations or live turbo/water fidelity.
+- Implemented: acquired debug normal held-cache publication with actual position
+  history and held-origin target ray, using shared affine/reference arithmetic.
+  The zeroed constructor reference buffer remains distinct from evaluated poses.
+  Native/Rust controls match 768 rays / 4,608 outputs and two 256-frame, 22-actor
+  sequences / 4,084,224 header/reference/owner/list/ray words and exact RNG.
+  Seven-owner lifecycle adds 64 publications and stale/reference/replay/failed
+  parent refusal checks. Actual aim-point and candidate queries, readiness and
+  typed target/sequence lifetimes are next; full world order, alternate locks,
+  child ANM and nonempty footprint/source-version paths remain unprepared.
+  No live Delphi or fidelity promotion follows from these geometry services.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
