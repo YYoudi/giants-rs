@@ -971,6 +971,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   retirements finish with zero active object/context heads and both supplied
   eight-slot free lists fully restored. This is not mission population/capacity.
   Rust matches 1,024 selected RNG, construction, position and matrix words.
+  Preview `preview-2026.11.09.5` pins this preparation dependency to source
+  `32286b7`; receipt-bound silent lifecycle checks and the downloaded ten-member
+  package pass. The mode/inheritance and physical-ownership prerequisites below
+  remain open; no additional film admission is counted.
   The child initial frame is now implemented in the shared skip service with no
   random draw. Actual retirement preparation uses its distinct mode and inherited
   parameter; do not substitute the existing plain positional context API.

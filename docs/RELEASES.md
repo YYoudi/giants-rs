@@ -21,7 +21,24 @@ actual frame scheduling to the main film player remain open. This is not complet
 film admission, actual mission capacity, raster/voice/timing fidelity or broader
 zero-time physical/contact coverage. The source inventory and zero certified
 complete scenes remain unchanged. Prototype PS2 correspondence remains unknown.
-Existing previews retain their exact receipts until the new build is validated.
+Published [preview-2026.11.09.5](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.5)
+pins source `32286b7852917d54fb9e4327aebb74be4984c194`, executable SHA256
+`55062d1c32ba9524693550247f1b485d62ed63328ade4cdf1e0c6edee2b871e8` and ZIP SHA256
+`d929a5bebafccadf0db529b5ab8a458d34d2d8f7ea4a466f196fb2b8f89a2002`.
+Its Rust tree is identical to the validated 809-test checkpoint (34 ignored);
+40 Python tests, formatting, strict Clippy and the source audit pass (443 commits /
+2,909 blobs / zero findings at the exact binary source). Both silent offscreen
+development endpoints, three active persistent cancellations and two Rstory1
+mission-index-2 source-terminal/re-entry cycles pass with voice/text cleanup.
+All ten package members, notices, receipt and checksums pass independent checks,
+repeated after downloading all three public assets. No interactive tests ran.
+The existing partial renderer and unresolved retirement binding retain their scope.
+
+Combined source `6000e05b566ae82646f35c953dc55ffdef13f3fc` preserves concurrent
+Mecc/Delphi/Kabuto work and passes 814 synthetic Rust tests (37 ignored),
+40 Python tests, formatting, strict Clippy and generated roadmap/site/JavaScript
+checks. Its source audit covers 448 commits / 2,924 blobs with zero findings.
+This source validation does not relabel the published binary or certify rendering.
 
 ## Kabuto owned additional-contact traversal — 9 November 2026
 
