@@ -4585,3 +4585,13 @@ unacquired owner semantics. The App impact/voice/display defaults remain guarded
 this source lot creates no public executable, screenshot or release asset.
 Prototype PS2 correspondence remains unknown. Prior previews and their notices/
 checksums retain separate identities; main integration owns combined admission.
+
+Resumed validation on 10 November uses combined checkpoint
+`f0c03b76a5ca6b4674ee476bbb02319b72936831`, preserving current main attachment,
+reference-release and timed-effect ownership changes. It passes 867 synthetic Rust
+tests (56 ignored), all twelve silent installed Mecc controls, strict workspace
+Clippy, Rustfmt, 43 Python tests and roadmap/site/JavaScript checks. Rebuilt native
+comparators repeat the 32/216-context projection/routing and 64-context voice-tail
+agreements. The enabled-mode regression separately confirms four real muted damage
+starts plus one jet start, two unique reuses without new audio draws and tracked
+asset cleanup. Native no-play and real muted playback retain separate identities.
