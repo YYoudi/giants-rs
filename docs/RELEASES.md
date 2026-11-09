@@ -40,6 +40,22 @@ remain prerequisites. Existing preview identities and receipts are unchanged;
 the main integration lane owns combined publication. No dependency, new playable
 capture or downloadable package is added by this source handoff.
 
+Combined source `bac6bdf2bd8cac2035598802f2c90798ef7e3e97` passes 839 synthetic
+workspace Rust tests (51 ignored), all four installed impact-primary controls,
+the new silent real-voice control and the existing jet/positional transport
+controls. Rustfmt, strict workspace Clippy, 41 Python tests and roadmap/site/
+JavaScript checks pass. Rebuilt comparators retain the 960 caller-policy cases
+and both earlier voice-tail datasets. The limited history-pattern audit reports
+zero findings across 551 commits / 3,437 blobs.
+
+A private MinGW debug executable from that source also runs the actual offscreen
+menu/inspection prefix: all six local damage sources reserve successfully, seven
+muted jet starts occur, and the existing missing-impact-provider refusal remains
+at step 441. The process is stopped at that explicit boundary. This is a prefix
+regression, without an impact start, completed movement cycle or cleanup/re-entry
+claim. The debug test binary is not a release asset; public preview identities
+remain independent.
+
 ## Mecc nonlethal impact voice composition — 9 November 2026, source only
 
 The owned kind-16 voice tail now composes actual Session health, its shared
