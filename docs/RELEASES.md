@@ -1,5 +1,29 @@
 # Preview releases and milestone integration
 
+## Source-ordered initial mission affine — 9 November 2026
+
+The call following the acquired placement header is the existing affine writer,
+not a behavior callback. The common loader now stages that initial cache for its
+ordinary state0/state23 mission roots, using the class scale before a later
+mission scale override. It retains the initial matrix after the override and
+refuses a stale current-pose query until a real subsequent writer runs. Failure
+publishes no declaration, resident or resource identity. World declarations and
+other character startup ordering keep their existing routes.
+
+The unchanged math kernels reuse their retained 2,048-case native proof. A new
+64-case original root/scale/writer control matches 2,304 words: 42 actual scale
+changes preserve the old cache until an explicit rewrite. Four-world source
+construction retains 24 current and eight stale mission caches, releases all 101
+tracked residents and keeps 40 existing refusals. The 32 selected root declarations
+have no separate orientation-store requests. Synthetic controls also cover failed
+preparation, duplicate source keys and the actual later-cache rewrite.
+
+This is initial-cache integration, not a complete mission VM, shared physical
+stock accounting, world admission or visual/temporal fidelity result. Prototype
+PS2 correspondence remains unknown. The full 545-source scope and zero certified
+complete scenes remain unchanged; other mission commands and loading services
+remain open.
+
 ## Kabuto owned input/orientation and force integration — 9 November 2026
 
 The bounded prefix now owns model rates, velocities, look and input state and

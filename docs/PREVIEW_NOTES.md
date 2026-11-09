@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.09.1
+# Windows x64 development preview - preview-2026.11.09.2
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -14,7 +14,15 @@ fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source reposit
 
 ## Ordinary mission placement headers
 
-Compared with preview-2026.11.06.3, the common owned loader now marks its acquired
+Compared with preview-2026.11.09.1, the common loader now stages the acquired
+initial affine cache for its ordinary state0/state23 mission roots. It uses the
+source class scale before later mission scale overrides. An override retains the
+initial cache; current-pose queries refuse it until a real later writer runs.
+Failed preparation publishes no actor or declaration. Four-world CPU source
+controls retain 24 current and eight stale mission caches with tracked release.
+This adds no full mission VM, world admission or verified scene fidelity.
+
+Retained from preview-2026.11.09.1, the common owned loader marks its acquired
 ordinary state0/state23 mission actors after successful construction. World
 declarations retain their own route, and other character startup ordering remains
 separate. The existing mission herd-marker path shares the same operation.
@@ -56,8 +64,8 @@ original saves are not imported. Selected missions can present partial cinematic
 and supported Mecc controls. Unsupported entries may remain scene inspection or
 refuse startup. User state is outside the read-only installation. Read QUICK_START.md.
 
-The combined source passes 775 synthetic Rust tests (29 ignored), 40 Python tests,
-Rustfmt and Clippy. Exact executable/package receipts and runtime checks are
+Synthetic tests, Rustfmt and Clippy follow docs/BUILD.md. Exact source counts,
+executable/package receipts and silent runtime checks are
 recorded in RELEASES.md and the release manifest. Earlier previews' UI or natural-
 ending checks are not re-labelled as measurements of this combined executable.
 
