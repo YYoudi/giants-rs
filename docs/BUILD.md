@@ -52,6 +52,20 @@ has that layout. When it differs, set `GIANTS_DELPHI_EXECUTABLE` explicitly to t
 read-only, identity-checked reference used for the acquisition. A layout refusal
 is an unsupported input profile, not permission to bypass the reader or claim a
 successful composition. The portable synthetic checks need no such executable.
+With the same `GIANTS_DELPHI_ROOT`, the ignored
+`source_delphi_proxy_is_direct_zero_state_without_effect_origin` control checks
+three actual source-backed direct target proxies, zero state78 payload, unchanged
+class flags, common-list-only membership, refused ordinary affine access, clear
+and re-entry. It is silent CPU construction, with no live target assignment,
+proxy update, render submission or world scheduler.
+
+With `GIANTS_FLICK_ROOT` set to a user-supplied installation, the ignored
+`source_timed_effect_owns_resources_and_quarantines_late_services` control checks
+bounded timed resource ownership after context/external resource release, shared
+ANM epoch wrap and retained writes/quarantine after declared late physical and
+retirement failures. It is silent CPU composition, with no world admission,
+original-process launch, window, audio or complete cinematic-fidelity claim.
+
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.
 Use a separate Cargo target directory for each active worktree. Sharing downloaded
@@ -64,6 +78,22 @@ bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Wind
 or GIANTS_INSPECTION_FONT, never bundled. Game data is read-only; user state goes
 outside the installation. Interactive coverage is limited to the exact preview
 and mission recorded in RELEASES.md; broader gameplay and fidelity remain pending.
+
+## Optional NPC source-resource lifecycle check
+
+For NPC source-resource ownership regression, set `GIANTS_NPC_ROOT` to the
+user-supplied installation and use an isolated Cargo target:
+
+```powershell
+cargo test --locked -p giants-game source_npc_herd --target x86_64-pc-windows-gnu -- --ignored --nocapture
+```
+
+This silent CPU check uses authored herd/marker values with a supplied flat
+floor, clock and RNG. It covers births, first initialization, owner identity,
+terrain-failure quarantine, replay refusal and cleanup. It does not establish
+live NPC AI, player interaction, world scheduling or rendering. See
+[OWNED_NPCS.md](OWNED_NPCS.md).
+It loads world declarations only; mission markers are outside this fixture.
 
 ## Optional subjective Mecc lifecycle check
 

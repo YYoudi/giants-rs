@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.09.10
+# Windows x64 development preview - preview-2026.11.09.12
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -26,6 +26,14 @@ jet-plume, descent/contact and complete landing integration remain pending.
 Historical scripted gallery captures do not establish availability in ordinary
 gameplay. The existing menu-first development application remains incomplete;
 no additional full-scene or gameplay-fidelity result is certified.
+
+## Owned timed effect callbacks
+
+Timed-effect resource ownership and callback ordering now have broader CPU
+controls, including zero-delta updates and late service failures. Existing main
+attached effects and impacts share the acquired first-entry helper. The new timed
+owner still needs actual world preparation/physics/retirement/stock providers
+before admission to the main film; no additional complete cinematic is certified.
 
 ## Timed effect configuration dependency
 

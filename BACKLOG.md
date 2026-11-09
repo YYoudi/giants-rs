@@ -38,6 +38,29 @@ matches probable and one unassigned. No gameplay status changes follow from name
 
 ## Parallel character work
 
+### NPC and interaction lane
+
+The dedicated NPC lane resumes existing work; see
+[OWNED_NPCS.md](docs/OWNED_NPCS.md) for the service inventory and boundaries.
+
+- Revalidate the authored herd -> Vimp birth -> initialization chain on current
+  source, retaining terrain/clock/RNG test boundaries and failure quarantine.
+  First installed control passes 28 parents / 313 initialized children and 26
+  injected terrain failures. Preserve two inactive-parent exclusions and two
+  parser-refused world files; they are not empty or fully covered populations.
+- Connect herd scheduling and admitted Vimp updates to actual world ownership,
+  then acquire threat/feeding services and active effects/audio before ordinary
+  mission admission. Preserve existing refusal and late-failure behavior.
+- Resume the persistent Ripper primary/perception/attack services, actual player
+  target identities, physical/ANM order and required firing/audio/effect providers.
+  Do not replace them with a generic new AI or enable unsupported modes.
+- Reuse Smartie carry/drop ownership; acquire initialization and independent
+  rescue/follow/work/fear behavior separately. Workers/economy, allied squad AI,
+  other enemies/bosses and interactive world objects remain explicit scope.
+- Keep character-player and Flick changes separate, preserve concurrent shared
+  service work, and hand coherent validated runtime patches to main integration.
+  No private research records or original data may enter the public repository.
+
 The main integration lane owns combined runtime wiring and delivery, using
 [INTEGRATION.md](docs/INTEGRATION.md). Prioritize ordinary gameplay reachability
 and cross-lane regression checks over additional stand-alone demonstrations.
@@ -307,6 +330,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   fallback. Next: typed pending/active target publication and readiness, including
   source power/comparison ties and optional retarget/proxy paths, then real movement/
   sequence/audio/physics scheduling. No live Delphi/fidelity promotion follows.
+- Implemented: linked-readiness cost/prefix, its distinct eligibility policy and
+  target-proxy matrix match 2,048 original-PC/Rust contexts / 12,288 words.
+  Preserve stored f32 squared distance and the wide cost comparison, incoming
+  readiness on insufficient reserve, actual selected-player context and raw
+  affine column. Direct class3d4/state78 birth reuses common resources without
+  inventing FX origin/physical initialization; 156 selected normalized words
+  match one original birth. Three concurrent source constructors, clear and
+  re-entry are checked. Headers/context/rates/dimensions/dispatch and native
+  resource/heap setup remain supplied. Next: actual typed pending/active target
+  producer/lifetime, optional Kabuto relationship and retarget, owned proxy
+  update/retirement and complete readiness/primary composition before movement,
+  sequence/audio/physics scheduling. No live Delphi or fidelity promotion follows.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -1154,6 +1189,25 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation requests. All 2,104 constructed residents release. Preserve the
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
+
+- Bounded timed effects now retain their source image, class/state resources,
+  owned reference cache and one actual inline payload across context retirement.
+  Their acquired callback orders the first-frame gate, lifetime/transparency,
+  required physical service, matrix updates, shared ANM epoch/references and
+  required retirement service before deferred marking. Positive and zero-delta
+  original-PC controls match 576 callbacks / 100,224 selected configuration,
+  header, payload, channel and matrix words across 64 controlled parent/child
+  lifecycles. The fixture executes 192 common physical and 128 retirement service
+  calls; ordinary post-callback preparation, motion/world inputs and stock remain
+  supplied. These are not 64 separate source films or a complete world scheduler.
+  An installed-data failure control retains resources after external owners drop,
+  preserves partial physical/age writes and quarantines late failures without
+  replay. The common first-entry helper is reused by existing main cinematic
+  attached effects and owned positional impacts. The new timed owner itself is
+  not yet admitted by the main film. Next: bind actual ordinary preparation,
+  physical/retirement/context/stock owners and world RNG/cadence. All 545-source
+  inventory totals and zero certified scenes remain unchanged; prototype PS2
+  counterparts remain unknown.
 
 - The acquired timed attached and detached linear-gravity frames now compose
   their following VM commands with the shared owned initial constructor. Separate

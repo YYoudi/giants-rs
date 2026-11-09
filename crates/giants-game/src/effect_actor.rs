@@ -44,6 +44,20 @@ pub struct Configured<K> {
     pub transparency: f32,
     pub visual: crate::effect_visual::Visual,
     pub retirement: Option<crate::effect_scene::RetirementBinding>,
+    pub(crate) source: Arc<giants_formats::effect_image::Image>,
+}
+
+/// Shared acquired callback entry, before lifetime, physical or ANM services.
+pub(crate) fn callback_entry(fields: &mut Fields, render_flags: u32) -> bool {
+    fields.object_flags |= 0x40;
+    let first = fields.control_flags & 0x20 != 0;
+    if first {
+        fields.control_flags &= !0x20;
+        if render_flags & 0x10000 == 0 {
+            fields.object_flags &= !0x40000000;
+        }
+    }
+    first
 }
 
 /// Shared acquired lifetime operands. This does not publish an actor or advance
@@ -108,6 +122,7 @@ impl<K> Initial<K> {
     fn timed(
         mut self,
         configuration: crate::effect_visual::Configuration,
+        source: Arc<giants_formats::effect_image::Image>,
     ) -> Result<Configured<K>, String> {
         let life = [
             configuration.lifetime,
@@ -130,6 +145,7 @@ impl<K> Initial<K> {
             transparency: visual.transparency,
             visual,
             retirement: None,
+            source,
         })
     }
     /// A view of the actual owned payload, never a second physical allocation.
@@ -200,13 +216,16 @@ impl Template {
         let mut seed = random.0;
         let size = crate::timed_effect::sample(&mut seed, recipe.range);
         initial.size([size; 2], false)?;
-        let mut configured = initial.timed(crate::effect_visual::Configuration {
-            lifetime: life[0],
-            fade_in: life[1],
-            fade_out_start: life[2],
-            start_size: size,
-            end_size: size,
-        })?;
+        let mut configured = initial.timed(
+            crate::effect_visual::Configuration {
+                lifetime: life[0],
+                fade_in: life[1],
+                fade_out_start: life[2],
+                start_size: size,
+                end_size: size,
+            },
+            image.clone(),
+        )?;
         configured.initial.fields.control_flags |= 1;
         configured.retirement = Some(crate::effect_scene::RetirementBinding {
             effect: recipe.child,
@@ -233,7 +252,7 @@ impl Template {
             [recipe.visual.start_size, recipe.visual.end_size],
             recipe.visual.start_size != recipe.visual.end_size,
         )?;
-        let mut configured = initial.timed(recipe.visual)?;
+        let mut configured = initial.timed(recipe.visual, context.source_image())?;
         configured.initial.fields.object_flags &= !0x10;
         configured.initial.fields.control_flags |= 0x80;
         configured.initial.seed.storage.data_mut().unwrap()[0xa4..0xa8]
