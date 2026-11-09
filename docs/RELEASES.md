@@ -34,6 +34,53 @@ endpoint retains its earlier step-441 refusal; no later runtime trajectory,
 new capture or visual fidelity is claimed. Existing preview receipts stay bound
 to their original executables and source commits.
 
+## Source-ordered initial mission affine — 9 November 2026
+
+The call following the acquired placement header is the existing affine writer,
+not a behavior callback. The common loader now stages that initial cache for its
+ordinary state0/state23 mission roots, using the class scale before a later
+mission scale override. It retains the initial matrix after the override and
+refuses a stale current-pose query until a real subsequent writer runs. Failure
+publishes no declaration, resident or resource identity. World declarations and
+other character startup ordering keep their existing routes.
+
+The unchanged math kernels reuse their retained 2,048-case native proof. A new
+64-case original root/scale/writer control matches 2,304 words: 42 actual scale
+changes preserve the old cache until an explicit rewrite. Four-world source
+construction of the first menu mission in each of four cohort worlds retains
+24 current and eight stale mission caches, releases all 101
+tracked residents and keeps 40 existing refusals. The 32 selected root declarations
+have no separate orientation-store requests. Synthetic controls also cover failed
+preparation, duplicate source keys and the actual later-cache rewrite.
+
+A separate CPU sweep prepares all 56 named menu missions across 19 menu worlds. Among the acquired mission roots, 438 caches remain current and 235 retain an earlier scale; no additional orientation-store request occurs in these roots. All 2,104 constructed residents are released. The 840 class-profile refusals and 10,852 declarations in other state profiles remain explicit exclusions. These are repeated per-mission counts, not unique world objects or complete gameplay admission.
+
+Validation of binary source `6eaa3d0ee04b93033510ea875dc5e9c23d54d76c`: 788 Rust tests pass
+(30 ignored), 40 Python tests, formatting and strict Clippy pass. Source audit
+examines 362 commits / 2,591 blobs with zero findings. Silent offscreen controls
+pass both development endpoints, three live-effect cancellations and two Rstory1
+source-terminal/re-entry cycles with voice/text cleanup. Interactive and native
+scene-timing checks remain open.
+
+Preview `preview-2026.11.09.2` pins that exact source; executable SHA256
+`b6f0f30c72853f9ddee1530b0ad53908eaf5376c5930063e010ff37d0d5a3e96`, ZIP SHA256
+`944491cd3faed9f35dc42d3b3bd8b20c10bfc27f727ccac2e26a0b2f98e0659e`. The ten-member package passes receipt, notice and checksum
+checks; the three uploaded assets were downloaded again and all ten package
+members and adjacent checksums verified independently.
+
+Combined source `50866e4ea247e6620fab32e7dbc291c4373bac42` retains the newer
+Delphi ordinary-view work and passes 791 Rust tests (30 ignored), 40 Python
+tests, formatting, strict Clippy and site/JavaScript checks. Its source audit
+covers 368 commits / 2,606 blobs with zero findings. These are combined-source
+checks; the published binary and its offscreen controls remain pinned to
+`6eaa3d0`, with no additional runtime or fidelity claim.
+
+This is initial-cache integration, not a complete mission VM, shared physical
+stock accounting, world admission or visual/temporal fidelity result. Prototype
+PS2 correspondence remains unknown. The full 545-source scope and zero certified
+complete scenes remain unchanged; other mission commands and loading services
+remain open.
+
 ## Owned Delphi ordinary view composition - 9 November 2026
 
 The local class-3 mode-zero view now selects acquired external base/scaled
@@ -81,6 +128,7 @@ Final combined checkpoint `8ac8922` additionally retains the newer Kabuto motion
 prefix. It passes 790 synthetic Rust tests (30 ignored), 40 Python tests,
 Rustfmt, Clippy and generated site/JavaScript checks. Delphi camera sources and
 their recorded control identities are unchanged; this is not another runtime run.
+
 ## Kabuto owned input/orientation and force integration — 9 November 2026
 
 The bounded prefix now owns model rates, velocities, look and input state and
