@@ -1,6 +1,5 @@
-//! Owned bounded state78 timed callbacks over the actual inline payload.
-//! Ordinary preparation, physical/world services and stock retirement remain
-//! explicit callers. This object is not a world-admission or renderer token.
+//! Acquired timed callbacks, shared by staged objects and canonical Session actors.
+//! Native clocks, physical/world services and stock admission remain explicit.
 use crate::{
     actor_references::Owned,
     animation_epoch::Stamp,
@@ -10,13 +9,9 @@ use crate::{
     procedural_aim::Matrix,
 };
 use giants_formats::effect_image::Image;
+use std::sync::Arc;
 
-/// Required native service boundaries. There are no default success providers.
-/// Physical services own the remaining motion/world state and update this
-/// object's actual fields/payload. Retirement prepares its real child/services;
-/// deferred marking follows success. Neither operation frees ordinary slots.
-/// `seconds` is the effect callback's sampled time; a physical provider must
-/// retain its own acquired clock queries rather than assume all phases share it.
+/// Required native boundaries; no default success provider is installed.
 pub trait Services<K> {
     fn physical(&mut self, object: &mut Initial<K>, seconds: f32) -> Result<(), String>;
     fn retire(
@@ -26,7 +21,6 @@ pub trait Services<K> {
         binding: Option<&RetirementBinding>,
     ) -> Result<(), String>;
 }
-
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Step {
     FirstFrame,
@@ -35,16 +29,66 @@ pub enum Step {
     Inactive,
 }
 
-pub struct Timed<K> {
-    configured: Configured<K>,
-    template: Template,
-    references: Owned,
+/// Exclusive mutable borrow of the actual owner. Session channels may reside
+/// outside the construction header snapshot; no payload or reference copy is made.
+pub(crate) struct Body<'a, K> {
+    pub fields: &'a mut crate::actor_fields::Fields,
+    pub seed: &'a mut crate::state_storage::Seed,
+    pub matrix: &'a mut Matrix,
+    pub channels: Option<&'a mut crate::animation_channels::Channels>,
+    pub references: &'a mut Owned,
+    pub placement: crate::effect_actor::Placement<K>,
+    pub render_flags: u32,
+}
+impl<K> Body<'_, K> {
+    fn channels(&self) -> &crate::animation_channels::Channels {
+        self.channels.as_deref().unwrap_or(&self.fields.channels)
+    }
+    fn channels_mut(&mut self) -> &mut crate::animation_channels::Channels {
+        self.channels
+            .as_deref_mut()
+            .unwrap_or(&mut self.fields.channels)
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) enum Boundary {
+    Physical,
+    Retirement,
+    Animation,
+    Inactive,
+}
+/// Callback-only metadata; live fields, payload, channels and references belong
+/// to Body's actual owner. A pending boundary cannot start another callback.
+pub(crate) struct Runtime {
+    pub class: i32,
+    pub bindings: Vec<crate::model_registry::StateBinding>,
+    pub states: Arc<crate::state_resources::Prepared>,
+    pub fade: [f32; 4],
+    pub transparency: f32,
+    visual: crate::effect_visual::Visual,
+    pub retirement: Option<RetirementBinding>,
+    pub source: Arc<Image>,
     durations: Vec<Option<f32>>,
     immutable_words: [u32; 3],
-    epoch: u32,
-    failure: Option<String>,
+    pub epoch: u32,
+    pub failure: Option<String>,
+    pending: Option<(VisualStep, bool)>,
 }
-
+impl std::fmt::Debug for Runtime {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("TimedCallback")
+            .field("class", &self.class)
+            .field("epoch", &self.epoch)
+            .field("failure", &self.failure)
+            .field("pending", &self.pending)
+            .finish_non_exhaustive()
+    }
+}
+pub struct Timed<K> {
+    pub(crate) initial: Initial<K>,
+    pub(crate) runtime: Runtime,
+    pub(crate) references: Owned,
+}
 impl<K: Copy> Timed<K> {
     /// Stage ownership while the caller retains the context transaction. The
     /// pool's consume method additionally guards and retires its live identity.
@@ -96,9 +140,7 @@ fn source_scope<K>(
     Ok(())
 }
 
-impl<K> Timed<K> {
-    /// Retain all class/state/reference and source-image owners. This performs
-    /// neither ordinary preparation nor the first callback, even at zero time.
+impl<K: Copy> Timed<K> {
     fn new(template: Template, configured: Configured<K>) -> Result<Self, String> {
         let initial = &configured.initial;
         if initial.fields.class != template.fields.class
@@ -123,57 +165,101 @@ impl<K> Timed<K> {
         let immutable_words = [4, 0x10, 0x14].map(|at| word(data, at));
         let references = Owned::new(template.specification.clone())?;
         let mut durations = vec![None; 256];
-        for (&slot, descriptor) in &template.specification.animations {
-            durations[usize::from(slot)] = Some(descriptor.template.duration);
+        for (&slot, d) in &template.specification.animations {
+            durations[usize::from(slot)] = Some(d.template.duration);
         }
-        let owned = Self {
-            configured,
-            template,
+        let mut owned = Self {
+            initial: configured.initial,
             references,
-            durations,
-            immutable_words,
-            epoch: 0,
-            failure: None,
+            runtime: Runtime {
+                class: template.fields.class,
+                bindings: template.bindings,
+                states: template.states,
+                fade: configured.fade,
+                transparency: configured.transparency,
+                visual: configured.visual,
+                retirement: configured.retirement,
+                source: configured.source,
+                durations,
+                immutable_words,
+                epoch: 0,
+                failure: None,
+                pending: None,
+            },
         };
-        owned.preflight()?;
+        let (runtime, body) = owned.borrow();
+        runtime.preflight(&body)?;
         Ok(owned)
     }
-
-    pub fn object(&self) -> &Initial<K> {
-        &self.configured.initial
+    fn borrow(&mut self) -> (&mut Runtime, Body<'_, K>) {
+        (
+            &mut self.runtime,
+            Body {
+                fields: &mut self.initial.fields,
+                seed: &mut self.initial.seed,
+                matrix: &mut self.initial.matrix,
+                channels: None,
+                references: &mut self.references,
+                placement: self.initial.placement,
+                render_flags: self.initial.render_flags,
+            },
+        )
     }
-    /// Access for the acquired ordinary preparation writer, not permission to
-    /// rewrite a lifetime, install a guessed placement or bypass world admission.
+    pub fn object(&self) -> &Initial<K> {
+        &self.initial
+    }
+    /// Acquired ordinary writers only; does not admit the actor to a world.
     pub fn object_mut(&mut self) -> &mut Initial<K> {
-        &mut self.configured.initial
+        &mut self.initial
     }
     pub fn transparency(&self) -> f32 {
-        self.configured.transparency
+        self.runtime.transparency
     }
     pub fn fade(&self) -> [f32; 4] {
-        self.configured.fade
+        self.runtime.fade
     }
     pub fn failure(&self) -> Option<&str> {
-        self.failure.as_deref()
+        self.runtime.failure.as_deref()
     }
     pub fn retirement(&self) -> Option<&RetirementBinding> {
-        self.configured.retirement.as_ref()
+        self.runtime.retirement.as_ref()
     }
     pub fn animation_epoch(&self) -> u32 {
-        self.epoch
+        self.runtime.epoch
     }
     pub fn state_resources(&self) -> &crate::state_resources::Prepared {
-        &self.template.states
+        &self.runtime.states
     }
     pub fn current_references(&self) -> Result<&[Matrix], String> {
         self.references
-            .current_matrices(&self.configured.initial.fields.channels)
+            .current_matrices(&self.initial.fields.channels)
     }
-
-    /// Acquired parented, stationary-relative-to-history preparation profile.
-    /// The callback (including retirement) precedes finalization and attachment.
-    /// Support pose/scale are real caller inputs. Dispatcher sleep/model-rate
-    /// producers, ordinary slots and the detached environment remain external.
+    pub fn advance(
+        &mut self,
+        seconds: f32,
+        stamp: &mut Stamp,
+        services: &mut impl Services<K>,
+    ) -> Result<Step, String> {
+        let boundary = {
+            let (runtime, mut body) = self.borrow();
+            runtime.begin(&mut body, seconds)?
+        };
+        if boundary == Boundary::Inactive {
+            return Ok(Step::Inactive);
+        }
+        let result = match boundary {
+            Boundary::Physical => services.physical(&mut self.initial, seconds),
+            Boundary::Retirement => services.retire(
+                &self.initial,
+                &self.runtime.source,
+                self.runtime.retirement.as_ref(),
+            ),
+            Boundary::Animation => Ok(()),
+            Boundary::Inactive => unreachable!(),
+        };
+        let (runtime, mut body) = self.borrow();
+        runtime.finish(&mut body, seconds, stamp, result)
+    }
     pub fn prepare_attached(
         &mut self,
         support: Matrix,
@@ -182,12 +268,36 @@ impl<K> Timed<K> {
         stamp: &mut Stamp,
         services: &mut impl Services<K>,
     ) -> Result<Step, String> {
-        self.preflight()?;
-        let b = &self.configured.initial;
-        let crate::effect_actor::Placement::Attached { reference, .. } = &b.placement else {
+        {
+            let (runtime, mut body) = self.borrow();
+            if !runtime.begin_parented(&mut body, support, support_scale, seconds)? {
+                return Ok(Step::Inactive);
+            }
+        }
+        let next = self.advance(seconds, stamp, services)?;
+        let (runtime, mut body) = self.borrow();
+        runtime.finish_parented(&mut body, support, support_scale, seconds)?;
+        Ok(next)
+    }
+}
+impl Runtime {
+    pub(crate) fn awaiting_physical(&self) -> bool {
+        matches!(self.pending, Some((VisualStep::VisibleState, _)))
+    }
+    pub(crate) fn idle(&self) -> bool {
+        self.pending.is_none()
+    }
+    pub(crate) fn begin_parented<K>(
+        &self,
+        b: &mut Body<'_, K>,
+        support: Matrix,
+        support_scale: f32,
+        seconds: f32,
+    ) -> Result<bool, String> {
+        self.preflight(b)?;
+        if !matches!(b.placement, crate::effect_actor::Placement::Attached { .. }) {
             return Err("parented preparation requires actual attachment binding".into());
-        };
-        let reference = *reference as usize;
+        }
         if b.fields.configuration[14] & 0x10 != 0
             || b.fields.position.map(f32::to_bits) != b.fields.current.map(f32::to_bits)
         {
@@ -203,15 +313,28 @@ impl<K> Timed<K> {
             return Err("parented preparation outside finite pose/time profile".into());
         }
         if b.fields.object_flags & 0xc000 != 0 {
-            return Ok(Step::Inactive);
+            return Ok(false);
         }
-        self.configured.initial.fields.object_flags &= !0x40;
-        let next = self.advance(seconds, stamp, services)?;
+        b.fields.object_flags &= !0x40;
+        Ok(true)
+    }
+    pub(crate) fn finish_parented<K>(
+        &mut self,
+        b: &mut Body<'_, K>,
+        support: Matrix,
+        support_scale: f32,
+        seconds: f32,
+    ) -> Result<(), String> {
+        let crate::effect_actor::Placement::Attached { reference, .. } = &b.placement else {
+            return Err("parented preparation requires actual attachment binding".into());
+        };
+        let reference = *reference as usize;
         let result = (|| -> Result<(), String> {
             // This profile has a real parent and physical storage, no relative
             // displacement. Reuse common finalization; any unexpected required
             // footprint/environment service refuses rather than succeeding.
-            let f = &mut self.configured.initial.fields;
+            let own_channels = *b.channels();
+            let f = &mut *b.fields;
             let mut fields = crate::collider_copy::Fields::zeroed();
             fields.class = f.class as u32;
             fields.current = f.position;
@@ -245,28 +368,25 @@ impl<K> Timed<K> {
             .map_err(|e| e.to_string())?;
             f.position = finalized.fields.current;
             f.object_flags = finalized.fields.object_flags;
-            let own = self
+            let own = b
                 .references
-                .current_matrices(&f.channels)?
+                .current_matrices(&own_channels)?
                 .get(reference)
                 .copied()
                 .ok_or("parented effect reference absent")?;
-            self.configured.initial.matrix =
-                crate::effect_actor::bind_parented(f, support, support_scale, own)?;
+            *b.matrix = crate::effect_actor::bind_parented(f, support, support_scale, own)?;
             Ok(())
         })();
         if let Err(ref error) = result {
             self.failure = Some(error.clone());
         }
         result?;
-        Ok(next)
+        Ok(())
     }
-
-    fn preflight(&self) -> Result<(), String> {
-        if self.failure.is_some() {
-            return Err("timed callback is quarantined after a late failure".into());
+    pub(crate) fn preflight<K>(&self, b: &Body<'_, K>) -> Result<(), String> {
+        if self.failure.is_some() || self.pending.is_some() {
+            return Err("timed callback is pending or quarantined after a late failure".into());
         }
-        let b = &self.configured.initial;
         let data = b
             .seed
             .storage
@@ -278,16 +398,17 @@ impl<K> Timed<K> {
             || b.seed.storage.state() != 78
             || data.len() != 268
             || word(data, 0) != 1
-            || b.fields.class != self.template.fields.class
+            || b.fields.class != self.class
+            || b.channels().iter().any(|c| c[4] != 0 || c[5] != 0)
             || b.fields.control_flags & !allowed != 0
             || b.fields.control_flags & 2 == 0
             || (b.fields.control_flags & 0x80 != 0) != physical
             || (b.fields.control_flags & 8 != 0)
                 != (self.immutable_words[1] != self.immutable_words[2])
-            || (b.fields.control_flags & 1 != 0) != self.configured.retirement.is_some()
+            || (b.fields.control_flags & 1 != 0) != self.retirement.is_some()
             || !matches!(b.render_flags, 0 | 0x1000)
             || [4, 0x10, 0x14].map(|at| word(data, at)) != self.immutable_words
-            || word(data, 8) != self.configured.visual.age.to_bits()
+            || word(data, 8) != self.visual.age.to_bits()
             || data[0xf8..0x10c].iter().any(|&b| b != 0)
         {
             return Err("timed callback outside acquired clock/payload/service profile".into());
@@ -295,65 +416,73 @@ impl<K> Timed<K> {
         Ok(())
     }
 
-    /// Caller supplies the already-resolved object timestep and the shared ANM
-    /// epoch. Ordinary preparation may itself call this first entry; it must not
-    /// then be replayed by a second initialization clock.
-    pub fn advance(
+    /// Publish the acquired prefix before returning the required service. The
+    /// actor remains registered while a Session provider executes that service.
+    pub(crate) fn begin<K>(
         &mut self,
+        b: &mut Body<'_, K>,
         seconds: f32,
-        stamp: &mut Stamp,
-        services: &mut impl Services<K>,
-    ) -> Result<Step, String> {
+    ) -> Result<Boundary, String> {
         if !seconds.is_finite() || seconds < 0. {
             return Err("timed callback requires finite nonnegative object time".into());
         }
-        self.preflight()?;
-        if self.configured.initial.fields.object_flags & 0xc000 != 0 {
-            return Ok(Step::Inactive);
+        self.preflight(b)?;
+        if b.fields.object_flags & 0xc000 != 0 {
+            return Ok(Boundary::Inactive);
         }
-        let mut visual = self.configured.visual.clone();
+        let mut visual = self.visual.clone();
         let next = visual.advance(seconds)?;
-        let first = self.configured.initial.fields.control_flags & 0x20 != 0;
+        let first = b.fields.control_flags & 0x20 != 0;
         if first != (next == VisualStep::FirstFrame) {
             return Err("timed constructor gate and lifetime phase disagree".into());
         }
-        // Completed writes survive later service/ANM errors; quarantine prevents
-        // replaying a retirement or physical boundary after partial publication.
+        self.pending = Some((next, first));
+        crate::effect_actor::callback_entry(b.fields, b.render_flags);
+        b.seed.storage.data_mut().unwrap()[8..12].copy_from_slice(&visual.age.to_le_bytes());
+        self.visual = visual;
+        if next == VisualStep::Expired {
+            return Ok(Boundary::Retirement);
+        }
+        if next == VisualStep::VisibleState {
+            self.transparency = self.visual.transparency;
+            b.fields.scale = self.visual.size;
+            if self.fade[0] <= self.visual.age {
+                b.fields.control_flags &= !0x800000;
+            }
+            if b.fields.control_flags & 0x80 != 0 {
+                return Ok(Boundary::Physical);
+            }
+        }
+        Ok(Boundary::Animation)
+    }
+    pub(crate) fn finish<K>(
+        &mut self,
+        b: &mut Body<'_, K>,
+        seconds: f32,
+        stamp: &mut Stamp,
+        service: Result<(), String>,
+    ) -> Result<Step, String> {
         let result = (|| -> Result<Step, String> {
-            let b = &mut self.configured.initial;
-            crate::effect_actor::callback_entry(&mut b.fields, b.render_flags);
-            b.seed.storage.data_mut().unwrap()[8..12].copy_from_slice(&visual.age.to_le_bytes());
-            self.configured.visual = visual;
+            let (next, first) = self
+                .pending
+                .take()
+                .ok_or("timed callback has no pending service boundary")?;
+            service?;
             if next == VisualStep::Expired {
-                services.retire(
-                    b,
-                    &self.configured.source,
-                    self.configured.retirement.as_ref(),
-                )?;
                 b.fields.object_flags |= 0x8000;
                 return Ok(Step::Marked);
             }
-            if next == VisualStep::VisibleState {
-                self.configured.transparency = self.configured.visual.transparency;
-                b.fields.scale = self.configured.visual.size;
-                if self.configured.fade[0] <= self.configured.visual.age {
-                    b.fields.control_flags &= !0x800000;
-                }
-                if b.fields.control_flags & 0x80 != 0 {
-                    services.physical(b, seconds)?;
-                }
-                if b.fields.control_flags & 8 != 0 {
-                    let mut matrix = crate::effect_orientation::matrix(
-                        b.fields.position,
-                        b.fields.angles,
-                        b.fields.scale,
-                    )?;
-                    matrix.values[12..].copy_from_slice(&b.matrix.values[12..]);
-                    b.matrix = matrix;
-                }
+            if next == VisualStep::VisibleState && b.fields.control_flags & 8 != 0 {
+                let mut matrix = crate::effect_orientation::matrix(
+                    b.fields.position,
+                    b.fields.angles,
+                    b.fields.scale,
+                )?;
+                matrix.values[12..].copy_from_slice(&b.matrix.values[12..]);
+                *b.matrix = matrix;
             }
             let tick = crate::animation_channels::advance(
-                &mut b.fields.channels,
+                b.channels_mut(),
                 &self.durations,
                 [],
                 seconds,
@@ -364,8 +493,8 @@ impl<K> Timed<K> {
             }
             if tick.processed != 0 {
                 self.epoch = stamp.advance();
-                self.references
-                    .update_current(&b.fields.channels, self.epoch)?;
+                let channels = *b.channels();
+                b.references.update_current(&channels, self.epoch)?;
             }
             Ok(if first {
                 Step::FirstFrame
@@ -379,7 +508,6 @@ impl<K> Timed<K> {
         result
     }
 }
-
 fn word(data: &[u8], at: usize) -> u32 {
     u32::from_le_bytes(data[at..at + 4].try_into().unwrap())
 }

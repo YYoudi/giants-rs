@@ -19,6 +19,8 @@ mod mecc_impact;
 pub use mecc_impact::Voice as MeccImpactVoice;
 mod reference_camera;
 mod subjective;
+mod timed_effect;
+pub use timed_effect::Services as TimedEffectServices;
 
 struct OwnedSpecification(crate::actor_references::Owned);
 impl std::fmt::Debug for OwnedSpecification {
@@ -362,6 +364,7 @@ pub struct Resident {
     enemy_projectile: Option<crate::enemy_projectile::Metadata>,
     attached_effect: Option<crate::attached_effect_object::Metadata>,
     positional_impact: Option<crate::positional_impact::Metadata>,
+    timed_effect: Option<timed_effect::Metadata>,
     environment: Option<crate::resident_environment::Prepared>,
     ordinary_motion: Option<crate::resident_motion::Owned>,
     ripper_primary:
@@ -586,6 +589,7 @@ impl Session {
                 enemy_projectile: None,
                 attached_effect: None,
                 positional_impact: None,
+                timed_effect: None,
                 environment: None,
                 ordinary_motion: None,
                 ripper_primary: None,
@@ -10480,8 +10484,8 @@ impl Session {
             registrations: (0..15).map(|list| self.links.list(list).len()).sum(),
         }
     }
-    /// Unlink before dropping unbound byte copies. This does not invoke a
-    /// native actor destructor: no native resource/service was constructed.
+    /// Unlink before dropping Rust-owned payloads and resource caches. This
+    /// cancels Session ownership; native world retirement services are separate.
     pub fn clear(&mut self) -> Counts {
         let counts = self.counts();
         for serial in self.residents.keys() {
