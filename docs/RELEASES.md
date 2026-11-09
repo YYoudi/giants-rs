@@ -20,6 +20,102 @@ reviews and zero certified complete scenes remain unchanged. Prototype PS2
 attribution remains unknown. Existing package receipts retain their identities
 until the new preview's exact build and package controls complete.
 
+## Delphi controlled dry post-physical composition - 9 November 2026
+
+The acquired physical reset now runs after first ANM and before model-rate
+production, using the actual held list, supplied shared view context, external
+reset parameter and a required owner-bound positional-stop provider. The later
+post callback queries object time at the updated position, handles its selected
+owner/global word and paused empty-context cleanup, then enters the ordinary
+non-strike sword route. The frozen owned entry composes those phases before
+secondary/zero-time ANM, retaining completed effects after later refusal and
+quarantining replay. Earlier entry profiles are preserved.
+
+Reset block/helper controls match 1,536 cases / 12,288 words with supplied
+post-ANM registers/stack and an actual null sound bank. Complete original dry
+post controls match 1,232 cases / 1,500,576 words, without behavior replacements.
+Debug and optimized kernel probes repeat the same inputs. Two persistent owned
+comparisons match 512 frames / 4,081,152 words across 22 actors and exact shared
+RNG. Commands, time, a flat world and metadata remain supplied. The five-owner
+source lifecycle adds 64 new-profile updates and late-failure/no-replay checks.
+
+This is CPU/API integration. Authored-camera/post composition, actual live input /
+view/audio producers, remaining primary/target/item and auxiliary scheduling,
+active cleanup, water/swim/turbo and combat stay open. No live Delphi controls,
+new playable capability, full native error-path parity or visual/audio fidelity
+are claimed. Prior executable/package and capture identities remain unchanged.
+
+The implementation checkpoint passes 794 synthetic Rust tests (30 ignored),
+the enriched five-owner installed-resource control, Rustfmt and Clippy with
+warnings denied. The standalone and owned comparisons retain their exact source
+hashes and declared supplied boundaries. Common-build receipts and subsequent
+combined-source validation are recorded separately.
+
+Combined source `aefcc0c7a2cbe36fbea1a3c953034c8ec5062c27` retains the newer
+mission-affine and Kabuto contact work. It passes 799 synthetic Rust tests
+(30 ignored), 40 Python tests, Rustfmt, Clippy, generated site/JavaScript checks
+and the enriched Delphi installed-resource control. Rebuilt owned comparisons
+again match both complete 256-frame cohorts. History review reports no pattern
+findings across 380 reachable commits and 2,660 blobs.
+
+Its exact GNU executable passes both silent common development lifecycle
+endpoints and three Rstory1 mission-2 persistent-owner opening/cancellation
+cycles. These are common-runtime regressions, not live Delphi controls.
+Executable SHA256:
+`8bcfcfb5655d8da1659fdc822d367f0c82d1ddc7df220077815b23e12bf122e0`.
+The ten-member private draft has complete notices, matching receipt/review and
+checksums, an unchanged reviewed PE import set and zero package-verifier blockers.
+ZIP SHA256:
+`76caed8da82a186bd5a652bb303576360e60a781caeacdbd2f463956510e70b3`.
+This CPU milestone does not replace the public playable preview or its receipts.
+
+Final combined checkpoint `476344d` preserves the newer separated effect
+preparation/activation work. It passes 801 synthetic Rust tests (30 ignored),
+40 Python tests, Rustfmt, Clippy, generated site/JavaScript checks and the enriched
+Delphi installed-resource control. Rebuilt owned comparisons again match both
+256-frame cohorts and exact shared RNG. These source checks keep the earlier
+exact executable/package receipts unchanged.
+
+Subsequent combined checkpoint `5801ac3` preserves Kabuto classification/radius
+work and the reciprocal collision-response boundary. It passes 802 Rust tests
+(32 ignored), 40 Python tests, Rustfmt, Clippy and site/JavaScript checks.
+Both rebuilt 256-frame Delphi comparisons again match all 4,081,152 words and
+shared RNG. This remains separate source validation of the unchanged Delphi
+profile, with no relabeling of the earlier executable or package.
+## Kabuto owned physical classification — 9 November 2026
+
+The exact factory-owned motion prefix now feeds the shared physical-player
+collision/terrain and affine services. The Session owns contact state, resource-
+derived radius, physical output and its current matrix. A 384-context actual
+Session composition matches 155,136 original-PC header/payload words. The PC
+common history wrapper and Rust history gate execute; prepared empty geometry
+and controlled flat terrain remain explicit boundaries. Rust produces its own
+intermediate motion and refreshes radius from actual resource bounds.
+
+Prepared peer callbacks preserve both the class policy's write and the narrow
+response's reciprocal reference before later providers. Silent source controls
+exercise nonempty prepared triangles and retained peer effects on late terrain
+failure, with replay quarantine. Atomic owner publication on success and quarantine
+on provider failure are explicit owned policy; no native exception behavior is
+claimed. Numbered history and all initializer prerequisites remain unconsumed.
+
+Validation: 796 synthetic Rust tests pass (32 ignored), all ten silent Kabuto
+installed-data controls pass, plus 40 Python tests, Rustfmt, strict Clippy and
+generated roadmap/site/JavaScript checks.
+
+This CPU integration adds no dependency, bundled asset or playable preview.
+Live scene/peer production, world publication, current forces and the remainder
+of the primary still block continuous movement. Existing preview notices,
+checksums and runtime/screenshot receipts retain their exact package identities.
+Prototype PS2 attribution remains unknown; private inputs and evidence stay private.
+
+Combined checkpoint `fec0133` preserves the newer positional-impact configuration
+and post-load boundary acquisition. It passes 798 Rust tests (32 ignored), all ten
+Kabuto installed-data controls, 40 Python tests, Rustfmt, strict Clippy and generated
+site/JavaScript checks. Source audit covers 385 commits / 2,687 blobs with zero
+findings. The rebuilt actual Session runner repeats the 384-context classification
+comparison. Earlier binary/package/runtime receipts retain their exact identities.
+
 ## Existing mission marker producer verified — 9 November 2026
 
 The source-ordered marker producer is already implemented by the shared class

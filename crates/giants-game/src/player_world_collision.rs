@@ -56,6 +56,7 @@ fn pass(
     calls: &mut u32,
     events: &mut u32,
     event: &mut impl FnMut(&Object, &contact::State) -> Result<bool, &'static str>,
+    respond: &mut impl FnMut(&Object, &contact::Output) -> Result<(), &'static str>,
 ) -> Result<bool, &'static str> {
     let mut result = false;
     for object in objects {
@@ -123,6 +124,7 @@ fn pass(
                     event(object, current)
                 },
             )?;
+            respond(object, &response)?;
             *calls += 1;
             *state = response.state;
             result = response.retry;
@@ -167,9 +169,22 @@ pub fn resolve_for_actor_with_events(
     actor: u32,
     input: Input,
     objects: &[Object],
+    query: impl FnMut([f32; 2]) -> Result<physical_ground::Ground, &'static str>,
+    radius: impl FnMut(&contact::State) -> Result<f32, &'static str>,
+    event: impl FnMut(&Object, &contact::State) -> Result<bool, &'static str>,
+) -> Result<Output, &'static str> {
+    resolve_for_actor_with_responses(actor, input, objects, query, radius, event, |_, _| Ok(()))
+}
+/// The acquired narrow-phase output includes a reciprocal peer-reference write.
+/// Publish it before the next mesh/terrain provider, rather than discarding it.
+pub fn resolve_for_actor_with_responses(
+    actor: u32,
+    input: Input,
+    objects: &[Object],
     mut query: impl FnMut([f32; 2]) -> Result<physical_ground::Ground, &'static str>,
     mut radius: impl FnMut(&contact::State) -> Result<f32, &'static str>,
     mut event: impl FnMut(&Object, &contact::State) -> Result<bool, &'static str>,
+    mut respond: impl FnMut(&Object, &contact::Output) -> Result<(), &'static str>,
 ) -> Result<Output, &'static str> {
     if actor == 0 {
         return Err("physical player scene identity must be nonzero");
@@ -195,6 +210,7 @@ pub fn resolve_for_actor_with_events(
                 &mut calls,
                 &mut events,
                 &mut event,
+                &mut respond,
             )?;
             *s = read_state(&full, s.object_flags);
             Ok(retry)
@@ -414,5 +430,51 @@ mod tests {
         // The callback effect is retained even if a later provider fails.
         assert_eq!(out.err(), Some("terrain is disabled"));
         assert_eq!(peer_support, 9);
+    }
+
+    #[test]
+    fn reciprocal_reference_is_published_before_later_terrain_failure() {
+        let mut initial = input(true);
+        initial.state.current = [0., 0., 0.];
+        initial.state.previous = [0., 0., 1.];
+        initial.state.velocity = [0., 0., -1.];
+        let objects = [Object {
+            fields: mecc_collision_candidates::Object {
+                id: 77,
+                parent: 0,
+                has_model: true,
+                object_flags: 0,
+                collision_flags: 0,
+                bounds: volume_queries::Bounds {
+                    min: [-100.; 3],
+                    max: [100.; 3],
+                },
+            },
+            response_flags: 0x10,
+            triangles: vec![contact::Triangle {
+                vertices: [[-100., -100., 1.], [100., -100., 1.], [0., 100., 1.]],
+                part: 3,
+                ordinal: 4,
+            }],
+        }];
+        let mut peer_reference = 0;
+        let result = resolve_for_actor_with_responses(
+            9,
+            initial,
+            &objects,
+            |_| Err("late terrain failure"),
+            |s| Ok(s.radius),
+            |_, _| Ok(false),
+            |object, response| {
+                if response.reciprocal_hit {
+                    assert_eq!(object.fields.id, 77);
+                    assert_eq!(response.state.hit, 77);
+                    peer_reference = 9;
+                }
+                Ok(())
+            },
+        );
+        assert_eq!(result.err(), Some("late terrain failure"));
+        assert_eq!(peer_reference, 9);
     }
 }
