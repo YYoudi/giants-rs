@@ -20,6 +20,96 @@ package/notices/checksum/runtime receipts retain their exact identities; no new
 asset/dependency, downloadable preview or playable/visual-fidelity claim is added.
 Prototype PS2 correspondences remain unknown.
 
+## Retirement child initialization and native cleanup boundary — 9 November 2026
+
+The shared null-object initialization service now handles the acquired complete
+fixed-size/lifetime/gravity frame without consuming RNG. The source retirement
+child reaches this frame; whole-frame guards still refuse unacquired programs.
+
+A separate 32-case original-PC control executes parent preparation and birth,
+ordinary attachment preparation, lifetime callbacks, retirement preparation,
+deferred marking, global cleanup, child birth and final cleanup. A mark alone
+keeps the parent slot occupied; actual cleanup frees it and the child reuses it.
+All 64 parent/child object retirements finish with zero active object/context
+heads and both supplied eight-slot free lists restored. Thirty-two Rust cases
+match 1,024 selected RNG, construction, position and matrix words. This compares
+typed behavior; it does not establish Rust physical-pool ownership parity.
+
+The original retirement context carries a distinct mode and inherited parameter.
+Binding that context, caller-supplied world RNG, physical slot ownership and
+actual frame scheduling to the main film player remain open. This is not complete
+film admission, actual mission capacity, raster/voice/timing fidelity or broader
+zero-time physical/contact coverage. The source inventory and zero certified
+complete scenes remain unchanged. Prototype PS2 correspondence remains unknown.
+Published [preview-2026.11.09.5](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.5)
+pins source `32286b7852917d54fb9e4327aebb74be4984c194`, executable SHA256
+`55062d1c32ba9524693550247f1b485d62ed63328ade4cdf1e0c6edee2b871e8` and ZIP SHA256
+`d929a5bebafccadf0db529b5ab8a458d34d2d8f7ea4a466f196fb2b8f89a2002`.
+Its Rust tree is identical to the validated 809-test checkpoint (34 ignored);
+40 Python tests, formatting, strict Clippy and the source audit pass (443 commits /
+2,909 blobs / zero findings at the exact binary source). Both silent offscreen
+development endpoints, three active persistent cancellations and two Rstory1
+mission-index-2 source-terminal/re-entry cycles pass with voice/text cleanup.
+All ten package members, notices, receipt and checksums pass independent checks,
+repeated after downloading all three public assets. No interactive tests ran.
+The existing partial renderer and unresolved retirement binding retain their scope.
+
+Combined source `6000e05b566ae82646f35c953dc55ffdef13f3fc` preserves concurrent
+Mecc/Delphi/Kabuto work and passes 814 synthetic Rust tests (37 ignored),
+40 Python tests, formatting, strict Clippy and generated roadmap/site/JavaScript
+checks. Its source audit covers 448 commits / 2,924 blobs with zero findings.
+This source validation does not relabel the published binary or certify rendering.
+
+Later combined source `06762d43ef43cf1a2734c3a73396453fcd6f314c` retains Delphi
+target movement. All 635 game-crate tests pass (24 ignored), along with workspace
+strict Clippy, formatting, 40 Python tests and roadmap/site/JavaScript checks.
+The source audit covers 451 commits / 2,933 blobs with zero findings. This is a
+game-crate validation, separate from the full-workspace count and binary receipt.
+
+## Delphi target-movement and activation services - 9 November 2026
+
+The shared Rust library now contains acquired target/fallback movement arithmetic
+and its activation ordering: physical parameters, required sound sequence and
+target resolution, movement/duration, notification, held reveal and positional
+stop before final reset/context/flag stores. The former generated item-action
+label `Cycle` is corrected to `TargetMovement`. The owned adapter executes the
+measured readiness-off return; ready activation remains unbound and refuses.
+
+Original-PC/Rust controls match 512 movement calls / 623,104 full words and 528
+complete activation calls plus 48 sequence-constructor entry prefixes / 700,992
+words. Those prefixes do not prove sequence construction; completed activations
+use existing sequences, offline notification, an empty held list and an actual
+null sound bank. Constants/rates, typed targets, sequence ownership/lifetime and
+live scheduling remain separate inputs/prerequisites. Synthetic late-failure
+checks retain completed effects. No live Delphi, active turbo/water integration
+or fidelity status changes follow. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `a4376eb18d73d72f42366f61e8169981b23ea8eb` retains the newer
+shared RNG ownership guidance and passes 812 Rust tests (35 ignored), the
+seven-owner Delphi installed-data control, 40 Python tests, Rustfmt, strict
+Clippy and generated roadmap/site/JavaScript checks. The pattern audit reports
+zero findings across 443 commits / 2,909 blobs. Earlier 2,048-case item controls
+also repeat against the corrected action label and readiness projection.
+
+The exact common GNU executable SHA256 is
+`edd79c3dd2deeeeb96570d4c83b6092c762ecd437a4a340ab84c2d4d611f7687`.
+It passes both silent offscreen development endpoints and three Rstory1 mission-2
+persistent-owner birth/update/cancel/re-entry cycles with text cleanup. Canonical
+PE imports remain unchanged. The private ten-member validation draft has complete
+receipt-bound notices/checksums and independent verification with zero technical
+blockers; ZIP SHA256 is
+`7a07e764ea348812ba83f62f939da294ccd1b0c8a6ba282be0372e7d1ae28ca7`.
+Those are common-runtime regressions, not live Delphi controls. Existing published
+previews retain their own receipts; this CPU dependency does not claim another
+playable Delphi download or distribute original data.
+
+Final source checkpoint `9ea8be5169ab9d0da194e8745ae47d0baf6a3d40` retains
+the newer Kabuto additional-contact traversal and passes 815 synthetic Rust tests
+(37 ignored), 40 Python tests, Rustfmt, strict Clippy and site/JavaScript checks.
+Its source pattern audit reports zero findings across 448 commits / 2,924 blobs.
+The common executable and runtime/package receipts above remain bound to
+`a4376eb1`; this later source validation does not change those identities.
+
 ## Kabuto owned additional-contact traversal — 9 November 2026
 
 The additional-contact routine now preserves prepared-scene filtering, probe

@@ -231,6 +231,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   distance, held/interaction services, active item/spell actions and nonempty
   auxiliary resources remain open. Mode/participant/owner identity context stays
   supplied. No live Delphi, networking or fidelity promotion follows.
+- Implemented: finite target/fallback movement arithmetic and source-ordered
+  activation services. Native/Rust controls match 512 movement calls / 623,104
+  full words, plus 528 complete activation calls and 48 sequence-constructor
+  entry prefixes / 700,992 words. Sound-sequence context identity is acquired;
+  it must reuse shared audio ownership rather than the attached-effect pool.
+  The generated `Cycle` label is corrected to `TargetMovement`. The actual
+  readiness-off return is wired into the owned item adapter. Ready activation
+  still needs the actual readiness/pending-target producer, typed active-target
+  lifetime, sequence construction/retirement, providers and active physical
+  scheduling before admission. Existing-sequence/offline/empty-held/null-bank
+  controls do not establish those integrations or live turbo/water fidelity.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -978,6 +989,23 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Retirement-chain follow-up: 32 supplied native parent/child lifecycles now
+  execute the actual global context updater, retirement helper, deferred mark,
+  global object cleanup and child activation. The mark keeps the parent slot
+  occupied; only cleanup frees it, and the child reuses that slot. All 64 object
+  retirements finish with zero active object/context heads and both supplied
+  eight-slot free lists fully restored. This is not mission population/capacity.
+  Rust matches 1,024 selected RNG, construction, position and matrix words.
+  Preview `preview-2026.11.09.5` pins this preparation dependency to source
+  `32286b7`; receipt-bound silent lifecycle checks and the downloaded ten-member
+  package pass. The mode/inheritance and physical-ownership prerequisites below
+  remain open; no additional film admission is counted.
+  The child initial frame is now implemented in the shared skip service with no
+  random draw. Actual retirement preparation uses its distinct mode and inherited
+  parameter; do not substitute the existing plain positional context API.
+  Main cinematic context/physical ownership, inherited flags, world RNG and frame
+  scheduling remain unbound. No source becomes admitted from this CPU proof.
+
 - Timed FX callback ordering: the shared Playback wrapper formerly discarded
   every zero-time callback, leaving its native first-update gate pending. It now
   executes that callback without inventing elapsed time. Native/Rust comparison
@@ -987,8 +1015,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   initial-zero control confirms the gate independently of matrix preparation.
   The initial positional mismatch was an incomplete control phase: the actual
   ordinary preparation produces the Rust attachment matrix, so no placement
-  change is justified. Retirement helper execution, child activation, parent
-  release, actual world scheduling/RNG and complete rendering remain open. The
+  change is justified. Main-runtime retirement-helper binding, child activation,
+  parent release, actual world scheduling/RNG and complete rendering remain open. The
   queue/readiness guards and cinematic gap counts are preserved. These supplied
   contexts use the acquired nonphysical class; zero-time motion/contact profiles
   beyond that fixture still need their own native comparisons.

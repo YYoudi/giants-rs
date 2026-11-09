@@ -5,6 +5,7 @@ pub struct State {
     pub buttons: u32,
     pub controls: u32,
     pub physics_flags: u32,
+    pub movement_ready: bool,
     pub selected: i32,
     pub items: [i32; 5],
     pub spells: [[i32; 2]; 2],
@@ -14,7 +15,7 @@ pub struct State {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Action {
     Use(i32),
-    Cycle,
+    TargetMovement,
     Activate(i32),
     Cast,
 }
@@ -55,7 +56,7 @@ pub fn advance(state: &mut State, threshold: f32, world: &mut impl World) -> Res
         world.action(Action::Use(selected(state)?), state)?;
     }
     if state.buttons & 0x10 != 0 {
-        world.action(Action::Cycle, state)?;
+        world.action(Action::TargetMovement, state)?;
     }
     if state.buttons & 0x20 != 0 {
         world.action(Action::Activate(selected(state)?), state)?;
@@ -124,7 +125,7 @@ mod tests {
         }
         fn action(&mut self, a: Action, s: &mut State) -> Result<(), String> {
             self.events.push(a);
-            if a == Action::Cycle {
+            if a == Action::TargetMovement {
                 s.selected = 3;
             }
             Ok(())
@@ -142,6 +143,7 @@ mod tests {
             buttons: 0,
             controls: 2,
             physics_flags: 0,
+            movement_ready: false,
             selected: 0,
             items: [10, 11, 12, 13, 14],
             spells: [[0x3f, 1], [0x48, 1]],
@@ -162,7 +164,7 @@ mod tests {
             world.events,
             [
                 Action::Use(10),
-                Action::Cycle,
+                Action::TargetMovement,
                 Action::Activate(13),
                 Action::Activate(0x3f),
                 Action::Cast
