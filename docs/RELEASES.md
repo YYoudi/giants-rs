@@ -131,7 +131,7 @@ screenshot, dependency/asset or downloadable preview is added; earlier package,
 notice, checksum and runtime receipts keep their exact source identities.
 Prototype PS2 correspondence remains unknown.
 
-Combined validation passes 840 workspace Rust tests (51 ignored), sixteen
+Combined validation passes 842 workspace Rust tests (51 ignored), sixteen
 installed Kabuto phase controls plus the separate cold control, 43 Python tests,
 Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The original-PC query
 comparison also passes after merging current main. These checks preserve the
