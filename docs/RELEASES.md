@@ -38,6 +38,72 @@ harness results and independent controls remain private. Remaining full-primary,
 item/target, auxiliary and authored-camera composition, water/swim/turbo, combat,
 renderer/HUD/audio and menu-to-mission integration stay open.
 
+## Owned positional-impact birth - 9 November 2026
+
+The single-body positional constructor publishes an actual owned Session state-78
+actor before invoking its required cue provider. Later size, lifetime, fade and
+angular commands use the same RNG after that call. Success retires the temporary
+context; late failure preserves the actor, context reservation and prior effects
+and refuses replay through replacement factories. Source images, class/state
+bindings, typed origin and actual affine cache remain owned.
+
+With the original audio-disabled gate, 256 native endpoints and four cue-entry
+snapshots match 67,600 complete normalized header/payload words. A silent resource
+control additionally checks provider RNG interleaving, failure/foreign/replay
+guards and ownership after the pool and resources are released. These are CPU
+birth controls. Live cue transport, actor callback/retirement and the independent
+impact damage/channel integration remain prerequisites. The latest exact main
+movement endpoint stays bound to its earlier step-441 refusal; no new screenshot,
+playable admission or fidelity is claimed. Prototype PS2 attribution remains
+unknown, with the next callback lookup retained privately.
+
+Implementation `841c6a8` passes 798 synthetic Rust tests (31 ignored), the new
+source-resource control, strict Clippy and 40 Python tests. Combined source
+`ea47ca1005401ae101395062aa2063d6c45c852c` preserves concurrent Delphi dry-reset/
+post-physical, Kabuto contact/classification and sized-effect initialization.
+It passes 806 synthetic Rust tests (33 ignored), five installed-resource Mecc
+controls and the new birth control, Rustfmt, strict Clippy, 40 Python tests and
+roadmap/site/JavaScript checks. The exact GNU executable SHA256 is
+`897da0bd8350b25a985436da5e71ccb91782cf0f458e2756a5fe7e219d7b6b2d`.
+Its private ten-member draft has complete receipt-bound notices and independent
+package verification with zero technical blockers; ZIP SHA256 is
+`382581aeea622adab85c465c0a544502e55186833090c6e0be1f1914d4a6441b`.
+This CPU dependency does not establish a new playable preview; previous published
+previews retain their exact identities. Source/history pattern review of the
+preceding documentation checkpoint reports zero findings across 406 commits /
+2,757 blobs. This review is not third-party redistribution clearance.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+## Kabuto additional-contact callback dependency — 9 November 2026
+
+The callback required by the next object-contact traversal now preserves its
+existing authority guard, gated service request and post-service flag reread
+before publishing the peer reference. A 512-context original-PC control matches
+2,520 state/request words, including 59 requests and 157 reference writes. Actual
+PC authority helpers execute; the action dispatcher is a supplied provider that
+changes peer state to verify ordering. The request's gameplay effects remain
+unassigned and unimplemented.
+
+Validation: 800 synthetic Rust tests pass (32 ignored), all ten silent Kabuto
+installed-data controls pass, plus 40 Python tests, Rustfmt, strict Clippy and
+generated roadmap/site/JavaScript checks.
+
+This is a CPU dependency. The whole additional geometry traversal, its transform/
+response services, actual action execution and its Session consumer remain open.
+The call after classification must not be reduced to its global early return or
+misidentified as simple spatial publication. World/current-force/primary cadence
+still block another frame. No initializer gate, live movement, screenshot or
+package receipt is promoted. No dependency or bundled asset is added; existing
+Windows preview binaries, notices and checksums retain their identities.
+
+
+Final combined checkpoint `a6106fb` additionally retains the newer sized-FX
+initialization prerequisite. It passes 805 Rust tests (32 ignored), all ten Kabuto
+installed-data controls, 40 Python tests, Rustfmt, strict Clippy and site/JavaScript
+checks. Source audit covers 401 commits / 2,740 blobs with zero findings. The rebuilt
+512-context callback runner repeats its comparison. This is source validation;
+the common executable receipt below remains pinned to `7d0692a`.
+
 ## Sized FX initial preparation — 9 November 2026
 
 The common effect initialization service now handles the acquired complete frame
@@ -138,6 +204,18 @@ work and the reciprocal collision-response boundary. It passes 802 Rust tests
 Both rebuilt 256-frame Delphi comparisons again match all 4,081,152 words and
 shared RNG. This remains separate source validation of the unchanged Delphi
 profile, with no relabeling of the earlier executable or package.
+Combined checkpoint `7d0692a` preserves the newer Delphi dry-reset and post-physical
+composition. It passes 804 Rust tests (32 ignored), all ten Kabuto installed-data
+controls, 40 Python tests, Rustfmt, strict Clippy and generated site/JavaScript
+checks. Source audit covers 397 commits / 2,731 blobs with zero findings. Rebuilt
+callback and prior Session-classification runners repeat their native comparisons.
+
+The common GNU executable was built from that exact checkpoint, SHA256
+`989ed5836af5a36db49c65167b4fcdbdf9eb4158b099e8a981d46fad5a52ea78`.
+Its private build receipt records the compiler, MinGW linker and dependency
+metadata. This is a compilation receipt, without a new runtime, package,
+playability or fidelity claim. Existing downloadable preview identities remain.
+
 ## Kabuto owned physical classification — 9 November 2026
 
 The exact factory-owned motion prefix now feeds the shared physical-player

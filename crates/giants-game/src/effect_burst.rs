@@ -273,15 +273,20 @@ impl Plan {
         let program = image
             .program(entry.offset)
             .map_err(|_| "impact effect program invalid")?;
-        if !program
-            .records
+        Self::positional_impact_frame(image, &program.records)
+    }
+    pub(crate) fn positional_impact_frame(
+        image: &Image,
+        records: &[Record],
+    ) -> Result<Self, &'static str> {
+        if !records
             .iter()
             .map(|r| r.opcode)
             .eq([3, 6, 0x83, 9, 4, 0x32, 7, 2])
         {
             return Err("positional impact outside acquired complete frame");
         }
-        Self::from_records_profile(image, &program.records, 1, true)
+        Self::from_records_profile(image, records, 1, true)
     }
     pub fn project(image: &Image, name: &str) -> Result<Self, &'static str> {
         let (_, entry) = image.find(name).ok_or("burst symbol absent")?;
