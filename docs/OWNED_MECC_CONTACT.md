@@ -313,3 +313,37 @@ context or infer that every origin is a live generation. Prototype PS2 searches
 for the common retirement, release, destructor and unlink helpers remain unknown
 attributions. No later main replay, campaign admission, capture or fidelity result
 follows; the exact main endpoint remains the earlier step-441 refusal.
+
+## Effect VM and audio RNG ownership - 9 November 2026
+
+The effect cue callback receives the VM's random state so acquired VM-side
+service draws can remain ordered before subsequent size draws. This interface
+does not establish that an audio DLL owns that same state. Earlier scalar audio
+controls supplied a thread-state pointer; their arithmetic agreement alone did
+not resolve the live owner.
+
+Observed in the identified debug executable and audio module: each has its own
+TLS-index storage, allocation/store instructions and thread-state getter. A
+bounded control executes both original allocation/store paths and complete
+getters against one supplied OS TLS service with distinct live slots. Twenty
+sequences then interleave the original executable interval helper and audio
+frequency/RNG helper. The VM retains its six draws while audio independently
+consumes one; the frequency draw does not advance the VM state. Existing
+thread-state blocks, OS TLS calls and initial seeds are supplied. Complete CRT
+startup, original process launch, voice allocation and device playback are not
+executed by this control.
+
+The inference for successful overlapping module initialization is separate
+random streams, following those allocation paths and the OS TLS contract. Keep
+the existing audio state distinct when binding the impact transport; do not
+redirect it into the effect VM merely because both use the same LCG. The two
+source impact cues have frequency variation, making that distinction observable
+in the later size/RNG results. The ordered failure/interleaving tests remain
+valid supplied-provider controls; they are not evidence of shared DLL ownership.
+
+The play wrapper resolves attachment roots and chooses local versus positional
+delivery when its descriptor is ready. Its stop wrapper also resolves the root.
+The acquired impact actor is unparented. Binding these routes to real ready
+voices and their cleanup remains open; no later main replay or audible result is
+claimed. Prototype PS2 lookups remain unknown, with executable and DLL identities
+kept separately in private continuation records.

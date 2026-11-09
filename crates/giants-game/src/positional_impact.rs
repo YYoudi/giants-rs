@@ -47,6 +47,9 @@ impl std::fmt::Debug for Metadata {
 }
 /// A real provider receives the already-published actor and shared RNG at the
 /// native cue boundary, before size/lifetime/angular commands execute.
+/// This is the effect VM's RNG. It does not imply ownership by an audio DLL:
+/// the acquired debug audio module uses its own CRT state. Keep those streams
+/// separate; a provider may touch this stream only for an acquired VM-side draw.
 pub trait Cue {
     fn play(
         &mut self,

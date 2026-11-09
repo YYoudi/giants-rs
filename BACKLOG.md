@@ -691,6 +691,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   cancellation and pointer-slot reuse semantics remain separate from core actor
   retirement. Preserve identities/aliases; current touched-helper attributions
   remain unknown.
+  Before binding impact audio, retain separate effect-VM and audio-module RNG
+  owners. Original module-specific TLS allocation/getter controls and 20 native
+  interleavings keep six VM draws independent of one frequency draw. OS TLS and
+  existing thread blocks are supplied; no original launch/device is certified.
+  Both source impact cues vary frequency. Existing supplied-provider interleaving
+  tests do not prove shared live ownership. Reuse actual ready-voice transport
+  with its audio state, preserving attachment-root play/stop routing, source-miss
+  versus decode/device failure and real start acknowledgement. Do not redirect
+  audio variation into the VM state or acknowledge a merely queued entity.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

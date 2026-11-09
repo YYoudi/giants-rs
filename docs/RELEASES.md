@@ -18,6 +18,34 @@ live scheduling remain separate inputs/prerequisites. Synthetic late-failure
 checks retain completed effects. No live Delphi, active turbo/water integration
 or fidelity status changes follow. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
+## Effect/audio RNG ownership acquisition - 9 November 2026
+
+The acquired debug executable and audio DLL use separate module-local CRT TLS
+index storage and allocation/getter paths. A bounded control executes their
+original allocation/store instructions and complete getters against a supplied
+OS TLS service. Twenty interleavings of the original VM interval and audio
+frequency/RNG helpers retain six VM draws independently of one audio draw.
+Existing thread blocks and seeds are supplied; full CRT startup, original process
+launch, voice allocation and device playback remain outside this proof.
+
+This resolves a prerequisite for impact transport: identical LCG arithmetic and
+earlier supplied-state scalar tests do not establish shared live ownership.
+The two actual impact cues vary frequency, so redirecting that draw into the VM
+would change later size draws. The central method now requires ownership checks
+across module boundaries, and the cue interface documentation identifies its RNG
+as the VM stream. The play/stop wrapper observations and separate binary identities
+remain in private records. Prototype PS2 attributions remain unknown.
+
+Combined checkpoint `189e59c6c06f51cdbde34413cd53bf32e3086bb0` preserves the new
+Delphi item-tail composition. It passes 810 synthetic Rust tests (35 ignored),
+three silent impact resource controls, 40 Python tests, Rustfmt, strict Clippy
+and roadmap/site/JavaScript checks. This acquisition changes method and interface
+documentation, without changing playback behavior or creating a new executable/
+package receipt. Existing runtime/package receipts keep their exact identities.
+Actual ready-voice transport, its cleanup and impact damage/channel integration
+remain open; the main replay retains its earlier step-441 refusal.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
 ## Delphi owned item-tail composition - 9 November 2026
 
 The new frozen dry controlled profile adds actual inventory selection and distinct
