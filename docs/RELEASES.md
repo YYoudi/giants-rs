@@ -24,6 +24,13 @@ controls. No Mecc runtime source changed in that merge. The current published
 download remains `.13`, with its existing source, notices and checksum identities;
 source-only progress does not relabel that executable or its capabilities.
 
+The exact MinGW build at source `8854431de67dbcc169f256de450bcfc422f83622` passes
+both offscreen development lifecycle endpoints: six fresh launches, return,
+cleanup and re-entry, plus explicitly awaited CLI help. The combined runtime
+also passes five installed Delphi, one NPC and one timed-effect control and
+three actual-audio regressions with muted sinks. The private build receipt pins
+its executable; it is not a new public package or a manual-input/fidelity result.
+
 ## Kabuto post-query target transition — 9 November 2026
 
 The acquired post-query transition preserves raw/filtered/retained identities,
