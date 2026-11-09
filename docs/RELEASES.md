@@ -26,6 +26,12 @@ no technical verifier blockers; ZIP SHA256:
 `e317a5cb7eb9df277c2853a6fa6fc6283d1b6b887668cb22531838fd9a954a40`.
 No playable download follows from this CPU milestone.
 
+Combined checkpoint `2b476d1` additionally preserves current mission-header,
+Kabuto target-decision and Mecc reserve-depletion work. It passes 784 synthetic
+Rust tests (29 ignored), 40 Python tests, Rustfmt, Clippy and generated site /
+JavaScript checks. This source checkpoint retains the exact earlier executable
+and package identities above; it does not relabel them as later runtime tests.
+
 ## Delphi ordinary third-person camera slice - 6 November 2026
 
 The shared camera producer now consumes Delphi's acquired distance policy while
