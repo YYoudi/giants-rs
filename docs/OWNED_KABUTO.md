@@ -753,8 +753,48 @@ arithmetic remains covered by the earlier separate helper controls, not by this
 cold-world composition. The other ten actor headers are checked unchanged.
 Original source data and all probe inputs/results remain private.
 
-This implements size pursuit from a decision, not the decision itself. Feeding,
-growth triggers, earlier quantized target/notification logic, the following
+This size-pursuit control supplies the decision; the separately acquired target
+phase is described below. Feeding, the threshold producer and gameplay trigger, the following
 multi-target/effect helper, complete primary, locomotion/jumping, world cadence,
 rendering and live admission remain open. Prototype PS2 correspondences remain
 unknown; these PC behavior controls assign no recovered name or PS2 ABI.
+
+
+## Owned target decision — 9 November 2026
+
+`kabuto_growth::decide` reads the source state threshold and existing size target.
+A value below 100 or an unordered comparison bypasses the phase and preserves
+both words. The active finite-target profile adds one at Double53 precision,
+uses the shared integer conversion, retains the low byte and wraps to four
+values. It does not clamp the incoming target or round the sum to float32 before
+conversion. Signed and large finite targets follow the acquired conversion.
+
+The actor-sound request and eligible sound notification see the old target. The
+target is then published before its eligible two-byte notification; the threshold
+is cleared last. The existing notification eligibility policy is reused. Observer
+callbacks are service/transport boundaries, not actual device playback or a
+network session. Owned refusal of an active nonfinite target occurs before any
+publication or callback; an inactive nonfinite target remains untouched.
+
+`Factory::decide_growth` binds the phase to the actual Session payload and factory
+specification identity. It publishes the payload at each observer boundary and
+retains the primary-started/cold-cleanup guard. Foreign/retired/quarantined owners
+refuse. The subsequent size phase consumes this owned target, then the auxiliary
+selector consumes its updated parameters. Current size and physical buffers do
+not change during target selection itself. These explicit phases do not schedule
+a whole primary or clear any of the four initializer prerequisites.
+
+A 512-context original-PC/kernel control matches 2,509 words and 237 service-boundary
+observations, including notification eligibility, old/new targets and reset order.
+A separate source-backed Factory/Session composition matches 315,440 words in 512
+contexts: complete owner/second-child headers, owner payload, all physical words,
+refresh decisions and ordered sound-call states. The original sound service runs
+its null-bank return; transport is intercepted in the kernel control. The composed
+control uses single-player notification context and supplies the threshold,
+poses, local-root identity and ordered time areas. The previous supplied-target
+size controls remain separate regressions, not evidence of this field's producer.
+
+The threshold's gameplay meaning and producer remain unassigned. Feeding, input,
+full locomotion/primary, world/camera/GPU cadence and live admission remain open.
+Prototype PS2 attribution remains unknown, with raw symbols, ambiguous demangling,
+earlier PC aliases and scoped Rust relationships kept in private records.

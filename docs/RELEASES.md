@@ -1,5 +1,29 @@
 # Preview releases and milestone integration
 
+## Kabuto owned target decision — 9 November 2026
+
+The factory-bound decision now reads the actual owner state threshold and target,
+uses shared wide integer conversion and the acquired four-value wrap, and
+preserves sound/notification publication order. Its target flows into the owned
+size/parameter/radius phase and second-auxiliary selector. A 512-context kernel
+control matches 2,509 words / 237 service observations. A separate 512-context
+Factory/Session composition matches 315,440 normalized words, including complete
+owner/child headers, owner payload, physical words, refresh decisions and ordered
+sound-call states. The original sound bank is null; transport is a supplied
+boundary. These controls do not assign the threshold's gameplay role or producer.
+
+Validation: 776 synthetic Rust tests pass (29 ignored), all seven silent Kabuto
+installed-data controls pass, together with 40 Python tests, Rustfmt, Clippy with
+warnings denied, roadmap generation, site export and JavaScript syntax checks.
+The combined source preserves current Mecc/Delphi contact/camera work and earlier
+size-pursuit receipts. Prototype PS2 correspondence remains unknown. Full primary,
+movement/jumping, threshold production/feeding, world cadence and live admission
+remain open; no readiness or visual fidelity status is promoted.
+
+No dependency or bundled-asset change is made and no new gameplay preview is
+claimed. Existing notice/package manifests and checksums retain their original
+executable identities; this CPU source milestone does not replace their receipts.
+
 ## Living Mecc selection across absolute zero - 9 November 2026
 
 The ordinary living secondary no longer rejects negative actor height by itself.

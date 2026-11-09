@@ -332,6 +332,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented: factory-bound target decision reads the actual owner state threshold
+  and target, preserves the shared wide integer conversion and four-value wrap,
+  and publishes the target before its notification and the reset after it. The
+  existing notification guard is reused. A 512-context kernel control matches
+  2,509 words / 237 service-boundary observations, including old/new state timing.
+  Another 512-context actual Factory/Session decision + size + auxiliary control
+  matches 315,440 words. Sound executes the original null-bank return; notification
+  transport is supplied. The threshold field's producer and gameplay role remain
+  unassigned: no feeding, keyboard trigger or complete primary is inferred.
 - Implemented: factory-bound size pursuit publishes the supplied target, retains
   actor-local time as Double53 through the fixed step, clamps current size and
   invokes the existing complete parameter/radius refresh whenever the incoming
