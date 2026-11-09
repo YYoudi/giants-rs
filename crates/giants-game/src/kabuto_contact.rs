@@ -60,9 +60,161 @@ pub fn decide(position_z: f32, scale: f32, peer: Option<Peer>) -> Result<Decisio
     })
 }
 
+#[derive(Clone, Copy, Debug)]
+pub struct FollowupOwner<K> {
+    pub identity: K,
+    pub state: u32,
+    /// Opaque acquired state scalar, consumed only for a state-1 request.
+    pub factor: f32,
+}
+#[derive(Clone, Copy, Debug)]
+pub struct FollowupPeer<K> {
+    pub identity: K,
+    pub flags: u32,
+    pub reference: Option<K>,
+}
+#[derive(Clone, Copy, Debug)]
+pub struct Request<K> {
+    pub action: u32,
+    pub amount: f32,
+    pub owner: Option<K>,
+    pub peer: K,
+    pub trailing: [u32; 2],
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Followup {
+    /// Owned publication result, not the native callback's handled return.
+    pub bind_peer_reference: bool,
+}
+/// Additional-contact callback, distinct from `decide`. Its native return is
+/// always zero. The service may mutate peer flags before the reference store.
+/// The request's eventual gameplay effects and parent traversal remain upstream.
+pub fn followup<K: Copy>(
+    owner: Option<FollowupOwner<K>>,
+    peer: Option<&mut FollowupPeer<K>>,
+    contact_flags: u32,
+    base_amount: f32,
+    context: &crate::kabuto_geometry_mode::NotificationContext<'_>,
+    mut execute: impl FnMut(Request<K>, &mut FollowupPeer<K>) -> Result<(), &'static str>,
+) -> Result<Followup, &'static str> {
+    let Some(peer) = peer.filter(|p| p.flags & 1 == 0) else {
+        return Ok(Followup {
+            bind_peer_reference: false,
+        });
+    };
+    if peer.flags & 0x3c0_0000 != 0 && contact_flags & 1 != 0 {
+        if owner.is_none() && context.session_mode == 4 {
+            return Err("contact authority requires its actual owner in multiplayer profile");
+        }
+        let eligible = context.session_mode != 4 || context.eligible()?;
+        if eligible {
+            let amount = if let Some(owner) = owner.filter(|o| o.state == 1) {
+                (f64::from(base_amount) * f64::from(owner.factor)) as f32
+            } else {
+                base_amount
+            };
+            if !amount.is_finite() {
+                return Err("additional contact request outside finite amount profile");
+            }
+            execute(
+                Request {
+                    action: 11,
+                    amount,
+                    owner: owner.map(|o| o.identity),
+                    peer: peer.identity,
+                    trailing: [0; 2],
+                },
+                peer,
+            )?;
+        }
+    }
+    // Reread only this bit after the service. A newly set bit1 does not repeat
+    // the entry bypass and cannot suppress this reference write on its own.
+    let bind_peer_reference = peer.flags & 2 == 0;
+    if bind_peer_reference {
+        peer.reference = owner.map(|o| o.identity);
+    }
+    Ok(Followup {
+        bind_peer_reference,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn context() -> crate::kabuto_geometry_mode::NotificationContext<'static> {
+        crate::kabuto_geometry_mode::NotificationContext {
+            session_mode: 0,
+            peer_ids: &[],
+            local_peer: 0,
+            owner_word: 0,
+        }
+    }
+    #[test]
+    fn additional_request_precedes_reference_and_rereads_only_final_exclusion() {
+        let owner = Some(FollowupOwner {
+            identity: 9,
+            state: 1,
+            factor: 0.5,
+        });
+        for (changed_flags, writes) in [(1, true), (2, false)] {
+            let mut peer = FollowupPeer {
+                identity: 77,
+                flags: 0x40_0000,
+                reference: Some(3),
+            };
+            let result = followup(owner, Some(&mut peer), 1, 6., &context(), |r, p| {
+                assert_eq!(
+                    (r.action, r.amount, r.owner, r.peer, r.trailing),
+                    (11, 3., Some(9), 77, [0, 0])
+                );
+                assert_eq!(p.reference, Some(3));
+                p.flags = changed_flags;
+                p.reference = Some(4);
+                Ok(())
+            })
+            .unwrap();
+            assert_eq!(result.bind_peer_reference, writes);
+            assert_eq!(peer.reference, Some(if writes { 9 } else { 4 }));
+        }
+    }
+    #[test]
+    fn additional_bypasses_leave_unused_scalars_and_services_unconsumed() {
+        let owner = Some(FollowupOwner {
+            identity: 9,
+            state: 2,
+            factor: f32::NAN,
+        });
+        let mut peer = FollowupPeer {
+            identity: 77,
+            flags: 1,
+            reference: Some(3),
+        };
+        assert!(
+            !followup(owner, Some(&mut peer), 1, f32::NAN, &context(), |_, _| Err(
+                "bypassed"
+            ))
+            .unwrap()
+            .bind_peer_reference
+        );
+        assert_eq!(peer.reference, Some(3));
+        peer.flags = 0;
+        assert!(
+            followup(owner, Some(&mut peer), 0, f32::NAN, &context(), |_, _| Err(
+                "no request"
+            ))
+            .unwrap()
+            .bind_peer_reference
+        );
+        assert_eq!(peer.reference, Some(9));
+        peer.flags = 0x40_0000;
+        followup(owner, Some(&mut peer), 1, 6., &context(), |r, _| {
+            assert_eq!(r.amount, 6.); // Non-state1 never reads the NaN factor.
+            Ok(())
+        })
+        .unwrap();
+    }
 
     fn peer(upper_z: f32, radius: f32, collision_mask: u32) -> Peer {
         Peer {

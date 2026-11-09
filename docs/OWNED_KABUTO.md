@@ -932,3 +932,39 @@ remaining primary branches, camera/ANM/GPU cadence and dynamic cleanup remain
 open. It supplies no second live frame or playable Kabuto preview. All touched
 prototype PS2 correspondences remain unknown; symbol/demangling/alias records
 and control identities remain private and separate from the PC contract.
+
+## Additional-contact callback dependency — 9 November 2026
+
+The call immediately after physical classification performs another object-contact
+traversal. Static instruction exploration identifies peer filtering, geometry/
+volume paths, reference and possible position/velocity writes. It is not a simple
+spatial publication, and its global early return cannot replace those paths.
+The complete traversal still has no owned consumer or native/Rust comparison.
+Its indirect model service and geometry/response dependencies remain prerequisites.
+
+`kabuto_contact::followup` implements one callback of that traversal. A missing
+peer or entry exclusion bypasses all services. Request-mask and contact-flag
+conditions admit the existing authority policy: outside the multiplayer profile,
+authority is granted; otherwise the unchanged notification ownership context is
+reused. The service-11 request consumes its supplied global scalar, multiplied by
+an opaque owner-state scalar only for state1. Its two trailing arguments are zero.
+No gameplay meaning or actual damage effect is assigned to this request.
+
+The service executes before the peer-reference store and may change peer flags
+or reference. Only the final reference-exclusion bit is reread after it. A newly
+set entry exclusion does not repeat the initial bypass. `Followup` reports the
+owned reference-write intent, including a null-owner store; it is not the native
+handled result, which is always zero. Active nonfinite amounts and a missing
+multiplayer owner refuse in Rust rather than invent native exceptional behavior.
+Unused numeric fields retain their bypasses. Provider failure retains its own
+mutations and returns before the final store; this is an explicit owned boundary.
+
+A 512-context control runs the original PC callback and its actual authority
+helpers. Rust matches 2,520 state/request words, 59 ordered service requests and
+157 peer-reference writes. Supplied owner/peer/context/scalars and the action
+provider are boundaries. That provider observes the pre-store reference, then
+mutates flags/reference to test the final reread. The actual action dispatcher,
+whole geometry traversal, live scene mutation, Session scheduling and gameplay
+remain outside this proof. Raw prototype PS2 names, demangling uncertainties,
+earlier aliases, PC/prototype hashes and relationships remain private; all new
+correspondences stay unknown. No initializer/history prerequisite is cleared.

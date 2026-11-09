@@ -367,6 +367,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented CPU dependency: the callback used by the subsequent object-contact
+  traversal retains the original authority guard, gated service-11 request and
+  post-service peer-flag reread before its peer-reference store. Its native return
+  is always zero; the owned result reports only the reference publication intent.
+  A 512-context original-PC control matches 2,520 request/state words, including
+  59 requests and 157 writes. The original authority helpers run; the action
+  dispatcher is an explicit provider that mutates flags/reference to check order.
+  State-1 scaling consumes an opaque state scalar; other states bypass it. No
+  gameplay meaning, damage execution, feeding rule or Session/world admission is
+  inferred. The full additional geometry traversal, its model callback and
+  geometry/response dependencies still need controls and a real owned consumer.
+  Static inspection shows that the call following classification is this extra
+  object-contact pass, not merely spatial publication. Keep the entered history
+  until it, world publication, current forces and the primary remainder complete.
 - Implemented: factory-bound physical classification consumes the exact owned
   motion prefix and publishes contact fields, physical flags/force, resource-
   derived radius and the current affine cache. A composed actual Session control

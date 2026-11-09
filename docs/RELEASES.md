@@ -1,5 +1,27 @@
 # Preview releases and milestone integration
 
+## Kabuto additional-contact callback dependency — 9 November 2026
+
+The callback required by the next object-contact traversal now preserves its
+existing authority guard, gated service request and post-service flag reread
+before publishing the peer reference. A 512-context original-PC control matches
+2,520 state/request words, including 59 requests and 157 reference writes. Actual
+PC authority helpers execute; the action dispatcher is a supplied provider that
+changes peer state to verify ordering. The request's gameplay effects remain
+unassigned and unimplemented.
+
+Validation: 800 synthetic Rust tests pass (32 ignored), all ten silent Kabuto
+installed-data controls pass, plus 40 Python tests, Rustfmt, strict Clippy and
+generated roadmap/site/JavaScript checks.
+
+This is a CPU dependency. The whole additional geometry traversal, its model/
+response services, actual action execution and its Session consumer remain open.
+The call after classification must not be reduced to its global early return or
+misidentified as simple spatial publication. World/current-force/primary cadence
+still block another frame. No initializer gate, live movement, screenshot or
+package receipt is promoted. No dependency or bundled asset is added; existing
+Windows preview binaries, notices and checksums retain their identities.
+
 ## Kabuto owned physical classification — 9 November 2026
 
 The exact factory-owned motion prefix now feeds the shared physical-player
