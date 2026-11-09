@@ -42,6 +42,39 @@ preparation work. It passes 788 synthetic Rust tests (29 ignored), the enriched
 Delphi installed-resource control, 40 Python tests, Rustfmt, Clippy and generated
 site/JavaScript checks. The exact executable/package receipts above keep their
 original source identity; the combined checkpoint is separate source validation.
+## Kabuto owned input/orientation and force integration — 9 November 2026
+
+The bounded prefix now owns model rates, velocities, look and input state and
+composes existing common history, orientation, time, force integration and
+position-limit services. Its factory-bound Session publication is atomic and
+retains all four initializer prerequisites. A 384-context typed projection
+matches 89,472 words. A separate 384-context Session control matches 155,136
+complete header/payload words; the original common wrapper and the Rust history
+gate both execute. The source callback's earlier phases, incoming forces,
+commands, preferences and world/time inputs remain declared boundaries.
+
+This is a prefix, not a whole controller: contacts, current control-force
+production, reactions and the remaining primary have no consumer yet. A completed
+prefix cannot begin another history or acknowledge gameplay readiness. No live
+movement, keyboard mapping or visual fidelity is certified. Prototype PS2
+correspondences remain unknown, with private lookup/evidence lineage retained.
+
+Validation: 778 synthetic Rust tests pass (30 ignored), all eight silent Kabuto
+installed-data controls pass, together with 40 Python tests, Rustfmt, Clippy with
+warnings denied, generated roadmap/site and JavaScript checks. Foreign owners,
+wrong frame numbers, invalid pure preparation and repeated/unfinished phases
+refuse. Existing Mecc/Delphi code and common-kernel arithmetic are unchanged.
+This introduces no dependency or bundled asset and creates no playable preview;
+existing package/notices/checksum receipts retain their own build identities.
+
+Combined checkpoint `82cdad7` preserves the newer shared camera kernels,
+Delphi camera input production, mission-header stores and positional-impact
+preparation. It passes 787 Rust tests (30 ignored), all eight Kabuto installed-
+data controls, 40 Python tests, Rustfmt, Clippy and roadmap/site/JavaScript checks.
+The rebuilt typed-prefix and actual Session runners repeat the 384-context
+comparisons. Other lanes' runtime/capture/package receipts retain their own source
+identities and scopes; these checks do not expand those receipts.
+
 ## Positional hard-landing context preparation - 9 November 2026
 
 The shared null-object effect initializer now preserves both floating intervals

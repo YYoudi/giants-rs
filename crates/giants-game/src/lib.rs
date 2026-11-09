@@ -43,6 +43,7 @@ pub mod kabuto_geometry_state;
 pub mod kabuto_geometry_transition;
 pub mod kabuto_growth;
 pub mod kabuto_initial;
+pub mod kabuto_motion_prefix;
 pub mod kabuto_physics;
 pub mod kabuto_player;
 pub mod kabuto_resources;
