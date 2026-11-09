@@ -11,10 +11,16 @@ no live Delphi control or new gameplay screenshot and publishes no new preview
 binary. Existing build, package, notice and checksum receipts below retain their
 exact source identities. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
-The dependency checkpoint passes 819 synthetic Rust tests (41 ignored), 40 Python
+Dependency checkpoint `5977d6a` passes 819 synthetic Rust tests (41 ignored), 40 Python
 tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript checks. The
 512-case original-PC comparison is a separate private control, not a live gameplay
 or whole-world query validation.
+
+Merged source `0963e1761bc3ac2442ffb7138ed475e84a754f8f` preserves the newer
+Kabuto control-force work and passes 819 synthetic Rust tests (42 ignored),
+40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks.
+The limited history-pattern audit reports zero findings across 480 commits /
+3,085 blobs. These source results do not relabel any existing executable receipt.
 
 ## Kabuto owned post-gravity control forces — 9 November 2026
 
