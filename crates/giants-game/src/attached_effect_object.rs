@@ -146,20 +146,12 @@ fn prepare<K: Copy>(
     origin: ContextId,
     context: &Context<K>,
 ) -> Result<Prepared<K>, String> {
-    let initial = template.attached(origin, context)?;
-    let mut seed = initial.seed;
-    let data = seed.storage.data_mut().ok_or("attached payload absent")?;
-    for at in [0x10, 0x14] {
-        data[at..at + 4].copy_from_slice(&recipe.scale.to_le_bytes());
-    }
+    let mut initial = template.attached(origin, context)?;
+    initial.size([recipe.scale; 2], false)?;
+    let seed = initial.seed;
     let mut fields = initial.fields;
     fields.control_flags |= if recipe.emitter.is_some() { 0x2000 } else { 0 };
-    fields.scale = recipe.scale;
-    let mut matrix =
-        crate::effect_orientation::matrix(fields.position, fields.angles, fields.scale)
-            .map_err(str::to_owned)?;
-    // The size writer touches only3x4 of the initially cleared cache.
-    matrix.values[12..].fill(0.);
+    let matrix = initial.matrix;
     Ok(Prepared {
         seed,
         fields,

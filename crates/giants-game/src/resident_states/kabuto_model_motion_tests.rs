@@ -20,19 +20,26 @@ fn words_line(w: impl IntoIterator<Item = u32>) -> String {
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private stage-input/receipt exports; no window or sound"]
 fn source_kabuto_model_motion_reuses_owned_classified_state_and_preserves_primary() {
-    run_model(false, false);
+    run_model(false, false, false);
 }
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private ANM/gravity inputs and receipts; no window or sound"]
 fn source_kabuto_animation_gravity_uses_model_phase_and_retains_primary() {
-    run_model(true, false);
+    run_model(true, false, false);
 }
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private post-gravity control inputs/receipts; no window or sound"]
 fn source_kabuto_control_force_uses_owned_animated_state_and_preserves_primary() {
-    run_model(true, true);
+    run_model(true, true, false);
 }
-fn run_model(animation: bool, control: bool) {
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; source resource phase and private composed receipts; no window or audio"]
+fn source_kabuto_resources_publish_before_services_and_preserve_primary() {
+    run_model(true, true, true);
+}
+#[path = "kabuto_resources_phase_tests.rs"]
+mod resource_tests;
+fn run_model(animation: bool, control: bool, resources: bool) {
     let (factory, _) = super::transition_tests::factories();
     let (foreign, _) = super::transition_tests::factories();
     let mut s = Session::new(991);
@@ -49,6 +56,7 @@ fn run_model(animation: bool, control: bool) {
             1,
         )
         .unwrap();
+    let mut resource_controls = resource_tests::Controls::default();
     let baseline_fields = s.get(id).unwrap().construction_fields.clone().unwrap();
     let baseline_payload = s.get(id).unwrap().seed.storage.data().unwrap().to_vec();
     let baseline_references = s.specifications.get(&id.serial).unwrap().0.clone();
@@ -68,7 +76,7 @@ fn run_model(animation: bool, control: bool) {
     let mut inputs = String::new();
     let mut receipt = String::new();
     let mut moving = 0;
-    for case in 0..if animation { 513 } else { 512 } {
+    for case in 0..if animation && !resources { 513 } else { 512 } {
         // Independent contexts replay the real preceding phases; resetting this
         // fixture is not acknowledgment of a completed native frame.
         s.specifications.get_mut(&id.serial).unwrap().0 = baseline_references.clone();
@@ -76,6 +84,9 @@ fn run_model(animation: bool, control: bool) {
         a.construction_fields = Some(baseline_fields.clone());
         a.channels = Some(baseline_fields.channels);
         a.mecc_animation_stamp = 0;
+        if resources {
+            a.mecc_damage = Some(0.);
+        }
         let f = a.construction_fields.as_mut().unwrap();
         f.position = [
             case as f32 * 0.125 - 32.,
@@ -102,8 +113,8 @@ fn run_model(animation: bool, control: bool) {
             .copy_from_slice(&baseline_payload);
         let p = a.seed.storage.data_mut().unwrap();
         if control {
-            // The preceding speed latch is a supplied input. Its later native
-            // producer is not implemented by this post-gravity consumer.
+            // The preceding speed latch is a supplied input. Its next-frame
+            // producer runs only in the separately requested resource phase.
             let at = [0x160, 0x164, 0x168, 0x16c][case % 4];
             let incoming = p[at..at + 4].to_vec();
             p[0x160..0x164].copy_from_slice(&incoming);
@@ -117,6 +128,12 @@ fn run_model(animation: bool, control: bool) {
         .enumerate()
         {
             p[0xfc + i * 4..0x100 + i * 4].copy_from_slice(&v.to_bits().to_le_bytes());
+        }
+        if resources {
+            // Declared prior resource state, not an original computed output.
+            p[0x12c..0x130].copy_from_slice(&u32::from(case % 3 != 0).to_le_bytes());
+            p[0x128..0x12c].copy_from_slice(&[0f32, 0.5][case % 2].to_le_bytes());
+            p[0x130..0x134].copy_from_slice(&0.2f32.to_le_bytes());
         }
         let physics = crate::kabuto_physics::Physics::from_owned_payload(p);
         let g = a.kabuto_group.as_mut().unwrap();
@@ -134,10 +151,18 @@ fn run_model(animation: bool, control: bool) {
         g.animation_gravity_entered = None;
         g.animation_gravity_completed = None;
         g.control_force_completed = None;
+        g.geometry_transition_failure = None;
+        g.resource_phase_entered = None;
+        g.resource_phase_completed = None;
+        g.resource_phase_view = None;
         let number = case as u64 + 1;
         let seconds = [0., 0.001, 1. / 60., 0.1][case % 4];
         let command = [0u8, 1, 32, 127, 255, 224, 128];
-        let commands = [0, 0, command[case % 7], command[(case / 7) % 7], 0, 0, 0, 0];
+        let mut commands = [0, 0, command[case % 7], command[(case / 7) % 7], 0, 0, 0, 0];
+        if resources {
+            let buttons = [0u32, 0x10, 0x800, 0x810][case % 4];
+            commands[4..].copy_from_slice(&buttons.to_le_bytes());
+        }
         s.begin_kabuto_motion_history(id, number, commands).unwrap();
         factory
             .advance_motion_prefix(
@@ -380,6 +405,7 @@ fn run_model(animation: bool, control: bool) {
                     )
                     .unwrap_err();
                 assert!(error.contains("unsupported service"), "{error}");
+                resource_tests::refuse_failed_animation(&factory, &mut s, id, number);
                 assert_ne!(services.stamp.0, epoch);
                 assert_eq!(s.get(id).unwrap().seed.storage.data().unwrap(), payload);
                 assert_ne!(s.get(id).unwrap().channels.unwrap(), channels);
@@ -601,8 +627,15 @@ fn run_model(animation: bool, control: bool) {
                     s.begin_kabuto_motion_history(id, number + 1, commands)
                         .is_err()
                 );
+                if resources {
+                    resource_controls
+                        .advance(&factory, &foreign, &mut s, id, number, seconds, &globals);
+                }
             }
         }
+    }
+    if resources {
+        resource_controls.finish();
     }
     assert!(moving > 300);
     if let Some(p) = std::env::var_os("GIANTS_KABUTO_MODEL_INPUTS") {

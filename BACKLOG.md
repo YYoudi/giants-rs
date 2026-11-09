@@ -42,9 +42,8 @@ The main integration lane owns combined runtime wiring and delivery, using
 [INTEGRATION.md](docs/INTEGRATION.md). Prioritize ordinary gameplay reachability
 and cross-lane regression checks over additional stand-alone demonstrations.
 
-- Review committed Flick, Delphi and Kabuto contributions against actual runtime
-  entry points; retain CPU-only and supplied-provider boundaries. Add a dedicated
-  Mecc lane to this process if the owner creates one.
+- Review committed Flick, Mecc, Delphi, Kabuto and NPC contributions against actual
+  runtime entry points; retain CPU-only and supplied-provider boundaries.
 - Wire ready contributions into the shared menu-to-mission application, including
   lifecycle/cleanup and re-entry. Resolve shared-service dependencies without
   weakening readiness or inventing missing behavior.
@@ -55,6 +54,8 @@ and cross-lane regression checks over additional stand-alone demonstrations.
   contact must use the integrated controller/effects, with release and landing
   verified. Historical scripted captures are not proof of that ordinary path.
   Keep incomplete inspection-menu experiments out of the release until reviewed.
+  Dashboard capture labels now make this diagnostic boundary explicit; that
+  presentation correction does not close the controller integration task.
 
 Each chat works alone in its own worktree and `codex/` branch. The Delphi fork
 starts from the current public main, not the older fork snapshot. Keep one menu
@@ -65,10 +66,11 @@ Mecc controller into another engine. Use an isolated Cargo target per worktree.
 | --- | --- | --- |
 | Main integration | Common menu-to-mission wiring, combined regressions, main/Windows preview/dashboard publication | Consume reviewed lane contributions; preserve ownership and evidence boundaries |
 | Flick | Cinematic lifecycle, attached/timed effects and source traversal | Shared actors, animation, effects, renderer, audio and menu transitions |
-| Mecc | Existing `mecc_*` services, owned primary/target/fire and live integration | Actor storage, physics, animation, camera, effects and audio |
+| Mecc (active in `codex/mecc-native`) | Existing `mecc_*` services, owned primary/target/fire, jet/descent/contact and remaining Mecc features | Actor storage, physics, animation, camera, effects and audio; main lane validates ordinary-gameplay integration |
 | Delphi (active in `codex/delphi-native`) | `delphi_*`: declaration/resource preparation, cold initialization, land/water movement, energy, then sword/bows/spells | Reuse the same actor and mission services; acquire character-specific callbacks separately |
 | Kabuto (active in `codex/kabuto-native`) | `kabuto_*`: declaration/resource preparation, cold initialization, movement/growth, then feeding/attacks/offspring | Reuse actor/world services; do not change Delphi or Mecc rules |
-| Worlds and mission presentation (separate future lane) | Missing building/scenery admission, NPC scheduling, ambient emitters, loading/briefing flow | Shared scene loader and renderer; coordinate changes to runtime admission |
+| NPCs (active in `codex/npc-native`) | Existing PNJ/AI work, non-player behavior, scheduling and interactions with the player | Shared actors, targeting, contacts, damage, factions, world lifecycle and player interfaces; coordinate with every character lane |
+| Worlds and mission presentation (separate future lane) | Missing building/scenery admission, ambient emitters, loading/briefing flow | Shared scene loader and renderer; coordinate with NPC scheduling and runtime admission |
 
 Formats, actor ownership/storage, collisions, animation clocks, effect pools,
 audio and the menu/loader are shared infrastructure, not three character copies.
@@ -326,6 +328,23 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: the actual Factory/Session resource phase now follows its owned
+  control-force token, executes the acquired guard, and binds actual accumulated
+  damage/class limit, current descriptor/channels, model/buttons and the shared
+  object-local clock to resource/charge/next-speed-latch production. All 512
+  source-backed contexts match 1,317,724 final/scratch/clock/service-prefix words,
+  including 2,389 clock queries, 170 sound and 170 notification requests. Prior
+  resource/latch state, world time/raw network context and flat/empty prepared
+  scene remain supplied. The original interval consumes the exported stage
+  frontier; it does not reexecute the upstream Rust phases.
+- Required service callbacks see the published real Session and can mutate it.
+  Later native consumers reread changed damage/limit/buttons and payload; late
+  failure keeps effects, owner removal prevents stale publication, foreign/order/
+  replay contexts refuse, and ANM failure cannot bypass into resources. Scratch
+  is retained for following action selection; history and all four initializer
+  prerequisites remain entered. Source lifecycle refusal is explicit, not a
+  successful empty reset. These are CPU controls with service entry providers,
+  not device sound, transport or live world admission.
 - Implemented, isolated CPU guard: heading/forward-vector and flag publication,
   accumulated-damage gate, shared local timer and ordered growth-decrement,
   sound/notification/reinitialization requests match 512 declared contexts /
@@ -344,15 +363,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   All 512 declared contexts / 141,758 payload/scratch/service-prefix words match
   the original interval, including 108 sound and 21 notification requests at
   explicit provider boundaries. The common frame converter and notification
-  predicate are reused. This does not execute audio/network transport or bind a
-  new Session phase. Failed services retain prefix effects and stop the tail;
+  predicate are reused. Those isolated controls alone do not execute audio/
+  network transport; Session binding is now composed above. Failed services retain prefix effects and stop the tail;
   failure behavior is owned policy, not native exception equivalence.
-- Next: bind that kernel to actual owned accumulated damage/limit, current
-  descriptor/clock and services. Bind the acquired intervening heading/flag/state/
-  global guard instead of jumping directly from control forces to timers.
-  The later action/animation consumers must retain native scratch state and
-  ordering. Complete primary/frame/world admission and all prerequisites remain
-  open; do not acknowledge another frame from the isolated kernel.
+- Next: acquire and connect actual class sound, notification and reinitialization
+  consumers, execute the required global tail and continue the native action/
+  animation selection from the retained scratch. The supplied service entries
+  are not those backends. Complete primary/frame/world admission and all
+  prerequisites remain open; do not acknowledge another frame from resources.
 - Implemented: the owned post-ANM/gravity control-force phase reuses common
   target/quaternion/basis/force arithmetic. Actual Factory globals, header
   configuration, position/scale, affine/contact/physics, commands and incoming
@@ -1131,6 +1149,33 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation requests. All 2,104 constructed residents release. Preserve the
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
+
+- The acquired timed attached and detached linear-gravity frames now compose
+  their following VM commands with the shared owned initial constructor. Separate
+  command-boundary controls isolate size, lifetime/fade, retirement binding and
+  gravity effects within each original interpreter invocation. Sixty-four
+  parent/child full-program states match 10,624 selected configuration, header,
+  payload, channel, matrix, position and RNG words. Active attachment samples only
+  once after context preparation; equal-size endpoints retain a disabled
+  interpolation flag in four controlled native variants. Gravity preserves the distinct render word and
+  physical payload alias. Wrong classes refuse without consuming RNG. The size
+  writer preserves the existing affine bottom row; existing ordinary/cinematic
+  attached effects and owned impacts reuse these acquired size/lifetime helpers.
+  This is a bounded configuration dependency before ordinary preparation, not
+  full actor/stock admission or a completed film. Context consumption, resources,
+  references/ANM, live physical owner, callbacks, world RNG/cadence and retirement
+  remain to compose. The last full 545-source census and fidelity counts remain
+  unchanged; prototype PS2 counterparts remain unknown.
+
+  Published `preview-2026.11.09.9` pins the configuration dependency to source
+  `241739c14772a35cd3de73ab95a7693a9742db77`, with 829 Rust tests / 45 ignored,
+  40 Python tests, MinGW/Rustfmt/strict Clippy and zero source-audit findings.
+  Both offscreen development endpoints, three active cancellations and two
+  source-terminal/re-entry voice/text cleanup cycles pass on that executable.
+  The downloaded ten-member bundle and all three assets pass independent checks.
+  Later combined source retains Delphi terrain/view scans and passes four silent
+  Delphi and three impact controls. Keep the exact binary receipt and unchanged
+  preview-6 full-corpus inventory separate from these dependency checks.
 
 - Shared state78 construction now serves both existing attached/cinematic FX and
   owned positional impacts through one immutable class/spec/state preparation.

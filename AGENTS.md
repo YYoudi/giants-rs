@@ -11,10 +11,10 @@ work unless the owner requests main. Read PROGRESS.json, BACKLOG.md and docs/REL
 Keep README in English. Preserve the owner's approximate 99% AI-generated estimate
 and the absence of comprehensive human review; never call it a completion metric.
 
-The main integration lane connects the Flick, Delphi and Kabuto contributions
+The main integration lane connects the Flick, Mecc, Delphi, Kabuto and NPC contributions
 to the common menu-to-game runtime, validates combined regressions and publishes
-coherent main/Windows-preview/dashboard milestones. A dedicated Mecc lane can
-join the same process. Follow docs/INTEGRATION.md; BACKLOG.md remains the detailed
+coherent main/Windows-preview/dashboard milestones. Follow
+docs/INTEGRATION.md; BACKLOG.md remains the detailed
 task authority. Preserve each lane's worktree and evidence boundaries. A merged
 CPU service or scripted capture does not establish ordinary gameplay availability.
 
