@@ -82,6 +82,13 @@ suppression-gate producers (historical `cutscene` field), keeping the non-mode-4
 authority path distinct from the still
 supplied mode-4 delegate. A selected camera mode does not establish a prepared
 subjective actor. Preserve these prerequisites when consuming the next Mecc lot.
+The 10 November native camera review adds 162 owner-selection prefix cases and
+864 full ordinary-Mecc pre-world admission cases (sixty active copies); see
+[OWNED_CAMERA.md](docs/OWNED_CAMERA.md). Reference-point status and actual display
+activity are separate. Before App binding, acquire startup/mode/override writers
+and world ordering, resolve the actual owner and model references, and preserve
+per-call inactive transitions. These native controls still supply current globals
+and resources; they do not establish Rust equivalence or normal gameplay admission.
 The current independently verified download is `preview-2026.11.10.1`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
