@@ -25,8 +25,15 @@ source-resource control, strict Clippy and 40 Python tests. Combined source
 post-physical, Kabuto contact/classification and sized-effect initialization.
 It passes 806 synthetic Rust tests (33 ignored), five installed-resource Mecc
 controls and the new birth control, Rustfmt, strict Clippy, 40 Python tests and
-roadmap/site/JavaScript checks. Its private build/package receipts are recorded
-separately below when complete; previous previews retain their exact identities.
+roadmap/site/JavaScript checks. The exact GNU executable SHA256 is
+`897da0bd8350b25a985436da5e71ccb91782cf0f458e2756a5fe7e219d7b6b2d`.
+Its private ten-member draft has complete receipt-bound notices and independent
+package verification with zero technical blockers; ZIP SHA256 is
+`382581aeea622adab85c465c0a544502e55186833090c6e0be1f1914d4a6441b`.
+This CPU dependency does not establish a new playable preview; previous published
+previews retain their exact identities. Source/history pattern review of the
+preceding documentation checkpoint reports zero findings across 406 commits /
+2,757 blobs. This review is not third-party redistribution clearance.
 See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
 
 ## Kabuto additional-contact callback dependency — 9 November 2026
