@@ -453,8 +453,10 @@ mod tests {
                 .storage
                 .data()
                 .unwrap()
-                .chunks_exact(4)
-                .map(|v| u32::from_le_bytes(v.try_into().unwrap())),
+                .as_chunks::<4>()
+                .0
+                .iter()
+                .map(|v| u32::from_le_bytes(*v)),
         );
         got.extend(actor.channels.unwrap().iter().flatten());
         got.push(m.matrix.flags);
