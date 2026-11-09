@@ -902,8 +902,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   actual shared countdown; an optional primary voice provider completes one
   falling-entry frame with supplied cues and preserves both late-failure paths
   without replay. This is CPU composition, not actual voice transport. Next bind
-  pain/ambient local sources, owner routing and ready sinks with their distinct
-  shared-cue flag policy and separate audio/VM RNG owners. The main inspection still supplies no impact provider and keeps
+  the actual mission gates and wounded continuation before binding the App
+  primary. Local pain/ambient transport is now independently device-tested:
+  960 native/Rust 2D caller cases / 16,968 selected words cover required-service
+  order and descriptor/owner reuse. Four damage cues plus one jet cue reach real
+  muted sinks; two reuse calls draw nothing. The typed-root adapter shares the
+  actual backend without mutable aliasing, and selected sink loss refuses while
+  unrelated loss preserves reuse. Quarantine/release removes owned assets.
+  General instance retirement/cadence, nonlocal routing and restart transport
+  remain open; no complete player trajectory or audible fidelity follows. The main inspection still supplies no impact provider and keeps
   step 441; native gate production, wounded continuation, heavy carried channel,
   active effect scheduling and cleanup remain prerequisites. The existing
   positional effect transport is for later activation, not secondary preparation.

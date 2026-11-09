@@ -66,6 +66,7 @@ pub(crate) fn reserve(
                 owned_reservation: true,
                 deferred_parameters: true,
                 actor_owner: None,
+                local_owner: None,
                 actor_moved: false,
                 spatial: Some(SpatialVoice {
                     handle,

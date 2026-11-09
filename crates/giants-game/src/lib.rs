@@ -803,5 +803,6 @@ pub mod mecc_impact;
 pub mod mecc_impact_voice;
 pub mod positional_impact;
 pub mod sound_device;
+pub mod sound_local_start;
 pub mod sound_owner;
 pub mod sound_spatial;

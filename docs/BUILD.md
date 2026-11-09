@@ -155,6 +155,22 @@ not an audio device, main-driver admission or a playable trajectory.
 
 ## Optional actual impact audio checks
 
+The local Mecc damage-voice transport has a separate silent device control. With
+the same user-supplied `GIANTS_MECC_WORLD_ROOT`, an actual audio device, an isolated
+target directory and `GIANTS_AUDIO_MUTE=1`, run:
+
+```powershell
+cargo test --locked -p giants-app source_owned_mecc_damage_voice --target x86_64-pc-windows-gnu -- --ignored --nocapture --test-threads=1
+```
+
+It uses actual installed pain/shared PCM and typed class-2 root registrations;
+health/timers are supplied to the acquired voice tail. Four damage-cue starts,
+one jet start, unique reuse, distinct RNG owners, nonlocal/root refusal and lost
+sink handling are checked on real muted sinks. Quarantine/release removes all
+owned audio assets. This is not a complete player, primary/world trajectory,
+original audio-device ABI or audible-fidelity test. No window is created. The
+ordinary primary context/provider stays unbound pending its acquisition gates.
+
 Set `GIANTS_MECC_WORLD_ROOT` to a user-supplied installation and isolate the Cargo
 target as above. The positive control requires an actual audio device and explicit
 muting; the negative control creates no audio device. Neither creates a window.

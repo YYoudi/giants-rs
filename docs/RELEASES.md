@@ -18,6 +18,28 @@ In particular, the historical jet/descent/contact captures do not close the Mecc
 input-to-landing integration prerequisite. No gallery assets or receipts change.
 
 
+## Mecc reserved local damage transport — 9 November 2026, source only
+
+The independent local transport now reserves real pain/shared PCM and exposes a
+typed-root impact provider sharing the actual jet backend. The acquired 2D caller
+policy matches 960 native/Rust cases / 16,968 selected words with explicit
+construction/stop boundaries. Descriptor defaults apply to exact zero distances.
+Unique source/owner reuse avoids a second instance and parameter draw; unsupported
+restart transport remains refused.
+
+A silent installed-data control starts four damage cues and one jet cue on real
+muted sinks, checks two unique-reuse calls, separate VM/audio seeds and source
+parameters, root/nonlocal refusal and late sink loss. Quarantine/release leaves
+no owned voices or source assets. Health/timers and typed actor registration are
+controlled inputs; this is not full player/primary admission, native DLL device
+execution, process-seed/locale startup or audible fidelity.
+
+The App primary still supplies neither impact nor voice services. Gate production,
+wounded continuation, full world cleanup, nonlocal and equipment/death profiles
+remain prerequisites. Existing preview identities and receipts are unchanged;
+the main integration lane owns combined publication. No dependency, new playable
+capture or downloadable package is added by this source handoff.
+
 ## Mecc nonlethal impact voice composition — 9 November 2026, source only
 
 The owned kind-16 voice tail now composes actual Session health, its shared

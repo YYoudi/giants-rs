@@ -478,3 +478,49 @@ continuation, gate production, death/equipment profiles, active FX and full
 cleanup/scheduling remain open. The positional class-867 transport is not the
 local Mecc pain service. Prototype PS2 attribution remains unknown; there is no
 new confirmed function name or imported platform layout.
+
+## Reserved local damage voices — 9 November 2026
+
+The acquired debug 2D caller now has a required-service policy in
+`sound_local_start`. It prepares descriptor distances before examining existing
+instances. Exact zero distances receive defaults; finite negative values remain
+unchanged in this kernel. A unique-source request with an owner reuses the first
+matching source/owner whose inactive bits are clear. The restart flag requires
+actual stop services; a forced request stops the descriptor before construction
+and does not take the normal owner-binding tail. Normal new owner binding follows
+successful construction. No default service acknowledges allocation or playback.
+
+Original-DLL/Rust controls agree on 960 contexts / 16,968 selected distance,
+instance and ordered-service words. Descriptor preparation and the actual caller
+execute in the native control. Stop/stop-all outcomes and successful construction
+are explicitly supplied. This proves the caller policy within those boundaries,
+not complete allocation, device ABI, pool lifetime or native global audio cadence.
+
+The reserved Bevy backend now admits the actual local pain/shared-cue sources in
+addition to its existing jet cues. Source preparation creates paused/muted ready
+reservations without RNG. Accepted descriptor flags are bounded to these sources;
+restart/forced transport remains refused. Unique live reuse performs no new start
+or parameter draw. A catalog miss is distinct from an unprepared/decode/device
+failure and never claims playback. Source, root and ready-sink checks retain late
+failures without replay. Local owner keys remain scoped to the one typed
+controlled root in the mounted ticket; general positional/NPC voice admission is
+not established by this provider.
+
+`mission_audio::SharedBackend` lends the same real backend exclusively to the jet
+and impact interfaces. The impact adapter resolves the actual typed Session root
+and refuses foreign/nonlocal sources; nested backend calls refuse rather than
+aliasing mutable state. Its registered-root device control executes the acquired
+voice tail with supplied health/timers and actual installed voice PCM. Four damage
+cue starts and one jet start reach real muted sinks; two unique-reuse requests
+preserve the audio RNG. Pitch/gain state and the VM/audio seeds match the separate
+calculations. Loss of an unrelated sink preserves valid reuse; loss of the selected
+sink refuses without a new draw or start. Quarantine/release leaves no owned voices
+or AudioSource assets. The installed data uses the existing language fallback;
+native locale startup and audible fidelity remain unverified. No window is used.
+
+These are independent transport and CPU-primary controls. The App driver still
+supplies neither an impact context nor a voice provider. Acquire its real mission
+gates and wounded continuation before binding these services to the live primary.
+Full world cadence, general instance retirement, equipment/death reactions,
+nonlocal routing and active effects remain open. No new normal-control screenshot
+or downloadable build claim follows. Prototype PS2 counterparts remain unknown.
