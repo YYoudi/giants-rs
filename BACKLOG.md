@@ -92,6 +92,14 @@ subjective actor. Preserve these prerequisites when consuming the next Mecc lot.
 The current independently verified download is `.13`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
+The 10 November integration review exercised the published `.13` menu, opening
+skip, ordinary Mecc entry and menu return on an independent muted profile. Its
+per-emitter ambient step trace produced about 183 MiB of local output during the
+session. Make this detailed trace opt-in while preserving lifecycle/error events,
+validate both trace settings against real muted sinks, and carry the correction
+into the next receipt-bound combined Windows preview. This does not close the
+ordinary native jet/descent/landing or held-input/fidelity prerequisites above.
+
 - Review committed Flick, Mecc, Delphi, Kabuto and NPC contributions against actual
   runtime entry points; retain CPU-only and supplied-provider boundaries.
 - Wire ready contributions into the shared menu-to-mission application, including
@@ -403,8 +411,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   floor/plane error is below 0.00000012 within a 0.002 absolute budget. Frozen
   support retention and reset-before-contact are preserved. Single-object traversal,
   prepared geometry/model/part eligibility, headers and the collision-then-scalar
-  schedule remain supplied; no same-frame order is inferred. Next: actual scene
-  key registry/lifetime and phase-correct owned header publication, other actor
+  schedule remain supplied; no same-frame order is inferred. A further 512-context
+  control executes the original list walk, radius writer and bounds helper instead
+  of supplying their results: 4,608 control/radius/scalar words and 910 ordered
+  contacts agree exactly; geometric error stays below 0.00000012. Membership,
+  prepared geometry/model/part eligibility, headers and schedule remain supplied;
+  active traversal, floor contact and excluded terrain bound this control. Source
+  inspection finds the support class in some world catalogs. Its packed class
+  attribute is now implemented in the shared field loader: 512 original dispatch/
+  defaults/termination/base-copy programs match 31,744 projected words, including
+  neighboring writes and raw operand high bits. Three Delphi mission catalogs
+  now prepare those fields; an installed control retains constructor refusal and
+  empty ownership/lists for the unacquired support state. Next: acquire that
+  state's constructor/update/lifecycle, actual scene key registry and phase-correct owned
+  header publication, other actor
   writers and caller/world/ANM timing. Do not equate scene keys with Session serials,
   conflate support with held/surfacing relationships or substitute zero for a
   missing provider. Target/proxy lifetime, main integration and fidelity remain open.

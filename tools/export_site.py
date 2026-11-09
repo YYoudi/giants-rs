@@ -16,6 +16,7 @@ PRIVATE = re.compile(r'[A-Za-z]:[\\/]|(?:evidence|\.local)[\\/]|Users[\\/]', re.
 PREVIEW_CHECKS = {
     'offscreen_menu_cycles': 'Offscreen development launches, menu return and re-entry',
     'selected_cinematic_transport': 'Selected-mission source-terminal/re-entry with muted real sinks',
+    'manual_menu_skip_return': 'Manual menu, opening skip, mission entry and return on one local profile',
 }
 PREVIEW_LIMITS = {
     'ordinary_mecc_native_motion': 'Native Mecc jet/descent/landing integration remains incomplete',
