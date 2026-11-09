@@ -1155,6 +1155,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   camera-owner/global gate production, active smoke/emitted-object lifetime and
   full movement/injury trajectory before ordinary gameplay admission. The App
   still supplies no impact/voice/display provider for this path.
+  The retained smoke constructor now stages real state78 resources, hidden-effect
+  flags and its ranged descendant bank: 24 native/Rust constructions / 11,880
+  normalized words agree; 72 additional native retained-context callbacks do not
+  recreate the object or draw again. This does not activate the pool or Session.
+  Next acquire canonical retained registration/cancellation and parent death, then
+  actual emitter callbacks/descendant construction and world admission. Preserve
+  the completed prototype PS2 lookups (all unassigned), exact PC identity, old
+  aliases, separate preparation/active draws and source image ownership. See
+  docs/OWNED_MECC_CONTACT.md for the staged constructor contract.
   The native no-play startup projection is now acquired separately: 32 dispatcher
   contexts and 216 attachment-wrapper contexts / 680 selected words agree; the
   real suppressed voice tail also matches 64 contexts / 64 cue entries / 576 words.

@@ -386,6 +386,25 @@ impl Template {
         if !matches!(context.flags(), 4 | 0x8004) {
             return Err("attached constructor context inheritance outside acquired profile".into());
         }
+        self.attached_initial(origin, context)
+    }
+    /// Only the complete retained smoke frame's caller may enter this profile.
+    /// The public ordinary/timed constructors keep their existing flag gates.
+    pub(crate) fn smoke_attached<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+    ) -> Result<Initial<K>, String> {
+        if context.flags() != 0x20004 {
+            return Err("smoke constructor requires the extended attached context".into());
+        }
+        self.attached_initial(origin, context)
+    }
+    fn attached_initial<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+    ) -> Result<Initial<K>, String> {
         self.validate(context, 0x24, 5)?;
         let p = context.program.as_ref().map_err(Clone::clone)?;
         let first = &p.records[0].bytes;

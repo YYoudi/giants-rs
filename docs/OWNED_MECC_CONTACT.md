@@ -7,7 +7,8 @@ selector, context constructor and context cleanup remain unknown. Literal name
 hits are candidates only; the PC profile remains the behavioral authority.
 
 The sections record successive acquisition checkpoints. For the current binding,
-see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026).
+see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026)
+and the retained smoke construction checkpoint below.
 Earlier missing-service statements retain the limits of their recorded checkpoint.
 
 ## Selector and ownership order
@@ -692,3 +693,37 @@ field is a retained historical parameter label; its full producer semantics are
 not established by damage arithmetic and must not be inferred from film playback
 alone. Preserve those distinctions when binding the remaining App services.
 Prototype PS2 correspondences remain unknown; no new attribution is confirmed.
+
+## Retained smoke construction — 10 November 2026
+
+`mecc_smoke_effect::Staged` projects the complete acquired extended attached
+smoke frame through its first construction. It shares the existing state78
+class/specification/physical constructor, retains its actual resources, applies
+the independent hidden-effect word and prepares the ranged descendant channel.
+The ordinary and timed constructors retain their existing strict flag gates.
+The source descendant resolves directly in the same active image, without a
+second lite selection. Preparation and active interval draws remain separate.
+
+The native program registers the constructed object, retains the context in
+state 4 and stops before the final terminator. Subsequent context callbacks do
+not reconstruct the object or consume another interval draw. Periodic emission
+belongs to the constructed object's callbacks, not a per-frame replay of this
+source block. The staging result records the required retained flags and resume
+cursor; it does not commit them to the prepared pool or claim global registration.
+
+The private native/Rust control agrees on 24 constructions / 11,880 normalized
+field, payload, matrix, emitter-bank, cursor/phase and RNG words across all three
+source smoke programs and eight supplied seeds. Another 72 native retained-context
+callbacks create no second object or interval draw. Parent construction, object
+pools, quality, CRT thread identity/seed and outer heap/texture storage are supplied.
+The installed ownership test also checks resource retention after external owners
+are dropped, unchanged preparation, strict ordinary/timed refusal and RNG
+preservation after a missing descendant is discovered following the staged draw.
+
+This is staged constructor agreement. Canonical Session adoption, persistent pool
+registration and cleanup, parent-death handling, state78 callbacks, descendant
+creation, world scheduling and rendering still require acquisition/integration.
+Do not release a live emitted effect using `release_prepared`, or use this staging
+API as a substitute for active cancellation. Before that work, follow the central
+reconstruction method and retain the completed identity-bound name lookups.
+Prototype PS2 attributions remain unknown; no additional name is confirmed.

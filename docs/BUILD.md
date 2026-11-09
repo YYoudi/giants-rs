@@ -66,6 +66,12 @@ ANM epoch wrap and retained writes/quarantine after declared late physical and
 retirement failures. It is silent CPU composition, with no world admission,
 original-process launch, window, audio or complete cinematic-fidelity claim.
 
+With `GIANTS_MECC_ROOT` set to a user-supplied installation, the ignored
+`source_mecc_retained_smoke_stages_without_consuming_context` test checks the
+three source smoke constructors, retained resources, separate active interval
+sample, profile/missing-descendant refusal and unchanged prepared pool. This is
+silent constructor staging; it admits no actor, active context or renderer.
+
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.
 Use a separate Cargo target directory for each active worktree. Sharing downloaded
