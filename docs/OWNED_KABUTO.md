@@ -845,3 +845,36 @@ comparison. No native computed output is used to seed the Rust step.
 Prototype PS2 lookups precede the touched helpers and remain unknown. Raw names,
 unreviewed demangling and generated aliases remain separate in private records.
 This CPU source milestone establishes no whole-controller or visual fidelity.
+
+## Contact callback policy — 9 November 2026
+
+`kabuto_contact::decide` implements the acquired finite PC state-1 callback.
+A missing peer or opaque class 669 returns handled without consuming numeric
+fields. Other peers select an opaque mask with strict height and scaled-radius
+comparisons, then apply the independent exclusion groups. The early exclusion
+bit bypasses the peer-support write; another bit suppresses only that write.
+The final handled result is independent of whether a peer write occurs. These
+masks and class numbers have no assigned gameplay meaning.
+
+A 512-context control of the actual original PC callback matches 1,024 return/
+write-decision words, including 217 writes. Owner and peer fields are supplied;
+this is not a whole object-contact, terrain or primary comparison. Original
+inputs and tool/binary identities are pinned in private records. The active
+nonfinite profile refuses in Rust; null/class bypasses retain their early return.
+Prototype PS2 lookup remains unknown, with literal symbols, ambiguous generated
+demangling and previous PC aliases preserved separately.
+
+`player_mesh_contact::resolve_with_event` supplies the state after geometric
+support selection, at the existing event point. The corresponding shared world
+composition supplies the peer identity and that state to an explicit handler.
+Existing entry points preserve their default event behavior. The caller remains
+responsible for applying peer-side effects in order, including when handled is
+true, and retaining them if a subsequent provider fails. This is not transactional
+Session publication. A synthetic mesh/terrain composition checks those boundaries.
+
+Kabuto's factory/history path does not consume this callback yet. Peer/scene
+binding, physical terrain and affine classification, volume-cache invalidation,
+new control forces and the primary remainder remain open. The existing prefix
+still refuses another frame and retains every initializer prerequisite. Native
+terrain-prefix acquisition is retained privately as acquisition only, not promoted
+to Rust parity or runtime evidence. No screenshot or live-play claim is added.

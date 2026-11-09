@@ -55,6 +55,7 @@ fn pass(
     objects: &[Object],
     calls: &mut u32,
     events: &mut u32,
+    event: &mut impl FnMut(&Object, &contact::State) -> Result<bool, &'static str>,
 ) -> Result<bool, &'static str> {
     let mut result = false;
     for object in objects {
@@ -112,16 +113,14 @@ fn pass(
                 ((1. - f64::from(t)) * f64::from(previous[i])
                     + f64::from(current[i]) * f64::from(t)) as f32
             });
-            let response = contact::resolve(
+            let response = contact::resolve_with_event(
                 *state,
                 o.id,
                 object.response_flags,
                 &object.triangles,
-                || {
-                    // Explicit development callback policy: events are unhandled.
-                    // No native success or campaign acknowledgement is produced.
+                |current| {
                     *events += 1;
-                    Ok(false)
+                    event(object, current)
                 },
             )?;
             *calls += 1;
@@ -157,8 +156,20 @@ pub fn resolve_for_actor(
     actor: u32,
     input: Input,
     objects: &[Object],
+    query: impl FnMut([f32; 2]) -> Result<physical_ground::Ground, &'static str>,
+    radius: impl FnMut(&contact::State) -> Result<f32, &'static str>,
+) -> Result<Output, &'static str> {
+    resolve_for_actor_with_events(actor, input, objects, query, radius, |_, _| Ok(false))
+}
+/// Preserve source class callback policy instead of assuming every object event
+/// is unhandled. Publication of effects on peer objects belongs to the caller.
+pub fn resolve_for_actor_with_events(
+    actor: u32,
+    input: Input,
+    objects: &[Object],
     mut query: impl FnMut([f32; 2]) -> Result<physical_ground::Ground, &'static str>,
     mut radius: impl FnMut(&contact::State) -> Result<f32, &'static str>,
+    mut event: impl FnMut(&Object, &contact::State) -> Result<bool, &'static str>,
 ) -> Result<Output, &'static str> {
     if actor == 0 {
         return Err("physical player scene identity must be nonzero");
@@ -177,7 +188,14 @@ pub fn resolve_for_actor(
             let mut full = full.borrow_mut();
             write_state(&mut full, s);
             full.radius = radius(&full)?;
-            let retry = pass(actor, &mut full, objects, &mut calls, &mut events)?;
+            let retry = pass(
+                actor,
+                &mut full,
+                objects,
+                &mut calls,
+                &mut events,
+                &mut event,
+            )?;
             *s = read_state(&full, s.object_flags);
             Ok(retry)
         },
@@ -337,5 +355,64 @@ mod tests {
         assert_eq!(self_view.mesh_responses, 0);
         assert!(other.mesh_responses > 0);
         assert!(resolve_for_actor(0, input(true), &objects, query, |s| Ok(s.radius)).is_err());
+    }
+
+    #[test]
+    fn class_callback_observes_contact_support_and_preserves_peer_write() {
+        let mut initial = input(true);
+        initial.state.current = [0., 0., 0.];
+        initial.state.previous = [0., 0., 1.];
+        initial.state.velocity = [0., 0., -1.];
+        // A nearby upward triangle establishes support before the event runs.
+        let objects = [Object {
+            fields: mecc_collision_candidates::Object {
+                id: 77,
+                parent: 0,
+                has_model: true,
+                object_flags: 0,
+                collision_flags: 0,
+                bounds: volume_queries::Bounds {
+                    min: [-100.; 3],
+                    max: [100.; 3],
+                },
+            },
+            response_flags: 0,
+            triangles: vec![contact::Triangle {
+                vertices: [[-100., -100., 1.], [100., -100., 1.], [0., 100., 1.]],
+                part: 3,
+                ordinal: 4,
+            }],
+        }];
+        let mut peer_support = 0;
+        let out = resolve_for_actor_with_events(
+            9,
+            initial,
+            &objects,
+            |_| Err("terrain is disabled"),
+            |s| Ok(s.radius),
+            |object, state| {
+                assert_eq!(object.fields.id, 77);
+                assert_eq!(state.support, 77);
+                assert_eq!(state.support_part, 3);
+                assert_eq!(state.support_triangle, 4);
+                let decision = crate::kabuto_contact::decide(
+                    state.current[2],
+                    state.scale,
+                    Some(crate::kabuto_contact::Peer {
+                        class: 2,
+                        upper_z: 1.,
+                        radius: 1.,
+                        collision_mask: 0x3ffc,
+                    }),
+                )?;
+                if decision.bind_peer_support {
+                    peer_support = 9;
+                }
+                Ok(decision.handled)
+            },
+        );
+        // The callback effect is retained even if a later provider fails.
+        assert_eq!(out.err(), Some("terrain is disabled"));
+        assert_eq!(peer_support, 9);
     }
 }

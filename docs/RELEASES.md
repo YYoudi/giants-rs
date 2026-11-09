@@ -1,5 +1,26 @@
 # Preview releases and milestone integration
 
+## Kabuto contact policy and shared callback boundary — 9 November 2026
+
+The acquired finite contact kernel now returns separate handled and peer-support
+write decisions. A 512-context original-PC control matches 1,024 words, including
+217 peer-support writes. The shared prepared-geometry collision composition
+exposes each peer and the current narrow-phase state to its class handler while
+preserving the existing Mecc/Delphi entry points. Tests cover strict thresholds,
+null/class bypasses, independent write/handled results, support-before-callback
+and retained caller effects when a later terrain provider fails.
+
+Validation: 791 synthetic Rust tests pass (30 ignored), all eight silent Kabuto
+installed-data controls pass, plus 40 Python tests, Rustfmt, Clippy with warnings
+denied and generated roadmap/site/JavaScript checks.
+
+This is a CPU dependency milestone. It does not connect Kabuto to a live scene,
+apply peer writes to a Session, complete terrain/affine classification or permit
+another owned primary frame. No runtime, screenshot or package receipt is
+expanded. No dependency, bundled data or preview package is added; existing
+notices/checksums retain their package identities. Prototype PS2 attribution
+remains unknown. Full-controller reconstruction continues in BACKLOG.md.
+
 ## Kabuto owned input/orientation and force integration — 9 November 2026
 
 The bounded prefix now owns model rates, velocities, look and input state and
