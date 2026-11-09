@@ -16,6 +16,62 @@ mod transition_tests;
 mod growth_tests;
 
 impl Session {
+    pub(crate) fn decide_kabuto_growth(
+        &mut self,
+        owner: Id,
+        resources: &Resources,
+        context: &crate::kabuto_geometry_mode::NotificationContext<'_>,
+        mut observe: impl FnMut(
+            crate::kabuto_growth::DecisionEvent,
+            crate::kabuto_growth::DecisionState,
+        ),
+    ) -> Result<bool, String> {
+        let actor = self
+            .get(owner)
+            .ok_or("Kabuto target owner absent or foreign")?;
+        let group = actor
+            .kabuto_group
+            .as_ref()
+            .ok_or("Kabuto target group absent")?;
+        if actor.class != 1
+            || actor.seed.storage.state() != 1
+            || group.cleaned_up
+            || group.geometry_transition_failure.is_some()
+            || !Arc::ptr_eq(&group.declared_class, &resources.specification)
+            || self
+                .specification(owner)
+                .is_none_or(|s| !Arc::ptr_eq(s, &resources.specification))
+        {
+            return Err("Kabuto target decision requires its active factory-owned group".into());
+        }
+        let payload = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("Kabuto target payload absent")?;
+        if payload.len() != 844 {
+            return Err("Kabuto target payload profile differs".into());
+        }
+        let mut state = crate::kabuto_growth::DecisionState {
+            trigger: f32::from_le_bytes(payload[0x94..0x98].try_into().unwrap()),
+            target: f32::from_le_bytes(payload[0x158..0x15c].try_into().unwrap()),
+        };
+        let mut publish = |state: crate::kabuto_growth::DecisionState| {
+            let actor = self.residents.get_mut(&owner.serial).unwrap();
+            let payload = actor.seed.storage.data_mut().unwrap();
+            payload[0x94..0x98].copy_from_slice(&state.trigger.to_le_bytes());
+            payload[0x158..0x15c].copy_from_slice(&state.target.to_le_bytes());
+            actor.kabuto_group.as_mut().unwrap().primary_started = true;
+        };
+        let changed = crate::kabuto_growth::decide(&mut state, context, |event, state| {
+            publish(state);
+            observe(event, state);
+        })
+        .map_err(str::to_owned)?;
+        publish(state);
+        Ok(changed)
+    }
+
     pub(crate) fn advance_kabuto_growth(
         &mut self,
         owner: Id,

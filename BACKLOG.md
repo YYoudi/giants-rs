@@ -354,6 +354,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented: factory-bound target decision reads the actual owner state threshold
+  and target, preserves the shared wide integer conversion and four-value wrap,
+  and publishes the target before its notification and the reset after it. The
+  existing notification guard is reused. A 512-context kernel control matches
+  2,509 words / 237 service-boundary observations, including old/new state timing.
+  Another 512-context actual Factory/Session decision + size + auxiliary control
+  matches 315,440 words. Sound executes the original null-bank return; notification
+  transport is supplied. The threshold field's producer and gameplay role remain
+  unassigned: no feeding, keyboard trigger or complete primary is inferred.
 - Implemented: factory-bound size pursuit publishes the supplied target, retains
   actor-local time as Double53 through the fixed step, clamps current size and
   invokes the existing complete parameter/radius refresh whenever the incoming
@@ -527,9 +536,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   and acquire the following flag/state/health path; this is not a completed run.
   The new exact Bevy replay passes the former step-190 gate, stops at step 242
   without a device, and reaches step 348 with the real reserved/muted backend
-  (three actual sound starts). Acquire the refused jet-depletion services;
-  do not refill fuel or supply dummy effects to finish the replay. Long-run
-  cancellation/re-entry remains unvalidated. Keep the low-floor flag/state/health
+  (three actual sound starts). The later unequipped depletion acquisition now
+  covers all admitted control-mask combinations: 288 native branch controls
+  invoke no services and only zero fuel; 1,536 jet-prefix controls still agree.
+  Source f24febd passes step 348 without fuel refill or dummy effects, reaches
+  step 441 with seven actual muted sink starts, then refuses the independent
+  impact-reaction provider. Acquire that reaction before extending the replay;
+  equipped shield/cloak depletion remains excluded. Long-run cancellation/re-entry
+  remains unvalidated. Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup
   and real world scheduling, then independent impact reactions. Prepared-only
@@ -720,6 +734,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   free head unchanged and never calls its object allocator. This observation
   excludes later VM callbacks, source FX and mission population. Do not equate
   Flick actor counts with ordinary-world occupancy or invent a per-film quota.
+  Ordinary mission placement header follow-up: the shared owned declaration
+  constructor now applies the acquired command3/4 object/status marks to its
+  generic state0/state23 mission profiles after successful construction. World
+  declarations and character-specific cold startup keep their existing routes;
+  the already-acquired mission herd-marker path reuses the same header helper.
+  A native 512-case control checks all 395,264 object bytes across the bounded
+  template-copy/flag-store fragment, stopping before the initial object update.
+  Rust agrees on all 512 header cases. The real source preparation path in four
+  cohort worlds constructs and marks 32 mission actors and releases all tracked
+  residents; its 40 existing declaration refusals remain explicit. Synthetic
+  ownership controls reject failed/duplicate declarations without publishing or
+  allocating another identity. This corrects owned header inputs, not physical
+  stock accounting, complete mission admission or the omitted initial callbacks.
   The physical capacity/recycle boundary is acquired; real mission occupancy,
   shared admission, error handling and full world scheduling remain open. No
   shared Rust capacity policy or new gameplay admission follows from CPU proof.

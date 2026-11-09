@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.06.3
+# Windows x64 development preview - preview-2026.11.09.1
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -12,9 +12,22 @@ is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
 
-## Persistent cinematic effect rendering
+## Ordinary mission placement headers
 
-Compared with preview-2026.11.06.2, the main film now follows both acquired drawing
+Compared with preview-2026.11.06.3, the common owned loader now marks its acquired
+ordinary state0/state23 mission actors after successful construction. World
+declarations retain their own route, and other character startup ordering remains
+separate. The existing mission herd-marker path shares the same operation.
+
+512 original-PC/Rust header controls agree. Actual source preparation in the four
+bounded cinematic-cohort worlds constructs 32 marked mission actors and releases
+all tracked residents; 40 existing declaration refusals remain explicit. This
+corrects shared runtime inputs. It adds no physical-stock quota, initial callback,
+gameplay admission or verified scene fidelity.
+
+## Retained persistent cinematic effect rendering
+
+Retained from preview-2026.11.06.3, the main film follows both acquired drawing
 traversals for its bounded constant attached effects. The ordinary traversal uses
 the current source camera and director draw range; the adjacent effect traversal
 remains independent of that range. Both consume the same owned matrix, animation
@@ -43,7 +56,7 @@ original saves are not imported. Selected missions can present partial cinematic
 and supported Mecc controls. Unsupported entries may remain scene inspection or
 refuse startup. User state is outside the read-only installation. Read QUICK_START.md.
 
-The combined source passes 768 synthetic Rust tests (27 ignored), 40 Python tests,
+The combined source passes 775 synthetic Rust tests (29 ignored), 40 Python tests,
 Rustfmt and Clippy. Exact executable/package receipts and runtime checks are
 recorded in RELEASES.md and the release manifest. Earlier previews' UI or natural-
 ending checks are not re-labelled as measurements of this combined executable.

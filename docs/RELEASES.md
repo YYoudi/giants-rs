@@ -60,6 +60,113 @@ verifier blockers. Executable SHA256:
 private ZIP SHA256:
 `987a98e9249ca3c7841127abdd904477a785b0d79eb518d31b18146a8eb3051e`.
 This earlier binary does not include the later lens/projection kernels.
+## Ordinary mission placement header — 9 November 2026
+
+The common owned declaration constructor now preserves the original mission
+placement marks for its acquired state0/state23 profiles. The marks are applied
+after successful construction and before later updates; world declarations retain
+their own route. The existing specialized mission herd-marker path shares the
+same header operation. Other character cold-start ordering remains separate.
+
+An identity-bound original-PC control covers 512 template-copy/flag-store cases
+and 395,264 object bytes before the initial update callback. Rust matches all 512
+header cases. The actual source preparation path constructs 32 marked mission
+actors across the four bounded-cohort worlds, then releases its tracked residents.
+Forty existing declaration refusals remain visible. Synthetic ownership checks
+cover world/mission scope, invalid construction, duplicate keys and retained
+source configuration/channels. Prototype PS2 attribution remains unknown.
+
+This corrects header inputs consumed by the shared runtime and entry contribution
+service. It does not implement physical stock accounting, run the omitted initial
+callbacks, reconstruct complete world occupancy or admit gameplay. The 545-source
+inventory, 59 reported gaps and zero fully verified cinematic scenes are unchanged.
+
+Source `2a9037590bfac07cf906bae866f7d6a95c731af5` passes 775 synthetic Rust tests
+(29 ignored), 40 Python tests, Rustfmt, Clippy with warnings denied, site export
+and JavaScript syntax checks. Source/history review finds no issues across 337
+reachable commits / 2,497 blobs. The combined-source header comparison and
+four-world source construction/release control pass again.
+
+Its exact GNU executable SHA256 is
+`de683ea64e27ff76fecec8d57ca5c13d1f2caa80c0a9a97b98268645a133195b`.
+CLI startup and both silent offscreen development lifecycle endpoints pass.
+Rstory1 mission-index-2 controls separately pass three active-persistent-object
+service cancellations and two source-terminal/re-entry cycles, including silent
+voice/text ownership and cleanup. No new interactive controls or audible/native
+fidelity are claimed. Receipt-bound notice collection, the unchanged reviewed PE
+import set and all ten ZIP members/checksums are verified. Windows preview
+`preview-2026.11.09.1` has ZIP SHA256
+`7dc78fe22f65e5475d96c82d014e9c1097fdb87fdc9158526b3e86536c1fec15`.
+The published ZIP and both adjacent checksum files were independently downloaded;
+all ten members and their manifest/checksum entries agree.
+
+Combined checkpoint `f9df92d` preserves the newer owned Kabuto target-decision
+work and passes 777 Rust tests (29 ignored), 40 Python tests, Rustfmt, Clippy,
+site/JavaScript checks and the 512-case / four-world header control. Source/history
+review reports no findings across 343 commits / 2,518 blobs. This source checkpoint
+does not relabel the exact executable, runtime or ZIP receipts above.
+
+## Kabuto owned target decision — 9 November 2026
+
+The factory-bound decision now reads the actual owner state threshold and target,
+uses shared wide integer conversion and the acquired four-value wrap, and
+preserves sound/notification publication order. Its target flows into the owned
+size/parameter/radius phase and second-auxiliary selector. A 512-context kernel
+control matches 2,509 words / 237 service observations. A separate 512-context
+Factory/Session composition matches 315,440 normalized words, including complete
+owner/child headers, owner payload, physical words, refresh decisions and ordered
+sound-call states. The original sound bank is null; transport is a supplied
+boundary. These controls do not assign the threshold's gameplay role or producer.
+
+Validation: 776 synthetic Rust tests pass (29 ignored), all seven silent Kabuto
+installed-data controls pass, together with 40 Python tests, Rustfmt, Clippy with
+warnings denied, roadmap generation, site export and JavaScript syntax checks.
+The combined source preserves current Mecc/Delphi contact/camera work and earlier
+size-pursuit receipts. Prototype PS2 correspondence remains unknown. Full primary,
+movement/jumping, threshold production/feeding, world cadence and live admission
+remain open; no readiness or visual fidelity status is promoted.
+
+Combined checkpoint `27f34b2` preserves the newer Mecc reserve-depletion change
+and repeats 776 Rust tests (29 ignored), all seven Kabuto installed-data controls,
+40 Python tests, Rustfmt, Clippy and site checks. Rebuilt private decision and
+owned-composition runners again match their 512-context controls. The earlier
+supplied-target trajectories also match 1,024 contexts / 627,712 words at the
+preceding Kabuto checkpoint; their original supplied-target scope is retained.
+
+No dependency or bundled-asset change is made and no new gameplay preview is
+claimed. Existing notice/package manifests and checksums retain their original
+executable identities; this CPU source milestone does not replace their receipts.
+
+## Unequipped Mecc jet reserve depletion - 9 November 2026
+
+The owned normal jet driver no longer refuses zero fuel when its existing
+inventory/control guards exclude shield and cloak equipment. The acquired PC
+branch only stores zero in this profile: 288 native controls cover every admitted
+flag combination with no service substitutions. The independent jet prefix still
+matches 1,536 cases / 19,968 words, including 66 depletion entries. Equipped
+depletion services remain open. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+Source `f24febd64d54ac7a801bb5cd4b2aa79f6792ed19` passes 774 Rust tests
+(29 ignored), 40 Python tests, Rustfmt, Clippy and five installed-resource Mecc
+controls. The 576-frame/22-shot primary regression matches 341,220 words and all
+ten declared provider-failure controls pass. Source/history review reports no
+findings across 331 reachable commits and 2,472 blobs.
+
+The exact GNU executable SHA256 is
+`8eba464b3d841350c799c1189557d2dcec708b4d945fbcb2c6e038b171885a0d`.
+The actual reserved/muted main replay passes the previous step-348 boundary,
+performs seven real sink starts and then refuses an unacquired impact reaction
+at step 441. The full long-cycle report remains unsuccessful. Low-floor
+state/health behavior and active slide effects remain separate prerequisites;
+neither the reaction nor a completed movement trajectory is certified.
+The separate bounded 128-step inspection regression completes three menu
+requests/cancellations and releases its owned draw assets on the same executable.
+
+The private ten-member validation draft has receipt-bound notices/review and
+independent package checks with zero technical blockers; archive SHA256 is
+`55b2bd8c9669e9d32dd341a7bd2689228428b18a5f7e18bab5e3cf8d88b6a9a8`.
+This bounded prerequisite does not establish a new playable download or capture.
+Earlier preview/capture identities and visual-fidelity limits are preserved.
 
 ## Living Mecc selection across absolute zero - 9 November 2026
 

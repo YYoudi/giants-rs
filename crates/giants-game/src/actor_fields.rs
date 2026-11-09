@@ -236,6 +236,13 @@ impl Fields {
             word_1c4: self.configuration[13],
         }
     }
+    /// Mission command3/4 header stores after ordinary template/placement
+    /// preparation, before the first object update. This marks no slot or
+    /// mission ready and executes no callback or physical-stock allocation.
+    pub fn mark_mission_placement(&mut self) {
+        self.object_flags |= 0x400;
+        self.response_flags |= 0x2000_0000;
+    }
     pub fn words(&self) -> Vec<u32> {
         let mut words = self.configuration.to_vec();
         words.extend([
