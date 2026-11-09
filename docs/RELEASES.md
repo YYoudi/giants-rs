@@ -19,6 +19,24 @@ promotion follows; point/candidate queries, readiness, typed target lifetime,
 audio/physics binding, water and combat remain open. See
 [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
+Combined source `99ec68577655e1d370dc68d43b07ea0af67f0c50` retains newer
+Kabuto model-rate and shared runtime work. It passes 816 Rust tests (39 ignored),
+the extended seven-owner Delphi source-data control, 40 Python tests, Rustfmt,
+strict Clippy and generated roadmap/site/JavaScript checks. The pattern audit
+reports zero findings across 463 commits / 3,008 blobs.
+
+The exact common GNU executable SHA256 is
+`582336dfb774946968d039d17a9a1f013e47bed8e9171278febb622c1b22361b`.
+Both silent offscreen development endpoints and three Rstory1 mission-2 persistent
+birth/update/cancel/re-entry cycles pass, with text cleanup. Canonical PE import
+sets are unchanged. The private ten-member validation draft includes complete
+receipt-bound notices/checksums; independent verification reports zero technical
+blockers. ZIP SHA256 is
+`a2d2eef774e0b66d7a14bdd45c9b5e0f31c669a1f8d3d89e2c9b3e8a0405742e`.
+These are common-runtime regressions, not live Delphi control. Published previews
+retain their own receipts; this geometry dependency claims no new playable
+Delphi download and includes no original assets or private research.
+
 ## Kabuto owned animation-to-gravity sequence — 9 November 2026
 
 The Factory-bound Session now queries its actual local clock, advances channels/

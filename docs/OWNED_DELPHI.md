@@ -49,6 +49,10 @@ readiness, typed target lifetime and active sound/physics binding remain the nex
 prerequisites. Prototype PS2 correspondences remain unknown; detailed lookups,
 failed acquisition/probe attempts and scope corrections stay private.
 
+The exact common build/package and source validations are pinned in
+[RELEASES.md](RELEASES.md). Its menu/cinematic regressions exercise the shared
+runtime, not live Delphi input, full-world geometry order or rendered fidelity.
+
 ## Target movement and activation services - 9 November 2026
 
 `delphi_target_movement::advance` now computes the acquired finite movement toward
