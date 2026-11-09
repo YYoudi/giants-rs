@@ -57,6 +57,14 @@ all three public assets. The retained native comparisons repeat successfully
 against this combined runtime source. No interactive tests ran, and the runtime
 checks retain their selected-opening partial-renderer scope.
 
+Later combined source `f770f6752749fa8a855e6eac58f2611c03a7f421` preserves the
+new Delphi held-origin ray work. All 637 game-crate tests pass (26 ignored),
+along with workspace strict Clippy, formatting, 40 Python tests and generated
+roadmap/site/JavaScript checks. The source audit covers 476 commits / 3,067 blobs
+with zero findings. The four changed cinematic/class-field modules are identical
+to the published binary source; these combined-source checks remain separate
+from the exact executable/runtime/package receipts above.
+
 ## Retirement context inheritance service — 9 November 2026
 
 The common context pool now prepares the acquired direct-offset retirement mode
