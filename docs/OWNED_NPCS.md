@@ -44,6 +44,47 @@ lookups remain unassigned; matching vocabulary alone establishes no attribution.
 
 ## Source-resource regression
 
+### Separate Vimp world-history entry — 10 November 2026
+
+The normal PC world path prepares active actors' position histories before its
+primary callback traversal. The common traversal reads each successor after
+the callback. An actor born later in that traversal must not be assumed to have
+received the earlier history pass. Outer world gates and intervening global
+services remain required; recovering this ordering does not implement them.
+
+`Session::prepare_vimp_world_history` now seals an initialized, active owned
+Vimp's history for its current local frame. It advances no clock, AI, physics,
+animation or audio. `advance_vimp_world_after_history` consumes that preparation
+without copying the history again. Wrong/foreign frame identities, inactive
+preparation, repeated preparation and mixing the split and combined routes are
+refused. A missing preflight service keeps the pending history; an attempted
+callback consumes it and retains its failed iteration against replay. Existing
+`advance_vimp_world_offline` remains the combined inspection route.
+
+The pure position-history operation is shared with ordinary actor finalization.
+Actual original-PC execution of the helper and its real return tail matches
+256 supplied header cases / 2,304 position/history words in Rust, including
+signed zero, infinities and NaN payloads. The native control separately checks
+49,408 header words for preservation outside the written history fields; that
+is not a complete-header Rust comparison. These are instruction-level controls,
+without world startup, live clock/RNG or callbacks.
+
+Three installed-resource controls cover two separately prepared actors, a
+position change between phases, a late terrain failure with retained history,
+replay/foreign/inactive refusal and a missing required recovery-sound provider.
+An eight-frame source-backed prefix matches the existing combined route for
+position histories, channels, configuration, payload, RNG and ANM epoch using
+supplied flat terrain, time and seed. It is a Rust composition regression, not
+an original-PC comparison of eight complete frames. The controlled actor
+identity is supplied; no complete world or ordinary mission is admitted.
+
+Next acquire newborn first-primary continuation and its history/initialization
+order, actual world admission and clock/RNG ownership. Bind the complete cohort
+and required threat/feeding/effect/audio services before enabling mission AI.
+Prototype PS2 attribution remains unassigned.
+
+### Authored herd births
+
 The optional `source_npc_herd_births_keep_ownership_and_quarantine_failures` test
 loads authored world herd/marker placements from a user-supplied installation.
 It keeps their values and order, composes source Vimp construction and first

@@ -23,6 +23,8 @@ mod reference_camera;
 mod state18_reference_reset;
 mod subjective;
 mod timed_effect;
+#[cfg(test)]
+mod vimp_history_tests;
 pub use timed_effect::Services as TimedEffectServices;
 
 struct OwnedSpecification(crate::actor_references::Owned);
@@ -311,6 +313,7 @@ pub struct Resident {
     vimp: Option<crate::vimp_actor::Cold>,
     vimp_physical: Option<crate::vimp_physical::Owned>,
     vimp_frames: u64,
+    vimp_prepared_history: Option<u64>,
     vimp_frame_stopped: bool,
     vimp_chunk: Option<crate::vimp_chunks::Chunk>,
     vimp_hurt_steps: u64,
@@ -554,6 +557,7 @@ impl Session {
                 vimp: None,
                 vimp_physical: None,
                 vimp_frames: 0,
+                vimp_prepared_history: None,
                 vimp_frame_stopped: false,
                 vimp_chunk: None,
                 vimp_hurt_steps: 0,
@@ -5634,25 +5638,36 @@ impl Session {
         }
         Ok(())
     }
-    /// One common-list Vimp iteration with retained physics, supplied admission/time
-    /// and acquired position/rate histories. This is not whole-world scheduling.
-    pub fn advance_vimp_world_offline(
+    /// Seal a Vimp's position history during the separate world history pass.
+    /// No clock, AI, physics, ANM or sound is advanced. The caller must still
+    /// establish native world admission and visit order; this is not readiness.
+    pub fn prepare_vimp_world_history(
         &mut self,
         id: Id,
-        frame: crate::vimp_frame::Frame<'_>,
+        number: u64,
         factory: &crate::vimp_actor::Factory,
-        globals: &giants_formats::global_data::GlobalData,
-        services: &mut crate::vimp_frame::Services<'_>,
-    ) -> Result<crate::actor_world_tick::Outcome, String> {
+    ) -> Result<(), String> {
         factory.growth_bounds(self, id)?;
+        self.validate_vimp_world_entry(id, number)?;
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        let fields = actor
+            .construction_fields
+            .as_mut()
+            .ok_or("Vimp world fields absent")?;
+        if actor.vimp_prepared_history.is_some() || fields.object_flags & 0xc000 != 0 {
+            return Err("Vimp history already prepared or actor inactive".into());
+        }
+        fields.advance_position_history();
+        actor.vimp_prepared_history = Some(number);
+        Ok(())
+    }
+
+    fn validate_vimp_world_entry(&self, id: Id, number: u64) -> Result<(), String> {
         let actor = self.get(id).ok_or("Vimp world owner absent or foreign")?;
         let vimp = actor.vimp.ok_or("Vimp world construction absent")?;
-        if matches!(vimp.mode, 2..=4) && services.recovery_sounds.is_none() {
-            return Err("Vimp recovery sound-stop service absent".into());
-        }
         if !vimp.initialized
-            || frame.number != actor.vimp_frames
-            || frame.number == u64::MAX
+            || number != actor.vimp_frames
+            || number == u64::MAX
             || actor.world_tick_running
             || actor.vimp_frame_stopped
             || actor
@@ -5668,14 +5683,64 @@ impl Session {
         {
             return Err("Vimp world iteration out of order, incomplete or stopped".into());
         }
+        Ok(())
+    }
+
+    /// Consume separately prepared history without copying it again during the
+    /// primary pass. Missing preflight services retain the pending history;
+    /// callback execution consumes it even when a later service fails.
+    pub fn advance_vimp_world_after_history(
+        &mut self,
+        id: Id,
+        frame: crate::vimp_frame::Frame<'_>,
+        factory: &crate::vimp_actor::Factory,
+        globals: &giants_formats::global_data::GlobalData,
+        services: &mut crate::vimp_frame::Services<'_>,
+    ) -> Result<crate::actor_world_tick::Outcome, String> {
+        self.advance_vimp_world_with_history(id, frame, factory, globals, services, true)
+    }
+
+    /// One common-list Vimp iteration with retained physics, supplied admission/time
+    /// and acquired position/rate histories. This is not whole-world scheduling.
+    pub fn advance_vimp_world_offline(
+        &mut self,
+        id: Id,
+        frame: crate::vimp_frame::Frame<'_>,
+        factory: &crate::vimp_actor::Factory,
+        globals: &giants_formats::global_data::GlobalData,
+        services: &mut crate::vimp_frame::Services<'_>,
+    ) -> Result<crate::actor_world_tick::Outcome, String> {
+        self.advance_vimp_world_with_history(id, frame, factory, globals, services, false)
+    }
+
+    fn advance_vimp_world_with_history(
+        &mut self,
+        id: Id,
+        frame: crate::vimp_frame::Frame<'_>,
+        factory: &crate::vimp_actor::Factory,
+        globals: &giants_formats::global_data::GlobalData,
+        services: &mut crate::vimp_frame::Services<'_>,
+        prepared: bool,
+    ) -> Result<crate::actor_world_tick::Outcome, String> {
+        factory.growth_bounds(self, id)?;
+        self.validate_vimp_world_entry(id, frame.number)?;
+        let actor = self.get(id).ok_or("Vimp world owner absent or foreign")?;
+        let vimp = actor.vimp.ok_or("Vimp world construction absent")?;
+        if matches!(vimp.mode, 2..=4) && services.recovery_sounds.is_none() {
+            return Err("Vimp recovery sound-stop service absent".into());
+        }
+        if actor.vimp_prepared_history != prepared.then_some(frame.number) {
+            return Err("Vimp world history route or frame differs from preparation".into());
+        }
         let actor = self.residents.get_mut(&id.serial).unwrap();
         let fields = actor
             .construction_fields
             .as_mut()
             .ok_or("Vimp world fields absent")?;
-        // Acquired49fb70; the exact D tail4041e0 is a RET.
-        fields.previous = fields.current;
-        fields.current = fields.position;
+        if !prepared {
+            fields.advance_position_history();
+        }
+        actor.vimp_prepared_history = None;
         actor.vimp.as_mut().unwrap().wander_pending = false;
         actor.world_tick_running = true;
         let mut token = crate::actor_world_tick::Tick::new();

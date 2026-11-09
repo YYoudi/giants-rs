@@ -49,7 +49,15 @@ The dedicated NPC lane resumes existing work; see
   injected terrain failures. Preserve two inactive-parent exclusions and two
   parser-refused world files; they are not empty or fully covered populations.
 - Connect herd scheduling and admitted Vimp updates to actual world ownership,
-  then acquire threat/feeding services and active effects/audio before ordinary
+  retaining the acquired ordering: active history prepass before callbacks,
+  then successor lookup after each callback. A separate owned Vimp history API
+  now avoids per-callback recopying; 256 native helper controls match 2,304
+  position/history words, and three source controls retain failure/preflight
+  boundaries plus eight Rust-composition frames. This admits no live world.
+  Next acquire newborn initialization/first-primary continuation and which
+  constructor histories survive a birth after the prepass; do not impose an
+  extra history copy or postpone a new child using a population snapshot.
+  Then acquire threat/feeding services and active effects/audio before ordinary
   mission admission. Preserve existing refusal and late-failure behavior.
 - Resume the persistent Ripper primary/perception/attack services, actual player
   target identities, physical/ANM order and required firing/audio/effect providers.

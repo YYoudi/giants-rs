@@ -93,6 +93,7 @@ user-supplied installation and use an isolated Cargo target:
 
 ```powershell
 cargo test --locked -p giants-game source_npc_herd --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_world_history --target x86_64-pc-windows-gnu -- --ignored --nocapture
 ```
 
 This silent CPU check uses authored herd/marker values with a supplied flat
@@ -101,6 +102,10 @@ terrain-failure quarantine, replay refusal and cleanup. It does not establish
 live NPC AI, player interaction, world scheduling or rendering. See
 [OWNED_NPCS.md](OWNED_NPCS.md).
 It loads world declarations only; mission markers are outside this fixture.
+The second command checks separate Vimp history/primary entry, retained late
+terrain failure, missing-service preflight and eight controlled frames against
+the existing combined Rust route. Time, ground, seed and control identity are
+supplied; it establishes no complete native world frame or mission admission.
 
 ## Optional subjective Mecc lifecycle check
 

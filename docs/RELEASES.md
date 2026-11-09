@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Separate owned Vimp history and callback entry — 10 November 2026
+
+Owned initialized Vimps can now prepare position history in a separate pass and
+consume it once during callback entry. Mixing combined/split routes, wrong frame,
+foreign owner and inactive preparation refuse. Missing preflight services retain
+pending history; callbacks that fail retain their consumed token and effects.
+The existing combined inspection route remains available. Ordinary actor
+finalization reuses the same acquired position-history kernel.
+
+Original-PC helper execution matches 256 supplied cases / 2,304 position-history
+words, including special float bit patterns. Its native-only preservation check
+covers 49,408 header words, not a full-header Rust comparison. Three installed
+controls pass, including late terrain failure and an eight-frame parity prefix
+against the combined Rust route with supplied flat terrain/time/RNG/control
+identity. Native world gates, global services and newborn first-primary/history
+ordering remain open, as do threat/feeding/audio/effects and ordinary mission AI.
+Prototype PS2 counterparts remain unassigned. No new downloadable gameplay
+preview, dependency or asset is introduced; earlier executable/package/notices
+receipts retain their exact identities. See [OWNED_NPCS.md](OWNED_NPCS.md).
+
 ## Retained parent-binding storage — 9 November 2026
 
 Session parent removal now retains the supplied child/parent reference indices

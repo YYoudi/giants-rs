@@ -38,6 +38,13 @@ pub struct Fields {
     pub angles: [f32; 3],
 }
 impl Fields {
+    /// Common position-history preparation. Copies float bit patterns without
+    /// changing flags, pose, animation or declaring a completed actor update.
+    pub fn advance_position_history(&mut self) {
+        self.previous = self.current;
+        self.current = self.position;
+    }
+
     pub fn load(
         resources: &SceneResources,
         class: i32,
