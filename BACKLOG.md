@@ -806,9 +806,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   240 object visits / 64 pending-marker clears; all other object bytes, including
   affine caches, remain unchanged. Sixteen outside-grid cases stop at the original
   diagnostic branch, without running its handler or proving recovery. This is not
-  a final-cache rewrite, full mission loading or a new Rust consumer. Acquire the
-  pending-marker producer and wider caller/world phases before integrating it;
-  retain actual later affine writers and shared admission as open prerequisites.
+  a final-cache rewrite, full mission loading or a new Rust consumer. Producer
+  follow-up reuses the exact-debug 512-case class configuration proof: all 30,720
+  template/instance words match current Rust. The marker already comes from the
+  shared class projection. All 2,104 acquired residents in the 56-mission CPU
+  sweep have zero markers; 840 class-profile refusals and 10,852 other-state
+  exclusions remain outside that result. Deprioritize this no-op dependency for
+  these acquired profiles. Actual terrain-cell classification, wider caller/world
+  phases, later affine writers and shared admission remain open. Continue the
+  general/mixed FX selection, RNG and ownership producers; terminal-only requests
+  in the older program survey must not be counted as nonterminal queue blockers.
   The physical capacity/recycle boundary is acquired; real mission occupancy,
   shared admission, error handling and full world scheduling remain open. No
   shared Rust capacity policy or new gameplay admission follows from CPU proof.

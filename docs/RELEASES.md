@@ -1,5 +1,26 @@
 # Preview releases and milestone integration
 
+## Existing mission marker producer verified — 9 November 2026
+
+The source-ordered marker producer is already implemented by the shared class
+configuration projection. Reusing the retained exact-debug 512-case native
+control, current Rust agrees on all 30,720 template/instance configuration words.
+The historical controller was recovered by its recorded digest from the private
+archive rather than substituting a later revision. No retail offsets or results
+were transferred to the debug profile.
+
+A fresh CPU source sweep prepares all 56 named missions / 19 menu worlds. All
+2,104 constructed residents carry a zero marker and are released; the 840
+class-profile refusals and 10,852 other-state exclusions remain separate. Counts
+repeat per mission and do not establish complete native world population. This
+post-load marker pass is consequently a no-op for these acquired resident
+profiles, not a demonstrated cause of their cinematic discrepancies.
+
+No Rust behavior or preview package changes. Actual terrain-cell production,
+world phase ordering, shared admission, general/mixed FX RNG/selection and full
+scene fidelity remain open. Prototype PS2 attribution remains unknown. Existing
+preview source, executable, notices and checksum receipts are unchanged.
+
 ## Mission post-load boundary acquisition — 9 November 2026
 
 A CPU follow-up executes the complete original post-load list helper on supplied
@@ -10,8 +31,8 @@ diagnostic branch; the error handler and recovery are not executed or verified.
 
 This identifies one post-load dependency and excludes this helper as an affine
 refresh in the supplied cases. It does not establish complete loading, actual
-mission population, world scheduling or a new Rust consumer. The pending-marker
-producer and wider world phases remain prerequisites. Prototype PS2 attribution
+mission population, world scheduling or a new Rust consumer. The exact-debug marker producer and wider world phases were initially retained
+as prerequisites; the producer follow-up below resolves only the former. Prototype PS2 attribution
 remains unknown. No runtime code or preview package changes; the existing
 `preview-2026.11.09.2` binary, notices and checksums retain their exact receipts.
 The 545-source cinematic inventory and zero certified complete scenes remain.
