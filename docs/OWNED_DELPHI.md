@@ -4,6 +4,46 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Support-class field preparation and object traversal - 9 November 2026
+
+The shared class-field loader now accepts the acquired packed support attribute:
+it consumes a full source word, stores its low byte without changing neighboring
+controls and preserves the accompanying personality flag. Original dispatch,
+defaults, termination and base-copy controls agree on 512 ordered programs /
+31,744 projected configuration words. Repeated attributes, adjacent byte writes
+and operands with high bits set retain their source behavior; malformed inputs
+remain refused before partial mutation.
+
+Source-backed header preparation now succeeds for the support class in three
+Delphi mission catalogs. An installed control verifies that the still-unacquired
+support-state constructor remains refused without publishing a resident or list
+entry. Prepared fields/models are not an initialized actor, current context or
+live support relationship; acquire construction/update/lifetime before admission.
+
+A further original-PC/Rust control executes the original object-list traversal,
+radius production, bounds helper, floor contacts, location dispatcher and later
+Delphi scalar interval. Across 512 bounded contexts, 4,608 control/radius/scalar
+words and 910 ordered contact identities agree exactly. The eight geometric
+words per context stay within the declared 0.002 absolute budget; maximum error
+is below 0.00000012. Traversal, radius and overlap results are no longer supplied
+callbacks in this control. Frozen-location retention, locked-radius behavior,
+excluded candidates and multi-object/subdivided movement are covered.
+
+The source list membership and headers, prepared identity-world geometry,
+model-slot/animation preparation, part eligibility and collision-then-scalar
+schedule remain supplied. The world traversal switch is fixed to the active
+profile, terrain is explicitly excluded and narrow response events are outside
+this floor-contact control. The original state3 notification dispatcher executes
+its acquired absent callback. The wrapper's geometric state is compared; the
+Rust outer composition's additional location flags are outside this comparison.
+This is not native mission construction, scene ownership or full phase timing.
+
+Read-only source-resource inspection locates the required support class in only
+some world catalogs. Bind actual actor construction and lifecycle before scene
+keys can resolve current owned headers. No default context, guessed Session
+serial, target publication, playable preview or capture is introduced. Prototype
+PS2 attribution remains unknown; inputs and detailed records stay private.
+
 ## Physical support feeding target-scalar production - 9 November 2026
 
 `delphi_target_scalar::produce_from_support` resolves the physical support key
