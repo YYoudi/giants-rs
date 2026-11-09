@@ -40,6 +40,12 @@ routes, viewport access before held publication, unsupported range and stale/
 foreign refusal, payload preservation and cleanup. It is silent CPU composition
 with supplied time, flat terrain and camera/viewport snapshots; it enables no live
 input or complete mission/world schedule.
+The animation-definition reader accepts only its acquired executable layout.
+Compatible installed data does not establish that `Giants.exe` in the same folder
+has that layout. When it differs, set `GIANTS_DELPHI_EXECUTABLE` explicitly to the
+read-only, identity-checked reference used for the acquisition. A layout refusal
+is an unsupported input profile, not permission to bypass the reader or claim a
+successful composition. The portable synthetic checks need no such executable.
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.
 Use a separate Cargo target directory for each active worktree. Sharing downloaded
