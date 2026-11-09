@@ -65,6 +65,12 @@ The main integration lane owns combined runtime wiring and delivery, using
 [INTEGRATION.md](docs/INTEGRATION.md). Prioritize ordinary gameplay reachability
 and cross-lane regression checks over additional stand-alone demonstrations.
 
+Delivery milestone, 9 November: NPC baseline PR #2 is merged and combined Windows
+preview `preview-2026.11.09.12` is published with independently verified public
+assets. `docs/public-preview.json` pins that download separately from newer source
+progress. This does not close ordinary native Mecc motion/impact or other-character/
+NPC world admission; continue connecting ready services through the common runtime.
+
 - Review committed Flick, Mecc, Delphi, Kabuto and NPC contributions against actual
   runtime entry points; retain CPU-only and supplied-provider boundaries.
 - Wire ready contributions into the shared menu-to-mission application, including
@@ -353,6 +359,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   actual relationship producer and bind owned target/proxy lifetime, mutations,
   retirement and caller-phase guards; no live target assignment or world admission
   follows from this CPU composition. Never recompute cost after retargeting.
+- Implemented: the separate viewport/current-bounds-centre selector reuses
+  readiness eligibility and matches 768 complete original-PC searches, preserving
+  perpendicular ranking, strict limits, first-tie order and wide/stored projection
+  boundaries. Its signed range-mode guard matches 1,024 original calls; both
+  actual argument-preparation sites match 130 executions using source GData and
+  64 variants. Current headers/list/bounds/view inputs remain supplied. The same
+  search feeds distinct caller relationships, not one interchangeable target.
+  Next: acquire the remaining current-header scalar/producer and actual target
+  publications/lifetime, then bind proxy updates/retirement and primary/world
+  order. The range-mode guard alone cannot decide readiness or activation.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -975,9 +991,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   The actual supplied falling-entry primary retains 15 damage, zero contexts and
   unchanged VM RNG, then quarantines its missing voice service without replay.
   Its actor countdown is deliberately negative: do not clamp/reset it or supply
-  silent audio. Next bind actual pain/ambient local sources, routing and ready
-  sinks, then the replacement cooldown/shared timer and their separate audio/VM
-  RNG ordering. The main inspection still supplies no impact provider and keeps
+  silent audio. The owned voice tail now preserves replacement cooldown/shared
+  timer ordering: 136 native/Rust contexts / 136 cue entries / 1,224 selected words
+  agree, including ratio and integer-choice boundaries. The Session binds its
+  actual shared countdown; an optional primary voice provider completes one
+  falling-entry frame with supplied cues and preserves both late-failure paths
+  without replay. This is CPU composition, not actual voice transport. Next bind
+  pain/ambient local sources, owner routing and ready sinks with their distinct
+  shared-cue flag policy and separate audio/VM RNG owners. The main inspection still supplies no impact provider and keeps
   step 441; native gate production, wounded continuation, heavy carried channel,
   active effect scheduling and cleanup remain prerequisites. The existing
   positional effect transport is for later activation, not secondary preparation.

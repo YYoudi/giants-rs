@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.09.11
+# Windows x64 development preview - preview-2026.11.09.12
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -11,6 +11,21 @@ owner's estimate and has not received comprehensive human review. This estimate
 is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+## Combined character and effect checkpoint
+
+This source combines the timed-effect configuration dependency with Delphi's
+source-range and held/camera terrain scans, Kabuto's owned guard/resource phase,
+and Mecc's nonlethal impact voice ordering. These are partial CPU services and
+composition controls, not complete character or world scheduling. The Mecc cue
+provider preserves damage/timing after late failure, but actual App voice
+transport and main-driver impact admission remain open.
+
+Delphi, Kabuto and NPC AI are not newly playable in this preview. Ordinary Mecc
+jet-plume, descent/contact and complete landing integration remain pending.
+Historical scripted gallery captures do not establish availability in ordinary
+gameplay. The existing menu-first development application remains incomplete;
+no additional full-scene or gameplay-fidelity result is certified.
 
 ## Owned timed effect callbacks
 

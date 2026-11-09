@@ -9,6 +9,9 @@ pub struct Services<'a, 'r, 'c> {
     pub fire: Option<FireServices<'a, 'r, 'c>>,
     /// Required at an actual ordinary impact; no default damage/authority success.
     pub impact: Option<crate::mecc_impact::Context>,
+    /// Required local cue transport for the acquired impact tail. Its shared
+    /// timer comes from the Session countdown owner after the primary prefix.
+    pub impact_voice: Option<&'a mut dyn crate::resident_states::MeccImpactVoice>,
 }
 
 #[derive(Clone, Copy)]

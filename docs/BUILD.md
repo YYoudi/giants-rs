@@ -29,6 +29,12 @@ cargo clippy --locked --workspace --all-targets --target x86_64-pc-windows-gnu -
 ./tools/build_preview.ps1 -OutputDirectory .local/build
 ```
 
+The release executable uses the Windows GUI subsystem. For scripted CLI checks,
+explicitly wait for it, for example with Python's `subprocess.run(..., check=True)`.
+A bare PowerShell command can finish before the child and close its redirected
+stdout; that is not a reliable CLI exit/output check. The Windows workflow waits
+and captures the child's `--help` result explicitly.
+
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 With `GIANTS_DELPHI_ROOT` set to the user's installation (and optional
@@ -66,6 +72,13 @@ Use a separate Cargo target directory for each active worktree. Sharing download
 registry/toolchain caches is fine; sharing build artifacts between concurrently
 modified worktrees can produce a test inventory from the wrong source. Reject
 that result and rebuild in an isolated target before recording a release receipt.
+
+Windows CI restores only Rust dependencies using a pinned cache action; workspace
+crates and installed Cargo binaries are excluded. Its key includes the Rust/Cargo
+environment plus the GNU compiler binary and MSYS package inventory. Only main
+saves the cache. Each runner retains its own target directory and rebuilds the
+project crates, tests and receipt; a cache hit is not validation of current source.
+Private `.local` research, installed game data and runtime captures are not cached.
 
 Package a draft with `python -m tools.package_preview --help`. Run the extracted
 bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Windows
@@ -174,6 +187,14 @@ entry, executes its real physical/ANM/secondary prefix and retains health at the
 required missing pain-voice boundary, without cooldown/FX RNG draws or replay.
 No window, device, active effect actor or complete trajectory is exercised.
 See OWNED_MECC_CONTACT.md for the separate native comparisons and open services.
+
+The same command also runs two additional installed-data controls. The voice
+publication control observes committed Session health and timers through explicit
+cue callbacks, including late failures and stale/foreign owner refusal. The
+primary voice control uses the real post-prefix shared countdown: supplied cues
+complete one falling-entry frame and prepare one context; either cue failure
+retains health and prevents replay. These are required-service CPU controls,
+not an audio device, main-driver admission or a playable trajectory.
 
 ## Optional actual impact audio checks
 

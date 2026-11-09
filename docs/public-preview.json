@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "tag": "preview-2026.11.09.12",
+  "source_commit": "b0e79a459a007121674ab4c9e04f5c4990238cea",
+  "executable_sha256": "57f2222bc9f37b902d78561b57edde0e1b91bed7db7fca9dd821592f54d1020d",
+  "archive_sha256": "da90103b99abee63abd4635e5ead6ee23cb2adec15a67bdf9cf0fd940081a630",
+  "checks": [
+    "offscreen_menu_cycles",
+    "selected_cinematic_transport"
+  ],
+  "limitations": [
+    "ordinary_mecc_native_motion",
+    "delphi_gameplay",
+    "kabuto_gameplay",
+    "npc_live_ai",
+    "full_game_fidelity"
+  ]
+}

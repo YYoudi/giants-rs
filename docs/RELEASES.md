@@ -1,5 +1,54 @@
 # Preview releases and milestone integration
 
+## Combined five-lane Windows preview - 9 November 2026
+
+Published [preview-2026.11.09.12](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.12)
+binds source `b0e79a459a007121674ab4c9e04f5c4990238cea`, executable SHA256
+`57f2222bc9f37b902d78561b57edde0e1b91bed7db7fca9dd821592f54d1020d` and ZIP SHA256
+`da90103b99abee63abd4635e5ead6ee23cb2adec15a67bdf9cf0fd940081a630`.
+It combines the reviewed Flick, Mecc, Delphi, Kabuto and NPC source dependencies
+in the common menu-first application. NPC PR #2 adds inventory and a source-resource
+control, not active AI. Ordinary native Mecc motion/impact voice and live Delphi,
+Kabuto and NPC admission remain open; no new complete game feature is certified.
+
+The checkpoint passes 836 workspace Rust tests (51 ignored) in standard and release
+profiles, strict workspace/all-target Clippy, 41 Python tests and 27 installed-data
+controls. Its exact binary passes six offscreen development launches and two
+Rstory1 mission-index-2 source-terminal/re-entry cycles with muted real sinks and
+tracked voice/text cleanup. CLI help is explicitly awaited; PE imports remain
+Windows system/UCRT. Technical notice collection covers 338 dependency packages
+and eleven toolchain notice files. All ten bundle members, receipt and checksums
+pass before upload and again after downloading all three public assets. The actual
+public tag resolves to the recorded source. Manual controls, full world cadence,
+campaign completion and visual/audio fidelity remain unverified.
+
+Later main source includes the separate Delphi bounds-centre selection service;
+its combined runtime tree passes 838 standard Rust tests (51 ignored) and strict
+Clippy. Delivery-table support adds two Python tests (43 total). These newer source
+checks do not relabel the `.12` executable. The dashboard's reviewed download
+snapshot exposes its source, hashes, checked scope and known limits separately
+from the roadmap and historical captures. Detailed reports/captures remain private.
+
+## Delphi viewport bounds-centre selection - 9 November 2026
+
+The separate ordered viewport selector matches 768 complete original-PC searches,
+including multi-axis and precision/endpoint/tie cases. It retains perpendicular
+ranking and reuses readiness eligibility. The signed range-mode guard agrees on
+1,024 original calls; 130 original argument-prefix executions at both caller
+sites agree with source-backed Rust parameters. The two caller relationships
+remain distinct; target assignment is not synthesized.
+
+Current headers, population order, bounds and viewport remain supplied. Header
+production, target/proxy lifetime and caller/world composition are still open.
+This source milestone admits no ordinary Delphi gameplay, asset, screenshot or
+downloadable preview. Earlier binary/package/notices/checksum receipts retain
+their exact source identities. Prototype PS2 correspondences remain unknown.
+
+Combined source validation passes 836 synthetic Rust tests (49 ignored), five
+installed Delphi controls, the installed NPC ownership regression, 41 Python
+tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The NPC control
+retains its authored-world exclusions and supplied floor/clock/RNG boundaries.
+
 ## NPC reconstruction inventory and source ownership regression — 9 November 2026
 
 The dedicated NPC lane consolidates existing herd/Vimp, Ripper, shared enemy
@@ -123,6 +172,24 @@ Delphi resource/lifecycle controls, 41 Python tests, Rustfmt, strict Clippy and
 roadmap/site/JavaScript checks. These checks retain their supplied CPU boundaries
 and do not relabel an existing executable as containing this source milestone.
 
+## Mecc nonlethal impact voice composition — 9 November 2026, source only
+
+The owned kind-16 voice tail now composes actual Session health, its shared
+countdown and the VM RNG in acquired order. Two original-PC/Rust controls agree
+on 136 declared contexts / 136 cue entries / 1,224 selected words, including
+half-health and integer-choice boundaries. The voice checkpoint precedes later
+selector effect draws. Native and Rust cue services are supplied boundaries;
+this is not original-process playback or device fidelity.
+
+The optional primary provider completes one controlled falling-entry frame and
+prepares its real positional context. Injected pain/shared-cue failures retain
+damage and completed timing and refuse another frame. Actual App voice transport,
+wounded continuation, world scheduling and main-driver impact admission remain
+open. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md). This branch handoff adds
+no dependency, new playable capture or downloadable preview; all earlier source,
+executable, notices and package/checksum receipts retain their exact identities.
+The main integration lane owns combined publication after review and validation.
+
 ## Kabuto owned post-control/resource composition — 9 November 2026
 
 The actual Factory/Session phase now continues from its control-force token
@@ -213,8 +280,16 @@ layout; they pass with the identity-checked acquisition reference specified as
 documented in BUILD.md. No parser gate was weakened. These tests retain supplied
 service/geometry/time boundaries and do not admit playable Delphi/Kabuto/NPCs.
 The main history-pattern audit reports zero findings across 517 commits / 3,268
-blobs. A separate combined Windows build is still being prepared; these source
-checks do not relabel the public `.9` executable or certify a newer download.
+blobs. The separate combined MinGW executable has SHA256
+`e7f5581e198e23b62cae506e7cf6a0aed466ddeee960d326c4a9f2ba9c320a90`.
+Its exact runtime tree passes 829 release-profile workspace tests (45 ignored),
+strict workspace/all-target Clippy, six offscreen development launches and two
+Rstory1 mission-index-2 source-terminal/re-entry cycles with muted voice/text
+cleanup. CLI help exits successfully when explicitly awaited; CI now does so
+instead of relying on a bare PowerShell GUI invocation. PE imports contain Windows
+system/UCRT libraries; the dependency preflight finds 338 packages with notices
+and verifies eleven toolchain notice files. These checks do not relabel `.9` or
+certify ordinary controls/fidelity; this candidate remains a private checkpoint.
 
 The bounded attached timed and detached linear-gravity frames now compose their
 following source VM commands with the shared owned initial constructor. Size,
