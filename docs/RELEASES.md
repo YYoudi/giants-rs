@@ -3985,6 +3985,13 @@ regression, without an impact start, completed movement cycle or cleanup/re-entr
 claim. The debug test binary is not a release asset; public preview identities
 remain independent.
 
+The later merge `a5aea2d240cc9d5553c073a04d24d0c0b6546113` preserves the new NPC
+baseline and shared velocity dependency. It passes 841 synthetic workspace Rust
+tests (52 ignored), all four installed Mecc impact controls, the real local-voice
+control, 41 Python tests, formatting, strict workspace Clippy and site/JavaScript
+checks. The private debug executable above remains pinned to `bac6bdf`; these
+later source tests do not relabel its receipt or imply a newer runtime capture.
+
 ## Mecc nonlethal impact voice composition — 9 November 2026, source only
 
 The owned kind-16 voice tail now composes actual Session health, its shared
