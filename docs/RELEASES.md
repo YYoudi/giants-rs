@@ -30,6 +30,15 @@ remain unknown; exact PC/prototype identities and aliases stay in the private
 continuation records. The latest main replay retains its earlier step-441 refusal.
 See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
 
+The exact GNU executable from combined source `39f1625` has SHA256
+`8fb12c0c3778493afafdc745361dc443704917d249a4879eaa05f920c1e51669`.
+Its private ten-member validation draft includes complete receipt-bound notices
+and independent package verification with zero technical blockers; ZIP SHA256 is
+`8b088be09082325c7b22f1fb53903aadaa0755fd39135ff69893a162c23a776a`.
+Source/history pattern review at the preceding documentation checkpoint covers
+426 reachable commits / 2,831 blobs with zero findings. This CPU dependency does
+not establish a new playable preview or third-party redistribution clearance.
+
 ## Zero-time timed-FX callback — 9 November 2026
 
 The shared timed-effect wrapper used to discard every zero-time callback. The
