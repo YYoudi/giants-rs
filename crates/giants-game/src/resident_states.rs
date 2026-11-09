@@ -11,6 +11,7 @@ use std::collections::BTreeMap;
 use std::sync::Arc;
 mod delphi;
 mod delphi_camera;
+mod delphi_held;
 mod kabuto;
 mod mecc_impact;
 mod reference_camera;
@@ -331,6 +332,7 @@ pub struct Resident {
     delphi_special: Option<crate::delphi_special::State>,
     delphi_copy_source: Option<crate::delphi_special::CopySource>,
     delphi_copy_parameter: Option<f32>,
+    delphi_held_pose: Option<delphi_held::Owned>,
     delphi_physics_present: bool,
     delphi_physical: Option<crate::delphi_physical::Owned>,
     mecc_special_child: Option<crate::mecc_special::Child>,
@@ -552,6 +554,7 @@ impl Session {
                 delphi_special: None,
                 delphi_copy_source: None,
                 delphi_copy_parameter: None,
+                delphi_held_pose: None,
                 delphi_physics_present: false,
                 delphi_physical: None,
                 mecc_special_child: None,

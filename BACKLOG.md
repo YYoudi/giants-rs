@@ -242,6 +242,24 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   lifetime, sequence construction/retirement, providers and active physical
   scheduling before admission. Existing-sequence/offline/empty-held/null-bank
   controls do not establish those integrations or live turbo/water fidelity.
+- Implemented: acquired debug normal held-cache publication with actual position
+  history and held-origin target ray, using shared affine/reference arithmetic.
+  The zeroed constructor reference buffer remains distinct from evaluated poses.
+  Native/Rust controls match 768 rays / 4,608 outputs and two 256-frame, 22-actor
+  sequences / 4,084,224 header/reference/owner/list/ray words and exact RNG.
+  Seven-owner lifecycle adds 64 publications and stale/reference/replay/failed
+  parent refusal checks. Actual aim-point and candidate queries, readiness and
+  typed target/sequence lifetimes are next; full world order, alternate locks,
+  child ANM and nonempty footprint/source-version paths remain unprepared.
+  No live Delphi or fidelity promotion follows from these geometry services.
+- Implemented: the acquired Delphi candidate predicate matches all 512 original-PC
+  finite-profile cases. It uses the raw owner-affine column and actual current-player
+  identity, without a team restriction. The shared query accepts an explicit
+  required policy before geometry while preserving common hierarchy exclusions
+  and existing Mecc policies; two synthetic ordering/refusal controls pass.
+  Bind this policy to actual owned candidate/header/current bounds/mesh services
+  and the held ray, then acquire terrain/range/readiness and typed target lifetime.
+  This CPU dependency does not enable live Delphi or establish fidelity.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -263,6 +281,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: the owned post-ANM/gravity control-force phase reuses common
+  target/quaternion/basis/force arithmetic. Actual Factory globals, header
+  configuration, position/scale, affine/contact/physics, commands and incoming
+  speed latch feed the acquired caller attenuation and helper gates. The common
+  helpers match 512 original contexts / 10,462 words; the actual source-backed
+  caller interval matches 512 / 210,517, including 199 eligible target entries.
+  Airborne bypass and grounded/default-basis branches retain acquired ordering.
+  The incoming speed latch is supplied in the control; its later producer is
+  still required. Whole-header/payload retention, cache/factory/order/replay
+  refusals and no advance after ANM failure are checked. Pure preparation failure
+  is atomic and does not consume the phase. No primary/history completion occurs.
 - Implemented: the numbered Factory-bound clock/ANM/gravity phase consumes its
   owned model phase, reusing shared channel/reference/epoch/event and gravity
   services. The complete original PC interval matches 512 source-backed contexts
@@ -272,8 +301,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   supplied; preceding phases execute on Rust, not rerun on PC in this control.
   A crossed real resource contact event retains channels/references/epoch,
   quarantines replay and leaves gravity unexecuted when its service is missing.
-  Current event/contact/audio services and control-target/force production still
-  block live primary/frame completion; all history/prerequisites remain entered.
+  Current event/contact/audio services, the later speed-latch producer and the
+  primary remainder still block live completion; all prerequisites remain entered.
 - Implemented: the Factory-bound post-contact model-rate phase reuses the shared
   displacement-to-model service and object-local clock. It requires the real
   numbered classification/additional contacts, owned affine/physics and factory
@@ -1031,6 +1060,39 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Source timed-FX actor fields now admit the acquired flag-only class opcode52,
+  reusing the existing common flag projection. A 256-case native dispatch control
+  checks 49,408 header words with all other words unchanged after dispatcher
+  setup. The real parent/child resource projection now matches 64 allocator
+  snapshots / 9,024 selected class/header/payload words; it previously refused
+  the parent class. These snapshots precede effect-wrapper mutations and do not
+  prove complete headers or owned state78 actor/world admission. Reuse the shared
+  `physical_initial::reset`: a separate 256-case full-helper control matches
+  3,840 words and preserves the opaque word and surrounding guards. Next acquire
+  the owned timed parent/child wrapper, physical aliases and actual retirement
+  binding; do not bypass the existing ordinary constructor's state78 refusal.
+
+- Fresh preview `.6` CPU census rechecks all 545 installed sources / 16 worlds:
+  zero top-level preparation errors, 59 gap sources, 56 general-queue prerequisites
+  and 282 overlapping strict reviews. All category/count aggregates are unchanged;
+  the reviewed public summary is repinned to the exact `2386822` executable
+  receipt. This inventories declared consumers, not all missing rendered elements.
+  No complete scene or visual/temporal/functional/audio parity is certified.
+
+- Shared effect-word separation: attached/cinematic metadata now owns its
+  independent render/effect flags. The previous constructor mixed the cinematic
+  mark into the shared actor response/status word and tested that conflated word
+  at first update. Constructor, callback and main route snapshots now agree with
+  the actual separate native words. Eighteen controlled states / 774 header,
+  channel and position words match, including independent supplied bits. All 23
+  source-backed queues retain two entry/release cycles and near/far routing;
+  50 part-selection cases and 14 preparation states still match. Real flag
+  producers, full physical ownership/world scheduling and fidelity remain open.
+  Published `preview-2026.11.09.6` pins this correction and the adjacent retirement/
+  class-field prerequisites to source `2386822`. Silent lifecycle, source-terminal
+  transport and downloaded package checks pass; no interactive or full-scene
+  certification follows.
+
 - Retirement-chain follow-up: 32 supplied native parent/child lifecycles now
   execute the actual global context updater, retirement helper, deferred mark,
   global object cleanup and child activation. The mark keeps the parent slot
@@ -1042,11 +1104,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   `32286b7`; receipt-bound silent lifecycle checks and the downloaded ten-member
   package pass. The mode/inheritance and physical-ownership prerequisites below
   remain open; no additional film admission is counted.
-  The child initial frame is now implemented in the shared skip service with no
-  random draw. Actual retirement preparation uses its distinct mode and inherited
-  parameter; do not substitute the existing plain positional context API.
-  Main cinematic context/physical ownership, inherited flags, world RNG and frame
-  scheduling remain unbound. No source becomes admitted from this CPU proof.
+  The child initial frame is implemented in the shared skip service with no
+  random draw. The shared context pool now prepares the acquired retirement mode
+  from current parent object/render fields, preserving all eight combinations
+  of its three inherited bits, source label, position and RNG. Thirty-two
+  original-PC/Rust preparations match 320 selected words. Different normal/lite
+  targets refuse before allocation or RNG; actual selection producers remain
+  required there. This primitive neither marks nor frees the parent. The plain
+  positional API retains its distinct mode. A further 96 supplied child callbacks
+  match 384 position/age words; contact and actual world cadence stay open.
+  Main cinematic ownership, actual parent-field/retirement-service binding, world
+  RNG and frame scheduling remain unbound. No source becomes admitted from these
+  controls. The existing published binary retains its earlier source receipt.
 
 - Timed FX callback ordering: the shared Playback wrapper formerly discarded
   every zero-time callback, leaving its native first-update gate pending. It now

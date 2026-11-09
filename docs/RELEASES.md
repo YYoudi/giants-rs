@@ -1,5 +1,207 @@
 # Preview releases and milestone integration
 
+## Fresh complete cinematic preparation inventory — 9 November 2026
+
+The exact preview `.6` binary/source receipt has completed a new CPU-only pass
+over all 545 installed sources / 16 cinematic worlds. All top-level preparations
+complete; 59 sources still report declared-consumer gaps, including 56 general-FX
+queue prerequisites, and 282 remain in the overlapping strict-profile review.
+Every aggregate category/count matches the previous reviewed census. The public
+summary now pins this fresh receipt, without publishing source identifiers or
+private diagnostics. Zero complete scenes are certified; visual/temporal/audio/
+functional fidelity and MDV music remain outside this preparation inventory.
+
+Final combined source `ecdfdf0a57f8ff358467ff111ff05189a7defa35` preserves newer
+Kabuto control-force and Delphi query-policy work. Its 639 game-crate tests pass
+(27 ignored), along with workspace strict Clippy and formatting. The source
+audit covers 482 commits / 3,090 blobs with zero findings. Earlier full-workspace,
+Python/site and exact preview/runtime/package checks retain their own identities;
+these later source merges do not relabel the published executable.
+
+## Source timed-FX class field preparation — 9 November 2026
+
+The actor-field profile now accepts the acquired flag-only class opcode52,
+reusing its existing common flag projection. Previously the timed parent's
+field preparation refused that source command. A 256-case original dispatch
+control checks 49,408 words: only its active-word bit changes after measured
+entry setup; FF postlude and allocation are outside that opcode control.
+
+A separate real-resource projection now matches 64 original allocator-return
+snapshots / 9,024 selected class/header/state78-payload words for the parent and
+child. These are before the effect wrappers, not full-header or owned actor-pool
+parity. The existing shared physical reset also matches 256 complete original
+helper calls / 3,840 physical words, preserving the opaque word and guards. It
+is reused, not duplicated. Prototype PS2 correspondences remain unknown.
+
+Owned timed-effect construction, physical aliases, full retirement services and
+main admission stay open; ordinary construction still refuses unsupported
+state78 actors. No cinematic gap/fidelity count is promoted by this prerequisite.
+
+## Separate effect routing from shared actor response — 9 November 2026
+
+Attached cinematic objects now retain their independent render/effect word in
+owned metadata. Previously the cinematic mark was ORed into the shared actor
+response/status word, and the initial callback inspected that same conflated
+field. The constructor, first-update gate and main film's route snapshot now use
+the separate effect word; shared actor response flags retain their own meaning.
+Retirement inheritance accepts that effect word, independently of actor response.
+No visual offset, delay or scheduling workaround is added.
+
+A private original-PC/Rust comparison covers 18 states / 774 selected header,
+channel and position words, including four supplied combinations of distinct
+response/effect bits and two callbacks per combination. The original never uses
+the supplied response bit as the effect gate. Existing 50 native part-selection
+cases and 14 preparation states still match. All 23 source-backed persistent
+queues pass two entry/release cycles and near/far routing, retiring 50 objects
+with no retained prepared contexts. These are scoped controls, not complete
+films, native live bit producers or proof of whole-world admission/fidelity.
+
+Prototype PS2 correspondences remain unknown. Physical parent/child ownership,
+full retirement binding, world RNG/cadence and broader rendering, audio, subtitle
+and functional coverage remain open.
+
+Published [preview-2026.11.09.6](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.6)
+binds this separation, retirement preparation and source class-field preparation
+to source `2386822b63ce05b8872529c964c46d9944a27e7c`. Executable SHA256:
+`1f505884bb914f925985bd130190a62c2d2494013dc8edb47eeecd554b1bface`;
+ZIP SHA256: `3db43426b7d5e2918ed011e9ea012e1734637c0860f0abad119023baa14104b0`.
+The exact source passes 819 Rust tests (41 ignored), 40 Python tests, formatting,
+strict Clippy and the source audit (470 commits / 3,034 blobs / zero findings).
+Its MinGW binary passes both silent offscreen development endpoints, three
+Rstory1 mission-index-2 persistent-effect cancellations and two source-terminal/
+re-entry cycles with voice/text cleanup. All ten package members, notices,
+receipt and checksums pass independent validation, repeated after downloading
+all three public assets. The retained native comparisons repeat successfully
+against this combined runtime source. No interactive tests ran, and the runtime
+checks retain their selected-opening partial-renderer scope.
+
+Later combined source `f770f6752749fa8a855e6eac58f2611c03a7f421` preserves the
+new Delphi held-origin ray work. All 637 game-crate tests pass (26 ignored),
+along with workspace strict Clippy, formatting, 40 Python tests and generated
+roadmap/site/JavaScript checks. The source audit covers 476 commits / 3,067 blobs
+with zero findings. The four changed cinematic/class-field modules are identical
+to the published binary source; these combined-source checks remain separate
+from the exact executable/runtime/package receipts above.
+
+## Retirement context inheritance service — 9 November 2026
+
+The common context pool now prepares the acquired direct-offset retirement mode
+from current parent object/render fields. It preserves all eight combinations
+of three inherited bits, source label, position and RNG. It is distinct from the
+plain positional mode. Normal/lite targets must resolve to the same source;
+otherwise preparation refuses before allocation or RNG, retaining the need for
+actual load/quality/camera selection producers. The service does not mark or free
+the parent, activate the child or acknowledge complete retirement.
+
+Thirty-two original-PC/Rust preparations match 320 context/RNG words. The native
+control executes parent construction and expiry, then the actual helper/context
+preparation and deferred mark; source flag bits are supplied at helper entry.
+Separate earlier controls retain their actual cleanup/reuse scope. A follow-up
+runs 96 child callbacks at supplied positive deltas and matches 384 position/age
+words. This is neither full world scheduling nor contact or visual fidelity.
+
+Actual parent-field ownership and full retirement-service/main-film binding remain
+open. The cinematic inventory and zero certified complete scenes are unchanged.
+Prototype PS2 counterparts remain unknown. No dependency or bundled asset changes;
+the existing published binary/package/runtime receipts keep their earlier exact
+source identities until a later coherent main-runtime integration.
+
+
+## Delphi candidate policy dependency - 9 November 2026
+
+The acquired Delphi candidate filter now agrees with all 512 original-PC
+finite-profile cases. The shared target traversal has an explicit required
+caller-policy route, with two synthetic ordering/refusal controls and unchanged
+Mecc filtering. Owned candidate geometry/mesh binding, terrain/range production,
+readiness and typed target lifetime remain open. This source dependency enables
+no live Delphi control or new gameplay screenshot and publishes no new preview
+binary. Existing build, package, notice and checksum receipts below retain their
+exact source identities. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Dependency checkpoint `5977d6a` passes 819 synthetic Rust tests (41 ignored), 40 Python
+tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript checks. The
+512-case original-PC comparison is a separate private control, not a live gameplay
+or whole-world query validation.
+
+Merged source `0963e1761bc3ac2442ffb7138ed475e84a754f8f` preserves the newer
+Kabuto control-force work and passes 819 synthetic Rust tests (42 ignored),
+40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks.
+The limited history-pattern audit reports zero findings across 480 commits /
+3,085 blobs. These source results do not relabel any existing executable receipt.
+
+## Kabuto owned post-gravity control forces — 9 November 2026
+
+The Factory-bound Session now consumes its real ANM/gravity state and reuses the
+shared control-target/quaternion/basis/force services. The acquired caller reads
+actual globals/header configuration, position/scale and the incoming speed latch,
+then preserves the original attenuation stores and helper eligibility gates.
+Common helper controls match 512 contexts / 10,462 words; a separate actual source
+Session caller control matches 512 / 210,517 header/payload/parameter/target words,
+including 199 eligible target entries. PC receives an exported post-gravity
+boundary and does not rerun the preceding source phases for each case.
+
+The prior speed latch, commands/time/opaque flags and flat terrain/prepared scene
+remain supplied inputs. The later native latch producer is still required;
+no first-frame speed, new-frame finish or primary completion is fabricated.
+Cache/mirror/factory/order/replay refusals precede mutation, and an ANM failure
+cannot be bypassed. All history and initializer prerequisites remain entered.
+Active event/contact/audio services and the primary/world remainder still block
+live admission. No new asset/dependency or playable Kabuto preview is added;
+existing package/notices/checksum/runtime receipts retain their exact identities.
+Prototype PS2 correspondences remain unknown.
+
+The expanded source control exercises 76 intermediate attenuation ratios,
+43 capped ratios and 393 bypasses, with controlled flat terrains at two heights.
+The combined source passes 817 synthetic Rust tests (42 ignored), fifteen silent
+Kabuto phase controls plus the separate cold-resource control, 40 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The limited source/
+history pattern audit reports zero findings across 473 commits / 3,053 blobs at
+the preceding merge checkpoint; runtime/package receipts retain exact identities.
+
+## Delphi owned held cache and target ray - 9 November 2026
+
+The owned Delphi service now publishes the acquired normal held matrix and actual
+position history after a completed parent frame, then derives its held-origin ray.
+It reuses common affine/reference arithmetic and preserves the distinct zeroed
+constructor reference buffer. Cache provenance rejects replay, future/stale data,
+changed references and failed parents. Debug-only zero-footprint/ordinary-lock
+scope is explicit; child ANM, alternate locks and other source profiles remain
+unprepared. Full world/camera/target scheduling and active movement stay separate.
+
+Original-PC/Rust controls match 768 rays / 4,608 outputs and two persistent
+256-frame sequences / 4,084,224 words across 22 actor headers/reference buffers,
+owner payload, lists and ray outputs, with exact RNG. The seven-owner source-data
+check adds 64 cache/ray publications and stale/refusal controls. Supplied commands,
+time, flat world and metadata remain boundaries. No live Delphi or fidelity
+promotion follows; point/candidate queries, readiness, typed target lifetime,
+audio/physics binding, water and combat remain open. See
+[OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `99ec68577655e1d370dc68d43b07ea0af67f0c50` retains newer
+Kabuto model-rate and shared runtime work. It passes 816 Rust tests (39 ignored),
+the extended seven-owner Delphi source-data control, 40 Python tests, Rustfmt,
+strict Clippy and generated roadmap/site/JavaScript checks. The pattern audit
+reports zero findings across 463 commits / 3,008 blobs.
+
+The exact common GNU executable SHA256 is
+`582336dfb774946968d039d17a9a1f013e47bed8e9171278febb622c1b22361b`.
+Both silent offscreen development endpoints and three Rstory1 mission-2 persistent
+birth/update/cancel/re-entry cycles pass, with text cleanup. Canonical PE import
+sets are unchanged. The private ten-member validation draft includes complete
+receipt-bound notices/checksums; independent verification reports zero technical
+blockers. ZIP SHA256 is
+`a2d2eef774e0b66d7a14bdd45c9b5e0f31c669a1f8d3d89e2c9b3e8a0405742e`.
+These are common-runtime regressions, not live Delphi control. Published previews
+retain their own receipts; this geometry dependency claims no new playable
+Delphi download and includes no original assets or private research.
+
+
+Final source checkpoint `861c9bf18a4e6abbb69bf58012957d7eb5d4dec2` retains
+the newer shared impact transport work and passes 817 synthetic Rust tests
+(41 ignored), 40 Python tests, Rustfmt, strict Clippy and site/JavaScript checks.
+Its source pattern audit reports zero findings across 470 commits / 3,034 blobs.
+The executable and runtime/package receipts above remain pinned to `99ec6857`;
+this later source validation does not relabel that binary.
 
 ## Actual ready owned impact audio transport - 9 November 2026
 

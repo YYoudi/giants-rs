@@ -46,6 +46,9 @@ pub struct Metadata<K = Id> {
     pub reference: u32,
     pub tag: u32,
     pub opaque: u32,
+    /// Independent effect/render routing word, distinct from the actor's
+    /// shared response/status flags. Inheritance must not dirty that word.
+    pub render_flags: u32,
     /// Local initialization cache, NOT a resolved parent/world binding matrix.
     pub initial_matrix: crate::procedural_aim::Matrix,
     pub(crate) world_matrix: Option<crate::procedural_aim::Matrix>,
@@ -206,9 +209,6 @@ impl Template {
         fields.configuration[22] = 50f32.to_bits();
         fields.object_flags |= 0x40410030;
         fields.control_flags |= 0x20 | if recipe.emitter.is_some() { 0x2000 } else { 0 };
-        if context.flags() & 0x8000 != 0 {
-            fields.response_flags |= 0x1000;
-        }
         fields.scale = recipe.scale;
         let mut matrix =
             crate::effect_orientation::matrix(fields.position, fields.angles, fields.scale)
@@ -224,6 +224,11 @@ impl Template {
                 reference: recipe.reference,
                 tag: context.tag().ok_or("attached effect tag absent")?,
                 opaque: recipe.opaque,
+                render_flags: if context.flags() & 0x8000 != 0 {
+                    0x1000
+                } else {
+                    0
+                },
                 initial_matrix: matrix,
                 world_matrix: None,
                 emitter: recipe.emitter,
@@ -312,7 +317,7 @@ impl<K> CinematicObject<K> {
         self.fields.object_flags |= 0x40;
         if self.fields.control_flags & 0x20 != 0 {
             self.fields.control_flags &= !0x20;
-            if self.fields.response_flags & 0x10000 == 0 {
+            if self.metadata.render_flags & 0x10000 == 0 {
                 self.fields.object_flags &= !0x4000_0000;
             }
         }

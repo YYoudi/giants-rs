@@ -4,6 +4,77 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Candidate predicate and shared query policy - 9 November 2026
+
+`delphi_target_predicate::accepts` implements the acquired candidate filter with
+actual current-player identity, header flags and position. It tests the raw
+negative second owner-affine column against the candidate displacement, with
+stored single-precision differences and the acquired wide dot order. The
+normalized held-ray direction cannot replace this raw column: tiny and zero
+columns retain distinct behavior. This policy adds no team restriction.
+
+The shared `mecc_target_query` traversal accepts an explicitly provided policy
+before geometry. Existing hierarchy/current-player exclusions remain common;
+the Mecc context/personality policies retain their separate behavior. A missing
+policy refuses instead of silently selecting a default. Two synthetic controls
+check ordering, common exclusions and provider absence.
+
+A complete original-PC/Rust control agrees on all 512 acquired finite-profile
+candidate cases, including the original dot helper and unchanged input headers.
+Prototype PS2 attribution remains unknown. This is a CPU dependency only: owned
+candidate/mesh binding, terrain and range production, typed target lifetime,
+readiness and primary/world scheduling remain open. No live Delphi admission,
+new gameplay capture or fidelity claim follows.
+
+## Owned held cache and target ray - 9 November 2026
+
+`Session::advance_delphi_held_pose` now publishes the acquired normal class-669
+held cache after a completed Delphi frame. It resolves the actual first live
+owner/reference-1 binding, reuses shared parent/reference/scale/inverse arithmetic,
+copies the observed inherited header parameter and updates actual held position
+history and affine storage. The acquired debug position-publication tail has no
+spatial operation; changed positions have an absent footprint in this profile.
+Other source profiles, inherited/translation-only/detach variants, child ANM
+requests and nonempty footprint services remain excluded.
+
+The child's constructor reference buffer is genuinely zeroed and unevaluated in
+these native sequences. Its actual stored words are consumed without evaluating
+an animation or substituting an identity. Once evaluated, references must be
+current. Publication records binding, channels, pose and reference provenance;
+replay, future frames, changed fields/references/cache storage or failed parent
+frames refuse. Parented caches use their dedicated reader, without weakening the
+ordinary unparented-affine guard. These are completed-frame geometry services,
+not admission of the whole native world schedule.
+
+`Session::delphi_target_ray` reads that published cache and the actual first held
+reference. `delphi_target_ray::from_poses` composes the held origin using shared
+matrix arithmetic and normalizes the negative second column of the owner's
+cache, preserving the wide squared-norm/addition order and supplied threshold.
+Small vectors return the acquired zero direction. Ray production selects neither
+a world hit nor a target and does not manufacture movement readiness.
+
+A complete original-PC/Rust control matches 768 rays / 4,608 output words,
+including affine flag/translation variants, near-threshold and very small/large
+vectors, hidden and wrong-reference list entries. All original owner/held/reference
+inputs remain unchanged; actual list, matrix dispatch and normalization helpers
+execute. Two expanded persistent controls execute the complete held update and
+ray after the acquired parent sequence: 512 frames / 4,084,224 compared words over
+22 actor headers/references, owner payload, lists and six ray outputs, with exact
+shared RNG. Commands/time, flat world, metadata and the selected callback order
+remain supplied; whole-primary/world scheduling and renderer admission stay open.
+
+The seven-owner installed-data lifecycle adds 64 held publications/rays and checks
+replay/future refusal, stale position, replaced reference storage and failed
+parent-frame rejection. These CPU proofs do not establish live Delphi input,
+rendering, water/swim/turbo or combat fidelity. Aim-point/candidate queries,
+readiness, typed target lifetime and active sound/physics binding remain the next
+prerequisites. Prototype PS2 correspondences remain unknown; detailed lookups,
+failed acquisition/probe attempts and scope corrections stay private.
+
+The exact common build/package and source validations are pinned in
+[RELEASES.md](RELEASES.md). Its menu/cinematic regressions exercise the shared
+runtime, not live Delphi input, full-world geometry order or rendered fidelity.
+
 ## Target movement and activation services - 9 November 2026
 
 `delphi_target_movement::advance` now computes the acquired finite movement toward

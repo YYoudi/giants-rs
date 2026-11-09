@@ -23,6 +23,8 @@ mod motion_tests;
 mod animation_gravity;
 #[path = "kabuto_classification.rs"]
 mod classification;
+#[path = "kabuto_control_force.rs"]
+mod control_force;
 #[path = "kabuto_model_motion.rs"]
 mod model_motion;
 #[cfg(test)]

@@ -169,7 +169,7 @@ impl Fields {
                 // Exact-D flag-only stores. Their ordered OR projection is
                 // applied once below; none allocates a resource or payload.
                 0x14 | 0x16 | 0x2a | 0x18 | 0x1b | 0x1d | 0x22 | 0x23 | 0x2f | 0x41 | 0x54
-                | 0x55 | 0x7e => {}
+                | 0x52 | 0x55 | 0x7e => {}
                 0x17 => out.scale = float(1)?,
                 0x19 => out.configuration[11] = word(1)?,
                 0x1a => {

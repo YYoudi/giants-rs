@@ -1116,3 +1116,46 @@ world/GPU cadence, jumping, feeding, growth-threshold production and dynamic
 cleanup remain open. No new playable preview, asset or visual-fidelity claim
 follows. Prototype PS2 correspondences stay unknown; identity-bound raw-symbol,
 demangling and PC-alias records remain private.
+
+## Owned post-gravity control forces — 9 November 2026
+
+`Factory::advance_control_force` consumes the actual numbered ANM/gravity phase.
+It reads this Factory's gain/slope words, the actor's header configuration and
+position/scale, its incoming payload speed latch, signed commands and the owned
+affine/contact/physical state. The acquired caller retains its wide attenuation
+ratio until the stored speed and preserves the separate flag-dependent multiplier.
+The common target and force services are reused without changing Mecc/Delphi.
+Only the physical force and force-time-limit words are published; the physical
+mirror remains bound to the actual payload.
+
+A 512-context original helper control matches 10,462 force/target trace words,
+including dense affine inputs, signed commands, contact-normal quaternion branches,
+eligibility bypass, override and the actual original power helper. The pinned-image
+default scalar transform profile and finite positive-scale/mass arithmetic remain
+explicit; no Single24 or arbitrary optimized-dispatch claim is made.
+
+A separate actual Factory/Session control runs cold construction, numbered history,
+motion, classification, additional contacts, model rates and the real cold ANM/
+gravity phase. It exports its post-gravity input before the Rust consumer. The
+original complete caller interval then computes attenuation and executes the
+common target/force path. All 512 contexts / 210,517 normalized header/payload/
+caller-parameter/target words match, including 199 eligible target entries and
+both grounded and airborne contexts. Other header/payload words, counts/lists and
+prior phase state remain unchanged. PC does not rerun the preceding source phases
+in this control and never supplies computed output to Rust.
+
+Commands, time, opaque incoming flags, flat terrain/prepared scene and the preceding
+speed latch remain supplied inputs. Fixture latch values include declared size
+parameters, but this does not implement the later native latch producer. The
+cold primary's initial latch can remain zero until that real producer executes;
+no movement speed is fabricated to make the first frame appear playable.
+
+Foreign factories, wrong numbers/order, retired/quarantined actors, physical mirror
+mismatch, stale/absent affine and replay refuse before mutation. An ANM event error
+cannot be bypassed through this phase. Pure preparation failure is atomic, allowing
+correction without consuming the phase. Its completion token leaves all entered
+history and four initializer prerequisites intact; no next-frame integration or
+primary acknowledgment is invented. Active event/contact/audio services, the
+later speed-latch/animation consumers, remaining primary and live world/camera/GPU
+cadence remain open. Prototype PS2 attributions stay unknown; detailed raw symbols,
+ambiguous demangling, PC aliases and identity-bound evidence remain private.

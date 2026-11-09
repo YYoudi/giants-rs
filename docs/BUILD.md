@@ -224,6 +224,13 @@ actor list is scanned using acquired hidden/state/owner gates; eligible target
 services remain refusals. This control supplies offline mode context and does not
 execute active item/spell services, network transport or live Delphi gameplay.
 
+The seventh owner also publishes 64 acquired debug held caches and target rays.
+It keeps constructor reference storage unevaluated, checks replay/future refusal,
+stale held position, replaced references and failed-parent rejection. These use
+actual owned fields/bindings/reference buffers; the supplied normalization threshold
+is a test input. Whole-world order, point/candidate selection and live Delphi
+controls are not certified by this source-data check.
+
 The locomotion profile reads the original executable's data as an external asset.
 Set `GIANTS_DELPHI_EXECUTABLE` for a separate configurable metadata file; otherwise
 this source-data control reads `Giants.exe` inside `GIANTS_DELPHI_ROOT`. The file
@@ -286,6 +293,7 @@ cargo test --locked -p giants-game source_kabuto_classification --target x86_64-
 cargo test --locked -p giants-game source_kabuto_object_contacts --target x86_64-pc-windows-gnu -- --ignored
 cargo test --locked -p giants-game source_kabuto_model_motion --target x86_64-pc-windows-gnu -- --ignored
 cargo test --locked -p giants-game source_kabuto_animation_gravity --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-game source_kabuto_control_force --target x86_64-pc-windows-gnu -- --ignored
 ```
 
 This uses the same `GIANTS_KABUTO_ROOT`, real cold resources, actual common
