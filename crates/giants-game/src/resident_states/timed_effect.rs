@@ -36,10 +36,11 @@ fn borrow<'a>(
         .timed_effect
         .as_mut()
         .ok_or("timed Session ownership absent")?;
-    if !matches!(metadata.placement, Placement::Attached { recipient, .. }
-        if actor.presentation_parent == Some(recipient))
-        || actor.attachment.is_some()
-    {
+    let parent_matches = match metadata.placement {
+        Placement::Attached { recipient, .. } => actor.presentation_parent == Some(recipient),
+        Placement::Position(_) => actor.presentation_parent.is_none(),
+    };
+    if !parent_matches || actor.attachment.is_some() {
         return Err("timed canonical parent relationship changed".into());
     }
     Ok((
@@ -64,23 +65,37 @@ fn borrow<'a>(
     ))
 }
 impl Session {
-    /// Move the staged payload and sampled-reference owner into the existing
-    /// registry. This is dependency staging, never a native stock admission.
-    /// Only acquired attached zero-list-mask construction is accepted here.
-    pub(crate) fn adopt_timed_attached(&mut self, mut owned: Timed<Id>) -> Result<Id, String> {
-        let Placement::Attached { recipient, .. } = owned.initial.placement else {
-            return Err("timed Session construction requires acquired attached profile".into());
+    /// Stage the acquired attached profile without native stock admission.
+    pub(crate) fn adopt_timed_attached(&mut self, owned: Timed<Id>) -> Result<Id, String> {
+        if !matches!(owned.initial.placement, Placement::Attached { .. }) {
+            return Err("timed attached constructor requires actual parent binding".into());
+        }
+        self.adopt_timed(owned)
+    }
+    /// Stage the acquired positional profile. Caller Session selection and
+    /// physical/environment/stock services remain explicit world prerequisites.
+    pub(crate) fn adopt_timed_positioned(&mut self, owned: Timed<Id>) -> Result<Id, String> {
+        if !matches!(owned.initial.placement, Placement::Position(_)) {
+            return Err("timed positional constructor requires actual source position".into());
+        }
+        self.adopt_timed(owned)
+    }
+    fn adopt_timed(&mut self, mut owned: Timed<Id>) -> Result<Id, String> {
+        let parent = match owned.initial.placement {
+            Placement::Attached { recipient, .. } => {
+                self.get(recipient)
+                    .ok_or("timed constructor parent absent or foreign")?;
+                Some(recipient)
+            }
+            Placement::Position(_) => None,
         };
-        if self.get(recipient).is_none()
-            || owned.runtime.epoch != 0
+        if owned.runtime.epoch != 0
             || owned.references.sampled()
             || owned.runtime.failure.is_some()
             || !owned.runtime.idle()
             || owned.initial.fields.control_flags & 0x20 == 0
         {
-            return Err(
-                "timed Session construction requires live parent and unadvanced owner".into(),
-            );
+            return Err("timed Session construction requires an unadvanced owner".into());
         }
         // Guard the same actual source fields/payload before any list publication.
         owned.runtime.preflight(&Body {
@@ -108,7 +123,7 @@ impl Session {
             &initial.seed,
             &runtime.bindings,
             flags,
-            0,
+            runtime.constructor_mask,
         )?;
         staged
             .specifications
@@ -121,8 +136,18 @@ impl Session {
         // payload allocation. Nothing else retains a live state copy.
         actor.seed = initial.seed;
         actor.channels = Some(channels);
-        actor.presentation_parent = Some(recipient);
+        actor.presentation_parent = parent;
         actor.acquired_construction = true;
+        if parent.is_none() {
+            actor.affine_cache = Some(OwnedAffine {
+                value: crate::actor_affine::Cache {
+                    flags: initial.matrix.flags,
+                    matrix: initial.matrix.values,
+                },
+                pose: affine_pose_words(actor.construction_fields.as_ref().unwrap()),
+                external_orientation: true,
+            });
+        }
         actor.timed_effect = Some(Metadata {
             origin: initial.origin,
             placement: initial.placement,
@@ -218,7 +243,21 @@ impl Session {
         let (runtime, mut body) = borrow(actor, references)?;
         let next = runtime.finish(&mut body, seconds, stamp, result);
         // Preserve even a late reference failure's actual acquired stamp.
-        actor.mecc_animation_stamp = actor.timed_effect.as_ref().unwrap().runtime.epoch;
+        let metadata = actor.timed_effect.as_ref().unwrap();
+        actor.mecc_animation_stamp = metadata.runtime.epoch;
+        // Only an actual callback matrix write refreshes the derived cache.
+        // A physical move without that writer leaves the old pose token stale.
+        // Completed matrix stores also survive a later ANM/reference failure.
+        if metadata.runtime.matrix_written && matches!(metadata.placement, Placement::Position(_)) {
+            actor.affine_cache = Some(OwnedAffine {
+                value: crate::actor_affine::Cache {
+                    flags: metadata.matrix.flags,
+                    matrix: metadata.matrix.values,
+                },
+                pose: affine_pose_words(actor.construction_fields.as_ref().unwrap()),
+                external_orientation: true,
+            });
+        }
         next
     }
     /// Shared bounded ordinary preparation: callback/retirement precedes the
@@ -288,10 +327,70 @@ mod tests {
         fail: bool,
         positions: Vec<[f32; 3]>,
         child: Option<crate::attached_effect_context::Id>,
+        // Explicit retained native-fixture boundaries, not world producers.
+        motion: Option<([f32; 3], [f32; 3])>,
+        physical_calls: usize,
+        physical_fail: bool,
     }
     impl Services for Provider {
-        fn physical(&mut self, _: &mut Session, _: Id, _: f32) -> Result<(), String> {
-            Err("parented fixture has no acquired physical callback".into())
+        fn physical(&mut self, session: &mut Session, id: Id, dt: f32) -> Result<(), String> {
+            let (velocity, previous) = self
+                .motion
+                .as_mut()
+                .ok_or("fixture motion boundary absent")?;
+            let (seed, fields) = session.timed_effect_physical_fields(id)?;
+            let data = crate::effect_actor::physical_data(seed)?;
+            let p: [f32; 15] = std::array::from_fn(|i| {
+                f32::from_le_bytes(data[i * 4..i * 4 + 4].try_into().unwrap())
+            });
+            let motion = crate::mecc_motion::integrate(
+                crate::mecc_motion::Motion {
+                    position: fields.position,
+                    velocity: *velocity,
+                    previous_velocity: *previous,
+                    force: [p[6], p[7], p[8]],
+                    mass: p[2],
+                    speed_limit: p[10],
+                    force_time_limit: p[11],
+                    stored_dt: p[5],
+                },
+                dt,
+                false,
+                false,
+                crate::arithmetic::Precision::Double53,
+            )?;
+            let gravity = crate::mecc_gravity::apply(
+                crate::mecc_gravity::Input {
+                    force: motion.force,
+                    velocity: motion.velocity,
+                    normal: [0.; 3],
+                    gravity_mass: p[1],
+                    mass: p[2],
+                    friction_limit: 0.,
+                    damping_xy: 0.,
+                    damping_z: 0.,
+                    force_time_limit: motion.force_time_limit,
+                    object_flags: fields.object_flags,
+                    physics_flags: 0,
+                    project_contact: true,
+                },
+                crate::arithmetic::Precision::Double53,
+            )?;
+            *velocity = motion.velocity;
+            *previous = motion.previous_velocity;
+            fields.position = motion.position;
+            let data = seed.storage.data_mut().unwrap();
+            data[0xb4..0xb8].copy_from_slice(&motion.stored_dt.to_le_bytes());
+            data[0xcc..0xd0].copy_from_slice(&gravity.force_time_limit.to_le_bytes());
+            for (i, v) in gravity.force.into_iter().enumerate() {
+                data[0xb8 + i * 4..0xbc + i * 4].copy_from_slice(&v.to_le_bytes());
+            }
+            self.physical_calls += 1;
+            if self.physical_fail {
+                Err("declared failure after actual physical writes".into())
+            } else {
+                Ok(())
+            }
         }
         fn retire(
             &mut self,
@@ -314,17 +413,19 @@ mod tests {
             assert!(source.same_image(&m.runtime.source));
             self.positions.push(fields.position);
             self.retirements += 1;
-            let (creation, _) = self.pool.prepare_retirement_offset_invariant(
-                binding.map(|b| b.program_offset),
-                fields.position,
-                fields.object_flags,
-                m.render_flags,
-                &mut self.random,
-            )?;
-            let Creation::Prepared(child) = creation else {
-                return Err("child context absent".into());
-            };
-            self.child = Some(child);
+            if let Some(binding) = binding {
+                let (creation, _) = self.pool.prepare_retirement_offset_invariant(
+                    Some(binding.program_offset),
+                    fields.position,
+                    fields.object_flags,
+                    m.render_flags,
+                    &mut self.random,
+                )?;
+                let Creation::Prepared(child) = creation else {
+                    return Err("child context absent".into());
+                };
+                self.child = Some(child);
+            }
             // The actor is still registered and its pending callback cannot
             // recursively emit again. No provider invocation should occur.
             assert!(
@@ -381,6 +482,9 @@ mod tests {
             fail: false,
             positions: vec![],
             child: None,
+            motion: None,
+            physical_calls: 0,
+            physical_fail: false,
         };
         let (creation, _) = service
             .pool
@@ -544,8 +648,51 @@ mod tests {
                 .advance_timed_effect(id, 0., &mut stamp, &mut service)
                 .is_err()
         );
+        // The real retirement context stages a detached actor in the same
+        // canonical registry. A late physical failure retains its actual bytes
+        // and leaves the previous affine token stale; it cannot replay.
+        let origin = service.child.take().unwrap();
+        let child = service
+            .pool
+            .activate_timed_positioned(origin, &mut session, &resources)
+            .unwrap();
+        assert!(service.pool.get(origin).is_none());
+        assert!(
+            service
+                .pool
+                .activate_timed_positioned(origin, &mut session, &resources)
+                .is_err()
+        );
+        assert_eq!(session.get(child).unwrap().constructor_mask, 0);
+        assert!(session.actor_current_affine(child).is_ok());
+        assert_eq!(
+            session
+                .advance_timed_effect(child, 0., &mut stamp, &mut service)
+                .unwrap(),
+            Step::FirstFrame
+        );
+        service.motion = Some(([0.; 3], [0.; 3]));
+        service.physical_fail = true;
+        assert!(
+            session
+                .advance_timed_effect(child, 0.01, &mut stamp, &mut service)
+                .is_err()
+        );
+        assert_eq!(service.physical_calls, 1);
+        assert!(session.timed_effect_failure(child).is_some());
+        assert_eq!(
+            &session.get(child).unwrap().seed.storage.data().unwrap()[0xb4..0xb8],
+            &0.01f32.to_le_bytes()
+        );
+        assert!(session.actor_current_affine(child).is_err());
+        assert!(
+            session
+                .advance_timed_effect(child, 0., &mut stamp, &mut service)
+                .is_err()
+        );
+        assert_eq!(service.physical_calls, 1);
         let removed = session.clear();
-        assert_eq!(removed.residents, 2);
+        assert_eq!(removed.residents, 3);
         assert_eq!(session.counts().residents, 0);
         assert_eq!(session.specification_count(), 0);
         assert!(
@@ -554,10 +701,6 @@ mod tests {
                 .is_err()
         );
         // Re-entry on the same Session keeps stale actor identities invalid.
-        service
-            .pool
-            .release_prepared(service.child.take().unwrap())
-            .unwrap();
         let next_parent = parent(&mut session, &resources);
         let (created, _) = service
             .pool
@@ -585,13 +728,51 @@ mod tests {
                 .unwrap(),
             Step::FirstFrame
         );
-        assert_eq!(session.clear().residents, 2);
+        let bytes = session.get(next).unwrap().seed.storage.data().unwrap();
+        let life = f32::from_le_bytes(bytes[4..8].try_into().unwrap());
+        session
+            .prepare_timed_attached(
+                next,
+                Matrix::identity(),
+                1.,
+                life * 2.,
+                &mut stamp,
+                &mut service,
+            )
+            .unwrap();
+        let child = service
+            .pool
+            .activate_timed_positioned(service.child.take().unwrap(), &mut session, &resources)
+            .unwrap();
+        session
+            .advance_timed_effect(child, 0., &mut stamp, &mut service)
+            .unwrap();
+        service.motion = Some(([0.; 3], [0.; 3]));
+        service.physical_fail = false;
+        // Deliberate unsupported ANM input after a successful physical service.
+        // The completed size/matrix store must survive the later refusal.
+        session
+            .residents
+            .get_mut(&child.serial)
+            .unwrap()
+            .channels
+            .as_mut()
+            .unwrap()[0][0] = 255;
+        assert!(
+            session
+                .advance_timed_effect(child, 0.01, &mut stamp, &mut service)
+                .is_err()
+        );
+        assert!(session.timed_effect_failure(child).is_some());
+        assert!(session.actor_current_affine(child).is_ok());
+        assert!(session.current_reference_matrices(child).is_err());
+        assert_eq!(session.clear().residents, 3);
         assert_eq!(session.counts(), Counts::default());
         // Exact previously acquired original-PC rows; they are never committed.
         if let Some(path) = std::env::var_os("GIANTS_FLICK_TIMED_PARENT_CONTROLS") {
             let text = std::fs::read_to_string(path).unwrap();
             let mut current = None;
-            let mut run = None;
+            let mut run: Option<(Session, Id, Provider)> = None;
             let mut total = 0;
             let mut words = 0;
             let mut stamp = Stamp(0xfffffff0);
@@ -601,21 +782,32 @@ mod tests {
                     .map(str::parse::<u32>)
                     .collect::<Result<Vec<_>, _>>()
                     .unwrap();
-                if e[1] != 0 {
-                    continue;
-                }
                 if current != Some(e[0]) {
+                    if let Some((session, _, services)) = run.take() {
+                        assert_eq!(services.physical_calls, 3);
+                        assert_eq!(services.retirements, 2);
+                        assert_eq!(session.counts().residents, 3);
+                    }
                     run = Some(start(&resources, 1000 + u64::from(e[0]), e[3]));
                     current = Some(e[0]);
                 }
                 let (session, id, services) = run.as_mut().unwrap();
-                let mut support = Matrix::identity();
-                support.values[3] = f32::from_bits(e[7]);
-                support.values[7] = f32::from_bits(e[8]);
-                support.values[11] = f32::from_bits(e[9]);
+                if e[1] == 1 && e[2] == 0 {
+                    let origin = services.child.take().unwrap();
+                    *id = services
+                        .pool
+                        .activate_timed_positioned(origin, session, &resources)
+                        .unwrap();
+                    assert_eq!(session.get(*id).unwrap().constructor_mask, 0);
+                    services.motion = Some(([0.; 3], [0.; 3]));
+                }
                 let seed = services.random.0;
-                let step = session
-                    .prepare_timed_attached(
+                let step = if e[1] == 0 {
+                    let mut support = Matrix::identity();
+                    support.values[3] = f32::from_bits(e[7]);
+                    support.values[7] = f32::from_bits(e[8]);
+                    support.values[11] = f32::from_bits(e[9]);
+                    session.prepare_timed_attached(
                         *id,
                         support,
                         1.,
@@ -623,13 +815,16 @@ mod tests {
                         &mut stamp,
                         services,
                     )
-                    .unwrap();
+                } else {
+                    session.advance_timed_effect(*id, f32::from_bits(e[4]), &mut stamp, services)
+                }
+                .unwrap();
                 assert_eq!(services.random.0, seed);
                 assert_eq!(
                     step,
                     if e[2] == 0 {
                         Step::FirstFrame
-                    } else if e[2] == 3 {
+                    } else if (e[1] == 0 && e[2] == 3) || (e[1] == 1 && e[2] == 4) {
                         Step::Marked
                     } else {
                         Step::Updated
@@ -641,7 +836,7 @@ mod tests {
                     assert_eq!(a, b, "case {} step {} word {i}", e[0], e[2]);
                 }
                 if step == Step::Marked {
-                    assert_eq!(services.retirements, 1);
+                    assert_eq!(services.retirements, if e[1] == 0 { 1 } else { 2 });
                     assert_eq!(
                         session
                             .advance_timed_effect(*id, 0., &mut stamp, services)
@@ -649,12 +844,44 @@ mod tests {
                         Step::Inactive
                     );
                 }
+                if e[1] == 1 && e[2] == 0 {
+                    // Retained original ordinary post-preparation boundary;
+                    // this fixture does not acquire its terrain producer.
+                    let actor = session.residents.get_mut(&id.serial).unwrap();
+                    let fields = actor.construction_fields.as_mut().unwrap();
+                    fields.position = std::array::from_fn(|i| f32::from_bits(e[7 + i]));
+                    fields.current = std::array::from_fn(|i| f32::from_bits(e[10 + i]));
+                    fields.previous = std::array::from_fn(|i| f32::from_bits(e[13 + i]));
+                    fields.object_flags ^= e[5];
+                    let matrix = Matrix {
+                        flags: e[16],
+                        values: std::array::from_fn(|i| f32::from_bits(e[17 + i])),
+                    };
+                    actor.timed_effect.as_mut().unwrap().matrix = matrix;
+                    actor.affine_cache = Some(OwnedAffine {
+                        value: crate::actor_affine::Cache {
+                            flags: matrix.flags,
+                            matrix: matrix.values,
+                        },
+                        pose: affine_pose_words(fields),
+                        external_orientation: true,
+                    });
+                }
+                if e[1] == 1 && step == Step::Updated {
+                    assert!(session.actor_current_affine(*id).is_ok());
+                }
                 words += got.len();
                 total += 1;
             }
-            assert_eq!(total, 128);
-            assert_eq!(words, 22272);
-            eprintln!("canonical parent preparation states={total} selected_words={words}");
+            let (session, _, services) = run.unwrap();
+            assert_eq!(services.physical_calls, 3);
+            assert_eq!(services.retirements, 2);
+            assert_eq!(session.counts().residents, 3);
+            assert_eq!(total, 288);
+            assert_eq!(words, 50112);
+            eprintln!(
+                "canonical states={total} selected_words={words}; parent preparation and supplied-postpreparation detached callbacks"
+            );
         }
     }
 }
