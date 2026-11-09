@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## Canonical attached timed-effect ownership — 9 November 2026
+
+The source transfers acquired attached timed objects into the common Session
+registry and reuses one callback/parent-preparation kernel over its actual
+fields, inline payload, channels and reference cache. Required services observe
+the registered actor after prefix publication; pending re-entry and late-failure
+replay are refused. Context/RNG rollback on failed construction, stale/foreign
+identities, clear and second entry have installed-data controls.
+
+Replaying retained original-PC controls through Session matches 256 parent
+preparation states /44,544 selected words. The staged-owner regression preserves
+576 rows /100,224 words, including its 320 detached callback states with supplied
+post-preparation. This reuses existing native evidence; it adds no original-world
+or complete-film coverage. Support/time, detached construction/environment,
+physical/stock retirement, world RNG/cadence and main timed-film admission remain
+open. Prototype PS2 attributions remain unknown. No new downloadable preview is
+introduced: preview13 keeps its exact executable, notice and checksum receipts.
+
 ## Main integration of local Mecc voice and landing continuation — 9 November 2026
 
 Combined runtime source `e655c67620c2dec6d15f36d7f646f4ca4fca9d9c` merges the

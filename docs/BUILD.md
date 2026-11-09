@@ -461,6 +461,23 @@ memory. It checks warm reuse, retained bounds, source identity, failed refresh
 and release without launching the original executable, a window or audio. It
 does not execute the full world teardown or acknowledge runtime admission.
 
+## Optional canonical timed-effect ownership check
+
+With `GIANTS_FLICK_ROOT` set to the user-supplied installation and an isolated
+GNU target, run:
+
+```powershell
+cargo test --locked -p giants-game source_timed_session_preserves_canonical_state_and_quarantines_services --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This CPU-only source check observes actual Session state at a required retirement
+service, creates the real child context, retains late failures, refuses recursive
+and foreign calls, and checks clear/re-entry. Parent motion and time are supplied;
+no window, audio service, original executable or live world admission is created.
+Optional `GIANTS_FLICK_TIMED_PARENT_CONTROLS` selects the private retained
+original-PC preparation rows; positive and zero-delta variants are separate runs.
+Keep those inputs and detailed receipts private. Passing is not film fidelity.
+
 ## Optional silent runtime lifecycle check
 
 After building a preview, supply your own installation and a fresh private output:
