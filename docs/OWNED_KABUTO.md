@@ -1476,3 +1476,49 @@ construction, reference ownership/lifetime, current world services and the compl
 release/action/animation cadence remain open. No live NPC/player interaction,
 new capture, download or fidelity claim follows. Prototype PS2 attributions stay
 unknown; detailed records remain private and no PS2 ABI/layout is imported.
+
+## State18 reset body
+
+`state18_reference_reset::body::execute` implements the acquired reset body with
+required typed services and current owned `actor_fields::Fields` access. Its
+local branch restores position and heading from the source's stored state18 pose,
+updates position history and requests the acquired global-cache reset. The other
+branch reads the current point: a zero class copies its pose with the acquired
+horizontal offset; a nonzero class requests a distinct constructed actor, applies
+offsets, prepares its transform, selects and advances animation, then resolves
+the resulting cached/root-reference matrices. It reuses the shared affine product
+and planar-angle algorithm, adding the heading offset before the final f32 store.
+The temporary actor receives the acquired deferred-removal flag.
+
+The common tail publishes scale, zero velocity, action, preferred point, control,
+context and response fields before requesting the source animation. It rereads
+the mode and response afterward. A required conditional child construction uses
+the point's current full context, then publishes the acquired parent/reference,
+behavior and flags. The source and point may be the same actor; constructors
+must return distinct owned actors. Used resource/payload/reference storage must
+remain alive. These relationships are contracts for real integration, not an
+assumption that any supplied identity is currently owned.
+
+Original controls match 512 calls / 919,700 final/header, service-prefix and
+argument words. They execute the entire original reset, mode predicates, position
+and history writers, global-cache stores, deferred flag writer, affine product
+and planar-angle helper at Double53 precision. Construction, changed-position
+footprint invalidation, transform preparation and both animation calls have
+declared mutating entry providers. The controls preserve supplied full headers,
+payloads and current affine/reference matrices, cover source/point aliasing,
+preexisting preferred/parent identities, zero and near-wrap angle inputs, and
+mode/context/response changes after animation. They do not execute the original
+bodies of those supplied providers or establish their live ownership.
+
+An additional declared late-animation failure control checks that preceding
+scale, velocity, action and preferred-reference stores remain published and no
+later attachment is constructed. Errors are not rolled back; an owning caller
+must quarantine a failed operation rather than replay earlier effects. These are
+CPU contracts, without native exception-path equivalence.
+
+The read-only Session route is still separate: its preferred input is supplied,
+and this body has no Session writer, global/animation backend, lifetime binding or
+numbered Kabuto phase. All initializer/history prerequisites remain explicit.
+Full preceding release, primary/world integration, movement, feeding and growth
+remain open. No new capture, download, ordinary gameplay or fidelity claim is
+added. Prototype PS2 correspondences remain unknown.

@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## State18 reset body for Kabuto — 9 November 2026
+
+The acquired reset body agrees with 512 original calls / 919,700 complete header,
+service-prefix and argument words. Local pose/history restoration and the branch
+with constructed-actor placement preserve their distinct behavior. Shared matrix
+and planar-angle services are reused; common field/reference stores and the
+post-animation conditional attachment retain current-state ordering.
+
+Constructor, footprint, transform and animation entry providers are declared and
+mutating. Actual Session/global ownership, resource/reference lifetime, original
+provider bodies and the preceding primary release remain unbound. This is CPU
+source progress, without a new numbered phase, live Kabuto control, capture,
+dependency, asset or downloadable preview. Existing preview receipts retain
+their exact identities. Prototype PS2 attributions remain unknown.
+
+Validation passes 860 workspace Rust tests (56 ignored), sixteen installed
+Kabuto controls and the separate cold-construction control, 43 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The private body
+comparison also checks retained state after declared late-animation failure.
+
 ## State18 reference-reset route for Kabuto — 9 November 2026
 
 The acquired action-gated route selects a preferred state32/82 or the first

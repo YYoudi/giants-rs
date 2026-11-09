@@ -421,13 +421,27 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented at the CPU boundary: the complete state18 reference-reset body
+  agrees on 512 original calls / 919,700 full-header, service-prefix and argument
+  words. It restores the source's stored pose in the local branch, or uses the
+  current point and optional constructed actor in the other branch. Shared affine
+  multiplication and the existing planar-angle algorithm are reused, preserving
+  the wide heading addition before its final store. Common velocity/scale/action,
+  preferred-reference/context and conditional child-attachment stores are retained.
+  Construction, footprint invalidation, transform preparation and animation have
+  declared mutating entry providers in this control; their original bodies and
+  real Session ownership/lifetime are not established by this comparison. Required
+  services have no defaults. Bind their actual runtime producers, including the
+  preferred-reference lifetime and global cache, before connecting this body to
+  the preceding Kabuto reference-release phase. A failed late service retains
+  preceding effects; callers must quarantine rather than replay the operation.
 - Implemented: the action-gated state18 reset route matches 512 original calls /
   136,510 source-header, route and service-prefix words. Preferred state32/82
   wins without a context test; otherwise the first matching full context in
   list13 wins, without added visibility/state filters. Only action10 enters
   selection; failure to find a point requests the acquired current position.
-  The reset body remains a required service: the control supplies declared
-  mutations at its entry and does not establish constructor/lifecycle parity.
+  This earlier route-only control supplies declared mutations at the reset
+  entry; the separate body control above does not establish constructor parity.
   A read-only Session adapter resolves actual header metadata and list13 lazily;
   its preferred relationship is still an explicit caller input. Synthetic
   header-only ownership tests add no resource constructor, target publication,
@@ -440,7 +454,7 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   no external DLL, clock or RNG owner is needed for this acquired profile.
   Projective products, partial buffer overlap and other initialization paths
   remain outside this control. Reference-release construction/lifecycle and the
-  complete reset handler still require their own acquisition and integration.
+  reset-handler services still require their own acquisition and integration.
 - Implemented at the CPU boundary: post-query target filtering preserves the raw
   result, rejects a positive score outside squared bounds extents, decrements the
   retained-target timer, announces accepted selection before marker reset, and

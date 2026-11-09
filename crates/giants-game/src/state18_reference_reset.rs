@@ -1,5 +1,6 @@
-//! Acquired action-gated reference-reset routing. The reset body, current
-//! preferred relationship, list ownership and position writer remain services.
+//! Acquired action-gated reference-reset routing and body. Current ownership,
+//! construction, animation, preferred lifetime and position writing need services.
+pub mod body;
 #[derive(Clone, Copy, Debug)]
 pub struct Preferred<K> {
     pub identity: K,
