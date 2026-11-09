@@ -1452,6 +1452,8 @@ the route requests current position `[0, 0, 200]`; it does not invent a history 
 affine-cache reset. `Plan::apply` requires actual reset and position services with
 no successful defaults. Inactive actions request neither preferred/fallback
 metadata nor a writer.
+Plans hold no actor alive; the required writer must validate current source/point
+ownership when executing one. A plan is not a deferred phase or readiness token.
 
 Original controls match 512 calls / 136,510 source-header, route and prefix words:
 322 inactive actions, 157 reset requests and 33 fallback writes. They execute the

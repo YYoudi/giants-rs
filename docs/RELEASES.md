@@ -16,6 +16,12 @@ primary/action/animation integration remain open. No new gameplay, capture,
 dependency, asset or downloadable preview is added. Existing receipts keep their
 exact source identities; prototype PS2 correspondences remain unknown.
 
+Validation passes 860 workspace Rust tests (56 ignored), sixteen installed
+Kabuto phase controls plus the separate cold control, 43 Python tests, Rustfmt,
+strict Clippy and roadmap/site/JavaScript checks. The common MinGW application
+compiles with this source. These are CPU/compilation checks, without a new
+numbered primary phase, runtime input, reset/lifetime backend or playable preview.
+
 ## Shared affine translation for Kabuto's release dependency — 9 November 2026
 
 The shared matrix product retains the original translation addition order under
