@@ -1,5 +1,43 @@
 # Preview releases and milestone integration
 
+## Delphi reserve callback and owned passive composition - 9 November 2026
+
+`delphi_reserve::advance` implements the acquired finite PC delay, recharge,
+capacity and drain arithmetic. It preserves wide comparisons, stored-float
+rounding, repeated object-local time queries and consumption after cancellation.
+Cancellation requires owner-bound retirement before restoring physical parameters;
+water splash and linked-actor movement must execute through required services or
+refuse. The explicit empty-context provider acknowledges only empty retirement.
+Activation, nonempty resource retirement and actual movement/effect producers
+remain prerequisites; naming does not establish their gameplay meaning.
+
+`Resources::with_reserve` and `Session::advance_delphi_reserve_controlled` compose
+physical/reset/post, reserve, secondary and zero-time ANM for the acquired dry
+passive profile. Actual owned state, physical flags, damage/limit, updated position
+and object-time areas are bound; the recharge-inhibition producer remains supplied.
+Existing active-control and immersion guards remain in force. Completed reserve
+writes survive a later failure, with replay quarantined. Earlier profiles remain
+separate. This is not active turbo movement or live mission admission.
+
+Complete original callback controls match 2,280 cases / 2,774,760 header/payload
+words, including passive recharge and dry active cancellation/drain with empty
+contexts. Original helpers run without behavior replacements. A separate 64-case /
+77,888-word control stops at actual movement or splash entry and matches the Rust
+refusal prefix; it does not execute or validate those service bodies. Synthetic
+checks verify renewed time queries after movement and retained cancellation before
+splash refusal. Two persistent owned sequences match 512 frames / 4,081,152 words
+over 22 actors and exact shared RNG. Commands/time, a flat world and metadata
+remain supplied; inactive pre-heading camera reset and full-world scheduling are
+excluded. The installed-data lifecycle adds a sixth owner, 64 reserve-profile
+updates, inhibition, wrong-entry refusal, retained late-failure effects and no
+replay. These are CPU controls, not input/render/audio or visual-fidelity proof.
+
+Prototype PS2 correspondence remains unknown. Private identity-bound lookups,
+raw-symbol/demangling distinctions, historical aliases, failed intermediate
+harness results and independent controls remain private. Remaining full-primary,
+item/target, auxiliary and authored-camera composition, water/swim/turbo, combat,
+renderer/HUD/audio and menu-to-mission integration stay open.
+
 ## Sized FX initial preparation — 9 November 2026
 
 The common effect initialization service now handles the acquired complete frame
