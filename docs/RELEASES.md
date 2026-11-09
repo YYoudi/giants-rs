@@ -15,6 +15,13 @@ new capture, asset, dependency or downloadable preview; existing package/notices
 checksum/runtime receipts keep their identities. Prototype PS2 counterparts
 remain unknown and detailed evidence remains private.
 
+The combined tree passes 858 workspace Rust tests (55 ignored), 36 installed-data
+source controls, 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks. Its exact MinGW build passes both silent offscreen development endpoints,
+with six fresh launches, menu return/re-entry and cleanup. This is development
+lifecycle coverage, not manual controls, live Kabuto or visual fidelity. The
+latest persistent Mecc wounded-primary work remains integrated with its guards.
+
 ## Main integration of persistent wounded Mecc primary — 9 November 2026
 
 The reviewed Mecc follow-up `0d08196e2dbe459fe0a94db67ecbecfc1c2f43be` is combined
