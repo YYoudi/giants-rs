@@ -4,6 +4,51 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Target movement and activation services - 9 November 2026
+
+`delphi_target_movement::advance` now computes the acquired finite movement toward
+an actual linked actor position or the retained fallback point. It copies the
+cached target, clears the inline force triplet, stores squared distance before
+the external power/rate calculation, then computes velocity from actual physical
+mass and gravity. Source rounding is preserved: the first component uses the
+retained wide reciprocal; subsequent components use its stored float, and the
+vertical displacement is separately narrowed. Constants remain supplied external
+metadata, with rates read from the user's global data. Coincident/nonfinite and
+nonpositive-rate/mass behavior stays outside the acquired profile.
+
+`delphi_movement_activation::advance` composes readiness, physical parameter
+replacement, required sequence construction, actual target resolution, movement,
+linked-duration scaling, notification, held reveal and positional sound stop.
+Only after those services complete does it reset the observed timing/context
+words and publish final flags. Refusals retain completed effects; the caller must
+quarantine replay. The resource handle is a sound-sequence context, established
+from its actual constructor, list and owner/cue behavior; it is not assigned to
+the attached-effect pool. Existing shared audio services are the integration
+candidate; no live sound device or queue binding is acknowledged here.
+
+The former generated item-action label `Cycle` is corrected to `TargetMovement`.
+The owned item adapter executes the actual readiness-off return using its owned
+state word. Ready activation still refuses until typed pending/active target
+ownership, sequence identity/lifetime, required providers and active physical
+scheduling are bound. This guard does not substitute a generic success for active
+movement. Source-data lifecycle checks now include four inactive requests.
+
+Original-PC/Rust controls match 512 complete movement calls / 623,104 full
+header/payload words. Activation controls match 528 complete callbacks and 48
+sequence-constructor entry prefixes / 700,992 words. Complete activation includes
+144 readiness-off returns and 384 existing-sequence activations; new-sequence
+bodies are not covered by those prefixes. Linked/fallback paths, changed previous
+target/mass, duration scaling and final flags are covered. Offline notification,
+an empty held list and an actual null positional sound bank remain supplied
+boundaries. Synthetic checks additionally retain sequence, target and movement
+when the later positional stop refuses; no original error-path parity is claimed.
+Two new persistent native sequences additionally issue 32 readiness-off requests
+over 512 frames / 22 actors. The rebuilt owned Rust comparisons match all
+4,081,152 header/payload/reference/list words and the exact shared RNG. No ready movement is admitted to live missions, and these CPU
+services do not certify visual fidelity or complete turbo/water behavior.
+Prototype PS2 correspondence remains unknown; literal symbols, demangling,
+generated aliases and PC relationships remain separate in private evidence.
+
 ## Owned item and absent auxiliary tail - 9 November 2026
 
 `delphi_items::advance` now follows the reserve callback with acquired inventory

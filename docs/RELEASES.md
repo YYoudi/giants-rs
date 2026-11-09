@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## Delphi target-movement and activation services - 9 November 2026
+
+The shared Rust library now contains acquired target/fallback movement arithmetic
+and its activation ordering: physical parameters, required sound sequence and
+target resolution, movement/duration, notification, held reveal and positional
+stop before final reset/context/flag stores. The former generated item-action
+label `Cycle` is corrected to `TargetMovement`. The owned adapter executes the
+measured readiness-off return; ready activation remains unbound and refuses.
+
+Original-PC/Rust controls match 512 movement calls / 623,104 full words and 528
+complete activation calls plus 48 sequence-constructor entry prefixes / 700,992
+words. Those prefixes do not prove sequence construction; completed activations
+use existing sequences, offline notification, an empty held list and an actual
+null sound bank. Constants/rates, typed targets, sequence ownership/lifetime and
+live scheduling remain separate inputs/prerequisites. Synthetic late-failure
+checks retain completed effects. No live Delphi, active turbo/water integration
+or fidelity status changes follow. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
 ## Delphi owned item-tail composition - 9 November 2026
 
 The new frozen dry controlled profile adds actual inventory selection and distinct

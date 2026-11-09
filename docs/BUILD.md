@@ -182,7 +182,8 @@ services remain unprepared. Native scalar and callback-prefix comparisons retain
 separate supplied boundaries; neither this control nor those CPU comparisons
 execute live Delphi gameplay.
 
-The seventh owner adds 64 item/absent-auxiliary-tail updates after reserve and
+The seventh owner adds four readiness-off movement requests during its
+64 item/absent-auxiliary-tail updates after reserve and
 checks retention of completed timing/history/ANM when a nonempty auxiliary
 resource is injected. Retry preserves both payload and epoch. The actual common
 actor list is scanned using acquired hidden/state/owner gates; eligible target

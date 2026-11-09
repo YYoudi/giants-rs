@@ -231,6 +231,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   distance, held/interaction services, active item/spell actions and nonempty
   auxiliary resources remain open. Mode/participant/owner identity context stays
   supplied. No live Delphi, networking or fidelity promotion follows.
+- Implemented: finite target/fallback movement arithmetic and source-ordered
+  activation services. Native/Rust controls match 512 movement calls / 623,104
+  full words, plus 528 complete activation calls and 48 sequence-constructor
+  entry prefixes / 700,992 words. Sound-sequence context identity is acquired;
+  it must reuse shared audio ownership rather than the attached-effect pool.
+  The generated `Cycle` label is corrected to `TargetMovement`. The actual
+  readiness-off return is wired into the owned item adapter. Ready activation
+  still needs the actual readiness/pending-target producer, typed active-target
+  lifetime, sequence construction/retirement, providers and active physical
+  scheduling before admission. Existing-sequence/offline/empty-held/null-bank
+  controls do not establish those integrations or live turbo/water fidelity.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
