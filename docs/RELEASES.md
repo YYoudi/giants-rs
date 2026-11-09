@@ -37,8 +37,16 @@ layout; they pass with the identity-checked acquisition reference specified as
 documented in BUILD.md. No parser gate was weakened. These tests retain supplied
 service/geometry/time boundaries and do not admit playable Delphi/Kabuto/NPCs.
 The main history-pattern audit reports zero findings across 517 commits / 3,268
-blobs. A separate combined Windows build is still being prepared; these source
-checks do not relabel the public `.9` executable or certify a newer download.
+blobs. The separate combined MinGW executable has SHA256
+`e7f5581e198e23b62cae506e7cf6a0aed466ddeee960d326c4a9f2ba9c320a90`.
+Its exact runtime tree passes 829 release-profile workspace tests (45 ignored),
+strict workspace/all-target Clippy, six offscreen development launches and two
+Rstory1 mission-index-2 source-terminal/re-entry cycles with muted voice/text
+cleanup. CLI help exits successfully when explicitly awaited; CI now does so
+instead of relying on a bare PowerShell GUI invocation. PE imports contain Windows
+system/UCRT libraries; the dependency preflight finds 338 packages with notices
+and verifies eleven toolchain notice files. These checks do not relabel `.9` or
+certify ordinary controls/fidelity; this candidate remains a private checkpoint.
 
 The bounded attached timed and detached linear-gravity frames now compose their
 following source VM commands with the shared owned initial constructor. Size,

@@ -56,7 +56,10 @@ jobs:
       - name: Build independent runtime and draft package
         run: |
           ./tools/build_preview.ps1 -OutputDirectory .local/build
-          ./.local/build/giants-rs.exe --help
+          # The release binary uses the Windows GUI subsystem. Explicitly wait
+          # for it and capture its result; a bare PowerShell call can return
+          # before help finishes and close the child's redirected stdout.
+          python -c "import subprocess; p = subprocess.run(['.local/build/giants-rs.exe', '--help'], capture_output=True, text=True, encoding='utf-8', check=True); print(p.stdout, end='')"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m tools.package_preview --executable .local/build/giants-rs.exe --receipt .local/build/build-receipt.json --metadata .local/build/cargo-metadata.json --notes docs/PREVIEW_NOTES.md --output .local/giants-rs-windows-x64.zip --draft --project-license LICENSE
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

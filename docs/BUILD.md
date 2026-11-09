@@ -29,6 +29,12 @@ cargo clippy --locked --workspace --all-targets --target x86_64-pc-windows-gnu -
 ./tools/build_preview.ps1 -OutputDirectory .local/build
 ```
 
+The release executable uses the Windows GUI subsystem. For scripted CLI checks,
+explicitly wait for it, for example with Python's `subprocess.run(..., check=True)`.
+A bare PowerShell command can finish before the child and close its redirected
+stdout; that is not a reliable CLI exit/output check. The Windows workflow waits
+and captures the child's `--help` result explicitly.
+
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 With `GIANTS_DELPHI_ROOT` set to the user's installation (and optional
