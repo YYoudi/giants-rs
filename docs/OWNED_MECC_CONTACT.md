@@ -640,3 +640,46 @@ the 384-frame native comparison. The App still supplies no impact/voice/display
 service for this path. Its mission-gate production, active effects, general
 retirement, death/equipment/carried profiles and complete trajectory remain open.
 Prototype PS2 attributions remain unknown; no additional correspondence is confirmed.
+
+## Native no-play option and local impact cues — 9 November 2026
+
+`startup_playback::Playback` now retains the acquired startup no-play projection.
+Complete dispatched option tokens `-noplay` and `-safemode` set it, independent of
+ASCII case; it stays set on subsequent options. The default observed startup state
+is clear. Unknown tokens remain caller work. This is not a Rust command-line lexer,
+all safe-mode side effects, a resource-loading option or an ordinary gain/mute control.
+
+Thirty-two original dispatcher contexts agree with this projection; configuration
+initialization and unknown-token handlers are explicit providers, and Rust receives
+supplied complete tokens. A separate 216-context original attachment-wrapper
+comparison agrees on result, route and DLL-entry presence. The suppressed native
+cases independently execute no parent/descriptor reads and no DLL entries. Across
+these controls 680 selected state/protocol words agree. Bank, descriptor fields,
+root identities and successful DLL outcomes are supplied, without device/lifetime
+or whole-application startup claims.
+
+`Session::sound_route_with_playback` retains typed identity validation and passes
+the actual no-play projection to the acquired routing kernel. The local Mecc voice
+adapter accepts that explicit projection and handles suppression before borrowing
+the shared backend. Its legacy enabled profile remains available separately. A
+suppressed cue acknowledges the native decision, never a started voice. A synthetic
+adapter test uses a backend whose every operation fails the test if entered, while
+another owner already holds its mutable borrow: two expired pain/shared cue paths
+still commit the expected VM draws and replacement timers. Foreign/stale identities
+and unsupported cues remain rejected at the owned API boundary.
+
+A further original-PC comparison executes the real no-play wrapper inside the
+post-health voice tail: 64 contexts / 64 cue entries / 576 timer, cue and VM words
+agree with Rust. This proves the declared voice-tail boundary, separate from the
+216 wrapper and typed-adapter controls. No audio source, device or active effect
+is claimed by these suppressed calls. Capture muting continues to use the real
+transport and is not mapped to native no-play. The App does not select no-play to
+bypass its missing impact provider; global startup wiring, other sound wrappers
+and jet-sequence suppression remain further work.
+
+The damage inhibition input is a different native flag with editor/input-UI writes.
+Its complete owner and transitions still need acquisition. The `cutscene` context
+field is a retained historical parameter label; its full producer semantics are
+not established by damage arithmetic and must not be inferred from film playback
+alone. Preserve those distinctions when binding the remaining App services.
+Prototype PS2 correspondences remain unknown; no new attribution is confirmed.

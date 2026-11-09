@@ -90,6 +90,7 @@ pub mod resident_finalization;
 pub mod resident_motion;
 pub mod scalar_track;
 pub mod specification;
+pub mod startup_playback;
 mod state_attributes;
 pub mod state_resources;
 pub mod state_storage;

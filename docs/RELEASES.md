@@ -4336,3 +4336,25 @@ Mecc controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
 roadmap/site/JavaScript checks. A fresh 384-frame receipt is identical and repeats
 the 124,800-word native agreement. The persistent wounded-primary change is a
 separate follow-up from the already merged policy milestone.
+
+## Mecc startup no-play projection and voice routing — 9 November 2026, source only
+
+The typed local Mecc voice adapter now accepts the acquired no-play startup
+projection. Explicit native suppression performs no backend borrow or playback
+acknowledgement while the voice tail retains its VM draws and timer replacements.
+Capture muting and missing audio services never select this mode implicitly.
+
+Original controls match 32 startup dispatcher contexts plus 216 attachment-wrapper
+contexts / 680 selected result/protocol words, with tokenization/configuration,
+source/descriptor fields and DLL outcomes kept explicit. Another control executes
+the real suppressed wrapper inside the native damage-voice tail and matches
+64 contexts / 64 cue entries / 576 cue/timer/VM words. The typed adapter test keeps
+its actual backend entirely unentered and retains foreign/profile refusals.
+These are independent scoped controls, not a full startup, jet-sequence, device
+or ordinary gameplay claim. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+The shared damage-inhibition and historical `cutscene` inputs retain their own
+unacquired owner semantics. The App impact/voice/display defaults remain guarded;
+this source lot creates no public executable, screenshot or release asset.
+Prototype PS2 correspondence remains unknown. Prior previews and their notices/
+checksums retain separate identities; main integration owns combined admission.

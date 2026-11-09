@@ -1073,6 +1073,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   camera-owner/global gate production, active smoke/emitted-object lifetime and
   full movement/injury trajectory before ordinary gameplay admission. The App
   still supplies no impact/voice/display provider for this path.
+  The native no-play startup projection is now acquired separately: 32 dispatcher
+  contexts and 216 attachment-wrapper contexts / 680 selected words agree; the
+  real suppressed voice tail also matches 64 contexts / 64 cue entries / 576 words.
+  The typed local-voice adapter handles explicit suppression without backend/device
+  access while preserving VM cooldown/shared draws. Capture muting is separate.
+  Bind the actual startup owner for all affected paths, then acquire other wrappers
+  and jet-sequence no-play behavior; do not use this option as a silent default
+  provider to pass step 441. The shared damage inhibition flag has input/editor-UI
+  writers; its full transitions remain unbound. Keep the historical `cutscene`
+  label as an alias until its actual producer is established, rather than deriving
+  it from cinematic activity. These are separate prerequisites from no-play.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

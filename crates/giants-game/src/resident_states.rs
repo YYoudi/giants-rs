@@ -103,7 +103,11 @@ impl OwnedPerceptionSubset {
 /// for an attacker, sound, impulse, equipment or death service.
 #[derive(Clone, Copy)]
 pub struct MeccDamageContext {
+    /// Shared native input/UI inhibition snapshot; its complete owner is still
+    /// required. This is not the startup no-play option or device muting.
     pub globally_disabled: bool,
+    /// Historical parameter label retained as an alias. Producer semantics are
+    /// not established by damage arithmetic; do not derive it from a film alone.
     pub cutscene: bool,
     pub shield_percent: f32,
     pub ambient_voice_timer: f32,
@@ -9989,6 +9993,24 @@ impl Session {
         kind: crate::actor_sound::Kind,
         descriptor_ready: bool,
     ) -> Result<Option<crate::actor_sound::Route<Id>>, &'static str> {
+        self.sound_route_with_playback(
+            id,
+            local_player,
+            kind,
+            descriptor_ready,
+            crate::startup_playback::Playback::default(),
+        )
+    }
+    /// Actual startup playback projection. Typed identity validation remains a
+    /// Session boundary; suppressed native routing touches no parent or device.
+    pub fn sound_route_with_playback(
+        &self,
+        id: Id,
+        local_player: Id,
+        kind: crate::actor_sound::Kind,
+        descriptor_ready: bool,
+        playback: crate::startup_playback::Playback,
+    ) -> Result<Option<crate::actor_sound::Route<Id>>, &'static str> {
         self.get(id).ok_or("sound actor absent or foreign")?;
         self.get(local_player)
             .ok_or("sound local player absent or foreign")?;
@@ -9996,7 +10018,7 @@ impl Session {
             kind,
             Some(id),
             Some(local_player),
-            false,
+            playback.suppressed(),
             descriptor_ready,
             |node| {
                 Ok(self
