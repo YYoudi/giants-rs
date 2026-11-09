@@ -65,6 +65,12 @@ The main integration lane owns combined runtime wiring and delivery, using
 [INTEGRATION.md](docs/INTEGRATION.md). Prioritize ordinary gameplay reachability
 and cross-lane regression checks over additional stand-alone demonstrations.
 
+Delivery milestone, 9 November: NPC baseline PR #2 is merged and combined Windows
+preview `preview-2026.11.09.12` is published with independently verified public
+assets. `docs/public-preview.json` pins that download separately from newer source
+progress. This does not close ordinary native Mecc motion/impact or other-character/
+NPC world admission; continue connecting ready services through the common runtime.
+
 - Review committed Flick, Mecc, Delphi, Kabuto and NPC contributions against actual
   runtime entry points; retain CPU-only and supplied-provider boundaries.
 - Wire ready contributions into the shared menu-to-mission application, including
@@ -360,9 +366,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   actual argument-preparation sites match 130 executions using source GData and
   64 variants. Current headers/list/bounds/view inputs remain supplied. The same
   search feeds distinct caller relationships, not one interchangeable target.
-  Next: acquire the remaining current-header scalar/producer and actual target
+  Next: bind the Delphi scalar writer below, acquire other actor writers and actual target
   publications/lifetime, then bind proxy updates/retirement and primary/world
   order. The range-mode guard alone cannot decide readiness or activation.
+- Implemented: Delphi's current target-scalar writer matches 513 original-PC
+  contexts, preserving shared-mode/link/context gates, source global parameters,
+  wide distance and stored lower comparison. Eight negative-zero cases agree.
+  In 128 supplied four-actor schedules, independently calculated Rust production
+  and target search match 640 native output words (512 scalar intervals / 128
+  searches). Registers, headers/links/current-player, positions, bounds, viewport
+  and schedule remain supplied. Next: actual owned relationship/header publication,
+  other actor writers and caller/world/ANM timing; do not identify the relationship
+  as an arbitrary held object or substitute a zero value. Target/proxy lifetime,
+  main integration and fidelity remain open.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
