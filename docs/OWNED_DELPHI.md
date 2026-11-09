@@ -4,6 +4,62 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Linked readiness and direct target proxy preparation - 9 November 2026
+
+`delphi_target_readiness::complete` now composes the complete acquired helper over
+required typed target/relationship/proxy providers. Readiness is written before
+eligibility. An eligible state1 target may replace the link and fallback; the
+original cost is not recomputed. Proxy creation/reuse then preserves both ordered
+flag writes, identity and the current shape calculation. A late provider refusal
+retains these prefix effects; the caller must quarantine replay.
+
+The complete original-PC body executes in 256 controlled contexts, including 32
+proxy updates and 16 retargets. Rust agrees on 6,144 normalized state words and
+2,048 provider-count checks. Native proxy allocation uses actual source resources;
+Rust constructor/storage callbacks in this composition control remain supplied,
+separate from the source-bound direct constructor below. Current headers,
+reserve/rate, physical presence and the state1 replacement relationship remain
+supplied on both sides. A synthetic late-shape refusal retains readiness, changed
+target/fallback, proxy birth, flags and identity. This does not establish the
+relationship producer, complete owned Session composition or live target lifetime.
+
+`delphi_target_readiness::prepare` preserves the acquired position-copy and
+reserve comparison prefix. Squared distance is stored in single precision, while
+the subsequent power/rate product remains wide for the inclusive comparison.
+Readiness uses the global fallback rate even for a linked actor and preserves
+the incoming readiness word when reserve is insufficient. This is a bounded CPU
+prefix, not the complete optional retarget/proxy path or a live activation.
+
+The separate eligibility policy preserves the four special state tests,
+class/personality and flag exclusions, ordinary limit/accumulated/exclusion tests,
+actual current-player context comparison and unnormalized owner-column test.
+It shares the acquired facing arithmetic with the simpler geometry-scan policy;
+the two policies remain distinct. The target-proxy matrix service preserves the
+physical-block flag test, height/scale stores, translation and matrix flags.
+
+Original-PC/Rust controls agree on 2,048 contexts / 12,288 words: 512 readiness,
+1,024 eligibility and 512 proxy matrices. Ninety readiness cases distinguish
+premature duration rounding and nineteen distinguish an unstored squared
+distance. Current headers, selected-player context, reserve/rate, target dimensions,
+physical presence and Double53 dispatch are supplied. These controls do not
+produce live targets, physical state or world timing.
+
+The source-backed direct proxy constructor reuses shared state78 resource loading
+without the attached/positioned FX initializer. It retains a zero payload, no
+physical block/origin and common-list-only membership. One original direct birth
+matches 156 selected normalized Rust words: configuration, channels, complete
+payload and cleared reference storage, plus class/state/flags/scale/list mask.
+Native resource/heap/string setup remains supplied. An installed-data control
+checks three concurrent constructors, clear and re-entry; ordinary affine access
+continues to refuse this unprepared proxy.
+
+Owned pending/active target lifetime, the optional Kabuto relationship/retarget,
+proxy update/retirement and complete readiness producer/caller composition remain
+open. No callback, render route, ordinary gameplay, new screenshot or downloadable
+Delphi preview is admitted. Prototype PS2 correspondences remain unknown; raw
+lookups, aliases and detailed controls stay private. Existing preview receipts,
+notices and checksums retain their original source identities.
+
 ## Owned range, terrain and two-route target scan - 9 November 2026
 
 `Session::scan_delphi_target` reads the owner's actual selected slot and the shared
