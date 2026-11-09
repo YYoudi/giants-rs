@@ -1,13 +1,12 @@
 //! Owned positional-impact birth and bounded timed callback in source order.
 //! Cue transport is required; actor retirement/world scheduling stay separate.
 use crate::{
-    actor_fields::Fields,
     attached_effect_context::{Id as ContextId, Pool},
     audio_parameters::Random,
+    effect_actor::Template,
     procedural_aim::Matrix,
     resident_states::{Construction, Id, Session},
     scene_resources::SceneResources,
-    state_storage::{Profile, Seed},
 };
 use std::sync::Arc;
 
@@ -164,30 +163,16 @@ impl<'r> Factory<'r> {
         }
         let fade = fade(life)?;
         let template = Template::load(self.resources, class)?;
-        let mut fields = template.fields.instantiate();
-        fields.configuration[14] = (fields.configuration[14] & !0x20000) | 0x800;
-        fields.configuration[22] = 50f32.to_bits();
-        fields.object_flags |= 0x40010030;
-        fields.control_flags |= 0x20;
-        fields.position = position;
-        fields.current = position;
+        let initial = template.positioned(context, &c)?;
+        let fields = initial.fields;
         // Admit all possible interval results before publishing an actor/cue.
         for scale in ranges[0] {
             let matrix = crate::effect_orientation::matrix(position, fields.angles, scale)
                 .map_err(str::to_owned)?;
             crate::effect_orientation::from_matrix(matrix).map_err(str::to_owned)?;
         }
-        let mut matrix = Matrix::identity();
-        matrix.flags = 0x10;
-        matrix.values[3] = position[0];
-        matrix.values[7] = position[1];
-        matrix.values[11] = position[2];
-        let mut seed = template.seed.instantiate()?;
-        let body = seed.storage.data_mut().unwrap();
-        put(body, 0, 1); // Explicit originating-cursor presence; identity is owned above.
-        for at in [0xa4, 0xa8, 0xb0] {
-            put(body, at, 1f32.to_bits());
-        }
+        let matrix = initial.matrix;
+        let seed = initial.seed;
         let flags = crate::object_lists::DirectFlags {
             active: fields.object_flags,
             personality: fields.configuration[14],
@@ -244,9 +229,6 @@ impl<'r> Factory<'r> {
         result
     }
 }
-fn put(body: &mut [u8], at: usize, value: u32) {
-    body[at..at + 4].copy_from_slice(&value.to_le_bytes());
-}
 fn fade(life: [f32; 3]) -> Result<[f32; 4], String> {
     let [duration, fade_in, fade_out] = life;
     if !life.into_iter().all(f32::is_finite) || duration <= 0. || fade_in < 0. || fade_out < 0. {
@@ -271,55 +253,6 @@ fn fade(life: [f32; 3]) -> Result<[f32; 4], String> {
     }
     Ok(v)
 }
-struct Template {
-    seed: Seed,
-    fields: Fields,
-    bindings: Vec<crate::model_registry::StateBinding>,
-    specification: Arc<crate::specification::Prepared>,
-    states: Arc<crate::state_resources::Prepared>,
-}
-impl Template {
-    fn load(r: &SceneResources, class: i32) -> Result<Self, String> {
-        let p = r
-            .classes
-            .models
-            .first_program(class)
-            .ok_or("positional effect class absent")?
-            .program
-            .as_ref()
-            .map_err(Clone::clone)?;
-        let seed =
-            Seed::from_program_for(p, Profile::Debug, crate::arithmetic::Precision::Double53)
-                .map_err(|e| e.to_string())?;
-        if seed.storage.state() != 78
-            || !seed.diagnostics.is_empty()
-            || !seed.unresolved.is_empty()
-            || seed
-                .storage
-                .data()
-                .is_none_or(|d| d.len() != 268 || d.iter().any(|b| *b != 0))
-        {
-            return Err("positional effect requires acquired zero D state78 template".into());
-        }
-        let specification = Arc::new(crate::specification::Prepared::load_registered(r, class)?);
-        let states = Arc::new(crate::state_resources::Prepared::load(
-            r,
-            class,
-            Profile::Debug,
-        )?);
-        if !specification.needs.is_empty() || !states.needs().is_empty() {
-            return Err("positional effect constructor resources incomplete".into());
-        }
-        Ok(Self {
-            seed,
-            fields: Fields::load(r, class, &specification)?,
-            bindings: r.class_state_bindings_for(class, Profile::Debug)?,
-            specification,
-            states,
-        })
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -18,6 +18,52 @@ capture or downloadable preview is introduced; existing package/notices/checksum
 and runtime receipts retain their exact source identities. Prototype PS2
 correspondence remains unknown.
 
+## Shared state78 effect construction and inline physical storage — 9 November 2026
+
+Attached/cinematic FX and positional impacts now reuse the same acquired class,
+specification, state and initial attach/detach preparation. Physical defaults use
+the existing common reset inside each owned payload. The originating context is
+retained as a typed historical identity and a payload presence marker, without a
+native pointer. The attached constructor previously omitted that presence.
+
+Sixty-four original-PC/Rust parent/child constructor states match 10,432 selected
+header, channel, matrix, payload, binding and RNG words, before later VM commands.
+Independent payload mutation is visible through the physical view after retiring
+the context and dropping its resource template; foreign classes/origins refuse.
+This is not complete-header, ordinary-stock ownership or world scheduling parity.
+The bounded timed cinematic preparation consumes its acquired initial draw and
+retains the cinematic mark, refusing distinct normal/lite targets or unacquired
+inheritance producers before allocation/RNG. No seed producer is invented.
+
+All 23 persistent source queues retain two entry/release cycles, both draw routes
+and cancellation guards; the 50 native part-selection and 14 preparation controls
+still agree. Three silent installed-data impact controls retain construction,
+callback, retirement and late-failure behavior. Prototype PS2 counterparts remain
+unknown. The general timed actor/VM/callback and physical-stock admission,
+complete retirement/world cadence and full scene fidelity remain open; current
+545-source census counts are not promoted by this constructor dependency.
+
+Published [preview-2026.11.09.7](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.7)
+pins source `faa7195f1dffdbad6214467558e84c3140917a73`, executable SHA256
+`6f670c62b1ef46846d08f536896772630495b1415fcd038e44202e4364e4118c` and ZIP SHA256
+`ed0c94155141ec5a3fbf7cdab557b4bf96a0d2ab0fd6221744f86db4aa67267d`.
+The exact source passes 824 Rust tests (42 ignored), 40 Python tests, formatting,
+strict Clippy and source audit (497 commits / 3,168 blobs / zero findings).
+Its MinGW binary passes both silent offscreen development endpoints, three
+Rstory1 mission-index-2 persistent-effect cancellations and two source-terminal/
+re-entry cycles with voice/text cleanup. All ten bundle members, notices,
+receipt and checksums pass independent checks, repeated after downloading all
+three public assets. These are existing partial-renderer lifecycle observations;
+no interactive test, complete film or new general-queue admission is claimed.
+
+Combined source `c54c0fb` preserves the later Mecc reaction, Delphi geometry and
+Kabuto activity-timer work plus the queued dashboard-deployment policy. It passes
+827 workspace Rust tests (45 ignored), formatting and strict Clippy; the three
+silent installed-data impact controls pass again. The released binary and its
+runtime/package receipts remain pinned to `faa7195`, independently of later
+source merges. Python and generated site checks also pass after the merge.
+
+
 ## Kabuto isolated resource timers and speed-latch producer — 9 November 2026
 
 The acquired activity/resource kernel now preserves frame queries, rolling
