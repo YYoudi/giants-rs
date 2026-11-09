@@ -25,6 +25,19 @@ unknown. The general timed actor/VM/callback and physical-stock admission,
 complete retirement/world cadence and full scene fidelity remain open; current
 545-source census counts are not promoted by this constructor dependency.
 
+Published [preview-2026.11.09.7](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.7)
+pins source `faa7195f1dffdbad6214467558e84c3140917a73`, executable SHA256
+`6f670c62b1ef46846d08f536896772630495b1415fcd038e44202e4364e4118c` and ZIP SHA256
+`ed0c94155141ec5a3fbf7cdab557b4bf96a0d2ab0fd6221744f86db4aa67267d`.
+The exact source passes 824 Rust tests (42 ignored), 40 Python tests, formatting,
+strict Clippy and source audit (497 commits / 3,168 blobs / zero findings).
+Its MinGW binary passes both silent offscreen development endpoints, three
+Rstory1 mission-index-2 persistent-effect cancellations and two source-terminal/
+re-entry cycles with voice/text cleanup. All ten bundle members, notices,
+receipt and checksums pass independent checks, repeated after downloading all
+three public assets. These are existing partial-renderer lifecycle observations;
+no interactive test, complete film or new general-queue admission is claimed.
+
 ## Kabuto isolated resource timers and speed-latch producer — 9 November 2026
 
 The acquired activity/resource kernel now preserves frame queries, rolling

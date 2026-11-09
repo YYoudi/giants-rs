@@ -1103,6 +1103,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   integrated dependencies, not complete timed parent/child world actors. Ordinary
   physical-slot ownership/admission, subsequent VM commands/callback composition,
   source parent-field binding and full retirement scheduling remain open.
+  Published `preview-2026.11.09.7` pins the shared constructor to source
+  `faa7195`; silent lifecycle/source-terminal/re-entry and independently downloaded
+  package checks pass. Existing census/readiness/fidelity limits retain their scope.
 
 - Source timed-FX actor fields now admit the acquired flag-only class opcode52,
   reusing the existing common flag projection. A 256-case native dispatch control
