@@ -84,6 +84,14 @@ subjective actor. Preserve these prerequisites when consuming the next Mecc lot.
 The current independently verified download is `.13`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
+The 10 November integration review exercised the published `.13` menu, opening
+skip, ordinary Mecc entry and menu return on an independent muted profile. Its
+per-emitter ambient step trace produced about 183 MiB of local output during the
+session. Make this detailed trace opt-in while preserving lifecycle/error events,
+validate both trace settings against real muted sinks, and carry the correction
+into the next receipt-bound combined Windows preview. This does not close the
+ordinary native jet/descent/landing or held-input/fidelity prerequisites above.
+
 - Review committed Flick, Mecc, Delphi, Kabuto and NPC contributions against actual
   runtime entry points; retain CPU-only and supplied-provider boundaries.
 - Wire ready contributions into the shared menu-to-mission application, including
