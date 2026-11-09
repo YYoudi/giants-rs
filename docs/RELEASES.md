@@ -1,5 +1,49 @@
 # Preview releases and milestone integration
 
+## Delphi owned item-tail composition - 9 November 2026
+
+The new frozen dry controlled profile adds actual inventory selection and distinct
+actor/global item timing after reserve, then the acquired absent auxiliary route
+before secondary/zero-time ANM. It traverses the owned common list with acquired
+hidden/state/owner gates. Eligible interaction, active item/spell actions and
+nonempty auxiliary resources remain required refusals, preserving completed
+prefixes and quarantining replay. Supplied mode/participant context is separate
+from actual networking. No live Delphi or fidelity promotion follows.
+
+Two original-PC/Rust controls match 1,358 complete callbacks and 690 actual action
+entry prefixes / 2,492,416 header/payload words, including ordered slow areas.
+Two persistent expanded sequences additionally match 512 frames / 4,081,152 words
+over 22 actors and exact RNG. The seven-owner source-data check adds 64 updates
+and verifies retained late auxiliary failure without replay. Commands/time/flat
+world and metadata remain supplied; action bodies, remaining primary/camera/target
+and auxiliary paths, active movement/water, combat and live mission integration
+remain open. See [OWNED_DELPHI.md](OWNED_DELPHI.md) for exact scope.
+
+Combined source `dfaec7d21fec2f8f0eeec268f0aaa9b861f064c4` passes 810 Rust
+tests (34 ignored), the seven-owner installed-data control, 40 Python tests,
+Rustfmt, strict Clippy and generated roadmap/site/JavaScript checks. Its pattern
+audit finds zero matches across 429 commits / 2,846 blobs. Both rebuilt 256-frame
+owned comparisons repeat successfully with the newer zero-time FX dependency.
+
+The exact common GNU executable SHA256 is
+`464da687b9b1e42fad58f433fbf9ff62577ae35a1a0c377ee5bf2603a102a328`.
+Both silent offscreen development endpoints and three Rstory1 mission-2 live
+persistent-object birth/update/cancel/re-entry cycles pass, including text cleanup.
+Canonical PE import sets remain unchanged. The private ten-member validation
+draft includes complete receipt-bound notices and checksums, with independent
+verification reporting zero technical blockers; ZIP SHA256 is
+`e70cee35d6375f5775788452f53a3b349ee32c7f466b84ba44b6d71023c5ff26`.
+These common-runtime regressions do not execute live Delphi controls. Existing
+published previews retain their own identities; this CPU dependency does not
+claim another playable Delphi download or redistribute original data.
+
+Final source checkpoint `566fe5c0bb627953a9ba3dc215ec890986e3806f` retains
+newer shared impact retirement and passes 810 synthetic Rust tests (35 ignored),
+40 Python tests, Rustfmt, strict Clippy and site/JavaScript checks. The source
+pattern audit reports zero findings across 431 commits / 2,854 blobs. The common
+executable and its runtime/package receipts above remain pinned to `dfaec7d2`;
+this later source validation does not relabel that binary.
+
 ## Owned impact core retirement and reuse - 9 November 2026
 
 The acquired expired class-867 actor now completes local core retirement after
