@@ -43,6 +43,12 @@ zero-time projection still matches all 32 retained native contexts / 1,152 words
 The public executable and runtime controls keep their exact `7d639880` identities;
 no later source merge expands their binary or visual evidence.
 
+Further combined source `c1a09a2631293d5708a747dd2abdce6114a14e86` preserves the
+owned impact callback and passes 806 Rust tests (34 ignored), 40 Python tests,
+formatting, strict Clippy and site/JavaScript checks. Its source audit covers
+419 commits / 2,809 blobs with zero findings; this remains source validation,
+with no replacement executable or expanded runtime receipt.
+
 ## Owned timed-impact callback and deferred mark - 9 November 2026
 
 The actual owned class-867 effect now advances its age/size/fades, angles and
