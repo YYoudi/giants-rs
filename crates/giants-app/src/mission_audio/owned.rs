@@ -1,6 +1,10 @@
 //! Ready local voices for the owned Mecc driver. Reservations consume no RNG,
 //! remain muted/paused, and are not playback acknowledgements.
 use super::*;
+// The actual transport is compiled and device-tested here; main secondary
+// dispatch still needs its independent damage/channel composition.
+#[allow(dead_code)]
+pub(crate) mod impact;
 pub(super) const SOUNDS: [u32; 4] = [0x5b0, 0x5b1, 0x5b2, 0x5b3];
 pub(super) fn requested() -> bool {
     std::env::var("GIANTS_MISSION_MECC_AUDIO").as_deref() == Ok("reserved")
@@ -77,6 +81,7 @@ pub(crate) struct OwnedAudio<'w, 's> {
     engine: ResMut<'w, Engine>,
     sinks: Query<'w, 's, &'static mut AudioSink>,
     commands: Commands<'w, 's>,
+    positional_assets: Option<ResMut<'w, Assets<crate::positional_pcm::Pcm>>>,
 }
 impl OwnedAudio<'_, '_> {
     pub(crate) fn failure(&self, ticket: u64) -> Option<String> {
@@ -98,6 +103,11 @@ impl OwnedAudio<'_, '_> {
                 sink.stop();
             }
             self.commands.entity(voice.entity).despawn();
+            if let Some(spatial) = voice.spatial
+                && let Some(assets) = self.positional_assets.as_mut()
+            {
+                assets.remove(spatial.handle.id());
+            }
         }
         println!(
             "mission_owned_audio_quarantine ticket={ticket} stopped_or_discarded={} scope=owned_reservations",

@@ -263,6 +263,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: the numbered Factory-bound clock/ANM/gravity phase consumes its
+  owned model phase, reusing shared channel/reference/epoch/event and gravity
+  services. The complete original PC interval matches 512 source-backed contexts
+  / 303,616 normalized header/payload/reference/epoch/TLS words. The actual cold
+  animation is selected; no event fires in this parity profile. Commands/time,
+  analytic flat terrain, prepared scene and default transform profile remain
+  supplied; preceding phases execute on Rust, not rerun on PC in this control.
+  A crossed real resource contact event retains channels/references/epoch,
+  quarantines replay and leaves gravity unexecuted when its service is missing.
+  Current event/contact/audio services and control-target/force production still
+  block live primary/frame completion; all history/prerequisites remain entered.
 - Implemented: the Factory-bound post-contact model-rate phase reuses the shared
   displacement-to-model service and object-local clock. It requires the real
   numbered classification/additional contacts, owned affine/physics and factory
@@ -273,10 +284,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   wrong factory/number, invalid clock/missing affine and replay refuse atomically.
 - Acquired and compared: the gravity/projection/friction/damping helper matches
   512 contexts / 7,680 words against the unchanged common gravity service.
-  Its required ANM predecessor is not bypassed: shared ANM references, events,
-  class-resource mutation, RNG and failure ordering must be bound before actual
-  gravity scheduling. Control-target/force generation and the remaining primary
-  are still open; the model-rate phase does not finish a frame or admit gameplay.
+  Its required ANM predecessor is now bound for the declared profile above,
+  preserving references, shared class-event resources, epoch and failure ordering.
+  Active event/contact/audio services, control-target/force generation and the
+  remaining primary are still open; no phase admits live gameplay.
 - The dedicated user-created fork owns Kabuto only, working alone with an
   isolated Cargo target. The owner permits necessary test windows; avoid unrelated
   focus changes and sound. Preserve the
@@ -725,8 +736,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   preserved live peer: 53,184 release-entry state words and 2,880 ownership-protocol
   words match. Source-data checks retain failed release/new-reference effects
   without replay and reject foreign/stale/referenced identities. The enclosing
-  propagation, active-context, global audio/reference prepass, live positional
-  audio, other profiles and world scheduling remain open. Next search prototype
+  propagation, active-context, global audio/reference prepass, other profiles and world scheduling remain open.
+  Actual ready positional transport is now device-tested as described below;
+  main reaction binding remains pending. Next search prototype
   PS2 names for each actual cleanup-prepass or impact service before acquisition,
   then bind the independent damage/channel composition. Explicit context
   cancellation and pointer-slot reuse semantics remain separate from core actor
@@ -741,6 +753,21 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   with its audio state, preserving attachment-root play/stop routing, source-miss
   versus decode/device failure and real start acknowledgement. Do not redirect
   audio variation into the VM state or acknowledge a merely queued entity.
+  The App now reserves real source PCM and provides actual ready positional
+  play/stop/tracked release with separate audio RNG, acquired owner attenuation
+  and root identity. Thirty-two native parameter cases match 160 words; two
+  actual muted Bevy starts additionally match ten words. Source controls verify
+  same-sound peer preservation, core release, late sink failure quarantine and
+  zero audio assets after flush. Queued PCM without a device fails before audio
+  draws and retains the published actor/context without replay. Reservation is
+  wired into the owned inspection, but the secondary reaction does not yet call
+  this provider. Next bind it only with acquired damage/channel/context ordering;
+  retain the supplied listener/local anchor and unverified process-seed timeline
+  as separate prerequisites. Do not replace the step-441 refusal with a dummy
+  reaction. Audible fidelity and enclosing cleanup/world scheduling remain open.
+  The exact ad508a4 common executable repeats seven muted jet starts and real
+  paused impact reservations, then the expected step-441 refusal. This confirms
+  the prefix regression, not impact playback or completed movement cycles.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

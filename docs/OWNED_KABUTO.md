@@ -1073,3 +1073,46 @@ force generation and the primary remainder, live world/camera/GPU cadence,
 jumping, feeding and live growth remain open. No new playable/visual claim or
 package follows. Prototype PS2 attributions remain unknown; detailed identity,
 raw-symbol/demangling distinctions and records remain private.
+
+## Owned ordered animation and gravity — 9 November 2026
+
+`Factory::advance_animation_gravity` consumes the real numbered model phase and
+runs the shared ANM pipeline before common gravity. The local clock is queried at
+its own current-position boundary and rounded to the original ANM argument store.
+Actual channels, model rates, prepared references, affine/support fields and
+physical words feed the existing services. The Session retains the shared class
+event bank, while the caller owns the shared epoch, context pool and VM RNG.
+No RNG ownership across an audio-device module boundary is inferred.
+
+The original PC interval executes its actual clock, channel loop, reference/model
+evaluation, epoch helper and gravity in source order. It matches 512 source-backed
+stage contexts / 303,616 complete normalized header/payload/reference/epoch/TLS
+words, including zero time, ordered time areas and epoch wrap. Native declared
+resources and cold groups are constructed first. Rust constructs its own group,
+then runs history, motion, classification, additional contacts and model rates;
+it exports the post-model frontier before consuming it. PC receives that supplied
+boundary, rather than reexecuting those preceding phases for each context.
+
+The successful profile uses the actual cold primary animation and triggers no
+event dispatch. It proves neither active walking/contact/audio events nor live
+class-event effects. Analytic flat terrain, prepared scene membership, external
+commands/time and default transform callbacks remain boundaries. The previously
+separate 512-context gravity comparison retains its declared scope.
+
+Entered/completed tokens prevent replay. Foreign factories, wrong numbers/order,
+channel/physical mirror mismatches and invalid clocks refuse before entering.
+Late failures retain actual completed channels/references/epoch/class-event/RNG/
+context effects and quarantine replay. A separate source-data context crosses a
+real declared contact event: its missing service produces a required refusal,
+retains its animation effects and leaves the physical payload unchanged, proving
+that gravity does not run after that error. These owned error rules do not claim
+original exception equivalence. No empty event handler or fabricated ANM sample
+is substituted for a missing service.
+
+All initializer prerequisites and entered history remain set. Required active
+event/contact/audio services, control-target/force production and the rest of the
+primary still prevent another complete frame and live mission admission. Camera,
+world/GPU cadence, jumping, feeding, growth-threshold production and dynamic
+cleanup remain open. No new playable preview, asset or visual-fidelity claim
+follows. Prototype PS2 correspondences stay unknown; identity-bound raw-symbol,
+demangling and PC-alias records remain private.

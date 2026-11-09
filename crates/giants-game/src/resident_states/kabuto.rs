@@ -19,6 +19,8 @@ mod growth_tests;
 #[path = "kabuto_motion_tests.rs"]
 mod motion_tests;
 
+#[path = "kabuto_animation_gravity.rs"]
+mod animation_gravity;
 #[path = "kabuto_classification.rs"]
 mod classification;
 #[path = "kabuto_model_motion.rs"]

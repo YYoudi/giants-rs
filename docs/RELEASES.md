@@ -66,6 +66,91 @@ Prototype PS2 counterparts remain unknown. No dependency or bundled asset change
 the existing published binary/package/runtime receipts keep their earlier exact
 source identities until a later coherent main-runtime integration.
 
+
+## Actual ready owned impact audio transport - 9 November 2026
+
+The application reserves actual positional PCM sources from the acquired impact
+cue range and provides required ready-sink play, owner/sound-specific stop and
+tracked release. It keeps the audio RNG separate from the effect VM, applies the
+acquired owner-position attenuation/pan profile, and uses actual owned actor
+positions. Paused reservations consume no parameters or RNG and do not count as
+playback. Catalog absence remains distinct from decode/readiness/device errors.
+Only the acquired one-shot source profile is admitted.
+
+Thirty-two original-PC parameter cases match 160 numeric words. Separately, two
+real muted Bevy starts for different actors sharing one sound match ten native
+parameter/RNG words. Source controls preserve the peer during stop, release core
+ownership and audio assets, retain late sink-loss failure without replay, and
+refuse queued-only playback without audio draws when no device exists. Native
+heap/pose/thread/device services and the source tests' local anchor/listener are
+supplied boundaries. No audible or original-process device fidelity is certified.
+
+Combined runtime source `ad508a48d7f15cd4e3c824d9b1c9b16b9ed451f6` preserves the
+concurrent Delphi target-movement, retirement-child and Kabuto contact/model-rate
+work. It passes 817 synthetic Rust tests (40 ignored), the two impact device/
+no-device controls, the existing real-sink jet control, three source impact actor
+controls, 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks. Its source/history pattern audit reports zero findings across 459 commits
+and 2,982 blobs; this remains a bounded pattern review.
+
+The later combined checkpoint `142d589f5a390c3c412bb50ad19131e65ab14752`
+additionally retains Kabuto ANM-to-gravity work and passes 817 synthetic tests
+(41 ignored), both actual impact controls, 40 Python tests, Rustfmt, strict
+Clippy and roadmap/site/JavaScript checks. Its bounded source/history audit finds
+zero matches across 465 commits / 3,016 blobs. The executable, main-prefix and
+package receipts below remain bound to the earlier `ad508a4` runtime source.
+
+The common GNU executable SHA256 is
+`8396a9dfb2831f126caa274ed3719db3c0de55fe3e98d22cf885fd768405320d`.
+Its private ten-member draft includes receipt-bound dependency/toolchain notices
+and checksums; independent verification reports zero technical blockers. ZIP
+SHA256 is `24eaf535571510630996b6607c53e4fea22f5a04e20e233348e2f6206e5bcde0`.
+This prerequisite does not create a newly published playable preview; existing
+preview release identities remain unchanged.
+
+The exact executable also repeats the offscreen menu-to-owned-inspection prefix:
+seven actual muted jet starts and real paused impact reservations, with no
+reservation error. It explicitly stops at step 441 on the missing impact reaction.
+This expected-refusal regression passes; complete movement/cancellation cycles and
+main impact playback do not. No capture is produced by this bounded run.
+
+The owned inspection now reserves impact sources, but its secondary reaction does
+not yet call this provider. Independent damage/health/channel/context composition,
+global cleanup prepass, active cancellation and full world scheduling remain open.
+No completed feature, new capture or visual fidelity claim follows. Prototype PS2
+attributions remain unknown; binary identities and previous aliases remain in
+private continuation records. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+## Kabuto owned animation-to-gravity sequence — 9 November 2026
+
+The Factory-bound Session now queries its actual local clock, advances channels/
+references/shared epoch and event state, then applies common gravity to its owned
+physical payload. A complete original-PC interval matches 512 post-model source
+contexts / 303,616 normalized header/payload/reference/epoch/TLS words. This uses
+the real cold animation with no triggered events. Native resources/groups are
+constructed first; the preceding Rust phases are not reexecuted on PC per case.
+External commands/time, controlled terrain/prepared scene and default transform
+callbacks remain declared boundaries.
+
+A separate real resource contact-event check retains prior ANM effects, refuses
+the missing service and leaves gravity unexecuted. Wrong order/owner/factory,
+invalid clock and replay refuse; later errors quarantine replay. No initializer
+or history prerequisite is acknowledged. Active event/contact/audio services,
+control-target/force generation and the primary/world remainder still block
+live admission. Shared arithmetic is reused without changing Mecc/Delphi.
+Prototype PS2 correspondence remains unknown. Existing release manifests/notices/
+checksums/runtime receipts retain their exact source identities; no playable
+preview or visual-fidelity promotion follows this CPU dependency.
+
+Validation: 816 synthetic Rust tests pass (39 ignored), all fourteen silent
+Kabuto phase controls plus the separate cold-resource control pass, alongside
+40 Python tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript
+checks. The 512-context complete original interval comparison passes again on
+the final runtime source. The required-event failure check is a separate owned
+policy control, without an original-PC exception-equivalence claim. The limited
+source/history pattern audit reports zero findings across 457 commits / 2,967
+blobs at the preceding runtime checkpoint.
+
 ## Kabuto owned post-contact model rates — 9 November 2026
 
 The Factory-bound Session now publishes displacement-derived model rates and
