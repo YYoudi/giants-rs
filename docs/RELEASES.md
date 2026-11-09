@@ -21,8 +21,27 @@ The retirement helper is intercepted before child preparation or parent release.
 These controls supply support, resources, pools, RNG seeds and callback deltas;
 they do not prove world scheduling, physical cleanup, film readiness or visual
 fidelity. The source inventory and zero certified complete scenes are unchanged.
-Prototype PS2 correspondence remains unknown. A new preview will retain its own
-source, runtime, notices and checksum receipts.
+Prototype PS2 correspondence remains unknown.
+
+Published [preview-2026.11.09.4](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.4)
+pins source `7d639880f594c972e78a36a369719224e494d464`, executable SHA256
+`752f7fa934a27b84a1b2c93bd6113f45a5ab8a4e4793490e4af8f8a47c8d9c3e` and ZIP SHA256
+`4c53f8b006b304a019e4cb79dbecaf9995cfebafabdbf27b25fa51aee0e3c031`.
+That exact source passes 805 Rust tests (32 ignored), 40 Python tests, formatting,
+strict Clippy and source audit (408 commits / 2,764 blobs / zero findings). Its
+MinGW binary passes both silent offscreen development endpoints, three active
+persistent-effect cancellations and two Rstory1 source-terminal/re-entry cycles
+with voice/text cleanup. These keep their existing partial-renderer scope.
+All ten package members, notices, receipt and checksums pass independent checks,
+repeated after downloading the three public assets. No interactive checks ran.
+
+Combined source `b0d37e8eca29e15201effe329737ee92840c1157` preserves newer owned
+impact birth and passes 806 Rust tests (33 ignored), 40 Python tests, formatting,
+strict Clippy and site/JavaScript checks. Its source audit covers 415 commits /
+2,794 blobs with zero findings. Rebuilt against that source, the private Rust
+zero-time projection still matches all 32 retained native contexts / 1,152 words.
+The public executable and runtime controls keep their exact `7d639880` identities;
+no later source merge expands their binary or visual evidence.
 
 ## Owned positional-impact birth - 9 November 2026
 

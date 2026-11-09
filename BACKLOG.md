@@ -904,6 +904,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   change is justified. Retirement helper execution, child activation, parent
   release, actual world scheduling/RNG and complete rendering remain open. The
   queue/readiness guards and cinematic gap counts are preserved.
+  Preview 2026.11.09.4 pins source7d639880 with 805 Rust tests / 32 ignored,
+  40 Python tests and silent offscreen menu/cancel/natural-re-entry controls.
+  Package receipt/notices/all ten member checksums pass again after download.
 
 - General FX follow-up: the largest remaining family has 77 requests in seven
   sources, five with no other non-persistent family. The complete original named
