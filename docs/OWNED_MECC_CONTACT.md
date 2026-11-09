@@ -651,12 +651,15 @@ also retain their independent identities and phases during App integration.
 
 `startup_playback::Playback` now retains the acquired startup no-play projection.
 Complete dispatched option tokens `-noplay` and `-safemode` set it, independent of
-ASCII case; it stays set on subsequent options. The default observed startup state
-is clear. Unknown tokens remain caller work. This is not a Rust command-line lexer,
+ASCII case; it stays set on subsequent options. `begin_configuration` projects
+the actual initializer bulk reset, clearing it before option processing. Unknown
+tokens remain caller work. This is not a Rust command-line lexer,
 all safe-mode side effects, a resource-loading option or an ordinary gain/mute control.
 
-Thirty-two original dispatcher contexts agree with this projection; configuration
-initialization and unknown-token handlers are explicit providers, and Rust receives
+Thirty-two original dispatcher contexts agree with this projection. The real
+configuration reset executes with empty configuration-read and unknown-token
+handlers as explicit providers, including stale input values that the reset
+clears. Rust receives
 supplied complete tokens. A separate 216-context original attachment-wrapper
 comparison agrees on result, route and DLL-entry presence. The suppressed native
 cases independently execute no parent/descriptor reads and no DLL entries. Across

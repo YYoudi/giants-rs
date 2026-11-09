@@ -4400,8 +4400,9 @@ acknowledgement while the voice tail retains its VM draws and timer replacements
 Capture muting and missing audio services never select this mode implicitly.
 
 Original controls match 32 startup dispatcher contexts plus 216 attachment-wrapper
-contexts / 680 selected result/protocol words, with tokenization/configuration,
-source/descriptor fields and DLL outcomes kept explicit. Another control executes
+contexts / 680 selected result/protocol words. The actual configuration reset
+executes; empty configuration reads, token inputs, source/descriptor fields and
+DLL outcomes remain explicit. Another control executes
 the real suppressed wrapper inside the native damage-voice tail and matches
 64 contexts / 64 cue entries / 576 cue/timer/VM words. The typed adapter test keeps
 its actual backend entirely unentered and retains foreign/profile refusals.

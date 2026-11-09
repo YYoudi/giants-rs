@@ -7,6 +7,11 @@ pub struct Playback {
     suppressed: bool,
 }
 impl Playback {
+    /// Projection of the native configuration initializer's bulk reset. Invoke
+    /// at configuration startup, never as an audio-service failure fallback.
+    pub fn begin_configuration(&mut self) {
+        self.suppressed = false;
+    }
     /// Recognize only options known to set the native no-play field. An
     /// unrecognized token leaves this projection unchanged and remains caller work.
     pub fn observe_startup_option(&mut self, token: &str) -> bool {
@@ -46,5 +51,7 @@ mod tests {
         let mut safe = Playback::default();
         assert!(safe.observe_startup_option("-SAFEMODE"));
         assert!(safe.suppressed());
+        safe.begin_configuration();
+        assert!(!safe.suppressed());
     }
 }
