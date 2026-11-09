@@ -142,10 +142,10 @@ mod tests {
     use crate::attached_effect_context::{Creation, Pool};
 
     #[test]
-    #[ignore = "Requires GIANTS_MECC_ROOT; silent installed constructor ownership, no world admission"]
+    #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; silent installed constructor ownership, no world admission"]
     fn source_mecc_retained_smoke_stages_without_consuming_context() {
         let root = std::path::PathBuf::from(
-            std::env::var_os("GIANTS_MECC_ROOT").expect("GIANTS_MECC_ROOT"),
+            std::env::var_os("GIANTS_MECC_WORLD_ROOT").expect("GIANTS_MECC_WORLD_ROOT"),
         );
         let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
         let mut pool = Pool::from_active_resources(912, &resources);

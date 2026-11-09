@@ -1,5 +1,22 @@
 # Preview releases and milestone integration
 
+## Mecc retained smoke constructor staging — 10 November 2026
+
+The Mecc lane now stages the source-backed retained smoke constructor, sharing
+the common class/specification/physical preparation and retaining its resources.
+The ranged descendant bank, hidden-effect flags, required context state and cursor
+match 24 original/Rust constructions / 11,880 normalized words. Another 72 native
+context callbacks neither reconstruct the object nor draw again. Failed staging
+preserves the caller RNG and prepared context; ordinary/timed profiles stay strict.
+
+The combined topic branch includes the current shared runtime and Delphi support
+changes. Validation passes 868 workspace Rust tests (58 ignored), thirteen silent
+installed Mecc controls, 43 Python tests, Rustfmt, strict Clippy and site/JavaScript
+checks. These are source/CPU checks. The constructor is not yet adopted into the
+canonical Session or active pool; persistent cleanup, emitter callbacks, particles
+and ordinary mission scheduling remain required. The main integration lane owns
+preview packaging and publication; no new downloadable build is asserted here.
+
 ## Delphi support-class fields and object-list control - 9 November 2026
 
 The shared class loader now prepares the support class's packed attribute,
