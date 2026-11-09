@@ -4,6 +4,28 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Candidate predicate and shared query policy - 9 November 2026
+
+`delphi_target_predicate::accepts` implements the acquired candidate filter with
+actual current-player identity, header flags and position. It tests the raw
+negative second owner-affine column against the candidate displacement, with
+stored single-precision differences and the acquired wide dot order. The
+normalized held-ray direction cannot replace this raw column: tiny and zero
+columns retain distinct behavior. This policy adds no team restriction.
+
+The shared `mecc_target_query` traversal accepts an explicitly provided policy
+before geometry. Existing hierarchy/current-player exclusions remain common;
+the Mecc context/personality policies retain their separate behavior. A missing
+policy refuses instead of silently selecting a default. Two synthetic controls
+check ordering, common exclusions and provider absence.
+
+A complete original-PC/Rust control agrees on all 512 acquired finite-profile
+candidate cases, including the original dot helper and unchanged input headers.
+Prototype PS2 attribution remains unknown. This is a CPU dependency only: owned
+candidate/mesh binding, terrain and range production, typed target lifetime,
+readiness and primary/world scheduling remain open. No live Delphi admission,
+new gameplay capture or fidelity claim follows.
+
 ## Owned held cache and target ray - 9 November 2026
 
 `Session::advance_delphi_held_pose` now publishes the acquired normal class-669

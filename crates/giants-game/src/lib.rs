@@ -678,6 +678,7 @@ pub mod delphi_ordinary_view;
 pub mod delphi_post_physical;
 pub mod delphi_reserve;
 pub mod delphi_target_movement;
+pub mod delphi_target_predicate;
 pub mod delphi_target_ray;
 pub mod gameplay_sound_bank;
 pub mod mecc_aim;

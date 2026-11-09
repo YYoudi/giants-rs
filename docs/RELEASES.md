@@ -1,5 +1,21 @@
 # Preview releases and milestone integration
 
+## Delphi candidate policy dependency - 9 November 2026
+
+The acquired Delphi candidate filter now agrees with all 512 original-PC
+finite-profile cases. The shared target traversal has an explicit required
+caller-policy route, with two synthetic ordering/refusal controls and unchanged
+Mecc filtering. Owned candidate geometry/mesh binding, terrain/range production,
+readiness and typed target lifetime remain open. This source dependency enables
+no live Delphi control or new gameplay screenshot and publishes no new preview
+binary. Existing build, package, notice and checksum receipts below retain their
+exact source identities. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+The dependency checkpoint passes 819 synthetic Rust tests (41 ignored), 40 Python
+tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript checks. The
+512-case original-PC comparison is a separate private control, not a live gameplay
+or whole-world query validation.
+
 ## Delphi owned held cache and target ray - 9 November 2026
 
 The owned Delphi service now publishes the acquired normal held matrix and actual

@@ -252,6 +252,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   typed target/sequence lifetimes are next; full world order, alternate locks,
   child ANM and nonempty footprint/source-version paths remain unprepared.
   No live Delphi or fidelity promotion follows from these geometry services.
+- Implemented: the acquired Delphi candidate predicate matches all 512 original-PC
+  finite-profile cases. It uses the raw owner-affine column and actual current-player
+  identity, without a team restriction. The shared query accepts an explicit
+  required policy before geometry while preserving common hierarchy exclusions
+  and existing Mecc policies; two synthetic ordering/refusal controls pass.
+  Bind this policy to actual owned candidate/header/current bounds/mesh services
+  and the held ray, then acquire terrain/range/readiness and typed target lifetime.
+  This CPU dependency does not enable live Delphi or establish fidelity.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
