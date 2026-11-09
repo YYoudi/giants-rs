@@ -1481,8 +1481,10 @@ unknown; detailed records remain private and no PS2 ABI/layout is imported.
 
 `state18_reference_reset::body::execute` implements the acquired reset body with
 required typed services and current owned `actor_fields::Fields` access. Its
-local branch restores position and heading from the source's stored state18 pose,
-updates position history and requests the acquired global-cache reset. The other
+false mode branch restores position and heading from the stored state18 pose,
+updates position history and requests the acquired global-cache reset. The
+`birth_pose` service denotes supplied stored values; its writer remains unbound.
+The other
 branch reads the current point: a zero class copies its pose with the acquired
 horizontal offset; a nonzero class requests a distinct constructed actor, applies
 offsets, prepares its transform, selects and advances animation, then resolves
@@ -1499,7 +1501,7 @@ must return distinct owned actors. Used resource/payload/reference storage must
 remain alive. These relationships are contracts for real integration, not an
 assumption that any supplied identity is currently owned.
 
-Original controls match 512 calls / 919,700 final/header, service-prefix and
+Original controls match 512 calls / 919,700 normalized-header, service-prefix and
 argument words. They execute the entire original reset, mode predicates, position
 and history writers, global-cache stores, deferred flag writer, affine product
 and planar-angle helper at Double53 precision. Construction, changed-position

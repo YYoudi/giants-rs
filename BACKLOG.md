@@ -422,8 +422,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 ### Kabuto next steps
 
 - Implemented at the CPU boundary: the complete state18 reference-reset body
-  agrees on 512 original calls / 919,700 full-header, service-prefix and argument
-  words. It restores the source's stored pose in the local branch, or uses the
+  agrees on 512 original calls / 919,700 normalized-header, service-prefix and argument
+  words. It restores the source's stored pose when the mode predicate is false, or uses the
   current point and optional constructed actor in the other branch. Shared affine
   multiplication and the existing planar-angle algorithm are reused, preserving
   the wide heading addition before its final store. Common velocity/scale/action,
