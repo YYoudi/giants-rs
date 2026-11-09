@@ -319,6 +319,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   producer/lifetime, optional Kabuto relationship and retarget, owned proxy
   update/retirement and complete readiness/primary composition before movement,
   sequence/audio/physics scheduling. No live Delphi or fidelity promotion follows.
+- Implemented: the complete acquired readiness helper now composes required
+  typed target/relationship/proxy providers, preserving cost-before-retarget,
+  readiness-before-eligibility, both flag stores and identity-before-shape.
+  Complete original-PC controls cover 256 contexts, 32 proxy updates and 16
+  retargets; Rust matches 6,144 normalized state words and 2,048 provider-count
+  checks. Native source-backed allocation executes; Rust composition-control
+  constructor/storage callbacks and target/physical/relationship inputs remain
+  supplied. A late-shape refusal retains all prefix effects. Next: acquire the
+  actual relationship producer and bind owned target/proxy lifetime, mutations,
+  retirement and caller-phase guards; no live target assignment or world admission
+  follows from this CPU composition. Never recompute cost after retargeting.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
