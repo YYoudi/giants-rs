@@ -6,6 +6,23 @@ lookup and separate PC identity, aliases, platform differences and attribution.
 
 ## Linked readiness and direct target proxy preparation - 9 November 2026
 
+`delphi_target_readiness::complete` now composes the complete acquired helper over
+required typed target/relationship/proxy providers. Readiness is written before
+eligibility. An eligible state1 target may replace the link and fallback; the
+original cost is not recomputed. Proxy creation/reuse then preserves both ordered
+flag writes, identity and the current shape calculation. A late provider refusal
+retains these prefix effects; the caller must quarantine replay.
+
+The complete original-PC body executes in 256 controlled contexts, including 32
+proxy updates and 16 retargets. Rust agrees on 6,144 normalized state words and
+2,048 provider-count checks. Native proxy allocation uses actual source resources;
+Rust constructor/storage callbacks in this composition control remain supplied,
+separate from the source-bound direct constructor below. Current headers,
+reserve/rate, physical presence and the state1 replacement relationship remain
+supplied on both sides. A synthetic late-shape refusal retains readiness, changed
+target/fallback, proxy birth, flags and identity. This does not establish the
+relationship producer, complete owned Session composition or live target lifetime.
+
 `delphi_target_readiness::prepare` preserves the acquired position-copy and
 reserve comparison prefix. Squared distance is stored in single precision, while
 the subsequent power/rate product remains wide for the inclusive comparison.

@@ -45,6 +45,22 @@ receipts retain their own exact source and runtime identities.
 
 ## Delphi linked readiness and direct target proxy - 9 November 2026
 
+The complete acquired readiness body now composes required typed providers.
+Original-PC/Rust controls cover 256 contexts, 32 proxy updates and 16 retargets,
+matching 6,144 normalized state words and 2,048 provider-count checks. Readiness,
+retarget, construction, both flag writes and identity/shape retain source order;
+the original cost is not recomputed after retarget. A late-shape refusal retains
+prefix effects. Native allocation uses source resources; Rust composition-control
+constructor/storage callbacks, headers and the replacement relationship remain
+supplied. Actual owned target/proxy lifetime and caller/world integration stay
+open. No live feature, capture, new package or replacement of earlier notices/
+checksums follows; prototype PS2 attribution remains unknown.
+
+Combined source validation passes 832 synthetic Rust tests (48 ignored), five
+installed Delphi controls, 41 Python tests, Rustfmt, strict Clippy and roadmap/
+site/JavaScript checks. The current shared timed-effect work is preserved; these
+checks do not turn supplied readiness providers into ordinary gameplay services.
+
 Acquired CPU readiness, distinct target eligibility and target-proxy matrix
 controls match 2,048 original-PC/Rust contexts / 12,288 words. The comparison
 preserves squared-distance storage, the wide reserve test, current-player context
@@ -59,7 +75,7 @@ milestone adds no ordinary Delphi gameplay, screenshot, asset or downloadable
 preview. Existing package, technical notices and checksum receipts retain their
 exact source identities. Prototype PS2 attribution remains unknown.
 
-Combined validation passes 831 synthetic Rust tests (47 ignored), five installed
+The earlier prefix checkpoint `28e73f9` passes 831 synthetic Rust tests (47 ignored), five installed
 Delphi resource/lifecycle controls, 41 Python tests, Rustfmt, strict Clippy and
 roadmap/site/JavaScript checks. These checks retain their supplied CPU boundaries
 and do not relabel an existing executable as containing this source milestone.
@@ -93,6 +109,29 @@ source-backed comparison repeats 512 / 1,317,724 after the merge; the isolated
 kernel comparisons also repeat successfully. The limited source/history pattern
 review reports zero findings across 519 commits / 3,290 blobs. Existing binaries
 retain their independent source and runtime/package receipt identities.
+
+## Owned timed callback resources and service ordering — 9 November 2026
+
+The bounded timed owner retains class/state resources, source image, reference
+cache and actual inline payload after its originating context retires. Acquired
+callbacks order the first-frame gate, lifetime/transparency, required physical
+service, matrix updates, shared ANM epoch/references and required retirement
+service before deferred marking. There are no default success providers. Late
+failures retain completed writes and quarantine the owner against service replay.
+The common first-entry helper also serves existing main cinematic attached effects
+and owned impacts; the new timed owner itself is not yet admitted by the main film.
+
+Positive and zero-delta controls match 576 original-PC/Rust callbacks / 100,224
+selected configuration, header, payload, channel and matrix words across 64
+controlled parent/child lifecycles. Explicit fixture services execute 192 physical
+and 128 retirement calls. Ordinary preparation completes after its first callback;
+those post-callback fields/matrices and world inputs remain supplied boundaries.
+This is not full header/pointer/stock, native mission scheduling or visual parity.
+An installed-data control retains resources after external owner/context release,
+checks the nonzero shared ANM epoch and prevents late physical/retirement replay.
+Actual ordinary preparation, physical/context/stock producers, world RNG/cadence
+and menu-first timed-film admission remain open. The last full 545-source census,
+zero complete scenes and unknown prototype PS2 correspondences are unchanged.
 
 ## Timed effect program configuration — 9 November 2026
 
