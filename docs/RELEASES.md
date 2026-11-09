@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Delphi owned held cache and target ray - 9 November 2026
+
+The owned Delphi service now publishes the acquired normal held matrix and actual
+position history after a completed parent frame, then derives its held-origin ray.
+It reuses common affine/reference arithmetic and preserves the distinct zeroed
+constructor reference buffer. Cache provenance rejects replay, future/stale data,
+changed references and failed parents. Debug-only zero-footprint/ordinary-lock
+scope is explicit; child ANM, alternate locks and other source profiles remain
+unprepared. Full world/camera/target scheduling and active movement stay separate.
+
+Original-PC/Rust controls match 768 rays / 4,608 outputs and two persistent
+256-frame sequences / 4,084,224 words across 22 actor headers/reference buffers,
+owner payload, lists and ray outputs, with exact RNG. The seven-owner source-data
+check adds 64 cache/ray publications and stale/refusal controls. Supplied commands,
+time, flat world and metadata remain boundaries. No live Delphi or fidelity
+promotion follows; point/candidate queries, readiness, typed target lifetime,
+audio/physics binding, water and combat remain open. See
+[OWNED_DELPHI.md](OWNED_DELPHI.md).
+
 ## Delphi target-movement and activation services - 9 November 2026
 
 The shared Rust library now contains acquired target/fallback movement arithmetic
