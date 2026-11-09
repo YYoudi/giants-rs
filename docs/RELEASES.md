@@ -1,7 +1,7 @@
 # Preview releases and milestone integration
 
 The main integration lane follows [INTEGRATION.md](INTEGRATION.md) to combine
-reviewed Flick, Delphi, Kabuto and future Mecc contributions in one public build.
+reviewed Flick, Mecc, Delphi, Kabuto and NPC contributions in one public build.
 Source merge, CPU validation, ordinary gameplay reachability and downloadable
 preview availability are reported separately. This process change alone enables
 no additional gameplay and replaces no existing release receipt.
