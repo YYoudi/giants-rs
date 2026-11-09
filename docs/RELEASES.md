@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## Timed effect program configuration — 9 November 2026
+
+The bounded attached timed and detached linear-gravity frames now compose their
+following source VM commands with the shared owned initial constructor. Size,
+lifetime/fade, retirement binding and gravity changes were isolated at command
+boundaries within the same original interpreter invocation. Sixty-four complete
+parent/child configuration states match 10,624 selected configuration, header,
+payload, channel, matrix, position and RNG words. Attachment consumes only its
+active size draw after context preparation. Wrong classes refuse without RNG.
+The size writer preserves the existing bottom row; existing main attached effects
+and positional impacts reuse acquired size/lifetime helpers.
+
+These are configuration dependencies before ordinary preparation. Context
+consumption, resource/reference/ANM ownership, physical stock admission, callbacks,
+retirement and native world RNG/cadence remain open. The general FX queue and last
+full 545-source census are unchanged. Prototype PS2 counterparts remain unknown;
+no complete movie or visual fidelity result is certified by these CPU controls.
+
 ## Shared state78 effect construction and inline physical storage — 9 November 2026
 
 Attached/cinematic FX and positional impacts now reuse the same acquired class,

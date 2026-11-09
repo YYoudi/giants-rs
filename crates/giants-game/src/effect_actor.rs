@@ -36,7 +36,102 @@ pub struct Initial<K> {
     pub render_flags: u32,
     pub matrix: Matrix,
 }
+/// Acquired following VM commands, before ordinary preparation or any callback.
+/// The caller still owns the template, source scope, context and world admission.
+pub struct Configured<K> {
+    pub initial: Initial<K>,
+    pub fade: [f32; 4],
+    pub transparency: f32,
+    pub visual: crate::effect_visual::Visual,
+    pub retirement: Option<crate::effect_scene::RetirementBinding>,
+}
+
+/// Shared acquired lifetime operands. This does not publish an actor or advance
+/// time. Kept separate from size, spin, gravity and retirement command effects.
+pub(crate) fn lifetime_fade(life: [f32; 3]) -> Result<[f32; 4], String> {
+    let [duration, fade_in, fade_out] = life;
+    if !life.into_iter().all(f32::is_finite) || duration <= 0. || fade_in < 0. || fade_out < 0. {
+        return Err("effect lifetime outside finite timed profile".into());
+    }
+    let fade = [
+        if fade_in > 0. { fade_in } else { 0. },
+        if fade_out > 0. { fade_out } else { 0. },
+        if fade_out > 0. && fade_out < duration {
+            (1. / (f64::from(duration) - f64::from(fade_out))) as f32
+        } else {
+            0.
+        },
+        if fade_in > 0. {
+            (1. / f64::from(fade_in)) as f32
+        } else {
+            0.
+        },
+    ];
+    if !fade.into_iter().all(f32::is_finite) {
+        return Err("effect fade reciprocal overflow".into());
+    }
+    Ok(fade)
+}
+
+pub(crate) fn lifetime_flags(fields: &mut Fields, life: [f32; 3]) {
+    fields.control_flags |= 2;
+    if life[1] > 0. {
+        fields.control_flags |= 0x800000;
+    }
+    if life[2] > 0. && life[2] < life[0] {
+        fields.control_flags |= 4;
+    }
+}
 impl<K> Initial<K> {
+    /// The native size writer replaces the affine 3x4 and leaves its bottom row.
+    pub(crate) fn size(&mut self, sizes: [f32; 2], interpolate: bool) -> Result<(), String> {
+        if sizes.into_iter().any(|v| !v.is_finite() || v <= 0.) {
+            return Err("effect size outside positive finite profile".into());
+        }
+        let mut matrix =
+            crate::effect_orientation::matrix(self.fields.position, self.fields.angles, sizes[0])?;
+        matrix.values[12..].copy_from_slice(&self.matrix.values[12..]);
+        self.fields.scale = sizes[0];
+        if interpolate {
+            self.fields.control_flags |= 8;
+        }
+        let data = self
+            .seed
+            .storage
+            .data_mut()
+            .ok_or("effect size payload absent")?;
+        data[0x10..0x14].copy_from_slice(&sizes[0].to_le_bytes());
+        data[0x14..0x18].copy_from_slice(&sizes[1].to_le_bytes());
+        self.matrix = matrix;
+        Ok(())
+    }
+    fn timed(
+        mut self,
+        configuration: crate::effect_visual::Configuration,
+    ) -> Result<Configured<K>, String> {
+        let life = [
+            configuration.lifetime,
+            configuration.fade_in,
+            configuration.fade_out_start,
+        ];
+        let fade = lifetime_fade(life)?;
+        let visual = crate::effect_visual::Visual::new(configuration)?;
+        lifetime_flags(&mut self.fields, life);
+        let data = self
+            .seed
+            .storage
+            .data_mut()
+            .ok_or("effect lifetime payload absent")?;
+        data[4..8].copy_from_slice(&life[0].to_le_bytes());
+        data[8..12].copy_from_slice(&0f32.to_le_bytes());
+        Ok(Configured {
+            initial: self,
+            fade,
+            transparency: visual.transparency,
+            visual,
+            retirement: None,
+        })
+    }
     /// A view of the actual owned payload, never a second physical allocation.
     pub fn physical_words(&self) -> Result<[u32; 15], String> {
         let data = physical_data(&self.seed)?;
@@ -74,6 +169,74 @@ fn initialize_physical(seed: &mut Seed) -> Result<(), String> {
     Ok(())
 }
 impl Template {
+    /// Consumes only the active size draw: context preparation already consumed
+    /// its own draw. No context retirement, stock allocation or callback occurs.
+    pub fn timed_attached<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Configured<K>, String> {
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        let recipe = crate::timed_effect::Recipe::project(program)?;
+        let mut initial = self.attached(origin, context)?;
+        let image = context.source_image();
+        let (_, entry) = image
+            .find(&recipe.child)
+            .ok_or("timed retirement program absent")?;
+        image
+            .program_tail(entry.offset)
+            .map_err(|e| e.to_string())?;
+        // Validate all fallible scalar preparation before consuming the draw.
+        let life = [recipe.lifetime, recipe.fade_in, recipe.fade_out];
+        lifetime_fade(life)?;
+        for size in recipe.range {
+            crate::effect_orientation::matrix(
+                initial.fields.position,
+                initial.fields.angles,
+                size,
+            )?;
+        }
+        let mut seed = random.0;
+        let size = crate::timed_effect::sample(&mut seed, recipe.range);
+        initial.size([size; 2], false)?;
+        let mut configured = initial.timed(crate::effect_visual::Configuration {
+            lifetime: life[0],
+            fade_in: life[1],
+            fade_out_start: life[2],
+            start_size: size,
+            end_size: size,
+        })?;
+        configured.initial.fields.control_flags |= 1;
+        configured.retirement = Some(crate::effect_scene::RetirementBinding {
+            effect: recipe.child,
+            program_offset: entry.offset,
+        });
+        random.0 = seed;
+        Ok(configured)
+    }
+    /// Exact detached linear-size/gravity frame, before ordinary physical and
+    /// reference preparation. No contact, stock or world schedule is implied.
+    pub fn gravity_positioned<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+    ) -> Result<Configured<K>, String> {
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        if program.records.iter().map(|r| r.opcode).collect::<Vec<_>>() != [3, 6, 8, 4, 0x0e, 7, 2]
+        {
+            return Err("effect configuration outside acquired gravity frame".into());
+        }
+        let recipe = crate::released_effect::Recipe::project(program)?;
+        let mut initial = self.positioned(origin, context)?;
+        initial.size([recipe.visual.start_size, recipe.visual.end_size], true)?;
+        let mut configured = initial.timed(recipe.visual)?;
+        configured.initial.fields.object_flags &= !0x10;
+        configured.initial.fields.control_flags |= 0x80;
+        configured.initial.seed.storage.data_mut().unwrap()[0xa4..0xa8]
+            .copy_from_slice(&recipe.gravity_mass.to_le_bytes());
+        Ok(configured)
+    }
     pub fn load(resources: &SceneResources, class: i32) -> Result<Self, String> {
         if class < 0 {
             return Err("effect constructor class outside acquired nonnegative profile".into());

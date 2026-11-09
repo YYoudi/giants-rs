@@ -1086,6 +1086,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- The acquired timed attached and detached linear-gravity frames now compose
+  their following VM commands with the shared owned initial constructor. Separate
+  command-boundary controls isolate size, lifetime/fade, retirement binding and
+  gravity effects within each original interpreter invocation. Sixty-four
+  parent/child full-program states match 10,624 selected configuration, header,
+  payload, channel, matrix, position and RNG words. Active attachment samples only
+  once after context preparation; gravity preserves the distinct render word and
+  physical payload alias. Wrong classes refuse without consuming RNG. The size
+  writer preserves the existing affine bottom row; existing ordinary/cinematic
+  attached effects and owned impacts reuse these acquired size/lifetime helpers.
+  This is a bounded configuration dependency before ordinary preparation, not
+  full actor/stock admission or a completed film. Context consumption, resources,
+  references/ANM, live physical owner, callbacks, world RNG/cadence and retirement
+  remain to compose. The last full 545-source census and fidelity counts remain
+  unchanged; prototype PS2 counterparts remain unknown.
+
 - Shared state78 construction now serves both existing attached/cinematic FX and
   owned positional impacts through one immutable class/spec/state preparation.
   The acquired attach/detach wrappers initialize their physical block through the

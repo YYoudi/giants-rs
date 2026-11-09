@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.09.7
+# Windows x64 development preview - preview-2026.11.09.8
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -11,6 +11,15 @@ owner's estimate and has not received comprehensive human review. This estimate
 is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+## Timed effect configuration dependency
+
+Shared size/lifetime helpers now also compose the bounded attached timed and
+linear-gravity child source programs. Sixty-four original-PC/Rust program states
+match 10,624 selected words including RNG. Existing main attached effects and
+impacts use the same acquired helpers. This precedes ordinary preparation;
+physical actor ownership, callbacks and world scheduling remain prerequisites.
+No additional complete movie or visual fidelity result is certified.
 
 ## Shared effect construction
 
