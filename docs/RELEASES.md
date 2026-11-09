@@ -29,6 +29,9 @@ placement-header changes. It passes 778 Rust tests (29 ignored), 40 Python tests
 Rustfmt, Clippy, five installed-resource Mecc controls and the rebuilt 256-case
 hard-landing preparation comparison. Roadmap, site and JavaScript checks pass.
 The exact executable/package receipts above remain bound to their original source.
+The later shared-camera merge `a5c3833` passes 785 Rust tests (29 ignored),
+40 Python tests, Rustfmt, Clippy, five installed-resource Mecc controls and site
+checks, while preserving the separate camera and mission-header scopes below.
 
 The effect is prepared only. Real impact damage/context publication, channel
 selection and subsequent active effect execution remain to be integrated.
