@@ -20,6 +20,17 @@ input-to-landing integration prerequisite. No gallery assets or receipts change.
 
 ## Delphi linked readiness and direct target proxy - 9 November 2026
 
+The complete acquired readiness body now composes required typed providers.
+Original-PC/Rust controls cover 256 contexts, 32 proxy updates and 16 retargets,
+matching 6,144 normalized state words and 2,048 provider-count checks. Readiness,
+retarget, construction, both flag writes and identity/shape retain source order;
+the original cost is not recomputed after retarget. A late-shape refusal retains
+prefix effects. Native allocation uses source resources; Rust composition-control
+constructor/storage callbacks, headers and the replacement relationship remain
+supplied. Actual owned target/proxy lifetime and caller/world integration stay
+open. No live feature, capture, new package or replacement of earlier notices/
+checksums follows; prototype PS2 attribution remains unknown.
+
 Acquired CPU readiness, distinct target eligibility and target-proxy matrix
 controls match 2,048 original-PC/Rust contexts / 12,288 words. The comparison
 preserves squared-distance storage, the wide reserve test, current-player context
@@ -34,7 +45,7 @@ milestone adds no ordinary Delphi gameplay, screenshot, asset or downloadable
 preview. Existing package, technical notices and checksum receipts retain their
 exact source identities. Prototype PS2 attribution remains unknown.
 
-Combined validation passes 831 synthetic Rust tests (47 ignored), five installed
+The earlier prefix checkpoint `28e73f9` passes 831 synthetic Rust tests (47 ignored), five installed
 Delphi resource/lifecycle controls, 41 Python tests, Rustfmt, strict Clippy and
 roadmap/site/JavaScript checks. These checks retain their supplied CPU boundaries
 and do not relabel an existing executable as containing this source milestone.
