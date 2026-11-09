@@ -13,6 +13,61 @@ TEMPLATES = Path(__file__).resolve().parent / 'site'
 FIELDS = ('id', 'kind', 'group', 'title', 'status', 'scope', 'detail')
 LABELS = {'done': 'Complete in stated scope', 'partial': 'Partial', 'todo': 'Not started'}
 PRIVATE = re.compile(r'[A-Za-z]:[\\/]|(?:evidence|\.local)[\\/]|Users[\\/]', re.I)
+PREVIEW_CHECKS = {
+    'offscreen_menu_cycles': 'Offscreen development launches, menu return and re-entry',
+    'selected_cinematic_transport': 'Selected-mission source-terminal/re-entry with muted real sinks',
+}
+PREVIEW_LIMITS = {
+    'ordinary_mecc_native_motion': 'Native Mecc jet/descent/landing integration remains incomplete',
+    'delphi_gameplay': 'Delphi gameplay is not enabled',
+    'kabuto_gameplay': 'Kabuto gameplay is not enabled',
+    'npc_live_ai': 'NPC AI is not admitted to ordinary missions',
+    'full_game_fidelity': 'Complete campaigns and visual/audio fidelity remain unverified',
+}
+
+
+def public_preview(root):
+    """Read only a reviewed, published download snapshot, never infer it from main."""
+    path = root/'docs/public-preview.json'
+    if not path.exists():
+        return None, ''
+    data = json.loads(path.read_text(encoding='utf8'))
+    fields = {'schema_version', 'tag', 'source_commit', 'executable_sha256',
+              'archive_sha256', 'checks', 'limitations'}
+    if (not isinstance(data, dict) or set(data) != fields
+            or type(data['schema_version']) is not int or data['schema_version'] != 1):
+        raise ValueError('Unexpected public preview fields')
+    patterns = {'tag': r'preview-\d{4}\.\d{2}\.\d{2}\.[1-9]\d*',
+                'source_commit': r'[a-f0-9]{40}', 'executable_sha256': r'[a-f0-9]{64}',
+                'archive_sha256': r'[a-f0-9]{64}'}
+    for name, pattern in patterns.items():
+        if not isinstance(data[name], str) or not re.fullmatch(pattern, data[name]):
+            raise ValueError('Invalid public preview identity')
+    for name, catalog in [('checks', PREVIEW_CHECKS), ('limitations', PREVIEW_LIMITS)]:
+        values = data[name]
+        if (not isinstance(values, list)
+                or any(not isinstance(v, str) or v not in catalog for v in values)
+                or len(set(values)) != len(values) or name == 'checks' and not values):
+            raise ValueError('Unsupported public preview scope')
+    base = 'https://github.com/YYoudi/giants-rs'
+    release = f'{base}/releases/tag/{data["tag"]}'
+    download = f'{base}/releases/download/{data["tag"]}/giants-preview-windows-x64.zip'
+    checks = '; '.join(html.escape(PREVIEW_CHECKS[v]) for v in data['checks'])
+    limits = '; '.join(html.escape(PREVIEW_LIMITS[v]) for v in data['limitations']) or 'See the release notes for the assessed scope'
+    section = ('<section id="current-preview" aria-labelledby="current-preview-title">'
+               '<div class="section-heading"><div><p class="eyebrow">PUBLISHED WINDOWS BUILD</p>'
+               '<h2 id="current-preview-title">Current Windows download</h2></div>'
+               f'<a href="{download}">Download ZIP ↗</a></div>'
+               '<p>Supply your own game installation. This download is a fixed build; later source milestones and archived captures do not update its capabilities.</p>'
+               '<div class="table-scroll" tabindex="0"><table class="summary-table"><caption>Published build snapshot — separate from the source roadmap</caption><tbody>'
+               f'<tr><th scope="row">Release</th><td><a href="{release}">{data["tag"]} / release notes ↗</a></td></tr>'
+               f'<tr><th scope="row">Built from</th><td><a href="{base}/commit/{data["source_commit"]}">{data["source_commit"][:12]} ↗</a></td></tr>'
+               f'<tr><th scope="row">Checks on this executable</th><td>{checks}</td></tr>'
+               f'<tr><th scope="row">Still incomplete</th><td>{limits}</td></tr>'
+               '<tr><th scope="row">Checksums</th><td><details><summary>ZIP and executable SHA256</summary>'
+               f'<p>ZIP <code>{data["archive_sha256"]}</code></p><p>EXE <code>{data["executable_sha256"]}</code></p>'
+               '</details></td></tr></tbody></table></div></section>')
+    return data, section
 
 
 def project(source):
@@ -188,6 +243,7 @@ def export(output, root=ROOT):
     if output.exists():
         raise ValueError('Refusing to overwrite site output')
     data = project(json.loads((root/'PROGRESS.json').read_text(encoding='utf8')))
+    preview, preview_html = public_preview(root)
     gallery = gallery_data(root)
     screenshots, hero = screenshots_html(gallery)
     historical_hero, featured = featured_captures(gallery)
@@ -206,7 +262,8 @@ def export(output, root=ROOT):
     replacements = {'SUMMARY': ''.join(summary), 'FEATURES': table(features, 'Whole-game feature roadmap'),
                     'FOUNDATIONS': table(foundations, 'Technical foundations — separate from game completion'),
                     'DONE': str(counts['done']), 'PARTIAL': str(counts['partial']), 'TODO': str(counts['todo']), 'TOTAL': str(len(features)),
-                    'CINEMATIC_INVENTORY': inventory_html, 'SCREENSHOTS': screenshots, 'HERO': hero, 'FEATURED_CAPTURES': featured}
+                    'CINEMATIC_INVENTORY': inventory_html, 'SCREENSHOTS': screenshots, 'HERO': hero, 'FEATURED_CAPTURES': featured,
+                    'PUBLIC_PREVIEW': preview_html}
     document = (TEMPLATES/'index.html').read_text(encoding='utf8')
     for key, value in replacements.items():
         document = document.replace('{{'+key+'}}', value)
@@ -216,6 +273,8 @@ def export(output, root=ROOT):
         shutil.copyfile(TEMPLATES/name, output/name)
     (output/'status.json').write_text(json.dumps(data, indent=2)+'\n', encoding='utf8')
     (output/'gallery.json').write_text(json.dumps({'comparisons': gallery['comparisons']}, indent=2)+'\n', encoding='utf8')
+    if preview is not None:
+        (output/'public-preview.json').write_text(json.dumps(preview, indent=2)+'\n', encoding='utf8')
     if inventory is not None:
         (output/'cinematic-inventory.json').write_text(json.dumps(inventory, indent=2)+'\n', encoding='utf8')
     for name in gallery['images']:
