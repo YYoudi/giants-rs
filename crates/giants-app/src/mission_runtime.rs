@@ -373,11 +373,16 @@ impl Runtime {
         ticket: u64,
         id: giants_game::resident_states::Id,
     ) -> Option<[f32; 3]> {
-        self.active
-            .as_ref()
-            .filter(|a| a.ticket == ticket)?
-            .resident_states
-            .presentation_position(id)
+        let active = self.active.as_ref().filter(|a| a.ticket == ticket)?;
+        if active.resident_states.positional_impact(id).is_some() {
+            let fields = active
+                .resident_states
+                .get(id)?
+                .construction_fields
+                .as_ref()?;
+            return (fields.object_flags & 0x8000 == 0).then_some(fields.position);
+        }
+        active.resident_states.presentation_position(id)
     }
     pub(crate) fn actor_sound_route(
         &self,
@@ -431,6 +436,24 @@ impl Runtime {
             .as_ref()
             .unwrap()
             .resolve(&resources.archives, &language, sound)
+    }
+    pub(crate) fn owned_impact_cues(&self, ticket: u64) -> Result<Vec<u32>, String> {
+        let active = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("impact cue resource ticket absent or foreign")?;
+        let Some([low, high]) = giants_game::positional_impact::cue_range(
+            active.payload.plan.resources(),
+            "fx_mecc_hard_land",
+        )?
+        else {
+            return Ok(vec![]);
+        };
+        if high - low >= 32 {
+            return Err("impact cue reservation exceeds source budget".into());
+        }
+        Ok((low..=high).collect())
     }
     pub(crate) fn sound_bank(
         &self,
