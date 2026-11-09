@@ -24,6 +24,15 @@ remainder still block another live frame. All initializer/history prerequisites
 remain set. No dependency, bundled asset or playable preview is added; existing
 notice/checksum/package/runtime receipts retain their exact source identities.
 Prototype PS2 attribution remains unknown.
+
+Validation of the combined Mecc/Delphi/Kabuto source: 813 synthetic Rust tests
+pass (37 ignored), all twelve silent Kabuto phase checks and the separate cold
+resource check pass, plus 40 Python tests, Rustfmt, strict Clippy and generated
+roadmap/site/JavaScript checks. Both prepared-scene comparisons and the 1,024-case
+Session boundary comparison pass again against the final runtime source. The
+source/history pattern audit reports zero findings across 443 commits / 2,909
+blobs at the preceding merge checkpoint; this is a limited pattern check.
+
 ## Effect/audio RNG ownership acquisition - 9 November 2026
 
 The acquired debug executable and audio DLL use separate module-local CRT TLS
