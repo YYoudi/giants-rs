@@ -76,8 +76,9 @@ landing/directional-air continuation and prepared damage-smoke services alongsid
 the latest other lanes. The resident now owns bounded wounded-primary smoke with
 an explicit source/frame-bound display snapshot. Ordinary App impact/voice/display
 binding still needs actual mission gates and pre-world subjective ownership;
-prepared smoke is not an active renderer. Resolve the damage-inhibit and cinematic
-state producers, keeping the non-mode-4 authority path distinct from the still
+prepared smoke is not an active renderer. Resolve the damage-inhibit and separate
+suppression-gate producers (historical `cutscene` field), keeping the non-mode-4
+authority path distinct from the still
 supplied mode-4 delegate. A selected camera mode does not establish a prepared
 subjective actor. Preserve these prerequisites when consuming the next Mecc lot.
 The current independently verified download is `.13`; its snapshot and receipts
