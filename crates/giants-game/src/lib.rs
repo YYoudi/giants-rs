@@ -7,6 +7,7 @@ pub mod actor_finalization;
 pub mod actor_references;
 pub mod actor_surface_reset;
 pub mod actor_terrain;
+pub mod actor_velocity_impulse;
 pub mod actor_volume;
 pub mod actor_world_tick;
 pub mod arithmetic;
@@ -808,3 +809,6 @@ pub mod positional_impact;
 pub mod sound_device;
 pub mod sound_owner;
 pub mod sound_spatial;
+
+#[cfg(test)]
+mod npc_source_tests;

@@ -29,6 +29,12 @@ cargo clippy --locked --workspace --all-targets --target x86_64-pc-windows-gnu -
 ./tools/build_preview.ps1 -OutputDirectory .local/build
 ```
 
+The release executable uses the Windows GUI subsystem. For scripted CLI checks,
+explicitly wait for it, for example with Python's `subprocess.run(..., check=True)`.
+A bare PowerShell command can finish before the child and close its redirected
+stdout; that is not a reliable CLI exit/output check. The Windows workflow waits
+and captures the child's `--help` result explicitly.
+
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 With `GIANTS_DELPHI_ROOT` set to the user's installation (and optional
@@ -67,11 +73,34 @@ registry/toolchain caches is fine; sharing build artifacts between concurrently
 modified worktrees can produce a test inventory from the wrong source. Reject
 that result and rebuild in an isolated target before recording a release receipt.
 
+Windows CI restores only Rust dependencies using a pinned cache action; workspace
+crates and installed Cargo binaries are excluded. Its key includes the Rust/Cargo
+environment plus the GNU compiler binary and MSYS package inventory. Only main
+saves the cache. Each runner retains its own target directory and rebuilds the
+project crates, tests and receipt; a cache hit is not validation of current source.
+Private `.local` research, installed game data and runtime captures are not cached.
+
 Package a draft with `python -m tools.package_preview --help`. Run the extracted
 bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Windows
 or GIANTS_INSPECTION_FONT, never bundled. Game data is read-only; user state goes
 outside the installation. Interactive coverage is limited to the exact preview
 and mission recorded in RELEASES.md; broader gameplay and fidelity remain pending.
+
+## Optional NPC source-resource lifecycle check
+
+For NPC source-resource ownership regression, set `GIANTS_NPC_ROOT` to the
+user-supplied installation and use an isolated Cargo target:
+
+```powershell
+cargo test --locked -p giants-game source_npc_herd --target x86_64-pc-windows-gnu -- --ignored --nocapture
+```
+
+This silent CPU check uses authored herd/marker values with a supplied flat
+floor, clock and RNG. It covers births, first initialization, owner identity,
+terrain-failure quarantine, replay refusal and cleanup. It does not establish
+live NPC AI, player interaction, world scheduling or rendering. See
+[OWNED_NPCS.md](OWNED_NPCS.md).
+It loads world declarations only; mission markers are outside this fixture.
 
 ## Optional subjective Mecc lifecycle check
 
