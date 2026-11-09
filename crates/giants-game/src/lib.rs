@@ -23,6 +23,7 @@ pub mod camera_lens;
 pub mod camera_matrix;
 pub mod camera_projection;
 pub mod draw_routes;
+pub mod effect_actor;
 pub mod effect_animation;
 pub mod effect_attachment;
 pub mod effect_burst;

@@ -99,6 +99,39 @@ impl<K: Copy + Eq> Pool<K> {
         }
         Ok(creation)
     }
+    /// Acquired cinematic mark for a complete timed attached program whose
+    /// null-object pass consumes a size draw. The caller owns the effect VM RNG;
+    /// this is not an audio-module random stream or a new seed producer.
+    pub fn prepare_cinematic_timed(
+        &mut self,
+        name: &str,
+        recipient: K,
+        recipient_flags: u32,
+        tag: u32,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        if name.contains('\0') {
+            return Err("effect name contains an embedded terminator".into());
+        }
+        let Some(image) = &self.image else {
+            return Ok((Creation::Absent, vec![]));
+        };
+        let Some((_, entry)) = image.find(name) else {
+            return Ok((Creation::Absent, vec![]));
+        };
+        let program = image.program(entry.offset).map_err(|e| e.to_string())?;
+        if program.records.iter().map(|r| r.opcode).collect::<Vec<_>>()
+            != [0x24, 6, 0x1c, 4, 0x0d, 7, 2]
+        {
+            return Err("cinematic random preparation outside acquired timed frame".into());
+        }
+        let (creation, intervals) =
+            self.prepare_extended_invariant(name, recipient, recipient_flags, tag, random)?;
+        if let Creation::Prepared(id) = creation {
+            self.slots[id.slot].context.as_mut().unwrap().flags = 0x8004;
+        }
+        Ok((creation, intervals))
+    }
 
     /// Private transaction staging for context preparation only. Existing
     /// identities keep their ticket/generation; no external update is replayed.
@@ -804,6 +837,83 @@ impl<K: Copy + Eq> Pool<K> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    fn timed_image(distinct_lite: bool) -> Arc<Image> {
+        let offset = if distinct_lite { 17u32 } else { 6 };
+        let mut payload = b"T\0".to_vec();
+        payload.extend(offset.to_le_bytes());
+        let mut body = vec![0x24];
+        for word in [0u32, 42, 0] {
+            body.extend(word.to_le_bytes());
+        }
+        body.extend([6, 0x1c]);
+        for value in [2f32, 5.] {
+            body.extend(value.to_le_bytes());
+        }
+        body.push(4);
+        for value in [1f32, 0.1, 0.9] {
+            body.extend(value.to_le_bytes());
+        }
+        body.extend(b"\x0dChild\0\x07\x02");
+        if distinct_lite {
+            payload.extend(b"T_lite\0");
+            payload.extend((offset + body.len() as u32).to_le_bytes());
+        }
+        payload.extend(body);
+        if distinct_lite {
+            payload.push(2);
+        }
+        let mut raw = vec![];
+        for word in [1, payload.len() as u32, if distinct_lite { 2 } else { 1 }] {
+            raw.extend(word.to_le_bytes());
+        }
+        raw.extend(payload);
+        Arc::new(giants_formats::effect_image::parse(&raw).unwrap())
+    }
+    #[test]
+    fn cinematic_timed_preparation_keeps_one_draw_and_the_actual_mark() {
+        let mut pool = Pool::<u32>::new(7, Some(timed_image(false)));
+        let mut random = crate::audio_parameters::Random(1729);
+        let mut expected = random;
+        expected.next_15();
+        let (Creation::Prepared(id), intervals) = pool
+            .prepare_cinematic_timed("T", 31, 0, 9, &mut random)
+            .unwrap()
+        else {
+            panic!("absent");
+        };
+        let c = pool.get(id).unwrap();
+        assert_eq!(c.flags(), 0x8004);
+        assert_eq!(c.recipient(), Some(31));
+        assert_eq!(c.tag(), Some(9));
+        assert_eq!(random.0, expected.0);
+        assert_eq!(intervals.len(), 1);
+        pool.release_prepared(id).unwrap();
+        let before = random.0;
+        assert!(
+            pool.prepare_cinematic_timed("T", 31, 0x400, 9, &mut random)
+                .is_err()
+        );
+        assert_eq!(random.0, before);
+        assert!(pool.active().is_empty());
+    }
+    #[test]
+    fn cinematic_timed_preparation_refuses_unproven_selection_before_consumption() {
+        let mut pool = Pool::<u32>::new(7, Some(timed_image(true)));
+        let mut random = crate::audio_parameters::Random(1729);
+        assert!(
+            pool.prepare_cinematic_timed("T", 31, 0, 9, &mut random)
+                .is_err()
+        );
+        assert_eq!(random.0, 1729);
+        assert!(pool.active().is_empty());
+        let mut pool = Pool::<u32>::new(7, Some(sound_image()));
+        assert!(
+            pool.prepare_cinematic_timed("S", 31, 0, 9, &mut random)
+                .is_err()
+        );
+        assert_eq!(random.0, 1729);
+        assert!(pool.active().is_empty());
+    }
     #[test]
     fn retirement_context_preserves_parent_flags_position_and_reused_ownership() {
         let mut pool = Pool::<u32>::new(9, Some(sound_image()));

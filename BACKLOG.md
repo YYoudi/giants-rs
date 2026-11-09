@@ -1045,6 +1045,24 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Shared state78 construction now serves both existing attached/cinematic FX and
+  owned positional impacts through one immutable class/spec/state preparation.
+  The acquired attach/detach wrappers initialize their physical block through the
+  shared reset and retain a typed originating cursor plus its payload presence.
+  Attached construction previously omitted that presence. The physical view reads
+  the actual owned payload; it survives context retirement without another block.
+  Sixty-four parent/child constructor states match 10,432 selected native/Rust
+  fields and RNG words before later VM commands. Class/origin refusals, independent
+  payload mutation and access after context/resource-template retirement pass.
+  A bounded cinematic timed-context API consumes the acquired preparatory draw
+  and preserves the cinematic mark; different normal/lite selections and unknown
+  inheritance producers refuse before allocation/RNG. All 23 persistent queues,
+  their two entry/release cycles and both routes pass; the three silent source
+  impact ownership/callback/retirement checks pass. These shared services are
+  integrated dependencies, not complete timed parent/child world actors. Ordinary
+  physical-slot ownership/admission, subsequent VM commands/callback composition,
+  source parent-field binding and full retirement scheduling remain open.
+
 - Source timed-FX actor fields now admit the acquired flag-only class opcode52,
   reusing the existing common flag projection. A 256-case native dispatch control
   checks 49,408 header words with all other words unchanged after dispatcher

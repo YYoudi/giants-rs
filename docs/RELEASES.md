@@ -1,5 +1,30 @@
 # Preview releases and milestone integration
 
+## Shared state78 effect construction and inline physical storage — 9 November 2026
+
+Attached/cinematic FX and positional impacts now reuse the same acquired class,
+specification, state and initial attach/detach preparation. Physical defaults use
+the existing common reset inside each owned payload. The originating context is
+retained as a typed historical identity and a payload presence marker, without a
+native pointer. The attached constructor previously omitted that presence.
+
+Sixty-four original-PC/Rust parent/child constructor states match 10,432 selected
+header, channel, matrix, payload, binding and RNG words, before later VM commands.
+Independent payload mutation is visible through the physical view after retiring
+the context and dropping its resource template; foreign classes/origins refuse.
+This is not complete-header, ordinary-stock ownership or world scheduling parity.
+The bounded timed cinematic preparation consumes its acquired initial draw and
+retains the cinematic mark, refusing distinct normal/lite targets or unacquired
+inheritance producers before allocation/RNG. No seed producer is invented.
+
+All 23 persistent source queues retain two entry/release cycles, both draw routes
+and cancellation guards; the 50 native part-selection and 14 preparation controls
+still agree. Three silent installed-data impact controls retain construction,
+callback, retirement and late-failure behavior. Prototype PS2 counterparts remain
+unknown. The general timed actor/VM/callback and physical-stock admission,
+complete retirement/world cadence and full scene fidelity remain open; current
+545-source census counts are not promoted by this constructor dependency.
+
 ## Fresh complete cinematic preparation inventory — 9 November 2026
 
 The exact preview `.6` binary/source receipt has completed a new CPU-only pass
