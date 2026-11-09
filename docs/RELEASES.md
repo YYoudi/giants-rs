@@ -29,6 +29,30 @@ Delphi controls, four Mecc impact/voice controls and the NPC ownership regressio
 All 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks
 pass. Supplied providers and diagnostic coverage remain separate from gameplay.
 
+## Kabuto post-query target transition — 9 November 2026
+
+The acquired post-query transition preserves raw/filtered/retained identities,
+volume filtering, timer expiry and ordered selection/marker writes before
+source-reference, parent and directional gates. It reuses the independently
+compared shared normalizer and retains completed effects after service refusal.
+Original controls match 512 transitions / 12,512 final/prefix words. A complete
+ray-production/query/filter/retention comparison matches 512 contexts / 13,248
+argument/final/prefix words, with its absent previous-retained boundary explicit.
+
+Actor/reference/context, geometry, frame time and publication storage remain
+supplied. Typed Session target ownership/lifetime, actual marker/global services,
+preceding release and following actions/world/animation are still open. No live
+Kabuto controls, new capture, asset, dependency or downloadable preview is added.
+Existing download/package/notices/checksum receipts retain their exact identities.
+Prototype PS2 correspondences remain unknown; detailed evidence stays private.
+
+Combined validation passes 857 workspace Rust tests (53 ignored), sixteen
+installed Kabuto phase controls plus the separate cold control, 43 Python tests,
+Rustfmt, strict Clippy and roadmap/site/JavaScript checks. Both original-PC
+comparisons pass again against the combined runtime. Current Mecc/Delphi and
+shared effect/audio changes are preserved; these checks do not certify live
+Kabuto admission or relabel the separately published Windows preview.
+
 ## Main integration of local Mecc voice and landing continuation — 9 November 2026
 
 Combined runtime source `e655c67620c2dec6d15f36d7f646f4ca4fca9d9c` merges the

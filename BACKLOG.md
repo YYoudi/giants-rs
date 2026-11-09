@@ -428,6 +428,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented at the CPU boundary: post-query target filtering preserves the raw
+  result, rejects a positive score outside squared bounds extents, decrements the
+  retained-target timer, announces accepted selection before marker reset, and
+  applies source-reference, parent and acquired directional gates. Required
+  clock/geometry/parent/announcement/marker services have no defaults; late errors
+  retain preceding writes and effects. Existing shared normalization is reused.
+  Independent original controls match 512 transitions / 12,512 final/prefix words;
+  a complete ray-production/query/filter/retention chain matches another 512
+  contexts / 13,248 argument/final/prefix words. Geometry, references, actor state,
+  clock inputs and publication storage remain supplied. Typed Session target
+  ownership/lifetime, actual marker/global publication and preceding release
+  still require integration; no new phase/history completion or gameplay follows.
 - Implemented: reference-query argument production selects the acquired three
   parameter pairs from actual mode words, current-state predicates and declared
   reference presence. It uses either actor bounds/negative basis or the supplied
