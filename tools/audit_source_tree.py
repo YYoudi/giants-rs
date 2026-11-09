@@ -30,6 +30,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
     },
     'docs/RECONSTRUCTION_METHOD.md': {
+        # Reviewed history-scanner workflow prose; existing minimal aliases only.
+        '0fc5c80adf51d81f0270c44ba86ddacb7728cc84cef0b6aed6d33ba21aca002c',
         # Two minimal unassigned PC aliases; explicit missing helper/counterpart evidence.
 
         # Historical source-lane variant: two additional bounded, explicitly
