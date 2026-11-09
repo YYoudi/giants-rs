@@ -116,6 +116,22 @@ provider, reference rechecks, preserved peers, reuse and late-failure quarantine
 It does not execute the enclosing global cleanup prepass or a real device release.
 See OWNED_MECC_CONTACT.md.
 
+## Optional owned impact damage boundary checks
+
+With `GIANTS_MECC_WORLD_ROOT` and an isolated target directory, run:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_impact --target x86_64-pc-windows-gnu -- --ignored --nocapture
+```
+
+The secondary control checks actual Session health before returned channel
+publication, damage-before-contact precedence, real positional preparation and
+retained late carried-service failure. The primary control supplies a falling
+entry, executes its real physical/ANM/secondary prefix and retains health at the
+required missing pain-voice boundary, without cooldown/FX RNG draws or replay.
+No window, device, active effect actor or complete trajectory is exercised.
+See OWNED_MECC_CONTACT.md for the separate native comparisons and open services.
+
 ## Optional actual impact audio checks
 
 Set `GIANTS_MECC_WORLD_ROOT` to a user-supplied installation and isolate the Cargo

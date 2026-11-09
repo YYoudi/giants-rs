@@ -630,6 +630,44 @@ impl<K: Copy + Eq> Pool<K> {
             return Ok((Creation::Absent, vec![]));
         };
         let entry_offset = entry.offset;
+        self.prepare_positional_entry(name, position, (entry_index, entry_offset), image, random)
+    }
+    /// Resolve the positional request only when both acquired quality/distance
+    /// outcomes identify the same entry. No camera/load values are invented.
+    pub fn prepare_positional_invariant(
+        &mut self,
+        name: &str,
+        position: [f32; 3],
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        if name.contains('\0') || !position.into_iter().all(f32::is_finite) {
+            return Err("positional effect requires finite position and valid name".into());
+        }
+        let Some(image) = self.image.clone() else {
+            return Ok((Creation::Absent, vec![]));
+        };
+        let normal = image
+            .adaptive_find(name, false)
+            .map_err(|e| e.to_string())?;
+        let lite = image.adaptive_find(name, true).map_err(|e| e.to_string())?;
+        if normal.map(|(_, e)| e.offset) != lite.map(|(_, e)| e.offset) {
+            return Err("effect selection requires the actual quality/distance producer".into());
+        }
+        let Some((index, entry)) = normal else {
+            return Ok((Creation::Absent, vec![]));
+        };
+        let offset = entry.offset;
+        self.prepare_positional_entry(name, position, (index, offset), image, random)
+    }
+    fn prepare_positional_entry(
+        &mut self,
+        name: &str,
+        position: [f32; 3],
+        entry: (usize, u32),
+        image: Arc<Image>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        let (entry_index, entry_offset) = entry;
         let program = Arc::new(image.program(entry_offset).map_err(|e| e.to_string())?);
         let mut staged = *random;
         let intervals = crate::effect_initialization::skip(&program, &mut staged)?;

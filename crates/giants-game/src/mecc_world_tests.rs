@@ -245,6 +245,7 @@ impl<'r> Providers<'r> {
     }
     fn borrowed(&mut self) -> crate::mecc_primary::Services<'_, 'r, '_> {
         crate::mecc_primary::Services {
+            impact: None,
             fire: None,
             animation: crate::mecc_animation_phase::Services {
                 contexts: &mut self.contexts,
@@ -1267,6 +1268,7 @@ fn source_mecc_contact_effect_preserves_prior_state_delay_and_stale_binding_refu
             &g,
             1. / 60.,
             crate::mecc_secondary::Services {
+                impact: None,
                 fire: false,
                 blending: Blending::Disabled,
                 random,
@@ -1379,4 +1381,228 @@ fn source_mecc_contact_effect_preserves_prior_state_delay_and_stale_binding_refu
         .is_err()
     );
     assert_eq!(random.0, expected.0);
+}
+
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; actual owned impact health/context boundary, no window or audio"]
+fn source_mecc_impact_secondary_orders_owned_health_context_and_channel() {
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    for (contact, carrying, current, previous, expected) in [
+        (false, false, 0., -100., 61),
+        (false, false, 0., -145., 62),
+        (true, false, -25., -125., 60),
+        (false, true, 0., -145., 62),
+    ] {
+        let mut session = Session::new(810);
+        let source = actor(&mut session, &r, &g, &c, None, 0.);
+        let mut fields = session
+            .get(source)
+            .unwrap()
+            .construction_fields
+            .as_ref()
+            .unwrap()
+            .clone();
+        fields.position = [0., 0., 15.];
+        fields.current = [-17., 9., 11.]; // Acquired kind16 excludes directional response.
+        fields.object_flags = 0;
+        fields.response_flags = if carrying { 0x800000 } else { 0 };
+        fields.control_flags = 0x1000;
+        fields.channels[0][0] = 41;
+        let channels = fields.channels;
+        let mut body = session
+            .get(source)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap()
+            .to_vec();
+        for (at, value) in [
+            (0x30, 11u32),
+            (0x60, 1),
+            (0x180, 1),
+            (0x80, 0),
+            (0x1a8, 0),
+            (0x1dc, 0),
+            (0x84, if contact { 2 } else { 0 }),
+        ] {
+            body[at..at + 4].copy_from_slice(&value.to_le_bytes());
+        }
+        let mut view = session.mecc_physical_cycle(source).unwrap().clone();
+        view.velocity = [0., 0., current];
+        view.previous_velocity = [0., 0., previous];
+        view.floor = 10.;
+        view.model_rates = [0.; 3];
+        let mut pool = crate::attached_effect_context::Pool::from_active_resources(810, &r);
+        let mut random = crate::audio_parameters::Random(1);
+        let mut state = crate::mecc_secondary::Contact::default();
+        let mut checkpoint = None;
+        let counts = session.counts();
+        let mut damage = super::mecc_impact::Damage {
+            session: &mut session,
+            source,
+            context: crate::mecc_impact::Context {
+                offline: true,
+                damage: MeccDamageContext {
+                    globally_disabled: false,
+                    cutscene: false,
+                    shield_percent: 90.,
+                    ambient_voice_timer: 0.,
+                },
+            },
+        };
+        let result = crate::mecc_secondary::ordinary(
+            &fields,
+            &body,
+            channels,
+            &view,
+            &g,
+            1. / 60.,
+            crate::mecc_secondary::Services {
+                fire: false,
+                blending: Blending::Disabled,
+                random: &mut random,
+                impact: Some(&mut damage),
+                contact: Some(crate::mecc_secondary::ContactServices {
+                    state: &mut state,
+                    pool: &mut pool,
+                    source,
+                    checkpoint: &mut checkpoint,
+                }),
+            },
+        );
+        let health = session.mecc_health(source).unwrap();
+        let classification = crate::mecc_impact::classify(
+            view.velocity,
+            view.previous_velocity,
+            crate::mecc_impact::Parameters::from_globals(&g).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(
+            health.damage.to_bits(),
+            classification.amount.unwrap().to_bits()
+        );
+        assert_eq!(session.counts(), counts); // Preparation emits no effect actor.
+        assert_eq!(session.get(source).unwrap().channels.unwrap()[0][0], 41); // Health before returned channel publication.
+        assert_eq!(pool.active().len(), usize::from(!contact));
+        let mut expected_random = crate::audio_parameters::Random(1);
+        if !contact {
+            for _ in 0..3 {
+                expected_random.0 = expected_random.0.wrapping_mul(214013).wrapping_add(2531011);
+            }
+        }
+        assert_eq!(random.0, expected_random.0);
+        if let Some(id) = pool.active().first() {
+            let context = pool.get(*id).unwrap();
+            assert_eq!(context.position(), Some(fields.position));
+            assert_eq!(context.flags(), 0);
+        }
+        if carrying {
+            assert!(result.err().unwrap().contains("carried actor"));
+            assert!(checkpoint.is_some());
+        } else {
+            let output = result.unwrap();
+            assert_eq!(
+                u32::from_le_bytes(output.payload[0x30..0x34].try_into().unwrap()),
+                expected
+            );
+            assert_eq!(
+                output.request.unwrap().slot,
+                match expected {
+                    60 => 181,
+                    61 => 175,
+                    _ => 178,
+                }
+            );
+            assert_eq!(output.payload[0xf4..0xf8], u32::MAX.to_le_bytes());
+        }
+        session.clear();
+    }
+}
+
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; owned falling-entry impact health prefix and retained voice-service refusal"]
+fn source_mecc_impact_primary_retains_health_before_required_voice_and_quarantines_replay() {
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    let mut s = Session::new(810);
+    let id = actor(&mut s, &r, &g, &c, None, 0.);
+    s.prepare_mecc_countdown_world(10.).unwrap();
+    s.bind_mecc_contact_materials(
+        crate::mecc_contact_materials::Catalog::from_prepared(&[], Default::default()).unwrap(),
+    )
+    .unwrap();
+    let resident = s.residents.get_mut(&id.serial).unwrap();
+    let f = resident.construction_fields.as_mut().unwrap();
+    f.position = [0., 0., 5.];
+    f.current = f.position;
+    f.previous = f.position;
+    resident.mecc_physical_cycle.as_mut().unwrap().view.velocity = [0., 0., -145.];
+    let mut p = Providers::new(&r);
+    let context = crate::mecc_impact::Context {
+        offline: true,
+        damage: MeccDamageContext {
+            globally_disabled: false,
+            cutscene: false,
+            shield_percent: 0.,
+            ambient_voice_timer: 0.,
+        },
+    };
+    let env = |number| crate::mecc_physical_cycle::Environment {
+        number,
+        generation: 1,
+        globals: &g,
+        catalog: &c,
+        global_seconds: 0.1,
+        areas: &[],
+        controls: [0; 2],
+        facing_pitch: 0.,
+        orientation: Some(crate::mecc_physical_cycle::Orientation {
+            controls: [0; 2],
+            control_factor: 1.,
+            skip_heading: false,
+            controlled_actor: true,
+        }),
+        actor_key: 1,
+        objects: &[],
+    };
+    s.begin_mecc_frame_history(id, 1).unwrap();
+    let mut services = p.borrowed();
+    services.impact = Some(context);
+    let result = s.advance_mecc_world_offline(id, env(1), Some(id), ground, services);
+    eprintln!(
+        "owned_impact_primary_entry result={:?} health={:?} contexts={} rng={}",
+        result.as_ref().map(|_| ()),
+        s.mecc_health(id).unwrap(),
+        p.contexts.active().len(),
+        p.random.0
+    );
+    let error = result
+        .err()
+        .expect("actual pain voice remains a required service");
+    assert!(error.contains("health committed; actual pain voice"));
+    assert!(s.mecc_health(id).unwrap().damage > 0.);
+    assert!(p.contexts.active().is_empty());
+    assert_eq!(p.random.0, 1); // Voice must precede its timer draw and hard-land preparation.
+    let health = s.mecc_health(id).unwrap().damage;
+    assert_eq!(s.actor_world_tick(id).unwrap().phase(), Phase::Failed);
+    assert!(s.begin_mecc_frame_history(id, 2).is_err());
+    assert_eq!(s.mecc_health(id).unwrap().damage, health);
+    assert_eq!(p.random.0, 1);
+    assert!(p.contexts.active().is_empty());
 }
