@@ -39,6 +39,27 @@ jobs:
           "$env:MSYS_LOCATION/ucrt64/bin" >> $env:GITHUB_PATH
           rustup toolchain install stable-x86_64-pc-windows-gnu --profile minimal --component rustfmt,clippy
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Record native compiler cache identity
+        id: native_cache
+        env:
+          MSYS_LOCATION: ${{ steps.msys.outputs.msys2-location }}
+        run: |
+          $taskPackages = & (Join-Path $env:MSYS_LOCATION 'usr/bin/pacman.exe') -Q
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $taskCompiler = (Get-Command gcc -CommandType Application).Source
+          $taskCompilerHash = (Get-FileHash -LiteralPath $taskCompiler -Algorithm SHA256).Hash
+          $taskIdentity = $taskCompilerHash + "`n" + ($taskPackages -join "`n")
+          $taskBytes = [Text.Encoding]::UTF8.GetBytes($taskIdentity)
+          $taskKey = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($taskBytes)).ToLowerInvariant()
+          "key=$taskKey" >> $env:GITHUB_OUTPUT
+      - name: Restore Rust dependency cache
+        uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
+        with:
+          key: ucrt-gnu-${{ steps.native_cache.outputs.key }}
+          workspaces: . -> target
+          cache-workspace-crates: 'false'
+          cache-bin: 'false'
+          save-if: ${{ github.ref == 'refs/heads/main' }}
       - name: Synthetic checks without installed game data
         run: |
           . ./tools/dev-env.ps1

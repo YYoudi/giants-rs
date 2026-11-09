@@ -73,6 +73,13 @@ registry/toolchain caches is fine; sharing build artifacts between concurrently
 modified worktrees can produce a test inventory from the wrong source. Reject
 that result and rebuild in an isolated target before recording a release receipt.
 
+Windows CI restores only Rust dependencies using a pinned cache action; workspace
+crates and installed Cargo binaries are excluded. Its key includes the Rust/Cargo
+environment plus the GNU compiler binary and MSYS package inventory. Only main
+saves the cache. Each runner retains its own target directory and rebuilds the
+project crates, tests and receipt; a cache hit is not validation of current source.
+Private `.local` research, installed game data and runtime captures are not cached.
+
 Package a draft with `python -m tools.package_preview --help`. Run the extracted
 bundle with `./Play.ps1 -DataRoot 'D:/Games/Giants'`. Fonts are loaded from Windows
 or GIANTS_INSPECTION_FONT, never bundled. Game data is read-only; user state goes

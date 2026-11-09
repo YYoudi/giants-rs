@@ -43,7 +43,48 @@ In particular, the historical jet/descent/contact captures do not close the Mecc
 input-to-landing integration prerequisite. No gallery assets or receipts change.
 
 
+## Kabuto following-reference velocity dependency — 9 November 2026
+
+The acquired shared velocity helper filters actor states, accepts an explicit
+vector or computes its source-scale/physical-factor/basis default, then stores
+target velocity before source-owner notification gating. Original-PC controls
+match 512 declared cases / 208,572 header/delta/service-prefix words, including
+277 applications and 23 notification requests. Full target ownership is retained
+in the message independently of source eligibility. The observer sees actual
+post-store state; owned transport failure retains completed velocity stores.
+
+Supplied headers, raw peer/mode context, separate explicit vector storage and a
+finite Double53 default/output profile remain boundaries. This does not execute
+network transport, bind target/physical ownership in Session, or complete the
+following Kabuto reference/actions. No gameplay, new screenshot or downloadable
+preview is admitted. Existing binary/notices/checksum/runtime receipts retain
+independent identities. Prototype PS2 correspondence remains unknown.
+
+Combined checkpoint `6a09994` passes 834 synthetic Rust tests (49 ignored), all
+sixteen silent Kabuto phase controls plus the separate cold-resource check,
+41 Python tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript
+checks. The rebuilt helper comparison repeats 512 / 208,572 after merging the
+new Delphi readiness/proxy and timed-context callback work. The limited source/
+history pattern review finds zero matches across 552 commits / 3,442 blobs. Existing executable and package
+receipts retain their own exact source and runtime identities.
+
 ## Delphi linked readiness and direct target proxy - 9 November 2026
+
+The complete acquired readiness body now composes required typed providers.
+Original-PC/Rust controls cover 256 contexts, 32 proxy updates and 16 retargets,
+matching 6,144 normalized state words and 2,048 provider-count checks. Readiness,
+retarget, construction, both flag writes and identity/shape retain source order;
+the original cost is not recomputed after retarget. A late-shape refusal retains
+prefix effects. Native allocation uses source resources; Rust composition-control
+constructor/storage callbacks, headers and the replacement relationship remain
+supplied. Actual owned target/proxy lifetime and caller/world integration stay
+open. No live feature, capture, new package or replacement of earlier notices/
+checksums follows; prototype PS2 attribution remains unknown.
+
+Combined source validation passes 832 synthetic Rust tests (48 ignored), five
+installed Delphi controls, 41 Python tests, Rustfmt, strict Clippy and roadmap/
+site/JavaScript checks. The current shared timed-effect work is preserved; these
+checks do not turn supplied readiness providers into ordinary gameplay services.
 
 Acquired CPU readiness, distinct target eligibility and target-proxy matrix
 controls match 2,048 original-PC/Rust contexts / 12,288 words. The comparison
@@ -59,7 +100,7 @@ milestone adds no ordinary Delphi gameplay, screenshot, asset or downloadable
 preview. Existing package, technical notices and checksum receipts retain their
 exact source identities. Prototype PS2 attribution remains unknown.
 
-Combined validation passes 831 synthetic Rust tests (47 ignored), five installed
+The earlier prefix checkpoint `28e73f9` passes 831 synthetic Rust tests (47 ignored), five installed
 Delphi resource/lifecycle controls, 41 Python tests, Rustfmt, strict Clippy and
 roadmap/site/JavaScript checks. These checks retain their supplied CPU boundaries
 and do not relabel an existing executable as containing this source milestone.
@@ -134,6 +175,23 @@ checks the nonzero shared ANM epoch and prevents late physical/retirement replay
 Actual ordinary preparation, physical/context/stock producers, world RNG/cadence
 and menu-first timed-film admission remain open. The last full 545-source census,
 zero complete scenes and unknown prototype PS2 correspondences are unchanged.
+
+Published [preview-2026.11.09.11](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.11)
+pins source `cf12894bb487da0395509eff112d35b6c40ef62a`, executable SHA256
+`0e5787a92134cb6ddd3a158b6b30aa902c1f34a03d0568b0720221c7018aff5a` and ZIP SHA256
+`65c28d0a1b445d60e2cc6a84f209291598ce63df1a4971cba238c7f8b48d633d`.
+That source passes 831 synthetic Rust tests (48 ignored), 41 Python tests,
+formatting, strict Clippy and the limited history-pattern audit (539 commits /
+3,373 blobs / zero findings). The originating context is consumed once; stale
+creation refuses without another draw. All 23 persistent queues, three silent
+source impact checks, five Delphi source checks and the newer Kabuto Session
+resource-phase check pass in the combined source. Both silent offscreen development
+endpoints, three active persistent cancellations and two source-terminal/re-entry
+cycles with voice/text cleanup pass on the exact executable. All three public
+assets were downloaded fresh; ten bundle members, notices, receipt and checksums
+were independently verified. The new timed owner remains a CPU integration
+dependency; these observations do not admit additional complete movies or manual
+controls. The full corpus inventory remains pinned to its earlier source.
 
 ## Timed effect program configuration — 9 November 2026
 

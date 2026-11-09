@@ -1,6 +1,6 @@
 //! Acquired linked-target readiness prefix and eligibility policy. These CPU
-//! services do not create the optional target proxy, retarget Kabuto, publish an
-//! owned target or establish primary/world scheduling.
+//! services require actual target/proxy providers. They do not produce a pending
+//! target, establish its lifetime or establish primary/world scheduling.
 #[derive(Clone, Copy, Debug)]
 pub struct State {
     pub fallback: [f32; 3],
@@ -113,9 +113,185 @@ pub fn eligible(
     )
 }
 
+/// Typed CPU composition state. Native pointer slots remain caller-owned typed
+/// identities. Publishing these fields to a live actor needs its actual caller.
+#[derive(Clone, Copy, Debug)]
+pub struct Linked<K, P> {
+    pub prefix: State,
+    pub target: K,
+    pub proxy: Option<P>,
+}
+/// Required services, in original call order. Construction must return a real
+/// acquired proxy; callers must retain provider effects and quarantine failures.
+/// No default success/no-op implementation is provided.
+pub trait Services<K, P> {
+    fn position(&mut self, target: K) -> Result<[f32; 3], String>;
+    fn candidate(&mut self, target: K) -> Result<Candidate, String>;
+    /// Actual acquired state1 payload relationship, not an arbitrary parent.
+    fn replacement(&mut self, target: K) -> Result<K, String>;
+    fn construct_proxy(&mut self) -> Result<P, String>;
+    fn proxy_flags(&mut self, proxy: P) -> Result<u32, String>;
+    fn write_proxy_flags(&mut self, proxy: P, flags: u32) -> Result<(), String>;
+    fn write_proxy_matrix(
+        &mut self,
+        proxy: P,
+        matrix: crate::procedural_aim::Matrix,
+    ) -> Result<(), String>;
+    fn shape(&mut self, target: K) -> Result<crate::delphi_target_proxy::Shape, String>;
+}
+#[derive(Clone, Copy, Debug)]
+pub struct Input {
+    pub owner_position: [f32; 3],
+    pub owner_second_column: [f32; 3],
+    pub reserve: f32,
+    pub parameters: Parameters,
+    pub half: f32,
+}
+/// Complete acquired helper over required providers. The original cost is NOT
+/// recomputed after retargeting. Readiness precedes eligibility; replacement,
+/// construction, flag writes, identity and final matrix retain that order.
+/// Prefix and external effects remain after a late refusal; replay is unsafe.
+pub fn complete<K: Copy, P: Copy>(
+    state: &mut Linked<K, P>,
+    input: Input,
+    services: &mut impl Services<K, P>,
+) -> Result<(), String> {
+    let position = services.position(state.target)?;
+    if !prepare(
+        &mut state.prefix,
+        input.owner_position,
+        position,
+        input.reserve,
+        input.parameters,
+    )? {
+        return Ok(());
+    }
+    let candidate = services.candidate(state.target)?;
+    let personality = candidate.personality;
+    let target_state = candidate.state;
+    if !eligible(candidate, input.owner_position, input.owner_second_column)?
+        || personality & 0x400000 == 0
+    {
+        return Ok(());
+    }
+    if target_state == 1 {
+        state.target = services.replacement(state.target)?;
+        state.prefix.fallback = services.position(state.target)?;
+    }
+    let proxy = match state.proxy {
+        Some(proxy) => proxy,
+        None => {
+            let proxy = services.construct_proxy()?;
+            state.proxy = Some(proxy);
+            proxy
+        }
+    };
+    let flags = services.proxy_flags(proxy)? & !0x40000000;
+    services.write_proxy_flags(proxy, flags)?;
+    // Read current flags again: do not overwrite effects of an actual provider.
+    let flags = services.proxy_flags(proxy)? | 0x10000;
+    services.write_proxy_flags(proxy, flags)?;
+    services.write_proxy_matrix(proxy, crate::procedural_aim::Matrix::identity())?;
+    let shape = services.shape(state.target)?;
+    let matrix = crate::delphi_target_proxy::matrix(shape, 2., input.half)?;
+    services.write_proxy_matrix(proxy, matrix)?;
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn late_shape_refusal_retains_ready_retarget_birth_flags_and_identity() {
+        struct World {
+            flags: u32,
+            matrix: crate::procedural_aim::Matrix,
+        }
+        impl Services<u32, u32> for World {
+            fn position(&mut self, key: u32) -> Result<[f32; 3], String> {
+                Ok(if key == 1 { [0., -1., 0.] } else { [1000.; 3] })
+            }
+            fn candidate(&mut self, _: u32) -> Result<Candidate, String> {
+                Ok(Candidate {
+                    state: 1,
+                    class: 11,
+                    flags: 0,
+                    personality: 0x400000,
+                    limit: 100.,
+                    accumulated: 0.,
+                    exclusion: 0,
+                    shares_current_player_context: false,
+                    position: [0., -1., 0.],
+                })
+            }
+            fn replacement(&mut self, _: u32) -> Result<u32, String> {
+                Ok(2)
+            }
+            fn construct_proxy(&mut self) -> Result<u32, String> {
+                self.flags = 0x40000010;
+                Ok(7)
+            }
+            fn proxy_flags(&mut self, _: u32) -> Result<u32, String> {
+                Ok(self.flags)
+            }
+            fn write_proxy_flags(&mut self, _: u32, flags: u32) -> Result<(), String> {
+                self.flags = flags;
+                Ok(())
+            }
+            fn write_proxy_matrix(
+                &mut self,
+                _: u32,
+                matrix: crate::procedural_aim::Matrix,
+            ) -> Result<(), String> {
+                self.matrix = matrix;
+                Ok(())
+            }
+            fn shape(&mut self, _: u32) -> Result<crate::delphi_target_proxy::Shape, String> {
+                Err("required current shape unavailable".into())
+            }
+        }
+        let mut world = World {
+            flags: 0,
+            matrix: crate::procedural_aim::Matrix {
+                flags: 99,
+                values: [7.; 16],
+            },
+        };
+        let mut state = Linked {
+            prefix: State {
+                fallback: [0.; 3],
+                readiness: 0,
+            },
+            target: 1,
+            proxy: None,
+        };
+        let result = complete(
+            &mut state,
+            Input {
+                owner_position: [0.; 3],
+                owner_second_column: [0., 1., 0.],
+                reserve: 1.,
+                parameters: Parameters {
+                    fallback_rate: 1.,
+                    exponent: 0.25,
+                },
+                half: 0.5,
+            },
+            &mut world,
+        );
+        assert!(result.is_err());
+        assert_eq!(state.prefix.readiness, 1);
+        assert_eq!(state.target, 2);
+        assert_eq!(state.prefix.fallback, [1000.; 3]);
+        assert_eq!(state.proxy, Some(7));
+        assert_eq!(world.flags, 0x10010);
+        assert_eq!(world.matrix.flags, 0);
+        assert_eq!(
+            world.matrix.values,
+            crate::procedural_aim::Matrix::identity().values
+        );
+    }
 
     #[test]
     fn readiness_keeps_both_precision_boundaries_and_incoming_word() {
