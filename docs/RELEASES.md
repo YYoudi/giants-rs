@@ -1,5 +1,29 @@
 # Preview releases and milestone integration
 
+## Main integration of persistent wounded Mecc primary — 9 November 2026
+
+The reviewed Mecc follow-up `0d08196e2dbe459fe0a94db67ecbecfc1c2f43be` is combined
+with current Delphi support and Kabuto retained-target services. Mecc owns its
+prepared smoke context across frames, validates current display/source/frame
+identity and retains completed preparation after a later failed service. The
+ordinary App still needs actual mission-gate and pre-world subjective owners
+before binding impact, voice and display providers. Active smoke rendering,
+full-world scheduling and complete normal controls remain open.
+
+Integration source `e76bf527959742b723253179d2afba582bcf7204` passes 856 workspace
+Rust tests (55 ignored), strict workspace/all-target Clippy, 43 Python tests and
+twelve installed Mecc controls. Its freshly generated normalized receipt repeats
+the 384-frame / 124,800-word original-PC agreement, including supplied wounds,
+display snapshots, floor, clocks and command sequence. This is not live injury,
+device playback or visual-fidelity proof. No original input or receipt is published.
+
+The subsequent combined runtime at `4b3b019735d0ad3f59bb124bfc4dfa28fcfd4638`
+preserves Kabuto's newly acquired post-query transition. It passes 857 workspace
+Rust tests (55 ignored), strict Clippy, Rustfmt and sixteen installed Kabuto
+controls. No Mecc runtime source changed in that merge. The current published
+download remains `.13`, with its existing source, notices and checksum identities;
+source-only progress does not relabel that executable or its capabilities.
+
 ## Kabuto post-query target transition — 9 November 2026
 
 The acquired post-query transition preserves raw/filtered/retained identities,
