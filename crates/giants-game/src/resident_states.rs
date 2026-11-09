@@ -6867,6 +6867,15 @@ impl Session {
         metadata.matrix = matrix;
         metadata.fade = fade;
         metadata.initial_opacity = if life[1] > 0. { 1. } else { 0. };
+        metadata.visual = Some(crate::effect_visual::Visual::new(
+            crate::effect_visual::Configuration {
+                lifetime: life[0],
+                fade_in: life[1],
+                fade_out_start: life[2],
+                start_size: sizes[0],
+                end_size: sizes[1],
+            },
+        )?);
         actor.affine_cache = Some(OwnedAffine {
             value: crate::actor_affine::Cache {
                 flags: matrix.flags,
@@ -6889,6 +6898,147 @@ impl Session {
             .ok_or("positional impact ownership absent")?
             .complete = true;
         Ok(())
+    }
+    /// Acquired unparented, nonphysical class867 callback with its actual
+    /// descriptor clocks/references and an externally owned shared ANM epoch.
+    /// `seconds` is the already-produced object-local time, not wall time.
+    /// Expiry marks the actor after required cue stop; retirement is separate.
+    pub fn advance_positional_impact(
+        &mut self,
+        id: Id,
+        seconds: f32,
+        stamp: &mut crate::animation_epoch::Stamp,
+        stop: &mut impl crate::positional_impact::Stop,
+    ) -> Result<crate::positional_impact::Step, String> {
+        use crate::positional_impact::Step;
+        if !seconds.is_finite() || seconds < 0. {
+            return Err("positional impact requires finite nonnegative object time".into());
+        }
+        let actor = self.get(id).ok_or("positional impact absent or foreign")?;
+        let metadata = actor
+            .positional_impact
+            .as_ref()
+            .ok_or("positional impact ownership absent")?;
+        if !metadata.complete || metadata.failure.is_some() {
+            return Err("positional impact birth unfinished or callback quarantined".into());
+        }
+        let mut fields = actor.construction_fields.as_ref().unwrap().clone();
+        if fields.object_flags & 0xc000 != 0 {
+            return Ok(Step::Inactive);
+        }
+        let mut channels = actor.channels.ok_or("positional impact channels absent")?;
+        let specification = self.specification(id).unwrap().clone();
+        if actor.class != 867
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+            || fields.action != 0
+            || !matches!(fields.control_flags, 0x4002e | 0x4000e)
+            || specification
+                .metadata
+                .events
+                .iter()
+                .any(|t| !t.events.is_empty())
+            || channels.iter().any(|c| c[4] != 0 || c[5] != 0)
+        {
+            return Err(
+                "positional impact callback outside acquired unparented timed profile".into(),
+            );
+        }
+        let data = actor.seed.storage.data().unwrap();
+        let word = |at| u32::from_le_bytes(data[at..at + 4].try_into().unwrap());
+        let cue = word(0x108);
+        let rates = [0x30, 0x34, 0x38].map(|at| f32::from_bits(word(at)));
+        let mut visual = metadata
+            .visual
+            .clone()
+            .ok_or("impact lifetime state absent")?;
+        let next = visual.advance(seconds).map_err(str::to_owned)?;
+        let matrix = if next == crate::effect_visual::Step::VisibleState {
+            fields.scale = visual.size;
+            fields.angles = crate::effect_orientation::advance(fields.angles, rates, seconds)?;
+            Some(crate::effect_orientation::matrix(
+                fields.position,
+                fields.angles,
+                fields.scale,
+            )?)
+        } else {
+            None
+        };
+        fields.object_flags |= 0x40;
+        if next == crate::effect_visual::Step::FirstFrame {
+            fields.control_flags &= !0x20;
+            fields.object_flags &= !0x40000000;
+        }
+        // Publish age before the expiry services. Completed writes survive a
+        // late stop failure, and the failure latch forbids repeating that stop.
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        actor.seed.storage.data_mut().unwrap()[8..12].copy_from_slice(&visual.age.to_le_bytes());
+        let metadata = actor.positional_impact.as_mut().unwrap();
+        if next == crate::effect_visual::Step::VisibleState {
+            metadata.initial_opacity = visual.transparency;
+        }
+        metadata.visual = Some(visual);
+        if let Some(matrix) = matrix {
+            metadata.matrix = matrix;
+            actor.affine_cache = Some(OwnedAffine {
+                value: crate::actor_affine::Cache {
+                    flags: matrix.flags,
+                    matrix: matrix.values,
+                },
+                pose: affine_pose_words(&fields),
+                external_orientation: true,
+            });
+        }
+        actor.construction_fields = Some(fields);
+        let result = (|| -> Result<Step, String> {
+            if next == crate::effect_visual::Step::Expired {
+                if cue != 0 {
+                    stop.stop(self, id, cue)?;
+                }
+                self.residents
+                    .get_mut(&id.serial)
+                    .ok_or("positional impact removed during cue stop")?
+                    .construction_fields
+                    .as_mut()
+                    .unwrap()
+                    .object_flags |= 0x8000;
+                return Ok(Step::Marked);
+            }
+            let mut durations = vec![None; 256];
+            for (&slot, descriptor) in &specification.animations {
+                durations[usize::from(slot)] = Some(descriptor.template.duration);
+            }
+            let tick = crate::animation_channels::advance(
+                &mut channels,
+                &durations,
+                [],
+                seconds,
+                crate::arithmetic::Precision::Double53,
+            )?;
+            if tick.missing != 0 {
+                return Err("positional impact ANM descriptor absent".into());
+            }
+            let actor = self.residents.get_mut(&id.serial).unwrap();
+            actor.channels = Some(channels);
+            actor.construction_fields.as_mut().unwrap().channels = channels;
+            if tick.processed != 0 {
+                actor.mecc_animation_stamp = stamp.advance();
+                self.specifications
+                    .get_mut(&id.serial)
+                    .unwrap()
+                    .0
+                    .update_current(&channels, actor.mecc_animation_stamp)?;
+            }
+            Ok(if next == crate::effect_visual::Step::FirstFrame {
+                Step::FirstFrame
+            } else {
+                Step::Updated
+            })
+        })();
+        if let Err(ref error) = result {
+            self.fail_positional_impact(id, error);
+        }
+        result
     }
     pub(crate) fn fail_positional_impact(&mut self, id: Id, error: &str) {
         if id.ticket == self.ticket
