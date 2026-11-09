@@ -56,6 +56,13 @@ that comparison. These are common-runtime regressions, not live Delphi control.
 No playable Delphi download is claimed; published previews retain their own
 source receipts. No original assets or private research enter the draft.
 
+The final source checkpoint `fdcbaee8d476397fc94a0a9bde2bd0f9d79712eb`
+retains the newer owned timed-impact callback and passes 808 synthetic Rust tests
+(34 ignored), 40 Python tests, Rustfmt, strict Clippy and site/JavaScript checks.
+Its source pattern audit reports zero findings across 419 commits / 2,809 blobs.
+The executable, runtime controls and private draft above remain bound to
+`ca4bf640`; this later source validation does not change those receipts.
+
 ## Owned timed-impact callback and deferred mark - 9 November 2026
 
 The actual owned class-867 effect now advances its age/size/fades, angles and
