@@ -367,6 +367,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented CPU kernel: Kabuto's acquired contact callback distinguishes the
+  handled result from the peer-support write. Null/class-669 peers bypass numeric
+  reads; strict height/scaled-radius thresholds and independent exclusion masks
+  retain their order. A 512-context original-PC control matches 1,024 decision
+  words, including 217 peer-support writes. The shared prepared-geometry path
+  exposes object identity and current contact state to an explicit class handler;
+  its legacy callers retain their unhandled-event default. A synthetic composed
+  contact checks support-before-callback and retained peer effects on late terrain
+  failure. Source scene/peer binding, actual mutation publication, full terrain/
+  affine classification, new forces and Session scheduling remain prerequisites.
+  This kernel does not advance the owned history or enable a second frame.
 - Implemented: factory-bound input/orientation and force-to-position prefix now
   owns its model/velocity/history fields and reuses common primary history,
   actor orientation, object time, integration and position limiting. A 384-context

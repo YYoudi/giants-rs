@@ -40,6 +40,34 @@ endpoint retains its earlier step-441 refusal; no later runtime trajectory,
 new capture or visual fidelity is claimed. Existing preview receipts stay bound
 to their original executables and source commits.
 
+## Kabuto contact policy and shared callback boundary — 9 November 2026
+
+The acquired finite contact kernel now returns separate handled and peer-support
+write decisions. A 512-context original-PC control matches 1,024 words, including
+217 peer-support writes. The shared prepared-geometry collision composition
+exposes each peer and the current narrow-phase state to its class handler while
+preserving the existing Mecc/Delphi entry points. Tests cover strict thresholds,
+null/class bypasses, independent write/handled results, support-before-callback
+and retained caller effects when a later terrain provider fails.
+
+Validation: 791 synthetic Rust tests pass (30 ignored), all eight silent Kabuto
+installed-data controls pass, plus 40 Python tests, Rustfmt, Clippy with warnings
+denied and generated roadmap/site/JavaScript checks.
+
+This is a CPU dependency milestone. It does not connect Kabuto to a live scene,
+apply peer writes to a Session, complete terrain/affine classification or permit
+another owned primary frame. No runtime, screenshot or package receipt is
+expanded. No dependency, bundled data or preview package is added; existing
+notices/checksums retain their package identities. Prototype PS2 attribution
+remains unknown. Full-controller reconstruction continues in BACKLOG.md.
+
+Combined checkpoint `8f62c2e` preserves the newer Delphi ordinary-view and initial
+mission-affine work. It passes 795 Rust tests (30 ignored), all eight Kabuto
+installed-data controls, 40 Python tests, Rustfmt, strict Clippy and site/JavaScript
+checks. Its source audit covers 371 commits / 2,621 blobs with zero findings.
+Other lanes' executable/package/runtime receipts retain their own exact source
+identities. These source checks do not certify playable Kabuto.
+
 ## Source-ordered initial mission affine — 9 November 2026
 
 The call following the acquired placement header is the existing affine writer,

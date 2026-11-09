@@ -86,11 +86,24 @@ fn closest(t: [[f32; 3]; 3]) -> [f32; 3] {
     std::array::from_fn(|i| ((a[i] + ab[i] * v) + ac[i] * w) as f32)
 }
 pub fn resolve(
-    mut state: State,
+    state: State,
     object: u32,
     object_response_flags: u32,
     triangles: &[Triangle],
     mut collision_event: impl FnMut() -> Result<bool, &'static str>,
+) -> Result<Output, &'static str> {
+    resolve_with_event(state, object, object_response_flags, triangles, |_| {
+        collision_event()
+    })
+}
+/// Class-specific collision callbacks observe the current narrow-phase state.
+/// The legacy entry above retains its supplied no-argument service contract.
+pub fn resolve_with_event(
+    mut state: State,
+    object: u32,
+    object_response_flags: u32,
+    triangles: &[Triangle],
+    mut collision_event: impl FnMut(&State) -> Result<bool, &'static str>,
 ) -> Result<Output, &'static str> {
     if object == 0
         || state.radius <= 0.
@@ -201,7 +214,7 @@ pub fn resolve(
             (f64::from(q[i]) * f64::from(radii[i]) + f64::from(center[i])) as f32
         });
         let shift: [f32; 3] = std::array::from_fn(|i| surface[i] - state.current[i]);
-        if collision_event()? {
+        if collision_event(&out.state)? {
             out.state.physics_flags &= !0x20;
             out.state.support = 0;
         } else if dot(
