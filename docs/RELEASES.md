@@ -15,8 +15,29 @@ agree with Rust; six distinguish registration before wrapper flag changes. This
 also preserves the class-field producer added by the Delphi lane. These controls
 establish neither terrain/physical ownership nor native stock, clock/RNG/world
 scheduling or main timed-film admission. Prototype PS2 attributions remain unknown.
-Complete scene fidelity remains unverified; the published download snapshot keeps
-its existing identity until a new package is independently verified.
+Published [preview-2026.11.10.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.2)
+pins source `3a4d23716b52105abdc18051cfde6b74f9a166f9`, executable SHA256
+`c10dad6b3de9b5fef823058f7a8477f1668ab1d1b0458b014a2876f5329f1cd4` and ZIP SHA256
+`e5a2e3684f8d329a11ad6b7fb4f35f8c070e11125946bd169cf9af2099143255`.
+The exact tree passes 866 Rust tests (58 ignored), retained timed controls,
+three positional-impact controls, strict Clippy/Rustfmt and 43 Python tests.
+The 23-source persistent regression releases all fifty objects across re-entry.
+Receipt-bound silent checks pass both development endpoints, three active
+persistent cancellations and two source-terminal/re-entry voice/text cycles.
+A muted manual first-opening session reaches natural completion and partial
+Mecc entry, returns to the menu, re-enters, skips early by double-click and returns
+again. Both tickets release all tracked mission entities/assets; the game quits.
+This is one local profile, not native gameplay or full visual/audio fidelity.
+The window caption can retain the preceding cinematic label after transitions.
+
+The fresh 545-source /16-world CPU inventory has zero preparation errors, with
+59 reported-gap sources, 56 general-FX refusals and 282 strict-profile reviews.
+These diagnostics are unchanged; the reviewed public aggregate now pins this
+build. They are not an inventory of every missing rendered element. Technical
+notice/import checks and all three freshly downloaded public assets pass;
+the ten-member package, internal/external hashes and immutable tag agree.
+Later main contributions remain source-only relative to this frozen preview.
+Complete scene fidelity remains unverified.
 
 ## Kabuto held-reference handoff — 10 November 2026
 

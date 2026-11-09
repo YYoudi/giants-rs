@@ -1465,6 +1465,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   native pool/stock retirement and occupancy, dispatcher/model-rate/clock/RNG and
   main-film rendering/admission. Caller Session selection remains explicit for
   positional requests. No additional complete film is certified by this step.
+  Published preview-2026.11.10.2 pins this bounded owner at source `3a4d237`;
+  full receipt/checksums are in RELEASES.md and public-preview.json. Exact-build
+  checks pass 866 Rust tests (58 ignored), retained timed/impact controls,
+  23 persistent sources /50 released objects, silent cancellation/re-entry and
+  a muted manual first-opening natural end followed by second-entry double-click
+  skip and menu return. Partial Mecc entry is observed; full gameplay is not.
+  A fresh 545-source /16-world census retains 59 gaps, 56 general-FX refusals,
+  282 reviews and zero certified films. Aggregate diagnostics do not identify
+  every missing visual element. Actual virtual Flick supports must retain their
+  own identity domain; do not consume ordinary world slots to fabricate parents.
 
 - Attached timed actors now transfer into the existing Session registry: actual
   fields, inline payload, canonical channels and reference cache are borrowed by
