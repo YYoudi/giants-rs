@@ -37,6 +37,39 @@ Those are common-runtime regressions, not live Delphi controls. Existing publish
 previews retain their own receipts; this CPU dependency does not claim another
 playable Delphi download or distribute original data.
 
+## Kabuto owned additional-contact traversal — 9 November 2026
+
+The additional-contact routine now preserves prepared-scene filtering, probe
+selection, cached/uncached transforms, box/radial queries and ordered request/
+reference effects. Two 1,024-invocation original-PC controls match 49,317 trace/state
+words, exercising 924 contacts, 83 requests and 551 reference writes. The fixed
+callback's normal zero return makes the later motion-response blocks unreachable;
+positive controls confirm no entry there. The port preserves that PC behavior.
+
+The Factory-bound Session phase consumes its actual classified history, global
+scalar, affine and preceding reference storage. A separate 1,024-case stage-boundary
+control matches 26,543 original-helper words. Earlier PC cold/history proofs keep
+their scopes. Real action-provider mutations are reread; reentry, stale/foreign
+owners and wrong numbers refuse. Late errors retain effects and quarantine replay,
+and cancellation inside an action cannot resurrect an owner. The acquired raw
+historical reference read does not certify a current animation pose.
+
+Prepared membership/pose/reference inputs, a synthetic supplied trig table,
+default transform callbacks and action providers remain boundaries. Dynamic scene
+production and actual action execution, current forces/gravity and the primary
+remainder still block another live frame. All initializer/history prerequisites
+remain set. No dependency, bundled asset or playable preview is added; existing
+notice/checksum/package/runtime receipts retain their exact source identities.
+Prototype PS2 attribution remains unknown.
+
+Validation of the combined Mecc/Delphi/Kabuto source: 813 synthetic Rust tests
+pass (37 ignored), all twelve silent Kabuto phase checks and the separate cold
+resource check pass, plus 40 Python tests, Rustfmt, strict Clippy and generated
+roadmap/site/JavaScript checks. Both prepared-scene comparisons and the 1,024-case
+Session boundary comparison pass again against the final runtime source. The
+source/history pattern audit reports zero findings across 443 commits / 2,909
+blobs at the preceding merge checkpoint; this is a limited pattern check.
+
 ## Effect/audio RNG ownership acquisition - 9 November 2026
 
 The acquired debug executable and audio DLL use separate module-local CRT TLS

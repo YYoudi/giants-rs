@@ -412,6 +412,33 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented: the acquired additional object-contact traversal now filters the
+  prepared scene, selects height/radius or historical-reference probes, runs
+  cached/uncached transforms and box/radial queries, then executes the actual
+  callback's request/reference policy. Two 1,024-invocation original-PC controls
+  match 49,317 trace/state words, including dense caches and detailed query
+  coordinates/distances. They exercise 924 contacts, 83 requests and 551 writes.
+  The fixed PC callback always returns zero; its normal returns make the later
+  correction blocks unreachable. Positive native controls observe no entry there
+  and unchanged owner headers, despite arbitrary action-provider return values.
+  Do not add an invented motion response or replace the pass with an empty-list
+  return. The native result remains false even when peer effects occurred.
+- Implemented: the Factory/Session consumer requires its exact classified history,
+  specification and physical storage. It reads actual affine and preceding raw
+  reference storage, including constructor-cleared slots, plus Factory globals.
+  Another 1,024 source-backed controls match 26,543 original-helper words at an
+  explicitly supplied classified boundary; prior PC cold/history phases are not
+  rerun in that control. The earlier motion/classification proof stays separate.
+  An actual original cold construction independently confirms eleven cleared
+  reference buffers. This acquired historical read does not certify current ANM.
+  Actions see the real Session; their mutations are reread before later peers.
+  Reentry, foreign/stale factories and wrong numbers refuse. Late errors retain
+  effects and quarantine replay; source-owner cancellation does not resurrect it.
+  Complete/entered tokens retain all history and initializer prerequisites.
+  Prepared list/pose/reference inputs, supplied trig/default transform context,
+  action execution and dynamic membership remain boundaries, not live-world
+  integration. Next acquire current control forces/gravity and the primary
+  remainder while connecting the actual scene/action producers.
 - Implemented CPU dependency: the callback used by the subsequent object-contact
   traversal retains the original authority guard, gated service-11 request and
   post-service peer-flag reread before its peer-reference store. Its native return
@@ -420,9 +447,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   59 requests and 157 writes. The original authority helpers run; the action
   dispatcher is an explicit provider that mutates flags/reference to check order.
   State-1 scaling consumes an opaque state scalar; other states bypass it. No
-  gameplay meaning, damage execution, feeding rule or Session/world admission is
-  inferred. The full additional geometry traversal, its indirect transform callback and
-  geometry/response dependencies still need controls and a real owned consumer.
+  gameplay meaning, damage execution, feeding rule or live-world admission is
+  inferred. The additional traversal now has the separate owned consumer/control
+  described above; actual action and scene production remain prerequisites.
   Static inspection shows that the call following classification is this extra
   object-contact pass, not merely spatial publication. Keep the entered history
   until it, world publication, current forces and the primary remainder complete.
