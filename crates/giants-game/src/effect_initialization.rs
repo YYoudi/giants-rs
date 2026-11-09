@@ -37,6 +37,7 @@ impl Selection {
 }
 #[derive(Clone, Copy, Debug)]
 pub struct Interval {
+    /// Source record offset; a fixed two-range command yields two ordered entries.
     pub offset: usize,
     pub opcode: u8,
     pub low: f32,
@@ -91,7 +92,15 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         == [
             0x24, 6, 0x1b, 0x17, 0x21, 0x28, 0x28, 0x83, 0x49, 7, 0x4a, 2,
         ];
-    if !old && !ranged && !flat_blocks(&ops) && !sound_block && !positional_sound && !contact {
+    let positional_impact = ops.as_slice() == [3, 6, 0x83, 9, 4, 0x32, 7, 2];
+    if !old
+        && !ranged
+        && !flat_blocks(&ops)
+        && !sound_block
+        && !positional_sound
+        && !contact
+        && !positional_impact
+    {
         return Err("effect initial skip pass outside acquired complete profile".into());
     }
     for record in program
@@ -111,14 +120,18 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
     }
     let mut intervals = vec![];
     for record in &program.records {
-        if !matches!(record.opcode, 0x28 | 0x5c) {
+        if !matches!(record.opcode, 9 | 0x28 | 0x5c) {
             continue;
         }
-        let at = record.bytes[1..]
-            .iter()
-            .position(|&b| b == 0)
-            .ok_or("effect interval name unterminated")?
-            + 2;
+        let at = if record.opcode == 9 {
+            1
+        } else {
+            record.bytes[1..]
+                .iter()
+                .position(|&b| b == 0)
+                .ok_or("effect interval name unterminated")?
+                + 2
+        };
         let word = |offset| -> Result<f32, String> {
             Ok(f32::from_le_bytes(
                 record
@@ -129,18 +142,22 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
                     .unwrap(),
             ))
         };
-        let low = word(at)?;
-        let high = word(at + 4)?;
-        if ![low, high].into_iter().all(f32::is_finite) {
-            return Err("effect initial interval is not finite".into());
+        // The fixed-layout command consumes both ranges before its absent-
+        // object gate. Preserve their order within the same source record.
+        for at in (0..if record.opcode == 9 { 2 } else { 1 }).map(|i| at + i * 8) {
+            let low = word(at)?;
+            let high = word(at + 4)?;
+            if ![low, high].into_iter().all(f32::is_finite) {
+                return Err("effect initial interval is not finite".into());
+            }
+            intervals.push(Interval {
+                offset: record.offset,
+                opcode: record.opcode,
+                low,
+                high,
+                value: 0.,
+            });
         }
-        intervals.push(Interval {
-            offset: record.offset,
-            opcode: record.opcode,
-            low,
-            high,
-            value: 0.,
-        });
     }
     let mut staged = *random;
     let mut values = intervals.iter_mut();
@@ -151,15 +168,18 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
             staged.next_15();
             continue;
         }
-        if !matches!(record.opcode, 0x28 | 0x5c) {
+        if !matches!(record.opcode, 9 | 0x28 | 0x5c) {
             continue;
         }
-        let i = values.next().unwrap();
-        i.value =
-            (f64::from(staged.next_15()) * (f64::from(i.high) - f64::from(i.low)) * (1. / 32768.)
+        for _ in 0..if record.opcode == 9 { 2 } else { 1 } {
+            let i = values.next().unwrap();
+            i.value = (f64::from(staged.next_15())
+                * (f64::from(i.high) - f64::from(i.low))
+                * (1. / 32768.)
                 + f64::from(i.low)) as f32;
-        if !i.value.is_finite() {
-            return Err("effect initial interval result is not finite".into());
+            if !i.value.is_finite() {
+                return Err("effect initial interval result is not finite".into());
+            }
         }
     }
     *random = staged;
@@ -169,6 +189,44 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn positional_impact_ranges_follow_sound_draw_and_reject_late_invalid_operands() {
+        let mut bytes = vec![3];
+        bytes.extend(42u32.to_le_bytes());
+        bytes.extend([6, 0x83]);
+        for value in [3u32, 7] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.push(9);
+        for value in [0f32, 32768., 0., 32768.] {
+            bytes.extend(value.to_le_bytes());
+        }
+        for op in [4, 0x32] {
+            bytes.push(op);
+            bytes.extend([0; 12]);
+        }
+        bytes.extend([7, 2]);
+        let mut program = giants_formats::effect_program::parse(&bytes).unwrap();
+        let mut random = Random(1);
+        let intervals = skip(&program, &mut random).unwrap();
+        assert_eq!(intervals.len(), 2);
+        assert_eq!(intervals[0].value, 18467.);
+        assert_eq!(intervals[1].value, 6334.);
+        let committed = random.0;
+        let range = program.records.iter_mut().find(|r| r.opcode == 9).unwrap();
+        range.bytes[13..17].copy_from_slice(&f32::NAN.to_le_bytes());
+        assert!(skip(&program, &mut random).is_err());
+        assert_eq!(random.0, committed);
+        program
+            .records
+            .iter_mut()
+            .find(|r| r.opcode == 9)
+            .unwrap()
+            .bytes
+            .truncate(13);
+        assert!(skip(&program, &mut random).is_err());
+        assert_eq!(random.0, committed);
+    }
     #[test]
     fn contact_skip_consumes_both_intervals_then_integer_selection_atomically() {
         let mut bytes = vec![0x24];
