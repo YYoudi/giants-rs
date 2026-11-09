@@ -718,6 +718,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   free head unchanged and never calls its object allocator. This observation
   excludes later VM callbacks, source FX and mission population. Do not equate
   Flick actor counts with ordinary-world occupancy or invent a per-film quota.
+  Ordinary mission placement header follow-up: the shared owned declaration
+  constructor now applies the acquired command3/4 object/status marks to its
+  generic state0/state23 mission profiles after successful construction. World
+  declarations and character-specific cold startup keep their existing routes;
+  the already-acquired mission herd-marker path reuses the same header helper.
+  A native 512-case control checks all 395,264 object bytes across the bounded
+  template-copy/flag-store fragment, stopping before the initial object update.
+  Rust agrees on all 512 header cases. The real source preparation path in four
+  cohort worlds constructs and marks 32 mission actors and releases all tracked
+  residents; its 40 existing declaration refusals remain explicit. Synthetic
+  ownership controls reject failed/duplicate declarations without publishing or
+  allocating another identity. This corrects owned header inputs, not physical
+  stock accounting, complete mission admission or the omitted initial callbacks.
   The physical capacity/recycle boundary is acquired; real mission occupancy,
   shared admission, error handling and full world scheduling remain open. No
   shared Rust capacity policy or new gameplay admission follows from CPU proof.

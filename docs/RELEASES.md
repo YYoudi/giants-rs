@@ -31,6 +31,52 @@ runtime endpoint; these CPU controls do not certify a later movement step,
 rendered effect, new capture, playable readiness or visual fidelity. Prior
 preview/capture identities retain their original receipts and limitations.
 
+## Ordinary mission placement header — 9 November 2026
+
+The common owned declaration constructor now preserves the original mission
+placement marks for its acquired state0/state23 profiles. The marks are applied
+after successful construction and before later updates; world declarations retain
+their own route. The existing specialized mission herd-marker path shares the
+same header operation. Other character cold-start ordering remains separate.
+
+An identity-bound original-PC control covers 512 template-copy/flag-store cases
+and 395,264 object bytes before the initial update callback. Rust matches all 512
+header cases. The actual source preparation path constructs 32 marked mission
+actors across the four bounded-cohort worlds, then releases its tracked residents.
+Forty existing declaration refusals remain visible. Synthetic ownership checks
+cover world/mission scope, invalid construction, duplicate keys and retained
+source configuration/channels. Prototype PS2 attribution remains unknown.
+
+This corrects header inputs consumed by the shared runtime and entry contribution
+service. It does not implement physical stock accounting, run the omitted initial
+callbacks, reconstruct complete world occupancy or admit gameplay. The 545-source
+inventory, 59 reported gaps and zero fully verified cinematic scenes are unchanged.
+
+Source `2a9037590bfac07cf906bae866f7d6a95c731af5` passes 775 synthetic Rust tests
+(29 ignored), 40 Python tests, Rustfmt, Clippy with warnings denied, site export
+and JavaScript syntax checks. Source/history review finds no issues across 337
+reachable commits / 2,497 blobs. The combined-source header comparison and
+four-world source construction/release control pass again.
+
+Its exact GNU executable SHA256 is
+`de683ea64e27ff76fecec8d57ca5c13d1f2caa80c0a9a97b98268645a133195b`.
+CLI startup and both silent offscreen development lifecycle endpoints pass.
+Rstory1 mission-index-2 controls separately pass three active-persistent-object
+service cancellations and two source-terminal/re-entry cycles, including silent
+voice/text ownership and cleanup. No new interactive controls or audible/native
+fidelity are claimed. Receipt-bound notice collection, the unchanged reviewed PE
+import set and all ten ZIP members/checksums are verified. Windows preview
+`preview-2026.11.09.1` has ZIP SHA256
+`7dc78fe22f65e5475d96c82d014e9c1097fdb87fdc9158526b3e86536c1fec15`.
+The published ZIP and both adjacent checksum files were independently downloaded;
+all ten members and their manifest/checksum entries agree.
+
+Combined checkpoint `f9df92d` preserves the newer owned Kabuto target-decision
+work and passes 777 Rust tests (29 ignored), 40 Python tests, Rustfmt, Clippy,
+site/JavaScript checks and the 512-case / four-world header control. Source/history
+review reports no findings across 343 commits / 2,518 blobs. This source checkpoint
+does not relabel the exact executable, runtime or ZIP receipts above.
+
 ## Kabuto owned target decision — 9 November 2026
 
 The factory-bound decision now reads the actual owner state threshold and target,
