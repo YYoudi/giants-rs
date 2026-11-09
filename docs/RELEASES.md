@@ -39,6 +39,54 @@ PS2 correspondence remains unknown. The full 545-source scope and zero certified
 complete scenes remain unchanged; other mission commands and loading services
 remain open.
 
+## Owned Delphi ordinary view composition - 9 November 2026
+
+The local class-3 mode-zero view now selects acquired external base/scaled
+profiles and executes lens, source-space projection and direct-angle pose in
+source order. Original dispatcher-branch controls match 384 invocations /
+14,976 words across three persistent sequences. A separate 384-call control
+also executes original view/cache math and matches 23,424 words. Each next Rust
+projection uses its own previous Rust view cache; only initial depth is supplied.
+Both original virtual device calls are skipped; shared-world view scheduling and
+rendered pixels remain unverified. Walls are a declared no-hit provider; final
+view arguments are also captured.
+No table or executable is bundled. The owned four-owner lifecycle adds 64
+composed views and verifies refusal before state/provider consumption. Late
+failures retain completed lens/projection effects and quarantine replay.
+
+Actual input/viewport/depth producers, initial common view and Bevy coordinate /
+projection adapter, complete dispatch, full-primary/auxiliary scheduling,
+renderer/mission admission, water/turbo and combat remain pending. These CPU/API
+controls do not add playable Delphi controls or visual-fidelity claims. Earlier
+executable/package receipts below retain their original source identities.
+
+Validation: 787 synthetic Rust tests pass (29 ignored), together with 40 Python
+tests, Rustfmt, Clippy with warnings denied and generated roadmap/site/JavaScript
+checks. The enriched silent installed-resource Delphi lifecycle also passes,
+including selected-kind and alternate-profile refusal without lens/provider
+consumption. Exact build/package and common runtime checks are recorded separately.
+
+The exact `56f0687656b2b40fefa84f3ec76c5debd45df57e` GNU executable passes
+both silent common development lifecycle endpoints and three Rstory1 mission-2
+persistent-owner opening/cancellation cycles. These check common runtime cleanup,
+not live Delphi controls. Executable SHA256:
+`048d867baed9f6ce01e46d8ad9b64110f68c7bbb5a2ce0f4c6962e9f9267505b`.
+The ten-member private draft has complete receipt-bound notices/review, matching
+checksums and zero technical verifier blockers. ZIP SHA256:
+`6a6d9e7b81f3c2dbb756971d54e77aa71cfc6321d6ea64304f7236d56fd465d3`.
+This CPU milestone does not change the public playable download.
+
+Combined checkpoint `39b89ef` preserves the newer shared positional-impact
+preparation work. It passes 788 synthetic Rust tests (29 ignored), the enriched
+Delphi installed-resource control, 40 Python tests, Rustfmt, Clippy and generated
+site/JavaScript checks. The exact executable/package receipts above keep their
+original source identity; the combined checkpoint is separate source validation.
+
+Final combined checkpoint `8ac8922` additionally retains the newer Kabuto motion
+prefix. It passes 790 synthetic Rust tests (30 ignored), 40 Python tests,
+Rustfmt, Clippy and generated site/JavaScript checks. Delphi camera sources and
+their recorded control identities are unchanged; this is not another runtime run.
+
 ## Kabuto owned input/orientation and force integration — 9 November 2026
 
 The bounded prefix now owns model rates, velocities, look and input state and
