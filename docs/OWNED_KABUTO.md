@@ -1651,3 +1651,42 @@ The ordinary configuration initializer does not initialize that word; the later
 constructor copy handles response, control and behavior separately. Zeros observed
 under supplied cold templates establish no universal live default. Current-reference
 publication, backend services and complete lifecycle binding remain prerequisites.
+
+## Current and held-reference handoff — acquired CPU contract
+
+`kabuto_held_reference::advance` implements both routes between the current
+reference and two held slots. The supplied full decision selects either storage
+into the first empty slot or return from the first occupied slot. Signed caller
+counters retain their distinct threshold/crossing tests. These are caller-local
+inputs; they are not silently mapped to `Fields::action` or a live ANM channel.
+
+The replacement route retains current mode/physical guards, captured type and
+scale, required construction, ownership notification, binding, old-target
+detachment and action ordering. Callbacks see preceding reference stores and
+may change the working state. Later reads use those changes; final stores retain
+the original selected slot and replacement identity. The direct return publishes
+the current reference before binding and clears the selected held slot only after
+the service returns. The held scale word is retained after that clear.
+
+`actor_reference_detach::advance` is shared with the preceding release service,
+preserving scale division, parent-only removal, state-specific reset and flags.
+No clock, normalization or impulse kernel is duplicated. Source/child aliases,
+state89's signed parent-reference check and state3's separate stored scale remain
+part of the acquired target profile.
+
+The handoff agrees on 512 original intervals / 1,076,651 normalized state and
+service-prefix words. Original mode/ownership/state predicates execute.
+Construction, common binding, transport, state18 reset and final action have
+declared mutating entry providers, without claims for their bodies or outcomes.
+The created notification declares 21 bytes, but only thirteen initialized bytes
+are established here; the remaining eight stay unknown. One hundred declared
+late binding failures preserve preceding effects, without a native exception
+equivalence claim. After sharing target detachment, the complete preceding
+release still agrees on 512 intervals / 1,331,545 words, including eight declared
+late impulse-transport failures.
+
+Actual Session current/held-reference storage, lifetime binding, caller decision
+and counter producers, backend services and complete primary ordering remain
+required. The existing retained attachment words are a separate owner. No new
+initializer/history completion, menu gameplay, movement, feeding, growth trigger,
+capture or Windows preview is established; prototype PS2 attributions stay unknown.
