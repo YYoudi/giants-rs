@@ -7,6 +7,39 @@ remains unassigned. Naming does not expand the behavioral evidence below.
 
 ## Producer and consumers
 
+### Current-owner and pre-world admission acquisition — 10 November 2026
+
+Current camera ownership, camera reference-point status and subjective display
+activity have separate lifecycles. A 162-case native prefix control checks owner
+selection: an eligible previous owner is retained; otherwise the controlled actor
+is the fallback, with an enabled nonnull override taking precedence. A missing
+controlled actor exits before selection. The optional reference-point service is
+an explicit supplied callback in this control. Its status word is not reset when
+that service is skipped and is not the subjective display-active word.
+
+A separate 864-case control executes the complete original ordinary-Mecc pre-world
+entry, actual camera-owner getter, camera-admission helper and character predicates.
+All pass, including sixty active copies. Each invocation clears display activity
+first. Camera admission includes transition/mode/view state and a separate profile
+byte with controlled-character eligibility; it cannot be inferred from a selected
+first/third-person boolean. The current owner's ordinary model and subjective
+model reference must also be present. The active branch preserves the virtual
+representation's retained fields while copying the source header and changing its
+model reference. Rejected branches retain the prior virtual header with activity
+cleared. These controls supply current globals, valid actor identities and resource
+memory; they do not replace downstream calls in the admitted Mecc branch.
+
+This is native prerequisite evidence, not a new Rust equivalence or runtime
+availability claim. The existing `State::prepare_from_session` still requires the
+enclosing owner to decide admission. Acquire camera startup/mode/override writers
+and their world ordering, then connect actual owner selection and model preparation
+before passing a frame-bound `first_person::Display` to primary damage/fire.
+Keep reference-point status separate, preserve inactive transitions, and do not
+substitute the presentation player's camera mode or prepared meshes for this
+pre-world result. Auxiliary-character preparation, full world traversal, drawing
+and visual fidelity remain open. Prototype PS2 lookups for newly examined routines
+remain unknown; no additional attribution is confirmed.
+
 `mecc_camera_update::State` owns sequential ordinary-camera updates and its last
 completed output. It produces direct-angle first/third-person profiles, bounded
 terrain adjustment, retained chase scalars, the ordered prepared-mesh clip query,
