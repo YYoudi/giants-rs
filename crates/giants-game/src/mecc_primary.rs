@@ -7,6 +7,8 @@ pub struct Services<'a, 'r, 'c> {
     pub collection: Option<crate::mecc_collection::Services<'c>>,
     /// Optional acquired local pistol phase. Other buttons remain refused.
     pub fire: Option<FireServices<'a, 'r, 'c>>,
+    /// Required at an actual ordinary impact; no default damage/authority success.
+    pub impact: Option<crate::mecc_impact::Context>,
 }
 
 #[derive(Clone, Copy)]

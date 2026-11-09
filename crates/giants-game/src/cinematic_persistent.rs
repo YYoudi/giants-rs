@@ -214,7 +214,7 @@ impl Queue {
             class: object.fields.class,
             position: object.fields.position,
             active: object.fields.object_flags,
-            render_flags: object.fields.response_flags,
+            render_flags: object.metadata.render_flags,
         })
     }
     /// The supplied event is the actual FLK39 dispatch. A temporary context is

@@ -388,3 +388,55 @@ repeats seven actual muted jet starts and ready impact reservations, then the sa
 step-441 missing-reaction refusal. This prefix regression is separate from the
 standalone real impact starts; main impact playback remains unbound. Prototype PS2 searches remain unknown;
 previous PC aliases and separate executable/DLL identities stay in private records.
+
+
+## Owned impact damage and secondary ordering - 9 November 2026
+
+The ordinary selector now has an explicit owned impact provider, retaining its
+refusal when the caller supplies none. Classification preserves the stored
+single-precision delta and previous speed alongside their wide comparisons.
+Equal mathematical speeds can therefore still pass the original stored-speed
+comparison. Both thresholds are inclusive. The requested kind-16 amount retains
+the acquired arithmetic order; authority, parent, equipment, death and audio
+services remain distinct from this classification.
+
+With the acquired normal offline provider, real Session health/source writes
+precede contact precedence. Contact can choose state 60 while retaining damage
+and suppressing the hard-land context. Otherwise the selector prepares the actual
+positional context, then chooses state 61/62 and its normal pistol channel. This
+is preparation, not effect actor birth or sound playback. A heavy carried-actor
+channel remains a required service after preparation. Previous state 60 still
+owns its independent slide-context preparation/cleanup before the channel setter.
+The positional lookup refuses differing quality/distance results, without
+inventing camera or load inputs. Checkpoints retain health, context and RNG
+prefixes after later failure; the enclosing failed primary cannot replay them.
+
+Three original-PC comparisons match 628 complete selector snapshots / 209,615
+header, payload, request, damage-call, RNG and context-count words. They cover
+threshold neighbors, mixed axes, equal-speed rounding, previous-contact state,
+contact precedence and differing live/current-history positions. The comparison
+uses an acquired health-arithmetic provider; the actual Session bridge has separate
+source-resource controls. These execute real owned health, context preparation
+and channel selection, including retained late carried-service refusal.
+
+A supplied falling-entry test of the actual owned primary exposes an additional
+required boundary: its unclamped actor countdown becomes negative. Positive
+impact damage then requests a pain cue before drawing the replacement cooldown
+and before preparing the hard-land effect. Health is already committed at that
+cue entry. Sixty-four original entry prefixes match 21,056 complete state/protocol
+words with the Rust missing-service checkpoint. The owned primary test retains
+15 damage, no positional context and unchanged VM RNG, quarantining the failed
+world token rather than repeating health on retry. This tests an injected falling
+entry, not the complete live trajectory or an original-PC whole-primary match.
+
+The current provider explicitly refuses the missing actual pain voice after
+committing that health prefix. The main inspection supplies no impact provider;
+its exact step-441 runtime refusal remains unchanged. Next acquire/bind the
+owner's pain and ambient cue routing, real ready local sources, the cooldown and
+shared voice-timer RNG order and their failure boundaries. Do not reset the
+negative countdown or use a silent provider to pass this gate. Native mission
+gate production, wounded continuation, carried reactions, active FX scheduling,
+context cancellation and the enclosing cleanup prepass remain open. The existing
+positional effect-audio transport belongs to the later effect activation phase.
+Prototype PS2 attributions remain unknown; exact PC aliases and both binary
+identities are retained privately. No new name, ABI or fidelity promotion follows.

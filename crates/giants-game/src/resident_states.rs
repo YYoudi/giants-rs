@@ -13,6 +13,7 @@ mod delphi;
 mod delphi_camera;
 mod delphi_held;
 mod kabuto;
+mod mecc_impact;
 mod reference_camera;
 mod subjective;
 
@@ -419,6 +420,7 @@ struct MeccCycleServices<'a, 'r, 'c, 'f> {
     periodic: bool,
     wield: Option<&'a mut crate::mecc_wield::Factory<'r>>,
     jet: Option<&'a mut dyn crate::mecc_jet_owned::PhaseDriver>,
+    impact: Option<crate::mecc_impact::Context>,
 }
 #[derive(Debug)]
 pub struct Session {
@@ -1042,6 +1044,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                impact: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1072,6 +1075,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                impact: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1112,6 +1116,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                impact: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1164,6 +1169,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                impact: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1204,6 +1210,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                impact: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1244,6 +1251,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                impact: None,
                 deferred: false,
                 fire: None,
                 primary: false,
@@ -1403,6 +1411,7 @@ impl Session {
         deferred: bool,
     ) -> Result<crate::mecc_physical_cycle::InterleavedProjection, String> {
         let crate::mecc_primary::Services {
+            impact,
             animation,
             jet,
             collection,
@@ -1426,6 +1435,7 @@ impl Session {
             ground,
             animation,
             MeccCycleServices {
+                impact,
                 deferred,
                 fire: fire.as_mut(),
                 primary: true,
@@ -1453,6 +1463,7 @@ impl Session {
             blending,
         } = animation;
         let MeccCycleServices {
+            impact,
             deferred,
             primary,
             prepared_history,
@@ -1799,7 +1810,9 @@ impl Session {
             let selected = if let Some(factory) = &mut wield {
                 let mut contact = self.get(id).unwrap().mecc_contact.clone();
                 let mut contact_checkpoint = None;
-                let stage = crate::mecc_secondary::ordinary(
+                let stage = {
+                    let mut damage = impact.map(|context| mecc_impact::Damage { session: self, source: id, context });
+                    crate::mecc_secondary::ordinary(
                     &output.fields,
                     &output.payload,
                     pipeline.channels,
@@ -1815,6 +1828,7 @@ impl Session {
                         areas,
                     ),
                     crate::mecc_secondary::Services {
+                        impact: damage.as_mut().map(|d| d as &mut dyn crate::mecc_secondary::ImpactDamage),
                         fire: fire_mode,
                         contact: Some(crate::mecc_secondary::ContactServices {
                             state: &mut contact, pool: &mut pipeline.contexts, source: id,
@@ -1823,7 +1837,8 @@ impl Session {
                         blending: pipeline.blending,
                         random: &mut pipeline.random,
                     },
-                );
+                )
+                };
                 // Preserve effect ownership and earlier selector writes even if
                 // the later channel setter fails. The failed cycle cannot replay.
                 self.residents.get_mut(&id.serial).unwrap().mecc_contact = contact;
@@ -2152,6 +2167,16 @@ impl Session {
         amount: f32,
         context: MeccDamageContext,
     ) -> Result<crate::mecc_damage::Result, String> {
+        self.damage_unattributed_mecc_nonlethal_inner(id, kind, amount, context, false)
+    }
+    fn damage_unattributed_mecc_nonlethal_inner(
+        &mut self,
+        id: Id,
+        kind: i32,
+        amount: f32,
+        context: MeccDamageContext,
+        expired_impact_cooldown: bool,
+    ) -> Result<crate::mecc_damage::Result, String> {
         let state = self.mecc_health(id)?;
         let actor = self.get(id).unwrap();
         let fields = actor.construction_fields.as_ref().unwrap();
@@ -2161,9 +2186,11 @@ impl Session {
         if !context.ambient_voice_timer.is_finite()
             || context.ambient_voice_timer < 0.
             || !cooldown.is_finite()
-            || cooldown < 0.
+            || cooldown < 0. && !(expired_impact_cooldown && kind == 16)
             || !state.alive()
-            || fields.position.map(f32::to_bits) != fields.current.map(f32::to_bits)
+            // Acquired self-point kind16 excludes directional response even
+            // when the current-history position differs from the live position.
+            || kind != 16 && fields.position.map(f32::to_bits) != fields.current.map(f32::to_bits)
             || !fields.position.into_iter().all(f32::is_finite)
             || fields.control_flags & 0x20000 != 0
             || fields.configuration[14] & 0x04000000 != 0

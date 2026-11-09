@@ -27,6 +27,8 @@ pub struct Actor {
 pub enum Predicate {
     Default,
     OfflinePistol,
+    /// Required caller-specific policy, evaluated before any geometry service.
+    Provided,
 }
 pub struct Input {
     pub current_player: Option<u32>,
@@ -52,6 +54,9 @@ pub struct Header {
 }
 /// Required current providers. Geometry is requested only after metadata filters.
 pub trait Services {
+    fn predicate(&mut self, _id: u32) -> Result<bool, String> {
+        Err("target query predicate provider absent".into())
+    }
     fn header(&mut self, root: u32) -> Result<Header, String>;
     fn geometry(&mut self, id: u32) -> Result<Geometry, String>;
     fn mesh(&mut self, id: u32) -> Result<Mesh, String>;
@@ -179,26 +184,32 @@ pub fn query_with(
         {
             continue;
         }
-        if actor.personality & 0x20000 == 0 || actor.flags & 0x4000c000 != 0 {
-            continue;
-        }
-        let root = &actors[chain.last().unwrap()];
-        let special = matches!(input.predicate, Predicate::OfflinePistol)
-            && matches!(root.state, 74 | 83 | 44 | 95);
-        let permitted = if special {
-            true
+        if matches!(input.predicate, Predicate::Provided) {
+            if !services.predicate(id)? {
+                continue;
+            }
         } else {
-            let header = services.header(*chain.last().unwrap())?;
-            header.context != input.context
-                || matches!(input.predicate, Predicate::OfflinePistol)
-                    && root.class == 805
-                    && header
-                        .word_e4
-                        .ok_or("target root word_e4 provider absent")?
-                        != 1
-        };
-        if !permitted {
-            continue;
+            if actor.personality & 0x20000 == 0 || actor.flags & 0x4000c000 != 0 {
+                continue;
+            }
+            let root = &actors[chain.last().unwrap()];
+            let special = matches!(input.predicate, Predicate::OfflinePistol)
+                && matches!(root.state, 74 | 83 | 44 | 95);
+            let permitted = if special {
+                true
+            } else {
+                let header = services.header(*chain.last().unwrap())?;
+                header.context != input.context
+                    || matches!(input.predicate, Predicate::OfflinePistol)
+                        && root.class == 805
+                        && header
+                            .word_e4
+                            .ok_or("target root word_e4 provider absent")?
+                            != 1
+            };
+            if !permitted {
+                continue;
+            }
         }
         if actor.flags & 0x20 == 0 {
             return Err("target geometry requires its current affine cache".into());
@@ -359,6 +370,72 @@ mod tests {
         assert_eq!(
             query(input(), &actors, &[1]).err(),
             Some("target ancestor absent".into())
+        );
+    }
+    struct PolicyProbe {
+        result: bool,
+        calls: Vec<u32>,
+    }
+    impl Services for PolicyProbe {
+        fn predicate(&mut self, id: u32) -> Result<bool, String> {
+            self.calls.push(id);
+            Ok(self.result)
+        }
+        fn header(&mut self, _: u32) -> Result<Header, String> {
+            panic!("provided policy must not request legacy context headers")
+        }
+        fn geometry(&mut self, _: u32) -> Result<Geometry, String> {
+            Err("reached actual geometry provider".into())
+        }
+        fn mesh(&mut self, _: u32) -> Result<Mesh, String> {
+            panic!("geometry failed before mesh preparation")
+        }
+    }
+    #[test]
+    fn provided_policy_bypasses_legacy_filters_and_keeps_common_exclusions() {
+        let mut candidate = actor();
+        candidate.personality = 0;
+        candidate.context = None;
+        let mut descendant = actor();
+        descendant.parent = Some(2);
+        let mut hidden = actor();
+        hidden.flags |= 0x8000;
+        let actors = BTreeMap::from([(1, candidate), (2, actor()), (3, descendant), (4, hidden)]);
+        let mut i = input();
+        i.predicate = Predicate::Provided;
+        let mut probe = PolicyProbe {
+            result: true,
+            calls: Vec::new(),
+        };
+        assert_eq!(
+            query_with(i, &actors, &[2, 3, 4, 1], &mut probe).err(),
+            Some("reached actual geometry provider".into())
+        );
+        assert_eq!(probe.calls, [1]);
+    }
+    #[test]
+    fn provided_policy_rejection_precedes_affine_requirement_and_never_defaults() {
+        let mut candidate = actor();
+        candidate.flags = 0;
+        let actors = BTreeMap::from([(1, candidate)]);
+        let mut i = input();
+        i.predicate = Predicate::Provided;
+        let mut probe = PolicyProbe {
+            result: false,
+            calls: Vec::new(),
+        };
+        assert!(
+            query_with(i, &actors, &[1], &mut probe)
+                .unwrap()
+                .actor
+                .is_none()
+        );
+        assert_eq!(probe.calls, [1]);
+        let mut i = input();
+        i.predicate = Predicate::Provided;
+        assert_eq!(
+            query(i, &actors, &[1]).err(),
+            Some("target query predicate provider absent".into())
         );
     }
 }
