@@ -25,6 +25,14 @@ refuse. Existing Mecc/Delphi code and common-kernel arithmetic are unchanged.
 This introduces no dependency or bundled asset and creates no playable preview;
 existing package/notices/checksum receipts retain their own build identities.
 
+Combined checkpoint `82cdad7` preserves the newer shared camera kernels,
+Delphi camera input production, mission-header stores and positional-impact
+preparation. It passes 787 Rust tests (30 ignored), all eight Kabuto installed-
+data controls, 40 Python tests, Rustfmt, Clippy and roadmap/site/JavaScript checks.
+The rebuilt typed-prefix and actual Session runners repeat the 384-context
+comparisons. Other lanes' runtime/capture/package receipts retain their own source
+identities and scopes; these checks do not expand those receipts.
+
 ## Positional hard-landing context preparation - 9 November 2026
 
 The shared null-object effect initializer now preserves both floating intervals
