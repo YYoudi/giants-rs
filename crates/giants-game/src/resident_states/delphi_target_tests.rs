@@ -14,6 +14,10 @@ fn source_delphi_candidates_use_current_geometry_and_preserve_target_payload() {
         giants_formats::weapons::Profile::Debug,
     )
     .unwrap();
+    let definitions = crate::projectile_definition::DebugDefinitions::parse(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+    )
+    .unwrap();
     let factory = crate::delphi_special::Factory::load(&resources, &globals, &weapons).unwrap();
     let mut session = Session::new(971);
     let owner = factory
@@ -59,6 +63,26 @@ fn source_delphi_candidates_use_current_geometry_and_preserve_target_payload() {
         vertex_epoch: epoch,
         force_vertices: true,
     };
+    let view = crate::delphi_target_scan::View {
+        selectors: [0; 3],
+        camera: crate::first_person::Camera {
+            position: [-10., -5., 10.],
+            angles: [0., -45., 0.],
+        },
+        viewport_origin: [500., 500., 10.],
+        viewport_forward: [1., 0., 0.],
+    };
+    let scan_input = |number, epoch, viewport| crate::delphi_target_scan::ScanInput {
+        owner,
+        number,
+        normalization_threshold: 1e-4,
+        vertex_epoch: epoch,
+        force_vertices: true,
+        view: crate::delphi_target_scan::View {
+            selectors: if viewport { [0; 3] } else { [1, 0, 0] },
+            ..view
+        },
+    };
     assert!(
         session
             .query_delphi_target(&resources, input(1, 1))
@@ -85,6 +109,11 @@ fn source_delphi_candidates_use_current_geometry_and_preserve_target_payload() {
     )
     .unwrap();
     let mut world = crate::delphi_post_physical::World::default();
+    assert!(
+        session
+            .scan_delphi_target(&resources, &definitions, scan_input(1, 1, true), &terrain)
+            .is_err()
+    );
     let mut contexts = crate::attached_effect_context::Pool::from_active_resources(971, &resources);
     let mut random = crate::audio_parameters::Random(1);
     let mut stamp = crate::animation_epoch::Stamp::default();
@@ -133,6 +162,20 @@ fn source_delphi_candidates_use_current_geometry_and_preserve_target_payload() {
     assert!(
         session
             .query_delphi_target(&resources, input(1, 1))
+            .is_err()
+    );
+    let camera_scan = session
+        .scan_delphi_target(&resources, &definitions, scan_input(1, 1, true), &terrain)
+        .unwrap();
+    assert!(camera_scan.viewport);
+    assert_eq!(camera_scan.range, 9000.);
+    assert!(camera_scan.terrain.point.is_some());
+    assert!(camera_scan.query.target.is_none());
+    assert!(camera_scan.aim_point[2].abs() < 1e-5);
+    assert_eq!(session.position_buffer_count(), 0);
+    assert!(
+        session
+            .scan_delphi_target(&resources, &definitions, scan_input(1, 1, false), &terrain)
             .is_err()
     );
     session.advance_delphi_held_pose(owner, 1).unwrap();
@@ -210,11 +253,61 @@ fn source_delphi_candidates_use_current_geometry_and_preserve_target_payload() {
     assert_eq!(selected.target, Some(candidates[1]));
     assert_eq!(selected.geometry_visits, candidates);
     assert_eq!(selected.mesh_visits, candidates);
+    let held_scan = session
+        .scan_delphi_target(&resources, &definitions, scan_input(1, 1, false), &terrain)
+        .unwrap();
+    assert!(!held_scan.viewport);
+    assert_eq!(held_scan.query.target, selected.target);
+    assert_eq!(
+        held_scan.query.point.map(f32::to_bits),
+        selected.point.map(f32::to_bits)
+    );
+    assert!(
+        session
+            .scan_delphi_target(&resources, &definitions, scan_input(2, 1, true), &terrain)
+            .is_err()
+    );
+    assert!(
+        session
+            .scan_delphi_target(&resources, &definitions, scan_input(1, 0, true), &terrain)
+            .is_err()
+    );
     assert_eq!(
         session.get(owner).unwrap().seed.storage.data().unwrap(),
         payload
     );
     let target = selected.target.unwrap();
+    {
+        let body = session
+            .residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap();
+        body[0xdb4..0xdb8].copy_from_slice(&1_i32.to_le_bytes());
+        body[0xd78..0xd7c].copy_from_slice(&0x3f_i32.to_le_bytes());
+    }
+    assert!(
+        session
+            .scan_delphi_target(&resources, &definitions, scan_input(1, 1, false), &terrain)
+            .err()
+            .unwrap()
+            .contains("default range branch")
+    );
+    {
+        let body = session
+            .residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap();
+        body[0xdb4..0xdb8].copy_from_slice(&payload[0xdb4..0xdb8]);
+        body[0xd78..0xd7c].copy_from_slice(&payload[0xd78..0xd7c]);
+    }
     let old = session
         .get(target)
         .unwrap()
@@ -269,12 +362,22 @@ fn source_delphi_candidates_use_current_geometry_and_preserve_target_payload() {
     let mut foreign = Session::new(972);
     assert!(
         foreign
+            .scan_delphi_target(&resources, &definitions, scan_input(1, 1, true), &terrain)
+            .is_err()
+    );
+    assert!(
+        foreign
             .query_delphi_target(&resources, input(1, 1))
             .is_err()
     );
     session.clear();
     assert_eq!(session.counts().residents, 0);
     assert_eq!(session.position_buffer_count(), 0);
+    assert!(
+        session
+            .scan_delphi_target(&resources, &definitions, scan_input(1, 1, true), &terrain)
+            .is_err()
+    );
     assert!(
         session
             .query_delphi_target(&resources, input(1, 1))

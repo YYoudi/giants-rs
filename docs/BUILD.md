@@ -30,8 +30,10 @@ With `GIANTS_DELPHI_ROOT` set to the user's installation (and optional
 `GIANTS_DELPHI_EXECUTABLE`), the ignored
 `source_delphi_candidates_use_current_geometry_and_preserve_target_payload`
 test checks actual owned Delphi/ordinary-actor construction, held-ray targeting,
-current geometry/mesh access, stale/foreign refusal and cleanup. It is silent
-CPU composition with supplied time, flat terrain and range; it enables no live
+current geometry/mesh access, bank-backed terrain/target scanning in both view
+routes, viewport access before held publication, unsupported range and stale/
+foreign refusal, payload preservation and cleanup. It is silent CPU composition
+with supplied time, flat terrain and camera/viewport snapshots; it enables no live
 input or complete mission/world schedule.
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.

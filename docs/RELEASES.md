@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Delphi range, terrain and view-dependent scan - 9 November 2026
+
+The owned scan now reads actual selection/source definitions and reuses common
+terrain and current collision buffers for both held and camera/viewport routes.
+It keeps terrain intersections, candidate points and final aim points distinct.
+Original-PC geometry-prefix controls match 256 contexts / 4,677 output words,
+including 128 per view route, 72 terrain hits and 23 targets. Separate original
+loader/range controls match 256 cases / 512 words and 216 view-selector cases.
+
+Gates/initial flags, native pose/reference/list snapshots, grid, views and posed
+triangles remain supplied. Extended source-data controls check lifecycle/refusal
+and payload preservation; native camera/inventory/held transitions, default-kind
+semantics, target lifetime/readiness and primary/world order remain open. No live
+Delphi, new gameplay capture or playable preview follows. Prior package/notices/
+checksums retain exact identities. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+The source checkpoint passes 822 synthetic Rust tests (45 ignored), both installed
+Delphi controls, 40 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks. These checks do not relabel any earlier executable or runtime receipt.
+
 ## Delphi owned candidate geometry query - 9 November 2026
 
 The selected-owner Delphi query now returns actual typed candidates and world
