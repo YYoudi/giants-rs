@@ -93,6 +93,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
             0x24, 6, 0x1b, 0x17, 0x21, 0x28, 0x28, 0x83, 0x49, 7, 0x4a, 2,
         ];
     let positional_impact = ops.as_slice() == [3, 6, 0x83, 9, 4, 0x32, 7, 2];
+    let sized_retirement = ops.as_slice() == [0x24, 6, 0x1c, 4, 0x0d, 7, 2];
     if !old
         && !ranged
         && !flat_blocks(&ops)
@@ -100,6 +101,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !positional_sound
         && !contact
         && !positional_impact
+        && !sized_retirement
     {
         return Err("effect initial skip pass outside acquired complete profile".into());
     }
@@ -120,10 +122,10 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
     }
     let mut intervals = vec![];
     for record in &program.records {
-        if !matches!(record.opcode, 9 | 0x28 | 0x5c) {
+        if !matches!(record.opcode, 9 | 0x1c | 0x28 | 0x5c) {
             continue;
         }
-        let at = if record.opcode == 9 {
+        let at = if matches!(record.opcode, 9 | 0x1c) {
             1
         } else {
             record.bytes[1..]
@@ -168,7 +170,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
             staged.next_15();
             continue;
         }
-        if !matches!(record.opcode, 9 | 0x28 | 0x5c) {
+        if !matches!(record.opcode, 9 | 0x1c | 0x28 | 0x5c) {
             continue;
         }
         for _ in 0..if record.opcode == 9 { 2 } else { 1 } {
@@ -189,6 +191,36 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn sized_retirement_skip_draws_before_absent_object_and_keeps_failure_atomic() {
+        let mut bytes = vec![0x24];
+        bytes.extend([0; 12]);
+        bytes.extend([6, 0x1c]);
+        bytes.extend(6f32.to_le_bytes());
+        bytes.extend(0.01f32.to_le_bytes());
+        bytes.push(4);
+        bytes.extend([0; 12]);
+        bytes.push(0x0d);
+        bytes.extend(b"synthetic_retirement\0");
+        bytes.extend([7, 2]);
+        let program = giants_formats::effect_program::parse(&bytes).unwrap();
+        let mut random = Random(1);
+        let intervals = skip(&program, &mut random).unwrap();
+        assert_eq!(random.0, 2_745_024);
+        assert_eq!(intervals.len(), 1);
+        assert_eq!(intervals[0].opcode, 0x1c);
+        assert!(intervals[0].value > 0.01 && intervals[0].value < 6.);
+
+        bytes[19..23].copy_from_slice(&f32::NAN.to_le_bytes());
+        let invalid = giants_formats::effect_program::parse(&bytes).unwrap();
+        assert!(skip(&invalid, &mut random).is_err());
+        assert_eq!(random.0, 2_745_024);
+
+        let mut unacquired = program;
+        unacquired.records[4].opcode = 0x16;
+        assert!(skip(&unacquired, &mut random).is_err());
+        assert_eq!(random.0, 2_745_024);
+    }
     #[test]
     fn positional_impact_ranges_follow_sound_draw_and_reject_late_invalid_operands() {
         let mut bytes = vec![3];

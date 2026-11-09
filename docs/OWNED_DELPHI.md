@@ -33,7 +33,7 @@ physical/locomotion/manual/authored-camera profiles keep their separate behavior
 This does not establish complete native error-path parity or full-primary entry.
 
 Original block/helper controls match 1,536 reset cases / 12,288 selected words,
-including requested/airborne/ordinary branches, jump exclusions, absent/dead/
+including requested/object-flag/ordinary branches, jump exclusions, absent/dead/
 foreign held candidates, view modes, visibility thresholds and signed-zero reset.
 The post-ANM registers/stack and scalar/list inputs are supplied; execution stops
 before the next model producer. Original held/visibility/stop helper bodies run

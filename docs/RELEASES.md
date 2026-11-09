@@ -23,6 +23,44 @@ package receipt is promoted. No dependency or bundled asset is added; existing
 Windows preview binaries, notices and checksums retain their identities.
 
 
+## Sized FX initial preparation — 9 November 2026
+
+The common effect initialization service now handles the acquired complete frame
+containing random size, lifetime and a retirement-effect binding. A full original
+named-preparation control, with supplied TLS seeds, object count and quality,
+executes 64 cases: each consumes exactly one RNG draw, creates no object and
+retains the source cursor for later active updates. Equal and reversed finite
+ranges are included. Rust agrees on all 64 seed transitions; nonfinite operands and unacquired
+framing preserve the caller's RNG on refusal.
+
+The actual source image resolves normal/lite lookup to the same entry. The shared
+extended-context preparation path accepts that invariant entry with a supplied
+recipient and RNG. This removes an initialization prerequisite for 77 requests
+in seven sources; it does not supply the world RNG, execute the active queue or
+retirement effects, admit those films or certify rendering, cadence or fidelity.
+The 545-source inventory, 59 gaps, 56 general queue prerequisites, 282 strict
+reviews and zero certified complete scenes remain unchanged. Prototype PS2
+attribution remains unknown.
+
+Published [preview-2026.11.09.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.3)
+pins source `95b5b4345acbc20a4e92cdd5a74fb04571a971b8`, executable SHA256
+`62e45a36c57d4b15e77e9828cf4b6a4aa768cf9b7b49a18afab142169558d0dc` and ZIP SHA256
+`3e2a6eb09f24fb5056fa4fae4cbd4e57e982bccf323f2665509f4cd0e6a3075f`.
+That exact source passes 798 Rust tests (30 ignored), 40 Python tests, formatting,
+strict Clippy and source audit (393 commits / 2,713 blobs / zero findings). The
+MinGW binary passes both silent offscreen development endpoints, three live
+persistent-object cancellations and two Rstory1 source-terminal/re-entry cycles
+with voice/text cleanup. These retain their partial-renderer scope. Ten package
+members, notices, receipt and checksums pass independent validation, repeated
+after downloading all three public assets. No interactive checks were run.
+
+Combined source `eab04e48e2907cabefeda68225bbcc0a712fb489` retains newer Delphi
+and Kabuto work and passes 803 Rust tests (32 ignored), 40 Python tests,
+formatting, strict Clippy and site/JavaScript checks. Its source audit covers
+394 commits / 2,717 blobs with zero findings. The released executable and runtime
+controls retain their exact `95b5b434` identities; no combined-source binary
+or additional scene fidelity is claimed.
+
 ## Delphi controlled dry post-physical composition - 9 November 2026
 
 The acquired physical reset now runs after first ANM and before model-rate
