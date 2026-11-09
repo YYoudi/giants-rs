@@ -7181,6 +7181,43 @@ impl Session {
         }
         result
     }
+    /// Acquired direct class3d4 birth. No attached/positional FX initializer,
+    /// physical presence or originating effect context belongs to this route.
+    pub(crate) fn construct_delphi_target_proxy(
+        &mut self,
+        input: Construction<'_>,
+    ) -> Result<Id, String> {
+        if input.class != 0x3d4
+            || input.fields.class != input.class
+            || input.seed.storage.profile() != Profile::Debug
+            || input.seed.storage.state() != 78
+            || input
+                .seed
+                .storage
+                .data()
+                .is_none_or(|d| d.len() != 268 || d.iter().any(|b| *b != 0))
+            || !input.seed.diagnostics.is_empty()
+            || !input.seed.unresolved.is_empty()
+            || input.flags.active != input.fields.object_flags
+            || input.flags.personality != input.fields.configuration[14]
+        {
+            return Err(
+                "Delphi target proxy requires acquired direct zero D class3d4 resources".into(),
+            );
+        }
+        let mut staged = Self::new(self.ticket);
+        staged.next = self.next;
+        let id =
+            staged.register_with_mask(input.class, input.seed, input.bindings, input.flags, 0)?;
+        staged.bind_specification(id, input.specification)?;
+        staged.bind_state_resources(id, input.state_resources)?;
+        let channels = input.fields.channels;
+        staged.bind_actor_fields(id, input.fields)?;
+        let actor = staged.residents.get_mut(&id.serial).unwrap();
+        actor.channels = Some(channels);
+        actor.acquired_construction = true;
+        self.publish_staged(staged, id)
+    }
     /// Acquired attached flags4 constructor and constant-scale configuration.
     /// The native list mask is zero even when the resource class suggests more.
     /// The initial matrix is local; world attachment resolution remains separate.
