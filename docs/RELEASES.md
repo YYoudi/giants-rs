@@ -1,5 +1,6 @@
 # Preview releases and milestone integration
 
+<<<<<<< HEAD
 ## Kabuto reference-query argument production — 9 November 2026
 
 The acquired argument producer selects actor or viewport geometry and the three
@@ -16,6 +17,43 @@ and lifetime, target publication and later actions/world/animation are still
 open. This source milestone adds no live control, capture, dependency, asset or
 downloadable preview; earlier receipts retain their exact source identities.
 Prototype PS2 correspondences remain unknown. Detailed evidence stays private.
+=======
+## Parented timed preparation and retirement sampling — 9 November 2026
+
+Published [preview-2026.11.09.13](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.13)
+pins source `ca6b2f8fb5dc4da85904a6b58111f55de37eac72`, executable SHA256
+`25e89be2717669c045ba449467b1055c3fc12d587fcf7e7f5139e0786c41d6ce`
+and ZIP SHA256 `f16533bcbf92a63d14d9f5b23e22d42902c795f3e627f4145bc1269323de74b3`.
+This exact MinGW binary passes both silent development endpoints, three active
+persistent-effect cancellations and two source-terminal/re-entry cycles with
+muted real voice sinks and text cleanup. Its source passes 838 Rust tests (51
+ignored), 43 Python tests, Rustfmt and strict Clippy. The limited history audit
+reports zero findings across 581 commits / 3,553 blobs after exact-document review
+of two explicitly unassigned PC aliases. All three public assets were downloaded
+fresh; ten package members, notices, receipts and checksums were independently
+verified. This does not certify interactive gestures or complete scene fidelity.
+Later Delphi target-scalar source changes retain separate CPU-only boundaries
+and do not relabel this binary. The published-download dashboard snapshot retains
+this executable's immutable identity separately from later source progress.
+
+The bounded parented preparation composes the acquired callback, shared ordinary
+finalization and source attachment/history writer. Retirement samples the current
+point before the new binding; a marked parent still completes that binding pass.
+Both timed preparation and existing main cinematic attached objects reuse the
+same attachment writer, without an invented offset, timestep or delay.
+
+Positive and zero-delta moving-support controls match 256 parent preparation
+states /44,544 selected words. Those runs retain 320 detached callback regressions
+/55,680 selected words; detached initial post-preparation remains supplied.
+Parent physical storage, no relative displacement/history and no-sleep dispatcher
+inputs bound this profile. Unexpected footprint/environment services refuse.
+A full detached preparation attempt reaches unavailable terrain in the native
+fixture, retained as an open prerequisite rather than replaced with a flat world.
+Canonical Session storage, dispatcher model rates/clock ownership, ordinary stock,
+full environment/retirement integration and main-film admission remain open.
+Prototype PS2 correspondences and all complete-scene fidelity remain unverified;
+the last full 545-source census and counts stay unchanged.
+>>>>>>> origin/main
 
 ## Delphi target-scalar production and selector composition - 9 November 2026
 
@@ -60,7 +98,8 @@ pass before upload and again after downloading all three public assets. The actu
 public tag resolves to the recorded source. Manual controls, full world cadence,
 campaign completion and visual/audio fidelity remain unverified.
 
-Later main source includes the separate Delphi bounds-centre selection service;
+Source checkpoint `54b0a3a84e5081a515ea08342a632f6efdb02ffa` includes the separate
+Delphi bounds-centre selection service;
 its combined runtime tree passes 838 standard Rust tests (51 ignored) and strict
 Clippy. Delivery-table support adds two Python tests (43 total). These newer source
 checks do not relabel the `.12` executable. The dashboard's reviewed download

@@ -170,6 +170,98 @@ impl<K> Timed<K> {
             .current_matrices(&self.configured.initial.fields.channels)
     }
 
+    /// Acquired parented, stationary-relative-to-history preparation profile.
+    /// The callback (including retirement) precedes finalization and attachment.
+    /// Support pose/scale are real caller inputs. Dispatcher sleep/model-rate
+    /// producers, ordinary slots and the detached environment remain external.
+    pub fn prepare_attached(
+        &mut self,
+        support: Matrix,
+        support_scale: f32,
+        seconds: f32,
+        stamp: &mut Stamp,
+        services: &mut impl Services<K>,
+    ) -> Result<Step, String> {
+        self.preflight()?;
+        let b = &self.configured.initial;
+        let crate::effect_actor::Placement::Attached { reference, .. } = &b.placement else {
+            return Err("parented preparation requires actual attachment binding".into());
+        };
+        let reference = *reference as usize;
+        if b.fields.configuration[14] & 0x10 != 0
+            || b.fields.position.map(f32::to_bits) != b.fields.current.map(f32::to_bits)
+        {
+            return Err("parented preparation needs acquired dispatcher/history producers".into());
+        }
+        if !seconds.is_finite()
+            || seconds < 0.
+            || !support_scale.is_finite()
+            || support_scale <= 0.
+            || support.flags & 0x20 != 0
+            || !support.values.iter().all(|v| v.is_finite())
+        {
+            return Err("parented preparation outside finite pose/time profile".into());
+        }
+        if b.fields.object_flags & 0xc000 != 0 {
+            return Ok(Step::Inactive);
+        }
+        self.configured.initial.fields.object_flags &= !0x40;
+        let next = self.advance(seconds, stamp, services)?;
+        let result = (|| -> Result<(), String> {
+            // This profile has a real parent and physical storage, no relative
+            // displacement. Reuse common finalization; any unexpected required
+            // footprint/environment service refuses rather than succeeding.
+            let f = &mut self.configured.initial.fields;
+            let mut fields = crate::collider_copy::Fields::zeroed();
+            fields.class = f.class as u32;
+            fields.current = f.position;
+            fields.previous = f.current;
+            fields.scale = f.scale;
+            fields.angles = f.angles;
+            fields.object_flags = f.object_flags;
+            fields.response_flags = f.response_flags;
+            fields.collision_flags = f.configuration[14];
+            fields.ground_offset = f32::from_bits(f.configuration[17]);
+            fields.center_offset = f32::from_bits(f.configuration[22]);
+            fields.height = f32::from_bits(f.configuration[23]);
+            fields.physical = true;
+            let finalized = crate::actor_finalization::finalize(
+                crate::actor_finalization::State {
+                    fields,
+                    previous_physical_velocity: [0.; 3],
+                    friction: 0.,
+                    parent_present: true,
+                    footprint: None,
+                    affine: None,
+                    physical_argument_word: None,
+                },
+                crate::actor_finalization::Time {
+                    global_seconds: seconds,
+                    context: f.dispatch_context,
+                    areas: &[],
+                },
+                &mut RequiredFinalization,
+            )
+            .map_err(|e| e.to_string())?;
+            f.position = finalized.fields.current;
+            f.object_flags = finalized.fields.object_flags;
+            let own = self
+                .references
+                .current_matrices(&f.channels)?
+                .get(reference)
+                .copied()
+                .ok_or("parented effect reference absent")?;
+            self.configured.initial.matrix =
+                crate::effect_actor::bind_parented(f, support, support_scale, own)?;
+            Ok(())
+        })();
+        if let Err(ref error) = result {
+            self.failure = Some(error.clone());
+        }
+        result?;
+        Ok(next)
+    }
+
     fn preflight(&self) -> Result<(), String> {
         if self.failure.is_some() {
             return Err("timed callback is quarantined after a late failure".into());
@@ -292,6 +384,16 @@ fn word(data: &[u8], at: usize) -> u32 {
     u32::from_le_bytes(data[at..at + 4].try_into().unwrap())
 }
 
+struct RequiredFinalization;
+impl crate::actor_finalization::Services for RequiredFinalization {
+    fn release_footprint(&mut self, _: Option<u32>) -> Result<(), String> {
+        Err("parented effect footprint producer unavailable".into())
+    }
+    fn environment(&mut self, _: &mut crate::actor_finalization::State) -> Result<(), String> {
+        Err("parented effect environment producer unavailable".into())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -378,17 +480,23 @@ mod tests {
         };
         let mut stamp = Stamp(u32::MAX - 1);
         assert_eq!(
-            parent.advance(0., &mut stamp, &mut services).unwrap(),
+            parent
+                .prepare_attached(Matrix::identity(), 1., 0., &mut stamp, &mut services)
+                .unwrap(),
             Step::FirstFrame
         );
         assert!(parent.current_references().is_ok());
         let duration = f32::from_bits(word(parent.object().seed.storage.data().unwrap(), 4));
+        let prepared_position = parent.object().fields.position;
+        let mut later_support = Matrix::identity();
+        later_support.values[3] = 97.;
         assert!(
             parent
-                .advance(duration * 2., &mut stamp, &mut services)
+                .prepare_attached(later_support, 1., duration * 2., &mut stamp, &mut services)
                 .is_err()
         );
         assert!(parent.failure().is_some());
+        assert_eq!(parent.object().fields.position, prepared_position);
         assert_eq!(parent.object().fields.object_flags & 0x8000, 0);
         assert!(f32::from_bits(word(parent.object().seed.storage.data().unwrap(), 8)) >= duration);
         assert!(parent.advance(0., &mut stamp, &mut services).is_err());

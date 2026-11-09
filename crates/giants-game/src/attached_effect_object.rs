@@ -254,23 +254,13 @@ impl<K> CinematicObject<K> {
             .get(self.metadata.reference as usize)
             .copied()
             .ok_or("cinematic effect own reference absent")?;
-        let mut world = crate::effect_attachment::normal_matrix(
+        let world = crate::effect_actor::bind_parented(
+            &mut self.fields,
             support,
-            self.fields.scale,
-            1., // The real Flick support has unit scale, independent of its carrier.
+            1., // Native Flick support scale is independent of its carrier.
             reference,
-        )
-        .map_err(str::to_owned)?;
-        world.values[11] = (f64::from(world.values[11])
-            + f64::from(f32::from_bits(self.fields.configuration[17])))
-            as f32;
-        if !world.values.iter().all(|v| v.is_finite()) {
-            return Err("cinematic effect world matrix nonfinite".into());
-        }
+        )?;
         self.fields.channels = channels;
-        self.fields.previous = self.fields.current;
-        self.fields.position = [world.values[3], world.values[7], world.values[11]];
-        self.fields.current = self.fields.position;
         self.references = references;
         self.metadata.world_matrix = Some(world);
         self.updates += 1;
