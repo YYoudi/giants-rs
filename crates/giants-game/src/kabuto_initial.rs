@@ -34,6 +34,9 @@ pub struct Group {
     pub extra: Option<Id>,
     pub(crate) geometry_transition_failure: Option<String>,
     pub(crate) primary_started: bool,
+    pub(crate) motion: crate::kabuto_motion_prefix::State,
+    pub(crate) motion_history: Option<u64>,
+    pub(crate) motion_prefix_completed: Option<u64>,
     pub declared_class: Arc<specification::Prepared>,
     pub geometry: Geometry,
     pub radius: f32,
@@ -60,6 +63,10 @@ impl std::fmt::Debug for Group {
     }
 }
 impl Group {
+    /// Owned prefix fields only; contacts and the primary remainder are pending.
+    pub fn motion_prefix(&self) -> &crate::kabuto_motion_prefix::State {
+        &self.motion
+    }
     pub fn geometry_transition_failure(&self) -> Option<&str> {
         self.geometry_transition_failure.as_deref()
     }
@@ -77,6 +84,15 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    pub fn advance_motion_prefix(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        frame: crate::kabuto_motion_prefix::Frame<'_>,
+    ) -> Result<(), String> {
+        session.advance_kabuto_motion_prefix(owner, &self.resources, number, frame)
+    }
     /// Derive this owner's target from its actual state threshold. The source
     /// trigger producer, service routing and full primary remain separate.
     pub fn decide_growth(
@@ -310,6 +326,9 @@ impl Factory {
             extra: None,
             geometry_transition_failure: None,
             primary_started: false,
+            motion: crate::kabuto_motion_prefix::State::default(),
+            motion_history: None,
+            motion_prefix_completed: None,
             declared_class: self.resources.specification.clone(),
             geometry,
             radius: prepared.radius,

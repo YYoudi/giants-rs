@@ -7,6 +7,11 @@ pub struct Physics {
     words: [u32; 15],
 }
 impl Physics {
+    pub(crate) fn from_owned_payload(payload: &[u8]) -> Self {
+        Self {
+            words: std::array::from_fn(|i| word(payload, 0xe4 + i * 4)),
+        }
+    }
     pub fn words(self) -> [u32; 15] {
         self.words
     }

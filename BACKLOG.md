@@ -181,9 +181,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   viewport and depth terms remain supplied boundaries. Only device publication
   is skipped. Override preserves the transition; projection refusal retains a
   completed lens update. No renderer or visual-fidelity claim is made.
-  Next bind actual profile selection, input/viewport/depth producers and camera
-  invocation ordering to the owned ordinary view, then use the common Bevy
-  projection/coordinate adapter. Full dispatch and alternate branches stay open.
+  The next composition below binds the ordinary profile selector and invocation
+  order. Actual input/viewport/depth producers and the common Bevy projection /
+  coordinate adapter remain pending. Full dispatch and alternate branches stay open.
+- Implemented: the owned local class-3 mode-zero ordinary view selects external
+  base/scaled profiles, then executes lens, projection and direct-angle pose in
+  source order. The actual native dispatcher branch matches 384 invocations /
+  14,976 words across three persistent sequences. A separate 384-call control
+  executes original view/cache math and matches 23,424 words, with each next Rust
+  depth input produced from its own prior Rust view. Initial cache remains supplied.
+  Device publication is skipped,
+  walls are no-hit and final view arguments are captured. The source lifecycle
+  adds 64 composed owned views with actual actor fields/kind and pre-provider
+  refusal checks. Completed lens/projection effects survive later failure and
+  cannot replay. Actual input/viewport/depth producers, initial view, complete
+  dispatch and renderer/mission scheduling remain prerequisites; no live Delphi
+  admission or fidelity status changes follow.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -354,6 +367,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   allocations, lists, unsampled references and pending gates remain unchanged;
   entered subphases refuse cold-only cleanup. Next acquire the following helper,
   physical/mode producers and full primary; ANM cadence and movement remain open.
+- Implemented: factory-bound input/orientation and force-to-position prefix now
+  owns its model/velocity/history fields and reuses common primary history,
+  actor orientation, object time, integration and position limiting. A 384-context
+  typed projection matches 89,472 words; a separate 384-context Session control
+  matches 155,136 complete owner-header/payload words. Incoming forces, resolved
+  commands, preferences, poses and ordered time areas are supplied boundaries.
+  The owned profile is unparented; the kernel separately covers frozen-parent
+  behavior. Source input-mask order and the opaque header-mode gate are retained.
+  The prefix consumes a real history phase, publishes atomically, and refuses
+  replays/new histories while contacts, classification, new control forces and
+  the primary remainder have no consumer. All four initializer gates remain.
 - Implemented: factory-bound target decision reads the actual owner state threshold
   and target, preserves the shared wide integer conversion and four-value wrap,
   and publishes the target before its notification and the reset after it. The
