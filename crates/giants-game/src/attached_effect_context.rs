@@ -70,6 +70,33 @@ impl<K: Copy> Context<K> {
     }
 }
 impl Pool<crate::resident_states::Id> {
+    /// Stage the acquired timed owner directly in canonical Session storage.
+    /// Failed construction preserves the context and caller RNG. Ordinary
+    /// world/stock admission and timed rendering remain separate prerequisites.
+    pub fn activate_timed_attached(
+        &mut self,
+        id: Id,
+        session: &mut crate::resident_states::Session,
+        resources: &crate::scene_resources::SceneResources,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<crate::resident_states::Id, String> {
+        let context = self
+            .get(id)
+            .ok_or("timed context absent, foreign or retired")?;
+        if context
+            .recipient()
+            .is_none_or(|parent| parent.ticket() != self.ticket || session.get(parent).is_none())
+        {
+            return Err("timed context and recipient must belong to the actual Session".into());
+        }
+        let mut staged = *random;
+        let owned =
+            crate::timed_effect_object::Timed::attached(resources, id, context, &mut staged)?;
+        let actor = session.adopt_timed_attached(owned)?;
+        self.release_prepared(id)?;
+        *random = staged;
+        Ok(actor)
+    }
     /// All fallible resource preparation and construction precede context
     /// retirement. A failed staged constructor leaves the request retryable;
     /// success consumes its identity, so it cannot create the object twice.
