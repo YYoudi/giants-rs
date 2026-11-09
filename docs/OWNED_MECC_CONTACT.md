@@ -344,6 +344,47 @@ valid supplied-provider controls; they are not evidence of shared DLL ownership.
 The play wrapper resolves attachment roots and chooses local versus positional
 delivery when its descriptor is ready. Its stop wrapper also resolves the root.
 The acquired impact actor is unparented. Binding these routes to real ready
-voices and their cleanup remains open; no later main replay or audible result is
-claimed. Prototype PS2 lookups remain unknown, with executable and DLL identities
+voices and their cleanup is covered by the transport control below; no later
+main replay or audible fidelity result is claimed. Prototype PS2 lookups remain unknown, with executable and DLL identities
 kept separately in private continuation records.
+
+
+## Actual ready positional impact transport - 9 November 2026
+
+The application now reserves paused, muted positional PCM voices from the actual
+impact cue range, validating the whole acquired effect frame without constructing
+an actor or consuming RNG. The owned inspection reserves these sources alongside
+its jet sources. Reservation and an enqueued entity do not acknowledge playback:
+the required cue provider needs a real ready `AudioSink` before parameter draws.
+Only the acquired one-shot source profile is admitted; true catalog absence is
+separate from decode, readiness or device failure. Voice availability is bounded.
+
+The provider resolves the Session attachment root and starts actual Bevy audio,
+using the separate audio RNG, source frequency/gain and acquired owner-position
+software attenuation/pan profile. The effect VM keeps its own draws. Runtime
+position tracking uses the actual owned effect fields. Stop selects both owner
+and sound, so an unrelated actor using the same sound remains playing. Tracked
+retirement stops remaining owner voices and releases their PCM assets. Missing
+started sinks are errors; late callback failures retain and quarantine the actor.
+
+A bounded original-PC owner-start control matches both actual cue descriptors
+across 32 cases / 160 numeric words. Original heap, owner-pose, thread state and
+device services are supplied in that control. Separately, the actual muted Bevy
+device starts two voices for distinct owned actors using the same sound; their
+ten frequency, gain, attenuation, pan and audio-RNG words match the native cases.
+The source test checks owner-specific stop, core retirement, retained late sink
+failure, replay refusal and zero remaining audio/PCM assets after command flush.
+A second source test has queued PCM but no audio device: activation fails without
+audio draws or playback acknowledgement, preserving the already-published failed
+actor/context and refusing replay. Both tests create no window.
+
+The supplied local anchor and listener are controlled inputs. Actual audio remains
+muted: audible output/fidelity and the original process's device are not tested.
+The inspection audio seed is still a declared policy, not a proven native process
+seed timeline. Main secondary impact damage/channel composition does not yet call
+this provider. The global cleanup prepass, active context cancellation, full world
+scheduling and other source profiles remain open. The new exact common executable
+repeats seven actual muted jet starts and ready impact reservations, then the same
+step-441 missing-reaction refusal. This prefix regression is separate from the
+standalone real impact starts; main impact playback remains unbound. Prototype PS2 searches remain unknown;
+previous PC aliases and separate executable/DLL identities stay in private records.

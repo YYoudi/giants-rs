@@ -746,8 +746,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   preserved live peer: 53,184 release-entry state words and 2,880 ownership-protocol
   words match. Source-data checks retain failed release/new-reference effects
   without replay and reject foreign/stale/referenced identities. The enclosing
-  propagation, active-context, global audio/reference prepass, live positional
-  audio, other profiles and world scheduling remain open. Next search prototype
+  propagation, active-context, global audio/reference prepass, other profiles and world scheduling remain open.
+  Actual ready positional transport is now device-tested as described below;
+  main reaction binding remains pending. Next search prototype
   PS2 names for each actual cleanup-prepass or impact service before acquisition,
   then bind the independent damage/channel composition. Explicit context
   cancellation and pointer-slot reuse semantics remain separate from core actor
@@ -762,6 +763,21 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   with its audio state, preserving attachment-root play/stop routing, source-miss
   versus decode/device failure and real start acknowledgement. Do not redirect
   audio variation into the VM state or acknowledge a merely queued entity.
+  The App now reserves real source PCM and provides actual ready positional
+  play/stop/tracked release with separate audio RNG, acquired owner attenuation
+  and root identity. Thirty-two native parameter cases match 160 words; two
+  actual muted Bevy starts additionally match ten words. Source controls verify
+  same-sound peer preservation, core release, late sink failure quarantine and
+  zero audio assets after flush. Queued PCM without a device fails before audio
+  draws and retains the published actor/context without replay. Reservation is
+  wired into the owned inspection, but the secondary reaction does not yet call
+  this provider. Next bind it only with acquired damage/channel/context ordering;
+  retain the supplied listener/local anchor and unverified process-seed timeline
+  as separate prerequisites. Do not replace the step-441 refusal with a dummy
+  reaction. Audible fidelity and enclosing cleanup/world scheduling remain open.
+  The exact ad508a4 common executable repeats seven muted jet starts and real
+  paused impact reservations, then the expected step-441 refusal. This confirms
+  the prefix regression, not impact playback or completed movement cycles.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup
