@@ -37,6 +37,13 @@ Those are common-runtime regressions, not live Delphi controls. Existing publish
 previews retain their own receipts; this CPU dependency does not claim another
 playable Delphi download or distribute original data.
 
+Final source checkpoint `9ea8be5169ab9d0da194e8745ae47d0baf6a3d40` retains
+the newer Kabuto additional-contact traversal and passes 815 synthetic Rust tests
+(37 ignored), 40 Python tests, Rustfmt, strict Clippy and site/JavaScript checks.
+Its source pattern audit reports zero findings across 448 commits / 2,924 blobs.
+The common executable and runtime/package receipts above remain bound to
+`a4376eb1`; this later source validation does not change those identities.
+
 ## Kabuto owned additional-contact traversal — 9 November 2026
 
 The additional-contact routine now preserves prepared-scene filtering, probe
