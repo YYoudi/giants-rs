@@ -4,6 +4,36 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Ordered bounds-centre selection and range-mode guard - 9 November 2026
+
+`delphi_pending_target::query` implements the separate viewport search used by
+the original caller before linked readiness. It reuses the readiness eligibility
+policy, then tests personality, a required current header scalar and current
+world bounds. It ranks perpendicular distance to the viewport segment, retaining
+earlier equal candidates. The near endpoint is inclusive; the far endpoint and
+perpendicular limit are strict. It does not substitute a triangle hit, normalize
+the supplied basis or rank candidates by distance along the segment.
+
+Original-PC/Rust controls agree on 768 searches, including multi-axis views,
+empty selections, equal-distance ordering, endpoint/width limits and a subnormal
+case that distinguishes the wide sign test from stored zero. The original
+projection stores and comparison order remain explicit in Rust. Candidate
+headers, ordered population, viewport, current bounds and parameters are supplied;
+these controls do not prove the corresponding live producers.
+
+`Parameters::from_globals` agrees with 130 original argument-prefix executions
+at both caller sites, using the actual source table plus 64 finite variations.
+The same search feeds two distinct caller relationships; their publication must
+remain separate. The acquired signed `mode_skips_range_check` guard agrees on
+1,024 original calls, including integer extrema. It is one range-check guard,
+not a complete readiness or movement-activation decision.
+
+Actual current-header production, target publication/lifetime, both caller
+relationships, proxy update/retirement and full phase composition remain open.
+No Session target assignment, mission admission, new capture or playable preview
+is introduced. Prototype PS2 correspondences remain unknown; detailed lookup,
+instruction/store controls and source inputs remain private.
+
 ## Linked readiness and direct target proxy preparation - 9 November 2026
 
 `delphi_target_readiness::complete` now composes the complete acquired helper over

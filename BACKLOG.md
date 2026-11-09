@@ -353,6 +353,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   actual relationship producer and bind owned target/proxy lifetime, mutations,
   retirement and caller-phase guards; no live target assignment or world admission
   follows from this CPU composition. Never recompute cost after retargeting.
+- Implemented: the separate viewport/current-bounds-centre selector reuses
+  readiness eligibility and matches 768 complete original-PC searches, preserving
+  perpendicular ranking, strict limits, first-tie order and wide/stored projection
+  boundaries. Its signed range-mode guard matches 1,024 original calls; both
+  actual argument-preparation sites match 130 executions using source GData and
+  64 variants. Current headers/list/bounds/view inputs remain supplied. The same
+  search feeds distinct caller relationships, not one interchangeable target.
+  Next: acquire the remaining current-header scalar/producer and actual target
+  publications/lifetime, then bind proxy updates/retirement and primary/world
+  order. The range-mode guard alone cannot decide readiness or activation.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
