@@ -31,16 +31,16 @@ pub fn advance(state: &mut State, i: Input, world: &mut impl World) -> Result<()
         return Err("Delphi physical immersion reset requires its water producer".into());
     }
     let requested = state.controls & 0x2000000 != 0;
-    let airborne = i.object_flags & 0x80000 != 0;
+    let object_reset = i.object_flags & 0x80000 != 0;
     let ordinary_mode = !(49..56).contains(&i.mode) && i.mode != 76;
     let ordinary = !requested
-        && !airborne
+        && !object_reset
         && state.internal & 2 != 0
         && state.second_context == 0
         && ordinary_mode;
     let requested_reset =
         requested && i.object_flags & 0x100 == 0 && i.first_context == 0 && ordinary_mode;
-    if requested_reset || !requested && (airborne || ordinary) {
+    if requested_reset || !requested && (object_reset || ordinary) {
         let visible = i.view_mode != 4 || i.damage < i.limit;
         let check_held = ordinary || visible && i.equipment_context == 0;
         let held = if check_held { world.held()? } else { None };
