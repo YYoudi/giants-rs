@@ -421,6 +421,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented at the CPU boundary: both current/held-reference handoff routes
+  match 512 original intervals / 1,076,651 normalized state/service words. They
+  retain first-free/first-occupied slot selection, signed counter gates, stores
+  before binding, captured replacement identities and post-service rereads.
+  One hundred declared late binding failures retain preceding effects. Target
+  detachment is shared with the pre-query release, whose 1,331,545-word control
+  still agrees. Construction, binding, transport, state18 reset and action bodies
+  remain required entry providers; the caller decision/counter producers are
+  supplied. Only thirteen initialized bytes of the 21-byte created notification
+  are established; remaining bytes are unknown. Next: actual Session current/held
+  reference ownership and lifetimes, caller policy, complete backend binding and
+  primary ordering. Do not confuse the supplied handoff state with an owned live
+  bank or certify gameplay from these controls.
 - Implemented at the CPU boundary: the common attachment request used by Kabuto
   matches 512 original calls / 389,023 normalized header/service words. The first
   128 use the actual initialized executable rule table; its read-only bounded

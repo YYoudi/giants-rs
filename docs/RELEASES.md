@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Kabuto held-reference handoff — 10 November 2026
+
+Both current/held-reference routes agree on 512 original intervals / 1,076,651
+normalized state/service words. Slot selection, signed caller counters,
+publication/binding order, captured replacements and callback rereads are retained.
+One hundred declared late binding failures preserve preceding effects. Shared
+target detachment also preserves the preceding release's 1,331,545-word result.
+
+Construction, binding, transport, reset and action remain required entry
+providers. Caller policy, actual Session current/held-reference ownership,
+lifetimes and full primary integration are still unbound. The created transport
+request has eight unknown bytes beyond its thirteen established bytes; no packet
+padding or delivery is invented. This source/CPU milestone adds no live controller,
+initializer/history completion, capture or downloadable gameplay preview.
+Validation passes 868 workspace Rust tests (56 ignored), sixteen installed Kabuto
+controls and the separate cold control, 43 Python tests, Rustfmt, strict Clippy
+and roadmap/site/JavaScript checks. Three new synthetic tests exercise publication
+before callbacks, retained effects after a late error and lazy signed/full-word
+gates; these do not certify native backend execution.
+
 ## Retained parent-binding storage — 9 November 2026
 
 Session parent removal now retains the supplied child/parent reference indices
