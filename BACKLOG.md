@@ -911,6 +911,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Retirement-chain follow-up: 32 supplied native parent/child lifecycles now
+  execute the actual global context updater, retirement helper, deferred mark,
+  global object cleanup and child activation. The mark keeps the parent slot
+  occupied; only cleanup frees it, and the child reuses that slot. All 64 object
+  retirements finish with zero active object/context heads and both supplied
+  eight-slot free lists fully restored. This is not mission population/capacity.
+  Rust matches 1,024 selected RNG, construction, position and matrix words.
+  The child initial frame is now implemented in the shared skip service with no
+  random draw. Actual retirement preparation uses its distinct mode and inherited
+  parameter; do not substitute the existing plain positional context API.
+  Main cinematic context/physical ownership, inherited flags, world RNG and frame
+  scheduling remain unbound. No source becomes admitted from this CPU proof.
+
 - Timed FX callback ordering: the shared Playback wrapper formerly discarded
   every zero-time callback, leaving its native first-update gate pending. It now
   executes that callback without inventing elapsed time. Native/Rust comparison
@@ -920,8 +933,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   initial-zero control confirms the gate independently of matrix preparation.
   The initial positional mismatch was an incomplete control phase: the actual
   ordinary preparation produces the Rust attachment matrix, so no placement
-  change is justified. Retirement helper execution, child activation, parent
-  release, actual world scheduling/RNG and complete rendering remain open. The
+  change is justified. Main-runtime retirement-helper binding, child activation,
+  parent release, actual world scheduling/RNG and complete rendering remain open. The
   queue/readiness guards and cinematic gap counts are preserved. These supplied
   contexts use the acquired nonphysical class; zero-time motion/contact profiles
   beyond that fixture still need their own native comparisons.

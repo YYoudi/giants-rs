@@ -94,6 +94,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         ];
     let positional_impact = ops.as_slice() == [3, 6, 0x83, 9, 4, 0x32, 7, 2];
     let sized_retirement = ops.as_slice() == [0x24, 6, 0x1c, 4, 0x0d, 7, 2];
+    let fixed_size_spin = ops.as_slice() == [3, 6, 8, 4, 0x0e, 7, 2];
     if !old
         && !ranged
         && !flat_blocks(&ops)
@@ -102,6 +103,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !contact
         && !positional_impact
         && !sized_retirement
+        && !fixed_size_spin
     {
         return Err("effect initial skip pass outside acquired complete profile".into());
     }
@@ -191,6 +193,28 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn fixed_size_spin_preparation_has_no_draw_or_active_object_effects() {
+        let mut bytes = vec![3];
+        bytes.extend(42u32.to_le_bytes());
+        bytes.extend([6, 8]);
+        bytes.extend(3f32.to_le_bytes());
+        bytes.extend(8f32.to_le_bytes());
+        bytes.push(4);
+        for value in [1f32, 0., 0.001] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.push(0x0e);
+        bytes.extend([0; 12]);
+        bytes.extend([7, 2]);
+        let mut program = giants_formats::effect_program::parse(&bytes).unwrap();
+        let mut random = Random(17);
+        assert!(skip(&program, &mut random).unwrap().is_empty());
+        assert_eq!(random.0, 17);
+        program.records[4].opcode = 0x16;
+        assert!(skip(&program, &mut random).is_err());
+        assert_eq!(random.0, 17);
+    }
     #[test]
     fn sized_retirement_skip_draws_before_absent_object_and_keeps_failure_atomic() {
         let mut bytes = vec![0x24];

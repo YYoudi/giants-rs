@@ -1,5 +1,28 @@
 # Preview releases and milestone integration
 
+## Retirement child initialization and native cleanup boundary — 9 November 2026
+
+The shared null-object initialization service now handles the acquired complete
+fixed-size/lifetime/spin frame without consuming RNG. The source retirement
+child reaches this frame; whole-frame guards still refuse unacquired programs.
+
+A separate 32-case original-PC control executes parent preparation and birth,
+ordinary attachment preparation, lifetime callbacks, retirement preparation,
+deferred marking, global cleanup, child birth and final cleanup. A mark alone
+keeps the parent slot occupied; actual cleanup frees it and the child reuses it.
+All 64 parent/child object retirements finish with zero active object/context
+heads and both supplied eight-slot free lists restored. Thirty-two Rust cases
+match 1,024 selected RNG, construction, position and matrix words. This compares
+typed behavior; it does not establish Rust physical-pool ownership parity.
+
+The original retirement context carries a distinct mode and inherited parameter.
+Binding that context, caller-supplied world RNG, physical slot ownership and
+actual frame scheduling to the main film player remain open. This is not complete
+film admission, actual mission capacity, raster/voice/timing fidelity or broader
+zero-time physical/contact coverage. The source inventory and zero certified
+complete scenes remain unchanged. Prototype PS2 correspondence remains unknown.
+Existing previews retain their exact receipts until the new build is validated.
+
 ## Zero-time timed-FX callback — 9 November 2026
 
 The shared timed-effect wrapper used to discard every zero-time callback. The
