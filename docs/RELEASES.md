@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Source timed-FX class field preparation — 9 November 2026
+
+The actor-field profile now accepts the acquired flag-only class opcode52,
+reusing its existing common flag projection. Previously the timed parent's
+field preparation refused that source command. A 256-case original dispatch
+control checks 49,408 words: only its active-word bit changes after measured
+entry setup; FF postlude and allocation are outside that opcode control.
+
+A separate real-resource projection now matches 64 original allocator-return
+snapshots / 9,024 selected class/header/state78-payload words for the parent and
+child. These are before the effect wrappers, not full-header or owned actor-pool
+parity. The existing shared physical reset also matches 256 complete original
+helper calls / 3,840 physical words, preserving the opaque word and guards. It
+is reused, not duplicated. Prototype PS2 correspondences remain unknown.
+
+Owned timed-effect construction, physical aliases, full retirement services and
+main admission stay open; ordinary construction still refuses unsupported
+state78 actors. No cinematic gap/fidelity count is promoted by this prerequisite.
+
 ## Separate effect routing from shared actor response — 9 November 2026
 
 Attached cinematic objects now retain their independent render/effect word in

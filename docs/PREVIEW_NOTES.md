@@ -23,6 +23,11 @@ position and RNG when normal/lite selection is invariant. These changes do not
 admit complete additional films, physical retirement ownership or native world
 cadence. Full scene/rendering/audio/subtitle fidelity remains unverified.
 
+The shared actor-field profile also accepts the acquired flag-only command in
+the timed parent's class, reusing the common projection. Parent/child resource
+fields match selected original pre-wrapper allocator snapshots. Owned state78
+construction and main film admission remain prerequisites.
+
 ## Retirement child initialization dependency
 
 The shared initial skip service now accepts the acquired complete fixed-size,

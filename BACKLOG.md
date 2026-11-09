@@ -989,6 +989,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Source timed-FX actor fields now admit the acquired flag-only class opcode52,
+  reusing the existing common flag projection. A 256-case native dispatch control
+  checks 49,408 header words with all other words unchanged after dispatcher
+  setup. The real parent/child resource projection now matches 64 allocator
+  snapshots / 9,024 selected class/header/payload words; it previously refused
+  the parent class. These snapshots precede effect-wrapper mutations and do not
+  prove complete headers or owned state78 actor/world admission. Reuse the shared
+  `physical_initial::reset`: a separate 256-case full-helper control matches
+  3,840 words and preserves the opaque word and surrounding guards. Next acquire
+  the owned timed parent/child wrapper, physical aliases and actual retirement
+  binding; do not bypass the existing ordinary constructor's state78 refusal.
+
 - Shared effect-word separation: attached/cinematic metadata now owns its
   independent render/effect flags. The previous constructor mixed the cinematic
   mark into the shared actor response/status word and tested that conflated word
