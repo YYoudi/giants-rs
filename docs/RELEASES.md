@@ -17,6 +17,12 @@ open. This source milestone adds no live control, capture, dependency, asset or
 downloadable preview; earlier receipts retain their exact source identities.
 Prototype PS2 correspondences remain unknown. Detailed evidence stays private.
 
+Combined source validation passes 843 workspace Rust tests (51 ignored), sixteen
+installed Kabuto phase controls plus the separate cold control, all 43 Python
+tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks. The limited
+history audit reports zero findings. The latest parented-effect source changes
+and independently published preview retain their own scope and identities.
+
 ## Parented timed preparation and retirement sampling — 9 November 2026
 
 Published [preview-2026.11.09.13](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.13)
