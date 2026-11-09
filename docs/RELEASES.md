@@ -1,5 +1,36 @@
 # Preview releases and milestone integration
 
+## Unequipped Mecc jet reserve depletion - 9 November 2026
+
+The owned normal jet driver no longer refuses zero fuel when its existing
+inventory/control guards exclude shield and cloak equipment. The acquired PC
+branch only stores zero in this profile: 288 native controls cover every admitted
+flag combination with no service substitutions. The independent jet prefix still
+matches 1,536 cases / 19,968 words, including 66 depletion entries. Equipped
+depletion services remain open. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+Source `f24febd64d54ac7a801bb5cd4b2aa79f6792ed19` passes 774 Rust tests
+(29 ignored), 40 Python tests, Rustfmt, Clippy and five installed-resource Mecc
+controls. The 576-frame/22-shot primary regression matches 341,220 words and all
+ten declared provider-failure controls pass. Source/history review reports no
+findings across 331 reachable commits and 2,472 blobs.
+
+The exact GNU executable SHA256 is
+`8eba464b3d841350c799c1189557d2dcec708b4d945fbcb2c6e038b171885a0d`.
+The actual reserved/muted main replay passes the previous step-348 boundary,
+performs seven real sink starts and then refuses an unacquired impact reaction
+at step 441. The full long-cycle report remains unsuccessful. Low-floor
+state/health behavior and active slide effects remain separate prerequisites;
+neither the reaction nor a completed movement trajectory is certified.
+The separate bounded 128-step inspection regression completes three menu
+requests/cancellations and releases its owned draw assets on the same executable.
+
+The private ten-member validation draft has receipt-bound notices/review and
+independent package checks with zero technical blockers; archive SHA256 is
+`55b2bd8c9669e9d32dd341a7bd2689228428b18a5f7e18bab5e3cf8d88b6a9a8`.
+This bounded prerequisite does not establish a new playable download or capture.
+Earlier preview/capture identities and visual-fidelity limits are preserved.
+
 ## Living Mecc selection across absolute zero - 9 November 2026
 
 The ordinary living secondary no longer rejects negative actor height by itself.

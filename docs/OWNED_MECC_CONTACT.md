@@ -111,3 +111,28 @@ three real muted starts occur and the replay reaches step 348, then explicitly
 refuses the still-unacquired jet-depletion services. Both long-run/cancellation
 reports remain unsuccessful. This is a later observed inspection boundary, not
 a completed mission, audible validation or native whole-world comparison.
+
+## Unequipped jet reserve depletion - 9 November 2026
+
+The owned jet driver now continues when fuel reaches zero within its existing
+unmounted, normal, unequipped profile. Its control-mask guard already excludes
+the shield/cloak branches. In the acquired PC inline depletion branch, every
+admitted control-flag combination skips those services and only stores zero
+fuel. The kernel already performs that store. Removing the blanket refusal
+therefore requires no replacement inventory, effect or sound service.
+
+The native branch executes 288 controls with no service substitutions, covering
+all admitted flag combinations in both fire modes and negative/signed-zero fuel.
+All other actor/payload bytes remain unchanged. The independent jet-prefix
+comparison still matches 1,536 cases / 19,968 words, including 66 depletion entries.
+These are bounded CPU observations, not equipped shield/cloak reconstruction.
+The prototype PS2 name lookup remains an unknown attribution; no new cross-build
+name or platform signature is imported.
+
+Exact main source `f24febd64d54ac7a801bb5cd4b2aa79f6792ed19` passes the former
+step-348 refusal with actual reserved, muted audio. Seven real sink starts occur
+before step 441 refuses the still-unacquired impact-reaction provider. The full
+movement/cancellation replay remains unsuccessful. Acquire that independent
+reaction next; retain the separate low-floor object-flag/state/health prerequisite
+and prepared slide-effect active interpreter. No fuel refill, dummy effect,
+complete trajectory or visual-fidelity claim is introduced.
