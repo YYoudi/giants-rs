@@ -12,6 +12,8 @@ use std::sync::Arc;
 mod delphi;
 mod delphi_camera;
 mod delphi_held;
+mod parent_binding;
+pub use parent_binding::AttachmentWords;
 #[cfg(test)]
 mod delphi_target_tests;
 mod kabuto;
@@ -324,6 +326,9 @@ pub struct Resident {
     /// Owned fields initialized by construction, then updated by acquired kernels.
     pub construction_fields: Option<crate::actor_fields::Fields>,
     pub attachment: Option<Attachment>,
+    // A removed parent does not clear the acquired reference/behavior words.
+    // None means no producer has supplied them, rather than assumed zeros.
+    retained_attachment_words: Option<AttachmentWords>,
     pub pickup_notice_pending: bool,
     pickup_notice_delivery: Option<crate::mission_notice::Delivery>,
     /// Numeric channel state, not evaluated poses or shared resource pointers.
@@ -601,6 +606,7 @@ impl Session {
                 world_tick_running: false,
                 surface_link: None,
                 attachment: None,
+                retained_attachment_words: None,
                 pickup_notice_pending: false,
                 pickup_notice_delivery: None,
                 channels: None,

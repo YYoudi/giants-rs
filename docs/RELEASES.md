@@ -1,5 +1,21 @@
 # Preview releases and milestone integration
 
+## Retained parent-binding storage — 9 November 2026
+
+Session parent removal now retains the supplied child/parent reference indices
+and independent behavior word. Repeated detachment, rebinding, cleanup and
+foreign identities are covered; a matching presentation mirror is removed while
+independent presentation ownership is preserved. Unknown constructor words stay
+unknown. The source-backed Kabuto query control uses the new operation.
+
+This prepares the acquired release service's actual storage without enabling
+its remaining callbacks, a new primary phase or ordinary Kabuto gameplay. The
+existing Windows preview and historical comparison gallery remain unchanged.
+Validation passes 865 workspace Rust tests (56 ignored), sixteen installed Kabuto
+controls and its separate cold control, twelve Mecc and five Delphi controls,
+43 Python tests, Rustfmt, strict Clippy and the site/JavaScript checks. These are
+source/CPU regressions; no new interactive or fidelity claim follows.
+
 ## Common attachment service for Kabuto — 9 November 2026
 
 The acquired attachment request matches 512 original calls / 389,023 normalized

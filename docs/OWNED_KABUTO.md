@@ -1634,10 +1634,20 @@ initializer/history completion, live movement/feeding/growth, new capture or
 download is added. Existing Mecc/Delphi ownership remains unchanged; prototype
 PS2 correspondences remain unknown and detailed records stay private.
 
-The next Session storage must retain both reference indices independently of
-parent presence and copy the separate behavior from its actual constructor or
-type-change producer. The ordinary configuration initializer does not initialize
-that word; the later constructor copy handles response, control and behavior
-separately. Zeros observed under supplied cold templates establish no universal
-live default. The existing optional attachment alone cannot represent retained
-indices after detachment, so that lifecycle binding remains a prerequisite.
+Session now owns the supplied words beyond parent removal through
+`Resident::attachment_words` and `Session::clear_actor_parent`. Clearing the
+parent retains both reference indices and the separate supplied behavior word.
+A matching presentation mirror is cleared; an independent presentation parent
+is preserved. Repeated clearing does not discard retained words, and a new
+binding supersedes them. Foreign/removed identities refuse mutation, and owner
+cleanup drops the retained storage. The installed resource-phase query control
+also uses this operation rather than directly discarding its optional attachment.
+
+This is a storage primitive, not the complete release callback. It executes no
+animation, impulse, transport, wield cleanup or numbered primary phase. Actors
+without a supplied binding return unknown words rather than fabricated zeros.
+Fresh behavior still requires its actual constructor or type-change producer.
+The ordinary configuration initializer does not initialize that word; the later
+constructor copy handles response, control and behavior separately. Zeros observed
+under supplied cold templates establish no universal live default. Current-reference
+publication, backend services and complete lifecycle binding remain prerequisites.

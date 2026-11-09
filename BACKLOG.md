@@ -431,8 +431,12 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   acquired executable layout; no table bytes are embedded or published.
   The reset body now uses the canonical control word and a separate behavior
   writer, preserving independent response flags. Its 919,700-word body control
-  and the 1,331,545-word release composition still agree. Bind actual Session
-  parent/child references, channels, actor behavior, lifetimes and backend
+  and the 1,331,545-word release composition still agree. Session now retains
+  supplied attachment indices and behavior after clearing the parent, without
+  manufacturing defaults for actors lacking a producer. Repeated detach,
+  rebind, foreign identity and cleanup controls cover that storage primitive.
+  Bind actual current-reference publication, channels, constructor behavior,
+  lifetimes and backend
   services before gameplay admission; the existing Mecc/Delphi paths are retained.
 - Implemented at the CPU boundary: pre-query reference release matches 512
   original intervals / 1,331,545 normalized header/payload/service words. The
