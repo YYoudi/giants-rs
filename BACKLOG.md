@@ -921,6 +921,24 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Timed FX callback ordering: the shared Playback wrapper formerly discarded
+  every zero-time callback, leaving its native first-update gate pending. It now
+  executes that callback without inventing elapsed time. Native/Rust comparison
+  covers 32 source constructions, two RNG phases, prepared matrices, lifetime
+  aging and retirement requests (1,120 selected words). A further zero-time
+  schedule matches 1,152 words across the same 32 contexts; a direct native
+  initial-zero control confirms the gate independently of matrix preparation.
+  The initial positional mismatch was an incomplete control phase: the actual
+  ordinary preparation produces the Rust attachment matrix, so no placement
+  change is justified. Retirement helper execution, child activation, parent
+  release, actual world scheduling/RNG and complete rendering remain open. The
+  queue/readiness guards and cinematic gap counts are preserved. These supplied
+  contexts use the acquired nonphysical class; zero-time motion/contact profiles
+  beyond that fixture still need their own native comparisons.
+  Preview 2026.11.09.4 pins source7d639880 with 805 Rust tests / 32 ignored,
+  40 Python tests and silent offscreen menu/cancel/natural-re-entry controls.
+  Package receipt/notices/all ten member checksums pass again after download.
+
 - General FX follow-up: the largest remaining family has 77 requests in seven
   sources, five with no other non-persistent family. The complete original named
   preparation consumes exactly one size-range RNG draw before creating any

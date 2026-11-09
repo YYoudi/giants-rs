@@ -19,6 +19,63 @@ world and metadata remain supplied; action bodies, remaining primary/camera/targ
 and auxiliary paths, active movement/water, combat and live mission integration
 remain open. See [OWNED_DELPHI.md](OWNED_DELPHI.md) for exact scope.
 
+## Zero-time timed-FX callback — 9 November 2026
+
+The shared timed-effect wrapper used to discard every zero-time callback. The
+original consumes its constructor gate on that call without aging the object;
+its next positive callback can then age or expire it. The wrapper now invokes
+the existing visual callback at zero time and retains terminal-object refusal.
+No placement adjustment or extra delay is introduced.
+
+A source-family control executes original named preparation, first active object
+construction, ordinary matrix preparation and supplied lifetime callbacks. All
+32 Rust contexts match 1,120 selected scalar/matrix words, including both RNG
+phase boundaries and the retirement request. An added zero-time schedule matches
+1,152 words across the same 32 contexts. A separate direct native first-zero
+schedule confirms the gate without relying on ordinary matrix preparation.
+An earlier positional mismatch came from omitting that native preparation phase;
+including it produces the existing Rust matrix and needs no placement correction.
+
+The retirement helper is intercepted before child preparation or parent release.
+These controls supply support, resources, pools, RNG seeds and callback deltas;
+they do not prove world scheduling, physical cleanup, film readiness or visual
+fidelity. The source inventory and zero certified complete scenes are unchanged.
+The measured class is nonphysical. Additional zero-time motion/contact profiles
+remain unverified; this control does not certify their broader callbacks.
+Prototype PS2 correspondence remains unknown.
+
+Published [preview-2026.11.09.4](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.4)
+pins source `7d639880f594c972e78a36a369719224e494d464`, executable SHA256
+`752f7fa934a27b84a1b2c93bd6113f45a5ab8a4e4793490e4af8f8a47c8d9c3e` and ZIP SHA256
+`4c53f8b006b304a019e4cb79dbecaf9995cfebafabdbf27b25fa51aee0e3c031`.
+That exact source passes 805 Rust tests (32 ignored), 40 Python tests, formatting,
+strict Clippy and source audit (408 commits / 2,764 blobs / zero findings). Its
+MinGW binary passes both silent offscreen development endpoints, three active
+persistent-effect cancellations and two Rstory1 source-terminal/re-entry cycles
+with voice/text cleanup. These keep their existing partial-renderer scope.
+All ten package members, notices, receipt and checksums pass independent checks,
+repeated after downloading the three public assets. No interactive checks ran.
+
+Combined source `b0d37e8eca29e15201effe329737ee92840c1157` preserves newer owned
+impact birth and passes 806 Rust tests (33 ignored), 40 Python tests, formatting,
+strict Clippy and site/JavaScript checks. Its source audit covers 415 commits /
+2,794 blobs with zero findings. Rebuilt against that source, the private Rust
+zero-time projection still matches all 32 retained native contexts / 1,152 words.
+The public executable and runtime controls keep their exact `7d639880` identities;
+no later source merge expands their binary or visual evidence.
+
+Further combined source `c1a09a2631293d5708a747dd2abdce6114a14e86` preserves the
+owned impact callback and passes 806 Rust tests (34 ignored), 40 Python tests,
+formatting, strict Clippy and site/JavaScript checks. Its source audit covers
+419 commits / 2,809 blobs with zero findings; this remains source validation,
+with no replacement executable or expanded runtime receipt.
+
+Later source `e10454be18935bd7bf29932867aee1c4c3eb086b` retains the additional
+Delphi reserve callback. All 627 game-crate unit tests pass (21 ignored), along
+with workspace strict Clippy, formatting, 40 Python tests and site/JavaScript
+checks. Its source audit covers 422 commits / 2,815 blobs with zero findings.
+This is a game-crate test run, separate from the full-workspace counts above.
+
 ## Delphi reserve callback and owned passive composition - 9 November 2026
 
 `delphi_reserve::advance` implements the acquired finite PC delay, recharge,
