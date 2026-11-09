@@ -1,5 +1,34 @@
 # Preview releases and milestone integration
 
+## Delphi support-class fields and object-list control - 9 November 2026
+
+The shared class loader now prepares the support class's packed attribute,
+preserving neighboring controls and its personality flag. Original dispatch,
+defaults, termination and base-copy controls agree on 512 ordered programs /
+31,744 projected words. Actual header resources prepare in three Delphi mission
+catalogs; the unacquired support-state constructor remains refused without
+publishing ownership or list entries. This changes field preparation, not live
+support/header ownership or character admission.
+
+The support/scalar comparison now executes the original object-list traversal,
+radius production and bounds helper, replacing the earlier supplied traversal
+boundary. The existing Rust services agree on 512 bounded contexts / 4,608 exact
+control, radius and scalar words plus 910 ordered contact identities. Geometric
+error is below 0.00000012 within the declared 0.002 absolute budget.
+
+Membership/headers, prepared geometry/model/part eligibility and schedule remain
+supplied. Active traversal, floor contacts and excluded terrain bound the control;
+it does not establish mission construction, live actor/header ownership or full
+primary/world order. Support-state construction/update/lifetime is the next
+prerequisite. No dependency, asset, capture or downloadable preview changes.
+Current Mecc integration and its separate release identities
+are preserved; prototype PS2 attribution remains unknown.
+
+Combined source passes 857 workspace Rust tests (54 ignored), six installed
+Delphi controls, four Mecc impact/voice controls and the NPC ownership regression.
+All 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks
+pass. Supplied providers and diagnostic coverage remain separate from gameplay.
+
 ## Main integration of local Mecc voice and landing continuation — 9 November 2026
 
 Combined runtime source `e655c67620c2dec6d15f36d7f646f4ca4fca9d9c` merges the

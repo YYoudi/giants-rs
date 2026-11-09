@@ -390,8 +390,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   floor/plane error is below 0.00000012 within a 0.002 absolute budget. Frozen
   support retention and reset-before-contact are preserved. Single-object traversal,
   prepared geometry/model/part eligibility, headers and the collision-then-scalar
-  schedule remain supplied; no same-frame order is inferred. Next: actual scene
-  key registry/lifetime and phase-correct owned header publication, other actor
+  schedule remain supplied; no same-frame order is inferred. A further 512-context
+  control executes the original list walk, radius writer and bounds helper instead
+  of supplying their results: 4,608 control/radius/scalar words and 910 ordered
+  contacts agree exactly; geometric error stays below 0.00000012. Membership,
+  prepared geometry/model/part eligibility, headers and schedule remain supplied;
+  active traversal, floor contact and excluded terrain bound this control. Source
+  inspection finds the support class in some world catalogs. Its packed class
+  attribute is now implemented in the shared field loader: 512 original dispatch/
+  defaults/termination/base-copy programs match 31,744 projected words, including
+  neighboring writes and raw operand high bits. Three Delphi mission catalogs
+  now prepare those fields; an installed control retains constructor refusal and
+  empty ownership/lists for the unacquired support state. Next: acquire that
+  state's constructor/update/lifecycle, actual scene key registry and phase-correct owned
+  header publication, other actor
   writers and caller/world/ANM timing. Do not equate scene keys with Session serials,
   conflate support with held/surfacing relationships or substitute zero for a
   missing provider. Target/proxy lifetime, main integration and fidelity remain open.
