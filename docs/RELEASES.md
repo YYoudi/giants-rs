@@ -1,5 +1,39 @@
 # Preview releases and milestone integration
 
+## Positional impact activation configuration - 9 November 2026
+
+The explicit single-body impact planner retains its integer cue identity and
+pending recipient-bound request, size/lifetime fields and fixed angular rates.
+Full named preparation and already-prepared activation have separate RNG phases;
+projected failure is atomic. General/timed phase admission stays unchanged.
+With the original audio-disabled gate, 256 PC controls match 3,840 configuration
+words. Nine legacy burst controls match 315 objects / 6,018 words. Full actor
+headers/state, live cue transport and lifetime cleanup are outside these proofs.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+Source `74fe137db3985cb1f3d18947f6a638d51e4b2e90` preserves the concurrent
+Delphi ordinary-view and Kabuto motion-prefix work. It passes 792 synthetic Rust
+tests (30 ignored), 40 Python tests, Rustfmt, Clippy with warnings denied and five
+silent installed-resource Mecc controls. Roadmap/site generation and JavaScript
+checks pass. Source/history pattern review reports no findings across 370
+reachable commits / 2,616 blobs. Prototype PS2 attribution remains unknown.
+
+The exact GNU executable SHA256 is
+`5453e49a6461b02f0a4b7a431e166dbbd5c7324d3cbcbc7fbc422bfd06142dde`.
+The private ten-member validation draft has complete receipt-bound notices and
+independent package verification with zero technical blockers; ZIP SHA256 is
+`42fe6271ef07e2e930651ce70c486ea75a2256f566ad0f9c4492bd88d08db4d2`.
+This configuration prerequisite does not establish a new playable preview.
+
+Native cue-entry controls show the required service precedes later size draws,
+lifetime and angular writes. A real provider can consume shared RNG there;
+precomputed configuration does not replace its ordered execution. Actual owned
+birth with explicit origin/cache ownership, provider failure retention, retirement
+and impact damage/channel integration remain open. The latest exact movement
+endpoint retains its earlier step-441 refusal; no later runtime trajectory,
+new capture or visual fidelity is claimed. Existing preview receipts stay bound
+to their original executables and source commits.
+
 ## Owned Delphi ordinary view composition - 9 November 2026
 
 The local class-3 mode-zero view now selects acquired external base/scaled

@@ -442,7 +442,7 @@
       "title": "Animations and active effects",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Character/equipment animation, attachments, particles, trails, explosions, magic and effect lifecycles. Positional hard-landing context preparation matches 256 native controls, including three ordered shared RNG draws and empty-context retirement. Active impact effects, emitted-object cleanup and full world scheduling remain open."
+      "detail": "Character/equipment animation, attachments, particles, trails, explosions, magic and effect lifecycles. Positional hard-landing context preparation matches 256 native controls, including three ordered shared RNG draws and empty-context retirement. Explicit activation configuration also matches 256 original-PC controls for cue identity, size/lifetime, angular rates and shared RNG with audio disabled. Actual owned birth, interleaved cue transport, cleanup and full world scheduling remain open."
     },
     {
       "id": "hud-audio",
