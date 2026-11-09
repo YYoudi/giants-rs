@@ -4067,3 +4067,11 @@ The health-positive primary and App impact/voice admission remain guarded.
 This lot adds no dependency or distribution asset and produces no new playable
 capture or Windows preview. Existing executable, notices and checksum receipts
 keep their identities; the main agent owns combined integration and delivery.
+
+Combined source `36e6e3c1afe6de0203285d1dfb947984aa5d4b64` retains the latest
+Delphi selection, CI-cache and source-versus-download dashboard changes. It
+passes 846 synthetic workspace Rust tests (52 ignored), all four installed Mecc
+impact/primary controls, 43 Python tests, Rustfmt, strict workspace Clippy and
+roadmap/site/JavaScript checks. The rebuilt private continuation comparator
+repeats the selector agreement and all 48 required draw refusals on this source.
+These are CPU/source checks and do not relabel any public executable.
