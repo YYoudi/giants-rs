@@ -141,7 +141,7 @@ For the owned ordinary Delphi physical/jump/ANM/history composition, with the sa
 cargo test --locked -p giants-game source_delphi_physical_owns_motion_shares_events_and_quarantines_failure --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-This silent CPU control checks six owners, persistent motion/contact/jump,
+This silent CPU control checks seven owners, persistent motion/contact/jump,
 shared class events, physical/locomotion/controlled/authored-camera profiles using external
 clip definitions, separate look state, body roll settling, paused terrain exclusion, late secondary
 and invalid-rotation quarantine, profile refusal and cleanup. It creates no window or audio device
@@ -176,6 +176,13 @@ retry. Active turbo, immersion and required movement/splash/nonempty-retirement
 services remain unprepared. Native scalar and callback-prefix comparisons retain
 separate supplied boundaries; neither this control nor those CPU comparisons
 execute live Delphi gameplay.
+
+The seventh owner adds 64 item/absent-auxiliary-tail updates after reserve and
+checks retention of completed timing/history/ANM when a nonempty auxiliary
+resource is injected. Retry preserves both payload and epoch. The actual common
+actor list is scanned using acquired hidden/state/owner gates; eligible target
+services remain refusals. This control supplies offline mode context and does not
+execute active item/spell services, network transport or live Delphi gameplay.
 
 The locomotion profile reads the original executable's data as an external asset.
 Set `GIANTS_DELPHI_EXECUTABLE` for a separate configurable metadata file; otherwise

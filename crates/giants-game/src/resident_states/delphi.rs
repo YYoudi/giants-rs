@@ -9,7 +9,87 @@ enum Entry<'a> {
         camera: Option<crate::delphi_camera::Context<'a>>,
         post: Option<crate::delphi_post_physical::Context<'a>>,
         reserve: Option<ReserveEntry<'a>>,
+        primary_tail: Option<TailEntry<'a>>,
     },
+}
+struct TailEntry<'a> {
+    session_mode: u32,
+    peer_ids: &'a [u32],
+    local_peer: u32,
+    owner_word: Option<u32>,
+}
+struct ItemWorld<'a> {
+    session: &'a Session,
+    owner_context: u32,
+    time: crate::object_time::Sample,
+    global_seconds: f32,
+    areas: &'a [crate::object_time::SlowArea],
+    context: &'a TailEntry<'a>,
+}
+impl crate::delphi_items::World for ItemWorld<'_> {
+    fn actor_seconds(&mut self) -> Result<f64, String> {
+        Ok(crate::object_time::seconds(
+            self.global_seconds,
+            Some(self.time),
+            None,
+            self.areas,
+        ))
+    }
+    fn global_seconds(&mut self) -> Result<f64, String> {
+        Ok(crate::object_time::seconds(
+            self.global_seconds,
+            None,
+            None,
+            self.areas,
+        ))
+    }
+    fn eligible(&mut self) -> Result<bool, String> {
+        if self.context.session_mode != 4 {
+            return Ok(true);
+        }
+        crate::kabuto_geometry_mode::NotificationContext {
+            session_mode: self.context.session_mode,
+            peer_ids: self.context.peer_ids,
+            local_peer: self.context.local_peer,
+            owner_word: self
+                .context
+                .owner_word
+                .ok_or("Delphi item authority owner identity absent")?,
+        }
+        .eligible()
+        .map_err(str::to_owned)
+    }
+    fn action(
+        &mut self,
+        _: crate::delphi_items::Action,
+        _: &mut crate::delphi_items::State,
+    ) -> Result<(), String> {
+        Err("Delphi item action producer unprepared".into())
+    }
+    fn scan(&mut self, _: &mut crate::delphi_items::State) -> Result<bool, String> {
+        for id in self.session.list(0) {
+            let actor = self
+                .session
+                .get(id)
+                .ok_or("Delphi item scan has an unowned actor")?;
+            let fields = actor
+                .construction_fields
+                .as_ref()
+                .ok_or("Delphi item scan actor fields absent")?;
+            if fields.object_flags & 0x8000 != 0 || actor.seed.storage.state() != 90 {
+                continue;
+            }
+            if fields.dispatch_context != 0 && fields.dispatch_context != self.owner_context {
+                continue;
+            }
+            // The source next requires distance, then held/interaction services.
+            // Refuse before inventing a target outcome or clearing the latch.
+            return Err(
+                "Delphi eligible item target distance/interaction services unprepared".into(),
+            );
+        }
+        Ok(false)
+    }
 }
 struct ReserveEntry<'a> {
     recharge_inhibited: bool,
@@ -152,6 +232,7 @@ impl Session {
                 camera: None,
                 post: None,
                 reserve: None,
+                primary_tail: None,
             },
         )
     }
@@ -176,6 +257,7 @@ impl Session {
                 camera: Some(camera),
                 post: None,
                 reserve: None,
+                primary_tail: None,
             },
         )
     }
@@ -201,6 +283,7 @@ impl Session {
                 camera: None,
                 post: Some(post),
                 reserve: None,
+                primary_tail: None,
             },
         )
     }
@@ -229,6 +312,40 @@ impl Session {
                     recharge_inhibited: context.recharge_inhibited,
                     services: context.services,
                 }),
+                primary_tail: None,
+            },
+        )
+    }
+    /// Physical/reset/post/reserve, acquired item tail, absent auxiliary route,
+    /// then secondary/zero ANM. Required active actions are not acknowledged.
+    pub fn advance_delphi_tail_controlled(
+        &mut self,
+        id: Id,
+        e: crate::delphi_physical::Environment<'_>,
+        manual: crate::delphi_physical::ManualRotation,
+        context: crate::delphi_items::Context<'_>,
+        ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+        services: &mut crate::actor_animation_phase::Services<'_>,
+    ) -> Result<crate::delphi_physical::View, String> {
+        self.advance_delphi_phases(
+            id,
+            e,
+            ground,
+            services,
+            Entry::Controlled {
+                manual,
+                camera: None,
+                post: Some(context.reserve.post),
+                reserve: Some(ReserveEntry {
+                    recharge_inhibited: context.reserve.recharge_inhibited,
+                    services: context.reserve.services,
+                }),
+                primary_tail: Some(TailEntry {
+                    session_mode: context.session_mode,
+                    peer_ids: context.peer_ids,
+                    local_peer: context.local_peer,
+                    owner_word: context.owner_word,
+                }),
             },
         )
     }
@@ -240,15 +357,17 @@ impl Session {
         services: &mut crate::actor_animation_phase::Services<'_>,
         entry: Entry<'_>,
     ) -> Result<crate::delphi_physical::View, String> {
-        let (locomotion, manual, mut camera, mut post, mut reserve) = match entry {
-            Entry::Physical => (false, None, None, None, None),
-            Entry::Locomotion => (true, None, None, None, None),
+        let (locomotion, manual, mut camera, mut post, mut reserve, mut primary_tail) = match entry
+        {
+            Entry::Physical => (false, None, None, None, None, None),
+            Entry::Locomotion => (true, None, None, None, None, None),
             Entry::Controlled {
                 manual,
                 camera,
                 post,
                 reserve,
-            } => (true, Some(manual), camera, post, reserve),
+                primary_tail,
+            } => (true, Some(manual), camera, post, reserve, primary_tail),
         };
         let actor = self
             .get(id)
@@ -262,6 +381,7 @@ impl Session {
             || cycle.resources.authored_camera != camera.is_some()
             || cycle.resources.post_physical != post.is_some()
             || cycle.resources.reserve != reserve.is_some()
+            || cycle.resources.primary_tail != primary_tail.is_some()
         {
             return Err("Delphi phase entry differs from its prepared profile".into());
         }
@@ -516,6 +636,58 @@ impl Session {
                             out.payload[0xfec..0xff0].fill(0);
                         }
                         result?;
+                    }
+                    if let Some(context) = primary_tail.as_mut() {
+                        let word = crate::delphi_physical::word;
+                        let mut state = crate::delphi_items::State {
+                            buttons: cycle
+                                .view
+                                .post_buttons
+                                .ok_or("Delphi item tail requires completed post input")?,
+                            controls: out.fields.control_flags,
+                            physics_flags: word(&out.payload, 0xd00),
+                            selected: word(&out.payload, 0xdb0) as i32,
+                            items: std::array::from_fn(|i| {
+                                word(&out.payload, 0xd3c + i * 12) as i32
+                            }),
+                            spells: std::array::from_fn(|i| {
+                                [
+                                    word(&out.payload, 0xd98 + i * 8) as i32,
+                                    word(&out.payload, 0xd9c + i * 8) as i32,
+                                ]
+                            }),
+                            elapsed: f32::from_bits(word(&out.payload, 0xfa0)),
+                            scan_remaining: f32::from_bits(word(&out.payload, 0xfa8)),
+                        };
+                        let result = crate::delphi_items::advance(
+                            &mut state,
+                            globals.scalar(0x1568).map_err(|e| e.to_string())?,
+                            &mut ItemWorld {
+                                session: self,
+                                owner_context: out.fields.dispatch_context,
+                                time: crate::object_time::Sample {
+                                    owner: out.fields.dispatch_context,
+                                    position: out.fields.position,
+                                },
+                                global_seconds,
+                                areas,
+                                context,
+                            },
+                        );
+                        out.fields.control_flags = state.controls;
+                        cycle.view.post_buttons = Some(state.buttons);
+                        for (at, value) in [
+                            (0xd00, state.physics_flags),
+                            (0xdb0, state.selected as u32),
+                            (0xfa0, state.elapsed.to_bits()),
+                            (0xfa8, state.scan_remaining.to_bits()),
+                        ] {
+                            out.payload[at..at + 4].copy_from_slice(&value.to_le_bytes());
+                        }
+                        result?;
+                        if word(&out.payload, 0xcfc) != 0 {
+                            return Err("Delphi auxiliary resource callback unprepared".into());
+                        }
                     }
                     if let Some(clips) = cycle.resources.locomotion {
                         let word = crate::delphi_physical::word;
@@ -1024,7 +1196,7 @@ mod physical_tests {
         let factory = crate::delphi_special::Factory::load(&resources, &globals, &weapons).unwrap();
         let mut session = Session::new(1281);
         let mut owners = Vec::new();
-        for profile in 0..6 {
+        for profile in 0..7 {
             let id = factory
                 .construct_player_fields(
                     &mut session,
@@ -1075,8 +1247,13 @@ mod physical_tests {
             } else {
                 prepared
             };
-            let prepared = if profile == 5 {
+            let prepared = if profile >= 5 {
                 prepared.with_reserve().unwrap()
+            } else {
+                prepared
+            };
+            let prepared = if profile == 6 {
+                prepared.with_primary_tail().unwrap()
             } else {
                 prepared
             };
@@ -1237,7 +1414,7 @@ mod physical_tests {
                         ground,
                         &mut services,
                     )
-                } else {
+                } else if index == 5 {
                     session.advance_delphi_reserve_controlled(
                         id,
                         environment,
@@ -1257,6 +1434,36 @@ mod physical_tests {
                             },
                             recharge_inhibited: (10..=14).contains(&number),
                             services: &mut crate::delphi_reserve::EmptyContext,
+                        },
+                        ground,
+                        &mut services,
+                    )
+                } else {
+                    session.advance_delphi_tail_controlled(
+                        id,
+                        environment,
+                        crate::delphi_physical::ManualRotation {
+                            sensitivity: 1.,
+                            local_owner: true,
+                            paused,
+                        },
+                        crate::delphi_items::Context {
+                            reserve: crate::delphi_reserve::Context {
+                                post: crate::delphi_post_physical::Context {
+                                    world: &mut post_world,
+                                    view_mode: 0,
+                                    stop_sound: &mut |cue| {
+                                        stop_cues.push(cue);
+                                        Ok(())
+                                    },
+                                },
+                                recharge_inhibited: false,
+                                services: &mut crate::delphi_reserve::EmptyContext,
+                            },
+                            session_mode: 0,
+                            peer_ids: &[],
+                            local_peer: 0,
+                            owner_word: None,
                         },
                         ground,
                         &mut services,
@@ -1358,6 +1565,95 @@ mod physical_tests {
             }
         }
         assert!(landed && jumped);
+        let tail_owner = owners[6];
+        let payload = session
+            .get(tail_owner)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap();
+        let elapsed = f32::from_bits(crate::delphi_physical::word(payload, 0xfa0));
+        assert!(elapsed > 0.);
+        let scan = f32::from_bits(crate::delphi_physical::word(payload, 0xfa8));
+        assert!((0. ..=0.5).contains(&scan));
+        session
+            .residents
+            .get_mut(&tail_owner.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()[0xcfc..0xd00]
+            .copy_from_slice(&1u32.to_le_bytes());
+        let stamp_before = stamp.0;
+        let tail_environment = |number| crate::delphi_physical::Environment {
+            number,
+            actor_key: 7,
+            globals: &globals,
+            global_seconds: 1. / 60.,
+            areas: &[],
+            commands: [0; 8],
+            launch_blocked: false,
+            objects: &[],
+        };
+        let mut tail_retained = None;
+        for number in [65, 66] {
+            let result = session.advance_delphi_tail_controlled(
+                tail_owner,
+                tail_environment(number),
+                crate::delphi_physical::ManualRotation {
+                    sensitivity: 1.,
+                    local_owner: true,
+                    paused: true,
+                },
+                crate::delphi_items::Context {
+                    reserve: crate::delphi_reserve::Context {
+                        post: crate::delphi_post_physical::Context {
+                            world: &mut post_world,
+                            view_mode: 0,
+                            stop_sound: &mut |_| panic!("Paused tail cannot stop sound"),
+                        },
+                        recharge_inhibited: false,
+                        services: &mut crate::delphi_reserve::EmptyContext,
+                    },
+                    session_mode: 0,
+                    peer_ids: &[],
+                    local_peer: 0,
+                    owner_word: None,
+                },
+                |_| panic!("Paused tail cannot query terrain"),
+                &mut crate::actor_animation_phase::Services {
+                    contexts: &mut contexts,
+                    random: &mut random,
+                    stamp: &mut stamp,
+                    blending: crate::animation_channels::Blending::Disabled,
+                },
+            );
+            assert!(result.is_err());
+            if number == 65 {
+                assert!(result.unwrap_err().contains("auxiliary"));
+            }
+            let p = session
+                .get(tail_owner)
+                .unwrap()
+                .seed
+                .storage
+                .data()
+                .unwrap();
+            assert_eq!(
+                crate::delphi_physical::word(p, 0xfa0),
+                ((f64::from(elapsed) + f64::from(1_f32 / 60.)) as f32).to_bits()
+            );
+            assert_eq!(session.delphi_physical(tail_owner).unwrap().number, 65);
+            if let Some((ref bytes, epoch)) = tail_retained {
+                assert_eq!(p, bytes);
+                assert_eq!(stamp.0, epoch);
+            } else {
+                tail_retained = Some((p.to_vec(), stamp.0));
+            }
+        }
+        assert!(stamp.0 > stamp_before);
         let reserve_owner = owners[5];
         let payload = session
             .get(reserve_owner)

@@ -4,6 +4,44 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Owned item and absent auxiliary tail - 9 November 2026
+
+`delphi_items::advance` now follows the reserve callback with acquired inventory
+selection, item/spell action gates, actor-local elapsed time and the separate
+global-time interaction countdown. It rereads action-mutated selection/buttons,
+preserves the wide spell-threshold comparison and clears selection bits only
+after successful activation. Actions and eligible target interaction must execute
+through required services or refuse; recording a request is not execution.
+
+`Resources::with_primary_tail` and `Session::advance_delphi_tail_controlled`
+compose physical/reset/post/reserve/item, the absent auxiliary-context route,
+secondary and zero-time ANM. The item phase uses actual owned inventory, processed
+buttons and the ordered common actor list. Hidden, other-state and foreign-owner
+targets are excluded by acquired predicates; an eligible state-90 target refuses
+before its pending copy/parent, distance and interaction services. Nonempty
+auxiliary resources also refuse. Mode/participant context remains supplied; mode
+four additionally requires an explicitly acquired owner identity. The shared
+eligibility helper is reused without claiming network or live-world integration.
+
+Two 1,024-case original-PC controls cover 1,358 complete callbacks and 690 action
+entry prefixes, with 2,492,416 complete header/payload words compared to Rust.
+The second varies ordered slow areas and owner exclusion, retaining the distinct
+actor/global timing domains. Native reserve, time, eligibility and actor-kind
+helpers execute without behavior replacements. Prefix cases stop at actual
+required action entry and do not validate those action bodies. Synthetic controls
+check action-induced rereads and retained selection/timing on late scan refusal.
+Two persistent 256-frame comparisons over 22 actors match 4,081,152 words and exact
+shared RNG against the expanded native item/auxiliary sequence. Supplied commands,
+time, flat world and metadata remain boundaries; full primary/auxiliary scheduling,
+active effects, live input/render/HUD/audio, water/swim/turbo and combat stay open.
+
+The installed-data lifecycle adds a seventh owner and 64 tail-profile updates.
+A later nonempty auxiliary refusal retains completed timing/ANM/history and the
+owner quarantines retry, including unchanged retained payload and epoch. Earlier
+profiles remain separate. No live Delphi admission or fidelity status changes.
+Prototype PS2 correspondence remains unknown; detailed evidence and identities
+remain private, with only this bounded independent summary reviewed for source.
+
 ## Delphi reserve callback and owned passive composition - 9 November 2026
 
 `delphi_reserve::advance` implements the acquired finite PC delay, recharge,

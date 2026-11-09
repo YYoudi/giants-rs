@@ -221,6 +221,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Active-control/immersion admission, real linked-actor movement, nonempty context
   retirement, splash, activation and actual recharge-inhibition production remain
   open. No active turbo, live Delphi or fidelity promotion follows.
+- Implemented: the frozen owned item/absent-auxiliary tail composes acquired
+  inventory selection and actor-local/global timing after reserve, before
+  secondary/zero-time ANM. Two native controls match 1,358 complete callbacks and
+  690 required-action entry prefixes / 2,492,416 words, with ordered slow areas.
+  Two expanded 256-frame, 22-actor sequences match 4,081,152 words and exact RNG.
+  A seventh owner checks 64 updates and retained late auxiliary failure/no replay.
+  Actual common-list hidden/state/owner gates execute; eligible state-90 copy,
+  distance, held/interaction services, active item/spell actions and nonempty
+  auxiliary resources remain open. Mode/participant/owner identity context stays
+  supplied. No live Delphi, networking or fidelity promotion follows.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary

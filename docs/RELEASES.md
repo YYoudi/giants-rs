@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Delphi owned item-tail composition - 9 November 2026
+
+The new frozen dry controlled profile adds actual inventory selection and distinct
+actor/global item timing after reserve, then the acquired absent auxiliary route
+before secondary/zero-time ANM. It traverses the owned common list with acquired
+hidden/state/owner gates. Eligible interaction, active item/spell actions and
+nonempty auxiliary resources remain required refusals, preserving completed
+prefixes and quarantining replay. Supplied mode/participant context is separate
+from actual networking. No live Delphi or fidelity promotion follows.
+
+Two original-PC/Rust controls match 1,358 complete callbacks and 690 actual action
+entry prefixes / 2,492,416 header/payload words, including ordered slow areas.
+Two persistent expanded sequences additionally match 512 frames / 4,081,152 words
+over 22 actors and exact RNG. The seven-owner source-data check adds 64 updates
+and verifies retained late auxiliary failure without replay. Commands/time/flat
+world and metadata remain supplied; action bodies, remaining primary/camera/target
+and auxiliary paths, active movement/water, combat and live mission integration
+remain open. See [OWNED_DELPHI.md](OWNED_DELPHI.md) for exact scope.
+
 ## Delphi reserve callback and owned passive composition - 9 November 2026
 
 `delphi_reserve::advance` implements the acquired finite PC delay, recharge,
