@@ -229,7 +229,10 @@ impl Template {
         }
         let recipe = crate::released_effect::Recipe::project(program)?;
         let mut initial = self.positioned(origin, context)?;
-        initial.size([recipe.visual.start_size, recipe.visual.end_size], true)?;
+        initial.size(
+            [recipe.visual.start_size, recipe.visual.end_size],
+            recipe.visual.start_size != recipe.visual.end_size,
+        )?;
         let mut configured = initial.timed(recipe.visual)?;
         configured.initial.fields.object_flags &= !0x10;
         configured.initial.fields.control_flags |= 0x80;

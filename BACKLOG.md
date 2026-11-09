@@ -1092,7 +1092,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   gravity effects within each original interpreter invocation. Sixty-four
   parent/child full-program states match 10,624 selected configuration, header,
   payload, channel, matrix, position and RNG words. Active attachment samples only
-  once after context preparation; gravity preserves the distinct render word and
+  once after context preparation; equal-size endpoints retain a disabled
+  interpolation flag in four controlled native variants. Gravity preserves the distinct render word and
   physical payload alias. Wrong classes refuse without consuming RNG. The size
   writer preserves the existing affine bottom row; existing ordinary/cinematic
   attached effects and owned impacts reuse these acquired size/lifetime helpers.
