@@ -1,5 +1,5 @@
-//! Owned positional-impact construction in source command order.
-//! Cue transport is required; lifetime/world scheduling is a separate phase.
+//! Owned positional-impact birth and bounded timed callback in source order.
+//! Cue transport is required; actor retirement/world scheduling stay separate.
 use crate::{
     actor_fields::Fields,
     attached_effect_context::{Id as ContextId, Pool},
@@ -19,10 +19,13 @@ pub struct Metadata {
     pub matrix: Matrix,
     /// Native header EC/F0/F4/F8, distinct from the payload lifetime.
     pub fade: [f32; 4],
+    /// Current native transparency (zero is opaque), retaining the birth-field
+    /// identifier introduced before callback integration.
     pub initial_opacity: f32,
     /// All birth commands finished; lifetime and world completion stay separate.
     pub complete: bool,
     pub failure: Option<String>,
+    pub(crate) visual: Option<crate::effect_visual::Visual>,
     source: Arc<giants_formats::effect_image::Image>,
 }
 impl Metadata {
@@ -50,6 +53,18 @@ pub trait Cue {
         cue: u32,
         random: &mut Random,
     ) -> Result<(), String>;
+}
+/// Expiry must stop the retained recipient-bound cue before deferred marking.
+/// An implementation must use the actual transport; there is no default sink.
+pub trait Stop {
+    fn stop(&mut self, session: &mut Session, source: Id, cue: u32) -> Result<(), String>;
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Step {
+    FirstFrame,
+    Updated,
+    Marked,
+    Inactive,
 }
 struct Attempt {
     context: ContextId,
@@ -172,6 +187,7 @@ impl<'r> Factory<'r> {
                 initial_opacity: 0.,
                 complete: false,
                 failure: None,
+                visual: None,
                 source: image,
             },
             self.ticket,
@@ -338,6 +354,152 @@ mod tests {
             panic!("source impact context absent")
         };
         id
+    }
+    struct StopProvider {
+        calls: usize,
+        fail: bool,
+    }
+    impl Stop for StopProvider {
+        fn stop(&mut self, session: &mut Session, id: Id, cue: u32) -> Result<(), String> {
+            self.calls += 1;
+            let actor = session.get(id).unwrap();
+            let data = actor.seed.storage.data().unwrap();
+            let word = |at| u32::from_le_bytes(data[at..at + 4].try_into().unwrap());
+            assert_eq!(cue, word(0x108));
+            assert!(f32::from_bits(word(8)) >= f32::from_bits(word(4)));
+            assert_eq!(
+                actor.construction_fields.as_ref().unwrap().object_flags & 0x8000,
+                0
+            );
+            if self.fail {
+                Err("declared late stop failure".into())
+            } else {
+                Ok(())
+            }
+        }
+    }
+    #[test]
+    #[ignore = "requires GIANTS_MECC_WORLD_ROOT; silent actual actor callback/control only"]
+    fn source_positional_impact_ticks_owned_clocks_and_marks_only_after_stop() {
+        let root = std::env::var_os("GIANTS_MECC_WORLD_ROOT").expect("GIANTS_MECC_WORLD_ROOT");
+        let resources =
+            SceneResources::load(std::path::Path::new(&root), "w_Story1.bin", "English").unwrap();
+        let mut pool = Pool::<Id>::from_active_resources(939, &resources);
+        let mut session = Session::new(940);
+        let mut factory = Factory::new(&resources);
+        let mut random = Random(1);
+        let mut cue = Provider {
+            calls: 0,
+            draws: 0,
+            fail: false,
+        };
+        let mut ids = vec![];
+        for _ in 0..2 {
+            let context = prepare(&mut pool, &mut random);
+            ids.push(
+                factory
+                    .activate(&mut session, &mut pool, context, &mut random, &mut cue)
+                    .unwrap(),
+            );
+        }
+        let mut stamp = crate::animation_epoch::Stamp::default();
+        let mut stop = StopProvider {
+            calls: 0,
+            fail: false,
+        };
+        let before = session.counts();
+        for &id in &ids {
+            assert!(
+                session
+                    .advance_positional_impact(id, f32::NAN, &mut stamp, &mut stop)
+                    .is_err()
+            );
+            assert_eq!(
+                session
+                    .advance_positional_impact(id, 0., &mut stamp, &mut stop)
+                    .unwrap(),
+                Step::FirstFrame
+            );
+            assert_eq!(session.get(id).unwrap().mecc_animation_stamp, stamp.0);
+            assert_eq!(session.current_reference_matrices(id).unwrap().len(), 1);
+            assert_eq!(
+                session
+                    .positional_impact(id)
+                    .unwrap()
+                    .visual
+                    .as_ref()
+                    .unwrap()
+                    .age,
+                0.
+            );
+        }
+        assert_eq!(stamp.0, 2);
+        for (index, &id) in ids.iter().enumerate() {
+            for _ in 0..3 {
+                assert_eq!(
+                    session
+                        .advance_positional_impact(id, 0.25, &mut stamp, &mut stop)
+                        .unwrap(),
+                    Step::Updated
+                );
+                session.actor_current_affine(id).unwrap();
+            }
+            stop.fail = index == 1;
+            let before_stamp = stamp.0;
+            let result = session.advance_positional_impact(id, 0.25, &mut stamp, &mut stop);
+            assert_eq!(stamp.0, before_stamp);
+            if stop.fail {
+                assert!(result.is_err());
+                assert!(session.positional_impact(id).unwrap().failure.is_some());
+                let calls = stop.calls;
+                assert!(
+                    session
+                        .advance_positional_impact(id, 0.25, &mut stamp, &mut stop)
+                        .is_err()
+                );
+                assert_eq!(stop.calls, calls);
+            } else {
+                assert_eq!(result.unwrap(), Step::Marked);
+                assert_eq!(
+                    session
+                        .advance_positional_impact(id, 0.25, &mut stamp, &mut stop)
+                        .unwrap(),
+                    Step::Inactive
+                );
+            }
+        }
+        assert_eq!(stop.calls, 2);
+        assert_eq!(session.counts(), before); // Deferred marks do not retire storage.
+        assert_eq!(
+            session
+                .get(ids[0])
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .object_flags
+                & 0x8000,
+            0x8000
+        );
+        assert_eq!(
+            session
+                .get(ids[1])
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .object_flags
+                & 0x8000,
+            0
+        );
+        let mut foreign = Session::new(941);
+        assert!(
+            foreign
+                .advance_positional_impact(ids[0], 0., &mut stamp, &mut stop)
+                .is_err()
+        );
+        session.clear();
+        assert!(session.get(ids[0]).is_none());
     }
     #[test]
     #[ignore = "requires GIANTS_MECC_WORLD_ROOT; silent source-resource constructor/control only"]
