@@ -15,7 +15,7 @@ fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source reposit
 ## Retirement child initialization dependency
 
 The shared initial skip service now accepts the acquired complete fixed-size,
-lifetime and spin frame without consuming RNG or constructing an object. This
+lifetime and gravity frame without consuming RNG or constructing an object. This
 covers the child program requested by the largest remaining cinematic FX family.
 
 A separate original-PC CPU control now follows 32 supplied parent/child lifecycles

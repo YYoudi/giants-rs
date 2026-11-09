@@ -3,7 +3,7 @@
 ## Retirement child initialization and native cleanup boundary — 9 November 2026
 
 The shared null-object initialization service now handles the acquired complete
-fixed-size/lifetime/spin frame without consuming RNG. The source retirement
+fixed-size/lifetime/gravity frame without consuming RNG. The source retirement
 child reaches this frame; whole-frame guards still refuse unacquired programs.
 
 A separate 32-case original-PC control executes parent preparation and birth,
