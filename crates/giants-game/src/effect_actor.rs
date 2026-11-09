@@ -63,7 +63,12 @@ fn initialize_physical(seed: &mut Seed) -> Result<(), String> {
     let data = seed.storage.data_mut().unwrap();
     // Presence only. The actual originating cursor identity lives in Initial.
     data[..4].copy_from_slice(&1u32.to_le_bytes());
-    for (chunk, word) in data[0xa0..0xdc].as_chunks_mut::<4>().0.iter_mut().zip(words) {
+    for (chunk, word) in data[0xa0..0xdc]
+        .as_chunks_mut::<4>()
+        .0
+        .iter_mut()
+        .zip(words)
+    {
         chunk.copy_from_slice(&word.to_le_bytes());
     }
     Ok(())
@@ -230,7 +235,9 @@ mod tests {
         assert_eq!(&after[0xb4..0xb8], &before[0xb4..0xb8]);
         let words = physical_data(&seed)
             .unwrap()
-            .as_chunks::<4>().0.iter()
+            .as_chunks::<4>()
+            .0
+            .iter()
             .map(|b| u32::from_le_bytes(*b))
             .collect::<Vec<_>>();
         assert_eq!(words[1], 1f32.to_bits());
