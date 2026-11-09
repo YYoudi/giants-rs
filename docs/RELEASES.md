@@ -1,5 +1,26 @@
 # Preview releases and milestone integration
 
+## Ordinary mission placement header — 9 November 2026
+
+The common owned declaration constructor now preserves the original mission
+placement marks for its acquired state0/state23 profiles. The marks are applied
+after successful construction and before later updates; world declarations retain
+their own route. The existing specialized mission herd-marker path shares the
+same header operation. Other character cold-start ordering remains separate.
+
+An identity-bound original-PC control covers 512 template-copy/flag-store cases
+and 395,264 object bytes before the initial update callback. Rust matches all 512
+header cases. The actual source preparation path constructs 32 marked mission
+actors across the four bounded-cohort worlds, then releases its tracked residents.
+Forty existing declaration refusals remain visible. Synthetic ownership checks
+cover world/mission scope, invalid construction, duplicate keys and retained
+source configuration/channels. Prototype PS2 attribution remains unknown.
+
+This corrects header inputs consumed by the shared runtime and entry contribution
+service. It does not implement physical stock accounting, run the omitted initial
+callbacks, reconstruct complete world occupancy or admit gameplay. The 545-source
+inventory, 59 reported gaps and zero fully verified cinematic scenes are unchanged.
+
 ## Unequipped Mecc jet reserve depletion - 9 November 2026
 
 The owned normal jet driver no longer refuses zero fuel when its existing
