@@ -40,6 +40,50 @@ Mecc/Delphi/Kabuto work and passes 814 synthetic Rust tests (37 ignored),
 checks. Its source audit covers 448 commits / 2,924 blobs with zero findings.
 This source validation does not relabel the published binary or certify rendering.
 
+## Delphi target-movement and activation services - 9 November 2026
+
+The shared Rust library now contains acquired target/fallback movement arithmetic
+and its activation ordering: physical parameters, required sound sequence and
+target resolution, movement/duration, notification, held reveal and positional
+stop before final reset/context/flag stores. The former generated item-action
+label `Cycle` is corrected to `TargetMovement`. The owned adapter executes the
+measured readiness-off return; ready activation remains unbound and refuses.
+
+Original-PC/Rust controls match 512 movement calls / 623,104 full words and 528
+complete activation calls plus 48 sequence-constructor entry prefixes / 700,992
+words. Those prefixes do not prove sequence construction; completed activations
+use existing sequences, offline notification, an empty held list and an actual
+null sound bank. Constants/rates, typed targets, sequence ownership/lifetime and
+live scheduling remain separate inputs/prerequisites. Synthetic late-failure
+checks retain completed effects. No live Delphi, active turbo/water integration
+or fidelity status changes follow. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `a4376eb18d73d72f42366f61e8169981b23ea8eb` retains the newer
+shared RNG ownership guidance and passes 812 Rust tests (35 ignored), the
+seven-owner Delphi installed-data control, 40 Python tests, Rustfmt, strict
+Clippy and generated roadmap/site/JavaScript checks. The pattern audit reports
+zero findings across 443 commits / 2,909 blobs. Earlier 2,048-case item controls
+also repeat against the corrected action label and readiness projection.
+
+The exact common GNU executable SHA256 is
+`edd79c3dd2deeeeb96570d4c83b6092c762ecd437a4a340ab84c2d4d611f7687`.
+It passes both silent offscreen development endpoints and three Rstory1 mission-2
+persistent-owner birth/update/cancel/re-entry cycles with text cleanup. Canonical
+PE imports remain unchanged. The private ten-member validation draft has complete
+receipt-bound notices/checksums and independent verification with zero technical
+blockers; ZIP SHA256 is
+`7a07e764ea348812ba83f62f939da294ccd1b0c8a6ba282be0372e7d1ae28ca7`.
+Those are common-runtime regressions, not live Delphi controls. Existing published
+previews retain their own receipts; this CPU dependency does not claim another
+playable Delphi download or distribute original data.
+
+Final source checkpoint `9ea8be5169ab9d0da194e8745ae47d0baf6a3d40` retains
+the newer Kabuto additional-contact traversal and passes 815 synthetic Rust tests
+(37 ignored), 40 Python tests, Rustfmt, strict Clippy and site/JavaScript checks.
+Its source pattern audit reports zero findings across 448 commits / 2,924 blobs.
+The common executable and runtime/package receipts above remain bound to
+`a4376eb1`; this later source validation does not change those identities.
+
 ## Kabuto owned additional-contact traversal — 9 November 2026
 
 The additional-contact routine now preserves prepared-scene filtering, probe
