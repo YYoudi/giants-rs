@@ -20,6 +20,13 @@ size-pursuit receipts. Prototype PS2 correspondence remains unknown. Full primar
 movement/jumping, threshold production/feeding, world cadence and live admission
 remain open; no readiness or visual fidelity status is promoted.
 
+Combined checkpoint `27f34b2` preserves the newer Mecc reserve-depletion change
+and repeats 776 Rust tests (29 ignored), all seven Kabuto installed-data controls,
+40 Python tests, Rustfmt, Clippy and site checks. Rebuilt private decision and
+owned-composition runners again match their 512-context controls. The earlier
+supplied-target trajectories also match 1,024 contexts / 627,712 words at the
+preceding Kabuto checkpoint; their original supplied-target scope is retained.
+
 No dependency or bundled-asset change is made and no new gameplay preview is
 claimed. Existing notice/package manifests and checksums retain their original
 executable identities; this CPU source milestone does not replace their receipts.
