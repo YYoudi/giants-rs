@@ -14,6 +14,18 @@ device publication. Profile/input/viewport/depth production, complete dispatch,
 owned-view/renderer/mission integration, water/turbo and combat remain pending.
 CPU arithmetic is not visual fidelity or a new playable Delphi capability.
 
+Combined source `b1879512d4e178c095512c9fee67348879714141` passes 781
+synthetic Rust tests (29 ignored), 40 Python tests, Rustfmt, Clippy and generated
+site/JavaScript checks. Its exact GNU executable passes both silent development
+lifecycle endpoints and three persistent-owner opening/cancellation cycles for
+Rstory1 mission 2. These are common-runtime regressions, not Delphi gameplay.
+Executable SHA256:
+`f08aa0188027c87e8ab2e72ca50660677c59af0c4b2f4c0a2ef86e490557d92c`.
+The ten-member private validation draft has complete receipt-bound notices and
+no technical verifier blockers; ZIP SHA256:
+`e317a5cb7eb9df277c2853a6fa6fc6283d1b6b887668cb22531838fd9a954a40`.
+No playable download follows from this CPU milestone.
+
 ## Delphi ordinary third-person camera slice - 6 November 2026
 
 The shared camera producer now consumes Delphi's acquired distance policy while

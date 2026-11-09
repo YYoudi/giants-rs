@@ -7,7 +7,8 @@ lookup and separate PC identity, aliases, platform differences and attribution.
 ## Lens and projection arithmetic - 9 November 2026
 
 `camera_lens::State` implements the acquired finite transition, selected-kind
-eligibility, input scale and explicit FOV override. `camera_projection::build`
+eligibility, input scale and explicit FOV override. Lens transition uses global
+frame time, not actor-local slowed time. `camera_projection::build`
 produces the source-space perspective matrix and lens caches from actual supplied
 viewport/depth parameters. `camera_projection::advance` composes them in order;
 a completed transition survives a later projection refusal. These are CPU
