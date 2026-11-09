@@ -189,7 +189,8 @@ foreign-ticket failure, same-ticket foreign-scope cleanup refusal, deferred mark
 unchanged ordered lists, last-material retirement and clean regeneration after
 clear/re-entry. This is the custom callback phase, not common actor retirement.
 
-For factory-bound size pursuit composed with the following auxiliary selection:
+For factory-bound target decisions and size pursuit composed with the following
+auxiliary selection:
 
 ```powershell
 cargo test --locked -p giants-game source_kabuto_growth_composes_size_and_auxiliary_without_admitting_gameplay --target x86_64-pc-windows-gnu -- --ignored
@@ -199,8 +200,12 @@ This silent control uses `GIANTS_KABUTO_ROOT`, traverses sizes and checks factor
 ownership, failed-input rollback, retained gates and clear. Optional private
 `GIANTS_KABUTO_GROWTH_CONTROLS` / `GIANTS_KABUTO_GROWTH_RECEIPT` paths replay the
 acquired independent or successive-state source profiles. Neither the inputs
-nor receipts belong in Git. Targets/poses/root identity are supplied; this does
-not establish growth triggers, world collision-cache updates or live gameplay.
+nor receipts belong in Git. `GIANTS_KABUTO_GROWTH_DECISION_CONTROLS` selects the
+state-decision composition instead of supplying the resulting target. Poses, root
+identity and the threshold remain supplied; this does not establish its producer,
+feeding, world collision-cache updates or live gameplay. The default control also
+checks the state-bound threshold/target decision, ordered sound request, foreign-
+factory refusal and refusal after clear.
 
 For second-auxiliary selection from actual owned resources and actor lists:
 

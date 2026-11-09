@@ -38,6 +38,37 @@ import set and all ten ZIP members/checksums are verified. Windows preview
 `preview-2026.11.09.1` has ZIP SHA256
 `7dc78fe22f65e5475d96c82d014e9c1097fdb87fdc9158526b3e86536c1fec15`.
 
+## Kabuto owned target decision — 9 November 2026
+
+The factory-bound decision now reads the actual owner state threshold and target,
+uses shared wide integer conversion and the acquired four-value wrap, and
+preserves sound/notification publication order. Its target flows into the owned
+size/parameter/radius phase and second-auxiliary selector. A 512-context kernel
+control matches 2,509 words / 237 service observations. A separate 512-context
+Factory/Session composition matches 315,440 normalized words, including complete
+owner/child headers, owner payload, physical words, refresh decisions and ordered
+sound-call states. The original sound bank is null; transport is a supplied
+boundary. These controls do not assign the threshold's gameplay role or producer.
+
+Validation: 776 synthetic Rust tests pass (29 ignored), all seven silent Kabuto
+installed-data controls pass, together with 40 Python tests, Rustfmt, Clippy with
+warnings denied, roadmap generation, site export and JavaScript syntax checks.
+The combined source preserves current Mecc/Delphi contact/camera work and earlier
+size-pursuit receipts. Prototype PS2 correspondence remains unknown. Full primary,
+movement/jumping, threshold production/feeding, world cadence and live admission
+remain open; no readiness or visual fidelity status is promoted.
+
+Combined checkpoint `27f34b2` preserves the newer Mecc reserve-depletion change
+and repeats 776 Rust tests (29 ignored), all seven Kabuto installed-data controls,
+40 Python tests, Rustfmt, Clippy and site checks. Rebuilt private decision and
+owned-composition runners again match their 512-context controls. The earlier
+supplied-target trajectories also match 1,024 contexts / 627,712 words at the
+preceding Kabuto checkpoint; their original supplied-target scope is retained.
+
+No dependency or bundled-asset change is made and no new gameplay preview is
+claimed. Existing notice/package manifests and checksums retain their original
+executable identities; this CPU source milestone does not replace their receipts.
+
 ## Unequipped Mecc jet reserve depletion - 9 November 2026
 
 The owned normal jet driver no longer refuses zero fuel when its existing

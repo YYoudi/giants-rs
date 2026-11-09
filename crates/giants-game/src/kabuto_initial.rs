@@ -77,6 +77,18 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    /// Derive this owner's target from its actual state threshold. The source
+    /// trigger producer, service routing and full primary remain separate.
+    pub fn decide_growth(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        context: &crate::kabuto_geometry_mode::NotificationContext<'_>,
+        observe: impl FnMut(crate::kabuto_growth::DecisionEvent, crate::kabuto_growth::DecisionState),
+    ) -> Result<bool, String> {
+        session.decide_kabuto_growth(owner, &self.resources, context, observe)
+    }
+
     /// Acquired size-pursuit subphase using this factory's actual class, global
     /// parameters and bounds. This does not choose a target or admit a player.
     pub fn advance_growth(
