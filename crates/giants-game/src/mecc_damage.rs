@@ -12,6 +12,8 @@ pub struct Hit {
     pub kind: i32,
     pub amount: f32,
     pub globally_disabled: bool,
+    /// Historical name of the independently supplied suppression gate;
+    /// live producer/lifecycle acquisition remains separate from this arithmetic.
     pub cutscene: bool,
     /// Result of the separate attacker/team eligibility path.
     pub allowed: bool,

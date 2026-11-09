@@ -29,6 +29,37 @@ Delphi controls, four Mecc impact/voice controls and the NPC ownership regressio
 All 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks
 pass. Supplied providers and diagnostic coverage remain separate from gameplay.
 
+## Main integration of persistent wounded Mecc primary — 9 November 2026
+
+The reviewed Mecc follow-up `0d08196e2dbe459fe0a94db67ecbecfc1c2f43be` is combined
+with current Delphi support and Kabuto retained-target services. Mecc owns its
+prepared smoke context across frames, validates current display/source/frame
+identity and retains completed preparation after a later failed service. The
+ordinary App still needs actual mission-gate and pre-world subjective owners
+before binding impact, voice and display providers. Active smoke rendering,
+full-world scheduling and complete normal controls remain open.
+
+Integration source `e76bf527959742b723253179d2afba582bcf7204` passes 856 workspace
+Rust tests (55 ignored), strict workspace/all-target Clippy, 43 Python tests and
+twelve installed Mecc controls. Its freshly generated normalized receipt repeats
+the 384-frame / 124,800-word original-PC agreement, including supplied wounds,
+display snapshots, floor, clocks and command sequence. This is not live injury,
+device playback or visual-fidelity proof. No original input or receipt is published.
+
+The subsequent combined runtime at `4b3b019735d0ad3f59bb124bfc4dfa28fcfd4638`
+preserves Kabuto's newly acquired post-query transition. It passes 857 workspace
+Rust tests (55 ignored), strict Clippy, Rustfmt and sixteen installed Kabuto
+controls. No Mecc runtime source changed in that merge. The current published
+download remains `.13`, with its existing source, notices and checksum identities;
+source-only progress does not relabel that executable or its capabilities.
+
+The exact MinGW build at source `8854431de67dbcc169f256de450bcfc422f83622` passes
+both offscreen development lifecycle endpoints: six fresh launches, return,
+cleanup and re-entry, plus explicitly awaited CLI help. The combined runtime
+also passes five installed Delphi, one NPC and one timed-effect control and
+three actual-audio regressions with muted sinks. The private build receipt pins
+its executable; it is not a new public package or a manual-input/fidelity result.
+
 ## Kabuto post-query target transition — 9 November 2026
 
 The acquired post-query transition preserves raw/filtered/retained identities,
@@ -4349,3 +4380,43 @@ independent preview-13 records. It passes 854 synthetic workspace Rust tests
 smoke owner, 43 Python tests, Rustfmt, strict workspace Clippy and generated
 roadmap/site/JavaScript checks. Both new native comparators repeat on rebuilt
 runners from that source. No public executable is relabelled by these tests.
+
+## Mecc persistent wounded primary and smoke ownership — 9 November 2026, source only
+
+The normal owned primary binds smoke to actual Session health and a required
+source/frame-checked display snapshot. Nonlethal wounded continuation is now
+admitted in that acquired profile. Preparation/replacement occurs after jet and
+before the periodic scan/secondary; resident binding, pool and RNG prefixes survive
+late failures. Prepared cancellation preserves peer contexts and performs no draw.
+
+Complete acquired-primary controls agree on 384 frames / 124,800 normalized
+header, payload and VM-seed words under supplied wound/display/flat-world inputs.
+The separate original display getter/predicate agrees on 80 supplied contexts.
+Additional installed controls compose real owned impact -> next wounded frame
+without damage/cue replay and verify missing/stale/foreign display refusal,
+retained preparation after a late selector error and failed-frame quarantine.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md) for boundaries.
+
+The App still has no impact/voice/display binding for this path. Actual camera/
+mission-gate production, active emitted effects and general world/death/equipment
+profiles remain open. Prototype PS2 correspondences remain unknown. This source
+lot adds no dependency, asset, screenshot or downloadable executable. Existing
+preview identities/notices/checksums remain independent; main integration owns
+combined gameplay admission and public Windows delivery.
+
+Combined runtime checkpoint `2820d1cb3bfc31e4c6731c0377699c6cd835206b` preserves
+the current Flick impulse and Kabuto ray/query work. It passes 855 synthetic
+workspace Rust tests (55 ignored), twelve silent installed-resource Mecc controls,
+43 Python tests and generated roadmap/site/JavaScript checks. The subsequent
+`0ec2e0c` changes the receipt projection's chunk syntax and clarifies documentation;
+strict workspace Clippy and Rustfmt pass, and its fresh 384-frame receipt repeats
+the same 124,800-word native agreement. Existing public preview identities remain
+separate from these CPU/source validations.
+
+After the main lane merged the earlier smoke-policy handoff, checkpoint
+`ba6bbda` preserves its additional Delphi physical-support scalar composition.
+It passes 856 synthetic Rust tests (55 ignored), all twelve silent installed
+Mecc controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
+roadmap/site/JavaScript checks. A fresh 384-frame receipt is identical and repeats
+the 124,800-word native agreement. The persistent wounded-primary change is a
+separate follow-up from the already merged policy milestone.
