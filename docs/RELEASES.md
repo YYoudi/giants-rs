@@ -25,7 +25,10 @@ Validation: 816 synthetic Rust tests pass (39 ignored), all fourteen silent
 Kabuto phase controls plus the separate cold-resource control pass, alongside
 40 Python tests, Rustfmt, strict Clippy and generated roadmap/site/JavaScript
 checks. The 512-context complete original interval comparison passes again on
-the final runtime source, including its required-event failure control.
+the final runtime source. The required-event failure check is a separate owned
+policy control, without an original-PC exception-equivalence claim. The limited
+source/history pattern audit reports zero findings across 457 commits / 2,967
+blobs at the preceding runtime checkpoint.
 
 ## Kabuto owned post-contact model rates — 9 November 2026
 
