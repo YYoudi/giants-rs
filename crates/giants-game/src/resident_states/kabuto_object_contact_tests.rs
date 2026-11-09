@@ -149,7 +149,9 @@ fn emit(event: Event<u32>, out: &mut Vec<u32>) {
     }
 }
 fn parse_peers(w: &[u32]) -> Vec<Peer<u32>> {
-    w.chunks_exact(42)
+    w.as_chunks::<42>()
+        .0
+        .iter()
         .map(|p| {
             let f = |i| f32::from_bits(p[i]);
             Peer {
@@ -229,7 +231,7 @@ fn source_kabuto_object_contacts_bind_real_storage_and_preserve_entered_history(
             let number = row as u64 + 1;
             classify(&factory, &mut s, id, number);
             let mut peers = parse_peers(&w[38 + np..]);
-            let raw: Vec<_> = w[38 + np..].chunks_exact(42).collect();
+            let raw: Vec<_> = w[38 + np..].as_chunks::<42>().0.iter().collect();
             let peer_ids = &w[38..38 + np];
             let ctx = crate::kabuto_geometry_mode::NotificationContext {
                 session_mode: w[2],

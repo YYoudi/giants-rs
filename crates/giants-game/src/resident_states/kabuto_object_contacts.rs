@@ -146,9 +146,7 @@ impl Session {
                 ) {
                     Ok(current) => *state = current,
                     Err(reason) => {
-                        if let Err(provider_reason) = result {
-                            return Err(provider_reason);
-                        }
+                        result?;
                         owner_failure = Some(reason);
                         return Err("Kabuto contact owner changed during action");
                     }
