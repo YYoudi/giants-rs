@@ -85,6 +85,21 @@ The same installed-data checks cover the normal subjective held matrix, unchange
 real binding/firing cache and rejection after shared reference replacement. They
 execute no live held geometry, position/spatial finalization or graphics upload.
 
+## Optional positional-impact birth check
+
+With `GIANTS_MECC_WORLD_ROOT` and an isolated target directory, run:
+
+```powershell
+cargo test --locked -p giants-game source_positional_impact_retains_ordered_actors_and_late_failure_without_replay --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This silent source-resource control constructs actual owned state-78 actors,
+checks publication before the required cue provider, shared RNG interleaving,
+retained late failures, replay/foreign-session refusal and resource ownership.
+The provider is explicit test code. It creates no window or audio device,
+launches no original executable and does not tick/retire the emitted actor or
+admit the impact into the main world scheduler. See OWNED_MECC_CONTACT.md.
+
 ## Optional Delphi resource check
 
 For the separate Delphi resource-preparation control, set `GIANTS_DELPHI_ROOT`

@@ -588,13 +588,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   controls / 3,840 words with the original audio-disabled gate: retained/pending
   cue, sizes/lifetime, angular rates and shared RNG. Prepared activation avoids
   repeating root draws; general/timed phase admission stays unchanged. Legacy
-  burst controls still match 315 objects / 6,018 words. This does not construct an
-  owned Session actor or execute cue transport. Native cue-entry controls show
-  that delivery precedes later size/lifetime/angular writes; interleave its real
-  shared RNG effects rather than replaying a precomputed result. Next bind the
-  actual root constructor and explicit origin/cache ownership, compare full actor
-  header/state and preserve side effects on late provider failure, then complete
-  lifetime/retirement and the independent impact damage/channel composition.
+  burst controls still match 315 objects / 6,018 words. The separate owned birth
+  now publishes a real Session state-78 actor before the required cue provider,
+  then executes size/lifetime/angular commands with its shared RNG. Complete
+  normalized headers/payloads match 256 native endpoints and four cue-entry
+  snapshots / 67,600 words, using the original audio-disabled gate. Source-data
+  controls cover interleaved provider draws, retained late failure, cross-factory
+  replay refusal and image/cache ownership. Successful birth retires its temporary
+  context; failed active contexts cannot use prepared-only cleanup. This is CPU
+  birth, not live cue transport or complete effect execution. Next search prototype
+  PS2 names for the state-78 callback before analyzing it, acquire origin use,
+  cadence and actor retirement, then bind real positional audio and the independent
+  impact damage/channel composition. Preserve exact identities and old aliases;
+  current constructor/helper attributions remain unknown.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup
