@@ -19,6 +19,8 @@ pub(super) struct Metadata {
 /// Services execute with the actual actor still in the canonical Session map.
 /// A callback prefix is already published; errors retain it and forbid replay.
 pub trait Services {
+    /// `seconds` is the callback's sample. A physical provider retains its own
+    /// acquired clock queries; equal samples in a fixture do not merge clocks.
     fn physical(&mut self, session: &mut Session, actor: Id, seconds: f32) -> Result<(), String>;
     fn retire(
         &mut self,
