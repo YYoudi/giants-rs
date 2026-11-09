@@ -383,10 +383,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   In 128 supplied four-actor schedules, independently calculated Rust production
   and target search match 640 native output words (512 scalar intervals / 128
   searches). Registers, headers/links/current-player, positions, bounds, viewport
-  and schedule remain supplied. Next: actual owned relationship/header publication,
-  other actor writers and caller/world/ANM timing; do not identify the relationship
-  as an arbitrary held object or substitute a zero value. Target/proxy lifetime,
-  main integration and fidelity remain open.
+  and schedule remain supplied. The relationship is now independently acquired
+  as physical support: the common location wrapper/contact output feeds a required
+  class/context resolver, with unknown nonzero keys refused. A separate 320-case
+  original-PC/Rust composition matches 3,840 exact control/position/scalar words;
+  floor/plane error is below 0.00000012 within a 0.002 absolute budget. Frozen
+  support retention and reset-before-contact are preserved. Single-object traversal,
+  prepared geometry/model/part eligibility, headers and the collision-then-scalar
+  schedule remain supplied; no same-frame order is inferred. Next: actual scene
+  key registry/lifetime and phase-correct owned header publication, other actor
+  writers and caller/world/ANM timing. Do not equate scene keys with Session serials,
+  conflate support with held/surfacing relationships or substitute zero for a
+  missing provider. Target/proxy lifetime, main integration and fidelity remain open.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary

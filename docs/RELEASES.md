@@ -31,6 +31,28 @@ source/executable/archive identities, actual public Git tag and dashboard downlo
 snapshot agree. This newer source integration does not relabel that executable
 or change its notice/package receipts. Full gameplay and fidelity remain open.
 
+## Delphi physical-support scalar composition - 9 November 2026
+
+The acquired physical-support relationship now feeds Delphi scalar production
+through a required header resolver. Unknown nonzero scene keys fail; inactive
+mode and actual absent support preserve their short circuits. A separate
+original-PC/Rust composition agrees on 320 supplied schedules / 3,840 exact
+control, position and scalar words. Floor/plane error is below 0.00000012 within
+the declared 0.002 absolute budget. The original location wrapper, floor contact,
+state3 notification dispatcher and scalar interval execute in the control.
+
+Traversal, prepared geometry/model/part eligibility, headers and schedule remain
+supplied. Scene-key ownership/lifetime, phase-correct header publication and
+ordinary Delphi gameplay remain open. The latest Kabuto and parented-effect
+contributions are preserved. No capture, dependency, asset or new downloadable
+preview is introduced; published packages retain their exact identities.
+Prototype PS2 correspondences remain unknown and detailed evidence stays private.
+
+Combined validation passes 844 workspace Rust tests (51 ignored), five installed
+Delphi controls, four installed Mecc impact/voice controls and the NPC ownership
+regression. All 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript
+checks pass. These controls retain their supplied providers and CPU-only scope.
+
 ## Kabuto reference-query argument production — 9 November 2026
 
 The acquired argument producer selects actor or viewport geometry and the three
