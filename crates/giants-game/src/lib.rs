@@ -685,8 +685,10 @@ pub mod delphi_reserve;
 pub mod delphi_target_movement;
 pub mod delphi_target_owned;
 pub mod delphi_target_predicate;
+pub mod delphi_target_proxy;
 pub mod delphi_target_range;
 pub mod delphi_target_ray;
+pub mod delphi_target_readiness;
 pub mod delphi_target_scan;
 pub mod gameplay_sound_bank;
 pub mod mecc_aim;
@@ -719,6 +721,7 @@ pub mod sound_sample;
 pub mod world_source;
 
 pub mod timed_effect;
+pub mod timed_effect_object;
 
 pub mod cinematic_ordinary;
 pub mod cinematic_shadow;
