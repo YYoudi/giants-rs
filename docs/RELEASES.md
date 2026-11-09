@@ -21,6 +21,35 @@ controls. All 43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScrip
 checks pass. Supplied cue services remain distinct from an audio device or main
 gameplay admission; current Mecc, NPC and integration changes are preserved.
 
+## Combined five-lane Windows preview - 9 November 2026
+
+Published [preview-2026.11.09.12](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.09.12)
+binds source `b0e79a459a007121674ab4c9e04f5c4990238cea`, executable SHA256
+`57f2222bc9f37b902d78561b57edde0e1b91bed7db7fca9dd821592f54d1020d` and ZIP SHA256
+`da90103b99abee63abd4635e5ead6ee23cb2adec15a67bdf9cf0fd940081a630`.
+It combines the reviewed Flick, Mecc, Delphi, Kabuto and NPC source dependencies
+in the common menu-first application. NPC PR #2 adds inventory and a source-resource
+control, not active AI. Ordinary native Mecc motion/impact voice and live Delphi,
+Kabuto and NPC admission remain open; no new complete game feature is certified.
+
+The checkpoint passes 836 workspace Rust tests (51 ignored) in standard and release
+profiles, strict workspace/all-target Clippy, 41 Python tests and 27 installed-data
+controls. Its exact binary passes six offscreen development launches and two
+Rstory1 mission-index-2 source-terminal/re-entry cycles with muted real sinks and
+tracked voice/text cleanup. CLI help is explicitly awaited; PE imports remain
+Windows system/UCRT. Technical notice collection covers 338 dependency packages
+and eleven toolchain notice files. All ten bundle members, receipt and checksums
+pass before upload and again after downloading all three public assets. The actual
+public tag resolves to the recorded source. Manual controls, full world cadence,
+campaign completion and visual/audio fidelity remain unverified.
+
+Later main source includes the separate Delphi bounds-centre selection service;
+its combined runtime tree passes 838 standard Rust tests (51 ignored) and strict
+Clippy. Delivery-table support adds two Python tests (43 total). These newer source
+checks do not relabel the `.12` executable. The dashboard's reviewed download
+snapshot exposes its source, hashes, checked scope and known limits separately
+from the roadmap and historical captures. Detailed reports/captures remain private.
+
 ## Delphi viewport bounds-centre selection - 9 November 2026
 
 The separate ordered viewport selector matches 768 complete original-PC searches,
