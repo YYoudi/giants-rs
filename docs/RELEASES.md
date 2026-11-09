@@ -1,5 +1,28 @@
 # Preview releases and milestone integration
 
+## Retirement context inheritance service — 9 November 2026
+
+The common context pool now prepares the acquired direct-offset retirement mode
+from current parent object/response fields. It preserves all eight combinations
+of three inherited bits, source label, position and RNG. It is distinct from the
+plain positional mode. Normal/lite targets must resolve to the same source;
+otherwise preparation refuses before allocation or RNG, retaining the need for
+actual load/quality/camera selection producers. The service does not mark or free
+the parent, activate the child or acknowledge complete retirement.
+
+Thirty-two original-PC/Rust preparations match 320 context/RNG words. The native
+control executes parent construction and expiry, then the actual helper/context
+preparation and deferred mark; source flag bits are supplied at helper entry.
+Separate earlier controls retain their actual cleanup/reuse scope. A follow-up
+runs 96 child callbacks at supplied positive deltas and matches 384 position/age
+words. This is neither full world scheduling nor contact or visual fidelity.
+
+Actual parent-field ownership and full retirement-service/main-film binding remain
+open. The cinematic inventory and zero certified complete scenes are unchanged.
+Prototype PS2 counterparts remain unknown. No dependency or bundled asset changes;
+the existing published binary/package/runtime receipts keep their earlier exact
+source identities until a later coherent main-runtime integration.
+
 ## Kabuto owned post-contact model rates — 9 November 2026
 
 The Factory-bound Session now publishes displacement-derived model rates and

@@ -1000,11 +1000,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   `32286b7`; receipt-bound silent lifecycle checks and the downloaded ten-member
   package pass. The mode/inheritance and physical-ownership prerequisites below
   remain open; no additional film admission is counted.
-  The child initial frame is now implemented in the shared skip service with no
-  random draw. Actual retirement preparation uses its distinct mode and inherited
-  parameter; do not substitute the existing plain positional context API.
-  Main cinematic context/physical ownership, inherited flags, world RNG and frame
-  scheduling remain unbound. No source becomes admitted from this CPU proof.
+  The child initial frame is implemented in the shared skip service with no
+  random draw. The shared context pool now prepares the acquired retirement mode
+  from current parent object/response fields, preserving all eight combinations
+  of its three inherited bits, source label, position and RNG. Thirty-two
+  original-PC/Rust preparations match 320 selected words. Different normal/lite
+  targets refuse before allocation or RNG; actual selection producers remain
+  required there. This primitive neither marks nor frees the parent. The plain
+  positional API retains its distinct mode. A further 96 supplied child callbacks
+  match 384 position/age words; contact and actual world cadence stay open.
+  Main cinematic ownership, actual parent-field/retirement-service binding, world
+  RNG and frame scheduling remain unbound. No source becomes admitted from these
+  controls. The existing published binary retains its earlier source receipt.
 
 - Timed FX callback ordering: the shared Playback wrapper formerly discarded
   every zero-time callback, leaving its native first-update gate pending. It now

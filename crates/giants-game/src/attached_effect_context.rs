@@ -416,6 +416,44 @@ impl<K: Copy + Eq> Pool<K> {
         position: [f32; 3],
         random: &mut crate::audio_parameters::Random,
     ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        self.prepare_direct_position(offset, position, 0, false, random)
+    }
+    /// Acquired retirement-helper direct-offset mode38. The caller supplies the
+    /// parent's current object/response fields, not a projected class template.
+    /// Quality/load/camera producers are unnecessary only when both source
+    /// selections resolve to this same offset; differing selections refuse.
+    /// This prepares the child context without marking or freeing its parent.
+    pub fn prepare_retirement_offset_invariant(
+        &mut self,
+        offset: Option<u32>,
+        position: [f32; 3],
+        object_flags: u32,
+        response_flags: u32,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        let flags = if object_flags & 0x400 != 0 {
+            0x10000
+        } else {
+            0
+        } | if response_flags & 0x400 != 0 {
+            0x4000
+        } else {
+            0
+        } | if response_flags & 0x1000 != 0 {
+            0x8000
+        } else {
+            0
+        };
+        self.prepare_direct_position(offset, position, flags, true, random)
+    }
+    fn prepare_direct_position(
+        &mut self,
+        offset: Option<u32>,
+        position: [f32; 3],
+        flags: u32,
+        require_invariant: bool,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
         let Some(offset) = offset else {
             return Ok((Creation::Absent, vec![]));
         };
@@ -437,6 +475,16 @@ impl<K: Copy + Eq> Pool<K> {
         if entries.next().is_some() {
             return Err("direct positional effect label ambiguous".into());
         }
+        if require_invariant {
+            let selected = image
+                .adaptive_find(&entry.name, true)
+                .map_err(|e| e.to_string())?;
+            if selected.map(|(_, e)| e.offset) != Some(offset) {
+                return Err(
+                    "retirement selection requires actual quality/load/camera inputs".into(),
+                );
+            }
+        }
         let program = Arc::new(image.program(offset).map_err(|e| e.to_string())?);
         let mut staged = *random;
         let intervals = crate::effect_initialization::skip(&program, &mut staged)?;
@@ -450,7 +498,7 @@ impl<K: Copy + Eq> Pool<K> {
             entry_offset: offset,
             program: Ok(program),
             source: image.clone(),
-            flags: 0,
+            flags,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -759,6 +807,88 @@ impl<K: Copy + Eq> Pool<K> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn retirement_context_preserves_parent_flags_position_and_reused_ownership() {
+        let mut pool = Pool::<u32>::new(9, Some(sound_image()));
+        let mut random = crate::audio_parameters::Random(1729);
+        let expected = [
+            0, 0x10000, 0x4000, 0x14000, 0x8000, 0x18000, 0xc000, 0x1c000,
+        ];
+        let mut previous: Option<Id> = None;
+        for (bits, flags) in expected.into_iter().enumerate() {
+            let object = if bits & 1 != 0 { 0x400 } else { 0 };
+            let response =
+                if bits & 2 != 0 { 0x400 } else { 0 } | if bits & 4 != 0 { 0x1000 } else { 0 };
+            let position = [bits as f32, -7., 23.];
+            let mut plain = Pool::<u32>::new(10, Some(sound_image()));
+            let mut plain_random = random;
+            plain
+                .prepare_positional_offset(Some(6), position, &mut plain_random)
+                .unwrap();
+            let (Creation::Prepared(id), _) = pool
+                .prepare_retirement_offset_invariant(
+                    Some(6),
+                    position,
+                    object,
+                    response,
+                    &mut random,
+                )
+                .unwrap()
+            else {
+                panic!("retirement context absent")
+            };
+            let context = pool.get(id).unwrap();
+            assert_eq!(context.flags(), flags);
+            assert_eq!(context.position(), Some(position));
+            assert_eq!(context.recipient(), None);
+            assert_eq!(random.0, plain_random.0);
+            assert_eq!(pool.active(), &[id]);
+            assert!(plain.get(id).is_none());
+            if let Some(stale) = previous {
+                assert_eq!(id.slot(), stale.slot());
+                assert_ne!(id, stale);
+                assert!(pool.get(stale).is_none());
+            }
+            pool.release_prepared(id).unwrap();
+            assert!(pool.active().is_empty());
+            previous = Some(id);
+        }
+    }
+    #[test]
+    fn retirement_context_refuses_distinct_lite_selection_without_rng_or_allocation() {
+        let mut payload = b"S\0".to_vec();
+        payload.extend(17u32.to_le_bytes());
+        payload.extend(b"S_lite\0");
+        payload.extend(27u32.to_le_bytes());
+        payload.push(0x2b);
+        payload.extend(40u32.to_le_bytes());
+        payload.extend(41u32.to_le_bytes());
+        payload.extend([2, 2]);
+        let mut raw = vec![];
+        for word in [1, payload.len() as u32, 2] {
+            raw.extend(word.to_le_bytes());
+        }
+        raw.extend(payload);
+        let image = Arc::new(giants_formats::effect_image::parse(&raw).unwrap());
+        let mut pool = Pool::<u32>::new(9, Some(image));
+        let mut random = crate::audio_parameters::Random(1729);
+        assert!(
+            pool.prepare_retirement_offset_invariant(Some(17), [0.; 3], 0, 0x1000, &mut random)
+                .is_err()
+        );
+        assert_eq!(random.0, 1729);
+        assert!(pool.active().is_empty());
+        assert!(
+            pool.prepare_retirement_offset_invariant(Some(17), [f32::NAN; 3], 0, 0, &mut random)
+                .is_err()
+        );
+        assert_eq!(random.0, 1729);
+        let (absent, _) = pool
+            .prepare_retirement_offset_invariant(None, [0.; 3], 0, 0, &mut random)
+            .unwrap();
+        assert_eq!(absent, Creation::Absent);
+        assert!(pool.active().is_empty());
+    }
     #[test]
     fn invariant_extended_lookup_refuses_distinct_entries_before_allocation_or_rng() {
         let mut payload = b"A\0".to_vec();
