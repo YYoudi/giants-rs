@@ -101,3 +101,25 @@ class SourcePublicationTests(unittest.TestCase):
             flags = {flag for f in findings for flag in f['flags']}
             self.assertIn('approved_image_hash_or_format_mismatch', flags)
             self.assertIn('binary_nul', flags)
+
+    def test_reviewed_history_pin_needs_exact_bytes_and_path_without_current_manifest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.initialize(root)
+            blob = b'RIFF\x00\x00\x00\x00WEBP historical display fixture'
+            digest = hashlib.sha256(blob).hexdigest()
+            path = f'docs/gallery/media/{digest}.webp'
+            image = root/path
+            image.parent.mkdir(parents=True)
+            image.write_bytes(blob)
+            self.commit(root)
+            with patch('tools.audit_source_tree.REVIEWED_HISTORICAL_IMAGES', {path: digest}):
+                self.assertEqual(scan(root)['findings'], [])
+                (root/'unapproved.webp').write_bytes(blob)
+                image.write_bytes(blob+b'changed '+b'ghp_'+b'x'*36)
+                self.commit(root)
+                findings = scan(root)['findings']
+            self.assertIn('unapproved.webp', [f['path'] for f in findings])
+            flags = {flag for f in findings for flag in f['flags']}
+            self.assertTrue({'approved_image_hash_or_format_mismatch', 'binary_nul',
+                             'github_token'} <= flags)
