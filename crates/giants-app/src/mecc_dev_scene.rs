@@ -1037,6 +1037,20 @@ impl State {
     pub(crate) fn set_subjective_weapon(&mut self, matrix: Option<[f32; 16]>) {
         self.subjective_weapon_matrix = matrix;
     }
+    /// A draw animation can genuinely have no held object. Preserve stale-pose
+    /// errors while letting the render consumer hide its existing submission.
+    pub(crate) fn render_weapon_matrix(
+        &self,
+    ) -> Result<Option<[f32; 16]>, Box<dyn std::error::Error>> {
+        if self
+            .owned_pose
+            .as_ref()
+            .is_some_and(|frame| frame.world_weapon.is_none())
+        {
+            return Ok(None);
+        }
+        self.weapon_matrix().map(Some)
+    }
     pub(crate) fn weapon_matrix(&self) -> Result<[f32; 16], Box<dyn std::error::Error>> {
         if let Some(frame) = &self.owned_pose {
             let weapon = frame

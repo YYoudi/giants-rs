@@ -1,5 +1,17 @@
 # Preview releases and milestone integration
 
+## Expected pistol absence in the mission renderer — 10 November 2026
+
+The mission renderer now distinguishes an intentionally absent held object during
+pistol draw from a stale weapon pose. It hides its held submission until the
+current source supplies one, and updates the attachment buffer only when present.
+A stale present pose remains an error; combat's required-weapon accessor stays
+strict. This resolves the first-frame graphical panic exposed after the acquired
+ANM callbacks made the early unequipped interval reachable. The installed
+128-frame terrain/weapon control now checks the optional render projection while
+retaining its strict combat-attachment checks. Preview acceptance repeats on a
+fresh receipt-bound build; the earlier candidate is not published.
+
 ## Combined Mecc and camera integration — 10 November 2026, preview preparation
 
 The main integration worktree has reviewed and combined the Mecc pistol ANM and

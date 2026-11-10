@@ -830,15 +830,17 @@ pub(super) fn update(
             .expect("selected mission player skinning failed");
         let matrix = controller
             .state
-            .weapon_matrix()
+            .render_weapon_matrix()
             .expect("selected mission weapon attachment failed");
-        if let Some(initial) = controller.initial_weapon {
-            controller.weapon_changed |= initial
-                .iter()
-                .zip(matrix)
-                .any(|(a, b)| (*a - b).abs() > 0.00001);
-        } else {
-            controller.initial_weapon = Some(matrix);
+        if let Some(matrix) = matrix {
+            if let Some(initial) = controller.initial_weapon {
+                controller.weapon_changed |= initial
+                    .iter()
+                    .zip(matrix)
+                    .any(|(a, b)| (*a - b).abs() > 0.00001);
+            } else {
+                controller.initial_weapon = Some(matrix);
+            }
         }
         let (camera, eye) = controller.state.camera();
         scene.validation_camera = Some(camera.clone());
@@ -865,6 +867,10 @@ pub(super) fn update(
                 };
             }
             if let Some(gun) = gun.filter(|p| p.ticket == controller.ticket) {
+                let Some(matrix) = matrix else {
+                    *visibility = Visibility::Hidden;
+                    continue;
+                };
                 if let Some(positions) = controller.state.world_weapon_positions()
                     && let Some(mut mesh) = meshes.get_mut(&handle.0)
                 {

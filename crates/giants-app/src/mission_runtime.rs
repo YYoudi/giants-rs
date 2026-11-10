@@ -2769,6 +2769,7 @@ mod tests {
             );
             viewer.sample_pose().unwrap();
             assert_eq!(viewer.weapon_matrix().is_ok(), had_weapon);
+            assert_eq!(viewer.render_weapon_matrix().unwrap().is_some(), had_weapon);
             assert!(viewer.camera().1.into_iter().all(f32::is_finite));
             assert!(viewer.expanded(0).into_iter().flatten().all(f32::is_finite));
             assert!(

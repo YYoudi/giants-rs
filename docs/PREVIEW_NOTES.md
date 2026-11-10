@@ -51,8 +51,11 @@ ANM passes, immediately replacing the held object using the current pose and
 references. Completion and movement interruption retain their different commit
 orders. The prepared owned-App CPU diagnostic passes its terrain/camera/animation/
 weapon sequence, including the weapon's expected absence before equipment.
-This remains an experimental inspection path with supplied world inputs; complete
-ordinary native gameplay, idle continuations and full input/fidelity remain open.
+The mission render consumer now accepts that expected absence and hides its held
+mesh until an actual current weapon pose arrives. A present but stale pose still
+refuses. This remains an experimental inspection path with supplied world inputs;
+complete ordinary native gameplay, idle continuations and full input/fidelity
+remain open.
 
 The shared physical environment now retains completed contact stages when a
 later platform service fails. Lower-level unreturned mutations remain outside
