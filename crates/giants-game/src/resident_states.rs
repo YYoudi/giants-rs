@@ -22,6 +22,9 @@ pub use delphi_local_target::{
 #[cfg(test)]
 mod delphi_proximity_tests;
 mod dependency_order;
+mod herd_frame;
+#[cfg(test)]
+mod herd_frame_tests;
 pub use cinematic_constant::{
     Scope as CinematicScope, Support as CinematicSupport, View as CinematicConstantView,
 };
@@ -37,15 +40,34 @@ mod reference_camera;
 mod state18_reference_reset;
 mod subjective;
 mod timed_effect;
+mod vimp_active;
+#[cfg(test)]
+mod vimp_active_captured_tests;
+#[cfg(test)]
+mod vimp_active_tests;
 #[cfg(test)]
 mod vimp_history_tests;
 #[cfg(test)]
+mod vimp_locomotion_animation_tests;
+#[cfg(test)]
 mod vimp_newborn_tests;
+pub use vimp_active::Services as VimpActiveServices;
+mod vimp_response;
+#[cfg(test)]
+mod vimp_response_tests;
+mod vimp_threat;
+pub use vimp_response::{
+    Action as VimpResponseAction, Request as VimpResponseRequest, Services as VimpResponseServices,
+};
+mod vimp_vector;
+#[cfg(test)]
+mod vimp_vector_tests;
 pub use timed_effect::{
     OrdinaryHeader as TimedEffectOrdinaryHeader, PhysicalHeader as TimedEffectPhysicalHeader,
     Preparation as TimedEffectPreparation, PreparationServices as TimedEffectPreparationServices,
     Services as TimedEffectServices,
 };
+pub use vimp_vector::{Request as VimpVectorRequest, Services as VimpVectorServices};
 
 struct OwnedSpecification(crate::actor_references::Owned);
 impl std::fmt::Debug for OwnedSpecification {
@@ -332,6 +354,7 @@ impl<S: State23Services> crate::state23_damage::Services<Id> for State23Adapter<
 #[derive(Debug)]
 pub struct Resident {
     herd: Option<crate::herd_generator::Owned>,
+    herd_frame: Option<crate::herd_frame::Owned>,
     herd_marker: Option<crate::herd_markers::Marker>,
     vimp: Option<crate::vimp_actor::Cold>,
     vimp_physical: Option<crate::vimp_physical::Owned>,
@@ -342,6 +365,14 @@ pub struct Resident {
     vimp_hurt_steps: u64,
     vimp_scalar_steps: [u64; 2],
     vimp_recovery_primaries: u64,
+    vimp_threat_steps: u64,
+    vimp_response_steps: u64,
+    vimp_response_running: bool,
+    vimp_active_steps: u64,
+    vimp_active_running: bool,
+    vimp_vector_steps: u64,
+    vimp_vector_running: bool,
+    vimp_threat_failure: Option<String>,
     vimp_death_proxy: Option<crate::vimp_death_proxy::Proxy>,
     pub class: i32,
     pub seed: Seed,
@@ -585,6 +616,15 @@ impl Session {
                 herd_marker: None,
                 vimp: None,
                 vimp_physical: None,
+                herd_frame: None,
+                vimp_threat_steps: 0,
+                vimp_response_steps: 0,
+                vimp_response_running: false,
+                vimp_active_steps: 0,
+                vimp_active_running: false,
+                vimp_vector_steps: 0,
+                vimp_vector_running: false,
+                vimp_threat_failure: None,
                 vimp_frames: 0,
                 vimp_prepared_history: None,
                 vimp_frame_stopped: false,
@@ -4344,6 +4384,7 @@ impl Session {
         {
             return Err("herd constructor requires actual class49/state17 resources".into());
         }
+        let frame = crate::herd_frame::Owned::fresh(&input.fields, &input.specification)?;
         let mut staged = Self::new(self.ticket);
         staged.next = self.next;
         let id = staged.register_animated(
@@ -4362,6 +4403,7 @@ impl Session {
             .unwrap()
             .acquired_construction = true;
         staged.residents.get_mut(&id.serial).unwrap().herd = Some(Default::default());
+        staged.residents.get_mut(&id.serial).unwrap().herd_frame = Some(frame);
         self.publish_staged(staged, id)
     }
     pub fn herd_marker(&self, id: Id) -> Option<crate::herd_markers::Marker> {
@@ -5043,6 +5085,7 @@ impl Session {
         {
             return Err("herd marker constructor requires class679/state0 source resources".into());
         }
+        let frame = crate::herd_frame::Owned::fresh(&input.fields, &input.specification)?;
         let mut staged = Self::new(self.ticket);
         staged.next = self.next;
         let id = staged.register_animated(
@@ -5057,6 +5100,7 @@ impl Session {
         staged.bind_actor_fields(id, input.fields)?;
         let actor = staged.residents.get_mut(&id.serial).unwrap();
         actor.herd_marker = Some(marker);
+        actor.herd_frame = Some(frame);
         actor.acquired_construction = true;
         if mission {
             let fields = actor.construction_fields.as_mut().unwrap();
@@ -5208,6 +5252,7 @@ impl Session {
         if !vimp.initialized
             || vimp.mode != 1
             || vimp.wander_pending
+            || actor.vimp_active_running
             || actor.vimp_physical.as_ref().is_some_and(|p| {
                 !p.view.physics_consumed || !p.view.animation_consumed || p.view.failure.is_some()
             })
@@ -5819,6 +5864,7 @@ impl Session {
             vimp.initialized
         };
         if !admitted
+            || actor.vimp_active_running
             || number != actor.vimp_frames
             || number == u64::MAX
             || actor.world_tick_running

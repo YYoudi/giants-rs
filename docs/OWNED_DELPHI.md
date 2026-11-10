@@ -1365,3 +1365,8 @@ SHA256: `c227099f295063bc6827573884c41da7a0cc33c41977d87e56d5e547fcfaf3dc`.
 ZIP SHA256: `37880c59eb20426b8c5bdb7c1f6dfaa44d3d862a5efea883644cc3351880fd42`.
 It remains a private validation draft; the public download is unchanged by this
 CPU milestone.
+
+The acquired 10,000-gap angular approach used by body alignment is now shared
+with the Vimp active-response caller. Delphi's inputs, validation and arithmetic
+remain unchanged; the additional scalar comparison does not expand Delphi runtime
+or visual coverage. See [OWNED_NPCS.md](OWNED_NPCS.md) for the separate NPC scope.

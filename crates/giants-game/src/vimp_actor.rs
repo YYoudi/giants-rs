@@ -26,6 +26,8 @@ pub struct Cold {
     pub animation_stamp: u32,
     pub angular_speed: f32,
     pub previous_angular_speed: f32,
+    /// No constructor value is inferred for the response arrival timer.
+    pub response_turn_timer: Option<f32>,
 }
 #[derive(Clone, Copy, Debug)]
 pub struct Born {
@@ -136,6 +138,7 @@ impl Factory {
                 animation_stamp: 0,
                 angular_speed: 0.,
                 previous_angular_speed: 0.,
+                response_turn_timer: None,
             },
         )
     }
@@ -213,6 +216,7 @@ impl Factory {
                 animation_stamp: 0,
                 angular_speed: 0.,
                 previous_angular_speed: 0.,
+                response_turn_timer: None,
                 born: Some(Born {
                     parent: input.parent,
                     anchor: input.position,

@@ -44,6 +44,15 @@ coefficient tables, publish projection or complete activation.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+`cargo test --locked -p giants-game vimp_animation --target x86_64-pc-windows-gnu`
+checks locomotion/contact/damage precedence, native gait fallback, missing moving
+descriptor requests, same-clip and unfinished-entry skips. With a locally set
+`GIANTS_NPC_ROOT`, the ignored
+`source_vimp_locomotion_animation_consumes_actual_resources_and_physical_phase`
+control uses three installed animation resources after owned physics. It supplies
+gait/contact flags, retains the unfinished frame and refuses ANM replay. It does
+not establish live movement/contact production or ordinary mission admission.
+
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
 runs six owned-phase controls: publication/physical consumption and later
@@ -252,7 +261,38 @@ user-supplied installation and use an isolated Cargo target:
 cargo test --locked -p giants-game source_npc_herd --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_vimp_world_history --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_vimp_newborn --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_herd_frame --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_threat --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_vector --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_response --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_active --target x86_64-pc-windows-gnu -- --ignored --nocapture
 ```
+
+The active-response block's portable tests run in the default workspace suite.
+Its separate private captured-cycle comparisons retain supplied caller motion,
+clock and external RNG draw schedule; they do not establish ordinary primary,
+physical/ANM or world integration. See [OWNED_NPCS.md](OWNED_NPCS.md).
+
+The active Session command adds six installed ownership controls: the arrival
+timer persists without a fabricated constructor value, callbacks retain their
+effects, and pending/foreign/reentrant/replayed visits refuse. The separately
+ignored `source_captured_vimp_active_cycle_retains_session_outputs_and_random`
+requires `GIANTS_NPC_ACTIVE_CONTROL` to be an absolute path to a private reviewed
+captured-entry control, in addition to `GIANTS_NPC_ROOT`. It retains Session
+outputs and RNG across 115 visits with supplied caller motion/clock/flags and
+external draw counts. Inputs are not distributed; this is not a normal mission
+or whole-primary test. Follow the central reconstruction method for acquisition.
+
+The response command checks actual inline physical/channel reads, signal-to-owned
+vector composition, terminal callback effects, cancellation and noise-target byte
+preservation. Priority/signal/channel entries are declared test inputs; session,
+noise, affine entry and RNG phase remain supplied. It acquires no readiness or
+caller producer, transport, live linked/target/hint ownership or ordinary primary.
+
+The vector command checks isolated owned route publication, callback rereads,
+late-error quarantine and cancellation against source actors. Session snapshots,
+affine entry, origin and RNG phase are supplied. It adds no ordinary primary,
+world schedule, live action transport, hint ownership or rendered coverage.
 
 This silent CPU check uses authored herd/marker values with a supplied flat
 floor, clock and RNG. It covers births, first initialization, owner identity,
@@ -850,6 +890,17 @@ cargo test --locked --workspace native_timed_positioned_constructor_keeps_regist
 This replays eight controlled class-personality cases against actual constructor
 registration, including six that differ after wrapper stores. Installed files
 are unchanged; this check does not admit native stock or a live world actor.
+
+The `source_herd_frame` controls compose actual owned herd/marker fallback and
+Vimp callbacks through the mutable common-list walker with supplied flat ground,
+clock, control identity, quiet signals and empty collision/platform cohorts.
+They retain same-step births, shared ANM epochs, affine publication, cancellation,
+late environment writes and failure quarantine. They enable no live mission AI.
+
+The `source_vimp_threat` controls invoke isolated consideration on owned Vimps
+with supplied noise. They check remembered timestamps, unsupported linked state,
+invocation ownership and retained writes/quarantine after a late finite-profile
+failure. Response, actual world-noise production and primary admission stay open.
 
 
 ## Optional owned Mecc smoke callback check
