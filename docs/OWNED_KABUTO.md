@@ -1898,3 +1898,65 @@ action/definition admission, held/capture ordering, the following primary caller
 world/RNG/TLS ownership, feeding/growth triggers, camera and GPU scheduling remain
 required. Prototype PS2 attribution stays unknown; naming and PC behavior evidence
 remain separate. The published Windows preview snapshot is unchanged.
+
+
+## Post-selection primary continuation
+
+`kabuto_primary_tail::advance` implements the acquired complete post-selection
+interval. It marks a transient actor when its bound slot is neither the sentinel
+nor the current primary slot, then clears that link and binding. Marking sets the
+existing retirement flag; it does not delete or unlink the actor from its owner.
+Controlled-owner admission precedes camera and UI work. The definition's actual
+optional range table is resolved before the camera button; range rows are only
+read when enabled. Half-open signed frame intervals and the negative terminator
+select a reference request. An absent table uses the authored clip-1/reference-7
+pose route; disabled input clears the request. These routes remain distinct.
+
+The interaction-class predicate is captured before 21 ordered UI requests.
+Later presence, flags, buttons, linked damage/limit fields and transport predicates
+are reread at their acquired points. Sound and notification precede clearing the
+current linked slot, even if an entry changed that slot. Retained earlier modes
+can set the acquired flags; final position publication reads actual post-provider
+position, first angle and clock word. Its five initialized words accompany a
+source-declared length of 16; no wire encoding or delivery is inferred.
+
+All 512 original-PC/Rust contexts match 1,873,051 complete projected state, service
+argument and mutating-entry-prefix words. They execute the actual generic marker,
+UI flag setter, camera clear/reference/pose/lens stores and notification guard.
+Authored camera sampling, target status, sound, rate gating and both transports
+are declared mutating entry providers. Arbitrary unrelated words and quiet
+NaN/infinite comparison values are retained; FPU status/exception parity is not
+claimed. `CameraRanges` independently reads all ten optional range sequences from
+the configured external executable: 123 normalized words agree. Unused negative
+terminator bounds are normalized, not interpreted as original serialized zeros.
+The existing cold metadata prefix reader remains unchanged; no original table is
+bundled or published and layout recognition is not authentication.
+
+The Factory/Session adapter retains typed transient/interaction/two linked actors
+separately from pointer-normalized payload cells. Cold empty links are checked
+against the acquired profile. Explicit publication validates current identities;
+actual event producers and later target retirement remain prerequisites. Generic
+marking, accumulated damage/class limits, current channels, retained resource and
+successful animation-commit counters come from their existing owners. The authored
+pose route invokes the real shared Session reference-camera sampler, with the
+same explicitly supplied epoch. It does not substitute an identity matrix or
+reread a newer descriptor to fabricate an earlier counter.
+
+An installed-data composition traverses the preceding resource, selector, gate
+and real animation components before 509 tails. Three held-reference exits are
+refused, six actual authored poses are sampled and 256 declared position entries
+observe live post-provider fields. Required test backends record camera requests,
+poses and UI flags; supplied sound/rate/transport entries deliberately mutate
+actual Session state. Two further controls retain mark/UI/provider writes after
+late failure and refuse replay or a removed owner without stale restoration.
+These installed checks are distinct from the standalone native tail comparison;
+they are not a complete original-PC/source-owned primary-frame comparison.
+
+World owner/clock/RNG/TLS production, transient/interaction/linked-actor events and
+lifetimes, actual camera/UI/audio/rate/transport backends, earlier action admission
+and the complete enclosing order remain required. Source reference sampling is
+not renderer publication or camera fidelity. The tail's completion is only its
+own component receipt: history and four initializer gates remain pending, the
+next whole primary is not admitted and no ordinary Kabuto gameplay is enabled.
+Prototype PS2 names stay unassigned/unknown for this acquisition. Detailed records
+and executable identities remain private; the frozen public preview is unchanged.

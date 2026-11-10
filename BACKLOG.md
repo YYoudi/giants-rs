@@ -589,6 +589,28 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented at the CPU/owned-Session boundary: the complete acquired
+  post-selection continuation orders transient actor marking/link clear, local
+  camera selection, 21 UI availability requests, two linked damage/limit checks,
+  retained flags and gated position notification. 512 original-PC/Rust controls
+  match 1,873,051 words, including service order and retained mutating entries;
+  123 external camera-range words match separately. The real native marker,
+  widget flag setter, camera request/pose/lens stores and ownership guard execute;
+  camera sampling, target-status, sound, rate gate and transports remain declared
+  entry providers in this comparison. Typed Session links remain separate from
+  pointer-normalized payload cells. The adapter reuses actual channel/counter,
+  damage/class-limit, generic marking and shared reference-camera services.
+  Its installed composition reaches 509 tails, refuses three unacquired held
+  exits, samples six real authored poses and observes 256 declared position
+  entries. Late UI refusal/removal retain effects and prevent replay.
+  Next: acquire earlier action/scratch/definition admission and connect actual
+  link event producers/retirement, camera/UI/rate/transport backends and common
+  world order. The standalone native comparison is not a whole source-frame
+  comparison; the installed composition supplies world backends explicitly.
+  Completing this component does not acknowledge the enclosing primary/history
+  or any of the four initializer gates. Ordinary Kabuto remains unavailable.
+
+
 - Implemented: the locomotion/idle selector preserves lateral-before-longitudinal
   priority, captured earlier behavior/activity/wrap, lazy target-class access,
   required definition data, every PC bounded draw and ordered start/stop requests.

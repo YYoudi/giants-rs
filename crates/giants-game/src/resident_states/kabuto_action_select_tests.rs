@@ -220,7 +220,11 @@ impl Controls {
                 0,
                 [0f32, 40.][k % 2].to_bits(),
                 0f32.to_bits(),
-                [0x80u32, 0x100, 0x200, 0x400][(index + k) % 4],
+                [0x80u32, 0x100, 0x200, 0x400][(index + k) % 4]
+                    | u32::from(
+                        matches!(kind, Case::Tail | Case::TailFailure | Case::TailClear)
+                            && index % 2 == 1,
+                    ),
                 0,
                 4f32.to_bits(),
                 2f32.to_bits(),
@@ -265,7 +269,10 @@ impl Controls {
             .unwrap()
             .resources
             .unwrap();
-        if !matches!(kind, Case::Actions | Case::ActionGate) {
+        if !matches!(
+            kind,
+            Case::Actions | Case::ActionGate | Case::Tail | Case::TailFailure | Case::TailClear
+        ) {
             assert_eq!(
                 captured.activity & 3,
                 0,
@@ -338,7 +345,10 @@ impl Controls {
             }
             self.inputs.push_str(&line(input.iter().copied()));
             self.outputs.push_str(&line(output));
-            if matches!(kind, Case::ActionGate) {
+            if matches!(
+                kind,
+                Case::ActionGate | Case::Tail | Case::TailFailure | Case::TailClear
+            ) {
                 assert!(foreign.resolve_actions(s, owner, number).is_err());
                 assert!(factory.resolve_actions(s, owner, number + 1).is_err());
                 let before_gate = snapshot(s, owner, scratch, w.mode, w.random.0);
