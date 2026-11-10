@@ -1121,3 +1121,21 @@ suspends opening playback without emitting mission readiness. The body is an
 initial snapshot; native camera/projection, live ANM, input and ordinary startup
 remain unverified. Inspect the actual image: GPU preparation and a successful PNG
 write alone do not prove body visibility or correct framing.
+
+## Optional Delphi initial-body inspection
+
+This is an initial body snapshot, not playable Delphi. The installed App control
+`source_delphi_menu_entry_constructs_declared_group_and_retains_player_role` uses
+`GIANTS_DELPHI_ROOT` and checks body ownership, untouched cold caches, retirement
+and a second ticket. The shared renderer preserves known absence of normals and
+uses its existing no-normal route; normal-declaring preparation errors still fail.
+
+For private GPU inspection use `GIANTS_MISSION_REPLAY=showcase-delphi-body`,
+`GIANTS_SHOWCASE_WORLD=Rstory1` and `GIANTS_SHOWCASE_MISSION=0`. Run an awaited,
+receipt-bound common executable with `--mecc-menu`, your `--data-root`, a fresh
+`--user-data-root`, and `--offscreen --silent-capture --capture` to a fresh private
+PNG. This diagnostic suspends opening playback and uses the declared-start
+inspection camera. It acknowledges no projection reset, normal input, live ANM,
+held/copy placement or gameplay readiness. Inspect the actual image separately
+from pipeline completion. The source-backed menu request uses a test preview
+profile; it does not prove ordinary campaign unlocks.

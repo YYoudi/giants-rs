@@ -338,8 +338,12 @@ retain the actual declared Delphi owner/held/copy group, then connect supported
 keyboard/mouse movement, jump and camera. **Construction is now connected:**
 `delphi_declared::Factory` and the common loader retain the actual constructor Id,
 including late failures, with source-template shell history and declared placement.
-The next runtime gap is projection reset plus the first animation/render and
-physical/camera/input driver consuming this same owner. Confirm source start and
+The actual initial body now reaches the common renderer through a scratch channel
+snapshot; a source-bound offscreen Rstory1 image confirms it is visible with the
+declared-start inspection camera. This does not mutate world ANM/affine caches.
+The next runtime gap is actual projection reset and the complete first primary/
+physical/camera/input driver, held/copy placement and live animation consuming this
+same owner. Confirm source start and
 contact/water prerequisites; do not teleport or force state to make a dry slice.
 Main integration owns combined delivery. No ordinary Delphi controls are newly
 available; the source-backed App control uses an all-unlocked test menu mask and

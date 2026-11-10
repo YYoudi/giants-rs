@@ -7,6 +7,24 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## Delphi initial body in the common renderer - diagnostic only
+
+Delphi's actual declared owner now reaches the initial-player body renderer.
+A visually checked silent offscreen Rstory1 capture on exact common source
+`f4795de0de5dd43109e4a1f04f48f617950bd0da` shows the body at its declared placement
+using the inspection camera. Its snapshot uses actual current channels in scratch
+storage, preserving cold world animation/reference/affine caches. Known absence
+of normal definitions takes the existing no-normal route; declared-normal errors
+remain errors. The same executable retains visible lit Kabuto, with the existing
+cropped inspection framing. A reviewed Delphi display copy is pinned in the gallery.
+
+The build passes waited CLI startup and receipt/hash validation; 948 workspace
+Rust tests (139 ignored), installed Delphi/Kabuto construction and re-entry,
+strict Clippy, Rustfmt and 43 Python tests pass. This snapshot connects no ordinary
+controls, live animation, held equipment or native projection reset. Main's
+published .8 download is unchanged. Actual projection, complete primary/physics/
+input and live animation remain the next delivery blockers; fidelity is unverified.
+
 ## External camera coefficients - source dependency only
 
 Intermediate dependency only; no new ordinary Delphi controls or preview.
