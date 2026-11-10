@@ -1900,6 +1900,15 @@ blocker in the next slice, rather than continuing adjacent functions by address.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- Ordinary transition check on local source `e579332`: actual menu clicks enter
+  the first Story1 mission; Escape skips its visible opening into Mecc control,
+  and another Escape returns to the menu. A second actual menu entry then reaches
+  the natural end of all 14 declared directors with drained voices and returns
+  to Mecc control; menu return and F10 close the owned test window. Both tickets
+  release their tracked mission/film/text resources. This muted OS-input check
+  is separate from scripted replays, later NPC/landing source, the public
+  download and complete timing/audio/visual fidelity. No new timed-FX consumer
+  or whole-scene certification follows from it.
 - Next shared queue delivery: connect the source-marked timed-shot family to
   the canonical mission Session, including its real support, retirement child
   and cleanup. The retained program survey identifies 77 requests in seven

@@ -86,6 +86,17 @@ proof of continuous Mecc OS-held flight; the next player delivery is unchanged.
 
 ## Flick timed queue ownership - intermediate dependency
 
+On the private local release of source `e579332` (executable SHA256
+`079988473143a53441b9359639964f271df0cec79bea7dd37ff47109069646d5`),
+actual menu clicks and OS Escape input exercise the first Story1 opening,
+early skip into Mecc control, menu return and second entry. The second entry
+reaches the natural terminal of all 14 directors with drained voices, then
+Mecc control and menu return. F10 closes the owned process/window. Both tickets
+release their tracked mission, film and text resources. The test is muted and
+does not certify audio mix, full timing/visual fidelity, later source changes
+or a new timed-effect backend. No replay environment or injected acknowledgements
+were used. This local interaction is not relabeled as a downloaded-preview check.
+
 No new normal controls, runtime capability or downloadable preview is claimed.
 The next common campaign FX dependency is the source-marked timed-shot queue,
 its virtual support and retirement child in the canonical mission Session.
