@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.10.5
+# Windows x64 development preview - preview-2026.11.10.6
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From

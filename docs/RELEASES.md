@@ -16,6 +16,12 @@ populations. World population/stock/admission, clock/RNG ownership, wider physic
 caller semantics, lower-level error continuations and timed main-film rendering
 remain open. Prototype PS2 attribution stays unknown; zero complete films are
 certified. This source milestone does not relabel the published .4 executable.
+The runtime tree passes 874 workspace Rust tests (71 ignored), strict Clippy,
+Rustfmt, 43 Python tests and generated site/JavaScript checks. Installed checks
+cover the new ordinary preparation, both previous timed callback variants with
+physical-header/intermediate-phase controls, the standalone owner and application
+actor roles. Preview .6 is reserved for technical packaging; the separate .5
+publication remains untouched. No download claim follows from that reservation.
 
 ## Source-only environment failure retention — 10 November 2026
 
