@@ -881,6 +881,7 @@ mod tests {
                 &mut stamp,
                 &mut guide,
             );
+            let mut descendant = None;
             let mut expected = before;
             expected.next_15(); // inclusive guide selection, even the range 0..0
             if fail {
@@ -941,12 +942,20 @@ mod tests {
                     .unwrap();
                 assert!(boundary.child.is_none());
                 assert_eq!(random.0, saved.0);
-                pool.release_prepared(child).unwrap();
+                let particle = pool
+                    .activate_smoke_particle(child, &mut session, &resources, &mut random)
+                    .unwrap();
+                assert_eq!(session.timed_effect_origin(particle), Some(child));
+                assert!(pool.get(child).is_none());
+                descendant = Some(particle);
             }
             // Owned callbacks do not invalidate the acquired destructor profile.
             pool.release_damage_smoke(context, &mut session).unwrap();
             session.destroy_stopped_smoke(actor, &pool).unwrap();
             assert!(session.get(actor).is_none());
+            if let Some(particle) = descendant {
+                assert!(session.get(particle).is_some());
+            }
         }
     }
 }

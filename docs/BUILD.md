@@ -755,7 +755,7 @@ are unchanged; this check does not admit native stock or a live world actor.
 With `GIANTS_MECC_WORLD_ROOT` and an isolated Cargo target, run:
 
 ```powershell
-cargo test --locked -p giants-game source_mecc_smoke_callback --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-game source_mecc_smoke --target x86_64-pc-windows-gnu -- --ignored
 ```
 
 This silent installed-resource check advances the real owned emitter, prepares
@@ -764,3 +764,8 @@ first-call delay, retained guide-failure prefixes, quarantine and bounded cleanu
 after owned callbacks. The guide supplies an explicit world affine and the frame
 supplies actor-local time. It exercises no active particle or renderer. See
 [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#owned-emitter-callback--10-november-2026).
+
+The same filter now checks canonical child activation after the separate null pass,
+actual active draws and context retirement, first-call ANM and retained failure at
+the required velocity/physical service. All three installed smoke child profiles
+are checked. No moving particle or rendered smoke is implied.

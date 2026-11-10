@@ -73,6 +73,8 @@ pub(crate) struct Runtime {
     pub source: Arc<Image>,
     durations: Vec<Option<f32>>,
     immutable_words: [u32; 3],
+    size_flag: u32,
+    side_speed: Option<u32>,
     pub epoch: u32,
     pub failure: Option<String>,
     pending: Option<(VisualStep, bool)>,
@@ -124,6 +126,24 @@ impl<K: Copy> Timed<K> {
         let configured = template.gravity_positioned(origin, context)?;
         Self::new(template, configured)
     }
+    /// Acquired smoke descendant with explicit source-pool active RNG draws.
+    pub fn smoke_positioned(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let recipe = crate::mecc_smoke_particle::Recipe::project(
+            context.program.as_ref().map_err(Clone::clone)?,
+        )?;
+        let template = Template::load(resources, recipe.class)?;
+        let mut staged = *random;
+        let configured = template.smoke_positioned(origin, context, &mut staged)?;
+        let owned = Self::new(template, configured)?;
+        *random = staged;
+        Ok(owned)
+    }
 }
 
 fn source_scope<K>(
@@ -166,6 +186,12 @@ impl<K: Copy> Timed<K> {
             return Err("timed ownership requires the acquired inline payload".into());
         }
         let immutable_words = [4, 0x10, 0x14].map(|at| word(data, at));
+        let size_flag = match configured.visual.size_curve() {
+            crate::effect_visual::SizeCurve::Linear => 8,
+            crate::effect_visual::SizeCurve::EaseOut => 0x100000,
+            _ => return Err("timed callback size curve outside acquired profile".into()),
+        };
+        let side_speed = (initial.fields.control_flags & 0x40 != 0).then(|| word(data, 0xf4));
         let references = Owned::new(template.specification.clone())?;
         let mut durations = vec![None; 256];
         for (&slot, d) in &template.specification.animations {
@@ -198,6 +224,8 @@ impl<K: Copy> Timed<K> {
                 source: configured.source,
                 durations,
                 immutable_words,
+                size_flag,
+                side_speed,
                 epoch: 0,
                 failure: None,
                 pending: None,
@@ -408,7 +436,14 @@ impl Runtime {
             .storage
             .data()
             .ok_or("timed callback payload absent")?;
-        let allowed = 0x800000 | 0x80 | 0x20 | 0x08 | 0x04 | 0x02 | 0x01;
+        let allowed = 0x800000
+            | 0x80
+            | 0x20
+            | self.size_flag
+            | 0x04
+            | 0x02
+            | 0x01
+            | if self.side_speed.is_some() { 0x40 } else { 0 };
         let physical = matches!(b.placement, crate::effect_actor::Placement::Position(_));
         if b.seed.storage.profile() != crate::state_storage::Profile::Debug
             || b.seed.storage.state() != 78
@@ -419,10 +454,16 @@ impl Runtime {
             || b.fields.control_flags & !allowed != 0
             || b.fields.control_flags & 2 == 0
             || (b.fields.control_flags & 0x80 != 0) != physical
-            || (b.fields.control_flags & 8 != 0)
-                != (self.immutable_words[1] != self.immutable_words[2])
+            || (b.fields.control_flags & (8 | 0x100000))
+                != if self.immutable_words[1] != self.immutable_words[2] {
+                    self.size_flag
+                } else {
+                    0
+                }
             || (b.fields.control_flags & 1 != 0) != self.retirement.is_some()
-            || !matches!(b.render_flags, 0 | 0x1000)
+            || !matches!(b.render_flags & !0x8000, 0 | 0x1000)
+            || (b.render_flags & 0x8000 != 0) != self.side_speed.is_some()
+            || self.side_speed.is_some_and(|side| word(data, 0xf4) != side)
             || [4, 0x10, 0x14].map(|at| word(data, at)) != self.immutable_words
             || word(data, 8) != self.visual.age.to_bits()
             || data[0xf8..0x10c].iter().any(|&b| b != 0)
@@ -489,7 +530,7 @@ impl Runtime {
                 b.fields.object_flags |= 0x8000;
                 return Ok(Step::Marked);
             }
-            if next == VisualStep::VisibleState && b.fields.control_flags & 8 != 0 {
+            if next == VisualStep::VisibleState && b.fields.control_flags & self.size_flag != 0 {
                 let mut matrix = crate::effect_orientation::matrix(
                     b.fields.position,
                     b.fields.angles,

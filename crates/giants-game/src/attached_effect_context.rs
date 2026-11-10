@@ -137,6 +137,30 @@ impl Pool<crate::resident_states::Id> {
         self.release_prepared(id)?;
         Ok(actor)
     }
+    /// Consume one real deferred smoke child after staged active construction.
+    /// World stock, physics, finalization and rendering remain caller services.
+    pub fn activate_smoke_particle(
+        &mut self,
+        id: Id,
+        session: &mut crate::resident_states::Session,
+        resources: &crate::scene_resources::SceneResources,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<crate::resident_states::Id, String> {
+        let context = self
+            .get(id)
+            .ok_or("smoke child context absent, foreign or retired")?;
+        let mut staged = *random;
+        let owned = crate::timed_effect_object::Timed::smoke_positioned(
+            resources,
+            id,
+            context,
+            &mut staged,
+        )?;
+        let actor = session.adopt_timed_positioned(owned)?;
+        self.release_prepared(id)?;
+        *random = staged;
+        Ok(actor)
+    }
     /// Acquired smoke-only parent-reference cleanup. The dead bit invalidates
     /// the live reference and retains the context in ParentLost, including a
     /// request that has not constructed an emitter yet. No actor is marked or

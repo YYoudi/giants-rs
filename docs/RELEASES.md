@@ -5110,3 +5110,26 @@ history/newborn and Kabuto reference-bank changes passes 875 workspace Rust test
 the canonical timed-owner and cold Delphi support controls, Rustfmt and strict
 workspace Clippy. Python/site/JavaScript checks pass separately. These source
 checks do not relabel the current downloadable preview or admit ordinary particles.
+
+
+### Mecc canonical smoke descendants — 10 November 2026
+
+Real deferred smoke children now activate into the shared Session timed owner.
+Construction preserves separate null/active draws, acquired ease-out sizing,
+gravity and side-speed fields. First-call ANM and the next lifetime/size prefix
+use canonical storage; missing velocity/physical services retain their completed
+prefix and quarantine replay. Detached children survive emitter destruction.
+
+Forty-eight native/Rust constructions, first complete callbacks and next
+pre-velocity prefixes agree on 144 snapshots / 14,976 selected normalized words.
+Time, epoch, allocation/texture/source providers and pools remain supplied.
+Initial velocity, physical/terrain services, finite cleanup and rendering still
+precede normal world admission. Prototype PS2 attributions remain unknown.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#canonical-smoke-descendant-activation--10-november-2026).
+This source handoff creates no preview asset or new ordinary gameplay claim.
+
+
+Validation passes 875 workspace Rust tests (74 ignored), nineteen installed Mecc
+controls, the canonical timed-owner and cold Delphi support controls, 43 Python
+tests, Rustfmt, strict workspace Clippy and generated site/JavaScript checks.
+The current published preview keeps its separate source and checksum identity.

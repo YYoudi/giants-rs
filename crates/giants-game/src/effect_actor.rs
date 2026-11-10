@@ -280,6 +280,39 @@ impl Template {
             .copy_from_slice(&recipe.gravity_mass.to_le_bytes());
         Ok(configured)
     }
+    /// Complete active smoke child. The null pass belongs to its real context.
+    pub fn smoke_positioned<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Configured<K>, String> {
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        let recipe = crate::mecc_smoke_particle::Recipe::project(program)?;
+        if recipe.class != self.fields.class {
+            return Err("smoke child class differs from constructor".into());
+        }
+        let mut initial = self.positioned(origin, context)?;
+        let mut staged = *random;
+        let (visual, gravity, side) = recipe.activate(&mut staged);
+        initial.size([visual.start_size, visual.end_size], false)?;
+        if visual.start_size != visual.end_size {
+            initial.fields.control_flags |= 0x100000;
+        }
+        let mut configured = initial.timed(visual, context.source_image())?;
+        configured.visual = crate::effect_visual::Visual::with_size_curve(
+            visual,
+            crate::effect_visual::SizeCurve::EaseOut,
+        )?;
+        configured.initial.fields.object_flags &= !0x10;
+        configured.initial.fields.control_flags |= 0xc0;
+        configured.initial.render_flags |= 0x8000;
+        let data = configured.initial.seed.storage.data_mut().unwrap();
+        data[0xa4..0xa8].copy_from_slice(&gravity.to_le_bytes());
+        data[0xf4..0xf8].copy_from_slice(&side.to_le_bytes());
+        *random = staged;
+        Ok(configured)
+    }
     pub fn load(resources: &SceneResources, class: i32) -> Result<Self, String> {
         if class < 0 {
             return Err("effect constructor class outside acquired nonnegative profile".into());

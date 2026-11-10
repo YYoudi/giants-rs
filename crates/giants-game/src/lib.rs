@@ -85,6 +85,7 @@ pub mod mecc_presentation;
 mod mecc_secondary;
 pub mod mecc_shot;
 pub mod mecc_smoke_effect;
+mod mecc_smoke_particle;
 pub mod mecc_special;
 pub mod mecc_target_owned;
 pub mod mecc_target_query;

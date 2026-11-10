@@ -8,7 +8,7 @@ hits are candidates only; the PC profile remains the behavioral authority.
 
 The sections record successive acquisition checkpoints. For the current binding,
 see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026)
-and the [owned emitter callback](#owned-emitter-callback--10-november-2026) below.
+and [canonical smoke descendant activation](#canonical-smoke-descendant-activation--10-november-2026) below.
 Earlier missing-service statements retain the limits of their recorded checkpoint.
 
 ## Selector and ownership order
@@ -887,3 +887,46 @@ cleanup scheduling remain prerequisites for normal mission admission. This lot
 publishes source only. Prototype PS2 lookup preceded analysis; the callback and
 newly examined boundaries retain unknown attributions, with no speculative
 renaming or signature import. Detailed research remains private.
+
+
+## Canonical smoke descendant activation — 10 November 2026
+
+`Pool::activate_smoke_particle` now consumes the actual deferred child into the
+common Session timed-effect owner. The complete acquired child program is
+validated before construction. The pool's preparation already sampled its null
+pass; active construction takes four further draws in source order: two sizes,
+gravity and side speed. Invalid staging leaves the context and RNG intact, and
+the context retires only after canonical publication. Its historical origin
+remains available on the Session actor.
+
+The child uses the existing ease-out size curve, with its distinct acquired
+control flag rather than the linear-size flag. The canonical timed callback
+retains the immutable size mode and side-speed operand, admits only the matching
+render/control profile, and preserves first-call ANM without aging or physics.
+After that first call, the shared lifetime/fade/size prefix runs before requesting
+the required velocity/physical owner. A late refusal preserves the actual age,
+size and flags and quarantines replay. No default physical provider is added.
+The callback's final matrix writer recognizes the acquired size mode; execution
+past physics still requires the actual service, not a successful test placeholder.
+
+Native controls execute direct preparation and the complete active constructor
+for three source child programs, eight seeds and two supplied positions. Across
+48 constructions, their first complete callbacks and their next pre-velocity
+prefixes, Rust agrees on 144 snapshots / 14,976 selected normalized header,
+affine, payload and RNG words. Origin pointers are normalized to presence;
+this is not an address or allocation-reuse comparison. Actor-local time, epoch,
+heap/textures, source registration and pools remain supplied. The later prefix
+stops before initial velocity and physical integration; those are not validated
+by these comparisons.
+
+Installed controls connect the real emitter's returned child context to canonical
+activation, preserve the detached child when its emitter is destroyed, check all
+three child programs' active draws and origin retirement, and reject stale or
+altered requests. They also retain the exact pre-physical failure and forbid
+replay. Detached child lifetime is independent of the emitting actor.
+
+Next acquire initial velocity/side-speed publication, physical integration and
+terrain/contact services in their real callback order, then finite retirement,
+resource destruction and rendering under the common world scheduler. The current
+lot establishes no moving or visible smoke in ordinary gameplay. Prototype PS2
+attributions remain unknown; detailed controls and disassembly remain private.

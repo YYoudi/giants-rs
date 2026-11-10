@@ -1294,9 +1294,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Installed controls cover exact boundaries, invalid/repeated calls, late guide
   failure retaining clock/RNG, quarantine and stopped teardown after owned calls.
   This is deferred child preparation, not active particles or a renderer.
-  Next acquire descendant activation/size/gravity/side-speed ownership, particle
-  callbacks and rendering; bind live parent/child transforms, clock/RNG scheduling,
-  global cleanup, advanced resource teardown and ordinary world admission. Preserve
+  Descendants now activate into the common Session timed owner, consuming four
+  active size/gravity/side-speed draws after their distinct null pass. The acquired
+  ease-out size flag stays distinct from linear sizing. Forty-eight constructions,
+  their first callbacks and next pre-velocity prefixes match 144 snapshots /
+  14,976 selected native/Rust words. Installed controls connect actual returned
+  emitter children, retain detached children after emitter destruction, preserve
+  required-physics failure prefixes and refuse replay/stale or altered requests.
+  Next acquire actual initial velocity/side-speed publication, physical/terrain
+  services and their ordering, finite retirement/destruction and rendering; bind
+  live parent/child transforms, clock/RNG scheduling, global cleanup and ordinary
+  world admission. Preserve
   the completed prototype PS2 lookups (all unassigned), exact PC identity, old
   aliases, separate preparation/active draws and source image ownership. See
   docs/OWNED_MECC_CONTACT.md for the staged constructor contract.
