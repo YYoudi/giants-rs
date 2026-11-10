@@ -6126,11 +6126,12 @@ ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and genera
 site/JavaScript checks. Concurrent preview .8 evidence and its limitations are
 retained separately. This source handoff creates no new download or live admission.
 
-## Mecc ordinary descent presentation - source integration candidate
+## Mecc ordinary descent presentation - source integration
 
-The ordinary menu-controlled renderer now loads the acquired descent clip and
-selects it using the same installed-data velocity/clearance rule as the owned
-selector. This addresses a missing visible pose in the normal presentation path;
+Merged into main through [PR #17](https://github.com/YYoudi/giants-rs/pull/17)
+(`c44baf6`). The ordinary menu-controlled renderer now loads the acquired descent
+clip and selects it using the same installed-data velocity/clearance rule as the
+owned selector. This addresses a missing visible pose in the normal presentation path;
 input defaults and owned-primary admission are unchanged.
 
 Status: runtime connected, interaction unverified. Normal menu entry, preparation,

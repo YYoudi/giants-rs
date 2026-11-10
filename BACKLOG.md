@@ -22,8 +22,8 @@ supplied replay commands; it does not close this real-input delivery.
 - Mecc: provide the first missing impact/health/display/voice/FX and weapon
   dependencies that prevent this continuous path. Do not bypass them with default
   guard state; prioritize their actual producers over unrelated rare variants.
-  The acquired descent rule and clip are being connected to the ordinary controller
-  on `codex/mecc-visible-gameplay`. Menu entry, clip preparation, return and re-entry
+  The acquired descent rule and clip are connected to the ordinary controller
+  on main through PR #17 (`c44baf6`). Menu entry, clip preparation, return and re-entry
   have run on the local build; thrust/release/fall/landing interaction remains
   unverified after the interrupted UI session. Do not advertise it as verified
   gameplay or publish a new preview from those partial observations. Preserve
