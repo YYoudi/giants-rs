@@ -46,6 +46,12 @@ unfinished native parent complete to deliver ordinary visual feedback.
   and three complete draw retirements pass with supplied commands on source
   `064cfed`; this is separate from held-input verification. Keep render-only clocks distinct from native world
   completion; real held-input thrust/release and menu re-entry still need checking.
+  Ordinary pistol delivery: source projectile geometry/material and acquired
+  straight-launch orientation/velocity now replace the diagnostic flight quads.
+  Check real left-mouse firing, visible shot lifetime/removal and menu re-entry.
+  Constructor flash/attached FX, native range/retirement and impact births/contacts/damage, firing
+  poses and owned actor/fire scheduling remain open; retain those actual services
+  rather than selecting a guessed animation or substituting diagnostic shapes.
 - NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
   story interaction and its first real caller dependency within each domain.
   Their detailed blockers below remain authoritative; communicate the producer/
@@ -327,12 +333,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 Current observable delivery: enter a Reaper mission through the common menu,
 retain the actual declared Delphi owner/held/copy group, then connect supported
-dry keyboard/mouse movement, jump and camera. **First runtime blocker:**
-`player_initial::Prepared` admits Mecc only and the mission runtime has no Delphi
-cold factory/role-binding branch. Supply that real constructor/consumer next;
-retain pending projection/controller/geometry services instead of acknowledging
-missing work. Main integration owns combined delivery. Delphi remains an
-intermediate dependency, with no ordinary controls newly available.
+keyboard/mouse movement, jump and camera. **Construction is now connected:**
+`delphi_declared::Factory` and the common loader retain the actual constructor Id,
+including late failures, with source-template shell history and declared placement.
+The next runtime gap is projection reset plus the first animation/render and
+physical/camera/input driver consuming this same owner. Confirm source start and
+contact/water prerequisites; do not teleport or force state to make a dry slice.
+Main integration owns combined delivery. No ordinary Delphi controls are newly
+available; the source-backed App control uses an all-unlocked test menu mask and
+proves staging/roles/re-entry, not user input or campaign availability.
 
 The authored camera now uses the common typed override owner and common mode
 selector; 512 original writer/predicate programs match 81,920 selected words.
