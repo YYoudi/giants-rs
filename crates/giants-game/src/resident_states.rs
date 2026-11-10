@@ -9,6 +9,7 @@ use crate::{
 };
 use std::collections::BTreeMap;
 use std::sync::Arc;
+mod camera_profile;
 mod delphi;
 mod delphi_camera;
 mod delphi_held;

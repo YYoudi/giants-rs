@@ -116,7 +116,7 @@ ordering explicit before connecting App damage/fire; the default driver is uncha
 Activation projection reset and the lens kernel now share that camera state with
 mode changes. All 96 native/Rust sequences match 576 invocations /3,456 selected
 state/call words; the earlier mode/admission controls repeat unchanged. Resolve
-the actual current profile/input/device producers and caller order before using
+the actual coefficient/input/device producers and caller order before using
 this in App initialization. The cold Mecc constructor's projection-reset request
 remains pending there. Full player continuity, in-place live type changes and
 team/restore branches are not supplied by this shared reset service.
@@ -128,8 +128,18 @@ covers duplicate classes and owner removal/reconstruction. Next bind the actual
 reference-point body, startup/override writers and enclosing world order. Do not
 seed unknown camera words from a view toggle or treat editor/equipment-preview
 player swaps as ordinary mission startup.
-The current independently verified download is `preview-2026.11.10.5`; its snapshot and receipts
-retain their immutable source identity despite newer source-only integrations.
+Current profile family/view selection is now Session-bound: 20,580 full native/
+Rust controls match 41,160 selection words, including independent controlled
+class/state and nonrecursive parent substitution. Its required coefficient catalog
+has no default. Next acquire the exact PC-backed coefficient reader without
+copying original tables into Git, then bind actual input/device producers and
+activation/world order. Preserve separate current owner/controlled identities and
+requery after mode/scale callbacks; never cache the first query for the second.
+See [OWNED_CAMERA.md](docs/OWNED_CAMERA.md) for the authoritative contract and
+supplied boundaries. No ordinary App admission follows from this selector.
+The current independently verified download is `preview-2026.11.10.6`; its snapshot
+and receipts retain their immutable source identity despite newer source-only
+integrations. The .5 manual observations are not transferred to .6.
 
 The combined `.3` source includes NPC PR #5's history/newborn runtime, cold Delphi
 support and the shared camera-mode/Session composition alongside Kabuto and Flick.

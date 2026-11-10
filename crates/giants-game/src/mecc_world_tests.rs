@@ -6,6 +6,90 @@ use crate::{
 };
 
 #[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; current Session camera profiles, distinct controlled state, retirement and foreign identity checks; no window or sound"]
+fn source_camera_profile_reads_current_headers_and_checked_shared_states() {
+    use crate::camera_profile::{self, Family};
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    let mut session = Session::new(1823);
+    let source = actor(&mut session, &r, &g, &c, None, 0.);
+    let controlled = actor(&mut session, &r, &g, &c, None, 0.);
+    let owners = crate::camera_owner::State::new(Some(source), 7);
+    let modes = crate::camera_mode::State::new(0, 2, 0.25).unwrap();
+    let query = |s: &Session, scaled| {
+        camera_profile::from_session(s, &owners, &modes, Some(controlled), scaled)
+    };
+    assert_eq!(
+        (
+            query(&session, false).unwrap().family(),
+            query(&session, false).unwrap().view()
+        ),
+        (Family::Model2, 2)
+    );
+    assert_eq!(query(&session, true).unwrap().view(), 1);
+    session
+        .residents
+        .get_mut(&source.serial)
+        .unwrap()
+        .construction_fields
+        .as_mut()
+        .unwrap()
+        .control_flags |= 0x20000;
+    assert_eq!(
+        query(&session, false).unwrap().family(),
+        Family::Model2Variant
+    );
+    // Model class and state kind are separate words. This declared header input
+    // does not initialize a different actor type or complete its native primary.
+    session
+        .residents
+        .get_mut(&controlled.serial)
+        .unwrap()
+        .construction_fields
+        .as_mut()
+        .unwrap()
+        .class = 999;
+    assert_eq!(query(&session, true).unwrap().view(), 1);
+    let mut foreign = Session::new(1824);
+    let foreign_id = actor(&mut foreign, &r, &g, &c, None, 0.);
+    assert!(
+        camera_profile::from_session(&session, &owners, &modes, Some(foreign_id), true).is_err()
+    );
+    assert_eq!(
+        camera_profile::from_session(&session, &owners, &modes, Some(foreign_id), false)
+            .unwrap()
+            .view(),
+        2
+    );
+    let invalid_view_modes = crate::camera_mode::State::new(0, u32::MAX, 0.).unwrap();
+    assert!(
+        camera_profile::from_session(&session, &owners, &invalid_view_modes, None, false).is_err()
+    );
+    assert_eq!(
+        camera_profile::from_session(
+            &session,
+            &owners,
+            &invalid_view_modes,
+            Some(controlled),
+            true
+        )
+        .unwrap()
+        .view(),
+        1
+    );
+    session.clear();
+    assert!(query(&session, true).is_err());
+    assert_eq!(modes.transition(), 0.25);
+}
+
+#[test]
 #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; camera-owner prefix with actual Session identities, callback writes, retirement and foreign-owner refusal; no window or sound"]
 fn source_camera_owner_selection_keeps_callback_effects_and_identity() {
     use crate::camera_owner::{Input, Outcome, State};

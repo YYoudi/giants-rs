@@ -1,5 +1,30 @@
 # Preview releases and milestone integration
 
+## Session-bound camera profile selection — 10 November 2026, source only
+
+`camera_profile` now chooses the acquired family/view from current Session
+headers, the checked camera owner and shared mode state. Scaled input consumes
+the controlled actor's state kind independently of its model class. Parent-class
+substitution is nonrecursive; the owner's variant test is not applied again.
+Foreign/retired or missing queried actors, unacquired PC profiles and failed shared
+camera states refuse. There is no cached first-query result or coefficient default.
+
+20,580 complete original-PC/Rust contexts match 41,160 family/view words with
+independent controlled class/state and additional parent-class cases. These are
+selection comparisons over synthetic valid actors, without original coefficient,
+input-device, projection, GPU or world-scheduling validation. The installed Mecc
+Session control covers live header/variant changes, forced-view precedence,
+separate state/model fields, foreign identities and retirement. Exact PC-backed
+coefficients, actual input/projection and activation/world order remain required;
+no pending initializer is acknowledged and no new gameplay mode is enabled.
+Prototype PS2 attribution of this selector remains unknown.
+
+The isolated source checkpoint passes 891 workspace Rust tests (81 ignored),
+43 Python tests, Rustfmt and strict workspace Clippy. The required coefficient
+catalog is documented centrally in [OWNED_CAMERA.md](OWNED_CAMERA.md), and
+`BACKLOG.md` now names the independently verified .6 download while retaining
+the separate .5 manual evidence boundary. The frozen public preview is unchanged.
+
 ## Shared activation reset and lens transition — 10 November 2026, source only
 
 Camera mode changes, activation projection reset and lens evaluation now use one

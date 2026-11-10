@@ -35,6 +35,12 @@ A bare PowerShell command can finish before the child and close its redirected
 stdout; that is not a reliable CLI exit/output check. The Windows workflow waits
 and captures the child's `--help` result explicitly.
 
+The installed `source_camera_profile_reads_current_headers_and_checked_shared_states`
+control uses `GIANTS_MECC_WORLD_ROOT`. It reads actual Mecc Session headers and
+separate controlled-state inputs, then checks live variant changes, foreign/retired
+identities and forced-view precedence. It is silent and does not load original
+coefficient tables, publish projection or complete activation.
+
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
