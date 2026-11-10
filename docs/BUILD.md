@@ -205,6 +205,11 @@ cargo test --locked -p giants-game source_vimp_vector --target x86_64-pc-windows
 cargo test --locked -p giants-game source_vimp_response --target x86_64-pc-windows-gnu -- --ignored --nocapture
 ```
 
+The active-response block's portable tests run in the default workspace suite.
+Its separate private captured-cycle comparisons retain supplied caller motion,
+clock and external RNG draw schedule; they do not establish ordinary primary,
+physical/ANM or world integration. See [OWNED_NPCS.md](OWNED_NPCS.md).
+
 The response command checks actual inline physical/channel reads, signal-to-owned
 vector composition, terminal callback effects, cancellation and noise-target byte
 preservation. Priority/signal/channel entries are declared test inputs; session,

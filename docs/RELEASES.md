@@ -12,7 +12,7 @@ These inputs exclude Rust whole-primary, physical/ANM and world equivalence.
 
 The existing Delphi and new Vimp callers share the same bounded angular helper;
 1,117 independent native scalar controls also agree. No Delphi behavior is changed.
-Four portable controls cover required services, callback writes, timer boundaries
+Five portable controls cover required services, callback writes, timer boundaries
 and arrival normalization. Persistent timer ownership, ordinary movement/active
 animation and callback-phase integration remain open, together with live global/
 world services and mode7. Prototype PS2 attribution is unknown. No gameplay,

@@ -171,6 +171,7 @@ mod tests {
         notify: bool,
         orient_error: bool,
         calls: Vec<&'static str>,
+        actions: Vec<Action>,
     }
     impl Services for Provider {
         fn session(
@@ -202,8 +203,9 @@ mod tests {
                 Ok(())
             }
         }
-        fn action(&mut self, s: &mut State, _: Action) -> Result<(), String> {
+        fn action(&mut self, s: &mut State, action: Action) -> Result<(), String> {
             self.calls.push("action");
+            self.actions.push(action);
             s.priority = 91;
             Err("required action failed after write".into())
         }
@@ -239,6 +241,7 @@ mod tests {
                 notify: false,
                 orient_error: false,
                 calls: Vec::new(),
+                actions: Vec::new(),
             },
         )
     }
@@ -285,6 +288,7 @@ mod tests {
         assert_eq!(s.stage, 2);
         assert_eq!(s.selected_heading, 90.);
         assert_eq!(s.priority, 91);
+        assert_eq!(p.actions, [Action::Heading(90.)]);
         assert_eq!(random.0, 1);
         assert_eq!(p.calls, ["first", "clock", "second", "action"]);
     }
@@ -313,5 +317,19 @@ mod tests {
         assert_eq!(p.calls, ["orient", "first", "clock", "second"]);
         assert_eq!(random.0, 1);
         assert_eq!(s.commands, [7, 0, 4, 0, 1, 2, 3, 4]);
+    }
+    #[test]
+    fn finish_action_failure_keeps_clears_and_the_callback_changes() {
+        let (mut s, parameters, mut p) = fixture(3);
+        s.owner_word = 255;
+        p.notify = true;
+        let mut random = Random(1);
+        assert!(advance(&mut s, parameters, &mut random, &mut p).is_err());
+        assert_eq!((s.kind, s.active, s.priority), (0, 0, 91));
+        assert_eq!(s.stage, 3);
+        assert_eq!(s.delay, 0.);
+        assert_eq!(p.actions, [Action::Finished]);
+        assert_eq!(p.calls, ["orient", "first", "clock", "second", "action"]);
+        assert_eq!(random.0, 1);
     }
 }

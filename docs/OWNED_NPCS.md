@@ -263,7 +263,7 @@ native scalar controls, including wrapping and negative steps; this is a bounded
 angle comparison, not a complete active response. Existing heading/orientation
 and bearing services are reused. Prototype PS2 attributions for the primary and
 touched dependencies remain unknown; no signatures or layouts are imported.
-Four portable controls cover arrival/normalization distinctions, equal-bound RNG,
+Five portable controls cover arrival/normalization distinctions, equal-bound RNG,
 wide timer decisions, required-service ordering and retained callback errors.
 
 Next bind the stage-produced turn timer to persistent actor ownership, acquire the
