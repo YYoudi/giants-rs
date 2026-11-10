@@ -27,6 +27,9 @@ pub struct Emission {
     source: Arc<Image>,
 }
 impl Emission {
+    pub(crate) fn source(&self) -> &Image {
+        &self.source
+    }
     pub fn program(
         &self,
     ) -> Result<giants_formats::effect_program::Program, giants_formats::Error> {
@@ -51,6 +54,50 @@ impl Emission {
         }
         words
     }
+}
+
+/// Explicit actor-local invocation; its sequence is not a global frame clock.
+#[derive(Clone, Copy, Debug)]
+pub struct Frame {
+    pub number: u64,
+    pub seconds: f32,
+}
+
+#[derive(Clone, Copy, Debug)]
+pub struct Callback {
+    pub first: bool,
+    pub child: Option<Id>,
+}
+/// Resolve the selected guide using the actual current world/reference owner.
+/// No default point, presentation pose or success provider is installed.
+pub trait Guide {
+    fn point(
+        &mut self,
+        session: &crate::resident_states::Session,
+        actor: crate::resident_states::Id,
+        reference: u32,
+    ) -> Result<[f32; 3], String>;
+}
+/// Acquired ordinary guide transform over the Session's preceding sampled
+/// references. The enclosing owner must supply the actual world affine.
+pub fn guide_point(
+    session: &crate::resident_states::Session,
+    actor: crate::resident_states::Id,
+    reference: u32,
+    world: crate::procedural_aim::Matrix,
+) -> Result<[f32; 3], String> {
+    if world.flags & 0x20 != 0 || !world.values.iter().all(|value| value.is_finite()) {
+        return Err("smoke guide requires finite affine world matrix".into());
+    }
+    let matrices = session.current_reference_matrices(actor)?;
+    let local = matrices
+        .get(reference as usize)
+        .ok_or("smoke guide reference absent")?;
+    let point = world.transform_point([local.values[3], local.values[7], local.values[11]]);
+    if !point.iter().all(|value| value.is_finite()) {
+        return Err("smoke guide position nonfinite".into());
+    }
+    Ok(point)
 }
 
 pub struct Staged<K> {

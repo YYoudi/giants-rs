@@ -4920,3 +4920,21 @@ source passes 872 workspace Rust tests (64 ignored), seventeen installed Mecc
 controls, the cold Delphi support and shared timed-owner controls, strict Clippy,
 Rustfmt and 43 Python/site checks. These source checks do not change the published
 preview snapshot.
+
+
+### Mecc hidden-emitter callback and deferred children — 10 November 2026
+
+The canonical damage emitter now owns its acquired hidden callback with explicit
+actor-local time, originating pool, RNG, animation stamp and required guide owner.
+First-call delay, strict-negative emission, preceding sampled references and ANM
+ordering are preserved. Real deferred child preparation executes its acquired
+size/gravity null-pass draws. Late failures preserve completed effects and
+quarantine replay; explicit stop and bounded resource destruction remain usable.
+
+Across three source programs and eight supplied seeds, 240 native/Rust callbacks
+agree on 2,640 selected words, including 72 real deferred child requests. Supplied
+time/epoch, affine, source registration and heap/parent providers remain explicit.
+Child activation, particle updates/rendering and ordinary world scheduling are
+still open. Prototype PS2 attributions remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#owned-emitter-callback--10-november-2026).
+This source checkpoint creates no preview asset or new gameplay availability.

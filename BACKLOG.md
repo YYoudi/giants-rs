@@ -1231,8 +1231,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   weak-owner, count, peer and generation checks cover actual Rust release.
   Dead-parent attachment invalidation precedes destruction. Unacquired service
   variants and dependent children refuse before release.
-  Next acquire global parent/child cleanup scheduling, emitter callbacks and
-  descendants, advanced resource teardown and ordinary world admission. Preserve
+  The canonical hidden emitter callback now runs with explicit actor-local time,
+  actual source-pool/RNG/stamp ownership and a required current guide resolver.
+  The first call advances ANM without emission; later calls use preceding
+  sampled guides, a strict-negative channel and at most one real child request.
+  The acquired child null-pass consumes two size and one gravity draw; side speed
+  belongs to active interpretation. Across three programs/eight supplied seeds,
+  240 native/Rust callbacks agree on 2,640 selected words and 72 child requests.
+  Installed controls cover exact boundaries, invalid/repeated calls, late guide
+  failure retaining clock/RNG, quarantine and stopped teardown after owned calls.
+  This is deferred child preparation, not active particles or a renderer.
+  Next acquire descendant activation/size/gravity/side-speed ownership, particle
+  callbacks and rendering; bind live parent/child transforms, clock/RNG scheduling,
+  global cleanup, advanced resource teardown and ordinary world admission. Preserve
   the completed prototype PS2 lookups (all unassigned), exact PC identity, old
   aliases, separate preparation/active draws and source image ownership. See
   docs/OWNED_MECC_CONTACT.md for the staged constructor contract.

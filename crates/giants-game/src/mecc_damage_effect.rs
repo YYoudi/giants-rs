@@ -146,6 +146,10 @@ impl Services<crate::attached_effect_context::Id> for Bound<'_> {
         if let Some(id) = binding
             && self.prepared.pool.damage_smoke_actor(id).is_some()
         {
+            let actor = self.prepared.pool.damage_smoke_actor(id).unwrap();
+            if self.session.smoke_effect_failure(actor).is_some() {
+                return Err("damage smoke callback is quarantined".into());
+            }
             let context = self.prepared.pool.get(id).unwrap();
             if context.origin_recipient() != Some(self.prepared.source)
                 || context.tag() != Some(3)

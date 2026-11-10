@@ -1,5 +1,5 @@
 //! Canonical retained smoke construction, explicit stop and bounded destruction.
-//! Object callbacks, descendants and general world destruction are separate.
+//! Descendant activation and general world scheduling remain separate.
 use super::*;
 use crate::{attached_effect_context::Id as ContextId, effect_actor::Placement};
 
@@ -13,10 +13,179 @@ pub(super) struct Metadata {
     pub matrix: crate::procedural_aim::Matrix,
     pub emission: crate::mecc_smoke_effect::Emission,
     pub stopped: bool,
+    pub callback_started: bool,
+    pub failure: Option<String>,
+    pub number: u64,
+    pub channel: crate::effect_reference_emission::Channel,
+    pub phase: f32,
+    pub durations: Vec<Option<f32>>,
 }
 
 impl Session {
-    /// Destroy only an explicitly stopped, unadvanced retained emitter whose
+    /// Complete the acquired callback with a required actual guide resolver.
+    /// Seconds are the supplied actor-local callback delta. Number is sequential
+    /// per owner, not an inferred global frame or a fixed-rate viewer schedule.
+    pub fn advance_smoke_effect(
+        &mut self,
+        id: Id,
+        frame: crate::mecc_smoke_effect::Frame,
+        contexts: &mut crate::attached_effect_context::Pool<Id>,
+        random: &mut crate::audio_parameters::Random,
+        stamp: &mut crate::animation_epoch::Stamp,
+        guide: &mut impl crate::mecc_smoke_effect::Guide,
+    ) -> Result<crate::mecc_smoke_effect::Callback, String> {
+        let crate::mecc_smoke_effect::Frame { number, seconds } = frame;
+        let actor = self
+            .get(id)
+            .ok_or("smoke callback actor absent or foreign")?;
+        let m = actor
+            .smoke_effect
+            .as_ref()
+            .ok_or("smoke callback ownership absent")?;
+        let f = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("smoke callback fields absent")?;
+        let data = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("smoke callback payload absent")?;
+        if !seconds.is_finite()
+            || seconds < 0.
+            || m.number.checked_add(1) != Some(number)
+            || m.failure.is_some()
+            || m.stopped
+            || contexts.damage_smoke_actor(m.origin) != Some(id)
+            || contexts.get(m.origin).and_then(|c| c.recipient()) != Some(m.parent)
+            || !contexts.uses_image(m.emission.source())
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 78
+            || data.len() != 268
+            || data[0xf8..0x10c].iter().any(|b| *b != 0)
+            || f.control_flags & !0x2020 != 0
+            || f.control_flags & 0x2000 == 0
+            || f.object_flags & 0x8000 != 0
+            || m.render_flags != 0x10000
+            || f.action != 0
+            || (f.control_flags & 0x20 != 0) == m.callback_started
+            || actor.presentation_parent != Some(m.parent)
+            || actor.attachment.is_some()
+            || actor
+                .channels
+                .as_ref()
+                .is_none_or(|c| c.iter().any(|c| c[4] != 0 || c[5] != 0))
+        {
+            return Err("smoke callback requires current owned frame, source pool and acquired hidden emitter profile".into());
+        }
+        let first = {
+            let actor = self.residents.get_mut(&id.serial).unwrap();
+            let m = actor.smoke_effect.as_mut().unwrap();
+            m.number = number;
+            m.callback_started = true;
+            crate::effect_actor::callback_entry(
+                actor.construction_fields.as_mut().unwrap(),
+                m.render_flags,
+            )
+        };
+        let result: Result<crate::mecc_smoke_effect::Callback, String> = (|| {
+            let mut child = None;
+            if !first {
+                let old = self.get(id).unwrap().smoke_effect.as_ref().unwrap().channel;
+                let remaining = (f64::from(old.remaining) - f64::from(seconds)) as f32;
+                if !remaining.is_finite() {
+                    return Err("smoke channel clock overflow".into());
+                }
+                // Clock storage precedes selection/guide/factory. A late failure
+                // must retain this negative clock rather than the success reset.
+                self.residents
+                    .get_mut(&id.serial)
+                    .unwrap()
+                    .smoke_effect
+                    .as_mut()
+                    .unwrap()
+                    .channel
+                    .remaining = remaining;
+                let step = old.advance(seconds, &mut random.0).map_err(str::to_owned)?;
+                if let Some(selected) = step.request {
+                    let crate::effect_reference_emission::Selected::Single(reference) = selected
+                    else {
+                        return Err(
+                            "smoke paired guide callback is outside acquired profile".into()
+                        );
+                    };
+                    let position = guide.point(self, id, reference)?;
+                    let actor = self.get(id).unwrap();
+                    let m = actor.smoke_effect.as_ref().unwrap();
+                    let flags = actor.construction_fields.as_ref().unwrap().object_flags;
+                    let (creation, _) = contexts.prepare_retirement_offset_invariant(
+                        Some(m.emission.entry_offset),
+                        position,
+                        flags,
+                        m.render_flags,
+                        random,
+                    )?;
+                    child = match creation {
+                        crate::attached_effect_context::Creation::Prepared(id) => Some(id),
+                        crate::attached_effect_context::Creation::Absent => None,
+                    };
+                }
+                let m = self
+                    .residents
+                    .get_mut(&id.serial)
+                    .unwrap()
+                    .smoke_effect
+                    .as_mut()
+                    .unwrap();
+                m.channel = step.state;
+                m.phase = step.phase;
+            }
+            // The callback emits using the preceding sampled references, then
+            // advances its own ANM. The first callback performs only this tail.
+            let actor = self.residents.get_mut(&id.serial).unwrap();
+            let m = actor.smoke_effect.as_mut().unwrap();
+            let channels = actor.channels.as_mut().unwrap();
+            let tick = crate::animation_channels::advance(
+                channels,
+                &m.durations,
+                [],
+                seconds,
+                crate::arithmetic::Precision::Double53,
+            )
+            .map_err(str::to_owned)?;
+            if tick.missing != 0 {
+                return Err("smoke ANM descriptor absent".into());
+            }
+            if tick.processed != 0 {
+                let epoch = stamp.advance();
+                self.specifications
+                    .get_mut(&id.serial)
+                    .unwrap()
+                    .0
+                    .update_current(channels, epoch)?;
+                actor.mecc_animation_stamp = epoch;
+            }
+            Ok(crate::mecc_smoke_effect::Callback { first, child })
+        })();
+        if let Err(ref error) = result {
+            self.residents
+                .get_mut(&id.serial)
+                .unwrap()
+                .smoke_effect
+                .as_mut()
+                .unwrap()
+                .failure = Some(error.clone());
+        }
+        result
+    }
+    pub fn smoke_effect_failure(&self, id: Id) -> Option<&str> {
+        self.get(id)?.smoke_effect.as_ref()?.failure.as_deref()
+    }
+    pub fn smoke_effect_clock(&self, id: Id) -> Option<(f32, f32)> {
+        let m = self.get(id)?.smoke_effect.as_ref()?;
+        Some((m.channel.remaining, m.phase))
+    }
+    /// Destroy only an explicitly stopped retained emitter with acquired callbacks whose
     /// context has already retired in this pool. This is a cleanup-phase service,
     /// not a common-world traversal or general actor deletion operation.
     pub fn destroy_stopped_smoke(
@@ -61,7 +230,7 @@ impl Session {
             || data.len() != 268
             || data[0xf8..0x10c].iter().any(|b| *b != 0)
             || fields.object_flags & 0x8000 == 0
-            || fields.control_flags & 0x20 == 0
+            || fields.control_flags & 0x20 == 0 && !metadata.callback_started
             || fields.configuration[14] & 0x20 != 0
             || fields.shadow.is_some()
             || fields.action != 0
@@ -78,7 +247,7 @@ impl Session {
                         .is_some_and(|attachment| attachment.parent == id)
             })
         {
-            return Err("smoke destruction requires retired context, completed stop and acquired callback-free ownership".into());
+            return Err("smoke destruction requires retired context, completed stop and acquired bounded callback ownership".into());
         }
         let mut report = crate::mecc_smoke_effect::Destruction {
             origin: metadata.origin,
@@ -144,6 +313,22 @@ impl Session {
         }
         let initial = staged.initial;
         let template = staged.template;
+        if template
+            .specification
+            .metadata
+            .events
+            .iter()
+            .any(|events| !events.events.is_empty())
+        {
+            return Err("smoke callback event services unavailable".into());
+        }
+        let mut durations = vec![None; 256];
+        for (&slot, descriptor) in &template.specification.animations {
+            durations[usize::from(slot)] = Some(descriptor.template.duration);
+        }
+        let channel =
+            crate::effect_reference_emission::Channel::new(&staged.emission.configuration)
+                .map_err(str::to_owned)?;
         let mut pending = Self::new(self.ticket);
         pending.next = self.next;
         let id = pending.register_with_mask(
@@ -174,6 +359,12 @@ impl Session {
             matrix: initial.matrix,
             emission: staged.emission,
             stopped: false,
+            callback_started: false,
+            failure: None,
+            number: 0,
+            channel,
+            phase: 0.,
+            durations,
         });
         let id = self.publish_staged(pending, id)?;
         // The VM adds this head registration after the constructor's common list.
@@ -582,6 +773,180 @@ mod tests {
             session.destroy_stopped_smoke(peer, &pool).unwrap();
             assert!(session.list(14).is_empty());
             assert_eq!(session.list(0), vec![source, peer_source]);
+        }
+    }
+
+    struct FrameGuide {
+        fail: bool,
+        visits: usize,
+    }
+    impl crate::mecc_smoke_effect::Guide for FrameGuide {
+        fn point(
+            &mut self,
+            session: &Session,
+            actor: Id,
+            reference: u32,
+        ) -> Result<[f32; 3], String> {
+            self.visits += 1;
+            if self.fail {
+                return Err("declared guide failure".into());
+            }
+            let mut world = crate::procedural_aim::Matrix::identity();
+            world.flags = 16;
+            world.values[3] = 17.;
+            world.values[7] = -24.;
+            world.values[11] = 30.;
+            crate::mecc_smoke_effect::guide_point(session, actor, reference, world)
+        }
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; actual callback/child preparation and failure prefixes with supplied world guide/time, no particles"]
+    fn source_mecc_smoke_callback_prepares_real_children_and_quarantines_failure() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_MECC_WORLD_ROOT").unwrap());
+        let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        for fail in [false, true] {
+            let mut session = Session::new(985);
+            let source = parent(&mut session, &resources);
+            let mut pool = Pool::from_active_resources(986, &resources);
+            let mut random = Random(42);
+            let Creation::Prepared(context) = pool
+                .prepare_extended_invariant("FX_mecc_smoking_light", source, 0, 3, &mut random)
+                .unwrap()
+                .0
+            else {
+                panic!("source absent")
+            };
+            let actor = pool
+                .activate_damage_smoke(context, &mut session, &resources, &mut random)
+                .unwrap();
+            let mut guide = FrameGuide { fail, visits: 0 };
+            let mut stamp = crate::animation_epoch::Stamp(0);
+            let before = random;
+            let first = session
+                .advance_smoke_effect(
+                    actor,
+                    crate::mecc_smoke_effect::Frame {
+                        number: 1,
+                        seconds: 0.01,
+                    },
+                    &mut pool,
+                    &mut random,
+                    &mut stamp,
+                    &mut guide,
+                )
+                .unwrap();
+            assert!(first.first && first.child.is_none());
+            assert_eq!(guide.visits, 0);
+            assert_eq!(random.0, before.0);
+            assert!(
+                session
+                    .advance_smoke_effect(
+                        actor,
+                        crate::mecc_smoke_effect::Frame {
+                            number: 1,
+                            seconds: 0.01
+                        },
+                        &mut pool,
+                        &mut random,
+                        &mut stamp,
+                        &mut guide
+                    )
+                    .is_err()
+            );
+            assert!(session.smoke_effect_failure(actor).is_none());
+            assert!(
+                session
+                    .advance_smoke_effect(
+                        actor,
+                        crate::mecc_smoke_effect::Frame {
+                            number: 2,
+                            seconds: f32::NAN
+                        },
+                        &mut pool,
+                        &mut random,
+                        &mut stamp,
+                        &mut guide
+                    )
+                    .is_err()
+            );
+            assert_eq!(random.0, before.0);
+            let second = session.advance_smoke_effect(
+                actor,
+                crate::mecc_smoke_effect::Frame {
+                    number: 2,
+                    seconds: 0.01,
+                },
+                &mut pool,
+                &mut random,
+                &mut stamp,
+                &mut guide,
+            );
+            let mut expected = before;
+            expected.next_15(); // inclusive guide selection, even the range 0..0
+            if fail {
+                assert!(second.is_err());
+                assert_eq!(random.0, expected.0);
+                assert!(session.smoke_effect_clock(actor).unwrap().0 < 0.);
+                assert!(session.smoke_effect_failure(actor).is_some());
+                assert_eq!(pool.active(), &[context]);
+                assert!(
+                    session
+                        .advance_smoke_effect(
+                            actor,
+                            crate::mecc_smoke_effect::Frame {
+                                number: 3,
+                                seconds: 0.01
+                            },
+                            &mut pool,
+                            &mut random,
+                            &mut stamp,
+                            &mut guide
+                        )
+                        .is_err()
+                );
+                assert_eq!(guide.visits, 1);
+            } else {
+                let child = second.unwrap().child.unwrap();
+                for _ in 0..3 {
+                    expected.next_15();
+                }
+                assert_eq!(random.0, expected.0);
+                let c = pool.get(child).unwrap();
+                assert_eq!(c.position(), Some([17., -24., 30.]));
+                assert_eq!(c.flags(), 0);
+                assert_eq!(
+                    c.program
+                        .as_ref()
+                        .unwrap()
+                        .records
+                        .iter()
+                        .map(|r| r.opcode)
+                        .collect::<Vec<_>>(),
+                    [3, 6, 4, 0x37, 0x0f, 0x80, 7, 2]
+                );
+                let interval = session.smoke_effect_clock(actor).unwrap().0;
+                let saved = random;
+                let boundary = session
+                    .advance_smoke_effect(
+                        actor,
+                        crate::mecc_smoke_effect::Frame {
+                            number: 3,
+                            seconds: interval,
+                        },
+                        &mut pool,
+                        &mut random,
+                        &mut stamp,
+                        &mut guide,
+                    )
+                    .unwrap();
+                assert!(boundary.child.is_none());
+                assert_eq!(random.0, saved.0);
+                pool.release_prepared(child).unwrap();
+            }
+            // Owned callbacks do not invalidate the acquired destructor profile.
+            pool.release_damage_smoke(context, &mut session).unwrap();
+            session.destroy_stopped_smoke(actor, &pool).unwrap();
+            assert!(session.get(actor).is_none());
         }
     }
 }

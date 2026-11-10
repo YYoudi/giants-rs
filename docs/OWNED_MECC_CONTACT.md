@@ -8,7 +8,7 @@ hits are candidates only; the PC profile remains the behavioral authority.
 
 The sections record successive acquisition checkpoints. For the current binding,
 see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026)
-and the retained smoke construction checkpoint below.
+and the [owned emitter callback](#owned-emitter-callback--10-november-2026) below.
 Earlier missing-service statements retain the limits of their recorded checkpoint.
 
 ## Selector and ownership order
@@ -836,3 +836,54 @@ foreign/stale pools, dependent attachments and wrong-phase calls preserve owners
 
 No particle update, live renderer, full world traversal or new downloadable build
 is admitted by this checkpoint. Prototype PS2 attributions remain unknown.
+
+
+## Owned emitter callback — 10 November 2026
+
+`Session::advance_smoke_effect` now advances the canonical hidden damage emitter,
+using an explicit sequential `mecc_smoke_effect::Frame`, the actual originating
+context pool, shared random state, animation stamp and a required `Guide` owner.
+It admits only the acquired state78 profile, its complete source image and live
+retained parent. Foreign/stale pools, nonfinite or negative deltas, repeated
+invocations, stopped or failed emitters and unavailable service variants refuse.
+The supplied seconds are actor-local time; this service establishes no global
+clock producer or ordinary world traversal.
+
+The first callback clears the entry gate and advances ANM without emission or
+random draws. Later callbacks decrement the reference channel, emit only below
+zero and prepare at most one child, discarding overdue emission debt. Selecting
+the single guide still consumes one inclusive integer draw. The guide uses the
+preceding sampled references; the emitter advances its ANM only after emission.
+`guide_point` resolves the actual Session reference cache against a supplied
+finite world affine. Supplying that affine in a control does not establish the
+live parent's transform or attachment scheduling.
+
+The real offset-bound child factory prepares the complete installed child
+program in the same pool. Its null-object initialization consumes two size draws
+and one gravity draw; side speed is sampled only on the later active pass. No
+actor, active particle or visual substitute is created. The returned context
+identity belongs to the caller's deferred activation/lifetime owner.
+
+After entry, a late guide, factory or animation error retains the completed
+clock, random draws and prepared contexts and quarantines the emitter against
+replay or wounded-primary reuse. Explicit stop/cancellation remains available.
+The bounded destructor also admits these owned callbacks while retaining its
+optional-service, dependent-attachment, pool and cleanup-phase guards.
+
+The complete native callback, actual child preparation, ANM and source RNG run
+for all three smoke programs and eight supplied seeds. Across 240 callbacks,
+Rust agrees on 2,640 selected flag, clock, RNG, cumulative child-count and
+normalized child-program/position/flag words, including 72 real child requests.
+Zero delta, exact-zero emission boundaries, first-call delay and overdue calls
+are covered. The actor-local delta, epoch, affine, parent pools, heap/textures and
+source registration remain supplied. These selected comparisons do not cover
+all payload fields or prove rendered fidelity. Installed ownership controls also
+check first-call behavior, invalid/repeated input refusal, exact boundary timing,
+late guide-failure prefixes, quarantine and cleanup after an owned callback.
+
+Descendant activation, size/gravity/side-speed interpretation, particle update,
+rendering, live parent/child transforms, random-stream interleaving and global
+cleanup scheduling remain prerequisites for normal mission admission. This lot
+publishes source only. Prototype PS2 lookup preceded analysis; the callback and
+newly examined boundaries retain unknown attributions, with no speculative
+renaming or signature import. Detailed research remains private.
