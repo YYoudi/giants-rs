@@ -52,7 +52,7 @@ pub trait Services {
 pub fn finalize(
     mut s: State,
     time: Time<'_>,
-    services: &mut impl Services,
+    services: &mut (impl Services + ?Sized),
 ) -> Result<State, Failure> {
     let f = &s.fields;
     if !f

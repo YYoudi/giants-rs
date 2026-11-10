@@ -1248,9 +1248,9 @@ before the following message/progression phase. This does not reconstruct the
 complete mission transition or its initialization/schedule.
 
 This acquired subphase is a prerequisite for impact admission, not a replacement
-for the actual producer. Complete outer admission, message/progression continuation,
-debug/menu side effects and editor-guard lifetime still need reconstruction and
-common runtime ownership. The App still binds no default impact context and does
+for the actual producer. The following sections acquire ordered admission and continuation orchestration.
+Their actual providers, debug/menu side effects and editor-guard lifetime still
+need complete reconstruction and common runtime ownership. The App still binds no default impact context and does
 not infer suppression from cinematic activity. Prototype PS2 lookups were refreshed
 for all audited guard writers/queries; attributions remain unknown. No source
 snapshot is installed as an invented native startup state.
@@ -1281,11 +1281,49 @@ providers; their native bodies are not executed in these comparisons.
 
 Further native inspection shows the mode-gated precheck also performs music and
 player-transition work. It is not an acquired one-time initializer and must not
-be replaced by an empty service. Full precheck and previous-record services,
-actual snapshot production/identity, message/progression continuation, other guard
-writers and common scheduling remain required before live impact admission.
+be replaced by an empty service. The following section acquires continuation orchestration. Full precheck and
+previous-record services, actual snapshot production/identity, UI/music/save/load/
+event backends, other guard writers and common scheduling remain required before
+live impact admission.
 Prototype PS2 lookups were refreshed first; all new attributions remain unknown.
 The source checkpoint does not change the separately published preview identity.
+
+## Completion notice and record continuation - 10 November 2026
+
+The shared completion service now orchestrates the post-expiry notification,
+progress update, next-record scan and record dispatch through required providers.
+Mission and text references come from the caller's actual storage; no second
+mission store or transport is supplied by this kernel. Notification marks precede
+the message callback. Progress uses a signed maximum; its write precedes next
+selection. The scanned index survives preparation, while world/player state is
+reread afterward. Record dispatch preserves all four acquired kinds, their caller
+return values, and the inactive-count fallback. Music/timer and selected-player
+writes retain their observed positions around resolve/queue/commit callbacks.
+Current mission/index are reread where the native caller rereads them, including
+message replacement and post-resolution selection. A return value is not a claim
+that the campaign is complete.
+
+A whole native-handler control supplies mode/admission, synthetic mission byte
+views, clock output and explicit callback effects. Rust composes its actual
+admission, countdown and continuation services without replacing intermediate
+state. All 373 contexts agree on selected final state, clock requests, caller
+returns and 1,454 ordered provider entries with their pre-callback state/arguments.
+The matrix covers pending/expired countdowns, shown/empty/new notices, signed
+progress retention, next-record presence, four dispatch kinds, upper-index exits
+and mission/player/world replacement. Selected words include unchanged supplied
+fields; neither full global-state coverage nor real mission admission follows.
+Music, UI, save/load, event and countdown-start callback bodies are supplied in
+these controls, not newly implemented backends.
+
+Synthetic failure controls retain a notice marker and callback replacement after
+message failure, increment only the actual replacement after successful messaging,
+and keep music/player/record writes after a queue failure. These are source
+operational failure contracts; they do not claim native exceptions or replay.
+The enclosing owner must quarantine late failure. Native precheck/previous-record
+services, actual world/storage/clock producers and real UI/music/save/load/event
+backends remain required for live impact and mission progression. Prototype PS2
+lookups precede the acquisition and all new attributions remain unknown. The
+separate preview .8 identity and its diagnostic scope are retained.
 
 ## Ordinary mission descent pose - runtime connected, interaction unverified
 
