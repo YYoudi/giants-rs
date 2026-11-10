@@ -1027,6 +1027,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ## Immediate runtime prerequisites
 
+- Application actor roles now retain constructor-returned Session identities for
+  the player and carried actor. Resource, motion, pickup and audio consumers no
+  longer depend on a unique actor class, and stale/foreign owners refuse rather
+  than choosing another instance. Keep this binding separate from development
+  motion publication and preserve identities after later initializer failures.
+  Next acquire actual native player replacement/retirement and world ownership;
+  this application correction does not provide native selection globals, camera
+  startup producers or ordinary owned Mecc admission. The published preview's
+  exact source remains separate from this newer main-source correction.
+  The continuous owned-App diagnostic currently refuses the normal pistol draw
+  animation callback/frame service at frame one. Bind its actual provider before
+  claiming this diagnostic or ordinary owned gameplay passes; do not clear the
+  weapon-change state or force animation readiness to bypass the refusal.
+
 - Desktop preview entry: giants-rs.exe detects the adjacent game installation or
   offers a folder picker, then opens the integrated menu with an independent
   Preview All profile and unlocked
@@ -1532,6 +1546,49 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation requests. All 2,104 constructed residents release. Preserve the
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
+
+- Source-only ordinary-environment prerequisite: shared finalization retains
+  completed environment stages on later provider errors, including physical
+  contact fields, inline-physics projection and completed-stage counters. A
+  failed initial ground query retains the already cleared response/hit/support
+  prefix; a failed platform query retains completed terrain/contact results.
+  Callers must quarantine consumed phases rather than replay external services.
+  Internal unreturned mutations from lower-level mesh/terrain resolvers still
+  require their own continuations; this change does not acquire those contracts.
+  The sixteen-terrain comparison remains unchanged: 1,152 states /299,520 words
+  and 902 queries, with native entry data and empty mesh/platform populations
+  supplied. Timed ordinary preparation/header binding and main-film admission
+  remain next. This prerequisite is not in published preview .4 and adds no
+  certified scenes or visual coverage. Prototype PS2 attribution stays unknown.
+
+- Timed Session actors now own their physical velocity/history header alongside
+  the actual inline physical payload. The shared force integrator consumes an
+  independently supplied physical clock sample; no second actor registry or Mecc
+  controller is introduced. Motion, actual affine publication, gravity/friction,
+  deferred size/orientation and ANM remain ordered phases. Owned motion/gravity
+  refuse repeated consumption. Late gravity failures retain preceding affine and
+  force writes; subsequent callbacks refuse replay. Motion failures leave the
+  derived affine stale; later ANM failures retain completed matrix stores.
+  Reused native positive/zero controls retain 576 states /100,224 selected words;
+  an additional 3,456 native velocity/history words and 768 intermediate phase
+  samples /44,544 words exercise the new ownership and service order. These are
+  bounded state78 parent/child controls, not additional scenes or complete physics.
+  Dynamic headers begin from acquired ordinary allocation; no environment/contact
+  producer or successful terrain fallback is installed. The previous sixteen-grid
+  finalization proof below is retained. Next: connect its real environment/header
+  updates and ordinary preparation continuation, then stock/occupancy, native
+  dispatcher/model-rate/clock/RNG and main-film rendering/admission. Clock equality
+  in a supplied fixture does not establish a shared live clock.
+  Published preview-2026.11.10.4 pins the owned header at source `ffb2f60`;
+  RELEASES.md/public-preview.json retain its full receipt/checksum identities.
+  The exact build passes 870 Rust tests (65 ignored), targeted native/installed
+  controls, silent development/cancellation/source-terminal/re-entry checks and
+  independent verification of the three downloaded assets/ten package members.
+  Its ordinary timed-film admission and visual/audio/native-gameplay fidelity
+  remain unverified; no manual observations from .3 are inherited by .4.
+  Its fresh 545-source /16-world census has zero preparation errors and retains
+  59 gap sources, 56 general-queue refusals, 282 reviews and zero certified films.
+  This updates the audited executable identity, not the scope of visual coverage.
 
 - Detached ordinary-finalization comparison now executes the original complete
   parent/child preparation, retirement and cleanup against actual static terrain

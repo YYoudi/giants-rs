@@ -46,29 +46,65 @@ pub struct Statistics {
     pub segment_responses: u32,
     pub volume_responses: u32,
 }
+#[derive(Debug)]
 pub struct Output {
     pub fields: Fields,
     pub physics: Option<Physics>,
     pub statistics: Statistics,
 }
+/// Completed environment stages survive a later service failure. An error
+/// inside a lower-level resolver retains its entry state, not its unreturned
+/// internal mutations; those services still require their own continuations.
+#[derive(Debug)]
+pub struct Failure {
+    pub output: Box<Output>,
+    pub message: &'static str,
+}
 pub fn resolve(
     input: Input,
     objects: &[Collider],
-    mut ground: impl FnMut([f32; 2]) -> Result<Ground, &'static str>,
-    mut platform: impl FnMut([f32; 3]) -> Result<PlatformSample, &'static str>,
-    mut seconds: impl FnMut([f32; 3]) -> f64,
+    ground: impl FnMut([f32; 2]) -> Result<Ground, &'static str>,
+    platform: impl FnMut([f32; 3]) -> Result<PlatformSample, &'static str>,
+    seconds: impl FnMut([f32; 3]) -> f64,
 ) -> Result<Output, &'static str> {
-    if input.actor == 0 || input.fields.physical != input.physics.is_some() {
-        return Err("actor environment identity/physics mismatch");
-    }
+    resolve_retaining(input, objects, ground, platform, seconds).map_err(|e| e.message)
+}
+/// Owned callers must retain the completed prefix on failure and refuse replay
+/// of consumed external services. This does not supply scheduler admission.
+pub fn resolve_retaining(
+    input: Input,
+    objects: &[Collider],
+    ground: impl FnMut([f32; 2]) -> Result<Ground, &'static str>,
+    platform: impl FnMut([f32; 3]) -> Result<PlatformSample, &'static str>,
+    seconds: impl FnMut([f32; 3]) -> f64,
+) -> Result<Output, Failure> {
     let mut out = Output {
         fields: input.fields,
         physics: input.physics,
         statistics: Statistics::default(),
     };
+    match resolve_into(input, &mut out, objects, ground, platform, seconds) {
+        Ok(()) => Ok(out),
+        Err(message) => Err(Failure {
+            output: Box::new(out),
+            message,
+        }),
+    }
+}
+fn resolve_into(
+    input: Input,
+    out: &mut Output,
+    objects: &[Collider],
+    mut ground: impl FnMut([f32; 2]) -> Result<Ground, &'static str>,
+    mut platform: impl FnMut([f32; 3]) -> Result<PlatformSample, &'static str>,
+    mut seconds: impl FnMut([f32; 3]) -> f64,
+) -> Result<(), &'static str> {
+    if input.actor == 0 || input.fields.physical != input.physics.is_some() {
+        return Err("actor environment identity/physics mismatch");
+    }
     let forced = out.fields.object_flags & 0x10000000;
     if forced == 0 && out.fields.current == out.fields.previous {
-        return Ok(out);
+        return Ok(());
     }
     out.fields.object_flags &= !0x10000000;
     out.fields.hit = 0;
@@ -79,7 +115,7 @@ pub fn resolve(
     out.fields.plane = initial.plane;
     let has_specification = out.fields.model != 0;
     if has_specification && out.fields.collision_flags & 0x200 != 0 {
-        return Ok(out);
+        return Ok(());
     }
     if has_specification && [1, 15].contains(&input.state) {
         return Err("alternative actor environment dispatch required");
@@ -210,7 +246,7 @@ pub fn resolve(
     f.object_flags = contact.flags;
     f.floor = contact.ground;
     f.plane = contact.plane;
-    Ok(out)
+    Ok(())
 }
 fn mesh_state(f: Fields) -> mecc_mesh_contact::State {
     mecc_mesh_contact::State {
@@ -271,7 +307,7 @@ where
     }
     fn environment(&mut self, state: &mut actor_finalization::State) -> Result<(), String> {
         self.statistics = None;
-        let result = resolve(
+        let result = resolve_retaining(
             Input {
                 actor: self.actor,
                 state: self.state,
@@ -284,11 +320,15 @@ where
             &mut self.ground,
             &mut self.platform,
             &mut self.seconds,
-        )?;
+        );
+        let (result, error) = match result {
+            Ok(result) => (result, None),
+            Err(error) => (*error.output, Some(error.message)),
+        };
         state.fields = result.fields;
         self.physics = result.physics;
         self.statistics = Some(result.statistics);
-        Ok(())
+        error.map_or(Ok(()), |message| Err(message.into()))
     }
 }
 
@@ -525,8 +565,91 @@ mod tests {
         assert!(error.phase_started);
         assert_eq!(error.state.footprint, None);
         assert!(error.state.affine.is_none());
-        assert!(services.statistics.is_none());
+        assert_eq!(services.statistics.unwrap().ground_queries, 0);
         assert_eq!(releases, 1);
+    }
+    #[test]
+    fn late_platform_failure_retains_completed_physical_contact() {
+        let mut fields = input().fields;
+        fields.current = [2., 0., -1.];
+        fields.previous = [0., 0., 1.];
+        fields.velocity = [0., 0., -2.];
+        fields.physical = true;
+        fields.hit = 123;
+        fields.support = 234;
+        let mut services = FinalizationServices {
+            actor: 7,
+            state: 78,
+            slope_parameter: 0.,
+            physics: Some(Physics {
+                gravity_mass: 1.,
+                restitution: 0.,
+                retention: 0.,
+                force_z: -4.,
+                flags: 0x7e,
+            }),
+            skip_object_responses: false,
+            objects: &[],
+            ground: |_| Ok(ground()),
+            platform: |_| Err("platform population unavailable"),
+            seconds: |_| panic!("physical path has no terrain clock query"),
+            release: |_| Ok(()),
+            statistics: None,
+        };
+        let error = actor_finalization::finalize(
+            actor_finalization::State {
+                fields,
+                previous_physical_velocity: [0.; 3],
+                friction: 0.,
+                parent_present: false,
+                footprint: Some(17),
+                affine: None,
+                physical_argument_word: Some(1f32.to_bits()),
+            },
+            actor_finalization::Time {
+                global_seconds: 0.,
+                context: 1,
+                areas: &[],
+            },
+            &mut services,
+        )
+        .unwrap_err();
+        assert_eq!(error.message, "platform population unavailable");
+        assert!(error.phase_started);
+        assert_eq!(error.state.footprint, None);
+        assert!(error.state.affine.is_none());
+        assert_eq!((error.state.fields.hit, error.state.fields.support), (0, 0));
+        assert_eq!(error.state.fields.current[2], 0.);
+        assert_eq!(error.state.fields.floor, 0.);
+        assert_eq!(error.state.fields.plane, ground().plane);
+        let physics = services.physics.unwrap();
+        assert_ne!(physics.flags, 0x7e);
+        assert_eq!(physics.force_z, -4.);
+        let statistics = services.statistics.unwrap();
+        assert!(statistics.ground_queries > 1);
+        assert_eq!(statistics.platform_queries, 0);
+    }
+    #[test]
+    fn first_ground_failure_retains_only_started_environment_stores() {
+        let mut i = input();
+        i.fields.object_flags |= 0x10000000;
+        i.fields.hit = 123;
+        i.fields.support = 234;
+        i.fields.floor = 19.;
+        let error = resolve_retaining(
+            i,
+            &[],
+            |_| Err("ground unavailable"),
+            |_| panic!("platform must not start"),
+            |_| panic!("clock must not start"),
+        )
+        .unwrap_err();
+        assert_eq!(error.message, "ground unavailable");
+        let out = error.output;
+        assert_eq!(out.fields.object_flags & 0x10000000, 0);
+        assert_eq!((out.fields.hit, out.fields.support), (0, 0));
+        assert_eq!(out.fields.floor, 19.);
+        assert_eq!(out.statistics.ground_queries, 0);
     }
     fn volume_objects() -> Vec<Collider> {
         let fields = |id, flags| crate::mecc_collision_candidates::Object {
