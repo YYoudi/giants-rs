@@ -251,6 +251,35 @@ to Bevy, acquire startup words or acknowledge the mission's pending reset.
 Actual input/device, first animation/render and physical/controller wiring remain
 open. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
 
+## Kabuto owned camera header and cold context - source dependency
+
+Kabuto still has no ordinary playable entry or new download. The Session now
+stores the acquired player-initialized look angle separately from body rotation
+and scale. Shared mode commands consume the real camera-owner identity and write
+that angle before the projection callback, preserving completed effects on a
+later failure. An external PC loader-image reader supplies cold camera words,
+including bounded PE zero-fill; this does not execute game startup or establish
+warm mission-entry state. The installed owner/profile/projection control checks
+the producer/consumer chain, duplicate actors, failed projection and retirement.
+The next missing runtime piece is persistent camera ownership and actual entry
+ordering with device publication; all Kabuto initializer gates remain pending.
+
+Combined source `b0e3845`, preserving main through the Mecc descent-inspection
+merge `3c97578`, passes 950 synthetic Rust checks (140 ignored), six installed
+CPU checks for Kabuto camera/cold construction/App entry, Delphi App entry and
+external-coefficient reset, and ordinary Mecc body/jet composition. Rustfmt,
+strict workspace Clippy, 43 Python tests and site/JavaScript checks pass. Native
+cold-prefix evidence remains private. None establishes rendered camera framing,
+held input, complete native startup or a new downloadable preview.
+
+Source `2fc01f2`, preserving the published .9 snapshot guidance and NPC services
+through main `963bcfb`, passes 953 synthetic Rust checks (145 ignored), seven
+installed CPU checks (the six above plus NPC menu binding/re-entry), strict
+workspace Clippy, Rustfmt, 44 Python tests and site/JavaScript checks. These
+later source checks do not change the .9 executable or its recorded GPU/input
+evidence. Exact reviewed historical-image hash/path pins keep the shared-history
+audit bounded while retaining changed-byte, alternate-path and secret checks.
+
 ## Kabuto signed camera coefficients - intermediate dependency only
 
 Kabuto is still unavailable through normal controls. Source now reuses the common

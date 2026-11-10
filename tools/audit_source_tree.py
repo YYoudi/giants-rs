@@ -52,15 +52,34 @@ REVIEWED_ATTRIBUTION_LABELS = {
 }
 
 
+# Exact display copy pinned in the gallery manifest at 8c385dc, on a public
+# branch. Reviewed as a VP8-only image without embedded metadata. Keep its
+# all-reference history review valid before that gallery update enters main;
+# this permits neither other images nor another path or modified bytes.
+REVIEWED_HISTORICAL_IMAGES = {
+    'docs/gallery/media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp':
+        '0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4',
+    # Exact Bevy display copies pinned by the integration manifest at 078c8eb.
+    # Reviewed visually and as VP8-only files with no embedded metadata. Keep
+    # their already-reachable history auditable without importing that lane's
+    # gallery/download update. Changed bytes or another path remain refused.
+    'docs/gallery/media/82aeb77fb01574d9baac585fa0ad3b4c533afcdd91e40bb445913fe42fae8bfb.webp':
+        '82aeb77fb01574d9baac585fa0ad3b4c533afcdd91e40bb445913fe42fae8bfb',
+    'docs/gallery/media/8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9.webp':
+        '8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9',
+}
+
+
 def approved_images(root):
     """Exact display copies authorized by the owner; no general binary exception."""
     manifest = Path(root)/'docs/gallery/manifest.json'
     if not manifest.exists():
-        return {}
+        return dict(REVIEWED_HISTORICAL_IMAGES)
     images = json.loads(manifest.read_text(encoding='utf8')).get('images', {})
-    return {'docs/gallery/'+name: digest for name, digest in images.items()
-            if re.fullmatch(r'media/[a-f0-9]{64}\.webp', name)
-            and Path(name).stem == digest}
+    return dict(REVIEWED_HISTORICAL_IMAGES) | {
+        'docs/gallery/'+name: digest for name, digest in images.items()
+        if re.fullmatch(r'media/[a-f0-9]{64}\.webp', name)
+        and Path(name).stem == digest}
 
 
 def scan(root):

@@ -821,6 +821,13 @@ blocker in the next slice, rather than continuing adjacent functions by address.
    Produce actual startup owner/view/look-angle state and projection before
    acknowledging any initializer; neither a recovered profile nor a supplied
    mode command establishes ordinary camera startup.
+   Source now retains the separately initialized owner look angle and routes
+   shared mode commands into that exact Session actor. The cold image reader
+   supplies inspected initial camera words (including PE zero-fill); an installed
+   cold-owner/profile/projection control passes with no substituted body angle.
+   These are loader-image/cold-prefix inputs, not verified mission-entry globals.
+   Next: the common runtime must own the persistent camera state, run actual entry
+   writers/selection and publish the projection/view before initializer admission.
    Complete that normal entry before walking/turning; do not substitute an
    inspection fit or a forced readiness event for the native camera contract.
 2. Actual input, walking and turning through the common world, camera and
