@@ -49,6 +49,7 @@ pub mod kabuto_animation_commit;
 pub mod kabuto_animation_gravity;
 pub mod kabuto_auxiliary;
 pub mod kabuto_auxiliary_animation;
+pub mod kabuto_camera_inspection;
 pub mod kabuto_classification;
 pub mod kabuto_contact;
 pub mod kabuto_control_force;

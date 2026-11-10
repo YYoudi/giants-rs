@@ -210,7 +210,10 @@ fn sync(
     };
     if !matches!(
         scene.camera_source,
-        "mission_candidate" | "mission_player_inspection" | "declared_start_debug_camera"
+        "mission_candidate"
+            | "mission_player_inspection"
+            | "declared_start_debug_camera"
+            | "kabuto_profile_inspection"
     ) {
         return;
     }

@@ -108,8 +108,10 @@ pub fn capture_allowed(world: &World) -> bool {
         && world
             .get_resource::<crate::world_scene::Scene>()
             .is_some_and(|scene| {
-                scene.camera_source == "declared_start_debug_camera"
-                    && scene.cinematic_capture_ready
+                matches!(
+                    scene.camera_source,
+                    "declared_start_debug_camera" | "kabuto_profile_inspection"
+                ) && scene.cinematic_capture_ready
             })
     {
         return true;

@@ -3,7 +3,10 @@
 //! injects operating-system input or claims normal-game interaction fidelity.
 use super::*;
 pub(crate) fn kabuto_body_inspection_replay() -> bool {
-    std::env::var("GIANTS_MISSION_REPLAY").as_deref() == Ok("showcase-kabuto-body")
+    matches!(
+        std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
+        Ok("showcase-kabuto-body" | "showcase-kabuto-camera")
+    )
 }
 
 pub(crate) fn initial_body_inspection_replay() -> bool {
@@ -114,6 +117,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
             | "showcase-cancel"
             | "showcase-mecc"
             | "showcase-kabuto-body"
+            | "showcase-kabuto-camera"
             | "showcase-delphi-body"
             | "showcase-audio-cancel",
         ) => 0,
@@ -274,12 +278,12 @@ struct Presentation<'w> {
 fn drive(
     mut replay: ResMut<Replay>,
     mut frontend: ResMut<Scene>,
-    runtime: Res<crate::mission_runtime::Runtime>,
+    mut runtime: ResMut<crate::mission_runtime::Runtime>,
     mut environment: ResMut<crate::mission_environment::State>,
     mut opening: ResMut<crate::mission_opening::State>,
     mut cinematic: Option<ResMut<crate::cinematic_camera::Cinematic>>,
     voices: Query<Option<&AudioSink>, With<crate::cinematic_audio::PlayingVoice>>,
-    world: Option<ResMut<crate::world_scene::Scene>>,
+    mut world: Option<ResMut<crate::world_scene::Scene>>,
     players: Query<&crate::mission_player::DrawnPlayer>,
     owned: Query<&crate::mission_runtime::MissionOwned>,
     controllers: Query<&crate::mission_player::Controller>,
@@ -412,7 +416,30 @@ fn drive(
                 && environment.presentation_ready()
                 && pipelines.0
             {
+                if mode == "showcase-kabuto-camera" {
+                    let result = std::env::var_os("GIANTS_KABUTO_EXECUTABLE")
+                        .ok_or_else(|| "GIANTS_KABUTO_EXECUTABLE is required for the explicit camera inspection".to_string())
+                        .and_then(|path| runtime.prepare_kabuto_camera_inspection(std::path::Path::new(&path)));
+                    if let Err(error) = result {
+                        println!("kabuto_camera_inspection_failed: {error}");
+                        replay.done = true;
+                        return;
+                    }
+                }
                 if let Ok(Some(candidate)) = runtime.environment_candidate() {
+                    if mode == "showcase-kabuto-camera" {
+                        let Some(world) = world.as_mut() else { return };
+                        if world.camera_source != "kabuto_profile_inspection" {
+                            world.validation_camera = Some(candidate.camera);
+                            world.camera_source = candidate.camera_source;
+                            world.camera_origin = Some(candidate.eye);
+                            world.cinematic_capture_ready = false;
+                            println!(
+                                "kabuto_profile_camera_published ticket={} mode_request=1 position_kernel_only=true floor_chase_mesh=false gameplay_ready=false",
+                                frontend.flow.ticket
+                            );
+                        }
+                    }
                     environment.inspect(frontend.flow.ticket, candidate.eye);
                 }
                 if replay.since == 0. {
