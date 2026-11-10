@@ -195,6 +195,63 @@ source-only: the combined tree at `0abf1898b49413379368df839eb7627cc8eb5ba6` pas
 866 Rust tests (57 ignored), strict Clippy and six installed Delphi controls.
 These later source checks do not relabel the shipped binary.
 
+## Owned Vimp first callback after herd birth — 10 November 2026
+
+The new herd-child entry retains constructor histories and composes actual owned
+initialization, living continuation, physics and ANM in one callback/RNG stream.
+Warm/parentless/foreign/inactive/wrong-frame entries refuse; initialization and
+physical progress survive a late required FX-resource failure without replay.
+Existing warm split/combined entry paths are preserved.
+
+Original-PC controls match 32 declared scenarios / 96 snapshots / 824,168
+normalized header/payload/reference/list/context/RNG words, including 448 first
+callbacks. Story2 markers, original/supplied kind1 selectors, 16 seeds each,
+positive cadence, flat terrain, quiet noise and a nonnull control reference are
+declared boundaries. Later callbacks use supplied per-node history, not a full
+world traversal. Two additional installed controls cover a 14-child cohort and
+late-failure/admission ownership. Prototype PS2 counterparts remain unknown.
+Full herd/marker dispatch, global world admission and clock/RNG ownership,
+required threat/feeding/active FX/audio, renderer and mission re-entry remain
+open. This source dependency admits no ordinary mission or new gameplay download;
+existing preview receipts and asset-free package identities are unchanged.
+
+Combined runtime 5a70ac7aaedcaa4c8fc7f1c4a7101362658851d0 preserves the concurrent
+Mecc, Delphi, Kabuto and timed-effect changes. Validation passes 869 default Rust
+tests (63 ignored), five installed Vimp controls and the retained herd control,
+43 Python tests, Rustfmt, strict workspace Clippy and roadmap/site/JavaScript
+checks. The rebuilt comparison runner retains the 96-snapshot /824,168-word
+result on that merged runtime. The source-history audit reviews 712 commits
+and 4,048 blobs with zero findings. These checks do not relabel any preview.
+
+## Separate owned Vimp history and callback entry — 10 November 2026
+
+Owned initialized Vimps can now prepare position history in a separate pass and
+consume it once during callback entry. Mixing combined/split routes, wrong frame,
+foreign owner and inactive preparation refuse. Missing preflight services retain
+pending history; callbacks that fail retain their consumed token and effects.
+The existing combined inspection route remains available. Ordinary actor
+finalization reuses the same acquired position-history kernel.
+
+Original-PC helper execution matches 256 supplied cases / 2,304 position-history
+words, including special float bit patterns. Its native-only preservation check
+covers 49,408 header words, not a full-header Rust comparison. Three installed
+controls pass, including late terrain failure and an eight-frame parity prefix
+against the combined Rust route with supplied flat terrain/time/RNG/control
+identity. Native world gates, global services and newborn first-primary/history
+ordering remain open, as do threat/feeding/audio/effects and ordinary mission AI.
+Prototype PS2 counterparts remain unassigned. No new downloadable gameplay
+preview, dependency or asset is introduced; earlier executable/package/notices
+receipts retain their exact identities. See [OWNED_NPCS.md](OWNED_NPCS.md).
+
+Combined source `0989835992b0a4280b08fc0a65ced19609dee029` preserves the newer
+Delphi support fields, shared attachment/reset contracts and Mecc runtime work.
+It passes 866 workspace Rust tests (60 ignored), three installed split-history
+controls and the retained herd ownership control, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated roadmap/site/JavaScript checks. The native
+history comparison is repeated against this combined source and still matches
+256 cases / 2,304 words. The limited history audit reports zero findings across
+679 commits / 3,910 blobs. These checks do not relabel any runtime/package receipt.
+
 ## Delphi support-class fields and object-list control - 9 November 2026
 
 The shared class loader now prepares the support class's packed attribute,

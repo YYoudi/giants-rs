@@ -16,6 +16,12 @@ pub struct Services<'a> {
     /// assumed silent success for a requested actor sound stop.
     pub recovery_sounds: Option<&'a mut dyn crate::vimp_hurt::Sounds>,
 }
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub(crate) enum History {
+    Combined,
+    Prepared,
+    Constructor,
+}
 pub(crate) struct Adapter<'a, 'b> {
     pub factory: &'a crate::vimp_actor::Factory,
     pub globals: &'a giants_formats::global_data::GlobalData,
@@ -28,6 +34,16 @@ impl ActorWorldServices for Adapter<'_, '_> {
     }
     fn primary(&mut self, session: &mut Session, source: Id) -> Result<(), String> {
         session.vimp_primary_history(source)?;
+        if session.vimp(source).is_some_and(|v| !v.initialized) {
+            session.initialize_vimp_offline(
+                source,
+                self.globals,
+                self.services.animation.random,
+            )?;
+            if session.actor_world_flags(source)? & 0xc000 != 0 {
+                return Ok(());
+            }
+        }
         if session
             .vimp(source)
             .is_some_and(|v| matches!(v.mode, 2..=4))
