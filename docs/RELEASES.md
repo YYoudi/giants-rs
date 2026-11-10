@@ -7,6 +7,29 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## Main-menu persistent image samples - source-only inspection
+
+The common executable now samples an actual Session-owned persistent effect
+through its menu/mission renderer. The observer waits for two real updates,
+optionally matches the requested source director, and records the reached tick
+before suspending for GPU capture. It supplies no effect, forced source time,
+input or gameplay-ready event. The mission-camera capture permission retains
+its explicit observation flag and the existing replay gates.
+
+Completion inspection uses the already implemented menu `CompletionReplay`
+intent; it does not complete objectives or reconstruct native replay state.
+A fresh receipt-bound MinGW build of `59c4f65` passes a selected startup capture
+and a filtered completion capture after eleven director transitions, with actual
+owned effects and prepared GPU assets. Both processes exit silently without an
+audio device or injected input. Invalid sequence/role combinations refuse.
+The earlier candidate reached its owner sample but could not pass the menu-camera
+capture guard; its timeout is retained and is not a renderer success.
+
+These are private inspection images. Exact native image phase, animation pose,
+materials, queue ordering and full scene fidelity remain unverified. Current
+frozen public downloads and the separately pinned 545-source census are unchanged.
+The new controls do not enable ordinary character gameplay or certify a film.
+
 ## Delphi common camera override dependency - 10 November 2026
 
 Intermediate dependency only; Delphi has no new ordinary menu entry or controls.

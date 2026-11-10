@@ -1736,6 +1736,27 @@ blocker in the next slice, rather than continuing adjacent functions by address.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- Active persistent capture from the main build: `showcase-persistent` now waits
+  for an actual Session-owned effect to advance twice in the selected menu
+  mission, then records the reached director/tick and suspends for GPU capture.
+  The optional sequence filter does not seek or create an effect. Completion
+  samples reuse the menu's existing `CompletionReplay` intent without completing
+  objectives or claiming native replay-state reconstruction. The capture gate
+  now admits the mounted mission-film camera only with its existing explicit
+  `cinematic_capture_ready` observation, preserving replay guards.
+  A receipt-bound MinGW build passes one startup sample and one filtered
+  completion sample after eleven real director transitions, with actual owned
+  effects, prepared GPU assets, no injected input and device-free silent capture.
+  Invalid identifier/role combinations refuse. These are inspection samples,
+  not ordinary gameplay, full playback or visual/temporal fidelity proof.
+  Menu declaration mapping covers 56 missions: four persistent cohort sources
+  are in startup chains and nineteen in completion chains; one unrelated startup
+  request has no matching world-table entry and remains an explicit refusal.
+  Retained exact-profile image candidates exist, but their exact image clock and
+  source-effect attribution need review before pixel-aligned comparisons. Continue
+  current/original camera, pose, material and draw-queue comparisons; leave native
+  pool/world population and complete gameplay-transition requirements open.
+
 - Persistent named-selection follow-up: all 25 requests in the 23-source cohort
   resolve to two programs whose normal/lite choices identify the same actual
   image entry. The current invariant guard therefore needs no invented load,
