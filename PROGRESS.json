@@ -532,7 +532,7 @@
       "title": "Playable Windows build stability",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Long sessions, repeated loading/restart, complete resource reclamation, performance and supported rendering paths remain incomplete. Published preview-2026.11.10.1 makes per-emitter ambient step diagnostics opt-in while retaining source/voice lifecycle and error logs. Its exact executable passes six offscreen development launches and two selected cinematic end/re-entry cycles. One local muted manual profile covers the menu, opening skip, ordinary Mecc entry, return and second entry; held native jet/descent/landing and broad campaign/fidelity checks remain open. The dashboard pins the download separately from later source-only services."
+      "detail": "Long sessions, repeated loading/restart, complete resource reclamation, performance and supported rendering paths remain incomplete. Published preview-2026.11.10.3 pins the combined camera-mode, Delphi support, Kabuto reference and Vimp history/newborn source services; ordinary native gameplay admission remains open. Its exact executable passes six offscreen development launches and two selected cinematic source-terminal/re-entry cycles. One actual muted UI profile covers menu entry, double-click and Escape opening skips, partial Mecc entry, menu return and second entry, with normal window captions restored after both skips. Held native jet/descent/landing and broad campaign/fidelity checks remain open. The dashboard pins the verified download separately from later source-only services."
     },
     {
       "id": "fidelity",
