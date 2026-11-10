@@ -6,6 +6,16 @@ This repository is the primary runtime authority after that cutover. Source
 publication does not clear binary distribution or establish third-party rights.
 The previous private repository is a research archive, not a competing runtime branch.
 
+Owner priority, 10 November 2026: deliver the most obvious and important playable
+experiences before niche reconstruction. Read docs/GOAL_GAMEPLAY_FIRST.md first
+when selecting or resuming work. Prioritize the ordinary menu, real controls,
+movement/camera/basic actions and visible feedback, then mission/NPC/progression
+and campaign coverage, then finer fidelity and rare variants. A dependency takes
+the priority of the player experience it blocks. CPU controls are intermediate
+evidence, not a delivered feature. Lead handoffs with what the owner can actually
+launch/test, the exact build and controls, or the first remaining runtime blocker.
+The complete game remains the goal; never fake missing services to claim playability.
+
 Work alone. Do not move other discussions' worktrees. Use codex/ branches for new
 work unless the owner requests main. Read PROGRESS.json, BACKLOG.md and docs/RELEASES.md.
 Keep README in English. Preserve the owner's approximate 99% AI-generated estimate
