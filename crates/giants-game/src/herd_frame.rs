@@ -44,14 +44,15 @@ pub(crate) struct Owned {
 impl Owned {
     /// State0 has no payload or primary/secondary dispatch entry. The shared
     /// constructor clears transient motion/contact storage before class copy;
-    /// references, animated channels and external orientation need other owners.
+    /// absent primary channels retain reference storage without sampling it.
+    /// Animated channels and external orientation still need other owners.
     pub fn supports_empty_state0(
         fields: &Fields,
         specification: &crate::specification::Prepared,
     ) -> bool {
         fields.configuration[20] == 0
             && fields.channels.iter().all(|c| c[0] == 254)
-            && specification.metadata.references.names.is_empty()
+            && fields.class == specification.class
             && fields.object_flags & 0x10000 == 0
     }
     /// Actual source constructors clear the nonphysical motion, contact and
@@ -65,10 +66,11 @@ impl Owned {
             (49, 17) | (679, 0)
         ) && !Self::supports_empty_state0(fields, specification))
             || fields.channels.iter().any(|c| c[0] != 254)
-            || !specification.metadata.references.names.is_empty()
+            || (!specification.metadata.references.names.is_empty()
+                && !Self::supports_empty_state0(fields, specification))
             || fields.object_flags & 0x10000 != 0
         {
-            return Err("passive frame requires source nonphysical herd or state0 with empty channels and references".into());
+            return Err("passive frame requires source nonphysical herd or state0 with empty channels and an acquired reference guard".into());
         }
         let c = fields.configuration;
         let mut f = collider_copy::Fields::zeroed();
@@ -113,7 +115,8 @@ impl Owned {
 
 /// Empty descriptor slots still enter ANM's channel loop. An entered channel
 /// clears its force flag and triggers the shared epoch even without a pose.
-/// The owning adapter must separately establish the empty reference set.
+/// The owning adapter must separately execute the acquired reference pass when
+/// entered; absent primary channels preserve storage without a current sample.
 pub fn advance_empty(
     channels: &mut crate::animation_channels::Channels,
     seconds: f32,

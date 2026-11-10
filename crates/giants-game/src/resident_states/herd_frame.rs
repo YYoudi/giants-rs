@@ -87,6 +87,7 @@ impl ActorWorldServices for Adapter<'_, '_> {
         session.herd_frame_actor(source)?;
         let actor = session.residents.get_mut(&source.serial).unwrap();
         let channels = actor.channels.as_mut().ok_or("herd ANM channels absent")?;
+        let entered = seconds != 0. || channels.iter().any(|c| c[8] & 0x100 != 0);
         actor.mecc_animation_stamp = crate::herd_frame::advance_empty(
             channels,
             seconds,
@@ -94,6 +95,19 @@ impl ActorWorldServices for Adapter<'_, '_> {
             actor.mecc_animation_stamp,
         )?;
         actor.construction_fields.as_mut().unwrap().channels = *channels;
+        if entered {
+            let channels = *channels;
+            let epoch = actor.mecc_animation_stamp;
+            // The actual reference routine returns before sampling/corrections
+            // when the primary descriptor is absent. Preserve that storage and
+            // its unsampled/stale status, rather than inventing a bind matrix.
+            session
+                .specifications
+                .get_mut(&source.serial)
+                .ok_or("passive reference resource owner absent")?
+                .0
+                .update_current(&channels, epoch)?;
+        }
         Ok(())
     }
     fn finalization(&mut self, session: &mut Session, source: Id) -> Result<(), String> {

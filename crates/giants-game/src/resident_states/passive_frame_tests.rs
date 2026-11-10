@@ -36,8 +36,20 @@ fn source_passive_world_updates_neutral_declarations_without_default_callbacks()
                 && session.passive_world_frame(id).is_err()
         })
         .collect();
-    assert_eq!(neutral.len(), 129);
-    assert_eq!(unsupported.len(), 5);
+    assert_eq!(neutral.len(), 133);
+    assert_eq!(unsupported.len(), 1);
+    let reference_owners: Vec<_> = neutral
+        .iter()
+        .copied()
+        .filter(|&id| {
+            !session
+                .reference_cache_storage(id)
+                .unwrap()
+                .matrices
+                .is_empty()
+        })
+        .collect();
+    assert_eq!(reference_owners.len(), 4);
     let factory = crate::vimp_actor::Factory::load_registered(plan.resources()).unwrap();
     let globals =
         giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
@@ -66,7 +78,16 @@ fn source_passive_world_updates_neutral_declarations_without_default_callbacks()
                 .map(f32::to_bits)
         })
         .collect();
-    for (number, seconds) in [1. / 60., 0., 0.1].into_iter().enumerate() {
+    for (number, seconds) in [0., 1. / 60., 0.].into_iter().enumerate() {
+        if number == 2 {
+            // Explicit force-entry input, matching the zero-time PC guard
+            // control. This is not acquisition of an ordinary flag producer.
+            for id in &reference_owners {
+                let actor = session.residents.get_mut(&id.serial).unwrap();
+                actor.channels.as_mut().unwrap()[3][8] |= 0x100;
+                actor.construction_fields.as_mut().unwrap().channels = actor.channels.unwrap();
+            }
+        }
         for &id in &neutral {
             session
                 .prepare_passive_world_history(id, number as u64)
@@ -123,6 +144,18 @@ fn source_passive_world_updates_neutral_declarations_without_default_callbacks()
                 positions[i]
             );
             session.actor_current_affine(id).unwrap();
+            if reference_owners.contains(&id) {
+                let storage = session.reference_cache_storage(id).unwrap();
+                assert!(!storage.sampled);
+                assert!(
+                    storage
+                        .matrices
+                        .iter()
+                        .all(|m| m.flags == 0 && m.values.iter().all(|v| v.to_bits() == 0))
+                );
+                assert!(session.current_reference_matrices(id).is_err());
+                assert_eq!(session.get(id).unwrap().channels.unwrap()[3][8] & 0x100, 0);
+            }
             assert!(
                 session
                     .advance_passive_world_after_history(
@@ -153,7 +186,7 @@ fn source_passive_world_updates_neutral_declarations_without_default_callbacks()
     session.clear();
     assert!(session.passive_world_frame(controlled).is_err());
     println!(
-        "passive_source actors={} callbacks={} unsupported_state0=5 supplied_admission=true whole_world=false",
+        "passive_source actors={} callbacks={} unsupported_state0=1 supplied_admission=true whole_world=false",
         neutral.len(),
         neutral.len() * 3
     );

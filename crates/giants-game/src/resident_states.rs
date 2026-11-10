@@ -9542,8 +9542,9 @@ impl Session {
         if input.seed.storage.state() == 0 && input.seed.storage.data().is_some() {
             return Err("state0 construction must not allocate a payload".into());
         }
-        // Admit only the acquired empty nonphysical state0 profile. Unsupported
-        // animated/reference-bearing state0 declarations still construct, but
+        // Admit only the acquired empty-channel nonphysical state0 profile.
+        // Reference storage remains owned but unsampled behind its real guard.
+        // Unsupported animated state0 declarations still construct, but
         // receive no successful common callback by default.
         let passive = if input.seed.storage.profile() == Profile::Debug
             && input.seed.storage.state() == 0
