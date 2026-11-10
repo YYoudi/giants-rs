@@ -105,6 +105,10 @@ early return: positions/history and the dirty flag publish, environment/affine
 production do not. No identity matrix, parent pose or completed parent turn is
 invented. The existing attachment consumer still needs its actual current parent
 pose; the normal presentation path remains separate from world completion.
+Before enabling the world caller, Mecc/main must switch normal jet presentation
+from its constructor-snapshot clock to completed Session child channels/references.
+Its current guard intentionally refuses mutations outside that presentation owner.
+Keep one animation producer and preserve that guard until the consumer handoff.
 
 An original-PC special constructor plus twelve common callbacks match 800 selected
 Rust words across initial forced zero time, positive time, loop crossing and

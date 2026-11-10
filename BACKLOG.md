@@ -100,6 +100,9 @@ words, and two source tickets retain binding, local poses and retirement guards.
 Their parented finalizer marks dirty without publishing a world affine. Parent
 completion/attachment publication, other AI families and real whole-world inputs/
 admission remain required; loading still enables no default callback or live AI.
+Mecc/main must hand normal jet presentation over to the completed child owner
+before enabling these callbacks in ordinary play; its constructor-snapshot guard
+and single animation producer remain required.
 
 
 

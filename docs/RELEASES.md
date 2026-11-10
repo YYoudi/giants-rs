@@ -131,7 +131,9 @@ child reference storage; two installed tickets check 24 callbacks, local positio
 buffers, skipped zero time, unchanged RNG/parent channels and lifecycle guards.
 Control, clock, history and callback admission remain supplied. This does not
 complete the parent's native turn, attachment world publication, whole-world
-scheduling or ordinary Vimp AI. No new preview or playable map is added; the frozen
+scheduling or ordinary Vimp AI. Normal jet presentation still requires a
+Mecc/main handoff to the completed child owner, retaining its current guard and
+one animation producer. No new preview or playable map is added; the frozen
 .9 download remains unchanged. Prototype PS2 attribution remains unknown and all
 research inputs stay private.
 
