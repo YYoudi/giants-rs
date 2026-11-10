@@ -1193,3 +1193,17 @@ coefficients with supplied mode/current-owner inputs and a projection-request
 sink. It checks unchanged pre-projection history, later history/children/animation,
 retained projection failure and retained late special failure. No App device,
 startup, real input or native exception equivalence is established.
+
+### Kabuto owned camera-header control
+
+With a user-supplied installation in `GIANTS_KABUTO_ROOT` and a compatible inspected
+PC executable in `GIANTS_KABUTO_EXECUTABLE`, run:
+
+```powershell
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu source_kabuto_camera_command_updates_exact_owned_look_angle -- --ignored
+```
+
+This is a silent CPU control of actual constructed-owner storage, external cold
+camera words, current profiles and the projection kernel. It checks owner
+isolation, retained effects on failure and retirement. Loader-image state does
+not establish actual mission-entry/warm state, device publication or gameplay.

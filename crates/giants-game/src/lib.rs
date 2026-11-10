@@ -22,6 +22,7 @@ pub mod attachment_pose;
 pub mod attachment_resources;
 pub mod burst_effect_draw;
 pub mod camera_facing;
+pub mod camera_initial;
 pub mod camera_lens;
 pub mod camera_matrix;
 pub mod camera_mode;
