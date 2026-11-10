@@ -51,6 +51,13 @@ coefficient tables, publish projection or complete activation.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+With compatible `GIANTS_DELPHI_ROOT`, run
+`cargo test --locked -p giants-app source_delphi_menu_entry --target x86_64-pc-windows-gnu -- --ignored`
+for common mission construction/role/re-entry checks. Its source menu request
+uses an all-unlocked test mask; no actual UI input, campaign unlock or graphics
+are claimed. `source_delphi_retained_player_attempt` in `giants-game` additionally
+checks constructor identity after an explicit late child-resource failure.
+
 `cargo test --locked -p giants-game vimp_animation --target x86_64-pc-windows-gnu`
 checks locomotion/contact/damage precedence, native gait fallback, missing moving
 descriptor requests, same-clip and unfinished-entry skips. With a locally set
@@ -123,7 +130,8 @@ With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
 checks actual player constructor identity with a second actor of the same class,
 local/other audio routing, motion ownership, foreign and retired owner refusal,
 and mission cleanup. The same control checks constructor-bound ordinary jet model sizes and visibility,
-stale-frame quarantine and unchanged Session animation/world ownership. These
+stale-frame quarantine and unchanged Session animation/world ownership. It also
+checks preparation of the source pistol projectile visual and foreign-ticket refusal. These
 checks do not prove GPU rendering or held input. It is silent CPU composition. The additional diagnostic
 `source_owned_mecc_runtime_terrain_and_presentation` now passes 128 prepared CPU
 frames with actual terrain, camera, ANM and weapon presentation. It checks the
