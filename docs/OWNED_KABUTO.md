@@ -1685,8 +1685,51 @@ equivalence claim. After sharing target detachment, the complete preceding
 release still agrees on 512 intervals / 1,331,545 words, including eight declared
 late impulse-transport failures.
 
-Actual Session current/held-reference storage, lifetime binding, caller decision
-and counter producers, backend services and complete primary ordering remain
-required. The existing retained attachment words are a separate owner. No new
+The owned Session storage/composition is described below. Actual capture/lifetime
+binding, caller decision and counter producers, backend services and complete
+primary ordering remain required. The retained attachment words are a separate
+owner. No new
 initializer/history completion, menu gameplay, movement, feeding, growth trigger,
 capture or Windows preview is established; prototype PS2 attributions stay unknown.
+
+## Owned current/held-reference bank and service composition
+
+The cold group now owns three optional actor identities, corresponding to the
+constructor-cleared current/held cells. They use the common Session ticket and
+registry; raw pointer cells remain normalized to zero. Scale words stay in the
+actual owned payload. Missing owner/storage and unsupported pointer-bearing data
+refuse access instead of returning fabricated empty references.
+
+`Factory::publish_reference` stores an already selected actor and supplied scale
+at the owning resource checkpoint. This is a publication primitive, not an
+implementation of target selection, capture policy or scale calculation.
+`Factory::advance_held_references` runs the acquired handoff with that bank,
+canonical actor fields and required world services. Before every mutable service,
+working reference stores become visible in Session. Afterwards, the adapter reads
+the actual state again, including completed effects when the provider returns an
+error. It writes only the reference/scale cells, preserving unrelated callback
+changes. Owner/resource changes stop further publication. Construction responses
+must identify an actor present in this Session.
+
+The component has separate entry/running/completion bookkeeping. Wrong resource
+identity, checkpoint, reentry and replay refuse execution; late errors quarantine
+the group. This acknowledges only the bounded handoff component, without finishing
+the enclosing primary, motion history or any of the four pending initializers.
+Stored identities alone are not a complete retirement/lifetime protocol.
+
+Three installed controls execute the real preceding motion/contact/model/ANM/
+gravity/control/resource components, then exercise publication/rereads, late
+failure and removal without stale restoration. Actual actors and resources are
+owned; capture policy/scale, caller counters/mode and the mutating binding entry
+remain declared inputs/providers. A selected thirty-word projection of bank,
+control/header stores, binding arguments and caller branch also agrees with the
+original interval on that source-backed context. The wider standalone handoff and
+release controls retain their exact agreement. These are CPU comparisons, not
+continuous frame, geometry/animation/backend or visual fidelity evidence.
+
+Current mode/network ownership, construction, common binding, animation,
+transport, reset, action and physical delivery retain mandatory interfaces with
+no successful default provider. Complete caller policy, reference lifetime and
+remaining primary/world integration are still required before admitting live
+Kabuto movement/feeding/growth. Preview identities and historical captures stay
+separate from this source-only composition.

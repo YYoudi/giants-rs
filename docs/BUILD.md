@@ -37,6 +37,20 @@ and captures the child's `--help` result explicitly.
 
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
+
+With `GIANTS_KABUTO_ROOT` and, where necessary, `GIANTS_KABUTO_EXECUTABLE` set as
+described below, `source_kabuto_held_bank` runs three silent source-backed checks
+of the current/held-reference Session composition. They reach the actual preceding
+resource checkpoint, then test callback publication/rereads, retained late errors,
+replay/reentry refusal, owner removal and clean re-entry. Capture policy/scale,
+caller decisions/counters/mode and the binding entry remain supplied. These do
+not validate a continuous primary, actual binding/animation/transport bodies or
+live Kabuto input. Optional `GIANTS_KABUTO_HELD_BANK_RECEIPT` must be an absolute
+output path under ignored local storage; Cargo runs the test in the crate folder.
+For example, set it to `Join-Path (Get-Location).Path '.local/bank-receipt.txt'`
+from the repository root before launching Cargo. The receipt contains only the
+selected diagnostic projection; keep it private.
+
 Per-emitter ambient step traces are disabled during normal play. For a private
 diagnostic run, set `GIANTS_TRACE_AMBIENT_STEPS=1` before launching the application.
 The choice is captured when each mission's ambient resources are mounted. This

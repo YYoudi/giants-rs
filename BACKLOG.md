@@ -129,8 +129,18 @@ implemented in `camera_mode`, with 1,280 native/Rust command comparisons and the
 Session preparation/inactivity and returns the resulting display snapshot. Keep
 profile/scale/projection backends, camera startup/override producers and world
 ordering explicit before connecting App damage/fire; the default driver is unchanged.
-The current independently verified download is `preview-2026.11.10.2`; its snapshot and receipts
+The current independently verified download is `preview-2026.11.10.3`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
+
+The combined `.3` source includes NPC PR #5's history/newborn runtime, cold Delphi
+support and the shared camera-mode/Session composition alongside Kabuto and Flick.
+Its normal window caption is restored after cinematic retirement; actual muted
+menu, double-click/Escape skip, partial Mecc entry, return and second entry were
+checked on the exact downloadable executable. Default tests pass 870 Rust cases
+(65 ignored); 43 installed source controls retain their declared boundaries.
+Keep actual world/marker dispatch, startup/override and suppression producers,
+required effects/audio, normal character controls and fidelity open. The native-only
+mutable NPC walk on later main is not a completed Rust population scheduler.
 
 The 10 November integration review exercised the published `.13` menu, opening
 skip, ordinary Mecc entry and menu return on an independent muted profile. Its
@@ -511,6 +521,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented in the owned CPU composition: the Factory/Session handoff now
+  stores current/held actor identities separately from the pointer-normalized
+  payload and updates its actual scale words. Required services observe preceding
+  stores; callback effects are reread even after failure. Foreign resources/actors,
+  wrong checkpoints, reentry and replay refuse mutation. Late failures quarantine
+  the owner; removing it never restores a stale working copy. Three installed
+  controls reach the real resource checkpoint and exercise these boundaries.
+  A selected 30-word bank/header/service projection also matches the original
+  interval on the source-backed context, under a declared mutating binding entry.
+  Capture policy/scale, caller decisions/counters, mode/owner producers and full
+  construction/binding/animation/transport/reset/action/physical backends remain
+  required. Complete reference retirement/lifetime, remaining primary order and
+  initializer/history completion are not established. Do not turn this component
+  checkpoint into gameplay admission.
 - Implemented at the CPU boundary: both current/held-reference handoff routes
   match 512 original intervals / 1,076,651 normalized state/service words. They
   retain first-free/first-occupied slot selection, signed counter gates, stores

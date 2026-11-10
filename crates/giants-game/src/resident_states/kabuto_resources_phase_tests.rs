@@ -95,6 +95,7 @@ pub(super) struct Controls {
     inputs: String,
     outputs: String,
     cases: usize,
+    pub(super) handoff: Option<super::super::held_reference_tests::Case>,
 }
 impl Controls {
     #[allow(clippy::too_many_arguments)]
@@ -173,6 +174,10 @@ impl Controls {
                 .is_err()
         );
         if self.cases == 512 {
+            if let Some(case) = self.handoff {
+                super::super::held_reference_tests::probe(factory, foreign, s, id, number, case);
+                return;
+            }
             super::super::reference_query_tests::probe(factory, foreign, s, id, number);
             // Separate controlled phase entry tests the real late failure path;
             // it is not part of the successful original interval comparison.

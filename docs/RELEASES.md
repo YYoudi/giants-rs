@@ -1,5 +1,81 @@
 # Preview releases and milestone integration
 
+## Owned Kabuto current/held-reference bank — 10 November 2026
+
+The acquired handoff now consumes typed Session actor identities and actual
+payload scale words at its owning resource checkpoint. Services see preceding
+stores; callback effects survive late errors and are reread before continuing.
+Wrong actors/resources/checkpoints, reentry and replay refuse execution. Removing
+the owner does not restore a stale working copy. Three source-backed controls
+exercise publication, quarantine and cleanup; a selected thirty-word projection
+also agrees with the original interval under a declared mutating binding entry.
+The 512-case handoff and preceding release comparisons remain unchanged.
+
+Capture policy/scale, caller decisions/counters, mode/network ownership and full
+backend/lifetime/order integration remain required. This component does not
+finish a primary, history or pending initializer and enables no new gameplay,
+capture or preview. The existing download retains its exact source and hashes.
+Validation passes 869 workspace Rust tests (61 ignored), nineteen installed Kabuto
+controls and the separate cold control, twelve Mecc and six Delphi controls,
+43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks.
+
+The combined source `76c2298` also preserves the later camera, cold Delphi
+support/auxiliary prefix and NPC history/newborn changes. It passes 872 workspace
+Rust tests (68 ignored), nineteen installed Kabuto controls plus its separate cold
+control, thirteen Mecc and seven Delphi controls, 43 Python tests, Rustfmt and
+strict Clippy. The all-reference audit scans 739 commits and 4,179 blobs with zero
+findings. These source checks do not relabel `preview-2026.11.10.3` or validate
+live Kabuto gameplay.
+
+## Combined Windows preview and playback caption recovery — 10 November 2026
+
+Published [preview-2026.11.10.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.3)
+pins source `fca6d6a220c692c3bceb65fa2f527b131b6be141`, executable SHA256
+`356c32b21e4034bf31c1dfa4e7d67977216cd741607142d1566f320dec6586b6` and ZIP SHA256
+`34976cb9bc17b546c2a2f5c3a6413ff4dcbb2f31902b4ece30e926aa9085a43c`.
+It combines the reviewed camera-mode/pre-world Session entry, cold Delphi support,
+Kabuto current/held-reference handoffs, Vimp history/newborn callbacks and the
+canonical timed-effect owners. Required world/provider boundaries remain explicit;
+this is not ordinary NPC AI, complete character control or fidelity admission.
+
+Playback now retires its status caption when the cinematic resource disappears,
+restoring the normal game title and restarting the next playback's FPS sample.
+Other inspection captions are preserved. The ordinary native Mecc impact/voice/
+display/fire providers remain unbound; native jet/descent/landing is still open.
+
+The combined source passes 870 Rust tests (65 ignored), strict workspace Clippy,
+Rustfmt and 43 Python tests. Installed controls pass thirteen Mecc, sixteen Kabuto,
+seven Delphi, one herd, three Vimp history, two newborn and one canonical timed
+case. The later mutable NPC traversal evidence is native-only documentation,
+preserved on main separately from the frozen download's source.
+
+The exact executable passes explicit-wait CLI startup, both offscreen development
+endpoints (six fresh launches), and two selected cinematic source-terminal/re-entry
+cycles with actual muted voice sinks, text/atlas and resource cleanup. These are
+partial-renderer transport checks, not complete native movie playback or fidelity.
+
+One actual muted Windows UI profile covers menu start, double-click opening skip,
+partial ordinary Mecc entry, menu return, second entry, Escape skip and quit.
+Both game entries and menu returns show the restored normal title; both mission
+tickets release their tracked entities and assets. This verifies neither held
+native thrust/descent/landing nor broad campaign or visual/audio fidelity. An
+initial interactive command using an offscreen-only flag was rejected before
+window creation; the completed UI run uses the ordinary muted configuration.
+
+Technical collection includes 338 dependency packages, eleven conservative
+toolchain notice entries and the unchanged 29-name Windows/UCRT import set.
+The ten-member package has zero technical blockers. All three assets were freshly
+downloaded and independently verified against their internal/external checksums,
+GitHub asset digests and remote tag. `docs/public-preview.json` pins this exact
+download; subsequent source progress cannot relabel it. NPC PR #5's reviewed head
+is merged; no other chat's worktree was moved or edited.
+
+The later combined main tree retains the concurrent Delphi auxiliary prefix and
+passes 872 Rust tests (65 ignored), strict Clippy/Rustfmt, seven installed Delphi
+controls, six NPC ownership/history/newborn controls and 43 Python/site checks.
+The readonly prefix remains source-only relative to `.3`; its required current
+relationships and selected action are not acknowledged by the application.
+
 ## Delphi auxiliary-request prefix - 10 November 2026
 
 Source-only selection now preserves authority, independent command/response

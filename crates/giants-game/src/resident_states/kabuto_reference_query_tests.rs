@@ -5,7 +5,7 @@ pub(super) fn probe(
     s: &mut Session,
     owner: Id,
     number: u64,
-) {
+) -> Id {
     let root = std::path::PathBuf::from(std::env::var("GIANTS_KABUTO_ROOT").unwrap());
     let source = crate::world_source::resolve(&root, "Kstory1").unwrap();
     let menu = crate::mission_selection::MissionMenu::parse(
@@ -191,4 +191,5 @@ pub(super) fn probe(
         f.object_flags = flags;
         f.configuration[16] = mask;
     }
+    target
 }
