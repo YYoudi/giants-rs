@@ -1,5 +1,118 @@
 # Preview releases and milestone integration
 
+## Delphi auxiliary-request prefix - 10 November 2026
+
+Source-only selection now preserves authority, independent command/response
+checks, the actual list12 walk, required state reads and first matching request.
+Original-PC/Rust controls match 2,048 contexts and 4,410 tracked reads, selecting
+158 requests and taking 1,890 exits. The native helpers execute with supplied
+session/peer and actor/list snapshots. Execution stops before the selected action;
+no actor state is changed by this prefix.
+
+Rust provider failures and bounded snapshot traversal retain explicit refusals.
+Typed auxiliary/related-owner production, current list lifetime, action services
+and phase-correct common Session wiring remain prerequisites. Existing gameplay
+refusals and the immutable public preview receipts remain unchanged. This adds
+no playable Delphi control, active spell/construction or capture. Prototype PS2
+attribution is unknown; the detailed evidence remains private.
+
+Combined runtime source `3ec7a62` preserves the latest NPC history/newborn
+callbacks and cinematic caption fix. It passes 872 workspace Rust tests (65
+ignored), seven installed Delphi controls, six NPC history/newborn/ownership
+controls, 43 Python tests, Rustfmt and strict Clippy. The final Rust prefix
+comparison repeats on that source. These remain source/CPU checks; the existing
+Session action refusal and public download identities are preserved.
+
+## Delphi cold support construction - 10 November 2026
+
+An explicit source-backed cold factory now owns the support class through the
+shared staged Session constructor. Eight original-PC creations match 1,584
+normalized header/payload words and 32 ordered registrations. Rust repeats the
+comparison with three mission catalogs selecting the same source template.
+Identifiers/pointers, source preparation policies and UID lookup inputs retain
+their declared control boundaries. Ordinary construction remains refused.
+
+Private payloads, shared immutable resources, failed-construction rollback,
+resource release, stale identities and clear/re-entry have installed controls.
+Current geometry/physical access is still refused. Native state-payload cleanup
+is checked; full native actor/list retirement, first-update initialization,
+world lifetime, scene keys and phase-correct header publication remain open.
+This introduces no live Delphi control, capture, dependency, asset or new
+download. The separately published quiet-ambient preview retains its exact
+source, executable, notices and package/checksum receipts. Prototype PS2
+attribution remains unknown; complete source inputs and evidence stay private.
+
+The combined tree passes 866 workspace Rust tests (58 ignored), seven installed
+Delphi controls, six Mecc impact/voice/wounded-primary controls and the NPC
+ownership regression. All 43 Python tests, Rustfmt, strict Clippy and
+roadmap/site/JavaScript checks pass. The current ambient and shared actor work
+is preserved; these checks retain their declared source/CPU scope.
+
+After preserving the latest held-reference and timed-effect ownership changes,
+runtime `9a76865` passes 869 Rust tests (59 ignored), the same installed Delphi,
+Mecc and NPC controls, 43 Python tests, Rustfmt and strict Clippy. Its cold
+constructor comparison repeats successfully. The earlier common MinGW menu
+application also compiled; no new downloadable executable is advertised here.
+The camera-mode combination `e7dcdb4` additionally passes 870 Rust tests
+(60 ignored), seven installed Delphi controls, 43 Python tests, Rustfmt and
+strict Clippy. The subsequent terrain-finalization merge changes documentation
+only and preserves these validated runtime sources.
+
+## Static-terrain timed finalization comparison — 10 November 2026
+
+The complete original parent/child preparation, retirement and cleanup now run
+against the sixteen static source terrains represented in the Flick inventory.
+The existing shared Rust finalization/environment services agree on 1,152 states
+(640 detached), 299,520 header/payload words and 902 ground-query calls over
+128 controlled cycles. The native fixture now executes the original numeric-table
+initializer; its omission caused the first sloped-terrain discrepancy. No Rust
+correction, artificial terrain or placement adjustment was needed.
+
+Rust entry headers, physical payload/history, affine and the actual caller-slot
+word remain supplied; native object/platform populations are empty, topology is
+prepared and dynamic ripples are disabled. This validates the common static-ground
+composition, not ownership of live timed physics, ordinary world admission,
+scheduling, visual/audio fidelity or complete films. Those producers and the
+Session ordinary-preparation continuation remain the next dependencies.
+Prototype PS2 attributions remain unknown. This evidence-only milestone leaves
+preview-2026.11.10.2 and its immutable source/executable/archive identities unchanged.
+
+## Shared camera mode and pre-world admission — 10 November 2026
+
+Source-only integration adds `camera_mode::State` and
+`mecc_subjective::State::prepare_from_camera`. The mode command matches 1,280
+original contexts with supplied profile/projection services, preserving repeated
+profile queries, actor-scale writes, invalid-command tails and transition reset.
+The camera eligibility policy matches all 864 previously acquired full native
+pre-world vectors when combined with their explicit model-presence inputs.
+An installed-resource control exercises six Session admission contexts and
+inactive-to-active re-entry; synthetic late-provider controls retain completed
+stores and refuse replay/admission after failure. See
+[OWNED_CAMERA.md](OWNED_CAMERA.md) for the native-versus-Rust scope.
+
+The combined source preserves Kabuto's current/held-reference handoff and shared
+target detachment together with Flick's canonical detached timed ownership.
+It passes 870 Rust tests (59 ignored), strict Clippy, Rustfmt and 43 Python tests.
+Installed controls pass thirteen Mecc, sixteen Kabuto, six Delphi, one NPC and
+one canonical timed-lifecycle case. Current camera/profile inputs, startup/override producers,
+actual profile/projection backends and enclosing world order remain prerequisites.
+This does not enable the normal native Mecc driver or modify the immutable public
+preview download. No new playable character, native landing or fidelity claim is
+made from these controls.
+
+The main integration lane independently downloaded all three public `.2` assets:
+the ten-member package, internal/external checksums, GitHub asset digests and remote
+tag match its published source/executable/archive snapshot. This verification does
+not move that immutable download to the later camera-mode source.
+
+A private combined MinGW candidate pins source
+`bf724e267450fb8125aafba3850c3a88fc481c19`. Explicitly waited CLI startup passes.
+Its ten-member validation draft verifies the receipt and checksums, collects
+notices for 338 normal dependencies and eleven conservative toolchain entries,
+and retains the reviewed set of 29 imported DLL names. This candidate has no
+release tag; offscreen/manual runtime checks on this particular executable remain
+pending. It does not replace the verified public `.2` download.
+
 ## Canonical detached timed ownership and registration — 10 November 2026
 
 Detached retirement requests now transfer their actual payload/reference owners

@@ -66,6 +66,14 @@ class flags, common-list-only membership, refused ordinary affine access, clear
 and re-entry. It is silent CPU construction, with no live target assignment,
 proxy update, render submission or world scheduler.
 
+With the same `GIANTS_DELPHI_ROOT`, the ignored
+`source_delphi_support_owns_private_payload_and_retains_ordinary_refusal` control
+checks the explicit cold support factory in three actual mission catalogs. It
+checks private payloads, shared resources, rollback, source release, clear and
+re-entry while preserving ordinary-constructor and current-geometry refusal.
+This is CPU ownership coverage, without initialization, world admission or a
+complete native actor-retirement claim.
+
 With `GIANTS_FLICK_ROOT` set to a user-supplied installation, the ignored
 `source_timed_effect_owns_resources_and_quarantines_late_services` control checks
 bounded timed resource ownership after context/external resource release, shared
@@ -146,9 +154,15 @@ target directory described above:
 cargo test --locked -p giants-game source_mecc_subjective_publishes_before_fire_and_retains_late_failure --target x86_64-pc-windows-gnu -- --ignored
 cargo test --locked -p giants-game source_mecc_deferred_primary_requires_post_and_retains_real_fire_failure --target x86_64-pc-windows-gnu -- --ignored
 cargo test --locked -p giants-game source_mecc_produced_camera_orders_post_fire_and_outer_publication --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-game source_mecc_preworld_camera_prepares_or_retires_actual_display --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-This silent CPU control checks the Session-bound subjective resource and shared
+The pre-world camera control uses the acquired shared mode policy, actual Session
+owner/class identities and prepared resources for admission, inactivity and
+re-entry. Current mode/force/profile words remain supplied; it does not establish
+their startup writers, native world ordering or application input integration.
+
+The other silent CPU controls check the Session-bound subjective resource and shared
 reference publication, retained effects after failure, inhibited fire and stale
 identities after cancellation. Its fire failures are explicit test providers;
 it executes no original program, real shot, whole-world scheduler or audio device.

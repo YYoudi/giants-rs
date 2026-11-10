@@ -1,8 +1,8 @@
 use super::*;
 
 #[test]
-#[ignore = "Requires GIANTS_DELPHI_ROOT; support header resources only, no state83 actor admission"]
-fn source_delphi_support_fields_keep_unacquired_constructor_refused() {
+#[ignore = "Requires GIANTS_DELPHI_ROOT; support header resources only, no ordinary state83 actor admission"]
+fn source_delphi_support_fields_keep_ordinary_constructor_refused() {
     let root = std::path::PathBuf::from(std::env::var("GIANTS_DELPHI_ROOT").unwrap());
     for world in ["w_Rstory2.bin", "w_Rstory4.bin", "w_Rstory5.bin"] {
         let resources =
