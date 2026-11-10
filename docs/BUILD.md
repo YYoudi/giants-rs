@@ -124,7 +124,15 @@ checks actual player constructor identity with a second actor of the same class,
 local/other audio routing, motion ownership, foreign and retired owner refusal,
 and mission cleanup. The same control checks constructor-bound ordinary jet model sizes and visibility,
 stale-frame quarantine and unchanged Session animation/world ownership. These
-checks do not prove GPU rendering or held input. It is silent CPU composition. The additional diagnostic
+checks do not prove GPU rendering or held input. It is silent CPU composition.
+The same environment enables
+`cargo test --locked -p giants-app source_normal_mecc_body_drives_jet_presentation_across_flight_and_release --target x86_64-pc-windows-gnu -- --ignored`.
+This control composes the actual ordinary body, motion publication and jet child
+presentation over 1,600 supplied steps, including nitro, release and descent-clip
+selection. It samples the current body and preserves constructor channels and
+native-world admission guards; cancellation retires its owner. Real input and
+GPU appearance remain separate checks on the exact executable.
+The additional diagnostic
 `source_owned_mecc_runtime_terrain_and_presentation` now passes 128 prepared CPU
 frames with actual terrain, camera, ANM and weapon presentation. It checks the
 weapon's absence during draw and presence once actually equipped. This does not
