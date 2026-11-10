@@ -32,6 +32,25 @@ impl State {
             .as_ref()
             .map_or(0, |(_, queue)| queue.advanced_objects(session))
     }
+    /// An old owner cannot acknowledge a newly dispatched peer for capture.
+    pub(crate) fn sampleable_persistent_objects(
+        &self,
+        runtime: &crate::mission_runtime::Runtime,
+        cinematic: &crate::cinematic_camera::Cinematic,
+    ) -> usize {
+        if self.generation != cinematic.generation() || self.revision != cinematic.event_revision()
+        {
+            return 0;
+        }
+        let Some((director, queue)) = &self.persistent_queue else {
+            return 0;
+        };
+        if *director != cinematic.director_index() {
+            return 0;
+        }
+        let count = self.advanced_persistent_objects(runtime);
+        if count == queue.objects() { count } else { 0 }
+    }
     pub(crate) fn settled(&self) -> bool {
         self.active.is_empty()
             && self.bindings.iter().all(Result::is_ok)
