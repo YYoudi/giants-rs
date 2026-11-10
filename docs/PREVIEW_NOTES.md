@@ -1,8 +1,8 @@
-# Windows x64 development preview - next combined build (draft)
+# Windows x64 development preview - preview-2026.11.10.8 (draft)
 
 Published preview-2026.11.10.7 remains pinned to source `88dd2ff`; its packaged
-notes and checksums are immutable. These draft notes also retain later main-only
-Mecc smoke/pistol and camera-profile work pending its own combined build.
+notes and checksums are immutable. This combined draft retains that cinematic
+lot together with the later Mecc smoke/pistol and camera-profile work.
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From

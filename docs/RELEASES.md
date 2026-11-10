@@ -97,8 +97,8 @@ two camera controls, both timed-owner/positioned-terrain controls, nine Delphi
 controls and four App controls: terrain/ANM/weapon presentation, reserved silent
 jet sinks, smoke render-asset lifecycle and actual constructor roles. Private
 terrain fixtures retain their original hashes. The App checks introduce no manual
-input, GPU pixel or audio-fidelity claim. This later integration candidate is separate from published .7 (source `88dd2ff`);
-it remains pending its own receipt-bound package validation.
+input, GPU pixel or audio-fidelity claim. This records the pre-package source
+checkpoint; published build identities and acceptance remain separately scoped.
 
 ## Session-bound camera profile selection — 10 November 2026, source only
 
