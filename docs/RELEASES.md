@@ -11,6 +11,9 @@ ANM callbacks made the early unequipped interval reachable. The installed
 128-frame terrain/weapon control now checks the optional render projection while
 retaining its strict combat-attachment checks. Preview acceptance repeats on a
 fresh receipt-bound build; the earlier candidate is not published.
+The reserved-device CLI guard now distinguishes device-free silent capture from
+muted transport, which actually installs the audio plugin at zero master volume.
+The latter retains the existing silent/offscreen/menu and global-mute checks.
 
 ## Combined Mecc and camera integration — 10 November 2026, preview preparation
 

@@ -55,7 +55,9 @@ The mission render consumer now accepts that expected absence and hides its held
 mesh until an actual current weapon pose arrives. A present but stale pose still
 refuses. This remains an experimental inspection path with supplied world inputs;
 complete ordinary native gameplay, idle continuations and full input/fidelity
-remain open.
+remain open. The explicit muted-transport inspection mode retains its real audio
+device at zero master volume and can use reserved jet sinks; ordinary device-free
+silent capture still refuses that backend.
 
 The shared physical environment now retains completed contact stages when a
 later platform service fails. Lower-level unreturned mutations remain outside
