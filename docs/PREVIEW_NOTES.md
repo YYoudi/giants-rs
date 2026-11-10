@@ -17,6 +17,12 @@ speed and floor clearance satisfy the shared rule. Releasing thrust hides the
 jet models; descent selection depends on the trajectory, rather than just the
 absence of thrust.
 
+The normal base pistol now draws the registered projectile model and materials
+from each live shot's acquired straight-launch orientation and current position.
+Use **left mouse** in the same mission. This replaces the provisional shot trail;
+impact markers remain diagnostic. Native projectile actor/effect construction,
+full fire/impact/damage ownership and firing-pose selection remain incomplete.
+
 These changes extend the existing partial controller. Separate presentation
 clocks do not acknowledge native world completion. Full native impact, health,
 weapon, camera and world ownership remain incomplete. Source/GPU diagnostics do
@@ -30,8 +36,9 @@ The same application preserves the Flick cinematic Session ownership and source
 transport work. The 545-source cinematic census remains pinned to preview .7;
 this newer build does not constitute a fresh census or complete-film validation.
 
-Reviewed NPC herd/Vimp services, Mecc completion orchestration, Delphi terrain
-and shared camera services, and Kabuto cold-group mission construction are
+Reviewed NPC herd/Vimp services and registered Story2 resource binding, Mecc
+completion orchestration, Delphi terrain/shared camera and declared-group mission
+construction, and Kabuto cold-group mission construction are
 integrated dependencies. Their remaining caller/backend/initialization boundaries
 stay explicit. They do not enable ordinary NPC AI, playable Delphi or Kabuto,
 complete combat, mission objectives, campaign progression or save continuity.
