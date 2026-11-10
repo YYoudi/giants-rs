@@ -703,6 +703,7 @@ pub mod cinematic_credits;
 pub mod cinematic_sound;
 pub mod delphi_camera;
 pub mod delphi_camera_distance;
+pub mod delphi_declared;
 pub mod delphi_dry_reset;
 pub mod delphi_items;
 pub mod delphi_movement_activation;

@@ -69,6 +69,7 @@ struct Payload {
     effect_proxies: Result<Vec<giants_game::cinematic_fx::TerminalProxy>, String>,
     player: Result<Arc<giants_game::player_initial::Prepared>, String>,
     kabuto: Result<Option<giants_game::kabuto_initial::Factory>, String>,
+    delphi: Result<Option<giants_game::delphi_declared::Factory>, String>,
     controller: Result<Option<crate::mecc_dev_scene::State>, String>,
     carried: Result<Option<(usize, Arc<giants_game::carried_actor::Prepared>)>, String>,
     dressing: Option<crate::mission_dressing::Prepared>,
@@ -119,15 +120,19 @@ struct Active {
 }
 impl Active {
     fn player_owner(&self) -> Result<ActorId, String> {
-        let class = match self.payload.kabuto.as_ref().map_err(Clone::clone)? {
-            Some(factory) => factory.declared_start().kind,
-            None => {
-                self.payload
-                    .player
-                    .as_ref()
-                    .map_err(Clone::clone)?
-                    .start
-                    .kind
+        let class = if let Some(factory) = self.payload.delphi.as_ref().map_err(Clone::clone)? {
+            factory.declared_start().kind
+        } else {
+            match self.payload.kabuto.as_ref().map_err(Clone::clone)? {
+                Some(factory) => factory.declared_start().kind,
+                None => {
+                    self.payload
+                        .player
+                        .as_ref()
+                        .map_err(Clone::clone)?
+                        .start
+                        .kind
+                }
             }
         };
         self.bindings
@@ -202,6 +207,41 @@ fn prepare_kabuto(
         packet.world.as_ref().ok_or("prepared world missing")?,
         mission,
         Arc::new(globals),
+    )
+    .map(Some)
+}
+fn requests_delphi(packet: &PreparedMission) -> bool {
+    packet.mission.as_ref().is_some_and(|mission| {
+        mission
+            .starts
+            .first()
+            .is_some_and(|start| start.words[0] == 3)
+    })
+}
+fn prepare_delphi(
+    root: &std::path::Path,
+    plan: &Plan,
+    packet: &PreparedMission,
+) -> Result<Option<giants_game::delphi_declared::Factory>, String> {
+    let mission = packet.mission.as_ref().ok_or("prepared mission missing")?;
+    if !requests_delphi(packet) {
+        return Ok(None);
+    }
+    let globals = giants_formats::global_data::parse(
+        &std::fs::read(root.join("Bin/GData.gbn")).map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())?;
+    let weapons = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).map_err(|e| e.to_string())?,
+        giants_formats::weapons::Profile::Debug,
+    )
+    .map_err(|e| e.to_string())?;
+    giants_game::delphi_declared::Factory::load(
+        plan,
+        packet.world.as_ref().ok_or("prepared world missing")?,
+        mission,
+        &globals,
+        &weapons,
     )
     .map(Some)
 }
@@ -1175,6 +1215,10 @@ fn spawn(
     }
     match &payload.start_candidate {
         Err(error) => blocked.push(format!("initial player marker: {error}")),
+        Ok(start) if start.kind == 3 => blocked.push(format!(
+            "Delphi declared marker {}: native relocation and playable controller admission pending",
+            start.marker_offset
+        )),
         Ok(start) => blocked.push(format!(
             "initial player marker {}: continuity, team formation and live player binding pending",
             start.marker_offset
@@ -1217,7 +1261,9 @@ fn spawn(
                 "player special children, continuity, team and controller binding pending".into(),
             );
         }
-        Err(error) if !matches!(payload.kabuto, Ok(Some(_))) => {
+        Err(error)
+            if !matches!(payload.kabuto, Ok(Some(_))) && !requests_delphi(&payload.packet) =>
+        {
             blocked.push(format!("initial player construction: {error}"));
         }
         Err(_) => {}
@@ -1391,6 +1437,37 @@ fn spawn(
     }
     let mut resident_states = giants_game::resident_states::Session::new(ticket);
     let mut bindings_by_role = ActorBindings::default();
+    match &payload.delphi {
+        Ok(Some(factory)) => {
+            let attempt = factory.construct_declared(
+                &mut resident_states,
+                giants_game::animation_channels::Blending::Enabled,
+            );
+            bindings_by_role.player = attempt.owner;
+            match attempt.result {
+                Ok(initial) => {
+                    println!(
+                        "mission_delphi_constructed ticket={ticket} owner={:?} class=3 held={:?} copies={} position={:?} projection_reset_required={} declared_placement=true native_relocation_verified=false controller=false ready=false",
+                        initial.owner,
+                        initial.special.held,
+                        initial.special.copies.len(),
+                        factory.declared_start().position,
+                        initial.camera_projection_reset_required
+                    );
+                    blocked.push("Delphi projection reset, animation/render, physical/camera/input and live controller admission pending".into());
+                }
+                Err(error) => blocked.push(format!(
+                    "Delphi cold initialization owner={:?}: {error}",
+                    attempt.owner
+                )),
+            }
+        }
+        Err(error) => blocked.push(format!("Delphi preparation: {error}")),
+        Ok(None) if requests_delphi(&payload.packet) => {
+            blocked.push("Delphi cold factory absent for requested player".into());
+        }
+        Ok(None) => {}
+    }
     match &payload.kabuto {
         Ok(Some(factory)) => match factory.construct_declared(
             &mut resident_states,
@@ -1871,6 +1948,7 @@ fn drive(
                     )
                 })();
                 let kabuto = prepare_kabuto(&root, &plan, &packet);
+                let delphi = prepare_delphi(&root, &plan, &packet);
                 let player = giants_game::player_initial::Prepared::load(
                     &root,
                     &plan,
@@ -1880,7 +1958,7 @@ fn drive(
                 .map(Arc::new)
                 .map_err(|e| e.to_string());
                 let controller = world.as_ref().map_err(Clone::clone).and_then(|world| {
-                    if kind == Some(1) {
+                    if matches!(kind, Some(1 | 3)) {
                         return Ok(None);
                     }
                     let initial = player.as_ref().map_err(Clone::clone)?;
@@ -1934,6 +2012,7 @@ fn drive(
                     effect_proxies,
                     player,
                     kabuto,
+                    delphi,
                     controller,
                     carried,
                     dressing,
@@ -2331,6 +2410,154 @@ mod tests {
             carried: Ok(None),
             player: Err("synthetic fixture has no player resources".into()),
             kabuto: Ok(None),
+            delphi: Ok(None),
+        }
+    }
+
+    #[test]
+    #[ignore = "Requires GIANTS_DELPHI_ROOT; source menu request and common spawn/roles/re-entry; all-unlocked test mask, no graphics/input claim"]
+    fn source_delphi_menu_entry_constructs_declared_group_and_retains_player_role() {
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_DELPHI_ROOT").unwrap());
+        let source = giants_game::world_source::resolve(&root, "Rstory1").unwrap();
+        let menu = giants_game::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin").join(source.catalog)).unwrap(),
+            u32::MAX,
+            true,
+        )
+        .unwrap();
+        let mut ecs = World::new();
+        let baseline = ecs.query::<Entity>().iter(&ecs).count();
+        for ticket in [998, 999] {
+            let packet = Arc::new(
+                giants_game::mission_loading::prepare(&root, menu.request("Rstory1", 0).unwrap())
+                    .unwrap(),
+            );
+            let plan = packet.instance_plan(&root, "English").unwrap();
+            let factory = prepare_delphi(&root, &plan, &packet).unwrap().unwrap();
+            let start = factory.declared_start().clone();
+            let terrain = packet.terrain.as_ref().unwrap();
+            let query = giants_game::terrain_queries::StaticTerrainQuery::new(
+                terrain,
+                1. / terrain.spacing,
+                giants_game::arithmetic::Precision::Double53,
+            )
+            .unwrap();
+            let sample = query
+                .sample([start.position[0], start.position[1]])
+                .unwrap();
+            println!(
+                "test_delphi_declared_source ticket={ticket} position={:?} terrain_height={} source_sea_scale={} native_wet_classification_verified=false",
+                start.position,
+                sample.height,
+                packet.world.as_ref().unwrap().sea_values[0]
+            );
+            let mut payload = payload();
+            payload.packet = packet;
+            payload.plan = plan;
+            payload.delphi = Ok(Some(factory));
+            let mut queue = CommandQueue::default();
+            let (scene_root, actors, blocked, residents, bindings) =
+                spawn(&mut Commands::new(&mut queue, &ecs), ticket, &mut payload);
+            queue.apply(&mut ecs);
+            let owner = bindings.player.expect("actual Delphi constructor identity");
+            let actor = residents.get(owner).unwrap();
+            assert_eq!(actor.class, 3);
+            assert_eq!(
+                actor.construction_fields.as_ref().unwrap().position,
+                start.position
+            );
+            let group = residents.delphi_special(owner).unwrap();
+            assert_eq!(residents.get(group.held).unwrap().class, 669);
+            assert!(!group.copies.is_empty());
+            assert!(
+                blocked
+                    .iter()
+                    .any(|s| s.starts_with("Delphi projection reset"))
+            );
+            assert!(
+                !blocked
+                    .iter()
+                    .any(|s| s.starts_with("initial player construction:"))
+            );
+            let mut active = Active {
+                ticket,
+                root: scene_root,
+                actors,
+                resident_states: residents,
+                blocked,
+                payload,
+                start: StartState {
+                    intent: LaunchIntent::SavedMission,
+                    progress: Progress::load(None, None).unwrap(),
+                },
+                reported: false,
+                pickup: None,
+                variant_random: giants_game::audio_parameters::Random(1),
+                audio_registry: None,
+                bindings,
+                controlled_mecc_owner: None,
+                owned_mecc: None,
+            };
+            assert_eq!(active.player_owner().unwrap(), owner);
+            let peer = active
+                .payload
+                .delphi
+                .as_ref()
+                .unwrap()
+                .as_ref()
+                .unwrap()
+                .construct_declared(
+                    &mut active.resident_states,
+                    giants_game::animation_channels::Blending::Enabled,
+                )
+                .result
+                .unwrap()
+                .owner;
+            assert_ne!(peer, owner);
+            assert_eq!(active.player_owner().unwrap(), owner);
+            let mut foreign = giants_game::resident_states::Session::new(ticket + 1000);
+            let foreign_owner = active
+                .payload
+                .delphi
+                .as_ref()
+                .unwrap()
+                .as_ref()
+                .unwrap()
+                .construct_declared(
+                    &mut foreign,
+                    giants_game::animation_channels::Blending::Enabled,
+                )
+                .result
+                .unwrap()
+                .owner;
+            active.bindings.player = Some(foreign_owner);
+            assert!(active.player_owner().is_err());
+            active.bindings.player = Some(owner);
+            assert_eq!(active.player_owner().unwrap(), owner);
+            foreign.clear();
+            active.resident_states.clear();
+            assert!(active.resident_states.get(owner).is_none());
+            assert!(active.player_owner().is_err());
+            assert_eq!(active.resident_states.counts().residents, 0);
+            ecs.despawn(scene_root);
+            assert_eq!(ecs.query::<Entity>().iter(&ecs).count(), baseline);
+            active.payload.delphi = Ok(None);
+            let mut queue = CommandQueue::default();
+            let (missing_root, _, missing, mut residents, bindings) = spawn(
+                &mut Commands::new(&mut queue, &ecs),
+                ticket + 100,
+                &mut active.payload,
+            );
+            queue.apply(&mut ecs);
+            assert!(bindings.player.is_none());
+            assert!(
+                missing
+                    .iter()
+                    .any(|s| s == "Delphi cold factory absent for requested player")
+            );
+            residents.clear();
+            ecs.despawn(missing_root);
+            assert_eq!(ecs.query::<Entity>().iter(&ecs).count(), baseline);
         }
     }
 

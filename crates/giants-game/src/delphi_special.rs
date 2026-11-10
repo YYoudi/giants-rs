@@ -178,20 +178,56 @@ impl Factory {
         frame: crate::delphi_player::ColdFrame,
         blending: crate::animation_channels::Blending,
     ) -> Result<crate::delphi_player::Initialized, String> {
-        let mut input = self.owner.input();
-        input.fields = crate::delphi_player::prepare(&self.owner.fields, frame)?;
-        let channels = crate::delphi_player::selected(input.fields.channels, blending)?;
-        if !self.owner.specification.animations.contains_key(&1) {
-            return Err("Delphi initial player animation absent".into());
+        self.construct_player_fields_retained(s, frame, blending)
+            .result
+    }
+    pub fn construct_player_fields_retained(
+        &self,
+        s: &mut Session,
+        frame: crate::delphi_player::ColdFrame,
+        blending: crate::animation_channels::Blending,
+    ) -> crate::delphi_player::Attempt {
+        let mut published = None;
+        let result = (|| {
+            let mut input = self.owner.input();
+            input.fields = crate::delphi_player::prepare(&self.owner.fields, frame)?;
+            let channels = crate::delphi_player::selected(input.fields.channels, blending)?;
+            if !self.owner.specification.animations.contains_key(&1) {
+                return Err("Delphi initial player animation absent".into());
+            }
+            let owner = s.construct_delphi_cold(input, 0x80000000)?;
+            published = Some(owner);
+            let special = self.initialize(s, owner)?;
+            s.finish_delphi_player_fields(owner, self.owner.fields.channels, channels)?;
+            Ok(crate::delphi_player::Initialized {
+                owner,
+                special,
+                camera_projection_reset_required: true,
+            })
+        })();
+        crate::delphi_player::Attempt {
+            owner: published,
+            result,
         }
-        let owner = s.construct_delphi_cold(input, 0x80000000)?;
-        let special = self.initialize(s, owner)?;
-        s.finish_delphi_player_fields(owner, self.owner.fields.channels, channels)?;
-        Ok(crate::delphi_player::Initialized {
-            owner,
-            special,
-            camera_projection_reset_required: true,
-        })
+    }
+    /// Declared placement with the actual source constructor's shell history.
+    /// This does not prove native relocation or acknowledge live readiness.
+    pub(crate) fn construct_declared_player_fields(
+        &self,
+        s: &mut Session,
+        start: &crate::player_start::Declared,
+        blending: crate::animation_channels::Blending,
+    ) -> crate::delphi_player::Attempt {
+        self.construct_player_fields_retained(
+            s,
+            crate::delphi_player::ColdFrame {
+                position: start.position,
+                current: self.owner.fields.current,
+                previous: self.owner.fields.previous,
+                angles: start.angles,
+            },
+            blending,
+        )
     }
     pub fn initialize(&self, s: &mut Session, owner: Id) -> Result<Initialized, String> {
         s.begin_delphi_special(owner, &self.owner.seed, &self.owner.fields)?;
@@ -349,6 +385,61 @@ mod tests {
         p.first = f32::NAN;
         assert!(p.validate().is_err());
     }
+    #[test]
+    #[ignore = "Requires GIANTS_DELPHI_ROOT; actual constructor identity after a supplied late child-resource failure"]
+    fn source_delphi_retained_player_attempt_keeps_published_owner_after_failure() {
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_DELPHI_ROOT").unwrap());
+        let r = SceneResources::load(&root, "w_Rstory1.bin", "English").unwrap();
+        let globals =
+            giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+                .unwrap();
+        let weapons = giants_formats::weapons::parse_with_profile(
+            &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+            giants_formats::weapons::Profile::Debug,
+        )
+        .unwrap();
+        let mut factory = Factory::load(&r, &globals, &weapons).unwrap();
+        let mut session = Session::new(1045);
+        let frame = crate::delphi_player::ColdFrame {
+            position: [7., 8., 9.],
+            current: factory.owner.fields.current,
+            previous: factory.owner.fields.previous,
+            angles: [0.; 3],
+        };
+        let bad = factory.construct_player_fields_retained(
+            &mut session,
+            crate::delphi_player::ColdFrame {
+                position: [f32::NAN; 3],
+                ..frame
+            },
+            crate::animation_channels::Blending::Enabled,
+        );
+        assert!(bad.owner.is_none());
+        assert!(bad.result.is_err());
+        assert_eq!(session.counts().residents, 0);
+        assert!(factory.parameters.copies > 0);
+        factory.copy = None;
+        let attempt = factory.construct_player_fields_retained(
+            &mut session,
+            frame,
+            crate::animation_channels::Blending::Enabled,
+        );
+        let owner = attempt
+            .owner
+            .expect("constructor published before child resource failure");
+        assert!(attempt.result.unwrap_err().contains("copy template absent"));
+        assert_eq!(session.get(owner).unwrap().class, 3);
+        assert!(
+            session
+                .delphi_special_failure(owner)
+                .unwrap()
+                .contains("copy template absent")
+        );
+        assert_eq!(session.counts().residents, 1);
+        session.clear();
+        assert!(session.get(owner).is_none());
+    }
+
     #[test]
     #[ignore = "Requires GIANTS_DELPHI_ROOT with user-supplied resources; cold CPU phase only"]
     fn source_delphi_special_group_owns_references_and_refuses_replay() {

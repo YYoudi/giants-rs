@@ -24,6 +24,13 @@ pub struct Initialized {
     /// Required by the acquired caller, not acknowledged by a renderer here.
     pub camera_projection_reset_required: bool,
 }
+/// Retain the actual published constructor identity after a later failure.
+/// A missing owner means construction itself never published an actor.
+#[derive(Debug)]
+pub struct Attempt {
+    pub owner: Option<Id>,
+    pub result: Result<Initialized, String>,
+}
 
 pub(crate) fn prepare(template: &Fields, frame: ColdFrame) -> Result<Fields, String> {
     if template.class != 3
