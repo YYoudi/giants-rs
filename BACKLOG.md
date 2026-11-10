@@ -1110,10 +1110,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   before and after selection when required. Two 160-frame native/Rust grounded
   controls match 14,400 selected numeric words, with a separate declared startup
   epoch normalization. Wet/material absence must still come from a real producer;
-  missing material preserves completed state and quarantines replay. Next acquire
-  idle-variant continuation beyond the bounded controls, broaden movement/jet and
-  populated contact, and bind the remaining impact/voice/display and FX/world
-  providers before claiming complete ordinary owned gameplay or visual fidelity.
+  missing material preserves completed state and quarantines replay. Ordinary
+  idle selection now preserves the acquired weighted choice, shared-clip states
+  and RNG consumption even without a new channel request. A 4,032-context native
+  selector matrix agrees; eleven seeded 512-frame primary controls cover every
+  selected idle variant and match 253,440 selected numeric words plus relative
+  epoch advancement. Clocks, flat floor, commands and empty populations remain
+  supplied. Next broaden movement/jet and populated contact, and bind the remaining
+  impact/voice/display and FX/world providers before claiming complete ordinary
+  owned gameplay or visual fidelity.
 
 
 - Desktop preview entry: giants-rs.exe detects the adjacent game installation or

@@ -5640,3 +5640,28 @@ it does not establish audible fidelity. The main lane owns
 preview publication; this handoff does not relabel the separate preview 6 receipt,
 notices or checksums. See
 [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#pistol-callback-integration--10-november-2026).
+
+### Mecc ordinary idle variants — 10 November 2026
+
+The living pistol selector now preserves its weighted idle choice, shared-clip
+logical states, continuation and movement interruption. Required RNG draws still
+execute when no channel is reselected; no animation-ready flags are forced.
+Special object, alternate-turn and equipment profiles remain explicit boundaries.
+
+A 4,032-context native selector matrix matches 1,342,948 selected header/payload,
+request and RNG words, including unchanged supplied fields. Eleven seeded
+512-frame primary runs cover every selected nondefault logical variant through
+actual ANM and owned services: 5,632 snapshots / 253,440 selected numeric words
+agree, plus relative epochs after declared startup-seed normalization. Flat floor,
+clocks, commands, gates, source/allocation providers and empty populations remain
+supplied. No whole-payload, global startup or graphical fidelity claim follows.
+Prototype PS2 attributions remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-idle-variants--10-november-2026).
+
+Combined validation retaining main through `d51d695` passes 895 workspace Rust
+tests (94 ignored), twenty-six installed Mecc controls, the prepared 128-frame
+App control, shared timed-owner and cold Delphi support controls, Rustfmt and
+strict workspace Clippy, 43 Python tests and generated site/JavaScript checks.
+The main lane retains preview publication and its
+separate source, notices and checksum identity; this source handoff creates no
+new download or ordinary gameplay certification.

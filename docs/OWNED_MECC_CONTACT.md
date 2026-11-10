@@ -8,7 +8,7 @@ hits are candidates only; the PC profile remains the behavioral authority.
 
 The sections record successive acquisition checkpoints. For the current binding,
 see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026)
-and [pistol callback integration](#pistol-callback-integration--10-november-2026) below.
+and [ordinary idle variants](#ordinary-idle-variants--10-november-2026) below.
 Earlier missing-service statements retain the limits of their recorded checkpoint.
 
 ## Selector and ownership order
@@ -1145,3 +1145,37 @@ zero gain. This checks device transport and lifecycle, not audible fidelity. No 
 device or new preview is part of that result. Idle-variant continuation, complete
 impact/voice/display and FX/world scheduling, populated contact and graphical
 fidelity remain open; the older muted-jet receipt retains its own narrower scope.
+
+## Ordinary idle variants — 10 November 2026
+
+The ordinary living pistol selector now admits its acquired idle variants and
+their continuation. It preserves the ordered weighted choice, channel flags and
+timers. Different logical states can share a clip: the selector consumes its
+required random draw even when the current clip prevents another channel request.
+Logical state and alternating control writes still change only when the actual
+channel setter runs. Movement can interrupt a variant before its channel ends.
+Special object, alternate-turn and equipment profiles retain their refusals.
+
+A native matrix covers 4,032 supplied prior-state, completion, timer, movement
+and threshold-seed contexts. Header/payload results, request presence/arguments
+and RNG agree on 1,342,948 selected words. This count includes unchanged supplied
+header fields; it is not whole-selector branch coverage. The actual channel
+setter executes; ANM, voice and world updates are outside that comparison.
+
+Eleven independent seeded runs then execute 512 complete primaries each, covering
+every selected nondefault logical variant through real source ANM and owned
+services. The 5,632 snapshots agree on 253,440 selected numeric words plus 5,632
+relative epoch samples after explicit startup-seed normalization. Continuation,
+holds and return follow the observed clip/state behavior. Table pointers are
+compared as binding presence; full payloads, vertex results, absolute startup
+epochs and global RNG production are outside this comparison. The controls supply
+the clock, flat floor, commands, mission gates, allocation/source providers and
+empty populations. No graphics device or audible playback is part of the proof.
+
+Synthetic regressions preserve the random draw without reselection and movement
+interruption without an idle draw. The installed long-primary control reaches
+an actual idle variant and return; optional supplied seeds exercise the others.
+Prototype PS2 lookup was expanded for idle/Mecc/animation vocabulary and remains
+unknown. Private tables and detailed captures stay outside Git. Complete impact/
+voice/display and FX/world scheduling, populated contact, real-input/long-session
+coverage and graphical fidelity remain open. No new preview is created.

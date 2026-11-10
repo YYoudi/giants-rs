@@ -888,3 +888,16 @@ The optional `GIANTS_MECC_DRAW_RECEIPT` records selected Rust words for private
 comparison. Use a fresh path under ignored `.local` and run only one of
 `source_mecc_pistol_draw_interleaves` or `source_mecc_pistol_draw_interruption`
 per receipt. These artifacts must stay private.
+
+With the same installation and isolated target, the silent ordinary-idle control
+executes 512 complete grounded primaries through actual ANM and owned services:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_idle_primary --target x86_64-pc-windows-gnu -- --ignored
+```
+
+Its default supplied seed reaches an idle variant and returns to idle. Optional
+`GIANTS_MECC_IDLE_SEED` selects another supplied 32-bit CRT seed; it does not
+reconstruct native global startup. `GIANTS_MECC_DRAW_RECEIPT` can write a fresh
+private selected-word receipt for this single test. Keep the floor, clock,
+empty populations and nongraphical scope distinct from ordinary gameplay.
