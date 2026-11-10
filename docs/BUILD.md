@@ -64,6 +64,11 @@ body, initial words and mode/force/profile inputs remain declared boundaries.
 Run it alongside `source_mecc_preworld_camera_prepares_or_retires_actual_display`;
 both are silent CPU compositions, not App input or complete world-order checks.
 
+The portable `camera_mode` tests also cover activation reset, retained failure
+prefixes, quarantine across shared commands and lens evaluation against the same
+transition word. They use explicit profile/projection fixtures; these are not
+App backend or GPU checks.
+
 With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
 `cargo test --locked -p giants-app source_actor_roles --target x86_64-pc-windows-gnu -- --ignored`
 checks actual player constructor identity with a second actor of the same class,

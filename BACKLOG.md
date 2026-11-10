@@ -113,6 +113,13 @@ implemented in `camera_mode`, with 1,280 native/Rust command comparisons and the
 Session preparation/inactivity and returns the resulting display snapshot. Keep
 profile/scale/projection backends, camera startup/override producers and world
 ordering explicit before connecting App damage/fire; the default driver is unchanged.
+Activation projection reset and the lens kernel now share that camera state with
+mode changes. All 96 native/Rust sequences match 576 invocations /3,456 selected
+state/call words; the earlier mode/admission controls repeat unchanged. Resolve
+the actual current profile/input/device producers and caller order before using
+this in App initialization. The cold Mecc constructor's projection-reset request
+remains pending there. Full player continuity, in-place live type changes and
+team/restore branches are not supplied by this shared reset service.
 The acquired owner-selection prefix is now `camera_owner::State`, with all 162
 native/Rust selections matching. Its Session adapter reads real headers, retains
 callback writes/errors and refuses stale/foreign selected owners; `preworld`
