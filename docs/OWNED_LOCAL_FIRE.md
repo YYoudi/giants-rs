@@ -523,8 +523,11 @@ The local GNU build of source `d5a4ca8` (executable SHA256
 completed the existing offscreen one-shot diagnostic through normal mission
 admission. Its supplied trigger produces one live shot; the actual class38 draw
 consumer binds the source materials, and the private GPU capture was visually
-inspected. A separate cyclic diagnostic also observes four live source-model
-shots followed by removal of all projectile draw assets on its first menu return.
+inspected. A separate cyclic diagnostic observes two complete ordinary firing/menu-return
+cycles, each with four live source-model shots and removal of all projectile draw
+assets. Its third entry stops during the opening cinematic at the existing
+300-second diagnostic deadline (exit101), so the requested three-cycle run is
+not recorded as passed. No projectile draw failure is reported in that run.
 Audio is disabled. These observations prove this local render connection, not
 real operating-system input, native projectile retirement or full weapon FX.
 The source was subsequently combined with concurrent main changes; synthetic

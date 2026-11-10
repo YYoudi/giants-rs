@@ -6559,6 +6559,8 @@ See [OWNED_LOCAL_FIRE.md](OWNED_LOCAL_FIRE.md#ordinary-pistol-projectile-present
 Local rendering evidence is pinned to source `d5a4ca8`, executable SHA256
 `8874592b599a789c227c5afe65cd373be20f839eca52279e96a686615fb939c1`:
 one source-model shot is visibly captured after normal mission admission, and
-four live shots' draw assets are removed on an observed menu return. These
+two firing/menu-return cycles remove all four live shots' draw assets. The
+three-cycle diagnostic exits at its existing 300-second deadline during the
+third opening; it is a partial result, not a passed three-cycle check. These
 existing diagnostics supply trigger commands with audio disabled. The private
 build/capture is distinct from the combined main sources and unchanged download.
