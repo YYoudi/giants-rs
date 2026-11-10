@@ -26,6 +26,29 @@ installed controls and 880 workspace tests. These CPU/source checks introduce
 no new playable mode, movie or preview; existing download sources and hashes
 remain independent. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
 
+## Kabuto locomotion and idle selector prerequisite — 10 November 2026
+
+The owned Kabuto factory now selects acquired locomotion and idle actions from
+its retained resource-phase decision, actual motion rates, commands and typed
+current/held references. Required providers retain definition slots, relationship
+presence, PC random state, sound and notification boundaries. Notification writes
+preserve the original retained-clock versus temporary-packet distinction; callback
+effects survive late failures and removed owners are never restored.
+
+All 1,024 supplied original-PC/Rust controls match 1,104,014 compared words. A
+further 512 installed-resource Session contexts match 247,956 words. These are
+independent CPU contexts with supplied sound/transport entries and random-context
+ownership, not continuous gameplay or live backend validation. Selector admission,
+the shared continuation into animation commit, and actual world scheduling remain
+prerequisites. No pending initializer is acknowledged and Kabuto remains unavailable
+in ordinary gameplay. See [OWNED_KABUTO.md](OWNED_KABUTO.md).
+
+Combined validation passes 886 workspace Rust tests (80 ignored), 26 installed
+Kabuto controls plus one cold-resource control, 13 Mecc and nine Delphi controls,
+43 Python tests, Rustfmt, strict workspace Clippy and roadmap/site/JavaScript checks.
+This source-only milestone preserves the published Windows preview snapshot;
+newer source does not change its frozen executable or establish visual fidelity.
+
 ## Published owned preparation and terminal handoff — preview .6
 
 Published [preview-2026.11.10.6](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.6)
