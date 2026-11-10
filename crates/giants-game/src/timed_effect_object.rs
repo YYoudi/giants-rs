@@ -39,6 +39,7 @@ pub(crate) struct Body<'a, K> {
     pub matrix: &'a mut Matrix,
     pub channels: Option<&'a mut crate::animation_channels::Channels>,
     pub references: &'a mut Owned,
+    pub velocity: Option<&'a mut [f32; 3]>,
     pub placement: crate::effect_actor::Placement<K>,
     pub render_flags: u32,
 }
@@ -75,6 +76,9 @@ pub(crate) struct Runtime {
     pub source: Arc<Image>,
     durations: Vec<Option<f32>>,
     immutable_words: [u32; 3],
+    size_flag: u32,
+    side_speed: Option<u32>,
+
     pub epoch: u32,
     pub failure: Option<String>,
     pending: Option<(VisualStep, bool)>,
@@ -89,7 +93,15 @@ impl std::fmt::Debug for Runtime {
             .finish_non_exhaustive()
     }
 }
+/// Acquired bounded resource retirement; no native pointer reuse is represented.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Destruction {
+    pub origin: crate::attached_effect_context::Id,
+    pub payload_bytes: usize,
+    pub registrations: usize,
+}
 pub struct Timed<K> {
+    pub(crate) velocity: Option<[f32; 3]>,
     pub(crate) initial: Initial<K>,
     pub(crate) runtime: Runtime,
     pub(crate) references: Owned,
@@ -125,6 +137,24 @@ impl<K: Copy> Timed<K> {
         let template = Template::load(resources, recipe.class)?;
         let configured = template.gravity_positioned(origin, context)?;
         Self::new(template, configured)
+    }
+    /// Acquired smoke descendant with explicit source-pool active RNG draws.
+    pub fn smoke_positioned(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let recipe = crate::mecc_smoke_particle::Recipe::project(
+            context.program.as_ref().map_err(Clone::clone)?,
+        )?;
+        let template = Template::load(resources, recipe.class)?;
+        let mut staged = *random;
+        let configured = template.smoke_positioned(origin, context, &mut staged)?;
+        let owned = Self::new(template, configured)?;
+        *random = staged;
+        Ok(owned)
     }
 }
 
@@ -168,6 +198,12 @@ impl<K: Copy> Timed<K> {
             return Err("timed ownership requires the acquired inline payload".into());
         }
         let immutable_words = [4, 0x10, 0x14].map(|at| word(data, at));
+        let size_flag = match configured.visual.size_curve() {
+            crate::effect_visual::SizeCurve::Linear => 8,
+            crate::effect_visual::SizeCurve::EaseOut => 0x100000,
+            _ => return Err("timed callback size curve outside acquired profile".into()),
+        };
+        let side_speed = (initial.fields.control_flags & 0x40 != 0).then(|| word(data, 0xf4));
         let references = Owned::new(template.specification.clone())?;
         let mut durations = vec![None; 256];
         for (&slot, d) in &template.specification.animations {
@@ -186,6 +222,7 @@ impl<K: Copy> Timed<K> {
         };
         let mut owned = Self {
             initial: configured.initial,
+            velocity: side_speed.map(|_| [0.; 3]),
             references,
             runtime: Runtime {
                 class: template.fields.class,
@@ -200,6 +237,8 @@ impl<K: Copy> Timed<K> {
                 source: configured.source,
                 durations,
                 immutable_words,
+                size_flag,
+                side_speed,
                 epoch: 0,
                 failure: None,
                 pending: None,
@@ -213,6 +252,7 @@ impl<K: Copy> Timed<K> {
         (
             &mut self.runtime,
             Body {
+                velocity: self.velocity.as_mut(),
                 fields: &mut self.initial.fields,
                 seed: &mut self.initial.seed,
                 matrix: &mut self.initial.matrix,
@@ -238,6 +278,9 @@ impl<K: Copy> Timed<K> {
     }
     pub fn failure(&self) -> Option<&str> {
         self.runtime.failure.as_deref()
+    }
+    pub fn velocity(&self) -> Option<[f32; 3]> {
+        self.velocity
     }
     pub fn retirement(&self) -> Option<&RetirementBinding> {
         self.runtime.retirement.as_ref()
@@ -308,6 +351,14 @@ impl<K: Copy> Timed<K> {
     }
 }
 impl Runtime {
+    pub(crate) fn expired_smoke(&self) -> bool {
+        self.smoke_particle() && self.visual.expired() && self.idle() && self.failure.is_none()
+    }
+
+    pub(crate) fn smoke_particle(&self) -> bool {
+        self.size_flag == 0x100000 && self.side_speed.is_some() && self.retirement.is_none()
+    }
+
     pub(crate) fn awaiting_physical(&self) -> bool {
         matches!(self.pending, Some((VisualStep::VisibleState, _))) && !self.matrix_written
     }
@@ -422,7 +473,14 @@ impl Runtime {
             .storage
             .data()
             .ok_or("timed callback payload absent")?;
-        let allowed = 0x800000 | 0x80 | 0x20 | 0x08 | 0x04 | 0x02 | 0x01;
+        let allowed = 0x800000
+            | 0x80
+            | 0x20
+            | self.size_flag
+            | 0x04
+            | 0x02
+            | 0x01
+            | if self.side_speed.is_some() { 0x40 } else { 0 };
         let physical = matches!(b.placement, crate::effect_actor::Placement::Position(_));
         if b.seed.storage.profile() != crate::state_storage::Profile::Debug
             || b.seed.storage.state() != 78
@@ -433,10 +491,16 @@ impl Runtime {
             || b.fields.control_flags & !allowed != 0
             || b.fields.control_flags & 2 == 0
             || (b.fields.control_flags & 0x80 != 0) != physical
-            || (b.fields.control_flags & 8 != 0)
-                != (self.immutable_words[1] != self.immutable_words[2])
+            || (b.fields.control_flags & (8 | 0x100000))
+                != if self.immutable_words[1] != self.immutable_words[2] {
+                    self.size_flag
+                } else {
+                    0
+                }
             || (b.fields.control_flags & 1 != 0) != self.retirement.is_some()
-            || !matches!(b.render_flags, 0 | 0x1000)
+            || !matches!(b.render_flags & !0x8000, 0 | 0x1000)
+            || (b.render_flags & 0x8000 != 0) != self.side_speed.is_some()
+            || self.side_speed.is_some_and(|side| word(data, 0xf4) != side)
             || [4, 0x10, 0x14].map(|at| word(data, at)) != self.immutable_words
             || word(data, 8) != self.visual.age.to_bits()
             || data[0xf8..0x10c].iter().any(|&b| b != 0)
@@ -479,6 +543,32 @@ impl Runtime {
             b.fields.scale = self.visual.size;
             if self.fade[0] <= self.visual.age {
                 b.fields.control_flags &= !0x800000;
+            }
+            if b.fields.control_flags & 0x40 != 0 {
+                // The actual velocity/angle stores precede the integration
+                // service. Keep them when that later service refuses.
+                let initialize = (|| -> Result<(), String> {
+                    let data = b
+                        .seed
+                        .storage
+                        .data()
+                        .ok_or("effect launch payload absent")?;
+                    let forward = f32::from_bits(word(data, 0x1c));
+                    let side = self.side_speed.map(f32::from_bits);
+                    let velocity =
+                        crate::effect_emitter::initial_velocity(*b.matrix, forward, side)?;
+                    *b.velocity
+                        .as_deref_mut()
+                        .ok_or("effect launch owner absent")? = velocity;
+                    b.fields.control_flags &= !0x40;
+                    b.fields.angles = crate::effect_orientation::from_matrix(*b.matrix)?;
+                    Ok(())
+                })();
+                if let Err(error) = initialize {
+                    self.pending = None;
+                    self.failure = Some(error.clone());
+                    return Err(error);
+                }
             }
             if b.fields.control_flags & 0x80 != 0 {
                 return Ok(Boundary::Physical);
@@ -545,7 +635,7 @@ impl Runtime {
                 b.fields.object_flags |= 0x8000;
                 return Ok(Step::Marked);
             }
-            if next == VisualStep::VisibleState && b.fields.control_flags & 8 != 0 {
+            if next == VisualStep::VisibleState && b.fields.control_flags & self.size_flag != 0 {
                 let mut matrix = crate::effect_orientation::matrix(
                     b.fields.position,
                     b.fields.angles,

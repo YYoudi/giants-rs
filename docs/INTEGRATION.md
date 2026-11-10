@@ -60,6 +60,11 @@ Shared camera mode commands, activation reset and lens evaluation must use one
 the next lens invocation's transition. The acquired kernel still requires the
 current profile, actual input and projection service before App admission;
 preparing a player or selecting a view does not acknowledge those services.
+Use `camera_profile::from_session` for the acquired family/view decision, keeping
+the current owner separate from the controlled actor's state predicate. Its
+required coefficient catalog and actual projection backend remain explicit.
+Resolve again after side effects; retaining a selection cannot replace the
+native command's second current-profile query.
 
 ## Validate the combined application
 

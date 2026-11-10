@@ -3,9 +3,10 @@
 use crate::{
     actor_links::Projection,
     attached_effect_context::{Creation, Pool},
-    attached_effect_object::{CinematicObject, CinematicTemplate},
+    attached_effect_object::CinematicTemplate,
     cinematic_fx::{Request, TerminalProxy},
     procedural_aim::Matrix,
+    resident_states::{CinematicScope as Scope, CinematicSupport as Support, Id, Session},
     scene_resources::SceneResources,
 };
 use std::{collections::BTreeMap, sync::Arc};
@@ -95,9 +96,10 @@ impl Bindings {
             image,
         })
     }
-    pub fn queue(&self, ticket: u64) -> Queue {
+    pub fn queue(&self, scope: Scope) -> Queue {
         Queue {
-            contexts: Pool::new(ticket, Some(self.image.clone())),
+            scope,
+            contexts: Pool::new(scope.ticket, Some(self.image.clone())),
             objects: BTreeMap::new(),
             supports: BTreeMap::new(),
             terminal: vec![],
@@ -185,18 +187,23 @@ impl Frame {
     }
 }
 pub struct Queue {
-    contexts: Pool<usize>,
-    objects: BTreeMap<usize, CinematicObject<usize>>,
+    scope: Scope,
+    contexts: Pool<Support>,
+    objects: BTreeMap<usize, (Id, Support)>,
     supports: BTreeMap<usize, usize>,
     terminal: Vec<TerminalProxy>,
     pub dispatched: usize,
     pub retired: usize,
 }
 impl Queue {
-    pub fn advanced_objects(&self) -> usize {
+    pub fn advanced_objects(&self, session: &Session) -> usize {
         self.objects
             .values()
-            .filter(|object| object.updates > 1)
+            .filter(|(id, support)| {
+                session
+                    .cinematic_constant_view(*id, *support)
+                    .is_some_and(|v| v.updates > 1)
+            })
             .count()
     }
     pub fn objects(&self) -> usize {
@@ -205,10 +212,11 @@ impl Queue {
     pub fn contexts(&self) -> usize {
         self.contexts.active().len()
     }
-    pub fn frame(&self, offset: usize) -> Option<Frame> {
-        let object = self.objects.get(&offset)?;
+    pub fn frame(&self, session: &Session, offset: usize) -> Option<Frame> {
+        let &(id, support) = self.objects.get(&offset)?;
+        let object = session.cinematic_constant_view(id, support)?;
         Some(Frame {
-            world: object.world_matrix()?,
+            world: object.world,
             channels: object.fields.channels,
             updates: object.updates,
             class: object.fields.class,
@@ -224,6 +232,7 @@ impl Queue {
         binding: &Bindings,
         offset: usize,
         seconds: f32,
+        session: &mut Session,
     ) -> Result<(), String> {
         let bound = binding
             .requests
@@ -244,7 +253,11 @@ impl Queue {
                 return Err("persistent request dispatched twice in one director".into());
             }
             let name = request.effect.as_deref().ok_or("persistent name absent")?;
-            let Creation::Prepared(id) = self.contexts.prepare_cinematic(name, slot)? else {
+            let support = Support {
+                scope: self.scope,
+                slot,
+            };
+            let Creation::Prepared(id) = self.contexts.prepare_cinematic(name, support)? else {
                 return Err("persistent effect name absent from active image".into());
             };
             let result = bound
@@ -262,8 +275,15 @@ impl Queue {
                     return Err(error);
                 }
             };
+            let owner = match session.adopt_cinematic_constant(object) {
+                Ok(owner) => owner,
+                Err(error) => {
+                    self.contexts.release_prepared(id)?;
+                    return Err(error);
+                }
+            };
+            self.objects.insert(offset, (owner, support));
             self.contexts.release_prepared(id)?;
-            self.objects.insert(offset, object);
         }
         // Every active source request refreshes this shared support, including
         // a terminal program that creates no new object. Earlier objects live on.
@@ -271,14 +291,20 @@ impl Queue {
         self.dispatched += 1;
         Ok(())
     }
-    pub fn update(&mut self, binding: &Bindings, seconds: f32, delta: f32) -> Result<(), String> {
-        for object in self.objects.values_mut() {
+    pub fn update(
+        &mut self,
+        binding: &Bindings,
+        seconds: f32,
+        delta: f32,
+        session: &mut Session,
+    ) -> Result<(), String> {
+        for &(id, support) in self.objects.values() {
             let offset = self
                 .supports
-                .get(&object.metadata.parent)
+                .get(&support.slot)
                 .ok_or("persistent source support absent")?;
             let placement = binding.placement(&binding.requests[offset].request, seconds)?;
-            object.update(placement.matrix, delta)?;
+            session.advance_cinematic_constant(id, support, placement.matrix, delta)?;
         }
         for proxy in &mut self.terminal {
             proxy.update().map_err(str::to_owned)?;
@@ -288,7 +314,12 @@ impl Queue {
     }
     /// Only source-marked objects inhabit this queue. A cut/cancel drops them,
     /// without lifetime children, RNG, audio or another ticket's resources.
-    pub fn release(&mut self) -> Result<usize, String> {
+    pub fn release(&mut self, session: Option<&mut Session>) -> Result<usize, String> {
+        // None is the host's explicit acknowledgement that this whole owning
+        // Session has already retired. It never means an empty native world.
+        if let Some(session) = session {
+            session.cancel_cinematic_scope(self.scope)?;
+        }
         let contexts = self.contexts.active().to_vec();
         for id in contexts {
             self.contexts.release_prepared(id)?;

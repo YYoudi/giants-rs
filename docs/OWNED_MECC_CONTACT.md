@@ -7,7 +7,8 @@ selector, context constructor and context cleanup remain unknown. Literal name
 hits are candidates only; the PC profile remains the behavioral authority.
 
 The sections record successive acquisition checkpoints. For the current binding,
-see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026).
+see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026)
+and [pistol callback integration](#pistol-callback-integration--10-november-2026) below.
 Earlier missing-service statements retain the limits of their recorded checkpoint.
 
 ## Selector and ownership order
@@ -646,3 +647,501 @@ raw suppression input. Its actual producer, lifetime and relationship to cinemat
 state remain unverified. Cinematic activity alone is not an acquired producer for
 this input. The separate inhibit, authority and pre-world display owners must
 also retain their independent identities and phases during App integration.
+
+## Native no-play option and local impact cues — 9 November 2026
+
+`startup_playback::Playback` now retains the acquired startup no-play projection.
+Complete dispatched option tokens `-noplay` and `-safemode` set it, independent of
+ASCII case; it stays set on subsequent options. `begin_configuration` projects
+the actual initializer bulk reset, clearing it before option processing. Unknown
+tokens remain caller work. This is not a Rust command-line lexer,
+all safe-mode side effects, a resource-loading option or an ordinary gain/mute control.
+
+Thirty-two original dispatcher contexts agree with this projection. The real
+configuration reset executes with empty configuration-read and unknown-token
+handlers as explicit providers, including stale input values that the reset
+clears. Rust receives
+supplied complete tokens. A separate 216-context original attachment-wrapper
+comparison agrees on result, route and DLL-entry presence. The suppressed native
+cases independently execute no parent/descriptor reads and no DLL entries. Across
+these controls 680 selected state/protocol words agree. Bank, descriptor fields,
+root identities and successful DLL outcomes are supplied, without device/lifetime
+or whole-application startup claims.
+
+`Session::sound_route_with_playback` retains typed identity validation and passes
+the actual no-play projection to the acquired routing kernel. The local Mecc voice
+adapter accepts that explicit projection and handles suppression before borrowing
+the shared backend. Its legacy enabled profile remains available separately. A
+suppressed cue acknowledges the native decision, never a started voice. A synthetic
+adapter test uses a backend whose every operation fails the test if entered, while
+another owner already holds its mutable borrow: two expired pain/shared cue paths
+still commit the expected VM draws and replacement timers. Foreign/stale identities
+and unsupported cues remain rejected at the owned API boundary.
+
+A further original-PC comparison executes the real no-play wrapper inside the
+post-health voice tail: 64 contexts / 64 cue entries / 576 timer, cue and VM words
+agree with Rust. This proves the declared voice-tail boundary, separate from the
+216 wrapper and typed-adapter controls. No audio source, device or active effect
+is claimed by these suppressed calls. Capture muting continues to use the real
+transport and is not mapped to native no-play. The App does not select no-play to
+bypass its missing impact provider; global startup wiring, other sound wrappers
+and jet-sequence suppression remain further work.
+
+The damage inhibition input is a different native flag with editor/input-UI writes.
+Its complete owner and transitions still need acquisition. The `cutscene` context
+field is a retained historical parameter label; its full producer semantics are
+not established by damage arithmetic and must not be inferred from film playback
+alone. Preserve those distinctions when binding the remaining App services.
+Prototype PS2 correspondences remain unknown; no new attribution is confirmed.
+
+## Retained smoke construction — 10 November 2026
+
+`mecc_smoke_effect::Staged` projects the complete acquired extended attached
+smoke frame through its first construction. It shares the existing state78
+class/specification/physical constructor, retains its actual resources, applies
+the independent hidden-effect word and prepares the ranged descendant channel.
+The ordinary and timed constructors retain their existing strict flag gates.
+The source descendant resolves directly in the same active image, without a
+second lite selection. Preparation and active interval draws remain separate.
+
+The native program registers the constructed object, retains the context in
+state 4 and stops before the final terminator. Subsequent context callbacks do
+not reconstruct the object or consume another interval draw. Periodic emission
+belongs to the constructed object's callbacks, not a per-frame replay of this
+source block. The staging result records the required retained flags and resume
+cursor; it does not commit them to the prepared pool or claim global registration.
+
+The private native/Rust control agrees on 24 constructions / 11,880 normalized
+field, payload, matrix, emitter-bank, cursor/phase and RNG words across all three
+source smoke programs and eight supplied seeds. Another 72 native retained-context
+callbacks create no second object or interval draw. Parent construction, object
+pools, quality, CRT thread identity/seed and outer heap/texture storage are supplied.
+The installed ownership test also checks resource retention after external owners
+are dropped, unchanged preparation, strict ordinary/timed refusal and RNG
+preservation after a missing descendant is discovered following the staged draw.
+
+This is staged constructor agreement. Canonical Session adoption, persistent pool
+registration and cleanup, parent-death handling, state78 callbacks, descendant
+creation, world scheduling and rendering still require acquisition/integration.
+Do not release a live emitted effect using `release_prepared`, or use this staging
+API as a substitute for active cancellation. Before that work, follow the central
+reconstruction method and retain the completed identity-bound name lookups.
+Prototype PS2 attributions remain unknown; no additional name is confirmed.
+
+## Canonical retained smoke ownership and stop — 10 November 2026
+
+`Pool::activate_damage_smoke` now publishes the acquired emitter into the actual
+`Session`, keeping the context occupied with its required cursor and flags.
+The existing constructor publishes common-list membership; the active VM's
+additional retained-effect registration is inserted at the head of list 14.
+The canonical resident retains its specification, animation/state resources,
+physical payload, source image and ranged descendant bank. Repeat activation,
+foreign parents and prepared-only cancellation are refused without another draw.
+
+`release_damage_smoke` uses the actual stop path called by the damage service.
+In the acquired no-retirement/no-action/no-sound profile, it marks the emitter
+dead before retiring the context. The actor, payload, bank and list entries stay
+owned: a later dead-object pass must destroy them. This differs from the separate
+resume-program helper, which requires storage absent from these smoke emitters.
+The stop does not sample, create a descendant or immediately free an actor.
+
+The normal wounded-primary path now uses `mecc_damage_effect::Bound` to validate,
+reuse and stop canonical active contexts as well as prepared requests. Explicit
+player cancellation uses the same owner. Whole primary execution still prepares
+new contexts; activation remains a distinct supplied phase, never an implicit
+acknowledgement by the prepare callback.
+
+An additional 24 original/Rust activation/stop cases agree on 4,632 normalized
+field, RNG and list/pool-result words. The real constructor and stop bodies run;
+parent pools, quality, thread/seed and outer memory/texture providers are supplied.
+A separate installed composition runs sixteen actual wounded-primary frames,
+activates the light emitter after preparation, retains it on following frames,
+then stops/replaces it on a supplied display-owner change. Final cancellation
+marks the replacement and preserves RNG. Slot reuse keeps different generations;
+old stopped actors retain their historical origins and list entries. Foreign
+Session, duplicate activation and unsupported action-stop checks preserve state.
+
+This closes canonical first activation and bounded explicit stop, not active
+particle callbacks, owner-death processing, eventual dead-object destruction or
+world scheduling. No normal-input availability or new rendered comparison is
+claimed. The new stop-function prototype PS2 searches remain unassigned.
+
+## Parent-reference invalidation — 10 November 2026
+
+`refresh_damage_smoke_parent` now projects the acquired parent-reference cleanup
+for this complete smoke frame, both before and after construction. Only the
+actual parent's dead flag invalidates its live reference. The context remains
+occupied in `DamageSmokePhase::ParentLost` (the measured PC state 3), with its
+flags, cursor, source program and historical recipient identity retained. The
+emitter is not marked dead by this context cleanup. Explicit stop remains the
+separate operation that marks it and retires the context.
+
+`recipient()` returns no live reference after invalidation; `origin_recipient()`
+keeps the identity required for cancellation and prior evidence. The original
+`binding` is historical at that point. It must not be used as a current world
+attachment. Activation of a lost request is refused without sampling. Repeating
+cleanup preserves the lost state; a missing live parent's Session storage is
+refused rather than interpreted as an observed dead flag. Foreign Session scope
+is also refused. Transactional context copies preserve the invalidation.
+
+Forty-eight original/Rust cases agree on 576 selected reference/state, flag,
+cursor, pool, RNG and child-status words across all three smoke programs, eight
+supplied flag masks and prepared/active entries. The actual native validity,
+cleanup and stop bodies run; 96 cleanup calls include the repeated-call control.
+Parent storage/pools, quality, CRT seed and outer heap/texture storage remain
+supplied. Other tested flag bits do not invalidate the reference. Separate
+installed checks preserve peers and historical identities, refuse missing or
+foreign owners and leave the emitter alive until explicit stop. The sixteen-frame
+wounded-primary composition now also invalidates the supplied dead parent before
+player cancellation; stopping still marks the actual retained emitter.
+
+This is per-context reference cleanup. The global world cleanup schedule,
+child-attachment invalidation, dead-object destruction and particle callbacks
+remain required before normal mission admission. Prototype PS2 correspondence
+for the acquired validity helper remains unknown.
+
+## Stopped emitter destruction — 10 November 2026
+
+`Session::destroy_stopped_smoke` now tears down an explicitly stopped, unadvanced
+emitter after its originating context has retired in the actual pool. A reused
+slot with a newer generation does not revive that origin. Foreign pools, live
+origins, running common walks, dependent attachments and unacquired state-service
+variants are refused before releasing anything.
+
+The acquired state78 destructor releases its emitter owner before the payload.
+The instance's reference/state caches then leave the canonical registries, its
+reverse registrations are removed and the actor identity retires. A dead parent's
+live attachment is cleared before the state destructor; the report preserves the
+historical parent and origin. Shared class/model owners and unrelated residents
+remain intact. This is a bounded cleanup-phase service, not a general world pass.
+Advanced FX callbacks, extra state-owned resources, shadow variants and dependent
+child propagation remain prerequisites for broader destruction.
+
+The actual native common cleanup, state78 destructor and reverse unlink execute
+in 24 supplied controls. Twelve include a living parent in the common cohort;
+twelve supply a dead parent outside the destruction cohort while leaving its
+storage available for attachment invalidation. The optional global tracker is
+null, and the heap/texture/thread providers remain supplied. Native free requests
+show the bank released before the payload and shared class storage retained.
+The memory fixture logs frees rather than unmapping native addresses.
+
+Rust agrees on 216 selected normalized retirement, instance-reference/list,
+context, parent-preservation, RNG and attachment-invalidation result words. This
+is not a native-pointer or physical-pool memory-reuse comparison. Separate
+installed lifetime tests check actual weak specification/state owners disappear,
+parent/peer storage remains unchanged, payload/registration counts decrease,
+old actor identities refuse reuse, newer context generations survive and either
+living or dead parents permit the acquired teardown. Refused service variants,
+foreign/stale pools, dependent attachments and wrong-phase calls preserve owners.
+
+No particle update, live renderer, full world traversal or new downloadable build
+is admitted by this checkpoint. Prototype PS2 attributions remain unknown.
+
+
+## Owned emitter callback — 10 November 2026
+
+`Session::advance_smoke_effect` now advances the canonical hidden damage emitter,
+using an explicit sequential `mecc_smoke_effect::Frame`, the actual originating
+context pool, shared random state, animation stamp and a required `Guide` owner.
+It admits only the acquired state78 profile, its complete source image and live
+retained parent. Foreign/stale pools, nonfinite or negative deltas, repeated
+invocations, stopped or failed emitters and unavailable service variants refuse.
+The supplied seconds are actor-local time; this service establishes no global
+clock producer or ordinary world traversal.
+
+The first callback clears the entry gate and advances ANM without emission or
+random draws. Later callbacks decrement the reference channel, emit only below
+zero and prepare at most one child, discarding overdue emission debt. Selecting
+the single guide still consumes one inclusive integer draw. The guide uses the
+preceding sampled references; the emitter advances its ANM only after emission.
+`guide_point` resolves the actual Session reference cache against a supplied
+finite world affine. Supplying that affine in a control does not establish the
+live parent's transform or attachment scheduling.
+
+The real offset-bound child factory prepares the complete installed child
+program in the same pool. Its null-object initialization consumes two size draws
+and one gravity draw; side speed is sampled only on the later active pass. No
+actor, active particle or visual substitute is created. The returned context
+identity belongs to the caller's deferred activation/lifetime owner.
+
+After entry, a late guide, factory or animation error retains the completed
+clock, random draws and prepared contexts and quarantines the emitter against
+replay or wounded-primary reuse. Explicit stop/cancellation remains available.
+The bounded destructor also admits these owned callbacks while retaining its
+optional-service, dependent-attachment, pool and cleanup-phase guards.
+
+The complete native callback, actual child preparation, ANM and source RNG run
+for all three smoke programs and eight supplied seeds. Across 240 callbacks,
+Rust agrees on 2,640 selected flag, clock, RNG, cumulative child-count and
+normalized child-program/position/flag words, including 72 real child requests.
+Zero delta, exact-zero emission boundaries, first-call delay and overdue calls
+are covered. The actor-local delta, epoch, affine, parent pools, heap/textures and
+source registration remain supplied. These selected comparisons do not cover
+all payload fields or prove rendered fidelity. Installed ownership controls also
+check first-call behavior, invalid/repeated input refusal, exact boundary timing,
+late guide-failure prefixes, quarantine and cleanup after an owned callback.
+
+Descendant activation, size/gravity/side-speed interpretation, particle update,
+rendering, live parent/child transforms, random-stream interleaving and global
+cleanup scheduling remain prerequisites for normal mission admission. This lot
+publishes source only. Prototype PS2 lookup preceded analysis; the callback and
+newly examined boundaries retain unknown attributions, with no speculative
+renaming or signature import. Detailed research remains private.
+
+
+## Canonical smoke descendant activation — 10 November 2026
+
+`Pool::activate_smoke_particle` now consumes the actual deferred child into the
+common Session timed-effect owner. The complete acquired child program is
+validated before construction. The pool's preparation already sampled its null
+pass; active construction takes four further draws in source order: two sizes,
+gravity and side speed. Invalid staging leaves the context and RNG intact, and
+the context retires only after canonical publication. Its historical origin
+remains available on the Session actor.
+
+The child uses the existing ease-out size curve, with its distinct acquired
+control flag rather than the linear-size flag. The canonical timed callback
+retains the immutable size mode and side-speed operand, admits only the matching
+render/control profile, and preserves first-call ANM without aging or physics.
+After that first call, the shared lifetime/fade/size prefix runs before requesting
+the required velocity/physical owner. A late refusal preserves the actual age,
+size and flags and quarantines replay. No default physical provider is added.
+The callback's final matrix writer recognizes the acquired size mode; execution
+past physics still requires the actual service, not a successful test placeholder.
+
+Native controls execute direct preparation and the complete active constructor
+for three source child programs, eight seeds and two supplied positions. Across
+48 constructions, their first complete callbacks and their next pre-velocity
+prefixes, Rust agrees on 144 snapshots / 14,976 selected normalized header,
+affine, payload and RNG words. Origin pointers are normalized to presence;
+this is not an address or allocation-reuse comparison. Actor-local time, epoch,
+heap/textures, source registration and pools remain supplied. The later prefix
+stops before initial velocity and physical integration; those are not validated
+by these comparisons.
+
+Installed controls connect the real emitter's returned child context to canonical
+activation, preserve the detached child when its emitter is destroyed, check all
+three child programs' active draws and origin retirement, and reject stale or
+altered requests. They also retain the exact pre-physical failure and forbid
+replay. Detached child lifetime is independent of the emitting actor.
+
+Next acquire initial velocity/side-speed publication, physical integration and
+terrain/contact services in their real callback order, then finite retirement,
+resource destruction and rendering under the common world scheduler. The current
+lot establishes no moving or visible smoke in ordinary gameplay. Prototype PS2
+attributions remain unknown; detailed controls and disassembly remain private.
+
+
+## Smoke motion and expiry — 10 November 2026
+
+`Session::advance_smoke_particle` now connects the complete acquired detached child
+to the shared physical header, motion, affine and gravity phases retained from
+main. Initial forward and lateral velocity use the preceding affine, with the
+native normalization/store order. The callback clears its one-shot gate and
+extracts angles before integration. Canonical Session velocity is the common
+physical header itself; a staged object's velocity transfers to that owner on
+publication. There is no second runtime velocity authority.
+
+The caller supplies object-local time and an optional independently resolved
+physical-clock sample. First-call ANM and finite expiry need no physical sample.
+An integration-reaching callback requires one; absence retains the already
+completed age/size/velocity/angle stores and quarantines replay. The concrete
+adapter runs actual owned motion, affine publication, gravity, size/orientation
+and ANM in their acquired order. This complete source frame has no retirement
+program: expiry marks the actor dead without creating another effect. The actor
+and its resources remain present until a separate destruction pass.
+
+Initial-velocity controls span 144 constructions with source, rotated and
+nonorthogonal supplied bases and explicit forward speeds. Construction, first
+callback and post-velocity/pre-integration prefixes agree on 432 snapshots /
+47,520 selected native/Rust words. A separate canonical Session comparison uses
+all three source programs, eight seeds and two positions: 48 constructions plus
+first, three moving callbacks and expiry agree on 288 snapshots / 31,680 selected
+header, affine, payload and RNG words. Every compared canonical value is read
+from its actual owner, including fade/render fields and physical velocity.
+
+The actual PC callback, constructors, normalization, angle extraction, motion,
+affine and gravity bodies execute. Actor-local/physical clock samples, epoch,
+source registration, allocation/texture providers and an empty environment
+population remain supplied. Equal supplied samples do not establish shared live
+clock ownership. These controls do not cover populated terrain/contact, external
+world scheduling, all header fields or visual fidelity. Prototype PS2 lookup
+preceded the new helper acquisition; all attributions remain unknown.
+
+Installed controls execute the concrete Session callback through movement and
+expiry, preserve velocity after a missing physical-clock refusal, and reject
+replay. A separate injected integration-service write checks that late errors
+retain the actual canonical velocity rather than a temporary copy. The shared
+timed-owner regression continues to cover its separate motion/gravity ordering.
+
+Next bind the enclosing world clocks, population/contact and update order, acquire
+finite child destruction and submit the real owned particles to rendering. No
+ordinary moving/visible smoke or new downloadable build follows from this source
+checkpoint alone.
+
+
+## Expired particle destruction — 10 November 2026
+
+`Session::destroy_expired_smoke_particle` now completes the bounded ownership path
+after the concrete callback has marked a detached child expired. It requires the
+actual retired origin in the matching source pool, completed nonfailed lifetime,
+canonical class/reference/state ownership and the exact constructor registrations.
+Live or quarantined actors, missing/foreign pools, incomplete callbacks, optional
+state services, owned-class/shadow/action variants, declarations and dependent
+attachments refuse before release. Destruction also refuses during a common walk
+or after its failed traversal; it supplies no global cleanup scheduler.
+
+The state destructor admits only the complete child's absent optional blocks.
+Its payload retires before the instance reference/state caches, followed by reverse
+list removal and actor retirement. The report retains the historical context
+identity, payload shape and registration count. A newer context generation does
+not revive the old origin and remains intact. Shared class/model resources and
+living peers remain owned. The service removes canonical CPU ownership; external
+render entities/assets still need their enclosing owner's cleanup phase.
+
+Actual native preparation, callbacks, expiry, common cleanup, state destructor
+and reverse unlink execute for three programs, eight seeds and two positions.
+A living shared-class peer remains in each common cohort. Forty-eight controls
+agree on 432 selected normalized retirement/resource/list/peer/RNG result words.
+Native payload release before reference-array release and shared-class retention
+are observed separately. Native frees are logged without unmapping memory; these
+results do not equate Rust allocation addresses, allocator reuse or cache layout.
+The optional global tracker is null; clocks, source registration, allocation and
+texture providers and empty environment population remain supplied.
+
+Installed controls check actual weak specification/state owners disappear, peer
+fields/payload/resources remain intact, canonical actor/payload/list counts drop,
+old actor identity refuses reuse and a newer origin-slot generation survives.
+They also exercise the live common-walk refusal, dependent-attachment guard,
+foreign pool, unexpired owner and optional-service refusals before release.
+Prototype PS2 attributions remain unknown, with the earlier helper aliases kept.
+
+The existing App rigid-attachment renderer still uses its own bounded playback
+profiles. It does not consume these canonical smoke actors yet. Next connect real
+owned model/reference/affine/transparency state to the common renderer, then bind
+the enclosing world clocks, population/contact and cleanup schedule. This lot
+publishes source only and establishes no new ordinary visible smoke.
+
+
+## Canonical smoke draw consumption — 10 November 2026
+
+`smoke_particle_draw::Geometry` binds the actual actor identity and weak prepared
+resource identity to the matching source model, texture-alpha capability and
+current position buffer. The acquired three source children have one unlit,
+unskinned quad model each. Frames use the canonical affine, scale, facing flags,
+position, animation epoch and live transparency. Preparation updates only the
+shared vertex cache; it does not advance callbacks, age, clocks or RNG. Geometry
+holds no strong instance-specification reference, so it cannot keep a retired
+actor's instance resources alive.
+
+The adjacent native world/effect admissions have different flag gates. Ordinary
+hidden/inactive/dead/skip flags can suppress the world pass; the separate state78
+pass instead requires render1000 and excludes dead objects. A normal child with
+render8000 is hidden at construction and becomes drawable after its first
+callback. An inherited render1000 can admit an earlier effect pass and two later
+submissions. The packet retains this multiplicity rather than flattening both
+paths into a single generic visibility decision. Pending, quarantined, expired,
+foreign or changed ownership refuses or produces no draw as appropriate.
+
+The menu-first App now installs `mission_smoke_scene` after player update. It
+reads these packets from the active mission Session, reuses the common unlit
+material/coordinate conversion, uploads the source quad and textures, updates
+opacity and camera-facing matrices, and removes its owned Bevy entities/assets
+when actors expire or the mission changes. It supplies no alternate simulation
+or diagnostic-only birth path. The shader's explicit world matrix carries the
+vertices; entity translation supplies Bevy's transparent-sort center. Missing
+camera/environment preparation hides existing submissions until inputs return.
+
+On the pinned PC profile, actual adjacent draw matrix/cull fragments agree with
+576 canonical packet samples / 9,792 selected words across three child programs,
+eight seeds, two positions, four callback stages and three supplied views. Native
+CPU/view context is restored after observing each draw, and all earlier simulation
+words remain unchanged. Model slot and views remain supplied; this is neither
+live native LOD/visibility nor GPU/raster proof. REA confirms the generic dispatcher
+can enqueue alpha parts; it is not itself a direct raster submission. Complete
+native alpha-queue sorting/capacity and Bevy pixel parity remain unverified.
+
+Installed tests cover constructor masking, normal/effect multiplicity, identity,
+failed/expired refusal, actual source vertices and changing alpha. The real App
+packet path and rendering system also run with source data in a CPU Bevy world,
+checking stable allocations, hiding/restoring existing submissions across camera
+or environment loss, and removal of meshes, materials, images, world buffers and
+tagged entities on mission retirement. No graphics device is created
+by that control. Prototype PS2 lookup preceded new analysis; correspondence stays
+unknown. Detailed source data, decompilation and controls remain private.
+
+The current ordinary Mecc driver still lacks its impact/voice/display providers
+and full FX birth/world scheduling. This consumer does not populate smoke by
+itself, and no ordinary visible-smoke or preview availability follows from the
+CPU tests. Next validate a real graphical submission, bind the acquired birth/
+clock/cleanup owners and continue populated terrain/contact and world admission.
+
+## Pistol draw action prerequisite — 10 November 2026
+
+`mecc_pistol_draw::Actions` implements the acquired base-pistol action consumer
+using the shared animation event dispatcher and actual weapon catalog. The native
+draw animation removes the right-hand object at 0.2 seconds and equips it at
+23/30 seconds. Event-table traversal is significant: a single supplied interval
+crossing both actions equips before removing. Wet/material choice still selects
+the actual arguments; absent material must be an observed absence. No default
+material producer is invented.
+
+The table belongs with the registered class event bank, while its active binding
+belongs to the actor. Rebinding weapon arguments retains shared event marks.
+Replacement callbacks execute immediately in table order. An error retains
+completed effects and event-mark writes and quarantines further dispatch, rather
+than replaying potentially completed world operations.
+
+Actual native event-helper controls agree on 192 supplied forward/reverse/wrapped
+windows and initial marks, for wet or absent-material inputs: 576 event visits /
+1,176 selected words, including replacement arguments and order. Their replacement
+entry provider returns zero; they do not certify the replacement body. A separate
+65-call real native ANM control does execute both real replacement operations.
+The installed Rust composition uses the actual Session and wield factory, checks
+old-child marking and new-child ownership, and preserves another Mecc's hand.
+This is not a full native/Rust header, ANM, primary or world comparison.
+
+Prototype PS2 lookup precedes the new acquisition and remains unassigned. Private
+tables, decompilation and detailed controls stay outside Git. At this prerequisite checkpoint normal
+selection still refused its draw branch. The callback integration below now binds
+the class-bank owner, typed actor binding and interleaved callback route. Dispatch
+must follow class events inside each ANM pass, not a delayed post-frame queue.
+No new ordinary gameplay, animation fidelity or preview availability is claimed.
+
+## Pistol callback integration — 10 November 2026
+
+The registered Mecc event bank now retains the supplemental pistol actions.
+Each actor has a typed active-table binding, checked against its pointer-free
+payload marker. Construction starts unbound; the real selector binds the draw,
+continues it, commits the weapon at completion, then clears the table on return
+to ordinary idle. Rebinding arguments keeps the class-shared event marks.
+
+Both actual ANM passes dispatch class events first and supplemental actions next.
+Current channels, references, pose and payload are published before the actual
+wield factory replaces a hand, so new children consume the current actor state.
+Callbacks execute immediately, without a post-frame replay queue. When movement
+interrupts the draw, the native channel setter precedes a weapon commit; control,
+logical state and table publication follow it, then a separate required commit
+can run. The implementation preserves both calls and their intermediate state.
+Late errors retain completed channel, reference, event, context and RNG effects
+and quarantine the actor's frame. Missing material is not treated as absent terrain.
+
+Two independent original-PC controls execute complete primaries on a supplied
+flat floor with neutral or changing movement commands. Rust agrees across 320
+snapshots / 14,400 selected numeric words covering all channels, logical/cache/
+table markers, timers, control flags and RNG. Native table pointers are compared
+as binding presence. A further 320 relative epoch samples agree after explicitly
+subtracting the native startup seed; the absolute startup epoch is not matched.
+These controls supply clocks, commands, mission gates, allocation/source providers
+and empty populations. They are not a whole-payload, populated-world or raster
+comparison. Prototype PS2 attributions remain unknown.
+
+Installed controls check the actual timed hand construction, stable child identity
+through commit, table retirement, and missing-material failure without replay.
+The prepared App CPU diagnostic now passes 128 terrain/camera/animation/weapon
+frames and allows the expected missing weapon before it is equipped. Its separate
+128-frame jet control also passes with actual reserved sinks playing zero PCM at
+zero gain. This checks device transport and lifecycle, not audible fidelity. No graphics
+device or new preview is part of that result. Idle-variant continuation, complete
+impact/voice/display and FX/world scheduling, populated contact and graphical
+fidelity remain open; the older muted-jet receipt retains its own narrower scope.

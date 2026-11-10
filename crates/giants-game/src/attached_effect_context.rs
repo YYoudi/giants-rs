@@ -1,5 +1,5 @@
-//! Owned exact-D named context preparation, before its first object update.
-//! A live program/recipient/queue entry is owned; no emitted actor is implied.
+//! Owned named preparation and acquired retained smoke activation.
+//! A prepared entry alone implies no actor; active smoke records its Session owner.
 use giants_formats::{effect_image::Image, effect_program::Program};
 use std::sync::Arc;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -20,6 +20,7 @@ pub enum Binding<K> {
 }
 #[derive(Clone, Debug)]
 pub struct Context<K> {
+    /// Original binding; use recipient() for its current live reference.
     pub binding: Binding<K>,
     pub label: [u8; 16],
     pub entry_index: usize,
@@ -27,8 +28,44 @@ pub struct Context<K> {
     pub program: Result<Arc<Program>, String>,
     source: Arc<Image>,
     flags: u32,
+    retained_smoke: Option<RetainedSmoke>,
+    parent_lost: bool,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum DamageSmokePhase {
+    Prepared,
+    Active,
+    ParentLost,
+}
+#[derive(Clone, Copy, Debug)]
+struct RetainedSmoke {
+    actor: crate::resident_states::Id,
+    cursor: usize,
 }
 impl<K> Context<K> {
+    /// Bounded smoke state only. Other extended programs need their own owner.
+    pub fn damage_smoke_phase(&self) -> Option<DamageSmokePhase> {
+        if !matches!(self.flags, 0x20004 | 0x60004)
+            || self
+                .program
+                .as_ref()
+                .ok()?
+                .records
+                .iter()
+                .map(|r| r.opcode)
+                .collect::<Vec<_>>()
+                != [0x24, 6, 0x21, 0x28, 0x49, 7, 0x4a, 2]
+        {
+            return None;
+        }
+        Some(if self.parent_lost {
+            DamageSmokePhase::ParentLost
+        } else if self.retained_smoke.is_some() {
+            DamageSmokePhase::Active
+        } else {
+            DamageSmokePhase::Prepared
+        })
+    }
     pub fn tag(&self) -> Option<u32> {
         match &self.binding {
             Binding::Attached { tag, .. } => Some(*tag),
@@ -45,24 +82,37 @@ impl<K> Context<K> {
         self.source.clone()
     }
     pub fn cursor(&self) -> usize {
-        0
+        self.retained_smoke.map_or(0, |state| state.cursor)
     }
     pub fn flags(&self) -> u32 {
         self.flags
     }
     pub fn emitted_objects(&self) -> usize {
-        0
+        usize::from(self.retained_smoke.is_some())
     }
     pub fn source_program(&self) -> Result<&[u8], giants_formats::Error> {
         self.source.program_tail(self.entry_offset)
     }
     /// Preparation is not an effect interpreter or a completed update.
     pub fn require_first_update(&self) -> Result<(), &'static str> {
-        Err("first update requires owned factory and recipient session")
+        if self.retained_smoke.is_some() {
+            Err("retained smoke callbacks require their acquired object scheduler")
+        } else {
+            Err("first update requires owned factory and recipient session")
+        }
     }
 }
 impl<K: Copy> Context<K> {
     pub fn recipient(&self) -> Option<K> {
+        if self.parent_lost {
+            None
+        } else {
+            self.origin_recipient()
+        }
+    }
+    /// Historical recipient identity for ownership/stop validation. After
+    /// invalidation it must never be used as a current attachment reference.
+    pub fn origin_recipient(&self) -> Option<K> {
         match self.binding {
             Binding::Attached { recipient, .. } => Some(recipient),
             Binding::Position(_) => None,
@@ -86,6 +136,130 @@ impl Pool<crate::resident_states::Id> {
         let actor = session.adopt_timed_positioned(owned)?;
         self.release_prepared(id)?;
         Ok(actor)
+    }
+    /// Consume one real deferred smoke child after staged active construction.
+    /// World stock, physics, finalization and rendering remain caller services.
+    pub fn activate_smoke_particle(
+        &mut self,
+        id: Id,
+        session: &mut crate::resident_states::Session,
+        resources: &crate::scene_resources::SceneResources,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<crate::resident_states::Id, String> {
+        let context = self
+            .get(id)
+            .ok_or("smoke child context absent, foreign or retired")?;
+        let mut staged = *random;
+        let owned = crate::timed_effect_object::Timed::smoke_positioned(
+            resources,
+            id,
+            context,
+            &mut staged,
+        )?;
+        let actor = session.adopt_timed_positioned(owned)?;
+        self.release_prepared(id)?;
+        *random = staged;
+        Ok(actor)
+    }
+    /// Acquired smoke-only parent-reference cleanup. The dead bit invalidates
+    /// the live reference and retains the context in ParentLost, including a
+    /// request that has not constructed an emitter yet. No actor is marked or
+    /// destroyed here, and no activation, frame delta or RNG is consumed.
+    pub fn refresh_damage_smoke_parent(
+        &mut self,
+        id: Id,
+        session: &crate::resident_states::Session,
+    ) -> Result<DamageSmokePhase, String> {
+        let context = self
+            .get(id)
+            .ok_or("smoke context absent, foreign or retired")?;
+        let phase = context
+            .damage_smoke_phase()
+            .ok_or("parent cleanup outside acquired smoke frame")?;
+        let parent = context
+            .origin_recipient()
+            .ok_or("smoke origin recipient absent")?;
+        session.validate_smoke_parent_scope(parent)?;
+        if phase == DamageSmokePhase::ParentLost {
+            return Ok(phase);
+        }
+        let fields = session
+            .get(parent)
+            .and_then(|actor| actor.construction_fields.as_ref())
+            .ok_or("smoke parent storage absent; missing storage is not an observed death")?;
+        if fields.object_flags & 0x8000 != 0 {
+            self.slots[id.slot].context.as_mut().unwrap().parent_lost = true;
+            Ok(DamageSmokePhase::ParentLost)
+        } else {
+            Ok(phase)
+        }
+    }
+    /// Publish the acquired retained emitter into the canonical Session, then
+    /// retain this context rather than making its slot available for reuse.
+    pub fn activate_damage_smoke(
+        &mut self,
+        id: Id,
+        session: &mut crate::resident_states::Session,
+        resources: &crate::scene_resources::SceneResources,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<crate::resident_states::Id, String> {
+        let context = self
+            .get(id)
+            .ok_or("smoke context absent, foreign or retired")?;
+        if context.retained_smoke.is_some()
+            || self.slots[id.slot].sound_started
+            || self.slots[id.slot].positional_started
+        {
+            return Err("smoke context activation already began".into());
+        }
+        let mut staged_random = *random;
+        let staged =
+            crate::mecc_smoke_effect::Staged::attached(resources, id, context, &mut staged_random)?;
+        let cursor = staged.resume_cursor;
+        let flags = staged.retained_flags;
+        let actor = session.adopt_smoke(staged)?;
+        let context = self.slots[id.slot].context.as_mut().unwrap();
+        context.retained_smoke = Some(RetainedSmoke { actor, cursor });
+        context.flags = flags;
+        *random = staged_random;
+        Ok(actor)
+    }
+    pub fn damage_smoke_actor(&self, id: Id) -> Option<crate::resident_states::Id> {
+        Some(self.get(id)?.retained_smoke?.actor)
+    }
+    pub fn validate_damage_smoke(
+        &self,
+        id: Id,
+        session: &crate::resident_states::Session,
+    ) -> Result<(), String> {
+        let context = self
+            .get(id)
+            .ok_or("smoke context absent, foreign or retired")?;
+        let retained = context
+            .retained_smoke
+            .ok_or("smoke context is not active")?;
+        if context.flags != 0x60004 {
+            return Err("retained smoke context flags changed".into());
+        }
+        session.validate_smoke(
+            retained.actor,
+            id,
+            context.origin_recipient().ok_or("smoke parent absent")?,
+        )
+    }
+    /// Stop marking precedes context retirement. The object and its actual list
+    /// entries remain owned until the separate dead-object pass is acquired.
+    pub fn release_damage_smoke(
+        &mut self,
+        id: Id,
+        session: &mut crate::resident_states::Session,
+    ) -> Result<Context<crate::resident_states::Id>, String> {
+        self.validate_damage_smoke(id, session)?;
+        let context = self.get(id).unwrap();
+        let actor = context.retained_smoke.unwrap().actor;
+        let parent = context.origin_recipient().unwrap();
+        session.stop_smoke(actor, id, parent)?;
+        self.retire_context(id)
     }
     /// Stage the acquired timed owner directly in canonical Session storage.
     /// Failed construction preserves the context and caller RNG. Ordinary
@@ -133,6 +307,13 @@ impl Pool<crate::resident_states::Id> {
     }
 }
 impl<K: Copy + Eq> Pool<K> {
+    pub(crate) fn retired(&self, id: Id) -> bool {
+        id.ticket == self.ticket
+            && self.slots.get(id.slot).is_some_and(|slot| {
+                slot.generation > id.generation
+                    || slot.generation == id.generation && slot.context.is_none()
+            })
+    }
     /// Consume a bounded timed request into its owned callback/resources, not a
     /// world slot or renderer token. Failed staging preserves context and RNG.
     pub fn consume_timed_attached(
@@ -464,6 +645,8 @@ impl<K: Copy + Eq> Pool<K> {
             program,
             source: image.clone(),
             flags: 4,
+            retained_smoke: None,
+            parent_lost: false,
         };
         self.insert(context)
     }
@@ -515,6 +698,8 @@ impl<K: Copy + Eq> Pool<K> {
             program: Ok(program),
             source: image.clone(),
             flags: 4,
+            retained_smoke: None,
+            parent_lost: false,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -607,6 +792,8 @@ impl<K: Copy + Eq> Pool<K> {
             program: Ok(program),
             source: image.clone(),
             flags,
+            retained_smoke: None,
+            parent_lost: false,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -714,6 +901,8 @@ impl<K: Copy + Eq> Pool<K> {
             program: Ok(program),
             source: image,
             flags: 0x20004,
+            retained_smoke: None,
+            parent_lost: false,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -793,6 +982,8 @@ impl<K: Copy + Eq> Pool<K> {
             program: Ok(program),
             source: image,
             flags: 0,
+            retained_smoke: None,
+            parent_lost: false,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -831,12 +1022,15 @@ impl<K: Copy + Eq> Pool<K> {
         self.active.push(id);
         Ok(Creation::Prepared(id))
     }
-    /// Only the unadvanced preparation profile is represented by this pool.
-    /// Releasing it cannot stand in for cleanup of emitted effect actors.
+    /// Only cancel an unadvanced preparation. Active entries must use their
+    /// acquired cleanup owner, preserving actual emitted actors and registration.
     pub fn release_prepared(&mut self, id: Id) -> Result<Context<K>, String> {
         self.get(id)
             .ok_or("prepared effect absent, foreign or stale")?;
-        if self.slots[id.slot].sound_started || self.slots[id.slot].positional_started {
+        if self.slots[id.slot].sound_started
+            || self.slots[id.slot].positional_started
+            || self.get(id).unwrap().retained_smoke.is_some()
+        {
             return Err("effect activation began; context requires active cleanup".into());
         }
         self.retire_context(id)
