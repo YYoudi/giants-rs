@@ -2951,6 +2951,7 @@ mod tests {
                         bindings,
                         controlled_mecc_owner: None,
                         owned_mecc: None,
+                        landing: None,
                     }),
                     ..Default::default()
                 };

@@ -4177,7 +4177,7 @@
     {
       "title": "Owned Kabuto with explicit profile-camera inspection",
       "image": "media/d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4.webp",
-      "caption": "Bevy GPU render from source 1799a51 after an explicitly supplied mode-1 command. The actual owned actor supplies its separate look angle and size gain; external PC profile coefficients drive the unclipped camera and projection kernels in the shared renderer. Head and horns are now visible. Static pose/placement, floor/chase/wall handling, real startup and warm ordering, live animation/input and fidelity remain unverified; all four initializer gates remain pending. This diagnostic is not playable Kabuto and is not included in Windows previews .9 or .10.",
+      "caption": "Source-only Bevy diagnostic from 1799a51, not playable Kabuto and not included in Windows previews .9 or .10. The head and horns are visible after an explicit third-person camera reset on the actual constructed actor. Static pose and placement, camera collision/smoothing, real entry/re-entry, animation and controls remain unfinished; all four initializer gates are still pending. Distant floating props are visible, and fidelity is unverified.",
       "commit": "1799a5106c50c78aa9c2e7a9cffd38d87b61647a"
     },
     {
