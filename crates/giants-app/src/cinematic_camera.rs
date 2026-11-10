@@ -843,6 +843,14 @@ pub fn update_title(
     mut windows: Query<&mut Window>,
 ) {
     let Some(cinematic) = cinematic else {
+        // Playback owns this caption only while its resource is present. Keep
+        // unrelated diagnostic captions, and start the next FPS sample at entry.
+        for mut window in &mut windows {
+            if window.title.starts_with("Giants - PARTIAL cinematic - ") {
+                window.title = "Giants-rs".into();
+            }
+        }
+        *sample = (time.elapsed_secs_f64(), 0);
         return;
     };
     sample.1 += 1;
