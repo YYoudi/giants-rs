@@ -16,6 +16,30 @@ identity changes follow from this evidence. Published .7 and .8 retain their own
 census still certifies zero complete films. Native pool/population/cleanup and
 complete visual/audio/temporal/gameplay validation remain open.
 
+## Delphi running held-route terrain publication - 10 November 2026
+
+The running caller can now use actual static terrain queries with its acquired
+cold/previous held caches. The shared trace exposes the helper's written point
+separately from hit presence and clipping distance: a miss writes the last visited
+point even after distance advances. Existing terrain-ray consumers retain their
+interface; no-sample native output locals remain unacquired.
+
+All 384 original-helper controls /2,304 selected words agree, including 231 hits
+and 153 misses, with supplied flat height/plane providers. Three installed terrain
+resources exercise the actual reader/query, held-cache/candidate composition and
+retained terrain writes after a late query failure. Camera/items/time and the
+physical floor remain supplied. Full viewport/camera, ripple, linked/item and
+active-physics/world/menu admission remain open. This source milestone preserves
+the independent public preview and creates no new visual/gameplay claim.
+See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined checkpoint `057f9e29fc5dd0b0858730beb7aee89c7e6d6cc4` preserves main
+through `e47f4c6`. It passes 915 workspace Rust tests (107 ignored), all fifteen
+installed Delphi controls, the silent Mecc produced-camera/post-fire regression,
+Rustfmt, strict workspace Clippy, 43 Python tests and generated site/JavaScript
+checks. Its MinGW build receipt pins `da5fbf5`; the later test formatting does not
+change runtime code. The published preview .8 remains independently identified.
+
 ## Combined Mecc and Delphi source integration - 10 November 2026
 
 Integration source `ca43619c48ed2d68c7b14778b2bb1501a0ae17d8` combines reviewed

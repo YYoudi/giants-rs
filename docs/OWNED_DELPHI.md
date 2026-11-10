@@ -4,6 +4,28 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Running held-route terrain provider - 10 November 2026
+
+`Session::trace_delphi_prephysical_held_terrain` now executes the shared static
+terrain sampler from the running caller's cold or preceding-frame held ray.
+`mecc_aim::terrain_trace` exposes the original helper's written point separately
+from hit presence and clipping distance. A miss keeps the last visited point,
+while the returned distance may have advanced beyond range; these must not be
+recombined into an endpoint. Existing `terrain_ray` callers retain their original
+hit/distance interface. If no sample ran, native output locals remain unacquired
+and the new Delphi provider refuses without manufacturing a point.
+
+Across 384 finite Double53 original-helper controls, all 2,304 hit/distance/point/
+query-count words agree, including 231 hits and 153 misses. The original sampler,
+refinement and output writer execute with an explicit flat-plane/height provider;
+this comparison does not execute the terrain-height body. Installed checks use
+three actual terrain resources through the shared reader/query and actual owned
+cold/previous held caches and candidate geometry. Late query failure retains the
+terrain write and quarantines replay. Camera, items, time and the physical floor
+remain supplied in those checks; this is not a complete selected mission turn.
+Viewport/camera production, ripple, linked/item lifetimes, active movement and
+ordinary world/menu admission remain open. No new visual or gameplay claim follows.
+
 ## Pre-physical held-cache provenance and candidate geometry - 10 November 2026
 
 `Session::delphi_prephysical_target_ray` reads only during the running local

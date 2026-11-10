@@ -161,6 +161,9 @@ struct Plan {
     geometry: Option<Arc<crate::scene_resources::SceneResources>>,
     ray_samples: Vec<crate::delphi_target_ray::Sample>,
     geometry_outputs: Vec<crate::delphi_target_owned::Output>,
+    terrain: Option<Arc<giants_formats::gti::Terrain>>,
+    terrain_points: Vec<[f32; 3]>,
+    terrain_distances: Vec<f32>,
 }
 struct Bound<'a> {
     session: &'a mut Session,
@@ -217,18 +220,40 @@ impl target::World<Id, Id> for Bound<'_> {
     }
     fn viewport_route(&mut self) -> Result<bool, String> {
         self.event("view")?;
-        Ok(true)
+        Ok(self.plan.terrain.is_none())
     }
     fn terrain(
         &mut self,
         _: bool,
-        _: f32,
+        range: f32,
         point: &mut [f32; 3],
     ) -> Result<target::Terrain, String> {
         assert_eq!(
             self.session.delphi_local_target(self.owner).unwrap().phase,
             Phase::Running
         );
+        if let Some(terrain) = self.plan.terrain.clone() {
+            self.event("terrain")?;
+            let query = crate::terrain_queries::StaticTerrainQuery::new(
+                &terrain,
+                1. / terrain.spacing,
+                crate::arithmetic::Precision::Double53,
+            )?;
+            let number = self.session.delphi_local_target(self.owner).unwrap().number;
+            let (_, result) = self.session.trace_delphi_prephysical_held_terrain(
+                crate::delphi_target_scan::HeldTerrainInput {
+                    owner: self.owner,
+                    number,
+                    normalization_threshold: 1e-4,
+                    range,
+                },
+                &query,
+                point,
+            )?;
+            self.plan.terrain_points.push(*point);
+            self.plan.terrain_distances.push(result.distance);
+            return Ok(result);
+        }
         *point = self.position();
         point[2] += 1.;
         if self.plan.clear {
@@ -831,5 +856,108 @@ fn source_delphi_local_phase_refuses_unowned_cache_epochs_before_geometry() {
             s.advance_delphi_local_target(owner, context(owner, number, &g), &mut plan)
                 .is_err()
         );
+    }
+}
+
+#[test]
+#[ignore = "Requires GIANTS_DELPHI_ROOT and executable; actual terrain/held geometry, supplied camera/items/time/physical floor"]
+fn source_delphi_local_phase_traces_installed_terrain_from_cold_and_previous_caches() {
+    for (case, world) in ["w_Rstory1.bin", "w_Rstory2.bin", "w_Rstory4.bin"]
+        .into_iter()
+        .enumerate()
+    {
+        let ticket = 1420 + case as u64;
+        let (mut s, owner, source, g, _) = setup(ticket);
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_DELPHI_ROOT").unwrap());
+        let bytes = std::fs::read(root.join("Bin").join(world)).unwrap();
+        let prefix = giants_formats::world::terrain_prefix(&bytes).unwrap();
+        let bytes = source
+            .archives
+            .read_bin(&prefix.terrain, "English")
+            .unwrap();
+        let terrain = Arc::new(giants_formats::gti::parse(&bytes).unwrap());
+        let source = Arc::new(source);
+        let mut plan = Plan {
+            geometry: Some(source.clone()),
+            terrain: Some(terrain.clone()),
+            ..Default::default()
+        };
+        let mut contexts =
+            crate::attached_effect_context::Pool::from_active_resources(ticket, &source);
+        let mut random = crate::audio_parameters::Random(1);
+        let mut stamp = crate::animation_epoch::Stamp::default();
+        let mut post = crate::delphi_post_physical::World::default();
+        for number in 1..=3 {
+            let result = s
+                .advance_delphi_local_target(owner, context(owner, number, &g), &mut plan)
+                .unwrap();
+            let point = plan.terrain_points.last().unwrap();
+            assert_eq!(
+                result.state.terrain_point.map(f32::to_bits),
+                point.map(f32::to_bits)
+            );
+            let ray = plan.ray_samples.last().unwrap();
+            assert_eq!(
+                ray.source,
+                if number == 1 {
+                    crate::delphi_target_ray::Source::ColdConstructor
+                } else {
+                    crate::delphi_target_ray::Source::PreviousFrame(number - 1)
+                }
+            );
+            assert!(plan.terrain_distances.last().unwrap().is_finite());
+            physical(
+                &mut s,
+                owner,
+                number,
+                0,
+                &g,
+                (&mut contexts, &mut random, &mut stamp, &mut post),
+            )
+            .unwrap();
+            let held = s.delphi_special(owner).unwrap().held;
+            s.update_current_references_at(held, stamp.0 + 1).unwrap();
+            s.advance_delphi_held_pose(owner, number).unwrap();
+        }
+        assert_eq!(plan.terrain_points.len(), 3);
+        plan.fail = Some("query");
+        let error = s
+            .advance_delphi_local_target(owner, context(owner, 4, &g), &mut plan)
+            .unwrap_err();
+        assert!(error.contains("required query failure"));
+        let failed = s.delphi_local_target(owner).unwrap();
+        assert_eq!(failed.phase, Phase::Failed);
+        assert_eq!(
+            failed.state.terrain_point.map(f32::to_bits),
+            plan.terrain_points.last().unwrap().map(f32::to_bits)
+        );
+        assert_eq!(s.delphi_physical(owner).unwrap().number, 3);
+        assert!(
+            s.advance_delphi_local_target(owner, context(owner, 4, &g), &mut plan)
+                .is_err()
+        );
+        let mut untouched = [7., 8., 9.];
+        let query = crate::terrain_queries::StaticTerrainQuery::new(
+            &terrain,
+            1. / terrain.spacing,
+            crate::arithmetic::Precision::Double53,
+        )
+        .unwrap();
+        assert!(
+            s.trace_delphi_prephysical_held_terrain(
+                crate::delphi_target_scan::HeldTerrainInput {
+                    owner,
+                    number: 4,
+                    normalization_threshold: 1e-4,
+                    range: 9000.,
+                },
+                &query,
+                &mut untouched
+            )
+            .is_err()
+        );
+        assert_eq!(untouched, [7., 8., 9.]);
+        s.clear();
+        assert!(s.delphi_prephysical_target_ray(owner, 4, 1e-4).is_err());
     }
 }

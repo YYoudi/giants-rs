@@ -30,6 +30,12 @@ pub struct ScanInput {
     pub force_vertices: bool,
     pub view: View,
 }
+pub struct HeldTerrainInput {
+    pub owner: Id,
+    pub number: u64,
+    pub normalization_threshold: f32,
+    pub range: f32,
+}
 pub struct ScanOutput {
     pub range: f32,
     pub terrain: crate::mecc_aim::Ray,
@@ -40,6 +46,43 @@ pub struct ScanOutput {
     pub viewport: bool,
 }
 impl Session {
+    /// Actual static terrain provider for the running caller's held route.
+    /// Point writes on a miss and the separate sampled distance are retained.
+    /// Viewport selection, ripple and the no-sample native locals stay unbound.
+    pub fn trace_delphi_prephysical_held_terrain(
+        &self,
+        input: HeldTerrainInput,
+        terrain: &crate::terrain_queries::StaticTerrainQuery<'_>,
+        point: &mut [f32; 3],
+    ) -> Result<
+        (
+            crate::delphi_target_ray::Source,
+            crate::delphi_local_target::Terrain,
+        ),
+        String,
+    > {
+        let sample = self.delphi_prephysical_target_ray(
+            input.owner,
+            input.number,
+            input.normalization_threshold,
+        )?;
+        let trace = crate::mecc_aim::terrain_trace(
+            terrain,
+            sample.ray.origin,
+            sample.ray.direction,
+            input.range,
+        )?;
+        *point = trace
+            .written_point
+            .ok_or("Delphi terrain output without a native sample is unacquired")?;
+        Ok((
+            sample.source,
+            crate::delphi_local_target::Terrain {
+                hit: trace.ray.point.is_some(),
+                distance: trace.ray.distance,
+            },
+        ))
+    }
     pub fn scan_delphi_target(
         &mut self,
         resources: &crate::scene_resources::SceneResources,
