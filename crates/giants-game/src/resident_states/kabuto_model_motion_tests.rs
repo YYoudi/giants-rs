@@ -101,6 +101,47 @@ fn source_kabuto_animation_commit_refuses_removed_owner() {
         Some(super::held_reference_tests::Case::CommitClear),
     );
 }
+
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT/EXECUTABLE; owned action selection and external definitions/services; no window or sound"]
+fn source_kabuto_action_selection_preserves_directed_continuations_and_packet_aliases() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::Actions),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT/EXECUTABLE; retained selection gate and actual shared ANM; silent"]
+fn source_kabuto_action_gate_commits_only_resolved_selections() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::ActionGate),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT/EXECUTABLE; late sound failure keeps selection prefix and world writes"]
+fn source_kabuto_action_selection_retains_late_sound_failure() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::ActionsFailure),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT/EXECUTABLE; sound callback removes owner without stale restoration"]
+fn source_kabuto_action_selection_refuses_removed_owner() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::ActionsClear),
+    );
+}
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; owner invalidation without stale reference restoration; no window or sound"]
 fn source_kabuto_held_bank_does_not_restore_a_removed_owner() {
@@ -138,6 +179,7 @@ fn run_model(
     let mut resource_controls = resource_tests::Controls::default();
     resource_controls.handoff = handoff;
     let mut commits = super::animation_commit_tests::Controls::default();
+    let mut actions = super::action_select_tests::Controls::default();
     let baseline_fields = s.get(id).unwrap().construction_fields.clone().unwrap();
     let baseline_payload = s.get(id).unwrap().seed.storage.data().unwrap().to_vec();
     let baseline_references = s.specifications.get(&id.serial).unwrap().0.clone();
@@ -158,6 +200,14 @@ fn run_model(
     let mut receipt = String::new();
     let mut moving = 0;
     for case in 0..if animation && !resources { 513 } else { 512 } {
+        let stopped_action = case == 511
+            && matches!(
+                handoff,
+                Some(
+                    super::held_reference_tests::Case::ActionsFailure
+                        | super::held_reference_tests::Case::ActionsClear
+                )
+            );
         // Independent contexts replay the real preceding phases; resetting this
         // fixture is not acknowledgment of a completed native frame.
         s.specifications.get_mut(&id.serial).unwrap().0 = baseline_references.clone();
@@ -216,12 +266,20 @@ fn run_model(
             p[0x128..0x12c].copy_from_slice(&[0f32, 0.5][case % 2].to_le_bytes());
             p[0x130..0x134].copy_from_slice(&0.2f32.to_le_bytes());
         }
+        if stopped_action {
+            // Declared idle inputs to the preceding real motion/model phases,
+            // rather than replacing their computed activity output.
+            p[0xfc..0x108].fill(0);
+        }
         let physics = crate::kabuto_physics::Physics::from_owned_payload(p);
         let g = a.kabuto_group.as_mut().unwrap();
         g.physics = Some(physics);
         g.radius = radius;
         g.motion = Default::default();
         g.motion.velocity = [case as f32 * 0.01, -2., (case % 3) as f32 - 1.];
+        if stopped_action {
+            g.motion.velocity = [0.; 3];
+        }
         g.contact = Default::default();
         g.motion_history = None;
         g.motion_prefix_completed = None;
@@ -239,6 +297,13 @@ fn run_model(
         g.animation_commit_entered = None;
         g.animation_commit_running = false;
         g.animation_commit_completed = None;
+        g.action_select_entered = None;
+        g.action_select_running = false;
+        g.action_select_completed = None;
+        g.action_select_scratch = None;
+        g.action_gate_completed = None;
+        g.action_gate_next = None;
+        g.action_select_next = None;
         let number = case as u64 + 1;
         let seconds = [0., 0.001, 1. / 60., 0.1][case % 4];
         let command = [0u8, 1, 32, 127, 255, 224, 128];
@@ -246,6 +311,9 @@ fn run_model(
         if resources {
             let buttons = [0u32, 0x10, 0x800, 0x810][case % 4];
             commands[4..].copy_from_slice(&buttons.to_le_bytes());
+        }
+        if stopped_action {
+            commands[2..4].fill(0);
         }
         s.begin_kabuto_motion_history(id, number, commands).unwrap();
         factory
@@ -715,12 +783,37 @@ fn run_model(
                     resource_controls
                         .advance(&factory, &foreign, &mut s, id, number, seconds, &globals);
                     if let Some(
+                        kind @ (super::held_reference_tests::Case::Actions
+                        | super::held_reference_tests::Case::ActionGate
+                        | super::held_reference_tests::Case::ActionsFailure
+                        | super::held_reference_tests::Case::ActionsClear),
+                    ) = handoff
+                        && (matches!(
+                            kind,
+                            super::held_reference_tests::Case::Actions
+                                | super::held_reference_tests::Case::ActionGate
+                        ) || case == 511)
+                    {
+                        actions.advance(
+                            (&factory, &foreign),
+                            &mut s,
+                            id,
+                            number,
+                            kind,
+                            &mut random,
+                        );
+                    }
+                    if let Some(
                         kind @ (super::held_reference_tests::Case::Commit
+                        | super::held_reference_tests::Case::ActionGate
                         | super::held_reference_tests::Case::CommitFailure
                         | super::held_reference_tests::Case::CommitClear),
                     ) = handoff
-                        && (matches!(kind, super::held_reference_tests::Case::Commit)
-                            || case == 511)
+                        && (matches!(
+                            kind,
+                            super::held_reference_tests::Case::Commit
+                                | super::held_reference_tests::Case::ActionGate
+                        ) || case == 511)
                     {
                         let mut animation = crate::actor_animation_phase::Services {
                             contexts: &mut contexts,
@@ -749,6 +842,7 @@ fn run_model(
         resource_controls.finish();
     }
     commits.finish();
+    actions.finish();
     assert!(moving > 300);
     if let Some(p) = std::env::var_os("GIANTS_KABUTO_MODEL_INPUTS") {
         std::fs::write(p, inputs).unwrap();

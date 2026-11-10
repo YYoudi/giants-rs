@@ -47,6 +47,12 @@ The current cohort has 23 sources /25 requests and exercises 92 queue lifecycles
 Its source support/clock inputs and self-comparison are ownership controls,
 not new original-PC comparisons, native world admission or visual fidelity.
 
+`cargo test --locked -p giants-game delphi_local_target --target x86_64-pc-windows-gnu`
+checks the local caller's separate point/link lifetimes, inline-wide versus
+linked-rounded readiness, retained terrain/linked/item-target failures, inactive
+pending selection and nonlocal no-effect entry. Geometry/camera/item/proxy
+providers are test doubles; these controls do not validate their runtime binding.
+
 The ignored `source_timed_positioned_preparation_uses_owned_header_and_terrain`
 control additionally requires `GIANTS_FLICK_ROOT`, `GIANTS_FLICK_TIMED_TERRAINS`
 (private archive/member TSV) and `GIANTS_FLICK_TIMED_PREPARATION_CONTROLS` (private
@@ -72,6 +78,11 @@ late errors, retirement, foreign owners and reconstruction. The reference-point
 body, initial words and mode/force/profile inputs remain declared boundaries.
 Run it alongside `source_mecc_preworld_camera_prepares_or_retires_actual_display`;
 both are silent CPU compositions, not App input or complete world-order checks.
+
+The portable `camera_mode` tests also cover activation reset, retained failure
+prefixes, quarantine across shared commands and lens evaluation against the same
+transition word. They use explicit profile/projection fixtures; these are not
+App backend or GPU checks.
 
 With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
 `cargo test --locked -p giants-app source_actor_roles --target x86_64-pc-windows-gnu -- --ignored`
@@ -106,6 +117,14 @@ zero-second ANM pipeline after the real resource stage. Selection/transport/worl
 policy remains supplied. Optional `GIANTS_KABUTO_COMMIT_INPUTS` and
 `GIANTS_KABUTO_COMMIT_RECEIPT` exports require absolute paths under ignored private
 storage. Their 512 contexts are independent controls, not completed game frames.
+
+`source_kabuto_action_selection_` runs three further silent installed controls
+with the same Kabuto root and an explicit `GIANTS_KABUTO_EXECUTABLE` definition
+provider. They test actual Session selection and directed exits, retained late
+sound errors and owner removal. Sound/network and one PC RNG context are declared
+providers, not live backend validation. Optional `GIANTS_KABUTO_ACTION_INPUTS` and
+`GIANTS_KABUTO_ACTION_RECEIPT` require absolute private output paths. The 512
+contexts are independent; no primary/history or pending initializer is completed.
 
 Per-emitter ambient step traces are disabled during normal play. For a private
 diagnostic run, set `GIANTS_TRACE_AMBIENT_STEPS=1` before launching the application.
@@ -787,3 +806,14 @@ cargo test --locked --workspace native_timed_positioned_constructor_keeps_regist
 This replays eight controlled class-personality cases against actual constructor
 registration, including six that differ after wrapper stores. Installed files
 are unchanged; this check does not admit native stock or a live world actor.
+
+
+With the same explicit Kabuto root/executable, `source_kabuto_action_gate_`
+continues 512 independent installed contexts through the retained-slot gate and
+509 eligible actual animation commits. It keeps the three held-reference exits
+separate and refuses foreign/replayed or non-commit requests. Optional private
+`GIANTS_KABUTO_GATE_INPUTS` / `GIANTS_KABUTO_GATE_RECEIPT` export the selector/gate
+projection; `GIANTS_KABUTO_RESOLVED_COMMIT_INPUTS` /
+`GIANTS_KABUTO_RESOLVED_COMMIT_RECEIPT` export eligible animation contexts. All
+paths must be absolute. No window or audio device is created. This does not
+complete primary/history/initialization or validate live gameplay.

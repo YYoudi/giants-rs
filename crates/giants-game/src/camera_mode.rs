@@ -1,4 +1,5 @@
-//! Shared camera-mode command and display admission. Startup, input dispatch,
+//! Shared camera mode, activation reset, lens transition and display admission.
+//! Startup, input dispatch,
 //! force/override ownership and the enclosing world schedule remain external.
 
 #[derive(Clone, Copy, Debug)]
@@ -53,6 +54,33 @@ impl State {
     }
     pub fn failure(&self) -> Option<&str> {
         self.failure.as_deref()
+    }
+    /// Evaluate the acquired lens kernel against this same transition word.
+    /// Profile/input production and projection publication remain external.
+    pub fn advance_lens(&mut self, input: crate::camera_lens::Input) -> Result<f32, String> {
+        if self.failure.is_some() {
+            return Err("camera lens is quarantined after a failed shared command".into());
+        }
+        if input.mode as u32 != self.mode || input.profile_index != self.view {
+            return Err("camera lens input differs from current shared mode/view".into());
+        }
+        let mut lens = crate::camera_lens::State::new(self.transition).map_err(str::to_owned)?;
+        let result = lens.advance(input).map_err(str::to_owned);
+        self.transition = lens.transition();
+        result
+    }
+    /// Actual activation-time projection reset: resolve the current profile,
+    /// clear the shared lens transition, then publish projection. This changes
+    /// neither mode/view nor actor scale and does not choose a camera owner.
+    pub fn reset_projection<K>(&mut self, services: &mut impl Services<K>) -> Result<(), String> {
+        if self.failure.is_some() {
+            return Err("camera projection reset cannot replay a failed sequence".into());
+        }
+        let result = self.reset_projection_inner(services);
+        if let Err(error) = &result {
+            self.failure = Some(error.clone());
+        }
+        result
     }
     /// Camera eligibility only. Actual owner/model preparation must still run
     /// before publishing display activity. The profile byte and force word are
@@ -145,6 +173,9 @@ impl State {
             }
             services.scale(owner.source, profile.actor_scale)?;
         }
+        self.reset_projection_inner(services)
+    }
+    fn reset_projection_inner<K>(&mut self, services: &mut impl Services<K>) -> Result<(), String> {
         let profile = services.profile(self.mode, self.view)?;
         self.transition = 0.;
         if !profile.vertical_fov.is_finite()
@@ -167,6 +198,9 @@ mod tests {
     impl Services<u32> for Recorder {
         fn profile(&mut self, _: u32, _: u32) -> Result<Profile, String> {
             self.calls.push("profile");
+            if self.fail == "profile" {
+                return Err("profile failed".into());
+            }
             Ok(Profile {
                 vertical_fov: 62.,
                 actor_scale: 0.6,
@@ -187,6 +221,93 @@ mod tests {
             } else {
                 Ok(())
             }
+        }
+    }
+    #[test]
+    fn lens_and_activation_reset_share_one_transition_word() {
+        let mut state = State::new(0, 1, 0.5).unwrap();
+        let input = crate::camera_lens::Input {
+            profile_fov: 60.,
+            override_fov: None,
+            seconds: 0.25,
+            inhibited: false,
+            transition_input: true,
+            scaled_input: false,
+            mode: 0,
+            profile_index: 1,
+            selected_kind: None,
+            input_scale: 1.,
+        };
+        assert_eq!(state.advance_lens(input).unwrap(), 33.75);
+        assert_eq!(state.transition(), 0.75);
+        state
+            .reset_projection(&mut Recorder {
+                calls: vec![],
+                fail: "",
+            })
+            .unwrap();
+        assert_eq!(state.advance_lens(input).unwrap(), 51.25);
+        assert_eq!(state.transition(), 0.25);
+        let mut stale = input;
+        stale.profile_index = 2;
+        assert!(state.advance_lens(stale).is_err());
+        assert_eq!(state.transition(), 0.25);
+        assert!(state.failure().is_none());
+        state
+            .reset_projection(&mut Recorder {
+                calls: vec![],
+                fail: "projection",
+            })
+            .unwrap_err();
+        assert!(state.advance_lens(input).is_err());
+        assert_eq!(state.transition(), 0.);
+    }
+    #[test]
+    fn activation_reset_preserves_mode_and_scale_and_clears_transition() {
+        let mut state = State::new(2, 0, 0.75).unwrap();
+        let mut services = Recorder {
+            calls: vec![],
+            fail: "",
+        };
+        state.reset_projection(&mut services).unwrap();
+        assert_eq!((state.mode(), state.view(), state.transition()), (2, 0, 0.));
+        assert_eq!(services.calls, ["profile", "projection"]);
+        state
+            .change(
+                2,
+                false,
+                Some(Owner {
+                    source: 7,
+                    object_flags: 0,
+                }),
+                &mut services,
+            )
+            .unwrap();
+        assert_eq!((state.mode(), state.view(), state.transition()), (0, 1, 0.));
+        assert_eq!(
+            &services.calls[2..],
+            ["profile", "scale", "profile", "projection"]
+        );
+    }
+    #[test]
+    fn activation_reset_failure_preserves_prefix_and_quarantines_mode_commands() {
+        for failure in ["profile", "projection"] {
+            let mut state = State::new(2, 0, 0.75).unwrap();
+            let mut services = Recorder {
+                calls: vec![],
+                fail: failure,
+            };
+            assert!(state.reset_projection(&mut services).is_err());
+            assert_eq!((state.mode(), state.view()), (2, 0));
+            assert_eq!(
+                state.transition(),
+                if failure == "profile" { 0.75 } else { 0. }
+            );
+            let calls = services.calls.len();
+            assert!(state.reset_projection(&mut services).is_err());
+            assert!(state.change(2, false, None, &mut services).is_err());
+            assert!(state.display_eligible(0, 0, None).is_err());
+            assert_eq!(services.calls.len(), calls);
         }
     }
     #[test]
