@@ -113,7 +113,9 @@ With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
 `cargo test --locked -p giants-app source_actor_roles --target x86_64-pc-windows-gnu -- --ignored`
 checks actual player constructor identity with a second actor of the same class,
 local/other audio routing, motion ownership, foreign and retired owner refusal,
-and mission cleanup. It is silent CPU composition. The additional diagnostic
+and mission cleanup. The same control checks constructor-bound ordinary jet model sizes and visibility,
+stale-frame quarantine and unchanged Session animation/world ownership. These
+checks do not prove GPU rendering or held input. It is silent CPU composition. The additional diagnostic
 `source_owned_mecc_runtime_terrain_and_presentation` now passes 128 prepared CPU
 frames with actual terrain, camera, ANM and weapon presentation. It checks the
 weapon's absence during draw and presence once actually equipped. This does not

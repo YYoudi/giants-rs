@@ -1338,3 +1338,30 @@ no replay or experimental backend switch. Source binding and installed-data
 controls do not prove visible response to real held input; that interaction and
 GPU result remain unverified after the interrupted UI session. No preview
 receipt, binary availability or fidelity result is changed by this source work.
+
+
+The local GNU debug build of source `064cfed` has executable SHA256
+`5d815839f66abea5a957c35ea5d42f08968172673a60b5131f2d73721c13a521`.
+Its existing offscreen `player-motion-cycles` diagnostic completes three
+720-step ordinary-controller cycles. Each submits the normal jet models, switches
+to the nitro variant, returns to the normal variant, hides on release and removes
+its owned draw assets at cancellation. Three distinct mission owners retire with
+zero remaining mission entities; the process exits successfully and captures the
+returned menu with no failed GPU pipelines. Audio transport is disabled.
+These commands are supplied by the diagnostic. They establish the ordinary
+presentation producer/consumer and repeated GPU resource lifecycle on this build,
+not real held mouse input, native world admission, descent-pose observation or
+fidelity against the original. The existing renderer log's clock-ownership tag
+must not be interpreted as evidence of an owned-primary/world phase: this run
+uses the ordinary adapter's separate presentation clocks.
+
+A second run on the same binary uses the existing `showcase-mecc` diagnostic
+with the experimental backend unset. At the supplied ordinary-controller step
+275, the actual GPU capture visibly shows the white/blue plume attached below
+the Mecc jetpack. The source child submission is the nitro pair, the camera source
+is the live mission player, and the application reaches its Gameplay phase.
+The private capture was visually inspected and is not added to the public gallery.
+This proves rendered output on the identified local build; the diagnostic's
+supplied input still does not establish real held-mouse interaction or a fidelity
+comparison. The descent clip was not selected by the three short test trajectories,
+so its visible falling posture remains unobserved in this validation.
