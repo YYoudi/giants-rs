@@ -19,6 +19,13 @@ response composition, mode7, sound/ANM and caller/world scheduling remain open.
 No ordinary gameplay or new preview is advertised. Prototype PS2 attribution
 remains unknown. See [OWNED_NPCS.md](OWNED_NPCS.md).
 
+Runtime source `127b052` passes 896 default workspace Rust tests (88 ignored),
+nineteen installed NPC controls, 43 Python tests, Rustfmt, strict workspace Clippy
+and generated roadmap/site/JavaScript checks. The native helper comparison was
+repeated against this source: 676 contexts /22,308 words still agree within its
+original return/boundary scope. The previous vector PR's dashboard and both Windows
+checks also pass. Public preview identities and measured gameplay remain unchanged.
+
 ## Vimp vector and route response - 10 November 2026, source only
 
 The NPC lane adds bounded vector/marker retargeting with explicit hint and action
