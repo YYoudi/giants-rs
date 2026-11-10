@@ -7,6 +7,66 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## Delphi declared group connected to mission loading - 10 November 2026
+
+Common mission loading now stages Delphi's actual declared owner, copies and held
+object, retaining the constructor Id through late initialization errors. No new
+ordinary Delphi controls, rendering or playable menu entry are asserted. The next
+runtime blocker is projection reset and the first animation/render and physical/
+camera/input driver consuming this same owner.
+
+The existing cold factory now exposes a retained attempt; its normal construction
+order is unchanged. Declared placement uses actual constructor-shell history and
+retains unverified native relocation. The source-backed App control exercises a
+real menu request with an explicit all-unlocked test mask, common spawn, actual
+role bindings, duplicate/foreign/retired identities, missing-factory refusal,
+clear and a second ticket. A separate source constructor control preserves the
+published owner after a supplied late child-resource failure. These are runtime
+construction/CPU checks, not real input, campaign unlock or graphical evidence.
+The current downloadable preview remains independently pinned.
+See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `a7b26f5d239d050f9eb2d7ff4f1305431e43934e`, preserving main
+through `ec9b444`, passes 946 workspace Rust tests (138 ignored), the installed
+Delphi App control and sixteen Delphi game controls, Kabuto menu construction,
+Mecc constructor-role retention and normal-body jet composition. Rustfmt, strict
+workspace Clippy, 43 Python tests, site/JavaScript checks and the all-reference
+publication audit also pass. Its receipt-bound MinGW executable passes waited
+CLI startup. The constructor's projection-reset prerequisite remains stored with
+the actual role binding; no projection success, graphical interaction, real input
+or new downloadable-preview availability is asserted.
+
+## Combined NPC, Mecc and shared-camera integration - source dependency milestone
+
+Intermediate dependency only: this checkpoint adds no new interaction to the
+published .8 download. The next delivery remains the ordinary Mecc input/action
+path specified in [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md) and `BACKLOG.md`.
+The jet renderer currently consumes owned child frames while the ordinary path
+uses the development controller; a replay plume is not a normal-input result.
+
+Combined runtime source `e86f61720e2513295c653624e7072a3e787edf5f` retains main
+through `ce7447c`, the reviewed NPC dependency chain through `473e154` and Mecc
+continuation through `48ac91d`. Vimp response state/arrival timing and herd
+callbacks retain actual Session ownership. Completion orchestration retains
+required external backends. Delphi's shared camera override and Kabuto's common
+mission construction preserve their remaining admission guards. None enables a
+complete native NPC world, Delphi or Kabuto controller.
+
+The combined source passes 945 Rust tests (135 ignored), Rustfmt and strict
+workspace Clippy. Installed controls retain the scoped NPC, Mecc and Delphi
+results; Kabuto's common cold mission-entry/re-entry control and the two 512-frame
+App controls pass, including real zero-PCM muted jet sinks. Commands, clocks and
+world gates remain supplied. Original-PC comparison fixtures remain private;
+no new prototype PS2 attribution is confirmed by this integration.
+
+An ordinary-menu check on the exact public .8 executable uses a fresh muted
+profile and real input for New Single Player Game, opening skip and menu return.
+The runtime records resource release. Continuous thrust/release/landing is not
+validated by the short input pulses. Later capture inconsistencies stopped UI
+input and only the owned test process was closed; this is not an exit-dialog or
+whole-game certification. Existing preview source/receipt/checksums and the
+separate cinematic audit retain their original identities.
+
 ## Main-menu persistent image samples - source-only inspection
 
 The common executable now samples an actual Session-owned persistent effect
@@ -140,6 +200,73 @@ later look/physics/ANM/render ownership, actual population/global clock/RNG,
 contact, action/hint/audio and remaining modes still require integration and
 interactive entry/interaction/cancellation/re-entry validation. No capture,
 executable, download or frozen preview .8 notes/receipt is changed by this lot.
+## Persistent named-selection follow-up - source-only evidence
+
+The 23-source /25-request persistent cohort uses two programs whose normal/lite
+resolution identifies the same actual image entry. The current invariant guard
+is retained. Across 144 original source-helper/named preparations, supplied
+count, quality, range and camera inputs always select the source entry and retain
+the cinematic context mark; 60 paths execute the actual camera-position query.
+Two alternate-flag entry controls stop at their separate count-query callsite.
+No object allocation, physical occupancy, actual quality/camera producer, world
+schedule, new pixels or complete playback is verified by these controls.
+
+The existing director-clock scope is preserved. No runtime behavior or download
+identity changes follow from this evidence. Published .7 and .8 retain their own receipts; the 545-source capability
+census still certifies zero complete films. Native pool/population/cleanup and
+complete visual/audio/temporal/gameplay validation remain open.
+
+## Delphi running held-route terrain publication - 10 November 2026
+
+The running caller can now use actual static terrain queries with its acquired
+cold/previous held caches. The shared trace exposes the helper's written point
+separately from hit presence and clipping distance: a miss writes the last visited
+point even after distance advances. Existing terrain-ray consumers retain their
+interface; no-sample native output locals remain unacquired.
+
+All 384 original-helper controls /2,304 selected words agree, including 231 hits
+and 153 misses, with supplied flat height/plane providers. Three installed terrain
+resources exercise the actual reader/query, held-cache/candidate composition and
+retained terrain writes after a late query failure. Camera/items/time and the
+physical floor remain supplied. Full viewport/camera, ripple, linked/item and
+active-physics/world/menu admission remain open. This source milestone preserves
+the independent public preview and creates no new visual/gameplay claim.
+See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined checkpoint `057f9e29fc5dd0b0858730beb7aee89c7e6d6cc4` preserves main
+through `e47f4c6`. It passes 915 workspace Rust tests (107 ignored), all fifteen
+installed Delphi controls, the silent Mecc produced-camera/post-fire regression,
+Rustfmt, strict workspace Clippy, 43 Python tests and generated site/JavaScript
+checks. Its MinGW build receipt pins `da5fbf5`; the later test formatting does not
+change runtime code. The published preview .8 remains independently identified.
+
+## Combined Mecc and Delphi source integration - 10 November 2026
+
+Integration source `ca43619c48ed2d68c7b14778b2bb1501a0ae17d8` combines reviewed
+Mecc `bac59d8` (idle variants, effect-free wounds and ordered completion admission)
+with Delphi `897d80d` (pre-physical held-cache provenance and candidate geometry),
+preserving the earlier Flick, Kabuto and NPC contributions. Required callbacks,
+geometry admission and failed-turn quarantine remain explicit. Prototype PS2
+attributions for these acquired routines remain unknown; no new name is confirmed.
+
+The combined source passes 913 workspace Rust tests (106 ignored), 27 installed
+Mecc and 14 installed Delphi controls, 43 Python tests, Rustfmt and strict workspace
+Clippy. Two 512-frame App controls pass with actual terrain, animation, camera,
+held submission and cleanup; the jet control uses real zero-PCM muted sinks.
+Commands, clocks, gates and world populations remain controlled inputs. These
+checks do not establish manual gameplay, native world admission or fidelity.
+
+A receipt-bound MinGW build of that exact integration source also passes awaited
+CLI startup and offscreen GPU acceptance: three 128-frame owned inspection cycles
+with menu return/cleanup, one 128-frame jet lift/fuel control and an active-thrust
+capture at step 36. The jet checks use real muted transport. Replay commands and
+world gates remain supplied; this private test executable is not a new download.
+
+The public .8 source, executable, package and acceptance identities remain
+immutable. The cinematic census stays pinned to its separate .7 audit. See
+[PREVIEW_NOTES.md](PREVIEW_NOTES.md) for the later-source boundary and
+[INTEGRATION.md](INTEGRATION.md) for the common-runtime prerequisites.
+
 
 ## Owned Vimp active-response state — 10 November 2026, source only
 
@@ -6488,6 +6615,36 @@ ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and genera
 site/JavaScript checks. Concurrent preview .8 evidence and its limitations are
 retained separately. This source handoff creates no new download or live admission.
 
+### Mecc completion notice and record continuation - 10 November 2026
+
+The completion service now orchestrates post-expiry notification, signed progress
+update, next-record scan and all four record kinds through required storage and
+side-effect providers. It preserves marker/music/timer writes, retained text and
+mission references, player/world rereads and caller returns around callbacks.
+Late message/queue failures retain completed stores; the enclosing owner must
+quarantine replay. No UI/music/save/load/event/countdown-start backend is fabricated.
+
+Under supplied mode/admission, synthetic mission storage, clocks and declared
+helper effects, 373 whole native-handler contexts agree with Rust's composed
+admission/countdown/continuation. Selected final state, clock requests, returns
+and 1,454 ordered provider entries with intermediate state/arguments agree.
+These controls include unchanged supplied fields and do not establish complete
+global-state coverage, real mission progress or live impact availability. Actual
+precheck/previous-record and storage/world/backend producers remain required.
+Prototype PS2 attributions remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#completion-notice-and-record-continuation---10-november-2026).
+
+Validation retaining main through `e47f4c6` passes 916 workspace Rust tests
+(106 ignored), twenty-seven installed Mecc controls, the prepared 512-frame App
+CPU and reserved zero-PCM device controls, shared timed Session and cold Delphi
+ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
+site/JavaScript checks. This source handoff retains the separate preview .8
+source/notices/checksums and creates no new downloadable build.
+
+The follow-up retains main's merged Mecc/Delphi and receipt-bound graphical
+regression notes. That final merge changes documentation only; validated Rust
+source is unchanged. The already merged PR #4 remains a separate checkpoint.
+
 ## Mecc ordinary descent presentation - source integration
 
 Merged into main through [PR #17](https://github.com/YYoudi/giants-rs/pull/17)
@@ -6516,3 +6673,46 @@ Status: runtime connected, interaction unverified. Installed-data ownership and
 presentation checks support the wiring; actual held-input thrust/release, GPU
 appearance, landing and re-entry remain to verify. No new preview is advertised.
 See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-jet-presentation---runtime-connected-interaction-unverified).
+
+
+Local validation of source `064cfed`: its GNU debug executable
+(SHA256 `5d815839f66abea5a957c35ea5d42f08968172673a60b5131f2d73721c13a521`)
+completes three offscreen ordinary-controller movement/jet/nitro/release and
+mission-retirement cycles. The actual draw consumer switches source child models
+and removes their assets each time. Supplied commands and disabled audio remain
+explicit boundaries; real held input, visual comparison and ordinary flight
+acceptance remain open. This private local executable is not a downloadable
+preview and does not change published package receipts/notices/checksums.
+
+An active-thrust capture on that same binary visibly confirms the white/blue jet
+plume attached to the Mecc in the ordinary controller's Gameplay presentation.
+The existing diagnostic supplies its commands; the experimental backend is unset.
+The image remains private. This is local rendered-output evidence, separate from
+real input acceptance and the unchanged public preview.
+
+
+## Ordinary Mecc pistol source projectile - source integration
+
+The partial normal pistol now uses the acquired straight-launch basis/velocity
+and submits the installed projectile model/texture/material to the common draw
+consumer. It replaces diagnostic yellow flight quads, consuming the existing live-shot
+list and preserving mission resource cleanup. Left-mouse firing needs no replay
+or experimental backend switch for this source connection.
+
+Status: runtime connected, interaction unverified. Source visual/resource checks
+and existing synthetic tests pass. A local one-shot GPU capture confirms source
+geometry/material rendering after normal entry with supplied commands; held-trigger
+and fidelity acceptance remain separate. Constructor FX, native impact/actor/fire scheduling and the
+remaining diagnostic impact markers are not claimed complete. No new preview,
+receipt or downloadable executable is advertised from source checks alone.
+See [OWNED_LOCAL_FIRE.md](OWNED_LOCAL_FIRE.md#ordinary-pistol-projectile-presentation).
+
+
+Local rendering evidence is pinned to source `d5a4ca8`, executable SHA256
+`8874592b599a789c227c5afe65cd373be20f839eca52279e96a686615fb939c1`:
+one source-model shot is visibly captured after normal mission admission, and
+two firing/menu-return cycles remove all four live shots' draw assets. The
+three-cycle diagnostic exits at its existing 300-second deadline during the
+third opening; it is a partial result, not a passed three-cycle check. These
+existing diagnostics supply trigger commands with audio disabled. The private
+build/capture is distinct from the combined main sources and unchanged download.

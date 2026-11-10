@@ -53,6 +53,18 @@ completion, active enemies, full combat, squad behavior, Delphi, Kabuto, bases,
 multiplayer and saved campaign continuity are incomplete. CPU-validated services
 may not yet be connected to this menu-to-mission path.
 
+For the current Mecc path, select **Start New Single Player Game**, wait for the
+mission to load and use **Escape** to skip the opening. The default Mecc bindings
+are **WASD** for movement, mouse motion for aiming, **right mouse held** for thrust,
+**Space** for nitro where supported, **left mouse** for the diagnostic pistol and
+**R** for the view toggle. **Escape** returns to the menu. Check the profile's
+Mecc control options if bindings were changed. These are the development
+controller's controls; the reconstructed native jet/pose feedback is still
+connected to inspection frames and is not certified on this ordinary path.
+Historical plume/falling-pose captures do not establish availability in this
+download. The latest manual check covers entry, opening skip and menu return;
+continuous flight and landing remain unverified.
+
 Movement uses physical WASD, Space and Ctrl where supported; right mouse controls
 the view in inspection modes. Follow the on-screen hints for the active mode.
 Do not treat development shortcuts as original-game controls. Report the release

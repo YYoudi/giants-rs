@@ -4,6 +4,7 @@
 //! This state is a supplied snapshot, not a native global initializer.
 
 pub mod admission;
+pub mod continuation;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct State {

@@ -3,6 +3,8 @@
 use crate::{arithmetic::Precision, mecc_motion::Motion, segment_queries::StaticCellQuery};
 use giants_formats::{gti::Terrain, weapons::Projectile};
 pub struct Shot {
+    /// Acquired mode2 orientation; translation follows the actual motion below.
+    pub launch_matrix: [f32; 16],
     /// Ticket-local runtime identity; not an original binary object address.
     pub serial: u32,
     pub origin: [f32; 3],
@@ -30,8 +32,11 @@ impl Shot {
         {
             return Err("projectile outside straight zero-gravity development profile");
         }
-        let v = crate::mecc_fire::launch(origin, target, p.launch_speed, Precision::Double53)?;
+        let launch = crate::projectile_launch::Straight::new(origin, target, p.launch_speed)
+            .map_err(|_| "projectile outside acquired straight launch profile")?;
+        let v = launch.velocity;
         Ok(Self {
+            launch_matrix: launch.matrix.values,
             serial: 0,
             origin,
             segment_end: origin,
@@ -47,6 +52,13 @@ impl Shot {
             },
             remaining: p.lifetime,
         })
+    }
+    pub fn world_matrix(&self) -> [f32; 16] {
+        let mut matrix = self.launch_matrix;
+        for (axis, value) in self.motion.position.into_iter().enumerate() {
+            matrix[axis * 4 + 3] = value;
+        }
+        matrix
     }
     pub fn step(&mut self, terrain: &Terrain, dt: f32) -> Result<Event, &'static str> {
         let start = self.motion.position;

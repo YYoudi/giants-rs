@@ -59,7 +59,10 @@ fn update(
 ) {
     let selected = controllers
         .iter()
-        .filter_map(|c| c.jet_frames())
+        .filter_map(|c| {
+            c.jet_frames()
+                .map(|(ticket, number, frames)| (ticket, number, frames, c.jet_clock_source()))
+        })
         .find(|v| Some(v.0) == runtime.active_ticket());
     let wanted = selected.map(|v| v.0);
     if state
@@ -84,7 +87,7 @@ fn update(
             old.ticket
         );
     }
-    let (Some((ticket, number, frames)), Some(scene)) = (selected, scene) else {
+    let (Some((ticket, number, frames, clock_source)), Some(scene)) = (selected, scene) else {
         return;
     };
     let Some(camera) = &scene.validation_camera else {
@@ -289,7 +292,7 @@ fn update(
         }
         if mounted.visibility.as_ref() != Some(&visible) {
             println!(
-                "mission_jet_draw_visibility ticket={ticket} frame={number} classes={visible:?} actual_children=true owned_clocks=true world_ready=false"
+                "mission_jet_draw_visibility ticket={ticket} frame={number} classes={visible:?} actual_children=true clock_owner={clock_source} world_ready=false"
             );
             mounted.visibility = Some(visible.clone());
         }
