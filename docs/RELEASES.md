@@ -33,6 +33,15 @@ words, stopping before the caller's binding/tail. Captured entry fields are
 inputs; this adds no Rust whole-primary or Session-composition equivalence.
 The public preview snapshot and gameplay availability remain unchanged.
 
+The later combined runtime `2570203` also preserves Flick's owned-preparation /
+terminal changes and the already published preview .6 snapshot. It passes 902
+workspace Rust tests (96 ignored), the twenty-five NPC controls, Delphi dependency
+ordering and the canonical timed-owner control, 43 Python tests, strict Clippy,
+Rustfmt and generated site/JavaScript checks. All four retained comparisons were
+rebuilt and repeated on this source, including the 29 captured caller entries.
+This source-only NPC update does not relabel the immutable .6 executable or add
+NPC gameplay coverage to it.
+
 ## Owned Vimp vector publication - 10 November 2026, source only
 
 The isolated vector entry now uses actual Session child/parent/marker ownership.
