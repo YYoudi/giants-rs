@@ -246,6 +246,21 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Delphi next steps
 
+Current observable delivery: enter a Reaper mission through the common menu,
+retain the actual declared Delphi owner/held/copy group, then connect supported
+dry keyboard/mouse movement, jump and camera. **First runtime blocker:**
+`player_initial::Prepared` admits Mecc only and the mission runtime has no Delphi
+cold factory/role-binding branch. Supply that real constructor/consumer next;
+retain pending projection/controller/geometry services instead of acknowledging
+missing work. Main integration owns combined delivery. Delphi remains an
+intermediate dependency, with no ordinary controls newly available.
+
+The authored camera now uses the common typed override owner and common mode
+selector; 512 original writer/predicate programs match 81,920 selected words.
+Actual source-backed activation, clear and failure update that same selector.
+Keep startup, descriptor/owner resolution and viewport pose epochs explicit.
+Do not spend the next task on rare camera variants ahead of the entry gap above.
+
 - Implemented: `delphi_resources::Resources` projects the actual kind-3 mission
   marker, class fields, state template and body/state specifications. The shared
   declaration helper takes an explicit expected kind; the existing Mecc entry

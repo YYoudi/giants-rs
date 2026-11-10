@@ -123,9 +123,7 @@ impl Session {
             return Ok(());
         }
         if environment.buttons & 0x8000 == 0 {
-            state.enabled = false;
-            state.descriptor = None;
-            state.matrix_selected = false;
+            state.clear_override()?;
             state.vertical_fov = None;
             return Ok(());
         }
@@ -150,10 +148,7 @@ impl Session {
         };
         match produce() {
             Ok(output) => {
-                state.descriptor = None;
-                state.matrix_selected = true;
-                state.retained_view = Some(output.view);
-                state.enabled = true;
+                state.select_matrix(output.view)?;
                 state.vertical_fov = output.vertical_fov;
                 Ok(())
             }

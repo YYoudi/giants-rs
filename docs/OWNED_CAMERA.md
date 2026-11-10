@@ -13,6 +13,34 @@ The normal-camera and temporal-approach routine identities are confirmed there;
 wall/profile correspondences remain probable and the renderer-cache counterpart
 remains unassigned. Naming does not expand the behavioral evidence below.
 
+## Shared override writers and Delphi targeting - 10 November 2026
+
+Intermediate dependency only; no new ordinary controls or playable entry are
+available. Delphi still lacks its retained cold class-3 constructor in the common
+mission player branch, followed by live input/controller and camera-pose wiring.
+The current generic player preparation admits Mecc only; prioritize that concrete
+entry gap over further isolated camera variants.
+
+`camera_override::State<K>` now owns the acquired force/descriptor/typed-owner,
+triplet and retained-matrix writes. Delphi's authored-view state aliases this
+common type, and its actual Session callback uses the common matrix/clear writers.
+Target-view queries read it together with the existing `camera_mode::State`;
+`View::from_shared` produces an explicit snapshot that must be refreshed for the
+caller's next selector read. The signed final-word comparison is retained.
+Active nonmatrix routes refuse the narrow matrix-view consumer rather than
+silently acknowledging an ordinary view. Empty defaults stage a component and
+never establish native camera startup.
+
+The four original override writers and target-view predicate match 512 supplied
+programs: 2,048 writes, 2,560 predicate calls and 81,920 selected protocol words.
+Mode/view/transition and owner/matrix inputs are supplied; matrix/triplet controls
+verify bit copies, not pose semantics or rendering. Installed Delphi checks read
+the same override after actual authored-camera activation, clear and failure.
+The original startup template copy is a private observation, not Rust startup
+integration. Actual startup, descriptor/owner resolution, viewport pose epochs,
+projection/input/world order and ordinary interaction remain required. Prototype
+PS2 attributions remain unknown.
+
 ## Producer and consumers
 
 ### Current profile family and view

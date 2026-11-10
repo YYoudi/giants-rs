@@ -2259,6 +2259,8 @@ mod physical_tests {
         }
         assert_eq!(camera_world.0, calls);
         let mut camera = crate::delphi_camera::State::default();
+        let target_mode = crate::camera_mode::State::new(0, 0, 0.).unwrap();
+        assert!(camera.target_uses_viewport(&target_mode).unwrap());
         let request =
             |local_owner, mode, buttons, aspect, target| crate::delphi_camera::Environment {
                 local_owner,
@@ -2277,6 +2279,7 @@ mod physical_tests {
             )
             .unwrap();
         assert!(camera.active_view().unwrap().is_some());
+        assert!(!camera.target_uses_viewport(&target_mode).unwrap());
         assert!(camera.vertical_fov.is_some_and(|angle| angle > 0.));
         // This actor still uses animation1; its current reference buffer is
         // consumed without advancing the fallback hierarchy epoch.
@@ -2312,6 +2315,7 @@ mod physical_tests {
             )
             .unwrap();
         assert!(camera.active_view().unwrap().is_none());
+        assert!(camera.target_uses_viewport(&target_mode).unwrap());
         assert!(camera.vertical_fov.is_none());
         assert_eq!(view_words(&camera), retained);
         // A supplied self-target uses hand reference0, not a camera node; the
@@ -2339,6 +2343,7 @@ mod physical_tests {
         );
         assert_eq!(view_words(&camera), retained);
         assert!(camera.active_view().is_err());
+        assert!(camera.target_uses_viewport(&target_mode).is_err());
         assert!(
             session
                 .advance_delphi_camera(
