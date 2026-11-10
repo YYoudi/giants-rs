@@ -58,6 +58,14 @@ pub struct Factory {
     growth_bounds: Option<crate::player_collision_radius::Bounds>,
 }
 impl Factory {
+    /// Identity check for consumers of actors constructed by this factory.
+    /// A matching class number alone does not establish resource ownership.
+    pub fn owns(&self, session: &Session, id: Id) -> bool {
+        session.vimp(id).is_some()
+            && session
+                .specification(id)
+                .is_some_and(|s| Arc::ptr_eq(s, &self.specification))
+    }
     /// Bind the namespace captured by this class's actual specification. Never
     /// select an image by filename or silently substitute a newer active image.
     pub fn load_registered(resources: &SceneResources) -> Result<Self, String> {

@@ -5797,6 +5797,48 @@ impl Session {
     pub fn vimp_frames(&self, id: Id) -> Option<u64> {
         Some(self.get(id)?.vimp_frames)
     }
+    /// Rendering consumes a completed common callback, never a merely retained
+    /// pose after next-frame history, a failed phase or lost world control.
+    pub fn completed_vimp_frame(&self, id: Id) -> Result<crate::vimp_frame::Completed, String> {
+        let actor = self
+            .get(id)
+            .ok_or("Vimp completed frame owner absent or foreign")?;
+        let vimp = actor
+            .vimp
+            .ok_or("Vimp completed frame construction absent")?;
+        let physical = actor
+            .vimp_physical
+            .as_ref()
+            .ok_or("Vimp completed physical frame absent")?;
+        if !vimp.initialized
+            || actor.vimp_frames == 0
+            || actor.vimp_frame_stopped
+            || actor.world_tick_running
+            || actor.vimp_prepared_history.is_some()
+            || actor.vimp_active_running
+            || actor.vimp_response_running
+            || actor.vimp_vector_running
+            || !physical.view.physics_consumed
+            || !physical.view.animation_consumed
+            || physical.view.failure.is_some()
+            || actor
+                .world_tick
+                .as_ref()
+                .is_none_or(|t| t.phase() != crate::actor_world_tick::Phase::Finished)
+            || actor
+                .construction_fields
+                .as_ref()
+                .is_none_or(|f| Some(f.channels) != actor.channels)
+        {
+            return Err(
+                "Vimp render publication requires its completed current common callback".into(),
+            );
+        }
+        Ok(crate::vimp_frame::Completed {
+            number: actor.vimp_frames,
+            animation_epoch: vimp.animation_stamp,
+        })
+    }
     pub(crate) fn vimp_primary_history(&mut self, id: Id) -> Result<(), String> {
         let actor = self
             .residents
