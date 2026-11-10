@@ -1,5 +1,31 @@
 # Preview releases and milestone integration
 
+## Shared activation reset and lens transition — 10 November 2026, source only
+
+Camera mode changes, activation projection reset and lens evaluation now use one
+`camera_mode::State` transition. Reset resolves the current profile before clearing
+the word and submitting projection; it does not change mode/view, actor scale or
+owner. Late projection errors retain the reset and quarantine further shared
+commands/admission. Lens snapshots must match the current mode/view, and their
+character predicate belongs to the controlled actor rather than an override owner.
+
+All 96 original-PC/Rust sequences match 576 reset/mode/lens invocations and 3,456
+selected state/call words under Double53. Current profile and device projection
+remain supplied boundaries; the actual native class predicates execute. The
+earlier 1,280 mode-command and 864 admission controls repeat unchanged. Synthetic
+checks cover reset/lens interleaving, stale snapshots, retained errors and replay
+refusal. Full player continuity, live type changes and the App backend order are
+not reconstructed by this component; the cold player's reset remains pending.
+No new prototype PS2 attribution is confirmed.
+
+The reviewed Delphi proximity contribution is preserved. The combined source
+passes 883 Rust tests (75 ignored), the existing installed pre-world, selected
+camera-owner and application actor-role controls, Rustfmt and strict workspace
+Clippy. Delphi's prior combined checkpoint independently passes its eight
+installed controls and 880 workspace tests. These CPU/source checks introduce
+no new playable mode, movie or preview; existing download sources and hashes
+remain independent. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
+
 ## Selected camera owner and combined identity checkpoint — 10 November 2026
 
 `camera_owner::State` implements the acquired owner-selection prefix with explicit
