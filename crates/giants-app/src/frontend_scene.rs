@@ -1439,6 +1439,11 @@ pub fn draw(
     for entity in &old {
         commands.entity(entity).despawn();
     }
+    // Inspection captures the staged body while native admission stays pending.
+    // This hides only this diagnostic overlay; it emits no readiness event.
+    if replay::kabuto_body_inspection_replay() && scene.flow.phase == Phase::AwaitingRuntime {
+        return;
+    }
     if scene.screen == Screen::MissionLoading
         && matches!(
             scene.flow.phase,

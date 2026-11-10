@@ -125,7 +125,10 @@ fn sync(
     let selected = players
         .iter()
         .find(|p| Some(p.ticket) == runtime.active_ticket());
-    let wanted = selected.map(|p| p.ticket);
+    let kabuto = runtime.kabuto_body();
+    let wanted = selected
+        .map(|p| p.ticket)
+        .or_else(|| kabuto.map(|(ticket, _)| ticket));
     if state
         .mounted
         .as_ref()
@@ -164,21 +167,55 @@ fn sync(
             old.buffers.len()
         );
     }
+    if let (Some((_, body)), Some(scene), Some(mounted)) =
+        (kabuto, scene.as_ref(), state.mounted.as_ref())
+        && scene.is_changed()
+        && let Some(camera) = scene.validation_camera.as_ref()
+        && let Ok(lights) = giants_game::lighting::first_world(&scene.asset.config)
+    {
+        for (part, handle) in body.model.mesh.subobjects.iter().zip(&mounted.buffers) {
+            if let Some(mut buffer) = buffers.get_mut(handle) {
+                *buffer = crate::gun_scene::source_parameters(
+                    &part.material,
+                    Mat4::from_cols_array(&body.matrix).transpose(),
+                    camera,
+                    &lights,
+                    scene.asset.config.fog,
+                    scene.no_fog,
+                )
+                .buffer();
+            }
+        }
+    }
     if state.mounted.is_some() {
         return;
     }
-    let (Some(player), Some(scene)) = (selected, scene) else {
+    let (Some(ticket), Some(scene)) = (wanted, scene) else {
         return;
     };
     if !matches!(
         scene.camera_source,
-        "mission_candidate" | "mission_player_inspection"
+        "mission_candidate" | "mission_player_inspection" | "declared_start_debug_camera"
     ) {
         return;
     }
-    let p = &player.prepared;
+    let kabuto_lights = if kabuto.is_some() {
+        if scene.validation_camera.is_none() {
+            return;
+        }
+        match giants_game::lighting::first_world(&scene.asset.config) {
+            Ok(lights) => lights,
+            Err(error) => {
+                error!("Kabuto body lighting refused: {error}");
+                return;
+            }
+        }
+    } else {
+        Vec::new()
+    };
+    let p = selected.map(|player| &player.prepared);
     let mut mounted = Mounted {
-        ticket: player.ticket,
+        ticket,
         entities: Vec::new(),
         meshes: Vec::new(),
         images: Vec::new(),
@@ -186,19 +223,28 @@ fn sync(
         lit: Vec::new(),
         buffers: Vec::new(),
     };
-    let owned_models =
-        if std::env::var("GIANTS_MISSION_MECC_BACKEND").as_deref() == Ok("owned-inspection") {
-            match runtime.owned_body_models(player.ticket) {
-                Ok(models) => models,
-                Err(error) => {
-                    error!("Owned draw models refused: {error}");
-                    return;
-                }
+    let owned_models = if p.is_some()
+        && std::env::var("GIANTS_MISSION_MECC_BACKEND").as_deref() == Ok("owned-inspection")
+    {
+        match runtime.owned_body_models(ticket) {
+            Ok(models) => models,
+            Err(error) => {
+                error!("Owned draw models refused: {error}");
+                return;
             }
-        } else {
-            Vec::new()
-        };
-    let variants = if owned_models.is_empty() {
+        }
+    } else {
+        Vec::new()
+    };
+    let variants = if let Some((_, body)) = kabuto {
+        vec![(
+            0,
+            &body.model.mesh,
+            &body.model.textures,
+            &body.model.alpha_textures,
+        )]
+    } else if owned_models.is_empty() {
+        let p = p.expect("selected Mecc body");
         vec![(0, &p.body.mesh, &p.body.textures, &p.body.alpha_textures)]
     } else {
         owned_models
@@ -254,13 +300,17 @@ fn sync(
             )
             .with_inserted_attribute(
                 Mesh::ATTRIBUTE_POSITION,
-                if body_slot == 0 {
-                    p.vertices(part_index)
+                if let Some((_, body)) = kabuto {
+                    ids.iter()
+                        .map(|i| body.positions[usize::from(body_mesh.indices[*i])])
+                        .collect()
+                } else if body_slot == 0 {
+                    p.unwrap().vertices(part_index)
                 } else {
                     ids.iter()
                         .map(|i| {
                             let q = body_mesh.positions[usize::from(body_mesh.indices[*i])];
-                            let m = p.matrix;
+                            let m = p.unwrap().matrix;
                             let q = std::array::from_fn::<_, 3, _>(|r| {
                                 m[r * 4] * q[0]
                                     + m[r * 4 + 1] * q[1]
@@ -277,6 +327,46 @@ fn sync(
                 ids.iter().map(|i| body_mesh.uv[*i]).collect::<Vec<_>>(),
             )
             .with_inserted_attribute(Mesh::ATTRIBUTE_COLOR, colors);
+            if let Some((_, body)) = kabuto {
+                let mesh = meshes.add(mesh.with_inserted_attribute(
+                    Mesh::ATTRIBUTE_NORMAL,
+                    ids.iter().map(|i| body.normals[*i]).collect::<Vec<_>>(),
+                ));
+                let camera = scene.validation_camera.as_ref().unwrap();
+                let parameters = crate::gun_scene::source_parameters(
+                    &part.material,
+                    Mat4::from_cols_array(&body.matrix).transpose(),
+                    camera,
+                    &kabuto_lights,
+                    scene.asset.config.fog,
+                    scene.no_fog,
+                );
+                let buffer = buffers.add(parameters.buffer());
+                let material = lit.add(actor_scene::shared_lit_material(
+                    textures[&part.material.texture.to_ascii_lowercase()].clone(),
+                    buffer.clone(),
+                    body_alpha.contains(&part.material.texture.to_ascii_lowercase()),
+                ));
+                let entity = commands
+                    .spawn((
+                        DrawnPlayer {
+                            ticket,
+                            part: part_index,
+                            slot: body_slot,
+                        },
+                        crate::mission_runtime::MissionOwned(ticket),
+                        Name::new(format!("Mission initial Kabuto / {}", part.name)),
+                        Mesh3d(mesh.clone()),
+                        MeshMaterial3d(material.clone()),
+                        bevy::camera::visibility::NoFrustumCulling,
+                    ))
+                    .id();
+                mounted.entities.push(entity);
+                mounted.meshes.push(mesh);
+                mounted.lit.push(material);
+                mounted.buffers.push(buffer);
+                continue;
+            }
             let mesh = meshes.add(mesh);
             let alpha = if part.material.flags & 1 != 0 {
                 ((1. - part.material.falloff) * 255.) as u8 as f32 / 255.
@@ -305,11 +395,11 @@ fn sync(
             let entity = commands
                 .spawn((
                     DrawnPlayer {
-                        ticket: player.ticket,
+                        ticket,
                         part: part_index,
                         slot: body_slot,
                     },
-                    crate::mission_runtime::MissionOwned(player.ticket),
+                    crate::mission_runtime::MissionOwned(ticket),
                     Name::new(format!("Mission initial Mecc / {}", part.name)),
                     Mesh3d(mesh.clone()),
                     MeshMaterial3d(material.clone()),
@@ -326,6 +416,15 @@ fn sync(
             mounted.materials.push(material);
         }
     }
+    let (Some(player), Some(p)) = (selected, p) else {
+        println!(
+            "mission_kabuto_body_draw_staged ticket={ticket} meshes={} materials={} current_channel_snapshot=true live_animation=false controller=false ready=false",
+            mounted.meshes.len(),
+            mounted.lit.len()
+        );
+        state.mounted = Some(mounted);
+        return;
+    };
     // The selected cold equipment resolves through the common icon/class and
     // animated-hand consumers. This is a fixed initial attachment, not firing.
     let weapon = &p.weapon;
