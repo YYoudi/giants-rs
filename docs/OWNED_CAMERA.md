@@ -13,6 +13,41 @@ The normal-camera and temporal-approach routine identities are confirmed there;
 wall/profile correspondences remain probable and the renderer-cache counterpart
 remains unassigned. Naming does not expand the behavioral evidence below.
 
+## Owned look angle and cold image context - intermediate dependency
+
+Ordinary Kabuto controls remain unavailable. The shared runtime still needs a
+persistent camera owner/mode lifecycle, actual mission-entry writers and the
+projection/view backend before initializer admission. This step supplies the
+missing typed header value and owner-bound mode-command consumer.
+
+A raw cold constructor leaves `Session::camera_look_angle` unavailable. Kabuto's
+acquired cold player initializer publishes its separate zero look angle; it does
+not infer it from body rotation or model scale. `Session::change_camera_mode`
+checks the actual camera-owner identity, rereads current Session profile inputs
+on each query and writes the selected pitch into that exact actor. Duplicate
+classes do not redirect it. An error in the later projection callback retains
+the completed pitch/transition writes and quarantines the shared mode command.
+Retired/foreign camera owners refuse before starting the command.
+
+`camera_initial::Cold` reads the inspected PC loader-image camera words from an
+external compatible executable. The metadata reader accounts for PE zero-filled
+uninitialized data and refuses native owner values requiring unknown identity
+translation. Recognition is layout selection, not authentication. These values
+precede CRT/game startup; they cannot be used as proof of mission-entry globals
+or as a reset of a warm camera lifecycle. Current viewport dimensions remain a
+renderer input; later depth caches must come from actual camera publication.
+
+A private original-PC cold-prefix observation selects the supplied controlled
+actor from the actual initialized image without a reference-point callback. A
+source-backed Rust control then uses external cold words, the real constructed
+Kabuto identity, current profile coefficients and shared projection kernel. It
+checks signed-pitch publication, unchanged body scale/rotation, duplicate-owner
+isolation, retained effects on projection failure, replay refusal and retirement.
+Owner assignment and current actor context are explicit control boundaries; no
+complete original startup caller, warm entry, full camera, GPU or input result is
+asserted. The previous 328-case mode/coefficient control retains its own scope.
+No prototype PS2 counterpart is promoted by these PC observations.
+
 ## Kabuto entry coefficients and signed look angle - intermediate dependency
 
 Ordinary Kabuto entry and controls remain unavailable. The next dependency is the

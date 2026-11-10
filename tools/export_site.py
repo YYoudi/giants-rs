@@ -17,6 +17,8 @@ PREVIEW_CHECKS = {
     'offscreen_menu_cycles': 'Offscreen development launches, menu return and re-entry',
     'selected_cinematic_transport': 'Selected-mission source-terminal/re-entry with muted real sinks',
     'manual_menu_skip_return': 'Manual menu, opening skip, mission entry and return on one local profile',
+    'ordinary_mecc_jet_projectile_gpu': 'Ordinary-controller jet/nitro/release GPU cycles and visible jet/projectile samples with supplied commands',
+    'ordinary_mecc_os_pulses': 'Normal menu entry/re-entry, OS jet/fire mouse pulses, view toggle and exit; sustained held flight remains unverified',
 }
 PREVIEW_LIMITS = {
     'ordinary_mecc_native_motion': 'Native Mecc jet/descent/landing integration remains incomplete',

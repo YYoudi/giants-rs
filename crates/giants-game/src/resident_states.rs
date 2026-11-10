@@ -9,6 +9,7 @@ use crate::{
 };
 use std::collections::BTreeMap;
 use std::sync::Arc;
+mod camera_mode;
 mod camera_profile;
 mod cinematic_constant;
 mod delphi;
@@ -51,7 +52,10 @@ mod vimp_history_tests;
 mod vimp_locomotion_animation_tests;
 #[cfg(test)]
 mod vimp_newborn_tests;
-pub use vimp_active::Services as VimpActiveServices;
+pub use vimp_active::{
+    Movement as VimpActiveMovement, MovementServices as VimpActiveMovementServices,
+    Services as VimpActiveServices,
+};
 mod vimp_response;
 #[cfg(test)]
 mod vimp_response_tests;
@@ -382,6 +386,9 @@ pub struct Resident {
     initial_flags: DirectFlags,
     /// Owned fields initialized by construction, then updated by acquired kernels.
     pub construction_fields: Option<crate::actor_fields::Fields>,
+    /// Separate native camera look angle. Missing until an acquired producer
+    /// initializes it; body orientation and model scale do not supply it.
+    camera_look_angle: Option<f32>,
     pub attachment: Option<Attachment>,
     // A removed parent does not clear the acquired reference/behavior words.
     // None means no producer has supplied them, rather than assumed zeros.
@@ -639,6 +646,7 @@ impl Session {
                 constructor_mask,
                 initial_flags: flags,
                 construction_fields: None,
+                camera_look_angle: None,
                 state23_combat: None,
                 mecc_special: None,
                 delphi_special: None,
