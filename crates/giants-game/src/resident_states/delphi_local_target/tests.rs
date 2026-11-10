@@ -921,13 +921,21 @@ fn source_delphi_local_phase_traces_installed_terrain_from_cold_and_previous_cac
         }
         assert_eq!(plan.terrain_points.len(), 3);
         plan.fail = Some("query");
-        let error = s.advance_delphi_local_target(owner, context(owner, 4, &g), &mut plan).unwrap_err();
+        let error = s
+            .advance_delphi_local_target(owner, context(owner, 4, &g), &mut plan)
+            .unwrap_err();
         assert!(error.contains("required query failure"));
         let failed = s.delphi_local_target(owner).unwrap();
         assert_eq!(failed.phase, Phase::Failed);
-        assert_eq!(failed.state.terrain_point.map(f32::to_bits), plan.terrain_points.last().unwrap().map(f32::to_bits));
+        assert_eq!(
+            failed.state.terrain_point.map(f32::to_bits),
+            plan.terrain_points.last().unwrap().map(f32::to_bits)
+        );
         assert_eq!(s.delphi_physical(owner).unwrap().number, 3);
-        assert!(s.advance_delphi_local_target(owner, context(owner, 4, &g), &mut plan).is_err());
+        assert!(
+            s.advance_delphi_local_target(owner, context(owner, 4, &g), &mut plan)
+                .is_err()
+        );
         let mut untouched = [7., 8., 9.];
         let query = crate::terrain_queries::StaticTerrainQuery::new(
             &terrain,
