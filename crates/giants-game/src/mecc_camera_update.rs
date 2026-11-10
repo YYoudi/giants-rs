@@ -34,6 +34,15 @@ impl Profile {
         {
             return Err("Unclipped camera requires finite profile and pose inputs".into());
         }
+        let pose = self.unclipped_pose_kernel(position, yaw, pitch);
+        if !pose.eye.into_iter().all(f32::is_finite) {
+            return Err("Unclipped camera result exceeds finite profile".into());
+        }
+        Ok(pose)
+    }
+    // The ordinary loop validates its initial input once. Its later pitch
+    // adjustments and provider/failure ordering must retain their old domain.
+    fn unclipped_pose_kernel(self, position: [f32; 3], yaw: f32, pitch: f32) -> Pose {
         let (sy, cy) = crate::object_transform::sincos(yaw);
         let (sp, cp) = crate::object_transform::sincos(pitch);
         let forward = [(cp * sy) as f32, (-(cp * cy)) as f32, sp as f32];
@@ -46,15 +55,12 @@ impl Profile {
             (f64::from(position[2]) - (sp * f64::from(self.distance) - f64::from(self.height)))
                 as f32,
         ];
-        if !eye.into_iter().all(f32::is_finite) {
-            return Err("Unclipped camera result exceeds finite profile".into());
-        }
-        Ok(Pose {
+        Pose {
             eye,
             forward,
             up,
             vertical_fov: self.vertical_fov,
-        })
+        }
     }
     /// Acquired class-1 controlled-actor adjustment, before chase initialization
     /// and the ordinary camera loop. This does not select an owner or view.
@@ -218,7 +224,7 @@ impl State {
         let mut floor_queries = 0;
         let (mut eye, forward, up) = loop {
             let pose =
-                Profile { distance, ..p }.unclipped_pose(input.position, input.yaw, pitch)?;
+                Profile { distance, ..p }.unclipped_pose_kernel(input.position, input.yaw, pitch);
             let (mut eye, forward, up) = (pose.eye, pose.forward, pose.up);
             if input.skip_floor {
                 break (eye, forward, up);
@@ -461,6 +467,16 @@ mod tests {
         let out = state.advance(input(1), &mut provider).unwrap();
         assert_eq!(out.floor_queries, 50);
         assert_eq!(provider.clip_calls, 1);
+        let mut boundary = input(1);
+        boundary.pitch = -1e6;
+        let mut edge_world = Provider {
+            height: 1200.,
+            ..Default::default()
+        };
+        let edge = State::default().advance(boundary, &mut edge_world).unwrap();
+        assert_eq!(edge.floor_queries, 50);
+        assert_eq!(edge.camera.angles[1], -1e6 - 50.);
+        assert_eq!(edge_world.clip_calls, 1);
         let mut next = input(2);
         next.skip_floor = true;
         let out = state.advance(next, &mut provider).unwrap();
