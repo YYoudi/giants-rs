@@ -332,6 +332,15 @@ cycles with supplied commands. The image and checks retain this exact build
 scope; no normal gameplay or full camera/fidelity claim follows. The earlier Mecc
 observer timeout is retained privately as failed coverage, not relabeled a pass.
 
+Combined source `5eb6752`, preserving the landing, NPC and timed-effect changes
+through main `6352afb`, passes 953 synthetic Rust tests (152 ignored), eight
+installed CPU controls spanning Kabuto camera/cold/App lifetimes, Delphi
+construction/profile reset, ordinary Mecc body/jet and NPC menu re-entry. Rustfmt,
+strict workspace Clippy, 44 Python checks and site/JavaScript checks pass. The
+merged landing driver remains absent in the Kabuto fixture; its ordinary Mecc
+behavior and the exact earlier GPU build scopes are preserved. These source
+checks do not reassign the `1799a51` image to this later combined revision.
+
 ## Kabuto owned camera header and cold context - source dependency
 
 Kabuto still has no ordinary playable entry or new download. The Session now
