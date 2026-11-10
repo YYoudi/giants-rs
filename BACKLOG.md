@@ -57,6 +57,10 @@ unfinished native parent complete to deliver ordinary visual feedback.
   and gauges with supplied commands. Real changing levels still need checking
   on the combined interactive build. This is
   functional preview UI, not reconstructed original HUD artwork.
+  A source6d34ce5 Windows GPU capture now observes natural clip41 at step653
+  after sustained ordinary-controller thrust/release, with both arms raised,
+  jet submissions hidden and fuel45 in the gauge. Commands are supplied;
+  held OS input and landing remain open. No download is relabeled.
   Deferred constructor sound/attached FX, native range/retirement and impact births/contacts/damage, firing
   poses and owned actor/fire scheduling remain open; retain those actual services
   rather than selecting a guessed animation or substituting diagnostic shapes.

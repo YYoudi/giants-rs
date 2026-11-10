@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Ordinary Mecc descent visually observed - local Windows build
+
+The existing normal menu controller now has a reproducible graphical observation
+of its acquired descent pose. Source `6d34ce5`, executable SHA256
+`671b85e05775cc5215e18a413071aeba9006ceea0d67f87db4a553975c1a0ce1`,
+passes CLI startup and a silent GPU run through actual ordinary mission admission.
+After sustained supplied thrust/boost and release at step420, the real selector
+requests clip41 at step653. The inspected image shows both arms raised, jet draws
+hidden after release and fuel45 in the correctly shortened fuel gauge. No pose,
+actor readiness or native frame completion is forced. The later diagnostic guard
+also explicitly requires that selection to occur after release.
+
+The `campaign-descent-pose` diagnostic verifies an existing ordinary input path;
+it does not enable the pose in gameplay. Real sustained OS input, landing,
+original pose/timing comparison and a new public download remain unverified.
+The partial controller remains distinct from full owned Mecc admission and its
+missing impact/health/display/voice/FX/fire providers. This is graphical evidence,
+not a newly completed game feature. Keep it separate from the owned descent
+inspection, historical gallery and independently pinned public preview.
+
 ## Ordinary Mecc HUD feedback - source integration
 
 The normal menu-to-Mecc path now displays separate health and jet-fuel gauges
