@@ -10,22 +10,44 @@ struct Mounted {
     ticket: u64,
     entities: Vec<Entity>,
     label: Entity,
+    gauges: [(Entity, Entity); 2],
     mesh: Handle<Mesh>,
     image: Handle<Image>,
     material: Handle<crate::actor_scene::Material>,
     fired: u32,
     active: usize,
 }
+#[derive(Resource)]
+struct HudPalette {
+    panel: Color,
+    track: Color,
+    healthy: [Color; 2],
+    low: Color,
+    critical: Color,
+}
+impl Default for HudPalette {
+    fn default() -> Self {
+        Self {
+            panel: Color::srgba(0.02, 0.03, 0.04, 0.85),
+            track: Color::srgb(0.12, 0.16, 0.19),
+            healthy: [Color::srgb(0.25, 0.85, 0.42), Color::srgb(0.2, 0.75, 1.)],
+            low: Color::srgb(1., 0.65, 0.15),
+            critical: Color::srgb(1., 0.2, 0.18),
+        }
+    }
+}
 pub struct Plugin;
 impl bevy::app::Plugin for Plugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<State>().add_systems(
-            Update,
-            update
-                .after(crate::mission_player::PlayerUpdate)
-                .before(crate::source_view::ViewUpdate)
-                .run_if(crate::mecc_session::frontend_available),
-        );
+        app.init_resource::<State>()
+            .init_resource::<HudPalette>()
+            .add_systems(
+                Update,
+                update
+                    .after(crate::mission_player::PlayerUpdate)
+                    .before(crate::source_view::ViewUpdate)
+                    .run_if(crate::mecc_session::frontend_available),
+            );
     }
 }
 fn release(world: &mut World) {
@@ -120,19 +142,54 @@ fn mount(world: &mut World, ticket: u64) {
                 left: px(24.),
                 bottom: px(24.),
                 padding: UiRect::all(px(12.)),
+                flex_direction: FlexDirection::Column,
+                row_gap: px(8.),
                 ..default()
             },
-            BackgroundColor(Color::srgba(0.02, 0.03, 0.04, 0.8)),
+            BackgroundColor(world.resource::<HudPalette>().panel),
         ))
         .id();
     let label = world
         .spawn((
             ChildOf(root),
             Text::new(""),
-            TextFont::from_font_size(FontSize::Px(20.)).with_font(font),
+            TextFont::from_font_size(FontSize::Px(20.)).with_font(font.clone()),
             TextColor(Color::WHITE),
         ))
         .id();
+    let gauges = std::array::from_fn(|index| {
+        let label = world
+            .spawn((
+                ChildOf(root),
+                Text::new(""),
+                TextFont::from_font_size(FontSize::Px(16.)).with_font(font.clone()),
+                TextColor(Color::WHITE),
+            ))
+            .id();
+        let track = world
+            .spawn((
+                ChildOf(root),
+                Node {
+                    width: px(200.),
+                    height: px(7.),
+                    ..default()
+                },
+                BackgroundColor(world.resource::<HudPalette>().track),
+            ))
+            .id();
+        let fill = world
+            .spawn((
+                ChildOf(track),
+                Node {
+                    width: percent(100.),
+                    height: percent(100.),
+                    ..default()
+                },
+                BackgroundColor(world.resource::<HudPalette>().healthy[index]),
+            ))
+            .id();
+        (label, fill)
+    });
     let crosshair = world
         .spawn((
             crate::mission_runtime::MissionOwned(ticket),
@@ -171,6 +228,7 @@ fn mount(world: &mut World, ticket: u64) {
         ticket,
         entities: vec![draw, root, camera, crosshair],
         label,
+        gauges,
         mesh,
         image,
         material,
@@ -240,6 +298,7 @@ fn update(world: &mut World) {
     let m = world.resource::<State>().mounted.as_ref().unwrap();
     let mesh = m.mesh.clone();
     let label = m.label;
+    let gauges = m.gauges;
     if v.is_empty() {
         v = vec![[0.; 3]; 3];
         colors = vec![[1.; 4]; 3];
@@ -249,8 +308,26 @@ fn update(world: &mut World) {
         mesh.insert_attribute(Mesh::ATTRIBUTE_COLOR, colors);
         mesh.insert_attribute(Mesh::ATTRIBUTE_POSITION, v);
     }
-    world.get_mut::<Text>(label).unwrap().0 =
-        format!("HEALTH {health:.0}    FUEL {fuel:.0}\nPISTOL");
+    world.get_mut::<Text>(label).unwrap().0 = "PISTOL".into();
+    // Presentation of the existing controller values, not original HUD artwork.
+    for (index, ((label, fill), (name, value))) in gauges
+        .into_iter()
+        .zip([("HEALTH", health), ("FUEL", fuel)])
+        .enumerate()
+    {
+        let value = value.clamp(0., 100.);
+        world.get_mut::<Text>(label).unwrap().0 = format!("{name} {value:.0}");
+        world.get_mut::<Node>(fill).unwrap().width = percent(value);
+        let palette = world.resource::<HudPalette>();
+        let color = if value <= 10. {
+            palette.critical
+        } else if value <= 25. {
+            palette.low
+        } else {
+            palette.healthy[index]
+        };
+        world.get_mut::<BackgroundColor>(fill).unwrap().0 = color;
+    }
     let mut state = world.resource_mut::<State>();
     let m = state.mounted.as_mut().unwrap();
     m.fired = fired;
