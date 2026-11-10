@@ -23,6 +23,13 @@ Startup and real viewport pose/epoch and world input/projection remain open.
 This source dependency changes no downloadable-preview or gameplay availability.
 See [OWNED_CAMERA.md](OWNED_CAMERA.md) and [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
+Combined source `453f23fe6910ae41caf858d69a377b9c4218cf2d`, retaining main through
+`1e66d4b`, passes 917 workspace Rust tests (108 ignored), all fifteen installed
+Delphi controls, the two silent common-camera owner/pre-world regressions,
+Rustfmt, strict workspace Clippy, 43 Python tests and site/JavaScript checks.
+Its receipt-bound MinGW executable passes the explicitly waited CLI check.
+These are source/component controls; no new ordinary player interaction is asserted.
+
 ## Kabuto first common mission construction - source-only checkpoint
 
 The shared mission loader now selects the requested character's declared start
