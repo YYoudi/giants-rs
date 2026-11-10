@@ -38,9 +38,9 @@ checks and all three freshly downloaded assets pass; ten ZIP members, internal/
 external hashes, receipt and immutable tag agree. This binary has no new manual
 UI/fidelity claim; the separately recorded .3 manual observations remain .3.
 Later source-only Delphi auxiliary services do not relabel this frozen build.
-The newer combined source passes 872 Rust tests (65 ignored), strict Clippy,
-Rustfmt, 43 Python tests and both canonical positive/zero phase/header replays
-plus the three source impact controls. The receipt-bound full census now pins
+The later combination at `860cd8c` passes 872 Rust tests (68 ignored), strict
+Clippy, Rustfmt, 43 Python tests, nineteen installed Kabuto controls and both
+canonical positive/zero phase/header replays plus the three source impact controls. The receipt-bound full census now pins
 this published executable: 545 sources /16 worlds, zero preparation errors,
 59 reported-gap sources, 56 general-FX refusals and 282 strict-profile reviews.
 Only reviewed aggregate identities change; these diagnostics and zero certified
