@@ -4168,14 +4168,22 @@
     "media/285c194e6536293e8607ae29e0415ce92edfc889a36146559e8b239b6260b5f0.webp": "285c194e6536293e8607ae29e0415ce92edfc889a36146559e8b239b6260b5f0",
     "media/c38cc0350debd47743b24784bb54375d3cd5d938e416f47a560dbc8d41c26a60.webp": "c38cc0350debd47743b24784bb54375d3cd5d938e416f47a560dbc8d41c26a60",
     "media/e4bc6dfe3a3e8a76e22921659145dc70dec97d3af6b106e50725332d433b11a9.webp": "e4bc6dfe3a3e8a76e22921659145dc70dec97d3af6b106e50725332d433b11a9",
+    "media/8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9.webp": "8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9",
+    "media/82aeb77fb01574d9baac585fa0ad3b4c533afcdd91e40bb445913fe42fae8bfb.webp": "82aeb77fb01574d9baac585fa0ad3b4c533afcdd91e40bb445913fe42fae8bfb",
     "media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp": "0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4"
   },
   "screenshots": [
     {
-      "title": "Delphi initial body inspection",
-      "image": "media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp",
-      "caption": "Delphi\u2019s initial pose in Rstory1, rendered in Bevy. Diagnostic capture with an inspection camera. Movement, live animation, held equipment and normal gameplay remain unavailable; visual fidelity is unverified. This image is not from the published .8 download.",
-      "commit": "f4795de0de5dd43109e4a1f04f48f617950bd0da"
+      "title": "Preview .9 ordinary-controller jetpack",
+      "image": "media/8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9.webp",
+      "caption": "Actual Bevy GPU sample from Windows preview-2026.11.10.9. The ordinary partial controller drives the source jet/nitro models; no experimental backend is set. This diagnostic supplies commands and freezes the active sample. Separate OS mouse-pulse checks exercise the normal entry point, but sustained held flight, descent/landing and visual fidelity remain unverified.",
+      "commit": "3a17d2e53debd0c34dd9277aa0c29e192413c032"
+    },
+    {
+      "title": "Preview .9 source pistol projectile",
+      "image": "media/82aeb77fb01574d9baac585fa0ad3b4c533afcdd91e40bb445913fe42fae8bfb.webp",
+      "caption": "Actual Bevy GPU sample from Windows preview-2026.11.10.9 after normal mission admission. The diagnostic supplies one trigger; the registered projectile model and materials draw from the live shot. Native fire/impact/damage/FX and full fidelity remain incomplete. This is a recorded diagnostic sample, not an original-game comparison.",
+      "commit": "3a17d2e53debd0c34dd9277aa0c29e192413c032"
     },
     {
       "title": "Owned Mecc high descent",
@@ -4200,6 +4208,12 @@
       "image": "media/1d0df8017e6558babdd2f49ad552b0d5d17ed3644b9bfcabc4681728f4141f2e.webp",
       "caption": "The Bevy menu and player-profile selection screen. Rendering and full-game fidelity remain unverified.",
       "commit": "2a907b04d582e97baea2055ab09266379b8d2928"
+    },
+    {
+      "title": "Delphi initial body inspection",
+      "image": "media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp",
+      "caption": "Delphi\u2019s initial pose in Rstory1, rendered in Bevy. Diagnostic capture with an inspection camera. Movement, live animation, held equipment and normal gameplay remain unavailable; visual fidelity is unverified. This image is not from the published .8 or .9 download.",
+      "commit": "f4795de0de5dd43109e4a1f04f48f617950bd0da"
     }
   ],
   "featured_comparisons": [

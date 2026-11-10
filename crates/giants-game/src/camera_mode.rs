@@ -16,6 +16,15 @@ pub struct Owner<K> {
     pub object_flags: u32,
 }
 
+/// Current command and input context, separate from camera-owner selection.
+#[derive(Clone, Copy, Debug)]
+pub struct Command<K> {
+    pub request: i32,
+    pub extended: bool,
+    pub controlled: Option<K>,
+    pub scaled_input: bool,
+}
+
 pub trait Services<K> {
     /// Resolve the current profile after the mode words have changed. The
     /// original can query twice; the second result must not reuse the first.

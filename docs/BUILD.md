@@ -163,8 +163,16 @@ checks actual player constructor identity with a second actor of the same class,
 local/other audio routing, motion ownership, foreign and retired owner refusal,
 and mission cleanup. The same control checks constructor-bound ordinary jet model sizes and visibility,
 stale-frame quarantine and unchanged Session animation/world ownership. It also
-checks preparation of the source pistol projectile visual and foreign-ticket refusal. These
-checks do not prove GPU rendering or held input. It is silent CPU composition. The additional diagnostic
+checks source pistol projectile visual preparation and foreign-ticket refusal. These
+checks do not prove GPU rendering or held input. It is silent CPU composition.
+The same environment enables
+`cargo test --locked -p giants-app source_normal_mecc_body_drives_jet_presentation_across_flight_and_release --target x86_64-pc-windows-gnu -- --ignored`.
+This control composes the actual ordinary body, motion publication and jet child
+presentation over 1,600 supplied steps, including nitro, release and descent-clip
+selection. It samples the current body and preserves constructor channels and
+native-world admission guards; cancellation retires its owner. Real input and
+GPU appearance remain separate checks on the exact executable.
+The additional diagnostic
 `source_owned_mecc_runtime_terrain_and_presentation` now passes 128 prepared CPU
 frames with actual terrain, camera, ANM and weapon presentation. It checks the
 weapon's absence during draw and presence once actually equipped. This does not
@@ -1203,3 +1211,17 @@ inspection camera. It acknowledges no projection reset, normal input, live ANM,
 held/copy placement or gameplay readiness. Inspect the actual image separately
 from pipeline completion. The source-backed menu request uses a test preview
 profile; it does not prove ordinary campaign unlocks.
+
+### Kabuto owned camera-header control
+
+With a user-supplied installation in `GIANTS_KABUTO_ROOT` and a compatible inspected
+PC executable in `GIANTS_KABUTO_EXECUTABLE`, run:
+
+```powershell
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu source_kabuto_camera_command_updates_exact_owned_look_angle -- --ignored
+```
+
+This is a silent CPU control of actual constructed-owner storage, external cold
+camera words, current profiles and the projection kernel. It checks owner
+isolation, retained effects on failure and retirement. Loader-image state does
+not establish actual mission-entry/warm state, device publication or gameplay.

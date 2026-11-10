@@ -1,8 +1,60 @@
 # Preview releases and milestone integration
 
+## Published preview .9 - ordinary Mecc jet and projectile feedback
+
+[Windows preview-2026.11.10.9](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.9)
+is the current download. Start New Single Player Game with a supplied installation;
+right mouse drives thrust, Space selects nitro while thrusting, left mouse fires
+the partial base pistol, R changes view and Escape returns to the menu. No replay
+or experimental-backend flag is required for these normal connections.
+
+The exact executable completes three supplied-command GPU movement/jet/nitro/
+release and draw-retirement cycles. Separate inspected captures show the plume
+and source projectile. A fresh muted normal profile exercises two real menu
+entries/returns, OS right/left mouse pulses, first-person view and desktop exit.
+The pulse shot reaches a ground query; its manual image does not establish the
+projectile lifetime. Continuous held flight/nitro/fall/landing, full combat and
+fidelity remain unverified. CPU descent selection is not a real-input pose image.
+
+The runtime source is `3a17d2e53debd0c34dd9277aa0c29e192413c032`.
+Executable SHA256: `b6773640042da1e7a1efa32dfe9401425f80f0f665050f3ed7b62474aeb0a129`.
+ZIP SHA256: `e08d55c03509bdcf1b9bdd31b79e930a9cf9b455bdb9893b17b9b6076e426bb3`.
+949 portable Rust tests (143 ignored), 43 Python checks, format/strict Clippy and
+87 installed CPU owner/provider controls pass at their declared scopes. Runtime
+lifecycle and selected source-terminal/cancellation/re-entry checks also pass,
+with actual audio sinks muted for the latter. The ten-member package has complete
+338-package and eleven-entry toolchain notices, no technical distribution blockers,
+and matching receipt/manifest/checksums. Uploaded assets were independently
+retrieved and verified, including an anonymous public download after publication.
+
+Registered NPC resource staging and Delphi/Kabuto constructor groups remain
+intermediate dependencies; no ordinary AI or Delphi/Kabuto controls are enabled.
+Later main initial-body inspection, HUD/camera and cinematic sampling follow-ups
+are outside this frozen executable. The cinematic census remains tied to .7,
+and historical gallery images retain their recorded build. No whole-game
+completion or new confirmed prototype PS2 attribution follows from this release.
+
+## Flick timed queue ownership - intermediate dependency
+
+No new normal controls, runtime capability or downloadable preview is claimed.
+The next common campaign FX dependency is the source-marked timed-shot queue,
+its virtual support and retirement child in the canonical mission Session.
+Existing construction/callback controls remain reusable; an ordinary actor ID
+must not replace the source-domain support.
+
+The exact PC thread-state initializer and random helper now execute together
+under supplied Windows TLS, thread identities and zeroed heap allocation. Six
+interleaved draws preserve separate thread states and the caller's error value.
+Four supplied clock boundaries also execute the real time-sampled seed setter
+and following draw. A lazy initial seed does not establish the seed of a loaded
+mission: application reseeds and earlier draws still need their actual producers.
+The retained preview's per-director random state is not a native fidelity proof.
+Both prototype PS2 resources were searched with pinned binary identities before
+this work; attribution stays unknown. Detailed records remain private.
+
 ## State0 retained-reference guard — intermediate source dependency
 
-No ordinary Vimp AI map or new preview is available. Empty-channel state0 actors
+This NPC source checkpoint adds no ordinary Vimp AI map or preview. Empty-channel state0 actors
 now retain their actual reference resource owner behind the native absent-primary
 guard. The common ANM phase calls that existing guard after real channel entry and
 epoch publication; it preserves storage without manufacturing a current pose.
@@ -75,7 +127,7 @@ their original evidence scope and do not become playable by this policy change.
 
 ## Passive common-node ownership — intermediate source dependency
 
-No ordinary Vimp AI map or new preview is available. Source construction now
+This NPC source checkpoint adds no ordinary Vimp AI map or preview. Source construction now
 prepares the existing nonphysical common-node owner for supported empty state0
 actors. Neutral actors reuse the acquired null state dispatch, ANM/time and real
 finalization contracts; unsupported animated/reference-bearing or parented
@@ -92,7 +144,7 @@ ordinary interaction and preview validation. Frozen preview receipts stay intact
 
 ## Common Vimp pose renderer — runtime consumer, interaction unverified
 
-No ordinary Vimp AI map or new preview is available. The common executable now
+This NPC source checkpoint adds no ordinary Vimp AI map or preview. The common executable now
 consumes completed Session Vimp frames using their actual channels, animation epoch
 and affine, copying shared position buffers before another actor updates them.
 The existing opaque RGB body shader receives source geometry/textures. Primary
@@ -198,6 +250,35 @@ projection requests and refuses a retired owner. This does not submit projection
 to Bevy, acquire startup words or acknowledge the mission's pending reset.
 Actual input/device, first animation/render and physical/controller wiring remain
 open. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
+
+## Kabuto owned camera header and cold context - source dependency
+
+Kabuto still has no ordinary playable entry or new download. The Session now
+stores the acquired player-initialized look angle separately from body rotation
+and scale. Shared mode commands consume the real camera-owner identity and write
+that angle before the projection callback, preserving completed effects on a
+later failure. An external PC loader-image reader supplies cold camera words,
+including bounded PE zero-fill; this does not execute game startup or establish
+warm mission-entry state. The installed owner/profile/projection control checks
+the producer/consumer chain, duplicate actors, failed projection and retirement.
+The next missing runtime piece is persistent camera ownership and actual entry
+ordering with device publication; all Kabuto initializer gates remain pending.
+
+Combined source `b0e3845`, preserving main through the Mecc descent-inspection
+merge `3c97578`, passes 950 synthetic Rust checks (140 ignored), six installed
+CPU checks for Kabuto camera/cold construction/App entry, Delphi App entry and
+external-coefficient reset, and ordinary Mecc body/jet composition. Rustfmt,
+strict workspace Clippy, 43 Python tests and site/JavaScript checks pass. Native
+cold-prefix evidence remains private. None establishes rendered camera framing,
+held input, complete native startup or a new downloadable preview.
+
+Source `2fc01f2`, preserving the published .9 snapshot guidance and NPC services
+through main `963bcfb`, passes 953 synthetic Rust checks (145 ignored), seven
+installed CPU checks (the six above plus NPC menu binding/re-entry), strict
+workspace Clippy, Rustfmt, 44 Python tests and site/JavaScript checks. These
+later source checks do not change the .9 executable or its recorded GPU/input
+evidence. Exact reviewed historical-image hash/path pins keep the shared-history
+audit bounded while retaining changed-byte, alternate-path and secret checks.
 
 ## Kabuto signed camera coefficients - intermediate dependency only
 
@@ -509,6 +590,38 @@ The public .8 source, executable, package and acceptance identities remain
 immutable. The cinematic census stays pinned to its separate .7 audit. See
 [PREVIEW_NOTES.md](PREVIEW_NOTES.md) for the later-source boundary and
 [INTEGRATION.md](INTEGRATION.md) for the common-runtime prerequisites.
+
+## Vimp movement/response composition — 10 November 2026, source only
+
+The scalar/command prefix and active response now share one owned Session lease
+and RNG. Parameters publish before the actor clock, commands clear before the
+caller gate, and obstruction retry uses a separate global clock with strictly
+negative expiry. Earlier stores and callback/error/cancellation effects survive;
+reentry and replay remain refused. Existing arithmetic and steering are shared.
+
+The movement prefix matches 1,024 original-PC contexts /9,216 words and 117 source
+cycle prefixes /1,053 words. One first-handled prefix suppresses production; 116
+produce commands. The joint source comparison matches 115 visits /2,070 words
+while retaining commands, scalar/retry and active state plus RNG. Earlier caller
+gate, obstruction predicate, growth/motion/flags/clock/control and external draws
+remain supplied. No zero obstruction constructor value is inferred. Prototype PS2
+attributions remain unknown; inputs and detailed evidence stay private.
+
+Combined runtime source `0f62e17` preserves main through `cf65499`. Validation
+passes 943 default Rust tests (137 ignored), 34 installed NPC controls plus both
+private captured cycles, Delphi dependency-order and canonical timed-owner checks,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. The preceding active-state PR's dashboard and both Windows checks pass.
+Rebuilt captured/persistent active, locomotion and 32-scenario /96-snapshot
+herd/newborn comparisons still agree; the latter retains its supplied world
+boundaries and matches 824,168 words after the shared arithmetic refactor.
+
+No ordinary public map yet admits active Vimp AI. Story2 remains the CPU resource
+reference and first intended runtime target. Earlier world/caller producers and
+later look/physics/ANM/render ownership, actual population/global clock/RNG,
+contact, action/hint/audio and remaining modes still require integration and
+interactive entry/interaction/cancellation/re-entry validation. No capture,
+executable, download or frozen preview .8 notes/receipt is changed by this lot.
 
 
 ## Owned Vimp active-response state — 10 November 2026, source only

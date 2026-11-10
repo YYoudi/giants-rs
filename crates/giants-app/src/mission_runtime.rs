@@ -2061,8 +2061,8 @@ fn drive(
                     )
                 })();
                 let kabuto = prepare_kabuto(&root, &plan, &packet);
-                let npcs = npc::State::prepare(&root, &plan);
                 let delphi = prepare_delphi(&root, &plan, &packet);
+                let npcs = npc::State::prepare(&root, &plan);
                 let player = giants_game::player_initial::Prepared::load(
                     &root,
                     &plan,
