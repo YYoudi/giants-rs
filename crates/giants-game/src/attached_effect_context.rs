@@ -266,6 +266,13 @@ impl Pool<crate::resident_states::Id> {
     }
 }
 impl<K: Copy + Eq> Pool<K> {
+    pub(crate) fn retired(&self, id: Id) -> bool {
+        id.ticket == self.ticket
+            && self.slots.get(id.slot).is_some_and(|slot| {
+                slot.generation > id.generation
+                    || slot.generation == id.generation && slot.context.is_none()
+            })
+    }
     /// Consume a bounded timed request into its owned callback/resources, not a
     /// world slot or renderer token. Failed staging preserves context and RNG.
     pub fn consume_timed_attached(

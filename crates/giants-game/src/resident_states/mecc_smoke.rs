@@ -1,5 +1,5 @@
-//! Canonical retained smoke construction and explicit stop marking only.
-//! Object callbacks, descendants and eventual dead-object destruction are separate.
+//! Canonical retained smoke construction, explicit stop and bounded destruction.
+//! Object callbacks, descendants and general world destruction are separate.
 use super::*;
 use crate::{attached_effect_context::Id as ContextId, effect_actor::Placement};
 
@@ -16,6 +16,106 @@ pub(super) struct Metadata {
 }
 
 impl Session {
+    /// Destroy only an explicitly stopped, unadvanced retained emitter whose
+    /// context has already retired in this pool. This is a cleanup-phase service,
+    /// not a common-world traversal or general actor deletion operation.
+    pub fn destroy_stopped_smoke(
+        &mut self,
+        id: Id,
+        contexts: &crate::attached_effect_context::Pool<Id>,
+    ) -> Result<crate::mecc_smoke_effect::Destruction, String> {
+        let actor = self
+            .get(id)
+            .ok_or("smoke destruction actor absent or foreign")?;
+        let metadata = actor
+            .smoke_effect
+            .as_ref()
+            .ok_or("smoke destruction ownership absent")?;
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("smoke destruction fields absent")?;
+        let data = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("smoke destruction payload absent")?;
+        let memberships = self
+            .links
+            .memberships(id.serial)
+            .into_iter()
+            .map(|(_, list)| list)
+            .collect::<Vec<_>>();
+        let parent_invalidated = self
+            .get(metadata.parent)
+            .and_then(|parent| parent.construction_fields.as_ref())
+            .ok_or("smoke destruction parent storage absent before attachment cleanup")?
+            .object_flags
+            & 0x8000
+            != 0;
+        if self.common_walk_running
+            || !metadata.stopped
+            || !contexts.retired(metadata.origin)
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 78
+            || data.len() != 268
+            || data[0xf8..0x10c].iter().any(|b| *b != 0)
+            || fields.object_flags & 0x8000 == 0
+            || fields.control_flags & 0x20 == 0
+            || fields.configuration[14] & 0x20 != 0
+            || fields.shadow.is_some()
+            || fields.action != 0
+            || actor.attachment.is_some()
+            || actor.presentation_parent != Some(metadata.parent)
+            || memberships != [14, 0]
+            || !self.specifications.contains_key(&id.serial)
+            || !self.state_resources.contains_key(&id.serial)
+            || self.declarations.values().any(|declared| *declared == id)
+            || self.residents.values().any(|other| {
+                other.presentation_parent == Some(id)
+                    || other
+                        .attachment
+                        .is_some_and(|attachment| attachment.parent == id)
+            })
+        {
+            return Err("smoke destruction requires retired context, completed stop and acquired callback-free ownership".into());
+        }
+        let mut report = crate::mecc_smoke_effect::Destruction {
+            origin: metadata.origin,
+            parent: metadata.parent,
+            payload_bytes: data.len(),
+            registrations: memberships.len(),
+            parent_invalidated: false,
+        };
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        if parent_invalidated {
+            // The acquired prepass clears the live attachment before calling
+            // the state destructor; its reference words remain historical.
+            actor.presentation_parent = None;
+        }
+        report.parent_invalidated = actor.presentation_parent.is_none();
+        let metadata = actor.smoke_effect.take().unwrap();
+        let mut emission = Some(metadata.emission);
+        // The acquired state destructor releases its emitter bank before the
+        // payload. All other state-owned service variants were refused above.
+        actor
+            .seed
+            .storage
+            .transition_with(0, |_, data| {
+                drop(emission.take());
+                data[0x104..0x108].fill(0);
+                Ok(())
+            })
+            .expect("checked smoke teardown into empty storage is infallible");
+        // Per-instance reference/cache owners precede reverse-list removal.
+        // Shared class/model resources remain owned by their other references.
+        self.specifications.remove(&id.serial);
+        self.state_resources.remove(&id.serial);
+        let removed = self.links.remove_object(id.serial);
+        debug_assert_eq!(removed, report.registrations);
+        self.residents.remove(&id.serial);
+        Ok(report)
+    }
     pub(crate) fn validate_smoke_parent_scope(&self, parent: Id) -> Result<(), String> {
         if parent.ticket != self.ticket {
             return Err("smoke parent belongs to another Session".into());
@@ -337,6 +437,151 @@ mod tests {
             );
             assert_eq!(pool.get(missing).unwrap().recipient(), Some(source));
             pool.release_prepared(missing).unwrap();
+        }
+    }
+
+    #[test]
+    #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; stopped emitter destruction and resource/identity lifetime, no live FX callbacks"]
+    fn source_mecc_stopped_smoke_destroys_only_owned_resources() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_MECC_WORLD_ROOT").unwrap());
+        let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        for dead_parent in [false, true] {
+            let mut session = Session::new(981);
+            let source = parent(&mut session, &resources);
+            let peer_source = parent(&mut session, &resources);
+            let mut pool = Pool::from_active_resources(982, &resources);
+            let mut random = Random(42);
+            let prepare = |pool: &mut Pool<Id>, parent, random: &mut Random| {
+                let Creation::Prepared(id) = pool
+                    .prepare_extended_invariant("FX_mecc_smoking_light", parent, 0, 3, random)
+                    .unwrap()
+                    .0
+                else {
+                    panic!("source absent")
+                };
+                id
+            };
+            let context = prepare(&mut pool, source, &mut random);
+            let emitter = pool
+                .activate_damage_smoke(context, &mut session, &resources, &mut random)
+                .unwrap();
+            let peer_context = prepare(&mut pool, peer_source, &mut random);
+            let peer = pool
+                .activate_damage_smoke(peer_context, &mut session, &resources, &mut random)
+                .unwrap();
+            let counts = session.counts();
+            assert!(session.destroy_stopped_smoke(emitter, &pool).is_err());
+            let stale_pool = pool.staged_copy();
+            pool.release_damage_smoke(context, &mut session).unwrap();
+            assert!(session.destroy_stopped_smoke(emitter, &stale_pool).is_err());
+            assert!(
+                session
+                    .destroy_stopped_smoke(emitter, &Pool::new(983, None))
+                    .is_err()
+            );
+            if dead_parent {
+                session
+                    .residents
+                    .get_mut(&source.serial)
+                    .unwrap()
+                    .construction_fields
+                    .as_mut()
+                    .unwrap()
+                    .object_flags |= 0x8000;
+            }
+            let source_fields = session
+                .get(source)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .words();
+            let source_data = session
+                .get(source)
+                .unwrap()
+                .seed
+                .storage
+                .data()
+                .unwrap()
+                .to_vec();
+            let specification = Arc::downgrade(session.specification(emitter).unwrap());
+            let states = Arc::downgrade(session.state_resources.get(&emitter.serial).unwrap());
+            // Refuse an unacquired state service before releasing any owner.
+            session
+                .residents
+                .get_mut(&emitter.serial)
+                .unwrap()
+                .seed
+                .storage
+                .data_mut()
+                .unwrap()[0xf8] = 1;
+            assert!(session.destroy_stopped_smoke(emitter, &pool).is_err());
+            assert!(specification.upgrade().is_some());
+            session
+                .residents
+                .get_mut(&emitter.serial)
+                .unwrap()
+                .seed
+                .storage
+                .data_mut()
+                .unwrap()[0xf8] = 0;
+            session.common_walk_running = true;
+            assert!(session.destroy_stopped_smoke(emitter, &pool).is_err());
+            session.common_walk_running = false;
+            session
+                .residents
+                .get_mut(&peer_source.serial)
+                .unwrap()
+                .presentation_parent = Some(emitter);
+            assert!(session.destroy_stopped_smoke(emitter, &pool).is_err());
+            session
+                .residents
+                .get_mut(&peer_source.serial)
+                .unwrap()
+                .presentation_parent = None;
+            assert_eq!(session.counts().payload_bytes, counts.payload_bytes);
+            assert_eq!(session.counts().registrations, counts.registrations);
+            // Reused context storage must not make the old lease live again.
+            let replacement = prepare(&mut pool, peer_source, &mut random);
+            assert_eq!(replacement.slot(), context.slot());
+            assert_ne!(replacement, context);
+            let report = session.destroy_stopped_smoke(emitter, &pool).unwrap();
+            assert_eq!(report.origin, context);
+            assert_eq!(report.parent, source);
+            assert_eq!(report.payload_bytes, 268);
+            assert_eq!(report.registrations, 2);
+            assert_eq!(report.parent_invalidated, dead_parent);
+            assert!(specification.upgrade().is_none());
+            assert!(states.upgrade().is_none());
+            assert!(session.get(emitter).is_none());
+            assert!(session.specification(emitter).is_none());
+            assert!(session.destroy_stopped_smoke(emitter, &pool).is_err());
+            assert_eq!(session.counts().residents, counts.residents - 1);
+            assert_eq!(session.counts().payload_bytes, counts.payload_bytes - 268);
+            assert_eq!(session.counts().registrations, counts.registrations - 2);
+            assert!(!session.list(0).contains(&emitter));
+            assert_eq!(session.list(14), vec![peer]);
+            assert_eq!(
+                session
+                    .get(source)
+                    .unwrap()
+                    .construction_fields
+                    .as_ref()
+                    .unwrap()
+                    .words(),
+                source_fields
+            );
+            assert_eq!(
+                session.get(source).unwrap().seed.storage.data().unwrap(),
+                source_data
+            );
+            pool.validate_damage_smoke(peer_context, &session).unwrap();
+            pool.release_prepared(replacement).unwrap();
+            pool.release_damage_smoke(peer_context, &mut session)
+                .unwrap();
+            session.destroy_stopped_smoke(peer, &pool).unwrap();
+            assert!(session.list(14).is_empty());
+            assert_eq!(session.list(0), vec![source, peer_source]);
         }
     }
 }

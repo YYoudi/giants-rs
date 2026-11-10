@@ -1210,8 +1210,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   after construction: 48 native/Rust cases / 576 words agree, including repeated
   cleanup and explicit stop after loss. Current and historical recipient
   identities stay distinct; missing live storage/foreign Sessions are refused.
+  Explicitly stopped, unadvanced smoke now has canonical teardown after context
+  retirement: 24 native controls / 216 selected Rust ownership results agree.
+  The native bank-before-payload free order is observed separately; installed
+  weak-owner, count, peer and generation checks cover actual Rust release.
+  Dead-parent attachment invalidation precedes destruction. Unacquired service
+  variants and dependent children refuse before release.
   Next acquire global parent/child cleanup scheduling, emitter callbacks and
-  descendants, eventual dead-object destruction and world admission. Preserve
+  descendants, advanced resource teardown and ordinary world admission. Preserve
   the completed prototype PS2 lookups (all unassigned), exact PC identity, old
   aliases, separate preparation/active draws and source image ownership. See
   docs/OWNED_MECC_CONTACT.md for the staged constructor contract.

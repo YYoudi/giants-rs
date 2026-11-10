@@ -93,6 +93,12 @@ foreign/missing live storage refusal, retained origin/cursor and stop after loss
 The existing wounded-primary smoke control also cancels after supplied parent
 death. These checks do not run a global cleanup pass or destroy dead actors.
 
+With the same `GIANTS_MECC_WORLD_ROOT`, the ignored
+`source_mecc_stopped_smoke_destroys_only_owned_resources` control checks bounded
+stopped-emitter destruction, weak resource ownership, parent/peer preservation,
+counts, generation reuse and refused live/foreign/stale/wrong-phase/dependent
+requests. It does not execute particles or the general world cleanup schedule.
+
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.
 Use a separate Cargo target directory for each active worktree. Sharing downloaded

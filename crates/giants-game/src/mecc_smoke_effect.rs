@@ -11,6 +11,15 @@ use crate::{
 use giants_formats::effect_image::Image;
 use std::sync::Arc;
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Destruction {
+    pub origin: Id,
+    pub parent: crate::resident_states::Id,
+    pub payload_bytes: usize,
+    pub registrations: usize,
+    pub parent_invalidated: bool,
+}
+
 #[derive(Debug)]
 pub struct Emission {
     pub configuration: EmissionConfiguration,

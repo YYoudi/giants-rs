@@ -799,3 +799,40 @@ This is per-context reference cleanup. The global world cleanup schedule,
 child-attachment invalidation, dead-object destruction and particle callbacks
 remain required before normal mission admission. Prototype PS2 correspondence
 for the acquired validity helper remains unknown.
+
+## Stopped emitter destruction — 10 November 2026
+
+`Session::destroy_stopped_smoke` now tears down an explicitly stopped, unadvanced
+emitter after its originating context has retired in the actual pool. A reused
+slot with a newer generation does not revive that origin. Foreign pools, live
+origins, running common walks, dependent attachments and unacquired state-service
+variants are refused before releasing anything.
+
+The acquired state78 destructor releases its emitter owner before the payload.
+The instance's reference/state caches then leave the canonical registries, its
+reverse registrations are removed and the actor identity retires. A dead parent's
+live attachment is cleared before the state destructor; the report preserves the
+historical parent and origin. Shared class/model owners and unrelated residents
+remain intact. This is a bounded cleanup-phase service, not a general world pass.
+Advanced FX callbacks, extra state-owned resources, shadow variants and dependent
+child propagation remain prerequisites for broader destruction.
+
+The actual native common cleanup, state78 destructor and reverse unlink execute
+in 24 supplied controls. Twelve include a living parent in the common cohort;
+twelve supply a dead parent outside the destruction cohort while leaving its
+storage available for attachment invalidation. The optional global tracker is
+null, and the heap/texture/thread providers remain supplied. Native free requests
+show the bank released before the payload and shared class storage retained.
+The memory fixture logs frees rather than unmapping native addresses.
+
+Rust agrees on 216 selected normalized retirement, instance-reference/list,
+context, parent-preservation, RNG and attachment-invalidation result words. This
+is not a native-pointer or physical-pool memory-reuse comparison. Separate
+installed lifetime tests check actual weak specification/state owners disappear,
+parent/peer storage remains unchanged, payload/registration counts decrease,
+old actor identities refuse reuse, newer context generations survive and either
+living or dead parents permit the acquired teardown. Refused service variants,
+foreign/stale pools, dependent attachments and wrong-phase calls preserve owners.
+
+No particle update, live renderer, full world traversal or new downloadable build
+is admitted by this checkpoint. Prototype PS2 attributions remain unknown.
