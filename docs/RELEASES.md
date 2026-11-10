@@ -16,6 +16,33 @@ identity changes follow from this evidence. Published .7 and .8 retain their own
 census still certifies zero complete films. Native pool/population/cleanup and
 complete visual/audio/temporal/gameplay validation remain open.
 
+## Combined Mecc and Delphi source integration - 10 November 2026
+
+Integration source `ca43619c48ed2d68c7b14778b2bb1501a0ae17d8` combines reviewed
+Mecc `bac59d8` (idle variants, effect-free wounds and ordered completion admission)
+with Delphi `897d80d` (pre-physical held-cache provenance and candidate geometry),
+preserving the earlier Flick, Kabuto and NPC contributions. Required callbacks,
+geometry admission and failed-turn quarantine remain explicit. Prototype PS2
+attributions for these acquired routines remain unknown; no new name is confirmed.
+
+The combined source passes 913 workspace Rust tests (106 ignored), 27 installed
+Mecc and 14 installed Delphi controls, 43 Python tests, Rustfmt and strict workspace
+Clippy. Two 512-frame App controls pass with actual terrain, animation, camera,
+held submission and cleanup; the jet control uses real zero-PCM muted sinks.
+Commands, clocks, gates and world populations remain controlled inputs. These
+checks do not establish manual gameplay, native world admission or fidelity.
+
+A receipt-bound MinGW build of that exact integration source also passes awaited
+CLI startup and offscreen GPU acceptance: three 128-frame owned inspection cycles
+with menu return/cleanup, one 128-frame jet lift/fuel control and an active-thrust
+capture at step 36. The jet checks use real muted transport. Replay commands and
+world gates remain supplied; this private test executable is not a new download.
+
+The public .8 source, executable, package and acceptance identities remain
+immutable. The cinematic census stays pinned to its separate .7 audit. See
+[PREVIEW_NOTES.md](PREVIEW_NOTES.md) for the later-source boundary and
+[INTEGRATION.md](INTEGRATION.md) for the common-runtime prerequisites.
+
 ## Delphi pre-physical held-cache and geometry binding - 10 November 2026
 
 The running local caller now reads its explicitly acquired cold constructor
@@ -5925,3 +5952,103 @@ it does not establish audible fidelity. The main lane owns
 preview publication; this handoff does not relabel the separate preview 6 receipt,
 notices or checksums. See
 [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#pistol-callback-integration--10-november-2026).
+
+### Mecc ordinary idle variants — 10 November 2026
+
+The living pistol selector now preserves its weighted idle choice, shared-clip
+logical states, continuation and movement interruption. Required RNG draws still
+execute when no channel is reselected; no animation-ready flags are forced.
+Special object, alternate-turn and equipment profiles remain explicit boundaries.
+
+A 4,032-context native selector matrix matches 1,342,948 selected header/payload,
+request and RNG words, including unchanged supplied fields. Eleven seeded
+512-frame primary runs cover every selected nondefault logical variant through
+actual ANM and owned services: 5,632 snapshots / 253,440 selected numeric words
+agree, plus relative epochs after declared startup-seed normalization. Flat floor,
+clocks, commands, gates, source/allocation providers and empty populations remain
+supplied. No whole-payload, global startup or graphical fidelity claim follows.
+Prototype PS2 attributions remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-idle-variants--10-november-2026).
+
+Combined validation retaining main through `d51d695` passes 895 workspace Rust
+tests (94 ignored), twenty-six installed Mecc controls, the prepared 128-frame
+App control, shared timed-owner and cold Delphi support controls, Rustfmt and
+strict workspace Clippy, 43 Python tests and generated site/JavaScript checks.
+The main lane retains preview publication and its
+separate source, notices and checksum identity; this source handoff creates no
+new download or ordinary gameplay certification.
+
+### Mecc effect-free wounds and extended runtime - 10 November 2026
+
+The full primary now advances empty zero-level damage smoke without inventing a
+display snapshot. Observable smoke effects still require their actual owner;
+stale snapshots and invalid state retain their refusals. Eighty native policy
+controls and 512 wounded Rust frames agree against either supplied native reset
+outcome on health, smoke, channels, flags and RNG: 24,576 selected numeric words
+plus relative epochs per comparison. The same Rust trajectory is compared twice;
+this is neither a complete world nor graphical-fidelity result. Prototype PS2
+attributions remain unknown.
+
+Prepared App CPU and reserved zero-PCM device diagnostics pass the baseline
+512-frame profile. Extended thrust/boost still stops at frame 402 on the required
+impact provider. Guard audit evidence separates health suppression from unrelated
+audio/editor guards; complete producers and lifetimes remain prerequisites.
+The main lane retains preview publication and its separate binary, notices and
+checksum identity. This source checkpoint creates no new download. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#effect-free-wounds-and-extended-runtime-controls--10-november-2026).
+
+Validation retaining main through `cbdb58d` passes 904 workspace Rust tests
+(98 ignored), twenty-seven installed Mecc controls, the prepared 512-frame App
+CPU and zero-PCM device controls, strict workspace Clippy, Rustfmt, 43 Python
+tests and generated site/JavaScript checks. Separate default-profile and shared
+owner controls retain their narrower scopes.
+
+### Mecc temporary suppression producer subphase - 10 November 2026
+
+The shared mission-completion countdown now preserves temporary health-suppression
+claim/release, the active-marker prefix, wide expiry versus single-precision onset
+comparison and independent clock requests. Existing nonzero suppression values
+are not newly claimed. A retained claim marker determines release at expiry.
+Late clock failures retain completed stores. Outer admission, initial state,
+mission records, clock production and the following message/progression phase
+remain required before live binding. No default impact context is installed.
+
+The original-PC handler and Rust agree on 216 independent contexts plus nine
+continuous ten-step sequences: 306 snapshots, 1,836 selected timer/guard words and
+612 clock-count/phase results. Outer inputs and clocks are supplied; expired
+controls stop after release before message/progression. Prototype PS2 attributions
+remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#mission-completion-suppression-ownership---10-november-2026).
+
+Validation retaining main through `31032dc` passes 907 workspace Rust tests
+(101 ignored), twenty-seven installed Mecc controls, the prepared 512-frame App
+CPU and reserved zero-PCM device controls, shared timed Session and cold Delphi
+ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
+site/JavaScript checks. This source handoff creates no preview; the main lane
+retains the exact download source, notices and checksum identity.
+
+### Mecc ordered completion admission - 10 November 2026
+
+The suppression countdown now has an acquired ordered admission prefix. It
+preserves the initial guard, mode-gated precheck before later guards, first-visit/
+request publication, required callback arguments and current-record rereads.
+Signed record counters select inactive, countdown or required record advancement;
+callback failure preserves completed state. Full native precheck/previous-record
+services and actual snapshot ownership remain required. The precheck also has
+music/player-transition responsibilities and is not replaced by an empty initializer.
+
+Native/Rust prefix agreement covers 824 supplied contexts: 12,360 selected state
+words and 2,348 decision/callback results. Composition with the actual native
+countdown admits 32 contexts (ten pending, 22 expired after suppression release).
+Callback effects and clock outputs remain supplied; the subsequent message/
+progression phase does not execute. These are scoped state/control comparisons,
+not complete global-state coverage or live gameplay. Prototype PS2 attributions
+remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordered-completion-admission---10-november-2026).
+
+Validation retaining main through `aa018fe` passes 912 workspace Rust tests
+(104 ignored), twenty-seven installed Mecc controls, the prepared 512-frame App
+CPU and reserved zero-PCM device controls, shared timed Session and cold Delphi
+ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
+site/JavaScript checks. Concurrent preview .8 evidence and its limitations are
+retained separately. This source handoff creates no new download or live admission.

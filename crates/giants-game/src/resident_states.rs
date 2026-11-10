@@ -1597,9 +1597,19 @@ impl Session {
             return Err("Mecc draw marker differs from its typed binding".into());
         }
         let first_draw = actor.mecc_pistol_draw.is_some();
+        let effect_free = primary
+            && damage_display.is_none()
+            && health.damage != 0.
+            && actor.mecc_damage_smoke.can_advance_without_display(
+                crate::mecc_damage_effect::Input::from_globals(
+                    health.damage,
+                    health.limit,
+                    environment.globals,
+                )?,
+            )?;
         if (health.damage != 0.
             && !(primary
-                && damage_display.is_some()
+                && (damage_display.is_some() || effect_free)
                 && health.damage >= 0.
                 && health.damage < health.limit))
             || actor.attachment.is_some()
@@ -1875,29 +1885,30 @@ impl Session {
                 if word(0x1a0) != u32::from(smoke.binding.is_some()) || word(0x1a4) != smoke.level {
                     return Err("damage smoke payload differs from its persistent owner".into());
                 }
-                if let Some(display) = damage_display {
-                    let result = smoke.advance(
-                        crate::mecc_damage_effect::Input::from_globals(health.damage, health.limit, globals)?,
+                let smoke_input = crate::mecc_damage_effect::Input::from_globals(health.damage, health.limit, globals)?;
+                let result = if let Some(display) = damage_display {
+                    smoke.advance(
+                        smoke_input,
                         &mut crate::mecc_damage_effect::Bound { session: self, prepared: crate::mecc_damage_effect::Prepared { reset: display.display.owns(&id),
                             pool: &mut pipeline.contexts, source: id, source_flags: output.fields.object_flags,
                             random: &mut pipeline.random } },
-                    );
-                    output.payload[0x1a0..0x1a4].copy_from_slice(&u32::from(smoke.binding.is_some()).to_le_bytes());
-                    output.payload[0x1a4..0x1a8].copy_from_slice(&smoke.level.to_le_bytes());
-                    let actor = self.residents.get_mut(&id.serial).unwrap();
-                    actor.mecc_damage_smoke = smoke;
-                    actor.mecc_animation_stamp = pipeline.last_stamp;
-                    actor.channels = Some(pipeline.channels);
-                    actor.construction_fields = Some(output.fields.clone());
-                    actor.seed.storage.data_mut().unwrap().copy_from_slice(&output.payload);
-                    self.specifications.get_mut(&id.serial).unwrap().0 = pipeline.references.clone();
-                    self.mecc_events = Some(pipeline.bank.clone());
-                    *contexts = pipeline.contexts.staged_copy();
-                    *random = pipeline.random;
-                    result?;
-                } else if health.damage != 0. || smoke.binding.is_some() || smoke.level != 0 {
-                    return Err("wounded primary requires its actual damage-smoke display provider".into());
-                }
+                    )
+                } else {
+                    smoke.advance_without_display(smoke_input)
+                };
+                output.payload[0x1a0..0x1a4].copy_from_slice(&u32::from(smoke.binding.is_some()).to_le_bytes());
+                output.payload[0x1a4..0x1a8].copy_from_slice(&smoke.level.to_le_bytes());
+                let actor = self.residents.get_mut(&id.serial).unwrap();
+                actor.mecc_damage_smoke = smoke;
+                actor.mecc_animation_stamp = pipeline.last_stamp;
+                actor.channels = Some(pipeline.channels);
+                actor.construction_fields = Some(output.fields.clone());
+                actor.seed.storage.data_mut().unwrap().copy_from_slice(&output.payload);
+                self.specifications.get_mut(&id.serial).unwrap().0 = pipeline.references.clone();
+                self.mecc_events = Some(pipeline.bank.clone());
+                *contexts = pipeline.contexts.staged_copy();
+                *random = pipeline.random;
+                result?;
             }
             if periodic {
                 let timer = f32::from_le_bytes(output.payload[0x1d4..0x1d8].try_into().unwrap());

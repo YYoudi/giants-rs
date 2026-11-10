@@ -656,6 +656,7 @@ pub mod mecc_physical_cycle;
 pub mod mecc_physical_dispatch;
 pub mod mecc_physics;
 pub mod mission_cinematics;
+pub mod mission_completion_countdown;
 pub mod mission_loading;
 pub mod mission_proxy;
 pub mod mission_slot;
