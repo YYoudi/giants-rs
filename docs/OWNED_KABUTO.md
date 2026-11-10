@@ -1685,8 +1685,120 @@ equivalence claim. After sharing target detachment, the complete preceding
 release still agrees on 512 intervals / 1,331,545 words, including eight declared
 late impulse-transport failures.
 
-Actual Session current/held-reference storage, lifetime binding, caller decision
-and counter producers, backend services and complete primary ordering remain
-required. The existing retained attachment words are a separate owner. No new
+The owned Session storage/composition is described below. Actual capture/lifetime
+binding, caller decision and counter producers, backend services and complete
+primary ordering remain required. The retained attachment words are a separate
+owner. No new
 initializer/history completion, menu gameplay, movement, feeding, growth trigger,
 capture or Windows preview is established; prototype PS2 attributions stay unknown.
+
+## Owned current/held-reference bank and service composition
+
+The cold group now owns three optional actor identities, corresponding to the
+constructor-cleared current/held cells. They use the common Session ticket and
+registry; raw pointer cells remain normalized to zero. Scale words stay in the
+actual owned payload. Missing owner/storage and unsupported pointer-bearing data
+refuse access instead of returning fabricated empty references.
+
+`Factory::publish_reference` stores an already selected actor and supplied scale
+at the owning resource checkpoint. This is a publication primitive, not an
+implementation of target selection, capture policy or scale calculation.
+`Factory::advance_held_references` runs the acquired handoff with that bank,
+canonical actor fields and required world services. Before every mutable service,
+working reference stores become visible in Session. Afterwards, the adapter reads
+the actual state again, including completed effects when the provider returns an
+error. It writes only the reference/scale cells, preserving unrelated callback
+changes. Owner/resource changes stop further publication. Construction responses
+must identify an actor present in this Session.
+
+The component has separate entry/running/completion bookkeeping. Wrong resource
+identity, checkpoint, reentry and replay refuse execution; late errors quarantine
+the group. This acknowledges only the bounded handoff component, without finishing
+the enclosing primary, motion history or any of the four pending initializers.
+Stored identities alone are not a complete retirement/lifetime protocol.
+
+Three installed controls execute the real preceding motion/contact/model/ANM/
+gravity/control/resource components, then exercise publication/rereads, late
+failure and removal without stale restoration. Actual actors and resources are
+owned; capture policy/scale, caller counters/mode and the mutating binding entry
+remain declared inputs/providers. A selected thirty-word projection of bank,
+control/header stores, binding arguments and caller branch also agrees with the
+original interval on that source-backed context. The wider standalone handoff and
+release controls retain their exact agreement. These are CPU comparisons, not
+continuous frame, geometry/animation/backend or visual fidelity evidence.
+
+Current mode/network ownership, construction, common binding, animation,
+transport, reset, action and physical delivery retain mandatory interfaces with
+no successful default provider. Complete caller policy, reference lifetime and
+remaining primary/world integration are still required before admitting live
+Kabuto movement/feeding/growth. Preview identities and historical captures stay
+separate from this source-only composition.
+
+## Retained caller input for held-reference handoffs
+
+`Factory::advance_captured_held_references` consumes the decision, previous/current
+frame and wrap sample retained by this owner's completed resource component.
+It reuses that component's existing template time-to-frame conversion. Later
+channel, action or motion-mode writes do not replace this earlier caller sample.
+Missing snapshots, wrong resources/checkpoints and replay refuse; all mutable
+backend boundaries still use the actual Session reference bank.
+
+Eight complete original-PC primaries track the actual stack-cell writers and
+retain 32 selected caller words between the resource and handoff frontiers.
+Sixteen previous/current converter words also agree with the existing compiled
+Rust time-to-frame service, whose scoped source fingerprints are unchanged.
+The control supplies behavior, finite channel clocks and the wrap bit at the
+capture point, in addition to its declared memory, TLS, clock, flat-world and
+projection boundaries. It does not establish live input or valid animation/action
+admission. A failed exploration retained duplicate per-case TLS providers; the
+corrected run removes each hook after its case, preserving the native bodies and
+identical supplied inputs. Detailed records remain private; attribution is unknown.
+
+A fourth installed bank control reaches the actual resource checkpoint, changes
+both current channel mirrors, action and motion mode, then consumes the retained
+sample. It also checks missing-snapshot refusal without entering the component,
+foreign resources, wrong checkpoints, replay and unchanged pending initializers.
+The lower-level explicit-input entry remains useful for its bounded controls.
+Complete action/capture policy, intervening primary phases, actor lifetimes and
+real construction/binding/ANM/transport/reset/physical services remain required.
+This adds no complete primary/history, menu control, movement, feeding, growth
+trigger, capture or new downloadable-preview claim.
+
+## Selected-animation commit and immediate ANM
+
+`Factory::commit_animation_selection` consumes an already selected request at the
+owning resource checkpoint. It reuses `animation_channels::select_primary` and
+`actor_animation_phase::Pipeline`; neither setter nor pose/event arithmetic is
+duplicated. Reference speed uses the actor's current scale, and the supplied
+clear-mask modifies the request flags before publication to both channel mirrors.
+Required transport sees that completed selection. Its effects survive a late
+error; owner removal prevents further stale stores. Successful transport precedes
+the behavior/definition stores and conditional restoration of the earlier clock.
+
+The immediate ANM pass uses zero seconds, retaining real backup-channel, clock,
+reference, epoch, dispatcher, context and RNG effects. The subsequent counter
+conversion uses the earlier resource template across that pass. The first helper
+return does not replace the caller's earlier previous-frame local; the returned
+view supplies only the new current-frame value. The activity timer clears after
+successful conversion. Required event/transport failures quarantine the bounded
+component; no successful default backend is supplied.
+
+512 actual source-owned contexts match the original interval on 410,880 normalized
+header/payload/reference/epoch/TLS/counter/service words. The original shared
+setter, zero-second ANM, ownership predicate and template converter execute.
+This includes 768 ANM dispatcher visits, not a claim of 768 delivered world events.
+The 256 notifications use a declared mutating entry provider; five initialized
+request words are observed without inferring delivery or unrelated packet bytes.
+The original context uses actual external class/model data and supplied earlier
+source fields, references, clocks, peer/TLS state and selection policy. It does
+not reexecute all preceding source phases for each independent context.
+
+Three installed controls reach the real resource checkpoint, then check the
+commit, notification prefix, retained callback/error effects, owner invalidation,
+reentry/replay and foreign/checkpoint refusals. All pending initializers and
+history remain. Eight separate full original primaries under supplied cached
+commands establish the commit frontier for moving paths; they are not a Rust
+whole-primary or actual-keyboard control. Complete action/movement policy,
+intervening phase admission/order, world/lifetime/transport providers and live
+Kabuto initialization, movement, feeding and growth remain open. This source
+component establishes no new playable preview, capture or visual fidelity.

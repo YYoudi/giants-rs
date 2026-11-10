@@ -19,12 +19,22 @@ mod growth_tests;
 #[path = "kabuto_motion_tests.rs"]
 mod motion_tests;
 
+#[path = "kabuto_animation_commit.rs"]
+mod animation_commit;
+#[cfg(test)]
+#[path = "kabuto_animation_commit_tests.rs"]
+mod animation_commit_tests;
 #[path = "kabuto_animation_gravity.rs"]
 mod animation_gravity;
 #[path = "kabuto_classification.rs"]
 mod classification;
 #[path = "kabuto_control_force.rs"]
 mod control_force;
+#[path = "kabuto_held_reference.rs"]
+mod held_reference;
+#[cfg(test)]
+#[path = "kabuto_held_reference_tests.rs"]
+mod held_reference_tests;
 #[path = "kabuto_model_motion.rs"]
 mod model_motion;
 #[cfg(test)]

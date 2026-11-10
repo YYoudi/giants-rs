@@ -527,6 +527,40 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented and compared: an already selected animation now commits through
+  the real Session channels, shared setter and zero-second ANM/reference/epoch
+  pipeline. It preserves the earlier template for its counter conversion, scales
+  reference speed, masks flags and stores the behavior/definition only after the
+  required notification. 512 original-PC/source-owned contexts match 410,880
+  normalized header/payload/reference/service words, including 256 declared
+  mutating transport entries and 768 ANM dispatcher visits. Three installed
+  controls cover success, retained late transport failure and owner removal;
+  replay/reentry and foreign/checkpoint refusals remain explicit. The selection
+  policy is supplied; a native moving path can bypass the held-reference entry.
+  Next: acquire complete action/movement selection and its actual primary
+  admission/order, and bind world ownership, lifetime and transport providers.
+  This component completes neither a primary/history nor the four initializers.
+
+- Implemented in the owned CPU composition: the Factory/Session handoff now
+  stores current/held actor identities separately from the pointer-normalized
+  payload and updates its actual scale words. Required services observe preceding
+  stores; callback effects are reread even after failure. Foreign resources/actors,
+  wrong checkpoints, reentry and replay refuse mutation. Late failures quarantine
+  the owner; removing it never restores a stale working copy. Four installed
+  controls reach the real resource checkpoint and exercise these boundaries,
+  including retained caller input after later live channel/mode changes.
+  A selected 30-word bank/header/service projection also matches the original
+  interval on the source-backed context, under a declared mutating binding entry.
+  The captured entry reuses the owning resource phase's decision/frame/wrap
+  sample instead of rereading later mutable channels. Eight complete original-PC
+  primaries retain the 32 selected caller words between the measured frontiers;
+  sixteen converter words agree with the existing Rust time-to-frame service.
+  Behavior/clocks/wrap inputs in that control are supplied, not live input.
+  Full action/capture policy, scale, mode/owner producers and full
+  construction/binding/animation/transport/reset/action/physical backends remain
+  required. Complete reference retirement/lifetime, remaining primary order and
+  initializer/history completion are not established. Do not turn this component
+  checkpoint into gameplay admission.
 - Implemented at the CPU boundary: both current/held-reference handoff routes
   match 512 original intervals / 1,076,651 normalized state/service words. They
   retain first-free/first-occupied slot selection, signed counter gates, stores
@@ -534,12 +568,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   One hundred declared late binding failures retain preceding effects. Target
   detachment is shared with the pre-query release, whose 1,331,545-word control
   still agrees. Construction, binding, transport, state18 reset and action bodies
-  remain required entry providers; the caller decision/counter producers are
-  supplied. Only thirteen initialized bytes of the 21-byte created notification
-  are established; remaining bytes are unknown. Next: actual Session current/held
-  reference ownership and lifetimes, caller policy, complete backend binding and
-  primary ordering. Do not confuse the supplied handoff state with an owned live
-  bank or certify gameplay from these controls.
+  remain required entry providers; standalone caller inputs are supplied. The
+  owned captured entry above reuses its retained resource sample. Only thirteen initialized bytes of the 21-byte created notification
+  are established; remaining bytes are unknown. Next: complete reference lifetimes,
+  action/capture policy, backend binding and primary ordering. Neither the bounded
+  snapshot nor the owned bank certifies complete gameplay.
 - Implemented at the CPU boundary: the common attachment request used by Kabuto
   matches 512 original calls / 389,023 normalized header/service words. The first
   128 use the actual initialized executable rule table; its read-only bounded
@@ -1015,6 +1048,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   integration, a playable preview or visual-fidelity evidence.
 
 ## Immediate runtime prerequisites
+
+- Application actor roles now retain constructor-returned Session identities for
+  the player and carried actor. Resource, motion, pickup and audio consumers no
+  longer depend on a unique actor class, and stale/foreign owners refuse rather
+  than choosing another instance. Keep this binding separate from development
+  motion publication and preserve identities after later initializer failures.
+  Next acquire actual native player replacement/retirement and world ownership;
+  this application correction does not provide native selection globals, camera
+  startup producers or ordinary owned Mecc admission. The published preview's
+  exact source remains separate from this newer main-source correction.
+  The continuous owned-App diagnostic currently refuses the normal pistol draw
+  animation callback/frame service at frame one. Bind its actual provider before
+  claiming this diagnostic or ordinary owned gameplay passes; do not clear the
+  weapon-change state or force animation readiness to bypass the refusal.
 
 - Desktop preview entry: giants-rs.exe detects the adjacent game installation or
   offers a folder picker, then opens the integrated menu with an independent
@@ -1521,6 +1568,49 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation requests. All 2,104 constructed residents release. Preserve the
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
+
+- Source-only ordinary-environment prerequisite: shared finalization retains
+  completed environment stages on later provider errors, including physical
+  contact fields, inline-physics projection and completed-stage counters. A
+  failed initial ground query retains the already cleared response/hit/support
+  prefix; a failed platform query retains completed terrain/contact results.
+  Callers must quarantine consumed phases rather than replay external services.
+  Internal unreturned mutations from lower-level mesh/terrain resolvers still
+  require their own continuations; this change does not acquire those contracts.
+  The sixteen-terrain comparison remains unchanged: 1,152 states /299,520 words
+  and 902 queries, with native entry data and empty mesh/platform populations
+  supplied. Timed ordinary preparation/header binding and main-film admission
+  remain next. This prerequisite is not in published preview .4 and adds no
+  certified scenes or visual coverage. Prototype PS2 attribution stays unknown.
+
+- Timed Session actors now own their physical velocity/history header alongside
+  the actual inline physical payload. The shared force integrator consumes an
+  independently supplied physical clock sample; no second actor registry or Mecc
+  controller is introduced. Motion, actual affine publication, gravity/friction,
+  deferred size/orientation and ANM remain ordered phases. Owned motion/gravity
+  refuse repeated consumption. Late gravity failures retain preceding affine and
+  force writes; subsequent callbacks refuse replay. Motion failures leave the
+  derived affine stale; later ANM failures retain completed matrix stores.
+  Reused native positive/zero controls retain 576 states /100,224 selected words;
+  an additional 3,456 native velocity/history words and 768 intermediate phase
+  samples /44,544 words exercise the new ownership and service order. These are
+  bounded state78 parent/child controls, not additional scenes or complete physics.
+  Dynamic headers begin from acquired ordinary allocation; no environment/contact
+  producer or successful terrain fallback is installed. The previous sixteen-grid
+  finalization proof below is retained. Next: connect its real environment/header
+  updates and ordinary preparation continuation, then stock/occupancy, native
+  dispatcher/model-rate/clock/RNG and main-film rendering/admission. Clock equality
+  in a supplied fixture does not establish a shared live clock.
+  Published preview-2026.11.10.4 pins the owned header at source `ffb2f60`;
+  RELEASES.md/public-preview.json retain its full receipt/checksum identities.
+  The exact build passes 870 Rust tests (65 ignored), targeted native/installed
+  controls, silent development/cancellation/source-terminal/re-entry checks and
+  independent verification of the three downloaded assets/ten package members.
+  Its ordinary timed-film admission and visual/audio/native-gameplay fidelity
+  remain unverified; no manual observations from .3 are inherited by .4.
+  Its fresh 545-source /16-world census has zero preparation errors and retains
+  59 gap sources, 56 general-queue refusals, 282 reviews and zero certified films.
+  This updates the audited executable identity, not the scope of visual coverage.
 
 - Detached ordinary-finalization comparison now executes the original complete
   parent/child preparation, retirement and cleanup against actual static terrain

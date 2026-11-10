@@ -1,5 +1,172 @@
 # Preview releases and milestone integration
 
+## Kabuto selected-animation commit — 10 November 2026
+
+An already selected animation now commits through the actual Session channels,
+shared setter and immediate zero-second ANM/reference pipeline. Required transport
+observes preceding selection stores; callback effects survive errors, and owner
+removal prevents stale restoration. The caller's earlier template is retained for
+counter conversion. Action/movement selection policy and complete primary order
+remain required; no initializer/history or gameplay admission is acknowledged.
+
+512 original-PC/source-owned contexts match 410,880 normalized state/service words,
+including 256 declared mutating transport entries and 768 ANM dispatcher visits.
+The original setter, ANM body, ownership predicate and converter execute. Transport
+delivery, complete event/world outcomes and supplied selection policy are outside
+that agreement. Three installed controls cover success, late failure and removal.
+
+Combined runtime source `315177c` preserves the newer actor-role identities,
+physical/gravity effect ordering and environment error retention. Validation passes
+874 workspace Rust tests (73 ignored), twenty-three Kabuto controls plus its
+separate cold control, thirteen Mecc, seven Delphi, the application-role and timed
+ownership checks, 43 Python tests, Rustfmt and strict Clippy. The complete native
+comparison repeats against that combined source. The existing public preview .4
+retains its immutable identities; this source component adds no download or
+playable Kabuto claim.
+
+## Source-only environment failure retention — 10 November 2026
+
+The common ordinary finalization service now retains completed environment and
+physical-contact stages after a later provider error. Synthetic controls cover
+initial ground failure and failure after physical contact but before platform
+completion. The retained sixteen-terrain comparison still matches 1,152 states,
+299,520 header/payload words and 902 queries with supplied native entry data.
+Lower-level unreturned mutations, canonical timed ordinary-preparation binding,
+world admission and visual fidelity remain open. Prototype PS2 attribution is
+unknown. This is a source dependency after preview .4; its immutable download
+snapshot and certified-scene count remain unchanged. No new binary is advertised.
+The combined tree preserves the application actor-identity contribution and
+passes 874 workspace Rust tests (70 ignored), both scoped installed timed-owner
+and application-role checks, 43 Python tests, Rustfmt and strict Clippy. These
+checks validate the source dependency; they add no rendered-film coverage.
+
+## Application player/carried identities — 10 November 2026, source only
+
+The common application retains each role's actual Session constructor result.
+Player resources, owned model preparation, motion publication, carried animation/
+references, pickup and audio routing use those identities instead of a unique
+class search. Retired or foreign owners refuse even when another actor shares
+their class. Later initializer failures do not erase the constructor identity;
+legacy motion publication remains an independent guard against mixing drivers.
+
+The silent installed-data regression covers duplicate player classes, distinct
+local/other sound routes, canonical movement, foreign tickets, retirement and
+replacement refusal, and mission-owned cleanup while preserving Bevy's default
+resource entity. This application correction does not reconstruct native player
+selection/replacement or admit the ordinary owned controller. The existing
+continuous owned-App diagnostic encounters the required normal pistol draw
+animation callback/frame service at frame one. The same refusal reproduces on
+the unchanged pre-fix source `715e46a`; it is not a successful continuous gameplay
+check. Public preview identities and their earlier measured scope remain
+independent from this source-only change.
+
+Combined source `debc86c` preserves the timed physical-header and retained Kabuto
+caller-input contributions. It passes 872 workspace Rust tests (70 ignored),
+the new installed-data actor-role regression, all four installed held-bank
+controls, 43 Python tests, Rustfmt, strict workspace Clippy and generated
+roadmap/site/JavaScript checks. The all-reference source audit reports no findings.
+The latest public `.4` package was independently downloaded and verified again:
+ten members, all three API asset digests and the immutable source tag agree.
+These source checks introduce no new preview or manual gameplay claim.
+
+The private MinGW build of `e7ebd4c992524f8d44d8912c8cca5cb654e54a1f`
+(executable SHA256 `bb22bdb00bd72d1c58a4fa9d67c9014b11e4a07441a74b29b8358e06f2d06dd2`)
+passes explicit-wait CLI startup, both offscreen development endpoints (six fresh
+launches), and two selected Rstory1 mission 2 source-terminal/re-entry cycles
+with muted voice sinks and text/resource cleanup. These are lifecycle and partial
+playback checks; no interactive native jet/descent/landing or fidelity is claimed.
+This candidate is not a downloadable release. The public snapshot still pins
+the independently verified `.4` package.
+
+## Timed physical-header ownership and ordered services — 10 November 2026
+
+Timed actors now retain physical velocity/history in the common Session, beside
+one actual inline payload. Motion reuses the shared force integrator with an
+explicit independent physical-clock sample. The native affine store precedes
+required gravity/friction; deferred size/orientation then precedes ANM. A late
+gravity error retains completed affine/force writes, while callbacks and owned
+services refuse replay. The acquired constructor clears the dynamic header;
+no contact/terrain producer or default world service is fabricated.
+
+Retained original positive/zero controls cover 576 parent/child states and
+100,224 selected words, with 3,456 additional velocity/history words. Separate
+native boundary snapshots compare 768 intermediate samples /44,544 words across
+motion and gravity entry/return, including their matrices and physical payloads.
+Those controls supply clocks, support and initial detached ordinary preparation;
+they do not certify native world admission or additional films. The previous
+sixteen-terrain finalization comparison remains a prerequisite now to connect
+to the owned dynamic header and the ordinary preparation continuation.
+
+Actual environment/contact updates, world populations, native stock/occupancy,
+dispatch/model rates, clock/RNG ownership and timed main-film rendering remain
+open. Prototype PS2 attributions stay unknown.
+
+Published [preview-2026.11.10.4](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.4)
+pins source `ffb2f60583a74bdfc8eea6eab1527432a2bd552d`, executable SHA256
+`dc470112ab95e3c14121a0d328174eaedc901e7a20db9fb238ad60a051a17e24` and ZIP SHA256
+`726a3fbfb8e106062fbd8a14aa9c438ed52a5e03c2976cd9a9a1368baf470428`.
+The frozen tree passes 870 Rust tests (65 ignored), strict Clippy/Rustfmt,
+43 Python tests and roadmap/site/JavaScript checks. Both timed variants and
+native constructor controls pass, alongside three impact, seven Delphi and five
+Vimp installed controls. The standalone callback facade retains both variants.
+Its receipt-bound executable passes awaited CLI startup, both silent development
+endpoints, three active persistent-effect cancellations and two source-terminal/
+re-entry cycles with real muted voice sinks and text cleanup. Notice/import
+checks and all three freshly downloaded assets pass; ten ZIP members, internal/
+external hashes, receipt and immutable tag agree. This binary has no new manual
+UI/fidelity claim; the separately recorded .3 manual observations remain .3.
+Later source-only Delphi auxiliary services do not relabel this frozen build.
+The later combination at `860cd8c` passes 872 Rust tests (68 ignored), strict
+Clippy, Rustfmt, 43 Python tests, nineteen installed Kabuto controls and both
+canonical positive/zero phase/header replays plus the three source impact controls. The receipt-bound full census now pins
+this published executable: 545 sources /16 worlds, zero preparation errors,
+59 reported-gap sources, 56 general-FX refusals and 282 strict-profile reviews.
+Only reviewed aggregate identities change; these diagnostics and zero certified
+complete scenes remain unchanged. The inventory is not a visual completeness audit.
+
+## Kabuto retained caller input — 10 November 2026
+
+The owned held-reference component can now consume its resource phase's retained
+decision/frame/wrap sample. Later channel/action/mode writes cannot replace it;
+missing snapshots refuse before component entry. Existing time-to-frame conversion
+and the Session reference bank are reused, with no new caller clock kernel.
+
+Eight complete original-PC primaries retain 32 selected caller words between the
+measured frontiers; sixteen converter words also agree with the existing scoped
+Rust service. Behavior/clocks/wrap and outer engine providers remain supplied.
+The source-backed snapshot/refusal control passes alongside the other nineteen
+Kabuto controls and 872 workspace Rust tests (69 ignored), Rustfmt and strict
+Clippy. These controls do not complete action/capture policy, primary ordering,
+lifetimes, backends or live Kabuto gameplay. The public preview keeps its exact
+source and hashes; no new download is inferred from this source-only component.
+
+## Owned Kabuto current/held-reference bank — 10 November 2026
+
+The acquired handoff now consumes typed Session actor identities and actual
+payload scale words at its owning resource checkpoint. Services see preceding
+stores; callback effects survive late errors and are reread before continuing.
+Wrong actors/resources/checkpoints, reentry and replay refuse execution. Removing
+the owner does not restore a stale working copy. Three source-backed controls
+exercise publication, quarantine and cleanup; a selected thirty-word projection
+also agrees with the original interval under a declared mutating binding entry.
+The 512-case handoff and preceding release comparisons remain unchanged.
+
+Capture policy/scale, caller decisions/counters, mode/network ownership and full
+backend/lifetime/order integration remain required. This component does not
+finish a primary, history or pending initializer and enables no new gameplay,
+capture or preview. The existing download retains its exact source and hashes.
+Validation passes 869 workspace Rust tests (61 ignored), nineteen installed Kabuto
+controls and the separate cold control, twelve Mecc and six Delphi controls,
+43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks.
+
+The combined source `76c2298` also preserves the later camera, cold Delphi
+support/auxiliary prefix and NPC history/newborn changes. It passes 872 workspace
+Rust tests (68 ignored), nineteen installed Kabuto controls plus its separate cold
+control, thirteen Mecc and seven Delphi controls, 43 Python tests, Rustfmt and
+strict Clippy. The all-reference audit scans 739 commits and 4,179 blobs with zero
+findings. These source checks do not relabel `preview-2026.11.10.3` or validate
+live Kabuto gameplay.
+
 ## Combined Windows preview and playback caption recovery — 10 November 2026
 
 Published [preview-2026.11.10.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.3)

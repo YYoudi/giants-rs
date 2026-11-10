@@ -44,6 +44,17 @@ incomplete controller globally just to reproduce a screenshot. Keep explicit
 refusals and retained effects after late failures. Reuse the common runtime;
 do not create character-specific executables or duplicate shared controllers.
 
+The application retains the exact Session identities returned by its player and
+carried-actor constructors. Player resources, motion, pickup and audio routing
+consume these role bindings, checking the current ticket and expected class.
+They must not rediscover the player by searching for a unique class: another
+instance can share that class, and a retired owner must not silently select a
+replacement. Retain the constructor identity after a later initializer fails;
+this records ownership, not initializer success. Constructor identity is separate
+from the legacy motion-publication guard, which still prevents mixing that path
+with the owned Mecc driver. This application binding does not reconstruct the
+original player-selection globals, native replacement calls or world schedule.
+
 ## Validate the combined application
 
 Merge current main into the integration branch, inspect conflicts semantically
