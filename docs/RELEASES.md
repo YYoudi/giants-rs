@@ -1,5 +1,29 @@
 # Preview releases and milestone integration
 
+## Mecc stopped-emitter resource destruction — 10 November 2026
+
+The canonical Session can now destroy an explicitly stopped, unadvanced smoke
+emitter after its context retires. Parent attachment invalidation precedes the
+state destructor, which releases the emitter owner before the payload. Instance
+reference/state owners and reverse registrations leave the registry without
+releasing unrelated residents or shared class/model owners. Unsupported resource
+variants, active origins, wrong cleanup phase and dependent attachments refuse
+before release. Newer context generations remain valid.
+
+Twenty-four native cleanup controls agree with Rust on 216 selected normalized
+retirement/cache/list/context/parent/RNG results. Native bank-before-payload free
+requests are observed separately; installed weak-owner and peer/count controls
+check actual Rust release. The supplied native cohorts and limits are recorded
+in OWNED_MECC_CONTACT.md. This is not pointer or physical-pool memory equivalence.
+
+Combined validation passes 872 workspace Rust tests (63 ignored), seventeen
+installed Mecc controls, the shared canonical timed-owner control, 43 Python
+tests, Rustfmt, strict Clippy and site/JavaScript checks. Camera admission and
+timed terrain finalization contributions and the current published-preview
+snapshot are preserved. This source milestone enables no particles or ordinary
+world cleanup schedule; advanced FX resource teardown and full gameplay/fidelity
+remain unverified. The integration lane owns the next downloadable preview.
+
 ## Mecc lost-parent context retention — 10 November 2026
 
 The acquired smoke parent cleanup now distinguishes the live recipient from its
