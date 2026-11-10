@@ -26,6 +26,16 @@ construction/CPU checks, not real input, campaign unlock or graphical evidence.
 The current downloadable preview remains independently pinned.
 See [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
+Combined source `a7b26f5d239d050f9eb2d7ff4f1305431e43934e`, preserving main
+through `ec9b444`, passes 946 workspace Rust tests (138 ignored), the installed
+Delphi App control and sixteen Delphi game controls, Kabuto menu construction,
+Mecc constructor-role retention and normal-body jet composition. Rustfmt, strict
+workspace Clippy, 43 Python tests, site/JavaScript checks and the all-reference
+publication audit also pass. Its receipt-bound MinGW executable passes waited
+CLI startup. The constructor's projection-reset prerequisite remains stored with
+the actual role binding; no projection success, graphical interaction, real input
+or new downloadable-preview availability is asserted.
+
 ## Combined NPC, Mecc and shared-camera integration - source dependency milestone
 
 Intermediate dependency only: this checkpoint adds no new interaction to the
