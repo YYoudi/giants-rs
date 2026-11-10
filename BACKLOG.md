@@ -1188,6 +1188,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ## Immediate runtime prerequisites
 
+- Combined integration checkpoint: source `ca43619` preserves the reviewed Mecc
+  `bac59d8` and Delphi `897d80d` lots. The combined workspace passes 913 Rust
+  tests (106 ignored), 27 installed Mecc and 14 installed Delphi controls,
+  plus two 512-frame App controls (CPU and real zero-PCM muted audio). Commands,
+  gates and clocks remain supplied; these do not admit a complete world.
+  Keep the .8 download and its historical captures separate from these later
+  source services. Next integrate actual common camera/input/projection and
+  activation order alongside the lanes' required impact, target and world owners;
+  preserve failure quarantine rather than supplying default gates or no-op services.
+
 - Application actor roles now retain constructor-returned Session identities for
   the player and carried actor. Resource, motion, pickup and audio consumers no
   longer depend on a unique actor class, and stale/foreign owners refuse rather
@@ -1206,10 +1216,37 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   before and after selection when required. Two 160-frame native/Rust grounded
   controls match 14,400 selected numeric words, with a separate declared startup
   epoch normalization. Wet/material absence must still come from a real producer;
-  missing material preserves completed state and quarantines replay. Next acquire
-  idle-variant continuation beyond the bounded controls, broaden movement/jet and
-  populated contact, and bind the remaining impact/voice/display and FX/world
-  providers before claiming complete ordinary owned gameplay or visual fidelity.
+  missing material preserves completed state and quarantines replay. Ordinary
+  idle selection now preserves the acquired weighted choice, shared-clip states
+  and RNG consumption even without a new channel request. A 4,032-context native
+  selector matrix agrees; eleven seeded 512-frame primary controls cover every
+  selected idle variant and match 253,440 selected numeric words plus relative
+  epoch advancement. Clocks, flat floor, commands and empty populations remain
+  supplied. Empty zero-level damage smoke now advances without fabricating a
+  display snapshot: 80 native policy controls and one 512-frame Rust wounded
+  trajectory agree against both supplied native display-reset outcomes, including
+  health and smoke state (24,576 numeric words plus relative epochs per comparison).
+  Active smoke still requires its actual display owner. Prepared App CPU and
+  zero-PCM device controls pass the baseline 512-frame profile; prolonged thrust/
+  boost refuses the missing impact provider at frame 402. The separate health
+  suppression guard has debug/menu and temporary countdown writers; cinematic
+  activity alone does not determine it. The shared completion-countdown phase now
+  preserves temporary claim/release, wide expiry versus stored onset comparison,
+  and independent clock calls. Native/Rust agreement covers 216 independent
+  contexts and nine ten-step retained-state sequences (306 snapshots / 2,448
+  selected state/control words). Outer admission, initial state and clocks remain
+  supplied; the following message/progression phase is not executed. Ordered
+  admission now preserves mode-gated precheck, first-visit/request publication,
+  required callback argument/order and current-record rereads. Native/Rust prefix
+  agreement covers 824 supplied contexts (12,360 state words / 2,348 decision and
+  callback results); composition reaches the countdown in 32 contexts, with ten
+  pending and 22 expired. Actual precheck and previous-record callback effects are
+  supplied: inspection exposes music/player-transition responsibilities, not an
+  acquired one-time initializer. Next acquire those full services, actual snapshot
+  ownership and message/progression continuation plus debug/menu/editor lifetimes;
+  then bind common ownership and impact/voice/display/FX world services. Broaden populated
+  contact and live sessions. Do not default a guard to bypass these prerequisites.
+  See OWNED_MECC_CONTACT.md for scope; ordinary gameplay and fidelity remain open.
 
 
 - Desktop preview entry: giants-rs.exe detects the adjacent game installation or

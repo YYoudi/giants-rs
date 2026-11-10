@@ -1,5 +1,5 @@
 //! Acquired local, living pistol locomotion secondary with explicit blending.
-//! Reaction/equipment/idle-variant providers remain explicit refusals. This
+//! Equipment and alternate-turn providers remain explicit refusals. This
 //! stage owns its actual payload/control writes, not a complete primary frame.
 use crate::{
     actor_fields::Fields,
@@ -180,6 +180,7 @@ pub(crate) fn ordinary_with_draw(
                 0, 1, 2, 3, 4, 5, 6, 7, 11, 13, 14, 15, 16, 18, 58, 59, 60, 61, 62,
             ]
             .contains(&logical_state)
+                && !(23..=35).contains(&logical_state)
                 && !(draw.is_some() && logical_state == 38 && word(payload, 0x80) == 1)
                 && !(fire && [12, 17, 19, 20, 21].contains(&logical_state)),
             "logical state",
@@ -423,9 +424,51 @@ pub(crate) fn ordinary_with_draw(
         selection.reference_speed = 0.;
     }
     if logical == 1 && f.control_flags & 0x400 != 0 && ended && context & 0x8000 != 0 {
-        return Err(
-            "ordinary secondary idle variant requires actual RNG/selection provider".into(),
-        );
+        if context & 0x6200 != 0x4000 {
+            return Err("idle variant outside acquired stationary pistol profile".into());
+        }
+        // The draw is consumed even for the mandatory continuation of state28.
+        let roll = random.next_15() * 800 / 32768;
+        logical = if logical_state == 28 {
+            29
+        } else {
+            match roll {
+                0..10 => 23,
+                10..20 => 24,
+                20..30 => 25,
+                30..40 => 26,
+                40..50 => 27,
+                50..90 => 28,
+                90..110 => 30,
+                110..120 => 31,
+                120..130 => 32,
+                130..140 => 33,
+                140..150 => 35,
+                _ => 1,
+            }
+        };
+        if logical != 1 {
+            selection.clip = match logical {
+                23 => 156,
+                24 => 157,
+                25 | 27 => 150,
+                26 => 151,
+                28 | 29 => 146,
+                30 => 148,
+                31 => 149,
+                32 => 158,
+                33 => 152,
+                35 => 155,
+                _ => unreachable!(),
+            };
+            selection.flags = if matches!(logical, 28 | 29) {
+                0x21
+            } else {
+                0x20
+            };
+            selection.speed_source = -1;
+            selection.reference_speed = 0.;
+        }
     }
     if changed_weapon {
         f.control_flags &= 0xffff03ff;
@@ -519,6 +562,77 @@ pub(crate) fn ordinary_with_draw(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn idle_continuation_consumes_rng_without_reselecting_its_shared_clip() {
+        for ended in [false, true] {
+            let (mut fields, mut body, mut view, globals) = fixture();
+            fields.response_flags = 0;
+            fields.control_flags = 0x400;
+            fields.channels[0][0] = 146;
+            fields.channels[0][8] = if ended { 2 } else { 0 };
+            view.model_rates = [0.; 3];
+            put(&mut body, 0x30, 28);
+            put(&mut body, 0x60, 1);
+            put(&mut body, 0x6c, 0);
+            let mut random = crate::audio_parameters::Random(42);
+            let mut expected = random;
+            if ended {
+                expected.next_15();
+            }
+            let output = ordinary(
+                &fields,
+                &body,
+                fields.channels,
+                &view,
+                &globals,
+                1. / 60.,
+                Services {
+                    fire: false,
+                    blending: animation_channels::Blending::Disabled,
+                    random: &mut random,
+                    contact: None,
+                    impact: None,
+                },
+            )
+            .unwrap();
+            assert!(output.request.is_none());
+            assert_eq!(output.channels, fields.channels);
+            assert_eq!(word(&output.payload, 0x30), 28);
+            assert_eq!(random.0, expected.0);
+        }
+    }
+    #[test]
+    fn movement_interrupts_an_unended_idle_variant_without_an_idle_rng_draw() {
+        let (mut fields, mut body, mut view, globals) = fixture();
+        fields.response_flags = 0;
+        fields.control_flags = 0x400;
+        fields.channels[0][0] = 156;
+        fields.channels[0][8] = 0;
+        view.model_rates = [0., 30., 0.];
+        put(&mut body, 0x30, 23);
+        put(&mut body, 0x60, 1);
+        put(&mut body, 0x6c, 0);
+        let mut random = crate::audio_parameters::Random(42);
+        let output = ordinary(
+            &fields,
+            &body,
+            fields.channels,
+            &view,
+            &globals,
+            1. / 60.,
+            Services {
+                fire: false,
+                blending: animation_channels::Blending::Disabled,
+                random: &mut random,
+                contact: None,
+                impact: None,
+            },
+        )
+        .unwrap();
+        assert_eq!(output.request.unwrap().slot, 2);
+        assert_eq!(word(&output.payload, 0x30), 11);
+        assert_eq!(random.0, 42);
+    }
     #[test]
     fn landing_hold_depends_on_channel_end_and_movement() {
         for (previous, clip) in [(61, 175), (62, 178)] {
