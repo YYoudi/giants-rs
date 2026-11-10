@@ -1872,6 +1872,17 @@ blocker in the next slice, rather than continuing adjacent functions by address.
   complete-program, callback and retirement controls. Ordinary actor parents
   cannot stand in for virtual Flick supports, and preview draw submission does
   not establish live queue admission.
+  The canonical timed-owner API now distinguishes actual actor parents from
+  virtual Flick supports and retains source scope on positional retirement
+  children. Staging moves the existing payload/resources into Session; failed
+  owner checks retain the context and active RNG, and cut cleanup refuses an
+  in-progress callback. Installed controls exercise foreign/stale supports,
+  a real retirement child and independent-generation cancellation. This is a
+  CPU dependency only: the main Flick dispatcher does not consume these APIs
+  yet. Bind actual event dispatch, clocks/RNG and required world services before
+  claiming menu availability; do not substitute an ordinary parent or no-op
+  physical/retirement provider. The retained ordinary preparation comparisons
+  still pass through their shared callback path, with supplied boundaries.
   A new dependency control executes the exact PC thread-state initializer,
   random helper and time-sampled seed setter: state survives repeated calls on
   one supplied thread, stays separate on another, and an actual setter replaces

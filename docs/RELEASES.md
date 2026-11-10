@@ -42,6 +42,23 @@ its virtual support and retirement child in the canonical mission Session.
 Existing construction/callback controls remain reusable; an ordinary actor ID
 must not replace the source-domain support.
 
+The canonical Session now has typed staging/preparation APIs for virtual Flick
+supports and their source-scoped positional retirement children. They move the
+actual payload and callback resources rather than registering a substitute
+parent or retaining a second live body. Foreign/stale identities refuse before
+callback mutation; failed staging preserves context identity and active RNG.
+Cancellation releases only the selected source generation and refuses a pending
+callback. The installed ownership control exercises these paths and a real
+retirement child, preserving an ordinary actor and another source generation.
+The retained ordinary preparation control still matches 1,152 supplied states
+and 226,944 words through the shared implementation; these are reused CPU
+comparisons, not additional films or runtime fidelity coverage.
+
+This remains a kernel dependency: the main Flick dispatcher has no consumer for
+these new APIs yet. Event dispatch, actual clocks/RNG and required world services
+must be connected before claiming a new menu capability. No placeholder physical
+or retirement provider, new capture or preview download is introduced here.
+
 The exact PC thread-state initializer and random helper now execute together
 under supplied Windows TLS, thread identities and zeroed heap allocation. Six
 interleaved draws preserve separate thread states and the caller's error value.
