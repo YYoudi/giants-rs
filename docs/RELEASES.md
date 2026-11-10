@@ -7,6 +7,33 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## Story2 NPC mission resource binding — 10 November 2026
+
+Intermediate dependency only; no normal controls or public build exercise Vimp
+AI yet. The first missing consumer is real common-world callback admission, then
+live population/animation rendering. NPC supplies the actor/provider chain and
+main integration owns the shared schedule and combined interactive delivery.
+
+The ordinary mission worker now prepares registered Vimp resources and birth
+constants. Canonical staging binds actual herd/marker declaration IDs and an
+effect pool to its ticket using the specification's captured namespace. Missing
+or replaced images, failed/foreign/retired construction and repeated binding
+refuse explicitly; no clock, RNG, contact header or world update is invented.
+
+The silent Story2 entry control retains one herd/sixteen markers on two tickets,
+zero Vimps/effect contexts and untouched herd clocks. It checks actual menu data
+with supplied unlocked progress, canonical spawn, ticket/rebind/retirement guards
+and owned entity cleanup/re-entry. The namespace control separately rejects
+missing/replaced images. Ordinary input and GPU interaction remain unverified.
+
+Runtime source `28b4104` preserves main through `8ba4f66`. Validation passes 946
+default Rust tests (140 ignored), both new installed controls plus the existing
+herd declaration, Kabuto menu-staging and actor-role ownership checks, 43 Python
+tests, Rustfmt, strict workspace Clippy and generated site/JavaScript checks.
+The preceding movement/response PR's dashboard and both Windows checks pass,
+including the retry after its transient MSYS2 mirror download failure. No public
+preview receipt, executable, download, capture or AI availability is changed.
+
 ## Delphi common camera override dependency - 10 November 2026
 
 Intermediate dependency only; Delphi has no new ordinary menu entry or controls.

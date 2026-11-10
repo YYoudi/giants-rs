@@ -261,6 +261,14 @@ and mission recorded in RELEASES.md; broader gameplay and fidelity remain pendin
 
 ## Optional NPC source-resource lifecycle check
 
+With `GIANTS_NPC_ROOT` pointing to the user-supplied installation,
+`cargo test --locked -p giants-app source_npc_menu_entry --target x86_64-pc-windows-gnu -- --ignored`
+checks actual Story2 menu data, canonical mission resource/declaration binding and
+two entry tickets without a window or audio. It supplies unlocked progress and
+does not execute world callbacks or render Vimps. The separate ignored game-crate
+`source_vimp_registered_factory` check verifies the registered image and rejects
+missing/replaced namespaces. These are source controls, not gameplay test paths.
+
 For NPC source-resource ownership regression, set `GIANTS_NPC_ROOT` to the
 user-supplied installation and use an isolated Cargo target:
 

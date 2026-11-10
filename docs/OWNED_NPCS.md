@@ -25,6 +25,35 @@ Source/CPU controls below do not identify a map on which their behavior can
 already be exercised interactively. Ordinary admission still requires actual
 world services and validation.
 
+## Ordinary mission resource binding — 10 November 2026
+
+Intermediate dependency only: no normal controls or public build exercise live
+Vimp AI yet. The first missing runtime consumer is common world callback admission,
+followed by the live population/render connection. NPC owns these actor resources;
+main integration owns the shared schedule and combined interactive delivery.
+
+The ordinary mission worker now prepares the Vimp factory from the actual plan's
+registered specification and effect namespace, plus the installation's birth
+constants. Canonical mission staging binds the existing herd/marker constructor
+IDs and source declaration keys to the mission ticket, then creates a deferred
+animation-effect pool from the same captured image. No filename-selected image,
+constructor contact zero, clock or RNG seed is substituted. Missing/replaced
+namespaces, failed construction, foreign/retired owners and repeated binding
+remain explicit failures. Worlds without authored herd parents skip preparation.
+
+The Story2 source entry control binds one herd and sixteen markers on each of two
+mission tickets, retaining zero Vimps/effect contexts and untouched herd clocks.
+It uses actual menu data with supplied unlocked progress and the canonical spawn
+path, checks ticket/rebind/retirement guards, removes the owned entity tree and
+preserves an unrelated entity across re-entry. This is a silent CPU entry/binding
+control; ordinary input and GPU behavior remain unverified. A separate resource
+control checks the captured image and missing/replaced namespace refusals.
+
+Preparation now reaches the mission owner; it still executes no population or
+world callback and makes no rendering/readiness acknowledgement. Next connect
+the real world admission/clock/control/terrain/effect providers and consume the
+owned births/animation in the common renderer before advertising a testable map.
+
 ## Existing reconstruction
 
 | Family | Existing Rust services | Established boundary | Missing ordinary gameplay connection |
@@ -38,7 +67,8 @@ world services and validation.
 | Other interactive inhabitants | Shared actor, targeting, physics and damage services | Reusable infrastructure only | Other fauna, allied squad decisions/orders, faction behavior, buildings/shops/vehicles and scripted inhabitants require separate acquisition |
 
 `mission_runtime` constructs and binds supported authored declarations, including
-herd generators and markers. That construction does not execute their primary
+herd generators and markers, and now prepares their registered Vimp resources.
+That construction does not execute their primary
 callbacks or populate a live herd. `vimp_frame` explicitly requires world/history
 admission and required services. It must not be enabled by fabricating sound-stop,
 feeding or threat callbacks. Ripper perception uses ordered current views and

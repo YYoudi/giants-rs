@@ -41,6 +41,14 @@ controls. Otherwise say "intermediate dependency only" and name the next blocker
 Keep source status, local interaction checks, historical captures and the exact
 published preview independent. Do not mark whole-game features complete here.
 
+The NPC lane's selected delivery is an actual Story2 herd through ordinary mission
+entry, live callbacks/animation and the common renderer. Current source now binds
+the registered Vimp resources and actual herd/marker declaration IDs to the mission
+owner; two CPU entry tickets retain one herd/sixteen markers without spawning or
+advancing them. The next missing consumer is real common-world callback admission,
+including population/clock/RNG/control/terrain/effect ownership, then birth/animation
+rendering and real input/return/re-entry validation. No public AI map is available.
+
 ## Prototype PS2 attribution method — 5 November 2026
 
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
