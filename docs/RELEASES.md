@@ -5296,3 +5296,20 @@ passes 877 workspace Rust tests (78 ignored), twenty-one installed Mecc controls
 the shared timed-owner and cold Delphi support controls, 43 Python tests,
 Rustfmt, strict workspace Clippy and generated site/JavaScript checks.
 These checks retain the public preview's independent source/checksum identity.
+
+
+### Mecc canonical smoke draw consumer — 10 November 2026
+
+The normal mission now consumes canonical smoke actors through the shared unlit
+shader/material path. Source geometry/textures, current vertices, facing/affine
+and dynamic opacity come from actual ownership; no second simulation is added.
+World/effect admission and repeated submissions remain distinct. Expiry and
+mission replacement remove renderer-owned entities, images, materials and buffers.
+
+Actual adjacent PC draw matrix/cull fragments agree on 576 samples / 9,792 selected
+words with supplied views/model slot. Source-backed App packets and CPU Bevy asset
+lifecycle are tested. GPU/raster parity, complete native alpha queue behavior and
+ordinary impact/display/FX birth/world scheduling remain open. The consumer does
+not create smoke actors, and no new ordinary availability or preview is claimed.
+Prototype PS2 attributions remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#canonical-smoke-draw-consumption--10-november-2026).

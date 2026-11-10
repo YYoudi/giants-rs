@@ -799,3 +799,18 @@ cargo test --locked -p giants-game source_mecc_expired_smoke --target x86_64-pc-
 It verifies actual weak instance-owner release, peer and newer-context retention,
 canonical count/list retirement and cleanup-phase/optional-service refusals. It
 neither renders particles nor supplies a common-world cleanup schedule.
+
+
+For source-backed canonical smoke draw packets and the App consumer's CPU asset
+lifecycle, set `GIANTS_MECC_WORLD_ROOT` and `GIANTS_MISSION_OWNED_ROOT` to the same
+user-supplied installation, keep the isolated target and run:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_smoke_draw --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-app source_owned_smoke_draws --target x86_64-pc-windows-gnu -- --ignored
+```
+
+These silent controls check identity/admission, current source vertices/alpha,
+no draw-driven simulation, actor expiry and Bevy mesh/material/image/buffer/entity
+retirement. They create no graphics device and do not verify rendered pixels or
+ordinary gameplay birth. The normal mission consumer creates no particles itself.

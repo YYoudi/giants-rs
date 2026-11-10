@@ -156,6 +156,8 @@ pub struct Runtime {
     handled: Option<u64>,
     retired: Vec<u64>,
     failure: Option<(u64, String)>,
+    smoke_geometry:
+        std::collections::BTreeMap<(u64, ActorId), Arc<giants_game::smoke_particle_draw::Geometry>>,
 }
 pub(crate) struct AmbientDeclaration {
     pub key: usize,
@@ -993,6 +995,7 @@ pub(crate) fn live(ticket: u64, current: u64, phase: Phase) -> bool {
 fn clear(runtime: &mut Runtime, commands: &mut Commands) {
     runtime.pending = None;
     runtime.failure = None;
+    runtime.smoke_geometry.clear();
     if let Some(mut active) = runtime.active.take() {
         let (field_actors, field_guns, field_shadows) = active.resident_states.actor_field_counts();
         let (released_state_sets, released_state_references) =
@@ -2104,6 +2107,56 @@ pub(crate) fn audit(
     active.reported = true;
 }
 
+pub(crate) struct SmokeDraw {
+    pub id: ActorId,
+    pub geometry: Arc<giants_game::smoke_particle_draw::Geometry>,
+    pub frame: giants_game::smoke_particle_draw::Frame,
+}
+impl Runtime {
+    pub(crate) fn smoke_draws(
+        &mut self,
+        view: [f32; 16],
+    ) -> Result<Option<(u64, Vec<SmokeDraw>)>, String> {
+        let ticket = self.active_ticket();
+        self.smoke_geometry.retain(|(t, _), _| Some(*t) == ticket);
+        let Some(active) = self.active.as_mut() else {
+            return Ok(None);
+        };
+        let ids = active.resident_states.smoke_particle_ids();
+        self.smoke_geometry.retain(|(_, id), _| ids.contains(id));
+        let mut frames = Vec::new();
+        for id in ids {
+            if active
+                .resident_states
+                .smoke_particle_draw_state(id)?
+                .is_none()
+            {
+                self.smoke_geometry.remove(&(active.ticket, id));
+                continue;
+            }
+            let geometry = match self.smoke_geometry.entry((active.ticket, id)) {
+                std::collections::btree_map::Entry::Occupied(e) => e.get().clone(),
+                std::collections::btree_map::Entry::Vacant(e) => e
+                    .insert(Arc::new(giants_game::smoke_particle_draw::Geometry::load(
+                        active.payload.plan.resources(),
+                        &active.resident_states,
+                        id,
+                        0,
+                    )?))
+                    .clone(),
+            };
+            if let Some(frame) = geometry.frame(&mut active.resident_states, id, view)? {
+                frames.push(SmokeDraw {
+                    id,
+                    geometry,
+                    frame,
+                });
+            }
+        }
+        Ok(Some((active.ticket, frames)))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -3095,5 +3148,145 @@ mod tests {
         for phase in [Phase::Menu, Phase::Splash, Phase::Loading, Phase::Failed] {
             assert!(!live(3, 3, phase));
         }
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_MISSION_OWNED_ROOT; canonical smoke render packets, dynamic alpha, expiry/pruning and mission retirement; no GPU"]
+    fn source_owned_smoke_draws_follow_actual_actor_lifetime() {
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_MISSION_OWNED_ROOT").unwrap());
+        let request = giants_game::mission_selection::LoadRequest {
+            world: "Story1".into(),
+            menu_index: 0,
+            source_id: 3,
+            mission_name: "1c_1_firstmecc".into(),
+            splash: giants_game::mission_selection::Splash::Mecc,
+        };
+        let packet = Arc::new(giants_game::mission_loading::prepare(&root, request).unwrap());
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let mut payload = payload();
+        payload.packet = packet;
+        payload.plan = plan;
+        let mut world = World::new();
+        let mut queue = CommandQueue::default();
+        let (scene_root, actors, blocked, residents, bindings) =
+            spawn(&mut Commands::new(&mut queue, &world), 970, &mut payload);
+        queue.apply(&mut world);
+        let mut runtime = Runtime {
+            active: Some(Active {
+                ticket: 970,
+                root: scene_root,
+                actors,
+                resident_states: residents,
+                blocked,
+                payload,
+                start: StartState {
+                    intent: LaunchIntent::SavedMission,
+                    progress: Progress::load(None, None).unwrap(),
+                },
+                reported: false,
+                pickup: None,
+                variant_random: giants_game::audio_parameters::Random(1),
+                audio_registry: None,
+                bindings,
+                controlled_mecc_owner: None,
+                owned_mecc: None,
+            }),
+            ..Default::default()
+        };
+        let active = runtime.active.as_mut().unwrap();
+        let resources = active.payload.plan.resources();
+        let offset = resources
+            .classes
+            .models
+            .effects
+            .iter()
+            .find_map(|e| {
+                e.image
+                    .find("fx_mecc_smoke_lite")
+                    .map(|(_, entry)| entry.offset)
+            })
+            .unwrap();
+        let mut pool =
+            giants_game::attached_effect_context::Pool::from_active_resources(970, resources);
+        let mut random = giants_game::audio_parameters::Random(42);
+        let (creation, _) = pool
+            .prepare_retirement_offset_invariant(Some(offset), [17., -24., 30.], 0, 0, &mut random)
+            .unwrap();
+        let giants_game::attached_effect_context::Creation::Prepared(context) = creation else {
+            panic!("source child absent")
+        };
+        let actor = pool
+            .activate_smoke_particle(context, &mut active.resident_states, resources, &mut random)
+            .unwrap();
+        let view = giants_game::procedural_aim::Matrix::identity().values;
+        assert!(runtime.smoke_draws(view).unwrap().unwrap().1.is_empty());
+        let active = runtime.active.as_mut().unwrap();
+        let mut stamp = giants_game::animation_epoch::Stamp(0);
+        active
+            .resident_states
+            .advance_smoke_particle(actor, 0.01, None, &mut stamp)
+            .unwrap();
+        let saved = active
+            .resident_states
+            .get(actor)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap()
+            .to_vec();
+        let weak = Arc::downgrade(active.resident_states.specification(actor).unwrap());
+        let (ticket, draws) = runtime.smoke_draws(view).unwrap().unwrap();
+        assert_eq!(ticket, 970);
+        assert_eq!(draws.len(), 1);
+        assert_eq!(draws[0].id, actor);
+        assert_eq!(draws[0].frame.positions.len(), 4);
+        assert_eq!(draws[0].frame.profiles[0].blend, 2);
+        assert!(draws[0].frame.profiles[0].texture_alpha);
+        let geometry = draws[0].geometry.clone();
+        let alpha = draws[0].frame.profiles[0].alpha;
+        let active = runtime.active.as_mut().unwrap();
+        assert_eq!(
+            active
+                .resident_states
+                .get(actor)
+                .unwrap()
+                .seed
+                .storage
+                .data()
+                .unwrap(),
+            saved
+        );
+
+        active
+            .resident_states
+            .advance_smoke_particle(actor, 0.2, Some(0.2), &mut stamp)
+            .unwrap();
+        let (_, draws) = runtime.smoke_draws(view).unwrap().unwrap();
+        assert_eq!(draws.len(), 1);
+        assert!(draws[0].frame.profiles[0].alpha < alpha);
+        assert!(Arc::ptr_eq(&geometry, &draws[0].geometry));
+        let asset = Arc::new(giants_game::load_world(&root, "Story1").unwrap());
+        runtime = crate::mission_smoke_scene::check_render_assets(runtime, asset, view);
+        let active = runtime.active.as_mut().unwrap();
+        active
+            .resident_states
+            .advance_smoke_particle(actor, 10., None, &mut stamp)
+            .unwrap();
+        assert!(runtime.smoke_draws(view).unwrap().unwrap().1.is_empty());
+        assert!(runtime.smoke_geometry.is_empty());
+        let active = runtime.active.as_mut().unwrap();
+        active
+            .resident_states
+            .destroy_expired_smoke_particle(actor, &pool)
+            .unwrap();
+        assert!(weak.upgrade().is_none());
+        assert!(
+            geometry
+                .frame(&mut active.resident_states, actor, view)
+                .is_err()
+        );
+        runtime.active = None;
+        assert!(runtime.smoke_draws(view).unwrap().is_none());
+        assert!(runtime.smoke_geometry.is_empty());
     }
 }

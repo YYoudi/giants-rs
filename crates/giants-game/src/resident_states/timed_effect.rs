@@ -365,6 +365,69 @@ impl Session {
         }
         Ok((&mut actor.seed, actor.construction_fields.as_mut().unwrap()))
     }
+    pub fn smoke_particle_ids(&self) -> Vec<Id> {
+        self.list(0)
+            .into_iter()
+            .filter(|id| {
+                self.get(*id)
+                    .and_then(|a| a.timed_effect.as_ref())
+                    .is_some_and(|m| m.runtime.smoke_particle())
+            })
+            .collect()
+    }
+    /// The acquired common and separate state78 effect passes have distinct
+    /// flag gates. Outer visibility/model selection remain caller prerequisites.
+    pub fn smoke_particle_draw_state(
+        &self,
+        id: Id,
+    ) -> Result<Option<crate::smoke_particle_draw::State>, String> {
+        let actor = self.get(id).ok_or("smoke draw actor absent or foreign")?;
+        let m = actor
+            .timed_effect
+            .as_ref()
+            .ok_or("smoke draw ownership absent")?;
+        if !m.runtime.smoke_particle()
+            || !matches!(m.placement, Placement::Position(_))
+            || !self.list(0).contains(&id)
+        {
+            return Err("smoke draw outside acquired canonical profile".into());
+        }
+        if m.runtime.failure.is_some() || !m.runtime.idle() {
+            return Err("smoke draw callback pending or quarantined".into());
+        }
+        let f = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("smoke draw header absent")?;
+        if actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 78
+            || actor
+                .seed
+                .storage
+                .data()
+                .is_none_or(|data| data.len() != 268)
+            || f.class != actor.class
+        {
+            return Err("smoke draw header/payload profile changed".into());
+        }
+        let world = u8::from(f.object_flags & 0x4000c080 == 0);
+        let effect = u8::from(f.object_flags & 0x8000 == 0 && m.render_flags & 0x1000 != 0);
+        let passes = world + effect;
+        if passes == 0 {
+            return Ok(None);
+        }
+        Ok(Some(crate::smoke_particle_draw::State {
+            class: actor.class,
+            passes,
+            world: m.matrix,
+            personality: f.configuration[14],
+            position: f.position,
+            scale: f.scale,
+            angle: f.angles[0],
+            transparency: m.runtime.transparency,
+            epoch: m.runtime.epoch,
+        }))
+    }
     /// Destroy only a completed expired smoke child whose actual origin retired.
     /// This is a cleanup-phase operation, not a common-world traversal.
     pub fn destroy_expired_smoke_particle(
@@ -1566,5 +1629,100 @@ mod tests {
             assert!(pool.get(newer).is_some());
             assert_eq!(random.0, saved.0);
         }
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; actual smoke draw identity, two-pass admission and failed/expired refusal, no graphics"]
+    fn source_mecc_smoke_draw_preserves_identity_and_pass_multiplicity() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_MECC_WORLD_ROOT").unwrap());
+        let r =
+            crate::scene_resources::SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let offset = r
+            .classes
+            .models
+            .effects
+            .iter()
+            .find_map(|e| e.image.find("fx_mecc_smoke_lite").map(|(_, v)| v.offset))
+            .unwrap();
+        let mut pool = crate::attached_effect_context::Pool::<Id>::from_active_resources(980, &r);
+        let mut session = Session::new(981);
+        let mut random = crate::audio_parameters::Random(42);
+        let mut create = |session: &mut Session| {
+            let (c, _) = pool
+                .prepare_retirement_offset_invariant(
+                    Some(offset),
+                    [17., -24., 30.],
+                    0,
+                    0x1000,
+                    &mut random,
+                )
+                .unwrap();
+            let crate::attached_effect_context::Creation::Prepared(c) = c else {
+                panic!("child absent")
+            };
+            pool.activate_smoke_particle(c, session, &r, &mut random)
+                .unwrap()
+        };
+        let actor = create(&mut session);
+        let peer = create(&mut session);
+        assert_eq!(
+            session
+                .smoke_particle_draw_state(actor)
+                .unwrap()
+                .unwrap()
+                .passes,
+            1
+        );
+        let geometry = crate::smoke_particle_draw::Geometry::load(&r, &session, actor, 0).unwrap();
+        let view = Matrix::identity().values;
+        assert!(geometry.frame(&mut session, peer, view).is_err());
+        let mut stamp = crate::animation_epoch::Stamp(0);
+        session
+            .advance_smoke_particle(actor, 0.01, None, &mut stamp)
+            .unwrap();
+        assert_eq!(
+            geometry
+                .frame(&mut session, actor, view)
+                .unwrap()
+                .unwrap()
+                .passes,
+            2
+        );
+        session
+            .residents
+            .get_mut(&actor.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap()
+            .object_flags |= 0x4000;
+        assert_eq!(
+            geometry
+                .frame(&mut session, actor, view)
+                .unwrap()
+                .unwrap()
+                .passes,
+            1
+        );
+        session
+            .residents
+            .get_mut(&actor.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap()
+            .object_flags &= !0x4000;
+        assert!(
+            session
+                .advance_smoke_particle(actor, 0.1, None, &mut stamp)
+                .is_err()
+        );
+        assert!(geometry.frame(&mut session, actor, view).is_err());
+        session
+            .advance_smoke_particle(peer, 0.01, None, &mut stamp)
+            .unwrap();
+        session
+            .advance_smoke_particle(peer, 10., None, &mut stamp)
+            .unwrap();
+        assert!(session.smoke_particle_draw_state(peer).unwrap().is_none());
     }
 }

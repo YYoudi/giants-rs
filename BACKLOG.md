@@ -1336,9 +1336,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   peer and newer-generation controls verify actual Rust lifetime. Common walks,
   live/failed actors, foreign origins, optional services and dependent children
   refuse before release. No allocator-address/reuse equivalence is claimed.
-  Next connect actual canonical model/reference/affine/transparency state to the
-  common renderer; acquire populated terrain/contact, enclosing clock/world order,
-  live parent/child transforms, global cleanup and ordinary world admission. Preserve
+  Canonical smoke draw packets now bind actual identity, model/vertex buffers,
+  affine/facing and changing transparency without advancing clocks or RNG. The
+  normal mission installs a Bevy consumer using common unlit materials, actual
+  source textures/geometry and actor/mission asset retirement. Native draw matrix/
+  cull fragments match 576 packets / 9,792 selected words with supplied views/slot.
+  Installed App packets and CPU Bevy asset/entity lifecycle controls pass; they
+  create no graphics device. World/effect pass multiplicity stays distinct.
+  The driver still lacks impact/voice/display and FX birth/world owners: this
+  consumer creates no actors. Next validate actual GPU submission, native alpha
+  queue ordering and birth/clock/cleanup ownership; acquire populated terrain/
+  contact, live parent/child transforms and ordinary world admission. Preserve
   the completed prototype PS2 lookups (all unassigned), exact PC identity, old
   aliases, separate preparation/active draws and source image ownership. See
   docs/OWNED_MECC_CONTACT.md for the staged constructor contract.

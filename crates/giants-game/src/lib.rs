@@ -97,6 +97,7 @@ pub mod resident_environment;
 pub mod resident_finalization;
 pub mod resident_motion;
 pub mod scalar_track;
+pub mod smoke_particle_draw;
 pub mod specification;
 pub mod startup_playback;
 pub mod state18_reference_reset;

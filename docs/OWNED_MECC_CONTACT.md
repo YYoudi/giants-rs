@@ -8,7 +8,7 @@ hits are candidates only; the PC profile remains the behavioral authority.
 
 The sections record successive acquisition checkpoints. For the current binding,
 see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026)
-and [expired particle destruction](#expired-particle-destruction--10-november-2026) below.
+and [canonical smoke draw consumption](#canonical-smoke-draw-consumption--10-november-2026) below.
 Earlier missing-service statements retain the limits of their recorded checkpoint.
 
 ## Selector and ownership order
@@ -1021,3 +1021,56 @@ profiles. It does not consume these canonical smoke actors yet. Next connect rea
 owned model/reference/affine/transparency state to the common renderer, then bind
 the enclosing world clocks, population/contact and cleanup schedule. This lot
 publishes source only and establishes no new ordinary visible smoke.
+
+
+## Canonical smoke draw consumption — 10 November 2026
+
+`smoke_particle_draw::Geometry` binds the actual actor identity and weak prepared
+resource identity to the matching source model, texture-alpha capability and
+current position buffer. The acquired three source children have one unlit,
+unskinned quad model each. Frames use the canonical affine, scale, facing flags,
+position, animation epoch and live transparency. Preparation updates only the
+shared vertex cache; it does not advance callbacks, age, clocks or RNG. Geometry
+holds no strong instance-specification reference, so it cannot keep a retired
+actor's instance resources alive.
+
+The adjacent native world/effect admissions have different flag gates. Ordinary
+hidden/inactive/dead/skip flags can suppress the world pass; the separate state78
+pass instead requires render1000 and excludes dead objects. A normal child with
+render8000 is hidden at construction and becomes drawable after its first
+callback. An inherited render1000 can admit an earlier effect pass and two later
+submissions. The packet retains this multiplicity rather than flattening both
+paths into a single generic visibility decision. Pending, quarantined, expired,
+foreign or changed ownership refuses or produces no draw as appropriate.
+
+The menu-first App now installs `mission_smoke_scene` after player update. It
+reads these packets from the active mission Session, reuses the common unlit
+material/coordinate conversion, uploads the source quad and textures, updates
+opacity and camera-facing matrices, and removes its owned Bevy entities/assets
+when actors expire or the mission changes. It supplies no alternate simulation
+or diagnostic-only birth path. The shader's explicit world matrix carries the
+vertices; entity translation supplies Bevy's transparent-sort center. Missing
+camera/environment preparation hides existing submissions until inputs return.
+
+On the pinned PC profile, actual adjacent draw matrix/cull fragments agree with
+576 canonical packet samples / 9,792 selected words across three child programs,
+eight seeds, two positions, four callback stages and three supplied views. Native
+CPU/view context is restored after observing each draw, and all earlier simulation
+words remain unchanged. Model slot and views remain supplied; this is neither
+live native LOD/visibility nor GPU/raster proof. REA confirms the generic dispatcher
+can enqueue alpha parts; it is not itself a direct raster submission. Complete
+native alpha-queue sorting/capacity and Bevy pixel parity remain unverified.
+
+Installed tests cover constructor masking, normal/effect multiplicity, identity,
+failed/expired refusal, actual source vertices and changing alpha. The real App
+packet path and rendering system also run with source data in a CPU Bevy world,
+checking stable allocations and removal of meshes, materials, images, world
+buffers and tagged entities on mission retirement. No graphics device is created
+by that control. Prototype PS2 lookup preceded new analysis; correspondence stays
+unknown. Detailed source data, decompilation and controls remain private.
+
+The current ordinary Mecc driver still lacks its impact/voice/display providers
+and full FX birth/world scheduling. This consumer does not populate smoke by
+itself, and no ordinary visible-smoke or preview availability follows from the
+CPU tests. Next validate a real graphical submission, bind the acquired birth/
+clock/cleanup owners and continue populated terrain/contact and world admission.
