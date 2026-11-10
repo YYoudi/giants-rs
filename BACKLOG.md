@@ -22,6 +22,12 @@ supplied replay commands; it does not close this real-input delivery.
 - Mecc: provide the first missing impact/health/display/voice/FX and weapon
   dependencies that prevent this continuous path. Do not bypass them with default
   guard state; prioritize their actual producers over unrelated rare variants.
+  The acquired descent rule and clip are connected to the ordinary controller
+  on main through PR #17 (`c44baf6`). Menu entry, clip preparation, return and re-entry
+  have run on the local build; thrust/release/fall/landing interaction remains
+  unverified after the interrupted UI session. Do not advertise it as verified
+  gameplay or publish a new preview from those partial observations. Preserve
+  countdown-start research privately rather than expanding that isolated work.
 - NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
   story interaction and its first real caller dependency within each domain.
   Their detailed blockers below remain authoritative; communicate the producer/
@@ -308,6 +314,21 @@ BACKLOG.md, PROGRESS.json, generated README and release notes are also shared:
 update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Delphi next steps
+
+Current observable delivery: enter a Reaper mission through the common menu,
+retain the actual declared Delphi owner/held/copy group, then connect supported
+dry keyboard/mouse movement, jump and camera. **First runtime blocker:**
+`player_initial::Prepared` admits Mecc only and the mission runtime has no Delphi
+cold factory/role-binding branch. Supply that real constructor/consumer next;
+retain pending projection/controller/geometry services instead of acknowledging
+missing work. Main integration owns combined delivery. Delphi remains an
+intermediate dependency, with no ordinary controls newly available.
+
+The authored camera now uses the common typed override owner and common mode
+selector; 512 original writer/predicate programs match 81,920 selected words.
+Actual source-backed activation, clear and failure update that same selector.
+Keep startup, descriptor/owner resolution and viewport pose epochs explicit.
+Do not spend the next task on rare camera variants ahead of the entry gap above.
 
 - Implemented: `delphi_resources::Resources` projects the actual kind-3 mission
   marker, class fields, state template and body/state specifications. The shared

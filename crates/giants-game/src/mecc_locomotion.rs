@@ -22,6 +22,53 @@ impl Parameters {
         })
     }
 }
+/// Acquired descent override shared by ordinary presentation and owned selection.
+#[derive(Clone, Copy, Debug)]
+pub struct Descent {
+    pub minimum_speed: f32,
+    pub minimum_gap: f32,
+}
+impl Descent {
+    pub fn from_globals(g: &GlobalData) -> Result<Self, Error> {
+        Ok(Self {
+            minimum_speed: g.scalar(0xc10)?,
+            minimum_gap: g.scalar(0xc14)?,
+        })
+    }
+    pub fn request(
+        self,
+        input: Input,
+        vertical_speed: f32,
+    ) -> Result<Option<Request>, &'static str> {
+        if ![
+            input.position_z,
+            input.floor,
+            input.center_offset,
+            input.scale,
+            vertical_speed,
+            self.minimum_speed,
+            self.minimum_gap,
+        ]
+        .into_iter()
+        .all(f32::is_finite)
+            || input.scale <= 0.
+        {
+            return Err("descent outside finite normal profile");
+        }
+        let gap = (f64::from(input.position_z) - f64::from(input.floor))
+            - f64::from(input.center_offset) * f64::from(input.scale);
+        Ok(
+            (vertical_speed < -self.minimum_speed && f64::from(self.minimum_gap) < gap).then_some(
+                Request {
+                    clip: 41,
+                    flags: 0x21,
+                    speed_source: 0,
+                    reference_speed: (-160f64 * f64::from(input.scale)) as f32,
+                },
+            ),
+        )
+    }
+}
 #[derive(Clone, Copy, Debug)]
 pub struct Input {
     pub model: [f32; 3],
@@ -110,4 +157,37 @@ pub fn select(i: Input, p: Parameters, precision: Precision) -> Result<Request, 
         speed_source: source,
         reference_speed: reference,
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn descent_requires_both_strict_speed_and_floor_relative_clearance() {
+        let descent = Descent {
+            minimum_speed: 80.,
+            minimum_gap: 10.,
+        };
+        let mut input = Input {
+            model: [-81., 0., 0.],
+            position_z: -70.,
+            floor: -100.,
+            center_offset: 20.,
+            scale: 1.,
+            supported: false,
+        };
+        assert!(descent.request(input, -81.).unwrap().is_none());
+        input.position_z = -69.;
+        assert!(descent.request(input, -80.).unwrap().is_none());
+        assert!(descent.request(input, 10.).unwrap().is_none());
+        let request = descent.request(input, -81.).unwrap().unwrap();
+        assert_eq!(
+            (request.clip, request.flags, request.speed_source),
+            (41, 0x21, 0)
+        );
+        assert_eq!(request.reference_speed, -160.);
+        input.position_z = -80.;
+        assert!(descent.request(input, -81.).unwrap().is_none());
+    }
 }

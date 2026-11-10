@@ -12,6 +12,25 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Current entry blocker and common camera state - 10 November 2026
+
+Intermediate dependency only; Delphi is not yet available through ordinary menu
+controls. The first entry gap is concrete: generic mission player preparation
+admits Mecc only, and the common mission runtime has no retained Delphi cold
+factory/role-binding branch. Next connect the acquired class-3 declared start,
+held/copy ownership and cleanup there, then the supported dry input/camera loop.
+Keep actual projection/controller prerequisites explicit; staging an actor is not
+playability, and water/combat completeness is not a prerequisite for this basic
+supported delivery.
+
+The authored Delphi callback now writes `camera_override::State<Id>`, shared with
+the actual common mode/force selector APIs. Its matrix/clear writes and target
+route therefore consume one override object rather than two independent flags.
+Original protocol controls match 512 supplied programs /81,920 selected words;
+installed controls cover authored activation, clear and failure with that same
+object. Startup and actual viewport pose/epoch producers remain unbound. See
+[OWNED_CAMERA.md](OWNED_CAMERA.md) for the precise scope.
+
 ## Running held-route terrain provider - 10 November 2026
 
 `Session::trace_delphi_prephysical_held_terrain` now executes the shared static
