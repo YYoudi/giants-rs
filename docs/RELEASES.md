@@ -12,6 +12,14 @@ target lifetime and active physics remain prerequisites. This does not enable
 Delphi gameplay or change the frozen public preview. See
 [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
+Combined source `0d8ad0a4520eaf6f5bbe6757ee3824925f5e46ec` preserves the current
+camera reset/lens, Kabuto action selection and timed preparation/terminal handoff.
+It passes 894 workspace Rust tests (80 ignored), nine installed Delphi
+regressions, 43 Python tests, Rustfmt, strict workspace Clippy and generated
+roadmap/site/JavaScript checks. The caller comparison repeats on this source.
+A private receipt-bound common MinGW build and explicitly waited CLI help pass;
+these checks establish neither ordinary Delphi control nor visual fidelity.
+
 ## Shared activation reset and lens transition — 10 November 2026, source only
 
 Camera mode changes, activation projection reset and lens evaluation now use one
