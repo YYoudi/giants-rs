@@ -470,6 +470,31 @@ impl Session {
             })
             .collect()
     }
+    /// Canonical smoke descendants and completed positional impact births use
+    /// the same source class867 material/geometry consumer, with distinct owners.
+    pub fn particle_draw_ids(&self) -> Vec<Id> {
+        self.list(0)
+            .into_iter()
+            .filter(|id| {
+                self.get(*id).is_some_and(|a| {
+                    a.timed_effect
+                        .as_ref()
+                        .is_some_and(|m| m.runtime.smoke_particle())
+                        || a.positional_impact.as_ref().is_some_and(|m| m.complete)
+                })
+            })
+            .collect()
+    }
+    pub fn particle_draw_state(
+        &self,
+        id: Id,
+    ) -> Result<Option<crate::smoke_particle_draw::State>, String> {
+        if self.get(id).is_some_and(|a| a.positional_impact.is_some()) {
+            self.positional_impact_draw_state(id)
+        } else {
+            self.smoke_particle_draw_state(id)
+        }
+    }
     /// The acquired common and separate state78 effect passes have distinct
     /// flag gates. Outer visibility/model selection remain caller prerequisites.
     pub fn smoke_particle_draw_state(
