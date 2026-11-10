@@ -44,6 +44,12 @@ coefficient tables, publish projection or complete activation.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+`cargo test --locked -p giants-game delphi_local_target --target x86_64-pc-windows-gnu`
+checks the local caller's separate point/link lifetimes, inline-wide versus
+linked-rounded readiness, retained terrain/linked/item-target failures, inactive
+pending selection and nonlocal no-effect entry. Geometry/camera/item/proxy
+providers are test doubles; these controls do not validate their runtime binding.
+
 The ignored `source_timed_positioned_preparation_uses_owned_header_and_terrain`
 control additionally requires `GIANTS_FLICK_ROOT`, `GIANTS_FLICK_TIMED_TERRAINS`
 (private archive/member TSV) and `GIANTS_FLICK_TIMED_PREPARATION_CONTROLS` (private
@@ -894,3 +900,13 @@ The optional `GIANTS_MECC_DRAW_RECEIPT` records selected Rust words for private
 comparison. Use a fresh path under ignored `.local` and run only one of
 `source_mecc_pistol_draw_interleaves` or `source_mecc_pistol_draw_interruption`
 per receipt. These artifacts must stay private.
+
+With the same explicit Kabuto root/executable, `source_kabuto_action_gate_`
+continues 512 independent installed contexts through the retained-slot gate and
+509 eligible actual animation commits. It keeps the three held-reference exits
+separate and refuses foreign/replayed or non-commit requests. Optional private
+`GIANTS_KABUTO_GATE_INPUTS` / `GIANTS_KABUTO_GATE_RECEIPT` export the selector/gate
+projection; `GIANTS_KABUTO_RESOLVED_COMMIT_INPUTS` /
+`GIANTS_KABUTO_RESOLVED_COMMIT_RECEIPT` export eligible animation contexts. All
+paths must be absolute. No window or audio device is created. This does not
+complete primary/history/initialization or validate live gameplay.

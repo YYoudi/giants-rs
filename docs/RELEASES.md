@@ -44,6 +44,54 @@ catalog is documented centrally in [OWNED_CAMERA.md](OWNED_CAMERA.md), and
 `BACKLOG.md` now names the independently verified .6 download while retaining
 the separate .5 manual evidence boundary. The frozen public preview is unchanged.
 
+## Kabuto retained-slot animation continuation — 10 November 2026
+
+The owned Kabuto action selector now resolves its shared animation gate using
+the earlier resource slot. Negative checking exits and unchanged slots skip
+commit; held references keep their distinct continuation. Eligible selections
+resolve their reference speed and pass the actual stored request to the existing
+shared setter/zero-second ANM pipeline. Foreign/checkpoint/replay and retained
+failure boundaries remain; no primary or pending initializer is completed.
+
+All 4,096 original-PC/Rust gate controls match 266,240 words. The installed
+composition traverses 512 contexts, with 509 commits and three held exits. A
+continuous original selector/gate/commit interval matches 409,086 final words,
+including 256 declared notification entries and 1,120 ANM dispatcher visits.
+Earlier caller/resource/world inputs, existing PC TLS context and sound/transport
+mutations remain supplied. The fixture declares a separate eligibility context
+at commit entry; the eligibility owner word and session mode are supplied,
+without replacing intermediate actor/animation/reference/epoch/RNG snapshots. These are independent CPU contexts, not continuous gameplay.
+See [OWNED_KABUTO.md](OWNED_KABUTO.md).
+
+Combined validation passes 894 workspace Rust tests (81 ignored), 27 installed Kabuto
+controls plus one cold-resource control, 13 Mecc and nine Delphi controls,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. The shared camera activation/lens and Delphi local target contributions
+are preserved. Earlier action admission, held ordering,
+the following primary caller and actual world/backend scheduling remain open.
+The public Windows preview remains the separately validated frozen .6 snapshot;
+Kabuto is still unavailable in ordinary gameplay and fidelity is unverified.
+
+## Delphi local target/readiness caller — 10 November 2026
+
+The local primary caller now produces its target, aim, item and movement-ready
+state in acquired order over required providers. It keeps typed target/proxy
+slots and distinct point lifetimes, including partial writes after errors.
+All 2,048 original caller controls match 47,104 projected words and 16,978 ordered
+events; 27 controls distinguish inline wide-distance readiness from the linked
+helper's narrower profile. Provider bodies, actual Session pre-physical binding,
+target lifetime and active physics remain prerequisites. This does not enable
+Delphi gameplay or change the frozen public preview. See
+[OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `0d8ad0a4520eaf6f5bbe6757ee3824925f5e46ec` preserves the current
+camera reset/lens, Kabuto action selection and timed preparation/terminal handoff.
+It passes 894 workspace Rust tests (80 ignored), nine installed Delphi
+regressions, 43 Python tests, Rustfmt, strict workspace Clippy and generated
+roadmap/site/JavaScript checks. The caller comparison repeats on this source.
+A private receipt-bound common MinGW build and explicitly waited CLI help pass;
+these checks establish neither ordinary Delphi control nor visual fidelity.
+
 ## Shared activation reset and lens transition — 10 November 2026, source only
 
 Camera mode changes, activation projection reset and lens evaluation now use one

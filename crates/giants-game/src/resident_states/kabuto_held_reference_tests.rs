@@ -11,6 +11,7 @@ pub(super) enum Case {
     CommitFailure,
     CommitClear,
     Actions,
+    ActionGate,
     ActionsFailure,
     ActionsClear,
 }
@@ -94,7 +95,9 @@ impl held::World for World<'_> {
             Case::Success => Ok(Response::Complete),
             Case::Captured => panic!("captured no-target route must not bind"),
             Case::Commit | Case::CommitFailure | Case::CommitClear => unreachable!(),
-            Case::Actions | Case::ActionsFailure | Case::ActionsClear => unreachable!(),
+            Case::Actions | Case::ActionGate | Case::ActionsFailure | Case::ActionsClear => {
+                unreachable!()
+            }
         }
     }
 }
@@ -244,6 +247,7 @@ pub(super) fn probe(
             | Case::CommitFailure
             | Case::CommitClear
             | Case::Actions
+            | Case::ActionGate
             | Case::ActionsFailure
             | Case::ActionsClear
     ) {
