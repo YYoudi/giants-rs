@@ -2112,4 +2112,4 @@ are supplied. An earlier executable's 180-second observer timeout remains failed
 evidence; the later 360-second observation completes. This is not held-input,
 complete native camera, normal Kabuto entry or fidelity proof. An installed App
 control covers two cold entries, current owner/profile use, stale-owner refusal
-and unchanged pending initializers. The .9 download retains its own identity.
+and unchanged pending initializers. The .9 and .10 downloads retain their own identities.

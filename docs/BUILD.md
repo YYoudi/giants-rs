@@ -1232,7 +1232,7 @@ not establish actual mission-entry/warm state, device publication or gameplay.
 
 ### Explicit Kabuto profile-camera inspection
 
-This source diagnostic is not ordinary Kabuto gameplay and is not in preview .9.
+This source diagnostic is not ordinary Kabuto gameplay and is not in previews .9 or .10.
 With a compatible user-supplied PC executable selected by
 `GIANTS_KABUTO_EXECUTABLE`, set:
 

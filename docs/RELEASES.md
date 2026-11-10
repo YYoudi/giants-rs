@@ -323,7 +323,7 @@ The reviewed capture shows the head/horns in frame; lower-body placement and
 scene discrepancies remain unverified. This is an unclipped static inspection:
 floor/chase/walls, native startup/warm ordering, live animation/input and all four
 initializer acknowledgements remain pending. See [BUILD.md](BUILD.md) for the
-local diagnostic. It is not included in Windows preview .9.
+local diagnostic. It is not included in Windows previews .9 or .10.
 
 Source `1799a51` (executable SHA256
 `c813602ea8e24b9c34259b01740bab7bf11cc3a0d85fe094eb140f8e0089a054`) passes the
