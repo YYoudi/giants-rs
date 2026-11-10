@@ -6,6 +6,101 @@ use crate::{
 };
 
 #[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; acquired draw actions with real owned held-object services, not ANM or world scheduling"]
+fn source_mecc_pistol_draw_actions_replace_only_the_bound_hand() {
+    use crate::animation_event_dispatch::{Context, Window};
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    let mut session = Session::new(985);
+    let owner = actor(&mut session, &r, &g, &c, None, 0.);
+    let peer = actor(&mut session, &r, &g, &c, None, 5.);
+    let mut factory = crate::mecc_wield::Factory::new(&r);
+    // Explicit real held-object setup; this does not run the draw selector.
+    factory.commit_weapon(&mut session, owner, &c).unwrap();
+    factory.commit_weapon(&mut session, peer, &c).unwrap();
+    let peer_before = session
+        .wield_list()
+        .unwrap()
+        .into_iter()
+        .filter(|child| child.parent == Some(peer))
+        .map(|child| (child.id, child.class, child.flags, child.reference))
+        .collect::<Vec<_>>();
+    let old = session
+        .wield_list()
+        .unwrap()
+        .into_iter()
+        .find(|child| {
+            child.parent == Some(owner) && child.reference == 1 && child.flags & 0x8000 == 0
+        })
+        .unwrap()
+        .id;
+    let mut actions = crate::mecc_pistol_draw::Actions::new(&c).unwrap();
+    let context = Context {
+        wet: false,
+        material: None,
+        position: [0.; 3],
+        world: None,
+        references: &[],
+        contact_scalar: 0.,
+        cinematic: false,
+    };
+    for (previous, current) in [(0., 0.2), (0.2, 23. / 30.)] {
+        actions
+            .dispatch(
+                Window {
+                    previous,
+                    current,
+                    reverse: false,
+                    wrapped: false,
+                },
+                &context,
+                |reference, class| {
+                    factory.replace(&mut session, owner, i32::from(reference), class)
+                },
+            )
+            .unwrap();
+        assert!(
+            session
+                .wield_list()
+                .unwrap()
+                .into_iter()
+                .find(|child| child.id == old)
+                .unwrap()
+                .flags
+                & 0x8000
+                != 0
+        );
+    }
+    let replacement = session
+        .wield_list()
+        .unwrap()
+        .into_iter()
+        .find(|child| {
+            child.parent == Some(owner) && child.reference == 1 && child.flags & 0x8000 == 0
+        })
+        .unwrap();
+    assert_ne!(replacement.id, old);
+    assert_eq!(replacement.class, 21);
+    assert_eq!(
+        session
+            .wield_list()
+            .unwrap()
+            .into_iter()
+            .filter(|child| child.parent == Some(peer))
+            .map(|child| (child.id, child.class, child.flags, child.reference))
+            .collect::<Vec<_>>(),
+        peer_before
+    );
+}
+
+#[test]
 #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; camera-owner prefix with actual Session identities, callback writes, retirement and foreign-owner refusal; no window or sound"]
 fn source_camera_owner_selection_keeps_callback_effects_and_identity() {
     use crate::camera_owner::{Input, Outcome, State};

@@ -724,6 +724,7 @@ pub mod mecc_footsteps;
 pub mod mecc_impacts;
 pub mod mecc_model_draw;
 pub mod mecc_pistol;
+pub mod mecc_pistol_draw;
 pub mod mecc_primary;
 pub mod mecc_subjective;
 pub mod mecc_world;

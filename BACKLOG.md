@@ -1071,6 +1071,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   animation callback/frame service at frame one. Bind its actual provider before
   claiming this diagnostic or ordinary owned gameplay passes; do not clear the
   weapon-change state or force animation readiness to bypass the refusal.
+  The acquired pistol action consumer now matches 192 supplied native event
+  windows (576 event visits / 1,176 selected words), with an additional actual
+  65-call ANM control observing the two held-object replacements. Its installed
+  Session composition uses the real wield factory and preserves a peer's hand.
+  Next retain the action table with the registered class event bank, bind the
+  selector's typed active-table identity, and execute its replacements immediately
+  after class events inside each actual ANM pass. Preserve shared event marks,
+  table traversal order and earlier effects on late failure. The normal driver
+  still refuses this branch until those owners are connected; do not replay the
+  actions in a separate post-frame queue or infer material absence.
 
 - Desktop preview entry: giants-rs.exe detects the adjacent game installation or
   offers a folder picker, then opens the integrated menu with an independent

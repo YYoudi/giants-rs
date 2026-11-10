@@ -1075,3 +1075,35 @@ and full FX birth/world scheduling. This consumer does not populate smoke by
 itself, and no ordinary visible-smoke or preview availability follows from the
 CPU tests. Next validate a real graphical submission, bind the acquired birth/
 clock/cleanup owners and continue populated terrain/contact and world admission.
+
+## Pistol draw action prerequisite — 10 November 2026
+
+`mecc_pistol_draw::Actions` implements the acquired base-pistol action consumer
+using the shared animation event dispatcher and actual weapon catalog. The native
+draw animation removes the right-hand object at 0.2 seconds and equips it at
+23/30 seconds. Event-table traversal is significant: a single supplied interval
+crossing both actions equips before removing. Wet/material choice still selects
+the actual arguments; absent material must be an observed absence. No default
+material producer is invented.
+
+The table belongs with the registered class event bank, while its active binding
+belongs to the actor. Rebinding weapon arguments retains shared event marks.
+Replacement callbacks execute immediately in table order. An error retains
+completed effects and event-mark writes and quarantines further dispatch, rather
+than replaying potentially completed world operations.
+
+Actual native event-helper controls agree on 192 supplied forward/reverse/wrapped
+windows and initial marks, for wet or absent-material inputs: 576 event visits /
+1,176 selected words, including replacement arguments and order. Their replacement
+entry provider returns zero; they do not certify the replacement body. A separate
+65-call real native ANM control does execute both real replacement operations.
+The installed Rust composition uses the actual Session and wield factory, checks
+old-child marking and new-child ownership, and preserves another Mecc's hand.
+This is not a full native/Rust header, ANM, primary or world comparison.
+
+Prototype PS2 lookup precedes the new acquisition and remains unassigned. Private
+tables, decompilation and detailed controls stay outside Git. Normal selection
+still refuses its draw branch: the class-bank owner, typed actor binding and
+interleaved callback route must be connected before lifting that refusal. Dispatch
+must follow class events inside each ANM pass, not a delayed post-frame queue.
+No new ordinary gameplay, animation fidelity or preview availability is claimed.

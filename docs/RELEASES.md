@@ -5445,3 +5445,29 @@ checks. Camera/environment interruption hides existing submissions and restores
 them without additional allocations. The rebuilt canonical packet controls still
 match all 576 native matrix/cull samples / 9,792 selected words. No graphics-device
 test or new preview is included; main retains its publication ownership.
+
+### Mecc pistol draw actions — 10 November 2026
+
+The base-pistol action consumer now executes timed held-object replacements
+through an explicit provider in native table order. It retains shared event
+marks when weapon arguments are rebound and preserves completed effects on
+failure before quarantining replay. Actual wet/material selection remains an
+input; no material absence or world operation is silently acknowledged.
+
+Native event-helper controls match 192 supplied windows / 576 event visits /
+1,176 selected words, with a replacement-entry provider. A separate real native
+65-call ANM control executes both replacement bodies. The installed Rust Session
+composition checks actual old-child marking, new-child binding and peer retention
+through the acquired wield factory. These are separate evidence scopes, not a
+full ANM, primary or graphical comparison.
+
+The ordinary selector's draw refusal remains until class-bank ownership, typed
+active-table identity and immediate interleaved ANM callbacks are bound. Prototype
+PS2 attributions remain unknown. This is a source prerequisite handoff and creates
+no ordinary gameplay or preview availability. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#pistol-draw-action-prerequisite--10-november-2026).
+
+Validation retaining main through `119422f` passes 884 workspace Rust tests
+(86 ignored), twenty-three installed Mecc controls, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated site/JavaScript checks. No release package,
+notices or preview checksums change in this source-only checkpoint.

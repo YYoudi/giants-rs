@@ -840,3 +840,13 @@ These silent controls check identity/admission, current source vertices/alpha,
 no draw-driven simulation, actor expiry and Bevy mesh/material/image/buffer/entity
 retirement. They create no graphics device and do not verify rendered pixels or
 ordinary gameplay birth. The normal mission consumer creates no particles itself.
+
+With the same `GIANTS_MECC_WORLD_ROOT`, the silent source-backed pistol action
+composition runs through the actual owned wield factory:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_pistol_draw --target x86_64-pc-windows-gnu -- --ignored
+```
+
+It checks removal/recreation of the bound hand and peer preservation with supplied
+event windows. It does not run ANM or lift the ordinary selector's draw refusal.
