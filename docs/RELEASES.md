@@ -1,5 +1,42 @@
 # Preview releases and milestone integration
 
+## Published preview .10 - ordinary HUD and captured descent
+
+[Windows preview-2026.11.10.10](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.10)
+is the current download. Use Start New Single Player Game with a supplied
+installation; right mouse drives thrust, Space selects nitro while thrusting,
+left mouse fires the partial pistol, R changes view and Escape returns to menu.
+No replay enables these normal connections. This snapshot adds the health/fuel
+gauges and shared initial-body/NPC/camera dependencies to the .9 presentation.
+
+The exact executable passes three supplied-controller GPU movement/jet/nitro/
+release/retirement cycles and separately inspected plume, source-projectile and
+descent41 captures. The real selector reaches descent after release; jets are
+hidden and fuel45 is visible. A fresh muted normal profile completes two actual
+menu entries/opening skips and clean returns, right-mouse jet pulses/release,
+left-mouse fire/ground query, R view and normal desktop exit. Mouse-coordinate
+injection changed pitch, so its brief shot did not yield a manual projectile
+image. Continuous OS-held flight/nitro/descent/landing and fidelity remain unverified.
+
+Runtime lifecycle and selected source-terminal cinematic transport/re-entry
+also pass, with actual muted audio sinks and text-atlas cleanup for the latter.
+The source has 953 portable Rust passes (149 ignored), 44 Python passes and 48
+installed dependency controls, with format/strict Clippy and Windows CI passing.
+The ten-file package has 338 dependency and eleven toolchain notice entries,
+29 system DLL imports and no technical distribution blockers. Independently
+retrieved draft assets and an anonymous public download match the receipt and
+all checksums. The cinematic census stays tied to .7; no new complete-film,
+ordinary NPC AI, playable Delphi/Kabuto or whole-game fidelity claim follows.
+
+Runtime source: `9a0fb244159c89054bbdfc9a53705df30bb546ec`.
+Executable SHA256: `ddeaa79a438595e2789c84cfef5b2710b914f77df1acef0154ad2ba743ff3437`.
+ZIP SHA256: `fc5052b2643bd8272d95e52416a6d92585d72384a9e4dd65d3b25ada99d3efe8`.
+Later main landing-effect work remains outside this frozen executable. Earlier
+previews retain their original notes, binaries and evidence. No new confirmed
+prototype PS2 attribution is established by this packaging/integration milestone.
+The following landing work is later main source, outside the frozen .10
+download. Its local executable/evidence identities remain separate.
+
 ## Ordinary Mecc terrain-landing feedback - local graphical validation
 
 The normal controller now creates the source hard-landing effect and positional
@@ -26,7 +63,7 @@ or historical gallery receipt is relabeled; main owns the combined preview.
 ## Published preview .9 - ordinary Mecc jet and projectile feedback
 
 [Windows preview-2026.11.10.9](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.9)
-is the current download. Start New Single Player Game with a supplied installation;
+is an earlier download. Start New Single Player Game with a supplied installation;
 right mouse drives thrust, Space selects nitro while thrusting, left mouse fires
 the partial base pistol, R changes view and Escape returns to the menu. No replay
 or experimental-backend flag is required for these normal connections.
@@ -91,6 +128,23 @@ The next common campaign FX dependency is the source-marked timed-shot queue,
 its virtual support and retirement child in the canonical mission Session.
 Existing construction/callback controls remain reusable; an ordinary actor ID
 must not replace the source-domain support.
+
+The canonical Session now has typed staging/preparation APIs for virtual Flick
+supports and their source-scoped positional retirement children. They move the
+actual payload and callback resources rather than registering a substitute
+parent or retaining a second live body. Foreign/stale identities refuse before
+callback mutation; failed staging preserves context identity and active RNG.
+Cancellation releases only the selected source generation and refuses a pending
+callback. The installed ownership control exercises these paths and a real
+retirement child, preserving an ordinary actor and another source generation.
+The retained ordinary preparation control still matches 1,152 supplied states
+and 226,944 words through the shared implementation; these are reused CPU
+comparisons, not additional films or runtime fidelity coverage.
+
+This remains a kernel dependency: the main Flick dispatcher has no consumer for
+these new APIs yet. Event dispatch, actual clocks/RNG and required world services
+must be connected before claiming a new menu capability. No placeholder physical
+or retirement provider, new capture or preview download is introduced here.
 
 The exact PC thread-state initializer and random helper now execute together
 under supplied Windows TLS, thread identities and zeroed heap allocation. Six
