@@ -57,6 +57,17 @@ fn source_kabuto_held_bank_retains_late_failure_and_refuses_replay() {
         Some(super::held_reference_tests::Case::Failure),
     );
 }
+
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; retained resource sample across live channel/mode changes; no window or sound"]
+fn source_kabuto_held_bank_consumes_captured_resource_sample() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::Captured),
+    );
+}
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; owner invalidation without stale reference restoration; no window or sound"]
 fn source_kabuto_held_bank_does_not_restore_a_removed_owner() {

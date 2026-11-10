@@ -1,4 +1,4 @@
-//! Canonical Session storage for the acquired attached timed-effect dependency.
+//! Canonical Session storage for acquired attached and detached timed effects.
 //! No world admission, stock policy or default physical/retirement provider.
 use super::*;
 use crate::{
@@ -15,6 +15,26 @@ pub(super) struct Metadata {
     render_flags: u32,
     matrix: Matrix,
     runtime: Runtime,
+    physical: PhysicalHeader,
+    motion_done: bool,
+    gravity_done: bool,
+}
+/// Dynamic header words cleared by ordinary allocation, distinct from the
+/// inline physical payload. Environment/world producers remain prerequisites.
+#[derive(Clone, Debug)]
+pub struct PhysicalHeader {
+    pub velocity: [f32; 3],
+    pub previous_velocity: [f32; 3],
+    pub plane: [f32; 4],
+}
+impl PhysicalHeader {
+    fn allocated() -> Self {
+        Self {
+            velocity: [0.; 3],
+            previous_velocity: [0.; 3],
+            plane: [0.; 4],
+        }
+    }
 }
 /// Services execute with the actual actor still in the canonical Session map.
 /// A callback prefix is already published; errors retain it and forbid replay.
@@ -22,6 +42,8 @@ pub trait Services {
     /// `seconds` is the callback's sample. A physical provider retains its own
     /// acquired clock queries; equal samples in a fixture do not merge clocks.
     fn physical(&mut self, session: &mut Session, actor: Id, seconds: f32) -> Result<(), String>;
+    /// Runs after the actual affine has been published, before ANM.
+    fn gravity(&mut self, session: &mut Session, actor: Id) -> Result<(), String>;
     fn retire(
         &mut self,
         session: &mut Session,
@@ -156,6 +178,9 @@ impl Session {
             render_flags: initial.render_flags,
             matrix: initial.matrix,
             runtime,
+            physical: PhysicalHeader::allocated(),
+            motion_done: false,
+            gravity_done: false,
         });
         self.publish_staged(staged, id)
     }
@@ -196,6 +221,118 @@ impl Session {
     }
     pub fn timed_effect_matrix(&self, id: Id) -> Option<Matrix> {
         Some(self.get(id)?.timed_effect.as_ref()?.matrix)
+    }
+    pub fn timed_effect_physical_header(&self, id: Id) -> Option<&PhysicalHeader> {
+        Some(&self.get(id)?.timed_effect.as_ref()?.physical)
+    }
+    /// Required motion boundary over the actual owned header and inline block.
+    /// The caller supplies the independently resolved physical clock sample.
+    pub fn advance_timed_effect_motion(&mut self, id: Id, seconds: f64) -> Result<(), String> {
+        let m = self
+            .get(id)
+            .and_then(|a| a.timed_effect.as_ref())
+            .ok_or("timed physical header absent")?;
+        if m.motion_done {
+            return Err("timed owned motion already consumed".into());
+        }
+        let header = m.physical.clone();
+        let (seed, fields) = self.timed_effect_physical_fields(id)?;
+        let p = crate::effect_actor::physical_data(seed)?;
+        let p: [f32; 15] = std::array::from_fn(|i| {
+            f32::from_bits(u32::from_le_bytes(p[i * 4..i * 4 + 4].try_into().unwrap()))
+        });
+        let motion = crate::mecc_motion::integrate_with_time(
+            crate::mecc_motion::Motion {
+                position: fields.position,
+                velocity: header.velocity,
+                previous_velocity: header.previous_velocity,
+                force: [p[6], p[7], p[8]],
+                mass: p[2],
+                speed_limit: p[10],
+                force_time_limit: p[11],
+                stored_dt: p[5],
+            },
+            seconds,
+            false,
+            false,
+            crate::arithmetic::Precision::Double53,
+        )?;
+        fields.position = motion.position;
+        let data = seed.storage.data_mut().unwrap();
+        data[0xb4..0xb8].copy_from_slice(&motion.stored_dt.to_le_bytes());
+        data[0xcc..0xd0].copy_from_slice(&motion.force_time_limit.to_le_bytes());
+        for (i, v) in motion.force.into_iter().enumerate() {
+            data[0xb8 + i * 4..0xbc + i * 4].copy_from_slice(&v.to_le_bytes());
+        }
+        let header = &mut self
+            .residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .timed_effect
+            .as_mut()
+            .unwrap()
+            .physical;
+        header.velocity = motion.velocity;
+        header.previous_velocity = motion.previous_velocity;
+        self.residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .timed_effect
+            .as_mut()
+            .unwrap()
+            .motion_done = true;
+        Ok(())
+    }
+    /// Gravity follows the affine store and uses the retained physical header.
+    /// No contact/terrain update or world admission is supplied by this method.
+    pub fn apply_timed_effect_gravity(&mut self, id: Id) -> Result<(), String> {
+        let actor = self
+            .get(id)
+            .ok_or("timed gravity actor absent or foreign")?;
+        let m = actor
+            .timed_effect
+            .as_ref()
+            .ok_or("timed gravity metadata absent")?;
+        if !m.runtime.awaiting_gravity()
+            || !m.motion_done
+            || m.gravity_done
+            || actor
+                .construction_fields
+                .as_ref()
+                .is_none_or(|f| f.control_flags & 0x80 == 0)
+        {
+            return Err("timed gravity service is not pending".into());
+        }
+        let header = m.physical.clone();
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        let p = crate::effect_actor::physical_data(&actor.seed)?;
+        let words: [u32; 15] =
+            std::array::from_fn(|i| u32::from_le_bytes(p[i * 4..i * 4 + 4].try_into().unwrap()));
+        let p = words.map(f32::from_bits);
+        let gravity = crate::mecc_gravity::apply(
+            crate::mecc_gravity::Input {
+                force: [p[6], p[7], p[8]],
+                velocity: header.velocity,
+                normal: [header.plane[0], header.plane[1], header.plane[2]],
+                gravity_mass: p[1],
+                mass: p[2],
+                friction_limit: p[9],
+                damping_xy: p[12],
+                damping_z: p[13],
+                force_time_limit: p[11],
+                object_flags: actor.construction_fields.as_ref().unwrap().object_flags,
+                physics_flags: words[0],
+                project_contact: true,
+            },
+            crate::arithmetic::Precision::Double53,
+        )?;
+        actor.timed_effect.as_mut().unwrap().gravity_done = true;
+        let data = actor.seed.storage.data_mut().unwrap();
+        data[0xcc..0xd0].copy_from_slice(&gravity.force_time_limit.to_le_bytes());
+        for (i, v) in gravity.force.into_iter().enumerate() {
+            data[0xb8 + i * 4..0xbc + i * 4].copy_from_slice(&v.to_le_bytes());
+        }
+        Ok(())
     }
     /// The physical provider can mutate the actual inline fields/payload only
     /// at its pending boundary; this is not a general readiness override.
@@ -239,12 +376,18 @@ impl Session {
                 .ok_or("timed references absent")?
                 .0;
             let (runtime, mut body) = borrow(actor, references)?;
-            runtime.begin(&mut body, seconds)?
+            let boundary = runtime.begin(&mut body, seconds)?;
+            if boundary != Boundary::Inactive {
+                let m = actor.timed_effect.as_mut().unwrap();
+                m.motion_done = false;
+                m.gravity_done = false;
+            }
+            boundary
         };
         if boundary == Boundary::Inactive {
             return Ok(Step::Inactive);
         }
-        let result = match boundary {
+        let mut result = match boundary {
             Boundary::Physical => services.physical(self, id, seconds),
             Boundary::Retirement => {
                 let m = self.get(id).unwrap().timed_effect.as_ref().unwrap();
@@ -255,6 +398,23 @@ impl Session {
             Boundary::Animation => Ok(()),
             Boundary::Inactive => unreachable!(),
         };
+        if boundary == Boundary::Physical {
+            let actor = self
+                .residents
+                .get_mut(&id.serial)
+                .ok_or("timed actor removed during motion service")?;
+            let references = &mut self
+                .specifications
+                .get_mut(&id.serial)
+                .ok_or("timed references removed during motion service")?
+                .0;
+            let (runtime, mut body) = borrow(actor, references)?;
+            result = runtime.finish_motion(&mut body, result);
+            self.refresh_timed_cache(id)?;
+            if result.is_ok() {
+                result = services.gravity(self, id);
+            }
+        }
         self.get(id)
             .ok_or("timed actor removed during required service")?;
         let actor = self.residents.get_mut(&id.serial).unwrap();
@@ -266,7 +426,18 @@ impl Session {
         let (runtime, mut body) = borrow(actor, references)?;
         let next = runtime.finish(&mut body, seconds, stamp, result);
         // Preserve even a late reference failure's actual acquired stamp.
-        let metadata = actor.timed_effect.as_ref().unwrap();
+        self.refresh_timed_cache(id)?;
+        next
+    }
+    fn refresh_timed_cache(&mut self, id: Id) -> Result<(), String> {
+        let actor = self
+            .residents
+            .get_mut(&id.serial)
+            .ok_or("timed actor removed during callback")?;
+        let metadata = actor
+            .timed_effect
+            .as_ref()
+            .ok_or("timed metadata removed during callback")?;
         actor.mecc_animation_stamp = metadata.runtime.epoch;
         // Only an actual callback matrix write refreshes the derived cache.
         // A physical move without that writer leaves the old pose token stale.
@@ -281,7 +452,7 @@ impl Session {
                 external_orientation: true,
             });
         }
-        next
+        Ok(())
     }
     /// Shared bounded ordinary preparation: callback/retirement precedes the
     /// actual parent binding even when the actor becomes marked this pass.
@@ -343,6 +514,7 @@ mod tests {
         effect_actor::Template,
         scene_resources::SceneResources,
     };
+    type PhaseControls = Arc<std::collections::BTreeMap<(u32, u32, u32, u32), Vec<u32>>>;
     struct Provider {
         pool: Pool<Id>,
         random: Random,
@@ -350,67 +522,74 @@ mod tests {
         fail: bool,
         positions: Vec<[f32; 3]>,
         child: Option<crate::attached_effect_context::Id>,
-        // Explicit retained native-fixture boundaries, not world producers.
-        motion: Option<([f32; 3], [f32; 3])>,
         physical_calls: usize,
         physical_fail: bool,
+        gravity_fail: bool,
+        phase_controls: Option<PhaseControls>,
+        phase_key: [u32; 3],
+    }
+    impl Provider {
+        fn assert_phase(&self, session: &Session, id: Id, phase: u32) {
+            let Some(controls) = &self.phase_controls else {
+                return;
+            };
+            let actor = session.get(id).unwrap();
+            let f = actor.construction_fields.as_ref().unwrap();
+            let m = actor.timed_effect.as_ref().unwrap();
+            let mut got = Vec::new();
+            got.extend(f.position.map(f32::to_bits));
+            got.push(f.scale.to_bits());
+            got.extend(f.angles.map(f32::to_bits));
+            got.extend([f.object_flags, f.response_flags, f.control_flags]);
+            got.extend(f.current.map(f32::to_bits));
+            got.extend(f.previous.map(f32::to_bits));
+            got.extend(m.physical.velocity.map(f32::to_bits));
+            got.extend(m.physical.previous_velocity.map(f32::to_bits));
+            got.extend(m.physical.plane.map(f32::to_bits));
+            got.push(m.matrix.flags);
+            got.extend(m.matrix.values.map(f32::to_bits));
+            got.extend(
+                crate::effect_actor::physical_data(&actor.seed)
+                    .unwrap()
+                    .as_chunks::<4>()
+                    .0
+                    .iter()
+                    .map(|w| u32::from_le_bytes(*w)),
+            );
+            let [case, kind, step] = self.phase_key;
+            assert_eq!(
+                &got,
+                controls.get(&(case, kind, step, phase)).unwrap(),
+                "native intermediate case {case} child {kind} step {step} phase {phase}"
+            );
+        }
     }
     impl Services for Provider {
         fn physical(&mut self, session: &mut Session, id: Id, dt: f32) -> Result<(), String> {
-            let (velocity, previous) = self
-                .motion
-                .as_mut()
-                .ok_or("fixture motion boundary absent")?;
-            let (seed, fields) = session.timed_effect_physical_fields(id)?;
-            let data = crate::effect_actor::physical_data(seed)?;
-            let p: [f32; 15] = std::array::from_fn(|i| {
-                f32::from_le_bytes(data[i * 4..i * 4 + 4].try_into().unwrap())
-            });
-            let motion = crate::mecc_motion::integrate(
-                crate::mecc_motion::Motion {
-                    position: fields.position,
-                    velocity: *velocity,
-                    previous_velocity: *previous,
-                    force: [p[6], p[7], p[8]],
-                    mass: p[2],
-                    speed_limit: p[10],
-                    force_time_limit: p[11],
-                    stored_dt: p[5],
-                },
-                dt,
-                false,
-                false,
-                crate::arithmetic::Precision::Double53,
-            )?;
-            let gravity = crate::mecc_gravity::apply(
-                crate::mecc_gravity::Input {
-                    force: motion.force,
-                    velocity: motion.velocity,
-                    normal: [0.; 3],
-                    gravity_mass: p[1],
-                    mass: p[2],
-                    friction_limit: 0.,
-                    damping_xy: 0.,
-                    damping_z: 0.,
-                    force_time_limit: motion.force_time_limit,
-                    object_flags: fields.object_flags,
-                    physics_flags: 0,
-                    project_contact: true,
-                },
-                crate::arithmetic::Precision::Double53,
-            )?;
-            *velocity = motion.velocity;
-            *previous = motion.previous_velocity;
-            fields.position = motion.position;
-            let data = seed.storage.data_mut().unwrap();
-            data[0xb4..0xb8].copy_from_slice(&motion.stored_dt.to_le_bytes());
-            data[0xcc..0xd0].copy_from_slice(&gravity.force_time_limit.to_le_bytes());
-            for (i, v) in gravity.force.into_iter().enumerate() {
-                data[0xb8 + i * 4..0xbc + i * 4].copy_from_slice(&v.to_le_bytes());
-            }
+            self.assert_phase(session, id, 0);
+            session.advance_timed_effect_motion(id, f64::from(dt))?;
+            self.assert_phase(session, id, 1);
+            assert!(
+                session
+                    .advance_timed_effect_motion(id, f64::from(dt))
+                    .is_err()
+            );
             self.physical_calls += 1;
             if self.physical_fail {
                 Err("declared failure after actual physical writes".into())
+            } else {
+                Ok(())
+            }
+        }
+        fn gravity(&mut self, session: &mut Session, id: Id) -> Result<(), String> {
+            assert!(session.actor_current_affine(id).is_ok());
+            assert!(session.timed_effect_physical_fields(id).is_err());
+            self.assert_phase(session, id, 2);
+            session.apply_timed_effect_gravity(id)?;
+            self.assert_phase(session, id, 3);
+            assert!(session.apply_timed_effect_gravity(id).is_err());
+            if self.gravity_fail {
+                Err("declared failure after actual gravity writes".into())
             } else {
                 Ok(())
             }
@@ -505,9 +684,11 @@ mod tests {
             fail: false,
             positions: vec![],
             child: None,
-            motion: None,
             physical_calls: 0,
             physical_fail: false,
+            gravity_fail: false,
+            phase_controls: None,
+            phase_key: [0; 3],
         };
         let (creation, _) = service
             .pool
@@ -694,7 +875,6 @@ mod tests {
                 .unwrap(),
             Step::FirstFrame
         );
-        service.motion = Some(([0.; 3], [0.; 3]));
         service.physical_fail = true;
         assert!(
             session
@@ -770,7 +950,6 @@ mod tests {
         session
             .advance_timed_effect(child, 0., &mut stamp, &mut service)
             .unwrap();
-        service.motion = Some(([0.; 3], [0.; 3]));
         service.physical_fail = false;
         // Deliberate unsupported ANM input after a successful physical service.
         // The completed size/matrix store must survive the later refusal.
@@ -791,6 +970,107 @@ mod tests {
         assert!(session.current_reference_matrices(child).is_err());
         assert_eq!(session.clear().residents, 3);
         assert_eq!(session.counts(), Counts::default());
+        // A late gravity failure retains both the preceding affine store and
+        // actual force stores. Neither motion nor gravity can be replayed.
+        let (mut late, parent_id, mut provider) = start(&resources, 730, 1);
+        late.prepare_timed_attached(
+            parent_id,
+            Matrix::identity(),
+            1.,
+            0.,
+            &mut stamp,
+            &mut provider,
+        )
+        .unwrap();
+        let lifetime = f32::from_bits(u32::from_le_bytes(
+            late.get(parent_id).unwrap().seed.storage.data().unwrap()[4..8]
+                .try_into()
+                .unwrap(),
+        ));
+        late.prepare_timed_attached(
+            parent_id,
+            Matrix::identity(),
+            1.,
+            lifetime * 2.,
+            &mut stamp,
+            &mut provider,
+        )
+        .unwrap();
+        let origin = provider.child.take().unwrap();
+        let child = provider
+            .pool
+            .activate_timed_positioned(origin, &mut late, &resources)
+            .unwrap();
+        assert_eq!(
+            late.timed_effect_physical_header(child).unwrap().velocity,
+            [0.; 3]
+        );
+        late.advance_timed_effect(child, 0., &mut stamp, &mut provider)
+            .unwrap();
+        provider.gravity_fail = true;
+        assert!(
+            late.advance_timed_effect(child, 0.01, &mut stamp, &mut provider)
+                .is_err()
+        );
+        assert!(late.actor_current_affine(child).is_ok());
+        assert!(
+            late.timed_effect_failure(child)
+                .unwrap()
+                .contains("gravity")
+        );
+        let payload = late
+            .get(child)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap()
+            .to_vec();
+        assert!(
+            late.advance_timed_effect(child, 0.01, &mut stamp, &mut provider)
+                .is_err()
+        );
+        assert!(late.advance_timed_effect_motion(child, 0.01).is_err());
+        assert!(late.apply_timed_effect_gravity(child).is_err());
+        assert_eq!(
+            late.get(child).unwrap().seed.storage.data().unwrap(),
+            payload
+        );
+        late.clear();
+        assert_eq!(late.counts(), Counts::default());
+        let header_controls = std::env::var_os("GIANTS_FLICK_TIMED_HEADER_CONTROLS").map(|path| {
+            std::fs::read_to_string(path)
+                .unwrap()
+                .lines()
+                .map(|line| {
+                    let words = line
+                        .split_whitespace()
+                        .map(str::parse::<u32>)
+                        .collect::<Result<Vec<_>, _>>()
+                        .unwrap();
+                    assert_eq!(words.len(), 9);
+                    ((words[0], words[1], words[2]), words[3..].to_vec())
+                })
+                .collect::<std::collections::BTreeMap<_, _>>()
+        });
+        let phase_controls: Option<PhaseControls> =
+            std::env::var_os("GIANTS_FLICK_TIMED_PHASE_CONTROLS").map(|path| {
+                Arc::new(
+                    std::fs::read_to_string(path)
+                        .unwrap()
+                        .lines()
+                        .map(|line| {
+                            let w = line
+                                .split_whitespace()
+                                .map(str::parse::<u32>)
+                                .collect::<Result<Vec<_>, _>>()
+                                .unwrap();
+                            assert_eq!(w.len(), 62);
+                            ((w[0], w[1], w[2], w[3]), w[4..].to_vec())
+                        })
+                        .collect(),
+                )
+            });
         // Exact previously acquired original-PC rows; they are never committed.
         if let Some(path) = std::env::var_os("GIANTS_FLICK_TIMED_PARENT_CONTROLS") {
             let text = std::fs::read_to_string(path).unwrap();
@@ -822,8 +1102,9 @@ mod tests {
                         .activate_timed_positioned(origin, session, &resources)
                         .unwrap();
                     assert_eq!(session.get(*id).unwrap().constructor_mask, 0);
-                    services.motion = Some(([0.; 3], [0.; 3]));
                 }
+                services.phase_controls = phase_controls.clone();
+                services.phase_key = [e[0], e[1], e[2]];
                 let seed = services.random.0;
                 let step = if e[1] == 0 {
                     let mut support = Matrix::identity();
@@ -853,6 +1134,23 @@ mod tests {
                         Step::Updated
                     }
                 );
+                if let Some(controls) = &header_controls {
+                    let h = session.timed_effect_physical_header(*id).unwrap();
+                    let got = h
+                        .velocity
+                        .into_iter()
+                        .chain(h.previous_velocity)
+                        .map(f32::to_bits)
+                        .collect::<Vec<_>>();
+                    assert_eq!(
+                        &got,
+                        controls.get(&(e[0], e[1], e[2])).unwrap(),
+                        "native physical header case {} child {} step {}",
+                        e[0],
+                        e[1],
+                        e[2]
+                    );
+                }
                 let got = projection(session, *id);
                 assert_eq!(got.len(), e.len() - 33);
                 for (i, (a, b)) in got.iter().zip(&e[33..]).enumerate() {
@@ -902,6 +1200,14 @@ mod tests {
             assert_eq!(session.counts().residents, 3);
             assert_eq!(total, 288);
             assert_eq!(words, 50112);
+            if let Some(controls) = &phase_controls {
+                assert_eq!(controls.len(), 384);
+                eprintln!(
+                    "native intermediate phases={} words={}",
+                    controls.len(),
+                    controls.len() * 58
+                );
+            }
             eprintln!(
                 "canonical states={total} selected_words={words}; parent preparation and supplied-postpreparation detached callbacks"
             );
