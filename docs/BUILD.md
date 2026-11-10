@@ -776,3 +776,15 @@ The owned Mecc smoke filter also executes the concrete Session motion/gravity
 adapter through finite expiry, checks its independently required physical clock
 and retained launch/service failure, and rejects replay. It supplies no populated
 terrain or renderer. The actor remains allocated after being marked dead.
+
+
+For the silent expired-child destruction control, use the same installation and
+isolated target:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_expired_smoke --target x86_64-pc-windows-gnu -- --ignored
+```
+
+It verifies actual weak instance-owner release, peer and newer-context retention,
+canonical count/list retirement and cleanup-phase/optional-service refusals. It
+neither renders particles nor supplies a common-world cleanup schedule.

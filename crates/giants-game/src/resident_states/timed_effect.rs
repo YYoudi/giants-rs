@@ -365,6 +365,104 @@ impl Session {
         }
         Ok((&mut actor.seed, actor.construction_fields.as_mut().unwrap()))
     }
+    /// Destroy only a completed expired smoke child whose actual origin retired.
+    /// This is a cleanup-phase operation, not a common-world traversal.
+    pub fn destroy_expired_smoke_particle(
+        &mut self,
+        id: Id,
+        contexts: &crate::attached_effect_context::Pool<Id>,
+    ) -> Result<crate::timed_effect_object::Destruction, String> {
+        let actor = self
+            .get(id)
+            .ok_or("expired smoke actor absent or foreign")?;
+        let m = actor
+            .timed_effect
+            .as_ref()
+            .ok_or("expired smoke ownership absent")?;
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("expired smoke header absent")?;
+        let data = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("expired smoke payload absent")?;
+        let lists = self
+            .links
+            .memberships(id.serial)
+            .into_iter()
+            .map(|(_, list)| list)
+            .collect::<Vec<_>>();
+        let expected = (0..14)
+            .rev()
+            .filter(|bit| m.runtime.constructor_mask & (1 << bit) != 0)
+            .map(|bit| bit + 1)
+            .chain(std::iter::once(0))
+            .collect::<Vec<_>>();
+        if self.common_walk_running
+            || self.common_walk_failure.is_some()
+            || !m.runtime.expired_smoke()
+            || !matches!(m.placement, Placement::Position(_))
+            || !contexts.retired(m.origin)
+            || !contexts.uses_image(&m.runtime.source)
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 78
+            || data.len() != 268
+            || data[0xf8..0x10c].iter().any(|v| *v != 0)
+            || fields.object_flags & 0x8000 == 0
+            || fields.control_flags & 0x20 != 0
+            || fields.configuration[14] & 0x20 != 0
+            || fields.shadow.is_some()
+            || fields.action != 0
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+            || lists != expected
+            || !self.specifications.contains_key(&id.serial)
+            || !self.state_resources.contains_key(&id.serial)
+            || self.declarations.values().any(|declared| *declared == id)
+            || self.residents.values().any(|other| {
+                other.presentation_parent == Some(id)
+                    || other
+                        .attachment
+                        .is_some_and(|attachment| attachment.parent == id)
+            })
+        {
+            return Err("smoke destruction requires completed expiry, retired origin and acquired independent cleanup profile".into());
+        }
+        let result = crate::timed_effect_object::Destruction {
+            origin: m.origin,
+            payload_bytes: data.len(),
+            registrations: lists.len(),
+        };
+        // Recheck all immutable callback/payload guards before any ownership leaves.
+        {
+            let actor = self.residents.get_mut(&id.serial).unwrap();
+            let references = &mut self.specifications.get_mut(&id.serial).unwrap().0;
+            let (runtime, body) = borrow(actor, references)?;
+            runtime.preflight(&body)?;
+        }
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        // All optional state-owned blocks are absent in this complete profile.
+        actor
+            .seed
+            .storage
+            .transition_with(0, |_, _| Ok(()))
+            .expect("checked expired smoke teardown into empty storage is infallible");
+        self.specifications.remove(&id.serial);
+        self.state_resources.remove(&id.serial);
+        drop(
+            self.residents
+                .get_mut(&id.serial)
+                .unwrap()
+                .timed_effect
+                .take(),
+        );
+        let removed = self.links.remove_object(id.serial);
+        debug_assert_eq!(removed, result.registrations);
+        self.residents.remove(&id.serial);
+        Ok(result)
+    }
     /// Complete acquired detached smoke callback using the common actual header,
     /// motion, affine and gravity owners. Clock producers remain caller-owned.
     /// The physical clock is required only if this callback reaches integration.
@@ -1268,6 +1366,205 @@ mod tests {
             eprintln!(
                 "canonical states={total} selected_words={words}; parent preparation and supplied-postpreparation detached callbacks"
             );
+        }
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; actual expired smoke cleanup, peer/weak owners, origin generations and refusal prefixes; no renderer"]
+    fn source_mecc_expired_smoke_particle_releases_only_owned_resources() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_MECC_WORLD_ROOT").unwrap());
+        let resources =
+            crate::scene_resources::SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        for name in [
+            "fx_mecc_smoke_lite",
+            "fx_mecc_smoke_medium",
+            "fx_mecc_smoke_heavy",
+        ] {
+            let offset = resources
+                .classes
+                .models
+                .effects
+                .iter()
+                .find_map(|e| e.image.find(name).map(|(_, entry)| entry.offset))
+                .unwrap();
+            let mut pool =
+                crate::attached_effect_context::Pool::<Id>::from_active_resources(950, &resources);
+            let mut session = Session::new(951);
+            let mut random = crate::audio_parameters::Random(42);
+            let (creation, _) = pool
+                .prepare_retirement_offset_invariant(
+                    Some(offset),
+                    [17., -24., 30.],
+                    0,
+                    0,
+                    &mut random,
+                )
+                .unwrap();
+            let crate::attached_effect_context::Creation::Prepared(origin) = creation else {
+                panic!("missing child")
+            };
+            let actor = pool
+                .activate_smoke_particle(origin, &mut session, &resources, &mut random)
+                .unwrap();
+            let class = session.get(actor).unwrap().class;
+            // A supplied cold shared-class peer; no ordinary state78 admission.
+            let t = crate::effect_actor::Template::load(&resources, class).unwrap();
+            let peer = session
+                .construct_prechecked(
+                    Construction {
+                        class,
+                        seed: &t.seed,
+                        bindings: &t.bindings,
+                        flags: DirectFlags {
+                            active: t.fields.object_flags,
+                            personality: t.fields.configuration[14],
+                        },
+                        specification: t.specification,
+                        state_resources: t.states,
+                        fields: t.fields.instantiate(),
+                    },
+                    &[],
+                    None,
+                )
+                .unwrap();
+            let peer_data = session
+                .get(peer)
+                .unwrap()
+                .seed
+                .storage
+                .data()
+                .unwrap()
+                .to_vec();
+            let peer_flags = session
+                .get(peer)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .object_flags;
+            let weak_spec = Arc::downgrade(session.specification(actor).unwrap());
+            let weak_state = Arc::downgrade(session.state_resources(actor).unwrap());
+            let initial = session.counts();
+            assert!(
+                session
+                    .destroy_expired_smoke_particle(actor, &pool)
+                    .is_err()
+            );
+            assert_eq!(session.counts().payload_bytes, initial.payload_bytes);
+            let mut stamp = crate::animation_epoch::Stamp(0);
+            session
+                .advance_smoke_particle(actor, 0.01, None, &mut stamp)
+                .unwrap();
+            for dt in [0.01, 0.05, 0.2] {
+                session
+                    .advance_smoke_particle(actor, dt, Some(f64::from(dt)), &mut stamp)
+                    .unwrap();
+            }
+            session
+                .advance_smoke_particle(actor, 10., None, &mut stamp)
+                .unwrap();
+            let foreign =
+                crate::attached_effect_context::Pool::from_active_resources(952, &resources);
+            assert!(
+                session
+                    .destroy_expired_smoke_particle(actor, &foreign)
+                    .is_err()
+            );
+            let mut walk = session.new_common_walk(4).unwrap();
+            session
+                .walk_common(&mut walk, &mut |live, _| {
+                    assert!(live.destroy_expired_smoke_particle(actor, &pool).is_err());
+                    Ok(crate::object_list_walk::Flow::Stop)
+                })
+                .unwrap();
+            session
+                .residents
+                .get_mut(&peer.serial)
+                .unwrap()
+                .presentation_parent = Some(actor);
+            assert!(
+                session
+                    .destroy_expired_smoke_particle(actor, &pool)
+                    .is_err()
+            );
+            session
+                .residents
+                .get_mut(&peer.serial)
+                .unwrap()
+                .presentation_parent = None;
+            session
+                .residents
+                .get_mut(&actor.serial)
+                .unwrap()
+                .seed
+                .storage
+                .data_mut()
+                .unwrap()[0xf8] = 1;
+            assert!(
+                session
+                    .destroy_expired_smoke_particle(actor, &pool)
+                    .is_err()
+            );
+            session
+                .residents
+                .get_mut(&actor.serial)
+                .unwrap()
+                .seed
+                .storage
+                .data_mut()
+                .unwrap()[0xf8] = 0;
+            assert!(weak_spec.upgrade().is_some() && weak_state.upgrade().is_some());
+            let (creation, _) = pool
+                .prepare_retirement_offset_invariant(Some(offset), [0.; 3], 0, 0, &mut random)
+                .unwrap();
+            let crate::attached_effect_context::Creation::Prepared(newer) = creation else {
+                panic!("missing new request")
+            };
+            assert_ne!(newer, origin);
+            let saved = random;
+            let before = session.counts();
+            let report = session
+                .destroy_expired_smoke_particle(actor, &pool)
+                .unwrap();
+            assert_eq!(report.origin, origin);
+            assert_eq!(report.payload_bytes, 268);
+            assert_eq!(report.registrations, 1);
+            assert_eq!(session.counts().residents + 1, before.residents);
+            assert_eq!(
+                session.counts().payload_bytes + report.payload_bytes,
+                before.payload_bytes
+            );
+            assert_eq!(
+                session.counts().registrations + report.registrations,
+                before.registrations
+            );
+            assert!(weak_spec.upgrade().is_none() && weak_state.upgrade().is_none());
+            assert!(session.get(actor).is_none() && session.specification(actor).is_none());
+            assert!(session.state_resources(actor).is_none());
+            assert!((0..15).all(|list| !session.list(list).contains(&actor)));
+            assert!(
+                session
+                    .destroy_expired_smoke_particle(actor, &pool)
+                    .is_err()
+            );
+            assert_eq!(
+                session.get(peer).unwrap().seed.storage.data().unwrap(),
+                peer_data
+            );
+            assert_eq!(
+                session
+                    .get(peer)
+                    .unwrap()
+                    .construction_fields
+                    .as_ref()
+                    .unwrap()
+                    .object_flags,
+                peer_flags
+            );
+            assert!(
+                session.specification(peer).is_some() && session.state_resources(peer).is_some()
+            );
+            assert!(pool.get(newer).is_some());
+            assert_eq!(random.0, saved.0);
         }
     }
 }

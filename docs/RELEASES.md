@@ -5219,3 +5219,19 @@ Rust tests (76 ignored), twenty installed Mecc controls, the shared timed-owner
 and cold Delphi support controls, 43 Python tests, Rustfmt, strict workspace
 Clippy and generated site/JavaScript checks. The current preview identity and
 its checksums remain the main lane's separate publication record.
+
+
+### Mecc expired smoke resource destruction — 10 November 2026
+
+The canonical Session now destroys completed expired smoke children after their
+actual origin retires. Payload and instance caches leave before reverse-list and
+actor retirement; shared resources and living peers remain. Cleanup refuses live
+or failed actors, wrong origins, common walks, optional services and dependents.
+
+Forty-eight actual native common-cleanup controls agree on 432 selected normalized
+ownership results. Payload/reference free order is a separate native observation;
+installed weak-owner, peer, count/list and new-generation checks cover Rust release.
+Clocks, allocation/source providers, an empty environment and a null optional
+tracker remain supplied. No native pointer/reuse equivalence, ordinary renderer
+admission or new preview is claimed. Prototype PS2 attributions remain unknown.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#expired-particle-destruction--10-november-2026).

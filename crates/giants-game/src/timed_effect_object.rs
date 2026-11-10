@@ -93,6 +93,13 @@ impl std::fmt::Debug for Runtime {
             .finish_non_exhaustive()
     }
 }
+/// Acquired bounded resource retirement; no native pointer reuse is represented.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Destruction {
+    pub origin: crate::attached_effect_context::Id,
+    pub payload_bytes: usize,
+    pub registrations: usize,
+}
 pub struct Timed<K> {
     pub(crate) velocity: Option<[f32; 3]>,
     pub(crate) initial: Initial<K>,
@@ -344,6 +351,10 @@ impl<K: Copy> Timed<K> {
     }
 }
 impl Runtime {
+    pub(crate) fn expired_smoke(&self) -> bool {
+        self.smoke_particle() && self.visual.expired() && self.idle() && self.failure.is_none()
+    }
+
     pub(crate) fn smoke_particle(&self) -> bool {
         self.size_flag == 0x100000 && self.side_speed.is_some() && self.retirement.is_none()
     }

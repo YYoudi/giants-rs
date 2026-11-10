@@ -46,6 +46,9 @@ pub struct Visual {
 }
 
 impl Visual {
+    pub(crate) fn expired(&self) -> bool {
+        self.expired
+    }
     pub(crate) fn size_curve(&self) -> SizeCurve {
         self.size_curve
     }

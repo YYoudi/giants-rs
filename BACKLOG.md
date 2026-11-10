@@ -1315,9 +1315,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   / 31,680 selected words with empty environment population. Missing physical
   clocks retain completed launch stores and quarantine replay; actual movement
   and expiry are installed-tested. The actor/resources remain until destruction.
-  Next acquire populated terrain/contact, enclosing clock/world ordering, finite
-  child destruction and rendering; bind live parent/child transforms, global
-  cleanup and ordinary world admission. Preserve
+  Expired detached children now have bounded canonical destruction after actual
+  origin retirement. Forty-eight native common-cleanup controls with living
+  shared-class peers match 432 selected ownership results. Payload release before
+  reference release is observed separately; installed weak-owner/count/list,
+  peer and newer-generation controls verify actual Rust lifetime. Common walks,
+  live/failed actors, foreign origins, optional services and dependent children
+  refuse before release. No allocator-address/reuse equivalence is claimed.
+  Next connect actual canonical model/reference/affine/transparency state to the
+  common renderer; acquire populated terrain/contact, enclosing clock/world order,
+  live parent/child transforms, global cleanup and ordinary world admission. Preserve
   the completed prototype PS2 lookups (all unassigned), exact PC identity, old
   aliases, separate preparation/active draws and source image ownership. See
   docs/OWNED_MECC_CONTACT.md for the staged constructor contract.

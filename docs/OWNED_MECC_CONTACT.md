@@ -8,7 +8,7 @@ hits are candidates only; the PC profile remains the behavioral authority.
 
 The sections record successive acquisition checkpoints. For the current binding,
 see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026)
-and [smoke motion and expiry](#smoke-motion-and-expiry--10-november-2026) below.
+and [expired particle destruction](#expired-particle-destruction--10-november-2026) below.
 Earlier missing-service statements retain the limits of their recorded checkpoint.
 
 ## Selector and ownership order
@@ -978,3 +978,46 @@ Next bind the enclosing world clocks, population/contact and update order, acqui
 finite child destruction and submit the real owned particles to rendering. No
 ordinary moving/visible smoke or new downloadable build follows from this source
 checkpoint alone.
+
+
+## Expired particle destruction — 10 November 2026
+
+`Session::destroy_expired_smoke_particle` now completes the bounded ownership path
+after the concrete callback has marked a detached child expired. It requires the
+actual retired origin in the matching source pool, completed nonfailed lifetime,
+canonical class/reference/state ownership and the exact constructor registrations.
+Live or quarantined actors, missing/foreign pools, incomplete callbacks, optional
+state services, owned-class/shadow/action variants, declarations and dependent
+attachments refuse before release. Destruction also refuses during a common walk
+or after its failed traversal; it supplies no global cleanup scheduler.
+
+The state destructor admits only the complete child's absent optional blocks.
+Its payload retires before the instance reference/state caches, followed by reverse
+list removal and actor retirement. The report retains the historical context
+identity, payload shape and registration count. A newer context generation does
+not revive the old origin and remains intact. Shared class/model resources and
+living peers remain owned. The service removes canonical CPU ownership; external
+render entities/assets still need their enclosing owner's cleanup phase.
+
+Actual native preparation, callbacks, expiry, common cleanup, state destructor
+and reverse unlink execute for three programs, eight seeds and two positions.
+A living shared-class peer remains in each common cohort. Forty-eight controls
+agree on 432 selected normalized retirement/resource/list/peer/RNG result words.
+Native payload release before reference-array release and shared-class retention
+are observed separately. Native frees are logged without unmapping memory; these
+results do not equate Rust allocation addresses, allocator reuse or cache layout.
+The optional global tracker is null; clocks, source registration, allocation and
+texture providers and empty environment population remain supplied.
+
+Installed controls check actual weak specification/state owners disappear, peer
+fields/payload/resources remain intact, canonical actor/payload/list counts drop,
+old actor identity refuses reuse and a newer origin-slot generation survives.
+They also exercise the live common-walk refusal, dependent-attachment guard,
+foreign pool, unexpired owner and optional-service refusals before release.
+Prototype PS2 attributions remain unknown, with the earlier helper aliases kept.
+
+The existing App rigid-attachment renderer still uses its own bounded playback
+profiles. It does not consume these canonical smoke actors yet. Next connect real
+owned model/reference/affine/transparency state to the common renderer, then bind
+the enclosing world clocks, population/contact and cleanup schedule. This lot
+publishes source only and establishes no new ordinary visible smoke.
