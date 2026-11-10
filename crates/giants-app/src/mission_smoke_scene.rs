@@ -80,8 +80,19 @@ fn update(
     if state.failed == Some(ticket) {
         return;
     }
-    let Some(scene) = scene else { return };
-    let Some(camera) = &scene.validation_camera else {
+    let Some((scene, camera)) = scene.as_deref().and_then(|scene| {
+        scene
+            .validation_camera
+            .as_ref()
+            .map(|camera| (scene, camera))
+    }) else {
+        for object in state.objects.values() {
+            for part in &object.parts {
+                if let Ok((mut visibility, _)) = visuals.get_mut(part.entity) {
+                    *visibility = Visibility::Hidden;
+                }
+            }
+        }
         return;
     };
     let result = (|| -> Result<(), String> {
@@ -324,6 +335,55 @@ pub(crate) fn check_render_assets(
     app.update();
     app.update();
     assert_eq!(app.world().resource::<State>().objects.len(), 1);
+    assert_eq!(app.world().resource::<Assets<Mesh>>().len(), 1);
+    assert_eq!(app.world().resource::<Assets<Material>>().len(), 1);
+    assert_eq!(app.world().resource::<Assets<Image>>().len(), 1);
+    assert_eq!(
+        app.world().resource::<Assets<ShaderBuffer>>().len(),
+        base + 1
+    );
+    let entity = app
+        .world()
+        .resource::<State>()
+        .objects
+        .values()
+        .next()
+        .unwrap()
+        .parts[0]
+        .entity;
+    let camera = app
+        .world_mut()
+        .resource_mut::<crate::world_scene::Scene>()
+        .validation_camera
+        .take();
+    app.update();
+    assert_eq!(
+        app.world().get::<Visibility>(entity),
+        Some(&Visibility::Hidden)
+    );
+    app.world_mut()
+        .resource_mut::<crate::world_scene::Scene>()
+        .validation_camera = camera;
+    app.update();
+    assert_eq!(
+        app.world().get::<Visibility>(entity),
+        Some(&Visibility::Visible)
+    );
+    let scene = app
+        .world_mut()
+        .remove_resource::<crate::world_scene::Scene>()
+        .unwrap();
+    app.update();
+    assert_eq!(
+        app.world().get::<Visibility>(entity),
+        Some(&Visibility::Hidden)
+    );
+    app.insert_resource(scene);
+    app.update();
+    assert_eq!(
+        app.world().get::<Visibility>(entity),
+        Some(&Visibility::Visible)
+    );
     assert_eq!(app.world().resource::<Assets<Mesh>>().len(), 1);
     assert_eq!(app.world().resource::<Assets<Material>>().len(), 1);
     assert_eq!(app.world().resource::<Assets<Image>>().len(), 1);

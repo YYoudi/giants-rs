@@ -5436,3 +5436,12 @@ ordinary impact/display/FX birth/world scheduling remain open. The consumer does
 not create smoke actors, and no new ordinary availability or preview is claimed.
 Prototype PS2 attributions remain unknown. See
 [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#canonical-smoke-draw-consumption--10-november-2026).
+
+Combined validation retaining main through `119422f` passes 883 workspace Rust
+tests (85 ignored), twenty-two installed Mecc controls, the source-backed App
+draw/lifecycle control, shared timed-owner and cold Delphi support controls,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. Camera/environment interruption hides existing submissions and restores
+them without additional allocations. The rebuilt canonical packet controls still
+match all 576 native matrix/cull samples / 9,792 selected words. No graphics-device
+test or new preview is included; main retains its publication ownership.

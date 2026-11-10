@@ -1064,8 +1064,9 @@ native alpha-queue sorting/capacity and Bevy pixel parity remain unverified.
 Installed tests cover constructor masking, normal/effect multiplicity, identity,
 failed/expired refusal, actual source vertices and changing alpha. The real App
 packet path and rendering system also run with source data in a CPU Bevy world,
-checking stable allocations and removal of meshes, materials, images, world
-buffers and tagged entities on mission retirement. No graphics device is created
+checking stable allocations, hiding/restoring existing submissions across camera
+or environment loss, and removal of meshes, materials, images, world buffers and
+tagged entities on mission retirement. No graphics device is created
 by that control. Prototype PS2 lookup preceded new analysis; correspondence stays
 unknown. Detailed source data, decompilation and controls remain private.
 
