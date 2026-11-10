@@ -57,8 +57,7 @@ impl Driver {
             input.objects,
             input.materials.clone(),
         )?;
-        let player = active.payload.player.as_ref().map_err(Clone::clone)?;
-        let actor = active.resident_states.unique_class(player.start.kind)?;
+        let actor = active.player_owner()?;
         let source = Arc::clone(active.payload.plan.resources());
         let globals = giants_formats::global_data::parse(
             &std::fs::read(root.join("Bin/GData.gbn")).map_err(|e| e.to_string())?,
@@ -324,7 +323,7 @@ impl Runtime {
             .filter(|a| a.ticket == ticket)
             .ok_or("owned draw ticket absent")?;
         let player = active.payload.player.as_ref().map_err(Clone::clone)?;
-        let actor = active.resident_states.unique_class(player.start.kind)?;
+        let actor = active.player_owner()?;
         let spec = active
             .resident_states
             .specification(actor)
