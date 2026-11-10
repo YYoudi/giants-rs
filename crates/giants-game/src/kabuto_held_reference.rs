@@ -1,6 +1,6 @@
 //! Acquired handoff between the current reference and two held slots.
-//! Captured caller decisions/counters and all required backends remain explicit;
-//! this does not produce those decisions or admit a live Kabuto controller.
+//! The Factory can reuse the retained resource-phase caller sample. Required
+//! backends and complete primary ordering remain explicit; no live admission.
 use crate::{
     actor_attachment_bind::Input as Binding, actor_reference_detach,
     kabuto_contact::Request as ActionRequest, kabuto_geometry_mode::NotificationContext,
@@ -22,7 +22,7 @@ pub struct State<K> {
 pub struct Input {
     /// Full caller-local decision; not an inferred current actor action.
     pub decision: u32,
-    /// Signed caller-local counters; their live animation producer is unbound.
+    /// Signed caller-local counters, captured before later channel changes.
     pub previous: i32,
     pub current: i32,
     pub finished: bool,

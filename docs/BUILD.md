@@ -50,10 +50,12 @@ rather than forcing animation flags. Neither control proves native input or
 visual fidelity.
 
 With `GIANTS_KABUTO_ROOT` and, where necessary, `GIANTS_KABUTO_EXECUTABLE` set as
-described below, `source_kabuto_held_bank` runs three silent source-backed checks
+described below, `source_kabuto_held_bank` runs four silent source-backed checks
 of the current/held-reference Session composition. They reach the actual preceding
 resource checkpoint, then test callback publication/rereads, retained late errors,
-replay/reentry refusal, owner removal and clean re-entry. Capture policy/scale,
+replay/reentry refusal, owner removal, clean re-entry and use of retained caller
+input after later channel/mode writes. The captured entry reuses the actual
+resource-phase sample; the lower-level entry retains supplied inputs. Capture policy/scale,
 caller decisions/counters/mode and the binding entry remain supplied. These do
 not validate a continuous primary, actual binding/animation/transport bodies or
 live Kabuto input. Optional `GIANTS_KABUTO_HELD_BANK_RECEIPT` must be an absolute

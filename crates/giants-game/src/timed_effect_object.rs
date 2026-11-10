@@ -13,7 +13,9 @@ use std::sync::Arc;
 
 /// Required native boundaries; no default success provider is installed.
 pub trait Services<K> {
+    /// Motion only. The affine store and required gravity phase follow it.
     fn physical(&mut self, object: &mut Initial<K>, seconds: f32) -> Result<(), String>;
+    fn gravity(&mut self, object: &mut Initial<K>) -> Result<(), String>;
     fn retire(
         &mut self,
         object: &Initial<K>,
@@ -263,7 +265,7 @@ impl<K: Copy> Timed<K> {
         if boundary == Boundary::Inactive {
             return Ok(Step::Inactive);
         }
-        let result = match boundary {
+        let mut result = match boundary {
             Boundary::Physical => services.physical(&mut self.initial, seconds),
             Boundary::Retirement => services.retire(
                 &self.initial,
@@ -273,6 +275,15 @@ impl<K: Copy> Timed<K> {
             Boundary::Animation => Ok(()),
             Boundary::Inactive => unreachable!(),
         };
+        if boundary == Boundary::Physical {
+            result = {
+                let (runtime, mut body) = self.borrow();
+                runtime.finish_motion(&mut body, result)
+            };
+            if result.is_ok() {
+                result = services.gravity(&mut self.initial);
+            }
+        }
         let (runtime, mut body) = self.borrow();
         runtime.finish(&mut body, seconds, stamp, result)
     }
@@ -298,7 +309,10 @@ impl<K: Copy> Timed<K> {
 }
 impl Runtime {
     pub(crate) fn awaiting_physical(&self) -> bool {
-        matches!(self.pending, Some((VisualStep::VisibleState, _)))
+        matches!(self.pending, Some((VisualStep::VisibleState, _))) && !self.matrix_written
+    }
+    pub(crate) fn awaiting_gravity(&self) -> bool {
+        matches!(self.pending, Some((VisualStep::VisibleState, _))) && self.matrix_written
     }
     pub(crate) fn idle(&self) -> bool {
         self.pending.is_none()
@@ -472,6 +486,45 @@ impl Runtime {
         }
         Ok(Boundary::Animation)
     }
+    /// Native physical translation/affine publication precedes gravity. Keep
+    /// the callback pending through both services, including after late errors.
+    pub(crate) fn finish_motion<K>(
+        &mut self,
+        b: &mut Body<'_, K>,
+        service: Result<(), String>,
+    ) -> Result<(), String> {
+        let result: Result<(), String> = (|| {
+            service?;
+            if !self.awaiting_physical() || b.fields.control_flags & 0x80 == 0 {
+                return Err("timed motion phase is not pending".into());
+            }
+            let (flags, cache) = crate::actor_affine::update(
+                crate::uncached_pose::Pose {
+                    position: b.fields.position,
+                    angles: b.fields.angles,
+                    scale: b.fields.scale,
+                },
+                b.fields.object_flags,
+                Some(crate::actor_affine::Cache {
+                    flags: b.matrix.flags,
+                    matrix: b.matrix.values,
+                }),
+                crate::arithmetic::Precision::Double53,
+            )
+            .map_err(str::to_owned)?;
+            b.fields.object_flags = flags;
+            *b.matrix = Matrix {
+                flags: cache.flags,
+                values: cache.matrix,
+            };
+            self.matrix_written = true;
+            Ok(())
+        })();
+        if let Err(ref error) = result {
+            self.failure = Some(error.clone());
+        }
+        result
+    }
     pub(crate) fn finish<K>(
         &mut self,
         b: &mut Body<'_, K>,
@@ -479,6 +532,9 @@ impl Runtime {
         stamp: &mut Stamp,
         service: Result<(), String>,
     ) -> Result<Step, String> {
+        // The motion-affine store is already published. Track only a new
+        // post-gravity size/orientation write for the caller's next refresh.
+        self.matrix_written = false;
         let result = (|| -> Result<Step, String> {
             let (next, first) = self
                 .pending
@@ -548,6 +604,9 @@ mod tests {
         retirement: usize,
     }
     impl Services<u32> for Unavailable {
+        fn gravity(&mut self, _: &mut Initial<u32>) -> Result<(), String> {
+            Err("gravity provider unavailable".into())
+        }
         fn physical(&mut self, b: &mut Initial<u32>, _: f32) -> Result<(), String> {
             self.physical += 1;
             b.seed.storage.data_mut().unwrap()[0xb4..0xb8].copy_from_slice(&37f32.to_le_bytes());
