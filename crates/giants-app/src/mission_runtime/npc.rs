@@ -7,12 +7,23 @@ use giants_game::{
     resident_states::{Id, Session},
     vimp_actor::Factory,
 };
+use std::sync::Arc;
 
 pub(super) struct State {
     factory: Factory,
     globals: giants_formats::global_data::GlobalData,
     expected: Vec<(Key, i32)>,
     bound: Option<Binding>,
+    geometry: Option<Arc<giants_game::scene_resources::ModelAsset>>,
+}
+
+/// A copied submission, not a second simulation or shared pose buffer.
+pub(crate) struct Draw {
+    pub id: Id,
+    pub frame: u64,
+    pub geometry: Arc<giants_game::scene_resources::ModelAsset>,
+    pub positions: Vec<[f32; 3]>,
+    pub center: [f32; 3],
 }
 struct Binding {
     ticket: u64,
@@ -66,6 +77,7 @@ impl State {
             globals,
             expected,
             bound: None,
+            geometry: None,
         }))
     }
     pub fn bind(
@@ -157,4 +169,117 @@ impl State {
             effect_contexts: b.contexts.active().len(),
         })
     }
+    /// Render only actual completed common-node frames. Primary model zero is
+    /// an explicit presentation policy; native world visibility/LOD is not
+    /// established by this consumer. It never advances AI, ANM, clocks or RNG.
+    pub fn draws(
+        &mut self,
+        session: &mut Session,
+        ticket: u64,
+        resources: &giants_game::scene_resources::SceneResources,
+    ) -> Result<Vec<Draw>, String> {
+        self.view(session, ticket)?;
+        let ids: Vec<_> = session
+            .list(0)
+            .into_iter()
+            .filter(|&id| session.vimp(id).is_some())
+            .collect();
+        let mut result = Vec::new();
+        for id in ids {
+            if !self.factory.owns(session, id) {
+                return Err("Vimp draw resources belong to another constructor".into());
+            }
+            let actor = session.get(id).ok_or("Vimp draw owner retired")?;
+            let vimp = session.vimp(id).unwrap();
+            let fields = actor
+                .construction_fields
+                .as_ref()
+                .ok_or("Vimp draw fields absent")?;
+            if !giants_game::draw_routes::admit(
+                u32::from(actor.seed.storage.state()),
+                fields.object_flags,
+                0,
+            )
+            .ordinary
+            {
+                continue;
+            }
+            // A cold birth has no current pose. A completed isolated physics or
+            // ANM phase is also insufficient to acknowledge a common callback.
+            if !vimp.initialized || session.vimp_frames(id) == Some(0) {
+                continue;
+            }
+            let completed = session.completed_vimp_frame(id)?;
+            let affine = session.actor_current_affine(id)?;
+            if affine.flags & 8 != 0 {
+                return Err("Vimp draw mirrored culling consumer required".into());
+            }
+            let center = fields.position;
+            let epoch = completed.animation_epoch;
+            let spec = session.specification(id).unwrap().clone();
+            let model = spec
+                .models
+                .first()
+                .and_then(Option::as_ref)
+                .ok_or("Vimp primary draw model absent")?;
+            if self.geometry.is_none() {
+                let geometry = resources
+                    .model_slot_for_body(
+                        8,
+                        0,
+                        giants_game::scene_resources::TextureEncoding::Rgb565OrArgb4444,
+                    )
+                    .map_err(|e| e.to_string())?
+                    .ok_or("Vimp draw geometry absent")?;
+                if geometry.name != model.name || geometry.mesh.normal_count != 0 {
+                    return Err("Vimp draw geometry identity or unlit profile differs".into());
+                }
+                for part in &geometry.mesh.subobjects {
+                    let surface = giants_game::body_pipeline::preview_surface(
+                        giants_game::body_pipeline::Normals {
+                            prepare: false,
+                            context: false,
+                        },
+                        &part.material,
+                        geometry
+                            .alpha_textures
+                            .contains(&part.material.texture.to_ascii_lowercase()),
+                    )?;
+                    if surface != giants_game::body_pipeline::Surface::Rgb {
+                        return Err("Vimp draw requires the acquired RGB body material".into());
+                    }
+                }
+                self.geometry = Some(Arc::new(geometry));
+            }
+            session.prepare_actor_positions(id, 0, epoch, false)?;
+            let local = session
+                .actor_model_positions(id, 0)?
+                .ok_or("Vimp animated positions not produced")?;
+            let matrix: [f32; 12] = affine.matrix[..12].try_into().unwrap();
+            // Copy immediately: another Vimp can reuse the native-style shared
+            // model buffer in this same render pass with a different pose.
+            let positions = local
+                .iter()
+                .map(|&point| {
+                    let p = giants_game::uncached_pose::transform(
+                        matrix,
+                        point,
+                        giants_game::arithmetic::Precision::Double53,
+                    )?;
+                    Ok([p[0], p[2], -p[1]])
+                })
+                .collect::<Result<Vec<_>, String>>()?;
+            result.push(Draw {
+                id,
+                frame: completed.number,
+                geometry: self.geometry.as_ref().unwrap().clone(),
+                positions,
+                center,
+            });
+        }
+        Ok(result)
+    }
 }
+
+#[cfg(test)]
+mod tests;

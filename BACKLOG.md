@@ -68,6 +68,32 @@ release. This is outside frozen .9 and does not verify OS-held flight or landing
 The next delivery remains the continuous ordinary-input loop, not another pose
 or numeric catalog.
 
+### NPC prerequisites for the first interactive herd
+
+The NPC lane's selected delivery is an actual Story2 herd through ordinary mission
+entry, live callbacks/animation and the common renderer. Current source now binds
+the registered Vimp resources and actual herd/marker declaration IDs to the mission
+owner; two CPU entry tickets retain one herd/sixteen markers without spawning or
+advancing them. The next missing consumer is real common-world callback admission,
+including population/clock/RNG/control/terrain/effect ownership. The common renderer
+now consumes completed Vimp poses, with an explicit primary-model policy and actor/
+ticket asset cleanup. A supplied-callback CPU control reaches fourteen bodies per
+entry and updates their meshes across two tickets; GPU and real input/return/
+re-entry validation remain open. No public AI map is available.
+The initial Vimp contact is now pinned to the actual constructor clear and retained
+by the physical owner; owned movement consumes it without an injected predicate.
+Later object/threat contacts remain incomplete. Story2's 166-node common roster
+includes three parented Mecc children before the herd, 134 other state0 actors and
+eleven state23 actors; do not bypass those active callbacks to claim live AI.
+The shared nonphysical callback adapter now admits 129 supported empty state0
+neutral declarations from actual constructor metadata, retaining the existing
+herd/marker API aliases. A selected-cohort CPU check runs 387 callbacks; two PC
+controls agree on 156 selected words. The five animated/reference-bearing state0
+declarations, parented children, other AI families and real whole-world admission
+remain required; these callbacks are not enabled by loading or a default no-op.
+
+
+
 ## Prototype PS2 attribution method — 5 November 2026
 
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every

@@ -23,11 +23,17 @@ pub trait Services {
     ) -> Result<(), String>;
 }
 #[derive(Clone, Copy)]
+pub enum Contact {
+    /// Use the actual constructor/physical owner's current word.
+    Owned,
+    /// Explicit boundary for isolated controls, never world admission evidence.
+    Supplied { obstructed: bool },
+}
+#[derive(Clone, Copy)]
 pub struct Movement {
     /// Actual earlier caller decision; first-handled and later visits differ.
     pub produce_commands: bool,
-    /// Required current header predicate, not inferred from an empty actor list.
-    pub obstructed: bool,
+    pub contact: Contact,
 }
 pub trait MovementServices: Services {
     fn movement_seconds(
@@ -156,7 +162,8 @@ impl Session {
         Ok(())
     }
     /// One acquired movement/active lease, with shared RNG and owned actor state.
-    /// Earlier growth/route decisions and the obstruction producer remain required.
+    /// Earlier growth/route decisions remain required. Owned contact retains the
+    /// constructor/physical producer; supplied contact is only an offline input.
     pub fn advance_vimp_movement_response_offline(
         &mut self,
         id: Id,
@@ -168,7 +175,11 @@ impl Session {
     ) -> Result<(), String> {
         let (parent, _, parameters) = self.begin_vimp_active(id, number, globals)?;
         let result = (|| {
-            let mut state = self.vimp_movement_projection(id, parent, movement.obstructed)?;
+            let obstructed = match movement.contact {
+                Contact::Owned => self.get(id).unwrap().vimp.unwrap().contact_hit != 0,
+                Contact::Supplied { obstructed } => obstructed,
+            };
+            let mut state = self.vimp_movement_projection(id, parent, obstructed)?;
             let mut adapter = MovementAdapter {
                 session: self,
                 services,

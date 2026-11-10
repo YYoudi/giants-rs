@@ -218,7 +218,9 @@ fn run_cycle(movement: bool) {
                 number as u64,
                 VimpActiveMovement {
                     produce_commands: w[270] != 0,
-                    obstructed: w[271] != 0,
+                    contact: VimpMovementContact::Supplied {
+                        obstructed: w[271] != 0,
+                    },
                 },
                 &g,
                 &mut random,
