@@ -43,6 +43,12 @@ GitHub asset digests and remote tag. `docs/public-preview.json` pins this exact
 download; subsequent source progress cannot relabel it. NPC PR #5's reviewed head
 is merged; no other chat's worktree was moved or edited.
 
+The later combined main tree retains the concurrent Delphi auxiliary prefix and
+passes 872 Rust tests (65 ignored), strict Clippy/Rustfmt, seven installed Delphi
+controls, six NPC ownership/history/newborn controls and 43 Python/site checks.
+The readonly prefix remains source-only relative to `.3`; its required current
+relationships and selected action are not acknowledged by the application.
+
 ## Delphi auxiliary-request prefix - 10 November 2026
 
 Source-only selection now preserves authority, independent command/response
