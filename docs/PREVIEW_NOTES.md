@@ -1,4 +1,8 @@
-# Windows x64 development preview - preview-2026.11.10.8
+# Windows x64 development preview - preview-2026.11.10.8 (draft)
+
+Published preview-2026.11.10.7 remains pinned to source `88dd2ff`; its packaged
+notes and checksums are immutable. This combined draft retains that cinematic
+lot together with the later Mecc smoke/pistol and camera-profile work.
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -11,6 +15,25 @@ owner's estimate and has not received comprehensive human review. This estimate
 is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+## Constant cinematic effects share the mission Session
+
+The 25 bounded persistent requests across 23 sources now move their actual
+storage, header, animation channels and references into the active mission's
+Session. The common film renderer reads that owner. Source support slots retain
+their ticket, director and generation; they are distinct from ordinary actor IDs.
+These constant objects do not receive a fabricated finite lifetime. Cancellation
+removes only the owning source cohort and refuses live typed dependencies.
+Late preparation failures retain completed writes and refuse replay.
+
+Silent ownership controls cover the 23 sources and 92 queue lifecycles. The
+retained original-PC route/preparation controls also pass through actual Session
+objects. Native population, stock, world scheduling, clock/RNG ownership and
+complete visual/audio/timing fidelity remain open. No complete film is certified.
+
+The combined source preserves camera activation/lens reset, Delphi local target
+and Kabuto retained-slot animation services. Their CPU/provider boundaries remain;
+this preview enables no new ordinary Delphi or Kabuto gameplay.
 
 ## Combined camera and canonical smoke dependencies
 
@@ -25,15 +48,6 @@ physical header and resource destruction share the Session; the renderer supplie
 no second simulation, RNG or birth path. Full smoke activation/clock/cleanup world
 scheduling and graphical parity remain open. Prepared ownership and a renderer
 consumer alone do not make smoke appear during ordinary gameplay.
-
-## Source-domain constant effects
-
-The constant persistent Flick bodies now live in the active mission Session with
-their actual headers, payloads, channels and references. Their typed source supports
-remain distinct from ordinary actor parents, and their source scope controls
-cancellation and retirement. No finite lifetime, ordinary actor proxy, world-stock
-capacity or readiness acknowledgement is invented. Native world admission and
-complete cinematic/rendering fidelity remain open.
 
 ## Source completion and re-entry
 

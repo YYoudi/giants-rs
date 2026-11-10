@@ -1542,6 +1542,32 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- Constant persistent ownership: the bounded 23-source /25-request cohort now
+  moves its actual state storage, header, channels and references into the active
+  mission Session. Queue entries retain typed identities; the main renderer reads
+  that same owner. Shared support slots are scoped by ticket/director/generation,
+  distinct from ordinary actors, and terminal requests still refresh them.
+  The constant callback keeps aging disabled rather than inventing a duration.
+  Actual callback/ANM/bind order retains completed writes after late failure and
+  refuses replay. Host cancellation checks incoming typed references before
+  removing the source cohort; unrelated residents and other generations survive.
+  Installed ownership controls cover all 23 sources /25 requests and 92 queue
+  lifecycles. Retained original-PC controls also match 50 route cases and 14
+  preparation states through actual Session objects; clock/support/model-query
+  inputs remain supplied, and these are not new original recordings.
+  Exact combined source `88dd2ff` passes 894 Rust tests (82 ignored), strict
+  Clippy/Rustfmt, the cohort, ordinary timed preparation, camera/actor roles and
+  nine Delphi installed controls. Its receipt-bound MinGW executable passes both
+  silent development endpoints, three active persistent cancellations and two
+  source-terminal/re-entry cycles with real muted sinks and text cleanup.
+  Published preview .7 pins that exact source; notices/package/public-download
+  checks pass. Its fresh census covers 545 sources /16 worlds, zero preparation
+  errors, 59 reported-gap sources, 56 general-queue refusals and zero certified films.
+  This closes duplicate host ownership, not native world admission, stock,
+  current populations, clock/RNG ownership, world cadence or virtual-support
+  lifetime parity. Attribution remains unknown. Full visual/audio/timing and
+  ordinary gameplay transitions stay open; no complete film is certified.
+
 - Persistent selector follow-up: 900 private original-PC/Rust controls now
   execute the real model selector and prepared-format query instead of supplying
   slot zero and a positive alpha answer. The controlled descriptor formats cover
