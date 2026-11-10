@@ -310,6 +310,15 @@ activated in the ordinary primary and admits no live fleeing or new gameplay
 download. Prototype PS2 attribution is unknown; detailed research stays private.
 Existing preview manifests/notices/checksums retain their exact build identities.
 
+Combined runtime `f3a2762ec57a544ea3dac4d34fddb40c4eaaf538` preserves the
+current Kabuto held-reference ownership and verified preview snapshot. It passes
+876 workspace Rust tests (74 ignored), two installed threat controls and the
+retained herd/history/newborn controls, Rustfmt, strict workspace Clippy,
+43 Python tests and roadmap/site/JavaScript checks. Rebuilt comparisons retain
+1,505 threat cases /9,030 words, the 96-snapshot /824,168-word mutable walk and
+128 empty-ANM cases /4,864 words. The source checkpoint audit reviews 746 commits /
+4,220 blobs with zero findings. These checks do not relabel the download.
+
 ## Owned herd/marker callbacks and mutable NPC composition — 10 November 2026
 
 Source-owned herd parents and basic markers now consume prepared histories
