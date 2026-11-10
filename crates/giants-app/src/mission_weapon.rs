@@ -220,28 +220,6 @@ fn update(world: &mut World) {
     let (fired, active) = (pistol.fired, pistol.shots.len());
     let mut v = Vec::new();
     let mut colors = Vec::new();
-    for shot in &pistol.shots {
-        let end = Vec3::from_array(shot.motion.position);
-        let velocity = Vec3::from_array(shot.motion.velocity);
-        let trail = (end - Vec3::from_array(shot.origin))
-            .length()
-            .min(velocity.length() * 0.015);
-        let start = end - velocity.normalize_or_zero() * trail;
-        let right = velocity.cross(Vec3::Z).normalize_or_zero() * 0.12;
-        quad(
-            &mut v,
-            &mut colors,
-            [start - right, end - right, end + right, start + right],
-            [1., 0.85, 0.1, 1.],
-        );
-        let z = Vec3::Z * 0.12;
-        quad(
-            &mut v,
-            &mut colors,
-            [start - z, end - z, end + z, start + z],
-            [1., 0.85, 0.1, 1.],
-        );
-    }
     for (p, _) in &pistol.impacts {
         let p = Vec3::from_array(*p);
         quad(

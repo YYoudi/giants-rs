@@ -450,6 +450,17 @@ impl Runtime {
         }
         Ok((&active.resident_states, owner))
     }
+    pub(crate) fn pistol_projectile_visual(
+        &self,
+        ticket: u64,
+    ) -> Result<crate::mission_projectile_scene::Visual, String> {
+        let active = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("projectile render ticket absent")?;
+        crate::mission_projectile_scene::Visual::load(active.payload.plan.resources())
+    }
     pub(crate) fn publish_actor_audio(
         &mut self,
         ticket: u64,
@@ -2806,6 +2817,8 @@ mod tests {
             .unwrap();
         // The ordinary render adapter consumes constructor-bound children and
         // the real motion owner without completing or mutating an owned primary.
+        assert!(runtime.pistol_projectile_visual(995).is_ok());
+        assert!(runtime.pistol_projectile_visual(996).is_err());
         let jet_models = runtime.owned_jet_models(995).unwrap();
         assert!(jet_models.iter().all(|m| m.mesh.normal_count == 0));
         let (session, bound_owner) = runtime.controlled_jet_session(995).unwrap();

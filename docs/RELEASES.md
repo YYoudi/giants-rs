@@ -6566,3 +6566,30 @@ plume attached to the Mecc in the ordinary controller's Gameplay presentation.
 The existing diagnostic supplies its commands; the experimental backend is unset.
 The image remains private. This is local rendered-output evidence, separate from
 real input acceptance and the unchanged public preview.
+
+
+## Ordinary Mecc pistol source projectile - source integration
+
+The partial normal pistol now uses the acquired straight-launch basis/velocity
+and submits the installed projectile model/texture/material to the common draw
+consumer. It replaces diagnostic yellow flight quads, consuming the existing live-shot
+list and preserving mission resource cleanup. Left-mouse firing needs no replay
+or experimental backend switch for this source connection.
+
+Status: runtime connected, interaction unverified. Source visual/resource checks
+and existing synthetic tests pass. A local one-shot GPU capture confirms source
+geometry/material rendering after normal entry with supplied commands; held-trigger
+and fidelity acceptance remain separate. Constructor FX, native impact/actor/fire scheduling and the
+remaining diagnostic impact markers are not claimed complete. No new preview,
+receipt or downloadable executable is advertised from source checks alone.
+See [OWNED_LOCAL_FIRE.md](OWNED_LOCAL_FIRE.md#ordinary-pistol-projectile-presentation).
+
+
+Local rendering evidence is pinned to source `d5a4ca8`, executable SHA256
+`8874592b599a789c227c5afe65cd373be20f839eca52279e96a686615fb939c1`:
+one source-model shot is visibly captured after normal mission admission, and
+two firing/menu-return cycles remove all four live shots' draw assets. The
+three-cycle diagnostic exits at its existing 300-second deadline during the
+third opening; it is a partial result, not a passed three-cycle check. These
+existing diagnostics supply trigger commands with audio disabled. The private
+build/capture is distinct from the combined main sources and unchanged download.
