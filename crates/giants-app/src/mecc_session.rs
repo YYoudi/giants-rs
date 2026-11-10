@@ -102,6 +102,19 @@ pub fn capture_allowed(world: &World) -> bool {
     if session.replay_cycles.is_some() && !session.done {
         return false;
     }
+    if crate::frontend_scene::kabuto_body_inspection_replay()
+        && world
+            .get_resource::<crate::mission_runtime::Runtime>()
+            .is_some_and(|runtime| runtime.kabuto_body().is_some())
+        && world
+            .get_resource::<crate::world_scene::Scene>()
+            .is_some_and(|scene| {
+                scene.camera_source == "declared_start_debug_camera"
+                    && scene.cinematic_capture_ready
+            })
+    {
+        return true;
+    }
     !session.awaiting_menu
         || world
             .get_resource::<crate::world_scene::Scene>()

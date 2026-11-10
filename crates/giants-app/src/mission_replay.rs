@@ -258,7 +258,9 @@ fn drive(
         {
             // Scene adoption can replace this capture flag after the endpoint.
             // It remains an inspection flag, never a mission readiness event.
-            world.cinematic_capture_ready = true;
+            if !world.cinematic_capture_ready {
+                world.cinematic_capture_ready = true;
+            }
         }
         return;
     }
