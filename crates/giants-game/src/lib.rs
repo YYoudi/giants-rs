@@ -137,6 +137,7 @@ pub mod control_options;
 pub mod declared_mesh_scene;
 pub mod decorations;
 pub mod delphi_animation_definitions;
+pub mod delphi_auxiliary_prefix;
 pub mod delphi_body_alignment;
 pub mod delphi_initial;
 pub mod delphi_jump;

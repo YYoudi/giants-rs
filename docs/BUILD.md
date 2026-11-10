@@ -134,6 +134,8 @@ user-supplied installation and use an isolated Cargo target:
 
 ```powershell
 cargo test --locked -p giants-game source_npc_herd --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_world_history --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_newborn --target x86_64-pc-windows-gnu -- --ignored --nocapture
 ```
 
 This silent CPU check uses authored herd/marker values with a supplied flat
@@ -142,6 +144,15 @@ terrain-failure quarantine, replay refusal and cleanup. It does not establish
 live NPC AI, player interaction, world scheduling or rendering. See
 [OWNED_NPCS.md](OWNED_NPCS.md).
 It loads world declarations only; mission markers are outside this fixture.
+The second command checks separate Vimp history/primary entry, retained late
+terrain failure, missing-service preflight and eight controlled frames against
+the existing combined Rust route. Time, ground, seed and control identity are
+supplied; it establishes no complete native world frame or mission admission.
+The newborn control exercises 14 real source births, first-callback continuation
+and two warm continuations without overwriting constructor histories. A separate
+required-FX failure retains initialized/physical state and rejects replay. Its
+ground, cadence and control identity are supplied; no renderer or live sound is
+exercised. Parentless allocation is outside the new herd-child entry.
 
 ## Optional subjective Mecc lifecycle check
 

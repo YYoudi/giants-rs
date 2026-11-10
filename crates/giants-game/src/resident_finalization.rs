@@ -64,8 +64,7 @@ impl Owned {
         {
             return Err("frame history requires completed current ordinary actor".into());
         }
-        header.previous = header.current;
-        header.current = header.position;
+        header.advance_position_history();
         self.phase = Phase::History;
         Ok(())
     }
