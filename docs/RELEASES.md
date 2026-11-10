@@ -42,6 +42,26 @@ source-only: the combined tree at `0abf1898b49413379368df839eb7627cc8eb5ba6` pas
 866 Rust tests (57 ignored), strict Clippy and six installed Delphi controls.
 These later source checks do not relabel the shipped binary.
 
+## Owned Vimp first callback after herd birth — 10 November 2026
+
+The new herd-child entry retains constructor histories and composes actual owned
+initialization, living continuation, physics and ANM in one callback/RNG stream.
+Warm/parentless/foreign/inactive/wrong-frame entries refuse; initialization and
+physical progress survive a late required FX-resource failure without replay.
+Existing warm split/combined entry paths are preserved.
+
+Original-PC controls match 32 declared scenarios / 96 snapshots / 824,168
+normalized header/payload/reference/list/context/RNG words, including 448 first
+callbacks. Story2 markers, original/supplied kind1 selectors, 16 seeds each,
+positive cadence, flat terrain, quiet noise and a nonnull control reference are
+declared boundaries. Later callbacks use supplied per-node history, not a full
+world traversal. Two additional installed controls cover a 14-child cohort and
+late-failure/admission ownership. Prototype PS2 counterparts remain unknown.
+Full herd/marker dispatch, global world admission and clock/RNG ownership,
+required threat/feeding/active FX/audio, renderer and mission re-entry remain
+open. This source dependency admits no ordinary mission or new gameplay download;
+existing preview receipts and asset-free package identities are unchanged.
+
 ## Separate owned Vimp history and callback entry — 10 November 2026
 
 Owned initialized Vimps can now prepare position history in a separate pass and

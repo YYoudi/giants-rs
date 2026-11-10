@@ -25,6 +25,8 @@ mod subjective;
 mod timed_effect;
 #[cfg(test)]
 mod vimp_history_tests;
+#[cfg(test)]
+mod vimp_newborn_tests;
 pub use timed_effect::Services as TimedEffectServices;
 
 struct OwnedSpecification(crate::actor_references::Owned);
@@ -5648,7 +5650,7 @@ impl Session {
         factory: &crate::vimp_actor::Factory,
     ) -> Result<(), String> {
         factory.growth_bounds(self, id)?;
-        self.validate_vimp_world_entry(id, number)?;
+        self.validate_vimp_world_entry(id, number, false)?;
         let actor = self.residents.get_mut(&id.serial).unwrap();
         let fields = actor
             .construction_fields
@@ -5662,10 +5664,24 @@ impl Session {
         Ok(())
     }
 
-    fn validate_vimp_world_entry(&self, id: Id, number: u64) -> Result<(), String> {
+    fn validate_vimp_world_entry(&self, id: Id, number: u64, newborn: bool) -> Result<(), String> {
         let actor = self.get(id).ok_or("Vimp world owner absent or foreign")?;
         let vimp = actor.vimp.ok_or("Vimp world construction absent")?;
-        if !vimp.initialized
+        let admitted = if newborn {
+            !vimp.initialized
+                && vimp.born.is_some()
+                && vimp.mode == 0
+                && actor.vimp_frames == 0
+                && actor.attachment.is_none()
+                && actor.presentation_parent.is_none()
+                && actor
+                    .construction_fields
+                    .as_ref()
+                    .is_some_and(|f| f.object_flags & 0xc000 == 0)
+        } else {
+            vimp.initialized
+        };
+        if !admitted
             || number != actor.vimp_frames
             || number == u64::MAX
             || actor.world_tick_running
@@ -5697,7 +5713,36 @@ impl Session {
         globals: &giants_formats::global_data::GlobalData,
         services: &mut crate::vimp_frame::Services<'_>,
     ) -> Result<crate::actor_world_tick::Outcome, String> {
-        self.advance_vimp_world_with_history(id, frame, factory, globals, services, true)
+        self.advance_vimp_world_with_history(
+            id,
+            frame,
+            factory,
+            globals,
+            services,
+            crate::vimp_frame::History::Prepared,
+        )
+    }
+
+    /// First common-list callback after an actual owned herd birth. The
+    /// constructor history is retained: no preceding world-history pass is
+    /// invented. Initialization and living continuation share this callback,
+    /// RNG and failure token. Outer world admission remains the caller's duty.
+    pub fn advance_vimp_newborn_world(
+        &mut self,
+        id: Id,
+        frame: crate::vimp_frame::Frame<'_>,
+        factory: &crate::vimp_actor::Factory,
+        globals: &giants_formats::global_data::GlobalData,
+        services: &mut crate::vimp_frame::Services<'_>,
+    ) -> Result<crate::actor_world_tick::Outcome, String> {
+        self.advance_vimp_world_with_history(
+            id,
+            frame,
+            factory,
+            globals,
+            services,
+            crate::vimp_frame::History::Constructor,
+        )
     }
 
     /// One common-list Vimp iteration with retained physics, supplied admission/time
@@ -5710,7 +5755,14 @@ impl Session {
         globals: &giants_formats::global_data::GlobalData,
         services: &mut crate::vimp_frame::Services<'_>,
     ) -> Result<crate::actor_world_tick::Outcome, String> {
-        self.advance_vimp_world_with_history(id, frame, factory, globals, services, false)
+        self.advance_vimp_world_with_history(
+            id,
+            frame,
+            factory,
+            globals,
+            services,
+            crate::vimp_frame::History::Combined,
+        )
     }
 
     fn advance_vimp_world_with_history(
@@ -5720,16 +5772,22 @@ impl Session {
         factory: &crate::vimp_actor::Factory,
         globals: &giants_formats::global_data::GlobalData,
         services: &mut crate::vimp_frame::Services<'_>,
-        prepared: bool,
+        history: crate::vimp_frame::History,
     ) -> Result<crate::actor_world_tick::Outcome, String> {
         factory.growth_bounds(self, id)?;
-        self.validate_vimp_world_entry(id, frame.number)?;
+        self.validate_vimp_world_entry(
+            id,
+            frame.number,
+            history == crate::vimp_frame::History::Constructor,
+        )?;
         let actor = self.get(id).ok_or("Vimp world owner absent or foreign")?;
         let vimp = actor.vimp.ok_or("Vimp world construction absent")?;
         if matches!(vimp.mode, 2..=4) && services.recovery_sounds.is_none() {
             return Err("Vimp recovery sound-stop service absent".into());
         }
-        if actor.vimp_prepared_history != prepared.then_some(frame.number) {
+        if actor.vimp_prepared_history
+            != (history == crate::vimp_frame::History::Prepared).then_some(frame.number)
+        {
             return Err("Vimp world history route or frame differs from preparation".into());
         }
         let actor = self.residents.get_mut(&id.serial).unwrap();
@@ -5737,7 +5795,7 @@ impl Session {
             .construction_fields
             .as_mut()
             .ok_or("Vimp world fields absent")?;
-        if !prepared {
+        if history == crate::vimp_frame::History::Combined {
             fields.advance_position_history();
         }
         actor.vimp_prepared_history = None;

@@ -8,6 +8,20 @@ fn source() -> (
     Arc<giants_formats::effect_image::Image>,
     Vec<Id>,
 ) {
+    let (s, f, g, e, c, _) = source_births(true);
+    (s, f, g, e, c)
+}
+
+pub(super) fn source_births(
+    initialize: bool,
+) -> (
+    Session,
+    crate::vimp_actor::Factory,
+    giants_formats::global_data::GlobalData,
+    Arc<giants_formats::effect_image::Image>,
+    Vec<Id>,
+    crate::audio_parameters::Random,
+) {
     let root =
         std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").expect("GIANTS_NPC_ROOT"));
     let resources =
@@ -67,12 +81,12 @@ fn source() -> (
         )
         .unwrap();
     assert!(children.len() >= 2);
-    for child in &children {
+    for child in children.iter().filter(|_| initialize) {
         session
             .initialize_vimp_offline(*child, &globals, &mut random)
             .unwrap();
     }
-    (session, factory, globals, effects, children)
+    (session, factory, globals, effects, children, random)
 }
 
 fn frame(number: u64, controlled_actor: Id) -> crate::vimp_frame::Frame<'static> {

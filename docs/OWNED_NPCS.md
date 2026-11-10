@@ -44,6 +44,42 @@ lookups remain unassigned; matching vocabulary alone establishes no attribution.
 
 ## Source-resource regression
 
+### First callback after a herd birth — 10 November 2026
+
+`Session::advance_vimp_newborn_world` now consumes a real owned herd birth's
+first common-list callback. It retains the constructor's position histories,
+initializes the actor and continues into living movement/physics/ANM inside
+that same callback and shared RNG stream. A separate initialization call or an
+extra world-history copy would change that composition. Warm actors continue
+through the separately prepared or combined routes below.
+
+This entry requires a cold, active, unparented class8 herd child at local frame
+zero. Parentless allocations, already initialized actors, wrong/foreign frames
+and route replay refuse. Initialization and completed physical work survive a
+later required effect-namespace failure; the failed world token forbids replay.
+The entry does not fabricate sound/effect providers or bypass outer world gates.
+
+Original-PC constructor/birth/first-primary controls match 32 scenarios and 96
+snapshots / 824,168 normalized words, including 448 first callbacks. The declared
+Story2 cohort uses authored markers and original/supplied kind1 parent selectors,
+16 TLS seeds each, positive supplied cadence, quiet noise, flat terrain and a
+supplied nonnull control reference. Normalized headers, payloads, references,
+ordered lists, prepared effect contexts and RNG are compared. Later two callbacks
+use the existing per-node history boundary. This is neither a complete world
+traversal nor live process-seed, sound transport or rendered fidelity evidence.
+
+Two installed-source controls additionally cover a 14-child cohort through its
+first callback and two separately prepared continuations, constructor-history
+preservation, cold/initialized route separation, inactive/foreign/parentless
+refusal and retained late failure without repeated draws or services. These
+controlled source checks do not establish complete world admission or native
+error handling. All detailed controls remain private; prototype PS2
+correspondence is unassigned.
+
+The full herd/marker common-node dispatcher, outer world admission, clock/RNG
+ownership and active FX/audio still need binding before ordinary mission AI.
+Remaining tasks stay in `BACKLOG.md`.
+
 ### Separate Vimp world-history entry — 10 November 2026
 
 The normal PC world path prepares active actors' position histories before its
@@ -78,10 +114,10 @@ supplied flat terrain, time and seed. It is a Rust composition regression, not
 an original-PC comparison of eight complete frames. The controlled actor
 identity is supplied; no complete world or ordinary mission is admitted.
 
-Newborn first-primary/history ordering, actual world admission, clock/RNG
-ownership, the complete cohort and required threat/feeding/effect/audio services
-remain unbound. The next tasks are retained in `BACKLOG.md`. Prototype PS2
-attribution remains unassigned.
+The newborn route above supplies the separately acquired first-callback
+composition. Actual world admission, clock/RNG ownership, the complete cohort
+and required threat/feeding/effect/audio services remain unbound. The next tasks
+are retained in `BACKLOG.md`. Prototype PS2 attribution remains unassigned.
 
 ### Authored herd births
 
