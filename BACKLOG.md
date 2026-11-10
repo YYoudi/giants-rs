@@ -59,8 +59,12 @@ The dedicated NPC lane resumes existing work; see
   match 32 scenarios / 96 snapshots / 824,168 normalized words, including 448
   first callbacks, within supplied cohort/control/time/terrain/RNG boundaries.
   Two installed controls retain a 14-child source cohort and late required-FX
-  failure. Next acquire full herd/marker common-node dispatch and bind the
-  mutable population traversal; do not impose an extra newborn history copy
+  failure. A subsequent original-PC-only mutable walk records 2,880 callbacks /
+  2,432 history preparations across 32 scenarios; all 448 newborns run in their
+  birth step. This acquires neither Rust composition nor whole-world admission.
+  Next bind herd/marker common-node dispatch, ANM epochs and nonphysical
+  finalization (including the herd environment service), then the mutable
+  population traversal; do not impose an extra newborn history copy
   or postpone a new child using a population snapshot. Outer world admission,
   global clock/RNG ownership and active FX/audio remain prerequisites.
   Then acquire threat/feeding services and active effects/audio before ordinary

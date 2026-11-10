@@ -78,9 +78,35 @@ controlled source checks do not establish complete world admission or native
 error handling. All detailed controls remain private; prototype PS2
 correspondence is unassigned.
 
-The full herd/marker common-node dispatcher, outer world admission, clock/RNG
+The herd/marker Rust common-node dispatcher, outer world admission, clock/RNG
 ownership and active FX/audio still need binding before ordinary mission AI.
 Remaining tasks stay in `BACKLOG.md`.
+
+### Mutable common-list acquisition — 10 November 2026
+
+A separate original-PC-only control now executes the actual mutable callback
+walk, after a supplied active-node history pass. Across 32 Story2 scenarios and
+three steps each, it records 2,880 node visits and 2,432 history preparations.
+All 448 newborn Vimps are visited in their birth step without an earlier history
+copy. The successor is read after the callback; a snapshot of the pre-birth
+population would omit these visits.
+
+Herd parents and basic markers also execute their common secondary dispatch,
+local time, ANM and finalization paths. The acquired PC state0 primary and
+secondary entries are absent; state17 has the acquired herd primary and no
+secondary entry. That establishes these bounded dispatch absences, not permission
+to skip the common fallback. Source-marker controls still write their floor,
+animation epoch and affine cache. Herd finalization additionally calls the real
+environment service. These dependencies must be bound in Rust before composing
+the population walk; ordinary Ripper-only finalization is not an interchangeable
+adapter.
+
+This acquisition retains the declared cohort, nonnull controlled herd reference,
+TLS seed, cadence, quiet noise, flat world and absent sound bank. It excludes the
+intervening global services, outer admission, actual player and rendering. Its
+96 recorded snapshots are native observations, **not a Rust comparison**. Keep
+them separate from the validated newborn comparisons above. Prototype PS2
+wrapper/dispatch lookups remain unassigned; no ABI or types are imported.
 
 ### Separate Vimp world-history entry — 10 November 2026
 
