@@ -44,6 +44,15 @@ coefficient tables, publish projection or complete activation.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+With `GIANTS_FLICK_ROOT` and `GIANTS_FLICK_PERSISTENT_COHORT` (private, headerless
+world/sequence TSV), run `cargo test --locked --workspace source_constant_cohort_moves_actual_body --target x86_64-pc-windows-gnu -- --ignored`.
+This silent control checks actual constant-effect storage transfer to Session,
+channel/reference presentation, rejected foreign supports, retained late-failure
+prefixes, typed-reference cancellation refusal and independent source generations.
+The current cohort has 23 sources /25 requests and exercises 92 queue lifecycles.
+Its source support/clock inputs and self-comparison are ownership controls,
+not new original-PC comparisons, native world admission or visual fidelity.
+
 `cargo test --locked -p giants-game delphi_local_target --target x86_64-pc-windows-gnu`
 checks the local caller's separate point/link lifetimes, inline-wide versus
 linked-rounded readiness, retained terrain/linked/item-target failures, inactive
