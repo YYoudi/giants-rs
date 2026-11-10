@@ -1,5 +1,28 @@
 # Preview releases and milestone integration
 
+## Ordinary Mecc terrain-landing feedback - local graphical validation
+
+The normal controller now creates the source hard-landing effect and positional
+sound from actual air-to-terrain contact, feeding the existing particle renderer
+and canonical callback/retirement. Enter a supported Mecc mission from the menu,
+hold right mouse for thrust, release and land; no replay/experimental flag enables
+this connection. Carried/special profiles and slide effects remain unsupported;
+native fall damage/pain/death and full owned-player admission stay open.
+
+Source `b34e1e2`, executable SHA256
+`6923eacb3dc762171c7e837e296613b6eefba33f22a446da3ecd23a2b9addf95`,
+passes startup and an ordinary-admission GPU run with supplied flight commands.
+Natural contact creates the canonical actor at step770 and starts a real muted
+positional sink; the inspected step800 image shows dust at the Mecc feet.
+This is graphical diagnostic coverage, not held-input or audible acceptance and
+not an original fidelity result. Earlier missing-sink refusal is retained as
+failed evidence; the corrected readiness check uses the live typed actor role.
+Source-resource lifecycle checks cover birth, shared draw packets, callback fade,
+expiry, stop and canonical release without completing the native primary.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md). No existing public executable
+or historical gallery receipt is relabeled; main owns the combined preview.
+
+
 ## Published preview .9 - ordinary Mecc jet and projectile feedback
 
 [Windows preview-2026.11.10.9](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.9)
@@ -78,6 +101,20 @@ mission: application reseeds and earlier draws still need their actual producers
 The retained preview's per-director random state is not a native fidelity proof.
 Both prototype PS2 resources were searched with pinned binary identities before
 this work; attribution stays unknown. Detailed records remain private.
+
+The combined source `b751ced` preserves main's concurrent NPC/camera work. Its
+GNU Windows executable SHA256 is
+`2c7f4d19988534918aaad301659eddacc8aae10dd59e3b376d6fa90480a8b9bf`.
+This exact build also passes CLI startup and the GPU landing observation with
+a real muted sink and inspected dust cloud; both installed-resource lifecycle
+checks pass on the combined source. The portable combined workspace passes953 tests (150 ignored), strict Clippy,
+formatting,44 Python checks, site export and JavaScript syntax. An initial test
+fixture compile failure was corrected by initializing its absent landing driver;
+this test-only correction does not change the executable. The private draft ZIP
+verifies10 files,338 dependency notices and archive SHA256
+`df3e46b4bebd005bd0dacc874db53466b8cbec3f4820edbd3d1049034918c617`.
+Its remaining receipt-bound distribution review belongs to main's technical
+publication process; this is not another human-approval gate or a public release.
 
 ## Ordinary Mecc descent visually observed - local Windows build
 

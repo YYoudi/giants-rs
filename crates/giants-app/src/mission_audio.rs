@@ -1169,6 +1169,21 @@ fn update(world: &mut World) {
             && let Err(error) = (|| -> Result<(), String> {
                 owned::reserve(world, &mut mounted)?;
                 owned::reserve_damage(world, &mut mounted)?;
+                Ok(())
+            })()
+        {
+            error!(
+                "mission_owned_audio_reserve_failed ticket={} error={error}",
+                mounted.ticket
+            );
+            release(world, mounted);
+            return;
+        }
+        if (owned::requested()
+            || world
+                .resource::<crate::mission_runtime::Runtime>()
+                .normal_landing_supported(mounted.ticket))
+            && let Err(error) = (|| -> Result<(), String> {
                 let cues = world
                     .resource::<crate::mission_runtime::Runtime>()
                     .owned_impact_cues(mounted.ticket)?;
@@ -1176,7 +1191,7 @@ fn update(world: &mut World) {
             })()
         {
             error!(
-                "mission_owned_audio_reserve_failed ticket={} error={error}",
+                "mission_impact_audio_reserve_failed ticket={} error={error}",
                 mounted.ticket
             );
             release(world, mounted);
