@@ -24,6 +24,26 @@ five invalid mode/sequence/tick combinations refuse before capture. The earlier
 negative harness stopped at an absent profile parent and is retained as a failed
 fixture, rather than a guard or runtime failure.
 
+The private `04cb614` batch produces 23 selected-director GPU images (four
+startup and nineteen completion chains), reusing one exact-build image. Every
+sample has same-ticket/director creation and visible draw submissions. Their
+first-active windows reach 24 of the 25 declared requests.
+
+A later request exposed a diagnostic race in `d87ffc5`: the published clock had
+crossed the observation bound while the command cursor still evaluated the
+preceding tick. Its weak late-sample pass is rejected. Corrected source `2ad85fa`
+records the actual cursor tick, requires the current consumed FX revision and
+waits for all live owners to advance twice. Native dispatch/clock ordering is
+unchanged. On its receipt-bound MinGW build, the late request is actually
+executed, both offsets are drawn, both owners have advanced and GPU capture
+completes. The default observer and five invalid-input refusals pass as well.
+Combined source `2ad85fa` passes 946 Rust tests (138 ignored), Rustfmt, strict
+workspace Clippy and 43 Python tests; its MinGW build receipt is kept separately
+from the earlier observer.
+Two natural first-mission source-terminal/re-entry cycles also pass, with muted
+voice drain and tracked entity/movie/text-atlas cleanup. Those observations are
+not retroactively assigned to the older 23-image batch.
+
 Qualitative comparisons at reported-time-derived points substantially reduce
 apparent pose differences. The retained native final-image clock and global
 lighting phase are still unverified; one solar-region discrepancy remains open.

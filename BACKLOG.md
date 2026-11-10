@@ -1833,6 +1833,22 @@ blocker in the next slice, rather than continuing adjacent functions by address.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- Persistent main-renderer batch: private source `04cb614` produces all 23
+  selected-director images through four startup and nineteen completion chains,
+  reusing one exact-build image. Each has same-ticket/director creation, visible
+  draw submission and GPU preparation. These first-active snapshots reach 24
+  of 25 declared requests; the second request in one source occurs later.
+  Source `d87ffc5` initially suspended on a post-advance clock tick before that
+  request was dispatched. Its apparent late-sample success is rejected.
+  The corrected observer records the command cursor's actual evaluation tick,
+  checks the consumed effect revision/director/generation, and waits for every
+  live persistent owner to advance twice. It preserves native dispatch order.
+  A separate receipt-bound `2ad85fa` capture reaches and draws both request
+  offsets, with both owners advanced. Keep the two executable scopes distinct.
+  The current queue already shares supports by declared effect slot; no inferred
+  placement, duration or retarget policy was substituted. Original world/lifetime
+  behavior, full playback and native pixels remain to certify.
+
 - Reached-time image comparison: the main-menu persistent observer accepts an
   optional tick bound for an explicitly selected director. It waits for actual
   playback and Session-owned updates, then suspends the reached state for GPU
