@@ -1,5 +1,13 @@
 # Non-player actors and player interactions
 
+Select and resume work under the shared [gameplay-first
+objective](GOAL_GAMEPLAY_FIRST.md). Prioritize the ordinary player-visible path and
+its first missing caller/consumer before rare variants. Dated controls and
+next-acquisition notes below retain their evidence scope; they do not override the
+current delivery priority in `BACKLOG.md`. A handoff must identify the exact
+testable build and normal controls, or state "intermediate dependency only" and the
+next runtime blocker.
+
 The NPC lane resumes the existing source-backed services rather than starting a
 parallel AI framework. `BACKLOG.md` remains the detailed backlog. This inventory
 identifies implementation boundaries; it is not a claim that these inhabitants

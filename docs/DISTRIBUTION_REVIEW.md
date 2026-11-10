@@ -1,5 +1,10 @@
 # Windows preview distribution review — 4 November 2026
 
+Current work selection and delivery reporting follow
+[GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md). Prioritize actual testable
+interactions and their blockers. This direction does not expand any historical
+review, redistribution authorization or technical evidence recorded below.
+
 The owner explicitly authorized downloadable Windows previews and removed the
 mandatory human-release-review gate in this chat. This is an AI-assisted technical
 distribution review, not a human provenance audit or a guarantee of third-party

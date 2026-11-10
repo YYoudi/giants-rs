@@ -1,5 +1,10 @@
 # Working-repository transition
 
+Current work selection and delivery reporting follow
+[GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md). Prioritize actual testable
+interactions and their blockers. This direction does not expand any historical
+review, redistribution authorization or technical evidence recorded below.
+
 `YYoudi/giants-rs` is now public and is the primary runtime, roadmap and release
 authority, following the owner's explicit instruction. The AI-assisted technical
 review found no concrete source-publication blocker within its stated scope; see
