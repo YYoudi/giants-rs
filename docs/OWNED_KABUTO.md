@@ -1968,3 +1968,73 @@ own component receipt: history and four initializer gates remain pending, the
 next whole primary is not admitted and no ordinary Kabuto gameplay is enabled.
 Prototype PS2 names stay unassigned/unknown for this acquisition. Detailed records
 and executable identities remain private; the frozen public preview is unchanged.
+
+## Resource-driven action prefix and caller provenance
+
+`kabuto_action_charge::advance` implements the acquired entry and positive-resource
+branch before the separate flagged and animation policies. It retains an early
+mode/flag exit before rewriting the caller temporary. Other routes publish the
+acquired flag word, apply definition masks and reserve thresholds, then invoke a
+required status service using the captured interaction actor. A successful status
+uses a distinct related actor for distance. The callback's actual position and
+payload mutations precede those reads; no stale working actor is restored.
+
+Low/mid-resource range comparisons retain the wide squared distance. The full
+resource path reloads its narrowed local, draws from the required PC random owner,
+and rereads flags. Its candidate class flag is distinct from the generic retirement
+flag. Position copies, maximum/meter and counter stores, target selection and the
+new definition/slot follow native order. Two separate meter additions retain their
+individual float-store rounding. Definitions come from the existing required
+external metadata reader; no original table or executable is bundled.
+
+All 1,024 original-PC/Rust contexts match 980,271 state, caller, status-argument and
+prefix words. They include 563 exits to the following flagged policy, 115 to the
+following animation policy and 346 to selection checking. The actual PC bounded
+RNG executes with a supplied existing TLS context. Status is a declared mutating
+entry, not a validated body or live actor-selection provider. The comparison's
+195 status entries retain captured versus reread identities and values. A paired
+case selects the candidate with the wide distance but excludes it after the
+full-resource float reload. Queried scalar/position fields use the finite profile;
+unrelated raw words retain their bits. Error retention does not prove native
+exception parity.
+
+Eight complete original cold primaries now retain chronological paths and actual
+last byte writers for the caller locals across resource, release/query and action
+frontiers. The shared temporary can successively contain a resource result, a
+clock word and a flag mask. The measured cold paths do not justify universal
+scratch defaults, actor mode initialization or real input/clock ownership. Earlier
+standalone controls with supplied scratch keep that explicit boundary; they are
+not retroactively relabeled as natural caller preparation.
+
+The new prefix is a CPU kernel with required services. It is not yet wired to the
+owned Session dispatcher, and its two following policy bodies remain unimplemented.
+Earlier reference/query/reaction admission, full caller ordering, actor lifetime,
+RNG/TLS/world ownership and backends must be acquired before joining the normal
+controller. No complete primary/history/initializer is acknowledged, no ordinary
+Kabuto gameplay or visual fidelity follows, and no new preview is justified by
+this source-only component. Prototype PS2 attribution remains unknown; raw symbols,
+uncertain demangling and PC aliases stay separate in private evidence.
+
+
+## First common mission entry and playable-first priority
+
+The mission worker now projects the requested character's declared start instead
+of always requiring the Mecc marker. For kind 1 it prepares the existing Kabuto
+Factory. Common mission spawn constructs the cold group in its actual ticket-owned
+Session and retains that constructor's identity as player; the Mecc controller
+remains separate. `construct_declared` supplies authored position/angles while
+retaining current/previous values from the actual class constructor. This is an
+explicit source composition, not a native marker-relocation or complete-history
+comparison. No initializer or history is acknowledged by the adapter.
+
+One silent installed-data App control uses a real Kstory1 menu request and the
+common spawn, checks class/marker position and all four pending requirements,
+clears the group and ECS children, then enters again with a new ticket. It does
+not run a graphical menu interaction, draw Kabuto, exercise actual input or prove
+native scheduling. No new executable preview or visual claim follows.
+
+The next required slice is visible body/material submission and actual camera /
+projection ownership, followed by real walking/turning/collision and jump/landing.
+Action-policy subbranches are acquired when that path requires them. Feeding and
+growth follow a validated movement loop. See BACKLOG.md for the single detailed
+priority list; source-only component comparisons retain their existing scope.

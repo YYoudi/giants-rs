@@ -119,6 +119,33 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    pub fn declared_start(&self) -> &crate::player_start::Declared {
+        &self.resources.start
+    }
+
+    /// Stage the declared mission pose with the actual constructor's history.
+    /// This is a source composition, not proof of native marker relocation or
+    /// live primary admission. All initializer requirements remain pending.
+    pub fn construct_declared(
+        &self,
+        session: &mut Session,
+        blending: Blending,
+        generation: u32,
+    ) -> Result<Id, String> {
+        let fields = self.resources.class_fields();
+        self.construct(
+            session,
+            ColdFrame {
+                position: self.resources.start.position,
+                current: fields.current,
+                previous: fields.previous,
+                angles: self.resources.start.angles,
+            },
+            blending,
+            generation,
+        )
+    }
+
     /// Publish typed tail relationships and the independently supplied transient
     /// binding slot. Their actual event producers/lifetime remain prerequisites.
     pub fn publish_primary_tail_links(

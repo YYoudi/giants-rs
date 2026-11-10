@@ -301,6 +301,21 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Delphi next steps
 
+Current observable delivery: enter a Reaper mission through the common menu,
+retain the actual declared Delphi owner/held/copy group, then connect supported
+dry keyboard/mouse movement, jump and camera. **First runtime blocker:**
+`player_initial::Prepared` admits Mecc only and the mission runtime has no Delphi
+cold factory/role-binding branch. Supply that real constructor/consumer next;
+retain pending projection/controller/geometry services instead of acknowledging
+missing work. Main integration owns combined delivery. Delphi remains an
+intermediate dependency, with no ordinary controls newly available.
+
+The authored camera now uses the common typed override owner and common mode
+selector; 512 original writer/predicate programs match 81,920 selected words.
+Actual source-backed activation, clear and failure update that same selector.
+Keep startup, descriptor/owner resolution and viewport pose epochs explicit.
+Do not spend the next task on rare camera variants ahead of the entry gap above.
+
 - Implemented: `delphi_resources::Resources` projects the actual kind-3 mission
   marker, class fields, state template and body/state specifications. The shared
   declaration helper takes an explicit expected kind; the existing Mecc entry
@@ -706,6 +721,44 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   integration exists. Resource loading alone must not change completion status.
 
 ### Kabuto next steps
+
+Work in playable slices, in this order. Native research follows the first actual
+blocker in the next slice, rather than continuing adjacent functions by address.
+
+1. Menu-to-mission selection and visible Kabuto at the authored start, with actual
+   initialization services. The common loader now selects the declared character
+   marker and stages Kabuto's acquired cold group instead of requiring the Mecc
+   player preparer. An installed Kstory1 menu request reaches the actual common
+   spawn, retains its player identity and passes cleanup/second entry. This source
+   composition uses the constructor's existing history; native marker relocation
+   and complete caller history remain unverified. All four initializer gates stay
+   pending. **Next blocker: body/material submission and the actual camera /
+   projection path.** Cold construction alone is not visible or playable Kabuto.
+2. Actual input, walking and turning through the common world, camera and
+   collisions; then jump/landing and continuous-session exit/re-entry checks.
+3. Attack, capture and feeding with real target/lifetime owners.
+4. Growth, with the corresponding body, collisions and camera changes.
+5. Remaining variants and exceptional paths. Acquire them earlier only when a
+   preceding playable slice actually depends on them.
+
+
+- Implemented at the standalone CPU boundary: the resource-driven action prefix
+  preserves its three distinct exits, definition-flag filtering, captured
+  interaction identity and separate related-position source. Low/mid-resource
+  comparisons retain wide squared distance; the full-resource route reloads the
+  narrowed local and consumes the actual bounded draw. Per-target class flags,
+  pose snapshots, reserve/meter/counter stores and selected definition remain
+  source ordered. 1,024 original-PC/Rust controls match 980,271 words, including
+  195 declared mutating status entries and a discriminating rounding pair.
+  This is not the complete action policy or its Session/world admission.
+  Eight complete native cold primaries additionally identify the caller's actual
+  scratch writers: a shared temporary carries different resource/clock/flag
+  values at successive frontiers. Do not replace that provenance with a universal
+  zero/time default or relabel supplied scratch fixtures as natural admission.
+  Next: acquire the remaining flagged and animation-policy continuations,
+  including held/target handling, lifetimes, clocks, effects and created actors;
+  join the earlier query/reaction branch in full primary order. Preserve the
+  existing component exits and all initialization/history prerequisites.
 
 - Implemented at the CPU/owned-Session boundary: the complete acquired
   post-selection continuation orders transient actor marking/link clear, local
