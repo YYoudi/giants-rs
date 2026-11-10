@@ -576,6 +576,24 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented at the standalone CPU boundary: the resource-driven action prefix
+  preserves its three distinct exits, definition-flag filtering, captured
+  interaction identity and separate related-position source. Low/mid-resource
+  comparisons retain wide squared distance; the full-resource route reloads the
+  narrowed local and consumes the actual bounded draw. Per-target class flags,
+  pose snapshots, reserve/meter/counter stores and selected definition remain
+  source ordered. 1,024 original-PC/Rust controls match 980,271 words, including
+  195 declared mutating status entries and a discriminating rounding pair.
+  This is not the complete action policy or its Session/world admission.
+  Eight complete native cold primaries additionally identify the caller's actual
+  scratch writers: a shared temporary carries different resource/clock/flag
+  values at successive frontiers. Do not replace that provenance with a universal
+  zero/time default or relabel supplied scratch fixtures as natural admission.
+  Next: acquire the remaining flagged and animation-policy continuations,
+  including held/target handling, lifetimes, clocks, effects and created actors;
+  join the earlier query/reaction branch in full primary order. Preserve the
+  existing component exits and all initialization/history prerequisites.
+
 - Implemented at the CPU/owned-Session boundary: the complete acquired
   post-selection continuation orders transient actor marking/link clear, local
   camera selection, 21 UI availability requests, two linked damage/limit checks,

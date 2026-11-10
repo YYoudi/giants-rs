@@ -1960,3 +1960,49 @@ own component receipt: history and four initializer gates remain pending, the
 next whole primary is not admitted and no ordinary Kabuto gameplay is enabled.
 Prototype PS2 names stay unassigned/unknown for this acquisition. Detailed records
 and executable identities remain private; the frozen public preview is unchanged.
+
+## Resource-driven action prefix and caller provenance
+
+`kabuto_action_charge::advance` implements the acquired entry and positive-resource
+branch before the separate flagged and animation policies. It retains an early
+mode/flag exit before rewriting the caller temporary. Other routes publish the
+acquired flag word, apply definition masks and reserve thresholds, then invoke a
+required status service using the captured interaction actor. A successful status
+uses a distinct related actor for distance. The callback's actual position and
+payload mutations precede those reads; no stale working actor is restored.
+
+Low/mid-resource range comparisons retain the wide squared distance. The full
+resource path reloads its narrowed local, draws from the required PC random owner,
+and rereads flags. Its candidate class flag is distinct from the generic retirement
+flag. Position copies, maximum/meter and counter stores, target selection and the
+new definition/slot follow native order. Two separate meter additions retain their
+individual float-store rounding. Definitions come from the existing required
+external metadata reader; no original table or executable is bundled.
+
+All 1,024 original-PC/Rust contexts match 980,271 state, caller, status-argument and
+prefix words. They include 563 exits to the following flagged policy, 115 to the
+following animation policy and 346 to selection checking. The actual PC bounded
+RNG executes with a supplied existing TLS context. Status is a declared mutating
+entry, not a validated body or live actor-selection provider. The comparison's
+195 status entries retain captured versus reread identities and values. A paired
+case selects the candidate with the wide distance but excludes it after the
+full-resource float reload. Queried scalar/position fields use the finite profile;
+unrelated raw words retain their bits. Error retention does not prove native
+exception parity.
+
+Eight complete original cold primaries now retain chronological paths and actual
+last byte writers for the caller locals across resource, release/query and action
+frontiers. The shared temporary can successively contain a resource result, a
+clock word and a flag mask. The measured cold paths do not justify universal
+scratch defaults, actor mode initialization or real input/clock ownership. Earlier
+standalone controls with supplied scratch keep that explicit boundary; they are
+not retroactively relabeled as natural caller preparation.
+
+The new prefix is a CPU kernel with required services. It is not yet wired to the
+owned Session dispatcher, and its two following policy bodies remain unimplemented.
+Earlier reference/query/reaction admission, full caller ordering, actor lifetime,
+RNG/TLS/world ownership and backends must be acquired before joining the normal
+controller. No complete primary/history/initializer is acknowledged, no ordinary
+Kabuto gameplay or visual fidelity follows, and no new preview is justified by
+this source-only component. Prototype PS2 attribution remains unknown; raw symbols,
+uncertain demangling and PC aliases stay separate in private evidence.
