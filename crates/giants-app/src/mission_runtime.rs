@@ -3108,6 +3108,19 @@ mod tests {
         let mut released = false;
         let mut descent = false;
         let mut landing_requests = 0;
+        assert!(
+            runtime
+                .active
+                .as_ref()
+                .unwrap()
+                .payload
+                .controller
+                .as_ref()
+                .unwrap()
+                .is_none(),
+            "staging controller must have moved into its ECS owner"
+        );
+        assert!(!runtime.normal_landing_supported(998));
         for number in 1..=1600 {
             viewer.mission_look(Vec2::new(0.0001, 0.), false);
             let frame = viewer
@@ -3126,6 +3139,8 @@ mod tests {
             runtime
                 .publish_controlled_mecc_motion(998, number, frame)
                 .unwrap();
+            assert!(runtime.normal_landing_supported(998));
+            assert!(!runtime.normal_landing_supported(999));
             let (session, bound) = runtime.controlled_jet_session(998).unwrap();
             assert_eq!(bound, owner);
             let frames = presentation
@@ -3164,6 +3179,7 @@ mod tests {
         cancel_ticket(&mut runtime, &mut Commands::new(&mut queue, &world), 998);
         queue.apply(&mut world);
         assert!(runtime.controlled_jet_session(998).is_err());
+        assert!(!runtime.normal_landing_supported(998));
         assert!(world.get_entity(scene_root).is_err());
         println!(
             "normal_jet_live_body steps=1600 thrust={visible} boost={boosted} release={released} descent={descent} minimum_fuel={minimum_fuel} constructor_channels_unchanged=true supplied_commands=true gpu=false real_input=false"

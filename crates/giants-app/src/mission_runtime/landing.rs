@@ -14,8 +14,9 @@ impl Runtime {
     pub(crate) fn normal_landing_supported(&self, ticket: u64) -> bool {
         self.active.as_ref().is_some_and(|a| {
             a.ticket == ticket
-                && a.payload.controller.as_ref().is_ok_and(|c| c.is_some())
                 && a.owned_mecc.is_none()
+                && a.player_owner()
+                    .is_ok_and(|owner| a.controlled_mecc_owner == Some(owner))
         })
     }
     pub(crate) fn normal_landing_owner(&self, ticket: u64) -> Option<ActorId> {
