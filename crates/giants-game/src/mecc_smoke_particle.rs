@@ -92,15 +92,27 @@ mod tests {
             _: f32,
         ) -> Result<(), String> {
             self.calls += 1;
+            let velocity = session
+                .timed_effect_velocity(actor)
+                .ok_or("missing actual velocity")?;
+            assert!(velocity.into_iter().all(f32::is_finite));
+            assert_eq!(*session.timed_effect_velocity_mut(actor)?, velocity);
             let (seed, fields) = session.timed_effect_physical_fields(actor)?;
-            assert_ne!(fields.control_flags & 0x40, 0);
+            assert_eq!(fields.control_flags & 0x40, 0);
             assert_ne!(fields.control_flags & 0x100000, 0);
             assert_eq!(fields.control_flags & 8, 0);
             assert_eq!(
                 f32::from_le_bytes(seed.storage.data().unwrap()[8..12].try_into().unwrap()),
                 0.125
             );
-            Err("declared missing velocity/physical owner".into())
+            let side =
+                f32::from_le_bytes(seed.storage.data().unwrap()[0xf4..0xf8].try_into().unwrap());
+            assert_eq!(velocity[0], side);
+            assert_eq!(velocity[1], 0.);
+            assert_eq!(velocity[2], 0.);
+            // Explicit injected service write, not a physical-integration claim.
+            *session.timed_effect_velocity_mut(actor)? = [0.25, -0.5, 1.];
+            Err("declared missing physical owner after supplied write".into())
         }
         fn retire(
             &mut self,
@@ -113,7 +125,7 @@ mod tests {
         }
     }
     #[test]
-    #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; actual smoke child ownership and retained pre-velocity failure, no physics or renderer"]
+    #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; actual smoke child ownership and retained post-velocity/pre-integration failure, no physics or renderer"]
     fn source_mecc_smoke_particle_owns_active_draws_and_retains_required_physical_failure() {
         let root = std::path::PathBuf::from(std::env::var_os("GIANTS_MECC_WORLD_ROOT").unwrap());
         let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
@@ -185,6 +197,8 @@ mod tests {
                     .position,
                 [17., -24., 30.]
             );
+            assert_eq!(session.timed_effect_velocity(actor), Some([0.; 3]));
+            assert!(session.timed_effect_velocity_mut(actor).is_err());
             let mut stamp = crate::animation_epoch::Stamp(0);
             let mut missing = MissingPhysical { calls: 0 };
             assert_eq!(
@@ -201,6 +215,8 @@ mod tests {
             );
             assert_eq!(missing.calls, 1);
             assert!(session.timed_effect_failure(actor).is_some());
+            assert_eq!(session.timed_effect_velocity(actor), Some([0.25, -0.5, 1.]));
+            assert!(session.timed_effect_velocity_mut(actor).is_err());
             let size = session
                 .get(actor)
                 .unwrap()
@@ -214,6 +230,7 @@ mod tests {
                     .is_err()
             );
             assert_eq!(missing.calls, 1);
+            assert_eq!(session.timed_effect_velocity(actor), Some([0.25, -0.5, 1.]));
             assert_eq!(
                 session
                     .get(actor)

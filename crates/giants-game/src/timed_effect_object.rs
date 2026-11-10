@@ -75,6 +75,7 @@ pub(crate) struct Runtime {
     immutable_words: [u32; 3],
     size_flag: u32,
     side_speed: Option<u32>,
+    pub(crate) velocity: Option<[f32; 3]>,
     pub epoch: u32,
     pub failure: Option<String>,
     pending: Option<(VisualStep, bool)>,
@@ -226,6 +227,7 @@ impl<K: Copy> Timed<K> {
                 immutable_words,
                 size_flag,
                 side_speed,
+                velocity: side_speed.map(|_| [0.; 3]),
                 epoch: 0,
                 failure: None,
                 pending: None,
@@ -264,6 +266,9 @@ impl<K: Copy> Timed<K> {
     }
     pub fn failure(&self) -> Option<&str> {
         self.runtime.failure.as_deref()
+    }
+    pub fn velocity(&self) -> Option<[f32; 3]> {
+        self.runtime.velocity
     }
     pub fn retirement(&self) -> Option<&RetirementBinding> {
         self.runtime.retirement.as_ref()
@@ -506,6 +511,30 @@ impl Runtime {
             b.fields.scale = self.visual.size;
             if self.fade[0] <= self.visual.age {
                 b.fields.control_flags &= !0x800000;
+            }
+            if b.fields.control_flags & 0x40 != 0 {
+                // The actual velocity/angle stores precede the integration
+                // service. Keep them when that later service refuses.
+                let initialize = (|| -> Result<(), String> {
+                    let data = b
+                        .seed
+                        .storage
+                        .data()
+                        .ok_or("effect launch payload absent")?;
+                    let forward = f32::from_bits(word(data, 0x1c));
+                    let side = self.side_speed.map(f32::from_bits);
+                    let velocity =
+                        crate::effect_emitter::initial_velocity(*b.matrix, forward, side)?;
+                    *self.velocity.as_mut().ok_or("effect launch owner absent")? = velocity;
+                    b.fields.control_flags &= !0x40;
+                    b.fields.angles = crate::effect_orientation::from_matrix(*b.matrix)?;
+                    Ok(())
+                })();
+                if let Err(error) = initialize {
+                    self.pending = None;
+                    self.failure = Some(error.clone());
+                    return Err(error);
+                }
             }
             if b.fields.control_flags & 0x80 != 0 {
                 return Ok(Boundary::Physical);

@@ -170,6 +170,27 @@ impl Session {
             .failure
             .as_deref()
     }
+    /// Actual acquired header velocity owner for the detached smoke profile.
+    pub fn timed_effect_velocity(&self, id: Id) -> Option<[f32; 3]> {
+        self.get(id)?.timed_effect.as_ref()?.runtime.velocity
+    }
+    /// Mutate only at the pending integration boundary, never from a viewer copy.
+    pub fn timed_effect_velocity_mut(&mut self, id: Id) -> Result<&mut [f32; 3], String> {
+        let metadata = self
+            .residents
+            .get_mut(&id.serial)
+            .filter(|_| id.ticket == self.ticket)
+            .and_then(|actor| actor.timed_effect.as_mut())
+            .ok_or("timed velocity actor absent or foreign")?;
+        if !metadata.runtime.awaiting_physical() {
+            return Err("timed velocity integration is not pending".into());
+        }
+        metadata
+            .runtime
+            .velocity
+            .as_mut()
+            .ok_or("timed velocity owner absent".into())
+    }
     pub fn timed_effect_transparency(&self, id: Id) -> Option<f32> {
         Some(self.get(id)?.timed_effect.as_ref()?.runtime.transparency)
     }
