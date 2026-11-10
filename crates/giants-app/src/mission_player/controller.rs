@@ -35,6 +35,7 @@ pub(crate) struct Controller {
     normal_jet_frames: Vec<giants_game::mecc_jet_presentation::Frame>,
     owned_replay: bool,
     descent_replay: bool,
+    descent_capture: bool,
     owned_draw_reported: bool,
     owned_input: giants_game::player_input_channels::State,
     pending_mouse: Vec2,
@@ -262,6 +263,7 @@ impl Controller {
                         | "campaign-flight-cycles"
                         | "campaign-ambient-cycles"
                         | "campaign-fire-pose"
+                        | "campaign-descent-pose"
                         | "showcase-mecc"
                 )
             ),
@@ -289,7 +291,13 @@ impl Controller {
                         | "showcase-mecc"
                 )
             ),
+            descent_capture: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
+                == Ok("campaign-descent-pose"),
             finish_step: if std::env::var("GIANTS_MISSION_REPLAY").as_deref()
+                == Ok("campaign-descent-pose")
+            {
+                1600
+            } else if std::env::var("GIANTS_MISSION_REPLAY").as_deref()
                 == Ok("owned-player-descent-inspection")
             {
                 145
@@ -574,6 +582,18 @@ pub(super) fn update(
                 };
                 thrust = !controller.owned_replay && (240..360).contains(&tick);
                 boost = !controller.owned_replay && tick == 270;
+                if controller.descent_capture {
+                    // Exercise the same sustained flight/release as the installed
+                    // body/jet control. The real selector must request clip41;
+                    // this probe never writes an animation or native readiness.
+                    axes = if (64..96).contains(&tick) {
+                        Vec2::Y
+                    } else {
+                        Vec2::ZERO
+                    };
+                    thrust = (16..420).contains(&tick);
+                    boost = tick == 32;
+                }
                 if controller.owned_replay && controller.owned_jet_probe {
                     axes = Vec2::ZERO;
                     thrust = (16..48).contains(&tick);
@@ -838,7 +858,19 @@ pub(super) fn update(
                     controller.ticket, controller.steps
                 );
             }
+            if replay_running && controller.descent_capture && controller.steps > 420 && clip == 41
+            {
+                println!(
+                    "mission_player_descent_observed ticket={} step={} position={position:?} fuel={fuel} clip={clip} animation_seconds={seconds} supplied_commands=true forced_pose=false os_input=false",
+                    controller.ticket, controller.steps
+                );
+                controller.finish_step = controller.steps;
+            }
             if replay_running && controller.steps == controller.finish_step {
+                assert!(
+                    !controller.descent_capture || clip == 41,
+                    "ordinary sustained flight/release did not reach the acquired descent pose"
+                );
                 let distance = Vec3::from(position).distance(Vec3::from(controller.initial));
                 if controller.fire_replay {
                     let pistol = controller.pistol().unwrap();

@@ -42,6 +42,16 @@ pub(crate) struct Replay {
     film_finished: bool,
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    if let Ok(tick) = std::env::var("GIANTS_PERSISTENT_SAMPLE_MIN_TICK")
+        && (std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-persistent")
+            || std::env::var_os("GIANTS_PERSISTENT_SAMPLE_SEQUENCE").is_none()
+            || !tick.parse::<i32>().is_ok_and(|tick| tick >= 0))
+    {
+        return Err(
+            "persistent sample tick requires its explicit replay, sequence and a nonnegative i32"
+                .into(),
+        );
+    }
     if std::env::var_os("GIANTS_PERSISTENT_SAMPLE_COMPLETION").is_some()
         && (std::env::var("GIANTS_PERSISTENT_SAMPLE_COMPLETION").as_deref() != Ok("1")
             || std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-persistent"))
@@ -95,6 +105,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
             | "campaign-entry"
             | "campaign-fire"
             | "campaign-fire-pose"
+            | "campaign-descent-pose"
             | "showcase"
             | "showcase-menu"
             | "showcase-opening"
@@ -145,6 +156,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
                 | "campaign-ambient-cycles"
                 | "campaign-flight-cycles"
                 | "campaign-fire-pose"
+                | "campaign-descent-pose"
         )
     );
     let showcase = std::env::var("GIANTS_MISSION_REPLAY").is_ok_and(|s| s.starts_with("showcase"));
@@ -464,9 +476,17 @@ fn drive(
                             .as_ref()
                             .is_some_and(|c| c.sequence().eq_ignore_ascii_case(&wanted))
                     })
-                    && effects
-                        .as_ref()
-                        .is_some_and(|s| s.advanced_persistent_objects(&runtime) > 0)
+                    && std::env::var("GIANTS_PERSISTENT_SAMPLE_MIN_TICK").map_or(true, |tick| {
+                        cinematic.as_ref().is_some_and(|c| {
+                            tick.parse::<i32>()
+                                .is_ok_and(|tick| c.tick() >= tick && c.event_tick() >= tick)
+                        })
+                    })
+                    && effects.as_ref().is_some_and(|s| {
+                        cinematic
+                            .as_ref()
+                            .is_some_and(|c| s.sampleable_persistent_objects(&runtime, c) > 0)
+                    })
             } else if matches!(
                 mode.as_str(),
                 "showcase-opening" | "showcase-opening-cycles"
@@ -575,7 +595,7 @@ fn drive(
                             effects
                                 .as_ref()
                                 .unwrap()
-                                .advanced_persistent_objects(&runtime)
+                                .sampleable_persistent_objects(&runtime, cinematic)
                         );
                     }
                     cinematic.suspend(true);

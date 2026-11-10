@@ -13,6 +13,39 @@ The normal-camera and temporal-approach routine identities are confirmed there;
 wall/profile correspondences remain probable and the renderer-cache counterpart
 remains unassigned. Naming does not expand the behavioral evidence below.
 
+## Kabuto entry coefficients and signed look angle - intermediate dependency
+
+Ordinary Kabuto entry and controls remain unavailable. The next dependency is the
+actual startup owner/view/look-angle producer and projection consumer, followed by
+the outstanding initializer and live animation/controller services.
+
+The common external `camera_profile::ExecutableCatalog` now exposes all six
+coefficients through `Record`: position offsets, field of view and signed pitch.
+No original table is embedded. Its acquired debug layout remains separate from
+retail/other layouts. Recognition is not binary authentication. Validation stays
+with each consumer so a projection reset does not consume unrelated coefficients.
+Signed distance entries do not establish support for those views in every camera
+algorithm.
+
+`camera_mode::Profile::actor_scale` and `Services::scale` are retained historical
+API aliases for the owner's signed camera look angle. The original mode command
+copies this angle separately from body scale. The previous positive-only check
+incorrectly refused negative pitch; finite negative values are now accepted.
+`kabuto_size::camera_gain` reads the acquired flag-dependent current gain, and
+`mecc_camera_update::Profile::for_kabuto` applies the class-1 position adjustment.
+The ordinary direct-angle subset can consume that adjusted profile through
+`advance_kabuto`; this is not complete class-1 camera or world scheduling parity.
+
+A private 328-case original-PC/Rust comparison covers 288 complete mode-command
+calls with the actual getter/external coefficients and 40 size-adjustment blocks
+executing the original gain helper. Mode/view, transition, signed pitch, unchanged
+body scale and projection-request field of view agree exactly. Projection itself
+is supplied, not executed. The size block receives stack/profile inputs; complete
+normal-camera execution and original startup selection are excluded. Synthetic
+checks preserve all-family/view mapping and projection-reset failure ordering.
+No new attribution is assigned; the method's existing confirmed/probable/unknown
+statuses and private lookup records remain distinct from this behavioral result.
+
 ## Shared override writers and Delphi targeting - 10 November 2026
 
 Intermediate dependency only; no new ordinary controls or playable entry are
@@ -76,7 +109,7 @@ coefficients, current input devices, projection, live scheduling or GPU output.
 A silent installed Mecc control verifies current header changes, separate model
 and state words, forced-view precedence, foreign identities and retirement over
 the actual Session. No initializer or pending projection reset is acknowledged.
-`ExecutableCatalog` now supplies lens/actor-scale coefficients from the externally
+`ExecutableCatalog` now supplies lens/signed-look-angle coefficients from the externally
 provided acquired PC initialized-data layout for all nine families and three
 bounded views. No original tables are embedded. It preserves raw field values;
 mode/reset/lens kernels validate only fields they consume. Recognized headers are
@@ -156,17 +189,17 @@ remain unknown; no additional attribution is confirmed.
 `camera_mode::State` now implements the acquired shared mode command and camera
 eligibility policy. It requires explicit initial words. Raw command `-1` follows
 the source's extended-mode policy and is not treated as a generic view toggle.
-Mode stores precede any eligible owner-scale write. The current profile is queried
+Mode stores precede any eligible owner-look-angle write. The current profile is queried
 again before clearing the transition scalar and setting projection; its second
 result cannot be replaced by the first. Invalid commands retain mode/view but
 still execute that final profile/projection sequence. A provider failure retains
 completed stores and quarantines further mode commands and admission queries.
-Profile selection, actor-scale writes and actual projection remain required
+Profile selection, owner-look-angle writes and actual projection remain required
 services; there is no silent backend.
 
 The activation-time `reset_projection` entry resolves the current profile,
 clears the transition and publishes projection with the acquired flags. It does
-not select a camera owner, change mode/view or write actor scale. A profile
+not select a camera owner, change mode/view or write the owner look angle. A profile
 failure leaves the transition intact; a later projection failure retains its
 completed reset and quarantines shared commands/admission.
 The native type-activation caller invokes this in its session-mode-zero branch,
@@ -202,7 +235,7 @@ The earlier 1,280 mode and 864 admission comparisons repeat unchanged. No new
 prototype PS2 attribution is confirmed.
 
 Across 1,280 controlled commands the full original mode entry and Rust agree on
-mode/view, transition bits, actor scale, profile-query count and projection value.
+mode/view, transition bits, the historically named actor-scale callback, profile-query count and projection value.
 Original profile/projection bodies are supplied boundaries; distinct consecutive
 profile results verify the second query. The separate 864 full native pre-world
 vectors also match Rust eligibility combined with their explicit model-presence
