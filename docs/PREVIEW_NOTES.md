@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.10.1
+# Windows x64 development preview - preview-2026.11.10.2
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -11,6 +11,21 @@ owner's estimate and has not received comprehensive human review. This estimate
 is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+## Common timed-effect owner and source checkpoint
+
+The source now keeps attached and detached timed-effect payloads, channels and
+references in the common actor Session. Shared callbacks preserve service order,
+constructor-time list membership and completed writes after late failures.
+Retained original-PC controls cover both owners, while terrain, physical/stock
+producers, world clock/RNG and timed-film admission remain prerequisites.
+
+The menu still provides the partial development application and bounded cinematic
+inspection routes. Complete cinematic rendering, native timing, gameplay
+transitions and campaigns remain under reconstruction. This checkpoint also
+preserves the current Mecc wounded-primary, Delphi class-control and Kabuto
+attachment/reset dependencies, together with common matrix corrections. It does
+not establish complete normal character controls or complete scene fidelity.
 
 ## Ambient diagnostic output
 

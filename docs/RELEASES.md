@@ -39,6 +39,103 @@ source/CPU results; the downloaded preview is not relabeled. Parent-death
 processing, active particles, eventual dead-object destruction and normal-world
 scheduling remain prerequisites. Prototype PS2 attribution remains unknown.
 
+## Static-terrain timed finalization comparison — 10 November 2026
+
+The complete original parent/child preparation, retirement and cleanup now run
+against the sixteen static source terrains represented in the Flick inventory.
+The existing shared Rust finalization/environment services agree on 1,152 states
+(640 detached), 299,520 header/payload words and 902 ground-query calls over
+128 controlled cycles. The native fixture now executes the original numeric-table
+initializer; its omission caused the first sloped-terrain discrepancy. No Rust
+correction, artificial terrain or placement adjustment was needed.
+
+Rust entry headers, physical payload/history, affine and the actual caller-slot
+word remain supplied; native object/platform populations are empty, topology is
+prepared and dynamic ripples are disabled. This validates the common static-ground
+composition, not ownership of live timed physics, ordinary world admission,
+scheduling, visual/audio fidelity or complete films. Those producers and the
+Session ordinary-preparation continuation remain the next dependencies.
+Prototype PS2 attributions remain unknown. This evidence-only milestone leaves
+preview-2026.11.10.2 and its immutable source/executable/archive identities unchanged.
+
+## Shared camera mode and pre-world admission — 10 November 2026
+
+Source-only integration adds `camera_mode::State` and
+`mecc_subjective::State::prepare_from_camera`. The mode command matches 1,280
+original contexts with supplied profile/projection services, preserving repeated
+profile queries, actor-scale writes, invalid-command tails and transition reset.
+The camera eligibility policy matches all 864 previously acquired full native
+pre-world vectors when combined with their explicit model-presence inputs.
+An installed-resource control exercises six Session admission contexts and
+inactive-to-active re-entry; synthetic late-provider controls retain completed
+stores and refuse replay/admission after failure. See
+[OWNED_CAMERA.md](OWNED_CAMERA.md) for the native-versus-Rust scope.
+
+The combined source preserves Kabuto's current/held-reference handoff and shared
+target detachment together with Flick's canonical detached timed ownership.
+It passes 870 Rust tests (59 ignored), strict Clippy, Rustfmt and 43 Python tests.
+Installed controls pass thirteen Mecc, sixteen Kabuto, six Delphi, one NPC and
+one canonical timed-lifecycle case. Current camera/profile inputs, startup/override producers,
+actual profile/projection backends and enclosing world order remain prerequisites.
+This does not enable the normal native Mecc driver or modify the immutable public
+preview download. No new playable character, native landing or fidelity claim is
+made from these controls.
+
+The main integration lane independently downloaded all three public `.2` assets:
+the ten-member package, internal/external checksums, GitHub asset digests and remote
+tag match its published source/executable/archive snapshot. This verification does
+not move that immutable download to the later camera-mode source.
+
+A private combined MinGW candidate pins source
+`bf724e267450fb8125aafba3850c3a88fc481c19`. Explicitly waited CLI startup passes.
+Its ten-member validation draft verifies the receipt and checksums, collects
+notices for 338 normal dependencies and eleven conservative toolchain entries,
+and retains the reviewed set of 29 imported DLL names. This candidate has no
+release tag; offscreen/manual runtime checks on this particular executable remain
+pending. It does not replace the verified public `.2` download.
+
+## Canonical detached timed ownership and registration — 10 November 2026
+
+Detached retirement requests now transfer their actual payload/reference owners
+into the common Session registry and share the existing callback with attached
+parents. Required physical/retirement services observe the registered actor.
+Partial physical writes survive errors; an unwritten affine remains stale.
+Completed matrix stores remain available after a later ANM failure.
+
+Replayed retained original-PC controls match 576 states /100,224 selected words
+through Session: 256 parent preparations plus 320 detached callbacks with supplied
+initial ordinary preparation. Eight additional original constructor/list cases
+agree with Rust; six distinguish registration before wrapper flag changes. This
+also preserves the class-field producer added by the Delphi lane. These controls
+establish neither terrain/physical ownership nor native stock, clock/RNG/world
+scheduling or main timed-film admission. Prototype PS2 attributions remain unknown.
+Published [preview-2026.11.10.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.2)
+pins source `3a4d23716b52105abdc18051cfde6b74f9a166f9`, executable SHA256
+`c10dad6b3de9b5fef823058f7a8477f1668ab1d1b0458b014a2876f5329f1cd4` and ZIP SHA256
+`e5a2e3684f8d329a11ad6b7fb4f35f8c070e11125946bd169cf9af2099143255`.
+The exact tree passes 866 Rust tests (58 ignored), retained timed controls,
+three positional-impact controls, strict Clippy/Rustfmt and 43 Python tests.
+The 23-source persistent regression releases all fifty objects across re-entry.
+Receipt-bound silent checks pass both development endpoints, three active
+persistent cancellations and two source-terminal/re-entry voice/text cycles.
+A muted manual first-opening session reaches natural completion and partial
+Mecc entry, returns to the menu, re-enters, skips early by double-click and returns
+again. Both tickets release all tracked mission entities/assets; the game quits.
+This is one local profile, not native gameplay or full visual/audio fidelity.
+The window caption can retain the preceding cinematic label after transitions.
+
+The fresh 545-source /16-world CPU inventory has zero preparation errors, with
+59 reported-gap sources, 56 general-FX refusals and 282 strict-profile reviews.
+These diagnostics are unchanged; the reviewed public aggregate now pins this
+build. They are not an inventory of every missing rendered element. Technical
+notice/import checks and all three freshly downloaded public assets pass;
+the ten-member package, internal/external hashes and immutable tag agree.
+Later main contributions remain source-only relative to this frozen preview.
+Complete scene fidelity remains unverified.
+The later combined tree passes 869 Rust tests (58 ignored), the retained timed
+positive/zero and positional-impact controls, Rustfmt, strict Clippy, 43 Python
+tests and roadmap/site/JavaScript checks. These checks do not relabel the download.
+
 ## Kabuto held-reference handoff — 10 November 2026
 
 Both current/held-reference routes agree on 512 original intervals / 1,076,651

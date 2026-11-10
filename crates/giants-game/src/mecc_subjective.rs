@@ -108,6 +108,15 @@ pub struct ProducedWorldPost {
     pub controlled: crate::resident_states::Id,
     pub camera_owner: crate::resident_states::Id,
 }
+/// Current shared-camera inputs before the actor pass. Their startup, writer
+/// ownership and scheduling belong to the enclosing world, not the view toggle.
+pub struct PreWorldCamera<'a> {
+    pub modes: &'a crate::camera_mode::State,
+    pub forced: u32,
+    pub profile: u8,
+    pub controlled: Option<crate::resident_states::Id>,
+    pub owner: crate::resident_states::Id,
+}
 pub struct WorldServices<'a, 'r, 't> {
     pub animation: crate::mecc_animation_phase::Services<'a>,
     pub fire: crate::mecc_primary::FireServices<'a, 'r, 't>,
@@ -468,6 +477,42 @@ impl State<crate::resident_states::Id> {
             session.mecc_subjective_specification(source)?.clone(),
             initial,
         )
+    }
+
+    /// Resolve camera eligibility using current Session identities, then execute
+    /// the actual owned resource copy or the known inactive transition. The
+    /// returned display reflects completed preparation, not selected view mode.
+    pub fn prepare_from_camera(
+        &mut self,
+        number: u64,
+        session: &crate::resident_states::Session,
+        camera: PreWorldCamera<'_>,
+        buttons: u32,
+    ) -> Result<first_person::Display<crate::resident_states::Id>, String> {
+        self.next(number)?;
+        session
+            .get(camera.owner)
+            .ok_or("pre-world camera owner absent or foreign")?;
+        let controlled_class = camera
+            .controlled
+            .map(|id| {
+                session
+                    .get(id)
+                    .map(|actor| actor.class)
+                    .ok_or("pre-world controlled actor absent or foreign")
+            })
+            .transpose()?;
+        if camera
+            .modes
+            .display_eligible(camera.forced, camera.profile, controlled_class)?
+        {
+            // Missing/unprepared resources remain an error; they cannot be
+            // reclassified as a known native inactive branch.
+            self.prepare_from_session(number, session, camera.owner, buttons)?;
+        } else {
+            self.inactive(number)?;
+        }
+        Ok(self.display(Some(camera.owner)))
     }
 
     /// Copy before the source primary. Buttons come from the actual input

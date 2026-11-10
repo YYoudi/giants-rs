@@ -29,9 +29,10 @@ model reference. Rejected branches retain the prior virtual header with activity
 cleared. These controls supply current globals, valid actor identities and resource
 memory; they do not replace downstream calls in the admitted Mecc branch.
 
-This is native prerequisite evidence, not a new Rust equivalence or runtime
-availability claim. The existing `State::prepare_from_session` still requires the
-enclosing owner to decide admission. Acquire camera startup/mode/override writers
+These full pre-world controls establish native prerequisite behavior, not whole
+virtual-header Rust equivalence or runtime availability. The lower-level
+`State::prepare_from_session` still requires an enclosing admission decision.
+Acquire camera startup/override writers
 and their world ordering, then connect actual owner selection and model preparation
 before passing a frame-bound `first_person::Display` to primary damage/fire.
 Keep reference-point status separate, preserve inactive transitions, and do not
@@ -39,6 +40,40 @@ substitute the presentation player's camera mode or prepared meshes for this
 pre-world result. Auxiliary-character preparation, full world traversal, drawing
 and visual fidelity remain open. Prototype PS2 lookups for newly examined routines
 remain unknown; no additional attribution is confirmed.
+
+### Shared mode commands and Session pre-world composition
+
+`camera_mode::State` now implements the acquired shared mode command and camera
+eligibility policy. It requires explicit initial words. Raw command `-1` follows
+the source's extended-mode policy and is not treated as a generic view toggle.
+Mode stores precede any eligible owner-scale write. The current profile is queried
+again before clearing the transition scalar and setting projection; its second
+result cannot be replaced by the first. Invalid commands retain mode/view but
+still execute that final profile/projection sequence. A provider failure retains
+completed stores and quarantines further mode commands and admission queries.
+Profile selection, actor-scale writes and actual projection remain required
+services; there is no silent backend.
+
+Across 1,280 controlled commands the full original mode entry and Rust agree on
+mode/view, transition bits, actor scale, profile-query count and projection value.
+Original profile/projection bodies are supplied boundaries; distinct consecutive
+profile results verify the second query. The separate 864 full native pre-world
+vectors also match Rust eligibility combined with their explicit model-presence
+inputs. This does not compare the complete virtual header in Rust.
+
+`mecc_subjective::State::prepare_from_camera` consumes this policy and actual
+Session camera-owner/controlled-actor identities. It executes the owned prepared
+resource copy or the known inactive transition, then returns the resulting
+`first_person::Display`. Missing or foreign identities, unprepared/mismatched
+resources, failed modes and invalid phases remain errors; missing preparation is
+not reclassified as inactivity. A silent installed-resource control covers six
+admission contexts and inactive-to-active re-entry through the real Session API.
+
+This removes the caller-supplied admission boolean at this composition entry, but
+the shared current camera words, startup/override lifecycle and world ordering
+still need producers in the application. The default mission driver is unchanged;
+its impact/display/fire bindings remain unadmitted. Ordinary native jet/descent/
+landing, complete subjective rendering and fidelity remain open.
 
 `mecc_camera_update::State` owns sequential ordinary-camera updates and its last
 completed output. It produces direct-angle first/third-person profiles, bounded

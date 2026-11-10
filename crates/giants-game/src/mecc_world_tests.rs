@@ -6,6 +6,80 @@ use crate::{
 };
 
 #[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; current camera admission with actual Session resources, no window or sound"]
+fn source_mecc_preworld_camera_prepares_or_retires_actual_display() {
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    let mut session = Session::new(821);
+    let source = actor(&mut session, &r, &g, &c, None, 0.);
+    for (mode, view, forced, profile, expected) in [
+        (0, 1, 0, 0, true),
+        (0, 1, 7, 1, false),
+        (0, 0, 0, 0, false),
+        (0, 0, 0, 1, true),
+        (2, 0, 0, 0, false),
+        (2, 0, 0, 255, true),
+    ] {
+        let mut state =
+            crate::mecc_subjective::State::for_session(&session, source, [[0; 9]; 4]).unwrap();
+        let modes = crate::camera_mode::State::new(mode, view, 0.75).unwrap();
+        let display = state
+            .prepare_from_camera(
+                1,
+                &session,
+                crate::mecc_subjective::PreWorldCamera {
+                    modes: &modes,
+                    forced,
+                    profile,
+                    controlled: Some(source),
+                    owner: source,
+                },
+                0,
+            )
+            .unwrap();
+        assert_eq!(display.owns(&source), expected);
+        assert_eq!(state.header().is_some(), expected);
+        assert_eq!(
+            state.phase(),
+            if expected {
+                crate::mecc_subjective::Phase::Prepared
+            } else {
+                crate::mecc_subjective::Phase::Finished
+            }
+        );
+        if !expected {
+            // Re-entry after a real inactive frame must prepare, rather than
+            // leaving a sticky inactive flag or consuming the next frame twice.
+            let admitted = crate::camera_mode::State::new(0, 1, 0.).unwrap();
+            assert!(
+                state
+                    .prepare_from_camera(
+                        2,
+                        &session,
+                        crate::mecc_subjective::PreWorldCamera {
+                            modes: &admitted,
+                            forced: 0,
+                            profile: 0,
+                            controlled: Some(source),
+                            owner: source,
+                        },
+                        0
+                    )
+                    .unwrap()
+                    .owns(&source)
+            );
+        }
+    }
+}
+
+#[test]
 #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; subjective ownership and failure lifecycle only, no window or sound"]
 fn source_mecc_subjective_publishes_before_fire_and_retains_late_failure() {
     use crate::mecc_subjective::{self as subjective, History, Post, State};

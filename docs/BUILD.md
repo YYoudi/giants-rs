@@ -160,9 +160,15 @@ target directory described above:
 cargo test --locked -p giants-game source_mecc_subjective_publishes_before_fire_and_retains_late_failure --target x86_64-pc-windows-gnu -- --ignored
 cargo test --locked -p giants-game source_mecc_deferred_primary_requires_post_and_retains_real_fire_failure --target x86_64-pc-windows-gnu -- --ignored
 cargo test --locked -p giants-game source_mecc_produced_camera_orders_post_fire_and_outer_publication --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-game source_mecc_preworld_camera_prepares_or_retires_actual_display --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-This silent CPU control checks the Session-bound subjective resource and shared
+The pre-world camera control uses the acquired shared mode policy, actual Session
+owner/class identities and prepared resources for admission, inactivity and
+re-entry. Current mode/force/profile words remain supplied; it does not establish
+their startup writers, native world ordering or application input integration.
+
+The other silent CPU controls check the Session-bound subjective resource and shared
 reference publication, retained effects after failure, inhibited fire and stale
 identities after cancellation. Its fire failures are explicit test providers;
 it executes no original program, real shot, whole-world scheduler or audio device.
@@ -508,7 +514,9 @@ service, creates the real child context, retains late failures, refuses recursiv
 and foreign calls, and checks clear/re-entry. Parent motion and time are supplied;
 no window, audio service, original executable or live world admission is created.
 Optional `GIANTS_FLICK_TIMED_PARENT_CONTROLS` selects the private retained
-original-PC preparation rows; positive and zero-delta variants are separate runs.
+parent/child rows; positive and zero-delta variants are separate runs. The control
+now checks detached canonical physical writes and affine invalidation/publication
+as well; velocity/history and initial detached ordinary preparation remain supplied.
 Keep those inputs and detailed receipts private. Passing is not film fidelity.
 
 ## Optional silent runtime lifecycle check
@@ -696,3 +704,14 @@ providers remain controlled inputs. No active effect, device or normal mission
 input is exercised. An optional `GIANTS_MECC_PRIMARY_RECEIPT` path writes a fresh
 private normalized-state receipt; it must stay outside tracked/public artifacts.
 See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md) for native comparison scope.
+
+For the separate pre-wrapper constructor/list comparison, supply the private
+`GIANTS_FLICK_TIMED_REGISTRATION_CONTROLS` and the same installed-data root:
+
+```powershell
+cargo test --locked --workspace native_timed_positioned_constructor_keeps_registration_order --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This replays eight controlled class-personality cases against actual constructor
+registration, including six that differ after wrapper stores. Installed files
+are unchanged; this check does not admit native stock or a live world actor.

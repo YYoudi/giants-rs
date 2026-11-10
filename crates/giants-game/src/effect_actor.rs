@@ -177,7 +177,7 @@ impl<K> Initial<K> {
         }))
     }
 }
-fn physical_data(seed: &Seed) -> Result<&[u8], String> {
+pub(crate) fn physical_data(seed: &Seed) -> Result<&[u8], String> {
     if seed.storage.profile() != Profile::Debug || seed.storage.state() != 78 {
         return Err("effect physical view requires acquired D state78".into());
     }

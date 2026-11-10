@@ -120,6 +120,23 @@ impl<K: Copy> Context<K> {
     }
 }
 impl Pool<crate::resident_states::Id> {
+    /// Consume the acquired positional retirement request into canonical Session
+    /// storage. Failed staging preserves the live context. This does not select
+    /// a world Session, allocate native stock or provide physical/terrain services.
+    pub fn activate_timed_positioned(
+        &mut self,
+        id: Id,
+        session: &mut crate::resident_states::Session,
+        resources: &crate::scene_resources::SceneResources,
+    ) -> Result<crate::resident_states::Id, String> {
+        let context = self
+            .get(id)
+            .ok_or("timed positioned context absent, foreign or retired")?;
+        let owned = crate::timed_effect_object::Timed::positioned(resources, id, context)?;
+        let actor = session.adopt_timed_positioned(owned)?;
+        self.release_prepared(id)?;
+        Ok(actor)
+    }
     /// Acquired smoke-only parent-reference cleanup. The dead bit invalidates
     /// the live reference and retains the context in ParentLost, including a
     /// request that has not constructed an emitter yet. No actor is marked or

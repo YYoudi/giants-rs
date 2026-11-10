@@ -85,11 +85,17 @@ subjective actor. Preserve these prerequisites when consuming the next Mecc lot.
 The 10 November native camera review adds 162 owner-selection prefix cases and
 864 full ordinary-Mecc pre-world admission cases (sixty active copies); see
 [OWNED_CAMERA.md](docs/OWNED_CAMERA.md). Reference-point status and actual display
-activity are separate. Before App binding, acquire startup/mode/override writers
+activity are separate. Before App binding, complete startup/mode/override lifecycles
 and world ordering, resolve the actual owner and model references, and preserve
 per-call inactive transitions. These native controls still supply current globals
-and resources; they do not establish Rust equivalence or normal gameplay admission.
-The current independently verified download is `preview-2026.11.10.1`; its snapshot and receipts
+and resources; they do not establish whole-header Rust equivalence or normal
+gameplay admission. The shared mode command and camera eligibility policy are now
+implemented in `camera_mode`, with 1,280 native/Rust command comparisons and the
+864 admission vectors. `State::prepare_from_camera` connects this policy to actual
+Session preparation/inactivity and returns the resulting display snapshot. Keep
+profile/scale/projection backends, camera startup/override producers and world
+ordering explicit before connecting App damage/fire; the default driver is unchanged.
+The current independently verified download is `preview-2026.11.10.2`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
 The 10 November integration review exercised the published `.13` menu, opening
@@ -1480,6 +1486,55 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Detached ordinary-finalization comparison now executes the original complete
+  parent/child preparation, retirement and cleanup against actual static terrain
+  from all sixteen inventoried worlds. Across 128 controlled cycles, the shared
+  Rust finalization/environment services match 1,152 finalizations, including
+  640 detached states, all 299,520 header/payload words and 902 ground queries.
+  Source grids retain their acquired prepared topology; dynamic ripples are
+  disabled. The initial native fixture lacked its numeric-table initialization;
+  executing the original initializer resolves the sloped-terrain discrepancy
+  without changing Rust or inventing terrain. The earlier missing-grid failure
+  is retained as historical evidence, superseded within this controlled scope.
+  Entry headers, physical payload/history, affine and the actual caller-slot word
+  remain supplied to the Rust finalizer. Mesh/platform population is explicitly
+  empty. This closes the static-terrain finalization comparison prerequisite,
+  not timed Session physical/header ownership, real mission population, world
+  scheduling or film admission. Next: bind the actual shared motion/header owner
+  and ordinary preparation continuation, then native stock/clock/RNG and rendering.
+  Virtual Flick supports keep their separate identity domain; no fake world slots.
+  No binary change or newly certified scene follows from this CPU evidence.
+
+- Detached timed actors now use the same Session registry and borrowed callback
+  as their attached parents. Actual context consumption is one-shot; the original
+  payload allocation, class resources, channels and reference cache remain owned.
+  Physical/retirement services remain required. A real matrix write refreshes the
+  derived affine cache, including before a later ANM error; partial physical work
+  without that write leaves the old cache stale and the callback quarantined.
+  Replayed retained controls match all 576 parent/child states /100,224 selected
+  words through Session: 256 actual parent preparation states and 320 detached
+  callbacks whose first ordinary preparation remains supplied. This adds a shared
+  owner/consumer, not new native world coverage. A separate original-PC comparison
+  checks eight constructor/list cases, six of which distinguish classification
+  before wrapper flag changes. Attached creation retains its explicit zero mask;
+  positional creation retains classification from pre-wrapper class fields. Later
+  flag changes do not relist the actor. Eight Rust replays match those memberships.
+  The supplied velocity/history/terrain fixture is not a physical world producer.
+  Next: real detached ordinary preparation/environment, physical/header ownership,
+  native pool/stock retirement and occupancy, dispatcher/model-rate/clock/RNG and
+  main-film rendering/admission. Caller Session selection remains explicit for
+  positional requests. No additional complete film is certified by this step.
+  Published preview-2026.11.10.2 pins this bounded owner at source `3a4d237`;
+  full receipt/checksums are in RELEASES.md and public-preview.json. Exact-build
+  checks pass 866 Rust tests (58 ignored), retained timed/impact controls,
+  23 persistent sources /50 released objects, silent cancellation/re-entry and
+  a muted manual first-opening natural end followed by second-entry double-click
+  skip and menu return. Partial Mecc entry is observed; full gameplay is not.
+  A fresh 545-source /16-world census retains 59 gaps, 56 general-FX refusals,
+  282 reviews and zero certified films. Aggregate diagnostics do not identify
+  every missing visual element. Actual virtual Flick supports must retain their
+  own identity domain; do not consume ordinary world slots to fabricate parents.
+
 - Attached timed actors now transfer into the existing Session registry: actual
   fields, inline payload, canonical channels and reference cache are borrowed by
   the same callback kernel as the staged owner. Source image, typed resources,
@@ -1494,8 +1549,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   states); these are reused controls, not new native coverage. Source checks also
   cover foreign-session refusal without context/RNG consumption, stale creation,
   payload allocation stability, pending-service refusal, clear and second entry.
-  Next: acquire/bind the detached Session constructor/list contract, actual
-  dispatcher rates/clock, environment and physical/stock retirement producers,
+  The later detached follow-up above closes the bounded constructor/list
+  consumer. Next: actual dispatcher rates/clock, environment and physical/stock retirement producers,
   then connect this owner to main-film admission and rendering. Parent support
   and time are still supplied. This source-only dependency does not change the
   published preview13, the full-corpus counts or zero certified complete scenes.
