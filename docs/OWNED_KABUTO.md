@@ -1802,3 +1802,48 @@ whole-primary or actual-keyboard control. Complete action/movement policy,
 intervening phase admission/order, world/lifetime/transport providers and live
 Kabuto initialization, movement, feeding and growth remain open. This source
 component establishes no new playable preview, capture or visual fidelity.
+
+## Locomotion and idle action selection
+
+`kabuto_action_select::advance` selects requests from the captured earlier
+behavior/activity/wrap and live queried fields. Lateral movement precedes
+longitudinal movement; blocking behavior cases enter the idle path. The selector
+preserves threshold branches, current/held slot choices, ordered sounds, every
+bounded draw including unused returns, and fresh button/relationship reads after
+callbacks. Definition slots come from required external data, without built-in
+catalog rows. Target class is read only on the branch that needs it.
+
+A notification word can occupy the earlier caller clock or a separate packet
+temporary. Both are retained, including packet writes made by a declared provider.
+Sound/transport effects and caller stores survive late errors. The three directed
+exits lead to held references, selection checking or shared selection; none is an
+unconditional animation commit. Negative and unchanged-slot gates and later
+selection/definition work still require their actual caller continuation.
+
+1,024 original-PC/Rust controls agree on 1,104,014 complete selected state/service
+words across all three exits. The original bounded PC draw and ownership predicate
+execute. Sound/transport use declared mutating entry providers; their bodies and
+outcomes are not acquired by this comparison. Earlier scratch/admission and
+queried finite rate/size/threshold data are supplied; unrelated words remain raw.
+The PC draw updates the provided PC context. Its OS TLS getter/initialization and
+any audio-DLL RNG relationship are not established; no live streams are merged.
+Prototype PS2 attribution remains unknown and detailed records stay private.
+
+`Factory::select_actions` binds this selector to the real resource checkpoint,
+actual model/buttons/payload values and typed current/held reference bank. It
+consumes the retained resource sample, publishes caller-scratch snapshots before
+services and retains the directed result. The packet argument is canonical while
+a callback runs; the Group holds its last published diagnostic snapshot. Owner
+invalidation stops publication without restoring a stale actor. Reentry/replay,
+foreign resources/checkpoints and missing data refuse. Required services supply
+the other relationship's presence, definition data, PC RNG ownership and actual
+sound/notification work; none has a successful default.
+
+512 independent source-owned contexts match a further 247,956 original-PC state/
+service words. Three installed controls reach the real preceding phases and test
+selection, notification aliases, late sound failure and removal. The error
+fixtures supply idle motion inputs before those phases rather than replacing the
+computed activity. Earlier reference/admission producers, the shared continuation,
+world lifetime and actual backend outcomes remain open. All four initializers and
+history remain pending; ordinary menu Kabuto, complete movement/jump, feeding,
+growth triggers, new captures/downloads and visual fidelity are not established.

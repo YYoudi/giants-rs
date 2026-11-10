@@ -14,6 +14,7 @@ mod delphi_camera;
 mod delphi_held;
 #[cfg(test)]
 mod delphi_proximity_tests;
+mod dependency_order;
 mod parent_binding;
 pub use parent_binding::AttachmentWords;
 #[cfg(test)]
@@ -31,7 +32,9 @@ mod vimp_history_tests;
 #[cfg(test)]
 mod vimp_newborn_tests;
 pub use timed_effect::{
-    PhysicalHeader as TimedEffectPhysicalHeader, Services as TimedEffectServices,
+    OrdinaryHeader as TimedEffectOrdinaryHeader, PhysicalHeader as TimedEffectPhysicalHeader,
+    Preparation as TimedEffectPreparation, PreparationServices as TimedEffectPreparationServices,
+    Services as TimedEffectServices,
 };
 
 struct OwnedSpecification(crate::actor_references::Owned);

@@ -55,6 +55,11 @@ pub struct Group {
     pub(crate) animation_commit_entered: Option<u64>,
     pub(crate) animation_commit_running: bool,
     pub(crate) animation_commit_completed: Option<u64>,
+    pub(crate) action_select_entered: Option<u64>,
+    pub(crate) action_select_running: bool,
+    pub(crate) action_select_completed: Option<u64>,
+    pub(crate) action_select_scratch: Option<crate::kabuto_action_select::Scratch>,
+    pub(crate) action_select_next: Option<crate::kabuto_action_select::Next>,
     pub(crate) contact: crate::kabuto_classification::Contact,
     pub declared_class: Arc<specification::Prepared>,
     pub geometry: Geometry,
@@ -107,6 +112,19 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    /// Locomotion/idle selector only. Earlier caller admission/scratch and the
+    /// directed shared/held continuations remain required; no frame is completed.
+    pub fn select_actions(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        scratch: &mut crate::kabuto_action_select::Scratch,
+        world: &mut impl crate::kabuto_action_select::Services,
+    ) -> Result<crate::kabuto_action_select::Next, String> {
+        session.select_kabuto_actions(owner, &self.resources, number, scratch, world)
+    }
+
     /// Commit an already selected action/animation at its owning resource
     /// checkpoint. Selection policy and intervening primary order remain required.
     pub fn commit_animation_selection(
@@ -532,6 +550,11 @@ impl Factory {
             animation_commit_entered: None,
             animation_commit_running: false,
             animation_commit_completed: None,
+            action_select_entered: None,
+            action_select_running: false,
+            action_select_completed: None,
+            action_select_scratch: None,
+            action_select_next: None,
             contact: Default::default(),
             declared_class: self.resources.specification.clone(),
             geometry,

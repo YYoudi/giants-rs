@@ -502,6 +502,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   RNG. Profile mismatch, counter persistence, late-error quarantine, clear and
   re-entry pass. Clock/flat ground/commands, metadata and a recorded sound-stop
   request sink are supplied; this does not stop voices or admit live interactions.
+- Implemented: the shared post-primary dependency-order pass uses actual typed
+  attachment parents or state-62 copy owners and retains registration identities,
+  reverse memberships and other lists. All 1,024 original-PC/Rust supplied graph
+  controls match object/registration order, including duplicate registrations and
+  parents outside list0. Budget/provider failures retain moves; Session traversal
+  is quarantined until clear. An actual cold Delphi group with deliberately
+  permuted registrations checks ownership, cleanup and reconstruction.
+  Native-only four-tick whole-cohort tracing observes held placement after the
+  primary/secondary/ANM pass. Wire this phase around the actual startup and
+  per-frame cache producers; do not reuse constructor-zero or previous-phase
+  caches as current evaluated poses. Full world scheduling and target/readiness
+  publication remain unbound. See docs/OWNED_DELPHI.md.
 - Native-only full-primary diagnosis now completes 256 whole original bodies
   after the retained initialization/generic entry with declared world/view and
   projection/OS/TLS boundaries. Its same-input trajectory differs from the old
@@ -534,6 +546,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   integration exists. Resource loading alone must not change completion status.
 
 ### Kabuto next steps
+
+- Implemented: the locomotion/idle selector preserves lateral-before-longitudinal
+  priority, captured earlier behavior/activity/wrap, lazy target-class access,
+  required definition data, every PC bounded draw and ordered start/stop requests.
+  Its notification word can alias the retained clock or a separate temporary;
+  completed packet/world writes survive late errors. 1,024 original-PC/Rust
+  controls match 1,104,014 words. The Factory/Session adapter independently matches
+  512 source-owned contexts / 247,956 words, with actual fields/reference bank,
+  external definitions and required declared RNG/sound/network providers. Three
+  installed controls cover success, late sound refusal and owner removal.
+  The caller supplies earlier scratch/admission; other-relationship presence,
+  live RNG/TLS ownership and real sound/transport outcomes remain prerequisites.
+  Next: acquire shared selection/definition continuations and their negative or
+  unchanged-slot exits before connecting this result to animation commit. Do not
+  send every resource completion through held references or commit an animation
+  unconditionally. No primary/history/initializer or gameplay admission follows.
 
 - Implemented and compared: an already selected animation now commits through
   the real Session channels, shared setter and zero-second ANM/reference/epoch
@@ -1664,6 +1692,45 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Preserve actual source-end/owned-voice-drain observations across transport
+  cleanup. The replay observer previously could miss a sink becoming empty
+  between its read and the normal retirement consumer, then wait in free
+  inspection after the movie was removed. The transport now retains the
+  ticket-bound terminal fact before releasing its camera/audio resources.
+  A new attempt clears the prior fact; unrelated tickets cannot consume it;
+  cancellation without observed source completion produces no fact. This is
+  a lifecycle observation, not a synthesized Ready event or timing adjustment.
+  Published .6 passes two actual offscreen terminal/re-entry cycles: both facts
+  precede cleanup and their consumers run afterwards; cancellation fabricates none.
+  Native timing and full film/gameplay fidelity remain open.
+
+- Published preview .6 pins source `14d1ebf` (full identities in RELEASES.md),
+  with reproducible MinGW build, complete notices, verified three-asset download
+  and ten package members. Its exact runtime passes silent development, three
+  persistent cancellations and two terminal/re-entry voice/text cleanup cycles.
+  Fresh .6 census: 545 sources /16 worlds /0 preparation errors /59 gaps /56
+  general-queue refusals /282 reviews /0 certified films. Visual/native timing
+  coverage and manual .5 observations are not inherited. Later Delphi proximity and dependency-order
+  source work remains outside this frozen executable.
+
+- Canonical detached timed preparation now binds callback, shared finalization,
+  environment and the unparented attachment tail to the existing Session actor.
+  Floor, contact plane, velocity/history, model-rate history, hit/support and the
+  inline physical flags/force projection retain one owner. Actual affine writes
+  follow finalization; a late environment failure preserves completed contact
+  state, leaves the old affine stale and quarantines further calls.
+  Retained original-PC controls cover 128 parent/child cycles across sixteen
+  actual static source terrains: 1,152 states /226,944 selected words and 902
+  ground queries match without injecting per-step native entry state. Support,
+  clocks, the acquired physical caller word and empty mesh/platform populations
+  remain supplied. A late platform-error control retains physical contact and
+  refuses replay. This is a Session dependency, not admission of more films.
+  Next: actual mission geometry/populations, stock/occupancy and scheduling,
+  clock/RNG producers, physical caller semantics beyond the supplied boundary,
+  virtual Flick support lifetime/domain bridge and timed main-film rendering.
+  Lower-level unreturned mutations remain open. No terrain, time, support or
+  native pointer is invented; prototype PS2 attribution stays unknown.
+
 - Source-only ordinary-environment prerequisite: shared finalization retains
   completed environment stages on later provider errors, including physical
   contact fields, inline-physics projection and completed-stage counters. A
@@ -1674,9 +1741,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   require their own continuations; this change does not acquire those contracts.
   The sixteen-terrain comparison remains unchanged: 1,152 states /299,520 words
   and 902 queries, with native entry data and empty mesh/platform populations
-  supplied. Timed ordinary preparation/header binding and main-film admission
-  remain next. This prerequisite is not in published preview .4 and adds no
-  certified scenes or visual coverage. Prototype PS2 attribution stays unknown.
+  supplied. The canonical timed preparation/header binding is now implemented as above;
+  actual world providers and main-film admission remain open. Preview .6 includes
+  this prerequisite, adding no certified scenes or visual coverage. Prototype PS2
+  attribution stays unknown.
 
 - Timed Session actors now own their physical velocity/history header alongside
   the actual inline physical payload. The shared force integrator consumes an
@@ -1690,11 +1758,11 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   an additional 3,456 native velocity/history words and 768 intermediate phase
   samples /44,544 words exercise the new ownership and service order. These are
   bounded state78 parent/child controls, not additional scenes or complete physics.
-  Dynamic headers begin from acquired ordinary allocation; no environment/contact
-  producer or successful terrain fallback is installed. The previous sixteen-grid
-  finalization proof below is retained. Next: connect its real environment/header
-  updates and ordinary preparation continuation, then stock/occupancy, native
-  dispatcher/model-rate/clock/RNG and main-film rendering/admission. Clock equality
+  Dynamic headers begin from acquired ordinary allocation. The sixteen-grid
+  comparison now also reaches their owned environment/header updates through
+  ordinary preparation as above. Actual mission populations, stock/occupancy,
+  dispatcher/model-rate/clock/RNG producers and main-film rendering/admission
+  remain open. No successful terrain fallback is fabricated. Clock equality
   in a supplied fixture does not establish a shared live clock.
   Published preview-2026.11.10.4 pins the owned header at source `ffb2f60`;
   RELEASES.md/public-preview.json retain its full receipt/checksum identities.
@@ -1720,9 +1788,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Entry headers, physical payload/history, affine and the actual caller-slot word
   remain supplied to the Rust finalizer. Mesh/platform population is explicitly
   empty. This closes the static-terrain finalization comparison prerequisite,
-  not timed Session physical/header ownership, real mission population, world
-  scheduling or film admission. Next: bind the actual shared motion/header owner
-  and ordinary preparation continuation, then native stock/clock/RNG and rendering.
+  not real mission population, world scheduling or film admission. The subsequent
+  owned motion/header and ordinary preparation continuations are implemented
+  above. Native stock/clock/RNG and actual film rendering/admission remain next.
   Virtual Flick supports keep their separate identity domain; no fake world slots.
   No binary change or newly certified scene follows from this CPU evidence.
 
@@ -1741,8 +1809,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   positional creation retains classification from pre-wrapper class fields. Later
   flag changes do not relist the actor. Eight Rust replays match those memberships.
   The supplied velocity/history/terrain fixture is not a physical world producer.
-  Next: real detached ordinary preparation/environment, physical/header ownership,
-  native pool/stock retirement and occupancy, dispatcher/model-rate/clock/RNG and
+  The owned static detached preparation/environment and physical/header are now
+  implemented above. Next: actual mission geometry/populations, native pool/stock
+  retirement and occupancy, dispatcher/model-rate/clock/RNG and
   main-film rendering/admission. Caller Session selection remains explicit for
   positional requests. No additional complete film is certified by this step.
   Published preview-2026.11.10.2 pins this bounded owner at source `3a4d237`;
@@ -1787,9 +1856,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   This profile requires a real parent, physical storage, stationary-relative
   history and acquired no-sleep dispatcher inputs; unexpected footprint or
   environment work refuses. It reuses actor_finalization rather than a second
-  cinematic physics implementation. Full detached preparation reaches an absent
-  terrain service in the controlled native fixture; preserve that failure and
-  acquire/bind actual environment inputs. Dispatcher model rates/clock producers,
+  cinematic physics implementation. The earlier detached fixture stopped at a
+  missing terrain service; the sixteen-world controls and owned continuation
+  above supersede that failure within their declared static profile. Actual
+  dynamic terrain/populations, dispatcher model rates/clock producers,
   ordinary stock/world admission and scene fidelity remain open. Canonical
   attached Session transfer is now covered by the source follow-up above. The last full inventory and zero certified scenes are unchanged.
 
@@ -1807,8 +1877,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   preserves partial physical/age writes and quarantines late failures without
   replay. The common first-entry helper is reused by existing main cinematic
   attached effects and owned positional impacts. The new timed owner itself is
-  not yet admitted by the main film. Next: bind actual ordinary preparation,
-  physical/retirement/context/stock owners and world RNG/cadence. All 545-source
+  not yet admitted by the main film. Its owned ordinary preparation and physical
+  header are now integrated above. Next: actual world geometry/populations,
+  retirement/context/stock producers, support lifetimes and world RNG/cadence. All 545-source
   inventory totals and zero certified scenes remain unchanged; prototype PS2
   counterparts remain unknown.
 
@@ -2180,6 +2251,8 @@ active-effect cancellation and source-terminal/re-entry checks pass; all three
 downloaded assets and ten ZIP members are independently verified. Exact hashes
 and validation scopes are in `docs/RELEASES.md` and `docs/public-preview.json`.
 The 545-source census still has zero complete scenes verified. The later source
-checkpoint transfers attached state into Session. Next: actual dispatcher rates/clock, detached environment,
-stock/retirement providers and world scheduling before timed-film admission.
+checkpoint transfers attached state into Session. The newer owned motion/header
+and static detached ordinary preparation are implemented above. Actual dispatcher
+rates/clock, dynamic mission populations, stock/retirement providers, virtual
+support lifetimes and world scheduling remain before timed-film admission.
 Manual input and complete visual/audio/temporal comparisons remain pending.
