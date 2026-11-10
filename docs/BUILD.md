@@ -44,6 +44,13 @@ coefficient tables, publish projection or complete activation.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
+`cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
+runs three owned-phase controls: publication/physical consumption and later
+activation refusal, retained prefix/cancellation, and real proxy construction
+with typed reference protection. Geometry/linked results and sound-request sinks
+are controlled test providers. This does not validate a complete ordinary turn.
+
 With `GIANTS_FLICK_ROOT` and `GIANTS_FLICK_PERSISTENT_COHORT` (private, headerless
 world/sequence TSV), run `cargo test --locked --workspace source_constant_cohort_moves_actual_body --target x86_64-pc-windows-gnu -- --ignored`.
 This silent control checks actual constant-effect storage transfer to Session,
@@ -953,6 +960,21 @@ and boost at 32; endpoints are exclusive and must fit the frame limit.
 Set `GIANTS_AUDIO_MUTE=1` for the zero-PCM device control. The baseline 512-frame
 profile passes. Prolonged thrust/boost still reaches an unbound impact provider;
 these knobs describe supplied diagnostic inputs, not new gameplay options.
+
+## Combined graphical owned-inspection acceptance — preview .8
+
+The receipt-bound .8 executable also runs the internal
+`owned-player-inspection-cycles` replay through three 128-frame GPU cycles with
+actual cleanup. The explicit owned backend and supplied replay commands remain
+diagnostic inputs. A separate `owned-player-inspection` run with the reserved
+backend exercises jet lift/fuel through 128 frames and captures active thrust at
+supported step 36. Real `--muted-transport` installs the audio plugin at zero
+master volume and requires the existing offscreen/silent/menu and
+`GIANTS_AUDIO_MUTE=1` guards. Device-free silent capture still rejects reserved
+owned audio. Use fresh private profiles/capture paths and await the GUI-subsystem
+child as described above. These checks do not certify manual input, ordinary
+world admission, native clocks or visual/audio fidelity. The render consumer
+accepts a genuinely missing held pose during draw; stale present poses still fail.
 
 
 With the same explicit Kabuto root/executable, `source_kabuto_primary_tail_`

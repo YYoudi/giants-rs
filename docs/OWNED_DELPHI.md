@@ -4,6 +4,37 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Owned pre-physical target phase - 10 November 2026
+
+`Session::advance_delphi_local_target` now captures the actual actor's scalar
+fields and typed target slots, executes the caller kernel over required
+Session-borrowing providers, and publishes its retained point/control/readiness
+state. The frozen `Resources::with_local_target_phase()` profile requires this
+producer before even its first physical frame. The next physical frame consumes
+the prepared phase once. Repeated,
+skipped, running or failed phases are refused. Linked consumers remain unbound;
+the existing dry component refuses those relationships before motion rather
+than dropping them. Other actors' typed targets and actual constructed proxies
+are protected by the shared incoming-reference query, including partial outputs
+after a failure. Native pointer fields remain zero; Session identities are never
+encoded into those bytes.
+
+Installed-data controls cover publication followed by physical consumption,
+stale/replayed frame refusal, retained cooldown/terrain writes, real proxy
+construction after a late linked-provider error, reference protection, mission
+cancellation and reconstruction without restoring retired owners. Geometry and
+linked decisions are explicit test providers, with a recorded sound-request
+sink; these are ownership/component controls, not normal perception or audio.
+
+A separate 256-turn original-primary trace identifies all sixteen movement
+activation calls in the item phase, after physical processing. The no-readiness
+call returns without activation. The owned component now reaches the required
+movement-action refusal after retaining the actual physical frame, rather than
+claiming activation occurred before that frame. Complete activation/active
+physics, real geometry/camera/item providers and the ordinary primary/world
+schedule remain required before menu admission. Existing completed-frame query
+guards and the public preview remain unchanged.
+
 ## Local target and readiness caller - 10 November 2026
 
 `delphi_local_target::advance` implements the local primary caller's state
@@ -35,13 +66,13 @@ retain the corresponding original caller prefix; separate tests preserve
 partial terrain, linked and item-target writes. This is host error retention,
 not native exception/fault equivalence.
 
-The kernel is not yet bound to the Session's actual pre-physical frame, geometry,
-camera, item/proxy lifetime or callback schedule. The earlier completed-frame
-query APIs keep their guards. Binding those real producers, preserving typed
-target references through retirement, and composing active targeted physics
+The owned pre-physical publication above now binds this kernel's scalar state,
+frame identity and typed references. Real geometry/camera/item providers, wider
+linked consumers, active targeted physics and the ordinary callback schedule
 remain required before comparing full primary/world turns or enabling Delphi
-from the menu. No new prototype PS2 attribution is confirmed. The public preview
-and live Delphi availability remain unchanged.
+from the menu. The earlier completed-frame query APIs keep their guards. No new
+prototype PS2 attribution is confirmed. The public preview and live Delphi
+availability remain unchanged.
 
 ## Shared dependency order and attachment phase - 10 November 2026
 
