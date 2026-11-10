@@ -34,6 +34,8 @@ mod timed_effect;
 #[cfg(test)]
 mod vimp_history_tests;
 #[cfg(test)]
+mod vimp_locomotion_animation_tests;
+#[cfg(test)]
 mod vimp_newborn_tests;
 mod vimp_response;
 #[cfg(test)]
