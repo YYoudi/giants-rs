@@ -33,9 +33,13 @@ mod vimp_history_tests;
 #[cfg(test)]
 mod vimp_newborn_tests;
 mod vimp_threat;
+mod vimp_vector;
+#[cfg(test)]
+mod vimp_vector_tests;
 pub use timed_effect::{
     PhysicalHeader as TimedEffectPhysicalHeader, Services as TimedEffectServices,
 };
+pub use vimp_vector::{Request as VimpVectorRequest, Services as VimpVectorServices};
 
 struct OwnedSpecification(crate::actor_references::Owned);
 impl std::fmt::Debug for OwnedSpecification {
@@ -331,6 +335,8 @@ pub struct Resident {
     vimp_scalar_steps: [u64; 2],
     vimp_recovery_primaries: u64,
     vimp_threat_steps: u64,
+    vimp_vector_steps: u64,
+    vimp_vector_running: bool,
     vimp_threat_failure: Option<String>,
     vimp_death_proxy: Option<crate::vimp_death_proxy::Proxy>,
     pub class: i32,
@@ -571,6 +577,8 @@ impl Session {
                 vimp_physical: None,
                 herd_frame: None,
                 vimp_threat_steps: 0,
+                vimp_vector_steps: 0,
+                vimp_vector_running: false,
                 vimp_threat_failure: None,
                 vimp_frames: 0,
                 vimp_prepared_history: None,

@@ -14,9 +14,36 @@ pub struct Route<K> {
     pub position: [f32; 3],
     pub markers: Vec<Option<Marker>>,
 }
+/// Only the actor fields consumed or written by this helper. Unrelated response
+/// links and physical fields remain with their actual Session owners.
+#[derive(Clone, Copy, Debug)]
+pub struct Actor {
+    pub owner_word: u32,
+    pub position: [f32; 3],
+    pub forward: [f32; 3],
+    pub binding_flags: u32,
+    pub mode: u32,
+    pub response_kind: u32,
+    pub response_active: u32,
+    pub response_stage: u32,
+}
+impl<K> From<&vimp_response::State<K>> for Actor {
+    fn from(s: &vimp_response::State<K>) -> Self {
+        Self {
+            owner_word: s.owner_word,
+            position: s.position,
+            forward: s.forward,
+            binding_flags: s.binding_flags,
+            mode: s.mode,
+            response_kind: s.response_kind,
+            response_active: s.response_active,
+            response_stage: s.response_stage,
+        }
+    }
+}
 #[derive(Clone, Debug)]
 pub struct State<K> {
-    pub actor: vimp_response::State<K>,
+    pub actor: Actor,
     pub parent: Option<K>,
     pub heading: f32,
     pub selected_heading: f32,
@@ -44,6 +71,7 @@ pub trait Services<K> {
     fn session(
         &mut self,
         state: &State<K>,
+        route: Option<&Route<K>>,
         query: vimp_response::Predicate,
     ) -> Result<actor_session_predicates::Snapshot<'_>, String>;
     /// Must publish the current prefix and resolve the actual hint actor,
@@ -58,10 +86,11 @@ pub trait Services<K> {
 }
 fn predicate<K>(
     s: &State<K>,
+    route: Option<&Route<K>>,
     services: &mut impl Services<K>,
     query: vimp_response::Predicate,
 ) -> Result<bool, String> {
-    let snapshot = services.session(s, query)?;
+    let snapshot = services.session(s, route, query)?;
     match query {
         vimp_response::Predicate::First => {
             actor_session_predicates::first(&snapshot, s.actor.owner_word)
@@ -139,7 +168,12 @@ pub fn retarget<K: Copy + Eq>(
         finite(position)?;
         state.wander_target[i] = (f64::from(position) + f64::from(state.offsets[i])) as f32;
     }
-    if predicate(state, services, vimp_response::Predicate::Second)? {
+    if predicate(
+        state,
+        Some(route),
+        services,
+        vimp_response::Predicate::Second,
+    )? {
         for coordinate in &mut state.actor.position[..2] {
             finite(*coordinate)?;
             *coordinate = coordinate.clamp(-8000., 8000.);
@@ -175,7 +209,12 @@ pub fn advance<K: Copy + Eq>(
     random: &mut Random,
     services: &mut impl Services<K>,
 ) -> Result<(), String> {
-    if predicate(state, services, vimp_response::Predicate::First)? {
+    if predicate(
+        state,
+        route.as_deref(),
+        services,
+        vimp_response::Predicate::First,
+    )? {
         let route = route.ok_or("Vimp vector route owner absent")?;
         if state.parent != Some(route.owner) {
             return Err("Vimp vector route owner mismatch".into());
@@ -218,7 +257,12 @@ pub fn advance<K: Copy + Eq>(
         if let Some(hint) = state.hint {
             services.hint(state, route, hint)?;
         }
-        if predicate(state, services, vimp_response::Predicate::Second)? {
+        if predicate(
+            state,
+            Some(route),
+            services,
+            vimp_response::Predicate::Second,
+        )? {
             services.action(state, route, Action::Heading(state.selected_heading))?;
         }
     } else {
@@ -245,6 +289,7 @@ mod tests {
         fn session(
             &mut self,
             _: &State<u32>,
+            _: Option<&Route<u32>>,
             _: vimp_response::Predicate,
         ) -> Result<actor_session_predicates::Snapshot<'_>, String> {
             Ok(actor_session_predicates::Snapshot {
@@ -265,7 +310,7 @@ mod tests {
                 s.hint = None;
             }
             if self.fail {
-                s.actor.flags = 123;
+                s.actor.owner_word = 123;
                 r.position[2] = 42.;
                 return Err("hint failed after writes".into());
             }
@@ -277,29 +322,17 @@ mod tests {
             _: &mut Route<u32>,
             _: Action,
         ) -> Result<(), String> {
-            s.actor.flags = 456;
+            s.actor.owner_word = 456;
             Err("action unbound".into())
         }
     }
     fn fixture() -> (State<u32>, Route<u32>, Provider) {
-        let actor = vimp_response::State {
+        let actor = Actor {
             owner_word: 0,
             position: [0.; 3],
             forward: [1., 0., 0.],
-            physical_flags: 0,
-            channel_flags: 2,
-            priority: 0,
-            flags: 0,
             binding_flags: 0,
-            remaining_signal: 0.,
-            signal_origin: [0.; 3],
-            linked_seconds: 0.,
-            linked: None,
-            target: None,
-            target_position: [0.; 3],
-            backwards: 0,
             mode: 7,
-            delay: 0.,
             response_kind: 123,
             response_active: 234,
             response_stage: 345,
@@ -413,7 +446,7 @@ mod tests {
         let mut rng = Random(1);
         assert!(run(&mut s, Some(&mut r), &mut rng, &mut p).is_err());
         assert_eq!(p.hints, [2]);
-        assert_eq!(s.actor.flags, 123);
+        assert_eq!(s.actor.owner_word, 123);
         assert_eq!(r.position[2], 42.);
         assert_eq!(
             (s.actor.mode, s.actor.response_kind, s.actor.response_stage),
@@ -432,7 +465,7 @@ mod tests {
         let (mut s, mut r, mut p) = fixture();
         p.mode = 4;
         assert!(run(&mut s, Some(&mut r), &mut Random(1), &mut p).is_err());
-        assert_eq!(s.actor.flags, 456);
+        assert_eq!(s.actor.owner_word, 456);
         assert_eq!(s.actor.mode, 7);
         assert_eq!(s.actor.response_kind, 123);
     }

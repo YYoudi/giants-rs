@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Owned Vimp vector publication - 10 November 2026, source only
+
+The isolated vector entry now uses actual Session child/parent/marker ownership.
+It publishes actor and route prefixes before predicates/actions, rereads callback
+changes after success or error, quarantines failed survivors and refuses replay
+or stale/foreign owners. Actual Session cancellation does not restore dropped
+actors or resources. The standalone projection no longer needs unrelated physical
+or response-link fields.
+
+Six installed-data Rust controls cover a fourteen-child cohort, route visibility,
+callback heading/parent/payload changes, late action failure, injected individual
+owner loss, Session cancellation and entry guards. Session snapshots, affine
+entry phase, origin and RNG phase remain supplied. The retained 676-context native
+helper comparison passes after the interface change; it is not a native comparison
+of the new Session composition. Live session/linked/hint owners, action transport,
+response composition, mode7, sound/ANM and caller/world scheduling remain open.
+No ordinary gameplay or new preview is advertised. Prototype PS2 attribution
+remains unknown. See [OWNED_NPCS.md](OWNED_NPCS.md).
+
 ## Vimp vector and route response - 10 November 2026, source only
 
 The NPC lane adds bounded vector/marker retargeting with explicit hint and action

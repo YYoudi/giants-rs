@@ -165,7 +165,13 @@ cargo test --locked -p giants-game source_vimp_world_history --target x86_64-pc-
 cargo test --locked -p giants-game source_vimp_newborn --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_herd_frame --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_vimp_threat --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_vector --target x86_64-pc-windows-gnu -- --ignored --nocapture
 ```
+
+The vector command checks isolated owned route publication, callback rereads,
+late-error quarantine and cancellation against source actors. Session snapshots,
+affine entry, origin and RNG phase are supplied. It adds no ordinary primary,
+world schedule, live action transport, hint ownership or rendered coverage.
 
 This silent CPU check uses authored herd/marker values with a supplied flat
 floor, clock and RNG. It covers births, first initialization, owner identity,

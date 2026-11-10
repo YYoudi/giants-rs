@@ -88,9 +88,14 @@ The dedicated NPC lane resumes existing work; see
   75 vector boundaries and 22 action boundaries. The latter are prefix evidence,
   not completed services. Session predicates match 2,840 contexts /5,680 words.
   Vector/route controls now match 676 contexts /22,308 words (393 returns,
-  248 required-action and 35 hint/terrain boundaries). Next bind this service to
-  actual route ownership and acquire the required action and hint bodies, live
-  session snapshot and linked ownership, current inline physical-flag binding,
+  248 required-action and 35 hint/terrain boundaries). An isolated Session adapter now
+  publishes actual child/parent/route prefixes and rereads callback changes, with
+  failure quarantine and cancellation checks. Six installed controls cover a
+  fourteen-child cohort plus callback/failure/owner boundaries. Session snapshot,
+  affine entry phase, origin and RNG phase remain supplied. Next compose response
+  dispatch with this owned vector entry at its actual caller point; acquire the
+  required action and hint bodies, live session snapshot and linked ownership,
+  current inline physical-flag binding,
   mode7 continuation, required
   sound/animation and exact primary call timing; bind world-noise production.
   The Session adapter must publish prefixes before provider callbacks, preserve

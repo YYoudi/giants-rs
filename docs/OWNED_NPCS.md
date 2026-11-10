@@ -11,7 +11,7 @@ Mecc, Delphi and Kabuto lanes, and cinematic direction remains in the Flick lane
 | Family | Existing Rust services | Established boundary | Missing ordinary gameplay connection |
 | --- | --- | --- | --- |
 | Herd population | `herd_generator`, `herd_markers`, `declared_residents` | Source herd/marker construction, authored properties, ordered marker allocation, offline clock and Vimp births | Mission scheduler, native live clock/RNG ownership, complete population and retirement |
-| Living Vimps | `vimp_actor`, `vimp_wander`, `vimp_physical`, `vimp_animation`, `vimp_frame`, `vimp_threat`, `vimp_response`, `vimp_vector_response` | Owned birth/initialization/growth and admitted ordinary wander/physical/ANM composition; isolated threat consideration and required-provider response dispatch | Required hint/action bodies and actual input ownership, feeding, full-world order, live render and audio ownership |
+| Living Vimps | `vimp_actor`, `vimp_wander`, `vimp_physical`, `vimp_animation`, `vimp_frame`, `vimp_threat`, `vimp_response`, `vimp_vector_response` | Owned birth/initialization/growth and admitted ordinary wander/physical/ANM composition; isolated threat consideration and required-provider response dispatch | Required hint/action bodies and live session/caller ownership, feeding, full-world order, live render and audio ownership |
 | Vimp injury and remains | `vimp_damage`, `vimp_hurt`, `vimp_recovery`, `vimp_living_scalars`, `vimp_chunks`, `vimp_death_proxy` | Bounded damage, hurt/recovery and owned chunk/proxy services | Actual player hit dispatch, active effects/sounds, collection/economy and complete death cleanup |
 | Rippers | `ripper_perception`, `ripper_steering`, `ripper_pursuit`, `ripper_primary_turn`, `ripper_attack`, `ripper_awakening`, `ripper_emergence`, `ripper_turn_completion`, `ripper_ground`, `ripper_dirt` | Ordered target selection, supplied-view behavior kernels and persistent Session adapters for acquired branches | Complete actor/world primary scheduling, required firing/effect/audio providers, remaining modes and ordinary mission admission |
 | Shared enemy response | `state23_entry`, `state23_damage`, `state23_hurt`, `state23_animation`, `enemy_projectile`, `enemy_ballistic`, `enemy_flight` | Acquired state23 entry/damage/animation, enemy projectile birth/launch and isolated ordinary flight arithmetic | Complete enemy projectile world/contact/damage composition and all enemy classes/bosses |
@@ -129,13 +129,52 @@ These are bounded helper controls, not a complete response-primary comparison.
 Required hint and action providers receive mutable projections; late callback
 writes and errors survive, optional hint identity is reread after retarget, and
 the common response tail is reached only after successful required providers.
-The adapter still must publish each prefix into Session, retain callback changes,
-resolve current owners and quarantine failed frames. There is no automatic world
-admission or replay protection in this standalone kernel. Five Rust controls
-check route wrap/selection, exact angles, predicate skips, RNG phase, hint identity
-rereads and late failure retention. Complete action transport, hint terrain/affine
-work, live session/linked ownership, mode7 and exact primary scheduling remain
-open. This source-only dependency adds no normal gameplay availability or capture.
+The isolated owned adapter below now publishes each prefix into Session and
+rereads callbacks. The standalone kernel itself owns no replay guard. Five Rust
+controls check route wrap/selection, exact angles, predicate skips, RNG phase,
+hint identity rereads and late failure retention. Complete action transport,
+hint terrain/affine work, live session/linked ownership, mode7 and exact primary
+scheduling remain open. This source-only dependency adds no normal gameplay
+availability or capture.
+
+## Owned vector route publication - 10 November 2026
+
+`Session::advance_vimp_vector_offline` binds the vector helper to an initialized
+source herd child, its real parent and ordered owned marker table. Actor UID,
+position, heading, current affine columns, source marker radii, payload counters,
+retarget offsets and response fields come from their actual owners. The vector
+projection now contains only the fields it consumes/writes; unrelated response
+links and physical flags remain in their owned payload rather than needing
+fabricated values. Entry requires an explicitly prepared current affine, no
+pending history/physical/ANM/world phase and a fresh invocation number.
+
+Every predicate sees preceding actor and route writes in Session. Required action
+callbacks receive the current owned actors. After their return, including an
+error, the adapter rereads actor fields, offsets, mode, response payload and route.
+It preserves callback changes and refuses lost/mismatched owners without restoring
+a stale projection. A successful common tail may still overwrite fields at the
+native later point. Failed invocations quarantine the surviving actor; replay and
+reentry refuse. A Session cancellation never recreates dropped actors/resources.
+These counters count isolated helper invocations, not completed primary frames.
+
+Six installed-data Rust controls cover a fourteen-child source cohort, route
+publication before the predicate, changed heading/route and unrelated payload
+writes, required-action errors, injected individual owner loss, actual Session
+cancellation, foreign/reentrant/stale-affine refusals and unsupported hint state.
+The native 676-context helper comparison also remains passing after the projection
+and predicate-interface changes. This is not a new native comparison of the
+Session composition. Test session snapshots, affine entry phase, origin and RNG
+phase are supplied; callback changes/failures are declared control scenarios.
+The original child UID is retained, including its low-byte signed-count fallback
+in the supplied action-admitting snapshot. No live session producer is inferred.
+
+Nonzero hint state refuses before invocation until its actual typed owner and
+terrain/affine producer exist. Required action execution has no successful default.
+The stricter owned-entry preflight requires the available route/affine even for a
+predicate-skipped helper; it is not a native equivalence claim for missing owners.
+The ordinary primary's threat/response refusals remain. Next bind response dispatch
+and caller phase, acquire required hint/action/ANM/audio and mode7, and establish
+actual session/global/world scheduling before normal gameplay admission.
 
 The PC SHA256 is
 `690bad39847b0f578163e547e6a6de10ffe9213635a069bd1ce96a75dfd39ead`;
