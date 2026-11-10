@@ -2769,7 +2769,8 @@ mod tests {
         let mut boosted = false;
         let mut minimum_fuel = 100f32;
         let mut released = false;
-        for number in 1..=720 {
+        let mut descent = false;
+        for number in 1..=1600 {
             viewer.mission_look(Vec2::new(0.0001, 0.), false);
             let frame = viewer
                 .step(
@@ -2780,7 +2781,7 @@ mod tests {
                         Vec2::ZERO
                     },
                     &asset.terrain,
-                    (16..180).contains(&number),
+                    (16..420).contains(&number),
                     number == 32,
                 )
                 .unwrap();
@@ -2800,12 +2801,13 @@ mod tests {
                 boosted |= frame.pose.class == 781 && !frame.pose.hidden;
             }
             minimum_fuel = minimum_fuel.min(viewer.mission_snapshot().1);
-            if number > 360 {
+            descent |= viewer.mission_snapshot().2 == 41;
+            if number > 720 {
                 released |= frames.iter().all(|frame| frame.pose.hidden);
             }
             viewer.sample_pose().unwrap();
         }
-        assert!(visible && boosted && released && minimum_fuel < 99.);
+        assert!(visible && boosted && released && descent && minimum_fuel < 99.);
         let session = &runtime.active.as_ref().unwrap().resident_states;
         assert_eq!(
             constructor_channels,
@@ -2817,7 +2819,7 @@ mod tests {
         assert!(runtime.controlled_jet_session(998).is_err());
         assert!(world.get_entity(scene_root).is_err());
         println!(
-            "normal_jet_live_body steps=720 thrust={visible} boost={boosted} release={released} minimum_fuel={minimum_fuel} constructor_channels_unchanged=true supplied_commands=true gpu=false real_input=false"
+            "normal_jet_live_body steps=1600 thrust={visible} boost={boosted} release={released} descent={descent} minimum_fuel={minimum_fuel} constructor_channels_unchanged=true supplied_commands=true gpu=false real_input=false"
         );
     }
     #[test]
