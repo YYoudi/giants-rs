@@ -962,3 +962,14 @@ reference-camera sampling, recorded world entries and retained error/removal
 boundaries. The success control reports 509 admitted component contexts and
 three refused held routes, not completed gameplay frames. Camera/UI/audio/rate/
 transport rendering or delivery and link event producers remain unvalidated.
+
+The shared completion-countdown phase uses synthetic tests without game data:
+
+```powershell
+cargo test --locked -p giants-game mission_completion_countdown --target x86_64-pc-windows-gnu
+```
+
+These cover temporary suppression ownership, wide expiry versus stored rounding
+and retained stores after a failed second clock query. The service takes actual
+caller-owned state and clock callbacks; it supplies neither mission admission
+nor the following progression phase. Native comparison inputs remain private.

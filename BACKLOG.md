@@ -1181,8 +1181,14 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   zero-PCM device controls pass the baseline 512-frame profile; prolonged thrust/
   boost refuses the missing impact provider at frame 402. The separate health
   suppression guard has debug/menu and temporary countdown writers; cinematic
-  activity alone does not determine it. Next acquire complete guard producers/
-  lifetimes and impact/voice/display/FX world ownership, then broaden populated
+  activity alone does not determine it. The shared completion-countdown phase now
+  preserves temporary claim/release, wide expiry versus stored onset comparison,
+  and independent clock calls. Native/Rust agreement covers 216 independent
+  contexts and nine ten-step retained-state sequences (306 snapshots / 2,448
+  selected state/control words). Outer admission, initial state and clocks remain
+  supplied; the following message/progression phase is not executed. Next acquire
+  complete outer admission/continuation and debug/menu/editor guard lifetimes,
+  then bind their common owner and impact/voice/display/FX world services. Broaden populated
   contact and live sessions. Do not default a guard to bypass these prerequisites.
   See OWNED_MECC_CONTACT.md for scope; ordinary gameplay and fidelity remain open.
 

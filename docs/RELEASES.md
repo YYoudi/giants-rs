@@ -5863,3 +5863,27 @@ Validation retaining main through `cbdb58d` passes 904 workspace Rust tests
 CPU and zero-PCM device controls, strict workspace Clippy, Rustfmt, 43 Python
 tests and generated site/JavaScript checks. Separate default-profile and shared
 owner controls retain their narrower scopes.
+
+### Mecc temporary suppression producer subphase - 10 November 2026
+
+The shared mission-completion countdown now preserves temporary health-suppression
+claim/release, the active-marker prefix, wide expiry versus single-precision onset
+comparison and independent clock requests. Existing nonzero suppression values
+are not newly claimed. A retained claim marker determines release at expiry.
+Late clock failures retain completed stores. Outer admission, initial state,
+mission records, clock production and the following message/progression phase
+remain required before live binding. No default impact context is installed.
+
+The original-PC handler and Rust agree on 216 independent contexts plus nine
+continuous ten-step sequences: 306 snapshots, 1,836 selected timer/guard words and
+612 clock-count/phase results. Outer inputs and clocks are supplied; expired
+controls stop after release before message/progression. Prototype PS2 attributions
+remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#mission-completion-suppression-ownership---10-november-2026).
+
+Validation retaining main through `31032dc` passes 907 workspace Rust tests
+(101 ignored), twenty-seven installed Mecc controls, the prepared 512-frame App
+CPU and reserved zero-PCM device controls, shared timed Session and cold Delphi
+ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
+site/JavaScript checks. This source handoff creates no preview; the main lane
+retains the exact download source, notices and checksum identity.

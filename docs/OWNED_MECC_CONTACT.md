@@ -1215,3 +1215,34 @@ does not establish its value. Their complete ownership/lifetimes and the impact,
 voice, display and FX/world producers remain unbound. No guard is defaulted to
 make the runtime continue. Next acquire those producers with the mandatory
 prototype PS2 lookup and independent PC evidence before broader live admission.
+
+## Mission-completion suppression ownership - 10 November 2026
+
+The shared `mission_completion_countdown` service now reconstructs the temporary
+health-suppression producer's countdown phase. It sets the active marker before
+the first clock query, stores the single-precision remainder but branches on its
+Double53 value, and preserves the separate onset/elapsed test against the stored
+remainder. A positive elapsed timer requests a second independent clock value.
+Pending countdowns claim suppression only when its value was zero; existing
+nonzero values and an unchanged claim marker remain intact. Expiry clears the
+suppression value and claim marker only when the retained marker is nonzero.
+Raw noncanonical flag values are preserved where the native phase preserves them.
+Completed timer/marker writes survive a later clock-provider failure.
+
+The original-PC handler executes 216 independent supplied contexts and nine
+continuous ten-step sequences. Rust retains its own state between sequence steps.
+All 306 snapshots agree on 1,836 selected timer/guard words and 612 clock-count/
+phase results, including tiny positive remainders that round to zero, exact
+expiry, noncanonical guards and independently different second clock values.
+Outer admission flags, the mission record, initial timer/guard state and clock
+results are supplied. The expiry comparison stops after suppression release,
+before the following message/progression phase. This does not reconstruct the
+complete mission transition or its initialization/schedule.
+
+This acquired subphase is a prerequisite for impact admission, not a replacement
+for the actual producer. Complete outer admission, message/progression continuation,
+debug/menu side effects and editor-guard lifetime still need reconstruction and
+common runtime ownership. The App still binds no default impact context and does
+not infer suppression from cinematic activity. Prototype PS2 lookups were refreshed
+for all audited guard writers/queries; attributions remain unknown. No source
+snapshot is installed as an invented native startup state.
