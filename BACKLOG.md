@@ -49,7 +49,7 @@ unfinished native parent complete to deliver ordinary visual feedback.
   Ordinary pistol delivery: source projectile geometry/material and acquired
   straight-launch orientation/velocity now replace the diagnostic flight quads.
   Check real left-mouse firing, visible shot lifetime/removal and menu re-entry.
-  Constructor flash/attached FX, native impact births/contacts/damage, firing
+  Constructor flash/attached FX, native range/retirement and impact births/contacts/damage, firing
   poses and owned actor/fire scheduling remain open; retain those actual services
   rather than selecting a guessed animation or substituting diagnostic shapes.
 - NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or

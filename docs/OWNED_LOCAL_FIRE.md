@@ -495,7 +495,7 @@ for both velocity and orientation. Its shot retains that launch basis while the
 actual current motion supplies translation. The normal scene draws the installed
 class38 projectile model, texture, UVs, vertex color policy and unlit materials
 through the common material consumer. The previous yellow flight quads are
-removed. Current live shots produce submissions; their retirement hides them,
+removed. The existing live-shot list produces submissions; removal from that list hides them,
 and menu return removes the mission draw assets. Supported definitions retain
 the acquired class38 base-projectile profile and require static unskinned source
 geometry; unsupported animation/material profiles fail explicitly.
@@ -504,14 +504,29 @@ Entry: a supported ordinary Mecc mission, left mouse to fire. No replay flag or
 experimental backend is required to connect this producer and consumer. This is
 still the partial pistol/terrain/object-query composition. It does not construct
 Session state77 actors, bind native fire phases, allocate constructor FX, provide
-impact callbacks/damage, replace the remaining diagnostic impact markers or
+native range/retirement or impact callbacks/damage, replace the remaining diagnostic impact markers or
 reconstruct firing-pose selection. Exact vertical/degenerate aims outside the
 acquired launch basis are refused rather than given an invented orientation.
 The complete arsenal is not marked complete.
 
 Status: runtime connected, interaction unverified. Existing workspace checks and
 an installed resource/owner control cover the shared implementation and source
-visual preparation. Graphical output, real held input and fidelity require their
-own observations on the identified build. Prototype PS2 constructor and launch
+visual preparation. A local GPU capture now shows the source projectile after
+normal mission admission with supplied trigger commands. Real held input and
+fidelity remain unverified. Prototype PS2 constructor and launch
 name searches were refreshed first; both attributions remain unknown. This
 reuses acquired PC services and does not import PS2 ABI or memory layout.
+
+
+The local GNU build of source `d5a4ca8` (executable SHA256
+`8874592b599a789c227c5afe65cd373be20f839eca52279e96a686615fb939c1`)
+completed the existing offscreen one-shot diagnostic through normal mission
+admission. Its supplied trigger produces one live shot; the actual class38 draw
+consumer binds the source materials, and the private GPU capture was visually
+inspected. A separate cyclic diagnostic also observes four live source-model
+shots followed by removal of all projectile draw assets on its first menu return.
+Audio is disabled. These observations prove this local render connection, not
+real operating-system input, native projectile retirement or full weapon FX.
+The source was subsequently combined with concurrent main changes; synthetic
+and installed owner/normal-flight regressions are checked separately from that
+identified graphical build. Captures and executable stay private.
