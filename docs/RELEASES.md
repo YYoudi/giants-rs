@@ -6140,3 +6140,17 @@ descent/landing was not established before computer use was interrupted. Do not
 advertise an interaction-verified or downloadable milestone from these partial
 observations. The current preview receipts/notices/checksums retain their identity.
 See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-mission-descent-pose---runtime-connected-interaction-unverified).
+
+
+## Mecc ordinary jet presentation - source integration candidate
+
+The existing jet renderer now also consumes the normal partial controller's
+actual jet/nitro state and animated body attachment. It binds existing constructor
+children, advances separate presentation clocks and preserves owned-driver world
+completion requirements. Default right-mouse thrust and Space nitro need no replay
+or experimental backend switch. The same consumer handles draw retirement.
+
+Status: runtime connected, interaction unverified. Installed-data ownership and
+presentation checks support the wiring; actual held-input thrust/release, GPU
+appearance, landing and re-entry remain to verify. No new preview is advertised.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-jet-presentation---runtime-connected-interaction-unverified).

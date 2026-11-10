@@ -1,5 +1,5 @@
-//! Renderer for the actual state0 Mecc children, fed only by completed owned
-//! inspection frames. It neither advances clocks nor acknowledges readiness.
+//! Renderer for constructor-bound state0 Mecc children. The ordinary partial
+//! controller and completed owned inspection retain separate pose producers.
 use crate::rigid_attachment_scene::{self, Material};
 use bevy::{asset::RenderAssetUsages, prelude::*, render::storage::ShaderBuffer};
 use std::collections::BTreeMap;
@@ -59,7 +59,7 @@ fn update(
 ) {
     let selected = controllers
         .iter()
-        .filter_map(|c| c.owned_jet_frames())
+        .filter_map(|c| c.jet_frames())
         .find(|v| Some(v.0) == runtime.active_ticket());
     let wanted = selected.map(|v| v.0);
     if state

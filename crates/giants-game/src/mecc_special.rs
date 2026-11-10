@@ -35,6 +35,11 @@ pub struct ChildPose {
     pub world: crate::procedural_aim::Matrix,
 }
 
+/// Acquired jet child visibility, shared by owned state and normal presentation.
+pub fn child_hidden(class: i32, flags: u32, boost: bool) -> bool {
+    flags & 0x3000 == 0 || if boost { class == 85 } else { class == 781 }
+}
+
 pub fn child_pose(session: &Session, id: Id) -> Result<ChildPose, String> {
     use crate::procedural_aim::Matrix;
     let actor = session.get(id).ok_or("jet child absent or foreign")?;
