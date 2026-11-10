@@ -787,8 +787,14 @@ blocker in the next slice, rather than continuing adjacent functions by address.
    spawn, retains its player identity and passes cleanup/second entry. This source
    composition uses the constructor's existing history; native marker relocation
    and complete caller history remain unverified. All four initializer gates stay
-   pending. **Next blocker: body/material submission and the actual camera /
-   projection path.** Cold construction alone is not visible or playable Kabuto.
+   pending. The initial current-channel body now reaches the shared lit renderer
+   (31 source subparts), with actual textures/pose normals and stale-owner guards.
+   A private offscreen Kstory1 capture visibly shows Kabuto; its head is cropped
+   by the provisional Mecc-shaped inspection camera. This is a static inspection,
+   not normal mission admission, live ANM or input. **Next blocker: the actual
+   Kabuto camera/profile/projection producer and initializer/startup consumers.**
+   Complete that normal entry before walking/turning; do not substitute an
+   inspection fit or a forced readiness event for the native camera contract.
 2. Actual input, walking and turning through the common world, camera and
    collisions; then jump/landing and continuous-session exit/re-entry checks.
 3. Attack, capture and feeding with real target/lifetime owners.

@@ -72,6 +72,8 @@ struct Payload {
     effect_proxies: Result<Vec<giants_game::cinematic_fx::TerminalProxy>, String>,
     player: Result<Arc<giants_game::player_initial::Prepared>, String>,
     kabuto: Result<Option<giants_game::kabuto_initial::Factory>, String>,
+    kabuto_body: Option<Arc<giants_game::player_body::Prepared>>,
+
     delphi: Result<Option<giants_game::delphi_declared::Factory>, String>,
     controller: Result<Option<crate::mecc_dev_scene::State>, String>,
     carried: Result<Option<(usize, Arc<giants_game::carried_actor::Prepared>)>, String>,
@@ -251,6 +253,12 @@ fn prepare_delphi(
     .map(Some)
 }
 impl Runtime {
+    pub(crate) fn kabuto_body(&self) -> Option<(u64, &giants_game::player_body::Prepared)> {
+        let active = self.active.as_ref()?;
+        let body = active.payload.kabuto_body.as_deref()?;
+        (active.bindings.player == Some(body.owner) && body.current(&active.resident_states))
+            .then_some((active.ticket, body))
+    }
     pub(crate) fn cinematic_session(
         &self,
         ticket: u64,
@@ -891,6 +899,14 @@ impl Runtime {
         if world.positions.is_empty() || world.triangles.is_empty() {
             return Err("mission terrain is empty".into());
         }
+        if matches!(p.kabuto, Ok(Some(_))) {
+            let owner = active.player_owner()?;
+            active
+                .resident_states
+                .kabuto_group(owner)
+                .ok_or("Kabuto initial group absent")?;
+            return Err("Kabuto initialization and native controller are not connected yet".into());
+        }
         let player = p.player.as_ref().map_err(Clone::clone)?;
         if player.start.kind != 2 || p.controller.is_err() {
             return Err("controlled Mecc is not prepared".into());
@@ -1530,6 +1546,14 @@ fn spawn(
         ) {
             Ok(owner) => {
                 bindings_by_role.player = Some(owner);
+                match giants_game::player_body::Prepared::from_session(
+                    payload.plan.resources(),
+                    &resident_states,
+                    owner,
+                ) {
+                    Ok(body) => payload.kabuto_body = Some(Arc::new(body)),
+                    Err(error) => blocked.push(format!("Kabuto body preparation: {error}")),
+                }
                 println!(
                     "mission_kabuto_constructed ticket={ticket} owner={owner:?} class=1 position={:?} initializer_pending={:?} declared_placement=true native_relocation_verified=false controller=false ready=false",
                     factory.declared_start().position,
@@ -2084,6 +2108,8 @@ fn drive(
                     effect_proxies,
                     player,
                     kabuto,
+                    kabuto_body: None,
+
                     delphi,
                     controller,
                     carried,
@@ -2483,6 +2509,8 @@ mod tests {
             carried: Ok(None),
             player: Err("synthetic fixture has no player resources".into()),
             kabuto: Ok(None),
+            kabuto_body: None,
+
             delphi: Ok(None),
         }
     }
@@ -2757,6 +2785,21 @@ mod tests {
                 start.position
             );
             let group = residents.kabuto_group(owner).unwrap();
+            let body = payload
+                .kabuto_body
+                .as_ref()
+                .unwrap_or_else(|| panic!("Kabuto body preparation refused: {blocked:?}"));
+            assert_eq!(body.owner, owner);
+            assert!(body.current(&residents));
+            assert!(!body.positions.is_empty());
+            assert!(
+                body.model
+                    .mesh
+                    .subobjects
+                    .iter()
+                    .enumerate()
+                    .all(|(i, _)| !body.vertices(i).is_empty())
+            );
             assert_eq!(
                 group.pending,
                 [
@@ -2774,6 +2817,7 @@ mod tests {
             );
             assert_eq!(owner.ticket(), ticket);
             residents.clear();
+            assert!(!body.current(&residents));
             assert!(residents.get(owner).is_none());
             assert_eq!(residents.counts().residents, 0);
             world.despawn(scene_root);
