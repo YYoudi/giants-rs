@@ -19,9 +19,10 @@ at commit entry; the eligibility owner word and session mode are supplied,
 without replacing intermediate actor/animation/reference/epoch/RNG snapshots. These are independent CPU contexts, not continuous gameplay.
 See [OWNED_KABUTO.md](OWNED_KABUTO.md).
 
-Validation passes 886 workspace Rust tests (81 ignored), 27 installed Kabuto
+Combined validation passes 889 workspace Rust tests (81 ignored), 27 installed Kabuto
 controls plus one cold-resource control, 13 Mecc and nine Delphi controls,
-Rustfmt and strict workspace Clippy. Earlier action admission, held ordering,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. The shared camera activation/lens contribution is preserved. Earlier action admission, held ordering,
 the following primary caller and actual world/backend scheduling remain open.
 The public Windows preview remains the separately validated frozen .6 snapshot;
 Kabuto is still unavailable in ordinary gameplay and fidelity is unverified.
