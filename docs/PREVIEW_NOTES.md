@@ -8,6 +8,11 @@ The subsequent Kabuto post-selection camera/UI/world tail is later source-only
 work; it is not part of this frozen package or ordinary Kabuto availability.
 The later owned Delphi pre-physical target phase is likewise source-only relative
 to this package and does not enable Delphi gameplay.
+Later Mecc idle variants, effect-free wounded continuation and ordered mission
+completion admission are also source-only relative to .8. Their 512-frame App
+controls use supplied commands and world gates; they do not enable ordinary
+impact/health/world admission. Later Delphi held-cache provenance and candidate
+geometry binding likewise do not change this frozen executable.
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From

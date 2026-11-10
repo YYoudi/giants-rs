@@ -1,5 +1,32 @@
 # Preview releases and milestone integration
 
+## Combined Mecc and Delphi source integration - 10 November 2026
+
+Integration source `ca43619c48ed2d68c7b14778b2bb1501a0ae17d8` combines reviewed
+Mecc `bac59d8` (idle variants, effect-free wounds and ordered completion admission)
+with Delphi `897d80d` (pre-physical held-cache provenance and candidate geometry),
+preserving the earlier Flick, Kabuto and NPC contributions. Required callbacks,
+geometry admission and failed-turn quarantine remain explicit. Prototype PS2
+attributions for these acquired routines remain unknown; no new name is confirmed.
+
+The combined source passes 913 workspace Rust tests (106 ignored), 27 installed
+Mecc and 14 installed Delphi controls, 43 Python tests, Rustfmt and strict workspace
+Clippy. Two 512-frame App controls pass with actual terrain, animation, camera,
+held submission and cleanup; the jet control uses real zero-PCM muted sinks.
+Commands, clocks, gates and world populations remain controlled inputs. These
+checks do not establish manual gameplay, native world admission or fidelity.
+
+A receipt-bound MinGW build of that exact integration source also passes awaited
+CLI startup and offscreen GPU acceptance: three 128-frame owned inspection cycles
+with menu return/cleanup, one 128-frame jet lift/fuel control and an active-thrust
+capture at step 36. The jet checks use real muted transport. Replay commands and
+world gates remain supplied; this private test executable is not a new download.
+
+The public .8 source, executable, package and acceptance identities remain
+immutable. The cinematic census stays pinned to its separate .7 audit. See
+[PREVIEW_NOTES.md](PREVIEW_NOTES.md) for the later-source boundary and
+[INTEGRATION.md](INTEGRATION.md) for the common-runtime prerequisites.
+
 ## Delphi pre-physical held-cache and geometry binding - 10 November 2026
 
 The running local caller now reads its explicitly acquired cold constructor
