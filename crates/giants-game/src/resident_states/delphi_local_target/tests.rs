@@ -132,6 +132,8 @@ fn prepare(
     .with_reserve()
     .unwrap()
     .with_primary_tail()
+    .unwrap()
+    .with_local_target_phase()
     .unwrap();
     session.prepare_delphi_physical(owner, resources).unwrap();
 }
@@ -398,6 +400,25 @@ fn physical(
 fn source_delphi_local_phase_publishes_then_reaches_postphysical_activation_boundary() {
     let (mut s, owner, source, g, _) = setup(1401);
     let mut plan = Plan::default();
+    let mut contexts = crate::attached_effect_context::Pool::from_active_resources(1401, &source);
+    let mut random = crate::audio_parameters::Random(1);
+    let mut stamp = crate::animation_epoch::Stamp::default();
+    let mut post = crate::delphi_post_physical::World::default();
+    let missing = physical(
+        &mut s,
+        owner,
+        1,
+        0,
+        &g,
+        (&mut contexts, &mut random, &mut stamp, &mut post),
+    )
+    .unwrap_err();
+    assert!(
+        missing.contains("requires its owned local target phase"),
+        "{missing}"
+    );
+    assert_eq!(s.delphi_physical(owner).unwrap().number, 0);
+    assert!(s.delphi_local_target(owner).is_none());
     let prepared = s
         .advance_delphi_local_target(owner, context(owner, 1, &g), &mut plan)
         .unwrap();
@@ -411,10 +432,6 @@ fn source_delphi_local_phase_publishes_then_reaches_postphysical_activation_boun
             .is_err()
     );
     assert_eq!(plan.binds, 1);
-    let mut contexts = crate::attached_effect_context::Pool::from_active_resources(1401, &source);
-    let mut random = crate::audio_parameters::Random(1);
-    let mut stamp = crate::animation_epoch::Stamp::default();
-    let mut post = crate::delphi_post_physical::World::default();
     assert!(
         physical(
             &mut s,

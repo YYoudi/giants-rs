@@ -509,6 +509,9 @@ impl Session {
             .delphi_physical
             .clone()
             .ok_or("Delphi physical cycle unprepared")?;
+        if cycle.resources.local_target_phase && actor.delphi_local_target.is_none() {
+            return Err("Delphi physical profile requires its owned local target phase".into());
+        }
         if cycle.resources.locomotion.is_some() != locomotion
             || cycle.resources.manual_rotation != manual.is_some()
             || cycle.resources.authored_camera != camera.is_some()

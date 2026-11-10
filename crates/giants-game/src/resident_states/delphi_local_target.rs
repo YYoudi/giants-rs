@@ -127,7 +127,8 @@ impl Session {
             .delphi_physical
             .as_ref()
             .ok_or("Delphi physical cycle unprepared")?;
-        if actor.class != 3
+        if !cycle.resources.local_target_phase
+            || actor.class != 3
             || actor.seed.storage.state() != 3
             || actor.seed.storage.profile() != Profile::Debug
             || actor.attachment.is_some()
@@ -311,6 +312,9 @@ fn proxy_invalid(session: &Session, proxy: Option<Id>) -> bool {
                 || actor.class != 0x3d4
                 || actor.seed.storage.profile() != Profile::Debug
                 || actor.seed.storage.state() != 78
+                || actor.attachment.is_some()
+                || actor.presentation_parent.is_some()
+                || actor.attached_effect.is_some()
         })
     })
 }

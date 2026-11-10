@@ -9,7 +9,9 @@ lookup and separate PC identity, aliases, platform differences and attribution.
 `Session::advance_delphi_local_target` now captures the actual actor's scalar
 fields and typed target slots, executes the caller kernel over required
 Session-borrowing providers, and publishes its retained point/control/readiness
-state. The next physical frame consumes the prepared phase once. Repeated,
+state. The frozen `Resources::with_local_target_phase()` profile requires this
+producer before even its first physical frame. The next physical frame consumes
+the prepared phase once. Repeated,
 skipped, running or failed phases are refused. Linked consumers remain unbound;
 the existing dry component refuses those relationships before motion rather
 than dropping them. Other actors' typed targets and actual constructed proxies
