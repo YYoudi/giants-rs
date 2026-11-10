@@ -73,6 +73,15 @@ unsupported-contact refusal and a retained physical clear after ground failure;
 owner consumed by movement. Nonzero contact and fault cases are explicit supplied
 fixtures, not observed object collisions. These controls enable no playable map.
 
+With `GIANTS_NPC_ROOT`, run
+`cargo test --locked -p giants-app source_npc_completed --target x86_64-pc-windows-gnu -- --ignored`
+for the actual common Vimp pose/Bevy asset consumer. It retains canonical Story2
+staging but explicitly supplies offline birth/callback admission, quiet signals,
+clocks and epochs. Two fourteen-body tickets check animated mesh updates, shared
+pose copies, camera hide/resume, missing-mesh cleanup/quarantine and asset release.
+This is CPU asset coverage, with no GPU or ordinary gameplay availability claim.
+
+
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
 runs six owned-phase controls: publication/physical consumption and later

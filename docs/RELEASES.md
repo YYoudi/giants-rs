@@ -7,6 +7,25 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## Common Vimp pose renderer — runtime consumer, interaction unverified
+
+No ordinary Vimp AI map or new preview is available. The common executable now
+consumes completed Session Vimp frames using their actual channels, animation epoch
+and affine, copying shared position buffers before another actor updates them.
+The existing opaque RGB body shader receives source geometry/textures. Primary
+model zero is an explicit presentation policy; native visibility/LOD and wider
+material/culling profiles remain open. Rendering advances no gameplay state.
+
+The installed CPU check retains canonical Story2 staging and explicitly supplies
+offline birth/callback/quiet/clock admission over actual terrain. Two tickets each
+produce fourteen bodies, update their mesh poses, hide/resume with the camera and
+release owned entities/mesh/material/image assets. Missing mesh cleanup/quarantine,
+foreign factory, retired binding and next-history refusals are checked. No GPU
+pixels, ordinary controls or whole-world scheduling follow from that evidence.
+Actual shared callback/birth admission is still required before owner interaction
+and preview validation. This source preserves main's current Kabuto body, Delphi,
+Mecc projectile/jet and cinematic work; frozen preview receipts stay unchanged.
+
 ## Vimp constructor/physical contact ownership — source dependency only
 
 Story2 still has no ordinary Vimp AI test or new downloadable preview. Source now

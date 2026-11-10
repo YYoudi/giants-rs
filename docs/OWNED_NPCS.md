@@ -25,6 +25,48 @@ Source/CPU controls below do not identify a map on which their behavior can
 already be exercised interactively. Ordinary admission still requires actual
 world services and validation.
 
+## Vimp pose consumer in the common renderer — source only
+
+No ordinary mission or public preview can yet exercise live Vimp AI. The render
+consumer is now connected to the common application; actual world/birth admission
+is still missing. No normal controls, GPU observation or playable map is claimed.
+
+`Session::completed_vimp_frame` publishes a local completed-callback count and
+its actual animation epoch. It refuses cold/failed/stopped callbacks, unfinished
+history or another running actor phase, and inconsistent channel ownership. The
+mission consumer additionally checks the exact factory/specification identity and
+current affine. A previous pose after next-frame history is not a current frame.
+The shared position evaluator uses those actual channels and epoch; each actor's
+result is copied before another Vimp reuses the shared model buffer.
+
+The normal mission renderer consumes these packets through the existing RGB body
+shader, source geometry and textures. It uses primary model slot zero as an
+explicit presentation policy; native visibility/LOD, mirrored culling and wider
+transparent/additive profiles remain incomplete. Unsupported profiles refuse;
+no replacement body, bind pose, missing affine, effect, random draw or animation
+clock is supplied. Cold births produce no body before their first completed
+callback. Geometry is cached by the mission resource owner; render entities and
+mesh/material/image handles are retained by the actual actor Id and ticket.
+Camera absence hides the submissions; retirement removes them. A required asset
+failure releases partial ownership and quarantines this ticket's renderer.
+
+The installed CPU control enters canonical Story2 staging twice, retaining its
+other actor families. With explicit offline birth/callback admission, quiet
+signals, supplied clocks/epochs and actual terrain queries, each ticket produces
+fourteen owned Vimps. Their completed poses populate and update Bevy mesh assets,
+remain separate across shared-buffer reuse, hide/resume with the camera and
+release all owned meshes/materials/images. The second ticket checks missing-mesh
+cleanup and quarantine while preserving an unrelated entity. Fresh history,
+foreign factory resources and retired binding refuse. Repeated render sampling
+consumes no gameplay RNG. These are CPU Bevy asset checks, not GPU pixels,
+mission-wide scheduling, ordinary controls, AI behavior or native visual fidelity.
+
+The next missing producer is the real shared world scheduler and its admission,
+history/control/clock/RNG/environment/effect services. It must preserve all active
+families and same-step birth order, then exercise this consumer with ordinary
+menu/input/exit/re-entry. Do not run the offline control from loading or advertise
+its fourteen-body result as a playable herd.
+
 ## Owned Vimp contact producer — 10 November 2026
 
 Intermediate dependency only: Story2 remains unavailable as an interactive Vimp
@@ -64,7 +106,8 @@ random stream and history before consuming same-step births in the renderer.
 
 Intermediate dependency only: no normal controls or public build exercise live
 Vimp AI yet. The first missing runtime consumer is common world callback admission,
-followed by the live population/render connection. NPC owns these actor resources;
+followed by actual live population and interactive render validation. A later
+source consumer above now accepts completed poses. NPC owns these actor resources;
 main integration owns the shared schedule and combined interactive delivery.
 
 The ordinary mission worker now prepares the Vimp factory from the actual plan's

@@ -70,8 +70,11 @@ entry, live callbacks/animation and the common renderer. Current source now bind
 the registered Vimp resources and actual herd/marker declaration IDs to the mission
 owner; two CPU entry tickets retain one herd/sixteen markers without spawning or
 advancing them. The next missing consumer is real common-world callback admission,
-including population/clock/RNG/control/terrain/effect ownership, then birth/animation
-rendering and real input/return/re-entry validation. No public AI map is available.
+including population/clock/RNG/control/terrain/effect ownership. The common renderer
+now consumes completed Vimp poses, with an explicit primary-model policy and actor/
+ticket asset cleanup. A supplied-callback CPU control reaches fourteen bodies per
+entry and updates their meshes across two tickets; GPU and real input/return/
+re-entry validation remain open. No public AI map is available.
 The initial Vimp contact is now pinned to the actual constructor clear and retained
 by the physical owner; owned movement consumes it without an injected predicate.
 Later object/threat contacts remain incomplete. Story2's 166-node common roster
