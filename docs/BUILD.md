@@ -279,6 +279,14 @@ and mission recorded in RELEASES.md; broader gameplay and fidelity remain pendin
 
 ## Optional NPC source-resource lifecycle check
 
+With `GIANTS_NPC_ROOT` pointing to the user-supplied installation,
+`cargo test --locked -p giants-app source_npc_menu_entry --target x86_64-pc-windows-gnu -- --ignored`
+checks actual Story2 menu data, canonical mission resource/declaration binding and
+two entry tickets without a window or audio. It supplies unlocked progress and
+does not execute world callbacks or render Vimps. The separate ignored game-crate
+`source_vimp_registered_factory` check verifies the registered image and rejects
+missing/replaced namespaces. These are source controls, not gameplay test paths.
+
 For NPC source-resource ownership regression, set `GIANTS_NPC_ROOT` to the
 user-supplied installation and use an isolated Cargo target:
 
@@ -307,6 +315,17 @@ captured-entry control, in addition to `GIANTS_NPC_ROOT`. It retains Session
 outputs and RNG across 115 visits with supplied caller motion/clock/flags and
 external draw counts. Inputs are not distributed; this is not a normal mission
 or whole-primary test. Follow the central reconstruction method for acquisition.
+
+The default `vimp_movement` controls cover the ordered scalar/command prefix,
+separate actor/global clocks, strict retry expiry and retained clock errors.
+The installed `source_vimp_active` group also covers the combined movement/active
+lease. The optional ignored
+`source_captured_vimp_movement_active_cycle_retains_outputs_and_random` requires
+an absolute `GIANTS_NPC_MOVEMENT_CONTROL` private reviewed control path as well
+as `GIANTS_NPC_ROOT`. Its 115-entry composition retains commands, scalar/retry
+and active outputs and one RNG, while earlier caller gates, contact predicate,
+motion/growth/flags/clock inputs and external draws remain supplied. Neither this
+control nor the Story2 resource fixtures enable ordinary mission AI.
 
 The response command checks actual inline physical/channel reads, signal-to-owned
 vector composition, terminal callback effects, cancellation and noise-target byte

@@ -51,14 +51,20 @@ pub(crate) fn target(random: &mut Random, position: [f32; 3], radius: f32) -> ([
         std::array::from_fn(|i| (f64::from(position[i]) + f64::from(offsets[i])) as f32),
     )
 }
-pub(crate) fn commands(position: [f32; 3], heading: f32, target: [f32; 3]) -> [u8; 8] {
+pub(crate) fn turn_command(position: [f32; 3], heading: f32, target: [f32; 3]) -> u8 {
     let bearing = crate::actor_volume::heading(position, target);
     let error = crate::ripper_steering::difference(bearing, heading);
     let turn = (error * f64::from(0.033333335_f32)) as f32;
+    crate::ripper_steering::command(turn, 0.1)
+}
+pub(crate) fn forward_command(position: [f32; 3], target: [f32; 3]) -> u8 {
     let speed = (f64::from(squared(position, target) as f32).sqrt() * f64::from(0.025_f32))
         .min(f64::from(0.15_f32));
+    (speed * 32.) as i32 as u8
+}
+pub(crate) fn commands(position: [f32; 3], heading: f32, target: [f32; 3]) -> [u8; 8] {
     let mut commands = [0; 8];
-    commands[0] = crate::ripper_steering::command(turn, 0.1);
-    commands[2] = (speed * 32.) as i32 as u8;
+    commands[0] = turn_command(position, heading, target);
+    commands[2] = forward_command(position, target);
     commands
 }

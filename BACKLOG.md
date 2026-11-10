@@ -65,6 +65,14 @@ controls. Otherwise say "intermediate dependency only" and name the next blocker
 Keep source status, local interaction checks, historical captures and the exact
 published preview independent. Do not mark whole-game features complete here.
 
+The NPC lane's selected delivery is an actual Story2 herd through ordinary mission
+entry, live callbacks/animation and the common renderer. Current source now binds
+the registered Vimp resources and actual herd/marker declaration IDs to the mission
+owner; two CPU entry tickets retain one herd/sixteen markers without spawning or
+advancing them. The next missing consumer is real common-world callback admission,
+including population/clock/RNG/control/terrain/effect ownership, then birth/animation
+rendering and real input/return/re-entry validation. No public AI map is available.
+
 ## Prototype PS2 attribution method — 5 November 2026
 
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
@@ -173,8 +181,16 @@ The dedicated NPC lane resumes existing work; see
   terminal action/cancellation effects. Six installed controls cover the owner and
   replay/error boundaries; a separate actual-Session control matches 115 native
   entries /1,495 words with retained outputs/RNG and supplied caller inputs/external
-  draw counts. Bind the complete caller phase and preserve first-handled versus
-  later growth/movement production. The mode1 animation selector now consumes owned gait/physical flags;
+  draw counts. Movement and active response now share one owned lease/RNG,
+  matching 115 native contexts /2,070 words with retained commands, scalar/retry
+  and active state. The separate movement prefix matches 1,024 /9,216 words and
+  117 source entries /1,053 words. Earlier producer gate, obstruction predicate,
+  growth/motion/clock inputs and external draws are supplied; do not infer a zero
+  constructor contact header. Preserve first-handled versus later growth/movement
+  production and bind the earlier caller plus later look/physics/ANM. Story2 is
+  the first intended ordinary mission target; no public map currently admits its
+  Vimp AI. Establish real population/global/clock/contact/environment and visible
+  ownership, then test player interaction, cancellation and re-entry. The mode1 animation selector now consumes owned gait/physical flags;
   1,088 native numeric contexts /39,168 channel words agree, including real blend
   modes and descriptor visibility controls. A declared synthetic idle-turn alias
   covers that absent source descriptor only numerically. One installed control

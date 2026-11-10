@@ -80,10 +80,33 @@ impl VimpActiveServices for Caller {
         Err("captured non-network cycle unexpectedly requires an action".into())
     }
 }
+impl VimpActiveMovementServices for Caller {
+    fn movement_seconds(
+        &mut self,
+        _: &Session,
+        _: Id,
+        _: crate::vimp_movement::Clock,
+    ) -> Result<f64, String> {
+        Ok(f64::from(self.seconds))
+    }
+}
 #[test]
 #[ignore = "requires GIANTS_NPC_ROOT and GIANTS_NPC_ACTIVE_CONTROL; private captured caller motion/clock/external RNG schedule, not whole-primary"]
 fn source_captured_vimp_active_cycle_retains_session_outputs_and_random() {
-    let path = std::env::var_os("GIANTS_NPC_ACTIVE_CONTROL").expect("GIANTS_NPC_ACTIVE_CONTROL");
+    run_cycle(false);
+}
+#[test]
+#[ignore = "requires GIANTS_NPC_ROOT and GIANTS_NPC_MOVEMENT_CONTROL; retained movement/active Session composition with supplied earlier caller gate/contact/growth/motion and external RNG schedule"]
+fn source_captured_vimp_movement_active_cycle_retains_outputs_and_random() {
+    run_cycle(true);
+}
+fn run_cycle(movement: bool) {
+    let env = if movement {
+        "GIANTS_NPC_MOVEMENT_CONTROL"
+    } else {
+        "GIANTS_NPC_ACTIVE_CONTROL"
+    };
+    let path = std::env::var_os(env).expect("private captured control absolute path");
     let rows: Vec<Vec<u32>> = std::fs::read_to_string(path)
         .unwrap()
         .lines()
@@ -94,7 +117,10 @@ fn source_captured_vimp_active_cycle_retains_session_outputs_and_random() {
         })
         .collect();
     assert!(!rows.is_empty());
-    assert!(rows.iter().all(|r| r.len() == 270));
+    assert!(
+        rows.iter()
+            .all(|r| r.len() == if movement { 281 } else { 270 })
+    );
     let (mut s, _, g, _, children, _) = super::vimp_history_tests::source_births(true);
     let id = *children
         .iter()
@@ -126,6 +152,11 @@ fn source_captured_vimp_active_cycle_retains_session_outputs_and_random() {
             for at in [0xb4, 0xb8, 0xb0, 0x74, 0xd4] {
                 put(body, at, b[at / 4]);
             }
+            if movement {
+                for at in [0x68, 0x6c, 0x70, 0x58, 0x5c] {
+                    put(body, at, b[at / 4]);
+                }
+            }
         } else {
             assert_eq!(fields.angles[0].to_bits(), h[0xc8 / 4]);
             assert_eq!(v.angular_speed.to_bits(), h[0x114 / 4]);
@@ -133,6 +164,10 @@ fn source_captured_vimp_active_cycle_retains_session_outputs_and_random() {
             assert_eq!(v.born.unwrap().delay.to_bits(), h[0xec / 4]);
         }
         fields.position = [f(0xa0), f(0xa4), f(0xa8)];
+        if movement {
+            fields.scale = f(0xc4);
+            assert_eq!(v.damage.to_bits(), h[0x278 / 4]);
+        }
         fields.object_flags = h[0xd8 / 4];
         fields.dispatch_context = h[0x18c / 4];
         fields.configuration[14] = h[0x1c8 / 4];
@@ -146,16 +181,26 @@ fn source_captured_vimp_active_cycle_retains_session_outputs_and_random() {
                 v.angular_speed.to_bits()
             );
         }
-        v.commands = [h[0x208 / 4].to_le_bytes(), h[0x20c / 4].to_le_bytes()]
+        let commands = [h[0x208 / 4].to_le_bytes(), h[0x20c / 4].to_le_bytes()]
             .concat()
             .try_into()
             .unwrap();
+        if movement && number != 0 {
+            assert_eq!(v.commands, commands);
+        } else {
+            v.commands = commands;
+        }
         let body = a.seed.storage.data_mut().unwrap();
         for at in [0x40, 0x44, 0x48] {
             put(body, at, b[at / 4]);
         }
         for at in [0xb4, 0xb8, 0xb0, 0x74, 0xd4] {
             assert_eq!(crate::vimp_wander::word(body, at), b[at / 4]);
+        }
+        if movement {
+            for at in [0x68, 0x6c, 0x70, 0x58, 0x5c] {
+                assert_eq!(crate::vimp_wander::word(body, at), b[at / 4]);
+            }
         }
         stages.insert(b[0xb8 / 4]);
         for (i, at) in [0x980, 0x984, 0x988, 0x92c, 0x930].into_iter().enumerate() {
@@ -167,17 +212,35 @@ fn source_captured_vimp_active_cycle_retains_session_outputs_and_random() {
             skip: w[3] != 0,
         };
         let seed = random.0;
-        s.advance_vimp_active_response_offline(id, number as u64, &g, &mut random, &mut caller)
+        if movement {
+            s.advance_vimp_movement_response_offline(
+                id,
+                number as u64,
+                VimpActiveMovement {
+                    produce_commands: w[270] != 0,
+                    obstructed: w[271] != 0,
+                },
+                &g,
+                &mut random,
+                &mut caller,
+            )
             .unwrap();
-        let mut one = crate::audio_parameters::Random(seed);
-        one.next_15();
-        cursor = w[256]
-            + if random.0 == seed {
-                0
-            } else {
-                assert_eq!(random.0, one.0);
-                1
-            };
+        } else {
+            s.advance_vimp_active_response_offline(id, number as u64, &g, &mut random, &mut caller)
+                .unwrap();
+        }
+        let mut next = crate::audio_parameters::Random(seed);
+        let count = (0..=if movement { 2 } else { 1 })
+            .find(|_| {
+                if next.0 == random.0 {
+                    true
+                } else {
+                    next.next_15();
+                    false
+                }
+            })
+            .expect("unexpected combined draw count");
+        cursor = w[256] + count;
         let a = s.get(id).unwrap();
         let v = a.vimp.unwrap();
         let f = a.construction_fields.as_ref().unwrap();
@@ -198,7 +261,14 @@ fn source_captured_vimp_active_cycle_retains_session_outputs_and_random() {
             u32::from_le_bytes(v.commands[..4].try_into().unwrap()),
             u32::from_le_bytes(v.commands[4..].try_into().unwrap()),
         ];
-        assert_eq!(actual, &w[257..], "captured active entry {number}");
+        assert_eq!(actual, &w[257..270], "captured active entry {number}");
+        if movement {
+            assert_eq!(
+                [word(0x68), word(0x6c), word(0x70), word(0x58), word(0x5c)],
+                [w[273], w[274], w[275], w[278], w[279]],
+                "captured movement entry {number}"
+            );
+        }
     }
     assert_eq!(stages.into_iter().collect::<Vec<_>>(), [0, 1, 2, 3]);
     assert_eq!(s.vimp_active_steps(id), Some(rows.len() as u64));
