@@ -44,6 +44,22 @@ coefficient tables, publish projection or complete activation.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
+`cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
+runs three owned-phase controls: publication/physical consumption and later
+activation refusal, retained prefix/cancellation, and real proxy construction
+with typed reference protection. Geometry/linked results and sound-request sinks
+are controlled test providers. This does not validate a complete ordinary turn.
+
+With `GIANTS_FLICK_ROOT` and `GIANTS_FLICK_PERSISTENT_COHORT` (private, headerless
+world/sequence TSV), run `cargo test --locked --workspace source_constant_cohort_moves_actual_body --target x86_64-pc-windows-gnu -- --ignored`.
+This silent control checks actual constant-effect storage transfer to Session,
+channel/reference presentation, rejected foreign supports, retained late-failure
+prefixes, typed-reference cancellation refusal and independent source generations.
+The current cohort has 23 sources /25 requests and exercises 92 queue lifecycles.
+Its source support/clock inputs and self-comparison are ownership controls,
+not new original-PC comparisons, native world admission or visual fidelity.
+
 `cargo test --locked -p giants-game delphi_local_target --target x86_64-pc-windows-gnu`
 checks the local caller's separate point/link lifetimes, inline-wide versus
 linked-rounded readiness, retained terrain/linked/item-target failures, inactive
@@ -941,3 +957,12 @@ projection; `GIANTS_KABUTO_RESOLVED_COMMIT_INPUTS` /
 `GIANTS_KABUTO_RESOLVED_COMMIT_RECEIPT` export eligible animation contexts. All
 paths must be absolute. No window or audio device is created. This does not
 complete primary/history/initialization or validate live gameplay.
+
+
+With the same explicit Kabuto root/executable, `source_kabuto_primary_tail_`
+runs three silent installed controls after the actual owned resource/action/
+selection/ANM composition. They check typed links, generic marking, shared
+reference-camera sampling, recorded world entries and retained error/removal
+boundaries. The success control reports 509 admitted component contexts and
+three refused held routes, not completed gameplay frames. Camera/UI/audio/rate/
+transport rendering or delivery and link event producers remain unvalidated.

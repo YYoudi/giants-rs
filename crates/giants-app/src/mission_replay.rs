@@ -392,7 +392,7 @@ fn drive(
                 && (if std::env::var("GIANTS_CANCEL_PERSISTENT").ok().as_deref() == Some("1") {
                     effects
                         .as_ref()
-                        .is_some_and(|s| s.advanced_persistent_objects() > 0)
+                        .is_some_and(|s| s.advanced_persistent_objects(&runtime) > 0)
                 } else {
                     opened && environment.presentation_ready() && pipelines.0
                 })
@@ -401,7 +401,10 @@ fn drive(
                     println!(
                         "showcase_persistent_cancel ticket={} objects={} input_injected=false observation_gate=two_owned_updates",
                         frontend.flow.ticket,
-                        effects.as_ref().unwrap().advanced_persistent_objects()
+                        effects
+                            .as_ref()
+                            .unwrap()
+                            .advanced_persistent_objects(&runtime)
                     );
                 }
                 if let Some(cinematic) = &cinematic {

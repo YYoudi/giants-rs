@@ -591,6 +591,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   epoch and real providers, including item-target writes and target/proxy
   retirement. Keep completed-frame query guards until that phase ownership is
   established; then compose active targeted physics and compare full turns.
+- Implemented: the local caller now publishes actual Session scalar state and
+  distinct typed target/proxy slots in an owned pre-physical phase. The next
+  physical step consumes it once; the frozen profile requires the first producer
+  too. Stale, replayed, running and failed phases are refused. Late writes and real partial proxy construction remain owned, with
+  incoming-reference protection and cancellation/reconstruction checks. Linked
+  physical consumers remain refused. Three installed controls use scripted
+  geometry/providers; they do not establish normal perception or gameplay.
+  A 256-turn native trace locates sixteen activation calls in the post-physical
+  item phase, including the readiness-off guard. The owned component retains
+  motion before its required activation-service refusal. Next: bind actual
+  geometry/camera/item services and wider linked consumers, then activation and
+  active physics in this order. Do not move activation ahead of physical motion
+  or simply remove the existing active-control guard.
 - Native-only full-primary diagnosis now completes 256 whole original bodies
   after the retained initialization/generic entry with declared world/view and
   projection/OS/TLS boundaries. Its same-input trajectory differs from the old
@@ -623,6 +636,28 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   integration exists. Resource loading alone must not change completion status.
 
 ### Kabuto next steps
+
+- Implemented at the CPU/owned-Session boundary: the complete acquired
+  post-selection continuation orders transient actor marking/link clear, local
+  camera selection, 21 UI availability requests, two linked damage/limit checks,
+  retained flags and gated position notification. 512 original-PC/Rust controls
+  match 1,873,051 words, including service order and retained mutating entries;
+  123 external camera-range words match separately. The real native marker,
+  widget flag setter, camera request/pose/lens stores and ownership guard execute;
+  camera sampling, target-status, sound, rate gate and transports remain declared
+  entry providers in this comparison. Typed Session links remain separate from
+  pointer-normalized payload cells. The adapter reuses actual channel/counter,
+  damage/class-limit, generic marking and shared reference-camera services.
+  Its installed composition reaches 509 tails, refuses three unacquired held
+  exits, samples six real authored poses and observes 256 declared position
+  entries. Late UI refusal/removal retain effects and prevent replay.
+  Next: acquire earlier action/scratch/definition admission and connect actual
+  link event producers/retirement, camera/UI/rate/transport backends and common
+  world order. The standalone native comparison is not a whole source-frame
+  comparison; the installed composition supplies world backends explicitly.
+  Completing this component does not acknowledge the enclosing primary/history
+  or any of the four initializer gates. Ordinary Kabuto remains unavailable.
+
 
 - Implemented: the locomotion/idle selector preserves lateral-before-longitudinal
   priority, captured earlier behavior/activity/wrap, lazy target-class access,
@@ -1589,6 +1624,32 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   the complete comparison gallery appears before the progress tables.
 
 ## Cinematics / Flick: coverage and next prerequisites
+
+- Constant persistent ownership: the bounded 23-source /25-request cohort now
+  moves its actual state storage, header, channels and references into the active
+  mission Session. Queue entries retain typed identities; the main renderer reads
+  that same owner. Shared support slots are scoped by ticket/director/generation,
+  distinct from ordinary actors, and terminal requests still refresh them.
+  The constant callback keeps aging disabled rather than inventing a duration.
+  Actual callback/ANM/bind order retains completed writes after late failure and
+  refuses replay. Host cancellation checks incoming typed references before
+  removing the source cohort; unrelated residents and other generations survive.
+  Installed ownership controls cover all 23 sources /25 requests and 92 queue
+  lifecycles. Retained original-PC controls also match 50 route cases and 14
+  preparation states through actual Session objects; clock/support/model-query
+  inputs remain supplied, and these are not new original recordings.
+  Exact combined source `88dd2ff` passes 894 Rust tests (82 ignored), strict
+  Clippy/Rustfmt, the cohort, ordinary timed preparation, camera/actor roles and
+  nine Delphi installed controls. Its receipt-bound MinGW executable passes both
+  silent development endpoints, three active persistent cancellations and two
+  source-terminal/re-entry cycles with real muted sinks and text cleanup.
+  Published preview .7 pins that exact source; notices/package/public-download
+  checks pass. Its fresh census covers 545 sources /16 worlds, zero preparation
+  errors, 59 reported-gap sources, 56 general-queue refusals and zero certified films.
+  This closes duplicate host ownership, not native world admission, stock,
+  current populations, clock/RNG ownership, world cadence or virtual-support
+  lifetime parity. Attribution remains unknown. Full visual/audio/timing and
+  ordinary gameplay transitions stay open; no complete film is certified.
 
 - Persistent selector follow-up: 900 private original-PC/Rust controls now
   execute the real model selector and prepared-format query instead of supplying

@@ -55,6 +55,11 @@ pub struct Group {
     pub(crate) animation_commit_entered: Option<u64>,
     pub(crate) animation_commit_running: bool,
     pub(crate) animation_commit_completed: Option<u64>,
+    pub(crate) animation_commit_current_frame: Option<i32>,
+    pub(crate) primary_tail_links: crate::kabuto_primary_tail::Links<Id>,
+    pub(crate) primary_tail_entered: Option<u64>,
+    pub(crate) primary_tail_running: bool,
+    pub(crate) primary_tail_completed: Option<u64>,
     pub(crate) action_select_entered: Option<u64>,
     pub(crate) action_select_running: bool,
     pub(crate) action_select_completed: Option<u64>,
@@ -114,6 +119,30 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    /// Publish typed tail relationships and the independently supplied transient
+    /// binding slot. Their actual event producers/lifetime remain prerequisites.
+    pub fn publish_primary_tail_links(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        links: crate::kabuto_primary_tail::Links<Id>,
+        transient_slot: u32,
+    ) -> Result<(), String> {
+        session.publish_kabuto_tail_links(owner, &self.resources, number, links, transient_slot)
+    }
+    /// Actual owned post-selection component; consumes the retained commit or
+    /// skipped counter, and refuses the still-unacquired held-reference route.
+    pub fn advance_primary_tail(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        stamp: &mut crate::animation_epoch::Stamp,
+        services: &mut impl crate::kabuto_primary_tail::Services,
+    ) -> Result<(), String> {
+        session.advance_kabuto_primary_tail(owner, &self.resources, number, stamp, services)
+    }
     /// Locomotion/idle selector only. Resolve its directed exit with
     /// `resolve_actions`; earlier admission and held continuation remain required.
     /// No primary or frame is completed.
@@ -560,6 +589,12 @@ impl Factory {
                 }),
             },
         )?;
+        if [0x50usize, 0x88, 0x320, 0x324]
+            .iter()
+            .any(|at| u32::from_le_bytes(prepared.payload[*at..*at + 4].try_into().unwrap()) != 0)
+        {
+            return Err("cold Kabuto tail relationships require acquired empty cells".into());
+        }
         let group = Group {
             owner,
             first,
@@ -589,6 +624,15 @@ impl Factory {
             animation_commit_entered: None,
             animation_commit_running: false,
             animation_commit_completed: None,
+            animation_commit_current_frame: None,
+            primary_tail_links: crate::kabuto_primary_tail::Links {
+                transient: None,
+                interaction: None,
+                progress: [None; 2],
+            },
+            primary_tail_entered: None,
+            primary_tail_running: false,
+            primary_tail_completed: None,
             action_select_entered: None,
             action_select_running: false,
             action_select_completed: None,
