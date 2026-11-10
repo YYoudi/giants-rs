@@ -105,11 +105,14 @@ expected feedback and supported limits, with a local build identity or release
 link. If the ordinary path still refuses, report that blocker before test counts.
 Do not delay basic supported interaction until unrelated rare cases are acquired.
 
-The ordinary .8 Mecc controller and the completed-owned-frame jet renderer still
-have different producers. A plume seen in the owned replay does not close that
-ordinary-input path. Unify the actual parent/child controller and its required
-impact/health/display/voice/fire services before changing the default path; do
-not feed the renderer fabricated completion state or a second flame simulation.
+The .8 download predates ordinary-controller jet presentation. Later source
+connects the actual animated parent, published motion and constructor-bound
+child models to the common draw consumer, with separate presentation clocks.
+Validate this ordinary connection and real controls on the combined build;
+owned replay output alone does not close that interaction check. Keep the full
+native controller's impact/health/display/voice/fire requirements distinct.
+Do not fabricate native completion or duplicate the flight simulation to render
+the supported ordinary action.
 
 ## Publish one coherent milestone
 
