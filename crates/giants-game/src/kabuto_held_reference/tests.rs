@@ -51,7 +51,7 @@ impl Services<u8> for Backend {
     fn owner_word(&self, _: u8) -> Result<u32, String> {
         Err("unexpected owner read".into())
     }
-    fn set_owner_word(&mut self, _: u8, _: u32) -> Result<(), String> {
+    fn set_owner_word(&mut self, _: &mut State<u8>, _: u8, _: u32) -> Result<(), String> {
         Err("unexpected owner store".into())
     }
     fn construct(&mut self, _: &mut State<u8>, _: u8, _: u32, _: u32) -> Result<u8, String> {
@@ -63,7 +63,7 @@ impl Services<u8> for Backend {
     fn notify_release(&mut self, _: &mut State<u8>, _: u8, _: Notice<u8>) -> Result<(), String> {
         Err("unexpected release notice".into())
     }
-    fn action(&mut self, _: &mut State<u8>, _: Request<u8>) -> Result<(), String> {
+    fn action(&mut self, _: &mut State<u8>, _: ActionRequest<u8>) -> Result<(), String> {
         Err("unexpected action".into())
     }
     fn bind(

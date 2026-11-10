@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Owned Kabuto current/held-reference bank — 10 November 2026
+
+The acquired handoff now consumes typed Session actor identities and actual
+payload scale words at its owning resource checkpoint. Services see preceding
+stores; callback effects survive late errors and are reread before continuing.
+Wrong actors/resources/checkpoints, reentry and replay refuse execution. Removing
+the owner does not restore a stale working copy. Three source-backed controls
+exercise publication, quarantine and cleanup; a selected thirty-word projection
+also agrees with the original interval under a declared mutating binding entry.
+The 512-case handoff and preceding release comparisons remain unchanged.
+
+Capture policy/scale, caller decisions/counters, mode/network ownership and full
+backend/lifetime/order integration remain required. This component does not
+finish a primary, history or pending initializer and enables no new gameplay,
+capture or preview. The existing download retains its exact source and hashes.
+Validation passes 869 workspace Rust tests (61 ignored), nineteen installed Kabuto
+controls and the separate cold control, twelve Mecc and six Delphi controls,
+43 Python tests, Rustfmt, strict Clippy and roadmap/site/JavaScript checks.
+
 ## Canonical detached timed ownership and registration — 10 November 2026
 
 Detached retirement requests now transfer their actual payload/reference owners
