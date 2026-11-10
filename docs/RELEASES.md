@@ -5102,3 +5102,11 @@ Child activation, particle updates/rendering and ordinary world scheduling are
 still open. Prototype PS2 attributions remain unknown. See
 [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#owned-emitter-callback--10-november-2026).
 This source checkpoint creates no preview asset or new gameplay availability.
+
+
+Combined source validation after retaining main's Delphi auxiliary, Vimp
+history/newborn and Kabuto reference-bank changes passes 875 workspace Rust tests
+(73 ignored), eighteen installed Mecc controls, five installed Vimp controls,
+the canonical timed-owner and cold Delphi support controls, Rustfmt and strict
+workspace Clippy. Python/site/JavaScript checks pass separately. These source
+checks do not relabel the current downloadable preview or admit ordinary particles.

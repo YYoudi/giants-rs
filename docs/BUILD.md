@@ -748,3 +748,19 @@ cargo test --locked --workspace native_timed_positioned_constructor_keeps_regist
 This replays eight controlled class-personality cases against actual constructor
 registration, including six that differ after wrapper stores. Installed files
 are unchanged; this check does not admit native stock or a live world actor.
+
+
+## Optional owned Mecc smoke callback check
+
+With `GIANTS_MECC_WORLD_ROOT` and an isolated Cargo target, run:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_smoke_callback --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This silent installed-resource check advances the real owned emitter, prepares
+its deferred child program in the originating pool and checks strict-zero timing,
+first-call delay, retained guide-failure prefixes, quarantine and bounded cleanup
+after owned callbacks. The guide supplies an explicit world affine and the frame
+supplies actor-local time. It exercises no active particle or renderer. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#owned-emitter-callback--10-november-2026).
