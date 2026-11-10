@@ -44,6 +44,9 @@ pub struct State {
     pub(crate) rigid_source: std::sync::Arc<giants_game::static_geometry::Scene>,
     collision_walk: Option<collision_replay::Walk>,
     health: giants_game::mecc_damage::State,
+    landing_impact: Option<[f32; 3]>,
+    impact_parameters: giants_game::mecc_impact::Parameters,
+    contact_speed_thresholds: [f32; 2],
     pub(crate) deaths: u32,
     floor_height: f32,
     pub(crate) weapon: giants_game::held_weapon::Weapon,
@@ -265,11 +268,15 @@ impl State {
     pub(crate) fn mission_hud(&self) -> (f32, f32, f32) {
         (self.remaining_health(), self.jet.fuel, self.jet.boost)
     }
+    pub(crate) fn take_landing_impact(&mut self) -> Option<[f32; 3]> {
+        self.landing_impact.take()
+    }
     pub(crate) fn reset_pose(&mut self) {
         if let Some(pistol) = &mut self.mission_pistol {
             pistol.reset();
         }
         self.health = giants_game::mecc_damage::State::cold();
+        self.landing_impact = None;
         self.deaths = 0;
         self.motion = self.start;
         self.gravity_mass = self.initial_gravity_mass;
@@ -490,6 +497,8 @@ impl State {
         let parameters = giants_game::mecc_initial::Parameters::from_globals(&globals)?;
         let locomotion = giants_game::mecc_locomotion::Parameters::from_globals(&globals)?;
         let descent = giants_game::mecc_locomotion::Descent::from_globals(&globals)?;
+        let impact_parameters = giants_game::mecc_impact::Parameters::from_globals(&globals)?;
+        let contact_speed_thresholds = [globals.scalar(0x664)?, globals.scalar(0x668)?];
         let model_speed_minimums = [globals.scalar(0x65c)?, globals.scalar(0x660)?];
         let jet_parameters = giants_game::mecc_jet::Parameters::from_globals(&globals)?;
         let utility = if let Some(initial) = equipment {
@@ -727,6 +736,9 @@ impl State {
             rigid_source,
             collision_walk: None,
             health: giants_game::mecc_damage::State::cold(),
+            landing_impact: None,
+            impact_parameters,
+            contact_speed_thresholds,
             deaths: 0,
             floor_height: ground.height,
             weapon,
@@ -1488,6 +1500,8 @@ impl State {
         }
         // Ordinary player path: integrate prior forces, resolve contact, then
         // prepare gravity/controls and jet force for the following step.
+        self.landing_impact = None;
+        let was_grounded = self.grounded;
         let axes = if self.alive() { axes } else { Vec2::ZERO };
         let thrust = thrust && self.alive();
         let boost = boost && self.alive();
@@ -1602,6 +1616,33 @@ impl State {
         self.prepare_forces(axes, thrust)?;
         self.prepare_jet(dt, axes, thrust, boost)?;
         self.animate(dt)?;
+        // Bounded ordinary-controller presentation only. On this terrain landing
+        // both native contact-selection speed tests are false; health, authority
+        // and the full primary's impact/voice providers remain separate.
+        if self.mission_pistol.is_some()
+            && self.alive()
+            && !was_grounded
+            && self.grounded
+            && response.terrain_responses != 0
+            && self.motion.velocity[2] >= 0.
+            && self
+                .contact_speed_thresholds
+                .into_iter()
+                .all(|v| v.is_finite() && v > 0.)
+            && self.active_clip != 41
+            && self.load_response_flags & 0x800000 == 0
+            && self.inventory.special == -1
+        {
+            let reaction = giants_game::mecc_impact::classify(
+                self.motion.velocity,
+                self.motion.previous_velocity,
+                self.impact_parameters,
+            )
+            .map_err(|_| "ordinary landing classification failed")?;
+            if reaction.severity != 0 {
+                self.landing_impact = Some(self.motion.position);
+            }
+        }
         Ok(giants_game::controlled_mecc::Frame {
             before: previous_position,
             position: self.motion.position,

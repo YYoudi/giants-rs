@@ -15,7 +15,9 @@ use std::sync::{
 
 type DeclaredActorPose = ([f32; 3], [f32; 3]);
 type ActorId = giants_game::resident_states::Id;
+mod landing;
 mod npc;
+pub(crate) use npc::Draw as NpcDraw;
 #[path = "mission_runtime/owned.rs"]
 mod owned;
 pub(crate) use owned::Input as OwnedMeccInput;
@@ -126,6 +128,7 @@ struct Active {
     // owned driver must still reject a prior development-motion publication.
     controlled_mecc_owner: Option<ActorId>,
     owned_mecc: Option<owned::Driver>,
+    landing: Option<landing::Driver>,
 }
 impl Active {
     fn player_owner(&self) -> Result<ActorId, String> {
@@ -1003,6 +1006,21 @@ impl Runtime {
     }
     pub fn active_ticket(&self) -> Option<u64> {
         self.active.as_ref().map(|a| a.ticket)
+    }
+    pub(crate) fn npc_draws(&mut self, ticket: u64) -> Result<Vec<NpcDraw>, String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("NPC draw mission ticket absent")?;
+        match active.payload.npcs.as_mut().map_err(|e| e.clone())? {
+            None => Ok(Vec::new()),
+            Some(npcs) => npcs.draws(
+                &mut active.resident_states,
+                ticket,
+                active.payload.plan.resources(),
+            ),
+        }
     }
     pub(crate) fn messages(&self, ticket: u64) -> Option<&giants_game::mission_messages::Queue> {
         Some(
@@ -2241,6 +2259,7 @@ fn drive(
                     bindings,
                     controlled_mecc_owner: None,
                     owned_mecc: None,
+                    landing: None,
                 });
                 runtime.initialize_owned_pickup(pending.ticket);
             }
@@ -2452,15 +2471,11 @@ impl Runtime {
         let Some(active) = self.active.as_mut() else {
             return Ok(None);
         };
-        let ids = active.resident_states.smoke_particle_ids();
+        let ids = active.resident_states.particle_draw_ids();
         self.smoke_geometry.retain(|(_, id), _| ids.contains(id));
         let mut frames = Vec::new();
         for id in ids {
-            if active
-                .resident_states
-                .smoke_particle_draw_state(id)?
-                .is_none()
-            {
+            if active.resident_states.particle_draw_state(id)?.is_none() {
                 self.smoke_geometry.remove(&(active.ticket, id));
                 continue;
             }
@@ -2492,7 +2507,7 @@ mod tests {
     use super::*;
     use bevy::ecs::world::CommandQueue;
 
-    fn payload() -> Payload {
+    pub(super) fn payload() -> Payload {
         use giants_game::{
             catalog_registry::WorldClassRegistry,
             model_registry::{ClassProgram, ModelRegistry},
@@ -2684,6 +2699,7 @@ mod tests {
                 bindings,
                 controlled_mecc_owner: None,
                 owned_mecc: None,
+                landing: None,
             };
             assert_eq!(active.player_owner().unwrap(), owner);
             let peer = active
@@ -3040,6 +3056,7 @@ mod tests {
                 bindings,
                 controlled_mecc_owner: None,
                 owned_mecc: None,
+                landing: None,
             }),
             ..Default::default()
         };
@@ -3328,6 +3345,7 @@ mod tests {
                 bindings,
                 controlled_mecc_owner: None,
                 owned_mecc: None,
+                landing: None,
             }),
             ..Default::default()
         };
@@ -3344,6 +3362,82 @@ mod tests {
         let mut minimum_fuel = 100f32;
         let mut released = false;
         let mut descent = false;
+        let mut landing_requests = 0;
+        #[derive(Default)]
+        struct LandingTransport {
+            born: Vec<ActorId>,
+            stopped: Vec<ActorId>,
+            released: Vec<ActorId>,
+        }
+        impl giants_game::positional_impact::Cue for LandingTransport {
+            fn play(
+                &mut self,
+                s: &mut giants_game::resident_states::Session,
+                id: ActorId,
+                _: u32,
+                _: &mut giants_game::audio_parameters::Random,
+            ) -> Result<(), String> {
+                assert!(!s.positional_impact(id).unwrap().complete);
+                self.born.push(id);
+                Ok(())
+            }
+        }
+        impl giants_game::positional_impact::Stop for LandingTransport {
+            fn stop(
+                &mut self,
+                s: &mut giants_game::resident_states::Session,
+                id: ActorId,
+                _: u32,
+            ) -> Result<(), String> {
+                assert_eq!(
+                    s.get(id)
+                        .unwrap()
+                        .construction_fields
+                        .as_ref()
+                        .unwrap()
+                        .object_flags
+                        & 0x8000,
+                    0
+                );
+                self.stopped.push(id);
+                Ok(())
+            }
+        }
+        impl giants_game::actor_retirement::Services for LandingTransport {
+            fn release(
+                &mut self,
+                s: &mut giants_game::resident_states::Session,
+                id: ActorId,
+            ) -> Result<(), String> {
+                assert_ne!(
+                    s.get(id)
+                        .unwrap()
+                        .construction_fields
+                        .as_ref()
+                        .unwrap()
+                        .object_flags
+                        & 0x8000,
+                    0
+                );
+                self.released.push(id);
+                Ok(())
+            }
+        }
+        let mut landing_audio = LandingTransport::default();
+        let mut impact_draws = 0;
+        assert!(
+            runtime
+                .active
+                .as_ref()
+                .unwrap()
+                .payload
+                .controller
+                .as_ref()
+                .unwrap()
+                .is_none(),
+            "staging controller must have moved into its ECS owner"
+        );
+        assert!(!runtime.normal_landing_supported(998));
         for number in 1..=1600 {
             viewer.mission_look(Vec2::new(0.0001, 0.), false);
             let frame = viewer
@@ -3362,6 +3456,8 @@ mod tests {
             runtime
                 .publish_controlled_mecc_motion(998, number, frame)
                 .unwrap();
+            assert!(runtime.normal_landing_supported(998));
+            assert!(!runtime.normal_landing_supported(999));
             let (session, bound) = runtime.controlled_jet_session(998).unwrap();
             assert_eq!(bound, owner);
             let frames = presentation
@@ -3376,12 +3472,45 @@ mod tests {
             }
             minimum_fuel = minimum_fuel.min(viewer.mission_snapshot().1);
             descent |= viewer.mission_snapshot().2 == 41;
+            let landing = viewer.take_landing_impact();
+            if let Some(position) = landing {
+                assert!(position.into_iter().all(f32::is_finite));
+                assert!(number > 420, "landing must follow actual thrust release");
+                landing_requests += 1;
+            }
+            runtime
+                .advance_normal_landing(998, 1. / 120., landing, &mut landing_audio)
+                .unwrap();
+            let (_, draws) = runtime
+                .smoke_draws(viewer.camera().0.view)
+                .unwrap()
+                .unwrap();
+            impact_draws += draws.len();
             if number > 720 {
                 released |= frames.iter().all(|frame| frame.pose.hidden);
             }
             viewer.sample_pose().unwrap();
         }
         assert!(visible && boosted && released && descent && minimum_fuel < 99.);
+        assert!(
+            landing_requests > 0,
+            "source flight must produce an actual terrain landing request"
+        );
+        assert_eq!(landing_audio.born.len(), landing_requests);
+        assert_eq!(landing_audio.born, landing_audio.stopped);
+        assert_eq!(landing_audio.born, landing_audio.released);
+        assert!(impact_draws > 0);
+        assert!(!runtime.normal_landing_has_work(998));
+        assert!(
+            runtime
+                .active
+                .as_ref()
+                .unwrap()
+                .landing
+                .as_ref()
+                .unwrap()
+                .contexts_idle()
+        );
         let session = &runtime.active.as_ref().unwrap().resident_states;
         assert_eq!(
             constructor_channels,
@@ -3391,6 +3520,7 @@ mod tests {
         cancel_ticket(&mut runtime, &mut Commands::new(&mut queue, &world), 998);
         queue.apply(&mut world);
         assert!(runtime.controlled_jet_session(998).is_err());
+        assert!(!runtime.normal_landing_supported(998));
         assert!(world.get_entity(scene_root).is_err());
         println!(
             "normal_jet_live_body steps=1600 thrust={visible} boost={boosted} release={released} descent={descent} minimum_fuel={minimum_fuel} constructor_channels_unchanged=true supplied_commands=true gpu=false real_input=false"
@@ -3494,6 +3624,7 @@ mod tests {
                 bindings,
                 controlled_mecc_owner: None,
                 owned_mecc: None,
+                landing: None,
             }),
             ..Default::default()
         };
@@ -3990,6 +4121,7 @@ mod tests {
                     bindings,
                     controlled_mecc_owner: None,
                     owned_mecc: None,
+                    landing: None,
                 }),
                 ..Default::default()
             });
@@ -4060,6 +4192,7 @@ mod tests {
                 bindings,
                 controlled_mecc_owner: None,
                 owned_mecc: None,
+                landing: None,
             }),
             ..Default::default()
         };
@@ -4157,6 +4290,7 @@ mod tests {
                 bindings,
                 controlled_mecc_owner: None,
                 owned_mecc: None,
+                landing: None,
             }),
             ..Default::default()
         };

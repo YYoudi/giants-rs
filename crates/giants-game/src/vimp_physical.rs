@@ -88,7 +88,7 @@ impl Owned {
         &mut self,
         mut fields: Fields,
         mut body: Vec<u8>,
-        vimp: crate::vimp_actor::Cold,
+        vimp: &mut crate::vimp_actor::Cold,
         globals: &giants_formats::global_data::GlobalData,
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
     ) -> Result<(Fields, Vec<u8>), String> {
@@ -147,6 +147,7 @@ impl Owned {
         fields.object_flags &= 0xf7e7_ffff;
         if fields.object_flags & 0x1000_0000 != 0 || fields.position != fields.current {
             fields.object_flags &= !0x1000_0000;
+            vimp.contact_hit = 0;
             let flags = word(&body, 0) & 0xffff_ff00;
             put(&mut body, 0, flags);
         }
@@ -164,7 +165,7 @@ impl Owned {
                     floor: self.view.floor,
                     plane: self.view.plane,
                     physics_flags: word(&body, 0),
-                    hit: 0,
+                    hit: vimp.contact_hit,
                     support: 0,
                     support_part: 0,
                     support_triangle: 0,
@@ -184,6 +185,9 @@ impl Owned {
             ground,
             |_| Err("Vimp object walk unexpectedly entered"),
         )?;
+        // Publish the real placement result before later profile/affine/model
+        // failures. Re-arming history must never replace it with a guessed zero.
+        vimp.contact_hit = placed.state.hit;
         if placed.mesh_responses != 0
             || placed.collision_events != 0
             || placed.state.hit != 0

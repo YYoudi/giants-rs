@@ -1,5 +1,28 @@
 # Preview releases and milestone integration
 
+## Ordinary Mecc terrain-landing feedback - local graphical validation
+
+The normal controller now creates the source hard-landing effect and positional
+sound from actual air-to-terrain contact, feeding the existing particle renderer
+and canonical callback/retirement. Enter a supported Mecc mission from the menu,
+hold right mouse for thrust, release and land; no replay/experimental flag enables
+this connection. Carried/special profiles and slide effects remain unsupported;
+native fall damage/pain/death and full owned-player admission stay open.
+
+Source `b34e1e2`, executable SHA256
+`6923eacb3dc762171c7e837e296613b6eefba33f22a446da3ecd23a2b9addf95`,
+passes startup and an ordinary-admission GPU run with supplied flight commands.
+Natural contact creates the canonical actor at step770 and starts a real muted
+positional sink; the inspected step800 image shows dust at the Mecc feet.
+This is graphical diagnostic coverage, not held-input or audible acceptance and
+not an original fidelity result. Earlier missing-sink refusal is retained as
+failed evidence; the corrected readiness check uses the live typed actor role.
+Source-resource lifecycle checks cover birth, shared draw packets, callback fade,
+expiry, stop and canonical release without completing the native primary.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md). No existing public executable
+or historical gallery receipt is relabeled; main owns the combined preview.
+
+
 ## Published preview .9 - ordinary Mecc jet and projectile feedback
 
 [Windows preview-2026.11.10.9](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.9)
@@ -34,6 +57,33 @@ are outside this frozen executable. The cinematic census remains tied to .7,
 and historical gallery images retain their recorded build. No whole-game
 completion or new confirmed prototype PS2 attribution follows from this release.
 
+## Combined NPC source integration - no new playable AI
+
+The main integration lane reviewed NPC source `0ec3f68` and combined its contact
+ownership, completed-pose renderer and selected neutral callbacks with the current
+Mecc descent, HUD, Delphi/Kabuto body and camera contributions. Combined validation
+passes 952 portable Rust checks (148 external-data checks ignored), 43 Python
+checks, format and strict Clippy. Forty-seven installed controls cover NPC contact,
+captured movement/response, common pose assets and neutral callbacks alongside
+constructor-bound roles, character menu construction, owned Mecc terrain and the
+ordinary 1,600-step body/jet/descent control. The source-history audit reports no
+findings; detailed inputs and receipts remain private.
+
+This is an intermediate integration. Offline callback admission and supplied
+world services in those checks do not enable ordinary Vimp AI or prove GPU pixels.
+The next player delivery remains the continuous real-input Mecc flight/release/
+descent/landing loop; Story2 needs the actual shared caller and remaining family
+services before an interactive herd. Preview .9 and its download hashes stay fixed.
+
+Reconciliation source `255469f` also preserves concurrent main `5b2fad2`, including
+the exact-owner Kabuto look-angle command and external cold camera context.
+The resulting combination passes 953 portable Rust checks (149 ignored), 44
+Python checks, format/strict Clippy and 48 installed controls. The additional
+camera check retains signed pitch and projection-failure effects on the correct
+actor. The source-history review covers 1,056 commits and 5,684 unique blobs
+with zero findings. These are scoped dependencies, not new Kabuto controls or
+proof of continuous Mecc OS-held flight; the next player delivery is unchanged.
+
 ## Flick timed queue ownership - intermediate dependency
 
 No new normal controls, runtime capability or downloadable preview is claimed.
@@ -41,6 +91,23 @@ The next common campaign FX dependency is the source-marked timed-shot queue,
 its virtual support and retirement child in the canonical mission Session.
 Existing construction/callback controls remain reusable; an ordinary actor ID
 must not replace the source-domain support.
+
+The canonical Session now has typed staging/preparation APIs for virtual Flick
+supports and their source-scoped positional retirement children. They move the
+actual payload and callback resources rather than registering a substitute
+parent or retaining a second live body. Foreign/stale identities refuse before
+callback mutation; failed staging preserves context identity and active RNG.
+Cancellation releases only the selected source generation and refuses a pending
+callback. The installed ownership control exercises these paths and a real
+retirement child, preserving an ordinary actor and another source generation.
+The retained ordinary preparation control still matches 1,152 supplied states
+and 226,944 words through the shared implementation; these are reused CPU
+comparisons, not additional films or runtime fidelity coverage.
+
+This remains a kernel dependency: the main Flick dispatcher has no consumer for
+these new APIs yet. Event dispatch, actual clocks/RNG and required world services
+must be connected before claiming a new menu capability. No placeholder physical
+or retirement provider, new capture or preview download is introduced here.
 
 The exact PC thread-state initializer and random helper now execute together
 under supplied Windows TLS, thread identities and zeroed heap allocation. Six
@@ -51,6 +118,20 @@ mission: application reseeds and earlier draws still need their actual producers
 The retained preview's per-director random state is not a native fidelity proof.
 Both prototype PS2 resources were searched with pinned binary identities before
 this work; attribution stays unknown. Detailed records remain private.
+
+The combined source `b751ced` preserves main's concurrent NPC/camera work. Its
+GNU Windows executable SHA256 is
+`2c7f4d19988534918aaad301659eddacc8aae10dd59e3b376d6fa90480a8b9bf`.
+This exact build also passes CLI startup and the GPU landing observation with
+a real muted sink and inspected dust cloud; both installed-resource lifecycle
+checks pass on the combined source. The portable combined workspace passes953 tests (150 ignored), strict Clippy,
+formatting,44 Python checks, site export and JavaScript syntax. An initial test
+fixture compile failure was corrected by initializing its absent landing driver;
+this test-only correction does not change the executable. The private draft ZIP
+verifies10 files,338 dependency notices and archive SHA256
+`df3e46b4bebd005bd0dacc874db53466b8cbec3f4820edbd3d1049034918c617`.
+Its remaining receipt-bound distribution review belongs to main's technical
+publication process; this is not another human-approval gate or a public release.
 
 ## Ordinary Mecc descent visually observed - local Windows build
 
@@ -106,6 +187,56 @@ New reports must lead with the normal menu/controls, expected behavior and exact
 tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
+
+## Passive common-node ownership — intermediate source dependency
+
+No ordinary Vimp AI map or new preview is available. Source construction now
+prepares the existing nonphysical common-node owner for supported empty state0
+actors. Neutral actors reuse the acquired null state dispatch, ANM/time and real
+finalization contracts; unsupported animated/reference-bearing or parented
+profiles receive no default-success callback. Existing herd APIs remain aliases.
+
+A focused PC constructor/common-node control for two neutral classes agrees with
+Rust on 156 selected numeric words. The installed Story2 selected-cohort control
+admits 129 neutral declarations over three supplied callback steps, checking 387
+updates, affines, unchanged RNG, replay/retirement and five unsupported state0
+profiles. It does not update the other mission families or establish live world
+admission, populated collision, ordinary input, GPU output or AI readiness.
+The real shared caller and remaining family services are still required before
+ordinary interaction and preview validation. Frozen preview receipts stay intact.
+
+## Common Vimp pose renderer — runtime consumer, interaction unverified
+
+No ordinary Vimp AI map or new preview is available. The common executable now
+consumes completed Session Vimp frames using their actual channels, animation epoch
+and affine, copying shared position buffers before another actor updates them.
+The existing opaque RGB body shader receives source geometry/textures. Primary
+model zero is an explicit presentation policy; native visibility/LOD and wider
+material/culling profiles remain open. Rendering advances no gameplay state.
+
+The installed CPU check retains canonical Story2 staging and explicitly supplies
+offline birth/callback/quiet/clock admission over actual terrain. Two tickets each
+produce fourteen bodies, update their mesh poses, hide/resume with the camera and
+release owned entities/mesh/material/image assets. Missing mesh cleanup/quarantine,
+foreign factory, retired binding and next-history refusals are checked. No GPU
+pixels, ordinary controls or whole-world scheduling follow from that evidence.
+Actual shared callback/birth admission is still required before owner interaction
+and preview validation. This source preserves main's current Kabuto body, Delphi,
+Mecc projectile/jet and cinematic work; frozen preview receipts stay unchanged.
+
+## Vimp constructor/physical contact ownership — source dependency only
+
+Story2 still has no ordinary Vimp AI test or new downloadable preview. Source now
+retains the actual constructor-cleared contact word in each Vimp, carries it
+through physical updates and late failure, and lets the movement/active adapter
+consume that owner rather than a supplied obstruction predicate. The bounded
+wander route rejects unsupported nonzero contact without consuming random draws.
+A focused original-PC poison-input control and static inspection establish the
+initial clear; installed controls check ownership, failure and replay boundaries.
+This does not establish live object collision, full primary/world admission or
+rendering. The actual mission roster includes active actors from other families;
+shared scheduling cannot skip them to advertise a live herd. Existing published
+preview receipts, executable identities and availability remain unchanged.
 
 ## Reached-time persistent inspection - source-only checkpoint
 

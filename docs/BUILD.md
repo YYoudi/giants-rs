@@ -67,6 +67,27 @@ control uses three installed animation resources after owned physics. It supplie
 gait/contact flags, retains the unfinished frame and refuses ANM replay. It does
 not establish live movement/contact production or ordinary mission admission.
 
+With the same installation, the ignored `source_vimp_contact` control checks
+unsupported-contact refusal and a retained physical clear after ground failure;
+`source_vimp_active_movement_reads_owned_contact` checks the constructor/physical
+owner consumed by movement. Nonzero contact and fault cases are explicit supplied
+fixtures, not observed object collisions. These controls enable no playable map.
+
+With `GIANTS_NPC_ROOT`, run
+`cargo test --locked -p giants-app source_npc_completed --target x86_64-pc-windows-gnu -- --ignored`
+for the actual common Vimp pose/Bevy asset consumer. It retains canonical Story2
+staging but explicitly supplies offline birth/callback admission, quiet signals,
+clocks and epochs. Two fourteen-body tickets check animated mesh updates, shared
+pose copies, camera hide/resume, missing-mesh cleanup/quarantine and asset release.
+This is CPU asset coverage, with no GPU or ordinary gameplay availability claim.
+
+With the same root, run
+`cargo test --locked -p giants-game source_passive_world --target x86_64-pc-windows-gnu -- --ignored`
+for 129 source-backed empty state0 actors over three supplied callback steps.
+The selected-cohort CPU control checks current affines, unchanged RNG, replay/
+retirement and unsupported profiles. Whole-world admission/control, clocks and
+unused collision/platform providers remain explicit supplied boundaries.
+
 With `GIANTS_DELPHI_ROOT` and an explicit `GIANTS_DELPHI_EXECUTABLE`, run
 `cargo test --locked -p giants-game source_camera_coefficients --target x86_64-pc-windows-gnu -- --ignored`
 for owned Delphi selection and external camera coefficients through projection
@@ -108,6 +129,14 @@ terrains without per-step state injection, then checks retained contact writes,
 stale affine and replay refusal after a late platform failure. Clocks, support,
 physical caller argument and empty mesh/platform populations remain supplied;
 this is not live mission admission or a fidelity check. Keep its inputs private.
+
+With `GIANTS_FLICK_ROOT`, run
+`cargo test --locked -p giants-game source_timed_virtual_support_is_not_an_ordinary_parent --target x86_64-pc-windows-gnu -- --ignored`.
+This silent dependency control checks canonical payload transfer, virtual
+support identity, foreign-owner staging without context/RNG consumption, actual
+retirement-child ownership and cut cleanup across independent source generations.
+It also refuses cancellation inside a pending callback. Its clocks/RNG/support
+are supplied; the menu dispatcher and live world producers are not established.
 
 With `GIANTS_DELPHI_ROOT` set to compatible installed data,
 `source_delphi_dependency_order_keeps_group_identities_and_cleanup` checks the
