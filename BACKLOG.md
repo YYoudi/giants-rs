@@ -513,6 +513,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented and compared: an already selected animation now commits through
+  the real Session channels, shared setter and zero-second ANM/reference/epoch
+  pipeline. It preserves the earlier template for its counter conversion, scales
+  reference speed, masks flags and stores the behavior/definition only after the
+  required notification. 512 original-PC/source-owned contexts match 410,880
+  normalized header/payload/reference/service words, including 256 declared
+  mutating transport entries and 768 ANM dispatcher visits. Three installed
+  controls cover success, retained late transport failure and owner removal;
+  replay/reentry and foreign/checkpoint refusals remain explicit. The selection
+  policy is supplied; a native moving path can bypass the held-reference entry.
+  Next: acquire complete action/movement selection and its actual primary
+  admission/order, and bind world ownership, lifetime and transport providers.
+  This component completes neither a primary/history nor the four initializers.
+
 - Implemented in the owned CPU composition: the Factory/Session handoff now
   stores current/held actor identities separately from the pointer-normalized
   payload and updates its actual scale words. Required services observe preceding

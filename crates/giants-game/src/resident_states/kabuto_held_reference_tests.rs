@@ -7,6 +7,9 @@ pub(super) enum Case {
     Failure,
     Clear,
     Captured,
+    Commit,
+    CommitFailure,
+    CommitClear,
 }
 
 struct World<'a> {
@@ -87,6 +90,7 @@ impl held::World for World<'_> {
             Case::Failure => Err("declared late binding failure".into()),
             Case::Success => Ok(Response::Complete),
             Case::Captured => panic!("captured no-target route must not bind"),
+            Case::Commit | Case::CommitFailure | Case::CommitClear => unreachable!(),
         }
     }
 }
@@ -230,6 +234,11 @@ pub(super) fn probe(
     number: u64,
     case: Case,
 ) {
+    if matches!(case, Case::Commit | Case::CommitFailure | Case::CommitClear) {
+        // The common source fixture invokes that continuation with its existing
+        // ANM context/RNG/epoch services after this resource probe returns.
+        return;
+    }
     if matches!(case, Case::Captured) {
         probe_captured(factory, foreign, s, owner, number);
         return;

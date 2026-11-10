@@ -26,6 +26,30 @@ correction. Publication and exact executable/package identities remain pending
 receipt-bound build, runtime, notice and download verification. It enables no new
 native Mecc jet/descent/landing, character controller or complete cinematic.
 
+## Kabuto selected-animation commit — 10 November 2026
+
+An already selected animation now commits through the actual Session channels,
+shared setter and immediate zero-second ANM/reference pipeline. Required transport
+observes preceding selection stores; callback effects survive errors, and owner
+removal prevents stale restoration. The caller's earlier template is retained for
+counter conversion. Action/movement selection policy and complete primary order
+remain required; no initializer/history or gameplay admission is acknowledged.
+
+512 original-PC/source-owned contexts match 410,880 normalized state/service words,
+including 256 declared mutating transport entries and 768 ANM dispatcher visits.
+The original setter, ANM body, ownership predicate and converter execute. Transport
+delivery, complete event/world outcomes and supplied selection policy are outside
+that agreement. Three installed controls cover success, late failure and removal.
+
+Combined runtime source `315177c` preserves the newer actor-role identities,
+physical/gravity effect ordering and environment error retention. Validation passes
+874 workspace Rust tests (73 ignored), twenty-three Kabuto controls plus its
+separate cold control, thirteen Mecc, seven Delphi, the application-role and timed
+ownership checks, 43 Python tests, Rustfmt and strict Clippy. The complete native
+comparison repeats against that combined source. The existing public preview .4
+retains its immutable identities; this source component adds no download or
+playable Kabuto claim.
+
 ## Source-only environment failure retention — 10 November 2026
 
 The common ordinary finalization service now retains completed environment and
