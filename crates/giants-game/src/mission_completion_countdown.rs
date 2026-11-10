@@ -3,6 +3,8 @@
 //! the message/progression continuation remain required caller responsibilities.
 //! This state is a supplied snapshot, not a native global initializer.
 
+pub mod admission;
+
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct State {
     pub remaining: f32,
