@@ -694,6 +694,7 @@ pub mod delphi_movement_activation;
 pub mod delphi_ordinary_view;
 pub mod delphi_post_physical;
 pub mod delphi_reserve;
+pub mod delphi_support;
 pub mod delphi_target_movement;
 pub mod delphi_target_owned;
 pub mod delphi_target_predicate;

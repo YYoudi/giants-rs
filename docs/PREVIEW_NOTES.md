@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.10.2
+# Windows x64 development preview - preview-2026.11.10.3
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -12,7 +12,20 @@ is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
 
-## Common timed-effect owner and source checkpoint
+## Combined camera, character and timed-effect checkpoint
+
+The shared source now includes camera-mode commands and Session-bound subjective
+admission, cold Delphi support construction, Kabuto current/held-reference
+handoffs and separate Vimp history/newborn callbacks. These acquired CPU services
+retain required world/provider boundaries; they do not enable ordinary NPC AI,
+Delphi/Kabuto controls or native Mecc jet/descent/landing. The normal development
+route remains partial. Source progress is distinct from playable availability.
+
+When a cinematic ends or is skipped and its playback resource is retired, the
+window returns to the normal game title instead of retaining the old cinematic
+caption. Frame-rate sampling also restarts when entering the next playback.
+
+## Common timed-effect owner
 
 The source now keeps attached and detached timed-effect payloads, channels and
 references in the common actor Session. Shared callbacks preserve service order,

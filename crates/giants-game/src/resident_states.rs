@@ -23,6 +23,10 @@ mod reference_camera;
 mod state18_reference_reset;
 mod subjective;
 mod timed_effect;
+#[cfg(test)]
+mod vimp_history_tests;
+#[cfg(test)]
+mod vimp_newborn_tests;
 pub use timed_effect::{
     PhysicalHeader as TimedEffectPhysicalHeader, Services as TimedEffectServices,
 };
@@ -313,6 +317,7 @@ pub struct Resident {
     vimp: Option<crate::vimp_actor::Cold>,
     vimp_physical: Option<crate::vimp_physical::Owned>,
     vimp_frames: u64,
+    vimp_prepared_history: Option<u64>,
     vimp_frame_stopped: bool,
     vimp_chunk: Option<crate::vimp_chunks::Chunk>,
     vimp_hurt_steps: u64,
@@ -556,6 +561,7 @@ impl Session {
                 vimp: None,
                 vimp_physical: None,
                 vimp_frames: 0,
+                vimp_prepared_history: None,
                 vimp_frame_stopped: false,
                 vimp_chunk: None,
                 vimp_hurt_steps: 0,
@@ -5636,25 +5642,50 @@ impl Session {
         }
         Ok(())
     }
-    /// One common-list Vimp iteration with retained physics, supplied admission/time
-    /// and acquired position/rate histories. This is not whole-world scheduling.
-    pub fn advance_vimp_world_offline(
+    /// Seal a Vimp's position history during the separate world history pass.
+    /// No clock, AI, physics, ANM or sound is advanced. The caller must still
+    /// establish native world admission and visit order; this is not readiness.
+    pub fn prepare_vimp_world_history(
         &mut self,
         id: Id,
-        frame: crate::vimp_frame::Frame<'_>,
+        number: u64,
         factory: &crate::vimp_actor::Factory,
-        globals: &giants_formats::global_data::GlobalData,
-        services: &mut crate::vimp_frame::Services<'_>,
-    ) -> Result<crate::actor_world_tick::Outcome, String> {
+    ) -> Result<(), String> {
         factory.growth_bounds(self, id)?;
+        self.validate_vimp_world_entry(id, number, false)?;
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        let fields = actor
+            .construction_fields
+            .as_mut()
+            .ok_or("Vimp world fields absent")?;
+        if actor.vimp_prepared_history.is_some() || fields.object_flags & 0xc000 != 0 {
+            return Err("Vimp history already prepared or actor inactive".into());
+        }
+        fields.advance_position_history();
+        actor.vimp_prepared_history = Some(number);
+        Ok(())
+    }
+
+    fn validate_vimp_world_entry(&self, id: Id, number: u64, newborn: bool) -> Result<(), String> {
         let actor = self.get(id).ok_or("Vimp world owner absent or foreign")?;
         let vimp = actor.vimp.ok_or("Vimp world construction absent")?;
-        if matches!(vimp.mode, 2..=4) && services.recovery_sounds.is_none() {
-            return Err("Vimp recovery sound-stop service absent".into());
-        }
-        if !vimp.initialized
-            || frame.number != actor.vimp_frames
-            || frame.number == u64::MAX
+        let admitted = if newborn {
+            !vimp.initialized
+                && vimp.born.is_some()
+                && vimp.mode == 0
+                && actor.vimp_frames == 0
+                && actor.attachment.is_none()
+                && actor.presentation_parent.is_none()
+                && actor
+                    .construction_fields
+                    .as_ref()
+                    .is_some_and(|f| f.object_flags & 0xc000 == 0)
+        } else {
+            vimp.initialized
+        };
+        if !admitted
+            || number != actor.vimp_frames
+            || number == u64::MAX
             || actor.world_tick_running
             || actor.vimp_frame_stopped
             || actor
@@ -5670,14 +5701,106 @@ impl Session {
         {
             return Err("Vimp world iteration out of order, incomplete or stopped".into());
         }
+        Ok(())
+    }
+
+    /// Consume separately prepared history without copying it again during the
+    /// primary pass. Missing preflight services retain the pending history;
+    /// callback execution consumes it even when a later service fails.
+    pub fn advance_vimp_world_after_history(
+        &mut self,
+        id: Id,
+        frame: crate::vimp_frame::Frame<'_>,
+        factory: &crate::vimp_actor::Factory,
+        globals: &giants_formats::global_data::GlobalData,
+        services: &mut crate::vimp_frame::Services<'_>,
+    ) -> Result<crate::actor_world_tick::Outcome, String> {
+        self.advance_vimp_world_with_history(
+            id,
+            frame,
+            factory,
+            globals,
+            services,
+            crate::vimp_frame::History::Prepared,
+        )
+    }
+
+    /// First common-list callback after an actual owned herd birth. The
+    /// constructor history is retained: no preceding world-history pass is
+    /// invented. Initialization and living continuation share this callback,
+    /// RNG and failure token. Outer world admission remains the caller's duty.
+    pub fn advance_vimp_newborn_world(
+        &mut self,
+        id: Id,
+        frame: crate::vimp_frame::Frame<'_>,
+        factory: &crate::vimp_actor::Factory,
+        globals: &giants_formats::global_data::GlobalData,
+        services: &mut crate::vimp_frame::Services<'_>,
+    ) -> Result<crate::actor_world_tick::Outcome, String> {
+        self.advance_vimp_world_with_history(
+            id,
+            frame,
+            factory,
+            globals,
+            services,
+            crate::vimp_frame::History::Constructor,
+        )
+    }
+
+    /// One common-list Vimp iteration with retained physics, supplied admission/time
+    /// and acquired position/rate histories. This is not whole-world scheduling.
+    pub fn advance_vimp_world_offline(
+        &mut self,
+        id: Id,
+        frame: crate::vimp_frame::Frame<'_>,
+        factory: &crate::vimp_actor::Factory,
+        globals: &giants_formats::global_data::GlobalData,
+        services: &mut crate::vimp_frame::Services<'_>,
+    ) -> Result<crate::actor_world_tick::Outcome, String> {
+        self.advance_vimp_world_with_history(
+            id,
+            frame,
+            factory,
+            globals,
+            services,
+            crate::vimp_frame::History::Combined,
+        )
+    }
+
+    fn advance_vimp_world_with_history(
+        &mut self,
+        id: Id,
+        frame: crate::vimp_frame::Frame<'_>,
+        factory: &crate::vimp_actor::Factory,
+        globals: &giants_formats::global_data::GlobalData,
+        services: &mut crate::vimp_frame::Services<'_>,
+        history: crate::vimp_frame::History,
+    ) -> Result<crate::actor_world_tick::Outcome, String> {
+        factory.growth_bounds(self, id)?;
+        self.validate_vimp_world_entry(
+            id,
+            frame.number,
+            history == crate::vimp_frame::History::Constructor,
+        )?;
+        let actor = self.get(id).ok_or("Vimp world owner absent or foreign")?;
+        let vimp = actor.vimp.ok_or("Vimp world construction absent")?;
+        if matches!(vimp.mode, 2..=4) && services.recovery_sounds.is_none() {
+            return Err("Vimp recovery sound-stop service absent".into());
+        }
+        if actor.vimp_prepared_history
+            != (history == crate::vimp_frame::History::Prepared).then_some(frame.number)
+        {
+            return Err("Vimp world history route or frame differs from preparation".into());
+        }
         let actor = self.residents.get_mut(&id.serial).unwrap();
         let fields = actor
             .construction_fields
             .as_mut()
             .ok_or("Vimp world fields absent")?;
-        // Acquired49fb70; the exact D tail4041e0 is a RET.
-        fields.previous = fields.current;
-        fields.current = fields.position;
+        if history == crate::vimp_frame::History::Combined {
+            fields.advance_position_history();
+        }
+        actor.vimp_prepared_history = None;
         actor.vimp.as_mut().unwrap().wander_pending = false;
         actor.world_tick_running = true;
         let mut token = crate::actor_world_tick::Tick::new();
@@ -9171,6 +9294,23 @@ impl Session {
                 "owned constructor outside acquired ordinary or cold Kabuto profile".into(),
             );
         }
+        self.construct_prechecked(input, writes, initial_pose)
+    }
+    /// Explicit cold support route. Ordinary declarations retain their existing
+    /// profile gate; no update or initialization is acknowledged by this entry.
+    pub(crate) fn construct_delphi_support_cold(
+        &mut self,
+        input: Construction<'_>,
+    ) -> Result<Id, String> {
+        crate::delphi_support::validate(&input)?;
+        self.construct_prechecked(input, &[], None)
+    }
+    fn construct_prechecked(
+        &mut self,
+        input: Construction<'_>,
+        writes: &[&giants_formats::mission::StateWriteKind],
+        initial_pose: Option<crate::uncached_pose::Pose>,
+    ) -> Result<Id, String> {
         if input.seed.storage.state() == 0 && input.seed.storage.data().is_some() {
             return Err("state0 construction must not allocate a payload".into());
         }

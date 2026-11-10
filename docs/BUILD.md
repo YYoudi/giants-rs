@@ -66,6 +66,14 @@ class flags, common-list-only membership, refused ordinary affine access, clear
 and re-entry. It is silent CPU construction, with no live target assignment,
 proxy update, render submission or world scheduler.
 
+With the same `GIANTS_DELPHI_ROOT`, the ignored
+`source_delphi_support_owns_private_payload_and_retains_ordinary_refusal` control
+checks the explicit cold support factory in three actual mission catalogs. It
+checks private payloads, shared resources, rollback, source release, clear and
+re-entry while preserving ordinary-constructor and current-geometry refusal.
+This is CPU ownership coverage, without initialization, world admission or a
+complete native actor-retirement claim.
+
 With `GIANTS_FLICK_ROOT` set to a user-supplied installation, the ignored
 `source_timed_effect_owns_resources_and_quarantines_late_services` control checks
 bounded timed resource ownership after context/external resource release, shared
@@ -100,6 +108,8 @@ user-supplied installation and use an isolated Cargo target:
 
 ```powershell
 cargo test --locked -p giants-game source_npc_herd --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_world_history --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_newborn --target x86_64-pc-windows-gnu -- --ignored --nocapture
 ```
 
 This silent CPU check uses authored herd/marker values with a supplied flat
@@ -108,6 +118,15 @@ terrain-failure quarantine, replay refusal and cleanup. It does not establish
 live NPC AI, player interaction, world scheduling or rendering. See
 [OWNED_NPCS.md](OWNED_NPCS.md).
 It loads world declarations only; mission markers are outside this fixture.
+The second command checks separate Vimp history/primary entry, retained late
+terrain failure, missing-service preflight and eight controlled frames against
+the existing combined Rust route. Time, ground, seed and control identity are
+supplied; it establishes no complete native world frame or mission admission.
+The newborn control exercises 14 real source births, first-callback continuation
+and two warm continuations without overwriting constructor histories. A separate
+required-FX failure retains initialized/physical state and rejects replay. Its
+ground, cadence and control identity are supplied; no renderer or live sound is
+exercised. Parentless allocation is outside the new herd-child entry.
 
 ## Optional subjective Mecc lifecycle check
 

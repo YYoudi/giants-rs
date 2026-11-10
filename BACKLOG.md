@@ -49,7 +49,25 @@ The dedicated NPC lane resumes existing work; see
   injected terrain failures. Preserve two inactive-parent exclusions and two
   parser-refused world files; they are not empty or fully covered populations.
 - Connect herd scheduling and admitted Vimp updates to actual world ownership,
-  then acquire threat/feeding services and active effects/audio before ordinary
+  retaining the acquired ordering: active history prepass before callbacks,
+  then successor lookup after each callback. A separate owned Vimp history API
+  now avoids per-callback recopying; 256 native helper controls match 2,304
+  position/history words, and three source controls retain failure/preflight
+  boundaries plus eight Rust-composition frames. This admits no live world.
+  Newborn entry now retains constructor histories and composes initialization,
+  living continuation, physics and ANM in its first callback. Native controls
+  match 32 scenarios / 96 snapshots / 824,168 normalized words, including 448
+  first callbacks, within supplied cohort/control/time/terrain/RNG boundaries.
+  Two installed controls retain a 14-child source cohort and late required-FX
+  failure. A subsequent original-PC-only mutable walk records 2,880 callbacks /
+  2,432 history preparations across 32 scenarios; all 448 newborns run in their
+  birth step. This acquires neither Rust composition nor whole-world admission.
+  Next bind herd/marker common-node dispatch, ANM epochs and nonphysical
+  finalization (including the herd environment service), then the mutable
+  population traversal; do not impose an extra newborn history copy
+  or postpone a new child using a population snapshot. Outer world admission,
+  global clock/RNG ownership and active FX/audio remain prerequisites.
+  Then acquire threat/feeding services and active effects/audio before ordinary
   mission admission. Preserve existing refusal and late-failure behavior.
 - Resume the persistent Ripper primary/perception/attack services, actual player
   target identities, physical/ANM order and required firing/audio/effect providers.
@@ -429,9 +447,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   attribute is now implemented in the shared field loader: 512 original dispatch/
   defaults/termination/base-copy programs match 31,744 projected words, including
   neighboring writes and raw operand high bits. Three Delphi mission catalogs
-  now prepare those fields; an installed control retains constructor refusal and
-  empty ownership/lists for the unacquired support state. Next: acquire that
-  state's constructor/update/lifecycle, actual scene key registry and phase-correct owned
+  now prepare those fields; an installed control retains ordinary constructor
+  refusal. An explicit cold support factory now uses the shared staged Session
+  constructor: eight original-PC creations agree on 1,584 normalized header/
+  payload words and 32 ordered registrations; Rust repeats with three world
+  catalogs selecting the same source template. Payloads are private and immutable
+  model/resources shared. Failed construction, source release, clear/stale IDs and
+  re-entry pass; current geometry/physical access remains refused. Pointer/UID
+  storage is normalized, UID matching-table/counter and retained source/heap/
+  texture policies supplied. Native state-payload cleanup is checked; full actor/
+  list retirement is not compared. Next: acquire that state's first-update
+  initialization, context/geometry producers and complete lifetime, actual scene
+  key registry and phase-correct owned
   header publication, other actor
   writers and caller/world/ANM timing. Do not equate scene keys with Session serials,
   conflate support with held/surfacing relationships or substitute zero for a

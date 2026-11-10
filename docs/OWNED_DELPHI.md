@@ -4,6 +4,37 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Cold physical-support ownership - 10 November 2026
+
+`delphi_support::Template` loads the support class from the current world's
+registered resources and constructs it through an explicit cold Session route.
+It reuses the shared staged constructor for a private zero payload, immutable
+model/resource ownership and ordered registrations. Ordinary construction keeps
+its existing refusal; this route acknowledges neither initialization nor update.
+
+Eight original-PC pool constructors over an actual prepared source template
+agree on 1,584 normalized header/payload words and 32 ordered registrations.
+The Rust comparison repeats with three mission catalogs selecting that same
+template. Native identifiers and pointers are normalized; the original UID
+lookup executes with supplied matching-table/counter inputs. Archive policy,
+source buffers, normal policy, opaque texture handles and heap/free remain
+declared boundaries of the retained model/specification preparation controller.
+No constructor warning or diagnostic occurs in this bounded control.
+
+Installed checks cover distinct payload allocations, shared immutable resources,
+failure without publication or leaked owners, source-resource release, clear,
+stale identities and re-entry. Missing world declarations are refused. Current
+affine/environment/Delphi physical access still fails for these cold residents.
+The native control checks state-payload cleanup with an absent type destructor;
+it does not compare full actor/list retirement. Rust clear/re-entry is ownership
+coverage, not proof of the complete native lifetime.
+
+First-update initialization, current context/geometry production, actual scene
+keys, full native retirement and phase-correct scalar/header publication remain
+open. No ordinary support behavior, playable Delphi control, capture or new
+downloadable preview is introduced. Prototype PS2 attribution remains unknown;
+the inputs, complete records and native outputs stay private.
+
 ## Support-class field preparation and object traversal - 9 November 2026
 
 The shared class-field loader now accepts the acquired packed support attribute:
@@ -15,10 +46,10 @@ and operands with high bits set retain their source behavior; malformed inputs
 remain refused before partial mutation.
 
 Source-backed header preparation now succeeds for the support class in three
-Delphi mission catalogs. An installed control verifies that the still-unacquired
-support-state constructor remains refused without publishing a resident or list
-entry. Prepared fields/models are not an initialized actor, current context or
-live support relationship; acquire construction/update/lifetime before admission.
+Delphi mission catalogs. An installed control preserves ordinary-constructor
+refusal without publishing a resident or list entry. Prepared fields/models are
+not an initialized actor, current context or live support relationship; acquire
+initialization/update/lifetime before admission.
 
 A further original-PC/Rust control executes the original object-list traversal,
 radius production, bounds helper, floor contacts, location dispatcher and later

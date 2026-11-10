@@ -1,5 +1,40 @@
 # Preview releases and milestone integration
 
+## Delphi cold support construction - 10 November 2026
+
+An explicit source-backed cold factory now owns the support class through the
+shared staged Session constructor. Eight original-PC creations match 1,584
+normalized header/payload words and 32 ordered registrations. Rust repeats the
+comparison with three mission catalogs selecting the same source template.
+Identifiers/pointers, source preparation policies and UID lookup inputs retain
+their declared control boundaries. Ordinary construction remains refused.
+
+Private payloads, shared immutable resources, failed-construction rollback,
+resource release, stale identities and clear/re-entry have installed controls.
+Current geometry/physical access is still refused. Native state-payload cleanup
+is checked; full native actor/list retirement, first-update initialization,
+world lifetime, scene keys and phase-correct header publication remain open.
+This introduces no live Delphi control, capture, dependency, asset or new
+download. The separately published quiet-ambient preview retains its exact
+source, executable, notices and package/checksum receipts. Prototype PS2
+attribution remains unknown; complete source inputs and evidence stay private.
+
+The combined tree passes 866 workspace Rust tests (58 ignored), seven installed
+Delphi controls, six Mecc impact/voice/wounded-primary controls and the NPC
+ownership regression. All 43 Python tests, Rustfmt, strict Clippy and
+roadmap/site/JavaScript checks pass. The current ambient and shared actor work
+is preserved; these checks retain their declared source/CPU scope.
+
+After preserving the latest held-reference and timed-effect ownership changes,
+runtime `9a76865` passes 869 Rust tests (59 ignored), the same installed Delphi,
+Mecc and NPC controls, 43 Python tests, Rustfmt and strict Clippy. Its cold
+constructor comparison repeats successfully. The earlier common MinGW menu
+application also compiled; no new downloadable executable is advertised here.
+The camera-mode combination `e7dcdb4` additionally passes 870 Rust tests
+(60 ignored), seven installed Delphi controls, 43 Python tests, Rustfmt and
+strict Clippy. The subsequent terrain-finalization merge changes documentation
+only and preserves these validated runtime sources.
+
 ## Static-terrain timed finalization comparison — 10 November 2026
 
 The complete original parent/child preparation, retirement and cleanup now run
@@ -159,6 +194,71 @@ complete campaigns/fidelity remain open. Later Delphi packed-support fields are
 source-only: the combined tree at `0abf1898b49413379368df839eb7627cc8eb5ba6` passes
 866 Rust tests (57 ignored), strict Clippy and six installed Delphi controls.
 These later source checks do not relabel the shipped binary.
+
+## Owned Vimp first callback after herd birth — 10 November 2026
+
+The new herd-child entry retains constructor histories and composes actual owned
+initialization, living continuation, physics and ANM in one callback/RNG stream.
+Warm/parentless/foreign/inactive/wrong-frame entries refuse; initialization and
+physical progress survive a late required FX-resource failure without replay.
+Existing warm split/combined entry paths are preserved.
+
+Original-PC controls match 32 declared scenarios / 96 snapshots / 824,168
+normalized header/payload/reference/list/context/RNG words, including 448 first
+callbacks. Story2 markers, original/supplied kind1 selectors, 16 seeds each,
+positive cadence, flat terrain, quiet noise and a nonnull control reference are
+declared boundaries. Later callbacks use supplied per-node history, not a full
+world traversal. Two additional installed controls cover a 14-child cohort and
+late-failure/admission ownership. Prototype PS2 counterparts remain unknown.
+Full herd/marker dispatch, global world admission and clock/RNG ownership,
+required threat/feeding/active FX/audio, renderer and mission re-entry remain
+open. This source dependency admits no ordinary mission or new gameplay download;
+existing preview receipts and asset-free package identities are unchanged.
+
+Combined runtime 5a70ac7aaedcaa4c8fc7f1c4a7101362658851d0 preserves the concurrent
+Mecc, Delphi, Kabuto and timed-effect changes. Validation passes 869 default Rust
+tests (63 ignored), five installed Vimp controls and the retained herd control,
+43 Python tests, Rustfmt, strict workspace Clippy and roadmap/site/JavaScript
+checks. The rebuilt comparison runner retains the 96-snapshot /824,168-word
+result on that merged runtime. The source-history audit reviews 712 commits
+and 4,048 blobs with zero findings. These checks do not relabel any preview.
+
+The next original-PC-only acquisition executes the mutable list walk across
+32 scenarios: 2,880 callback visits, 2,432 supplied-phase history preparations
+and 448 newborn first callbacks in their birth steps. Herd/marker fallback
+paths include local time, ANM and finalization; the herd calls the actual
+environment service. These are native observations, not a new Rust comparison
+or ordinary-world integration. Rust binding remains the next dependency in
+`BACKLOG.md`; see [OWNED_NPCS.md](OWNED_NPCS.md).
+
+## Separate owned Vimp history and callback entry — 10 November 2026
+
+Owned initialized Vimps can now prepare position history in a separate pass and
+consume it once during callback entry. Mixing combined/split routes, wrong frame,
+foreign owner and inactive preparation refuse. Missing preflight services retain
+pending history; callbacks that fail retain their consumed token and effects.
+The existing combined inspection route remains available. Ordinary actor
+finalization reuses the same acquired position-history kernel.
+
+Original-PC helper execution matches 256 supplied cases / 2,304 position-history
+words, including special float bit patterns. Its native-only preservation check
+covers 49,408 header words, not a full-header Rust comparison. Three installed
+controls pass, including late terrain failure and an eight-frame parity prefix
+against the combined Rust route with supplied flat terrain/time/RNG/control
+identity. Native world gates, global services and newborn first-primary/history
+ordering remain open, as do threat/feeding/audio/effects and ordinary mission AI.
+Prototype PS2 counterparts remain unassigned. No new downloadable gameplay
+preview, dependency or asset is introduced; earlier executable/package/notices
+receipts retain their exact identities. See [OWNED_NPCS.md](OWNED_NPCS.md).
+
+Combined source `0989835992b0a4280b08fc0a65ced19609dee029` preserves the newer
+Delphi support fields, shared attachment/reset contracts and Mecc runtime work.
+It passes 866 workspace Rust tests (60 ignored), three installed split-history
+controls and the retained herd ownership control, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated roadmap/site/JavaScript checks. The native
+history comparison is repeated against this combined source and still matches
+256 cases / 2,304 words. The limited history audit reports zero findings across
+679 commits / 3,910 blobs. These checks do not relabel any runtime/package receipt.
 
 ## Delphi support-class fields and object-list control - 9 November 2026
 
