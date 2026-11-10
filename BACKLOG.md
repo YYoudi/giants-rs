@@ -72,6 +72,12 @@ owner; two CPU entry tickets retain one herd/sixteen markers without spawning or
 advancing them. The next missing consumer is real common-world callback admission,
 including population/clock/RNG/control/terrain/effect ownership, then birth/animation
 rendering and real input/return/re-entry validation. No public AI map is available.
+The initial Vimp contact is now pinned to the actual constructor clear and retained
+by the physical owner; owned movement consumes it without an injected predicate.
+Later object/threat contacts remain incomplete. Story2's 166-node common roster
+includes three parented Mecc children before the herd, 134 other state0 actors and
+eleven state23 actors; do not bypass those active callbacks to claim live AI.
+
 
 ## Prototype PS2 attribution method — 5 November 2026
 

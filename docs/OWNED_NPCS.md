@@ -25,6 +25,41 @@ Source/CPU controls below do not identify a map on which their behavior can
 already be exercised interactively. Ordinary admission still requires actual
 world services and validation.
 
+## Owned Vimp contact producer — 10 November 2026
+
+Intermediate dependency only: Story2 remains unavailable as an interactive Vimp
+AI test. Shared world admission and the birth/animation/render consumers are still
+required. No normal controls or downloadable preview change in this checkpoint.
+
+The exact PC constructor clears the initial contact word independently of its
+previous pool and class-template contents. A focused two-construction control
+poisons those inputs separately and records the actual clearing write; static
+inspection independently locates the constructor's clearing phase. This resolves
+the initial contact prerequisite, not later collision population or AI readiness.
+Prototype PS2 naming was searched before acquisition; attribution remains unknown.
+
+The Vimp owner now retains that word through construction, history and physical
+updates. Physics consumes the retained value, publishes its acquired clear before
+an attempted ground query and retains the result across later errors. The bounded
+ordinary wander route refuses an unsupported nonzero contact before consuming
+random draws. Movement/active response can read the owned word directly; isolated
+controls retain an explicitly labelled supplied predicate instead. The physical
+object-walk gate and other acquired profile limits have not been broadened.
+
+Installed controls exercise the constructor value, the owned movement branch,
+unsupported-contact refusal, retained clear after a required-ground failure and
+replay quarantine, plus newborn and locomotion continuation. Nonzero contact
+fixtures are supplied ownership checks, not observed player collisions. The
+response arrival timer remains separately unknown until its own producer runs.
+
+The actual Story2 staging roster has 166 common-list actors: the controlled Mecc,
+three parented Mecc children, one herd, sixteen markers, 134 other state0 actors
+and eleven state23 actors. The children precede the herd. A scheduler cannot
+acknowledge those active actors with default-success callbacks, assume an empty
+threat population, or run a detached herd-only walk as ordinary mission proof.
+Reuse the existing Session and coordinate its real family callbacks, clocks,
+random stream and history before consuming same-step births in the renderer.
+
 ## Ordinary mission resource binding — 10 November 2026
 
 Intermediate dependency only: no normal controls or public build exercise live

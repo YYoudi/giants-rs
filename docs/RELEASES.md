@@ -7,6 +7,20 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## Vimp constructor/physical contact ownership — source dependency only
+
+Story2 still has no ordinary Vimp AI test or new downloadable preview. Source now
+retains the actual constructor-cleared contact word in each Vimp, carries it
+through physical updates and late failure, and lets the movement/active adapter
+consume that owner rather than a supplied obstruction predicate. The bounded
+wander route rejects unsupported nonzero contact without consuming random draws.
+A focused original-PC poison-input control and static inspection establish the
+initial clear; installed controls check ownership, failure and replay boundaries.
+This does not establish live object collision, full primary/world admission or
+rendering. The actual mission roster includes active actors from other families;
+shared scheduling cannot skip them to advertise a live herd. Existing published
+preview receipts, executable identities and availability remain unchanged.
+
 ## Delphi declared group connected to mission loading - 10 November 2026
 
 Common mission loading now stages Delphi's actual declared owner, copies and held
