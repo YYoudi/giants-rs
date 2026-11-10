@@ -1,5 +1,22 @@
 # Preview releases and milestone integration
 
+## Owned ordinary timed preparation — 10 November 2026
+
+Detached timed actors now continue from their callback into the common ordinary
+finalizer/environment and actual affine writer within their canonical Session.
+Floor, contact plane, velocity/history, model-rate history, hit/support and inline
+physical flags retain actual ownership. Completed contact writes survive a late
+platform error, while stale affine data and consumed phases cannot be replayed.
+
+Retained original-PC controls cover 128 parent/child cycles on sixteen static
+source terrains: 1,152 states /226,944 selected words and 902 ground queries agree.
+This continuation does not inject native entry snapshots between updates. It
+still supplies support, clocks, the physical caller word and empty object/platform
+populations. World population/stock/admission, clock/RNG ownership, wider physical
+caller semantics, lower-level error continuations and timed main-film rendering
+remain open. Prototype PS2 attribution stays unknown; zero complete films are
+certified. This source milestone does not relabel the published .4 executable.
+
 ## Source-only environment failure retention — 10 November 2026
 
 The common ordinary finalization service now retains completed environment and

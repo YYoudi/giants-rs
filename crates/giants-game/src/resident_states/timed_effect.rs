@@ -7,6 +7,10 @@ use crate::{
     timed_effect_object::{Body, Boundary, Runtime, Step, Timed},
 };
 use giants_formats::effect_image::Image;
+mod preparation;
+pub use preparation::{
+    Header as OrdinaryHeader, Input as Preparation, Services as PreparationServices,
+};
 
 #[derive(Debug)]
 pub(super) struct Metadata {
@@ -18,6 +22,7 @@ pub(super) struct Metadata {
     physical: PhysicalHeader,
     motion_done: bool,
     gravity_done: bool,
+    ordinary: OrdinaryHeader,
 }
 /// Dynamic header words cleared by ordinary allocation, distinct from the
 /// inline physical payload. Environment/world producers remain prerequisites.
@@ -181,6 +186,7 @@ impl Session {
             physical: PhysicalHeader::allocated(),
             motion_done: false,
             gravity_done: false,
+            ordinary: OrdinaryHeader::allocated(),
         });
         self.publish_staged(staged, id)
     }
@@ -494,6 +500,92 @@ mod tests {
         scene_resources::SceneResources,
     };
     type PhaseControls = Arc<std::collections::BTreeMap<(u32, u32, u32, u32), Vec<u32>>>;
+    struct TerrainProvider<'a> {
+        effects: Provider,
+        terrain: &'a giants_formats::gti::Terrain,
+        queries: u32,
+        releases: u32,
+        fail_platform: bool,
+    }
+    impl Services for TerrainProvider<'_> {
+        fn physical(
+            &mut self,
+            session: &mut Session,
+            actor: Id,
+            seconds: f32,
+        ) -> Result<(), String> {
+            self.effects.physical(session, actor, seconds)
+        }
+        fn gravity(&mut self, session: &mut Session, actor: Id) -> Result<(), String> {
+            self.effects.gravity(session, actor)
+        }
+        fn retire(
+            &mut self,
+            session: &mut Session,
+            actor: Id,
+            source: &Image,
+            binding: Option<&crate::effect_scene::RetirementBinding>,
+        ) -> Result<(), String> {
+            self.effects.retire(session, actor, source, binding)
+        }
+    }
+    impl PreparationServices for TerrainProvider<'_> {
+        fn release_footprint(
+            &mut self,
+            session: &Session,
+            actor: Id,
+            footprint: Option<u32>,
+        ) -> Result<(), String> {
+            assert!(session.get(actor).is_some());
+            assert_eq!(footprint, None);
+            self.releases += 1;
+            Ok(())
+        }
+        fn environment(
+            &mut self,
+            session: &Session,
+            actor: Id,
+            input: crate::actor_environment::Input,
+        ) -> Result<crate::actor_environment::Output, crate::actor_environment::Failure> {
+            assert_eq!(
+                session
+                    .get(actor)
+                    .unwrap()
+                    .construction_fields
+                    .as_ref()
+                    .unwrap()
+                    .position,
+                input.fields.current
+            );
+            let terrain = self.terrain;
+            let q = crate::terrain_queries::StaticTerrainQuery::new(
+                terrain,
+                1. / terrain.spacing,
+                crate::arithmetic::Precision::Double53,
+            )
+            .unwrap();
+            let fail_platform = self.fail_platform;
+            crate::actor_environment::resolve_retaining(
+                input,
+                &[],
+                |xy| {
+                    self.queries += 1;
+                    crate::physical_ground::Ground::from_sample(q.sample(xy)?, terrain.width)
+                },
+                |point| {
+                    if fail_platform {
+                        return Err("declared late platform failure");
+                    }
+                    crate::platform_queries::sample_prepared(
+                        point,
+                        &[],
+                        crate::arithmetic::Precision::Double53,
+                    )
+                },
+                |_| panic!("physical fixture must retain its own clock queries"),
+            )
+        }
+    }
     struct Provider {
         pool: Pool<Id>,
         random: Random,
@@ -749,6 +841,237 @@ mod tests {
         got.push(m.matrix.flags);
         got.extend(m.matrix.values.map(f32::to_bits));
         got
+    }
+    #[test]
+    #[ignore = "Requires installed data and private original-PC ordinary preparation controls; silent, no world admission"]
+    fn source_timed_positioned_preparation_uses_owned_header_and_terrain() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_FLICK_ROOT").unwrap());
+        let world = crate::world_source::resolve(&root, "Story4").unwrap();
+        let resources = SceneResources::load(&root, &world.catalog, "English").unwrap();
+        let manifest =
+            std::fs::read_to_string(std::env::var_os("GIANTS_FLICK_TIMED_TERRAINS").unwrap())
+                .unwrap();
+        let terrains: Vec<_> = manifest
+            .lines()
+            .map(|line| {
+                let (archive, member) = line.split_once('\t').unwrap();
+                let bytes = std::fs::read(archive).unwrap();
+                let bytes = giants_formats::gzp::Archive::parse(&bytes)
+                    .unwrap()
+                    .read(member)
+                    .unwrap();
+                let mut terrain = giants_formats::gti::parse(&bytes).unwrap();
+                // Acquired static prepared-grid boundary; dynamic ripples and real
+                // mission mesh/platform populations remain separate prerequisites.
+                for tag in &mut terrain.tags {
+                    if *tag == 7 {
+                        *tag = 4;
+                    }
+                }
+                terrain
+            })
+            .collect();
+        let rows: Vec<Vec<u32>> = std::fs::read_to_string(
+            std::env::var_os("GIANTS_FLICK_TIMED_PREPARATION_CONTROLS").unwrap(),
+        )
+        .unwrap()
+        .lines()
+        .map(|line| {
+            line.split_whitespace()
+                .map(|w| w.parse().unwrap())
+                .collect()
+        })
+        .collect();
+        assert_eq!(terrains.len(), 16);
+        assert_eq!(rows.len(), 1152);
+        let mut total = 0;
+        let mut total_queries = 0;
+        // First pass compares entire owned continuations, not injected native
+        // entries. Second pass discriminates retention/quarantine after contact.
+        for failure_pass in [false, true] {
+            let mut current = None;
+            let mut run: Option<(Session, Id, TerrainProvider<'_>, Stamp)> = None;
+            for e in &rows {
+                assert_eq!(e.len(), 208);
+                if failure_pass && e[0] != 0 {
+                    break;
+                }
+                if current != Some(e[0]) {
+                    if let Some((mut session, _, services, _)) = run.take() {
+                        assert_eq!(services.effects.retirements, 2);
+                        let removed = session.clear();
+                        assert_eq!(removed.residents, 3);
+                        assert_eq!(session.counts(), Counts::default());
+                    }
+                    let (session, id, effects) = start(&resources, 8000 + u64::from(e[0]), e[4]);
+                    run = Some((
+                        session,
+                        id,
+                        TerrainProvider {
+                            effects,
+                            terrain: &terrains[e[1] as usize],
+                            queries: 0,
+                            releases: 0,
+                            fail_platform: false,
+                        },
+                        Stamp(0xfffffff0),
+                    ));
+                    current = Some(e[0]);
+                }
+                let (session, id, services, stamp) = run.as_mut().unwrap();
+                if e[2] == 1 && e[3] == 0 {
+                    let origin = services.effects.child.take().unwrap();
+                    *id = services
+                        .effects
+                        .pool
+                        .activate_timed_positioned(origin, session, &resources)
+                        .unwrap();
+                }
+                let query_before = services.queries;
+                let result = if e[2] == 0 {
+                    let mut support = Matrix::identity();
+                    for i in 0..3 {
+                        support.values[i * 4 + 3] = f32::from_bits(e[7 + i]);
+                    }
+                    session.prepare_timed_attached(
+                        *id,
+                        support,
+                        1.,
+                        f32::from_bits(e[5]),
+                        stamp,
+                        services,
+                    )
+                } else {
+                    services.fail_platform = failure_pass && e[3] == 2;
+                    let context = session
+                        .get(*id)
+                        .unwrap()
+                        .construction_fields
+                        .as_ref()
+                        .unwrap()
+                        .dispatch_context;
+                    session.prepare_timed_positioned(
+                        *id,
+                        Preparation {
+                            seconds: f32::from_bits(e[5]),
+                            finalization_time: crate::actor_finalization::Time {
+                                global_seconds: f32::from_bits(e[5]),
+                                context,
+                                areas: &[],
+                            },
+                            physical_argument_word: e[6],
+                        },
+                        stamp,
+                        services,
+                    )
+                };
+                if failure_pass && e[2] == 1 && e[3] == 2 {
+                    assert!(
+                        result
+                            .unwrap_err()
+                            .contains("declared late platform failure")
+                    );
+                    let actor = session.get(*id).unwrap();
+                    assert!(session.timed_effect_failure(*id).is_some());
+                    assert!(session.actor_current_affine(*id).is_err());
+                    let h = session.timed_effect_physical_header(*id).unwrap();
+                    assert_eq!(h.plane.map(f32::to_bits), e[199..203]);
+                    let bytes = actor.seed.storage.data().unwrap();
+                    assert_eq!(
+                        u32::from_le_bytes(bytes[0xa0..0xa4].try_into().unwrap()),
+                        e[104]
+                    );
+                    assert_eq!(
+                        u32::from_le_bytes(bytes[0xc0..0xc4].try_into().unwrap()),
+                        e[112]
+                    );
+                    let before = (
+                        services.queries,
+                        services.releases,
+                        services.effects.physical_calls,
+                    );
+                    let context = actor.construction_fields.as_ref().unwrap().dispatch_context;
+                    assert!(
+                        session
+                            .prepare_timed_positioned(
+                                *id,
+                                Preparation {
+                                    seconds: 0.,
+                                    finalization_time: crate::actor_finalization::Time {
+                                        global_seconds: 0.,
+                                        context,
+                                        areas: &[]
+                                    },
+                                    physical_argument_word: e[6]
+                                },
+                                stamp,
+                                services
+                            )
+                            .is_err()
+                    );
+                    assert_eq!(
+                        before,
+                        (
+                            services.queries,
+                            services.releases,
+                            services.effects.physical_calls
+                        )
+                    );
+                    session.clear();
+                    break;
+                }
+                result.unwrap();
+                let got = projection(session, *id);
+                assert_eq!(got.len(), 174);
+                for (i, (a, b)) in got.iter().zip(&e[10..184]).enumerate() {
+                    assert_eq!(
+                        a, b,
+                        "case {} child {} step {} projection word {i}",
+                        e[0], e[2], e[3]
+                    );
+                }
+                let h = session.timed_effect_ordinary_header(*id).unwrap();
+                let p = session.timed_effect_physical_header(*id).unwrap();
+                let mut dynamic = h
+                    .model_rates
+                    .into_iter()
+                    .chain(h.previous_model_rates)
+                    .chain(p.velocity)
+                    .chain(p.previous_velocity)
+                    .chain([h.floor])
+                    .chain(p.plane)
+                    .chain([h.radius])
+                    .map(f32::to_bits)
+                    .collect::<Vec<_>>();
+                dynamic.extend([h.footprint.unwrap_or(0), h.hit, h.support]);
+                assert_eq!(
+                    &dynamic,
+                    &e[184..207],
+                    "case {} child {} step {} dynamic header",
+                    e[0],
+                    e[2],
+                    e[3]
+                );
+                assert_eq!(services.queries - query_before, e[207]);
+                if !failure_pass {
+                    total += 1;
+                    total_queries += services.queries - query_before;
+                }
+            }
+            if let Some((mut session, _, services, _)) = run {
+                if !failure_pass {
+                    assert_eq!(services.effects.retirements, 2);
+                }
+                session.clear();
+                assert_eq!(session.counts(), Counts::default());
+            }
+        }
+        assert_eq!(total, 1152);
+        assert_eq!(total_queries, 902);
+        eprintln!(
+            "owned ordinary preparation states={total} selected_words={} ground_queries={total_queries}; supplied clocks/caller word/support; empty mesh/platform populations",
+            total * 197
+        );
     }
     #[test]
     #[ignore = "Requires GIANTS_FLICK_ROOT; silent canonical ownership and optional original-PC controls"]

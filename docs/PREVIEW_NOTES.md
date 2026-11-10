@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.10.4
+# Windows x64 development preview - preview-2026.11.10.5
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -12,18 +12,24 @@ is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
 
-## Timed physical state and service order
+## Owned ordinary timed-effect preparation
 
-Timed-effect velocity/history now belongs to the common Session alongside the
-actual inline payload. Required motion and gravity services are separated by
-the native affine store; deferred size and animation follow gravity. Completed
-writes survive late failures without replaying services. Retained native controls
-cover intermediate fields and matrices as well as final callback states.
+Detached timed actors now connect their callback to common ordinary finalization
+and environment services inside the existing Session. Contact planes, floor,
+velocity/history, model-rate history, hit/support state and inline physical flags
+stay with their actual actor. Completed contact writes survive late world-service
+errors; the owner refuses replay and does not mark a stale matrix current.
 
-This remains an integrated source dependency. Physical clock inputs, actual
-contact/environment producers, ordinary preparation, stock/world scheduling and
-timed main-film admission remain under reconstruction. No additional cinematic,
-character control or complete campaign is certified by this change.
+Retained original-PC controls compare 128 parent/child cycles over sixteen static
+source terrains: 1,152 states, 226,944 selected words and 902 ground queries. The
+Rust continuation supplies no per-step reference state. Those controls still
+supply clocks, support, the physical caller argument and empty object/platform
+populations. They are not complete world scheduling or visual evidence.
+
+Real mission populations, stock/admission, native clock/RNG ownership, the wider
+physical caller contract and timed main-film rendering remain under reconstruction.
+Internal mutations not returned by lower-level failing resolvers still need their
+own continuations. No additional film or complete campaign is certified.
 
 ## Combined camera, character and timed-effect checkpoint
 

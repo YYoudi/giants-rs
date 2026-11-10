@@ -1533,6 +1533,24 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Canonical detached timed preparation now binds callback, shared finalization,
+  environment and the unparented attachment tail to the existing Session actor.
+  Floor, contact plane, velocity/history, model-rate history, hit/support and the
+  inline physical flags/force projection retain one owner. Actual affine writes
+  follow finalization; a late environment failure preserves completed contact
+  state, leaves the old affine stale and quarantines further calls.
+  Retained original-PC controls cover 128 parent/child cycles across sixteen
+  actual static source terrains: 1,152 states /226,944 selected words and 902
+  ground queries match without injecting per-step native entry state. Support,
+  clocks, the acquired physical caller word and empty mesh/platform populations
+  remain supplied. A late platform-error control retains physical contact and
+  refuses replay. This is a Session dependency, not admission of more films.
+  Next: actual mission geometry/populations, stock/occupancy and scheduling,
+  clock/RNG producers, physical caller semantics beyond the supplied boundary,
+  virtual Flick support lifetime/domain bridge and timed main-film rendering.
+  Lower-level unreturned mutations remain open. No terrain, time, support or
+  native pointer is invented; prototype PS2 attribution stays unknown.
+
 - Source-only ordinary-environment prerequisite: shared finalization retains
   completed environment stages on later provider errors, including physical
   contact fields, inline-physics projection and completed-stage counters. A

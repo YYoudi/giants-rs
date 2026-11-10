@@ -28,7 +28,9 @@ mod vimp_history_tests;
 #[cfg(test)]
 mod vimp_newborn_tests;
 pub use timed_effect::{
-    PhysicalHeader as TimedEffectPhysicalHeader, Services as TimedEffectServices,
+    OrdinaryHeader as TimedEffectOrdinaryHeader, PhysicalHeader as TimedEffectPhysicalHeader,
+    Preparation as TimedEffectPreparation, PreparationServices as TimedEffectPreparationServices,
+    Services as TimedEffectServices,
 };
 
 struct OwnedSpecification(crate::actor_references::Owned);
