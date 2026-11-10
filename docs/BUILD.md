@@ -49,11 +49,11 @@ With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 runs six owned-phase controls: publication/physical consumption and later
 activation refusal, retained prefix/cancellation, real proxy construction with
 typed reference protection, cold/previous held-cache geometry, refused cache
-provenance, and held-route static terrain publication. The cache control uses actual shared candidate geometry and placed source
-actors. The terrain control reads three installed terrain resources and preserves
+provenance, and held-route static terrain publication. The cache control uses
+actual shared candidate geometry and placed source actors. The terrain control reads three installed terrain resources and preserves
 miss-point writes and late query failures; camera/items/time and the physical
-floor remain supplied. Other terrain/view providers stay scripted. Other controls use
-scripted geometry/linked results and sound-request sinks. These checks do not
+floor remain supplied. Other controls use scripted terrain/view/geometry/linked
+results and sound-request sinks. These checks do not
 validate a complete ordinary turn.
 
 With `GIANTS_FLICK_ROOT` and `GIANTS_FLICK_PERSISTENT_COHORT` (private, headerless

@@ -17,6 +17,13 @@ active-physics/world/menu admission remain open. This source milestone preserves
 the independent public preview and creates no new visual/gameplay claim.
 See [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
+Combined checkpoint `057f9e29fc5dd0b0858730beb7aee89c7e6d6cc4` preserves main
+through `e47f4c6`. It passes 915 workspace Rust tests (107 ignored), all fifteen
+installed Delphi controls, the silent Mecc produced-camera/post-fire regression,
+Rustfmt, strict workspace Clippy, 43 Python tests and generated site/JavaScript
+checks. Its MinGW build receipt pins `da5fbf5`; the later test formatting does not
+change runtime code. The published preview .8 remains independently identified.
+
 ## Combined Mecc and Delphi source integration - 10 November 2026
 
 Integration source `ca43619c48ed2d68c7b14778b2bb1501a0ae17d8` combines reviewed
