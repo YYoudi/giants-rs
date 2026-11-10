@@ -24,6 +24,7 @@ pub mod burst_effect_draw;
 pub mod camera_facing;
 pub mod camera_lens;
 pub mod camera_matrix;
+pub mod camera_mode;
 pub mod camera_projection;
 pub mod draw_routes;
 pub mod effect_actor;

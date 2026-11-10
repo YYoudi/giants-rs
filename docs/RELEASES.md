@@ -19,6 +19,42 @@ Session ordinary-preparation continuation remain the next dependencies.
 Prototype PS2 attributions remain unknown. This evidence-only milestone leaves
 preview-2026.11.10.2 and its immutable source/executable/archive identities unchanged.
 
+## Shared camera mode and pre-world admission — 10 November 2026
+
+Source-only integration adds `camera_mode::State` and
+`mecc_subjective::State::prepare_from_camera`. The mode command matches 1,280
+original contexts with supplied profile/projection services, preserving repeated
+profile queries, actor-scale writes, invalid-command tails and transition reset.
+The camera eligibility policy matches all 864 previously acquired full native
+pre-world vectors when combined with their explicit model-presence inputs.
+An installed-resource control exercises six Session admission contexts and
+inactive-to-active re-entry; synthetic late-provider controls retain completed
+stores and refuse replay/admission after failure. See
+[OWNED_CAMERA.md](OWNED_CAMERA.md) for the native-versus-Rust scope.
+
+The combined source preserves Kabuto's current/held-reference handoff and shared
+target detachment together with Flick's canonical detached timed ownership.
+It passes 870 Rust tests (59 ignored), strict Clippy, Rustfmt and 43 Python tests.
+Installed controls pass thirteen Mecc, sixteen Kabuto, six Delphi, one NPC and
+one canonical timed-lifecycle case. Current camera/profile inputs, startup/override producers,
+actual profile/projection backends and enclosing world order remain prerequisites.
+This does not enable the normal native Mecc driver or modify the immutable public
+preview download. No new playable character, native landing or fidelity claim is
+made from these controls.
+
+The main integration lane independently downloaded all three public `.2` assets:
+the ten-member package, internal/external checksums, GitHub asset digests and remote
+tag match its published source/executable/archive snapshot. This verification does
+not move that immutable download to the later camera-mode source.
+
+A private combined MinGW candidate pins source
+`bf724e267450fb8125aafba3850c3a88fc481c19`. Explicitly waited CLI startup passes.
+Its ten-member validation draft verifies the receipt and checksums, collects
+notices for 338 normal dependencies and eleven conservative toolchain entries,
+and retains the reviewed set of 29 imported DLL names. This candidate has no
+release tag; offscreen/manual runtime checks on this particular executable remain
+pending. It does not replace the verified public `.2` download.
+
 ## Canonical detached timed ownership and registration — 10 November 2026
 
 Detached retirement requests now transfer their actual payload/reference owners
