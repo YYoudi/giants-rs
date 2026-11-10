@@ -1,4 +1,5 @@
-//! Render inputs from canonical smoke actors, without a second clock or RNG.
+//! Shared class867 render inputs from canonical smoke and positional impact
+//! actors, without a second clock or RNG. Their callback owners stay distinct.
 use crate::{
     resident_states::{Id, Session},
     scene_resources::{ModelAsset, SceneResources},
@@ -39,7 +40,7 @@ impl Geometry {
         slot: usize,
     ) -> Result<Self, String> {
         let state = session
-            .smoke_particle_draw_state(id)?
+            .particle_draw_state(id)?
             .ok_or("smoke draw owner is not admitted")?;
         let spec = session
             .specification(id)
@@ -108,7 +109,7 @@ impl Geometry {
         if !Weak::ptr_eq(&self.owner, &Arc::downgrade(spec)) {
             return Err("smoke draw geometry belongs to another owner".into());
         }
-        let Some(state) = session.smoke_particle_draw_state(id)? else {
+        let Some(state) = session.particle_draw_state(id)? else {
             return Ok(None);
         };
         if state.class != self.class {

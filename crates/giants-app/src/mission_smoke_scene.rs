@@ -1,4 +1,5 @@
-//! Common mission consumer of canonical smoke actors; no simulation or RNG here.
+//! Common mission consumer of canonical class867 smoke/impact actors; no
+//! simulation or RNG here. Their actual Session callbacks own all motion/fade.
 use crate::rigid_attachment_scene::{self, Material};
 use bevy::{
     asset::RenderAssetUsages, ecs::system::SystemParam, prelude::*, render::storage::ShaderBuffer,

@@ -1403,3 +1403,39 @@ This proves rendered output on the identified local build; the diagnostic's
 supplied input still does not establish real held-mouse interaction or a fidelity
 comparison. The descent clip was not selected by the three short test trajectories,
 so its visible falling posture remains unobserved in this validation.
+
+## Ordinary terrain-landing feedback - runtime connected, interaction unverified
+
+The normal partial Mecc controller now requests the actual `fx_mecc_hard_land`
+program on a measured air-to-terrain contact. The existing impact classifier reads
+actual pre/post-collision velocities and installed thresholds. This bounded route
+requires nonnegative post-contact vertical speed and positive contact thresholds,
+so both native slide-selection speed tests are false. Carried/special equipment
+and descent-state impacts stay outside this presentation profile.
+
+The request creates the real class867 actor in the mission Session through the
+existing positional-impact factory. Source preparation, cue selection, callback
+age/size/rotation/fade, ANM positions, required sound stop and canonical retirement
+remain in their existing owners. A common particle draw consumer now also reads
+these completed impact actors, preserving the smoke-only APIs. It does not create
+another simulation clock, redraw a construction snapshot or substitute particles.
+Actual reserved positional PCM/sinks are required; muted audio is separate from a
+missing device. The existing bounded App VM stream stays separate from the sound
+module's variation stream; native startup/global scheduling fidelity is not claimed.
+Late failure retains state and quarantines replay. Menu retirement owns the effect,
+voice and GPU assets with the rest of the mission.
+
+This adds visual/audio feedback to ordinary right-mouse thrust/release and landing;
+it does not complete native fall damage, pain/death, slide/emitter execution or the
+experimental owned player's impact/authority/display/voice admission. Those guards
+remain unbound rather than replaced by zero. Source-resource checks cover the
+real flight producing a landing request and the canonical effect's draw/expiry/
+retirement boundary. GPU and real held-input acceptance remain pending.
+
+For a private GPU observation use `GIANTS_MISSION_REPLAY=campaign-landing-pose`,
+`GIANTS_AUDIO_MUTE=1`, a fresh user-data directory and the menu's silent offscreen
+capture with `--muted-transport`. This keeps the real audio plugin and zero master
+gain. The diagnostic supplies a flight/release trajectory and waits for an actual
+visible canonical landing actor; it never supplies the birth or forces readiness.
+It is a verification route, not a feature-enable flag. No public download or new
+gallery image is asserted by this source checkpoint.

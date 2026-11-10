@@ -298,6 +298,91 @@ mod tests {
         fail: bool,
         bind_peer: Option<Id>,
     }
+    #[test]
+    #[ignore = "requires GIANTS_MECC_WORLD_ROOT; real impact resources/callback/draw packets, supplied cue transport, no GPU or audible claim"]
+    fn source_positional_impact_reuses_canonical_particle_draw_until_retirement() {
+        let root = std::env::var_os("GIANTS_MECC_WORLD_ROOT").expect("GIANTS_MECC_WORLD_ROOT");
+        let resources =
+            SceneResources::load(std::path::Path::new(&root), "w_Story1.bin", "English").unwrap();
+        let mut pool = Pool::<Id>::from_active_resources(946, &resources);
+        let mut session = Session::new(947);
+        let mut random = Random(1);
+        let mut factory = Factory::new(&resources);
+        let mut cue = Provider {
+            calls: 0,
+            draws: 0,
+            fail: false,
+        };
+        let context = prepare(&mut pool, &mut random);
+        let actor = factory
+            .activate(&mut session, &mut pool, context, &mut random, &mut cue)
+            .unwrap();
+        assert_eq!(cue.calls, 1);
+        assert_eq!(session.particle_draw_ids(), [actor]);
+        assert!(session.smoke_particle_ids().is_empty());
+        assert!(session.smoke_particle_draw_state(actor).is_err());
+        assert!(session.particle_draw_state(actor).unwrap().is_none());
+        let mut stop = StopProvider {
+            calls: 0,
+            fail: false,
+        };
+        let mut stamp = crate::animation_epoch::Stamp::default();
+        assert_eq!(
+            session
+                .advance_positional_impact(actor, 0., &mut stamp, &mut stop)
+                .unwrap(),
+            Step::FirstFrame
+        );
+        let geometry =
+            crate::smoke_particle_draw::Geometry::load(&resources, &session, actor, 0).unwrap();
+        let view = crate::procedural_aim::Matrix::identity().values;
+        let first = geometry.frame(&mut session, actor, view).unwrap().unwrap();
+        let before = session.particle_draw_state(actor).unwrap().unwrap();
+        assert_eq!(first.passes, 1);
+        assert!(!first.positions.is_empty() && !first.profiles.is_empty());
+        assert_eq!(first.position, [7., -5., 3.]);
+        let seed = random.0;
+        session
+            .advance_positional_impact(actor, 0.01, &mut stamp, &mut stop)
+            .unwrap();
+        let next = geometry.frame(&mut session, actor, view).unwrap().unwrap();
+        let after = session.particle_draw_state(actor).unwrap().unwrap();
+        assert_ne!(before.scale.to_bits(), after.scale.to_bits());
+        assert_ne!(first.matrix, next.matrix);
+        assert_eq!(random.0, seed, "drawing must not consume VM random state");
+        let mut foreign = Session::new(948);
+        assert!(geometry.frame(&mut foreign, actor, view).is_err());
+        let weak = std::sync::Arc::downgrade(session.specification(actor).unwrap());
+        assert_eq!(
+            session
+                .advance_positional_impact(actor, 1., &mut stamp, &mut stop)
+                .unwrap(),
+            Step::Marked
+        );
+        assert!(geometry.frame(&mut session, actor, view).unwrap().is_none());
+        assert_eq!(stop.calls, 1);
+        let mut release = ReleaseProvider {
+            calls: 0,
+            fail: false,
+            bind_peer: None,
+        };
+        session
+            .cleanup_positional_impact(actor, &mut release)
+            .unwrap();
+        assert!(session.particle_draw_ids().is_empty());
+        assert!(weak.upgrade().is_none());
+        assert!(geometry.frame(&mut session, actor, view).is_err());
+        assert!(
+            resources
+                .model_slot_for_body(
+                    867,
+                    0,
+                    crate::scene_resources::TextureEncoding::Rgb565OrArgb4444
+                )
+                .unwrap()
+                .is_some()
+        );
+    }
     impl crate::actor_retirement::Services for ReleaseProvider {
         fn release(&mut self, session: &mut Session, id: Id) -> Result<(), String> {
             self.calls += 1;
