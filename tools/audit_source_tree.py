@@ -24,12 +24,16 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/MECC_DESCENT_GUARD.md': {
+        # Gameplay-first work-selection prose only; the reviewed alias is unchanged.
+        '8a5e2f5f60606203255e389c489b0ed88ecf69566e77d52321231905e0fc589d',
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
         '878226a742b54851495e1c4c8de62951ab030502d55c460d685fba6c669d0c3c',
         '314abf495905a93b662e78674834cac06439378ced9e33b4e1bc856eb2b96760',
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
     },
     'docs/RECONSTRUCTION_METHOD.md': {
+        # Gameplay-first selection/handoff prose only; attribution rows are unchanged.
+        'bbf89e34ec9cc515385bb66664e978ce79f2ba20d1ec47764e936d95a704fc34',
         # Historical exact-blob review guidance; existing minimal alias rows unchanged.
         '0fc5c80adf51d81f0270c44ba86ddacb7728cc84cef0b6aed6d33ba21aca002c',
         # Historical source-lane variant: two additional bounded, explicitly
