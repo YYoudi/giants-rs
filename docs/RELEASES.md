@@ -1,5 +1,39 @@
 # Preview releases and milestone integration
 
+## Published preview .9 - ordinary Mecc jet and projectile feedback
+
+[Windows preview-2026.11.10.9](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.9)
+is the current download. Start New Single Player Game with a supplied installation;
+right mouse drives thrust, Space selects nitro while thrusting, left mouse fires
+the partial base pistol, R changes view and Escape returns to the menu. No replay
+or experimental-backend flag is required for these normal connections.
+
+The exact executable completes three supplied-command GPU movement/jet/nitro/
+release and draw-retirement cycles. Separate inspected captures show the plume
+and source projectile. A fresh muted normal profile exercises two real menu
+entries/returns, OS right/left mouse pulses, first-person view and desktop exit.
+The pulse shot reaches a ground query; its manual image does not establish the
+projectile lifetime. Continuous held flight/nitro/fall/landing, full combat and
+fidelity remain unverified. CPU descent selection is not a real-input pose image.
+
+The runtime source is `3a17d2e53debd0c34dd9277aa0c29e192413c032`.
+Executable SHA256: `b6773640042da1e7a1efa32dfe9401425f80f0f665050f3ed7b62474aeb0a129`.
+ZIP SHA256: `e08d55c03509bdcf1b9bdd31b79e930a9cf9b455bdb9893b17b9b6076e426bb3`.
+949 portable Rust tests (143 ignored), 43 Python checks, format/strict Clippy and
+87 installed CPU owner/provider controls pass at their declared scopes. Runtime
+lifecycle and selected source-terminal/cancellation/re-entry checks also pass,
+with actual audio sinks muted for the latter. The ten-member package has complete
+338-package and eleven-entry toolchain notices, no technical distribution blockers,
+and matching receipt/manifest/checksums. Uploaded assets were independently
+retrieved and verified, including an anonymous public download after publication.
+
+Registered NPC resource staging and Delphi/Kabuto constructor groups remain
+intermediate dependencies; no ordinary AI or Delphi/Kabuto controls are enabled.
+Later main initial-body inspection, HUD/camera and cinematic sampling follow-ups
+are outside this frozen executable. The cinematic census remains tied to .7,
+and historical gallery images retain their recorded build. No whole-game
+completion or new confirmed prototype PS2 attribution follows from this release.
+
 ## Flick timed queue ownership - intermediate dependency
 
 No new normal controls, runtime capability or downloadable preview is claimed.
@@ -314,6 +348,32 @@ These are private inspection images. Exact native image phase, animation pose,
 materials, queue ordering and full scene fidelity remain unverified. Current
 frozen public downloads and the separately pinned 545-source census are unchanged.
 The new controls do not enable ordinary character gameplay or certify a film.
+## Story2 NPC mission resource binding — 10 November 2026
+
+Intermediate dependency only; no normal controls or public build exercise Vimp
+AI yet. The first missing consumer is real common-world callback admission, then
+live population/animation rendering. NPC supplies the actor/provider chain and
+main integration owns the shared schedule and combined interactive delivery.
+
+The ordinary mission worker now prepares registered Vimp resources and birth
+constants. Canonical staging binds actual herd/marker declaration IDs and an
+effect pool to its ticket using the specification's captured namespace. Missing
+or replaced images, failed/foreign/retired construction and repeated binding
+refuse explicitly; no clock, RNG, contact header or world update is invented.
+
+The silent Story2 entry control retains one herd/sixteen markers on two tickets,
+zero Vimps/effect contexts and untouched herd clocks. It checks actual menu data
+with supplied unlocked progress, canonical spawn, ticket/rebind/retirement guards
+and owned entity cleanup/re-entry. The namespace control separately rejects
+missing/replaced images. Ordinary input and GPU interaction remain unverified.
+
+Runtime source `28b4104` preserves main through `8ba4f66`. Validation passes 946
+default Rust tests (140 ignored), both new installed controls plus the existing
+herd declaration, Kabuto menu-staging and actor-role ownership checks, 43 Python
+tests, Rustfmt, strict workspace Clippy and generated site/JavaScript checks.
+The preceding movement/response PR's dashboard and both Windows checks pass,
+including the retry after its transient MSYS2 mirror download failure. No public
+preview receipt, executable, download, capture or AI availability is changed.
 
 ## Delphi common camera override dependency - 10 November 2026
 
@@ -424,6 +484,37 @@ immutable. The cinematic census stays pinned to its separate .7 audit. See
 [PREVIEW_NOTES.md](PREVIEW_NOTES.md) for the later-source boundary and
 [INTEGRATION.md](INTEGRATION.md) for the common-runtime prerequisites.
 
+## Vimp movement/response composition — 10 November 2026, source only
+
+The scalar/command prefix and active response now share one owned Session lease
+and RNG. Parameters publish before the actor clock, commands clear before the
+caller gate, and obstruction retry uses a separate global clock with strictly
+negative expiry. Earlier stores and callback/error/cancellation effects survive;
+reentry and replay remain refused. Existing arithmetic and steering are shared.
+
+The movement prefix matches 1,024 original-PC contexts /9,216 words and 117 source
+cycle prefixes /1,053 words. One first-handled prefix suppresses production; 116
+produce commands. The joint source comparison matches 115 visits /2,070 words
+while retaining commands, scalar/retry and active state plus RNG. Earlier caller
+gate, obstruction predicate, growth/motion/flags/clock/control and external draws
+remain supplied. No zero obstruction constructor value is inferred. Prototype PS2
+attributions remain unknown; inputs and detailed evidence stay private.
+
+Combined runtime source `0f62e17` preserves main through `cf65499`. Validation
+passes 943 default Rust tests (137 ignored), 34 installed NPC controls plus both
+private captured cycles, Delphi dependency-order and canonical timed-owner checks,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. The preceding active-state PR's dashboard and both Windows checks pass.
+Rebuilt captured/persistent active, locomotion and 32-scenario /96-snapshot
+herd/newborn comparisons still agree; the latter retains its supplied world
+boundaries and matches 824,168 words after the shared arithmetic refactor.
+
+No ordinary public map yet admits active Vimp AI. Story2 remains the CPU resource
+reference and first intended runtime target. Earlier world/caller producers and
+later look/physics/ANM/render ownership, actual population/global clock/RNG,
+contact, action/hint/audio and remaining modes still require integration and
+interactive entry/interaction/cancellation/re-entry validation. No capture,
+executable, download or frozen preview .8 notes/receipt is changed by this lot.
 
 ## Owned Vimp active-response state — 10 November 2026, source only
 
@@ -598,6 +689,72 @@ controls, 43 Python tests, Rustfmt, strict workspace Clippy and the generated
 roadmap/site/JavaScript checks. The 676-context vector comparison also passes
 against that combined runtime source. These checks establish only their declared
 source/CPU scope; the existing preview snapshot remains unchanged.
+## Persistent named-selection follow-up - source-only evidence
+
+The 23-source /25-request persistent cohort uses two programs whose normal/lite
+resolution identifies the same actual image entry. The current invariant guard
+is retained. Across 144 original source-helper/named preparations, supplied
+count, quality, range and camera inputs always select the source entry and retain
+the cinematic context mark; 60 paths execute the actual camera-position query.
+Two alternate-flag entry controls stop at their separate count-query callsite.
+No object allocation, physical occupancy, actual quality/camera producer, world
+schedule, new pixels or complete playback is verified by these controls.
+
+The existing director-clock scope is preserved. No runtime behavior or download
+identity changes follow from this evidence. Published .7 and .8 retain their own receipts; the 545-source capability
+census still certifies zero complete films. Native pool/population/cleanup and
+complete visual/audio/temporal/gameplay validation remain open.
+
+## Delphi running held-route terrain publication - 10 November 2026
+
+The running caller can now use actual static terrain queries with its acquired
+cold/previous held caches. The shared trace exposes the helper's written point
+separately from hit presence and clipping distance: a miss writes the last visited
+point even after distance advances. Existing terrain-ray consumers retain their
+interface; no-sample native output locals remain unacquired.
+
+All 384 original-helper controls /2,304 selected words agree, including 231 hits
+and 153 misses, with supplied flat height/plane providers. Three installed terrain
+resources exercise the actual reader/query, held-cache/candidate composition and
+retained terrain writes after a late query failure. Camera/items/time and the
+physical floor remain supplied. Full viewport/camera, ripple, linked/item and
+active-physics/world/menu admission remain open. This source milestone preserves
+the independent public preview and creates no new visual/gameplay claim.
+See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined checkpoint `057f9e29fc5dd0b0858730beb7aee89c7e6d6cc4` preserves main
+through `e47f4c6`. It passes 915 workspace Rust tests (107 ignored), all fifteen
+installed Delphi controls, the silent Mecc produced-camera/post-fire regression,
+Rustfmt, strict workspace Clippy, 43 Python tests and generated site/JavaScript
+checks. Its MinGW build receipt pins `da5fbf5`; the later test formatting does not
+change runtime code. The published preview .8 remains independently identified.
+
+## Combined Mecc and Delphi source integration - 10 November 2026
+
+Integration source `ca43619c48ed2d68c7b14778b2bb1501a0ae17d8` combines reviewed
+Mecc `bac59d8` (idle variants, effect-free wounds and ordered completion admission)
+with Delphi `897d80d` (pre-physical held-cache provenance and candidate geometry),
+preserving the earlier Flick, Kabuto and NPC contributions. Required callbacks,
+geometry admission and failed-turn quarantine remain explicit. Prototype PS2
+attributions for these acquired routines remain unknown; no new name is confirmed.
+
+The combined source passes 913 workspace Rust tests (106 ignored), 27 installed
+Mecc and 14 installed Delphi controls, 43 Python tests, Rustfmt and strict workspace
+Clippy. Two 512-frame App controls pass with actual terrain, animation, camera,
+held submission and cleanup; the jet control uses real zero-PCM muted sinks.
+Commands, clocks, gates and world populations remain controlled inputs. These
+checks do not establish manual gameplay, native world admission or fidelity.
+
+A receipt-bound MinGW build of that exact integration source also passes awaited
+CLI startup and offscreen GPU acceptance: three 128-frame owned inspection cycles
+with menu return/cleanup, one 128-frame jet lift/fuel control and an active-thrust
+capture at step 36. The jet checks use real muted transport. Replay commands and
+world gates remain supplied; this private test executable is not a new download.
+
+The public .8 source, executable, package and acceptance identities remain
+immutable. The cinematic census stays pinned to its separate .7 audit. See
+[PREVIEW_NOTES.md](PREVIEW_NOTES.md) for the later-source boundary and
+[INTEGRATION.md](INTEGRATION.md) for the common-runtime prerequisites.
 
 ## Delphi pre-physical held-cache and geometry binding - 10 November 2026
 

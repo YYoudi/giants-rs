@@ -14,6 +14,24 @@ struct Provider {
     action_error: bool,
     cancel: bool,
     calls: Vec<&'static str>,
+    movement_error: Option<crate::vimp_movement::Clock>,
+    movement_calls: Vec<crate::vimp_movement::Clock>,
+}
+impl VimpActiveMovementServices for Provider {
+    fn movement_seconds(
+        &mut self,
+        session: &Session,
+        owner: Id,
+        clock: crate::vimp_movement::Clock,
+    ) -> Result<f64, String> {
+        self.movement_calls.push(clock);
+        assert!(session.get(owner).unwrap().vimp_active_running);
+        if self.movement_error == Some(clock) {
+            Err("declared movement clock failure".into())
+        } else {
+            Ok(self.seconds)
+        }
+    }
 }
 impl VimpActiveServices for Provider {
     fn session(
@@ -123,6 +141,8 @@ fn prepared(
             action_error: false,
             cancel: false,
             calls: vec![],
+            movement_error: None,
+            movement_calls: vec![],
         },
     )
 }
@@ -151,6 +171,91 @@ fn source_vimp_active_arrival_owns_timer_across_invocations_and_refuses_replay()
     );
     assert_eq!(r.0, before);
     assert_eq!(s.vimp_frames(id), Some(0));
+}
+#[test]
+#[ignore = "requires GIANTS_NPC_ROOT; one shared movement/active lease with declared first-handled gate"]
+fn source_vimp_active_movement_suppression_keeps_timers_and_only_draws_arrival() {
+    let (mut s, id, g, mut r, mut p) = prepared(0);
+    let a = s.residents.get_mut(&id.serial).unwrap();
+    a.vimp.as_mut().unwrap().commands = [7; 8];
+    put(a.seed.storage.data_mut().unwrap(), 0x5c, 0.75f32.to_bits());
+    let seed = r.0;
+    s.advance_vimp_movement_response_offline(
+        id,
+        0,
+        VimpActiveMovement {
+            produce_commands: false,
+            obstructed: true,
+        },
+        &g,
+        &mut r,
+        &mut p,
+    )
+    .unwrap();
+    let a = s.get(id).unwrap();
+    assert_eq!(a.vimp.unwrap().commands, [0; 8]);
+    assert_eq!(
+        word(a.seed.storage.data().unwrap(), 0x5c),
+        0.75f32.to_bits()
+    );
+    assert!(a.vimp.unwrap().response_turn_timer.is_some());
+    let mut expected = crate::audio_parameters::Random(seed);
+    expected.next_15();
+    assert_eq!(r.0, expected.0);
+    assert_eq!(p.movement_calls, [crate::vimp_movement::Clock::Actor]);
+    assert_eq!(s.vimp_active_steps(id), Some(1));
+    assert!(!a.vimp_active_running);
+}
+#[test]
+#[ignore = "requires GIANTS_NPC_ROOT; combined clock failure retains movement prefix and quarantines the lease"]
+fn source_vimp_active_movement_clock_failure_does_not_enter_active_or_replay() {
+    for clock in [
+        crate::vimp_movement::Clock::Actor,
+        crate::vimp_movement::Clock::Global,
+    ] {
+        let (mut s, id, g, mut r, mut p) = prepared(0);
+        p.movement_error = Some(clock);
+        let a = s.residents.get_mut(&id.serial).unwrap();
+        a.vimp.as_mut().unwrap().commands = [7; 8];
+        let f = a.construction_fields.as_mut().unwrap();
+        f.position = [0.; 3];
+        f.angles[0] = 0.;
+        let b = a.seed.storage.data_mut().unwrap();
+        for (at, v) in [(0x40, 100f32), (0x44, 0.), (0x48, 0.), (0x5c, 0.75)] {
+            put(b, at, v.to_bits());
+        }
+        let seed = r.0;
+        let request = VimpActiveMovement {
+            produce_commands: true,
+            obstructed: true,
+        };
+        assert!(
+            s.advance_vimp_movement_response_offline(id, 0, request, &g, &mut r, &mut p)
+                .is_err()
+        );
+        let a = s.get(id).unwrap();
+        assert!(a.vimp_frame_stopped);
+        assert!(!a.vimp_active_running);
+        assert_eq!(
+            a.vimp.unwrap().commands,
+            if clock == crate::vimp_movement::Clock::Actor {
+                [7; 8]
+            } else {
+                [32, 0, 0, 0, 0, 0, 0, 0]
+            }
+        );
+        assert!(a.vimp.unwrap().response_turn_timer.is_none());
+        assert!(p.calls.is_empty());
+        assert_eq!(r.0, seed);
+        assert_eq!(s.vimp_active_steps(id), Some(1));
+        let calls = p.movement_calls.clone();
+        assert!(
+            s.advance_vimp_movement_response_offline(id, 1, request, &g, &mut r, &mut p)
+                .is_err()
+        );
+        assert_eq!(p.movement_calls, calls);
+        assert_eq!(r.0, seed);
+    }
 }
 #[test]
 #[ignore = "requires GIANTS_NPC_ROOT; absent producer is not a zero timer"]

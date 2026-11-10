@@ -52,7 +52,10 @@ mod vimp_history_tests;
 mod vimp_locomotion_animation_tests;
 #[cfg(test)]
 mod vimp_newborn_tests;
-pub use vimp_active::Services as VimpActiveServices;
+pub use vimp_active::{
+    Movement as VimpActiveMovement, MovementServices as VimpActiveMovementServices,
+    Services as VimpActiveServices,
+};
 mod vimp_response;
 #[cfg(test)]
 mod vimp_response_tests;
