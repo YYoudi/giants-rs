@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.10.3
+# Windows x64 development preview - preview-2026.11.10.4
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -11,6 +11,19 @@ owner's estimate and has not received comprehensive human review. This estimate
 is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+## Timed physical state and service order
+
+Timed-effect velocity/history now belongs to the common Session alongside the
+actual inline payload. Required motion and gravity services are separated by
+the native affine store; deferred size and animation follow gravity. Completed
+writes survive late failures without replaying services. Retained native controls
+cover intermediate fields and matrices as well as final callback states.
+
+This remains an integrated source dependency. Physical clock inputs, actual
+contact/environment producers, ordinary preparation, stock/world scheduling and
+timed main-film admission remain under reconstruction. No additional cinematic,
+character control or complete campaign is certified by this change.
 
 ## Combined camera, character and timed-effect checkpoint
 

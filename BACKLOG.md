@@ -1479,6 +1479,25 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Timed Session actors now own their physical velocity/history header alongside
+  the actual inline physical payload. The shared force integrator consumes an
+  independently supplied physical clock sample; no second actor registry or Mecc
+  controller is introduced. Motion, actual affine publication, gravity/friction,
+  deferred size/orientation and ANM remain ordered phases. Owned motion/gravity
+  refuse repeated consumption. Late gravity failures retain preceding affine and
+  force writes; subsequent callbacks refuse replay. Motion failures leave the
+  derived affine stale; later ANM failures retain completed matrix stores.
+  Reused native positive/zero controls retain 576 states /100,224 selected words;
+  an additional 3,456 native velocity/history words and 768 intermediate phase
+  samples /44,544 words exercise the new ownership and service order. These are
+  bounded state78 parent/child controls, not additional scenes or complete physics.
+  Dynamic headers begin from acquired ordinary allocation; no environment/contact
+  producer or successful terrain fallback is installed. The previous sixteen-grid
+  finalization proof below is retained. Next: connect its real environment/header
+  updates and ordinary preparation continuation, then stock/occupancy, native
+  dispatcher/model-rate/clock/RNG and main-film rendering/admission. Clock equality
+  in a supplied fixture does not establish a shared live clock.
+
 - Detached ordinary-finalization comparison now executes the original complete
   parent/child preparation, retirement and cleanup against actual static terrain
   from all sixteen inventoried worlds. Across 128 controlled cycles, the shared

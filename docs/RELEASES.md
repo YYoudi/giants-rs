@@ -1,5 +1,29 @@
 # Preview releases and milestone integration
 
+## Timed physical-header ownership and ordered services — 10 November 2026
+
+Timed actors now retain physical velocity/history in the common Session, beside
+one actual inline payload. Motion reuses the shared force integrator with an
+explicit independent physical-clock sample. The native affine store precedes
+required gravity/friction; deferred size/orientation then precedes ANM. A late
+gravity error retains completed affine/force writes, while callbacks and owned
+services refuse replay. The acquired constructor clears the dynamic header;
+no contact/terrain producer or default world service is fabricated.
+
+Retained original positive/zero controls cover 576 parent/child states and
+100,224 selected words, with 3,456 additional velocity/history words. Separate
+native boundary snapshots compare 768 intermediate samples /44,544 words across
+motion and gravity entry/return, including their matrices and physical payloads.
+Those controls supply clocks, support and initial detached ordinary preparation;
+they do not certify native world admission or additional films. The previous
+sixteen-terrain finalization comparison remains a prerequisite now to connect
+to the owned dynamic header and the ordinary preparation continuation.
+
+Actual environment/contact updates, world populations, native stock/occupancy,
+dispatch/model rates, clock/RNG ownership and timed main-film rendering remain
+open. Prototype PS2 attributions stay unknown. The public download snapshot keeps
+its independently verified identity until a new package passes technical checks.
+
 ## Delphi cold support construction - 10 November 2026
 
 An explicit source-backed cold factory now owns the support class through the
