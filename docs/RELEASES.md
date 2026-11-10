@@ -6332,3 +6332,33 @@ CPU and reserved zero-PCM device controls, shared timed Session and cold Delphi
 ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
 site/JavaScript checks. Concurrent preview .8 evidence and its limitations are
 retained separately. This source handoff creates no new download or live admission.
+
+### Mecc completion notice and record continuation - 10 November 2026
+
+The completion service now orchestrates post-expiry notification, signed progress
+update, next-record scan and all four record kinds through required storage and
+side-effect providers. It preserves marker/music/timer writes, retained text and
+mission references, player/world rereads and caller returns around callbacks.
+Late message/queue failures retain completed stores; the enclosing owner must
+quarantine replay. No UI/music/save/load/event/countdown-start backend is fabricated.
+
+Under supplied mode/admission, synthetic mission storage, clocks and declared
+helper effects, 373 whole native-handler contexts agree with Rust's composed
+admission/countdown/continuation. Selected final state, clock requests, returns
+and 1,454 ordered provider entries with intermediate state/arguments agree.
+These controls include unchanged supplied fields and do not establish complete
+global-state coverage, real mission progress or live impact availability. Actual
+precheck/previous-record and storage/world/backend producers remain required.
+Prototype PS2 attributions remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#completion-notice-and-record-continuation---10-november-2026).
+
+Validation retaining main through `e47f4c6` passes 916 workspace Rust tests
+(106 ignored), twenty-seven installed Mecc controls, the prepared 512-frame App
+CPU and reserved zero-PCM device controls, shared timed Session and cold Delphi
+ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
+site/JavaScript checks. This source handoff retains the separate preview .8
+source/notices/checksums and creates no new downloadable build.
+
+The follow-up retains main's merged Mecc/Delphi and receipt-bound graphical
+regression notes. That final merge changes documentation only; validated Rust
+source is unchanged. The already merged PR #4 remains a separate checkpoint.

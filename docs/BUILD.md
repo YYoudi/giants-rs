@@ -1056,4 +1056,12 @@ The same `mission_completion_countdown` synthetic filter also covers ordered
 admission: precheck before later gates, record replacement/rereads and retained
 markers after callback failure. The `admission::Services` methods are required
 providers; the precheck is not a one-time initializer. Snapshot production,
-callbacks, clocks and following record advancement remain explicit prerequisites.
+actual callback/clock backends and common runtime ownership remain explicit
+prerequisites; continuation orchestration is acquired separately below.
+
+The same `mission_completion_countdown` filter includes continuation failure
+controls: message-marker retention, post-message replacement increment and
+post-resolution queue failure. `continuation::Services` requires actual storage,
+text identities, UI/music/save/load/event/countdown-start providers. No method
+has a default successful implementation; missing providers must remain errors.
+The acquired caller return is separate from mission completion or live admission.
