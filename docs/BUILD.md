@@ -69,10 +69,10 @@ With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
 checks actual player constructor identity with a second actor of the same class,
 local/other audio routing, motion ownership, foreign and retired owner refusal,
 and mission cleanup. It is silent CPU composition. The additional diagnostic
-`source_owned_mecc_runtime_terrain_and_presentation` currently reaches the required
-normal pistol draw animation callback/frame service refusal at frame one; it
-does not pass continuous gameplay on this source. Preserve that prerequisite
-rather than forcing animation flags. Neither control proves native input or
+`source_owned_mecc_runtime_terrain_and_presentation` now passes 128 prepared CPU
+frames with actual terrain, camera, ANM and weapon presentation. It checks the
+weapon's absence during draw and presence once actually equipped. This does not
+certify a graphical run or complete ordinary gameplay. Neither control proves native input or
 visual fidelity.
 
 With `GIANTS_KABUTO_ROOT` and, where necessary, `GIANTS_KABUTO_EXECUTABLE` set as
@@ -873,5 +873,13 @@ composition runs through the actual owned wield factory:
 cargo test --locked -p giants-game source_mecc_pistol_draw --target x86_64-pc-windows-gnu -- --ignored
 ```
 
-It checks removal/recreation of the bound hand and peer preservation with supplied
-event windows. It does not run ANM or lift the ordinary selector's draw refusal.
+The group checks supplied-window hand replacement and peer preservation, plus
+160-frame complete grounded primaries using actual ANM callbacks. The neutral
+case reaches draw completion; the movement case interrupts it. A missing-material
+control preserves completed state and refuses replay. Floor, commands, clocks and
+empty populations remain supplied; no graphics device is created.
+
+The optional `GIANTS_MECC_DRAW_RECEIPT` records selected Rust words for private
+comparison. Use a fresh path under ignored `.local` and run only one of
+`source_mecc_pistol_draw_interleaves` or `source_mecc_pistol_draw_interruption`
+per receipt. These artifacts must stay private.

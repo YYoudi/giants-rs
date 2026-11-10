@@ -8,7 +8,7 @@ hits are candidates only; the PC profile remains the behavioral authority.
 
 The sections record successive acquisition checkpoints. For the current binding,
 see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026)
-and [canonical smoke draw consumption](#canonical-smoke-draw-consumption--10-november-2026) below.
+and [pistol callback integration](#pistol-callback-integration--10-november-2026) below.
 Earlier missing-service statements retain the limits of their recorded checkpoint.
 
 ## Selector and ownership order
@@ -1107,3 +1107,41 @@ still refuses its draw branch: the class-bank owner, typed actor binding and
 interleaved callback route must be connected before lifting that refusal. Dispatch
 must follow class events inside each ANM pass, not a delayed post-frame queue.
 No new ordinary gameplay, animation fidelity or preview availability is claimed.
+
+## Pistol callback integration — 10 November 2026
+
+The registered Mecc event bank now retains the supplemental pistol actions.
+Each actor has a typed active-table binding, checked against its pointer-free
+payload marker. Construction starts unbound; the real selector binds the draw,
+continues it, commits the weapon at completion, then clears the table on return
+to ordinary idle. Rebinding arguments keeps the class-shared event marks.
+
+Both actual ANM passes dispatch class events first and supplemental actions next.
+Current channels, references, pose and payload are published before the actual
+wield factory replaces a hand, so new children consume the current actor state.
+Callbacks execute immediately, without a post-frame replay queue. When movement
+interrupts the draw, the native channel setter precedes a weapon commit; control,
+logical state and table publication follow it, then a separate required commit
+can run. The implementation preserves both calls and their intermediate state.
+Late errors retain completed channel, reference, event, context and RNG effects
+and quarantine the actor's frame. Missing material is not treated as absent terrain.
+
+Two independent original-PC controls execute complete primaries on a supplied
+flat floor with neutral or changing movement commands. Rust agrees across 320
+snapshots / 14,400 selected numeric words covering all channels, logical/cache/
+table markers, timers, control flags and RNG. Native table pointers are compared
+as binding presence. A further 320 relative epoch samples agree after explicitly
+subtracting the native startup seed; the absolute startup epoch is not matched.
+These controls supply clocks, commands, mission gates, allocation/source providers
+and empty populations. They are not a whole-payload, populated-world or raster
+comparison. Prototype PS2 attributions remain unknown.
+
+Installed controls check the actual timed hand construction, stable child identity
+through commit, table retirement, and missing-material failure without replay.
+The prepared App CPU diagnostic now passes 128 terrain/camera/animation/weapon
+frames and allows the expected missing weapon before it is equipped. Its separate
+128-frame jet control also passes with actual reserved sinks playing zero PCM at
+zero gain. This checks device transport and lifecycle, not audible fidelity. No graphics
+device or new preview is part of that result. Idle-variant continuation, complete
+impact/voice/display and FX/world scheduling, populated contact and graphical
+fidelity remain open; the older muted-jet receipt retains its own narrower scope.

@@ -5574,3 +5574,31 @@ Validation retaining main through `119422f` passes 884 workspace Rust tests
 (86 ignored), twenty-three installed Mecc controls, 43 Python tests, Rustfmt,
 strict workspace Clippy and generated site/JavaScript checks. No release package,
 notices or preview checksums change in this source-only checkpoint.
+
+### Mecc pistol actions inside canonical ANM — 10 November 2026
+
+The registered class bank and typed actor binding now connect pistol draw actions
+to both real ANM passes. Hand replacements run immediately after class events,
+using current pose, channels and references. Draw completion defers weapon commit;
+movement interruption preserves the separate commits before and after publication
+of the new selector state. Late errors retain completed effects and refuse replay.
+
+Neutral and changing-movement controls match 320 complete native/Rust primary
+snapshots / 14,400 selected numeric words. Pointer comparison uses binding
+presence; relative epoch advancement additionally agrees after declared startup
+seed normalization. Clocks, flat floor, commands, mission gates, source/allocation
+providers and empty populations remain supplied. This is not a whole-payload,
+populated-world or graphical fidelity result. Prototype PS2 attributions remain
+unknown. The prepared App CPU diagnostic passes 128 terrain/camera/animation/
+weapon frames, including expected weapon absence before equipment.
+
+Main through `ac4e7c3`, including concurrent Kabuto selection and common ownership/
+dependency work, is retained. Combined validation passes 890 workspace Rust tests
+(93 ignored), twenty-five installed Mecc controls, the 128-frame App control,
+shared timed-owner and cold Delphi support controls, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated site/JavaScript checks. The separate
+128-frame jet/device control passes with reserved zero-PCM sinks at zero gain;
+it does not establish audible fidelity. The main lane owns
+preview publication; this handoff does not relabel the separate preview 6 receipt,
+notices or checksums. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#pistol-callback-integration--10-november-2026).
