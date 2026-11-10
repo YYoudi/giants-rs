@@ -113,8 +113,18 @@ implemented in `camera_mode`, with 1,280 native/Rust command comparisons and the
 Session preparation/inactivity and returns the resulting display snapshot. Keep
 profile/scale/projection backends, camera startup/override producers and world
 ordering explicit before connecting App damage/fire; the default driver is unchanged.
-The current independently verified download is `preview-2026.11.10.2`; its snapshot and receipts
+The current independently verified download is `preview-2026.11.10.3`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
+
+The combined `.3` source includes NPC PR #5's history/newborn runtime, cold Delphi
+support and the shared camera-mode/Session composition alongside Kabuto and Flick.
+Its normal window caption is restored after cinematic retirement; actual muted
+menu, double-click/Escape skip, partial Mecc entry, return and second entry were
+checked on the exact downloadable executable. Default tests pass 870 Rust cases
+(65 ignored); 43 installed source controls retain their declared boundaries.
+Keep actual world/marker dispatch, startup/override and suppression producers,
+required effects/audio, normal character controls and fidelity open. The native-only
+mutable NPC walk on later main is not a completed Rust population scheduler.
 
 The 10 November integration review exercised the published `.13` menu, opening
 skip, ordinary Mecc entry and menu return on an independent muted profile. Its
@@ -463,6 +473,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   writers and caller/world/ANM timing. Do not equate scene keys with Session serials,
   conflate support with held/surfacing relationships or substitute zero for a
   missing provider. Target/proxy lifetime, main integration and fidelity remain open.
+- Implemented at the CPU boundary: auxiliary-request prefix selection matches
+  2,048 original-PC contexts, including 158 selected requests, 1,890 exits and
+  4,410 tracked field/list reads. Original authority helpers execute; command
+  buttons remain distinct from actor control flags. Rust checks 4,410 required-
+  provider failures and 336 snapshot-budget refusals. Native prefixes stop before
+  the selected action; neither action completion nor a full primary is claimed.
+  Next: acquire typed auxiliary/related-owner producers, current list12 ownership
+  and lifetime, then wire this prefix before physical/secondary work. Preserve
+  the current Session refusal until those owners and required action services are
+  bound; do not replace list12 with the general list or conflate the relationship
+  with physical contact/attachment. This does not admit live Delphi.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary

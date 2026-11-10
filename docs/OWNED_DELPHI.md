@@ -4,6 +4,37 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Auxiliary-request prefix selection - 10 November 2026
+
+`delphi_auxiliary_prefix::select` acquires the source-ordered request selection
+before the physical/secondary phases. Authority runs before the command-button
+and response gates. The command word is separate from actor control flags.
+Inactive gates do not read the auxiliary relationship. An active relationship
+loads the specific list12 head and auxiliary state, then searches in source order
+for the first related class-matching actor with a nonzero request mode. State
+handle loads precede the candidate filters; the selector does not skip required
+reads because a later predicate would reject the candidate.
+
+With supplied session/peer, actor/header and linked-list snapshots, 2,048
+original-PC prefixes agree with Rust: 1,890 exits and 158 selected requests,
+including the order of 4,410 tracked field/list reads. The original authority
+helpers execute. Each original prefix stops before the selected action, or at
+its branch exit, and writes no actor state. The comparison does not cover every
+machine read or the enclosing complete primary turn.
+
+Rust additionally checks 4,410 injected required-provider failures and 336
+snapshot-budget refusals. These are ownership/refusal controls, not native fault
+or cyclic-list equivalence. State handles do not establish initialization or
+current geometry. A returned request still requires its actual action services.
+
+The common Session's existing auxiliary refusal remains: typed current auxiliary
+and related-owner producers, list12 membership/lifetime and phase-correct primary
+wiring still need acquisition/integration. Do not substitute the general list or
+equate the two auxiliary relationships with a physical contact or attachment.
+This adds no active construction/spell, playable Delphi, capture or new download.
+Prototype PS2 attribution remains unknown; complete inputs and evidence remain
+private.
+
 ## Cold physical-support ownership - 10 November 2026
 
 `delphi_support::Template` loads the support class from the current world's
