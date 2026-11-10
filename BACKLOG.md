@@ -65,10 +65,12 @@ The dedicated NPC lane resumes existing work; see
   Bounded herd/marker common-node dispatch now owns ANM epochs and nonphysical
   finalization with required environment/footprint providers. A composed Rust
   mutable walk matches 32 scenarios /96 snapshots /824,168 normalized words,
-  including all 2,880 callbacks and 448 birth-step first callbacks. Four source
+  including all 2,880 callbacks and 448 birth-step first callbacks. Five source
   controls retain same-step births, skipped-primary clock separation, affine
   publication, partial environment
-  failure/quarantine and stop after lost control. Separate empty-ANM controls
+  failure/quarantine and stop after lost control. The real environment/platform
+  failure control also retains terrain stages through the owned herd adapter.
+  Separate empty-ANM controls
   match 128 cases /4,864 words. Next bind actual world admission and phase
   producers around this composition; retain unsupported-actor refusals and
   acquire required threat/feeding/effects/audio providers. Do not impose an

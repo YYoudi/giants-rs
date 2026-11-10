@@ -161,7 +161,7 @@ The global ANM epoch is shared with Vimps, not restarted per marker. Separate
 original ANM controls match 128 cases /4,864 words, covering signed zero,
 positive time, force masks and epoch wrap with four empty channels.
 
-Four installed controls additionally cover a three-step 30-node traversal,
+Five installed controls additionally cover a three-step 30-node traversal,
 constructor histories, current affine publication, cancellation, wrong/foreign
 entry and invalid-clock preflight. A supplied sleep/wake gate additionally
 keeps skipped primaries separate from common frame counts. A late environment
@@ -169,7 +169,10 @@ failure retains the fourteen births, preceding ANM epoch and partial environment
 list tokens prevent replay. Loss of the controlled actor stops after birth
 without acknowledging fallback; callers must stop the whole walk on that
 outcome. These fault controls establish owned failure
-handling, not native exception equivalence.
+handling, not native exception equivalence. The added coupled environment
+control uses the real terrain/mesh composition and fails at its required platform
+provider: floor/plane writes, births and the ANM epoch survive into the failed
+owned frame, whose token prevents replay.
 
 Cohort/control identity, clock, quiet noise, flat terrain, empty collision and
 platform cohorts, TLS seed and absent sound bank remain supplied. This binds

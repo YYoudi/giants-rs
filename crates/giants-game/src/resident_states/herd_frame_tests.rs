@@ -245,6 +245,70 @@ struct LateFailure {
 }
 
 #[test]
+#[ignore = "requires GIANTS_NPC_ROOT; real environment composition with a late required-platform failure"]
+fn source_herd_frame_retains_real_environment_prefix_after_platform_failure() {
+    let Source {
+        mut session,
+        factory,
+        globals,
+        owner,
+        ..
+    } = source();
+    let mut random = crate::audio_parameters::Random(1);
+    let mut stamp = crate::animation_epoch::Stamp::default();
+    session.prepare_herd_world_history(owner, 0).unwrap();
+    let mut finalization = crate::actor_environment::FinalizationServices {
+        actor: 1,
+        state: 17,
+        slope_parameter: 0.,
+        physics: None,
+        skip_object_responses: false,
+        objects: &[],
+        ground,
+        platform: |_| Err("required platform failed after terrain"),
+        seconds: |_| 0.1,
+        release: |id: Option<u32>| {
+            if id.is_none() {
+                Ok(())
+            } else {
+                Err("unexpected footprint".into())
+            }
+        },
+        statistics: None,
+    };
+    let error = session
+        .advance_herd_world_after_history(
+            owner,
+            Frame {
+                number: 0,
+                global_seconds: 0.1,
+                areas: &[],
+                controlled: Some(owner),
+            },
+            &mut Services {
+                factory: &factory,
+                globals: &globals,
+                random: &mut random,
+                ground: &mut Floor,
+                stamp: &mut stamp,
+                finalization: &mut finalization,
+            },
+        )
+        .unwrap_err();
+    assert!(error.contains("required platform failed"));
+    let view = session.herd_world_frame(owner).unwrap();
+    assert_eq!(view.finalization.fields.floor, 7.25);
+    assert_eq!(view.finalization.fields.plane, [0., 0., 1., -7.25]);
+    assert!(view.failure.is_some());
+    assert_eq!(session.list(10).len(), 14);
+    assert_eq!(session.herd_clock(owner).unwrap().steps, 1);
+    assert_eq!(stamp.0, 1);
+    assert_ne!(random.0, 1);
+    assert!(finalization.statistics.unwrap().ground_queries > 0);
+    assert!(session.prepare_herd_world_history(owner, 0).is_err());
+}
+
+#[test]
 #[ignore = "requires GIANTS_NPC_ROOT original installation"]
 fn source_herd_frame_skipped_primary_does_not_advance_birth_clock() {
     let Source {
