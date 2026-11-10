@@ -80,6 +80,13 @@ by the physical owner; owned movement consumes it without an injected predicate.
 Later object/threat contacts remain incomplete. Story2's 166-node common roster
 includes three parented Mecc children before the herd, 134 other state0 actors and
 eleven state23 actors; do not bypass those active callbacks to claim live AI.
+The shared nonphysical callback adapter now admits 129 supported empty state0
+neutral declarations from actual constructor metadata, retaining the existing
+herd/marker API aliases. A selected-cohort CPU check runs 387 callbacks; two PC
+controls agree on 156 selected words. The five animated/reference-bearing state0
+declarations, parented children, other AI families and real whole-world admission
+remain required; these callbacks are not enabled by loading or a default no-op.
+
 
 
 ## Prototype PS2 attribution method — 5 November 2026

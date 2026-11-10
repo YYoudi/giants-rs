@@ -25,6 +25,41 @@ Source/CPU controls below do not identify a map on which their behavior can
 already be exercised interactively. Ordinary admission still requires actual
 world services and validation.
 
+## Empty state0 actors in the shared callback path — source dependency
+
+No ordinary Vimp AI map is available. The common-node adapter now also accepts
+constructed, unparented nonphysical state0 actors whose actual source has no
+animated channels or references and requires no external orientation. Their
+primary/secondary state dispatch entries are acquired absence; ANM/time and
+finalization still execute. Unsupported state0 profiles receive no successful
+callback by default. Existing herd/marker behavior and older API names remain;
+`passive_frame` and the Session `passive_world_*` entries name the shared profile.
+
+The actual constructor creates this owned frame only for the supported source
+profile. The existing clock, ANM epoch, finalization, environment and footprint
+contracts remain required. A failed or consumed iteration cannot replay, and
+retired/parented/changed profiles refuse. This adds no independent simulation or
+new random stream, and enables no callbacks from mission loading by itself.
+
+A focused original-PC control constructs two neutral state0 classes after poisoning
+prior pool and template transient fields. The real constructor clears payload/
+physics, rates, commands and contact storage. Their actual common-node callback
+order matches the existing state0 marker path. Rust agrees on 156 selected numeric
+class/pose/history/scale/angle/flag/channel/rate/affine words. Control presence,
+clock, placement/history, slow-area population and admission remain supplied;
+resource pointers and UID are excluded. Prototype PS2 lookup remains unknown.
+
+Installed Story2 declarations admit 129 neutral actors to this shared profile.
+Three supplied callback steps retain their positions, publish current affines and
+preserve RNG across 387 updates; replay and retirement refuse. Terrain/platform/
+footprint providers are required but not entered by these stationary actors.
+The five other state0 declarations require animated/reference services and remain
+unsupported. This is a selected-cohort CPU control: other actor families are not
+acknowledged as updated, and empty supplied collision geometry is not a claim of
+an empty mission. Parented Mecc children, wider state0/AI callbacks and the actual
+shared world admission/clock/control/environment/effect producers still block
+ordinary whole-world scheduling before the live Vimp render consumer can be used.
+
 ## Vimp pose consumer in the common renderer — source only
 
 No ordinary mission or public preview can yet exercise live Vimp AI. The render

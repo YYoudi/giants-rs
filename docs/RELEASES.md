@@ -7,6 +7,23 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## Passive common-node ownership — intermediate source dependency
+
+No ordinary Vimp AI map or new preview is available. Source construction now
+prepares the existing nonphysical common-node owner for supported empty state0
+actors. Neutral actors reuse the acquired null state dispatch, ANM/time and real
+finalization contracts; unsupported animated/reference-bearing or parented
+profiles receive no default-success callback. Existing herd APIs remain aliases.
+
+A focused PC constructor/common-node control for two neutral classes agrees with
+Rust on 156 selected numeric words. The installed Story2 selected-cohort control
+admits 129 neutral declarations over three supplied callback steps, checking 387
+updates, affines, unchanged RNG, replay/retirement and five unsupported state0
+profiles. It does not update the other mission families or establish live world
+admission, populated collision, ordinary input, GPU output or AI readiness.
+The real shared caller and remaining family services are still required before
+ordinary interaction and preview validation. Frozen preview receipts stay intact.
+
 ## Common Vimp pose renderer — runtime consumer, interaction unverified
 
 No ordinary Vimp AI map or new preview is available. The common executable now

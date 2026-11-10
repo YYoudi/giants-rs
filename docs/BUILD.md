@@ -81,6 +81,14 @@ clocks and epochs. Two fourteen-body tickets check animated mesh updates, shared
 pose copies, camera hide/resume, missing-mesh cleanup/quarantine and asset release.
 This is CPU asset coverage, with no GPU or ordinary gameplay availability claim.
 
+With the same root, run
+`cargo test --locked -p giants-game source_passive_world --target x86_64-pc-windows-gnu -- --ignored`
+for 129 source-backed empty state0 actors over three supplied callback steps.
+The selected-cohort CPU control checks current affines, unchanged RNG, replay/
+retirement and unsupported profiles. Whole-world admission/control, clocks and
+unused collision/platform providers remain explicit supplied boundaries.
+
+
 
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
