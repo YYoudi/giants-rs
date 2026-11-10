@@ -38,6 +38,23 @@ and captures the child's `--help` result explicitly.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+With `GIANTS_DELPHI_ROOT` set to compatible installed data,
+`source_delphi_dependency_order_keeps_group_identities_and_cleanup` checks the
+common dependency-order service against the actual cold Delphi/copy/held group.
+It deliberately permutes list0 registrations, then checks typed owner precedence,
+unchanged reverse memberships/other lists, cleanup and reconstruction. Run with
+`cargo test --locked -p giants-game source_delphi_dependency_order --target x86_64-pc-windows-gnu -- --ignored`.
+This silent CPU control does not execute a complete world or validate gameplay.
+
+With `GIANTS_MECC_WORLD_ROOT` set to compatible installed data, the ignored
+`source_camera_owner_selection_keeps_callback_effects_and_identity` checks the
+camera-owner prefix against actual Session actors and the existing subjective
+preparation consumer. It covers duplicate classes, retained callback effects,
+late errors, retirement, foreign owners and reconstruction. The reference-point
+body, initial words and mode/force/profile inputs remain declared boundaries.
+Run it alongside `source_mecc_preworld_camera_prepares_or_retires_actual_display`;
+both are silent CPU compositions, not App input or complete world-order checks.
+
 With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
 `cargo test --locked -p giants-app source_actor_roles --target x86_64-pc-windows-gnu -- --ignored`
 checks actual player constructor identity with a second actor of the same class,
@@ -102,6 +119,15 @@ has that layout. When it differs, set `GIANTS_DELPHI_EXECUTABLE` explicitly to t
 read-only, identity-checked reference used for the acquisition. A layout refusal
 is an unsupported input profile, not permission to bypass the reader or claim a
 successful composition. The portable synthetic checks need no such executable.
+With the same Delphi inputs, the ignored
+`source_delphi_proximity_retains_counter_failure_and_refuses_profile_replay`
+control exercises the explicit physical/item/proximity/secondary sequence with
+source resources, supplied clock/flat ground and a recorded sound-stop request
+sink. It checks profile refusal, counter persistence, retained late failure,
+quarantine and clear/re-entry. Its owned population has no state102 interaction
+actor; active services, actual sound stopping and full-primary/world admission
+remain unverified.
+
 With the same `GIANTS_DELPHI_ROOT`, the ignored
 `source_delphi_proxy_is_direct_zero_state_without_effect_origin` control checks
 three actual source-backed direct target proxies, zero state78 payload, unchanged

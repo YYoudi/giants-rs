@@ -4,6 +4,81 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Shared dependency order and attachment phase - 10 November 2026
+
+`Session::order_common_dependencies` adds the acquired post-primary ordering
+pass to the common owned actor list. An actual attachment parent takes priority;
+state-62 copies otherwise use their typed source owner. The pass selects the
+parent's newest reverse registration, leaves dependents already after it in
+place, and captures each successor before moving a registration. It preserves
+registration identities, reverse memberships and every other list. Duplicate
+registrations use the acquired object-identity suffix search. A finite host
+budget bounds malformed dependency cycles; it is not a native limit. Errors
+retain preceding moves and quarantine common traversal until cleanup.
+
+All 1,024 original-PC/Rust controls agree on final object and registration order
+with supplied acyclic graphs, permutations, duplicate registrations and parents
+registered only in another list. Reverse memberships and the other list remain
+unchanged. Synthetic ownership/failure controls and an installed-data cold
+Delphi group check cover typed relationship precedence, retained partial moves,
+foreign owners, cleanup and reconstruction. The latter deliberately permutes
+registrations; it does not certify ordinary world scheduling.
+
+A separate native-only acquisition executes four whole-cohort first passes,
+then the original deferred/subjective guards, dependency pass and attachment
+pass. It observes 22 actors and establishes that held placement follows the
+primary/secondary/animation pass. Constructor-zero caches, evaluated reference
+buffers and later placed caches are distinct states. Time, flat terrain,
+commands/preferences, initial owner-affine preparation and projection/OS/TLS
+boundaries remain supplied. Later world passes, Rust whole-turn equivalence and
+normal startup producers remain unverified. No new prototype PS2 attribution is
+confirmed. This source-only service enables neither live Delphi nor a new
+preview feature; target/readiness publication and active physical movement remain
+the next controller prerequisites.
+
+## Proximity continuation and full-primary diagnosis - 10 November 2026
+
+`delphi_proximity::advance` preserves the periodic common-list interaction
+continuation: authority, global-time subtraction, a stored narrow countdown and
+its wide negative comparison, ordered state/context/damage/anchor filters, and
+the first nearby candidate. A candidate with the existing control bit also ends
+the walk. Missing candidates clear only that bit; completed scans reset the
+countdown. Requests require the actual interaction and transport services.
+
+Across 2,048 native controls, Rust agrees on 2,024 returns and 24 stops at the
+first required action service, including 7,656 tracked read/helper events. The
+original authority, time, anchor and squared-distance helpers execute. The
+supplied candidate model has an unbound reference slot and cached affine anchor;
+bound-reference composition and actual geometry freshness remain upstream.
+The 14 local-selection and ten notification stops do not validate successful
+alignment or network/activation effects. Rust required-provider failures retain
+completed timer stores. Invalid-input/fault equivalence is not claimed.
+
+`Resources::with_proximity_continuation` and
+`Session::advance_delphi_proximity_controlled` compose the acquired continuation
+after items and before secondary/zero-time ANM in an explicit component profile.
+The common owned population is walked; state102 current interaction providers
+remain refused. Source-backed checks cover profile mismatch, a persistent
+countdown, retained late failure, replay quarantine, clear and re-entry. This
+sequence matches 256 original component iterations over all 22 actor headers,
+reference caches, owner payload and ordered lists: 2,040,576 normalized words
+and the final shared RNG state agree. Time, commands/preferences, flat ground,
+metadata and a recorded sound-stop request sink are supplied. Voice execution,
+a complete primary/world turn and visual fidelity remain open.
+
+A separate native-only control now executes 256 complete original primary bodies
+after retained construction/physical initialization and generic entry, with the
+declared flat-world/view/projection and OS/TLS boundaries. Paired same-input
+component runs show a different trajectory once the whole primary produces
+readiness and activates movement. One inherited component-harness zero-readiness
+assertion stopped an earlier acquisition; removing that assertion allowed the
+original outputs to persist. No original state was forced or corrected.
+Full-primary Rust comparison remains pending. The next work is phase-correct
+local target/aim/readiness publication, active movement/physical composition and
+the remaining primary continuations before ordinary menu admission. No live
+Delphi control, capture or new download follows from these controls. Prototype
+PS2 attribution remains unknown; detailed records and inputs remain private.
+
 ## Auxiliary-request prefix selection - 10 November 2026
 
 `delphi_auxiliary_prefix::select` acquires the source-ordered request selection

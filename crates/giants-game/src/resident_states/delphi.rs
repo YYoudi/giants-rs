@@ -17,6 +17,28 @@ struct TailEntry<'a> {
     peer_ids: &'a [u32],
     local_peer: u32,
     owner_word: Option<u32>,
+    proximity: Option<f32>,
+}
+enum TailProfile<'a> {
+    Items(crate::delphi_items::Context<'a>),
+    Proximity(crate::delphi_proximity::Context<'a>),
+}
+impl TailEntry<'_> {
+    fn eligible(&self) -> Result<bool, String> {
+        if self.session_mode != 4 {
+            return Ok(true);
+        }
+        crate::kabuto_geometry_mode::NotificationContext {
+            session_mode: self.session_mode,
+            peer_ids: self.peer_ids,
+            local_peer: self.local_peer,
+            owner_word: self
+                .owner_word
+                .ok_or("Delphi item authority owner identity absent")?,
+        }
+        .eligible()
+        .map_err(str::to_owned)
+    }
 }
 struct ItemWorld<'a> {
     session: &'a Session,
@@ -44,20 +66,7 @@ impl crate::delphi_items::World for ItemWorld<'_> {
         ))
     }
     fn eligible(&mut self) -> Result<bool, String> {
-        if self.context.session_mode != 4 {
-            return Ok(true);
-        }
-        crate::kabuto_geometry_mode::NotificationContext {
-            session_mode: self.context.session_mode,
-            peer_ids: self.context.peer_ids,
-            local_peer: self.context.local_peer,
-            owner_word: self
-                .context
-                .owner_word
-                .ok_or("Delphi item authority owner identity absent")?,
-        }
-        .eligible()
-        .map_err(str::to_owned)
+        self.context.eligible()
     }
     fn action(
         &mut self,
@@ -92,6 +101,76 @@ impl crate::delphi_items::World for ItemWorld<'_> {
             );
         }
         Ok(false)
+    }
+}
+struct ProximityWorld<'a> {
+    session: &'a Session,
+    context: &'a TailEntry<'a>,
+    global_seconds: f32,
+    areas: &'a [crate::object_time::SlowArea],
+}
+fn unprepared_proximity<T>() -> Result<T, String> {
+    Err("Delphi state102 current interaction provider unprepared".into())
+}
+impl crate::delphi_proximity::World<Id> for ProximityWorld<'_> {
+    fn authority(&mut self) -> Result<bool, String> {
+        self.context.eligible()
+    }
+    fn global_seconds(&mut self) -> Result<f64, String> {
+        Ok(crate::object_time::seconds(
+            self.global_seconds,
+            None,
+            None,
+            self.areas,
+        ))
+    }
+    fn actors(&mut self) -> Result<Vec<Id>, String> {
+        Ok(self.session.list(0))
+    }
+    fn state(&mut self, actor: Id) -> Result<u32, String> {
+        Ok(u32::from(
+            self.session
+                .get(actor)
+                .ok_or("Delphi proximity actor absent or foreign")?
+                .seed
+                .storage
+                .state(),
+        ))
+    }
+    fn context(&mut self, actor: Id) -> Result<u32, String> {
+        Ok(self
+            .session
+            .get(actor)
+            .and_then(|v| v.construction_fields.as_ref())
+            .ok_or("Delphi proximity actor fields absent")?
+            .dispatch_context)
+    }
+    fn damage_and_limit(&mut self, _: Id) -> Result<(f32, f32), String> {
+        unprepared_proximity()
+    }
+    fn anchor(&mut self, _: Id) -> Result<[f32; 3], String> {
+        unprepared_proximity()
+    }
+    fn network_guard(&mut self) -> Result<bool, String> {
+        Ok(self.context.session_mode == 4 && self.context.eligible()?)
+    }
+    fn notify(&mut self, _: Id, _: &mut u32) -> Result<(), String> {
+        unprepared_proximity()
+    }
+    fn activate(&mut self, _: Id, _: &mut u32) -> Result<(), String> {
+        unprepared_proximity()
+    }
+    fn select(&mut self, _: Id) -> Result<(), String> {
+        unprepared_proximity()
+    }
+    fn alignment_angle(&mut self, _: Id) -> Result<f32, String> {
+        unprepared_proximity()
+    }
+    fn alignment_position(&mut self, _: &mut crate::delphi_proximity::State) -> Result<(), String> {
+        unprepared_proximity()
+    }
+    fn move_owner(&mut self, _: &mut crate::delphi_proximity::State) -> Result<(), String> {
+        unprepared_proximity()
     }
 }
 struct ReserveEntry<'a> {
@@ -330,6 +409,50 @@ impl Session {
         ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
         services: &mut crate::actor_animation_phase::Services<'_>,
     ) -> Result<crate::delphi_physical::View, String> {
+        self.advance_delphi_tail_profile(
+            id,
+            e,
+            manual,
+            TailProfile::Items(context),
+            ground,
+            services,
+        )
+    }
+    /// Explicit physical/item/proximity/secondary component sequence. State102
+    /// interaction providers and the surrounding full primary remain refused.
+    pub fn advance_delphi_proximity_controlled(
+        &mut self,
+        id: Id,
+        e: crate::delphi_physical::Environment<'_>,
+        manual: crate::delphi_physical::ManualRotation,
+        context: crate::delphi_proximity::Context<'_>,
+        ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+        services: &mut crate::actor_animation_phase::Services<'_>,
+    ) -> Result<crate::delphi_physical::View, String> {
+        self.advance_delphi_tail_profile(
+            id,
+            e,
+            manual,
+            TailProfile::Proximity(context),
+            ground,
+            services,
+        )
+    }
+    fn advance_delphi_tail_profile(
+        &mut self,
+        id: Id,
+        e: crate::delphi_physical::Environment<'_>,
+        manual: crate::delphi_physical::ManualRotation,
+        profile: TailProfile<'_>,
+        ground: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+        services: &mut crate::actor_animation_phase::Services<'_>,
+    ) -> Result<crate::delphi_physical::View, String> {
+        let (context, proximity) = match profile {
+            TailProfile::Items(items) => (items, None),
+            TailProfile::Proximity(context) => {
+                (context.items, Some(context.squared_distance_limit))
+            }
+        };
         self.advance_delphi_phases(
             id,
             e,
@@ -348,6 +471,7 @@ impl Session {
                     peer_ids: context.peer_ids,
                     local_peer: context.local_peer,
                     owner_word: context.owner_word,
+                    proximity,
                 }),
             },
         )
@@ -385,6 +509,8 @@ impl Session {
             || cycle.resources.post_physical != post.is_some()
             || cycle.resources.reserve != reserve.is_some()
             || cycle.resources.primary_tail != primary_tail.is_some()
+            || cycle.resources.proximity_continuation
+                != primary_tail.as_ref().is_some_and(|v| v.proximity.is_some())
         {
             return Err("Delphi phase entry differs from its prepared profile".into());
         }
@@ -691,6 +817,41 @@ impl Session {
                         result?;
                         if word(&out.payload, 0xcfc) != 0 {
                             return Err("Delphi auxiliary resource callback unprepared".into());
+                        }
+                        if let Some(squared_distance_limit) = context.proximity {
+                            let mut current_commands = commands;
+                            current_commands[4..8]
+                                .copy_from_slice(&cycle.view.post_buttons.unwrap().to_le_bytes());
+                            let mut state = crate::delphi_proximity::State {
+                                remaining: f32::from_bits(word(&out.payload, 0xfb0)),
+                                controls: out.fields.control_flags,
+                                heading: out.fields.angles[0],
+                                position: out.fields.position,
+                                commands: current_commands,
+                            };
+                            let result = crate::delphi_proximity::advance(
+                                &mut state,
+                                crate::delphi_proximity::Input {
+                                    owner_context: out.fields.dispatch_context,
+                                    owner_word: context.owner_word,
+                                    squared_distance_limit,
+                                },
+                                &mut ProximityWorld {
+                                    session: self,
+                                    context,
+                                    global_seconds,
+                                    areas,
+                                },
+                            );
+                            out.fields.control_flags = state.controls;
+                            out.fields.angles[0] = state.heading;
+                            out.fields.position = state.position;
+                            out.payload[0xfb0..0xfb4]
+                                .copy_from_slice(&state.remaining.to_bits().to_le_bytes());
+                            cycle.view.post_buttons =
+                                Some(u32::from_le_bytes(state.commands[4..8].try_into().unwrap()));
+                            cycle.view.post_commands = Some(state.commands);
+                            result?;
                         }
                     }
                     if let Some(clips) = cycle.resources.locomotion {
