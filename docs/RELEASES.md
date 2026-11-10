@@ -32,6 +32,10 @@ build at `54e82c9` passes three 128-frame GPU Mecc inspection cycles with actual
 body drawing, cancellation and asset release. Commands/clocks/world gates remain
 supplied. These checks establish neither ordinary Kabuto availability nor native
 visual fidelity. The published preview .8 retains its independent identity.
+The later combined checkpoint also preserves the ordinary Mecc jet and persistent
+cinematic sampling contributions: 918 Rust checks (108 ignored), the Kabuto App
+control, expanded Mecc constructor/jet-role control, fifteen Delphi controls,
+Rustfmt and strict Clippy pass. These CPU checks do not broaden the image scope.
 
 ## Main-menu persistent image samples - source-only inspection
 
