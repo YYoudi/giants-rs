@@ -14,6 +14,7 @@ mod delphi_camera;
 mod delphi_held;
 #[cfg(test)]
 mod delphi_proximity_tests;
+mod dependency_order;
 mod herd_frame;
 #[cfg(test)]
 mod herd_frame_tests;

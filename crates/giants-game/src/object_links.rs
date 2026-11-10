@@ -99,6 +99,68 @@ impl Links {
         self.node_object(list, node)?;
         Ok(self.nodes[&node].next)
     }
+    /// Acquired dependency pass: capture the successor before moving a node.
+    /// The newest reverse membership selects the parent's registration. A
+    /// dependent already anywhere after that parent stays in place, including
+    /// when a later registration of the same object satisfies the search.
+    /// The explicit host budget is not a native limit; errors retain moves.
+    pub fn order_dependencies(
+        &mut self,
+        list: ListId,
+        budget: usize,
+        mut parent: impl FnMut(ObjectId) -> Result<Option<ObjectId>, String>,
+    ) -> Result<usize, String> {
+        if budget == 0 {
+            return Err("dependency order requires a positive visit budget".into());
+        }
+        let mut cursor = self.first_node(list);
+        let mut visits = 0;
+        while let Some(node) = cursor {
+            if visits == budget {
+                return Err("dependency order visit budget exhausted".into());
+            }
+            visits += 1;
+            let object = self.node_object(list, node).map_err(str::to_owned)?;
+            cursor = self.next_node(list, node).map_err(str::to_owned)?;
+            let Some(parent) = parent(object)? else {
+                continue;
+            };
+            if parent == object {
+                return Err("self-dependent object outside acquired ordering profile".into());
+            }
+            let Some((anchor, _)) = self
+                .memberships(parent)
+                .into_iter()
+                .find(|(_, membership)| *membership == list)
+            else {
+                continue;
+            };
+            let mut following = self.next_node(list, anchor).map_err(str::to_owned)?;
+            let mut found = false;
+            while let Some(candidate) = following {
+                if self.node_object(list, candidate).map_err(str::to_owned)? == object {
+                    found = true;
+                    break;
+                }
+                following = self.next_node(list, candidate).map_err(str::to_owned)?;
+            }
+            if !found {
+                // Preserve the node, reverse registrations and every other list.
+                let entries = self.lists.get_mut(&list).expect("owned dependency list");
+                let index = entries.iter().position(|id| *id == node).unwrap();
+                if index > 0 {
+                    self.nodes.get_mut(&entries[index - 1]).unwrap().next = cursor;
+                }
+                entries.remove(index);
+                let index = entries.iter().position(|id| *id == anchor).unwrap();
+                let following = self.nodes[&anchor].next;
+                self.nodes.get_mut(&anchor).unwrap().next = Some(node);
+                self.nodes.get_mut(&node).unwrap().next = following;
+                entries.insert(index + 1, node);
+            }
+        }
+        Ok(visits)
+    }
     fn unlink_node(&mut self, id: LinkId) {
         let entry = self.nodes.remove(&id).expect("owned object link");
         let entries = self
@@ -173,6 +235,85 @@ impl Links {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn dependency_moves_keep_registration_identity_and_captured_successor() {
+        let mut links = Links::default();
+        let child = links.insert(0, 3, Position::Tail);
+        let middle = links.insert(0, 2, Position::Tail);
+        let parent = links.insert(0, 1, Position::Tail);
+        let other = links.insert(4, 3, Position::Tail);
+        let reverse = links.memberships(3);
+        let mut visited = Vec::new();
+        links
+            .order_dependencies(0, 12, |object| {
+                visited.push(object);
+                Ok(match object {
+                    3 => Some(2),
+                    2 => Some(1),
+                    _ => None,
+                })
+            })
+            .unwrap();
+        assert_eq!(visited, [3, 2, 3, 1, 2, 3]);
+        assert_eq!(links.list(0), [1, 2, 3]);
+        assert_eq!(links.first_node(0), Some(parent));
+        assert_eq!(links.next_node(0, parent), Ok(Some(middle)));
+        assert_eq!(links.next_node(0, middle), Ok(Some(child)));
+        assert_eq!(links.next_node(0, child), Ok(None));
+        assert_eq!(links.memberships(3), reverse);
+        assert_eq!(links.first_node(4), Some(other));
+        links.remove_object(2);
+        assert_eq!(links.next_node(0, parent), Ok(Some(child)));
+    }
+
+    #[test]
+    fn dependency_duplicates_use_newest_parent_and_object_suffix() {
+        let mut links = Links::default();
+        for object in [2, 1, 2, 1] {
+            links.insert(0, object, Position::Tail);
+        }
+        links
+            .order_dependencies(0, 20, |object| Ok((object == 2).then_some(1)))
+            .unwrap();
+        assert_eq!(links.list(0), [1, 2, 1, 2]);
+        // A duplicate dependent after the selected parent satisfies the native
+        // object-identity search even if this registration precedes the parent.
+        let mut links = Links::default();
+        for object in [2, 1, 2] {
+            links.insert(0, object, Position::Tail);
+        }
+        links
+            .order_dependencies(0, 20, |object| Ok((object == 2).then_some(1)))
+            .unwrap();
+        assert_eq!(links.list(0), [2, 1, 2]);
+    }
+
+    #[test]
+    fn dependency_failure_keeps_moves_and_budget_bounds_cycles() {
+        let mut links = Links::default();
+        for object in [3, 2, 1] {
+            links.insert(0, object, Position::Tail);
+        }
+        let error = links
+            .order_dependencies(0, 10, |object| match object {
+                3 => Ok(Some(1)),
+                _ => Err("provider failure".into()),
+            })
+            .unwrap_err();
+        assert_eq!(error, "provider failure");
+        assert_eq!(links.list(0), [2, 1, 3]);
+        let mut links = Links::default();
+        for object in [1, 2] {
+            links.insert(0, object, Position::Tail);
+        }
+        assert!(
+            links
+                .order_dependencies(0, 8, |object| Ok(Some(3 - object)))
+                .unwrap_err()
+                .contains("budget exhausted")
+        );
+        assert_eq!(links.list(0).len(), 2);
+    }
     #[test]
     fn newest_duplicate_removal_updates_successor_without_reusing_retired_identity() {
         let mut links = Links::default();
