@@ -1306,10 +1306,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   14,976 selected native/Rust words. Installed controls connect actual returned
   emitter children, retain detached children after emitter destruction, preserve
   required-physics failure prefixes and refuse replay/stale or altered requests.
-  Next acquire actual initial velocity/side-speed publication, physical/terrain
-  services and their ordering, finite retirement/destruction and rendering; bind
-  live parent/child transforms, clock/RNG scheduling, global cleanup and ordinary
-  world admission. Preserve
+  Initial velocity now writes the common physical header before integration;
+  no duplicate canonical velocity is retained. Source/rotated/nonorthogonal bases
+  match 432 native/Rust snapshots / 47,520 selected words. The concrete Session
+  smoke callback reuses main's actual motion/affine/gravity phases, preserves
+  independent supplied clocks and marks finite expiry without a child program.
+  Forty-eight constructions and first/moving/expiry callbacks match 288 snapshots
+  / 31,680 selected words with empty environment population. Missing physical
+  clocks retain completed launch stores and quarantine replay; actual movement
+  and expiry are installed-tested. The actor/resources remain until destruction.
+  Next acquire populated terrain/contact, enclosing clock/world ordering, finite
+  child destruction and rendering; bind live parent/child transforms, global
+  cleanup and ordinary world admission. Preserve
   the completed prototype PS2 lookups (all unassigned), exact PC identity, old
   aliases, separate preparation/active draws and source image ownership. See
   docs/OWNED_MECC_CONTACT.md for the staged constructor contract.

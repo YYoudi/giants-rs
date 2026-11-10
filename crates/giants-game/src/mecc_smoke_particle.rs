@@ -114,6 +114,9 @@ mod tests {
             *session.timed_effect_velocity_mut(actor)? = [0.25, -0.5, 1.];
             Err("declared missing physical owner after supplied write".into())
         }
+        fn gravity(&mut self, _: &mut Session, _: resident_states::Id) -> Result<(), String> {
+            Err("gravity cannot follow the declared motion failure".into())
+        }
         fn retire(
             &mut self,
             _: &mut Session,
@@ -241,6 +244,125 @@ mod tests {
                     .scale,
                 size
             );
+        }
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; canonical smoke motion/gravity/expiry and required independent clock failure, no renderer"]
+    fn source_mecc_smoke_particle_runs_owned_motion_and_expires() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_MECC_WORLD_ROOT").unwrap());
+        let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        for missing in [false, true] {
+            let offset = resources
+                .classes
+                .models
+                .effects
+                .iter()
+                .find_map(|e| {
+                    e.image
+                        .find("fx_mecc_smoke_lite")
+                        .map(|(_, entry)| entry.offset)
+                })
+                .unwrap();
+            let mut pool = Pool::<resident_states::Id>::from_active_resources(940, &resources);
+            let mut session = Session::new(941);
+            let mut random = Random(42);
+            let (creation, _) = pool
+                .prepare_retirement_offset_invariant(
+                    Some(offset),
+                    [17., -24., 30.],
+                    0,
+                    0,
+                    &mut random,
+                )
+                .unwrap();
+            let Creation::Prepared(context) = creation else {
+                panic!("child absent")
+            };
+            let actor = pool
+                .activate_smoke_particle(context, &mut session, &resources, &mut random)
+                .unwrap();
+            let mut stamp = crate::animation_epoch::Stamp(0);
+            assert_eq!(
+                session
+                    .advance_smoke_particle(actor, 0.01, None, &mut stamp)
+                    .unwrap(),
+                crate::timed_effect_object::Step::FirstFrame
+            );
+            let saved = random;
+            if missing {
+                assert!(
+                    session
+                        .advance_smoke_particle(actor, 0.01, None, &mut stamp)
+                        .is_err()
+                );
+                let velocity = session.timed_effect_velocity(actor).unwrap();
+                assert_ne!(velocity[0], 0.);
+                assert_eq!(
+                    session
+                        .get(actor)
+                        .unwrap()
+                        .construction_fields
+                        .as_ref()
+                        .unwrap()
+                        .control_flags
+                        & 0x40,
+                    0
+                );
+                assert!(session.timed_effect_failure(actor).is_some());
+                assert!(
+                    session
+                        .advance_smoke_particle(actor, 0.01, Some(0.01), &mut stamp)
+                        .is_err()
+                );
+                assert_eq!(session.timed_effect_velocity(actor), Some(velocity));
+            } else {
+                for dt in [0.01, 0.05, 0.2] {
+                    assert_eq!(
+                        session
+                            .advance_smoke_particle(actor, dt, Some(f64::from(dt)), &mut stamp)
+                            .unwrap(),
+                        crate::timed_effect_object::Step::Updated
+                    );
+                }
+                let f = session
+                    .get(actor)
+                    .unwrap()
+                    .construction_fields
+                    .as_ref()
+                    .unwrap();
+                assert_ne!(f.position, [17., -24., 30.]);
+                assert!(
+                    session
+                        .timed_effect_physical_header(actor)
+                        .unwrap()
+                        .velocity[2]
+                        > 0.
+                );
+                assert_eq!(
+                    session
+                        .advance_smoke_particle(actor, 10., None, &mut stamp)
+                        .unwrap(),
+                    crate::timed_effect_object::Step::Marked
+                );
+                assert_ne!(
+                    session
+                        .get(actor)
+                        .unwrap()
+                        .construction_fields
+                        .as_ref()
+                        .unwrap()
+                        .object_flags
+                        & 0x8000,
+                    0
+                );
+                assert_eq!(
+                    session
+                        .advance_smoke_particle(actor, 0.01, None, &mut stamp)
+                        .unwrap(),
+                    crate::timed_effect_object::Step::Inactive
+                );
+            }
+            assert_eq!(random.0, saved.0);
         }
     }
 }

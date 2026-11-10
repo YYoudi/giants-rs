@@ -771,3 +771,8 @@ The same filter now checks canonical child activation after the separate null pa
 actual active draws and context retirement, first-call ANM and retained failure at
 the required velocity/physical service. All three installed smoke child profiles
 are checked. No moving particle or rendered smoke is implied.
+
+The owned Mecc smoke filter also executes the concrete Session motion/gravity
+adapter through finite expiry, checks its independently required physical clock
+and retained launch/service failure, and rejects replay. It supplies no populated
+terrain or renderer. The actor remains allocated after being marked dead.

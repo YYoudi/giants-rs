@@ -39,6 +39,7 @@ pub(crate) struct Body<'a, K> {
     pub matrix: &'a mut Matrix,
     pub channels: Option<&'a mut crate::animation_channels::Channels>,
     pub references: &'a mut Owned,
+    pub velocity: Option<&'a mut [f32; 3]>,
     pub placement: crate::effect_actor::Placement<K>,
     pub render_flags: u32,
 }
@@ -77,7 +78,7 @@ pub(crate) struct Runtime {
     immutable_words: [u32; 3],
     size_flag: u32,
     side_speed: Option<u32>,
-    pub(crate) velocity: Option<[f32; 3]>,
+
     pub epoch: u32,
     pub failure: Option<String>,
     pending: Option<(VisualStep, bool)>,
@@ -93,6 +94,7 @@ impl std::fmt::Debug for Runtime {
     }
 }
 pub struct Timed<K> {
+    pub(crate) velocity: Option<[f32; 3]>,
     pub(crate) initial: Initial<K>,
     pub(crate) runtime: Runtime,
     pub(crate) references: Owned,
@@ -213,6 +215,7 @@ impl<K: Copy> Timed<K> {
         };
         let mut owned = Self {
             initial: configured.initial,
+            velocity: side_speed.map(|_| [0.; 3]),
             references,
             runtime: Runtime {
                 class: template.fields.class,
@@ -229,7 +232,6 @@ impl<K: Copy> Timed<K> {
                 immutable_words,
                 size_flag,
                 side_speed,
-                velocity: side_speed.map(|_| [0.; 3]),
                 epoch: 0,
                 failure: None,
                 pending: None,
@@ -243,6 +245,7 @@ impl<K: Copy> Timed<K> {
         (
             &mut self.runtime,
             Body {
+                velocity: self.velocity.as_mut(),
                 fields: &mut self.initial.fields,
                 seed: &mut self.initial.seed,
                 matrix: &mut self.initial.matrix,
@@ -270,7 +273,7 @@ impl<K: Copy> Timed<K> {
         self.runtime.failure.as_deref()
     }
     pub fn velocity(&self) -> Option<[f32; 3]> {
-        self.runtime.velocity
+        self.velocity
     }
     pub fn retirement(&self) -> Option<&RetirementBinding> {
         self.runtime.retirement.as_ref()
@@ -341,6 +344,10 @@ impl<K: Copy> Timed<K> {
     }
 }
 impl Runtime {
+    pub(crate) fn smoke_particle(&self) -> bool {
+        self.size_flag == 0x100000 && self.side_speed.is_some() && self.retirement.is_none()
+    }
+
     pub(crate) fn awaiting_physical(&self) -> bool {
         matches!(self.pending, Some((VisualStep::VisibleState, _))) && !self.matrix_written
     }
@@ -539,7 +546,9 @@ impl Runtime {
                     let side = self.side_speed.map(f32::from_bits);
                     let velocity =
                         crate::effect_emitter::initial_velocity(*b.matrix, forward, side)?;
-                    *self.velocity.as_mut().ok_or("effect launch owner absent")? = velocity;
+                    *b.velocity
+                        .as_deref_mut()
+                        .ok_or("effect launch owner absent")? = velocity;
                     b.fields.control_flags &= !0x40;
                     b.fields.angles = crate::effect_orientation::from_matrix(*b.matrix)?;
                     Ok(())

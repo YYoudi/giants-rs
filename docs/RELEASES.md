@@ -5195,3 +5195,27 @@ Validation passes 875 workspace Rust tests (74 ignored), nineteen installed Mecc
 controls, the canonical timed-owner and cold Delphi support controls, 43 Python
 tests, Rustfmt, strict workspace Clippy and generated site/JavaScript checks.
 The current published preview keeps its separate source and checksum identity.
+
+
+### Mecc smoke motion and finite expiry — 10 November 2026
+
+Smoke descendants now publish acquired forward/lateral velocity directly into
+main's shared physical header and execute its ordered motion/affine/gravity
+services through `Session::advance_smoke_particle`. First-call ANM and finite
+expiry preserve their separate paths; a missing physical-clock sample retains
+completed launch writes and quarantines replay. Canonical velocity has one owner.
+
+Source/rotated/nonorthogonal launch controls match 432 snapshots / 47,520 selected
+native/Rust words. The complete bounded canonical path matches 48 constructions
+and first/moving/expiry callbacks: 288 snapshots / 31,680 selected words. Clock,
+epoch, source/allocation providers and empty environment population are supplied.
+Finite destruction, populated terrain/contact, world admission and rendering
+remain open. Prototype PS2 attributions remain unknown. No new preview is created.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#smoke-motion-and-expiry--10-november-2026).
+
+
+Combined validation after retaining main through `ce44fe2` passes 875 workspace
+Rust tests (76 ignored), twenty installed Mecc controls, the shared timed-owner
+and cold Delphi support controls, 43 Python tests, Rustfmt, strict workspace
+Clippy and generated site/JavaScript checks. The current preview identity and
+its checksums remain the main lane's separate publication record.

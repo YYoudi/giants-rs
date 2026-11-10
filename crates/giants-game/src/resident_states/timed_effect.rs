@@ -70,6 +70,7 @@ fn borrow<'a>(
     Ok((
         &mut metadata.runtime,
         Body {
+            velocity: Some(&mut metadata.physical.velocity),
             fields: actor
                 .construction_fields
                 .as_mut()
@@ -123,6 +124,7 @@ impl Session {
         }
         // Guard the same actual source fields/payload before any list publication.
         owned.runtime.preflight(&Body {
+            velocity: owned.velocity.as_mut(),
             fields: &mut owned.initial.fields,
             seed: &mut owned.initial.seed,
             matrix: &mut owned.initial.matrix,
@@ -132,6 +134,7 @@ impl Session {
             render_flags: owned.initial.render_flags,
         })?;
         let Timed {
+            velocity,
             initial,
             runtime,
             references,
@@ -178,7 +181,10 @@ impl Session {
             render_flags: initial.render_flags,
             matrix: initial.matrix,
             runtime,
-            physical: PhysicalHeader::allocated(),
+            physical: PhysicalHeader {
+                velocity: velocity.unwrap_or([0.; 3]),
+                ..PhysicalHeader::allocated()
+            },
             motion_done: false,
             gravity_done: false,
         });
@@ -195,9 +201,9 @@ impl Session {
             .failure
             .as_deref()
     }
-    /// Actual acquired header velocity owner for the detached smoke profile.
+    /// Canonical physical-header velocity shared by the owned timed profiles.
     pub fn timed_effect_velocity(&self, id: Id) -> Option<[f32; 3]> {
-        self.get(id)?.timed_effect.as_ref()?.runtime.velocity
+        Some(self.get(id)?.timed_effect.as_ref()?.physical.velocity)
     }
     /// Mutate only at the pending integration boundary, never from a viewer copy.
     pub fn timed_effect_velocity_mut(&mut self, id: Id) -> Result<&mut [f32; 3], String> {
@@ -210,11 +216,13 @@ impl Session {
         if !metadata.runtime.awaiting_physical() {
             return Err("timed velocity integration is not pending".into());
         }
-        metadata
-            .runtime
-            .velocity
-            .as_mut()
-            .ok_or("timed velocity owner absent".into())
+        Ok(&mut metadata.physical.velocity)
+    }
+    pub fn timed_effect_fade(&self, id: Id) -> Option<[f32; 4]> {
+        Some(self.get(id)?.timed_effect.as_ref()?.runtime.fade)
+    }
+    pub fn timed_effect_render_flags(&self, id: Id) -> Option<u32> {
+        Some(self.get(id)?.timed_effect.as_ref()?.render_flags)
     }
     pub fn timed_effect_transparency(&self, id: Id) -> Option<f32> {
         Some(self.get(id)?.timed_effect.as_ref()?.runtime.transparency)
@@ -356,6 +364,55 @@ impl Session {
             return Err("timed physical service is not pending".into());
         }
         Ok((&mut actor.seed, actor.construction_fields.as_mut().unwrap()))
+    }
+    /// Complete acquired detached smoke callback using the common actual header,
+    /// motion, affine and gravity owners. Clock producers remain caller-owned.
+    /// The physical clock is required only if this callback reaches integration.
+    pub fn advance_smoke_particle(
+        &mut self,
+        id: Id,
+        seconds: f32,
+        physical_seconds: Option<f64>,
+        stamp: &mut crate::animation_epoch::Stamp,
+    ) -> Result<Step, String> {
+        let m = self
+            .get(id)
+            .and_then(|a| a.timed_effect.as_ref())
+            .ok_or("smoke particle owner absent or foreign")?;
+        if !m.runtime.smoke_particle() || !matches!(m.placement, Placement::Position(_)) {
+            return Err("callback outside acquired detached smoke particle".into());
+        }
+        struct Source {
+            physical_seconds: Option<f64>,
+        }
+        impl Services for Source {
+            fn physical(&mut self, session: &mut Session, id: Id, _: f32) -> Result<(), String> {
+                session.advance_timed_effect_motion(
+                    id,
+                    self.physical_seconds
+                        .ok_or("smoke physical clock producer absent")?,
+                )
+            }
+            fn gravity(&mut self, session: &mut Session, id: Id) -> Result<(), String> {
+                session.apply_timed_effect_gravity(id)
+            }
+            fn retire(
+                &mut self,
+                _: &mut Session,
+                _: Id,
+                _: &Image,
+                binding: Option<&crate::effect_scene::RetirementBinding>,
+            ) -> Result<(), String> {
+                // This complete source frame has no retirement program. The
+                // native callback marks it dead without requesting another effect.
+                if binding.is_some() {
+                    Err("smoke retirement program outside acquired frame".into())
+                } else {
+                    Ok(())
+                }
+            }
+        }
+        self.advance_timed_effect(id, seconds, stamp, &mut Source { physical_seconds })
     }
     /// Supplied object-local time and shared ANM stamp, not a world scheduler.
     /// The actor remains visible to the required real service and nested calls

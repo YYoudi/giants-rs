@@ -8,7 +8,7 @@ hits are candidates only; the PC profile remains the behavioral authority.
 
 The sections record successive acquisition checkpoints. For the current binding,
 see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026)
-and [canonical smoke descendant activation](#canonical-smoke-descendant-activation--10-november-2026) below.
+and [smoke motion and expiry](#smoke-motion-and-expiry--10-november-2026) below.
 Earlier missing-service statements retain the limits of their recorded checkpoint.
 
 ## Selector and ownership order
@@ -930,3 +930,51 @@ terrain/contact services in their real callback order, then finite retirement,
 resource destruction and rendering under the common world scheduler. The current
 lot establishes no moving or visible smoke in ordinary gameplay. Prototype PS2
 attributions remain unknown; detailed controls and disassembly remain private.
+
+
+## Smoke motion and expiry — 10 November 2026
+
+`Session::advance_smoke_particle` now connects the complete acquired detached child
+to the shared physical header, motion, affine and gravity phases retained from
+main. Initial forward and lateral velocity use the preceding affine, with the
+native normalization/store order. The callback clears its one-shot gate and
+extracts angles before integration. Canonical Session velocity is the common
+physical header itself; a staged object's velocity transfers to that owner on
+publication. There is no second runtime velocity authority.
+
+The caller supplies object-local time and an optional independently resolved
+physical-clock sample. First-call ANM and finite expiry need no physical sample.
+An integration-reaching callback requires one; absence retains the already
+completed age/size/velocity/angle stores and quarantines replay. The concrete
+adapter runs actual owned motion, affine publication, gravity, size/orientation
+and ANM in their acquired order. This complete source frame has no retirement
+program: expiry marks the actor dead without creating another effect. The actor
+and its resources remain present until a separate destruction pass.
+
+Initial-velocity controls span 144 constructions with source, rotated and
+nonorthogonal supplied bases and explicit forward speeds. Construction, first
+callback and post-velocity/pre-integration prefixes agree on 432 snapshots /
+47,520 selected native/Rust words. A separate canonical Session comparison uses
+all three source programs, eight seeds and two positions: 48 constructions plus
+first, three moving callbacks and expiry agree on 288 snapshots / 31,680 selected
+header, affine, payload and RNG words. Every compared canonical value is read
+from its actual owner, including fade/render fields and physical velocity.
+
+The actual PC callback, constructors, normalization, angle extraction, motion,
+affine and gravity bodies execute. Actor-local/physical clock samples, epoch,
+source registration, allocation/texture providers and an empty environment
+population remain supplied. Equal supplied samples do not establish shared live
+clock ownership. These controls do not cover populated terrain/contact, external
+world scheduling, all header fields or visual fidelity. Prototype PS2 lookup
+preceded the new helper acquisition; all attributions remain unknown.
+
+Installed controls execute the concrete Session callback through movement and
+expiry, preserve velocity after a missing physical-clock refusal, and reject
+replay. A separate injected integration-service write checks that late errors
+retain the actual canonical velocity rather than a temporary copy. The shared
+timed-owner regression continues to cover its separate motion/gravity ordering.
+
+Next bind the enclosing world clocks, population/contact and update order, acquire
+finite child destruction and submit the real owned particles to rendering. No
+ordinary moving/visible smoke or new downloadable build follows from this source
+checkpoint alone.
