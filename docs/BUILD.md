@@ -46,11 +46,13 @@ requiring external data or audio devices are not part of this portable check.
 
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
-runs five owned-phase controls: publication/physical consumption and later
+runs six owned-phase controls: publication/physical consumption and later
 activation refusal, retained prefix/cancellation, real proxy construction with
-typed reference protection, cold/previous held-cache geometry, and refused cache
-provenance. The latter uses actual shared candidate geometry and placed source
-actors; terrain/view and remaining providers stay scripted. Other controls use
+typed reference protection, cold/previous held-cache geometry, refused cache
+provenance, and held-route static terrain publication. The cache control uses actual shared candidate geometry and placed source
+actors. The terrain control reads three installed terrain resources and preserves
+miss-point writes and late query failures; camera/items/time and the physical
+floor remain supplied. Other terrain/view providers stay scripted. Other controls use
 scripted geometry/linked results and sound-request sinks. These checks do not
 validate a complete ordinary turn.
 

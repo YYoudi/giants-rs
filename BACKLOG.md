@@ -572,6 +572,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   controls stay scripted. Next: bind actual terrain and viewport/camera services,
   remaining item/linked consumers and full primary/world ordering. A phase-bound
   held query alone does not enable ordinary Delphi gameplay.
+- Implemented: the running held-route terrain provider now consumes actual
+  cold/preceding held caches and the shared static terrain query. Its raw point
+  write remains separate from hit presence and incremented clipping distance,
+  including misses. Original-helper controls match 384 cases /2,304 selected
+  words with supplied flat height/plane results. Three installed terrain resources
+  exercise actual reader/query and candidate composition plus retained late
+  failures; camera/items/time and physical floor remain supplied. No-sample
+  output locals stay unacquired. Next: actual viewport/camera production and its
+  two selector reads, dynamic ripple, item/linked consumers, then active physics
+  and enclosing primary/world/menu order. No ordinary admission follows yet.
 - Native-only full-primary diagnosis now completes 256 whole original bodies
   after the retained initialization/generic entry with declared world/view and
   projection/OS/TLS boundaries. Its same-input trajectory differs from the old

@@ -1,5 +1,22 @@
 # Preview releases and milestone integration
 
+## Delphi running held-route terrain publication - 10 November 2026
+
+The running caller can now use actual static terrain queries with its acquired
+cold/previous held caches. The shared trace exposes the helper's written point
+separately from hit presence and clipping distance: a miss writes the last visited
+point even after distance advances. Existing terrain-ray consumers retain their
+interface; no-sample native output locals remain unacquired.
+
+All 384 original-helper controls /2,304 selected words agree, including 231 hits
+and 153 misses, with supplied flat height/plane providers. Three installed terrain
+resources exercise the actual reader/query, held-cache/candidate composition and
+retained terrain writes after a late query failure. Camera/items/time and the
+physical floor remain supplied. Full viewport/camera, ripple, linked/item and
+active-physics/world/menu admission remain open. This source milestone preserves
+the independent public preview and creates no new visual/gameplay claim.
+See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
 ## Delphi pre-physical held-cache and geometry binding - 10 November 2026
 
 The running local caller now reads its explicitly acquired cold constructor

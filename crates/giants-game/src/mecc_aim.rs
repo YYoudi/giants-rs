@@ -12,6 +12,14 @@ pub struct Ray {
     pub distance: f32,
     pub queries: usize,
 }
+/// The original helper also writes a point on a miss. That point is its last
+/// visited sample, separate from the incremented distance used for clipping.
+#[derive(Clone, Copy, Debug)]
+pub struct TerrainTrace {
+    pub ray: Ray,
+    /// None means no sample ran: the native output locals are then unacquired.
+    pub written_point: Option<[f32; 3]>,
+}
 
 pub fn direction(angles: [f32; 3]) -> Result<[f32; 3], &'static str> {
     if !angles.into_iter().all(f32::is_finite) || angles[..2].iter().any(|v| v.abs() > 1_000_000.) {
@@ -28,6 +36,14 @@ pub fn terrain_ray(
     direction: [f32; 3],
     range: f32,
 ) -> Result<Ray, &'static str> {
+    Ok(terrain_trace(query, origin, direction, range)?.ray)
+}
+pub fn terrain_trace(
+    query: &StaticTerrainQuery<'_>,
+    origin: [f32; 3],
+    direction: [f32; 3],
+    range: f32,
+) -> Result<TerrainTrace, &'static str> {
     if !matches!(query.precision(), Precision::Double53)
         || !origin
             .into_iter()
@@ -54,12 +70,14 @@ pub fn terrain_ray(
         }
     };
     let mut queries = 0;
+    let mut written_point = None;
     if step < f64::from(range) {
         loop {
             if queries >= 65536 {
                 return Err("aim ray exceeds bounded query budget");
             }
             let p = point(f64::from(distance), distance)?;
+            written_point = Some(p);
             let sample = query.sample([p[0], p[1]])?;
             queries += 1;
             if sample.height >= p[2] {
@@ -77,10 +95,18 @@ pub fn terrain_ray(
         }
     }
     if distance >= range {
-        return Ok(Ray {
-            point: None,
-            distance,
-            queries,
+        let written_point = written_point.map(|p| {
+            std::array::from_fn(|i| {
+                ((f64::from(p[i]) - f64::from(origin[i])) + f64::from(origin[i])) as f32
+            })
+        });
+        return Ok(TerrainTrace {
+            ray: Ray {
+                point: None,
+                distance,
+                queries,
+            },
+            written_point,
         });
     }
     let mut upper = distance;
@@ -116,10 +142,13 @@ pub fn terrain_ray(
     if !hit.into_iter().all(f32::is_finite) {
         return Err("aim terrain-plane intersection overflow");
     }
-    Ok(Ray {
-        point: Some(hit),
-        distance: upper,
-        queries,
+    Ok(TerrainTrace {
+        ray: Ray {
+            point: Some(hit),
+            distance: upper,
+            queries,
+        },
+        written_point: Some(hit),
     })
 }
 
@@ -248,5 +277,50 @@ impl<S: crate::mecc_shot::Services + ?Sized> crate::mecc_shot::Services for Serv
         cue: u32,
     ) -> Result<crate::enemy_projectile::SoundOutcome, String> {
         self.other.sound(session, source, cue)
+    }
+}
+
+#[cfg(test)]
+mod terrain_trace_tests {
+    use super::*;
+    fn flat() -> giants_formats::gti::Terrain {
+        giants_formats::gti::Terrain {
+            source_flags: 0,
+            width: 5,
+            height: 5,
+            origin: [-20.; 2],
+            spacing: 10.,
+            height_bounds: [0.; 2],
+            fallback_texture: String::new(),
+            heights: vec![0.; 25],
+            colors: vec![0; 25],
+            tags: vec![5; 25],
+            consumed_bytes: 0,
+            opaque_tail: vec![],
+        }
+    }
+    #[test]
+    fn miss_point_stays_at_last_visited_sample_while_distance_advances() {
+        let t = flat();
+        let q = StaticTerrainQuery::new(&t, 0.1, Precision::Double53).unwrap();
+        let trace = terrain_trace(&q, [1., 2., 5.], [0.25, -0.25, 0.], 23.).unwrap();
+        assert!(trace.ray.point.is_none());
+        assert_eq!(trace.ray.distance, 25.);
+        assert_eq!(trace.ray.queries, 4);
+        assert_eq!(trace.written_point, Some([6., -3., 5.]));
+        let hit = terrain_trace(&q, [1., 2., 5.], [0., 0., -1.], 23.).unwrap();
+        assert_eq!(hit.written_point, Some([1., 2., 0.]));
+        assert_eq!(hit.ray.point, hit.written_point);
+        assert_eq!(hit.ray.queries, 10);
+    }
+    #[test]
+    fn no_sample_body_never_invents_a_native_output_point() {
+        let t = flat();
+        let q = StaticTerrainQuery::new(&t, 0.1, Precision::Double53).unwrap();
+        let trace = terrain_trace(&q, [1., 2., 5.], [0., 0., -1.], 5.).unwrap();
+        assert_eq!(trace.ray.queries, 0);
+        assert_eq!(trace.ray.distance, 5.);
+        assert!(trace.ray.point.is_none());
+        assert!(trace.written_point.is_none());
     }
 }
