@@ -25,6 +25,12 @@ ownership regression. All 43 Python tests, Rustfmt, strict Clippy and
 roadmap/site/JavaScript checks pass. The current ambient and shared actor work
 is preserved; these checks retain their declared source/CPU scope.
 
+After preserving the latest held-reference and timed-effect ownership changes,
+runtime `9a76865` passes 869 Rust tests (59 ignored), the same installed Delphi,
+Mecc and NPC controls, 43 Python tests, Rustfmt and strict Clippy. Its cold
+constructor comparison repeats successfully. The earlier common MinGW menu
+application also compiled; no new downloadable executable is advertised here.
+
 ## Canonical detached timed ownership and registration — 10 November 2026
 
 Detached retirement requests now transfer their actual payload/reference owners
