@@ -204,6 +204,14 @@ strict workspace Clippy, 43 Python tests and site/JavaScript checks pass. Native
 cold-prefix evidence remains private. None establishes rendered camera framing,
 held input, complete native startup or a new downloadable preview.
 
+Source `2fc01f2`, preserving the published .9 snapshot guidance and NPC services
+through main `963bcfb`, passes 953 synthetic Rust checks (145 ignored), seven
+installed CPU checks (the six above plus NPC menu binding/re-entry), strict
+workspace Clippy, Rustfmt, 44 Python tests and site/JavaScript checks. These
+later source checks do not change the .9 executable or its recorded GPU/input
+evidence. Exact reviewed historical-image hash/path pins keep the shared-history
+audit bounded while retaining changed-byte, alternate-path and secret checks.
+
 ## Kabuto signed camera coefficients - intermediate dependency only
 
 Kabuto is still unavailable through normal controls. Source now reuses the common
