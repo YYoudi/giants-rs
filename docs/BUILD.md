@@ -83,10 +83,15 @@ This is CPU asset coverage, with no GPU or ordinary gameplay availability claim.
 
 With the same root, run
 `cargo test --locked -p giants-game source_passive_world --target x86_64-pc-windows-gnu -- --ignored`
-for 129 source-backed empty state0 actors over three supplied callback steps.
+for 133 source-backed empty-channel state0 actors over three supplied callback
+steps, including zero/positive/forced-zero ANM entry for four reference owners.
 The selected-cohort CPU control checks current affines, unchanged RNG, replay/
 retirement and unsupported profiles. Whole-world admission/control, clocks and
 unused collision/platform providers remain explicit supplied boundaries.
+The ignored `source_absent_primary_reference_guard` control separately uses the
+actual two reference-bearing class resources and a declared nonzero cache fixture;
+it checks retention and unsampled/current-reference refusal, not a generated pose.
+
 
 With `GIANTS_DELPHI_ROOT` and an explicit `GIANTS_DELPHI_EXECUTABLE`, run
 `cargo test --locked -p giants-game source_camera_coefficients --target x86_64-pc-windows-gnu -- --ignored`

@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## State0 retained-reference guard — intermediate source dependency
+
+No ordinary Vimp AI map or new preview is available. Empty-channel state0 actors
+now retain their actual reference resource owner behind the native absent-primary
+guard. The common ANM phase calls that existing guard after real channel entry and
+epoch publication; it preserves storage without manufacturing a current pose.
+
+Six original-PC callbacks over two source classes retain a nonzero reference
+fixture with zero writes at zero, positive and forced-zero time. A separate Rust
+node projection matches 156 selected words, excluding cache fixtures, epoch,
+pointers and UID. Installed guard checks preserve the same supplied matrix and
+refuse current-pose consumption. Story2's selected-cohort control now reaches
+133 neutral actors /399 supplied callbacks, including four reference owners;
+clock/control/force and admission remain test inputs. The active building,
+parented children, AI families and actual shared world producers still require
+integration. No ordinary controls, GPU, full-world or preview proof is added.
+Existing preview identities and other lanes' evidence boundaries remain intact.
+
 ## Ordinary Mecc descent visually observed - local Windows build
 
 The existing normal menu controller now has a reproducible graphical observation

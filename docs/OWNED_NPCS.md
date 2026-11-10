@@ -29,7 +29,8 @@ world services and validation.
 
 No ordinary Vimp AI map is available. The common-node adapter now also accepts
 constructed, unparented nonphysical state0 actors whose actual source has no
-animated channels or references and requires no external orientation. Their
+animated channels and requires no external orientation. Reference-bearing state0
+actors use the acquired absent-primary guard described below. Their
 primary/secondary state dispatch entries are acquired absence; ANM/time and
 finalization still execute. Unsupported state0 profiles receive no successful
 callback by default. Existing herd/marker behavior and older API names remain;
@@ -49,16 +50,42 @@ class/pose/history/scale/angle/flag/channel/rate/affine words. Control presence,
 clock, placement/history, slow-area population and admission remain supplied;
 resource pointers and UID are excluded. Prototype PS2 lookup remains unknown.
 
-Installed Story2 declarations admit 129 neutral actors to this shared profile.
+The initial empty-reference checkpoint admitted 129 actors. Current Story2
+declarations admit 133 neutral actors to this shared profile.
 Three supplied callback steps retain their positions, publish current affines and
-preserve RNG across 387 updates; replay and retirement refuse. Terrain/platform/
+preserve RNG across 399 updates; replay and retirement refuse. Terrain/platform/
 footprint providers are required but not entered by these stationary actors.
-The five other state0 declarations require animated/reference services and remain
-unsupported. This is a selected-cohort CPU control: other actor families are not
-acknowledged as updated, and empty supplied collision geometry is not a claim of
+The remaining animated state0 declaration still requires its active-channel
+reference/event services and remains unsupported. This is a selected-cohort CPU
+control: other actor families are not acknowledged as updated, and empty supplied collision geometry is not a claim of
 an empty mission. Parented Mecc children, wider state0/AI callbacks and the actual
 shared world admission/clock/control/environment/effect producers still block
 ordinary whole-world scheduling before the live Vimp render consumer can be used.
+
+## Retained references behind an absent primary channel
+
+The four additional Story2 declarations retain actual reference resources despite
+having no active animation channel. The native reference routine returns before
+sampling, correction or matrix writes when the primary descriptor is absent.
+The common ANM adapter now calls the existing owned reference pass after a channel
+loop was entered, preserving that guard and storage state. It does not supply an
+identity/bind matrix or acknowledge a current reference pose. Zero time without
+a force flag skips that pass; positive time or an explicit force entry executes
+it after the real ANM epoch store.
+
+Six original-PC common-node callbacks over two actual classes cover zero time,
+positive time and forced zero-time entry. A deliberately nonzero reference-cache
+fixture remains intact with zero observed writes. Static instruction inspection
+and retained decompiler evidence independently locate the guard. Two positive-time
+node projections match Rust on 156 selected pose/flag/channel/rate/affine words;
+reference-cache fixture values, epochs, resource pointers and UID are excluded
+from that pair. Separate source guard controls preserve the same nonzero supplied
+matrix and refuse current-reference consumption. The 133-actor installed cohort
+checks four real reference owners, retained constructor storage, force-flag clear
+and stale/unsampled refusal across its 399 supplied callbacks. Admission, controls,
+clocks and the force-flag input remain supplied; no ordinary writer is inferred.
+Prototype PS2 attribution remains unknown. The animated building, parented children,
+other AI families and real shared world producers still block ordinary Vimp play.
 
 ## Vimp pose consumer in the common renderer — source only
 
