@@ -1,5 +1,21 @@
 # Preview releases and milestone integration
 
+## Delphi auxiliary-request prefix - 10 November 2026
+
+Source-only selection now preserves authority, independent command/response
+checks, the actual list12 walk, required state reads and first matching request.
+Original-PC/Rust controls match 2,048 contexts and 4,410 tracked reads, selecting
+158 requests and taking 1,890 exits. The native helpers execute with supplied
+session/peer and actor/list snapshots. Execution stops before the selected action;
+no actor state is changed by this prefix.
+
+Rust provider failures and bounded snapshot traversal retain explicit refusals.
+Typed auxiliary/related-owner production, current list lifetime, action services
+and phase-correct common Session wiring remain prerequisites. Existing gameplay
+refusals and the immutable public preview receipts remain unchanged. This adds
+no playable Delphi control, active spell/construction or capture. Prototype PS2
+attribution is unknown; the detailed evidence remains private.
+
 ## Delphi cold support construction - 10 November 2026
 
 An explicit source-backed cold factory now owns the support class through the
