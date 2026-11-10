@@ -107,10 +107,10 @@ Four installed controls additionally cover a three-step 30-node traversal,
 constructor histories, current affine publication, cancellation, wrong/foreign
 entry and invalid-clock preflight. A supplied sleep/wake gate additionally
 keeps skipped primaries separate from common frame counts. A late environment
-failure retains the
-fourteen births, preceding ANM epoch and partial environment write; actor and
+failure retains the fourteen births, preceding ANM epoch and partial environment write; actor and
 list tokens prevent replay. Loss of the controlled actor stops after birth
-without acknowledging fallback. These fault controls establish owned failure
+without acknowledging fallback; callers must stop the whole walk on that
+outcome. These fault controls establish owned failure
 handling, not native exception equivalence.
 
 Cohort/control identity, clock, quiet noise, flat terrain, empty collision and

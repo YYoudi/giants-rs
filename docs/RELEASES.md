@@ -240,6 +240,16 @@ milestone enables no ordinary mission AI or new gameplay download; existing
 preview manifests/notices/checksums retain their immutable build identities.
 See [OWNED_NPCS.md](OWNED_NPCS.md) and the remaining tasks in `BACKLOG.md`.
 
+Combined runtime `ca108806b451173dd25369ab3f3e74b9ebf8ba95` preserves current
+camera, Delphi support/prefix and cinematic caption changes. It passes 873
+workspace Rust tests (69 ignored), four new herd-frame controls, five retained
+Vimp phase controls, the herd inventory/failure control and the App declaration/
+binding cleanup regression. Rustfmt, strict workspace Clippy, 43 Python tests
+and roadmap/site/JavaScript checks pass. Rebuilt native comparisons retain both
+the 824,168-word mutable-walk result and the 4,864-word empty-ANM result.
+The source checkpoint audit reviews 735 commits /4,156 blobs with zero findings.
+These are source/CPU checks; they do not relabel any downloadable preview.
+
 ## Owned Vimp first callback after herd birth — 10 November 2026
 
 The new herd-child entry retains constructor histories and composes actual owned
