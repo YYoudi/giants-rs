@@ -44,7 +44,9 @@ mod vimp_vector;
 #[cfg(test)]
 mod vimp_vector_tests;
 pub use timed_effect::{
-    PhysicalHeader as TimedEffectPhysicalHeader, Services as TimedEffectServices,
+    OrdinaryHeader as TimedEffectOrdinaryHeader, PhysicalHeader as TimedEffectPhysicalHeader,
+    Preparation as TimedEffectPreparation, PreparationServices as TimedEffectPreparationServices,
+    Services as TimedEffectServices,
 };
 pub use vimp_vector::{Request as VimpVectorRequest, Services as VimpVectorServices};
 

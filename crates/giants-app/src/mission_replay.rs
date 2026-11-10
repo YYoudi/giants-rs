@@ -345,19 +345,12 @@ fn drive(
             let opened = cinematic.as_ref().is_some_and(|c| c.clock_steps() > 180);
             if mode == "showcase-film-cycles" {
                 if !replay.film_finished
-                    && let Some(cinematic) = &cinematic
-                    && cinematic.end_reached()
-                    && voices
-                        .iter()
-                        .all(|sink| sink.is_some_and(|sink| sink.empty()))
+                    && let Some(terminal) = opening.source_terminal(frontend.flow.ticket)
                 {
                     replay.film_finished = true;
                     println!(
                         "showcase_film_terminal ticket={} directors={} sequence={} tick={} source_terminal=true voices_drained=true input_injected=false fidelity_verified=false",
-                        frontend.flow.ticket,
-                        cinematic.segments().len(),
-                        cinematic.sequence(),
-                        cinematic.tick()
+                        frontend.flow.ticket, terminal.directors, terminal.sequence, terminal.tick
                     );
                 }
                 if replay.film_finished
