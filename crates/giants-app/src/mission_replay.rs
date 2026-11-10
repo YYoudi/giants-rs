@@ -417,13 +417,16 @@ fn drive(
                             .is_some_and(|c| c.sequence().eq_ignore_ascii_case(&wanted))
                     })
                     && std::env::var("GIANTS_PERSISTENT_SAMPLE_MIN_TICK").map_or(true, |tick| {
+                        cinematic.as_ref().is_some_and(|c| {
+                            tick.parse::<i32>()
+                                .is_ok_and(|tick| c.tick() >= tick && c.event_tick() >= tick)
+                        })
+                    })
+                    && effects.as_ref().is_some_and(|s| {
                         cinematic
                             .as_ref()
-                            .is_some_and(|c| tick.parse::<i32>().is_ok_and(|tick| c.tick() >= tick))
+                            .is_some_and(|c| s.sampleable_persistent_objects(&runtime, c) > 0)
                     })
-                    && effects
-                        .as_ref()
-                        .is_some_and(|s| s.advanced_persistent_objects(&runtime) > 0)
             } else if matches!(
                 mode.as_str(),
                 "showcase-opening" | "showcase-opening-cycles"
@@ -532,7 +535,7 @@ fn drive(
                             effects
                                 .as_ref()
                                 .unwrap()
-                                .advanced_persistent_objects(&runtime)
+                                .sampleable_persistent_objects(&runtime, cinematic)
                         );
                     }
                     cinematic.suspend(true);

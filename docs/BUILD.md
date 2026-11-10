@@ -722,7 +722,10 @@ existing `CompletionReplay` intent used by the menu's completion replay; it does
 not complete objectives, acknowledge a win or reconstruct native replay state.
 With an explicit sequence, optional `GIANTS_PERSISTENT_SAMPLE_MIN_TICK` supplies
 a nonnegative i32 observation bound. Playback must reach that actual tick in the
-selected director before the observer may suspend for capture. It does not seek,
+selected director and evaluate its command cursor through that tick before the
+observer may suspend for capture. The effects consumer must have processed the
+same revision, and every live persistent object must have advanced twice. An
+older object cannot acknowledge a newly dispatched peer. It does not seek,
 set the clock or override an effect's lifetime. An unreachable bound produces no
 sample acknowledgement. A reached tick alone does not prove native image phase.
 The observer waits for an actual Session-owned persistent
