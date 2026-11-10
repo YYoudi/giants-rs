@@ -30,6 +30,7 @@ mod herd_frame_tests;
 mod parented_frame_tests;
 #[cfg(test)]
 mod passive_frame_tests;
+mod ripper_variant;
 pub use cinematic_constant::{
     Scope as CinematicScope, Support as CinematicSupport, View as CinematicConstantView,
 };
@@ -2661,7 +2662,7 @@ impl Session {
     ) -> Result<crate::ripper_primary_turn::State<Id, E>, String> {
         let actor = self.ordinary_frame_actor(id)?;
         let motion = self.actor_motion(id)?;
-        if actor.class != 73
+        if !matches!(actor.class, 73 | 230)
             || actor.state23_combat.is_some()
             || actor.surface_link.is_some()
             || !motion.awaiting_motion()
@@ -2672,7 +2673,7 @@ impl Session {
             || self.actor_finalization(id)?.phase()
                 != crate::resident_finalization::Phase::MotionStarted
         {
-            return Err("initial primary requires a fresh admitted owned class73 frame".into());
+            return Err("initial primary requires a fresh admitted owned class73/230 frame".into());
         }
         let combat = self.state23_snapshot(id)?;
         let f = actor
@@ -2687,7 +2688,7 @@ impl Session {
         let scalar = |at| f32::from_le_bytes(data[at..at + 4].try_into().unwrap());
         Ok(crate::ripper_primary_turn::State {
             entry: crate::state23_entry::State {
-                class: 73,
+                class: actor.class,
                 context: f.dispatch_context,
                 mode: 0,
                 action: f.action,
@@ -3000,7 +3001,10 @@ impl Session {
             .ripper_primary_running = true;
         let result = (|| {
             machine.refresh_owned_frame(state)?;
-            let outcome = callback(self, &mut machine, input, random, services)?;
+            let outcome = callback(self, &mut machine, input, random, services);
+            if outcome.is_err() && machine.failure().is_none() {
+                return outcome;
+            }
             // Surface construction publishes a reciprocal callback owner. Read
             // the current relations instead of overwriting them with entry data.
             let mut combat = self.state23_snapshot(id)?;
@@ -3020,7 +3024,7 @@ impl Session {
             fields.configuration[11] = state.entry.active_limit.to_bits();
             fields.configuration[14] = state.steering.personality;
             actor.state23_combat = Some(combat);
-            Ok(outcome)
+            outcome
         })();
         let actor = self.residents.get_mut(&id.serial).unwrap();
         actor.ripper_primary_running = false;

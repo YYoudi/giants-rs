@@ -103,6 +103,17 @@ admission remain required; loading still enables no default callback or live AI.
 Mecc/main must hand normal jet presentation over to the completed child owner
 before enabling these callbacks in ordinary play; its constructor-snapshot guard
 and single animation producer remain required.
+The next state23 dependency now has an owned class230 mode0/61 route through the
+existing shared prefix/perception/motion machine and actual marker factory. Three
+first-callback PC/source controls match 90 selected words under supplied flat
+terrain, camera/clock/control, peer eligibility and diagnostic audio boundaries.
+It preserves class-specific sounds, the second clock query after context changes,
+and the unconditional real marker copy/link without resetting source motion.
+Failures retain published prefixes and a marker already born before audio failure;
+replay refuses. Mode62 onward, live player pose/vitals/perception inputs, owner audio,
+secondary/ANM/finalization and whole-world admission remain open. This enables no
+ordinary NPC map and does not acknowledge a completed whole-world actor turn.
+
 
 
 

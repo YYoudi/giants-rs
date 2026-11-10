@@ -256,6 +256,49 @@ the real world admission/clock/control/terrain/effect providers and exercise the
 connected pose consumer with actual admitted births/animation before advertising
 a testable map.
 
+## Class230 awakening through the owned primary - source dependency
+
+Story2 stages seven class73 and four class230 actors in state23. The existing
+primary machine now also admits class230 mode0/61 through its actual constructor,
+shared entry/perception and motion phases. The older Ripper identifiers remain
+aliases. This adds no whole-world callback admission or playable AI map.
+
+The class-specific entry cue and parameter handling remain distinct. This branch
+reads camera range from actual global resources and re-queries object-local time
+after entry may change the dispatch context; the earlier prefix delta cannot be
+reused. An expired timer and current selected target request the awakening cue,
+store mode62, clear the acquired visibility/personality fields, construct the real
+class219/state48 marker and publish its reciprocal owner before stopping the old
+cue. The marker birth is unconditional on height. The debug history-tail hook is
+empty; the destination-copy helper writes thirteen destination words and no source
+words. This route does not import the class73 surfacing motion reset or speed
+restoration. Shared footstep dispatch retains the class230 cue.
+
+The Session caller uses the captured source resources and existing marker factory,
+retaining exact owner, marker and target identities. Callback errors with an
+acquired failure latch publish their owned prefixes, including a marker already
+created before a later audio error; they refuse replay. Pure preflight errors
+still acknowledge no callback. An installed control covers actual construction,
+conditional birth, prefix and late failures, copied pose/scale, retirement and a
+separate post-entry slow-area clock. Audio requests are explicitly captured and
+suppressed by the test, not treated as a live sound backend or native absence.
+
+Six native diagnostic sequences acquire sixteen steps each with actual callbacks,
+resource resolution and a supplied peer/flat world. They do not establish six
+playable missions or complete behavior. Three focused class230 source/native first
+primary-plus-motion projections match 90 selected words. Native sound-registry
+absence and source diagnostic suppression are declared boundaries; the equality
+establishes no audible result or DLL/audio RNG ownership. A focused copy trace
+observes thirteen destination writes and zero source writes, agreeing with the
+independent PC decompilation. Prototype PS2 lookups remain unknown, with no new
+confirmed attribution or imported signatures/layouts.
+
+Mode62 and subsequent continuations, the spawned state48 callback schedule,
+secondary/ANM/finalization, real player pose/vitals and complete ordered perception,
+actual voice/effect/RNG/clock producers and menu-to-mission interaction remain
+required. Normal Mecc presentation is not a substitute for an up-to-date owned
+player view. Keep those refusals until main connects and verifies the real owners.
+
 ## Existing reconstruction
 
 | Family | Existing Rust services | Established boundary | Missing ordinary gameplay connection |

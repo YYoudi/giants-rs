@@ -1,6 +1,6 @@
-//! Acquired ordinary class73 primary callbacks over explicit current views.
-//! This composes the common prefix, real conditional perception, mode branch,
-//! shared sound tail and parameter restoration. Other modes are not accepted.
+//! Acquired ordinary class73 branches and class230 mode0/61 over current views.
+//! Shared prefix/perception and sound tails retain their class differences.
+//! Later unsupported continuations require their actual services.
 use crate::{
     audio_parameters::Random,
     enemy_projectile::SoundOutcome,
@@ -36,6 +36,14 @@ pub struct AwakeningContext {
     pub camera: [f32; 3],
     pub parameters: crate::ripper_awakening::Parameters,
     pub buried_speed_percent: f32,
+}
+
+#[derive(Clone, Copy)]
+pub struct VariantAwakeningContext<'a> {
+    pub camera: [f32; 3],
+    pub camera_range: f32,
+    pub global_seconds: f32,
+    pub areas: &'a [crate::object_time::SlowArea],
 }
 
 #[derive(Clone, Copy)]
@@ -765,6 +773,94 @@ mod tests {
         assert!(machine.advance_motion(motion(), &environment()).is_err());
         assert_eq!((backend.removals, backend.sounds, random.0), (1, 0, seed));
     }
+    #[test]
+    fn variant_entry_requeries_time_and_retains_a_required_marker_failure() {
+        struct Capture(Vec<u32>);
+        impl Services<u32, u32> for Capture {
+            fn owner_sound(
+                &mut self,
+                _: &State<u32, u32>,
+                cue: u32,
+                _: &mut Random,
+            ) -> Result<SoundOutcome, String> {
+                self.0.push(cue);
+                Ok(SoundOutcome::Suppressed)
+            }
+            fn remove_effect(
+                &mut self,
+                _: &State<u32, u32>,
+                _: u32,
+                _: &mut Random,
+            ) -> Result<(), String> {
+                Err("unexpected effect retirement".into())
+            }
+            fn construct_surface_marker(&mut self, _: &State<u32, u32>) -> Result<u32, String> {
+                self.0.push(219);
+                Err("actual marker provider unavailable".into())
+            }
+        }
+        let candidates = [candidate()];
+        let frame = Frame::new(&candidates, &[42]).unwrap();
+        for owner in [0, 100] {
+            let mut s = state();
+            s.entry.class = 230;
+            s.entry.mode = 0;
+            s.entry.context = 0;
+            s.effect = None;
+            s.retaliation = None;
+            let mut machine = Machine::new(s);
+            let mut random = Random(42);
+            let mut services = Capture(Vec::new());
+            let areas = [crate::object_time::SlowArea {
+                source_owner: owner,
+                center: [0.; 3],
+                radius_squared: 100.,
+                factor: 0.,
+            }];
+            let mut context = context();
+            context.delta = if owner == 0 { 0.1 } else { 0. };
+            let parameters = VariantAwakeningContext {
+                camera: [0.; 3],
+                camera_range: 50.,
+                global_seconds: 0.1,
+                areas: &areas,
+            };
+            let input = FrameInput {
+                context,
+                frame: &frame,
+                range: 500.,
+            };
+            let result =
+                machine.advance_variant_awakening(input, parameters, &mut random, &mut services);
+            assert_eq!(result.is_err(), owner == 100);
+            assert_eq!(machine.state().entry.context, 100);
+            assert_eq!(machine.state().entry.parameter, 10.);
+            assert_eq!(machine.state().entry.saved_parameter, 80.);
+            assert_eq!(random.0, 42);
+            if owner == 0 {
+                assert_eq!(machine.state().entry.mode, 61);
+                assert_eq!(machine.state().timer.to_bits(), 0);
+                assert!(machine.awaiting_motion());
+                assert_eq!(services.0, [1235]);
+            } else {
+                assert_eq!(machine.state().entry.mode, 62);
+                assert_eq!(machine.state().parameter_184.to_bits(), 0);
+                assert_eq!(
+                    machine.failure(),
+                    Some("actual marker provider unavailable")
+                );
+                assert!(!machine.awaiting_motion());
+                assert_eq!(services.0, [1235, 1246, 219]);
+            }
+            let calls = services.0.clone();
+            assert!(
+                machine
+                    .advance_variant_awakening(input, parameters, &mut random, &mut services)
+                    .is_err()
+            );
+            assert_eq!(services.0, calls);
+        }
+    }
 }
 pub trait Services<K, E> {
     /// Passive query trace only. This acknowledges no terrain service and
@@ -837,6 +933,7 @@ pub enum Outcome {
     CompletedSurfacing,
     CompletedAwakening,
     CompletedAttack,
+    CompletedVariantAwakening,
 }
 #[derive(Clone, Debug)]
 pub struct Machine<K, E> {
@@ -1003,6 +1100,7 @@ impl<K: Copy, E: Copy, S: Services<K, E>> crate::ripper_emergence::Services<K, E
 #[derive(Clone, Copy)]
 enum Branch<'a, K> {
     Awakening(AwakeningContext),
+    VariantAwakening(VariantAwakeningContext<'a>),
     Turn(Parameters),
     Pursuit(f32),
     Emergence(f32),
@@ -1037,6 +1135,46 @@ fn footsteps(primary: [u32; 9]) -> Result<bool, &'static str> {
         .any(|at| now >= at && previous < at))
 }
 impl<K: Copy + Ord, E: Copy> Machine<K, E> {
+    /// Class230's ordinary mode0/61 producer. Mode62 and subsequent behavior
+    /// require their own continuations; marker construction is a real service.
+    pub fn advance_variant_awakening(
+        &mut self,
+        input: FrameInput<'_, K>,
+        parameters: VariantAwakeningContext<'_>,
+        random: &mut Random,
+        services: &mut impl Services<K, E>,
+    ) -> Result<Outcome, String> {
+        if !parameters
+            .camera
+            .into_iter()
+            .chain([
+                parameters.camera_range,
+                parameters.global_seconds,
+                self.state.timer,
+            ])
+            .all(f32::is_finite)
+            || parameters.camera_range < 0.
+            || parameters.global_seconds < 0.
+            || parameters.areas.iter().any(|a| {
+                !a.center
+                    .into_iter()
+                    .chain([a.factor, a.radius_squared])
+                    .all(f32::is_finite)
+                    || a.factor < 0.
+                    || a.radius_squared < 0.
+            })
+        {
+            return Err("variant awakening requires finite camera/range/timer".into());
+        }
+        self.advance_inner(
+            input.context,
+            input.frame,
+            input.range,
+            Branch::VariantAwakening(parameters),
+            random,
+            services,
+        )
+    }
     pub fn advance_awakening(
         &mut self,
         context: Context,
@@ -1225,6 +1363,12 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
         }
         let original = &self.state;
         let mode = match branch {
+            Branch::VariantAwakening(_) => {
+                if !matches!(original.entry.mode, 0 | 61) {
+                    return Err("variant awakening primary requires mode0/61".into());
+                }
+                original.entry.mode
+            }
             Branch::Awakening(_) => {
                 if !matches!(original.entry.mode, 0 | 31) {
                     return Err("awakening primary requires mode0/31".into());
@@ -1242,9 +1386,17 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                 original.entry.mode
             }
         };
-        if original.entry.class != 73 || original.entry.mode != mode || original.entry.action != 0 {
+        let class = if matches!(branch, Branch::VariantAwakening(_)) {
+            230
+        } else {
+            73
+        };
+        if original.entry.class != class
+            || original.entry.mode != mode
+            || original.entry.action != 0
+        {
             return Err(
-                "complete primary requires acquired ordinary class73/action0 and matching continuation".into(),
+                "complete primary requires the matching acquired class/action0 continuation".into(),
             );
         }
         let Some(prefix) = state23_entry::ordinary_prefix(original.entry, context)? else {
@@ -1265,13 +1417,16 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
         state.entry = prefix;
         state.steering.flags = prefix.flags;
         state.steering.commands[..4].copy_from_slice(&prefix.packed.to_le_bytes());
-        let initializing = matches!(branch, Branch::Awakening(_)) && mode == 0;
+        let initializing =
+            matches!(branch, Branch::Awakening(_) | Branch::VariantAwakening(_)) && mode == 0;
         if initializing {
             let plan = state23_entry::plan(original.entry, context)?;
             state.entry = plan
                 .before_sound
                 .ok_or("initial entry sound snapshot absent")?;
-            if let Err(error) = services.owner_sound(&state, 1258, random) {
+            if let Err(error) =
+                services.owner_sound(&state, if class == 73 { 1258 } else { 1235 }, random)
+            {
                 self.state = state;
                 self.failed = Some(error.clone());
                 return Err(error);
@@ -1331,7 +1486,49 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                 return Err(error);
             }
         }
-        if let Branch::Awakening(a) = branch {
+        if let Branch::VariantAwakening(a) = branch {
+            let delta = std::array::from_fn::<_, 3, _>(|i| {
+                f64::from(a.camera[i]) - f64::from(state.entry.position[i])
+            });
+            let squared = (delta[0] * delta[0] + delta[1] * delta[1]) + delta[2] * delta[2];
+            state.parameter_184 = if squared > f64::from(a.camera_range) * f64::from(a.camera_range)
+            {
+                1.
+            } else {
+                0.
+            };
+            // Entry can replace the dispatch context before this second time
+            // query. Do not reuse the prefix's earlier object-time sample.
+            let seconds = crate::object_time::seconds(
+                a.global_seconds,
+                Some(crate::object_time::Sample {
+                    owner: state.entry.context,
+                    position: state.entry.position,
+                }),
+                None,
+                a.areas,
+            );
+            let remaining = f64::from(state.timer) - seconds;
+            state.timer = remaining as f32;
+            if remaining < 0. && state.retaliation.is_some() {
+                let result = (|| {
+                    services.owner_sound(&state, 1246, random)?;
+                    state.entry.mode = 62;
+                    state.parameter_184 = 0.;
+                    state.steering.personality &= !0x800;
+                    // The debug history-tail hook is empty. The real marker
+                    // constructor/copy/link does not write the source motion.
+                    self.surface_marker = Some(services.construct_surface_marker(&state)?);
+                    services.stop_owner_sound(&state, 1235, random)?;
+                    Ok::<_, String>(())
+                })();
+                if let Err(error) = result {
+                    self.state = state;
+                    self.failed = Some(error.clone());
+                    return Err(error);
+                }
+            }
+        } else if let Branch::Awakening(a) = branch {
             let target = state
                 .retaliation
                 .map(|id| frame.candidate(id).map(|c| c.position))
@@ -1500,12 +1697,17 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             }
             overlay(&mut state, branch.state());
         }
-        if sound && let Err(error) = services.owner_sound(&state, 1261, random) {
+        if sound
+            && let Err(error) =
+                services.owner_sound(&state, if class == 73 { 1261 } else { 1238 }, random)
+        {
             self.state = state;
             self.failed = Some(error.clone());
             return Err(error);
         }
-        state.entry.parameter = state.entry.saved_parameter;
+        if class == 73 {
+            state.entry.parameter = state.entry.saved_parameter;
+        }
         let reduced = match branch {
             Branch::Emergence(p) => Some(p),
             Branch::Awakening(a) => Some(a.buried_speed_percent),
@@ -1520,7 +1722,9 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
         }
         self.state = state;
         self.completed = true;
-        Ok(if matches!(branch, Branch::Awakening(_)) {
+        Ok(if matches!(branch, Branch::VariantAwakening(_)) {
+            Outcome::CompletedVariantAwakening
+        } else if matches!(branch, Branch::Awakening(_)) {
             Outcome::CompletedAwakening
         } else if mode == 32 {
             Outcome::CompletedMode32

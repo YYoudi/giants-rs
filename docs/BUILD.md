@@ -96,6 +96,14 @@ it checks retention and unsampled/current-reference refusal, not a generated pos
 
 
 With `GIANTS_NPC_ROOT`, run
+`cargo test --locked -p giants-game source_variant_awakening --target x86_64-pc-windows-gnu -- --ignored`
+for actual class230 constructors, owned first primary and marker birth. Flat terrain,
+peer eligibility, clocks/camera and captured/suppressed audio are supplied. It
+checks conditional birth, exact copied/reciprocal ownership, post-entry clock
+selection, retained prefixes/late audio failure and replay/retirement refusal.
+It does not enable mode62 onward, state48 scheduling or ordinary NPC gameplay.
+
+With `GIANTS_NPC_ROOT`, run
 `cargo test --locked -p giants-game source_parented_state0 --target x86_64-pc-windows-gnu -- --ignored`
 for the three acquired special children across two tickets. It supplies local
 callback admission/control/time, checks owned ANM/references and position buffers,

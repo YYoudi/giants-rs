@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Detection, navigation, pursuit, attacks, reactions, faction relationships and scripted boss encounters. Existing Ripper perception, primary/attack and awakening/emergence services plus shared enemy response/projectile kernels are inventoried in docs/OWNED_NPCS.md. Complete live actor/world scheduling, real firing/effect/audio providers and remaining enemy/boss profiles remain open; this inventory enables no new ordinary gameplay."
+      "detail": "Detection, navigation, pursuit, attacks, reactions, faction relationships and scripted boss encounters. Existing Ripper perception, primary/attack and awakening/emergence services plus shared enemy response/projectile kernels are inventoried in docs/OWNED_NPCS.md. The owned class230 mode0/61 route now shares entry/perception/motion and constructs the actual reciprocal class219 marker. Three PC/source first-callback controls match 90 selected words with flat terrain, peer eligibility and diagnostic audio supplied. The branch re-queries time after entry context changes, keeps distinct sounds and does not reset source motion or gate marker birth on positive height. Supplied-failure controls retain prefixes and already-born markers while refusing replay. Mode62 onward, secondary/ANM/finalization, real player pose/vitals and actor/world scheduling, firing/effect/audio providers and remaining enemy/boss profiles remain open; no ordinary gameplay is enabled."
     },
     {
       "id": "wildlife",

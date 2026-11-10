@@ -117,6 +117,27 @@ Both prototype PS2 resources were searched with pinned binary identities before
 this work; attribution stays unknown. Detailed records remain private.
 
 
+## Class230 owned awakening - intermediate source dependency
+
+The state23 primary machine now admits class230 mode0/61 using the actual
+constructor, shared entry/perception/motion and existing marker factory. Three
+source/PC first-callback-plus-motion projections agree on 90 selected words.
+Supplied flat terrain, peer eligibility, camera/clock and diagnostic audio remain
+explicit boundaries. This is no new ordinary NPC map or preview.
+
+Class-specific sounds and parameter handling stay distinct; local time is queried
+again after the entry context changes. Marker construction/copy/link is not gated
+on positive height and does not reset source motion. Thirteen observed destination
+writes and zero source writes agree with the independent PC copy decompilation.
+Installed controls retain exact actor/marker ownership and prefixes through early
+and late audio failures, preserve already-born markers and refuse replay. The
+portable clock control distinguishes the before/after-entry owner samples.
+
+Mode62 onward, state48 callback admission, secondary/ANM/finalization, actual player
+pose/vitals and full world/audio/effect/clock/RNG producers remain required. Native
+registry absence and diagnostic source suppression do not prove audible behavior.
+All detailed evidence stays private; prototype PS2 attributions remain unknown.
+
 ## Typed child common callbacks - intermediate source dependency
 
 The acquired Mecc special constructor now binds local common frames to its three
