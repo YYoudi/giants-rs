@@ -12,6 +12,21 @@ pub struct Profile {
     pub vertical_fov: f32,
 }
 impl Profile {
+    /// Acquired class-1 controlled-actor adjustment, before chase initialization
+    /// and the ordinary camera loop. This does not select an owner or view.
+    pub fn for_kabuto(self, gain: f32) -> Result<Self, String> {
+        if !gain.is_finite() || gain <= 0. {
+            return Err("Kabuto camera gain outside acquired positive profile".into());
+        }
+        let g = f64::from(gain);
+        Ok(Self {
+            distance: (f64::from(self.distance) * g) as f32,
+            height: (f64::from(self.height) * g - (1. - g) * 5.) as f32,
+            side: (f64::from(self.side) * g) as f32,
+            along: (f64::from(self.along) * g) as f32,
+            vertical_fov: self.vertical_fov,
+        })
+    }
     pub fn normal(first_person: bool) -> Self {
         Self {
             distance: if first_person { 2. } else { 16. },
@@ -60,6 +75,18 @@ pub struct State {
     failure: Option<String>,
 }
 impl State {
+    /// Direct-angle ordinary camera with the acquired class-1 adjustment.
+    /// Caller mode, actual owner/controlled identity, clock, pitch, initial
+    /// history and world-query ownership remain required inputs.
+    pub fn advance_kabuto(
+        &mut self,
+        mut input: Input,
+        gain: f32,
+        world: &mut impl World,
+    ) -> Result<Output, String> {
+        input.profile = input.profile.for_kabuto(gain)?;
+        self.advance_profile(input, world, None)
+    }
     pub fn output(&self) -> Option<&Output> {
         self.output.as_ref()
     }

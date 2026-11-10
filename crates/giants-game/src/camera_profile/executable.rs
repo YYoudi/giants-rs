@@ -3,15 +3,21 @@
 use super::{Catalog, Family, Selection};
 use crate::camera_mode::Profile;
 
+#[derive(Clone, Copy, Debug)]
+pub struct Record {
+    pub camera: crate::mecc_camera_update::Profile,
+    /// Signed owner look angle, separate from model scale and body orientation.
+    pub pitch: f32,
+}
 pub struct ExecutableCatalog {
-    profiles: [[Profile; 3]; 9],
+    records: [[Record; 3]; 9],
 }
 impl ExecutableCatalog {
     pub fn read(path: &std::path::Path) -> Result<Self, String> {
         Self::decode(&crate::executable_metadata::read(path)?)
     }
-    /// Read coefficients only. Validation of the consumed lens/scale belongs to
-    /// the command kernel: projection reset does not consume actor scale.
+    /// Read coefficients only. Validation belongs to the consuming kernel:
+    /// projection reset does not consume pitch, distance or body scale.
     pub fn decode(bytes: &[u8]) -> Result<Self, String> {
         use crate::executable_metadata::{Image, Layout};
         let image = Image::decode(bytes)?;
@@ -19,23 +25,31 @@ impl ExecutableCatalog {
             return Err("camera coefficient metadata layout not acquired".into());
         }
         let data = image.data.data(0x15a208, 9 * 3 * 24)?;
-        let profiles = std::array::from_fn(|family| {
+        let records = std::array::from_fn(|family| {
             std::array::from_fn(|view| {
                 let at = (family * 3 + view) * 24;
                 let value = |offset| {
                     f32::from_le_bytes(data[at + offset..at + offset + 4].try_into().unwrap())
                 };
-                Profile {
-                    vertical_fov: value(8),
-                    actor_scale: value(20),
+                Record {
+                    camera: crate::mecc_camera_update::Profile {
+                        distance: value(0),
+                        height: value(4),
+                        vertical_fov: value(8),
+                        side: value(12),
+                        along: value(16),
+                    },
+                    pitch: value(20),
                 }
             })
         });
-        Ok(Self { profiles })
+        Ok(Self { records })
     }
 }
-impl Catalog for ExecutableCatalog {
-    fn profile(&self, selection: Selection) -> Result<Profile, String> {
+impl ExecutableCatalog {
+    /// Includes signed coefficients; this is data, not complete camera support
+    /// for every family/view, nor startup or projection acknowledgement.
+    pub fn record(&self, selection: Selection) -> Result<Record, String> {
         let family = match selection.family() {
             Family::Model2 => 0,
             Family::Model2Variant => 1,
@@ -47,10 +61,19 @@ impl Catalog for ExecutableCatalog {
             Family::Model4 => 7,
             Family::Default => 8,
         };
-        self.profiles[family]
+        self.records[family]
             .get(usize::from(selection.view()))
             .copied()
             .ok_or_else(|| "camera coefficient view outside acquired table".into())
+    }
+}
+impl Catalog for ExecutableCatalog {
+    fn profile(&self, selection: Selection) -> Result<Profile, String> {
+        let record = self.record(selection)?;
+        Ok(Profile {
+            vertical_fov: record.camera.vertical_fov,
+            actor_scale: record.pitch,
+        })
     }
 }
 
@@ -63,7 +86,14 @@ mod tests {
         let mut bytes = synthetic_image(Layout::DebugReference);
         let start = 4096 + 0x15a208 - 1_413_120;
         for row in 0..27 {
-            for (offset, value) in [(8, 40. + row as f32), (20, 1. + row as f32 / 32.)] {
+            for (offset, value) in [
+                (0, row as f32 - 12.),
+                (4, row as f32 + 3.),
+                (8, 40. + row as f32),
+                (12, row as f32 - 5.),
+                (16, row as f32 + 7.),
+                (20, 1. + row as f32 / 32.),
+            ] {
                 bytes[start + row * 24 + offset..start + row * 24 + offset + 4]
                     .copy_from_slice(&value.to_le_bytes());
             }
@@ -90,6 +120,12 @@ mod tests {
                 let row = index * 3 + usize::from(view);
                 assert_eq!(profile.vertical_fov, 40. + row as f32);
                 assert_eq!(profile.actor_scale, 1. + row as f32 / 32.);
+                let record = catalog.record(Selection { family, view }).unwrap();
+                assert_eq!(record.camera.distance, row as f32 - 12.);
+                assert_eq!(record.camera.height, row as f32 + 3.);
+                assert_eq!(record.camera.side, row as f32 - 5.);
+                assert_eq!(record.camera.along, row as f32 + 7.);
+                assert_eq!(record.pitch, profile.actor_scale);
             }
         }
         assert!(ExecutableCatalog::decode(&synthetic_image(Layout::Retail)).is_err());

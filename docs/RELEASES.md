@@ -55,6 +55,50 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## Reached-time persistent inspection - source-only checkpoint
+
+The selected main-menu observer can wait for a nonnegative source-tick bound
+before suspending the state actually reached by playback. This gate needs its
+explicit persistent mode and sequence. It neither seeks nor assigns the source
+clock, and it preserves the requirement for actual Session-owned effect updates.
+An unreachable bound acknowledges no sample. This is an inspection capability;
+ordinary keyboard/mouse interaction and native fidelity remain separate work.
+
+Private source `d87ffc5` passes 918 workspace Rust tests (108 ignored), Rustfmt,
+strict workspace Clippy and 43 Python tests. Its receipt-bound MinGW build passes
+startup and completion GPU captures with an active owner, including a director
+whose animation starts at a nonzero tick. The default observer also passes;
+five invalid mode/sequence/tick combinations refuse before capture. The earlier
+negative harness stopped at an absent profile parent and is retained as a failed
+fixture, rather than a guard or runtime failure.
+
+The private `04cb614` batch produces 23 selected-director GPU images (four
+startup and nineteen completion chains), reusing one exact-build image. Every
+sample has same-ticket/director creation and visible draw submissions. Their
+first-active windows reach 24 of the 25 declared requests.
+
+A later request exposed a diagnostic race in `d87ffc5`: the published clock had
+crossed the observation bound while the command cursor still evaluated the
+preceding tick. Its weak late-sample pass is rejected. Corrected source `2ad85fa`
+records the actual cursor tick, requires the current consumed FX revision and
+waits for all live owners to advance twice. Native dispatch/clock ordering is
+unchanged. On its receipt-bound MinGW build, the late request is actually
+executed, both offsets are drawn, both owners have advanced and GPU capture
+completes. The default observer and five invalid-input refusals pass as well.
+Combined source `2ad85fa` passes 946 Rust tests (138 ignored), Rustfmt, strict
+workspace Clippy and 43 Python tests; its MinGW build receipt is kept separately
+from the earlier observer.
+Two natural first-mission source-terminal/re-entry cycles also pass, with muted
+voice drain and tracked entity/movie/text-atlas cleanup. Those observations are
+not retroactively assigned to the older 23-image batch.
+
+Qualitative comparisons at reported-time-derived points substantially reduce
+apparent pose differences. The retained native final-image clock and global
+lighting phase are still unverified; one solar-region discrepancy remains open.
+No source placement, duration or light value was adjusted to match these images.
+These private proofs update no frozen public-preview or census identity and
+certify no complete scene. The bounded inspection does not deliver gameplay.
+
 ## Delphi initial body in the common renderer - diagnostic only
 
 Delphi's actual declared owner now reaches the initial-player body renderer.
@@ -86,6 +130,27 @@ projection requests and refuses a retired owner. This does not submit projection
 to Bevy, acquire startup words or acknowledge the mission's pending reset.
 Actual input/device, first animation/render and physical/controller wiring remain
 open. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
+
+## Kabuto signed camera coefficients - intermediate dependency only
+
+Kabuto is still unavailable through normal controls. Source now reuses the common
+external camera catalog for full position coefficients and signed look angle;
+mode changes preserve body scale and no longer reject a negative camera pitch.
+The acquired size gain adjusts camera position coefficients before the ordinary
+camera subset. A private 328-case original-PC/Rust control validates these supplied
+mode/profile and coefficient boundaries. Actual startup ownership, projection,
+initializers and live animation/input remain prerequisites. This source dependency
+does not change the frozen Windows preview or establish correct rendered framing.
+
+Combined source preserving main through `8c385dc` passes 949 synthetic Rust checks
+(139 ignored), the installed Kabuto and Delphi App entry/re-entry checks, ordinary
+Mecc body/jet composition and the owned Delphi external-coefficient reset check.
+Rustfmt, strict workspace Clippy, 43 Python tests, site/JavaScript validation and
+the publication audit pass. These checks add no GPU, real-input or preview claim.
+The combined follow-up at `7c8bd98`, preserving main through the Mecc HUD merge
+`e5d7996`, repeats the same 949 Rust checks, four installed checks, strict Clippy,
+formatting, Python and site/JavaScript checks. HUD observations retain their own
+build and input limits below.
 
 ## Kabuto initial body renderer - intermediate dependency only
 
