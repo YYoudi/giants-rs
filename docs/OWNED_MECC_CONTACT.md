@@ -1310,3 +1310,31 @@ interrupted computer use with Escape; no further UI control was resumed. Tempora
 bindings were confined to an independent test profile. The existing preview is
 not updated by this source change. Prototype PS2 lookup was refreshed before
 reusing the acquired selector rule; attribution remains unknown.
+
+
+## Ordinary jet presentation - runtime connected, interaction unverified
+
+The normal menu-controlled Mecc path now feeds the common jet draw consumer.
+Previously it received child frames only from the experimental owned driver,
+although the ordinary controller already produced jet/nitro state. Its adapter
+binds the three actual constructor child identities to the controlled motion
+owner, evaluates the current rendered body's attachment reference and source
+corrections, and advances source child ANM channels once per ordinary physics step.
+The acquired child visibility rule is shared with owned state publication.
+Thrust, nitro and release use the actual controller output, including its release
+flag; camera-facing materials, geometry and mission asset cleanup use the existing
+consumer. Inactive control hides/releases the draw submissions.
+
+These are explicit presentation clocks. They neither mutate the Session child
+channels nor acknowledge a completed native parent/world phase. The experimental
+owned driver retains its existing completion requirements and pose producer.
+Stale motion, a changed constructor, foreign/retired children or presentation
+failure quarantine this adapter. No substitute native impact/audio/FX provider
+is introduced. Prototype PS2 lookup was refreshed; attribution remains unknown.
+
+Entry/check: normal menu, a supported Mecc mission, hold right mouse for thrust,
+Space for nitro, release, land, pause/return and enter again. This path requires
+no replay or experimental backend switch. Source binding and installed-data
+controls do not prove visible response to real held input; that interaction and
+GPU result remain unverified after the interrupted UI session. No preview
+receipt, binary availability or fidelity result is changed by this source work.

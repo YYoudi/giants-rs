@@ -124,6 +124,16 @@ fn v3(p: [f32; 3]) -> Vec3 {
     Vec3::new(p[0], p[1], p[2])
 }
 impl State {
+    pub(crate) fn normal_jet_parent(&self) -> crate::mission_player::jet::Parent<'_> {
+        crate::mission_player::jet::Parent {
+            animation: &self.clips[&self.active_clip].animation,
+            seconds: self.clock.seconds,
+            world: self.object_matrix(),
+            scale: self.scale,
+            flags: self.jet_flags,
+            boost: self.jet.boost_active,
+        }
+    }
     pub(crate) fn owned_jet_frames(&self) -> Option<&[giants_game::mecc_jet_presentation::Frame]> {
         self.owned_pose.as_ref().map(|v| v.children.as_slice())
     }
