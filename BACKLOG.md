@@ -90,6 +90,9 @@ The dedicated NPC lane resumes existing work; see
   Next acquire/bind vector-route and action bodies, live session snapshot and
   linked ownership, physical entry-flag provenance, mode7 continuation, required
   sound/animation and exact primary call timing; bind world-noise production.
+  The Session adapter must publish prefixes before provider callbacks, preserve
+  callback writes/retirement and reject stale-owner replay rather than restore
+  a working copy after a callback.
   Do not enable fleeing or replace the ordinary primary's refusals from this
   helper proof alone. See `docs/OWNED_NPCS.md`.
 - Resume the persistent Ripper primary/perception/attack services, actual player

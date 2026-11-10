@@ -78,7 +78,10 @@ and orientation. Required providers observe preceding stores. Each session query
 supplies its current snapshot; the kernel executes `actor_session_predicates`
 rather than accepting a supplied decision. The predicates preserve first-match
 selection, signed count-minus-one fallback and low-byte actor-word comparison.
-They do not produce live session or actor ownership.
+They do not produce live session or actor ownership. Projected state is not
+automatic Session publication: an owned adapter must publish each prefix before
+provider callbacks and retain callback writes/retirement rather than restore a
+stale working copy after the call.
 
 Original-PC predicate wrappers and their actual callees match 2,840 contexts /
 5,680 output words. Response controls match 1,024 contexts /28,672 projected
