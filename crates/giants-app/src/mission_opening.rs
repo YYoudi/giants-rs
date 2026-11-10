@@ -356,6 +356,7 @@ fn sync(world: &mut World) {
             && matches!(phase, Phase::AwaitingRuntime | Phase::Cinematic)
             && !crate::mission_showcase::free(world)
             && !crate::mission_showcase::mecc_preview(world)
+            && !crate::frontend_scene::kabuto_body_inspection_replay()
     });
     if world
         .resource::<State>()

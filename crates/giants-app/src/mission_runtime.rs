@@ -827,6 +827,14 @@ impl Runtime {
         if world.positions.is_empty() || world.triangles.is_empty() {
             return Err("mission terrain is empty".into());
         }
+        if matches!(p.kabuto, Ok(Some(_))) {
+            let owner = active.player_owner()?;
+            active
+                .resident_states
+                .kabuto_group(owner)
+                .ok_or("Kabuto initial group absent")?;
+            return Err("Kabuto initialization and native controller are not connected yet".into());
+        }
         let player = p.player.as_ref().map_err(Clone::clone)?;
         if player.start.kind != 2 || p.controller.is_err() {
             return Err("controlled Mecc is not prepared".into());

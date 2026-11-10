@@ -100,6 +100,10 @@ impl Prepared {
                     .specification(self.owner)
                     .is_some_and(|s| std::sync::Arc::ptr_eq(s, &self.specification))
                 && a.channels == Some(self.channels)
+                && (self.object_flags & 0x10000 == 0
+                    || session
+                        .actor_current_affine(self.owner)
+                        .is_ok_and(|c| c.matrix.map(f32::to_bits) == self.matrix.map(f32::to_bits)))
                 && a.construction_fields.as_ref().is_some_and(|f| {
                     f.object_flags == self.object_flags
                         && f.object_flags & 0x40008000 == 0

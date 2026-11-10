@@ -252,6 +252,14 @@ fn drive(
         mut keys,
     } = presentation;
     if replay.done {
+        if kabuto_body_inspection_replay()
+            && runtime.kabuto_body().is_some()
+            && let Some(mut world) = world
+        {
+            // Scene adoption can replace this capture flag after the endpoint.
+            // It remains an inspection flag, never a mission readiness event.
+            world.cinematic_capture_ready = true;
+        }
         return;
     }
     let mode = std::env::var("GIANTS_MISSION_REPLAY").unwrap();
