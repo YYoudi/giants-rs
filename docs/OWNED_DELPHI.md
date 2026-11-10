@@ -4,6 +4,45 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Local target and readiness caller - 10 November 2026
+
+`delphi_local_target::advance` implements the local primary caller's state
+production before authority-driven selection/input. It preserves local-only
+resets, cooldown/control handling, proxy hiding, suppression gates, separate
+terrain and candidate queries, two independent view-selector reads, eligibility,
+display aim, pending selection, item availability, movement readiness and the
+highlight/action gates. Candidate, highlighted, pending, item-target and proxy
+identities remain distinct. An item query can replace its own target even before
+a later error. Terrain, query and displayed points also retain separate lifetimes;
+linked preparation can change the query point without recomputing the earlier
+display aim.
+
+The inline unlinked readiness calculation retains the wide squared distance
+before the power/rate comparison. The acquired linked helper instead stores and
+reloads that distance as `f32`. Reusing its rounded prefix for the inline caller
+would change readiness near the reserve boundary. The original arithmetic runs
+in 465 cases of a 2,048-context caller control; 27 distinguish the two profiles.
+
+Across those contexts, Rust matches 47,104 projected state words and 16,978
+ordered service/read events. The original caller instructions execute with
+supplied geometry, view, item, linked-preparation and final range providers;
+their bodies are outside this caller comparison. The original local-clock and
+inline distance/power bodies execute within the declared ordinary clock profile.
+Inputs include fixed owner headers, current selected-kind/item words and
+supplied target/proxy identities. Native controls also check that other payload
+words stay unchanged. Rust failures injected at every tracked provider position
+retain the corresponding original caller prefix; separate tests preserve
+partial terrain, linked and item-target writes. This is host error retention,
+not native exception/fault equivalence.
+
+The kernel is not yet bound to the Session's actual pre-physical frame, geometry,
+camera, item/proxy lifetime or callback schedule. The earlier completed-frame
+query APIs keep their guards. Binding those real producers, preserving typed
+target references through retirement, and composing active targeted physics
+remain required before comparing full primary/world turns or enabling Delphi
+from the menu. No new prototype PS2 attribution is confirmed. The public preview
+and live Delphi availability remain unchanged.
+
 ## Shared dependency order and attachment phase - 10 November 2026
 
 `Session::order_common_dependencies` adds the acquired post-primary ordering

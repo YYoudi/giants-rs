@@ -161,6 +161,13 @@ implemented in `camera_mode`, with 1,280 native/Rust command comparisons and the
 Session preparation/inactivity and returns the resulting display snapshot. Keep
 profile/scale/projection backends, camera startup/override producers and world
 ordering explicit before connecting App damage/fire; the default driver is unchanged.
+Activation projection reset and the lens kernel now share that camera state with
+mode changes. All 96 native/Rust sequences match 576 invocations /3,456 selected
+state/call words; the earlier mode/admission controls repeat unchanged. Resolve
+the actual current profile/input/device producers and caller order before using
+this in App initialization. The cold Mecc constructor's projection-reset request
+remains pending there. Full player continuity, in-place live type changes and
+team/restore branches are not supplied by this shared reset service.
 The acquired owner-selection prefix is now `camera_owner::State`, with all 162
 native/Rust selections matching. Its Session adapter reads real headers, retains
 callback writes/errors and refuses stale/foreign selected owners; `preworld`
@@ -562,6 +569,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   per-frame cache producers; do not reuse constructor-zero or previous-phase
   caches as current evaluated poses. Full world scheduling and target/readiness
   publication remain unbound. See docs/OWNED_DELPHI.md.
+- Implemented: `delphi_local_target::advance` now owns the local caller's reset,
+  cooldown/proxy, geometry/aim, pending/item and readiness/action sequence over
+  required providers. Distinct typed candidate/highlight/pending/item/proxy slots
+  and terrain/query/display-point lifetimes survive partial failures. All 2,048
+  original caller contexts match 47,104 projected words /16,978 tracked events;
+  injected provider failures retain the corresponding prefix. Geometry, view,
+  item, linked-helper and final range results remain supplied. Original inline
+  math executes in 465 cases; 27 reject reusing the linked helper's narrower
+  squared-distance profile. Bind this caller to the actual Session pre-physical
+  epoch and real providers, including item-target writes and target/proxy
+  retirement. Keep completed-frame query guards until that phase ownership is
+  established; then compose active targeted physics and compare full turns.
 - Native-only full-primary diagnosis now completes 256 whole original bodies
   after the retained initialization/generic entry with declared world/view and
   projection/OS/TLS boundaries. Its same-input trajectory differs from the old
@@ -606,10 +625,23 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   installed controls cover success, late sound refusal and owner removal.
   The caller supplies earlier scratch/admission; other-relationship presence,
   live RNG/TLS ownership and real sound/transport outcomes remain prerequisites.
-  Next: acquire shared selection/definition continuations and their negative or
-  unchanged-slot exits before connecting this result to animation commit. Do not
-  send every resource completion through held references or commit an animation
-  unconditionally. No primary/history/initializer or gameplay admission follows.
+  The shared gate now preserves signed-negative and unchanged-slot exits, and
+  resolves reference speed before an eligible request reaches the real shared
+  animation setter/ANM. Its 4,096 original-PC/Rust controls match 266,240 words;
+  512 owned contexts retain the earlier resource slot rather than rereading live
+  channels. Of these, 509 reach commit and three retain the held-reference exit.
+  A continuous native selector -> gate -> commit comparison matches 409,086
+  final words, including 256 declared notification entries and 1,120 ANM
+  dispatcher visits. Earlier actor/scratch/resource data, existing PC RNG/TLS,
+  sound/transport mutations and the test's separate commit eligibility context
+  are supplied. No intermediate actor/animation/reference/epoch/RNG snapshot is replaced;
+  only the declared commit-eligibility owner word and session mode are supplied. This remains independent contexts,
+  not whole-primary or ordinary gameplay validation.
+  Next: acquire earlier action/definition/scratch admission and the remaining
+  caller after selected/skipped animation, including held-reference ordering,
+  then bind actual world ownership and lifetime. Negative/equal-slot gates do
+  not authorize an unconditional animation, primary/history or initializer
+  completion. Live sound/transport/RNG/TLS outcomes remain prerequisites.
 
 - Implemented and compared: an already selected animation now commits through
   the real Session channels, shared setter and zero-second ANM/reference/epoch

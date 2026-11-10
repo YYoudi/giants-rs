@@ -81,6 +81,47 @@ completed stores and quarantines further mode commands and admission queries.
 Profile selection, actor-scale writes and actual projection remain required
 services; there is no silent backend.
 
+The activation-time `reset_projection` entry resolves the current profile,
+clears the transition and publishes projection with the acquired flags. It does
+not select a camera owner, change mode/view or write actor scale. A profile
+failure leaves the transition intact; a later projection failure retains its
+completed reset and quarantines shared commands/admission.
+The native type-activation caller invokes this in its session-mode-zero branch,
+before later actor initialization and initial animation selection. The separate
+non-mode-four damage-authority rule does not establish activation eligibility.
+The existing collapsed cold CPU constructor is
+not an execution checkpoint for this earlier service. Preserve that order when
+binding the application's still-pending projection reset.
+
+`advance_lens` now runs the existing lens kernel against that same state word.
+Its mode/view snapshot must match the shared owner; stale input refuses before
+changing the transition. Mode changes and activation reset therefore affect the
+next lens evaluation without maintaining a second persistent transition copy.
+Profile/input production and projection publication remain caller obligations.
+Keep these operations on one `camera_mode::State` when composing the world.
+
+Read-only acquisition of the native profile producer distinguishes the camera
+owner class, selected view, a parent-dependent class case, an owner control-flag
+variant and the controlled-actor predicate. The variant predicate tests an
+existing control flag; its gameplay meaning remains unassigned. This is acquired
+native behavior, not an implemented Rust profile producer. Preserve those actor
+identities when defining its typed inputs, and keep original coefficient tables
+out of Git. Any future executable-backed profile data must validate the exact PC
+binary independently of prototype PS2 symbols or layouts.
+The lens character predicate belongs to the controlled actor; an overridden
+camera owner must not replace that identity when supplying `selected_kind`.
+The historical `profile_index` lens-input name denotes the shared view word;
+it is separate from the table index that produces `input_scale`.
+
+Ninety-six original-PC/Rust sequences match 576 reset/mode/lens invocations and
+3,456 selected state/call words. They execute the actual native entries and class
+predicates under Double53, with current profile and device-projection services
+supplied. They cover reset between lens evaluations, override preservation,
+mode changes and subsequent lens evaluation. They do not validate the profile
+producer, startup/continuity caller, GPU output or complete world schedule.
+The earlier 1,280 mode and 864 admission comparisons repeat unchanged. No new
+prototype PS2 attribution is confirmed.
+
 Across 1,280 controlled commands the full original mode entry and Rust agree on
 mode/view, transition bits, actor scale, profile-query count and projection value.
 Original profile/projection bodies are supplied boundaries; distinct consecutive

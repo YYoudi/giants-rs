@@ -38,6 +38,12 @@ and captures the child's `--help` result explicitly.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+`cargo test --locked -p giants-game delphi_local_target --target x86_64-pc-windows-gnu`
+checks the local caller's separate point/link lifetimes, inline-wide versus
+linked-rounded readiness, retained terrain/linked/item-target failures, inactive
+pending selection and nonlocal no-effect entry. Geometry/camera/item/proxy
+providers are test doubles; these controls do not validate their runtime binding.
+
 The ignored `source_timed_positioned_preparation_uses_owned_header_and_terrain`
 control additionally requires `GIANTS_FLICK_ROOT`, `GIANTS_FLICK_TIMED_TERRAINS`
 (private archive/member TSV) and `GIANTS_FLICK_TIMED_PREPARATION_CONTROLS` (private
@@ -63,6 +69,11 @@ late errors, retirement, foreign owners and reconstruction. The reference-point
 body, initial words and mode/force/profile inputs remain declared boundaries.
 Run it alongside `source_mecc_preworld_camera_prepares_or_retires_actual_display`;
 both are silent CPU compositions, not App input or complete world-order checks.
+
+The portable `camera_mode` tests also cover activation reset, retained failure
+prefixes, quarantine across shared commands and lens evaluation against the same
+transition word. They use explicit profile/projection fixtures; these are not
+App backend or GPU checks.
 
 With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
 `cargo test --locked -p giants-app source_actor_roles --target x86_64-pc-windows-gnu -- --ignored`
@@ -812,3 +823,14 @@ The `source_vimp_threat` controls invoke isolated consideration on owned Vimps
 with supplied noise. They check remembered timestamps, unsupported linked state,
 invocation ownership and retained writes/quarantine after a late finite-profile
 failure. Response, actual world-noise production and primary admission stay open.
+
+
+With the same explicit Kabuto root/executable, `source_kabuto_action_gate_`
+continues 512 independent installed contexts through the retained-slot gate and
+509 eligible actual animation commits. It keeps the three held-reference exits
+separate and refuses foreign/replayed or non-commit requests. Optional private
+`GIANTS_KABUTO_GATE_INPUTS` / `GIANTS_KABUTO_GATE_RECEIPT` export the selector/gate
+projection; `GIANTS_KABUTO_RESOLVED_COMMIT_INPUTS` /
+`GIANTS_KABUTO_RESOLVED_COMMIT_RECEIPT` export eligible animation contexts. All
+paths must be absolute. No window or audio device is created. This does not
+complete primary/history/initialization or validate live gameplay.

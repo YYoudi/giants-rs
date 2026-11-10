@@ -58,7 +58,7 @@ fn predicate(
 fn seconds(s: &State, p: &mut impl Services) -> Result<f64, String> {
     let t = p.seconds(s)?;
     if !t.is_finite() || t < 0. {
-        return Err("Vimp active response clock outside finite positive profile".into());
+        return Err("Vimp active response clock outside finite nonnegative profile".into());
     }
     Ok(t)
 }
