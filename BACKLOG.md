@@ -505,6 +505,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented in the owned CPU composition: the Factory/Session handoff now
+  stores current/held actor identities separately from the pointer-normalized
+  payload and updates its actual scale words. Required services observe preceding
+  stores; callback effects are reread even after failure. Foreign resources/actors,
+  wrong checkpoints, reentry and replay refuse mutation. Late failures quarantine
+  the owner; removing it never restores a stale working copy. Three installed
+  controls reach the real resource checkpoint and exercise these boundaries.
+  A selected 30-word bank/header/service projection also matches the original
+  interval on the source-backed context, under a declared mutating binding entry.
+  Capture policy/scale, caller decisions/counters, mode/owner producers and full
+  construction/binding/animation/transport/reset/action/physical backends remain
+  required. Complete reference retirement/lifetime, remaining primary order and
+  initializer/history completion are not established. Do not turn this component
+  checkpoint into gameplay admission.
 - Implemented at the CPU boundary: both current/held-reference handoff routes
   match 512 original intervals / 1,076,651 normalized state/service words. They
   retain first-free/first-occupied slot selection, signed counter gates, stores
