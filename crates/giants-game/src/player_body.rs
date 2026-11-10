@@ -8,7 +8,9 @@ use crate::{
 pub struct Prepared {
     pub model: ModelAsset,
     pub positions: Vec<[f32; 3]>,
-    pub normals: Vec<[f32; 3]>,
+    /// Known absence follows the acquired no-normal draw route. Preparation
+    /// errors on a model declaring normals remain errors.
+    pub normals: Option<Vec<[f32; 3]>>,
     pub matrix: [f32; 16],
     pub owner: Id,
     class: i32,
@@ -68,8 +70,14 @@ impl Prepared {
         if positions.len() != model.mesh.positions.len() {
             return Err("initial body position count differs".into());
         }
-        let normals = crate::body_pipeline::prepare_normals(&model.mesh, &positions, false)
-            .map_err(|e| e.to_string())?;
+        let normals = if model.mesh.normal_count == 0 {
+            None
+        } else {
+            Some(
+                crate::body_pipeline::prepare_normals(&model.mesh, &positions, false)
+                    .map_err(|e| e.to_string())?,
+            )
+        };
         let matrix = if fields.object_flags & 0x10000 != 0 {
             session.actor_current_affine(owner)?.matrix
         } else {

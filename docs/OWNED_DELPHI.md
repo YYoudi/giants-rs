@@ -12,6 +12,29 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Initial body in the common renderer - diagnostic only
+
+The declared Delphi owner now feeds the shared initial-player body renderer.
+An immutable scratch evaluation of its actual current channels supplies body
+positions without publishing world ANM epochs, reference/affine caches or physics.
+Known absence of mesh normal definitions takes the existing no-normal draw route;
+models declaring normals still propagate preparation errors. The retained player
+Id and current snapshot are checked before drawing, and stale/retired snapshots
+cannot replace the current player.
+
+Source `f4795de0de5dd43109e4a1f04f48f617950bd0da` has an exact receipt-bound common
+MinGW build. Its silent offscreen Rstory1 menu-request inspection produces a
+visually checked Delphi body image using the declared-start diagnostic camera.
+The held object, live animation and real input are not connected. A same-build
+Kabuto GPU regression keeps its lit body visible with the existing cropped
+inspection framing. Installed Delphi/Kabuto construction and second-entry checks,
+948 workspace Rust tests (139 ignored), strict Clippy, Rustfmt and 43 Python tests
+pass. The new display copy is pinned in the dashboard gallery; the downloadable
+preview remains independently pinned. No projection reset or gameplay readiness
+is acknowledged. Next connect actual projection and the complete first primary/
+physical/input driver, including held/copy placement and live animation, to this
+same owner. Check contact/water prerequisites without forcing a dry spawn.
+
 ## Declared mission construction and next playable blocker - 10 November 2026
 
 Construction is connected to common mission loading; ordinary Delphi controls

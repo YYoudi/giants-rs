@@ -1,6 +1,9 @@
 //! Acquired profile-family/view selection. Coefficients, input production and
 //! projection remain required services; no original profile tables are embedded.
 
+mod executable;
+pub use executable::{ExecutableCatalog, Record};
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Family {
     Model2,

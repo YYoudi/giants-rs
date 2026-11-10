@@ -88,7 +88,11 @@ The selected-cohort CPU control checks current affines, unchanged RNG, replay/
 retirement and unsupported profiles. Whole-world admission/control, clocks and
 unused collision/platform providers remain explicit supplied boundaries.
 
-
+With `GIANTS_DELPHI_ROOT` and an explicit `GIANTS_DELPHI_EXECUTABLE`, run
+`cargo test --locked -p giants-game source_camera_coefficients --target x86_64-pc-windows-gnu -- --ignored`
+for owned Delphi selection and external camera coefficients through projection
+reset. Mode/owner inputs are supplied and projection requests are captured;
+no App device submission, startup or gameplay admission is acknowledged.
 
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
@@ -810,6 +814,14 @@ Optional `GIANTS_PERSISTENT_SAMPLE_SEQUENCE` selects an actual director identifi
 in that mission chain. `GIANTS_PERSISTENT_SAMPLE_COMPLETION=1` requests the
 existing `CompletionReplay` intent used by the menu's completion replay; it does
 not complete objectives, acknowledge a win or reconstruct native replay state.
+With an explicit sequence, optional `GIANTS_PERSISTENT_SAMPLE_MIN_TICK` supplies
+a nonnegative i32 observation bound. Playback must reach that actual tick in the
+selected director and evaluate its command cursor through that tick before the
+observer may suspend for capture. The effects consumer must have processed the
+same revision, and every live persistent object must have advanced twice. An
+older object cannot acknowledge a newly dispatched peer. It does not seek,
+set the clock or override an effect's lifetime. An unreachable bound produces no
+sample acknowledgement. A reached tick alone does not prove native image phase.
 The observer waits for an actual Session-owned persistent
 effect to advance twice, records the reached director/tick and suspends that
 playback for GPU capture. It creates no effect or input and sends no readiness
@@ -1157,3 +1169,21 @@ suspends opening playback without emitting mission readiness. The body is an
 initial snapshot; native camera/projection, live ANM, input and ordinary startup
 remain unverified. Inspect the actual image: GPU preparation and a successful PNG
 write alone do not prove body visibility or correct framing.
+
+## Optional Delphi initial-body inspection
+
+This is an initial body snapshot, not playable Delphi. The installed App control
+`source_delphi_menu_entry_constructs_declared_group_and_retains_player_role` uses
+`GIANTS_DELPHI_ROOT` and checks body ownership, untouched cold caches, retirement
+and a second ticket. The shared renderer preserves known absence of normals and
+uses its existing no-normal route; normal-declaring preparation errors still fail.
+
+For private GPU inspection use `GIANTS_MISSION_REPLAY=showcase-delphi-body`,
+`GIANTS_SHOWCASE_WORLD=Rstory1` and `GIANTS_SHOWCASE_MISSION=0`. Run an awaited,
+receipt-bound common executable with `--mecc-menu`, your `--data-root`, a fresh
+`--user-data-root`, and `--offscreen --silent-capture --capture` to a fresh private
+PNG. This diagnostic suspends opening playback and uses the declared-start
+inspection camera. It acknowledges no projection reset, normal input, live ANM,
+held/copy placement or gameplay readiness. Inspect the actual image separately
+from pipeline completion. The source-backed menu request uses a test preview
+profile; it does not prove ordinary campaign unlocks.
