@@ -810,6 +810,7 @@ pub mod vimp_physical;
 pub mod vimp_recovery;
 pub mod vimp_response;
 pub mod vimp_threat;
+pub mod vimp_vector_response;
 pub mod vimp_wander;
 
 pub mod herd_frame;

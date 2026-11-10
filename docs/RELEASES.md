@@ -1,5 +1,22 @@
 # Preview releases and milestone integration
 
+## Vimp vector and route response - 10 November 2026, source only
+
+The NPC lane adds bounded vector/marker retargeting with explicit hint and action
+providers. Original-PC/Rust controls match 676 contexts /22,308 projected words:
+393 complete helper returns, 248 stops before action execution and 35 before the
+terrain/hint callee. Sparse marker order, parent selection/position, independent
+RNG draws, session predicate rereads, packing and angle boundaries are retained.
+Five Rust controls check skipped dependencies, late errors/callback writes and
+hint identity rereads. The current inline physical-flag word is already owned;
+future response binding must read it rather than fabricate zero.
+
+Actual Session route publication, live snapshot/linked owners, required action/
+hint bodies, mode7, primary timing, world admission and visual fidelity remain
+open. Prototype PS2 attribution is unknown. See [OWNED_NPCS.md](OWNED_NPCS.md).
+This dependency creates no binary, changes no immutable preview receipt and adds
+no playable or rendered NPC coverage.
+
 ## Source-only environment failure retention — 10 November 2026
 
 The common ordinary finalization service now retains completed environment and

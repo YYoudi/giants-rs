@@ -87,8 +87,11 @@ The dedicated NPC lane resumes existing work; see
   dispatch now matches 1,024 controls /28,672 projected words: 927 helper returns,
   75 vector boundaries and 22 action boundaries. The latter are prefix evidence,
   not completed services. Session predicates match 2,840 contexts /5,680 words.
-  Next acquire/bind vector-route and action bodies, live session snapshot and
-  linked ownership, physical entry-flag provenance, mode7 continuation, required
+  Vector/route controls now match 676 contexts /22,308 words (393 returns,
+  248 required-action and 35 hint/terrain boundaries). Next bind this service to
+  actual route ownership and acquire the required action and hint bodies, live
+  session snapshot and linked ownership, current inline physical-flag binding,
+  mode7 continuation, required
   sound/animation and exact primary call timing; bind world-noise production.
   The Session adapter must publish prefixes before provider callbacks, preserve
   callback writes/retirement and reject stale-owner replay rather than restore
