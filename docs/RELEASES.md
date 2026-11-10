@@ -144,6 +144,14 @@ the producer/consumer chain, duplicate actors, failed projection and retirement.
 The next missing runtime piece is persistent camera ownership and actual entry
 ordering with device publication; all Kabuto initializer gates remain pending.
 
+Combined source `b0e3845`, preserving main through the Mecc descent-inspection
+merge `3c97578`, passes 950 synthetic Rust checks (140 ignored), six installed
+CPU checks for Kabuto camera/cold construction/App entry, Delphi App entry and
+external-coefficient reset, and ordinary Mecc body/jet composition. Rustfmt,
+strict workspace Clippy, 43 Python tests and site/JavaScript checks pass. Native
+cold-prefix evidence remains private. None establishes rendered camera framing,
+held input, complete native startup or a new downloadable preview.
+
 ## Kabuto signed camera coefficients - intermediate dependency only
 
 Kabuto is still unavailable through normal controls. Source now reuses the common
