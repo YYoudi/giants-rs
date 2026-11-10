@@ -55,10 +55,13 @@ not establish live movement/contact production or ordinary mission admission.
 
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
-runs three owned-phase controls: publication/physical consumption and later
-activation refusal, retained prefix/cancellation, and real proxy construction
-with typed reference protection. Geometry/linked results and sound-request sinks
-are controlled test providers. This does not validate a complete ordinary turn.
+runs five owned-phase controls: publication/physical consumption and later
+activation refusal, retained prefix/cancellation, real proxy construction with
+typed reference protection, cold/previous held-cache geometry, and refused cache
+provenance. The latter uses actual shared candidate geometry and placed source
+actors; terrain/view and remaining providers stay scripted. Other controls use
+scripted geometry/linked results and sound-request sinks. These checks do not
+validate a complete ordinary turn.
 
 With `GIANTS_FLICK_ROOT` and `GIANTS_FLICK_PERSISTENT_COHORT` (private, headerless
 world/sequence TSV), run `cargo test --locked --workspace source_constant_cohort_moves_actual_body --target x86_64-pc-windows-gnu -- --ignored`.

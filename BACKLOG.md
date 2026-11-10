@@ -619,6 +619,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   geometry/camera/item services and wider linked consumers, then activation and
   active physics in this order. Do not move activation ahead of physical motion
   or simply remove the existing active-control guard.
+- Implemented: the running local caller can now read explicitly cold constructor
+  or preceding completed held-cache rays and invoke actual shared candidate
+  geometry. Four original source-loop samples plus 768 supplied-cache controls
+  match all 4,632 ray words. Installed checks cover evaluated held references,
+  real source-backed candidates and refused early/missing cache production;
+  ordinary completed-frame/geometry guards remain. Terrain and view in these
+  controls stay scripted. Next: bind actual terrain and viewport/camera services,
+  remaining item/linked consumers and full primary/world ordering. A phase-bound
+  held query alone does not enable ordinary Delphi gameplay.
 - Native-only full-primary diagnosis now completes 256 whole original bodies
   after the retained initialization/generic entry with declared world/view and
   projection/OS/TLS boundaries. Its same-input trajectory differs from the old
