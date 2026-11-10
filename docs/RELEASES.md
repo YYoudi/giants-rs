@@ -6165,7 +6165,7 @@ observations. The current preview receipts/notices/checksums retain their identi
 See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-mission-descent-pose---runtime-connected-interaction-unverified).
 
 
-## Mecc ordinary jet presentation - source integration candidate
+## Mecc ordinary jet presentation - source integration
 
 The existing jet renderer now also consumes the normal partial controller's
 actual jet/nitro state and animated body attachment. It binds existing constructor

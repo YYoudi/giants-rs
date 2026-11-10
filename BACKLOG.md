@@ -28,8 +28,8 @@ supplied replay commands; it does not close this real-input delivery.
   unverified after the interrupted UI session. Do not advertise it as verified
   gameplay or publish a new preview from those partial observations. Preserve
   countdown-start research privately rather than expanding that isolated work.
-  Next visible source candidate: connect the actual normal controller jet/nitro
-  state to the constructor-bound jet models and common draw consumer, without an
+  The normal controller also connects its actual jet/nitro state to the
+  constructor-bound jet models and common draw consumer, without an
   experimental-backend flag. Keep render-only clocks distinct from native world
   completion; real held-input thrust/release and menu re-entry still need checking.
 - NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
