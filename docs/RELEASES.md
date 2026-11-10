@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Static-terrain timed finalization comparison — 10 November 2026
+
+The complete original parent/child preparation, retirement and cleanup now run
+against the sixteen static source terrains represented in the Flick inventory.
+The existing shared Rust finalization/environment services agree on 1,152 states
+(640 detached), 299,520 header/payload words and 902 ground-query calls over
+128 controlled cycles. The native fixture now executes the original numeric-table
+initializer; its omission caused the first sloped-terrain discrepancy. No Rust
+correction, artificial terrain or placement adjustment was needed.
+
+Rust entry headers, physical payload/history, affine and the actual caller-slot
+word remain supplied; native object/platform populations are empty, topology is
+prepared and dynamic ripples are disabled. This validates the common static-ground
+composition, not ownership of live timed physics, ordinary world admission,
+scheduling, visual/audio fidelity or complete films. Those producers and the
+Session ordinary-preparation continuation remain the next dependencies.
+Prototype PS2 attributions remain unknown. This evidence-only milestone leaves
+preview-2026.11.10.2 and its immutable source/executable/archive identities unchanged.
+
 ## Canonical detached timed ownership and registration — 10 November 2026
 
 Detached retirement requests now transfer their actual payload/reference owners
