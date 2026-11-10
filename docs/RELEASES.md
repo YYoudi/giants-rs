@@ -18,6 +18,16 @@ animation and callback-phase integration remain open, together with live global/
 world services and mode7. Prototype PS2 attribution is unknown. No gameplay,
 capture, download or frozen public preview identity is changed.
 
+Runtime source `1d2abf6` retains current camera, Delphi and Kabuto contributions.
+Validation passes 915 workspace Rust tests (100 ignored), twenty-five installed
+NPC controls plus Delphi dependency-order and canonical timed-owner checks,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. Rebuilt captured/persistent active-block and angular comparisons pass on
+that source; retained predicate/response/vector comparisons still agree within
+their original helper and required-boundary scope. The earlier response PR's
+dashboard and both Windows checks also pass. These source/CPU checks add no new
+normal gameplay or rendered coverage to the immutable public preview.
+
 ## Owned Vimp response composition - 10 November 2026, source only
 
 The isolated Session response entry reads actual inline physical/channel flags and
