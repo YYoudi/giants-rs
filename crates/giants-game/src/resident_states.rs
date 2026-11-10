@@ -348,6 +348,7 @@ pub struct Resident {
     pub channels: Option<crate::animation_channels::Channels>,
     /// Last actual ANM header stamp (historical name); world services allocate it.
     pub mecc_animation_stamp: u32,
+    mecc_pistol_draw: Option<crate::mecc_pistol_draw::Binding>,
     /// Owned presentation metadata; not a constructed native actor pointer.
     presentation_parent: Option<Id>,
     presentation_position: Option<[f32; 3]>,
@@ -627,6 +628,7 @@ impl Session {
                 pickup_notice_delivery: None,
                 channels: None,
                 mecc_animation_stamp: 0,
+                mecc_pistol_draw: None,
                 presentation_parent: None,
                 presentation_position: None,
             },
@@ -1569,6 +1571,13 @@ impl Session {
         let body = actor.seed.storage.data().unwrap();
         let word = |at| u32::from_le_bytes(body[at..at + 4].try_into().unwrap());
         let mut cycle = actor.mecc_physical_cycle.clone().unwrap();
+        if word(0x80) != u32::from(actor.mecc_pistol_draw.is_some())
+            || fields.control_flags & 0x10000 != 0 && actor.mecc_pistol_draw.is_none()
+            || actor.mecc_pistol_draw.is_some() && !secondary_mode
+        {
+            return Err("Mecc draw marker differs from its typed binding".into());
+        }
+        let first_draw = actor.mecc_pistol_draw.is_some();
         if (health.damage != 0.
             && !(primary
                 && damage_display.is_some()
@@ -1741,7 +1750,21 @@ impl Session {
                         body[0x84 + index * 4..0x88 + index * 4].try_into().unwrap(),
                     );
                 }
-                first = Some(pipeline.advance(fields, view, view.local_seconds)?);
+                let pass = pipeline.advance(fields, view, view.local_seconds)?;
+                if first_draw && pass.processed {
+                    self.dispatch_mecc_pistol(
+                        &mut pipeline,
+                        crate::mecc_pistol_draw::Frame {
+                            fields,
+                            payload: body,
+                            view,
+                        },
+                        wield
+                            .as_mut()
+                            .ok_or("pistol actions require the owned wield factory")?,
+                    )?;
+                }
+                first = Some(pass);
                 if primary {
                     // Native47d57f: after the actual first ANM call returns.
                     fields.object_flags |= 0x40;
@@ -1907,7 +1930,8 @@ impl Session {
                 let mut contact_checkpoint = None;
                 let stage = {
                     let mut damage = impact.map(|context| mecc_impact::Damage { session: self, source: id, context, voice: impact_voice.take() });
-                    crate::mecc_secondary::ordinary(
+                    let draw = pipeline.bank.pistol(catalog)?;
+                    crate::mecc_secondary::ordinary_with_draw(
                     &output.fields,
                     &output.payload,
                     pipeline.channels,
@@ -1932,6 +1956,7 @@ impl Session {
                         blending: pipeline.blending,
                         random: &mut pipeline.random,
                     },
+                    Some(draw),
                 )
                 };
                 // Preserve effect ownership and earlier selector writes even if
@@ -1948,7 +1973,20 @@ impl Session {
                 }
                 // A selector can consume shared RNG before a later channel error.
                 *random = pipeline.random;
-                let stage = stage?;
+                let mut stage = stage?;
+                if let Some(commit) = stage.commit_before_request.take() {
+                    // The native channel setter precedes this commit, while
+                    // logical state, active table and control publication follow it.
+                    let actor = self.residents.get_mut(&id.serial).unwrap();
+                    actor.channels = Some(stage.channels);
+                    actor.construction_fields = Some(commit.fields);
+                    actor.seed.storage.data_mut().unwrap().copy_from_slice(&commit.payload);
+                    pipeline.channels = stage.channels;
+                    factory.commit_weapon(self, id, catalog)?;
+                    let body = self.get(id).unwrap().seed.storage.data().unwrap();
+                    stage.payload[0x60..0x64].copy_from_slice(&body[0x60..0x64]);
+                }
+                self.residents.get_mut(&id.serial).unwrap().mecc_pistol_draw = stage.draw;
                 pipeline.channels = stage.channels;
                 output.fields = stage.fields;
                 output.payload = stage.payload;
@@ -1994,6 +2032,10 @@ impl Session {
                 pipeline.select_normal(&output.fields, &cycle.view, globals)?
             };
             let second = pipeline.advance(&output.fields, &cycle.view, 0.)?;
+            if self.get(id).unwrap().mecc_pistol_draw.is_some() && second.processed {
+                self.dispatch_mecc_pistol(&mut pipeline, crate::mecc_pistol_draw::Frame { fields: &output.fields, payload: &output.payload, view: &cycle.view },
+                    wield.as_mut().ok_or("pistol actions require the owned wield factory")?)?;
+            }
             // Inactive auxiliary flags: actual47ecc0 tail after both ANM passes.
             let scalar_word = |at| u32::from_le_bytes(output.payload[at..at+4].try_into().unwrap());
             let local_seconds = crate::object_time::seconds(global_seconds, Some(crate::object_time::Sample { owner: 0, position: output.fields.position }), None, areas);
@@ -2019,6 +2061,11 @@ impl Session {
         let (output, projection, visits) = match completed {
             Ok(value) => value,
             Err(error) => {
+                self.mecc_events = Some(pipeline.bank.clone());
+                *contexts = pipeline.contexts.staged_copy();
+                *random = pipeline.random;
+                self.residents.get_mut(&id.serial).unwrap().channels = Some(pipeline.channels);
+                self.specifications.get_mut(&id.serial).unwrap().0 = pipeline.references.clone();
                 self.residents
                     .get_mut(&id.serial)
                     .unwrap()
@@ -2062,6 +2109,52 @@ impl Session {
             secondary: secondary_projection,
             jet: jet_projection,
         })
+    }
+    fn dispatch_mecc_pistol(
+        &mut self,
+        pipeline: &mut crate::mecc_animation_phase::Pipeline<'_>,
+        frame: crate::mecc_pistol_draw::Frame<'_>,
+        factory: &mut crate::mecc_wield::Factory<'_>,
+    ) -> Result<(), String> {
+        let id = pipeline.owner;
+        let actor = self
+            .residents
+            .get_mut(&id.serial)
+            .ok_or("pistol source retired")?;
+        if actor.mecc_pistol_draw.is_none() {
+            return Err("pistol actions have no typed actor binding".into());
+        }
+        let mut fields = frame.fields.clone();
+        fields.channels = pipeline.channels;
+        actor.channels = Some(pipeline.channels);
+        actor.mecc_animation_stamp = pipeline.last_stamp;
+        actor.construction_fields = Some(fields.clone());
+        actor
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()
+            .copy_from_slice(frame.payload);
+        self.specifications.get_mut(&id.serial).unwrap().0 = pipeline.references.clone();
+        let material = match &pipeline.materials {
+            Some(catalog) => crate::mecc_animation_events::Material::Acquired(
+                catalog.resolve(frame.view.support, frame.view.support_part)?,
+            ),
+            None => crate::mecc_animation_events::Material::Unknown,
+        };
+        let result = pipeline.bank.dispatch_pistol(
+            crate::mecc_animation_events::Input {
+                owner: id,
+                fields: &fields,
+                channels: &pipeline.channels,
+                references: &[],
+                affine: None,
+                material,
+            },
+            |reference, class| factory.replace(self, id, i32::from(reference), class),
+        );
+        self.mecc_events = Some(pipeline.bank.clone());
+        result
     }
     /// Source-descriptor channel/reference projection for the cold living
     /// unblended pistol profile. Events and the secondary callback remain

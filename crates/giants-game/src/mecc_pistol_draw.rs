@@ -2,6 +2,16 @@
 //! Selection, ANM scheduling and held-object ownership belong to the caller.
 use crate::animation_event_dispatch::{Context, Request, State, Window};
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Binding {
+    Base,
+}
+pub(crate) struct Frame<'a> {
+    pub fields: &'a crate::actor_fields::Fields,
+    pub payload: &'a [u8],
+    pub view: &'a crate::mecc_physical_cycle::View,
+}
+
 /// Keep this with the class event bank, not a fresh copy for each actor/frame.
 /// Native selection patches the weapon arguments without resetting event marks.
 #[derive(Clone, Debug)]

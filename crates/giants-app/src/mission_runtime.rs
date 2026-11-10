@@ -2701,22 +2701,26 @@ mod tests {
             });
             assert_eq!(frame.number, number);
             let expected_aim = frame.world_aim.as_ref().map(|aim| aim.point);
-            assert_eq!(expected_aim.is_some(), !viewer.first_person_view());
-            assert!(expected_aim.into_iter().flatten().all(f32::is_finite));
-            let weapon = frame
-                .world_weapon
-                .as_ref()
-                .expect("owned normal pistol pose");
-            assert_eq!((weapon.number, weapon.epoch), (number, frame.stamp));
-            assert_eq!(weapon.pose.binding.parent, frame.owner);
-            assert_eq!(weapon.pose.binding.reference, 1);
-            assert!(!weapon.positions.is_empty());
-            assert!(weapon.positions.iter().flatten().all(|v| v.is_finite()));
-            let session = &runtime.active.as_ref().unwrap().resident_states;
             assert_eq!(
-                weapon.pose.point(session, 1).unwrap().map(f32::to_bits),
-                weapon.muzzle.map(f32::to_bits),
+                expected_aim.is_some(),
+                !viewer.first_person_view() && frame.world_weapon.is_some()
             );
+            assert!(expected_aim.into_iter().flatten().all(f32::is_finite));
+            let session = &runtime.active.as_ref().unwrap().resident_states;
+            if number == 1 {
+                assert!(frame.world_weapon.is_none());
+            }
+            if let Some(weapon) = &frame.world_weapon {
+                assert_eq!((weapon.number, weapon.epoch), (number, frame.stamp));
+                assert_eq!(weapon.pose.binding.parent, frame.owner);
+                assert_eq!(weapon.pose.binding.reference, 1);
+                assert!(!weapon.positions.is_empty());
+                assert!(weapon.positions.iter().flatten().all(|v| v.is_finite()));
+                assert_eq!(
+                    weapon.pose.point(session, 1).unwrap().map(f32::to_bits),
+                    weapon.muzzle.map(f32::to_bits),
+                );
+            }
             assert_eq!(frame.children.len(), 3);
             for (index, child) in frame.children.iter().enumerate() {
                 assert_eq!(child.pose.class, [84, 85, 781][index]);
@@ -2748,6 +2752,7 @@ mod tests {
                 first_positions = Some(pose);
             }
             angle_changed |= (frame.angles[0] - viewer.initial_yaw.to_degrees()).abs() > 0.01;
+            let had_weapon = frame.world_weapon.is_some();
             viewer.accept_owned_pose(frame).unwrap();
             if let Some(target) = expected_aim {
                 assert_eq!(
@@ -2763,7 +2768,7 @@ mod tests {
                     .is_err()
             );
             viewer.sample_pose().unwrap();
-            viewer.weapon_matrix().unwrap();
+            assert_eq!(viewer.weapon_matrix().is_ok(), had_weapon);
             assert!(viewer.camera().1.into_iter().all(f32::is_finite));
             assert!(viewer.expanded(0).into_iter().flatten().all(f32::is_finite));
             assert!(
