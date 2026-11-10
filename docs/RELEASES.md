@@ -83,6 +83,10 @@ Combined source preserving main through `8c385dc` passes 949 synthetic Rust chec
 Mecc body/jet composition and the owned Delphi external-coefficient reset check.
 Rustfmt, strict workspace Clippy, 43 Python tests, site/JavaScript validation and
 the publication audit pass. These checks add no GPU, real-input or preview claim.
+The combined follow-up at `7c8bd98`, preserving main through the Mecc HUD merge
+`e5d7996`, repeats the same 949 Rust checks, four installed checks, strict Clippy,
+formatting, Python and site/JavaScript checks. HUD observations retain their own
+build and input limits below.
 
 ## Kabuto initial body renderer - intermediate dependency only
 
