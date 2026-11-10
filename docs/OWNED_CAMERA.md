@@ -86,8 +86,10 @@ clears the transition and publishes projection with the acquired flags. It does
 not select a camera owner, change mode/view or write actor scale. A profile
 failure leaves the transition intact; a later projection failure retains its
 completed reset and quarantines shared commands/admission.
-The native type-activation caller invokes this before later actor initialization
-and initial animation selection. The existing collapsed cold CPU constructor is
+The native type-activation caller invokes this in its session-mode-zero branch,
+before later actor initialization and initial animation selection. The separate
+non-mode-four damage-authority rule does not establish activation eligibility.
+The existing collapsed cold CPU constructor is
 not an execution checkpoint for this earlier service. Preserve that order when
 binding the application's still-pending projection reset.
 
@@ -99,6 +101,8 @@ Profile/input production and projection publication remain caller obligations.
 Keep these operations on one `camera_mode::State` when composing the world.
 The lens character predicate belongs to the controlled actor; an overridden
 camera owner must not replace that identity when supplying `selected_kind`.
+The historical `profile_index` lens-input name denotes the shared view word;
+it is separate from the table index that produces `input_scale`.
 
 Ninety-six original-PC/Rust sequences match 576 reset/mode/lens invocations and
 3,456 selected state/call words. They execute the actual native entries and class
