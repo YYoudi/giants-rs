@@ -7,6 +7,22 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## Persistent named-selection follow-up - source-only evidence
+
+The 23-source /25-request persistent cohort uses two programs whose normal/lite
+resolution identifies the same actual image entry. The current invariant guard
+is retained. Across 144 original source-helper/named preparations, supplied
+count, quality, range and camera inputs always select the source entry and retain
+the cinematic context mark; 60 paths execute the actual camera-position query.
+Two alternate-flag entry controls stop at their separate count-query callsite.
+No object allocation, physical occupancy, actual quality/camera producer, world
+schedule, new pixels or complete playback is verified by these controls.
+
+The existing director-clock scope is preserved. No runtime behavior or download
+identity changes follow from this evidence. Published .7 and .8 retain their own receipts; the 545-source capability
+census still certifies zero complete films. Native pool/population/cleanup and
+complete visual/audio/temporal/gameplay validation remain open.
+
 ## Delphi running held-route terrain publication - 10 November 2026
 
 The running caller can now use actual static terrain queries with its acquired
