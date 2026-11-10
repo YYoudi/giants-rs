@@ -26,6 +26,14 @@ correction. Publication and exact executable/package identities remain pending
 receipt-bound build, runtime, notice and download verification. It enables no new
 native Mecc jet/descent/landing, character controller or complete cinematic.
 
+The subsequent combined main candidate `e068bee` preserves the later Kabuto
+selected-animation commit without changing the frozen `.5` executable source.
+It passes 877 workspace Rust tests (74 ignored), three installed Kabuto animation
+commit controls, four held-reference controls, the selected-camera-owner control,
+43 Python tests, Rustfmt and strict workspace Clippy. Its all-reference audit
+scans 788 commits / 4,424 blobs with zero findings. Later source-only Kabuto
+selection work is not attributed to the earlier preview executable.
+
 ## Kabuto selected-animation commit — 10 November 2026
 
 An already selected animation now commits through the actual Session channels,
