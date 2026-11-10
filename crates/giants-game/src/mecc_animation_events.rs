@@ -30,6 +30,7 @@ pub(crate) enum Material<'a> {
 pub(crate) struct Bank {
     specification: Arc<Prepared>,
     tracks: BTreeMap<u8, Vec<State>>,
+    pistol: Option<crate::mecc_pistol_draw::Actions>,
 }
 impl std::fmt::Debug for Bank {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -49,6 +50,7 @@ impl Bank {
         Self {
             specification,
             tracks,
+            pistol: None,
         }
     }
     pub fn belongs_to(&self, specification: &Arc<Prepared>) -> bool {
@@ -62,6 +64,66 @@ impl Bank {
             .iter()
             .map(|e| e.kind)
             .collect())
+    }
+    pub fn pistol(
+        &mut self,
+        catalog: &giants_formats::weapons::Catalog,
+    ) -> Result<&mut crate::mecc_pistol_draw::Actions, String> {
+        if self.pistol.is_none() {
+            self.pistol = Some(crate::mecc_pistol_draw::Actions::new(catalog)?);
+        }
+        let actions = self.pistol.as_mut().unwrap();
+        actions.bind(catalog)?;
+        Ok(actions)
+    }
+    #[cfg(test)]
+    pub fn pistol_kinds(&self) -> Option<[u32; 3]> {
+        self.pistol
+            .as_ref()
+            .map(crate::mecc_pistol_draw::Actions::event_kinds)
+    }
+    /// Supplemental actions follow class events within the same ANM pass.
+    pub fn dispatch_pistol(
+        &mut self,
+        input: Input<'_>,
+        mut replace: impl FnMut(u8, i32) -> Result<(), String>,
+    ) -> Result<(), String> {
+        let slot =
+            u8::try_from(input.channels[0][0]).map_err(|_| "pistol event clip outside table")?;
+        let duration = self
+            .specification
+            .animations
+            .get(&slot)
+            .ok_or("pistol event descriptor absent")?
+            .template
+            .duration;
+        let window = Window::classify(
+            f32::from_bits(input.channels[0][2]),
+            f32::from_bits(input.channels[0][1]),
+            duration,
+        )
+        .map_err(|e| e.to_string())?;
+        let context = Context {
+            wet: input.fields.object_flags & 0x100000 != 0,
+            material: match input.material {
+                Material::Unknown => None,
+                Material::Acquired(value) => value,
+            },
+            position: input.fields.position,
+            world: None,
+            references: &[],
+            contact_scalar: 0.,
+            cinematic: false,
+        };
+        self.pistol
+            .as_mut()
+            .ok_or("active pistol action bank absent")?
+            .dispatch(window, &context, |reference, class| {
+                if !context.wet && matches!(input.material, Material::Unknown) {
+                    return Err("pistol event requires its actual contact material producer".into());
+                }
+                replace(reference, class)
+            })
     }
     pub fn dispatch(
         &mut self,

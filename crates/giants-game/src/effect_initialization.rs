@@ -96,6 +96,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
     let sized_retirement = ops.as_slice() == [0x24, 6, 0x1c, 4, 0x0d, 7, 2];
     let fixed_size_gravity = ops.as_slice() == [3, 6, 8, 4, 0x0e, 7, 2];
     let damage_smoke = ops.as_slice() == [0x24, 6, 0x21, 0x28, 0x49, 7, 0x4a, 2];
+    let smoke_particle = ops.as_slice() == [3, 6, 4, 0x37, 0x0f, 0x80, 7, 2];
     if !old
         && !ranged
         && !flat_blocks(&ops)
@@ -106,8 +107,20 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !sized_retirement
         && !fixed_size_gravity
         && !damage_smoke
+        && !smoke_particle
     {
         return Err("effect initial skip pass outside acquired complete profile".into());
+    }
+    if smoke_particle {
+        // Lifetime and side-speed operands are traversed but not sampled in
+        // the null-object pass. Side speed samples only after its active gate.
+        for index in [2, 5] {
+            for bytes in program.records[index].bytes[1..].as_chunks::<4>().0 {
+                if !f32::from_le_bytes(*bytes).is_finite() {
+                    return Err("smoke particle skip operand is nonfinite".into());
+                }
+            }
+        }
     }
     for record in program
         .records
@@ -126,10 +139,10 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
     }
     let mut intervals = vec![];
     for record in &program.records {
-        if !matches!(record.opcode, 9 | 0x1c | 0x28 | 0x5c) {
+        if !matches!(record.opcode, 9 | 0x1c | 0x28 | 0x5c | 0x37 | 0x0f) {
             continue;
         }
-        let at = if matches!(record.opcode, 9 | 0x1c) {
+        let at = if matches!(record.opcode, 9 | 0x1c | 0x37 | 0x0f) {
             1
         } else {
             record.bytes[1..]
@@ -150,7 +163,13 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         };
         // The fixed-layout command consumes both ranges before its absent-
         // object gate. Preserve their order within the same source record.
-        for at in (0..if record.opcode == 9 { 2 } else { 1 }).map(|i| at + i * 8) {
+        for at in (0..if matches!(record.opcode, 9 | 0x37) {
+            2
+        } else {
+            1
+        })
+            .map(|i| at + i * 8)
+        {
             let low = word(at)?;
             let high = word(at + 4)?;
             if ![low, high].into_iter().all(f32::is_finite) {
@@ -174,10 +193,14 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
             staged.next_15();
             continue;
         }
-        if !matches!(record.opcode, 9 | 0x1c | 0x28 | 0x5c) {
+        if !matches!(record.opcode, 9 | 0x1c | 0x28 | 0x5c | 0x37 | 0x0f) {
             continue;
         }
-        for _ in 0..if record.opcode == 9 { 2 } else { 1 } {
+        for _ in 0..if matches!(record.opcode, 9 | 0x37) {
+            2
+        } else {
+            1
+        } {
             let i = values.next().unwrap();
             i.value = (f64::from(staged.next_15())
                 * (f64::from(i.high) - f64::from(i.low))
@@ -416,5 +439,47 @@ mod tests {
         let mut random = Random(1729);
         assert!(skip(&program, &mut random).is_err());
         assert_eq!(random.0, 1729);
+    }
+
+    #[test]
+    fn smoke_particle_skip_samples_size_and_gravity_but_not_active_side_speed() {
+        let mut bytes = vec![3];
+        bytes.extend(777u32.to_le_bytes());
+        bytes.extend([6, 4]);
+        for value in [1f32, 0., 0.5] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.push(0x37);
+        for value in [2f32, 2., 4., 4.] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.push(0x0f);
+        for value in [-5f32, -5.] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.push(0x80);
+        for value in [1000f32, 2000.] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.extend([7, 2]);
+        let program = giants_formats::effect_program::parse(&bytes).unwrap();
+        let mut random = Random(42);
+        let samples = skip(&program, &mut random).unwrap();
+        assert_eq!(
+            samples
+                .iter()
+                .map(|s| (s.opcode, s.value))
+                .collect::<Vec<_>>(),
+            vec![(0x37, 2.), (0x37, 4.), (0x0f, -5.)]
+        );
+        let mut expected = Random(42);
+        for _ in 0..3 {
+            expected.next_15();
+        }
+        assert_eq!(random.0, expected.0);
+        let mut invalid = program.clone();
+        invalid.records[5].bytes[1..5].copy_from_slice(&f32::NAN.to_le_bytes());
+        assert!(skip(&invalid, &mut random).is_err());
+        assert_eq!(random.0, expected.0);
     }
 }

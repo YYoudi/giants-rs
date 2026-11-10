@@ -35,6 +35,12 @@ A bare PowerShell command can finish before the child and close its redirected
 stdout; that is not a reliable CLI exit/output check. The Windows workflow waits
 and captures the child's `--help` result explicitly.
 
+The installed `source_camera_profile_reads_current_headers_and_checked_shared_states`
+control uses `GIANTS_MECC_WORLD_ROOT`. It reads actual Mecc Session headers and
+separate controlled-state inputs, then checks live variant changes, foreign/retired
+identities and forced-view precedence. It is silent and does not load original
+coefficient tables, publish projection or complete activation.
+
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
@@ -80,10 +86,10 @@ With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
 checks actual player constructor identity with a second actor of the same class,
 local/other audio routing, motion ownership, foreign and retired owner refusal,
 and mission cleanup. It is silent CPU composition. The additional diagnostic
-`source_owned_mecc_runtime_terrain_and_presentation` currently reaches the required
-normal pistol draw animation callback/frame service refusal at frame one; it
-does not pass continuous gameplay on this source. Preserve that prerequisite
-rather than forcing animation flags. Neither control proves native input or
+`source_owned_mecc_runtime_terrain_and_presentation` now passes 128 prepared CPU
+frames with actual terrain, camera, ANM and weapon presentation. It checks the
+weapon's absence during draw and presence once actually equipped. This does not
+certify a graphical run or complete ordinary gameplay. Neither control proves native input or
 visual fidelity.
 
 With `GIANTS_KABUTO_ROOT` and, where necessary, `GIANTS_KABUTO_EXECUTABLE` set as
@@ -169,6 +175,32 @@ bounded timed resource ownership after context/external resource release, shared
 ANM epoch wrap and retained writes/quarantine after declared late physical and
 retirement failures. It is silent CPU composition, with no world admission,
 original-process launch, window, audio or complete cinematic-fidelity claim.
+
+With `GIANTS_MECC_WORLD_ROOT` set to a user-supplied installation, the ignored
+`source_mecc_retained_smoke_stages_without_consuming_context` test checks the
+three source smoke constructors, retained resources, separate active interval
+sample, profile/missing-descendant refusal and unchanged prepared pool. This is
+silent constructor staging; it admits no actor, active context or renderer.
+
+With the same `GIANTS_MECC_WORLD_ROOT`, the ignored
+`source_mecc_primary_retains_and_stops_canonical_smoke` control runs sixteen
+supplied wounded-primary frames with explicit canonical smoke activation,
+display-owner replacement and final cancellation. Foreign/duplicate activation
+and unsupported stop profiles preserve state. It emits no particles and does not
+launch the game; actor destruction and world scheduling remain prerequisites.
+
+With the same `GIANTS_MECC_WORLD_ROOT`, the ignored
+`source_mecc_smoke_parent_loss_retains_context_and_refuses_missing_storage`
+control checks prepared/active parent-reference invalidation, peer preservation,
+foreign/missing live storage refusal, retained origin/cursor and stop after loss.
+The existing wounded-primary smoke control also cancels after supplied parent
+death. These checks do not run a global cleanup pass or destroy dead actors.
+
+With the same `GIANTS_MECC_WORLD_ROOT`, the ignored
+`source_mecc_stopped_smoke_destroys_only_owned_resources` control checks bounded
+stopped-emitter destruction, weak resource ownership, parent/peer preservation,
+counts, generation reuse and refused live/foreign/stale/wrong-phase/dependent
+requests. It does not execute particles or the general world cleanup schedule.
 
 For an optional shared cache set GIANTS_CACHE_ROOT. To add the MinGW bin directory
 set GIANTS_MINGW_BIN. Otherwise normal Cargo/Rustup settings and PATH are respected.
@@ -829,6 +861,76 @@ with supplied noise. They check remembered timestamps, unsupported linked state,
 invocation ownership and retained writes/quarantine after a late finite-profile
 failure. Response, actual world-noise production and primary admission stay open.
 
+
+## Optional owned Mecc smoke callback check
+
+With `GIANTS_MECC_WORLD_ROOT` and an isolated Cargo target, run:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_smoke --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This silent installed-resource check advances the real owned emitter, prepares
+its deferred child program in the originating pool and checks strict-zero timing,
+first-call delay, retained guide-failure prefixes, quarantine and bounded cleanup
+after owned callbacks. The guide supplies an explicit world affine and the frame
+supplies actor-local time. It exercises no active particle or renderer. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#owned-emitter-callback--10-november-2026).
+
+The same filter now checks canonical child activation after the separate null pass,
+actual active draws and context retirement, first-call ANM and retained failure at
+the required velocity/physical service. All three installed smoke child profiles
+are checked. No moving particle or rendered smoke is implied.
+
+The owned Mecc smoke filter also executes the concrete Session motion/gravity
+adapter through finite expiry, checks its independently required physical clock
+and retained launch/service failure, and rejects replay. It supplies no populated
+terrain or renderer. The actor remains allocated after being marked dead.
+
+
+For the silent expired-child destruction control, use the same installation and
+isolated target:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_expired_smoke --target x86_64-pc-windows-gnu -- --ignored
+```
+
+It verifies actual weak instance-owner release, peer and newer-context retention,
+canonical count/list retirement and cleanup-phase/optional-service refusals. It
+neither renders particles nor supplies a common-world cleanup schedule.
+
+
+For source-backed canonical smoke draw packets and the App consumer's CPU asset
+lifecycle, set `GIANTS_MECC_WORLD_ROOT` and `GIANTS_MISSION_OWNED_ROOT` to the same
+user-supplied installation, keep the isolated target and run:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_smoke_draw --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-app source_owned_smoke_draws --target x86_64-pc-windows-gnu -- --ignored
+```
+
+These silent controls check identity/admission, current source vertices/alpha,
+no draw-driven simulation, actor expiry and Bevy mesh/material/image/buffer/entity
+retirement. They create no graphics device and do not verify rendered pixels or
+ordinary gameplay birth. The normal mission consumer creates no particles itself.
+
+With the same `GIANTS_MECC_WORLD_ROOT`, the silent source-backed pistol action
+composition runs through the actual owned wield factory:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_pistol_draw --target x86_64-pc-windows-gnu -- --ignored
+```
+
+The group checks supplied-window hand replacement and peer preservation, plus
+160-frame complete grounded primaries using actual ANM callbacks. The neutral
+case reaches draw completion; the movement case interrupts it. A missing-material
+control preserves completed state and refuses replay. Floor, commands, clocks and
+empty populations remain supplied; no graphics device is created.
+
+The optional `GIANTS_MECC_DRAW_RECEIPT` records selected Rust words for private
+comparison. Use a fresh path under ignored `.local` and run only one of
+`source_mecc_pistol_draw_interleaves` or `source_mecc_pistol_draw_interruption`
+per receipt. These artifacts must stay private.
 
 With the same explicit Kabuto root/executable, `source_kabuto_action_gate_`
 continues 512 independent installed contexts through the retained-slot gate and
