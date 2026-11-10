@@ -260,7 +260,10 @@ impl Session {
                 "Delphi physical resources require their fresh initialized owned player".into(),
             );
         }
-        let cycle = crate::delphi_physical::Owned::fresh(
+        let look = actor
+            .camera_look_angle
+            .ok_or("Delphi physical look-angle producer absent")?;
+        let mut cycle = crate::delphi_physical::Owned::fresh(
             resources,
             actor
                 .construction_fields
@@ -268,6 +271,7 @@ impl Session {
                 .ok_or("Delphi fields absent")?,
             actor.seed.storage.data().ok_or("Delphi payload absent")?,
         )?;
+        cycle.view.look = look;
         self.residents.get_mut(&id.serial).unwrap().delphi_physical = Some(cycle);
         Ok(())
     }
@@ -509,6 +513,9 @@ impl Session {
             .delphi_physical
             .clone()
             .ok_or("Delphi physical cycle unprepared")?;
+        cycle.view.look = actor
+            .camera_look_angle
+            .ok_or("Delphi physical look-angle producer absent")?;
         if cycle.resources.local_target_phase && actor.delphi_local_target.is_none() {
             return Err("Delphi physical profile requires its owned local target phase".into());
         }
@@ -959,6 +966,7 @@ impl Session {
                 *services.contexts = pipeline.contexts;
                 *services.random = pipeline.random;
                 let actor = self.residents.get_mut(&id.serial).unwrap();
+                actor.camera_look_angle = Some(cycle.view.look);
                 actor.channels = Some(out.fields.channels);
                 actor.mecc_animation_stamp = pipeline.last_stamp;
                 actor.affine_cache = if paused {
@@ -1003,7 +1011,9 @@ impl Session {
                     cycle = before_cycle;
                     cycle.view.failure = Some(error.clone());
                 }
-                self.residents.get_mut(&id.serial).unwrap().delphi_physical = Some(cycle);
+                let actor = self.residents.get_mut(&id.serial).unwrap();
+                actor.camera_look_angle = Some(cycle.view.look);
+                actor.delphi_physical = Some(cycle);
                 Err(error)
             }
         }
@@ -1070,6 +1080,32 @@ impl Session {
         crate::delphi_initial::Physics::read(
             actor.seed.storage.data().ok_or("Delphi payload absent")?,
         )
+    }
+    pub(crate) fn initialize_delphi_player_look(&mut self, id: Id) -> Result<(), String> {
+        let actor = self
+            .get(id)
+            .ok_or("Delphi look-angle owner absent or foreign")?;
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("Delphi look-angle fields absent")?;
+        if actor.class != 3
+            || !actor.acquired_construction
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 3
+            || actor.delphi_special.is_some()
+            || actor.camera_look_angle.is_some()
+            || fields.configuration[14] & 1 != 0
+        {
+            return Err("Delphi look angle requires its fresh pre-special player".into());
+        }
+        // The acquired type-activation prefix explicitly zeros the separate
+        // header look word before projection; raw construction supplies none.
+        self.residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .camera_look_angle = Some(0.);
+        Ok(())
     }
     pub(crate) fn initialize_delphi_player_history(&mut self, id: Id) -> Result<(), String> {
         let actor = self
@@ -1491,6 +1527,8 @@ mod physical_tests {
             .map(std::path::PathBuf::from)
             .unwrap_or_else(|| root.join("Giants.exe"));
         let camera_profiles = crate::delphi_camera::OrdinaryProfiles::read(&executable).unwrap();
+        let mode_catalog = crate::camera_profile::ExecutableCatalog::read(&executable).unwrap();
+        let mut commanded_look = None;
         let view_controls = |number| crate::delphi_ordinary_view::Controls {
             seconds: 1. / 60.,
             transition_input: number % 16 < 10,
@@ -1710,6 +1748,31 @@ mod physical_tests {
                     assert_eq!(storage.matrices[0].values.map(f32::to_bits), [0; 16]);
                 }
 
+                assert_eq!(session.camera_look_angle(id).unwrap(), view.look);
+                if index == 2 && number == 64 {
+                    let owners = crate::camera_owner::State::new(Some(id), 0);
+                    let mut modes = crate::camera_mode::State::new(0, 1, 0.25).unwrap();
+                    session
+                        .change_camera_mode(
+                            &mut modes,
+                            &owners,
+                            crate::camera_mode::Command {
+                                request: 1,
+                                extended: false,
+                                controlled: Some(id),
+                                scaled_input: false,
+                            },
+                            &mode_catalog,
+                            &mut |fov| {
+                                assert!(fov.is_finite() && fov > 0.);
+                                Ok(())
+                            },
+                        )
+                        .unwrap();
+                    let look = session.camera_look_angle(id).unwrap();
+                    assert_ne!(look, view.look);
+                    commanded_look = Some(look);
+                }
                 let fields = session
                     .get(id)
                     .unwrap()
@@ -1744,7 +1807,10 @@ mod physical_tests {
                             &mut camera_world,
                         )
                         .unwrap();
-                    assert_eq!(output.camera.angles, [fields.angles[0], view.look, 0.]);
+                    assert_eq!(
+                        output.camera.angles,
+                        [fields.angles[0], session.camera_look_angle(id).unwrap(), 0.]
+                    );
                     assert!(output.view.into_iter().all(f32::is_finite));
                     let output = session
                         .advance_delphi_ordinary_view(
@@ -1756,7 +1822,10 @@ mod physical_tests {
                             &mut camera_world,
                         )
                         .unwrap();
-                    assert_eq!(output.pose.camera.angles, [fields.angles[0], view.look, 0.]);
+                    assert_eq!(
+                        output.pose.camera.angles,
+                        [fields.angles[0], session.camera_look_angle(id).unwrap(), 0.]
+                    );
                     assert!(output.projection.matrix.into_iter().all(f32::is_finite));
                     let transition = ordinary_view.transition();
                     let calls = camera_world.0;
@@ -2255,6 +2324,43 @@ mod physical_tests {
             .unwrap();
         fields.configuration[20] = original_kind;
         fields.object_flags = original_flags;
+        // A mode command after frame64 must feed both that frame's camera and
+        // the next physical/manual phase, rather than a stale private look copy.
+        let next = session
+            .advance_delphi_controlled(
+                owners[2],
+                crate::delphi_physical::Environment {
+                    number: 65,
+                    actor_key: 3,
+                    globals: &globals,
+                    global_seconds: 1. / 60.,
+                    areas: &[],
+                    commands: [0; 8],
+                    launch_blocked: false,
+                    objects: &[],
+                },
+                crate::delphi_physical::ManualRotation {
+                    sensitivity: 1.,
+                    local_owner: true,
+                    paused: false,
+                },
+                |_| {
+                    Ok(crate::physical_ground::Ground {
+                        height: 0.,
+                        plane: [0., 0., 1., 0.],
+                        key: [5, 0],
+                    })
+                },
+                &mut crate::actor_animation_phase::Services {
+                    contexts: &mut contexts,
+                    random: &mut random,
+                    stamp: &mut stamp,
+                    blending: crate::animation_channels::Blending::Disabled,
+                },
+            )
+            .unwrap();
+        assert_eq!(next.look, commanded_look.unwrap());
+        assert_eq!(session.camera_look_angle(owners[2]).unwrap(), next.look);
         // The standalone camera callback consumes real owned pose/reference
         // storage. Its mode/target inputs remain supplied world boundaries.
         let camera_owner = owners[0];

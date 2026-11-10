@@ -12,6 +12,25 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Shared owned look angle - producer/consumer dependency
+
+The acquired player prefix now publishes the separate zero look angle before
+projection. Raw class construction and special-only initialization leave that
+value unavailable; it is not inferred from body rotation or model scale.
+Delphi's physical cycle imports the current owned look angle on entry and
+publishes its retained result. Ordinary camera reads that same current field,
+so a mode command after physical evaluation reaches the camera immediately and
+the next physical invocation. The class's body pose and look remain distinct.
+
+A source-backed control applies a common camera command after a completed
+Delphi frame, checks both ordinary camera consumers, then advances physics with
+zero look input and checks that the command's angle is retained. Mode/owner,
+projection sink and flat terrain remain explicit control inputs. The expanded
+three-original-activation comparison agrees on 84 pose/history/body-scale/angle/
+look words; the earlier 78-word checkpoint record keeps its own scope. Actual App
+startup/owner/mode/device binding and real input remain open; no new capture,
+download or playable admission follows from this service connection.
+
 ## Ordered pre-special projection checkpoint - intermediate dependency
 
 The cold factory now offers `construct_player_fields_with_projection` and the

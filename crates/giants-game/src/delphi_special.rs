@@ -227,6 +227,7 @@ impl Factory {
             }
             let owner = s.construct_delphi_cold(input, 0x80000000)?;
             published = Some(owner);
+            s.initialize_delphi_player_look(owner)?;
             if let Some(service) = projection.as_mut() {
                 projection_status = ProjectionStatus::Failed;
                 service.reset_projection(s, owner)?;
@@ -529,6 +530,7 @@ mod tests {
                 let actor = session.get(controlled).unwrap();
                 let fields = actor.construction_fields.as_ref().unwrap();
                 assert_eq!(actor.class, 3);
+                assert_eq!(session.camera_look_angle(controlled).unwrap(), 0.);
                 assert_eq!(fields.position, self.frame.position);
                 assert_eq!(fields.current, self.frame.current);
                 assert_eq!(fields.previous, self.frame.previous);
@@ -718,7 +720,9 @@ mod tests {
         };
         let mut s = Session::new(1041);
         let owner = factory.construct(&mut s, pose).unwrap();
+        assert!(s.camera_look_angle(owner).is_err());
         let result = factory.initialize(&mut s, owner).unwrap();
+        assert!(s.camera_look_angle(owner).is_err());
         assert_eq!(s.counts().residents, 2 * result.copies.len() + 2);
         assert_eq!(
             s.incoming_actor_references(owner).unwrap().len(),

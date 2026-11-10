@@ -13,6 +13,11 @@ The normal-camera and temporal-approach routine identities are confirmed there;
 wall/profile correspondences remain probable and the renderer-cache counterpart
 remains unassigned. Naming does not expand the behavioral evidence below.
 
+Delphi's acquired player prefix now also publishes its typed zero look angle
+before projection. Its physical/manual phases and ordinary camera consume that
+same owned value; see [OWNED_DELPHI.md](OWNED_DELPHI.md). This does not choose an
+App camera lifecycle, supply mission-entry globals or acknowledge a device.
+
 ## Owned look angle and cold image context - intermediate dependency
 
 Ordinary Kabuto controls remain unavailable. The shared runtime still needs a

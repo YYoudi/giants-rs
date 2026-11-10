@@ -357,7 +357,9 @@ physical/camera/input driver, held/copy placement and live animation consuming t
 same owner. An ordered pre-special projection checkpoint is now available through
 `construct_declared_with_projection`; the required callback precedes history,
 children and initial animation. The current collapsed diagnostic path records
-`Pending` and cannot be promoted with a late reset. Next supply actual shared
+`Pending` and cannot be promoted with a late reset. Delphi now publishes its shared
+look angle at the acquired prefix and binds physical/manual and ordinary camera
+consumers to that value; no body-scale or rotation alias is substituted. Next supply actual shared
 camera owner/mode/device providers through ordered fresh entry, then the complete
 first primary/physical/input loop. Confirm source start and contact/water prerequisites; do not teleport or force state to make a dry slice.
 Main integration owns combined delivery. No ordinary Delphi controls are newly

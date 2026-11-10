@@ -59,6 +59,11 @@ a required projection callback at the actual pre-history/pre-special boundary.
 Three original activation controls match 78 targeted pose/history/scale/angle
 words. Source-backed tests retain the current camera owner separately from the
 controlled actor and preserve early projection and later special failures.
+The expanded comparison includes the separate look word (84 targeted words).
+Delphi publishes its acquired zero look angle before projection; shared mode
+commands, physical/manual phases and both ordinary camera consumers use that same
+owned value. An installed control follows a command through immediate camera
+sampling and the next physical phase, without changing body scale/rotation.
 The common loader records the projection state on its actual constructor binding.
 Its collapsed body-inspection group remains pending and cannot be promoted with
 a late projection reset. Next connect the actual shared owner/mode/device through

@@ -93,7 +93,7 @@ impl Session {
                 number: frame,
                 position: fields.position,
                 yaw: fields.angles[0],
-                pitch: cycle.view.look,
+                pitch: self.camera_look_angle(id)?,
                 look_height: f32::from_bits(fields.configuration[22]),
                 scale: fields.scale,
                 skip_floor: fields.object_flags & 0x10 != 0,
