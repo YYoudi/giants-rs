@@ -58,12 +58,19 @@ mission to load and use **Escape** to skip the opening. The default Mecc binding
 are **WASD** for movement, mouse motion for aiming, **right mouse held** for thrust,
 **Space** for nitro where supported, **left mouse** for the diagnostic pistol and
 **R** for the view toggle. **Escape** returns to the menu. Check the profile's
-Mecc control options if bindings were changed. These are the development
-controller's controls; the reconstructed native jet/pose feedback is still
-connected to inspection frames and is not certified on this ordinary path.
-Historical plume/falling-pose captures do not establish availability in this
-download. The latest manual check covers entry, opening skip and menu return;
-continuous flight and landing remain unverified.
+Mecc control options if bindings were changed. Preview **2026.11.10.9** connects
+the normal controller to the source jet models and descent animation, and draws
+the base pistol's source projectile geometry. No replay or experimental-backend
+flag is needed. Preview .8 and earlier retain their original capabilities.
+
+On .9, a fresh muted profile has exercised two ordinary menu entries and returns,
+right/left mouse pulses, the first-person view toggle and normal desktop exit.
+Separate GPU diagnostics show the plume and projectile on that same executable.
+Sustained held-input flight, nitro, falling-pose appearance and landing are still
+unverified as a continuous interactive loop. The descent rule requires sufficient
+vertical speed and floor clearance; releasing thrust alone does not select it.
+The pistol, impact markers and native world integration remain partial.
+Historical captures retain their recorded build and do not expand this scope.
 
 Movement uses physical WASD, Space and Ctrl where supported; right mouse controls
 the view in inspection modes. Follow the on-screen hints for the active mode.

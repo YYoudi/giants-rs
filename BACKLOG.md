@@ -6,72 +6,50 @@ automatically wired into the main menu-to-mission build.
 
 ## Current delivery priority - owner direction, 10 November 2026
 
-Follow [GOAL_GAMEPLAY_FIRST.md](docs/GOAL_GAMEPLAY_FIRST.md). The complete game
-scope below remains; current work proceeds from common playable experience to
-specialized detail rather than by the number of isolated CPU controls acquired.
+Follow [GOAL_GAMEPLAY_FIRST.md](docs/GOAL_GAMEPLAY_FIRST.md). Preserve the full
+scope below and complete common player experiences before specialized variants.
 
-The next main delivery is a continuously testable ordinary Mecc path in the common
-application: enter from the menu, move/aim and use the camera with real input,
-thrust/release/descend/land with visible animation and effects, exercise the basic
-weapon path, then return and enter again. Verify each supported action on the
-actual build before advertising it. The last recorded owned GPU acceptance uses
-supplied replay commands; it does not close this real-input delivery.
+[Preview .9](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.9)
+now contains ordinary Mecc jet models, the acquired descent selection and source
+base-pistol projectile geometry. Enter through Start New Single Player Game;
+default controls are WASD/mouse, right-mouse thrust, Space nitro, left-mouse fire,
+R view and Escape menu return. Two actual menu entries/returns, OS right/left
+mouse pulses, a first-person toggle and normal desktop exit pass on a fresh
+muted profile. Separate same-binary GPU diagnostics show the plume and projectile
+and complete three supplied movement/jet/nitro/release/retirement cycles.
 
-The .8 ordinary-path check on a fresh muted profile reaches the mission from New
-Single Player Game, skips the opening with Escape and returns to the menu with
-actual resource release. Short input pulses do not validate continuous flight.
-That download predates the ordinary-controller jet presentation. Later source
-connects the actual animated parent, motion publication and constructor-bound
-child models to `mission_jet_scene`, with separate presentation clocks. Validate
-this connection on the combined build, including real thrust, boost, release,
-descent, landing and menu re-entry, then publish the supported interaction.
-Full native impact, damage/display/voice and fire ownership remain separate
-requirements for the native controller. Do not invent their state or mark an
-unfinished native parent complete to deliver ordinary visual feedback.
+The next delivery is the continuous ordinary Mecc loop: stable real movement/aim,
+sustained thrust/nitro, release, visible descent and landing, then entry again.
+That whole interaction remains unverified; the 1,600-step installed CPU check
+selects descent41 without proving a real-input falling-pose image. Preserve the
+first reproducible failure and do not replace this delivery with numeric counts.
+Full native impact/health/display/voice/fire ownership remains separately open;
+never invent those providers or acknowledge an unfinished native parent.
 
-- Main integration: connect actual camera/input/projection and activation order;
-  consume the reviewed character services through their real shared owners.
-- Mecc: provide the first missing impact/health/display/voice/FX and weapon
-  dependencies that prevent this continuous path. Do not bypass them with default
-  guard state; prioritize their actual producers over unrelated rare variants.
-  The acquired descent rule and clip are connected to the ordinary controller
-  on main through PR #17 (`c44baf6`). Menu entry, clip preparation, return and re-entry
-  have run on the local build; thrust/release/fall/landing interaction remains
-  unverified after the interrupted UI session. Do not advertise it as verified
-  gameplay or publish a new preview from those partial observations. Preserve
-  countdown-start research privately rather than expanding that isolated work.
-  The normal controller also connects its actual jet/nitro state to the
-  constructor-bound jet models and common draw consumer, without an
-  experimental-backend flag. Three local GPU movement/thrust/nitro/release cycles
-  and three complete draw retirements pass with supplied commands on source
-  `064cfed`; this is separate from held-input verification. Keep render-only clocks distinct from native world
-  completion; real held-input thrust/release and menu re-entry still need checking.
-  Ordinary pistol delivery: source projectile geometry/material and acquired
-  straight-launch orientation/velocity now replace the diagnostic flight quads.
-  Check real left-mouse firing, visible shot lifetime/removal and menu re-entry.
-  Constructor flash/attached FX, native range/retirement and impact births/contacts/damage, firing
-  poses and owned actor/fire scheduling remain open; retain those actual services
-  rather than selecting a guessed animation or substituting diagnostic shapes.
-- NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
-  story interaction and its first real caller dependency within each domain.
-  Their detailed blockers below remain authoritative; communicate the producer/
-  consumer gap and test path to main through committed handoffs, not new agents.
-- After the basic loop, advance actual NPC interaction, mission objectives,
-  failure/restart and progression, then broaden character/campaign coverage.
-  Refine specialized effects and exhaustive variant matrices in the shared order.
+- Main: retain one common application, verify actual producer/consumer order,
+  publish exact receipt-bound snapshots and keep current downloads distinct from
+  later source and historical captures. The .9 runtime is `3a17d2e`; later initial
+  body inspection and HUD/camera follow-ups do not update its executable.
+- Mecc: finish the continuous input/action check and the first concrete visible
+  impact/fire dependency. Native actor/FX/damage, sustained firing and firing-pose
+  ownership remain missing; countdown or rare-effect research follows this loop.
+- NPC: Story2 factory/declaration staging is present in .9, but actual common-world
+  callbacks and their clock/RNG/control/environment providers, then birth and
+  animation rendering, must produce the first visible interactive herd.
+- Delphi and Kabuto: reuse the staged constructor identities. Later initial-body
+  inspection remains separate from ordinary controls. Connect the required
+  projection/camera/startup/physical/input owners at the real declared start,
+  preserving water/contact requirements and pending initializers.
+- Flick: prioritize the missing story/transport consumer that blocks ordinary
+  mission continuity. The independent 545-source census stays pinned to .7;
+  zero complete films are certified. Preserve source completion, actual voice
+  ownership and cancellation rather than adding rare samples as an endpoint.
 
-Reports begin with what the owner can test in which build and using which normal
-controls. Otherwise say "intermediate dependency only" and name the next blocker.
-Keep source status, local interaction checks, historical captures and the exact
-published preview independent. Do not mark whole-game features complete here.
-
-The NPC lane's selected delivery is an actual Story2 herd through ordinary mission
-entry, live callbacks/animation and the common renderer. Current source now binds
-the registered Vimp resources and actual herd/marker declaration IDs to the mission
-owner; two CPU entry tickets retain one herd/sixteen markers without spawning or
-advancing them. The next missing consumer is real common-world callback admission,
-including population/clock/RNG/control/terrain/effect ownership, then birth/animation
-rendering and real input/return/re-entry validation. No public AI map is available.
+Reports begin with what the owner can actually test, its exact build and controls,
+or explicitly "intermediate dependency only" with its first remaining blocker.
+After the basic loop, advance NPC interactions, objectives, failure/restart and
+progression, then character/campaign coverage and finer fidelity. Detailed domain
+inventories and dated evidence below remain authoritative within their scope.
 
 ## Prototype PS2 attribution method — 5 November 2026
 
