@@ -59,6 +59,14 @@ REVIEWED_ATTRIBUTION_LABELS = {
 REVIEWED_HISTORICAL_IMAGES = {
     'docs/gallery/media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp':
         '0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4',
+    # Exact Bevy display copies pinned by the integration manifest at 078c8eb.
+    # Reviewed visually and as VP8-only files with no embedded metadata. Keep
+    # their already-reachable history auditable without importing that lane's
+    # gallery/download update. Changed bytes or another path remain refused.
+    'docs/gallery/media/82aeb77fb01574d9baac585fa0ad3b4c533afcdd91e40bb445913fe42fae8bfb.webp':
+        '82aeb77fb01574d9baac585fa0ad3b4c533afcdd91e40bb445913fe42fae8bfb',
+    'docs/gallery/media/8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9.webp':
+        '8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9',
 }
 
 
