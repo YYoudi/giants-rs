@@ -55,6 +55,14 @@ impl State {
     pub fn failure(&self) -> Option<&str> {
         self.failure.as_deref()
     }
+    /// Acquired target-view predicate. The final word is a signed comparison,
+    /// including supplied negative profiles; it is not a first-person boolean.
+    pub fn target_uses_viewport(&self, forced: u32) -> Result<bool, String> {
+        if self.failure.is_some() {
+            return Err("camera target view cannot read a failed shared command".into());
+        }
+        Ok(forced == 0 && self.mode == 0 && (self.view as i32) <= 1)
+    }
     /// Evaluate the acquired lens kernel against this same transition word.
     /// Profile/input production and projection publication remain external.
     pub fn advance_lens(&mut self, input: crate::camera_lens::Input) -> Result<f32, String> {

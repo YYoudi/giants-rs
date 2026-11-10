@@ -18,6 +18,28 @@ pub struct View {
     pub viewport_forward: [f32; 3],
 }
 impl View {
+    /// Snapshot the actual shared mode/override words. Camera matrices and their
+    /// epoch still require their real producer; take a fresh snapshot for each
+    /// of the local caller's two independent selector reads.
+    pub fn from_shared<K>(
+        mode: &crate::camera_mode::State,
+        override_state: &crate::camera_override::State<K>,
+        camera: Camera,
+        viewport_origin: [f32; 3],
+        viewport_forward: [f32; 3],
+    ) -> Result<Self, String> {
+        override_state.target_uses_viewport(mode)?;
+        Ok(Self {
+            selectors: [
+                u32::from(override_state.enabled) as i32,
+                mode.mode() as i32,
+                mode.view() as i32,
+            ],
+            camera,
+            viewport_origin,
+            viewport_forward,
+        })
+    }
     pub fn uses_viewport(self) -> bool {
         self.selectors[0] == 0 && self.selectors[1] == 0 && self.selectors[2] <= 1
     }
