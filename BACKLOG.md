@@ -589,6 +589,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented: the locomotion/idle selector preserves lateral-before-longitudinal
+  priority, captured earlier behavior/activity/wrap, lazy target-class access,
+  required definition data, every PC bounded draw and ordered start/stop requests.
+  Its notification word can alias the retained clock or a separate temporary;
+  completed packet/world writes survive late errors. 1,024 original-PC/Rust
+  controls match 1,104,014 words. The Factory/Session adapter independently matches
+  512 source-owned contexts / 247,956 words, with actual fields/reference bank,
+  external definitions and required declared RNG/sound/network providers. Three
+  installed controls cover success, late sound refusal and owner removal.
+  The caller supplies earlier scratch/admission; other-relationship presence,
+  live RNG/TLS ownership and real sound/transport outcomes remain prerequisites.
+  Next: acquire shared selection/definition continuations and their negative or
+  unchanged-slot exits before connecting this result to animation commit. Do not
+  send every resource completion through held references or commit an animation
+  unconditionally. No primary/history/initializer or gameplay admission follows.
+
 - Implemented and compared: an already selected animation now commits through
   the real Session channels, shared setter and zero-second ANM/reference/epoch
   pipeline. It preserves the earlier template for its counter conversion, scales
