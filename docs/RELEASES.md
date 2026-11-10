@@ -5289,3 +5289,10 @@ Clocks, allocation/source providers, an empty environment and a null optional
 tracker remain supplied. No native pointer/reuse equivalence, ordinary renderer
 admission or new preview is claimed. Prototype PS2 attributions remain unknown.
 See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#expired-particle-destruction--10-november-2026).
+
+
+Combined validation with main's actor-identity/environment-retention changes
+passes 877 workspace Rust tests (78 ignored), twenty-one installed Mecc controls,
+the shared timed-owner and cold Delphi support controls, 43 Python tests,
+Rustfmt, strict workspace Clippy and generated site/JavaScript checks.
+These checks retain the public preview's independent source/checksum identity.
