@@ -1,5 +1,39 @@
 # Preview releases and milestone integration
 
+## Published preview .9 - ordinary Mecc jet and projectile feedback
+
+[Windows preview-2026.11.10.9](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.9)
+is the current download. Start New Single Player Game with a supplied installation;
+right mouse drives thrust, Space selects nitro while thrusting, left mouse fires
+the partial base pistol, R changes view and Escape returns to the menu. No replay
+or experimental-backend flag is required for these normal connections.
+
+The exact executable completes three supplied-command GPU movement/jet/nitro/
+release and draw-retirement cycles. Separate inspected captures show the plume
+and source projectile. A fresh muted normal profile exercises two real menu
+entries/returns, OS right/left mouse pulses, first-person view and desktop exit.
+The pulse shot reaches a ground query; its manual image does not establish the
+projectile lifetime. Continuous held flight/nitro/fall/landing, full combat and
+fidelity remain unverified. CPU descent selection is not a real-input pose image.
+
+The runtime source is `3a17d2e53debd0c34dd9277aa0c29e192413c032`.
+Executable SHA256: `b6773640042da1e7a1efa32dfe9401425f80f0f665050f3ed7b62474aeb0a129`.
+ZIP SHA256: `e08d55c03509bdcf1b9bdd31b79e930a9cf9b455bdb9893b17b9b6076e426bb3`.
+949 portable Rust tests (143 ignored), 43 Python checks, format/strict Clippy and
+87 installed CPU owner/provider controls pass at their declared scopes. Runtime
+lifecycle and selected source-terminal/cancellation/re-entry checks also pass,
+with actual audio sinks muted for the latter. The ten-member package has complete
+338-package and eleven-entry toolchain notices, no technical distribution blockers,
+and matching receipt/manifest/checksums. Uploaded assets were independently
+retrieved and verified, including an anonymous public download after publication.
+
+Registered NPC resource staging and Delphi/Kabuto constructor groups remain
+intermediate dependencies; no ordinary AI or Delphi/Kabuto controls are enabled.
+Later main initial-body inspection, HUD/camera and cinematic sampling follow-ups
+are outside this frozen executable. The cinematic census remains tied to .7,
+and historical gallery images retain their recorded build. No whole-game
+completion or new confirmed prototype PS2 attribution follows from this release.
+
 ## Flick timed queue ownership - intermediate dependency
 
 No new normal controls, runtime capability or downloadable preview is claimed.
@@ -73,39 +107,6 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
-## Published preview .9 - ordinary Mecc jet and projectile feedback
-
-[Windows preview-2026.11.10.9](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.9)
-is the current download. Start New Single Player Game with a supplied installation;
-right mouse drives thrust, Space selects nitro while thrusting, left mouse fires
-the partial base pistol, R changes view and Escape returns to the menu. No replay
-or experimental-backend flag is required for these normal connections.
-
-The exact executable completes three supplied-command GPU movement/jet/nitro/
-release and draw-retirement cycles. Separate inspected captures show the plume
-and source projectile. A fresh muted normal profile exercises two real menu
-entries/returns, OS right/left mouse pulses, first-person view and desktop exit.
-The pulse shot reaches a ground query; its manual image does not establish the
-projectile lifetime. Continuous held flight/nitro/fall/landing, full combat and
-fidelity remain unverified. CPU descent selection is not a real-input pose image.
-
-The runtime source is `3a17d2e53debd0c34dd9277aa0c29e192413c032`.
-Executable SHA256: `b6773640042da1e7a1efa32dfe9401425f80f0f665050f3ed7b62474aeb0a129`.
-ZIP SHA256: `e08d55c03509bdcf1b9bdd31b79e930a9cf9b455bdb9893b17b9b6076e426bb3`.
-949 portable Rust tests (143 ignored), 43 Python checks, format/strict Clippy and
-87 installed CPU owner/provider controls pass at their declared scopes. Runtime
-lifecycle and selected source-terminal/cancellation/re-entry checks also pass,
-with actual audio sinks muted for the latter. The ten-member package has complete
-338-package and eleven-entry toolchain notices, no technical distribution blockers,
-and matching receipt/manifest/checksums. Uploaded assets were independently
-retrieved and verified, including an anonymous public download after publication.
-
-Registered NPC resource staging and Delphi/Kabuto constructor groups remain
-intermediate dependencies; no ordinary AI or Delphi/Kabuto controls are enabled.
-Later main initial-body inspection, HUD/camera and cinematic sampling follow-ups
-are outside this frozen executable. The cinematic census remains tied to .7,
-and historical gallery images retain their recorded build. No whole-game
-completion or new confirmed prototype PS2 attribution follows from this release.
 ## Reached-time persistent inspection - source-only checkpoint
 
 The selected main-menu observer can wait for a nonnegative source-tick bound
