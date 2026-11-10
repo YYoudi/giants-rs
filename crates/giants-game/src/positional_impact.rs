@@ -48,6 +48,12 @@ pub struct Metadata {
     source: Arc<giants_formats::effect_image::Image>,
 }
 impl Metadata {
+    /// Actual callback age, absent before the birth configuration completes.
+    pub fn age(&self) -> Option<f32> {
+        self.visual.as_ref().map(|v| v.age)
+    }
+}
+impl Metadata {
     pub fn source_image(&self) -> &giants_formats::effect_image::Image {
         &self.source
     }

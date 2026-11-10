@@ -3108,6 +3108,68 @@ mod tests {
         let mut released = false;
         let mut descent = false;
         let mut landing_requests = 0;
+        #[derive(Default)]
+        struct LandingTransport {
+            born: Vec<ActorId>,
+            stopped: Vec<ActorId>,
+            released: Vec<ActorId>,
+        }
+        impl giants_game::positional_impact::Cue for LandingTransport {
+            fn play(
+                &mut self,
+                s: &mut giants_game::resident_states::Session,
+                id: ActorId,
+                _: u32,
+                _: &mut giants_game::audio_parameters::Random,
+            ) -> Result<(), String> {
+                assert!(!s.positional_impact(id).unwrap().complete);
+                self.born.push(id);
+                Ok(())
+            }
+        }
+        impl giants_game::positional_impact::Stop for LandingTransport {
+            fn stop(
+                &mut self,
+                s: &mut giants_game::resident_states::Session,
+                id: ActorId,
+                _: u32,
+            ) -> Result<(), String> {
+                assert_eq!(
+                    s.get(id)
+                        .unwrap()
+                        .construction_fields
+                        .as_ref()
+                        .unwrap()
+                        .object_flags
+                        & 0x8000,
+                    0
+                );
+                self.stopped.push(id);
+                Ok(())
+            }
+        }
+        impl giants_game::actor_retirement::Services for LandingTransport {
+            fn release(
+                &mut self,
+                s: &mut giants_game::resident_states::Session,
+                id: ActorId,
+            ) -> Result<(), String> {
+                assert_ne!(
+                    s.get(id)
+                        .unwrap()
+                        .construction_fields
+                        .as_ref()
+                        .unwrap()
+                        .object_flags
+                        & 0x8000,
+                    0
+                );
+                self.released.push(id);
+                Ok(())
+            }
+        }
+        let mut landing_audio = LandingTransport::default();
+        let mut impact_draws = 0;
         assert!(
             runtime
                 .active
@@ -3155,11 +3217,20 @@ mod tests {
             }
             minimum_fuel = minimum_fuel.min(viewer.mission_snapshot().1);
             descent |= viewer.mission_snapshot().2 == 41;
-            if let Some(position) = viewer.take_landing_impact() {
+            let landing = viewer.take_landing_impact();
+            if let Some(position) = landing {
                 assert!(position.into_iter().all(f32::is_finite));
                 assert!(number > 420, "landing must follow actual thrust release");
                 landing_requests += 1;
             }
+            runtime
+                .advance_normal_landing(998, 1. / 120., landing, &mut landing_audio)
+                .unwrap();
+            let (_, draws) = runtime
+                .smoke_draws(viewer.camera().0.view)
+                .unwrap()
+                .unwrap();
+            impact_draws += draws.len();
             if number > 720 {
                 released |= frames.iter().all(|frame| frame.pose.hidden);
             }
@@ -3169,6 +3240,21 @@ mod tests {
         assert!(
             landing_requests > 0,
             "source flight must produce an actual terrain landing request"
+        );
+        assert_eq!(landing_audio.born.len(), landing_requests);
+        assert_eq!(landing_audio.born, landing_audio.stopped);
+        assert_eq!(landing_audio.born, landing_audio.released);
+        assert!(impact_draws > 0);
+        assert!(!runtime.normal_landing_has_work(998));
+        assert!(
+            runtime
+                .active
+                .as_ref()
+                .unwrap()
+                .landing
+                .as_ref()
+                .unwrap()
+                .contexts_idle()
         );
         let session = &runtime.active.as_ref().unwrap().resident_states;
         assert_eq!(

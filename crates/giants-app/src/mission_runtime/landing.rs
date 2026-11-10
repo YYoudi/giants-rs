@@ -10,6 +10,12 @@ pub(super) struct Driver {
     stamp: Stamp,
     failure: Option<String>,
 }
+#[cfg(test)]
+impl Driver {
+    pub(super) fn contexts_idle(&self) -> bool {
+        self.contexts.active().is_empty()
+    }
+}
 impl Runtime {
     pub(crate) fn normal_landing_supported(&self, ticket: u64) -> bool {
         self.active.as_ref().is_some_and(|a| {
@@ -43,6 +49,10 @@ impl Runtime {
             if a.resident_states
                 .positional_impact_draw_state(id)?
                 .is_some_and(|s| s.transparency < 0.5)
+                && a.resident_states
+                    .positional_impact(id)
+                    .and_then(|m| m.age())
+                    .is_some_and(|age| age >= 0.25)
             {
                 return Ok(true);
             }
