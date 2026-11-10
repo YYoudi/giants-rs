@@ -1,5 +1,47 @@
 # Preview releases and milestone integration
 
+Current delivery policy follows [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md):
+prioritize common testable interactions and their blockers before niche cases.
+New reports must lead with the normal menu/controls, expected behavior and exact
+tested/downloadable build, or explicitly identify an intermediate dependency and
+the next missing runtime service. Existing dated CPU checkpoints below retain
+their original evidence scope and do not become playable by this policy change.
+
+## Kabuto first common mission construction - source-only checkpoint
+
+The shared mission loader now selects the requested character's declared start
+and prepares the acquired Kabuto cold Factory for kind 1. Common spawn retains
+its actual Session constructor identity instead of requiring Mecc preparation.
+A Kstory1 menu-request control checks declared placement, pending initializers,
+resource/ECS cleanup and a second ticket entry. The Mecc constructor-role control
+also passes. This is CPU App staging, not graphical menu interaction or visible
+Kabuto; native relocation/history, body/material submission, actual camera and
+controller/world admission remain open. No initializer is acknowledged.
+
+The source passes 915 synthetic Rust tests (108 ignored), the two installed App
+controls, 43 Python tests, strict workspace Clippy and generated site/JavaScript
+checks. The preceding resource-driven action prefix independently matches 1,024
+original-PC/Rust contexts /980,271 words within its declared providers; it remains
+a standalone component. Both source milestones retain their distinct boundaries.
+The next priority is visible menu-to-mission Kabuto, then real walking/turning and
+jump/landing, before feeding/growth and variants. The frozen preview .8 is unchanged.
+
+## Persistent named-selection follow-up - source-only evidence
+
+The 23-source /25-request persistent cohort uses two programs whose normal/lite
+resolution identifies the same actual image entry. The current invariant guard
+is retained. Across 144 original source-helper/named preparations, supplied
+count, quality, range and camera inputs always select the source entry and retain
+the cinematic context mark; 60 paths execute the actual camera-position query.
+Two alternate-flag entry controls stop at their separate count-query callsite.
+No object allocation, physical occupancy, actual quality/camera producer, world
+schedule, new pixels or complete playback is verified by these controls.
+
+The existing director-clock scope is preserved. No runtime behavior or download
+identity changes follow from this evidence. Published .7 and .8 retain their own receipts; the 545-source capability
+census still certifies zero complete films. Native pool/population/cleanup and
+complete visual/audio/temporal/gameplay validation remain open.
+
 ## Delphi running held-route terrain publication - 10 November 2026
 
 The running caller can now use actual static terrain queries with its acquired

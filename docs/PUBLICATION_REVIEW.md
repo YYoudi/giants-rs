@@ -1,5 +1,10 @@
 # Source publication review — 3 November 2026
 
+Current work selection and delivery reporting follow
+[GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md). Prioritize actual testable
+interactions and their blockers. This direction does not expand any historical
+review, redistribution authorization or technical evidence recorded below.
+
 ## Prototype PS2 methodology addition — 5 November 2026
 
 The reviewed public addition is the [central method](RECONSTRUCTION_METHOD.md),

@@ -1,5 +1,13 @@
 # Owned Mecc descent threshold and transition
 
+Select and resume work under the shared [gameplay-first
+objective](GOAL_GAMEPLAY_FIRST.md). Prioritize the ordinary player-visible path and
+its first missing caller/consumer before rare variants. Dated controls and
+next-acquisition notes below retain their evidence scope; they do not override the
+current delivery priority in `BACKLOG.md`. A handoff must identify the exact
+testable build and normal controls, or state "intermediate dependency only" and the
+next runtime blocker.
+
 Native research follows [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md).
 The selector retains its historical PC alias `FUN_0050d8b0`; its prototype PS2
 attribution remains **unknown**. Literal name candidates do not establish a match.

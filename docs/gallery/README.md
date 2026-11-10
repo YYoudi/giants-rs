@@ -1,5 +1,11 @@
 # Public comparison gallery
 
+Current delivery reporting follows
+[GOAL_GAMEPLAY_FIRST.md](../GOAL_GAMEPLAY_FIRST.md). Keep historical comparisons
+labeled with their build and limits. A featured capture is not a playable-feature
+announcement: give the actual menu/controls and verified downloadable build before
+claiming that an interaction is available.
+
 On 4 November 2026 the owner explicitly requested publication of **all** historical
 original / Bevy comparisons from the previous private dashboard. This supersedes
 the earlier asset-free dashboard restriction only for these display captures.
