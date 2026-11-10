@@ -34,6 +34,12 @@ supplied replay commands; it does not close this real-input delivery.
   and three complete draw retirements pass with supplied commands on source
   `064cfed`; this is separate from held-input verification. Keep render-only clocks distinct from native world
   completion; real held-input thrust/release and menu re-entry still need checking.
+  Ordinary pistol delivery: source projectile geometry/material and acquired
+  straight-launch orientation/velocity now replace the diagnostic flight quads.
+  Check real left-mouse firing, visible shot lifetime/removal and menu re-entry.
+  Constructor flash/attached FX, native impact births/contacts/damage, firing
+  poses and owned actor/fire scheduling remain open; retain those actual services
+  rather than selecting a guessed animation or substituting diagnostic shapes.
 - NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
   story interaction and its first real caller dependency within each domain.
   Their detailed blockers below remain authoritative; communicate the producer/

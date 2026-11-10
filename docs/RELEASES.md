@@ -6204,3 +6204,19 @@ plume attached to the Mecc in the ordinary controller's Gameplay presentation.
 The existing diagnostic supplies its commands; the experimental backend is unset.
 The image remains private. This is local rendered-output evidence, separate from
 real input acceptance and the unchanged public preview.
+
+
+## Ordinary Mecc pistol source projectile - source integration candidate
+
+The partial normal pistol now uses the acquired straight-launch basis/velocity
+and submits the installed projectile model/texture/material to the common draw
+consumer. It replaces diagnostic yellow flight quads, retaining real shot
+lifetime/removal and mission resource cleanup. Left-mouse firing needs no replay
+or experimental backend switch for this source connection.
+
+Status: runtime connected, interaction unverified. Source visual/resource checks
+and existing synthetic tests pass; graphical, held-trigger and fidelity acceptance
+remain separate. Constructor FX, native impact/actor/fire scheduling and the
+remaining diagnostic impact markers are not claimed complete. No new preview,
+receipt or downloadable executable is advertised from source checks alone.
+See [OWNED_LOCAL_FIRE.md](OWNED_LOCAL_FIRE.md#ordinary-pistol-projectile-presentation).

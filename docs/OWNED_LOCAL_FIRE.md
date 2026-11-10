@@ -486,3 +486,32 @@ Both receipt-bound development lifecycle endpoints and three selected-opening
 cancellation cycles pass with no window or audio device. These checks exercise
 the common menu build, not the optional fire phase, natural cinematic transport,
 manual input or visual fidelity.
+
+
+## Ordinary pistol projectile presentation
+
+The ordinary partial menu controller now uses the acquired mode2 straight launch
+for both velocity and orientation. Its shot retains that launch basis while the
+actual current motion supplies translation. The normal scene draws the installed
+class38 projectile model, texture, UVs, vertex color policy and unlit materials
+through the common material consumer. The previous yellow flight quads are
+removed. Current live shots produce submissions; their retirement hides them,
+and menu return removes the mission draw assets. Supported definitions retain
+the acquired class38 base-projectile profile and require static unskinned source
+geometry; unsupported animation/material profiles fail explicitly.
+
+Entry: a supported ordinary Mecc mission, left mouse to fire. No replay flag or
+experimental backend is required to connect this producer and consumer. This is
+still the partial pistol/terrain/object-query composition. It does not construct
+Session state77 actors, bind native fire phases, allocate constructor FX, provide
+impact callbacks/damage, replace the remaining diagnostic impact markers or
+reconstruct firing-pose selection. Exact vertical/degenerate aims outside the
+acquired launch basis are refused rather than given an invented orientation.
+The complete arsenal is not marked complete.
+
+Status: runtime connected, interaction unverified. Existing workspace checks and
+an installed resource/owner control cover the shared implementation and source
+visual preparation. Graphical output, real held input and fidelity require their
+own observations on the identified build. Prototype PS2 constructor and launch
+name searches were refreshed first; both attributions remain unknown. This
+reuses acquired PC services and does not import PS2 ABI or memory layout.
