@@ -62,6 +62,12 @@ inspection and external PC camera coefficient reading remain dependencies for
 the same live controllers, not new gameplay readiness. Their dated technical
 and release notes retain the precise source/build identity and remaining owners.
 
+A separate later build of source `6d34ce5` graphically reaches the ordinary
+descent clip41 at supplied step653, with raised arms and jet draws hidden after
+release. This is outside frozen .9 and does not verify OS-held flight or landing.
+The next delivery remains the continuous ordinary-input loop, not another pose
+or numeric catalog.
+
 ## Prototype PS2 attribution method — 5 November 2026
 
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
@@ -782,6 +788,13 @@ blocker in the next slice, rather than continuing adjacent functions by address.
    by the provisional Mecc-shaped inspection camera. This is a static inspection,
    not normal mission admission, live ANM or input. **Next blocker: the actual
    Kabuto camera/profile/projection producer and initializer/startup consumers.**
+   The shared external catalog now exposes the actual signed pitch and position
+   coefficients. Mode commands accept the signed look angle without changing body
+   scale; the size helper and camera coefficient adjustment pass 328 scoped
+   original-PC/Rust cases with supplied owners/modes. This remains a CPU dependency.
+   Produce actual startup owner/view/look-angle state and projection before
+   acknowledging any initializer; neither a recovered profile nor a supplied
+   mode command establishes ordinary camera startup.
    Complete that normal entry before walking/turning; do not substitute an
    inspection fit or a forced readiness event for the native camera contract.
 2. Actual input, walking and turning through the common world, camera and

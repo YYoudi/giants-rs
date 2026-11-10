@@ -2,7 +2,7 @@
 //! projection remain required services; no original profile tables are embedded.
 
 mod executable;
-pub use executable::ExecutableCatalog;
+pub use executable::{ExecutableCatalog, Record};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Family {

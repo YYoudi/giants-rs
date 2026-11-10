@@ -5,6 +5,8 @@
 #[derive(Clone, Copy, Debug)]
 pub struct Profile {
     pub vertical_fov: f32,
+    /// Historical API alias: the profile's signed camera pitch, copied to the
+    /// owner's separate look-angle word. This is not its body/model scale.
     pub actor_scale: f32,
 }
 
@@ -18,7 +20,8 @@ pub trait Services<K> {
     /// Resolve the current profile after the mode words have changed. The
     /// original can query twice; the second result must not reuse the first.
     fn profile(&mut self, mode: u32, view: u32) -> Result<Profile, String>;
-    fn scale(&mut self, source: K, scale: f32) -> Result<(), String>;
+    /// Historical alias: publish the acquired signed look-angle word.
+    fn scale(&mut self, source: K, pitch: f32) -> Result<(), String>;
     /// Set the actual projection with the acquired mode-change flags (0, 1).
     fn projection(&mut self, vertical_fov: f32) -> Result<(), String>;
 }
@@ -79,7 +82,7 @@ impl State {
     }
     /// Actual activation-time projection reset: resolve the current profile,
     /// clear the shared lens transition, then publish projection. This changes
-    /// neither mode/view nor actor scale and does not choose a camera owner.
+    /// neither mode/view nor owner look angle and does not choose a camera owner.
     pub fn reset_projection<K>(&mut self, services: &mut impl Services<K>) -> Result<(), String> {
         if self.failure.is_some() {
             return Err("camera projection reset cannot replay a failed sequence".into());
@@ -176,8 +179,8 @@ impl State {
         };
         if scale && let Some(owner) = owner.filter(|o| o.object_flags & 0x8000 == 0) {
             let profile = services.profile(self.mode, self.view)?;
-            if !profile.actor_scale.is_finite() || profile.actor_scale <= 0. {
-                return Err("camera profile scale outside finite positive profile".into());
+            if !profile.actor_scale.is_finite() {
+                return Err("camera profile look angle outside finite profile".into());
             }
             services.scale(owner.source, profile.actor_scale)?;
         }
@@ -199,6 +202,40 @@ impl State {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn signed_profile_angle_is_published_without_a_positive_scale_constraint() {
+        struct Pitch(Option<(u32, f32)>);
+        impl Services<u32> for Pitch {
+            fn profile(&mut self, _: u32, _: u32) -> Result<Profile, String> {
+                Ok(Profile {
+                    vertical_fov: 75.,
+                    actor_scale: -37.5,
+                })
+            }
+            fn scale(&mut self, owner: u32, value: f32) -> Result<(), String> {
+                self.0 = Some((owner, value));
+                Ok(())
+            }
+            fn projection(&mut self, _: f32) -> Result<(), String> {
+                Ok(())
+            }
+        }
+        let mut state = State::new(0, 1, 0.5).unwrap();
+        let mut service = Pitch(None);
+        state
+            .change(
+                1,
+                false,
+                Some(Owner {
+                    source: 7,
+                    object_flags: 0,
+                }),
+                &mut service,
+            )
+            .unwrap();
+        assert_eq!(service.0, Some((7, -37.5)));
+        assert_eq!(state.transition(), 0.);
+    }
     struct Recorder {
         calls: Vec<&'static str>,
         fail: &'static str,

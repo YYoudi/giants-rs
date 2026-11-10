@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Ordinary Mecc descent visually observed - local Windows build
+
+The existing normal menu controller now has a reproducible graphical observation
+of its acquired descent pose. Source `6d34ce5`, executable SHA256
+`671b85e05775cc5215e18a413071aeba9006ceea0d67f87db4a553975c1a0ce1`,
+passes CLI startup and a silent GPU run through actual ordinary mission admission.
+After sustained supplied thrust/boost and release at step420, the real selector
+requests clip41 at step653. The inspected image shows both arms raised, jet draws
+hidden after release and fuel45 in the correctly shortened fuel gauge. No pose,
+actor readiness or native frame completion is forced. The later diagnostic guard
+also explicitly requires that selection to occur after release.
+
+The `campaign-descent-pose` diagnostic verifies an existing ordinary input path;
+it does not enable the pose in gameplay. Real sustained OS input, landing,
+original pose/timing comparison and a new public download remain unverified.
+The partial controller remains distinct from full owned Mecc admission and its
+missing impact/health/display/voice/FX/fire providers. This is graphical evidence,
+not a newly completed game feature. Keep it separate from the owned descent
+inspection, historical gallery and independently pinned public preview.
+
 ## Ordinary Mecc HUD feedback - source integration
 
 The normal menu-to-Mecc path now displays separate health and jet-fuel gauges
@@ -143,6 +163,27 @@ projection requests and refuses a retired owner. This does not submit projection
 to Bevy, acquire startup words or acknowledge the mission's pending reset.
 Actual input/device, first animation/render and physical/controller wiring remain
 open. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
+
+## Kabuto signed camera coefficients - intermediate dependency only
+
+Kabuto is still unavailable through normal controls. Source now reuses the common
+external camera catalog for full position coefficients and signed look angle;
+mode changes preserve body scale and no longer reject a negative camera pitch.
+The acquired size gain adjusts camera position coefficients before the ordinary
+camera subset. A private 328-case original-PC/Rust control validates these supplied
+mode/profile and coefficient boundaries. Actual startup ownership, projection,
+initializers and live animation/input remain prerequisites. This source dependency
+does not change the frozen Windows preview or establish correct rendered framing.
+
+Combined source preserving main through `8c385dc` passes 949 synthetic Rust checks
+(139 ignored), the installed Kabuto and Delphi App entry/re-entry checks, ordinary
+Mecc body/jet composition and the owned Delphi external-coefficient reset check.
+Rustfmt, strict workspace Clippy, 43 Python tests, site/JavaScript validation and
+the publication audit pass. These checks add no GPU, real-input or preview claim.
+The combined follow-up at `7c8bd98`, preserving main through the Mecc HUD merge
+`e5d7996`, repeats the same 949 Rust checks, four installed checks, strict Clippy,
+formatting, Python and site/JavaScript checks. HUD observations retain their own
+build and input limits below.
 
 ## Kabuto initial body renderer - intermediate dependency only
 
