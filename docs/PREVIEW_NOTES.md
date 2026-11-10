@@ -1,76 +1,74 @@
-# Windows x64 development preview - preview-2026.11.10.9
+# Windows x64 development preview - preview-2026.11.10.10
 
-Runtime source: `3a17d2e53debd0c34dd9277aa0c29e192413c032`.
-The executable has passed three ordinary-controller GPU movement/jet/nitro/
-release and draw-retirement cycles, plus separate visible plume and source
-projectile captures. Those diagnostics supply commands. A separate fresh muted
-profile has exercised actual operating-system right/left mouse pulses, the
-first-person view toggle, two ordinary menu entries and clean returns, then
-normal desktop exit. Continuous held-input flight/nitro/descent/landing and
-full fidelity remain unverified. The descent clip is selected and sampled in
-the 1,600-step installed-data composition control; its appearance in a real-input
-fall is not certified by that control.
+Runtime source: `9a0fb244159c89054bbdfc9a53705df30bb546ec`.
 
-## Try the ordinary Mecc presentation
+## Try the ordinary Mecc controller
 
-Launch the common application, select **Start New Single Player Game**, wait for
-loading and press **Escape** to skip the opening. Default controls are **WASD**
-for movement, mouse motion for aiming, **right mouse held** for thrust, **Space**
-for nitro while thrusting, **left mouse** for the diagnostic pistol and **R** for
-the view toggle. **Escape** returns to the menu. Bindings follow the active Mecc
-control profile. Enter again to exercise a fresh mission owner.
+Start the application with your own compatible PC installation, select **Start
+New Single Player Game**, wait for loading and press **Escape** to skip the
+opening. Default controls are **WASD** for movement, mouse motion for aiming,
+**right mouse held** for thrust, **Space** for nitro while thrusting, **left mouse**
+for the partial base pistol and **R** for the view toggle. **Escape** returns to
+the menu; enter again to create a fresh mission owner. Profile control bindings
+apply. No replay, script or experimental-backend flag enables these actions.
 
-This build connects the normal controller's actual animated Mecc and jet/nitro
-state to the constructor-bound jet models and the shared renderer. The plume no
-longer requires an experimental backend or replay. The normal animation selector
-also prepares and selects the acquired descent clip when its actual vertical
-speed and floor clearance satisfy the shared rule. Releasing thrust hides the
-jet models; descent selection depends on the trajectory, rather than just the
-absence of thrust.
+The normal controller presents the animated Mecc and constructor-bound jet and
+nitro models. The acquired selector chooses the descent animation only when the
+actual trajectory has sufficient vertical speed and floor clearance. Releasing
+thrust hides the jet models; it does not itself force a falling pose.
 
-The normal base pistol now draws the registered projectile model and materials
-from each live shot's acquired straight-launch orientation and current position.
-Use **left mouse** in the same mission. This replaces the provisional shot trail;
-impact markers remain diagnostic. Native projectile actor/effect construction,
-full fire/impact/damage ownership and firing-pose selection remain incomplete.
+This snapshot adds ordinary health and jet-fuel gauges, including low/critical
+colors, alongside the existing numeric values. These display the partial
+controller's health/fuel; they do not establish native combat or HUD fidelity.
+The base pistol draws source projectile geometry/materials. Impact markers,
+native projectile/FX/damage ownership and firing-pose selection remain partial.
+This snapshot predates the later landing-effect work and does not include it.
 
-These changes extend the existing partial controller. Separate presentation
-clocks do not acknowledge native world completion. Full native impact, health,
-weapon, camera and world ownership remain incomplete. Source/GPU diagnostics do
-not establish real sustained input or complete visual fidelity; see the exact
-validation scope accompanying this release. Historical screenshots are separate
-from the contents and acceptance of this executable.
+## Shared character and NPC integration
 
-## Other integrated work and its limits
+The common renderer now supports the acquired initial Delphi and Kabuto body
+inspection paths. This is initial-pose presentation, not their playable movement
+or action controllers. Their startup, persistent camera lifecycle, physical and
+animation/backend prerequisites still prevent ordinary gameplay admission.
+External PC camera coefficients and the exact-owner look-angle command are
+integrated dependencies; cold loader-image words do not establish mission-entry
+globals or a warm camera reset.
 
-The same application preserves the Flick cinematic Session ownership and source
-transport work. The 545-source cinematic census remains pinned to preview .7;
-this newer build does not constitute a fresh census or complete-film validation.
+NPC integration retains constructor/physical contact and connects fully completed
+Vimp poses to the common renderer. Supported neutral state0 callbacks reuse the
+shared nonphysical owner. Actual common-world admission, population, clock/RNG,
+environment and remaining actor-family services are still required: **no normal
+mission has active Vimp AI in this preview**. The renderer does not create a herd
+or advance AI just to show it.
 
-Reviewed NPC herd/Vimp services and registered Story2 resource binding, Mecc
-completion orchestration, Delphi terrain/shared camera and declared-group mission
-construction, and Kabuto cold-group mission construction are
-integrated dependencies. Their remaining caller/backend/initialization boundaries
-stay explicit. They do not enable ordinary NPC AI, playable Delphi or Kabuto,
-complete combat, mission objectives, campaign progression or save continuity.
-No whole-game roadmap feature is marked complete by this preview.
+The executable preserves the cinematic Session/transport work. The separate
+545-source cinematic census remains pinned to preview .7; this download is not
+a new census or complete-film acceptance. Mission objectives, complete combat,
+campaign progression, save continuity, bases and multiplayer remain incomplete.
+No whole-game feature is marked complete by this snapshot.
 
-The later main-only Kabuto initial-body inspection renderer is outside this
-frozen executable. It does not provide ordinary Kabuto controls in either build.
-The separately pinned public download snapshot identifies this preview even
-when the source roadmap advances.
+## Validation scope
 
-## Install
+The source passes 953 portable Rust tests (149 external-data checks ignored),
+44 Python tests, format/strict Clippy and 48 installed dependency controls.
+The exact executable passes three supplied-controller movement/jet/nitro/release
+and retirement cycles. Separate inspected GPU captures show the plume, source
+projectile and acquired descent pose after release, with the actual HUD gauges.
+Runtime lifecycle and selected source-terminal cinematic transport/re-entry
+checks pass on this same executable, with real audio sinks muted in the latter.
+A fresh normal profile completes two actual menu entries/opening skips and
+returns, OS right-mouse jet pulses and release, left-mouse fire, the R view toggle,
+visible initial HUD and normal desktop exit. These are brief pulses; sustained
+real-input flight/nitro/descent/landing, complete native gameplay and visual
+fidelity remain unverified. Mouse coordinate injection moved the camera downward;
+the pulse shot reached a ground query, while the separate GPU sample shows the
+projectile. The earlier interrupted attempt was followed by this completed retest.
+Historical screenshots retain their own build and do not expand these claims.
 
-Supply your own game installation. Put **giants-rs.exe** beside the original
-**Giants.exe** and double-click it to open the integrated menu. An installation
-picker is available when no adjacent installation is found. Keep the included
-license and notices. **Play.ps1** is optional; no script is needed for the normal
-jetpack controls. Windows x64 only; Linux and macOS downloads are future work.
-
-The unsigned development build remains incomplete. Approximately 99% of current
-project content is AI-generated according to the owner's estimate and has not
-received comprehensive human review. This estimate is not a completion metric.
-The owner authorized Windows previews without a separate human review gate;
-technical package validation does not establish third-party redistribution rights.
-Earlier previews retain their original executable, source, notes and checksums.
+This unsigned Windows x64 development build is incomplete. Approximately 99% of
+the current project content is AI-generated according to the owner's estimate,
+and has not received comprehensive human review. This is not a completion metric.
+Technical notice/receipt/checksum validation does not establish third-party
+redistribution rights. Original data is supplied by the user and stays outside
+the package. Linux and macOS downloads are future work. Earlier previews retain
+their original executable, notes and checksums.

@@ -3658,7 +3658,6 @@
     }
   ],
   "images": {
-    "media/d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4.webp": "d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4",
     "media/27b887b54f35db46486a42be395256937970c53699907f4373ce1cb79440971c.webp": "27b887b54f35db46486a42be395256937970c53699907f4373ce1cb79440971c",
     "media/8bdab617deca8f5d8de8994e8f848c6df64fb8e328f8783aaff648d000307737.webp": "8bdab617deca8f5d8de8994e8f848c6df64fb8e328f8783aaff648d000307737",
     "media/dc46d1bc48ed0ac4905532a88e190655cdbb13cd20d561d4ea5df85b46e48d94.webp": "dc46d1bc48ed0ac4905532a88e190655cdbb13cd20d561d4ea5df85b46e48d94",
@@ -4171,14 +4170,30 @@
     "media/e4bc6dfe3a3e8a76e22921659145dc70dec97d3af6b106e50725332d433b11a9.webp": "e4bc6dfe3a3e8a76e22921659145dc70dec97d3af6b106e50725332d433b11a9",
     "media/8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9.webp": "8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9",
     "media/82aeb77fb01574d9baac585fa0ad3b4c533afcdd91e40bb445913fe42fae8bfb.webp": "82aeb77fb01574d9baac585fa0ad3b4c533afcdd91e40bb445913fe42fae8bfb",
-    "media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp": "0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4"
+    "media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp": "0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4",
+    "media/26f3165be4c392d03fd16387ddf1dbbf1803cab3ba5c3a142596b1ba4c73ad60.webp": "26f3165be4c392d03fd16387ddf1dbbf1803cab3ba5c3a142596b1ba4c73ad60",
+    "media/1001f89498ab5560c62c52171a585095ae30f60796ff3d35ad007bac023e8b42.webp": "1001f89498ab5560c62c52171a585095ae30f60796ff3d35ad007bac023e8b42",
+    "media/6fa5f9d8e1501c44f8c9249c2bf768f28f961efd67de7e6513d1f0c6cd34ce96.webp": "6fa5f9d8e1501c44f8c9249c2bf768f28f961efd67de7e6513d1f0c6cd34ce96",
+    "media/d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4.webp": "d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4"
   },
   "screenshots": [
     {
-      "title": "Owned Kabuto with explicit profile-camera inspection",
-      "image": "media/d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4.webp",
-      "caption": "Source-only Bevy diagnostic from 1799a51, not playable Kabuto and not included in Windows previews .9 or .10. The head and horns are visible after an explicit third-person camera reset on the actual constructed actor. Static pose and placement, camera collision/smoothing, real entry/re-entry, animation and controls remain unfinished; all four initializer gates are still pending. Distant floating props are visible, and fidelity is unverified.",
-      "commit": "1799a5106c50c78aa9c2e7a9cffd38d87b61647a"
+      "title": "Preview .10 ordinary-controller descent",
+      "image": "media/26f3165be4c392d03fd16387ddf1dbbf1803cab3ba5c3a142596b1ba4c73ad60.webp",
+      "caption": "Actual Bevy GPU capture from Windows preview-2026.11.10.10. After sustained supplied thrust/nitro and release, the ordinary selector reaches descent clip41 without forcing a pose. Raised arms, hidden jet draws and fuel45 are visible. This is diagnostic GPU evidence on the downloadable executable; sustained OS-held flight, landing and visual fidelity remain unverified.",
+      "commit": "9a0fb244159c89054bbdfc9a53705df30bb546ec"
+    },
+    {
+      "title": "Preview .10 ordinary-controller jetpack and fuel gauge",
+      "image": "media/1001f89498ab5560c62c52171a585095ae30f60796ff3d35ad007bac023e8b42.webp",
+      "caption": "Actual Bevy GPU capture from Windows preview-2026.11.10.10. The ordinary partial controller presents the constructor-bound jet/nitro models; the health and fuel gauges show health100 and fuel92. This diagnostic supplies commands, uses the live player camera and sets no experimental backend. It does not establish continuous real-input flight or native HUD fidelity.",
+      "commit": "9a0fb244159c89054bbdfc9a53705df30bb546ec"
+    },
+    {
+      "title": "Preview .10 source pistol projectile and gauges",
+      "image": "media/6fa5f9d8e1501c44f8c9249c2bf768f28f961efd67de7e6513d1f0c6cd34ce96.webp",
+      "caption": "Actual Bevy GPU capture from Windows preview-2026.11.10.10 after ordinary mission admission. The small purple/white projectile ahead of the player uses the registered class38 geometry and materials; health/fuel gauges are visible. A supplied diagnostic shot selects this sample. Complete native fire/impact/damage ownership and firing-pose fidelity remain incomplete.",
+      "commit": "9a0fb244159c89054bbdfc9a53705df30bb546ec"
     },
     {
       "title": "Preview .9 ordinary-controller jetpack",
@@ -4221,6 +4236,12 @@
       "image": "media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp",
       "caption": "Delphi\u2019s initial pose in Rstory1, rendered in Bevy. Diagnostic capture with an inspection camera. Movement, live animation, held equipment and normal gameplay remain unavailable; visual fidelity is unverified. This image is not from the published .8 or .9 download.",
       "commit": "f4795de0de5dd43109e4a1f04f48f617950bd0da"
+    },
+    {
+      "title": "Owned Kabuto with explicit profile-camera inspection",
+      "image": "media/d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4.webp",
+      "caption": "Source-only Bevy diagnostic from 1799a51, not playable Kabuto and not included in Windows previews .9 or .10. The head and horns are visible after an explicit third-person camera reset on the actual constructed actor. Static pose and placement, camera collision/smoothing, real entry/re-entry, animation and controls remain unfinished; all four initializer gates are still pending. Distant floating props are visible, and fidelity is unverified.",
+      "commit": "1799a5106c50c78aa9c2e7a9cffd38d87b61647a"
     }
   ],
   "featured_comparisons": [
