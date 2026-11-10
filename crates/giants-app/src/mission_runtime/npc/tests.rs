@@ -115,6 +115,7 @@ fn source_npc_completed_poses_feed_common_render_assets_and_retire() {
                 },
                 reported: false,
                 pickup: None,
+                landing: None,
                 variant_random: giants_game::audio_parameters::Random(1),
                 audio_registry: None,
                 bindings,

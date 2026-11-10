@@ -1430,7 +1430,7 @@ it does not complete native fall damage, pain/death, slide/emitter execution or 
 experimental owned player's impact/authority/display/voice admission. Those guards
 remain unbound rather than replaced by zero. Source-resource checks cover the
 real flight producing a landing request and the canonical effect's draw/expiry/
-retirement boundary. GPU and real held-input acceptance remain pending.
+retirement boundary. Real held-input acceptance remains pending.
 
 For a private GPU observation use `GIANTS_MISSION_REPLAY=campaign-landing-pose`,
 `GIANTS_AUDIO_MUTE=1`, a fresh user-data directory and the menu's silent offscreen
@@ -1439,3 +1439,29 @@ gain. The diagnostic supplies a flight/release trajectory and waits for an actua
 visible canonical landing actor; it never supplies the birth or forces readiness.
 It is a verification route, not a feature-enable flag. No public download or new
 gallery image is asserted by this source checkpoint.
+
+
+Local source `b34e1e24f5f6c4833f4214ffe3acbb50c1cf78bf`, executable SHA256
+`6923eacb3dc762171c7e837e296613b6eefba33f22a446da3ecd23a2b9addf95`,
+passes CLI startup and the ordinary menu-admission GPU diagnostic. An actual
+terrain contact creates the effect at step770; the real device sink starts the
+retained positional cue with zero master gain. The capture at step800 waits for
+the actor's own callback age of at least0.25 seconds and transparency below0.5.
+The inspected image shows a brown dust cloud around the Mecc feet, with fuel69.
+No source size, color, pose, contact or readiness is forced. The audio variation
+stream changes independently while the VM RNG stays untouched by sound selection.
+This demonstrates rendering and real muted transport, not audible acceptance,
+held OS input, native damage, populated world scheduling or original fidelity.
+The private capture is not a new approved gallery display copy. An earlier local
+build refused missing reserved impact sinks; this was corrected by querying the
+live actor role after the controller staging value transfers to ECS.
+
+
+The combined main integration build of `b751ced` (executable SHA256
+`2c7f4d19988534918aaad301659eddacc8aae10dd59e3b376d6fa90480a8b9bf`)
+repeats the successful CLI and GPU observation with actual muted transport,
+natural effect birth and step800 capture. The inspected image shows the same
+dust cloud; no landing refusal occurs. Both installed-resource lifecycle checks
+pass on the combined source, including a full1600-step ordinary flight/landing
+and canonical draw/retirement with a supplied test transport. That CPU transport
+is separate from the real muted device exercised by the GPU diagnostic.
