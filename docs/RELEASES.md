@@ -167,6 +167,19 @@ The retained preview's per-director random state is not a native fidelity proof.
 Both prototype PS2 resources were searched with pinned binary identities before
 this work; attribution stays unknown. Detailed records remain private.
 
+A follow-up separates the second discovered direct seed setter from normal
+mission loading. Native diagnostics identify demo playback, and ten bounded
+controls exercise its actual two-header branch and TLS setter: six preserve the
+first header's seed, including full-width values, and four short/version-invalid
+inputs stop before seeding. File I/O, world restoration and complete demo
+playback remain supplied or unexercised. Static entry/caller analysis also places
+the time-sampled setter in the application startup chain before the message
+loop, without a direct return edge from that loop to the seed call. This does
+not prove all indirect writers, actual thread scheduling or actor/effect draw
+interleaving. It changes no runtime code, downloadable preview or scene count;
+the next requirement remains the real shared RNG producer and its consumers.
+Prototype PS2 attribution remains unknown, separately from these PC observations.
+
 The combined source `b751ced` preserves main's concurrent NPC/camera work. Its
 GNU Windows executable SHA256 is
 `2c7f4d19988534918aaad301659eddacc8aae10dd59e3b376d6fa90480a8b9bf`.

@@ -1933,8 +1933,16 @@ blocker in the next slice, rather than continuing adjacent functions by address.
   A new dependency control executes the exact PC thread-state initializer,
   random helper and time-sampled seed setter: state survives repeated calls on
   one supplied thread, stays separate on another, and an actual setter replaces
-  the lazy initial seed. This does not establish the mission's seed, draw order,
-  application reseed points or sharing with the renderer. Preserve the existing
+  the lazy initial seed. A follow-up identifies the other discovered direct
+  setter as demo playback: six supplied two-header cases restore the first
+  header's seed unchanged, while four short/version-invalid cases refuse before
+  the setter. Independent native diagnostics distinguish this from ordinary
+  mission loading. The time-seeding wrapper is reachable from the executable's
+  startup chain before its message loop; direct-branch analysis finds no return
+  edge from that loop to the seed call. This is bounded static/control evidence,
+  not proof of actual thread scheduling, all indirect writes or live draw order.
+  The mission's current RNG state and sharing with the renderer remain open.
+  Preserve the existing
   partial-preview limitation; do not promote a per-director seed reset into the
   native runtime contract. No queue gap or complete-scene count closes here.
 - Persistent main-renderer batch: private source `04cb614` produces all 23
