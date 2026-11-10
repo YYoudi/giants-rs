@@ -20,11 +20,31 @@ world scheduling remain prerequisites. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
 Combined source preserves the concurrent physical-environment retention change
 and passes 877 workspace Rust tests (71 ignored), the camera-owner, existing
 pre-world and application actor-role installed controls, 43 Python tests, Rustfmt,
-strict workspace Clippy and generated roadmap/site/JavaScript checks. The planned
-`.5` preview combines this dependency with the earlier player/carried identity
-correction. Publication and exact executable/package identities remain pending
-receipt-bound build, runtime, notice and download verification. It enables no new
-native Mecc jet/descent/landing, character controller or complete cinematic.
+strict workspace Clippy and generated roadmap/site/JavaScript checks.
+
+Published [preview-2026.11.10.5](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.5)
+combines this dependency with the earlier player/carried identity correction and
+retained physical-environment stages. It pins source
+`59a01a5a24dc6b53c432ba0e65d57f94c7f12dba`, executable SHA256
+`11007f4a85871581cba116d66d2780cf256433c6e0d8ec1ebb305cb4da4a69e2` and ZIP SHA256
+`f1769e97c44e4a83275d5f46f84fc6849bddd27822d22389b1b8216cc4afea62`.
+Receipt-bound CLI startup, both offscreen development endpoints (six launches)
+and two selected Rstory1 mission 2 source-terminal/re-entry cycles pass, with
+actual muted voice sinks and text/resource cleanup.
+
+One actual muted Windows UI profile covers menu start, double-click opening skip,
+partial Mecc entry, menu return, second entry, Escape opening skip, second partial
+Mecc entry, menu return and confirmed quit. Both returns release the tracked
+mission entities/assets; normal captions recover after both skips. It verifies
+neither held native thrust/descent/landing nor broad campaign or visual fidelity.
+
+Technical collection verifies 338 dependency packages, eleven toolchain notices
+and the unchanged twenty-nine-DLL system import set. The public ten-member ZIP,
+all three asset API digests, adjacent/internal checksums, immutable source tag and
+source ancestry on main were independently downloaded/checked after publication.
+There are zero packaging blockers. This release enables no new native Mecc
+controller, other character gameplay or complete cinematic. The known normal
+pistol draw callback/frame service and other world/provider prerequisites remain.
 
 The subsequent combined main candidate `e068bee` preserves the later Kabuto
 selected-animation commit without changing the frozen `.5` executable source.

@@ -121,7 +121,7 @@ covers duplicate classes and owner removal/reconstruction. Next bind the actual
 reference-point body, startup/override writers and enclosing world order. Do not
 seed unknown camera words from a view toggle or treat editor/equipment-preview
 player swaps as ordinary mission startup.
-The current independently verified download is `preview-2026.11.10.4`; its snapshot and receipts
+The current independently verified download is `preview-2026.11.10.5`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
 The combined `.3` source includes NPC PR #5's history/newborn runtime, cold Delphi
@@ -1043,7 +1043,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Next acquire actual native player replacement/retirement and world ownership;
   this application correction does not provide native selection globals, camera
   startup producers or ordinary owned Mecc admission. The published preview's
-  exact source remains separate from this newer main-source correction.
+  exact source is pinned independently; preview `.5` now includes this application
+  identity correction, while later native ownership work remains incomplete.
   The continuous owned-App diagnostic currently refuses the normal pistol draw
   animation callback/frame service at frame one. Bind its actual provider before
   claiming this diagnostic or ordinary owned gameplay passes; do not clear the
