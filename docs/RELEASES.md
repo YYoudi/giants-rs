@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Ordinary Mecc HUD feedback - source integration
+
+The normal menu-to-Mecc path now displays separate health and jet-fuel gauges
+alongside their numeric values. Health is green and fuel blue, with amber at
+25 or less and red at 10 or less. Both read the existing selected controller;
+they do not invent damage, fuel consumption or original HUD artwork. Their child
+nodes retire with the existing mission HUD on menu return. Graphical acceptance
+on this source is pending; no new downloadable preview is asserted.
+
+A separate local release of source `ec097cb` (executable SHA256
+`2ab96990590aacc2f4aa9fd12a7ee316954e1d0355b796e3c1de5556a14702a4`)
+was entered through New Single Player Game with a fresh muted profile. Escape
+skipped the opening into ordinary Mecc control. Two actual left-mouse actions
+generated two pistol births; Escape returned to the menu, with both shots and
+mission assets retired. No projectile was visually resolved during those short
+input actions. Held right-mouse flight, descent/landing and menu re-entry remain
+unverified; the Windows UI tool cannot hold that button. Existing scripted GPU
+images remain separate evidence. This test does not relabel the current download.
+
 Current delivery policy follows [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md):
 prioritize common testable interactions and their blockers before niche cases.
 New reports must lead with the normal menu/controls, expected behavior and exact

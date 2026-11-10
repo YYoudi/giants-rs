@@ -48,8 +48,14 @@ unfinished native parent complete to deliver ordinary visual feedback.
   completion; real held-input thrust/release and menu re-entry still need checking.
   Ordinary pistol delivery: source projectile geometry/material and acquired
   straight-launch orientation/velocity now replace the diagnostic flight quads.
-  Check real left-mouse firing, visible shot lifetime/removal and menu re-entry.
-  Constructor flash/attached FX, native range/retirement and impact births/contacts/damage, firing
+  A local release build of `ec097cb` accepts two ordinary left-mouse firing
+  actions after menu entry/opening skip, then releases both shot lifetimes and
+  mission resources on Escape. The short-lived projectile was not captured during
+  these OS-input actions; held flight, visual shot verification and re-entry
+  remain open. Health/fuel gauges now consume the same actual controller values
+  as the numeric HUD; verify them on the combined graphical build. This is
+  functional preview UI, not reconstructed original HUD artwork.
+  Deferred constructor sound/attached FX, native range/retirement and impact births/contacts/damage, firing
   poses and owned actor/fire scheduling remain open; retain those actual services
   rather than selecting a guessed animation or substituting diagnostic shapes.
 - NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
