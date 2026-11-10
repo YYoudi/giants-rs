@@ -545,8 +545,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   established; then compose active targeted physics and compare full turns.
 - Implemented: the local caller now publishes actual Session scalar state and
   distinct typed target/proxy slots in an owned pre-physical phase. The next
-  physical step consumes it once; stale, replayed, running and failed phases are
-  refused. Late writes and real partial proxy construction remain owned, with
+  physical step consumes it once; the frozen profile requires the first producer
+  too. Stale, replayed, running and failed phases are refused. Late writes and real partial proxy construction remain owned, with
   incoming-reference protection and cancellation/reconstruction checks. Linked
   physical consumers remain refused. Three installed controls use scripted
   geometry/providers; they do not establish normal perception or gameplay.

@@ -14,6 +14,14 @@ retaining physical motion. Three new installed controls use scripted geometry
 and linked providers; they do not enable Delphi gameplay or update the separately
 identified public preview. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
+Combined source `b21ca7f02bcc7e76787d3f9f77acd047675b3c6d`, preserving main
+through `31032dc`, passes 902 workspace Rust tests (102 ignored), all twelve
+installed Delphi controls, Rustfmt, strict workspace Clippy, 43 Python tests,
+generated roadmap/site and JavaScript checks. The frozen target profile also
+refuses physical entry before its first producer without advancing the frame.
+The all-reference source audit reports no findings. These checks remain separate
+from ordinary gameplay and the public preview receipt.
+
 ## Kabuto post-selection owned continuation — 10 November 2026
 
 The acquired post-selection component now runs on the actual Kabuto Session
