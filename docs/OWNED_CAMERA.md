@@ -16,10 +16,10 @@ remains unassigned. Naming does not expand the behavioral evidence below.
 ## Shared override writers and Delphi targeting - 10 November 2026
 
 Intermediate dependency only; no new ordinary controls or playable entry are
-available. Delphi still lacks its retained cold class-3 constructor in the common
-mission player branch, followed by live input/controller and camera-pose wiring.
-The current generic player preparation admits Mecc only; prioritize that concrete
-entry gap over further isolated camera variants.
+available. Delphi's declared cold group is now staged in the common mission
+branch, retaining its actual constructor identity. First projection/animation/
+render and physical/camera/input consumers remain open; prioritize that concrete
+playable path over further isolated camera variants.
 
 `camera_override::State<K>` now owns the acquired force/descriptor/typed-owner,
 triplet and retained-matrix writes. Delphi's authored-view state aliases this

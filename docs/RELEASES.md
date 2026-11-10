@@ -31,6 +31,96 @@ No source placement, duration or light value was adjusted to match these images.
 These private proofs update no frozen public-preview or census identity and
 certify no complete scene. The bounded inspection does not deliver gameplay.
 
+## Kabuto initial body renderer - intermediate dependency only
+
+Ordinary Kabuto controls are not available. The next normal-entry blocker is the
+native Kabuto camera/profile/projection and initializer/startup consumers; the
+provisional Mecc-shaped inspection camera cuts off the head. The common loader
+and renderer now consume the real owner's current-channel body, textures, pose
+normals and source lighting, with ticket/specification/pose checks and cleanup.
+No primary/history or initializer is acknowledged by body presentation.
+
+Private build `b0b0d61260f9ecb1cac0b48ce2139578054b9db2` (executable SHA256
+`616843bfc062708155ff71d48768a0c6afcc9050dd51893e0dee9dfa48462f41`)
+visibly renders the 31 source subparts after a Kstory1 mission-0 menu request in
+explicit silent body inspection. Its image was reviewed; the earlier black
+capture and two observer timeouts remain failed visibility evidence. The test
+activates the existing inspection camera and excludes opening playback while
+retaining native startup refusal. See [BUILD.md](BUILD.md) for the diagnostic;
+there are no normal keyboard/mouse gameplay steps to advertise yet.
+
+Combined source passes 917 synthetic Rust tests (108 ignored), the installed
+Kabuto App construction/body/re-entry control, fifteen Delphi controls, the Mecc
+constructor-role control, Rustfmt and strict workspace Clippy. A separate common
+build at `54e82c9` passes three 128-frame GPU Mecc inspection cycles with actual
+body drawing, cancellation and asset release. Commands/clocks/world gates remain
+supplied. These checks establish neither ordinary Kabuto availability nor native
+visual fidelity. The published preview .8 retains its independent identity.
+The later combined checkpoint also preserves the ordinary Mecc jet and persistent
+cinematic sampling contributions: 918 Rust checks (108 ignored), the Kabuto App
+control, expanded Mecc constructor/jet-role control, fifteen Delphi controls,
+Rustfmt and strict Clippy pass. These CPU checks do not broaden the image scope.
+
+## Delphi declared group connected to mission loading - 10 November 2026
+
+Common mission loading now stages Delphi's actual declared owner, copies and held
+object, retaining the constructor Id through late initialization errors. No new
+ordinary Delphi controls, rendering or playable menu entry are asserted. The next
+runtime blocker is projection reset and the first animation/render and physical/
+camera/input driver consuming this same owner.
+
+The existing cold factory now exposes a retained attempt; its normal construction
+order is unchanged. Declared placement uses actual constructor-shell history and
+retains unverified native relocation. The source-backed App control exercises a
+real menu request with an explicit all-unlocked test mask, common spawn, actual
+role bindings, duplicate/foreign/retired identities, missing-factory refusal,
+clear and a second ticket. A separate source constructor control preserves the
+published owner after a supplied late child-resource failure. These are runtime
+construction/CPU checks, not real input, campaign unlock or graphical evidence.
+The current downloadable preview remains independently pinned.
+See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `a7b26f5d239d050f9eb2d7ff4f1305431e43934e`, preserving main
+through `ec9b444`, passes 946 workspace Rust tests (138 ignored), the installed
+Delphi App control and sixteen Delphi game controls, Kabuto menu construction,
+Mecc constructor-role retention and normal-body jet composition. Rustfmt, strict
+workspace Clippy, 43 Python tests, site/JavaScript checks and the all-reference
+publication audit also pass. Its receipt-bound MinGW executable passes waited
+CLI startup. The constructor's projection-reset prerequisite remains stored with
+the actual role binding; no projection success, graphical interaction, real input
+or new downloadable-preview availability is asserted.
+
+## Combined NPC, Mecc and shared-camera integration - source dependency milestone
+
+Intermediate dependency only: this checkpoint adds no new interaction to the
+published .8 download. The next delivery remains the ordinary Mecc input/action
+path specified in [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md) and `BACKLOG.md`.
+The jet renderer currently consumes owned child frames while the ordinary path
+uses the development controller; a replay plume is not a normal-input result.
+
+Combined runtime source `e86f61720e2513295c653624e7072a3e787edf5f` retains main
+through `ce7447c`, the reviewed NPC dependency chain through `473e154` and Mecc
+continuation through `48ac91d`. Vimp response state/arrival timing and herd
+callbacks retain actual Session ownership. Completion orchestration retains
+required external backends. Delphi's shared camera override and Kabuto's common
+mission construction preserve their remaining admission guards. None enables a
+complete native NPC world, Delphi or Kabuto controller.
+
+The combined source passes 945 Rust tests (135 ignored), Rustfmt and strict
+workspace Clippy. Installed controls retain the scoped NPC, Mecc and Delphi
+results; Kabuto's common cold mission-entry/re-entry control and the two 512-frame
+App controls pass, including real zero-PCM muted jet sinks. Commands, clocks and
+world gates remain supplied. Original-PC comparison fixtures remain private;
+no new prototype PS2 attribution is confirmed by this integration.
+
+An ordinary-menu check on the exact public .8 executable uses a fresh muted
+profile and real input for New Single Player Game, opening skip and menu return.
+The runtime records resource release. Continuous thrust/release/landing is not
+validated by the short input pulses. Later capture inconsistencies stopped UI
+input and only the owned test process was closed; this is not an exit-dialog or
+whole-game certification. Existing preview source/receipt/checksums and the
+separate cinematic audit retain their original identities.
+
 ## Main-menu persistent image samples - source-only inspection
 
 The common executable now samples an actual Session-owned persistent effect
@@ -173,6 +263,181 @@ The public .8 source, executable, package and acceptance identities remain
 immutable. The cinematic census stays pinned to its separate .7 audit. See
 [PREVIEW_NOTES.md](PREVIEW_NOTES.md) for the later-source boundary and
 [INTEGRATION.md](INTEGRATION.md) for the common-runtime prerequisites.
+
+
+## Owned Vimp active-response state — 10 November 2026, source only
+
+The active block now consumes actual Session actor fields and keeps its arrival
+timer across invocations. An absent producer stays unknown instead of becoming
+zero. Prefixes publish before services; heading callbacks are reread, terminal
+action/cancellation effects keep ownership, and replay/pending/reentry guards
+preserve retained failures. Six installed controls exercise these boundaries.
+
+A source-backed Session comparison matches 115 original-PC active entries /1,495
+state/RNG/control words while retaining actor outputs and one RNG. First entry,
+caller motion/flags/history/clock/control and external draw counts are supplied;
+the acquired heading helper uses actual source parameters. Existing captured and
+persistent kernel comparisons still agree. This does not reconstruct the earlier
+caller movement or world schedule. Prototype PS2 attributions remain unknown.
+Complete callback-phase composition through look/physics/ANM and actual global,
+movement/contact, hint/action/audio and mode7 services remain required. Published
+preview .8 notes and receipt are unchanged; no playable NPC, capture or download
+is added by this source milestone.
+
+Combined runtime source `c9965b4` preserves main through `897d80d`. It passes 928
+workspace Rust tests (131 ignored), 32 installed NPC controls plus the private
+captured-cycle control, Delphi dependency-order and canonical timed-owner checks,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. Native captured/persistent block and locomotion comparisons pass on the
+combined runtime source; their supplied boundaries remain explicit.
+
+## Vimp locomotion animation — 10 November 2026, source only
+
+The owned mode1 selector now uses actual gait and physical flags, preserving
+water-contact/damage precedence, distinct reference speeds, raw gait fallback,
+entry readiness and numeric requests whose descriptor is missing. Rust agrees
+with 1,088 original-PC numeric channel contexts /39,168 words under both blend
+modes. Positive idle-turn coverage uses an explicitly synthetic descriptor alias;
+the source class lacks that descriptor. One installed control covers three real
+locomotion resources after owned physics, retained pending-frame state and replay
+refusal. Gait/contact inputs are supplied, not acquired live producers.
+
+The primary's earlier helper is the already reconstructed growth service. The
+first handled response skips growth and ordinary movement; preserve that branch
+in the future composed driver. Prototype PS2 attributions remain unknown. Stage
+timer ownership, movement/contact production, response/physics/ANM composition
+and actual world/services still block ordinary NPC AI. This source lot adds no
+capture or executable and does not change a frozen preview's coverage.
+
+Combined runtime source `69cbc7c` preserves current main contributions and passes
+926 workspace Rust tests (122 ignored), 26 installed NPC controls, Delphi
+dependency-order and canonical timed-owner controls, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated site/JavaScript checks. The 1,088-context
+comparison also passes on that combined runtime source. The preceding active
+response PR's dashboard and both Windows checks have passed. These checks retain
+their source/CPU scope; published preview .7 remains pinned to its own receipt.
+A later documentation-only main merge also preserves published preview .8 and
+its exact package receipt; this NPC source lot is outside that frozen package.
+
+## Vimp active response cycle - 10 November 2026, source only
+
+The acquired four-stage block now retains turn/wait/target-bearing/final-delay
+transitions, wide expiry decisions, required-service order and error effects.
+A native source control reaches response completion with one signal injection
+and actual readiness, without forcing physical/channel flags. Rust matches all
+115 active-block entries /1,495 projected words, including a persistent-state
+comparison using supplied caller motion/clock inputs and external RNG draw counts.
+These inputs exclude Rust whole-primary, physical/ANM and world equivalence.
+
+The existing Delphi and new Vimp callers share the same bounded angular helper;
+1,117 independent native scalar controls also agree. No Delphi behavior is changed.
+Five portable controls cover required services, callback writes, timer boundaries
+and arrival normalization. Persistent timer ownership, ordinary movement/active
+animation and callback-phase integration remain open, together with live global/
+world services and mode7. Prototype PS2 attribution is unknown. No gameplay,
+capture, download or frozen public preview identity is changed.
+
+Runtime source `1d2abf6` retains current camera, Delphi and Kabuto contributions.
+Validation passes 915 workspace Rust tests (100 ignored), twenty-five installed
+NPC controls plus Delphi dependency-order and canonical timed-owner checks,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. Rebuilt captured/persistent active-block and angular comparisons pass on
+that source; retained predicate/response/vector comparisons still agree within
+their original helper and required-boundary scope. The earlier response PR's
+dashboard and both Windows checks also pass. These source/CPU checks add no new
+normal gameplay or rendered coverage to the immutable public preview.
+
+## Owned Vimp response composition - 10 November 2026, source only
+
+The isolated Session response entry reads actual inline physical/channel flags and
+composes the owned vector with the same RNG. It publishes response prefixes before
+predicates/actions, preserves terminal callback state on success/error and never
+restores an old outcome over Session cancellation. Noise targets retain the three
+opaque bytes beside the backwards byte. Typed link/target ownership is required
+before nonzero pointer state can be admitted; nothing is silently cleared.
+
+Six installed Rust controls cover source-backed vector composition, gating,
+callback prefix visibility, terminal writes/errors, nested failure, cancellation
+and entry guards. Priority/signal/channel entries, session snapshots, noise and
+affine/global RNG phases remain declared inputs. The channel-ready test bit is not
+a reconstructed native readiness producer. Caller timing, live session/linked/
+target/hint owners, action/hint implementations, active response/mode7, sound/ANM
+and ordinary world admission remain open. This is not a new native comparison of
+Session composition or a gameplay/preview claim. Prototype PS2 attribution remains
+unknown. See [OWNED_NPCS.md](OWNED_NPCS.md).
+
+Runtime source `3e5c446` retains main's dependency-order contribution. It passes
+901 workspace Rust tests (95 ignored), twenty-five installed NPC controls plus
+the installed Delphi dependency-order regression, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated roadmap/site/JavaScript checks. Rebuilt
+predicate/response/vector comparisons retain their original measured scope.
+
+A separate original-PC caller control injects only the warm signal flag. It
+observes 28 animation-unready response entries and one completed signal/vector
+response without forcing physical or channel flags. The Rust composed-helper
+comparison on those captured entries matches 29 contexts /957 state/RNG/route
+words, stopping before the caller's binding/tail. Captured entry fields are
+inputs; this adds no Rust whole-primary or Session-composition equivalence.
+The public preview snapshot and gameplay availability remain unchanged.
+
+The later combined runtime `2570203` also preserves Flick's owned-preparation /
+terminal changes and the already published preview .6 snapshot. It passes 902
+workspace Rust tests (96 ignored), the twenty-five NPC controls, Delphi dependency
+ordering and the canonical timed-owner control, 43 Python tests, strict Clippy,
+Rustfmt and generated site/JavaScript checks. All four retained comparisons were
+rebuilt and repeated on this source, including the 29 captured caller entries.
+This source-only NPC update does not relabel the immutable .6 executable or add
+NPC gameplay coverage to it.
+
+## Owned Vimp vector publication - 10 November 2026, source only
+
+The isolated vector entry now uses actual Session child/parent/marker ownership.
+It publishes actor and route prefixes before predicates/actions, rereads callback
+changes after success or error, quarantines failed survivors and refuses replay
+or stale/foreign owners. Actual Session cancellation does not restore dropped
+actors or resources. The standalone projection no longer needs unrelated physical
+or response-link fields.
+
+Six installed-data Rust controls cover a fourteen-child cohort, route visibility,
+callback heading/parent/payload changes, late action failure, injected individual
+owner loss, Session cancellation and entry guards. Session snapshots, affine
+entry phase, origin and RNG phase remain supplied. The retained 676-context native
+helper comparison passes after the interface change; it is not a native comparison
+of the new Session composition. Live session/linked/hint owners, action transport,
+response composition, mode7, sound/ANM and caller/world scheduling remain open.
+No ordinary gameplay or new preview is advertised. Prototype PS2 attribution
+remains unknown. See [OWNED_NPCS.md](OWNED_NPCS.md).
+
+Runtime source `127b052` passes 896 default workspace Rust tests (88 ignored),
+nineteen installed NPC controls, 43 Python tests, Rustfmt, strict workspace Clippy
+and generated roadmap/site/JavaScript checks. The native helper comparison was
+repeated against this source: 676 contexts /22,308 words still agree within its
+original return/boundary scope. The previous vector PR's dashboard and both Windows
+checks also pass. Public preview identities and measured gameplay remain unchanged.
+
+## Vimp vector and route response - 10 November 2026, source only
+
+The NPC lane adds bounded vector/marker retargeting with explicit hint and action
+providers. Original-PC/Rust controls match 676 contexts /22,308 projected words:
+393 complete helper returns, 248 stops before action execution and 35 before the
+terrain/hint callee. Sparse marker order, parent selection/position, independent
+RNG draws, session predicate rereads, packing and angle boundaries are retained.
+Five Rust controls check skipped dependencies, late errors/callback writes and
+hint identity rereads. The current inline physical-flag word is already owned;
+future response binding must read it rather than fabricate zero.
+
+Actual Session route publication, live snapshot/linked owners, required action/
+hint bodies, mode7, primary timing, world admission and visual fidelity remain
+open. Prototype PS2 attribution is unknown. See [OWNED_NPCS.md](OWNED_NPCS.md).
+This dependency creates no binary, changes no immutable preview receipt and adds
+no playable or rendered NPC coverage.
+
+Combined source `6577696` preserves the current camera, Delphi and Kabuto work.
+It passes 896 workspace Rust tests (82 ignored), thirteen installed NPC ownership
+controls, 43 Python tests, Rustfmt, strict workspace Clippy and the generated
+roadmap/site/JavaScript checks. The 676-context vector comparison also passes
+against that combined runtime source. These checks establish only their declared
+source/CPU scope; the existing preview snapshot remains unchanged.
 
 ## Delphi pre-physical held-cache and geometry binding - 10 November 2026
 
@@ -1116,6 +1381,103 @@ complete campaigns/fidelity remain open. Later Delphi packed-support fields are
 source-only: the combined tree at `0abf1898b49413379368df839eb7627cc8eb5ba6` passes
 866 Rust tests (57 ignored), strict Clippy and six installed Delphi controls.
 These later source checks do not relabel the shipped binary.
+
+## Vimp response dispatch and session predicates — 10 November 2026
+
+Response dispatch now preserves entry gates, priority selection, pending flags,
+nearby/peer stores, linked/noise target and orientation writes, random phase and
+required request boundaries. The kernel executes the acquired session predicates
+from current snapshots; no supplied decision or successful missing service is
+installed. Predicate controls match 2,840 contexts /5,680 output words.
+
+Response controls match 1,024 original-PC contexts /28,672 projected words.
+927 reach the helper return; 75 stop before vector/route processing and 22 before
+action processing. These 97 prefixes do not prove their required callee bodies.
+Synthetic session/actor/physics/channel/affine/target/noise fields and TLS seeds
+are supplied. Late Rust provider failures retain completed stores and RNG work;
+they are not evidence of native exception handling. Wide random subtraction and
+equal-bound draw consumption are preserved.
+
+Vector/route and action bodies, live session/linked/physical inputs, mode7,
+sound/ANM and ordinary-primary timing remain unbound. No live fleeing or new
+capture/download is claimed. Prototype PS2 attributions remain unknown. Existing
+preview manifests/notices/checksums retain their exact build identities.
+
+Combined runtime `dea6025b5611ae3ba4891a010a06301db2f3f26e` preserves the
+current constructor-identity and timed-effect integration. Validation passes
+883 workspace Rust tests (76 ignored), the retained installed NPC controls and
+App declaration/binding cleanup, Rustfmt, strict workspace Clippy, 43 Python tests
+and roadmap/site/JavaScript checks. Rebuilt native comparisons retain both new
+response/predicate results and the earlier threat, mutable-walk and empty-ANM
+results. The source checkpoint audit reviews 765 commits /4,320 blobs with zero
+findings. This source-only validation does not relabel a preview executable.
+
+The later combined checkpoint `74dae5af2f0512a3d92e3775893e8514da74b57d`
+also preserves main's retained environment stages. It passes 885 workspace Rust
+tests (77 ignored), five herd-frame controls, the retained threat/history/newborn/
+inventory controls and App binding cleanup. The added real-environment control
+retains terrain floor/plane, fourteen births and the ANM epoch after a required
+platform failure, with no frame replay. Rebuilt response, predicate and prior
+NPC comparisons remain identical. Strict Clippy/Rustfmt, 43 Python tests and
+roadmap/site/JavaScript checks pass. Its audit reviews 769 commits /4,330 blobs
+with zero findings. Preview receipts remain unchanged.
+
+## Vimp threat consideration — 10 November 2026
+
+A bounded threat service now preserves signed priority gates, ordered nearby/
+peer reads, accumulated control bits, linked presence and remembered noise.
+Original-PC/Rust controls match 1,505 synthetic cases /9,030 output/read-count
+words under Double53, including strict distance/age boundaries and comparison
+against the wide noise sum after its rounded store. Two installed source-cohort
+controls retain isolated ownership, once-per-noise memory, unsupported-link
+refusal and late writes/quarantine.
+
+Response/escape mode selection, actual linked identities, sound/ANM providers,
+primary timing and world-noise production remain unbound. This helper is not
+activated in the ordinary primary and admits no live fleeing or new gameplay
+download. Prototype PS2 attribution is unknown; detailed research stays private.
+Existing preview manifests/notices/checksums retain their exact build identities.
+
+Combined runtime `f3a2762ec57a544ea3dac4d34fddb40c4eaaf538` preserves the
+current Kabuto held-reference ownership and verified preview snapshot. It passes
+876 workspace Rust tests (74 ignored), two installed threat controls and the
+retained herd/history/newborn controls, Rustfmt, strict workspace Clippy,
+43 Python tests and roadmap/site/JavaScript checks. Rebuilt comparisons retain
+1,505 threat cases /9,030 words, the 96-snapshot /824,168-word mutable walk and
+128 empty-ANM cases /4,864 words. The source checkpoint audit reviews 746 commits /
+4,220 blobs with zero findings. These checks do not relabel the download.
+
+## Owned herd/marker callbacks and mutable NPC composition — 10 November 2026
+
+Source-owned herd parents and basic markers now consume prepared histories
+through the common node policy, preserving primary rate history, acquired absent
+callbacks, local time, empty-channel ANM epochs and nonphysical finalization.
+Environment/footprint providers remain mandatory. Primary call counters remain
+separate from common frame numbers; late writes and births survive failures.
+
+The composed Rust mutable walk agrees with original-PC controls over 32 supplied
+Story2 scenarios /96 snapshots /824,168 normalized words, including 2,880 visits
+and 448 birth-step first callbacks. A separate empty-ANM comparison matches
+128 cases /4,864 words, including zero/forced time and epoch wrap. Four installed
+controls check the 30-node traversal, skipped-primary clock separation, current
+affine, cancellation, admission and
+retained partial environment failure. Prototype PS2 attributions remain unknown.
+
+Outer admission/global phases, actual live clock/RNG ownership, required threat/
+feeding/active effects/audio and normal rendering remain unbound. This source
+milestone enables no ordinary mission AI or new gameplay download; existing
+preview manifests/notices/checksums retain their immutable build identities.
+See [OWNED_NPCS.md](OWNED_NPCS.md) and the remaining tasks in `BACKLOG.md`.
+
+Combined runtime `ca108806b451173dd25369ab3f3e74b9ebf8ba95` preserves current
+camera, Delphi support/prefix and cinematic caption changes. It passes 873
+workspace Rust tests (69 ignored), four new herd-frame controls, five retained
+Vimp phase controls, the herd inventory/failure control and the App declaration/
+binding cleanup regression. Rustfmt, strict workspace Clippy, 43 Python tests
+and roadmap/site/JavaScript checks pass. Rebuilt native comparisons retain both
+the 824,168-word mutable-walk result and the 4,864-word empty-ANM result.
+The source checkpoint audit reviews 735 commits /4,156 blobs with zero findings.
+These are source/CPU checks; they do not relabel any downloadable preview.
 
 ## Owned Vimp first callback after herd birth — 10 November 2026
 
@@ -6184,6 +6546,36 @@ ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and genera
 site/JavaScript checks. Concurrent preview .8 evidence and its limitations are
 retained separately. This source handoff creates no new download or live admission.
 
+### Mecc completion notice and record continuation - 10 November 2026
+
+The completion service now orchestrates post-expiry notification, signed progress
+update, next-record scan and all four record kinds through required storage and
+side-effect providers. It preserves marker/music/timer writes, retained text and
+mission references, player/world rereads and caller returns around callbacks.
+Late message/queue failures retain completed stores; the enclosing owner must
+quarantine replay. No UI/music/save/load/event/countdown-start backend is fabricated.
+
+Under supplied mode/admission, synthetic mission storage, clocks and declared
+helper effects, 373 whole native-handler contexts agree with Rust's composed
+admission/countdown/continuation. Selected final state, clock requests, returns
+and 1,454 ordered provider entries with intermediate state/arguments agree.
+These controls include unchanged supplied fields and do not establish complete
+global-state coverage, real mission progress or live impact availability. Actual
+precheck/previous-record and storage/world/backend producers remain required.
+Prototype PS2 attributions remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#completion-notice-and-record-continuation---10-november-2026).
+
+Validation retaining main through `e47f4c6` passes 916 workspace Rust tests
+(106 ignored), twenty-seven installed Mecc controls, the prepared 512-frame App
+CPU and reserved zero-PCM device controls, shared timed Session and cold Delphi
+ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
+site/JavaScript checks. This source handoff retains the separate preview .8
+source/notices/checksums and creates no new downloadable build.
+
+The follow-up retains main's merged Mecc/Delphi and receipt-bound graphical
+regression notes. That final merge changes documentation only; validated Rust
+source is unchanged. The already merged PR #4 remains a separate checkpoint.
+
 ## Mecc ordinary descent presentation - source integration
 
 Merged into main through [PR #17](https://github.com/YYoudi/giants-rs/pull/17)
@@ -6228,3 +6620,30 @@ plume attached to the Mecc in the ordinary controller's Gameplay presentation.
 The existing diagnostic supplies its commands; the experimental backend is unset.
 The image remains private. This is local rendered-output evidence, separate from
 real input acceptance and the unchanged public preview.
+
+
+## Ordinary Mecc pistol source projectile - source integration
+
+The partial normal pistol now uses the acquired straight-launch basis/velocity
+and submits the installed projectile model/texture/material to the common draw
+consumer. It replaces diagnostic yellow flight quads, consuming the existing live-shot
+list and preserving mission resource cleanup. Left-mouse firing needs no replay
+or experimental backend switch for this source connection.
+
+Status: runtime connected, interaction unverified. Source visual/resource checks
+and existing synthetic tests pass. A local one-shot GPU capture confirms source
+geometry/material rendering after normal entry with supplied commands; held-trigger
+and fidelity acceptance remain separate. Constructor FX, native impact/actor/fire scheduling and the
+remaining diagnostic impact markers are not claimed complete. No new preview,
+receipt or downloadable executable is advertised from source checks alone.
+See [OWNED_LOCAL_FIRE.md](OWNED_LOCAL_FIRE.md#ordinary-pistol-projectile-presentation).
+
+
+Local rendering evidence is pinned to source `d5a4ca8`, executable SHA256
+`8874592b599a789c227c5afe65cd373be20f839eca52279e96a686615fb939c1`:
+one source-model shot is visibly captured after normal mission admission, and
+two firing/menu-return cycles remove all four live shots' draw assets. The
+three-cycle diagnostic exits at its existing 300-second deadline during the
+third opening; it is a partial result, not a passed three-cycle check. These
+existing diagnostics supply trigger commands with audio disabled. The private
+build/capture is distinct from the combined main sources and unchanged download.

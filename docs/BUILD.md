@@ -51,6 +51,22 @@ coefficient tables, publish projection or complete activation.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+With compatible `GIANTS_DELPHI_ROOT`, run
+`cargo test --locked -p giants-app source_delphi_menu_entry --target x86_64-pc-windows-gnu -- --ignored`
+for common mission construction/role/re-entry checks. Its source menu request
+uses an all-unlocked test mask; no actual UI input, campaign unlock or graphics
+are claimed. `source_delphi_retained_player_attempt` in `giants-game` additionally
+checks constructor identity after an explicit late child-resource failure.
+
+`cargo test --locked -p giants-game vimp_animation --target x86_64-pc-windows-gnu`
+checks locomotion/contact/damage precedence, native gait fallback, missing moving
+descriptor requests, same-clip and unfinished-entry skips. With a locally set
+`GIANTS_NPC_ROOT`, the ignored
+`source_vimp_locomotion_animation_consumes_actual_resources_and_physical_phase`
+control uses three installed animation resources after owned physics. It supplies
+gait/contact flags, retains the unfinished frame and refuses ANM replay. It does
+not establish live movement/contact production or ordinary mission admission.
+
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
 runs six owned-phase controls: publication/physical consumption and later
@@ -114,7 +130,8 @@ With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
 checks actual player constructor identity with a second actor of the same class,
 local/other audio routing, motion ownership, foreign and retired owner refusal,
 and mission cleanup. The same control checks constructor-bound ordinary jet model sizes and visibility,
-stale-frame quarantine and unchanged Session animation/world ownership. These
+stale-frame quarantine and unchanged Session animation/world ownership. It also
+checks preparation of the source pistol projectile visual and foreign-ticket refusal. These
 checks do not prove GPU rendering or held input. It is silent CPU composition. The additional diagnostic
 `source_owned_mecc_runtime_terrain_and_presentation` now passes 128 prepared CPU
 frames with actual terrain, camera, ANM and weapon presentation. It checks the
@@ -261,7 +278,38 @@ user-supplied installation and use an isolated Cargo target:
 cargo test --locked -p giants-game source_npc_herd --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_vimp_world_history --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_vimp_newborn --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_herd_frame --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_threat --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_vector --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_response --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_active --target x86_64-pc-windows-gnu -- --ignored --nocapture
 ```
+
+The active-response block's portable tests run in the default workspace suite.
+Its separate private captured-cycle comparisons retain supplied caller motion,
+clock and external RNG draw schedule; they do not establish ordinary primary,
+physical/ANM or world integration. See [OWNED_NPCS.md](OWNED_NPCS.md).
+
+The active Session command adds six installed ownership controls: the arrival
+timer persists without a fabricated constructor value, callbacks retain their
+effects, and pending/foreign/reentrant/replayed visits refuse. The separately
+ignored `source_captured_vimp_active_cycle_retains_session_outputs_and_random`
+requires `GIANTS_NPC_ACTIVE_CONTROL` to be an absolute path to a private reviewed
+captured-entry control, in addition to `GIANTS_NPC_ROOT`. It retains Session
+outputs and RNG across 115 visits with supplied caller motion/clock/flags and
+external draw counts. Inputs are not distributed; this is not a normal mission
+or whole-primary test. Follow the central reconstruction method for acquisition.
+
+The response command checks actual inline physical/channel reads, signal-to-owned
+vector composition, terminal callback effects, cancellation and noise-target byte
+preservation. Priority/signal/channel entries are declared test inputs; session,
+noise, affine entry and RNG phase remain supplied. It acquires no readiness or
+caller producer, transport, live linked/target/hint ownership or ordinary primary.
+
+The vector command checks isolated owned route publication, callback rereads,
+late-error quarantine and cancellation against source actors. Session snapshots,
+affine entry, origin and RNG phase are supplied. It adds no ordinary primary,
+world schedule, live action transport, hint ownership or rendered coverage.
 
 This silent CPU check uses authored herd/marker values with a supplied flat
 floor, clock and RNG. It covers births, first initialization, owner identity,
@@ -883,6 +931,17 @@ This replays eight controlled class-personality cases against actual constructor
 registration, including six that differ after wrapper stores. Installed files
 are unchanged; this check does not admit native stock or a live world actor.
 
+The `source_herd_frame` controls compose actual owned herd/marker fallback and
+Vimp callbacks through the mutable common-list walker with supplied flat ground,
+clock, control identity, quiet signals and empty collision/platform cohorts.
+They retain same-step births, shared ANM epochs, affine publication, cancellation,
+late environment writes and failure quarantine. They enable no live mission AI.
+
+The `source_vimp_threat` controls invoke isolated consideration on owned Vimps
+with supplied noise. They check remembered timestamps, unsupported linked state,
+invocation ownership and retained writes/quarantine after a late finite-profile
+failure. Response, actual world-noise production and primary admission stay open.
+
 
 ## Optional owned Mecc smoke callback check
 
@@ -1037,4 +1096,30 @@ The same `mission_completion_countdown` synthetic filter also covers ordered
 admission: precheck before later gates, record replacement/rereads and retained
 markers after callback failure. The `admission::Services` methods are required
 providers; the precheck is not a one-time initializer. Snapshot production,
-callbacks, clocks and following record advancement remain explicit prerequisites.
+actual callback/clock backends and common runtime ownership remain explicit
+prerequisites; continuation orchestration is acquired separately below.
+
+The same `mission_completion_countdown` filter includes continuation failure
+controls: message-marker retention, post-message replacement increment and
+post-resolution queue failure. `continuation::Services` requires actual storage,
+text identities, UI/music/save/load/event/countdown-start providers. No method
+has a default successful implementation; missing providers must remain errors.
+The acquired caller return is separate from mission completion or live admission.
+
+## Optional Kabuto initial-body inspection
+
+This is an intermediate renderer dependency, not playable Kabuto. A compatible
+user-supplied Kstory1 installation is required. The ignored App control
+`source_kabuto_menu_entry_constructs_owned_group_and_reenters` uses
+`GIANTS_KABUTO_ROOT`; it checks the actual menu request/common constructor,
+current-channel body preparation, four pending initializers and cleanup/re-entry.
+
+For private GPU inspection set `GIANTS_MISSION_REPLAY=showcase-kabuto-body`,
+`GIANTS_SHOWCASE_WORLD=Kstory1` and `GIANTS_SHOWCASE_MISSION=0`. Launch an awaited,
+receipt-bound common executable with `--mecc-menu`, your `--data-root`, a fresh
+`--user-data-root`, and `--offscreen --silent-capture --capture` to a fresh private
+PNG. This explicitly activates the existing environment inspection camera and
+suspends opening playback without emitting mission readiness. The body is an
+initial snapshot; native camera/projection, live ANM, input and ordinary startup
+remain unverified. Inspect the actual image: GPU preparation and a successful PNG
+write alone do not prove body visibility or correct framing.

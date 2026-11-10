@@ -2,6 +2,9 @@
 //! Uses the real request and cancellation paths. Never sends readiness events,
 //! injects operating-system input or claims normal-game interaction fidelity.
 use super::*;
+pub(crate) fn kabuto_body_inspection_replay() -> bool {
+    std::env::var("GIANTS_MISSION_REPLAY").as_deref() == Ok("showcase-kabuto-body")
+}
 
 pub(crate) fn owned_inspection_replay() -> bool {
     matches!(
@@ -95,6 +98,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
             | "showcase-free"
             | "showcase-cancel"
             | "showcase-mecc"
+            | "showcase-kabuto-body"
             | "showcase-audio-cancel",
         ) => 0,
         Some(
@@ -278,6 +282,16 @@ fn drive(
         mut keys,
     } = presentation;
     if replay.done {
+        if kabuto_body_inspection_replay()
+            && runtime.kabuto_body().is_some()
+            && let Some(mut world) = world
+        {
+            // Scene adoption can replace this capture flag after the endpoint.
+            // It remains an inspection flag, never a mission readiness event.
+            if !world.cinematic_capture_ready {
+                world.cinematic_capture_ready = true;
+            }
+        }
         return;
     }
     let mode = std::env::var("GIANTS_MISSION_REPLAY").unwrap();
@@ -377,6 +391,32 @@ fn drive(
             }
             let playing = showcase.controls(frontend.flow.phase);
             let opened = cinematic.as_ref().is_some_and(|c| c.clock_steps() > 180);
+            if mode == "showcase-kabuto-body"
+                && runtime.kabuto_body().is_some()
+                && players.iter().any(|p| p.ticket == frontend.flow.ticket)
+                && environment.presentation_ready()
+                && pipelines.0
+            {
+                if let Ok(Some(candidate)) = runtime.environment_candidate() {
+                    environment.inspect(frontend.flow.ticket, candidate.eye);
+                }
+                if replay.since == 0. {
+                    replay.since = time.elapsed_secs();
+                    return;
+                }
+                if time.elapsed_secs() - replay.since < 0.5 {
+                    return;
+                }
+                if let Some(mut world) = world {
+                    world.cinematic_capture_ready = true;
+                }
+                replay.done = true;
+                println!(
+                    "kabuto_body_inspection_finished ticket={} actual_owned_body=true normal_input=false initializer_acknowledged=false gameplay_ready=false",
+                    frontend.flow.ticket
+                );
+                return;
+            }
             if mode == "showcase-film-cycles" {
                 if !replay.film_finished
                     && let Some(terminal) = opening.source_terminal(frontend.flow.ticket)

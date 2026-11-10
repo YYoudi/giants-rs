@@ -105,6 +105,15 @@ expected feedback and supported limits, with a local build identity or release
 link. If the ordinary path still refuses, report that blocker before test counts.
 Do not delay basic supported interaction until unrelated rare cases are acquired.
 
+The .8 download predates ordinary-controller jet presentation. Later source
+connects the actual animated parent, published motion and constructor-bound
+child models to the common draw consumer, with separate presentation clocks.
+Validate this ordinary connection and real controls on the combined build;
+owned replay output alone does not close that interaction check. Keep the full
+native controller's impact/health/display/voice/fire requirements distinct.
+Do not fabricate native completion or duplicate the flight simulation to render
+the supported ordinary action.
+
 ## Publish one coherent milestone
 
 Use normal non-forced pushes and recheck current main before publication. Inspect

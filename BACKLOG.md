@@ -17,6 +17,18 @@ weapon path, then return and enter again. Verify each supported action on the
 actual build before advertising it. The last recorded owned GPU acceptance uses
 supplied replay commands; it does not close this real-input delivery.
 
+The .8 ordinary-path check on a fresh muted profile reaches the mission from New
+Single Player Game, skips the opening with Escape and returns to the menu with
+actual resource release. Short input pulses do not validate continuous flight.
+That download predates the ordinary-controller jet presentation. Later source
+connects the actual animated parent, motion publication and constructor-bound
+child models to `mission_jet_scene`, with separate presentation clocks. Validate
+this connection on the combined build, including real thrust, boost, release,
+descent, landing and menu re-entry, then publish the supported interaction.
+Full native impact, damage/display/voice and fire ownership remain separate
+requirements for the native controller. Do not invent their state or mark an
+unfinished native parent complete to deliver ordinary visual feedback.
+
 - Main integration: connect actual camera/input/projection and activation order;
   consume the reviewed character services through their real shared owners.
 - Mecc: provide the first missing impact/health/display/voice/FX and weapon
@@ -34,6 +46,12 @@ supplied replay commands; it does not close this real-input delivery.
   and three complete draw retirements pass with supplied commands on source
   `064cfed`; this is separate from held-input verification. Keep render-only clocks distinct from native world
   completion; real held-input thrust/release and menu re-entry still need checking.
+  Ordinary pistol delivery: source projectile geometry/material and acquired
+  straight-launch orientation/velocity now replace the diagnostic flight quads.
+  Check real left-mouse firing, visible shot lifetime/removal and menu re-entry.
+  Constructor flash/attached FX, native range/retirement and impact births/contacts/damage, firing
+  poses and owned actor/fire scheduling remain open; retain those actual services
+  rather than selecting a guessed animation or substituting diagnostic shapes.
 - NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
   story interaction and its first real caller dependency within each domain.
   Their detailed blockers below remain authoritative; communicate the producer/
@@ -105,13 +123,74 @@ The dedicated NPC lane resumes existing work; see
   failure. A subsequent original-PC-only mutable walk records 2,880 callbacks /
   2,432 history preparations across 32 scenarios; all 448 newborns run in their
   birth step. This acquires neither Rust composition nor whole-world admission.
-  Next bind herd/marker common-node dispatch, ANM epochs and nonphysical
-  finalization (including the herd environment service), then the mutable
-  population traversal; do not impose an extra newborn history copy
-  or postpone a new child using a population snapshot. Outer world admission,
+  Bounded herd/marker common-node dispatch now owns ANM epochs and nonphysical
+  finalization with required environment/footprint providers. A composed Rust
+  mutable walk matches 32 scenarios /96 snapshots /824,168 normalized words,
+  including all 2,880 callbacks and 448 birth-step first callbacks. Five source
+  controls retain same-step births, skipped-primary clock separation, affine
+  publication, partial environment
+  failure/quarantine and stop after lost control. The real environment/platform
+  failure control also retains terrain stages through the owned herd adapter.
+  Separate empty-ANM controls
+  match 128 cases /4,864 words. Next bind actual world admission and phase
+  producers around this composition; retain unsupported-actor refusals and
+  acquire required threat/feeding/effects/audio providers. Do not impose an
+  extra newborn history copy or defer a child through a population snapshot.
+  Outer world admission,
   global clock/RNG ownership and active FX/audio remain prerequisites.
   Then acquire threat/feeding services and active effects/audio before ordinary
   mission admission. Preserve existing refusal and late-failure behavior.
+- Threat consideration now has a controlled original-PC/Rust helper comparison:
+  1,505 cases /9,030 output/read-count words, with priority gates, strict XY
+  proximity, ordered peer reads and once-per-noise memory. The isolated owned
+  entry retains late writes/quarantine; two source cohort controls pass. Next
+  bind response/escape selection to actual owners and caller timing. Response
+  dispatch now matches 1,024 controls /28,672 projected words: 927 helper returns,
+  75 vector boundaries and 22 action boundaries. The latter are prefix evidence,
+  not completed services. Session predicates match 2,840 contexts /5,680 words.
+  Vector/route controls now match 676 contexts /22,308 words (393 returns,
+  248 required-action and 35 hint/terrain boundaries). An isolated Session adapter now
+  publishes actual child/parent/route prefixes and rereads callback changes, with
+  failure quarantine and cancellation checks. Six installed controls cover a
+  fourteen-child cohort plus callback/failure/owner boundaries. Session snapshot,
+  affine entry phase, origin and RNG phase remain supplied. The isolated response adapter now
+  binds actual inline physical/channel flags and composes the owned vector with
+  the same RNG. Six further installed controls retain terminal callback writes,
+  noise targets, opaque bytes, nested failure and cancellation. Priority/signal/
+  channel entries and session/noise/affine/RNG phases are declared test inputs,
+  not native caller/readiness producers. A separate actual-PC caller control
+  injects only the warm signal: 28 animation-unready entries and one completed
+  response/vector return are observed without forcing physical/channel flags.
+  The captured-helper Rust comparison matches 29 entries /957 words; caller
+  binding/tail and Rust whole-primary composition remain excluded. Next acquire
+  the remaining caller phases after that helper return. The four-stage active
+  block now matches 115 native entries /1,495 state/RNG/control words, including
+  a persistent Rust-state comparison with supplied caller motion/clock inputs
+  and external draw schedule. One real native source cycle reaches completion
+  with only one signal injected and no forced readiness. The isolated active
+  Session adapter now owns its arrival timer without an invented constructor zero,
+  publishes required-service prefixes, rereads heading callback changes and retains
+  terminal action/cancellation effects. Six installed controls cover the owner and
+  replay/error boundaries; a separate actual-Session control matches 115 native
+  entries /1,495 words with retained outputs/RNG and supplied caller inputs/external
+  draw counts. Bind the complete caller phase and preserve first-handled versus
+  later growth/movement production. The mode1 animation selector now consumes owned gait/physical flags;
+  1,088 native numeric contexts /39,168 channel words agree, including real blend
+  modes and descriptor visibility controls. A declared synthetic idle-turn alias
+  covers that absent source descriptor only numerically. One installed control
+  covers three actual locomotion resources after owned physics, retained pending
+  frame state and ANM replay refusal. Gait/contact inputs remain supplied. The
+  growth helper is already reconstructed: the first handled response skips it
+  together with ordinary movement. Bind actual movement/contact producers and
+  compose the response at its callback point before common look/physics/ANM. Keep
+  required action and hint bodies, live session snapshot and typed linked/target
+  ownership, active response/mode7 continuation, required
+  sound/animation and exact primary call timing; bind world-noise production.
+  The Session adapter must publish prefixes before provider callbacks, preserve
+  callback writes/retirement and reject stale-owner replay rather than restore
+  a working copy after a callback.
+  Do not enable fleeing or replace the ordinary primary's refusals from this
+  helper proof alone. See `docs/OWNED_NPCS.md`.
 - Resume the persistent Ripper primary/perception/attack services, actual player
   target identities, physical/ANM order and required firing/audio/effect providers.
   Do not replace them with a generic new AI or enable unsupported modes.
@@ -254,12 +333,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 Current observable delivery: enter a Reaper mission through the common menu,
 retain the actual declared Delphi owner/held/copy group, then connect supported
-dry keyboard/mouse movement, jump and camera. **First runtime blocker:**
-`player_initial::Prepared` admits Mecc only and the mission runtime has no Delphi
-cold factory/role-binding branch. Supply that real constructor/consumer next;
-retain pending projection/controller/geometry services instead of acknowledging
-missing work. Main integration owns combined delivery. Delphi remains an
-intermediate dependency, with no ordinary controls newly available.
+keyboard/mouse movement, jump and camera. **Construction is now connected:**
+`delphi_declared::Factory` and the common loader retain the actual constructor Id,
+including late failures, with source-template shell history and declared placement.
+The next runtime gap is projection reset plus the first animation/render and
+physical/camera/input driver consuming this same owner. Confirm source start and
+contact/water prerequisites; do not teleport or force state to make a dry slice.
+Main integration owns combined delivery. No ordinary Delphi controls are newly
+available; the source-backed App control uses an all-unlocked test menu mask and
+proves staging/roles/re-entry, not user input or campaign availability.
 
 The authored camera now uses the common typed override owner and common mode
 selector; 512 original writer/predicate programs match 81,920 selected words.
@@ -683,8 +765,14 @@ blocker in the next slice, rather than continuing adjacent functions by address.
    spawn, retains its player identity and passes cleanup/second entry. This source
    composition uses the constructor's existing history; native marker relocation
    and complete caller history remain unverified. All four initializer gates stay
-   pending. **Next blocker: body/material submission and the actual camera /
-   projection path.** Cold construction alone is not visible or playable Kabuto.
+   pending. The initial current-channel body now reaches the shared lit renderer
+   (31 source subparts), with actual textures/pose normals and stale-owner guards.
+   A private offscreen Kstory1 capture visibly shows Kabuto; its head is cropped
+   by the provisional Mecc-shaped inspection camera. This is a static inspection,
+   not normal mission admission, live ANM or input. **Next blocker: the actual
+   Kabuto camera/profile/projection producer and initializer/startup consumers.**
+   Complete that normal entry before walking/turning; do not substitute an
+   inspection fit or a forced readiness event for the native camera contract.
 2. Actual input, walking and turning through the common world, camera and
    collisions; then jump/landing and continuous-session exit/re-entry checks.
 3. Attack, capture and feeding with real target/lifetime owners.
@@ -1338,8 +1426,15 @@ blocker in the next slice, rather than continuing adjacent functions by address.
   callback results); composition reaches the countdown in 32 contexts, with ten
   pending and 22 expired. Actual precheck and previous-record callback effects are
   supplied: inspection exposes music/player-transition responsibilities, not an
-  acquired one-time initializer. Next acquire those full services, actual snapshot
-  ownership and message/progression continuation plus debug/menu/editor lifetimes;
+  acquired one-time initializer. Completion continuation now orchestrates notice
+  marking, signed progress update, next-record scan and all four record kinds,
+  preserving callback-relative mission/player/world rereads and late-failure
+  writes. In 373 whole-handler contexts, Rust's composed admission/countdown/tail
+  agrees with native selected state, clocks, returns and 1,454 ordered provider
+  entries with intermediate state/arguments. Mission data, clocks and helper
+  callback effects are supplied; actual UI/music/save/load/event/countdown-start
+  bodies, precheck/previous-record services and world/storage ownership remain
+  required. Next acquire those full backends and debug/menu/editor lifetimes;
   then bind common ownership and impact/voice/display/FX world services. Broaden populated
   contact and live sessions. Do not default a guard to bypass these prerequisites.
   See OWNED_MECC_CONTACT.md for scope; ordinary gameplay and fidelity remain open.

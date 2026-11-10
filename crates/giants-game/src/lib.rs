@@ -666,6 +666,7 @@ pub mod mission_state;
 pub mod physical_ground;
 pub mod plane_response;
 pub mod platform_queries;
+pub mod player_body;
 pub mod player_collision_radius;
 pub mod player_equipment;
 pub mod player_initial;
@@ -693,6 +694,7 @@ pub mod mecc_locomotion;
 pub mod mecc_model_motion;
 
 pub mod actor_primary_gate;
+pub mod actor_session_predicates;
 pub mod animation_epoch;
 pub mod audio_parameters;
 pub mod audio_sequence;
@@ -703,6 +705,7 @@ pub mod cinematic_credits;
 pub mod cinematic_sound;
 pub mod delphi_camera;
 pub mod delphi_camera_distance;
+pub mod delphi_declared;
 pub mod delphi_dry_reset;
 pub mod delphi_items;
 pub mod delphi_movement_activation;
@@ -822,8 +825,12 @@ pub mod vimp_hurt;
 pub mod vimp_living_scalars;
 pub mod vimp_physical;
 pub mod vimp_recovery;
+pub mod vimp_response;
+pub mod vimp_threat;
+pub mod vimp_vector_response;
 pub mod vimp_wander;
 
+pub mod herd_frame;
 pub mod herd_generator;
 
 pub mod effect_texture_animation;
@@ -842,3 +849,6 @@ pub mod sound_spatial;
 
 #[cfg(test)]
 mod npc_source_tests;
+
+mod actor_angle_approach;
+pub mod vimp_active_response;
