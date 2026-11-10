@@ -52,6 +52,15 @@ The next player delivery remains the continuous real-input Mecc flight/release/
 descent/landing loop; Story2 needs the actual shared caller and remaining family
 services before an interactive herd. Preview .9 and its download hashes stay fixed.
 
+Reconciliation source `255469f` also preserves concurrent main `5b2fad2`, including
+the exact-owner Kabuto look-angle command and external cold camera context.
+The resulting combination passes 953 portable Rust checks (149 ignored), 44
+Python checks, format/strict Clippy and 48 installed controls. The additional
+camera check retains signed pitch and projection-failure effects on the correct
+actor. The source-history review covers 1,056 commits and 5,684 unique blobs
+with zero findings. These are scoped dependencies, not new Kabuto controls or
+proof of continuous Mecc OS-held flight; the next player delivery is unchanged.
+
 ## Flick timed queue ownership - intermediate dependency
 
 No new normal controls, runtime capability or downloadable preview is claimed.
