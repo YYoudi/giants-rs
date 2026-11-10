@@ -62,6 +62,15 @@ pub(crate) struct OwnedAudio(pub u64);
 pub(crate) struct State {
     mounted: Option<Mounted>,
     attempted: Option<u64>,
+    terminal: Option<SourceTerminal>,
+}
+/// Source-end and drained owned voices observed before transport retirement.
+/// This is not campaign readiness, native timing or complete film fidelity.
+pub(crate) struct SourceTerminal {
+    ticket: u64,
+    pub(crate) directors: usize,
+    pub(crate) sequence: String,
+    pub(crate) tick: i32,
 }
 #[derive(Resource, Default)]
 struct SkipGesture {
@@ -101,6 +110,13 @@ struct Mounted {
     render_failed: bool,
 }
 impl State {
+    pub(crate) fn source_terminal(&self, ticket: u64) -> Option<&SourceTerminal> {
+        self.terminal.as_ref().filter(|end| end.ticket == ticket)
+    }
+    fn begin_attempt(&mut self, ticket: u64) {
+        self.attempted = Some(ticket);
+        self.terminal = None;
+    }
     pub(crate) fn attempted(&self, ticket: u64) -> bool {
         self.attempted == Some(ticket)
     }
@@ -242,6 +258,31 @@ fn release(world: &mut World) {
         return;
     };
     assert_eq!(world.resource::<Owner>().0, mounted.ticket);
+    // Audio sinks advance on their own thread. A later consumer cannot safely
+    // reproduce the terminal observation after this function removes the movie.
+    let terminal = world
+        .get_resource::<cinematic_camera::Cinematic>()
+        .filter(|movie| movie.end_reached())
+        .map(|movie| SourceTerminal {
+            ticket: mounted.ticket,
+            directors: movie.segments().len(),
+            sequence: movie.sequence().to_owned(),
+            tick: movie.tick(),
+        });
+    if let Some(terminal) = terminal {
+        let drained = world
+            .query_filtered::<(&OwnedAudio, Option<&AudioSink>), With<cinematic_audio::PlayingVoice>>()
+            .iter(world)
+            .filter(|(owner, _)| owner.0 == mounted.ticket)
+            .all(|(_, sink)| sink.is_some_and(|sink| sink.empty()));
+        if drained {
+            println!(
+                "mission_opening_source_terminal ticket={} directors={} sequence={} tick={} voices_drained=true readiness_claimed=false",
+                terminal.ticket, terminal.directors, terminal.sequence, terminal.tick
+            );
+            world.resource_mut::<State>().terminal = Some(terminal);
+        }
+    }
     let playback_enabled = world
         .get_resource::<cinematic_audio::PlaybackEnabled>()
         .is_some_and(|p| p.0);
@@ -334,7 +375,7 @@ fn sync(world: &mut World) {
             .mounted_ticket()
             == Some(ticket)
     {
-        world.resource_mut::<State>().attempted = Some(ticket);
+        world.resource_mut::<State>().begin_attempt(ticket);
         let prepared = world.resource_mut::<Runtime>().take_opening(ticket);
         match prepared {
             Ok(Some(prepared)) => {
@@ -508,6 +549,23 @@ mod tests {
         );
     }
     #[test]
+    fn release_without_source_end_does_not_create_a_terminal() {
+        let mut world = World::new();
+        world.init_resource::<State>();
+        world.init_resource::<Assets<AudioSource>>();
+        world.insert_resource(Owner(7));
+        world.resource_mut::<State>().mounted = Some(Mounted {
+            ticket: 7,
+            cinematic: None,
+            assets: HashSet::new(),
+            inspecting: false,
+            was_running: false,
+            render_failed: false,
+        });
+        release(&mut world);
+        assert!(world.resource::<State>().source_terminal(7).is_none());
+    }
+    #[test]
     fn release_preserves_unrelated_audio_and_is_idempotent() {
         let mut world = World::new();
         world.init_resource::<State>();
@@ -533,8 +591,22 @@ mod tests {
             was_running: false,
             render_failed: false,
         });
+        world.resource_mut::<State>().terminal = Some(SourceTerminal {
+            ticket: 7,
+            directors: 2,
+            sequence: "synthetic".into(),
+            tick: 300,
+        });
         release(&mut world);
         release(&mut world);
+        assert_eq!(
+            world.resource::<State>().source_terminal(7).unwrap().tick,
+            300
+        );
+        assert!(world.resource::<State>().source_terminal(8).is_none());
+        world.resource_mut::<State>().begin_attempt(8);
+        assert!(world.resource::<State>().source_terminal(7).is_none());
+        assert!(world.resource::<State>().source_terminal(8).is_none());
         assert!(world.get_entity(ours).is_err());
         assert!(world.get_entity(other).is_ok());
         assert!(!world.resource::<Assets<AudioSource>>().contains(own.id()));

@@ -29,7 +29,7 @@ then the original deferred/subjective guards, dependency pass and attachment
 pass. It observes 22 actors and establishes that held placement follows the
 primary/secondary/animation pass. Constructor-zero caches, evaluated reference
 buffers and later placed caches are distinct states. Time, flat terrain,
-commands/preferences, initial owner-affine preparation and projection/OS/TLS
+commands/preferences, explicit position-history refresh and projection/OS/TLS
 boundaries remain supplied. Later world passes, Rust whole-turn equivalence and
 normal startup producers remain unverified. No new prototype PS2 attribution is
 confirmed. This source-only service enables neither live Delphi nor a new
