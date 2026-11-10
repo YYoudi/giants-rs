@@ -46,6 +46,22 @@ this published executable: 545 sources /16 worlds, zero preparation errors,
 Only reviewed aggregate identities change; these diagnostics and zero certified
 complete scenes remain unchanged. The inventory is not a visual completeness audit.
 
+## Kabuto retained caller input — 10 November 2026
+
+The owned held-reference component can now consume its resource phase's retained
+decision/frame/wrap sample. Later channel/action/mode writes cannot replace it;
+missing snapshots refuse before component entry. Existing time-to-frame conversion
+and the Session reference bank are reused, with no new caller clock kernel.
+
+Eight complete original-PC primaries retain 32 selected caller words between the
+measured frontiers; sixteen converter words also agree with the existing scoped
+Rust service. Behavior/clocks/wrap and outer engine providers remain supplied.
+The source-backed snapshot/refusal control passes alongside the other nineteen
+Kabuto controls and 872 workspace Rust tests (69 ignored), Rustfmt and strict
+Clippy. These controls do not complete action/capture policy, primary ordering,
+lifetimes, backends or live Kabuto gameplay. The public preview keeps its exact
+source and hashes; no new download is inferred from this source-only component.
+
 ## Owned Kabuto current/held-reference bank — 10 November 2026
 
 The acquired handoff now consumes typed Session actor identities and actual
