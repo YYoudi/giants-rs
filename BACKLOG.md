@@ -514,6 +514,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   per-frame cache producers; do not reuse constructor-zero or previous-phase
   caches as current evaluated poses. Full world scheduling and target/readiness
   publication remain unbound. See docs/OWNED_DELPHI.md.
+- Implemented: `delphi_local_target::advance` now owns the local caller's reset,
+  cooldown/proxy, geometry/aim, pending/item and readiness/action sequence over
+  required providers. Distinct typed candidate/highlight/pending/item/proxy slots
+  and terrain/query/display-point lifetimes survive partial failures. All 2,048
+  original caller contexts match 47,104 projected words /16,978 tracked events;
+  injected provider failures retain the corresponding prefix. Geometry, view,
+  item, linked-helper and final range results remain supplied. Original inline
+  math executes in 465 cases; 27 reject reusing the linked helper's narrower
+  squared-distance profile. Bind this caller to the actual Session pre-physical
+  epoch and real providers, including item-target writes and target/proxy
+  retirement. Keep completed-frame query guards until that phase ownership is
+  established; then compose active targeted physics and compare full turns.
 - Native-only full-primary diagnosis now completes 256 whole original bodies
   after the retained initialization/generic entry with declared world/view and
   projection/OS/TLS boundaries. Its same-input trajectory differs from the old

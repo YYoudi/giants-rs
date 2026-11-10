@@ -38,6 +38,12 @@ and captures the child's `--help` result explicitly.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+`cargo test --locked -p giants-game delphi_local_target --target x86_64-pc-windows-gnu`
+checks the local caller's separate point/link lifetimes, inline-wide versus
+linked-rounded readiness, retained terrain/linked/item-target failures, inactive
+pending selection and nonlocal no-effect entry. Geometry/camera/item/proxy
+providers are test doubles; these controls do not validate their runtime binding.
+
 With `GIANTS_DELPHI_ROOT` set to compatible installed data,
 `source_delphi_dependency_order_keeps_group_identities_and_cleanup` checks the
 common dependency-order service against the actual cold Delphi/copy/held group.

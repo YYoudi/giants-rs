@@ -1,5 +1,17 @@
 # Preview releases and milestone integration
 
+## Delphi local target/readiness caller — 10 November 2026
+
+The local primary caller now produces its target, aim, item and movement-ready
+state in acquired order over required providers. It keeps typed target/proxy
+slots and distinct point lifetimes, including partial writes after errors.
+All 2,048 original caller controls match 47,104 projected words and 16,978 ordered
+events; 27 controls distinguish inline wide-distance readiness from the linked
+helper's narrower profile. Provider bodies, actual Session pre-physical binding,
+target lifetime and active physics remain prerequisites. This does not enable
+Delphi gameplay or change the frozen public preview. See
+[OWNED_DELPHI.md](OWNED_DELPHI.md).
+
 ## Delphi shared dependency-order prerequisite — 10 November 2026
 
 The common Session now owns the acquired post-primary dependency ordering for
