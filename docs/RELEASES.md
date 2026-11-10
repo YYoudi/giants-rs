@@ -1,5 +1,31 @@
 # Preview releases and milestone integration
 
+## Vimp locomotion animation — 10 November 2026, source only
+
+The owned mode1 selector now uses actual gait and physical flags, preserving
+water-contact/damage precedence, distinct reference speeds, raw gait fallback,
+entry readiness and numeric requests whose descriptor is missing. Rust agrees
+with 1,088 original-PC numeric channel contexts /39,168 words under both blend
+modes. Positive idle-turn coverage uses an explicitly synthetic descriptor alias;
+the source class lacks that descriptor. One installed control covers three real
+locomotion resources after owned physics, retained pending-frame state and replay
+refusal. Gait/contact inputs are supplied, not acquired live producers.
+
+The primary's earlier helper is the already reconstructed growth service. The
+first handled response skips growth and ordinary movement; preserve that branch
+in the future composed driver. Prototype PS2 attributions remain unknown. Stage
+timer ownership, movement/contact production, response/physics/ANM composition
+and actual world/services still block ordinary NPC AI. This source lot adds no
+capture or executable and does not change a frozen preview's coverage.
+
+Combined runtime source `69cbc7c` preserves current main contributions and passes
+926 workspace Rust tests (122 ignored), 26 installed NPC controls, Delphi
+dependency-order and canonical timed-owner controls, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated site/JavaScript checks. The 1,088-context
+comparison also passes on that combined runtime source. The preceding active
+response PR's dashboard and both Windows checks have passed. These checks retain
+their source/CPU scope; published preview .7 remains pinned to its own receipt.
+
 ## Vimp active response cycle - 10 November 2026, source only
 
 The acquired four-stage block now retains turn/wait/target-bearing/final-delay

@@ -35,6 +35,15 @@ The combined source preserves camera activation/lens reset, Delphi local target
 and Kabuto retained-slot animation services. Their CPU/provider boundaries remain;
 this preview enables no new ordinary Delphi or Kabuto gameplay.
 
+## NPC source dependencies awaiting runtime admission
+
+The Vimp mode1 animation service now selects from owned gait and physical flags,
+with numeric original-PC controls and three installed locomotion resources after
+owned physics. Response growth/movement ordering and pending-frame ownership stay
+explicit. Actual response movement/contact producers, persistent timers and the
+complete world/physics/ANM/service composition remain required; these source
+services enable no ordinary mission NPC AI and add no rendered preview coverage.
+
 ## Combined camera and canonical smoke dependencies
 
 Camera mode changes, activation reset and lens evaluation share one transition

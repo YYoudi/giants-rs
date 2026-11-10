@@ -44,6 +44,15 @@ coefficient tables, publish projection or complete activation.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+`cargo test --locked -p giants-game vimp_animation --target x86_64-pc-windows-gnu`
+checks locomotion/contact/damage precedence, native gait fallback, missing moving
+descriptor requests, same-clip and unfinished-entry skips. With a locally set
+`GIANTS_NPC_ROOT`, the ignored
+`source_vimp_locomotion_animation_consumes_actual_resources_and_physical_phase`
+control uses three installed animation resources after owned physics. It supplies
+gait/contact flags, retains the unfinished frame and refuses ANM replay. It does
+not establish live movement/contact production or ordinary mission admission.
+
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
 runs three owned-phase controls: publication/physical consumption and later

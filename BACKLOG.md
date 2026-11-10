@@ -107,8 +107,16 @@ The dedicated NPC lane resumes existing work; see
   a persistent Rust-state comparison with supplied caller motion/clock inputs
   and external draw schedule. One real native source cycle reaches completion
   with only one signal injected and no forced readiness. Bind its turn timer to
-  persistent ownership, preserve first-handled versus later movement production,
-  and acquire active animation before common look/physics/ANM integration. Keep
+  persistent ownership and preserve first-handled versus later growth/movement
+  production. The mode1 animation selector now consumes owned gait/physical flags;
+  1,088 native numeric contexts /39,168 channel words agree, including real blend
+  modes and descriptor visibility controls. A declared synthetic idle-turn alias
+  covers that absent source descriptor only numerically. One installed control
+  covers three actual locomotion resources after owned physics, retained pending
+  frame state and ANM replay refusal. Gait/contact inputs remain supplied. The
+  growth helper is already reconstructed: the first handled response skips it
+  together with ordinary movement. Bind actual movement/contact producers and
+  compose the response at its callback point before common look/physics/ANM. Keep
   required action and hint bodies, live session snapshot and typed linked/target
   ownership, active response/mode7 continuation, required
   sound/animation and exact primary call timing; bind world-noise production.

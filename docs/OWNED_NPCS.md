@@ -267,10 +267,47 @@ Five portable controls cover arrival/normalization distinctions, equal-bound RNG
 wide timer decisions, required-service ordering and retained callback errors.
 
 Next bind the stage-produced turn timer to persistent actor ownership, acquire the
-remaining ordinary movement/active-animation producers and compose this block at
+remaining ordinary movement producers and compose this block at
 its actual callback point before common look, physics and ANM. Session/world phase,
 clock/RNG ownership, hint/action/audio services and mode7 remain prerequisites.
 No normal gameplay availability, new capture or preview is added by this kernel.
+
+### Mode1 locomotion animation and growth ordering — 10 November 2026
+
+`vimp_animation::mode1_request_with_locomotion` now consumes the actual gait and
+inline physical flags. Moving water-contact selection takes precedence over
+damage, then the two explicit gait branches and native fallback; each uses its own
+scaled reference-speed parameter. Idle turning retains its resource-aware default
+wrapper. The numeric moving selector still publishes its request when the
+descriptor is absent: the following resource consumer owns that failure.
+Already-selected clips and an unfinished entry clip retain the native skip.
+The former dry gait0 API delegates to this selector without changing its inputs.
+
+Rust numeric channel composition matches 1,088 original-PC contexts /39,168 words
+with blending enabled and disabled, descriptor visibility controls, signed rates,
+damage/contact precedence and raw gait fallback. The native source-loaded class
+has no idle-turn descriptor; positive numeric-only coverage explicitly aliases
+an existing source descriptor into that slot. This synthetic alias establishes
+neither an original idle-turn asset nor pose/clock/visual fidelity. Other header
+and payload fields remain unchanged in the native controls.
+
+One installed Session control exercises three actual gait/contact animation
+resources after an owned physical phase and checks channel mirroring, consumption
+and replay refusal. Gait/contact flags are declared post-physical inputs; this
+does not acquire a water-contact or response movement producer. ANM consumes only
+its own phase: wander stays pending and the complete-frame count stays unchanged.
+The current ordinary movement admission still rejects active/water profiles.
+
+Reinspection also identifies the helper before the ordinary movement block as
+the already reconstructed growth service, using its target-size transitions,
+health parameters, growth timer and scale/reference updates. The first handled
+response skips both this growth call and ordinary movement; later visits can run
+them. Preserve that branch when composing the primary rather than advancing
+growth unconditionally. This is PC role evidence, not a confirmed prototype PS2
+name. All touched attributions remain unknown; earlier aliases and the rejected
+movement-helper hypothesis remain in the private record. Persistent timer and
+caller phase ownership, actual movement/contact producers, required services and
+complete response/physics/ANM/world composition remain the next work.
 
 The PC SHA256 is
 `690bad39847b0f578163e547e6a6de10ffe9213635a069bd1ce96a75dfd39ead`;
