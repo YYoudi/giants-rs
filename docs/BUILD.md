@@ -1124,3 +1124,21 @@ post-resolution queue failure. `continuation::Services` requires actual storage,
 text identities, UI/music/save/load/event/countdown-start providers. No method
 has a default successful implementation; missing providers must remain errors.
 The acquired caller return is separate from mission completion or live admission.
+
+## Optional Kabuto initial-body inspection
+
+This is an intermediate renderer dependency, not playable Kabuto. A compatible
+user-supplied Kstory1 installation is required. The ignored App control
+`source_kabuto_menu_entry_constructs_owned_group_and_reenters` uses
+`GIANTS_KABUTO_ROOT`; it checks the actual menu request/common constructor,
+current-channel body preparation, four pending initializers and cleanup/re-entry.
+
+For private GPU inspection set `GIANTS_MISSION_REPLAY=showcase-kabuto-body`,
+`GIANTS_SHOWCASE_WORLD=Kstory1` and `GIANTS_SHOWCASE_MISSION=0`. Launch an awaited,
+receipt-bound common executable with `--mecc-menu`, your `--data-root`, a fresh
+`--user-data-root`, and `--offscreen --silent-capture --capture` to a fresh private
+PNG. This explicitly activates the existing environment inspection camera and
+suspends opening playback without emitting mission readiness. The body is an
+initial snapshot; native camera/projection, live ANM, input and ordinary startup
+remain unverified. Inspect the actual image: GPU preparation and a successful PNG
+write alone do not prove body visibility or correct framing.

@@ -15,7 +15,7 @@ use giants_game::{
 };
 pub(crate) use replay::{
     capture_allowed as mission_capture_allowed, install as install_mission_replay,
-    owned_inspection_replay,
+    kabuto_body_inspection_replay, owned_inspection_replay,
 };
 impl Scene {
     pub(crate) fn browse_preview_missions(&mut self) -> Result<(), String> {
@@ -1438,6 +1438,11 @@ pub fn draw(
     let height = window.map_or(1080., Window::height);
     for entity in &old {
         commands.entity(entity).despawn();
+    }
+    // Inspection captures the staged body while native admission stays pending.
+    // This hides only this diagnostic overlay; it emits no readiness event.
+    if replay::kabuto_body_inspection_replay() && scene.flow.phase == Phase::AwaitingRuntime {
+        return;
     }
     if scene.screen == Screen::MissionLoading
         && matches!(
