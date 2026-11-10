@@ -23,7 +23,9 @@ mod reference_camera;
 mod state18_reference_reset;
 mod subjective;
 mod timed_effect;
-pub use timed_effect::Services as TimedEffectServices;
+pub use timed_effect::{
+    PhysicalHeader as TimedEffectPhysicalHeader, Services as TimedEffectServices,
+};
 
 struct OwnedSpecification(crate::actor_references::Owned);
 impl std::fmt::Debug for OwnedSpecification {
