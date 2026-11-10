@@ -31,6 +31,8 @@ pub(crate) struct Controller {
     owned_backend: bool,
     owned_audio_backend: bool,
     owned_jet_probe: bool,
+    normal_jet: Option<Result<super::jet::Presentation, String>>,
+    normal_jet_frames: Vec<giants_game::mecc_jet_presentation::Frame>,
     owned_replay: bool,
     descent_replay: bool,
     owned_draw_reported: bool,
@@ -49,12 +51,57 @@ pub(crate) struct Controller {
     subjective_draw_visible: Option<bool>,
 }
 impl Controller {
-    pub(crate) fn owned_jet_frames(
+    pub(crate) fn jet_frames(
         &self,
     ) -> Option<(u64, u64, &[giants_game::mecc_jet_presentation::Frame])> {
-        self.state
-            .owned_jet_frames()
-            .map(|v| (self.ticket, u64::from(self.steps), v))
+        if !self.was_active {
+            return None;
+        }
+        let frames = if self.owned_backend {
+            self.state.owned_jet_frames()?
+        } else {
+            self.normal_jet.as_ref()?.as_ref().ok()?;
+            self.normal_jet_frames.as_slice()
+        };
+        (!frames.is_empty()).then_some((self.ticket, u64::from(self.steps), frames))
+    }
+    fn update_normal_jet(&mut self, runtime: &crate::mission_runtime::Runtime) {
+        if self.owned_motion_failed {
+            self.normal_jet_frames.clear();
+            return;
+        }
+        if matches!(self.normal_jet, Some(Err(_))) {
+            return;
+        }
+        let result = (|| {
+            let (session, owner) = runtime.controlled_jet_session(self.ticket)?;
+            if self.normal_jet.is_none() {
+                self.normal_jet = Some(super::jet::Presentation::new(session, owner));
+            }
+            let producer = self
+                .normal_jet
+                .as_mut()
+                .unwrap()
+                .as_mut()
+                .map_err(|error| error.clone())?;
+            producer.advance(
+                session,
+                u64::from(self.steps) + 1,
+                1. / 120.,
+                self.state.normal_jet_parent(),
+            )
+        })();
+        match result {
+            Ok(frames) => self.normal_jet_frames = frames,
+            Err(error) => {
+                eprintln!(
+                    "mission_normal_jet_refused ticket={} reason={error:?}",
+                    self.ticket
+                );
+                self.normal_jet = Some(Err(error));
+                self.normal_jet_frames.clear();
+            }
+        }
     }
     fn update_subjective(
         &mut self,
@@ -169,6 +216,8 @@ impl Controller {
     pub(crate) fn new(ticket: u64, state: crate::mecc_dev_scene::State) -> Self {
         let initial = state.mission_snapshot().0;
         Self {
+            normal_jet: None,
+            normal_jet_frames: Vec::new(),
             owned_jet_probe: std::env::var("GIANTS_MISSION_OWNED_JET_PROBE").as_deref() == Ok("1"),
             owned_audio_backend: std::env::var("GIANTS_MISSION_MECC_AUDIO").as_deref()
                 == Ok("reserved"),
@@ -674,6 +723,7 @@ pub(super) fn update(
                     controller.steps + 1
                 );
             }
+            controller.update_normal_jet(&runtime);
             let fire = if controller.fire_replay {
                 (60..300).contains(&tick)
             } else {
