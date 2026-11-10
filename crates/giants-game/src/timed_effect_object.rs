@@ -61,6 +61,9 @@ pub(crate) enum Boundary {
 /// to Body's actual owner. A pending boundary cannot start another callback.
 pub(crate) struct Runtime {
     pub class: i32,
+    /// Classify before effect-wrapper/VM stores; later flags do not relist it.
+    pub constructor_mask: u32,
+    pub matrix_written: bool,
     pub bindings: Vec<crate::model_registry::StateBinding>,
     pub states: Arc<crate::state_resources::Prepared>,
     pub fade: [f32; 4],
@@ -168,11 +171,24 @@ impl<K: Copy> Timed<K> {
         for (&slot, d) in &template.specification.animations {
             durations[usize::from(slot)] = Some(d.template.duration);
         }
+        let constructor_mask = match configured.initial.placement {
+            crate::effect_actor::Placement::Attached { .. } => 0,
+            crate::effect_actor::Placement::Position(_) => crate::object_lists::membership(
+                template.fields.class,
+                u32::from(template.seed.storage.state()),
+                crate::object_lists::DirectFlags {
+                    active: template.fields.object_flags,
+                    personality: template.fields.configuration[14],
+                },
+            ),
+        };
         let mut owned = Self {
             initial: configured.initial,
             references,
             runtime: Runtime {
                 class: template.fields.class,
+                constructor_mask,
+                matrix_written: false,
                 bindings: template.bindings,
                 states: template.states,
                 fade: configured.fade,
@@ -436,6 +452,7 @@ impl Runtime {
         if first != (next == VisualStep::FirstFrame) {
             return Err("timed constructor gate and lifetime phase disagree".into());
         }
+        self.matrix_written = false;
         self.pending = Some((next, first));
         crate::effect_actor::callback_entry(b.fields, b.render_flags);
         b.seed.storage.data_mut().unwrap()[8..12].copy_from_slice(&visual.age.to_le_bytes());
@@ -480,6 +497,7 @@ impl Runtime {
                 )?;
                 matrix.values[12..].copy_from_slice(&b.matrix.values[12..]);
                 *b.matrix = matrix;
+                self.matrix_written = true;
             }
             let tick = crate::animation_channels::advance(
                 b.channels_mut(),
@@ -544,6 +562,104 @@ mod tests {
             self.retirement += 1;
             Err("declared late retirement service failure".into())
         }
+    }
+
+    #[test]
+    #[ignore = "Requires GIANTS_FLICK_ROOT and private GIANTS_FLICK_TIMED_REGISTRATION_CONTROLS"]
+    fn native_timed_positioned_constructor_keeps_registration_order() {
+        use crate::{
+            attached_effect_context::{Creation, Pool},
+            audio_parameters::Random,
+            resident_states::{Id, Session},
+        };
+        let root = std::path::PathBuf::from(
+            std::env::var_os("GIANTS_FLICK_ROOT").expect("GIANTS_FLICK_ROOT"),
+        );
+        let control = std::env::var_os("GIANTS_FLICK_TIMED_REGISTRATION_CONTROLS")
+            .expect("GIANTS_FLICK_TIMED_REGISTRATION_CONTROLS");
+        let world = crate::world_source::resolve(&root, "Story4").unwrap();
+        let resources =
+            crate::scene_resources::SceneResources::load(&root, &world.catalog, "English").unwrap();
+        let image = Arc::new(
+            resources
+                .classes
+                .models
+                .effects
+                .last()
+                .unwrap()
+                .image
+                .clone(),
+        );
+        let (_, entry) = image.find("fx_shotgun_flk").unwrap();
+        let recipe =
+            crate::timed_effect::Recipe::project(&image.program(entry.offset).unwrap()).unwrap();
+        let (_, child) = image.find(&recipe.child).unwrap();
+        let offset = child.offset;
+        let text = std::fs::read_to_string(control).unwrap();
+        let mut cases = 0;
+        let mut discriminating = 0;
+        for row in text.lines() {
+            let e = row
+                .split('\t')
+                .map(str::parse::<u32>)
+                .collect::<Result<Vec<_>, _>>()
+                .unwrap();
+            assert_eq!(e.len(), 4);
+            let mut pool = Pool::<Id>::new(7000 + u64::from(e[0]), Some(image.clone()));
+            let (creation, _) = pool
+                .prepare_retirement_offset_invariant(
+                    Some(offset),
+                    [0.; 3],
+                    0,
+                    0x1000,
+                    &mut Random(7),
+                )
+                .unwrap();
+            let Creation::Prepared(origin) = creation else {
+                panic!("positioned source absent")
+            };
+            let context = pool.get(origin).unwrap();
+            let frame =
+                crate::released_effect::Recipe::project(context.program.as_ref().unwrap()).unwrap();
+            let mut template = Template::load(&resources, frame.class).unwrap();
+            // Declared class-input variation, also run through the original
+            // constructor. No installed source data is changed.
+            template.fields.configuration[14] = e[1];
+            let configured = template.gravity_positioned(origin, context).unwrap();
+            let owned = Timed::new(template, configured).unwrap();
+            let payload = owned.object().seed.storage.data().unwrap().as_ptr();
+            let mut session = Session::new(8000 + u64::from(e[0]));
+            let id = session.adopt_timed_positioned(owned).unwrap();
+            let actor = session.get(id).unwrap();
+            assert_eq!(actor.constructor_mask, e[2]);
+            assert_eq!(
+                actor.construction_fields.as_ref().unwrap().configuration[14],
+                e[3]
+            );
+            assert_eq!(actor.seed.storage.data().unwrap().as_ptr(), payload);
+            for list in 0..15 {
+                assert_eq!(
+                    session.list(list).contains(&id),
+                    list == 0 || e[2] & (1 << (list - 1)) != 0
+                );
+            }
+            let fields = actor.construction_fields.as_ref().unwrap();
+            let after = crate::object_lists::membership(
+                fields.class,
+                78,
+                crate::object_lists::DirectFlags {
+                    active: fields.object_flags,
+                    personality: fields.configuration[14],
+                },
+            );
+            discriminating += usize::from(after != e[2]);
+            assert_eq!(session.clear().residents, 1);
+            pool.release_prepared(origin).unwrap();
+            cases += 1;
+        }
+        assert_eq!(cases, 8);
+        assert_eq!(discriminating, 6);
+        eprintln!("native constructor/list cases={cases} pre/post discriminating={discriminating}");
     }
 
     #[test]

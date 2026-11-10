@@ -56,6 +56,36 @@ pub trait Services<K> {
     ) -> Result<(), String>;
 }
 
+struct Detach<'a, S>(&'a mut S);
+impl<K: Copy, S: Services<K>> crate::actor_reference_detach::Services<K, State<K>>
+    for Detach<'_, S>
+{
+    fn fields(&self, actor: K) -> Result<&Fields, String> {
+        self.0.fields(actor)
+    }
+    fn fields_mut(&mut self, actor: K) -> Result<&mut Fields, String> {
+        self.0.fields_mut(actor)
+    }
+    fn state(&self, actor: K) -> Result<u32, String> {
+        Ok(self.0.metadata(actor)?.state)
+    }
+    fn parent_reference(&self, actor: K) -> Result<i32, String> {
+        Ok(self.0.metadata(actor)?.parent_reference)
+    }
+    fn clear_parent(&mut self, actor: K) -> Result<(), String> {
+        self.0.clear_parent(actor)
+    }
+    fn set_state89_parameter(&mut self, actor: K, value: f32) -> Result<(), String> {
+        self.0.set_state89_parameter(actor, value)
+    }
+    fn reset_state18(&mut self, published: &mut State<K>, actor: K) -> Result<(), String> {
+        self.0.reset_state18(published, actor)
+    }
+    fn state3_scale(&self, actor: K) -> Result<f32, String> {
+        self.0.state3_scale(actor)
+    }
+}
+
 /// The caller supplies the actual local-owner identity. This consumes no primary
 /// or history token. Services see published state and may change it; errors retain
 /// prior effects and require caller quarantine rather than wholesale replay.
@@ -110,29 +140,7 @@ pub fn advance<K: Copy + Eq>(
             },
         )?;
     }
-    if scale != 0. {
-        let current = services.fields(target)?.scale;
-        let divided = (f64::from(current) / f64::from(scale)) as f32;
-        if !scale.is_finite() || !current.is_finite() || !divided.is_finite() {
-            return Err("Kabuto release scale outside acquired finite division".into());
-        }
-        services.fields_mut(target)?.scale = divided;
-    }
-    let target_state = services.metadata(target)?.state;
-    services.clear_parent(target)?;
-    match target_state {
-        89 if services.metadata(target)?.parent_reference <= 1 => {
-            services.set_state89_parameter(target, 1.)?;
-        }
-        18 => services.reset_state18(state, target)?,
-        3 => {
-            let scale = services.state3_scale(target)?;
-            services.fields_mut(target)?.scale = scale;
-        }
-        _ => {}
-    }
-    let flags = &mut services.fields_mut(target)?.object_flags;
-    *flags = (*flags & !0x80000) | 0x10000000;
+    crate::actor_reference_detach::advance(target, scale, state, &mut Detach(services))?;
     // The captured actor above and the current reference below need not agree
     // after a service. Preserve the original reread, including source aliasing.
     let current = state
