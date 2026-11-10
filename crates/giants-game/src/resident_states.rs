@@ -52,8 +52,8 @@ mod vimp_locomotion_animation_tests;
 #[cfg(test)]
 mod vimp_newborn_tests;
 pub use vimp_active::{
-    Movement as VimpActiveMovement, MovementServices as VimpActiveMovementServices,
-    Services as VimpActiveServices,
+    Contact as VimpMovementContact, Movement as VimpActiveMovement,
+    MovementServices as VimpActiveMovementServices, Services as VimpActiveServices,
 };
 mod vimp_response;
 #[cfg(test)]
@@ -5255,6 +5255,7 @@ impl Session {
                 !p.view.physics_consumed || !p.view.animation_consumed || p.view.failure.is_some()
             })
             || vimp.damage != 0.
+            || vimp.contact_hit != 0
             || fields.object_flags & 0x81008000 != 0
             || actor.attachment.is_some()
             || body.len() != 216
@@ -5731,7 +5732,7 @@ impl Session {
         let actor = self
             .get(id)
             .ok_or("Vimp physical owner absent or foreign")?;
-        let vimp = actor.vimp.ok_or("Vimp physical construction absent")?;
+        let mut vimp = actor.vimp.ok_or("Vimp physical construction absent")?;
         if actor.attachment.is_some() || actor.seed.storage.state() != 21 {
             return Err("Vimp physical phase requires its unparented state21 body".into());
         }
@@ -5754,11 +5755,12 @@ impl Session {
                 .data()
                 .ok_or("Vimp physical payload absent")?
                 .to_vec(),
-            vimp,
+            &mut vimp,
             globals,
             ground,
         );
         let actor = self.residents.get_mut(&id.serial).unwrap();
+        actor.vimp = Some(vimp);
         match result {
             Ok((fields, body)) => {
                 actor.affine_cache = owned.view.affine.map(|value| OwnedAffine {
