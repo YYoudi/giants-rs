@@ -1732,6 +1732,20 @@ blocker in the next slice, rather than continuing adjacent functions by address.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- First ordinary mission transport regression: a private receipt-bound MinGW
+  build of combined source `04cb614` follows Story1 menu mission 0 through all
+  fourteen declared directors and nine voice commands on each of two entries.
+  Actual source terminals and drained muted sinks lead to the Mecc preview;
+  both menu returns release tracked entities, movie assets and rendered text
+  atlases. The same executable captures an actual persistent owner from Rstory1
+  menu mission 2. Its installed ownership cohort also passes after the merge.
+  These are scripted/offscreen transport controls, not verified normal input,
+  ordinary mission gameplay, native timing or visual fidelity. Real skip input
+  and the film-to-player interaction remain the next Flick runtime checks;
+  preserve the separate Mecc action/controller work. No matching first-opening
+  reference was found in the retained set of 226 native-image reports searched;
+  do not transfer another film's visual evidence. Frozen downloads are unchanged.
+
 - Active persistent capture from the main build: `showcase-persistent` now waits
   for an actual Session-owned effect to advance twice in the selected menu
   mission, then records the reached director/tick and suspends for GPU capture.

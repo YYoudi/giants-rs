@@ -25,6 +25,17 @@ audio device or injected input. Invalid sequence/role combinations refuse.
 The earlier candidate reached its owner sample but could not pass the menu-camera
 capture guard; its timeout is retained and is not a renderer success.
 
+Combined source `04cb614` preserves main through `8ba4f66` and passes 918 Rust
+checks (108 ignored), the installed 23-source ownership cohort, strict Clippy,
+Rustfmt, 43 Python tests and site checks. Its receipt-bound MinGW build also
+passes waited CLI startup, actual persistent-owner GPU capture, and two natural
+transport cycles of the first Story1 menu mission. Both entries reach all
+fourteen declared directors and nine voice commands, observe the real source
+terminal and drained muted voices, enter the Mecc preview, then release tracked
+entities/movie/text assets before returning and re-entering. These observations
+are scripted and offscreen; real skip input and complete native gameplay remain
+unverified. The reproducible local build is independent of frozen preview .8.
+
 These are private inspection images. Exact native image phase, animation pose,
 materials, queue ordering and full scene fidelity remain unverified. Current
 frozen public downloads and the separately pinned 545-source census are unchanged.
