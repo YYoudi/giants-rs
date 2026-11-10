@@ -99,6 +99,15 @@ changing the transition. Mode changes and activation reset therefore affect the
 next lens evaluation without maintaining a second persistent transition copy.
 Profile/input production and projection publication remain caller obligations.
 Keep these operations on one `camera_mode::State` when composing the world.
+
+Read-only acquisition of the native profile producer distinguishes the camera
+owner class, selected view, a parent-dependent class case, an owner control-flag
+variant and the controlled-actor predicate. The variant predicate tests an
+existing control flag; its gameplay meaning remains unassigned. This is acquired
+native behavior, not an implemented Rust profile producer. Preserve those actor
+identities when defining its typed inputs, and keep original coefficient tables
+out of Git. Any future executable-backed profile data must validate the exact PC
+binary independently of prototype PS2 symbols or layouts.
 The lens character predicate belongs to the controlled actor; an overridden
 camera owner must not replace that identity when supplying `selected_kind`.
 The historical `profile_index` lens-input name denotes the shared view word;

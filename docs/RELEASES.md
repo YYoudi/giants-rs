@@ -18,13 +18,25 @@ refusal. Full player continuity, live type changes and the App backend order are
 not reconstructed by this component; the cold player's reset remains pending.
 No new prototype PS2 attribution is confirmed.
 
-The reviewed Delphi proximity contribution is preserved. The combined source
-passes 883 Rust tests (75 ignored), the existing installed pre-world, selected
-camera-owner and application actor-role controls, Rustfmt and strict workspace
-Clippy. Delphi's prior combined checkpoint independently passes its eight
-installed controls and 880 workspace tests. These CPU/source checks introduce
-no new playable mode, movie or preview; existing download sources and hashes
-remain independent. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
+The combined source `7bd92656c230607433ba5a72f0de4c526cda1737` preserves
+Delphi proximity/dependency ordering, Flick owned preparation/terminal handoff and
+Kabuto action selection. It passes 889 workspace Rust tests (80 ignored), 43 Python
+tests, Rustfmt and strict workspace Clippy. Installed controls pass nine Delphi
+cases, the three new Kabuto selection cases, pre-world camera preparation and both
+timed Session/positioned-terrain preparations. The private terrain inputs retain
+their identities unchanged. Earlier selected-owner/application-role controls and
+the native camera comparisons remain separately scoped evidence.
+
+A fresh receipt-bound MinGW build of that exact source has executable SHA256
+`0efe59ecf7767127e329709d2d1c97319c24a359eca55691f20553b119a4bff5`.
+Its CLI check and both silent development endpoints pass six fresh launches with
+resource cleanup. Two selected Rstory1 mission-index-2 cycles reach actual source
+terminals, drain real muted voice sinks and release their text atlases before
+re-entry. These are lifecycle/partial-renderer transport checks, not complete film,
+native input, timing, audio or visual fidelity validation. This private integration
+build does not replace the frozen public .6 download. The shared camera reset and
+later character services remain source-only relative to that published binary.
+See [OWNED_CAMERA.md](OWNED_CAMERA.md).
 
 ## Kabuto locomotion and idle selector prerequisite — 10 November 2026
 
