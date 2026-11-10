@@ -1013,6 +1013,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ## Immediate runtime prerequisites
 
+- Application actor roles now retain constructor-returned Session identities for
+  the player and carried actor. Resource, motion, pickup and audio consumers no
+  longer depend on a unique actor class, and stale/foreign owners refuse rather
+  than choosing another instance. Keep this binding separate from development
+  motion publication and preserve identities after later initializer failures.
+  Next acquire actual native player replacement/retirement and world ownership;
+  this application correction does not provide native selection globals, camera
+  startup producers or ordinary owned Mecc admission. The published preview's
+  exact source remains separate from this newer main-source correction.
+  The continuous owned-App diagnostic currently refuses the normal pistol draw
+  animation callback/frame service at frame one. Bind its actual provider before
+  claiming this diagnostic or ordinary owned gameplay passes; do not clear the
+  weapon-change state or force animation readiness to bypass the refusal.
+
 - Desktop preview entry: giants-rs.exe detects the adjacent game installation or
   offers a folder picker, then opens the integrated menu with an independent
   Preview All profile and unlocked
@@ -1586,6 +1600,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation requests. All 2,104 constructed residents release. Preserve the
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
+
+- Source-only ordinary-environment prerequisite: shared finalization retains
+  completed environment stages on later provider errors, including physical
+  contact fields, inline-physics projection and completed-stage counters. A
+  failed initial ground query retains the already cleared response/hit/support
+  prefix; a failed platform query retains completed terrain/contact results.
+  Callers must quarantine consumed phases rather than replay external services.
+  Internal unreturned mutations from lower-level mesh/terrain resolvers still
+  require their own continuations; this change does not acquire those contracts.
+  The sixteen-terrain comparison remains unchanged: 1,152 states /299,520 words
+  and 902 queries, with native entry data and empty mesh/platform populations
+  supplied. Timed ordinary preparation/header binding and main-film admission
+  remain next. This prerequisite is not in published preview .4 and adds no
+  certified scenes or visual coverage. Prototype PS2 attribution stays unknown.
 
 - Timed Session actors now own their physical velocity/history header alongside
   the actual inline physical payload. The shared force integrator consumes an

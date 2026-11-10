@@ -1,5 +1,59 @@
 # Preview releases and milestone integration
 
+## Source-only environment failure retention — 10 November 2026
+
+The common ordinary finalization service now retains completed environment and
+physical-contact stages after a later provider error. Synthetic controls cover
+initial ground failure and failure after physical contact but before platform
+completion. The retained sixteen-terrain comparison still matches 1,152 states,
+299,520 header/payload words and 902 queries with supplied native entry data.
+Lower-level unreturned mutations, canonical timed ordinary-preparation binding,
+world admission and visual fidelity remain open. Prototype PS2 attribution is
+unknown. This is a source dependency after preview .4; its immutable download
+snapshot and certified-scene count remain unchanged. No new binary is advertised.
+The combined tree preserves the application actor-identity contribution and
+passes 874 workspace Rust tests (70 ignored), both scoped installed timed-owner
+and application-role checks, 43 Python tests, Rustfmt and strict Clippy. These
+checks validate the source dependency; they add no rendered-film coverage.
+
+## Application player/carried identities — 10 November 2026, source only
+
+The common application retains each role's actual Session constructor result.
+Player resources, owned model preparation, motion publication, carried animation/
+references, pickup and audio routing use those identities instead of a unique
+class search. Retired or foreign owners refuse even when another actor shares
+their class. Later initializer failures do not erase the constructor identity;
+legacy motion publication remains an independent guard against mixing drivers.
+
+The silent installed-data regression covers duplicate player classes, distinct
+local/other sound routes, canonical movement, foreign tickets, retirement and
+replacement refusal, and mission-owned cleanup while preserving Bevy's default
+resource entity. This application correction does not reconstruct native player
+selection/replacement or admit the ordinary owned controller. The existing
+continuous owned-App diagnostic encounters the required normal pistol draw
+animation callback/frame service at frame one. The same refusal reproduces on
+the unchanged pre-fix source `715e46a`; it is not a successful continuous gameplay
+check. Public preview identities and their earlier measured scope remain
+independent from this source-only change.
+
+Combined source `debc86c` preserves the timed physical-header and retained Kabuto
+caller-input contributions. It passes 872 workspace Rust tests (70 ignored),
+the new installed-data actor-role regression, all four installed held-bank
+controls, 43 Python tests, Rustfmt, strict workspace Clippy and generated
+roadmap/site/JavaScript checks. The all-reference source audit reports no findings.
+The latest public `.4` package was independently downloaded and verified again:
+ten members, all three API asset digests and the immutable source tag agree.
+These source checks introduce no new preview or manual gameplay claim.
+
+The private MinGW build of `e7ebd4c992524f8d44d8912c8cca5cb654e54a1f`
+(executable SHA256 `bb22bdb00bd72d1c58a4fa9d67c9014b11e4a07441a74b29b8358e06f2d06dd2`)
+passes explicit-wait CLI startup, both offscreen development endpoints (six fresh
+launches), and two selected Rstory1 mission 2 source-terminal/re-entry cycles
+with muted voice sinks and text/resource cleanup. These are lifecycle and partial
+playback checks; no interactive native jet/descent/landing or fidelity is claimed.
+This candidate is not a downloadable release. The public snapshot still pins
+the independently verified `.4` package.
+
 ## Timed physical-header ownership and ordered services — 10 November 2026
 
 Timed actors now retain physical velocity/history in the common Session, beside

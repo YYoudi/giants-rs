@@ -93,6 +93,11 @@ impl Drop for Pending {
         self.cancel.store(true, Ordering::Relaxed);
     }
 }
+#[derive(Clone, Copy, Default)]
+struct ActorBindings {
+    player: Option<ActorId>,
+    carried: Option<ActorId>,
+}
 struct Active {
     ticket: u64,
     root: Entity,
@@ -105,8 +110,44 @@ struct Active {
     pickup: Option<PickupPacket>,
     variant_random: giants_game::audio_parameters::Random,
     audio_registry: Option<giants_game::gameplay_sound_bank::Registry>,
+    bindings: ActorBindings,
+    // Legacy motion publication is independent of constructor identity. The
+    // owned driver must still reject a prior development-motion publication.
     controlled_mecc_owner: Option<ActorId>,
     owned_mecc: Option<owned::Driver>,
+}
+impl Active {
+    fn player_owner(&self) -> Result<ActorId, String> {
+        let class = self
+            .payload
+            .player
+            .as_ref()
+            .map_err(Clone::clone)?
+            .start
+            .kind;
+        self.bindings
+            .player
+            .filter(|id| {
+                self.resident_states
+                    .get(*id)
+                    .is_some_and(|a| a.class == class)
+            })
+            .ok_or_else(|| "constructed player owner absent, foreign or changed".into())
+    }
+    fn carried_owner(&self) -> Result<Option<ActorId>, String> {
+        let Some((_, prepared)) = self.payload.carried.as_ref().map_err(Clone::clone)? else {
+            return Ok(None);
+        };
+        self.bindings
+            .carried
+            .filter(|id| {
+                self.resident_states
+                    .get(*id)
+                    .is_some_and(|a| a.class == prepared.class)
+            })
+            .map(Some)
+            .ok_or_else(|| "constructed carried owner absent, foreign or changed".into())
+    }
 }
 #[derive(Resource, Default)]
 pub struct Runtime {
@@ -141,14 +182,14 @@ impl Runtime {
         let Some(active) = self.active.as_mut().filter(|a| a.ticket == ticket) else {
             return;
         };
-        let (Ok(player), Ok(Some((_, carried)))) =
-            (&active.payload.player, &active.payload.carried)
-        else {
+        let (Ok(_), Ok(Some(_))) = (&active.payload.player, &active.payload.carried) else {
             return;
         };
         let result = (|| -> Result<(), String> {
-            let parent = active.resident_states.unique_class(player.start.kind)?;
-            let child = active.resident_states.unique_class(carried.class)?;
+            let parent = active.player_owner()?;
+            let child = active
+                .carried_owner()?
+                .ok_or("constructed carried owner absent")?;
             let point = active.resident_states.constructor_point(
                 parent,
                 giants_game::smartie_carry::MECC_PARENT_REFERENCE as i32,
@@ -230,12 +271,8 @@ impl Runtime {
         let Some(active) = self.active.as_ref().filter(|a| a.ticket == ticket) else {
             return 0;
         };
-        let Ok(player) = &active.payload.player else {
-            return 0;
-        };
         active
-            .resident_states
-            .unique_class(player.start.kind)
+            .player_owner()
             .ok()
             .and_then(|id| active.resident_states.get(id))
             .and_then(|r| r.construction_fields.as_ref())
@@ -251,14 +288,7 @@ impl Runtime {
             .as_ref()
             .filter(|a| a.ticket == ticket)
             .ok_or("player state resource ticket absent")?;
-        let class = active
-            .payload
-            .player
-            .as_ref()
-            .map_err(Clone::clone)?
-            .start
-            .kind;
-        let id = active.resident_states.unique_class(class)?;
+        let id = active.player_owner()?;
         Ok(active
             .resident_states
             .state_resources(id)
@@ -280,21 +310,14 @@ impl Runtime {
         if active.owned_mecc.is_some() {
             return Err("owned primary already owns this mission's Mecc motion".into());
         }
-        let id = match active.controlled_mecc_owner {
-            Some(id) => id,
-            None => {
-                let class = active
-                    .payload
-                    .player
-                    .as_ref()
-                    .map_err(Clone::clone)?
-                    .start
-                    .kind;
-                let id = active.resident_states.unique_class(class)?;
-                active.controlled_mecc_owner = Some(id);
-                id
-            }
-        };
+        let id = active.player_owner()?;
+        if active
+            .controlled_mecc_owner
+            .is_some_and(|previous| previous != id)
+        {
+            return Err("controlled motion owner changed after publication".into());
+        }
+        active.controlled_mecc_owner = Some(id);
         active
             .resident_states
             .publish_controlled_mecc_motion(id, step, frame)?;
@@ -342,22 +365,12 @@ impl Runtime {
             .as_mut()
             .filter(|a| a.ticket == ticket)
             .ok_or("actor audio ticket absent")?;
-        let class = active
-            .payload
-            .player
-            .as_ref()
-            .map_err(Clone::clone)?
-            .start
-            .kind;
-        let parent = active.resident_states.unique_class(class)?;
-        let child = active
-            .payload
-            .carried
-            .as_ref()
-            .ok()
-            .and_then(|p| p.as_ref())
-            .map(|(_, p)| active.resident_states.unique_class(p.class))
-            .transpose()?;
+        let parent = active.player_owner()?;
+        let child = if matches!(active.payload.carried, Ok(Some(_))) {
+            active.carried_owner()?
+        } else {
+            None
+        };
         active
             .resident_states
             .set_presentation_position(parent, Some(player))?;
@@ -397,14 +410,7 @@ impl Runtime {
             .as_ref()
             .filter(|a| a.ticket == ticket)
             .ok_or("actor sound ticket absent")?;
-        let class = active
-            .payload
-            .player
-            .as_ref()
-            .map_err(Clone::clone)?
-            .start
-            .kind;
-        let local = active.resident_states.unique_class(class)?;
+        let local = active.player_owner()?;
         active
             .resident_states
             .sound_route(id, local, kind, ready)
@@ -655,7 +661,9 @@ impl Runtime {
             .ok()
             .and_then(|p| p.as_ref())
             .ok_or("carried clip absent")?;
-        let id = active.resident_states.unique_class(prepared.class)?;
+        let id = active
+            .carried_owner()?
+            .ok_or("constructed carried owner absent")?;
         let channels = active
             .resident_states
             .get(id)
@@ -712,14 +720,9 @@ impl Runtime {
             .as_ref()
             .filter(|a| a.ticket == ticket)
             .ok_or("carried reference ticket absent")?;
-        let (_, prepared) = active
-            .payload
-            .carried
-            .as_ref()
-            .map_err(Clone::clone)?
-            .as_ref()
+        let id = active
+            .carried_owner()?
             .ok_or("carried reference actor absent")?;
-        let id = active.resident_states.unique_class(prepared.class)?;
         active
             .resident_states
             .reference_matrix(
@@ -1089,6 +1092,7 @@ fn spawn(
     usize,
     Vec<String>,
     giants_game::resident_states::Session,
+    ActorBindings,
 ) {
     let root = commands
         .spawn((
@@ -1330,6 +1334,7 @@ fn spawn(
         }
     }
     let mut resident_states = giants_game::resident_states::Session::new(ticket);
+    let mut bindings_by_role = ActorBindings::default();
     let mut register = |role: &str,
                         class: i32,
                         seed: &giants_game::state_storage::Seed,
@@ -1421,6 +1426,13 @@ fn spawn(
                 state_resources: states,
                 fields,
             })?;
+            // Retain the real constructor result even if a later initializer
+            // fails. A class lookup must never substitute another instance.
+            match role {
+                "player" => bindings_by_role.player = Some(id),
+                "carried" => bindings_by_role.carried = Some(id),
+                _ => {}
+            }
             if role == "player" && class == 2 {
                 let mut factory = giants_game::mecc_special::Factory::new(payload.plan.resources());
                 let initialized = factory.initialize_player_fields(
@@ -1561,8 +1573,12 @@ fn spawn(
     }
     if let (Ok(player), Ok(Some((_, carried)))) = (&payload.player, &payload.carried) {
         let binding = (|| -> Result<(), String> {
-            let parent = resident_states.unique_class(player.start.kind)?;
-            let child = resident_states.unique_class(carried.class)?;
+            let parent = bindings_by_role
+                .player
+                .ok_or("constructed player owner absent")?;
+            let child = bindings_by_role
+                .carried
+                .ok_or("constructed carried owner absent")?;
             resident_states.set_presentation_parent(child, Some(parent))?;
             println!(
                 "mission_actor_audio_parent ticket={ticket} child_class={} parent_class={} presentation_only=true actor_backend_ready=false",
@@ -1614,7 +1630,7 @@ fn spawn(
             )),
         }
     }
-    (root, actors, blocked, resident_states)
+    (root, actors, blocked, resident_states, bindings_by_role)
 }
 fn drive(
     mut commands: Commands,
@@ -1872,7 +1888,7 @@ fn drive(
         }
         match result {
             Ok(mut payload) => {
-                let (root, actors, blocked, resident_states) =
+                let (root, actors, blocked, resident_states, bindings) =
                     spawn(&mut commands, pending.ticket, &mut payload);
                 runtime.active = Some(Active {
                     ticket: pending.ticket,
@@ -1889,6 +1905,7 @@ fn drive(
                     pickup: None,
                     variant_random: giants_game::audio_parameters::Random(1),
                     audio_registry: None,
+                    bindings,
                     controlled_mecc_owner: None,
                     owned_mecc: None,
                 });
@@ -2178,6 +2195,221 @@ mod tests {
     }
 
     #[test]
+    #[ignore = "Requires GIANTS_MISSION_OWNED_ROOT; actual constructor roles with duplicate-class, foreign and retired owners; no window or sound"]
+    fn source_actor_roles_keep_player_identity_across_duplicate_classes_and_retirement() {
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_MISSION_OWNED_ROOT").unwrap());
+        let request = giants_game::mission_selection::LoadRequest {
+            world: "Story1".into(),
+            menu_index: 0,
+            source_id: 3,
+            mission_name: "1c_1_firstmecc".into(),
+            splash: giants_game::mission_selection::Splash::Mecc,
+        };
+        let packet = Arc::new(giants_game::mission_loading::prepare(&root, request).unwrap());
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let player = Arc::new(
+            giants_game::player_initial::Prepared::load(
+                &root,
+                &plan,
+                packet.world.as_ref().unwrap(),
+                packet.mission.as_ref().unwrap(),
+            )
+            .unwrap(),
+        );
+        let mut payload = payload();
+        payload.parameters = packet.slot_parameters(&root);
+        payload.packet = packet;
+        payload.plan = plan;
+        payload.player = Ok(player.clone());
+        let mut world = World::new();
+        // Bevy's default query-filter resource itself has a backing entity.
+        let baseline_entities = world.query::<Entity>().iter(&world).collect::<Vec<_>>();
+        let mut queue = CommandQueue::default();
+        let (scene_root, actors, blocked, residents, bindings) =
+            spawn(&mut Commands::new(&mut queue, &world), 995, &mut payload);
+        queue.apply(&mut world);
+        let owner = bindings
+            .player
+            .expect("source player constructor must publish its identity");
+        let mut runtime = Runtime {
+            active: Some(Active {
+                ticket: 995,
+                root: scene_root,
+                actors,
+                resident_states: residents,
+                blocked,
+                payload,
+                start: StartState {
+                    intent: LaunchIntent::SavedMission,
+                    progress: Progress::load(None, None).unwrap(),
+                },
+                reported: false,
+                pickup: None,
+                variant_random: giants_game::audio_parameters::Random(1),
+                audio_registry: None,
+                bindings,
+                controlled_mecc_owner: None,
+                owned_mecc: None,
+            }),
+            ..Default::default()
+        };
+        let active = runtime.active.as_mut().unwrap();
+        assert_eq!(active.player_owner().unwrap(), owner);
+        assert!(active.controlled_mecc_owner.is_none());
+        let fields = active
+            .resident_states
+            .get(owner)
+            .unwrap()
+            .construction_fields
+            .clone()
+            .unwrap();
+        let specification = active.resident_states.specification(owner).unwrap().clone();
+        let state_resources = active
+            .resident_states
+            .state_resources(owner)
+            .unwrap()
+            .clone();
+        let program = active
+            .payload
+            .plan
+            .resources()
+            .classes
+            .models
+            .first_program(2)
+            .unwrap()
+            .program
+            .as_ref()
+            .unwrap();
+        let flags = giants_game::object_lists::DirectFlags::project(2, program);
+        let cold_fields = giants_game::actor_fields::Fields::load(
+            active.payload.plan.resources(),
+            2,
+            &specification,
+        )
+        .unwrap()
+        .instantiate();
+        let construct = |session: &mut giants_game::resident_states::Session| {
+            session
+                .construct(giants_game::resident_states::Construction {
+                    class: 2,
+                    seed: &player.state_seed,
+                    bindings: &player.state_bindings,
+                    flags,
+                    specification: specification.clone(),
+                    state_resources: state_resources.clone(),
+                    fields: cold_fields.clone(),
+                })
+                .unwrap()
+        };
+        let duplicate = construct(&mut active.resident_states);
+        assert_ne!(duplicate, owner);
+        assert!(active.resident_states.unique_class(2).is_err());
+        let duplicate_pose = active
+            .resident_states
+            .get(duplicate)
+            .unwrap()
+            .construction_fields
+            .as_ref()
+            .unwrap()
+            .position;
+        assert!(runtime.player_state_specification(995, 0x70).is_ok());
+        assert_eq!(
+            runtime
+                .actor_sound_route(995, owner, giants_game::actor_sound::Kind::Attachment, true)
+                .unwrap(),
+            Some(giants_game::actor_sound::Route::Local(owner))
+        );
+        assert_eq!(
+            runtime
+                .actor_sound_route(
+                    995,
+                    duplicate,
+                    giants_game::actor_sound::Kind::Attachment,
+                    true
+                )
+                .unwrap(),
+            Some(giants_game::actor_sound::Route::Attached(Some(duplicate)))
+        );
+        let mut position = fields.position;
+        position[0] += 1.;
+        runtime
+            .publish_controlled_mecc_motion(
+                995,
+                1,
+                giants_game::controlled_mecc::Frame {
+                    before: fields.position,
+                    position,
+                    contact_previous: fields.position,
+                    angles: fields.angles,
+                    scale: fields.scale,
+                    velocity: [0.; 3],
+                    model_rates: [0.; 3],
+                },
+            )
+            .unwrap();
+        let active = runtime.active.as_mut().unwrap();
+        assert_eq!(active.controlled_mecc_owner, Some(owner));
+        assert_eq!(
+            active
+                .resident_states
+                .get(owner)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .position,
+            position
+        );
+        assert_eq!(
+            active
+                .resident_states
+                .get(duplicate)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .position,
+            duplicate_pose
+        );
+        let mut foreign = giants_game::resident_states::Session::new(996);
+        active.bindings.player = Some(construct(&mut foreign));
+        assert!(active.player_owner().is_err());
+        active.bindings.player = Some(owner);
+        active.resident_states.clear();
+        let replacement = construct(&mut active.resident_states);
+        assert_ne!(replacement, owner);
+        assert_eq!(active.resident_states.unique_class(2).unwrap(), replacement);
+        assert!(active.player_owner().is_err());
+        assert!(runtime.player_state_specification(995, 0x70).is_err());
+        assert!(
+            runtime
+                .publish_controlled_mecc_motion(
+                    995,
+                    2,
+                    giants_game::controlled_mecc::Frame {
+                        before: position,
+                        position,
+                        contact_previous: position,
+                        angles: fields.angles,
+                        scale: fields.scale,
+                        velocity: [0.; 3],
+                        model_rates: [0.; 3],
+                    }
+                )
+                .is_err()
+        );
+        cancel_ticket(&mut runtime, &mut Commands::new(&mut queue, &world), 995);
+        queue.apply(&mut world);
+        assert!(runtime.active.is_none());
+        assert_eq!(world.query::<&MissionOwned>().iter(&world).count(), 0);
+        assert!(world.get_entity(scene_root).is_err());
+        assert_eq!(
+            world.query::<Entity>().iter(&world).collect::<Vec<_>>(),
+            baseline_entities
+        );
+    }
+
+    #[test]
     #[ignore = "Requires GIANTS_MISSION_OWNED_ROOT pointing to the owned reference clone; CPU-only, no window, sound or input"]
     fn source_owned_mecc_runtime_terrain_and_presentation() {
         check_source_owned_mecc_runtime(false);
@@ -2258,7 +2490,7 @@ mod tests {
         }
         let world = app.world_mut();
         let mut queue = CommandQueue::default();
-        let (scene_root, actors, blocked, residents) =
+        let (scene_root, actors, blocked, residents, bindings) =
             spawn(&mut Commands::new(&mut queue, world), 991, &mut payload);
         queue.apply(world);
         let mut runtime = Runtime {
@@ -2277,6 +2509,7 @@ mod tests {
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
                 audio_registry: None,
+                bindings,
                 controlled_mecc_owner: None,
                 owned_mecc: None,
             }),
@@ -2656,7 +2889,7 @@ mod tests {
             let mut world = World::new();
             let external = world.spawn(Name::new("unrelated owner entity")).id();
             let mut queue = CommandQueue::default();
-            let (scene_root, actors, blocked, residents) =
+            let (scene_root, actors, blocked, residents, bindings) =
                 spawn(&mut Commands::new(&mut queue, &world), 987, &mut payload);
             queue.apply(&mut world);
             use giants_game::declared_residents::{Key, Scope};
@@ -2733,6 +2966,7 @@ mod tests {
                     pickup: None,
                     variant_random: giants_game::audio_parameters::Random(1),
                     audio_registry: None,
+                    bindings,
                     controlled_mecc_owner: None,
                     owned_mecc: None,
                 }),
@@ -2765,7 +2999,7 @@ mod tests {
         let external = world.spawn(Name::new("unrelated menu entity")).id();
         let mut queue = CommandQueue::default();
         let mut payload = payload();
-        let (root, actors, blocked, resident_states) =
+        let (root, actors, blocked, resident_states, bindings) =
             spawn(&mut Commands::new(&mut queue, &world), 9, &mut payload);
         queue.apply(&mut world);
         assert_eq!(actors, 2); // Mission and initial world pose are separate owners.
@@ -2802,6 +3036,7 @@ mod tests {
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
                 audio_registry: None,
+                bindings,
                 controlled_mecc_owner: None,
                 owned_mecc: None,
             }),
