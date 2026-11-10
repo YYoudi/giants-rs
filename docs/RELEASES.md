@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Combined Mecc and camera integration — 10 November 2026, preview preparation
+
+The main integration worktree has reviewed and combined the Mecc pistol ANM and
+canonical smoke handoff through `42a7092` with shared camera reset/lens and current
+profile selection. The first-frame draw refusal is resolved by actual ANM/wield
+callbacks, with completion and interrupted-draw ordering retained. The normal
+mission installs the canonical smoke renderer; its birth/clock/world scheduling
+and impact/display providers remain prerequisites. Experimental owned inspection
+is separate from complete ordinary gameplay.
+
+This combined checkpoint passes 895 workspace Rust tests (94 ignored), 43 Python
+tests, Rustfmt and strict workspace Clippy. Installed checks pass 25 Mecc controls,
+two camera controls, both timed-owner/positioned-terrain controls, nine Delphi
+controls and four App controls: terrain/ANM/weapon presentation, reserved silent
+jet sinks, smoke render-asset lifecycle and actual constructor roles. Private
+terrain fixtures retain their original hashes. The App checks introduce no manual
+input, GPU pixel or audio-fidelity claim. Preview .7 preparation retains the
+published .6 snapshot until its own receipt-bound package is validated.
+
 ## Session-bound camera profile selection — 10 November 2026, source only
 
 `camera_profile` now chooses the acquired family/view from current Session
