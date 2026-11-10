@@ -21,10 +21,11 @@ observe 256 declared position entries. They are not a complete original/source
 primary comparison or live camera/UI/network validation. See
 [OWNED_KABUTO.md](OWNED_KABUTO.md).
 
-Validation passes 894 workspace Rust tests (84 ignored), 30 installed Kabuto
-controls plus one cold-resource control, 13 Mecc and nine Delphi controls,
-43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
-checks. Earlier action admission, link events/lifetimes, real world backends and
+Combined validation passes 900 workspace Rust tests (98 ignored), 30 installed Kabuto
+controls plus one cold-resource control, 25 Mecc and nine Delphi controls,
+the application smoke-render ownership control, 43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. Concurrent camera-profile, Mecc smoke/rendering and pistol-draw
+contributions are preserved. Earlier action admission, link events/lifetimes, real world backends and
 the enclosing order remain prerequisites. Primary/history and all four initializer
 gates stay unfinished; ordinary Kabuto gameplay and fidelity remain unverified.
 The public Windows preview remains the separately validated frozen .6 snapshot.
