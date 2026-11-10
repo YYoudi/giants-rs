@@ -66,6 +66,12 @@ required coefficient catalog and actual projection backend remain explicit.
 Resolve again after side effects; retaining a selection cannot replace the
 native command's second current-profile query.
 
+A live visual service can legitimately return no held object during an acquired
+animation. Preserve that `Option` at the render boundary: hide the old submission
+for known absence, while retaining errors for stale/foreign/current-pose failures.
+Do not turn an error into absence or substitute an identity transform. CPU
+presentation checks must be followed through the actual render consumer.
+
 ## Validate the combined application
 
 Merge current main into the integration branch, inspect conflicts semantically

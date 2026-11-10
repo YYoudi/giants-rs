@@ -919,3 +919,18 @@ projection; `GIANTS_KABUTO_RESOLVED_COMMIT_INPUTS` /
 `GIANTS_KABUTO_RESOLVED_COMMIT_RECEIPT` export eligible animation contexts. All
 paths must be absolute. No window or audio device is created. This does not
 complete primary/history/initialization or validate live gameplay.
+
+## Combined graphical owned-inspection acceptance — preview .8
+
+The receipt-bound .8 executable also runs the internal
+`owned-player-inspection-cycles` replay through three 128-frame GPU cycles with
+actual cleanup. The explicit owned backend and supplied replay commands remain
+diagnostic inputs. A separate `owned-player-inspection` run with the reserved
+backend exercises jet lift/fuel through 128 frames and captures active thrust at
+supported step 36. Real `--muted-transport` installs the audio plugin at zero
+master volume and requires the existing offscreen/silent/menu and
+`GIANTS_AUDIO_MUTE=1` guards. Device-free silent capture still rejects reserved
+owned audio. Use fresh private profiles/capture paths and await the GUI-subsystem
+child as described above. These checks do not certify manual input, ordinary
+world admission, native clocks or visual/audio fidelity. The render consumer
+accepts a genuinely missing held pose during draw; stale present poses still fail.

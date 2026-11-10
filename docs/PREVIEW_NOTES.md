@@ -1,8 +1,9 @@
-# Windows x64 development preview - preview-2026.11.10.8 (draft)
+# Windows x64 development preview - preview-2026.11.10.8
 
-Published preview-2026.11.10.7 remains pinned to source `88dd2ff`; its packaged
-notes and checksums are immutable. This combined draft retains that cinematic
-lot together with the later Mecc smoke/pistol and camera-profile work.
+Published preview-2026.11.10.8 pins source `1be8830`; its packaged notes and
+checksums are immutable. It combines the preserved Flick .7 lot with the Mecc
+smoke/pistol, camera-profile and graphical-consumer corrections. Earlier
+previews retain their original source and package identities.
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From

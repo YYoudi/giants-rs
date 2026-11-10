@@ -1,5 +1,45 @@
 # Preview releases and milestone integration
 
+## Published combined native inspection and cinematic ownership — preview .8
+
+Published [preview-2026.11.10.8](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.8)
+pins source `1be883094043f6f4f416a0b4cea5d6b7ec036063`, executable SHA256
+`be9194a4a91bcd889acb41643959d8e64e78a2ad12fa1a662b82f4731c794628` and ZIP SHA256
+`f50476747da73fd7d8a753915fc3d4132fd92c239bb92d2c994bf368e7787d76`. The immutable .7 tag/assets are preserved.
+The combined source includes its constant cinematic Session ownership alongside
+Mecc canonical pistol/smoke, shared camera reset/lens/profile selection, Delphi
+local targeting and Kabuto resolved animation continuations.
+
+The actual graphical consumer now hides an intentionally absent pistol during
+draw, then resumes its current held submission. A present stale pose remains an
+error; no identity matrix or swallowed failure replaces it. Reserved jet audio
+accepts real muted transport at zero master volume, retaining device-free silent
+capture refusal and the existing offscreen/menu/mute guards.
+
+The frozen source passes 900 Rust tests (96 ignored), 43 Python tests, Rustfmt and
+strict workspace Clippy. Installed controls retain their boundaries; the added
+23-source constant cohort checks 92 queue lifecycles. This exact receipt-bound
+executable passes awaited CLI startup, six development launches, three actual
+GPU 128-frame experimental owned movement cycles with cleanup, a 128-frame
+jet lift/fuel run and an active-thrust capture at step 36 with real muted sinks.
+It also passes two observed source-terminal/re-entry cycles with voice/text
+cleanup and three cancellations after actual persistent owners advance.
+Replay commands, clocks and mission gates are supplied. These are not manual
+input, ordinary world-admission, complete film or pixel/audio/timing fidelity
+certification. The first graphical candidate exposed the missing-weapon panic;
+the accepted package contains the corrected consumer.
+
+All 338 dependency entries, eleven toolchain entries and 29 unique Windows DLL
+imports pass notice/import collection. Ten ZIP members, zero packaging blockers,
+all three independently downloaded asset digests, both checksum files, the remote
+source tag and main ancestry are verified. No bare executable is published.
+The metadata checkpoint `cbdb58d` retains byte-identical runtime source relative
+to this frozen build. The separate 545-source census remains bound to .7 and is not relabeled.
+Ordinary native Mecc input/idle/impact/display/FX/world admission, other character
+controls, NPC interactions and full fidelity remain open. No new prototype PS2
+attribution is confirmed; the next camera step is its actual PC-backed coefficient
+reader and input/device/activation order. See [BACKLOG.md](../BACKLOG.md).
+
 ## Published constant cinematic Session ownership - preview .7
 
 Published [preview-2026.11.10.7](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.7)
