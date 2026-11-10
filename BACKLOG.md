@@ -82,6 +82,13 @@ suppression-gate producers (historical `cutscene` field), keeping the non-mode-4
 authority path distinct from the still
 supplied mode-4 delegate. A selected camera mode does not establish a prepared
 subjective actor. Preserve these prerequisites when consuming the next Mecc lot.
+The 10 November native camera review adds 162 owner-selection prefix cases and
+864 full ordinary-Mecc pre-world admission cases (sixty active copies); see
+[OWNED_CAMERA.md](docs/OWNED_CAMERA.md). Reference-point status and actual display
+activity are separate. Before App binding, acquire startup/mode/override writers
+and world ordering, resolve the actual owner and model references, and preserve
+per-call inactive transitions. These native controls still supply current globals
+and resources; they do not establish Rust equivalence or normal gameplay admission.
 The current independently verified download is `preview-2026.11.10.1`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
@@ -453,6 +460,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+- Implemented at the CPU boundary: both current/held-reference handoff routes
+  match 512 original intervals / 1,076,651 normalized state/service words. They
+  retain first-free/first-occupied slot selection, signed counter gates, stores
+  before binding, captured replacement identities and post-service rereads.
+  One hundred declared late binding failures retain preceding effects. Target
+  detachment is shared with the pre-query release, whose 1,331,545-word control
+  still agrees. Construction, binding, transport, state18 reset and action bodies
+  remain required entry providers; the caller decision/counter producers are
+  supplied. Only thirteen initialized bytes of the 21-byte created notification
+  are established; remaining bytes are unknown. Next: actual Session current/held
+  reference ownership and lifetimes, caller policy, complete backend binding and
+  primary ordering. Do not confuse the supplied handoff state with an owned live
+  bank or certify gameplay from these controls.
 - Implemented at the CPU boundary: the common attachment request used by Kabuto
   matches 512 original calls / 389,023 normalized header/service words. The first
   128 use the actual initialized executable rule table; its read-only bounded
@@ -1435,6 +1455,36 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Detached timed actors now use the same Session registry and borrowed callback
+  as their attached parents. Actual context consumption is one-shot; the original
+  payload allocation, class resources, channels and reference cache remain owned.
+  Physical/retirement services remain required. A real matrix write refreshes the
+  derived affine cache, including before a later ANM error; partial physical work
+  without that write leaves the old cache stale and the callback quarantined.
+  Replayed retained controls match all 576 parent/child states /100,224 selected
+  words through Session: 256 actual parent preparation states and 320 detached
+  callbacks whose first ordinary preparation remains supplied. This adds a shared
+  owner/consumer, not new native world coverage. A separate original-PC comparison
+  checks eight constructor/list cases, six of which distinguish classification
+  before wrapper flag changes. Attached creation retains its explicit zero mask;
+  positional creation retains classification from pre-wrapper class fields. Later
+  flag changes do not relist the actor. Eight Rust replays match those memberships.
+  The supplied velocity/history/terrain fixture is not a physical world producer.
+  Next: real detached ordinary preparation/environment, physical/header ownership,
+  native pool/stock retirement and occupancy, dispatcher/model-rate/clock/RNG and
+  main-film rendering/admission. Caller Session selection remains explicit for
+  positional requests. No additional complete film is certified by this step.
+  Published preview-2026.11.10.2 pins this bounded owner at source `3a4d237`;
+  full receipt/checksums are in RELEASES.md and public-preview.json. Exact-build
+  checks pass 866 Rust tests (58 ignored), retained timed/impact controls,
+  23 persistent sources /50 released objects, silent cancellation/re-entry and
+  a muted manual first-opening natural end followed by second-entry double-click
+  skip and menu return. Partial Mecc entry is observed; full gameplay is not.
+  A fresh 545-source /16-world census retains 59 gaps, 56 general-FX refusals,
+  282 reviews and zero certified films. Aggregate diagnostics do not identify
+  every missing visual element. Actual virtual Flick supports must retain their
+  own identity domain; do not consume ordinary world slots to fabricate parents.
+
 - Attached timed actors now transfer into the existing Session registry: actual
   fields, inline payload, canonical channels and reference cache are borrowed by
   the same callback kernel as the staged owner. Source image, typed resources,
@@ -1449,8 +1499,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   states); these are reused controls, not new native coverage. Source checks also
   cover foreign-session refusal without context/RNG consumption, stale creation,
   payload allocation stability, pending-service refusal, clear and second entry.
-  Next: acquire/bind the detached Session constructor/list contract, actual
-  dispatcher rates/clock, environment and physical/stock retirement producers,
+  The later detached follow-up above closes the bounded constructor/list
+  consumer. Next: actual dispatcher rates/clock, environment and physical/stock retirement producers,
   then connect this owner to main-film admission and rendering. Parent support
   and time are still supplied. This source-only dependency does not change the
   published preview13, the full-corpus counts or zero certified complete scenes.

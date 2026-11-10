@@ -25,6 +25,69 @@ ownership regression. All 43 Python tests, Rustfmt, strict Clippy and
 roadmap/site/JavaScript checks pass. The current ambient and shared actor work
 is preserved; these checks retain their declared source/CPU scope.
 
+## Canonical detached timed ownership and registration — 10 November 2026
+
+Detached retirement requests now transfer their actual payload/reference owners
+into the common Session registry and share the existing callback with attached
+parents. Required physical/retirement services observe the registered actor.
+Partial physical writes survive errors; an unwritten affine remains stale.
+Completed matrix stores remain available after a later ANM failure.
+
+Replayed retained original-PC controls match 576 states /100,224 selected words
+through Session: 256 parent preparations plus 320 detached callbacks with supplied
+initial ordinary preparation. Eight additional original constructor/list cases
+agree with Rust; six distinguish registration before wrapper flag changes. This
+also preserves the class-field producer added by the Delphi lane. These controls
+establish neither terrain/physical ownership nor native stock, clock/RNG/world
+scheduling or main timed-film admission. Prototype PS2 attributions remain unknown.
+Published [preview-2026.11.10.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.2)
+pins source `3a4d23716b52105abdc18051cfde6b74f9a166f9`, executable SHA256
+`c10dad6b3de9b5fef823058f7a8477f1668ab1d1b0458b014a2876f5329f1cd4` and ZIP SHA256
+`e5a2e3684f8d329a11ad6b7fb4f35f8c070e11125946bd169cf9af2099143255`.
+The exact tree passes 866 Rust tests (58 ignored), retained timed controls,
+three positional-impact controls, strict Clippy/Rustfmt and 43 Python tests.
+The 23-source persistent regression releases all fifty objects across re-entry.
+Receipt-bound silent checks pass both development endpoints, three active
+persistent cancellations and two source-terminal/re-entry voice/text cycles.
+A muted manual first-opening session reaches natural completion and partial
+Mecc entry, returns to the menu, re-enters, skips early by double-click and returns
+again. Both tickets release all tracked mission entities/assets; the game quits.
+This is one local profile, not native gameplay or full visual/audio fidelity.
+The window caption can retain the preceding cinematic label after transitions.
+
+The fresh 545-source /16-world CPU inventory has zero preparation errors, with
+59 reported-gap sources, 56 general-FX refusals and 282 strict-profile reviews.
+These diagnostics are unchanged; the reviewed public aggregate now pins this
+build. They are not an inventory of every missing rendered element. Technical
+notice/import checks and all three freshly downloaded public assets pass;
+the ten-member package, internal/external hashes and immutable tag agree.
+Later main contributions remain source-only relative to this frozen preview.
+Complete scene fidelity remains unverified.
+The later combined tree passes 869 Rust tests (58 ignored), the retained timed
+positive/zero and positional-impact controls, Rustfmt, strict Clippy, 43 Python
+tests and roadmap/site/JavaScript checks. These checks do not relabel the download.
+
+## Kabuto held-reference handoff — 10 November 2026
+
+Both current/held-reference routes agree on 512 original intervals / 1,076,651
+normalized state/service words. Slot selection, signed caller counters,
+publication/binding order, captured replacements and callback rereads are retained.
+One hundred declared late binding failures preserve preceding effects. Shared
+target detachment also preserves the preceding release's 1,331,545-word result.
+
+Construction, binding, transport, reset and action remain required entry
+providers. Caller policy, actual Session current/held-reference ownership,
+lifetimes and full primary integration are still unbound. The created transport
+request has eight unknown bytes beyond its thirteen established bytes; no packet
+padding or delivery is invented. This source/CPU milestone adds no live controller,
+initializer/history completion, capture or downloadable gameplay preview.
+Validation passes 869 workspace Rust tests (57 ignored), sixteen installed Kabuto
+controls and the separate cold control, twelve Mecc and six Delphi controls,
+43 Python tests, Rustfmt, strict Clippy
+and roadmap/site/JavaScript checks. Three new synthetic tests exercise publication
+before callbacks, retained effects after a late error and lazy signed/full-word
+gates; these do not certify native backend execution.
+
 ## Combined Windows preview with bounded ambient diagnostics — 10 November 2026
 
 Published [preview-2026.11.10.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.1)
