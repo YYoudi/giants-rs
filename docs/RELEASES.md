@@ -43,6 +43,29 @@ GitHub asset digests and remote tag. `docs/public-preview.json` pins this exact
 download; subsequent source progress cannot relabel it. NPC PR #5's reviewed head
 is merged; no other chat's worktree was moved or edited.
 
+## Delphi auxiliary-request prefix - 10 November 2026
+
+Source-only selection now preserves authority, independent command/response
+checks, the actual list12 walk, required state reads and first matching request.
+Original-PC/Rust controls match 2,048 contexts and 4,410 tracked reads, selecting
+158 requests and taking 1,890 exits. The native helpers execute with supplied
+session/peer and actor/list snapshots. Execution stops before the selected action;
+no actor state is changed by this prefix.
+
+Rust provider failures and bounded snapshot traversal retain explicit refusals.
+Typed auxiliary/related-owner production, current list lifetime, action services
+and phase-correct common Session wiring remain prerequisites. Existing gameplay
+refusals and the immutable public preview receipts remain unchanged. This adds
+no playable Delphi control, active spell/construction or capture. Prototype PS2
+attribution is unknown; the detailed evidence remains private.
+
+Combined runtime source `3ec7a62` preserves the latest NPC history/newborn
+callbacks and cinematic caption fix. It passes 872 workspace Rust tests (65
+ignored), seven installed Delphi controls, six NPC history/newborn/ownership
+controls, 43 Python tests, Rustfmt and strict Clippy. The final Rust prefix
+comparison repeats on that source. These remain source/CPU checks; the existing
+Session action refusal and public download identities are preserved.
+
 ## Delphi cold support construction - 10 November 2026
 
 An explicit source-backed cold factory now owns the support class through the
