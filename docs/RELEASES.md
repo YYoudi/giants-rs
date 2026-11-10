@@ -111,6 +111,19 @@ to Bevy, acquire startup words or acknowledge the mission's pending reset.
 Actual input/device, first animation/render and physical/controller wiring remain
 open. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
 
+## Kabuto owned camera header and cold context - source dependency
+
+Kabuto still has no ordinary playable entry or new download. The Session now
+stores the acquired player-initialized look angle separately from body rotation
+and scale. Shared mode commands consume the real camera-owner identity and write
+that angle before the projection callback, preserving completed effects on a
+later failure. An external PC loader-image reader supplies cold camera words,
+including bounded PE zero-fill; this does not execute game startup or establish
+warm mission-entry state. The installed owner/profile/projection control checks
+the producer/consumer chain, duplicate actors, failed projection and retirement.
+The next missing runtime piece is persistent camera ownership and actual entry
+ordering with device publication; all Kabuto initializer gates remain pending.
+
 ## Kabuto signed camera coefficients - intermediate dependency only
 
 Kabuto is still unavailable through normal controls. Source now reuses the common

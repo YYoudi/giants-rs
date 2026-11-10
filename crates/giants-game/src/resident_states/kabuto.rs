@@ -1245,6 +1245,9 @@ impl Session {
         // The acquired fresh generic constructor and cold player initializer
         // retain a zero generic header damage. Never default missing live data.
         actor.mecc_damage = Some(0.);
+        // The actual cold player initializer clears the separate camera angle,
+        // in addition to its body-orientation store. No view is selected here.
+        actor.camera_look_angle = Some(0.);
         actor.kabuto_player_fields = true;
         Ok(Initialized {
             owner,
