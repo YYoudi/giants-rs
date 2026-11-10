@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Shared camera mode and pre-world admission — 10 November 2026
+
+Source-only integration adds `camera_mode::State` and
+`mecc_subjective::State::prepare_from_camera`. The mode command matches 1,280
+original contexts with supplied profile/projection services, preserving repeated
+profile queries, actor-scale writes, invalid-command tails and transition reset.
+The camera eligibility policy matches all 864 previously acquired full native
+pre-world vectors when combined with their explicit model-presence inputs.
+An installed-resource control exercises six Session admission contexts and
+inactive-to-active re-entry; synthetic late-provider controls retain completed
+stores and refuse replay/admission after failure. See
+[OWNED_CAMERA.md](OWNED_CAMERA.md) for the native-versus-Rust scope.
+
+The combined source preserves Kabuto's current/held-reference handoff and shared
+target detachment. Current camera/profile inputs, startup/override producers,
+actual profile/projection backends and enclosing world order remain prerequisites.
+This does not enable the normal native Mecc driver or modify the immutable public
+preview download. No new playable character, native landing or fidelity claim is
+made from these controls.
+
 ## Kabuto held-reference handoff — 10 November 2026
 
 Both current/held-reference routes agree on 512 original intervals / 1,076,651
