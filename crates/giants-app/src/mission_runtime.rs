@@ -400,6 +400,21 @@ impl Runtime {
         }
         Ok(())
     }
+    pub(crate) fn controlled_jet_session(
+        &self,
+        ticket: u64,
+    ) -> Result<(&giants_game::resident_states::Session, ActorId), String> {
+        let active = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("normal jet ticket absent")?;
+        let owner = active.player_owner()?;
+        if active.owned_mecc.is_some() || active.controlled_mecc_owner != Some(owner) {
+            return Err("normal jet requires the actual ordinary motion owner".into());
+        }
+        Ok((&active.resident_states, owner))
+    }
     pub(crate) fn publish_actor_audio(
         &mut self,
         ticket: u64,
@@ -2591,6 +2606,67 @@ mod tests {
                 },
             )
             .unwrap();
+        // The ordinary render adapter consumes constructor-bound children and
+        // the real motion owner without completing or mutating an owned primary.
+        let jet_models = runtime.owned_jet_models(995).unwrap();
+        assert!(jet_models.iter().all(|m| m.mesh.normal_count == 0));
+        let (session, bound_owner) = runtime.controlled_jet_session(995).unwrap();
+        assert_eq!(bound_owner, owner);
+        let children = session.mecc_special(owner).unwrap().children;
+        let channels_before = children.map(|id| session.get(id).unwrap().channels);
+        let spec = session.specification(owner).unwrap();
+        let animation = &spec.animations[&1].animation;
+        let jet_world =
+            giants_game::object_transform::euler(position, fields.angles, fields.scale).unwrap();
+        for (flags, boost, hidden) in [
+            (0, false, [true, true, true]),
+            (0x1000, false, [false, false, true]),
+            (0x1000, true, [false, true, false]),
+            (0x2000, false, [false, false, true]),
+        ] {
+            let mut producer =
+                crate::mission_player::jet::Presentation::new(session, owner).unwrap();
+            let input = || crate::mission_player::jet::Parent {
+                animation,
+                seconds: 0.,
+                world: jet_world,
+                scale: fields.scale,
+                flags,
+                boost,
+            };
+            let frames = producer.advance(session, 1, 1. / 120., input()).unwrap();
+            assert_eq!(
+                frames.iter().map(|f| f.pose.id).collect::<Vec<_>>(),
+                children
+            );
+            assert_eq!(
+                frames.iter().map(|f| f.pose.hidden).collect::<Vec<_>>(),
+                hidden
+            );
+            assert!(
+                frames
+                    .iter()
+                    .zip(&jet_models)
+                    .all(|(f, m)| f.positions.len() == m.mesh.positions.len())
+            );
+            assert!(
+                frames.iter().all(|f| !f.positions.is_empty()
+                    && f.pose.world.values.iter().all(|v| v.is_finite()))
+            );
+            assert!(producer.advance(session, 1, 1. / 120., input()).is_err());
+            assert!(
+                producer
+                    .advance(session, 2, 1. / 120., input())
+                    .err()
+                    .unwrap()
+                    .contains("quarantined")
+            );
+        }
+        assert_eq!(
+            channels_before,
+            children.map(|id| session.get(id).unwrap().channels)
+        );
+        assert!(session.mecc_physical_cycle(owner).is_err());
         let active = runtime.active.as_mut().unwrap();
         assert_eq!(active.controlled_mecc_owner, Some(owner));
         assert_eq!(

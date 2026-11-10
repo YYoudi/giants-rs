@@ -8,6 +8,14 @@ not reduce the campaigns, characters or fidelity scope. `BACKLOG.md` remains the
 single detailed backlog. [INTEGRATION.md](INTEGRATION.md) defines integration and
 [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md) defines native research.
 
+The main integration objective is to connect reviewed Flick, Mecc, Delphi,
+Kabuto and NPC contributions to the same ordinary menu-to-game application,
+verify their combined behavior and deliver coherent GitHub main, Windows preview
+and dashboard updates in the order below. Resume the active integration goal
+under this policy even when an older chat objective lists only some lanes or
+does not yet state this priority order. A documentation milestone does not
+complete the ongoing game reconstruction goal.
+
 ## Choose work in this order
 
 1. **Make the ordinary playable path work.** Launch with a user-supplied

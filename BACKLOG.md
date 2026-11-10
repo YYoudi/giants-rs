@@ -22,6 +22,18 @@ supplied replay commands; it does not close this real-input delivery.
 - Mecc: provide the first missing impact/health/display/voice/FX and weapon
   dependencies that prevent this continuous path. Do not bypass them with default
   guard state; prioritize their actual producers over unrelated rare variants.
+  The acquired descent rule and clip are connected to the ordinary controller
+  on main through PR #17 (`c44baf6`). Menu entry, clip preparation, return and re-entry
+  have run on the local build; thrust/release/fall/landing interaction remains
+  unverified after the interrupted UI session. Do not advertise it as verified
+  gameplay or publish a new preview from those partial observations. Preserve
+  countdown-start research privately rather than expanding that isolated work.
+  The normal controller also connects its actual jet/nitro state to the
+  constructor-bound jet models and common draw consumer, without an
+  experimental-backend flag. Three local GPU movement/thrust/nitro/release cycles
+  and three complete draw retirements pass with supplied commands on source
+  `064cfed`; this is separate from held-input verification. Keep render-only clocks distinct from native world
+  completion; real held-input thrust/release and menu re-entry still need checking.
 - NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
   story interaction and its first real caller dependency within each domain.
   Their detailed blockers below remain authoritative; communicate the producer/
@@ -1731,6 +1743,41 @@ blocker in the next slice, rather than continuing adjacent functions by address.
   the complete comparison gallery appears before the progress tables.
 
 ## Cinematics / Flick: coverage and next prerequisites
+
+- First ordinary mission transport regression: a private receipt-bound MinGW
+  build of combined source `04cb614` follows Story1 menu mission 0 through all
+  fourteen declared directors and nine voice commands on each of two entries.
+  Actual source terminals and drained muted sinks lead to the Mecc preview;
+  both menu returns release tracked entities, movie assets and rendered text
+  atlases. The same executable captures an actual persistent owner from Rstory1
+  menu mission 2. Its installed ownership cohort also passes after the merge.
+  These are scripted/offscreen transport controls, not verified normal input,
+  ordinary mission gameplay, native timing or visual fidelity. Real skip input
+  and the film-to-player interaction remain the next Flick runtime checks;
+  preserve the separate Mecc action/controller work. No matching first-opening
+  reference was found in the retained set of 226 native-image reports searched;
+  do not transfer another film's visual evidence. Frozen downloads are unchanged.
+
+- Active persistent capture from the main build: `showcase-persistent` now waits
+  for an actual Session-owned effect to advance twice in the selected menu
+  mission, then records the reached director/tick and suspends for GPU capture.
+  The optional sequence filter does not seek or create an effect. Completion
+  samples reuse the menu's existing `CompletionReplay` intent without completing
+  objectives or claiming native replay-state reconstruction. The capture gate
+  now admits the mounted mission-film camera only with its existing explicit
+  `cinematic_capture_ready` observation, preserving replay guards.
+  A receipt-bound MinGW build passes one startup sample and one filtered
+  completion sample after eleven real director transitions, with actual owned
+  effects, prepared GPU assets, no injected input and device-free silent capture.
+  Invalid identifier/role combinations refuse. These are inspection samples,
+  not ordinary gameplay, full playback or visual/temporal fidelity proof.
+  Menu declaration mapping covers 56 missions: four persistent cohort sources
+  are in startup chains and nineteen in completion chains; one unrelated startup
+  request has no matching world-table entry and remains an explicit refusal.
+  Retained exact-profile image candidates exist, but their exact image clock and
+  source-effect attribution need review before pixel-aligned comparisons. Continue
+  current/original camera, pose, material and draw-queue comparisons; leave native
+  pool/world population and complete gameplay-transition requirements open.
 
 - Persistent named-selection follow-up: all 25 requests in the 23-source cohort
   resolve to two programs whose normal/lite choices identify the same actual

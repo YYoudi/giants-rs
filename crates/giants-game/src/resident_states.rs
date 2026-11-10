@@ -3671,12 +3671,7 @@ impl Session {
                     .construction_fields
                     .as_ref()
                     .ok_or("jet child fields absent")?;
-                let hidden = flags & 0x3000 == 0
-                    || if boost {
-                        actor.class == 85
-                    } else {
-                        actor.class == 781
-                    };
+                let hidden = crate::mecc_special::child_hidden(actor.class, flags, boost);
                 writes.push((
                     child,
                     if hidden {

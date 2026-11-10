@@ -33,6 +33,40 @@ body drawing, cancellation and asset release. Commands/clocks/world gates remain
 supplied. These checks establish neither ordinary Kabuto availability nor native
 visual fidelity. The published preview .8 retains its independent identity.
 
+## Main-menu persistent image samples - source-only inspection
+
+The common executable now samples an actual Session-owned persistent effect
+through its menu/mission renderer. The observer waits for two real updates,
+optionally matches the requested source director, and records the reached tick
+before suspending for GPU capture. It supplies no effect, forced source time,
+input or gameplay-ready event. The mission-camera capture permission retains
+its explicit observation flag and the existing replay gates.
+
+Completion inspection uses the already implemented menu `CompletionReplay`
+intent; it does not complete objectives or reconstruct native replay state.
+A fresh receipt-bound MinGW build of `59c4f65` passes a selected startup capture
+and a filtered completion capture after eleven director transitions, with actual
+owned effects and prepared GPU assets. Both processes exit silently without an
+audio device or injected input. Invalid sequence/role combinations refuse.
+The earlier candidate reached its owner sample but could not pass the menu-camera
+capture guard; its timeout is retained and is not a renderer success.
+
+Combined source `04cb614` preserves main through `8ba4f66` and passes 918 Rust
+checks (108 ignored), the installed 23-source ownership cohort, strict Clippy,
+Rustfmt, 43 Python tests and site checks. Its receipt-bound MinGW build also
+passes waited CLI startup, actual persistent-owner GPU capture, and two natural
+transport cycles of the first Story1 menu mission. Both entries reach all
+fourteen declared directors and nine voice commands, observe the real source
+terminal and drained muted voices, enter the Mecc preview, then release tracked
+entities/movie/text assets before returning and re-entering. These observations
+are scripted and offscreen; real skip input and complete native gameplay remain
+unverified. The reproducible local build is independent of frozen preview .8.
+
+These are private inspection images. Exact native image phase, animation pose,
+materials, queue ordering and full scene fidelity remain unverified. Current
+frozen public downloads and the separately pinned 545-source census are unchanged.
+The new controls do not enable ordinary character gameplay or certify a film.
+
 ## Delphi common camera override dependency - 10 November 2026
 
 Intermediate dependency only; Delphi has no new ordinary menu entry or controls.
@@ -6151,3 +6185,48 @@ CPU and reserved zero-PCM device controls, shared timed Session and cold Delphi
 ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
 site/JavaScript checks. Concurrent preview .8 evidence and its limitations are
 retained separately. This source handoff creates no new download or live admission.
+
+## Mecc ordinary descent presentation - source integration
+
+Merged into main through [PR #17](https://github.com/YYoudi/giants-rs/pull/17)
+(`c44baf6`). The ordinary menu-controlled renderer now loads the acquired descent
+clip and selects it using the same installed-data velocity/clearance rule as the
+owned selector. This addresses a missing visible pose in the normal presentation path;
+input defaults and owned-primary admission are unchanged.
+
+Status: runtime connected, interaction unverified. Normal menu entry, preparation,
+return and re-entry ran on a muted local build, but sustained flight/release/
+descent/landing was not established before computer use was interrupted. Do not
+advertise an interaction-verified or downloadable milestone from these partial
+observations. The current preview receipts/notices/checksums retain their identity.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-mission-descent-pose---runtime-connected-interaction-unverified).
+
+
+## Mecc ordinary jet presentation - source integration
+
+The existing jet renderer now also consumes the normal partial controller's
+actual jet/nitro state and animated body attachment. It binds existing constructor
+children, advances separate presentation clocks and preserves owned-driver world
+completion requirements. Default right-mouse thrust and Space nitro need no replay
+or experimental backend switch. The same consumer handles draw retirement.
+
+Status: runtime connected, interaction unverified. Installed-data ownership and
+presentation checks support the wiring; actual held-input thrust/release, GPU
+appearance, landing and re-entry remain to verify. No new preview is advertised.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-jet-presentation---runtime-connected-interaction-unverified).
+
+
+Local validation of source `064cfed`: its GNU debug executable
+(SHA256 `5d815839f66abea5a957c35ea5d42f08968172673a60b5131f2d73721c13a521`)
+completes three offscreen ordinary-controller movement/jet/nitro/release and
+mission-retirement cycles. The actual draw consumer switches source child models
+and removes their assets each time. Supplied commands and disabled audio remain
+explicit boundaries; real held input, visual comparison and ordinary flight
+acceptance remain open. This private local executable is not a downloadable
+preview and does not change published package receipts/notices/checksums.
+
+An active-thrust capture on that same binary visibly confirms the white/blue jet
+plume attached to the Mecc in the ordinary controller's Gameplay presentation.
+The existing diagnostic supplies its commands; the experimental backend is unset.
+The image remains private. This is local rendered-output evidence, separate from
+real input acceptance and the unchanged public preview.

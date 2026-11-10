@@ -28,6 +28,25 @@ pub(crate) struct Replay {
     film_finished: bool,
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    if std::env::var_os("GIANTS_PERSISTENT_SAMPLE_COMPLETION").is_some()
+        && (std::env::var("GIANTS_PERSISTENT_SAMPLE_COMPLETION").as_deref() != Ok("1")
+            || std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-persistent"))
+    {
+        return Err("completion sample requires the explicit persistent replay".into());
+    }
+    if let Ok(sequence) = std::env::var("GIANTS_PERSISTENT_SAMPLE_SEQUENCE")
+        && (std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-persistent")
+            || sequence.is_empty()
+            || sequence.len() > 64
+            || !sequence
+                .bytes()
+                .all(|b| b.is_ascii_alphanumeric() || b == b'_'))
+    {
+        return Err(
+            "persistent sample sequence requires its explicit replay and an ASCII identifier"
+                .into(),
+        );
+    }
     if let Ok(step) = std::env::var("GIANTS_MISSION_OWNED_JET_CAPTURE_STEP")
         && (!matches!(step.as_str(), "30" | "36" | "49" | "50" | "128")
             || std::env::var("GIANTS_MISSION_OWNED_JET_PROBE").as_deref() != Ok("1"))
@@ -65,6 +84,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
             | "showcase"
             | "showcase-menu"
             | "showcase-opening"
+            | "showcase-persistent"
             | "showcase-free"
             | "showcase-cancel"
             | "showcase-mecc"
@@ -317,7 +337,11 @@ fn drive(
                 &mut frontend,
                 request,
                 &mut images,
-                if std::env::var_os("GIANTS_SHOWCASE_WORLD").is_some() {
+                if mode == "showcase-persistent"
+                    && std::env::var("GIANTS_PERSISTENT_SAMPLE_COMPLETION").as_deref() == Ok("1")
+                {
+                    LaunchIntent::CompletionReplay
+                } else if std::env::var_os("GIANTS_SHOWCASE_WORLD").is_some() {
                     LaunchIntent::SavedMission
                 } else {
                     LaunchIntent::NewCampaign
@@ -415,6 +439,16 @@ fn drive(
                 false
             } else if mode == "showcase-mecc" {
                 playing && controllers.iter().any(|c| c.replay_done)
+            } else if mode == "showcase-persistent" {
+                opened
+                    && std::env::var("GIANTS_PERSISTENT_SAMPLE_SEQUENCE").map_or(true, |wanted| {
+                        cinematic
+                            .as_ref()
+                            .is_some_and(|c| c.sequence().eq_ignore_ascii_case(&wanted))
+                    })
+                    && effects
+                        .as_ref()
+                        .is_some_and(|s| s.advanced_persistent_objects(&runtime) > 0)
             } else if matches!(
                 mode.as_str(),
                 "showcase-opening" | "showcase-opening-cycles"
@@ -510,9 +544,22 @@ fn drive(
                 && (mode != "showcase-free" || showcase.is_free())
                 && pipelines.0
             {
-                if mode == "showcase-opening"
+                if matches!(mode.as_str(), "showcase-opening" | "showcase-persistent")
                     && let Some(cinematic) = &mut cinematic
                 {
+                    if mode == "showcase-persistent" {
+                        println!(
+                            "showcase_persistent_sample ticket={} director={} sequence={} tick={} objects={} input_injected=false native_fidelity_verified=false",
+                            frontend.flow.ticket,
+                            cinematic.director_index(),
+                            cinematic.sequence(),
+                            cinematic.tick(),
+                            effects
+                                .as_ref()
+                                .unwrap()
+                                .advanced_persistent_objects(&runtime)
+                        );
+                    }
                     cinematic.suspend(true);
                 }
                 if let Some(mut world) = world {

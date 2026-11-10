@@ -1286,3 +1286,82 @@ actual snapshot production/identity, message/progression continuation, other gua
 writers and common scheduling remain required before live impact admission.
 Prototype PS2 lookups were refreshed first; all new attributions remain unknown.
 The source checkpoint does not change the separately published preview identity.
+
+## Ordinary mission descent pose - runtime connected, interaction unverified
+
+The normal menu-controlled Mecc presentation now prepares the acquired descent
+clip and uses the same descent request as the owned selector. Previously this
+path loaded only the ordinary directional air clips, so it could not display the
+already acquired descent posture. Selection uses actual vertical velocity and
+floor-relative clearance with the installed data's thresholds. It returns to
+ordinary locomotion when the descent condition ends. No replay switch is required
+for this wiring, and default input bindings remain unchanged.
+
+Test path: start a Mecc mission through the normal menu, hold right mouse for
+thrust (Space for nitro), gain height, release and observe a sufficiently fast
+clear descent, then land, return to the menu and enter again. This remains the
+existing partial mission controller; it does not enable the incomplete owned
+primary globally or supply missing impact/voice/FX services.
+
+The local muted build completed normal menu entry, asset/clip preparation, return
+and re-entry. The attempted input session did not establish a sustained flight,
+so thrust/release/descent/landing interaction is explicitly unverified. The user
+interrupted computer use with Escape; no further UI control was resumed. Temporary
+bindings were confined to an independent test profile. The existing preview is
+not updated by this source change. Prototype PS2 lookup was refreshed before
+reusing the acquired selector rule; attribution remains unknown.
+
+
+## Ordinary jet presentation - runtime connected, interaction unverified
+
+The normal menu-controlled Mecc path now feeds the common jet draw consumer.
+Previously it received child frames only from the experimental owned driver,
+although the ordinary controller already produced jet/nitro state. Its adapter
+binds the three actual constructor child identities to the controlled motion
+owner, evaluates the current rendered body's attachment reference and source
+corrections, and advances source child ANM channels once per ordinary physics step.
+The acquired child visibility rule is shared with owned state publication.
+Thrust, nitro and release use the actual controller output, including its release
+flag; camera-facing materials, geometry and mission asset cleanup use the existing
+consumer. Inactive control hides/releases the draw submissions.
+
+These are explicit presentation clocks. They neither mutate the Session child
+channels nor acknowledge a completed native parent/world phase. The experimental
+owned driver retains its existing completion requirements and pose producer.
+Stale motion, a changed constructor, foreign/retired children or presentation
+failure quarantine this adapter. No substitute native impact/audio/FX provider
+is introduced. Prototype PS2 lookup was refreshed; attribution remains unknown.
+
+Entry/check: normal menu, a supported Mecc mission, hold right mouse for thrust,
+Space for nitro, release, land, pause/return and enter again. This path requires
+no replay or experimental backend switch. Source binding and installed-data
+controls do not prove visible response to real held input; that interaction and
+GPU result remain unverified after the interrupted UI session. No preview
+receipt, binary availability or fidelity result is changed by this source work.
+
+
+The local GNU debug build of source `064cfed` has executable SHA256
+`5d815839f66abea5a957c35ea5d42f08968172673a60b5131f2d73721c13a521`.
+Its existing offscreen `player-motion-cycles` diagnostic completes three
+720-step ordinary-controller cycles. Each submits the normal jet models, switches
+to the nitro variant, returns to the normal variant, hides on release and removes
+its owned draw assets at cancellation. Three distinct mission owners retire with
+zero remaining mission entities; the process exits successfully and captures the
+returned menu with no failed GPU pipelines. Audio transport is disabled.
+These commands are supplied by the diagnostic. They establish the ordinary
+presentation producer/consumer and repeated GPU resource lifecycle on this build,
+not real held mouse input, native world admission, descent-pose observation or
+fidelity against the original. The existing renderer log's clock-ownership tag
+must not be interpreted as evidence of an owned-primary/world phase: this run
+uses the ordinary adapter's separate presentation clocks.
+
+A second run on the same binary uses the existing `showcase-mecc` diagnostic
+with the experimental backend unset. At the supplied ordinary-controller step
+275, the actual GPU capture visibly shows the white/blue plume attached below
+the Mecc jetpack. The source child submission is the nitro pair, the camera source
+is the live mission player, and the application reaches its Gameplay phase.
+The private capture was visually inspected and is not added to the public gallery.
+This proves rendered output on the identified local build; the diagnostic's
+supplied input still does not establish real held-mouse interaction or a fidelity
+comparison. The descent clip was not selected by the three short test trajectories,
+so its visible falling posture remains unobserved in this validation.

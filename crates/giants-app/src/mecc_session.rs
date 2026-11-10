@@ -122,6 +122,7 @@ pub fn capture_allowed(world: &World) -> bool {
                 matches!(
                     s.camera_source,
                     "frontend_intro_source_preview"
+                        | "mission_opening"
                         | "mission_player_inspection"
                         | "mission_player_live"
                 ) && s.cinematic_capture_ready
