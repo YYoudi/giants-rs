@@ -263,12 +263,23 @@ cargo test --locked -p giants-game source_herd_frame --target x86_64-pc-windows-
 cargo test --locked -p giants-game source_vimp_threat --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_vimp_vector --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_vimp_response --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_active --target x86_64-pc-windows-gnu -- --ignored --nocapture
 ```
 
 The active-response block's portable tests run in the default workspace suite.
 Its separate private captured-cycle comparisons retain supplied caller motion,
 clock and external RNG draw schedule; they do not establish ordinary primary,
 physical/ANM or world integration. See [OWNED_NPCS.md](OWNED_NPCS.md).
+
+The active Session command adds six installed ownership controls: the arrival
+timer persists without a fabricated constructor value, callbacks retain their
+effects, and pending/foreign/reentrant/replayed visits refuse. The separately
+ignored `source_captured_vimp_active_cycle_retains_session_outputs_and_random`
+requires `GIANTS_NPC_ACTIVE_CONTROL` to be an absolute path to a private reviewed
+captured-entry control, in addition to `GIANTS_NPC_ROOT`. It retains Session
+outputs and RNG across 115 visits with supplied caller motion/clock/flags and
+external draw counts. Inputs are not distributed; this is not a normal mission
+or whole-primary test. Follow the central reconstruction method for acquisition.
 
 The response command checks actual inline physical/channel reads, signal-to-owned
 vector composition, terminal callback effects, cancellation and noise-target byte

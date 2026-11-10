@@ -1,5 +1,31 @@
 # Preview releases and milestone integration
 
+## Owned Vimp active-response state — 10 November 2026, source only
+
+The active block now consumes actual Session actor fields and keeps its arrival
+timer across invocations. An absent producer stays unknown instead of becoming
+zero. Prefixes publish before services; heading callbacks are reread, terminal
+action/cancellation effects keep ownership, and replay/pending/reentry guards
+preserve retained failures. Six installed controls exercise these boundaries.
+
+A source-backed Session comparison matches 115 original-PC active entries /1,495
+state/RNG/control words while retaining actor outputs and one RNG. First entry,
+caller motion/flags/history/clock/control and external draw counts are supplied;
+the acquired heading helper uses actual source parameters. Existing captured and
+persistent kernel comparisons still agree. This does not reconstruct the earlier
+caller movement or world schedule. Prototype PS2 attributions remain unknown.
+Complete callback-phase composition through look/physics/ANM and actual global,
+movement/contact, hint/action/audio and mode7 services remain required. Published
+preview .8 notes and receipt are unchanged; no playable NPC, capture or download
+is added by this source milestone.
+
+Combined runtime source `c9965b4` preserves main through `897d80d`. It passes 928
+workspace Rust tests (131 ignored), 32 installed NPC controls plus the private
+captured-cycle control, Delphi dependency-order and canonical timed-owner checks,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. Native captured/persistent block and locomotion comparisons pass on the
+combined runtime source; their supplied boundaries remain explicit.
+
 ## Vimp locomotion animation — 10 November 2026, source only
 
 The owned mode1 selector now uses actual gait and physical flags, preserving

@@ -11,7 +11,7 @@ Mecc, Delphi and Kabuto lanes, and cinematic direction remains in the Flick lane
 | Family | Existing Rust services | Established boundary | Missing ordinary gameplay connection |
 | --- | --- | --- | --- |
 | Herd population | `herd_generator`, `herd_markers`, `declared_residents` | Source herd/marker construction, authored properties, ordered marker allocation, offline clock and Vimp births | Mission scheduler, native live clock/RNG ownership, complete population and retirement |
-| Living Vimps | `vimp_actor`, `vimp_wander`, `vimp_physical`, `vimp_animation`, `vimp_frame`, `vimp_threat`, `vimp_response`, `vimp_vector_response` | Owned birth/initialization/growth and admitted ordinary wander/physical/ANM composition; isolated owned threat/response/vector composition | Required hint/action bodies and live session/caller ownership, feeding, full-world order, live render and audio ownership |
+| Living Vimps | `vimp_actor`, `vimp_wander`, `vimp_physical`, `vimp_animation`, `vimp_frame`, `vimp_threat`, `vimp_response`, `vimp_vector_response`, `vimp_active_response` | Owned birth/initialization/growth and admitted ordinary wander/physical/ANM composition; isolated owned threat/response/vector/active composition and persistent arrival timer | Required hint/action bodies and live session/caller ownership, feeding, full-world order, live render and audio ownership |
 | Vimp injury and remains | `vimp_damage`, `vimp_hurt`, `vimp_recovery`, `vimp_living_scalars`, `vimp_chunks`, `vimp_death_proxy` | Bounded damage, hurt/recovery and owned chunk/proxy services | Actual player hit dispatch, active effects/sounds, collection/economy and complete death cleanup |
 | Rippers | `ripper_perception`, `ripper_steering`, `ripper_pursuit`, `ripper_primary_turn`, `ripper_attack`, `ripper_awakening`, `ripper_emergence`, `ripper_turn_completion`, `ripper_ground`, `ripper_dirt` | Ordered target selection, supplied-view behavior kernels and persistent Session adapters for acquired branches | Complete actor/world primary scheduling, required firing/effect/audio providers, remaining modes and ordinary mission admission |
 | Shared enemy response | `state23_entry`, `state23_damage`, `state23_hurt`, `state23_animation`, `enemy_projectile`, `enemy_ballistic`, `enemy_flight` | Acquired state23 entry/damage/animation, enemy projectile birth/launch and isolated ordinary flight arithmetic | Complete enemy projectile world/contact/damage composition and all enemy classes/bosses |
@@ -266,7 +266,7 @@ touched dependencies remain unknown; no signatures or layouts are imported.
 Five portable controls cover arrival/normalization distinctions, equal-bound RNG,
 wide timer decisions, required-service ordering and retained callback errors.
 
-Next bind the stage-produced turn timer to persistent actor ownership, acquire the
+The Session adapter below now retains the stage-produced timer. Next acquire the
 remaining ordinary movement producers and compose this block at
 its actual callback point before common look, physics and ANM. Session/world phase,
 clock/RNG ownership, hint/action/audio services and mode7 remain prerequisites.
@@ -305,9 +305,43 @@ response skips both this growth call and ordinary movement; later visits can run
 them. Preserve that branch when composing the primary rather than advancing
 growth unconditionally. This is PC role evidence, not a confirmed prototype PS2
 name. All touched attributions remain unknown; earlier aliases and the rejected
-movement-helper hypothesis remain in the private record. Persistent timer and
-caller phase ownership, actual movement/contact producers, required services and
+movement-helper hypothesis remain in the private record. Complete caller phase
+ownership, actual movement/contact producers, required services and
 complete response/physics/ANM/world composition remain the next work.
+
+### Owned active-response continuation — 10 November 2026
+
+`Session::advance_vimp_active_response_offline` now projects the actual initialized
+herd child's heading, angular history, commands, response fields and born delay.
+The arrival-produced turn timer persists in `vimp_actor::Cold` as an optional
+value. Constructors supply no invented zero; stage1 requires its producer only
+after the first predicate admits the read. Unknown is separate from zero expiry.
+
+Prefix stores publish before required session/clock/heading/action services. The
+heading callback is followed by a fresh projection even after an error; retired
+or changed owners are not restored. Both action shapes are terminal, so their
+Session writes and cancellation effects retain ownership without an old final
+projection overwriting them. Invocation numbers, reentry and pending phase guards
+refuse replay; late errors retain stores/draws and quarantine the owner. ANM and
+world frame counters do not advance in this isolated block.
+
+Six installed controls cover persistent arrival/wait state, unknown-timer refusal,
+callback mutations/errors, both terminal actions, cancellation and foreign/pending/
+reentrant admission. The separate optional captured-cycle test runs 115 native
+entries on an actual source child: all 1,495 state/RNG/control words agree while
+Session outputs and one RNG persist. Only the first active entry is supplied;
+later position, target, commands, angular-history copy, object/binding/context
+flags, clock/control inputs and external RNG draw counts remain caller inputs.
+The existing acquired heading helper consumes actual source parameters; a private
+control supplies the external schedule. This strengthens ownership evidence, not
+whole-primary/world equivalence or ordinary mission admission.
+
+The numeric captured and persistent kernel comparisons also still agree. Prototype
+PS2 attributions remain unknown. Next factor the ordinary growth/movement/heading
+prefix at its actual branch, then consume one caller phase lease through active
+response, look, physics and ANM. Preserve the first handled response's growth and
+movement skip. Actual caller/global clocks and RNG ownership, movement/contact,
+hint/action/audio bodies, mode7 and live world/render/re-entry remain required.
 
 The PC SHA256 is
 `690bad39847b0f578163e547e6a6de10ffe9213635a069bd1ce96a75dfd39ead`;

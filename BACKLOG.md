@@ -106,9 +106,14 @@ The dedicated NPC lane resumes existing work; see
   block now matches 115 native entries /1,495 state/RNG/control words, including
   a persistent Rust-state comparison with supplied caller motion/clock inputs
   and external draw schedule. One real native source cycle reaches completion
-  with only one signal injected and no forced readiness. Bind its turn timer to
-  persistent ownership and preserve first-handled versus later growth/movement
-  production. The mode1 animation selector now consumes owned gait/physical flags;
+  with only one signal injected and no forced readiness. The isolated active
+  Session adapter now owns its arrival timer without an invented constructor zero,
+  publishes required-service prefixes, rereads heading callback changes and retains
+  terminal action/cancellation effects. Six installed controls cover the owner and
+  replay/error boundaries; a separate actual-Session control matches 115 native
+  entries /1,495 words with retained outputs/RNG and supplied caller inputs/external
+  draw counts. Bind the complete caller phase and preserve first-handled versus
+  later growth/movement production. The mode1 animation selector now consumes owned gait/physical flags;
   1,088 native numeric contexts /39,168 channel words agree, including real blend
   modes and descriptor visibility controls. A declared synthetic idle-turn alias
   covers that absent source descriptor only numerically. One installed control
