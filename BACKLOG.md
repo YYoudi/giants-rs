@@ -1222,8 +1222,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   callback results); composition reaches the countdown in 32 contexts, with ten
   pending and 22 expired. Actual precheck and previous-record callback effects are
   supplied: inspection exposes music/player-transition responsibilities, not an
-  acquired one-time initializer. Next acquire those full services, actual snapshot
-  ownership and message/progression continuation plus debug/menu/editor lifetimes;
+  acquired one-time initializer. Completion continuation now orchestrates notice
+  marking, signed progress update, next-record scan and all four record kinds,
+  preserving callback-relative mission/player/world rereads and late-failure
+  writes. In 373 whole-handler contexts, Rust's composed admission/countdown/tail
+  agrees with native selected state, clocks, returns and 1,454 ordered provider
+  entries with intermediate state/arguments. Mission data, clocks and helper
+  callback effects are supplied; actual UI/music/save/load/event/countdown-start
+  bodies, precheck/previous-record services and world/storage ownership remain
+  required. Next acquire those full backends and debug/menu/editor lifetimes;
   then bind common ownership and impact/voice/display/FX world services. Broaden populated
   contact and live sessions. Do not default a guard to bypass these prerequisites.
   See OWNED_MECC_CONTACT.md for scope; ordinary gameplay and fidelity remain open.
