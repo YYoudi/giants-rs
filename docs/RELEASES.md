@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## Flick timed queue ownership - intermediate dependency
+
+No new normal controls, runtime capability or downloadable preview is claimed.
+The next common campaign FX dependency is the source-marked timed-shot queue,
+its virtual support and retirement child in the canonical mission Session.
+Existing construction/callback controls remain reusable; an ordinary actor ID
+must not replace the source-domain support.
+
+The exact PC thread-state initializer and random helper now execute together
+under supplied Windows TLS, thread identities and zeroed heap allocation. Six
+interleaved draws preserve separate thread states and the caller's error value.
+Four supplied clock boundaries also execute the real time-sampled seed setter
+and following draw. A lazy initial seed does not establish the seed of a loaded
+mission: application reseeds and earlier draws still need their actual producers.
+The retained preview's per-director random state is not a native fidelity proof.
+Both prototype PS2 resources were searched with pinned binary identities before
+this work; attribution stays unknown. Detailed records remain private.
+
 ## Ordinary Mecc descent visually observed - local Windows build
 
 The existing normal menu controller now has a reproducible graphical observation

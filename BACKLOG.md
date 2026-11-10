@@ -1857,6 +1857,21 @@ blocker in the next slice, rather than continuing adjacent functions by address.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- Next shared queue delivery: connect the source-marked timed-shot family to
+  the canonical mission Session, including its real support, retirement child
+  and cleanup. The retained program survey identifies 77 requests in seven
+  sources; the first affected Story2 completion chain has two shot-only sources
+  followed by a source mixing shots and other families. Reuse the existing
+  complete-program, callback and retirement controls. Ordinary actor parents
+  cannot stand in for virtual Flick supports, and preview draw submission does
+  not establish live queue admission.
+  A new dependency control executes the exact PC thread-state initializer,
+  random helper and time-sampled seed setter: state survives repeated calls on
+  one supplied thread, stays separate on another, and an actual setter replaces
+  the lazy initial seed. This does not establish the mission's seed, draw order,
+  application reseed points or sharing with the renderer. Preserve the existing
+  partial-preview limitation; do not promote a per-director seed reset into the
+  native runtime contract. No queue gap or complete-scene count closes here.
 - Persistent main-renderer batch: private source `04cb614` produces all 23
   selected-director images through four startup and nineteen completion chains,
   reusing one exact-build image. Each has same-ticket/director creation, visible
