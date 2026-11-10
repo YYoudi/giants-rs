@@ -95,6 +95,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
             | "campaign-entry"
             | "campaign-fire"
             | "campaign-fire-pose"
+            | "campaign-descent-pose"
             | "showcase"
             | "showcase-menu"
             | "showcase-opening"
@@ -145,6 +146,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
                 | "campaign-ambient-cycles"
                 | "campaign-flight-cycles"
                 | "campaign-fire-pose"
+                | "campaign-descent-pose"
         )
     );
     let showcase = std::env::var("GIANTS_MISSION_REPLAY").is_ok_and(|s| s.starts_with("showcase"));
