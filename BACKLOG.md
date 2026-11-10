@@ -113,7 +113,15 @@ implemented in `camera_mode`, with 1,280 native/Rust command comparisons and the
 Session preparation/inactivity and returns the resulting display snapshot. Keep
 profile/scale/projection backends, camera startup/override producers and world
 ordering explicit before connecting App damage/fire; the default driver is unchanged.
-The current independently verified download is `preview-2026.11.10.3`; its snapshot and receipts
+The acquired owner-selection prefix is now `camera_owner::State`, with all 162
+native/Rust selections matching. Its Session adapter reads real headers, retains
+callback writes/errors and refuses stale/foreign selected owners; `preworld`
+connects that checked owner to existing subjective preparation. The source control
+covers duplicate classes and owner removal/reconstruction. Next bind the actual
+reference-point body, startup/override writers and enclosing world order. Do not
+seed unknown camera words from a view toggle or treat editor/equipment-preview
+player swaps as ordinary mission startup.
+The current independently verified download is `preview-2026.11.10.4`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
 The combined `.3` source includes NPC PR #5's history/newborn runtime, cold Delphi

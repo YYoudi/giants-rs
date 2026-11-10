@@ -47,6 +47,15 @@ stale affine and replay refusal after a late platform failure. Clocks, support,
 physical caller argument and empty mesh/platform populations remain supplied;
 this is not live mission admission or a fidelity check. Keep its inputs private.
 
+With `GIANTS_MECC_WORLD_ROOT` set to compatible installed data, the ignored
+`source_camera_owner_selection_keeps_callback_effects_and_identity` checks the
+camera-owner prefix against actual Session actors and the existing subjective
+preparation consumer. It covers duplicate classes, retained callback effects,
+late errors, retirement, foreign owners and reconstruction. The reference-point
+body, initial words and mode/force/profile inputs remain declared boundaries.
+Run it alongside `source_mecc_preworld_camera_prepares_or_retires_actual_display`;
+both are silent CPU compositions, not App input or complete world-order checks.
+
 With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
 `cargo test --locked -p giants-app source_actor_roles --target x86_64-pc-windows-gnu -- --ignored`
 checks actual player constructor identity with a second actor of the same class,
