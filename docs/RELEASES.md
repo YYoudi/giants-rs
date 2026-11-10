@@ -20,7 +20,7 @@ A fresh census of this executable covers 545 sources /16 worlds, zero preparatio
 errors, 59 reported-gap sources, 56 general-queue refusals, 282 reviews and zero
 certified films. It remains capability diagnostics, not a visual comparison.
 Manual observations from .5 are not transferred to .6. Full native gameplay and
-visual/audio/timing fidelity remain open. Later Delphi proximity contributions
+visual/audio/timing fidelity remain open. Later Delphi proximity and dependency-order contributions
 are source-only relative to this binary; their tests do not relabel it.
 
 ## Source-terminal ownership across retirement — 10 November 2026
@@ -58,6 +58,23 @@ cover the new ordinary preparation, both previous timed callback variants with
 physical-header/intermediate-phase controls, the standalone owner and application
 actor roles. The separate .6 reservation preserved the .5 publication. The final
 .6 package identities and expanded checks are recorded above.
+
+## Delphi shared dependency-order prerequisite — 10 November 2026
+
+The common Session now owns the acquired post-primary dependency ordering for
+attachments and Delphi copies. It preserves registration identities and other
+memberships, with explicit retained-error and cleanup boundaries. All 1,024
+original-PC/Rust supplied graph controls match object and registration order;
+an installed-data cold-group control checks typed ownership and reconstruction.
+Native-only whole-cohort tracing separates primary/animation from later held
+placement. Complete startup/frame production, target/readiness publication and
+active physical movement remain prerequisites. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+This is a source-only milestone; the public preview snapshot and its executable
+identity remain unchanged, and live Delphi is still unavailable.
+
+Validation passes 885 workspace Rust tests (76 ignored), the installed-data
+Delphi dependency-order control, 43 Python tests, Rustfmt, strict workspace
+Clippy and generated roadmap/site/JavaScript checks.
 
 ## Selected camera owner and combined identity checkpoint — 10 November 2026
 

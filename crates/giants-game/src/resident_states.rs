@@ -14,6 +14,7 @@ mod delphi_camera;
 mod delphi_held;
 #[cfg(test)]
 mod delphi_proximity_tests;
+mod dependency_order;
 mod parent_binding;
 pub use parent_binding::AttachmentWords;
 #[cfg(test)]
