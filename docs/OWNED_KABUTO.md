@@ -1733,3 +1733,33 @@ no successful default provider. Complete caller policy, reference lifetime and
 remaining primary/world integration are still required before admitting live
 Kabuto movement/feeding/growth. Preview identities and historical captures stay
 separate from this source-only composition.
+
+## Retained caller input for held-reference handoffs
+
+`Factory::advance_captured_held_references` consumes the decision, previous/current
+frame and wrap sample retained by this owner's completed resource component.
+It reuses that component's existing template time-to-frame conversion. Later
+channel, action or motion-mode writes do not replace this earlier caller sample.
+Missing snapshots, wrong resources/checkpoints and replay refuse; all mutable
+backend boundaries still use the actual Session reference bank.
+
+Eight complete original-PC primaries track the actual stack-cell writers and
+retain 32 selected caller words between the resource and handoff frontiers.
+Sixteen previous/current converter words also agree with the existing compiled
+Rust time-to-frame service, whose scoped source fingerprints are unchanged.
+The control supplies behavior, finite channel clocks and the wrap bit at the
+capture point, in addition to its declared memory, TLS, clock, flat-world and
+projection boundaries. It does not establish live input or valid animation/action
+admission. A failed exploration retained duplicate per-case TLS providers; the
+corrected run removes each hook after its case, preserving the native bodies and
+identical supplied inputs. Detailed records remain private; attribution is unknown.
+
+A fourth installed bank control reaches the actual resource checkpoint, changes
+both current channel mirrors, action and motion mode, then consumes the retained
+sample. It also checks missing-snapshot refusal without entering the component,
+foreign resources, wrong checkpoints, replay and unchanged pending initializers.
+The lower-level explicit-input entry remains useful for its bounded controls.
+Complete action/capture policy, intervening primary phases, actor lifetimes and
+real construction/binding/ANM/transport/reset/physical services remain required.
+This adds no complete primary/history, menu control, movement, feeding, growth
+trigger, capture or new downloadable-preview claim.

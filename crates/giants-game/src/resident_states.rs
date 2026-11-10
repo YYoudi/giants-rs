@@ -31,7 +31,9 @@ mod vimp_history_tests;
 #[cfg(test)]
 mod vimp_newborn_tests;
 mod vimp_threat;
-pub use timed_effect::Services as TimedEffectServices;
+pub use timed_effect::{
+    PhysicalHeader as TimedEffectPhysicalHeader, Services as TimedEffectServices,
+};
 
 struct OwnedSpecification(crate::actor_references::Owned);
 impl std::fmt::Debug for OwnedSpecification {
