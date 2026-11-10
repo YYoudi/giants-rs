@@ -1,4 +1,4 @@
-//! Bounded herd/marker common-node composition. World admission and population
+//! Bounded herd/marker and empty state0 common-node composition. World admission and population
 //! traversal remain upstream; environment and footprint services are required.
 use crate::{actor_fields::Fields, actor_finalization, collider_copy, resident_states::Id};
 
@@ -42,20 +42,33 @@ pub(crate) struct Owned {
     pub primary_steps: u64,
 }
 impl Owned {
+    /// State0 has no payload or primary/secondary dispatch entry. The shared
+    /// constructor clears transient motion/contact storage before class copy;
+    /// references, animated channels and external orientation need other owners.
+    pub fn supports_empty_state0(
+        fields: &Fields,
+        specification: &crate::specification::Prepared,
+    ) -> bool {
+        fields.configuration[20] == 0
+            && fields.channels.iter().all(|c| c[0] == 254)
+            && specification.metadata.references.names.is_empty()
+            && fields.object_flags & 0x10000 == 0
+    }
     /// Actual source constructors clear the nonphysical motion, contact and
     /// affine fields. Placements provide the declared header, not physics.
     pub fn fresh(
         fields: &Fields,
         specification: &crate::specification::Prepared,
     ) -> Result<Self, String> {
-        if !matches!(
+        if (!matches!(
             (fields.class, fields.configuration[20]),
             (49, 17) | (679, 0)
-        ) || fields.channels.iter().any(|c| c[0] != 254)
+        ) && !Self::supports_empty_state0(fields, specification))
+            || fields.channels.iter().any(|c| c[0] != 254)
             || !specification.metadata.references.names.is_empty()
             || fields.object_flags & 0x10000 != 0
         {
-            return Err("herd frame requires source nonphysical herd/basic marker with empty channels and references".into());
+            return Err("passive frame requires source nonphysical herd or state0 with empty channels and references".into());
         }
         let c = fields.configuration;
         let mut f = collider_copy::Fields::zeroed();

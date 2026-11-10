@@ -25,6 +25,8 @@ mod dependency_order;
 mod herd_frame;
 #[cfg(test)]
 mod herd_frame_tests;
+#[cfg(test)]
+mod passive_frame_tests;
 pub use cinematic_constant::{
     Scope as CinematicScope, Support as CinematicSupport, View as CinematicConstantView,
 };
@@ -9540,6 +9542,20 @@ impl Session {
         if input.seed.storage.state() == 0 && input.seed.storage.data().is_some() {
             return Err("state0 construction must not allocate a payload".into());
         }
+        // Admit only the acquired empty nonphysical state0 profile. Unsupported
+        // animated/reference-bearing state0 declarations still construct, but
+        // receive no successful common callback by default.
+        let passive = if input.seed.storage.profile() == Profile::Debug
+            && input.seed.storage.state() == 0
+            && crate::herd_frame::Owned::supports_empty_state0(&input.fields, &input.specification)
+        {
+            Some(crate::herd_frame::Owned::fresh(
+                &input.fields,
+                &input.specification,
+            )?)
+        } else {
+            None
+        };
         let mut staged = Self::new(self.ticket);
         staged.next = self.next;
         let id = staged.register_animated(
@@ -9552,6 +9568,7 @@ impl Session {
         staged.bind_specification(id, input.specification)?;
         staged.bind_state_resources(id, input.state_resources)?;
         staged.bind_actor_fields(id, input.fields)?;
+        staged.residents.get_mut(&id.serial).unwrap().herd_frame = passive;
         if let Some(initial) = initial_pose {
             // The source placement writes its first affine before later
             // command9 scale overrides. Preserve that real cache and let the

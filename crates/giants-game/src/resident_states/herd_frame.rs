@@ -149,15 +149,15 @@ impl Session {
         if !actor.acquired_construction
             || actor.seed.storage.profile() != Profile::Debug
             || actor.herd_frame.is_none()
-            || !matches!(
+            || (!matches!(
                 (actor.class, actor.seed.storage.state()),
                 (49, 17) | (679, 0)
-            )
+            ) && actor.seed.storage.state() != 0)
             || actor.attachment.is_some()
             || actor.presentation_parent.is_some()
             || actor.construction_fields.is_none()
         {
-            return Err("herd frame requires acquired unparented herd/basic marker".into());
+            return Err("passive frame requires acquired unparented herd/basic state0".into());
         }
         let fields = actor.construction_fields.as_ref().unwrap();
         if fields.object_flags & 0x10000 != 0
@@ -170,6 +170,21 @@ impl Session {
     }
     pub fn herd_world_frame(&self, id: Id) -> Result<&View, String> {
         Ok(&self.herd_frame_actor(id)?.herd_frame.as_ref().unwrap().view)
+    }
+    /// Common nonphysical owner. The older herd-named entry remains an alias.
+    pub fn passive_world_frame(&self, id: Id) -> Result<&View, String> {
+        self.herd_world_frame(id)
+    }
+    pub fn prepare_passive_world_history(&mut self, id: Id, number: u64) -> Result<(), String> {
+        self.prepare_herd_world_history(id, number)
+    }
+    pub fn advance_passive_world_after_history(
+        &mut self,
+        id: Id,
+        frame: Frame<'_>,
+        services: &mut Services<'_>,
+    ) -> Result<Projection, String> {
+        self.advance_herd_world_after_history(id, frame, services)
     }
     /// Separate active-node position-history pass. Caller owns surrounding
     /// world phases and must prepare the whole admitted population before callbacks.
