@@ -1738,6 +1738,19 @@ blocker in the next slice, rather than continuing adjacent functions by address.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- Reached-time image comparison: the main-menu persistent observer accepts an
+  optional tick bound for an explicitly selected director. It waits for actual
+  playback and Session-owned updates, then suspends the reached state for GPU
+  capture. It writes no source time or effect lifetime. A receipt-bound MinGW
+  build of `d87ffc5` passes selected startup and completion captures, including a
+  nonzero animation origin, the default observer and five invalid-input refusals.
+  A misplaced negative-test profile directory is retained as a failed harness
+  attempt; it supplied no guard evidence before that fixture was corrected.
+  Reported-time comparisons make earlier apparent pose differences much smaller;
+  native final-image phase, global lighting/glare phase and complete fidelity
+  remain unverified. Source origins must be read per director, never assumed.
+  The retained original source/table/protocol identities remain prerequisites.
+
 - First ordinary mission transport regression: a private receipt-bound MinGW
   build of combined source `04cb614` follows Story1 menu mission 0 through all
   fourteen declared directors and nine voice commands on each of two entries.
