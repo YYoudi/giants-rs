@@ -223,6 +223,14 @@ checks. The rebuilt comparison runner retains the 96-snapshot /824,168-word
 result on that merged runtime. The source-history audit reviews 712 commits
 and 4,048 blobs with zero findings. These checks do not relabel any preview.
 
+The next original-PC-only acquisition executes the mutable list walk across
+32 scenarios: 2,880 callback visits, 2,432 supplied-phase history preparations
+and 448 newborn first callbacks in their birth steps. Herd/marker fallback
+paths include local time, ANM and finalization; the herd calls the actual
+environment service. These are native observations, not a new Rust comparison
+or ordinary-world integration. Rust binding remains the next dependency in
+`BACKLOG.md`; see [OWNED_NPCS.md](OWNED_NPCS.md).
+
 ## Separate owned Vimp history and callback entry — 10 November 2026
 
 Owned initialized Vimps can now prepare position history in a separate pass and
