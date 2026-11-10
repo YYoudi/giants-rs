@@ -38,6 +38,7 @@ pub mod ground_contact;
 pub mod held_weapon;
 pub mod hit_routing;
 pub mod instances;
+pub mod kabuto_action_select;
 pub mod kabuto_animation_cache;
 pub mod kabuto_animation_commit;
 pub mod kabuto_animation_gravity;

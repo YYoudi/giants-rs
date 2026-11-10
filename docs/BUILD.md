@@ -72,6 +72,14 @@ policy remains supplied. Optional `GIANTS_KABUTO_COMMIT_INPUTS` and
 `GIANTS_KABUTO_COMMIT_RECEIPT` exports require absolute paths under ignored private
 storage. Their 512 contexts are independent controls, not completed game frames.
 
+`source_kabuto_action_selection_` runs three further silent installed controls
+with the same Kabuto root and an explicit `GIANTS_KABUTO_EXECUTABLE` definition
+provider. They test actual Session selection and directed exits, retained late
+sound errors and owner removal. Sound/network and one PC RNG context are declared
+providers, not live backend validation. Optional `GIANTS_KABUTO_ACTION_INPUTS` and
+`GIANTS_KABUTO_ACTION_RECEIPT` require absolute private output paths. The 512
+contexts are independent; no primary/history or pending initializer is completed.
+
 Per-emitter ambient step traces are disabled during normal play. For a private
 diagnostic run, set `GIANTS_TRACE_AMBIENT_STEPS=1` before launching the application.
 The choice is captured when each mission's ambient resources are mounted. This
