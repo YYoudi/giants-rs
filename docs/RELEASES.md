@@ -63,6 +63,41 @@ source/CPU results; the downloaded preview is not relabeled. Parent-death
 processing, active particles, eventual dead-object destruction and normal-world
 scheduling remain prerequisites. Prototype PS2 attribution remains unknown.
 
+## Delphi cold support construction - 10 November 2026
+
+An explicit source-backed cold factory now owns the support class through the
+shared staged Session constructor. Eight original-PC creations match 1,584
+normalized header/payload words and 32 ordered registrations. Rust repeats the
+comparison with three mission catalogs selecting the same source template.
+Identifiers/pointers, source preparation policies and UID lookup inputs retain
+their declared control boundaries. Ordinary construction remains refused.
+
+Private payloads, shared immutable resources, failed-construction rollback,
+resource release, stale identities and clear/re-entry have installed controls.
+Current geometry/physical access is still refused. Native state-payload cleanup
+is checked; full native actor/list retirement, first-update initialization,
+world lifetime, scene keys and phase-correct header publication remain open.
+This introduces no live Delphi control, capture, dependency, asset or new
+download. The separately published quiet-ambient preview retains its exact
+source, executable, notices and package/checksum receipts. Prototype PS2
+attribution remains unknown; complete source inputs and evidence stay private.
+
+The combined tree passes 866 workspace Rust tests (58 ignored), seven installed
+Delphi controls, six Mecc impact/voice/wounded-primary controls and the NPC
+ownership regression. All 43 Python tests, Rustfmt, strict Clippy and
+roadmap/site/JavaScript checks pass. The current ambient and shared actor work
+is preserved; these checks retain their declared source/CPU scope.
+
+After preserving the latest held-reference and timed-effect ownership changes,
+runtime `9a76865` passes 869 Rust tests (59 ignored), the same installed Delphi,
+Mecc and NPC controls, 43 Python tests, Rustfmt and strict Clippy. Its cold
+constructor comparison repeats successfully. The earlier common MinGW menu
+application also compiled; no new downloadable executable is advertised here.
+The camera-mode combination `e7dcdb4` additionally passes 870 Rust tests
+(60 ignored), seven installed Delphi controls, 43 Python tests, Rustfmt and
+strict Clippy. The subsequent terrain-finalization merge changes documentation
+only and preserves these validated runtime sources.
+
 ## Static-terrain timed finalization comparison — 10 November 2026
 
 The complete original parent/child preparation, retirement and cleanup now run

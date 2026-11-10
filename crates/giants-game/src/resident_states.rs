@@ -9179,6 +9179,23 @@ impl Session {
                 "owned constructor outside acquired ordinary or cold Kabuto profile".into(),
             );
         }
+        self.construct_prechecked(input, writes, initial_pose)
+    }
+    /// Explicit cold support route. Ordinary declarations retain their existing
+    /// profile gate; no update or initialization is acknowledged by this entry.
+    pub(crate) fn construct_delphi_support_cold(
+        &mut self,
+        input: Construction<'_>,
+    ) -> Result<Id, String> {
+        crate::delphi_support::validate(&input)?;
+        self.construct_prechecked(input, &[], None)
+    }
+    fn construct_prechecked(
+        &mut self,
+        input: Construction<'_>,
+        writes: &[&giants_formats::mission::StateWriteKind],
+        initial_pose: Option<crate::uncached_pose::Pose>,
+    ) -> Result<Id, String> {
         if input.seed.storage.state() == 0 && input.seed.storage.data().is_some() {
             return Err("state0 construction must not allocate a payload".into());
         }

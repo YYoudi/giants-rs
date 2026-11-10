@@ -66,6 +66,14 @@ class flags, common-list-only membership, refused ordinary affine access, clear
 and re-entry. It is silent CPU construction, with no live target assignment,
 proxy update, render submission or world scheduler.
 
+With the same `GIANTS_DELPHI_ROOT`, the ignored
+`source_delphi_support_owns_private_payload_and_retains_ordinary_refusal` control
+checks the explicit cold support factory in three actual mission catalogs. It
+checks private payloads, shared resources, rollback, source release, clear and
+re-entry while preserving ordinary-constructor and current-geometry refusal.
+This is CPU ownership coverage, without initialization, world admission or a
+complete native actor-retirement claim.
+
 With `GIANTS_FLICK_ROOT` set to a user-supplied installation, the ignored
 `source_timed_effect_owns_resources_and_quarantines_late_services` control checks
 bounded timed resource ownership after context/external resource release, shared
