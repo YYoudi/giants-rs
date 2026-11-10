@@ -187,7 +187,30 @@ impl Factory {
         frame: crate::delphi_player::ColdFrame,
         blending: crate::animation_channels::Blending,
     ) -> crate::delphi_player::Attempt {
+        self.construct_player_fields_inner(s, frame, blending, None)
+    }
+    /// Ordered cold activation: projection precedes history, special children
+    /// and initial animation selection. The caller supplies the actual camera
+    /// owner/mode/backend; no successful default projection service exists.
+    pub fn construct_player_fields_with_projection(
+        &self,
+        s: &mut Session,
+        frame: crate::delphi_player::ColdFrame,
+        blending: crate::animation_channels::Blending,
+        projection: &mut impl crate::delphi_player::ProjectionReset,
+    ) -> crate::delphi_player::Attempt {
+        self.construct_player_fields_inner(s, frame, blending, Some(projection))
+    }
+    fn construct_player_fields_inner(
+        &self,
+        s: &mut Session,
+        frame: crate::delphi_player::ColdFrame,
+        blending: crate::animation_channels::Blending,
+        mut projection: Option<&mut dyn crate::delphi_player::ProjectionReset>,
+    ) -> crate::delphi_player::Attempt {
+        use crate::delphi_player::ProjectionStatus;
         let mut published = None;
+        let mut projection_status = ProjectionStatus::NotReached;
         let result = (|| {
             let mut input = self.owner.input();
             input.fields = crate::delphi_player::prepare(&self.owner.fields, frame)?;
@@ -195,18 +218,34 @@ impl Factory {
             if !self.owner.specification.animations.contains_key(&1) {
                 return Err("Delphi initial player animation absent".into());
             }
+            if projection.is_some() {
+                // The acquired type changer preserves shell history until
+                // after projection. The collapsed diagnostic path retains its
+                // existing final-field projection without acknowledging reset.
+                input.fields.current = frame.current;
+                input.fields.previous = frame.previous;
+            }
             let owner = s.construct_delphi_cold(input, 0x80000000)?;
             published = Some(owner);
+            if let Some(service) = projection.as_mut() {
+                projection_status = ProjectionStatus::Failed;
+                service.reset_projection(s, owner)?;
+                projection_status = ProjectionStatus::Completed;
+                s.initialize_delphi_player_history(owner)?;
+            } else {
+                projection_status = ProjectionStatus::Pending;
+            }
             let special = self.initialize(s, owner)?;
             s.finish_delphi_player_fields(owner, self.owner.fields.channels, channels)?;
             Ok(crate::delphi_player::Initialized {
                 owner,
                 special,
-                camera_projection_reset_required: true,
+                camera_projection_reset_required: projection_status != ProjectionStatus::Completed,
             })
         })();
         crate::delphi_player::Attempt {
             owner: published,
+            projection: projection_status,
             result,
         }
     }
@@ -227,6 +266,25 @@ impl Factory {
                 angles: start.angles,
             },
             blending,
+        )
+    }
+    pub(crate) fn construct_declared_player_with_projection(
+        &self,
+        s: &mut Session,
+        start: &crate::player_start::Declared,
+        blending: crate::animation_channels::Blending,
+        projection: &mut impl crate::delphi_player::ProjectionReset,
+    ) -> crate::delphi_player::Attempt {
+        self.construct_player_fields_with_projection(
+            s,
+            crate::delphi_player::ColdFrame {
+                position: start.position,
+                current: self.owner.fields.current,
+                previous: self.owner.fields.previous,
+                angles: start.angles,
+            },
+            blending,
+            projection,
         )
     }
     pub fn initialize(&self, s: &mut Session, owner: Id) -> Result<Initialized, String> {
@@ -386,6 +444,197 @@ mod tests {
         assert!(p.validate().is_err());
     }
     #[test]
+    #[ignore = "Requires GIANTS_DELPHI_ROOT and GIANTS_DELPHI_EXECUTABLE; ordered cold projection callback with actual coefficients, supplied mode/owner and projection capture; no GPU"]
+    fn source_delphi_projection_checkpoint_preserves_order_and_retained_failures() {
+        use crate::{
+            animation_channels::Blending,
+            delphi_player::{ProjectionReset, ProjectionStatus},
+        };
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_DELPHI_ROOT").unwrap());
+        let executable =
+            std::path::PathBuf::from(std::env::var("GIANTS_DELPHI_EXECUTABLE").unwrap());
+        let resources = SceneResources::load(&root, "w_Rstory1.bin", "English").unwrap();
+        let globals =
+            giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+                .unwrap();
+        let weapons = giants_formats::weapons::parse_with_profile(
+            &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+            giants_formats::weapons::Profile::Debug,
+        )
+        .unwrap();
+        let catalog = crate::camera_profile::ExecutableCatalog::read(&executable).unwrap();
+        struct Checkpoint<'a> {
+            frame: crate::delphi_player::ColdFrame,
+            cold: crate::animation_channels::Channels,
+            catalog: &'a crate::camera_profile::ExecutableCatalog,
+            mode: crate::camera_mode::State,
+            calls: usize,
+            fail: bool,
+            camera_owner: Option<Id>,
+            submitted: Vec<f32>,
+            before_residents: usize,
+        }
+        struct Projection<'a> {
+            session: &'a Session,
+            camera_owner: Option<Id>,
+            controlled: Id,
+            catalog: &'a crate::camera_profile::ExecutableCatalog,
+            submitted: &'a mut Vec<f32>,
+            fail: bool,
+        }
+        impl crate::camera_mode::Services<()> for Projection<'_> {
+            fn profile(
+                &mut self,
+                _: u32,
+                view: u32,
+            ) -> Result<crate::camera_mode::Profile, String> {
+                let selected = crate::camera_profile::select(
+                    crate::camera_profile::Input {
+                        owner: self.camera_owner,
+                        controlled: Some(self.controlled),
+                        view,
+                        scaled_input: false,
+                    },
+                    self.session,
+                )?;
+                assert_eq!(
+                    selected.family(),
+                    if self.camera_owner.is_some() {
+                        crate::camera_profile::Family::Model3
+                    } else {
+                        crate::camera_profile::Family::Default
+                    }
+                );
+                selected.resolve(self.catalog)
+            }
+            fn scale(&mut self, _: (), _: f32) -> Result<(), String> {
+                panic!("reset must not scale")
+            }
+            fn projection(&mut self, fov: f32) -> Result<(), String> {
+                self.submitted.push(fov);
+                if self.fail {
+                    Err("supplied projection backend failed after request".into())
+                } else {
+                    Ok(())
+                }
+            }
+        }
+        impl ProjectionReset for Checkpoint<'_> {
+            fn reset_projection(
+                &mut self,
+                session: &Session,
+                controlled: Id,
+            ) -> Result<(), String> {
+                self.calls += 1;
+                let actor = session.get(controlled).unwrap();
+                let fields = actor.construction_fields.as_ref().unwrap();
+                assert_eq!(actor.class, 3);
+                assert_eq!(fields.position, self.frame.position);
+                assert_eq!(fields.current, self.frame.current);
+                assert_eq!(fields.previous, self.frame.previous);
+                assert_eq!(fields.configuration[14] & 1, 0);
+                assert_eq!(actor.channels, Some(self.cold));
+                assert!(session.delphi_special(controlled).is_none());
+                assert!(session.delphi_physical(controlled).is_none());
+                assert!(session.actor_current_affine(controlled).is_err());
+                assert_eq!(session.counts().residents, self.before_residents + 1);
+                assert_ne!(self.camera_owner, Some(controlled));
+                self.mode.reset_projection(&mut Projection {
+                    session,
+                    camera_owner: self.camera_owner,
+                    controlled,
+                    catalog: self.catalog,
+                    submitted: &mut self.submitted,
+                    fail: self.fail,
+                })
+            }
+        }
+        for failure in [0, 1, 2] {
+            let mut factory = Factory::load(&resources, &globals, &weapons).unwrap();
+            let mut session = Session::new(1840 + failure);
+            let frame = crate::delphi_player::ColdFrame {
+                position: [7., 8., 9.],
+                current: [1., 2., 3.],
+                previous: [4., 5., 6.],
+                angles: [10., 20., 30.],
+            };
+            let camera_owner = if failure == 0 {
+                Some(
+                    factory
+                        .construct_player_fields_retained(&mut session, frame, Blending::Enabled)
+                        .result
+                        .unwrap()
+                        .owner,
+                )
+            } else {
+                None
+            };
+            let mut service = Checkpoint {
+                frame,
+                cold: factory.owner.fields.channels,
+                catalog: &catalog,
+                mode: crate::camera_mode::State::new(0, 0, 0.25).unwrap(),
+                calls: 0,
+                fail: failure == 1,
+                camera_owner,
+                submitted: Vec::new(),
+                before_residents: session.counts().residents,
+            };
+            if failure == 2 {
+                assert!(factory.parameters.copies > 0);
+                factory.copy = None;
+            }
+            let attempt = factory.construct_player_fields_with_projection(
+                &mut session,
+                frame,
+                Blending::Enabled,
+                &mut service,
+            );
+            let owner = attempt.owner.unwrap();
+            assert_eq!(service.calls, 1);
+            assert_eq!(service.submitted.len(), 1);
+            assert_eq!(service.mode.transition(), 0.);
+            let fields = session
+                .get(owner)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap();
+            if failure == 1 {
+                assert_eq!(attempt.projection, ProjectionStatus::Failed);
+                assert!(
+                    attempt
+                        .result
+                        .unwrap_err()
+                        .contains("projection backend failed")
+                );
+                assert_eq!(fields.current, frame.current);
+                assert_eq!(fields.previous, frame.previous);
+                assert!(session.delphi_special(owner).is_none());
+                assert!(service.mode.failure().is_some());
+                assert_eq!(session.counts().residents, service.before_residents + 1);
+            } else {
+                assert_eq!(attempt.projection, ProjectionStatus::Completed);
+                assert_eq!(fields.current, frame.position);
+                assert_eq!(fields.previous, frame.current);
+                if failure == 2 {
+                    assert!(attempt.result.unwrap_err().contains("copy template absent"));
+                    assert!(session.delphi_special_failure(owner).is_some());
+                    assert_eq!(fields.configuration[14] & 1, 0);
+                } else {
+                    let initialized = attempt.result.unwrap();
+                    assert!(!initialized.camera_projection_reset_required);
+                    assert_eq!(fields.configuration[14] & 1, 1);
+                    assert_eq!(fields.channels[0][0], 1);
+                    assert!(session.delphi_special(owner).is_some());
+                }
+            }
+            session.clear();
+            assert!(session.get(owner).is_none());
+        }
+    }
+
+    #[test]
     #[ignore = "Requires GIANTS_DELPHI_ROOT; actual constructor identity after a supplied late child-resource failure"]
     fn source_delphi_retained_player_attempt_keeps_published_owner_after_failure() {
         let root = std::path::PathBuf::from(std::env::var("GIANTS_DELPHI_ROOT").unwrap());
@@ -415,6 +664,10 @@ mod tests {
             crate::animation_channels::Blending::Enabled,
         );
         assert!(bad.owner.is_none());
+        assert_eq!(
+            bad.projection,
+            crate::delphi_player::ProjectionStatus::NotReached
+        );
         assert!(bad.result.is_err());
         assert_eq!(session.counts().residents, 0);
         assert!(factory.parameters.copies > 0);
@@ -427,6 +680,10 @@ mod tests {
         let owner = attempt
             .owner
             .expect("constructor published before child resource failure");
+        assert_eq!(
+            attempt.projection,
+            crate::delphi_player::ProjectionStatus::Pending
+        );
         assert!(attempt.result.unwrap_err().contains("copy template absent"));
         assert_eq!(session.get(owner).unwrap().class, 3);
         assert!(

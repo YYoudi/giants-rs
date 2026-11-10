@@ -21,14 +21,36 @@ pub struct ColdFrame {
 pub struct Initialized {
     pub owner: Id,
     pub special: delphi_special::Initialized,
-    /// Required by the acquired caller, not acknowledged by a renderer here.
+    /// True means the earlier projection boundary was omitted. A collapsed
+    /// diagnostic group cannot be promoted by running reset after special init.
+    /// False records callback completion, not renderer/gameplay readiness.
     pub camera_projection_reset_required: bool,
+}
+/// Required live projection boundary. The current camera owner belongs to the
+/// service; `controlled` is not an instruction to replace that owner.
+pub trait ProjectionReset {
+    fn reset_projection(
+        &mut self,
+        session: &crate::resident_states::Session,
+        controlled: Id,
+    ) -> Result<(), String>;
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ProjectionStatus {
+    NotReached,
+    /// Diagnostic construction omitted this earlier native service.
+    Pending,
+    /// The supplied callback completed; this alone is not renderer readiness.
+    Completed,
+    /// Retained callback effects and its error belong to the failed attempt.
+    Failed,
 }
 /// Retain the actual published constructor identity after a later failure.
 /// A missing owner means construction itself never published an actor.
 #[derive(Debug)]
 pub struct Attempt {
     pub owner: Option<Id>,
+    pub projection: ProjectionStatus,
     pub result: Result<Initialized, String>,
 }
 

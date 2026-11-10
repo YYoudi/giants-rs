@@ -1071,6 +1071,38 @@ impl Session {
             actor.seed.storage.data().ok_or("Delphi payload absent")?,
         )
     }
+    pub(crate) fn initialize_delphi_player_history(&mut self, id: Id) -> Result<(), String> {
+        let actor = self
+            .get(id)
+            .ok_or("Delphi initial history owner absent or foreign")?;
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("Delphi initial history fields absent")?;
+        if actor.class != 3
+            || !actor.acquired_construction
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 3
+            || actor.delphi_special.is_some()
+            || actor.delphi_physics_present
+            || actor.affine_cache.is_some()
+            || actor.mecc_animation_stamp != 0
+            || actor.channels != Some(fields.channels)
+            || fields.configuration[14] & 1 != 0
+        {
+            return Err("Delphi initial history requires its fresh pre-special player".into());
+        }
+        let fields = self
+            .residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap();
+        fields.previous = fields.current;
+        fields.current = fields.position;
+        Ok(())
+    }
     pub(crate) fn finish_delphi_player_fields(
         &mut self,
         id: Id,

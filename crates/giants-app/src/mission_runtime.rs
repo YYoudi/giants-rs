@@ -103,7 +103,7 @@ struct ActorBindings {
     player: Option<ActorId>,
     carried: Option<ActorId>,
     /// None means no completed Delphi player initialization to acknowledge.
-    delphi_projection_reset_required: Option<bool>,
+    delphi_projection: Option<giants_game::delphi_player::ProjectionStatus>,
 }
 struct Active {
     ticket: u64,
@@ -1499,10 +1499,9 @@ fn spawn(
                 giants_game::animation_channels::Blending::Enabled,
             );
             bindings_by_role.player = attempt.owner;
+            bindings_by_role.delphi_projection = Some(attempt.projection);
             match attempt.result {
                 Ok(initial) => {
-                    bindings_by_role.delphi_projection_reset_required =
-                        Some(initial.camera_projection_reset_required);
                     match giants_game::player_body::Prepared::from_session(
                         payload.plan.resources(),
                         &resident_states,
@@ -1512,20 +1511,21 @@ fn spawn(
                         Err(error) => blocked.push(format!("Delphi body preparation: {error}")),
                     }
                     println!(
-                        "mission_delphi_constructed ticket={ticket} owner={:?} class=3 held={:?} copies={} position={:?} projection_reset_required={} declared_placement=true native_relocation_verified=false controller=false ready=false",
+                        "mission_delphi_constructed ticket={ticket} owner={:?} class=3 held={:?} copies={} position={:?} projection_checkpoint={:?} declared_placement=true native_relocation_verified=false controller=false ready=false",
                         initial.owner,
                         initial.special.held,
                         initial.special.copies.len(),
                         factory.declared_start().position,
-                        initial.camera_projection_reset_required
+                        attempt.projection
                     );
-                    let projection =
-                        if bindings_by_role.delphi_projection_reset_required == Some(true) {
-                            "projection reset, "
-                        } else {
-                            ""
-                        };
-                    blocked.push(format!("Delphi {projection}animation/render, physical/camera/input and live controller admission pending"));
+                    let projection = if bindings_by_role.delphi_projection
+                        != Some(giants_game::delphi_player::ProjectionStatus::Completed)
+                    {
+                        "pre-special projection callback, "
+                    } else {
+                        ""
+                    };
+                    blocked.push(format!("Delphi {projection}live animation, physical/camera/input and controller admission pending"));
                 }
                 Err(error) => blocked.push(format!(
                     "Delphi cold initialization owner={:?}: {error}",
@@ -2561,7 +2561,10 @@ mod tests {
             assert!(residents.actor_model_cache(owner, 0).unwrap().is_none());
             assert!(residents.actor_current_affine(owner).is_err());
             assert!(residents.delphi_physical(owner).is_none());
-            assert_eq!(bindings.delphi_projection_reset_required, Some(true));
+            assert_eq!(
+                bindings.delphi_projection,
+                Some(giants_game::delphi_player::ProjectionStatus::Pending)
+            );
             let actor = residents.get(owner).unwrap();
             assert_eq!(actor.class, 3);
             assert_eq!(
@@ -2574,7 +2577,7 @@ mod tests {
             assert!(
                 blocked
                     .iter()
-                    .any(|s| s.starts_with("Delphi projection reset"))
+                    .any(|s| s.starts_with("Delphi pre-special projection"))
             );
             assert!(
                 !blocked
@@ -2653,7 +2656,7 @@ mod tests {
             );
             queue.apply(&mut ecs);
             assert!(bindings.player.is_none());
-            assert!(bindings.delphi_projection_reset_required.is_none());
+            assert!(bindings.delphi_projection.is_none());
             assert!(active.payload.delphi_body.is_none());
             assert!(
                 missing
