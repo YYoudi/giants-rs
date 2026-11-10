@@ -55,12 +55,14 @@ not establish live movement/contact production or ordinary mission admission.
 
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
-runs five owned-phase controls: publication/physical consumption and later
+runs six owned-phase controls: publication/physical consumption and later
 activation refusal, retained prefix/cancellation, real proxy construction with
-typed reference protection, cold/previous held-cache geometry, and refused cache
-provenance. The latter uses actual shared candidate geometry and placed source
-actors; terrain/view and remaining providers stay scripted. Other controls use
-scripted geometry/linked results and sound-request sinks. These checks do not
+typed reference protection, cold/previous held-cache geometry, refused cache
+provenance, and held-route static terrain publication. The cache control uses
+actual shared candidate geometry and placed source actors. The terrain control reads three installed terrain resources and preserves
+miss-point writes and late query failures; camera/items/time and the physical
+floor remain supplied. Other controls use scripted terrain/view/geometry/linked
+results and sound-request sinks. These checks do not
 validate a complete ordinary turn.
 
 With `GIANTS_FLICK_ROOT` and `GIANTS_FLICK_PERSISTENT_COHORT` (private, headerless
@@ -971,6 +973,19 @@ comparison. Use a fresh path under ignored `.local` and run only one of
 `source_mecc_pistol_draw_interleaves` or `source_mecc_pistol_draw_interruption`
 per receipt. These artifacts must stay private.
 
+With the same installation and isolated target, the silent ordinary-idle control
+executes 512 complete grounded primaries through actual ANM and owned services:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_idle_primary --target x86_64-pc-windows-gnu -- --ignored
+```
+
+Its default supplied seed reaches an idle variant and returns to idle. Optional
+`GIANTS_MECC_IDLE_SEED` selects another supplied 32-bit CRT seed; it does not
+reconstruct native global startup. `GIANTS_MECC_DRAW_RECEIPT` can write a fresh
+private selected-word receipt for this single test. Keep the floor, clock,
+empty populations and nongraphical scope distinct from ordinary gameplay.
+
 With the same explicit Kabuto root/executable, `source_kabuto_action_gate_`
 continues 512 independent installed contexts through the retained-slot gate and
 509 eligible actual animation commits. It keeps the three held-reference exits
@@ -980,6 +995,27 @@ projection; `GIANTS_KABUTO_RESOLVED_COMMIT_INPUTS` /
 `GIANTS_KABUTO_RESOLVED_COMMIT_RECEIPT` export eligible animation contexts. All
 paths must be absolute. No window or audio device is created. This does not
 complete primary/history/initialization or validate live gameplay.
+
+For the effect-free wounded primary, use the same installed Mecc root:
+
+```powershell
+cargo test --locked -p giants-game source_mecc_effect_free_wounded --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This silent 512-frame control introduces supplied light damage, retains actual
+health and an empty smoke binding, and needs no fabricated display snapshot.
+An optional fresh private `GIANTS_MECC_DRAW_RECEIPT` includes the extra health and
+smoke words for this test; do not share a receipt path with another control.
+
+The App `source_owned_mecc_runtime_terrain_and_presentation` and
+`source_owned_mecc_jet_with_reserved_zero_pcm_device` controls accept test-only
+`GIANTS_MECC_RUNTIME_FRAMES` (128 through 4096, default 128),
+`GIANTS_MECC_RUNTIME_THRUST_UNTIL` (default 48) and
+`GIANTS_MECC_RUNTIME_BOOST_UNTIL` (default 33). Device thrust starts at frame 16
+and boost at 32; endpoints are exclusive and must fit the frame limit.
+Set `GIANTS_AUDIO_MUTE=1` for the zero-PCM device control. The baseline 512-frame
+profile passes. Prolonged thrust/boost still reaches an unbound impact provider;
+these knobs describe supplied diagnostic inputs, not new gameplay options.
 
 ## Combined graphical owned-inspection acceptance — preview .8
 
@@ -1004,3 +1040,20 @@ reference-camera sampling, recorded world entries and retained error/removal
 boundaries. The success control reports 509 admitted component contexts and
 three refused held routes, not completed gameplay frames. Camera/UI/audio/rate/
 transport rendering or delivery and link event producers remain unvalidated.
+
+The shared completion-countdown phase uses synthetic tests without game data:
+
+```powershell
+cargo test --locked -p giants-game mission_completion_countdown --target x86_64-pc-windows-gnu
+```
+
+These cover temporary suppression ownership, wide expiry versus stored rounding
+and retained stores after a failed second clock query. The service takes actual
+caller-owned state and clock callbacks; it supplies neither mission admission
+nor the following progression phase. Native comparison inputs remain private.
+
+The same `mission_completion_countdown` synthetic filter also covers ordered
+admission: precheck before later gates, record replacement/rereads and retained
+markers after callback failure. The `admission::Services` methods are required
+providers; the precheck is not a one-time initializer. Snapshot production,
+callbacks, clocks and following record advancement remain explicit prerequisites.

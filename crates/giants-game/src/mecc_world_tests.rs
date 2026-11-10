@@ -92,14 +92,27 @@ fn source_camera_profile_reads_current_headers_and_checked_shared_states() {
 #[test]
 #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; full grounded draw primaries with actual ANM and wield callbacks; no graphics"]
 fn source_mecc_pistol_draw_interleaves_actions_and_refuses_missing_material() {
-    check_pistol_draw_interleaved(false);
+    check_pistol_draw_interleaved(false, 160, 1, 0.);
 }
 #[test]
 #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; movement interruption with actual draw, channel and wield ordering"]
 fn source_mecc_pistol_draw_interruption_commits_before_and_after_selection() {
-    check_pistol_draw_interleaved(true);
+    check_pistol_draw_interleaved(true, 160, 1, 0.);
 }
-fn check_pistol_draw_interleaved(sequence: bool) {
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; complete grounded primaries through idle variant and return, no graphics"]
+fn source_mecc_idle_primary_preserves_real_anm_rng_and_return() {
+    let seed = std::env::var("GIANTS_MECC_IDLE_SEED")
+        .map(|v| v.parse::<u32>().expect("idle seed must fit u32"))
+        .unwrap_or(1);
+    check_pistol_draw_interleaved(false, 512, seed, 0.);
+}
+#[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; low-damage empty smoke state remains independent of display, real ANM/primary"]
+fn source_mecc_effect_free_wounded_primary_needs_no_display_snapshot() {
+    check_pistol_draw_interleaved(false, 512, 1, 15.);
+}
+fn check_pistol_draw_interleaved(sequence: bool, frames: u64, seed: u32, damage: f32) {
     let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
     let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
     let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
@@ -123,8 +136,16 @@ fn check_pistol_draw_interleaved(sequence: bool) {
                 .unwrap();
         }
         let mut p = Providers::new(&r);
+        p.random = crate::audio_parameters::Random(seed);
         let mut equipped = None;
-        for number in 1..=160 {
+        for number in 1..=frames {
+            if number == 9 && damage != 0. {
+                session
+                    .residents
+                    .get_mut(&source.serial)
+                    .unwrap()
+                    .mecc_damage = Some(damage);
+            }
             session.begin_mecc_frame_history(source, number).unwrap();
             let env = crate::mecc_physical_cycle::Environment {
                 number,
@@ -201,6 +222,10 @@ fn check_pistol_draw_interleaved(sequence: bool) {
                     .outcome,
                 Outcome::UpdatedByPrimary
             );
+            assert_eq!(
+                session.mecc_health(source).unwrap().damage,
+                if number < 9 { 0. } else { damage }
+            );
             let actor = session.get(source).unwrap();
             let body = actor.seed.storage.data().unwrap();
             let word = |at| u32::from_le_bytes(body[at..at + 4].try_into().unwrap());
@@ -238,6 +263,14 @@ fn check_pistol_draw_interleaved(sequence: bool) {
             if sequence && number == 41 {
                 assert_eq!((channel[0][0], word(0x60), word(0x80)), (2, 1, 0));
             }
+            if !sequence && frames == 512 && seed == 1 {
+                if number == 207 {
+                    assert_eq!((channel[0][0], word(0x30)), (156, 23));
+                }
+                if number == 295 {
+                    assert_eq!((channel[0][0], word(0x30)), (1, 1));
+                }
+            }
             if !missing {
                 let mut words = channel.into_iter().flatten().collect::<Vec<_>>();
                 words.extend([0x30, 0x60, 0x80, 0xd4, 0xd8].map(word));
@@ -249,6 +282,17 @@ fn check_pistol_draw_interleaved(sequence: bool) {
                     p.random.0,
                     p.stamp.0,
                 ]);
+                if damage != 0. {
+                    assert_eq!((word(0x1a0), word(0x1a4)), (0, 0));
+                    assert!(actor.mecc_damage_smoke.binding.is_none());
+                    assert_eq!(actor.mecc_damage_smoke.level, 0);
+                    assert!(p.contexts.active().is_empty());
+                    words.extend([
+                        session.mecc_health(source).unwrap().damage.to_bits(),
+                        word(0x1a0),
+                        word(0x1a4),
+                    ]);
+                }
                 receipt.push_str(&format!(
                     "{}\n",
                     words
@@ -258,7 +302,7 @@ fn check_pistol_draw_interleaved(sequence: bool) {
                         .join(" ")
                 ));
             }
-            if missing && number == 160 {
+            if missing && number == frames {
                 panic!("missing material never refused");
             }
         }

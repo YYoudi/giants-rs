@@ -8,7 +8,7 @@ hits are candidates only; the PC profile remains the behavioral authority.
 
 The sections record successive acquisition checkpoints. For the current binding,
 see [Persistent wounded primary](#persistent-wounded-primary--9-november-2026)
-and [pistol callback integration](#pistol-callback-integration--10-november-2026) below.
+and [ordinary idle variants](#ordinary-idle-variants--10-november-2026) below.
 Earlier missing-service statements retain the limits of their recorded checkpoint.
 
 ## Selector and ownership order
@@ -1145,3 +1145,136 @@ zero gain. This checks device transport and lifecycle, not audible fidelity. No 
 device or new preview is part of that result. Idle-variant continuation, complete
 impact/voice/display and FX/world scheduling, populated contact and graphical
 fidelity remain open; the older muted-jet receipt retains its own narrower scope.
+
+## Ordinary idle variants — 10 November 2026
+
+The ordinary living pistol selector now admits its acquired idle variants and
+their continuation. It preserves the ordered weighted choice, channel flags and
+timers. Different logical states can share a clip: the selector consumes its
+required random draw even when the current clip prevents another channel request.
+Logical state and alternating control writes still change only when the actual
+channel setter runs. Movement can interrupt a variant before its channel ends.
+Special object, alternate-turn and equipment profiles retain their refusals.
+
+A native matrix covers 4,032 supplied prior-state, completion, timer, movement
+and threshold-seed contexts. Header/payload results, request presence/arguments
+and RNG agree on 1,342,948 selected words. This count includes unchanged supplied
+header fields; it is not whole-selector branch coverage. The actual channel
+setter executes; ANM, voice and world updates are outside that comparison.
+
+Eleven independent seeded runs then execute 512 complete primaries each, covering
+every selected nondefault logical variant through real source ANM and owned
+services. The 5,632 snapshots agree on 253,440 selected numeric words plus 5,632
+relative epoch samples after explicit startup-seed normalization. Continuation,
+holds and return follow the observed clip/state behavior. Table pointers are
+compared as binding presence; full payloads, vertex results, absolute startup
+epochs and global RNG production are outside this comparison. The controls supply
+the clock, flat floor, commands, mission gates, allocation/source providers and
+empty populations. No graphics device or audible playback is part of the proof.
+
+Synthetic regressions preserve the random draw without reselection and movement
+interruption without an idle draw. The installed long-primary control reaches
+an actual idle variant and return; optional supplied seeds exercise the others.
+Prototype PS2 lookup was expanded for idle/Mecc/animation vocabulary and remains
+unknown. Private tables and detailed captures stay outside Git. Complete impact/
+voice/display and FX/world scheduling, populated contact, real-input/long-session
+coverage and graphical fidelity remain open. No new preview is created.
+
+## Effect-free wounds and extended runtime controls — 10 November 2026
+
+The complete primary now advances an empty damage-smoke binding without a display
+snapshot when the acquired thresholds select level zero. Both outcomes of the
+native pure reset query produce the same final state and no release, creation
+or random draw. This also clears a retained cached level after an earlier absent
+allocation. No display value or service is fabricated. Active bindings and
+nonzero selected levels still require the actual owner. Supplied stale or foreign
+displays retain their validation; invalid cached levels remain rejected.
+
+Eighty original-PC policy controls cover threshold neighbours, all four prior
+cached levels and both owner/activity inputs. Two native 512-frame primary runs
+then supply opposite display-reset outcomes and introduce light damage after
+eight healthy frames. The same 512 Rust snapshots agree with either run on
+24,576 selected numeric words plus 512 relative epoch samples, including health,
+smoke binding/level, channels, flags and RNG. This is one Rust trajectory compared
+twice, not 1,024 distinct Rust frames. The floor, clock, commands, gates,
+allocation/source providers and empty populations remain supplied. Full payloads,
+global startup, populated-world order, graphics and audible fidelity are outside
+the comparison. Prototype PS2 attributions remain unknown.
+
+The prepared App terrain/camera/animation/weapon control and its separate jet
+control now pass 512 frames. The latter uses actual reserved zero-PCM sinks at
+zero gain. Optional bounded frame/thrust/boost inputs extend the test harness;
+defaults retain its 128-frame profile. A stronger 1,024-frame request with prolonged
+thrust and boost stops at frame 402 on the required impact-reaction provider.
+This is an expected unresolved boundary, not a completed long-flight result.
+
+A separate guard audit distinguishes the impact editor-mode guard from the
+health-suppression guard and an unrelated audio guard. Health suppression has
+observed debug/menu and temporary countdown writers; cinematic activity alone
+does not establish its value. Their complete ownership/lifetimes and the impact,
+voice, display and FX/world producers remain unbound. No guard is defaulted to
+make the runtime continue. Next acquire those producers with the mandatory
+prototype PS2 lookup and independent PC evidence before broader live admission.
+
+## Mission-completion suppression ownership - 10 November 2026
+
+The shared `mission_completion_countdown` service now reconstructs the temporary
+health-suppression producer's countdown phase. It sets the active marker before
+the first clock query, stores the single-precision remainder but branches on its
+Double53 value, and preserves the separate onset/elapsed test against the stored
+remainder. A positive elapsed timer requests a second independent clock value.
+Pending countdowns claim suppression only when its value was zero; existing
+nonzero values and an unchanged claim marker remain intact. Expiry clears the
+suppression value and claim marker only when the retained marker is nonzero.
+Raw noncanonical flag values are preserved where the native phase preserves them.
+Completed timer/marker writes survive a later clock-provider failure.
+
+The original-PC handler executes 216 independent supplied contexts and nine
+continuous ten-step sequences. Rust retains its own state between sequence steps.
+All 306 snapshots agree on 1,836 selected timer/guard words and 612 clock-count/
+phase results, including tiny positive remainders that round to zero, exact
+expiry, noncanonical guards and independently different second clock values.
+Outer admission flags, the mission record, initial timer/guard state and clock
+results are supplied. The expiry comparison stops after suppression release,
+before the following message/progression phase. This does not reconstruct the
+complete mission transition or its initialization/schedule.
+
+This acquired subphase is a prerequisite for impact admission, not a replacement
+for the actual producer. Complete outer admission, message/progression continuation,
+debug/menu side effects and editor-guard lifetime still need reconstruction and
+common runtime ownership. The App still binds no default impact context and does
+not infer suppression from cinematic activity. Prototype PS2 lookups were refreshed
+for all audited guard writers/queries; attributions remain unknown. No source
+snapshot is installed as an invented native startup state.
+
+## Ordered completion admission - 10 November 2026
+
+The countdown's `admission` service now reconstructs the containing handler's
+ordered prefix. The initial guard precedes the mode-gated precheck; that callback
+runs before later guards and may replace the current mission record. First-visit
+and request markers are published before the required previous-record callback.
+Its argument preserves signed wrapping subtraction. The record is reloaded after
+that callback, while earlier guards are not retested. Signed completion counters
+and the actual preceding record kind select inactive, countdown or record
+advancement. Record advancement remains a required continuation, not success.
+Late callback failure preserves completed markers and record effects; the caller
+must quarantine the enclosing failed turn. Unknown kind or retired record storage
+is not replaced by a default.
+
+Original-PC prefix controls agree across 824 supplied contexts on 12,360 selected
+state words and 2,348 decision/callback results. They cover noncanonical guards,
+signed counters, callback replacement and ordered exits. A second comparison
+continues the same native prefix into the actual countdown, with Rust composing
+its acquired services directly: 32 contexts reach it, ten remain pending and 22
+expire after suppression release. The other contexts retain their timer/guard
+state. These counts include unchanged supplied fields, not complete global-state
+coverage. Precheck/previous-record callback effects and clock outputs are declared
+providers; their native bodies are not executed in these comparisons.
+
+Further native inspection shows the mode-gated precheck also performs music and
+player-transition work. It is not an acquired one-time initializer and must not
+be replaced by an empty service. Full precheck and previous-record services,
+actual snapshot production/identity, message/progression continuation, other guard
+writers and common scheduling remain required before live impact admission.
+Prototype PS2 lookups were refreshed first; all new attributions remain unknown.
+The source checkpoint does not change the separately published preview identity.
