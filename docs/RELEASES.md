@@ -16,6 +16,13 @@ refusals and the immutable public preview receipts remain unchanged. This adds
 no playable Delphi control, active spell/construction or capture. Prototype PS2
 attribution is unknown; the detailed evidence remains private.
 
+Combined runtime source `3ec7a62` preserves the latest NPC history/newborn
+callbacks and cinematic caption fix. It passes 872 workspace Rust tests (65
+ignored), seven installed Delphi controls, six NPC history/newborn/ownership
+controls, 43 Python tests, Rustfmt and strict Clippy. The final Rust prefix
+comparison repeats on that source. These remain source/CPU checks; the existing
+Session action refusal and public download identities are preserved.
+
 ## Delphi cold support construction - 10 November 2026
 
 An explicit source-backed cold factory now owns the support class through the
