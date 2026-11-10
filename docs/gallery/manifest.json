@@ -4173,7 +4173,8 @@
     "media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp": "0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4",
     "media/26f3165be4c392d03fd16387ddf1dbbf1803cab3ba5c3a142596b1ba4c73ad60.webp": "26f3165be4c392d03fd16387ddf1dbbf1803cab3ba5c3a142596b1ba4c73ad60",
     "media/1001f89498ab5560c62c52171a585095ae30f60796ff3d35ad007bac023e8b42.webp": "1001f89498ab5560c62c52171a585095ae30f60796ff3d35ad007bac023e8b42",
-    "media/6fa5f9d8e1501c44f8c9249c2bf768f28f961efd67de7e6513d1f0c6cd34ce96.webp": "6fa5f9d8e1501c44f8c9249c2bf768f28f961efd67de7e6513d1f0c6cd34ce96"
+    "media/6fa5f9d8e1501c44f8c9249c2bf768f28f961efd67de7e6513d1f0c6cd34ce96.webp": "6fa5f9d8e1501c44f8c9249c2bf768f28f961efd67de7e6513d1f0c6cd34ce96",
+    "media/d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4.webp": "d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4"
   },
   "screenshots": [
     {
@@ -4235,6 +4236,12 @@
       "image": "media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp",
       "caption": "Delphi\u2019s initial pose in Rstory1, rendered in Bevy. Diagnostic capture with an inspection camera. Movement, live animation, held equipment and normal gameplay remain unavailable; visual fidelity is unverified. This image is not from the published .8 or .9 download.",
       "commit": "f4795de0de5dd43109e4a1f04f48f617950bd0da"
+    },
+    {
+      "title": "Later-source Kabuto profile-camera diagnostic (outside .10)",
+      "image": "media/d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4.webp",
+      "caption": "Bevy GPU render from source 1799a51 after an explicitly supplied mode-1 command. The actual owned actor supplies its separate look angle and size gain; external PC profile coefficients drive the unclipped camera and projection kernels in the shared renderer. Head and horns are now visible. Static pose/placement, floor/chase/wall handling, real startup and warm ordering, live animation/input and fidelity remain unverified; all four initializer gates remain pending. This diagnostic is not playable Kabuto and is not included in Windows previews .9 or .10.",
+      "commit": "1799a5106c50c78aa9c2e7a9cffd38d87b61647a"
     }
   ],
   "featured_comparisons": [
