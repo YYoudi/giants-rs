@@ -1,5 +1,33 @@
 # Preview releases and milestone integration
 
+## Ordinary Mecc HUD feedback - source integration
+
+The normal menu-to-Mecc path now displays separate health and jet-fuel gauges
+alongside their numeric values. Health is green and fuel blue, with amber at
+25 or less and red at 10 or less. Both read the existing selected controller;
+they do not invent damage, fuel consumption or original HUD artwork. Their child
+nodes retire with the existing mission HUD on menu return. The receipt-bound
+Windows release of source `2500e06` (executable SHA256
+`0dfcd13b578585c51a5ece40dbbf34ad83746a4fe70375086a54364a6202cccb`)
+passes CLI startup and the existing ordinary-entry GPU capture with supplied
+commands. The inspected image shows both labeled gauges and a source projectile;
+it does not verify held OS input, changing gauge levels or native fidelity.
+Workspace tests, strict Clippy, Rustfmt, 43 Python checks, site/JavaScript checks
+and source/history audit pass. The private asset-free draft package passes
+receipt/checksum validation with dependency notices and the project license;
+main integration still owns public package review and publication. No new
+downloadable preview is asserted.
+
+A separate local release of source `ec097cb` (executable SHA256
+`2ab96990590aacc2f4aa9fd12a7ee316954e1d0355b796e3c1de5556a14702a4`)
+was entered through New Single Player Game with a fresh muted profile. Escape
+skipped the opening into ordinary Mecc control. Two actual left-mouse actions
+generated two pistol births; Escape returned to the menu, with both shots and
+mission assets retired. No projectile was visually resolved during those short
+input actions. Held right-mouse flight, descent/landing and menu re-entry remain
+unverified; the Windows UI tool cannot hold that button. Existing scripted GPU
+images remain separate evidence. This test does not relabel the current download.
+
 Current delivery policy follows [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md):
 prioritize common testable interactions and their blockers before niche cases.
 New reports must lead with the normal menu/controls, expected behavior and exact
@@ -50,6 +78,38 @@ lighting phase are still unverified; one solar-region discrepancy remains open.
 No source placement, duration or light value was adjusted to match these images.
 These private proofs update no frozen public-preview or census identity and
 certify no complete scene. The bounded inspection does not deliver gameplay.
+
+## Delphi initial body in the common renderer - diagnostic only
+
+Delphi's actual declared owner now reaches the initial-player body renderer.
+A visually checked silent offscreen Rstory1 capture on exact common source
+`f4795de0de5dd43109e4a1f04f48f617950bd0da` shows the body at its declared placement
+using the inspection camera. Its snapshot uses actual current channels in scratch
+storage, preserving cold world animation/reference/affine caches. Known absence
+of normal definitions takes the existing no-normal route; declared-normal errors
+remain errors. The same executable retains visible lit Kabuto, with the existing
+cropped inspection framing. A reviewed Delphi display copy is pinned in the gallery.
+
+The build passes waited CLI startup and receipt/hash validation; 948 workspace
+Rust tests (139 ignored), installed Delphi/Kabuto construction and re-entry,
+strict Clippy, Rustfmt and 43 Python tests pass. This snapshot connects no ordinary
+controls, live animation, held equipment or native projection reset. Main's
+published .8 download is unchanged. Actual projection, complete primary/physics/
+input and live animation remain the next delivery blockers; fidelity is unverified.
+
+## External camera coefficients - source dependency only
+
+Intermediate dependency only; no new ordinary Delphi controls or preview.
+The acquired current-owner selector can now resolve lens/actor-scale fields from
+a user-supplied PC executable through `camera_profile::ExecutableCatalog`, with
+no embedded original tables. Forty-four original getter contexts match 88 exact
+coefficient words. Validation remains at each consuming command, preserving
+unused null/invalid fields. The silent installed Delphi check uses actual owned
+headers and external metadata with supplied mode/owner words, captures reset
+projection requests and refuses a retired owner. This does not submit projection
+to Bevy, acquire startup words or acknowledge the mission's pending reset.
+Actual input/device, first animation/render and physical/controller wiring remain
+open. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
 
 ## Kabuto initial body renderer - intermediate dependency only
 

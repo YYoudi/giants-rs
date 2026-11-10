@@ -52,26 +52,15 @@ REVIEWED_ATTRIBUTION_LABELS = {
 }
 
 
-# Exact display copy pinned in the gallery manifest at 8c385dc, on a public
-# branch. Reviewed as a VP8-only image without embedded metadata. Keep its
-# all-reference history review valid before that gallery update enters main;
-# this permits neither other images nor another path or modified bytes.
-REVIEWED_HISTORICAL_IMAGES = {
-    'docs/gallery/media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp':
-        '0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4',
-}
-
-
 def approved_images(root):
     """Exact display copies authorized by the owner; no general binary exception."""
     manifest = Path(root)/'docs/gallery/manifest.json'
     if not manifest.exists():
-        return dict(REVIEWED_HISTORICAL_IMAGES)
+        return {}
     images = json.loads(manifest.read_text(encoding='utf8')).get('images', {})
-    return dict(REVIEWED_HISTORICAL_IMAGES) | {
-        'docs/gallery/'+name: digest for name, digest in images.items()
-        if re.fullmatch(r'media/[a-f0-9]{64}\.webp', name)
-        and Path(name).stem == digest}
+    return {'docs/gallery/'+name: digest for name, digest in images.items()
+            if re.fullmatch(r'media/[a-f0-9]{64}\.webp', name)
+            and Path(name).stem == digest}
 
 
 def scan(root):

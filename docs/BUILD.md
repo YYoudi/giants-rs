@@ -67,6 +67,12 @@ control uses three installed animation resources after owned physics. It supplie
 gait/contact flags, retains the unfinished frame and refuses ANM replay. It does
 not establish live movement/contact production or ordinary mission admission.
 
+With `GIANTS_DELPHI_ROOT` and an explicit `GIANTS_DELPHI_EXECUTABLE`, run
+`cargo test --locked -p giants-game source_camera_coefficients --target x86_64-pc-windows-gnu -- --ignored`
+for owned Delphi selection and external camera coefficients through projection
+reset. Mode/owner inputs are supplied and projection requests are captured;
+no App device submission, startup or gameplay admission is acknowledged.
+
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
 runs six owned-phase controls: publication/physical consumption and later
@@ -1123,3 +1129,21 @@ suspends opening playback without emitting mission readiness. The body is an
 initial snapshot; native camera/projection, live ANM, input and ordinary startup
 remain unverified. Inspect the actual image: GPU preparation and a successful PNG
 write alone do not prove body visibility or correct framing.
+
+## Optional Delphi initial-body inspection
+
+This is an initial body snapshot, not playable Delphi. The installed App control
+`source_delphi_menu_entry_constructs_declared_group_and_retains_player_role` uses
+`GIANTS_DELPHI_ROOT` and checks body ownership, untouched cold caches, retirement
+and a second ticket. The shared renderer preserves known absence of normals and
+uses its existing no-normal route; normal-declaring preparation errors still fail.
+
+For private GPU inspection use `GIANTS_MISSION_REPLAY=showcase-delphi-body`,
+`GIANTS_SHOWCASE_WORLD=Rstory1` and `GIANTS_SHOWCASE_MISSION=0`. Run an awaited,
+receipt-bound common executable with `--mecc-menu`, your `--data-root`, a fresh
+`--user-data-root`, and `--offscreen --silent-capture --capture` to a fresh private
+PNG. This diagnostic suspends opening playback and uses the declared-start
+inspection camera. It acknowledges no projection reset, normal input, live ANM,
+held/copy placement or gameplay readiness. Inspect the actual image separately
+from pipeline completion. The source-backed menu request uses a test preview
+profile; it does not prove ordinary campaign unlocks.
