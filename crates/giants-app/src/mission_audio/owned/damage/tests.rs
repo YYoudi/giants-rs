@@ -345,3 +345,60 @@ fn source_owned_mecc_damage_voice_uses_real_local_sinks_and_unique_reuse() {
         "owned_mecc_damage_voice passed=true real_starts=5 unique_reuses=2 vm_rng_separate=true late_sink_failure_retained=true window=false muted=true"
     );
 }
+
+#[test]
+fn native_no_play_handles_cues_without_backend_borrow_or_audio_draws() {
+    use giants_game::{mecc_impact_voice as voice, startup_playback::Playback};
+    let seed = giants_game::state_storage::Seed::from_program_for(
+        &giants_formats::class_program::parse(&[0x1e, 0, 0xff]).unwrap(),
+        giants_game::state_storage::Profile::Debug,
+        Precision::Double53,
+    )
+    .unwrap();
+    let mut session = Session::new(872);
+    let source = session
+        .register(
+            2,
+            &seed,
+            &[],
+            giants_game::object_lists::DirectFlags::default(),
+        )
+        .unwrap();
+    let mut backend = Uncalled;
+    let shared = SharedBackend::new(&mut backend);
+    let mut playback = Playback::default();
+    assert!(playback.observe_startup_option("-noplay"));
+    let mut local = shared.voice_with_playback(source, 872, playback);
+    // Suppression never needs the device, even while another owner holds it.
+    let held = shared.borrow().unwrap();
+    let mut state = voice::State {
+        damage: 15.,
+        limit: 100.,
+        pain_timer: -1.,
+        shared_timer: -1.,
+    };
+    let mut vm = Random(42);
+    let mut expected = vm;
+    expected.next_15();
+    expected.next_15();
+    voice::after_damage(&mut state, &mut vm, |cue, _, _| {
+        local.play(&session, source, cue)
+    })
+    .unwrap();
+    assert_eq!(vm.0, expected.0);
+    assert!(state.pain_timer >= 1. && state.pain_timer < 2.);
+    assert_eq!(state.shared_timer, 10.);
+    let mut foreign_session = Session::new(873);
+    let foreign = foreign_session
+        .register(
+            2,
+            &seed,
+            &[],
+            giants_game::object_lists::DirectFlags::default(),
+        )
+        .unwrap();
+    assert!(local.play(&session, foreign, 1504).is_err());
+    assert!(local.play(&session, source, 999).is_err());
+    drop(held);
+    assert!(shared.borrow().is_ok());
+}

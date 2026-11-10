@@ -7,6 +7,44 @@ remains unassigned. Naming does not expand the behavioral evidence below.
 
 ## Producer and consumers
 
+### Current profile family and view
+
+`camera_profile::select` now acquires the native family/view decision. It reads
+only the required owner branches: disabled owners use the default family; model-2
+owners can select a control-flag variant; model-3 owners can substitute an actual
+state-90 parent's class. Substitution does not recursively apply the model-2
+variant test or another parent lookup. The variant flag's gameplay meaning is
+unassigned. Unrecognized classes use the native default family.
+
+Scaled input selects view one from the controlled actor's state kind, independently
+of its model class and of the current camera owner. That override occurs before
+the bounded Rust table-view check. Other out-of-range views refuse; the native
+unchecked address calculation is not accepted as an additional profile.
+
+`from_session` reads current owned headers, typed attachment parents and state
+storage on every invocation, using checked `camera_owner::State` and shared
+`camera_mode::State`. Foreign/retired actors, missing queried fields, unacquired
+PC profiles and quarantined camera states refuse. An unqueried controlled actor
+is not spuriously consumed. No family/view snapshot persists across commands.
+The required `Catalog` supplies coefficients separately for each resolution;
+there is no successful default, embedded original table or claimed binary identity
+for a caller-provided catalog. Existing mode/lens validation remains responsible
+for the values it consumes.
+
+20,580 full original-PC/Rust contexts agree on 41,160 family/view words. They
+execute the actual native profile getter and its predicates, varying controlled
+model class and state independently, owner flags/variant, parent class/state,
+view and scaled input. Additional parent cases confirm nonrecursive substitution.
+These controls use synthetic valid actor identities; they do not compare profile
+coefficients, current input devices, projection, live scheduling or GPU output.
+A silent installed Mecc control verifies current header changes, separate model
+and state words, forced-view precedence, foreign identities and retirement over
+the actual Session. No initializer or pending projection reset is acknowledged.
+The actual coefficient source, input/projection backends and activation/world order
+remain prerequisites before App binding. This selector's prototype PS2 attribution
+remains unknown; detailed evidence stays private.
+
+
 ### Session-bound owner-selection prefix
 
 `camera_owner::State` retains the acquired current owner and reference-point
@@ -100,14 +138,10 @@ next lens evaluation without maintaining a second persistent transition copy.
 Profile/input production and projection publication remain caller obligations.
 Keep these operations on one `camera_mode::State` when composing the world.
 
-Read-only acquisition of the native profile producer distinguishes the camera
-owner class, selected view, a parent-dependent class case, an owner control-flag
-variant and the controlled-actor predicate. The variant predicate tests an
-existing control flag; its gameplay meaning remains unassigned. This is acquired
-native behavior, not an implemented Rust profile producer. Preserve those actor
-identities when defining its typed inputs, and keep original coefficient tables
-out of Git. Any future executable-backed profile data must validate the exact PC
-binary independently of prototype PS2 symbols or layouts.
+The family/view selector above supplies the acquired profile decision. Its
+coefficient catalog and actual input/device producers remain required. Any future
+executable-backed coefficient reader must validate the exact PC binary separately
+from prototype PS2 symbols or layouts and keep original tables out of Git.
 The lens character predicate belongs to the controlled actor; an overridden
 camera owner must not replace that identity when supplying `selected_kind`.
 The historical `profile_index` lens-input name denotes the shared view word;

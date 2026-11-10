@@ -9,6 +9,7 @@ use crate::{
 };
 use std::collections::BTreeMap;
 use std::sync::Arc;
+mod camera_profile;
 mod delphi;
 mod delphi_camera;
 mod delphi_held;
@@ -21,6 +22,7 @@ pub use parent_binding::AttachmentWords;
 mod delphi_target_tests;
 mod kabuto;
 mod mecc_impact;
+mod mecc_smoke;
 pub use mecc_impact::Voice as MeccImpactVoice;
 mod reference_camera;
 mod state18_reference_reset;
@@ -119,9 +121,12 @@ impl OwnedPerceptionSubset {
 /// for an attacker, sound, impulse, equipment or death service.
 #[derive(Clone, Copy)]
 pub struct MeccDamageContext {
+    /// Shared native input/UI inhibition snapshot; its complete owner is still
+    /// required. This is not the startup no-play option or device muting.
     pub globally_disabled: bool,
     /// Historical label for the acquired suppression input. Its actual producer
     /// and relationship to cinematic state remain unverified.
+    /// Do not derive this snapshot from film activity alone.
     pub cutscene: bool,
     pub shield_percent: f32,
     pub ambient_voice_timer: f32,
@@ -347,6 +352,7 @@ pub struct Resident {
     pub channels: Option<crate::animation_channels::Channels>,
     /// Last actual ANM header stamp (historical name); world services allocate it.
     pub mecc_animation_stamp: u32,
+    mecc_pistol_draw: Option<crate::mecc_pistol_draw::Binding>,
     /// Owned presentation metadata; not a constructed native actor pointer.
     presentation_parent: Option<Id>,
     presentation_position: Option<[f32; 3]>,
@@ -383,6 +389,7 @@ pub struct Resident {
     attached_effect: Option<crate::attached_effect_object::Metadata>,
     positional_impact: Option<crate::positional_impact::Metadata>,
     timed_effect: Option<timed_effect::Metadata>,
+    smoke_effect: Option<mecc_smoke::Metadata>,
     environment: Option<crate::resident_environment::Prepared>,
     ordinary_motion: Option<crate::resident_motion::Owned>,
     ripper_primary:
@@ -609,6 +616,7 @@ impl Session {
                 attached_effect: None,
                 positional_impact: None,
                 timed_effect: None,
+                smoke_effect: None,
                 environment: None,
                 ordinary_motion: None,
                 ripper_primary: None,
@@ -624,6 +632,7 @@ impl Session {
                 pickup_notice_delivery: None,
                 channels: None,
                 mecc_animation_stamp: 0,
+                mecc_pistol_draw: None,
                 presentation_parent: None,
                 presentation_position: None,
             },
@@ -1566,6 +1575,13 @@ impl Session {
         let body = actor.seed.storage.data().unwrap();
         let word = |at| u32::from_le_bytes(body[at..at + 4].try_into().unwrap());
         let mut cycle = actor.mecc_physical_cycle.clone().unwrap();
+        if word(0x80) != u32::from(actor.mecc_pistol_draw.is_some())
+            || fields.control_flags & 0x10000 != 0 && actor.mecc_pistol_draw.is_none()
+            || actor.mecc_pistol_draw.is_some() && !secondary_mode
+        {
+            return Err("Mecc draw marker differs from its typed binding".into());
+        }
+        let first_draw = actor.mecc_pistol_draw.is_some();
         if (health.damage != 0.
             && !(primary
                 && damage_display.is_some()
@@ -1738,7 +1754,21 @@ impl Session {
                         body[0x84 + index * 4..0x88 + index * 4].try_into().unwrap(),
                     );
                 }
-                first = Some(pipeline.advance(fields, view, view.local_seconds)?);
+                let pass = pipeline.advance(fields, view, view.local_seconds)?;
+                if first_draw && pass.processed {
+                    self.dispatch_mecc_pistol(
+                        &mut pipeline,
+                        crate::mecc_pistol_draw::Frame {
+                            fields,
+                            payload: body,
+                            view,
+                        },
+                        wield
+                            .as_mut()
+                            .ok_or("pistol actions require the owned wield factory")?,
+                    )?;
+                }
+                first = Some(pass);
                 if primary {
                     // Native47d57f: after the actual first ANM call returns.
                     fields.object_flags |= 0x40;
@@ -1833,9 +1863,9 @@ impl Session {
                 if let Some(display) = damage_display {
                     let result = smoke.advance(
                         crate::mecc_damage_effect::Input::from_globals(health.damage, health.limit, globals)?,
-                        &mut crate::mecc_damage_effect::Prepared { reset: display.display.owns(&id),
+                        &mut crate::mecc_damage_effect::Bound { session: self, prepared: crate::mecc_damage_effect::Prepared { reset: display.display.owns(&id),
                             pool: &mut pipeline.contexts, source: id, source_flags: output.fields.object_flags,
-                            random: &mut pipeline.random },
+                            random: &mut pipeline.random } },
                     );
                     output.payload[0x1a0..0x1a4].copy_from_slice(&u32::from(smoke.binding.is_some()).to_le_bytes());
                     output.payload[0x1a4..0x1a8].copy_from_slice(&smoke.level.to_le_bytes());
@@ -1904,7 +1934,8 @@ impl Session {
                 let mut contact_checkpoint = None;
                 let stage = {
                     let mut damage = impact.map(|context| mecc_impact::Damage { session: self, source: id, context, voice: impact_voice.take() });
-                    crate::mecc_secondary::ordinary(
+                    let draw = pipeline.bank.pistol(catalog)?;
+                    crate::mecc_secondary::ordinary_with_draw(
                     &output.fields,
                     &output.payload,
                     pipeline.channels,
@@ -1929,6 +1960,7 @@ impl Session {
                         blending: pipeline.blending,
                         random: &mut pipeline.random,
                     },
+                    Some(draw),
                 )
                 };
                 // Preserve effect ownership and earlier selector writes even if
@@ -1945,7 +1977,20 @@ impl Session {
                 }
                 // A selector can consume shared RNG before a later channel error.
                 *random = pipeline.random;
-                let stage = stage?;
+                let mut stage = stage?;
+                if let Some(commit) = stage.commit_before_request.take() {
+                    // The native channel setter precedes this commit, while
+                    // logical state, active table and control publication follow it.
+                    let actor = self.residents.get_mut(&id.serial).unwrap();
+                    actor.channels = Some(stage.channels);
+                    actor.construction_fields = Some(commit.fields);
+                    actor.seed.storage.data_mut().unwrap().copy_from_slice(&commit.payload);
+                    pipeline.channels = stage.channels;
+                    factory.commit_weapon(self, id, catalog)?;
+                    let body = self.get(id).unwrap().seed.storage.data().unwrap();
+                    stage.payload[0x60..0x64].copy_from_slice(&body[0x60..0x64]);
+                }
+                self.residents.get_mut(&id.serial).unwrap().mecc_pistol_draw = stage.draw;
                 pipeline.channels = stage.channels;
                 output.fields = stage.fields;
                 output.payload = stage.payload;
@@ -1991,6 +2036,10 @@ impl Session {
                 pipeline.select_normal(&output.fields, &cycle.view, globals)?
             };
             let second = pipeline.advance(&output.fields, &cycle.view, 0.)?;
+            if self.get(id).unwrap().mecc_pistol_draw.is_some() && second.processed {
+                self.dispatch_mecc_pistol(&mut pipeline, crate::mecc_pistol_draw::Frame { fields: &output.fields, payload: &output.payload, view: &cycle.view },
+                    wield.as_mut().ok_or("pistol actions require the owned wield factory")?)?;
+            }
             // Inactive auxiliary flags: actual47ecc0 tail after both ANM passes.
             let scalar_word = |at| u32::from_le_bytes(output.payload[at..at+4].try_into().unwrap());
             let local_seconds = crate::object_time::seconds(global_seconds, Some(crate::object_time::Sample { owner: 0, position: output.fields.position }), None, areas);
@@ -2016,6 +2065,11 @@ impl Session {
         let (output, projection, visits) = match completed {
             Ok(value) => value,
             Err(error) => {
+                self.mecc_events = Some(pipeline.bank.clone());
+                *contexts = pipeline.contexts.staged_copy();
+                *random = pipeline.random;
+                self.residents.get_mut(&id.serial).unwrap().channels = Some(pipeline.channels);
+                self.specifications.get_mut(&id.serial).unwrap().0 = pipeline.references.clone();
                 self.residents
                     .get_mut(&id.serial)
                     .unwrap()
@@ -2059,6 +2113,52 @@ impl Session {
             secondary: secondary_projection,
             jet: jet_projection,
         })
+    }
+    fn dispatch_mecc_pistol(
+        &mut self,
+        pipeline: &mut crate::mecc_animation_phase::Pipeline<'_>,
+        frame: crate::mecc_pistol_draw::Frame<'_>,
+        factory: &mut crate::mecc_wield::Factory<'_>,
+    ) -> Result<(), String> {
+        let id = pipeline.owner;
+        let actor = self
+            .residents
+            .get_mut(&id.serial)
+            .ok_or("pistol source retired")?;
+        if actor.mecc_pistol_draw.is_none() {
+            return Err("pistol actions have no typed actor binding".into());
+        }
+        let mut fields = frame.fields.clone();
+        fields.channels = pipeline.channels;
+        actor.channels = Some(pipeline.channels);
+        actor.mecc_animation_stamp = pipeline.last_stamp;
+        actor.construction_fields = Some(fields.clone());
+        actor
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()
+            .copy_from_slice(frame.payload);
+        self.specifications.get_mut(&id.serial).unwrap().0 = pipeline.references.clone();
+        let material = match &pipeline.materials {
+            Some(catalog) => crate::mecc_animation_events::Material::Acquired(
+                catalog.resolve(frame.view.support, frame.view.support_part)?,
+            ),
+            None => crate::mecc_animation_events::Material::Unknown,
+        };
+        let result = pipeline.bank.dispatch_pistol(
+            crate::mecc_animation_events::Input {
+                owner: id,
+                fields: &fields,
+                channels: &pipeline.channels,
+                references: &[],
+                affine: None,
+                material,
+            },
+            |reference, class| factory.replace(self, id, i32::from(reference), class),
+        );
+        self.mecc_events = Some(pipeline.bank.clone());
+        result
     }
     /// Source-descriptor channel/reference projection for the cold living
     /// unblended pistol profile. Events and the secondary callback remain
@@ -2218,8 +2318,8 @@ impl Session {
         }
         bank.kinds(slot)
     }
-    /// Cancel this player's prepared-only smoke before retirement. Active effects
-    /// require their separate interpreter and emitted-object lifecycle.
+    /// Stop this player's prepared or acquired retained smoke before retirement.
+    /// Active emitters are marked dead; later actor destruction remains separate.
     pub fn release_mecc_damage_smoke(
         &mut self,
         id: Id,
@@ -2231,14 +2331,18 @@ impl Session {
             let context = contexts
                 .get(binding)
                 .ok_or("damage smoke cancellation binding absent, foreign or stale")?;
-            if context.recipient() != Some(id)
+            if context.origin_recipient() != Some(id)
                 || context.tag() != Some(3)
-                || context.flags() != 0x20004
+                || !matches!(context.flags(), 0x20004 | 0x60004)
                 || context.label != *b"FX_mecc_smoking_"
             {
                 return Err("damage smoke cancellation belongs to another source/profile".into());
             }
-            contexts.release_prepared(binding)?;
+            if contexts.damage_smoke_actor(binding).is_some() {
+                contexts.release_damage_smoke(binding, self)?;
+            } else {
+                contexts.release_prepared(binding)?;
+            }
         }
         let actor = self.residents.get_mut(&id.serial).unwrap();
         actor.mecc_damage_smoke = Default::default();
@@ -10149,6 +10253,24 @@ impl Session {
         kind: crate::actor_sound::Kind,
         descriptor_ready: bool,
     ) -> Result<Option<crate::actor_sound::Route<Id>>, &'static str> {
+        self.sound_route_with_playback(
+            id,
+            local_player,
+            kind,
+            descriptor_ready,
+            crate::startup_playback::Playback::default(),
+        )
+    }
+    /// Actual startup playback projection. Typed identity validation remains a
+    /// Session boundary; suppressed native routing touches no parent or device.
+    pub fn sound_route_with_playback(
+        &self,
+        id: Id,
+        local_player: Id,
+        kind: crate::actor_sound::Kind,
+        descriptor_ready: bool,
+        playback: crate::startup_playback::Playback,
+    ) -> Result<Option<crate::actor_sound::Route<Id>>, &'static str> {
         self.get(id).ok_or("sound actor absent or foreign")?;
         self.get(local_player)
             .ok_or("sound local player absent or foreign")?;
@@ -10156,7 +10278,7 @@ impl Session {
             kind,
             Some(id),
             Some(local_player),
-            false,
+            playback.suppressed(),
             descriptor_ready,
             |node| {
                 Ok(self
