@@ -1,4 +1,4 @@
-# Windows x64 development preview — next combined build (draft)
+# Windows x64 development preview - next combined build (draft)
 
 Published preview-2026.11.10.7 remains pinned to source `88dd2ff`; its packaged
 notes and checksums are immutable. These draft notes also retain later main-only

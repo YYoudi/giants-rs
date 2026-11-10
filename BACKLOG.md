@@ -1560,6 +1560,9 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   nine Delphi installed controls. Its receipt-bound MinGW executable passes both
   silent development endpoints, three active persistent cancellations and two
   source-terminal/re-entry cycles with real muted sinks and text cleanup.
+  Published preview .7 pins that exact source; notices/package/public-download
+  checks pass. Its fresh census covers 545 sources /16 worlds, zero preparation
+  errors, 59 reported-gap sources, 56 general-queue refusals and zero certified films.
   This closes duplicate host ownership, not native world admission, stock,
   current populations, clock/RNG ownership, world cadence or virtual-support
   lifetime parity. Attribution remains unknown. Full visual/audio/timing and

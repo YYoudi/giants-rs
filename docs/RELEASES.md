@@ -1,5 +1,41 @@
 # Preview releases and milestone integration
 
+## Published constant cinematic Session ownership - preview .7
+
+Published [preview-2026.11.10.7](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.7)
+pins source `88dd2ffd073e2230ec92079a5b134ca85765c41b`, executable SHA256
+`ae6de9b7f9179589046e3d25a145ec88d0d0cea0acf242c3599788151d3c7e92` and ZIP SHA256
+`63c26a05457b860730c6ba16db02cf4d61b22ad40664898ec803196de00d7005`.
+
+The 25 bounded persistent requests across 23 sources transfer their actual storage,
+header, ANM channels and references into the active mission Session. Main rendering
+reads that owner; source support slots stay separate from ordinary actors and
+retain ticket/director/generation scope. Constant effects keep aging disabled.
+Cancellation checks incoming typed references before removing the source cohort.
+Late preparation failures keep completed writes and refuse replay.
+
+The exact source passes 894 Rust tests (82 ignored), strict Clippy/Rustfmt,
+43 Python tests, all 23-source ownership controls (92 queue lifecycles), ordinary
+timed preparation, camera/actor-role and nine Delphi installed checks. Retained
+original-PC controls match 50 route cases /14 preparation states through actual
+Session objects with supplied support/clock/query boundaries. Its receipt-bound
+silent executable passes both development endpoints, three active persistent
+cancellations and two source-terminal/re-entry cycles with real muted sinks and
+voice/text cleanup. Notice/import/package checks and independent public downloads
+verify three assets and ten ZIP members; the immutable tag resolves to that source.
+
+A fresh census of this executable covers all 545 sources /16 worlds: zero
+preparation errors, 59 reported-gap sources, 56 general-queue refusals, 282 reviews
+and zero certified films. It is capability diagnostics, not visual proof.
+Native populations, stock/admission, clocks/RNG, world scheduling, virtual support
+lifetimes and full visual/audio/timing/native-gameplay fidelity remain open.
+Later combined source `3ea3f7d` preserves the Mecc pistol/smoke and camera-profile
+contributions. It passes 900 workspace Rust tests (96 ignored), the 23-source
+cohort, 24 installed timed/camera/Delphi/Mecc/actor-role controls, strict Clippy,
+Rustfmt, 43 Python tests and generated site/JavaScript checks. Those source-only
+changes are separate from the frozen .7 binary; the draft notes retain them for
+a subsequent combined build.
+
 ## Expected pistol absence in the mission renderer — 10 November 2026
 
 The mission renderer now distinguishes an intentionally absent held object during
@@ -31,8 +67,8 @@ two camera controls, both timed-owner/positioned-terrain controls, nine Delphi
 controls and four App controls: terrain/ANM/weapon presentation, reserved silent
 jet sinks, smoke render-asset lifecycle and actual constructor roles. Private
 terrain fixtures retain their original hashes. The App checks introduce no manual
-input, GPU pixel or audio-fidelity claim. Preview .7 preparation retains the
-published .6 snapshot until its own receipt-bound package is validated.
+input, GPU pixel or audio-fidelity claim. This later integration candidate is separate from published .7 (source `88dd2ff`);
+it remains pending its own receipt-bound package validation.
 
 ## Session-bound camera profile selection — 10 November 2026, source only
 
