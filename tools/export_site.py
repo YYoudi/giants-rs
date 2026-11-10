@@ -18,6 +18,7 @@ PREVIEW_CHECKS = {
     'selected_cinematic_transport': 'Selected-mission source-terminal/re-entry with muted real sinks',
     'manual_menu_skip_return': 'Manual menu, opening skip, mission entry and return on one local profile',
     'ordinary_mecc_jet_projectile_gpu': 'Ordinary-controller jet/nitro/release GPU cycles and visible jet/projectile samples with supplied commands',
+    'ordinary_mecc_descent_gpu': 'Ordinary selector reaches visible descent after supplied thrust/release; jet draws hidden and fuel gauge updated; OS-held flight remains unverified',
     'ordinary_mecc_os_pulses': 'Normal menu entry/re-entry, OS jet/fire mouse pulses, view toggle and exit; sustained held flight remains unverified',
 }
 PREVIEW_LIMITS = {
