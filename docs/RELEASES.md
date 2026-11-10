@@ -23,6 +23,20 @@ See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md). No existing public executabl
 or historical gallery receipt is relabeled; main owns the combined preview.
 
 
+The combined source `b751ced` preserves main's concurrent NPC/camera work. Its
+GNU Windows executable SHA256 is
+`2c7f4d19988534918aaad301659eddacc8aae10dd59e3b376d6fa90480a8b9bf`.
+This exact build also passes CLI startup and the GPU landing observation with
+a real muted sink and inspected dust cloud; both installed-resource lifecycle
+checks pass on the combined source. The portable combined workspace passes953 tests (150 ignored), strict Clippy,
+formatting,44 Python checks, site export and JavaScript syntax. An initial test
+fixture compile failure was corrected by initializing its absent landing driver;
+this test-only correction does not change the executable. The private draft ZIP
+verifies10 files,338 dependency notices and archive SHA256
+`df3e46b4bebd005bd0dacc874db53466b8cbec3f4820edbd3d1049034918c617`.
+Its remaining receipt-bound distribution review belongs to main's technical
+publication process; this is not another human-approval gate or a public release.
+
 ## Published preview .9 - ordinary Mecc jet and projectile feedback
 
 [Windows preview-2026.11.10.9](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.9)
@@ -102,7 +116,6 @@ The retained preview's per-director random state is not a native fidelity proof.
 Both prototype PS2 resources were searched with pinned binary identities before
 this work; attribution stays unknown. Detailed records remain private.
 
-<<<<<<< HEAD
 ## Delphi ordered projection checkpoint - intermediate dependency
 
 Ordinary Delphi controls remain unavailable. The cold/declared factories now take
@@ -120,21 +133,6 @@ Its collapsed body-inspection group remains pending and cannot be promoted with
 a late projection reset. Next connect the actual shared owner/mode/device through
 ordered fresh entry, then the complete first primary/physical/input/live-animation
 loop. Existing image and public-preview identities remain unchanged.
-=======
-The combined source `b751ced` preserves main's concurrent NPC/camera work. Its
-GNU Windows executable SHA256 is
-`2c7f4d19988534918aaad301659eddacc8aae10dd59e3b376d6fa90480a8b9bf`.
-This exact build also passes CLI startup and the GPU landing observation with
-a real muted sink and inspected dust cloud; both installed-resource lifecycle
-checks pass on the combined source. The portable combined workspace passes953 tests (150 ignored), strict Clippy,
-formatting,44 Python checks, site export and JavaScript syntax. An initial test
-fixture compile failure was corrected by initializing its absent landing driver;
-this test-only correction does not change the executable. The private draft ZIP
-verifies10 files,338 dependency notices and archive SHA256
-`df3e46b4bebd005bd0dacc874db53466b8cbec3f4820edbd3d1049034918c617`.
-Its remaining receipt-bound distribution review belongs to main's technical
-publication process; this is not another human-approval gate or a public release.
->>>>>>> 58a2310
 
 ## Ordinary Mecc descent visually observed - local Windows build
 
