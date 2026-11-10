@@ -17,7 +17,7 @@ the shared continuation into animation commit, and actual world scheduling remai
 prerequisites. No pending initializer is acknowledged and Kabuto remains unavailable
 in ordinary gameplay. See [OWNED_KABUTO.md](OWNED_KABUTO.md).
 
-Combined validation passes 885 workspace Rust tests (79 ignored), 26 installed
+Combined validation passes 886 workspace Rust tests (80 ignored), 26 installed
 Kabuto controls plus one cold-resource control, 13 Mecc and nine Delphi controls,
 43 Python tests, Rustfmt, strict workspace Clippy and roadmap/site/JavaScript checks.
 This source-only milestone preserves the published Windows preview snapshot;
