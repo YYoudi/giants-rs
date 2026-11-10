@@ -38,6 +38,15 @@ and captures the child's `--help` result explicitly.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+The ignored `source_timed_positioned_preparation_uses_owned_header_and_terrain`
+control additionally requires `GIANTS_FLICK_ROOT`, `GIANTS_FLICK_TIMED_TERRAINS`
+(private archive/member TSV) and `GIANTS_FLICK_TIMED_PREPARATION_CONTROLS` (private
+original-PC rows). It compares actual Session preparation across sixteen static
+terrains without per-step state injection, then checks retained contact writes,
+stale affine and replay refusal after a late platform failure. Clocks, support,
+physical caller argument and empty mesh/platform populations remain supplied;
+this is not live mission admission or a fidelity check. Keep its inputs private.
+
 With `GIANTS_DELPHI_ROOT` set to compatible installed data,
 `source_delphi_dependency_order_keeps_group_identities_and_cleanup` checks the
 common dependency-order service against the actual cold Delphi/copy/held group.

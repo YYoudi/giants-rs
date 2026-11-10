@@ -26,6 +26,69 @@ installed controls and 880 workspace tests. These CPU/source checks introduce
 no new playable mode, movie or preview; existing download sources and hashes
 remain independent. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
 
+## Published owned preparation and terminal handoff — preview .6
+
+Published [preview-2026.11.10.6](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.6)
+pins source `14d1ebff63336b7d8ee80c10016d123ca3d96a3b`, executable SHA256
+`fe45aad14818240e1193bbdc0648ca75a73cd3101ee2e30b3258d83f866c855b` and ZIP SHA256
+`1ad000fb168088e368275b941a7231b1ad4e55f89d6b022a7dd5ce97986f54ef`.
+The exact runtime passes 878 Rust tests (75 ignored), Rustfmt, strict Clippy,
+43 Python tests, scoped installed timed/header/phase, camera, actor-role and
+23 Kabuto controls, plus generated site/JavaScript checks. Its silent executable
+passes both development endpoints, three active persistent-effect cancellations,
+and two source-terminal/re-entry cycles with actual muted sinks and text cleanup.
+Both terminal facts are recorded before retirement and consumed afterwards;
+cancellation creates none. No delay or readiness event is synthesized.
+
+Notice/import/package checks and independent download verification cover all
+three assets and ten ZIP members; the immutable tag resolves to the exact source.
+A fresh census of this executable covers 545 sources /16 worlds, zero preparation
+errors, 59 reported-gap sources, 56 general-queue refusals, 282 reviews and zero
+certified films. It remains capability diagnostics, not a visual comparison.
+Manual observations from .5 are not transferred to .6. Full native gameplay and
+visual/audio/timing fidelity remain open. Later Delphi proximity and dependency-order contributions
+are source-only relative to this binary; their tests do not relabel it.
+The later combined source `1e30870` preserves those contributions and passes
+886 workspace Rust tests (77 ignored), strict Clippy/Rustfmt, the owned timed
+preparation control and nine Delphi installed controls. The frozen .6 executable
+remains the separately measured source above.
+
+## Source-terminal ownership across retirement — 10 November 2026
+
+Transport cleanup now retains its actual source-end and owned-voice-drain
+observation before releasing the movie. The ticket-bound record survives cleanup
+for later consumers and clears on a new attempt. This fixes a source-terminal
+observer waiting after the normal preview transition had already retired its
+movie; asynchronous sink reads no longer have to agree across separate systems.
+Cancellation without source end creates no terminal record. No gameplay-ready
+acknowledgement, clock change or artificial cleanup delay is added. The published
+.6 checks above exercise this retained observation through actual offscreen
+retirement and re-entry.
+
+## Owned ordinary timed preparation — 10 November 2026
+
+Detached timed actors now continue from their callback into the common ordinary
+finalizer/environment and actual affine writer within their canonical Session.
+Floor, contact plane, velocity/history, model-rate history, hit/support and inline
+physical flags retain actual ownership. Completed contact writes survive a late
+platform error, while stale affine data and consumed phases cannot be replayed.
+
+Retained original-PC controls cover 128 parent/child cycles on sixteen static
+source terrains: 1,152 states /226,944 selected words and 902 ground queries agree.
+This continuation does not inject native entry snapshots between updates. It
+still supplies support, clocks, the physical caller word and empty object/platform
+populations. World population/stock/admission, clock/RNG ownership, wider physical
+caller semantics, lower-level error continuations and timed main-film rendering
+remain open. Prototype PS2 attribution stays unknown; zero complete films are
+certified. This source milestone does not relabel the published .4 executable.
+Initial timed-preparation source `df5a385` passes 874 workspace Rust tests
+(71 ignored), strict Clippy,
+Rustfmt, 43 Python tests and generated site/JavaScript checks. Installed checks
+cover the new ordinary preparation, both previous timed callback variants with
+physical-header/intermediate-phase controls, the standalone owner and application
+actor roles. The separate .6 reservation preserved the .5 publication. The final
+.6 package identities and expanded checks are recorded above.
+
 ## Delphi shared dependency-order prerequisite — 10 November 2026
 
 The common Session now owns the acquired post-primary dependency ordering for
