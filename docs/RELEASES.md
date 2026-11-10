@@ -415,6 +415,15 @@ sound/ANM and ordinary-primary timing remain unbound. No live fleeing or new
 capture/download is claimed. Prototype PS2 attributions remain unknown. Existing
 preview manifests/notices/checksums retain their exact build identities.
 
+Combined runtime `dea6025b5611ae3ba4891a010a06301db2f3f26e` preserves the
+current constructor-identity and timed-effect integration. Validation passes
+883 workspace Rust tests (76 ignored), the retained installed NPC controls and
+App declaration/binding cleanup, Rustfmt, strict workspace Clippy, 43 Python tests
+and roadmap/site/JavaScript checks. Rebuilt native comparisons retain both new
+response/predicate results and the earlier threat, mutable-walk and empty-ANM
+results. The source checkpoint audit reviews 765 commits /4,320 blobs with zero
+findings. This source-only validation does not relabel a preview executable.
+
 ## Vimp threat consideration — 10 November 2026
 
 A bounded threat service now preserves signed priority gates, ordered nearby/

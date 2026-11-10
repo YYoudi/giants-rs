@@ -11,7 +11,7 @@ Mecc, Delphi and Kabuto lanes, and cinematic direction remains in the Flick lane
 | Family | Existing Rust services | Established boundary | Missing ordinary gameplay connection |
 | --- | --- | --- | --- |
 | Herd population | `herd_generator`, `herd_markers`, `declared_residents` | Source herd/marker construction, authored properties, ordered marker allocation, offline clock and Vimp births | Mission scheduler, native live clock/RNG ownership, complete population and retirement |
-| Living Vimps | `vimp_actor`, `vimp_wander`, `vimp_physical`, `vimp_animation`, `vimp_frame` | Owned birth/initialization/growth and admitted ordinary wander/physical/ANM composition | Threat and feeding providers, full-world order, live render and audio ownership |
+| Living Vimps | `vimp_actor`, `vimp_wander`, `vimp_physical`, `vimp_animation`, `vimp_frame`, `vimp_threat`, `vimp_response` | Owned birth/initialization/growth and admitted ordinary wander/physical/ANM composition; isolated threat consideration and required-provider response dispatch | Response vector/action bodies and actual input ownership, feeding, full-world order, live render and audio ownership |
 | Vimp injury and remains | `vimp_damage`, `vimp_hurt`, `vimp_recovery`, `vimp_living_scalars`, `vimp_chunks`, `vimp_death_proxy` | Bounded damage, hurt/recovery and owned chunk/proxy services | Actual player hit dispatch, active effects/sounds, collection/economy and complete death cleanup |
 | Rippers | `ripper_perception`, `ripper_steering`, `ripper_pursuit`, `ripper_primary_turn`, `ripper_attack`, `ripper_awakening`, `ripper_emergence`, `ripper_turn_completion`, `ripper_ground`, `ripper_dirt` | Ordered target selection, supplied-view behavior kernels and persistent Session adapters for acquired branches | Complete actor/world primary scheduling, required firing/effect/audio providers, remaining modes and ordinary mission admission |
 | Shared enemy response | `state23_entry`, `state23_damage`, `state23_hurt`, `state23_animation`, `enemy_projectile`, `enemy_ballistic`, `enemy_flight` | Acquired state23 entry/damage/animation, enemy projectile birth/launch and isolated ordinary flight arithmetic | Complete enemy projectile world/contact/damage composition and all enemy classes/bosses |
@@ -64,9 +64,10 @@ once-per-noise memory, foreign/wrong invocation refusal, unsupported links and
 late finite-profile failure. The latter tests Rust failure handling, not native
 exception equivalence. Nonzero linked state still requires its owned producer.
 
-The ordinary primary is not switched to this isolated entry. Caller timing,
-response/escape selection, linked identities, required audio/ANM services and
-actual world noise production remain open. No fleeing, AI mission admission or
+The ordinary primary is not switched to this isolated entry. The response
+dispatch below now preserves bounded selection. Its vector/route and action
+bodies, linked/physical/session inputs, required audio/ANM services, caller timing
+and actual world noise production remain open. No fleeing, AI mission admission or
 visual availability is claimed. Prototype PS2 attributions remain unassigned.
 
 ## Response dispatch and session predicates — 10 November 2026
