@@ -17,6 +17,13 @@ open. Prototype PS2 attribution is unknown. See [OWNED_NPCS.md](OWNED_NPCS.md).
 This dependency creates no binary, changes no immutable preview receipt and adds
 no playable or rendered NPC coverage.
 
+Combined source `6577696` preserves the current camera, Delphi and Kabuto work.
+It passes 896 workspace Rust tests (82 ignored), thirteen installed NPC ownership
+controls, 43 Python tests, Rustfmt, strict workspace Clippy and the generated
+roadmap/site/JavaScript checks. The 676-context vector comparison also passes
+against that combined runtime source. These checks establish only their declared
+source/CPU scope; the existing preview snapshot remains unchanged.
+
 ## Selected camera owner and combined identity checkpoint — 10 November 2026
 
 `camera_owner::State` implements the acquired owner-selection prefix with explicit

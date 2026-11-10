@@ -105,7 +105,7 @@ adapter must read the current owned word, respecting phase and owner lifetime.
 No ordinary fleeing, rendering or gameplay download follows from this milestone.
 Prototype PS2 attributions remain unknown.
 
-## Vector response and marker retargeting — 10 November 2026
+## Vector response and marker retargeting - 10 November 2026
 
 `vimp_vector_response` implements bounded direction selection, sparse-route marker
 advance and retargeting. It preserves inclusive XY marker distance, wrapping visit
