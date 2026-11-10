@@ -180,6 +180,30 @@ pub(crate) struct Startup {
     pub companions: u32,
 }
 impl Runtime {
+    pub(crate) fn cinematic_session(
+        &self,
+        ticket: u64,
+    ) -> Option<&giants_game::resident_states::Session> {
+        Some(
+            &self
+                .active
+                .as_ref()
+                .filter(|a| a.ticket == ticket)?
+                .resident_states,
+        )
+    }
+    pub(crate) fn cinematic_session_mut(
+        &mut self,
+        ticket: u64,
+    ) -> Option<&mut giants_game::resident_states::Session> {
+        Some(
+            &mut self
+                .active
+                .as_mut()
+                .filter(|a| a.ticket == ticket)?
+                .resident_states,
+        )
+    }
     fn initialize_owned_pickup(&mut self, ticket: u64) {
         let Some(active) = self.active.as_mut().filter(|a| a.ticket == ticket) else {
             return;

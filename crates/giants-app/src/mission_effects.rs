@@ -21,10 +21,16 @@ impl State {
     pub(crate) fn ticket(&self) -> u64 {
         self.ticket
     }
-    pub(crate) fn advanced_persistent_objects(&self) -> usize {
+    pub(crate) fn advanced_persistent_objects(
+        &self,
+        runtime: &crate::mission_runtime::Runtime,
+    ) -> usize {
+        let Some(session) = runtime.cinematic_session(self.ticket) else {
+            return 0;
+        };
         self.persistent_queue
             .as_ref()
-            .map_or(0, |(_, queue)| queue.advanced_objects())
+            .map_or(0, |(_, queue)| queue.advanced_objects(session))
     }
     pub(crate) fn settled(&self) -> bool {
         self.active.is_empty()
@@ -59,6 +65,7 @@ impl State {
     }
     pub(crate) fn persistent_frame(
         &self,
+        runtime: &crate::mission_runtime::Runtime,
         director: usize,
         offset: usize,
     ) -> Option<Option<giants_game::cinematic_persistent::Frame>> {
@@ -69,13 +76,15 @@ impl State {
             self.persistent_queue
                 .as_ref()
                 .filter(|(d, _)| *d == director)
-                .and_then(|(_, queue)| queue.frame(offset)),
+                .and_then(|(_, queue)| {
+                    queue.frame(runtime.cinematic_session(self.ticket)?, offset)
+                }),
         )
     }
-    fn release_persistent(&mut self) {
+    fn release_persistent(&mut self, session: Option<&mut giants_game::resident_states::Session>) {
         if let Some((director, mut queue)) = self.persistent_queue.take() {
             let objects = queue
-                .release()
+                .release(session)
                 .expect("source-marked persistent queue release");
             println!(
                 "mission_persistent_released ticket={} director={director} retired_objects={objects} remaining_objects={} remaining_contexts={} lifetime_children=0",
@@ -85,18 +94,29 @@ impl State {
             );
         }
     }
-    fn select_persistent(&mut self, director: usize) {
+    fn select_persistent(
+        &mut self,
+        director: usize,
+        session: &mut giants_game::resident_states::Session,
+    ) {
         if self
             .persistent_queue
             .as_ref()
             .is_some_and(|(d, _)| *d != director)
         {
-            self.release_persistent();
+            self.release_persistent(Some(session));
         }
         if self.persistent_queue.is_none()
             && let Some(Some(binding)) = self.persistent.get(director)
         {
-            self.persistent_queue = Some((director, binding.queue(self.ticket)));
+            self.persistent_queue = Some((
+                director,
+                binding.queue(giants_game::resident_states::CinematicScope {
+                    ticket: self.ticket,
+                    director,
+                    generation: self.generation,
+                }),
+            ));
         }
     }
     fn dispatch_persistent(
@@ -104,6 +124,7 @@ impl State {
         director: usize,
         offset: usize,
         seconds: f32,
+        session: &mut giants_game::resident_states::Session,
     ) -> Result<bool, String> {
         let Some(binding) = self.persistent.get(director).and_then(Option::as_ref) else {
             return Ok(false);
@@ -112,7 +133,7 @@ impl State {
             .persistent_queue
             .as_mut()
             .ok_or("persistent queue absent")?;
-        queue.dispatch(binding, offset, seconds)?;
+        queue.dispatch(binding, offset, seconds, session)?;
         println!(
             "mission_persistent_spawn ticket={} director={director} offset={offset} objects={} contexts={} source_marked=true readiness_acknowledged=false",
             self.ticket,
@@ -121,7 +142,12 @@ impl State {
         );
         Ok(true)
     }
-    fn update_persistent(&mut self, seconds: f32, delta: f32) -> Result<(), String> {
+    fn update_persistent(
+        &mut self,
+        seconds: f32,
+        delta: f32,
+        session: &mut giants_game::resident_states::Session,
+    ) -> Result<(), String> {
         if let Some((director, queue)) = &mut self.persistent_queue {
             queue.update(
                 self.persistent[*director]
@@ -129,12 +155,13 @@ impl State {
                     .ok_or("persistent binding absent")?,
                 seconds,
                 delta,
+                session,
             )?;
         }
         Ok(())
     }
-    pub(crate) fn report_release(mut self) {
-        self.release_persistent();
+    pub(crate) fn report_release(mut self, runtime: &mut crate::mission_runtime::Runtime) {
+        self.release_persistent(runtime.cinematic_session_mut(self.ticket));
         println!(
             "mission_effects_released ticket={} dispatched={} retired={} active={} queue_owned=true",
             self.ticket,
@@ -150,20 +177,26 @@ pub(crate) fn update(
     mut state: ResMut<State>,
     mut exit: MessageWriter<AppExit>,
     mut showcase: Option<ResMut<crate::mission_showcase::State>>,
+    mut runtime: ResMut<crate::mission_runtime::Runtime>,
 ) {
     assert_eq!(owner.0, state.ticket);
     if cinematic.paused() {
         return;
     }
+    let Some(session) = runtime.cinematic_session_mut(owner.0) else {
+        error!("Persistent effects lost their actual mission Session");
+        exit.write(AppExit::Error(std::num::NonZeroU8::MIN));
+        return;
+    };
     if state.generation != cinematic.generation() {
-        state.release_persistent();
+        state.release_persistent(Some(session));
         state.active.clear();
         state.revision = 0;
         state.generation = cinematic.generation();
         state.dispatched = 0;
         state.retired = 0;
     }
-    state.select_persistent(cinematic.director_index());
+    state.select_persistent(cinematic.director_index(), session);
     let result = (|| -> Result<(), String> {
         if state.revision != cinematic.event_revision() {
             for event in cinematic
@@ -183,6 +216,7 @@ pub(crate) fn update(
                             cinematic.director_index(),
                             event.offset,
                             cinematic.event_seconds(),
+                            session,
                         )?;
                         println!(
                             "mission_effect_dispatch_deferred ticket={} director={} offset={} reason={reason:?} success=false",
@@ -241,7 +275,7 @@ pub(crate) fn update(
         let before = state.active.len();
         state.active.retain(TerminalProxy::active);
         state.retired += before - state.active.len();
-        state.update_persistent(cinematic.pose_seconds(), cinematic.animation_dt())?;
+        state.update_persistent(cinematic.pose_seconds(), cinematic.animation_dt(), session)?;
         Ok(())
     })();
     if let Err(error) = result {

@@ -207,6 +207,9 @@ impl CinematicTemplate {
             references,
             durations,
             updates: 0,
+            failure: None,
+            bindings: self.0.bindings.clone(),
+            states: self.0.states.clone(),
         })
     }
 }
@@ -219,8 +222,42 @@ pub struct CinematicObject<K> {
     references: crate::actor_references::Owned,
     durations: Vec<Option<f32>>,
     pub updates: u64,
+    failure: Option<String>,
+    bindings: Vec<crate::model_registry::StateBinding>,
+    states: Arc<crate::state_resources::Prepared>,
+}
+pub(crate) struct CinematicParts<K> {
+    pub fields: Fields,
+    pub seed: Seed,
+    pub metadata: Metadata<K>,
+    pub references: crate::actor_references::Owned,
+    pub durations: Vec<Option<f32>>,
+    pub bindings: Vec<crate::model_registry::StateBinding>,
+    pub states: Arc<crate::state_resources::Prepared>,
 }
 impl<K> CinematicObject<K> {
+    pub(crate) fn into_parts(self) -> Result<CinematicParts<K>, String> {
+        if self.updates != 0
+            || self.failure.is_some()
+            || self.references.sampled()
+            || self.metadata.world_matrix.is_some()
+            || self.fields.control_flags != 0x20
+        {
+            return Err("cinematic transfer requires an unadvanced constant owner".into());
+        }
+        Ok(CinematicParts {
+            fields: self.fields,
+            seed: self.seed,
+            metadata: self.metadata,
+            references: self.references,
+            durations: self.durations,
+            bindings: self.bindings,
+            states: self.states,
+        })
+    }
+    pub fn failure(&self) -> Option<&str> {
+        self.failure.as_deref()
+    }
     pub fn world_matrix(&self) -> Option<crate::procedural_aim::Matrix> {
         self.metadata.world_matrix
     }
@@ -231,41 +268,71 @@ impl<K> CinematicObject<K> {
         support: crate::procedural_aim::Matrix,
         seconds: f32,
     ) -> Result<(), String> {
-        let mut channels = self.fields.channels;
-        let tick = crate::animation_channels::advance(
-            &mut channels,
-            &self.durations,
-            [0.; 3],
-            seconds,
-            Precision::Double53,
-        )
-        .map_err(str::to_owned)?;
-        if tick.missing != 0 {
-            return Err("cinematic effect animation descriptor missing".into());
+        if !seconds.is_finite() || seconds < 0. {
+            return Err("cinematic callback delta invalid".into());
         }
-        // The acquired constant state78 callback publishes preparation even at
-        // zero delta. Its first successful entry consumes the constructor gate;
-        // the independent response bit can retain ordinary-draw suppression.
-        crate::effect_actor::callback_entry(&mut self.fields, self.metadata.render_flags);
-        let mut references = self.references.clone();
-        references.update_current_unblended(&channels)?;
-        let reference = references
-            .current_matrices(&channels)?
-            .get(self.metadata.reference as usize)
-            .copied()
-            .ok_or("cinematic effect own reference absent")?;
-        let world = crate::effect_actor::bind_parented(
+        if self.failure.is_some() {
+            return Err("cinematic object quarantined after a late failure".into());
+        }
+        let result = advance_constant(
             &mut self.fields,
+            &mut self.metadata,
+            &mut self.references,
+            &self.durations,
             support,
-            1., // Native Flick support scale is independent of its carrier.
-            reference,
-        )?;
-        self.fields.channels = channels;
-        self.references = references;
-        self.metadata.world_matrix = Some(world);
-        self.updates += 1;
-        Ok(())
+            seconds,
+        );
+        match &result {
+            Ok(()) => self.updates += 1,
+            Err(error) => self.failure = Some(error.clone()),
+        }
+        result
     }
+}
+/// Borrow the one actual header/reference owner. This is the age-disabled
+/// constant branch, not a finite timed effect with an invented lifetime.
+pub(crate) fn advance_constant<K>(
+    fields: &mut Fields,
+    metadata: &mut Metadata<K>,
+    references: &mut crate::actor_references::Owned,
+    durations: &[Option<f32>],
+    support: crate::procedural_aim::Matrix,
+    seconds: f32,
+) -> Result<(), String> {
+    if !seconds.is_finite()
+        || seconds < 0.
+        || fields.control_flags & !0x20 != 0
+        || metadata.emitter.is_some()
+        || metadata.emitter_request.is_some()
+    {
+        return Err("cinematic callback outside acquired constant profile".into());
+    }
+    // The real callback publishes this prefix before ANM, even if a later
+    // reference or attachment service cannot complete. Never replay it.
+    crate::effect_actor::callback_entry(fields, metadata.render_flags);
+    let tick = crate::animation_channels::advance(
+        &mut fields.channels,
+        durations,
+        [0.; 3],
+        seconds,
+        Precision::Double53,
+    )
+    .map_err(str::to_owned)?;
+    if tick.missing != 0 {
+        return Err("cinematic effect animation descriptor missing".into());
+    }
+    references.update_current_unblended(&fields.channels)?;
+    let reference = references
+        .current_matrices(&fields.channels)?
+        .get(metadata.reference as usize)
+        .copied()
+        .ok_or("cinematic effect own reference absent")?;
+    let world = crate::effect_actor::bind_parented(
+        fields, support, 1., // Native Flick support scale is independent of its carrier.
+        reference,
+    )?;
+    metadata.world_matrix = Some(world);
+    Ok(())
 }
 
 pub struct Factory<'a> {
