@@ -46,6 +46,12 @@ pub struct Visual {
 }
 
 impl Visual {
+    pub(crate) fn expired(&self) -> bool {
+        self.expired
+    }
+    pub(crate) fn size_curve(&self) -> SizeCurve {
+        self.size_curve
+    }
     /// A newly configured timed effect, with no inherited flags or delayed time.
     /// Negative/zero lifetimes and nonfinite inputs are outside this profile.
     pub fn new(configuration: Configuration) -> Result<Self, &'static str> {

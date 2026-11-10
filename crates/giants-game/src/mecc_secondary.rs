@@ -17,6 +17,12 @@ pub(crate) struct Output {
     pub request: Option<Request>,
     pub context: u32,
     pub commit_weapon: bool,
+    pub draw: Option<crate::mecc_pistol_draw::Binding>,
+    pub commit_before_request: Option<Commit>,
+}
+pub(crate) struct Commit {
+    pub fields: Fields,
+    pub payload: Vec<u8>,
 }
 
 pub(crate) struct Services<'a> {
@@ -99,7 +105,7 @@ impl ContactServices<'_> {
     }
 }
 pub(crate) const fn control_mask(fire: bool) -> u32 {
-    0xbc00 | if fire { 0x4000 } else { 0 }
+    0x1bc00 | if fire { 0x4000 } else { 0 }
 }
 fn word(data: &[u8], at: usize) -> u32 {
     u32::from_le_bytes(data[at..at + 4].try_into().unwrap())
@@ -110,7 +116,23 @@ fn put(data: &mut [u8], at: usize, value: u32) {
 
 /// The fourth model rate is the source-owned angular rate, including stationary turns.
 /// Model speeds, floor/support and local delta come from the owned physics.
+// Retained entry for separately compiled acquisition controls without a draw provider.
+#[allow(dead_code)]
 pub(crate) fn ordinary(
+    fields: &Fields,
+    payload: &[u8],
+    channels: Channels,
+    view: &View,
+    globals: &GlobalData,
+    seconds: f64,
+    services: Services<'_>,
+) -> Result<Output, String> {
+    ordinary_with_draw(
+        fields, payload, channels, view, globals, seconds, services, None,
+    )
+}
+#[allow(clippy::too_many_arguments)]
+pub(crate) fn ordinary_with_draw(
     fields: &Fields,
     payload: &[u8],
     mut channels: Channels,
@@ -118,6 +140,7 @@ pub(crate) fn ordinary(
     globals: &GlobalData,
     seconds: f64,
     services: Services<'_>,
+    draw: Option<&mut crate::mecc_pistol_draw::Actions>,
 ) -> Result<Output, String> {
     let Services {
         blending,
@@ -136,7 +159,9 @@ pub(crate) fn ordinary(
         (fields.class != 2, "class"),
         (fields.action != 0, "action"),
         (
-            fields.control_flags & !control_mask(fire) != 0,
+            fields.control_flags
+                & !(control_mask(fire) & if draw.is_some() { u32::MAX } else { !0x10000 })
+                != 0,
             "control flags",
         ),
         (
@@ -145,7 +170,7 @@ pub(crate) fn ordinary(
         ),
         (fields.object_flags & 0x88000800 != 0, "object flags"),
         (
-            [0x80, 0x1dc].into_iter().any(|at| word(payload, at) != 0),
+            word(payload, 0x1dc) != 0 || word(payload, 0x80) > u32::from(draw.is_some()),
             "active auxiliary",
         ),
         (word(payload, 0x64) != 0, "weapon transition"),
@@ -155,6 +180,7 @@ pub(crate) fn ordinary(
                 0, 1, 2, 3, 4, 5, 6, 7, 11, 13, 14, 15, 16, 18, 58, 59, 60, 61, 62,
             ]
             .contains(&logical_state)
+                && !(draw.is_some() && logical_state == 38 && word(payload, 0x80) == 1)
                 && !(fire && [12, 17, 19, 20, 21].contains(&logical_state)),
             "logical state",
         ),
@@ -383,10 +409,18 @@ pub(crate) fn ordinary(
             _ => {}
         }
     }
-    if logical == 1 && changed_weapon && context & 0x4000 != 0 && context & 0x2200 == 0 {
-        return Err(
-            "normal pistol draw requires the owned animation callback/frame service".into(),
-        );
+    let drawing = logical == 1 && changed_weapon && context & 0x4000 != 0 && context & 0x2200 == 0;
+    if drawing {
+        draw.as_ref()
+            .ok_or("normal pistol draw requires the owned animation callback/frame service")?;
+        // Argument rebinding does not reset the registered class's event marks.
+        // The acquired base icon has fixed left/right classes, checked at bank preparation.
+        logical = 38;
+        flag = 0x10000;
+        selection.clip = 147;
+        selection.flags = 0x20;
+        selection.speed_source = -1;
+        selection.reference_speed = 0.;
     }
     if logical == 1 && f.control_flags & 0x400 != 0 && ended && context & 0x8000 != 0 {
         return Err(
@@ -449,23 +483,36 @@ pub(crate) fn ordinary(
         reference_speed: selection.reference_speed,
         blend_seconds,
     });
+    let mut commit_before_request = None;
     if let Some(request) = request {
         animation_channels::select_primary(&mut channels, request, blending)?;
+        if f.control_flags & 0x10000 != 0 {
+            let mut fields = f.clone();
+            fields.channels = channels;
+            commit_before_request = Some(Commit {
+                fields,
+                payload: body.clone(),
+            });
+        }
         f.control_flags = (f.control_flags & 0xfffe03ff) | flag;
         put(&mut body, 0xd4, 0);
-        put(&mut body, 0x80, 0);
+        put(&mut body, 0x80, u32::from(drawing));
         put(&mut body, 0x30, logical);
         let alternating = word(&body, 0xd8) ^ 1;
         put(&mut body, 0xd8, alternating);
     }
     f.channels = channels;
+    let commit_weapon = changed_weapon && (f.control_flags & 0x10000 == 0 || ended);
+    let draw = (word(&body, 0x80) != 0).then_some(crate::mecc_pistol_draw::Binding::Base);
     Ok(Output {
         fields: f,
         payload: body,
         channels,
         request,
         context,
-        commit_weapon: changed_weapon,
+        commit_weapon,
+        draw,
+        commit_before_request,
     })
 }
 

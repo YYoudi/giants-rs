@@ -75,6 +75,7 @@ fn borrow<'a>(
     Ok((
         &mut metadata.runtime,
         Body {
+            velocity: Some(&mut metadata.physical.velocity),
             fields: actor
                 .construction_fields
                 .as_mut()
@@ -128,6 +129,7 @@ impl Session {
         }
         // Guard the same actual source fields/payload before any list publication.
         owned.runtime.preflight(&Body {
+            velocity: owned.velocity.as_mut(),
             fields: &mut owned.initial.fields,
             seed: &mut owned.initial.seed,
             matrix: &mut owned.initial.matrix,
@@ -137,6 +139,7 @@ impl Session {
             render_flags: owned.initial.render_flags,
         })?;
         let Timed {
+            velocity,
             initial,
             runtime,
             references,
@@ -183,7 +186,10 @@ impl Session {
             render_flags: initial.render_flags,
             matrix: initial.matrix,
             runtime,
-            physical: PhysicalHeader::allocated(),
+            physical: PhysicalHeader {
+                velocity: velocity.unwrap_or([0.; 3]),
+                ..PhysicalHeader::allocated()
+            },
             motion_done: false,
             gravity_done: false,
             ordinary: OrdinaryHeader::allocated(),
@@ -200,6 +206,29 @@ impl Session {
             .runtime
             .failure
             .as_deref()
+    }
+    /// Canonical physical-header velocity shared by the owned timed profiles.
+    pub fn timed_effect_velocity(&self, id: Id) -> Option<[f32; 3]> {
+        Some(self.get(id)?.timed_effect.as_ref()?.physical.velocity)
+    }
+    /// Mutate only at the pending integration boundary, never from a viewer copy.
+    pub fn timed_effect_velocity_mut(&mut self, id: Id) -> Result<&mut [f32; 3], String> {
+        let metadata = self
+            .residents
+            .get_mut(&id.serial)
+            .filter(|_| id.ticket == self.ticket)
+            .and_then(|actor| actor.timed_effect.as_mut())
+            .ok_or("timed velocity actor absent or foreign")?;
+        if !metadata.runtime.awaiting_physical() {
+            return Err("timed velocity integration is not pending".into());
+        }
+        Ok(&mut metadata.physical.velocity)
+    }
+    pub fn timed_effect_fade(&self, id: Id) -> Option<[f32; 4]> {
+        Some(self.get(id)?.timed_effect.as_ref()?.runtime.fade)
+    }
+    pub fn timed_effect_render_flags(&self, id: Id) -> Option<u32> {
+        Some(self.get(id)?.timed_effect.as_ref()?.render_flags)
     }
     pub fn timed_effect_transparency(&self, id: Id) -> Option<f32> {
         Some(self.get(id)?.timed_effect.as_ref()?.runtime.transparency)
@@ -341,6 +370,216 @@ impl Session {
             return Err("timed physical service is not pending".into());
         }
         Ok((&mut actor.seed, actor.construction_fields.as_mut().unwrap()))
+    }
+    pub fn smoke_particle_ids(&self) -> Vec<Id> {
+        self.list(0)
+            .into_iter()
+            .filter(|id| {
+                self.get(*id)
+                    .and_then(|a| a.timed_effect.as_ref())
+                    .is_some_and(|m| m.runtime.smoke_particle())
+            })
+            .collect()
+    }
+    /// The acquired common and separate state78 effect passes have distinct
+    /// flag gates. Outer visibility/model selection remain caller prerequisites.
+    pub fn smoke_particle_draw_state(
+        &self,
+        id: Id,
+    ) -> Result<Option<crate::smoke_particle_draw::State>, String> {
+        let actor = self.get(id).ok_or("smoke draw actor absent or foreign")?;
+        let m = actor
+            .timed_effect
+            .as_ref()
+            .ok_or("smoke draw ownership absent")?;
+        if !m.runtime.smoke_particle()
+            || !matches!(m.placement, Placement::Position(_))
+            || !self.list(0).contains(&id)
+        {
+            return Err("smoke draw outside acquired canonical profile".into());
+        }
+        if m.runtime.failure.is_some() || !m.runtime.idle() {
+            return Err("smoke draw callback pending or quarantined".into());
+        }
+        let f = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("smoke draw header absent")?;
+        if actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 78
+            || actor
+                .seed
+                .storage
+                .data()
+                .is_none_or(|data| data.len() != 268)
+            || f.class != actor.class
+        {
+            return Err("smoke draw header/payload profile changed".into());
+        }
+        let world = u8::from(f.object_flags & 0x4000c080 == 0);
+        let effect = u8::from(f.object_flags & 0x8000 == 0 && m.render_flags & 0x1000 != 0);
+        let passes = world + effect;
+        if passes == 0 {
+            return Ok(None);
+        }
+        Ok(Some(crate::smoke_particle_draw::State {
+            class: actor.class,
+            passes,
+            world: m.matrix,
+            personality: f.configuration[14],
+            position: f.position,
+            scale: f.scale,
+            angle: f.angles[0],
+            transparency: m.runtime.transparency,
+            epoch: m.runtime.epoch,
+        }))
+    }
+    /// Destroy only a completed expired smoke child whose actual origin retired.
+    /// This is a cleanup-phase operation, not a common-world traversal.
+    pub fn destroy_expired_smoke_particle(
+        &mut self,
+        id: Id,
+        contexts: &crate::attached_effect_context::Pool<Id>,
+    ) -> Result<crate::timed_effect_object::Destruction, String> {
+        let actor = self
+            .get(id)
+            .ok_or("expired smoke actor absent or foreign")?;
+        let m = actor
+            .timed_effect
+            .as_ref()
+            .ok_or("expired smoke ownership absent")?;
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("expired smoke header absent")?;
+        let data = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("expired smoke payload absent")?;
+        let lists = self
+            .links
+            .memberships(id.serial)
+            .into_iter()
+            .map(|(_, list)| list)
+            .collect::<Vec<_>>();
+        let expected = (0..14)
+            .rev()
+            .filter(|bit| m.runtime.constructor_mask & (1 << bit) != 0)
+            .map(|bit| bit + 1)
+            .chain(std::iter::once(0))
+            .collect::<Vec<_>>();
+        if self.common_walk_running
+            || self.common_walk_failure.is_some()
+            || !m.runtime.expired_smoke()
+            || !matches!(m.placement, Placement::Position(_))
+            || !contexts.retired(m.origin)
+            || !contexts.uses_image(&m.runtime.source)
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 78
+            || data.len() != 268
+            || data[0xf8..0x10c].iter().any(|v| *v != 0)
+            || fields.object_flags & 0x8000 == 0
+            || fields.control_flags & 0x20 != 0
+            || fields.configuration[14] & 0x20 != 0
+            || fields.shadow.is_some()
+            || fields.action != 0
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+            || lists != expected
+            || !self.specifications.contains_key(&id.serial)
+            || !self.state_resources.contains_key(&id.serial)
+            || self.declarations.values().any(|declared| *declared == id)
+            || self.residents.values().any(|other| {
+                other.presentation_parent == Some(id)
+                    || other
+                        .attachment
+                        .is_some_and(|attachment| attachment.parent == id)
+            })
+        {
+            return Err("smoke destruction requires completed expiry, retired origin and acquired independent cleanup profile".into());
+        }
+        let result = crate::timed_effect_object::Destruction {
+            origin: m.origin,
+            payload_bytes: data.len(),
+            registrations: lists.len(),
+        };
+        // Recheck all immutable callback/payload guards before any ownership leaves.
+        {
+            let actor = self.residents.get_mut(&id.serial).unwrap();
+            let references = &mut self.specifications.get_mut(&id.serial).unwrap().0;
+            let (runtime, body) = borrow(actor, references)?;
+            runtime.preflight(&body)?;
+        }
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        // All optional state-owned blocks are absent in this complete profile.
+        actor
+            .seed
+            .storage
+            .transition_with(0, |_, _| Ok(()))
+            .expect("checked expired smoke teardown into empty storage is infallible");
+        self.specifications.remove(&id.serial);
+        self.state_resources.remove(&id.serial);
+        drop(
+            self.residents
+                .get_mut(&id.serial)
+                .unwrap()
+                .timed_effect
+                .take(),
+        );
+        let removed = self.links.remove_object(id.serial);
+        debug_assert_eq!(removed, result.registrations);
+        self.residents.remove(&id.serial);
+        Ok(result)
+    }
+    /// Complete acquired detached smoke callback using the common actual header,
+    /// motion, affine and gravity owners. Clock producers remain caller-owned.
+    /// The physical clock is required only if this callback reaches integration.
+    pub fn advance_smoke_particle(
+        &mut self,
+        id: Id,
+        seconds: f32,
+        physical_seconds: Option<f64>,
+        stamp: &mut crate::animation_epoch::Stamp,
+    ) -> Result<Step, String> {
+        let m = self
+            .get(id)
+            .and_then(|a| a.timed_effect.as_ref())
+            .ok_or("smoke particle owner absent or foreign")?;
+        if !m.runtime.smoke_particle() || !matches!(m.placement, Placement::Position(_)) {
+            return Err("callback outside acquired detached smoke particle".into());
+        }
+        struct Source {
+            physical_seconds: Option<f64>,
+        }
+        impl Services for Source {
+            fn physical(&mut self, session: &mut Session, id: Id, _: f32) -> Result<(), String> {
+                session.advance_timed_effect_motion(
+                    id,
+                    self.physical_seconds
+                        .ok_or("smoke physical clock producer absent")?,
+                )
+            }
+            fn gravity(&mut self, session: &mut Session, id: Id) -> Result<(), String> {
+                session.apply_timed_effect_gravity(id)
+            }
+            fn retire(
+                &mut self,
+                _: &mut Session,
+                _: Id,
+                _: &Image,
+                binding: Option<&crate::effect_scene::RetirementBinding>,
+            ) -> Result<(), String> {
+                // This complete source frame has no retirement program. The
+                // native callback marks it dead without requesting another effect.
+                if binding.is_some() {
+                    Err("smoke retirement program outside acquired frame".into())
+                } else {
+                    Ok(())
+                }
+            }
+        }
+        self.advance_timed_effect(id, seconds, stamp, &mut Source { physical_seconds })
     }
     /// Supplied object-local time and shared ANM stamp, not a world scheduler.
     /// The actor remains visible to the required real service and nested calls
@@ -1514,5 +1753,299 @@ mod tests {
                 "canonical states={total} selected_words={words}; parent preparation and supplied-postpreparation detached callbacks"
             );
         }
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; actual expired smoke cleanup, peer/weak owners, origin generations and refusal prefixes; no renderer"]
+    fn source_mecc_expired_smoke_particle_releases_only_owned_resources() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_MECC_WORLD_ROOT").unwrap());
+        let resources =
+            crate::scene_resources::SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        for name in [
+            "fx_mecc_smoke_lite",
+            "fx_mecc_smoke_medium",
+            "fx_mecc_smoke_heavy",
+        ] {
+            let offset = resources
+                .classes
+                .models
+                .effects
+                .iter()
+                .find_map(|e| e.image.find(name).map(|(_, entry)| entry.offset))
+                .unwrap();
+            let mut pool =
+                crate::attached_effect_context::Pool::<Id>::from_active_resources(950, &resources);
+            let mut session = Session::new(951);
+            let mut random = crate::audio_parameters::Random(42);
+            let (creation, _) = pool
+                .prepare_retirement_offset_invariant(
+                    Some(offset),
+                    [17., -24., 30.],
+                    0,
+                    0,
+                    &mut random,
+                )
+                .unwrap();
+            let crate::attached_effect_context::Creation::Prepared(origin) = creation else {
+                panic!("missing child")
+            };
+            let actor = pool
+                .activate_smoke_particle(origin, &mut session, &resources, &mut random)
+                .unwrap();
+            let class = session.get(actor).unwrap().class;
+            // A supplied cold shared-class peer; no ordinary state78 admission.
+            let t = crate::effect_actor::Template::load(&resources, class).unwrap();
+            let peer = session
+                .construct_prechecked(
+                    Construction {
+                        class,
+                        seed: &t.seed,
+                        bindings: &t.bindings,
+                        flags: DirectFlags {
+                            active: t.fields.object_flags,
+                            personality: t.fields.configuration[14],
+                        },
+                        specification: t.specification,
+                        state_resources: t.states,
+                        fields: t.fields.instantiate(),
+                    },
+                    &[],
+                    None,
+                )
+                .unwrap();
+            let peer_data = session
+                .get(peer)
+                .unwrap()
+                .seed
+                .storage
+                .data()
+                .unwrap()
+                .to_vec();
+            let peer_flags = session
+                .get(peer)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .object_flags;
+            let weak_spec = Arc::downgrade(session.specification(actor).unwrap());
+            let weak_state = Arc::downgrade(session.state_resources(actor).unwrap());
+            let initial = session.counts();
+            assert!(
+                session
+                    .destroy_expired_smoke_particle(actor, &pool)
+                    .is_err()
+            );
+            assert_eq!(session.counts().payload_bytes, initial.payload_bytes);
+            let mut stamp = crate::animation_epoch::Stamp(0);
+            session
+                .advance_smoke_particle(actor, 0.01, None, &mut stamp)
+                .unwrap();
+            for dt in [0.01, 0.05, 0.2] {
+                session
+                    .advance_smoke_particle(actor, dt, Some(f64::from(dt)), &mut stamp)
+                    .unwrap();
+            }
+            session
+                .advance_smoke_particle(actor, 10., None, &mut stamp)
+                .unwrap();
+            let foreign =
+                crate::attached_effect_context::Pool::from_active_resources(952, &resources);
+            assert!(
+                session
+                    .destroy_expired_smoke_particle(actor, &foreign)
+                    .is_err()
+            );
+            let mut walk = session.new_common_walk(4).unwrap();
+            session
+                .walk_common(&mut walk, &mut |live, _| {
+                    assert!(live.destroy_expired_smoke_particle(actor, &pool).is_err());
+                    Ok(crate::object_list_walk::Flow::Stop)
+                })
+                .unwrap();
+            session
+                .residents
+                .get_mut(&peer.serial)
+                .unwrap()
+                .presentation_parent = Some(actor);
+            assert!(
+                session
+                    .destroy_expired_smoke_particle(actor, &pool)
+                    .is_err()
+            );
+            session
+                .residents
+                .get_mut(&peer.serial)
+                .unwrap()
+                .presentation_parent = None;
+            session
+                .residents
+                .get_mut(&actor.serial)
+                .unwrap()
+                .seed
+                .storage
+                .data_mut()
+                .unwrap()[0xf8] = 1;
+            assert!(
+                session
+                    .destroy_expired_smoke_particle(actor, &pool)
+                    .is_err()
+            );
+            session
+                .residents
+                .get_mut(&actor.serial)
+                .unwrap()
+                .seed
+                .storage
+                .data_mut()
+                .unwrap()[0xf8] = 0;
+            assert!(weak_spec.upgrade().is_some() && weak_state.upgrade().is_some());
+            let (creation, _) = pool
+                .prepare_retirement_offset_invariant(Some(offset), [0.; 3], 0, 0, &mut random)
+                .unwrap();
+            let crate::attached_effect_context::Creation::Prepared(newer) = creation else {
+                panic!("missing new request")
+            };
+            assert_ne!(newer, origin);
+            let saved = random;
+            let before = session.counts();
+            let report = session
+                .destroy_expired_smoke_particle(actor, &pool)
+                .unwrap();
+            assert_eq!(report.origin, origin);
+            assert_eq!(report.payload_bytes, 268);
+            assert_eq!(report.registrations, 1);
+            assert_eq!(session.counts().residents + 1, before.residents);
+            assert_eq!(
+                session.counts().payload_bytes + report.payload_bytes,
+                before.payload_bytes
+            );
+            assert_eq!(
+                session.counts().registrations + report.registrations,
+                before.registrations
+            );
+            assert!(weak_spec.upgrade().is_none() && weak_state.upgrade().is_none());
+            assert!(session.get(actor).is_none() && session.specification(actor).is_none());
+            assert!(session.state_resources(actor).is_none());
+            assert!((0..15).all(|list| !session.list(list).contains(&actor)));
+            assert!(
+                session
+                    .destroy_expired_smoke_particle(actor, &pool)
+                    .is_err()
+            );
+            assert_eq!(
+                session.get(peer).unwrap().seed.storage.data().unwrap(),
+                peer_data
+            );
+            assert_eq!(
+                session
+                    .get(peer)
+                    .unwrap()
+                    .construction_fields
+                    .as_ref()
+                    .unwrap()
+                    .object_flags,
+                peer_flags
+            );
+            assert!(
+                session.specification(peer).is_some() && session.state_resources(peer).is_some()
+            );
+            assert!(pool.get(newer).is_some());
+            assert_eq!(random.0, saved.0);
+        }
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; actual smoke draw identity, two-pass admission and failed/expired refusal, no graphics"]
+    fn source_mecc_smoke_draw_preserves_identity_and_pass_multiplicity() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_MECC_WORLD_ROOT").unwrap());
+        let r =
+            crate::scene_resources::SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let offset = r
+            .classes
+            .models
+            .effects
+            .iter()
+            .find_map(|e| e.image.find("fx_mecc_smoke_lite").map(|(_, v)| v.offset))
+            .unwrap();
+        let mut pool = crate::attached_effect_context::Pool::<Id>::from_active_resources(980, &r);
+        let mut session = Session::new(981);
+        let mut random = crate::audio_parameters::Random(42);
+        let mut create = |session: &mut Session| {
+            let (c, _) = pool
+                .prepare_retirement_offset_invariant(
+                    Some(offset),
+                    [17., -24., 30.],
+                    0,
+                    0x1000,
+                    &mut random,
+                )
+                .unwrap();
+            let crate::attached_effect_context::Creation::Prepared(c) = c else {
+                panic!("child absent")
+            };
+            pool.activate_smoke_particle(c, session, &r, &mut random)
+                .unwrap()
+        };
+        let actor = create(&mut session);
+        let peer = create(&mut session);
+        assert_eq!(
+            session
+                .smoke_particle_draw_state(actor)
+                .unwrap()
+                .unwrap()
+                .passes,
+            1
+        );
+        let geometry = crate::smoke_particle_draw::Geometry::load(&r, &session, actor, 0).unwrap();
+        let view = Matrix::identity().values;
+        assert!(geometry.frame(&mut session, peer, view).is_err());
+        let mut stamp = crate::animation_epoch::Stamp(0);
+        session
+            .advance_smoke_particle(actor, 0.01, None, &mut stamp)
+            .unwrap();
+        assert_eq!(
+            geometry
+                .frame(&mut session, actor, view)
+                .unwrap()
+                .unwrap()
+                .passes,
+            2
+        );
+        session
+            .residents
+            .get_mut(&actor.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap()
+            .object_flags |= 0x4000;
+        assert_eq!(
+            geometry
+                .frame(&mut session, actor, view)
+                .unwrap()
+                .unwrap()
+                .passes,
+            1
+        );
+        session
+            .residents
+            .get_mut(&actor.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap()
+            .object_flags &= !0x4000;
+        assert!(
+            session
+                .advance_smoke_particle(actor, 0.1, None, &mut stamp)
+                .is_err()
+        );
+        assert!(geometry.frame(&mut session, actor, view).is_err());
+        session
+            .advance_smoke_particle(peer, 0.01, None, &mut stamp)
+            .unwrap();
+        session
+            .advance_smoke_particle(peer, 10., None, &mut stamp)
+            .unwrap();
+        assert!(session.smoke_particle_draw_state(peer).unwrap().is_none());
     }
 }
