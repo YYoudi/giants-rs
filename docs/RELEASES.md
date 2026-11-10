@@ -7,6 +7,29 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## Delphi common camera override dependency - 10 November 2026
+
+Intermediate dependency only; Delphi has no new ordinary menu entry or controls.
+Its first mission-entry blocker is the Mecc-only player preparer and absent
+retained Delphi cold factory/role binding. The next delivery connects that actual
+owner/held/copy path before the supported dry input/controller and camera loop.
+
+The authored callback now writes the common typed override state. Target-view
+queries read that object with the existing common mode, preserving independent
+snapshot reads and refusing unproduced active nonmatrix views. The four original
+writers and predicate match 512 supplied programs /81,920 selected words. Actual
+installed authored activation/clear/failure checks use the same selector object.
+Startup and real viewport pose/epoch and world input/projection remain open.
+This source dependency changes no downloadable-preview or gameplay availability.
+See [OWNED_CAMERA.md](OWNED_CAMERA.md) and [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `453f23fe6910ae41caf858d69a377b9c4218cf2d`, retaining main through
+`1e66d4b`, passes 917 workspace Rust tests (108 ignored), all fifteen installed
+Delphi controls, the two silent common-camera owner/pre-world regressions,
+Rustfmt, strict workspace Clippy, 43 Python tests and site/JavaScript checks.
+Its receipt-bound MinGW executable passes the explicitly waited CLI check.
+These are source/component controls; no new ordinary player interaction is asserted.
+
 ## Kabuto first common mission construction - source-only checkpoint
 
 The shared mission loader now selects the requested character's declared start
