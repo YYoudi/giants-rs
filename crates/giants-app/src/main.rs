@@ -59,6 +59,7 @@ mod mission_film;
 mod mission_flight_audio;
 mod mission_jet_scene;
 mod mission_messages_hud;
+mod mission_npc_scene;
 mod mission_opening;
 mod mission_player;
 mod mission_projectile_scene;
@@ -1938,6 +1939,7 @@ fn launch(arguments: Vec<std::ffi::OsString>) -> Result<(), Box<dyn std::error::
             .add_plugins(mission_jet_scene::Plugin)
             .add_plugins(mission_projectile_scene::Plugin)
             .add_plugins(mission_smoke_scene::Plugin)
+            .add_plugins(mission_npc_scene::Plugin)
             .add_plugins(mission_carry::Plugin)
             .add_plugins(mission_boot::Plugin)
             .add_plugins(mission_showcase::Plugin)

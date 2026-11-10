@@ -16,6 +16,8 @@ use std::sync::{
 type DeclaredActorPose = ([f32; 3], [f32; 3]);
 type ActorId = giants_game::resident_states::Id;
 mod landing;
+mod npc;
+pub(crate) use npc::Draw as NpcDraw;
 #[path = "mission_runtime/owned.rs"]
 mod owned;
 pub(crate) use owned::Input as OwnedMeccInput;
@@ -57,6 +59,7 @@ fn declaration_key(reference: &ActorRef) -> giants_game::declared_residents::Key
     }
 }
 struct Payload {
+    npcs: Result<Option<npc::State>, String>,
     impact_sounds: Vec<u32>,
     packet: Arc<PreparedMission>,
     plan: Plan,
@@ -968,6 +971,21 @@ impl Runtime {
     pub fn active_ticket(&self) -> Option<u64> {
         self.active.as_ref().map(|a| a.ticket)
     }
+    pub(crate) fn npc_draws(&mut self, ticket: u64) -> Result<Vec<NpcDraw>, String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("NPC draw mission ticket absent")?;
+        match active.payload.npcs.as_mut().map_err(|e| e.clone())? {
+            None => Ok(Vec::new()),
+            Some(npcs) => npcs.draws(
+                &mut active.resident_states,
+                ticket,
+                active.payload.plan.resources(),
+            ),
+        }
+    }
     pub(crate) fn messages(&self, ticket: u64) -> Option<&giants_game::mission_messages::Queue> {
         Some(
             self.active
@@ -1852,6 +1870,22 @@ fn spawn(
         declared.other_states,
         resident_states.declaration_count()
     );
+    let npc_binding = match &mut payload.npcs {
+        Ok(Some(npcs)) => npcs.bind(ticket, &declared, &resident_states).map(Some),
+        Ok(None) => Ok(None),
+        Err(error) => Err(error.clone()),
+    };
+    match npc_binding {
+        Ok(Some(view)) => {
+            println!(
+                "mission_npc_resources ticket={ticket} herds={} markers={} vimps={} effect_contexts={} registered_namespace=true callbacks_admitted=false rendered=false ready=false",
+                view.herds, view.markers, view.vimps, view.effect_contexts
+            );
+            blocked.push("Vimp AI is not yet active in this mission".into());
+        }
+        Ok(None) => {}
+        Err(error) => blocked.push(format!("NPC resource binding: {error}")),
+    }
     for record in declared.records {
         match record.result {
             Ok(id) => println!(
@@ -2030,6 +2064,7 @@ fn drive(
                 })();
                 let kabuto = prepare_kabuto(&root, &plan, &packet);
                 let delphi = prepare_delphi(&root, &plan, &packet);
+                let npcs = npc::State::prepare(&root, &plan);
                 let player = giants_game::player_initial::Prepared::load(
                     &root,
                     &plan,
@@ -2080,6 +2115,7 @@ fn drive(
                     .and_then(|c| c.as_ref())
                     .map_or(Vec::new(), |s| s.impact_sound_ids());
                 Ok(Payload {
+                    npcs,
                     impact_sounds,
                     packet,
                     plan,
@@ -2408,7 +2444,7 @@ mod tests {
     use super::*;
     use bevy::ecs::world::CommandQueue;
 
-    fn payload() -> Payload {
+    pub(super) fn payload() -> Payload {
         use giants_game::{
             catalog_registry::WorldClassRegistry,
             model_registry::{ClassProgram, ModelRegistry},
@@ -2458,6 +2494,7 @@ mod tests {
         };
         let plan = Plan::prepare_scene(&resources, &mission, &[world]);
         Payload {
+            npcs: Ok(None),
             impact_sounds: Vec::new(),
             dressing: None,
             opening_effects_bound: true,
@@ -2666,6 +2703,88 @@ mod tests {
         }
     }
 
+    #[test]
+    #[ignore = "Requires GIANTS_NPC_ROOT; actual Story2 menu request and canonical mission resource/declaration binding; no world callbacks, window or sound"]
+    fn source_npc_menu_entry_binds_registered_resources_and_reenters() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+        let source = giants_game::world_source::resolve(&root, "Story2").unwrap();
+        let menu = giants_game::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin").join(source.catalog)).unwrap(),
+            u32::MAX,
+            true,
+        )
+        .unwrap();
+        let packet = Arc::new(
+            giants_game::mission_loading::prepare(&root, menu.request("Story2", 0).unwrap())
+                .unwrap(),
+        );
+        let mut world = World::new();
+        let external = world.spawn(Name::new("unrelated owner")).id();
+        for ticket in [3501, 3502] {
+            let plan = packet.instance_plan(&root, "English").unwrap();
+            let npcs = npc::State::prepare(&root, &plan).unwrap().unwrap();
+            let player = giants_game::player_initial::Prepared::load(
+                &root,
+                &plan,
+                packet.world.as_ref().unwrap(),
+                packet.mission.as_ref().unwrap(),
+            )
+            .map(Arc::new)
+            .map_err(|e| e.to_string());
+            let mut payload = payload();
+            payload.packet = Arc::clone(&packet);
+            payload.plan = plan;
+            payload.player = player;
+            payload.npcs = Ok(Some(npcs));
+            let mut queue = CommandQueue::default();
+            let (scene_root, _, blocked, mut residents, _) =
+                spawn(&mut Commands::new(&mut queue, &world), ticket, &mut payload);
+            queue.apply(&mut world);
+            let npcs = payload.npcs.as_mut().unwrap().as_mut().unwrap();
+            let view = npcs.view(&residents, ticket).unwrap();
+            assert!(view.herds > 0);
+            assert!(view.markers > 0);
+            assert_eq!((view.vimps, view.effect_contexts), (0, 0));
+            assert!(
+                blocked
+                    .iter()
+                    .any(|b| b == "Vimp AI is not yet active in this mission")
+            );
+            assert!(
+                !blocked
+                    .iter()
+                    .any(|b| b.starts_with("NPC resource binding:")),
+                "{blocked:?}"
+            );
+            for id in residents.list(0) {
+                if let Some(clock) = residents.herd_clock(id) {
+                    assert_eq!(clock.steps, 0);
+                }
+            }
+            assert!(npcs.view(&residents, ticket + 1).is_err());
+            assert!(
+                npcs.bind(
+                    ticket,
+                    &giants_game::declared_residents::Report::default(),
+                    &residents
+                )
+                .is_err()
+            );
+            assert_eq!(npcs.view(&residents, ticket).unwrap(), view);
+            residents.clear();
+            assert!(npcs.view(&residents, ticket).is_err());
+            world.entity_mut(scene_root).despawn();
+            assert!(world.get_entity(external).is_ok());
+            assert_eq!(
+                world
+                    .query::<&MissionOwned>()
+                    .iter(&world)
+                    .filter(|o| o.0 == ticket)
+                    .count(),
+                0
+            );
+        }
+    }
     #[test]
     #[ignore = "Requires GIANTS_KABUTO_ROOT; actual menu request, common spawn, cold ownership and second entry; no window or sound"]
     fn source_kabuto_menu_entry_constructs_owned_group_and_reenters() {

@@ -45,6 +45,7 @@ impl DataSection<'_> {
 pub(crate) struct Image<'a> {
     pub(crate) data: DataSection<'a>,
     pub(crate) layout: Layout,
+    data_virtual_len: u32,
 }
 pub(crate) fn read(path: &Path) -> Result<Vec<u8>, String> {
     let mut bytes = Vec::new();
@@ -56,6 +57,23 @@ pub(crate) fn read(path: &Path) -> Result<Vec<u8>, String> {
     Ok(bytes)
 }
 impl<'a> Image<'a> {
+    /// PE loader image before program initialization. Uninitialized data bytes
+    /// are zero-filled; this executes neither CRT nor game startup writes.
+    pub(crate) fn initial_word(&self, rva: u32) -> Result<u32, String> {
+        let start = rva
+            .checked_sub(self.data.rva)
+            .ok_or("initial RVA below data")?;
+        if start.checked_add(4).ok_or("initial data range overflow")? > self.data_virtual_len {
+            return Err("initial word outside data virtual section".into());
+        }
+        Ok(u32::from_le_bytes(std::array::from_fn(|i| {
+            self.data
+                .bytes
+                .get(start as usize + i)
+                .copied()
+                .unwrap_or(0)
+        })))
+    }
     pub(crate) fn decode(bytes: &'a [u8]) -> Result<Self, String> {
         if bytes.len() > MAX_IMAGE || bytes.get(..2) != Some(b"MZ") {
             return Err("unsupported PE image".into());
@@ -115,16 +133,21 @@ impl<'a> Image<'a> {
                 {
                     return Err("unsupported initialized data section".into());
                 }
-                found = Some(DataSection {
-                    bytes: &bytes[raw..end],
-                    rva,
-                    base,
-                });
+                found = Some((
+                    DataSection {
+                        bytes: &bytes[raw..end],
+                        rva,
+                        base,
+                    },
+                    word(bytes, at + 8)?.max(raw_len as u32),
+                ));
             }
         }
+        let (data, data_virtual_len) = found.ok_or("missing PE data section")?;
         Ok(Self {
-            data: found.ok_or("missing PE data section")?,
+            data,
             layout,
+            data_virtual_len,
         })
     }
 }

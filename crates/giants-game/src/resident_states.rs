@@ -9,6 +9,7 @@ use crate::{
 };
 use std::collections::BTreeMap;
 use std::sync::Arc;
+mod camera_mode;
 mod camera_profile;
 mod cinematic_constant;
 mod delphi;
@@ -25,6 +26,8 @@ mod dependency_order;
 mod herd_frame;
 #[cfg(test)]
 mod herd_frame_tests;
+#[cfg(test)]
+mod passive_frame_tests;
 pub use cinematic_constant::{
     Scope as CinematicScope, Support as CinematicSupport, View as CinematicConstantView,
 };
@@ -51,7 +54,10 @@ mod vimp_history_tests;
 mod vimp_locomotion_animation_tests;
 #[cfg(test)]
 mod vimp_newborn_tests;
-pub use vimp_active::Services as VimpActiveServices;
+pub use vimp_active::{
+    Contact as VimpMovementContact, Movement as VimpActiveMovement,
+    MovementServices as VimpActiveMovementServices, Services as VimpActiveServices,
+};
 mod vimp_response;
 #[cfg(test)]
 mod vimp_response_tests;
@@ -382,6 +388,9 @@ pub struct Resident {
     initial_flags: DirectFlags,
     /// Owned fields initialized by construction, then updated by acquired kernels.
     pub construction_fields: Option<crate::actor_fields::Fields>,
+    /// Separate native camera look angle. Missing until an acquired producer
+    /// initializes it; body orientation and model scale do not supply it.
+    camera_look_angle: Option<f32>,
     pub attachment: Option<Attachment>,
     // A removed parent does not clear the acquired reference/behavior words.
     // None means no producer has supplied them, rather than assumed zeros.
@@ -639,6 +648,7 @@ impl Session {
                 constructor_mask,
                 initial_flags: flags,
                 construction_fields: None,
+                camera_look_angle: None,
                 state23_combat: None,
                 mecc_special: None,
                 delphi_special: None,
@@ -5252,6 +5262,7 @@ impl Session {
                 !p.view.physics_consumed || !p.view.animation_consumed || p.view.failure.is_some()
             })
             || vimp.damage != 0.
+            || vimp.contact_hit != 0
             || fields.object_flags & 0x81008000 != 0
             || actor.attachment.is_some()
             || body.len() != 216
@@ -5728,7 +5739,7 @@ impl Session {
         let actor = self
             .get(id)
             .ok_or("Vimp physical owner absent or foreign")?;
-        let vimp = actor.vimp.ok_or("Vimp physical construction absent")?;
+        let mut vimp = actor.vimp.ok_or("Vimp physical construction absent")?;
         if actor.attachment.is_some() || actor.seed.storage.state() != 21 {
             return Err("Vimp physical phase requires its unparented state21 body".into());
         }
@@ -5751,11 +5762,12 @@ impl Session {
                 .data()
                 .ok_or("Vimp physical payload absent")?
                 .to_vec(),
-            vimp,
+            &mut vimp,
             globals,
             ground,
         );
         let actor = self.residents.get_mut(&id.serial).unwrap();
+        actor.vimp = Some(vimp);
         match result {
             Ok((fields, body)) => {
                 actor.affine_cache = owned.view.affine.map(|value| OwnedAffine {
@@ -5791,6 +5803,48 @@ impl Session {
     }
     pub fn vimp_frames(&self, id: Id) -> Option<u64> {
         Some(self.get(id)?.vimp_frames)
+    }
+    /// Rendering consumes a completed common callback, never a merely retained
+    /// pose after next-frame history, a failed phase or lost world control.
+    pub fn completed_vimp_frame(&self, id: Id) -> Result<crate::vimp_frame::Completed, String> {
+        let actor = self
+            .get(id)
+            .ok_or("Vimp completed frame owner absent or foreign")?;
+        let vimp = actor
+            .vimp
+            .ok_or("Vimp completed frame construction absent")?;
+        let physical = actor
+            .vimp_physical
+            .as_ref()
+            .ok_or("Vimp completed physical frame absent")?;
+        if !vimp.initialized
+            || actor.vimp_frames == 0
+            || actor.vimp_frame_stopped
+            || actor.world_tick_running
+            || actor.vimp_prepared_history.is_some()
+            || actor.vimp_active_running
+            || actor.vimp_response_running
+            || actor.vimp_vector_running
+            || !physical.view.physics_consumed
+            || !physical.view.animation_consumed
+            || physical.view.failure.is_some()
+            || actor
+                .world_tick
+                .as_ref()
+                .is_none_or(|t| t.phase() != crate::actor_world_tick::Phase::Finished)
+            || actor
+                .construction_fields
+                .as_ref()
+                .is_none_or(|f| Some(f.channels) != actor.channels)
+        {
+            return Err(
+                "Vimp render publication requires its completed current common callback".into(),
+            );
+        }
+        Ok(crate::vimp_frame::Completed {
+            number: actor.vimp_frames,
+            animation_epoch: vimp.animation_stamp,
+        })
     }
     pub(crate) fn vimp_primary_history(&mut self, id: Id) -> Result<(), String> {
         let actor = self
@@ -9538,6 +9592,20 @@ impl Session {
         if input.seed.storage.state() == 0 && input.seed.storage.data().is_some() {
             return Err("state0 construction must not allocate a payload".into());
         }
+        // Admit only the acquired empty nonphysical state0 profile. Unsupported
+        // animated/reference-bearing state0 declarations still construct, but
+        // receive no successful common callback by default.
+        let passive = if input.seed.storage.profile() == Profile::Debug
+            && input.seed.storage.state() == 0
+            && crate::herd_frame::Owned::supports_empty_state0(&input.fields, &input.specification)
+        {
+            Some(crate::herd_frame::Owned::fresh(
+                &input.fields,
+                &input.specification,
+            )?)
+        } else {
+            None
+        };
         let mut staged = Self::new(self.ticket);
         staged.next = self.next;
         let id = staged.register_animated(
@@ -9550,6 +9618,7 @@ impl Session {
         staged.bind_specification(id, input.specification)?;
         staged.bind_state_resources(id, input.state_resources)?;
         staged.bind_actor_fields(id, input.fields)?;
+        staged.residents.get_mut(&id.serial).unwrap().herd_frame = passive;
         if let Some(initial) = initial_pose {
             // The source placement writes its first affine before later
             // command9 scale overrides. Preserve that real cache and let the

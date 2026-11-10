@@ -14,12 +14,168 @@ identifies implementation boundaries; it is not a claim that these inhabitants
 already run in normal missions. Character-player controllers remain in their own
 Mecc, Delphi and Kabuto lanes, and cinematic direction remains in the Flick lane.
 
+## Where can this be tested?
+
+| Entry | Current availability |
+| --- | --- |
+| Ordinary public preview maps | No active Vimp herd/AI is admitted yet. Authored herd/marker construction does not populate a live herd. |
+| Story2 (`w_Story2.bin`) | Reference resources for installed CPU controls and first intended ordinary-mission integration; not a playable AI test yet. |
+
+Source/CPU controls below do not identify a map on which their behavior can
+already be exercised interactively. Ordinary admission still requires actual
+world services and validation.
+
+## Empty state0 actors in the shared callback path — source dependency
+
+No ordinary Vimp AI map is available. The common-node adapter now also accepts
+constructed, unparented nonphysical state0 actors whose actual source has no
+animated channels or references and requires no external orientation. Their
+primary/secondary state dispatch entries are acquired absence; ANM/time and
+finalization still execute. Unsupported state0 profiles receive no successful
+callback by default. Existing herd/marker behavior and older API names remain;
+`passive_frame` and the Session `passive_world_*` entries name the shared profile.
+
+The actual constructor creates this owned frame only for the supported source
+profile. The existing clock, ANM epoch, finalization, environment and footprint
+contracts remain required. A failed or consumed iteration cannot replay, and
+retired/parented/changed profiles refuse. This adds no independent simulation or
+new random stream, and enables no callbacks from mission loading by itself.
+
+A focused original-PC control constructs two neutral state0 classes after poisoning
+prior pool and template transient fields. The real constructor clears payload/
+physics, rates, commands and contact storage. Their actual common-node callback
+order matches the existing state0 marker path. Rust agrees on 156 selected numeric
+class/pose/history/scale/angle/flag/channel/rate/affine words. Control presence,
+clock, placement/history, slow-area population and admission remain supplied;
+resource pointers and UID are excluded. Prototype PS2 lookup remains unknown.
+
+Installed Story2 declarations admit 129 neutral actors to this shared profile.
+Three supplied callback steps retain their positions, publish current affines and
+preserve RNG across 387 updates; replay and retirement refuse. Terrain/platform/
+footprint providers are required but not entered by these stationary actors.
+The five other state0 declarations require animated/reference services and remain
+unsupported. This is a selected-cohort CPU control: other actor families are not
+acknowledged as updated, and empty supplied collision geometry is not a claim of
+an empty mission. Parented Mecc children, wider state0/AI callbacks and the actual
+shared world admission/clock/control/environment/effect producers still block
+ordinary whole-world scheduling before the live Vimp render consumer can be used.
+
+## Vimp pose consumer in the common renderer — source only
+
+No ordinary mission or public preview can yet exercise live Vimp AI. The render
+consumer is now connected to the common application; actual world/birth admission
+is still missing. No normal controls, GPU observation or playable map is claimed.
+
+`Session::completed_vimp_frame` publishes a local completed-callback count and
+its actual animation epoch. It refuses cold/failed/stopped callbacks, unfinished
+history or another running actor phase, and inconsistent channel ownership. The
+mission consumer additionally checks the exact factory/specification identity and
+current affine. A previous pose after next-frame history is not a current frame.
+The shared position evaluator uses those actual channels and epoch; each actor's
+result is copied before another Vimp reuses the shared model buffer.
+
+The normal mission renderer consumes these packets through the existing RGB body
+shader, source geometry and textures. It uses primary model slot zero as an
+explicit presentation policy; native visibility/LOD, mirrored culling and wider
+transparent/additive profiles remain incomplete. Unsupported profiles refuse;
+no replacement body, bind pose, missing affine, effect, random draw or animation
+clock is supplied. Cold births produce no body before their first completed
+callback. Geometry is cached by the mission resource owner; render entities and
+mesh/material/image handles are retained by the actual actor Id and ticket.
+Camera absence hides the submissions; retirement removes them. A required asset
+failure releases partial ownership and quarantines this ticket's renderer.
+
+The installed CPU control enters canonical Story2 staging twice, retaining its
+other actor families. With explicit offline birth/callback admission, quiet
+signals, supplied clocks/epochs and actual terrain queries, each ticket produces
+fourteen owned Vimps. Their completed poses populate and update Bevy mesh assets,
+remain separate across shared-buffer reuse, hide/resume with the camera and
+release all owned meshes/materials/images. The second ticket checks missing-mesh
+cleanup and quarantine while preserving an unrelated entity. Fresh history,
+foreign factory resources and retired binding refuse. Repeated render sampling
+consumes no gameplay RNG. These are CPU Bevy asset checks, not GPU pixels,
+mission-wide scheduling, ordinary controls, AI behavior or native visual fidelity.
+
+The next missing producer is the real shared world scheduler and its admission,
+history/control/clock/RNG/environment/effect services. It must preserve all active
+families and same-step birth order, then exercise this consumer with ordinary
+menu/input/exit/re-entry. Do not run the offline control from loading or advertise
+its fourteen-body result as a playable herd.
+
+## Owned Vimp contact producer — 10 November 2026
+
+Intermediate dependency only: Story2 remains unavailable as an interactive Vimp
+AI test. At this contact checkpoint, shared world admission and the render
+consumer were still missing; the later pose consumer above closes that render
+boundary, with live admission and interaction still open. No normal controls or
+downloadable preview change follows from the contact checkpoint.
+
+The exact PC constructor clears the initial contact word independently of its
+previous pool and class-template contents. A focused two-construction control
+poisons those inputs separately and records the actual clearing write; static
+inspection independently locates the constructor's clearing phase. This resolves
+the initial contact prerequisite, not later collision population or AI readiness.
+Prototype PS2 naming was searched before acquisition; attribution remains unknown.
+
+The Vimp owner now retains that word through construction, history and physical
+updates. Physics consumes the retained value, publishes its acquired clear before
+an attempted ground query and retains the result across later errors. The bounded
+ordinary wander route refuses an unsupported nonzero contact before consuming
+random draws. Movement/active response can read the owned word directly; isolated
+controls retain an explicitly labelled supplied predicate instead. The physical
+object-walk gate and other acquired profile limits have not been broadened.
+
+Installed controls exercise the constructor value, the owned movement branch,
+unsupported-contact refusal, retained clear after a required-ground failure and
+replay quarantine, plus newborn and locomotion continuation. Nonzero contact
+fixtures are supplied ownership checks, not observed player collisions. The
+response arrival timer remains separately unknown until its own producer runs.
+
+The actual Story2 staging roster has 166 common-list actors: the controlled Mecc,
+three parented Mecc children, one herd, sixteen markers, 134 other state0 actors
+and eleven state23 actors. The children precede the herd. A scheduler cannot
+acknowledge those active actors with default-success callbacks, assume an empty
+threat population, or run a detached herd-only walk as ordinary mission proof.
+Reuse the existing Session and coordinate its real family callbacks, clocks,
+random stream and history before consuming same-step births in the renderer.
+
+## Ordinary mission resource binding — 10 November 2026
+
+Intermediate dependency only: no normal controls or public build exercise live
+Vimp AI yet. The first missing runtime consumer is common world callback admission,
+followed by actual live population and interactive render validation. A later
+source consumer above now accepts completed poses. NPC owns these actor resources;
+main integration owns the shared schedule and combined interactive delivery.
+
+The ordinary mission worker now prepares the Vimp factory from the actual plan's
+registered specification and effect namespace, plus the installation's birth
+constants. Canonical mission staging binds the existing herd/marker constructor
+IDs and source declaration keys to the mission ticket, then creates a deferred
+animation-effect pool from the same captured image. No filename-selected image,
+constructor contact zero, clock or RNG seed is substituted. Missing/replaced
+namespaces, failed construction, foreign/retired owners and repeated binding
+remain explicit failures. Worlds without authored herd parents skip preparation.
+
+The Story2 source entry control binds one herd and sixteen markers on each of two
+mission tickets, retaining zero Vimps/effect contexts and untouched herd clocks.
+It uses actual menu data with supplied unlocked progress and the canonical spawn
+path, checks ticket/rebind/retirement guards, removes the owned entity tree and
+preserves an unrelated entity across re-entry. This is a silent CPU entry/binding
+control; ordinary input and GPU behavior remain unverified. A separate resource
+control checks the captured image and missing/replaced namespace refusals.
+
+Preparation now reaches the mission owner; it still executes no population or
+world callback and makes no rendering/readiness acknowledgement. Next connect
+the real world admission/clock/control/terrain/effect providers and exercise the
+connected pose consumer with actual admitted births/animation before advertising
+a testable map.
+
 ## Existing reconstruction
 
 | Family | Existing Rust services | Established boundary | Missing ordinary gameplay connection |
 | --- | --- | --- | --- |
 | Herd population | `herd_generator`, `herd_markers`, `declared_residents` | Source herd/marker construction, authored properties, ordered marker allocation, offline clock and Vimp births | Mission scheduler, native live clock/RNG ownership, complete population and retirement |
-| Living Vimps | `vimp_actor`, `vimp_wander`, `vimp_physical`, `vimp_animation`, `vimp_frame`, `vimp_threat`, `vimp_response`, `vimp_vector_response`, `vimp_active_response` | Owned birth/initialization/growth and admitted ordinary wander/physical/ANM composition; isolated owned threat/response/vector/active composition and persistent arrival timer | Required hint/action bodies and live session/caller ownership, feeding, full-world order, live render and audio ownership |
+| Living Vimps | `vimp_actor`, `vimp_wander`, `vimp_physical`, `vimp_animation`, `vimp_frame`, `vimp_threat`, `vimp_response`, `vimp_vector_response`, `vimp_active_response`, `vimp_movement` | Owned birth/initialization/growth and admitted ordinary wander/physical/ANM composition; isolated owned threat/response/vector/active composition and persistent arrival timer | Required hint/action bodies and live session/caller ownership, feeding, full-world order, live render and audio ownership |
 | Vimp injury and remains | `vimp_damage`, `vimp_hurt`, `vimp_recovery`, `vimp_living_scalars`, `vimp_chunks`, `vimp_death_proxy` | Bounded damage, hurt/recovery and owned chunk/proxy services | Actual player hit dispatch, active effects/sounds, collection/economy and complete death cleanup |
 | Rippers | `ripper_perception`, `ripper_steering`, `ripper_pursuit`, `ripper_primary_turn`, `ripper_attack`, `ripper_awakening`, `ripper_emergence`, `ripper_turn_completion`, `ripper_ground`, `ripper_dirt` | Ordered target selection, supplied-view behavior kernels and persistent Session adapters for acquired branches | Complete actor/world primary scheduling, required firing/effect/audio providers, remaining modes and ordinary mission admission |
 | Shared enemy response | `state23_entry`, `state23_damage`, `state23_hurt`, `state23_animation`, `enemy_projectile`, `enemy_ballistic`, `enemy_flight` | Acquired state23 entry/damage/animation, enemy projectile birth/launch and isolated ordinary flight arithmetic | Complete enemy projectile world/contact/damage composition and all enemy classes/bosses |
@@ -27,7 +183,8 @@ Mecc, Delphi and Kabuto lanes, and cinematic direction remains in the Flick lane
 | Other interactive inhabitants | Shared actor, targeting, physics and damage services | Reusable infrastructure only | Other fauna, allied squad decisions/orders, faction behavior, buildings/shops/vehicles and scripted inhabitants require separate acquisition |
 
 `mission_runtime` constructs and binds supported authored declarations, including
-herd generators and markers. That construction does not execute their primary
+herd generators and markers, and now prepares their registered Vimp resources.
+That construction does not execute their primary
 callbacks or populate a live herd. `vimp_frame` explicitly requires world/history
 admission and required services. It must not be enabled by fabricating sound-stop,
 feeding or threat callbacks. Ripper perception uses ordered current views and
@@ -345,11 +502,54 @@ control supplies the external schedule. This strengthens ownership evidence, not
 whole-primary/world equivalence or ordinary mission admission.
 
 The numeric captured and persistent kernel comparisons also still agree. Prototype
-PS2 attributions remain unknown. Next factor the ordinary growth/movement/heading
-prefix at its actual branch, then consume one caller phase lease through active
-response, look, physics and ANM. Preserve the first handled response's growth and
+PS2 attributions remain unknown. The movement/active composition below now shares
+one lease; earlier growth/route decisions and later look/physics/ANM still require
+the complete caller. Preserve the first handled response's growth and
 movement skip. Actual caller/global clocks and RNG ownership, movement/contact,
 hint/action/audio bodies, mode7 and live world/render/re-entry remain required.
+
+### Movement and active response in one lease — 10 November 2026
+
+`vimp_movement` acquires the mode1 scalar/command prefix before active response.
+It reuses the existing parameter arithmetic and steering helpers. Parameters
+publish before the actor clock, speed updates before all eight command bytes
+clear, and the earlier caller's gate decides whether commands are produced.
+The obstruction retry path uses a separate global clock and strictly negative
+expiry, unlike the active wait's nonpositive expiry. A successful retry stores
+the unsigned owner remainder plus two, clears the actor delay and draws a new
+interval. Failure retains preceding parameters, turn byte, stores and draws.
+
+Native controls on an actual source-constructed actor match 1,024 contexts /9,216
+words across both producer gates, obstruction states, finite gait/damage/scale,
+poses, timers and TLS seeds. Original helpers execute; nonprojected header and
+payload fields are checked unchanged. A separate source cycle with one signal
+injection records 117 prefixes /1,053 words: 116 produce commands, while the
+first handled reaction clears commands without producing them. That source
+control observes zero obstruction headers; it does not establish their producer.
+
+`Session::advance_vimp_movement_response_offline` now composes this prefix and the
+active block under one invocation lease and one RNG. Actual Session fields and
+prefixes publish before both movement clocks. The existing active callback,
+cancellation, error and replay protections remain. The joint source comparison
+matches 115 visits /2,070 projected words with commands, scalar/retry state, active
+outputs and RNG retained. Later caller position/target, scale, history/flags,
+clock/control, producer gate, obstruction predicate and external draw schedule
+remain supplied; original first-entry state is also supplied. This is not a
+complete primary or live-world comparison. The earlier active-only control stays
+separate and still agrees.
+
+Three portable controls distinguish suppressed production, separate clocks,
+strict expiry and retained clock-error prefixes. Two installed joint controls
+check first-handled suppression and quarantine without entering/replaying the
+active block after a movement-clock failure. The generic configuration initializer
+does not establish the missing contact-header constructor value; no implicit
+zero obstruction or automatic ordinary admission is added. Touched prototype PS2
+attributions remain unknown.
+
+Next connect the earlier growth/route/producer decisions and later look/physics/
+ANM in actual Story2 world ownership, then validate visible runtime entry, player
+interaction, cancellation and re-entry. Keep required world population, clock/RNG,
+obstruction/contact, action/hint/audio and remaining mode providers explicit.
 
 The PC SHA256 is
 `690bad39847b0f578163e547e6a6de10ffe9213635a069bd1ce96a75dfd39ead`;

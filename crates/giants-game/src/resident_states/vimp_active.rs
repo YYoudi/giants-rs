@@ -22,6 +22,45 @@ pub trait Services {
         action: active::Action,
     ) -> Result<(), String>;
 }
+#[derive(Clone, Copy)]
+pub enum Contact {
+    /// Use the actual constructor/physical owner's current word.
+    Owned,
+    /// Explicit boundary for isolated controls, never world admission evidence.
+    Supplied { obstructed: bool },
+}
+#[derive(Clone, Copy)]
+pub struct Movement {
+    /// Actual earlier caller decision; first-handled and later visits differ.
+    pub produce_commands: bool,
+    pub contact: Contact,
+}
+pub trait MovementServices: Services {
+    fn movement_seconds(
+        &mut self,
+        session: &Session,
+        owner: Id,
+        clock: crate::vimp_movement::Clock,
+    ) -> Result<f64, String>;
+}
+struct MovementAdapter<'a, S> {
+    session: &'a mut Session,
+    services: &'a mut S,
+    owner: Id,
+    parent: Id,
+}
+impl<S: MovementServices> crate::vimp_movement::Services for MovementAdapter<'_, S> {
+    fn seconds(
+        &mut self,
+        state: &crate::vimp_movement::State,
+        clock: crate::vimp_movement::Clock,
+    ) -> Result<f64, String> {
+        self.session
+            .publish_vimp_movement(self.owner, self.parent, state)?;
+        self.services
+            .movement_seconds(self.session, self.owner, clock)
+    }
+}
 struct Adapter<'a, S> {
     session: &'a mut Session,
     services: &'a mut S,
@@ -70,6 +109,98 @@ impl<S: Services> active::Services for Adapter<'_, S> {
     }
 }
 impl Session {
+    fn vimp_movement_projection(
+        &self,
+        id: Id,
+        parent: Id,
+        obstructed: bool,
+    ) -> Result<crate::vimp_movement::State, String> {
+        self.vimp_active_projection(id, parent)?;
+        let a = self.get(id).unwrap();
+        let v = a.vimp.unwrap();
+        let f = a.construction_fields.as_ref().unwrap();
+        let b = a.seed.storage.data().unwrap();
+        Ok(crate::vimp_movement::State {
+            uid: v.born.unwrap().uid,
+            position: f.position,
+            heading: f.angles[0],
+            target: [scalar(b, 0x40), scalar(b, 0x44), scalar(b, 0x48)],
+            damage: v.damage,
+            scale: f.scale,
+            gait: word(b, 0x74),
+            speed: scalar(b, 0x68),
+            parameter_6c: scalar(b, 0x6c),
+            parameter_70: scalar(b, 0x70),
+            commands: v.commands,
+            obstructed,
+            recovery_timer: scalar(b, 0x58),
+            retry_timer: scalar(b, 0x5c),
+            actor_delay: v.born.unwrap().delay,
+        })
+    }
+    fn publish_vimp_movement(
+        &mut self,
+        id: Id,
+        parent: Id,
+        s: &crate::vimp_movement::State,
+    ) -> Result<(), String> {
+        self.vimp_active_projection(id, parent)?;
+        let a = self.residents.get_mut(&id.serial).unwrap();
+        let v = a.vimp.as_mut().unwrap();
+        v.commands = s.commands;
+        v.born.as_mut().unwrap().delay = s.actor_delay;
+        let b = a.seed.storage.data_mut().unwrap();
+        for (at, value) in [
+            (0x68, s.speed),
+            (0x6c, s.parameter_6c),
+            (0x70, s.parameter_70),
+            (0x58, s.recovery_timer),
+            (0x5c, s.retry_timer),
+        ] {
+            put(b, at, value.to_bits());
+        }
+        Ok(())
+    }
+    /// One acquired movement/active lease, with shared RNG and owned actor state.
+    /// Earlier growth/route decisions remain required. Owned contact retains the
+    /// constructor/physical producer; supplied contact is only an offline input.
+    pub fn advance_vimp_movement_response_offline(
+        &mut self,
+        id: Id,
+        number: u64,
+        movement: Movement,
+        globals: &giants_formats::global_data::GlobalData,
+        random: &mut crate::audio_parameters::Random,
+        services: &mut impl MovementServices,
+    ) -> Result<(), String> {
+        let (parent, _, parameters) = self.begin_vimp_active(id, number, globals)?;
+        let result = (|| {
+            let obstructed = match movement.contact {
+                Contact::Owned => self.get(id).unwrap().vimp.unwrap().contact_hit != 0,
+                Contact::Supplied { obstructed } => obstructed,
+            };
+            let mut state = self.vimp_movement_projection(id, parent, obstructed)?;
+            let mut adapter = MovementAdapter {
+                session: self,
+                services,
+                owner: id,
+                parent,
+            };
+            let step = crate::vimp_movement::advance(
+                &mut state,
+                movement.produce_commands,
+                globals,
+                random,
+                &mut adapter,
+            );
+            let publication = adapter.session.publish_vimp_movement(id, parent, &state);
+            step.and(publication)?;
+            let state = self.vimp_active_projection(id, parent)?;
+            self.run_vimp_active(id, parent, state, parameters, random, services)
+        })();
+        self.end_vimp_active(id, result.is_err());
+        result
+    }
     pub fn vimp_active_steps(&self, id: Id) -> Option<u64> {
         let a = self.get(id)?;
         a.vimp?;
@@ -135,17 +266,12 @@ impl Session {
         }
         Ok(())
     }
-    /// Isolated acquired active block on an actual owned actor. Earlier growth,
-    /// movement and later look/physics/ANM remain distinct required caller phases.
-    /// The arrival timer persists only after its real producer has written it.
-    pub fn advance_vimp_active_response_offline(
+    fn begin_vimp_active(
         &mut self,
         id: Id,
         number: u64,
         globals: &giants_formats::global_data::GlobalData,
-        random: &mut crate::audio_parameters::Random,
-        services: &mut impl Services,
-    ) -> Result<(), String> {
+    ) -> Result<(Id, active::State, active::Parameters), String> {
         let a = self.get(id).ok_or("Vimp active owner absent or foreign")?;
         let v = a.vimp.ok_or("Vimp active construction absent")?;
         if v.wander_pending
@@ -169,7 +295,7 @@ impl Session {
             .born
             .ok_or("Vimp active requires actual herd birth")?
             .parent;
-        let mut state = self.vimp_active_projection(id, parent)?;
+        let state = self.vimp_active_projection(id, parent)?;
         if state.active == 0 {
             return Err("Vimp active response absent".into());
         }
@@ -185,6 +311,17 @@ impl Session {
             .get_mut(&id.serial)
             .unwrap()
             .vimp_active_running = true;
+        Ok((parent, state, parameters))
+    }
+    fn run_vimp_active(
+        &mut self,
+        id: Id,
+        parent: Id,
+        mut state: active::State,
+        parameters: active::Parameters,
+        random: &mut crate::audio_parameters::Random,
+        services: &mut impl Services,
+    ) -> Result<(), String> {
         let mut adapter = Adapter {
             session: self,
             services,
@@ -198,14 +335,30 @@ impl Session {
         } else {
             Ok(())
         };
-        let result = result.and(publication);
+        result.and(publication)
+    }
+    fn end_vimp_active(&mut self, id: Id, failed: bool) {
         if let Some(a) = self.residents.get_mut(&id.serial) {
             a.vimp_active_running = false;
             a.vimp_active_steps += 1;
-            if result.is_err() {
+            if failed {
                 a.vimp_frame_stopped = true;
             }
         }
+    }
+    /// Isolated acquired active block on an actual owned actor. Earlier growth,
+    /// movement and later look/physics/ANM remain separate required caller phases.
+    pub fn advance_vimp_active_response_offline(
+        &mut self,
+        id: Id,
+        number: u64,
+        globals: &giants_formats::global_data::GlobalData,
+        random: &mut crate::audio_parameters::Random,
+        services: &mut impl Services,
+    ) -> Result<(), String> {
+        let (parent, state, parameters) = self.begin_vimp_active(id, number, globals)?;
+        let result = self.run_vimp_active(id, parent, state, parameters, random, services);
+        self.end_vimp_active(id, result.is_err());
         result
     }
 }

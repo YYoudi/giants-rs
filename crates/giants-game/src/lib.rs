@@ -22,6 +22,7 @@ pub mod attachment_pose;
 pub mod attachment_resources;
 pub mod burst_effect_draw;
 pub mod camera_facing;
+pub mod camera_initial;
 pub mod camera_lens;
 pub mod camera_matrix;
 pub mod camera_mode;
@@ -823,6 +824,7 @@ pub mod vimp_death_proxy;
 pub mod vimp_frame;
 pub mod vimp_hurt;
 pub mod vimp_living_scalars;
+pub mod vimp_movement;
 pub mod vimp_physical;
 pub mod vimp_recovery;
 pub mod vimp_response;
@@ -831,6 +833,8 @@ pub mod vimp_vector_response;
 pub mod vimp_wander;
 
 pub mod herd_frame;
+/// Shared empty-state0/herd composition; preserve the original herd API alias.
+pub use herd_frame as passive_frame;
 pub mod herd_generator;
 
 pub mod effect_texture_animation;

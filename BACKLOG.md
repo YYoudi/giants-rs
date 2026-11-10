@@ -6,80 +6,101 @@ automatically wired into the main menu-to-mission build.
 
 ## Current delivery priority - owner direction, 10 November 2026
 
-Follow [GOAL_GAMEPLAY_FIRST.md](docs/GOAL_GAMEPLAY_FIRST.md). The complete game
-scope below remains; current work proceeds from common playable experience to
-specialized detail rather than by the number of isolated CPU controls acquired.
+Follow [GOAL_GAMEPLAY_FIRST.md](docs/GOAL_GAMEPLAY_FIRST.md). Preserve the full
+scope below and complete common player experiences before specialized variants.
 
-The next main delivery is a continuously testable ordinary Mecc path in the common
-application: enter from the menu, move/aim and use the camera with real input,
-thrust/release/descend/land with visible animation and effects, exercise the basic
-weapon path, then return and enter again. Verify each supported action on the
-actual build before advertising it. The last recorded owned GPU acceptance uses
-supplied replay commands; it does not close this real-input delivery.
+[Preview .9](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.9)
+now contains ordinary Mecc jet models, the acquired descent selection and source
+base-pistol projectile geometry. Enter through Start New Single Player Game;
+default controls are WASD/mouse, right-mouse thrust, Space nitro, left-mouse fire,
+R view and Escape menu return. Two actual menu entries/returns, OS right/left
+mouse pulses, a first-person toggle and normal desktop exit pass on a fresh
+muted profile. Separate same-binary GPU diagnostics show the plume and projectile
+and complete three supplied movement/jet/nitro/release/retirement cycles.
 
-The .8 ordinary-path check on a fresh muted profile reaches the mission from New
-Single Player Game, skips the opening with Escape and returns to the menu with
-actual resource release. Short input pulses do not validate continuous flight.
-That download predates the ordinary-controller jet presentation. Later source
-connects the actual animated parent, motion publication and constructor-bound
-child models to `mission_jet_scene`, with separate presentation clocks. Validate
-this connection on the combined build, including real thrust, boost, release,
-descent, landing and menu re-entry, then publish the supported interaction.
-Full native impact, damage/display/voice and fire ownership remain separate
-requirements for the native controller. Do not invent their state or mark an
-unfinished native parent complete to deliver ordinary visual feedback.
+The next delivery is the continuous ordinary Mecc loop: stable real movement/aim,
+sustained thrust/nitro, release, visible descent and landing, then entry again.
+That whole interaction remains unverified; the 1,600-step installed CPU check
+selects descent41 without proving a real-input falling-pose image. Preserve the
+first reproducible failure and do not replace this delivery with numeric counts.
+Full native impact/health/display/voice/fire ownership remains separately open;
+never invent those providers or acknowledge an unfinished native parent.
 
-- Main integration: connect actual camera/input/projection and activation order;
-  consume the reviewed character services through their real shared owners.
-- Mecc: provide the first missing impact/health/display/voice/FX and weapon
-  dependencies that prevent this continuous path. Do not bypass them with default
-  guard state; prioritize their actual producers over unrelated rare variants.
-  The acquired descent rule and clip are connected to the ordinary controller
-  on main through PR #17 (`c44baf6`). Menu entry, clip preparation, return and re-entry
-  have run on the local build; thrust/release/fall/landing interaction remains
-  unverified after the interrupted UI session. Do not advertise it as verified
-  gameplay or publish a new preview from those partial observations. Preserve
-  countdown-start research privately rather than expanding that isolated work.
-  The normal controller also connects its actual jet/nitro state to the
-  constructor-bound jet models and common draw consumer, without an
-  experimental-backend flag. Three local GPU movement/thrust/nitro/release cycles
-  and three complete draw retirements pass with supplied commands on source
-  `064cfed`; this is separate from held-input verification. Keep render-only clocks distinct from native world
-  completion; real held-input thrust/release and menu re-entry still need checking.
-  Ordinary pistol delivery: source projectile geometry/material and acquired
-  straight-launch orientation/velocity now replace the diagnostic flight quads.
-  A local release build of `ec097cb` accepts two ordinary left-mouse firing
-  actions after menu entry/opening skip, then releases both shot lifetimes and
-  mission resources on Escape. The short-lived projectile was not captured during
-  these OS-input actions; held flight, visual shot verification and re-entry
-  remain open. Health/fuel gauges now consume the same actual controller values
-  as the numeric HUD; their local release2500e06 GPU capture shows both labels
-  and gauges with supplied commands. Real changing levels still need checking
-  on the combined interactive build. This is
-  functional preview UI, not reconstructed original HUD artwork.
-  A source6d34ce5 Windows GPU capture now observes natural clip41 at step653
-  after sustained ordinary-controller thrust/release, with both arms raised,
-  jet submissions hidden and fuel45 in the gauge. Commands are supplied;
-  held OS input and landing remain open. No download is relabeled.
-  Ordinary terrain-landing presentation now connects actual contact classification
-  to the canonical source effect, real positional audio, common particle draw
-  and retirement. Verify the exact graphical build and menu cleanup next; native
-  fall damage/pain/death and full owned admission are still separate.
-  Deferred constructor sound/attached FX, native range/retirement and impact births/contacts/damage, firing
-  poses and owned actor/fire scheduling remain open; retain those actual services
-  rather than selecting a guessed animation or substituting diagnostic shapes.
-- NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
-  story interaction and its first real caller dependency within each domain.
-  Their detailed blockers below remain authoritative; communicate the producer/
-  consumer gap and test path to main through committed handoffs, not new agents.
-- After the basic loop, advance actual NPC interaction, mission objectives,
-  failure/restart and progression, then broaden character/campaign coverage.
-  Refine specialized effects and exhaustive variant matrices in the shared order.
+- Main: retain one common application, verify actual producer/consumer order,
+  publish exact receipt-bound snapshots and keep current downloads distinct from
+  later source and historical captures. The .9 runtime is `3a17d2e`; later initial
+  body inspection and HUD/camera follow-ups do not update its executable.
+- Mecc: finish the continuous input/action check and the first concrete visible
+  impact/fire dependency. Native actor/FX/damage, sustained firing and firing-pose
+  ownership remain missing; countdown or rare-effect research follows this loop.
+- NPC: Story2 factory/declaration staging is present in .9, but actual common-world
+  callbacks and their clock/RNG/control/environment providers, then birth and
+  animation rendering, must produce the first visible interactive herd.
+- Delphi and Kabuto: reuse the staged constructor identities. Later initial-body
+  inspection remains separate from ordinary controls. Connect the required
+  projection/camera/startup/physical/input owners at the real declared start,
+  preserving water/contact requirements and pending initializers.
+- Flick: prioritize the missing story/transport consumer that blocks ordinary
+  mission continuity. The independent 545-source census stays pinned to .7;
+  zero complete films are certified. Preserve source completion, actual voice
+  ownership and cancellation rather than adding rare samples as an endpoint.
 
-Reports begin with what the owner can test in which build and using which normal
-controls. Otherwise say "intermediate dependency only" and name the next blocker.
-Keep source status, local interaction checks, historical captures and the exact
-published preview independent. Do not mark whole-game features complete here.
+Reports begin with what the owner can actually test, its exact build and controls,
+or explicitly "intermediate dependency only" with its first remaining blocker.
+After the basic loop, advance NPC interactions, objectives, failure/restart and
+progression, then character/campaign coverage and finer fidelity. Detailed domain
+inventories and dated evidence below remain authoritative within their scope.
+
+### Later main follow-ups, outside the frozen .9 download
+
+Health/fuel gauges present the existing controller values, with low/critical
+colors; a local supplied-command GPU image verifies their initial display, not
+real changing levels or native HUD fidelity. Separate local build ec097cb
+accepts two actual mouse-fire actions and Escape cleanup; long flight and its
+manual projectile image remain unverified there. Initial Delphi/Kabuto body
+inspection and external PC camera coefficient reading remain dependencies for
+the same live controllers, not new gameplay readiness. Their dated technical
+and release notes retain the precise source/build identity and remaining owners.
+
+A separate later build of source `6d34ce5` graphically reaches the ordinary
+descent clip41 at supplied step653, with raised arms and jet draws hidden after
+release. This is outside frozen .9 and does not verify OS-held flight or landing.
+The next delivery remains the continuous ordinary-input loop, not another pose
+or numeric catalog.
+
+### NPC prerequisites for the first interactive herd
+
+The NPC lane's selected delivery is an actual Story2 herd through ordinary mission
+entry, live callbacks/animation and the common renderer. Current source now binds
+the registered Vimp resources and actual herd/marker declaration IDs to the mission
+owner; two CPU entry tickets retain one herd/sixteen markers without spawning or
+advancing them. The next missing consumer is real common-world callback admission,
+including population/clock/RNG/control/terrain/effect ownership. The common renderer
+now consumes completed Vimp poses, with an explicit primary-model policy and actor/
+ticket asset cleanup. A supplied-callback CPU control reaches fourteen bodies per
+entry and updates their meshes across two tickets; GPU and real input/return/
+re-entry validation remain open. No public AI map is available.
+The initial Vimp contact is now pinned to the actual constructor clear and retained
+by the physical owner; owned movement consumes it without an injected predicate.
+Later object/threat contacts remain incomplete. Story2's 166-node common roster
+includes three parented Mecc children before the herd, 134 other state0 actors and
+eleven state23 actors; do not bypass those active callbacks to claim live AI.
+The shared nonphysical callback adapter now admits 129 supported empty state0
+neutral declarations from actual constructor metadata, retaining the existing
+herd/marker API aliases. A selected-cohort CPU check runs 387 callbacks; two PC
+controls agree on 156 selected words. The five animated/reference-bearing state0
+declarations, parented children, other AI families and real whole-world admission
+remain required; these callbacks are not enabled by loading or a default no-op.
+
+
+
+## Ordinary Mecc terrain-landing presentation
+
+Actual air-to-terrain contact now requests the canonical source hard-landing
+actor, positional sound and shared particle rendering in the ordinary controller.
+This is enabled without a diagnostic switch. Validate the receipt-bound graphical
+build and real held-input interaction; native fall damage/pain/death, slide,
+carried/special profiles and full owned admission remain separate prerequisites.
 
 ## Prototype PS2 attribution method — 5 November 2026
 
@@ -189,8 +210,16 @@ The dedicated NPC lane resumes existing work; see
   terminal action/cancellation effects. Six installed controls cover the owner and
   replay/error boundaries; a separate actual-Session control matches 115 native
   entries /1,495 words with retained outputs/RNG and supplied caller inputs/external
-  draw counts. Bind the complete caller phase and preserve first-handled versus
-  later growth/movement production. The mode1 animation selector now consumes owned gait/physical flags;
+  draw counts. Movement and active response now share one owned lease/RNG,
+  matching 115 native contexts /2,070 words with retained commands, scalar/retry
+  and active state. The separate movement prefix matches 1,024 /9,216 words and
+  117 source entries /1,053 words. Earlier producer gate, obstruction predicate,
+  growth/motion/clock inputs and external draws are supplied; do not infer a zero
+  constructor contact header. Preserve first-handled versus later growth/movement
+  production and bind the earlier caller plus later look/physics/ANM. Story2 is
+  the first intended ordinary mission target; no public map currently admits its
+  Vimp AI. Establish real population/global/clock/contact/environment and visible
+  ownership, then test player interaction, cancellation and re-entry. The mode1 animation selector now consumes owned gait/physical flags;
   1,088 native numeric contexts /39,168 channel words agree, including real blend
   modes and descriptor visibility controls. A declared synthetic idle-turn alias
   covers that absent source descriptor only numerically. One installed control
@@ -800,6 +829,13 @@ blocker in the next slice, rather than continuing adjacent functions by address.
    Produce actual startup owner/view/look-angle state and projection before
    acknowledging any initializer; neither a recovered profile nor a supplied
    mode command establishes ordinary camera startup.
+   Source now retains the separately initialized owner look angle and routes
+   shared mode commands into that exact Session actor. The cold image reader
+   supplies inspected initial camera words (including PE zero-fill); an installed
+   cold-owner/profile/projection control passes with no substituted body angle.
+   These are loader-image/cold-prefix inputs, not verified mission-entry globals.
+   Next: the common runtime must own the persistent camera state, run actual entry
+   writers/selection and publish the projection/view before initializer admission.
    Complete that normal entry before walking/turning; do not substitute an
    inspection fit or a forced readiness event for the native camera contract.
 2. Actual input, walking and turning through the common world, camera and
@@ -1862,6 +1898,21 @@ blocker in the next slice, rather than continuing adjacent functions by address.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- Next shared queue delivery: connect the source-marked timed-shot family to
+  the canonical mission Session, including its real support, retirement child
+  and cleanup. The retained program survey identifies 77 requests in seven
+  sources; the first affected Story2 completion chain has two shot-only sources
+  followed by a source mixing shots and other families. Reuse the existing
+  complete-program, callback and retirement controls. Ordinary actor parents
+  cannot stand in for virtual Flick supports, and preview draw submission does
+  not establish live queue admission.
+  A new dependency control executes the exact PC thread-state initializer,
+  random helper and time-sampled seed setter: state survives repeated calls on
+  one supplied thread, stays separate on another, and an actual setter replaces
+  the lazy initial seed. This does not establish the mission's seed, draw order,
+  application reseed points or sharing with the renderer. Preserve the existing
+  partial-preview limitation; do not promote a per-director seed reset into the
+  native runtime contract. No queue gap or complete-scene count closes here.
 - Persistent main-renderer batch: private source `04cb614` produces all 23
   selected-director images through four startup and nineteen completion chains,
   reusing one exact-build image. Each has same-ticket/director creation, visible
