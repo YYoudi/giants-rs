@@ -749,6 +749,21 @@ native scheduling claim. The runner requires three distinct owner tickets and
 matching object/context release receipts after each cancellation. It still
 injects no input and does not validate interactive skipping. This mode is
 separate from `--full` natural transport.
+
+For an active-effect capture from the real menu/mission path, set
+`GIANTS_MISSION_REPLAY=showcase-persistent`, `GIANTS_SHOWCASE_WORLD` and
+`GIANTS_SHOWCASE_MISSION`, then launch with a private `--user-data-root`,
+`--mecc-menu --offscreen --silent-capture --capture <private.png>`.
+Optional `GIANTS_PERSISTENT_SAMPLE_SEQUENCE` selects an actual director identifier
+in that mission chain. `GIANTS_PERSISTENT_SAMPLE_COMPLETION=1` requests the
+existing `CompletionReplay` intent used by the menu's completion replay; it does
+not complete objectives, acknowledge a win or reconstruct native replay state.
+The observer waits for an actual Session-owned persistent
+effect to advance twice, records the reached director/tick and suspends that
+playback for GPU capture. It creates no effect or input and sends no readiness
+acknowledgement. Missing effects/sequences do not acknowledge a sample. This is
+an inspection tool; frames still need source/phase attribution and comparison.
+
 The sampled frame count is not proof of audio-clock progression, full playback,
 visible-subtitle atlas cleanup, natural ending, skip input or gameplay admission.
 Interactive verification remains explicitly pending during background-only work.

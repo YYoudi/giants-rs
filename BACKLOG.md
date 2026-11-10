@@ -32,6 +32,16 @@ Keep the first reproducible refusal ahead of further unrelated numeric matrices.
 - Mecc: provide the first missing impact/health/display/voice/FX and weapon
   dependencies that prevent this continuous path. Do not bypass them with default
   guard state; prioritize their actual producers over unrelated rare variants.
+  The acquired descent rule and clip are connected to the ordinary controller
+  on main through PR #17 (`c44baf6`). Menu entry, clip preparation, return and re-entry
+  have run on the local build; thrust/release/fall/landing interaction remains
+  unverified after the interrupted UI session. Do not advertise it as verified
+  gameplay or publish a new preview from those partial observations. Preserve
+  countdown-start research privately rather than expanding that isolated work.
+  The normal controller also connects its actual jet/nitro state to the
+  constructor-bound jet models and common draw consumer, without an
+  experimental-backend flag. Keep render-only clocks distinct from native world
+  completion; real held-input thrust/release and menu re-entry still need checking.
 - NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
   story interaction and its first real caller dependency within each domain.
   Their detailed blockers below remain authoritative; communicate the producer/
@@ -1803,6 +1813,27 @@ blocker in the next slice, rather than continuing adjacent functions by address.
   the complete comparison gallery appears before the progress tables.
 
 ## Cinematics / Flick: coverage and next prerequisites
+
+- Active persistent capture from the main build: `showcase-persistent` now waits
+  for an actual Session-owned effect to advance twice in the selected menu
+  mission, then records the reached director/tick and suspends for GPU capture.
+  The optional sequence filter does not seek or create an effect. Completion
+  samples reuse the menu's existing `CompletionReplay` intent without completing
+  objectives or claiming native replay-state reconstruction. The capture gate
+  now admits the mounted mission-film camera only with its existing explicit
+  `cinematic_capture_ready` observation, preserving replay guards.
+  A receipt-bound MinGW build passes one startup sample and one filtered
+  completion sample after eleven real director transitions, with actual owned
+  effects, prepared GPU assets, no injected input and device-free silent capture.
+  Invalid identifier/role combinations refuse. These are inspection samples,
+  not ordinary gameplay, full playback or visual/temporal fidelity proof.
+  Menu declaration mapping covers 56 missions: four persistent cohort sources
+  are in startup chains and nineteen in completion chains; one unrelated startup
+  request has no matching world-table entry and remains an explicit refusal.
+  Retained exact-profile image candidates exist, but their exact image clock and
+  source-effect attribution need review before pixel-aligned comparisons. Continue
+  current/original camera, pose, material and draw-queue comparisons; leave native
+  pool/world population and complete gameplay-transition requirements open.
 
 - Persistent named-selection follow-up: all 25 requests in the 23-source cohort
   resolve to two programs whose normal/lite choices identify the same actual

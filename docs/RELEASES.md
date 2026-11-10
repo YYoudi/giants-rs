@@ -38,6 +38,29 @@ input and only the owned test process was closed; this is not an exit-dialog or
 whole-game certification. Existing preview source/receipt/checksums and the
 separate cinematic audit retain their original identities.
 
+## Main-menu persistent image samples - source-only inspection
+
+The common executable now samples an actual Session-owned persistent effect
+through its menu/mission renderer. The observer waits for two real updates,
+optionally matches the requested source director, and records the reached tick
+before suspending for GPU capture. It supplies no effect, forced source time,
+input or gameplay-ready event. The mission-camera capture permission retains
+its explicit observation flag and the existing replay gates.
+
+Completion inspection uses the already implemented menu `CompletionReplay`
+intent; it does not complete objectives or reconstruct native replay state.
+A fresh receipt-bound MinGW build of `59c4f65` passes a selected startup capture
+and a filtered completion capture after eleven director transitions, with actual
+owned effects and prepared GPU assets. Both processes exit silently without an
+audio device or injected input. Invalid sequence/role combinations refuse.
+The earlier candidate reached its owner sample but could not pass the menu-camera
+capture guard; its timeout is retained and is not a renderer success.
+
+These are private inspection images. Exact native image phase, animation pose,
+materials, queue ordering and full scene fidelity remain unverified. Current
+frozen public downloads and the separately pinned 545-source census are unchanged.
+The new controls do not enable ordinary character gameplay or certify a film.
+
 ## Delphi common camera override dependency - 10 November 2026
 
 Intermediate dependency only; Delphi has no new ordinary menu entry or controls.
@@ -6458,3 +6481,32 @@ source/notices/checksums and creates no new downloadable build.
 The follow-up retains main's merged Mecc/Delphi and receipt-bound graphical
 regression notes. That final merge changes documentation only; validated Rust
 source is unchanged. The already merged PR #4 remains a separate checkpoint.
+
+## Mecc ordinary descent presentation - source integration
+
+Merged into main through [PR #17](https://github.com/YYoudi/giants-rs/pull/17)
+(`c44baf6`). The ordinary menu-controlled renderer now loads the acquired descent
+clip and selects it using the same installed-data velocity/clearance rule as the
+owned selector. This addresses a missing visible pose in the normal presentation path;
+input defaults and owned-primary admission are unchanged.
+
+Status: runtime connected, interaction unverified. Normal menu entry, preparation,
+return and re-entry ran on a muted local build, but sustained flight/release/
+descent/landing was not established before computer use was interrupted. Do not
+advertise an interaction-verified or downloadable milestone from these partial
+observations. The current preview receipts/notices/checksums retain their identity.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-mission-descent-pose---runtime-connected-interaction-unverified).
+
+
+## Mecc ordinary jet presentation - source integration
+
+The existing jet renderer now also consumes the normal partial controller's
+actual jet/nitro state and animated body attachment. It binds existing constructor
+children, advances separate presentation clocks and preserves owned-driver world
+completion requirements. Default right-mouse thrust and Space nitro need no replay
+or experimental backend switch. The same consumer handles draw retirement.
+
+Status: runtime connected, interaction unverified. Installed-data ownership and
+presentation checks support the wiring; actual held-input thrust/release, GPU
+appearance, landing and re-entry remain to verify. No new preview is advertised.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-jet-presentation---runtime-connected-interaction-unverified).
