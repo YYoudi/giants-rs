@@ -2,8 +2,9 @@
 //! Captured caller decisions/counters and all required backends remain explicit;
 //! this does not produce those decisions or admit a live Kabuto controller.
 use crate::{
-    actor_attachment_bind::Input as Binding, actor_reference_detach, kabuto_contact::Request,
-    kabuto_geometry_mode::NotificationContext, kabuto_reference_release::Notice,
+    actor_attachment_bind::Input as Binding, actor_reference_detach,
+    kabuto_contact::Request as ActionRequest, kabuto_geometry_mode::NotificationContext,
+    kabuto_reference_release::Notice,
 };
 
 #[cfg(test)]
@@ -41,13 +42,69 @@ pub enum Next {
     ContinueCaller,
 }
 
+/// Required mutable backend boundaries for the Session composition. These
+/// requests are not implemented by a default successful provider.
+#[derive(Clone, Copy, Debug)]
+pub enum Request {
+    Construct {
+        parameter: u32,
+        type_id: u32,
+    },
+    Created(CreatedNotice),
+    Released(Notice<crate::resident_states::Id>),
+    Bind {
+        child: crate::resident_states::Id,
+        input: Binding,
+    },
+    ResetState18(crate::resident_states::Id),
+    Action(crate::kabuto_contact::Request<crate::resident_states::Id>),
+    SetOwner {
+        actor: crate::resident_states::Id,
+        word: u32,
+    },
+}
+
+#[derive(Clone, Copy, Debug)]
+pub enum Response {
+    Complete,
+    Actor(crate::resident_states::Id),
+}
+
+pub trait World {
+    fn session_mode(&self, session: &crate::resident_states::Session) -> Result<u32, String>;
+    fn network<'a>(
+        &'a self,
+        session: &crate::resident_states::Session,
+        source: crate::resident_states::Id,
+    ) -> Result<NotificationContext<'a>, String>;
+    fn owner_word(
+        &self,
+        session: &crate::resident_states::Session,
+        actor: crate::resident_states::Id,
+    ) -> Result<u32, String>;
+    /// Observe the actual registered owners. Completed effects survive errors;
+    /// construction must return an actor owned by this Session. Binding,
+    /// transport, state18 reset and action bodies remain required services.
+    fn execute(
+        &mut self,
+        session: &mut crate::resident_states::Session,
+        source: crate::resident_states::Id,
+        request: Request,
+    ) -> Result<Response, String>;
+}
+
 pub trait Services<K>: actor_reference_detach::Services<K, State<K>> {
     fn session_mode(&self) -> Result<u32, String>;
     fn notification_context(&self, source: K) -> Result<NotificationContext<'_>, String>;
     fn physical_flags(&self, actor: K) -> Result<u32, String>;
     fn type_id(&self, actor: K) -> Result<u32, String>;
     fn owner_word(&self, actor: K) -> Result<u32, String>;
-    fn set_owner_word(&mut self, actor: K, value: u32) -> Result<(), String>;
+    fn set_owner_word(
+        &mut self,
+        published: &mut State<K>,
+        actor: K,
+        value: u32,
+    ) -> Result<(), String>;
     fn construct(
         &mut self,
         published: &mut State<K>,
@@ -77,7 +134,8 @@ pub trait Services<K>: actor_reference_detach::Services<K, State<K>> {
         child: K,
         input: Binding,
     ) -> Result<(), String>;
-    fn action(&mut self, published: &mut State<K>, request: Request<K>) -> Result<(), String>;
+    fn action(&mut self, published: &mut State<K>, request: ActionRequest<K>)
+    -> Result<(), String>;
 }
 
 fn notifying<K: Copy>(source: K, services: &impl Services<K>) -> Result<bool, String> {
@@ -127,7 +185,7 @@ pub fn advance<K: Copy>(
                     },
                 )?;
             } else {
-                services.set_owner_word(created, 0)?;
+                services.set_owner_word(state, created, 0)?;
             }
             services.bind(
                 state,
@@ -158,7 +216,7 @@ pub fn advance<K: Copy>(
             if services.session_mode()? != 4 || notifying(source, services)? {
                 services.action(
                     state,
-                    Request {
+                    ActionRequest {
                         action: 5,
                         amount: 10000.,
                         owner: Some(source),

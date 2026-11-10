@@ -20,26 +20,61 @@ fn words_line(w: impl IntoIterator<Item = u32>) -> String {
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private stage-input/receipt exports; no window or sound"]
 fn source_kabuto_model_motion_reuses_owned_classified_state_and_preserves_primary() {
-    run_model(false, false, false);
+    run_model(false, false, false, None);
 }
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private ANM/gravity inputs and receipts; no window or sound"]
 fn source_kabuto_animation_gravity_uses_model_phase_and_retains_primary() {
-    run_model(true, false, false);
+    run_model(true, false, false, None);
 }
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private post-gravity control inputs/receipts; no window or sound"]
 fn source_kabuto_control_force_uses_owned_animated_state_and_preserves_primary() {
-    run_model(true, true, false);
+    run_model(true, true, false, None);
 }
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; source resource phase and private composed receipts; no window or audio"]
 fn source_kabuto_resources_publish_before_services_and_preserve_primary() {
-    run_model(true, true, true);
+    run_model(true, true, true, None);
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; owned reference bank and declared mutating binding entry; no window or sound"]
+fn source_kabuto_held_bank_publishes_and_rereads_owned_callback_effects() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::Success),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; retained reference-bank effects and quarantine; no window or sound"]
+fn source_kabuto_held_bank_retains_late_failure_and_refuses_replay() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::Failure),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; owner invalidation without stale reference restoration; no window or sound"]
+fn source_kabuto_held_bank_does_not_restore_a_removed_owner() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::Clear),
+    );
 }
 #[path = "kabuto_resources_phase_tests.rs"]
 mod resource_tests;
-fn run_model(animation: bool, control: bool, resources: bool) {
+fn run_model(
+    animation: bool,
+    control: bool,
+    resources: bool,
+    handoff: Option<super::held_reference_tests::Case>,
+) {
     let (factory, _) = super::transition_tests::factories();
     let (foreign, _) = super::transition_tests::factories();
     let mut s = Session::new(991);
@@ -57,6 +92,7 @@ fn run_model(animation: bool, control: bool, resources: bool) {
         )
         .unwrap();
     let mut resource_controls = resource_tests::Controls::default();
+    resource_controls.handoff = handoff;
     let baseline_fields = s.get(id).unwrap().construction_fields.clone().unwrap();
     let baseline_payload = s.get(id).unwrap().seed.storage.data().unwrap().to_vec();
     let baseline_references = s.specifications.get(&id.serial).unwrap().0.clone();

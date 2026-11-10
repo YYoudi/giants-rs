@@ -47,6 +47,11 @@ pub struct Group {
     pub(crate) resource_phase_entered: Option<u64>,
     pub(crate) resource_phase_completed: Option<u64>,
     pub(crate) resource_phase_view: Option<crate::kabuto_resource_phase::View>,
+    /// Typed current/held identities; raw pointer cells in the payload stay zero.
+    pub(crate) reference_links: [Option<Id>; 3],
+    pub(crate) held_reference_entered: Option<u64>,
+    pub(crate) held_reference_running: bool,
+    pub(crate) held_reference_completed: Option<u64>,
     pub(crate) contact: crate::kabuto_classification::Contact,
     pub declared_class: Arc<specification::Prepared>,
     pub geometry: Geometry,
@@ -99,6 +104,29 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    /// Publish an already selected reference and its acquired scale. Selection,
+    /// capture policy and scale production remain caller prerequisites; this
+    /// storage operation does not invent a target or acknowledge a primary.
+    pub fn publish_reference(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        target: Option<Id>,
+        scale: f32,
+    ) -> Result<(), String> {
+        session.publish_kabuto_reference(owner, &self.resources, number, target, scale)
+    }
+    pub fn advance_held_references(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        input: crate::kabuto_held_reference::Input,
+        world: &mut impl crate::kabuto_held_reference::World,
+    ) -> Result<crate::kabuto_held_reference::Next, String> {
+        session.advance_kabuto_held_references(owner, &self.resources, number, input, world)
+    }
     /// Read-only query after this owner's resource phase. The caller supplies
     /// its acquired ray and current world-bounds producer; no target is published.
     pub fn query_reference(
@@ -454,6 +482,10 @@ impl Factory {
             resource_phase_entered: None,
             resource_phase_completed: None,
             resource_phase_view: None,
+            reference_links: [None; 3],
+            held_reference_entered: None,
+            held_reference_running: false,
+            held_reference_completed: None,
             contact: Default::default(),
             declared_class: self.resources.specification.clone(),
             geometry,
