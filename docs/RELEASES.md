@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Kabuto first common mission construction - source-only checkpoint
+
+The shared mission loader now selects the requested character's declared start
+and prepares the acquired Kabuto cold Factory for kind 1. Common spawn retains
+its actual Session constructor identity instead of requiring Mecc preparation.
+A Kstory1 menu-request control checks declared placement, pending initializers,
+resource/ECS cleanup and a second ticket entry. The Mecc constructor-role control
+also passes. This is CPU App staging, not graphical menu interaction or visible
+Kabuto; native relocation/history, body/material submission, actual camera and
+controller/world admission remain open. No initializer is acknowledged.
+
+The source passes 915 synthetic Rust tests (108 ignored), the two installed App
+controls, 43 Python tests, strict workspace Clippy and generated site/JavaScript
+checks. The preceding resource-driven action prefix independently matches 1,024
+original-PC/Rust contexts /980,271 words within its declared providers; it remains
+a standalone component. Both source milestones retain their distinct boundaries.
+The next priority is visible menu-to-mission Kabuto, then real walking/turning and
+jump/landing, before feeding/growth and variants. The frozen preview .8 is unchanged.
+
 ## Delphi running held-route terrain publication - 10 November 2026
 
 The running caller can now use actual static terrain queries with its acquired

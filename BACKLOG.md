@@ -615,6 +615,26 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Kabuto next steps
 
+Work in playable slices, in this order. Native research follows the first actual
+blocker in the next slice, rather than continuing adjacent functions by address.
+
+1. Menu-to-mission selection and visible Kabuto at the authored start, with actual
+   initialization services. The common loader now selects the declared character
+   marker and stages Kabuto's acquired cold group instead of requiring the Mecc
+   player preparer. An installed Kstory1 menu request reaches the actual common
+   spawn, retains its player identity and passes cleanup/second entry. This source
+   composition uses the constructor's existing history; native marker relocation
+   and complete caller history remain unverified. All four initializer gates stay
+   pending. **Next blocker: body/material submission and the actual camera /
+   projection path.** Cold construction alone is not visible or playable Kabuto.
+2. Actual input, walking and turning through the common world, camera and
+   collisions; then jump/landing and continuous-session exit/re-entry checks.
+3. Attack, capture and feeding with real target/lifetime owners.
+4. Growth, with the corresponding body, collisions and camera changes.
+5. Remaining variants and exceptional paths. Acquire them earlier only when a
+   preceding playable slice actually depends on them.
+
+
 - Implemented at the standalone CPU boundary: the resource-driven action prefix
   preserves its three distinct exits, definition-flag filtering, captured
   interaction identity and separate related-position source. Low/mid-resource

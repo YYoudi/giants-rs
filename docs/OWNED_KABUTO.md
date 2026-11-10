@@ -2006,3 +2006,27 @@ controller. No complete primary/history/initializer is acknowledged, no ordinary
 Kabuto gameplay or visual fidelity follows, and no new preview is justified by
 this source-only component. Prototype PS2 attribution remains unknown; raw symbols,
 uncertain demangling and PC aliases stay separate in private evidence.
+
+
+## First common mission entry and playable-first priority
+
+The mission worker now projects the requested character's declared start instead
+of always requiring the Mecc marker. For kind 1 it prepares the existing Kabuto
+Factory. Common mission spawn constructs the cold group in its actual ticket-owned
+Session and retains that constructor's identity as player; the Mecc controller
+remains separate. `construct_declared` supplies authored position/angles while
+retaining current/previous values from the actual class constructor. This is an
+explicit source composition, not a native marker-relocation or complete-history
+comparison. No initializer or history is acknowledged by the adapter.
+
+One silent installed-data App control uses a real Kstory1 menu request and the
+common spawn, checks class/marker position and all four pending requirements,
+clears the group and ECS children, then enters again with a new ticket. It does
+not run a graphical menu interaction, draw Kabuto, exercise actual input or prove
+native scheduling. No new executable preview or visual claim follows.
+
+The next required slice is visible body/material submission and actual camera /
+projection ownership, followed by real walking/turning/collision and jump/landing.
+Action-policy subbranches are acquired when that path requires them. Feeding and
+growth follow a validated movement loop. See BACKLOG.md for the single detailed
+priority list; source-only component comparisons retain their existing scope.
