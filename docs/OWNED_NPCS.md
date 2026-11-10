@@ -70,8 +70,10 @@ its fourteen-body result as a playable herd.
 ## Owned Vimp contact producer — 10 November 2026
 
 Intermediate dependency only: Story2 remains unavailable as an interactive Vimp
-AI test. Shared world admission and the birth/animation/render consumers are still
-required. No normal controls or downloadable preview change in this checkpoint.
+AI test. At this contact checkpoint, shared world admission and the render
+consumer were still missing; the later pose consumer above closes that render
+boundary, with live admission and interaction still open. No normal controls or
+downloadable preview change follows from the contact checkpoint.
 
 The exact PC constructor clears the initial contact word independently of its
 previous pool and class-template contents. A focused two-construction control
@@ -129,8 +131,9 @@ control checks the captured image and missing/replaced namespace refusals.
 
 Preparation now reaches the mission owner; it still executes no population or
 world callback and makes no rendering/readiness acknowledgement. Next connect
-the real world admission/clock/control/terrain/effect providers and consume the
-owned births/animation in the common renderer before advertising a testable map.
+the real world admission/clock/control/terrain/effect providers and exercise the
+connected pose consumer with actual admitted births/animation before advertising
+a testable map.
 
 ## Existing reconstruction
 
