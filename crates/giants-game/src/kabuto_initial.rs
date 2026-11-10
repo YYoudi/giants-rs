@@ -52,6 +52,9 @@ pub struct Group {
     pub(crate) held_reference_entered: Option<u64>,
     pub(crate) held_reference_running: bool,
     pub(crate) held_reference_completed: Option<u64>,
+    pub(crate) animation_commit_entered: Option<u64>,
+    pub(crate) animation_commit_running: bool,
+    pub(crate) animation_commit_completed: Option<u64>,
     pub(crate) contact: crate::kabuto_classification::Contact,
     pub declared_class: Arc<specification::Prepared>,
     pub geometry: Geometry,
@@ -104,6 +107,20 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    /// Commit an already selected action/animation at its owning resource
+    /// checkpoint. Selection policy and intervening primary order remain required.
+    pub fn commit_animation_selection(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        frame: crate::kabuto_animation_commit::Frame,
+        animation: &mut crate::actor_animation_phase::Services<'_>,
+        world: &mut impl crate::kabuto_animation_commit::World,
+    ) -> Result<crate::kabuto_animation_commit::View, String> {
+        session.commit_kabuto_animation(owner, &self.resources, number, frame, animation, world)
+    }
+
     /// Retained decision/counter sample from this owner's completed resource
     /// component, rather than a new read of its mutable animation channels.
     pub fn captured_held_reference_input(
@@ -512,6 +529,9 @@ impl Factory {
             held_reference_entered: None,
             held_reference_running: false,
             held_reference_completed: None,
+            animation_commit_entered: None,
+            animation_commit_running: false,
+            animation_commit_completed: None,
             contact: Default::default(),
             declared_class: self.resources.specification.clone(),
             geometry,

@@ -6,6 +6,180 @@ use crate::{
 };
 
 #[test]
+#[ignore = "Requires GIANTS_MECC_WORLD_ROOT; camera-owner prefix with actual Session identities, callback writes, retirement and foreign-owner refusal; no window or sound"]
+fn source_camera_owner_selection_keeps_callback_effects_and_identity() {
+    use crate::camera_owner::{Input, Outcome, State};
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());
+    let r = crate::scene_resources::SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+    let g = giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+        .unwrap();
+    let c = giants_formats::weapons::parse_with_profile(
+        &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    let mut session = Session::new(823);
+    let source = actor(&mut session, &r, &g, &c, None, 0.);
+    let other = actor(&mut session, &r, &g, &c, None, 0.);
+    assert!(session.unique_class(2).is_err());
+    let mut state = State::new(Some(source), 7);
+    let input = || Input {
+        controlled: Some(other),
+        reference: 0,
+        override_enabled: 1,
+        override_owner: Some(other),
+    };
+    let selected = state
+        .select_from_session(&mut session, input(), &mut |s, id, reference| {
+            assert_eq!((id, reference), (source, 0));
+            s.set_presentation_position(id, Some([1., 2., 3.]))
+                .map_err(String::from)
+        })
+        .unwrap();
+    assert_eq!(
+        selected,
+        Outcome::Selected {
+            owner: source,
+            reference_prepared: true
+        }
+    );
+    assert_eq!(state.owner_from_session(&session).unwrap(), Some(source));
+    assert_eq!(state.reference_status(), 1);
+    assert_eq!(session.presentation_position(source), Some([1., 2., 3.]));
+    assert_eq!(session.presentation_position(other), None);
+    let modes = crate::camera_mode::State::new(0, 1, 0.).unwrap();
+    let mut display =
+        crate::mecc_subjective::State::for_session(&session, source, [[0; 9]; 4]).unwrap();
+    assert!(
+        display
+            .prepare_from_camera(
+                1,
+                &session,
+                state.preworld(&session, &modes, 0, 0, Some(other)).unwrap(),
+                0
+            )
+            .unwrap()
+            .owns(&source)
+    );
+
+    let mut failed = State::new(None, 7);
+    assert!(
+        failed
+            .select_from_session(&mut session, input(), &mut |s, id, _| {
+                s.set_presentation_position(id, Some([4., 5., 6.]))?;
+                Err("declared late reference failure".into())
+            })
+            .is_err()
+    );
+    assert_eq!(failed.owner(), Some(other));
+    assert_eq!(failed.reference_status(), 7);
+    assert_eq!(session.presentation_position(other), Some([4., 5., 6.]));
+    assert!(failed.owner_from_session(&session).is_err());
+    assert!(
+        failed
+            .preworld(&session, &modes, 0, 0, Some(other))
+            .is_err()
+    );
+
+    let mut removed = State::new(None, 7);
+    assert!(
+        removed
+            .select_from_session(&mut session, input(), &mut |s, _, _| {
+                s.clear();
+                Err("declared owner retirement during reference preparation".into())
+            })
+            .is_err()
+    );
+    assert_eq!(removed.owner(), Some(other));
+    assert_eq!(removed.reference_status(), 7);
+    assert_eq!(session.counts().residents, 0);
+    assert!(state.owner_from_session(&session).is_err());
+    let replacement = actor(&mut session, &r, &g, &c, None, 0.);
+    assert_ne!(replacement, other);
+    assert!(state.owner_from_session(&session).is_err());
+    let mut foreign = Session::new(824);
+    let foreign_id = actor(&mut foreign, &r, &g, &c, None, 0.);
+    let mut wrong = State::new(None, 7);
+    assert!(
+        wrong
+            .select_from_session(
+                &mut session,
+                Input {
+                    controlled: Some(foreign_id),
+                    reference: 0,
+                    override_enabled: 0,
+                    override_owner: None
+                },
+                &mut |_, _, _| panic!("foreign owner reached reference service")
+            )
+            .is_err()
+    );
+    let mut fresh = State::new(None, 7);
+    assert_eq!(
+        fresh
+            .select_from_session(
+                &mut session,
+                Input {
+                    controlled: Some(replacement),
+                    reference: -1,
+                    override_enabled: 0,
+                    override_owner: None
+                },
+                &mut |_, _, _| panic!("negative reference reached service")
+            )
+            .unwrap(),
+        Outcome::Selected {
+            owner: replacement,
+            reference_prepared: false
+        }
+    );
+    assert_eq!(
+        fresh.owner_from_session(&session).unwrap(),
+        Some(replacement)
+    );
+    let mut negative_foreign = State::new(None, 7);
+    assert!(
+        negative_foreign
+            .select_from_session(
+                &mut session,
+                Input {
+                    controlled: Some(foreign_id),
+                    reference: -1,
+                    override_enabled: 0,
+                    override_owner: None
+                },
+                &mut |_, _, _| panic!("negative reference reached service")
+            )
+            .is_err()
+    );
+    assert_eq!(negative_foreign.owner(), Some(foreign_id));
+    assert_eq!(negative_foreign.reference_status(), 7);
+    let mut retired_success = State::new(None, 7);
+    assert!(
+        retired_success
+            .select_from_session(
+                &mut session,
+                Input {
+                    controlled: Some(replacement),
+                    reference: 0,
+                    override_enabled: 0,
+                    override_owner: None
+                },
+                &mut |s, _, _| {
+                    s.clear();
+                    Ok(())
+                }
+            )
+            .is_err()
+    );
+    assert_eq!(retired_success.owner(), Some(replacement));
+    assert_eq!(retired_success.reference_status(), 1);
+    assert!(retired_success.owner_from_session(&session).is_err());
+    session.clear();
+    foreign.clear();
+}
+
+#[test]
 #[ignore = "Requires GIANTS_MECC_WORLD_ROOT; current camera admission with actual Session resources, no window or sound"]
 fn source_mecc_preworld_camera_prepares_or_retires_actual_display() {
     let root = std::path::PathBuf::from(std::env::var("GIANTS_MECC_WORLD_ROOT").unwrap());

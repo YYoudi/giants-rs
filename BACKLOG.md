@@ -142,7 +142,15 @@ implemented in `camera_mode`, with 1,280 native/Rust command comparisons and the
 Session preparation/inactivity and returns the resulting display snapshot. Keep
 profile/scale/projection backends, camera startup/override producers and world
 ordering explicit before connecting App damage/fire; the default driver is unchanged.
-The current independently verified download is `preview-2026.11.10.3`; its snapshot and receipts
+The acquired owner-selection prefix is now `camera_owner::State`, with all 162
+native/Rust selections matching. Its Session adapter reads real headers, retains
+callback writes/errors and refuses stale/foreign selected owners; `preworld`
+connects that checked owner to existing subjective preparation. The source control
+covers duplicate classes and owner removal/reconstruction. Next bind the actual
+reference-point body, startup/override writers and enclosing world order. Do not
+seed unknown camera words from a view toggle or treat editor/equipment-preview
+player swaps as ordinary mission startup.
+The current independently verified download is `preview-2026.11.10.5`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
 The combined `.3` source includes NPC PR #5's history/newborn runtime, cold Delphi
@@ -513,6 +521,28 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   the current Session refusal until those owners and required action services are
   bound; do not replace list12 with the general list or conflate the relationship
   with physical contact/attachment. This does not admit live Delphi.
+- Implemented: the periodic proximity continuation preserves authority, stored
+  countdown/wide comparison, ordered state/context/damage/anchor filters and first
+  candidate semantics. Rust agrees with 2,048 original contexts through 2,024
+  returns or 24 first required-action boundaries /7,656 tracked reads/helpers.
+  Successful active placement/network effects remain outside this comparison.
+  The explicit owned physical/item/proximity/secondary profile matches 256 native
+  component iterations /2,040,576 normalized words across 22 actors and the final
+  RNG. Profile mismatch, counter persistence, late-error quarantine, clear and
+  re-entry pass. Clock/flat ground/commands, metadata and a recorded sound-stop
+  request sink are supplied; this does not stop voices or admit live interactions.
+- Native-only full-primary diagnosis now completes 256 whole original bodies
+  after the retained initialization/generic entry with declared world/view and
+  projection/OS/TLS boundaries. Its same-input trajectory differs from the old
+  component sequence after target readiness is produced. An inherited zero-
+  readiness assertion belonged to that component harness; it was removed from
+  the whole-body acquisition without changing native state. Prior component
+  comparisons remain scoped to their explicitly acquired sequences.
+  Prioritize actual local target/aim/readiness publication before camera/manual/
+  physical work, then active movement's physical profile and the remaining
+  continuations. Compare full owner/cohort/RNG cycles before menu admission;
+  do not force readiness absent or present, nor treat component agreement as a
+  completed primary. Typed auxiliary/list lifetime and geometry remain required.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -533,6 +563,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   integration exists. Resource loading alone must not change completion status.
 
 ### Kabuto next steps
+
+- Implemented and compared: an already selected animation now commits through
+  the real Session channels, shared setter and zero-second ANM/reference/epoch
+  pipeline. It preserves the earlier template for its counter conversion, scales
+  reference speed, masks flags and stores the behavior/definition only after the
+  required notification. 512 original-PC/source-owned contexts match 410,880
+  normalized header/payload/reference/service words, including 256 declared
+  mutating transport entries and 768 ANM dispatcher visits. Three installed
+  controls cover success, retained late transport failure and owner removal;
+  replay/reentry and foreign/checkpoint refusals remain explicit. The selection
+  policy is supplied; a native moving path can bypass the held-reference entry.
+  Next: acquire complete action/movement selection and its actual primary
+  admission/order, and bind world ownership, lifetime and transport providers.
+  This component completes neither a primary/history nor the four initializers.
 
 - Implemented in the owned CPU composition: the Factory/Session handoff now
   stores current/held actor identities separately from the pointer-normalized
@@ -1050,7 +1094,8 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   Next acquire actual native player replacement/retirement and world ownership;
   this application correction does not provide native selection globals, camera
   startup producers or ordinary owned Mecc admission. The published preview's
-  exact source remains separate from this newer main-source correction.
+  exact source is pinned independently; preview `.5` now includes this application
+  identity correction, while later native ownership work remains incomplete.
   The continuous owned-App diagnostic currently refuses the normal pistol draw
   animation callback/frame service at frame one. Bind its actual provider before
   claiming this diagnostic or ordinary owned gameplay passes; do not clear the
