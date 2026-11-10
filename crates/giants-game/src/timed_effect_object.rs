@@ -106,6 +106,41 @@ pub struct Timed<K> {
     pub(crate) runtime: Runtime,
     pub(crate) references: Owned,
 }
+impl<K> Timed<K> {
+    /// Move the actual body into another typed owner domain without cloning its
+    /// payload, references, callback state or random stream.
+    pub(crate) fn map_parent<L>(self, parent: impl FnOnce(K) -> L) -> Timed<L> {
+        let placement = match self.initial.placement {
+            crate::effect_actor::Placement::Attached {
+                recipient,
+                reference,
+                tag,
+                opaque,
+            } => crate::effect_actor::Placement::Attached {
+                recipient: parent(recipient),
+                reference,
+                tag,
+                opaque,
+            },
+            crate::effect_actor::Placement::Position(p) => {
+                crate::effect_actor::Placement::Position(p)
+            }
+        };
+        Timed {
+            velocity: self.velocity,
+            initial: Initial {
+                origin: self.initial.origin,
+                placement,
+                seed: self.initial.seed,
+                fields: self.initial.fields,
+                render_flags: self.initial.render_flags,
+                matrix: self.initial.matrix,
+            },
+            runtime: self.runtime,
+            references: self.references,
+        }
+    }
+}
 impl<K: Copy> Timed<K> {
     /// Stage ownership while the caller retains the context transaction. The
     /// pool's consume method additionally guards and retires its live identity.

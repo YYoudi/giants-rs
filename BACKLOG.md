@@ -96,6 +96,16 @@ remain required; these callbacks are not enabled by loading or a default no-op.
 
 
 
+## Ordinary Mecc terrain-landing presentation
+
+Actual air-to-terrain contact now requests the canonical source hard-landing
+actor, positional sound and shared particle rendering in the ordinary controller.
+This is enabled without a diagnostic switch. Local sourceb34e1e2 / executable6923eacb graphically shows the source dust cloud
+at the Mecc feet after natural contact, with an actual muted audio sink. Supplied
+commands use the ordinary controller; real held-input interaction remains open.
+Validate the combined main build; native fall damage/pain/death, slide,
+carried/special profiles and full owned admission remain separate prerequisites.
+
 ## Prototype PS2 attribution method — 5 November 2026
 
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
@@ -1900,6 +1910,17 @@ blocker in the next slice, rather than continuing adjacent functions by address.
   complete-program, callback and retirement controls. Ordinary actor parents
   cannot stand in for virtual Flick supports, and preview draw submission does
   not establish live queue admission.
+  The canonical timed-owner API now distinguishes actual actor parents from
+  virtual Flick supports and retains source scope on positional retirement
+  children. Staging moves the existing payload/resources into Session; failed
+  owner checks retain the context and active RNG, and cut cleanup refuses an
+  in-progress callback. Installed controls exercise foreign/stale supports,
+  a real retirement child and independent-generation cancellation. This is a
+  CPU dependency only: the main Flick dispatcher does not consume these APIs
+  yet. Bind actual event dispatch, clocks/RNG and required world services before
+  claiming menu availability; do not substitute an ordinary parent or no-op
+  physical/retirement provider. The retained ordinary preparation comparisons
+  still pass through their shared callback path, with supplied boundaries.
   A new dependency control executes the exact PC thread-state initializer,
   random helper and time-sampled seed setter: state survives repeated calls on
   one supplied thread, stays separate on another, and an actual setter replaces

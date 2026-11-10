@@ -15,7 +15,7 @@ pub use preparation::{
 #[derive(Debug)]
 pub(super) struct Metadata {
     origin: crate::attached_effect_context::Id,
-    placement: Placement<Id>,
+    placement: Placement<Parent>,
     render_flags: u32,
     matrix: Matrix,
     runtime: Runtime,
@@ -23,6 +23,30 @@ pub(super) struct Metadata {
     motion_done: bool,
     gravity_done: bool,
     ordinary: OrdinaryHeader,
+    cinematic_scope: Option<CinematicScope>,
+}
+/// A virtual Flick support must never be registered as an ordinary actor.
+#[derive(Clone, Copy, Debug)]
+enum Parent {
+    Actor(Id),
+    Cinematic(CinematicSupport),
+}
+impl Metadata {
+    pub(super) fn callback_pending(&self) -> bool {
+        !self.runtime.idle() || self.ordinary.preparing()
+    }
+    pub(super) fn cinematic_scope(&self) -> Option<CinematicScope> {
+        self.cinematic_scope
+    }
+    pub(super) fn cinematic_support(&self) -> Option<CinematicSupport> {
+        match self.placement {
+            Placement::Attached {
+                recipient: Parent::Cinematic(support),
+                ..
+            } => Some(support),
+            _ => None,
+        }
+    }
 }
 /// Dynamic header words cleared by ordinary allocation, distinct from the
 /// inline physical payload. Environment/world producers remain prerequisites.
@@ -60,13 +84,20 @@ pub trait Services {
 fn borrow<'a>(
     actor: &'a mut Resident,
     references: &'a mut crate::actor_references::Owned,
-) -> Result<(&'a mut Runtime, Body<'a, Id>), String> {
+) -> Result<(&'a mut Runtime, Body<'a, Parent>), String> {
     let metadata = actor
         .timed_effect
         .as_mut()
         .ok_or("timed Session ownership absent")?;
     let parent_matches = match metadata.placement {
-        Placement::Attached { recipient, .. } => actor.presentation_parent == Some(recipient),
+        Placement::Attached {
+            recipient: Parent::Actor(parent),
+            ..
+        } => actor.presentation_parent == Some(parent) && metadata.cinematic_scope.is_none(),
+        Placement::Attached {
+            recipient: Parent::Cinematic(support),
+            ..
+        } => actor.presentation_parent.is_none() && metadata.cinematic_scope == Some(support.scope),
         Placement::Position(_) => actor.presentation_parent.is_none(),
     };
     if !parent_matches || actor.attachment.is_some() {
@@ -110,12 +141,63 @@ impl Session {
         }
         self.adopt_timed(owned)
     }
-    fn adopt_timed(&mut self, mut owned: Timed<Id>) -> Result<Id, String> {
+    fn adopt_timed(&mut self, owned: Timed<Id>) -> Result<Id, String> {
+        self.adopt_timed_bound(owned.map_parent(Parent::Actor), None)
+    }
+    /// Transfer an actual unadvanced source-marked body, retaining its virtual
+    /// support identity. This does not supply stock admission or a world tick.
+    pub fn adopt_cinematic_timed(&mut self, owned: Timed<CinematicSupport>) -> Result<Id, String> {
+        let Placement::Attached { recipient, tag, .. } = owned.initial.placement else {
+            return Err("cinematic timed body requires its actual virtual support".into());
+        };
+        if recipient.scope.ticket != self.ticket
+            || tag != u32::MAX
+            || owned.initial.render_flags != 0x1000
+        {
+            return Err("cinematic timed body outside its source owner/mark profile".into());
+        }
+        self.adopt_timed_bound(owned.map_parent(Parent::Cinematic), Some(recipient.scope))
+    }
+    /// A retirement child keeps the actual source scope while its placement is
+    /// positional. Its canonical body does not acquire a fictional actor parent.
+    pub fn adopt_cinematic_timed_positioned<K>(
+        &mut self,
+        owned: Timed<K>,
+        scope: CinematicScope,
+    ) -> Result<Id, String> {
+        if scope.ticket != self.ticket
+            || !matches!(owned.initial.placement, Placement::Position(_))
+            || owned.initial.render_flags != 0x1000
+        {
+            return Err("cinematic positional body outside its source owner/mark profile".into());
+        }
+        self.adopt_timed_bound(
+            owned.map_parent(|_| unreachable!("validated positional body has no recipient")),
+            Some(scope),
+        )
+    }
+    fn adopt_timed_bound(
+        &mut self,
+        mut owned: Timed<Parent>,
+        cinematic_scope: Option<CinematicScope>,
+    ) -> Result<Id, String> {
         let parent = match owned.initial.placement {
-            Placement::Attached { recipient, .. } => {
+            Placement::Attached {
+                recipient: Parent::Actor(recipient),
+                ..
+            } => {
                 self.get(recipient)
                     .ok_or("timed constructor parent absent or foreign")?;
                 Some(recipient)
+            }
+            Placement::Attached {
+                recipient: Parent::Cinematic(support),
+                ..
+            } => {
+                if support.scope.ticket != self.ticket {
+                    return Err("timed virtual support belongs to a foreign Session".into());
+                }
+                None
             }
             Placement::Position(_) => None,
         };
@@ -193,11 +275,18 @@ impl Session {
             motion_done: false,
             gravity_done: false,
             ordinary: OrdinaryHeader::allocated(),
+            cinematic_scope,
         });
         self.publish_staged(staged, id)
     }
     pub fn timed_effect_origin(&self, id: Id) -> Option<crate::attached_effect_context::Id> {
         Some(self.get(id)?.timed_effect.as_ref()?.origin)
+    }
+    pub fn cinematic_timed_support(&self, id: Id) -> Option<CinematicSupport> {
+        self.get(id)?.timed_effect.as_ref()?.cinematic_support()
+    }
+    pub fn cinematic_timed_scope(&self, id: Id) -> Option<CinematicScope> {
+        self.get(id)?.timed_effect.as_ref()?.cinematic_scope()
     }
     pub fn timed_effect_failure(&self, id: Id) -> Option<&str> {
         self.get(id)?
@@ -380,6 +469,31 @@ impl Session {
                     .is_some_and(|m| m.runtime.smoke_particle())
             })
             .collect()
+    }
+    /// Canonical smoke descendants and completed positional impact births use
+    /// the same source class867 material/geometry consumer, with distinct owners.
+    pub fn particle_draw_ids(&self) -> Vec<Id> {
+        self.list(0)
+            .into_iter()
+            .filter(|id| {
+                self.get(*id).is_some_and(|a| {
+                    a.timed_effect
+                        .as_ref()
+                        .is_some_and(|m| m.runtime.smoke_particle())
+                        || a.positional_impact.as_ref().is_some_and(|m| m.complete)
+                })
+            })
+            .collect()
+    }
+    pub fn particle_draw_state(
+        &self,
+        id: Id,
+    ) -> Result<Option<crate::smoke_particle_draw::State>, String> {
+        if self.get(id).is_some_and(|a| a.positional_impact.is_some()) {
+            self.positional_impact_draw_state(id)
+        } else {
+            self.smoke_particle_draw_state(id)
+        }
     }
     /// The acquired common and separate state78 effect passes have distinct
     /// flag gates. Outer visibility/model selection remain caller prerequisites.
@@ -591,6 +705,18 @@ impl Session {
         stamp: &mut crate::animation_epoch::Stamp,
         services: &mut impl Services,
     ) -> Result<Step, String> {
+        if self.cinematic_timed_scope(id).is_some() {
+            return Err("cinematic timed callback needs its current virtual support".into());
+        }
+        self.advance_timed_effect_bound(id, seconds, stamp, services)
+    }
+    fn advance_timed_effect_bound(
+        &mut self,
+        id: Id,
+        seconds: f32,
+        stamp: &mut crate::animation_epoch::Stamp,
+        services: &mut impl Services,
+    ) -> Result<Step, String> {
         self.get(id).ok_or("timed actor absent or foreign")?;
         let boundary = {
             let actor = self.residents.get_mut(&id.serial).unwrap();
@@ -689,6 +815,38 @@ impl Session {
         stamp: &mut crate::animation_epoch::Stamp,
         services: &mut impl Services,
     ) -> Result<Step, String> {
+        if self.cinematic_timed_scope(id).is_some() {
+            return Err("ordinary timed preparation cannot bind a virtual Flick support".into());
+        }
+        self.prepare_timed_parented_bound(id, support, support_scale, seconds, stamp, services)
+    }
+    /// Reuse the acquired parented callback on the actual canonical body. The
+    /// matrix belongs to this exact source support; its native source scale is
+    /// one. No ordinary parent ID, epoch, world admission or RNG is fabricated.
+    pub fn prepare_cinematic_timed(
+        &mut self,
+        id: Id,
+        support: CinematicSupport,
+        matrix: Matrix,
+        seconds: f32,
+        stamp: &mut crate::animation_epoch::Stamp,
+        services: &mut impl Services,
+    ) -> Result<Step, String> {
+        if support.scope.ticket != self.ticket || self.cinematic_timed_support(id) != Some(support)
+        {
+            return Err("cinematic timed preparation has a stale or foreign support".into());
+        }
+        self.prepare_timed_parented_bound(id, matrix, 1., seconds, stamp, services)
+    }
+    fn prepare_timed_parented_bound(
+        &mut self,
+        id: Id,
+        support: Matrix,
+        support_scale: f32,
+        seconds: f32,
+        stamp: &mut crate::animation_epoch::Stamp,
+        services: &mut impl Services,
+    ) -> Result<Step, String> {
         self.get(id)
             .ok_or("timed parented actor absent or foreign")?;
         {
@@ -703,7 +861,7 @@ impl Session {
                 return Ok(Step::Inactive);
             }
         }
-        let next = self.advance_timed_effect(id, seconds, stamp, services)?;
+        let next = self.advance_timed_effect_bound(id, seconds, stamp, services)?;
         let actor = self
             .residents
             .get_mut(&id.serial)
@@ -940,6 +1098,10 @@ mod tests {
             }
             // The actor is still registered and its pending callback cannot
             // recursively emit again. No provider invocation should occur.
+            if let Some(scope) = session.cinematic_timed_scope(id) {
+                assert!(session.cancel_cinematic_scope(scope).is_err());
+                assert!(session.get(id).is_some());
+            }
             assert!(
                 session
                     .advance_timed_effect(id, 0., &mut Stamp::default(), self)
@@ -1081,6 +1243,206 @@ mod tests {
         got.extend(m.matrix.values.map(f32::to_bits));
         got
     }
+    #[test]
+    #[ignore = "Requires GIANTS_FLICK_ROOT; silent source-support ownership and callback checks, no world admission"]
+    fn source_timed_virtual_support_is_not_an_ordinary_parent() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_FLICK_ROOT").unwrap());
+        let world = crate::world_source::resolve(&root, "Story4").unwrap();
+        let resources = SceneResources::load(&root, &world.catalog, "English").unwrap();
+        let (mut session, ordinary, mut service) = start(&resources, 4201, 19);
+        let scope = CinematicScope {
+            ticket: 4201,
+            director: 3,
+            generation: 7,
+        };
+        let support = CinematicSupport { scope, slot: 1 };
+        let mut pool = Pool::from_active_resources(4201, &resources);
+        let (created, _) = pool
+            .prepare_cinematic_timed("fx_shotgun_flk", support, 0, u32::MAX, &mut service.random)
+            .unwrap();
+        let Creation::Prepared(origin) = created else {
+            panic!("source context absent")
+        };
+        let owned = Timed::attached(
+            &resources,
+            origin,
+            pool.get(origin).unwrap(),
+            &mut service.random,
+        )
+        .unwrap();
+        let payload = owned.initial.seed.storage.data().unwrap().as_ptr();
+        let id = session.adopt_cinematic_timed(owned).unwrap();
+        pool.release_prepared(origin).unwrap();
+        assert_eq!(
+            session
+                .get(id)
+                .unwrap()
+                .seed
+                .storage
+                .data()
+                .unwrap()
+                .as_ptr(),
+            payload
+        );
+        assert_eq!(session.get(id).unwrap().presentation_parent, None);
+        assert_eq!(session.cinematic_timed_support(id), Some(support));
+        assert!(session.get(ordinary).is_some());
+        let peer_scope = CinematicScope {
+            generation: 9,
+            ..scope
+        };
+        let peer_support = CinematicSupport {
+            scope: peer_scope,
+            ..support
+        };
+        let (created, _) = pool
+            .prepare_cinematic_timed(
+                "fx_shotgun_flk",
+                peer_support,
+                0,
+                u32::MAX,
+                &mut service.random,
+            )
+            .unwrap();
+        let Creation::Prepared(peer_origin) = created else {
+            panic!("peer context absent")
+        };
+        let seed = service.random.0;
+        let mut foreign = Session::new(4202);
+        assert!(
+            pool.activate_cinematic_timed_attached(
+                peer_origin,
+                &mut foreign,
+                &resources,
+                &mut service.random,
+            )
+            .is_err()
+        );
+        assert_eq!(foreign.counts(), Counts::default());
+        assert_eq!(service.random.0, seed);
+        assert!(pool.get(peer_origin).is_some());
+        let peer = pool
+            .activate_cinematic_timed_attached(
+                peer_origin,
+                &mut session,
+                &resources,
+                &mut service.random,
+            )
+            .unwrap();
+        assert!(pool.get(peer_origin).is_none());
+        assert_eq!(session.cinematic_timed_support(peer), Some(peer_support));
+        let before = projection(&session, id);
+        let mut stamp = Stamp::default();
+        assert!(
+            session
+                .advance_timed_effect(id, 0.01, &mut stamp, &mut service)
+                .is_err()
+        );
+        assert!(
+            session
+                .prepare_timed_attached(id, Matrix::identity(), 1., 0.01, &mut stamp, &mut service,)
+                .is_err()
+        );
+        for wrong in [
+            CinematicSupport { slot: 2, ..support },
+            CinematicSupport {
+                scope: CinematicScope {
+                    ticket: 4202,
+                    ..scope
+                },
+                ..support
+            },
+            CinematicSupport {
+                scope: CinematicScope {
+                    director: 4,
+                    ..scope
+                },
+                ..support
+            },
+            CinematicSupport {
+                scope: CinematicScope {
+                    generation: 8,
+                    ..scope
+                },
+                ..support
+            },
+        ] {
+            assert!(
+                session
+                    .prepare_cinematic_timed(
+                        id,
+                        wrong,
+                        Matrix::identity(),
+                        0.01,
+                        &mut stamp,
+                        &mut service,
+                    )
+                    .is_err()
+            );
+            assert_eq!(projection(&session, id), before);
+            assert_eq!(stamp.0, 0);
+        }
+        let mut matrix = Matrix::identity();
+        matrix.values[3] = 11.;
+        matrix.values[7] = -7.;
+        matrix.values[11] = 23.;
+        for _ in 0..2 {
+            session
+                .prepare_cinematic_timed(id, support, matrix, 0.01, &mut stamp, &mut service)
+                .unwrap();
+        }
+        assert!(stamp.0 > 0);
+        session
+            .prepare_cinematic_timed(id, support, matrix, 0.1, &mut stamp, &mut service)
+            .unwrap();
+        assert_eq!(service.retirements, 1);
+        let origin = service.child.unwrap();
+        let mut foreign = Session::new(4202);
+        assert!(
+            service
+                .pool
+                .activate_cinematic_timed_positioned(origin, scope, &mut foreign, &resources,)
+                .is_err()
+        );
+        assert_eq!(foreign.counts(), Counts::default());
+        assert!(service.pool.get(origin).is_some());
+        let child = service
+            .pool
+            .activate_cinematic_timed_positioned(origin, scope, &mut session, &resources)
+            .unwrap();
+        assert!(service.pool.get(origin).is_none());
+        assert_eq!(session.timed_effect_origin(child), Some(origin));
+        assert_eq!(session.cinematic_timed_scope(child), Some(scope));
+        assert_eq!(session.cinematic_timed_support(child), None);
+        assert_eq!(session.get(child).unwrap().presentation_parent, None);
+        assert!(
+            session
+                .advance_timed_effect(child, 0., &mut stamp, &mut service)
+                .is_err()
+        );
+        assert_eq!(session.get(id).unwrap().presentation_parent, None);
+        assert_eq!(session.cinematic_timed_support(id), Some(support));
+        assert_eq!(
+            session
+                .cancel_cinematic_scope(CinematicScope {
+                    generation: 8,
+                    ..scope
+                })
+                .unwrap(),
+            0
+        );
+        let retired_before = service.retirements;
+        assert_eq!(session.cancel_cinematic_scope(scope).unwrap(), 2);
+        assert!(session.get(id).is_none());
+        assert!(session.get(child).is_none());
+        assert!(session.get(ordinary).is_some());
+        assert_eq!(service.retirements, retired_before);
+        assert_eq!(session.cancel_cinematic_scope(scope).unwrap(), 0);
+        assert!(session.get(peer).is_some());
+        assert_eq!(session.cancel_cinematic_scope(peer_scope).unwrap(), 1);
+        assert!(session.get(peer).is_none());
+    }
+
     #[test]
     #[ignore = "Requires installed data and private original-PC ordinary preparation controls; silent, no world admission"]
     fn source_timed_positioned_preparation_uses_owned_header_and_terrain() {

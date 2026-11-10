@@ -7243,6 +7243,51 @@ impl Session {
     pub fn positional_impact(&self, id: Id) -> Option<&crate::positional_impact::Metadata> {
         self.get(id)?.positional_impact.as_ref()
     }
+    /// Common draw pass of the acquired flags0 positional class867 birth.
+    /// The constructor has no separate effect-pass render mark. Read the actual
+    /// callback owner, without replaying construction, time or random draws.
+    pub fn positional_impact_draw_state(
+        &self,
+        id: Id,
+    ) -> Result<Option<crate::smoke_particle_draw::State>, String> {
+        let actor = self.get(id).ok_or("impact draw actor absent or foreign")?;
+        let m = actor
+            .positional_impact
+            .as_ref()
+            .ok_or("impact draw ownership absent")?;
+        let f = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("impact draw header absent")?;
+        if !m.complete || m.failure.is_some() || m.cleanup_started {
+            return Err("impact draw birth unfinished or owner quarantined".into());
+        }
+        if actor.class != 867
+            || f.class != actor.class
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 78
+            || actor.seed.storage.data().is_none_or(|d| d.len() != 268)
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+            || !self.list(0).contains(&id)
+        {
+            return Err("impact draw outside acquired unparented class867 profile".into());
+        }
+        if f.object_flags & 0x4000c080 != 0 {
+            return Ok(None);
+        }
+        Ok(Some(crate::smoke_particle_draw::State {
+            class: actor.class,
+            passes: 1,
+            world: m.matrix,
+            personality: f.configuration[14],
+            position: f.position,
+            scale: f.scale,
+            angle: f.angles[0],
+            transparency: m.initial_opacity,
+            epoch: actor.mecc_animation_stamp,
+        }))
+    }
     pub(crate) fn construct_positional_impact(
         &mut self,
         input: Construction<'_>,

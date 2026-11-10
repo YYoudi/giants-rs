@@ -306,7 +306,46 @@ impl Pool<crate::resident_states::Id> {
         Ok(result)
     }
 }
+impl Pool<crate::resident_states::CinematicSupport> {
+    /// Publish the real timed body under its virtual source support. Failed
+    /// staging retains the prepared identity and the caller's active RNG state.
+    pub fn activate_cinematic_timed_attached(
+        &mut self,
+        id: Id,
+        session: &mut crate::resident_states::Session,
+        resources: &crate::scene_resources::SceneResources,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<crate::resident_states::Id, String> {
+        let context = self
+            .get(id)
+            .ok_or("cinematic timed context absent or retired")?;
+        let mut staged = *random;
+        let owned =
+            crate::timed_effect_object::Timed::attached(resources, id, context, &mut staged)?;
+        let actor = session.adopt_cinematic_timed(owned)?;
+        self.release_prepared(id)?;
+        *random = staged;
+        Ok(actor)
+    }
+}
 impl<K: Copy + Eq> Pool<K> {
+    /// Transfer a source-marked positional descendant only after all fallible
+    /// construction and canonical owner checks, without creating a parent ID.
+    pub fn activate_cinematic_timed_positioned(
+        &mut self,
+        id: Id,
+        scope: crate::resident_states::CinematicScope,
+        session: &mut crate::resident_states::Session,
+        resources: &crate::scene_resources::SceneResources,
+    ) -> Result<crate::resident_states::Id, String> {
+        let context = self
+            .get(id)
+            .ok_or("cinematic positional context absent or retired")?;
+        let owned = crate::timed_effect_object::Timed::positioned(resources, id, context)?;
+        let actor = session.adopt_cinematic_timed_positioned(owned, scope)?;
+        self.release_prepared(id)?;
+        Ok(actor)
+    }
     pub(crate) fn retired(&self, id: Id) -> bool {
         id.ticket == self.ticket
             && self.slots.get(id.slot).is_some_and(|slot| {
