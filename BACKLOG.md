@@ -85,11 +85,17 @@ subjective actor. Preserve these prerequisites when consuming the next Mecc lot.
 The 10 November native camera review adds 162 owner-selection prefix cases and
 864 full ordinary-Mecc pre-world admission cases (sixty active copies); see
 [OWNED_CAMERA.md](docs/OWNED_CAMERA.md). Reference-point status and actual display
-activity are separate. Before App binding, acquire startup/mode/override writers
+activity are separate. Before App binding, complete startup/mode/override lifecycles
 and world ordering, resolve the actual owner and model references, and preserve
 per-call inactive transitions. These native controls still supply current globals
-and resources; they do not establish Rust equivalence or normal gameplay admission.
-The current independently verified download is `preview-2026.11.10.1`; its snapshot and receipts
+and resources; they do not establish whole-header Rust equivalence or normal
+gameplay admission. The shared mode command and camera eligibility policy are now
+implemented in `camera_mode`, with 1,280 native/Rust command comparisons and the
+864 admission vectors. `State::prepare_from_camera` connects this policy to actual
+Session preparation/inactivity and returns the resulting display snapshot. Keep
+profile/scale/projection backends, camera startup/override producers and world
+ordering explicit before connecting App damage/fire; the default driver is unchanged.
+The current independently verified download is `preview-2026.11.10.2`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
 
 The 10 November integration review exercised the published `.13` menu, opening
