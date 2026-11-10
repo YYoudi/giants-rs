@@ -25,6 +25,16 @@ pub(crate) struct Replay {
     film_finished: bool,
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    if let Ok(tick) = std::env::var("GIANTS_PERSISTENT_SAMPLE_MIN_TICK")
+        && (std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-persistent")
+            || std::env::var_os("GIANTS_PERSISTENT_SAMPLE_SEQUENCE").is_none()
+            || !tick.parse::<i32>().is_ok_and(|tick| tick >= 0))
+    {
+        return Err(
+            "persistent sample tick requires its explicit replay, sequence and a nonnegative i32"
+                .into(),
+        );
+    }
     if std::env::var_os("GIANTS_PERSISTENT_SAMPLE_COMPLETION").is_some()
         && (std::env::var("GIANTS_PERSISTENT_SAMPLE_COMPLETION").as_deref() != Ok("1")
             || std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-persistent"))
@@ -405,6 +415,11 @@ fn drive(
                         cinematic
                             .as_ref()
                             .is_some_and(|c| c.sequence().eq_ignore_ascii_case(&wanted))
+                    })
+                    && std::env::var("GIANTS_PERSISTENT_SAMPLE_MIN_TICK").map_or(true, |tick| {
+                        cinematic
+                            .as_ref()
+                            .is_some_and(|c| tick.parse::<i32>().is_ok_and(|tick| c.tick() >= tick))
                     })
                     && effects
                         .as_ref()
