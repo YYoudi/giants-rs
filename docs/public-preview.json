@@ -1,12 +1,13 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.10.4",
-  "source_commit": "ffb2f60583a74bdfc8eea6eab1527432a2bd552d",
-  "executable_sha256": "dc470112ab95e3c14121a0d328174eaedc901e7a20db9fb238ad60a051a17e24",
-  "archive_sha256": "726a3fbfb8e106062fbd8a14aa9c438ed52a5e03c2976cd9a9a1368baf470428",
+  "tag": "preview-2026.11.10.5",
+  "source_commit": "59a01a5a24dc6b53c432ba0e65d57f94c7f12dba",
+  "executable_sha256": "11007f4a85871581cba116d66d2780cf256433c6e0d8ec1ebb305cb4da4a69e2",
+  "archive_sha256": "f1769e97c44e4a83275d5f46f84fc6849bddd27822d22389b1b8216cc4afea62",
   "checks": [
     "offscreen_menu_cycles",
-    "selected_cinematic_transport"
+    "selected_cinematic_transport",
+    "manual_menu_skip_return"
   ],
   "limitations": [
     "ordinary_mecc_native_motion",

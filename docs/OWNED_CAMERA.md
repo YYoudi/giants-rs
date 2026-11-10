@@ -7,6 +7,33 @@ remains unassigned. Naming does not expand the behavioral evidence below.
 
 ## Producer and consumers
 
+### Session-bound owner-selection prefix
+
+`camera_owner::State` retains the acquired current owner and reference-point
+status, with explicit initial values. An eligible retained owner precedes an
+override; otherwise an enabled nonnull override precedes the controlled actor.
+A missing controlled actor leaves the existing words untouched. Negative indices
+and disabled owners skip reference preparation without clearing its old status.
+The new owner is published before the required reference service, while success
+status follows its return. Errors retain callback effects and quarantine replay.
+
+`select_from_session` reads actual Session headers and invokes the required
+reference service against that same Session. No working actor copy is restored
+after removal. Additional Rust lifetime guards refuse foreign/retired selected
+actors, including selections without a header read and successful callbacks that
+remove their owner. `preworld` binds the existing subjective preparation input to
+this checked owner; mode/force/profile producers and enclosing order stay explicit.
+
+All 162 retained original prefix cases match Rust owner/status and reference-call
+owner/index. The reference-point body is supplied and the later camera update is
+outside this comparison. A silent installed-resource control covers duplicate
+classes, actual subjective preparation from the selected owner, callback writes,
+late failure, retirement, foreign identities and clean reconstruction. These are
+bounded composition checks, not the native world scheduler or App admission.
+Startup, override production and the reference-point service remain prerequisites;
+no first-person input, damage/fire provider or gameplay readiness is enabled.
+Prototype PS2 attribution remains unknown.
+
 ### Current-owner and pre-world admission acquisition — 10 November 2026
 
 Current camera ownership, camera reference-point status and subjective display

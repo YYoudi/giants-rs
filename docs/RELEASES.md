@@ -1,5 +1,83 @@
 # Preview releases and milestone integration
 
+## Selected camera owner and combined identity checkpoint — 10 November 2026
+
+`camera_owner::State` implements the acquired owner-selection prefix with explicit
+startup words. An eligible retained owner precedes overrides; absent controlled
+actors leave state untouched. The selected owner precedes required reference
+preparation, while status publication follows success. Skipped preparation keeps
+the old status. Callback effects survive errors without replay. The Session
+adapter reads actual headers and guards foreign/retired selections; its checked
+owner feeds the existing subjective preparation input.
+
+All 162 original-PC/Rust prefix controls agree on owner/status and requested
+reference owner/index. The reference-point body and remaining camera update are
+outside this comparison. The installed-data control covers duplicate classes,
+subjective resource preparation, retained late failures and removal/reconstruction.
+No new prototype PS2 attribution is confirmed; startup/override production and
+world scheduling remain prerequisites. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
+
+Combined source preserves the concurrent physical-environment retention change
+and passes 877 workspace Rust tests (71 ignored), the camera-owner, existing
+pre-world and application actor-role installed controls, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated roadmap/site/JavaScript checks.
+
+Published [preview-2026.11.10.5](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.5)
+combines this dependency with the earlier player/carried identity correction and
+retained physical-environment stages. It pins source
+`59a01a5a24dc6b53c432ba0e65d57f94c7f12dba`, executable SHA256
+`11007f4a85871581cba116d66d2780cf256433c6e0d8ec1ebb305cb4da4a69e2` and ZIP SHA256
+`f1769e97c44e4a83275d5f46f84fc6849bddd27822d22389b1b8216cc4afea62`.
+Receipt-bound CLI startup, both offscreen development endpoints (six launches)
+and two selected Rstory1 mission 2 source-terminal/re-entry cycles pass, with
+actual muted voice sinks and text/resource cleanup.
+
+One actual muted Windows UI profile covers menu start, double-click opening skip,
+partial Mecc entry, menu return, second entry, Escape opening skip, second partial
+Mecc entry, menu return and confirmed quit. Both returns release the tracked
+mission entities/assets; normal captions recover after both skips. It verifies
+neither held native thrust/descent/landing nor broad campaign or visual fidelity.
+
+Technical collection verifies 338 dependency packages, eleven toolchain notices
+and the unchanged twenty-nine-DLL system import set. The public ten-member ZIP,
+all three asset API digests, adjacent/internal checksums, immutable source tag and
+source ancestry on main were independently downloaded/checked after publication.
+There are zero packaging blockers. This release enables no new native Mecc
+controller, other character gameplay or complete cinematic. The known normal
+pistol draw callback/frame service and other world/provider prerequisites remain.
+
+The subsequent combined main candidate `e068bee` preserves the later Kabuto
+selected-animation commit without changing the frozen `.5` executable source.
+It passes 877 workspace Rust tests (74 ignored), three installed Kabuto animation
+commit controls, four held-reference controls, the selected-camera-owner control,
+43 Python tests, Rustfmt and strict workspace Clippy. Its all-reference audit
+scans 788 commits / 4,424 blobs with zero findings. Later source-only Kabuto
+selection work is not attributed to the earlier preview executable.
+
+## Kabuto selected-animation commit — 10 November 2026
+
+An already selected animation now commits through the actual Session channels,
+shared setter and immediate zero-second ANM/reference pipeline. Required transport
+observes preceding selection stores; callback effects survive errors, and owner
+removal prevents stale restoration. The caller's earlier template is retained for
+counter conversion. Action/movement selection policy and complete primary order
+remain required; no initializer/history or gameplay admission is acknowledged.
+
+512 original-PC/source-owned contexts match 410,880 normalized state/service words,
+including 256 declared mutating transport entries and 768 ANM dispatcher visits.
+The original setter, ANM body, ownership predicate and converter execute. Transport
+delivery, complete event/world outcomes and supplied selection policy are outside
+that agreement. Three installed controls cover success, late failure and removal.
+
+Combined runtime source `315177c` preserves the newer actor-role identities,
+physical/gravity effect ordering and environment error retention. Validation passes
+874 workspace Rust tests (73 ignored), twenty-three Kabuto controls plus its
+separate cold control, thirteen Mecc, seven Delphi, the application-role and timed
+ownership checks, 43 Python tests, Rustfmt and strict Clippy. The complete native
+comparison repeats against that combined source. The existing public preview .4
+retains its immutable identities; this source component adds no download or
+playable Kabuto claim.
+
 ## Source-only environment failure retention — 10 November 2026
 
 The common ordinary finalization service now retains completed environment and
@@ -191,6 +269,51 @@ passes 872 Rust tests (65 ignored), strict Clippy/Rustfmt, seven installed Delph
 controls, six NPC ownership/history/newborn controls and 43 Python/site checks.
 The readonly prefix remains source-only relative to `.3`; its required current
 relationships and selected action are not acknowledged by the application.
+
+## Delphi owned proximity continuation - 10 November 2026
+
+The explicit controlled component profile now owns the periodic proximity
+continuation after items and before secondary/zero-time animation. It preserves
+countdown and filter order, first-candidate behavior, retained late errors,
+profile refusal and replay/cleanup ownership. Across 256 original component
+iterations, 2,040,576 normalized words over 22 actors/reference caches/owner
+payload/lists and the shared RNG endpoint agree. Supplied time/flat ground,
+commands/preferences, metadata and recorded sound-stop requests bound the check.
+Eight installed Delphi controls pass; state102 interaction providers remain
+refused. This does not execute actual sound stops or admit ordinary Delphi.
+
+The separate scalar/selection control matches 2,048 native contexts through
+2,024 returns and 24 first required-action stops /7,656 tracked reads/helpers.
+Original authority/time/anchor/distance helpers execute with supplied snapshots;
+reference-slot composition, successful active alignment/transport and runtime
+geometry ownership remain outside those controls.
+
+Native-only tracing of 256 whole primary bodies now identifies the next
+integration dependency: readiness production changes the subsequent trajectory.
+A same-input component comparison therefore cannot establish a full primary.
+Continue local aim/target/readiness publication and active physical scheduling,
+then the enclosing controller/world composition before menu admission. This adds
+no gameplay capture or downloadable preview. Existing release receipts retain
+their original build identities; prototype PS2 attribution remains unknown.
+
+The source passes 875 workspace Rust tests (66 ignored), eight installed Delphi
+controls, 43 Python tests, Rustfmt and strict Clippy. The common MinGW menu
+application compiles and its CLI startup passes with an explicitly waited child.
+These checks retain their source/component scope; no new playable download is
+advertised by this milestone.
+
+The combined runtime `4d28980` also preserves current constructor-role bindings,
+retained environment failures and Kabuto reference/animation work. It passes
+877 Rust tests (74 ignored), eight installed Delphi controls, three Kabuto
+animation-commit controls, one timed-effect ownership control, 43 Python tests,
+Rustfmt and strict Clippy. Its common MinGW application compiles; the retained
+public preview snapshot keeps its independently reviewed build identities.
+
+The following camera-owner combination `9997103` passes 880 Rust tests (75
+ignored), strict Clippy and Rustfmt. Its additional module leaves the validated
+Delphi component/runtime source unchanged. The actual public preview snapshot
+is now the separately verified `.5`; this source-only milestone does not
+relabel that executable as containing the later Delphi continuation.
 
 ## Delphi auxiliary-request prefix - 10 November 2026
 

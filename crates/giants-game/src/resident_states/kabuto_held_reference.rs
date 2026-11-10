@@ -86,7 +86,7 @@ impl Session {
         Ok(())
     }
 
-    fn check_kabuto_reference_owner(
+    pub(super) fn check_kabuto_reference_owner(
         &self,
         owner: Id,
         resources: &Resources,

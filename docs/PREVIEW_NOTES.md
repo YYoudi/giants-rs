@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.10.4
+# Windows x64 development preview - preview-2026.11.10.5
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -11,6 +11,27 @@ owner's estimate and has not received comprehensive human review. This estimate
 is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
+
+## Player identities and camera-owner dependency
+
+The common application retains the player and carried actor's actual constructor
+identities. Their resources, motion, pickup, carried animation/references and
+audio routing no longer depend on a unique actor class. Retired and foreign
+owners refuse instead of selecting another instance of the same class.
+
+The acquired camera-owner prefix now reads real Session headers and retains
+callback effects after late errors. Its checked owner can feed the existing
+subjective preparation consumer. Initial camera words, override production,
+the reference-point body and native world scheduling remain required. This
+dependency enables no new first-person input or ordinary native Mecc control.
+The continuous owned-App diagnostic still encounters the required normal pistol
+draw animation callback/frame service at frame one, also reproduced before the
+identity correction. It is not reported as successful continuous gameplay.
+
+The shared physical environment now retains completed contact stages when a
+later platform service fails. Lower-level unreturned mutations remain outside
+that retained prefix. These corrections preserve explicit provider boundaries;
+they do not establish additional complete films, campaigns or visual fidelity.
 
 ## Timed physical state and service order
 

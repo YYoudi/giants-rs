@@ -12,6 +12,8 @@ use std::sync::Arc;
 mod delphi;
 mod delphi_camera;
 mod delphi_held;
+#[cfg(test)]
+mod delphi_proximity_tests;
 mod parent_binding;
 pub use parent_binding::AttachmentWords;
 #[cfg(test)]
