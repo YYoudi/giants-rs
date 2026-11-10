@@ -11,6 +11,10 @@ Lower-level unreturned mutations, canonical timed ordinary-preparation binding,
 world admission and visual fidelity remain open. Prototype PS2 attribution is
 unknown. This is a source dependency after preview .4; its immutable download
 snapshot and certified-scene count remain unchanged. No new binary is advertised.
+The combined tree preserves the application actor-identity contribution and
+passes 874 workspace Rust tests (70 ignored), both scoped installed timed-owner
+and application-role checks, 43 Python tests, Rustfmt and strict Clippy. These
+checks validate the source dependency; they add no rendered-film coverage.
 
 ## Application player/carried identities — 10 November 2026, source only
 
