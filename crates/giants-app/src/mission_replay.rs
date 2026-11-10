@@ -363,6 +363,9 @@ fn drive(
                 && environment.presentation_ready()
                 && pipelines.0
             {
+                if let Ok(Some(candidate)) = runtime.environment_candidate() {
+                    environment.inspect(frontend.flow.ticket, candidate.eye);
+                }
                 if replay.since == 0. {
                     replay.since = time.elapsed_secs();
                     return;
