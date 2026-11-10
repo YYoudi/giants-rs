@@ -97,7 +97,12 @@ The dedicated NPC lane resumes existing work; see
   the same RNG. Six further installed controls retain terminal callback writes,
   noise targets, opaque bytes, nested failure and cancellation. Priority/signal/
   channel entries and session/noise/affine/RNG phases are declared test inputs,
-  not native caller/readiness producers. Next acquire the actual caller point,
+  not native caller/readiness producers. A separate actual-PC caller control
+  injects only the warm signal: 28 animation-unready entries and one completed
+  response/vector return are observed without forcing physical/channel flags.
+  The captured-helper Rust comparison matches 29 entries /957 words; caller
+  binding/tail and Rust whole-primary composition remain excluded. Next acquire
+  the remaining caller/active-response phase after that helper return,
   required action and hint bodies, live session snapshot and typed linked/target
   ownership, active response/mode7 continuation, required
   sound/animation and exact primary call timing; bind world-noise production.

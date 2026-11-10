@@ -206,6 +206,17 @@ snapshots, noise, initial affine phase and global RNG phase are supplied. Requir
 action callbacks in the tests are controlled mutations/failures, not transport
 implementations. No new native comparison of this Session composition is claimed.
 
+A separate original-PC caller control retains real construction, births, common
+scheduling and primary execution, injecting only the warm signal flag. It observes
+29 actual response entries: 28 with animation not ready, then one complete signal/
+vector response after readiness appears. Physical and channel flags are not forced
+in that native control. A Rust response/vector comparison from those captured
+helper entries matches 957 projected state/RNG/route words. Captured entry fields
+and source route are inputs to this comparison; it is not Rust whole-primary or
+Session-composition proof. Execution stops immediately after the helper return,
+before the caller's subsequent binding write and tail. Remaining caller/active
+response work must retain that boundary and the actual readiness producer.
+
 Nonzero raw link or target state refuses before entry until it has a typed owned
 producer; it is never silently cleared. This strict preflight requires the available
 parent/affine even when the helper's predicate would skip a later read. It does

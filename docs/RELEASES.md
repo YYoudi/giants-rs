@@ -19,6 +19,20 @@ and ordinary world admission remain open. This is not a new native comparison of
 Session composition or a gameplay/preview claim. Prototype PS2 attribution remains
 unknown. See [OWNED_NPCS.md](OWNED_NPCS.md).
 
+Runtime source `3e5c446` retains main's dependency-order contribution. It passes
+901 workspace Rust tests (95 ignored), twenty-five installed NPC controls plus
+the installed Delphi dependency-order regression, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated roadmap/site/JavaScript checks. Rebuilt
+predicate/response/vector comparisons retain their original measured scope.
+
+A separate original-PC caller control injects only the warm signal flag. It
+observes 28 animation-unready response entries and one completed signal/vector
+response without forcing physical or channel flags. The Rust composed-helper
+comparison on those captured entries matches 29 contexts /957 state/RNG/route
+words, stopping before the caller's binding/tail. Captured entry fields are
+inputs; this adds no Rust whole-primary or Session-composition equivalence.
+The public preview snapshot and gameplay availability remain unchanged.
+
 ## Owned Vimp vector publication - 10 November 2026, source only
 
 The isolated vector entry now uses actual Session child/parent/marker ownership.
