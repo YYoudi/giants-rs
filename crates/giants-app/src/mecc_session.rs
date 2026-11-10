@@ -102,10 +102,9 @@ pub fn capture_allowed(world: &World) -> bool {
     if session.replay_cycles.is_some() && !session.done {
         return false;
     }
-    if crate::frontend_scene::kabuto_body_inspection_replay()
-        && world
-            .get_resource::<crate::mission_runtime::Runtime>()
-            .is_some_and(|runtime| runtime.kabuto_body().is_some())
+    if world
+        .get_resource::<crate::mission_runtime::Runtime>()
+        .is_some_and(crate::frontend_scene::initial_body_inspection_present)
         && world
             .get_resource::<crate::world_scene::Scene>()
             .is_some_and(|scene| {

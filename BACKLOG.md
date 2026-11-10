@@ -51,6 +51,17 @@ After the basic loop, advance NPC interactions, objectives, failure/restart and
 progression, then character/campaign coverage and finer fidelity. Detailed domain
 inventories and dated evidence below remain authoritative within their scope.
 
+### Later main follow-ups, outside the frozen .9 download
+
+Health/fuel gauges present the existing controller values, with low/critical
+colors; a local supplied-command GPU image verifies their initial display, not
+real changing levels or native HUD fidelity. Separate local build ec097cb
+accepts two actual mouse-fire actions and Escape cleanup; long flight and its
+manual projectile image remain unverified there. Initial Delphi/Kabuto body
+inspection and external PC camera coefficient reading remain dependencies for
+the same live controllers, not new gameplay readiness. Their dated technical
+and release notes retain the precise source/build identity and remaining owners.
+
 ## Prototype PS2 attribution method — 5 November 2026
 
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
@@ -247,10 +258,12 @@ player swaps as ordinary mission startup.
 Current profile family/view selection is now Session-bound: 20,580 full native/
 Rust controls match 41,160 selection words, including independent controlled
 class/state and nonrecursive parent substitution. Its required coefficient catalog
-has no default. Next acquire the exact PC-backed coefficient reader without
-copying original tables into Git, then bind actual input/device producers and
-activation/world order. Preserve separate current owner/controlled identities and
-requery after mode/scale callbacks; never cache the first query for the second.
+has no default. An external PC-backed coefficient reader now covers all nine
+families and three bounded views, matching 44 original getter contexts /88 words;
+an actual owned Delphi reset control captures projection requests with supplied
+mode/owner inputs. Next bind actual input/device producers and startup/activation/
+world order; the reader alone acknowledges no pending projection reset. Preserve
+separate current owner/controlled identities and requery after mode/scale callbacks; never cache the first query for the second.
 See [OWNED_CAMERA.md](docs/OWNED_CAMERA.md) for the authoritative contract and
 supplied boundaries. No ordinary App admission follows from this selector.
 The current independently verified download is `preview-2026.11.10.8`, source
@@ -330,8 +343,12 @@ retain the actual declared Delphi owner/held/copy group, then connect supported
 keyboard/mouse movement, jump and camera. **Construction is now connected:**
 `delphi_declared::Factory` and the common loader retain the actual constructor Id,
 including late failures, with source-template shell history and declared placement.
-The next runtime gap is projection reset plus the first animation/render and
-physical/camera/input driver consuming this same owner. Confirm source start and
+The actual initial body now reaches the common renderer through a scratch channel
+snapshot; a source-bound offscreen Rstory1 image confirms it is visible with the
+declared-start inspection camera. This does not mutate world ANM/affine caches.
+The next runtime gap is actual projection reset and the complete first primary/
+physical/camera/input driver, held/copy placement and live animation consuming this
+same owner. Confirm source start and
 contact/water prerequisites; do not teleport or force state to make a dry slice.
 Main integration owns combined delivery. No ordinary Delphi controls are newly
 available; the source-backed App control uses an all-unlocked test menu mask and
@@ -1826,6 +1843,35 @@ blocker in the next slice, rather than continuing adjacent functions by address.
   the complete comparison gallery appears before the progress tables.
 
 ## Cinematics / Flick: coverage and next prerequisites
+
+- Persistent main-renderer batch: private source `04cb614` produces all 23
+  selected-director images through four startup and nineteen completion chains,
+  reusing one exact-build image. Each has same-ticket/director creation, visible
+  draw submission and GPU preparation. These first-active snapshots reach 24
+  of 25 declared requests; the second request in one source occurs later.
+  Source `d87ffc5` initially suspended on a post-advance clock tick before that
+  request was dispatched. Its apparent late-sample success is rejected.
+  The corrected observer records the command cursor's actual evaluation tick,
+  checks the consumed effect revision/director/generation, and waits for every
+  live persistent owner to advance twice. It preserves native dispatch order.
+  A separate receipt-bound `2ad85fa` capture reaches and draws both request
+  offsets, with both owners advanced. Keep the two executable scopes distinct.
+  The current queue already shares supports by declared effect slot; no inferred
+  placement, duration or retarget policy was substituted. Original world/lifetime
+  behavior, full playback and native pixels remain to certify.
+
+- Reached-time image comparison: the main-menu persistent observer accepts an
+  optional tick bound for an explicitly selected director. It waits for actual
+  playback and Session-owned updates, then suspends the reached state for GPU
+  capture. It writes no source time or effect lifetime. A receipt-bound MinGW
+  build of `d87ffc5` passes selected startup and completion captures, including a
+  nonzero animation origin, the default observer and five invalid-input refusals.
+  A misplaced negative-test profile directory is retained as a failed harness
+  attempt; it supplied no guard evidence before that fixture was corrected.
+  Reported-time comparisons make earlier apparent pose differences much smaller;
+  native final-image phase, global lighting/glare phase and complete fidelity
+  remain unverified. Source origins must be read per director, never assumed.
+  The retained original source/table/protocol identities remain prerequisites.
 
 - First ordinary mission transport regression: a private receipt-bound MinGW
   build of combined source `04cb614` follows Story1 menu mission 0 through all

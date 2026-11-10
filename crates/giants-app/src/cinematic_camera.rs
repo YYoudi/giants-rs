@@ -258,6 +258,7 @@ pub struct Cinematic {
     last_second: i32,
     events: Vec<giants_game::flick::Event>,
     event_seconds: f32,
+    event_tick: i32,
     revision: u64,
     generation: u64,
     benchmark: bool,
@@ -274,6 +275,10 @@ impl Cinematic {
     }
     pub(crate) fn event_seconds(&self) -> f32 {
         self.event_seconds
+    }
+    /// Tick actually evaluated by the command cursor, before clock advancement.
+    pub(crate) fn event_tick(&self) -> i32 {
+        self.event_tick
     }
     pub(crate) fn suspend(&mut self, paused: bool) {
         self.paused = paused;
@@ -528,6 +533,7 @@ impl Cinematic {
                 last_second: -1,
                 events,
                 event_seconds: 0.,
+                event_tick: initial,
                 revision: 1,
                 generation: 0,
                 benchmark,
@@ -711,6 +717,7 @@ pub fn update(
         let scheduled = cine.segments[index].step(old_tick, seconds);
         match scheduled {
             Ok(step) => {
+                cine.event_tick = old_tick;
                 if cine.clock_initialized {
                     cine.events = step.events;
                 } else {

@@ -72,6 +72,7 @@ struct Payload {
     player: Result<Arc<giants_game::player_initial::Prepared>, String>,
     kabuto: Result<Option<giants_game::kabuto_initial::Factory>, String>,
     kabuto_body: Option<Arc<giants_game::player_body::Prepared>>,
+    delphi_body: Option<Arc<giants_game::player_body::Prepared>>,
 
     delphi: Result<Option<giants_game::delphi_declared::Factory>, String>,
     controller: Result<Option<crate::mecc_dev_scene::State>, String>,
@@ -252,6 +253,15 @@ fn prepare_delphi(
     .map(Some)
 }
 impl Runtime {
+    pub(crate) fn delphi_body(&self) -> Option<(u64, &giants_game::player_body::Prepared)> {
+        let active = self.active.as_ref()?;
+        let body = active.payload.delphi_body.as_deref()?;
+        (active.bindings.player == Some(body.owner) && body.current(&active.resident_states))
+            .then_some((active.ticket, body))
+    }
+    pub(crate) fn initial_player_body(&self) -> Option<(u64, &giants_game::player_body::Prepared)> {
+        self.kabuto_body().or_else(|| self.delphi_body())
+    }
     pub(crate) fn kabuto_body(&self) -> Option<(u64, &giants_game::player_body::Prepared)> {
         let active = self.active.as_ref()?;
         let body = active.payload.kabuto_body.as_deref()?;
@@ -1483,6 +1493,7 @@ fn spawn(
     }
     let mut resident_states = giants_game::resident_states::Session::new(ticket);
     let mut bindings_by_role = ActorBindings::default();
+    payload.delphi_body = None;
     match &payload.delphi {
         Ok(Some(factory)) => {
             let attempt = factory.construct_declared(
@@ -1494,6 +1505,14 @@ fn spawn(
                 Ok(initial) => {
                     bindings_by_role.delphi_projection_reset_required =
                         Some(initial.camera_projection_reset_required);
+                    match giants_game::player_body::Prepared::from_session(
+                        payload.plan.resources(),
+                        &resident_states,
+                        initial.owner,
+                    ) {
+                        Ok(body) => payload.delphi_body = Some(Arc::new(body)),
+                        Err(error) => blocked.push(format!("Delphi body preparation: {error}")),
+                    }
                     println!(
                         "mission_delphi_constructed ticket={ticket} owner={:?} class=3 held={:?} copies={} position={:?} projection_reset_required={} declared_placement=true native_relocation_verified=false controller=false ready=false",
                         initial.owner,
@@ -2093,6 +2112,7 @@ fn drive(
                     player,
                     kabuto,
                     kabuto_body: None,
+                    delphi_body: None,
 
                     delphi,
                     controller,
@@ -2494,6 +2514,7 @@ mod tests {
             player: Err("synthetic fixture has no player resources".into()),
             kabuto: Ok(None),
             kabuto_body: None,
+            delphi_body: None,
 
             delphi: Ok(None),
         }
@@ -2545,6 +2566,22 @@ mod tests {
                 spawn(&mut Commands::new(&mut queue, &ecs), ticket, &mut payload);
             queue.apply(&mut ecs);
             let owner = bindings.player.expect("actual Delphi constructor identity");
+            let body = Arc::clone(payload.delphi_body.as_ref().unwrap_or_else(|| {
+                panic!(
+                    "actual Delphi body missing: {:?}",
+                    blocked
+                        .iter()
+                        .filter(|s| s.starts_with("Delphi body"))
+                        .collect::<Vec<_>>()
+                )
+            }));
+            assert_eq!(body.owner, owner);
+            assert!(body.current(&residents));
+            assert!(!body.positions.is_empty());
+            assert!(body.vertices(0).iter().flatten().all(|v| v.is_finite()));
+            assert!(residents.actor_model_cache(owner, 0).unwrap().is_none());
+            assert!(residents.actor_current_affine(owner).is_err());
+            assert!(residents.delphi_physical(owner).is_none());
             assert_eq!(bindings.delphi_projection_reset_required, Some(true));
             let actor = residents.get(owner).unwrap();
             assert_eq!(actor.class, 3);
@@ -2622,6 +2659,7 @@ mod tests {
             assert_eq!(active.player_owner().unwrap(), owner);
             foreign.clear();
             active.resident_states.clear();
+            assert!(!body.current(&active.resident_states));
             assert!(active.resident_states.get(owner).is_none());
             assert!(active.player_owner().is_err());
             assert_eq!(active.resident_states.counts().residents, 0);
@@ -2637,6 +2675,7 @@ mod tests {
             queue.apply(&mut ecs);
             assert!(bindings.player.is_none());
             assert!(bindings.delphi_projection_reset_required.is_none());
+            assert!(active.payload.delphi_body.is_none());
             assert!(
                 missing
                     .iter()
