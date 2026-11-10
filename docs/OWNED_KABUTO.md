@@ -2038,3 +2038,44 @@ projection ownership, followed by real walking/turning/collision and jump/landin
 Action-policy subbranches are acquired when that path requires them. Feeding and
 growth follow a validated movement loop. See BACKLOG.md for the single detailed
 priority list; source-only component comparisons retain their existing scope.
+
+
+## Initial body in the common lit renderer - intermediate dependency only
+
+The normal Kstory1 request now produces an owned initial-body snapshot from the
+actual Session specification, current channels, class fields and external model
+resources. The shared position/mixing service evaluates a fresh presentation
+scope; its scratch epoch is not published into actor/world ANM caches or history.
+Pose-derived normals, textures, source lights and material parameters feed the
+existing lit material route. The shared player renderer retains the Mecc body and
+equipment path. Actor, ticket, specification, channel and exact pose identities
+are checked before exposing a snapshot; changed/marked/hidden/retired owners
+cannot keep publishing it. Camera changes refresh the lit parameter buffers.
+
+A private receipt-bound build of source `b0b0d61260f9ecb1cac0b48ce2139578054b9db2`
+(SHA256 `616843bfc062708155ff71d48768a0c6afcc9050dd51893e0dee9dfa48462f41`)
+passes the explicit offscreen Kstory1 body inspection. Its 31 source subparts are
+visibly rendered with textures and lighting. The head is cropped: the provisional
+inspection camera is still the Mecc-shaped declared-start adapter. This proves
+neither correct Kabuto camera behavior nor ordinary entry. The control uses the
+existing environment inspection activation, suspends opening playback in that
+explicit mode, retains all four initializer requirements and emits no mission
+readiness. Original inputs and the capture stay private.
+
+Earlier controls remain distinct: two endpoints timed out in the capture observer;
+a later capture completed but visual review found only a black frame/overlay
+because the 3D inspection camera was inactive. Those receipts do not prove visible
+Kabuto and are not relabeled as successes. The final visible capture was inspected.
+The common Mecc body path separately passes three 128-frame GPU inspection cycles
+with source `54e82c9`, actual drawing/cancellation/asset cleanup and silent transport.
+These are scripted checks, not real keyboard/mouse gameplay validation.
+
+Native camera/profile/projection ownership is the next normal-entry dependency,
+followed by remaining initializer/startup consumers and live ANM/controller input.
+No initial-body snapshot acknowledges primary/history or any initializer. The
+ordinary menu path still refuses Kabuto startup; all movement/feeding/growth and
+fidelity claims remain open. The frozen public preview remains separate.
+
+The renderer also implements restoration of this ticket's initial-body visibility
+when its opening camera is removed; Mecc variant/held visibility stays separate.
+Complete opening-to-player interaction remains unverified.

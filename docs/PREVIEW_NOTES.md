@@ -8,6 +8,8 @@ The subsequent Kabuto post-selection camera/UI/world tail is later source-only
 work; it is not part of this frozen package or ordinary Kabuto availability.
 Later Kabuto cold-group staging through common mission spawn is also source-only;
 it provides no body rendering, controls or ordinary Kabuto availability in .8.
+The subsequent static Kabuto body/lighting inspection also remains source-only;
+its provisional camera and pending native startup do not enable Kabuto gameplay.
 The later owned Delphi pre-physical target phase is likewise source-only relative
 to this package and does not enable Delphi gameplay.
 Later Mecc idle variants, effect-free wounded continuation and ordered mission

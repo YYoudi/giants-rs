@@ -59,8 +59,22 @@ type OpeningDraw<'a> = (
 fn opening_visibility(
     owner: Option<Res<crate::mission_opening::Owner>>,
     cinematic: Option<Res<crate::cinematic_camera::Cinematic>>,
+    runtime: Res<Runtime>,
     mut draws: Query<OpeningDraw<'_>>,
 ) {
+    if let Some((ticket, _)) = runtime.kabuto_body() {
+        let hidden = cinematic.is_some() && owner.as_ref().is_some_and(|owner| owner.0 == ticket);
+        let wanted = if hidden {
+            Visibility::Hidden
+        } else {
+            Visibility::Visible
+        };
+        for (mut visibility, player, _, _) in &mut draws {
+            if player.is_some_and(|p| p.ticket == ticket) && *visibility != wanted {
+                *visibility = wanted;
+            }
+        }
+    }
     if cinematic.is_none() {
         return;
     }
