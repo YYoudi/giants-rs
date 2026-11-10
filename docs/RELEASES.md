@@ -22,6 +22,10 @@ certified films. It remains capability diagnostics, not a visual comparison.
 Manual observations from .5 are not transferred to .6. Full native gameplay and
 visual/audio/timing fidelity remain open. Later Delphi proximity and dependency-order contributions
 are source-only relative to this binary; their tests do not relabel it.
+The later combined source `1e30870` preserves those contributions and passes
+886 workspace Rust tests (77 ignored), strict Clippy/Rustfmt, the owned timed
+preparation control and nine Delphi installed controls. The frozen .6 executable
+remains the separately measured source above.
 
 ## Source-terminal ownership across retirement — 10 November 2026
 
