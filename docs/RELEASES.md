@@ -21,8 +21,30 @@ to the owned dynamic header and the ordinary preparation continuation.
 
 Actual environment/contact updates, world populations, native stock/occupancy,
 dispatch/model rates, clock/RNG ownership and timed main-film rendering remain
-open. Prototype PS2 attributions stay unknown. The public download snapshot keeps
-its independently verified identity until a new package passes technical checks.
+open. Prototype PS2 attributions stay unknown.
+
+Published [preview-2026.11.10.4](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.4)
+pins source `ffb2f60583a74bdfc8eea6eab1527432a2bd552d`, executable SHA256
+`dc470112ab95e3c14121a0d328174eaedc901e7a20db9fb238ad60a051a17e24` and ZIP SHA256
+`726a3fbfb8e106062fbd8a14aa9c438ed52a5e03c2976cd9a9a1368baf470428`.
+The frozen tree passes 870 Rust tests (65 ignored), strict Clippy/Rustfmt,
+43 Python tests and roadmap/site/JavaScript checks. Both timed variants and
+native constructor controls pass, alongside three impact, seven Delphi and five
+Vimp installed controls. The standalone callback facade retains both variants.
+Its receipt-bound executable passes awaited CLI startup, both silent development
+endpoints, three active persistent-effect cancellations and two source-terminal/
+re-entry cycles with real muted voice sinks and text cleanup. Notice/import
+checks and all three freshly downloaded assets pass; ten ZIP members, internal/
+external hashes, receipt and immutable tag agree. This binary has no new manual
+UI/fidelity claim; the separately recorded .3 manual observations remain .3.
+Later source-only Delphi auxiliary services do not relabel this frozen build.
+The newer combined source passes 872 Rust tests (65 ignored), strict Clippy,
+Rustfmt, 43 Python tests and both canonical positive/zero phase/header replays
+plus the three source impact controls. The receipt-bound full census now pins
+this published executable: 545 sources /16 worlds, zero preparation errors,
+59 reported-gap sources, 56 general-FX refusals and 282 strict-profile reviews.
+Only reviewed aggregate identities change; these diagnostics and zero certified
+complete scenes remain unchanged. The inventory is not a visual completeness audit.
 
 ## Combined Windows preview and playback caption recovery — 10 November 2026
 

@@ -1518,6 +1518,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   updates and ordinary preparation continuation, then stock/occupancy, native
   dispatcher/model-rate/clock/RNG and main-film rendering/admission. Clock equality
   in a supplied fixture does not establish a shared live clock.
+  Published preview-2026.11.10.4 pins the owned header at source `ffb2f60`;
+  RELEASES.md/public-preview.json retain its full receipt/checksum identities.
+  The exact build passes 870 Rust tests (65 ignored), targeted native/installed
+  controls, silent development/cancellation/source-terminal/re-entry checks and
+  independent verification of the three downloaded assets/ten package members.
+  Its ordinary timed-film admission and visual/audio/native-gameplay fidelity
+  remain unverified; no manual observations from .3 are inherited by .4.
+  Its fresh 545-source /16-world census has zero preparation errors and retains
+  59 gap sources, 56 general-queue refusals, 282 reviews and zero certified films.
+  This updates the audited executable identity, not the scope of visual coverage.
 
 - Detached ordinary-finalization comparison now executes the original complete
   parent/child preparation, retirement and cleanup against actual static terrain
