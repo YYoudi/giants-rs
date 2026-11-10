@@ -4,6 +4,49 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Proximity continuation and full-primary diagnosis - 10 November 2026
+
+`delphi_proximity::advance` preserves the periodic common-list interaction
+continuation: authority, global-time subtraction, a stored narrow countdown and
+its wide negative comparison, ordered state/context/damage/anchor filters, and
+the first nearby candidate. A candidate with the existing control bit also ends
+the walk. Missing candidates clear only that bit; completed scans reset the
+countdown. Requests require the actual interaction and transport services.
+
+Across 2,048 native controls, Rust agrees on 2,024 returns and 24 stops at the
+first required action service, including 7,656 tracked read/helper events. The
+original authority, time, anchor and squared-distance helpers execute. The
+supplied candidate model has an unbound reference slot and cached affine anchor;
+bound-reference composition and actual geometry freshness remain upstream.
+The 14 local-selection and ten notification stops do not validate successful
+alignment or network/activation effects. Rust required-provider failures retain
+completed timer stores. Invalid-input/fault equivalence is not claimed.
+
+`Resources::with_proximity_continuation` and
+`Session::advance_delphi_proximity_controlled` compose the acquired continuation
+after items and before secondary/zero-time ANM in an explicit component profile.
+The common owned population is walked; state102 current interaction providers
+remain refused. Source-backed checks cover profile mismatch, a persistent
+countdown, retained late failure, replay quarantine, clear and re-entry. This
+sequence matches 256 original component iterations over all 22 actor headers,
+reference caches, owner payload and ordered lists: 2,040,576 normalized words
+and the final shared RNG state agree. Time, commands/preferences, flat ground,
+metadata and a recorded sound-stop request sink are supplied. Voice execution,
+a complete primary/world turn and visual fidelity remain open.
+
+A separate native-only control now executes 256 complete original primary bodies
+after retained construction/physical initialization and generic entry, with the
+declared flat-world/view/projection and OS/TLS boundaries. Paired same-input
+component runs show a different trajectory once the whole primary produces
+readiness and activates movement. One inherited component-harness zero-readiness
+assertion stopped an earlier acquisition; removing that assertion allowed the
+original outputs to persist. No original state was forced or corrected.
+Full-primary Rust comparison remains pending. The next work is phase-correct
+local target/aim/readiness publication, active movement/physical composition and
+the remaining primary continuations before ordinary menu admission. No live
+Delphi control, capture or new download follows from these controls. Prototype
+PS2 attribution remains unknown; detailed records and inputs remain private.
+
 ## Auxiliary-request prefix selection - 10 November 2026
 
 `delphi_auxiliary_prefix::select` acquires the source-ordered request selection

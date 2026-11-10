@@ -14,6 +14,7 @@ pub struct Resources {
     pub(crate) post_physical: bool,
     pub(crate) reserve: bool,
     pub(crate) primary_tail: bool,
+    pub(crate) proximity_continuation: bool,
 }
 impl std::fmt::Debug for Resources {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -61,6 +62,7 @@ impl Resources {
             post_physical: false,
             reserve: false,
             primary_tail: false,
+            proximity_continuation: false,
             radius: crate::player_collision_radius::Bounds {
                 primary: bounds.primary,
                 animation_one: bounds.radius_auxiliary,
@@ -137,6 +139,15 @@ impl Resources {
         self.primary_tail = true;
         Ok(self)
     }
+    /// Append the acquired proximity continuation to the explicit item-tail
+    /// sequence. This does not acquire the enclosing full-primary dispatch.
+    pub fn with_proximity_continuation(mut self) -> Result<Self, String> {
+        if !self.primary_tail {
+            return Err("Delphi proximity requires its prepared item-tail profile".into());
+        }
+        self.proximity_continuation = true;
+        Ok(self)
+    }
 }
 /// Actual per-frame preference/owner boundaries for the manual helpers.
 #[derive(Clone, Copy, Debug)]
@@ -176,6 +187,9 @@ pub struct View {
     pub affine: Option<crate::actor_affine::Cache>,
     /// Actual input word after the optional completed/retained post callback.
     pub post_buttons: Option<u32>,
+    /// Current commands after the selected proximity continuation, including
+    /// retained partial effects. None means that continuation has not run.
+    pub post_commands: Option<[u8; 8]>,
     pub failure: Option<String>,
 }
 #[derive(Clone, Debug)]
@@ -248,6 +262,7 @@ impl Owned {
                 support_triangle: 0,
                 affine: None,
                 post_buttons: None,
+                post_commands: None,
                 failure: None,
             },
         })
@@ -300,6 +315,7 @@ impl Owned {
             return Err("Delphi physical cycle outside the acquired ordinary dry profile".into());
         }
         self.key = Some(e.actor_key);
+        self.view.post_commands = None;
         let mut f = fields.clone();
         let mut body = payload.to_vec();
         f.previous = f.current;

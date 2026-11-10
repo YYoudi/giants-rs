@@ -145,6 +145,7 @@ pub mod delphi_locomotion;
 pub mod delphi_pending_target;
 pub mod delphi_physical;
 pub mod delphi_player;
+pub mod delphi_proximity;
 pub mod delphi_resources;
 pub mod delphi_special;
 pub mod dependency_graph;
