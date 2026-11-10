@@ -1847,3 +1847,54 @@ computed activity. Earlier reference/admission producers, the shared continuatio
 world lifetime and actual backend outcomes remain open. All four initializers and
 history remain pending; ordinary menu Kabuto, complete movement/jump, feeding,
 growth triggers, new captures/downloads and visual fidelity are not established.
+
+
+## Shared selection gate and owned animation continuation
+
+`kabuto_action_select::resolve` consumes the directed selector exit and the
+previous primary slot. The checking exit rejects a signed-negative candidate;
+the choosing exit compares raw slots directly. Equal slots preserve all scratch
+words. An eligible changed selection resolves reference speed from its source,
+including retaining the raw speed for the existing caller-owned source. Held
+references stay a separate exit. All 4,096 original-PC/Rust gate controls agree
+on 266,240 caller-stack/exit words, including arbitrary unrelated bit patterns.
+Another 1,024 comparisons execute the original locomotion/idle selector and gate
+together with declared mutating service entries.
+
+Eight complete native primaries now trace the actual stack writer and ESP
+liveness for the earlier slot. They retain that value from the original primary
+channel across resource processing and selection. `Factory::resolve_actions`
+uses the owning Session resource sample's `slot`, never a later channel read.
+It requires a completed selector at the same checkpoint and rejects foreign
+resources, replay and prior animation consumption. Its diagnostic scratch
+retains the resolved speed. No world provider runs in this bounded gate.
+
+`Factory::commit_resolved_actions` builds the request from that stored result
+and invokes the existing common channel setter and zero-second ANM pipeline.
+Held/skipped exits refuse commit; earlier animation descriptors remain retained
+for the later frame conversion. Existing notification/removal/replay and late
+failure boundaries remain in force. An installed control traverses 512 actual
+preceding resource/selector contexts: 509 commit and three retain held-reference
+continuation. It preserves four pending initializers and the unfinished primary
+history. The standalone gate controls separately cover skipped selections; the
+512 installed contexts contain no skipped gate.
+
+The 512 source selector/gate contexts match 247,956 words. All 509 eligible
+selector -> gate -> animation-commit paths also match 409,086 final normalized
+header/payload/reference/clock/service words against one continuous original
+interval. No intermediate actor/animation/reference/epoch/RNG snapshot is replaced. The
+commit-eligibility owner word and session mode are explicitly supplied inputs. This includes 256 declared mutating animation-notification entries and
+1,120 ANM dispatcher visits, not delivered gameplay events. Selection sound and
+transport are declared mutating entry providers. The fixture explicitly supplies
+a separate notification-eligibility context at commit entry; natural world
+context production and actual audio/transport outcomes remain unverified.
+Earlier resource/scratch/input state, source resources, existing PC TLS context,
+clock/world preparation and empty contact population remain supplied boundaries.
+The original does not replay all preceding source phases in every context.
+
+This connects acquired CPU components in the actual Session. It completes no
+whole primary or initializer and does not admit Kabuto through the menu. Earlier
+action/definition admission, held/capture ordering, the following primary caller,
+world/RNG/TLS ownership, feeding/growth triggers, camera and GPU scheduling remain
+required. Prototype PS2 attribution stays unknown; naming and PC behavior evidence
+remain separate. The published Windows preview snapshot is unchanged.

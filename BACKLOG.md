@@ -558,10 +558,23 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   installed controls cover success, late sound refusal and owner removal.
   The caller supplies earlier scratch/admission; other-relationship presence,
   live RNG/TLS ownership and real sound/transport outcomes remain prerequisites.
-  Next: acquire shared selection/definition continuations and their negative or
-  unchanged-slot exits before connecting this result to animation commit. Do not
-  send every resource completion through held references or commit an animation
-  unconditionally. No primary/history/initializer or gameplay admission follows.
+  The shared gate now preserves signed-negative and unchanged-slot exits, and
+  resolves reference speed before an eligible request reaches the real shared
+  animation setter/ANM. Its 4,096 original-PC/Rust controls match 266,240 words;
+  512 owned contexts retain the earlier resource slot rather than rereading live
+  channels. Of these, 509 reach commit and three retain the held-reference exit.
+  A continuous native selector -> gate -> commit comparison matches 409,086
+  final words, including 256 declared notification entries and 1,120 ANM
+  dispatcher visits. Earlier actor/scratch/resource data, existing PC RNG/TLS,
+  sound/transport mutations and the test's separate commit eligibility context
+  are supplied. No intermediate actor/animation/reference/epoch/RNG snapshot is replaced;
+  only the declared commit-eligibility owner word and session mode are supplied. This remains independent contexts,
+  not whole-primary or ordinary gameplay validation.
+  Next: acquire earlier action/definition/scratch admission and the remaining
+  caller after selected/skipped animation, including held-reference ordering,
+  then bind actual world ownership and lifetime. Negative/equal-slot gates do
+  not authorize an unconditional animation, primary/history or initializer
+  completion. Live sound/transport/RNG/TLS outcomes remain prerequisites.
 
 - Implemented and compared: an already selected animation now commits through
   the real Session channels, shared setter and zero-second ANM/reference/epoch

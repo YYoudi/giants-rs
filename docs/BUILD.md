@@ -786,3 +786,14 @@ cargo test --locked --workspace native_timed_positioned_constructor_keeps_regist
 This replays eight controlled class-personality cases against actual constructor
 registration, including six that differ after wrapper stores. Installed files
 are unchanged; this check does not admit native stock or a live world actor.
+
+
+With the same explicit Kabuto root/executable, `source_kabuto_action_gate_`
+continues 512 independent installed contexts through the retained-slot gate and
+509 eligible actual animation commits. It keeps the three held-reference exits
+separate and refuses foreign/replayed or non-commit requests. Optional private
+`GIANTS_KABUTO_GATE_INPUTS` / `GIANTS_KABUTO_GATE_RECEIPT` export the selector/gate
+projection; `GIANTS_KABUTO_RESOLVED_COMMIT_INPUTS` /
+`GIANTS_KABUTO_RESOLVED_COMMIT_RECEIPT` export eligible animation contexts. All
+paths must be absolute. No window or audio device is created. This does not
+complete primary/history/initialization or validate live gameplay.

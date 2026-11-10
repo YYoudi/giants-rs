@@ -1,5 +1,31 @@
 # Preview releases and milestone integration
 
+## Kabuto retained-slot animation continuation — 10 November 2026
+
+The owned Kabuto action selector now resolves its shared animation gate using
+the earlier resource slot. Negative checking exits and unchanged slots skip
+commit; held references keep their distinct continuation. Eligible selections
+resolve their reference speed and pass the actual stored request to the existing
+shared setter/zero-second ANM pipeline. Foreign/checkpoint/replay and retained
+failure boundaries remain; no primary or pending initializer is completed.
+
+All 4,096 original-PC/Rust gate controls match 266,240 words. The installed
+composition traverses 512 contexts, with 509 commits and three held exits. A
+continuous original selector/gate/commit interval matches 409,086 final words,
+including 256 declared notification entries and 1,120 ANM dispatcher visits.
+Earlier caller/resource/world inputs, existing PC TLS context and sound/transport
+mutations remain supplied. The fixture declares a separate eligibility context
+at commit entry; the eligibility owner word and session mode are supplied,
+without replacing intermediate actor/animation/reference/epoch/RNG snapshots. These are independent CPU contexts, not continuous gameplay.
+See [OWNED_KABUTO.md](OWNED_KABUTO.md).
+
+Validation passes 886 workspace Rust tests (81 ignored), 27 installed Kabuto
+controls plus one cold-resource control, 13 Mecc and nine Delphi controls,
+Rustfmt and strict workspace Clippy. Earlier action admission, held ordering,
+the following primary caller and actual world/backend scheduling remain open.
+The public Windows preview remains the separately validated frozen .6 snapshot;
+Kabuto is still unavailable in ordinary gameplay and fidelity is unverified.
+
 ## Kabuto locomotion and idle selector prerequisite — 10 November 2026
 
 The owned Kabuto factory now selects acquired locomotion and idle actions from

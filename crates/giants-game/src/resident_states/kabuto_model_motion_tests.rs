@@ -113,6 +113,16 @@ fn source_kabuto_action_selection_preserves_directed_continuations_and_packet_al
     );
 }
 #[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT/EXECUTABLE; retained selection gate and actual shared ANM; silent"]
+fn source_kabuto_action_gate_commits_only_resolved_selections() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::ActionGate),
+    );
+}
+#[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT/EXECUTABLE; late sound failure keeps selection prefix and world writes"]
 fn source_kabuto_action_selection_retains_late_sound_failure() {
     run_model(
@@ -291,6 +301,8 @@ fn run_model(
         g.action_select_running = false;
         g.action_select_completed = None;
         g.action_select_scratch = None;
+        g.action_gate_completed = None;
+        g.action_gate_next = None;
         g.action_select_next = None;
         let number = case as u64 + 1;
         let seconds = [0., 0.001, 1. / 60., 0.1][case % 4];
@@ -772,11 +784,15 @@ fn run_model(
                         .advance(&factory, &foreign, &mut s, id, number, seconds, &globals);
                     if let Some(
                         kind @ (super::held_reference_tests::Case::Actions
+                        | super::held_reference_tests::Case::ActionGate
                         | super::held_reference_tests::Case::ActionsFailure
                         | super::held_reference_tests::Case::ActionsClear),
                     ) = handoff
-                        && (matches!(kind, super::held_reference_tests::Case::Actions)
-                            || case == 511)
+                        && (matches!(
+                            kind,
+                            super::held_reference_tests::Case::Actions
+                                | super::held_reference_tests::Case::ActionGate
+                        ) || case == 511)
                     {
                         actions.advance(
                             (&factory, &foreign),
@@ -789,11 +805,15 @@ fn run_model(
                     }
                     if let Some(
                         kind @ (super::held_reference_tests::Case::Commit
+                        | super::held_reference_tests::Case::ActionGate
                         | super::held_reference_tests::Case::CommitFailure
                         | super::held_reference_tests::Case::CommitClear),
                     ) = handoff
-                        && (matches!(kind, super::held_reference_tests::Case::Commit)
-                            || case == 511)
+                        && (matches!(
+                            kind,
+                            super::held_reference_tests::Case::Commit
+                                | super::held_reference_tests::Case::ActionGate
+                        ) || case == 511)
                     {
                         let mut animation = crate::actor_animation_phase::Services {
                             contexts: &mut contexts,
