@@ -1680,6 +1680,25 @@ blocker in the next slice, rather than continuing adjacent functions by address.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- Persistent named-selection follow-up: all 25 requests in the 23-source cohort
+  resolve to two programs whose normal/lite choices identify the same actual
+  image entry. The current invariant guard therefore needs no invented load,
+  quality or camera default. Both original source-helper/named-preparation paths
+  were compared across 144 supplied count, quality, distance and camera contexts;
+  all retained the source program and cinematic context mark, including 60
+  actual camera-query paths. Two additional entries stop at the distinct count
+  query of the alternate flag branch; they are not completed preparations.
+  This is preparation/selection evidence, with no object allocation or physical
+  occupancy proof. The count filter is real; its two possible selections agree
+  for this cohort. Preserve real producer requirements for non-invariant targets,
+  physical pool capacity/cleanup, mission populations and world scheduling.
+  Reused renderer evidence also preserves its temporary director-clock scope;
+  no clock substitution or new duration is justified by this follow-up.
+  Runtime code, the frozen preview identity and the 545-source gap counts are
+  unchanged. Next compare the current main-rendered persistent geometry/materials
+  against identity-bound original evidence while acquiring the remaining world
+  producers. Keep all unchecked pixels, timing and full gameplay transitions open.
+
 - Constant persistent ownership: the bounded 23-source /25-request cohort now
   moves its actual state storage, header, channels and references into the active
   mission Session. Queue entries retain typed identities; the main renderer reads
