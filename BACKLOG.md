@@ -1555,6 +1555,17 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Preserve actual source-end/owned-voice-drain observations across transport
+  cleanup. The replay observer previously could miss a sink becoming empty
+  between its read and the normal retirement consumer, then wait in free
+  inspection after the movie was removed. The transport now retains the
+  ticket-bound terminal fact before releasing its camera/audio resources.
+  A new attempt clears the prior fact; unrelated tickets cannot consume it;
+  cancellation without observed source completion produces no fact. This is
+  a lifecycle observation, not a synthesized Ready event or timing adjustment.
+  Fresh offscreen terminal/re-entry verification remains required before preview
+  publication; native timing and full film/gameplay fidelity remain open.
+
 - Canonical detached timed preparation now binds callback, shared finalization,
   environment and the unparented attachment tail to the existing Session actor.
   Floor, contact plane, velocity/history, model-rate history, hit/support and the

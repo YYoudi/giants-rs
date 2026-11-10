@@ -12,6 +12,14 @@ is not a completion metric. The owner authorized Windows previews without a
 separate human release review. Technical checks do not establish full gameplay
 fidelity or third-party rights; see DISTRIBUTION_REVIEW.md in the source repository.
 
+## Source completion and re-entry
+
+The owning transport retains its observed source end and drained voice state
+before releasing camera/audio resources. A later consumer can read that fact
+without racing an asynchronous sink change; a new entry clears the prior fact.
+Cancellation without source completion creates no terminal acknowledgement.
+No timer, delayed cleanup, gameplay-ready event or fidelity claim is introduced.
+
 ## Player identities and camera-owner dependency
 
 The common application retains the player and carried actor's actual constructor

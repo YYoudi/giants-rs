@@ -1,5 +1,16 @@
 # Preview releases and milestone integration
 
+## Source-terminal ownership across retirement — 10 November 2026
+
+Transport cleanup now retains its actual source-end and owned-voice-drain
+observation before releasing the movie. The ticket-bound record survives cleanup
+for later consumers and clears on a new attempt. This fixes a source-terminal
+observer waiting after the normal preview transition had already retired its
+movie; asynchronous sink reads no longer have to agree across separate systems.
+Cancellation without source end creates no terminal record. No gameplay-ready
+acknowledgement, clock change or artificial cleanup delay is added. Fresh build
+and offscreen re-entry verification are pending; the .6 package remains a draft.
+
 ## Owned ordinary timed preparation — 10 November 2026
 
 Detached timed actors now continue from their callback into the common ordinary
