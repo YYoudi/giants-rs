@@ -484,6 +484,9 @@ impl Session {
         services: &mut crate::actor_animation_phase::Services<'_>,
         entry: Entry<'_>,
     ) -> Result<crate::delphi_physical::View, String> {
+        if self.delphi_target_running {
+            return Err("Delphi physical entry during local targeting is unprepared".into());
+        }
         let (locomotion, manual, mut camera, mut post, mut reserve, mut primary_tail) = match entry
         {
             Entry::Physical => (false, None, None, None, None, None),
@@ -499,10 +502,16 @@ impl Session {
         let actor = self
             .get(id)
             .ok_or("Delphi physical owner absent or foreign")?;
+        if let Some(target) = &actor.delphi_local_target {
+            target.check_physical(e.number)?;
+        }
         let mut cycle = actor
             .delphi_physical
             .clone()
             .ok_or("Delphi physical cycle unprepared")?;
+        if cycle.resources.local_target_phase && actor.delphi_local_target.is_none() {
+            return Err("Delphi physical profile requires its owned local target phase".into());
+        }
         if cycle.resources.locomotion.is_some() != locomotion
             || cycle.resources.manual_rotation != manual.is_some()
             || cycle.resources.authored_camera != camera.is_some()
@@ -576,6 +585,15 @@ impl Session {
         let areas = e.areas;
         let keep_completed = post.is_some();
         let mut retained = None;
+        if let Some(target) = self
+            .residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .delphi_local_target
+            .as_mut()
+        {
+            target.phase = super::DelphiLocalTargetPhase::Consumed;
+        }
         let result = cycle
             .advance(&fields, &payload, e, manual, ground, |phase| match phase {
                 crate::delphi_physical::Phase::BeforeHeading => {

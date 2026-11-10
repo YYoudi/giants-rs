@@ -15,6 +15,7 @@ pub struct Resources {
     pub(crate) reserve: bool,
     pub(crate) primary_tail: bool,
     pub(crate) proximity_continuation: bool,
+    pub(crate) local_target_phase: bool,
 }
 impl std::fmt::Debug for Resources {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -27,6 +28,7 @@ impl std::fmt::Debug for Resources {
             .field("post_physical", &self.post_physical)
             .field("reserve", &self.reserve)
             .field("primary_tail", &self.primary_tail)
+            .field("local_target_phase", &self.local_target_phase)
             .finish()
     }
 }
@@ -63,6 +65,7 @@ impl Resources {
             reserve: false,
             primary_tail: false,
             proximity_continuation: false,
+            local_target_phase: false,
             radius: crate::player_collision_radius::Bounds {
                 primary: bounds.primary,
                 animation_one: bounds.radius_auxiliary,
@@ -146,6 +149,15 @@ impl Resources {
             return Err("Delphi proximity requires its prepared item-tail profile".into());
         }
         self.proximity_continuation = true;
+        Ok(self)
+    }
+    /// Require an owned target phase before every physical component, including
+    /// the first. This does not provide perception or enable active movement.
+    pub fn with_local_target_phase(mut self) -> Result<Self, String> {
+        if !self.primary_tail {
+            return Err("Delphi local target phase requires its item-tail consumer profile".into());
+        }
+        self.local_target_phase = true;
         Ok(self)
     }
 }

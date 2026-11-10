@@ -47,6 +47,35 @@ camera/UI/world tail that arrived after this executable was frozen. It passes
 initializer/history gates remain open. This continuation is not in the frozen
 .8 binary and does not enable ordinary Kabuto gameplay.
 
+The subsequent Delphi pre-physical target phase is also later source-only work.
+Its reviewed runtime tree matches validated source `b21ca7f` (902 Rust tests,
+102 ignored; twelve installed Delphi controls and strict Clippy), with exact
+handoff logs and its MinGW receipt retained privately. The integration merge
+changes documentation relative to that tested runtime tree. This does not alter
+the .8 package, admit Delphi gameplay or certify the still-required providers.
+
+## Delphi owned local target phase — 10 November 2026
+
+Target/readiness results now publish to actual Session scalar fields and typed
+relationships before the next physical component. Each phase is consumed once;
+retained failures, stale frames, partial proxy construction, reference protection
+and cancellation/reconstruction have installed-data controls. Real perception,
+linked physical consumers and full primary/world order remain open.
+
+Original-primary tracing places movement activation in the item phase after
+physics. The owned component reaches its required activation refusal after
+retaining physical motion. Three new installed controls use scripted geometry
+and linked providers; they do not enable Delphi gameplay or update the separately
+identified public preview. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `b21ca7f02bcc7e76787d3f9f77acd047675b3c6d`, preserving main
+through `31032dc`, passes 902 workspace Rust tests (102 ignored), all twelve
+installed Delphi controls, Rustfmt, strict workspace Clippy, 43 Python tests,
+generated roadmap/site and JavaScript checks. The frozen target profile also
+refuses physical entry before its first producer without advancing the frame.
+The all-reference source audit reports no findings. These checks remain separate
+from ordinary gameplay and the public preview receipt.
+
 ## Kabuto post-selection owned continuation — 10 November 2026
 
 The acquired post-selection component now runs on the actual Kabuto Session

@@ -6,6 +6,8 @@ smoke/pistol, camera-profile and graphical-consumer corrections. Earlier
 previews retain their original source and package identities.
 The subsequent Kabuto post-selection camera/UI/world tail is later source-only
 work; it is not part of this frozen package or ordinary Kabuto availability.
+The later owned Delphi pre-physical target phase is likewise source-only relative
+to this package and does not enable Delphi gameplay.
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
