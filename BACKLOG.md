@@ -502,6 +502,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   RNG. Profile mismatch, counter persistence, late-error quarantine, clear and
   re-entry pass. Clock/flat ground/commands, metadata and a recorded sound-stop
   request sink are supplied; this does not stop voices or admit live interactions.
+- Implemented: the shared post-primary dependency-order pass uses actual typed
+  attachment parents or state-62 copy owners and retains registration identities,
+  reverse memberships and other lists. All 1,024 original-PC/Rust supplied graph
+  controls match object/registration order, including duplicate registrations and
+  parents outside list0. Budget/provider failures retain moves; Session traversal
+  is quarantined until clear. An actual cold Delphi group with deliberately
+  permuted registrations checks ownership, cleanup and reconstruction.
+  Native-only four-tick whole-cohort tracing observes held placement after the
+  primary/secondary/ANM pass. Wire this phase around the actual startup and
+  per-frame cache producers; do not reuse constructor-zero or previous-phase
+  caches as current evaluated poses. Full world scheduling and target/readiness
+  publication remain unbound. See docs/OWNED_DELPHI.md.
 - Native-only full-primary diagnosis now completes 256 whole original bodies
   after the retained initialization/generic entry with declared world/view and
   projection/OS/TLS boundaries. Its same-input trajectory differs from the old

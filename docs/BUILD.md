@@ -38,6 +38,14 @@ and captures the child's `--help` result explicitly.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+With `GIANTS_DELPHI_ROOT` set to compatible installed data,
+`source_delphi_dependency_order_keeps_group_identities_and_cleanup` checks the
+common dependency-order service against the actual cold Delphi/copy/held group.
+It deliberately permutes list0 registrations, then checks typed owner precedence,
+unchanged reverse memberships/other lists, cleanup and reconstruction. Run with
+`cargo test --locked -p giants-game source_delphi_dependency_order --target x86_64-pc-windows-gnu -- --ignored`.
+This silent CPU control does not execute a complete world or validate gameplay.
+
 With `GIANTS_MECC_WORLD_ROOT` set to compatible installed data, the ignored
 `source_camera_owner_selection_keeps_callback_effects_and_identity` checks the
 camera-owner prefix against actual Session actors and the existing subjective

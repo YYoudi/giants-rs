@@ -4,6 +4,38 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Shared dependency order and attachment phase - 10 November 2026
+
+`Session::order_common_dependencies` adds the acquired post-primary ordering
+pass to the common owned actor list. An actual attachment parent takes priority;
+state-62 copies otherwise use their typed source owner. The pass selects the
+parent's newest reverse registration, leaves dependents already after it in
+place, and captures each successor before moving a registration. It preserves
+registration identities, reverse memberships and every other list. Duplicate
+registrations use the acquired object-identity suffix search. A finite host
+budget bounds malformed dependency cycles; it is not a native limit. Errors
+retain preceding moves and quarantine common traversal until cleanup.
+
+All 1,024 original-PC/Rust controls agree on final object and registration order
+with supplied acyclic graphs, permutations, duplicate registrations and parents
+registered only in another list. Reverse memberships and the other list remain
+unchanged. Synthetic ownership/failure controls and an installed-data cold
+Delphi group check cover typed relationship precedence, retained partial moves,
+foreign owners, cleanup and reconstruction. The latter deliberately permutes
+registrations; it does not certify ordinary world scheduling.
+
+A separate native-only acquisition executes four whole-cohort first passes,
+then the original deferred/subjective guards, dependency pass and attachment
+pass. It observes 22 actors and establishes that held placement follows the
+primary/secondary/animation pass. Constructor-zero caches, evaluated reference
+buffers and later placed caches are distinct states. Time, flat terrain,
+commands/preferences, initial owner-affine preparation and projection/OS/TLS
+boundaries remain supplied. Later world passes, Rust whole-turn equivalence and
+normal startup producers remain unverified. No new prototype PS2 attribution is
+confirmed. This source-only service enables neither live Delphi nor a new
+preview feature; target/readiness publication and active physical movement remain
+the next controller prerequisites.
+
 ## Proximity continuation and full-primary diagnosis - 10 November 2026
 
 `delphi_proximity::advance` preserves the periodic common-list interaction

@@ -1,5 +1,22 @@
 # Preview releases and milestone integration
 
+## Delphi shared dependency-order prerequisite — 10 November 2026
+
+The common Session now owns the acquired post-primary dependency ordering for
+attachments and Delphi copies. It preserves registration identities and other
+memberships, with explicit retained-error and cleanup boundaries. All 1,024
+original-PC/Rust supplied graph controls match object and registration order;
+an installed-data cold-group control checks typed ownership and reconstruction.
+Native-only whole-cohort tracing separates primary/animation from later held
+placement. Complete startup/frame production, target/readiness publication and
+active physical movement remain prerequisites. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+This is a source-only milestone; the public preview snapshot and its executable
+identity remain unchanged, and live Delphi is still unavailable.
+
+Validation passes 885 workspace Rust tests (76 ignored), the installed-data
+Delphi dependency-order control, 43 Python tests, Rustfmt, strict workspace
+Clippy and generated roadmap/site/JavaScript checks.
+
 ## Selected camera owner and combined identity checkpoint — 10 November 2026
 
 `camera_owner::State` implements the acquired owner-selection prefix with explicit
