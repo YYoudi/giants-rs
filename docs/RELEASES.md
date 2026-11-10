@@ -16,6 +16,12 @@ held submission and cleanup; the jet control uses real zero-PCM muted sinks.
 Commands, clocks, gates and world populations remain controlled inputs. These
 checks do not establish manual gameplay, native world admission or fidelity.
 
+A receipt-bound MinGW build of that exact integration source also passes awaited
+CLI startup and offscreen GPU acceptance: three 128-frame owned inspection cycles
+with menu return/cleanup, one 128-frame jet lift/fuel control and an active-thrust
+capture at step 36. The jet checks use real muted transport. Replay commands and
+world gates remain supplied; this private test executable is not a new download.
+
 The public .8 source, executable, package and acceptance identities remain
 immutable. The cinematic census stays pinned to its separate .7 audit. See
 [PREVIEW_NOTES.md](PREVIEW_NOTES.md) for the later-source boundary and
