@@ -708,7 +708,10 @@ For an active-effect capture from the real menu/mission path, set
 `GIANTS_SHOWCASE_MISSION`, then launch with a private `--user-data-root`,
 `--mecc-menu --offscreen --silent-capture --capture <private.png>`.
 Optional `GIANTS_PERSISTENT_SAMPLE_SEQUENCE` selects an actual director identifier
-in that mission chain. The observer waits for an actual Session-owned persistent
+in that mission chain. `GIANTS_PERSISTENT_SAMPLE_COMPLETION=1` requests the
+existing `CompletionReplay` intent used by the menu's completion replay; it does
+not complete objectives, acknowledge a win or reconstruct native replay state.
+The observer waits for an actual Session-owned persistent
 effect to advance twice, records the reached director/tick and suspends that
 playback for GPU capture. It creates no effect or input and sends no readiness
 acknowledgement. Missing effects/sequences do not acknowledge a sample. This is

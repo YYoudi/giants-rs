@@ -25,6 +25,12 @@ pub(crate) struct Replay {
     film_finished: bool,
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    if std::env::var_os("GIANTS_PERSISTENT_SAMPLE_COMPLETION").is_some()
+        && (std::env::var("GIANTS_PERSISTENT_SAMPLE_COMPLETION").as_deref() != Ok("1")
+            || std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-persistent"))
+    {
+        return Err("completion sample requires the explicit persistent replay".into());
+    }
     if let Ok(sequence) = std::env::var("GIANTS_PERSISTENT_SAMPLE_SEQUENCE")
         && (std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-persistent")
             || sequence.is_empty()
@@ -317,7 +323,11 @@ fn drive(
                 &mut frontend,
                 request,
                 &mut images,
-                if std::env::var_os("GIANTS_SHOWCASE_WORLD").is_some() {
+                if mode == "showcase-persistent"
+                    && std::env::var("GIANTS_PERSISTENT_SAMPLE_COMPLETION").as_deref() == Ok("1")
+                {
+                    LaunchIntent::CompletionReplay
+                } else if std::env::var_os("GIANTS_SHOWCASE_WORLD").is_some() {
                     LaunchIntent::SavedMission
                 } else {
                     LaunchIntent::NewCampaign
