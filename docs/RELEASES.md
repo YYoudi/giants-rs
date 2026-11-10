@@ -1,5 +1,25 @@
 # Preview releases and milestone integration
 
+## Delphi pre-physical held-cache and geometry binding - 10 November 2026
+
+The running local caller now reads its explicitly acquired cold constructor
+caches or preceding completed held placement, then uses real shared candidate
+geometry. It keeps evaluated/current affine admission separate and refuses early,
+missing or stale cache producers. The predicate rejects self/filtered headers
+before requiring accepted geometry. Four original source-loop cache samples and
+768 earlier supplied-cache cases match all 4,632 ray words. Installed controls
+exercise actual held references and two source-backed candidates. Terrain/view
+and remaining caller providers stay scripted; full perception, linked/item
+consumers, active physics and ordinary menu/world order remain open. This source
+milestone adds no gameplay or visual claim and preserves the separate preview.
+See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `51d499adb2a14b166491710baa50fe3b6d055d31` retains main through
+`aa018fe` and passes 903 workspace Rust tests (104 ignored), all fourteen installed
+Delphi controls, Rustfmt, strict workspace Clippy, 43 Python tests and generated
+roadmap/site/JavaScript checks. The separately published preview .8 keeps its
+original source, executable and archive identities.
+
 ## Published combined native inspection and cinematic ownership — preview .8
 
 Published [preview-2026.11.10.8](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.8)
