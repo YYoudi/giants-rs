@@ -4,6 +4,37 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
+## Current delivery priority - owner direction, 10 November 2026
+
+Follow [GOAL_GAMEPLAY_FIRST.md](docs/GOAL_GAMEPLAY_FIRST.md). The complete game
+scope below remains; current work proceeds from common playable experience to
+specialized detail rather than by the number of isolated CPU controls acquired.
+
+The next main delivery is a continuously testable ordinary Mecc path in the common
+application: enter from the menu, move/aim and use the camera with real input,
+thrust/release/descend/land with visible animation and effects, exercise the basic
+weapon path, then return and enter again. Verify each supported action on the
+actual build before advertising it. The last recorded owned GPU acceptance uses
+supplied replay commands; it does not close this real-input delivery.
+
+- Main integration: connect actual camera/input/projection and activation order;
+  consume the reviewed character services through their real shared owners.
+- Mecc: provide the first missing impact/health/display/voice/FX and weapon
+  dependencies that prevent this continuous path. Do not bypass them with default
+  guard state; prioritize their actual producers over unrelated rare variants.
+- NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
+  story interaction and its first real caller dependency within each domain.
+  Their detailed blockers below remain authoritative; communicate the producer/
+  consumer gap and test path to main through committed handoffs, not new agents.
+- After the basic loop, advance actual NPC interaction, mission objectives,
+  failure/restart and progression, then broaden character/campaign coverage.
+  Refine specialized effects and exhaustive variant matrices in the shared order.
+
+Reports begin with what the owner can test in which build and using which normal
+controls. Otherwise say "intermediate dependency only" and name the next blocker.
+Keep source status, local interaction checks, historical captures and the exact
+published preview independent. Do not mark whole-game features complete here.
+
 ## Prototype PS2 attribution method — 5 November 2026
 
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
