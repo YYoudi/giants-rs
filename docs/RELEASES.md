@@ -12,10 +12,105 @@ No object allocation, physical occupancy, actual quality/camera producer, world
 schedule, new pixels or complete playback is verified by these controls.
 
 The existing director-clock scope is preserved. No runtime behavior or download
-identity changes follow from this evidence. Published .7 and the separately
-prepared combined preview retain their own receipts; the 545-source capability
+identity changes follow from this evidence. Published .7 and .8 retain their own receipts; the 545-source capability
 census still certifies zero complete films. Native pool/population/cleanup and
 complete visual/audio/temporal/gameplay validation remain open.
+
+## Delphi pre-physical held-cache and geometry binding - 10 November 2026
+
+The running local caller now reads its explicitly acquired cold constructor
+caches or preceding completed held placement, then uses real shared candidate
+geometry. It keeps evaluated/current affine admission separate and refuses early,
+missing or stale cache producers. The predicate rejects self/filtered headers
+before requiring accepted geometry. Four original source-loop cache samples and
+768 earlier supplied-cache cases match all 4,632 ray words. Installed controls
+exercise actual held references and two source-backed candidates. Terrain/view
+and remaining caller providers stay scripted; full perception, linked/item
+consumers, active physics and ordinary menu/world order remain open. This source
+milestone adds no gameplay or visual claim and preserves the separate preview.
+See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `51d499adb2a14b166491710baa50fe3b6d055d31` retains main through
+`aa018fe` and passes 903 workspace Rust tests (104 ignored), all fourteen installed
+Delphi controls, Rustfmt, strict workspace Clippy, 43 Python tests and generated
+roadmap/site/JavaScript checks. The separately published preview .8 keeps its
+original source, executable and archive identities.
+
+## Published combined native inspection and cinematic ownership — preview .8
+
+Published [preview-2026.11.10.8](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.8)
+pins source `1be883094043f6f4f416a0b4cea5d6b7ec036063`, executable SHA256
+`be9194a4a91bcd889acb41643959d8e64e78a2ad12fa1a662b82f4731c794628` and ZIP SHA256
+`f50476747da73fd7d8a753915fc3d4132fd92c239bb92d2c994bf368e7787d76`. The immutable .7 tag/assets are preserved.
+The combined source includes its constant cinematic Session ownership alongside
+Mecc canonical pistol/smoke, shared camera reset/lens/profile selection, Delphi
+local targeting and Kabuto resolved animation continuations.
+
+The actual graphical consumer now hides an intentionally absent pistol during
+draw, then resumes its current held submission. A present stale pose remains an
+error; no identity matrix or swallowed failure replaces it. Reserved jet audio
+accepts real muted transport at zero master volume, retaining device-free silent
+capture refusal and the existing offscreen/menu/mute guards.
+
+The frozen source passes 900 Rust tests (96 ignored), 43 Python tests, Rustfmt and
+strict workspace Clippy. Installed controls retain their boundaries; the added
+23-source constant cohort checks 92 queue lifecycles. This exact receipt-bound
+executable passes awaited CLI startup, six development launches, three actual
+GPU 128-frame experimental owned movement cycles with cleanup, a 128-frame
+jet lift/fuel run and an active-thrust capture at step 36 with real muted sinks.
+It also passes two observed source-terminal/re-entry cycles with voice/text
+cleanup and three cancellations after actual persistent owners advance.
+Replay commands, clocks and mission gates are supplied. These are not manual
+input, ordinary world-admission, complete film or pixel/audio/timing fidelity
+certification. The first graphical candidate exposed the missing-weapon panic;
+the accepted package contains the corrected consumer.
+
+All 338 dependency entries, eleven toolchain entries and 29 unique Windows DLL
+imports pass notice/import collection. Ten ZIP members, zero packaging blockers,
+all three independently downloaded asset digests, both checksum files, the remote
+source tag and main ancestry are verified. No bare executable is published.
+The metadata checkpoint `cbdb58d` retains byte-identical runtime source relative
+to this frozen build. The separate 545-source census remains bound to .7 and is not relabeled.
+Ordinary native Mecc input/idle/impact/display/FX/world admission, other character
+controls, NPC interactions and full fidelity remain open. No new prototype PS2
+attribution is confirmed; the next camera step is its actual PC-backed coefficient
+reader and input/device/activation order. See [BACKLOG.md](../BACKLOG.md).
+
+A later source-only checkpoint `1dc5156` preserves the post-selection Kabuto
+camera/UI/world tail that arrived after this executable was frozen. It passes
+900 workspace Rust tests (99 ignored), thirty installed Kabuto controls,
+43 Python tests, Rustfmt and strict workspace Clippy. Required backends and
+initializer/history gates remain open. This continuation is not in the frozen
+.8 binary and does not enable ordinary Kabuto gameplay.
+
+The subsequent Delphi pre-physical target phase is also later source-only work.
+Its reviewed runtime tree matches validated source `b21ca7f` (902 Rust tests,
+102 ignored; twelve installed Delphi controls and strict Clippy), with exact
+handoff logs and its MinGW receipt retained privately. The integration merge
+changes documentation relative to that tested runtime tree. This does not alter
+the .8 package, admit Delphi gameplay or certify the still-required providers.
+
+## Delphi owned local target phase — 10 November 2026
+
+Target/readiness results now publish to actual Session scalar fields and typed
+relationships before the next physical component. Each phase is consumed once;
+retained failures, stale frames, partial proxy construction, reference protection
+and cancellation/reconstruction have installed-data controls. Real perception,
+linked physical consumers and full primary/world order remain open.
+
+Original-primary tracing places movement activation in the item phase after
+physics. The owned component reaches its required activation refusal after
+retaining physical motion. Three new installed controls use scripted geometry
+and linked providers; they do not enable Delphi gameplay or update the separately
+identified public preview. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `b21ca7f02bcc7e76787d3f9f77acd047675b3c6d`, preserving main
+through `31032dc`, passes 902 workspace Rust tests (102 ignored), all twelve
+installed Delphi controls, Rustfmt, strict workspace Clippy, 43 Python tests,
+generated roadmap/site and JavaScript checks. The frozen target profile also
+refuses physical entry before its first producer without advancing the frame.
+The all-reference source audit reports no findings. These checks remain separate
+from ordinary gameplay and the public preview receipt.
 
 ## Kabuto post-selection owned continuation — 10 November 2026
 

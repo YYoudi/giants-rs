@@ -34,7 +34,6 @@ impl query::Services for Services<'_> {
     fn predicate(&mut self, key: u32) -> Result<bool, String> {
         let id = self.geometry.identity(key)?;
         let session = self.geometry.session();
-        session.check_target_geometry(id)?;
         let fields = session
             .get(id)
             .and_then(|a| a.construction_fields.as_ref())
@@ -104,13 +103,42 @@ impl Session {
         ray: crate::delphi_target_ray::Ray,
     ) -> Result<Output, String> {
         self.check_delphi_target_frame(input.owner, input.number, input.vertex_epoch)?;
+        let matrix = self.actor_current_affine(input.owner)?.matrix;
+        self.query_delphi_geometry(resources, input, ray, [matrix[1], matrix[5], matrix[9]])
+    }
+    /// Real candidate geometry from the held caches belonging to the running
+    /// pre-physical caller. Viewport selection and terrain remain separate calls.
+    /// Cold constructor caches never become current/evaluated owner geometry.
+    pub fn query_delphi_prephysical_held_target(
+        &mut self,
+        resources: &SceneResources,
+        input: Input,
+    ) -> Result<(crate::delphi_target_ray::Source, Output), String> {
+        if input.vertex_epoch == 0 {
+            return Err("Delphi pre-physical geometry requires its actual vertex epoch".into());
+        }
+        let sample = self.delphi_prephysical_target_ray(
+            input.owner,
+            input.number,
+            input.normalization_threshold,
+        )?;
+        let result =
+            self.query_delphi_geometry(resources, input, sample.ray, sample.second_column)?;
+        Ok((sample.source, result))
+    }
+    fn query_delphi_geometry(
+        &mut self,
+        resources: &SceneResources,
+        input: Input,
+        ray: crate::delphi_target_ray::Ray,
+        second_column: [f32; 3],
+    ) -> Result<Output, String> {
         let owner = self.get(input.owner).ok_or("Delphi target owner absent")?;
         let position = owner
             .construction_fields
             .as_ref()
             .ok_or("Delphi target owner header absent")?
             .position;
-        let matrix = self.actor_current_affine(input.owner)?.matrix;
         let Metadata {
             actors,
             identities,
@@ -130,7 +158,7 @@ impl Session {
             ),
             owner: input.owner,
             position,
-            second_column: [matrix[1], matrix[5], matrix[9]],
+            second_column,
         };
         let result = query::query_with(
             query::Input {
