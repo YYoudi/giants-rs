@@ -21,7 +21,7 @@ observe 256 declared position entries. They are not a complete original/source
 primary comparison or live camera/UI/network validation. See
 [OWNED_KABUTO.md](OWNED_KABUTO.md).
 
-Combined validation passes 900 workspace Rust tests (98 ignored), 30 installed Kabuto
+Combined validation passes 900 workspace Rust tests (99 ignored), 30 installed Kabuto
 controls plus one cold-resource control, 25 Mecc and nine Delphi controls,
 the application smoke-render ownership control, 43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
 checks. Concurrent camera-profile, Mecc smoke/rendering and pistol-draw
