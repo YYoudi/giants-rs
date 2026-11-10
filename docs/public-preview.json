@@ -1,12 +1,14 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.10.8",
-  "source_commit": "1be883094043f6f4f416a0b4cea5d6b7ec036063",
-  "executable_sha256": "be9194a4a91bcd889acb41643959d8e64e78a2ad12fa1a662b82f4731c794628",
-  "archive_sha256": "f50476747da73fd7d8a753915fc3d4132fd92c239bb92d2c994bf368e7787d76",
+  "tag": "preview-2026.11.10.9",
+  "source_commit": "3a17d2e53debd0c34dd9277aa0c29e192413c032",
+  "executable_sha256": "b6773640042da1e7a1efa32dfe9401425f80f0f665050f3ed7b62474aeb0a129",
+  "archive_sha256": "e08d55c03509bdcf1b9bdd31b79e930a9cf9b455bdb9893b17b9b6076e426bb3",
   "checks": [
     "offscreen_menu_cycles",
-    "selected_cinematic_transport"
+    "selected_cinematic_transport",
+    "ordinary_mecc_jet_projectile_gpu",
+    "ordinary_mecc_os_pulses"
   ],
   "limitations": [
     "ordinary_mecc_native_motion",
