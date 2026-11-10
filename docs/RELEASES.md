@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Owned Vimp response composition - 10 November 2026, source only
+
+The isolated Session response entry reads actual inline physical/channel flags and
+composes the owned vector with the same RNG. It publishes response prefixes before
+predicates/actions, preserves terminal callback state on success/error and never
+restores an old outcome over Session cancellation. Noise targets retain the three
+opaque bytes beside the backwards byte. Typed link/target ownership is required
+before nonzero pointer state can be admitted; nothing is silently cleared.
+
+Six installed Rust controls cover source-backed vector composition, gating,
+callback prefix visibility, terminal writes/errors, nested failure, cancellation
+and entry guards. Priority/signal/channel entries, session snapshots, noise and
+affine/global RNG phases remain declared inputs. The channel-ready test bit is not
+a reconstructed native readiness producer. Caller timing, live session/linked/
+target/hint owners, action/hint implementations, active response/mode7, sound/ANM
+and ordinary world admission remain open. This is not a new native comparison of
+Session composition or a gameplay/preview claim. Prototype PS2 attribution remains
+unknown. See [OWNED_NPCS.md](OWNED_NPCS.md).
+
 ## Owned Vimp vector publication - 10 November 2026, source only
 
 The isolated vector entry now uses actual Session child/parent/marker ownership.

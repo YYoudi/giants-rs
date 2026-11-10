@@ -166,7 +166,14 @@ cargo test --locked -p giants-game source_vimp_newborn --target x86_64-pc-window
 cargo test --locked -p giants-game source_herd_frame --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_vimp_threat --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_vimp_vector --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_response --target x86_64-pc-windows-gnu -- --ignored --nocapture
 ```
+
+The response command checks actual inline physical/channel reads, signal-to-owned
+vector composition, terminal callback effects, cancellation and noise-target byte
+preservation. Priority/signal/channel entries are declared test inputs; session,
+noise, affine entry and RNG phase remain supplied. It acquires no readiness or
+caller producer, transport, live linked/target/hint ownership or ordinary primary.
 
 The vector command checks isolated owned route publication, callback rereads,
 late-error quarantine and cancellation against source actors. Session snapshots,

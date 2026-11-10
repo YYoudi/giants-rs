@@ -92,11 +92,14 @@ The dedicated NPC lane resumes existing work; see
   publishes actual child/parent/route prefixes and rereads callback changes, with
   failure quarantine and cancellation checks. Six installed controls cover a
   fourteen-child cohort plus callback/failure/owner boundaries. Session snapshot,
-  affine entry phase, origin and RNG phase remain supplied. Next compose response
-  dispatch with this owned vector entry at its actual caller point; acquire the
-  required action and hint bodies, live session snapshot and linked ownership,
-  current inline physical-flag binding,
-  mode7 continuation, required
+  affine entry phase, origin and RNG phase remain supplied. The isolated response adapter now
+  binds actual inline physical/channel flags and composes the owned vector with
+  the same RNG. Six further installed controls retain terminal callback writes,
+  noise targets, opaque bytes, nested failure and cancellation. Priority/signal/
+  channel entries and session/noise/affine/RNG phases are declared test inputs,
+  not native caller/readiness producers. Next acquire the actual caller point,
+  required action and hint bodies, live session snapshot and typed linked/target
+  ownership, active response/mode7 continuation, required
   sound/animation and exact primary call timing; bind world-noise production.
   The Session adapter must publish prefixes before provider callbacks, preserve
   callback writes/retirement and reject stale-owner replay rather than restore

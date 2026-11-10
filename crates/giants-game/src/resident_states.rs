@@ -32,7 +32,13 @@ mod timed_effect;
 mod vimp_history_tests;
 #[cfg(test)]
 mod vimp_newborn_tests;
+mod vimp_response;
+#[cfg(test)]
+mod vimp_response_tests;
 mod vimp_threat;
+pub use vimp_response::{
+    Action as VimpResponseAction, Request as VimpResponseRequest, Services as VimpResponseServices,
+};
 mod vimp_vector;
 #[cfg(test)]
 mod vimp_vector_tests;
@@ -335,6 +341,8 @@ pub struct Resident {
     vimp_scalar_steps: [u64; 2],
     vimp_recovery_primaries: u64,
     vimp_threat_steps: u64,
+    vimp_response_steps: u64,
+    vimp_response_running: bool,
     vimp_vector_steps: u64,
     vimp_vector_running: bool,
     vimp_threat_failure: Option<String>,
@@ -577,6 +585,8 @@ impl Session {
                 vimp_physical: None,
                 herd_frame: None,
                 vimp_threat_steps: 0,
+                vimp_response_steps: 0,
+                vimp_response_running: false,
                 vimp_vector_steps: 0,
                 vimp_vector_running: false,
                 vimp_threat_failure: None,

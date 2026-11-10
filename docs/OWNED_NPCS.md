@@ -11,7 +11,7 @@ Mecc, Delphi and Kabuto lanes, and cinematic direction remains in the Flick lane
 | Family | Existing Rust services | Established boundary | Missing ordinary gameplay connection |
 | --- | --- | --- | --- |
 | Herd population | `herd_generator`, `herd_markers`, `declared_residents` | Source herd/marker construction, authored properties, ordered marker allocation, offline clock and Vimp births | Mission scheduler, native live clock/RNG ownership, complete population and retirement |
-| Living Vimps | `vimp_actor`, `vimp_wander`, `vimp_physical`, `vimp_animation`, `vimp_frame`, `vimp_threat`, `vimp_response`, `vimp_vector_response` | Owned birth/initialization/growth and admitted ordinary wander/physical/ANM composition; isolated threat consideration and required-provider response dispatch | Required hint/action bodies and live session/caller ownership, feeding, full-world order, live render and audio ownership |
+| Living Vimps | `vimp_actor`, `vimp_wander`, `vimp_physical`, `vimp_animation`, `vimp_frame`, `vimp_threat`, `vimp_response`, `vimp_vector_response` | Owned birth/initialization/growth and admitted ordinary wander/physical/ANM composition; isolated owned threat/response/vector composition | Required hint/action bodies and live session/caller ownership, feeding, full-world order, live render and audio ownership |
 | Vimp injury and remains | `vimp_damage`, `vimp_hurt`, `vimp_recovery`, `vimp_living_scalars`, `vimp_chunks`, `vimp_death_proxy` | Bounded damage, hurt/recovery and owned chunk/proxy services | Actual player hit dispatch, active effects/sounds, collection/economy and complete death cleanup |
 | Rippers | `ripper_perception`, `ripper_steering`, `ripper_pursuit`, `ripper_primary_turn`, `ripper_attack`, `ripper_awakening`, `ripper_emergence`, `ripper_turn_completion`, `ripper_ground`, `ripper_dirt` | Ordered target selection, supplied-view behavior kernels and persistent Session adapters for acquired branches | Complete actor/world primary scheduling, required firing/effect/audio providers, remaining modes and ordinary mission admission |
 | Shared enemy response | `state23_entry`, `state23_damage`, `state23_hurt`, `state23_animation`, `enemy_projectile`, `enemy_ballistic`, `enemy_flight` | Acquired state23 entry/damage/animation, enemy projectile birth/launch and isolated ordinary flight arithmetic | Complete enemy projectile world/contact/damage composition and all enemy classes/bosses |
@@ -94,10 +94,10 @@ consume a draw. Source TLS seeds and session/actor/physics/channel/affine/target
 noise fields are supplied; this is not a live ownership or full-primary proof.
 
 Rust controls retain preceding priority/target/delay/RNG stores after required
-provider failures. No successful default is installed. The ordinary Session/primary
-is not switched to this service. It still needs actual session snapshot and linked
-identities, owned physical-flag binding, vector/route and action providers, mode7
-continuation, sound/ANM and precise caller timing. The physical flag word already
+provider failures. No successful default is installed. The isolated owned entry
+below now binds inline physical flags, channels and the vector route. The ordinary
+primary remains refused pending caller timing, actual session/linked/hint owners,
+mode7, required action transport, sound and ANM. The physical flag word already
 belongs to the inline Vimp payload; its omission from the physical view does not
 mean it is unavailable or justify supplying zero. Retained source controls show
 1,344 Vimp snapshots with the physical pointer equal to the payload base. A future
@@ -172,9 +172,48 @@ Nonzero hint state refuses before invocation until its actual typed owner and
 terrain/affine producer exist. Required action execution has no successful default.
 The stricter owned-entry preflight requires the available route/affine even for a
 predicate-skipped helper; it is not a native equivalence claim for missing owners.
-The ordinary primary's threat/response refusals remain. Next bind response dispatch
-and caller phase, acquire required hint/action/ANM/audio and mode7, and establish
-actual session/global/world scheduling before normal gameplay admission.
+The isolated response entry below now composes this vector adapter. The ordinary
+primary's threat/response refusals remain. Acquire actual caller phase, required
+hint/action/ANM/audio and mode7, and establish actual session/global/world
+scheduling before normal gameplay admission.
+
+## Owned response dispatch - 10 November 2026
+
+`Session::respond_vimp_offline` now reads the actual inline physical word, mirrored
+primary-channel flags, actor UID, control/binding words, response payload, cached
+forward vector, current position and delay. A signal response publishes priority,
+remaining signal and cleared flags before executing the actual owned vector entry
+with the same RNG. Nearby responses retain their source delay interval. Noise
+responses retain the actual target coordinates and update only the backwards
+byte; its three opaque neighbouring bytes are preserved.
+
+Session snapshots are still current supplied inputs, not supplied predicate
+results. Each query sees preceding response stores. Terminal action callbacks
+observe the published prefix and may change or cancel actors. Their resulting
+Session state is retained on success or error; the old kernel outcome is never
+restored afterward. The nested vector path rereads the full acquired response
+projection, including callback changes outside the smaller vector projection.
+Fresh invocation counters, pending-phase guards and failed-owner quarantine remain
+separate from completed world/primary frames.
+
+Six installed-data Rust controls check signal-to-owned-vector composition,
+physical/channel gates, noise targets and opaque bytes, nearby action prefix
+visibility, terminal callback writes on success/error, nested vector failure,
+actual Session cancellation and foreign/reentrant/stale-affine/link refusals.
+They use real source actors with declared isolated priority/signal/channel entries;
+setting the test channel-ready bit does not acquire its native producer. Session
+snapshots, noise, initial affine phase and global RNG phase are supplied. Required
+action callbacks in the tests are controlled mutations/failures, not transport
+implementations. No new native comparison of this Session composition is claimed.
+
+Nonzero raw link or target state refuses before entry until it has a typed owned
+producer; it is never silently cleared. This strict preflight requires the available
+parent/affine even when the helper's predicate would skip a later read. It does
+not prove native equivalence for absent owners. Actual native caller timing, live
+session/linked/hint identities, required action/hint bodies, active response/mode7
+continuation, sound/ANM and world admission remain open. The ordinary primary
+keeps its refusals; no normal gameplay, new capture or preview follows from this
+source-only composition. Prototype PS2 attributions remain unknown.
 
 The PC SHA256 is
 `690bad39847b0f578163e547e6a6de10ffe9213635a069bd1ce96a75dfd39ead`;
