@@ -137,9 +137,16 @@ activation/world order. Preserve separate current owner/controlled identities an
 requery after mode/scale callbacks; never cache the first query for the second.
 See [OWNED_CAMERA.md](docs/OWNED_CAMERA.md) for the authoritative contract and
 supplied boundaries. No ordinary App admission follows from this selector.
-The current independently verified download is `preview-2026.11.10.6`; its snapshot
-and receipts retain their immutable source identity despite newer source-only
-integrations. The .5 manual observations are not transferred to .6.
+The current independently verified download is `preview-2026.11.10.8`, source
+`1be8830`. It preserves Flick's immutable .7 lot, the Mecc pistol/smoke services,
+Delphi/Kabuto continuations and shared camera prerequisites. Actual offscreen
+acceptance includes three 128-frame owned movement cycles, jet lift/fuel and an
+active-thrust capture with real muted audio, alongside development/film cleanup.
+The pistol renderer now hides true absence during draw and still rejects stale
+poses. Replay commands, clocks and mission gates remain supplied; ordinary native
+input, idle continuation, impact/display/FX birth and world scheduling stay open.
+The .5 manual observations are not transferred to .8. The cinematic census stays
+pinned to .7; do not relabel it as an .8 measurement.
 
 The combined `.3` source includes NPC PR #5's history/newborn runtime, cold Delphi
 support and the shared camera-mode/Session composition alongside Kabuto and Flick.
@@ -1433,8 +1440,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   actual idle-draw callback; no fabricated pointer or immediate commit substitutes
   for it. These unblended controls supply floor, damage, velocity history and
   positive idle timer. Those selector-only controls did not validate a wounded
-  whole primary. The subsequent whole-primary binding is recorded below; real
-  draw callback/frame ownership still precedes the refused draw transition.
+  whole primary. The subsequent whole-primary and pistol ANM/wield bindings are
+  now acquired; the old selector-only refusals remain historical controls. The
+  .8 renderer also handles the early unequipped interval. Actual ordinary world
+  admission and remaining idle/impact/FX providers stay open.
   Full-primary discovery now identifies damage-smoke preparation as an additional
   prerequisite: three original 128-frame controls expose the context/VM draw
   after a supplied wound. The bounded policy matches 2,080 contexts / 18,780
