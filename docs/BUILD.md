@@ -38,6 +38,17 @@ and captures the child's `--help` result explicitly.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
+`cargo test --locked -p giants-app source_actor_roles --target x86_64-pc-windows-gnu -- --ignored`
+checks actual player constructor identity with a second actor of the same class,
+local/other audio routing, motion ownership, foreign and retired owner refusal,
+and mission cleanup. It is silent CPU composition. The additional diagnostic
+`source_owned_mecc_runtime_terrain_and_presentation` currently reaches the required
+normal pistol draw animation callback/frame service refusal at frame one; it
+does not pass continuous gameplay on this source. Preserve that prerequisite
+rather than forcing animation flags. Neither control proves native input or
+visual fidelity.
+
 With `GIANTS_KABUTO_ROOT` and, where necessary, `GIANTS_KABUTO_EXECUTABLE` set as
 described below, `source_kabuto_held_bank` runs three silent source-backed checks
 of the current/held-reference Session composition. They reach the actual preceding

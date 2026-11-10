@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Application player/carried identities — 10 November 2026, source only
+
+The common application retains each role's actual Session constructor result.
+Player resources, owned model preparation, motion publication, carried animation/
+references, pickup and audio routing use those identities instead of a unique
+class search. Retired or foreign owners refuse even when another actor shares
+their class. Later initializer failures do not erase the constructor identity;
+legacy motion publication remains an independent guard against mixing drivers.
+
+The silent installed-data regression covers duplicate player classes, distinct
+local/other sound routes, canonical movement, foreign tickets, retirement and
+replacement refusal, and mission-owned cleanup while preserving Bevy's default
+resource entity. This application correction does not reconstruct native player
+selection/replacement or admit the ordinary owned controller. The existing
+continuous owned-App diagnostic encounters the required normal pistol draw
+animation callback/frame service at frame one; it is not a successful continuous
+gameplay check. Public preview identities and their earlier measured scope remain
+independent from this source-only change.
+
 ## Owned Kabuto current/held-reference bank — 10 November 2026
 
 The acquired handoff now consumes typed Session actor identities and actual
