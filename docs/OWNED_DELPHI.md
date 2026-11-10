@@ -4,6 +4,30 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Pre-physical held-cache provenance and candidate geometry - 10 November 2026
+
+`Session::delphi_prephysical_target_ray` reads only during the running local
+caller. Its first turn requires the acquired complete cold group, unchanged
+zeroed owner/held header caches and the actual unsampled zeroed held reference.
+This produces a zero ray without publishing an evaluated affine or substituting
+an identity pose. Later turns require the preceding completed physical and held
+placement, with actual binding, channel and reference checks. The returned source
+identifies the cold constructor or previous frame explicitly. Missing placement,
+early cache/reference production, foreign owners and out-of-phase reads refuse.
+
+`query_delphi_prephysical_held_target` connects that ray to the real shared
+population, predicate, bounds, mesh and vertex services. Rejected/self candidates
+need only their headers; accepted geometry retains its existing preparation
+guards. The ordinary completed-frame query and affine readers remain guarded.
+Four retained original source-loop cache/output samples and 768 earlier supplied
+cache contexts agree on all 4,632 ray words. Installed controls cover cold and
+successive previous-frame sources, actual evaluated held references, two placed
+source-backed candidates, retained failure quarantine and cancellation. The
+geometry/population is real; terrain, view and remaining caller services in these
+controls are scripted. Full viewport/current-camera and terrain providers,
+linked/item lifetimes, active physics and ordinary world/menu admission remain
+open. Prototype PS2 attributions remain unknown; no visual result is asserted.
+
 ## Owned pre-physical target phase - 10 November 2026
 
 `Session::advance_delphi_local_target` now captures the actual actor's scalar

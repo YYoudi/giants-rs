@@ -158,6 +158,9 @@ struct Plan {
     binds: usize,
     events: Vec<&'static str>,
     proxy: Option<crate::delphi_target_proxy::Template>,
+    geometry: Option<Arc<crate::scene_resources::SceneResources>>,
+    ray_samples: Vec<crate::delphi_target_ray::Sample>,
+    geometry_outputs: Vec<crate::delphi_target_owned::Output>,
 }
 struct Bound<'a> {
     session: &'a mut Session,
@@ -237,7 +240,36 @@ impl target::World<Id, Id> for Bound<'_> {
             distance: 100.5,
         })
     }
-    fn query(&mut self, _: bool, _: f32, point: &mut [f32; 3]) -> Result<Option<Id>, String> {
+    fn query(
+        &mut self,
+        _: bool,
+        distance: f32,
+        point: &mut [f32; 3],
+    ) -> Result<Option<Id>, String> {
+        if let Some(source) = self.plan.geometry.clone() {
+            self.event("query")?;
+            let number = self.session.delphi_local_target(self.owner).unwrap().number;
+            let sample = self
+                .session
+                .delphi_prephysical_target_ray(self.owner, number, 1e-4)?;
+            self.plan.ray_samples.push(sample);
+            let (provenance, output) = self.session.query_delphi_prephysical_held_target(
+                &source,
+                crate::delphi_target_owned::Input {
+                    owner: self.owner,
+                    number,
+                    normalization_threshold: 1e-4,
+                    range: distance,
+                    vertex_epoch: number as u32,
+                    force_vertices: false,
+                },
+            )?;
+            assert_eq!(sample.source, provenance);
+            *point = output.point;
+            let target = output.target;
+            self.plan.geometry_outputs.push(output);
+            return Ok(target);
+        }
         *point = self.position();
         self.event("query")?;
         Ok(self.plan.target)
@@ -611,4 +643,193 @@ fn source_delphi_local_phase_protects_typed_links_and_partial_proxy_construction
     s.advance_delphi_local_target(next, c, &mut no_providers)
         .unwrap();
     assert_eq!(no_providers.binds, 0);
+}
+
+#[test]
+#[ignore = "Requires GIANTS_DELPHI_ROOT and executable; actual held-cache epochs and candidate geometry, scripted terrain/view"]
+fn source_delphi_local_phase_reads_cold_then_previous_held_geometry() {
+    use crate::delphi_target_ray::Source;
+    let (mut s, owner, source, g, _) = setup(1405);
+    let source = Arc::new(source);
+    let mut plan = Plan {
+        geometry: Some(source.clone()),
+        ..Default::default()
+    };
+    assert!(s.delphi_prephysical_target_ray(owner, 1, 1e-4).is_err());
+    s.advance_delphi_local_target(owner, context(owner, 1, &g), &mut plan)
+        .unwrap();
+    assert_eq!(plan.ray_samples.len(), 1);
+    assert_eq!(plan.ray_samples[0].source, Source::ColdConstructor);
+    assert_eq!(plan.ray_samples[0].ray.origin.map(f32::to_bits), [0; 3]);
+    assert_eq!(plan.ray_samples[0].ray.direction.map(f32::to_bits), [0; 3]);
+    assert!(s.actor_current_affine(owner).is_err());
+    assert!(s.delphi_target_ray(owner, 0, 1e-4).is_err());
+    let mut contexts = crate::attached_effect_context::Pool::from_active_resources(1405, &source);
+    let mut random = crate::audio_parameters::Random(1);
+    let mut stamp = crate::animation_epoch::Stamp::default();
+    let mut post = crate::delphi_post_physical::World::default();
+    for number in 1..=2 {
+        physical(
+            &mut s,
+            owner,
+            number,
+            0,
+            &g,
+            (&mut contexts, &mut random, &mut stamp, &mut post),
+        )
+        .unwrap();
+        let held = s.delphi_special(owner).unwrap().held;
+        s.update_current_references_at(held, stamp.0 + 1).unwrap();
+        s.advance_delphi_held_pose(owner, number).unwrap();
+        let previous = s.delphi_target_ray(owner, number, 1e-4).unwrap();
+        let candidates = if number == 2 {
+            [2., 22.]
+                .map(|distance| {
+                    place_candidate(
+                        &mut s,
+                        &source,
+                        std::array::from_fn(|i| {
+                            previous.origin[i] + previous.direction[i] * distance
+                        }),
+                    )
+                })
+                .to_vec()
+        } else {
+            Vec::new()
+        };
+        assert!(
+            s.delphi_prephysical_target_ray(owner, number + 1, 1e-4)
+                .is_err()
+        );
+        s.advance_delphi_local_target(owner, context(owner, number + 1, &g), &mut plan)
+            .unwrap();
+        let sample = plan.ray_samples.last().unwrap();
+        assert_eq!(sample.source, Source::PreviousFrame(number));
+        assert_eq!(
+            sample.ray.origin.map(f32::to_bits),
+            previous.origin.map(f32::to_bits)
+        );
+        assert_eq!(
+            sample.ray.direction.map(f32::to_bits),
+            previous.direction.map(f32::to_bits)
+        );
+        if !candidates.is_empty() {
+            let output = plan.geometry_outputs.last().unwrap();
+            assert_eq!(output.target, Some(candidates[1]));
+            assert_eq!(output.geometry_visits, candidates);
+            assert_eq!(output.mesh_visits, candidates);
+        }
+    }
+    let old = owner;
+    s.clear();
+    assert!(s.delphi_prephysical_target_ray(old, 4, 1e-4).is_err());
+}
+
+fn place_candidate(
+    s: &mut Session,
+    source: &crate::scene_resources::SceneResources,
+    position: [f32; 3],
+) -> Id {
+    let class = 73;
+    let program = source
+        .classes
+        .models
+        .first_program(class)
+        .unwrap()
+        .program
+        .as_ref()
+        .unwrap();
+    let specification =
+        Arc::new(crate::specification::Prepared::load_registered(source, class).unwrap());
+    let seed = Seed::from_program_for(
+        program,
+        Profile::Debug,
+        crate::arithmetic::Precision::Double53,
+    )
+    .unwrap();
+    let mut fields = crate::actor_fields::Fields::load(source, class, &specification)
+        .unwrap()
+        .placed(crate::collider_init::DeclaredPose {
+            class: class as u32,
+            position,
+            yaw: 0.,
+            pitch_roll: Some([0.; 2]),
+        })
+        .unwrap();
+    fields.set_declared_scale(0.5).unwrap();
+    let id = s
+        .construct(Construction {
+            class,
+            seed: &seed,
+            bindings: &source
+                .class_state_bindings_for(class, Profile::Debug)
+                .unwrap(),
+            flags: DirectFlags::project(class, program),
+            specification,
+            state_resources: Arc::new(
+                crate::state_resources::Prepared::load(source, class, Profile::Debug).unwrap(),
+            ),
+            fields,
+        })
+        .unwrap();
+    s.prepare_actor_affine(id).unwrap();
+    id
+}
+
+#[test]
+#[ignore = "Requires GIANTS_DELPHI_ROOT and executable; acquired cache provenance refusals, no controller"]
+fn source_delphi_local_phase_refuses_unowned_cache_epochs_before_geometry() {
+    for mode in 0..3 {
+        let ticket = 1410 + mode;
+        let (mut s, owner, source, g, _) = setup(ticket);
+        let source = Arc::new(source);
+        let mut plan = Plan {
+            geometry: Some(source.clone()),
+            ..Default::default()
+        };
+        let number = if mode == 0 {
+            s.prepare_actor_affine(owner).unwrap();
+            1
+        } else if mode == 1 {
+            let held = s.delphi_special(owner).unwrap().held;
+            s.update_current_references_at(held, 1).unwrap();
+            1
+        } else {
+            s.advance_delphi_local_target(owner, context(owner, 1, &g), &mut plan)
+                .unwrap();
+            let mut contexts =
+                crate::attached_effect_context::Pool::from_active_resources(ticket, &source);
+            let mut random = crate::audio_parameters::Random(1);
+            let mut stamp = crate::animation_epoch::Stamp::default();
+            let mut post = crate::delphi_post_physical::World::default();
+            physical(
+                &mut s,
+                owner,
+                1,
+                0,
+                &g,
+                (&mut contexts, &mut random, &mut stamp, &mut post),
+            )
+            .unwrap();
+            2
+        };
+        let error = s
+            .advance_delphi_local_target(owner, context(owner, number, &g), &mut plan)
+            .unwrap_err();
+        assert!(
+            error.contains(if mode < 2 {
+                "constructor caches"
+            } else {
+                "held cache not produced"
+            }),
+            "{error}"
+        );
+        assert_eq!(s.delphi_local_target(owner).unwrap().phase, Phase::Failed);
+        assert_eq!(s.delphi_physical(owner).unwrap().number, number - 1);
+        assert_eq!(plan.geometry_outputs.len(), if mode == 2 { 1 } else { 0 });
+        assert!(
+            s.advance_delphi_local_target(owner, context(owner, number, &g), &mut plan)
+                .is_err()
+        );
+    }
 }

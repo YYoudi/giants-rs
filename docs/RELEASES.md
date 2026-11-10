@@ -1,5 +1,19 @@
 # Preview releases and milestone integration
 
+## Delphi pre-physical held-cache and geometry binding - 10 November 2026
+
+The running local caller now reads its explicitly acquired cold constructor
+caches or preceding completed held placement, then uses real shared candidate
+geometry. It keeps evaluated/current affine admission separate and refuses early,
+missing or stale cache producers. The predicate rejects self/filtered headers
+before requiring accepted geometry. Four original source-loop cache samples and
+768 earlier supplied-cache cases match all 4,632 ray words. Installed controls
+exercise actual held references and two source-backed candidates. Terrain/view
+and remaining caller providers stay scripted; full perception, linked/item
+consumers, active physics and ordinary menu/world order remain open. This source
+milestone adds no gameplay or visual claim and preserves the separate preview.
+See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
 ## Delphi owned local target phase — 10 November 2026
 
 Target/readiness results now publish to actual Session scalar fields and typed
