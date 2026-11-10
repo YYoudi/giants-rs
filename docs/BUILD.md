@@ -123,7 +123,8 @@ With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
 checks actual player constructor identity with a second actor of the same class,
 local/other audio routing, motion ownership, foreign and retired owner refusal,
 and mission cleanup. The same control checks constructor-bound ordinary jet model sizes and visibility,
-stale-frame quarantine and unchanged Session animation/world ownership. These
+stale-frame quarantine and unchanged Session animation/world ownership. It also
+checks preparation of the source pistol projectile visual and foreign-ticket refusal. These
 checks do not prove GPU rendering or held input. It is silent CPU composition. The additional diagnostic
 `source_owned_mecc_runtime_terrain_and_presentation` now passes 128 prepared CPU
 frames with actual terrain, camera, ANM and weapon presentation. It checks the
