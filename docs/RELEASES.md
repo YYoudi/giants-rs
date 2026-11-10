@@ -15,9 +15,19 @@ replacement refusal, and mission-owned cleanup while preserving Bevy's default
 resource entity. This application correction does not reconstruct native player
 selection/replacement or admit the ordinary owned controller. The existing
 continuous owned-App diagnostic encounters the required normal pistol draw
-animation callback/frame service at frame one; it is not a successful continuous
-gameplay check. Public preview identities and their earlier measured scope remain
+animation callback/frame service at frame one. The same refusal reproduces on
+the unchanged pre-fix source `715e46a`; it is not a successful continuous gameplay
+check. Public preview identities and their earlier measured scope remain
 independent from this source-only change.
+
+Combined source `debc86c` preserves the timed physical-header and retained Kabuto
+caller-input contributions. It passes 872 workspace Rust tests (70 ignored),
+the new installed-data actor-role regression, all four installed held-bank
+controls, 43 Python tests, Rustfmt, strict workspace Clippy and generated
+roadmap/site/JavaScript checks. The all-reference source audit reports no findings.
+The latest public `.4` package was independently downloaded and verified again:
+ten members, all three API asset digests and the immutable source tag agree.
+These source checks introduce no new preview or manual gameplay claim.
 
 ## Timed physical-header ownership and ordered services — 10 November 2026
 
