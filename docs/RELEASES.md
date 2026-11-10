@@ -21,6 +21,36 @@ to Bevy, acquire startup words or acknowledge the mission's pending reset.
 Actual input/device, first animation/render and physical/controller wiring remain
 open. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
 
+## Kabuto initial body renderer - intermediate dependency only
+
+Ordinary Kabuto controls are not available. The next normal-entry blocker is the
+native Kabuto camera/profile/projection and initializer/startup consumers; the
+provisional Mecc-shaped inspection camera cuts off the head. The common loader
+and renderer now consume the real owner's current-channel body, textures, pose
+normals and source lighting, with ticket/specification/pose checks and cleanup.
+No primary/history or initializer is acknowledged by body presentation.
+
+Private build `b0b0d61260f9ecb1cac0b48ce2139578054b9db2` (executable SHA256
+`616843bfc062708155ff71d48768a0c6afcc9050dd51893e0dee9dfa48462f41`)
+visibly renders the 31 source subparts after a Kstory1 mission-0 menu request in
+explicit silent body inspection. Its image was reviewed; the earlier black
+capture and two observer timeouts remain failed visibility evidence. The test
+activates the existing inspection camera and excludes opening playback while
+retaining native startup refusal. See [BUILD.md](BUILD.md) for the diagnostic;
+there are no normal keyboard/mouse gameplay steps to advertise yet.
+
+Combined source passes 917 synthetic Rust tests (108 ignored), the installed
+Kabuto App construction/body/re-entry control, fifteen Delphi controls, the Mecc
+constructor-role control, Rustfmt and strict workspace Clippy. A separate common
+build at `54e82c9` passes three 128-frame GPU Mecc inspection cycles with actual
+body drawing, cancellation and asset release. Commands/clocks/world gates remain
+supplied. These checks establish neither ordinary Kabuto availability nor native
+visual fidelity. The published preview .8 retains its independent identity.
+The later combined checkpoint also preserves the ordinary Mecc jet and persistent
+cinematic sampling contributions: 918 Rust checks (108 ignored), the Kabuto App
+control, expanded Mecc constructor/jet-role control, fifteen Delphi controls,
+Rustfmt and strict Clippy pass. These CPU checks do not broaden the image scope.
+
 ## Delphi declared group connected to mission loading - 10 November 2026
 
 Common mission loading now stages Delphi's actual declared owner, copies and held
