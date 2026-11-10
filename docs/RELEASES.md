@@ -34,6 +34,33 @@ are outside this frozen executable. The cinematic census remains tied to .7,
 and historical gallery images retain their recorded build. No whole-game
 completion or new confirmed prototype PS2 attribution follows from this release.
 
+## Combined NPC source integration - no new playable AI
+
+The main integration lane reviewed NPC source `0ec3f68` and combined its contact
+ownership, completed-pose renderer and selected neutral callbacks with the current
+Mecc descent, HUD, Delphi/Kabuto body and camera contributions. Combined validation
+passes 952 portable Rust checks (148 external-data checks ignored), 43 Python
+checks, format and strict Clippy. Forty-seven installed controls cover NPC contact,
+captured movement/response, common pose assets and neutral callbacks alongside
+constructor-bound roles, character menu construction, owned Mecc terrain and the
+ordinary 1,600-step body/jet/descent control. The source-history audit reports no
+findings; detailed inputs and receipts remain private.
+
+This is an intermediate integration. Offline callback admission and supplied
+world services in those checks do not enable ordinary Vimp AI or prove GPU pixels.
+The next player delivery remains the continuous real-input Mecc flight/release/
+descent/landing loop; Story2 needs the actual shared caller and remaining family
+services before an interactive herd. Preview .9 and its download hashes stay fixed.
+
+Reconciliation source `255469f` also preserves concurrent main `5b2fad2`, including
+the exact-owner Kabuto look-angle command and external cold camera context.
+The resulting combination passes 953 portable Rust checks (149 ignored), 44
+Python checks, format/strict Clippy and 48 installed controls. The additional
+camera check retains signed pitch and projection-failure effects on the correct
+actor. The source-history review covers 1,056 commits and 5,684 unique blobs
+with zero findings. These are scoped dependencies, not new Kabuto controls or
+proof of continuous Mecc OS-held flight; the next player delivery is unchanged.
+
 ## Flick timed queue ownership - intermediate dependency
 
 No new normal controls, runtime capability or downloadable preview is claimed.

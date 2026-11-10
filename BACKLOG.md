@@ -51,7 +51,24 @@ After the basic loop, advance NPC interactions, objectives, failure/restart and
 progression, then character/campaign coverage and finer fidelity. Detailed domain
 inventories and dated evidence below remain authoritative within their scope.
 
-### Current NPC source dependency
+### Later main follow-ups, outside the frozen .9 download
+
+Health/fuel gauges present the existing controller values, with low/critical
+colors; a local supplied-command GPU image verifies their initial display, not
+real changing levels or native HUD fidelity. Separate local build ec097cb
+accepts two actual mouse-fire actions and Escape cleanup; long flight and its
+manual projectile image remain unverified there. Initial Delphi/Kabuto body
+inspection and external PC camera coefficient reading remain dependencies for
+the same live controllers, not new gameplay readiness. Their dated technical
+and release notes retain the precise source/build identity and remaining owners.
+
+A separate later build of source `6d34ce5` graphically reaches the ordinary
+descent clip41 at supplied step653, with raised arms and jet draws hidden after
+release. This is outside frozen .9 and does not verify OS-held flight or landing.
+The next delivery remains the continuous ordinary-input loop, not another pose
+or numeric catalog.
+
+### NPC prerequisites for the first interactive herd
 
 The NPC lane's selected delivery is an actual Story2 herd through ordinary mission
 entry, live callbacks/animation and the common renderer. Current source now binds
@@ -81,22 +98,7 @@ checks actual position-buffer consumption. Parented children, other AI families
 and real whole-world inputs/admission remain required; loading still enables no
 default callback or live AI.
 
-### Later main follow-ups, outside the frozen .9 download
 
-Health/fuel gauges present the existing controller values, with low/critical
-colors; a local supplied-command GPU image verifies their initial display, not
-real changing levels or native HUD fidelity. Separate local build ec097cb
-accepts two actual mouse-fire actions and Escape cleanup; long flight and its
-manual projectile image remain unverified there. Initial Delphi/Kabuto body
-inspection and external PC camera coefficient reading remain dependencies for
-the same live controllers, not new gameplay readiness. Their dated technical
-and release notes retain the precise source/build identity and remaining owners.
-
-A separate later build of source `6d34ce5` graphically reaches the ordinary
-descent clip41 at supplied step653, with raised arms and jet draws hidden after
-release. This is outside frozen .9 and does not verify OS-held flight or landing.
-The next delivery remains the continuous ordinary-input loop, not another pose
-or numeric catalog.
 
 ## Prototype PS2 attribution method — 5 November 2026
 
