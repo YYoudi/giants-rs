@@ -7,6 +7,37 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## Combined NPC, Mecc and shared-camera integration - source dependency milestone
+
+Intermediate dependency only: this checkpoint adds no new interaction to the
+published .8 download. The next delivery remains the ordinary Mecc input/action
+path specified in [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md) and `BACKLOG.md`.
+The jet renderer currently consumes owned child frames while the ordinary path
+uses the development controller; a replay plume is not a normal-input result.
+
+Combined runtime source `e86f61720e2513295c653624e7072a3e787edf5f` retains main
+through `ce7447c`, the reviewed NPC dependency chain through `473e154` and Mecc
+continuation through `48ac91d`. Vimp response state/arrival timing and herd
+callbacks retain actual Session ownership. Completion orchestration retains
+required external backends. Delphi's shared camera override and Kabuto's common
+mission construction preserve their remaining admission guards. None enables a
+complete native NPC world, Delphi or Kabuto controller.
+
+The combined source passes 945 Rust tests (135 ignored), Rustfmt and strict
+workspace Clippy. Installed controls retain the scoped NPC, Mecc and Delphi
+results; Kabuto's common cold mission-entry/re-entry control and the two 512-frame
+App controls pass, including real zero-PCM muted jet sinks. Commands, clocks and
+world gates remain supplied. Original-PC comparison fixtures remain private;
+no new prototype PS2 attribution is confirmed by this integration.
+
+An ordinary-menu check on the exact public .8 executable uses a fresh muted
+profile and real input for New Single Player Game, opening skip and menu return.
+The runtime records resource release. Continuous thrust/release/landing is not
+validated by the short input pulses. Later capture inconsistencies stopped UI
+input and only the owned test process was closed; this is not an exit-dialog or
+whole-game certification. Existing preview source/receipt/checksums and the
+separate cinematic audit retain their original identities.
+
 ## Delphi common camera override dependency - 10 November 2026
 
 Intermediate dependency only; Delphi has no new ordinary menu entry or controls.

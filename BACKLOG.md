@@ -17,6 +17,16 @@ weapon path, then return and enter again. Verify each supported action on the
 actual build before advertising it. The last recorded owned GPU acceptance uses
 supplied replay commands; it does not close this real-input delivery.
 
+The .8 ordinary-path check on a fresh muted profile reaches the mission from New
+Single Player Game, skips the opening with Escape and returns to the menu with
+actual resource release. Short input pulses do not validate continuous flight.
+Source inspection identifies the visible jet gap: `mission_jet_scene` consumes
+completed owned child frames, while the ordinary path still uses the development
+controller. Close that split by connecting the real common parent/child driver,
+including its required landing impact, damage/display/voice and fire owners.
+Do not add a separate flame simulation or mark an unfinished parent complete.
+Keep the first reproducible refusal ahead of further unrelated numeric matrices.
+
 - Main integration: connect actual camera/input/projection and activation order;
   consume the reviewed character services through their real shared owners.
 - Mecc: provide the first missing impact/health/display/voice/FX and weapon
