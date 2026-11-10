@@ -50,6 +50,11 @@ mod model_motion_tests;
 mod object_contact_tests;
 #[path = "kabuto_object_contacts.rs"]
 mod object_contacts;
+#[path = "kabuto_primary_tail.rs"]
+mod primary_tail;
+#[cfg(test)]
+#[path = "kabuto_primary_tail_tests.rs"]
+mod primary_tail_tests;
 #[path = "kabuto_reference_query.rs"]
 mod reference_query;
 #[cfg(test)]

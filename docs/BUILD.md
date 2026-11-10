@@ -934,3 +934,12 @@ owned audio. Use fresh private profiles/capture paths and await the GUI-subsyste
 child as described above. These checks do not certify manual input, ordinary
 world admission, native clocks or visual/audio fidelity. The render consumer
 accepts a genuinely missing held pose during draw; stale present poses still fail.
+
+
+With the same explicit Kabuto root/executable, `source_kabuto_primary_tail_`
+runs three silent installed controls after the actual owned resource/action/
+selection/ANM composition. They check typed links, generic marking, shared
+reference-camera sampling, recorded world entries and retained error/removal
+boundaries. The success control reports 509 admitted component contexts and
+three refused held routes, not completed gameplay frames. Camera/UI/audio/rate/
+transport rendering or delivery and link event producers remain unvalidated.

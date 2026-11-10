@@ -62,6 +62,7 @@ pub mod kabuto_object_contacts;
 pub mod kabuto_physics;
 pub mod kabuto_player;
 pub mod kabuto_post_control;
+pub mod kabuto_primary_tail;
 pub mod kabuto_reference_query;
 pub mod kabuto_reference_ray;
 pub mod kabuto_reference_release;
