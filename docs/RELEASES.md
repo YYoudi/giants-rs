@@ -294,6 +294,27 @@ source-only: the combined tree at `0abf1898b49413379368df839eb7627cc8eb5ba6` pas
 866 Rust tests (57 ignored), strict Clippy and six installed Delphi controls.
 These later source checks do not relabel the shipped binary.
 
+## Vimp response dispatch and session predicates — 10 November 2026
+
+Response dispatch now preserves entry gates, priority selection, pending flags,
+nearby/peer stores, linked/noise target and orientation writes, random phase and
+required request boundaries. The kernel executes the acquired session predicates
+from current snapshots; no supplied decision or successful missing service is
+installed. Predicate controls match 2,840 contexts /5,680 output words.
+
+Response controls match 1,024 original-PC contexts /28,672 projected words.
+927 reach the helper return; 75 stop before vector/route processing and 22 before
+action processing. These 97 prefixes do not prove their required callee bodies.
+Synthetic session/actor/physics/channel/affine/target/noise fields and TLS seeds
+are supplied. Late Rust provider failures retain completed stores and RNG work;
+they are not evidence of native exception handling. Wide random subtraction and
+equal-bound draw consumption are preserved.
+
+Vector/route and action bodies, live session/linked/physical inputs, mode7,
+sound/ANM and ordinary-primary timing remain unbound. No live fleeing or new
+capture/download is claimed. Prototype PS2 attributions remain unknown. Existing
+preview manifests/notices/checksums retain their exact build identities.
+
 ## Vimp threat consideration — 10 November 2026
 
 A bounded threat service now preserves signed priority gates, ordered nearby/

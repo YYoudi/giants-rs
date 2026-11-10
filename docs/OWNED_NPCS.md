@@ -69,6 +69,36 @@ response/escape selection, linked identities, required audio/ANM services and
 actual world noise production remain open. No fleeing, AI mission admission or
 visual availability is claimed. Prototype PS2 attributions remain unassigned.
 
+## Response dispatch and session predicates — 10 November 2026
+
+`vimp_response::respond` now preserves response priority, pending-flag consumption,
+physical/channel entry gates, nearby/peer transitions, linked/noise target writes
+and orientation. Required providers observe preceding stores. Each session query
+supplies its current snapshot; the kernel executes `actor_session_predicates`
+rather than accepting a supplied decision. The predicates preserve first-match
+selection, signed count-minus-one fallback and low-byte actor-word comparison.
+They do not produce live session or actor ownership.
+
+Original-PC predicate wrappers and their actual callees match 2,840 contexts /
+5,680 output words. Response controls match 1,024 contexts /28,672 projected
+state/request/RNG/query words: 927 run to the helper return, 75 stop before the
+required vector/route callee and 22 before the required action callee. Those
+97 stopped entries are prefix evidence, not completed responses. No callee return
+is substituted. Byte-only target requests remain distinct from nearby float/word
+requests. The random interval retains a wide subtraction, and equal bounds still
+consume a draw. Source TLS seeds and session/actor/physics/channel/affine/target/
+noise fields are supplied; this is not a live ownership or full-primary proof.
+
+Rust controls retain preceding priority/target/delay/RNG stores after required
+provider failures. The vector/route and action implementations remain required;
+no successful default is installed. The ordinary Session/primary is not switched
+to this service. It still needs actual session snapshot and linked identities,
+owned physical-flag provenance, vector/route and action providers, mode7
+continuation, sound/ANM and precise caller timing. The current Vimp physical view
+does not yet expose the entry flag word; it must not be guessed from a successful
+CPU movement phase. No ordinary fleeing, rendering or gameplay download follows
+from this milestone. Prototype PS2 attributions remain unknown.
+
 ## Source-resource regression
 
 ### First callback after a herd birth — 10 November 2026

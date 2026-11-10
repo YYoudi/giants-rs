@@ -679,6 +679,7 @@ pub mod mecc_locomotion;
 pub mod mecc_model_motion;
 
 pub mod actor_primary_gate;
+pub mod actor_session_predicates;
 pub mod animation_epoch;
 pub mod audio_parameters;
 pub mod audio_sequence;
@@ -807,6 +808,7 @@ pub mod vimp_hurt;
 pub mod vimp_living_scalars;
 pub mod vimp_physical;
 pub mod vimp_recovery;
+pub mod vimp_response;
 pub mod vimp_threat;
 pub mod vimp_wander;
 

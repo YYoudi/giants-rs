@@ -81,8 +81,13 @@ The dedicated NPC lane resumes existing work; see
   1,505 cases /9,030 output/read-count words, with priority gates, strict XY
   proximity, ordered peer reads and once-per-noise memory. The isolated owned
   entry retains late writes/quarantine; two source cohort controls pass. Next
-  acquire response/escape selection, owned linked identities, required sound/
-  animation and exact primary call timing; bind actual world-noise production.
+  bind response/escape selection to actual owners and caller timing. Response
+  dispatch now matches 1,024 controls /28,672 projected words: 927 helper returns,
+  75 vector boundaries and 22 action boundaries. The latter are prefix evidence,
+  not completed services. Session predicates match 2,840 contexts /5,680 words.
+  Next acquire/bind vector-route and action bodies, live session snapshot and
+  linked ownership, physical entry-flag provenance, mode7 continuation, required
+  sound/animation and exact primary call timing; bind world-noise production.
   Do not enable fleeing or replace the ordinary primary's refusals from this
   helper proof alone. See `docs/OWNED_NPCS.md`.
 - Resume the persistent Ripper primary/perception/attack services, actual player
