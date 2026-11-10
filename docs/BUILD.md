@@ -53,6 +53,14 @@ For example, set it to `Join-Path (Get-Location).Path '.local/bank-receipt.txt'`
 from the repository root before launching Cargo. The receipt contains only the
 selected diagnostic projection; keep it private.
 
+With the same Kabuto root/executable variables, `source_kabuto_animation_commit_`
+runs three silent installed checks of the selected-animation commit, late
+notification failure and owner removal. They use the actual common setter and
+zero-second ANM pipeline after the real resource stage. Selection/transport/world
+policy remains supplied. Optional `GIANTS_KABUTO_COMMIT_INPUTS` and
+`GIANTS_KABUTO_COMMIT_RECEIPT` exports require absolute paths under ignored private
+storage. Their 512 contexts are independent controls, not completed game frames.
+
 Per-emitter ambient step traces are disabled during normal play. For a private
 diagnostic run, set `GIANTS_TRACE_AMBIENT_STEPS=1` before launching the application.
 The choice is captured when each mission's ambient resources are mounted. This
