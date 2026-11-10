@@ -29,6 +29,15 @@ The latest public `.4` package was independently downloaded and verified again:
 ten members, all three API asset digests and the immutable source tag agree.
 These source checks introduce no new preview or manual gameplay claim.
 
+The private MinGW build of `e7ebd4c992524f8d44d8912c8cca5cb654e54a1f`
+(executable SHA256 `bb22bdb00bd72d1c58a4fa9d67c9014b11e4a07441a74b29b8358e06f2d06dd2`)
+passes explicit-wait CLI startup, both offscreen development endpoints (six fresh
+launches), and two selected Rstory1 mission 2 source-terminal/re-entry cycles
+with muted voice sinks and text/resource cleanup. These are lifecycle and partial
+playback checks; no interactive native jet/descent/landing or fidelity is claimed.
+This candidate is not a downloadable release. The public snapshot still pins
+the independently verified `.4` package.
+
 ## Timed physical-header ownership and ordered services — 10 November 2026
 
 Timed actors now retain physical velocity/history in the common Session, beside
