@@ -122,6 +122,37 @@ fn source_kabuto_action_gate_commits_only_resolved_selections() {
         Some(super::held_reference_tests::Case::ActionGate),
     );
 }
+
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT/EXECUTABLE; real Session links/mark/reference-camera; silent"]
+fn source_kabuto_primary_tail_uses_owned_links_and_common_camera() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::Tail),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT/EXECUTABLE; late UI failure retains actual state; silent"]
+fn source_kabuto_primary_tail_retains_late_widget_failure() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::TailFailure),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT/EXECUTABLE; callback removes owner; silent"]
+fn source_kabuto_primary_tail_refuses_removed_owner() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::TailClear),
+    );
+}
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT/EXECUTABLE; late sound failure keeps selection prefix and world writes"]
 fn source_kabuto_action_selection_retains_late_sound_failure() {
@@ -180,6 +211,7 @@ fn run_model(
     resource_controls.handoff = handoff;
     let mut commits = super::animation_commit_tests::Controls::default();
     let mut actions = super::action_select_tests::Controls::default();
+    let mut tails = super::primary_tail_tests::Controls::default();
     let baseline_fields = s.get(id).unwrap().construction_fields.clone().unwrap();
     let baseline_payload = s.get(id).unwrap().seed.storage.data().unwrap().to_vec();
     let baseline_references = s.specifications.get(&id.serial).unwrap().0.clone();
@@ -297,6 +329,15 @@ fn run_model(
         g.animation_commit_entered = None;
         g.animation_commit_running = false;
         g.animation_commit_completed = None;
+        g.animation_commit_current_frame = None;
+        g.primary_tail_entered = None;
+        g.primary_tail_running = false;
+        g.primary_tail_completed = None;
+        g.primary_tail_links = crate::kabuto_primary_tail::Links {
+            transient: None,
+            interaction: None,
+            progress: [None; 2],
+        };
         g.action_select_entered = None;
         g.action_select_running = false;
         g.action_select_completed = None;
@@ -785,6 +826,9 @@ fn run_model(
                     if let Some(
                         kind @ (super::held_reference_tests::Case::Actions
                         | super::held_reference_tests::Case::ActionGate
+                        | super::held_reference_tests::Case::Tail
+                        | super::held_reference_tests::Case::TailFailure
+                        | super::held_reference_tests::Case::TailClear
                         | super::held_reference_tests::Case::ActionsFailure
                         | super::held_reference_tests::Case::ActionsClear),
                     ) = handoff
@@ -792,6 +836,7 @@ fn run_model(
                             kind,
                             super::held_reference_tests::Case::Actions
                                 | super::held_reference_tests::Case::ActionGate
+                                | super::held_reference_tests::Case::Tail
                         ) || case == 511)
                     {
                         actions.advance(
@@ -806,6 +851,9 @@ fn run_model(
                     if let Some(
                         kind @ (super::held_reference_tests::Case::Commit
                         | super::held_reference_tests::Case::ActionGate
+                        | super::held_reference_tests::Case::Tail
+                        | super::held_reference_tests::Case::TailFailure
+                        | super::held_reference_tests::Case::TailClear
                         | super::held_reference_tests::Case::CommitFailure
                         | super::held_reference_tests::Case::CommitClear),
                     ) = handoff
@@ -813,6 +861,7 @@ fn run_model(
                             kind,
                             super::held_reference_tests::Case::Commit
                                 | super::held_reference_tests::Case::ActionGate
+                                | super::held_reference_tests::Case::Tail
                         ) || case == 511)
                     {
                         let mut animation = crate::actor_animation_phase::Services {
@@ -833,6 +882,21 @@ fn run_model(
                             kind,
                             &mut animation,
                         );
+                        if matches!(
+                            kind,
+                            super::held_reference_tests::Case::Tail
+                                | super::held_reference_tests::Case::TailFailure
+                                | super::held_reference_tests::Case::TailClear
+                        ) {
+                            tails.advance(
+                                (&factory, &foreign),
+                                &mut s,
+                                id,
+                                number,
+                                kind,
+                                &mut stamp,
+                            );
+                        }
                     }
                 }
             }
@@ -843,6 +907,7 @@ fn run_model(
     }
     commits.finish();
     actions.finish();
+    tails.finish();
     assert!(moving > 300);
     if let Some(p) = std::env::var_os("GIANTS_KABUTO_MODEL_INPUTS") {
         std::fs::write(p, inputs).unwrap();

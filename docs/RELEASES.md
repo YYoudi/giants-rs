@@ -1,5 +1,35 @@
 # Preview releases and milestone integration
 
+## Kabuto post-selection owned continuation — 10 November 2026
+
+The acquired post-selection component now runs on the actual Kabuto Session
+owner. It marks transient actors through the generic helper, clears typed links,
+selects distinct camera routes, orders 21 UI availability requests, checks linked
+accumulated damage/class limits and preserves gated notifications. Current frame
+comes from the successful animation commit or the retained skipped-selection
+sample. The authored pose route reuses the common reference-camera sampler.
+Late provider errors retain completed writes; owner removal never restores a
+stale copy and repeated/foreign/checkpoint calls refuse mutation.
+
+All 512 standalone original-PC/Rust tail controls match 1,873,051 state/ordered
+service words; 123 normalized external camera-range words also match. Generic
+marking, widget flags, camera-request stores and the ownership predicate execute
+in the original. Camera sampling, target status, sound, rate and transports are
+supplied mutating entries. Separate installed controls compose 509 actual Session
+tails after selection/ANM, refuse three held exits, sample six authored poses and
+observe 256 declared position entries. They are not a complete original/source
+primary comparison or live camera/UI/network validation. See
+[OWNED_KABUTO.md](OWNED_KABUTO.md).
+
+Combined validation passes 900 workspace Rust tests (99 ignored), 30 installed Kabuto
+controls plus one cold-resource control, 25 Mecc and nine Delphi controls,
+the application smoke-render ownership control, 43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. Concurrent camera-profile, Mecc smoke/rendering and pistol-draw
+contributions are preserved. Earlier action admission, link events/lifetimes, real world backends and
+the enclosing order remain prerequisites. Primary/history and all four initializer
+gates stay unfinished; ordinary Kabuto gameplay and fidelity remain unverified.
+This source-only Kabuto milestone preserves the separately pinned public preview.
+
 ## Published constant cinematic Session ownership - preview .7
 
 Published [preview-2026.11.10.7](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.7)

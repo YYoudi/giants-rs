@@ -953,3 +953,12 @@ and boost at 32; endpoints are exclusive and must fit the frame limit.
 Set `GIANTS_AUDIO_MUTE=1` for the zero-PCM device control. The baseline 512-frame
 profile passes. Prolonged thrust/boost still reaches an unbound impact provider;
 these knobs describe supplied diagnostic inputs, not new gameplay options.
+
+
+With the same explicit Kabuto root/executable, `source_kabuto_primary_tail_`
+runs three silent installed controls after the actual owned resource/action/
+selection/ANM composition. They check typed links, generic marking, shared
+reference-camera sampling, recorded world entries and retained error/removal
+boundaries. The success control reports 509 admitted component contexts and
+three refused held routes, not completed gameplay frames. Camera/UI/audio/rate/
+transport rendering or delivery and link event producers remain unvalidated.
