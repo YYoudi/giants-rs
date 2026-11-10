@@ -105,6 +105,28 @@ source-only: the combined tree at `0abf1898b49413379368df839eb7627cc8eb5ba6` pas
 866 Rust tests (57 ignored), strict Clippy and six installed Delphi controls.
 These later source checks do not relabel the shipped binary.
 
+## Owned herd/marker callbacks and mutable NPC composition — 10 November 2026
+
+Source-owned herd parents and basic markers now consume prepared histories
+through the common node policy, preserving primary rate history, acquired absent
+callbacks, local time, empty-channel ANM epochs and nonphysical finalization.
+Environment/footprint providers remain mandatory. Primary call counters remain
+separate from common frame numbers; late writes and births survive failures.
+
+The composed Rust mutable walk agrees with original-PC controls over 32 supplied
+Story2 scenarios /96 snapshots /824,168 normalized words, including 2,880 visits
+and 448 birth-step first callbacks. A separate empty-ANM comparison matches
+128 cases /4,864 words, including zero/forced time and epoch wrap. Four installed
+controls check the 30-node traversal, skipped-primary clock separation, current
+affine, cancellation, admission and
+retained partial environment failure. Prototype PS2 attributions remain unknown.
+
+Outer admission/global phases, actual live clock/RNG ownership, required threat/
+feeding/active effects/audio and normal rendering remain unbound. This source
+milestone enables no ordinary mission AI or new gameplay download; existing
+preview manifests/notices/checksums retain their immutable build identities.
+See [OWNED_NPCS.md](OWNED_NPCS.md) and the remaining tasks in `BACKLOG.md`.
+
 ## Owned Vimp first callback after herd birth — 10 November 2026
 
 The new herd-child entry retains constructor histories and composes actual owned

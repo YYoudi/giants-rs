@@ -12,6 +12,9 @@ use std::sync::Arc;
 mod delphi;
 mod delphi_camera;
 mod delphi_held;
+mod herd_frame;
+#[cfg(test)]
+mod herd_frame_tests;
 mod parent_binding;
 pub use parent_binding::AttachmentWords;
 #[cfg(test)]
@@ -311,6 +314,7 @@ impl<S: State23Services> crate::state23_damage::Services<Id> for State23Adapter<
 #[derive(Debug)]
 pub struct Resident {
     herd: Option<crate::herd_generator::Owned>,
+    herd_frame: Option<crate::herd_frame::Owned>,
     herd_marker: Option<crate::herd_markers::Marker>,
     vimp: Option<crate::vimp_actor::Cold>,
     vimp_physical: Option<crate::vimp_physical::Owned>,
@@ -558,6 +562,7 @@ impl Session {
                 herd_marker: None,
                 vimp: None,
                 vimp_physical: None,
+                herd_frame: None,
                 vimp_frames: 0,
                 vimp_prepared_history: None,
                 vimp_frame_stopped: false,
@@ -4207,6 +4212,7 @@ impl Session {
         {
             return Err("herd constructor requires actual class49/state17 resources".into());
         }
+        let frame = crate::herd_frame::Owned::fresh(&input.fields, &input.specification)?;
         let mut staged = Self::new(self.ticket);
         staged.next = self.next;
         let id = staged.register_animated(
@@ -4225,6 +4231,7 @@ impl Session {
             .unwrap()
             .acquired_construction = true;
         staged.residents.get_mut(&id.serial).unwrap().herd = Some(Default::default());
+        staged.residents.get_mut(&id.serial).unwrap().herd_frame = Some(frame);
         self.publish_staged(staged, id)
     }
     pub fn herd_marker(&self, id: Id) -> Option<crate::herd_markers::Marker> {
@@ -4906,6 +4913,7 @@ impl Session {
         {
             return Err("herd marker constructor requires class679/state0 source resources".into());
         }
+        let frame = crate::herd_frame::Owned::fresh(&input.fields, &input.specification)?;
         let mut staged = Self::new(self.ticket);
         staged.next = self.next;
         let id = staged.register_animated(
@@ -4920,6 +4928,7 @@ impl Session {
         staged.bind_actor_fields(id, input.fields)?;
         let actor = staged.residents.get_mut(&id.serial).unwrap();
         actor.herd_marker = Some(marker);
+        actor.herd_frame = Some(frame);
         actor.acquired_construction = true;
         if mission {
             let fields = actor.construction_fields.as_mut().unwrap();

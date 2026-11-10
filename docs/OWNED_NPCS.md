@@ -82,6 +82,44 @@ The herd/marker Rust common-node dispatcher, outer world admission, clock/RNG
 ownership and active FX/audio still need binding before ordinary mission AI.
 Remaining tasks stay in `BACKLOG.md`.
 
+### Owned herd/marker common callbacks — 10 November 2026
+
+`Session::prepare_herd_world_history` and
+`Session::advance_herd_world_after_history` now compose acquired class49/state17
+herds and class679/state0 markers with the common node policy. Source construction
+owns their nonphysical motion/finalization state. The entry retains primary
+rate history, the acquired absent state0 primary and state0/state17 secondary
+callbacks, object-local time, empty-channel ANM epoch and finalization. The
+herd's birth clock counts primary calls separately from common frame numbers.
+Required environment/footprint providers are explicit; no terrain is fabricated.
+Empty channels and references are a checked profile, not a general ANM adapter.
+
+A composed Rust `Session::walk_common` control now matches the original mutable
+walk across 32 declared Story2 scenarios /96 snapshots /824,168 normalized words.
+It includes 2,880 node visits, 2,432 prior history preparations and 448 newborn
+first callbacks in their birth steps. It compares owned headers, payloads,
+references, ordered lists, birth-height requests, prepared contexts and RNG.
+The global ANM epoch is shared with Vimps, not restarted per marker. Separate
+original ANM controls match 128 cases /4,864 words, covering signed zero,
+positive time, force masks and epoch wrap with four empty channels.
+
+Four installed controls additionally cover a three-step 30-node traversal,
+constructor histories, current affine publication, cancellation, wrong/foreign
+entry and invalid-clock preflight. A supplied sleep/wake gate additionally
+keeps skipped primaries separate from common frame counts. A late environment
+failure retains the
+fourteen births, preceding ANM epoch and partial environment write; actor and
+list tokens prevent replay. Loss of the controlled actor stops after birth
+without acknowledging fallback. These fault controls establish owned failure
+handling, not native exception equivalence.
+
+Cohort/control identity, clock, quiet noise, flat terrain, empty collision and
+platform cohorts, TLS seed and absent sound bank remain supplied. This binds
+bounded Rust composition, not outer world/global services, native live RNG
+ownership, ordinary mission AI, active effects/audio or rendering. The next work
+is the actual admission/phase producers and required behavioral services in
+`BACKLOG.md`. Prototype PS2 counterparts remain unassigned.
+
 ### Mutable common-list acquisition — 10 November 2026
 
 A separate original-PC-only control now executes the actual mutable callback
@@ -97,9 +135,8 @@ secondary entries are absent; state17 has the acquired herd primary and no
 secondary entry. That establishes these bounded dispatch absences, not permission
 to skip the common fallback. Source-marker controls still write their floor,
 animation epoch and affine cache. Herd finalization additionally calls the real
-environment service. These dependencies must be bound in Rust before composing
-the population walk; ordinary Ripper-only finalization is not an interchangeable
-adapter.
+environment service. The bounded Rust binding above now retains these dependencies; ordinary
+Ripper-only finalization is not an interchangeable adapter.
 
 This acquisition retains the declared cohort, nonnull controlled herd reference,
 TLS seed, cadence, quiet noise, flat world and absent sound bank. It excludes the

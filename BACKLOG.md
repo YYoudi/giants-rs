@@ -62,10 +62,18 @@ The dedicated NPC lane resumes existing work; see
   failure. A subsequent original-PC-only mutable walk records 2,880 callbacks /
   2,432 history preparations across 32 scenarios; all 448 newborns run in their
   birth step. This acquires neither Rust composition nor whole-world admission.
-  Next bind herd/marker common-node dispatch, ANM epochs and nonphysical
-  finalization (including the herd environment service), then the mutable
-  population traversal; do not impose an extra newborn history copy
-  or postpone a new child using a population snapshot. Outer world admission,
+  Bounded herd/marker common-node dispatch now owns ANM epochs and nonphysical
+  finalization with required environment/footprint providers. A composed Rust
+  mutable walk matches 32 scenarios /96 snapshots /824,168 normalized words,
+  including all 2,880 callbacks and 448 birth-step first callbacks. Four source
+  controls retain same-step births, skipped-primary clock separation, affine
+  publication, partial environment
+  failure/quarantine and stop after lost control. Separate empty-ANM controls
+  match 128 cases /4,864 words. Next bind actual world admission and phase
+  producers around this composition; retain unsupported-actor refusals and
+  acquire required threat/feeding/effects/audio providers. Do not impose an
+  extra newborn history copy or defer a child through a population snapshot.
+  Outer world admission,
   global clock/RNG ownership and active FX/audio remain prerequisites.
   Then acquire threat/feeding services and active effects/audio before ordinary
   mission admission. Preserve existing refusal and late-failure behavior.

@@ -806,6 +806,7 @@ pub mod vimp_physical;
 pub mod vimp_recovery;
 pub mod vimp_wander;
 
+pub mod herd_frame;
 pub mod herd_generator;
 
 pub mod effect_texture_animation;

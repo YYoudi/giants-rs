@@ -102,6 +102,7 @@ user-supplied installation and use an isolated Cargo target:
 cargo test --locked -p giants-game source_npc_herd --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_vimp_world_history --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_vimp_newborn --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_herd_frame --target x86_64-pc-windows-gnu -- --ignored --nocapture
 ```
 
 This silent CPU check uses authored herd/marker values with a supplied flat
@@ -694,3 +695,9 @@ cargo test --locked --workspace native_timed_positioned_constructor_keeps_regist
 This replays eight controlled class-personality cases against actual constructor
 registration, including six that differ after wrapper stores. Installed files
 are unchanged; this check does not admit native stock or a live world actor.
+
+The `source_herd_frame` controls compose actual owned herd/marker fallback and
+Vimp callbacks through the mutable common-list walker with supplied flat ground,
+clock, control identity, quiet signals and empty collision/platform cohorts.
+They retain same-step births, shared ANM epochs, affine publication, cancellation,
+late environment writes and failure quarantine. They enable no live mission AI.
