@@ -1,5 +1,6 @@
 //! Acquired damage-smoke context policy. Display reset and context services are
-//! required owners; preparation does not execute an active effect or world turn.
+//! required for observable effects; an empty zero-level transition is independent
+//! of the pure reset query. Preparation does not execute an effect or world turn.
 use giants_formats::global_data::GlobalData;
 
 /// Actual current pre-world display snapshot, with actor/frame ownership.
@@ -93,6 +94,23 @@ impl<E> Default for State<E> {
     }
 }
 impl<E: Copy> State<E> {
+    /// For an empty binding and zero selected level, both results of the native
+    /// pure display query produce the same final state and no release/create call.
+    /// This does not synthesize a display snapshot or admit an active binding.
+    pub fn can_advance_without_display(&self, input: Input) -> Result<bool, String> {
+        let level = input.level()?;
+        if self.level > 3 {
+            return Err("damage smoke level outside acquired profile".into());
+        }
+        Ok(self.binding.is_none() && level == 0)
+    }
+    pub fn advance_without_display(&mut self, input: Input) -> Result<(), String> {
+        if !self.can_advance_without_display(input)? {
+            return Err("damage smoke requires its actual display owner".into());
+        }
+        self.level = 0;
+        Ok(())
+    }
     /// Completed stores/releases survive later provider failures. Providers must
     /// validate their handles and quarantine a failed enclosing turn.
     pub fn advance(&mut self, input: Input, services: &mut impl Services<E>) -> Result<(), String> {
@@ -283,6 +301,45 @@ mod tests {
             damage,
             limit: 100.,
             thresholds: [40., 70., 90.],
+        }
+    }
+    #[test]
+    fn empty_effect_free_policy_has_the_same_result_for_both_display_values() {
+        for damage in [0., 1., 15., 39.999996] {
+            for level in 0..=3 {
+                let initial = State::<u32> {
+                    level,
+                    binding: None,
+                };
+                let mut independent = initial.clone();
+                independent.advance_without_display(input(damage)).unwrap();
+                for reset in [false, true] {
+                    let mut full = initial.clone();
+                    let mut provider = Provider {
+                        reset,
+                        ..Default::default()
+                    };
+                    full.advance(input(damage), &mut provider).unwrap();
+                    assert_eq!(
+                        (full.level, full.binding),
+                        (independent.level, independent.binding)
+                    );
+                    assert_eq!(provider.calls, ["validate", "gate"]);
+                }
+            }
+        }
+    }
+    #[test]
+    fn missing_display_cannot_release_or_prepare_an_effect() {
+        for (level, binding, damage) in [
+            (2, Some(7), 15.),
+            (2, None, 40.),
+            (2, None, f32::NAN),
+            (4, None, 15.),
+        ] {
+            let mut state = State { level, binding };
+            assert!(state.advance_without_display(input(damage)).is_err());
+            assert_eq!((state.level, state.binding), (level, binding));
         }
     }
     #[test]

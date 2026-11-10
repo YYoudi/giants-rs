@@ -137,9 +137,16 @@ activation/world order. Preserve separate current owner/controlled identities an
 requery after mode/scale callbacks; never cache the first query for the second.
 See [OWNED_CAMERA.md](docs/OWNED_CAMERA.md) for the authoritative contract and
 supplied boundaries. No ordinary App admission follows from this selector.
-The current independently verified download is `preview-2026.11.10.6`; its snapshot
-and receipts retain their immutable source identity despite newer source-only
-integrations. The .5 manual observations are not transferred to .6.
+The current independently verified download is `preview-2026.11.10.8`, source
+`1be8830`. It preserves Flick's immutable .7 lot, the Mecc pistol/smoke services,
+Delphi/Kabuto continuations and shared camera prerequisites. Actual offscreen
+acceptance includes three 128-frame owned movement cycles, jet lift/fuel and an
+active-thrust capture with real muted audio, alongside development/film cleanup.
+The pistol renderer now hides true absence during draw and still rejects stale
+poses. Replay commands, clocks and mission gates remain supplied; ordinary native
+input, idle continuation, impact/display/FX birth and world scheduling stay open.
+The .5 manual observations are not transferred to .8. The cinematic census stays
+pinned to .7; do not relabel it as an .8 measurement.
 
 The combined `.3` source includes NPC PR #5's history/newborn runtime, cold Delphi
 support and the shared camera-mode/Session composition alongside Kabuto and Flick.
@@ -543,6 +550,38 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   epoch and real providers, including item-target writes and target/proxy
   retirement. Keep completed-frame query guards until that phase ownership is
   established; then compose active targeted physics and compare full turns.
+- Implemented: the local caller now publishes actual Session scalar state and
+  distinct typed target/proxy slots in an owned pre-physical phase. The next
+  physical step consumes it once; the frozen profile requires the first producer
+  too. Stale, replayed, running and failed phases are refused. Late writes and real partial proxy construction remain owned, with
+  incoming-reference protection and cancellation/reconstruction checks. Linked
+  physical consumers remain refused. Three installed controls use scripted
+  geometry/providers; they do not establish normal perception or gameplay.
+  A 256-turn native trace locates sixteen activation calls in the post-physical
+  item phase, including the readiness-off guard. The owned component retains
+  motion before its required activation-service refusal. Next: bind actual
+  geometry/camera/item services and wider linked consumers, then activation and
+  active physics in this order. Do not move activation ahead of physical motion
+  or simply remove the existing active-control guard.
+- Implemented: the running local caller can now read explicitly cold constructor
+  or preceding completed held-cache rays and invoke actual shared candidate
+  geometry. Four original source-loop samples plus 768 supplied-cache controls
+  match all 4,632 ray words. Installed checks cover evaluated held references,
+  real source-backed candidates and refused early/missing cache production;
+  ordinary completed-frame/geometry guards remain. Terrain and view in these
+  controls stay scripted. Next: bind actual terrain and viewport/camera services,
+  remaining item/linked consumers and full primary/world ordering. A phase-bound
+  held query alone does not enable ordinary Delphi gameplay.
+- Implemented: the running held-route terrain provider now consumes actual
+  cold/preceding held caches and the shared static terrain query. Its raw point
+  write remains separate from hit presence and incremented clipping distance,
+  including misses. Original-helper controls match 384 cases /2,304 selected
+  words with supplied flat height/plane results. Three installed terrain resources
+  exercise actual reader/query and candidate composition plus retained late
+  failures; camera/items/time and physical floor remain supplied. No-sample
+  output locals stay unacquired. Next: actual viewport/camera production and its
+  two selector reads, dynamic ripple, item/linked consumers, then active physics
+  and enclosing primary/world/menu order. No ordinary admission follows yet.
 - Native-only full-primary diagnosis now completes 256 whole original bodies
   after the retained initialization/generic entry with declared world/view and
   projection/OS/TLS boundaries. Its same-input trajectory differs from the old
@@ -1167,6 +1206,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ## Immediate runtime prerequisites
 
+- Combined integration checkpoint: source `ca43619` preserves the reviewed Mecc
+  `bac59d8` and Delphi `897d80d` lots. The combined workspace passes 913 Rust
+  tests (106 ignored), 27 installed Mecc and 14 installed Delphi controls,
+  plus two 512-frame App controls (CPU and real zero-PCM muted audio). Commands,
+  gates and clocks remain supplied; these do not admit a complete world.
+  Keep the .8 download and its historical captures separate from these later
+  source services. Next integrate actual common camera/input/projection and
+  activation order alongside the lanes' required impact, target and world owners;
+  preserve failure quarantine rather than supplying default gates or no-op services.
+
 - Application actor roles now retain constructor-returned Session identities for
   the player and carried actor. Resource, motion, pickup and audio consumers no
   longer depend on a unique actor class, and stale/foreign owners refuse rather
@@ -1185,10 +1234,37 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   before and after selection when required. Two 160-frame native/Rust grounded
   controls match 14,400 selected numeric words, with a separate declared startup
   epoch normalization. Wet/material absence must still come from a real producer;
-  missing material preserves completed state and quarantines replay. Next acquire
-  idle-variant continuation beyond the bounded controls, broaden movement/jet and
-  populated contact, and bind the remaining impact/voice/display and FX/world
-  providers before claiming complete ordinary owned gameplay or visual fidelity.
+  missing material preserves completed state and quarantines replay. Ordinary
+  idle selection now preserves the acquired weighted choice, shared-clip states
+  and RNG consumption even without a new channel request. A 4,032-context native
+  selector matrix agrees; eleven seeded 512-frame primary controls cover every
+  selected idle variant and match 253,440 selected numeric words plus relative
+  epoch advancement. Clocks, flat floor, commands and empty populations remain
+  supplied. Empty zero-level damage smoke now advances without fabricating a
+  display snapshot: 80 native policy controls and one 512-frame Rust wounded
+  trajectory agree against both supplied native display-reset outcomes, including
+  health and smoke state (24,576 numeric words plus relative epochs per comparison).
+  Active smoke still requires its actual display owner. Prepared App CPU and
+  zero-PCM device controls pass the baseline 512-frame profile; prolonged thrust/
+  boost refuses the missing impact provider at frame 402. The separate health
+  suppression guard has debug/menu and temporary countdown writers; cinematic
+  activity alone does not determine it. The shared completion-countdown phase now
+  preserves temporary claim/release, wide expiry versus stored onset comparison,
+  and independent clock calls. Native/Rust agreement covers 216 independent
+  contexts and nine ten-step retained-state sequences (306 snapshots / 2,448
+  selected state/control words). Outer admission, initial state and clocks remain
+  supplied; the following message/progression phase is not executed. Ordered
+  admission now preserves mode-gated precheck, first-visit/request publication,
+  required callback argument/order and current-record rereads. Native/Rust prefix
+  agreement covers 824 supplied contexts (12,360 state words / 2,348 decision and
+  callback results); composition reaches the countdown in 32 contexts, with ten
+  pending and 22 expired. Actual precheck and previous-record callback effects are
+  supplied: inspection exposes music/player-transition responsibilities, not an
+  acquired one-time initializer. Next acquire those full services, actual snapshot
+  ownership and message/progression continuation plus debug/menu/editor lifetimes;
+  then bind common ownership and impact/voice/display/FX world services. Broaden populated
+  contact and live sessions. Do not default a guard to bypass these prerequisites.
+  See OWNED_MECC_CONTACT.md for scope; ordinary gameplay and fidelity remain open.
 
 
 - Desktop preview entry: giants-rs.exe detects the adjacent game installation or
@@ -1429,8 +1505,10 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   actual idle-draw callback; no fabricated pointer or immediate commit substitutes
   for it. These unblended controls supply floor, damage, velocity history and
   positive idle timer. Those selector-only controls did not validate a wounded
-  whole primary. The subsequent whole-primary binding is recorded below; real
-  draw callback/frame ownership still precedes the refused draw transition.
+  whole primary. The subsequent whole-primary and pistol ANM/wield bindings are
+  now acquired; the old selector-only refusals remain historical controls. The
+  .8 renderer also handles the early unequipped interval. Actual ordinary world
+  admission and remaining idle/impact/FX providers stay open.
   Full-primary discovery now identifies damage-smoke preparation as an additional
   prerequisite: three original 128-frame controls expose the context/VM draw
   after a supplied wound. The bounded policy matches 2,080 contexts / 18,780

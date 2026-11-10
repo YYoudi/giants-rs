@@ -2659,7 +2659,26 @@ mod tests {
         let mut pose_changed = false;
         let mut angle_changed = false;
         let mut inputs = giants_game::player_input_channels::State::default();
-        for number in 1..=128 {
+        let frame_limit = std::env::var("GIANTS_MECC_RUNTIME_FRAMES")
+            .map(|value| {
+                value
+                    .parse::<u64>()
+                    .expect("owned frame limit must fit u64")
+            })
+            .unwrap_or(128);
+        assert!(
+            (128..=4096).contains(&frame_limit),
+            "owned frame limit outside bounded control"
+        );
+        let thrust_until = std::env::var("GIANTS_MECC_RUNTIME_THRUST_UNTIL")
+            .map(|v| v.parse::<u64>().expect("thrust endpoint must fit u64"))
+            .unwrap_or(48);
+        let boost_until = std::env::var("GIANTS_MECC_RUNTIME_BOOST_UNTIL")
+            .map(|v| v.parse::<u64>().expect("boost endpoint must fit u64"))
+            .unwrap_or(33);
+        assert!((17..=frame_limit).contains(&thrust_until));
+        assert!((33..=frame_limit).contains(&boost_until));
+        for number in 1..=frame_limit {
             if number == 64 {
                 viewer.mission_look(Vec2::ZERO, true);
             }
@@ -2678,8 +2697,8 @@ mod tests {
                 } else {
                     Vec2::ZERO
                 },
-                device && (16..48).contains(&number),
-                device && number == 32,
+                device && (16..thrust_until).contains(&number),
+                device && (32..boost_until).contains(&number),
             )
             .unwrap();
             let input = OwnedMeccInput {
@@ -2811,7 +2830,7 @@ mod tests {
                 "source jet did not start/loop/boost/release real sinks"
             );
             println!(
-                "mission_owned_jet_device_source steps=128 initial_height={} maximum_height={maximum_height} minimum_fuel={minimum_fuel} real_sink_starts={started} zero_pcm=true muted=true world_ready=false",
+                "mission_owned_jet_device_source steps={frame_limit} initial_height={} maximum_height={maximum_height} minimum_fuel={minimum_fuel} real_sink_starts={started} zero_pcm=true muted=true world_ready=false",
                 initial[2]
             );
         } else {
@@ -2877,7 +2896,7 @@ mod tests {
         assert!(
             active
                 .resident_states
-                .controlled_mecc_motion(owner, 128)
+                .controlled_mecc_motion(owner, frame_limit)
                 .is_err()
         );
         let before = active
@@ -2897,12 +2916,21 @@ mod tests {
             .mecc_animation_stamp;
         let random = active.variant_random.0;
         assert!(
-            giants_game::mecc_presentation::sample(&mut active.resident_states, owner, 127, false)
-                .is_err()
+            giants_game::mecc_presentation::sample(
+                &mut active.resident_states,
+                owner,
+                frame_limit - 1,
+                false
+            )
+            .is_err()
         );
-        let repeated =
-            giants_game::mecc_presentation::sample(&mut active.resident_states, owner, 128, true)
-                .unwrap();
+        let repeated = giants_game::mecc_presentation::sample(
+            &mut active.resident_states,
+            owner,
+            frame_limit,
+            true,
+        )
+        .unwrap();
         assert!(viewer.accept_owned_pose(repeated).is_err());
         assert_eq!(
             before,
@@ -2933,11 +2961,16 @@ mod tests {
             .update_references_unblended(owner, 1, 0.123)
             .unwrap();
         assert!(
-            giants_game::mecc_presentation::sample(&mut active.resident_states, owner, 128, true)
-                .is_err()
+            giants_game::mecc_presentation::sample(
+                &mut active.resident_states,
+                owner,
+                frame_limit,
+                true
+            )
+            .is_err()
         );
         println!(
-            "mission_owned_primary_source steps=128 real_terrain=true real_colliders=true owned_positions_camera_hand=true native_input_producers=true movement_turn_view={} development_physics_refused=true ready=false",
+            "mission_owned_primary_source steps={frame_limit} real_terrain=true real_colliders=true owned_positions_camera_hand=true native_input_producers=true movement_turn_view={} development_physics_refused=true ready=false",
             !device
         );
     }

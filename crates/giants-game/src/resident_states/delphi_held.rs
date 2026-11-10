@@ -26,6 +26,86 @@ fn reference_words(m: Matrix) -> [u32; 17] {
     words
 }
 impl Session {
+    /// Read the acquired held-origin route while the owned local caller runs.
+    /// Its first turn reads constructor zeros; later turns read the preceding
+    /// completed placement. Ordinary completed-frame readers keep their guards.
+    pub fn delphi_prephysical_target_ray(
+        &self,
+        owner: Id,
+        number: u64,
+        threshold: f32,
+    ) -> Result<crate::delphi_target_ray::Sample, String> {
+        use crate::delphi_target_ray::{Sample, Source};
+        let actor = self
+            .get(owner)
+            .ok_or("Delphi pre-physical ray owner absent or foreign")?;
+        let cycle = actor
+            .delphi_physical
+            .as_ref()
+            .ok_or("Delphi physical cycle absent")?;
+        let target = actor
+            .delphi_local_target
+            .as_ref()
+            .ok_or("Delphi local caller absent")?;
+        if !self.delphi_target_running
+            || !cycle.resources.local_target_phase
+            || cycle.view.failure.is_some()
+            || cycle.view.number.checked_add(1) != Some(number)
+            || target.number != number
+            || target.phase != super::DelphiLocalTargetPhase::Running
+            || target.failure.is_some()
+            || actor.class != 3
+            || actor.seed.storage.profile() != Profile::Debug
+            || actor.seed.storage.state() != 3
+            || actor.attachment.is_some()
+            || actor.presentation_parent.is_some()
+        {
+            return Err("Delphi pre-physical ray requires its running local caller".into());
+        }
+        let child = self.delphi_held_child(owner)?;
+        if cycle.view.number != 0 {
+            let ray = self.delphi_target_ray(owner, cycle.view.number, threshold)?;
+            let matrix = self.actor_current_affine(owner)?.matrix;
+            return Ok(Sample {
+                source: Source::PreviousFrame(cycle.view.number),
+                ray,
+                second_column: [matrix[1], matrix[5], matrix[9]],
+            });
+        }
+        let initialized = self
+            .delphi_special(owner)
+            .ok_or("Delphi cold group incomplete")?;
+        let held = self.get(child).ok_or("Delphi cold held actor absent")?;
+        if !actor.acquired_construction
+            || initialized.held != child
+            || actor.affine_cache.is_some()
+            || !held.acquired_construction
+            || held.class != 669
+            || held.seed.storage.profile() != Profile::Debug
+            || held.seed.storage.state() != 0
+            || held.affine_cache.is_some()
+            || held.delphi_held_pose.is_some()
+            || self.reference_cache_storage(child)?.sampled
+        {
+            return Err(
+                "Delphi cold ray requires its unchanged acquired constructor caches".into(),
+            );
+        }
+        // These two header caches are zero in the acquired cold constructors;
+        // unlike an evaluated affine, they have no implicit identity last row.
+        let zero = Matrix {
+            flags: 0,
+            values: [0.; 16],
+        };
+        let reference = self.delphi_held_reference(child)?;
+        Ok(Sample {
+            source: Source::ColdConstructor,
+            ray: crate::delphi_target_ray::from_constructor_caches(
+                zero, zero, reference, threshold,
+            )?,
+            second_column: [0.; 3],
+        })
+    }
     fn delphi_held_reference(&self, child: Id) -> Result<Matrix, String> {
         let storage = self.reference_cache_storage(child)?;
         if storage.sampled {
