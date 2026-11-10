@@ -6102,3 +6102,17 @@ CPU and reserved zero-PCM device controls, shared timed Session and cold Delphi
 ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
 site/JavaScript checks. Concurrent preview .8 evidence and its limitations are
 retained separately. This source handoff creates no new download or live admission.
+
+## Mecc ordinary descent presentation - source integration candidate
+
+The ordinary menu-controlled renderer now loads the acquired descent clip and
+selects it using the same installed-data velocity/clearance rule as the owned
+selector. This addresses a missing visible pose in the normal presentation path;
+input defaults and owned-primary admission are unchanged.
+
+Status: runtime connected, interaction unverified. Normal menu entry, preparation,
+return and re-entry ran on a muted local build, but sustained flight/release/
+descent/landing was not established before computer use was interrupted. Do not
+advertise an interaction-verified or downloadable milestone from these partial
+observations. The current preview receipts/notices/checksums retain their identity.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-mission-descent-pose---runtime-connected-interaction-unverified).
