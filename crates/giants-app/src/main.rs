@@ -576,7 +576,10 @@ fn launch(arguments: Vec<std::ffi::OsString>) -> Result<(), Box<dyn std::error::
     if silent_capture && (!offscreen || capture.is_none() || scenario != Scenario::World) {
         return Err("--silent-capture requires offscreen world capture".into());
     }
+    // Muted transport keeps the real audio plugin/device and sets its master
+    // gain to zero. Only ordinary silent capture removes the device entirely.
     if silent_capture
+        && !muted_transport
         && std::env::var("GIANTS_MISSION_MECC_AUDIO").as_deref() == Ok("reserved")
         && std::env::var("GIANTS_MISSION_MECC_BACKEND").as_deref() == Ok("owned-inspection")
     {

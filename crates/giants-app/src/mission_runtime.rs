@@ -180,6 +180,30 @@ pub(crate) struct Startup {
     pub companions: u32,
 }
 impl Runtime {
+    pub(crate) fn cinematic_session(
+        &self,
+        ticket: u64,
+    ) -> Option<&giants_game::resident_states::Session> {
+        Some(
+            &self
+                .active
+                .as_ref()
+                .filter(|a| a.ticket == ticket)?
+                .resident_states,
+        )
+    }
+    pub(crate) fn cinematic_session_mut(
+        &mut self,
+        ticket: u64,
+    ) -> Option<&mut giants_game::resident_states::Session> {
+        Some(
+            &mut self
+                .active
+                .as_mut()
+                .filter(|a| a.ticket == ticket)?
+                .resident_states,
+        )
+    }
     fn initialize_owned_pickup(&mut self, ticket: u64) {
         let Some(active) = self.active.as_mut().filter(|a| a.ticket == ticket) else {
             return;
@@ -2788,6 +2812,7 @@ mod tests {
             );
             viewer.sample_pose().unwrap();
             assert_eq!(viewer.weapon_matrix().is_ok(), had_weapon);
+            assert_eq!(viewer.render_weapon_matrix().unwrap().is_some(), had_weapon);
             assert!(viewer.camera().1.into_iter().all(f32::is_finite));
             assert!(viewer.expanded(0).into_iter().flatten().all(f32::is_finite));
             assert!(

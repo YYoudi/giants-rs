@@ -133,6 +133,74 @@ impl<W: select::Services> select::World<Id> for Adapter<'_, W> {
     }
 }
 impl Session {
+    pub(crate) fn resolve_kabuto_actions(
+        &mut self,
+        owner: Id,
+        resources: &Resources,
+        number: u64,
+    ) -> Result<select::Continuation, String> {
+        self.check_kabuto_reference_owner(owner, resources, number)?;
+        let g = self.kabuto_group(owner).unwrap();
+        if g.action_select_completed != Some(number)
+            || g.action_select_running
+            || g.action_gate_completed.is_some()
+            || g.animation_commit_entered.is_some()
+        {
+            return Err("Kabuto selection gate requires an unconsumed completed selector".into());
+        }
+        let earlier_slot = g
+            .resource_phase_view
+            .and_then(|v| v.resources)
+            .ok_or("Kabuto selection gate resource sample absent")?
+            .slot;
+        let mut scratch = g
+            .action_select_scratch
+            .ok_or("Kabuto selection scratch absent")?;
+        let next = g.action_select_next.ok_or("Kabuto selection exit absent")?;
+        let result = select::resolve(&mut scratch, next, earlier_slot);
+        let g = self
+            .residents
+            .get_mut(&owner.serial)
+            .unwrap()
+            .kabuto_group
+            .as_mut()
+            .unwrap();
+        g.action_select_scratch = Some(scratch);
+        g.action_gate_completed = Some(number);
+        g.action_gate_next = Some(result);
+        Ok(result)
+    }
+
+    pub(crate) fn resolved_kabuto_selection(
+        &self,
+        owner: Id,
+        resources: &Resources,
+        number: u64,
+    ) -> Result<crate::kabuto_animation_commit::Selection, String> {
+        self.check_kabuto_reference_owner(owner, resources, number)?;
+        let g = self.kabuto_group(owner).unwrap();
+        if g.action_gate_completed != Some(number)
+            || g.action_gate_next != Some(select::Continuation::Commit)
+        {
+            return Err("Kabuto action has not resolved to an animation commit".into());
+        }
+        let s = g
+            .action_select_scratch
+            .ok_or("Kabuto resolved scratch absent")?;
+        Ok(crate::kabuto_animation_commit::Selection {
+            slot: u8::try_from(s.slot)
+                .map_err(|_| "Kabuto selected slot outside acquired table")?,
+            flags: s.flags,
+            clear_flags: s.clear_flags,
+            speed_source: s.speed_source,
+            reference_speed: s.reference_speed,
+            blend_seconds: s.blend_seconds,
+            behavior: s.behavior,
+            definition: s.definition,
+            retained_time: s.retained_time,
+        })
+    }
+
     pub(crate) fn select_kabuto_actions(
         &mut self,
         owner: Id,

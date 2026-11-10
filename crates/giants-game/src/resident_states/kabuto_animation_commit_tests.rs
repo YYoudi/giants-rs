@@ -9,6 +9,9 @@ pub(super) struct Controls {
     inputs: String,
     outputs: String,
     cases: usize,
+    resolved: bool,
+    held: usize,
+    skipped: usize,
 }
 fn line(words: impl IntoIterator<Item = u32>) -> String {
     words
@@ -143,6 +146,30 @@ impl Controls {
             definition: u32::MAX,
             retained_time: 0.25f32.to_bits(),
         };
+        let resolved = matches!(kind, Case::ActionGate);
+        self.resolved |= resolved;
+        let gate = s.kabuto_group(owner).unwrap().action_gate_next;
+        let selection =
+            if resolved && gate == Some(crate::kabuto_action_select::Continuation::Commit) {
+                let q = s
+                    .kabuto_group(owner)
+                    .unwrap()
+                    .action_select_scratch
+                    .unwrap();
+                commit::Selection {
+                    slot: u8::try_from(q.slot).unwrap(),
+                    flags: q.flags,
+                    clear_flags: q.clear_flags,
+                    speed_source: q.speed_source,
+                    reference_speed: q.reference_speed,
+                    blend_seconds: q.blend_seconds,
+                    behavior: q.behavior,
+                    definition: q.definition,
+                    retained_time: q.retained_time,
+                }
+            } else {
+                selection
+            };
         let mut world = World {
             factory,
             number,
@@ -162,6 +189,28 @@ impl Controls {
             .unwrap();
         let before = super::motion_tests::snapshot(s, owner);
         let refs = references(s, owner);
+        if resolved && gate != Some(crate::kabuto_action_select::Continuation::Commit) {
+            match gate.unwrap() {
+                crate::kabuto_action_select::Continuation::HeldReferences => self.held += 1,
+                crate::kabuto_action_select::Continuation::SkipCommit => self.skipped += 1,
+                _ => unreachable!(),
+            }
+            assert!(
+                factory
+                    .commit_resolved_actions(s, owner, number, None, services, &mut world)
+                    .is_err()
+            );
+            assert_eq!(before, super::motion_tests::snapshot(s, owner));
+            assert_eq!(refs, references(s, owner));
+            assert_eq!(world.calls, 0);
+            assert!(
+                s.kabuto_group(owner)
+                    .unwrap()
+                    .animation_commit_entered
+                    .is_none()
+            );
+            return;
+        }
         let mut input = vec![
             u32::from(selection.slot),
             selection.flags,
@@ -214,17 +263,34 @@ impl Controls {
         );
         assert_eq!(before, super::motion_tests::snapshot(s, owner));
         assert_eq!(world.calls, 0);
-        let result = factory.commit_animation_selection(
-            s,
-            owner,
-            number,
-            commit::Frame {
-                selection,
-                materials: None,
-            },
-            services,
-            &mut world,
-        );
+        if resolved {
+            assert!(
+                foreign
+                    .commit_resolved_actions(s, owner, number, None, services, &mut world)
+                    .is_err()
+            );
+            assert!(
+                factory
+                    .commit_resolved_actions(s, owner, number + 1, None, services, &mut world)
+                    .is_err()
+            );
+            assert_eq!(before, super::motion_tests::snapshot(s, owner));
+        }
+        let result = if resolved {
+            factory.commit_resolved_actions(s, owner, number, None, services, &mut world)
+        } else {
+            factory.commit_animation_selection(
+                s,
+                owner,
+                number,
+                commit::Frame {
+                    selection,
+                    materials: None,
+                },
+                services,
+                &mut world,
+            )
+        };
         self.cases += 1;
         if matches!(kind, Case::CommitClear) {
             assert!(result.is_err());
@@ -312,11 +378,27 @@ impl Controls {
         );
     }
     pub(super) fn finish(self) {
-        if self.cases == 512 {
-            for (name, text) in [
-                ("GIANTS_KABUTO_COMMIT_INPUTS", self.inputs),
-                ("GIANTS_KABUTO_COMMIT_RECEIPT", self.outputs),
-            ] {
+        if self.resolved {
+            assert_eq!(self.cases + self.held + self.skipped, 512);
+            assert!(self.cases > 0);
+            println!(
+                "kabuto_selection_gate committed={} held={} skipped={} primary_complete=false",
+                self.cases, self.held, self.skipped
+            );
+        }
+        if self.cases == 512 || self.resolved {
+            let names = if self.resolved {
+                [
+                    "GIANTS_KABUTO_RESOLVED_COMMIT_INPUTS",
+                    "GIANTS_KABUTO_RESOLVED_COMMIT_RECEIPT",
+                ]
+            } else {
+                [
+                    "GIANTS_KABUTO_COMMIT_INPUTS",
+                    "GIANTS_KABUTO_COMMIT_RECEIPT",
+                ]
+            };
+            for (name, text) in names.into_iter().zip([self.inputs, self.outputs]) {
                 if let Some(path) = std::env::var_os(name) {
                     assert!(std::path::Path::new(&path).is_absolute());
                     std::fs::write(path, text).unwrap();

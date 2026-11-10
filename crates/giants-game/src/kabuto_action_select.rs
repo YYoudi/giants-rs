@@ -27,6 +27,33 @@ pub enum Next {
     CheckSelection,
     ChooseSelection,
 }
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Continuation {
+    HeldReferences,
+    SkipCommit,
+    Commit,
+}
+/// Resolve the shared gate against the earlier captured primary slot. Skipped
+/// selections preserve every scratch word, including arbitrary speed bits.
+/// This does not execute the held-reference path or the animation commit.
+pub fn resolve(scratch: &mut Scratch, next: Next, earlier_slot: u32) -> Continuation {
+    match next {
+        Next::HeldReferences => return Continuation::HeldReferences,
+        Next::CheckSelection if (scratch.slot as i32) < 0 => return Continuation::SkipCommit,
+        _ => {}
+    }
+    if scratch.slot == earlier_slot {
+        return Continuation::SkipCommit;
+    }
+    scratch.reference_speed = match scratch.speed_source as u32 {
+        0 => 200.,
+        1 => scratch.reference_speed,
+        2 => -40.,
+        3 => -90.,
+        _ => 0.,
+    };
+    Continuation::Commit
+}
 #[derive(Clone, Copy, Debug)]
 pub enum Scalar {
     LongitudinalRate,

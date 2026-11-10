@@ -1,5 +1,148 @@
 # Preview releases and milestone integration
 
+## Published constant cinematic Session ownership - preview .7
+
+Published [preview-2026.11.10.7](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.7)
+pins source `88dd2ffd073e2230ec92079a5b134ca85765c41b`, executable SHA256
+`ae6de9b7f9179589046e3d25a145ec88d0d0cea0acf242c3599788151d3c7e92` and ZIP SHA256
+`63c26a05457b860730c6ba16db02cf4d61b22ad40664898ec803196de00d7005`.
+
+The 25 bounded persistent requests across 23 sources transfer their actual storage,
+header, ANM channels and references into the active mission Session. Main rendering
+reads that owner; source support slots stay separate from ordinary actors and
+retain ticket/director/generation scope. Constant effects keep aging disabled.
+Cancellation checks incoming typed references before removing the source cohort.
+Late preparation failures keep completed writes and refuse replay.
+
+The exact source passes 894 Rust tests (82 ignored), strict Clippy/Rustfmt,
+43 Python tests, all 23-source ownership controls (92 queue lifecycles), ordinary
+timed preparation, camera/actor-role and nine Delphi installed checks. Retained
+original-PC controls match 50 route cases /14 preparation states through actual
+Session objects with supplied support/clock/query boundaries. Its receipt-bound
+silent executable passes both development endpoints, three active persistent
+cancellations and two source-terminal/re-entry cycles with real muted sinks and
+voice/text cleanup. Notice/import/package checks and independent public downloads
+verify three assets and ten ZIP members; the immutable tag resolves to that source.
+
+A fresh census of this executable covers all 545 sources /16 worlds: zero
+preparation errors, 59 reported-gap sources, 56 general-queue refusals, 282 reviews
+and zero certified films. It is capability diagnostics, not visual proof.
+Native populations, stock/admission, clocks/RNG, world scheduling, virtual support
+lifetimes and full visual/audio/timing/native-gameplay fidelity remain open.
+Later combined source `3ea3f7d` preserves the Mecc pistol/smoke and camera-profile
+contributions. It passes 900 workspace Rust tests (96 ignored), the 23-source
+cohort, 24 installed timed/camera/Delphi/Mecc/actor-role controls, strict Clippy,
+Rustfmt, 43 Python tests and generated site/JavaScript checks. Those source-only
+changes are separate from the frozen .7 binary; the draft notes retain them for
+a subsequent combined build.
+
+## Expected pistol absence in the mission renderer — 10 November 2026
+
+The mission renderer now distinguishes an intentionally absent held object during
+pistol draw from a stale weapon pose. It hides its held submission until the
+current source supplies one, and updates the attachment buffer only when present.
+A stale present pose remains an error; combat's required-weapon accessor stays
+strict. This resolves the first-frame graphical panic exposed after the acquired
+ANM callbacks made the early unequipped interval reachable. The installed
+128-frame terrain/weapon control now checks the optional render projection while
+retaining its strict combat-attachment checks. Preview acceptance repeats on a
+fresh receipt-bound build; the earlier candidate is not published.
+The reserved-device CLI guard now distinguishes device-free silent capture from
+muted transport, which actually installs the audio plugin at zero master volume.
+The latter retains the existing silent/offscreen/menu and global-mute checks.
+
+## Combined Mecc and camera integration — 10 November 2026, preview preparation
+
+The main integration worktree has reviewed and combined the Mecc pistol ANM and
+canonical smoke handoff through `42a7092` with shared camera reset/lens and current
+profile selection. The first-frame draw refusal is resolved by actual ANM/wield
+callbacks, with completion and interrupted-draw ordering retained. The normal
+mission installs the canonical smoke renderer; its birth/clock/world scheduling
+and impact/display providers remain prerequisites. Experimental owned inspection
+is separate from complete ordinary gameplay.
+
+This combined checkpoint passes 895 workspace Rust tests (94 ignored), 43 Python
+tests, Rustfmt and strict workspace Clippy. Installed checks pass 25 Mecc controls,
+two camera controls, both timed-owner/positioned-terrain controls, nine Delphi
+controls and four App controls: terrain/ANM/weapon presentation, reserved silent
+jet sinks, smoke render-asset lifecycle and actual constructor roles. Private
+terrain fixtures retain their original hashes. The App checks introduce no manual
+input, GPU pixel or audio-fidelity claim. This records the pre-package source
+checkpoint; published build identities and acceptance remain separately scoped.
+
+## Session-bound camera profile selection — 10 November 2026, source only
+
+`camera_profile` now chooses the acquired family/view from current Session
+headers, the checked camera owner and shared mode state. Scaled input consumes
+the controlled actor's state kind independently of its model class. Parent-class
+substitution is nonrecursive; the owner's variant test is not applied again.
+Foreign/retired or missing queried actors, unacquired PC profiles and failed shared
+camera states refuse. There is no cached first-query result or coefficient default.
+
+20,580 complete original-PC/Rust contexts match 41,160 family/view words with
+independent controlled class/state and additional parent-class cases. These are
+selection comparisons over synthetic valid actors, without original coefficient,
+input-device, projection, GPU or world-scheduling validation. The installed Mecc
+Session control covers live header/variant changes, forced-view precedence,
+separate state/model fields, foreign identities and retirement. Exact PC-backed
+coefficients, actual input/projection and activation/world order remain required;
+no pending initializer is acknowledged and no new gameplay mode is enabled.
+Prototype PS2 attribution of this selector remains unknown.
+
+The isolated source checkpoint passes 891 workspace Rust tests (81 ignored),
+43 Python tests, Rustfmt and strict workspace Clippy. The required coefficient
+catalog is documented centrally in [OWNED_CAMERA.md](OWNED_CAMERA.md), and
+`BACKLOG.md` now names the independently verified .6 download while retaining
+the separate .5 manual evidence boundary. The frozen public preview is unchanged.
+
+## Kabuto retained-slot animation continuation — 10 November 2026
+
+The owned Kabuto action selector now resolves its shared animation gate using
+the earlier resource slot. Negative checking exits and unchanged slots skip
+commit; held references keep their distinct continuation. Eligible selections
+resolve their reference speed and pass the actual stored request to the existing
+shared setter/zero-second ANM pipeline. Foreign/checkpoint/replay and retained
+failure boundaries remain; no primary or pending initializer is completed.
+
+All 4,096 original-PC/Rust gate controls match 266,240 words. The installed
+composition traverses 512 contexts, with 509 commits and three held exits. A
+continuous original selector/gate/commit interval matches 409,086 final words,
+including 256 declared notification entries and 1,120 ANM dispatcher visits.
+Earlier caller/resource/world inputs, existing PC TLS context and sound/transport
+mutations remain supplied. The fixture declares a separate eligibility context
+at commit entry; the eligibility owner word and session mode are supplied,
+without replacing intermediate actor/animation/reference/epoch/RNG snapshots. These are independent CPU contexts, not continuous gameplay.
+See [OWNED_KABUTO.md](OWNED_KABUTO.md).
+
+Combined validation passes 894 workspace Rust tests (81 ignored), 27 installed Kabuto
+controls plus one cold-resource control, 13 Mecc and nine Delphi controls,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. The shared camera activation/lens and Delphi local target contributions
+are preserved. Earlier action admission, held ordering,
+the following primary caller and actual world/backend scheduling remain open.
+The public Windows preview remains the separately validated frozen .6 snapshot;
+Kabuto is still unavailable in ordinary gameplay and fidelity is unverified.
+
+## Delphi local target/readiness caller — 10 November 2026
+
+The local primary caller now produces its target, aim, item and movement-ready
+state in acquired order over required providers. It keeps typed target/proxy
+slots and distinct point lifetimes, including partial writes after errors.
+All 2,048 original caller controls match 47,104 projected words and 16,978 ordered
+events; 27 controls distinguish inline wide-distance readiness from the linked
+helper's narrower profile. Provider bodies, actual Session pre-physical binding,
+target lifetime and active physics remain prerequisites. This does not enable
+Delphi gameplay or change the frozen public preview. See
+[OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `0d8ad0a4520eaf6f5bbe6757ee3824925f5e46ec` preserves the current
+camera reset/lens, Kabuto action selection and timed preparation/terminal handoff.
+It passes 894 workspace Rust tests (80 ignored), nine installed Delphi
+regressions, 43 Python tests, Rustfmt, strict workspace Clippy and generated
+roadmap/site/JavaScript checks. The caller comparison repeats on this source.
+A private receipt-bound common MinGW build and explicitly waited CLI help pass;
+these checks establish neither ordinary Delphi control nor visual fidelity.
+
 ## Shared activation reset and lens transition — 10 November 2026, source only
 
 Camera mode changes, activation projection reset and lens evaluation now use one

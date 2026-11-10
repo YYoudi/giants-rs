@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.10.6",
-  "source_commit": "14d1ebff63336b7d8ee80c10016d123ca3d96a3b",
-  "executable_sha256": "fe45aad14818240e1193bbdc0648ca75a73cd3101ee2e30b3258d83f866c855b",
-  "archive_sha256": "1ad000fb168088e368275b941a7231b1ad4e55f89d6b022a7dd5ce97986f54ef",
+  "tag": "preview-2026.11.10.7",
+  "source_commit": "88dd2ffd073e2230ec92079a5b134ca85765c41b",
+  "executable_sha256": "ae6de9b7f9179589046e3d25a145ec88d0d0cea0acf242c3599788151d3c7e92",
+  "archive_sha256": "63c26a05457b860730c6ba16db02cf4d61b22ad40664898ec803196de00d7005",
   "checks": [
     "offscreen_menu_cycles",
     "selected_cinematic_transport"

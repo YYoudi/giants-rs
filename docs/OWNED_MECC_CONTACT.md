@@ -1102,9 +1102,9 @@ old-child marking and new-child ownership, and preserves another Mecc's hand.
 This is not a full native/Rust header, ANM, primary or world comparison.
 
 Prototype PS2 lookup precedes the new acquisition and remains unassigned. Private
-tables, decompilation and detailed controls stay outside Git. Normal selection
-still refuses its draw branch: the class-bank owner, typed actor binding and
-interleaved callback route must be connected before lifting that refusal. Dispatch
+tables, decompilation and detailed controls stay outside Git. At this prerequisite checkpoint normal
+selection still refused its draw branch. The callback integration below now binds
+the class-bank owner, typed actor binding and interleaved callback route. Dispatch
 must follow class events inside each ANM pass, not a delayed post-frame queue.
 No new ordinary gameplay, animation fidelity or preview availability is claimed.
 

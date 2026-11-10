@@ -60,6 +60,8 @@ pub struct Group {
     pub(crate) action_select_completed: Option<u64>,
     pub(crate) action_select_scratch: Option<crate::kabuto_action_select::Scratch>,
     pub(crate) action_select_next: Option<crate::kabuto_action_select::Next>,
+    pub(crate) action_gate_completed: Option<u64>,
+    pub(crate) action_gate_next: Option<crate::kabuto_action_select::Continuation>,
     pub(crate) contact: crate::kabuto_classification::Contact,
     pub declared_class: Arc<specification::Prepared>,
     pub geometry: Geometry,
@@ -112,8 +114,9 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
-    /// Locomotion/idle selector only. Earlier caller admission/scratch and the
-    /// directed shared/held continuations remain required; no frame is completed.
+    /// Locomotion/idle selector only. Resolve its directed exit with
+    /// `resolve_actions`; earlier admission and held continuation remain required.
+    /// No primary or frame is completed.
     pub fn select_actions(
         &self,
         session: &mut Session,
@@ -123,6 +126,42 @@ impl Factory {
         world: &mut impl crate::kabuto_action_select::Services,
     ) -> Result<crate::kabuto_action_select::Next, String> {
         session.select_kabuto_actions(owner, &self.resources, number, scratch, world)
+    }
+
+    /// Resolve a completed locomotion/idle selection using its retained earlier
+    /// resource slot. Held references and skipped commits remain distinct exits.
+    pub fn resolve_actions(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+    ) -> Result<crate::kabuto_action_select::Continuation, String> {
+        session.resolve_kabuto_actions(owner, &self.resources, number)
+    }
+
+    /// Consume the resolved request through the existing shared animation
+    /// pipeline. This refuses held/skipped exits and completes no primary/frame.
+    pub fn commit_resolved_actions(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        materials: Option<Arc<crate::mecc_contact_materials::Catalog>>,
+        animation: &mut crate::actor_animation_phase::Services<'_>,
+        world: &mut impl crate::kabuto_animation_commit::World,
+    ) -> Result<crate::kabuto_animation_commit::View, String> {
+        let selection = session.resolved_kabuto_selection(owner, &self.resources, number)?;
+        session.commit_kabuto_animation(
+            owner,
+            &self.resources,
+            number,
+            crate::kabuto_animation_commit::Frame {
+                selection,
+                materials,
+            },
+            animation,
+            world,
+        )
     }
 
     /// Commit an already selected action/animation at its owning resource
@@ -555,6 +594,8 @@ impl Factory {
             action_select_completed: None,
             action_select_scratch: None,
             action_select_next: None,
+            action_gate_completed: None,
+            action_gate_next: None,
             contact: Default::default(),
             declared_class: self.resources.specification.clone(),
             geometry,

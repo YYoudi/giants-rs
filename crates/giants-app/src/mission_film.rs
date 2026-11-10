@@ -350,7 +350,7 @@ pub(crate) fn release(world: &mut World) {
     world.remove_resource::<crate::rigid_attachment_scene::Scene>();
     world.remove_resource::<crate::sword_scene::Scene>();
     if let Some(effects) = world.remove_resource::<crate::mission_effects::State>() {
-        effects.report_release();
+        effects.report_release(&mut world.resource_mut::<crate::mission_runtime::Runtime>());
     }
     mounted.gpu.release(world);
     let remaining = mounted.gpu.remaining(world);

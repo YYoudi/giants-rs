@@ -116,7 +116,7 @@ ordering explicit before connecting App damage/fire; the default driver is uncha
 Activation projection reset and the lens kernel now share that camera state with
 mode changes. All 96 native/Rust sequences match 576 invocations /3,456 selected
 state/call words; the earlier mode/admission controls repeat unchanged. Resolve
-the actual current profile/input/device producers and caller order before using
+the actual coefficient/input/device producers and caller order before using
 this in App initialization. The cold Mecc constructor's projection-reset request
 remains pending there. Full player continuity, in-place live type changes and
 team/restore branches are not supplied by this shared reset service.
@@ -128,8 +128,18 @@ covers duplicate classes and owner removal/reconstruction. Next bind the actual
 reference-point body, startup/override writers and enclosing world order. Do not
 seed unknown camera words from a view toggle or treat editor/equipment-preview
 player swaps as ordinary mission startup.
-The current independently verified download is `preview-2026.11.10.5`; its snapshot and receipts
-retain their immutable source identity despite newer source-only integrations.
+Current profile family/view selection is now Session-bound: 20,580 full native/
+Rust controls match 41,160 selection words, including independent controlled
+class/state and nonrecursive parent substitution. Its required coefficient catalog
+has no default. Next acquire the exact PC-backed coefficient reader without
+copying original tables into Git, then bind actual input/device producers and
+activation/world order. Preserve separate current owner/controlled identities and
+requery after mode/scale callbacks; never cache the first query for the second.
+See [OWNED_CAMERA.md](docs/OWNED_CAMERA.md) for the authoritative contract and
+supplied boundaries. No ordinary App admission follows from this selector.
+The current independently verified download is `preview-2026.11.10.6`; its snapshot
+and receipts retain their immutable source identity despite newer source-only
+integrations. The .5 manual observations are not transferred to .6.
 
 The combined `.3` source includes NPC PR #5's history/newborn runtime, cold Delphi
 support and the shared camera-mode/Session composition alongside Kabuto and Flick.
@@ -521,6 +531,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   per-frame cache producers; do not reuse constructor-zero or previous-phase
   caches as current evaluated poses. Full world scheduling and target/readiness
   publication remain unbound. See docs/OWNED_DELPHI.md.
+- Implemented: `delphi_local_target::advance` now owns the local caller's reset,
+  cooldown/proxy, geometry/aim, pending/item and readiness/action sequence over
+  required providers. Distinct typed candidate/highlight/pending/item/proxy slots
+  and terrain/query/display-point lifetimes survive partial failures. All 2,048
+  original caller contexts match 47,104 projected words /16,978 tracked events;
+  injected provider failures retain the corresponding prefix. Geometry, view,
+  item, linked-helper and final range results remain supplied. Original inline
+  math executes in 465 cases; 27 reject reusing the linked helper's narrower
+  squared-distance profile. Bind this caller to the actual Session pre-physical
+  epoch and real providers, including item-target writes and target/proxy
+  retirement. Keep completed-frame query guards until that phase ownership is
+  established; then compose active targeted physics and compare full turns.
 - Native-only full-primary diagnosis now completes 256 whole original bodies
   after the retained initialization/generic entry with declared world/view and
   projection/OS/TLS boundaries. Its same-input trajectory differs from the old
@@ -565,10 +587,23 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   installed controls cover success, late sound refusal and owner removal.
   The caller supplies earlier scratch/admission; other-relationship presence,
   live RNG/TLS ownership and real sound/transport outcomes remain prerequisites.
-  Next: acquire shared selection/definition continuations and their negative or
-  unchanged-slot exits before connecting this result to animation commit. Do not
-  send every resource completion through held references or commit an animation
-  unconditionally. No primary/history/initializer or gameplay admission follows.
+  The shared gate now preserves signed-negative and unchanged-slot exits, and
+  resolves reference speed before an eligible request reaches the real shared
+  animation setter/ANM. Its 4,096 original-PC/Rust controls match 266,240 words;
+  512 owned contexts retain the earlier resource slot rather than rereading live
+  channels. Of these, 509 reach commit and three retain the held-reference exit.
+  A continuous native selector -> gate -> commit comparison matches 409,086
+  final words, including 256 declared notification entries and 1,120 ANM
+  dispatcher visits. Earlier actor/scratch/resource data, existing PC RNG/TLS,
+  sound/transport mutations and the test's separate commit eligibility context
+  are supplied. No intermediate actor/animation/reference/epoch/RNG snapshot is replaced;
+  only the declared commit-eligibility owner word and session mode are supplied. This remains independent contexts,
+  not whole-primary or ordinary gameplay validation.
+  Next: acquire earlier action/definition/scratch admission and the remaining
+  caller after selected/skipped animation, including held-reference ordering,
+  then bind actual world ownership and lifetime. Negative/equal-slot gates do
+  not authorize an unconditional animation, primary/history or initializer
+  completion. Live sound/transport/RNG/TLS outcomes remain prerequisites.
 
 - Implemented and compared: an already selected animation now commits through
   the real Session channels, shared setter and zero-second ANM/reference/epoch
@@ -1511,6 +1546,32 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   the complete comparison gallery appears before the progress tables.
 
 ## Cinematics / Flick: coverage and next prerequisites
+
+- Constant persistent ownership: the bounded 23-source /25-request cohort now
+  moves its actual state storage, header, channels and references into the active
+  mission Session. Queue entries retain typed identities; the main renderer reads
+  that same owner. Shared support slots are scoped by ticket/director/generation,
+  distinct from ordinary actors, and terminal requests still refresh them.
+  The constant callback keeps aging disabled rather than inventing a duration.
+  Actual callback/ANM/bind order retains completed writes after late failure and
+  refuses replay. Host cancellation checks incoming typed references before
+  removing the source cohort; unrelated residents and other generations survive.
+  Installed ownership controls cover all 23 sources /25 requests and 92 queue
+  lifecycles. Retained original-PC controls also match 50 route cases and 14
+  preparation states through actual Session objects; clock/support/model-query
+  inputs remain supplied, and these are not new original recordings.
+  Exact combined source `88dd2ff` passes 894 Rust tests (82 ignored), strict
+  Clippy/Rustfmt, the cohort, ordinary timed preparation, camera/actor roles and
+  nine Delphi installed controls. Its receipt-bound MinGW executable passes both
+  silent development endpoints, three active persistent cancellations and two
+  source-terminal/re-entry cycles with real muted sinks and text cleanup.
+  Published preview .7 pins that exact source; notices/package/public-download
+  checks pass. Its fresh census covers 545 sources /16 worlds, zero preparation
+  errors, 59 reported-gap sources, 56 general-queue refusals and zero certified films.
+  This closes duplicate host ownership, not native world admission, stock,
+  current populations, clock/RNG ownership, world cadence or virtual-support
+  lifetime parity. Attribution remains unknown. Full visual/audio/timing and
+  ordinary gameplay transitions stay open; no complete film is certified.
 
 - Persistent selector follow-up: 900 private original-PC/Rust controls now
   execute the real model selector and prepared-format query instead of supplying

@@ -10,6 +10,8 @@ pub(super) struct Controls {
     definitions: Option<crate::kabuto_animation_cache::Definitions>,
     inputs: String,
     outputs: String,
+    gate_inputs: String,
+    gate_outputs: String,
     cases: usize,
 }
 fn words(s: Scratch) -> [u32; 10] {
@@ -263,7 +265,7 @@ impl Controls {
             .unwrap()
             .resources
             .unwrap();
-        if !matches!(kind, Case::Actions) {
+        if !matches!(kind, Case::Actions | Case::ActionGate) {
             assert_eq!(
                 captured.activity & 3,
                 0,
@@ -334,8 +336,43 @@ impl Controls {
                     output.extend(item)
                 }
             }
-            self.inputs.push_str(&line(input));
+            self.inputs.push_str(&line(input.iter().copied()));
             self.outputs.push_str(&line(output));
+            if matches!(kind, Case::ActionGate) {
+                assert!(foreign.resolve_actions(s, owner, number).is_err());
+                assert!(factory.resolve_actions(s, owner, number + 1).is_err());
+                let before_gate = snapshot(s, owner, scratch, w.mode, w.random.0);
+                let continuation = factory.resolve_actions(s, owner, number).unwrap();
+                let g = s.kabuto_group(owner).unwrap();
+                let selected = g.action_select_scratch.unwrap();
+                assert_eq!(g.action_gate_completed, Some(number));
+                assert_eq!(g.action_gate_next, Some(continuation));
+                assert_eq!(g.motion_history, Some(number));
+                assert_eq!(g.pending.len(), 4);
+                assert!(g.animation_commit_entered.is_none());
+                assert_eq!(
+                    &before_gate[..407],
+                    &snapshot(s, owner, selected, w.mode, w.random.0)[..407]
+                );
+                assert!(factory.resolve_actions(s, owner, number).is_err());
+                let mut gate_input = input;
+                gate_input.push(captured.slot);
+                self.gate_inputs.push_str(&line(gate_input));
+                let mut output = vec![match continuation {
+                    select::Continuation::HeldReferences => 0,
+                    select::Continuation::Commit => 1,
+                    select::Continuation::SkipCommit => 2,
+                }];
+                output.extend(snapshot(s, owner, selected, w.mode, w.random.0));
+                for groups in [&w.trace, &w.prefixes] {
+                    output.push(groups.len() as u32);
+                    for item in groups {
+                        output.push(item.len() as u32);
+                        output.extend(item);
+                    }
+                }
+                self.gate_outputs.push_str(&line(output));
+            }
         }
         assert!(
             factory
@@ -348,6 +385,8 @@ impl Controls {
             for (name, text) in [
                 ("GIANTS_KABUTO_ACTION_INPUTS", self.inputs),
                 ("GIANTS_KABUTO_ACTION_RECEIPT", self.outputs),
+                ("GIANTS_KABUTO_GATE_INPUTS", self.gate_inputs),
+                ("GIANTS_KABUTO_GATE_RECEIPT", self.gate_outputs),
             ] {
                 if let Some(path) = std::env::var_os(name) {
                     assert!(std::path::Path::new(&path).is_absolute());
