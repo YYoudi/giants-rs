@@ -53,7 +53,9 @@ unfinished native parent complete to deliver ordinary visual feedback.
   mission resources on Escape. The short-lived projectile was not captured during
   these OS-input actions; held flight, visual shot verification and re-entry
   remain open. Health/fuel gauges now consume the same actual controller values
-  as the numeric HUD; verify them on the combined graphical build. This is
+  as the numeric HUD; their local release2500e06 GPU capture shows both labels
+  and gauges with supplied commands. Real changing levels still need checking
+  on the combined interactive build. This is
   functional preview UI, not reconstructed original HUD artwork.
   Deferred constructor sound/attached FX, native range/retirement and impact births/contacts/damage, firing
   poses and owned actor/fire scheduling remain open; retain those actual services

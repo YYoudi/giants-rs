@@ -6,8 +6,17 @@ The normal menu-to-Mecc path now displays separate health and jet-fuel gauges
 alongside their numeric values. Health is green and fuel blue, with amber at
 25 or less and red at 10 or less. Both read the existing selected controller;
 they do not invent damage, fuel consumption or original HUD artwork. Their child
-nodes retire with the existing mission HUD on menu return. Graphical acceptance
-on this source is pending; no new downloadable preview is asserted.
+nodes retire with the existing mission HUD on menu return. The receipt-bound
+Windows release of source `2500e06` (executable SHA256
+`0dfcd13b578585c51a5ece40dbbf34ad83746a4fe70375086a54364a6202cccb`)
+passes CLI startup and the existing ordinary-entry GPU capture with supplied
+commands. The inspected image shows both labeled gauges and a source projectile;
+it does not verify held OS input, changing gauge levels or native fidelity.
+Workspace tests, strict Clippy, Rustfmt, 43 Python checks, site/JavaScript checks
+and source/history audit pass. The private asset-free draft package passes
+receipt/checksum validation with dependency notices and the project license;
+main integration still owns public package review and publication. No new
+downloadable preview is asserted.
 
 A separate local release of source `ec097cb` (executable SHA256
 `2ab96990590aacc2f4aa9fd12a7ee316954e1d0355b796e3c1de5556a14702a4`)
