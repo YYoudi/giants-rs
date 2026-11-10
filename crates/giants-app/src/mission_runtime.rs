@@ -99,6 +99,8 @@ impl Drop for Pending {
 struct ActorBindings {
     player: Option<ActorId>,
     carried: Option<ActorId>,
+    /// None means no completed Delphi player initialization to acknowledge.
+    delphi_projection_reset_required: Option<bool>,
 }
 struct Active {
     ticket: u64,
@@ -1461,6 +1463,8 @@ fn spawn(
             bindings_by_role.player = attempt.owner;
             match attempt.result {
                 Ok(initial) => {
+                    bindings_by_role.delphi_projection_reset_required =
+                        Some(initial.camera_projection_reset_required);
                     println!(
                         "mission_delphi_constructed ticket={ticket} owner={:?} class=3 held={:?} copies={} position={:?} projection_reset_required={} declared_placement=true native_relocation_verified=false controller=false ready=false",
                         initial.owner,
@@ -1469,7 +1473,13 @@ fn spawn(
                         factory.declared_start().position,
                         initial.camera_projection_reset_required
                     );
-                    blocked.push("Delphi projection reset, animation/render, physical/camera/input and live controller admission pending".into());
+                    let projection =
+                        if bindings_by_role.delphi_projection_reset_required == Some(true) {
+                            "projection reset, "
+                        } else {
+                            ""
+                        };
+                    blocked.push(format!("Delphi {projection}animation/render, physical/camera/input and live controller admission pending"));
                 }
                 Err(error) => blocked.push(format!(
                     "Delphi cold initialization owner={:?}: {error}",
@@ -2475,6 +2485,7 @@ mod tests {
                 spawn(&mut Commands::new(&mut queue, &ecs), ticket, &mut payload);
             queue.apply(&mut ecs);
             let owner = bindings.player.expect("actual Delphi constructor identity");
+            assert_eq!(bindings.delphi_projection_reset_required, Some(true));
             let actor = residents.get(owner).unwrap();
             assert_eq!(actor.class, 3);
             assert_eq!(
@@ -2565,6 +2576,7 @@ mod tests {
             );
             queue.apply(&mut ecs);
             assert!(bindings.player.is_none());
+            assert!(bindings.delphi_projection_reset_required.is_none());
             assert!(
                 missing
                     .iter()

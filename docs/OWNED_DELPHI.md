@@ -18,7 +18,8 @@ Construction is connected to common mission loading; ordinary Delphi controls
 remain unavailable. `delphi_declared::Factory` now selects the actual kind-3
 source marker and stages the acquired player/held/copy group. The mission loader
 retains its exact constructor identity, including after a later initializer
-failure, and keeps Mecc/Kabuto preparation separate. Constructor shell history
+failure, and keeps Mecc/Kabuto preparation separate. The constructor's projection-
+reset requirement is retained with the role binding. Constructor shell history
 comes from the actual class template; declared placement does not establish
 native relocation parity. Next connect projection reset, first animation/render
 and the supported physical/camera/input driver to this same owner. Check actual
