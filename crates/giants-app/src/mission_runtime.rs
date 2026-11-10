@@ -1707,9 +1707,7 @@ fn spawn(
                 "mission_npc_resources ticket={ticket} herds={} markers={} vimps={} effect_contexts={} registered_namespace=true callbacks_admitted=false rendered=false ready=false",
                 view.herds, view.markers, view.vimps, view.effect_contexts
             );
-            blocked.push(
-                "NPC common world callbacks and live population/render binding pending".into(),
-            );
+            blocked.push("Vimp AI is not yet active in this mission".into());
         }
         Ok(None) => {}
         Err(error) => blocked.push(format!("NPC resource binding: {error}")),
@@ -2400,8 +2398,9 @@ mod tests {
             assert!(view.markers > 0);
             assert_eq!((view.vimps, view.effect_contexts), (0, 0));
             assert!(
-                blocked.iter().any(|b| b
-                    == "NPC common world callbacks and live population/render binding pending")
+                blocked
+                    .iter()
+                    .any(|b| b == "Vimp AI is not yet active in this mission")
             );
             assert!(
                 !blocked
