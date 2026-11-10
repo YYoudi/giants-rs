@@ -1,5 +1,17 @@
 # Preview releases and milestone integration
 
+## Source-only environment failure retention — 10 November 2026
+
+The common ordinary finalization service now retains completed environment and
+physical-contact stages after a later provider error. Synthetic controls cover
+initial ground failure and failure after physical contact but before platform
+completion. The retained sixteen-terrain comparison still matches 1,152 states,
+299,520 header/payload words and 902 queries with supplied native entry data.
+Lower-level unreturned mutations, canonical timed ordinary-preparation binding,
+world admission and visual fidelity remain open. Prototype PS2 attribution is
+unknown. This is a source dependency after preview .4; its immutable download
+snapshot and certified-scene count remain unchanged. No new binary is advertised.
+
 ## Timed physical-header ownership and ordered services — 10 November 2026
 
 Timed actors now retain physical velocity/history in the common Session, beside

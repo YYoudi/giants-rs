@@ -1519,6 +1519,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Source-only ordinary-environment prerequisite: shared finalization retains
+  completed environment stages on later provider errors, including physical
+  contact fields, inline-physics projection and completed-stage counters. A
+  failed initial ground query retains the already cleared response/hit/support
+  prefix; a failed platform query retains completed terrain/contact results.
+  Callers must quarantine consumed phases rather than replay external services.
+  Internal unreturned mutations from lower-level mesh/terrain resolvers still
+  require their own continuations; this change does not acquire those contracts.
+  The sixteen-terrain comparison remains unchanged: 1,152 states /299,520 words
+  and 902 queries, with native entry data and empty mesh/platform populations
+  supplied. Timed ordinary preparation/header binding and main-film admission
+  remain next. This prerequisite is not in published preview .4 and adds no
+  certified scenes or visual coverage. Prototype PS2 attribution stays unknown.
+
 - Timed Session actors now own their physical velocity/history header alongside
   the actual inline physical payload. The shared force integrator consumes an
   independently supplied physical clock sample; no second actor registry or Mecc
