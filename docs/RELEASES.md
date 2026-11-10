@@ -6188,3 +6188,19 @@ Status: runtime connected, interaction unverified. Installed-data ownership and
 presentation checks support the wiring; actual held-input thrust/release, GPU
 appearance, landing and re-entry remain to verify. No new preview is advertised.
 See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-jet-presentation---runtime-connected-interaction-unverified).
+
+
+Local validation of source `064cfed`: its GNU debug executable
+(SHA256 `5d815839f66abea5a957c35ea5d42f08968172673a60b5131f2d73721c13a521`)
+completes three offscreen ordinary-controller movement/jet/nitro/release and
+mission-retirement cycles. The actual draw consumer switches source child models
+and removes their assets each time. Supplied commands and disabled audio remain
+explicit boundaries; real held input, visual comparison and ordinary flight
+acceptance remain open. This private local executable is not a downloadable
+preview and does not change published package receipts/notices/checksums.
+
+An active-thrust capture on that same binary visibly confirms the white/blue jet
+plume attached to the Mecc in the ordinary controller's Gameplay presentation.
+The existing diagnostic supplies its commands; the experimental backend is unset.
+The image remains private. This is local rendered-output evidence, separate from
+real input acceptance and the unchanged public preview.

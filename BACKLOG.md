@@ -30,7 +30,9 @@ supplied replay commands; it does not close this real-input delivery.
   countdown-start research privately rather than expanding that isolated work.
   The normal controller also connects its actual jet/nitro state to the
   constructor-bound jet models and common draw consumer, without an
-  experimental-backend flag. Keep render-only clocks distinct from native world
+  experimental-backend flag. Three local GPU movement/thrust/nitro/release cycles
+  and three complete draw retirements pass with supplied commands on source
+  `064cfed`; this is separate from held-input verification. Keep render-only clocks distinct from native world
   completion; real held-input thrust/release and menu re-entry still need checking.
 - NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
   story interaction and its first real caller dependency within each domain.
