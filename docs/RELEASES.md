@@ -1,5 +1,19 @@
 # Preview releases and milestone integration
 
+## Delphi owned local target phase — 10 November 2026
+
+Target/readiness results now publish to actual Session scalar fields and typed
+relationships before the next physical component. Each phase is consumed once;
+retained failures, stale frames, partial proxy construction, reference protection
+and cancellation/reconstruction have installed-data controls. Real perception,
+linked physical consumers and full primary/world order remain open.
+
+Original-primary tracing places movement activation in the item phase after
+physics. The owned component reaches its required activation refusal after
+retaining physical motion. Three new installed controls use scripted geometry
+and linked providers; they do not enable Delphi gameplay or update the separately
+identified public preview. See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
 ## Delphi local target/readiness caller — 10 November 2026
 
 The local primary caller now produces its target, aim, item and movement-ready

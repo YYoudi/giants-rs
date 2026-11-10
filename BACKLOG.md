@@ -533,6 +533,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   epoch and real providers, including item-target writes and target/proxy
   retirement. Keep completed-frame query guards until that phase ownership is
   established; then compose active targeted physics and compare full turns.
+- Implemented: the local caller now publishes actual Session scalar state and
+  distinct typed target/proxy slots in an owned pre-physical phase. The next
+  physical step consumes it once; stale, replayed, running and failed phases are
+  refused. Late writes and real partial proxy construction remain owned, with
+  incoming-reference protection and cancellation/reconstruction checks. Linked
+  physical consumers remain refused. Three installed controls use scripted
+  geometry/providers; they do not establish normal perception or gameplay.
+  A 256-turn native trace locates sixteen activation calls in the post-physical
+  item phase, including the readiness-off guard. The owned component retains
+  motion before its required activation-service refusal. Next: bind actual
+  geometry/camera/item services and wider linked consumers, then activation and
+  active physics in this order. Do not move activation ahead of physical motion
+  or simply remove the existing active-control guard.
 - Native-only full-primary diagnosis now completes 256 whole original bodies
   after the retained initialization/generic entry with declared world/view and
   projection/OS/TLS boundaries. Its same-input trajectory differs from the old

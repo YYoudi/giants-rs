@@ -38,6 +38,13 @@ and captures the child's `--help` result explicitly.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
+`cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
+runs three owned-phase controls: publication/physical consumption and later
+activation refusal, retained prefix/cancellation, and real proxy construction
+with typed reference protection. Geometry/linked results and sound-request sinks
+are controlled test providers. This does not validate a complete ordinary turn.
+
 `cargo test --locked -p giants-game delphi_local_target --target x86_64-pc-windows-gnu`
 checks the local caller's separate point/link lifetimes, inline-wide versus
 linked-rounded readiness, retained terrain/linked/item-target failures, inactive
