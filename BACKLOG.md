@@ -116,7 +116,7 @@ ordering explicit before connecting App damage/fire; the default driver is uncha
 Activation projection reset and the lens kernel now share that camera state with
 mode changes. All 96 native/Rust sequences match 576 invocations /3,456 selected
 state/call words; the earlier mode/admission controls repeat unchanged. Resolve
-the actual current profile/input/device producers and caller order before using
+the actual coefficient/input/device producers and caller order before using
 this in App initialization. The cold Mecc constructor's projection-reset request
 remains pending there. Full player continuity, in-place live type changes and
 team/restore branches are not supplied by this shared reset service.
@@ -128,8 +128,18 @@ covers duplicate classes and owner removal/reconstruction. Next bind the actual
 reference-point body, startup/override writers and enclosing world order. Do not
 seed unknown camera words from a view toggle or treat editor/equipment-preview
 player swaps as ordinary mission startup.
-The current independently verified download is `preview-2026.11.10.5`; its snapshot and receipts
-retain their immutable source identity despite newer source-only integrations.
+Current profile family/view selection is now Session-bound: 20,580 full native/
+Rust controls match 41,160 selection words, including independent controlled
+class/state and nonrecursive parent substitution. Its required coefficient catalog
+has no default. Next acquire the exact PC-backed coefficient reader without
+copying original tables into Git, then bind actual input/device producers and
+activation/world order. Preserve separate current owner/controlled identities and
+requery after mode/scale callbacks; never cache the first query for the second.
+See [OWNED_CAMERA.md](docs/OWNED_CAMERA.md) for the authoritative contract and
+supplied boundaries. No ordinary App admission follows from this selector.
+The current independently verified download is `preview-2026.11.10.6`; its snapshot
+and receipts retain their immutable source identity despite newer source-only
+integrations. The .5 manual observations are not transferred to .6.
 
 The combined `.3` source includes NPC PR #5's history/newborn runtime, cold Delphi
 support and the shared camera-mode/Session composition alongside Kabuto and Flick.
@@ -1127,10 +1137,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   startup producers or ordinary owned Mecc admission. The published preview's
   exact source is pinned independently; preview `.5` now includes this application
   identity correction, while later native ownership work remains incomplete.
-  The continuous owned-App diagnostic currently refuses the normal pistol draw
-  animation callback/frame service at frame one. Bind its actual provider before
-  claiming this diagnostic or ordinary owned gameplay passes; do not clear the
-  weapon-change state or force animation readiness to bypass the refusal.
+  The continuous owned-App CPU diagnostic now passes 128 prepared mission frames
+  with actual terrain, camera, ANM and weapon presentation. The pistol action bank
+  belongs to the registered class; the actor retains its typed active binding.
+  Real hand replacements execute after class events inside both ANM passes.
+  Deferred weapon commit and interruption ordering are retained, including commits
+  before and after selection when required. Two 160-frame native/Rust grounded
+  controls match 14,400 selected numeric words, with a separate declared startup
+  epoch normalization. Wet/material absence must still come from a real producer;
+  missing material preserves completed state and quarantines replay. Next acquire
+  idle-variant continuation beyond the bounded controls, broaden movement/jet and
+  populated contact, and bind the remaining impact/voice/display and FX/world
+  providers before claiming complete ordinary owned gameplay or visual fidelity.
+
 
 - Desktop preview entry: giants-rs.exe detects the adjacent game installation or
   offers a folder picker, then opens the integrated menu with an independent
@@ -1390,6 +1409,82 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   camera-owner/global gate production, active smoke/emitted-object lifetime and
   full movement/injury trajectory before ordinary gameplay admission. The App
   still supplies no impact/voice/display provider for this path.
+  The retained smoke constructor now stages real state78 resources, hidden-effect
+  flags and its ranged descendant bank: 24 native/Rust constructions / 11,880
+  normalized words agree; 72 additional native retained-context callbacks do not
+  recreate the object or draw again. Canonical activation now keeps the occupied
+  context, actual Session emitter and head insertion into list14. A further 24
+  native activation/stop cases match 4,632 words; the bounded explicit stop marks
+  the object dead before retiring its context and preserves its lists/resources.
+  Sixteen supplied wounded-primary frames retain/reset/cancel active ownership.
+  Parent-reference invalidation now retains the context in ParentLost before or
+  after construction: 48 native/Rust cases / 576 words agree, including repeated
+  cleanup and explicit stop after loss. Current and historical recipient
+  identities stay distinct; missing live storage/foreign Sessions are refused.
+  Explicitly stopped, unadvanced smoke now has canonical teardown after context
+  retirement: 24 native controls / 216 selected Rust ownership results agree.
+  The native bank-before-payload free order is observed separately; installed
+  weak-owner, count, peer and generation checks cover actual Rust release.
+  Dead-parent attachment invalidation precedes destruction. Unacquired service
+  variants and dependent children refuse before release.
+  The canonical hidden emitter callback now runs with explicit actor-local time,
+  actual source-pool/RNG/stamp ownership and a required current guide resolver.
+  The first call advances ANM without emission; later calls use preceding
+  sampled guides, a strict-negative channel and at most one real child request.
+  The acquired child null-pass consumes two size and one gravity draw; side speed
+  belongs to active interpretation. Across three programs/eight supplied seeds,
+  240 native/Rust callbacks agree on 2,640 selected words and 72 child requests.
+  Installed controls cover exact boundaries, invalid/repeated calls, late guide
+  failure retaining clock/RNG, quarantine and stopped teardown after owned calls.
+  This is deferred child preparation, not active particles or a renderer.
+  Descendants now activate into the common Session timed owner, consuming four
+  active size/gravity/side-speed draws after their distinct null pass. The acquired
+  ease-out size flag stays distinct from linear sizing. Forty-eight constructions,
+  their first callbacks and next pre-velocity prefixes match 144 snapshots /
+  14,976 selected native/Rust words. Installed controls connect actual returned
+  emitter children, retain detached children after emitter destruction, preserve
+  required-physics failure prefixes and refuse replay/stale or altered requests.
+  Initial velocity now writes the common physical header before integration;
+  no duplicate canonical velocity is retained. Source/rotated/nonorthogonal bases
+  match 432 native/Rust snapshots / 47,520 selected words. The concrete Session
+  smoke callback reuses main's actual motion/affine/gravity phases, preserves
+  independent supplied clocks and marks finite expiry without a child program.
+  Forty-eight constructions and first/moving/expiry callbacks match 288 snapshots
+  / 31,680 selected words with empty environment population. Missing physical
+  clocks retain completed launch stores and quarantine replay; actual movement
+  and expiry are installed-tested. The actor/resources remain until destruction.
+  Expired detached children now have bounded canonical destruction after actual
+  origin retirement. Forty-eight native common-cleanup controls with living
+  shared-class peers match 432 selected ownership results. Payload release before
+  reference release is observed separately; installed weak-owner/count/list,
+  peer and newer-generation controls verify actual Rust lifetime. Common walks,
+  live/failed actors, foreign origins, optional services and dependent children
+  refuse before release. No allocator-address/reuse equivalence is claimed.
+  Canonical smoke draw packets now bind actual identity, model/vertex buffers,
+  affine/facing and changing transparency without advancing clocks or RNG. The
+  normal mission installs a Bevy consumer using common unlit materials, actual
+  source textures/geometry and actor/mission asset retirement. Native draw matrix/
+  cull fragments match 576 packets / 9,792 selected words with supplied views/slot.
+  Installed App packets and CPU Bevy asset/entity lifecycle controls pass; they
+  create no graphics device. World/effect pass multiplicity stays distinct.
+  The driver still lacks impact/voice/display and FX birth/world owners: this
+  consumer creates no actors. Next validate actual GPU submission, native alpha
+  queue ordering and birth/clock/cleanup ownership; acquire populated terrain/
+  contact, live parent/child transforms and ordinary world admission. Preserve
+  the completed prototype PS2 lookups (all unassigned), exact PC identity, old
+  aliases, separate preparation/active draws and source image ownership. See
+  docs/OWNED_MECC_CONTACT.md for the staged constructor contract.
+  The native no-play startup projection is now acquired separately: 32 dispatcher
+  contexts and 216 attachment-wrapper contexts / 680 selected words agree; the
+  real suppressed voice tail also matches 64 contexts / 64 cue entries / 576 words.
+  The typed local-voice adapter handles explicit suppression without backend/device
+  access while preserving VM cooldown/shared draws. Capture muting is separate.
+  Bind the actual startup owner for all affected paths, then acquire other wrappers
+  and jet-sequence no-play behavior; do not use this option as a silent default
+  provider to pass step 441. The shared damage inhibition flag has input/editor-UI
+  writers; its full transitions remain unbound. Keep the historical `cutscene`
+  label as an alias until its actual producer is established, rather than deriving
+  it from cinematic activity. These are separate prerequisites from no-play.
   Keep the low-floor flag/state/health
   acquisition as a separate prerequisite rather than inferring it from this path.
   Bind the prepared effect's later active interpreter, emitted-object cleanup

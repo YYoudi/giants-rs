@@ -63,6 +63,7 @@ mod mission_opening;
 mod mission_player;
 mod mission_runtime;
 mod mission_showcase;
+mod mission_smoke_scene;
 mod mission_weapon;
 mod offscreen;
 mod owned_effect_scene;
@@ -575,7 +576,10 @@ fn launch(arguments: Vec<std::ffi::OsString>) -> Result<(), Box<dyn std::error::
     if silent_capture && (!offscreen || capture.is_none() || scenario != Scenario::World) {
         return Err("--silent-capture requires offscreen world capture".into());
     }
+    // Muted transport keeps the real audio plugin/device and sets its master
+    // gain to zero. Only ordinary silent capture removes the device entirely.
     if silent_capture
+        && !muted_transport
         && std::env::var("GIANTS_MISSION_MECC_AUDIO").as_deref() == Ok("reserved")
         && std::env::var("GIANTS_MISSION_MECC_BACKEND").as_deref() == Ok("owned-inspection")
     {
@@ -1931,6 +1935,7 @@ fn launch(arguments: Vec<std::ffi::OsString>) -> Result<(), Box<dyn std::error::
             .add_plugins(mission_opening::Plugin)
             .add_plugins(mission_player::Plugin)
             .add_plugins(mission_jet_scene::Plugin)
+            .add_plugins(mission_smoke_scene::Plugin)
             .add_plugins(mission_carry::Plugin)
             .add_plugins(mission_boot::Plugin)
             .add_plugins(mission_showcase::Plugin)

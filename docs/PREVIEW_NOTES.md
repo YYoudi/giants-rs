@@ -1,4 +1,8 @@
-# Windows x64 development preview - preview-2026.11.10.7
+# Windows x64 development preview — next combined build (draft)
+
+Published preview-2026.11.10.7 remains pinned to source `88dd2ff`; its packaged
+notes and checksums are immutable. These draft notes also retain later main-only
+Mecc smoke/pistol and camera-profile work pending its own combined build.
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -31,6 +35,20 @@ The combined source preserves camera activation/lens reset, Delphi local target
 and Kabuto retained-slot animation services. Their CPU/provider boundaries remain;
 this preview enables no new ordinary Delphi or Kabuto gameplay.
 
+## Combined camera and canonical smoke dependencies
+
+Camera mode changes, activation reset and lens evaluation share one transition
+word. The new Session-bound family/view selector keeps the current camera owner
+separate from the controlled actor's state. Actual coefficient/input/projection
+producers and activation/world order remain required before normal App binding.
+
+The common mission renderer now consumes canonical smoke particles, using their
+source models, camera-facing matrices and changing transparency. Their callbacks,
+physical header and resource destruction share the Session; the renderer supplies
+no second simulation, RNG or birth path. Full smoke activation/clock/cleanup world
+scheduling and graphical parity remain open. Prepared ownership and a renderer
+consumer alone do not make smoke appear during ordinary gameplay.
+
 ## Source completion and re-entry
 
 The owning transport retains its observed source end and drained voice state
@@ -51,9 +69,18 @@ callback effects after late errors. Its checked owner can feed the existing
 subjective preparation consumer. Initial camera words, override production,
 the reference-point body and native world scheduling remain required. This
 dependency enables no new first-person input or ordinary native Mecc control.
-The continuous owned-App diagnostic still encounters the required normal pistol
-draw animation callback/frame service at frame one, also reproduced before the
-identity correction. It is not reported as successful continuous gameplay.
+The normal pistol draw now dispatches supplemental actions inside both actual
+ANM passes, immediately replacing the held object using the current pose and
+references. Completion and movement interruption retain their different commit
+orders. The prepared owned-App CPU diagnostic passes its terrain/camera/animation/
+weapon sequence, including the weapon's expected absence before equipment.
+The mission render consumer now accepts that expected absence and hides its held
+mesh until an actual current weapon pose arrives. A present but stale pose still
+refuses. This remains an experimental inspection path with supplied world inputs;
+complete ordinary native gameplay, idle continuations and full input/fidelity
+remain open. The explicit muted-transport inspection mode retains its real audio
+device at zero master volume and can use reserved jet sinks; ordinary device-free
+silent capture still refuses that backend.
 
 The shared physical environment now retains completed contact stages when a
 later platform service fails. Lower-level unreturned mutations remain outside

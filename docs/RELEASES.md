@@ -1,5 +1,64 @@
 # Preview releases and milestone integration
 
+## Expected pistol absence in the mission renderer — 10 November 2026
+
+The mission renderer now distinguishes an intentionally absent held object during
+pistol draw from a stale weapon pose. It hides its held submission until the
+current source supplies one, and updates the attachment buffer only when present.
+A stale present pose remains an error; combat's required-weapon accessor stays
+strict. This resolves the first-frame graphical panic exposed after the acquired
+ANM callbacks made the early unequipped interval reachable. The installed
+128-frame terrain/weapon control now checks the optional render projection while
+retaining its strict combat-attachment checks. Preview acceptance repeats on a
+fresh receipt-bound build; the earlier candidate is not published.
+The reserved-device CLI guard now distinguishes device-free silent capture from
+muted transport, which actually installs the audio plugin at zero master volume.
+The latter retains the existing silent/offscreen/menu and global-mute checks.
+
+## Combined Mecc and camera integration — 10 November 2026, preview preparation
+
+The main integration worktree has reviewed and combined the Mecc pistol ANM and
+canonical smoke handoff through `42a7092` with shared camera reset/lens and current
+profile selection. The first-frame draw refusal is resolved by actual ANM/wield
+callbacks, with completion and interrupted-draw ordering retained. The normal
+mission installs the canonical smoke renderer; its birth/clock/world scheduling
+and impact/display providers remain prerequisites. Experimental owned inspection
+is separate from complete ordinary gameplay.
+
+This combined checkpoint passes 895 workspace Rust tests (94 ignored), 43 Python
+tests, Rustfmt and strict workspace Clippy. Installed checks pass 25 Mecc controls,
+two camera controls, both timed-owner/positioned-terrain controls, nine Delphi
+controls and four App controls: terrain/ANM/weapon presentation, reserved silent
+jet sinks, smoke render-asset lifecycle and actual constructor roles. Private
+terrain fixtures retain their original hashes. The App checks introduce no manual
+input, GPU pixel or audio-fidelity claim. Preview .7 preparation retains the
+published .6 snapshot until its own receipt-bound package is validated.
+
+## Session-bound camera profile selection — 10 November 2026, source only
+
+`camera_profile` now chooses the acquired family/view from current Session
+headers, the checked camera owner and shared mode state. Scaled input consumes
+the controlled actor's state kind independently of its model class. Parent-class
+substitution is nonrecursive; the owner's variant test is not applied again.
+Foreign/retired or missing queried actors, unacquired PC profiles and failed shared
+camera states refuse. There is no cached first-query result or coefficient default.
+
+20,580 complete original-PC/Rust contexts match 41,160 family/view words with
+independent controlled class/state and additional parent-class cases. These are
+selection comparisons over synthetic valid actors, without original coefficient,
+input-device, projection, GPU or world-scheduling validation. The installed Mecc
+Session control covers live header/variant changes, forced-view precedence,
+separate state/model fields, foreign identities and retirement. Exact PC-backed
+coefficients, actual input/projection and activation/world order remain required;
+no pending initializer is acknowledged and no new gameplay mode is enabled.
+Prototype PS2 attribution of this selector remains unknown.
+
+The isolated source checkpoint passes 891 workspace Rust tests (81 ignored),
+43 Python tests, Rustfmt and strict workspace Clippy. The required coefficient
+catalog is documented centrally in [OWNED_CAMERA.md](OWNED_CAMERA.md), and
+`BACKLOG.md` now names the independently verified .6 download while retaining
+the separate .5 manual evidence boundary. The frozen public preview is unchanged.
+
 ## Kabuto retained-slot animation continuation — 10 November 2026
 
 The owned Kabuto action selector now resolves its shared animation gate using
@@ -5386,3 +5445,305 @@ Mecc controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
 roadmap/site/JavaScript checks. A fresh 384-frame receipt is identical and repeats
 the 124,800-word native agreement. The persistent wounded-primary change is a
 separate follow-up from the already merged policy milestone.
+
+## Mecc source checkpoints
+
+These source/CPU checkpoints retain the dedicated Mecc lane’s validation scope.
+They do not change the pinned preview identities above.
+
+### Mecc stopped-emitter resource destruction — 10 November 2026
+
+The canonical Session can now destroy an explicitly stopped, unadvanced smoke
+emitter after its context retires. Parent attachment invalidation precedes the
+state destructor, which releases the emitter owner before the payload. Instance
+reference/state owners and reverse registrations leave the registry without
+releasing unrelated residents or shared class/model owners. Unsupported resource
+variants, active origins, wrong cleanup phase and dependent attachments refuse
+before release. Newer context generations remain valid.
+
+Twenty-four native cleanup controls agree with Rust on 216 selected normalized
+retirement/cache/list/context/parent/RNG results. Native bank-before-payload free
+requests are observed separately; installed weak-owner and peer/count controls
+check actual Rust release. The supplied native cohorts and limits are recorded
+in OWNED_MECC_CONTACT.md. This is not pointer or physical-pool memory equivalence.
+
+Combined validation passes 872 workspace Rust tests (63 ignored), seventeen
+installed Mecc controls, the shared canonical timed-owner control, 43 Python
+tests, Rustfmt, strict Clippy and site/JavaScript checks. Camera admission and
+timed terrain finalization contributions and the current published-preview
+snapshot are preserved. This source milestone enables no particles or ordinary
+world cleanup schedule; advanced FX resource teardown and full gameplay/fidelity
+remain unverified. The integration lane owns the next downloadable preview.
+
+### Mecc lost-parent context retention — 10 November 2026
+
+The acquired smoke parent cleanup now distinguishes the live recipient from its
+historical identity. A dead parent invalidates the live reference and retains the
+prepared or active context in ParentLost; it does not mark or free the emitter.
+Explicit stop still marks the emitter before retiring its context. Missing live
+storage and foreign Session scope are refused, and reactivation after loss draws
+nothing. Peer contexts, origins and cursors remain owned.
+
+Forty-eight original/Rust cases agree on 576 selected words; 96 actual native
+cleanup calls include repeated-call controls. Installed checks also cancel the
+actual wounded-primary emitter after supplied parent death. The combined branch
+preserves the new Kabuto reference and camera-admission handoffs. Validation
+passes 871 workspace Rust tests (60 ignored), fifteen installed Mecc controls,
+43 Python tests, Rustfmt, strict Clippy and site/JavaScript checks. These are
+source/CPU results. Global parent/child cleanup scheduling, eventual actor
+freeing and active particles remain required; the public preview snapshot is
+unchanged and no new gameplay or fidelity claim follows.
+
+### Mecc canonical smoke ownership and bounded stop — 10 November 2026
+
+The topic branch now publishes retained smoke into the actual Session and effect
+list while keeping its context occupied. The acquired explicit stop marks the
+emitter dead before retiring the context; the actor, bank and list entries remain
+owned for later destruction. Normal wounded-primary reuse/reset and player
+cancellation share this canonical owner. Activation remains a separate explicit
+phase, with no automatic mission or particle-callback admission.
+
+Twenty-four additional original/Rust activation/stop cases agree on 4,632
+normalized words. A separate sixteen-frame installed wounded-primary composition
+checks retention, display-owner replacement, generation reuse, final cancellation
+and refused foreign/duplicate/unsupported requests. Combined validation passes
+868 workspace Rust tests (59 ignored), fourteen silent installed Mecc controls,
+43 Python tests, Rustfmt, strict Clippy and site/JavaScript checks. Current main's
+published-preview snapshot and all concurrent changes are preserved. These are
+source/CPU results; the downloaded preview is not relabeled. Parent-death
+processing, active particles, eventual dead-object destruction and normal-world
+scheduling remain prerequisites. Prototype PS2 attribution remains unknown.
+
+### Mecc retained smoke constructor staging — 10 November 2026
+
+The Mecc lane now stages the source-backed retained smoke constructor, sharing
+the common class/specification/physical preparation and retaining its resources.
+The ranged descendant bank, hidden-effect flags, required context state and cursor
+match 24 original/Rust constructions / 11,880 normalized words. Another 72 native
+context callbacks neither reconstruct the object nor draw again. Failed staging
+preserves the caller RNG and prepared context; ordinary/timed profiles stay strict.
+
+The combined topic branch includes the current shared runtime and Delphi support
+changes. Validation passes 868 workspace Rust tests (58 ignored), thirteen silent
+installed Mecc controls, 43 Python tests, Rustfmt, strict Clippy and site/JavaScript
+checks. These are source/CPU checks. The constructor is not yet adopted into the
+canonical Session or active pool; persistent cleanup, emitter callbacks, particles
+and ordinary mission scheduling remain required. The main integration lane owns
+preview packaging and publication; no new downloadable build is asserted here.
+
+### Mecc startup no-play projection and voice routing — 9 November 2026, source only
+
+The typed local Mecc voice adapter now accepts the acquired no-play startup
+projection. Explicit native suppression performs no backend borrow or playback
+acknowledgement while the voice tail retains its VM draws and timer replacements.
+Capture muting and missing audio services never select this mode implicitly.
+
+Original controls match 32 startup dispatcher contexts plus 216 attachment-wrapper
+contexts / 680 selected result/protocol words. The actual configuration reset
+executes; empty configuration reads, token inputs, source/descriptor fields and
+DLL outcomes remain explicit. Another control executes
+the real suppressed wrapper inside the native damage-voice tail and matches
+64 contexts / 64 cue entries / 576 cue/timer/VM words. The typed adapter test keeps
+its actual backend entirely unentered and retains foreign/profile refusals.
+These are independent scoped controls, not a full startup, jet-sequence, device
+or ordinary gameplay claim. See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md).
+
+The shared damage-inhibition and historical `cutscene` inputs retain their own
+unacquired owner semantics. The App impact/voice/display defaults remain guarded;
+this source lot creates no public executable, screenshot or release asset.
+Prototype PS2 correspondence remains unknown. Prior previews and their notices/
+checksums retain separate identities; main integration owns combined admission.
+
+Resumed validation on 10 November uses combined checkpoint
+`f0c03b76a5ca6b4674ee476bbb02319b72936831`, preserving current main attachment,
+reference-release and timed-effect ownership changes. It passes 867 synthetic Rust
+tests (56 ignored), all twelve silent installed Mecc controls, strict workspace
+Clippy, Rustfmt, 43 Python tests and roadmap/site/JavaScript checks. Rebuilt native
+comparators repeat the 32/216-context projection/routing and 64-context voice-tail
+agreements. The enabled-mode regression separately confirms four real muted damage
+starts plus one jet start, two unique reuses without new audio draws and tracked
+asset cleanup. Native no-play and real muted playback retain separate identities.
+
+### Combined validation after cold Delphi support
+
+After preserving cold Delphi support through the shared constructor, the combined
+source passes 872 workspace Rust tests (64 ignored), seventeen installed Mecc
+controls, the cold Delphi support and shared timed-owner controls, strict Clippy,
+Rustfmt and 43 Python/site checks. These source checks do not change the published
+preview snapshot.
+
+
+### Mecc hidden-emitter callback and deferred children — 10 November 2026
+
+The canonical damage emitter now owns its acquired hidden callback with explicit
+actor-local time, originating pool, RNG, animation stamp and required guide owner.
+First-call delay, strict-negative emission, preceding sampled references and ANM
+ordering are preserved. Real deferred child preparation executes its acquired
+size/gravity null-pass draws. Late failures preserve completed effects and
+quarantine replay; explicit stop and bounded resource destruction remain usable.
+
+Across three source programs and eight supplied seeds, 240 native/Rust callbacks
+agree on 2,640 selected words, including 72 real deferred child requests. Supplied
+time/epoch, affine, source registration and heap/parent providers remain explicit.
+Child activation, particle updates/rendering and ordinary world scheduling are
+still open. Prototype PS2 attributions remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#owned-emitter-callback--10-november-2026).
+This source checkpoint creates no preview asset or new gameplay availability.
+
+
+Combined source validation after retaining main's Delphi auxiliary, Vimp
+history/newborn and Kabuto reference-bank changes passes 875 workspace Rust tests
+(73 ignored), eighteen installed Mecc controls, five installed Vimp controls,
+the canonical timed-owner and cold Delphi support controls, Rustfmt and strict
+workspace Clippy. Python/site/JavaScript checks pass separately. These source
+checks do not relabel the current downloadable preview or admit ordinary particles.
+
+
+### Mecc canonical smoke descendants — 10 November 2026
+
+Real deferred smoke children now activate into the shared Session timed owner.
+Construction preserves separate null/active draws, acquired ease-out sizing,
+gravity and side-speed fields. First-call ANM and the next lifetime/size prefix
+use canonical storage; missing velocity/physical services retain their completed
+prefix and quarantine replay. Detached children survive emitter destruction.
+
+Forty-eight native/Rust constructions, first complete callbacks and next
+pre-velocity prefixes agree on 144 snapshots / 14,976 selected normalized words.
+Time, epoch, allocation/texture/source providers and pools remain supplied.
+Initial velocity, physical/terrain services, finite cleanup and rendering still
+precede normal world admission. Prototype PS2 attributions remain unknown.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#canonical-smoke-descendant-activation--10-november-2026).
+This source handoff creates no preview asset or new ordinary gameplay claim.
+
+
+Validation passes 875 workspace Rust tests (74 ignored), nineteen installed Mecc
+controls, the canonical timed-owner and cold Delphi support controls, 43 Python
+tests, Rustfmt, strict workspace Clippy and generated site/JavaScript checks.
+The current published preview keeps its separate source and checksum identity.
+
+
+### Mecc smoke motion and finite expiry — 10 November 2026
+
+Smoke descendants now publish acquired forward/lateral velocity directly into
+main's shared physical header and execute its ordered motion/affine/gravity
+services through `Session::advance_smoke_particle`. First-call ANM and finite
+expiry preserve their separate paths; a missing physical-clock sample retains
+completed launch writes and quarantines replay. Canonical velocity has one owner.
+
+Source/rotated/nonorthogonal launch controls match 432 snapshots / 47,520 selected
+native/Rust words. The complete bounded canonical path matches 48 constructions
+and first/moving/expiry callbacks: 288 snapshots / 31,680 selected words. Clock,
+epoch, source/allocation providers and empty environment population are supplied.
+Finite destruction, populated terrain/contact, world admission and rendering
+remain open. Prototype PS2 attributions remain unknown. No new preview is created.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#smoke-motion-and-expiry--10-november-2026).
+
+
+Combined validation after retaining main through `ce44fe2` passes 875 workspace
+Rust tests (76 ignored), twenty installed Mecc controls, the shared timed-owner
+and cold Delphi support controls, 43 Python tests, Rustfmt, strict workspace
+Clippy and generated site/JavaScript checks. The current preview identity and
+its checksums remain the main lane's separate publication record.
+
+
+### Mecc expired smoke resource destruction — 10 November 2026
+
+The canonical Session now destroys completed expired smoke children after their
+actual origin retires. Payload and instance caches leave before reverse-list and
+actor retirement; shared resources and living peers remain. Cleanup refuses live
+or failed actors, wrong origins, common walks, optional services and dependents.
+
+Forty-eight actual native common-cleanup controls agree on 432 selected normalized
+ownership results. Payload/reference free order is a separate native observation;
+installed weak-owner, peer, count/list and new-generation checks cover Rust release.
+Clocks, allocation/source providers, an empty environment and a null optional
+tracker remain supplied. No native pointer/reuse equivalence, ordinary renderer
+admission or new preview is claimed. Prototype PS2 attributions remain unknown.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#expired-particle-destruction--10-november-2026).
+
+
+Combined validation with main's actor-identity/environment-retention changes
+passes 877 workspace Rust tests (78 ignored), twenty-one installed Mecc controls,
+the shared timed-owner and cold Delphi support controls, 43 Python tests,
+Rustfmt, strict workspace Clippy and generated site/JavaScript checks.
+These checks retain the public preview's independent source/checksum identity.
+
+
+### Mecc canonical smoke draw consumer — 10 November 2026
+
+The normal mission now consumes canonical smoke actors through the shared unlit
+shader/material path. Source geometry/textures, current vertices, facing/affine
+and dynamic opacity come from actual ownership; no second simulation is added.
+World/effect admission and repeated submissions remain distinct. Expiry and
+mission replacement remove renderer-owned entities, images, materials and buffers.
+
+Actual adjacent PC draw matrix/cull fragments agree on 576 samples / 9,792 selected
+words with supplied views/model slot. Source-backed App packets and CPU Bevy asset
+lifecycle are tested. GPU/raster parity, complete native alpha queue behavior and
+ordinary impact/display/FX birth/world scheduling remain open. The consumer does
+not create smoke actors, and no new ordinary availability or preview is claimed.
+Prototype PS2 attributions remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#canonical-smoke-draw-consumption--10-november-2026).
+
+Combined validation retaining main through `119422f` passes 883 workspace Rust
+tests (85 ignored), twenty-two installed Mecc controls, the source-backed App
+draw/lifecycle control, shared timed-owner and cold Delphi support controls,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. Camera/environment interruption hides existing submissions and restores
+them without additional allocations. The rebuilt canonical packet controls still
+match all 576 native matrix/cull samples / 9,792 selected words. No graphics-device
+test or new preview is included; main retains its publication ownership.
+
+### Mecc pistol draw actions — 10 November 2026
+
+The base-pistol action consumer now executes timed held-object replacements
+through an explicit provider in native table order. It retains shared event
+marks when weapon arguments are rebound and preserves completed effects on
+failure before quarantining replay. Actual wet/material selection remains an
+input; no material absence or world operation is silently acknowledged.
+
+Native event-helper controls match 192 supplied windows / 576 event visits /
+1,176 selected words, with a replacement-entry provider. A separate real native
+65-call ANM control executes both replacement bodies. The installed Rust Session
+composition checks actual old-child marking, new-child binding and peer retention
+through the acquired wield factory. These are separate evidence scopes, not a
+full ANM, primary or graphical comparison.
+
+The ordinary selector's draw refusal remains until class-bank ownership, typed
+active-table identity and immediate interleaved ANM callbacks are bound. Prototype
+PS2 attributions remain unknown. This is a source prerequisite handoff and creates
+no ordinary gameplay or preview availability. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#pistol-draw-action-prerequisite--10-november-2026).
+
+Validation retaining main through `119422f` passes 884 workspace Rust tests
+(86 ignored), twenty-three installed Mecc controls, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated site/JavaScript checks. No release package,
+notices or preview checksums change in this source-only checkpoint.
+
+### Mecc pistol actions inside canonical ANM — 10 November 2026
+
+The registered class bank and typed actor binding now connect pistol draw actions
+to both real ANM passes. Hand replacements run immediately after class events,
+using current pose, channels and references. Draw completion defers weapon commit;
+movement interruption preserves the separate commits before and after publication
+of the new selector state. Late errors retain completed effects and refuse replay.
+
+Neutral and changing-movement controls match 320 complete native/Rust primary
+snapshots / 14,400 selected numeric words. Pointer comparison uses binding
+presence; relative epoch advancement additionally agrees after declared startup
+seed normalization. Clocks, flat floor, commands, mission gates, source/allocation
+providers and empty populations remain supplied. This is not a whole-payload,
+populated-world or graphical fidelity result. Prototype PS2 attributions remain
+unknown. The prepared App CPU diagnostic passes 128 terrain/camera/animation/
+weapon frames, including expected weapon absence before equipment.
+
+Main through `ac4e7c3`, including concurrent Kabuto selection and common ownership/
+dependency work, is retained. Combined validation passes 890 workspace Rust tests
+(93 ignored), twenty-five installed Mecc controls, the 128-frame App control,
+shared timed-owner and cold Delphi support controls, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated site/JavaScript checks. The separate
+128-frame jet/device control passes with reserved zero-PCM sinks at zero gain;
+it does not establish audible fidelity. The main lane owns
+preview publication; this handoff does not relabel the separate preview 6 receipt,
+notices or checksums. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#pistol-callback-integration--10-november-2026).
