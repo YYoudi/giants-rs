@@ -121,7 +121,10 @@ impl Session {
         {
             g.animation_commit_running = false;
             match &result {
-                Ok(_) => g.animation_commit_completed = Some(number),
+                Ok(view) => {
+                    g.animation_commit_completed = Some(number);
+                    g.animation_commit_current_frame = Some(view.current_frame);
+                }
                 Err(error) => g.geometry_transition_failure = Some(error.clone()),
             }
         }

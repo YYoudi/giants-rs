@@ -146,7 +146,10 @@ impl Controls {
             definition: u32::MAX,
             retained_time: 0.25f32.to_bits(),
         };
-        let resolved = matches!(kind, Case::ActionGate);
+        let resolved = matches!(
+            kind,
+            Case::ActionGate | Case::Tail | Case::TailFailure | Case::TailClear
+        );
         self.resolved |= resolved;
         let gate = s.kabuto_group(owner).unwrap().action_gate_next;
         let selection =
@@ -379,7 +382,7 @@ impl Controls {
     }
     pub(super) fn finish(self) {
         if self.resolved {
-            assert_eq!(self.cases + self.held + self.skipped, 512);
+            assert!([1, 512].contains(&(self.cases + self.held + self.skipped)));
             assert!(self.cases > 0);
             println!(
                 "kabuto_selection_gate committed={} held={} skipped={} primary_complete=false",

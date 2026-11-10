@@ -808,3 +808,12 @@ projection; `GIANTS_KABUTO_RESOLVED_COMMIT_INPUTS` /
 `GIANTS_KABUTO_RESOLVED_COMMIT_RECEIPT` export eligible animation contexts. All
 paths must be absolute. No window or audio device is created. This does not
 complete primary/history/initialization or validate live gameplay.
+
+
+With the same explicit Kabuto root/executable, `source_kabuto_primary_tail_`
+runs three silent installed controls after the actual owned resource/action/
+selection/ANM composition. They check typed links, generic marking, shared
+reference-camera sampling, recorded world entries and retained error/removal
+boundaries. The success control reports 509 admitted component contexts and
+three refused held routes, not completed gameplay frames. Camera/UI/audio/rate/
+transport rendering or delivery and link event producers remain unvalidated.
