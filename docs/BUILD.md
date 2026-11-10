@@ -51,6 +51,13 @@ coefficient tables, publish projection or complete activation.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+With compatible `GIANTS_DELPHI_ROOT`, run
+`cargo test --locked -p giants-app source_delphi_menu_entry --target x86_64-pc-windows-gnu -- --ignored`
+for common mission construction/role/re-entry checks. Its source menu request
+uses an all-unlocked test mask; no actual UI input, campaign unlock or graphics
+are claimed. `source_delphi_retained_player_attempt` in `giants-game` additionally
+checks constructor identity after an explicit late child-resource failure.
+
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
 runs six owned-phase controls: publication/physical consumption and later

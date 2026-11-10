@@ -254,12 +254,15 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 Current observable delivery: enter a Reaper mission through the common menu,
 retain the actual declared Delphi owner/held/copy group, then connect supported
-dry keyboard/mouse movement, jump and camera. **First runtime blocker:**
-`player_initial::Prepared` admits Mecc only and the mission runtime has no Delphi
-cold factory/role-binding branch. Supply that real constructor/consumer next;
-retain pending projection/controller/geometry services instead of acknowledging
-missing work. Main integration owns combined delivery. Delphi remains an
-intermediate dependency, with no ordinary controls newly available.
+keyboard/mouse movement, jump and camera. **Construction is now connected:**
+`delphi_declared::Factory` and the common loader retain the actual constructor Id,
+including late failures, with source-template shell history and declared placement.
+The next runtime gap is projection reset plus the first animation/render and
+physical/camera/input driver consuming this same owner. Confirm source start and
+contact/water prerequisites; do not teleport or force state to make a dry slice.
+Main integration owns combined delivery. No ordinary Delphi controls are newly
+available; the source-backed App control uses an all-unlocked test menu mask and
+proves staging/roles/re-entry, not user input or campaign availability.
 
 The authored camera now uses the common typed override owner and common mode
 selector; 512 original writer/predicate programs match 81,920 selected words.

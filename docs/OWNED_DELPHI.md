@@ -12,16 +12,28 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
-## Current entry blocker and common camera state - 10 November 2026
+## Declared mission construction and next playable blocker - 10 November 2026
 
-Intermediate dependency only; Delphi is not yet available through ordinary menu
-controls. The first entry gap is concrete: generic mission player preparation
-admits Mecc only, and the common mission runtime has no retained Delphi cold
-factory/role-binding branch. Next connect the acquired class-3 declared start,
-held/copy ownership and cleanup there, then the supported dry input/camera loop.
-Keep actual projection/controller prerequisites explicit; staging an actor is not
-playability, and water/combat completeness is not a prerequisite for this basic
-supported delivery.
+Construction is connected to common mission loading; ordinary Delphi controls
+remain unavailable. `delphi_declared::Factory` now selects the actual kind-3
+source marker and stages the acquired player/held/copy group. The mission loader
+retains its exact constructor identity, including after a later initializer
+failure, and keeps Mecc/Kabuto preparation separate. Constructor shell history
+comes from the actual class template; declared placement does not establish
+native relocation parity. Next connect projection reset, first animation/render
+and the supported physical/camera/input driver to this same owner. Check actual
+start/contact/water requirements before choosing the first supported action;
+never change the spawn or force dry state to avoid a necessary dependency.
+
+The source-backed App control creates a real menu request with an explicitly
+supplied all-unlocked test mask, executes the common spawn, checks actual declared
+placement and held/copy ownership, then clears and re-enters with a new ticket.
+Duplicate-class and foreign/retired identities cannot replace the bound player.
+A missing factory remains an explicit blocker. A separate actual constructor
+control retains the published owner after a supplied late child-resource failure;
+this is host failure retention, not native exception equivalence. These controls
+use no window, GPU or real keyboard/mouse input and do not prove campaign unlocks,
+visible Delphi rendering or playable readiness.
 
 The authored Delphi callback now writes `camera_override::State<Id>`, shared with
 the actual common mode/force selector APIs. Its matrix/clear writes and target

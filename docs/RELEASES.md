@@ -7,6 +7,25 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## Delphi declared group connected to mission loading - 10 November 2026
+
+Common mission loading now stages Delphi's actual declared owner, copies and held
+object, retaining the constructor Id through late initialization errors. No new
+ordinary Delphi controls, rendering or playable menu entry are asserted. The next
+runtime blocker is projection reset and the first animation/render and physical/
+camera/input driver consuming this same owner.
+
+The existing cold factory now exposes a retained attempt; its normal construction
+order is unchanged. Declared placement uses actual constructor-shell history and
+retains unverified native relocation. The source-backed App control exercises a
+real menu request with an explicit all-unlocked test mask, common spawn, actual
+role bindings, duplicate/foreign/retired identities, missing-factory refusal,
+clear and a second ticket. A separate source constructor control preserves the
+published owner after a supplied late child-resource failure. These are runtime
+construction/CPU checks, not real input, campaign unlock or graphical evidence.
+The current downloadable preview remains independently pinned.
+See [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
 ## Main-menu persistent image samples - source-only inspection
 
 The common executable now samples an actual Session-owned persistent effect
