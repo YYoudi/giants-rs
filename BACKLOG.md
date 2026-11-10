@@ -1461,6 +1461,25 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
 
+- Detached ordinary-finalization comparison now executes the original complete
+  parent/child preparation, retirement and cleanup against actual static terrain
+  from all sixteen inventoried worlds. Across 128 controlled cycles, the shared
+  Rust finalization/environment services match 1,152 finalizations, including
+  640 detached states, all 299,520 header/payload words and 902 ground queries.
+  Source grids retain their acquired prepared topology; dynamic ripples are
+  disabled. The initial native fixture lacked its numeric-table initialization;
+  executing the original initializer resolves the sloped-terrain discrepancy
+  without changing Rust or inventing terrain. The earlier missing-grid failure
+  is retained as historical evidence, superseded within this controlled scope.
+  Entry headers, physical payload/history, affine and the actual caller-slot word
+  remain supplied to the Rust finalizer. Mesh/platform population is explicitly
+  empty. This closes the static-terrain finalization comparison prerequisite,
+  not timed Session physical/header ownership, real mission population, world
+  scheduling or film admission. Next: bind the actual shared motion/header owner
+  and ordinary preparation continuation, then native stock/clock/RNG and rendering.
+  Virtual Flick supports keep their separate identity domain; no fake world slots.
+  No binary change or newly certified scene follows from this CPU evidence.
+
 - Detached timed actors now use the same Session registry and borrowed callback
   as their attached parents. Actual context consumption is one-shot; the original
   payload allocation, class resources, channels and reference cache remain owned.
