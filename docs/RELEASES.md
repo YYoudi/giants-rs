@@ -39,6 +39,23 @@ to Bevy, acquire startup words or acknowledge the mission's pending reset.
 Actual input/device, first animation/render and physical/controller wiring remain
 open. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
 
+## Kabuto signed camera coefficients - intermediate dependency only
+
+Kabuto is still unavailable through normal controls. Source now reuses the common
+external camera catalog for full position coefficients and signed look angle;
+mode changes preserve body scale and no longer reject a negative camera pitch.
+The acquired size gain adjusts camera position coefficients before the ordinary
+camera subset. A private 328-case original-PC/Rust control validates these supplied
+mode/profile and coefficient boundaries. Actual startup ownership, projection,
+initializers and live animation/input remain prerequisites. This source dependency
+does not change the frozen Windows preview or establish correct rendered framing.
+
+Combined source preserving main through `8c385dc` passes 949 synthetic Rust checks
+(139 ignored), the installed Kabuto and Delphi App entry/re-entry checks, ordinary
+Mecc body/jet composition and the owned Delphi external-coefficient reset check.
+Rustfmt, strict workspace Clippy, 43 Python tests, site/JavaScript validation and
+the publication audit pass. These checks add no GPU, real-input or preview claim.
+
 ## Kabuto initial body renderer - intermediate dependency only
 
 Ordinary Kabuto controls are not available. The next normal-entry blocker is the

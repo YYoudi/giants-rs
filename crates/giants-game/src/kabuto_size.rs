@@ -16,6 +16,23 @@ pub struct Prepared {
     pub payload: Vec<u8>,
     pub radius: f32,
 }
+/// Acquired camera helper: the flag chooses the stored current gain; otherwise
+/// the native route returns one. No growth, initialization or mode is changed.
+pub fn camera_gain(payload: &[u8]) -> Result<f32, String> {
+    if payload.len() != 844 {
+        return Err("Kabuto camera gain requires its debug payload".into());
+    }
+    let word = |at: usize| u32::from_le_bytes(payload[at..at + 4].try_into().unwrap());
+    let gain = if word(0) & 1 != 0 {
+        f32::from_bits(word(0x1d0))
+    } else {
+        1.
+    };
+    if !gain.is_finite() || gain <= 0. {
+        return Err("Kabuto camera gain outside acquired positive profile".into());
+    }
+    Ok(gain)
+}
 /// Full acquired debug size refresh, using Double53 arithmetic. `None` follows
 /// the absent-class boundary: only the size multiplier is stored. This does not
 /// choose a growth target, advance current size, or initialize physical state.
