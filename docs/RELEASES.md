@@ -14,11 +14,27 @@ stores and refuse replay/admission after failure. See
 [OWNED_CAMERA.md](OWNED_CAMERA.md) for the native-versus-Rust scope.
 
 The combined source preserves Kabuto's current/held-reference handoff and shared
-target detachment. Current camera/profile inputs, startup/override producers,
+target detachment together with Flick's canonical detached timed ownership.
+It passes 870 Rust tests (59 ignored), strict Clippy, Rustfmt and 43 Python tests.
+Installed controls pass thirteen Mecc, sixteen Kabuto, six Delphi, one NPC and
+one canonical timed-lifecycle case. Current camera/profile inputs, startup/override producers,
 actual profile/projection backends and enclosing world order remain prerequisites.
 This does not enable the normal native Mecc driver or modify the immutable public
 preview download. No new playable character, native landing or fidelity claim is
 made from these controls.
+
+The main integration lane independently downloaded all three public `.2` assets:
+the ten-member package, internal/external checksums, GitHub asset digests and remote
+tag match its published source/executable/archive snapshot. This verification does
+not move that immutable download to the later camera-mode source.
+
+A private combined MinGW candidate pins source
+`bf724e267450fb8125aafba3850c3a88fc481c19`. Explicitly waited CLI startup passes.
+Its ten-member validation draft verifies the receipt and checksums, collects
+notices for 338 normal dependencies and eleven conservative toolchain entries,
+and retains the reviewed set of 29 imported DLL names. This candidate has no
+release tag; offscreen/manual runtime checks on this particular executable remain
+pending. It does not replace the verified public `.2` download.
 
 ## Canonical detached timed ownership and registration — 10 November 2026
 
