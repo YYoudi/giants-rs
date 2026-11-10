@@ -361,7 +361,7 @@
       "title": "Wildlife and non-player inhabitants",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Vimps, herds and other creatures: movement, feeding, fleeing, interactions and mission roles. Existing source-backed herd/Vimp services now have a retained authored-resource ownership regression: 28 parents, 313 initialized children and 26 injected terrain failures on the tested installation. Two parents become inactive without eligible world-only markers; mission markers are outside this fixture and two world files are parser-refused. Flat floor, clock and RNG are supplied. Ordinary live AI, player threat/feeding responses, world scheduling, rendering and audio remain open. See docs/OWNED_NPCS.md."
+      "detail": "Vimps, herds and other creatures: movement, feeding, fleeing, interactions and mission roles. Ordinary mission AI remains unavailable. Owned services cover herd births, separate warm history and newborn initialization plus living/physical/ANM continuation in one callback, preserving constructor history and late failure. Original-PC controls match 32 scenarios / 96 snapshots / 824,168 normalized words, including 448 first callbacks, within supplied Story2 cohort, parent-selector, time/terrain/control/RNG boundaries. Full herd/marker dispatch, outer world and clock/RNG ownership, required threat/feeding/active effects/audio, rendering and re-entry remain open. See docs/OWNED_NPCS.md. A separate original-PC-only mutable walk records 2,880 callbacks and 448 birth-step first callbacks; herd/marker fallback and population traversal still need Rust binding."
     },
     {
       "id": "combat",
