@@ -2079,3 +2079,37 @@ fidelity claims remain open. The frozen public preview remains separate.
 The renderer also implements restoration of this ticket's initial-body visibility
 when its opening camera is removed; Mecc variant/held visibility stays separate.
 Complete opening-to-player interaction remains unverified.
+
+
+## Explicit profile-camera rendering - 11 November 2026
+
+Ordinary Kabuto controls remain unavailable. The next normal-entry dependency is
+persistent camera ownership and actual startup/warm ordering, world camera queries
+and the remaining animation/material/geometry/controller consumers. All four
+initializer gates remain pending.
+
+The local source diagnostic `showcase-kabuto-camera` enters through the common
+mission request/spawn, applies an explicitly supplied mode-1 command to that exact
+Session owner, and feeds its external profile coefficients, separate look angle
+and current size gain into the shared renderer. This is the native unclipped
+position/basis kernel and projection arithmetic; floor, chase and mesh services
+are excluded rather than replaced with successful no-op providers. It does not
+claim the supplied command is the actual native startup event. The ordinary
+camera reuses the extracted arithmetic while preserving its original initial-input
+validation, internal pitch adjustments and provider/failure ordering.
+
+Receipt-bound source `1799a5106c50c78aa9c2e7a9cffd38d87b61647a`, executable SHA256
+`c813602ea8e24b9c34259b01740bab7bf11cc3a0d85fe094eb140f8e0089a054`, produces a
+reviewed silent GPU capture with textured/lit head, horns, shoulders, torso and
+arms visible. Lower-body pose/placement, terrain intersection and distant floating
+props remain unverified discrepancies. The loading overlay is expected: no
+readiness event or live ANM/input is fabricated. Its display copy is pinned in
+the gallery; original capture, logs and native research remain private.
+
+The same executable completes three 128-frame owned Mecc inspection cycles with
+actual draw staging, cancellation and resource release. Commands and world gates
+are supplied. An earlier executable's 180-second observer timeout remains failed
+evidence; the later 360-second observation completes. This is not held-input,
+complete native camera, normal Kabuto entry or fidelity proof. An installed App
+control covers two cold entries, current owner/profile use, stale-owner refusal
+and unchanged pending initializers. The .9 download retains its own identity.

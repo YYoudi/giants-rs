@@ -1199,3 +1199,30 @@ This is a silent CPU control of actual constructed-owner storage, external cold
 camera words, current profiles and the projection kernel. It checks owner
 isolation, retained effects on failure and retirement. Loader-image state does
 not establish actual mission-entry/warm state, device publication or gameplay.
+
+
+### Explicit Kabuto profile-camera inspection
+
+This source diagnostic is not ordinary Kabuto gameplay and is not in preview .9.
+With a compatible user-supplied PC executable selected by
+`GIANTS_KABUTO_EXECUTABLE`, set:
+
+```powershell
+$env:GIANTS_MISSION_REPLAY = "showcase-kabuto-camera"
+$env:GIANTS_SHOWCASE_WORLD = "Kstory1"
+$env:GIANTS_SHOWCASE_MISSION = "0"
+# GIANTS_KABUTO_EXECUTABLE must name the compatible executable from your installation.
+```
+
+Run the built application with `--data-root` pointing to your game folder,
+`--mecc-menu`, a fresh `--user-data-root`, `--offscreen --silent-capture` and a
+`--capture` PNG path. The actual menu request/spawn and mode-1 service supply the
+owner/profile/look angle/size inputs. The shared renderer consumes the unclipped
+position and projection kernels. Floor/chase/walls, actual startup/warm ordering,
+live ANM/controls, placement fidelity and initializer admission are excluded.
+
+The silent CPU lifetime control requires the same installation/executable:
+
+```powershell
+cargo test --locked -p giants-app --target x86_64-pc-windows-gnu source_kabuto_inspection_camera_uses_owned_mode_profile_and_reenters -- --ignored
+```

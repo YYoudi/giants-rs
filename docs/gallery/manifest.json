@@ -34,561 +34,561 @@
       "commit": "c81d85b4e1a9ae7db8991fab170ad4ae7792fbfe",
       "left": "media/becf5c88f4aa1cdba621fa359cf343ff4e78a42b7a9c89952b8f174a20a7778f.webp",
       "right": "media/bfb3e37dc6549a27d015b299ac8aab1cabbcb040dd26f4040d5502e15b2ca49b.webp",
-      "left_label": "Original \u00c2\u00b7 run C \u00c2\u00b7 video time 14.0 s",
-      "right_label": "Original \u00c2\u00b7 run D \u00c2\u00b7 video time 13.0 s",
+      "left_label": "Original Â· run C Â· video time 14.0 s",
+      "right_label": "Original Â· run D Â· video time 13.0 s",
       "verification": "APPROXIMATE ALIGNMENT",
       "alignment": "Same subtitle and composition, different poses. Scene MAE 20.968/255; sampling interval 1/15 s. Simulation time is unknown; determinism is not established."
     },
     {
-      "title": "First visible result \u00c2\u00b7 loading image",
+      "title": "First visible result Â· loading image",
       "level": "Menu and loading",
       "event": "Loading image",
       "commit": "c81d85b4e1a9ae7db8991fab170ad4ae7792fbfe",
       "left": "media/99b6206e6f64a2395ae9b2b0e8f3416fd5325d27895fe781f578b878c6093d62.webp",
       "right": "media/72c648f9ecb235677a3378317f8b99f18710dc4e9d78a1400502822d1fb00dc1.webp",
-      "left_label": "Original \u00c2\u00b7 loading image region",
-      "right_label": "Independent prototype \u00c2\u00b7 20 image tiles",
-      "verification": "IMAGE ONLY \u00c2\u00b7 WITHIN \u00c2\u00b11 PER CHANNEL",
-      "alignment": "Lossless 1920 \u00c3\u2014 1080 capture, region (480,270)\u00e2\u20ac\u201c(1440,810). MAE 0.025806/255. Text and progress indicators are excluded."
+      "left_label": "Original Â· loading image region",
+      "right_label": "Independent prototype Â· 20 image tiles",
+      "verification": "IMAGE ONLY Â· WITHIN Â±1 PER CHANNEL",
+      "alignment": "Lossless 1920 Ã— 1080 capture, region (480,270)â€“(1440,810). MAE 0.025806/255. Text and progress indicators are excluded."
     },
     {
-      "title": "3D logo \u00c2\u00b7 geometric coverage",
+      "title": "3D logo Â· geometric coverage",
       "level": "Menu and loading",
       "event": "Logo and geometry",
       "commit": "49655654acb46edb9d624c9fc93a3db2d9c28da9",
       "left": "media/7f1ba9ce0647d6c01ebad1be076b23087e9c59fea9d1cbc66d46f55eda24326c.webp",
       "right": "media/1e0dd8b502fbf1ddbc6445ad63d7c4ab13f953c94899d06a5e8328724dbc2141.webp",
-      "left_label": "Original \u00c2\u00b7 controlled white geometry",
-      "right_label": "Independent geometry \u00c2\u00b7 WebGL2",
-      "verification": "COVERAGE ONLY \u00c2\u00b7 RECORDED MATRICES",
+      "left_label": "Original Â· controlled white geometry",
+      "right_label": "Independent geometry Â· WebGL2",
+      "verification": "COVERAGE ONLY Â· RECORDED MATRICES",
       "alignment": "Same pose and viewport. 10 differing pixels across 368,402 covered reference pixels. The white diagnostic does not validate materials or autonomous camera movement."
     },
     {
-      "title": "3D logo \u00c2\u00b7 isolated material calculation",
+      "title": "3D logo Â· isolated material calculation",
       "level": "Menu and loading",
       "event": "Logo and geometry",
       "commit": "0d6be00e06048af74509587264a06e42d7d20529",
       "left": "media/014b5571c53a67101fc8e870133397087b487e7539e559205de27ed13531cecf.webp",
       "right": "media/c24da320a24b5cfc14f527ef43e69003b11ee2ab9c1e50887e3989081537ab19.webp",
-      "left_label": "Original \u00c2\u00b7 completed logo passes",
-      "right_label": "Independent shading \u00c2\u00b7 recorded environment",
-      "verification": "RECORDED INPUTS \u00c2\u00b7 PARTIAL CONTROL",
+      "left_label": "Original Â· completed logo passes",
+      "right_label": "Independent shading Â· recorded environment",
+      "verification": "RECORDED INPUTS Â· PARTIAL CONTROL",
       "alignment": "Geometry, normals, textures and material colors reconstructed; lights, matrices and reflection environment recorded. MAE 0.016241/255, maximum 44; 26 pixels differ by more than 3 levels."
     },
     {
-      "title": "First Rust + Bevy build \u00c2\u00b7 loading image",
+      "title": "First Rust + Bevy build Â· loading image",
       "level": "Menu and loading",
       "event": "Loading image",
       "commit": "a3a47e0e4854c792658b5c5f0adfbf640b41df42",
       "left": "media/99b6206e6f64a2395ae9b2b0e8f3416fd5325d27895fe781f578b878c6093d62.webp",
       "right": "media/1b6b217e95cce299d296b9cbda792a00aed97a56af8789c7ebbdaa94e01e8cc2.webp",
-      "left_label": "Original \u00c2\u00b7 loading image region",
-      "right_label": "Rust + Bevy runtime \u00c2\u00b7 external game data",
-      "verification": "IMAGE ONLY \u00c2\u00b7 WITHIN \u00c2\u00b11 PER CHANNEL",
-      "alignment": "Same 960 \u00c3\u2014 540 image region at (480,270), viewport 1920 \u00c3\u2014 1080. MAE 0.026529/255, maximum 1. No recorded runtime inputs; text, progress indicators and other resolutions are excluded."
+      "left_label": "Original Â· loading image region",
+      "right_label": "Rust + Bevy runtime Â· external game data",
+      "verification": "IMAGE ONLY Â· WITHIN Â±1 PER CHANNEL",
+      "alignment": "Same 960 Ã— 540 image region at (480,270), viewport 1920 Ã— 1080. MAE 0.026529/255, maximum 1. No recorded runtime inputs; text, progress indicators and other resolutions are excluded."
     },
     {
-      "title": "Bevy \u00c2\u00b7 geometry and inspection camera",
+      "title": "Bevy Â· geometry and inspection camera",
       "level": "Bevy build previews",
       "event": "Logo and geometry",
       "commit": "b6439db6a75b408c0f49b3998374a9796d01875c",
       "left": "media/cf9085f25ac84135ee809a7bfc09f3b0d8f0e0e2c3d169f77ef811d4833fb519.webp",
       "right": "media/6b3e9667bd35d7150eaf2b72f83e81cfc9d79e031e02de8b9efd783328ae2e51.webp",
-      "left_label": "Bevy \u00c2\u00b7 front view \u00c2\u00b7 diagnostic normals",
-      "right_label": "Bevy \u00c2\u00b7 oblique view \u00c2\u00b7 diagnostic normals",
-      "verification": "TWO BEVY VIEWS \u00c2\u00b7 MATERIALS NOT REPRODUCED",
+      "left_label": "Bevy Â· front view Â· diagnostic normals",
+      "right_label": "Bevy Â· oblique view Â· diagnostic normals",
+      "verification": "TWO BEVY VIEWS Â· MATERIALS NOT REPRODUCED",
       "alignment": "Different inspection poses of the same mesh. Geometry, UVs and normals were checked separately; this pair does not measure fidelity against the original image."
     },
     {
-      "title": "Bevy \u00c2\u00b7 first logo material stage",
+      "title": "Bevy Â· first logo material stage",
       "level": "Bevy build previews",
       "event": "Logo and geometry",
       "commit": "1ee8e5f02f3315524dbd899aa13b408cb3b9e0c5",
       "left": "media/f47c6d92cb3c5d4d95298c9500b244d4b211020686d61fe571c4c57d90ba74f5.webp",
       "right": "media/3b2bcd2cd2bc186d59144bcddac2c73e73083aa65ce3ff531e61e59004fb0ed9.webp",
-      "left_label": "Bevy \u00c2\u00b7 front view \u00c2\u00b7 inspection lighting",
-      "right_label": "Bevy \u00c2\u00b7 oblique view \u00c2\u00b7 no reflection environment",
-      "verification": "PARTIAL PREVIEW \u00c2\u00b7 ORIGINAL MENU NOT VALIDATED",
+      "left_label": "Bevy Â· front view Â· inspection lighting",
+      "right_label": "Bevy Â· oblique view Â· no reflection environment",
+      "verification": "PARTIAL PREVIEW Â· ORIGINAL MENU NOT VALIDATED",
       "alignment": "Two Bevy views. Texture quantization is exact; selected interior shader samples match the software control within one level. Inspection camera and lights; reflections, mipmaps and fog are incomplete."
     },
     {
-      "title": "Bevy \u00c2\u00b7 Story4 terrain colors",
+      "title": "Bevy Â· Story4 terrain colors",
       "level": "Bevy build previews",
       "event": "Terrain",
       "commit": "a99416a67954253d87fb29d096d208fc5c4775fc",
       "left": "media/ca3f6d3bd7ef06e39004a775f9cae7e5555fbe930d900f02a0d3568ca92ac18f.webp",
       "right": "media/57dd43493b0833e939146259aa5b8b569a989a66fa5a51252e9e3a6aa7485a89.webp",
-      "left_label": "Bevy \u00c2\u00b7 Story4 \u00c2\u00b7 overview",
-      "right_label": "Bevy \u00c2\u00b7 Story4 \u00c2\u00b7 oblique view",
-      "verification": "PARTIAL TERRAIN \u00c2\u00b7 BEVY PREVIEW",
+      "left_label": "Bevy Â· Story4 Â· overview",
+      "right_label": "Bevy Â· Story4 Â· oblique view",
+      "verification": "PARTIAL TERRAIN Â· BEVY PREVIEW",
       "alignment": "17,926 native face-construction triples match. Two inspection views with no recorded runtime inputs. This historical build has terrain colors only; no original-image fidelity claim."
     },
     {
-      "title": "Bevy \u00c2\u00b7 introduction terrain colors",
+      "title": "Bevy Â· introduction terrain colors",
       "level": "Bevy build previews",
       "event": "Terrain",
       "commit": "a99416a67954253d87fb29d096d208fc5c4775fc",
       "left": "media/3cb0deece454c3c37e7d5ccd8642cd069c26cdd21bfe29520e2b925359d021c2.webp",
       "right": "media/810d03f309718d63677649b905a2fc5cb0a727c70878554630b43e0ef8e9418e.webp",
-      "left_label": "Bevy \u00c2\u00b7 introduction \u00c2\u00b7 overview",
-      "right_label": "Bevy \u00c2\u00b7 introduction \u00c2\u00b7 oblique view",
-      "verification": "PARTIAL TERRAIN \u00c2\u00b7 BEVY PREVIEW",
+      "left_label": "Bevy Â· introduction Â· overview",
+      "right_label": "Bevy Â· introduction Â· oblique view",
+      "verification": "PARTIAL TERRAIN Â· BEVY PREVIEW",
       "alignment": "20,421 native face-construction triples match. Two inspection views with no recorded runtime inputs. This historical build has terrain colors only; no original-image fidelity claim."
     },
     {
-      "title": "R04 \u00c2\u00b7 terrain material previews",
+      "title": "R04 Â· terrain material previews",
       "level": "Bevy build previews",
       "event": "Terrain",
       "commit": "35aa8c49a770ffa82dddfc14e626b74bdc163f01",
       "left": "media/77a325ee08f70439b1eebf34e0f29b829d8030e8a1da9843c4a934144e041a08.webp",
       "right": "media/e2ea0da4cbf90659110d04530de559708043c4e01c7f176b4a1a660f04b7a181.webp",
-      "left_label": "Bevy \u00c2\u00b7 Story4 \u00c2\u00b7 materials",
-      "right_label": "Bevy \u00c2\u00b7 introduction \u00c2\u00b7 oblique view",
-      "verification": "TWO BEVY PREVIEWS \u00c2\u00b7 DIFFERENT WORLDS",
+      "left_label": "Bevy Â· Story4 Â· materials",
+      "right_label": "Bevy Â· introduction Â· oblique view",
+      "verification": "TWO BEVY PREVIEWS Â· DIFFERENT WORLDS",
       "alignment": "Two worlds and different inspection poses. Terrain data and classes were checked separately; intermediate slopes were provisional and mipmaps absent. No original-image fidelity claim."
     },
     {
-      "title": "R05 \u00c2\u00b7 reconstructed terrain mipmaps",
+      "title": "R05 Â· reconstructed terrain mipmaps",
       "level": "Bevy build previews",
       "event": "Terrain",
       "commit": "1f3fd5db1151a253b55075479c54a5805b96c0ed",
       "left": "media/77a325ee08f70439b1eebf34e0f29b829d8030e8a1da9843c4a934144e041a08.webp",
       "right": "media/32fee1dde2be36fe68c1c57319293f1d6b940258c7d8a356274158e41f28751f.webp",
-      "left_label": "Bevy R04 \u00c2\u00b7 base texture level only",
-      "right_label": "Bevy R05 \u00c2\u00b7 measured mip levels \u00c2\u00b7 anisotropy 16",
-      "verification": "TWO BUILDS \u00c2\u00b7 SAME VIEW",
+      "left_label": "Bevy R04 Â· base texture level only",
+      "right_label": "Bevy R05 Â· measured mip levels Â· anisotropy 16",
+      "verification": "TWO BUILDS Â· SAME VIEW",
       "alignment": "Same geometry and inspection camera. The measured downsampling gain darkens distant textures. Mipmap words match; the pair shows a build change rather than fidelity to an original image."
     },
     {
-      "title": "Story4 terrain \u00c2\u00b7 original / Bevy \u00c2\u00b7 pose C",
+      "title": "Story4 terrain Â· original / Bevy Â· pose C",
       "level": "Story4 cinematic",
       "event": "Terrain",
       "commit": "dd2c6259b03d03cb48f97a7751d2f49462005703",
       "left": "media/eb91df6d13381ec81dcebe716faeb26dd6fa6b54b447d004a02891de797ea3bc.webp",
       "right": "media/84dadc5e331d3eb130df90e7824a14ac7e4485c9e7a7f1b3f7bedaaf7551474e.webp",
-      "left_label": "Original \u00c2\u00b7 isolated terrain \u00c2\u00b7 no fog",
-      "right_label": "Bevy \u00c2\u00b7 reconstructed data \u00c2\u00b7 recorded camera",
-      "verification": "ISOLATED TERRAIN \u00c2\u00b7 RECORDED CAMERA",
+      "left_label": "Original Â· isolated terrain Â· no fog",
+      "right_label": "Bevy Â· reconstructed data Â· recorded camera",
+      "verification": "ISOLATED TERRAIN Â· RECORDED CAMERA",
       "alignment": "Recorded camera and viewport; independent geometry, colors, textures, mipmaps and UV calculation. MAE 0.210548/255, maximum 103; 2 pixels differ by more than 3 levels. Full scene and autonomous camera not validated."
     },
     {
-      "title": "Story4 terrain \u00c2\u00b7 original / Bevy \u00c2\u00b7 pose D",
+      "title": "Story4 terrain Â· original / Bevy Â· pose D",
       "level": "Story4 cinematic",
       "event": "Terrain",
       "commit": "dd2c6259b03d03cb48f97a7751d2f49462005703",
       "left": "media/dee4516a903b0020143fae874e2c07919d986fc6b59453952584d01ae7567d24.webp",
       "right": "media/27b887b54f35db46486a42be395256937970c53699907f4373ce1cb79440971c.webp",
-      "left_label": "Original \u00c2\u00b7 isolated terrain \u00c2\u00b7 no fog",
-      "right_label": "Bevy \u00c2\u00b7 reconstructed data \u00c2\u00b7 recorded camera",
-      "verification": "ISOLATED TERRAIN \u00c2\u00b7 RECORDED CAMERA",
+      "left_label": "Original Â· isolated terrain Â· no fog",
+      "right_label": "Bevy Â· reconstructed data Â· recorded camera",
+      "verification": "ISOLATED TERRAIN Â· RECORDED CAMERA",
       "alignment": "Recorded camera and viewport; independent geometry, colors, textures, mipmaps and UV calculation. MAE 0.214036/255, maximum 112; 16 pixels differ by more than 3 levels. Full scene and autonomous camera not validated."
     },
     {
-      "title": "Story4 terrain and fog \u00c2\u00b7 pose G",
+      "title": "Story4 terrain and fog Â· pose G",
       "level": "Story4 cinematic",
       "event": "Terrain",
       "commit": "ef11e355cfc1a50ebf82c780bdb3fe95b3ed1563",
       "left": "media/b44d65df0be960160ed27c7b195e6a15ae935f21536ceda8ede53c03e327de8c.webp",
       "right": "media/54678a240cfc4e89ee321df20d1a62b59bb3454da01f608ffc21bba77763c4de.webp",
-      "left_label": "Original \u00c2\u00b7 isolated terrain with fog",
-      "right_label": "Bevy \u00c2\u00b7 reconstructed fog \u00c2\u00b7 recorded camera",
-      "verification": "TERRAIN AND FOG \u00c2\u00b7 RECORDED CAMERA",
+      "left_label": "Original Â· isolated terrain with fog",
+      "right_label": "Bevy Â· reconstructed fog Â· recorded camera",
+      "verification": "TERRAIN AND FOG Â· RECORDED CAMERA",
       "alignment": "MAE 0.210552/255, maximum 103; 2 pixels differ by more than 3 levels. Independent geometry, materials, UVs and fog; recorded camera. Full scene not validated."
     },
     {
-      "title": "Story4 terrain and fog \u00c2\u00b7 pose H",
+      "title": "Story4 terrain and fog Â· pose H",
       "level": "Story4 cinematic",
       "event": "Terrain",
       "commit": "ef11e355cfc1a50ebf82c780bdb3fe95b3ed1563",
       "left": "media/75a0c5caa62fac183bff531c51506f57edcbbd00c1519e172a0ec63250431fda.webp",
       "right": "media/efd08af88657be9bd3bfca780edc4855a95bcb6f49159fd7d8cb36705b9c6e91.webp",
-      "left_label": "Original \u00c2\u00b7 isolated terrain with fog",
-      "right_label": "Bevy \u00c2\u00b7 reconstructed fog \u00c2\u00b7 recorded camera",
-      "verification": "TERRAIN AND FOG \u00c2\u00b7 RECORDED CAMERA",
+      "left_label": "Original Â· isolated terrain with fog",
+      "right_label": "Bevy Â· reconstructed fog Â· recorded camera",
+      "verification": "TERRAIN AND FOG Â· RECORDED CAMERA",
       "alignment": "MAE 0.188445/255, maximum 6; 1 pixel differs by more than 3 levels. Independent geometry, materials, UVs and fog; recorded camera. Full scene not validated."
     },
     {
-      "title": "Story4 sky \u00c2\u00b7 original / Bevy \u00c2\u00b7 pose A",
+      "title": "Story4 sky Â· original / Bevy Â· pose A",
       "level": "Story4 cinematic",
       "event": "Sky",
       "commit": "b7cbf79399eddc26fd9f1ddf3857e1faa9ea6d7c",
       "left": "media/645067d79ad4642dc77e699dbb769281ecb7bf03b9f33938ec35d936d8d5e084.webp",
       "right": "media/090a62fc95283a9d908bcb896ba2d5e8c98567a6e5cde83f7c68168fa738b377.webp",
-      "left_label": "Original \u00c2\u00b7 isolated sky",
-      "right_label": "Bevy \u00c2\u00b7 reconstructed sky \u00c2\u00b7 recorded camera",
-      "verification": "ISOLATED SKY \u00c2\u00b7 WITHIN \u00c2\u00b11 PER CHANNEL",
+      "left_label": "Original Â· isolated sky",
+      "right_label": "Bevy Â· reconstructed sky Â· recorded camera",
+      "verification": "ISOLATED SKY Â· WITHIN Â±1 PER CHANNEL",
       "alignment": "MAE 0.051879/255, maximum 1, identical coverage. Independent geometry, UVs and texture decoding; recorded camera. Weather, water and full scene excluded."
     },
     {
-      "title": "Story4 sky \u00c2\u00b7 original / Bevy \u00c2\u00b7 pose B",
+      "title": "Story4 sky Â· original / Bevy Â· pose B",
       "level": "Story4 cinematic",
       "event": "Sky",
       "commit": "b7cbf79399eddc26fd9f1ddf3857e1faa9ea6d7c",
       "left": "media/ddf46f9ddc07c8d5a4d74f582d15faa9828e248104dffd2b2776327de175a85a.webp",
       "right": "media/72c91bb182c6af39e0b9321e31c647356ff178ef1d49b3095e677592804abb15.webp",
-      "left_label": "Original \u00c2\u00b7 isolated sky",
-      "right_label": "Bevy \u00c2\u00b7 reconstructed sky \u00c2\u00b7 recorded camera",
-      "verification": "ISOLATED SKY \u00c2\u00b7 WITHIN \u00c2\u00b11 PER CHANNEL",
+      "left_label": "Original Â· isolated sky",
+      "right_label": "Bevy Â· reconstructed sky Â· recorded camera",
+      "verification": "ISOLATED SKY Â· WITHIN Â±1 PER CHANNEL",
       "alignment": "MAE 0.038524/255, maximum 1, identical coverage. Independent geometry, UVs and texture decoding; recorded camera. Weather, water and full scene excluded."
     },
     {
-      "title": "Story4 underside \u00c2\u00b7 original / Bevy \u00c2\u00b7 pose D",
+      "title": "Story4 underside Â· original / Bevy Â· pose D",
       "level": "Story4 cinematic",
       "event": "Underside",
       "commit": "1d78b445437b65e3097d3e559a44de2b37a3dedd",
       "left": "media/110bf235f881db932e2816bdc2fe5cc58aa9a79127d0c88b155dd32adb7112c3.webp",
       "right": "media/eea8d1d1aaece23624aa9099e2d3ee8b185a4addf10ed2be21f85c8b0c8e70bb.webp",
-      "left_label": "Original \u00c2\u00b7 isolated underside \u00c2\u00b7 quality level 2",
-      "right_label": "Bevy \u00c2\u00b7 reconstructed geometry and fog",
-      "verification": "ISOLATED UNDERSIDE \u00c2\u00b7 WITHIN \u00c2\u00b11",
+      "left_label": "Original Â· isolated underside Â· quality level 2",
+      "right_label": "Bevy Â· reconstructed geometry and fog",
+      "verification": "ISOLATED UNDERSIDE Â· WITHIN Â±1",
       "alignment": "MAE 0.043048/255, maximum 1, identical coverage. Above-water quality level 2 with black factor and water fog; recorded camera. Surface reflections, other modes and full scene excluded."
     },
     {
-      "title": "Story4 underside \u00c2\u00b7 original / Bevy \u00c2\u00b7 pose E",
+      "title": "Story4 underside Â· original / Bevy Â· pose E",
       "level": "Story4 cinematic",
       "event": "Underside",
       "commit": "1d78b445437b65e3097d3e559a44de2b37a3dedd",
       "left": "media/d5f31b5cd8ac5f66a45b4276dc03d2d110925ea949b4cf192085f7f281c2d621.webp",
       "right": "media/32e57a7981d75e82554bedfa074290b8e5fac3412208b6768940258a7c7426ed.webp",
-      "left_label": "Original \u00c2\u00b7 isolated underside \u00c2\u00b7 quality level 2",
-      "right_label": "Bevy \u00c2\u00b7 reconstructed geometry and fog",
-      "verification": "ISOLATED UNDERSIDE \u00c2\u00b7 WITHIN \u00c2\u00b11",
+      "left_label": "Original Â· isolated underside Â· quality level 2",
+      "right_label": "Bevy Â· reconstructed geometry and fog",
+      "verification": "ISOLATED UNDERSIDE Â· WITHIN Â±1",
       "alignment": "MAE 0.041831/255, maximum 1, identical coverage. Above-water quality level 2 with black factor and water fog; recorded camera. Surface reflections, other modes and full scene excluded."
     },
     {
-      "title": "Water texture \u00c2\u00b7 original / Bevy \u00c2\u00b7 phase D",
+      "title": "Water texture Â· original / Bevy Â· phase D",
       "level": "Story4 cinematic",
       "event": "Water",
       "commit": "39829f530c809a0296cd80484182971a98486967",
       "left": "media/181ef011cafe229c9b2835a79ba3147b8b0abe07aa48f8225a5d77641539b0a9.webp",
       "right": "media/a9d23c955f4977f4b00b64a6f3effb68eb8925faedf9752eeb18feeb2b9fac5d.webp",
-      "left_label": "Original \u00c2\u00b7 256 \u00c3\u2014 256 generated texture",
-      "right_label": "Bevy \u00c2\u00b7 five layers \u00c2\u00b7 recorded phases",
-      "verification": "STATIC TEXTURE \u00c2\u00b7 RECORDED PHASES",
+      "left_label": "Original Â· 256 Ã— 256 generated texture",
+      "right_label": "Bevy Â· five layers Â· recorded phases",
+      "verification": "STATIC TEXTURE Â· RECORDED PHASES",
       "alignment": "Independent texture data, mipmaps and world colors; captured phases. MAE 0.043813/255, maximum 4; 17 pixels differ by more than 3 levels. Complete animation and water surface not validated."
     },
     {
-      "title": "Water texture \u00c2\u00b7 original / Bevy \u00c2\u00b7 phase E",
+      "title": "Water texture Â· original / Bevy Â· phase E",
       "level": "Story4 cinematic",
       "event": "Water",
       "commit": "39829f530c809a0296cd80484182971a98486967",
       "left": "media/88a4ac62f3d599504425d1dab40925778281a78e8bc91636c4c26cd6ea90b2c5.webp",
       "right": "media/d6738d4dd43c9cdc60fc1bd787bc0d68094b50fcce84601b2d34ffadb1ade506.webp",
-      "left_label": "Original \u00c2\u00b7 256 \u00c3\u2014 256 generated texture",
-      "right_label": "Bevy \u00c2\u00b7 five layers \u00c2\u00b7 recorded phases",
-      "verification": "STATIC TEXTURE \u00c2\u00b7 RECORDED PHASES",
+      "left_label": "Original Â· 256 Ã— 256 generated texture",
+      "right_label": "Bevy Â· five layers Â· recorded phases",
+      "verification": "STATIC TEXTURE Â· RECORDED PHASES",
       "alignment": "Independent texture data, mipmaps and world colors; captured phases. MAE 0.045731/255, maximum 4; 12 pixels differ by more than 3 levels. Complete animation and water surface not validated."
     },
     {
-      "title": "R11 archive \u00c2\u00b7 Story4 and introduction previews",
+      "title": "R11 archive Â· Story4 and introduction previews",
       "level": "Bevy build previews",
       "event": "Water",
       "commit": "1e2dc5fabebd3b0b0209ee73f3bfd40e6c4dd870",
       "left": "media/24d6db987ce814ac7717a0e3cf2b33a9e85fc3033b5bafa8095e443a5f870b1e.webp",
       "right": "media/a5acb684b1d317c33dc228949363810332541f1e51338d0a963017d7e0695f98.webp",
-      "left_label": "Bevy R11 \u00c2\u00b7 Story4",
-      "right_label": "Bevy R11 \u00c2\u00b7 introduction",
-      "verification": "TWO BEVY PREVIEWS \u00c2\u00b7 FULL SCENE NOT VALIDATED",
+      "left_label": "Bevy R11 Â· Story4",
+      "right_label": "Bevy R11 Â· introduction",
+      "verification": "TWO BEVY PREVIEWS Â· FULL SCENE NOT VALIDATED",
       "alignment": "Different worlds and inspection views. Terrain, sky and underside integrated in this historical build; water surface, objects and cinematic absent. This pair is not an original-image comparison."
     },
     {
-      "title": "R12 water strip \u00c2\u00b7 original / Bevy \u00c2\u00b7 pose F",
+      "title": "R12 water strip Â· original / Bevy Â· pose F",
       "level": "Story4 cinematic",
       "event": "Water",
       "commit": "5f56e661312e8cdac70a8ca4d38576fa24846d53",
       "left": "media/d794f872f473bf42fcf192aadddd905a57f8be12e0d5c373d86646a44acd540b.webp",
       "right": "media/4b9ea878dda1342516486c794707d25185a981d6570fe5f547ea4f8b6c2fc5b1.webp",
-      "left_label": "Original \u00c2\u00b7 isolated water strip",
-      "right_label": "Bevy \u00c2\u00b7 reconstructed strip and pattern",
-      "verification": "ISOLATED STRIP \u00c2\u00b7 WITHIN \u00c2\u00b11",
+      "left_label": "Original Â· isolated water strip",
+      "right_label": "Bevy Â· reconstructed strip and pattern",
+      "verification": "ISOLATED STRIP Â· WITHIN Â±1",
       "alignment": "Recorded camera, sun and phases. Union MAE 0.001320/255, maximum 1; coverage differs by 2 pixels. Fixed state; complete animation and scene not validated."
     },
     {
-      "title": "R12 water strip \u00c2\u00b7 original / Bevy \u00c2\u00b7 pose H",
+      "title": "R12 water strip Â· original / Bevy Â· pose H",
       "level": "Story4 cinematic",
       "event": "Water",
       "commit": "5f56e661312e8cdac70a8ca4d38576fa24846d53",
       "left": "media/53ecfdb6e4b2cd62a5d9e4b38c3e3f4fc11f43e4a2997cd11a28f534bf0f452f.webp",
       "right": "media/f0ee7b2303393a98eb82c6a265badae8b9a3346e10a3caf2ebe8198fddee3024.webp",
-      "left_label": "Original \u00c2\u00b7 isolated water strip",
-      "right_label": "Bevy \u00c2\u00b7 reconstructed strip and pattern",
-      "verification": "ISOLATED STRIP \u00c2\u00b7 WITHIN \u00c2\u00b11",
+      "left_label": "Original Â· isolated water strip",
+      "right_label": "Bevy Â· reconstructed strip and pattern",
+      "verification": "ISOLATED STRIP Â· WITHIN Â±1",
       "alignment": "Recorded camera, sun and phases. Union MAE 0.001287/255, maximum 1; coverage differs by 4 pixels. Fixed state; complete animation and scene not validated."
     },
     {
-      "title": "R12 water strip \u00c2\u00b7 original / Bevy \u00c2\u00b7 pose I",
+      "title": "R12 water strip Â· original / Bevy Â· pose I",
       "level": "Story4 cinematic",
       "event": "Water",
       "commit": "5f56e661312e8cdac70a8ca4d38576fa24846d53",
       "left": "media/d87d7d0119ca0aadcf50397b1f5eadd2c471398113ca2da00d4e3c50860b426f.webp",
       "right": "media/1d23303cd0edd4146fe422c0c26345829ed7ebc0d5e240906abc8e641f6cd3e6.webp",
-      "left_label": "Original \u00c2\u00b7 isolated water strip",
-      "right_label": "Bevy \u00c2\u00b7 reconstructed strip and pattern",
-      "verification": "ISOLATED STRIP \u00c2\u00b7 WITHIN \u00c2\u00b11",
+      "left_label": "Original Â· isolated water strip",
+      "right_label": "Bevy Â· reconstructed strip and pattern",
+      "verification": "ISOLATED STRIP Â· WITHIN Â±1",
       "alignment": "Recorded camera, sun and phases. Union MAE 0.001064/255, maximum 1; coverage differs by 2 pixels. All 2,367 saturated pixels match. Fixed state; complete animation and scene not validated."
     },
     {
-      "title": "R12 \u00c2\u00b7 free camera and combined scene",
+      "title": "R12 Â· free camera and combined scene",
       "level": "Bevy build previews",
       "event": "Water",
       "commit": "5f56e661312e8cdac70a8ca4d38576fa24846d53",
       "left": "media/84e87de4ad7aa9eaf3a53f8d68635a993bd34bbe18e7b6b54f6628f5b6efdb86.webp",
       "right": "media/fa536e334734085317965ba4b392bd71319fc7a5353dc0b52135939f02b8e7ae.webp",
-      "left_label": "Bevy \u00c2\u00b7 Story4 \u00c2\u00b7 free camera",
-      "right_label": "Bevy \u00c2\u00b7 combined scene \u00c2\u00b7 recorded controls",
-      "verification": "BEVY PREVIEWS \u00c2\u00b7 FULL SCENE NOT VALIDATED",
+      "left_label": "Bevy Â· Story4 Â· free camera",
+      "right_label": "Bevy Â· combined scene Â· recorded controls",
+      "verification": "BEVY PREVIEWS Â· FULL SCENE NOT VALIDATED",
       "alignment": "Terrain, sky and underside; the combined view includes the controlled water strip, largely hidden by terrain. Different cameras; this pair does not measure visual fidelity. Objects and cinematic playback remained incomplete in this build."
     },
     {
-      "title": "R13 water \u00c2\u00b7 phases calculated from zero",
+      "title": "R13 water Â· phases calculated from zero",
       "level": "Story4 cinematic",
       "event": "Water",
       "commit": "a4ce7d03a92cd47df0f6a2e4664aa14c2dea56d5",
       "left": "media/08d759a3351953a31b47bc5b000a0657cf59f1a908f4218fe8c42ce2b2fbd8c9.webp",
       "right": "media/62128e6e07421d62a12c588e01012d44c2a60b99edf166832236af5e83288af9.webp",
-      "left_label": "Original \u00c2\u00b7 measured simulation step 519",
-      "right_label": "Bevy \u00c2\u00b7 519 advances from zero",
-      "verification": "PHASES EXACT \u00c2\u00b7 MAXIMUM IMAGE DIFFERENCE 5",
+      "left_label": "Original Â· measured simulation step 519",
+      "right_label": "Bevy Â· 519 advances from zero",
+      "verification": "PHASES EXACT Â· MAXIMUM IMAGE DIFFERENCE 5",
       "alignment": "Phases match bit for bit; eight texture levels are exact. Image MAE 0.046621/255; 13 pixels differ by more than 3 levels. No recorded runtime inputs. One instant compared, not a complete sequence."
     },
     {
-      "title": "R13 water \u00c2\u00b7 initial state and step 519",
+      "title": "R13 water Â· initial state and step 519",
       "level": "Bevy build previews",
       "event": "Water",
       "commit": "a4ce7d03a92cd47df0f6a2e4664aa14c2dea56d5",
       "left": "media/e666c1d15bbf0e1175f4549668a5d29b22a4574eb78d700ab17deac439b04f9f.webp",
       "right": "media/62128e6e07421d62a12c588e01012d44c2a60b99edf166832236af5e83288af9.webp",
-      "left_label": "Bevy \u00c2\u00b7 initial zero state",
-      "right_label": "Bevy \u00c2\u00b7 519 steps of 1/60 second",
-      "verification": "TWO BEVY INSTANTS \u00c2\u00b7 NOT AN ORIGINAL COMPARISON",
+      "left_label": "Bevy Â· initial zero state",
+      "right_label": "Bevy Â· 519 steps of 1/60 second",
+      "verification": "TWO BEVY INSTANTS Â· NOT AN ORIGINAL COMPARISON",
       "alignment": "Calculated pattern evolution with no recorded runtime inputs. These captures freeze two stages of the viewer animation. The world strip still used a fixed state in this historical build."
     },
     {
-      "title": "R14 water strip \u00c2\u00b7 reconstructed sun \u00c2\u00b7 F",
+      "title": "R14 water strip Â· reconstructed sun Â· F",
       "level": "Story4 cinematic",
       "event": "Water",
       "commit": "e3dddcd5365c860cd54c6d309d8e485cb80a2e6f",
       "left": "media/d794f872f473bf42fcf192aadddd905a57f8be12e0d5c373d86646a44acd540b.webp",
       "right": "media/4b9ea878dda1342516486c794707d25185a981d6570fe5f547ea4f8b6c2fc5b1.webp",
-      "left_label": "Original \u00c2\u00b7 isolated water strip",
-      "right_label": "Bevy \u00c2\u00b7 sun calculated from world orientation",
-      "verification": "WITHIN \u00c2\u00b11 \u00c2\u00b7 INDEPENDENT SUN",
+      "left_label": "Original Â· isolated water strip",
+      "right_label": "Bevy Â· sun calculated from world orientation",
+      "verification": "WITHIN Â±1 Â· INDEPENDENT SUN",
       "alignment": "Union MAE 0.001320/255, maximum 1; coverage differs by 2 pixels. Sun calculated independently; camera, strip origin, fixed phases and background remain recorded controls. Full scene not validated."
     },
     {
-      "title": "R14 water strip \u00c2\u00b7 reconstructed sun \u00c2\u00b7 H",
+      "title": "R14 water strip Â· reconstructed sun Â· H",
       "level": "Story4 cinematic",
       "event": "Water",
       "commit": "e3dddcd5365c860cd54c6d309d8e485cb80a2e6f",
       "left": "media/53ecfdb6e4b2cd62a5d9e4b38c3e3f4fc11f43e4a2997cd11a28f534bf0f452f.webp",
       "right": "media/f0ee7b2303393a98eb82c6a265badae8b9a3346e10a3caf2ebe8198fddee3024.webp",
-      "left_label": "Original \u00c2\u00b7 isolated water strip",
-      "right_label": "Bevy \u00c2\u00b7 sun calculated from world orientation",
-      "verification": "WITHIN \u00c2\u00b11 \u00c2\u00b7 INDEPENDENT SUN",
+      "left_label": "Original Â· isolated water strip",
+      "right_label": "Bevy Â· sun calculated from world orientation",
+      "verification": "WITHIN Â±1 Â· INDEPENDENT SUN",
       "alignment": "Union MAE 0.001287/255, maximum 1; coverage differs by 4 pixels. Sun calculated independently; camera, strip origin, fixed phases and background remain recorded controls. Full scene not validated."
     },
     {
-      "title": "R14 viewers \u00c2\u00b7 Story4 and introduction",
+      "title": "R14 viewers Â· Story4 and introduction",
       "level": "Bevy build previews",
       "event": "Water",
       "commit": "e3dddcd5365c860cd54c6d309d8e485cb80a2e6f",
       "left": "media/84e87de4ad7aa9eaf3a53f8d68635a993bd34bbe18e7b6b54f6628f5b6efdb86.webp",
       "right": "media/5b239135df7f039ca42d448e5373ced003f469785fe1450a051fd83074085a12.webp",
-      "left_label": "Bevy \u00c2\u00b7 Story4 \u00c2\u00b7 no recorded runtime inputs",
-      "right_label": "Bevy \u00c2\u00b7 introduction \u00c2\u00b7 no recorded runtime inputs",
-      "verification": "BEVY PREVIEWS \u00c2\u00b7 FULL SCENE NOT VALIDATED",
+      "left_label": "Bevy Â· Story4 Â· no recorded runtime inputs",
+      "right_label": "Bevy Â· introduction Â· no recorded runtime inputs",
+      "verification": "BEVY PREVIEWS Â· FULL SCENE NOT VALIDATED",
       "alignment": "Different worlds with free cameras. Independent sun, water pattern and strip calculation; the strip may be hidden by terrain or the view. No complete original scene compared; objects and cinematic playback remained incomplete."
     },
     {
-      "title": "R14 \u00c2\u00b7 animated water and ground view",
+      "title": "R14 Â· animated water and ground view",
       "level": "Bevy build previews",
       "event": "Water",
       "commit": "e3dddcd5365c860cd54c6d309d8e485cb80a2e6f",
       "left": "media/fa536e334734085317965ba4b392bd71319fc7a5353dc0b52135939f02b8e7ae.webp",
       "right": "media/10cfb850a005a3fdd00f4056159b4c9d834a65cf2b290fdbf0bb96a640ff1c1f.webp",
-      "left_label": "Bevy \u00c2\u00b7 combined ground view",
-      "right_label": "Bevy \u00c2\u00b7 very dark isolated water strip",
-      "verification": "BEVY PREVIEWS \u00c2\u00b7 FULL SCENE NOT VALIDATED",
+      "left_label": "Bevy Â· combined ground view",
+      "right_label": "Bevy Â· very dark isolated water strip",
+      "verification": "BEVY PREVIEWS Â· FULL SCENE NOT VALIDATED",
       "alignment": "Independent sun and phases; recorded camera, strip origin derived from its matrix. Different instants, with water hidden in the ground view. The isolated strip is very dark here. This pair does not measure fidelity against the original."
     },
     {
-      "title": "R15 terrain \u00c2\u00b7 independently evaluated camera",
+      "title": "R15 terrain Â· independently evaluated camera",
       "level": "Story4 cinematic",
       "event": "Camera",
       "commit": "1e2dc5fabebd3b0b0209ee73f3bfd40e6c4dd870",
       "left": "media/75a0c5caa62fac183bff531c51506f57edcbbd00c1519e172a0ec63250431fda.webp",
       "right": "media/f05e934454ffc44e67e1374b507765d92dc6aefdb453e9432cadcdd371829963.webp",
-      "left_label": "Original \u00c2\u00b7 isolated terrain \u00c2\u00b7 retained pose H",
-      "right_label": "Bevy \u00c2\u00b7 camera evaluated from animation",
-      "verification": "EXACT CAMERA POSE \u00c2\u00b7 MAXIMUM IMAGE DIFFERENCE 6",
+      "left_label": "Original Â· isolated terrain Â· retained pose H",
+      "right_label": "Bevy Â· camera evaluated from animation",
+      "verification": "EXACT CAMERA POSE Â· MAXIMUM IMAGE DIFFERENCE 6",
       "alignment": "View, projection, viewport and origin match an equivalent pose; original simulation time is unknown. Identical coverage, MAE 0.185177/255; 1 pixel differs by more than 3 levels. No recorded runtime inputs; full scene and timing not validated."
     },
     {
-      "title": "R15 camera \u00c2\u00b7 start and end of first sequence",
+      "title": "R15 camera Â· start and end of first sequence",
       "level": "Bevy build previews",
       "event": "Camera",
       "commit": "1e2dc5fabebd3b0b0209ee73f3bfd40e6c4dd870",
       "left": "media/f2b4756e6cf9560abb408273e5f674a6b6008ea908b00288b330417e9dee1550.webp",
       "right": "media/fa536e334734085317965ba4b392bd71319fc7a5353dc0b52135939f02b8e7ae.webp",
-      "left_label": "Bevy \u00c2\u00b7 initial time 160",
-      "right_label": "Bevy \u00c2\u00b7 time 56640 after camera playback",
-      "verification": "TWO BEVY INSTANTS \u00c2\u00b7 HISTORICAL BUILD",
+      "left_label": "Bevy Â· initial time 160",
+      "right_label": "Bevy Â· time 56640 after camera playback",
+      "verification": "TWO BEVY INSTANTS Â· HISTORICAL BUILD",
       "alignment": "Independent camera, sun and water calculations. Two different times show the camera path, not full-scene fidelity. Camera held after its last key; characters, scenery, voices, events and subsequent sequences were not integrated in this build."
     },
     {
-      "title": "R16 \u00c2\u00b7 animated characters become visible",
+      "title": "R16 Â· animated characters become visible",
       "level": "Bevy build previews",
       "event": "Characters",
       "commit": "7a332520b38ce07f4a4a3ae23ed2851217a00ccd",
       "left": "media/f2b4756e6cf9560abb408273e5f674a6b6008ea908b00288b330417e9dee1550.webp",
       "right": "media/a10ba08b8bb475af0471cc922cda54dc308a9188da2d2aa646c212519fccaa4d.webp",
-      "left_label": "Bevy R15 \u00c2\u00b7 time 160 \u00c2\u00b7 environment only",
-      "right_label": "Bevy R16 \u00c2\u00b7 time 160 \u00c2\u00b7 four characters",
-      "verification": "TWO BUILDS \u00c2\u00b7 CHARACTER MATERIALS NOT VALIDATED",
+      "left_label": "Bevy R15 Â· time 160 Â· environment only",
+      "right_label": "Bevy R16 Â· time 160 Â· four characters",
+      "verification": "TWO BUILDS Â· CHARACTER MATERIALS NOT VALIDATED",
       "alignment": "Same evaluated camera and initial time. This pair shows added geometry. Deformation was checked separately at eight times; lighting, alpha, fog and full-scene fidelity were not validated in this build."
     },
     {
-      "title": "R16 \u00c2\u00b7 four animated characters",
+      "title": "R16 Â· four animated characters",
       "level": "Bevy build previews",
       "event": "Characters",
       "commit": "7a332520b38ce07f4a4a3ae23ed2851217a00ccd",
       "left": "media/a10ba08b8bb475af0471cc922cda54dc308a9188da2d2aa646c212519fccaa4d.webp",
       "right": "media/4d2c6899b61f0e95d2356ac7020344fe3917c7a43187f07ded03659f0dc4bb6a.webp",
-      "left_label": "Bevy \u00c2\u00b7 time 160 \u00c2\u00b7 evaluated poses",
-      "right_label": "Bevy \u00c2\u00b7 time 56640 \u00c2\u00b7 unlit textures",
-      "verification": "ANIMATED PREVIEW \u00c2\u00b7 FULL SCENE NOT VALIDATED",
+      "left_label": "Bevy Â· time 160 Â· evaluated poses",
+      "right_label": "Bevy Â· time 56640 Â· unlit textures",
+      "verification": "ANIMATED PREVIEW Â· FULL SCENE NOT VALIDATED",
       "alignment": "Two different Bevy instants. 71,016 deformation coordinates match selected original samples. The final pose is not a new native timing alignment; character pixels, accessories, scenery and events were not validated in this build."
     },
     {
-      "title": "R17 \u00c2\u00b7 Borjoyzee \u00c2\u00b7 time 160 \u00c2\u00b7 detail",
+      "title": "R17 Â· Borjoyzee Â· time 160 Â· detail",
       "level": "Story4 cinematic",
       "event": "Characters",
       "commit": "f1a019ca639fee4e05fd24f78e47383763bc7bd2",
       "left": "media/91704c71a378f1079f94b8684f2a4ed83f748b71b6472b6a6bc5d1964d9b4230.webp",
       "right": "media/3b675576b2515ea82b3ce6d782eee03d5e43fd7d3276d053cb5eb9af5e01ca20.webp",
-      "left_label": "Original \u00c2\u00b7 isolated character \u00c2\u00b7 lossless crop",
-      "right_label": "Bevy \u00c2\u00b7 evaluated camera and skinning",
-      "verification": "ISOLATED CHARACTER \u00c2\u00b7 TWO OUTLIERS RETAINED",
+      "left_label": "Original Â· isolated character Â· lossless crop",
+      "right_label": "Bevy Â· evaluated camera and skinning",
+      "verification": "ISOLATED CHARACTER Â· TWO OUTLIERS RETAINED",
       "alignment": "Exact sampled time and camera; no recorded runtime inputs. Full-frame union: 2,273 pixels, MAE 0.251503/255, maximum 177; 2 pixels differ by more than 3 levels. Coverage differs by 2 pixels. Distant fog, accessories and full scene excluded."
     },
     {
-      "title": "R17 \u00c2\u00b7 Mecc \u00c2\u00b7 armor and visor \u00c2\u00b7 detail",
+      "title": "R17 Â· Mecc Â· armor and visor Â· detail",
       "level": "Story4 cinematic",
       "event": "Characters",
       "commit": "f1a019ca639fee4e05fd24f78e47383763bc7bd2",
       "left": "media/c6c23acf5bb7aa822505788967226c9203872bf60a8c76e57575dae478bb627b.webp",
       "right": "media/c109772d154c65bb72d229c1d4f5278149aef03fcf004cbda1b360078d6a474a.webp",
-      "left_label": "Original \u00c2\u00b7 isolated character \u00c2\u00b7 lossless crop",
-      "right_label": "Bevy \u00c2\u00b7 evaluated camera and skinning",
-      "verification": "ISOLATED CHARACTER \u00c2\u00b7 TWO OUTLIERS RETAINED",
+      "left_label": "Original Â· isolated character Â· lossless crop",
+      "right_label": "Bevy Â· evaluated camera and skinning",
+      "verification": "ISOLATED CHARACTER Â· TWO OUTLIERS RETAINED",
       "alignment": "Exact time 160 and camera; no recorded runtime inputs. Full-frame union: 23,179 pixels, MAE 0.148252/255, maximum 39; 2 pixels differ by more than 3 levels. Coverage differs by 3 pixels. Distant fog, accessories and full scene excluded."
     },
     {
-      "title": "R17 \u00c2\u00b7 Borjoyzee \u00c2\u00b7 time 28010 \u00c2\u00b7 detail",
+      "title": "R17 Â· Borjoyzee Â· time 28010 Â· detail",
       "level": "Story4 cinematic",
       "event": "Characters",
       "commit": "f1a019ca639fee4e05fd24f78e47383763bc7bd2",
       "left": "media/065410bb8c824ebae4de727d49cd48d15a833ec490c44b86a2339ce3c85023c6.webp",
       "right": "media/e35abffacdbd1ad5f85871eb3b399ba86398e43c82d473dc40d66f9805fde6bd.webp",
-      "left_label": "Original \u00c2\u00b7 isolated character \u00c2\u00b7 lossless crop",
-      "right_label": "Bevy \u00c2\u00b7 evaluated camera and skinning",
-      "verification": "ISOLATED CHARACTER \u00c2\u00b7 WITHIN \u00c2\u00b11",
+      "left_label": "Original Â· isolated character Â· lossless crop",
+      "right_label": "Bevy Â· evaluated camera and skinning",
+      "verification": "ISOLATED CHARACTER Â· WITHIN Â±1",
       "alignment": "Exact sampled time and camera; no recorded runtime inputs. Full-frame union: 15,051 pixels, MAE 0.143556/255, maximum 1; identical coverage. Distant fog, accessories and full scene excluded."
     },
     {
-      "title": "R17 \u00c2\u00b7 character materials in the scene",
+      "title": "R17 Â· character materials in the scene",
       "level": "Bevy build previews",
       "event": "Characters",
       "commit": "f1a019ca639fee4e05fd24f78e47383763bc7bd2",
       "left": "media/f7585b10e6d28bb2d6deb0f5e1b86cfd9e7d921db9e26ca739dd39d611bdd2bc.webp",
       "right": "media/ee04565d0ac74b7e996125e176e38017abf8959830cdc6af4f7fae68db5931a1.webp",
-      "left_label": "Bevy R17 \u00c2\u00b7 time 160 \u00c2\u00b7 characters and world",
-      "right_label": "Bevy R17 \u00c2\u00b7 time 56640 \u00c2\u00b7 visors and colors",
-      "verification": "BEVY PREVIEWS \u00c2\u00b7 FULL SCENE NOT VALIDATED",
+      "left_label": "Bevy R17 Â· time 160 Â· characters and world",
+      "right_label": "Bevy R17 Â· time 56640 Â· visors and colors",
+      "verification": "BEVY PREVIEWS Â· FULL SCENE NOT VALIDATED",
       "alignment": "Two instants of the same build, with independently evaluated camera and deformation. Separate isolated comparisons follow. No corrective character offsets were invented. Scenery, accessories and event playback remained incomplete in this historical build."
     },
     {
-      "title": "R18 \u00c2\u00b7 staff \u00c2\u00b7 original / Bevy \u00c2\u00b7 time 28026",
+      "title": "R18 Â· staff Â· original / Bevy Â· time 28026",
       "level": "Story4 cinematic",
       "event": "Staff",
       "commit": "1a843e4df82c088bce6f682426b0454ab9a64cae",
       "left": "media/737748a6386e611a1fe094085a5fb3588dd86d06b9d1b46e4bf5a9bace02eff7.webp",
       "right": "media/1ab18d55398a50fe5e5e63cbc82a6ffa0a8693f2c2cc53109b7f9094adee31e2.webp",
-      "left_label": "Original \u00c2\u00b7 isolated staff \u00c2\u00b7 contextual crop",
-      "right_label": "Bevy \u00c2\u00b7 calculated attachment transforms",
-      "verification": "IDENTICAL COVERAGE \u00c2\u00b7 SIX OUTLIERS RETAINED",
+      "left_label": "Original Â· isolated staff Â· contextual crop",
+      "right_label": "Bevy Â· calculated attachment transforms",
+      "verification": "IDENTICAL COVERAGE Â· SIX OUTLIERS RETAINED",
       "alignment": "Camera and world transforms match; texture quantization and material modes checked. No recorded runtime inputs. Full image: 2,155 pixels, MAE 0.146945/255, maximum 24; 6 pixels differ by more than 3 levels. Same lossless crop for mobile viewing; full scene not validated."
     },
     {
-      "title": "R18 \u00c2\u00b7 staff in hand \u00c2\u00b7 detail",
+      "title": "R18 Â· staff in hand Â· detail",
       "level": "Bevy build previews",
       "event": "Staff",
       "commit": "1a843e4df82c088bce6f682426b0454ab9a64cae",
       "left": "media/ce6e06320e966276b211ed239eb892e7d3ca3462edf6a4fc0f613b0d2a436ec3.webp",
       "right": "media/dd62bc9cc5bc261846e65a0b7da71ef1bd33c9f307ab0257509a46cfeb13db94.webp",
-      "left_label": "Bevy R17 \u00c2\u00b7 time 56640 \u00c2\u00b7 no staff",
-      "right_label": "Bevy R18 \u00c2\u00b7 same pose \u00c2\u00b7 attached staff",
-      "verification": "TWO BUILDS \u00c2\u00b7 ACCESSORY ADDED",
+      "left_label": "Bevy R17 Â· time 56640 Â· no staff",
+      "right_label": "Bevy R18 Â· same pose Â· attached staff",
+      "verification": "TWO BUILDS Â· ACCESSORY ADDED",
       "alignment": "Same evaluated camera and time, identical lossless crop. The pair shows the addition of the staff, not an original-image comparison. Weapon, scenery and event playback remained incomplete in this historical build."
     },
     {
-      "title": "R18 \u00c2\u00b7 staff added to the scene",
+      "title": "R18 Â· staff added to the scene",
       "level": "Bevy build previews",
       "event": "Staff",
       "commit": "1a843e4df82c088bce6f682426b0454ab9a64cae",
       "left": "media/ee04565d0ac74b7e996125e176e38017abf8959830cdc6af4f7fae68db5931a1.webp",
       "right": "media/5cd3b2c4903e39f593eae4c16692d01f707a16ddf7a3c6d416565ce28c0ff907.webp",
-      "left_label": "Bevy R17 \u00c2\u00b7 characters and world",
-      "right_label": "Bevy R18 \u00c2\u00b7 same camera and pose \u00c2\u00b7 staff",
-      "verification": "BEVY PREVIEWS \u00c2\u00b7 FULL SCENE NOT VALIDATED",
+      "left_label": "Bevy R17 Â· characters and world",
+      "right_label": "Bevy R18 Â· same camera and pose Â· staff",
+      "verification": "BEVY PREVIEWS Â· FULL SCENE NOT VALIDATED",
       "alignment": "Same time 56640 and calculated camera; no visual placement correction. R18 animated playback reached this time. Weapon and scenery remained incomplete; isolated controls are shown separately."
     },
     {
-      "title": "R19 \u00c2\u00b7 weapon \u00c2\u00b7 original / Bevy \u00c2\u00b7 time 160",
+      "title": "R19 Â· weapon Â· original / Bevy Â· time 160",
       "level": "Story4 cinematic",
       "event": "Weapon",
       "commit": "e46886ba7d117a9f604c3f27afa99fc54a448bd6",
       "left": "media/e5fbffa6e6b661883afd65715f1f59d86f8941e3f76e4e6d3188250007634ea5.webp",
       "right": "media/1b7a5410b82beedf11d3012cf61964a78949d780357ba095ba759866a97f185e.webp",
-      "left_label": "Original \u00c2\u00b7 isolated weapon \u00c2\u00b7 lossless crop",
-      "right_label": "Bevy \u00c2\u00b7 reconstructed normals and lighting",
-      "verification": "IDENTICAL COVERAGE \u00c2\u00b7 TWO OUTLIERS RETAINED",
-      "alignment": "Time, camera and world transforms match; texture, normals, material colors and three lights checked. No recorded runtime inputs. Full image: 1,534 pixels, MAE 0.057366/255, maximum 11; 2 pixels differ by more than 3 levels. Full scene and a global \u00c2\u00b11 bound are not validated."
+      "left_label": "Original Â· isolated weapon Â· lossless crop",
+      "right_label": "Bevy Â· reconstructed normals and lighting",
+      "verification": "IDENTICAL COVERAGE Â· TWO OUTLIERS RETAINED",
+      "alignment": "Time, camera and world transforms match; texture, normals, material colors and three lights checked. No recorded runtime inputs. Full image: 1,534 pixels, MAE 0.057366/255, maximum 11; 2 pixels differ by more than 3 levels. Full scene and a global Â±1 bound are not validated."
     },
     {
-      "title": "R19 \u00c2\u00b7 weapon \u00c2\u00b7 original / Bevy \u00c2\u00b7 time 14040",
+      "title": "R19 Â· weapon Â· original / Bevy Â· time 14040",
       "level": "Story4 cinematic",
       "event": "Weapon",
       "commit": "e46886ba7d117a9f604c3f27afa99fc54a448bd6",
       "left": "media/b7b92c448dcd386feb43577cd9f0125acc86ba645fa3b5cce52ce8049433d147.webp",
       "right": "media/ec63a948109332562dd8934752bd3f89b4dc7feef31dafd9bb8b7d7bd303ffae.webp",
-      "left_label": "Original \u00c2\u00b7 isolated weapon \u00c2\u00b7 contextual crop",
-      "right_label": "Bevy \u00c2\u00b7 independently calculated lighting",
-      "verification": "THREE OUTLIERS \u00c2\u00b7 ONE COVERAGE PIXEL",
-      "alignment": "Time, camera, transforms and reconstructed inputs checked. Full image: 5,471 pixels, MAE 0.108207/255, maximum 255; 3 pixels differ by more than 3 levels, coverage differs by 1 pixel. Maximum outlier retained; no global \u00c2\u00b11 claim."
+      "left_label": "Original Â· isolated weapon Â· contextual crop",
+      "right_label": "Bevy Â· independently calculated lighting",
+      "verification": "THREE OUTLIERS Â· ONE COVERAGE PIXEL",
+      "alignment": "Time, camera, transforms and reconstructed inputs checked. Full image: 5,471 pixels, MAE 0.108207/255, maximum 255; 3 pixels differ by more than 3 levels, coverage differs by 1 pixel. Maximum outlier retained; no global Â±1 claim."
     },
     {
-      "title": "R19 \u00c2\u00b7 weapon in Reg\u00e2\u20ac\u2122s hand \u00c2\u00b7 detail",
+      "title": "R19 Â· weapon in Regâ€™s hand Â· detail",
       "level": "Bevy build previews",
       "event": "Weapon",
       "commit": "e46886ba7d117a9f604c3f27afa99fc54a448bd6",
       "left": "media/cb076f776b1f3fbbd2e1b0cc8eb457c4aa3ab0e263d170fde1898bdd55930b4a.webp",
       "right": "media/14bdce1d6b210b47616e5c685c51d983c1926842aa93f602e7e89f3282cc2087.webp",
-      "left_label": "Bevy R17 \u00c2\u00b7 time 160 \u00c2\u00b7 no accessories",
-      "right_label": "Bevy R19 \u00c2\u00b7 same camera and pose \u00c2\u00b7 lit weapon",
-      "verification": "TWO BUILDS \u00c2\u00b7 WEAPON ADDED",
+      "left_label": "Bevy R17 Â· time 160 Â· no accessories",
+      "right_label": "Bevy R19 Â· same camera and pose Â· lit weapon",
+      "verification": "TWO BUILDS Â· WEAPON ADDED",
       "alignment": "Identical lossless crop. This pair shows the build change, not a comparison with the original. Both accessories are integrated; scenery, event playback, voices and the complete cinematic remain in progress."
     },
     {
-      "title": "R19 \u00c2\u00b7 current build \u00c2\u00b7 start and end of first sequence",
+      "title": "R19 Â· current build Â· start and end of first sequence",
       "level": "Bevy build previews",
       "event": "Weapon",
       "commit": "e46886ba7d117a9f604c3f27afa99fc54a448bd6",
       "left": "media/7f7e071dda10c23bdeda2ac3319aabd8ae8dbbb852345112acf012e862e6e3f5.webp",
       "right": "media/5cd3b2c4903e39f593eae4c16692d01f707a16ddf7a3c6d416565ce28c0ff907.webp",
-      "left_label": "Bevy R19 \u00c2\u00b7 time 160 \u00c2\u00b7 characters and accessories",
-      "right_label": "Bevy R19 \u00c2\u00b7 time 56640 \u00c2\u00b7 weapon outside view",
-      "verification": "TWO BEVY INSTANTS \u00c2\u00b7 FULL SCENE NOT VALIDATED",
+      "left_label": "Bevy R19 Â· time 160 Â· characters and accessories",
+      "right_label": "Bevy R19 Â· time 56640 Â· weapon outside view",
+      "verification": "TWO BEVY INSTANTS Â· FULL SCENE NOT VALIDATED",
       "alignment": "No recorded runtime inputs. The weapon follows the hand, then leaves the left side of the view. Eight sampled poses and an expected-empty capture check this without inventing a hide event. Scenery, event playback, voices, sequence transitions and complete original timing remain in progress."
     },
     {
@@ -673,7 +673,7 @@
       "left_label": "Bevy R25 - queen, third director at time 160",
       "right_label": "Bevy R25 - Reaper, end of third director",
       "verification": "ISOLATED CHARACTER PREVIEWS - FULL SCENE NOT VALIDATED",
-      "alignment": "Different bodies and times, shown with source-evaluated camera and animation. Black background is the isolated inspection view. Geometry and sampled poses are checked separately; these images do not establish new character pixel fidelity. The third scene\u00e2\u20ac\u2122s two spears and sword are still missing."
+      "alignment": "Different bodies and times, shown with source-evaluated camera and animation. Black background is the isolated inspection view. Geometry and sampled poses are checked separately; these images do not establish new character pixel fidelity. The third sceneâ€™s two spears and sword are still missing."
     },
     {
       "title": "R26 - first Reaperman spear, time 160 - detail",
@@ -1084,75 +1084,75 @@
       "alignment": "Live playback starts at zero and carries its actual lens state across five transitions. All111 computed intensities and tints agree with a source-camera replay;34 chain checks and7 glare checks pass. Frozen warmup, native timing, object occlusion and complete fidelity remain separate limitations."
     },
     {
-      "title": "Recovered frontend \u00c2\u00b7 Exit confirmation",
+      "title": "Recovered frontend Â· Exit confirmation",
       "level": "Bevy build previews",
       "event": "Menu interaction validation",
       "commit": "438c7f6bd6e138738df3e5a5eb716dc96673fe38",
       "left": "media/febba028351094ccb271aa4b3d84317512233454c8a42404bd5df0a284ef8bbc.webp",
       "right": "media/c3169c79612c042b9d220b55aa347b97275a698b9687257684145cda580d134c.webp",
-      "left_label": "Original \u00c2\u00b7 confirmation screen",
-      "right_label": "Bevy \u00c2\u00b7 interactive confirmation",
-      "verification": "ORIGINAL / BEVY \u00c2\u00b7 INTERACTION CHECKED, PRESENTATION INCOMPLETE",
+      "left_label": "Original Â· confirmation screen",
+      "right_label": "Bevy Â· interactive confirmation",
+      "verification": "ORIGINAL / BEVY Â· INTERACTION CHECKED, PRESENTATION INCOMPLETE",
       "alignment": "Both show Yes and No with No selected initially. Different capture methods include window borders on the Bevy side. Background, font, cursor effects and exact layout are not reproduced or pixel-validated. Both inputs were JPEG captures converted to PNG with decoded pixels preserved."
     },
     {
-      "title": "Recovered frontend \u00c2\u00b7 Graphics preference persistence",
+      "title": "Recovered frontend Â· Graphics preference persistence",
       "level": "Bevy build previews",
       "event": "Menu interaction validation",
       "commit": "438c7f6bd6e138738df3e5a5eb716dc96673fe38",
       "left": "media/78f505092328e6fb7c7efeed80982948ba3963f2c7211027c1a367d476d7291d.webp",
       "right": "media/42fb15525b9111fae544e47420113cb753f11bc7feb64e173baa35e71ddeb2d3.webp",
-      "left_label": "Bevy \u00c2\u00b7 initial model detail High",
-      "right_label": "Bevy \u00c2\u00b7 Low retained after restart",
-      "verification": "TWO BEVY VIEWS \u00c2\u00b7 PERSISTENCE CHECKED",
+      "left_label": "Bevy Â· initial model detail High",
+      "right_label": "Bevy Â· Low retained after restart",
+      "verification": "TWO BEVY VIEWS Â· PERSISTENCE CHECKED",
       "alignment": "The selected model detail survives a full application restart. This verifies the menu preference, not its application to scene rendering."
     },
     {
-      "title": "Recovered frontend \u00c2\u00b7 Key-binding persistence",
+      "title": "Recovered frontend Â· Key-binding persistence",
       "level": "Bevy build previews",
       "event": "Menu interaction validation",
       "commit": "438c7f6bd6e138738df3e5a5eb716dc96673fe38",
       "left": "media/020556e63aa081ecec53b820c448cd9cb989965cbb61b9677cd4041334cd6d7a.webp",
       "right": "media/45417d7a8bde78e4ad77856651edcf3b2308e85064c3e7bdbc1518b0a88809cf.webp",
-      "left_label": "Bevy \u00c2\u00b7 initial Special Camera key F",
-      "right_label": "Bevy \u00c2\u00b7 key P retained after restart",
-      "verification": "TWO BEVY VIEWS \u00c2\u00b7 PERSISTENCE CHECKED",
+      "left_label": "Bevy Â· initial Special Camera key F",
+      "right_label": "Bevy Â· key P retained after restart",
+      "verification": "TWO BEVY VIEWS Â· PERSISTENCE CHECKED",
       "alignment": "The displayed key binding survives restart. Gameplay input consumers and original visual fidelity remain open."
     },
     {
-      "title": "Common texture registry \u00c2\u00b7 isolated building regression",
+      "title": "Common texture registry Â· isolated building regression",
       "level": "Bevy build previews",
       "event": "Shared loading regression",
       "commit": "b58953224dfca1a42f5d1a49dc02cf6fae14e5b2",
       "left": "media/a62a468208f5e832db1e8c931c690163da060681297a37f183de6fe927856158.webp",
       "right": "media/23fa5814753a129452de6f755efadb80cb4f75af5ec6cae10874b8f613a27a97.webp",
-      "left_label": "Original \u00c2\u00b7 retained isolated reference",
-      "right_label": "Bevy \u00c2\u00b7 shared loader with texture registry",
-      "verification": "REGRESSION CHECK \u00c2\u00b7 ONE KNOWN PIXEL DISCREPANCY",
+      "left_label": "Original Â· retained isolated reference",
+      "right_label": "Bevy Â· shared loader with texture registry",
+      "verification": "REGRESSION CHECK Â· ONE KNOWN PIXEL DISCREPANCY",
       "alignment": "Same source camera and isolated building pose. The new Bevy capture is byte-identical to its earlier reference. Native comparison retains MAE 0.12991/255, maximum 110, one pixel above tolerance and one coverage discrepancy. This does not validate other textures, effects or the full scene."
     },
     {
-      "title": "Common instance preparation \u00c2\u00b7 building",
+      "title": "Common instance preparation Â· building",
       "level": "Bevy build previews",
       "event": "Shared geometry consumers",
       "commit": "6f7811b8c1aad1fbf0b9c1da82b8a380bfb1f0c6",
       "left": "media/0b8034e7ad729edbcfb2f9c7bcf499411c5040e16b3c7e56de1da3f1e5a5658c.webp",
       "right": "media/404c99aa6c5d6ae5dde55e8a562fda7b4cbf44b277e7c24f9111be768ca281c4.webp",
-      "left_label": "Original \u00c2\u00b7 retained isolated reference",
-      "right_label": "Bevy \u00c2\u00b7 common preparation and loading",
-      "verification": "COMMON PATH REGRESSION \u00c2\u00b7 ONE KNOWN PIXEL DISCREPANCY",
+      "left_label": "Original Â· retained isolated reference",
+      "right_label": "Bevy Â· common preparation and loading",
+      "verification": "COMMON PATH REGRESSION Â· ONE KNOWN PIXEL DISCREPANCY",
       "alignment": "Same controlled isolated building pose. The new image is byte-identical to its earlier Bevy reference. Native comparison retains MAE 0.12991/255, maximum 110 and one outlier/coverage discrepancy. Other transforms, callbacks and full-scene rendering remain open."
     },
     {
-      "title": "Common instance preparation \u00c2\u00b7 scenery",
+      "title": "Common instance preparation Â· scenery",
       "level": "Bevy build previews",
       "event": "Shared geometry consumers",
       "commit": "6f7811b8c1aad1fbf0b9c1da82b8a380bfb1f0c6",
       "left": "media/ec0dcf176ab67dee98c4457acd7ad24102365961dcdd1931805ce6c6b420dd3f.webp",
       "right": "media/dc46d1bc48ed0ac4905532a88e190655cdbb13cd20d561d4ea5df85b46e48d94.webp",
-      "left_label": "Original \u00c2\u00b7 retained isolated reference",
-      "right_label": "Bevy \u00c2\u00b7 common preparation and loading",
-      "verification": "VISIBLE ISOLATED SCENERY \u00c2\u00b7 WITHIN ONE LEVEL",
+      "left_label": "Original Â· retained isolated reference",
+      "right_label": "Bevy Â· common preparation and loading",
+      "verification": "VISIBLE ISOLATED SCENERY Â· WITHIN ONE LEVEL",
       "alignment": "Same controlled isolated scenery pose. The new image is byte-identical to its earlier Bevy reference. Native comparison: MAE 0.1155354/255, maximum one, identical coverage. This verifies visible pixels at one view, not hidden surfaces or other placements."
     },
     {
@@ -1264,75 +1264,75 @@
       "alignment": "Different views illustrate coverage and are not an aligned image comparison. The complete run reaches54 plans,53 transitions and55 voice cues. Full-run median 19.6 FPS. Missing characters/effects and animated FOV remain open; normal-game cadence is not inferred from benchmark playback."
     },
     {
-      "title": "Campaign loading \u00b7 Campaign selection",
+      "title": "Campaign loading · Campaign selection",
       "level": "Bevy build previews",
       "event": "Main executable integration check",
       "commit": "3956a689886ed5fdcd15e5a6d6a0be25bfb2c314",
       "left": "media/d9538e45da5d210c3fc3189326f59ff18f254d51d85ea8d5a85d685b8055447e.webp",
       "right": "media/ca8480b969ffe0fc59ed221d55033f3ff0c64251d8a74eb20e9b323906a8252a.webp",
-      "left_label": "Bevy \u00b7 available worlds",
-      "right_label": "Bevy \u00b7 selected mission",
-      "verification": "TWO BEVY VIEWS \u00b7 UI FLOW OBSERVED, MISSION RUNTIME INCOMPLETE",
+      "left_label": "Bevy · available worlds",
+      "right_label": "Bevy · selected mission",
+      "verification": "TWO BEVY VIEWS · UI FLOW OBSERVED, MISSION RUNTIME INCOMPLETE",
       "alignment": "Source text and real user-driven transitions. Inspection font/layout and loading presentation are provisional. No native pixel comparison or playable mission is claimed. Explicit DX12 UI control; Vulkan default unchanged."
     },
     {
-      "title": "Campaign loading \u00b7 Mission loading and new campaign",
+      "title": "Campaign loading · Mission loading and new campaign",
       "level": "Bevy build previews",
       "event": "Main executable integration check",
       "commit": "3956a689886ed5fdcd15e5a6d6a0be25bfb2c314",
       "left": "media/41321f2991a881a824fc52c3db02d83fbc9ad0eaa499adf1ab7ae0cd0eef8fbe.webp",
       "right": "media/ad9a09ca8d5fb0c782dd1dd9ea96b5556b3c8497a44c10bd5484a67921e91fc8.webp",
-      "left_label": "Bevy \u00b7 saved mission request",
-      "right_label": "Bevy \u00b7 new campaign request",
-      "verification": "TWO BEVY VIEWS \u00b7 UI FLOW OBSERVED, MISSION RUNTIME INCOMPLETE",
+      "left_label": "Bevy · saved mission request",
+      "right_label": "Bevy · new campaign request",
+      "verification": "TWO BEVY VIEWS · UI FLOW OBSERVED, MISSION RUNTIME INCOMPLETE",
       "alignment": "Source text and real user-driven transitions. Inspection font/layout and loading presentation are provisional. No native pixel comparison or playable mission is claimed. Explicit DX12 UI control; Vulkan default unchanged."
     },
     {
-      "title": "Shared cinematic framing \u00b7 Terrain-only live transition",
+      "title": "Shared cinematic framing · Terrain-only live transition",
       "level": "Bevy build previews",
       "event": "Variable viewport application",
       "commit": "53c1f226b51503c7ff3e8d7f3b1bbe7fca5e3dea",
       "left": "media/5c50ddf49e68e3fd80174c13d09b9df7a23eb7400e5a369c9d11c4adcb4fed59.webp",
       "right": "media/ec24211b7d8af10bbe38341da47f8222a111370f0c59535331cfab1b426282ae.webp",
-      "left_label": "Bevy \u00b7 944-pixel frame",
-      "right_label": "Bevy \u00b7 810-pixel frame",
-      "verification": "TWO BEVY VIEWS \u00b7 FRAME GEOMETRY CHECKED, COMPLETE SCENE UNVERIFIED",
+      "left_label": "Bevy · 944-pixel frame",
+      "right_label": "Bevy · 810-pixel frame",
+      "verification": "TWO BEVY VIEWS · FRAME GEOMETRY CHECKED, COMPLETE SCENE UNVERIFIED",
       "alignment": "Different frames of terrain-only inspection playback. Sky, actors, props and effects are omitted. This checks viewport application, not normal cinematic speed or original-game pixel fidelity. Explicit DX12 capture."
     },
     {
-      "title": "Selected mission \u00b7 Loading and environment inspection",
+      "title": "Selected mission · Loading and environment inspection",
       "level": "Bevy build previews",
       "event": "Owned mission world rendering",
       "commit": "545b857e59d317f56c3944604edd81fabc7d53f4",
       "left": "media/e559a7db44c3cb0d3fc98fbd594534bcb886450278ab1e6322750687ba3c2f01.webp",
       "right": "media/69cecc8f9a0d29b1c89cbac96b3847d7145d15160b01ec4516e45d9006b55525.webp",
-      "left_label": "Bevy \u00b7 loading remains blocked",
-      "right_label": "Bevy \u00b7 selected environment inspection",
-      "verification": "TWO BEVY VIEWS \u00b7 STATIC ENVIRONMENT, MISSION NOT PLAYABLE",
+      "left_label": "Bevy · loading remains blocked",
+      "right_label": "Bevy · selected environment inspection",
+      "verification": "TWO BEVY VIEWS · STATIC ENVIRONMENT, MISSION NOT PLAYABLE",
       "alignment": "Same selected mission and final build. Inspection shows terrain, sky and underside from a declared camera candidate. Water, actors, props and effects are omitted. This is not an original-game image comparison, a confirmed normal first frame or a timing validation. Explicit DX12 control."
     },
     {
-      "title": "Animated offspring \u2014 isolated body and scene context",
+      "title": "Animated offspring — isolated body and scene context",
       "level": "Bevy build previews",
       "event": "Common animated body rendering",
       "commit": "e1a1dc004253d18dbecfbcf4adfc80665292afe4",
       "left": "media/fcc1b729e83f16762075f4e9c82c339f355a6560e49d8ebca8107ade9c482e71.webp",
       "right": "media/24f002ee9ee16116c436363990eb9f524367bdd1eed627918ce2951f1b6bf9f6.webp",
-      "left_label": "Bevy \u2014 isolated offspring, inspection model slot",
-      "right_label": "Bevy \u2014 same pose in the partial scene",
-      "verification": "TWO BEVY VIEWS \u2014 VISIBILITY ONLY, NO NATIVE IMAGE COMPARISON",
+      "left_label": "Bevy — isolated offspring, inspection model slot",
+      "right_label": "Bevy — same pose in the partial scene",
+      "verification": "TWO BEVY VIEWS — VISIBILITY ONLY, NO NATIVE IMAGE COMPARISON",
       "alignment": "The independently evaluated pose and camera are identical. All sixteen current body parts are present. The scene remains incomplete; native LOD selection, shading accuracy and normal animation timing are unverified."
     },
     {
-      "title": "Partial large actors \u2014 Kabuto and lander",
+      "title": "Partial large actors — Kabuto and lander",
       "level": "Bevy build previews",
       "event": "Partial body material capabilities",
       "commit": "e1a1dc004253d18dbecfbcf4adfc80665292afe4",
       "left": "media/90add1ae9ce913414e2b239ef96706be62b49e1719b8e7eca9eb5ba053e5ae81.webp",
       "right": "media/f3b15dabf0d1c871a9dfa5ec4f1c5f08d936a29e08c7a32c45926f0ade73ee50.webp",
-      "left_label": "Bevy \u2014 Kabuto, context-dependent torso surfaces deferred",
-      "right_label": "Bevy \u2014 lander cockpit, partial materials",
-      "verification": "TWO DIFFERENT BEVY SHOTS \u2014 PARTIAL MATERIALS, NO NATIVE IMAGE PARITY",
+      "left_label": "Bevy — Kabuto, context-dependent torso surfaces deferred",
+      "right_label": "Bevy — lander cockpit, partial materials",
+      "verification": "TWO DIFFERENT BEVY SHOTS — PARTIAL MATERIALS, NO NATIVE IMAGE PARITY",
       "alignment": "These are different cinematic poses and cameras. Kabuto currently renders twenty-five of thirty-one parts; six context-dependent surfaces remain absent. The lander renders six of eleven parts, including an opaque reflection surface. Transparent reflections and another hull surface remain deferred."
     },
     {
@@ -1465,7 +1465,7 @@
       "left_label": "Bevy - initial additive flames",
       "right_label": "Bevy - bounded orange/red flames, white text retained",
       "verification": "PREVIEW - OWNER REVIEW PENDING",
-      "alignment": "Same source terminal camera and independent font. Particle timing is not synchronized. The combined flame contribution is bounded for readability at the owner\u2019s request; this is a presentation adjustment, not a claim of native pixel equivalence. Lens flares, generated logo reflections and menu music are integrated. Click and Escape cues still require accompanied listening."
+      "alignment": "Same source terminal camera and independent font. Particle timing is not synchronized. The combined flame contribution is bounded for readability at the owner’s request; this is a presentation adjustment, not a claim of native pixel equivalence. Lens flares, generated logo reflections and menu music are integrated. Click and Escape cues still require accompanied listening."
     },
     {
       "title": "Menu flames - intermediate intensity requested by owner",
@@ -1500,8 +1500,8 @@
       "right": "media/1e981efcabaa3318cf9f1f7fe94c669da56dce9b9f8d9b68e7e64e53eab82a3f.webp",
       "left_label": "Original normal-game replay: dialogue",
       "right_label": "Original normal-game replay: ship interior",
-      "verification": "ORIGINAL REFERENCE VIEWS \u2014 NOT A BEVY COMPARISON",
-      "alignment": "Different shots and times in the same original replay. Native frames captured before presentation at 1920 \u00d7 1080, windowed, 32-bit; remaining quality options are not normalized. These views prove collection through the menus, not Bevy parity or benchmark timing."
+      "verification": "ORIGINAL REFERENCE VIEWS — NOT A BEVY COMPARISON",
+      "alignment": "Different shots and times in the same original replay. Native frames captured before presentation at 1920 × 1080, windowed, 32-bit; remaining quality options are not normalized. These views prove collection through the menus, not Bevy parity or benchmark timing."
     },
     {
       "title": "Mecc gameplay development: standing and running",
@@ -1512,7 +1512,7 @@
       "right": "media/5fe7fb0e0935d1571a8e175e6a0bb2e2a0493173c7ed6e1d1986cf3a434fe0c4.webp",
       "left_label": "Bevy development build: standing, third person",
       "right_label": "Bevy development build: running, third person",
-      "verification": "BEVY DEVELOPMENT VIEWS \u2014 NOT ORIGINAL-GAME PARITY",
+      "verification": "BEVY DEVELOPMENT VIEWS — NOT ORIGINAL-GAME PARITY",
       "alignment": "Two frozen states of the same development replay, with different positions and animation times. The character, terrain and animations load from game data. Source camera basis corrected; these images do not validate native movement, collision volumes, equipment or human interaction."
     },
     {
@@ -1524,7 +1524,7 @@
       "right": "media/2b1945bdbbeb407bec1adbf4911756e25e8eaace6b5fdd266c4771d5cb33f576.webp",
       "left_label": "Bevy development build: third person, body visible",
       "right_label": "Bevy development build: first person, body hidden",
-      "verification": "SAME REPLAY STATE \u2014 DEVELOPMENT CAMERAS",
+      "verification": "SAME REPLAY STATE — DEVELOPMENT CAMERAS",
       "alignment": "Both views freeze the same movement step. Camera positions and framing differ; this is a view-mode demonstration, not a pixel comparison. Eye height, follow distance and field of view remain provisional. First-person hands, weapon and HUD are not yet rendered."
     },
     {
@@ -1536,7 +1536,7 @@
       "right": "media/6380918f64f06676324af53ef1737e415a79327d5070db204be195d12e7b2d3a.webp",
       "left_label": "Bevy development build: stable standing state",
       "right_label": "Bevy development build: movement state",
-      "verification": "BEVY DEVELOPMENT VIEWS \u2014 TERRAIN PROFILE ONLY",
+      "verification": "BEVY DEVELOPMENT VIEWS — TERRAIN PROFILE ONLY",
       "alignment": "Different replay steps and animation states. The earlier idle-slide regression is resolved in this tested profile; no original-game pixel or trajectory parity is claimed. Full contact edges, volumes, obstacles, equipment and human interaction remain unverified."
     },
     {
@@ -1548,7 +1548,7 @@
       "right": "media/8d3a700479c1ef42f4685e3d0827a847cf5c456e6d27fe0961c8564cadb98e02.webp",
       "left_label": "Bevy development build: idle after the complete reset replay",
       "right_label": "Bevy development build: movement with contact-normal controls",
-      "verification": "BEVY DEVELOPMENT VIEWS \u2014 GROUND CONTROL PROFILE",
+      "verification": "BEVY DEVELOPMENT VIEWS — GROUND CONTROL PROFILE",
       "alignment": "Different replay steps and positions. Movement targets now follow the supplied contact normal; numerical controls and short replays cover this development profile. These images show rendering continuity, not original-game trajectory or pixel parity. Obstacles, platforms, equipment and human interaction remain unverified."
     },
     {
@@ -1560,7 +1560,7 @@
       "right": "media/3c66d0678eb818327ac3f08cc5ccfd1a91198d281195bf3e706719f07246ef41.webp",
       "left_label": "Bevy development build: reset, full reserves",
       "right_label": "Bevy development build: jet active, fuel 86%, boost exhausted",
-      "verification": "BEVY DEVELOPMENT VIEWS \u2014 EXPLICIT JET LOADOUT",
+      "verification": "BEVY DEVELOPMENT VIEWS — EXPLICIT JET LOADOUT",
       "alignment": "Different replay times and positions. The complete flight/resource replay checks boost, recharge, exhaustion, landing and reset. Gauges display actual simulated reserves. Initial loadout and support mapping are development policies; jet effects/audio, original HUD and native trajectory parity remain unverified."
     },
     {
@@ -1572,7 +1572,7 @@
       "right": "media/a5d2e02f0d3be53d4ed60c7c75683012a051da773192120b2cf6e8fc583b88f8.webp",
       "left_label": "Bevy development build: hover body and live reserves",
       "right_label": "Bevy development build: first person, body hidden, live reserves",
-      "verification": "BEVY DEVELOPMENT VIEWS \u2014 EXPLICIT JET LOADOUT",
+      "verification": "BEVY DEVELOPMENT VIEWS — EXPLICIT JET LOADOUT",
       "alignment": "Same replay step and resource state, different development cameras. The character hover animation renders in third person; first person hides the body. These views check rendering continuity and gauge values, not original-game pixel parity or human input. First-person weapon/hands and full native camera behavior remain open."
     },
     {
@@ -1584,7 +1584,7 @@
       "right": "media/f6c82e52b24b8fa64c8209539ab229e586532abaac2aaf98edf27296a5e6b14e.webp",
       "left_label": "Isolated source-linked stone",
       "right_label": "Same source pose in the partial scene",
-      "verification": "VISIBLE CONTRIBUTION \u2014 NATIVE PIXEL PARITY OPEN",
+      "verification": "VISIBLE CONTRIBUTION — NATIVE PIXEL PARITY OPEN",
       "alignment": "Both views use the same source camera and animation tick. A native null-child-handle rule retains the parent-hand link; all 40 parts use the shared transparent-reflection material. The object appears near the lower edge of this source shot. No shot-specific placement was added. Native color, reflection, sorting and full-scene fidelity remain unverified."
     },
     {
@@ -1596,7 +1596,7 @@
       "right": "media/ba2f1aab8953e9f7181ba49c8f470cc638c05362fd4125acbb15a7e8bb80fd16.webp",
       "left_label": "Isolated source-positioned ship interior",
       "right_label": "Same source pose with characters and lander",
-      "verification": "VISIBLE CONTRIBUTION \u2014 NATIVE PIXEL PARITY OPEN",
+      "verification": "VISIBLE CONTRIBUTION — NATIVE PIXEL PARITY OPEN",
       "alignment": "Both views use the same source camera and tick. The original actor has no parent or local offset; model coordinates provide the placement. Eleven parts are prepared through shared materials. Transparency, live visibility, native colors and full-scene fidelity remain incomplete."
     },
     {
@@ -1608,7 +1608,7 @@
       "right": "media/fd4e2e877005364ecbf74bb7441ea2c17094b765aaef27e9477627ce6cd8537e.webp",
       "left_label": "Bevy development build: one projectile in flight",
       "right_label": "Bevy development build: one terrain impact marker",
-      "verification": "DEVELOPMENT DIAGNOSTICS \u2014 ORIGINAL WEAPON VISUALS PENDING",
+      "verification": "DEVELOPMENT DIAGNOSTICS — ORIGINAL WEAPON VISUALS PENDING",
       "alignment": "Different steps of the same first-person fire replay. The yellow tracer and orange impact marker are synthetic diagnostics; held weapon, muzzle placement, original effects and audio are unfinished. Data-selected parameters, fire timing and terrain hits are checked separately. These images do not establish original-game visual or trajectory parity."
     },
     {
@@ -1620,7 +1620,7 @@
       "right": "media/22eab6238faf31ccd8caa95cebe005dcb5390e26c08090524f74db642a2876ce.webp",
       "left_label": "Isolated dungeon with source local offset",
       "right_label": "Same source pose with the partial cast",
-      "verification": "VISIBLE CONTRIBUTION \u2014 NATIVE PIXEL PARITY OPEN",
+      "verification": "VISIBLE CONTRIBUTION — NATIVE PIXEL PARITY OPEN",
       "alignment": "Both views use the same source camera and tick. The local placement command drives the common actor matrix; no shot-specific translation was added. Five dungeon parts are prepared. Native color, visibility, full actor animation and scene fidelity remain unverified."
     },
     {
@@ -1656,7 +1656,7 @@
       "right": "media/038bbd9e3f95a3f731aa6e3c0a860ae35dd9d1929ac93a6726729ace0a3212f5.webp",
       "left_label": "Early source pose",
       "right_label": "Later source pose",
-      "verification": "SOURCE POSES \u2014 NATIVE PIXEL PARITY OPEN",
+      "verification": "SOURCE POSES — NATIVE PIXEL PARITY OPEN",
       "alignment": "Different source times and framing in the same director. Common linear vector tracks unblock actor placement and camera-target evaluation; the dungeon and available cast/accessories load from source declarations. These are partial Bevy previews, not an original-game pixel comparison or proof of complete Rescue playback. Native overlays, visibility, material fidelity and music remain incomplete."
     },
     {
@@ -1680,7 +1680,7 @@
       "right": "media/5c7ead3fdf9b49ab49c138481b00755a38f492fab8849c1f55b70ab8a7dc3c1c.webp",
       "left_label": "Early source pose",
       "right_label": "Later source pose before the fade",
-      "verification": "SOURCE POSES \u2014 NATIVE PIXEL PARITY OPEN",
+      "verification": "SOURCE POSES — NATIVE PIXEL PARITY OPEN",
       "alignment": "Different source times and camera framing in one director, using unchanged data. A separate live run plays its voice and reaches the source fade ending. These frozen poses do not reproduce temporal fade history or establish native visual accuracy. Full Rescue playback, animated camera limits, material fidelity, visibility and music remain incomplete."
     },
     {
@@ -1716,7 +1716,7 @@
       "right": "media/fcd8cfce87533e68ba97b27e0f2e2db89f6c346739c6bf36cfe359d972af0c4a.webp",
       "left_label": "Previous static lens",
       "right_label": "Source animated lens",
-      "verification": "NATIVE CPU CONTROLS \u2014 PIXEL PARITY OPEN",
+      "verification": "NATIVE CPU CONTROLS — PIXEL PARITY OPEN",
       "alignment": "Same source time, view, origin and viewport. The previous build held the serialized lens angle; the current build evaluates the selected camera track. Native scalar and supplied-projection controls support the change. This is a Bevy build comparison, not an original-game pixel comparison or complete scene validation."
     },
     {
@@ -1728,7 +1728,7 @@
       "right": "media/d3231d9e4bcad63d3f07f047df47d4e149b6e3ac24f2d0077588e6520aab3ebb.webp",
       "left_label": "Middle pose",
       "right_label": "End pose",
-      "verification": "NATIVE CAMERA MATRIX CHECKED \u2014 SCENE PIXEL PARITY OPEN",
+      "verification": "NATIVE CAMERA MATRIX CHECKED — SCENE PIXEL PARITY OPEN",
       "alignment": "The actual camera views match native matrix results at both source times. The roll track has keys but stays constant during this interval; actor poses change. These are two Bevy previews using the existing environment, with incomplete lighting and scene coverage. They are not original-game comparisons or proof of a complete film."
     },
     {
@@ -1740,7 +1740,7 @@
       "right": "media/c9fadf6216d76221becb926e404b1d2f8116154fc9796db716e4ae3724d18ff4.webp",
       "left_label": "Start pose",
       "right_label": "Middle pose",
-      "verification": "NATIVE CAMERA MATRIX CHECKED \u2014 SCENE PIXEL PARITY OPEN",
+      "verification": "NATIVE CAMERA MATRIX CHECKED — SCENE PIXEL PARITY OPEN",
       "alignment": "The effective rendered views match the original-code camera matrices at both source times. The common affine inverse supports the scaled parent. These are Bevy previews in the existing environment, with incomplete lighting and scene coverage. They are not original-game images or a complete film comparison."
     },
     {
@@ -1752,8 +1752,8 @@
       "right": "media/105f209d2321d5b96602f1d785b16f88f902cea9cca9a4df3341e70480010de9.webp",
       "left_label": "Start pose",
       "right_label": "End pose",
-      "verification": "NATIVE JOINT CONTROLS \u2014 SCENE PIXEL PARITY OPEN",
-      "alignment": "The common reader now evaluates the character\u2019s repeating skirt and hair tracks. Original-code controls cover track sampling and hierarchical joint matrices. These are two Bevy source poses in the existing preview environment, which differs from the original mission. Complete skinning, lighting, visibility, effects and native scene pixels remain unverified."
+      "verification": "NATIVE JOINT CONTROLS — SCENE PIXEL PARITY OPEN",
+      "alignment": "The common reader now evaluates the character’s repeating skirt and hair tracks. Original-code controls cover track sampling and hierarchical joint matrices. These are two Bevy source poses in the existing preview environment, which differs from the original mission. Complete skinning, lighting, visibility, effects and native scene pixels remain unverified."
     },
     {
       "title": "Source transparency: Timmy and Reapers",
@@ -1763,7 +1763,7 @@
       "right": "media/bfc241d8aba59b5a6222162c75f73a927c429edea32dbc4adeaa435d91004d0c.webp",
       "left_label": "Timmy: 75% transparency",
       "right_label": "Reapers: 50% and 75% transparency",
-      "verification": "NATIVE COMPONENT CONTROLS \u2014 SCENE PIXEL PARITY OPEN",
+      "verification": "NATIVE COMPONENT CONTROLS — SCENE PIXEL PARITY OPEN",
       "alignment": "These are different scenes, not aligned poses. Timmy uses the existing preview environment, which differs from the original mission; the Reapers use an actors-only view. Source commands drive transparency and measured alpha quantization. Surface ordering, other material variants and native scene pixels remain unverified."
     },
     {
@@ -1786,7 +1786,7 @@
       "right": "media/10d8a611a58fd8dbd2af10fdcaab2d504fcf540a3a9d7133d26c0db819bd267c.webp",
       "left_label": "Retained frontend presentation",
       "right_label": "Shared cinematic path: environment only",
-      "verification": "LOADING / COMPLETION VERIFIED \u2014 ACTOR BINDING OPEN",
+      "verification": "LOADING / COMPLETION VERIFIED — ACTOR BINDING OPEN",
       "alignment": "The retained frontend draws the logo through its presentation path. The shared cinematic loader prepares its resources but cannot yet resolve the unnamed director parent. These captures use different paths and builds; camera, UI and animation phases are not aligned. The shared path still lacks the logo and related effects. Native scene pixel fidelity remains unverified."
     },
     {
@@ -1797,7 +1797,7 @@
       "right": "media/e1b1995c8e0fb9a214ad704bdcd9067aced1dbe156dfe333c410c0dc8cb4abc3.webp",
       "left_label": "Logo excluded by actor selection",
       "right_label": "Logo attached from source data",
-      "verification": "PARENT TRANSFORMS VERIFIED \u2014 MATERIAL FIDELITY OPEN",
+      "verification": "PARENT TRANSFORMS VERIFIED — MATERIAL FIDELITY OPEN",
       "alignment": "Same build, source sequence, frozen camera and requested time. Six logo parts now draw through the shared cinematic loader. The full-scene selector comparison can also affect reflections and water; an actors-only capture independently confirms visible geometry. Source attachment transforms match controlled original CPU execution. Material passes, native scene pixels and normal timing remain unverified."
     },
     {
@@ -1808,7 +1808,7 @@
       "right": "media/68e0e605c56af56c46521530a44ab28183996eb550a51bd715885f3b772b5ef6.webp",
       "left_label": "Cage isolated from the shared loader",
       "right_label": "Full partial Rescue preview",
-      "verification": "VISIBLE GEOMETRY VERIFIED \u2014 NATIVE SCENE FIDELITY OPEN",
+      "verification": "VISIBLE GEOMETRY VERIFIED — NATIVE SCENE FIDELITY OPEN",
       "alignment": "Same executable, source sequence, requested time and exact camera. The isolated cage contributes 407,272 nonblack pixels; the full preview includes other actors and environment layers. This is an isolation/composition comparison, not a native before/after. Materials, own animation, mission context and normal timing remain unverified."
     },
     {
@@ -1819,7 +1819,7 @@
       "right": "media/e3a2d20d0f5f6ba95642b2a6bc81a33645f8d292efc2b23b1dca32a40a628fc7.webp",
       "left_label": "Controlled keep-visible alternative",
       "right_label": "Source-directed actor hide",
-      "verification": "SOURCE VISIBILITY VERIFIED \u2014 NATIVE PIXELS OPEN",
+      "verification": "SOURCE VISIBILITY VERIFIED — NATIVE PIXELS OPEN",
       "alignment": "Same build, camera and requested time. The left side changes one existing hide opcode into show; it is a controlled alternative, not original playback. The right side uses the unchanged source program. Isolated controls separately prove body/cup contributions and an unchanged independent actor. Full-scene reflections may also respond; native scene pixel fidelity and normal timing remain unverified."
     },
     {
@@ -1842,7 +1842,7 @@
       "right": "media/644ae39f6ca58b83031d7720ab06da637548e0dc615cc9e1de6de9873fe4d517.webp",
       "left_label": "Source-directed scene",
       "right_label": "Common gun contribution only",
-      "verification": "COMMON GPU CONTRIBUTION VERIFIED \u2014 NATIVE PIXELS OPEN",
+      "verification": "COMMON GPU CONTRIBUTION VERIFIED — NATIVE PIXELS OPEN",
       "alignment": "Same build, unchanged source program, camera and requested time. The right side isolates one accessory slot, so these images are not an original-versus-reimplementation comparison. Separate controlled bindings establish exact pixel equivalence with the measured specialized gun and staff renderers. The full benchmark has entities for all 93 unnamed accessory requests; other scenes, effects and native pixel fidelity remain open."
     },
     {
@@ -1853,7 +1853,7 @@
       "right": "media/76fac5ad63e2dd2a4b20ed2e504a61bdb9dbe7dfbe2a15e85577afd8aeda880d.webp",
       "left_label": "Source child hidden",
       "right_label": "Controlled child shown",
-      "verification": "CHILD GPU VISIBILITY VERIFIED \u2014 CONTROLLED ALTERNATIVE",
+      "verification": "CHILD GPU VISIBILITY VERIFIED — CONTROLLED ALTERNATIVE",
       "alignment": "Same build, camera, time and isolated actor slot. The right side changes only the child hide opcode to show and produces 12,728 pixels; its parent remains hidden on both sides. The controlled alternative is not original playback. This verifies the installed child consumer and independent visibility, not native pixel fidelity or complete actor lifetime."
     },
     {
@@ -1865,7 +1865,7 @@
       "right": "media/2d5a8b1093e02ba2bc00e7a2d31b02f7303eac6105d49a2bafd64f281a51c9bb.webp",
       "left_label": "Current development build after terrain replay and reset",
       "right_label": "Same build during the jet replay",
-      "verification": "DEVELOPMENT BUILD \u2014 NATIVE CLIP SELECTION AND TRAJECTORIES REMAIN OPEN",
+      "verification": "DEVELOPMENT BUILD — NATIVE CLIP SELECTION AND TRAJECTORIES REMAIN OPEN",
       "alignment": "Both images are offscreen Vulkan previews of the independent engine at different replay states. Terrain, fall, reset and view checks pass over 480 steps; jet, recharge and landing checks pass over 1,800 steps. Model-speed derivation matches native component tests, but these images are not an original-game comparison. Clip selection, playback rate, jet effects, full scene objects and owner retesting remain open."
     },
     {
@@ -1877,7 +1877,7 @@
       "right": "media/a0d505adc453399067fea90a29c397fa2a6860eddb60bc6345053bca50a3a2e8.webp",
       "left_label": "Current build during forward movement",
       "right_label": "Same build during forward jet movement",
-      "verification": "NORMAL LOCOMOTION CHECKED \u2014 FULL ANIMATION AND NATIVE VISUAL FIDELITY OPEN",
+      "verification": "NORMAL LOCOMOTION CHECKED — FULL ANIMATION AND NATIVE VISUAL FIDELITY OPEN",
       "alignment": "Both images are offscreen previews of the independent engine at different replay states, not an original-game comparison. Normal living style-zero selection, channel installation and three clock advances match 2,048 debug component cases. Dedicated side-step and direction-dependent flight clips are connected; playback follows model speed. Terrain, jet and death replays pass. Other equipment/actions, blending, procedural poses, effects, native trajectories and owner retesting remain open."
     },
     {
@@ -1889,7 +1889,7 @@
       "right": "media/2602a793e96f191ca176e94990a06bfa30e6a33bd20a6df3542c8e6b515dab30.webp",
       "left_label": "Same jet replay, empty utility slots: mass 20",
       "right_label": "Same replay point, added declared equipment weight: mass 25",
-      "verification": "CONFIGURED LOAD CHECK \u2014 NATIVE PICKUP AND CARRIED APPEARANCE OPEN",
+      "verification": "CONFIGURED LOAD CHECK — NATIVE PICKUP AND CARRIED APPEARANCE OPEN",
       "alignment": "Both are previews of the independent engine at replay step 120, with the same controls and different configured utility load. A declared weight of 5 changes mass from 20 to 25 through checked calculations; base and heavier 1,800-step jet replays pass with a measured checkpoint showing lower lift and equal remaining fuel for the heavier load. Terrain, death and reset checks also pass. Native pickup/drop actions, the carried object appearance, other equipment abilities and original-game trajectory comparisons remain open. The images show integration, not native visual fidelity."
     },
     {
@@ -1901,7 +1901,7 @@
       "right": "media/8ef09c0cf309442ea78c5d456641321ef6daf0135e7b2be31ce578e0cafbe463.webp",
       "left_label": "Bevy, earlier frozen sample: geometry outside frame",
       "right_label": "Bevy, later frozen sample: textured foot visible",
-      "verification": "DIFFERENT ANIMATION TICKS \u2014 NATIVE FRAMING AND POSE UNVERIFIED",
+      "verification": "DIFFERENT ANIMATION TICKS — NATIVE FRAMING AND POSE UNVERIFIED",
       "alignment": "Both images use the same independent-engine executable, selected director, camera and isolated actor slot. They deliberately use different frozen animation ticks. The CPU check rejects every actor triangle at the earlier sample and admits 473 conservative candidates at the later sample, where a foot is visible. This diagnoses loading versus framing; it is neither an original-game comparison nor evidence of correct timing or complete scene composition."
     },
     {
@@ -1913,7 +1913,7 @@
       "right": "media/7b949e1ee0d462b6671e21e2481f6e41e8cdce3b71a145981c996fa2e8b7bab5.webp",
       "left_label": "Development build: building contact after 240 steps",
       "right_label": "Development build: retreat after 360 steps",
-      "verification": "DEVELOPMENT VIEWS \u2014 DIFFERENT PLAYER POSITIONS; NATIVE VISUAL FIDELITY UNVERIFIED",
+      "verification": "DEVELOPMENT VIEWS — DIFFERENT PLAYER POSITIONS; NATIVE VISUAL FIDELITY UNVERIFIED",
       "alignment": "Same executable and prepared building assets, different points of an automated approach and retreat. These images demonstrate that source buildings are now visible alongside physical contact. They are not an aligned original-game comparison. Building poses are frozen at initialization; live updates, native camera and complete scene fidelity remain open."
     },
     {
@@ -1923,9 +1923,9 @@
       "commit": "7e364551cb7bfce1d439da1a189532458d5e96d3",
       "left": "media/72a552fb3000426ff618a0864716ea6a404127e40b82d1a4ab4a5d1f616fcd4e.webp",
       "right": "media/c23e3d63416002b0c1b92ec4de987db34f0db5986c8cba06709f2bcc7aabbaef.webp",
-      "left_label": "Kabuto \u2014 isolated Bevy source pose",
-      "right_label": "Offspring \u2014 different source scene",
-      "verification": "DIFFERENT SOURCE POSES \u2014 INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
+      "left_label": "Kabuto — isolated Bevy source pose",
+      "right_label": "Offspring — different source scene",
+      "verification": "DIFFERENT SOURCE POSES — INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
       "alignment": "Two frozen offscreen previews selected independently from the source-directed pass. These are different actors, poses or scenes, using unmodified source cameras and placements. The existing partial-render profile and static own-animation policy remain in force. Nonempty pixels establish a resource contribution, not correct placement, every part or instance, native materials, full effects or playback timing. Close spacecraft surfaces and partial red stone are explicitly unresolved diagnostics."
     },
     {
@@ -1935,9 +1935,9 @@
       "commit": "7e364551cb7bfce1d439da1a189532458d5e96d3",
       "left": "media/95e6a46eaa77f28fc748bb53a94bfa2dd6217ac0e35d673b71b8048d17f4eea3.webp",
       "right": "media/eb69bf1922f3bbd55b4c1a677189b81b9b1100fd16d483f71d7c4a0487006417.webp",
-      "left_label": "Mecc \u2014 isolated Bevy source pose",
-      "right_label": "Borjoyzee \u2014 different source scene",
-      "verification": "DIFFERENT SOURCE POSES \u2014 INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
+      "left_label": "Mecc — isolated Bevy source pose",
+      "right_label": "Borjoyzee — different source scene",
+      "verification": "DIFFERENT SOURCE POSES — INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
       "alignment": "Two frozen offscreen previews selected independently from the source-directed pass. These are different actors, poses or scenes, using unmodified source cameras and placements. The existing partial-render profile and static own-animation policy remain in force. Nonempty pixels establish a resource contribution, not correct placement, every part or instance, native materials, full effects or playback timing. Close spacecraft surfaces and partial red stone are explicitly unresolved diagnostics."
     },
     {
@@ -1947,9 +1947,9 @@
       "commit": "7e364551cb7bfce1d439da1a189532458d5e96d3",
       "left": "media/bf8cb93343690e4a01554d333ec96dc1bca1077cea5516b2428ed34a6851b5dc.webp",
       "right": "media/0f1ef2dd8e5647d3ca5bc8f48d9cbc939b26a918133015cf81f0d33701f6e3e5.webp",
-      "left_label": "Timmy \u2014 isolated source pose",
-      "right_label": "Reaperman \u2014 different source scene",
-      "verification": "DIFFERENT SOURCE POSES \u2014 INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
+      "left_label": "Timmy — isolated source pose",
+      "right_label": "Reaperman — different source scene",
+      "verification": "DIFFERENT SOURCE POSES — INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
       "alignment": "Two frozen offscreen previews selected independently from the source-directed pass. These are different actors, poses or scenes, using unmodified source cameras and placements. The existing partial-render profile and static own-animation policy remain in force. Nonempty pixels establish a resource contribution, not correct placement, every part or instance, native materials, full effects or playback timing. Close spacecraft surfaces and partial red stone are explicitly unresolved diagnostics."
     },
     {
@@ -1959,9 +1959,9 @@
       "commit": "7e364551cb7bfce1d439da1a189532458d5e96d3",
       "left": "media/26b825989481a3840d06a970e930b91db72d8205b6c30ae93bb58229078a5c31.webp",
       "right": "media/bf5f6e4d77bcd98cf100a4f72d5d4f7f15d7aa8e744eed0eea62781a56be31ef.webp",
-      "left_label": "Reaper \u2014 isolated source pose",
-      "right_label": "Queen \u2014 different source pose",
-      "verification": "DIFFERENT SOURCE POSES \u2014 INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
+      "left_label": "Reaper — isolated source pose",
+      "right_label": "Queen — different source pose",
+      "verification": "DIFFERENT SOURCE POSES — INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
       "alignment": "Two frozen offscreen previews selected independently from the source-directed pass. These are different actors, poses or scenes, using unmodified source cameras and placements. The existing partial-render profile and static own-animation policy remain in force. Nonempty pixels establish a resource contribution, not correct placement, every part or instance, native materials, full effects or playback timing. Close spacecraft surfaces and partial red stone are explicitly unresolved diagnostics."
     },
     {
@@ -1971,9 +1971,9 @@
       "commit": "7e364551cb7bfce1d439da1a189532458d5e96d3",
       "left": "media/49f474868e034b2de3cf35eb46ad2f1814b1dabdef1205e30b1e8508223a503c.webp",
       "right": "media/3632b04f38f901c8ce6f689f764b8a622210b110b58eeef961cf7cf0ceac1f80.webp",
-      "left_label": "Attached lander \u2014 frozen own animation",
-      "right_label": "Mug \u2014 different source scene",
-      "verification": "DIFFERENT SOURCE POSES \u2014 INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
+      "left_label": "Attached lander — frozen own animation",
+      "right_label": "Mug — different source scene",
+      "verification": "DIFFERENT SOURCE POSES — INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
       "alignment": "Two frozen offscreen previews selected independently from the source-directed pass. These are different actors, poses or scenes, using unmodified source cameras and placements. The existing partial-render profile and static own-animation policy remain in force. Nonempty pixels establish a resource contribution, not correct placement, every part or instance, native materials, full effects or playback timing. Close spacecraft surfaces and partial red stone are explicitly unresolved diagnostics."
     },
     {
@@ -1983,9 +1983,9 @@
       "commit": "7e364551cb7bfce1d439da1a189532458d5e96d3",
       "left": "media/2ca9913510c3b150f2695a770421ad5276dbe22e31ae1fb45bbc95ed44f4b12c.webp",
       "right": "media/4959c9e91fd374ae2f8007c7371a8ef81e892669b1756f557a38de2cb3768d2b.webp",
-      "left_label": "Weapon \u2014 isolated attachment",
-      "right_label": "Spear \u2014 different source scene",
-      "verification": "DIFFERENT SOURCE POSES \u2014 INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
+      "left_label": "Weapon — isolated attachment",
+      "right_label": "Spear — different source scene",
+      "verification": "DIFFERENT SOURCE POSES — INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
       "alignment": "Two frozen offscreen previews selected independently from the source-directed pass. These are different actors, poses or scenes, using unmodified source cameras and placements. The existing partial-render profile and static own-animation policy remain in force. Nonempty pixels establish a resource contribution, not correct placement, every part or instance, native materials, full effects or playback timing. Close spacecraft surfaces and partial red stone are explicitly unresolved diagnostics."
     },
     {
@@ -1995,9 +1995,9 @@
       "commit": "7e364551cb7bfce1d439da1a189532458d5e96d3",
       "left": "media/5271731ed3b7303a519512249200ad81f2e4e996b83ba50664076aa08f84f84d.webp",
       "right": "media/2aec1d02b7cd86e23b707dc23ff2bdbc64ff95f012a53e479068671b0d4901b8.webp",
-      "left_label": "Staff \u2014 isolated attachment",
-      "right_label": "Sword \u2014 different source scene",
-      "verification": "DIFFERENT SOURCE POSES \u2014 INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
+      "left_label": "Staff — isolated attachment",
+      "right_label": "Sword — different source scene",
+      "verification": "DIFFERENT SOURCE POSES — INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
       "alignment": "Two frozen offscreen previews selected independently from the source-directed pass. These are different actors, poses or scenes, using unmodified source cameras and placements. The existing partial-render profile and static own-animation policy remain in force. Nonempty pixels establish a resource contribution, not correct placement, every part or instance, native materials, full effects or playback timing. Close spacecraft surfaces and partial red stone are explicitly unresolved diagnostics."
     },
     {
@@ -2007,9 +2007,9 @@
       "commit": "7e364551cb7bfce1d439da1a189532458d5e96d3",
       "left": "media/6bbba066ef7ff0212fac32ac9d94a301da637de3c049a171342dc32c082ca768.webp",
       "right": "media/90cbc73612f2e7097ecfe8bb4b1e42c459a262c9a73a7319252c6b5e5666bfb9.webp",
-      "left_label": "Light sprite \u2014 small visible contribution",
-      "right_label": "Named lander \u2014 distant source framing",
-      "verification": "DIFFERENT SOURCE POSES \u2014 INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
+      "left_label": "Light sprite — small visible contribution",
+      "right_label": "Named lander — distant source framing",
+      "verification": "DIFFERENT SOURCE POSES — INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
       "alignment": "Two frozen offscreen previews selected independently from the source-directed pass. These are different actors, poses or scenes, using unmodified source cameras and placements. The existing partial-render profile and static own-animation policy remain in force. Nonempty pixels establish a resource contribution, not correct placement, every part or instance, native materials, full effects or playback timing. Close spacecraft surfaces and partial red stone are explicitly unresolved diagnostics."
     },
     {
@@ -2019,9 +2019,9 @@
       "commit": "7e364551cb7bfce1d439da1a189532458d5e96d3",
       "left": "media/d8b14188ab21b3a250720593bab1989cda0343a87bc37d1015d3a3167dc6cbbe.webp",
       "right": "media/c973b0af70bab4dbc345172e687d63bc3eae2dbdd4d5c3b22cd3f872094a9f82.webp",
-      "left_label": "Spacecraft \u2014 close surface, placement unresolved",
-      "right_label": "Stone \u2014 partial red geometry, pose/material open",
-      "verification": "DIFFERENT SOURCE POSES \u2014 INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
+      "left_label": "Spacecraft — close surface, placement unresolved",
+      "right_label": "Stone — partial red geometry, pose/material open",
+      "verification": "DIFFERENT SOURCE POSES — INDEPENDENT ENGINE ONLY; NATIVE FIDELITY UNVERIFIED",
       "alignment": "Two frozen offscreen previews selected independently from the source-directed pass. These are different actors, poses or scenes, using unmodified source cameras and placements. The existing partial-render profile and static own-animation policy remain in force. Nonempty pixels establish a resource contribution, not correct placement, every part or instance, native materials, full effects or playback timing. Close spacecraft surfaces and partial red stone are explicitly unresolved diagnostics."
     },
     {
@@ -2033,7 +2033,7 @@
       "right": "media/4f247f58c6e39aa05dd69e13facf74a6e84ec8504a5001fcbcaef1f0e43d21ce.webp",
       "left_label": "Development build: first shot stopped by source building",
       "right_label": "Development build: four shots with empty obstacle list",
-      "verification": "DEVELOPMENT DIAGNOSTICS \u2014 DIFFERENT REPLAY TIMES; NATIVE FIDELITY UNVERIFIED",
+      "verification": "DEVELOPMENT DIAGNOSTICS — DIFFERENT REPLAY TIMES; NATIVE FIDELITY UNVERIFIED",
       "alignment": "Same executable and source-face setup. The left view freezes the first hit and shows a diagnostic marker; the right view runs the explicit empty-list control to completion. Shots originate at the animated weapon muzzle. The impact counter includes terrain hits; the control records no building hit. These are different replay times, not an aligned original-game comparison. Static poses, supplied list order and diagnostic impacts do not establish native building damage, effects or trajectory fidelity."
     },
     {
@@ -2045,7 +2045,7 @@
       "right": "media/eafbbd45f673c12c767e1d09433e663340fb27ccc808bda1c5425f00a789a4a4.webp",
       "left_label": "Original game: isolated terrain",
       "right_label": "Reimplementation: controlled UV transforms, offscreen",
-      "verification": "REGRESSION CHECK OF EXISTING TERRAIN \u2014 ISOLATED TERRAIN \u2014 MEAN ERROR 0.213151/255",
+      "verification": "REGRESSION CHECK OF EXISTING TERRAIN — ISOLATED TERRAIN — MEAN ERROR 0.213151/255",
       "alignment": "This checks an existing terrain implementation; it does not show a newly supported cinematic scene. The same recorded view and projection are supplied explicitly. Geometry, textures, colors and UV transforms are prepared independently from game data. Fog is disabled. The black background is deliberate isolation in both images. This comparison does not validate scenery, actors, timing, gameplay or campaign readiness; the additional terrain layer is not shown."
     },
     {
@@ -2057,7 +2057,7 @@
       "right": "media/b54d76554c415182591d6ae75d0d4c0d7b3e8dde6cd619c1303efb9891c1ce79.webp",
       "left_label": "Original game: isolated terrain",
       "right_label": "Reimplementation: controlled UV transforms, offscreen",
-      "verification": "REGRESSION CHECK OF EXISTING TERRAIN \u2014 ISOLATED TERRAIN \u2014 MEAN ERROR 0.214053/255",
+      "verification": "REGRESSION CHECK OF EXISTING TERRAIN — ISOLATED TERRAIN — MEAN ERROR 0.214053/255",
       "alignment": "This checks an existing terrain implementation; it does not show a newly supported cinematic scene. The same recorded view and projection are supplied explicitly. Geometry, textures, colors and UV transforms are prepared independently from game data. Fog is disabled. The black background is deliberate isolation in both images. This comparison does not validate scenery, actors, timing, gameplay or campaign readiness; the additional terrain layer is not shown."
     },
     {
@@ -2069,7 +2069,7 @@
       "right": "media/2c29e478c2eaf141d6b8020bcbb5ef4ef1922875b4f8bf372deaa381acdc6257.webp",
       "left_label": "Reimplementation: wide terrain inspection",
       "right_label": "Reimplementation: inspection near the declared start",
-      "verification": "IMPLEMENTED \u2014 ORIGINAL-GAME PIXEL FIDELITY UNVERIFIED",
+      "verification": "IMPLEMENTED — ORIGINAL-GAME PIXEL FIDELITY UNVERIFIED",
       "alignment": "Both images come from the reimplementation, with different inspection cameras. Terrain only; fog is disabled and the black background is deliberate. The near camera is synthesized from the declared start, not recorded from the original. Normal-image mip levels, directional colors and separate UV transforms are now connected under an explicit debug hardware profile. These images do not validate source upload selection, complete lighting, scenery, characters, timing or campaign readiness."
     },
     {
@@ -2081,7 +2081,7 @@
       "right": "media/6d519d5331b8e5cbfa818586d6bfacf468c787329747e8f914567d15c575e7f0.webp",
       "left_label": "Reimplementation: wide terrain inspection",
       "right_label": "Reimplementation: inspection near the declared start",
-      "verification": "IMPLEMENTED \u2014 ORIGINAL-GAME PIXEL FIDELITY UNVERIFIED",
+      "verification": "IMPLEMENTED — ORIGINAL-GAME PIXEL FIDELITY UNVERIFIED",
       "alignment": "Both images come from the reimplementation, with different inspection cameras. Terrain only; fog is disabled and the black background is deliberate. The near camera is synthesized from the declared start, not recorded from the original. Normal-image mip levels, directional colors and separate UV transforms are now connected under an explicit debug hardware profile. These images do not validate source upload selection, complete lighting, scenery, characters, timing or campaign readiness."
     },
     {
@@ -2093,7 +2093,7 @@
       "right": "media/46716d11ade5474ded8faf77aa67e2dc310b6ed922828d5b2b13da8427b4fc22.webp",
       "left_label": "Original debug game: retained opening snapshot",
       "right_label": "Bevy: explicit mission context, frozen first pose",
-      "verification": "NEW SCENE \u2014 COMPARABLE FRAMING, PARTIAL ASSET COVERAGE",
+      "verification": "NEW SCENE — COMPARABLE FRAMING, PARTIAL ASSET COVERAGE",
       "alignment": "The retained original snapshot and the first frozen engine pose show the same village, characters, buildings, baskets and foliage. A later audit found that two native labels reused the same cached snapshot; association of this saved image with a precise replay input is not established. Native tick and graphics settings are not normalized; poses are not exactly aligned. JPEG was re-encoded without edits. Thirty-four geometry entries, effects and live callbacks remain unresolved; no complete asset census or pixel parity."
     },
     {
@@ -2105,7 +2105,7 @@
       "right": "media/8d7dfe82643ea0352694e87995daa7305d2050aa5141bce9a9b40926b495a02d.webp",
       "left_label": "Bevy: frozen tick 160",
       "right_label": "Bevy: frozen tick 24000, mug in hand",
-      "verification": "TWO ENGINE POSES \u2014 ATTACHMENT VISIBLE, NATIVE TIMING UNVERIFIED",
+      "verification": "TWO ENGINE POSES — ATTACHMENT VISIBLE, NATIVE TIMING UNVERIFIED",
       "alignment": "Both images use the same selected mission and cinematic, at different source ticks. The common attachment renderer prepares both mugs and the later pose shows one in the Mecc hand. No per-shot placement list is used. These engine-only images do not establish native timing, complete asset coverage, effect fidelity or full cinematic playback."
     },
     {
@@ -2117,7 +2117,7 @@
       "right": "media/8fb61658315033a07665b22ab259fa523d900e76eee90e93d0021c3f1348cd50.webp",
       "left_label": "Original debug game: cinematic replay",
       "right_label": "Bevy: declared lights and explicit mission context",
-      "verification": "NEW SCENE \u2014 COMPARABLE FRAMING, COMPLETE ASSET COVERAGE UNVERIFIED",
+      "verification": "NEW SCENE — COMPARABLE FRAMING, COMPLETE ASSET COVERAGE UNVERIFIED",
       "alignment": "The same opening shows Delphi and Yan against the icy world. A large black region appears in both initial replay images; its cause remains unresolved. Native tick and graphics quality are not normalized, poses and eye colors differ. Native JPEG was re-encoded to PNG without edits. This does not certify portal effects, every asset, exact pixels, normal timing or full cinematic playback."
     },
     {
@@ -2129,7 +2129,7 @@
       "right": "media/8499afb77227d3586241766b20d0e3039030f9097be6cc72bdda8aaaf8b2ebe9.webp",
       "left_label": "Original debug game: portal structure and effects visible",
       "right_label": "Bevy: characters and terrain, portal/effects absent",
-      "verification": "VISIBLE GAP \u2014 PORTAL STRUCTURE AND EFFECTS REMAIN MISSING",
+      "verification": "VISIBLE GAP — PORTAL STRUCTURE AND EFFECTS REMAIN MISSING",
       "alignment": "The wide framing and character poses are comparable, with no measured native tick. The original shows a portal structure at the right and a glowing area at the left; these are visibly absent in the engine. Fourteen geometry entries still have explicit unresolved diagnostics. No object is declared correctly invisible to hide this gap. Native JPEG was re-encoded without edits; no pixel/timing parity is claimed."
     },
     {
@@ -2141,7 +2141,7 @@
       "right": "media/79f0146da66f066c55acd9b85fc87bd46f8a74b88ec045caf5f5f75ab646e16e.webp",
       "left_label": "Bevy: introductory logo, frozen early pose",
       "right_label": "Bevy: later pose with islands and water",
-      "verification": "FIRST GENERIC INTRODUCTION ROUTE \u2014 EFFECTS AND NATIVE FIDELITY UNVERIFIED",
+      "verification": "FIRST GENERIC INTRODUCTION ROUTE — EFFECTS AND NATIVE FIDELITY UNVERIFIED",
       "alignment": "Two engine images at different source ticks and different revisions in this increment. The shared light change unlocks a world declaring two directional lights. Logo, background, islands and water are visible, but brightness, source effects, visibility transitions, reflections and native timing remain incomplete. These images have no paired native comparison."
     },
     {
@@ -2153,7 +2153,7 @@
       "right": "media/71d5f9c000b6bfbc53d536ef862f204d3dd9a883e56f035244cc44b1741ed526.webp",
       "left_label": "Original debug game: retained opening replay",
       "right_label": "Bevy: later frozen pose with spacecraft",
-      "verification": "NEW CINEMATIC WORLD \u2014 WATER AND VIEWPORT DIFFERENCES REMAIN",
+      "verification": "NEW CINEMATIC WORLD — WATER AND VIEWPORT DIFFERENCES REMAIN",
       "alignment": "The spacecraft, luminous parts, islands and sky appear in both images at different unmeasured native/source times. Native JPEG is re-encoded without edits and its original observation hash is retained. Water and letterboxing visibly differ. The engine still reports 66 unresolved rigid entries; this pair does not certify every asset, exact camera/pose, pixels, normal timing or complete playback."
     },
     {
@@ -2165,7 +2165,7 @@
       "right": "media/15bc7e8f0967401f49611f217c33ff8222065f24b88698d90340ce2dd6c6eb10.webp",
       "left_label": "Original debug game: new cinematic-loader replay",
       "right_label": "Bevy: characters, arch, structures and terrain",
-      "verification": "NEW SCENE COMPARISON \u2014 COMPLETE ASSET COVERAGE UNVERIFIED",
+      "verification": "NEW SCENE COMPARISON — COMPLETE ASSET COVERAGE UNVERIFIED",
       "alignment": "The native loader selects and replays the opening on the first mission. Comparable framing shows the small character, two Mecc, arch, structures and palms in both images. Source ticks and native graphics quality are not normalized, animation poses differ, and 32 rigid entries remain unresolved. Native JPEG was re-encoded without edits. No full asset census, effect fidelity, pixel equality, normal timing or campaign Ready is claimed."
     },
     {
@@ -2177,7 +2177,7 @@
       "right": "media/2e11306d56a0bde24b462189c55d13b2034e6429c2e58b49eaeb4e18ecd9e058.webp",
       "left_label": "Reimplementation: initial Mecc and pistol in the selected mission",
       "right_label": "Reimplementation: menu after three preparation/cancel/relaunch cycles",
-      "verification": "INITIAL PLAYER DRAWN \u2014 LIVE CAMPAIGN HANDOFF UNFINISHED",
+      "verification": "INITIAL PLAYER DRAWN — LIVE CAMPAIGN HANDOFF UNFINISHED",
       "alignment": "Both images are from the reimplementation and show different runtime states. The left view follows a real new-campaign request and uses a fixed inspection camera computed from the declared start; it is not a recorded original-game camera. Body pose, equipment selection and initial hand attachment come from mission/class resources. The right image follows three actual preparation and cancellation cycles with tracked resources released. Opening playback, animation and movement control, teams, saved continuity, complete scene fidelity and human interaction remain unverified. No runtime success acknowledgement is simulated. This initial-player code delivery is pending integration into the main cinematic build; these images are from the separate gameplay workstream."
     },
     {
@@ -2189,7 +2189,7 @@
       "right": "media/7016036e720c82bfd30bf58807746a4567795d7b44b457f095d06ae9815c650e.webp",
       "left_label": "Original debug game: new boat-arrival loader replay",
       "right_label": "Bevy: selected mission, characters and partial scenery",
-      "verification": "NEW CINEMATIC WORLD \u2014 SCENERY AND WATER GAPS REMAIN",
+      "verification": "NEW CINEMATIC WORLD — SCENERY AND WATER GAPS REMAIN",
       "alignment": "Comparable wide framing shows two Mecc, a Smartie, terrain and water in both images. The original has more distant scenery and different foreground water coverage. The selected mission now prepares, but 65 rigid entries remain unresolved, including 44 placement adjustments. Native tick and graphics quality are not normalized; poses and water phases differ. Native JPEG was re-encoded without edits. No exhaustive asset census, pixel equality, normal timing or campaign readiness is claimed."
     },
     {
@@ -2201,7 +2201,7 @@
       "right": "media/382bc5cb294ad0daec133b9f8ab1a0b39ea8b48d04a746bfe9d454f0c2882c2c.webp",
       "left_label": "Original debug game: retained boat-arrival loader replay",
       "right_label": "Bevy: additional vegetation at the calculated ground height",
-      "verification": "NEW SCENERY RENDERING \u2014 COMPLETE INITIALIZATION STILL OPEN",
+      "verification": "NEW SCENERY RENDERING — COMPLETE INITIALIZATION STILL OPEN",
       "alignment": "The new engine capture adds 44 ground-placed scenery entries, reaching 95 rigid instances and 151 cached meshes. Source classes, positions and terrain heights match 44 native observations. This preview renders the terrain-query stage; subsequent gravity/time integration and reset are not executed. The original image is reused from the preceding loader replay, without pose/time normalization. Twenty-one animation/material entries remain refused. Water differs between captures; no exhaustive asset census, pixel equality, normal timing or campaign readiness is claimed."
     },
     {
@@ -2213,7 +2213,7 @@
       "right": "media/bf5d1a15951f876a6c3968e30552154a6433bb4eecb36afe79f9ddb1ab99199e.webp",
       "left_label": "Reimplementation: initial player from the selected mission",
       "right_label": "Reimplementation: airborne player after movement and jet input",
-      "verification": "CONTROLLER REPLAY PASSES \u2014 NORMAL OPENING HANDOFF PENDING",
+      "verification": "CONTROLLER REPLAY PASSES — NORMAL OPENING HANDOFF PENDING",
       "alignment": "Both views are reimplementation states at different positions and times. The controller uses the selected cold equipment and existing movement/animation calculations, with an explicit internal replay. Three complete simulation/cancellation/relaunch cycles release tracked mission resources. Camera and hand-attached weapon follow the player. Normal opening playback and real campaign acknowledgements, mission weapon firing, water, companion formation and saved continuity remain unfinished. Black water regions are retained. Native trajectory/timing and human input fidelity are unverified. This new controller delivery is pending code integration into the main cinematic build; these images come from the separate gameplay workstream."
     },
     {
@@ -2225,7 +2225,7 @@
       "right": "media/78878c43d05f4ee5d4a38f5d15df42163a0036e00bae11f3bdbd87047ee94475.webp",
       "left_label": "Original debug game: new loader replay with two vehicles",
       "right_label": "Bevy: two vehicles, occupants and selected-world scenery",
-      "verification": "NEW CINEMATIC TERRAIN \u2014 WATER AND ASSET GAPS REMAIN",
+      "verification": "NEW CINEMATIC TERRAIN — WATER AND ASSET GAPS REMAIN",
       "alignment": "Both views show the two vehicles and occupants against the rocky coast. The shared world reader now accepts a leading declaration instead of requiring one fixed command order. The engine uses the actual selected mission; 19 rigid entries remain refused. Water, poses and framing differ. Native tick and graphics quality are not normalized. Native JPEG was re-encoded without edits. No complete asset census, normal timing, pixel equality or campaign readiness is claimed."
     },
     {
@@ -2237,7 +2237,7 @@
       "right": "media/8175ff649b92d4db1fb71792299950b6e8289a2630d80825a145621b7e2e69f4.webp",
       "left_label": "Original debug game: ships visible in the harbor",
       "right_label": "Bevy: harbor camera renders, large ships remain absent",
-      "verification": "MISSING SHIP FAMILY \u2014 SOURCE MODELS FOUND, RENDERING REFUSED",
+      "verification": "MISSING SHIP FAMILY — SOURCE MODELS FOUND, RENDERING REFUSED",
       "alignment": "The original harbor contains large ships that are absent in the engine. Source declarations resolve two ship models and a galleon, but their current unlit material profile is refused. This locates a concrete rendering gap; each native object-to-declaration identity is not yet certified. The original was observed after a bounded wall-clock wait; the engine uses an explicit frozen tick. Camera positions and water differ, with no timing or pixel alignment. This comparison documents an unresolved asset family and does not mark the scene complete."
     },
     {
@@ -2249,7 +2249,7 @@
       "right": "media/715566436231be835b4499a09142923dd2ef0a8d00bdfb0a9fac078bcfd9b84d.webp",
       "left_label": "Original debug game: retained harbor replay",
       "right_label": "Bevy: three large ships, hulls and alpha sails now visible",
-      "verification": "THREE SHIPS RESTORED \u2014 WATER AND ANIMATION STILL DIFFER",
+      "verification": "THREE SHIPS RESTORED — WATER AND ANIMATION STILL DIFFER",
       "alignment": "The native image is the earlier retained loader replay, reused here explicitly. The new engine capture renders the previously absent three large ships through a shared source-driven material capability, without a shot or class allowlist. Rigid instances increase from 20 to 23, with 16 remaining animation/material refusals. Camera, water and frozen/native time differ. Sail ordering, live animation, timing and every expected asset remain unverified. No pixel equality or complete scene fidelity is claimed."
     },
     {
@@ -2261,7 +2261,7 @@
       "right": "media/e9d45eb8ed00f17792b9a969f3bd65046b4d0b8b2e7992abf137d0cd4a36a194.webp",
       "left_label": "Bevy: character group, frozen first sequence",
       "right_label": "Bevy: Charger, enclosure and terrain, frozen later sequence",
-      "verification": "NEW ENGINE WORLD \u2014 BOTH IMAGES ARE BEVY, NATIVE REPLAY PENDING",
+      "verification": "NEW ENGINE WORLD — BOTH IMAGES ARE BEVY, NATIVE REPLAY PENDING",
       "alignment": "These are two different source-directed Bevy views, not an original/engine comparison. The scene previously stopped at a declared water-amplitude value above one. The original color loops and independent Python/Rust calculations agree on 4059 colors per reference; final saturation is preserved. This permits rendering, while 14 rigid refusals and separate attachment/effect gaps remain explicit. The owned original restart failed or remained black; no native replay of this mission is claimed. Water pixels, animations, source visibility, normal timing and a complete asset census remain unverified."
     },
     {
@@ -2273,7 +2273,7 @@
       "right": "media/f0a2c27a8d325fb9941947c45f449e8990512daf7361ca96fe142120e7606cd9.webp",
       "left_label": "Original GOG baseline: normal in-game Yan replay",
       "right_label": "Bevy: debug-context pagoda, gong and coast",
-      "verification": "NEW DELPHI WORLD \u2014 HISTORICAL BASELINE, DEBUG PARITY UNVERIFIED",
+      "verification": "NEW DELPHI WORLD — HISTORICAL BASELINE, DEBUG PARITY UNVERIFIED",
       "alignment": "The native image comes from a newly observed normal replay on the historical GOG executable, not the debug build. The world, mission and selected cinematic inputs match byte for byte between references; nine entries in the broader metadata set differ. Camera, animation phases, lighting, water and foreground effects differ; native tick was not measured. Bevy has79 rigid instances and21 explicit rigid refusals. This is a provisional cross-version scene comparison, not debug pixel parity or a complete asset census."
     },
     {
@@ -2285,7 +2285,7 @@
       "right": "media/273d9242b24cb25af748bdf29f73b88ef43f608403ac48f3164634b8fd35e171.webp",
       "left_label": "Original GOG baseline: Yan during the observed replay",
       "right_label": "Bevy: Yan, interior and portrait from source camera",
-      "verification": "NEW DELPHI WORLD \u2014 HISTORICAL BASELINE, DEBUG PARITY UNVERIFIED",
+      "verification": "NEW DELPHI WORLD — HISTORICAL BASELINE, DEBUG PARITY UNVERIFIED",
       "alignment": "The original is a second view from the same normal historical replay. The selected cinematic and Yan resources match the debug data, while broader class/text metadata differ. The source camera produces comparable framing, but native animation time and pose are not synchronized. Materials, lighting, all resources and complete scene fidelity remain unverified. The native observer confirmed replay inventory and detached before this replay; no fully instrumented director chain is claimed."
     },
     {
@@ -2297,7 +2297,7 @@
       "right": "media/0a2cd28e9f1be208c51ac2069c3cd3fe04b2bf843a374d3c18b401357a46c0c8.webp",
       "left_label": "Bevy: icy race landscape and distant actor",
       "right_label": "Bevy: characters and structures in the next source-directed shot",
-      "verification": "NEW RACE TERRAIN \u2014 PARTIAL ENGINE VIEWS, NATIVE COMPARISON PENDING",
+      "verification": "NEW RACE TERRAIN — PARTIAL ENGINE VIEWS, NATIVE COMPARISON PENDING",
       "alignment": "Both images are new engine previews, not an original-versus-engine comparison. The shared mission36 consumer is numerically checked on both exact references, while the preview does not invent a living current actor or execute its reset. Nine rigid instances,73 cached meshes and104 render entries; eight rigid refusals cover animation callbacks and a material family. Water, lighting, effects, full asset coverage and native timing remain unverified."
     },
     {
@@ -2309,7 +2309,7 @@
       "right": "media/1fde9243ec28a718354f9d11bd93a71f2cda01e7faf68f486aab07b0aae63f64.webp",
       "left_label": "Bevy: frozen exterior view",
       "right_label": "Bevy: frozen cockpit view",
-      "verification": "LINKED PLAYBACK AND AUDIO CHECKED SEPARATELY \u2014 PARTIAL RENDERING",
+      "verification": "LINKED PLAYBACK AND AUDIO CHECKED SEPARATELY — PARTIAL RENDERING",
       "alignment": "Two explicit frozen poses illustrate the opening now followed as a continuous 14-director chain. A separate live run completes its synchronization track transitions and nine French voice cues. These images are not extracted from that live run and do not demonstrate a rendering improvement, native camera alignment or pixel fidelity. Effects, materials, final fade/audio handoff and campaign control remain incomplete."
     },
     {
@@ -2321,7 +2321,7 @@
       "right": "media/35bc3091b75a59e1bd3e071ca60de25684c63497f9feb060e065006e1fb4dc08.webp",
       "left_label": "Bevy: spacecraft and cast on the ending terrain",
       "right_label": "Bevy: closer cast view; unexplained black background",
-      "verification": "NEW ENDING SCENE \u2014 PARTIAL ENGINE VIEWS, NATIVE COMPARISON PENDING",
+      "verification": "NEW ENDING SCENE — PARTIAL ENGINE VIEWS, NATIVE COMPARISON PENDING",
       "alignment": "Both images are new engine previews, not original-versus-engine comparisons. Native debug CPU controls establish shared resource selection; they do not validate these pixels. The ending uses the requested shared terrain and images, without a scene-specific fallback. Ten rigid instances,87 cached meshes and101 render entries; eight rigid refusals cover a material family and skinned-state initialization. The second view has a black background requiring native comparison. Timing, effects and the full expected asset census remain open."
     },
     {
@@ -2333,7 +2333,7 @@
       "right": "media/5e87977b2b3e323dd26181065f617063aff57b57c22e6b45f386a219df776ac9.webp",
       "left_label": "Bevy: riders and vehicles on warm race terrain",
       "right_label": "Bevy: alternate source-directed race outcome",
-      "verification": "NEW DELPHI TERRAIN \u2014 PARTIAL ENGINE VIEWS, NATIVE COMPARISON PENDING",
+      "verification": "NEW DELPHI TERRAIN — PARTIAL ENGINE VIEWS, NATIVE COMPARISON PENDING",
       "alignment": "Both images are new frozen engine previews, not original-versus-engine comparisons. Vehicles and characters come from the cinematic source assets. Mission34 orchestration is checked with three explicitly supplied services; its live creation/player backend is unbound and is not executed by this viewer. The world retains 8 explicit rigid refusals, separate from other actor, attachment and effect gaps. Lighting, water phase, native visibility, full asset coverage and normal timing remain unverified."
     },
     {
@@ -2345,7 +2345,7 @@
       "right": "media/e345ed6cf7f64b32e43922aef7977e256529c4ab68770e2b2e193ca8eec62f62.webp",
       "left_label": "Bevy: riders and vehicles on blue race terrain",
       "right_label": "Bevy: alternate source-directed race outcome",
-      "verification": "NEW DELPHI TERRAIN \u2014 PARTIAL ENGINE VIEWS, NATIVE COMPARISON PENDING",
+      "verification": "NEW DELPHI TERRAIN — PARTIAL ENGINE VIEWS, NATIVE COMPARISON PENDING",
       "alignment": "Both images are new frozen engine previews, not original-versus-engine comparisons. Vehicles and characters come from the cinematic source assets. Mission34 orchestration is checked with three explicitly supplied services; its live creation/player backend is unbound and is not executed by this viewer. The world retains 14 explicit rigid refusals, separate from other actor, attachment and effect gaps. Lighting, water phase, native visibility, full asset coverage and normal timing remain unverified."
     },
     {
@@ -2357,7 +2357,7 @@
       "right": "media/0767dc1e37ac82838b8311c44a1579f95f0a4f11f520d3d890cb0dcc0eb7e8bd.webp",
       "left_label": "Bevy: Delphi, Smartie and sword",
       "right_label": "Bevy: another character view; dark material areas remain",
-      "verification": "NEW DELPHI TERRAIN \u2014 PARTIAL ENGINE VIEWS, NATIVE COMPARISON PENDING",
+      "verification": "NEW DELPHI TERRAIN — PARTIAL ENGINE VIEWS, NATIVE COMPARISON PENDING",
       "alignment": "Both images are new frozen engine previews, not original-versus-engine comparisons. Vehicles and characters come from the cinematic source assets. Mission34 orchestration is checked with three explicitly supplied services; its live creation/player backend is unbound and is not executed by this viewer. The world retains 23 explicit rigid refusals, separate from other actor, attachment and effect gaps. Lighting, water phase, native visibility, full asset coverage and normal timing remain unverified."
     },
     {
@@ -2369,7 +2369,7 @@
       "right": "media/daffdee9c1bc169a3a9e21f9c681648cf94c625accefed83809a85321ccd669d.webp",
       "left_label": "Bevy: Kabuto body in a source-directed scene",
       "right_label": "Bevy: tankard held by a Mecc",
-      "verification": "BUILD RECONFIRMATION \u2014 EXISTING CAPABILITIES, NO NEW NATIVE COMPARISON",
+      "verification": "BUILD RECONFIRMATION — EXISTING CAPABILITIES, NO NEW NATIVE COMPARISON",
       "alignment": "New frozen views from the current build reconfirm capabilities already observed in the previous broad render pass. The renderer is unchanged. The two images show different moments, not an original-versus-engine comparison. Exact native pose, lighting, timing and exhaustive scene coverage remain unverified. Entity coverage in the retained complete run is distinct from visible pixels and does not cover all world objects or effects."
     },
     {
@@ -2381,7 +2381,7 @@
       "right": "media/584ad0bdef2f58a58c3fd582e111d601ef19d645aa2e85177b377235b400b8e3.webp",
       "left_label": "Standalone renderer: frozen pose",
       "right_label": "Mission playback: paused inspection",
-      "verification": "SAME SOURCE POSE \u2014 TWO ENGINE PATHS, PARTIAL RENDERING",
+      "verification": "SAME SOURCE POSE — TWO ENGINE PATHS, PARTIAL RENDERING",
       "alignment": "Both views use the same source animation tick and camera matrices. The left is a frozen standalone render; the right comes from mission-owned playback paused for inspection. Rendered differences remain. This comparison does not measure accuracy against the original game. Environment, materials and effects remain partial; actual campaign admission and the transition to player control are unfinished."
     },
     {
@@ -2393,7 +2393,7 @@
       "right": "media/44013ebf623483a77f495e0becc804d53611b65c43c9f850a5332e90dd3cc5cb.webp",
       "left_label": "Original 1.449: observed director opening",
       "right_label": "Bevy: frozen source opening pose",
-      "verification": "ORIGINAL VS ENGINE \u2014 OPENING POSE, LIGHTING AND TRANSPARENCY DIFFERENCES",
+      "verification": "ORIGINAL VS ENGINE — OPENING POSE, LIGHTING AND TRANSPARENCY DIFFERENCES",
       "alignment": "The original frame was captured after the selected director updated at its initial clock. The engine uses the corresponding source start pose and the same reference content. Apparent framing agrees, but native camera matrices were not read back. Lighting, reflections and transparency differ. The native benchmark overlay is retained; no performance or normal-timing claim is made. These are new validation images from an unchanged renderer, not a new rendering capability or a complete asset census. This older reference comparison is not automatically valid for the primary debug binary."
     },
     {
@@ -2405,7 +2405,7 @@
       "right": "media/da67a7c0aece63d84fae000fcf83cbcc306b6bc9020ed07794969c218cd833c1.webp",
       "left_label": "Original 1.449: observed director opening",
       "right_label": "Bevy: frozen source opening pose",
-      "verification": "ORIGINAL VS ENGINE \u2014 OPENING POSE, LIGHTING AND TRANSPARENCY DIFFERENCES",
+      "verification": "ORIGINAL VS ENGINE — OPENING POSE, LIGHTING AND TRANSPARENCY DIFFERENCES",
       "alignment": "The original frame was captured after the selected director updated at its initial clock. The engine uses the corresponding source start pose and the same reference content. Apparent framing agrees, but native camera matrices were not read back. Lighting, reflections and transparency differ. The native benchmark overlay is retained; no performance or normal-timing claim is made. These are new validation images from an unchanged renderer, not a new rendering capability or a complete asset census. This older reference comparison is not automatically valid for the primary debug binary."
     },
     {
@@ -2417,7 +2417,7 @@
       "right": "media/c5e5f7103a9e7f4a0d79c0c19953743382844641a82cbc9f740cf4edef25dc04.webp",
       "left_label": "Bevy: prepared player inspection",
       "right_label": "Bevy: player control after the opening",
-      "verification": "NORMAL MISSION ENTRY CHECKED \u2014 SIMULATED ACTIONS \u2014 PARTIAL RENDERING",
+      "verification": "NORMAL MISSION ENTRY CHECKED — SIMULATED ACTIONS — PARTIAL RENDERING",
       "alignment": "Different poses from two explicit test protocols. The right image follows the real mission backend, 14 opening directors, nine voice completions, objectives and 720 simulated controller steps. Three separate full cancel/menu/relaunch cycles pass. These images do not measure native camera alignment, human feel or pixel fidelity. Water, vegetation and major gameplay features remain incomplete."
     },
     {
@@ -2429,7 +2429,7 @@
       "right": "media/501f0c7b12494768ed3d80cf805822e16b621982bfce7ab557b2ae04793ef9eb.webp",
       "left_label": "Bevy before: missing idle palm crowns",
       "right_label": "Bevy now: source initial palm pose rendered",
-      "verification": "ENGINE BEFORE / AFTER \u2014 NEW VISIBLE PALMS, NATIVE SCENE FIDELITY OPEN",
+      "verification": "ENGINE BEFORE / AFTER — NEW VISIBLE PALMS, NATIVE SCENE FIDELITY OPEN",
       "alignment": "Same source camera, frozen scene pose and content in both engine images. New palm crowns appear behind the village and characters. The initial palm vertex buffer separately matches the debug binary byte for byte; this is not an original-versus-engine image comparison. Initial pose only: sway, cut/fall behavior, live visibility and complete asset coverage remain unverified."
     },
     {
@@ -2441,7 +2441,7 @@
       "right": "media/51bcf4744caaf44d744071f5c1b1253a10bba41f6474027efb53bbc6dab0b1f5.webp",
       "left_label": "Bevy: first-shot replay pose",
       "right_label": "Bevy: after four held-fire shots",
-      "verification": "FIRING AND LIFECYCLE CHECKED \u2014 PROVISIONAL HUD \u2014 PARTIAL RENDERING",
+      "verification": "FIRING AND LIFECYCLE CHECKED — PROVISIONAL HUD — PARTIAL RENDERING",
       "alignment": "Different poses after the real opening and objectives. Separate logs verify one and four shots respectively, the source-defined cooldown, and three full cancel/menu/relaunch cycles with projectiles still in flight. The health/fuel/pistol HUD is functional; its artwork and projectile diagnostics are provisional. These images do not establish projectile visibility, native aiming, sound/VFX fidelity, actor damage or human feel."
     },
     {
@@ -2453,7 +2453,7 @@
       "right": "media/0ed7e18a1084224ec83dba0a6a806feb9203af4d82ff9cba4d1541733d7d4cfd.webp",
       "left_label": "Bevy: opening source pose",
       "right_label": "Bevy: later source animation pose",
-      "verification": "ENGINE PREVIEW \u2014 CREDITS MISSING \u2014 NATIVE COMPARISON PENDING",
+      "verification": "ENGINE PREVIEW — CREDITS MISSING — NATIVE COMPARISON PENDING",
       "alignment": "Two different source instants in the same engine sequence and explicit mission context. These images show Kabuto animation and arena rendering; they are not a native-versus-engine comparison. Credits requests remain unconsumed, text is absent and end holds, live effects, exhaustive asset visibility and native lighting fidelity remain open."
     },
     {
@@ -2465,7 +2465,7 @@
       "right": "media/df8342bf5b762da3a242ea5c4f7d481266b251dee11593cc3c29958698996c5d.webp",
       "left_label": "Original: historical reference, normal replay",
       "right_label": "Bevy: associated mission inspection",
-      "verification": "ORIGINAL / ENGINE \u2014 APPARENT FRAMING COMPARED \u2014 LIGHTING AND SHADOWS OPEN",
+      "verification": "ORIGINAL / ENGINE — APPARENT FRAMING COMPARED — LIGHTING AND SHADOWS OPEN",
       "alignment": "Native director clock0 and engine source start. Kabuto and the arena share the same apparent framing; the engine lights Kabuto too strongly. The source mission association was observed in the original replay menu; complete live object-list initialization is not established. Native camera matrices, effective quality normalization and full visual fidelity are unverified. These raster observations are not transferred to the primary debug binary. Runtime unchanged."
     },
     {
@@ -2477,7 +2477,7 @@
       "right": "media/0cf0450d13ac7b36c32cdfb474b65b82942ed80025c8394e33e6f43316dd0a35.webp",
       "left_label": "Original: historical reference, normal replay",
       "right_label": "Bevy: associated mission inspection",
-      "verification": "ORIGINAL / ENGINE \u2014 APPARENT FRAMING COMPARED \u2014 LIGHTING AND SHADOWS OPEN",
+      "verification": "ORIGINAL / ENGINE — APPARENT FRAMING COMPARED — LIGHTING AND SHADOWS OPEN",
       "alignment": "First native capture of the sixth segment and engine source start. Delphi and Kabuto appear in the same apparent framing. The native shadow is absent in the engine and lighting differs. The source mission association was observed in the original replay menu; complete live object-list initialization is not established. Native camera matrices, effective quality normalization and full visual fidelity are unverified. These raster observations are not transferred to the primary debug binary. Runtime unchanged."
     },
     {
@@ -2489,7 +2489,7 @@
       "right": "media/4dc3055c895b994459fd0e4348b3981f287be53790a6a5b03e6df5d5e10bb853.webp",
       "left_label": "Engine before: missing platform",
       "right_label": "Engine after: source reference placement",
-      "verification": "SAME ENGINE CAMERA AND TIME \u2014 VISIBLE GEOMETRY GAIN",
+      "verification": "SAME ENGINE CAMERA AND TIME — VISIBLE GEOMETRY GAIN",
       "alignment": "The full-scene camera is identical before and after. Generic model references generate three additional rigid instances; the red platform and surrounding rocks are now visible. 13,498 pixels change. The blue extractor remains absent, with animation and reflective/translucent materials still unresolved. This does not certify a complete scene."
     },
     {
@@ -2501,7 +2501,7 @@
       "right": "media/4dc3055c895b994459fd0e4348b3981f287be53790a6a5b03e6df5d5e10bb853.webp",
       "left_label": "Original: normal cinematic, historical reference",
       "right_label": "Engine: generic base construction preview",
-      "verification": "APPARENT FRAMING COMPARED \u2014 BLUE STRUCTURE AND LIGHTING STILL OPEN",
+      "verification": "APPARENT FRAMING COMPARED — BLUE STRUCTURE AND LIGHTING STILL OPEN",
       "alignment": "Original and engine use the same historical data version for this pair. The native shot is gated after 6.6 seconds; the engine uses a fixed source time near 6.67 seconds. This is not an exact native-tick or timing comparison. The red platform and rocks are present; the blue extractor, shadows, lighting and other live effects remain incomplete. Primary debug data were also rendered separately; no binary equivalence is claimed."
     },
     {
@@ -2513,7 +2513,7 @@
       "right": "media/9e28854c593d75f6941d24a4f8743824c279b2e3b5f2e0af5f2d0277292c41f6.webp",
       "left_label": "Engine before: platform present, extractor absent",
       "right_label": "Engine after: extractor, orb and shell visible",
-      "verification": "SAME ENGINE CAMERA AND TIME \u2014 VISIBLE EXTRACTOR GAIN",
+      "verification": "SAME ENGINE CAMERA AND TIME — VISIBLE EXTRACTOR GAIN",
       "alignment": "Model references place the generated base objects. The extractor now uses its declared starting pose and shared reflection materials, with all seven detail levels prepared. The before/after camera is identical; 63,994 pixels change in the tower region. Live base animation, animated normals, effects and full-scene fidelity remain unverified."
     },
     {
@@ -2525,7 +2525,7 @@
       "right": "media/9e28854c593d75f6941d24a4f8743824c279b2e3b5f2e0af5f2d0277292c41f6.webp",
       "left_label": "Original: normal cinematic, historical reference",
       "right_label": "Engine: generated base structures and fixed starting pose",
-      "verification": "APPARENT FRAMING COMPARED \u2014 ANIMATION PHASE, LIGHTING AND SHADOWS OPEN",
+      "verification": "APPARENT FRAMING COMPARED — ANIMATION PHASE, LIGHTING AND SHADOWS OPEN",
       "alignment": "This pair uses matching historical data. The original is gated after 6.6 seconds; the engine uses a fixed source time near 6.67 seconds. The red platform, rocks and blue extractor share the apparent native placement. The extractor remains in a fixed starting pose; live animation, lighting, shadows and remaining effects are not certified. Primary debug data were also rendered separately, without claiming binary equivalence."
     },
     {
@@ -2537,7 +2537,7 @@
       "right": "media/2919ba5db5aa0b89c151a357d98f4a45b1a9e0cc802a3dc1538fa767af5ce534.webp",
       "left_label": "Engine before: gate absent",
       "right_label": "Engine after: green race gate visible",
-      "verification": "SAME CAMERA \u2014 GATE VISIBLE; WATER AND REFLECTION PHASE NOT NORMALIZED",
+      "verification": "SAME CAMERA — GATE VISIBLE; WATER AND REFLECTION PHASE NOT NORMALIZED",
       "alignment": "Both views use primary reference data. The gate now follows its declared starting pose through the shared model preparation path, without a placement specific to this shot. Camera and source time match. Water and reflections also change, so changed-pixel totals are not a gate-only measurement. Live animation, visibility and complete-scene fidelity remain open."
     },
     {
@@ -2549,7 +2549,7 @@
       "right": "media/35f08dc3e95b2d8170dd65514c87b753352f2513f312a32f0d6de26097060ca8.webp",
       "left_label": "Engine before: gate absent",
       "right_label": "Engine after: green race gate visible",
-      "verification": "SAME CAMERA \u2014 GATE VISIBLE; WATER AND REFLECTION PHASE NOT NORMALIZED",
+      "verification": "SAME CAMERA — GATE VISIBLE; WATER AND REFLECTION PHASE NOT NORMALIZED",
       "alignment": "Both views use primary reference data. The gate now follows its declared starting pose through the shared model preparation path, without a placement specific to this shot. Camera and source time match. Water and reflections also change, so changed-pixel totals are not a gate-only measurement. Live animation, visibility and complete-scene fidelity remain open."
     },
     {
@@ -2561,7 +2561,7 @@
       "right": "media/504c0920f7fc0b66c98b222cd61b1ff5283e72124b1a72512003aae45ff09ab1.webp",
       "left_label": "Original: normal race cinematic, historical reference",
       "right_label": "Engine: matching historical data and declared gate pose",
-      "verification": "APPROXIMATE TIME \u2014 GATE PRESENCE COMPARED; WATER, LIGHTING AND EXTRA ACTOR DIFFER",
+      "verification": "APPROXIMATE TIME — GATE PRESENCE COMPARED; WATER, LIGHTING AND EXTRA ACTOR DIFFER",
       "alignment": "The original replay is observed at about 1.324 seconds; the engine represents about 1.322 seconds. The green gate behind the winner shares the apparent original placement and framing. Water, lighting and an extra secondary character differ. This pair uses matching historical data; primary debug data were rendered separately. It validates this element only, without certifying timing or the full scene."
     },
     {
@@ -2573,7 +2573,7 @@
       "right": "media/aaeb14f3e1b13e0b6d7b0783eb4d54b1b91a7dddd8f96c7a5ffe6abf8f844adc.webp",
       "left_label": "Earlier engine: effect request pending",
       "right_label": "Engine preview: hand glow, both faces shown",
-      "verification": "ENGINE CONTRIBUTION OBSERVED \u2014 INSPECTION MODE; NATIVE MATCH PENDING",
+      "verification": "ENGINE CONTRIBUTION OBSERVED — INSPECTION MODE; NATIVE MATCH PENDING",
       "alignment": "Two engine previews at the same source camera and director tick.3,803 pixels change around the hand glow, using source geometry, placement and scale. Both faces are shown for inspection and the effect animation is frozen at its initial pose. Original draw policy, live lifetime and native pixels remain unverified. Other scene elements remain incomplete."
     },
     {
@@ -3285,7 +3285,7 @@
       "alignment": "Same scene data and camera route at director tick26400. The dark smoke puff near the center was absent before this source-selected effect consumer. Previous build frozen pose versus new independent live read; own effect age, asynchronous capture, actor pose, water and foliage may differ. Engine feature illustration, not an aligned original-game pixel comparison. Native cadence/density, effect carry across directors and complete scene fidelity remain unresolved. This animation endpoint does not prove replay of the final source-program step."
     },
     {
-      "title": "Rocket body near Delphi\u2019s staff",
+      "title": "Rocket body near Delphi’s staff",
       "level": "Engine feature illustration",
       "event": "A source-selected finite immediate child now renders",
       "commit": "dfcae13fe66e81d37e6cdc75e98b55cfe5edc79f",
@@ -3321,14 +3321,14 @@
       "alignment": "Same scene data and camera route at director tick8800. Delayed smoke and fire around the detached debris were absent before. Previous engine frozen pose versus independent live release preview; own effect clocks, asynchronous capture, actor pose, water and foliage may differ. Full-detail, contact-free preview; native detail policy, FX sound/light services and full fidelity remain open. This animation endpoint does not prove terminal source-program or audio/clock transport completion."
     },
     {
-      "title": "Carried-actor preview: Tel\u2019s Dilemma and The Ripper Nest",
+      "title": "Carried-actor preview: Tel’s Dilemma and The Ripper Nest",
       "level": "Mecc gameplay previews",
       "event": "Data-selected carried actor",
       "commit": "ff8fa0f32228d7aaff518b76de38032f4aee6297",
       "left": "media/121254c536d4318ae40b859c64da1a76a84b8938ca9f3c53eab9422ebc2c86ca.webp",
       "right": "media/15255d1851e6817ebe03bf0ce51ab1cb009c3b88dc2cc3c833263eb6213fc322.webp",
-      "left_label": "Bevy \u00b7 Tel\u2019s Dilemma \u00b7 carried actor preview",
-      "right_label": "Bevy \u00b7 The Ripper Nest \u00b7 carried actor preview",
+      "left_label": "Bevy · Tel’s Dilemma · carried actor preview",
+      "right_label": "Bevy · The Ripper Nest · carried actor preview",
       "verification": "New engine captures; original-image fidelity not verified.",
       "alignment": "Different selected missions and animation phases. The carried actor is visible while resident Mecc movement, jet and four diagnostic pistol shots are exercised. Raw parent poses, neutral carried orientation, unit-rate unblended animation and mission rules remain provisional."
     },
@@ -3339,8 +3339,8 @@
       "commit": "ff8fa0f32228d7aaff518b76de38032f4aee6297",
       "left": "media/15255d1851e6817ebe03bf0ce51ab1cb009c3b88dc2cc3c833263eb6213fc322.webp",
       "right": "media/49a6a43c64192cbb59cdfc980dba21ab4306bc67cc8be87a10d1d668cb545acc.webp",
-      "left_label": "Bevy \u00b7 The Ripper Nest \u00b7 carried actor preview",
-      "right_label": "Bevy \u00b7 The Way to Sorcha Island \u00b7 carried actor preview",
+      "left_label": "Bevy · The Ripper Nest · carried actor preview",
+      "right_label": "Bevy · The Way to Sorcha Island · carried actor preview",
       "verification": "New engine captures; original-image fidelity not verified.",
       "alignment": "Different selected missions and animation phases. The carried actor is visible while resident Mecc movement, jet and four diagnostic pistol shots are exercised. Raw parent poses, neutral carried orientation, unit-rate unblended animation and mission rules remain provisional."
     },
@@ -3351,8 +3351,8 @@
       "commit": "dd03af8f21d958a37d3994253c5eb51652f8a950",
       "left": "media/27a8d627df9e340d292ac8c9184e445b7b53d13d50930335636a441bb994ccc8.webp",
       "right": "media/ab324f4132d5bb2bfd21071b536b46bde93e2bd27d4c1617bf8413c2e47c8d71.webp",
-      "left_label": "Previous Bevy \u00b7 point-only attachment",
-      "right_label": "Current Bevy \u00b7 two-reference attachment",
+      "left_label": "Previous Bevy · point-only attachment",
+      "right_label": "Current Bevy · two-reference attachment",
       "verification": "Engine attachment change; final pose fidelity remains incomplete.",
       "alignment": "The same selected mission and movement/fire replay are used. Animation wall clocks are not aligned. The current renderer uses both animated references and a shared lock kernel, matching405 controlled native matrix cases. The carried body still intersects the player; this visible gap is unresolved. Native parent corrections and child pose blending remain missing. No complete mission or visual parity is claimed."
     },
@@ -3363,8 +3363,8 @@
       "commit": "dd03af8f21d958a37d3994253c5eb51652f8a950",
       "left": "media/0cf707560c87656564520c9e8ca84eb29cbf5d9297ea36cc20abade1194e0005.webp",
       "right": "media/ab324f4132d5bb2bfd21071b536b46bde93e2bd27d4c1617bf8413c2e47c8d71.webp",
-      "left_label": "Original debug game \u00b7 third-person mission",
-      "right_label": "Bevy \u00b7 current carried-reference lock",
+      "left_label": "Original debug game · third-person mission",
+      "right_label": "Bevy · current carried-reference lock",
       "verification": "New original gameplay observation; qualitative comparison with unresolved pose overlap.",
       "alignment": "Both images show the same mission. Camera, position, animation phase and action are not synchronized; the original player has been exposed to live enemies. Original pickup requests and attachment fields were observed without replacing their arguments or returns. The engine still lacks complete actor services, parent corrections, blended poses and mission rules. Its carried body intersects the player. This pair documents the remaining gap rather than certifying final accuracy."
     },
@@ -3375,8 +3375,8 @@
       "commit": "f3fad106fba5ebc5fc4da5668a7989a0670d9a65",
       "left": "media/ab324f4132d5bb2bfd21071b536b46bde93e2bd27d4c1617bf8413c2e47c8d71.webp",
       "right": "media/b613b3cd9b4b571a16b721dcc58cc2d90e83feb5b846db8cc532d4e0e88f47a6.webp",
-      "left_label": "Previous Bevy \u00b7 raw animated parent reference",
-      "right_label": "Current Bevy \u00b7 declared correction applied",
+      "left_label": "Previous Bevy · raw animated parent reference",
+      "right_label": "Current Bevy · declared correction applied",
       "verification": "Partial visual improvement backed by same-call native matrix comparisons.",
       "alignment": "Same selected mission and movement/fire replay; animation wall clocks are not synchronized. The carried torso is more visible and intersects the player less. Final body poses and blending remain imperfect; no full visual parity or complete mission is certified."
     },
@@ -3387,8 +3387,8 @@
       "commit": "f3fad106fba5ebc5fc4da5668a7989a0670d9a65",
       "left": "media/0cf707560c87656564520c9e8ca84eb29cbf5d9297ea36cc20abade1194e0005.webp",
       "right": "media/b613b3cd9b4b571a16b721dcc58cc2d90e83feb5b846db8cc532d4e0e88f47a6.webp",
-      "left_label": "Original debug game \u00b7 third-person mission",
-      "right_label": "Bevy \u00b7 corrected carried reference",
+      "left_label": "Original debug game · third-person mission",
+      "right_label": "Bevy · corrected carried reference",
       "verification": "Qualitative comparison; original reference and world matrices match in90 separate unblended samples.",
       "alignment": "Same mission, different camera, player position, action and animation phase. Exact matrix comparisons do not synchronize these images or establish body-pose fidelity. Live services, blended poses, enemies and mission rules remain incomplete."
     },
@@ -3399,8 +3399,8 @@
       "commit": "793e65f508e10729677c334118dde4bb523b38f6",
       "left": "media/f321f3be7a6190cf9a913fbf78da6cc33aa5e287c02b17a7bdbc6161171d3b5d.webp",
       "right": "media/af41d528e71b7e72ce54cb6b75e172d28f2c3b16238735cc114ac8a58a3360ae.webp",
-      "left_label": "Previous build \u00b7 free camera only",
-      "right_label": "Current build \u00b7 controlled Mecc preview",
+      "left_label": "Previous build · free camera only",
+      "right_label": "Current build · controlled Mecc preview",
       "verification": "New control path verified with movement, jet, animation, diagnostic fire and initialization cancellation.",
       "alignment": "Same selected mission and explicit opening skip. The cameras differ because the previous build could not prepare the player start. The new view uses the first eligible source marker, matching original loading and restart. This demonstrates access to player control, not pixel parity or complete mission behavior."
     },
@@ -3411,8 +3411,8 @@
       "commit": "793e65f508e10729677c334118dde4bb523b38f6",
       "left": "media/71e8149fc60c8ffca42ab4ea08e3f43c52ca29b371d6555b7dd3dcec0e2e1e95.webp",
       "right": "media/af41d528e71b7e72ce54cb6b75e172d28f2c3b16238735cc114ac8a58a3360ae.webp",
-      "left_label": "Original debug game \u00b7 selected mission",
-      "right_label": "Bevy \u00b7 Mecc preview at the selected start",
+      "left_label": "Original debug game · selected mission",
+      "right_label": "Bevy · Mecc preview at the selected start",
       "verification": "Original selection and pose copy match; scene and mission fidelity remain partial.",
       "alignment": "Same mission, with nearby but unsynchronized camera and animation states. The original view contains more village objects than the engine preview. The player start is verified separately by exact numeric comparisons. Remaining scene objects, living actors, real damage and mission rules are not certified by these images."
     },
@@ -3423,8 +3423,8 @@
       "commit": "785be2f690c6093094c90ab0e5c716f3b06b1136",
       "left": "media/af41d528e71b7e72ce54cb6b75e172d28f2c3b16238735cc114ac8a58a3360ae.webp",
       "right": "media/584550eabf2f82c516eaa80c0c40ef8672a6e1d7cc9e275a867deb17890d970b.webp",
-      "left_label": "Previous build \u00b7 rigid scene blocked",
-      "right_label": "Current build \u00b7 hut, bridge and prepared props",
+      "left_label": "Previous build · rigid scene blocked",
+      "right_label": "Current build · hut, bridge and prepared props",
       "verification": "Visible scenery improvement; complete native scene fidelity remains unverified.",
       "alignment": "Same selected mission, player start and explicit opening skip. Animation phases are not synchronized. One reflective material previously blocked the whole rigid scene. The current preview stages525 entries across parts and detail variants; this is not525 distinct visible objects. Live callbacks and mission rules remain unfinished."
     },
@@ -3435,8 +3435,8 @@
       "commit": "785be2f690c6093094c90ab0e5c716f3b06b1136",
       "left": "media/ab6dc2051335e74d1549ba2f3e4c74f511485781b218db341ab40355435277d3.webp",
       "right": "media/3a35f6041ac2f4c4182e5f5cec5db2ad7e7a48b27644a777358cd4181452a7cd.webp",
-      "left_label": "Previous captured run \u00b7 loading overlay after movement replay",
-      "right_label": "Current build \u00b7 tunnel and mission scenery",
+      "left_label": "Previous captured run · loading overlay after movement replay",
+      "right_label": "Current build · tunnel and mission scenery",
       "verification": "Presentation-path comparison after the same diagnostic movement/fire replay.",
       "alignment": "Both runs finish the same275-step controller replay. The previous capture still shows its loading overlay; the current capture waits for environment staging and shows the tunnel. This comparison combines presentation readiness and scenery availability, not a pixel-aligned geometry diff. Initial character poses, carried continuity, AI and mission rules remain incomplete."
     },
@@ -3447,8 +3447,8 @@
       "commit": "785be2f690c6093094c90ab0e5c716f3b06b1136",
       "left": "media/71e8149fc60c8ffca42ab4ea08e3f43c52ca29b371d6555b7dd3dcec0e2e1e95.webp",
       "right": "media/584550eabf2f82c516eaa80c0c40ef8672a6e1d7cc9e275a867deb17890d970b.webp",
-      "left_label": "Original debug game \u00b7 village view",
-      "right_label": "Bevy \u00b7 restored prepared scenery",
+      "left_label": "Original debug game · village view",
+      "right_label": "Bevy · restored prepared scenery",
       "verification": "Qualitative comparison; newly visible scenery is not full native parity.",
       "alignment": "Reuses the retained original view of the same mission. Camera, action, animation phase and graphics settings are not synchronized. The hut and bridge are now visible in the engine. Some actors and props, live behavior, lighting, reflection phases and complete mission rules remain unverified."
     },
@@ -3459,92 +3459,92 @@
       "commit": "ad05d9c411cd3ab12397d6697d618e63248567ab",
       "left": "media/109f03e6cd62788f2ff45c8ef1d157c5b79f0fa55370e470faa0df62c8d46a0e.webp",
       "right": "media/208a5f6680e9c2b7825aac5dfca8d9cd67dfa21af1932dcb5da7f644e5eb1c7a.webp",
-      "left_label": "Bevy \u00b7 third-person regression view",
-      "right_label": "Bevy \u00b7 new first-person arms and pistol",
+      "left_label": "Bevy · third-person regression view",
+      "right_label": "Bevy · new first-person arms and pistol",
       "verification": "Visible in rebuilt previews; native visual fidelity is not verified.",
       "alignment": "Both images are engine renderings of the same selected mission after movement and four diagnostic pistol shots. The cameras differ by design and image phases are not synchronized. This pair contains no original-game screenshot. First-person input phases, repeated firing timing, pose blending, native camera dynamics, lighting, living actors and complete mission rules remain incomplete."
     },
     {
-      "title": "Mission message display and expiration \u2014 synthetic test",
+      "title": "Mission message display and expiration — synthetic test",
       "level": "Mecc gameplay",
       "event": "New HUD consumer exercised with controlled messages",
       "commit": "15dabfdac3ebeccf2a0918b422a284481e6224fa",
       "left": "media/e4835b3ed935c5a9c0eaf94dcce5284ed844ee344dca9953a7b95c0598b74d11.webp",
       "right": "media/982e7fdd9b6264cb07fa9aaa2a717c285c7088c3dd6f31f8ebd3853497768a3b.webp",
-      "left_label": "Bevy \u00b7 synthetic messages expired",
-      "right_label": "Bevy \u00b7 normal, enlarged and centered test messages",
+      "left_label": "Bevy · synthetic messages expired",
+      "right_label": "Bevy · normal, enlarged and centered test messages",
       "verification": "Engine glyphs, centering, expiration and cleanup verified. Native font rasterization and live notice triggers remain unverified.",
       "alignment": "Both images are engine renderings from the same partial Mecc replay. Three explicitly synthetic messages exercise the real queue and HUD; they are not naturally triggered mission notices. The scene is a regression backdrop, not a new scene-fidelity result. The shared inspection font and developer hints remain visible. Original-game pixels, native clock phases and complete mission rules are not validated by this pair."
     },
     {
-      "title": "Blood particles and trails \u2014 controlled engine preview",
+      "title": "Blood particles and trails — controlled engine preview",
       "level": "Mecc gameplay",
       "event": "New blood service shown in two controlled phases",
       "commit": "4a7f640d5d9dfed6e254fa69b6f1f4d779b8a7e3",
       "left": "media/4aaa95defccd858d949595b6de99734054e292a8fcb10f3ac59714cb2fd4f058.webp",
       "right": "media/2710a92df441eb7f1c4c2d0198bf85e2779011214750df8c0b96f2d63b4311d0.webp",
-      "left_label": "Engine \u2014 early blood and trails, diagnostic burst",
-      "right_label": "Engine \u2014 later blood and trails, diagnostic burst",
+      "left_label": "Engine — early blood and trails, diagnostic burst",
+      "right_label": "Engine — later blood and trails, diagnostic burst",
       "verification": "Particle birth, motion, trails, recycling and quad requests match the reference in CPU checks. Engine particles are visible. Native pixels and automatic projectile-hit dispatch remain unverified.",
       "alignment": "Both images are engine-only synthetic bursts after the same scripted Mecc movement. Nine and eighteen fixed particle steps produce 85 and 133 sprites from 34 initial drops. The trigger is injected for this service test; it is not a successful pistol hit or a native image comparison. The partial mission backdrop is a regression, not new scene-fidelity progress."
     },
     {
       "title": "Owned FX objects reach the GPU",
-      "level": "Core gameplay \u00b7 terrain inspection",
-      "event": "New static render consumer \u00b7 five owned effects",
+      "level": "Core gameplay · terrain inspection",
+      "event": "New static render consumer · five owned effects",
       "commit": "c8f6553630b1e6065648f1bdc477dad047816caa",
       "left": "media/66f993b36b0926adbc6ebb087532153c4dd844a9aef42b4f48f072c63d04423c.webp",
       "right": "media/87471d3dfd3a552eb98777271ef82e5485ee1f6d68c92979318b1daad6a0f519.webp",
-      "left_label": "Engine \u00b7 terrain control with an empty effect",
-      "right_label": "Engine \u00b7 five owned FX objects, clock zero",
+      "left_label": "Engine · terrain control with an empty effect",
+      "right_label": "Engine · five owned FX objects, clock zero",
       "verification": "Five objects and13 subparts contribute five separate visible regions in each view. Repeated captures match pixel for pixel. This checks engine submission; native pixels and normal combat are unverified.",
       "alignment": "Both images use the same supplied inspection camera and explicit parent layout. The left image executes a real empty source program. The right image executes five acquired attached programs. Animation clocks remain zero; emitters do not produce particles. Terrain-only drawing and disabled fog are inspection overrides. The terrain is a regression backdrop, not new scene-fidelity progress."
     },
     {
-      "title": "Owned FX objects reach the GPU \u00b7 second inspection view",
-      "level": "Core gameplay \u00b7 terrain inspection",
-      "event": "New static render consumer \u00b7 five owned effects",
+      "title": "Owned FX objects reach the GPU · second inspection view",
+      "level": "Core gameplay · terrain inspection",
+      "event": "New static render consumer · five owned effects",
       "commit": "c8f6553630b1e6065648f1bdc477dad047816caa",
       "left": "media/f9419c245b7296caf07f26a9b2d29f711d5009aefc2d57673202586155c7b964.webp",
       "right": "media/9006f36dccc02df241e1e0b86b9457c86d9470bdc1db93a6a8ed9bec7a93b773.webp",
-      "left_label": "Engine \u00b7 terrain control with an empty effect",
-      "right_label": "Engine \u00b7 five owned FX objects, clock zero",
+      "left_label": "Engine · terrain control with an empty effect",
+      "right_label": "Engine · five owned FX objects, clock zero",
       "verification": "Five objects and13 subparts contribute five separate visible regions in each view. Repeated captures match pixel for pixel. This checks engine submission; native pixels and normal combat are unverified.",
       "alignment": "Both images use the same supplied inspection camera and explicit parent layout. The left image executes a real empty source program. The right image executes five acquired attached programs. Animation clocks remain zero; emitters do not produce particles. Terrain-only drawing and disabled fog are inspection overrides. The terrain is a regression backdrop, not new scene-fidelity progress."
     },
     {
       "title": "Gameplay particle births reach the GPU",
-      "level": "Core gameplay \u00b7 terrain inspection",
-      "event": "New debris and dust renderer input \u00b7 supplied free-flight snapshot",
+      "level": "Core gameplay · terrain inspection",
+      "event": "New debris and dust renderer input · supplied free-flight snapshot",
       "commit": "7bdb2eb6a60a4156f9d5039ee04dc1a9571f56c7",
       "left": "media/66f993b36b0926adbc6ebb087532153c4dd844a9aef42b4f48f072c63d04423c.webp",
       "right": "media/67dd9693e66d4b3c12778a99a294b4e905e3ac54bd85977396a98d19f9c70c13.webp",
-      "left_label": "Engine \u00b7 empty-effect terrain control",
-      "right_label": "Engine \u00b7 debris and dust after nine supplied updates",
+      "left_label": "Engine · empty-effect terrain control",
+      "right_label": "Engine · debris and dust after nine supplied updates",
       "verification": "Ten source-configured children are submitted in this view. The pixels show their collective contribution; individual occlusion and native pixels are not verified. This is new FX consumption, not a new terrain-fidelity result.",
       "alignment": "Both images use the same supplied camera and terrain. Effect position, seed and nine fixed updates are inspection inputs. The left image executes an empty program. Fog, sky, water, mission population and particle contacts are excluded. Normal mission scheduling remains pending."
     },
     {
-      "title": "Gameplay particle births reach the GPU \u00b7 second view",
-      "level": "Core gameplay \u00b7 terrain inspection",
-      "event": "New debris and dust renderer input \u00b7 supplied free-flight snapshot",
+      "title": "Gameplay particle births reach the GPU · second view",
+      "level": "Core gameplay · terrain inspection",
+      "event": "New debris and dust renderer input · supplied free-flight snapshot",
       "commit": "7bdb2eb6a60a4156f9d5039ee04dc1a9571f56c7",
       "left": "media/f9419c245b7296caf07f26a9b2d29f711d5009aefc2d57673202586155c7b964.webp",
       "right": "media/217e8f8b767645fcfdc1d38b1fcdc2c36f09df0de38229f7a383154572b1c1df.webp",
-      "left_label": "Engine \u00b7 empty-effect terrain control",
-      "right_label": "Engine \u00b7 debris and dust after nine supplied updates",
+      "left_label": "Engine · empty-effect terrain control",
+      "right_label": "Engine · debris and dust after nine supplied updates",
       "verification": "Ten source-configured children are submitted in this view. The pixels show their collective contribution; individual occlusion and native pixels are not verified. This is new FX consumption, not a new terrain-fidelity result.",
       "alignment": "Both images use the same supplied camera and terrain. Effect position, seed and nine fixed updates are inspection inputs. The left image executes an empty program. Fog, sky, water, mission population and particle contacts are excluded. Normal mission scheduling remains pending."
     },
     {
       "title": "Development movement and jet regression views",
-      "level": "Core gameplay \u00b7 controller inspection",
+      "level": "Core gameplay · controller inspection",
       "event": "Building contact, retreat and jet-cycle checks",
       "commit": "5c532843693153eb484f8da8dafe7ead4bc2a1aa",
       "left": "media/ea29e691af7250047cebdc5eeff956cab507d60e555ab08f824d0d0e5424c721.webp",
       "right": "media/ea7c566905fd4aa31bb8a0d546b60b509d8ed2488b54262b0452ad26f397e4b6.webp",
-      "left_label": "Engine \u00b7 contact and retreat replay",
-      "right_label": "Engine \u00b7 jet cycle replay",
+      "left_label": "Engine · contact and retreat replay",
+      "right_label": "Engine · jet cycle replay",
       "verification": "The final engine build passes the contact/retreat and jet-cycle checks. These images document the development controller and rendered world. Original-game trajectory and image fidelity remain unverified.",
       "alignment": "Independent development views with different supplied cameras and endpoints. The radius and placement comparisons use separate CPU controls. Complete owned actor scheduling and normal mission integration remain pending."
     },
@@ -4170,9 +4170,16 @@
     "media/e4bc6dfe3a3e8a76e22921659145dc70dec97d3af6b106e50725332d433b11a9.webp": "e4bc6dfe3a3e8a76e22921659145dc70dec97d3af6b106e50725332d433b11a9",
     "media/8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9.webp": "8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9",
     "media/82aeb77fb01574d9baac585fa0ad3b4c533afcdd91e40bb445913fe42fae8bfb.webp": "82aeb77fb01574d9baac585fa0ad3b4c533afcdd91e40bb445913fe42fae8bfb",
-    "media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp": "0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4"
+    "media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp": "0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4",
+    "media/d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4.webp": "d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4"
   },
   "screenshots": [
+    {
+      "title": "Owned Kabuto with explicit profile-camera inspection",
+      "image": "media/d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4.webp",
+      "caption": "Bevy GPU render from source 1799a51 after an explicitly supplied mode-1 command. The actual owned actor supplies its separate look angle and size gain; external PC profile coefficients drive the unclipped camera and projection kernels in the shared renderer. Head and horns are now visible. Static pose/placement, floor/chase/wall handling, real startup and warm ordering, live animation/input and fidelity remain unverified; all four initializer gates remain pending. This diagnostic is not playable Kabuto and is not included in Windows preview .9.",
+      "commit": "1799a5106c50c78aa9c2e7a9cffd38d87b61647a"
+    },
     {
       "title": "Preview .9 ordinary-controller jetpack",
       "image": "media/8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9.webp",
@@ -4212,7 +4219,7 @@
     {
       "title": "Delphi initial body inspection",
       "image": "media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp",
-      "caption": "Delphi\u2019s initial pose in Rstory1, rendered in Bevy. Diagnostic capture with an inspection camera. Movement, live animation, held equipment and normal gameplay remain unavailable; visual fidelity is unverified. This image is not from the published .8 or .9 download.",
+      "caption": "Delphi’s initial pose in Rstory1, rendered in Bevy. Diagnostic capture with an inspection camera. Movement, live animation, held equipment and normal gameplay remain unavailable; visual fidelity is unverified. This image is not from the published .8 or .9 download.",
       "commit": "f4795de0de5dd43109e4a1f04f48f617950bd0da"
     }
   ],
