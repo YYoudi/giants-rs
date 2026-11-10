@@ -1178,6 +1178,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ## Immediate runtime prerequisites
 
+- Combined integration checkpoint: source `ca43619` preserves the reviewed Mecc
+  `bac59d8` and Delphi `897d80d` lots. The combined workspace passes 913 Rust
+  tests (106 ignored), 27 installed Mecc and 14 installed Delphi controls,
+  plus two 512-frame App controls (CPU and real zero-PCM muted audio). Commands,
+  gates and clocks remain supplied; these do not admit a complete world.
+  Keep the .8 download and its historical captures separate from these later
+  source services. Next integrate actual common camera/input/projection and
+  activation order alongside the lanes' required impact, target and world owners;
+  preserve failure quarantine rather than supplying default gates or no-op services.
+
 - Application actor roles now retain constructor-returned Session identities for
   the player and carried actor. Resource, motion, pickup and audio consumers no
   longer depend on a unique actor class, and stale/foreign owners refuse rather
