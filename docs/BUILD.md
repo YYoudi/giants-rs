@@ -83,10 +83,12 @@ This is CPU asset coverage, with no GPU or ordinary gameplay availability claim.
 
 With the same root, run
 `cargo test --locked -p giants-game source_passive_world --target x86_64-pc-windows-gnu -- --ignored`
-for 133 source-backed empty-channel state0 actors over three supplied callback
-steps, including zero/positive/forced-zero ANM entry for four reference owners.
-The selected-cohort CPU control checks current affines, unchanged RNG, replay/
-retirement and unsupported profiles. Whole-world admission/control, clocks and
+for 134 source-backed eventless state0 actors over three supplied callback
+steps, including zero/positive/forced-zero ANM entry. Four reference owners retain
+unsampled storage; the animated building samples fifteen references and feeds
+the actual shared position buffer. The selected-cohort CPU control checks current
+affines, unchanged RNG, replay/retirement and retained ANM state after an explicit
+environment-gate fault. Whole-world admission/control, clocks and
 unused collision/platform providers remain explicit supplied boundaries.
 The ignored `source_absent_primary_reference_guard` control separately uses the
 actual two reference-bearing class resources and a declared nonzero cache fixture;

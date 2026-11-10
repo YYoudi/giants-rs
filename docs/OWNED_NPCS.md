@@ -25,7 +25,7 @@ Source/CPU controls below do not identify a map on which their behavior can
 already be exercised interactively. Ordinary admission still requires actual
 world services and validation.
 
-## Empty state0 actors in the shared callback path — source dependency
+## Eventless state0 actors in the shared callback path — source dependency
 
 No ordinary Vimp AI map is available. The common-node adapter now also accepts
 constructed, unparented nonphysical state0 actors whose actual source has no
@@ -51,16 +51,41 @@ clock, placement/history, slow-area population and admission remain supplied;
 resource pointers and UID are excluded. Prototype PS2 lookup remains unknown.
 
 The initial empty-reference checkpoint admitted 129 actors. Current Story2
-declarations admit 133 neutral actors to this shared profile.
+declarations admit 133 empty-channel neutral actors to this shared profile.
 Three supplied callback steps retain their positions, publish current affines and
 preserve RNG across 399 updates; replay and retirement refuse. Terrain/platform/
 footprint providers are required but not entered by these stationary actors.
-The remaining animated state0 declaration still requires its active-channel
-reference/event services and remains unsupported. This is a selected-cohort CPU
+The additional animated state0 declaration is supported by the bounded eventless
+single-channel path below. This is a selected-cohort CPU
 control: other actor families are not acknowledged as updated, and empty supplied collision geometry is not a claim of
 an empty mission. Parented Mecc children, wider state0/AI callbacks and the actual
 shared world admission/clock/control/environment/effect producers still block
 ordinary whole-world scheduling before the live Vimp render consumer can be used.
+
+## Active eventless state0 animation - intermediate source dependency
+
+The actual Story2 building now advances its declared channel through the shared
+channel loop, stores the shared epoch, samples its fifteen owned references and
+then finalizes its affine. Eligibility requires a real positive-duration primary
+descriptor, empty backup channels, an explicitly empty event track and no reference
+corrections. State0 has no supplemental state2 event dispatch. Parented actors,
+external orientation and eventful profiles remain outside this adapter. Earlier
+herd/passive identifiers and empty-channel guards remain available.
+
+A focused original-PC control observes five callbacks: initial forced zero time,
+positive time, a loop crossing, another forced zero and unforced zero. Three
+source/native projections agree on 999 selected words, including channels, rates,
+affine and all references. Pointers, UID and numeric epoch identities are excluded;
+clock/control/history/placement/admission remain supplied. Prototype PS2 lookup
+remains unknown; no signature, ABI or memory layout is imported from it.
+
+The installed selected cohort now runs 134 actors /402 callbacks, consumes the
+animated actor through the actual shared position buffer and retains the four
+empty-channel reference owners as unsampled. An explicit environment-gate fault
+checks that a late failure retains ANM clocks, epoch and references and refuses
+replay. It is a supplied fault, not an acquired ordinary flag writer. These checks
+do not update other families or supply the whole-world scheduler. No new ordinary
+Vimp map, GPU interaction or preview is established.
 
 ## Retained references behind an absent primary channel
 

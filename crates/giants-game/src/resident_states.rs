@@ -9547,13 +9547,13 @@ impl Session {
         if input.seed.storage.state() == 0 && input.seed.storage.data().is_some() {
             return Err("state0 construction must not allocate a payload".into());
         }
-        // Admit only the acquired empty-channel nonphysical state0 profile.
-        // Reference storage remains owned but unsampled behind its real guard.
-        // Unsupported animated state0 declarations still construct, but
+        // Admit only acquired nonphysical state0 animation profiles. Empty
+        // channels retain unsampled references; eventless single channels use
+        // the shared clock/reference owner. Unsupported declarations construct but
         // receive no successful common callback by default.
         let passive = if input.seed.storage.profile() == Profile::Debug
             && input.seed.storage.state() == 0
-            && crate::herd_frame::Owned::supports_empty_state0(&input.fields, &input.specification)
+            && crate::herd_frame::Owned::supports_state0(&input.fields, &input.specification)
         {
             Some(crate::herd_frame::Owned::fresh(
                 &input.fields,

@@ -73,9 +73,13 @@ neutral declarations, including four with retained reference resources. Its actu
 absent-primary guard preserves matrices without a current pose; six PC callbacks
 observe zero reference writes and two node projections match 156 selected words.
 The selected-cohort source control runs 399 callbacks with supplied clock/control/
-force admission. The remaining animated state0 declaration, parented children,
-other AI families and real whole-world inputs/admission remain required; loading
-still enables no default callback or live AI.
+force admission. The eventless single-channel state0 declaration now uses the same owned channel,
+epoch and reference services: three PC/source callback projections match 999
+selected words, including all fifteen reference matrices and a loop crossing.
+The installed cohort now admits all 134 neutral declarations /402 callbacks and
+checks actual position-buffer consumption. Parented children, other AI families
+and real whole-world inputs/admission remain required; loading still enables no
+default callback or live AI.
 
 ### Later main follow-ups, outside the frozen .9 download
 

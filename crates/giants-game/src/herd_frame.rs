@@ -1,4 +1,4 @@
-//! Bounded herd/marker and empty state0 common-node composition. World admission and population
+//! Bounded herd/marker and eventless state0 common-node composition. World admission and population
 //! traversal remain upstream; environment and footprint services are required.
 use crate::{actor_fields::Fields, actor_finalization, collider_copy, resident_states::Id};
 
@@ -45,7 +45,7 @@ impl Owned {
     /// State0 has no payload or primary/secondary dispatch entry. The shared
     /// constructor clears transient motion/contact storage before class copy;
     /// absent primary channels retain reference storage without sampling it.
-    /// Animated channels and external orientation still need other owners.
+    /// External orientation still needs another owner.
     pub fn supports_empty_state0(
         fields: &Fields,
         specification: &crate::specification::Prepared,
@@ -54,6 +54,36 @@ impl Owned {
             && fields.channels.iter().all(|c| c[0] == 254)
             && fields.class == specification.class
             && fields.object_flags & 0x10000 == 0
+    }
+    /// Ordinary single-channel state0 animation, without class-specific events,
+    /// correction callbacks or a parent. Empty-channel eligibility stays distinct
+    /// so its retained-reference guard cannot be mistaken for a sampled pose.
+    pub fn supports_state0(
+        fields: &Fields,
+        specification: &crate::specification::Prepared,
+    ) -> bool {
+        if Self::supports_empty_state0(fields, specification) {
+            return true;
+        }
+        fields.configuration[20] == 0
+            && fields.class == specification.class
+            && fields.object_flags & 0x10000 == 0
+            && specification.needs.is_empty()
+            && specification.corrections.is_empty()
+            && fields.channels[1..].iter().all(|c| c[0] == 254)
+            && u8::try_from(fields.channels[0][0]).is_ok_and(|slot| {
+                slot != 254
+                    && specification.animations.get(&slot).is_some_and(|d| {
+                        d.template.duration.is_finite() && d.template.duration > 0.
+                    })
+                    && specification.metadata.events.iter().any(|t| t.slot == slot)
+                    && specification
+                        .metadata
+                        .events
+                        .iter()
+                        .filter(|t| t.slot == slot)
+                        .all(|t| t.events.is_empty())
+            })
     }
     /// Actual source constructors clear the nonphysical motion, contact and
     /// affine fields. Placements provide the declared header, not physics.
@@ -64,13 +94,14 @@ impl Owned {
         if (!matches!(
             (fields.class, fields.configuration[20]),
             (49, 17) | (679, 0)
-        ) && !Self::supports_empty_state0(fields, specification))
-            || fields.channels.iter().any(|c| c[0] != 254)
+        ) && !Self::supports_state0(fields, specification))
+            || (fields.channels.iter().any(|c| c[0] != 254)
+                && !Self::supports_state0(fields, specification))
             || (!specification.metadata.references.names.is_empty()
-                && !Self::supports_empty_state0(fields, specification))
+                && !Self::supports_state0(fields, specification))
             || fields.object_flags & 0x10000 != 0
         {
-            return Err("passive frame requires source nonphysical herd or state0 with empty channels and an acquired reference guard".into());
+            return Err("passive frame requires source nonphysical herd or acquired eventless state0 animation".into());
         }
         let c = fields.configuration;
         let mut f = collider_copy::Fields::zeroed();
@@ -89,7 +120,7 @@ impl Owned {
         f.packed_parameters = c[25];
         f.radius_limit = f32::from_bits(c[26]);
         f.radius_override = f32::from_bits(c[27]);
-        f.animation_slot = 254;
+        f.animation_slot = fields.channels[0][0];
         Ok(Self {
             view: View {
                 next_frame: 0,

@@ -52,6 +52,22 @@ The retained preview's per-director random state is not a native fidelity proof.
 Both prototype PS2 resources were searched with pinned binary identities before
 this work; attribution stays unknown. Detailed records remain private.
 
+## Eventless state0 animation - intermediate source dependency
+
+This source checkpoint adds no ordinary Vimp AI map or Windows preview. The
+remaining animated Story2 neutral declaration now uses owned channels, the shared
+epoch, fifteen reference matrices and normal finalization in the common callback
+adapter. Eligibility remains restricted to eventless single-channel state0 without
+corrections or a parent; empty-channel retained storage keeps its original guard.
+Three original-PC/source projections match 999 selected words, including a loop
+crossing. Five native callbacks distinguish forced and skipped zero time. The
+installed 134-actor cohort covers 402 callbacks, actual position-buffer consumption
+and retained ANM state after an explicitly supplied late environment failure.
+
+World admission/clock/control/environment/effect producers, parented children and
+other AI families still block ordinary herd play. Research inputs stay private;
+prototype PS2 attributions remain unknown. The frozen .9 package is unchanged.
+
 ## State0 retained-reference guard — intermediate source dependency
 
 This NPC source checkpoint adds no ordinary Vimp AI map or preview. Empty-channel state0 actors

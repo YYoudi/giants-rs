@@ -88,19 +88,46 @@ impl ActorWorldServices for Adapter<'_, '_> {
         let actor = session.residents.get_mut(&source.serial).unwrap();
         let channels = actor.channels.as_mut().ok_or("herd ANM channels absent")?;
         let entered = seconds != 0. || channels.iter().any(|c| c[8] & 0x100 != 0);
-        actor.mecc_animation_stamp = crate::herd_frame::advance_empty(
-            channels,
-            seconds,
-            self.services.stamp,
-            actor.mecc_animation_stamp,
-        )?;
+        if channels.iter().all(|c| c[0] == 254) {
+            actor.mecc_animation_stamp = crate::herd_frame::advance_empty(
+                channels,
+                seconds,
+                self.services.stamp,
+                actor.mecc_animation_stamp,
+            )?;
+        } else {
+            let specification = session
+                .specifications
+                .get(&source.serial)
+                .unwrap()
+                .0
+                .specification();
+            let mut durations = vec![None; 256];
+            for (&slot, descriptor) in &specification.animations {
+                durations[usize::from(slot)] = Some(descriptor.template.duration);
+            }
+            let tick = crate::animation_channels::advance(
+                channels,
+                &durations,
+                actor.herd_frame.as_ref().unwrap().view.rates,
+                seconds,
+                crate::arithmetic::Precision::Double53,
+            )?;
+            if entered {
+                actor.mecc_animation_stamp = self.services.stamp.advance();
+            }
+            actor.construction_fields.as_mut().unwrap().channels = *channels;
+            if tick.missing != 0 {
+                return Err("passive ANM source descriptor absent".into());
+            }
+        }
         actor.construction_fields.as_mut().unwrap().channels = *channels;
         if entered {
             let channels = *channels;
             let epoch = actor.mecc_animation_stamp;
-            // The actual reference routine returns before sampling/corrections
-            // when the primary descriptor is absent. Preserve that storage and
-            // its unsampled/stale status, rather than inventing a bind matrix.
+            // Sample an actual primary channel, or preserve retained storage
+            // behind the absent-primary guard. Eligibility requires an empty
+            // event track; no event/material/effect service is substituted.
             session
                 .specifications
                 .get_mut(&source.serial)
@@ -121,6 +148,7 @@ impl ActorWorldServices for Adapter<'_, '_> {
         state.fields.response_flags = header.response_flags;
         state.fields.collision_flags = header.configuration[14];
         state.fields.model_vertical_speed = actor.herd_frame.as_ref().unwrap().view.rates[0];
+        state.fields.animation_slot = header.channels[0][0];
         state.affine = actor.affine_cache.as_ref().map(|c| c.value);
         let result = crate::actor_finalization::finalize(
             state,
@@ -176,7 +204,14 @@ impl Session {
         let fields = actor.construction_fields.as_ref().unwrap();
         if fields.object_flags & 0x10000 != 0
             || fields.configuration[20] != u32::from(actor.seed.storage.state())
-            || actor.channels.is_none_or(|c| c.iter().any(|v| v[0] != 254))
+            || actor.channels != Some(fields.channels)
+            || (fields.configuration[20] == 0
+                && !crate::herd_frame::Owned::supports_state0(
+                    fields,
+                    self.specification(id)
+                        .ok_or("passive specification absent")?,
+                ))
+            || (fields.configuration[20] != 0 && fields.channels.iter().any(|v| v[0] != 254))
         {
             return Err("herd frame animation/orientation profile changed without producer".into());
         }
