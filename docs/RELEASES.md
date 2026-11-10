@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Mecc lost-parent context retention — 10 November 2026
+
+The acquired smoke parent cleanup now distinguishes the live recipient from its
+historical identity. A dead parent invalidates the live reference and retains the
+prepared or active context in ParentLost; it does not mark or free the emitter.
+Explicit stop still marks the emitter before retiring its context. Missing live
+storage and foreign Session scope are refused, and reactivation after loss draws
+nothing. Peer contexts, origins and cursors remain owned.
+
+Forty-eight original/Rust cases agree on 576 selected words; 96 actual native
+cleanup calls include repeated-call controls. Installed checks also cancel the
+actual wounded-primary emitter after supplied parent death. The combined branch
+preserves the new Kabuto reference and camera-admission handoffs. Validation
+passes 871 workspace Rust tests (60 ignored), fifteen installed Mecc controls,
+43 Python tests, Rustfmt, strict Clippy and site/JavaScript checks. These are
+source/CPU results. Global parent/child cleanup scheduling, eventual actor
+freeing and active particles remain required; the public preview snapshot is
+unchanged and no new gameplay or fidelity claim follows.
+
 ## Mecc canonical smoke ownership and bounded stop — 10 November 2026
 
 The topic branch now publishes retained smoke into the actual Session and effect
