@@ -14,6 +14,12 @@ consumers, active physics and ordinary menu/world order remain open. This source
 milestone adds no gameplay or visual claim and preserves the separate preview.
 See [OWNED_DELPHI.md](OWNED_DELPHI.md).
 
+Combined source `51d499adb2a14b166491710baa50fe3b6d055d31` retains main through
+`aa018fe` and passes 903 workspace Rust tests (104 ignored), all fourteen installed
+Delphi controls, Rustfmt, strict workspace Clippy, 43 Python tests and generated
+roadmap/site/JavaScript checks. The separately published preview .8 keeps its
+original source, executable and archive identities.
+
 ## Published combined native inspection and cinematic ownership — preview .8
 
 Published [preview-2026.11.10.8](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.8)
