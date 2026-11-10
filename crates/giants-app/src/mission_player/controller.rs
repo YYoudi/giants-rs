@@ -858,7 +858,8 @@ pub(super) fn update(
                     controller.ticket, controller.steps
                 );
             }
-            if replay_running && controller.descent_capture && clip == 41 {
+            if replay_running && controller.descent_capture && controller.steps > 420 && clip == 41
+            {
                 println!(
                     "mission_player_descent_observed ticket={} step={} position={position:?} fuel={fuel} clip={clip} animation_seconds={seconds} supplied_commands=true forced_pose=false os_input=false",
                     controller.ticket, controller.steps
