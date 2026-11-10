@@ -1,8 +1,13 @@
-# Windows x64 development preview - preview-2026.11.10.8 (draft)
+# Windows x64 development preview - preview-2026.11.10.8
 
-Published preview-2026.11.10.7 remains pinned to source `88dd2ff`; its packaged
-notes and checksums are immutable. This combined draft retains that cinematic
-lot together with the later Mecc smoke/pistol and camera-profile work.
+Published preview-2026.11.10.8 pins source `1be8830`; its packaged notes and
+checksums are immutable. It combines the preserved Flick .7 lot with the Mecc
+smoke/pistol, camera-profile and graphical-consumer corrections. Earlier
+previews retain their original source and package identities.
+The subsequent Kabuto post-selection camera/UI/world tail is later source-only
+work; it is not part of this frozen package or ordinary Kabuto availability.
+The later owned Delphi pre-physical target phase is likewise source-only relative
+to this package and does not enable Delphi gameplay.
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -34,15 +39,6 @@ complete visual/audio/timing fidelity remain open. No complete film is certified
 The combined source preserves camera activation/lens reset, Delphi local target
 and Kabuto retained-slot animation services. Their CPU/provider boundaries remain;
 this preview enables no new ordinary Delphi or Kabuto gameplay.
-
-## NPC source dependencies awaiting runtime admission
-
-The Vimp mode1 animation service now selects from owned gait and physical flags,
-with numeric original-PC controls and three installed locomotion resources after
-owned physics. Response growth/movement ordering and pending-frame ownership stay
-explicit. Actual response movement/contact producers, persistent timers and the
-complete world/physics/ANM/service composition remain required; these source
-services enable no ordinary mission NPC AI and add no rendered preview coverage.
 
 ## Combined camera and canonical smoke dependencies
 
