@@ -9,12 +9,16 @@ use crate::{
 };
 use std::collections::BTreeMap;
 use std::sync::Arc;
+mod cinematic_constant;
 mod delphi;
 mod delphi_camera;
 mod delphi_held;
 #[cfg(test)]
 mod delphi_proximity_tests;
 mod dependency_order;
+pub use cinematic_constant::{
+    Scope as CinematicScope, Support as CinematicSupport, View as CinematicConstantView,
+};
 mod parent_binding;
 pub use parent_binding::AttachmentWords;
 #[cfg(test)]
@@ -349,6 +353,7 @@ pub struct Resident {
     pub mecc_animation_stamp: u32,
     /// Owned presentation metadata; not a constructed native actor pointer.
     presentation_parent: Option<Id>,
+    cinematic_constant: Option<cinematic_constant::Owned>,
     presentation_position: Option<[f32; 3]>,
     /// Acquired callback fields and typed relationships, separate from raw
     /// constructor bytes. No native pointer is encoded as an owned identity.
@@ -625,6 +630,7 @@ impl Session {
                 channels: None,
                 mecc_animation_stamp: 0,
                 presentation_parent: None,
+                cinematic_constant: None,
                 presentation_position: None,
             },
         );
@@ -10292,6 +10298,11 @@ impl Session {
         let actor = self
             .get(id)
             .ok_or("current contact actor absent or foreign")?;
+        if actor.cinematic_constant.is_some() {
+            return Err(
+                "cinematic support belongs to its source domain, not an ordinary parent".into(),
+            );
+        }
         if actor.finalization.as_ref().is_some_and(|f| {
             f.phase
                 != if primary {

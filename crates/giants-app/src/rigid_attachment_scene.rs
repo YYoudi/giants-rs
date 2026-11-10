@@ -2831,6 +2831,7 @@ pub fn update(
     mut last_paused_sample: Local<Option<(u64, usize, i32)>>,
     isolation: Option<Res<capture::EffectIsolation>>,
     persistent: Option<Res<crate::mission_effects::State>>,
+    runtime: Option<Res<crate::mission_runtime::Runtime>>,
 ) {
     // Reflection preparation can run update before setup installs these draws.
     // Do not start effect lifetimes in that provisional, subsequently reset scene.
@@ -3994,7 +3995,9 @@ pub fn update(
         // clock below, and source-owned effects keep their separate lifecycle.
         let owned = match &instance.source {
             Source::Effect { request, .. } => persistent.as_ref().and_then(|state| {
-                state.persistent_frame(cinematic.director_index(), request.offset)
+                runtime.as_ref().and_then(|runtime| {
+                    state.persistent_frame(runtime, cinematic.director_index(), request.offset)
+                })
             }),
             Source::Actor(_) => None,
         };
@@ -4188,7 +4191,13 @@ pub fn update(
                 Source::Effect { request, .. } => persistent
                     .as_ref()
                     .and_then(|state| {
-                        state.persistent_frame(cinematic.director_index(), request.offset)
+                        runtime.as_ref().and_then(|runtime| {
+                            state.persistent_frame(
+                                runtime,
+                                cinematic.director_index(),
+                                request.offset,
+                            )
+                        })
                     })
                     .flatten(),
                 Source::Actor(_) => None,
@@ -4234,7 +4243,13 @@ pub fn update(
                 let instance = &scene.instances[draw.instance];
                 let owned = match &instance.source {
                     Source::Effect { request, .. } => persistent.as_ref().and_then(|state| {
-                        state.persistent_frame(cinematic.director_index(), request.offset)
+                        runtime.as_ref().and_then(|runtime| {
+                            state.persistent_frame(
+                                runtime,
+                                cinematic.director_index(),
+                                request.offset,
+                            )
+                        })
                     }),
                     Source::Actor(_) => None,
                 };
