@@ -1,5 +1,18 @@
 # Preview releases and milestone integration
 
+## Delphi ordered projection checkpoint - intermediate dependency
+
+Ordinary Delphi controls remain unavailable. The cold/declared factories now take
+a required projection callback at the actual pre-history/pre-special boundary.
+Three original activation controls match 78 targeted pose/history/scale/angle
+words. Source-backed tests retain the current camera owner separately from the
+controlled actor and preserve early projection and later special failures.
+The common loader records the projection state on its actual constructor binding.
+Its collapsed body-inspection group remains pending and cannot be promoted with
+a late projection reset. Next connect the actual shared owner/mode/device through
+ordered fresh entry, then the complete first primary/physical/input/live-animation
+loop. Existing image and public-preview identities remain unchanged.
+
 ## Ordinary Mecc descent visually observed - local Windows build
 
 The existing normal menu controller now has a reproducible graphical observation

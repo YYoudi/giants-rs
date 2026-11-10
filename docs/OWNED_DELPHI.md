@@ -12,6 +12,34 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Ordered pre-special projection checkpoint - intermediate dependency
+
+The cold factory now offers `construct_player_fields_with_projection` and the
+declared factory offers `construct_declared_with_projection`. Their required
+`ProjectionReset` service runs after the actual owner is published and before
+history transfer, special children and initial animation selection. The callback
+sees the unchanged supplied shell history and new class header; it does not
+implicitly replace the separate current camera owner with the controlled actor.
+Three original activation controls match 78 targeted pose/history/scale/angle
+words before projection and after special initialization. The original entry,
+profile/reset and history bodies execute with supplied frame/equipment/viewport
+inputs; device submission remains captured. This is not full-world equivalence.
+
+`Attempt` retains projection state and the actual constructor Id through errors.
+Source-backed controls exercise current-camera/controlled separation, an explicit
+projection failure before history/special, and a late special-resource failure
+after completed projection/history. These are host failure-retention checks, not
+native exception parity. A completed callback acknowledges only that service;
+it does not establish a renderer, world admission or gameplay fidelity.
+
+Common mission staging records `Pending` for its collapsed diagnostic path. The
+existing diagnostic group cannot be promoted by applying projection after its
+children already exist. Ordinary entry must use the ordered factory with actual
+shared camera owner/mode and device providers on a fresh lifecycle. Those App
+providers and the first complete primary/physical/input/live-animation loop
+remain open. The existing body image and published .8 download keep their earlier
+source identities; this checkpoint adds no ordinary controls or new capture.
+
 ## Initial body in the common renderer - diagnostic only
 
 The declared Delphi owner now feeds the shared initial-player body renderer.

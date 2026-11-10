@@ -355,8 +355,12 @@ snapshot; a source-bound offscreen Rstory1 image confirms it is visible with the
 declared-start inspection camera. This does not mutate world ANM/affine caches.
 The next runtime gap is actual projection reset and the complete first primary/
 physical/camera/input driver, held/copy placement and live animation consuming this
-same owner. Confirm source start and
-contact/water prerequisites; do not teleport or force state to make a dry slice.
+same owner. An ordered pre-special projection checkpoint is now available through
+`construct_declared_with_projection`; the required callback precedes history,
+children and initial animation. The current collapsed diagnostic path records
+`Pending` and cannot be promoted with a late reset. Next supply actual shared
+camera owner/mode/device providers through ordered fresh entry, then the complete
+first primary/physical/input loop. Confirm source start and contact/water prerequisites; do not teleport or force state to make a dry slice.
 Main integration owns combined delivery. No ordinary Delphi controls are newly
 available; the source-backed App control uses an all-unlocked test menu mask and
 proves staging/roles/re-entry, not user input or campaign availability.

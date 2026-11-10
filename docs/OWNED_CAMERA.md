@@ -205,9 +205,12 @@ completed reset and quarantines shared commands/admission.
 The native type-activation caller invokes this in its session-mode-zero branch,
 before later actor initialization and initial animation selection. The separate
 non-mode-four damage-authority rule does not establish activation eligibility.
-The existing collapsed cold CPU constructor is
-not an execution checkpoint for this earlier service. Preserve that order when
-binding the application's still-pending projection reset.
+The ordered Delphi cold factory now exposes this checkpoint before history,
+special children and initial animation; see [OWNED_DELPHI.md](OWNED_DELPHI.md).
+Its required service reads the actual current camera owner separately from the
+controlled actor. The collapsed diagnostic constructor still omits that earlier
+service and records it as pending; a late reset cannot retroactively promote its
+group. Bind actual App owner/mode/device providers through ordered entry.
 
 `advance_lens` now runs the existing lens kernel against that same state word.
 Its mode/view snapshot must match the shared owner; stale input refuses before
