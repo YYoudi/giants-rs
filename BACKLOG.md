@@ -103,6 +103,16 @@ admission remain required; loading still enables no default callback or live AI.
 
 
 
+## Ordinary Mecc terrain-landing presentation
+
+Actual air-to-terrain contact now requests the canonical source hard-landing
+actor, positional sound and shared particle rendering in the ordinary controller.
+This is enabled without a diagnostic switch. Local sourceb34e1e2 / executable6923eacb graphically shows the source dust cloud
+at the Mecc feet after natural contact, with an actual muted audio sink. Supplied
+commands use the ordinary controller; real held-input interaction remains open.
+Validate the combined main build; native fall damage/pain/death, slide,
+carried/special profiles and full owned admission remain separate prerequisites.
+
 ## Prototype PS2 attribution method — 5 November 2026
 
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
