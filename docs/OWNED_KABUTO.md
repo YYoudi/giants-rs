@@ -1763,3 +1763,42 @@ Complete action/capture policy, intervening primary phases, actor lifetimes and
 real construction/binding/ANM/transport/reset/physical services remain required.
 This adds no complete primary/history, menu control, movement, feeding, growth
 trigger, capture or new downloadable-preview claim.
+
+## Selected-animation commit and immediate ANM
+
+`Factory::commit_animation_selection` consumes an already selected request at the
+owning resource checkpoint. It reuses `animation_channels::select_primary` and
+`actor_animation_phase::Pipeline`; neither setter nor pose/event arithmetic is
+duplicated. Reference speed uses the actor's current scale, and the supplied
+clear-mask modifies the request flags before publication to both channel mirrors.
+Required transport sees that completed selection. Its effects survive a late
+error; owner removal prevents further stale stores. Successful transport precedes
+the behavior/definition stores and conditional restoration of the earlier clock.
+
+The immediate ANM pass uses zero seconds, retaining real backup-channel, clock,
+reference, epoch, dispatcher, context and RNG effects. The subsequent counter
+conversion uses the earlier resource template across that pass. The first helper
+return does not replace the caller's earlier previous-frame local; the returned
+view supplies only the new current-frame value. The activity timer clears after
+successful conversion. Required event/transport failures quarantine the bounded
+component; no successful default backend is supplied.
+
+512 actual source-owned contexts match the original interval on 410,880 normalized
+header/payload/reference/epoch/TLS/counter/service words. The original shared
+setter, zero-second ANM, ownership predicate and template converter execute.
+This includes 768 ANM dispatcher visits, not a claim of 768 delivered world events.
+The 256 notifications use a declared mutating entry provider; five initialized
+request words are observed without inferring delivery or unrelated packet bytes.
+The original context uses actual external class/model data and supplied earlier
+source fields, references, clocks, peer/TLS state and selection policy. It does
+not reexecute all preceding source phases for each independent context.
+
+Three installed controls reach the real resource checkpoint, then check the
+commit, notification prefix, retained callback/error effects, owner invalidation,
+reentry/replay and foreign/checkpoint refusals. All pending initializers and
+history remain. Eight separate full original primaries under supplied cached
+commands establish the commit frontier for moving paths; they are not a Rust
+whole-primary or actual-keyboard control. Complete action/movement policy,
+intervening phase admission/order, world/lifetime/transport providers and live
+Kabuto initialization, movement, feeding and growth remain open. This source
+component establishes no new playable preview, capture or visual fidelity.

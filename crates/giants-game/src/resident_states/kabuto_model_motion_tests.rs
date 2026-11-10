@@ -68,6 +68,39 @@ fn source_kabuto_held_bank_consumes_captured_resource_sample() {
         Some(super::held_reference_tests::Case::Captured),
     );
 }
+
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; actual setter/zero-second ANM and retained descriptor; no window or sound"]
+fn source_kabuto_animation_commit_reuses_owned_channels_and_retained_descriptor() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::Commit),
+    );
+}
+
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; retained selector/notification effects on late failure; no window or sound"]
+fn source_kabuto_animation_commit_retains_late_notification_failure() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::CommitFailure),
+    );
+}
+
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; owner removal during notification without stale stores; no window or sound"]
+fn source_kabuto_animation_commit_refuses_removed_owner() {
+    run_model(
+        true,
+        true,
+        true,
+        Some(super::held_reference_tests::Case::CommitClear),
+    );
+}
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; owner invalidation without stale reference restoration; no window or sound"]
 fn source_kabuto_held_bank_does_not_restore_a_removed_owner() {
@@ -104,6 +137,7 @@ fn run_model(
         .unwrap();
     let mut resource_controls = resource_tests::Controls::default();
     resource_controls.handoff = handoff;
+    let mut commits = super::animation_commit_tests::Controls::default();
     let baseline_fields = s.get(id).unwrap().construction_fields.clone().unwrap();
     let baseline_payload = s.get(id).unwrap().seed.storage.data().unwrap().to_vec();
     let baseline_references = s.specifications.get(&id.serial).unwrap().0.clone();
@@ -202,6 +236,9 @@ fn run_model(
         g.resource_phase_entered = None;
         g.resource_phase_completed = None;
         g.resource_phase_view = None;
+        g.animation_commit_entered = None;
+        g.animation_commit_running = false;
+        g.animation_commit_completed = None;
         let number = case as u64 + 1;
         let seconds = [0., 0.001, 1. / 60., 0.1][case % 4];
         let command = [0u8, 1, 32, 127, 255, 224, 128];
@@ -677,6 +714,33 @@ fn run_model(
                 if resources {
                     resource_controls
                         .advance(&factory, &foreign, &mut s, id, number, seconds, &globals);
+                    if let Some(
+                        kind @ (super::held_reference_tests::Case::Commit
+                        | super::held_reference_tests::Case::CommitFailure
+                        | super::held_reference_tests::Case::CommitClear),
+                    ) = handoff
+                        && (matches!(kind, super::held_reference_tests::Case::Commit)
+                            || case == 511)
+                    {
+                        let mut animation = crate::actor_animation_phase::Services {
+                            contexts: &mut contexts,
+                            random: &mut random,
+                            stamp: &mut stamp,
+                            blending: if case % 2 == 0 {
+                                Blending::Disabled
+                            } else {
+                                Blending::Enabled
+                            },
+                        };
+                        commits.advance(
+                            (&factory, &foreign),
+                            &mut s,
+                            id,
+                            number,
+                            kind,
+                            &mut animation,
+                        );
+                    }
                 }
             }
         }
@@ -684,6 +748,7 @@ fn run_model(
     if resources {
         resource_controls.finish();
     }
+    commits.finish();
     assert!(moving > 300);
     if let Some(p) = std::env::var_os("GIANTS_KABUTO_MODEL_INPUTS") {
         std::fs::write(p, inputs).unwrap();
