@@ -174,16 +174,29 @@ impl Session {
             .residents
             .iter()
             .filter_map(|(&serial, a)| {
-                a.cinematic_constant
+                let constant = a
+                    .cinematic_constant
                     .as_ref()
-                    .filter(|c| c.metadata.parent.scope == scope)
-                    .map(|_| Id {
-                        ticket: self.ticket,
-                        serial,
-                    })
+                    .is_some_and(|c| c.metadata.parent.scope == scope);
+                let timed = a
+                    .timed_effect
+                    .as_ref()
+                    .and_then(|m| m.cinematic_scope())
+                    .is_some_and(|owner| owner == scope);
+                (constant || timed).then_some(Id {
+                    ticket: self.ticket,
+                    serial,
+                })
             })
             .collect();
         for id in &ids {
+            if self
+                .get(*id)
+                .and_then(|a| a.timed_effect.as_ref())
+                .is_some_and(|m| m.callback_pending())
+            {
+                return Err("cinematic cancellation cannot remove a pending timed callback".into());
+            }
             if !self.incoming_actor_references(*id)?.is_empty() {
                 return Err("cinematic source actor has a live typed dependent".into());
             }
