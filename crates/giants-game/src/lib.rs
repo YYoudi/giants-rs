@@ -832,6 +832,8 @@ pub mod vimp_vector_response;
 pub mod vimp_wander;
 
 pub mod herd_frame;
+/// Shared empty-state0/herd composition; preserve the original herd API alias.
+pub use herd_frame as passive_frame;
 pub mod herd_generator;
 
 pub mod effect_texture_animation;

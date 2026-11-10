@@ -9,6 +9,12 @@ pub struct Frame<'a> {
     pub tick: Tick<'a>,
     pub controlled_actor: Option<Id>,
 }
+/// Read-only publication of a fully consumed local common-node iteration.
+/// The number counts completed callbacks; it is not the world's frame clock.
+pub struct Completed {
+    pub number: u64,
+    pub animation_epoch: u32,
+}
 pub struct Services<'a> {
     pub animation: crate::vimp_animation::Services<'a>,
     pub ground: &'a mut dyn FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,

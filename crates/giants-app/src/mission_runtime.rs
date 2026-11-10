@@ -16,6 +16,7 @@ use std::sync::{
 type DeclaredActorPose = ([f32; 3], [f32; 3]);
 type ActorId = giants_game::resident_states::Id;
 mod npc;
+pub(crate) use npc::Draw as NpcDraw;
 #[path = "mission_runtime/owned.rs"]
 mod owned;
 pub(crate) use owned::Input as OwnedMeccInput;
@@ -967,6 +968,21 @@ impl Runtime {
     }
     pub fn active_ticket(&self) -> Option<u64> {
         self.active.as_ref().map(|a| a.ticket)
+    }
+    pub(crate) fn npc_draws(&mut self, ticket: u64) -> Result<Vec<NpcDraw>, String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("NPC draw mission ticket absent")?;
+        match active.payload.npcs.as_mut().map_err(|e| e.clone())? {
+            None => Ok(Vec::new()),
+            Some(npcs) => npcs.draws(
+                &mut active.resident_states,
+                ticket,
+                active.payload.plan.resources(),
+            ),
+        }
     }
     pub(crate) fn messages(&self, ticket: u64) -> Option<&giants_game::mission_messages::Queue> {
         Some(
@@ -2429,7 +2445,7 @@ mod tests {
     use super::*;
     use bevy::ecs::world::CommandQueue;
 
-    fn payload() -> Payload {
+    pub(super) fn payload() -> Payload {
         use giants_game::{
             catalog_registry::WorldClassRegistry,
             model_registry::{ClassProgram, ModelRegistry},

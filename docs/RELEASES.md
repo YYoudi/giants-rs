@@ -34,6 +34,24 @@ are outside this frozen executable. The cinematic census remains tied to .7,
 and historical gallery images retain their recorded build. No whole-game
 completion or new confirmed prototype PS2 attribution follows from this release.
 
+## Combined NPC source integration - no new playable AI
+
+The main integration lane reviewed NPC source `0ec3f68` and combined its contact
+ownership, completed-pose renderer and selected neutral callbacks with the current
+Mecc descent, HUD, Delphi/Kabuto body and camera contributions. Combined validation
+passes 952 portable Rust checks (148 external-data checks ignored), 43 Python
+checks, format and strict Clippy. Forty-seven installed controls cover NPC contact,
+captured movement/response, common pose assets and neutral callbacks alongside
+constructor-bound roles, character menu construction, owned Mecc terrain and the
+ordinary 1,600-step body/jet/descent control. The source-history audit reports no
+findings; detailed inputs and receipts remain private.
+
+This is an intermediate integration. Offline callback admission and supplied
+world services in those checks do not enable ordinary Vimp AI or prove GPU pixels.
+The next player delivery remains the continuous real-input Mecc flight/release/
+descent/landing loop; Story2 needs the actual shared caller and remaining family
+services before an interactive herd. Preview .9 and its download hashes stay fixed.
+
 ## Flick timed queue ownership - intermediate dependency
 
 No new normal controls, runtime capability or downloadable preview is claimed.
@@ -106,6 +124,56 @@ New reports must lead with the normal menu/controls, expected behavior and exact
 tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
+
+## Passive common-node ownership — intermediate source dependency
+
+No ordinary Vimp AI map or new preview is available. Source construction now
+prepares the existing nonphysical common-node owner for supported empty state0
+actors. Neutral actors reuse the acquired null state dispatch, ANM/time and real
+finalization contracts; unsupported animated/reference-bearing or parented
+profiles receive no default-success callback. Existing herd APIs remain aliases.
+
+A focused PC constructor/common-node control for two neutral classes agrees with
+Rust on 156 selected numeric words. The installed Story2 selected-cohort control
+admits 129 neutral declarations over three supplied callback steps, checking 387
+updates, affines, unchanged RNG, replay/retirement and five unsupported state0
+profiles. It does not update the other mission families or establish live world
+admission, populated collision, ordinary input, GPU output or AI readiness.
+The real shared caller and remaining family services are still required before
+ordinary interaction and preview validation. Frozen preview receipts stay intact.
+
+## Common Vimp pose renderer — runtime consumer, interaction unverified
+
+No ordinary Vimp AI map or new preview is available. The common executable now
+consumes completed Session Vimp frames using their actual channels, animation epoch
+and affine, copying shared position buffers before another actor updates them.
+The existing opaque RGB body shader receives source geometry/textures. Primary
+model zero is an explicit presentation policy; native visibility/LOD and wider
+material/culling profiles remain open. Rendering advances no gameplay state.
+
+The installed CPU check retains canonical Story2 staging and explicitly supplies
+offline birth/callback/quiet/clock admission over actual terrain. Two tickets each
+produce fourteen bodies, update their mesh poses, hide/resume with the camera and
+release owned entities/mesh/material/image assets. Missing mesh cleanup/quarantine,
+foreign factory, retired binding and next-history refusals are checked. No GPU
+pixels, ordinary controls or whole-world scheduling follow from that evidence.
+Actual shared callback/birth admission is still required before owner interaction
+and preview validation. This source preserves main's current Kabuto body, Delphi,
+Mecc projectile/jet and cinematic work; frozen preview receipts stay unchanged.
+
+## Vimp constructor/physical contact ownership — source dependency only
+
+Story2 still has no ordinary Vimp AI test or new downloadable preview. Source now
+retains the actual constructor-cleared contact word in each Vimp, carries it
+through physical updates and late failure, and lets the movement/active adapter
+consume that owner rather than a supplied obstruction predicate. The bounded
+wander route rejects unsupported nonzero contact without consuming random draws.
+A focused original-PC poison-input control and static inspection establish the
+initial clear; installed controls check ownership, failure and replay boundaries.
+This does not establish live object collision, full primary/world admission or
+rendering. The actual mission roster includes active actors from other families;
+shared scheduling cannot skip them to advertise a live herd. Existing published
+preview receipts, executable identities and availability remain unchanged.
 
 ## Reached-time persistent inspection - source-only checkpoint
 

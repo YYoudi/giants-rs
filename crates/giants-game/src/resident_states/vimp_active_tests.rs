@@ -185,7 +185,7 @@ fn source_vimp_active_movement_suppression_keeps_timers_and_only_draws_arrival()
         0,
         VimpActiveMovement {
             produce_commands: false,
-            obstructed: true,
+            contact: VimpMovementContact::Supplied { obstructed: true },
         },
         &g,
         &mut r,
@@ -205,6 +205,47 @@ fn source_vimp_active_movement_suppression_keeps_timers_and_only_draws_arrival()
     assert_eq!(p.movement_calls, [crate::vimp_movement::Clock::Actor]);
     assert_eq!(s.vimp_active_steps(id), Some(1));
     assert!(!a.vimp_active_running);
+}
+#[test]
+#[ignore = "requires GIANTS_NPC_ROOT; actual constructor contact, declared active/session/clock entry"]
+fn source_vimp_active_movement_reads_owned_contact_without_a_supplied_predicate() {
+    for hit in [0, 0x1234] {
+        let (mut s, id, g, mut r, mut p) = prepared(0);
+        assert_eq!(s.vimp(id).unwrap().contact_hit, 0);
+        // The nonzero case is an explicit ownership fixture, not a claim that
+        // this control produces an actual object collision.
+        s.residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .vimp
+            .as_mut()
+            .unwrap()
+            .contact_hit = hit;
+        s.advance_vimp_movement_response_offline(
+            id,
+            0,
+            VimpActiveMovement {
+                produce_commands: true,
+                contact: VimpMovementContact::Owned,
+            },
+            &g,
+            &mut r,
+            &mut p,
+        )
+        .unwrap();
+        assert_eq!(s.vimp(id).unwrap().contact_hit, hit);
+        assert_eq!(
+            p.movement_calls,
+            if hit == 0 {
+                vec![crate::vimp_movement::Clock::Actor]
+            } else {
+                vec![
+                    crate::vimp_movement::Clock::Actor,
+                    crate::vimp_movement::Clock::Global,
+                ]
+            }
+        );
+    }
 }
 #[test]
 #[ignore = "requires GIANTS_NPC_ROOT; combined clock failure retains movement prefix and quarantines the lease"]
@@ -227,7 +268,7 @@ fn source_vimp_active_movement_clock_failure_does_not_enter_active_or_replay() {
         let seed = r.0;
         let request = VimpActiveMovement {
             produce_commands: true,
-            obstructed: true,
+            contact: VimpMovementContact::Supplied { obstructed: true },
         };
         assert!(
             s.advance_vimp_movement_response_offline(id, 0, request, &g, &mut r, &mut p)
