@@ -248,6 +248,13 @@ application compiles and its CLI startup passes with an explicitly waited child.
 These checks retain their source/component scope; no new playable download is
 advertised by this milestone.
 
+The combined runtime `4d28980` also preserves current constructor-role bindings,
+retained environment failures and Kabuto reference/animation work. It passes
+877 Rust tests (74 ignored), eight installed Delphi controls, three Kabuto
+animation-commit controls, one timed-effect ownership control, 43 Python tests,
+Rustfmt and strict Clippy. Its common MinGW application compiles; the retained
+public preview snapshot keeps its independently reviewed build identities.
+
 ## Delphi auxiliary-request prefix - 10 November 2026
 
 Source-only selection now preserves authority, independent command/response
