@@ -63,7 +63,7 @@ fn opening_visibility(
     runtime: Res<Runtime>,
     mut draws: Query<OpeningDraw<'_>>,
 ) {
-    if let Some((ticket, _)) = runtime.kabuto_body() {
+    if let Some((ticket, _)) = runtime.initial_player_body() {
         let hidden = cinematic.is_some() && owner.as_ref().is_some_and(|owner| owner.0 == ticket);
         let wanted = if hidden {
             Visibility::Hidden
@@ -140,10 +140,10 @@ fn sync(
     let selected = players
         .iter()
         .find(|p| Some(p.ticket) == runtime.active_ticket());
-    let kabuto = runtime.kabuto_body();
+    let snapshot = runtime.initial_player_body();
     let wanted = selected
         .map(|p| p.ticket)
-        .or_else(|| kabuto.map(|(ticket, _)| ticket));
+        .or_else(|| snapshot.map(|(ticket, _)| ticket));
     if state
         .mounted
         .as_ref()
@@ -183,7 +183,7 @@ fn sync(
         );
     }
     if let (Some((_, body)), Some(scene), Some(mounted)) =
-        (kabuto, scene.as_ref(), state.mounted.as_ref())
+        (snapshot, scene.as_ref(), state.mounted.as_ref())
         && scene.is_changed()
         && let Some(camera) = scene.validation_camera.as_ref()
         && let Ok(lights) = giants_game::lighting::first_world(&scene.asset.config)
@@ -214,14 +214,14 @@ fn sync(
     ) {
         return;
     }
-    let kabuto_lights = if kabuto.is_some() {
+    let snapshot_lights = if snapshot.is_some_and(|(_, body)| body.normals.is_some()) {
         if scene.validation_camera.is_none() {
             return;
         }
         match giants_game::lighting::first_world(&scene.asset.config) {
             Ok(lights) => lights,
             Err(error) => {
-                error!("Kabuto body lighting refused: {error}");
+                error!("Initial player body lighting refused: {error}");
                 return;
             }
         }
@@ -251,7 +251,7 @@ fn sync(
     } else {
         Vec::new()
     };
-    let variants = if let Some((_, body)) = kabuto {
+    let variants = if let Some((_, body)) = snapshot {
         vec![(
             0,
             &body.model.mesh,
@@ -315,10 +315,14 @@ fn sync(
             )
             .with_inserted_attribute(
                 Mesh::ATTRIBUTE_POSITION,
-                if let Some((_, body)) = kabuto {
-                    ids.iter()
-                        .map(|i| body.positions[usize::from(body_mesh.indices[*i])])
-                        .collect()
+                if let Some((_, body)) = snapshot {
+                    if body.normals.is_some() {
+                        ids.iter()
+                            .map(|i| body.positions[usize::from(body_mesh.indices[*i])])
+                            .collect()
+                    } else {
+                        body.vertices(part_index)
+                    }
                 } else if body_slot == 0 {
                     p.unwrap().vertices(part_index)
                 } else {
@@ -342,17 +346,19 @@ fn sync(
                 ids.iter().map(|i| body_mesh.uv[*i]).collect::<Vec<_>>(),
             )
             .with_inserted_attribute(Mesh::ATTRIBUTE_COLOR, colors);
-            if let Some((_, body)) = kabuto {
+            if let Some((_, body)) = snapshot
+                && let Some(normals) = &body.normals
+            {
                 let mesh = meshes.add(mesh.with_inserted_attribute(
                     Mesh::ATTRIBUTE_NORMAL,
-                    ids.iter().map(|i| body.normals[*i]).collect::<Vec<_>>(),
+                    ids.iter().map(|i| normals[*i]).collect::<Vec<_>>(),
                 ));
                 let camera = scene.validation_camera.as_ref().unwrap();
                 let parameters = crate::gun_scene::source_parameters(
                     &part.material,
                     Mat4::from_cols_array(&body.matrix).transpose(),
                     camera,
-                    &kabuto_lights,
+                    &snapshot_lights,
                     scene.asset.config.fog,
                     scene.no_fog,
                 );
@@ -370,7 +376,7 @@ fn sync(
                             slot: body_slot,
                         },
                         crate::mission_runtime::MissionOwned(ticket),
-                        Name::new(format!("Mission initial Kabuto / {}", part.name)),
+                        Name::new(format!("Mission initial player / {}", part.name)),
                         Mesh3d(mesh.clone()),
                         MeshMaterial3d(material.clone()),
                         bevy::camera::visibility::NoFrustumCulling,
@@ -432,8 +438,13 @@ fn sync(
         }
     }
     let (Some(player), Some(p)) = (selected, p) else {
+        let kind = if runtime.kabuto_body().is_some() {
+            "kabuto"
+        } else {
+            "delphi"
+        };
         println!(
-            "mission_kabuto_body_draw_staged ticket={ticket} meshes={} materials={} current_channel_snapshot=true live_animation=false controller=false ready=false",
+            "mission_{kind}_body_draw_staged ticket={ticket} meshes={} materials={} current_channel_snapshot=true live_animation=false controller=false ready=false",
             mounted.meshes.len(),
             mounted.lit.len()
         );
