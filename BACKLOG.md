@@ -49,7 +49,25 @@ The dedicated NPC lane resumes existing work; see
   injected terrain failures. Preserve two inactive-parent exclusions and two
   parser-refused world files; they are not empty or fully covered populations.
 - Connect herd scheduling and admitted Vimp updates to actual world ownership,
-  then acquire threat/feeding services and active effects/audio before ordinary
+  retaining the acquired ordering: active history prepass before callbacks,
+  then successor lookup after each callback. A separate owned Vimp history API
+  now avoids per-callback recopying; 256 native helper controls match 2,304
+  position/history words, and three source controls retain failure/preflight
+  boundaries plus eight Rust-composition frames. This admits no live world.
+  Newborn entry now retains constructor histories and composes initialization,
+  living continuation, physics and ANM in its first callback. Native controls
+  match 32 scenarios / 96 snapshots / 824,168 normalized words, including 448
+  first callbacks, within supplied cohort/control/time/terrain/RNG boundaries.
+  Two installed controls retain a 14-child source cohort and late required-FX
+  failure. A subsequent original-PC-only mutable walk records 2,880 callbacks /
+  2,432 history preparations across 32 scenarios; all 448 newborns run in their
+  birth step. This acquires neither Rust composition nor whole-world admission.
+  Next bind herd/marker common-node dispatch, ANM epochs and nonphysical
+  finalization (including the herd environment service), then the mutable
+  population traversal; do not impose an extra newborn history copy
+  or postpone a new child using a population snapshot. Outer world admission,
+  global clock/RNG ownership and active FX/audio remain prerequisites.
+  Then acquire threat/feeding services and active effects/audio before ordinary
   mission admission. Preserve existing refusal and late-failure behavior.
 - Resume the persistent Ripper primary/perception/attack services, actual player
   target identities, physical/ANM order and required firing/audio/effect providers.
@@ -85,12 +103,28 @@ subjective actor. Preserve these prerequisites when consuming the next Mecc lot.
 The 10 November native camera review adds 162 owner-selection prefix cases and
 864 full ordinary-Mecc pre-world admission cases (sixty active copies); see
 [OWNED_CAMERA.md](docs/OWNED_CAMERA.md). Reference-point status and actual display
-activity are separate. Before App binding, acquire startup/mode/override writers
+activity are separate. Before App binding, complete startup/mode/override lifecycles
 and world ordering, resolve the actual owner and model references, and preserve
 per-call inactive transitions. These native controls still supply current globals
-and resources; they do not establish Rust equivalence or normal gameplay admission.
-The current independently verified download is `preview-2026.11.10.1`; its snapshot and receipts
+and resources; they do not establish whole-header Rust equivalence or normal
+gameplay admission. The shared mode command and camera eligibility policy are now
+implemented in `camera_mode`, with 1,280 native/Rust command comparisons and the
+864 admission vectors. `State::prepare_from_camera` connects this policy to actual
+Session preparation/inactivity and returns the resulting display snapshot. Keep
+profile/scale/projection backends, camera startup/override producers and world
+ordering explicit before connecting App damage/fire; the default driver is unchanged.
+The current independently verified download is `preview-2026.11.10.3`; its snapshot and receipts
 retain their immutable source identity despite newer source-only integrations.
+
+The combined `.3` source includes NPC PR #5's history/newborn runtime, cold Delphi
+support and the shared camera-mode/Session composition alongside Kabuto and Flick.
+Its normal window caption is restored after cinematic retirement; actual muted
+menu, double-click/Escape skip, partial Mecc entry, return and second entry were
+checked on the exact downloadable executable. Default tests pass 870 Rust cases
+(65 ignored); 43 installed source controls retain their declared boundaries.
+Keep actual world/marker dispatch, startup/override and suppression producers,
+required effects/audio, normal character controls and fidelity open. The native-only
+mutable NPC walk on later main is not a completed Rust population scheduler.
 
 The 10 November integration review exercised the published `.13` menu, opening
 skip, ordinary Mecc entry and menu return on an independent muted profile. Its
@@ -423,13 +457,33 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   attribute is now implemented in the shared field loader: 512 original dispatch/
   defaults/termination/base-copy programs match 31,744 projected words, including
   neighboring writes and raw operand high bits. Three Delphi mission catalogs
-  now prepare those fields; an installed control retains constructor refusal and
-  empty ownership/lists for the unacquired support state. Next: acquire that
-  state's constructor/update/lifecycle, actual scene key registry and phase-correct owned
+  now prepare those fields; an installed control retains ordinary constructor
+  refusal. An explicit cold support factory now uses the shared staged Session
+  constructor: eight original-PC creations agree on 1,584 normalized header/
+  payload words and 32 ordered registrations; Rust repeats with three world
+  catalogs selecting the same source template. Payloads are private and immutable
+  model/resources shared. Failed construction, source release, clear/stale IDs and
+  re-entry pass; current geometry/physical access remains refused. Pointer/UID
+  storage is normalized, UID matching-table/counter and retained source/heap/
+  texture policies supplied. Native state-payload cleanup is checked; full actor/
+  list retirement is not compared. Next: acquire that state's first-update
+  initialization, context/geometry producers and complete lifetime, actual scene
+  key registry and phase-correct owned
   header publication, other actor
   writers and caller/world/ANM timing. Do not equate scene keys with Session serials,
   conflate support with held/surfacing relationships or substitute zero for a
   missing provider. Target/proxy lifetime, main integration and fidelity remain open.
+- Implemented at the CPU boundary: auxiliary-request prefix selection matches
+  2,048 original-PC contexts, including 158 selected requests, 1,890 exits and
+  4,410 tracked field/list reads. Original authority helpers execute; command
+  buttons remain distinct from actor control flags. Rust checks 4,410 required-
+  provider failures and 336 snapshot-budget refusals. Native prefixes stop before
+  the selected action; neither action completion nor a full primary is claimed.
+  Next: acquire typed auxiliary/related-owner producers, current list12 ownership
+  and lifetime, then wire this prefix before physical/secondary work. Preserve
+  the current Session refusal until those owners and required action services are
+  bound; do not replace list12 with the general list or conflate the relationship
+  with physical contact/attachment. This does not admit live Delphi.
 - Compose the surrounding full primary, camera/target/item producers and
   auxiliary callbacks against the acquired complete selected
   actor iterations. Native-only acquisition now traces 3,009 original primary
@@ -1459,6 +1513,25 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   orientation requests. All 2,104 constructed residents release. Preserve the
   840 class-profile refusals and 10,852 other-state exclusions (per-mission
   counts). Actual world admission and scene fidelity remain unverified.
+
+- Detached ordinary-finalization comparison now executes the original complete
+  parent/child preparation, retirement and cleanup against actual static terrain
+  from all sixteen inventoried worlds. Across 128 controlled cycles, the shared
+  Rust finalization/environment services match 1,152 finalizations, including
+  640 detached states, all 299,520 header/payload words and 902 ground queries.
+  Source grids retain their acquired prepared topology; dynamic ripples are
+  disabled. The initial native fixture lacked its numeric-table initialization;
+  executing the original initializer resolves the sloped-terrain discrepancy
+  without changing Rust or inventing terrain. The earlier missing-grid failure
+  is retained as historical evidence, superseded within this controlled scope.
+  Entry headers, physical payload/history, affine and the actual caller-slot word
+  remain supplied to the Rust finalizer. Mesh/platform population is explicitly
+  empty. This closes the static-terrain finalization comparison prerequisite,
+  not timed Session physical/header ownership, real mission population, world
+  scheduling or film admission. Next: bind the actual shared motion/header owner
+  and ordinary preparation continuation, then native stock/clock/RNG and rendering.
+  Virtual Flick supports keep their separate identity domain; no fake world slots.
+  No binary change or newly certified scene follows from this CPU evidence.
 
 - Detached timed actors now use the same Session registry and borrowed callback
   as their attached parents. Actual context consumption is one-shot; the original
