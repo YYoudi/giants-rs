@@ -12,7 +12,8 @@ pub struct State {
     /// Controls from the preceding movement producer; this block does not clear them.
     pub commands: [u8; 8],
     pub selected_heading: f32,
-    pub turn_timer: f32,
+    /// Unknown until the acquired arrival producer writes it.
+    pub turn_timer: Option<f32>,
     pub delay: f32,
     pub stage: u32,
     pub active: u32,
@@ -90,18 +91,22 @@ pub fn advance(
         0 => {
             turn(s, parameters, p)?;
             if s.selected_heading == s.heading {
-                s.turn_timer =
-                    vimp_response::random_delay(random, parameters.wait_low, parameters.wait_high)?;
+                s.turn_timer = Some(vimp_response::random_delay(
+                    random,
+                    parameters.wait_low,
+                    parameters.wait_high,
+                )?);
                 s.stage = 1;
             }
         }
         1 => {
             if predicate(s, p, vimp_response::Predicate::First)? {
-                if !s.turn_timer.is_finite() {
+                let timer = s.turn_timer.ok_or("Vimp response wait producer absent")?;
+                if !timer.is_finite() {
                     return Err("Vimp response wait outside finite profile".into());
                 }
-                let remaining = f64::from(s.turn_timer) - seconds(s, p)?;
-                s.turn_timer = remaining as f32;
+                let remaining = f64::from(timer) - seconds(s, p)?;
+                s.turn_timer = Some(remaining as f32);
                 if remaining <= 0. {
                     s.stage = 2;
                     if !s
@@ -221,7 +226,7 @@ mod tests {
                 previous_angular_speed: 0.,
                 commands: [7, 0, 4, 0, 1, 2, 3, 4],
                 selected_heading: 0.,
-                turn_timer: 0.25,
+                turn_timer: Some(0.25),
                 delay: 0.25,
                 stage,
                 active: 1,
@@ -246,6 +251,27 @@ mod tests {
         )
     }
     #[test]
+    fn unknown_timer_is_not_a_constructor_zero_and_is_required_only_at_read() {
+        let (mut s, parameters, mut p) = fixture(0);
+        s.turn_timer = None;
+        s.selected_heading = 180.;
+        let mut random = Random(1);
+        advance(&mut s, parameters, &mut random, &mut p).unwrap();
+        assert_eq!(s.turn_timer, None);
+        s.stage = 1;
+        p.blocked = true;
+        p.calls.clear();
+        advance(&mut s, parameters, &mut random, &mut p).unwrap();
+        assert_eq!(p.calls, ["first"]);
+        p.blocked = false;
+        assert!(
+            advance(&mut s, parameters, &mut random, &mut p)
+                .unwrap_err()
+                .contains("producer absent")
+        );
+        assert_eq!(s.turn_timer, None);
+    }
+    #[test]
     fn pending_360_is_not_rewritten_to_normalized_zero_and_equal_bounds_still_draw() {
         let (mut s, parameters, mut p) = fixture(0);
         s.selected_heading = 360.;
@@ -260,7 +286,7 @@ mod tests {
         let mut expected = Random(1);
         expected.next_15();
         assert_eq!(random.0, expected.0);
-        assert_eq!((s.stage, s.turn_timer), (1, 2.));
+        assert_eq!((s.stage, s.turn_timer), (1, Some(2.)));
         assert_eq!(s.commands, [7, 0, 4, 0, 1, 2, 3, 4]);
     }
     #[test]
@@ -268,13 +294,16 @@ mod tests {
         let (mut s, parameters, mut p) = fixture(1);
         let mut random = Random(1);
         advance(&mut s, parameters, &mut random, &mut p).unwrap();
-        assert_eq!((s.stage, s.turn_timer, s.selected_heading), (2, 0., 90.));
+        assert_eq!(
+            (s.stage, s.turn_timer, s.selected_heading),
+            (2, Some(0.), 90.)
+        );
         assert_eq!(random.0, 1);
         let (mut s, parameters, mut p) = fixture(1);
-        s.turn_timer = f32::from_bits(1);
-        p.seconds = f64::from(s.turn_timer) * 0.75;
+        s.turn_timer = Some(f32::from_bits(1));
+        p.seconds = f64::from(s.turn_timer.unwrap()) * 0.75;
         advance(&mut s, parameters, &mut random, &mut p).unwrap();
-        assert_eq!(s.turn_timer.to_bits(), 0);
+        assert_eq!(s.turn_timer.unwrap().to_bits(), 0);
         assert_eq!(s.stage, 1);
         assert_eq!(p.calls, ["first", "clock"]);
     }

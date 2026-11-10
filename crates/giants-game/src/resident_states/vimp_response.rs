@@ -263,6 +263,7 @@ impl Session {
             || a.vimp_prepared_history.is_some()
             || a.vimp_vector_running
             || a.vimp_response_running
+            || a.vimp_active_running
             || a.vimp_response_steps != request.number
             || request.number == u64::MAX
             || a.vimp_physical.as_ref().is_some_and(|p| {

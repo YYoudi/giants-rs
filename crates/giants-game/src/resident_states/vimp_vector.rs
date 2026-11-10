@@ -277,6 +277,7 @@ impl Session {
             || a.vimp_prepared_history.is_some()
             || a.vimp_frame_stopped
             || a.vimp_vector_running
+            || a.vimp_active_running
             || a.vimp_vector_steps != number
             || number == u64::MAX
             || a.vimp_physical.as_ref().is_some_and(|p| {

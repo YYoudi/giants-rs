@@ -40,12 +40,18 @@ mod reference_camera;
 mod state18_reference_reset;
 mod subjective;
 mod timed_effect;
+mod vimp_active;
+#[cfg(test)]
+mod vimp_active_captured_tests;
+#[cfg(test)]
+mod vimp_active_tests;
 #[cfg(test)]
 mod vimp_history_tests;
 #[cfg(test)]
 mod vimp_locomotion_animation_tests;
 #[cfg(test)]
 mod vimp_newborn_tests;
+pub use vimp_active::Services as VimpActiveServices;
 mod vimp_response;
 #[cfg(test)]
 mod vimp_response_tests;
@@ -362,6 +368,8 @@ pub struct Resident {
     vimp_threat_steps: u64,
     vimp_response_steps: u64,
     vimp_response_running: bool,
+    vimp_active_steps: u64,
+    vimp_active_running: bool,
     vimp_vector_steps: u64,
     vimp_vector_running: bool,
     vimp_threat_failure: Option<String>,
@@ -612,6 +620,8 @@ impl Session {
                 vimp_threat_steps: 0,
                 vimp_response_steps: 0,
                 vimp_response_running: false,
+                vimp_active_steps: 0,
+                vimp_active_running: false,
                 vimp_vector_steps: 0,
                 vimp_vector_running: false,
                 vimp_threat_failure: None,
@@ -5231,6 +5241,7 @@ impl Session {
         if !vimp.initialized
             || vimp.mode != 1
             || vimp.wander_pending
+            || actor.vimp_active_running
             || actor.vimp_physical.as_ref().is_some_and(|p| {
                 !p.view.physics_consumed || !p.view.animation_consumed || p.view.failure.is_some()
             })
@@ -5842,6 +5853,7 @@ impl Session {
             vimp.initialized
         };
         if !admitted
+            || actor.vimp_active_running
             || number != actor.vimp_frames
             || number == u64::MAX
             || actor.world_tick_running
