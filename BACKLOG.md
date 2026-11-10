@@ -4,6 +4,17 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
+## Current Mecc priority - 10 November 2026
+
+The owner's latest instruction prioritizes features visible through ordinary
+menu-to-game input and their validated integration into main. Deliver a playable
+visible change before another standalone CPU milestone. Preserve earlier research
+and its boundaries, but do not expand the countdown research as the current lane
+priority. First wire the acquired descent pose into the ordinary controller and
+verify actual thrust release, fall, landing, return and second entry. Jet plume
+and other visible Mecc features follow through the common runtime. Native lookup
+and appropriate regressions remain required; CPU agreement alone is not delivery.
+
 ## Prototype PS2 attribution method — 5 November 2026
 
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
