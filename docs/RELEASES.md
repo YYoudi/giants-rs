@@ -1,5 +1,12 @@
 # Preview releases and milestone integration
 
+Current delivery policy follows [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md):
+prioritize common testable interactions and their blockers before niche cases.
+New reports must lead with the normal menu/controls, expected behavior and exact
+tested/downloadable build, or explicitly identify an intermediate dependency and
+the next missing runtime service. Existing dated CPU checkpoints below retain
+their original evidence scope and do not become playable by this policy change.
+
 ## Main-menu persistent image samples - source-only inspection
 
 The common executable now samples an actual Session-owned persistent effect
@@ -22,6 +29,48 @@ These are private inspection images. Exact native image phase, animation pose,
 materials, queue ordering and full scene fidelity remain unverified. Current
 frozen public downloads and the separately pinned 545-source census are unchanged.
 The new controls do not enable ordinary character gameplay or certify a film.
+
+## Delphi common camera override dependency - 10 November 2026
+
+Intermediate dependency only; Delphi has no new ordinary menu entry or controls.
+Its first mission-entry blocker is the Mecc-only player preparer and absent
+retained Delphi cold factory/role binding. The next delivery connects that actual
+owner/held/copy path before the supported dry input/controller and camera loop.
+
+The authored callback now writes the common typed override state. Target-view
+queries read that object with the existing common mode, preserving independent
+snapshot reads and refusing unproduced active nonmatrix views. The four original
+writers and predicate match 512 supplied programs /81,920 selected words. Actual
+installed authored activation/clear/failure checks use the same selector object.
+Startup and real viewport pose/epoch and world input/projection remain open.
+This source dependency changes no downloadable-preview or gameplay availability.
+See [OWNED_CAMERA.md](OWNED_CAMERA.md) and [OWNED_DELPHI.md](OWNED_DELPHI.md).
+
+Combined source `453f23fe6910ae41caf858d69a377b9c4218cf2d`, retaining main through
+`1e66d4b`, passes 917 workspace Rust tests (108 ignored), all fifteen installed
+Delphi controls, the two silent common-camera owner/pre-world regressions,
+Rustfmt, strict workspace Clippy, 43 Python tests and site/JavaScript checks.
+Its receipt-bound MinGW executable passes the explicitly waited CLI check.
+These are source/component controls; no new ordinary player interaction is asserted.
+
+## Kabuto first common mission construction - source-only checkpoint
+
+The shared mission loader now selects the requested character's declared start
+and prepares the acquired Kabuto cold Factory for kind 1. Common spawn retains
+its actual Session constructor identity instead of requiring Mecc preparation.
+A Kstory1 menu-request control checks declared placement, pending initializers,
+resource/ECS cleanup and a second ticket entry. The Mecc constructor-role control
+also passes. This is CPU App staging, not graphical menu interaction or visible
+Kabuto; native relocation/history, body/material submission, actual camera and
+controller/world admission remain open. No initializer is acknowledged.
+
+The source passes 915 synthetic Rust tests (108 ignored), the two installed App
+controls, 43 Python tests, strict workspace Clippy and generated site/JavaScript
+checks. The preceding resource-driven action prefix independently matches 1,024
+original-PC/Rust contexts /980,271 words within its declared providers; it remains
+a standalone component. Both source milestones retain their distinct boundaries.
+The next priority is visible menu-to-mission Kabuto, then real walking/turning and
+jump/landing, before feeding/growth and variants. The frozen preview .8 is unchanged.
 
 ## Persistent named-selection follow-up - source-only evidence
 
@@ -6099,3 +6148,18 @@ CPU and reserved zero-PCM device controls, shared timed Session and cold Delphi
 ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
 site/JavaScript checks. Concurrent preview .8 evidence and its limitations are
 retained separately. This source handoff creates no new download or live admission.
+
+## Mecc ordinary descent presentation - source integration
+
+Merged into main through [PR #17](https://github.com/YYoudi/giants-rs/pull/17)
+(`c44baf6`). The ordinary menu-controlled renderer now loads the acquired descent
+clip and selects it using the same installed-data velocity/clearance rule as the
+owned selector. This addresses a missing visible pose in the normal presentation path;
+input defaults and owned-primary admission are unchanged.
+
+Status: runtime connected, interaction unverified. Normal menu entry, preparation,
+return and re-entry ran on a muted local build, but sustained flight/release/
+descent/landing was not established before computer use was interrupted. Do not
+advertise an interaction-verified or downloadable milestone from these partial
+observations. The current preview receipts/notices/checksums retain their identity.
+See [OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordinary-mission-descent-pose---runtime-connected-interaction-unverified).

@@ -112,6 +112,7 @@ pub struct State {
     model_motion: giants_game::mecc_model_motion::Output,
     model_speed_minimums: [f32; 2],
     locomotion: giants_game::mecc_locomotion::Parameters,
+    descent: giants_game::mecc_locomotion::Descent,
     plane_contacts: u64,
     terrain_edge_transitions: u64,
     ground_queries: u64,
@@ -402,7 +403,9 @@ impl State {
             animation.timeline[0],
         )?;
         let mut clips = BTreeMap::new();
-        for slot in [1, 2, 5, 6, 7, 23, 39, 40, 50, 136, 143, 144, 169, 172, 202] {
+        for slot in [
+            1, 2, 5, 6, 7, 23, 39, 40, 41, 50, 136, 143, 144, 169, 172, 202,
+        ] {
             let selected = binding
                 .selection
                 .animations
@@ -476,6 +479,7 @@ impl State {
             giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn"))?)?;
         let parameters = giants_game::mecc_initial::Parameters::from_globals(&globals)?;
         let locomotion = giants_game::mecc_locomotion::Parameters::from_globals(&globals)?;
+        let descent = giants_game::mecc_locomotion::Descent::from_globals(&globals)?;
         let model_speed_minimums = [globals.scalar(0x65c)?, globals.scalar(0x660)?];
         let jet_parameters = giants_game::mecc_jet::Parameters::from_globals(&globals)?;
         let utility = if let Some(initial) = equipment {
@@ -773,6 +777,7 @@ impl State {
             },
             model_speed_minimums,
             locomotion,
+            descent,
             plane_contacts: 0,
             terrain_edge_transitions: 0,
             ground_queries: 0,
@@ -882,18 +887,20 @@ impl State {
                 as f32;
             return Ok(());
         }
-        let request = giants_game::mecc_locomotion::select(
-            giants_game::mecc_locomotion::Input {
-                model: self.model_motion.model,
-                position_z: self.motion.position[2],
-                floor: self.floor_height,
-                center_offset: self.collision_dimensions[0],
-                scale: self.scale,
-                supported: self.support != 0,
-            },
-            self.locomotion,
-            Precision::Double53,
-        )?;
+        let input = giants_game::mecc_locomotion::Input {
+            model: self.model_motion.model,
+            position_z: self.motion.position[2],
+            floor: self.floor_height,
+            center_offset: self.collision_dimensions[0],
+            scale: self.scale,
+            supported: self.support != 0,
+        };
+        let ordinary =
+            giants_game::mecc_locomotion::select(input, self.locomotion, Precision::Double53)?;
+        let request = self
+            .descent
+            .request(input, self.motion.velocity[2])?
+            .unwrap_or(ordinary);
         let selected = request.clip;
         let rate = request.rate(self.model_motion.model, Precision::Double53)?;
         if selected != self.active_clip {

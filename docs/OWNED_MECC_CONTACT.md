@@ -1,5 +1,13 @@
 # Owned ordinary Mecc contact selector and deferred effect
 
+Select and resume work under the shared [gameplay-first
+objective](GOAL_GAMEPLAY_FIRST.md). Prioritize the ordinary player-visible path and
+its first missing caller/consumer before rare variants. Dated controls and
+next-acquisition notes below retain their evidence scope; they do not override the
+current delivery priority in `BACKLOG.md`. A handoff must identify the exact
+testable build and normal controls, or state "intermediate dependency only" and the
+next runtime blocker.
+
 Native research follows [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md).
 The PC selector keeps its historical alias recorded in
 [MECC_DESCENT_GUARD.md](MECC_DESCENT_GUARD.md). Prototype PS2 attributions for the
@@ -1278,3 +1286,27 @@ actual snapshot production/identity, message/progression continuation, other gua
 writers and common scheduling remain required before live impact admission.
 Prototype PS2 lookups were refreshed first; all new attributions remain unknown.
 The source checkpoint does not change the separately published preview identity.
+
+## Ordinary mission descent pose - runtime connected, interaction unverified
+
+The normal menu-controlled Mecc presentation now prepares the acquired descent
+clip and uses the same descent request as the owned selector. Previously this
+path loaded only the ordinary directional air clips, so it could not display the
+already acquired descent posture. Selection uses actual vertical velocity and
+floor-relative clearance with the installed data's thresholds. It returns to
+ordinary locomotion when the descent condition ends. No replay switch is required
+for this wiring, and default input bindings remain unchanged.
+
+Test path: start a Mecc mission through the normal menu, hold right mouse for
+thrust (Space for nitro), gain height, release and observe a sufficiently fast
+clear descent, then land, return to the menu and enter again. This remains the
+existing partial mission controller; it does not enable the incomplete owned
+primary globally or supply missing impact/voice/FX services.
+
+The local muted build completed normal menu entry, asset/clip preparation, return
+and re-entry. The attempted input session did not establish a sustained flight,
+so thrust/release/descent/landing interaction is explicitly unverified. The user
+interrupted computer use with Escape; no further UI control was resumed. Temporary
+bindings were confined to an independent test profile. The existing preview is
+not updated by this source change. Prototype PS2 lookup was refreshed before
+reusing the acquired selector rule; attribution remains unknown.

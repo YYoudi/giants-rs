@@ -4,6 +4,43 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
+## Current delivery priority - owner direction, 10 November 2026
+
+Follow [GOAL_GAMEPLAY_FIRST.md](docs/GOAL_GAMEPLAY_FIRST.md). The complete game
+scope below remains; current work proceeds from common playable experience to
+specialized detail rather than by the number of isolated CPU controls acquired.
+
+The next main delivery is a continuously testable ordinary Mecc path in the common
+application: enter from the menu, move/aim and use the camera with real input,
+thrust/release/descend/land with visible animation and effects, exercise the basic
+weapon path, then return and enter again. Verify each supported action on the
+actual build before advertising it. The last recorded owned GPU acceptance uses
+supplied replay commands; it does not close this real-input delivery.
+
+- Main integration: connect actual camera/input/projection and activation order;
+  consume the reviewed character services through their real shared owners.
+- Mecc: provide the first missing impact/health/display/voice/FX and weapon
+  dependencies that prevent this continuous path. Do not bypass them with default
+  guard state; prioritize their actual producers over unrelated rare variants.
+  The acquired descent rule and clip are connected to the ordinary controller
+  on main through PR #17 (`c44baf6`). Menu entry, clip preparation, return and re-entry
+  have run on the local build; thrust/release/fall/landing interaction remains
+  unverified after the interrupted UI session. Do not advertise it as verified
+  gameplay or publish a new preview from those partial observations. Preserve
+  countdown-start research privately rather than expanding that isolated work.
+- NPC, Delphi, Kabuto and Flick: prioritize the next ordinary actor/character or
+  story interaction and its first real caller dependency within each domain.
+  Their detailed blockers below remain authoritative; communicate the producer/
+  consumer gap and test path to main through committed handoffs, not new agents.
+- After the basic loop, advance actual NPC interaction, mission objectives,
+  failure/restart and progression, then broaden character/campaign coverage.
+  Refine specialized effects and exhaustive variant matrices in the shared order.
+
+Reports begin with what the owner can test in which build and using which normal
+controls. Otherwise say "intermediate dependency only" and name the next blocker.
+Keep source status, local interaction checks, historical captures and the exact
+published preview independent. Do not mark whole-game features complete here.
+
 ## Prototype PS2 attribution method — 5 November 2026
 
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
@@ -208,6 +245,21 @@ BACKLOG.md, PROGRESS.json, generated README and release notes are also shared:
 update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Delphi next steps
+
+Current observable delivery: enter a Reaper mission through the common menu,
+retain the actual declared Delphi owner/held/copy group, then connect supported
+dry keyboard/mouse movement, jump and camera. **First runtime blocker:**
+`player_initial::Prepared` admits Mecc only and the mission runtime has no Delphi
+cold factory/role-binding branch. Supply that real constructor/consumer next;
+retain pending projection/controller/geometry services instead of acknowledging
+missing work. Main integration owns combined delivery. Delphi remains an
+intermediate dependency, with no ordinary controls newly available.
+
+The authored camera now uses the common typed override owner and common mode
+selector; 512 original writer/predicate programs match 81,920 selected words.
+Actual source-backed activation, clear and failure update that same selector.
+Keep startup, descriptor/owner resolution and viewport pose epochs explicit.
+Do not spend the next task on rare camera variants ahead of the entry gap above.
 
 - Implemented: `delphi_resources::Resources` projects the actual kind-3 mission
   marker, class fields, state template and body/state specifications. The shared
@@ -614,6 +666,44 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   integration exists. Resource loading alone must not change completion status.
 
 ### Kabuto next steps
+
+Work in playable slices, in this order. Native research follows the first actual
+blocker in the next slice, rather than continuing adjacent functions by address.
+
+1. Menu-to-mission selection and visible Kabuto at the authored start, with actual
+   initialization services. The common loader now selects the declared character
+   marker and stages Kabuto's acquired cold group instead of requiring the Mecc
+   player preparer. An installed Kstory1 menu request reaches the actual common
+   spawn, retains its player identity and passes cleanup/second entry. This source
+   composition uses the constructor's existing history; native marker relocation
+   and complete caller history remain unverified. All four initializer gates stay
+   pending. **Next blocker: body/material submission and the actual camera /
+   projection path.** Cold construction alone is not visible or playable Kabuto.
+2. Actual input, walking and turning through the common world, camera and
+   collisions; then jump/landing and continuous-session exit/re-entry checks.
+3. Attack, capture and feeding with real target/lifetime owners.
+4. Growth, with the corresponding body, collisions and camera changes.
+5. Remaining variants and exceptional paths. Acquire them earlier only when a
+   preceding playable slice actually depends on them.
+
+
+- Implemented at the standalone CPU boundary: the resource-driven action prefix
+  preserves its three distinct exits, definition-flag filtering, captured
+  interaction identity and separate related-position source. Low/mid-resource
+  comparisons retain wide squared distance; the full-resource route reloads the
+  narrowed local and consumes the actual bounded draw. Per-target class flags,
+  pose snapshots, reserve/meter/counter stores and selected definition remain
+  source ordered. 1,024 original-PC/Rust controls match 980,271 words, including
+  195 declared mutating status entries and a discriminating rounding pair.
+  This is not the complete action policy or its Session/world admission.
+  Eight complete native cold primaries additionally identify the caller's actual
+  scratch writers: a shared temporary carries different resource/clock/flag
+  values at successive frontiers. Do not replace that provenance with a universal
+  zero/time default or relabel supplied scratch fixtures as natural admission.
+  Next: acquire the remaining flagged and animation-policy continuations,
+  including held/target handling, lifetimes, clocks, effects and created actors;
+  join the earlier query/reaction branch in full primary order. Preserve the
+  existing component exits and all initialization/history prerequisites.
 
 - Implemented at the CPU/owned-Session boundary: the complete acquired
   post-selection continuation orders transient actor marking/link clear, local

@@ -1,5 +1,12 @@
 # Build on Windows with MinGW
 
+Choose and report validations under [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md).
+The commands below remain required at their stated scope. For a playable-feature
+claim, also test the ordinary menu and real keyboard/mouse path on the exact build,
+with visible response, exit and re-entry. A synthetic/installed CPU control or
+scripted GPU replay alone does not establish that interaction. Lead the handoff
+with the actual test path and availability before numerical results.
+
 For combined character/cinematic contributions, follow
 [INTEGRATION.md](INTEGRATION.md) before recording a public preview milestone.
 Keep the exact source/build identity and test scope separate from source-only

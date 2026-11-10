@@ -68,6 +68,7 @@ struct Payload {
     director: Result<Option<giants_game::director_initial::Prepared>, String>,
     effect_proxies: Result<Vec<giants_game::cinematic_fx::TerminalProxy>, String>,
     player: Result<Arc<giants_game::player_initial::Prepared>, String>,
+    kabuto: Result<Option<giants_game::kabuto_initial::Factory>, String>,
     controller: Result<Option<crate::mecc_dev_scene::State>, String>,
     carried: Result<Option<(usize, Arc<giants_game::carried_actor::Prepared>)>, String>,
     dressing: Option<crate::mission_dressing::Prepared>,
@@ -118,13 +119,17 @@ struct Active {
 }
 impl Active {
     fn player_owner(&self) -> Result<ActorId, String> {
-        let class = self
-            .payload
-            .player
-            .as_ref()
-            .map_err(Clone::clone)?
-            .start
-            .kind;
+        let class = match self.payload.kabuto.as_ref().map_err(Clone::clone)? {
+            Some(factory) => factory.declared_start().kind,
+            None => {
+                self.payload
+                    .player
+                    .as_ref()
+                    .map_err(Clone::clone)?
+                    .start
+                    .kind
+            }
+        };
         self.bindings
             .player
             .filter(|id| {
@@ -178,6 +183,27 @@ pub(crate) struct Startup {
     pub ticket: u64,
     pub cinematic: bool,
     pub companions: u32,
+}
+fn prepare_kabuto(
+    root: &std::path::Path,
+    plan: &Plan,
+    packet: &PreparedMission,
+) -> Result<Option<giants_game::kabuto_initial::Factory>, String> {
+    let mission = packet.mission.as_ref().ok_or("prepared mission missing")?;
+    if mission.starts.first().is_none_or(|s| s.words[0] != 1) {
+        return Ok(None);
+    }
+    let globals = giants_formats::global_data::parse(
+        &std::fs::read(root.join("Bin/GData.gbn")).map_err(|e| e.to_string())?,
+    )
+    .map_err(|e| e.to_string())?;
+    giants_game::kabuto_initial::Factory::load(
+        plan,
+        packet.world.as_ref().ok_or("prepared world missing")?,
+        mission,
+        Arc::new(globals),
+    )
+    .map(Some)
 }
 impl Runtime {
     pub(crate) fn cinematic_session(
@@ -1191,7 +1217,10 @@ fn spawn(
                 "player special children, continuity, team and controller binding pending".into(),
             );
         }
-        Err(error) => blocked.push(format!("initial player construction: {error}")),
+        Err(error) if !matches!(payload.kabuto, Ok(Some(_))) => {
+            blocked.push(format!("initial player construction: {error}"));
+        }
+        Err(_) => {}
     }
     match &payload.parameters {
         Err(error) => blocked.push(format!("mission slot parameters: {error}")),
@@ -1362,6 +1391,26 @@ fn spawn(
     }
     let mut resident_states = giants_game::resident_states::Session::new(ticket);
     let mut bindings_by_role = ActorBindings::default();
+    match &payload.kabuto {
+        Ok(Some(factory)) => match factory.construct_declared(
+            &mut resident_states,
+            giants_game::animation_channels::Blending::Enabled,
+            1,
+        ) {
+            Ok(owner) => {
+                bindings_by_role.player = Some(owner);
+                println!(
+                    "mission_kabuto_constructed ticket={ticket} owner={owner:?} class=1 position={:?} initializer_pending={:?} declared_placement=true native_relocation_verified=false controller=false ready=false",
+                    factory.declared_start().position,
+                    resident_states.kabuto_group(owner).unwrap().pending,
+                );
+                blocked.push("Kabuto projection, animation cache, material, geometry and live controller admission pending".into());
+            }
+            Err(error) => blocked.push(format!("Kabuto cold construction: {error}")),
+        },
+        Err(error) => blocked.push(format!("Kabuto preparation: {error}")),
+        Ok(None) => {}
+    }
     let mut register = |role: &str,
                         class: i32,
                         seed: &giants_game::state_storage::Seed,
@@ -1808,11 +1857,20 @@ fn drive(
                 let opening_effects_bound = playback
                     .as_ref()
                     .is_ok_and(|p| p.as_ref().is_none_or(|p| p.effects_bound()));
-                let start_candidate = giants_game::player_start::declared(
-                    &plan,
-                    packet.world.as_ref().ok_or("prepared world missing")?,
-                    packet.mission.as_ref().ok_or("prepared mission missing")?,
-                );
+                let kind = packet
+                    .mission
+                    .as_ref()
+                    .and_then(|m| m.starts.first())
+                    .map(|s| s.words[0] as i32);
+                let start_candidate = (|| {
+                    giants_game::player_start::declared_for_kind(
+                        &plan,
+                        packet.world.as_ref().ok_or("prepared world missing")?,
+                        packet.mission.as_ref().ok_or("prepared mission missing")?,
+                        kind.ok_or("mission player start absent")?,
+                    )
+                })();
+                let kabuto = prepare_kabuto(&root, &plan, &packet);
                 let player = giants_game::player_initial::Prepared::load(
                     &root,
                     &plan,
@@ -1822,6 +1880,9 @@ fn drive(
                 .map(Arc::new)
                 .map_err(|e| e.to_string());
                 let controller = world.as_ref().map_err(Clone::clone).and_then(|world| {
+                    if kind == Some(1) {
+                        return Ok(None);
+                    }
                     let initial = player.as_ref().map_err(Clone::clone)?;
                     crate::mecc_dev_scene::State::load_mission(&root, world, &packet, initial)
                         .map(Some)
@@ -1872,6 +1933,7 @@ fn drive(
                     director,
                     effect_proxies,
                     player,
+                    kabuto,
                     controller,
                     carried,
                     dressing,
@@ -2268,6 +2330,70 @@ mod tests {
             controller: Ok(None),
             carried: Ok(None),
             player: Err("synthetic fixture has no player resources".into()),
+            kabuto: Ok(None),
+        }
+    }
+
+    #[test]
+    #[ignore = "Requires GIANTS_KABUTO_ROOT; actual menu request, common spawn, cold ownership and second entry; no window or sound"]
+    fn source_kabuto_menu_entry_constructs_owned_group_and_reenters() {
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_KABUTO_ROOT").unwrap());
+        let source = giants_game::world_source::resolve(&root, "Kstory1").unwrap();
+        let menu = giants_game::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin").join(source.catalog)).unwrap(),
+            u32::MAX,
+            true,
+        )
+        .unwrap();
+        let packet = Arc::new(
+            giants_game::mission_loading::prepare(&root, menu.request("Kstory1", 0).unwrap())
+                .unwrap(),
+        );
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let prepared = prepare_kabuto(&root, &plan, &packet).unwrap().unwrap();
+        let start = prepared.declared_start().clone();
+        let mut payload = payload();
+        payload.packet = packet;
+        payload.plan = plan;
+        payload.kabuto = Ok(Some(prepared));
+        let mut world = World::new();
+        let baseline = world.query::<Entity>().iter(&world).count();
+        for ticket in [996, 997] {
+            let mut queue = CommandQueue::default();
+            let (scene_root, _, blocked, mut residents, bindings) =
+                spawn(&mut Commands::new(&mut queue, &world), ticket, &mut payload);
+            queue.apply(&mut world);
+            let owner = bindings
+                .player
+                .expect("Kabuto constructor must publish its identity");
+            let actor = residents.get(owner).unwrap();
+            assert_eq!(actor.class, 1);
+            assert_eq!(
+                actor.construction_fields.as_ref().unwrap().position,
+                start.position
+            );
+            let group = residents.kabuto_group(owner).unwrap();
+            assert_eq!(
+                group.pending,
+                [
+                    giants_game::kabuto_initial::Pending::ProjectionReset,
+                    giants_game::kabuto_initial::Pending::AnimationCache,
+                    giants_game::kabuto_initial::Pending::ProceduralMaterial,
+                    giants_game::kabuto_initial::Pending::GeometryRegistration,
+                ]
+            );
+            assert!(blocked.iter().any(|s| s.starts_with("Kabuto projection")));
+            assert!(
+                !blocked
+                    .iter()
+                    .any(|s| s.starts_with("initial player construction:"))
+            );
+            assert_eq!(owner.ticket(), ticket);
+            residents.clear();
+            assert!(residents.get(owner).is_none());
+            assert_eq!(residents.counts().residents, 0);
+            world.despawn(scene_root);
+            assert_eq!(world.query::<Entity>().iter(&world).count(), baseline);
         }
     }
 

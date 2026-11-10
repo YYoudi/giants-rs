@@ -220,14 +220,12 @@ pub(crate) fn ordinary_with_draw(
     let gap = (f64::from(input.position_z) - f64::from(input.floor))
         - f64::from(input.center_offset) * f64::from(input.scale);
     let scalar = |at| globals.scalar(at).map_err(|e| e.to_string());
-    let descending = view.velocity[2] < -scalar(0xc10)? && f64::from(scalar(0xc14)?) < gap;
-    if descending {
-        selection = mecc_locomotion::Request {
-            clip: 41,
-            flags: 0x21,
-            speed_source: 0,
-            reference_speed: (-160f64 * f64::from(input.scale)) as f32,
-        };
+    let descent = mecc_locomotion::Descent::from_globals(globals)
+        .map_err(|e| e.to_string())?
+        .request(input, view.velocity[2])?;
+    let descending = descent.is_some();
+    if let Some(request) = descent {
+        selection = request;
     }
     let reaction = if descending {
         None
