@@ -40,6 +40,13 @@ controls, NPC interactions and full fidelity remain open. No new prototype PS2
 attribution is confirmed; the next camera step is its actual PC-backed coefficient
 reader and input/device/activation order. See [BACKLOG.md](../BACKLOG.md).
 
+A later source-only checkpoint `1dc5156` preserves the post-selection Kabuto
+camera/UI/world tail that arrived after this executable was frozen. It passes
+900 workspace Rust tests (99 ignored), thirty installed Kabuto controls,
+43 Python tests, Rustfmt and strict workspace Clippy. Required backends and
+initializer/history gates remain open. This continuation is not in the frozen
+.8 binary and does not enable ordinary Kabuto gameplay.
+
 ## Kabuto post-selection owned continuation — 10 November 2026
 
 The acquired post-selection component now runs on the actual Kabuto Session
