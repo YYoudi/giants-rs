@@ -54,7 +54,9 @@ extra world-history copy would change that composition. Warm actors continue
 through the separately prepared or combined routes below.
 
 This entry requires a cold, active, unparented class8 herd child at local frame
-zero. Parentless allocations, already initialized actors, wrong/foreign frames
+zero. The caller must establish that this birth followed the current world-history
+prepass; cold metadata alone does not establish that ordering.
+Parentless allocations, already initialized actors, wrong/foreign frames
 and route replay refuse. Initialization and completed physical work survive a
 later required effect-namespace failure; the failed world token forbids replay.
 The entry does not fabricate sound/effect providers or bypass outer world gates.

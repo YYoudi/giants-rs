@@ -125,6 +125,14 @@ required threat/feeding/active FX/audio, renderer and mission re-entry remain
 open. This source dependency admits no ordinary mission or new gameplay download;
 existing preview receipts and asset-free package identities are unchanged.
 
+Combined runtime 5a70ac7aaedcaa4c8fc7f1c4a7101362658851d0 preserves the concurrent
+Mecc, Delphi, Kabuto and timed-effect changes. Validation passes 869 default Rust
+tests (63 ignored), five installed Vimp controls and the retained herd control,
+43 Python tests, Rustfmt, strict workspace Clippy and roadmap/site/JavaScript
+checks. The rebuilt comparison runner retains the 96-snapshot /824,168-word
+result on that merged runtime. The source-history audit reviews 712 commits
+and 4,048 blobs with zero findings. These checks do not relabel any preview.
+
 ## Separate owned Vimp history and callback entry — 10 November 2026
 
 Owned initialized Vimps can now prepare position history in a separate pass and
