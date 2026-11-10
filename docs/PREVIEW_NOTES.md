@@ -1,4 +1,4 @@
-# Windows x64 development preview - preview-2026.11.10.7
+# Windows x64 development preview - preview-2026.11.10.8
 
 Place giants-rs.exe beside the original Giants.exe and double-click it to open
 the integrated menu. The adjacent installation is detected automatically. From
@@ -25,6 +25,15 @@ physical header and resource destruction share the Session; the renderer supplie
 no second simulation, RNG or birth path. Full smoke activation/clock/cleanup world
 scheduling and graphical parity remain open. Prepared ownership and a renderer
 consumer alone do not make smoke appear during ordinary gameplay.
+
+## Source-domain constant effects
+
+The constant persistent Flick bodies now live in the active mission Session with
+their actual headers, payloads, channels and references. Their typed source supports
+remain distinct from ordinary actor parents, and their source scope controls
+cancellation and retirement. No finite lifetime, ordinary actor proxy, world-stock
+capacity or readiness acknowledgement is invented. Native world admission and
+complete cinematic/rendering fidelity remain open.
 
 ## Source completion and re-entry
 
