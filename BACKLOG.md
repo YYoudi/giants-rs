@@ -1151,9 +1151,18 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   selector matrix agrees; eleven seeded 512-frame primary controls cover every
   selected idle variant and match 253,440 selected numeric words plus relative
   epoch advancement. Clocks, flat floor, commands and empty populations remain
-  supplied. Next broaden movement/jet and populated contact, and bind the remaining
-  impact/voice/display and FX/world providers before claiming complete ordinary
-  owned gameplay or visual fidelity.
+  supplied. Empty zero-level damage smoke now advances without fabricating a
+  display snapshot: 80 native policy controls and one 512-frame Rust wounded
+  trajectory agree against both supplied native display-reset outcomes, including
+  health and smoke state (24,576 numeric words plus relative epochs per comparison).
+  Active smoke still requires its actual display owner. Prepared App CPU and
+  zero-PCM device controls pass the baseline 512-frame profile; prolonged thrust/
+  boost refuses the missing impact provider at frame 402. The separate health
+  suppression guard has debug/menu and temporary countdown writers; cinematic
+  activity alone does not determine it. Next acquire complete guard producers/
+  lifetimes and impact/voice/display/FX world ownership, then broaden populated
+  contact and live sessions. Do not default a guard to bypass these prerequisites.
+  See OWNED_MECC_CONTACT.md for scope; ordinary gameplay and fidelity remain open.
 
 
 - Desktop preview entry: giants-rs.exe detects the adjacent game installation or

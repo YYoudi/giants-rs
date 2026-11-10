@@ -5808,3 +5808,28 @@ strict workspace Clippy, 43 Python tests and generated site/JavaScript checks.
 The main lane retains preview publication and its
 separate source, notices and checksum identity; this source handoff creates no
 new download or ordinary gameplay certification.
+
+### Mecc effect-free wounds and extended runtime - 10 November 2026
+
+The full primary now advances empty zero-level damage smoke without inventing a
+display snapshot. Observable smoke effects still require their actual owner;
+stale snapshots and invalid state retain their refusals. Eighty native policy
+controls and 512 wounded Rust frames agree against either supplied native reset
+outcome on health, smoke, channels, flags and RNG: 24,576 selected numeric words
+plus relative epochs per comparison. The same Rust trajectory is compared twice;
+this is neither a complete world nor graphical-fidelity result. Prototype PS2
+attributions remain unknown.
+
+Prepared App CPU and reserved zero-PCM device diagnostics pass the baseline
+512-frame profile. Extended thrust/boost still stops at frame 402 on the required
+impact provider. Guard audit evidence separates health suppression from unrelated
+audio/editor guards; complete producers and lifetimes remain prerequisites.
+The main lane retains preview publication and its separate binary, notices and
+checksum identity. This source checkpoint creates no new download. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#effect-free-wounds-and-extended-runtime-controls--10-november-2026).
+
+Validation retaining main through `cbdb58d` passes 904 workspace Rust tests
+(98 ignored), twenty-seven installed Mecc controls, the prepared 512-frame App
+CPU and zero-PCM device controls, strict workspace Clippy, Rustfmt, 43 Python
+tests and generated site/JavaScript checks. Separate default-profile and shared
+owner controls retain their narrower scopes.

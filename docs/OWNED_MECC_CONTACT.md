@@ -1179,3 +1179,39 @@ Prototype PS2 lookup was expanded for idle/Mecc/animation vocabulary and remains
 unknown. Private tables and detailed captures stay outside Git. Complete impact/
 voice/display and FX/world scheduling, populated contact, real-input/long-session
 coverage and graphical fidelity remain open. No new preview is created.
+
+## Effect-free wounds and extended runtime controls — 10 November 2026
+
+The complete primary now advances an empty damage-smoke binding without a display
+snapshot when the acquired thresholds select level zero. Both outcomes of the
+native pure reset query produce the same final state and no release, creation
+or random draw. This also clears a retained cached level after an earlier absent
+allocation. No display value or service is fabricated. Active bindings and
+nonzero selected levels still require the actual owner. Supplied stale or foreign
+displays retain their validation; invalid cached levels remain rejected.
+
+Eighty original-PC policy controls cover threshold neighbours, all four prior
+cached levels and both owner/activity inputs. Two native 512-frame primary runs
+then supply opposite display-reset outcomes and introduce light damage after
+eight healthy frames. The same 512 Rust snapshots agree with either run on
+24,576 selected numeric words plus 512 relative epoch samples, including health,
+smoke binding/level, channels, flags and RNG. This is one Rust trajectory compared
+twice, not 1,024 distinct Rust frames. The floor, clock, commands, gates,
+allocation/source providers and empty populations remain supplied. Full payloads,
+global startup, populated-world order, graphics and audible fidelity are outside
+the comparison. Prototype PS2 attributions remain unknown.
+
+The prepared App terrain/camera/animation/weapon control and its separate jet
+control now pass 512 frames. The latter uses actual reserved zero-PCM sinks at
+zero gain. Optional bounded frame/thrust/boost inputs extend the test harness;
+defaults retain its 128-frame profile. A stronger 1,024-frame request with prolonged
+thrust and boost stops at frame 402 on the required impact-reaction provider.
+This is an expected unresolved boundary, not a completed long-flight result.
+
+A separate guard audit distinguishes the impact editor-mode guard from the
+health-suppression guard and an unrelated audio guard. Health suppression has
+observed debug/menu and temporary countdown writers; cinematic activity alone
+does not establish its value. Their complete ownership/lifetimes and the impact,
+voice, display and FX/world producers remain unbound. No guard is defaulted to
+make the runtime continue. Next acquire those producers with the mandatory
+prototype PS2 lookup and independent PC evidence before broader live admission.
