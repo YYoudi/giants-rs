@@ -12,7 +12,8 @@ pub struct Input {
     pub scaled_input: bool,
     pub mode: i32,
     pub profile_index: u32,
-    /// The selected actor's state-binding kind, separate from model class.
+    /// Controlled actor's state-binding kind, separate from model class and
+    /// from a camera owner selected by an override. Historical field name kept.
     pub selected_kind: Option<i32>,
     pub input_scale: f32,
 }
