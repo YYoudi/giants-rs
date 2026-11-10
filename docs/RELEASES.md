@@ -1,5 +1,37 @@
 # Preview releases and milestone integration
 
+## Vimp movement/response composition — 10 November 2026, source only
+
+The scalar/command prefix and active response now share one owned Session lease
+and RNG. Parameters publish before the actor clock, commands clear before the
+caller gate, and obstruction retry uses a separate global clock with strictly
+negative expiry. Earlier stores and callback/error/cancellation effects survive;
+reentry and replay remain refused. Existing arithmetic and steering are shared.
+
+The movement prefix matches 1,024 original-PC contexts /9,216 words and 117 source
+cycle prefixes /1,053 words. One first-handled prefix suppresses production; 116
+produce commands. The joint source comparison matches 115 visits /2,070 words
+while retaining commands, scalar/retry and active state plus RNG. Earlier caller
+gate, obstruction predicate, growth/motion/flags/clock/control and external draws
+remain supplied. No zero obstruction constructor value is inferred. Prototype PS2
+attributions remain unknown; inputs and detailed evidence stay private.
+
+Combined runtime source `0f62e17` preserves main through `cf65499`. Validation
+passes 943 default Rust tests (137 ignored), 34 installed NPC controls plus both
+private captured cycles, Delphi dependency-order and canonical timed-owner checks,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. The preceding active-state PR's dashboard and both Windows checks pass.
+Rebuilt captured/persistent active, locomotion and 32-scenario /96-snapshot
+herd/newborn comparisons still agree; the latter retains its supplied world
+boundaries and matches 824,168 words after the shared arithmetic refactor.
+
+No ordinary public map yet admits active Vimp AI. Story2 remains the CPU resource
+reference and first intended runtime target. Earlier world/caller producers and
+later look/physics/ANM/render ownership, actual population/global clock/RNG,
+contact, action/hint/audio and remaining modes still require integration and
+interactive entry/interaction/cancellation/re-entry validation. No capture,
+executable, download or frozen preview .8 notes/receipt is changed by this lot.
+
 ## Owned Vimp active-response state — 10 November 2026, source only
 
 The active block now consumes actual Session actor fields and keeps its arrival

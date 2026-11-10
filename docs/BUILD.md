@@ -283,6 +283,17 @@ outputs and RNG across 115 visits with supplied caller motion/clock/flags and
 external draw counts. Inputs are not distributed; this is not a normal mission
 or whole-primary test. Follow the central reconstruction method for acquisition.
 
+The default `vimp_movement` controls cover the ordered scalar/command prefix,
+separate actor/global clocks, strict retry expiry and retained clock errors.
+The installed `source_vimp_active` group also covers the combined movement/active
+lease. The optional ignored
+`source_captured_vimp_movement_active_cycle_retains_outputs_and_random` requires
+an absolute `GIANTS_NPC_MOVEMENT_CONTROL` private reviewed control path as well
+as `GIANTS_NPC_ROOT`. Its 115-entry composition retains commands, scalar/retry
+and active outputs and one RNG, while earlier caller gates, contact predicate,
+motion/growth/flags/clock inputs and external draws remain supplied. Neither this
+control nor the Story2 resource fixtures enable ordinary mission AI.
+
 The response command checks actual inline physical/channel reads, signal-to-owned
 vector composition, terminal callback effects, cancellation and noise-target byte
 preservation. Priority/signal/channel entries are declared test inputs; session,

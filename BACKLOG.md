@@ -112,8 +112,16 @@ The dedicated NPC lane resumes existing work; see
   terminal action/cancellation effects. Six installed controls cover the owner and
   replay/error boundaries; a separate actual-Session control matches 115 native
   entries /1,495 words with retained outputs/RNG and supplied caller inputs/external
-  draw counts. Bind the complete caller phase and preserve first-handled versus
-  later growth/movement production. The mode1 animation selector now consumes owned gait/physical flags;
+  draw counts. Movement and active response now share one owned lease/RNG,
+  matching 115 native contexts /2,070 words with retained commands, scalar/retry
+  and active state. The separate movement prefix matches 1,024 /9,216 words and
+  117 source entries /1,053 words. Earlier producer gate, obstruction predicate,
+  growth/motion/clock inputs and external draws are supplied; do not infer a zero
+  constructor contact header. Preserve first-handled versus later growth/movement
+  production and bind the earlier caller plus later look/physics/ANM. Story2 is
+  the first intended ordinary mission target; no public map currently admits its
+  Vimp AI. Establish real population/global/clock/contact/environment and visible
+  ownership, then test player interaction, cancellation and re-entry. The mode1 animation selector now consumes owned gait/physical flags;
   1,088 native numeric contexts /39,168 channel words agree, including real blend
   modes and descriptor visibility controls. A declared synthetic idle-turn alias
   covers that absent source descriptor only numerically. One installed control
