@@ -1,5 +1,31 @@
 # Preview releases and milestone integration
 
+## Selected camera owner and combined identity checkpoint — 10 November 2026
+
+`camera_owner::State` implements the acquired owner-selection prefix with explicit
+startup words. An eligible retained owner precedes overrides; absent controlled
+actors leave state untouched. The selected owner precedes required reference
+preparation, while status publication follows success. Skipped preparation keeps
+the old status. Callback effects survive errors without replay. The Session
+adapter reads actual headers and guards foreign/retired selections; its checked
+owner feeds the existing subjective preparation input.
+
+All 162 original-PC/Rust prefix controls agree on owner/status and requested
+reference owner/index. The reference-point body and remaining camera update are
+outside this comparison. The installed-data control covers duplicate classes,
+subjective resource preparation, retained late failures and removal/reconstruction.
+No new prototype PS2 attribution is confirmed; startup/override production and
+world scheduling remain prerequisites. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
+
+Combined source preserves the concurrent physical-environment retention change
+and passes 877 workspace Rust tests (71 ignored), the camera-owner, existing
+pre-world and application actor-role installed controls, 43 Python tests, Rustfmt,
+strict workspace Clippy and generated roadmap/site/JavaScript checks. The planned
+`.5` preview combines this dependency with the earlier player/carried identity
+correction. Publication and exact executable/package identities remain pending
+receipt-bound build, runtime, notice and download verification. It enables no new
+native Mecc jet/descent/landing, character controller or complete cinematic.
+
 ## Source-only environment failure retention — 10 November 2026
 
 The common ordinary finalization service now retains completed environment and
