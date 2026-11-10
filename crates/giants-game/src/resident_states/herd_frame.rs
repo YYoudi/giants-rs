@@ -149,6 +149,7 @@ impl ActorWorldServices for Adapter<'_, '_> {
         state.fields.collision_flags = header.configuration[14];
         state.fields.model_vertical_speed = actor.herd_frame.as_ref().unwrap().view.rates[0];
         state.fields.animation_slot = header.channels[0][0];
+        state.parent_present = actor.presentation_parent.is_some();
         state.affine = actor.affine_cache.as_ref().map(|c| c.value);
         let result = crate::actor_finalization::finalize(
             state,
@@ -171,7 +172,9 @@ impl ActorWorldServices for Adapter<'_, '_> {
         header.object_flags = state.fields.object_flags;
         header.response_flags = state.fields.response_flags;
         header.configuration[14] = state.fields.collision_flags;
-        if error.is_none() {
+        // The parented finalizer marks dirty and returns, retaining cache
+        // storage without manufacturing or refreshing an attachment world pose.
+        if error.is_none() && !state.parent_present {
             let value = state.affine.ok_or("herd finalization affine absent")?;
             actor.affine_cache = Some(OwnedAffine {
                 value,
@@ -196,12 +199,38 @@ impl Session {
                 (49, 17) | (679, 0)
             ) && actor.seed.storage.state() != 0)
             || actor.attachment.is_some()
-            || actor.presentation_parent.is_some()
             || actor.construction_fields.is_none()
         {
-            return Err("passive frame requires acquired unparented herd/basic state0".into());
+            return Err("passive frame requires acquired herd/basic state0".into());
         }
         let fields = actor.construction_fields.as_ref().unwrap();
+        if actor
+            .mecc_special_child
+            .is_some_and(|b| actor.presentation_parent != Some(b.parent))
+        {
+            return Err("passive child parent changed without an acquired producer".into());
+        }
+        if let Some(parent) = actor.presentation_parent {
+            let binding = self
+                .mecc_special_child(id)
+                .ok_or("passive parent requires an acquired Mecc special child binding")?;
+            let owner = self
+                .get(parent)
+                .ok_or("passive child parent absent or foreign")?;
+            if !matches!(actor.class, 84 | 85 | 781)
+                || actor.seed.storage.state() != 0
+                || binding.binding_word != 2
+                || binding.context != fields.dispatch_context
+                || binding.reference_word != if actor.class == 85 { 0 } else { -1 }
+                || !owner.acquired_construction
+                || owner.class != 2
+                || owner.seed.storage.profile() != Profile::Debug
+                || owner.seed.storage.state() != 2
+                || owner.mecc_special.is_none_or(|s| !s.children.contains(&id))
+            {
+                return Err("passive child binding differs from its constructor group".into());
+            }
+        }
         if fields.object_flags & 0x10000 != 0
             || fields.configuration[20] != u32::from(actor.seed.storage.state())
             || actor.channels != Some(fields.channels)

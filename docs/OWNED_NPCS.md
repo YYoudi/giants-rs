@@ -39,7 +39,7 @@ callback by default. Existing herd/marker behavior and older API names remain;
 The actual constructor creates this owned frame only for the supported source
 profile. The existing clock, ANM epoch, finalization, environment and footprint
 contracts remain required. A failed or consumed iteration cannot replay, and
-retired/parented/changed profiles refuse. This adds no independent simulation or
+retired, untyped-parented and changed profiles refuse. This adds no independent simulation or
 new random stream, and enables no callbacks from mission loading by itself.
 
 A focused original-PC control constructs two neutral state0 classes after poisoning
@@ -58,8 +58,9 @@ footprint providers are required but not entered by these stationary actors.
 The additional animated state0 declaration is supported by the bounded eventless
 single-channel path below. This is a selected-cohort CPU
 control: other actor families are not acknowledged as updated, and empty supplied collision geometry is not a claim of
-an empty mission. Parented Mecc children, wider state0/AI callbacks and the actual
-shared world admission/clock/control/environment/effect producers still block
+an empty mission. Parent completion/attachment publication, wider state0/AI
+callbacks and the actual shared world admission/clock/control/environment/effect
+producers still block
 ordinary whole-world scheduling before the live Vimp render consumer can be used.
 
 ## Active eventless state0 animation - intermediate source dependency
@@ -68,8 +69,9 @@ The actual Story2 building now advances its declared channel through the shared
 channel loop, stores the shared epoch, samples its fifteen owned references and
 then finalizes its affine. Eligibility requires a real positive-duration primary
 descriptor, empty backup channels, an explicitly empty event track and no reference
-corrections. State0 has no supplemental state2 event dispatch. Parented actors,
-external orientation and eventful profiles remain outside this adapter. Earlier
+corrections. State0 has no supplemental state2 event dispatch. Generic parent
+relationships, external orientation and eventful profiles remain outside this
+adapter; the typed Mecc children below have a separate ownership guard. Earlier
 herd/passive identifiers and empty-channel guards remain available.
 
 A focused original-PC control observes five callbacks: initial forced zero time,
@@ -86,6 +88,33 @@ checks that a late failure retains ANM clocks, epoch and references and refuses
 replay. It is a supplied fault, not an acquired ordinary flag writer. These checks
 do not update other families or supply the whole-world scheduler. No new ordinary
 Vimp map, GPU interaction or preview is established.
+
+## Typed parented state0 callbacks - intermediate source dependency
+
+The acquired Mecc special constructor now binds the shared nonphysical frame to
+its three supported children. Their channels and retained header mirror agree at
+construction. Admission requires the actual typed constructor group, exact parent
+identity, binding words/context and supported eventless state0 resources. A generic
+presentation relationship cannot qualify, nor can a detached or replaced mirror
+silently turn a typed child into an ordinary unparented actor. Unsupported resource
+variants still construct without receiving an acknowledged callback by default.
+
+Common history, primary/secondary dispatch, object time and ANM now execute for
+these children through the existing owner. Parented finalization retains its real
+early return: positions/history and the dirty flag publish, environment/affine
+production do not. No identity matrix, parent pose or completed parent turn is
+invented. The existing attachment consumer still needs its actual current parent
+pose; the normal presentation path remains separate from world completion.
+
+An original-PC special constructor plus twelve common callbacks match 800 selected
+Rust words across initial forced zero time, positive time, loop crossing and
+unforced zero. Fields, all channels/rates and actual child references agree;
+parent-pointer retention and unchanged native affine storage are checked
+separately. Two installed tickets run 24 local callbacks with actual position-buffer
+consumption, unchanged RNG/parent channels, typed binding retention, replay/foreign/
+retirement refusals and no fabricated world affine. Callback admission, control,
+clock and prepared history are supplied; parent completion and whole-world
+scheduling are not established. Prototype PS2 attribution remains unknown.
 
 ## Retained references behind an absent primary channel
 
@@ -109,7 +138,8 @@ matrix and refuse current-reference consumption. The 133-actor installed cohort
 checks four real reference owners, retained constructor storage, force-flag clear
 and stale/unsampled refusal across its 399 supplied callbacks. Admission, controls,
 clocks and the force-flag input remain supplied; no ordinary writer is inferred.
-Prototype PS2 attribution remains unknown. The animated building, parented children,
+Prototype PS2 attribution remains unknown. Later sections acquire the animated
+building and local typed child callbacks; parent completion/attachment publication,
 other AI families and real shared world producers still block ordinary Vimp play.
 
 ## Vimp pose consumer in the common renderer — source only

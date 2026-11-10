@@ -94,9 +94,12 @@ force admission. The eventless single-channel state0 declaration now uses the sa
 epoch and reference services: three PC/source callback projections match 999
 selected words, including all fifteen reference matrices and a loop crossing.
 The installed cohort now admits all 134 neutral declarations /402 callbacks and
-checks actual position-buffer consumption. Parented children, other AI families
-and real whole-world inputs/admission remain required; loading still enables no
-default callback or live AI.
+checks actual position-buffer consumption. The three typed Mecc children now also
+have bounded local common callbacks: twelve PC/source visits match 800 selected
+words, and two source tickets retain binding, local poses and retirement guards.
+Their parented finalizer marks dirty without publishing a world affine. Parent
+completion/attachment publication, other AI families and real whole-world inputs/
+admission remain required; loading still enables no default callback or live AI.
 
 
 

@@ -56,7 +56,8 @@ impl Owned {
             && fields.object_flags & 0x10000 == 0
     }
     /// Ordinary single-channel state0 animation, without class-specific events,
-    /// correction callbacks or a parent. Empty-channel eligibility stays distinct
+    /// correction callbacks. Typed parent eligibility belongs to the Session.
+    /// Empty-channel eligibility stays distinct
     /// so its retained-reference guard cannot be mistaken for a sampled pose.
     pub fn supports_state0(
         fields: &Fields,

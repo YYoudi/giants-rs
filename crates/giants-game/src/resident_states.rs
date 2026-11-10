@@ -27,6 +27,8 @@ mod herd_frame;
 #[cfg(test)]
 mod herd_frame_tests;
 #[cfg(test)]
+mod parented_frame_tests;
+#[cfg(test)]
 mod passive_frame_tests;
 pub use cinematic_constant::{
     Scope as CinematicScope, Support as CinematicSupport, View as CinematicConstantView,
@@ -908,6 +910,7 @@ impl Session {
             }
             fields.object_flags |= 0x40400000;
             channels[0][8] |= 1;
+            fields.channels = channels;
             child.channels = Some(channels);
             child.acquired_construction = true;
             child.presentation_parent = Some(owner);
@@ -917,6 +920,17 @@ impl Session {
                 binding_word: 2,
                 context: fields.dispatch_context,
             });
+            let specification = staged
+                .specifications
+                .get(&id.serial)
+                .unwrap()
+                .0
+                .specification();
+            if crate::herd_frame::Owned::supports_state0(fields, specification) {
+                let mut frame = crate::herd_frame::Owned::fresh(fields, specification)?;
+                frame.view.finalization.parent_present = true;
+                child.herd_frame = Some(frame);
+            }
             ids.push(id);
         }
         let write = |data: &mut [u8], at: usize, value: u32| {

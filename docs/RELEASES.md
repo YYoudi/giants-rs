@@ -79,6 +79,24 @@ The retained preview's per-director random state is not a native fidelity proof.
 Both prototype PS2 resources were searched with pinned binary identities before
 this work; attribution stays unknown. Detailed records remain private.
 
+## Typed child common callbacks - intermediate source dependency
+
+The acquired Mecc special constructor now binds local common frames to its three
+supported eventless state0 children. History, channel clocks, shared epoch and
+references use the existing owners. Exact typed parent/group bindings remain
+required; arbitrary presentation parenting, changed mirrors and foreign/retired
+identities refuse. Parented finalization marks the pose dirty and retains the
+native early return without environment queries or an invented world affine.
+
+Twelve original-PC/source callbacks agree on 800 selected words, including actual
+child reference storage; two installed tickets check 24 callbacks, local position
+buffers, skipped zero time, unchanged RNG/parent channels and lifecycle guards.
+Control, clock, history and callback admission remain supplied. This does not
+complete the parent's native turn, attachment world publication, whole-world
+scheduling or ordinary Vimp AI. No new preview or playable map is added; the frozen
+.9 download remains unchanged. Prototype PS2 attribution remains unknown and all
+research inputs stay private.
+
 ## Eventless state0 animation - intermediate source dependency
 
 This source checkpoint adds no ordinary Vimp AI map or Windows preview. The

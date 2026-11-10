@@ -95,6 +95,14 @@ actual two reference-bearing class resources and a declared nonzero cache fixtur
 it checks retention and unsampled/current-reference refusal, not a generated pose.
 
 
+With `GIANTS_NPC_ROOT`, run
+`cargo test --locked -p giants-game source_parented_state0 --target x86_64-pc-windows-gnu -- --ignored`
+for the three acquired special children across two tickets. It supplies local
+callback admission/control/time, checks owned ANM/references and position buffers,
+retains typed bindings and refuses replay, changed parenting, foreign and retired
+owners. Environment providers must remain unentered. A completed child callback
+publishes no world affine and does not acknowledge the parent turn or live AI.
+
 With `GIANTS_DELPHI_ROOT` and an explicit `GIANTS_DELPHI_EXECUTABLE`, run
 `cargo test --locked -p giants-game source_camera_coefficients --target x86_64-pc-windows-gnu -- --ignored`
 for owned Delphi selection and external camera coefficients through projection
