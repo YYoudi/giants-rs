@@ -51,6 +51,13 @@ pub(crate) struct Controller {
     subjective_draw_visible: Option<bool>,
 }
 impl Controller {
+    pub(crate) fn jet_clock_source(&self) -> &'static str {
+        if self.owned_backend {
+            "owned_world"
+        } else {
+            "ordinary_presentation"
+        }
+    }
     pub(crate) fn jet_frames(
         &self,
     ) -> Option<(u64, u64, &[giants_game::mecc_jet_presentation::Frame])> {

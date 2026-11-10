@@ -2932,6 +2932,135 @@ mod tests {
     fn source_owned_mecc_runtime_terrain_and_presentation() {
         check_source_owned_mecc_runtime(false);
     }
+
+    #[test]
+    #[ignore = "Requires GIANTS_MISSION_OWNED_ROOT; real ordinary body/motion/jet producer composition with supplied commands, no GPU or real input"]
+    fn source_normal_mecc_body_drives_jet_presentation_across_flight_and_release() {
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_MISSION_OWNED_ROOT").unwrap());
+        let packet = Arc::new(
+            giants_game::mission_loading::prepare(
+                &root,
+                giants_game::mission_selection::LoadRequest {
+                    world: "Story1".into(),
+                    menu_index: 0,
+                    source_id: 3,
+                    mission_name: "1c_1_firstmecc".into(),
+                    splash: giants_game::mission_selection::Splash::Mecc,
+                },
+            )
+            .unwrap(),
+        );
+        let asset = Arc::new(packet.world_asset(&root).unwrap());
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let player = Arc::new(
+            giants_game::player_initial::Prepared::load(
+                &root,
+                &plan,
+                packet.world.as_ref().unwrap(),
+                packet.mission.as_ref().unwrap(),
+            )
+            .unwrap(),
+        );
+        let mut viewer =
+            crate::mecc_dev_scene::State::load_mission(&root, &asset, &packet, &player).unwrap();
+        let mut payload = payload();
+        payload.parameters = packet.slot_parameters(&root);
+        payload.packet = packet;
+        payload.plan = plan;
+        payload.player = Ok(player);
+        payload.world = Ok(asset.clone());
+        let mut world = World::new();
+        let mut queue = CommandQueue::default();
+        let (scene_root, actors, blocked, residents, bindings) =
+            spawn(&mut Commands::new(&mut queue, &world), 998, &mut payload);
+        queue.apply(&mut world);
+        let mut runtime = Runtime {
+            active: Some(Active {
+                ticket: 998,
+                root: scene_root,
+                actors,
+                resident_states: residents,
+                blocked,
+                payload,
+                start: StartState {
+                    intent: LaunchIntent::SavedMission,
+                    progress: Progress::load(None, None).unwrap(),
+                },
+                reported: false,
+                pickup: None,
+                variant_random: giants_game::audio_parameters::Random(1),
+                audio_registry: None,
+                bindings,
+                controlled_mecc_owner: None,
+                owned_mecc: None,
+            }),
+            ..Default::default()
+        };
+        let active = runtime.active.as_ref().unwrap();
+        let owner = active.player_owner().unwrap();
+        let children = active.resident_states.mecc_special(owner).unwrap().children;
+        let constructor_channels =
+            children.map(|id| active.resident_states.get(id).unwrap().channels);
+        let mut presentation =
+            crate::mission_player::jet::Presentation::new(&active.resident_states, owner).unwrap();
+        let models = runtime.owned_jet_models(998).unwrap();
+        let mut visible = false;
+        let mut boosted = false;
+        let mut minimum_fuel = 100f32;
+        let mut released = false;
+        let mut descent = false;
+        for number in 1..=1600 {
+            viewer.mission_look(Vec2::new(0.0001, 0.), false);
+            let frame = viewer
+                .step(
+                    1. / 120.,
+                    if (64..96).contains(&number) {
+                        Vec2::Y
+                    } else {
+                        Vec2::ZERO
+                    },
+                    &asset.terrain,
+                    (16..420).contains(&number),
+                    number == 32,
+                )
+                .unwrap();
+            runtime
+                .publish_controlled_mecc_motion(998, number, frame)
+                .unwrap();
+            let (session, bound) = runtime.controlled_jet_session(998).unwrap();
+            assert_eq!(bound, owner);
+            let frames = presentation
+                .advance(session, number, 1. / 120., viewer.normal_jet_parent())
+                .unwrap();
+            assert_eq!(frames.len(), models.len());
+            for (frame, model) in frames.iter().zip(&models) {
+                assert_eq!(frame.positions.len(), model.mesh.positions.len());
+                assert!(frame.pose.world.values.iter().all(|v| v.is_finite()));
+                visible |= !frame.pose.hidden;
+                boosted |= frame.pose.class == 781 && !frame.pose.hidden;
+            }
+            minimum_fuel = minimum_fuel.min(viewer.mission_snapshot().1);
+            descent |= viewer.mission_snapshot().2 == 41;
+            if number > 720 {
+                released |= frames.iter().all(|frame| frame.pose.hidden);
+            }
+            viewer.sample_pose().unwrap();
+        }
+        assert!(visible && boosted && released && descent && minimum_fuel < 99.);
+        let session = &runtime.active.as_ref().unwrap().resident_states;
+        assert_eq!(
+            constructor_channels,
+            children.map(|id| session.get(id).unwrap().channels)
+        );
+        assert!(session.mecc_physical_cycle(owner).is_err());
+        cancel_ticket(&mut runtime, &mut Commands::new(&mut queue, &world), 998);
+        queue.apply(&mut world);
+        assert!(runtime.controlled_jet_session(998).is_err());
+        assert!(world.get_entity(scene_root).is_err());
+        println!(
+            "normal_jet_live_body steps=1600 thrust={visible} boost={boosted} release={released} descent={descent} minimum_fuel={minimum_fuel} constructor_channels_unchanged=true supplied_commands=true gpu=false real_input=false"
+        );
+    }
     #[test]
     #[ignore = "Requires owned source clone and real audio device; zero PCM only, gain zero, no window"]
     fn source_owned_mecc_jet_with_reserved_zero_pcm_device() {
