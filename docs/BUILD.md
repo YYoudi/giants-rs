@@ -59,6 +59,15 @@ has that layout. When it differs, set `GIANTS_DELPHI_EXECUTABLE` explicitly to t
 read-only, identity-checked reference used for the acquisition. A layout refusal
 is an unsupported input profile, not permission to bypass the reader or claim a
 successful composition. The portable synthetic checks need no such executable.
+With the same Delphi inputs, the ignored
+`source_delphi_proximity_retains_counter_failure_and_refuses_profile_replay`
+control exercises the explicit physical/item/proximity/secondary sequence with
+source resources, supplied clock/flat ground and a recorded sound-stop request
+sink. It checks profile refusal, counter persistence, retained late failure,
+quarantine and clear/re-entry. Its owned population has no state102 interaction
+actor; active services, actual sound stopping and full-primary/world admission
+remain unverified.
+
 With the same `GIANTS_DELPHI_ROOT`, the ignored
 `source_delphi_proxy_is_direct_zero_state_without_effect_origin` control checks
 three actual source-backed direct target proxies, zero state78 payload, unchanged

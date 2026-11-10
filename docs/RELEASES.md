@@ -49,6 +49,38 @@ controls, six NPC ownership/history/newborn controls and 43 Python/site checks.
 The readonly prefix remains source-only relative to `.3`; its required current
 relationships and selected action are not acknowledged by the application.
 
+## Delphi owned proximity continuation - 10 November 2026
+
+The explicit controlled component profile now owns the periodic proximity
+continuation after items and before secondary/zero-time animation. It preserves
+countdown and filter order, first-candidate behavior, retained late errors,
+profile refusal and replay/cleanup ownership. Across 256 original component
+iterations, 2,040,576 normalized words over 22 actors/reference caches/owner
+payload/lists and the shared RNG endpoint agree. Supplied time/flat ground,
+commands/preferences, metadata and recorded sound-stop requests bound the check.
+Eight installed Delphi controls pass; state102 interaction providers remain
+refused. This does not execute actual sound stops or admit ordinary Delphi.
+
+The separate scalar/selection control matches 2,048 native contexts through
+2,024 returns and 24 first required-action stops /7,656 tracked reads/helpers.
+Original authority/time/anchor/distance helpers execute with supplied snapshots;
+reference-slot composition, successful active alignment/transport and runtime
+geometry ownership remain outside those controls.
+
+Native-only tracing of 256 whole primary bodies now identifies the next
+integration dependency: readiness production changes the subsequent trajectory.
+A same-input component comparison therefore cannot establish a full primary.
+Continue local aim/target/readiness publication and active physical scheduling,
+then the enclosing controller/world composition before menu admission. This adds
+no gameplay capture or downloadable preview. Existing release receipts retain
+their original build identities; prototype PS2 attribution remains unknown.
+
+The source passes 875 workspace Rust tests (66 ignored), eight installed Delphi
+controls, 43 Python tests, Rustfmt and strict Clippy. The common MinGW menu
+application compiles and its CLI startup passes with an explicitly waited child.
+These checks retain their source/component scope; no new playable download is
+advertised by this milestone.
+
 ## Delphi auxiliary-request prefix - 10 November 2026
 
 Source-only selection now preserves authority, independent command/response
