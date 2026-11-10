@@ -1246,3 +1246,35 @@ common runtime ownership. The App still binds no default impact context and does
 not infer suppression from cinematic activity. Prototype PS2 lookups were refreshed
 for all audited guard writers/queries; attributions remain unknown. No source
 snapshot is installed as an invented native startup state.
+
+## Ordered completion admission - 10 November 2026
+
+The countdown's `admission` service now reconstructs the containing handler's
+ordered prefix. The initial guard precedes the mode-gated precheck; that callback
+runs before later guards and may replace the current mission record. First-visit
+and request markers are published before the required previous-record callback.
+Its argument preserves signed wrapping subtraction. The record is reloaded after
+that callback, while earlier guards are not retested. Signed completion counters
+and the actual preceding record kind select inactive, countdown or record
+advancement. Record advancement remains a required continuation, not success.
+Late callback failure preserves completed markers and record effects; the caller
+must quarantine the enclosing failed turn. Unknown kind or retired record storage
+is not replaced by a default.
+
+Original-PC prefix controls agree across 824 supplied contexts on 12,360 selected
+state words and 2,348 decision/callback results. They cover noncanonical guards,
+signed counters, callback replacement and ordered exits. A second comparison
+continues the same native prefix into the actual countdown, with Rust composing
+its acquired services directly: 32 contexts reach it, ten remain pending and 22
+expire after suppression release. The other contexts retain their timer/guard
+state. These counts include unchanged supplied fields, not complete global-state
+coverage. Precheck/previous-record callback effects and clock outputs are declared
+providers; their native bodies are not executed in these comparisons.
+
+Further native inspection shows the mode-gated precheck also performs music and
+player-transition work. It is not an acquired one-time initializer and must not
+be replaced by an empty service. Full precheck and previous-record services,
+actual snapshot production/identity, message/progression continuation, other guard
+writers and common scheduling remain required before live impact admission.
+Prototype PS2 lookups were refreshed first; all new attributions remain unknown.
+The source checkpoint does not change the separately published preview identity.

@@ -5963,3 +5963,29 @@ CPU and reserved zero-PCM device controls, shared timed Session and cold Delphi
 ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
 site/JavaScript checks. This source handoff creates no preview; the main lane
 retains the exact download source, notices and checksum identity.
+
+### Mecc ordered completion admission - 10 November 2026
+
+The suppression countdown now has an acquired ordered admission prefix. It
+preserves the initial guard, mode-gated precheck before later guards, first-visit/
+request publication, required callback arguments and current-record rereads.
+Signed record counters select inactive, countdown or required record advancement;
+callback failure preserves completed state. Full native precheck/previous-record
+services and actual snapshot ownership remain required. The precheck also has
+music/player-transition responsibilities and is not replaced by an empty initializer.
+
+Native/Rust prefix agreement covers 824 supplied contexts: 12,360 selected state
+words and 2,348 decision/callback results. Composition with the actual native
+countdown admits 32 contexts (ten pending, 22 expired after suppression release).
+Callback effects and clock outputs remain supplied; the subsequent message/
+progression phase does not execute. These are scoped state/control comparisons,
+not complete global-state coverage or live gameplay. Prototype PS2 attributions
+remain unknown. See
+[OWNED_MECC_CONTACT.md](OWNED_MECC_CONTACT.md#ordered-completion-admission---10-november-2026).
+
+Validation retaining main through `aa018fe` passes 912 workspace Rust tests
+(104 ignored), twenty-seven installed Mecc controls, the prepared 512-frame App
+CPU and reserved zero-PCM device controls, shared timed Session and cold Delphi
+ownership controls, strict workspace Clippy, Rustfmt, 43 Python tests and generated
+site/JavaScript checks. Concurrent preview .8 evidence and its limitations are
+retained separately. This source handoff creates no new download or live admission.

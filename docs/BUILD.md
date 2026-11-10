@@ -995,3 +995,9 @@ These cover temporary suppression ownership, wide expiry versus stored rounding
 and retained stores after a failed second clock query. The service takes actual
 caller-owned state and clock callbacks; it supplies neither mission admission
 nor the following progression phase. Native comparison inputs remain private.
+
+The same `mission_completion_countdown` synthetic filter also covers ordered
+admission: precheck before later gates, record replacement/rereads and retained
+markers after callback failure. The `admission::Services` methods are required
+providers; the precheck is not a one-time initializer. Snapshot production,
+callbacks, clocks and following record advancement remain explicit prerequisites.

@@ -1206,9 +1206,16 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   and independent clock calls. Native/Rust agreement covers 216 independent
   contexts and nine ten-step retained-state sequences (306 snapshots / 2,448
   selected state/control words). Outer admission, initial state and clocks remain
-  supplied; the following message/progression phase is not executed. Next acquire
-  complete outer admission/continuation and debug/menu/editor guard lifetimes,
-  then bind their common owner and impact/voice/display/FX world services. Broaden populated
+  supplied; the following message/progression phase is not executed. Ordered
+  admission now preserves mode-gated precheck, first-visit/request publication,
+  required callback argument/order and current-record rereads. Native/Rust prefix
+  agreement covers 824 supplied contexts (12,360 state words / 2,348 decision and
+  callback results); composition reaches the countdown in 32 contexts, with ten
+  pending and 22 expired. Actual precheck and previous-record callback effects are
+  supplied: inspection exposes music/player-transition responsibilities, not an
+  acquired one-time initializer. Next acquire those full services, actual snapshot
+  ownership and message/progression continuation plus debug/menu/editor lifetimes;
+  then bind common ownership and impact/voice/display/FX world services. Broaden populated
   contact and live sessions. Do not default a guard to bypass these prerequisites.
   See OWNED_MECC_CONTACT.md for scope; ordinary gameplay and fidelity remain open.
 
