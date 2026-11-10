@@ -12,6 +12,25 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Evaluated body consumer - intermediate dependency
+
+`player_body::Prepared::from_delphi_frame` consumes a completed, unfailed owned
+Delphi phase, its actual ANM epoch, current references and affine. It runs the
+existing shared model-buffer producer at that epoch and prepares the same body
+draw data used by initial inspection, including the no-normal route. It creates
+no scratch epoch and does not advance channels, history or initializers.
+Snapshots retain frame/epoch/cache provenance and become stale when another
+actor replaces the shared model buffer. Cold, failed and future phases refuse.
+
+The installed controlled-phase check follows changing deformed positions across
+movement/jump steps and exercises two real actors sharing a model. Its commands,
+time, flat terrain and world services remain supplied. This is a source-level
+producer/consumer connection, not graphical or ordinary-input verification.
+The common App still publishes its initial inspection snapshot; its actual
+Delphi controller/scheduler must call this consumer after the completed phase.
+Ordered startup camera/projection, full primary, held/copy placement and ordinary
+menu/input/return/re-entry remain open. No new image or preview is claimed.
+
 ## Shared owned look angle - producer/consumer dependency
 
 The acquired player prefix now publishes the separate zero look angle before

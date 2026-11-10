@@ -116,6 +116,16 @@ The retained preview's per-director random state is not a native fidelity proof.
 Both prototype PS2 resources were searched with pinned binary identities before
 this work; attribution stays unknown. Detailed records remain private.
 
+## Delphi evaluated body consumer - intermediate source dependency
+
+Ordinary Delphi controls remain unavailable. A new completed-phase body reader
+uses the actual owned ANM epoch and shared model-position buffer, rather than
+an initial scratch snapshot. Installed controlled steps exercise changing
+deformations and cache replacement by a second actor; cold, future and failed
+phases refuse. App still needs its actual Delphi controller/scheduler to call
+this reader, alongside ordered projection/camera/input and held/copy placement.
+No graphical interaction, new capture or downloadable preview is claimed.
+
 ## Delphi ordered projection checkpoint - intermediate dependency
 
 Ordinary Delphi controls remain unavailable. The cold/declared factories now take

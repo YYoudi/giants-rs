@@ -1512,6 +1512,12 @@ mod physical_tests {
                 .prepare_delphi_physical(id, prepared.clone())
                 .unwrap();
             assert!(session.prepare_delphi_physical(id, prepared).is_err());
+            let buffers = session.position_buffer_count();
+            assert!(
+                crate::player_body::Prepared::from_delphi_frame(&resources, &mut session, id, 0,)
+                    .is_err()
+            );
+            assert_eq!(session.position_buffer_count(), buffers);
             owners.push(id);
         }
         let mut contexts =
@@ -1567,6 +1573,9 @@ mod physical_tests {
         };
         let mut landed = false;
         let mut jumped = false;
+        let mut body_animated = false;
+        let mut first_body: Option<Vec<[f32; 3]>> = None;
+        let mut retained_body: Option<crate::player_body::Prepared> = None;
         for number in 1..=64 {
             for (index, &id) in owners.iter().enumerate() {
                 let mut commands = if (25..=30).contains(&number) {
@@ -1726,6 +1735,61 @@ mod physical_tests {
                     )
                 }
                 .unwrap();
+                if index == 2 && !paused {
+                    let epoch = session.get(id).unwrap().mecc_animation_stamp;
+                    let body = crate::player_body::Prepared::from_delphi_frame(
+                        &resources,
+                        &mut session,
+                        id,
+                        number,
+                    )
+                    .unwrap();
+                    assert!(body.current(&session));
+                    assert_eq!(session.get(id).unwrap().mecc_animation_stamp, epoch);
+                    assert_eq!(
+                        session.actor_model_cache(id, 0).unwrap().unwrap().epoch,
+                        epoch
+                    );
+                    assert_eq!(
+                        body.positions,
+                        session.actor_model_positions(id, 0).unwrap().unwrap()
+                    );
+                    assert!(body.normals.is_none());
+                    assert!(!body.positions.is_empty());
+                    if let Some(first) = &first_body {
+                        body_animated |= *first != body.positions;
+                    } else {
+                        first_body = Some(body.positions.clone());
+                    }
+                    let buffers = session.position_buffer_count();
+                    assert!(
+                        crate::player_body::Prepared::from_delphi_frame(
+                            &resources,
+                            &mut session,
+                            id,
+                            number + 1,
+                        )
+                        .is_err()
+                    );
+                    assert_eq!(session.position_buffer_count(), buffers);
+                    retained_body = Some(body);
+                }
+                if index == 3
+                    && !paused
+                    && let Some(body) = retained_body.take()
+                {
+                    // A second real actor sharing this class/model must
+                    // invalidate the previous consumer's cache provenance.
+                    let other = crate::player_body::Prepared::from_delphi_frame(
+                        &resources,
+                        &mut session,
+                        id,
+                        number,
+                    )
+                    .unwrap();
+                    assert!(other.current(&session));
+                    assert!(!body.current(&session));
+                }
                 if index == 4 {
                     assert!(view.post_buttons.is_some());
                 }
@@ -1870,6 +1934,10 @@ mod physical_tests {
             }
         }
         assert!(landed && jumped);
+        assert!(
+            body_animated,
+            "evaluated body must consume changing ANM positions"
+        );
         let held = session
             .wield_list()
             .unwrap()
@@ -2539,6 +2607,12 @@ mod physical_tests {
             before
         );
         assert!(session.delphi_physical(id).unwrap().failure.is_some());
+        let buffers = session.position_buffer_count();
+        assert!(
+            crate::player_body::Prepared::from_delphi_frame(&resources, &mut session, id, 64,)
+                .is_err()
+        );
+        assert_eq!(session.position_buffer_count(), buffers);
         assert_eq!(random.0, random_before.0);
         assert_eq!(contexts.active(), contexts_before);
         // A deliberately malformed secondary mode fails after staged physical

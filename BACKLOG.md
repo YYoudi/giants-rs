@@ -388,6 +388,11 @@ including late failures, with source-template shell history and declared placeme
 The actual initial body now reaches the common renderer through a scratch channel
 snapshot; a source-bound offscreen Rstory1 image confirms it is visible with the
 declared-start inspection camera. This does not mutate world ANM/affine caches.
+A completed-phase body consumer now uses the actual shared ANM/model-buffer epoch,
+refuses stale/failed/future phases and invalidates after another actor replaces
+the shared model buffer. App still supplies only the initial inspection snapshot;
+its actual Delphi scheduler must call the evaluated consumer. This is an
+intermediate source dependency, not ordinary movement or graphical verification.
 The next runtime gap is actual projection reset and the complete first primary/
 physical/camera/input driver, held/copy placement and live animation consuming this
 same owner. An ordered pre-special projection checkpoint is now available through
