@@ -104,6 +104,32 @@ pub struct Factory {
     procedural_texture: Option<Arc<crate::kabuto_texture::Texture>>,
 }
 impl Factory {
+    /// Retained decision/counter sample from this owner's completed resource
+    /// component, rather than a new read of its mutable animation channels.
+    pub fn captured_held_reference_input(
+        &self,
+        session: &Session,
+        owner: Id,
+        number: u64,
+    ) -> Result<crate::kabuto_held_reference::Input, String> {
+        session.captured_kabuto_held_input(owner, &self.resources, number)
+    }
+
+    /// Use the owning resource phase's retained caller sample. Later live
+    /// channel/mode changes cannot replace these earlier decision/counter words.
+    /// Intervening primary work and real backend services remain prerequisites;
+    /// this bounded component does not acknowledge their execution.
+    pub fn advance_captured_held_references(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        world: &mut impl crate::kabuto_held_reference::World,
+    ) -> Result<crate::kabuto_held_reference::Next, String> {
+        let input = self.captured_held_reference_input(session, owner, number)?;
+        session.advance_kabuto_held_references(owner, &self.resources, number, input, world)
+    }
+
     /// Publish an already selected reference and its acquired scale. Selection,
     /// capture policy and scale production remain caller prerequisites; this
     /// storage operation does not invent a target or acknowledge a primary.

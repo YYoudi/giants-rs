@@ -6,6 +6,7 @@ pub(super) enum Case {
     Success,
     Failure,
     Clear,
+    Captured,
 }
 
 struct World<'a> {
@@ -85,6 +86,7 @@ impl held::World for World<'_> {
             }
             Case::Failure => Err("declared late binding failure".into()),
             Case::Success => Ok(Response::Complete),
+            Case::Captured => panic!("captured no-target route must not bind"),
         }
     }
 }
@@ -119,6 +121,107 @@ fn projected(s: &Session, owner: Id, target: Id) -> Vec<u32> {
     ]
 }
 
+fn probe_captured(
+    factory: &crate::kabuto_initial::Factory,
+    foreign: &crate::kabuto_initial::Factory,
+    s: &mut Session,
+    owner: Id,
+    number: u64,
+) {
+    let snapshot = s.kabuto_group(owner).unwrap().resource_phase_view.unwrap();
+    let r = snapshot.resources.unwrap();
+    assert!(!matches!(r.initial_mode, 10 | 11));
+    let words = |i: Input| (i.decision, i.previous, i.current, i.finished);
+    let expected = (r.initial_mode, r.previous_frame, r.current_frame, r.wrapped);
+    assert_eq!(
+        words(
+            factory
+                .captured_held_reference_input(s, owner, number)
+                .unwrap()
+        ),
+        expected
+    );
+    assert!(
+        foreign
+            .captured_held_reference_input(s, owner, number)
+            .is_err()
+    );
+    assert!(
+        factory
+            .captured_held_reference_input(s, owner, number + 1)
+            .is_err()
+    );
+    factory
+        .publish_reference(s, owner, number, Some(owner), 0.5)
+        .unwrap();
+    let before = projected(s, owner, owner);
+    let a = s.residents.get_mut(&owner.serial).unwrap();
+    // Declared later writes to the actual owner. They must not replace the
+    // earlier caller snapshot. This does not implement the intervening phases.
+    let g = a.kabuto_group.as_mut().unwrap();
+    g.motion.mode = 11;
+    g.resource_phase_view = None;
+    let f = a.construction_fields.as_mut().unwrap();
+    f.action = 10;
+    f.channels[0][1] = 100f32.to_bits();
+    f.channels[0][2] = (-100f32).to_bits();
+    f.channels[0][8] ^= 2;
+    a.channels = Some(f.channels);
+    let mut world = World {
+        factory,
+        number,
+        target: owner,
+        case: Case::Captured,
+        calls: 0,
+        seen: None,
+        prefix: vec![],
+        binding: None,
+    };
+    assert!(
+        factory
+            .advance_captured_held_references(s, owner, number, &mut world)
+            .is_err()
+    );
+    assert!(
+        s.kabuto_group(owner)
+            .unwrap()
+            .held_reference_entered
+            .is_none()
+    );
+    s.residents
+        .get_mut(&owner.serial)
+        .unwrap()
+        .kabuto_group
+        .as_mut()
+        .unwrap()
+        .resource_phase_view = Some(snapshot);
+    assert_eq!(
+        words(
+            factory
+                .captured_held_reference_input(s, owner, number)
+                .unwrap()
+        ),
+        expected
+    );
+    assert_eq!(
+        factory
+            .advance_captured_held_references(s, owner, number, &mut world)
+            .unwrap(),
+        held::Next::ContinueCaller
+    );
+    assert_eq!(world.calls, 0);
+    assert_eq!(projected(s, owner, owner), before);
+    let g = s.kabuto_group(owner).unwrap();
+    assert_eq!(g.held_reference_completed, Some(number));
+    assert_eq!(g.motion_history, Some(number));
+    assert_eq!(g.pending.len(), 4);
+    assert!(
+        factory
+            .advance_captured_held_references(s, owner, number, &mut world)
+            .is_err()
+    );
+}
+
 pub(super) fn probe(
     factory: &crate::kabuto_initial::Factory,
     foreign: &crate::kabuto_initial::Factory,
@@ -127,6 +230,10 @@ pub(super) fn probe(
     number: u64,
     case: Case,
 ) {
+    if matches!(case, Case::Captured) {
+        probe_captured(factory, foreign, s, owner, number);
+        return;
+    }
     // This preceding source-backed query prepares a real ordinary actor and
     // exercises actual ownership. Capture policy/scale below remain supplied.
     let target = super::reference_query_tests::probe(factory, foreign, s, owner, number);

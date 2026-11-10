@@ -11,6 +11,30 @@ fn word(p: &[u8], at: usize) -> u32 {
 }
 
 impl Session {
+    pub(crate) fn captured_kabuto_held_input(
+        &self,
+        owner: Id,
+        resources: &Resources,
+        number: u64,
+    ) -> Result<held::Input, String> {
+        self.check_kabuto_reference_owner(owner, resources, number)?;
+        let snapshot = self
+            .get(owner)
+            .unwrap()
+            .kabuto_group
+            .as_ref()
+            .unwrap()
+            .resource_phase_view
+            .and_then(|v| v.resources)
+            .ok_or("Kabuto held handoff requires its retained resource snapshot")?;
+        Ok(held::Input {
+            decision: snapshot.initial_mode,
+            previous: snapshot.previous_frame,
+            current: snapshot.current_frame,
+            finished: snapshot.wrapped,
+        })
+    }
+
     /// Current typed identities and the actual scalar words in the owned
     /// payload. A missing owner/producer is an error, not an empty target list.
     pub fn kabuto_reference_state(&self, owner: Id) -> Result<State<Id>, String> {
