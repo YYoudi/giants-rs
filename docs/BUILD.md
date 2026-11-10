@@ -111,6 +111,7 @@ cargo test --locked -p giants-game source_npc_herd --target x86_64-pc-windows-gn
 cargo test --locked -p giants-game source_vimp_world_history --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_vimp_newborn --target x86_64-pc-windows-gnu -- --ignored --nocapture
 cargo test --locked -p giants-game source_herd_frame --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-game source_vimp_threat --target x86_64-pc-windows-gnu -- --ignored --nocapture
 ```
 
 This silent CPU check uses authored herd/marker values with a supplied flat
@@ -715,3 +716,8 @@ Vimp callbacks through the mutable common-list walker with supplied flat ground,
 clock, control identity, quiet signals and empty collision/platform cohorts.
 They retain same-step births, shared ANM epochs, affine publication, cancellation,
 late environment writes and failure quarantine. They enable no live mission AI.
+
+The `source_vimp_threat` controls invoke isolated consideration on owned Vimps
+with supplied noise. They check remembered timestamps, unsupported linked state,
+invocation ownership and retained writes/quarantine after a late finite-profile
+failure. Response, actual world-noise production and primary admission stay open.

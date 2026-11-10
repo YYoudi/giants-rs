@@ -77,6 +77,14 @@ The dedicated NPC lane resumes existing work; see
   global clock/RNG ownership and active FX/audio remain prerequisites.
   Then acquire threat/feeding services and active effects/audio before ordinary
   mission admission. Preserve existing refusal and late-failure behavior.
+- Threat consideration now has a controlled original-PC/Rust helper comparison:
+  1,505 cases /9,030 output/read-count words, with priority gates, strict XY
+  proximity, ordered peer reads and once-per-noise memory. The isolated owned
+  entry retains late writes/quarantine; two source cohort controls pass. Next
+  acquire response/escape selection, owned linked identities, required sound/
+  animation and exact primary call timing; bind actual world-noise production.
+  Do not enable fleeing or replace the ordinary primary's refusals from this
+  helper proof alone. See `docs/OWNED_NPCS.md`.
 - Resume the persistent Ripper primary/perception/attack services, actual player
   target identities, physical/ANM order and required firing/audio/effect providers.
   Do not replace them with a generic new AI or enable unsupported modes.

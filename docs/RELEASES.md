@@ -218,6 +218,22 @@ source-only: the combined tree at `0abf1898b49413379368df839eb7627cc8eb5ba6` pas
 866 Rust tests (57 ignored), strict Clippy and six installed Delphi controls.
 These later source checks do not relabel the shipped binary.
 
+## Vimp threat consideration — 10 November 2026
+
+A bounded threat service now preserves signed priority gates, ordered nearby/
+peer reads, accumulated control bits, linked presence and remembered noise.
+Original-PC/Rust controls match 1,505 synthetic cases /9,030 output/read-count
+words under Double53, including strict distance/age boundaries and comparison
+against the wide noise sum after its rounded store. Two installed source-cohort
+controls retain isolated ownership, once-per-noise memory, unsupported-link
+refusal and late writes/quarantine.
+
+Response/escape mode selection, actual linked identities, sound/ANM providers,
+primary timing and world-noise production remain unbound. This helper is not
+activated in the ordinary primary and admits no live fleeing or new gameplay
+download. Prototype PS2 attribution is unknown; detailed research stays private.
+Existing preview manifests/notices/checksums retain their exact build identities.
+
 ## Owned herd/marker callbacks and mutable NPC composition — 10 November 2026
 
 Source-owned herd parents and basic markers now consume prepared histories

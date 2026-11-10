@@ -807,6 +807,7 @@ pub mod vimp_hurt;
 pub mod vimp_living_scalars;
 pub mod vimp_physical;
 pub mod vimp_recovery;
+pub mod vimp_threat;
 pub mod vimp_wander;
 
 pub mod herd_frame;

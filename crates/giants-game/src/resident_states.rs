@@ -30,6 +30,7 @@ mod timed_effect;
 mod vimp_history_tests;
 #[cfg(test)]
 mod vimp_newborn_tests;
+mod vimp_threat;
 pub use timed_effect::Services as TimedEffectServices;
 
 struct OwnedSpecification(crate::actor_references::Owned);
@@ -325,6 +326,8 @@ pub struct Resident {
     vimp_hurt_steps: u64,
     vimp_scalar_steps: [u64; 2],
     vimp_recovery_primaries: u64,
+    vimp_threat_steps: u64,
+    vimp_threat_failure: Option<String>,
     vimp_death_proxy: Option<crate::vimp_death_proxy::Proxy>,
     pub class: i32,
     pub seed: Seed,
@@ -563,6 +566,8 @@ impl Session {
                 vimp: None,
                 vimp_physical: None,
                 herd_frame: None,
+                vimp_threat_steps: 0,
+                vimp_threat_failure: None,
                 vimp_frames: 0,
                 vimp_prepared_history: None,
                 vimp_frame_stopped: false,

@@ -42,6 +42,33 @@ symbols separately from ambiguous demangling and keep attribution confidence
 separate from behavior/runtime validation. Initial herd-primary and Vimp-primary
 lookups remain unassigned; matching vocabulary alone establishes no attribution.
 
+## Threat consideration — 10 November 2026
+
+`vimp_threat::consider` now preserves the observed signed-priority gates,
+ordered/lazy nearby and peer reads, persistent signal flags, linked-presence
+condition and remembered noise. Distance tests are strict and use XY; the noise
+age limit includes exactly one second. The returned boolean reports new evidence
+in that invocation, independently of existing flags. The noise level is stored
+as a float before comparing the still-wide sum against its threshold.
+
+Original-PC helper/distance execution matches 1,505 controlled cases /9,030
+output/read-count words, including exact boundaries and a rounded-store threshold
+case. The inputs are synthetic actor/payload fields, ordered lists, parameters
+and noise under Double53. This is a helper comparison, not a complete primary,
+source-world or live player-response comparison.
+
+`Session::consider_vimp_threats_offline` resolves actual owned list order for an
+initialized Vimp. It retains completed flags/noise writes on a late error and
+quarantines that owner against replay. Two installed cohort controls check
+once-per-noise memory, foreign/wrong invocation refusal, unsupported links and
+late finite-profile failure. The latter tests Rust failure handling, not native
+exception equivalence. Nonzero linked state still requires its owned producer.
+
+The ordinary primary is not switched to this isolated entry. Caller timing,
+response/escape selection, linked identities, required audio/ANM services and
+actual world noise production remain open. No fleeing, AI mission admission or
+visual availability is claimed. Prototype PS2 attributions remain unassigned.
+
 ## Source-resource regression
 
 ### First callback after a herd birth — 10 November 2026
