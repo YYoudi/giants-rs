@@ -20,6 +20,13 @@ character work to the shared application and validated Windows previews. CPU
 services, diagnostic captures and ordinary gameplay availability are tracked
 separately; a source merge alone does not make a feature playable.
 
+Development now follows a [gameplay-first objective](docs/GOAL_GAMEPLAY_FIRST.md):
+ordinary menu/input, movement, camera and basic actions first; mission interactions
+and campaign coverage next; specialized fidelity cases afterward. Each delivery
+must identify what can actually be tested, its controls and the exact build.
+Necessary CPU dependencies keep their evidence scope until the interaction is
+connected and verified. The goal remains the complete game.
+
 The [roadmap dashboard](https://yyoudi.github.io/giants-rs/) is generated from this
 repository's `PROGRESS.json` and updates through GitHub Pages on main-branch pushes.
 It separates the [published Windows build snapshot](https://yyoudi.github.io/giants-rs/#current-preview)

@@ -1,5 +1,13 @@
 # Owned cold Kabuto construction
 
+Select and resume work under the shared [gameplay-first
+objective](GOAL_GAMEPLAY_FIRST.md). Prioritize the ordinary player-visible path and
+its first missing caller/consumer before rare variants. Dated controls and
+next-acquisition notes below retain their evidence scope; they do not override the
+current delivery priority in `BACKLOG.md`. A handoff must identify the exact
+testable build and normal controls, or state "intermediate dependency only" and the
+next runtime blocker.
+
 Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.

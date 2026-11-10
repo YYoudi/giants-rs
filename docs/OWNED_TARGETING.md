@@ -1,5 +1,13 @@
 # Owned local target publication
 
+Select and resume work under the shared [gameplay-first
+objective](GOAL_GAMEPLAY_FIRST.md). Prioritize the ordinary player-visible path and
+its first missing caller/consumer before rare variants. Dated controls and
+next-acquisition notes below retain their evidence scope; they do not override the
+current delivery priority in `BACKLOG.md`. A handoff must identify the exact
+testable build and normal controls, or state "intermediate dependency only" and the
+next runtime blocker.
+
 Further acquisition and implementation follow [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md),
 including the mandatory prototype PS2 name lookup. Preserve earlier PC identifiers
 and query/control evidence separately from attribution and demangling.

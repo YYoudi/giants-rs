@@ -1,5 +1,12 @@
 # Preview releases and milestone integration
 
+Current delivery policy follows [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md):
+prioritize common testable interactions and their blockers before niche cases.
+New reports must lead with the normal menu/controls, expected behavior and exact
+tested/downloadable build, or explicitly identify an intermediate dependency and
+the next missing runtime service. Existing dated CPU checkpoints below retain
+their original evidence scope and do not become playable by this policy change.
+
 ## Kabuto first common mission construction - source-only checkpoint
 
 The shared mission loader now selects the requested character's declared start

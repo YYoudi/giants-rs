@@ -8,6 +8,12 @@ profile; prototype PS2 metadata is an independent source of naming evidence.
 
 ## Required function workflow
 
+First select the observable delivery and actual blocking dependency under
+[GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md). Acquire a function because it
+unblocks that path or a prioritized fidelity discrepancy. Large control matrices,
+rare variants and naming recovery do not outrank an unconnected common action by
+themselves. This task selection never waives the name lookup or evidence below.
+
 1. Pin the exact PC binary SHA256, profile, virtual address and previous aliases.
    Never transfer an address between retail/debug or other builds by proximity.
 2. **Search prototype PS2 names before further analysis or implementation.**
@@ -60,6 +66,11 @@ revision even when the current main file has not changed. Review every finding
 before treating the publication audit as passed.
 
 ## Private record and repeatable lookup
+
+Each continuation also records the current player-visible delivery, its ordinary
+input path, the first missing producer/consumer, the responsible integration lane
+and its actual availability state from the shared objective. A CPU result stays
+an intermediate dependency until its runtime and interaction evidence exists.
 
 Keep a private record per PC function, with these separate fields:
 
