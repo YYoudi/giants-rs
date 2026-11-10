@@ -55,6 +55,12 @@ from the legacy motion-publication guard, which still prevents mixing that path
 with the owned Mecc driver. This application binding does not reconstruct the
 original player-selection globals, native replacement calls or world schedule.
 
+Shared camera mode commands, activation reset and lens evaluation must use one
+`camera_mode::State`; see [OWNED_CAMERA.md](OWNED_CAMERA.md). A reset must affect
+the next lens invocation's transition. The acquired kernel still requires the
+current profile, actual input and projection service before App admission;
+preparing a player or selecting a view does not acknowledge those services.
+
 ## Validate the combined application
 
 Merge current main into the integration branch, inspect conflicts semantically

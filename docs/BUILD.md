@@ -44,6 +44,15 @@ linked-rounded readiness, retained terrain/linked/item-target failures, inactive
 pending selection and nonlocal no-effect entry. Geometry/camera/item/proxy
 providers are test doubles; these controls do not validate their runtime binding.
 
+The ignored `source_timed_positioned_preparation_uses_owned_header_and_terrain`
+control additionally requires `GIANTS_FLICK_ROOT`, `GIANTS_FLICK_TIMED_TERRAINS`
+(private archive/member TSV) and `GIANTS_FLICK_TIMED_PREPARATION_CONTROLS` (private
+original-PC rows). It compares actual Session preparation across sixteen static
+terrains without per-step state injection, then checks retained contact writes,
+stale affine and replay refusal after a late platform failure. Clocks, support,
+physical caller argument and empty mesh/platform populations remain supplied;
+this is not live mission admission or a fidelity check. Keep its inputs private.
+
 With `GIANTS_DELPHI_ROOT` set to compatible installed data,
 `source_delphi_dependency_order_keeps_group_identities_and_cleanup` checks the
 common dependency-order service against the actual cold Delphi/copy/held group.
@@ -60,6 +69,11 @@ late errors, retirement, foreign owners and reconstruction. The reference-point
 body, initial words and mode/force/profile inputs remain declared boundaries.
 Run it alongside `source_mecc_preworld_camera_prepares_or_retires_actual_display`;
 both are silent CPU compositions, not App input or complete world-order checks.
+
+The portable `camera_mode` tests also cover activation reset, retained failure
+prefixes, quarantine across shared commands and lens evaluation against the same
+transition word. They use explicit profile/projection fixtures; these are not
+App backend or GPU checks.
 
 With `GIANTS_MISSION_OWNED_ROOT` set to compatible installed data,
 `cargo test --locked -p giants-app source_actor_roles --target x86_64-pc-windows-gnu -- --ignored`
@@ -94,6 +108,14 @@ zero-second ANM pipeline after the real resource stage. Selection/transport/worl
 policy remains supplied. Optional `GIANTS_KABUTO_COMMIT_INPUTS` and
 `GIANTS_KABUTO_COMMIT_RECEIPT` exports require absolute paths under ignored private
 storage. Their 512 contexts are independent controls, not completed game frames.
+
+`source_kabuto_action_selection_` runs three further silent installed controls
+with the same Kabuto root and an explicit `GIANTS_KABUTO_EXECUTABLE` definition
+provider. They test actual Session selection and directed exits, retained late
+sound errors and owner removal. Sound/network and one PC RNG context are declared
+providers, not live backend validation. Optional `GIANTS_KABUTO_ACTION_INPUTS` and
+`GIANTS_KABUTO_ACTION_RECEIPT` require absolute private output paths. The 512
+contexts are independent; no primary/history or pending initializer is completed.
 
 Per-emitter ambient step traces are disabled during normal play. For a private
 diagnostic run, set `GIANTS_TRACE_AMBIENT_STEPS=1` before launching the application.
