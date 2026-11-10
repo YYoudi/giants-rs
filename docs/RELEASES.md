@@ -440,6 +440,16 @@ response/predicate results and the earlier threat, mutable-walk and empty-ANM
 results. The source checkpoint audit reviews 765 commits /4,320 blobs with zero
 findings. This source-only validation does not relabel a preview executable.
 
+The later combined checkpoint `74dae5af2f0512a3d92e3775893e8514da74b57d`
+also preserves main's retained environment stages. It passes 885 workspace Rust
+tests (77 ignored), five herd-frame controls, the retained threat/history/newborn/
+inventory controls and App binding cleanup. The added real-environment control
+retains terrain floor/plane, fourteen births and the ANM epoch after a required
+platform failure, with no frame replay. Rebuilt response, predicate and prior
+NPC comparisons remain identical. Strict Clippy/Rustfmt, 43 Python tests and
+roadmap/site/JavaScript checks pass. Its audit reviews 769 commits /4,330 blobs
+with zero findings. Preview receipts remain unchanged.
+
 ## Vimp threat consideration — 10 November 2026
 
 A bounded threat service now preserves signed priority gates, ordered nearby/
