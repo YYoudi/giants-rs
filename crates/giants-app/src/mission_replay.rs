@@ -6,6 +6,20 @@ pub(crate) fn kabuto_body_inspection_replay() -> bool {
     std::env::var("GIANTS_MISSION_REPLAY").as_deref() == Ok("showcase-kabuto-body")
 }
 
+pub(crate) fn initial_body_inspection_replay() -> bool {
+    kabuto_body_inspection_replay()
+        || std::env::var("GIANTS_MISSION_REPLAY").as_deref() == Ok("showcase-delphi-body")
+}
+pub(crate) fn initial_body_inspection_present(runtime: &crate::mission_runtime::Runtime) -> bool {
+    if kabuto_body_inspection_replay() {
+        runtime.kabuto_body().is_some()
+    } else if std::env::var("GIANTS_MISSION_REPLAY").as_deref() == Ok("showcase-delphi-body") {
+        runtime.delphi_body().is_some()
+    } else {
+        false
+    }
+}
+
 pub(crate) fn owned_inspection_replay() -> bool {
     matches!(
         std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
@@ -89,6 +103,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
             | "showcase-cancel"
             | "showcase-mecc"
             | "showcase-kabuto-body"
+            | "showcase-delphi-body"
             | "showcase-audio-cancel",
         ) => 0,
         Some(
@@ -272,8 +287,7 @@ fn drive(
         mut keys,
     } = presentation;
     if replay.done {
-        if kabuto_body_inspection_replay()
-            && runtime.kabuto_body().is_some()
+        if initial_body_inspection_present(&runtime)
             && let Some(mut world) = world
         {
             // Scene adoption can replace this capture flag after the endpoint.
@@ -381,8 +395,7 @@ fn drive(
             }
             let playing = showcase.controls(frontend.flow.phase);
             let opened = cinematic.as_ref().is_some_and(|c| c.clock_steps() > 180);
-            if mode == "showcase-kabuto-body"
-                && runtime.kabuto_body().is_some()
+            if initial_body_inspection_present(&runtime)
                 && players.iter().any(|p| p.ticket == frontend.flow.ticket)
                 && environment.presentation_ready()
                 && pipelines.0
@@ -401,8 +414,13 @@ fn drive(
                     world.cinematic_capture_ready = true;
                 }
                 replay.done = true;
+                let kind = if kabuto_body_inspection_replay() {
+                    "kabuto"
+                } else {
+                    "delphi"
+                };
                 println!(
-                    "kabuto_body_inspection_finished ticket={} actual_owned_body=true normal_input=false initializer_acknowledged=false gameplay_ready=false",
+                    "{kind}_body_inspection_finished ticket={} actual_owned_body=true normal_input=false initializer_acknowledged=false gameplay_ready=false",
                     frontend.flow.ticket
                 );
                 return;

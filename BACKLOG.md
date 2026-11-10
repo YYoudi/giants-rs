@@ -261,10 +261,12 @@ player swaps as ordinary mission startup.
 Current profile family/view selection is now Session-bound: 20,580 full native/
 Rust controls match 41,160 selection words, including independent controlled
 class/state and nonrecursive parent substitution. Its required coefficient catalog
-has no default. Next acquire the exact PC-backed coefficient reader without
-copying original tables into Git, then bind actual input/device producers and
-activation/world order. Preserve separate current owner/controlled identities and
-requery after mode/scale callbacks; never cache the first query for the second.
+has no default. An external PC-backed coefficient reader now covers all nine
+families and three bounded views, matching 44 original getter contexts /88 words;
+an actual owned Delphi reset control captures projection requests with supplied
+mode/owner inputs. Next bind actual input/device producers and startup/activation/
+world order; the reader alone acknowledges no pending projection reset. Preserve
+separate current owner/controlled identities and requery after mode/scale callbacks; never cache the first query for the second.
 See [OWNED_CAMERA.md](docs/OWNED_CAMERA.md) for the authoritative contract and
 supplied boundaries. No ordinary App admission follows from this selector.
 The current independently verified download is `preview-2026.11.10.8`, source
@@ -344,8 +346,12 @@ retain the actual declared Delphi owner/held/copy group, then connect supported
 keyboard/mouse movement, jump and camera. **Construction is now connected:**
 `delphi_declared::Factory` and the common loader retain the actual constructor Id,
 including late failures, with source-template shell history and declared placement.
-The next runtime gap is projection reset plus the first animation/render and
-physical/camera/input driver consuming this same owner. Confirm source start and
+The actual initial body now reaches the common renderer through a scratch channel
+snapshot; a source-bound offscreen Rstory1 image confirms it is visible with the
+declared-start inspection camera. This does not mutate world ANM/affine caches.
+The next runtime gap is actual projection reset and the complete first primary/
+physical/camera/input driver, held/copy placement and live animation consuming this
+same owner. Confirm source start and
 contact/water prerequisites; do not teleport or force state to make a dry slice.
 Main integration owns combined delivery. No ordinary Delphi controls are newly
 available; the source-backed App control uses an all-unlocked test menu mask and
