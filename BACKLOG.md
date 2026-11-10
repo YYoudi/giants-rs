@@ -1196,10 +1196,37 @@ update the relevant rows and preserve other lanes' evidence and limitations.
   before and after selection when required. Two 160-frame native/Rust grounded
   controls match 14,400 selected numeric words, with a separate declared startup
   epoch normalization. Wet/material absence must still come from a real producer;
-  missing material preserves completed state and quarantines replay. Next acquire
-  idle-variant continuation beyond the bounded controls, broaden movement/jet and
-  populated contact, and bind the remaining impact/voice/display and FX/world
-  providers before claiming complete ordinary owned gameplay or visual fidelity.
+  missing material preserves completed state and quarantines replay. Ordinary
+  idle selection now preserves the acquired weighted choice, shared-clip states
+  and RNG consumption even without a new channel request. A 4,032-context native
+  selector matrix agrees; eleven seeded 512-frame primary controls cover every
+  selected idle variant and match 253,440 selected numeric words plus relative
+  epoch advancement. Clocks, flat floor, commands and empty populations remain
+  supplied. Empty zero-level damage smoke now advances without fabricating a
+  display snapshot: 80 native policy controls and one 512-frame Rust wounded
+  trajectory agree against both supplied native display-reset outcomes, including
+  health and smoke state (24,576 numeric words plus relative epochs per comparison).
+  Active smoke still requires its actual display owner. Prepared App CPU and
+  zero-PCM device controls pass the baseline 512-frame profile; prolonged thrust/
+  boost refuses the missing impact provider at frame 402. The separate health
+  suppression guard has debug/menu and temporary countdown writers; cinematic
+  activity alone does not determine it. The shared completion-countdown phase now
+  preserves temporary claim/release, wide expiry versus stored onset comparison,
+  and independent clock calls. Native/Rust agreement covers 216 independent
+  contexts and nine ten-step retained-state sequences (306 snapshots / 2,448
+  selected state/control words). Outer admission, initial state and clocks remain
+  supplied; the following message/progression phase is not executed. Ordered
+  admission now preserves mode-gated precheck, first-visit/request publication,
+  required callback argument/order and current-record rereads. Native/Rust prefix
+  agreement covers 824 supplied contexts (12,360 state words / 2,348 decision and
+  callback results); composition reaches the countdown in 32 contexts, with ten
+  pending and 22 expired. Actual precheck and previous-record callback effects are
+  supplied: inspection exposes music/player-transition responsibilities, not an
+  acquired one-time initializer. Next acquire those full services, actual snapshot
+  ownership and message/progression continuation plus debug/menu/editor lifetimes;
+  then bind common ownership and impact/voice/display/FX world services. Broaden populated
+  contact and live sessions. Do not default a guard to bypass these prerequisites.
+  See OWNED_MECC_CONTACT.md for scope; ordinary gameplay and fidelity remain open.
 
 
 - Desktop preview entry: giants-rs.exe detects the adjacent game installation or
