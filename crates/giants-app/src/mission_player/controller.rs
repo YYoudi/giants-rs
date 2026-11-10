@@ -36,6 +36,8 @@ pub(crate) struct Controller {
     owned_replay: bool,
     descent_replay: bool,
     descent_capture: bool,
+    landing_failed: bool,
+    landing_capture: bool,
     owned_draw_reported: bool,
     owned_input: giants_game::player_input_channels::State,
     pending_mouse: Vec2,
@@ -264,6 +266,7 @@ impl Controller {
                         | "campaign-ambient-cycles"
                         | "campaign-fire-pose"
                         | "campaign-descent-pose"
+                        | "campaign-landing-pose"
                         | "showcase-mecc"
                 )
             ),
@@ -293,9 +296,13 @@ impl Controller {
             ),
             descent_capture: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
                 == Ok("campaign-descent-pose"),
-            finish_step: if std::env::var("GIANTS_MISSION_REPLAY").as_deref()
-                == Ok("campaign-descent-pose")
-            {
+            landing_failed: false,
+            landing_capture: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
+                == Ok("campaign-landing-pose"),
+            finish_step: if matches!(
+                std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
+                Ok("campaign-descent-pose" | "campaign-landing-pose")
+            ) {
                 1600
             } else if std::env::var("GIANTS_MISSION_REPLAY").as_deref()
                 == Ok("owned-player-descent-inspection")
@@ -582,7 +589,7 @@ pub(super) fn update(
                 };
                 thrust = !controller.owned_replay && (240..360).contains(&tick);
                 boost = !controller.owned_replay && tick == 270;
-                if controller.descent_capture {
+                if controller.descent_capture || controller.landing_capture {
                     // Exercise the same sustained flight/release as the installed
                     // body/jet control. The real selector must request clip41;
                     // this probe never writes an animation or native readiness.
@@ -751,6 +758,42 @@ pub(super) fn update(
                 );
             }
             controller.update_normal_jet(&runtime);
+            let landing = controller.state.take_landing_impact();
+            if !controller.landing_failed
+                && (landing.is_some() || runtime.normal_landing_has_work(controller.ticket))
+            {
+                let result = (|| -> Result<(), String> {
+                    let local = runtime
+                        .normal_landing_owner(controller.ticket)
+                        .ok_or("landing source owner absent")?;
+                    let cues = runtime.owned_impact_cues(controller.ticket)?;
+                    if !audio.owned.impact_ready(controller.ticket, &cues) {
+                        return Err("landing requires actual reserved impact sinks".into());
+                    }
+                    audio.owned.with_impact(
+                        controller.ticket,
+                        frontend.feedback_volume(),
+                        controller.state.camera().0.view,
+                        local,
+                        |device| {
+                            runtime.advance_normal_landing(
+                                controller.ticket,
+                                1. / 120.,
+                                landing,
+                                device,
+                            )
+                        },
+                    )
+                })();
+                if let Err(error) = result {
+                    controller.landing_failed = true;
+                    error!(
+                        "mission_landing_refused ticket={} step={} error={error} replay=false",
+                        controller.ticket,
+                        controller.steps + 1
+                    );
+                }
+            }
             let fire = if controller.fire_replay {
                 (60..300).contains(&tick)
             } else {
@@ -866,7 +909,27 @@ pub(super) fn update(
                 );
                 controller.finish_step = controller.steps;
             }
+            if replay_running
+                && controller.landing_capture
+                && controller.steps > 420
+                && runtime
+                    .normal_landing_visible(controller.ticket)
+                    .expect("landing diagnostic draw state refused")
+            {
+                println!(
+                    "mission_player_landing_observed ticket={} step={} position={position:?} canonical_draw=true scripted_birth=false os_input=false",
+                    controller.ticket, controller.steps
+                );
+                controller.finish_step = controller.steps;
+            }
             if replay_running && controller.steps == controller.finish_step {
+                assert!(
+                    !controller.landing_capture
+                        || runtime
+                            .normal_landing_visible(controller.ticket)
+                            .expect("landing diagnostic draw state refused"),
+                    "ordinary sustained flight/release did not produce a visible canonical landing effect"
+                );
                 assert!(
                     !controller.descent_capture || clip == 41,
                     "ordinary sustained flight/release did not reach the acquired descent pose"

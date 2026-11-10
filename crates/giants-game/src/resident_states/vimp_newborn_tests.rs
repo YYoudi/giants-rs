@@ -39,6 +39,11 @@ fn flat_terrain() -> giants_formats::gti::Terrain {
 fn source_vimp_newborn_runs_first_body_and_keeps_constructor_history() {
     let (mut s, factory, globals, effects, children, mut random) =
         super::vimp_history_tests::source_births(false);
+    assert!(
+        children
+            .iter()
+            .all(|&id| s.vimp(id).unwrap().contact_hit == 0)
+    );
     let before = children
         .iter()
         .map(|id| {
@@ -101,6 +106,7 @@ fn source_vimp_newborn_runs_first_body_and_keeps_constructor_history() {
                 crate::actor_world_tick::Outcome::UpdatedByPrimary
             );
             assert!(s.vimp(id).unwrap().initialized);
+            assert_eq!(s.vimp(id).unwrap().contact_hit, 0);
             assert!(s.vimp_physical(id).unwrap().animation_consumed);
             assert_eq!(s.vimp_frames(id), Some(number + 1));
             assert_eq!(s.get(id).unwrap().vimp_prepared_history, None);
@@ -141,6 +147,60 @@ fn source_vimp_newborn_runs_first_body_and_keeps_constructor_history() {
     );
     s.clear();
     assert_eq!(s.counts(), Counts::default());
+}
+
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; owned contact refusal and retained clear on ground failure; supplied fault, not live contact production"]
+fn source_vimp_contact_refuses_unsupported_wander_and_retains_physical_clear() {
+    let (mut s, factory, globals, _, children, mut random) =
+        super::vimp_history_tests::source_births(true);
+    let id = children[0];
+    assert_eq!(s.vimp(id).unwrap().contact_hit, 0);
+    // Deliberate unsupported contact fixture. Ordinary wander must not silently
+    // substitute an unobstructed path and consume its random draws.
+    s.residents
+        .get_mut(&id.serial)
+        .unwrap()
+        .vimp
+        .as_mut()
+        .unwrap()
+        .contact_hit = 99;
+    let seed = random.0;
+    assert!(
+        s.begin_vimp_wander_offline(id, frame(0, id).tick, &factory, &globals, &mut random)
+            .is_err()
+    );
+    assert_eq!(random.0, seed);
+    assert_eq!(s.vimp(id).unwrap().contact_hit, 99);
+    s.residents
+        .get_mut(&id.serial)
+        .unwrap()
+        .vimp
+        .as_mut()
+        .unwrap()
+        .contact_hit = 0;
+    s.begin_vimp_wander_offline(id, frame(0, id).tick, &factory, &globals, &mut random)
+        .unwrap();
+    let actor = s.residents.get_mut(&id.serial).unwrap();
+    actor.vimp.as_mut().unwrap().contact_hit = 99;
+    // Explicit preceding-history displacement admits the placement query.
+    actor.construction_fields.as_mut().unwrap().current[0] -= 1.;
+    let mut calls = 0;
+    let mut ground = |_| {
+        calls += 1;
+        Err("declared contact ground failure")
+    };
+    assert!(
+        s.advance_vimp_physical_offline(id, &factory, &globals, &mut ground)
+            .is_err()
+    );
+    assert_eq!(s.vimp(id).unwrap().contact_hit, 0);
+    assert!(s.vimp_physical(id).unwrap().failure.is_some());
+    assert!(
+        s.advance_vimp_physical_offline(id, &factory, &globals, &mut ground)
+            .is_err()
+    );
+    assert_eq!(calls, 1);
 }
 
 #[test]
