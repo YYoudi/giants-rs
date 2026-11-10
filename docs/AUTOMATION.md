@@ -1,5 +1,11 @@
 # Roadmap, Pages and automatic builds
 
+Task selection and milestone reporting follow the shared
+[gameplay-first objective](GOAL_GAMEPLAY_FIRST.md). Automated checks support that
+delivery; their counts do not set development priority or establish playable
+availability. Keep the exact public-preview snapshot independent of source
+progress, and provide ordinary menu/input instructions for released interactions.
+
 Native research and resumed context follow [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md).
 Carry the prototype PS2 lookup, exact binary identities, aliases, attribution
 status and unresolved differences in each private handoff. Pages exports only

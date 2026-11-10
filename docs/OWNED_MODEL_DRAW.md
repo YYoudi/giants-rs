@@ -1,5 +1,13 @@
 # Owned Mecc render-model selection
 
+Select and resume work under the shared [gameplay-first
+objective](GOAL_GAMEPLAY_FIRST.md). Prioritize the ordinary player-visible path and
+its first missing caller/consumer before rare variants. Dated controls and
+next-acquisition notes below retain their evidence scope; they do not override the
+current delivery priority in `BACKLOG.md`. A handoff must identify the exact
+testable build and normal controls, or state "intermediate dependency only" and the
+next runtime blocker.
+
 Further native acquisition follows [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md).
 The selector and enclosing model-consumer attributions remain unknown. Recovered
 names and CPU matches do not certify graphics submission or visual fidelity.

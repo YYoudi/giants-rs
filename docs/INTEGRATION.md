@@ -1,5 +1,10 @@
 # Main runtime integration
 
+The shared objective and priority order are defined in
+[GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md): ordinary playable experiences
+and their actual blockers first, increasingly specialized cases afterward.
+Apply that policy to all five lanes before choosing the next acquisition.
+
 The main integration lane connects the specialized reconstruction work to one
 Rust + Bevy application and its public Windows preview. Its priority is usable,
 validated behavior in the ordinary menu-to-mission path. Specialized lanes retain
@@ -20,6 +25,13 @@ method, not another feature backlog. Native-function work still follows
 lookup, private evidence and explicit uncertainty.
 
 ## Inspect a contribution before connecting it
+
+First identify the ordinary player action this contribution unlocks, its actual
+producer/consumer gap and its place in the current delivery in `BACKLOG.md`.
+A lane handoff must state whether it is an intermediate dependency, connected
+runtime, an interaction verified locally, or a published testable feature.
+Prefer finishing that path over accumulating more isolated services. A necessary
+CPU acquisition is still valid work; explain which concrete blocker it removes.
 
 Read the relevant chat's current handoff and the actual committed source. Record
 the reviewed commit, its main ancestry, validation scope and missing providers in
@@ -87,6 +99,11 @@ otherwise state the untested interactive boundary. Scripted checks can help
 diagnose a problem but cannot substitute for the requested gameplay interaction.
 For example, jetpack integration requires actual thrust input, release, descent
 and landing, rather than only a fixed-frame plume capture.
+
+For every playable delivery, record the exact menu/mission, keyboard/mouse actions,
+expected feedback and supported limits, with a local build identity or release
+link. If the ordinary path still refuses, report that blocker before test counts.
+Do not delay basic supported interaction until unrelated rare cases are acquired.
 
 ## Publish one coherent milestone
 
