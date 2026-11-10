@@ -55,6 +55,31 @@ pub struct Factory {
     growth_bounds: Option<crate::player_collision_radius::Bounds>,
 }
 impl Factory {
+    /// Bind the namespace captured by this class's actual specification. Never
+    /// select an image by filename or silently substitute a newer active image.
+    pub fn load_registered(resources: &SceneResources) -> Result<Self, String> {
+        let binding = resources
+            .classes
+            .models
+            .first_selection(8)
+            .ok_or("Vimp class selection absent")?
+            .as_ref()
+            .map_err(Clone::clone)?;
+        let definition = resources
+            .classes
+            .models
+            .specs
+            .get(&binding.spec_id)
+            .and_then(|v| v.first())
+            .ok_or("Vimp specification absent")?;
+        let effects = resources.classes.models.specification_effects(definition)?;
+        Self::load(resources, effects)
+    }
+    /// Deferred animation effects share the exact class registration image.
+    /// Creating a pool does not execute events or admit world callbacks.
+    pub fn animation_contexts(&self, ticket: u64) -> crate::attached_effect_context::Pool<Id> {
+        crate::attached_effect_context::Pool::new(ticket, Some(Arc::clone(&self.effects)))
+    }
     /// The namespace active at registration is explicit; this does not infer normal mission preloading.
     pub fn load(
         resources: &SceneResources,
@@ -249,4 +274,48 @@ pub struct GrowthTick<'a> {
     pub number: u64,
     pub global_delta: f32,
     pub slow_areas: &'a [crate::object_time::SlowArea],
+}
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    #[ignore = "requires GIANTS_NPC_ROOT; actual registered class namespace, missing and replaced-image refusals"]
+    fn source_vimp_registered_factory_keeps_captured_image_and_refuses_substitutions() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+        let mut resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let factory = Factory::load_registered(&resources).unwrap();
+        let contexts = factory.animation_contexts(876);
+        assert!(factory.owns_effect_contexts(&contexts));
+        let binding = resources
+            .classes
+            .models
+            .first_selection(8)
+            .unwrap()
+            .as_ref()
+            .unwrap();
+        let id = binding.spec_id;
+        let saved = resources.classes.models.specs.get_mut(&id).unwrap()[0]
+            .effect_namespace
+            .take();
+        assert!(
+            Factory::load_registered(&resources)
+                .err()
+                .unwrap()
+                .contains("no effect namespace")
+        );
+        resources.classes.models.specs.get_mut(&id).unwrap()[0].effect_namespace = saved;
+        let last = resources.classes.models.effects.last().unwrap();
+        let replacement = crate::model_registry::EffectDefinition {
+            path: "controlled-replacement".into(),
+            image: last.image.clone(),
+        };
+        resources.classes.models.effects.push(replacement);
+        assert!(
+            Factory::load_registered(&resources)
+                .err()
+                .unwrap()
+                .contains("replacement")
+        );
+        assert!(factory.owns_effect_contexts(&contexts));
+    }
 }
