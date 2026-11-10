@@ -58,18 +58,18 @@ mission to load and use **Escape** to skip the opening. The default Mecc binding
 are **WASD** for movement, mouse motion for aiming, **right mouse held** for thrust,
 **Space** for nitro where supported, **left mouse** for the diagnostic pistol and
 **R** for the view toggle. **Escape** returns to the menu. Check the profile's
-Mecc control options if bindings were changed. Preview **2026.11.10.9** connects
-the normal controller to the source jet models and descent animation, and draws
-the base pistol's source projectile geometry. No replay or experimental-backend
-flag is needed. Preview .8 and earlier retain their original capabilities.
+Mecc control options if bindings were changed. The normal controller can present
+the source jet models, acquired descent animation, base-pistol projectile and
+health/fuel gauges in snapshots that contain those integrations. No replay or
+experimental-backend flag is needed to activate supported normal controls.
 
-On .9, a fresh muted profile has exercised two ordinary menu entries and returns,
-right/left mouse pulses, the first-person view toggle and normal desktop exit.
-Separate GPU diagnostics show the plume and projectile on that same executable.
-Sustained held-input flight, nitro, falling-pose appearance and landing are still
-unverified as a continuous interactive loop. The descent rule requires sufficient
-vertical speed and floor clearance; releasing thrust alone does not select it.
-The pistol, impact markers and native world integration remain partial.
+Read the release notes accompanying your ZIP for its exact runtime source,
+included features and actually completed checks. Current main, later captures
+and earlier preview acceptance do not update that executable. Brief OS mouse
+pulses and supplied-command GPU diagnostics do not establish sustained held-input
+flight, nitro, descent and landing as one continuous interaction. The descent
+rule requires sufficient vertical speed and floor clearance; releasing thrust
+alone does not select it. Combat, impact and native world ownership remain partial.
 Historical captures retain their recorded build and do not expand this scope.
 
 Movement uses physical WASD, Space and Ctrl where supported; right mouse controls

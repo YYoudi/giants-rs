@@ -153,6 +153,14 @@ stale affine and replay refusal after a late platform failure. Clocks, support,
 physical caller argument and empty mesh/platform populations remain supplied;
 this is not live mission admission or a fidelity check. Keep its inputs private.
 
+With `GIANTS_FLICK_ROOT`, run
+`cargo test --locked -p giants-game source_timed_virtual_support_is_not_an_ordinary_parent --target x86_64-pc-windows-gnu -- --ignored`.
+This silent dependency control checks canonical payload transfer, virtual
+support identity, foreign-owner staging without context/RNG consumption, actual
+retirement-child ownership and cut cleanup across independent source generations.
+It also refuses cancellation inside a pending callback. Its clocks/RNG/support
+are supplied; the menu dispatcher and live world producers are not established.
+
 With `GIANTS_DELPHI_ROOT` set to compatible installed data,
 `source_delphi_dependency_order_keeps_group_identities_and_cleanup` checks the
 common dependency-order service against the actual cold Delphi/copy/held group.

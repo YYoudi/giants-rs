@@ -1,6 +1,6 @@
 //! Ordinary detached preparation over the canonical timed owner. World clocks,
 //! geometry, population and the acquired physical caller-slot word stay explicit.
-use super::{Id, Placement, Session};
+use super::{CinematicScope, Id, Placement, Session};
 use crate::{actor_environment, actor_finalization, collider_copy};
 
 /// Dynamic words retained from ordinary allocation. Class configuration, pose,
@@ -18,6 +18,9 @@ pub struct Header {
     preparing: bool,
 }
 impl Header {
+    pub(super) fn preparing(&self) -> bool {
+        self.preparing
+    }
     pub(super) fn allocated() -> Self {
         Self {
             model_rates: [0.; 4],
@@ -119,6 +122,34 @@ impl Session {
         stamp: &mut crate::animation_epoch::Stamp,
         services: &mut impl Services,
     ) -> Result<crate::timed_effect_object::Step, String> {
+        if self.cinematic_timed_scope(id).is_some() {
+            return Err("cinematic positional preparation needs its current source scope".into());
+        }
+        self.prepare_timed_positioned_bound(id, input, stamp, services)
+    }
+    /// The acquired positional preparation still requires its actual physical,
+    /// terrain/environment, clock and retirement providers. Only ownership is
+    /// qualified here; no missing service or world admission is acknowledged.
+    pub fn prepare_cinematic_timed_positioned(
+        &mut self,
+        id: Id,
+        scope: CinematicScope,
+        input: Input<'_>,
+        stamp: &mut crate::animation_epoch::Stamp,
+        services: &mut impl Services,
+    ) -> Result<crate::timed_effect_object::Step, String> {
+        if scope.ticket != self.ticket || self.cinematic_timed_scope(id) != Some(scope) {
+            return Err("cinematic positional preparation has a stale or foreign scope".into());
+        }
+        self.prepare_timed_positioned_bound(id, input, stamp, services)
+    }
+    fn prepare_timed_positioned_bound(
+        &mut self,
+        id: Id,
+        input: Input<'_>,
+        stamp: &mut crate::animation_epoch::Stamp,
+        services: &mut impl Services,
+    ) -> Result<crate::timed_effect_object::Step, String> {
         let identity = u32::try_from(id.serial).map_err(|_| "timed collision identity overflow")?;
         {
             let actor = self
@@ -166,7 +197,7 @@ impl Session {
         h.statistics = None;
         h.previous_model_rates = h.model_rates;
         let result = (|| {
-            let step = self.advance_timed_effect(id, input.seconds, stamp, services)?;
+            let step = self.advance_timed_effect_bound(id, input.seconds, stamp, services)?;
             let actor = self
                 .get(id)
                 .ok_or("timed actor removed during ordinary callback")?;

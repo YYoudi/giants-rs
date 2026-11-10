@@ -9,14 +9,16 @@ automatically wired into the main menu-to-mission build.
 Follow [GOAL_GAMEPLAY_FIRST.md](docs/GOAL_GAMEPLAY_FIRST.md). Preserve the full
 scope below and complete common player experiences before specialized variants.
 
-[Preview .9](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.9)
-now contains ordinary Mecc jet models, the acquired descent selection and source
-base-pistol projectile geometry. Enter through Start New Single Player Game;
-default controls are WASD/mouse, right-mouse thrust, Space nitro, left-mouse fire,
-R view and Escape menu return. Two actual menu entries/returns, OS right/left
-mouse pulses, a first-person toggle and normal desktop exit pass on a fresh
-muted profile. Separate same-binary GPU diagnostics show the plume and projectile
-and complete three supplied movement/jet/nitro/release/retirement cycles.
+[Preview .10](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.10)
+is the current download, frozen at `9a0fb24`. It includes ordinary Mecc jet and
+source projectile rendering, health/fuel gauges, shared initial-body inspection
+and the reviewed NPC/camera dependencies. Actual OS jet/fire pulses, view toggle,
+two normal menu entries/returns and exit pass on a fresh muted profile. Four
+same-binary GPU diagnostics cover three controller cycles plus inspected plume,
+projectile and acquired descent41 samples; the descent sample has hidden jets
+and fuel45 after release. Runtime and selected cinematic source-terminal/re-entry
+checks also pass. None certifies sustained OS-held flight, landing or fidelity.
+Later main landing-effect work does not change this immutable executable.
 
 The next delivery is the continuous ordinary Mecc loop: stable real movement/aim,
 sustained thrust/nitro, release, visible descent and landing, then entry again.
@@ -28,8 +30,8 @@ never invent those providers or acknowledge an unfinished native parent.
 
 - Main: retain one common application, verify actual producer/consumer order,
   publish exact receipt-bound snapshots and keep current downloads distinct from
-  later source and historical captures. The .9 runtime is `3a17d2e`; later initial
-  body inspection and HUD/camera follow-ups do not update its executable.
+  later source and historical captures. The .10 runtime is `9a0fb24`; later landing work does not
+  update its executable. Initial-body inspection is not new playable controls.
 - Mecc: finish the continuous input/action check and the first concrete visible
   impact/fire dependency. Native actor/FX/damage, sustained firing and firing-pose
   ownership remain missing; countdown or rare-effect research follows this loop.
@@ -1923,6 +1925,15 @@ blocker in the next slice, rather than continuing adjacent functions by address.
 
 ## Cinematics / Flick: coverage and next prerequisites
 
+- Ordinary transition check on local source `e579332`: actual menu clicks enter
+  the first Story1 mission; Escape skips its visible opening into Mecc control,
+  and another Escape returns to the menu. A second actual menu entry then reaches
+  the natural end of all 14 declared directors with drained voices and returns
+  to Mecc control; menu return and F10 close the owned test window. Both tickets
+  release their tracked mission/film/text resources. This muted OS-input check
+  is separate from scripted replays, later NPC/landing source, the public
+  download and complete timing/audio/visual fidelity. No new timed-FX consumer
+  or whole-scene certification follows from it.
 - Next shared queue delivery: connect the source-marked timed-shot family to
   the canonical mission Session, including its real support, retirement child
   and cleanup. The retained program survey identifies 77 requests in seven
@@ -1931,6 +1942,17 @@ blocker in the next slice, rather than continuing adjacent functions by address.
   complete-program, callback and retirement controls. Ordinary actor parents
   cannot stand in for virtual Flick supports, and preview draw submission does
   not establish live queue admission.
+  The canonical timed-owner API now distinguishes actual actor parents from
+  virtual Flick supports and retains source scope on positional retirement
+  children. Staging moves the existing payload/resources into Session; failed
+  owner checks retain the context and active RNG, and cut cleanup refuses an
+  in-progress callback. Installed controls exercise foreign/stale supports,
+  a real retirement child and independent-generation cancellation. This is a
+  CPU dependency only: the main Flick dispatcher does not consume these APIs
+  yet. Bind actual event dispatch, clocks/RNG and required world services before
+  claiming menu availability; do not substitute an ordinary parent or no-op
+  physical/retirement provider. The retained ordinary preparation comparisons
+  still pass through their shared callback path, with supplied boundaries.
   A new dependency control executes the exact PC thread-state initializer,
   random helper and time-sampled seed setter: state survives repeated calls on
   one supplied thread, stays separate on another, and an actual setter replaces
