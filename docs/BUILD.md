@@ -67,6 +67,12 @@ control uses three installed animation resources after owned physics. It supplie
 gait/contact flags, retains the unfinished frame and refuses ANM replay. It does
 not establish live movement/contact production or ordinary mission admission.
 
+With the same installation, the ignored `source_vimp_contact` control checks
+unsupported-contact refusal and a retained physical clear after ground failure;
+`source_vimp_active_movement_reads_owned_contact` checks the constructor/physical
+owner consumed by movement. Nonzero contact and fault cases are explicit supplied
+fixtures, not observed object collisions. These controls enable no playable map.
+
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
 runs six owned-phase controls: publication/physical consumption and later
