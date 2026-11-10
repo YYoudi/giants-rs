@@ -67,6 +67,12 @@ control uses three installed animation resources after owned physics. It supplie
 gait/contact flags, retains the unfinished frame and refuses ANM replay. It does
 not establish live movement/contact production or ordinary mission admission.
 
+With `GIANTS_DELPHI_ROOT` and an explicit `GIANTS_DELPHI_EXECUTABLE`, run
+`cargo test --locked -p giants-game source_camera_coefficients --target x86_64-pc-windows-gnu -- --ignored`
+for owned Delphi selection and external camera coefficients through projection
+reset. Mode/owner inputs are supplied and projection requests are captured;
+no App device submission, startup or gameplay admission is acknowledged.
+
 With `GIANTS_DELPHI_ROOT` and optional `GIANTS_DELPHI_EXECUTABLE` as below,
 `cargo test --locked -p giants-game source_delphi_local_phase --target x86_64-pc-windows-gnu -- --ignored`
 runs six owned-phase controls: publication/physical consumption and later

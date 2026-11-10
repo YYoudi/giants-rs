@@ -76,9 +76,18 @@ coefficients, current input devices, projection, live scheduling or GPU output.
 A silent installed Mecc control verifies current header changes, separate model
 and state words, forced-view precedence, foreign identities and retirement over
 the actual Session. No initializer or pending projection reset is acknowledged.
-The actual coefficient source, input/projection backends and activation/world order
-remain prerequisites before App binding. This selector's prototype PS2 attribution
-remains unknown; detailed evidence stays private.
+`ExecutableCatalog` now supplies lens/actor-scale coefficients from the externally
+provided acquired PC initialized-data layout for all nine families and three
+bounded views. No original tables are embedded. It preserves raw field values;
+mode/reset/lens kernels validate only fields they consume. Recognized headers are
+not binary authentication, and other layouts refuse. The original getter and
+predicates agree with the Rust selector/reader on 44 supplied-header contexts /
+88 coefficient words. A source-backed owned Delphi control feeds reset through
+current Session headers, captures projection requests and refuses the retired
+owner. Its mode/owner words are supplied test inputs, not acquired App startup.
+Input/projection backends and activation/world order remain prerequisites before
+App binding. This selector's prototype PS2 attribution remains unknown; detailed
+evidence stays private.
 
 
 ### Session-bound owner-selection prefix
@@ -175,9 +184,9 @@ Profile/input production and projection publication remain caller obligations.
 Keep these operations on one `camera_mode::State` when composing the world.
 
 The family/view selector above supplies the acquired profile decision. Its
-coefficient catalog and actual input/device producers remain required. Any future
-executable-backed coefficient reader must validate the exact PC binary separately
-from prototype PS2 symbols or layouts and keep original tables out of Git.
+external PC coefficient catalog now exists; actual input/device producers and startup/order
+remain required. Validate the exact PC binary separately from prototype PS2
+symbols or layouts, and keep original tables out of Git.
 The lens character predicate belongs to the controlled actor; an overridden
 camera owner must not replace that identity when supplying `selected_kind`.
 The historical `profile_index` lens-input name denotes the shared view word;

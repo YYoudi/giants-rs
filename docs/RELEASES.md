@@ -7,6 +7,20 @@ tested/downloadable build, or explicitly identify an intermediate dependency and
 the next missing runtime service. Existing dated CPU checkpoints below retain
 their original evidence scope and do not become playable by this policy change.
 
+## External camera coefficients - source dependency only
+
+Intermediate dependency only; no new ordinary Delphi controls or preview.
+The acquired current-owner selector can now resolve lens/actor-scale fields from
+a user-supplied PC executable through `camera_profile::ExecutableCatalog`, with
+no embedded original tables. Forty-four original getter contexts match 88 exact
+coefficient words. Validation remains at each consuming command, preserving
+unused null/invalid fields. The silent installed Delphi check uses actual owned
+headers and external metadata with supplied mode/owner words, captures reset
+projection requests and refuses a retired owner. This does not submit projection
+to Bevy, acquire startup words or acknowledge the mission's pending reset.
+Actual input/device, first animation/render and physical/controller wiring remain
+open. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
+
 ## Delphi declared group connected to mission loading - 10 November 2026
 
 Common mission loading now stages Delphi's actual declared owner, copies and held

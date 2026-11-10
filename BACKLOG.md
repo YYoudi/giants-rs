@@ -253,10 +253,12 @@ player swaps as ordinary mission startup.
 Current profile family/view selection is now Session-bound: 20,580 full native/
 Rust controls match 41,160 selection words, including independent controlled
 class/state and nonrecursive parent substitution. Its required coefficient catalog
-has no default. Next acquire the exact PC-backed coefficient reader without
-copying original tables into Git, then bind actual input/device producers and
-activation/world order. Preserve separate current owner/controlled identities and
-requery after mode/scale callbacks; never cache the first query for the second.
+has no default. An external PC-backed coefficient reader now covers all nine
+families and three bounded views, matching 44 original getter contexts /88 words;
+an actual owned Delphi reset control captures projection requests with supplied
+mode/owner inputs. Next bind actual input/device producers and startup/activation/
+world order; the reader alone acknowledges no pending projection reset. Preserve
+separate current owner/controlled identities and requery after mode/scale callbacks; never cache the first query for the second.
 See [OWNED_CAMERA.md](docs/OWNED_CAMERA.md) for the authoritative contract and
 supplied boundaries. No ordinary App admission follows from this selector.
 The current independently verified download is `preview-2026.11.10.8`, source
