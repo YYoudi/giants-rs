@@ -836,3 +836,6 @@ pub mod sound_spatial;
 
 #[cfg(test)]
 mod npc_source_tests;
+
+mod actor_angle_approach;
+pub mod vimp_active_response;

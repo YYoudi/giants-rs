@@ -226,6 +226,52 @@ continuation, sound/ANM and world admission remain open. The ordinary primary
 keeps its refusals; no normal gameplay, new capture or preview follows from this
 source-only composition. Prototype PS2 attributions remain unknown.
 
+## Active response cycle - 10 November 2026
+
+`vimp_active_response` acquires the four-stage block after the primary's movement
+producer. It turns toward the retained heading, arms and consumes a turn wait,
+selects the target bearing, turns again, arms the final delay, then clears response
+kind/active/priority on expiry. The stage3 heading producer executes before its
+session gate. Required action requests retain distinct heading/finished shapes;
+errors preserve preceding stores and callback writes. Exact zero expires a timer,
+but a positive wide remainder that rounds to zero does not. The original pending
+heading remains distinct from the angle helper's normalized local copy.
+
+A separate native cycle control injects one signal into one actual warm source
+child. Native construction, common-list callbacks and real readiness remain;
+there is no forced physical/channel gate. It reaches all four stages and the
+primary return after response completion without native-controller diagnostics.
+The 115 active-block entries comprise one stage0, 64 stage1, 30 stage2 and 20
+stage3 visits. Rust matches 1,495 projected state/RNG/control words. A second
+comparison retains the Rust response state across all 115 visits, refreshes only
+caller position/target/controls and the acquired angular-history copy, and advances
+one retained RNG using the supplied external draw schedule. Active outputs are not
+replaced with the next native sample. Remaining header/payload fields are checked
+against the acquired native write projection.
+
+The comparison begins at a captured active-block entry. Earlier native motion,
+clock/control snapshots and external RNG draws remain supplied caller inputs;
+this is not Rust whole-primary, physical/ANM or live-world equivalence. Existing
+commands can be nonzero at this entry and are retained. The first handled reaction
+skips the ordinary movement producer, while later active visits can consume its
+commands. A future driver must preserve that distinction and the native phase
+lease instead of bypassing the current offline/pending-phase guards.
+
+The 10,000-gap angular helper is shared with the existing Delphi body-alignment
+caller without changing that caller's behavior. It also matches 1,117 separate
+native scalar controls, including wrapping and negative steps; this is a bounded
+angle comparison, not a complete active response. Existing heading/orientation
+and bearing services are reused. Prototype PS2 attributions for the primary and
+touched dependencies remain unknown; no signatures or layouts are imported.
+Four portable controls cover arrival/normalization distinctions, equal-bound RNG,
+wide timer decisions, required-service ordering and retained callback errors.
+
+Next bind the stage-produced turn timer to persistent actor ownership, acquire the
+remaining ordinary movement/active-animation producers and compose this block at
+its actual callback point before common look, physics and ANM. Session/world phase,
+clock/RNG ownership, hint/action/audio services and mode7 remain prerequisites.
+No normal gameplay availability, new capture or preview is added by this kernel.
+
 The PC SHA256 is
 `690bad39847b0f578163e547e6a6de10ffe9213635a069bd1ce96a75dfd39ead`;
 prototype PS2 lookup uses SHA256

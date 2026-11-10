@@ -102,7 +102,13 @@ The dedicated NPC lane resumes existing work; see
   response/vector return are observed without forcing physical/channel flags.
   The captured-helper Rust comparison matches 29 entries /957 words; caller
   binding/tail and Rust whole-primary composition remain excluded. Next acquire
-  the remaining caller/active-response phase after that helper return,
+  the remaining caller phases after that helper return. The four-stage active
+  block now matches 115 native entries /1,495 state/RNG/control words, including
+  a persistent Rust-state comparison with supplied caller motion/clock inputs
+  and external draw schedule. One real native source cycle reaches completion
+  with only one signal injected and no forced readiness. Bind its turn timer to
+  persistent ownership, preserve first-handled versus later movement production,
+  and acquire active animation before common look/physics/ANM integration. Keep
   required action and hint bodies, live session snapshot and typed linked/target
   ownership, active response/mode7 continuation, required
   sound/animation and exact primary call timing; bind world-noise production.

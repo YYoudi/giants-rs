@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## Vimp active response cycle - 10 November 2026, source only
+
+The acquired four-stage block now retains turn/wait/target-bearing/final-delay
+transitions, wide expiry decisions, required-service order and error effects.
+A native source control reaches response completion with one signal injection
+and actual readiness, without forcing physical/channel flags. Rust matches all
+115 active-block entries /1,495 projected words, including a persistent-state
+comparison using supplied caller motion/clock inputs and external RNG draw counts.
+These inputs exclude Rust whole-primary, physical/ANM and world equivalence.
+
+The existing Delphi and new Vimp callers share the same bounded angular helper;
+1,117 independent native scalar controls also agree. No Delphi behavior is changed.
+Four portable controls cover required services, callback writes, timer boundaries
+and arrival normalization. Persistent timer ownership, ordinary movement/active
+animation and callback-phase integration remain open, together with live global/
+world services and mode7. Prototype PS2 attribution is unknown. No gameplay,
+capture, download or frozen public preview identity is changed.
+
 ## Owned Vimp response composition - 10 November 2026, source only
 
 The isolated Session response entry reads actual inline physical/channel flags and
