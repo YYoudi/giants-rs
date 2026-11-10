@@ -309,6 +309,12 @@ animation-commit controls, one timed-effect ownership control, 43 Python tests,
 Rustfmt and strict Clippy. Its common MinGW application compiles; the retained
 public preview snapshot keeps its independently reviewed build identities.
 
+The following camera-owner combination `9997103` passes 880 Rust tests (75
+ignored), strict Clippy and Rustfmt. Its additional module leaves the validated
+Delphi component/runtime source unchanged. The actual public preview snapshot
+is now the separately verified `.5`; this source-only milestone does not
+relabel that executable as containing the later Delphi continuation.
+
 ## Delphi auxiliary-request prefix - 10 November 2026
 
 Source-only selection now preserves authority, independent command/response
