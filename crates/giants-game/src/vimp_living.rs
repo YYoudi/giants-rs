@@ -1,5 +1,8 @@
 //! Required external session and action producers for the common living primary.
 //! This contract alone does not admit or schedule the mission population.
+//! Prototype PS2 search key: `vimp_logic`. This module supplies part of the
+//! living-primary contract, not a verified one-to-one port of that symbol.
+//! PC attribution remains unknown; see docs/SYMBOL_NAVIGATION.md.
 use crate::resident_states::{Id, Session, VimpResponseAction};
 pub trait Services {
     fn session(

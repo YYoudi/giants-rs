@@ -32,6 +32,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
     },
     'docs/RECONSTRUCTION_METHOD.md': {
+        # Searchable-source naming policy; existing attribution rows unchanged.
+        '484ac3487d9ce9092f5ac771124701aee131802459afbcda2f3edfd414eb7e13',
         # Gameplay-first selection/handoff prose only; attribution rows are unchanged.
         'bbf89e34ec9cc515385bb66664e978ce79f2ba20d1ec47764e936d95a704fc34',
         # Historical exact-blob review guidance; existing minimal alias rows unchanged.

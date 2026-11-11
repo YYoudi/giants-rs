@@ -65,6 +65,25 @@ publication-related fetches; a concurrent branch can introduce a new document
 revision even when the current main file has not changed. Review every finding
 before treating the publication audit as passed.
 
+## Names must remain discoverable in source
+
+A completed private lookup must not leave recovered names invisible to engine
+contributors. Maintain the small reviewed [symbol navigation index](SYMBOL_NAVIGATION.md)
+and a searchable source comment at the related Rust entry or module. This is
+part of an implementation handoff, including when revisiting acquired services.
+The same-engine relationship makes the prototype names a primary navigation
+route; it does not erase PC/prototype behavioral or layout differences.
+
+For a confirmed identity, prefer its recovered name for a new corresponding
+Rust function. When an established Rust API, split implementation or narrower
+contract warrants another name, retain the original base name in its Rustdoc,
+add a Rustdoc search alias on the corresponding documented public entry where
+appropriate, and explain the scope. Preserve previous identifiers and evidence
+aliases. Probable or unknown correspondences carry an explicit status in source
+and the index; do not turn them into silently confirmed API aliases. Avoid mass
+renames or corpus exports. Name lookup and index work do not replace connecting
+and testing the ordinary gameplay consumer.
+
 ## Private record and repeatable lookup
 
 Each continuation also records the current player-visible delivery, its ordinary

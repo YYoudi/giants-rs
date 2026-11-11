@@ -1,5 +1,8 @@
 //! Source-owned state80 chunk births and offline callbacks. Rendering and
 //! whole-world scheduling remain separate consumers.
+//! Prototype PS2 search keys: `create_one_vimp_chunk`, `vimpchunk_move`.
+//! Birth/update roles are navigation candidates; exact PC attributions remain
+//! unknown. See docs/SYMBOL_NAVIGATION.md; no signature/layout is imported.
 use crate::{
     actor_fields::Fields,
     arithmetic::Precision,

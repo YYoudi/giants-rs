@@ -1,5 +1,8 @@
 //! Acquired mode1 locomotion and hurt mode2..4 animation selection.
 //! Clocks, references and event effects are separate consumers of this choice.
+//! Prototype PS2 search key: `vimp_animselect`. These selectors cover acquired
+//! PC modes; exact PS2/PC function attribution remains unknown.
+//! See docs/SYMBOL_NAVIGATION.md.
 use crate::{
     actor_fields::Fields,
     animation_channels::{Channels, Request},

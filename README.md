@@ -29,6 +29,10 @@ executable remain unverified; other AI, combat damage and objectives remain open
 See [exact build notes](docs/PREVIEW_NOTES.md) and the remaining producer contracts
 in [BACKLOG.md](BACKLOG.md).
 
+Engine contributors can use the reviewed [original symbol navigation](docs/SYMBOL_NAVIGATION.md)
+to find related Rust code from prototype PS2 names. Confirmed identities and
+unassigned search candidates are labeled separately.
+
 The [main integration process](docs/INTEGRATION.md) connects the cinematic and
 character work to the shared application and validated Windows previews. CPU
 services, diagnostic captures and ordinary gameplay availability are tracked

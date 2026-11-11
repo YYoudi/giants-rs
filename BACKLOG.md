@@ -4,6 +4,17 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
+## Source naming and continuation requirement
+
+Owner clarification, 11 November 2026: contributors familiar with prototype PS2
+symbols must be able to find related work in this project. The central method's
+source-name rule and `docs/SYMBOL_NAVIGATION.md` now apply to new work and services
+revisited on touch. Keep recovered names searchable in source, retain old aliases
+and distinguish confirmed identities from probable/unknown navigation candidates.
+Initial coverage includes seven Vimp names and the two previously confirmed
+camera service identities. This documentation does not mark combat delivered;
+ordinary gameplay integration and matching publication remain the priority below.
+
 ## Current delivery - Vimp collision, injury and death interaction
 
 Owner direction, 11 November 2026, after personally testing preview .11.2:

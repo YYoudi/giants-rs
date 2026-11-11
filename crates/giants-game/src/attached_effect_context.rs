@@ -1225,7 +1225,7 @@ impl<K: Copy + Eq> Pool<K> {
         self.free.push(id.slot);
         Ok(context)
     }
-    /// Exact-D first active update of a complete positional [2b,2] program.
+    /// Exact-D first active update of a complete positional `[2b,2]` program.
     /// Preparation already consumed its draw. The returned identity is the
     /// next active context, as at 4528f0, rather than a completion boolean.
     /// A service error retains its effects and RNG and quarantines this identity.

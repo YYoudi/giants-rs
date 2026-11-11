@@ -1,5 +1,8 @@
 //! Ordinary offline Vimp damage, with optional actual partial-pistol trajectory
 //! and impact binding. FX, blood and sound consumers remain required services.
+//! Prototype PS2 search key: `vimp_shot`. The Rust hit adapters implement
+//! acquired PC damage subsets; exact PS2/PC attribution remains unknown.
+//! See docs/SYMBOL_NAVIGATION.md for the distinction and related entry points.
 use crate::{
     audio_parameters::Random, blood_particles, resident_states::Id, vimp_chunks, vimp_death_proxy,
 };

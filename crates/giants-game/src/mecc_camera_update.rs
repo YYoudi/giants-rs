@@ -1,6 +1,9 @@
 //! Stateful ordinary camera producer. The caller owns actor/profile selection,
 //! its world phase and the current floor/mesh providers. Alternate character,
 //! carried/vehicle, smoothed-angle and shake branches remain separate.
+//! Reviewed prototype PS2 identities: `SetupCameraDataNormal` and
+//! `chase_value_time`. The routine identities are confirmed; the Rust camera
+//! implements only the acquired PC profiles. See docs/RECONSTRUCTION_METHOD.md.
 use crate::{first_person::Camera, mecc_camera::Pose};
 
 #[derive(Clone, Copy, Debug)]
@@ -143,6 +146,9 @@ impl State {
     pub fn failure(&self) -> Option<&str> {
         self.failure.as_deref()
     }
+    /// Confirmed prototype PS2 routine identity: `SetupCameraDataNormal`.
+    /// This entry retains the scoped PC behavior documented by this module.
+    #[doc(alias = "SetupCameraDataNormal")]
     pub fn advance(&mut self, input: Input, world: &mut impl World) -> Result<Output, String> {
         self.advance_profile(input, world, None)
     }

@@ -1,5 +1,8 @@
 //! Actual state84 meat/ghost lifetime for a population without mana-eligible
 //! players. Delphi/other mana collection keeps its explicit service prerequisite.
+//! Prototype PS2 search key: `vimpsoul_move`. This bounded no-mana branch is
+//! a navigation target, not a confirmed complete PS2 function equivalent.
+//! Exact PC attribution remains unknown; see docs/SYMBOL_NAVIGATION.md.
 use super::*;
 impl Session {
     pub fn advance_vimp_death_proxy_without_mana(

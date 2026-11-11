@@ -1,3 +1,6 @@
+//! Prototype PS2 search key: `vimp_cleanup`. This file owns bounded PC
+//! retirement; exact PS2/PC attribution remains unknown.
+//! See docs/SYMBOL_NAVIGATION.md.
 use super::*;
 impl Session {
     /// State80 has no payload or state destructor. Expired loose meat can be
