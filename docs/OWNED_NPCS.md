@@ -32,6 +32,17 @@ words are preserved. The isolated recovery API still refuses active responses
 without this caller/provider, and no mode1 command generation or threat selection
 is inserted into the hurt dispatch. The original-PC primary lookup is reused;
 the prototype PS2 `vimp_logic` correspondence remains unknown.
+
+Attached Vimp cues use the canonical completed actor position, not a missing
+presentation-position mirror. Their source descriptor bit0 requests a loop;
+bit0x20 reuses a live same-sample/same-owner voice before allocation or a new
+audio RNG draw. Forty original owned-start controls cover empty/matching/stopped/
+other-owner/other-sample lists, loop combinations and two supplied audio seeds.
+Allocator, position upcall and device returns remain supplied in those controls.
+The Bevy transport consumes those two bits for attached voices, follows their
+actual owner and retains exact-owner stop/retirement. Other descriptor flags and
+hardware behavior remain outside this acquired profile. Muted real-sink tests
+are separate from native timing, mix and audible-fidelity validation.
 The current source also owns the retained ghost actor/ANM, its state84 meat
 presence lifecycle and loose-meat expiry. Those installed dependency cycles
 still supply birth/admission/time and external-release boundaries; they do not

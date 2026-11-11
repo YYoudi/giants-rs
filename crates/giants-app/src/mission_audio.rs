@@ -346,6 +346,7 @@ fn release(world: &mut World, mounted: Mounted) {
     );
 }
 
+#[cfg(test)]
 fn stage(
     world: &mut World,
     mounted: &mut Mounted,
@@ -353,12 +354,23 @@ fn stage(
     effects: f32,
     position: Option<[f32; 3]>,
 ) -> Result<u32, String> {
+    stage_actor(world, mounted, sound, effects, position, None)
+}
+fn stage_actor(
+    world: &mut World,
+    mounted: &mut Mounted,
+    sound: u32,
+    effects: f32,
+    position: Option<[f32; 3]>,
+    actor_owner: Option<giants_game::resident_states::Id>,
+) -> Result<u32, String> {
     let source = mounted
         .sources
         .get(&sound)
         .ok_or_else(|| format!("sound {sound} not prepared"))?;
-    if source.words[0] & !1 != 0 {
-        return Err("sound flags outside local-player playback profile".into());
+    let attached = actor_owner.is_some() && position.is_some();
+    if source.words[0] & !(if attached { 0x21 } else { 1 }) != 0 {
+        return Err("sound flags outside acquired local/attached playback profile".into());
     }
     let parameters = audio_parameters::prepare(
         source.words,
@@ -373,7 +385,7 @@ fn stage(
     if position.is_some_and(|p| !p.into_iter().all(f32::is_finite)) {
         return Err("nonfinite positional sound point".into());
     }
-    if looping && position.is_some() {
+    if looping && position.is_some() && !attached {
         return Err("looping positional source outside impact profile".into());
     }
     let pcm = position
@@ -428,7 +440,7 @@ fn stage(
         Voice {
             owned_reservation: false,
             deferred_parameters: false,
-            actor_owner: None,
+            actor_owner,
             local_owner: None,
             actor_moved: false,
             spatial,
@@ -904,11 +916,35 @@ fn process(
                             positional: false,
                         }),
                         Some(giants_game::actor_sound::Route::Attached(Some(owner))) => {
-                            Some(Action::Actor {
-                                sound,
-                                owner,
-                                positional: true,
-                            })
+                            // The original owned start with bit0x20 returns a
+                            // live same-sample/same-owner instance before RNG
+                            // or allocation. Other owners remain independent.
+                            let reused = (mounted.sources[&sound].words[0] & 0x20 != 0)
+                                .then(|| {
+                                    mounted.voices.iter().find_map(|(&id, v)| {
+                                        (v.sound == sound
+                                            && v.actor_owner == Some(owner)
+                                            && v.started
+                                            && world
+                                                .get::<AudioSink>(v.entity)
+                                                .is_some_and(|sink| !sink.empty()))
+                                        .then_some(id)
+                                    })
+                                })
+                                .flatten();
+                            if let Some(voice) = reused {
+                                println!(
+                                    "mission_actor_audio_reused ticket={} voice={voice} sound={sound} owner={owner:?} actual_sink=true new_audio_draw=false",
+                                    mounted.ticket
+                                );
+                                None
+                            } else {
+                                Some(Action::Actor {
+                                    sound,
+                                    owner,
+                                    positional: true,
+                                })
+                            }
                         }
                         Some(giants_game::actor_sound::Route::Attached(None)) => {
                             return Err("unbound actor audio owner has no playback backend".into());
@@ -1005,7 +1041,7 @@ fn process(
             };
             let mut voices = VecDeque::new();
             for sound in sounds {
-                let id = stage(
+                let id = stage_actor(
                     world,
                     mounted,
                     sound,
@@ -1022,10 +1058,12 @@ fn process(
                         ),
                         _ => None,
                     },
+                    if let Action::Actor { owner, .. } = action {
+                        Some(owner)
+                    } else {
+                        None
+                    },
                 )?;
-                if let Action::Actor { owner, .. } = action {
-                    mounted.voices.get_mut(&id).unwrap().actor_owner = Some(owner);
-                }
                 voices.push_back(id);
             }
             mounted.pending = Some(Pending {
@@ -1670,6 +1708,69 @@ mod tests {
         release(app.world_mut(), mounted);
         assert!(app.world().resource::<Assets<AudioSource>>().is_empty());
     }
+    #[test]
+    fn attached_loop_reservations_keep_owners_and_stop_without_sink_acknowledgement() {
+        let mut app = App::new();
+        app.add_plugins((MinimalPlugins, AssetPlugin::default()))
+            .init_asset::<AudioSource>()
+            .init_asset::<crate::positional_pcm::Pcm>();
+        let mut mounted = fixture(app.world_mut(), 96);
+        let owners = audio_test_owners(96);
+        let cue = 0x5f7;
+        mounted.sources.get_mut(&cue).unwrap().words[0] = 0x21;
+        assert!(stage(app.world_mut(), &mut mounted, cue, 0.75, Some([0.; 3])).is_err());
+        assert!(mounted.voices.is_empty());
+        let first = stage_actor(
+            app.world_mut(),
+            &mut mounted,
+            cue,
+            0.75,
+            Some([1., 2., 3.]),
+            Some(owners[0]),
+        )
+        .unwrap();
+        let peer = stage_actor(
+            app.world_mut(),
+            &mut mounted,
+            cue,
+            0.75,
+            Some([4., 5., 6.]),
+            Some(owners[1]),
+        )
+        .unwrap();
+        assert!(
+            mounted
+                .voices
+                .values()
+                .all(|v| v.looping && !v.started && !v.ready)
+        );
+        assert_eq!(mounted.started, 0);
+        assert_eq!(
+            app.world()
+                .resource::<Assets<crate::positional_pcm::Pcm>>()
+                .len(),
+            2
+        );
+        assert_eq!(
+            stop_actor_sound(app.world_mut(), &mut mounted, owners[0], cue).unwrap(),
+            vec![first]
+        );
+        assert_eq!(mounted.voices.len(), 1);
+        assert_eq!(mounted.voices[&peer].actor_owner, Some(owners[1]));
+        assert_eq!(
+            app.world()
+                .resource::<Assets<crate::positional_pcm::Pcm>>()
+                .len(),
+            1
+        );
+        release(app.world_mut(), mounted);
+        assert!(
+            app.world()
+                .resource::<Assets<crate::positional_pcm::Pcm>>()
+                .is_empty()
+        );
+    }
+
     #[test]
     fn no_audio_backend_never_acknowledges_and_backlog_is_bounded() {
         let mut app = App::new();
