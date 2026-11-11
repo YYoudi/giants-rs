@@ -2,6 +2,7 @@
 //! before activation. Audio, contact response and texture binding services remain
 //! explicit needs; this is not a complete effect VM or native LOD policy.
 use giants_formats::{effect_image::Image, effect_program::Record};
+pub mod execution;
 
 #[derive(Clone, Debug)]
 enum Op {
@@ -27,6 +28,7 @@ enum Op {
     RandomSound([u32; 2]),
     TextureAnimation(crate::effect_texture_animation::Configuration),
     Child {
+        source_offset: u32,
         reference: u32,
         own_reference: u32,
         body: Body,
@@ -243,6 +245,7 @@ fn body(records: &[Record], image: &Image, child: bool) -> Result<Body, &'static
                     return Err("burst child end absent");
                 }
                 Op::Child {
+                    source_offset: entry.offset,
                     reference: word(record, 1)?,
                     own_reference: word(record, end + 1)?,
                     body: body(&program.records[..program.records.len() - 1], image, true)?,
@@ -538,6 +541,7 @@ impl Body {
                     reference,
                     own_reference,
                     body,
+                    ..
                 } => body.create(seed, Some(index), *reference, *own_reference, result)?,
             }
         }

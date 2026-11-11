@@ -18,6 +18,20 @@ pub enum Binding<K> {
     Attached { recipient: K, tag: u32 },
     Position([f32; 3]),
 }
+/// Actual source arguments of the bounded immediate-child wrapper. A positional
+/// origin and a parent/reference binding are distinct parts of this request.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Immediate<K> {
+    pub parent: K,
+    pub reference: u32,
+    pub own_reference: u32,
+}
+pub struct ImmediateInput<K> {
+    pub binding: Immediate<K>,
+    pub position: [f32; 3],
+    pub object_flags: u32,
+    pub render_flags: u32,
+}
 #[derive(Clone, Debug)]
 pub struct Context<K> {
     /// Original binding; use recipient() for its current live reference.
@@ -30,6 +44,7 @@ pub struct Context<K> {
     flags: u32,
     retained_smoke: Option<RetainedSmoke>,
     parent_lost: bool,
+    immediate: Option<Immediate<K>>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum DamageSmokePhase {
@@ -103,6 +118,9 @@ impl<K> Context<K> {
     }
 }
 impl<K: Copy> Context<K> {
+    pub fn immediate(&self) -> Option<Immediate<K>> {
+        self.immediate
+    }
     pub fn recipient(&self) -> Option<K> {
         if self.parent_lost {
             None
@@ -686,6 +704,7 @@ impl<K: Copy + Eq> Pool<K> {
             flags: 4,
             retained_smoke: None,
             parent_lost: false,
+            immediate: None,
         };
         self.insert(context)
     }
@@ -739,6 +758,7 @@ impl<K: Copy + Eq> Pool<K> {
             flags: 4,
             retained_smoke: None,
             parent_lost: false,
+            immediate: None,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -777,6 +797,30 @@ impl<K: Copy + Eq> Pool<K> {
                 0
             };
         self.prepare_direct_position(offset, position, flags, true, random)
+    }
+    /// Direct-offset mode38 with immediate activation requested, no supplied
+    /// override matrix and no deferred mode. This prepares the actual context;
+    /// the caller must execute its nested VM before returning from its service.
+    /// It does not create, place or complete an actor by itself.
+    pub fn prepare_immediate_offset_invariant(
+        &mut self,
+        offset: u32,
+        input: ImmediateInput<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        let result = self.prepare_retirement_offset_invariant(
+            Some(offset),
+            input.position,
+            input.object_flags,
+            input.render_flags,
+            random,
+        )?;
+        if let Creation::Prepared(id) = result.0 {
+            let context = self.slots[id.slot].context.as_mut().unwrap();
+            context.flags |= 2;
+            context.immediate = Some(input.binding);
+        }
+        Ok(result)
     }
     fn prepare_direct_position(
         &mut self,
@@ -833,6 +877,7 @@ impl<K: Copy + Eq> Pool<K> {
             flags,
             retained_smoke: None,
             parent_lost: false,
+            immediate: None,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -942,6 +987,7 @@ impl<K: Copy + Eq> Pool<K> {
             flags: 0x20004,
             retained_smoke: None,
             parent_lost: false,
+            immediate: None,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -1023,6 +1069,7 @@ impl<K: Copy + Eq> Pool<K> {
             flags: 0,
             retained_smoke: None,
             parent_lost: false,
+            immediate: None,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -1259,6 +1306,89 @@ mod tests {
         assert!(
             pool.prepare_cinematic_timed("S", 31, 0, 9, &mut random)
                 .is_err()
+        );
+        assert_eq!(random.0, 1729);
+        assert!(pool.active().is_empty());
+    }
+    #[test]
+    fn immediate_context_keeps_parent_binding_separate_from_positional_origin() {
+        let mut pool = Pool::<u32>::new(9, Some(sound_image()));
+        let mut random = crate::audio_parameters::Random(1729);
+        let mut expected = random;
+        expected.next_15();
+        let binding = Immediate {
+            parent: 31,
+            reference: 3,
+            own_reference: 1,
+        };
+        let point = [3., -0., 7.];
+        let (Creation::Prepared(first), _) = pool
+            .prepare_immediate_offset_invariant(
+                6,
+                ImmediateInput {
+                    binding,
+                    position: point,
+                    object_flags: 0,
+                    render_flags: 0,
+                },
+                &mut random,
+            )
+            .unwrap()
+        else {
+            panic!("immediate context absent")
+        };
+        let c = pool.get(first).unwrap();
+        assert_eq!(c.flags(), 2);
+        assert_eq!(c.immediate(), Some(binding));
+        assert_eq!(c.recipient(), None);
+        assert_eq!(
+            c.position().unwrap().map(f32::to_bits),
+            point.map(f32::to_bits)
+        );
+        assert_eq!(random.0, expected.0);
+        // Preparation leaves a real active identity; no constructor was run.
+        assert_eq!(pool.active(), &[first]);
+        pool.release_prepared(first).unwrap();
+        let (Creation::Prepared(second), _) = pool
+            .prepare_immediate_offset_invariant(
+                6,
+                ImmediateInput {
+                    binding,
+                    position: point,
+                    object_flags: 0,
+                    render_flags: 0x1000,
+                },
+                &mut random,
+            )
+            .unwrap()
+        else {
+            panic!("marked immediate context absent")
+        };
+        assert_eq!(pool.get(second).unwrap().flags(), 0x8002);
+        assert_eq!(first.slot(), second.slot());
+        assert_ne!(first, second);
+        assert!(pool.get(first).is_none());
+    }
+    #[test]
+    fn immediate_context_rejects_invalid_origin_before_draws_or_allocation() {
+        let mut pool = Pool::<u32>::new(9, Some(sound_image()));
+        let mut random = crate::audio_parameters::Random(1729);
+        assert!(
+            pool.prepare_immediate_offset_invariant(
+                6,
+                ImmediateInput {
+                    binding: Immediate {
+                        parent: 31,
+                        reference: 3,
+                        own_reference: 1
+                    },
+                    position: [f32::NAN, 0., 0.],
+                    object_flags: 0,
+                    render_flags: 0,
+                },
+                &mut random,
+            )
+            .is_err()
         );
         assert_eq!(random.0, 1729);
         assert!(pool.active().is_empty());
