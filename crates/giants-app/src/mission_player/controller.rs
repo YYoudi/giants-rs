@@ -3,6 +3,8 @@
 //! it does not advance the campaign flow or synthesize readiness messages.
 use super::*;
 use bevy::input::mouse::AccumulatedMouseMotion;
+#[path = "route_probe.rs"]
+mod route_probe;
 type PlayerDraw<'a> = (
     &'a Mesh3d,
     &'a mut Visibility,
@@ -34,6 +36,7 @@ pub(crate) struct Controller {
     // Input-fixture memory only: release RMB long enough to recharge, as a
     // player would. Never changes fuel, actor pose or the ordinary jet service.
     probe_recharge: bool,
+    probe_route: Option<route_probe::Route>,
     owned_backend: bool,
     owned_audio_backend: bool,
     owned_jet_probe: bool,
@@ -379,6 +382,7 @@ impl Controller {
             world_signals_failed: false,
             npc_failed: false,
             probe_recharge: false,
+            probe_route: None,
             initial,
             minimum_fuel: 100.,
             maximum_height: initial[2],
@@ -704,7 +708,22 @@ pub(super) fn update(
                 let meat_target = (Controller::meat_probe() && return_target.is_none())
                     .then(|| runtime.meat_target(controller.ticket))
                     .flatten();
-                if let Some(target) = return_target
+                let route_target = return_target.map(|goal| {
+                    let position = controller.state.mission_snapshot().0;
+                    if controller.probe_route.is_none() {
+                        controller.probe_route = Some(
+                            route_probe::Route::prepare(&scene.asset.terrain, position, goal)
+                                .expect("conservative terrain input route"),
+                        );
+                    }
+                    controller
+                        .probe_route
+                        .as_mut()
+                        .unwrap()
+                        .next(position)
+                        .unwrap_or(goal)
+                });
+                if let Some(target) = route_target
                     .or(meat_target)
                     .or_else(|| runtime.npc_target(controller.ticket))
                 {
