@@ -53,10 +53,11 @@ completion, active enemies, full combat, squad behavior, Delphi, Kabuto, bases,
 multiplayer and saved campaign continuity are incomplete. CPU-validated services
 may not yet be connected to this menu-to-mission path.
 
-In a Kabuto free-camera inspection, **F7** focuses the body using the acquired
-camera profile when the supplied installation is compatible; **R** resets that
-view. This is scene inspection, with gameplay controls still unavailable. An
-unsupported profile keeps the existing free view and shows a status message.
+In a Delphi or Kabuto free-camera inspection, **F7** focuses the initial body;
+**R** resets that view. Delphi uses its declared-start inspection view. Kabuto
+uses the acquired profile when the supplied installation is compatible. These
+are scene inspections, with gameplay controls still unavailable. An unsupported
+profile keeps the existing free view and shows a status message.
 
 For the current Mecc path, select **Start New Single Player Game**, wait for the
 mission to load and use **Escape** to skip the opening. The default Mecc bindings

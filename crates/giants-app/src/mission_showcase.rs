@@ -321,7 +321,7 @@ pub(crate) fn update(world: &mut World) {
             .resource::<ButtonInput<KeyCode>>()
             .just_pressed(KeyCode::F7)
         {
-            focus_kabuto(world, ticket);
+            focus_player(world, ticket);
         }
         navigate(world, ticket);
     }
@@ -329,12 +329,10 @@ pub(crate) fn update(world: &mut World) {
 }
 /// An ordinary inspection key, using the same owner/profile service as the
 /// replay. It changes only scene inspection; it cannot acknowledge startup.
-fn focus_kabuto(world: &mut World, ticket: u64) {
-    if world
-        .resource::<crate::mission_runtime::Runtime>()
-        .kabuto_body()
-        .is_none()
-    {
+fn focus_player(world: &mut World, ticket: u64) {
+    let runtime = world.resource::<crate::mission_runtime::Runtime>();
+    let kabuto = runtime.kabuto_body().is_some();
+    if !kabuto && runtime.delphi_body().is_none() {
         return;
     }
     let executable = std::env::var_os("GIANTS_KABUTO_EXECUTABLE")
@@ -348,13 +346,17 @@ fn focus_kabuto(world: &mut World, ticket: u64) {
     let result = (|| -> Result<_, String> {
         // Refuse an incompatible external profile before entering a mutating
         // command. A later service failure still remains retained by Runtime.
-        giants_game::camera_profile::ExecutableCatalog::read(&executable)?;
-        giants_game::camera_initial::Cold::read(&executable)?;
+        if kabuto {
+            giants_game::camera_profile::ExecutableCatalog::read(&executable)?;
+            giants_game::camera_initial::Cold::read(&executable)?;
+        }
         let mut runtime = world.resource_mut::<crate::mission_runtime::Runtime>();
-        runtime.prepare_kabuto_camera_inspection(&executable)?;
+        if kabuto {
+            runtime.prepare_kabuto_camera_inspection(&executable)?;
+        }
         runtime
             .environment_candidate()?
-            .ok_or("Kabuto inspection scene absent".into())
+            .ok_or("Initial body inspection scene absent".into())
     })();
     match result {
         Ok(candidate) => {
@@ -363,17 +365,25 @@ fn focus_kabuto(world: &mut World, ticket: u64) {
             };
             camera.projection = candidate.camera.projection;
             world.resource_mut::<State>().camera = Some(camera);
-            world.resource_mut::<State>().camera_note =
-                Some("Kabuto profile inspection; gameplay controls unavailable");
-            println!(
-                "showcase_kabuto_camera_focused ticket={ticket} source=owned_profile ordinary_key=F7 startup_acknowledged=false playable=false"
-            );
+            if kabuto {
+                world.resource_mut::<State>().camera_note =
+                    Some("Kabuto profile inspection; gameplay controls unavailable");
+                println!(
+                    "showcase_kabuto_camera_focused ticket={ticket} source=owned_profile ordinary_key=F7 startup_acknowledged=false playable=false"
+                );
+            } else {
+                world.resource_mut::<State>().camera_note =
+                    Some("Delphi initial-body inspection; gameplay controls unavailable");
+                println!(
+                    "showcase_delphi_camera_focused ticket={ticket} source=declared_start_inspection ordinary_key=F7 projection_reset_acknowledged=false playable=false"
+                );
+            }
         }
         Err(error) => {
             world.resource_mut::<State>().camera_note =
-                Some("Kabuto profile view unavailable for this installation");
+                Some("Initial body view unavailable for this installation");
             eprintln!(
-                "showcase_kabuto_camera_refused ticket={ticket} reason={error:?} existing_inspection_retained=true"
+                "showcase_player_camera_refused ticket={ticket} kabuto={kabuto} reason={error:?} existing_inspection_retained=true"
             );
         }
     }
@@ -499,7 +509,7 @@ fn overlay(world: &mut World) {
                 "Esc: menu"
             },
             if mode == Mode::Free {
-                "\nZQSD / WASD or arrows: move | RMB: look | Space / Ctrl: up / down | Shift: faster | R: reset | F7: Kabuto profile view (compatible installation)"
+                "\nZQSD / WASD or arrows: move | RMB: look | Space / Ctrl: up / down | Shift: faster | R: reset | F7: focus initial body"
             } else {
                 ""
             },

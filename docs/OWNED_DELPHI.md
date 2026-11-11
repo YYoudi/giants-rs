@@ -31,6 +31,13 @@ confirmed prototype PS2 attribution follows.
 
 ## Evaluated body consumer - intermediate dependency
 
+F7 in the ordinary free-camera inspection now returns to the loaded Delphi
+body's declared-start inspection view. The same common body renderer is used;
+R resets this view. No replay is needed for this initial-body inspection, and
+no native projection reset, ANM phase, character retyping or playable admission
+is acknowledged by focusing the camera. The evaluated live-frame consumer below
+still requires its actual completed phase.
+
 `player_body::Prepared::from_delphi_frame` consumes a completed, unfailed owned
 Delphi phase, its actual ANM epoch, current references and affine. It runs the
 existing shared model-buffer producer at that epoch and prepares the same body
