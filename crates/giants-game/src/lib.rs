@@ -30,6 +30,7 @@ pub mod camera_override;
 pub mod camera_owner;
 pub mod camera_profile;
 pub mod camera_projection;
+pub mod damage_impulse;
 pub mod draw_routes;
 pub mod effect_actor;
 pub mod effect_animation;

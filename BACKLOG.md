@@ -4,6 +4,49 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
+## Current delivery - Vimp collision, injury and death interaction
+
+Owner direction, 11 November 2026, after personally testing preview .11.2:
+movement and sounds are coherent. Extend that ordinary Story2 interaction with
+player collision, projectile hitboxes, danger response, hurt/death sounds, blood,
+impact/fall recoil, the death ghost and meat drops. Deliver through the same menu,
+controls, main build and matching dashboard; no dedicated script enables gameplay.
+
+The previous goal was paused by the owner; this explicit follow-up is the current
+implementation request. Keep .11.2 immutable and do not change the running owner
+test. Its normal input log independently records shots, normal/boost jet draws,
+a terrain landing and 42 Vimp startle/return transitions. The owner's feedback
+confirms movement/audio, not the unimplemented combat chain below.
+
+Required integration, in dependency order:
+
+1. Publish current owned Vimp collision shapes/identities to player contact and
+   projectile contact consumers. Use actual class/model/current-pose inputs,
+   preserve nearest-hit/terrain occlusion and avoid fixed guessed hit spheres.
+2. Dispatch actual projectile hits with their real source, amount and impact;
+   retain the shared hit route and source-motion impulse. Compose hurt/recovery
+   and danger behavior inside the actual Vimp primary, not offline callbacks
+   with fabricated stationary/no-source inputs.
+3. Consume hurt/death audio and the acquired blood pool through real runtime
+   owners/renderers. Apply recoil to actual physical velocity, preserving
+   direction, animation completion and subsequent terrain placement.
+4. Complete the death effect/ghost and the separate owned class818/state84
+   auxiliary update/retirement, plus
+   class1117..1119 meat drops, including source tier/counts, herd references,
+   cleanup and re-entry. Do not claim meat collection/economy from a dropped mesh.
+5. Test the combined chain on the final menu-first executable, publish a distinct
+   technically reviewed preview and update source/build/capture availability.
+
+Source audit found existing stationary no-source Vimp damage, hurt/recovery,
+blood, chunk births and death auxiliary construction. Moving/source-bearing
+hit composition, contact producers, active death FX and the ghost update remain
+actual gaps. Prototype PS2 lookup precedes further native work. Current private
+lookups pin the PC damage/impulse functions and prototype identity; attributions
+remain unknown. The new shared impulse kernel is an intermediate dependency,
+not a connected collision, hitbox, damage or death feature. Its 768 original-PC
+comparisons agree on 2,304 velocity words with supplied source/impact/motion
+inputs and no selected auxiliary model; these do not validate live contacts.
+
 ## Current delivery - reliable Mecc loop and first living interaction
 
 Owner direction, 11 November 2026: the single integration agent now works in
