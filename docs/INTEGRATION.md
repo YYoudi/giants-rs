@@ -24,7 +24,7 @@ method, not another feature backlog. Native-function work still follows
 [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md), including prototype PS2
 lookup, private evidence and explicit uncertainty.
 
-The current first-living candidate shares the normal Mecc mission's Session,
+The first-living component delivered in preview .11.2 shares the normal Mecc mission's Session,
 controlled motion/noise, clock, RNG, declared terrain/rigid scene, renderer and
 queued positional transport with authored Story2 herds/markers and their Vimps.
 It is an explicit partial component schedule: other AI stays inactive and receives

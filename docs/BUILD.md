@@ -5,8 +5,9 @@ the shared `mecc_input` edge controls and `mission_runtime::signals` ownership/
 reset control, then the `frame_clock` and `world_noise` kernel tests. The clock
 and noise original-PC comparison is retained privately, with actual OS clock
 values supplied and no game helper replaced. These are dependencies: keep their
-source identity distinct from .11.1 and finish ordinary NPC admission/reaction
-and combined background GPU/menu lifecycle checks before publishing availability.
+source identity and supplied-input scope explicit. Preview .11.2 passes connected
+Story2 reaction/render/audio and common GPU/menu lifecycle checks; real OS-held
+flight and near-herd interaction on that executable remain unverified.
 
 For the all-five consolidation, run the shared workspace checks below and the
 installed owner/normal-controller controls, including the generic player shell,
@@ -1317,7 +1318,7 @@ The silent CPU lifetime control requires the same installation/executable:
 cargo test --locked -p giants-app --target x86_64-pc-windows-gnu source_kabuto_inspection_camera_uses_owned_mode_profile_and_reenters -- --ignored
 ```
 
-### First-living candidate controls (source, not preview .11.1)
+### First-living component controls (included in preview .11.2)
 
 With a user-supplied installation selected by `GIANTS_NPC_ROOT`, run:
 

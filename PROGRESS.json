@@ -55,7 +55,7 @@
       "title": "Complete cinematic playback",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Complete source-driven cinematic playback, voices, effects, transitions and cancellation. The common .11.1 executable passes selected full source-terminal/re-entry transport with real muted sinks and cleanup. Canonical virtual-support storage is acquired; the menu timed renderer still uses explicit preview playback/seed policy. Migration needs actual source clock/RNG interleaving, detached-child caller word and environment/footprint producers. The independent 545-source census remains pinned to .7; zero complete films are certified. See BACKLOG.md and PREVIEW_NOTES.md."
+      "detail": "Complete source-driven cinematic playback, voices, effects, transitions and cancellation. The common .11.2 executable passes selected full source-terminal/re-entry transport with real muted sinks and cleanup. Canonical virtual-support storage is acquired; the menu timed renderer still uses explicit preview playback/seed policy. Migration needs actual source clock/RNG interleaving, detached-child caller word and environment/footprint producers. The independent 545-source census remains pinned to .7; zero complete films are certified. See BACKLOG.md and PREVIEW_NOTES.md."
     },
     {
       "id": "ending-credits",
@@ -73,7 +73,7 @@
       "title": "Mecc movement and jetpack",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Complete native walk/run/jump, jet/nitro/fuel, contact, carried/special profiles and hazards remain the scope. Download .11.1 exposes ordinary WASD/mouse, right-mouse thrust, Space nitro and R view. Three canonical jet children now consume acquired state0 callbacks and shared ANM/reference/model buffers. Real air-to-terrain contact creates landing dust and positional audio. Three supplied-controller GPU cycles and separate plume/descent/landing views pass; actual OS jet pulse and menu re-entry pass. Sustained OS-held flight, slide, native primary/damage and full world scheduling remain unverified or missing. BACKLOG.md records exact prerequisites."
+      "detail": "Preview .11.2 exposes normal WASD/mouse, right-mouse thrust, Space nitro and R view through the shared partial controller. Pending fire/nitro cancel on focus/menu loss. Three supplied-command GPU entry/flight/release/return cycles and actual terrain landing/dust/audio pass. Real OS-held flight on this exact executable, slide, carried/special profiles, native primary/damage and complete world scheduling remain unverified or missing. See BACKLOG.md."
     },
     {
       "id": "mecc-squad",
@@ -91,7 +91,7 @@
       "title": "Complete Mecc weapon arsenal",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Complete weapon inventory, firing, impact, damage and feedback. Download .11.1 retains brief real fire presses until a simulation step and draws the partial base-pistol projectile. Two remapped keyboard taps and default mouse fire after GUI reset pass on the actual executable. Ordered burst execution and immediate-child preparation are acquired dependencies; a canonical live constructor/command/finish/contact/audio backend is still required before replacing partial impacts. Full native firing/damage ownership and fidelity remain open."
+      "detail": "Preview .11.2 draws the partial base-pistol projectile, retains brief fire presses until a simulation step and publishes actual player noise to the partial Story2 Vimp component. Supplied-command GPU fire/reaction and cleanup pass; actual OS-held interaction on this executable and full native weapon/impact/damage ownership remain unverified. Ordered burst and immediate-child dependencies still need their canonical live backend."
     },
     {
       "id": "mecc-inventory",
@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Complete enemy perception, navigation, attacks, reactions and mission integration remain open. Acquired ownership and animation services are intermediate dependencies; download .11.1 does not enable active NPC/Vimp AI. Real population/world admission and ordered control/clock/RNG/environment providers are required before ordinary callbacks and interactions can be delivered. BACKLOG.md is the detailed authority."
+      "detail": "Complete enemy perception, navigation, attacks, damage and mission integration remain open. Preview .11.2 connects only the partial Story2 Vimp wandering/startle/return component to actual player noise; other staged AI is inactive. Full native-world admission and scheduling remain unverified. See BACKLOG.md."
     },
     {
       "id": "wildlife",
@@ -361,7 +361,7 @@
       "title": "Wildlife and non-player inhabitants",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Complete wildlife behavior, rendering and interactions remain the scope. Acquired Story2 callbacks cover all 134 supported neutral declarations, reference-bearing/eventless state0 animation, typed parented children and class230 awakening/marker birth. Download .11.1 consumes the three actual Mecc jet children through canonical callbacks and shared buffers. Live herd/Vimp admission still lacks actual world control/time/slow-area/noise populations and shared RNG ordering; supplied installed contexts are not App producers. Class230 later mode62 remains unacquired. No normal mission offers active Vimp AI. See BACKLOG.md and OWNED_NPCS.md."
+      "detail": "Preview .11.2 connects actual Story2 herd/marker children, real partial-runtime player clock/position and pistol noise, canonical completed Vimp poses and positional audio. Browse all missions -> Mecc -> Starving!; use the F8 distance/turn hint, approach and shoot repeatedly nearby. The exact supplied-command GPU probe observes startle and return without forced actor poses; real OS-held interaction, feeding, damage, typed targets, other AI and complete native-world scheduling remain unverified or unavailable. See BACKLOG.md and OWNED_NPCS.md."
     },
     {
       "id": "combat",
@@ -442,7 +442,7 @@
       "title": "Animations and active effects",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Complete native animation/effects, materials, timing and audio fidelity remain unverified. Download .11.1 renders ordinary Mecc canonical jet children, projectile, selected descent pose and terrain-landing dust/audio. Supplied-controller GPU views and actual OS jet pulse are separately scoped. Delphi evaluated-frame and NPC/class230/burst services are acquired dependencies; their missing ordinary callers are listed in BACKLOG.md. Initial Delphi/Kabuto F7 body views do not certify live animation or gameplay."
+      "detail": "Preview .11.2 retains normal Mecc jet/projectile/landing feedback and renders completed Story2 Vimp wandering/startle/return poses with real positional audio. Supplied-command GPU checks remain separate from OS-input and native fidelity. Other AI, Delphi/Kabuto controllers, full native effects/material/timing fidelity and cinematic world producers remain open."
     },
     {
       "id": "hud-audio",

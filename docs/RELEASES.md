@@ -1,9 +1,34 @@
 # Preview releases and milestone integration
 
+## Published preview .11.2 - first Story2 living interaction
+
+[Windows preview-2026.11.11.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.11.2)
+is the new common download. Browse all missions -> Mecc -> Starving! (Story2),
+skip the opening, follow the F8 distance/turn hint and shoot repeatedly nearby.
+The ordinary partial controller drives actual herd/Vimp wandering, source startle
+and return, completed canonical poses and positional audio without a replay flag.
+Other AI, feeding, combat damage, objectives and complete world admission remain open.
+
+The exact supplied-command GPU probe reaches the real herd with 14 startle
+entries and 7 returns before capture. Three common Mecc cycles, actual terrain
+landing/dust/audio, two runtime lifecycle modes and selected full cinematic
+source-terminal/re-entry transport pass. Portable controls: 965 Rust / 162 ignored,
+44 Python, fmt/strict Clippy and source confidentiality audit. Real OS-held flight
+and near-herd interaction on this exact executable remain unverified. Earlier
+manual evidence and captures retain their own identities; the cinematic census
+remains pinned to .7. No new confirmed prototype PS2 attribution.
+
+Package: 338 dependency and eleven toolchain notice entries, 29 system DLL
+imports, no technical blockers. Full checks and boundaries: PREVIEW_NOTES.md.
+Runtime source: `0da06b449ed83394ec17ff9d2b1ca2ba945ee9c9`.
+Executable SHA256: `891b16220b9609e062bf48ae0ec6eb8d0dba234c87e39440450dacaf19dcfc56`.
+ZIP SHA256: `5d75d30d2c46a1e7460cc9a7021b8376bac2e7cbaa761553264fa5babe664380`.
+
+
 ## Published preview .11.1 - five-lane common build
 
 [Windows preview-2026.11.11.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.11.1)
-is the current download. The common Rust + Bevy application now includes all
+is the previous .11.1 snapshot. The common Rust + Bevy application now includes all
 reviewed Meccs, Delphi, NPCs, Kabuto and Flick contributions, including preserved
 unfinished Mecc immediate-child and Delphi generic-shell dependencies. Their
 original worktrees are unchanged.

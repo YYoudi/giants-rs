@@ -58,3 +58,12 @@ historical comparison dividers retain their existing interactive behavior.
 The two dated KStory1 comparison records retain their inspected display copies
 from capture stage `0316bd9`, rendered by preview `preview-2026.11.06.1`. They
 compare world layers and fog settings, not native-engine parity or playable Kabuto.
+
+## First Story2 living interaction - preview .11.2
+
+The first standalone capture is from runtime source `0da06b4` in the matching
+preview .11.2 executable. It shows the actual herd after a supplied-command Mecc
+approach/fire test, with source startle/return counters and real muted positional
+sinks. It is not OS-held-input, damage, objective or complete-world verification.
+The manifest now pins 305 comparisons, 17 standalone captures and 522 images;
+historical identities and the horizontal comparison dividers are preserved.

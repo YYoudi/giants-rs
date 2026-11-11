@@ -1,24 +1,22 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.11.1",
-  "source_commit": "bc730cafe197d1d3512ace766ec8c16b4700317b",
-  "executable_sha256": "619164999dbbec8278052a3262d2c13e3b81fc3d14da2508fe814d6f39f7a175",
-  "archive_sha256": "b21224e13f1fb00cb3c93ac8d020531c037ab4c93e439cc7a6f7f38de99524bc",
+  "tag": "preview-2026.11.11.2",
+  "source_commit": "0da06b449ed83394ec17ff9d2b1ca2ba945ee9c9",
+  "executable_sha256": "891b16220b9609e062bf48ae0ec6eb8d0dba234c87e39440450dacaf19dcfc56",
+  "archive_sha256": "5d75d30d2c46a1e7460cc9a7021b8376bac2e7cbaa761553264fa5babe664380",
   "checks": [
     "offscreen_menu_cycles",
     "selected_cinematic_transport",
-    "ordinary_mecc_jet_projectile_gpu",
-    "ordinary_mecc_descent_gpu",
-    "ordinary_mecc_os_pulses",
-    "ordinary_mecc_short_fire_os",
+    "ordinary_mecc_cycles_gpu",
     "ordinary_mecc_landing_gpu",
-    "shared_body_focus_os"
+    "story2_vimp_reaction_gpu"
   ],
   "limitations": [
     "ordinary_mecc_native_motion",
+    "ordinary_controls_os_unverified",
     "delphi_gameplay",
     "kabuto_gameplay",
-    "npc_live_ai",
+    "npc_remaining_ai",
     "full_game_fidelity"
   ]
 }

@@ -13,55 +13,38 @@ return and re-entry. Then connect one actual living actor's birth, animation,
 behavior and player interaction through the acquired shared services. Publish
 one matching main/Windows-preview/dashboard result when it is testable.
 
-The baseline is published preview .11.1 (`bc730ca`), with main documentation at
-`7365dfd`. Its actual OS fire/jet pulses and menu lifecycle are verified; sustained
-OS-held flight remains unverified. Buffered nitro now cancels on focus/menu loss
-in source; the shared edge test and existing fire/cooldown control remain
-separate from an exact-build interaction result. The first living-actor producer gap is ordinary mission callback
-admission with real shared clock/control, slow-area/noise populations and RNG
-ordering. Follow the native research method before acquisition; do not fill
-these boundaries with quiet defaults or acknowledge unsupported actors as updated.
-Keep supplied-command background diagnostics distinct from actual OS interaction.
-The prior five-lane consolidation below is delivered; its remaining producer
-inventory is the starting point for this objective.
+Preview .11.2 now delivers the connected first Story2 Vimp interaction on the
+same menu-first Mecc build. Runtime source `0da06b4`; exact EXE/ZIP identities and
+checks are in docs/PREVIEW_NOTES.md and docs/public-preview.json. Enter Preview
+tools -> Browse all missions -> Mecc -> Starving!, skip the opening, follow the
+F8 distance/turn hint and repeatedly shoot near a herd. Ordinary input enables
+the component without replay flags. The authored start is roughly 2,000 units
+away; no actor is teleported or made ready by the diagnostic.
 
-Current source also reconstructs clock reset/first-frame lifecycle and the shared
-last-noise publication kernel. An original-PC instruction comparison covers
-1,024 reset/first-frame/noise cases; attribution to prototype PS2 remains unknown.
-The ordinary App samples its actual Bevy real-time clock, retains the ticket and
-controlled owner, and publishes the actual actor position when the partial
-pistol fires. This is a portable partial-runtime connection, not a complete
-native primary, OS-clock/scheduling equivalence or living interaction. The clock
-does not replace ordinary Mecc fixed-step movement. NPC consumers, slow-area/
-control/heading producers, shared callback admission and reaction phases remain
-the next dependencies. Preserve exact source/build availability: these changes
-are outside the immutable published .11.1 executable until a new package ships.
+Actual source herds/markers and terrain, the mission Session, controlled player
+clock/position, partial-pistol noise and shared partial-runtime RNG feed guarded
+wandering/startle/return callbacks. Completed poses use the canonical renderer;
+real positional requests load through the sound registry and actual sinks.
+Pending fire/nitro clear on focus/menu loss. The exact supplied-command GPU probe
+reaches 44 units from the herd, observes 14 startle entries and 7 returns before
+capture, with real muted audio and ready GPU pipelines. Three common Mecc cycles,
+separate landing/dust/audio, two runtime lifecycle modes and full selected
+cinematic source-terminal/re-entry transport pass. Portable checks: 965 Rust
+passes / 162 ignored, 44 Python passes, fmt/strict Clippy and source audit.
+Installed two-entry controls separately cover 6,000 frames per ticket, each with
+14 Vimps, 259 startles/253 returns, 200 partial-pistol shots and sound cleanup.
+These supplied-command/service checks do not certify real OS-held interaction.
 
-The next clock dependency now has an owned slow-area population: finite source
-births copy centers, preserve current-owner context at query, insert newest first,
-expire in source order and clear without stale identities. A 384-scenario native
-comparison covers creation/update/query/clear and 42,864 selected words, with
-allocation/free treated as bookkeeping boundaries. The App advances that owned
-namespace before actor work; current normal input offers no slow-area birth
-action. Actual utility/event birth callers and complete native-world population
-are not certified by an initially empty namespace. The first living interaction
-is still pending its callback and threat/response composition.
-
-Source candidate: the common Vimp primary now composes threat/response, movement
-and mode7 startle/return through owned invocation guards. The ordinary Story2
-Mecc controller now calls a first-interaction component using its real mission
-Session, player clock/position, pistol noise, source herds/markers and shared
-partial-runtime RNG. Completed poses feed the existing renderer; sound-only
-contexts queue positional requests and retire. The native complete-world
-schedule and other AI families remain unavailable; no successful callbacks are
-invented for them. Current next acceptance is the connected ordinary driver on
-actual Story2 terrain, normal controls/reaction/return/re-entry, real muted audio,
-GPU assets and cleanup. Then publish one new matching build/main/dashboard;
-preview .11.1 remains unchanged until that validation completes.
-
-The owner subsequently authorized full-screen computer use for these tests on
-11 November. Necessary game windows and interactions may now be used; keep sound
-muted and avoid unrelated focus changes.
+Next acceptance: sustained normal keyboard/mouse movement/flight/release/landing
+and near-herd reaction/return/re-entry on the exact published executable. Earlier
+OS pulse evidence keeps its original build identity. Preserve this gap instead
+of closing the objective on CPU or replay checks alone. Further gameplay work:
+combat damage, feeding, typed targets, platform contacts, other AI, objectives
+and mission completion. Complete native-world population/admission and clock/RNG
+interleaving remain unverified. The owned slow-area namespace has no normal birth
+action; initial emptiness does not prove absence of native slow areas. Original-PC
+clock/noise (1,024 cases), slow areas (384 cases) and mode7 selector (768 cases)
+retain scoped private evidence. No new confirmed prototype PS2 attribution.
 
 ## Current consolidation - owner direction, 11 November 2026
 

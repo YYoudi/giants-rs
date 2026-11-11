@@ -69,6 +69,14 @@ the source jet models, acquired descent animation, base-pistol projectile and
 health/fuel gauges in snapshots that contain those integrations. No replay or
 experimental-backend flag is needed to activate supported normal controls.
 
+In snapshots containing the first Story2 Vimp interaction, open **Preview tools ->
+Browse all missions**, choose the Mecc mission **Starving!** (Story2), and skip
+its opening with Escape. Follow the F8 distance/turn hint toward a herd and shoot
+repeatedly nearby to trigger the partial startle/return behavior. The authored
+start is roughly 2,000 source units away. No diagnostic script enables this normal
+component. Other AI, combat damage, feeding and objectives remain incomplete;
+read the exact preview notes for its validation scope.
+
 Read the release notes accompanying your ZIP for its exact runtime source,
 included features and actually completed checks. Current main, later captures
 and earlier preview acceptance do not update that executable. Brief OS mouse

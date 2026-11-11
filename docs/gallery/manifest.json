@@ -4178,9 +4178,16 @@
     "media/1e338beeb51f22885f05fd76ada27066eb95687c98c6bd59e7eddfda4fede73f.webp": "1e338beeb51f22885f05fd76ada27066eb95687c98c6bd59e7eddfda4fede73f",
     "media/2e84152f642afee963acc117ce492d1216112ac6fa247980ff0915705c983f4d.webp": "2e84152f642afee963acc117ce492d1216112ac6fa247980ff0915705c983f4d",
     "media/0155d6e1e7bfc7b418256c852ae32dd3faf32b72283d58c993d2c74e50dd620b.webp": "0155d6e1e7bfc7b418256c852ae32dd3faf32b72283d58c993d2c74e50dd620b",
-    "media/92fc333f047de29fbe7a71ad533b38f802413401319b9c3241493226e675b497.webp": "92fc333f047de29fbe7a71ad533b38f802413401319b9c3241493226e675b497"
+    "media/92fc333f047de29fbe7a71ad533b38f802413401319b9c3241493226e675b497.webp": "92fc333f047de29fbe7a71ad533b38f802413401319b9c3241493226e675b497",
+    "media/aec5d332304d9cf82b1317e0647dc2dff7683c091cfd3df641f1ee1d40e95867.webp": "aec5d332304d9cf82b1317e0647dc2dff7683c091cfd3df641f1ee1d40e95867"
   },
   "screenshots": [
+    {
+      "title": "Preview .11.2 first living Story2 interaction",
+      "image": "media/aec5d332304d9cf82b1317e0647dc2dff7683c091cfd3df641f1ee1d40e95867.webp",
+      "caption": "preview-2026.11.11.2; source 0da06b4. Actual Bevy GPU capture after ordinary Story2 admission and supplied Mecc navigation/fire. The real player reaches 44 units from the herd; source startle and return counters advance, canonical Vimp poses and real muted positional sinks are consumed. Other AI is inactive. This is supplied-command evidence, not OS-held input or complete native-world/fidelity verification. This capture is from the matching downloadable executable.",
+      "commit": "0da06b449ed83394ec17ff9d2b1ca2ba945ee9c9"
+    },
     {
       "title": "Preview .11.1 ordinary terrain landing",
       "image": "media/1e338beeb51f22885f05fd76ada27066eb95687c98c6bd59e7eddfda4fede73f.webp",

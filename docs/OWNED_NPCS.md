@@ -45,9 +45,16 @@ On each of two tickets it completes 6,000 component frames with 14 Vimps, 259
 startle entries and 253 returns, queues 3,700 sound requests and clears the mission
 on cancellation. Repeating a sampled frame consumes no RNG or duplicate sound.
 This is CPU ownership/reaction evidence, with no device or OS-input acknowledgement.
-Test normal menu entry, actual reaction/return, sound, rendered poses and cleanup
-on one exact executable before publishing this candidate. The current public
-preview .11.1 still has no Vimp interaction.
+Local graphical candidate `0da06b4` (executable SHA256
+`891b16220b9609e062bf48ae0ec6eb8d0dba234c87e39440450dacaf19dcfc56`)
+passes actual Story2 admission, supplied normal Mecc navigation/fire, canonical
+14-Vimp rendering, 14 startle entries and 7 returns before capture, and actual
+muted positional sinks. It reaches 44 source units from the real herd without
+forcing actor positions or readiness. The first source cue is prepared on demand
+through the existing sound registry. Supplied commands do not establish ordinary
+OS-held interaction or native complete-world scheduling. The same runtime is delivered as preview .11.2 after common-runtime/lifecycle
+acceptance. Real OS-held interaction remains the next acceptance gap.
+
 
 
 Select and resume work under the shared [gameplay-first
