@@ -21,8 +21,9 @@ Mecc jet presentation. Right-mouse thrust and Space nitro use the same three
 constructor-bound children, canonical ANM/reference owners and shared position
 buffers; the renderer has no copied child channel clock. The installed
 1,600-step combined control covers thrust, nitro, release, descent and landing
-with each child's callback count checked. Graphical/real-input acceptance still
-requires the combined executable. This does not admit Vimp AI or certify the
+with each child's callback count checked. Preview .11.1 additionally passes
+combined supplied-controller GPU cycles and an actual OS right-mouse pulse,
+menu return/re-entry and normal exit on the exact executable. This does not admit Vimp AI or certify the
 native common-world schedule.
 
 | Entry | Current availability |

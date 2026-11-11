@@ -1,74 +1,95 @@
-# Windows x64 development preview - preview-2026.11.10.10
+# Windows development preview - preview-2026.11.11.1
 
-Runtime source: `9a0fb244159c89054bbdfc9a53705df30bb546ec`.
+Runtime source: `bc730cafe197d1d3512ace766ec8c16b4700317b`.
+Executable SHA256: `619164999dbbec8278052a3262d2c13e3b81fc3d14da2508fe814d6f39f7a175`.
 
-## Try the ordinary Mecc controller
+This common Rust + Bevy build consolidates the reviewed Meccs, Delphi, NPCs,
+Kabuto and Flick contributions. Their research worktrees were preserved.
+Supply your own compatible PC game installation; no game assets or original
+executables are included.
 
-Start the application with your own compatible PC installation, select **Start
-New Single Player Game**, wait for loading and press **Escape** to skip the
-opening. Default controls are **WASD** for movement, mouse motion for aiming,
-**right mouse held** for thrust, **Space** for nitro while thrusting, **left mouse**
-for the partial base pistol and **R** for the view toggle. **Escape** returns to
-the menu; enter again to create a fresh mission owner. Profile control bindings
-apply. No replay, script or experimental-backend flag enables these actions.
+## Normal Mecc controls
 
-The normal controller presents the animated Mecc and constructor-bound jet and
-nitro models. The acquired selector chooses the descent animation only when the
-actual trajectory has sufficient vertical speed and floor clearance. Releasing
-thrust hides the jet models; it does not itself force a falling pose.
+Select **Start New Single Player Game**, wait for loading and use **Escape** to
+skip the opening. Default controls are **WASD** movement, mouse aim, **right
+mouse held** thrust, **Space** nitro while thrusting, **left mouse** the partial
+pistol and **R** the view toggle. **Escape** returns to the menu. Profile bindings
+apply. These connections need no replay or experimental flag.
 
-This snapshot adds ordinary health and jet-fuel gauges, including low/critical
-colors, alongside the existing numeric values. These display the partial
-controller's health/fuel; they do not establish native combat or HUD fidelity.
-The base pistol draws source projectile geometry/materials. Impact markers,
-native projectile/FX/damage ownership and firing-pose selection remain partial.
-This snapshot predates the later landing-effect work and does not include it.
+Brief fire presses now survive until the next controller step, while the actual
+pistol retains cooldown authority. The three jet children use their canonical
+state0 callbacks, ANM/reference owners and shared model buffers; the renderer no
+longer advances a copied channel clock. Ordinary air-to-terrain landing now
+creates the acquired dust effect with positional audio and canonical retirement.
+The descent pose follows actual vertical speed and floor clearance; releasing
+thrust does not force a pose. Health/fuel gauges and source projectile rendering
+remain available. Native damage, full firing/impact ownership, slide, carried/
+special profiles and complete world admission remain unfinished.
 
-## Shared character and NPC integration
+## Inspect Delphi and Kabuto without a replay
 
-The common renderer now supports the acquired initial Delphi and Kabuto body
-inspection paths. This is initial-pose presentation, not their playable movement
-or action controllers. Their startup, persistent camera lifecycle, physical and
-animation/backend prerequisites still prevent ordinary gameplay admission.
-External PC camera coefficients and the exact-owner look-angle command are
-integrated dependencies; cold loader-image words do not establish mission-entry
-globals or a warm camera reset.
+Open **Preview tools -> Browse all missions**, choose the character's first
+world and a mission, then skip its opening or wait for free-camera inspection.
+Press **F7** to focus the initial body; **R** resets that inspection view.
+Free-camera movement uses WASD/arrows, right mouse look, Space/Ctrl vertical
+movement and Shift speed. Escape returns to mission selection.
 
-NPC integration retains constructor/physical contact and connects fully completed
-Vimp poses to the common renderer. Supported neutral state0 callbacks reuse the
-shared nonphysical owner. Actual common-world admission, population, clock/RNG,
-environment and remaining actor-family services are still required: **no normal
-mission has active Vimp AI in this preview**. The renderer does not create a herd
-or advance AI just to show it.
+Delphi uses the existing declared-start inspection view. Kabuto uses its actual
+owned look angle and size with compatible external camera coefficients from
+the supplied installation; an unsupported profile keeps the existing view and
+shows a status message. The configured external profile path remains supported.
+The projection now survives free navigation/reset. These are static body
+inspections. Delphi and Kabuto gameplay controls remain unavailable; no startup
+requirement or native projection reset is acknowledged by focusing a body.
 
-The executable preserves the cinematic Session/transport work. The separate
-545-source cinematic census remains pinned to preview .7; this download is not
-a new census or complete-film acceptance. Mission objectives, complete combat,
-campaign progression, save continuity, bases and multiplayer remain incomplete.
-No whole-game feature is marked complete by this snapshot.
+## Preserved advanced work and remaining wiring
 
-## Validation scope
+- Mecc: ordered burst activation and immediate-child preparation/zero birth pose
+  are retained. Their canonical command/construction/contact/audio backend is
+  still required before replacing partial projectile impact feedback.
+- Delphi: generic class0/state7 shell, ordered projection checkpoint, shared
+  look angle and completed-phase body caches are integrated dependencies. Real
+  same-identity retyping, persistent camera entry and complete physical/held/
+  water/input scheduling remain required.
+- NPCs: reference-bearing and eventless animated state0 callbacks, typed Mecc
+  children and class230 awakening/marker birth are retained. Normal missions
+  still have no active Vimp AI; world admission, populations, clocks/control/noise
+  and RNG interleaving cannot be replaced by installed-test contexts.
+- Kabuto: the common profile-camera kernel and owned body inspection are
+  connected. Projection reset, animation cache, procedural material and geometry
+  registration remain pending, with startup/warm order and the live primary.
+- Flick: canonical virtual-support timed storage, scoped expiry children and
+  cancellation are preserved alongside normal film ownership/transport. The
+  timed menu renderer still has preview playback; migration needs real source
+  clock/RNG/caller-slot and populated environment providers. Per-director seed1
+  is an explicit preview policy. The 545-source census remains pinned to .7.
 
-The source passes 953 portable Rust tests (149 external-data checks ignored),
-44 Python tests, format/strict Clippy and 48 installed dependency controls.
-The exact executable passes three supplied-controller movement/jet/nitro/release
-and retirement cycles. Separate inspected GPU captures show the plume, source
-projectile and acquired descent pose after release, with the actual HUD gauges.
-Runtime lifecycle and selected source-terminal cinematic transport/re-entry
-checks pass on this same executable, with real audio sinks muted in the latter.
-A fresh normal profile completes two actual menu entries/opening skips and
-returns, OS right-mouse jet pulses and release, left-mouse fire, the R view toggle,
-visible initial HUD and normal desktop exit. These are brief pulses; sustained
-real-input flight/nitro/descent/landing, complete native gameplay and visual
-fidelity remain unverified. Mouse coordinate injection moved the camera downward;
-the pulse shot reached a ground query, while the separate GPU sample shows the
-projectile. The earlier interrupted attempt was followed by this completed retest.
-Historical screenshots retain their own build and do not expand these claims.
+BACKLOG.md records the concrete producer gaps and the central reconstruction
+method governs future prototype PS2 name lookup. This integration establishes
+no new confirmed attribution. A recovered name or CPU result is not gameplay
+or fidelity validation. Complete campaigns, native combat/world behavior and
+visual/audio/timing fidelity remain unverified.
 
-This unsigned Windows x64 development build is incomplete. Approximately 99% of
-the current project content is AI-generated according to the owner's estimate,
-and has not received comprehensive human review. This is not a completion metric.
-Technical notice/receipt/checksum validation does not establish third-party
-redistribution rights. Original data is supplied by the user and stays outside
-the package. Linux and macOS downloads are future work. Earlier previews retain
-their original executable, notes and checksums.
+Earlier previews and screenshots retain their original source/build identities.
+Only the display captures explicitly labeled for this snapshot belong to it.
+The owner estimates approximately 99% AI-generated project content, with no
+comprehensive human review; this is not a completion measure.
+
+## Validation of this exact executable
+
+The combined workspace passed 960 portable Rust controls (159 installed/optional
+controls ignored), 60 separately executed installed-data controls and 44 Python
+checks, formatting and strict all-target Clippy. Seven GPU scopes covered three
+normal Mecc admission/fire/jet/nitro/release cycles, real terrain landing and
+muted positional audio, plume/projectile/descent, Kabuto profile camera and
+Delphi initial body. Two runtime lifecycle modes and the full selected cinematic
+source-terminal/reentry transport passed with real muted sinks and zero retained
+mission entities/assets. Transient shader pipeline retries resolved with no
+permanent failure.
+
+Actual OS interaction on this executable verified two briefly remapped keyboard
+shots, default mouse fire after GUI reset, a right-mouse jet pulse, R view, two
+normal F7 entries each for Delphi and Kabuto, six clean menu returns and normal
+desktop exit. Native F9 captured the two character inspection views. Sustained
+OS-held flight and native fidelity remain unverified; supplied-controller GPU
+checks are separately scoped.

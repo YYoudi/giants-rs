@@ -7,7 +7,9 @@ owned look/size and keeps that projection during free navigation and R reset.
 An incompatible profile is refused before the mutating command and leaves the
 existing inspection available. This key replaces the need for a replay script
 for that inspection action. It completes no startup gate or playable controller;
-combined graphical/keyboard verification remains separate from CPU controls.
+preview .11.1 verifies two actual F7 entries, R reset, menu return and native F9
+capture on the exact common executable. GPU profile checks remain separately
+scoped; four native startup requirements remain pending.
 
 Select and resume work under the shared [gameplay-first
 objective](GOAL_GAMEPLAY_FIRST.md). Prioritize the ordinary player-visible path and

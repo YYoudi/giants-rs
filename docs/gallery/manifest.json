@@ -4174,9 +4174,43 @@
     "media/26f3165be4c392d03fd16387ddf1dbbf1803cab3ba5c3a142596b1ba4c73ad60.webp": "26f3165be4c392d03fd16387ddf1dbbf1803cab3ba5c3a142596b1ba4c73ad60",
     "media/1001f89498ab5560c62c52171a585095ae30f60796ff3d35ad007bac023e8b42.webp": "1001f89498ab5560c62c52171a585095ae30f60796ff3d35ad007bac023e8b42",
     "media/6fa5f9d8e1501c44f8c9249c2bf768f28f961efd67de7e6513d1f0c6cd34ce96.webp": "6fa5f9d8e1501c44f8c9249c2bf768f28f961efd67de7e6513d1f0c6cd34ce96",
-    "media/d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4.webp": "d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4"
+    "media/d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4.webp": "d097a319f146a5e7651643ebbaed6f8bc864e5119b213fb6c219b7c0727dd7a4",
+    "media/1e338beeb51f22885f05fd76ada27066eb95687c98c6bd59e7eddfda4fede73f.webp": "1e338beeb51f22885f05fd76ada27066eb95687c98c6bd59e7eddfda4fede73f",
+    "media/2e84152f642afee963acc117ce492d1216112ac6fa247980ff0915705c983f4d.webp": "2e84152f642afee963acc117ce492d1216112ac6fa247980ff0915705c983f4d",
+    "media/0155d6e1e7bfc7b418256c852ae32dd3faf32b72283d58c993d2c74e50dd620b.webp": "0155d6e1e7bfc7b418256c852ae32dd3faf32b72283d58c993d2c74e50dd620b",
+    "media/92fc333f047de29fbe7a71ad533b38f802413401319b9c3241493226e675b497.webp": "92fc333f047de29fbe7a71ad533b38f802413401319b9c3241493226e675b497"
   },
   "screenshots": [
+    {
+      "title": "Preview .11.1 ordinary terrain landing",
+      "image": "media/1e338beeb51f22885f05fd76ada27066eb95687c98c6bd59e7eddfda4fede73f.webp",
+      "caption": "preview-2026.11.11.1; source bc730ca. Actual Bevy GPU capture on the downloadable common executable. Real air-to-terrain contact produces canonical dust, positional muted audio and retirement. Supplied-controller flight, not an OS-held flight or native-fidelity result.",
+      "commit": "bc730cafe197d1d3512ace766ec8c16b4700317b"
+    },
+    {
+      "title": "Preview .11.1 canonical jet children",
+      "image": "media/2e84152f642afee963acc117ce492d1216112ac6fa247980ff0915705c983f4d.webp",
+      "caption": "preview-2026.11.11.1; source bc730ca. Actual Bevy GPU capture on the downloadable common executable: three constructor-bound jet children consume acquired state0 callbacks, ANM/reference owners and shared model buffers. Supplied thrust/nitro commands; sustained OS-held flight and native fidelity remain unverified.",
+      "commit": "bc730cafe197d1d3512ace766ec8c16b4700317b"
+    },
+    {
+      "title": "Preview .11.1 descent after thrust release",
+      "image": "media/26f3165be4c392d03fd16387ddf1dbbf1803cab3ba5c3a142596b1ba4c73ad60.webp",
+      "caption": "preview-2026.11.11.1; source bc730ca. Actual Bevy GPU capture on the downloadable common executable. Supplied flight and release select descent clip41: raised arms, hidden jet draws and fuel45. No forced pose; not an OS-held flight or fidelity result.",
+      "commit": "bc730cafe197d1d3512ace766ec8c16b4700317b"
+    },
+    {
+      "title": "Preview .11.1 Delphi normal F7 inspection",
+      "image": "media/0155d6e1e7bfc7b418256c852ae32dd3faf32b72283d58c993d2c74e50dd620b.webp",
+      "caption": "preview-2026.11.11.1; source bc730ca. Native F9 capture after actual OS menu navigation and F7 in normal free inspection. The initial body is visible without a replay; R resets and Escape returns. Static body inspection only: same-identity retyping, live controller and native projection/physical admission remain missing.",
+      "commit": "bc730cafe197d1d3512ace766ec8c16b4700317b"
+    },
+    {
+      "title": "Preview .11.1 Kabuto normal F7 inspection",
+      "image": "media/92fc333f047de29fbe7a71ad533b38f802413401319b9c3241493226e675b497.webp",
+      "caption": "preview-2026.11.11.1; source bc730ca. Native F9 capture after actual OS menu navigation and F7 in normal free inspection, using actual owned look/size with a compatible external profile. Body/head/horns are visible; R resets and Escape returns. Static inspection only: all four native startup requirements remain pending; no playable controller, floor/chase or fidelity claim.",
+      "commit": "bc730cafe197d1d3512ace766ec8c16b4700317b"
+    },
     {
       "title": "Preview .10 ordinary-controller descent",
       "image": "media/26f3165be4c392d03fd16387ddf1dbbf1803cab3ba5c3a142596b1ba4c73ad60.webp",

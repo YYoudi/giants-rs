@@ -1,9 +1,46 @@
 # Preview releases and milestone integration
 
+## Published preview .11.1 - five-lane common build
+
+[Windows preview-2026.11.11.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.11.1)
+is the current download. The common Rust + Bevy application now includes all
+reviewed Meccs, Delphi, NPCs, Kabuto and Flick contributions, including preserved
+unfinished Mecc immediate-child and Delphi generic-shell dependencies. Their
+original worktrees are unchanged.
+
+Start New Single Player Game: right mouse thrust, Space nitro, left mouse partial
+pistol, R view, Escape menu. Brief fire presses now survive to the simulation
+step; the three canonical jet children feed actual callbacks/ANM/reference/model
+buffers, and real terrain landing creates dust and positional audio. Browse all
+missions -> Delphi/Kabuto -> free inspection -> F7 focuses the initial body;
+R resets. Those characters still have no gameplay controls or acknowledged
+native startup gates. NPC/Vimp AI remains unavailable. The canonical burst,
+live Delphi/Kabuto and Flick timed-dispatch producer gaps are listed in BACKLOG.md.
+
+The exact executable passes 960 portable Rust controls (159 ignored), 60 installed
+controls, 44 Python checks, formatting and strict Clippy. Seven GPU scopes cover
+three normal Mecc cycles, landing/plume/projectile/descent and both initial-body
+inspections; two lifecycle modes and full selected cinematic source-terminal/
+re-entry transport pass with real muted sinks and cleanup. Actual OS tests verify
+two short remapped keyboard shots, GUI default reset/mouse fire, jet pulse, R view,
+two F7 entries per character, six zero-entity menu returns and normal desktop exit.
+Sustained OS-held flight and native fidelity remain unverified. The independent
+cinematic census remains pinned to .7; no new confirmed prototype PS2 attribution.
+
+The ten-member package includes 338 dependency and eleven toolchain notice
+entries, with 29 system DLL imports and zero technical blockers. Independently
+downloaded draft/public assets match the receipt and checksums. Earlier assets,
+notes and captures retain their original identities. See PREVIEW_NOTES.md for
+the full controls, limitations and evidence scope.
+
+Runtime source: `bc730cafe197d1d3512ace766ec8c16b4700317b`.
+Executable SHA256: `619164999dbbec8278052a3262d2c13e3b81fc3d14da2508fe814d6f39f7a175`.
+ZIP SHA256: `b21224e13f1fb00cb3c93ac8d020531c037ab4c93e439cc7a6f7f38de99524bc`.
+
 ## Published preview .10 - ordinary HUD and captured descent
 
 [Windows preview-2026.11.10.10](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.10)
-is the current download. Use Start New Single Player Game with a supplied
+is the previous .10 snapshot. Use Start New Single Player Game with a supplied
 installation; right mouse drives thrust, Space selects nitro while thrusting,
 left mouse fires the partial pistol, R changes view and Escape returns to menu.
 No replay enables these normal connections. This snapshot adds the health/fuel

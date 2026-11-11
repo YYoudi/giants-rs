@@ -36,38 +36,43 @@ read-only snapshots of Delphi's generic shell and Mecc's immediate constructor/
 preparation work. Original worktrees are preserved. The first combined installed
 run exposed a stale constructor-field comparison in the jet renderer; it now
 reads current canonical fields/channels. The corrected 60-control installed run
-passes, including 1,600 ordinary jet/release/descent/landing steps. Graphical/OS
-acceptance and the common download still require the exact combined executable.
+passes, including 1,600 ordinary jet/release/descent/landing steps. The published
+common preview .11.1 (`bc730ca`) passes seven GPU scopes, runtime/full selected
+cinematic transport, 60 installed controls and actual OS menu/input/inspection
+checks. Six manual tickets return with zero entities; normal desktop exit passes.
+See docs/PREVIEW_NOTES.md for controls, identities and bounded evidence.
 
 | Area | Result and first remaining producer contract |
 | --- | --- |
 | Normal Mecc / NPC children | All three special children now execute their acquired state0 history/common callback, ANM references and shared vertex-buffer producer. The renderer has no second channel clock. Full owned primary still needs actual impact, voice, damage-display, fire and collection consumers; the partial normal controller remains separate. |
 | Mecc projectile impact | Ordered executor and immediate context/zero-pose constructor prefix are integrated. `effect_burst::execution::Services` still has no canonical live constructor/command/finish backend. Immediate parent/reference placement, contact children and audio must execute in source order; projected spawns or a recorder cannot replace them. Canonical terrain-landing FX remain connected. |
-| Delphi | Ordered projection, shared look, evaluated body caches and generic class0/state7 shell are retained. App still constructs a collapsed inspection owner. Reuse the shell identity through character retyping and persistent camera/lens update before projection/special initialization, then bind local-target/physical/held-copy scheduling, scene keys and water. A second player or late reset cannot satisfy entry. |
-| Kabuto | The shared inspection camera reads the actual owner's look/size. F7 in free inspection is being connected to this service using compatible external coefficients. Actual startup/warm ordering remains absent; `ProjectionReset`, `AnimationCache`, `ProceduralMaterial` and `GeometryRegistration` remain pending. Inspection acknowledges none of them or live input/primary admission. |
+| Delphi | Ordered projection, shared look, evaluated body caches and generic class0/state7 shell are retained. F7 now focuses that initial body through the normal browser, with two actual OS entries and R reset verified. App still constructs a collapsed inspection owner. Reuse the shell identity through character retyping and persistent camera/lens update before projection/special initialization, then bind local-target/physical/held-copy scheduling, scene keys and water. A second player or late reset cannot satisfy entry. |
+| Kabuto | The shared inspection camera reads the actual owner's look/size. F7 in free inspection now calls this service using compatible external coefficients; two actual OS entries and R reset pass on .11.1. Actual startup/warm ordering remains absent; `ProjectionReset`, `AnimationCache`, `ProceduralMaterial` and `GeometryRegistration` remain pending. Inspection acknowledges none of them or live input/primary admission. |
 | NPC population | All 134 supported Story2 neutral declarations have acquired callbacks, including references/eventless animation; Mecc children now feed the normal renderer. Class230 awakening constructs its actual marker. Live herd/Vimp admission still needs control factor, time/slow-area/noise population and shared RNG ordering. The App has no producer for the supplied installed-test contexts. Class230 later mode62 is not acquired. Do not acknowledge unsupported actors by updating only convenient ones. |
 | Flick timed effects | Virtual supports, canonical payloads, scoped expiry children and cancellation are retained alongside normal film ownership/transport. The menu renderer still uses preview timed playback. Migration requires source clock/RNG interleaving and detached-child ordinary preparation, including its acquired `physical_argument_word` and populated environment/footprint services. App has no producer for these native caller contracts. A Rust ID, zero or delta is no substitute; never run two simulations. Per-director seed1 remains an explicit preview policy. |
 
 These gaps were checked against combined Rust callers; they are not new prototype
 PS2 attributions. Native acquisition must start with the central method's name
-lookup. After publication, replace provisional availability with the exact
-build/controls and retain the failed runs separately from corrected acceptance.
+lookup. Published availability is pinned to .11.1 below; failed earlier runs
+remain separate from the corrected exact-executable acceptance.
 
 ## Normal-path priority - owner direction, 10 November 2026
 
 Follow [GOAL_GAMEPLAY_FIRST.md](docs/GOAL_GAMEPLAY_FIRST.md). Preserve the full
 scope below and complete common player experiences before specialized variants.
 
-[Preview .10](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.10.10)
-is the current download, frozen at `9a0fb24`. It includes ordinary Mecc jet and
-source projectile rendering, health/fuel gauges, shared initial-body inspection
-and the reviewed NPC/camera dependencies. Actual OS jet/fire pulses, view toggle,
-two normal menu entries/returns and exit pass on a fresh muted profile. Four
-same-binary GPU diagnostics cover three controller cycles plus inspected plume,
-projectile and acquired descent41 samples; the descent sample has hidden jets
-and fuel45 after release. Runtime and selected cinematic source-terminal/re-entry
-checks also pass. None certifies sustained OS-held flight, landing or fidelity.
-Later main landing-effect work does not change this immutable executable.
+[Preview .11.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.11.1)
+is the current common download at `bc730ca`. Start New Single Player Game:
+WASD/mouse, right-mouse thrust, Space nitro, left-mouse partial pistol, R view,
+Escape return. Canonical jet callbacks and real terrain-landing dust/audio are
+connected. Brief remapped keyboard shots, default mouse fire after GUI reset,
+jet pulse, view toggle and two normal entries/returns pass on this exact build.
+Browse all missions -> Delphi/Kabuto -> free inspection -> F7 focuses each initial
+body; R resets. Two actual OS entries each pass, without gameplay admission.
+Seven GPU scopes include supplied flight cycles, plume/projectile/descent/landing
+and both body inspections. Runtime and full selected cinematic transport/re-entry
+pass. Sustained OS-held flight and fidelity remain unverified. Earlier .10 is
+immutable and does not contain this milestone's landing/callback/F7 changes.
 
 The first normal-path check is the continuous ordinary Mecc loop: stable real movement/aim,
 sustained thrust/nitro, release, visible descent and landing, then entry again.
@@ -79,8 +84,8 @@ never invent those providers or acknowledge an unfinished native parent.
 
 - Main: retain one common application, verify actual producer/consumer order,
   publish exact receipt-bound snapshots and keep current downloads distinct from
-  later source and historical captures. The .10 runtime is `9a0fb24`; later landing work does not
-  update its executable. Initial-body inspection is not new playable controls.
+  later source and historical captures. The current .11.1 runtime is `bc730ca`;
+  historical previews retain their original identities. Initial-body inspection is not new playable controls.
 - Mecc: finish the continuous input/action check and the first concrete visible
   impact/fire dependency. Native actor/FX/damage, sustained firing and firing-pose
   ownership remain missing; countdown or rare-effect research follows this loop.
@@ -151,8 +156,8 @@ words, and two source tickets retain binding, local poses and retirement guards.
 Their parented finalizer marks dirty without publishing a world affine. Parent
 completion/attachment publication, other AI families and real whole-world inputs/
 admission remain required; loading still enables no default callback or live AI.
-Mecc/main must hand normal jet presentation over to the completed child owner
-before enabling these callbacks in ordinary play; its constructor-snapshot guard
+The .11.1 consolidation hands normal jet presentation to the completed child
+owner. The earlier constructor-snapshot guard
 and single animation producer remain required.
 The next state23 dependency now has an owned class230 mode0/61 route through the
 existing shared prefix/perception/motion machine and actual marker factory. Three
@@ -178,7 +183,7 @@ commands use the ordinary controller; real held-input interaction remains open.
 Validate the combined main build; native fall damage/pain/death, slide,
 carried/special profiles and full owned admission remain separate prerequisites.
 
-## Prototype PS2 attribution method — 5 November 2026
+## Prototype PS2 attribution method â€” 5 November 2026
 
 Apply [RECONSTRUCTION_METHOD.md](docs/RECONSTRUCTION_METHOD.md) before every
 native-function acquisition or implementation, including resumed tasks in every
@@ -2884,7 +2889,7 @@ Track concrete tasks here as each whole-game roadmap family is opened, including
 Delphi, Kabuto, squad AI, bases/economy, multiplayer, saving, UI, audio and fidelity.
 Preserve untouched families in the roadmap; do not replace it with recent CPU work.
 
-## Parented preparation delivery checkpoint — 9 November 2026
+## Parented preparation delivery checkpoint â€” 9 November 2026
 
 Windows preview `preview-2026.11.09.13` retains exact source `ca6b2f8` and the
 parented preparation dependency described above. Its silent development,

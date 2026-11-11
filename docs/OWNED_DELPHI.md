@@ -36,7 +36,9 @@ body's declared-start inspection view. The same common body renderer is used;
 R resets this view. No replay is needed for this initial-body inspection, and
 no native projection reset, ANM phase, character retyping or playable admission
 is acknowledged by focusing the camera. The evaluated live-frame consumer below
-still requires its actual completed phase.
+still requires its actual completed phase. Preview .11.1 verifies two actual
+F7 inspection entries, R reset, native F9 capture and clean return on the exact
+common executable; this does not validate the live-frame consumer below.
 
 `player_body::Prepared::from_delphi_frame` consumes a completed, unfailed owned
 Delphi phase, its actual ANM epoch, current references and affine. It runs the

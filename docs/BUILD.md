@@ -8,7 +8,11 @@ require the corresponding user-supplied source roots/executable; their supplied
 contexts do not establish ordinary gameplay. On the combined graphical build,
 repeat the normal menu/input/return cycle and short fire taps. Browse a Kabuto
 mission, skip to free inspection and press F7 with a compatible installation;
-check framing, projection, R reset, cancellation and re-entry. Its four startup
+check framing, projection, R reset, cancellation and re-entry. Repeat Delphi
+initial-body F7 inspection through the same normal browser. Preview .11.1 passes
+these actual OS checks (two entries each), brief keyboard/default mouse fire,
+jet pulse, six zero-entity returns and normal exit; supplied-controller GPU and
+full selected cinematic acceptance remain separately scoped. Kabuto's four startup
 requirements must remain pending. Keep actual-input and replay evidence distinct.
 
 Choose and report validations under [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md).

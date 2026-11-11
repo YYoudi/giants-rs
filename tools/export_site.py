@@ -20,9 +20,12 @@ PREVIEW_CHECKS = {
     'ordinary_mecc_jet_projectile_gpu': 'Ordinary-controller jet/nitro/release GPU cycles and visible jet/projectile samples with supplied commands',
     'ordinary_mecc_descent_gpu': 'Ordinary selector reaches visible descent after supplied thrust/release; jet draws hidden and fuel gauge updated; OS-held flight remains unverified',
     'ordinary_mecc_os_pulses': 'Normal menu entry/re-entry, OS jet/fire mouse pulses, view toggle and exit; sustained held flight remains unverified',
+    'ordinary_mecc_short_fire_os': 'Brief remapped keyboard and default mouse fire verified through the normal menu; native damage remains incomplete',
+    'ordinary_mecc_landing_gpu': 'Actual terrain contact creates visible canonical landing dust and a real muted positional sink after supplied flight commands',
+    'shared_body_focus_os': 'F7 focuses initial Delphi and Kabuto bodies from ordinary mission inspection; gameplay controls remain unavailable',
 }
 PREVIEW_LIMITS = {
-    'ordinary_mecc_native_motion': 'Native Mecc jet/descent/landing integration remains incomplete',
+    'ordinary_mecc_native_motion': 'Full native Mecc primary, damage and world scheduling remain incomplete',
     'delphi_gameplay': 'Delphi gameplay is not enabled',
     'kabuto_gameplay': 'Kabuto gameplay is not enabled',
     'npc_live_ai': 'NPC AI is not admitted to ordinary missions',
