@@ -857,4 +857,6 @@ pub mod sound_spatial;
 mod npc_source_tests;
 
 mod actor_angle_approach;
+pub mod slow_areas;
 pub mod vimp_active_response;
+pub mod world_noise;

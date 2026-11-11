@@ -19,8 +19,8 @@ pub(crate) struct Controller {
     state: crate::mecc_dev_scene::State,
     remainder: f64,
     flight_audio_dt: f32,
-    pending_boost: bool,
-    fire_press: crate::mecc_input::FirePress,
+    boost_press: crate::mecc_input::ActionPress,
+    fire_press: crate::mecc_input::ActionPress,
     steps: u32,
     replay: bool,
     staging_replay: bool,
@@ -29,6 +29,7 @@ pub(crate) struct Controller {
     pub(crate) replay_done: bool,
     was_active: bool,
     owned_motion_failed: bool,
+    world_signals_failed: bool,
     owned_backend: bool,
     owned_audio_backend: bool,
     owned_jet_probe: bool,
@@ -246,7 +247,7 @@ impl Controller {
             state,
             remainder: 0.,
             flight_audio_dt: 0.,
-            pending_boost: false,
+            boost_press: Default::default(),
             fire_press: Default::default(),
             steps: 0,
             replay: matches!(
@@ -343,6 +344,7 @@ impl Controller {
             replay_done: false,
             was_active: false,
             owned_motion_failed: false,
+            world_signals_failed: false,
             initial,
             minimum_fuel: 100.,
             maximum_height: initial[2],
@@ -364,6 +366,11 @@ pub(super) struct HeldPart {
     pub buffer: Handle<bevy::render::storage::ShaderBuffer>,
 }
 #[derive(bevy::ecs::system::SystemParam)]
+pub(super) struct HostTime<'w> {
+    simulation: Res<'w, Time>,
+    real: Res<'w, Time<Real>>,
+}
+#[derive(bevy::ecs::system::SystemParam)]
 pub(super) struct AudioRequests<'w, 's> {
     local: MessageWriter<'w, crate::mission_audio::Request>,
     flight: MessageWriter<'w, crate::mission_flight_audio::Born>,
@@ -374,7 +381,7 @@ pub(super) fn update(
     mut controllers: Query<(&PlayerInitial, &mut Controller)>,
     mut runtime: ResMut<Runtime>,
     frontend: Res<crate::frontend_scene::Scene>,
-    time: Res<Time>,
+    host_time: HostTime,
     keys: Res<ButtonInput<KeyCode>>,
     buttons: Res<ButtonInput<MouseButton>>,
     mouse: Res<AccumulatedMouseMotion>,
@@ -389,6 +396,10 @@ pub(super) fn update(
     mut draws: Query<PlayerDraw<'_>>,
 ) {
     use crate::mecc_input::{self, Action};
+    let HostTime {
+        simulation: time,
+        real: real_time,
+    } = host_time;
     let cursor_ticket = runtime.active_ticket().filter(|ticket| {
         *ticket == frontend.flow.ticket
             && showcase.controls(frontend.flow.phase)
@@ -419,6 +430,8 @@ pub(super) fn update(
         let active = showcase.controls(frontend.flow.phase) || replay_running;
         if !active {
             controller.fire_press.clear();
+            controller.boost_press.clear();
+            controller.pending_mouse = Vec2::ZERO;
             // Subjective geometry belongs to the controlled view, including
             // the held weapon. Do not leave it floating during free inspection.
             for (_, mut visibility, _, gun, arms) in &mut draws {
@@ -441,6 +454,16 @@ pub(super) fn update(
             continue;
         }
         controller.was_active = true;
+        if !controller.world_signals_failed
+            && let Err(error) = runtime
+                .sample_world_clock(controller.ticket, real_time.elapsed().as_millis() as u32)
+        {
+            controller.world_signals_failed = true;
+            error!(
+                "mission_world_clock_refused ticket={} error={error}",
+                controller.ticket
+            );
+        }
         let focused = windows.iter().any(|(w, _)| w.focused);
         let look_ready = windows
             .iter()
@@ -449,7 +472,7 @@ pub(super) fn update(
         let ordinary_input = focused && !replay_running && !controller.owned_backend;
         controller
             .fire_press
-            .sample(controls, &keys, &buttons, ordinary_input);
+            .sample(controls, Action::Fire, &keys, &buttons, ordinary_input);
         let held =
             |action| focused && mecc_input::pressed(controls, action, &keys, &buttons, false);
         let mut axes = if focused {
@@ -458,8 +481,13 @@ pub(super) fn update(
             Vec2::ZERO
         };
         let mut thrust = held(Action::Thrust);
-        controller.pending_boost |=
-            focused && mecc_input::pressed(controls, Action::Boost, &keys, &buttons, true);
+        controller.boost_press.sample(
+            controls,
+            Action::Boost,
+            &keys,
+            &buttons,
+            focused && !replay_running,
+        );
         if !replay_running {
             *cursor_owner = Some(controller.ticket);
             let vertical = if controls.is_some_and(|o| o.2) {
@@ -579,7 +607,7 @@ pub(super) fn update(
                     controller.ticket
                 );
             }
-            let mut boost = std::mem::take(&mut controller.pending_boost);
+            let mut boost = controller.boost_press.take(false);
             if replay_running {
                 axes = if controller.owned_replay {
                     if (15..95).contains(&tick) {
@@ -836,6 +864,15 @@ pub(super) fn update(
                     .mission_fire_step(1. / 120., fire, &scene.asset.terrain)
                     .expect("selected mission fire failed");
                 if result.fired {
+                    if !controller.world_signals_failed
+                        && let Err(error) = runtime.publish_player_noise(controller.ticket)
+                    {
+                        controller.world_signals_failed = true;
+                        error!(
+                            "mission_player_noise_refused ticket={} error={error}",
+                            controller.ticket
+                        );
+                    }
                     audio.local.write(crate::mission_audio::Request {
                         ticket: controller.ticket,
                         event: crate::mission_audio::Event::Fire(

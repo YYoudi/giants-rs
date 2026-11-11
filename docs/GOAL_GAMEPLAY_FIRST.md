@@ -16,6 +16,13 @@ under this policy even when an older chat objective lists only some lanes or
 does not yet state this priority order. A documentation milestone does not
 complete the ongoing game reconstruction goal.
 
+After the delivered five-lane consolidation, the owner's current 11 November
+objective is one reliable ordinary Mecc mission loop followed by a first living
+interaction. Work alone in the background, resolve its actual blocking producers
+and publish matching main/build/dashboard evidence when testable. The current
+delivery and prerequisites stay at the top of BACKLOG.md; this supersedes the
+earlier consolidation as the next work selection, while preserving full scope.
+
 ## Choose work in this order
 
 For the owner's 11 November consolidation objective, apply this order across the

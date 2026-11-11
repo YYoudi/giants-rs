@@ -4,6 +4,49 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
+## Current delivery - reliable Mecc loop and first living interaction
+
+Owner direction, 11 November 2026: the single integration agent now works in
+the background on one ordinary Mecc mission. First verify and repair menu entry,
+movement/aim, firing, sustained jet/nitro, release/descent/terrain landing,
+return and re-entry. Then connect one actual living actor's birth, animation,
+behavior and player interaction through the acquired shared services. Publish
+one matching main/Windows-preview/dashboard result when it is testable.
+
+The baseline is published preview .11.1 (`bc730ca`), with main documentation at
+`7365dfd`. Its actual OS fire/jet pulses and menu lifecycle are verified; sustained
+OS-held flight remains unverified. Buffered nitro now cancels on focus/menu loss
+in source; the shared edge test and existing fire/cooldown control remain
+separate from an exact-build interaction result. The first living-actor producer gap is ordinary mission callback
+admission with real shared clock/control, slow-area/noise populations and RNG
+ordering. Follow the native research method before acquisition; do not fill
+these boundaries with quiet defaults or acknowledge unsupported actors as updated.
+Keep supplied-command background diagnostics distinct from actual OS interaction.
+The prior five-lane consolidation below is delivered; its remaining producer
+inventory is the starting point for this objective.
+
+Current source also reconstructs clock reset/first-frame lifecycle and the shared
+last-noise publication kernel. An original-PC instruction comparison covers
+1,024 reset/first-frame/noise cases; attribution to prototype PS2 remains unknown.
+The ordinary App samples its actual Bevy real-time clock, retains the ticket and
+controlled owner, and publishes the actual actor position when the partial
+pistol fires. This is a portable partial-runtime connection, not a complete
+native primary, OS-clock/scheduling equivalence or living interaction. The clock
+does not replace ordinary Mecc fixed-step movement. NPC consumers, slow-area/
+control/heading producers, shared callback admission and reaction phases remain
+the next dependencies. Preserve exact source/build availability: these changes
+are outside the immutable published .11.1 executable until a new package ships.
+
+The next clock dependency now has an owned slow-area population: finite source
+births copy centers, preserve current-owner context at query, insert newest first,
+expire in source order and clear without stale identities. A 384-scenario native
+comparison covers creation/update/query/clear and 42,864 selected words, with
+allocation/free treated as bookkeeping boundaries. The App advances that owned
+namespace before actor work; current normal input offers no slow-area birth
+action. Actual utility/event birth callers and complete native-world population
+are not certified by an initially empty namespace. The first living interaction
+is still pending its callback and threat/response composition.
+
 ## Current consolidation - owner direction, 11 November 2026
 
 The main lane now consolidates all available work from Meccs, Delphi, NPCs,

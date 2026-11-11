@@ -16,6 +16,31 @@ Mecc, Delphi and Kabuto lanes, and cinematic direction remains in the Flick lane
 
 ## Where can this be tested?
 
+The next Mecc/living-interaction source checkpoint adds real ordinary-pistol
+noise publication and a ticket-bound clock sampled from Bevy's monotonic real
+frame snapshot. Reset and first-frame timing preserve their distinct observation
+boundaries, zero timestamp behavior, smoothing reset and retained counters.
+The shared noise kernel preserves the owner, clock and position words; its App
+producer reads the current controlled actor, not an invented muzzle/noise target.
+One thousand twenty-four original-PC reset/first-frame/noise controls agree with
+the Rust kernels; only the OS clock import is supplied in that comparison.
+Prototype PS2 naming remains unknown. The placement after partial pistol firing
+is an App integration boundary, not full native primary/caller-order validation.
+
+This source is not in published .11.1 and enables no live NPC yet. It does not
+provide admission, slow-area/control/heading populations, complete callbacks or
+reaction services. A diagnostic actual Story2 birth cohort advances its fourteen
+children for 3,600 supplied 60 Hz steps on the source terrain without a quiet-wander
+refusal; this remains a supplied CPU probe, not ordinary gameplay evidence.
+
+The owned slow-area registry now preserves newest-first priority, copied centers,
+current owner-context lookup, countdown expiry and retirement/clear order. Its
+384 original-PC scenarios agree on 42,864 selected words through real creation,
+query, update and clear routines; allocation/free remain bookkeeping boundaries.
+The ordinary App advances the registry before actor work. A future utility/event
+caller must create real entries: current input exposes none. This is not proof
+that an original mission has no areas or that all native birth callers are bound.
+
 The main consolidation consumes the typed parented state0 callbacks in ordinary
 Mecc jet presentation. Right-mouse thrust and Space nitro use the same three
 constructor-bound children, canonical ANM/reference owners and shared position

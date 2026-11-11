@@ -1,5 +1,13 @@
 # Build on Windows with MinGW
 
+For the current reliable-Mecc/first-living-interaction delivery, first exercise
+the shared `mecc_input` edge controls and `mission_runtime::signals` ownership/
+reset control, then the `frame_clock` and `world_noise` kernel tests. The clock
+and noise original-PC comparison is retained privately, with actual OS clock
+values supplied and no game helper replaced. These are dependencies: keep their
+source identity distinct from .11.1 and finish ordinary NPC admission/reaction
+and combined background GPU/menu lifecycle checks before publishing availability.
+
 For the all-five consolidation, run the shared workspace checks below and the
 installed owner/normal-controller controls, including the generic player shell,
 ordered Delphi projection/body phase, typed state0 children, class230 awakening,

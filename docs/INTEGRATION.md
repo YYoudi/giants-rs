@@ -31,6 +31,11 @@ other worktrees read-only. The resulting acceptance covers one common main/build
 dashboard snapshot, not only merged helper APIs or another Mecc-only package.
 The concrete item inventory and proven remaining blockers belong in BACKLOG.md.
 
+The five-lane consolidation shipped in preview .11.1. The current next objective
+is a reliable ordinary Mecc mission loop, then a first living interaction, with
+matching main/build/dashboard publication. Keep work alone and in the background;
+the current prerequisites and exact acceptance remain at the top of BACKLOG.md.
+
 ## Inspect a contribution before connecting it
 
 First identify the ordinary player action this contribution unlocks, its actual

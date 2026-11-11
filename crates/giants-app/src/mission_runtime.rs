@@ -17,6 +17,7 @@ type DeclaredActorPose = ([f32; 3], [f32; 3]);
 type ActorId = giants_game::resident_states::Id;
 mod landing;
 mod npc;
+mod signals;
 pub(crate) use npc::Draw as NpcDraw;
 #[path = "mission_runtime/owned.rs"]
 mod owned;
@@ -59,6 +60,7 @@ fn declaration_key(reference: &ActorRef) -> giants_game::declared_residents::Key
     }
 }
 struct Payload {
+    signals: signals::State,
     npcs: Result<Option<npc::State>, String>,
     impact_sounds: Vec<u32>,
     packet: Arc<PreparedMission>,
@@ -492,6 +494,40 @@ impl Runtime {
                 owned.frame.model_rates.map(f32::to_bits)
             );
         }
+        Ok(())
+    }
+    pub(crate) fn sample_world_clock(
+        &mut self,
+        ticket: u64,
+        observed_ms: u32,
+    ) -> Result<(), String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("mission clock ticket absent")?;
+        let owner = active.player_owner()?;
+        active.payload.signals.sample(owner, observed_ms)
+    }
+    pub(crate) fn publish_player_noise(&mut self, ticket: u64) -> Result<(), String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("mission noise ticket absent")?;
+        let owner = active.player_owner()?;
+        let position = active
+            .resident_states
+            .get(owner)
+            .and_then(|a| a.construction_fields.as_ref())
+            .ok_or("mission noise actor fields absent")?
+            .position;
+        let seconds = active.payload.signals.publish_noise(owner, position)?;
+        println!(
+            "mission_player_noise ticket={ticket} seconds_bits={} position_bits={:?} source=ordinary_pistol native_primary_complete=false",
+            seconds.to_bits(),
+            position.map(f32::to_bits)
+        );
         Ok(())
     }
     pub(crate) fn controlled_jet_session(
@@ -2184,6 +2220,7 @@ fn drive(
                     .and_then(|c| c.as_ref())
                     .map_or(Vec::new(), |s| s.impact_sound_ids());
                 Ok(Payload {
+                    signals: Default::default(),
                     npcs,
                     impact_sounds,
                     packet,
@@ -2564,6 +2601,7 @@ mod tests {
         };
         let plan = Plan::prepare_scene(&resources, &mission, &[world]);
         Payload {
+            signals: Default::default(),
             npcs: Ok(None),
             impact_sounds: Vec::new(),
             dressing: None,
@@ -3335,7 +3373,7 @@ mod tests {
         let mut mouse = ButtonInput::default();
         let mut controls = giants_game::control_options::ControlOptions::default();
         assert!(controls.bind(0, 0, "KeyK"));
-        let mut fire_press = crate::mecc_input::FirePress::default();
+        let mut fire_press = crate::mecc_input::ActionPress::default();
         keys.press(KeyCode::KeyK);
         keys.release(KeyCode::KeyK);
         assert!(!crate::mecc_input::pressed(
@@ -3345,10 +3383,22 @@ mod tests {
             &mouse,
             false,
         ));
-        fire_press.sample(Some(&controls), &keys, &mouse, true);
+        fire_press.sample(
+            Some(&controls),
+            crate::mecc_input::Action::Fire,
+            &keys,
+            &mouse,
+            true,
+        );
         keys.clear();
         for _ in 0..3 {
-            fire_press.sample(Some(&controls), &keys, &mouse, true);
+            fire_press.sample(
+                Some(&controls),
+                crate::mecc_input::Action::Fire,
+                &keys,
+                &mouse,
+                true,
+            );
         }
         assert!(
             viewer
@@ -3366,7 +3416,7 @@ mod tests {
         }
         mouse.press(MouseButton::Left);
         mouse.release(MouseButton::Left);
-        fire_press.sample(None, &keys, &mouse, true);
+        fire_press.sample(None, crate::mecc_input::Action::Fire, &keys, &mouse, true);
         assert!(
             viewer
                 .mission_fire_step(1. / 120., fire_press.take(false), &asset.terrain)
@@ -3377,8 +3427,8 @@ mod tests {
         mouse.clear();
         mouse.press(MouseButton::Left);
         mouse.release(MouseButton::Left);
-        fire_press.sample(None, &keys, &mouse, true);
-        fire_press.sample(None, &keys, &mouse, false);
+        fire_press.sample(None, crate::mecc_input::Action::Fire, &keys, &mouse, true);
+        fire_press.sample(None, crate::mecc_input::Action::Fire, &keys, &mouse, false);
         for _ in 0..90 {
             assert!(
                 !viewer
@@ -3514,7 +3564,12 @@ mod tests {
             "staging controller must have moved into its ECS owner"
         );
         assert!(!runtime.normal_landing_supported(998));
+        assert!(runtime.publish_player_noise(998).is_err());
+        assert!(runtime.sample_world_clock(999, 1000).is_err());
         for number in 1..=1600 {
+            runtime
+                .sample_world_clock(998, 1000 + number as u32)
+                .unwrap();
             viewer.mission_look(Vec2::new(0.0001, 0.), false);
             let frame = viewer
                 .step(
@@ -3532,6 +3587,20 @@ mod tests {
             runtime
                 .publish_controlled_mecc_motion(998, number, frame)
                 .unwrap();
+            if [64, 1200].contains(&number) {
+                runtime.publish_player_noise(998).unwrap();
+                let noise = &runtime.active.as_ref().unwrap().payload.signals.noise;
+                assert_eq!(noise.owner, Some(owner));
+                assert_eq!(
+                    noise.position.map(f32::to_bits),
+                    frame.position.map(f32::to_bits)
+                );
+                assert_eq!(
+                    noise.seconds.to_bits(),
+                    ((f64::from(1000 + number as u32) * f64::from(0.001_f32)) as f32).to_bits()
+                );
+                assert!(runtime.publish_player_noise(999).is_err());
+            }
             assert!(runtime.normal_landing_supported(998));
             assert!(!runtime.normal_landing_supported(999));
             let (session, bound) = runtime.controlled_jet_session_mut(998).unwrap();
@@ -3601,6 +3670,8 @@ mod tests {
         cancel_ticket(&mut runtime, &mut Commands::new(&mut queue, &world), 998);
         queue.apply(&mut world);
         assert!(runtime.controlled_jet_session(998).is_err());
+        assert!(runtime.sample_world_clock(998, 3000).is_err());
+        assert!(runtime.publish_player_noise(998).is_err());
         assert!(!runtime.normal_landing_supported(998));
         assert!(world.get_entity(scene_root).is_err());
         println!(

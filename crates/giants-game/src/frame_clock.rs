@@ -1,4 +1,4 @@
-//! Debug reference frame update after initialization.
+//! Debug reference frame reset, first frame and initialized updates.
 //! Mode producers and the live OS clock are deliberately supplied by the caller.
 use crate::arithmetic::Precision;
 
@@ -20,6 +20,41 @@ pub struct Modes {
     pub slow: bool,
     pub fixed: bool,
     pub scale: f32,
+}
+
+/// Reset the measured smoothing state. The enclosing owner retains the last,
+/// virtual and deadline counters. OS-origin selection remains with the caller.
+pub fn initialize(mut s: State, slow: bool, elapsed_ms: u32, precision: Precision) -> State {
+    s.warmup = 0;
+    s.blend = 0.;
+    s.smoothed_seconds = 0.025;
+    s.seconds = if slow { 0.25 } else { 0.025 };
+    s.elapsed_seconds = precision.round(f64::from(elapsed_ms) * f64::from(0.001_f32)) as f32;
+    s
+}
+
+/// First frame consumes two distinct clock observations. Synthetic selection
+/// changes the first observation only; initialization still reads the real clock.
+/// A zero selected timestamp stays zero and enters this branch again next frame.
+pub fn first_frame(
+    s: State,
+    m: Modes,
+    elapsed_ms: u32,
+    initialization_elapsed_ms: u32,
+    precision: Precision,
+) -> Result<State, &'static str> {
+    if s.last_ms != 0 {
+        return Err("first frame requires an uninitialized timestamp");
+    }
+    let selected = if m.synthetic {
+        s.virtual_ms.wrapping_add(50)
+    } else {
+        elapsed_ms
+    };
+    let mut result = initialize(s, m.slow, initialization_elapsed_ms, precision);
+    result.last_ms = selected;
+    result.deadline_ms = selected.wrapping_add(25);
+    Ok(result)
 }
 
 /// Debug input block selects the global scale before frame timing.
@@ -90,4 +125,51 @@ pub fn advance(
     s.virtual_ms = ms;
     s.deadline_ms = ms.wrapping_add(25);
     Ok(s)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn first_frame_keeps_separate_real_and_synthetic_observations() {
+        let s = State {
+            warmup: 99,
+            last_ms: 0,
+            deadline_ms: 9,
+            virtual_ms: u32::MAX - 20,
+            seconds: 10.,
+            smoothed_seconds: 20.,
+            elapsed_seconds: 30.,
+            blend: 0.75,
+        };
+        let m = Modes {
+            synthetic: true,
+            slow: true,
+            fixed: true,
+            scale: 16.,
+        };
+        let out = first_frame(s, m, 400, 900, Precision::Double53).unwrap();
+        assert_eq!(out.last_ms, 29);
+        assert_eq!(out.deadline_ms, 54);
+        assert_eq!(out.virtual_ms, s.virtual_ms);
+        assert_eq!(
+            (out.seconds, out.smoothed_seconds, out.blend, out.warmup),
+            (0.25, 0.025, 0., 0)
+        );
+        assert_eq!(out.elapsed_seconds, (900. * f64::from(0.001_f32)) as f32);
+        assert!(first_frame(out, m, 401, 901, Precision::Double53).is_err());
+        let zero = first_frame(
+            s,
+            Modes {
+                synthetic: false,
+                ..m
+            },
+            0,
+            1,
+            Precision::Double53,
+        )
+        .unwrap();
+        assert_eq!(zero.last_ms, 0);
+        assert!(first_frame(zero, m, 0, 2, Precision::Double53).is_ok());
+    }
 }

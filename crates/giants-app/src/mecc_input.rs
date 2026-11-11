@@ -77,20 +77,21 @@ pub fn pressed(
         }
     }
 }
-/// A host press can arrive and release between ordinary 120 Hz steps. Retain
-/// that edge until the next step; the pistol still owns its cooldown decision.
+/// Retain an action edge across zero-step host updates. Admission loss cancels
+/// it; the eventual consumer still owns cooldown/fuel decisions.
 #[derive(Default)]
-pub(crate) struct FirePress(bool);
-impl FirePress {
+pub(crate) struct ActionPress(bool);
+impl ActionPress {
     pub(crate) fn sample(
         &mut self,
         options: Option<&ControlOptions>,
+        action: Action,
         keys: &ButtonInput<KeyCode>,
         mouse: &ButtonInput<MouseButton>,
         enabled: bool,
     ) {
         if enabled {
-            self.0 |= pressed(options, Action::Fire, keys, mouse, true);
+            self.0 |= pressed(options, action, keys, mouse, true);
         } else {
             self.clear();
         }
@@ -169,6 +170,40 @@ pub fn owned_commands(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn brief_actions_survive_zero_steps_and_cancel_on_focus_or_menu_loss() {
+        let mut keys = ButtonInput::default();
+        let mouse = ButtonInput::default();
+        let mut options = ControlOptions::default();
+        for action in [Action::Fire, Action::Boost] {
+            let row = control_layout::MECC
+                .iter()
+                .position(|v| v.0 == action.name())
+                .unwrap();
+            options.bind(0, row, "KeyK");
+            let mut press = ActionPress::default();
+            keys.press(KeyCode::KeyK);
+            press.sample(Some(&options), action, &keys, &mouse, true);
+            keys.release(KeyCode::KeyK);
+            keys.clear();
+            press.sample(Some(&options), action, &keys, &mouse, true);
+            assert!(press.take(false));
+            assert!(!press.take(false));
+            keys.press(KeyCode::KeyK);
+            press.sample(Some(&options), action, &keys, &mouse, true);
+            press.sample(Some(&options), action, &keys, &mouse, false);
+            keys.release(KeyCode::KeyK);
+            keys.clear();
+            press.sample(Some(&options), action, &keys, &mouse, true);
+            assert!(!press.take(false));
+            keys.press(KeyCode::KeyK);
+            press.sample(Some(&options), action, &keys, &mouse, true);
+            press.clear();
+            assert!(!press.take(false));
+            keys.release(KeyCode::KeyK);
+            keys.clear();
+        }
+    }
     #[test]
     fn opposite_and_shared_profile_bindings_follow_native_write_order() {
         let mut options = ControlOptions::default();

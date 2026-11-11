@@ -127,6 +127,20 @@ fn source_npc_completed_poses_feed_common_render_assets_and_retire() {
         assert!(runtime.npc_draws(ticket).unwrap().is_empty());
         assert!(runtime.npc_draws(ticket + 1).is_err());
         let active = runtime.active.as_mut().unwrap();
+        if ticket == 3511 {
+            let mut unresolved = std::collections::BTreeMap::new();
+            for id in active.resident_states.list(0) {
+                if active.resident_states.herd_world_frame(id).is_err() {
+                    let actor = active.resident_states.get(id).unwrap();
+                    *unresolved
+                        .entry((actor.class, actor.seed.storage.state()))
+                        .or_insert(0_usize) += 1;
+                }
+            }
+            println!(
+                "npc_initial_common_profiles_without_herd_callback={unresolved:?} whole_world_acknowledged=false"
+            );
+        }
         let npcs = active.payload.npcs.as_mut().unwrap().as_mut().unwrap();
         let parent = npcs
             .bound
