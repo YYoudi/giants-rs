@@ -1374,3 +1374,7 @@ the normal transport's bounded backlog or acknowledge missing sinks. Adding
 controller sixteen steps after the first actual lethal hit, for a remains/effect
 capture. It neither enables combat nor creates a synthetic hit or actor pose.
 Keep the full lifecycle and cancellation probes as separate checks.
+For an independent contact passage, set `GIANTS_MISSION_VIMP_CONTACT_PROBE=1`
+instead of the death-capture flag. The supplied controller stops firing, lands
+near the herd and continues walking toward an actual Vimp. Its 12,000-step
+endpoint requires real player contact responses; no collider or pose is injected.

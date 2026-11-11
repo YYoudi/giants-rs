@@ -57,6 +57,15 @@ pub(crate) struct Controller {
     subjective_draw_visible: Option<bool>,
 }
 impl Controller {
+    fn vimp_contact_probe() -> bool {
+        crate::frontend_scene::vimp_interaction_probe()
+            && std::env::var("GIANTS_MISSION_VIMP_CONTACT_PROBE").as_deref() == Ok("1")
+    }
+    pub(crate) fn vimp_contact_capture_done(&self) -> bool {
+        Self::vimp_contact_probe()
+            && self.replay_done
+            && self.state.mission_npc_contact_responses() > 0
+    }
     pub(crate) fn vimp_death_capture_done(&self) -> bool {
         crate::frontend_scene::vimp_interaction_probe()
             && std::env::var("GIANTS_MISSION_VIMP_DEATH_CAPTURE").as_deref() == Ok("1")
@@ -309,7 +318,9 @@ impl Controller {
             landing_failed: false,
             landing_capture: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
                 == Ok("campaign-landing-pose"),
-            finish_step: if crate::frontend_scene::vimp_interaction_probe() {
+            finish_step: if Self::vimp_contact_probe() {
+                12000
+            } else if crate::frontend_scene::vimp_interaction_probe() {
                 6000
             } else if matches!(
                 std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
@@ -694,10 +705,17 @@ pub(super) fn update(
                         ),
                         false,
                     );
-                    if distance > 60. {
+                    if distance
+                        > if Controller::vimp_contact_probe() {
+                            0.
+                        } else {
+                            60.
+                        }
+                    {
                         axes = Vec2::Y;
                         thrust = position[2] < target[2] + 80.
-                            && controller.state.mission_snapshot().1 > 0.3;
+                            && controller.state.mission_snapshot().1 > 0.3
+                            && (!Controller::vimp_contact_probe() || distance > 120.);
                         boost = distance > 300. && tick % 360 == 0;
                     }
                 }
@@ -890,7 +908,7 @@ pub(super) fn update(
                 }
             }
             let fire = if replay_running && crate::frontend_scene::vimp_interaction_probe() {
-                true
+                !Controller::vimp_contact_probe()
             } else if controller.fire_replay {
                 (60..300).contains(&tick)
             } else {
@@ -1108,7 +1126,21 @@ pub(super) fn update(
                 if controller.fire_replay {
                     let pistol = controller.pistol().unwrap();
                     let expected = if controller.finish_step == 64 { 1 } else { 4 };
-                    if crate::frontend_scene::vimp_interaction_probe() {
+                    if Controller::vimp_contact_probe() {
+                        assert_eq!(
+                            pistol.fired, 0,
+                            "contact probe must retain living collision owners"
+                        );
+                        let responses = controller.state.mission_npc_contact_responses();
+                        assert!(
+                            responses > 0,
+                            "ordinary approach never contacted a Vimp collision model"
+                        );
+                        println!(
+                            "mission_vimp_contact_input_probe_finished ticket={} responses={responses} supplied_controller=true forced_actor_pose=false os_input=false",
+                            controller.ticket
+                        );
+                    } else if crate::frontend_scene::vimp_interaction_probe() {
                         assert!(
                             pistol.fired >= 5,
                             "Vimp input probe produced too few actual pistol shots"
