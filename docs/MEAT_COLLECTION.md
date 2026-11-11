@@ -65,3 +65,11 @@ The callback requests its actual local-player pickup cue through the common
 sound transport. A queued request is not proof of a playing voice; graphical
 acceptance must observe the real audio sink separately. The hint overlay is a
 preview interface, not a claim of the original inventory HUD's visual fidelity.
+
+The same graphical hunt exposed head-of-line blocking in the shared asynchronous
+sound transport. Consecutive fixed-position one-shots with the same cue now stage
+their independent voices together, in request and parameter-RNG order. Other
+cues, tickets, actor/reuse requests and player controls remain barriers. Every
+staged voice still needs its actual sink before the batch starts; the bounded
+queue is not enlarged and no request is dropped or counted as played on staging.
+This is a Bevy transport policy, not a claim of native audio scheduling/mix parity.

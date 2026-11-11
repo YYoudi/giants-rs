@@ -653,6 +653,50 @@ fn drain_actor_stops(
     }
     Ok(())
 }
+/// Stage consecutive same-cue fixed-position one-shots in request order. Their
+/// independent voices can acquire sinks together; none is acknowledged here.
+/// Actor/reuse, control, other-cue and other-ticket requests remain barriers.
+fn stage_position_batch(
+    world: &mut World,
+    mounted: &mut Mounted,
+    sound: u32,
+    effects: f32,
+    requests: &mut VecDeque<Request>,
+    voices: &mut VecDeque<u32>,
+) -> Result<(), String> {
+    while voices.len() < 64 {
+        let Some(Request {
+            ticket,
+            event:
+                Event::NpcPosition {
+                    sound: next,
+                    position,
+                },
+        }) = requests.front()
+        else {
+            break;
+        };
+        if *ticket != mounted.ticket || *next != sound {
+            break;
+        }
+        let position = *position;
+        requests.pop_front();
+        let voice = stage_actor(world, mounted, sound, effects, Some(position), None)?;
+        voices.push_back(voice);
+        println!(
+            "mission_npc_sound_request ticket={} sound={sound} route=position playback_acknowledged=false",
+            mounted.ticket
+        );
+    }
+    if voices.len() > 1 {
+        println!(
+            "mission_audio_position_batch_staged ticket={} sound={sound} voices={} request_order_preserved=true sink_acknowledged=false",
+            mounted.ticket,
+            voices.len()
+        );
+    }
+    Ok(())
+}
 fn process(
     world: &mut World,
     mounted: &mut Mounted,
@@ -664,7 +708,9 @@ fn process(
     // A missing device must not accumulate an unbounded history of shots.
     // This is an explicit new-runtime failure budget, not a native timing rule.
     if requests.len() > 256 {
-        return Err("audio command backlog exceeds 256 while admission is pending".into());
+        return Err(
+            "audio command backlog exceeds 256 before sink-backed commands can drain".into(),
+        );
     }
     let view = world
         .query::<&crate::mission_player::Controller>()
@@ -1066,6 +1112,9 @@ fn process(
                 )?;
                 voices.push_back(id);
             }
+            if let Action::Position(sound, _) = action {
+                stage_position_batch(world, mounted, sound, effects, requests, &mut voices)?;
+            }
             mounted.pending = Some(Pending {
                 action,
                 voices,
@@ -1121,13 +1170,15 @@ fn process(
                 );
             }
             Action::Position(sound, _) => {
-                Device {
-                    world,
-                    mounted,
-                    staged: &mut pending.voices,
-                    effects,
+                while !pending.voices.is_empty() {
+                    Device {
+                        world,
+                        mounted,
+                        staged: &mut pending.voices,
+                        effects,
+                    }
+                    .start_sound(sound, true)?;
                 }
-                .start_sound(sound, true)?;
             }
             Action::One(sound) => {
                 let owner = mounted.ticket;
@@ -1771,6 +1822,91 @@ mod tests {
         );
     }
 
+    #[test]
+    fn positional_burst_stages_in_order_without_ack_or_crossing_control_barrier() {
+        let setup = || {
+            let mut app = App::new();
+            app.add_plugins((MinimalPlugins, AssetPlugin::default()))
+                .init_asset::<AudioSource>()
+                .init_asset::<crate::positional_pcm::Pcm>();
+            app
+        };
+        let mut app = setup();
+        let mut baseline = setup();
+        let mut mounted = fixture(app.world_mut(), 98);
+        let mut sequential = fixture(baseline.world_mut(), 99);
+        let sound = 0x5b0;
+        let positions = (0..14).map(|i| [i as f32, 2., 3.]).collect::<Vec<_>>();
+        let mut requests = positions
+            .iter()
+            .map(|&position| Request {
+                ticket: 98,
+                event: Event::NpcPosition { sound, position },
+            })
+            .collect::<VecDeque<_>>();
+        requests.push_back(Request {
+            ticket: 98,
+            event: Event::Boost,
+        });
+        requests.push_back(Request {
+            ticket: 98,
+            event: Event::NpcPosition {
+                sound,
+                position: [99.; 3],
+            },
+        });
+        process(
+            app.world_mut(),
+            &mut mounted,
+            &mut requests,
+            false,
+            0.75,
+            0.01,
+        )
+        .unwrap();
+        let pending = mounted.pending.as_ref().unwrap();
+        assert_eq!(pending.voices.len(), positions.len());
+        for (&voice, &position) in pending.voices.iter().zip(&positions) {
+            let v = &mounted.voices[&voice];
+            assert_eq!(v.spatial.as_ref().unwrap().position, position);
+            assert!(!v.ready && !v.started);
+            stage_actor(
+                baseline.world_mut(),
+                &mut sequential,
+                sound,
+                0.75,
+                Some(position),
+                None,
+            )
+            .unwrap();
+        }
+        assert_eq!(mounted.audio_random.0, sequential.audio_random.0);
+        app.update();
+        process(
+            app.world_mut(),
+            &mut mounted,
+            &mut requests,
+            false,
+            0.75,
+            0.01,
+        )
+        .unwrap();
+        assert_eq!((mounted.ready, mounted.started), (0, 0));
+        assert_eq!(
+            mounted.pending.as_ref().unwrap().voices.len(),
+            positions.len()
+        );
+        assert_eq!(requests.len(), 2);
+        assert!(matches!(requests.front().unwrap().event, Event::Boost));
+        release(app.world_mut(), mounted);
+        release(baseline.world_mut(), sequential);
+        assert!(app.world().resource::<Assets<AudioSource>>().is_empty());
+        assert!(
+            app.world()
+                .resource::<Assets<crate::positional_pcm::Pcm>>()
+                .is_empty()
+        );
+    }
     #[test]
     fn no_audio_backend_never_acknowledges_and_backlog_is_bounded() {
         let mut app = App::new();
