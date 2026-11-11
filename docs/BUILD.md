@@ -1347,3 +1347,21 @@ poses or readiness. Capture waits for actual startle entry and return counters.
 This is supplied-command graphical evidence, not OS-held input or native
 complete-world scheduling equivalence. Normal Story2 controls enable the same
 partial living component without these diagnostic environment variables.
+
+### Connected Vimp combat candidate
+
+With `GIANTS_NPC_ROOT` set to the compatible user-supplied installation, run:
+
+```powershell
+cargo test --locked -p giants-app source_normal_pistol_kills_vimps_and_runs_all_remains --target x86_64-pc-windows-gnu -- --ignored --nocapture
+```
+
+This exercises actual partial-pistol hits, injuries/recovery, source death FX
+and meat/proxy/ghost expiry on two supplied-navigation/time entries. Its external
+retirement provider is a test boundary, not a real audio/GPU acknowledgement.
+The normal application binds the actual owned device and common render consumers.
+Run all `mission_runtime::npc::tests::` installed controls for pose/contact/render
+asset/re-entry regressions. Then repeat ordinary menu/left mouse hit/right mouse
+jet/Space nitro and return/re-entry on the exact executable with actual sinks.
+Do not close the delivery on these CPU controls. FX host scheduling, terrain-only
+contact and splat retention remain explicit preview policies in OWNED_NPCS.md.

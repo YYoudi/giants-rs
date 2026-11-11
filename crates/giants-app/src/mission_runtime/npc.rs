@@ -18,6 +18,9 @@ use live::Driver;
 pub(super) struct State {
     driver: Driver,
     blood: blood::Blood,
+    fx: giants_game::vimp_death_fx::Runtime,
+    proxy: giants_game::vimp_death_proxy::Factory,
+    chunk_cursor: i32,
     factory: Factory,
     globals: giants_formats::global_data::GlobalData,
     expected: Vec<(Key, i32)>,
@@ -31,11 +34,16 @@ pub(super) struct State {
 pub(crate) struct Draw {
     pub class: i32,
     pub transparency: f32,
-    pub id: Id,
+    pub id: DrawOwner,
     pub frame: u64,
     pub geometry: Arc<giants_game::scene_resources::ModelAsset>,
     pub positions: Vec<[f32; 3]>,
     pub center: [f32; 3],
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub(crate) enum DrawOwner {
+    Actor(Id),
+    Effect(giants_game::vimp_death_fx::Key),
 }
 struct Binding {
     ticket: u64,
@@ -90,6 +98,9 @@ impl State {
         Ok(Some(Self {
             driver: Driver::default(),
             blood: blood::Blood::new(&globals)?,
+            fx: giants_game::vimp_death_fx::Runtime::new(root, 0, plan.resources())?,
+            proxy: giants_game::vimp_death_proxy::Factory::load(plan.resources())?,
+            chunk_cursor: 1117,
             factory,
             globals,
             expected,
@@ -136,6 +147,7 @@ impl State {
             Self::check(session, ticket, key, id, class)?;
             declarations.push((key, id, class));
         }
+        self.fx.bind_ticket(ticket)?;
         self.bound = Some(Binding {
             ticket,
             declarations,
@@ -291,7 +303,7 @@ impl State {
             result.push(Draw {
                 class: 8,
                 transparency: 0.,
-                id,
+                id: DrawOwner::Actor(id),
                 frame: completed.number,
                 geometry: self.geometry.as_ref().unwrap().clone(),
                 positions,

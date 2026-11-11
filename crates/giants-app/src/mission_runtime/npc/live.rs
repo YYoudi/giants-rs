@@ -1,6 +1,7 @@
 //! Portable first-interaction component in the existing partial Mecc mission.
 //! It owns authored herds/markers and their children, never acknowledges the
 //! other actor families as updated or certifies native whole-world admission.
+pub(in crate::mission_runtime) mod combat;
 use super::*;
 use giants_game::{animation_epoch::Stamp, audio_parameters::Random, vimp_wander::Tick};
 use std::collections::BTreeSet;
@@ -21,6 +22,7 @@ pub(in crate::mission_runtime) struct Frame<'a> {
     pub world: &'a giants_game::WorldAsset,
     pub objects: &'a [giants_game::actor_environment::Collider],
     pub tick: Tick<'a>,
+    pub resources: &'a giants_game::scene_resources::SceneResources,
 }
 struct SinglePlayer;
 impl giants_game::vimp_living::Services for SinglePlayer {
@@ -154,7 +156,7 @@ impl State {
             )
         };
         Some(format!(
-            "Vimps: {:.0} units, {direction}. Repeated shots nearby startle them. Other AI inactive.",
+            "Vimps: {:.0} units, {direction}. Shoot to hunt; nearby shots startle the herd. Other AI inactive.",
             dx.hypot(dy)
         ))
     }
@@ -172,6 +174,7 @@ impl State {
         session: &mut Session,
         frame: Frame<'_>,
         random: &mut Random,
+        device: &mut impl giants_game::actor_retirement::Services,
     ) -> Result<Vec<crate::mission_audio::Event>, String> {
         self.view(session, frame.ticket)?;
         if !frame.world.name.eq_ignore_ascii_case("story2") {
@@ -183,7 +186,7 @@ impl State {
         if let Some(error) = &self.driver.failure {
             return Err(error.clone());
         }
-        let result = self.advance_live_inner(session, frame, random);
+        let result = self.advance_live_inner(session, frame, random, device);
         if let Err(error) = &result {
             self.driver.failure = Some(error.clone());
         }
@@ -194,6 +197,7 @@ impl State {
         session: &mut Session,
         frame: Frame<'_>,
         random: &mut Random,
+        device: &mut impl giants_game::actor_retirement::Services,
     ) -> Result<Vec<crate::mission_audio::Event>, String> {
         let bound = self.bound.as_mut().unwrap();
         if frame.controlled.ticket() != frame.ticket || session.get(frame.controlled).is_none() {
@@ -383,9 +387,27 @@ impl State {
                 }
             }
         }
-        let retired = bound
-            .contexts
-            .advance_positional_sounds(random, &mut sounds)?;
+        // This component also retains real ghost continuations. Consume only
+        // sound-only contexts here; their owner advances/resumes ghosts below.
+        let mut retired = 0;
+        for id in bound.contexts.active().to_vec() {
+            let p = bound
+                .contexts
+                .get(id)
+                .ok_or("NPC context owner absent")?
+                .program
+                .as_ref()
+                .map_err(Clone::clone)?;
+            if p.records.iter().map(|r| r.opcode).eq([0x2b, 2]) {
+                bound
+                    .contexts
+                    .activate_positional_sound(id, random, &mut sounds)?;
+                retired += 1;
+            } else if giants_game::vimp_ghost::Recipe::project(p).is_err() {
+                return Err("NPC component has an unconsumed non-sound/non-ghost effect".into());
+            }
+        }
+        self.remains(session, frame.resources, &frame, random, device)?;
         self.blood
             .advance(session, frame.tick, frame.world, random)?;
         self.driver.sample = frame.sample;

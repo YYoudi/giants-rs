@@ -302,22 +302,28 @@ fn npc_render_control(auxiliaries: bool) {
 #[test]
 #[ignore = "requires GIANTS_NPC_ROOT; ordinary owned partial driver on actual Story2 terrain/resources with supplied clock/Mecc commands and queued audio; no GPU, OS input or whole native world proof"]
 fn source_normal_vimp_component_uses_player_clock_noise_and_reentry() {
-    normal_vimp_component_control(false, false);
+    normal_vimp_component_control(false, false, false);
 }
 
 #[test]
 #[ignore = "requires GIANTS_NPC_ROOT; actual dedicated Vimp collision meshes and normal Mecc placement with supplied navigation/clock; no GPU or OS input proof"]
 fn source_normal_mecc_contacts_completed_vimp_shapes_and_reenters() {
-    normal_vimp_component_control(true, false);
+    normal_vimp_component_control(true, false, false);
 }
 
 #[test]
 #[ignore = "requires GIANTS_NPC_ROOT; supplied nonlethal amount/trajectory, normal component clocks/poses, owned wound and audio queues; no ordinary pistol damage, GPU or audible proof"]
 fn source_normal_vimp_hurt_consumes_owned_blood_and_audio_queues() {
-    normal_vimp_component_control(false, true);
+    normal_vimp_component_control(false, true, false);
 }
 
-fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool) {
+#[test]
+#[ignore = "requires GIANTS_NPC_ROOT; actual ordinary partial-pistol hits, source death/remains and supplied navigation/time, explicit external retirement boundary; no GPU, OS or audible proof"]
+fn source_normal_pistol_kills_vimps_and_runs_all_remains() {
+    normal_vimp_component_control(true, false, true);
+}
+
+fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool, lethal: bool) {
     let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
     let source = giants_game::world_source::resolve(&root, "Story2").unwrap();
     let menu = giants_game::mission_selection::MissionMenu::parse(
@@ -386,6 +392,17 @@ fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool) {
         let mut sounds = 0;
         let mut shots = 0;
         let mut npc_hits = 0;
+        let mut kills = 0;
+        let mut effect_frames = 0;
+        struct Release(usize);
+        impl giants_game::actor_retirement::Services for Release {
+            fn release(&mut self, s: &mut Session, id: Id) -> Result<(), String> {
+                s.get(id).ok_or("supplied release owner absent")?;
+                self.0 += 1;
+                Ok(())
+            }
+        }
+        let mut released = Release(0);
         let mut blood_frames = 0;
         let mut recovery_stops = 0;
         let mut hurt_owner = None;
@@ -404,10 +421,14 @@ fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool) {
             let mut thrust = false;
             let mut boost = false;
             let targets = runtime.npc_draws(ticket).unwrap();
-            if let Some(target) = targets.iter().min_by(|a, b| {
-                let distance = |p: [f32; 3]| (p[0] - position[0]).hypot(p[1] - position[1]);
-                distance(a.center).total_cmp(&distance(b.center))
-            }) {
+            if let Some(target) = targets
+                .iter()
+                .filter(|draw| draw.class == 8)
+                .min_by(|a, b| {
+                    let distance = |p: [f32; 3]| (p[0] - position[0]).hypot(p[1] - position[1]);
+                    distance(a.center).total_cmp(&distance(b.center))
+                })
+            {
                 let dx = target.center[0] - position[0];
                 let dy = target.center[1] - position[1];
                 let distance = dx.hypot(dy);
@@ -447,7 +468,7 @@ fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool) {
                 .publish_controlled_mecc_motion(ticket, number, motion)
                 .unwrap();
             let shot = viewer
-                .mission_fire_step(1. / 60., true, &asset.terrain)
+                .mission_fire_step(1. / 60., !lethal || number < 4200, &asset.terrain)
                 .unwrap();
             npc_hits += shot
                 .world_hits
@@ -458,9 +479,46 @@ fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool) {
                 runtime.publish_player_noise(ticket).unwrap();
                 shots += 1;
             }
-            let audio = runtime
-                .advance_normal_npcs(ticket, viewer.mission_environment_colliders())
-                .unwrap();
+            if lethal {
+                for hit in shot.world_hits {
+                    if let Some(id) = viewer.mission_npc_hit_owner(hit.object) {
+                        let (dead, events) = runtime
+                            .hit_normal_vimp(
+                                ticket,
+                                id,
+                                hit,
+                                viewer.subjective_inputs().0.position,
+                                &mut released,
+                            )
+                            .unwrap();
+                        kills += usize::from(dead);
+                        sounds += events.len();
+                        if dead {
+                            let contacts = runtime.npc_contact_snapshots(ticket).unwrap();
+                            viewer.set_mission_contacts(ticket, contacts).unwrap();
+                        }
+                    }
+                }
+            }
+            let audio = if lethal {
+                runtime
+                    .advance_normal_npcs_with_retirement(
+                        ticket,
+                        viewer.mission_environment_colliders(),
+                        &mut released,
+                    )
+                    .unwrap()
+            } else {
+                runtime
+                    .advance_normal_npcs(ticket, viewer.mission_environment_colliders())
+                    .unwrap()
+            };
+            effect_frames += usize::from(
+                !runtime
+                    .npc_effect_draws(ticket, viewer.camera().0.view)
+                    .unwrap()
+                    .is_empty(),
+            );
             recovery_stops += audio
                 .iter()
                 .filter(|event| matches!(event, crate::mission_audio::Event::StopActorSound { .. }))
@@ -491,28 +549,32 @@ fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool) {
             );
             assert_eq!(runtime.active.as_ref().unwrap().variant_random.0, random);
             let draws = runtime.npc_draws(ticket).unwrap();
-            assert!(draws.len() > 1);
-            if let Some(before) = &first_pose {
-                changed |= *before != draws[0].positions;
-            } else {
-                first_pose = Some(draws[0].positions.clone());
+            assert!(lethal || draws.len() > 1);
+            if let Some(draw) = draws.first() {
+                if let Some(before) = &first_pose {
+                    changed |= *before != draw.positions;
+                } else {
+                    first_pose = Some(draw.positions.clone());
+                }
             }
-            assert_eq!(
-                runtime
-                    .active
-                    .as_ref()
-                    .unwrap()
-                    .payload
-                    .npcs
-                    .as_ref()
-                    .unwrap()
-                    .as_ref()
-                    .unwrap()
-                    .view(&runtime.active.as_ref().unwrap().resident_states, ticket)
-                    .unwrap()
-                    .effect_contexts,
-                0
-            );
+            if !lethal {
+                assert_eq!(
+                    runtime
+                        .active
+                        .as_ref()
+                        .unwrap()
+                        .payload
+                        .npcs
+                        .as_ref()
+                        .unwrap()
+                        .as_ref()
+                        .unwrap()
+                        .view(&runtime.active.as_ref().unwrap().resident_states, ticket)
+                        .unwrap()
+                        .effect_contexts,
+                    0
+                );
+            }
         }
         let a = runtime.active.as_ref().unwrap();
         let stats = a
@@ -532,7 +594,7 @@ fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool) {
         );
         if player_contacts {
             println!(
-                "normal_vimp_player_contacts ticket={ticket} responses={} projectile_hits={npc_hits} source_model_slot=7 supplied_navigation=true damage_callback=false",
+                "normal_vimp_player_contacts ticket={ticket} responses={} projectile_hits={npc_hits} source_model_slot=7 supplied_navigation=true damage_callback={lethal}",
                 viewer.mission_npc_contact_responses()
             );
             assert!(
@@ -543,6 +605,23 @@ fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool) {
                 npc_hits > 0,
                 "supplied aim/fire never hit an actual Vimp collision model"
             );
+        }
+        if lethal {
+            let npcs = a.payload.npcs.as_ref().unwrap().as_ref().unwrap();
+            println!(
+                "normal_vimp_combat ticket={ticket} kills={kills} releases={} effect_frames={effect_frames} fx_births={} fx_retired={} fx_active={} actual_pistol_amount=true supplied_commands_clock=true gpu=false",
+                released.0,
+                npcs.fx.births,
+                npcs.fx.retired,
+                npcs.fx.active()
+            );
+            assert!(kills > 0 && released.0 >= kills && effect_frames > 0);
+            assert_eq!(npcs.fx.active(), 0);
+            assert!(a.resident_states.list(0).iter().all(|&id| {
+                a.resident_states.vimp_chunk(id).is_none()
+                    && a.resident_states.vimp_death_proxy(id).is_none()
+                    && a.resident_states.vimp_ghost_number(id).is_none()
+            }));
         }
         if supplied_hurt {
             assert!(blood_frames > 0 && recovery_stops >= 2);
@@ -628,12 +707,15 @@ fn inject_nonlethal(runtime: &mut Runtime, ticket: u64) -> Id {
         }
     }
     let draw = runtime.npc_draws(ticket).unwrap().remove(0);
+    let super::DrawOwner::Actor(id) = draw.id else {
+        panic!("nonlethal fixture selected an FX")
+    };
     let a = runtime.active.as_mut().unwrap();
     let shooter = a.player_owner().unwrap();
     let source = Arc::clone(a.payload.plan.resources());
     let fields = a
         .resident_states
-        .get(draw.id)
+        .get(id)
         .unwrap()
         .construction_fields
         .as_ref()
@@ -661,7 +743,7 @@ fn inject_nonlethal(runtime: &mut Runtime, ticket: u64) -> Id {
     let outcome = a
         .resident_states
         .damage_vimp_from_partial_pistol(
-            draw.id,
+            id,
             giants_game::vimp_damage::PartialPistolHit { shooter, hit },
             &mut a.variant_random,
             &mut giants_game::vimp_damage::Services {
@@ -681,6 +763,6 @@ fn inject_nonlethal(runtime: &mut Runtime, ticket: u64) -> Id {
         outcome,
         giants_game::vimp_damage::Outcome::Hurt { .. }
     ));
-    assert_eq!(sounds.0.iter().filter(|event| matches!(event, crate::mission_audio::Event::ActorSound { owner, .. } if *owner == draw.id)).count(), 2);
-    draw.id
+    assert_eq!(sounds.0.iter().filter(|event| matches!(event, crate::mission_audio::Event::ActorSound { owner, .. } if *owner == id)).count(), 2);
+    id
 }

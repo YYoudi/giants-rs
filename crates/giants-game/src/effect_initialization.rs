@@ -268,7 +268,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
 mod tests {
     use super::*;
     #[test]
-    fn death_trail_radius_is_sampled_without_an_active_emitter_and_is_atomic() {
+    fn death_trail_emission_window_is_sampled_without_an_active_emitter_and_is_atomic() {
         let mut bytes = vec![3];
         bytes.extend(42u32.to_le_bytes());
         bytes.extend([6, 0x21, 4]);

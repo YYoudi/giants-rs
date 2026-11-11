@@ -882,6 +882,13 @@ fn process(
                     None
                 }
                 Event::ActorSound { owner, sound, kind } => {
+                    if actor_position(world, mounted.ticket, owner).is_none() {
+                        println!(
+                            "mission_actor_audio_cancelled ticket={} owner={owner:?} sound={sound} retired_before_start=true playback_acknowledged=false",
+                            mounted.ticket
+                        );
+                        continue;
+                    }
                     let route = world
                         .resource::<crate::mission_runtime::Runtime>()
                         .actor_sound_route(mounted.ticket, owner, kind, true)?;

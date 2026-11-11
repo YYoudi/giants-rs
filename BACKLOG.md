@@ -77,12 +77,12 @@ It also exposed and repaired the missing regeneration composition on returning
 to living mode. This control supplies admission/time/trajectory/amount and sound
 requests; it is not an ordinary-input, audible or rendered combat acceptance.
 
-Next consumer: ordinary pistol hit dispatch with actual audio/wound rendering,
-then complete lethal FX execution, ghost ownership, meat updates and retirement.
-The authored young cohort's health limit is below the pistol's direct damage;
-lethal services must work before enabling ordinary damage. Do not substitute a
-recording/no-op death provider or lower damage to hide that dependency. No new
-prototype PS2 attribution is confirmed.
+The source candidate now connects ordinary pistol hit dispatch, wound/audio
+requests, death FX, ghost ownership, meat updates and retirement. The pistol's
+actual direct damage is preserved; growth can make later targets require more
+than one hit. No recording/no-op death provider or lowered damage enables this
+path. No new prototype PS2 attribution is confirmed. Combined graphical and
+ordinary OS-input acceptance on the final build is the next delivery gate.
 
 The retained ghost program now has source-backed class859 construction, current
 ANM/position buffers, external resume, ending size/fade and tracked retirement.
@@ -97,9 +97,14 @@ external-release provider are supplied; GPU and ordinary lethal integration
 remain unverified. Delphi/mana transfer remains an explicit prerequisite and is
 never replaced with a successful empty-player service.
 
-The next blocking dependency is complete `FXB_VIMP_death` execution, including
-its named chunk, splat and spray children, followed by ordinary hit dispatch and
-render/audio acceptance. Its full/lite choice needs actual selection inputs.
+The ordinary partial component now consumes `FXB_VIMP_death`, including its
+named chunk, splat, spray, trail, impact and drop children. Full/lite selection
+uses current owned-object counts, source quality/distance and the actual camera.
+These FX have their own typed Rust visual keys, distinct from Session actor IDs.
+Source class/ANM/texture assets, lifetime/fade, reference anchors and shared
+movement/gravity/terrain kernels feed real render consumers. Host-frame FX
+scheduling, terrain-only contact and source-owner-lifetime splat retention are
+explicit preview policies, not a complete native state78/world/decal port.
 The ordinary offline session does not take the native network-only herd-meat
 notification branch. Preserve that multiplayer prerequisite without inventing a
 local notification. Victim cleanup currently admits only successful death with
@@ -126,8 +131,24 @@ bounce and drop skip frames. Eight actual source preparations agree on RNG
 state and interval counts. Positional angle inheritance is separate from the
 newborn affine: 128 original-wrapper cases agree on 2,176 basis words. The
 immediate child retains fixed own-reference0/parent-reference11; those operands
-are not a random count/range. Active FX physics, emitter/bounce/decal consumers
-and the combined lethal scheduler remain required before ordinary damage.
+are not a random count/range. The later source adapter binds these requests
+under the preview policies above. In particular source6f is an emission-window
+countdown, not a spatial radius, and source5a bounds impact-child births rather
+than spawning its child at every lifetime expiry. Preserve these roles in future
+native scheduling/physics/decal fidelity work.
+
+The connected installed control runs actual partial-pistol hits with supplied
+navigation/time on each of two 6,000-frame entries. Each entry records three
+kills, 17 external releases, 672 FX-bearing frames and 276 born/retired FX owners;
+all meat/proxy/ghost and FX owners are gone before return/re-entry. Its retirement
+device is an explicit test boundary; it does not acknowledge audible voices,
+GPU output or OS input. The ordinary build instead binds the real audio device,
+current-joint blood, render consumers and the same remains scheduler. Recovery
+modes2..4 now accept the real common invocation with its existing threat population;
+they do not execute mode1's threat-list traversal. Isolated admission stays strict.
+No world-running flag, population list or control word is cleared to bypass it.
+The final executable, actual controls, source/build/dashboard publication and
+native fidelity limits still require their separately recorded acceptance.
 
 ## Current delivery - reliable Mecc loop and first living interaction
 

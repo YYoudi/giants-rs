@@ -311,7 +311,7 @@ impl positional_impact::Cue for Device<'_, '_, '_> {
 impl positional_impact::Stop for Device<'_, '_, '_> {
     fn stop(&mut self, s: &mut Session, id: Id, sound: u32) -> Result<(), String> {
         let root = self.root(s, id)?;
-        let ids = self
+        let ids: Vec<_> = self
             .mounted
             .voices
             .iter()
@@ -326,13 +326,40 @@ impl giants_game::actor_retirement::Services for Device<'_, '_, '_> {
     fn release(&mut self, s: &mut Session, id: Id) -> Result<(), String> {
         s.get(id)
             .ok_or("impact retirement audio owner absent or foreign")?;
-        let ids = self
+        let ids: Vec<_> = self
             .mounted
             .voices
             .iter()
             .filter_map(|(&key, v)| (v.actor_owner == Some(id)).then_some(key))
             .collect();
-        self.stop_ids(ids)
+        // A just-requested injury voice may still await its first AudioSink.
+        // Cancel that owned reservation without acknowledging playback; a
+        // started voice still requires its real sink before retirement.
+        for key in &ids {
+            let voice = &self.mounted.voices[key];
+            if voice.started && !self.sinks.contains(voice.entity) {
+                return Err("started actor voice lost its retirement sink".into());
+            }
+        }
+        if self
+            .mounted
+            .pending
+            .as_ref()
+            .is_some_and(|p| matches!(p.action, Action::Actor { owner, .. } if owner == id))
+        {
+            self.mounted.pending = None;
+        }
+        for key in ids {
+            let voice = self.mounted.voices.remove(&key).unwrap();
+            if let Ok(sink) = self.sinks.get_mut(voice.entity) {
+                sink.stop();
+            }
+            if let Some(spatial) = voice.spatial {
+                self.assets.remove(spatial.handle.id());
+            }
+            self.commands.entity(voice.entity).despawn();
+        }
+        Ok(())
     }
 }
 

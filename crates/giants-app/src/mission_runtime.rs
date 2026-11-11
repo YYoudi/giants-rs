@@ -18,7 +18,7 @@ type ActorId = giants_game::resident_states::Id;
 mod landing;
 mod npc;
 mod signals;
-pub(crate) use npc::Draw as NpcDraw;
+pub(crate) use npc::{Draw as NpcDraw, DrawOwner as NpcDrawOwner};
 #[path = "mission_runtime/owned.rs"]
 mod owned;
 pub(crate) use owned::Input as OwnedMeccInput;
@@ -1052,10 +1052,29 @@ impl Runtime {
     }
     /// Partial first-living interaction, using the normal controller's actual
     /// owner, clock, noise, RNG and source Session. Other AI stays unavailable.
+    #[cfg(test)]
     pub(crate) fn advance_normal_npcs(
         &mut self,
         ticket: u64,
         objects: &[giants_game::actor_environment::Collider],
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
+        struct Unavailable;
+        impl giants_game::actor_retirement::Services for Unavailable {
+            fn release(
+                &mut self,
+                _: &mut giants_game::resident_states::Session,
+                _: giants_game::resident_states::Id,
+            ) -> Result<(), String> {
+                Err("CPU component requires an explicit retirement device".into())
+            }
+        }
+        self.advance_normal_npcs_with_retirement(ticket, objects, &mut Unavailable)
+    }
+    pub(crate) fn advance_normal_npcs_with_retirement(
+        &mut self,
+        ticket: u64,
+        objects: &[giants_game::actor_environment::Collider],
+        device: &mut impl giants_game::actor_retirement::Services,
     ) -> Result<Vec<crate::mission_audio::Event>, String> {
         let a = self
             .active
@@ -1088,6 +1107,7 @@ impl Runtime {
                 controlled: owner,
                 world,
                 objects,
+                resources: a.payload.plan.resources(),
                 tick: giants_game::vimp_wander::Tick {
                     global_delta: clock.seconds,
                     control_factor: 0.5,
@@ -1099,6 +1119,43 @@ impl Runtime {
                 },
             },
             &mut a.variant_random,
+            device,
+        )
+    }
+    pub(crate) fn hit_normal_vimp(
+        &mut self,
+        ticket: u64,
+        target: giants_game::resident_states::Id,
+        projectile: giants_game::mecc_pistol::WorldHit,
+        camera: [f32; 3],
+        device: &mut impl giants_game::actor_retirement::Services,
+    ) -> Result<(bool, Vec<crate::mission_audio::Event>), String> {
+        let a = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("Vimp hit mission ticket absent")?;
+        let shooter = a.player_owner()?;
+        let npcs = a
+            .payload
+            .npcs
+            .as_mut()
+            .map_err(|e| e.clone())?
+            .as_mut()
+            .ok_or("Vimp hit component absent")?;
+        let world = a.payload.world.as_ref().map_err(|e| e.clone())?;
+        npcs.hit(
+            &mut a.resident_states,
+            npc::live::combat::Hit {
+                source: a.payload.plan.resources(),
+                world,
+                shooter,
+                target,
+                projectile,
+                camera,
+            },
+            &mut a.variant_random,
+            device,
         )
     }
     pub(crate) fn npc_target(&self, ticket: u64) -> Option<[f32; 3]> {
@@ -1154,6 +1211,21 @@ impl Runtime {
             .and_then(|a| a.payload.npcs.as_ref().ok()?.as_ref())
             .map(npc::State::blood_quads)
             .unwrap_or_default()
+    }
+    pub(crate) fn npc_effect_draws(
+        &self,
+        ticket: u64,
+        view: [f32; 16],
+    ) -> Result<Vec<NpcDraw>, String> {
+        let Some(npcs) = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket)
+            .and_then(|a| a.payload.npcs.as_ref().ok()?.as_ref())
+        else {
+            return Ok(vec![]);
+        };
+        npcs.effect_draws(view)
     }
     pub(crate) fn npc_draws(&mut self, ticket: u64) -> Result<Vec<NpcDraw>, String> {
         let active = self

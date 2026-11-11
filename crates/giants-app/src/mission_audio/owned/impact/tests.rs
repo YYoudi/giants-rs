@@ -39,6 +39,70 @@ fn reservations_without_device_stay_unstarted_and_consume_no_audio_rng() {
 }
 
 struct AnchorAudioDisabled;
+#[test]
+fn retirement_cancels_unstarted_actor_voice_without_acknowledging_a_sink() {
+    let mut world = World::new();
+    world.init_resource::<Assets<AudioSource>>();
+    world.init_resource::<Assets<crate::positional_pcm::Pcm>>();
+    let mut mounted = super::super::super::tests::fixture(&mut world, 973);
+    reserve(&mut world, &mut mounted, &[0x5f7]).unwrap();
+    reserve(&mut world, &mut mounted, &[0x5f7]).unwrap();
+    let program = giants_formats::class_program::parse(&[0xff]).unwrap();
+    let seed = giants_game::state_storage::Seed::from_program_for(
+        &program,
+        giants_game::state_storage::Profile::Debug,
+        Precision::Double53,
+    )
+    .unwrap();
+    let mut session = Session::new(973);
+    let owner = session.register(0, &seed, &[], Default::default()).unwrap();
+    let peer = session.register(0, &seed, &[], Default::default()).unwrap();
+    let keys = mounted.voices.keys().copied().collect::<Vec<_>>();
+    mounted.voices.get_mut(&keys[0]).unwrap().actor_owner = Some(owner);
+    mounted.voices.get_mut(&keys[1]).unwrap().actor_owner = Some(peer);
+    let owned_entity = mounted.voices[&keys[0]].entity;
+    mounted.pending = Some(Pending {
+        action: Action::Actor {
+            sound: 0x5f7,
+            owner,
+            positional: true,
+        },
+        voices: VecDeque::from([keys[0]]),
+        frames: 0,
+    });
+    world.insert_resource(Engine {
+        mounted: Some(mounted),
+        ..default()
+    });
+    let mut state = SystemState::<OwnedAudio>::new(&mut world);
+    state
+        .get_mut(&mut world)
+        .unwrap()
+        .with_impact(973, 0.75, Mat4::IDENTITY.to_cols_array(), owner, |device| {
+            giants_game::actor_retirement::Services::release(device, &mut session, owner)
+        })
+        .unwrap();
+    state.apply(&mut world);
+    let mounted = world.resource::<Engine>().mounted.as_ref().unwrap();
+    assert!(mounted.pending.is_none());
+    assert!(!mounted.voices.contains_key(&keys[0]));
+    assert!(mounted.voices.contains_key(&keys[1]));
+    assert_eq!(
+        (
+            mounted.started,
+            mounted.actor_started,
+            mounted.audio_random.0
+        ),
+        (0, 0, 1)
+    );
+    assert!(world.get_entity(owned_entity).is_err());
+    assert!(
+        session.get(owner).is_some(),
+        "audio release does not unlink core storage"
+    );
+    let mounted = world.resource_mut::<Engine>().mounted.take().unwrap();
+    release(&mut world, mounted);
+}
 impl positional_impact::Cue for AnchorAudioDisabled {
     fn play(&mut self, _: &mut Session, _: Id, _: u32, _: &mut Random) -> Result<(), String> {
         Ok(())

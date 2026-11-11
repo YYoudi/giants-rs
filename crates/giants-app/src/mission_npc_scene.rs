@@ -38,7 +38,7 @@ struct Object {
 #[derive(Resource, Default)]
 struct State {
     ticket: Option<u64>,
-    objects: BTreeMap<giants_game::resident_states::Id, Object>,
+    objects: BTreeMap<crate::mission_runtime::NpcDrawOwner, Object>,
     failed: Option<String>,
     reported: usize,
 }
@@ -134,7 +134,13 @@ fn update(
         return;
     };
     let result = (|| -> Result<(), String> {
-        let draws = runtime.npc_draws(ticket)?;
+        let mut draws = runtime.npc_draws(ticket)?;
+        draws.extend(runtime.npc_effect_draws(ticket, camera.view)?);
+        let vimp_count = draws.iter().filter(|draw| draw.class == 8).count();
+        let effect_count = draws
+            .iter()
+            .filter(|draw| matches!(draw.id, crate::mission_runtime::NpcDrawOwner::Effect(_)))
+            .count();
         let present: BTreeSet<_> = draws.iter().map(|draw| draw.id).collect();
         let retired: Vec<_> = state
             .objects
@@ -309,7 +315,7 @@ fn update(
                             )),
                             Visibility::Visible,
                             bevy::camera::visibility::NoFrustumCulling,
-                            Name::new(format!("Owned Vimp part {index}")),
+                            Name::new(format!("Owned NPC visual {} part {index}", draw.class)),
                         ))
                         .id();
                     match &material {
@@ -395,7 +401,7 @@ fn update(
         if state.reported != state.objects.len() {
             state.reported = state.objects.len();
             println!(
-                "mission_npc_draw ticket={ticket} vimps={} canonical_actors=true model_slot=0 simulation_in_renderer=false interaction_verified=false ready=false",
+                "mission_npc_draw ticket={ticket} vimps={vimp_count} visuals={} effects={effect_count} canonical_npc_poses=true fx_policy=partial_source_graph model_slot=0 simulation_in_renderer=false interaction_verified=false ready=false",
                 state.reported
             );
         }

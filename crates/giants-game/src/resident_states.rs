@@ -5730,7 +5730,10 @@ impl Session {
                     .into(),
             );
         }
-        if fields.control_flags != 0 || !self.list(9).is_empty() {
+        // Native hurt modes2..4 do not execute mode1's threat-list/control
+        // selection. A real common invocation already owns admission/history;
+        // keep the isolated API's stricter prerequisite outside that caller.
+        if !actor.world_tick_running && (fields.control_flags != 0 || !self.list(9).is_empty()) {
             return Err(
                 "Vimp recovery controlled-reference/threat provider is not acquired".into(),
             );

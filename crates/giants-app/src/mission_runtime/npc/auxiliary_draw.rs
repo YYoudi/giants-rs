@@ -2,6 +2,53 @@
 //! unskinned construction pose; ghosts use their consumed current ANM epoch.
 use super::*;
 impl State {
+    pub(in crate::mission_runtime) fn effect_draws(
+        &self,
+        view: [f32; 16],
+    ) -> Result<Vec<Draw>, String> {
+        self.fx
+            .draws()?
+            .into_iter()
+            .map(|draw| {
+                let matrix = giants_game::camera_facing::draw_matrix(
+                    draw.matrix.values,
+                    draw.personality,
+                    giants_game::camera_facing::Input {
+                        view,
+                        position: [
+                            draw.matrix.values[3],
+                            draw.matrix.values[7],
+                            draw.matrix.values[11],
+                        ],
+                        scale: draw.size,
+                        angle: 0.,
+                    },
+                    giants_game::arithmetic::Precision::Double53,
+                )?;
+                let positions = draw
+                    .local
+                    .into_iter()
+                    .map(|p| {
+                        let p = giants_game::uncached_pose::transform(
+                            matrix[..12].try_into().unwrap(),
+                            p,
+                            giants_game::arithmetic::Precision::Double53,
+                        )?;
+                        Ok([p[0], p[2], -p[1]])
+                    })
+                    .collect::<Result<Vec<_>, String>>()?;
+                Ok(Draw {
+                    class: draw.class,
+                    transparency: draw.transparency,
+                    id: DrawOwner::Effect(draw.key),
+                    frame: draw.frame,
+                    geometry: draw.geometry,
+                    positions,
+                    center: [matrix[3], matrix[7], matrix[11]],
+                })
+            })
+            .collect()
+    }
     pub(super) fn auxiliary_draws(
         &mut self,
         session: &mut Session,
@@ -122,7 +169,7 @@ impl State {
             draws.push(Draw {
                 class,
                 transparency,
-                id,
+                id: DrawOwner::Actor(id),
                 frame: number,
                 geometry: self.auxiliary_geometry[&class].clone(),
                 positions,

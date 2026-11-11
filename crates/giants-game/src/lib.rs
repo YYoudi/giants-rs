@@ -866,3 +866,5 @@ mod actor_angle_approach;
 pub mod slow_areas;
 pub mod vimp_active_response;
 pub mod world_noise;
+
+pub mod vimp_death_fx;

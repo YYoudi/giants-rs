@@ -20,13 +20,15 @@ existing living-primary scalar contract after hurt recovery.
 
 Controlled installed and original-PC evidence, remaining lethal dependencies and
 delivery acceptance are tracked in BACKLOG.md. These source candidates are not
-features of the immutable .11.2 package. Ordinary damage/audio/render, lethal FX,
-ghost, meat and cleanup still require combined acceptance before publication.
+features of the immutable .11.2 package. The candidate connects ordinary hits,
+injury/death sounds, blood, death FX, ghost, meat and cleanup; final graphical and
+OS-input acceptance is still required before publication.
 The current source also owns the retained ghost actor/ANM, its state84 meat
 presence lifecycle and loose-meat expiry. Those installed dependency cycles
 still supply birth/admission/time and external-release boundaries; they do not
-establish a rendered ordinary lethal interaction. Complete death FX and the
-combined consumer remain the next delivery gate in BACKLOG.md.
+establish a rendered ordinary lethal interaction. The later connected pistol
+control below exercises the combined source consumer; final build acceptance
+remains the next delivery gate in BACKLOG.md.
 
 The common scene consumes the actual loose-meat affine and retained ghost ANM,
 with separate shared unlit materials, source transparency and per-owner buffer
@@ -37,12 +39,30 @@ particles; its renderer reads copied quads only. Injury/recovery sound requests
 use the existing actor-owned transport, with playback acknowledged only by its
 real sink consumer. The installed nonlethal bridge supplies a hit explicitly.
 
-Death effects receive the actual mutable Session for constructing their actors.
-Prepared full/lite and nested skip frames do not acknowledge active execution.
+The damage API provides the actual mutable Session to its required death service.
+The ordinary adapter owns its FX graph under separate typed visual keys, so those
+keys cannot be mistaken for Session actor IDs or native pointers. It consumes
+actual source programs/classes/ANM/textures, actual full/lite selection inputs
+and shared visual, reference, movement, gravity and terrain kernels. Host-frame
+FX scheduling, terrain-only contact and splat retention for the requesting
+source object's lifetime remain explicit preview policies. This does not admit
+or acknowledge a full native state78/world/decal callback. Prepared full/lite
+and nested skip frames alone still do not acknowledge active execution.
 The positional wrapper's inherited angle basis lives in its own payload field,
 distinct from the translated birth affine and from the state78 SIMD Euler path.
-Immediate child references remain the actual fixed own/parent pair. The complete
-active death graph remains the blocker for ordinary lethal hit dispatch.
+Immediate child references remain the actual fixed own/parent pair. Emission
+windows and bounded impact-child counts have real consumers; no death request
+is acknowledged by a recording-only provider. The connected installed control
+uses actual ordinary pistol amounts/trajectories and supplied navigation/time,
+with three kills per entry, real source ghost/meat cycles and complete owner
+retirement. Its external release boundary and copied render packets are not
+GPU, audible or OS-input proof. See BACKLOG.md for final build acceptance.
+
+The common recovery invocation preserves the current threat population and
+control words: native hurt modes2..4 do not run mode1's threat traversal. The
+isolated API retains its stricter admission. Actor-owned audio retirement stops
+real started sinks, cancels unstarted reservations without playback acknowledgement
+and removes stale queued starts after their actual actor owner disappears.
 
 ## Current first-living integration candidate
 

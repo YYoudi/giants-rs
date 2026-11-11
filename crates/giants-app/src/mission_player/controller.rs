@@ -671,7 +671,9 @@ pub(super) fn update(
                     let camera = controller.state.subjective_inputs().0;
                     let yaw = camera.angles[0].to_radians();
                     let desired = dx.atan2(-dy);
-                    let pitch = (position[2] + 6. - target[2] - 4.).atan2(distance.max(1.));
+                    let horizontal =
+                        (target[0] - camera.position[0]).hypot(target[1] - camera.position[1]);
+                    let pitch = (camera.position[2] - target[2] - 8.).atan2(horizontal.max(1.));
                     controller.state.mission_look(
                         Vec2::new(
                             (yaw - desired + std::f32::consts::PI)
@@ -950,12 +952,56 @@ pub(super) fn update(
                         origin
                     );
                 }
-                for hit in &result.world_hits {
+                for hit in result.world_hits {
                     if let Some(owner) = controller.state.mission_npc_hit_owner(hit.object) {
-                        println!(
-                            "mission_player_vimp_hitbox ticket={} owner={owner:?} shot={} point={:?} damage_callback=false",
-                            controller.ticket, hit.serial, hit.point
-                        );
+                        let local = runtime
+                            .normal_landing_owner(controller.ticket)
+                            .ok_or_else(|| "NPC shooter absent".to_owned());
+                        let response = local.and_then(|local| {
+                            audio.owned.with_impact(
+                                controller.ticket,
+                                frontend.feedback_volume(),
+                                controller.state.camera().0.view,
+                                local,
+                                |device| {
+                                    runtime.hit_normal_vimp(
+                                        controller.ticket,
+                                        owner,
+                                        hit,
+                                        controller.state.subjective_inputs().0.position,
+                                        device,
+                                    )
+                                },
+                            )
+                        });
+                        match response {
+                            Ok((dead, events)) => {
+                                for event in events {
+                                    audio.local.write(crate::mission_audio::Request {
+                                        ticket: controller.ticket,
+                                        event,
+                                    });
+                                }
+                                if dead {
+                                    match runtime.npc_contact_snapshots(controller.ticket).and_then(
+                                        |contacts| {
+                                            let ticket = controller.ticket;
+                                            controller.state.set_mission_contacts(ticket, contacts)
+                                        },
+                                    ) {
+                                        Ok(()) => {}
+                                        Err(e) => {
+                                            controller.npc_failed = true;
+                                            error!("Vimp contacts after death: {e}");
+                                        }
+                                    }
+                                }
+                            }
+                            Err(e) => {
+                                controller.npc_failed = true;
+                                error!("Vimp hit refused: {e}");
+                            }
+                        }
                     }
                 }
                 for impact in result.impacts {
@@ -1248,10 +1294,25 @@ pub(super) fn update(
             && !controller.world_signals_failed
             && !controller.npc_failed
         {
-            match runtime.advance_normal_npcs(
-                controller.ticket,
-                controller.state.mission_environment_colliders(),
-            ) {
+            let advanced = runtime
+                .normal_landing_owner(controller.ticket)
+                .ok_or("NPC controlled owner absent".to_owned())
+                .and_then(|local| {
+                    audio.owned.with_impact(
+                        controller.ticket,
+                        frontend.feedback_volume(),
+                        controller.state.camera().0.view,
+                        local,
+                        |device| {
+                            runtime.advance_normal_npcs_with_retirement(
+                                controller.ticket,
+                                controller.state.mission_environment_colliders(),
+                                device,
+                            )
+                        },
+                    )
+                });
+            match advanced {
                 Ok(sounds) => {
                     for event in sounds {
                         audio.local.write(crate::mission_audio::Request {
