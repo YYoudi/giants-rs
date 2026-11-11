@@ -55,6 +55,19 @@ impl Session {
         signals: Signals,
         globals: &giants_formats::global_data::GlobalData,
     ) -> Result<bool, String> {
+        self.consider_vimp_threats_in_scope(id, number, signals, globals, None)
+    }
+    pub(super) fn consider_vimp_threats_in_scope(
+        &mut self,
+        id: Id,
+        number: u64,
+        signals: Signals,
+        globals: &giants_formats::global_data::GlobalData,
+        scope: Option<&super::vimp_living::Scope>,
+    ) -> Result<bool, String> {
+        if let Some(scope) = scope {
+            scope.check(self, id)?;
+        }
         use crate::vimp_wander::{put, scalar, word};
         let actor = self.get(id).ok_or("Vimp threat owner absent or foreign")?;
         let vimp = actor
@@ -67,7 +80,7 @@ impl Session {
             || vimp.wander_pending
             || actor.attachment.is_some()
             || actor.presentation_parent.is_some()
-            || actor.world_tick_running
+            || scope.is_none() && actor.world_tick_running
             || actor.vimp_active_running
             || actor.vimp_frame_stopped
             || actor.vimp_threat_failure.is_some()

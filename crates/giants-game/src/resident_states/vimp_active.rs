@@ -173,7 +173,22 @@ impl Session {
         random: &mut crate::audio_parameters::Random,
         services: &mut impl MovementServices,
     ) -> Result<(), String> {
-        let (parent, _, parameters) = self.begin_vimp_active(id, number, globals)?;
+        self.advance_vimp_movement_response_in_scope(
+            id, number, movement, globals, random, services, None,
+        )
+    }
+    #[allow(clippy::too_many_arguments)] // Private lease plus the unchanged offline call boundary.
+    pub(super) fn advance_vimp_movement_response_in_scope(
+        &mut self,
+        id: Id,
+        number: u64,
+        movement: Movement,
+        globals: &giants_formats::global_data::GlobalData,
+        random: &mut crate::audio_parameters::Random,
+        services: &mut impl MovementServices,
+        scope: Option<&super::vimp_living::Scope>,
+    ) -> Result<(), String> {
+        let (parent, _, parameters) = self.begin_vimp_active(id, number, globals, scope)?;
         let result = (|| {
             let obstructed = match movement.contact {
                 Contact::Owned => self.get(id).unwrap().vimp.unwrap().contact_hit != 0,
@@ -196,7 +211,11 @@ impl Session {
             let publication = adapter.session.publish_vimp_movement(id, parent, &state);
             step.and(publication)?;
             let state = self.vimp_active_projection(id, parent)?;
-            self.run_vimp_active(id, parent, state, parameters, random, services)
+            if state.active != 0 {
+                self.run_vimp_active(id, parent, state, parameters, random, services)
+            } else {
+                services.orient(self, id)
+            }
         })();
         self.end_vimp_active(id, result.is_err());
         result
@@ -218,7 +237,7 @@ impl Session {
             || a.seed.storage.profile() != Profile::Debug
             || a.seed.storage.state() != 21
             || !v.initialized
-            || v.mode != 1
+            || !matches!(v.mode, 1 | 7)
             || v.born.map(|b| b.parent) != Some(parent)
             || b.len() != 216
             || a.attachment.is_some()
@@ -271,12 +290,16 @@ impl Session {
         id: Id,
         number: u64,
         globals: &giants_formats::global_data::GlobalData,
+        scope: Option<&super::vimp_living::Scope>,
     ) -> Result<(Id, active::State, active::Parameters), String> {
+        if let Some(scope) = scope {
+            scope.check(self, id)?;
+        }
         let a = self.get(id).ok_or("Vimp active owner absent or foreign")?;
         let v = a.vimp.ok_or("Vimp active construction absent")?;
         if v.wander_pending
             || a.vimp_frame_stopped
-            || a.world_tick_running
+            || scope.is_none() && a.world_tick_running
             || a.vimp_prepared_history.is_some()
             || a.vimp_vector_running
             || a.vimp_response_running
@@ -296,7 +319,7 @@ impl Session {
             .ok_or("Vimp active requires actual herd birth")?
             .parent;
         let state = self.vimp_active_projection(id, parent)?;
-        if state.active == 0 {
+        if scope.is_none() && (state.active == 0 || v.mode != 1) {
             return Err("Vimp active response absent".into());
         }
         let p = |at| globals.scalar(at).map_err(|e| e.to_string());
@@ -356,7 +379,7 @@ impl Session {
         random: &mut crate::audio_parameters::Random,
         services: &mut impl Services,
     ) -> Result<(), String> {
-        let (parent, state, parameters) = self.begin_vimp_active(id, number, globals)?;
+        let (parent, state, parameters) = self.begin_vimp_active(id, number, globals, None)?;
         let result = self.run_vimp_active(id, parent, state, parameters, random, services);
         self.end_vimp_active(id, result.is_err());
         result

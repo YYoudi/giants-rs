@@ -225,3 +225,200 @@ fn source_npc_completed_poses_feed_common_render_assets_and_retire() {
         );
     }
 }
+
+#[test]
+#[ignore = "requires GIANTS_NPC_ROOT; ordinary owned partial driver on actual Story2 terrain/resources with supplied clock/Mecc commands and queued audio; no GPU, OS input or whole native world proof"]
+fn source_normal_vimp_component_uses_player_clock_noise_and_reentry() {
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let source = giants_game::world_source::resolve(&root, "Story2").unwrap();
+    let menu = giants_game::mission_selection::MissionMenu::parse(
+        &std::fs::read(root.join("Bin").join(source.catalog)).unwrap(),
+        u32::MAX,
+        true,
+    )
+    .unwrap();
+    let packet = Arc::new(
+        giants_game::mission_loading::prepare(&root, menu.request("Story2", 0).unwrap()).unwrap(),
+    );
+    let asset = Arc::new(giants_game::load_world(&root, "Story2").unwrap());
+    for ticket in [3611, 3612] {
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let mut payload = runtime::tests::payload();
+        payload.npcs = super::State::prepare(&root, &plan);
+        payload.player = giants_game::player_initial::Prepared::load(
+            &root,
+            &plan,
+            packet.world.as_ref().unwrap(),
+            packet.mission.as_ref().unwrap(),
+        )
+        .map(Arc::new)
+        .map_err(|e| e.to_string());
+        payload.world = Ok(asset.clone());
+        let player = payload.player.as_ref().unwrap().clone();
+        let mut viewer =
+            crate::mecc_dev_scene::State::load_mission(&root, &asset, &packet, &player).unwrap();
+        viewer.sample_pose().unwrap();
+        payload.plan = plan;
+        payload.packet = packet.clone();
+        let mut world = World::new();
+        let mut queue = CommandQueue::default();
+        let (scene_root, actors, blocked, residents, bindings) =
+            runtime::spawn(&mut Commands::new(&mut queue, &world), ticket, &mut payload);
+        queue.apply(&mut world);
+        let mut runtime = Runtime {
+            active: Some(runtime::Active {
+                ticket,
+                root: scene_root,
+                actors,
+                resident_states: residents,
+                blocked,
+                payload,
+                start: runtime::StartState {
+                    intent: giants_game::mission_loading::LaunchIntent::SavedMission,
+                    progress: giants_game::mission_selection::Progress::load(None, None).unwrap(),
+                },
+                reported: false,
+                pickup: None,
+                landing: None,
+                variant_random: giants_game::audio_parameters::Random(1),
+                audio_registry: None,
+                bindings,
+                controlled_mecc_owner: None,
+                owned_mecc: None,
+            }),
+            ..Default::default()
+        };
+
+        assert!(
+            runtime
+                .advance_normal_npcs(ticket, viewer.mission_environment_colliders())
+                .is_err()
+        );
+        let mut sounds = 0;
+        let mut shots = 0;
+        let mut changed = false;
+        let mut first_pose = None;
+        for number in 1..=6000u64 {
+            runtime
+                .sample_world_clock(ticket, 1000 + number as u32 * 16)
+                .unwrap();
+            let position = viewer.mission_snapshot().0;
+            let mut axes = Vec2::ZERO;
+            let mut thrust = false;
+            let mut boost = false;
+            let targets = runtime.npc_draws(ticket).unwrap();
+            if let Some(target) = targets.iter().min_by(|a, b| {
+                let distance = |p: [f32; 3]| (p[0] - position[0]).hypot(p[1] - position[1]);
+                distance(a.center).total_cmp(&distance(b.center))
+            }) {
+                let dx = target.center[0] - position[0];
+                let dy = target.center[1] - position[1];
+                let distance = dx.hypot(dy);
+                let current = viewer.subjective_inputs().0.angles[0].to_radians();
+                let desired = dx.atan2(-dy);
+                viewer.mission_look(
+                    Vec2::new(
+                        (current - desired + std::f32::consts::PI)
+                            .rem_euclid(std::f32::consts::TAU)
+                            - std::f32::consts::PI,
+                        0.,
+                    ),
+                    false,
+                );
+                if distance > 60. {
+                    axes = Vec2::Y;
+                    thrust =
+                        position[2] < target.center[2] + 80. && viewer.mission_snapshot().1 > 0.3;
+                    boost = distance > 300. && number % 360 == 0;
+                }
+            }
+            let motion = viewer
+                .step(1. / 60., axes, &asset.terrain, thrust, boost)
+                .unwrap();
+            runtime
+                .publish_controlled_mecc_motion(ticket, number, motion)
+                .unwrap();
+            let shot = viewer
+                .mission_fire_step(1. / 60., true, &asset.terrain)
+                .unwrap();
+            if shot.fired {
+                runtime.publish_player_noise(ticket).unwrap();
+                shots += 1;
+            }
+            sounds += runtime
+                .advance_normal_npcs(ticket, viewer.mission_environment_colliders())
+                .unwrap()
+                .len();
+            let random = runtime.active.as_ref().unwrap().variant_random.0;
+            assert!(
+                runtime
+                    .advance_normal_npcs(ticket, viewer.mission_environment_colliders())
+                    .unwrap()
+                    .is_empty()
+            );
+            assert_eq!(runtime.active.as_ref().unwrap().variant_random.0, random);
+            let draws = runtime.npc_draws(ticket).unwrap();
+            assert!(draws.len() > 1);
+            if let Some(before) = &first_pose {
+                changed |= *before != draws[0].positions;
+            } else {
+                first_pose = Some(draws[0].positions.clone());
+            }
+            assert_eq!(
+                runtime
+                    .active
+                    .as_ref()
+                    .unwrap()
+                    .payload
+                    .npcs
+                    .as_ref()
+                    .unwrap()
+                    .as_ref()
+                    .unwrap()
+                    .view(&runtime.active.as_ref().unwrap().resident_states, ticket)
+                    .unwrap()
+                    .effect_contexts,
+                0
+            );
+        }
+        let a = runtime.active.as_ref().unwrap();
+        let stats = a
+            .payload
+            .npcs
+            .as_ref()
+            .unwrap()
+            .as_ref()
+            .unwrap()
+            .live_stats();
+        println!(
+            "normal_vimp_driver_control ticket={ticket} frames={} entered={} returned={} sounds={sounds} shots={shots} changed={changed} player_position={:?} source_world=Story2 supplied_clock_commands=true os_input=false",
+            stats.0,
+            stats.1,
+            stats.2,
+            viewer.mission_snapshot().0
+        );
+        assert_eq!(stats.0, 6000);
+        assert!(
+            stats.1 > 0 && stats.2 > 0,
+            "actual player noise never entered/returned from source startle"
+        );
+        assert!(changed && sounds > 0 && shots >= 5);
+        assert!(
+            runtime
+                .advance_normal_npcs(ticket + 1, viewer.mission_environment_colliders())
+                .is_err()
+        );
+        runtime::cancel_ticket(&mut runtime, &mut Commands::new(&mut queue, &world), ticket);
+        queue.apply(&mut world);
+        assert!(runtime.active.is_none());
+        assert_eq!(
+            world.query::<&runtime::MissionOwned>().iter(&world).count(),
+            0
+        );
+        assert!(
+            runtime
+                .advance_normal_npcs(ticket, viewer.mission_environment_colliders())
+                .is_err()
+        );
+    }
+}

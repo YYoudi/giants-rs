@@ -825,6 +825,7 @@ pub mod vimp_damage;
 pub mod vimp_death_proxy;
 pub mod vimp_frame;
 pub mod vimp_hurt;
+pub mod vimp_living;
 pub mod vimp_living_scalars;
 pub mod vimp_movement;
 pub mod vimp_physical;

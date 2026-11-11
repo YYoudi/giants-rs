@@ -501,8 +501,19 @@ fn overlay(world: &mut World) {
                 _ => "LOADING",
             },
         };
+        let npc_hint = if mode == Mode::Mecc
+            || mode == Mode::Loading && frontend.flow.phase == Phase::Gameplay
+        {
+            world
+                .resource::<crate::mission_runtime::Runtime>()
+                .npc_hint(frontend.flow.ticket)
+                .map(|s| format!("\n{s}"))
+                .unwrap_or_default()
+        } else {
+            String::new()
+        };
         format!(
-            "{title} | {status}\nPartial scene / native fidelity incomplete. F6: free camera | F8: hide hints | {} | F10: quit{}{}",
+            "{title} | {status}\nPartial scene / native fidelity incomplete. F6: free camera | F8: hide hints | {} | F10: quit{}{}{npc_hint}",
             if mode == Mode::Opening || frontend.flow.phase == Phase::Cinematic {
                 "Esc / double-click: skip cinematic"
             } else {

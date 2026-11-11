@@ -96,7 +96,7 @@ impl Owned {
             || self.view.failure.is_some()
             || !vimp.wander_pending
             || !vimp.initialized
-            || !matches!(vimp.mode, 1..=4)
+            || !matches!(vimp.mode, 1..=4 | 7)
             || fields.class != 8
             || body.len() != 216
         {

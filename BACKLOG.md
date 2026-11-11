@@ -47,6 +47,22 @@ action. Actual utility/event birth callers and complete native-world population
 are not certified by an initially empty namespace. The first living interaction
 is still pending its callback and threat/response composition.
 
+Source candidate: the common Vimp primary now composes threat/response, movement
+and mode7 startle/return through owned invocation guards. The ordinary Story2
+Mecc controller now calls a first-interaction component using its real mission
+Session, player clock/position, pistol noise, source herds/markers and shared
+partial-runtime RNG. Completed poses feed the existing renderer; sound-only
+contexts queue positional requests and retire. The native complete-world
+schedule and other AI families remain unavailable; no successful callbacks are
+invented for them. Current next acceptance is the connected ordinary driver on
+actual Story2 terrain, normal controls/reaction/return/re-entry, real muted audio,
+GPU assets and cleanup. Then publish one new matching build/main/dashboard;
+preview .11.1 remains unchanged until that validation completes.
+
+The owner subsequently authorized full-screen computer use for these tests on
+11 November. Necessary game windows and interactions may now be used; keep sound
+muted and avoid unrelated focus changes.
+
 ## Current consolidation - owner direction, 11 November 2026
 
 The main lane now consolidates all available work from Meccs, Delphi, NPCs,

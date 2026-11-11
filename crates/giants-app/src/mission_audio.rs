@@ -64,6 +64,10 @@ pub(crate) enum Event {
         sound: u32,
         kind: giants_game::actor_sound::Kind,
     },
+    NpcPosition {
+        sound: u32,
+        position: [f32; 3],
+    },
     Fire(i32),
     Boost,
     Footstep(giants_game::mecc_footsteps::Cue),
@@ -917,6 +921,13 @@ fn process(
                         .resource_mut::<crate::mission_runtime::Runtime>()
                         .variant_choice(mounted.ticket)?;
                     Some(Action::One(mecc_audio::pistol_request(projectile, draw)?))
+                }
+                Event::NpcPosition { sound, position } => {
+                    println!(
+                        "mission_npc_sound_request ticket={} sound={sound} route=position playback_acknowledged=false",
+                        mounted.ticket
+                    );
+                    Some(Action::Position(sound, position))
                 }
                 Event::Footstep(cue) => {
                     println!(

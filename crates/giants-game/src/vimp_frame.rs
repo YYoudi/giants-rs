@@ -28,13 +28,14 @@ pub(crate) enum History {
     Prepared,
     Constructor,
 }
-pub(crate) struct Adapter<'a, 'b> {
+pub(crate) struct Adapter<'a, 'b, 'c> {
     pub factory: &'a crate::vimp_actor::Factory,
     pub globals: &'a giants_formats::global_data::GlobalData,
     pub frame: Frame<'a>,
     pub services: &'a mut Services<'b>,
+    pub living: Option<&'c mut dyn crate::vimp_living::Services>,
 }
-impl ActorWorldServices for Adapter<'_, '_> {
+impl ActorWorldServices for Adapter<'_, '_, '_> {
     fn controlled_actor(&self) -> Option<Id> {
         self.frame.controlled_actor
     }
@@ -79,19 +80,44 @@ impl ActorWorldServices for Adapter<'_, '_> {
                 },
             );
         }
-        session.begin_vimp_wander_offline(
-            source,
-            self.frame.tick,
-            self.factory,
-            self.globals,
-            self.services.animation.random,
-        )?;
+        if let Some(living) = self.living.as_deref_mut() {
+            session.begin_vimp_living_primary(
+                source,
+                self.frame.tick,
+                self.factory,
+                self.globals,
+                self.services.animation.random,
+                living,
+            )?;
+        } else {
+            session.begin_vimp_wander_offline(
+                source,
+                self.frame.tick,
+                self.factory,
+                self.globals,
+                self.services.animation.random,
+            )?;
+        }
         session.advance_vimp_physical_offline(
             source,
             self.factory,
             self.globals,
             &mut *self.services.ground,
         )?;
+        if let Some(living) = self.living.as_deref_mut() {
+            return session.advance_vimp_living_animation(
+                source,
+                self.factory,
+                self.globals,
+                crate::vimp_animation::Services {
+                    blending: self.services.animation.blending,
+                    contexts: self.services.animation.contexts,
+                    random: self.services.animation.random,
+                    stamp: self.services.animation.stamp,
+                },
+                living,
+            );
+        }
         session.advance_vimp_animation_offline(
             source,
             self.factory,

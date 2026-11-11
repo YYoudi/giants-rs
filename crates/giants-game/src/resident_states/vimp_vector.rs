@@ -253,6 +253,35 @@ impl Session {
         put(p.seed.storage.data_mut().unwrap(), 0x2c, r.selected);
         Ok(())
     }
+    pub(super) fn retarget_vimp_in_scope(
+        &mut self,
+        id: Id,
+        scope: &super::vimp_living::Scope,
+        random: &mut crate::audio_parameters::Random,
+        services: &mut impl Services,
+    ) -> Result<(), String> {
+        scope.check(self, id)?;
+        let parent = self.get(id).unwrap().vimp.unwrap().born.unwrap().parent;
+        // Retarget reads marker/position/offsets, never the forward vector.
+        // Growth may have changed scale earlier in this same primary; the
+        // retained affine is refreshed by the following physical phase.
+        let (mut state, mut route) = self.vimp_vector_projection(id, parent)?;
+        vector::next_marker(&mut state, &mut route)?;
+        let mut adapter = Adapter {
+            session: self,
+            services,
+            owner: id,
+            parent,
+            valid: true,
+        };
+        let result = vector::retarget(&mut state, &mut route, random, &mut adapter);
+        let published = if adapter.valid {
+            adapter.publish(&state, &route)
+        } else {
+            Ok(())
+        };
+        result.and(published)
+    }
     /// Isolated vector helper on an actual owned herd route. Caller/session,
     /// global RNG phase and primary timing remain explicit prerequisites.
     /// Nonzero hint state refuses until its typed owner/terrain/affine service
@@ -265,6 +294,20 @@ impl Session {
         random: &mut crate::audio_parameters::Random,
         services: &mut impl Services,
     ) -> Result<(), String> {
+        self.advance_vimp_vector_in_scope(id, request, globals, random, services, None)
+    }
+    pub(super) fn advance_vimp_vector_in_scope(
+        &mut self,
+        id: Id,
+        request: Request,
+        globals: &giants_formats::global_data::GlobalData,
+        random: &mut crate::audio_parameters::Random,
+        services: &mut impl Services,
+        scope: Option<&super::vimp_living::Scope>,
+    ) -> Result<(), String> {
+        if let Some(scope) = scope {
+            scope.check(self, id)?;
+        }
         let Request {
             number,
             origin,
@@ -273,7 +316,7 @@ impl Session {
         let a = self.get(id).ok_or("Vimp vector owner absent or foreign")?;
         let v = a.vimp.ok_or("Vimp vector source construction absent")?;
         if v.wander_pending
-            || a.world_tick_running
+            || scope.is_none() && a.world_tick_running
             || a.vimp_prepared_history.is_some()
             || a.vimp_frame_stopped
             || a.vimp_vector_running

@@ -47,7 +47,8 @@ minimal summaries. Use only the neutral designation "prototype PS2" and never
 disclose personal provenance. Context handoffs must retain this lookup step.
 
 Prefer background work. The owner subsequently authorized manual tests in this
-chat, including necessary test windows and interactions; avoid unrelated focus
+chat, including necessary test windows and interactions, and reaffirmed full-screen
+computer use for this objective on 11 November 2026; avoid unrelated focus
 changes and sound. Original installations and research corpora
 are read-only. No original data, screenshots, dumps, decompilations, native byte
 signatures, secrets, personal paths or executables in Git. Private research stays

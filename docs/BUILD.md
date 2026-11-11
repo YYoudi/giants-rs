@@ -1316,3 +1316,20 @@ The silent CPU lifetime control requires the same installation/executable:
 ```powershell
 cargo test --locked -p giants-app --target x86_64-pc-windows-gnu source_kabuto_inspection_camera_uses_owned_mode_profile_and_reenters -- --ignored
 ```
+
+### First-living candidate controls (source, not preview .11.1)
+
+With a user-supplied installation selected by `GIANTS_NPC_ROOT`, run:
+
+```powershell
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu source_vimp_living_noise_cycles_consume_common_frames_and_effects -- --ignored --nocapture
+cargo test --locked -p giants-app --target x86_64-pc-windows-gnu source_normal_vimp_component_uses_player_clock_noise_and_reentry -- --ignored --nocapture
+```
+
+The first control supplies admission, terrain, clock/control/noise/session and an
+absent sound bank. The second uses actual Story2 resources/terrain and the normal
+owned partial runtime, with supplied host timestamps and Mecc commands; it queues
+audio without a device or OS input. Neither certifies native complete-world
+admission or GPU fidelity. The optional private native selector comparison also
+requires `GIANTS_NPC_NOISE_ANIMATION_CONTROL` pointing to a reviewed private
+hex-case file; raw controls and original data stay outside Git.

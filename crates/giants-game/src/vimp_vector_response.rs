@@ -120,7 +120,7 @@ fn marker<K>(route: &Route<K>, index: u32) -> Result<Marker, String> {
         .flatten()
         .ok_or_else(|| "Vimp route marker absent or unowned".into())
 }
-fn next_marker<K>(state: &mut State<K>, route: &mut Route<K>) -> Result<(), String> {
+pub(crate) fn next_marker<K>(state: &mut State<K>, route: &mut Route<K>) -> Result<(), String> {
     let move_parent = state.marker != route.selected;
     if route.markers.is_empty() {
         return Err("Vimp route has no marker slots".into());

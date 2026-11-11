@@ -62,6 +62,7 @@ pub use vimp_active::{
     Contact as VimpMovementContact, Movement as VimpActiveMovement,
     MovementServices as VimpActiveMovementServices, Services as VimpActiveServices,
 };
+mod vimp_living;
 mod vimp_response;
 #[cfg(test)]
 mod vimp_response_tests;
@@ -5971,6 +5972,7 @@ impl Session {
             globals,
             services,
             crate::vimp_frame::History::Prepared,
+            None,
         )
     }
 
@@ -5993,6 +5995,7 @@ impl Session {
             globals,
             services,
             crate::vimp_frame::History::Constructor,
+            None,
         )
     }
 
@@ -6013,9 +6016,52 @@ impl Session {
             globals,
             services,
             crate::vimp_frame::History::Combined,
+            None,
         )
     }
 
+    /// Common primary with required live session/actions; caller still owns
+    /// whole-world admission and the selected history route.
+    pub fn advance_vimp_living_after_history(
+        &mut self,
+        id: Id,
+        frame: crate::vimp_frame::Frame<'_>,
+        factory: &crate::vimp_actor::Factory,
+        globals: &giants_formats::global_data::GlobalData,
+        services: &mut crate::vimp_frame::Services<'_>,
+        living: &mut dyn crate::vimp_living::Services,
+    ) -> Result<crate::actor_world_tick::Outcome, String> {
+        self.advance_vimp_world_with_history(
+            id,
+            frame,
+            factory,
+            globals,
+            services,
+            crate::vimp_frame::History::Prepared,
+            Some(living),
+        )
+    }
+    /// First actual herd-child callback, retaining constructor history.
+    pub fn advance_vimp_living_newborn(
+        &mut self,
+        id: Id,
+        frame: crate::vimp_frame::Frame<'_>,
+        factory: &crate::vimp_actor::Factory,
+        globals: &giants_formats::global_data::GlobalData,
+        services: &mut crate::vimp_frame::Services<'_>,
+        living: &mut dyn crate::vimp_living::Services,
+    ) -> Result<crate::actor_world_tick::Outcome, String> {
+        self.advance_vimp_world_with_history(
+            id,
+            frame,
+            factory,
+            globals,
+            services,
+            crate::vimp_frame::History::Constructor,
+            Some(living),
+        )
+    }
+    #[allow(clippy::too_many_arguments)] // History and live backend are private admission inputs.
     fn advance_vimp_world_with_history(
         &mut self,
         id: Id,
@@ -6024,6 +6070,7 @@ impl Session {
         globals: &giants_formats::global_data::GlobalData,
         services: &mut crate::vimp_frame::Services<'_>,
         history: crate::vimp_frame::History,
+        living: Option<&mut dyn crate::vimp_living::Services>,
     ) -> Result<crate::actor_world_tick::Outcome, String> {
         factory.growth_bounds(self, id)?;
         self.validate_vimp_world_entry(
@@ -6058,6 +6105,7 @@ impl Session {
             globals,
             frame,
             services,
+            living,
         };
         let result = token.run(&mut ActorWorldAdapter {
             session: self,
@@ -6138,6 +6186,16 @@ impl Session {
         globals: &giants_formats::global_data::GlobalData,
         services: crate::vimp_animation::Services<'_>,
     ) -> Result<(), String> {
+        self.advance_vimp_animation_selected(id, factory, globals, services, true)
+    }
+    fn advance_vimp_animation_selected(
+        &mut self,
+        id: Id,
+        factory: &crate::vimp_actor::Factory,
+        globals: &giants_formats::global_data::GlobalData,
+        services: crate::vimp_animation::Services<'_>,
+        select: bool,
+    ) -> Result<(), String> {
         let crate::vimp_animation::Services {
             blending,
             contexts,
@@ -6180,16 +6238,18 @@ impl Session {
         }
         let mut channels = actor.channels.ok_or("Vimp ANM channels absent")?;
         let prepared = (|| -> Result<_, String> {
-            if let Some(request) = crate::vimp_animation::select(
-                &fields,
-                vimp,
-                &physical.view,
-                body,
-                &channels,
-                &specification,
-                globals,
-                random,
-            )? {
+            if select
+                && let Some(request) = crate::vimp_animation::select(
+                    &fields,
+                    vimp,
+                    &physical.view,
+                    body,
+                    &channels,
+                    &specification,
+                    globals,
+                    random,
+                )?
+            {
                 crate::animation_channels::select_primary(&mut channels, request, blending)?;
             }
             let mut durations = vec![None; 256];

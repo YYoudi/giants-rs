@@ -24,6 +24,16 @@ method, not another feature backlog. Native-function work still follows
 [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md), including prototype PS2
 lookup, private evidence and explicit uncertainty.
 
+The current first-living candidate shares the normal Mecc mission's Session,
+controlled motion/noise, clock, RNG, declared terrain/rigid scene, renderer and
+queued positional transport with authored Story2 herds/markers and their Vimps.
+It is an explicit partial component schedule: other AI stays inactive and receives
+no successful default callback. This unlocks a bounded interaction without
+certifying the native complete-world population/admission/global writers.
+Retain that distinction in labels, tests and publication. The ordinary preview
+must exercise the same connected code, including actual input and cleanup; a
+detached cohort or supplied-command control alone is still insufficient.
+
 For the owner's 11 November consolidation, inspect the available work of all five
 lanes and finish the genuinely supported wiring before closing the objective.
 Record committed and unfinished source separately in the private inventory; keep

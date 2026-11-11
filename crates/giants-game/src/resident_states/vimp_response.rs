@@ -59,6 +59,7 @@ struct Adapter<'a, S> {
     globals: &'a giants_formats::global_data::GlobalData,
     random: &'a mut crate::audio_parameters::Random,
     external: bool,
+    scope: Option<&'a super::vimp_living::Scope>,
 }
 impl<S: Services> Adapter<'_, S> {
     fn publish(&mut self, s: &response::State<Id>) -> Result<(), String> {
@@ -94,11 +95,14 @@ impl<S: Services> response::Services<Id> for Adapter<'_, S> {
     ) -> Result<(), String> {
         self.publish(s)?;
         self.external = true;
-        let number = self
-            .session
-            .vimp_vector_steps(self.owner)
-            .ok_or("Vimp response vector owner absent")?;
-        let result = self.session.advance_vimp_vector_offline(
+        let number = if let Some(scope) = self.scope {
+            scope.vector
+        } else {
+            self.session
+                .vimp_vector_steps(self.owner)
+                .ok_or("Vimp response vector owner absent")?
+        };
+        let result = self.session.advance_vimp_vector_in_scope(
             self.owner,
             super::VimpVectorRequest {
                 number,
@@ -108,6 +112,7 @@ impl<S: Services> response::Services<Id> for Adapter<'_, S> {
             self.globals,
             self.random,
             &mut VectorServices(self.services),
+            self.scope,
         );
         // Vector callbacks may change fields outside the vector projection.
         // Re-read the complete acquired response projection even after failure.
@@ -253,13 +258,27 @@ impl Session {
         random: &mut crate::audio_parameters::Random,
         services: &mut impl Services,
     ) -> Result<bool, String> {
+        self.respond_vimp_in_scope(id, request, globals, random, services, None)
+    }
+    pub(super) fn respond_vimp_in_scope(
+        &mut self,
+        id: Id,
+        request: Request,
+        globals: &giants_formats::global_data::GlobalData,
+        random: &mut crate::audio_parameters::Random,
+        services: &mut impl Services,
+        scope: Option<&super::vimp_living::Scope>,
+    ) -> Result<bool, String> {
+        if let Some(scope) = scope {
+            scope.check(self, id)?;
+        }
         let a = self
             .get(id)
             .ok_or("Vimp response owner absent or foreign")?;
         let v = a.vimp.ok_or("Vimp response source construction absent")?;
         if v.wander_pending
             || a.vimp_frame_stopped
-            || a.world_tick_running
+            || scope.is_none() && a.world_tick_running
             || a.vimp_prepared_history.is_some()
             || a.vimp_vector_running
             || a.vimp_response_running
@@ -292,6 +311,7 @@ impl Session {
             globals,
             random,
             external: false,
+            scope,
         };
         let result = response::respond(state, request.noise_position, &mut adapter);
         let (state, handled, error) = match result {

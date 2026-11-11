@@ -18,8 +18,10 @@ complete the ongoing game reconstruction goal.
 
 After the delivered five-lane consolidation, the owner's current 11 November
 objective is one reliable ordinary Mecc mission loop followed by a first living
-interaction. Work alone in the background, resolve its actual blocking producers
-and publish matching main/build/dashboard evidence when testable. The current
+interaction. Work alone and resolve its actual blocking producers. Prefer background
+work; the owner subsequently authorized necessary full-screen game tests on
+11 November. Keep sound muted and publish matching main/build/dashboard evidence
+when testable. The current
 delivery and prerequisites stay at the top of BACKLOG.md; this supersedes the
 earlier consolidation as the next work selection, while preserving full scope.
 

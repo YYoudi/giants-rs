@@ -17,6 +17,9 @@ pub(super) struct State {
     pub(super) areas: giants_game::slow_areas::Pool<Id>,
 }
 impl State {
+    pub(super) fn current(&self) -> Option<(u64, frame_clock::State)> {
+        self.clock.map(|c| (self.frames, c))
+    }
     pub(super) fn sample(&mut self, owner: Id, observed_ms: u32) -> Result<(), String> {
         if self.owner.is_some_and(|old| old != owner) {
             return Err("mission clock controlled owner changed".into());

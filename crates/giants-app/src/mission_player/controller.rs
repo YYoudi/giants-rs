@@ -30,6 +30,7 @@ pub(crate) struct Controller {
     was_active: bool,
     owned_motion_failed: bool,
     world_signals_failed: bool,
+    npc_failed: bool,
     owned_backend: bool,
     owned_audio_backend: bool,
     owned_jet_probe: bool,
@@ -345,6 +346,7 @@ impl Controller {
             was_active: false,
             owned_motion_failed: false,
             world_signals_failed: false,
+            npc_failed: false,
             initial,
             minimum_fuel: 100.,
             maximum_height: initial[2],
@@ -1169,6 +1171,33 @@ pub(super) fn update(
                             visible_arms += 1;
                         }
                     }
+                }
+            }
+        }
+        if !controller.owned_backend
+            && controller.steps > 0
+            && !controller.owned_motion_failed
+            && !controller.world_signals_failed
+            && !controller.npc_failed
+        {
+            match runtime.advance_normal_npcs(
+                controller.ticket,
+                controller.state.mission_environment_colliders(),
+            ) {
+                Ok(sounds) => {
+                    for (sound, position) in sounds {
+                        audio.local.write(crate::mission_audio::Request {
+                            ticket: controller.ticket,
+                            event: crate::mission_audio::Event::NpcPosition { sound, position },
+                        });
+                    }
+                }
+                Err(error) => {
+                    controller.npc_failed = true;
+                    error!(
+                        "mission_vimp_component_refused ticket={} error={error}",
+                        controller.ticket
+                    );
                 }
             }
         }

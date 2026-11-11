@@ -1050,6 +1050,80 @@ impl Runtime {
     pub fn active_ticket(&self) -> Option<u64> {
         self.active.as_ref().map(|a| a.ticket)
     }
+    /// Partial first-living interaction, using the normal controller's actual
+    /// owner, clock, noise, RNG and source Session. Other AI stays unavailable.
+    pub(crate) fn advance_normal_npcs(
+        &mut self,
+        ticket: u64,
+        objects: &[giants_game::actor_environment::Collider],
+    ) -> Result<Vec<(u32, [f32; 3])>, String> {
+        let a = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("NPC mission ticket absent")?;
+        let owner = a.player_owner()?;
+        if a.owned_mecc.is_some() || a.controlled_mecc_owner != Some(owner) {
+            return Err("NPC component requires ordinary Mecc motion ownership".into());
+        }
+        let Some((sample, clock)) = a.payload.signals.current() else {
+            return Err("NPC shared clock absent".into());
+        };
+        let areas = a.payload.signals.areas.snapshot(|id| {
+            a.resident_states
+                .get(id)
+                .and_then(|a| a.construction_fields.as_ref())
+                .map(|f| f.dispatch_context)
+                .ok_or_else(|| "NPC slow-area owner absent".into())
+        })?;
+        let Some(npcs) = a.payload.npcs.as_mut().map_err(|e| e.clone())? else {
+            return Ok(vec![]);
+        };
+        let world = a.payload.world.as_ref().map_err(|e| e.clone())?;
+        npcs.advance_live(
+            &mut a.resident_states,
+            npc::live::Frame {
+                ticket,
+                sample,
+                controlled: owner,
+                world,
+                objects,
+                tick: giants_game::vimp_wander::Tick {
+                    global_delta: clock.seconds,
+                    control_factor: 0.5,
+                    skip_heading: false,
+                    slow_areas: &areas,
+                    now: clock.elapsed_seconds,
+                    noise_time: a.payload.signals.noise.seconds,
+                    noise_position: a.payload.signals.noise.position,
+                },
+            },
+            &mut a.variant_random,
+        )
+    }
+    pub(crate) fn npc_hint(&self, ticket: u64) -> Option<String> {
+        let a = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket && a.owned_mecc.is_none())?;
+        let npc = a.payload.npcs.as_ref().ok()?.as_ref()?;
+        if !a
+            .payload
+            .world
+            .as_ref()
+            .ok()?
+            .name
+            .eq_ignore_ascii_case("Story2")
+        {
+            return None;
+        }
+        let player = a
+            .resident_states
+            .get(a.player_owner().ok()?)?
+            .construction_fields
+            .as_ref()?;
+        npc.live_hint(&a.resident_states, player.position, player.angles[0])
+    }
     pub(crate) fn npc_draws(&mut self, ticket: u64) -> Result<Vec<NpcDraw>, String> {
         let active = self
             .active

@@ -1,5 +1,55 @@
 # Non-player actors and player interactions
 
+## Current first-living integration candidate
+
+The active Mecc-loop delivery now composes actual Vimp threat consideration,
+response, route selection, movement and heading within the existing owned common
+primary. A private invocation scope pins the actor, herd parent, context, frame
+and helper counters. Existing isolated entry points retain their refusal and
+replay rules. History, physical placement, ANM, references and event preparation
+remain single consumers; the world-running flag is never switched off to bypass
+those guards.
+
+Noise response enters mode7. The new bounded selector requests the source
+forward/backward startle clip, waits for the actual channel completion and
+single-player predicate, then resets the source noise/priority/timer fields on
+return to mode1. Higher-priority returns, linked targets, feeding and other
+unsupported branches still refuse. An original-PC instruction control compares
+768 finite mode7 cases and 6,912 selected words/requests. The numeric selection
+wrapper is an intercepted request boundary; this is not a full-primary or visual
+comparison. Prototype PS2 attribution remains unknown.
+
+An installed supplied-clock cohort completes 50,400 common callbacks, 252 startle
+entries and 246 returns, consuming 2,253 actual sound-only event contexts with no
+pending contexts. Its flat terrain, noise emissions, session and absent sound
+bank are declared control boundaries. A separate actual-Story2 terrain probe
+also completes 3,600 supplied steps with repeated noise. These controls alone
+establish no ordinary playability.
+
+The source candidate connects a first-interaction component to the ordinary
+Mecc controller on Story2. It uses the existing mission Session, authored herd
+and marker identities, controlled player position, sampled host clock, owned
+slow-area namespace, actual pistol noise and shared partial-runtime RNG. The
+existing renderer consumes completed canonical poses. Source sound-only contexts
+feed the same queued positional transport as other ordinary cues; only observed
+AudioSink playback acknowledges a voice. Failures latch without replay.
+
+This explicit component population does not certify a native common-list/world
+update. Other staged AI families remain inactive and receive no successful
+default callbacks. Original full populations, admission and several native global
+writers remain unverified. Preserve the roster/admission limitations below;
+do not report the earlier detached CPU cohorts as ordinary mission evidence.
+The connected installed control uses actual Story2 terrain and declared rigid
+geometry, actual player motion/pistol emissions, and supplied timestamps/commands.
+On each of two tickets it completes 6,000 component frames with 14 Vimps, 259
+startle entries and 253 returns, queues 3,700 sound requests and clears the mission
+on cancellation. Repeating a sampled frame consumes no RNG or duplicate sound.
+This is CPU ownership/reaction evidence, with no device or OS-input acknowledgement.
+Test normal menu entry, actual reaction/return, sound, rendered poses and cleanup
+on one exact executable before publishing this candidate. The current public
+preview .11.1 still has no Vimp interaction.
+
+
 Select and resume work under the shared [gameplay-first
 objective](GOAL_GAMEPLAY_FIRST.md). Prioritize the ordinary player-visible path and
 its first missing caller/consumer before rare variants. Dated controls and

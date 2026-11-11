@@ -8,8 +8,11 @@ use giants_game::{
     vimp_actor::Factory,
 };
 use std::sync::Arc;
+pub(super) mod live;
+use live::Driver;
 
 pub(super) struct State {
+    driver: Driver,
     factory: Factory,
     globals: giants_formats::global_data::GlobalData,
     expected: Vec<(Key, i32)>,
@@ -73,6 +76,7 @@ impl State {
         .map_err(|e| e.to_string())?;
         let factory = Factory::load_registered(plan.resources())?;
         Ok(Some(Self {
+            driver: Driver::default(),
             factory,
             globals,
             expected,

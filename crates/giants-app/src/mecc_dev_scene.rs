@@ -38,6 +38,7 @@ pub struct State {
     collision: giants_game::collision_radius::ColdProfile,
     collision_dimensions: [f32; 2],
     mesh_objects: Vec<giants_game::player_world_collision::Object>,
+    environment_objects: Vec<giants_game::actor_environment::Collider>,
     pub(crate) projectile_objects: Vec<giants_game::projectile_world::Object>,
     pub(crate) projectile_test: Option<([f32; 3], [f32; 3], u32)>,
     mesh_responses: u64,
@@ -139,6 +140,11 @@ impl State {
     }
     pub(crate) fn owned_jet_frames(&self) -> Option<&[giants_game::mecc_jet_presentation::Frame]> {
         self.owned_pose.as_ref().map(|v| v.children.as_slice())
+    }
+    pub(crate) fn mission_environment_colliders(
+        &self,
+    ) -> &[giants_game::actor_environment::Collider] {
+        &self.environment_objects
     }
     pub(crate) fn mission_colliders(&self) -> &[giants_game::player_world_collision::Object] {
         &self.mesh_objects
@@ -710,6 +716,25 @@ impl State {
                 );
             }
         }
+        // Share the same declared rigid scene with the first-living component.
+        // Source class/state and candidate identities are retained; platform/
+        // radial and native live-list eligibility remain outside this profile.
+        let environment_objects = colliders
+            .records
+            .iter()
+            .zip(&colliders.objects)
+            .map(
+                |(record, object)| giants_game::actor_environment::Collider {
+                    class: record.class as u32,
+                    state: record.instance.state,
+                    volume: None,
+                    mesh: giants_game::mecc_mesh_dispatch::MeshObject {
+                        fields: object.fields,
+                        triangles: object.triangles.clone(),
+                    },
+                },
+            )
+            .collect();
         let mut state = Self {
             collision,
             collision_dimensions,
@@ -732,6 +757,7 @@ impl State {
                 .collect::<Result<Vec<_>, &'static str>>()?,
             projectile_test: None,
             mesh_objects: colliders.player_objects,
+            environment_objects,
             mesh_responses: 0,
             rigid_source,
             collision_walk: None,
