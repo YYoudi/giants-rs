@@ -1,5 +1,11 @@
 # Non-player actors and player interactions
 
+Normal meat collection is delivered in preview .11.4 through the same partial
+Mecc controller. It uses the acquired scan/callback, source carried count, actual
+pickup sink and separate collected/expired cleanup. Campaign credit is explicitly
+disabled; feeding/economy and full native admission remain open. See
+[MEAT_COLLECTION.md](MEAT_COLLECTION.md) for the PS2 lookup, evidence and boundaries.
+
 ## Ordinary Vimp collision, injury and death
 
 Preview .11.3 extends the ordinary Story2 component with completed
@@ -481,7 +487,7 @@ player view. Keep those refusals until main connects and verifies the real owner
 | --- | --- | --- | --- |
 | Herd population | `herd_generator`, `herd_markers`, `declared_residents` | Source herd/marker construction, authored properties, ordered marker allocation, offline clock and Vimp births | Mission scheduler, native live clock/RNG ownership, complete population and retirement |
 | Living Vimps | `vimp_actor`, `vimp_wander`, `vimp_physical`, `vimp_animation`, `vimp_frame`, `vimp_threat`, `vimp_response`, `vimp_vector_response`, `vimp_active_response`, `vimp_movement` | Owned birth/initialization/growth and admitted ordinary wander/physical/ANM composition; isolated owned threat/response/vector/active composition and persistent arrival timer | Required hint/action bodies and live session/caller ownership, feeding, full-world order, live render and audio ownership |
-| Vimp injury and remains | `vimp_damage`, `vimp_hurt`, `vimp_recovery`, `vimp_living_scalars`, `vimp_chunks`, `vimp_death_proxy` | Bounded damage, hurt/recovery and owned chunk/proxy services | Actual player hit dispatch, active effects/sounds, collection/economy and complete death cleanup |
+| Vimp injury and remains | `vimp_damage`, `vimp_hurt`, `vimp_recovery`, `vimp_living_scalars`, `vimp_chunks`, `vimp_death_proxy` | Bounded damage, hurt/recovery and owned chunk/proxy services | Feeding/economy, objective producers, eligible mana and complete native-world admission; bounded hit/effect/cleanup and pickup consumers are connected |
 | Rippers | `ripper_perception`, `ripper_steering`, `ripper_pursuit`, `ripper_primary_turn`, `ripper_attack`, `ripper_awakening`, `ripper_emergence`, `ripper_turn_completion`, `ripper_ground`, `ripper_dirt` | Ordered target selection, supplied-view behavior kernels and persistent Session adapters for acquired branches | Complete actor/world primary scheduling, required firing/effect/audio providers, remaining modes and ordinary mission admission |
 | Shared enemy response | `state23_entry`, `state23_damage`, `state23_hurt`, `state23_animation`, `enemy_projectile`, `enemy_ballistic`, `enemy_flight` | Acquired state23 entry/damage/animation, enemy projectile birth/launch and isolated ordinary flight arithmetic | Complete enemy projectile world/contact/damage composition and all enemy classes/bosses |
 | Smartie handling | `smartie_carry`, `smartie_drop`, `carried_actor` and Session pickup/release services | Acquired Mecc carry/detach and owned relationship services | Complete Smartie initialization, independent AI, rescue/follow/work/fear, speech and worker economy |

@@ -4182,9 +4182,27 @@
     "media/aec5d332304d9cf82b1317e0647dc2dff7683c091cfd3df641f1ee1d40e95867.webp": "aec5d332304d9cf82b1317e0647dc2dff7683c091cfd3df641f1ee1d40e95867",
     "media/b33fa911cf3abb2ad21524420bf171af7d2f394e97c1daa13fe17e29051d1cd9.webp": "b33fa911cf3abb2ad21524420bf171af7d2f394e97c1daa13fe17e29051d1cd9",
     "media/7c48b4bae8790a97f373b269e26ebfe530351fc2022d743cb90daa4c219abd99.webp": "7c48b4bae8790a97f373b269e26ebfe530351fc2022d743cb90daa4c219abd99",
-    "media/22823537010e42ff3bfb07475ee3626717d5fe807ce29a5b6f522605ecabdb44.webp": "22823537010e42ff3bfb07475ee3626717d5fe807ce29a5b6f522605ecabdb44"
+    "media/22823537010e42ff3bfb07475ee3626717d5fe807ce29a5b6f522605ecabdb44.webp": "22823537010e42ff3bfb07475ee3626717d5fe807ce29a5b6f522605ecabdb44",
+    "media/7ca448842d634d4f424d932d16626ed26eb6e5a049cac667dfccbb743c2a721f.webp": "7ca448842d634d4f424d932d16626ed26eb6e5a049cac667dfccbb743c2a721f",
+    "media/4be699e7451b35dfc70f8577fbbe7a13a4fcb73ba4b422983cd709ade8fbb168.webp": "4be699e7451b35dfc70f8577fbbe7a13a4fcb73ba4b422983cd709ade8fbb168"
   },
   "screenshots": [
+    {
+      "title": "Preview .11.4: normal meat collection and carried count",
+      "image": "media/7ca448842d634d4f424d932d16626ed26eb6e5a049cac667dfccbb743c2a721f.webp",
+      "caption": "preview-2026.11.11.4; source f92f7ad. Actual Bevy GPU hunt: 4 real settled pieces collected, carried amount 4, all picked owners retired, real muted pickup sinks. Source count shown in the ordinary hint overlay. Supplied movement/fire; no actor pose, birth or hit injection. Objective credit, OS-held input and native fidelity remain unverified/unavailable.",
+      "commit": "f92f7ad4f71b08f7d0638f11d73c44230379dbee",
+      "preview_tag": "preview-2026.11.11.4",
+      "executable_sha256": "2d2219e6fae03ae07b5981d5b4b7c42cf9e04641529a287a632500c867447e16"
+    },
+    {
+      "title": "Preview .11.4: Story2 before the first pickup",
+      "image": "media/4be699e7451b35dfc70f8577fbbe7a13a4fcb73ba4b422983cd709ade8fbb168.webp",
+      "caption": "preview-2026.11.11.4; source f92f7ad. Actual wide Bevy GPU view sixteen supplied-controller steps after the first ordinary partial-pistol lethal hit; the carried count is still zero. Approach the dropped pieces after they settle to collect them in this same executable. This wide view is not a close-up of the death effects. Supplied controller commands; explicit host/terrain/splat policies and incomplete native fidelity.",
+      "commit": "f92f7ad4f71b08f7d0638f11d73c44230379dbee",
+      "preview_tag": "preview-2026.11.11.4",
+      "executable_sha256": "2d2219e6fae03ae07b5981d5b4b7c42cf9e04641529a287a632500c867447e16"
+    },
     {
       "title": "Preview .11.3: actual Vimp death, blood, ghost and meat",
       "image": "media/b33fa911cf3abb2ad21524420bf171af7d2f394e97c1daa13fe17e29051d1cd9.webp",

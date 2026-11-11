@@ -1,5 +1,22 @@
 # Build on Windows with MinGW
 
+For meat collection, follow [MEAT_COLLECTION.md](MEAT_COLLECTION.md) and the
+identity-bound checks in [PREVIEW_NOTES.md](PREVIEW_NOTES.md). In normal Story2 /
+Starving!, hunt a Vimp, wait for settled meat, approach it and observe the carried
+count, pickup sound and disappearance. Return to the menu and enter a fresh
+mission. Full carried inventory must leave remaining pieces uncollected. The
+normal action needs no replay flags. Feeding and objective credit are not enabled.
+
+The internal `GIANTS_MISSION_MEAT_PROBE=1` adds only supplied hunt/approach commands
+to the existing `GIANTS_MISSION_VIMP_PROBE=1` Story2 `showcase-mecc` replay. It
+requires the existing offscreen silent/muted transport and user-supplied data
+folder. It must observe actual births, settlement, source collection, carried
+state, real pickup sinks and collected-owner release, with no NPC/collection/audio
+refusal. Add the existing `cycle-cancel` subjective probe to check cleanup after
+collection. These diagnostics neither enable pickup nor prove OS-held input.
+Preserve source/tag/EXE receipts before publishing their captures. New native
+dependencies still begin with the central method's prototype PS2 name lookup.
+
 For the current reliable-Mecc/first-living-interaction delivery, first exercise
 the shared `mecc_input` edge controls and `mission_runtime::signals` ownership/
 reset control, then the `frame_clock` and `world_noise` kernel tests. The clock

@@ -12,17 +12,58 @@ source-name rule and `docs/SYMBOL_NAVIGATION.md` now apply to new work and servi
 revisited on touch. Keep recovered names searchable in source, retain old aliases
 and distinguish confirmed identities from probable/unknown navigation candidates.
 Initial coverage includes seven Vimp names and the two previously confirmed
-camera service identities. Naming does not establish gameplay delivery; the
+camera service identities; .11.4 adds the selected meat-collection search routes. Naming does not establish gameplay delivery; the
 separately validated ordinary integration and publication are recorded below.
 
-## Delivered preview .11.3 - ordinary Vimp collision, injury and death
+## Current delivery - preview .11.4 ordinary meat collection
+
+Owner direction, 11 November 2026: continue from prototype PS2 names and deliver
+automatic meat collection through normal gameplay, main, public build and dashboard.
+Runtime `f92f7ad`; immutable receipt and controls: docs/PREVIEW_NOTES.md.
+
+Delivered: the actual PC quarter-second scan/settled-piece selection and offline
+callback consume the normal player's source-owned pose and carried amount at
+every ordinary simulation step. Actual pickup cues use the local-player sound
+transport. Collected owners retire separately from expired owners without changing
+fade, bypassing references or substituting an external-release service. The hint
+overlay reads the actual carried count. The exact-build graphical hunt collects
+4 pieces / amount 4, retires all 4 owners and observes real muted
+pickup sinks. Cancellation after collection, living contacts (3219 responses),
+first death, common Mecc cycles/landing, menu lifecycle and selected cinematic
+transport pass. These use supplied commands; no current OS gameplay claim.
+
+The lookup and independent evidence yield two probable relationships:
+`mecc_collect_food` and `mecc_check_food_chunk_collect`. The latter is a PC primary
+block rather than an established function. `vimpchunk_destroy__FP6OBJECT` remains
+unassigned. No new confirmed attribution or PS2 layout/signature import.
+See docs/MEAT_COLLECTION.md and docs/SYMBOL_NAVIGATION.md. Raw research stays private.
+
+Next, in gameplay order:
+
+1. Obtain owner feedback on normal pickup, aiming/flight and menu re-entry; retain
+   exact-build evidence and do not transfer supplied-command results to OS input.
+2. Acquire feeding/deposit/economy and their actual mission-objective producers.
+   The current no-objective-credit preview branch is explicit, not native mission
+   initialization. Eligible Delphi mana remains a separate missing service.
+3. Extend mission objectives/progression, other AI and full native Mecc/world
+   producers, then replace FX host/terrain/splat policies and verify fidelity.
+4. Keep the prototype PS2 lookup before each resumed native dependency, including
+   already reconstructed services. A name, CPU control or asset draw is not a
+   completed gameplay feature. Preserve the full game scope below.
+
+979 Rust passes / 168 ignored, 45 Python, fmt/strict Clippy. Exact-PC controls:
+192 callbacks / 319,008 words, 602 scan plans / 2,007 words; supplied gates/births,
+clock and external-release boundaries remain explicit. The initial local candidate
+was rejected for collected cleanup; only the corrected executable is delivered.
+
+## Earlier delivery .11.3 - ordinary Vimp collision, injury and death
 
 Owner direction, 11 November 2026: extend the personally tested .11.2 wandering/
 sound interaction with player collision, hitboxes, danger, injury/death sounds,
 blood, impact/fall recoil, ghost and meat. Preview .11.3 delivers these through
 the same normal menu and controls. .11.2 and its owner feedback remain immutable.
 Exact runtime `5dbebce`, EXE/ZIP identities, controls and validation are in
-docs/PREVIEW_NOTES.md and docs/public-preview.json. No script enables gameplay.
+the immutable .11.3 release notes. Current identities are in docs/public-preview.json. No script enables gameplay.
 
 Delivered integration:
 
@@ -50,7 +91,7 @@ Delivered integration:
    gameplay remains unverified after unsafe target selection; no OS input claim
    is inferred from graphical commands or earlier builds.
 
-Remaining prerequisites, in gameplay order:
+Historical .11.3 prerequisites (superseded by the current delivery above):
 
 1. Verify sustained ordinary keyboard/mouse interaction when the preview window
    can be safely targeted. Current features are enabled for the owner's normal

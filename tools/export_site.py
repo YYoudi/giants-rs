@@ -14,6 +14,7 @@ FIELDS = ('id', 'kind', 'group', 'title', 'status', 'scope', 'detail')
 LABELS = {'done': 'Complete in stated scope', 'partial': 'Partial', 'todo': 'Not started'}
 PRIVATE = re.compile(r'[A-Za-z]:[\\/]|(?:evidence|\.local)[\\/]|Users[\\/]', re.I)
 PREVIEW_CHECKS = {
+    'story2_meat_collection_gpu': 'The ordinary Mecc controller collects actual settled Vimp meat, updates its carried count, retires the picked pieces and starts real muted pickup sinks; supplied navigation, no injected births or OS-held-input claim',
     'offscreen_menu_cycles': 'Offscreen development launches, menu return and re-entry',
     'selected_cinematic_transport': 'Selected-mission source-terminal/re-entry with muted real sinks',
     'manual_menu_skip_return': 'Manual menu, opening skip, mission entry and return on one local profile',
@@ -29,6 +30,7 @@ PREVIEW_CHECKS = {
     'shared_body_focus_os': 'F7 focuses initial Delphi and Kabuto bodies from ordinary mission inspection; gameplay controls remain unavailable',
 }
 PREVIEW_LIMITS = {
+    'meat_feeding_economy': 'Meat feeding, deposits, economy and campaign objective credit remain unavailable; the preview uses the explicit no-objective-credit branch',
     'ordinary_mecc_native_motion': 'Full native Mecc primary, damage and world scheduling remain incomplete',
     'delphi_gameplay': 'Delphi gameplay is not enabled',
     'kabuto_gameplay': 'Kabuto gameplay is not enabled',

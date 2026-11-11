@@ -31,6 +31,9 @@ The lookup first verified the literal ELF names `mecc_collect_food` and
 [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md). Neither literal name
 encodes a signature; no PS2 signature, ABI or memory layout is imported.
 
+The PC addresses below refer only to the debug-1.1 executable with SHA256
+`690bad39847b0f578163e547e6a6de10ffe9213635a069bd1ce96a75dfd39ead`.
+
 The independently acquired PC callback, debug address `0x0047eeb0`, has converging
 static evidence for `mecc_collect_food` at PS2 address `0x00166400`: the related
 player selection/capacity branches and ordered mission-credit, item-retirement,

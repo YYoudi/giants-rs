@@ -5,6 +5,21 @@ Current work selection and delivery reporting follow
 interactions and their blockers. This direction does not expand any historical
 review, redistribution authorization or technical evidence recorded below.
 
+## Preview .11.4 selected-name and display-copy review - 11 November 2026
+
+The collection addition publishes selected literal PS2 names, two probable
+PC relationships, one unassigned retirement search route and a minimal semantic
+evidence summary in MEAT_COLLECTION.md. It publishes no native body, byte signature,
+raw table, extraction, private path or supplier provenance. Original inputs and
+controlled research remain private. No new routine attribution is confirmed.
+
+Two actual matching-build Bevy captures add the carried-meat result and first
+death. Only metadata-stripped WebP display copies pinned by digest enter the
+approved gallery. Source, tag and executable digest must all match the download.
+Older captures retain their original receipts and are archived. This preserves
+the screenshot exception, the authorship estimate and the absence of comprehensive
+human review; it grants no additional asset or redistribution rights.
+
 ## Preview .11.3 display-copy review - 11 November 2026
 
 Three actual Bevy captures from the matching downloadable executable add player

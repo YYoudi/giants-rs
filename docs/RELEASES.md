@@ -1,9 +1,32 @@
 # Preview releases and milestone integration
 
+## Published preview .11.4 - ordinary meat collection
+
+[Windows preview-2026.11.11.4](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.11.4)
+is the common download. Story2 / Starving!: hunt a Vimp, let its meat settle and
+approach the pieces. The normal controller automatically collects them, shows
+the carried count, plays the source cue and retires picked owners separately
+from expiry. No script enables pickup. Feeding/economy and objective credit remain
+unavailable; full native motion/world/fidelity and OS gameplay remain unverified.
+
+Exact-build graphical hunt: 4 picked pieces / amount 4, 4 actual
+picked-owner releases and real muted pickup sinks. Menu cleanup after collection,
+living contacts, first death, common Mecc/landing cycles, lifecycle and selected
+cinematic transport pass. Commands are supplied. 979 Rust / 168 ignored, 45 Python,
+fmt/strict Clippy; scoped native collection/scan controls pass. Two probable PS2
+relationships, no new confirmed attribution. See MEAT_COLLECTION.md.
+
+338 dependency / eleven toolchain notice entries, 29 system DLL imports, zero
+technical blockers. Two current captures carry source/tag/executable receipts.
+
+Runtime source: `f92f7ad4f71b08f7d0638f11d73c44230379dbee`.
+Executable SHA256: `2d2219e6fae03ae07b5981d5b4b7c42cf9e04641529a287a632500c867447e16`.
+ZIP SHA256: `f3f08708046315e05bb613c7365b222a901a5f0cbb012627b635b97592b89437`.
+
 ## Published preview .11.3 - ordinary Vimp collision, injury and death
 
 [Windows preview-2026.11.11.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.11.3)
-is the common download. Preview tools -> Browse all missions -> Mecc -> Starving!;
+is the earlier Vimp-combat download. Preview tools -> Browse all missions -> Mecc -> Starving!;
 skip the opening, follow F8, walk into the herd and shoot with the normal partial
 pistol. Player/projectile collision, danger/hurt/recovery, source-bearing recoil,
 blood, injury/death sounds, ghost and meat drops now have ordinary consumers.

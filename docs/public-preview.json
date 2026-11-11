@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.11.3",
-  "source_commit": "5dbebce3a7a37bd5be2e61ef4a0107277b2815d0",
-  "executable_sha256": "76541755c6688aeae2bb310e25d51743c979a8309574905c5a32fb9a16d4eb1f",
-  "archive_sha256": "a63e7c554733a25fcd3eba537416fcc2f53bdb229117fda1dee95db40e43a068",
+  "tag": "preview-2026.11.11.4",
+  "source_commit": "f92f7ad4f71b08f7d0638f11d73c44230379dbee",
+  "executable_sha256": "2d2219e6fae03ae07b5981d5b4b7c42cf9e04641529a287a632500c867447e16",
+  "archive_sha256": "f3f08708046315e05bb613c7365b222a901a5f0cbb012627b635b97592b89437",
   "checks": [
     "offscreen_menu_cycles",
     "selected_cinematic_transport",
@@ -11,7 +11,8 @@
     "ordinary_mecc_landing_gpu",
     "story2_vimp_reaction_gpu",
     "story2_vimp_combat_gpu",
-    "story2_vimp_contact_gpu"
+    "story2_vimp_contact_gpu",
+    "story2_meat_collection_gpu"
   ],
   "limitations": [
     "ordinary_mecc_native_motion",
@@ -20,7 +21,7 @@
     "kabuto_gameplay",
     "npc_remaining_ai",
     "vimp_fx_preview_policy",
-    "meat_collection",
+    "meat_feeding_economy",
     "full_game_fidelity"
   ]
 }
