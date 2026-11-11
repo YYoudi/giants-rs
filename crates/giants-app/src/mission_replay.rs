@@ -336,7 +336,11 @@ fn drive(
             < if mode == "showcase-film-cycles" {
                 1800.
             } else {
-                300.
+                // Each requested cycle consumes its real source opening and
+                // prepares a fresh scene. A single-entry wall budget can expire
+                // during a healthy later opening. This only bounds diagnostics;
+                // no clock, readiness or source-terminal predicate is changed.
+                300. * replay.cycles.max(1) as f32
             },
         "mission replay timed out before its real endpoint"
     );
