@@ -57,6 +57,12 @@ pub(crate) struct Controller {
     subjective_draw_visible: Option<bool>,
 }
 impl Controller {
+    pub(crate) fn vimp_death_capture_done(&self) -> bool {
+        crate::frontend_scene::vimp_interaction_probe()
+            && std::env::var("GIANTS_MISSION_VIMP_DEATH_CAPTURE").as_deref() == Ok("1")
+            && self.replay_done
+            && self.finish_step < 6000
+    }
     pub(crate) fn jet_clock_source(&self) -> &'static str {
         if self.owned_backend {
             "owned_world"
@@ -562,6 +568,11 @@ pub(super) fn update(
                 0.
             } else if controller.owned_replay {
                 1. / 60.
+            } else if crate::frontend_scene::vimp_interaction_probe() {
+                // Keep a many-actor/audio probe to one fixed step per render
+                // host frame. Accelerating four steps ahead of asynchronous
+                // sink creation stresses a different transport than normal input.
+                1. / 120.
             } else {
                 4. / 120.
             }
@@ -983,6 +994,18 @@ pub(super) fn update(
                                     });
                                 }
                                 if dead {
+                                    if crate::frontend_scene::vimp_interaction_probe()
+                                        && std::env::var("GIANTS_MISSION_VIMP_DEATH_CAPTURE")
+                                            .as_deref()
+                                            == Ok("1")
+                                        && controller.finish_step == 6000
+                                    {
+                                        controller.finish_step = tick + 16;
+                                        println!(
+                                            "mission_vimp_death_capture_requested ticket={} finish_step={} screenshot_only=true normal_feature_enablement=false",
+                                            controller.ticket, controller.finish_step
+                                        );
+                                    }
                                     match runtime.npc_contact_snapshots(controller.ticket).and_then(
                                         |contacts| {
                                             let ticket = controller.ticket;

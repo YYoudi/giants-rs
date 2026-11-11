@@ -1365,3 +1365,11 @@ asset/re-entry regressions. Then repeat ordinary menu/left mouse hit/right mouse
 jet/Space nitro and return/re-entry on the exact executable with actual sinks.
 Do not close the delivery on these CPU controls. FX host scheduling, terrain-only
 contact and splat retention remain explicit preview policies in OWNED_NPCS.md.
+
+The many-actor graphical Vimp probe advances one fixed step per rendered host
+frame so asynchronous sink creation can run between steps. It does not increase
+the normal transport's bounded backlog or acknowledge missing sinks. Adding
+`GIANTS_MISSION_VIMP_DEATH_CAPTURE=1` to that graphical probe ends its supplied
+controller sixteen steps after the first actual lethal hit, for a remains/effect
+capture. It neither enables combat nor creates a synthetic hit or actor pose.
+Keep the full lifecycle and cancellation probes as separate checks.

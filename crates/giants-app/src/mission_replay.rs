@@ -514,6 +514,7 @@ fn drive(
                 playing
                     && controllers.iter().any(|c| c.replay_done)
                     && (!vimp_interaction_probe()
+                        || controllers.iter().any(|c| c.vimp_death_capture_done())
                         || runtime
                             .npc_reactions(frontend.flow.ticket)
                             .is_some_and(|(entered, returned)| entered > 0 && returned > 0))

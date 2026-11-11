@@ -137,6 +137,11 @@ fn update(
         let mut draws = runtime.npc_draws(ticket)?;
         draws.extend(runtime.npc_effect_draws(ticket, camera.view)?);
         let vimp_count = draws.iter().filter(|draw| draw.class == 8).count();
+        let meat_count = draws
+            .iter()
+            .filter(|draw| (1117..=1119).contains(&draw.class))
+            .count();
+        let ghost_count = draws.iter().filter(|draw| draw.class == 859).count();
         let effect_count = draws
             .iter()
             .filter(|draw| matches!(draw.id, crate::mission_runtime::NpcDrawOwner::Effect(_)))
@@ -401,7 +406,7 @@ fn update(
         if state.reported != state.objects.len() {
             state.reported = state.objects.len();
             println!(
-                "mission_npc_draw ticket={ticket} vimps={vimp_count} visuals={} effects={effect_count} canonical_npc_poses=true fx_policy=partial_source_graph model_slot=0 simulation_in_renderer=false interaction_verified=false ready=false",
+                "mission_npc_draw ticket={ticket} vimps={vimp_count} visuals={} effects={effect_count} meat={meat_count} ghosts={ghost_count} canonical_npc_poses=true fx_policy=partial_source_graph model_slot=0 simulation_in_renderer=false interaction_verified=false ready=false",
                 state.reported
             );
         }

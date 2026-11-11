@@ -81,6 +81,7 @@ struct Mounted {
     bursts: usize,
     frames: u32,
     probe: bool,
+    npc_reported: bool,
 }
 #[derive(Resource)]
 pub(crate) struct State {
@@ -212,6 +213,7 @@ fn mount(world: &mut World, ticket: u64) -> Result<(), String> {
         bursts: 0,
         frames: 0,
         probe: false,
+        npc_reported: false,
     });
     println!(
         "mission_blood_bound ticket={ticket} capacity=500 count_min={} count_max={} texture_source=true native_pixels_verified=false",
@@ -307,6 +309,7 @@ fn update(world: &mut World) {
     let npc_quads = world
         .resource::<crate::mission_runtime::Runtime>()
         .npc_blood_quads(ticket);
+    let npc_quad_count = npc_quads.len();
     if !npc_quads.is_empty()
         && world.resource::<State>().mounted.is_none()
         && let Err(error) = mount(world, ticket)
@@ -417,6 +420,15 @@ fn update(world: &mut World) {
             .pixel = pixel;
     }
     let mut state = world.resource_mut::<State>();
+    if npc_quad_count > 0
+        && let Some(m) = state.mounted.as_mut()
+        && !m.npc_reported
+    {
+        println!(
+            "mission_npc_blood_uploaded ticket={ticket} quads={npc_quad_count} source_texture=true synthetic_burst=false native_pixels_verified=false"
+        );
+        m.npc_reported = true;
+    }
     if ready && !state.probe_ready {
         println!(
             "mission_blood_probe_ready ticket={ticket} quads={} source_parameters=true source_texture=true synthetic_burst=true native_pixels_verified=false",
@@ -472,6 +484,7 @@ mod tests {
             bursts: 0,
             frames: 0,
             probe: false,
+            npc_reported: false,
         });
         release(&mut world);
         assert!(world.resource::<State>().mounted.is_none());
