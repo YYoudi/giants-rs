@@ -333,9 +333,9 @@ fn drive(
     let mode = std::env::var("GIANTS_MISSION_REPLAY").unwrap();
     assert!(
         time.elapsed_secs()
-            < if std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1") {
-                1800.
-            } else if mode == "showcase-film-cycles" {
+            < if std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1")
+                || mode == "showcase-film-cycles"
+            {
                 1800.
             } else {
                 // Each requested cycle consumes its real source opening and

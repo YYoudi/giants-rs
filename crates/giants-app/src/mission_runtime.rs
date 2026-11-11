@@ -1879,13 +1879,13 @@ fn spawn(
                     parameters.index, offset, class_id
                 ));
             }
-            if parameters.parameter15.is_some() {
-                if let Err(reason) = campaign::State::prepare(&payload.packet, &payload.plan) {
-                    blocked.push(format!(
-                        "mission slot {}: objective consumer unavailable: {reason}",
-                        parameters.index
-                    ));
-                }
+            if parameters.parameter15.is_some()
+                && let Err(reason) = campaign::State::prepare(&payload.packet, &payload.plan)
+            {
+                blocked.push(format!(
+                    "mission slot {}: objective consumer unavailable: {reason}",
+                    parameters.index
+                ));
             }
             if parameters.completion_cinematic.is_some() {
                 blocked.push(format!(

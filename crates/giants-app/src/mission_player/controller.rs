@@ -31,6 +31,9 @@ pub(crate) struct Controller {
     owned_motion_failed: bool,
     world_signals_failed: bool,
     npc_failed: bool,
+    // Input-fixture memory only: release RMB long enough to recharge, as a
+    // player would. Never changes fuel, actor pose or the ordinary jet service.
+    probe_recharge: bool,
     owned_backend: bool,
     owned_audio_backend: bool,
     owned_jet_probe: bool,
@@ -375,6 +378,7 @@ impl Controller {
             owned_motion_failed: false,
             world_signals_failed: false,
             npc_failed: false,
+            probe_recharge: false,
             initial,
             minimum_fuel: 100.,
             maximum_height: initial[2],
@@ -723,14 +727,15 @@ pub(super) fn update(
                         ),
                         false,
                     );
-                    if distance
-                        > if meat_target.is_some() || return_target.is_some() {
-                            2.
-                        } else if Controller::vimp_contact_probe() {
-                            0.
-                        } else {
-                            60.
-                        }
+                    if (return_target.is_some() && target[2] - position[2] > 5.)
+                        || distance
+                            > if meat_target.is_some() || return_target.is_some() {
+                                2.
+                            } else if Controller::vimp_contact_probe() {
+                                0.
+                            } else {
+                                60.
+                            }
                     {
                         axes = Vec2::Y;
                         thrust = position[2]
@@ -743,10 +748,41 @@ pub(super) fn update(
                             && controller.state.mission_snapshot().1 > 0.3
                             && (!Controller::vimp_contact_probe() || distance > 120.)
                             && meat_target.is_none();
-                        if return_target.is_some() && distance < 60. {
+                        if return_target.is_some()
+                            && distance < 60.
+                            && position[2] >= target[2] - 10.
+                        {
                             thrust = false;
                         }
                         boost = distance > 300. && tick % 360 == 0;
+                        if return_target.is_some()
+                            && distance < 500.
+                            && target[2] - position[2] > 35.
+                        {
+                            axes = Vec2::ZERO;
+                            thrust = true;
+                        }
+                        if Controller::campaign_probe() {
+                            let fuel = controller.state.mission_snapshot().1;
+                            if fuel < 10. {
+                                controller.probe_recharge = true;
+                            }
+                            if fuel >= 95. {
+                                controller.probe_recharge = false;
+                            }
+                            if controller.probe_recharge {
+                                thrust = false;
+                                boost = false;
+                            }
+                            if tick % 600 == 0 {
+                                println!(
+                                    "mission_campaign_navigation ticket={} step={tick} position={position:?} target={target:?} fuel={fuel} recharge={} axes={axes:?} thrust={thrust} boost={boost} return_target={} supplied_input_only=true",
+                                    controller.ticket,
+                                    controller.probe_recharge,
+                                    return_target.is_some()
+                                );
+                            }
+                        }
                     }
                 }
             }
