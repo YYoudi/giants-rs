@@ -927,7 +927,11 @@ fn process(
                         "mission_npc_sound_request ticket={} sound={sound} route=position playback_acknowledged=false",
                         mounted.ticket
                     );
-                    Some(Action::Position(sound, position))
+                    if ensure_actor_source(world, mounted, sound)? {
+                        Some(Action::Position(sound, position))
+                    } else {
+                        None
+                    }
                 }
                 Event::Footstep(cue) => {
                     println!(
