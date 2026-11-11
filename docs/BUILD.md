@@ -1354,6 +1354,7 @@ With `GIANTS_NPC_ROOT` set to the compatible user-supplied installation, run:
 
 ```powershell
 cargo test --locked -p giants-app source_normal_pistol_kills_vimps_and_runs_all_remains --target x86_64-pc-windows-gnu -- --ignored --nocapture
+cargo test --locked -p giants-app source_normal_120hz_vimp_hunt_recovers_and_retires --target x86_64-pc-windows-gnu -- --ignored --nocapture
 ```
 
 This exercises actual partial-pistol hits, injuries/recovery, source death FX

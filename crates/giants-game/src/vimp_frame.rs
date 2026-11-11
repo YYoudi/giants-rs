@@ -60,7 +60,7 @@ impl ActorWorldServices for Adapter<'_, '_, '_> {
                 .recovery_sounds
                 .as_mut()
                 .ok_or("Vimp recovery sound-stop service absent")?;
-            return session.advance_vimp_recovery_primary_offline(
+            return session.advance_vimp_recovery_primary_with_living(
                 source,
                 crate::vimp_recovery::Primary {
                     number: session.vimp_recovery_primaries(source).unwrap(),
@@ -78,6 +78,7 @@ impl ActorWorldServices for Adapter<'_, '_, '_> {
                     sounds: &mut **sounds,
                     ground: self.services.ground,
                 },
+                &mut self.living,
             );
         }
         if let Some(living) = self.living.as_deref_mut() {

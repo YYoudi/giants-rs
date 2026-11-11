@@ -302,28 +302,39 @@ fn npc_render_control(auxiliaries: bool) {
 #[test]
 #[ignore = "requires GIANTS_NPC_ROOT; ordinary owned partial driver on actual Story2 terrain/resources with supplied clock/Mecc commands and queued audio; no GPU, OS input or whole native world proof"]
 fn source_normal_vimp_component_uses_player_clock_noise_and_reentry() {
-    normal_vimp_component_control(false, false, false);
+    normal_vimp_component_control(false, false, false, false);
 }
 
 #[test]
 #[ignore = "requires GIANTS_NPC_ROOT; actual dedicated Vimp collision meshes and normal Mecc placement with supplied navigation/clock; no GPU or OS input proof"]
 fn source_normal_mecc_contacts_completed_vimp_shapes_and_reenters() {
-    normal_vimp_component_control(true, false, false);
+    normal_vimp_component_control(true, false, false, false);
 }
 
 #[test]
 #[ignore = "requires GIANTS_NPC_ROOT; supplied nonlethal amount/trajectory, normal component clocks/poses, owned wound and audio queues; no ordinary pistol damage, GPU or audible proof"]
 fn source_normal_vimp_hurt_consumes_owned_blood_and_audio_queues() {
-    normal_vimp_component_control(false, true, false);
+    normal_vimp_component_control(false, true, false, false);
 }
 
 #[test]
 #[ignore = "requires GIANTS_NPC_ROOT; actual ordinary partial-pistol hits, source death/remains and supplied navigation/time, explicit external retirement boundary; no GPU, OS or audible proof"]
 fn source_normal_pistol_kills_vimps_and_runs_all_remains() {
-    normal_vimp_component_control(true, false, true);
+    normal_vimp_component_control(true, false, true, false);
 }
 
-fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool, lethal: bool) {
+#[test]
+#[ignore = "requires GIANTS_NPC_ROOT; 120Hz ordinary approach/hunt with actual partial-pistol hit routing, supplied clock/navigation/external retirement; no GPU or OS input proof"]
+fn source_normal_120hz_vimp_hunt_recovers_and_retires() {
+    normal_vimp_component_control(true, false, true, true);
+}
+
+fn normal_vimp_component_control(
+    player_contacts: bool,
+    supplied_hurt: bool,
+    lethal: bool,
+    ordinary_probe: bool,
+) {
     let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
     let source = giants_game::world_source::resolve(&root, "Story2").unwrap();
     let menu = giants_game::mission_selection::MissionMenu::parse(
@@ -408,7 +419,9 @@ fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool, let
         let mut hurt_owner = None;
         let mut changed = false;
         let mut first_pose = None;
-        for number in 1..=6000u64 {
+        let frames = if ordinary_probe { 12000 } else { 6000 };
+        let seconds = if ordinary_probe { 1. / 120. } else { 1. / 60. };
+        for number in 1..=frames {
             runtime
                 .sample_world_clock(ticket, 1000 + number as u32 * 16)
                 .unwrap();
@@ -440,7 +453,8 @@ fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool, let
                     let horizontal =
                         (target[0] - camera.position[0]).hypot(target[1] - camera.position[1]);
                     camera.angles[1].to_radians()
-                        - (target[2] + 3. - camera.position[2]).atan2(horizontal)
+                        - (target[2] + if ordinary_probe { 8. } else { 3. } - camera.position[2])
+                            .atan2(horizontal)
                 } else {
                     0.
                 };
@@ -453,22 +467,32 @@ fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool, let
                     ),
                     false,
                 );
-                if distance > if player_contacts { 0. } else { 60. } {
+                if distance
+                    > if player_contacts && !ordinary_probe {
+                        0.
+                    } else {
+                        60.
+                    }
+                {
                     axes = Vec2::Y;
                     thrust = position[2] < target.center[2] + 80.
                         && viewer.mission_snapshot().1 > 0.3
-                        && (!player_contacts || distance > 120.);
+                        && (ordinary_probe || !player_contacts || distance > 120.);
                     boost = distance > 300. && number % 360 == 0;
                 }
             }
             let motion = viewer
-                .step(1. / 60., axes, &asset.terrain, thrust, boost)
+                .step(seconds, axes, &asset.terrain, thrust, boost)
                 .unwrap();
             runtime
                 .publish_controlled_mecc_motion(ticket, number, motion)
                 .unwrap();
             let shot = viewer
-                .mission_fire_step(1. / 60., !lethal || number < 4200, &asset.terrain)
+                .mission_fire_step(
+                    seconds,
+                    !lethal || number < if ordinary_probe { 8000 } else { 4200 },
+                    &asset.terrain,
+                )
                 .unwrap();
             npc_hits += shot
                 .world_hits
@@ -598,7 +622,7 @@ fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool, let
                 viewer.mission_npc_contact_responses()
             );
             assert!(
-                viewer.mission_npc_contact_responses() > 0,
+                ordinary_probe || viewer.mission_npc_contact_responses() > 0,
                 "supplied Mecc path never contacted an actual Vimp collision model"
             );
             assert!(
@@ -632,9 +656,9 @@ fn normal_vimp_component_control(player_contacts: bool, supplied_hurt: bool, let
                 "normal_hurt_bridge ticket={ticket} blood_frames={blood_frames} recovery_stops={recovery_stops} supplied_amount_trajectory=true gpu=false audible=false"
             );
         }
-        assert_eq!(stats.0, 6000);
+        assert_eq!(stats.0, frames);
         assert!(
-            stats.1 > 0 && stats.2 > 0,
+            ordinary_probe || stats.1 > 0 && stats.2 > 0,
             "actual player noise never entered/returned from source startle"
         );
         assert!(changed && sounds > 0 && shots >= 5);

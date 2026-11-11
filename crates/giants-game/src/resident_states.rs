@@ -5689,6 +5689,19 @@ impl Session {
         globals: &giants_formats::global_data::GlobalData,
         services: &mut crate::vimp_recovery::Services<'_>,
     ) -> Result<(), String> {
+        self.advance_vimp_recovery_primary_with_living(
+            id, primary, factory, globals, services, &mut None,
+        )
+    }
+    pub(crate) fn advance_vimp_recovery_primary_with_living(
+        &mut self,
+        id: Id,
+        primary: crate::vimp_recovery::Primary<'_>,
+        factory: &crate::vimp_actor::Factory,
+        globals: &giants_formats::global_data::GlobalData,
+        services: &mut crate::vimp_recovery::Services<'_>,
+        living: &mut Option<&mut dyn crate::vimp_living::Services>,
+    ) -> Result<(), String> {
         use crate::vimp_wander::{scalar, word};
         factory.growth_bounds(self, id)?;
         let actor = self
@@ -5721,14 +5734,29 @@ impl Session {
             })
             || fields.object_flags & 0x81008000 != 0
             || word(body, 0) & 0x40 != 0
-            || word(body, 0xb0) != 0
+            || (living.is_none() && word(body, 0xb0) != 0)
             || word(body, 0xa8) != 0
-            || word(body, 0x74) != 0
+            || (living.is_none() && word(body, 0x74) != 0)
         {
-            return Err(
-                "Vimp recovery requires contiguous ordinary dry mode2..4 without a pending phase"
-                    .into(),
-            );
+            return Err(format!(
+                "Vimp recovery requires contiguous ordinary dry mode2..4 without a pending phase: mode={} initialized={} primary={}/{} stopped={} pending={} physical={:?} flags={:#x} body_flags={:#x} response_active={} countdown={} gait={}",
+                v.mode,
+                v.initialized,
+                actor.vimp_recovery_primaries,
+                primary.number,
+                actor.vimp_frame_stopped,
+                v.wander_pending,
+                actor.vimp_physical.as_ref().map(|p| (
+                    p.view.physics_consumed,
+                    p.view.animation_consumed,
+                    p.view.failure.is_some()
+                )),
+                fields.object_flags,
+                word(body, 0),
+                word(body, 0xb0),
+                word(body, 0xa8),
+                word(body, 0x74)
+            ));
         }
         // Native hurt modes2..4 do not execute mode1's threat-list/control
         // selection. A real common invocation already owns admission/history;
@@ -5802,9 +5830,25 @@ impl Session {
             let actor = self.get(id).unwrap();
             let mut fields = actor.construction_fields.as_ref().unwrap().clone();
             let mut vimp = actor.vimp.unwrap();
-            let position = fields.position;
             vimp.commands = [0; 8];
-            crate::vimp_recovery::orient(&mut fields, &mut vimp, tick)?;
+            self.residents.get_mut(&id.serial).unwrap().vimp = Some(vimp);
+            if let Some(external) = living {
+                // The native post-switch active block also follows hurt modes.
+                // Preserve response/gait state and consume its real callbacks.
+                self.advance_vimp_recovery_active_common(
+                    id,
+                    tick,
+                    globals,
+                    services.animation.random,
+                    &mut **external,
+                )?;
+                let actor = self.get(id).unwrap();
+                fields = actor.construction_fields.as_ref().unwrap().clone();
+                vimp = actor.vimp.unwrap();
+            } else {
+                crate::vimp_recovery::orient(&mut fields, &mut vimp, tick)?;
+            }
+            let position = fields.position;
             vimp.wander_pending = true;
             let actor = self.residents.get_mut(&id.serial).unwrap();
             actor.construction_fields = Some(fields);

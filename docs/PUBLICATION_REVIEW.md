@@ -7,6 +7,15 @@ review, redistribution authorization or technical evidence recorded below.
 
 ## Prototype PS2 methodology addition — 5 November 2026
 
+The 11 November source-navigation addition publishes seven selected literal
+Vimp names with related Rust locations and **unknown exact PC attribution**, plus
+links to two already confirmed camera identities. It adds no confirmed match.
+The reviewed [symbol navigation index](SYMBOL_NAVIGATION.md) and matching source
+comments let contributors find that work while preserving earlier Rust/PC aliases.
+This is a small manually reviewed navigation summary, not a corpus export;
+raw tables, listings, matching outputs and personal provenance remain private.
+The central method governs subsequent names and evidence review.
+
 The reviewed public addition is the [central method](RECONSTRUCTION_METHOD.md),
 a read-only lookup tool, synthetic tests and an initial minimal five-row attribution
 summary. It contains two confirmed identities, two probable candidates and one

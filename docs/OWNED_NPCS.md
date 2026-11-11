@@ -23,6 +23,15 @@ delivery acceptance are tracked in BACKLOG.md. These source candidates are not
 features of the immutable .11.2 package. The candidate connects ordinary hits,
 injury/death sounds, blood, death FX, ghost, meat and cleanup; final graphical and
 OS-input acceptance is still required before publication.
+
+The 120 Hz approach/hunt control additionally covers a hit while a danger
+response is active. The native post-switch active block also follows hurt modes;
+the ordinary recovery caller consumes that existing block through the current
+primary scope and actual response callbacks before physics/ANM. Response and gait
+words are preserved. The isolated recovery API still refuses active responses
+without this caller/provider, and no mode1 command generation or threat selection
+is inserted into the hurt dispatch. The original-PC primary lookup is reused;
+the prototype PS2 `vimp_logic` correspondence remains unknown.
 The current source also owns the retained ghost actor/ANM, its state84 meat
 presence lifecycle and loose-meat expiry. Those installed dependency cycles
 still supply birth/admission/time and external-release boundaries; they do not

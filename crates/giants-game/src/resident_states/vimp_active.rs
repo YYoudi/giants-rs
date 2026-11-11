@@ -109,6 +109,26 @@ impl<S: Services> active::Services for Adapter<'_, S> {
     }
 }
 impl Session {
+    pub(super) fn advance_vimp_active_in_scope(
+        &mut self,
+        id: Id,
+        number: u64,
+        globals: &giants_formats::global_data::GlobalData,
+        random: &mut crate::audio_parameters::Random,
+        services: &mut impl Services,
+        scope: &super::vimp_living::Scope,
+    ) -> Result<(), String> {
+        let (parent, state, parameters) =
+            self.begin_vimp_active(id, number, globals, Some(scope))?;
+        let result = if state.active != 0 {
+            self.run_vimp_active(id, parent, state, parameters, random, services)
+        } else {
+            services.orient(self, id)
+        };
+        self.end_vimp_active(id, result.is_err());
+        result
+    }
+
     fn vimp_movement_projection(
         &self,
         id: Id,
@@ -237,7 +257,7 @@ impl Session {
             || a.seed.storage.profile() != Profile::Debug
             || a.seed.storage.state() != 21
             || !v.initialized
-            || !matches!(v.mode, 1 | 7)
+            || !(matches!(v.mode, 1 | 7) || a.world_tick_running && matches!(v.mode, 2..=4))
             || v.born.map(|b| b.parent) != Some(parent)
             || b.len() != 216
             || a.attachment.is_some()

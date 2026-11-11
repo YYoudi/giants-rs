@@ -3,6 +3,7 @@
 use super::*;
 
 pub(super) struct Scope {
+    recovery: bool,
     actor: Id,
     frame: u64,
     parent: Id,
@@ -15,6 +16,9 @@ pub(super) struct Scope {
 }
 impl Scope {
     pub(super) fn enter(session: &Session, id: Id) -> Result<Self, String> {
+        Self::enter_primary(session, id, false)
+    }
+    fn enter_primary(session: &Session, id: Id, recovery: bool) -> Result<Self, String> {
         let a = session.get(id).ok_or("living primary owner absent")?;
         let v = a.vimp.ok_or("living primary source construction absent")?;
         if !a.world_tick_running
@@ -30,6 +34,7 @@ impl Scope {
         }
         let born = v.born.ok_or("living primary requires actual herd birth")?;
         let scope = Self {
+            recovery,
             actor: id,
             frame: a.vimp_frames,
             parent: born.parent,
@@ -58,7 +63,11 @@ impl Scope {
             || a.seed.storage.state() != 21
             || !a.acquired_construction
             || !v.initialized
-            || !matches!(v.mode, 1 | 7)
+            || !(if self.recovery {
+                matches!(v.mode, 1..=4)
+            } else {
+                matches!(v.mode, 1 | 7)
+            })
             || v.context != self.context
             || v.born
                 .is_none_or(|b| b.parent != self.parent || b.uid != self.uid)
@@ -177,6 +186,23 @@ impl Backend<'_, '_> {
     }
 }
 impl Session {
+    pub(crate) fn advance_vimp_recovery_active_common(
+        &mut self,
+        id: Id,
+        tick: crate::vimp_wander::Tick<'_>,
+        globals: &giants_formats::global_data::GlobalData,
+        random: &mut crate::audio_parameters::Random,
+        external: &mut dyn crate::vimp_living::Services,
+    ) -> Result<(), String> {
+        let scope = Scope::enter_primary(self, id, true)?;
+        let mut backend = Backend {
+            scope: &scope,
+            tick,
+            external,
+        };
+        self.advance_vimp_active_in_scope(id, scope.active, globals, random, &mut backend, &scope)
+    }
+
     pub(crate) fn begin_vimp_living_primary(
         &mut self,
         id: Id,
