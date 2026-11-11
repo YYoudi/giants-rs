@@ -112,12 +112,35 @@ by the physical owner; owned movement consumes it without an injected predicate.
 Later object/threat contacts remain incomplete. Story2's 166-node common roster
 includes three parented Mecc children before the herd, 134 other state0 actors and
 eleven state23 actors; do not bypass those active callbacks to claim live AI.
-The shared nonphysical callback adapter now admits 129 supported empty state0
-neutral declarations from actual constructor metadata, retaining the existing
-herd/marker API aliases. A selected-cohort CPU check runs 387 callbacks; two PC
-controls agree on 156 selected words. The five animated/reference-bearing state0
-declarations, parented children, other AI families and real whole-world admission
-remain required; these callbacks are not enabled by loading or a default no-op.
+The shared nonphysical callback adapter now admits 133 empty-channel state0
+neutral declarations, including four with retained reference resources. Its actual
+absent-primary guard preserves matrices without a current pose; six PC callbacks
+observe zero reference writes and two node projections match 156 selected words.
+The selected-cohort source control runs 399 callbacks with supplied clock/control/
+force admission. The eventless single-channel state0 declaration now uses the same owned channel,
+epoch and reference services: three PC/source callback projections match 999
+selected words, including all fifteen reference matrices and a loop crossing.
+The installed cohort now admits all 134 neutral declarations /402 callbacks and
+checks actual position-buffer consumption. The three typed Mecc children now also
+have bounded local common callbacks: twelve PC/source visits match 800 selected
+words, and two source tickets retain binding, local poses and retirement guards.
+Their parented finalizer marks dirty without publishing a world affine. Parent
+completion/attachment publication, other AI families and real whole-world inputs/
+admission remain required; loading still enables no default callback or live AI.
+Mecc/main must hand normal jet presentation over to the completed child owner
+before enabling these callbacks in ordinary play; its constructor-snapshot guard
+and single animation producer remain required.
+The next state23 dependency now has an owned class230 mode0/61 route through the
+existing shared prefix/perception/motion machine and actual marker factory. Three
+first-callback PC/source controls match 90 selected words under supplied flat
+terrain, camera/clock/control, peer eligibility and diagnostic audio boundaries.
+It preserves class-specific sounds, the second clock query after context changes,
+and the unconditional real marker copy/link without resetting source motion.
+Failures retain published prefixes and a marker already born before audio failure;
+replay refuses. Mode62 onward, live player pose/vitals/perception inputs, owner audio,
+secondary/ANM/finalization and whole-world admission remain open. This enables no
+ordinary NPC map and does not acknowledge a completed whole-world actor turn.
+
 
 
 

@@ -25,11 +25,12 @@ Source/CPU controls below do not identify a map on which their behavior can
 already be exercised interactively. Ordinary admission still requires actual
 world services and validation.
 
-## Empty state0 actors in the shared callback path — source dependency
+## Eventless state0 actors in the shared callback path — source dependency
 
 No ordinary Vimp AI map is available. The common-node adapter now also accepts
 constructed, unparented nonphysical state0 actors whose actual source has no
-animated channels or references and requires no external orientation. Their
+animated channels and requires no external orientation. Reference-bearing state0
+actors use the acquired absent-primary guard described below. Their
 primary/secondary state dispatch entries are acquired absence; ANM/time and
 finalization still execute. Unsupported state0 profiles receive no successful
 callback by default. Existing herd/marker behavior and older API names remain;
@@ -38,7 +39,7 @@ callback by default. Existing herd/marker behavior and older API names remain;
 The actual constructor creates this owned frame only for the supported source
 profile. The existing clock, ANM epoch, finalization, environment and footprint
 contracts remain required. A failed or consumed iteration cannot replay, and
-retired/parented/changed profiles refuse. This adds no independent simulation or
+retired, untyped-parented and changed profiles refuse. This adds no independent simulation or
 new random stream, and enables no callbacks from mission loading by itself.
 
 A focused original-PC control constructs two neutral state0 classes after poisoning
@@ -49,16 +50,101 @@ class/pose/history/scale/angle/flag/channel/rate/affine words. Control presence,
 clock, placement/history, slow-area population and admission remain supplied;
 resource pointers and UID are excluded. Prototype PS2 lookup remains unknown.
 
-Installed Story2 declarations admit 129 neutral actors to this shared profile.
+The initial empty-reference checkpoint admitted 129 actors. Current Story2
+declarations admit 133 empty-channel neutral actors to this shared profile.
 Three supplied callback steps retain their positions, publish current affines and
-preserve RNG across 387 updates; replay and retirement refuse. Terrain/platform/
+preserve RNG across 399 updates; replay and retirement refuse. Terrain/platform/
 footprint providers are required but not entered by these stationary actors.
-The five other state0 declarations require animated/reference services and remain
-unsupported. This is a selected-cohort CPU control: other actor families are not
-acknowledged as updated, and empty supplied collision geometry is not a claim of
-an empty mission. Parented Mecc children, wider state0/AI callbacks and the actual
-shared world admission/clock/control/environment/effect producers still block
+The additional animated state0 declaration is supported by the bounded eventless
+single-channel path below. This is a selected-cohort CPU
+control: other actor families are not acknowledged as updated, and empty supplied collision geometry is not a claim of
+an empty mission. Parent completion/attachment publication, wider state0/AI
+callbacks and the actual shared world admission/clock/control/environment/effect
+producers still block
 ordinary whole-world scheduling before the live Vimp render consumer can be used.
+
+## Active eventless state0 animation - intermediate source dependency
+
+The actual Story2 building now advances its declared channel through the shared
+channel loop, stores the shared epoch, samples its fifteen owned references and
+then finalizes its affine. Eligibility requires a real positive-duration primary
+descriptor, empty backup channels, an explicitly empty event track and no reference
+corrections. State0 has no supplemental state2 event dispatch. Generic parent
+relationships, external orientation and eventful profiles remain outside this
+adapter; the typed Mecc children below have a separate ownership guard. Earlier
+herd/passive identifiers and empty-channel guards remain available.
+
+A focused original-PC control observes five callbacks: initial forced zero time,
+positive time, a loop crossing, another forced zero and unforced zero. Three
+source/native projections agree on 999 selected words, including channels, rates,
+affine and all references. Pointers, UID and numeric epoch identities are excluded;
+clock/control/history/placement/admission remain supplied. Prototype PS2 lookup
+remains unknown; no signature, ABI or memory layout is imported from it.
+
+The installed selected cohort now runs 134 actors /402 callbacks, consumes the
+animated actor through the actual shared position buffer and retains the four
+empty-channel reference owners as unsampled. An explicit environment-gate fault
+checks that a late failure retains ANM clocks, epoch and references and refuses
+replay. It is a supplied fault, not an acquired ordinary flag writer. These checks
+do not update other families or supply the whole-world scheduler. No new ordinary
+Vimp map, GPU interaction or preview is established.
+
+## Typed parented state0 callbacks - intermediate source dependency
+
+The acquired Mecc special constructor now binds the shared nonphysical frame to
+its three supported children. Their channels and retained header mirror agree at
+construction. Admission requires the actual typed constructor group, exact parent
+identity, binding words/context and supported eventless state0 resources. A generic
+presentation relationship cannot qualify, nor can a detached or replaced mirror
+silently turn a typed child into an ordinary unparented actor. Unsupported resource
+variants still construct without receiving an acknowledged callback by default.
+
+Common history, primary/secondary dispatch, object time and ANM now execute for
+these children through the existing owner. Parented finalization retains its real
+early return: positions/history and the dirty flag publish, environment/affine
+production do not. No identity matrix, parent pose or completed parent turn is
+invented. The existing attachment consumer still needs its actual current parent
+pose; the normal presentation path remains separate from world completion.
+Before enabling the world caller, Mecc/main must switch normal jet presentation
+from its constructor-snapshot clock to completed Session child channels/references.
+Its current guard intentionally refuses mutations outside that presentation owner.
+Keep one animation producer and preserve that guard until the consumer handoff.
+
+An original-PC special constructor plus twelve common callbacks match 800 selected
+Rust words across initial forced zero time, positive time, loop crossing and
+unforced zero. Fields, all channels/rates and actual child references agree;
+parent-pointer retention and unchanged native affine storage are checked
+separately. Two installed tickets run 24 local callbacks with actual position-buffer
+consumption, unchanged RNG/parent channels, typed binding retention, replay/foreign/
+retirement refusals and no fabricated world affine. Callback admission, control,
+clock and prepared history are supplied; parent completion and whole-world
+scheduling are not established. Prototype PS2 attribution remains unknown.
+
+## Retained references behind an absent primary channel
+
+The four additional Story2 declarations retain actual reference resources despite
+having no active animation channel. The native reference routine returns before
+sampling, correction or matrix writes when the primary descriptor is absent.
+The common ANM adapter now calls the existing owned reference pass after a channel
+loop was entered, preserving that guard and storage state. It does not supply an
+identity/bind matrix or acknowledge a current reference pose. Zero time without
+a force flag skips that pass; positive time or an explicit force entry executes
+it after the real ANM epoch store.
+
+Six original-PC common-node callbacks over two actual classes cover zero time,
+positive time and forced zero-time entry. A deliberately nonzero reference-cache
+fixture remains intact with zero observed writes. Static instruction inspection
+and retained decompiler evidence independently locate the guard. Two positive-time
+node projections match Rust on 156 selected pose/flag/channel/rate/affine words;
+reference-cache fixture values, epochs, resource pointers and UID are excluded
+from that pair. Separate source guard controls preserve the same nonzero supplied
+matrix and refuse current-reference consumption. The 133-actor installed cohort
+checks four real reference owners, retained constructor storage, force-flag clear
+and stale/unsampled refusal across its 399 supplied callbacks. Admission, controls,
+clocks and the force-flag input remain supplied; no ordinary writer is inferred.
+Prototype PS2 attribution remains unknown. Later sections acquire the animated
+building and local typed child callbacks; parent completion/attachment publication,
+other AI families and real shared world producers still block ordinary Vimp play.
 
 ## Vimp pose consumer in the common renderer — source only
 
@@ -169,6 +255,49 @@ world callback and makes no rendering/readiness acknowledgement. Next connect
 the real world admission/clock/control/terrain/effect providers and exercise the
 connected pose consumer with actual admitted births/animation before advertising
 a testable map.
+
+## Class230 awakening through the owned primary - source dependency
+
+Story2 stages seven class73 and four class230 actors in state23. The existing
+primary machine now also admits class230 mode0/61 through its actual constructor,
+shared entry/perception and motion phases. The older Ripper identifiers remain
+aliases. This adds no whole-world callback admission or playable AI map.
+
+The class-specific entry cue and parameter handling remain distinct. This branch
+reads camera range from actual global resources and re-queries object-local time
+after entry may change the dispatch context; the earlier prefix delta cannot be
+reused. An expired timer and current selected target request the awakening cue,
+store mode62, clear the acquired visibility/personality fields, construct the real
+class219/state48 marker and publish its reciprocal owner before stopping the old
+cue. The marker birth is unconditional on height. The debug history-tail hook is
+empty; the destination-copy helper writes thirteen destination words and no source
+words. This route does not import the class73 surfacing motion reset or speed
+restoration. Shared footstep dispatch retains the class230 cue.
+
+The Session caller uses the captured source resources and existing marker factory,
+retaining exact owner, marker and target identities. Callback errors with an
+acquired failure latch publish their owned prefixes, including a marker already
+created before a later audio error; they refuse replay. Pure preflight errors
+still acknowledge no callback. An installed control covers actual construction,
+conditional birth, prefix and late failures, copied pose/scale, retirement and a
+separate post-entry slow-area clock. Audio requests are explicitly captured and
+suppressed by the test, not treated as a live sound backend or native absence.
+
+Six native diagnostic sequences acquire sixteen steps each with actual callbacks,
+resource resolution and a supplied peer/flat world. They do not establish six
+playable missions or complete behavior. Three focused class230 source/native first
+primary-plus-motion projections match 90 selected words. Native sound-registry
+absence and source diagnostic suppression are declared boundaries; the equality
+establishes no audible result or DLL/audio RNG ownership. A focused copy trace
+observes thirteen destination writes and zero source writes, agreeing with the
+independent PC decompilation. Prototype PS2 lookups remain unknown, with no new
+confirmed attribution or imported signatures/layouts.
+
+Mode62 and subsequent continuations, the spawned state48 callback schedule,
+secondary/ANM/finalization, real player pose/vitals and complete ordered perception,
+actual voice/effect/RNG/clock producers and menu-to-mission interaction remain
+required. Normal Mecc presentation is not a substitute for an up-to-date owned
+player view. Keep those refusals until main connects and verifies the real owners.
 
 ## Existing reconstruction
 

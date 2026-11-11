@@ -27,7 +27,10 @@ mod herd_frame;
 #[cfg(test)]
 mod herd_frame_tests;
 #[cfg(test)]
+mod parented_frame_tests;
+#[cfg(test)]
 mod passive_frame_tests;
+mod ripper_variant;
 pub use cinematic_constant::{
     Scope as CinematicScope, Support as CinematicSupport, View as CinematicConstantView,
 };
@@ -908,6 +911,7 @@ impl Session {
             }
             fields.object_flags |= 0x40400000;
             channels[0][8] |= 1;
+            fields.channels = channels;
             child.channels = Some(channels);
             child.acquired_construction = true;
             child.presentation_parent = Some(owner);
@@ -917,6 +921,17 @@ impl Session {
                 binding_word: 2,
                 context: fields.dispatch_context,
             });
+            let specification = staged
+                .specifications
+                .get(&id.serial)
+                .unwrap()
+                .0
+                .specification();
+            if crate::herd_frame::Owned::supports_state0(fields, specification) {
+                let mut frame = crate::herd_frame::Owned::fresh(fields, specification)?;
+                frame.view.finalization.parent_present = true;
+                child.herd_frame = Some(frame);
+            }
             ids.push(id);
         }
         let write = |data: &mut [u8], at: usize, value: u32| {
@@ -2647,7 +2662,7 @@ impl Session {
     ) -> Result<crate::ripper_primary_turn::State<Id, E>, String> {
         let actor = self.ordinary_frame_actor(id)?;
         let motion = self.actor_motion(id)?;
-        if actor.class != 73
+        if !matches!(actor.class, 73 | 230)
             || actor.state23_combat.is_some()
             || actor.surface_link.is_some()
             || !motion.awaiting_motion()
@@ -2658,7 +2673,7 @@ impl Session {
             || self.actor_finalization(id)?.phase()
                 != crate::resident_finalization::Phase::MotionStarted
         {
-            return Err("initial primary requires a fresh admitted owned class73 frame".into());
+            return Err("initial primary requires a fresh admitted owned class73/230 frame".into());
         }
         let combat = self.state23_snapshot(id)?;
         let f = actor
@@ -2673,7 +2688,7 @@ impl Session {
         let scalar = |at| f32::from_le_bytes(data[at..at + 4].try_into().unwrap());
         Ok(crate::ripper_primary_turn::State {
             entry: crate::state23_entry::State {
-                class: 73,
+                class: actor.class,
                 context: f.dispatch_context,
                 mode: 0,
                 action: f.action,
@@ -2986,7 +3001,10 @@ impl Session {
             .ripper_primary_running = true;
         let result = (|| {
             machine.refresh_owned_frame(state)?;
-            let outcome = callback(self, &mut machine, input, random, services)?;
+            let outcome = callback(self, &mut machine, input, random, services);
+            if outcome.is_err() && machine.failure().is_none() {
+                return outcome;
+            }
             // Surface construction publishes a reciprocal callback owner. Read
             // the current relations instead of overwriting them with entry data.
             let mut combat = self.state23_snapshot(id)?;
@@ -3006,7 +3024,7 @@ impl Session {
             fields.configuration[11] = state.entry.active_limit.to_bits();
             fields.configuration[14] = state.steering.personality;
             actor.state23_combat = Some(combat);
-            Ok(outcome)
+            outcome
         })();
         let actor = self.residents.get_mut(&id.serial).unwrap();
         actor.ripper_primary_running = false;
@@ -9592,12 +9610,13 @@ impl Session {
         if input.seed.storage.state() == 0 && input.seed.storage.data().is_some() {
             return Err("state0 construction must not allocate a payload".into());
         }
-        // Admit only the acquired empty nonphysical state0 profile. Unsupported
-        // animated/reference-bearing state0 declarations still construct, but
+        // Admit only acquired nonphysical state0 animation profiles. Empty
+        // channels retain unsampled references; eventless single channels use
+        // the shared clock/reference owner. Unsupported declarations construct but
         // receive no successful common callback by default.
         let passive = if input.seed.storage.profile() == Profile::Debug
             && input.seed.storage.state() == 0
-            && crate::herd_frame::Owned::supports_empty_state0(&input.fields, &input.specification)
+            && crate::herd_frame::Owned::supports_state0(&input.fields, &input.specification)
         {
             Some(crate::herd_frame::Owned::fresh(
                 &input.fields,

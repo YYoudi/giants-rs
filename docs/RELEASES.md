@@ -208,6 +208,82 @@ verifies10 files,338 dependency notices and archive SHA256
 Its remaining receipt-bound distribution review belongs to main's technical
 publication process; this is not another human-approval gate or a public release.
 
+
+## Class230 owned awakening - intermediate source dependency
+
+The state23 primary machine now admits class230 mode0/61 using the actual
+constructor, shared entry/perception/motion and existing marker factory. Three
+source/PC first-callback-plus-motion projections agree on 90 selected words.
+Supplied flat terrain, peer eligibility, camera/clock and diagnostic audio remain
+explicit boundaries. This is no new ordinary NPC map or preview.
+
+Class-specific sounds and parameter handling stay distinct; local time is queried
+again after the entry context changes. Marker construction/copy/link is not gated
+on positive height and does not reset source motion. Thirteen observed destination
+writes and zero source writes agree with the independent PC copy decompilation.
+Installed controls retain exact actor/marker ownership and prefixes through early
+and late audio failures, preserve already-born markers and refuse replay. The
+portable clock control distinguishes the before/after-entry owner samples.
+
+Mode62 onward, state48 callback admission, secondary/ANM/finalization, actual player
+pose/vitals and full world/audio/effect/clock/RNG producers remain required. Native
+registry absence and diagnostic source suppression do not prove audible behavior.
+All detailed evidence stays private; prototype PS2 attributions remain unknown.
+
+## Typed child common callbacks - intermediate source dependency
+
+The acquired Mecc special constructor now binds local common frames to its three
+supported eventless state0 children. History, channel clocks, shared epoch and
+references use the existing owners. Exact typed parent/group bindings remain
+required; arbitrary presentation parenting, changed mirrors and foreign/retired
+identities refuse. Parented finalization marks the pose dirty and retains the
+native early return without environment queries or an invented world affine.
+
+Twelve original-PC/source callbacks agree on 800 selected words, including actual
+child reference storage; two installed tickets check 24 callbacks, local position
+buffers, skipped zero time, unchanged RNG/parent channels and lifecycle guards.
+Control, clock, history and callback admission remain supplied. This does not
+complete the parent's native turn, attachment world publication, whole-world
+scheduling or ordinary Vimp AI. Normal jet presentation still requires a
+Mecc/main handoff to the completed child owner, retaining its current guard and
+one animation producer. No new preview or playable map is added; the frozen
+.9 download remains unchanged. Prototype PS2 attribution remains unknown and all
+research inputs stay private.
+
+## Eventless state0 animation - intermediate source dependency
+
+This source checkpoint adds no ordinary Vimp AI map or Windows preview. The
+remaining animated Story2 neutral declaration now uses owned channels, the shared
+epoch, fifteen reference matrices and normal finalization in the common callback
+adapter. Eligibility remains restricted to eventless single-channel state0 without
+corrections or a parent; empty-channel retained storage keeps its original guard.
+Three original-PC/source projections match 999 selected words, including a loop
+crossing. Five native callbacks distinguish forced and skipped zero time. The
+installed 134-actor cohort covers 402 callbacks, actual position-buffer consumption
+and retained ANM state after an explicitly supplied late environment failure.
+
+World admission/clock/control/environment/effect producers, parented children and
+other AI families still block ordinary herd play. Research inputs stay private;
+prototype PS2 attributions remain unknown. The frozen .9 package is unchanged.
+
+## State0 retained-reference guard — intermediate source dependency
+
+This NPC source checkpoint adds no ordinary Vimp AI map or preview. Empty-channel state0 actors
+now retain their actual reference resource owner behind the native absent-primary
+guard. The common ANM phase calls that existing guard after real channel entry and
+epoch publication; it preserves storage without manufacturing a current pose.
+
+Six original-PC callbacks over two source classes retain a nonzero reference
+fixture with zero writes at zero, positive and forced-zero time. A separate Rust
+node projection matches 156 selected words, excluding cache fixtures, epoch,
+pointers and UID. Installed guard checks preserve the same supplied matrix and
+refuse current-pose consumption. Story2's selected-cohort control now reaches
+133 neutral actors /399 supplied callbacks, including four reference owners;
+clock/control/force and admission remain test inputs. The active building,
+parented children, AI families and actual shared world producers still require
+integration. No ordinary controls, GPU, full-world or preview proof is added.
+Existing preview identities and other lanes' evidence boundaries remain intact.
+
 ## Delphi evaluated body consumer - intermediate source dependency
 
 Ordinary Delphi controls remain unavailable. A new completed-phase body reader
@@ -293,7 +369,7 @@ their original evidence scope and do not become playable by this policy change.
 
 ## Passive common-node ownership — intermediate source dependency
 
-No ordinary Vimp AI map or new preview is available. Source construction now
+This NPC source checkpoint adds no ordinary Vimp AI map or preview. Source construction now
 prepares the existing nonphysical common-node owner for supported empty state0
 actors. Neutral actors reuse the acquired null state dispatch, ANM/time and real
 finalization contracts; unsupported animated/reference-bearing or parented
@@ -310,7 +386,7 @@ ordinary interaction and preview validation. Frozen preview receipts stay intact
 
 ## Common Vimp pose renderer — runtime consumer, interaction unverified
 
-No ordinary Vimp AI map or new preview is available. The common executable now
+This NPC source checkpoint adds no ordinary Vimp AI map or preview. The common executable now
 consumes completed Session Vimp frames using their actual channels, animation epoch
 and affine, copying shared position buffers before another actor updates them.
 The existing opaque RGB body shader receives source geometry/textures. Primary
@@ -686,6 +762,37 @@ a standalone component. Both source milestones retain their distinct boundaries.
 The next priority is visible menu-to-mission Kabuto, then real walking/turning and
 jump/landing, before feeding/growth and variants. The frozen preview .8 is unchanged.
 
+## Vimp movement/response composition — 10 November 2026, source only
+
+The scalar/command prefix and active response now share one owned Session lease
+and RNG. Parameters publish before the actor clock, commands clear before the
+caller gate, and obstruction retry uses a separate global clock with strictly
+negative expiry. Earlier stores and callback/error/cancellation effects survive;
+reentry and replay remain refused. Existing arithmetic and steering are shared.
+
+The movement prefix matches 1,024 original-PC contexts /9,216 words and 117 source
+cycle prefixes /1,053 words. One first-handled prefix suppresses production; 116
+produce commands. The joint source comparison matches 115 visits /2,070 words
+while retaining commands, scalar/retry and active state plus RNG. Earlier caller
+gate, obstruction predicate, growth/motion/flags/clock/control and external draws
+remain supplied. No zero obstruction constructor value is inferred. Prototype PS2
+attributions remain unknown; inputs and detailed evidence stay private.
+
+Combined runtime source `0f62e17` preserves main through `cf65499`. Validation
+passes 943 default Rust tests (137 ignored), 34 installed NPC controls plus both
+private captured cycles, Delphi dependency-order and canonical timed-owner checks,
+43 Python tests, Rustfmt, strict workspace Clippy and generated site/JavaScript
+checks. The preceding active-state PR's dashboard and both Windows checks pass.
+Rebuilt captured/persistent active, locomotion and 32-scenario /96-snapshot
+herd/newborn comparisons still agree; the latter retains its supplied world
+boundaries and matches 824,168 words after the shared arithmetic refactor.
+
+No ordinary public map yet admits active Vimp AI. Story2 remains the CPU resource
+reference and first intended runtime target. Earlier world/caller producers and
+later look/physics/ANM/render ownership, actual population/global clock/RNG,
+contact, action/hint/audio and remaining modes still require integration and
+interactive entry/interaction/cancellation/re-entry validation. No capture,
+executable, download or frozen preview .8 notes/receipt is changed by this lot.
 ## Persistent named-selection follow-up - source-only evidence
 
 The 23-source /25-request persistent cohort uses two programs whose normal/lite
@@ -784,6 +891,7 @@ later look/physics/ANM/render ownership, actual population/global clock/RNG,
 contact, action/hint/audio and remaining modes still require integration and
 interactive entry/interaction/cancellation/re-entry validation. No capture,
 executable, download or frozen preview .8 notes/receipt is changed by this lot.
+
 
 ## Owned Vimp active-response state — 10 November 2026, source only
 

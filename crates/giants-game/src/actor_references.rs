@@ -364,3 +364,47 @@ impl Owned {
             .ok_or("actor reference outside cache")
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    #[ignore = "Requires GIANTS_NPC_ROOT; actual state0 reference resources, declared retained cache, absent primary guard; no current-pose readiness"]
+    fn source_absent_primary_reference_guard_keeps_retained_storage_unsampled() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+        let resources =
+            crate::scene_resources::SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        for class in [235, 236] {
+            let specification = Arc::new(Prepared::load_registered(&resources, class).unwrap());
+            let mut owner = Owned::new(specification).unwrap();
+            assert_eq!(owner.matrices.len(), 1);
+            // Deliberate nonzero cache input. The corresponding original-PC
+            // guard control retains this same supplied matrix without writes.
+            let retained = Matrix {
+                flags: 0x11,
+                values: [
+                    2., 0., 0., 7., 0., 3., 0., 8., 0., 0., 4., 9., 0., 0., 0., 1.,
+                ],
+            };
+            owner.matrices[0] = retained;
+            let mut channels = [[0; 9]; 4];
+            for channel in &mut channels {
+                channel[0] = 254;
+            }
+            for epoch in [1, 2] {
+                let update = owner.update_current(&channels, epoch).unwrap();
+                assert_eq!(update, Update::default());
+                assert_eq!(owner.matrices[0].flags, retained.flags);
+                assert_eq!(
+                    owner.matrices[0].values.map(f32::to_bits),
+                    retained.values.map(f32::to_bits)
+                );
+                assert!(!owner.sampled());
+                assert!(owner.current_matrices(&channels).is_err());
+            }
+            println!(
+                "reference_guard_source class={class} retained_nonzero=true current_sample=false"
+            );
+        }
+    }
+}
