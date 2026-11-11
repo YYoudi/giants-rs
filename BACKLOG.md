@@ -415,10 +415,21 @@ including late failures, with source-template shell history and declared placeme
 The actual initial body now reaches the common renderer through a scratch channel
 snapshot; a source-bound offscreen Rstory1 image confirms it is visible with the
 declared-start inspection camera. This does not mutate world ANM/affine caches.
+A completed-phase body consumer now uses the actual shared ANM/model-buffer epoch,
+refuses stale/failed/future phases and invalidates after another actor replaces
+the shared model buffer. App still supplies only the initial inspection snapshot;
+its actual Delphi scheduler must call the evaluated consumer. This is an
+intermediate source dependency, not ordinary movement or graphical verification.
 The next runtime gap is actual projection reset and the complete first primary/
 physical/camera/input driver, held/copy placement and live animation consuming this
-same owner. Confirm source start and
-contact/water prerequisites; do not teleport or force state to make a dry slice.
+same owner. An ordered pre-special projection checkpoint is now available through
+`construct_declared_with_projection`; the required callback precedes history,
+children and initial animation. The current collapsed diagnostic path records
+`Pending` and cannot be promoted with a late reset. Delphi now publishes its shared
+look angle at the acquired prefix and binds physical/manual and ordinary camera
+consumers to that value; no body-scale or rotation alias is substituted. Next supply actual shared
+camera owner/mode/device providers through ordered fresh entry, then the complete
+first primary/physical/input loop. Confirm source start and contact/water prerequisites; do not teleport or force state to make a dry slice.
 Main integration owns combined delivery. No ordinary Delphi controls are newly
 available; the source-backed App control uses an all-unlocked test menu mask and
 proves staging/roles/re-entry, not user input or campaign availability.

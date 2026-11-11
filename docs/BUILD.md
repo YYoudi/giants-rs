@@ -1222,6 +1222,14 @@ held/copy placement or gameplay readiness. Inspect the actual image separately
 from pipeline completion. The source-backed menu request uses a test preview
 profile; it does not prove ordinary campaign unlocks.
 
+With `GIANTS_DELPHI_ROOT` and an explicit `GIANTS_DELPHI_EXECUTABLE`, run
+`cargo test --locked -p giants-game source_delphi_projection_checkpoint --target x86_64-pc-windows-gnu -- --ignored`
+for ordered cold activation. It uses actual resources and external camera
+coefficients with supplied mode/current-owner inputs and a projection-request
+sink. It checks unchanged pre-projection history, later history/children/animation,
+retained projection failure and retained late special failure. No App device,
+startup, real input or native exception equivalence is established.
+
 ### Kabuto owned camera-header control
 
 With a user-supplied installation in `GIANTS_KABUTO_ROOT` and a compatible inspected

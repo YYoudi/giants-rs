@@ -12,6 +12,72 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Evaluated body consumer - intermediate dependency
+
+`player_body::Prepared::from_delphi_frame` consumes a completed, unfailed owned
+Delphi phase, its actual ANM epoch, current references and affine. It runs the
+existing shared model-buffer producer at that epoch and prepares the same body
+draw data used by initial inspection, including the no-normal route. It creates
+no scratch epoch and does not advance channels, history or initializers.
+Snapshots retain frame/epoch/cache provenance and become stale when another
+actor replaces the shared model buffer. Cold, failed and future phases refuse.
+
+The installed controlled-phase check follows changing deformed positions across
+movement/jump steps and exercises two real actors sharing a model. Its commands,
+time, flat terrain and world services remain supplied. This is a source-level
+producer/consumer connection, not graphical or ordinary-input verification.
+The common App still publishes its initial inspection snapshot; its actual
+Delphi controller/scheduler must call this consumer after the completed phase.
+Ordered startup camera/projection, full primary, held/copy placement and ordinary
+menu/input/return/re-entry remain open. No new image or preview is claimed.
+
+## Shared owned look angle - producer/consumer dependency
+
+The acquired player prefix now publishes the separate zero look angle before
+projection. Raw class construction and special-only initialization leave that
+value unavailable; it is not inferred from body rotation or model scale.
+Delphi's physical cycle imports the current owned look angle on entry and
+publishes its retained result. Ordinary camera reads that same current field,
+so a mode command after physical evaluation reaches the camera immediately and
+the next physical invocation. The class's body pose and look remain distinct.
+
+A source-backed control applies a common camera command after a completed
+Delphi frame, checks both ordinary camera consumers, then advances physics with
+zero look input and checks that the command's angle is retained. Mode/owner,
+projection sink and flat terrain remain explicit control inputs. The expanded
+three-original-activation comparison agrees on 84 pose/history/body-scale/angle/
+look words; the earlier 78-word checkpoint record keeps its own scope. Actual App
+startup/owner/mode/device binding and real input remain open; no new capture,
+download or playable admission follows from this service connection.
+
+## Ordered pre-special projection checkpoint - intermediate dependency
+
+The cold factory now offers `construct_player_fields_with_projection` and the
+declared factory offers `construct_declared_with_projection`. Their required
+`ProjectionReset` service runs after the actual owner is published and before
+history transfer, special children and initial animation selection. The callback
+sees the unchanged supplied shell history and new class header; it does not
+implicitly replace the separate current camera owner with the controlled actor.
+Three original activation controls match 78 targeted pose/history/scale/angle
+words before projection and after special initialization. The original entry,
+profile/reset and history bodies execute with supplied frame/equipment/viewport
+inputs; device submission remains captured. This is not full-world equivalence.
+
+`Attempt` retains projection state and the actual constructor Id through errors.
+Source-backed controls exercise current-camera/controlled separation, an explicit
+projection failure before history/special, and a late special-resource failure
+after completed projection/history. These are host failure-retention checks, not
+native exception parity. A completed callback acknowledges only that service;
+it does not establish a renderer, world admission or gameplay fidelity.
+
+Common mission staging records `Pending` for its collapsed diagnostic path. The
+existing diagnostic group cannot be promoted by applying projection after its
+children already exist. Ordinary entry must use the ordered factory with actual
+shared camera owner/mode and device providers on a fresh lifecycle. Those App
+providers and the first complete primary/physical/input/live-animation loop
+remain open. The existing body image and published .8 download keep their earlier
+source identities; this checkpoint adds no ordinary controls or new capture.
+
 ## Initial body in the common renderer - diagnostic only
 
 The declared Delphi owner now feeds the shared initial-player body renderer.

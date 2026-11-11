@@ -1,5 +1,5 @@
-//! Initial owned player-body presentation. This samples actual current channels
-//! without advancing a primary, acknowledging initializers or inventing history.
+//! Owned player-body presentation: immutable initial inspection or a completed
+//! Delphi phase's shared deformation cache. Neither path advances a primary.
 use crate::{
     resident_states::{Id, Session},
     scene_resources::{ModelAsset, SceneResources},
@@ -18,12 +18,87 @@ pub struct Prepared {
     specification: std::sync::Arc<crate::specification::Prepared>,
     channels: crate::animation_channels::Channels,
     pose: ([u32; 3], [u32; 3], u32),
+    evaluated: Option<Evaluated>,
+}
+struct Evaluated {
+    number: u64,
+    epoch: u32,
+    cache: [u32; 3],
+}
+fn cache_words(cache: crate::vertex_cache::Cache) -> [u32; 3] {
+    [cache.epoch, cache.seconds.to_bits(), cache.animation]
+}
+fn completed_delphi_epoch(session: &Session, owner: Id, number: u64) -> Result<u32, String> {
+    let actor = session.get(owner).ok_or("body owner absent or foreign")?;
+    let frame = session
+        .delphi_physical(owner)
+        .ok_or("body Delphi phase absent")?;
+    let fields = actor
+        .construction_fields
+        .as_ref()
+        .ok_or("body fields absent")?;
+    if actor.class != 3
+        || number == 0
+        || frame.number != number
+        || frame.failure.is_some()
+        || actor.mecc_animation_stamp == 0
+        || actor.channels != Some(fields.channels)
+        || fields.object_flags & 0x40008000 != 0
+    {
+        return Err("body requires its completed unfailed Delphi phase".into());
+    }
+    session.current_reference_matrices(owner)?;
+    session.actor_current_affine(owner)?;
+    Ok(actor.mecc_animation_stamp)
 }
 impl Prepared {
+    /// Consume the actual phase/ANM owners, then run the existing model-buffer
+    /// producer at that epoch. No scratch epoch, history or initializer is added.
+    /// Completion of this acquired phase is not full-primary/world admission.
+    pub fn from_delphi_frame(
+        resources: &SceneResources,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+    ) -> Result<Self, String> {
+        let epoch = completed_delphi_epoch(session, owner, number)?;
+        session.prepare_actor_positions(owner, 0, epoch, false)?;
+        let cache = session
+            .actor_model_cache(owner, 0)?
+            .ok_or("evaluated body model cache absent")?;
+        if cache.epoch != epoch {
+            return Err("evaluated body model epoch differs from its ANM owner".into());
+        }
+        let positions = session
+            .actor_model_positions(owner, 0)?
+            .ok_or("evaluated body positions absent")?
+            .to_vec();
+        Self::snapshot(
+            resources,
+            session,
+            owner,
+            Some((
+                positions,
+                Evaluated {
+                    number,
+                    epoch,
+                    cache: cache_words(cache),
+                },
+            )),
+        )
+    }
     pub fn from_session(
         resources: &SceneResources,
         session: &Session,
         owner: Id,
+    ) -> Result<Self, String> {
+        Self::snapshot(resources, session, owner, None)
+    }
+    fn snapshot(
+        resources: &SceneResources,
+        session: &Session,
+        owner: Id,
+        evaluated: Option<(Vec<[f32; 3]>, Evaluated)>,
     ) -> Result<Self, String> {
         let actor = session
             .get(owner)
@@ -58,15 +133,21 @@ impl Prepared {
         if model.name != source.name {
             return Err("initial body asset differs from owned specification".into());
         }
-        // A fresh evaluation scope for this immutable presentation snapshot.
-        // Its nonzero scratch epoch is never published into the actor or world
-        // ANM caches, and acknowledges no live animation or primary history.
-        let mut scratch = crate::actor_position_buffers::Bank::default();
-        scratch.update(specification, 0, &channels, 1, false)?;
-        let positions = scratch
-            .positions(specification, 0)?
-            .ok_or("initial body positions absent")?
-            .to_vec();
+        let (positions, evaluated) = if let Some((positions, provenance)) = evaluated {
+            (positions, Some(provenance))
+        } else {
+            // Initial inspection has a private epoch, never published into
+            // actor/world ANM caches or acknowledged as live phase history.
+            let mut scratch = crate::actor_position_buffers::Bank::default();
+            scratch.update(specification, 0, &channels, 1, false)?;
+            (
+                scratch
+                    .positions(specification, 0)?
+                    .ok_or("initial body positions absent")?
+                    .to_vec(),
+                None,
+            )
+        };
         if positions.len() != model.mesh.positions.len() {
             return Err("initial body position count differs".into());
         }
@@ -78,7 +159,7 @@ impl Prepared {
                     .map_err(|e| e.to_string())?,
             )
         };
-        let matrix = if fields.object_flags & 0x10000 != 0 {
+        let matrix = if evaluated.is_some() || fields.object_flags & 0x10000 != 0 {
             session.actor_current_affine(owner)?.matrix
         } else {
             crate::object_transform::euler(fields.position, fields.angles, fields.scale)
@@ -94,6 +175,7 @@ impl Prepared {
             object_flags: fields.object_flags,
             specification: specification.clone(),
             channels,
+            evaluated,
             pose: (
                 fields.position.map(f32::to_bits),
                 fields.angles.map(f32::to_bits),
@@ -108,7 +190,13 @@ impl Prepared {
                     .specification(self.owner)
                     .is_some_and(|s| std::sync::Arc::ptr_eq(s, &self.specification))
                 && a.channels == Some(self.channels)
-                && (self.object_flags & 0x10000 == 0
+                && self.evaluated.as_ref().is_none_or(|e| {
+                    completed_delphi_epoch(session, self.owner, e.number) == Ok(e.epoch)
+                        && session.actor_model_cache(self.owner, 0).is_ok_and(|cache| {
+                            cache.is_some_and(|cache| cache_words(cache) == e.cache)
+                        })
+                })
+                && ((self.evaluated.is_none() && self.object_flags & 0x10000 == 0)
                     || session
                         .actor_current_affine(self.owner)
                         .is_ok_and(|c| c.matrix.map(f32::to_bits) == self.matrix.map(f32::to_bits)))

@@ -13,6 +13,11 @@ The normal-camera and temporal-approach routine identities are confirmed there;
 wall/profile correspondences remain probable and the renderer-cache counterpart
 remains unassigned. Naming does not expand the behavioral evidence below.
 
+Delphi's acquired player prefix now also publishes its typed zero look angle
+before projection. Its physical/manual phases and ordinary camera consume that
+same owned value; see [OWNED_DELPHI.md](OWNED_DELPHI.md). This does not choose an
+App camera lifecycle, supply mission-entry globals or acknowledge a device.
+
 ## Owned look angle and cold image context - intermediate dependency
 
 Ordinary Kabuto controls remain unavailable. The shared runtime still needs a
@@ -240,9 +245,12 @@ completed reset and quarantines shared commands/admission.
 The native type-activation caller invokes this in its session-mode-zero branch,
 before later actor initialization and initial animation selection. The separate
 non-mode-four damage-authority rule does not establish activation eligibility.
-The existing collapsed cold CPU constructor is
-not an execution checkpoint for this earlier service. Preserve that order when
-binding the application's still-pending projection reset.
+The ordered Delphi cold factory now exposes this checkpoint before history,
+special children and initial animation; see [OWNED_DELPHI.md](OWNED_DELPHI.md).
+Its required service reads the actual current camera owner separately from the
+controlled actor. The collapsed diagnostic constructor still omits that earlier
+service and records it as pending; a late reset cannot retroactively promote its
+group. Bind actual App owner/mode/device providers through ordered entry.
 
 `advance_lens` now runs the existing lens kernel against that same state word.
 Its mode/view snapshot must match the shared owner; stale input refuses before

@@ -27,8 +27,25 @@ impl Factory {
     pub fn declared_start(&self) -> &Declared {
         &self.start
     }
+    /// Collapsed resource/body inspection only. Its omitted earlier projection
+    /// cannot be retroactively acknowledged after the special group exists.
     pub fn construct_declared(&self, session: &mut Session, blending: Blending) -> Attempt {
         self.special
             .construct_declared_player_fields(session, &self.start, blending)
+    }
+    /// Supply the actual pre-special projection service for ordered cold entry.
+    /// Callback completion is separate from world admission or rendering proof.
+    pub fn construct_declared_with_projection(
+        &self,
+        session: &mut Session,
+        blending: Blending,
+        projection: &mut impl crate::delphi_player::ProjectionReset,
+    ) -> Attempt {
+        self.special.construct_declared_player_with_projection(
+            session,
+            &self.start,
+            blending,
+            projection,
+        )
     }
 }
