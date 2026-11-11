@@ -25,6 +25,7 @@ PREVIEW_CHECKS = {
     'ordinary_mecc_cycles_gpu': 'Three ordinary admission/motion/fire/jet/nitro/release cycles and clean menu returns with supplied commands and real muted transport',
     'story2_vimp_reaction_gpu': 'Story2 supplied-command approach/fire reaches the actual herd, renders canonical Vimp startle/return and starts real muted positional sinks; no OS-held input claim',
     'story2_vimp_combat_gpu': 'Actual partial-pistol injuries and deaths render source blood/FX, meat and ghosts with real muted injury/death sinks; supplied navigation/fire, not OS-held input or native-fidelity proof',
+    'story2_vimp_contact_gpu': 'The graphical ordinary controller walks into actual living Vimp collision meshes and records player contact responses; supplied navigation, no shots or forced poses, not OS-held/native motion proof',
     'shared_body_focus_os': 'F7 focuses initial Delphi and Kabuto bodies from ordinary mission inspection; gameplay controls remain unavailable',
 }
 PREVIEW_LIMITS = {
@@ -34,7 +35,7 @@ PREVIEW_LIMITS = {
     'npc_remaining_ai': 'The partial Story2 Vimp interaction is connected; other staged AI, feeding, objectives and complete native-world admission remain unavailable',
     'vimp_fx_preview_policy': 'Death FX use explicit host-frame scheduling, terrain-only contacts and owner-lifetime splat retention; complete native effects/world scheduling remains unverified',
     'meat_collection': 'Meat drops are visible; collection, feeding and the associated economy are not enabled',
-    'ordinary_controls_os_unverified': 'Real OS-held flight and near-herd interaction have not been verified on this executable; supplied-command GPU checks are separately scoped',
+    'ordinary_controls_os_unverified': 'Real keyboard/mouse gameplay on this executable remains unverified; supplied-command GPU checks and prior-build manual evidence are separately scoped',
     'npc_live_ai': 'NPC AI is not admitted to ordinary missions',
     'full_game_fidelity': 'Complete campaigns and visual/audio fidelity remain unverified',
 }

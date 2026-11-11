@@ -15,19 +15,18 @@ described below is published under the owner's explicit authorization.
 
 [Quick start](docs/QUICK_START.md) · [Build](docs/BUILD.md) · [Release policy](docs/RELEASES.md)
 
-Current Windows download: [preview-2026.11.11.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.11.2).
-The common build includes all five reviewed contribution lanes. Start New Single
-Player Game: right mouse thrust, Space nitro, left mouse partial pistol, R view,
-Escape menu. Brief fire taps, canonical jet children and terrain-landing dust/audio
-are connected. Preview tools -> Browse all missions -> Delphi/Kabuto -> F7 focuses
-the initial body without a replay; those characters still have no gameplay controls.
-Story2 now connects a partial living Vimp interaction: Browse all missions ->
-Mecc -> Starving!, follow the F8 herd hint and repeatedly fire nearby. The exact
-supplied-command GPU build observes startle/return with canonical poses and real
-muted positional audio. Real OS-held flight and near-herd interaction on this
-executable remain unverified; other AI, combat damage and objectives remain open.
-See [exact build notes](docs/PREVIEW_NOTES.md) and the remaining producer contracts
-in [BACKLOG.md](BACKLOG.md).
+Current Windows download: [preview-2026.11.11.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.11.3).
+The common build includes all five reviewed contribution lanes. Normal Mecc
+controls: WASD/mouse, right mouse thrust, Space nitro, left mouse partial pistol,
+R view and Escape menu. Preview tools -> Browse all missions -> Mecc -> Starving!
+now exposes Vimp player collision, projectile hits, danger/hurt/recovery, blood
+and recoil, injury/death sound, the ghost and meat drops. Follow the F8 herd hint.
+These actions need no replay flag. Actual graphical contact/hunt/cancellation
+and real muted sinks pass with supplied commands; keyboard/mouse gameplay on
+this executable remains unverified. Other AI, meat collection/feeding, mission
+objectives and full native fidelity remain open. Delphi/Kabuto retain initial-body
+inspection with F7 rather than gameplay. See [exact build notes](docs/PREVIEW_NOTES.md)
+and remaining prerequisites in [BACKLOG.md](BACKLOG.md).
 
 Engine contributors can use the reviewed [original symbol navigation](docs/SYMBOL_NAVIGATION.md)
 to find related Rust code from prototype PS2 names. Confirmed identities and
@@ -49,8 +48,9 @@ The [roadmap dashboard](https://yyoudi.github.io/giants-rs/) is generated from t
 repository's `PROGRESS.json` and updates through GitHub Pages on main-branch pushes.
 It separates the [published Windows build snapshot](https://yyoudi.github.io/giants-rs/#current-preview)
 from searchable source-status tables and the owner-authorized historical comparison
-gallery. Captures are labeled development evidence, not certification
-of the current public build; game artwork remains outside the project MIT license.
+gallery. Captures with matching source, tag and executable receipts are labeled as
+current-download captures; older diagnostics remain explicitly archived. Neither
+label certifies native fidelity; game artwork remains outside the project MIT license.
 [Automatic Windows build checks](https://github.com/YYoudi/giants-rs/actions) are
 active. See [automation and activation](docs/AUTOMATION.md)
 and the [publication review status](docs/PUBLICATION_REVIEW.md).
@@ -89,14 +89,14 @@ mean a complete playable feature. No global completion percentage is claimed.
 - [ ] **Complete Kabuto campaign** — todo; Runtime integration. All missions, growth stages, encounters and ending.
 - [ ] **Mission objectives and scripts** — partial; Runtime integration. Triggers, dialogue events, timers, escort/defence tasks, victory, failure and restart.
 - [ ] **Chapter and mission continuity** — partial; Runtime integration. Unlocks, entry/exit transitions and transfer of the required player state.
-- [ ] **Complete cinematic playback** — partial; Runtime integration. Complete source-driven cinematic playback, voices, effects, transitions and cancellation. The common .11.2 executable passes selected full source-terminal/re-entry transport with real muted sinks and cleanup. Canonical virtual-support storage is acquired; the menu timed renderer still uses explicit preview playback/seed policy. Migration needs actual source clock/RNG interleaving, detached-child caller word and environment/footprint producers. The independent 545-source census remains pinned to .7; zero complete films are certified. See BACKLOG.md and PREVIEW_NOTES.md.
+- [ ] **Complete cinematic playback** — partial; Runtime integration. Complete source-driven cinematic playback, voices, effects, transitions and cancellation. The common .11.3 executable passes selected full source-terminal/re-entry transport with real muted sinks and cleanup. Canonical virtual-support storage is acquired; the menu timed renderer still uses explicit preview playback/seed policy. Migration needs actual source clock/RNG interleaving, detached-child caller word and environment/footprint producers. The independent 545-source census remains pinned to .7; zero complete films are certified. See BACKLOG.md and PREVIEW_NOTES.md.
 - [ ] **Ending and credits flow** — todo; Runtime integration. Final sequence, credits presentation and return to menus.
 
 ### Meccs
 
-- [ ] **Mecc movement and jetpack** — partial; Runtime integration. Preview .11.2 exposes normal WASD/mouse, right-mouse thrust, Space nitro and R view through the shared partial controller. Pending fire/nitro cancel on focus/menu loss. Three supplied-command GPU entry/flight/release/return cycles and actual terrain landing/dust/audio pass. Real OS-held flight on this exact executable, slide, carried/special profiles, native primary/damage and complete world scheduling remain unverified or missing. See BACKLOG.md.
+- [ ] **Mecc movement and jetpack** — partial; Runtime integration. Preview .11.3 exposes normal WASD/mouse, right-mouse thrust, Space nitro and R view through the shared partial controller. Pending fire/nitro cancel on focus/menu loss. Three supplied-command GPU entry/flight/release/return cycles and actual terrain landing/dust/audio pass. Real OS-held flight on this exact executable, slide, carried/special profiles, native primary/damage and complete world scheduling remain unverified or missing. See BACKLOG.md.
 - [ ] **Mecc squad and orders** — todo; Runtime integration. Following, moving to a location, attacking, jet use, incapacitation, recovery and repair.
-- [ ] **Complete Mecc weapon arsenal** — partial; Runtime integration. Preview .11.2 draws the partial base-pistol projectile, retains brief fire presses until a simulation step and publishes actual player noise to the partial Story2 Vimp component. Supplied-command GPU fire/reaction and cleanup pass; actual OS-held interaction on this executable and full native weapon/impact/damage ownership remain unverified. Ordered burst and immediate-child dependencies still need their canonical live backend.
+- [ ] **Complete Mecc weapon arsenal** — partial; Runtime integration. Preview .11.3 connects ordinary partial-pistol hits to actual Vimp collision meshes, damage/recoil, blood, hurt/recovery and death owners. Supplied-command GPU hunt and real muted injury/death sinks pass. The complete arsenal, canonical burst/weapon primary, other damage families and OS gameplay remain unverified or unavailable.
 - [ ] **Mecc inventory and ammunition** — partial; Runtime integration. Carry limits, weapon selection, ammunition, reload/cadence, pickups, drops and resupply.
 - [ ] **Mecc packs and upgrades** — partial; Runtime integration. Jetpack upgrade, repair, shield and bush camouflage, with their energy costs and restrictions.
 - [ ] **Mecc items and deployables** — todo; Runtime integration. Mines, grenades, health syringes, flares, deployable turrets and pop-up bombs.
@@ -137,8 +137,8 @@ mean a complete playable feature. No global completion percentage is claimed.
 ### Actors and shared combat
 
 - [ ] **Complete mission actor population** — partial; Runtime integration. Spawn, activation, update order, attachments, lifecycle and removal for the required actors.
-- [ ] **Enemy and boss behaviour** — partial; Runtime integration. Complete enemy perception, navigation, attacks, damage and mission integration remain open. Preview .11.2 connects only the partial Story2 Vimp wandering/startle/return component to actual player noise; other staged AI is inactive. Full native-world admission and scheduling remain unverified. See BACKLOG.md.
-- [ ] **Wildlife and non-player inhabitants** — partial; Runtime integration. Preview .11.2 connects actual Story2 herd/marker children, real partial-runtime player clock/position and pistol noise, canonical completed Vimp poses and positional audio. Browse all missions -> Mecc -> Starving!; use the F8 distance/turn hint, approach and shoot repeatedly nearby. The exact supplied-command GPU probe observes startle and return without forced actor poses; real OS-held interaction, feeding, damage, typed targets, other AI and complete native-world scheduling remain unverified or unavailable. See BACKLOG.md and OWNED_NPCS.md.
+- [ ] **Enemy and boss behaviour** — partial; Runtime integration. Complete enemy perception, navigation, attacks and mission integration remain open. Preview .11.3 connects the bounded Story2 Vimp danger/injury/death interaction; other staged AI remains inactive. Complete native-world admission and scheduling are unverified. See BACKLOG.md.
+- [ ] **Wildlife and non-player inhabitants** — partial; Runtime integration. Preview .11.3 exposes Story2 Vimp player collision, projectile hitboxes, danger/hurt/recovery, blood/recoil, injury/death audio, ghost and meat drops through normal Mecc controls. Browse all missions -> Mecc -> Starving!; follow F8. Actual graphical contact, hunt and cancellation pass with supplied commands. OS gameplay, feeding, meat collection/economy, Delphi mana and full native world/fidelity remain unverified or unavailable.
 - [ ] **Complete projectile and damage rules** — partial; Runtime integration. Complete native damage, hit reactions, death, targeting and weapon interactions remain open. Download .11.1 has the ordinary partial Mecc pistol, source projectile presentation and acquired landing feedback. Short OS fire presses work; this does not establish native impact/damage behavior. Ordered burst and immediate-child services cannot run live until their canonical construction/command/contact/audio consumers exist.
 - [ ] **Injury, death and respawning** — partial; Runtime integration. Reactions, incapacitation, corpses/drops, recovery, player death and mode-specific respawn rules.
 
@@ -150,7 +150,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 - [ ] **Character HUDs, maps and objectives** — partial; Runtime integration. Health, fuel, magic, adrenaline, weapons, items, resources, targeting, map, notifications and score.
 - [ ] **Complete world and actor rendering** — partial; Runtime integration. Owned mission inspection now uploads camera-selected body models from the Session shared pose bank. Native controls match 1,280 selections and 256 complete model snapshots; six recorded Bevy endpoints cover automatic, forced and absent models. Full world visibility, part/material admission, subjective drawing, lighting, scenery and fidelity remain incomplete. See docs/OWNED_MODEL_DRAW.md.
 - [ ] **Water and environmental presentation** — partial; Runtime integration. Waves, reflections, sky, fog, vegetation and environment interactions.
-- [ ] **Animations and active effects** — partial; Runtime integration. Preview .11.2 retains normal Mecc jet/projectile/landing feedback and renders completed Story2 Vimp wandering/startle/return poses with real positional audio. Supplied-command GPU checks remain separate from OS-input and native fidelity. Other AI, Delphi/Kabuto controllers, full native effects/material/timing fidelity and cinematic world producers remain open.
+- [ ] **Animations and active effects** — partial; Runtime integration. Preview .11.3 retains normal Mecc jet/projectile/landing feedback and adds actual Vimp hurt, blood, death FX, animated ghost and meat to the common renderer. Exact-build supplied-command GPU passages pass with real muted sinks. Death FX retain explicit host-frame/terrain/splat preview policies. Other AI, full native material/timing fidelity and cinematic world producers remain open.
 - [ ] **Music, voices and gameplay audio** — partial; Runtime integration. Music, dialogue/subtitles, footsteps, weapons, spells, ambience, spatial mixing and stopping/releasing sounds.
 - [ ] **Saving and restoring a game** — todo; Runtime integration. Restore progression and the required mission/player state reliably, including restart and profile selection.
 

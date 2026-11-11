@@ -12,145 +12,76 @@ source-name rule and `docs/SYMBOL_NAVIGATION.md` now apply to new work and servi
 revisited on touch. Keep recovered names searchable in source, retain old aliases
 and distinguish confirmed identities from probable/unknown navigation candidates.
 Initial coverage includes seven Vimp names and the two previously confirmed
-camera service identities. This documentation does not mark combat delivered;
-ordinary gameplay integration and matching publication remain the priority below.
+camera service identities. Naming does not establish gameplay delivery; the
+separately validated ordinary integration and publication are recorded below.
 
-## Current delivery - Vimp collision, injury and death interaction
+## Delivered preview .11.3 - ordinary Vimp collision, injury and death
 
-Owner direction, 11 November 2026, after personally testing preview .11.2:
-movement and sounds are coherent. Extend that ordinary Story2 interaction with
-player collision, projectile hitboxes, danger response, hurt/death sounds, blood,
-impact/fall recoil, the death ghost and meat drops. Deliver through the same menu,
-controls, main build and matching dashboard; no dedicated script enables gameplay.
+Owner direction, 11 November 2026: extend the personally tested .11.2 wandering/
+sound interaction with player collision, hitboxes, danger, injury/death sounds,
+blood, impact/fall recoil, ghost and meat. Preview .11.3 delivers these through
+the same normal menu and controls. .11.2 and its owner feedback remain immutable.
+Exact runtime `5dbebce`, EXE/ZIP identities, controls and validation are in
+docs/PREVIEW_NOTES.md and docs/public-preview.json. No script enables gameplay.
 
-The previous goal was paused by the owner; this explicit follow-up is the current
-implementation request. Keep .11.2 immutable and do not change the running owner
-test. Its normal input log independently records shots, normal/boost jet draws,
-a terrain landing and 42 Vimp startle/return transitions. The owner's feedback
-confirms movement/audio, not the unimplemented combat chain below.
+Delivered integration:
 
-Required integration, in dependency order:
+1. Completed dedicated-slot Vimp collision meshes feed normal player and
+   partial-pistol queries, retaining current poses, stable scene keys, nearest
+   selection and terrain occlusion. Keys remain distinct from Session IDs.
+2. Actual projectile amount, impact and preceding source positions feed damage,
+   physical recoil, hurt/recovery and the existing post-switch danger block.
+   No stationary/no-source replacement, lowered damage or cleared response state
+   enables ordinary hits. Current threat/control words survive the common call.
+3. Current-joint wounds own their 50-entry budget and feed the existing
+   500-particle renderer. Actual owner positions drive attached audio, source
+   loop/reuse bits, exact-owner stops and real sink retirement. Positional death
+   cues outlive the retired victim without retaining its owner.
+4. The actual full/lite death graph, source assets and reference anchors feed
+   separate typed visual keys, shared visual/movement/gravity/terrain kernels,
+   retained ghost ANM/state84 and class1117..1119 meat updates/retirement.
+   Host-frame FX scheduling, terrain-only contacts and source-owner-lifetime
+   splats remain preview policies, not complete native state78/decal admission.
+5. The final graphical contact passage records 3534 actual player responses
+   with living Vimps and no shots. The hunt records 5 injuries/3 deaths,
+   real muted injury/death sinks and rendered blood/ghost/meat/FX. Separate death
+   capture, service cancellation, common Mecc cycles, landing, lifecycle and
+   selected cinematic transport pass. Commands/clock are supplied. Windows
+   gameplay remains unverified after unsafe target selection; no OS input claim
+   is inferred from graphical commands or earlier builds.
 
-1. Publish current owned Vimp collision shapes/identities to player contact and
-   projectile contact consumers. Use actual class/model/current-pose inputs,
-   preserve nearest-hit/terrain occlusion and avoid fixed guessed hit spheres.
-2. Dispatch actual projectile hits with their real source, amount and impact;
-   retain the shared hit route and source-motion impulse. Compose hurt/recovery
-   and danger behavior inside the actual Vimp primary, not offline callbacks
-   with fabricated stationary/no-source inputs.
-3. Consume hurt/death audio and the acquired blood pool through real runtime
-   owners/renderers. Apply recoil to actual physical velocity, preserving
-   direction, animation completion and subsequent terrain placement.
-4. Complete the death effect/ghost and the separate owned class818/state84
-   auxiliary update/retirement, plus
-   class1117..1119 meat drops, including source tier/counts, herd references,
-   cleanup and re-entry. Do not claim meat collection/economy from a dropped mesh.
-5. Test the combined chain on the final menu-first executable, publish a distinct
-   technically reviewed preview and update source/build/capture availability.
+Remaining prerequisites, in gameplay order:
 
-Source audit found existing stationary no-source Vimp damage, hurt/recovery,
-blood, chunk births and death auxiliary construction. Moving/source-bearing
-hit composition, contact producers, active death FX and the ghost update remain
-actual gaps. Prototype PS2 lookup precedes further native work. Current private
-lookups pin the PC damage/impulse functions and prototype identity; attributions
-remain unknown. The new shared impulse kernel is an intermediate dependency,
-not a connected collision, hitbox, damage or death feature. Its 768 original-PC
-comparisons agree on 2,304 velocity words with supplied source/impact/motion
-inputs and no selected auxiliary model; these do not validate live contacts.
+1. Verify sustained ordinary keyboard/mouse interaction when the preview window
+   can be safely targeted. Current features are enabled for the owner's normal
+   testing; retain exact-build evidence and do not transfer manual results.
+2. Acquire actual meat collection/feeding/economy and eligible Delphi mana
+   transfer. The real state84 population contains no mana-eligible Mecc; never
+   substitute a successful empty-player/transfer provider.
+3. Extend complete mission objectives/progression, other staged AI and the full
+   native Mecc/world producers. Their current inactive/partial state is retained.
+4. Replace declared FX host/terrain/splat policies with acquired native global
+   scheduling, physics/object contacts and decal drivers; verify visual/audio
+   fidelity independently. Source6f limits the emission window, source5a bounds
+   impact-child births, and immediate references remain fixed own0/parent11.
 
-Local follow-up now supplies completed dedicated-slot collision geometry to the
-ordinary player and partial-pistol queries. Two installed supplied-navigation
-entries each produce 2,573 actual Vimp player-contact responses. Projectile keys
-remain distinct from Session IDs; hit records retain the real partial-projectile
-serial, impact, direct amount and two preceding positions. This source candidate
-has not replaced the immutable .11.2 download.
+Retained scoped evidence: impulse 768 cases/2,304 velocity words; 300 wound
+operations/1,972,200 selected words; 96 directional and 128 rotated-joint cases;
+24 ghost deferred/resume cases/1,132 words; 96 state84 branches; eight source skip
+preparations and 128 inherited-angle cases/2,176 words. These keep their supplied
+inputs and intercepted boundaries. Installed combined controls separately cover
+two 6,000-frame entries (three kills, 17 external releases, 276 FX each) and two
+12,000-frame 120 Hz entries (five kills, 30 releases, 390 FX each), with no final
+FX/meat/proxy/ghost residue. Their external retirement is not a real device proof.
+Forty original attached-audio controls verify the loop/reuse branch with supplied
+list/upcall/allocator/device/audio seed. Real muted sinks are checked separately.
 
-Attached blood now owns a separate 50-wound budget, current-joint binding,
-source pulse clocks, lifetime and directional emission into the shared particle
-pool. Original-PC controls agree on 300 wound operations / 1,972,200 selected
-words, 96 directional-emitter cases and 128 rotated-joint binding cases. Their
-supplied clocks, transforms and joint providers are explicit intermediate
-boundaries. An installed moving-Vimp control consumes current animation poses,
-applies a supplied source-bearing nonlethal hit, emits 33 blood particles and
-recovers through the actual hurt primary with two required sound-stop requests.
-It also exposed and repaired the missing regeneration composition on returning
-to living mode. This control supplies admission/time/trajectory/amount and sound
-requests; it is not an ordinary-input, audible or rendered combat acceptance.
+Prototype PS2 lookup remains mandatory before new/resumed native work. Selected
+Vimp names are searchable in source and docs/SYMBOL_NAVIGATION.md; exact PC
+attributions remain unknown. Older aliases and private evidence stay findable.
+A recovered name is neither a whole implementation nor a fidelity validation.
 
-The source candidate now connects ordinary pistol hit dispatch, wound/audio
-requests, death FX, ghost ownership, meat updates and retirement. The pistol's
-actual direct damage is preserved; growth can make later targets require more
-than one hit. No recording/no-op death provider or lowered damage enables this
-path. No new prototype PS2 attribution is confirmed. Combined graphical and
-ordinary OS-input acceptance on the final build is the next delivery gate.
-
-The retained ghost program now has source-backed class859 construction, current
-ANM/position buffers, external resume, ending size/fade and tracked retirement.
-Twenty-four original-PC deferred/resume controls agree on 1,132 selected words;
-all three source sizes animate and retire on two installed tickets. The state84
-meat/ghost branch is connected for actual populations without mana-eligible
-players. Ninety-six original-PC branch controls agree; FX creation/resume and
-marking remain intercepted boundaries in that instruction comparison. Separate
-installed cycles use actual chunk updates and ghost callbacks, then remove all
-chunk/proxy/ghost core owners. Their birth positions, admission, clock and
-external-release provider are supplied; GPU and ordinary lethal integration
-remain unverified. Delphi/mana transfer remains an explicit prerequisite and is
-never replaced with a successful empty-player service.
-
-The ordinary partial component now consumes `FXB_VIMP_death`, including its
-named chunk, splat, spray, trail, impact and drop children. Full/lite selection
-uses current owned-object counts, source quality/distance and the actual camera.
-These FX have their own typed Rust visual keys, distinct from Session actor IDs.
-Source class/ANM/texture assets, lifetime/fade, reference anchors and shared
-movement/gravity/terrain kernels feed real render consumers. Host-frame FX
-scheduling, terrain-only contact and source-owner-lifetime splat retention are
-explicit preview policies, not a complete native state78/world/decal port.
-The ordinary offline session does not take the native network-only herd-meat
-notification branch. Preserve that multiplayer prerequisite without inventing a
-local notification. Victim cleanup currently admits only successful death with
-actually empty native target-reference slots and real external release.
-
-The common NPC renderer now consumes actual current meat transforms and ghost
-ANM buffers, including material/object fade and the ghost's additive RGB mode.
-The latter has a six-case original-renderer state control; it is not pixel proof.
-Two installed source entries pass mesh/image/material/private-buffer ownership
-and return cleanup. Auxiliary births and callback admission remain supplied in
-that control; ordinary lethal rendering is still unavailable.
-
-The ordinary NPC component now owns wound/particle updates under its sampled
-clock, current joints, actual terrain and shared partial RNG. Its copied quads
-feed the existing blood renderer without a second particle simulation. Injury
-and recovery requests use the common actor-owned/positional sound transport.
-Two installed 6,000-frame entries with an explicitly supplied nonlethal hit each
-produce 68 blood-bearing frames, two recovery-stop requests and empty final
-wound/particle pools. This supplies trajectory/amount and observes queues, not
-ordinary pistol damage, GPU output or audible voices.
-
-Death preparation now traverses the complete full/lite, chunk, spray, blood,
-bounce and drop skip frames. Eight actual source preparations agree on RNG
-state and interval counts. Positional angle inheritance is separate from the
-newborn affine: 128 original-wrapper cases agree on 2,176 basis words. The
-immediate child retains fixed own-reference0/parent-reference11; those operands
-are not a random count/range. The later source adapter binds these requests
-under the preview policies above. In particular source6f is an emission-window
-countdown, not a spatial radius, and source5a bounds impact-child births rather
-than spawning its child at every lifetime expiry. Preserve these roles in future
-native scheduling/physics/decal fidelity work.
-
-The connected installed control runs actual partial-pistol hits with supplied
-navigation/time on each of two 6,000-frame entries. Each entry records three
-kills, 17 external releases, 672 FX-bearing frames and 276 born/retired FX owners;
-all meat/proxy/ghost and FX owners are gone before return/re-entry. Its retirement
-device is an explicit test boundary; it does not acknowledge audible voices,
-GPU output or OS input. The ordinary build instead binds the real audio device,
-current-joint blood, render consumers and the same remains scheduler. Recovery
-modes2..4 now accept the real common invocation with its existing threat population;
-they do not execute mode1's threat-list traversal. Isolated admission stays strict.
-No world-running flag, population list or control word is cleared to bypass it.
-The final executable, actual controls, source/build/dashboard publication and
-native fidelity limits still require their separately recorded acceptance.
-
-## Current delivery - reliable Mecc loop and first living interaction
+## Delivered baseline .11.2 - reliable Mecc loop and first living interaction
 
 Owner direction, 11 November 2026: the single integration agent now works in
 the background on one ordinary Mecc mission. First verify and repair menu entry,

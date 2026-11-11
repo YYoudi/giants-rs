@@ -1,8 +1,8 @@
 # Non-player actors and player interactions
 
-## Collision and wound integration candidate
+## Ordinary Vimp collision, injury and death
 
-The current local follow-up extends the ordinary Story2 component with completed
+Preview .11.3 extends the ordinary Story2 component with completed
 collision-slot geometry, replacing only its dynamic contact tail while keeping
 the declared static geometry. Player responses and partial-pistol queries share
 stable prepared-scene keys, resolved separately to typed Session identities.
@@ -18,11 +18,11 @@ uses the existing 500-particle pool. Missing pose/animation providers fail rathe
 than silently emitting actor-centred blood. Regeneration resumes through the
 existing living-primary scalar contract after hurt recovery.
 
-Controlled installed and original-PC evidence, remaining lethal dependencies and
-delivery acceptance are tracked in BACKLOG.md. These source candidates are not
-features of the immutable .11.2 package. The candidate connects ordinary hits,
-injury/death sounds, blood, death FX, ghost, meat and cleanup; final graphical and
-OS-input acceptance is still required before publication.
+Controlled installed and original-PC evidence, remaining native-world prerequisites and
+delivery acceptance are tracked in BACKLOG.md. The immutable .11.2 package keeps
+its earlier scope. Preview .11.3 connects ordinary hits, injury/death sound, blood,
+death FX, ghost, meat and cleanup with exact-build graphical acceptance. Actual
+Windows gameplay and complete native fidelity remain unverified; see PREVIEW_NOTES.md.
 
 The 120 Hz approach/hunt control additionally covers a hit while a danger
 response is active. The native post-switch active block also follows hurt modes;
@@ -46,15 +46,15 @@ are separate from native timing, mix and audible-fidelity validation.
 The current source also owns the retained ghost actor/ANM, its state84 meat
 presence lifecycle and loose-meat expiry. Those installed dependency cycles
 still supply birth/admission/time and external-release boundaries; they do not
-establish a rendered ordinary lethal interaction. The later connected pistol
-control below exercises the combined source consumer; final build acceptance
-remains the next delivery gate in BACKLOG.md.
+by themselves establish a rendered ordinary lethal interaction. The later
+connected pistol control exercises the combined source consumer; the matching
+preview adds separate graphical acceptance recorded in PREVIEW_NOTES.md.
 
 The common scene consumes the actual loose-meat affine and retained ghost ANM,
 with separate shared unlit materials, source transparency and per-owner buffer
 cleanup. Ghost RGB addition and additive blending retain the original checked
-renderer state program. Source asset controls pass; GPU and ordinary lethal
-acceptance remain pending. The NPC component owns attached wounds and blood
+renderer state program. Source asset controls and the matching preview
+graphical lethal passage pass; native fidelity and OS gameplay remain unverified. The NPC component owns attached wounds and blood
 particles; its renderer reads copied quads only. Injury/recovery sound requests
 use the existing actor-owned transport, with playback acknowledged only by its
 real sink consumer. The installed nonlethal bridge supplies a hit explicitly.
@@ -84,7 +84,7 @@ isolated API retains its stricter admission. Actor-owned audio retirement stops
 real started sinks, cancels unstarted reservations without playback acknowledgement
 and removes stale queued starts after their actual actor owner disappears.
 
-## Current first-living integration candidate
+## Story2 living baseline and retained reconstruction evidence
 
 The active Mecc-loop delivery now composes actual Vimp threat consideration,
 response, route selection, movement and heading within the existing owned common
@@ -110,7 +110,7 @@ bank are declared control boundaries. A separate actual-Story2 terrain probe
 also completes 3,600 supplied steps with repeated noise. These controls alone
 establish no ordinary playability.
 
-The source candidate connects a first-interaction component to the ordinary
+The .11.2 baseline connects a first-interaction component to the ordinary
 Mecc controller on Story2. It uses the existing mission Session, authored herd
 and marker identities, controlled player position, sampled host clock, owned
 slow-area namespace, actual pistol noise and shared partial-runtime RNG. The
@@ -129,7 +129,7 @@ On each of two tickets it completes 6,000 component frames with 14 Vimps, 259
 startle entries and 253 returns, queues 3,700 sound requests and clears the mission
 on cancellation. Repeating a sampled frame consumes no RNG or duplicate sound.
 This is CPU ownership/reaction evidence, with no device or OS-input acknowledgement.
-Local graphical candidate `0da06b4` (executable SHA256
+Published .11.2 graphical runtime `0da06b4` (executable SHA256
 `891b16220b9609e062bf48ae0ec6eb8d0dba234c87e39440450dacaf19dcfc56`)
 passes actual Story2 admission, supplied normal Mecc navigation/fire, canonical
 14-Vimp rendering, 14 startle entries and 7 returns before capture, and actual

@@ -1,9 +1,39 @@
 # Preview releases and milestone integration
 
+## Published preview .11.3 - ordinary Vimp collision, injury and death
+
+[Windows preview-2026.11.11.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.11.3)
+is the common download. Preview tools -> Browse all missions -> Mecc -> Starving!;
+skip the opening, follow F8, walk into the herd and shoot with the normal partial
+pistol. Player/projectile collision, danger/hurt/recovery, source-bearing recoil,
+blood, injury/death sounds, ghost and meat drops now have ordinary consumers.
+No script enables those actions. Collection, feeding, mana transfer, other AI,
+objectives and full native-world/fidelity remain open.
+
+The exact-build graphical contact passage records 3534 responses without
+shots/forced poses. The hunt records 5 injuries and 3 deaths, real
+muted injury/death sinks and rendered blood/FX/ghost/meat. First-death capture,
+near-herd cancellation, three common Mecc cycles, landing, two lifecycle modes
+and full selected cinematic transport pass. These use supplied commands.
+Actual Windows gameplay remains unverified after a safe-target-selection failure;
+prior-build manual evidence is retained separately. Death FX scheduling, terrain
+contacts and splat retention remain explicit partial-preview policies.
+
+978 Rust / 168 ignored, 45 Python, fmt/strict Clippy and confidentiality review.
+338 dependency / eleven toolchain notice entries, 29 system DLL imports, zero
+technical distribution blockers. Three new captures carry source/tag/EXE receipts.
+No new confirmed prototype PS2 attribution; seven selected Vimp names and two
+already confirmed camera names are searchable through SYMBOL_NAVIGATION.md.
+Complete checks and boundaries: PREVIEW_NOTES.md.
+
+Runtime source: `5dbebce3a7a37bd5be2e61ef4a0107277b2815d0`.
+Executable SHA256: `76541755c6688aeae2bb310e25d51743c979a8309574905c5a32fb9a16d4eb1f`.
+ZIP SHA256: `a63e7c554733a25fcd3eba537416fcc2f53bdb229117fda1dee95db40e43a068`.
+
 ## Published preview .11.2 - first Story2 living interaction
 
 [Windows preview-2026.11.11.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.11.2)
-is the new common download. Browse all missions -> Mecc -> Starving! (Story2),
+is the earlier first-living download. Browse all missions -> Mecc -> Starving! (Story2),
 skip the opening, follow the F8 distance/turn hint and shoot repeatedly nearby.
 The ordinary partial controller drives actual herd/Vimp wandering, source startle
 and return, completed canonical poses and positional audio without a replay flag.

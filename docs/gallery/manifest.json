@@ -4179,9 +4179,36 @@
     "media/2e84152f642afee963acc117ce492d1216112ac6fa247980ff0915705c983f4d.webp": "2e84152f642afee963acc117ce492d1216112ac6fa247980ff0915705c983f4d",
     "media/0155d6e1e7bfc7b418256c852ae32dd3faf32b72283d58c993d2c74e50dd620b.webp": "0155d6e1e7bfc7b418256c852ae32dd3faf32b72283d58c993d2c74e50dd620b",
     "media/92fc333f047de29fbe7a71ad533b38f802413401319b9c3241493226e675b497.webp": "92fc333f047de29fbe7a71ad533b38f802413401319b9c3241493226e675b497",
-    "media/aec5d332304d9cf82b1317e0647dc2dff7683c091cfd3df641f1ee1d40e95867.webp": "aec5d332304d9cf82b1317e0647dc2dff7683c091cfd3df641f1ee1d40e95867"
+    "media/aec5d332304d9cf82b1317e0647dc2dff7683c091cfd3df641f1ee1d40e95867.webp": "aec5d332304d9cf82b1317e0647dc2dff7683c091cfd3df641f1ee1d40e95867",
+    "media/b33fa911cf3abb2ad21524420bf171af7d2f394e97c1daa13fe17e29051d1cd9.webp": "b33fa911cf3abb2ad21524420bf171af7d2f394e97c1daa13fe17e29051d1cd9",
+    "media/7c48b4bae8790a97f373b269e26ebfe530351fc2022d743cb90daa4c219abd99.webp": "7c48b4bae8790a97f373b269e26ebfe530351fc2022d743cb90daa4c219abd99",
+    "media/22823537010e42ff3bfb07475ee3626717d5fe807ce29a5b6f522605ecabdb44.webp": "22823537010e42ff3bfb07475ee3626717d5fe807ce29a5b6f522605ecabdb44"
   },
   "screenshots": [
+    {
+      "title": "Preview .11.3: actual Vimp death, blood, ghost and meat",
+      "image": "media/b33fa911cf3abb2ad21524420bf171af7d2f394e97c1daa13fe17e29051d1cd9.webp",
+      "caption": "preview-2026.11.11.3; source 5dbebce. Actual Bevy GPU capture sixteen supplied-controller steps after the first ordinary partial-pistol lethal hit. Source blood/FX, ghost and meat are consumed by the common renderer. No hit, pose or birth is injected. Host-frame FX scheduling, terrain-only contacts and splat retention are explicit preview policies. Collection and complete native fidelity remain unavailable/unverified.",
+      "commit": "5dbebce3a7a37bd5be2e61ef4a0107277b2815d0",
+      "preview_tag": "preview-2026.11.11.3",
+      "executable_sha256": "76541755c6688aeae2bb310e25d51743c979a8309574905c5a32fb9a16d4eb1f"
+    },
+    {
+      "title": "Preview .11.3: player contact with living Vimps",
+      "image": "media/7c48b4bae8790a97f373b269e26ebfe530351fc2022d743cb90daa4c219abd99.webp",
+      "caption": "preview-2026.11.11.3; source 5dbebce. Actual graphical ordinary-controller approach: 3534 player responses against current completed Vimp collision meshes. No shots, damage or actor-pose injection. The camera is close to the herd. Supplied navigation/clock; camera clipping, full native motion and visual fidelity remain unverified.",
+      "commit": "5dbebce3a7a37bd5be2e61ef4a0107277b2815d0",
+      "preview_tag": "preview-2026.11.11.3",
+      "executable_sha256": "76541755c6688aeae2bb310e25d51743c979a8309574905c5a32fb9a16d4eb1f"
+    },
+    {
+      "title": "Preview .11.3: ordinary hunt aftermath",
+      "image": "media/22823537010e42ff3bfb07475ee3626717d5fe807ce29a5b6f522605ecabdb44.webp",
+      "caption": "preview-2026.11.11.3; source 5dbebce. Actual Bevy GPU hunt passage with 5 injuries and 3 deaths, source remains and real muted injury/death sinks. Supplied navigation/fire, no OS-held input or audible/fidelity claim. Normal Story2 controls enable the same interaction without replay flags; meat collection is not enabled.",
+      "commit": "5dbebce3a7a37bd5be2e61ef4a0107277b2815d0",
+      "preview_tag": "preview-2026.11.11.3",
+      "executable_sha256": "76541755c6688aeae2bb310e25d51743c979a8309574905c5a32fb9a16d4eb1f"
+    },
     {
       "title": "Preview .11.2 first living Story2 interaction",
       "image": "media/aec5d332304d9cf82b1317e0647dc2dff7683c091cfd3df641f1ee1d40e95867.webp",

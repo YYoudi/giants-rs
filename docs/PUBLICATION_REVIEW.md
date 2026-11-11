@@ -5,6 +5,18 @@ Current work selection and delivery reporting follow
 interactions and their blockers. This direction does not expand any historical
 review, redistribution authorization or technical evidence recorded below.
 
+## Preview .11.3 display-copy review - 11 November 2026
+
+Three actual Bevy captures from the matching downloadable executable add player
+contact, first death and hunt aftermath. Only metadata-stripped WebP display
+copies are committed and pinned by digest in the gallery manifest. Source,
+preview tag and executable digest must all match before the dashboard labels a
+capture as current; mismatches remain archived. The raw captures/reports,
+installation data, native controllers and prototype PS2 corpus remain private.
+This preserves the owner's screenshot exception and does not expand asset rights
+or establish native fidelity. The approximate AI-content estimate and absence
+of comprehensive human review are unchanged.
+
 ## Prototype PS2 methodology addition — 5 November 2026
 
 The 11 November source-navigation addition publishes seven selected literal
