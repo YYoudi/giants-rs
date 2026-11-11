@@ -50,7 +50,7 @@ impl Fields {
         class: i32,
         spec: &specification::Prepared,
     ) -> Result<Self, String> {
-        Self::load_inner(resources, class, spec)
+        Self::load_inner(resources, class, Some(spec))
     }
     pub(crate) fn load_with_context(
         resources: &SceneResources,
@@ -61,10 +61,15 @@ impl Fields {
         let context = fields.dispatch_context;
         Ok((fields, context))
     }
+    /// The acquired generic player class has a real scalar declaration but no
+    /// body specification. Do not manufacture a model to parse its header.
+    pub(crate) fn load_player_shell(resources: &SceneResources) -> Result<Self, String> {
+        Self::load_inner(resources, 0, None)
+    }
     fn load_inner(
         resources: &SceneResources,
         class: i32,
-        spec: &specification::Prepared,
+        spec: Option<&specification::Prepared>,
     ) -> Result<Self, String> {
         let declaration = resources
             .classes
@@ -72,8 +77,21 @@ impl Fields {
             .first_program(class)
             .ok_or("actor class program absent")?;
         let program = declaration.program.as_ref().map_err(Clone::clone)?;
-        if class < 0 || spec.class != class || spec.class_catalog != declaration.catalog {
+        if class < 0
+            || spec.is_some_and(|s| s.class != class || s.class_catalog != declaration.catalog)
+        {
             return Err("actor fields require matching ordinary class resources".into());
+        }
+        if spec.is_none()
+            && (class != 0
+                || program
+                    .records
+                    .iter()
+                    .any(|r| !matches!(r.opcode, 4..=11 | 0x19 | 0x1e | 0xff)))
+        {
+            return Err(
+                "unmodeled player shell requires its acquired scalar class0 program".into(),
+            );
         }
         let seed = crate::state_storage::Seed::from_program_for(
             program,
@@ -117,6 +135,7 @@ impl Fields {
             let float = |at| word(at).map(f32::from_bits);
             match record.opcode {
                 1 => {
+                    let spec = spec.ok_or("unmodeled player shell cannot bind a specification")?;
                     if word(1)? != spec.specification {
                         return Err("actor specification rebinding outside acquired profile".into());
                     }

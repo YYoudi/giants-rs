@@ -9,6 +9,24 @@ testable build and normal controls, or state "intermediate dependency only" and 
 next runtime blocker.
 
 Native research follows [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md).
+
+## Ordered impact activation dependency
+
+The common burst executor performs real service calls between random draws and
+retains the executed prefix on late failure; an entered transaction cannot
+replay. Immediate-child contexts keep their parent/reference binding separate
+from their positional origin. Their constructor prefix retains the actual zero
+birth pose and unresolved matrix until reference placement, rather than moving
+the child to the hit point prematurely.
+
+Installed controls cover the source pistol burst's ten ordered bodies and
+random stream with explicitly disabled audio, plus the actual immediate class
+constructor prefix. Those controls do not create canonical live burst actors.
+The source preparation profiles now account for their own ranged draws, while
+nested children prepare only when their wrapper actually executes. The ordinary
+terrain-landing service below remains distinct from these unfinished projectile
+impact services. BACKLOG.md records the concrete common-runtime gaps.
+
 The PC selector keeps its historical alias recorded in
 [MECC_DESCENT_GUARD.md](MECC_DESCENT_GUARD.md). Prototype PS2 attributions for the
 selector, context constructor and context cleanup remain unknown. Literal name

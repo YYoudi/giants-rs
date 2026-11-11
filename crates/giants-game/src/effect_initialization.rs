@@ -97,6 +97,18 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
     let fixed_size_gravity = ops.as_slice() == [3, 6, 8, 4, 0x0e, 7, 2];
     let damage_smoke = ops.as_slice() == [0x24, 6, 0x21, 0x28, 0x49, 7, 0x4a, 2];
     let smoke_particle = ops.as_slice() == [3, 6, 4, 0x37, 0x0f, 0x80, 7, 2];
+    // Complete source contact frames. Child commands are skipped here; each
+    // actual immediate child owns its own later preparation and activation.
+    let pistol_burst = ops.as_slice()
+        == [
+            0x2b, 3, 6, 8, 4, 7, 3, 6, 0x1b, 0x21, 4, 0x10, 0x10, 0x10, 7, 3, 6, 0x21, 4, 0x10,
+            0x10, 0x10, 0x10, 7, 2,
+        ];
+    let impact_child = matches!(
+        ops.as_slice(),
+        [3, 6, 4, 0x33, 0x1c, 0x13, 0x12, 0x0e, 0x19, 7, 2] | [3, 6, 5, 8, 0x0e, 7, 2]
+    );
+    let pistol_splash = ops.as_slice() == [0x2b, 3, 6, 0x37, 5, 0x46, 7, 2];
     if !old
         && !ranged
         && !flat_blocks(&ops)
@@ -108,6 +120,9 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !fixed_size_gravity
         && !damage_smoke
         && !smoke_particle
+        && !pistol_burst
+        && !impact_child
+        && !pistol_splash
     {
         return Err("effect initial skip pass outside acquired complete profile".into());
     }
@@ -139,10 +154,13 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
     }
     let mut intervals = vec![];
     for record in &program.records {
-        if !matches!(record.opcode, 9 | 0x1c | 0x28 | 0x5c | 0x37 | 0x0f) {
+        if !matches!(
+            record.opcode,
+            5 | 9 | 0x12 | 0x1c | 0x28 | 0x33 | 0x5c | 0x37 | 0x0f
+        ) {
             continue;
         }
-        let at = if matches!(record.opcode, 9 | 0x1c | 0x37 | 0x0f) {
+        let at = if matches!(record.opcode, 5 | 9 | 0x12 | 0x1c | 0x33 | 0x37 | 0x0f) {
             1
         } else {
             record.bytes[1..]
@@ -163,7 +181,9 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         };
         // The fixed-layout command consumes both ranges before its absent-
         // object gate. Preserve their order within the same source record.
-        for at in (0..if matches!(record.opcode, 9 | 0x37) {
+        for at in (0..if matches!(record.opcode, 5 | 0x33) {
+            3
+        } else if matches!(record.opcode, 9 | 0x37) {
             2
         } else {
             1
@@ -193,10 +213,15 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
             staged.next_15();
             continue;
         }
-        if !matches!(record.opcode, 9 | 0x1c | 0x28 | 0x5c | 0x37 | 0x0f) {
+        if !matches!(
+            record.opcode,
+            5 | 9 | 0x12 | 0x1c | 0x28 | 0x33 | 0x5c | 0x37 | 0x0f
+        ) {
             continue;
         }
-        for _ in 0..if matches!(record.opcode, 9 | 0x37) {
+        for _ in 0..if matches!(record.opcode, 5 | 0x33) {
+            3
+        } else if matches!(record.opcode, 9 | 0x37) {
             2
         } else {
             1

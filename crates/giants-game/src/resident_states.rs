@@ -16,6 +16,7 @@ mod delphi;
 mod delphi_camera;
 mod delphi_held;
 mod delphi_local_target;
+mod player_shell;
 pub use delphi_local_target::{
     Context as DelphiLocalTargetContext, Phase as DelphiLocalTargetPhase,
     Providers as DelphiLocalTargetProviders, View as DelphiLocalTargetView,

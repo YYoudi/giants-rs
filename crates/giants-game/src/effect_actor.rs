@@ -36,6 +36,13 @@ pub struct Initial<K> {
     pub render_flags: u32,
     pub matrix: Matrix,
 }
+/// An immediate child is still awaiting ordinary reference placement. Keep its
+/// actual zero birth pose distinct from the positional origin of its context.
+pub struct ImmediateInitial<K> {
+    pub actor: Initial<K>,
+    pub binding: crate::attached_effect_context::Immediate<K>,
+    pub context_position: [f32; 3],
+}
 /// Acquired following VM commands, before ordinary preparation or any callback.
 /// The caller still owns the template, source scope, context and world admission.
 pub struct Configured<K> {
@@ -475,11 +482,101 @@ impl Template {
         }
         self.initial(origin, Placement::Position(point), context.flags(), false)
     }
+    /// Source3/6 creation under the immediate wrapper, before VM configuration,
+    /// ordinary ANM, reference placement or its first state callback. This is
+    /// not a permanent attached effect and does not acknowledge world admission.
+    pub fn immediate_positioned<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+    ) -> Result<ImmediateInitial<K>, String> {
+        if !matches!(context.flags(), 2 | 0x8002) {
+            return Err("immediate effect requires its acquired direct context flags".into());
+        }
+        let binding = context
+            .immediate()
+            .ok_or("immediate parent binding absent")?;
+        let context_position = context
+            .position()
+            .ok_or("immediate context origin absent")?;
+        if context_position.into_iter().any(|v| !v.is_finite()) {
+            return Err("immediate context origin is nonfinite".into());
+        }
+        self.validate(context, 3, 1)?;
+        let mut actor =
+            self.initial(origin, Placement::Position([0.; 3]), context.flags(), false)?;
+        actor.fields.control_flags |= 0x40;
+        // The immediate wrapper has not yet resolved either reference. Native
+        // fresh storage retains all sixteen zero words even with identity flag10.
+        actor.matrix = Matrix {
+            flags: 0x10,
+            values: [0.; 16],
+        };
+        Ok(ImmediateInitial {
+            actor,
+            binding,
+            context_position,
+        })
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "requires GIANTS_MECC_WORLD_ROOT; immediate source resources/constructor prefix only, no live actor, placement or rendering"]
+    fn source_immediate_particle_preserves_zero_birth_and_actual_reference_binding() {
+        let root = std::env::var_os("GIANTS_MECC_WORLD_ROOT").expect("GIANTS_MECC_WORLD_ROOT");
+        let resources =
+            SceneResources::load(std::path::Path::new(&root), "w_Story1.bin", "English").unwrap();
+        let image = &resources.classes.models.effects.last().unwrap().image;
+        let (_, entry) = image.find("FX_bullet_debri").unwrap();
+        let mut pool =
+            crate::attached_effect_context::Pool::<u32>::from_active_resources(11, &resources);
+        let mut random = crate::audio_parameters::Random(17);
+        let binding = crate::attached_effect_context::Immediate {
+            parent: 31,
+            reference: 0,
+            own_reference: 1,
+        };
+        let (crate::attached_effect_context::Creation::Prepared(id), _) = pool
+            .prepare_immediate_offset_invariant(
+                entry.offset,
+                crate::attached_effect_context::ImmediateInput {
+                    binding,
+                    position: [3., 4., 7.],
+                    object_flags: 0,
+                    render_flags: 0,
+                },
+                &mut random,
+            )
+            .unwrap()
+        else {
+            panic!("source child context absent")
+        };
+        let context = pool.get(id).unwrap();
+        let template = Template::load(&resources, 913).unwrap();
+        assert!(template.positioned(id, context).is_err());
+        let initial = template.immediate_positioned(id, context).unwrap();
+        assert_eq!(initial.binding, binding);
+        assert_eq!(initial.context_position, [3., 4., 7.]);
+        assert_eq!(initial.actor.fields.position, [0.; 3]);
+        assert_eq!(initial.actor.fields.current, [0.; 3]);
+        assert_eq!(initial.actor.fields.control_flags, 0x60);
+        assert_eq!(initial.actor.fields.object_flags, 0x40010030);
+        assert_eq!(initial.actor.render_flags, 0);
+        assert_eq!(initial.actor.matrix.flags, 0x10);
+        assert_eq!(initial.actor.matrix.values.map(f32::to_bits), [0; 16]);
+        let physics = initial.actor.physical_words().unwrap();
+        assert_eq!(physics[1], 1f32.to_bits());
+        assert_eq!(physics[2], 1f32.to_bits());
+        assert_eq!(physics[4], 1f32.to_bits());
+        assert_eq!(
+            pool.active(),
+            &[id],
+            "constructor prefix cannot retire its context"
+        );
+    }
     #[test]
     fn inline_physics_reset_preserves_opaque_storage_and_other_payload_fields() {
         let p = giants_formats::class_program::parse(&[0x1e, 78, 0xff]).unwrap();

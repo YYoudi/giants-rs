@@ -674,6 +674,7 @@ pub mod player_equipment;
 pub mod player_initial;
 pub mod player_mesh_contact;
 pub mod player_rotation;
+pub mod player_shell;
 pub mod player_start;
 pub mod player_world_collision;
 pub mod segment_queries;

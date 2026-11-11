@@ -12,6 +12,23 @@ Further native acquisition and implementation follow the central
 [reconstruction method](RECONSTRUCTION_METHOD.md), including prototype PS2 name
 lookup and separate PC identity, aliases, platform differences and attribution.
 
+## Generic player entry before character activation
+
+`player_shell::Factory` retains the acquired class0/state7 actor without a
+fabricated body specification or payload. Its single-use entry applies the view
+command before world pose/history, then requires the real camera update. The
+controlled identity remains distinct from the current camera owner; completed
+stores and service failures survive without replay. Ordinary modeled actors
+retain their existing specification requirements.
+
+The installed three-context control checks owner separation, command failure,
+pose/history ordering, retained camera-provider refusal and clear/re-entry.
+This is an intermediate dependency. The App's collapsed Delphi body inspection
+does not execute this sequence or reuse its identity through character retyping.
+That missing entry contract cannot be replaced with a late projection reset.
+See BACKLOG.md for the remaining runtime producers; no playable Delphi or new
+confirmed prototype PS2 attribution follows.
+
 ## Evaluated body consumer - intermediate dependency
 
 `player_body::Prepared::from_delphi_frame` consumes a completed, unfailed owned

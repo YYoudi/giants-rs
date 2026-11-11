@@ -186,6 +186,122 @@ impl Execution {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "requires GIANTS_MECC_WORLD_ROOT; source VM boundary recorder, supplied parent pose/flags and disabled audio, no canonical actors/world/rendering"]
+    fn source_pistol_burst_keeps_native_nested_order_and_random_stream() {
+        use crate::attached_effect_context::{Creation, Id, Immediate, ImmediateInput, Pool};
+        let root = std::env::var_os("GIANTS_MECC_WORLD_ROOT").expect("GIANTS_MECC_WORLD_ROOT");
+        let bytes =
+            std::fs::read(std::path::Path::new(&root).join("Bin/fx_world_dust.bin")).unwrap();
+        let image = std::sync::Arc::new(giants_formats::effect_image::parse(&bytes).unwrap());
+        let mut pool = Pool::<u32>::new(11, Some(image));
+        let mut random = Random(17);
+        let (Creation::Prepared(root), _) = pool
+            .prepare_positional_invariant("fx_bullet_sound", [3., 4., 7.], &mut random)
+            .unwrap()
+        else {
+            panic!("source burst absent")
+        };
+        assert_eq!(
+            random.0, 6169232,
+            "root preparation must not prepare child contexts"
+        );
+        let context = pool.get(root).unwrap();
+        let plan = Plan::from_records(
+            &context.source_image(),
+            &context.program.as_ref().unwrap().records,
+            2,
+        )
+        .unwrap();
+        struct Recorder<'a> {
+            pool: &'a mut Pool<u32>,
+            root: Id,
+            classes: Vec<i32>,
+        }
+        impl Services for Recorder<'_> {
+            type Actor = u32;
+            type Context = Id;
+            fn prepare_child(
+                &mut self,
+                parent: u32,
+                source_offset: u32,
+                reference: u32,
+                own_reference: u32,
+                random: &mut Random,
+            ) -> Result<Id, String> {
+                let (Creation::Prepared(id), _) = self.pool.prepare_immediate_offset_invariant(
+                    source_offset,
+                    ImmediateInput {
+                        binding: Immediate {
+                            parent,
+                            reference,
+                            own_reference,
+                        },
+                        position: [3., 4., 7.],
+                        object_flags: 0,
+                        render_flags: 0,
+                    },
+                    random,
+                )?
+                else {
+                    return Err("source child absent".into());
+                };
+                assert_eq!(self.pool.get(id).unwrap().flags(), 2);
+                Ok(id)
+            }
+            fn positional_sound(&mut self, _: u32, _: &mut Random) -> Result<(), String> {
+                // Matches the explicitly disabled native audio fixture. The
+                // application must bind its real device instead of this recorder.
+                Ok(())
+            }
+            fn begin(&mut self, class: i32, context: Id, _: &mut Random) -> Result<u32, String> {
+                self.pool
+                    .get(context)
+                    .ok_or("source context retired too early")?;
+                self.classes.push(class);
+                Ok(self.classes.len() as u32)
+            }
+            fn command(&mut self, _: u32, _: Command) -> Result<(), String> {
+                Ok(())
+            }
+            fn attached_sound(
+                &mut self,
+                _: u32,
+                _: u32,
+                _: bool,
+                _: &mut Random,
+            ) -> Result<(), String> {
+                Err("source fixture has no attached-sound command".into())
+            }
+            fn finish(&mut self, _: u32, context: Id) -> Result<(), String> {
+                if context != self.root {
+                    self.pool.release_prepared(context)?;
+                }
+                Ok(())
+            }
+        }
+        let mut recorder = Recorder {
+            pool: &mut pool,
+            root,
+            classes: vec![],
+        };
+        let mut execution = Execution::default();
+        execution
+            .activate(&plan, &mut random, &mut recorder, root)
+            .unwrap();
+        assert_eq!(
+            recorder.classes,
+            [794, 818, 913, 913, 913, 873, 867, 867, 867, 867]
+        );
+        assert_eq!(
+            random.0, 4259069417,
+            "matches the original complete source activation fixture"
+        );
+        assert!(execution.finished());
+        assert_eq!(recorder.pool.active(), &[root]);
+        recorder.pool.release_prepared(root).unwrap();
+        assert!(recorder.pool.active().is_empty());
+    }
     #[derive(Default)]
     struct Backend {
         events: Vec<String>,
