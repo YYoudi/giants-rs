@@ -795,6 +795,7 @@ pub mod font_rasterizer;
 pub mod message_presentation;
 pub mod mission_messages;
 pub mod mission_notice;
+pub mod mission_objectives;
 pub mod pose_mixing;
 pub mod released_effect;
 pub mod resident_states;

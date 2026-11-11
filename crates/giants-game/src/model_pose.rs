@@ -185,6 +185,38 @@ impl Prepared {
         prepared.pose.profile = "source_ground_declared_start";
         Ok(prepared)
     }
+    /// State18 selectors8/9 choose the acquired stationary Smartie clips. This
+    /// is their selected source start pose, not live Smartie AI or blend timing.
+    /// Prototype PS2 search key: `smartie_move`; exact PC attribution unknown.
+    pub fn load_stationary_smartie(
+        resources: &SceneResources,
+        class: i32,
+        selection: &SelectionSpec,
+        selector: Option<u8>,
+    ) -> Result<Self, String> {
+        if resources
+            .class_state_seed(class)
+            .map_err(|e| e.to_string())?
+            .storage
+            .state()
+            != 18
+        {
+            return Err("stationary Smartie projection requires state18".into());
+        }
+        let slot = match selector {
+            Some(8) => 0x82,
+            Some(9) => 0x83,
+            _ => return Err("Smartie selector requires its live animation service".into()),
+        };
+        Self::normal_slot(
+            resources,
+            18,
+            selection,
+            slot,
+            "source_stationary_smartie_selected_start",
+            false,
+        )
+    }
     /// Measured initial visual projection, separate from ongoing AI callbacks.
     pub fn load_normal_initial(
         resources: &SceneResources,
@@ -245,6 +277,16 @@ impl Prepared {
                 ));
             }
         };
+        Self::normal_slot(resources, state, selection, slot, profile, intact)
+    }
+    fn normal_slot(
+        resources: &SceneResources,
+        state: u8,
+        selection: &SelectionSpec,
+        slot: u8,
+        profile: &'static str,
+        intact: bool,
+    ) -> Result<Self, String> {
         let bindings = selection
             .animations
             .iter()

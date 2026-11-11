@@ -19,6 +19,56 @@ pub(crate) use replay::{
     vimp_interaction_probe,
 };
 impl Scene {
+    pub(crate) fn advance_campaign(
+        &mut self,
+        completion: &crate::mission_runtime::CampaignCompletion,
+        images: &mut Assets<Image>,
+    ) -> Result<u64, String> {
+        if self.flow.ticket != completion.ticket
+            || self.flow.phase != Phase::Gameplay
+            || self
+                .prepared_mission
+                .as_ref()
+                .is_none_or(|p| p.request != completion.current)
+        {
+            return Err("campaign transition is stale or not owned by ordinary gameplay".into());
+        }
+        begin_mission(
+            self,
+            Ok(completion.next.clone()),
+            images,
+            LaunchIntent::SavedMission,
+        );
+        if self.flow.ticket == completion.ticket {
+            return Err("next campaign request did not start".into());
+        }
+        self.revision += 1;
+        Ok(self.flow.ticket)
+    }
+    pub(crate) fn record_campaign_reached(
+        &mut self,
+        ticket: u64,
+        request: &LoadRequest,
+    ) -> Result<(), String> {
+        if ticket != self.flow.ticket
+            || !matches!(
+                self.flow.phase,
+                Phase::Cinematic | Phase::Objectives | Phase::Gameplay
+            )
+            || self
+                .prepared_mission
+                .as_ref()
+                .is_none_or(|p| p.request != *request)
+        {
+            return Err("campaign entry has no matching runtime admission".into());
+        }
+        let profile = self
+            .profiles
+            .names
+            .get(self.profiles.active)
+            .ok_or("campaign profile absent")?;
+        self.campaign.record_reached(profile, request)
+    }
     pub(crate) fn browse_preview_missions(&mut self) -> Result<(), String> {
         let name = self.profiles.preview_profile().map_err(|e| e.to_string())?
             .ok_or("The five profile slots are occupied. Remove a profile in Player IDs to create Preview All.")?;

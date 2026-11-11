@@ -177,9 +177,6 @@ impl State {
         device: &mut impl giants_game::actor_retirement::Services,
     ) -> Result<Vec<crate::mission_audio::Event>, String> {
         self.view(session, frame.ticket)?;
-        if !frame.world.name.eq_ignore_ascii_case("story2") {
-            return Ok(vec![]);
-        }
         if self.driver.sample == frame.sample {
             return Ok(vec![]);
         }

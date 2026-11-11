@@ -405,6 +405,9 @@ impl Scene {
                     .into(),
             );
         }
+        if state == 94 && matches!(policy, PosePolicy::NormalInitial) {
+            return Ok("destination helper suppressed by ordinary state94 visibility; objective volume remains owned separately".into());
+        }
         // In normal mode the first formation callback suppresses its ordinary
         // source model before creating members. The marker is not a substitute
         // for that unimplemented service; retain an explicit preparation need.
@@ -473,7 +476,14 @@ impl Scene {
                     .members
                     .contains_key(&format!("{}.skn", name.to_ascii_lowercase()))
             });
-        let pose = if binding.selection.animations.is_empty() || unskinned_first {
+        let pose = if state == 18 && matches!(policy, PosePolicy::NormalInitial) {
+            Some(crate::model_pose::Prepared::load_stationary_smartie(
+                resources,
+                input.class,
+                &binding.selection,
+                input.mission_selector,
+            )?)
+        } else if binding.selection.animations.is_empty() || unskinned_first {
             None
         } else if state == 27 && matches!(policy, PosePolicy::Benchmark) {
             Some(crate::model_pose::Prepared::load_ground_preview(
@@ -675,6 +685,12 @@ impl Scene {
             table,
             slots,
         });
+        if state == 18 {
+            return Ok(
+                "stationary Smartie selected source start; blend, live animation and AI unverified"
+                    .into(),
+            );
+        }
         if matches!(state, 23 | 38 | 51 | 105) {
             return Ok(format!(
                 "source constructed actor pose prepared; state={state}; AI/object callbacks, burial and live visibility unverified"

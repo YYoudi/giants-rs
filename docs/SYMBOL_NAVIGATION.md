@@ -18,6 +18,16 @@ Rust implementations retain narrower, separately documented PC behavior.
 
 ## Vimp search routes awaiting attribution
 
+The mission work also follows the literal prototype symbol
+`mission_check_obj_proximity__FP6OBJECT` (prototype address `0x0016d9e8`). Its
+relationship to PC debug-1.1 `FUN_00497590` and
+[`mission_objectives::proximity`](../crates/giants-game/src/mission_objectives.rs)
+is **probable**, not confirmed. Independent evidence includes the mission-mark
+filter, carried-resource comparison and one-shot counter/notice behavior. The
+PC point/AABB fallback differs from the prototype's summed-radius test. The
+central method pins both binary digests; old PC aliases remain valid. See
+[MISSION_PROGRESSION.md](MISSION_PROGRESSION.md) for the bounded runtime scope.
+
 The following seven names are literal function names present in the pinned
 prototype ELF. Their existence is established; **their exact correspondence to
 a PC function is still unknown**. The Rust locations identify the related work

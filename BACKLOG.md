@@ -15,7 +15,39 @@ Initial coverage includes seven Vimp names and the two previously confirmed
 camera service identities; .11.4 adds the selected meat-collection search routes. Naming does not establish gameplay delivery; the
 separately validated ordinary integration and publication are recorded below.
 
-## Current delivery - preview .11.4 ordinary meat collection
+## Active objective - complete Starving! and shared mission progression
+
+Owner direction, 11 November 2026: deliver the ordinary Starving! chain through
+twenty meats, the genuine return-to-father condition, its source cinematic and
+the next scenario. Work alone in the integration worktree and publish matching
+main, Windows preview and dashboard after actual graphical acceptance. The
+downloadable .11.4 below remains the delivered baseline, with objective credit
+disabled; research or an isolated predicate must not promote its capabilities.
+
+1. Acquire the class11/state18 Smartie/father caller and genuine objective
+   initialization, predicates and counters from the exact PC profile, starting
+   with verified prototype PS2 names. Keep the collected amount, carried capacity,
+   objective quota and required/completed conditions distinct.
+2. Compose reusable source-owned mission records, event/condition services,
+   completion and next-scenario transitions. Preserve the existing source data
+   and state ownership; do not add a special `meat >= 20` shortcut that forces
+   readiness, teleports actors or bypasses dialogue/animation/transition gates.
+3. Bind the ordinary controller/NPCs, objective text, source films and real
+   next-mission loading, then exercise the complete menu-to-next-mission path.
+4. Audit and connect authored Vimp/herd declarations across supported maps.
+   The existing ordinary driver has an explicit Story2 guard. A read-only census
+   accepts 33 loose world streams and finds herd declarations in 22; campaign
+   and multiplayer declarations are not runtime coverage. Check mission-only
+   declarations, parameters, resources and actual generation before admission.
+   Delphi/Kabuto/multiplayer gameplay prerequisites remain explicit.
+5. Validate lifecycle, cancellation/re-entry, source notices and package receipts;
+   update the roadmap and public evidence only for the exact published build.
+
+The central reconstruction and gameplay-first methods still apply. Private
+native inputs, extracted mission payloads, source text and detailed research
+stay outside Git. No new confirmed PS2 attribution is claimed by this objective.
+
+## Delivered preview .11.4 - ordinary meat collection
 
 Owner direction, 11 November 2026: continue from prototype PS2 names and deliver
 automatic meat collection through normal gameplay, main, public build and dashboard.

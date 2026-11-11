@@ -80,9 +80,6 @@ impl State {
                 )
             })
             .collect();
-        if !expected.iter().any(|(_, class)| *class == 49) {
-            return Ok(None);
-        }
         expected.extend(plan.entries.iter().enumerate().filter_map(|(index, p)| {
             let class = p.source.as_ref().ok()?.class;
             matches!(class, 49 | 679).then_some((
@@ -93,6 +90,9 @@ impl State {
                 class,
             ))
         }));
+        if !expected.iter().any(|(_, class)| *class == 49) {
+            return Ok(None);
+        }
         let globals = giants_formats::global_data::parse(
             &std::fs::read(root.join("Bin/GData.gbn")).map_err(|e| e.to_string())?,
         )

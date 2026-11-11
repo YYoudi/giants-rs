@@ -27,6 +27,16 @@ earlier consolidation as the next work selection, while preserving full scope.
 
 ## Choose work in this order
 
+The owner's subsequent 11 November objective is the complete ordinary Starving!
+mission chain: twenty meats returned to the father under the original verified
+conditions, its cinematic and the next scenario. Acquire and connect the common
+mission record/predicate/progression services this requires, retaining them for
+future missions. Audit actual authored Vimp generation beyond Story2. Follow the
+active section of BACKLOG.md; .11.4 is the immutable pickup-only baseline. Do not
+finish this objective on a new CPU service, a recovered name, an isolated scene
+or a transition forced from a resource counter. Publication requires the complete
+testable path and matching main/build/dashboard evidence.
+
 For the owner's 11 November consolidation objective, apply this order across the
 complete available work of all five lanes. Review their committed and unfinished
 work read-only, connect every genuinely available producer/consumer to the common

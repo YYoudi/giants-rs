@@ -29,6 +29,9 @@ pub struct Mission {
     /// Writes into the selected world mission slot, not the current object.
     pub slot_writes: Vec<SlotWrite>,
     pub object_selectors: Vec<ObjectSelector>,
+    /// Command 8 ORs its low nibble into the current object's mission flags.
+    /// Retain the ordered requests; a label does not execute an objective.
+    pub objective_marks: Vec<ObjectiveMark>,
     /// Command 11, retained in source order without running continuity or spawn.
     pub starts: Vec<Start>,
 }
@@ -46,6 +49,13 @@ pub struct ObjectSelector {
 }
 
 #[derive(Debug, Clone)]
+pub struct ObjectiveMark {
+    pub source_offset: usize,
+    pub object: ObjectRef,
+    pub value: u8,
+}
+
+#[derive(Debug, Clone)]
 pub struct SlotWrite {
     pub source_offset: usize,
     pub kind: SlotWriteKind,
@@ -58,7 +68,8 @@ pub enum SlotWriteKind {
     /// Command13 copies a raw word to the mission slot +0xd0.
     Parameter13(u32),
     /// Command 15: native signed integer conversion, stored at slot +0x100.
-    /// Its downstream gameplay meaning remains unresolved.
+    /// Supplies the collection quota and the resource-gated destination check;
+    /// parsing this write executes neither gameplay consumer.
     Parameter15(i32),
     /// Command 25: exact 32-byte request at slot +0xd8. No transition executed.
     CompletionCinematic([u8; 32]),
@@ -181,6 +192,7 @@ pub fn parse(data: &[u8]) -> Result<Mission, Error> {
         opening_cinematics: Vec::new(),
         slot_writes: Vec::new(),
         object_selectors: Vec::new(),
+        objective_marks: Vec::new(),
         starts: Vec::new(),
     };
     let mut current = None;
@@ -257,6 +269,11 @@ pub fn parse(data: &[u8]) -> Result<Mission, Error> {
                 source_offset: at,
                 object: current.ok_or(Error("mission selector without object"))?,
                 value: record[1],
+            }),
+            8 => result.objective_marks.push(ObjectiveMark {
+                source_offset: at,
+                object: current.ok_or(Error("mission objective mark without object"))?,
+                value: record[1] & 15,
             }),
             11 => result.starts.push(Start {
                 source_offset: at,
@@ -403,6 +420,34 @@ pub fn parse(data: &[u8]) -> Result<Mission, Error> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn objective_marks_keep_object_identity_order_and_low_nibble() {
+        let mut data = 4u32.to_le_bytes().to_vec();
+        data.extend([1, 3]);
+        data.extend(42u32.to_le_bytes());
+        data.extend([0; 16]);
+        data.extend([8, 0x84, 8, 1, 22]);
+        data.extend(43u32.to_le_bytes());
+        data.extend([0, 0, 8, 2, 23, 8, 0, 2]);
+        let mission = parse(&data).unwrap();
+        assert_eq!(
+            mission
+                .objective_marks
+                .iter()
+                .map(|m| (m.object, m.value))
+                .collect::<Vec<_>>(),
+            [
+                (ObjectRef::Placement(0), 4),
+                (ObjectRef::Placement(0), 1),
+                (ObjectRef::LockedChild(0), 2),
+                (ObjectRef::Placement(0), 0),
+            ]
+        );
+        assert!(parse(&[4, 0, 0, 0, 1, 8, 4, 2]).is_err());
+        for end in 0..data.len() {
+            assert!(parse(&data[..end]).is_err());
+        }
+    }
     #[test]
     fn linked_actor12_keeps_repeated_unsigned_requests_without_object_scope() {
         let mut data = vec![4, 0, 0, 0, 1, 12];

@@ -46,6 +46,19 @@ impl Progress {
     pub fn bytes(&self) -> &[u8] {
         &self.bytes
     }
+    /// Only the two reachability-bit stores from mission startup. This does not
+    /// acknowledge the complete actor census, level score or inventory save.
+    pub fn mark_reached(&mut self, world: usize, mission: usize) -> Result<(), Error> {
+        if world >= MENU_LIMIT || mission >= 32 {
+            return Err(Error("reached mission outside campaign menu profile"));
+        }
+        let at = 4 + world * 4;
+        let worlds = self.world_word() | (1u32 << world);
+        let missions = self.mission_word(world)? | (1u32 << mission);
+        self.bytes[..4].copy_from_slice(&worlds.to_le_bytes());
+        self.bytes[at..at + 4].copy_from_slice(&missions.to_le_bytes());
+        Ok(())
+    }
     /// Record a successfully loaded entry, not a victory. The caller must
     /// provide the COMPLETE list consumed by native startup; [] means a known
     /// empty list, never missing actors. This mutates storage only, not a save
@@ -297,6 +310,23 @@ impl LoadRequest {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn reaching_an_entry_preserves_census_inventory_and_other_worlds() {
+        let bytes = (0..SAVE_BYTES)
+            .map(|i| (i.wrapping_mul(37) & 255) as u8)
+            .collect::<Vec<_>>();
+        let mut progress = Progress::load(Some(SAVE_VERSION), Some(&bytes)).unwrap();
+        progress.mark_reached(2, 5).unwrap();
+        let mut expected = bytes.clone();
+        let word_at = |at| u32::from_le_bytes(bytes[at..at + 4].try_into().unwrap());
+        expected[..4].copy_from_slice(&(word_at(0) | (1 << 2)).to_le_bytes());
+        expected[12..16].copy_from_slice(&(word_at(12) | (1 << 5)).to_le_bytes());
+        assert_eq!(progress.bytes(), expected);
+        let before = progress.bytes().to_vec();
+        assert!(progress.mark_reached(MENU_LIMIT, 0).is_err());
+        assert!(progress.mark_reached(0, 32).is_err());
+        assert_eq!(progress.bytes(), before);
+    }
     #[test]
     fn version_is_external_and_tail_reset_is_not_all_zero() {
         let empty = Progress::load(None, None).unwrap();

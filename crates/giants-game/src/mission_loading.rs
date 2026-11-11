@@ -244,6 +244,38 @@ impl Campaign {
     pub fn root(&self) -> &Path {
         &self.root
     }
+    /// Persist only actual reached-entry bits in the independent profile sidecar.
+    /// The caller must have observed that entry's real runtime admission. Census,
+    /// native registry, original saves and inventory snapshots are not fabricated.
+    pub fn record_reached(&mut self, profile: &str, request: &LoadRequest) -> Result<(), String> {
+        if profile.is_empty() || !profile.is_ascii() {
+            return Err("invalid campaign profile".into());
+        }
+        let world = self
+            .worlds
+            .iter()
+            .find(|w| w.name.eq_ignore_ascii_case(&request.world))
+            .ok_or("reached world absent")?;
+        let menu =
+            MissionMenu::parse(&self.catalog(&world.name)?, 0, true).map_err(|e| e.to_string())?;
+        let expected = menu
+            .request(&world.name, request.menu_index)
+            .map_err(|e| e.to_string())?;
+        if expected != *request {
+            return Err("reached request differs from source catalog".into());
+        }
+        let mut progress = self.progress.clone();
+        progress
+            .mark_reached(world.id, usize::from(request.source_id))
+            .map_err(|e| e.to_string())?;
+        let path = progress_path(&self.user_root, profile);
+        std::fs::create_dir_all(path.parent().unwrap()).map_err(|e| e.to_string())?;
+        let temporary = path.with_extension("reached-tmp");
+        std::fs::write(&temporary, progress.bytes()).map_err(|e| e.to_string())?;
+        std::fs::rename(&temporary, &path).map_err(|e| e.to_string())?;
+        self.progress = progress;
+        Ok(())
+    }
     /// Independent showcase progress only. Does not restore a native game,
     /// inventory, mission completion or playable capability.
     pub fn unlock_profile(&mut self, profile: &str) -> Result<usize, String> {

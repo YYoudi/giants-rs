@@ -10348,6 +10348,19 @@ impl Session {
     pub fn messages(&self) -> &crate::mission_messages::Queue {
         &self.messages
     }
+    /// Resolve an actual mission request against the mounted language catalog.
+    /// Queue acceptance remains separate from the HUD's display acknowledgement.
+    pub fn post_mission_lookup(
+        &mut self,
+        request: &crate::mission_notice::Lookup,
+        catalog: &giants_formats::gtext::Catalog,
+        now: f32,
+    ) -> Result<(), String> {
+        if let Some(notice) = request.resolve(catalog.get(&request.key))? {
+            self.messages.post_notice(&notice, now)?;
+        }
+        Ok(())
+    }
     pub fn post_message(&mut self, text: &[u8], route: u32, now: f32) -> Result<(), &'static str> {
         self.messages.post(Some(text), route, now)
     }

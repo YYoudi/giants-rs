@@ -57,6 +57,9 @@ pub(crate) struct Controller {
     subjective_draw_visible: Option<bool>,
 }
 impl Controller {
+    fn campaign_probe() -> bool {
+        Self::meat_probe() && std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1")
+    }
     fn meat_probe() -> bool {
         crate::frontend_scene::vimp_interaction_probe()
             && std::env::var("GIANTS_MISSION_MEAT_PROBE").as_deref() == Ok("1")
@@ -322,7 +325,9 @@ impl Controller {
             landing_failed: false,
             landing_capture: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
                 == Ok("campaign-landing-pose"),
-            finish_step: if Self::vimp_contact_probe() {
+            finish_step: if Self::campaign_probe() {
+                120000
+            } else if Self::vimp_contact_probe() {
                 12000
             } else if crate::frontend_scene::vimp_interaction_probe() {
                 6000
@@ -689,10 +694,15 @@ pub(super) fn update(
                 axes = Vec2::ZERO;
                 thrust = false;
                 boost = false;
-                let meat_target = Controller::meat_probe()
+                let return_target = Controller::campaign_probe()
+                    .then(|| runtime.campaign_return_target(controller.ticket))
+                    .flatten();
+                let meat_target = (Controller::meat_probe() && return_target.is_none())
                     .then(|| runtime.meat_target(controller.ticket))
                     .flatten();
-                if let Some(target) = meat_target.or_else(|| runtime.npc_target(controller.ticket))
+                if let Some(target) = return_target
+                    .or(meat_target)
+                    .or_else(|| runtime.npc_target(controller.ticket))
                 {
                     let position = controller.state.mission_snapshot().0;
                     let dx = target[0] - position[0];
@@ -714,7 +724,7 @@ pub(super) fn update(
                         false,
                     );
                     if distance
-                        > if meat_target.is_some() {
+                        > if meat_target.is_some() || return_target.is_some() {
                             2.
                         } else if Controller::vimp_contact_probe() {
                             0.
@@ -723,10 +733,19 @@ pub(super) fn update(
                         }
                     {
                         axes = Vec2::Y;
-                        thrust = position[2] < target[2] + 80.
+                        thrust = position[2]
+                            < target[2]
+                                + if Controller::campaign_probe() {
+                                    32.
+                                } else {
+                                    80.
+                                }
                             && controller.state.mission_snapshot().1 > 0.3
                             && (!Controller::vimp_contact_probe() || distance > 120.)
                             && meat_target.is_none();
+                        if return_target.is_some() && distance < 60. {
+                            thrust = false;
+                        }
                         boost = distance > 300. && tick % 360 == 0;
                     }
                 }
@@ -887,6 +906,7 @@ pub(super) fn update(
                     controller.ticket,
                     u64::from(controller.steps) + 1,
                     1. / 120.,
+                    frontend.flow.phase == giants_game::mission_loading::Phase::Gameplay,
                 ) {
                     Ok(events) => {
                         for event in events {
@@ -943,6 +963,8 @@ pub(super) fn update(
             }
             let fire = if replay_running && crate::frontend_scene::vimp_interaction_probe() {
                 !Controller::vimp_contact_probe()
+                    && !(Controller::campaign_probe()
+                        && runtime.campaign_return_target(controller.ticket).is_some())
                     && !(Controller::meat_probe()
                         && runtime.meat_target(controller.ticket).is_some())
             } else if controller.fire_replay {

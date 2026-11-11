@@ -15,6 +15,15 @@ use std::sync::{
 
 type DeclaredActorPose = ([f32; 3], [f32; 3]);
 type ActorId = giants_game::resident_states::Id;
+pub(crate) struct CampaignCompletion {
+    pub ticket: u64,
+    pub current: giants_game::mission_selection::LoadRequest,
+    pub next: giants_game::mission_selection::LoadRequest,
+    pub carried: f32,
+    pub counter: u32,
+    pub required: i32,
+}
+mod campaign;
 mod landing;
 mod npc;
 mod signals;
@@ -131,6 +140,7 @@ struct Active {
     controlled_mecc_owner: Option<ActorId>,
     owned_mecc: Option<owned::Driver>,
     landing: Option<landing::Driver>,
+    campaign: Option<Result<campaign::State, String>>,
 }
 impl Active {
     fn player_owner(&self) -> Result<ActorId, String> {
@@ -1021,7 +1031,21 @@ impl Runtime {
             return Err("startup parameter13 gameplay consumer is not connected".into());
         }
         if parameters.parameter15.is_some() {
-            return Err("startup parameter15 has no runtime consumer".into());
+            let objective = active
+                .campaign
+                .as_ref()
+                .ok_or("collection objective owner not prepared")?
+                .as_ref()
+                .map_err(Clone::clone)?;
+            if objective.program.quota != parameters.parameter15.map(|(_, v)| v) {
+                return Err("collection objective quota differs from selected mission slot".into());
+            }
+            p.npcs
+                .as_ref()
+                .map_err(Clone::clone)?
+                .as_ref()
+                .ok_or("collection population owner absent")?
+                .view(&active.resident_states, active.ticket)?;
         }
         if parameters.player_proxy34.is_some() {
             return Err("mission proxy34 requires an owned actor-service backend".into());
@@ -1201,11 +1225,68 @@ impl Runtime {
             a.payload.npcs.as_ref().ok()?.as_ref()?.collected_chunks(),
         ))
     }
+    pub(crate) fn take_campaign_completion(
+        &mut self,
+        ticket: u64,
+    ) -> Result<Option<CampaignCompletion>, String> {
+        let Some(a) = self.active.as_mut().filter(|a| a.ticket == ticket) else {
+            return Ok(None);
+        };
+        let Some(c) = a.campaign.as_ref().and_then(|r| r.as_ref().ok()) else {
+            return Ok(None);
+        };
+        if !c.completed || c.queued {
+            return Ok(None);
+        }
+        let packet = &a.payload.packet;
+        let world = packet.world.as_ref().ok_or("completed world absent")?;
+        let mission = packet.mission.as_ref().ok_or("completed mission absent")?;
+        let film = giants_game::mission_cinematics::select_completion(
+            world,
+            mission,
+            &packet.request.mission_name,
+        )?;
+        if film.director.is_some() {
+            return Err("completion film requires the campaign film continuation owner".into());
+        }
+        let next = world
+            .scenarios
+            .get(c.program.scenario_index + 1)
+            .ok_or("following source record absent")?;
+        if next.kind != 2 {
+            return Err(format!(
+                "source record kind {} requires its continuation service",
+                next.kind
+            ));
+        }
+        let menu = giants_game::mission_selection::MissionMenu::parse(&packet.world_bytes, 0, true)
+            .map_err(|e| e.to_string())?;
+        let index = menu
+            .entries
+            .iter()
+            .position(|m| m.name == next.name)
+            .ok_or("next source mission absent from catalog")?;
+        let request = menu
+            .request(&packet.request.world, index)
+            .map_err(|e| e.to_string())?;
+        let carried = a.resident_states.mecc_meat(a.player_owner()?)?;
+        let result = CampaignCompletion {
+            ticket,
+            current: packet.request.clone(),
+            next: request,
+            carried,
+            counter: c.progress.counter,
+            required: c.program.required,
+        };
+        a.campaign.as_mut().unwrap().as_mut().unwrap().queued = true;
+        Ok(Some(result))
+    }
     pub(crate) fn collect_normal_meat(
         &mut self,
         ticket: u64,
         step: u64,
         seconds: f32,
+        gameplay: bool,
     ) -> Result<Vec<crate::mission_audio::Event>, String> {
         let a = self
             .active
@@ -1215,6 +1296,21 @@ impl Runtime {
         let owner = a.player_owner()?;
         if a.owned_mecc.is_some() || a.controlled_mecc_owner != Some(owner) {
             return Err("collection requires ordinary controlled Mecc".into());
+        }
+        if gameplay && a.campaign.is_none() {
+            let result = campaign::State::prepare(&a.payload.packet, &a.payload.plan);
+            match &result {
+                Ok(c) => println!(
+                    "mission_objectives_bound ticket={ticket} targets={} quota={:?} required={} native_world_precheck=false",
+                    c.program.targets.len(),
+                    c.program.quota,
+                    c.program.required
+                ),
+                Err(reason) => {
+                    println!("mission_objectives_unavailable ticket={ticket} reason={reason}")
+                }
+            }
+            a.campaign = Some(result);
         }
         let Some(npc) = a.payload.npcs.as_mut().map_err(|e| e.clone())? else {
             return Ok(vec![]);
@@ -1236,6 +1332,11 @@ impl Runtime {
             },
             &mut a.variant_random,
             &mut sounds,
+            if gameplay {
+                a.campaign.as_mut().and_then(|r| r.as_mut().ok())
+            } else {
+                None
+            },
         )?;
         Ok(sounds)
     }
@@ -1257,28 +1358,50 @@ impl Runtime {
             .as_ref()?
             .meat_target(&a.resident_states, p)
     }
+    pub(crate) fn campaign_return_target(&self, ticket: u64) -> Option<[f32; 3]> {
+        let a = self.active.as_ref().filter(|a| a.ticket == ticket)?;
+        let c = a.campaign.as_ref()?.as_ref().ok()?;
+        let carried = a.resident_states.mecc_meat(a.player_owner().ok()?).ok()?;
+        if f64::from(carried) < f64::from(c.program.quota?) {
+            return None;
+        }
+        c.program
+            .targets
+            .iter()
+            .find(|(_, t)| t.response_flags & 15 == 4)
+            .map(|(_, t)| t.position)
+    }
     pub(crate) fn npc_hint(&self, ticket: u64) -> Option<String> {
         let a = self
             .active
             .as_ref()
             .filter(|a| a.ticket == ticket && a.owned_mecc.is_none())?;
         let npc = a.payload.npcs.as_ref().ok()?.as_ref()?;
-        if !a
-            .payload
-            .world
-            .as_ref()
-            .ok()?
-            .name
-            .eq_ignore_ascii_case("Story2")
-        {
-            return None;
-        }
         let player = a
             .resident_states
             .get(a.player_owner().ok()?)?
             .construction_fields
             .as_ref()?;
         let meat = a.resident_states.mecc_meat(a.player_owner().ok()?).ok()?;
+        if let Some(target) = self.campaign_return_target(ticket) {
+            let dx = target[0] - player.position[0];
+            let dy = target[1] - player.position[1];
+            let turn =
+                (dx.atan2(-dy).to_degrees() - player.angles[0] + 180.).rem_euclid(360.) - 180.;
+            let direction = if turn.abs() < 10. {
+                "ahead".to_owned()
+            } else {
+                format!(
+                    "{} {:.0} deg",
+                    if turn > 0. { "left" } else { "right" },
+                    turn.abs()
+                )
+            };
+            return Some(format!(
+                "Meat: {meat:.0} / 20 | Return to the objective destination.\nDestination: {:.0} units, {direction}.",
+                dx.hypot(dy)
+            ));
+        }
         let hint = npc
             .live_hint(&a.resident_states, player.position, player.angles[0])
             .unwrap_or_default();
@@ -1757,10 +1880,12 @@ fn spawn(
                 ));
             }
             if parameters.parameter15.is_some() {
-                blocked.push(format!(
-                    "mission slot {}: parameter15 runtime consumer unresolved",
-                    parameters.index
-                ));
+                if let Err(reason) = campaign::State::prepare(&payload.packet, &payload.plan) {
+                    blocked.push(format!(
+                        "mission slot {}: objective consumer unavailable: {reason}",
+                        parameters.index
+                    ));
+                }
             }
             if parameters.completion_cinematic.is_some() {
                 blocked.push(format!(
@@ -2579,6 +2704,7 @@ fn drive(
             Ok(mut payload) => {
                 let (root, actors, blocked, resident_states, bindings) =
                     spawn(&mut commands, pending.ticket, &mut payload);
+                let campaign = Some(campaign::State::prepare(&payload.packet, &payload.plan));
                 runtime.active = Some(Active {
                     ticket: pending.ticket,
                     root,
@@ -2598,6 +2724,7 @@ fn drive(
                     controlled_mecc_owner: None,
                     owned_mecc: None,
                     landing: None,
+                    campaign,
                 });
                 runtime.initialize_owned_pickup(pending.ticket);
             }
@@ -3042,6 +3169,7 @@ mod tests {
                 controlled_mecc_owner: None,
                 owned_mecc: None,
                 landing: None,
+                campaign: None,
             };
             assert_eq!(active.player_owner().unwrap(), owner);
             let peer = active
@@ -3294,6 +3422,7 @@ mod tests {
                         controlled_mecc_owner: None,
                         owned_mecc: None,
                         landing: None,
+                        campaign: None,
                     }),
                     ..Default::default()
                 };
@@ -3400,6 +3529,7 @@ mod tests {
                 controlled_mecc_owner: None,
                 owned_mecc: None,
                 landing: None,
+                campaign: None,
             }),
             ..Default::default()
         };
@@ -3766,6 +3896,7 @@ mod tests {
                 controlled_mecc_owner: None,
                 owned_mecc: None,
                 landing: None,
+                campaign: None,
             }),
             ..Default::default()
         };
@@ -4071,6 +4202,7 @@ mod tests {
                 controlled_mecc_owner: None,
                 owned_mecc: None,
                 landing: None,
+                campaign: None,
             }),
             ..Default::default()
         };
@@ -4568,6 +4700,7 @@ mod tests {
                     controlled_mecc_owner: None,
                     owned_mecc: None,
                     landing: None,
+                    campaign: None,
                 }),
                 ..Default::default()
             });
@@ -4639,6 +4772,7 @@ mod tests {
                 controlled_mecc_owner: None,
                 owned_mecc: None,
                 landing: None,
+                campaign: None,
             }),
             ..Default::default()
         };
@@ -4737,6 +4871,7 @@ mod tests {
                 controlled_mecc_owner: None,
                 owned_mecc: None,
                 landing: None,
+                campaign: None,
             }),
             ..Default::default()
         };

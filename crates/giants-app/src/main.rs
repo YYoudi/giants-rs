@@ -51,6 +51,7 @@ mod mesh_scene;
 mod mission_ambient;
 mod mission_audio;
 mod mission_boot;
+mod mission_campaign;
 mod mission_carry;
 mod mission_dressing;
 mod mission_effects;
@@ -1942,6 +1943,7 @@ fn launch(arguments: Vec<std::ffi::OsString>) -> Result<(), Box<dyn std::error::
             .add_plugins(mission_npc_scene::Plugin)
             .add_plugins(mission_carry::Plugin)
             .add_plugins(mission_boot::Plugin)
+            .add_plugins(mission_campaign::Plugin)
             .add_plugins(mission_showcase::Plugin)
             .add_plugins(mission_dressing::Plugin)
             .add_plugins(mission_weapon::Plugin)

@@ -333,7 +333,9 @@ fn drive(
     let mode = std::env::var("GIANTS_MISSION_REPLAY").unwrap();
     assert!(
         time.elapsed_secs()
-            < if mode == "showcase-film-cycles" {
+            < if std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1") {
+                1800.
+            } else if mode == "showcase-film-cycles" {
                 1800.
             } else {
                 // Each requested cycle consumes its real source opening and
@@ -348,10 +350,16 @@ fn drive(
         if replay.stage == 0 {
             replay.film_finished = false;
             if replay.completed == 0 {
-                frontend
-                    .campaign
-                    .unlock_profile("Showcase")
-                    .expect("independent showcase progress");
+                if std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1") {
+                    frontend
+                        .browse_preview_missions()
+                        .expect("ordinary preview profile/catalog path");
+                } else {
+                    frontend
+                        .campaign
+                        .unlock_profile("Showcase")
+                        .expect("independent showcase progress");
+                }
             }
             if mode == "showcase-menu" {
                 frontend.screen = Screen::LoadWorlds;
@@ -514,6 +522,31 @@ fn drive(
             }
             let ready = if mode == "showcase-audio-cancel" {
                 false
+            } else if mode == "showcase-mecc"
+                && std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1")
+            {
+                let terminal = opening.source_terminal(frontend.flow.ticket);
+                let ready = frontend.flow.ticket > 1
+                    && playing
+                    && terminal.is_some()
+                    && opening.idle()
+                    && environment.presentation_ready()
+                    && runtime
+                        .meat_status(frontend.flow.ticket)
+                        .is_some_and(|(meat, _)| meat == 0.);
+                if ready {
+                    println!(
+                        "mission_campaign_input_probe_finished ticket={} name={} actual_source_film_terminal=true meat=0 supplied_controller=true forced_pose=false os_input=false",
+                        frontend.flow.ticket,
+                        frontend
+                            .prepared_mission
+                            .as_ref()
+                            .unwrap()
+                            .request
+                            .mission_name
+                    );
+                }
+                ready
             } else if mode == "showcase-mecc" {
                 playing
                     && controllers.iter().any(|c| c.replay_done)
