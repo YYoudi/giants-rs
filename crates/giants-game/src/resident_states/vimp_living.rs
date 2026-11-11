@@ -200,13 +200,13 @@ impl Session {
         let b = a.seed.storage.data().unwrap();
         if b.len() != 216
             || word(b, 0) & 0x40 != 0
-            || v.damage != 0.
+            || !v.damage.is_finite()
             || f.object_flags & 0x81008000 != 0
             || word(b, 0xa8) != 0
             || globals.scalar(0x91c).map_err(|e| e.to_string())? > 0.
         {
             return Err(
-                "living primary requires acquired unhurt mode1 prefix without feeding countdown"
+                "living primary requires acquired dry finite mode1/7 prefix without feeding countdown"
                     .into(),
             );
         }
@@ -220,7 +220,23 @@ impl Session {
         if initial_mode == 7 && word(b, 0x78) != 0 {
             return Err("living linked target requires its current typed owner".into());
         }
+        // The source heals before its mode dispatch, using the wide owner
+        // clock. Hurt modes retain their existing separate no-healing path.
+        let damage = crate::vimp_living_scalars::regenerate(
+            initial_mode,
+            v.damage,
+            backend.actor_seconds(self, id)?,
+            globals.scalar(0x964).map_err(|e| e.to_string())?,
+        )?;
+        self.residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .vimp
+            .as_mut()
+            .unwrap()
+            .damage = damage;
         let seconds = f64::from(backend.actor_seconds(self, id)? as f32);
+        let b = self.get(id).unwrap().seed.storage.data().unwrap();
         let mut produce_commands = false;
         if initial_mode == 1 {
             let remaining = f64::from(scalar(b, 0xac)) - seconds;

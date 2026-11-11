@@ -229,6 +229,16 @@ fn source_npc_completed_poses_feed_common_render_assets_and_retire() {
 #[test]
 #[ignore = "requires GIANTS_NPC_ROOT; ordinary owned partial driver on actual Story2 terrain/resources with supplied clock/Mecc commands and queued audio; no GPU, OS input or whole native world proof"]
 fn source_normal_vimp_component_uses_player_clock_noise_and_reentry() {
+    normal_vimp_component_control(false);
+}
+
+#[test]
+#[ignore = "requires GIANTS_NPC_ROOT; actual dedicated Vimp collision meshes and normal Mecc placement with supplied navigation/clock; no GPU or OS input proof"]
+fn source_normal_mecc_contacts_completed_vimp_shapes_and_reenters() {
+    normal_vimp_component_control(true);
+}
+
+fn normal_vimp_component_control(player_contacts: bool) {
     let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
     let source = giants_game::world_source::resolve(&root, "Story2").unwrap();
     let menu = giants_game::mission_selection::MissionMenu::parse(
@@ -296,12 +306,17 @@ fn source_normal_vimp_component_uses_player_clock_noise_and_reentry() {
         );
         let mut sounds = 0;
         let mut shots = 0;
+        let mut npc_hits = 0;
         let mut changed = false;
         let mut first_pose = None;
         for number in 1..=6000u64 {
             runtime
                 .sample_world_clock(ticket, 1000 + number as u32 * 16)
                 .unwrap();
+            if player_contacts {
+                let contacts = runtime.npc_contact_snapshots(ticket).unwrap();
+                viewer.set_mission_contacts(ticket, contacts).unwrap();
+            }
             let position = viewer.mission_snapshot().0;
             let mut axes = Vec2::ZERO;
             let mut thrust = false;
@@ -316,19 +331,30 @@ fn source_normal_vimp_component_uses_player_clock_noise_and_reentry() {
                 let distance = dx.hypot(dy);
                 let current = viewer.subjective_inputs().0.angles[0].to_radians();
                 let desired = dx.atan2(-dy);
+                let pitch_delta = if player_contacts {
+                    let camera = viewer.subjective_inputs().0;
+                    let target = target.center;
+                    let horizontal =
+                        (target[0] - camera.position[0]).hypot(target[1] - camera.position[1]);
+                    camera.angles[1].to_radians()
+                        - (target[2] + 3. - camera.position[2]).atan2(horizontal)
+                } else {
+                    0.
+                };
                 viewer.mission_look(
                     Vec2::new(
                         (current - desired + std::f32::consts::PI)
                             .rem_euclid(std::f32::consts::TAU)
                             - std::f32::consts::PI,
-                        0.,
+                        pitch_delta,
                     ),
                     false,
                 );
-                if distance > 60. {
+                if distance > if player_contacts { 0. } else { 60. } {
                     axes = Vec2::Y;
-                    thrust =
-                        position[2] < target.center[2] + 80. && viewer.mission_snapshot().1 > 0.3;
+                    thrust = position[2] < target.center[2] + 80.
+                        && viewer.mission_snapshot().1 > 0.3
+                        && (!player_contacts || distance > 120.);
                     boost = distance > 300. && number % 360 == 0;
                 }
             }
@@ -341,6 +367,11 @@ fn source_normal_vimp_component_uses_player_clock_noise_and_reentry() {
             let shot = viewer
                 .mission_fire_step(1. / 60., true, &asset.terrain)
                 .unwrap();
+            npc_hits += shot
+                .world_hits
+                .iter()
+                .filter(|hit| viewer.mission_npc_hit_owner(hit.object).is_some())
+                .count();
             if shot.fired {
                 runtime.publish_player_noise(ticket).unwrap();
                 shots += 1;
@@ -397,6 +428,20 @@ fn source_normal_vimp_component_uses_player_clock_noise_and_reentry() {
             stats.2,
             viewer.mission_snapshot().0
         );
+        if player_contacts {
+            println!(
+                "normal_vimp_player_contacts ticket={ticket} responses={} projectile_hits={npc_hits} source_model_slot=7 supplied_navigation=true damage_callback=false",
+                viewer.mission_npc_contact_responses()
+            );
+            assert!(
+                viewer.mission_npc_contact_responses() > 0,
+                "supplied Mecc path never contacted an actual Vimp collision model"
+            );
+            assert!(
+                npc_hits > 0,
+                "supplied aim/fire never hit an actual Vimp collision model"
+            );
+        }
         assert_eq!(stats.0, 6000);
         assert!(
             stats.1 > 0 && stats.2 > 0,

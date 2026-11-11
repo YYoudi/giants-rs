@@ -25,10 +25,62 @@ pub trait Sounds {
     ) -> Result<(), String>;
     fn attached(&mut self, selector: u32, actor: Id, random: &mut Random) -> Result<(), String>;
 }
+pub trait Blood {
+    fn hit(
+        &mut self,
+        session: &crate::resident_states::Session,
+        owner: Id,
+        actor: blood_particles::Actor,
+        point: Option<[f32; 3]>,
+        random: &mut Random,
+    ) -> Result<usize, String>;
+}
+impl Blood for blood_particles::Pool {
+    fn hit(
+        &mut self,
+        _: &crate::resident_states::Session,
+        _: Id,
+        actor: blood_particles::Actor,
+        point: Option<[f32; 3]>,
+        random: &mut Random,
+    ) -> Result<usize, String> {
+        if point.is_some() {
+            return Err("impact blood requires an attached-wound owner".into());
+        }
+        self.emit(actor, random)
+    }
+}
+pub struct AttachedBlood<'a> {
+    pub particles: &'a mut blood_particles::Pool,
+    pub wounds: &'a mut crate::blood_wounds::Pool<Id, String>,
+}
+impl Blood for AttachedBlood<'_> {
+    fn hit(
+        &mut self,
+        session: &crate::resident_states::Session,
+        owner: Id,
+        actor: blood_particles::Actor,
+        point: Option<[f32; 3]>,
+        random: &mut Random,
+    ) -> Result<usize, String> {
+        if let Some(point) = point {
+            self.wounds
+                .attach(owner, point, session.vimp_wound_pose(owner)?)?;
+            Ok(0)
+        } else {
+            self.particles.emit(actor, random)
+        }
+    }
+}
+/// Source-bearing ordinary partial-pistol hit. Serial is not a Session actor.
+pub struct PartialPistolHit {
+    pub shooter: Id,
+    pub hit: crate::mecc_pistol::WorldHit,
+}
 pub struct Services<'a, 'r> {
     pub effects: &'a mut dyn Effects,
     pub sounds: &'a mut dyn Sounds,
-    pub blood: &'a mut blood_particles::Pool,
+    pub blood: &'a mut dyn Blood,
     pub chunks: &'a mut vimp_chunks::Factory<'r>,
     pub proxy: &'a vimp_death_proxy::Factory,
     pub globals: &'a GlobalData,

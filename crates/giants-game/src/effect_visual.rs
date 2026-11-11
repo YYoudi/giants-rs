@@ -46,6 +46,29 @@ pub struct Visual {
 }
 
 impl Visual {
+    pub(crate) fn control_flags(&self) -> u32 {
+        2 | if self.fading_in { 0x800000 } else { 0 }
+            | if self.fading_out { 4 } else { 0 }
+            | if self.configuration.start_size == self.configuration.end_size {
+                0
+            } else {
+                match self.size_curve {
+                    SizeCurve::Linear => 8,
+                    SizeCurve::EaseIn => 0x80000,
+                    SizeCurve::EaseOut => 0x100000,
+                }
+            }
+    }
+    /// A deferred effect resumes lifetime commands after its existing owner
+    /// may already have consumed the source's one first-frame animation pass.
+    pub(crate) fn resumed(
+        configuration: Configuration,
+        first_frame_pending: bool,
+    ) -> Result<Self, &'static str> {
+        let mut visual = Self::new(configuration)?;
+        visual.first_frame = first_frame_pending;
+        Ok(visual)
+    }
     pub(crate) fn expired(&self) -> bool {
         self.expired
     }

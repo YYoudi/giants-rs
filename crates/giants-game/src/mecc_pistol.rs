@@ -27,6 +27,17 @@ pub enum Impact {
 pub struct Frame {
     pub fired: bool,
     pub impacts: Vec<Impact>,
+    pub world_hits: Vec<WorldHit>,
+}
+/// Partial-pistol serial and supplied collision key remain distinct from
+/// Session identities. The integration owner resolves the selected key.
+pub struct WorldHit {
+    pub object: u32,
+    pub serial: u32,
+    pub motion: crate::damage_impulse::Motion,
+    pub older: [f32; 3],
+    pub point: [f32; 3],
+    pub damage: f32,
 }
 
 impl Pistol {
@@ -109,6 +120,7 @@ impl Pistol {
         }
         self.impacts.retain(|(_, ttl)| *ttl > 0.);
         let mut impacts = Vec::new();
+        let mut world_hits = Vec::new();
         let mut live = Vec::with_capacity(self.shots.len());
         for mut shot in self.shots.drain(..) {
             let start = shot.motion.position;
@@ -117,7 +129,18 @@ impl Pistol {
             // the owned projectile path: objects beyond that stop are occluded.
             let query =
                 crate::projectile_world::query(u32::MAX, 1, start, shot.motion.position, objects)?;
-            if query.selected.is_some() {
+            if let Some(object) = query.selected {
+                world_hits.push(WorldHit {
+                    object,
+                    serial: shot.serial,
+                    motion: crate::damage_impulse::Motion {
+                        current: query.point,
+                        previous: shot.previous,
+                    },
+                    older: shot.older,
+                    point: query.point,
+                    damage: self.definition.direct_damage,
+                });
                 self.world_hits += 1;
                 self.impacts.push((query.point, 0.7));
                 impacts.push(Impact::World(query));
@@ -138,7 +161,11 @@ impl Pistol {
             self.retired += 1;
         }
         self.shots = live;
-        Ok(Frame { fired, impacts })
+        Ok(Frame {
+            fired,
+            impacts,
+            world_hits,
+        })
     }
 }
 
@@ -268,6 +295,13 @@ mod tests {
             .step(0.05, [1., 5., 5.], [29., 5., 5.], true, &terrain, &[object])
             .unwrap();
         assert!(matches!(frame.impacts.as_slice(),[Impact::World(q)] if q.selected==Some(2)));
+        let hit = &frame.world_hits[0];
+        assert_eq!((hit.object, hit.serial), (2, 1));
+        assert_eq!(hit.damage, 12.);
+        assert_eq!(hit.motion.previous, [1., 5., 5.]);
+        assert_eq!(hit.older, [1., 5., 5.]);
+        assert_eq!(hit.motion.current, hit.point);
+        assert!(hit.point[0] >= 7.9 && hit.point[0] <= 8.1);
         assert!(p.shots.is_empty());
         assert_eq!((p.fired, p.retired, p.world_hits), (1, 1, 1));
     }

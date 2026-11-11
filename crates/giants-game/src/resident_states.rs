@@ -32,6 +32,9 @@ mod parented_frame_tests;
 #[cfg(test)]
 mod passive_frame_tests;
 mod ripper_variant;
+mod vimp_ghost;
+mod vimp_retirement;
+mod vimp_soul;
 pub use cinematic_constant::{
     Scope as CinematicScope, Support as CinematicSupport, View as CinematicConstantView,
 };
@@ -62,6 +65,7 @@ pub use vimp_active::{
     Contact as VimpMovementContact, Movement as VimpActiveMovement,
     MovementServices as VimpActiveMovementServices, Services as VimpActiveServices,
 };
+mod vimp_contacts;
 mod vimp_living;
 mod vimp_response;
 #[cfg(test)]
@@ -369,6 +373,7 @@ pub struct Resident {
     herd_marker: Option<crate::herd_markers::Marker>,
     vimp: Option<crate::vimp_actor::Cold>,
     vimp_physical: Option<crate::vimp_physical::Owned>,
+    vimp_ghost: Option<crate::vimp_ghost::Owned>,
     vimp_frames: u64,
     vimp_prepared_history: Option<u64>,
     vimp_frame_stopped: bool,
@@ -630,6 +635,7 @@ impl Session {
                 herd_marker: None,
                 vimp: None,
                 vimp_physical: None,
+                vimp_ghost: None,
                 herd_frame: None,
                 vimp_threat_steps: 0,
                 vimp_response_steps: 0,
@@ -4677,6 +4683,69 @@ impl Session {
         random: &mut crate::audio_parameters::Random,
         services: &mut crate::vimp_damage::Services<'_, '_>,
     ) -> Result<crate::vimp_damage::Outcome, String> {
+        self.damage_vimp_with_source(id, kind, amount, None, random, services)
+    }
+    /// Real completed target pose and partial-pistol trajectory. This does not
+    /// claim canonical state77 allocation or whole-world projectile scheduling.
+    pub fn damage_vimp_from_partial_pistol(
+        &mut self,
+        id: Id,
+        input: crate::vimp_damage::PartialPistolHit,
+        random: &mut crate::audio_parameters::Random,
+        services: &mut crate::vimp_damage::Services<'_, '_>,
+    ) -> Result<crate::vimp_damage::Outcome, String> {
+        use crate::hit_routing::{Context, Route};
+        self.completed_vimp_frame(id)?;
+        if self.get(input.shooter).is_none()
+            || input.hit.serial == 0
+            || !input
+                .hit
+                .motion
+                .current
+                .into_iter()
+                .chain(input.hit.motion.previous)
+                .chain(input.hit.older)
+                .chain(input.hit.point)
+                .chain([input.hit.damage])
+                .all(f32::is_finite)
+            || input.hit.damage <= 0.
+            || input.hit.motion.current != input.hit.point
+        {
+            return Err("partial-pistol hit source, serial or trajectory invalid".into());
+        }
+        let route = crate::hit_routing::resolve(
+            self.hit_actor(id)?,
+            0,
+            Context {
+                blocked: [0; 2],
+                mode: 0,
+            },
+            |owner| self.hit_actor(owner),
+        )?;
+        match route {
+            Route::Suppressed => Ok(crate::vimp_damage::Outcome::Ignored),
+            Route::Dispatch { target, kind: 0 } if target == id => self.damage_vimp_with_source(
+                id,
+                0,
+                input.hit.damage,
+                Some(&input.hit),
+                random,
+                services,
+            ),
+            _ => Err(
+                "partial-pistol Vimp hit requires additional wrapper/finalization services".into(),
+            ),
+        }
+    }
+    fn damage_vimp_with_source(
+        &mut self,
+        id: Id,
+        kind: u32,
+        amount: f32,
+        source: Option<&crate::mecc_pistol::WorldHit>,
+        random: &mut crate::audio_parameters::Random,
+        services: &mut crate::vimp_damage::Services<'_, '_>,
+    ) -> Result<crate::vimp_damage::Outcome, String> {
         use crate::vimp_damage::{DeathEffect, Outcome, choice};
         let actor = self.get(id).ok_or("Vimp damage owner absent or foreign")?;
         let vimp = actor
@@ -4713,8 +4782,7 @@ impl Session {
             height: f32::from_bits(fields.configuration[23]),
         };
         if !vimp.initialized
-            || vimp.wander_pending
-            || fields.position != fields.current
+            || (source.is_none() && (vimp.wander_pending || fields.position != fields.current))
             || ![
                 limit,
                 vimp.damage,
@@ -4764,8 +4832,32 @@ impl Session {
             if sum < f64::from(limit) {
                 let mut count = 0;
                 if kind != 14 {
-                    // With no source/impact and A0==AC the real impulse helper
-                    // reaches its zero-vector branch without changing forces.
+                    if let Some(source) = source {
+                        let impulse =
+                            (f64::from(services.globals.scalar(0xa04).map_err(|e| e.to_string())?)
+                                * f64::from(amount)) as f32;
+                        let actor = self.residents.get_mut(&id.serial).unwrap();
+                        let fields = actor.construction_fields.as_ref().unwrap();
+                        let physical = actor
+                            .vimp_physical
+                            .as_mut()
+                            .ok_or("hit target physical velocity absent")?;
+                        physical.view.velocity = crate::damage_impulse::apply(
+                            physical.view.velocity,
+                            crate::damage_impulse::Hit {
+                                kind,
+                                horizontal: impulse,
+                                vertical: impulse,
+                                recipient: crate::damage_impulse::Motion {
+                                    current: fields.position,
+                                    previous: fields.current,
+                                },
+                                source: Some(source.motion),
+                                impact: Some(source.point),
+                                radial_center: fields.position,
+                            },
+                        )?;
+                    }
                     if !matches!(vimp.mode, 2..=4)
                         && flags & 0x80000000 == 0
                         && physical_flags & 0x40 == 0
@@ -4780,7 +4872,13 @@ impl Session {
                             .unwrap()
                             .mode = 4;
                     }
-                    count = services.blood.emit(blood_actor, random)?;
+                    count = services.blood.hit(
+                        self,
+                        id,
+                        blood_actor,
+                        source.map(|s| s.point),
+                        random,
+                    )?;
                 }
                 let selector = 0x55b + choice(random);
                 services.sounds.attached(selector, id, random)?;
@@ -4788,7 +4886,14 @@ impl Session {
                     blood_particles: count,
                 });
             }
-            let angle = (f64::from(random.next_15()) * 360. * (1. / 32768.)) as f32;
+            let angle = if let Some(source) = source {
+                (crate::effect_orientation::angle_wide(
+                    (f64::from(source.older[1]) - f64::from(source.motion.current[1])) as f32,
+                    (f64::from(source.older[0]) - f64::from(source.motion.current[0])) as f32,
+                ) - 90.) as f32
+            } else {
+                (f64::from(random.next_15()) * 360. * (1. / 32768.)) as f32
+            };
             services
                 .effects
                 .death(DeathEffect { position, angle }, random)?;
@@ -8510,6 +8615,9 @@ impl Session {
             }
             if let Some(target) = &actor.delphi_local_target {
                 refers |= target.references(id);
+            }
+            if let Some(proxy) = actor.vimp_death_proxy {
+                refers |= proxy.ghost == Some(id);
             }
             refers |= match actor.surface_link {
                 Some(SurfaceLink::Owner { marker }) => marker == id,

@@ -47,6 +47,53 @@ not a connected collision, hitbox, damage or death feature. Its 768 original-PC
 comparisons agree on 2,304 velocity words with supplied source/impact/motion
 inputs and no selected auxiliary model; these do not validate live contacts.
 
+Local follow-up now supplies completed dedicated-slot collision geometry to the
+ordinary player and partial-pistol queries. Two installed supplied-navigation
+entries each produce 2,573 actual Vimp player-contact responses. Projectile keys
+remain distinct from Session IDs; hit records retain the real partial-projectile
+serial, impact, direct amount and two preceding positions. This source candidate
+has not replaced the immutable .11.2 download.
+
+Attached blood now owns a separate 50-wound budget, current-joint binding,
+source pulse clocks, lifetime and directional emission into the shared particle
+pool. Original-PC controls agree on 300 wound operations / 1,972,200 selected
+words, 96 directional-emitter cases and 128 rotated-joint binding cases. Their
+supplied clocks, transforms and joint providers are explicit intermediate
+boundaries. An installed moving-Vimp control consumes current animation poses,
+applies a supplied source-bearing nonlethal hit, emits 33 blood particles and
+recovers through the actual hurt primary with two required sound-stop requests.
+It also exposed and repaired the missing regeneration composition on returning
+to living mode. This control supplies admission/time/trajectory/amount and sound
+requests; it is not an ordinary-input, audible or rendered combat acceptance.
+
+Next consumer: ordinary pistol hit dispatch with actual audio/wound rendering,
+then complete lethal FX execution, ghost ownership, meat updates and retirement.
+The authored young cohort's health limit is below the pistol's direct damage;
+lethal services must work before enabling ordinary damage. Do not substitute a
+recording/no-op death provider or lower damage to hide that dependency. No new
+prototype PS2 attribution is confirmed.
+
+The retained ghost program now has source-backed class859 construction, current
+ANM/position buffers, external resume, ending size/fade and tracked retirement.
+Twenty-four original-PC deferred/resume controls agree on 1,132 selected words;
+all three source sizes animate and retire on two installed tickets. The state84
+meat/ghost branch is connected for actual populations without mana-eligible
+players. Ninety-six original-PC branch controls agree; FX creation/resume and
+marking remain intercepted boundaries in that instruction comparison. Separate
+installed cycles use actual chunk updates and ghost callbacks, then remove all
+chunk/proxy/ghost core owners. Their birth positions, admission, clock and
+external-release provider are supplied; GPU and ordinary lethal integration
+remain unverified. Delphi/mana transfer remains an explicit prerequisite and is
+never replaced with a successful empty-player service.
+
+The next blocking dependency is complete `FXB_VIMP_death` execution, including
+its named chunk, splat and spray children, followed by ordinary hit dispatch and
+render/audio acceptance. Its full/lite choice needs actual selection inputs.
+The ordinary offline session does not take the native network-only herd-meat
+notification branch. Preserve that multiplayer prerequisite without inventing a
+local notification. Victim cleanup currently admits only successful death with
+actually empty native target-reference slots and real external release.
+
 ## Current delivery - reliable Mecc loop and first living interaction
 
 Owner direction, 11 November 2026: the single integration agent now works in

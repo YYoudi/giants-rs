@@ -18,6 +18,7 @@ pub(super) struct State {
     expected: Vec<(Key, i32)>,
     bound: Option<Binding>,
     geometry: Option<Arc<giants_game::scene_resources::ModelAsset>>,
+    contact_resources: Option<giants_game::vimp_contacts::Resources>,
 }
 
 /// A copied submission, not a second simulation or shared pose buffer.
@@ -82,6 +83,7 @@ impl State {
             expected,
             bound: None,
             geometry: None,
+            contact_resources: None,
         }))
     }
     pub fn bind(

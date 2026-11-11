@@ -992,6 +992,22 @@ impl<K: Copy + Eq> Pool<K> {
         *random = staged;
         Ok((creation, intervals))
     }
+    /// Exact retained positional ghost preparation (source flags28). Its
+    /// logged actor and external resume remain the activation owner's work.
+    pub fn prepare_vimp_ghost_invariant(
+        &mut self,
+        name: &str,
+        position: [f32; 3],
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Creation, String> {
+        let image = self.image.as_ref().ok_or("ghost effect image absent")?;
+        let (_, entry) = image.find(name).ok_or("ghost source program absent")?;
+        crate::vimp_ghost::Recipe::project(
+            &image.program(entry.offset).map_err(|e| e.to_string())?,
+        )?;
+        self.prepare_direct_position(Some(entry.offset), position, 0x20000, true, random)
+            .map(|(creation, _)| creation)
+    }
     /// Exact-D named flags8 position profile. No synthetic recipient is created.
     /// All fallible framing and skip preparation precede publication/RNG commit.
     pub fn prepare_positional(

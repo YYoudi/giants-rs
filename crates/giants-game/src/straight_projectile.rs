@@ -10,6 +10,9 @@ pub struct Shot {
     pub origin: [f32; 3],
     /// Unshortened movement segment, before the development terrain query.
     pub segment_end: [f32; 3],
+    /// Actual two preceding positions, retained for source-bearing hit effects.
+    pub previous: [f32; 3],
+    pub older: [f32; 3],
     pub motion: Motion,
     pub remaining: f32,
 }
@@ -40,6 +43,8 @@ impl Shot {
             serial: 0,
             origin,
             segment_end: origin,
+            previous: origin,
+            older: origin,
             motion: Motion {
                 position: origin,
                 velocity: v,
@@ -62,6 +67,8 @@ impl Shot {
     }
     pub fn step(&mut self, terrain: &Terrain, dt: f32) -> Result<Event, &'static str> {
         let start = self.motion.position;
+        self.older = self.previous;
+        self.previous = start;
         self.motion =
             crate::mecc_motion::integrate(self.motion, dt, false, false, Precision::Double53)?;
         let mut end = self.motion.position;

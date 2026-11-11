@@ -462,6 +462,19 @@ impl Template {
         };
         self.initial(origin, placement, context.flags(), true)
     }
+    pub(crate) fn ghost_positioned<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+    ) -> Result<Initial<K>, String> {
+        if context.flags() != 0x20000 {
+            return Err("ghost constructor requires its retained positional context".into());
+        }
+        self.validate(context, 3, 1)?;
+        crate::vimp_ghost::Recipe::project(context.program.as_ref().map_err(Clone::clone)?)?;
+        let point = context.position().ok_or("ghost context position absent")?;
+        self.initial(origin, Placement::Position(point), context.flags(), false)
+    }
     /// Acquired unparented positional profile, before subsequent VM commands.
     pub fn positioned<K: Copy>(
         &self,

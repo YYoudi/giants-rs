@@ -458,6 +458,19 @@ pub(super) fn update(
             continue;
         }
         controller.was_active = true;
+        if !controller.owned_backend && !controller.npc_failed {
+            let ticket = controller.ticket;
+            let result = runtime
+                .npc_contact_snapshots(controller.ticket)
+                .and_then(|contacts| controller.state.set_mission_contacts(ticket, contacts));
+            if let Err(error) = result {
+                controller.npc_failed = true;
+                error!(
+                    "mission_vimp_contacts_refused ticket={} error={error} fallback=false",
+                    controller.ticket
+                );
+            }
+        }
         if !controller.world_signals_failed
             && let Err(error) = runtime
                 .sample_world_clock(controller.ticket, real_time.elapsed().as_millis() as u32)
@@ -937,6 +950,14 @@ pub(super) fn update(
                         origin
                     );
                 }
+                for hit in &result.world_hits {
+                    if let Some(owner) = controller.state.mission_npc_hit_owner(hit.object) {
+                        println!(
+                            "mission_player_vimp_hitbox ticket={} owner={owner:?} shot={} point={:?} damage_callback=false",
+                            controller.ticket, hit.serial, hit.point
+                        );
+                    }
+                }
                 for impact in result.impacts {
                     let (code, point) = match &impact {
                         giants_game::mecc_pistol::Impact::World(q) => (2, q.point),
@@ -1024,9 +1045,10 @@ pub(super) fn update(
                             "Vimp input probe produced too few actual pistol shots"
                         );
                         println!(
-                            "mission_vimp_input_probe_finished ticket={} supplied_controller=true forced_actor_pose=false os_input=false reactions={:?}",
+                            "mission_vimp_input_probe_finished ticket={} supplied_controller=true forced_actor_pose=false os_input=false reactions={:?} player_contacts={}",
                             controller.ticket,
-                            runtime.npc_reactions(controller.ticket)
+                            runtime.npc_reactions(controller.ticket),
+                            controller.state.mission_npc_contact_responses()
                         );
                     } else {
                         assert_eq!(pistol.fired, expected, "held pistol cadence failed");

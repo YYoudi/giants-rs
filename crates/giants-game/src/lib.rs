@@ -118,6 +118,7 @@ pub mod straight_projectile;
 pub mod uncached_pose;
 pub mod unlit_material;
 pub mod vimp_chunks;
+pub mod vimp_contacts;
 use giants_formats::{
     gzp::Archive,
     tga::{self, RgbImage},
@@ -205,6 +206,7 @@ pub mod render_sort;
 pub mod renderer_policy;
 pub mod scene_resources;
 pub mod scenery;
+pub mod skinned_hit_point;
 pub mod skinning;
 pub mod smartie_carry;
 pub mod smartie_drop;
@@ -783,6 +785,7 @@ pub mod animation_frames;
 pub mod animation_mixing;
 pub mod backpack_drop;
 pub mod blood_particles;
+pub mod blood_wounds;
 pub mod contact_pose;
 pub mod effect_surface;
 pub mod first_person;
@@ -812,6 +815,7 @@ pub mod state23_hurt;
 pub mod subjective_player;
 pub mod surface_marker;
 pub mod vertical_fade;
+pub mod vimp_ghost;
 
 pub mod enemy_ballistic;
 pub mod enemy_projectile;

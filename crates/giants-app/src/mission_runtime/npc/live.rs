@@ -76,6 +76,43 @@ impl giants_game::positional_effect_audio::Service for Sounds {
     }
 }
 impl State {
+    pub(in crate::mission_runtime) fn contact_snapshots(
+        &mut self,
+        session: &mut Session,
+        ticket: u64,
+        resources: &giants_game::scene_resources::SceneResources,
+    ) -> Result<Vec<giants_game::vimp_contacts::Snapshot>, String> {
+        self.view(session, ticket)?;
+        if let Some(error) = &self.driver.failure {
+            return Err(error.clone());
+        }
+        // Retain the actual current common-list order within this owned
+        // component; this is not admission of the other staged AI families.
+        let ids = session
+            .list(0)
+            .into_iter()
+            .filter(|id| self.driver.children.contains(id))
+            .collect::<Vec<_>>();
+        let mut result = Vec::new();
+        for id in ids {
+            let vimp = session.vimp(id).ok_or("contact component owner replaced")?;
+            if !vimp.initialized || session.vimp_frames(id) == Some(0) {
+                continue;
+            }
+            if self.contact_resources.is_none() {
+                self.contact_resources = Some(giants_game::vimp_contacts::Resources::load(
+                    resources,
+                    session
+                        .specification(id)
+                        .ok_or("contact specification absent")?
+                        .clone(),
+                )?);
+            }
+            result
+                .push(session.vimp_contact_snapshot(id, self.contact_resources.as_ref().unwrap())?);
+        }
+        Ok(result)
+    }
     pub(in crate::mission_runtime) fn live_target(
         &self,
         session: &Session,

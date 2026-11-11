@@ -86,6 +86,15 @@ pub struct Actor {
     pub center: f32,
     pub height: f32,
 }
+/// Directional spray requested by the attached-wound service. Counts and
+/// angles are supplied by that service, not inferred from actor size.
+pub struct Directional {
+    pub position: [f32; 3],
+    pub count: [i32; 2],
+    pub heading: [f32; 2],
+    pub speed: [f32; 2],
+    pub vertical_speed: [f32; 2],
+}
 #[derive(Clone, Copy, Debug)]
 pub struct Quad {
     pub position: [f32; 3],
@@ -188,6 +197,62 @@ impl Pool {
             self.nodes[i].velocity[2] = (interval(random, c.vertical_speed[0], c.vertical_speed[1])
                 * f64::from(base)) as f32;
             self.nodes[i].life = (f64::from(c.initial_delay) + f64::from(c.fade_seconds)) as f32;
+            self.nodes[i].phase = uniform(random, 1.);
+            self.nodes[i].flags = 4;
+        }
+        Ok(count as usize)
+    }
+    pub fn emit_directional(
+        &mut self,
+        request: Directional,
+        random: &mut Random,
+    ) -> Result<usize, String> {
+        let width = i64::from(request.count[1]) - i64::from(request.count[0]) + 1;
+        if width < 0
+            || request.count[0] < 0
+            || request.count[1] > 4096
+            || !request
+                .position
+                .into_iter()
+                .chain(request.heading)
+                .chain(request.speed)
+                .chain(request.vertical_speed)
+                .all(f32::is_finite)
+            || request.heading[0] > request.heading[1]
+            || request.heading.into_iter().any(|a| a.abs() > 1_000_000.)
+            || request.speed[0] > request.speed[1]
+            || request.vertical_speed[0] > request.vertical_speed[1]
+        {
+            return Err("directional blood request outside finite bounded profile".into());
+        }
+        // A zero inclusive width still consumes the source draw (for example
+        // the wound caller's clamped minimum1 with a truncated maximum0).
+        let count = i64::from(request.count[0]) + ((i64::from(random.next_15()) * width) >> 15);
+        for _ in 0..count {
+            let i = self.allocate()?;
+            self.nodes[i].position = request.position;
+            self.nodes[i].textured = true;
+            self.nodes[i].size = interval(
+                random,
+                self.configuration.size[0],
+                self.configuration.size[1],
+            ) as f32;
+            let heading = interval(random, request.heading[0], request.heading[1]) as f32;
+            let speed = interval(random, request.speed[0], request.speed[1]) as f32;
+            let direction = crate::facing_direction::direction(
+                heading,
+                0.,
+                crate::arithmetic::Precision::Double53,
+            )
+            .map_err(str::to_owned)?;
+            self.nodes[i].velocity = [
+                (f64::from(direction[0]) * f64::from(speed)) as f32,
+                (f64::from(direction[1]) * f64::from(speed)) as f32,
+                interval(random, request.vertical_speed[0], request.vertical_speed[1]) as f32,
+            ];
+            self.nodes[i].life = (f64::from(self.configuration.initial_delay)
+                + f64::from(self.configuration.fade_seconds))
+                as f32;
             self.nodes[i].phase = uniform(random, 1.);
             self.nodes[i].flags = 4;
         }
@@ -323,5 +388,68 @@ impl Pool {
                 alpha: ((1. - fade) * 255.) as u8,
             })
         })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    fn pool() -> Pool {
+        Pool::new(Configuration {
+            initial_delay: 0.1,
+            fade_seconds: 1.,
+            gravity: 10.,
+            friction: 2.,
+            size: [0.5, 1.],
+            vertical_speed: [2., 3.],
+            count: [1, 1],
+            spread: 1.,
+        })
+        .unwrap()
+    }
+    fn request(count: [i32; 2]) -> Directional {
+        Directional {
+            position: [1., 2., 3.],
+            count,
+            heading: [0., 0.],
+            speed: [0., 0.],
+            vertical_speed: [0., 0.],
+        }
+    }
+    #[test]
+    fn clamped_zero_width_still_emits_one_and_consumes_the_count_sample() {
+        let mut p = pool();
+        let mut random = Random(1);
+        assert_eq!(p.emit_directional(request([1, 0]), &mut random).unwrap(), 1);
+        let mut expected = Random(1);
+        for _ in 0..6 {
+            expected.next_15();
+        }
+        assert_eq!(random.0, expected.0);
+        let particles = p.active().collect::<Vec<_>>();
+        assert_eq!(particles.len(), 1);
+        assert_eq!(particles[0].1.position, [1., 2., 3.]);
+        assert_eq!(particles[0].1.velocity, [0.; 3]);
+    }
+    #[test]
+    fn zero_count_advances_rng_and_saturated_emission_reuses_the_owned_pool() {
+        let mut p = pool();
+        let mut random = Random(1);
+        assert_eq!(p.emit_directional(request([0, 0]), &mut random).unwrap(), 0);
+        let mut expected = Random(1);
+        expected.next_15();
+        assert_eq!(random.0, expected.0);
+        assert_eq!(p.heads(), (None, Some(0)));
+        assert_eq!(
+            p.emit_directional(request([600, 600]), &mut random)
+                .unwrap(),
+            600
+        );
+        let active = p
+            .active()
+            .map(|(i, _)| i)
+            .collect::<std::collections::BTreeSet<_>>();
+        assert_eq!(active.len(), CAPACITY);
+        assert!(p.heads().1.is_none());
     }
 }

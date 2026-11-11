@@ -1161,6 +1161,40 @@ impl Runtime {
             ),
         }
     }
+    pub(crate) fn npc_contact_snapshots(
+        &mut self,
+        ticket: u64,
+    ) -> Result<Vec<giants_game::vimp_contacts::Snapshot>, String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("NPC contact mission ticket absent")?;
+        if active.owned_mecc.is_some()
+            || !active
+                .payload
+                .world
+                .as_ref()
+                .map_err(Clone::clone)?
+                .name
+                .eq_ignore_ascii_case("Story2")
+        {
+            return Ok(Vec::new());
+        }
+        match active
+            .payload
+            .npcs
+            .as_mut()
+            .map_err(|error| error.clone())?
+        {
+            None => Ok(Vec::new()),
+            Some(npcs) => npcs.contact_snapshots(
+                &mut active.resident_states,
+                ticket,
+                active.payload.plan.resources(),
+            ),
+        }
+    }
     pub(crate) fn messages(&self, ticket: u64) -> Option<&giants_game::mission_messages::Queue> {
         Some(
             self.active

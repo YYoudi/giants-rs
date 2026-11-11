@@ -15,6 +15,39 @@ use std::sync::Arc;
 #[derive(Clone, Copy, Debug)]
 pub struct Proxy {
     pub parameters: [u32; 3],
+    pub ghost: Option<Id>,
+    pub context: Option<crate::attached_effect_context::Id>,
+    pub number: u64,
+    pub failed: bool,
+}
+#[derive(Clone, Copy)]
+pub struct Meat {
+    pub class: i32,
+    pub transparency: f32,
+    pub control: u32,
+    pub position: [f32; 3],
+}
+/// Supplied source-ordered common-list fields. This does not invent a meat
+/// population or acknowledge any mana-eligible player branch.
+pub fn meat_present(position: [f32; 3], radius: f32, meat: &[Meat]) -> Result<bool, String> {
+    if !radius.is_finite() || radius < 0. || !position.into_iter().all(f32::is_finite) {
+        return Err("soul source radius/position outside finite profile".into());
+    }
+    let mut present = false;
+    for item in meat {
+        if !(1117..=1119).contains(&item.class) || item.transparency > 0. || item.control & 2 != 0 {
+            continue;
+        }
+        if !item.transparency.is_finite() || !item.position.into_iter().all(f32::is_finite) {
+            return Err("soul meat fields nonfinite".into());
+        }
+        let d = std::array::from_fn::<_, 3, _>(|i| {
+            f64::from(item.position[i]) - f64::from(position[i])
+        });
+        present |=
+            (d[0] * d[0] + d[1] * d[1]) + d[2] * d[2] < f64::from(radius) * f64::from(radius);
+    }
+    Ok(present)
 }
 pub struct Factory {
     seed: Seed,
@@ -92,6 +125,10 @@ impl Factory {
             },
             Proxy {
                 parameters: [1, 32, 1_f32.to_bits()],
+                ghost: None,
+                context: None,
+                number: 0,
+                failed: false,
             },
         )
     }

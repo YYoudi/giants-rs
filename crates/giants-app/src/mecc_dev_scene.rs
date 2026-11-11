@@ -3,6 +3,7 @@ use bevy::{asset::RenderAssetUsages, input::mouse::AccumulatedMouseMotion, prelu
 use giants_game::{arithmetic::Precision, mecc_motion::Motion};
 use std::{collections::BTreeMap, path::Path};
 mod collision_replay;
+mod mission_contacts;
 
 struct Clip {
     name: String,
@@ -38,8 +39,14 @@ pub struct State {
     collision: giants_game::collision_radius::ColdProfile,
     collision_dimensions: [f32; 2],
     mesh_objects: Vec<giants_game::player_world_collision::Object>,
+    static_mesh_objects: usize,
+    npc_contact_keys: BTreeMap<giants_game::resident_states::Id, u32>,
+    next_contact_key: u32,
+    npc_contacts: Vec<mission_contacts::Contact>,
+    npc_mesh_responses: u64,
     environment_objects: Vec<giants_game::actor_environment::Collider>,
     pub(crate) projectile_objects: Vec<giants_game::projectile_world::Object>,
+    static_projectile_objects: usize,
     pub(crate) projectile_test: Option<([f32; 3], [f32; 3], u32)>,
     mesh_responses: u64,
     pub(crate) rigid_source: std::sync::Arc<giants_game::static_geometry::Scene>,
@@ -735,6 +742,15 @@ impl State {
                 },
             )
             .collect();
+        let static_mesh_objects = colliders.player_objects.len();
+        let next_contact_key = colliders
+            .player_objects
+            .iter()
+            .map(|o| o.fields.id)
+            .max()
+            .unwrap_or(1)
+            .checked_add(1)
+            .ok_or("collision identity budget")?;
         let mut state = Self {
             collision,
             collision_dimensions,
@@ -755,8 +771,14 @@ impl State {
                     })
                 })
                 .collect::<Result<Vec<_>, &'static str>>()?,
+            static_projectile_objects: colliders.objects.len(),
             projectile_test: None,
             mesh_objects: colliders.player_objects,
+            static_mesh_objects,
+            npc_contact_keys: BTreeMap::new(),
+            next_contact_key,
+            npc_contacts: Vec::new(),
+            npc_mesh_responses: 0,
             environment_objects,
             mesh_responses: 0,
             rigid_source,
@@ -1550,7 +1572,9 @@ impl State {
         let initial_ground = query.sample([previous_position[0], previous_position[1]])?;
         // Contact consumes the preceding model-speed field. Native derivation
         // occurs after contact, using its corrected current/previous positions.
-        let response = giants_game::player_world_collision::resolve_with_radius(
+        let mut npc_responses = 0u64;
+        let response = giants_game::player_world_collision::resolve_for_actor_with_responses(
+            1,
             giants_game::player_world_collision::Input {
                 state: giants_game::player_mesh_contact::State {
                     current: self.motion.position,
@@ -1597,7 +1621,24 @@ impl State {
                     Precision::Double53,
                 )
             },
+            |_, _| Ok(false),
+            |object, response| {
+                if response.retry
+                    && response.state.hit == object.fields.id
+                    && self
+                        .npc_contact_keys
+                        .values()
+                        .any(|&key| key == object.fields.id)
+                {
+                    if response.reciprocal_hit {
+                        return Err("Vimp reciprocal contact requires its peer-reference owner");
+                    }
+                    npc_responses += 1;
+                }
+                Ok(())
+            },
         )?;
+        self.npc_mesh_responses += npc_responses;
         self.mesh_responses += u64::from(response.mesh_responses);
         let resolved = response.state;
         self.collision.radius = resolved.radius;

@@ -1,5 +1,33 @@
 # Non-player actors and player interactions
 
+## Collision and wound integration candidate
+
+The current local follow-up extends the ordinary Story2 component with completed
+collision-slot geometry, replacing only its dynamic contact tail while keeping
+the declared static geometry. Player responses and partial-pistol queries share
+stable prepared-scene keys, resolved separately to typed Session identities.
+Queries retain terrain occlusion and the acquired distinction between selected
+nearest distance and the shared scratch impact point. No guessed hit spheres,
+teleported poses or canonical projectile identities are introduced.
+
+Source-bearing nonlethal damage can now apply the shared impulse to the actual
+physical velocity, select hurt mode and attach a wound at the impact. Attached
+wounds retain their selected current animation joint and local point, owner
+clock, pulse phase and lifetime. Their separate capacity is 50; generated blood
+uses the existing 500-particle pool. Missing pose/animation providers fail rather
+than silently emitting actor-centred blood. Regeneration resumes through the
+existing living-primary scalar contract after hurt recovery.
+
+Controlled installed and original-PC evidence, remaining lethal dependencies and
+delivery acceptance are tracked in BACKLOG.md. These source candidates are not
+features of the immutable .11.2 package. Ordinary damage/audio/render, lethal FX,
+ghost, meat and cleanup still require combined acceptance before publication.
+The current source also owns the retained ghost actor/ANM, its state84 meat
+presence lifecycle and loose-meat expiry. Those installed dependency cycles
+still supply birth/admission/time and external-release boundaries; they do not
+establish a rendered ordinary lethal interaction. Complete death FX and the
+combined consumer remain the next delivery gate in BACKLOG.md.
+
 ## Current first-living integration candidate
 
 The active Mecc-loop delivery now composes actual Vimp threat consideration,
