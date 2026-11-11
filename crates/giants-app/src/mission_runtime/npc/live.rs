@@ -97,12 +97,13 @@ impl State {
         let dx = nearest.position[0] - position[0];
         let dy = nearest.position[1] - position[1];
         let turn = (dx.atan2(-dy).to_degrees() - yaw + 180.).rem_euclid(360.) - 180.;
+        // The reflected source-camera basis puts increasing yaw on screen-left.
         let direction = if turn.abs() < 10. {
             "ahead".into()
         } else {
             format!(
                 "{} {:.0} deg",
-                if turn > 0. { "right" } else { "left" },
+                if turn > 0. { "left" } else { "right" },
                 turn.abs()
             )
         };
