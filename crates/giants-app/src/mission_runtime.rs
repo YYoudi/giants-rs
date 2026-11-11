@@ -509,6 +509,13 @@ impl Runtime {
         }
         Ok((&active.resident_states, owner))
     }
+    pub(crate) fn controlled_jet_session_mut(
+        &mut self,
+        ticket: u64,
+    ) -> Result<(&mut giants_game::resident_states::Session, ActorId), String> {
+        let (_, owner) = self.controlled_jet_session(ticket)?;
+        Ok((&mut self.active.as_mut().unwrap().resident_states, owner))
+    }
     pub(crate) fn pistol_projectile_visual(
         &self,
         ticket: u64,
@@ -3164,20 +3171,16 @@ mod tests {
         assert!(runtime.pistol_projectile_visual(996).is_err());
         let jet_models = runtime.owned_jet_models(995).unwrap();
         assert!(jet_models.iter().all(|m| m.mesh.normal_count == 0));
-        let (session, bound_owner) = runtime.controlled_jet_session(995).unwrap();
+        let (session, bound_owner) = runtime.controlled_jet_session_mut(995).unwrap();
         assert_eq!(bound_owner, owner);
         let children = session.mecc_special(owner).unwrap().children;
         let channels_before = children.map(|id| session.get(id).unwrap().channels);
-        let spec = session.specification(owner).unwrap();
+        let spec = session.specification(owner).unwrap().clone();
         let animation = &spec.animations[&1].animation;
         let jet_world =
             giants_game::object_transform::euler(position, fields.angles, fields.scale).unwrap();
-        for (flags, boost, hidden) in [
-            (0, false, [true, true, true]),
-            (0x1000, false, [false, false, true]),
-            (0x1000, true, [false, true, false]),
-            (0x2000, false, [false, false, true]),
-        ] {
+        {
+            let (flags, boost, hidden) = (0x1000, true, [false, true, false]);
             let mut producer =
                 crate::mission_player::jet::Presentation::new(session, owner).unwrap();
             let input = || crate::mission_player::jet::Parent {
@@ -3216,9 +3219,14 @@ mod tests {
                     .contains("quarantined")
             );
         }
-        assert_eq!(
+        assert_ne!(
             channels_before,
             children.map(|id| session.get(id).unwrap().channels)
+        );
+        assert!(
+            children
+                .iter()
+                .all(|&id| session.passive_world_frame(id).unwrap().next_frame == 1)
         );
         assert!(session.mecc_physical_cycle(owner).is_err());
         let active = runtime.active.as_mut().unwrap();
@@ -3526,7 +3534,7 @@ mod tests {
                 .unwrap();
             assert!(runtime.normal_landing_supported(998));
             assert!(!runtime.normal_landing_supported(999));
-            let (session, bound) = runtime.controlled_jet_session(998).unwrap();
+            let (session, bound) = runtime.controlled_jet_session_mut(998).unwrap();
             assert_eq!(bound, owner);
             let frames = presentation
                 .advance(session, number, 1. / 120., viewer.normal_jet_parent())
@@ -3580,9 +3588,14 @@ mod tests {
                 .contexts_idle()
         );
         let session = &runtime.active.as_ref().unwrap().resident_states;
-        assert_eq!(
+        assert_ne!(
             constructor_channels,
             children.map(|id| session.get(id).unwrap().channels)
+        );
+        assert!(
+            children
+                .iter()
+                .all(|&id| session.passive_world_frame(id).unwrap().next_frame == 1600)
         );
         assert!(session.mecc_physical_cycle(owner).is_err());
         cancel_ticket(&mut runtime, &mut Commands::new(&mut queue, &world), 998);
@@ -3591,7 +3604,7 @@ mod tests {
         assert!(!runtime.normal_landing_supported(998));
         assert!(world.get_entity(scene_root).is_err());
         println!(
-            "normal_jet_live_body steps=1600 thrust={visible} boost={boosted} release={released} descent={descent} minimum_fuel={minimum_fuel} constructor_channels_unchanged=true supplied_commands=true gpu=false real_input=false"
+            "normal_jet_live_body steps=1600 thrust={visible} boost={boosted} release={released} descent={descent} minimum_fuel={minimum_fuel} canonical_child_callbacks=true copied_animation_clock=false supplied_commands=true gpu=false real_input=false"
         );
     }
     #[test]

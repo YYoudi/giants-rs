@@ -208,13 +208,14 @@ fn sync(
     let (Some(ticket), Some(scene)) = (wanted, scene) else {
         return;
     };
-    if !matches!(
+    if !(matches!(
         scene.camera_source,
         "mission_candidate"
             | "mission_player_inspection"
             | "declared_start_debug_camera"
             | "kabuto_profile_inspection"
-    ) {
+    ) || scene.camera_source == "showcase_free" && snapshot.is_some())
+    {
         return;
     }
     let snapshot_lights = if snapshot.is_some_and(|(_, body)| body.normals.is_some()) {

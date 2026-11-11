@@ -1,5 +1,14 @@
 # Owned cold Kabuto construction
 
+The common scene inspection now exposes the acquired profile-camera service on
+**F7** while free camera is active. It reads compatible coefficients from the
+user's `Giants.exe` (or configured `GIANTS_KABUTO_EXECUTABLE`), uses the actual
+owned look/size and keeps that projection during free navigation and R reset.
+An incompatible profile is refused before the mutating command and leaves the
+existing inspection available. This key replaces the need for a replay script
+for that inspection action. It completes no startup gate or playable controller;
+combined graphical/keyboard verification remains separate from CPU controls.
+
 Select and resume work under the shared [gameplay-first
 objective](GOAL_GAMEPLAY_FIRST.md). Prioritize the ordinary player-visible path and
 its first missing caller/consumer before rare variants. Dated controls and

@@ -33,6 +33,7 @@ pub(crate) struct State {
     overlay: Option<(Entity, Entity)>,
     hidden: bool,
     failure: Option<String>,
+    camera_note: Option<&'static str>,
 }
 impl Default for State {
     fn default() -> Self {
@@ -47,6 +48,7 @@ impl Default for State {
             overlay: None,
             hidden: false,
             failure: None,
+            camera_note: None,
         }
     }
 }
@@ -104,6 +106,7 @@ struct FreeCamera {
     yaw: f32,
     pitch: f32,
     reset: (Vec3, f32, f32),
+    projection: [f32; 16],
 }
 impl FreeCamera {
     fn from_view(view: [f32; 16]) -> Option<Self> {
@@ -123,6 +126,7 @@ impl FreeCamera {
             yaw,
             pitch,
             reset: (eye, yaw, pitch),
+            projection: giants_game::mecc_camera::projection(1920. / 1080., 100000.).ok()?,
         })
     }
     fn step(&mut self, axis: Vec3, look: Vec2, dt: f32, fast: bool) {
@@ -150,7 +154,11 @@ fn enter_free(world: &mut World, ticket: u64, reason: &str) {
     let camera = world
         .get_resource::<crate::world_scene::Scene>()
         .and_then(|s| s.validation_camera.as_ref())
-        .and_then(|c| FreeCamera::from_view(c.view));
+        .and_then(|c| {
+            let mut camera = FreeCamera::from_view(c.view)?;
+            camera.projection = c.projection;
+            Some(camera)
+        });
     let Some(camera) = camera else {
         world.resource_mut::<State>().mode = Mode::Unavailable;
         println!(
@@ -214,6 +222,7 @@ pub(crate) fn update(world: &mut World) {
         state.mode = Mode::Loading;
         state.camera = None;
         state.failure = None;
+        state.camera_note = None;
     }
     let keys = world.resource::<ButtonInput<KeyCode>>();
     let (inspect, hide) = (
@@ -308,9 +317,66 @@ pub(crate) fn update(world: &mut World) {
         }
     }
     if free(world) {
+        if world
+            .resource::<ButtonInput<KeyCode>>()
+            .just_pressed(KeyCode::F7)
+        {
+            focus_kabuto(world, ticket);
+        }
         navigate(world, ticket);
     }
     overlay(world);
+}
+/// An ordinary inspection key, using the same owner/profile service as the
+/// replay. It changes only scene inspection; it cannot acknowledge startup.
+fn focus_kabuto(world: &mut World, ticket: u64) {
+    if world
+        .resource::<crate::mission_runtime::Runtime>()
+        .kabuto_body()
+        .is_none()
+    {
+        return;
+    }
+    let executable = std::env::var_os("GIANTS_KABUTO_EXECUTABLE")
+        .map(std::path::PathBuf::from)
+        .unwrap_or_else(|| {
+            world
+                .resource::<crate::frontend_scene::Scene>()
+                .data_root()
+                .join("Giants.exe")
+        });
+    let result = (|| -> Result<_, String> {
+        // Refuse an incompatible external profile before entering a mutating
+        // command. A later service failure still remains retained by Runtime.
+        giants_game::camera_profile::ExecutableCatalog::read(&executable)?;
+        giants_game::camera_initial::Cold::read(&executable)?;
+        let mut runtime = world.resource_mut::<crate::mission_runtime::Runtime>();
+        runtime.prepare_kabuto_camera_inspection(&executable)?;
+        runtime
+            .environment_candidate()?
+            .ok_or("Kabuto inspection scene absent".into())
+    })();
+    match result {
+        Ok(candidate) => {
+            let Some(mut camera) = FreeCamera::from_view(candidate.camera.view) else {
+                return;
+            };
+            camera.projection = candidate.camera.projection;
+            world.resource_mut::<State>().camera = Some(camera);
+            world.resource_mut::<State>().camera_note =
+                Some("Kabuto profile inspection; gameplay controls unavailable");
+            println!(
+                "showcase_kabuto_camera_focused ticket={ticket} source=owned_profile ordinary_key=F7 startup_acknowledged=false playable=false"
+            );
+        }
+        Err(error) => {
+            world.resource_mut::<State>().camera_note =
+                Some("Kabuto profile view unavailable for this installation");
+            eprintln!(
+                "showcase_kabuto_camera_refused ticket={ticket} reason={error:?} existing_inspection_retained=true"
+            );
+        }
+    }
 }
 fn navigate(world: &mut World, ticket: u64) {
     let focused = world.query::<&Window>().iter(world).all(|w| w.focused);
@@ -335,7 +401,7 @@ fn navigate(world: &mut World, ticket: u64) {
         Vec2::ZERO
     };
     let dt = world.resource::<Time>().delta_secs();
-    let (view, eye) = {
+    let (view, eye, projection) = {
         let mut state = world.resource_mut::<State>();
         let Some(camera) = &mut state.camera else {
             return;
@@ -344,13 +410,12 @@ fn navigate(world: &mut World, ticket: u64) {
             (camera.eye, camera.yaw, camera.pitch) = camera.reset;
         }
         camera.step(axis, look, dt, fast);
-        (camera.view(), camera.eye.to_array())
+        (camera.view(), camera.eye.to_array(), camera.projection)
     };
     let mut scene = world.resource_mut::<crate::world_scene::Scene>();
     scene.validation_camera = Some(crate::validation_camera::ValidationCamera {
         view,
-        projection: giants_game::mecc_camera::projection(1920. / 1080., 100000.)
-            .expect("debug camera lens"),
+        projection,
         viewport: UVec4::new(0, 0, 1920, 1080),
     });
     scene.camera_origin = Some(eye);
@@ -427,17 +492,21 @@ fn overlay(world: &mut World) {
             },
         };
         format!(
-            "{title} | {status}\nPartial scene / native fidelity incomplete. F6: free camera | F8: hide hints | {} | F10: quit{}",
+            "{title} | {status}\nPartial scene / native fidelity incomplete. F6: free camera | F8: hide hints | {} | F10: quit{}{}",
             if mode == Mode::Opening || frontend.flow.phase == Phase::Cinematic {
                 "Esc / double-click: skip cinematic"
             } else {
                 "Esc: menu"
             },
             if mode == Mode::Free {
-                "\nZQSD / WASD or arrows: move | RMB: look | Space / Ctrl: up / down | Shift: faster | R: reset"
+                "\nZQSD / WASD or arrows: move | RMB: look | Space / Ctrl: up / down | Shift: faster | R: reset | F7: Kabuto profile view (compatible installation)"
             } else {
                 ""
-            }
+            },
+            state
+                .camera_note
+                .map(|note| format!("\n{note}"))
+                .unwrap_or_default()
         )
     };
     if world.get::<Text>(label).is_some_and(|t| t.0 != text) {

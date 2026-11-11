@@ -3,8 +3,16 @@ use crate::herd_frame::{Frame, Projection, Services, View};
 
 struct Adapter<'a, 'b> {
     frame: Frame<'a>,
-    services: &'a mut Services<'b>,
+    birth: Option<Birth<'a, 'b>>,
+    stamp: &'a mut crate::animation_epoch::Stamp,
+    finalization: &'a mut dyn crate::actor_finalization::Services,
     born: Vec<Id>,
+}
+struct Birth<'a, 'b> {
+    factory: &'a crate::vimp_actor::Factory,
+    globals: &'a giants_formats::global_data::GlobalData,
+    random: &'a mut crate::audio_parameters::Random,
+    ground: &'a mut (dyn crate::herd_generator::Ground + 'b),
 }
 impl ActorWorldServices for Adapter<'_, '_> {
     fn controlled_actor(&self) -> Option<Id> {
@@ -28,6 +36,7 @@ impl ActorWorldServices for Adapter<'_, '_> {
         actor.herd_frame.as_mut().unwrap().view.previous_rates =
             entry.previous_rates.map(f32::from_bits);
         if entry.invoke && herd {
+            let birth = self.birth.as_mut().ok_or("herd birth services absent")?;
             let result = session.advance_herd_offline(
                 source,
                 crate::herd_generator::Tick {
@@ -35,10 +44,10 @@ impl ActorWorldServices for Adapter<'_, '_> {
                     global_delta: self.frame.global_seconds,
                     slow_areas: self.frame.areas,
                 },
-                self.services.factory,
-                self.services.globals,
-                self.services.random,
-                self.services.ground,
+                birth.factory,
+                birth.globals,
+                birth.random,
+                birth.ground,
             );
             let steps = session
                 .get(source)
@@ -92,7 +101,7 @@ impl ActorWorldServices for Adapter<'_, '_> {
             actor.mecc_animation_stamp = crate::herd_frame::advance_empty(
                 channels,
                 seconds,
-                self.services.stamp,
+                self.stamp,
                 actor.mecc_animation_stamp,
             )?;
         } else {
@@ -114,7 +123,7 @@ impl ActorWorldServices for Adapter<'_, '_> {
                 crate::arithmetic::Precision::Double53,
             )?;
             if entered {
-                actor.mecc_animation_stamp = self.services.stamp.advance();
+                actor.mecc_animation_stamp = self.stamp.advance();
             }
             actor.construction_fields.as_mut().unwrap().channels = *channels;
             if tick.missing != 0 {
@@ -158,7 +167,7 @@ impl ActorWorldServices for Adapter<'_, '_> {
                 context: header.dispatch_context,
                 areas: self.frame.areas,
             },
-            self.services.finalization,
+            self.finalization,
         );
         let (state, error) = match result {
             Ok(s) => (s, None),
@@ -303,6 +312,60 @@ impl Session {
         frame: Frame<'_>,
         services: &mut Services<'_>,
     ) -> Result<Projection, String> {
+        self.advance_passive_bound(
+            id,
+            frame,
+            Some(Birth {
+                factory: services.factory,
+                globals: services.globals,
+                random: services.random,
+                ground: services.ground,
+            }),
+            services.stamp,
+            services.finalization,
+        )
+    }
+    /// The acquired special-child callback has no birth or environment branch.
+    /// Use its actual typed parent and channel owner, without loading unrelated
+    /// herd resources or constructing a successful substitute provider.
+    pub fn advance_mecc_child_after_history(
+        &mut self,
+        id: Id,
+        frame: Frame<'_>,
+        stamp: &mut crate::animation_epoch::Stamp,
+    ) -> Result<Projection, String> {
+        let actor = self.herd_frame_actor(id)?;
+        let binding = self
+            .mecc_special_child(id)
+            .ok_or("special child binding absent")?;
+        if actor.presentation_parent != Some(binding.parent)
+            || frame.controlled != Some(binding.parent)
+            || actor.herd.is_some()
+        {
+            return Err("special child callback needs its actual controlled parent".into());
+        }
+        struct Unavailable;
+        impl crate::actor_finalization::Services for Unavailable {
+            fn release_footprint(&mut self, _: Option<u32>) -> Result<(), String> {
+                Err("special child footprint producer is not acquired".into())
+            }
+            fn environment(
+                &mut self,
+                _: &mut crate::actor_finalization::State,
+            ) -> Result<(), String> {
+                Err("special child must retain its parented finalization branch".into())
+            }
+        }
+        self.advance_passive_bound(id, frame, None, stamp, &mut Unavailable)
+    }
+    fn advance_passive_bound(
+        &mut self,
+        id: Id,
+        frame: Frame<'_>,
+        birth: Option<Birth<'_, '_>>,
+        stamp: &mut crate::animation_epoch::Stamp,
+        finalization: &mut dyn crate::actor_finalization::Services,
+    ) -> Result<Projection, String> {
         let actor = self.herd_frame_actor(id)?;
         let owned = actor.herd_frame.as_ref().unwrap();
         if actor.world_tick_running
@@ -336,7 +399,9 @@ impl Session {
         let mut tick = crate::actor_world_tick::Tick::new();
         let mut adapter = Adapter {
             frame,
-            services,
+            birth,
+            stamp,
+            finalization,
             born: Vec::new(),
         };
         let result = tick.run(&mut ActorWorldAdapter {

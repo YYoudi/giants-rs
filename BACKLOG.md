@@ -29,6 +29,30 @@ reproducible blockers. Never invent providers or force readiness to hide them.
 Keep the complete game scope below. BACKLOG.md remains the detailed authority;
 the shared work-selection method is docs/GOAL_GAMEPLAY_FIRST.md.
 
+### Consolidation review and actual remaining producer gaps
+
+The integration branch contains all five reviewed committed contributions and
+read-only snapshots of Delphi's generic shell and Mecc's immediate constructor/
+preparation work. Original worktrees are preserved. The first combined installed
+run exposed a stale constructor-field comparison in the jet renderer; it now
+reads current canonical fields/channels. The corrected 60-control installed run
+passes, including 1,600 ordinary jet/release/descent/landing steps. Graphical/OS
+acceptance and the common download still require the exact combined executable.
+
+| Area | Result and first remaining producer contract |
+| --- | --- |
+| Normal Mecc / NPC children | All three special children now execute their acquired state0 history/common callback, ANM references and shared vertex-buffer producer. The renderer has no second channel clock. Full owned primary still needs actual impact, voice, damage-display, fire and collection consumers; the partial normal controller remains separate. |
+| Mecc projectile impact | Ordered executor and immediate context/zero-pose constructor prefix are integrated. `effect_burst::execution::Services` still has no canonical live constructor/command/finish backend. Immediate parent/reference placement, contact children and audio must execute in source order; projected spawns or a recorder cannot replace them. Canonical terrain-landing FX remain connected. |
+| Delphi | Ordered projection, shared look, evaluated body caches and generic class0/state7 shell are retained. App still constructs a collapsed inspection owner. Reuse the shell identity through character retyping and persistent camera/lens update before projection/special initialization, then bind local-target/physical/held-copy scheduling, scene keys and water. A second player or late reset cannot satisfy entry. |
+| Kabuto | The shared inspection camera reads the actual owner's look/size. F7 in free inspection is being connected to this service using compatible external coefficients. Actual startup/warm ordering remains absent; `ProjectionReset`, `AnimationCache`, `ProceduralMaterial` and `GeometryRegistration` remain pending. Inspection acknowledges none of them or live input/primary admission. |
+| NPC population | All 134 supported Story2 neutral declarations have acquired callbacks, including references/eventless animation; Mecc children now feed the normal renderer. Class230 awakening constructs its actual marker. Live herd/Vimp admission still needs control factor, time/slow-area/noise population and shared RNG ordering. The App has no producer for the supplied installed-test contexts. Class230 later mode62 is not acquired. Do not acknowledge unsupported actors by updating only convenient ones. |
+| Flick timed effects | Virtual supports, canonical payloads, scoped expiry children and cancellation are retained alongside normal film ownership/transport. The menu renderer still uses preview timed playback. Migration requires source clock/RNG interleaving and detached-child ordinary preparation, including its acquired `physical_argument_word` and populated environment/footprint services. App has no producer for these native caller contracts. A Rust ID, zero or delta is no substitute; never run two simulations. Per-director seed1 remains an explicit preview policy. |
+
+These gaps were checked against combined Rust callers; they are not new prototype
+PS2 attributions. Native acquisition must start with the central method's name
+lookup. After publication, replace provisional availability with the exact
+build/controls and retain the failed runs separately from corrected acceptance.
+
 ## Normal-path priority - owner direction, 10 November 2026
 
 Follow [GOAL_GAMEPLAY_FIRST.md](docs/GOAL_GAMEPLAY_FIRST.md). Preserve the full

@@ -76,7 +76,7 @@ impl Controller {
         };
         (!frames.is_empty()).then_some((self.ticket, u64::from(self.steps), frames))
     }
-    fn update_normal_jet(&mut self, runtime: &crate::mission_runtime::Runtime) {
+    fn update_normal_jet(&mut self, runtime: &mut crate::mission_runtime::Runtime) {
         if self.owned_motion_failed {
             self.normal_jet_frames.clear();
             return;
@@ -85,7 +85,7 @@ impl Controller {
             return;
         }
         let result = (|| {
-            let (session, owner) = runtime.controlled_jet_session(self.ticket)?;
+            let (session, owner) = runtime.controlled_jet_session_mut(self.ticket)?;
             if self.normal_jet.is_none() {
                 self.normal_jet = Some(super::jet::Presentation::new(session, owner));
             }
@@ -764,7 +764,7 @@ pub(super) fn update(
                     controller.steps + 1
                 );
             }
-            controller.update_normal_jet(&runtime);
+            controller.update_normal_jet(&mut runtime);
             let landing = controller.state.take_landing_impact();
             if !controller.landing_failed
                 && (landing.is_some() || runtime.normal_landing_has_work(controller.ticket))

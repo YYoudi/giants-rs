@@ -16,6 +16,15 @@ Mecc, Delphi and Kabuto lanes, and cinematic direction remains in the Flick lane
 
 ## Where can this be tested?
 
+The main consolidation consumes the typed parented state0 callbacks in ordinary
+Mecc jet presentation. Right-mouse thrust and Space nitro use the same three
+constructor-bound children, canonical ANM/reference owners and shared position
+buffers; the renderer has no copied child channel clock. The installed
+1,600-step combined control covers thrust, nitro, release, descent and landing
+with each child's callback count checked. Graphical/real-input acceptance still
+requires the combined executable. This does not admit Vimp AI or certify the
+native common-world schedule.
+
 | Entry | Current availability |
 | --- | --- |
 | Ordinary public preview maps | No active Vimp herd/AI is admitted yet. Authored herd/marker construction does not populate a live herd. |

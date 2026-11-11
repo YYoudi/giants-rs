@@ -1,8 +1,6 @@
 //! Ordinary partial-controller presentation. Session retains constructor identities;
 //! these render clocks do not acknowledge an owned primary or native world tick.
 use giants_game::{
-    animation_channels::{self, Channels},
-    arithmetic::Precision,
     mecc_jet_presentation::Frame,
     procedural_aim::Matrix,
     resident_states::{Id, Session},
@@ -20,10 +18,7 @@ pub(crate) struct Parent<'a> {
 }
 struct Child {
     id: Id,
-    fields: giants_game::actor_fields::Fields,
-    channels: Channels,
     spec: Arc<Prepared>,
-    durations: Vec<Option<f32>>,
 }
 pub(crate) struct Presentation {
     parent: Id,
@@ -31,6 +26,7 @@ pub(crate) struct Presentation {
     children: Vec<Child>,
     last_step: u64,
     failed: bool,
+    stamp: giants_game::animation_epoch::Stamp,
 }
 fn reference(
     spec: &Prepared,
@@ -80,30 +76,16 @@ impl Presentation {
             {
                 return Err("normal jet constructor outside acquired attachment profile".into());
             }
-            let fields = actor
+            actor
                 .construction_fields
                 .as_ref()
-                .ok_or("normal jet fields absent")?
-                .clone();
+                .ok_or("normal jet fields absent")?;
             let spec = Arc::clone(
                 session
                     .specification(id)
                     .ok_or("normal jet child spec absent")?,
             );
-            let durations = (0..256)
-                .map(|slot| {
-                    spec.animations
-                        .get(&(slot as u8))
-                        .map(|d| d.template.duration)
-                })
-                .collect();
-            children.push(Child {
-                id,
-                channels: fields.channels,
-                fields,
-                spec,
-                durations,
-            });
+            children.push(Child { id, spec });
         }
         Ok(Self {
             parent,
@@ -111,11 +93,12 @@ impl Presentation {
             children,
             last_step: 0,
             failed: false,
+            stamp: giants_game::animation_epoch::Stamp::default(),
         })
     }
     pub(crate) fn advance(
         &mut self,
-        session: &Session,
+        session: &mut Session,
         step: u64,
         seconds: f32,
         parent: Parent<'_>,
@@ -131,7 +114,7 @@ impl Presentation {
     }
     fn advance_inner(
         &mut self,
-        session: &Session,
+        session: &mut Session,
         step: u64,
         seconds: f32,
         parent: Parent<'_>,
@@ -168,64 +151,67 @@ impl Presentation {
             values: parent.world,
         };
         let mut frames = Vec::new();
+        for child in &self.children {
+            session.prepare_passive_world_history(child.id, step - 1)?;
+        }
         for child in &mut self.children {
+            let callback = session.advance_mecc_child_after_history(
+                child.id,
+                giants_game::passive_frame::Frame {
+                    number: step - 1,
+                    global_seconds: seconds,
+                    areas: &[],
+                    controlled: Some(self.parent),
+                },
+                &mut self.stamp,
+            )?;
+            if callback.outcome != giants_game::actor_world_tick::Outcome::Updated
+                || !callback.born.is_empty()
+            {
+                return Err("normal jet child callback did not complete".into());
+            }
+            let epoch = session
+                .get(child.id)
+                .ok_or("normal jet child retired")?
+                .mecc_animation_stamp;
+            session.prepare_actor_positions(child.id, 0, epoch, false)?;
+            let positions = session
+                .actor_model_positions(child.id, 0)?
+                .ok_or("normal jet current position buffer absent")?
+                .to_vec();
             let actor = session.get(child.id).ok_or("normal jet child retired")?;
             let binding = session
                 .mecc_special_child(child.id)
                 .ok_or("normal jet binding retired")?;
+            let fields = actor
+                .construction_fields
+                .as_ref()
+                .ok_or("normal jet fields absent")?;
             if binding.parent != self.parent
                 || binding.binding_word != 2
                 || binding.context != 0
-                || actor.class != child.fields.class
+                || actor.class != child.spec.class
                 || actor.seed.storage.state() != 0
-                || actor.channels != Some(child.fields.channels)
-                || actor.construction_fields.as_ref().is_none_or(|f| {
-                    f.channels != child.fields.channels
-                        || f.scale.to_bits() != child.fields.scale.to_bits()
-                        || f.configuration != child.fields.configuration
-                        || f.object_flags != child.fields.object_flags
-                        || f.angles.map(f32::to_bits) != child.fields.angles.map(f32::to_bits)
-                })
+                || actor.channels != Some(fields.channels)
+                || session
+                    .specification(child.id)
+                    .is_none_or(|s| !Arc::ptr_eq(s, &child.spec))
             {
                 return Err("normal jet child changed outside its presentation owner".into());
             }
-            let advanced = animation_channels::advance(
-                &mut child.channels,
-                &child.durations,
-                [0.; 3],
-                seconds,
-                Precision::Double53,
-            )?;
-            if advanced.missing != 0 || child.channels[1..].iter().any(|c| c[0] != 254) {
+            let channels = actor.channels.ok_or("normal jet child channels absent")?;
+            if channels[1..].iter().any(|c| c[0] != 254) {
                 return Err("normal jet needs acquired single-channel animation".into());
             }
             let descriptor = child
                 .spec
                 .animations
-                .get(&(child.channels[0][0] as u8))
+                .get(&(channels[0][0] as u8))
                 .ok_or("normal jet clip absent")?;
             let tick = giants_game::model_pose::seconds_tick(
                 descriptor.animation.timeline,
-                f32::from_bits(child.channels[0][1]),
+                f32::from_bits(channels[0][1]),
             )?;
-            let model = child
-                .spec
-                .models
-                .first()
-                .and_then(Option::as_ref)
-                .ok_or("normal jet model absent")?;
-            let positions = if let Some(skin) = &model.prepared.skin {
-                let tree = descriptor
-                    .animation
-                    .trees
-                    .iter()
-                    .find(|t| t.offset == descriptor.animation.default_tree)
-                    .ok_or("normal jet tree absent")?;
-                giants_game::skinning::positions(skin, &descriptor.animation, &tree.name, tick)
-                    .map_err(|e| e.to_string())?
-            } else {
-                model.prepared.mesh.positions.clone()
-            };
             let mut world = giants_game::effect_attachment::initial_child_matrix(
                 parent_world,
                 parent_reference,
@@ -235,11 +221,11 @@ impl Presentation {
                     binding.reference_word,
                     tick,
                 )?,
-                child.fields.scale,
+                fields.scale,
                 parent.scale,
             )?;
             world.values[11] = (f64::from(world.values[11])
-                + f64::from(f32::from_bits(child.fields.configuration[17])))
+                + f64::from(f32::from_bits(fields.configuration[17])))
                 as f32;
             if !world.values.iter().all(|v| v.is_finite()) {
                 return Err("normal jet matrix nonfinite".into());
@@ -256,9 +242,9 @@ impl Presentation {
                     world,
                 },
                 positions,
-                personality: child.fields.configuration[14],
-                scale: child.fields.scale,
-                angle: child.fields.angles[0],
+                personality: fields.configuration[14],
+                scale: fields.scale,
+                angle: fields.angles[0],
             });
         }
         Ok(frames)

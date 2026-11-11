@@ -1,5 +1,16 @@
 # Build on Windows with MinGW
 
+For the all-five consolidation, run the shared workspace checks below and the
+installed owner/normal-controller controls, including the generic player shell,
+ordered Delphi projection/body phase, typed state0 children, class230 awakening,
+Mecc immediate constructor/burst and Kabuto profile camera. The ignored controls
+require the corresponding user-supplied source roots/executable; their supplied
+contexts do not establish ordinary gameplay. On the combined graphical build,
+repeat the normal menu/input/return cycle and short fire taps. Browse a Kabuto
+mission, skip to free inspection and press F7 with a compatible installation;
+check framing, projection, R reset, cancellation and re-entry. Its four startup
+requirements must remain pending. Keep actual-input and replay evidence distinct.
+
 Choose and report validations under [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md).
 The commands below remain required at their stated scope. For a playable-feature
 claim, also test the ordinary menu and real keyboard/mouse path on the exact build,
