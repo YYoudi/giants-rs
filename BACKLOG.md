@@ -847,9 +847,14 @@ blocker in the next slice, rather than continuing adjacent functions by address.
    and complete caller history remain unverified. All four initializer gates stay
    pending. The initial current-channel body now reaches the shared lit renderer
    (31 source subparts), with actual textures/pose normals and stale-owner guards.
-   A private offscreen Kstory1 capture visibly shows Kabuto; its head is cropped
-   by the provisional Mecc-shaped inspection camera. This is a static inspection,
-   not normal mission admission, live ANM or input. **Next blocker: the actual
+   The earlier Mecc-shaped inspection camera cropped the head. Later source adds
+   an explicit mode-1 profile-camera inspection using the real owner, external
+   coefficients, separate look angle and size gain. Its reviewed GPU capture on
+   `1799a51` shows the textured head/horns in frame. Lower-body placement remains
+   unverified. Floor/chase/wall queries are deliberately outside this unclipped
+   kernel; no missing provider or initializer is acknowledged. This is a static
+   scripted inspection, not normal mission admission, live ANM or input.
+   **Next blocker: the actual
    Kabuto camera/profile/projection producer and initializer/startup consumers.**
    The shared external catalog now exposes the actual signed pitch and position
    coefficients. Mode commands accept the signed look angle without changing body

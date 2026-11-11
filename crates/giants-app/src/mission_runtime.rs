@@ -74,6 +74,8 @@ struct Payload {
     player: Result<Arc<giants_game::player_initial::Prepared>, String>,
     kabuto: Result<Option<giants_game::kabuto_initial::Factory>, String>,
     kabuto_body: Option<Arc<giants_game::player_body::Prepared>>,
+    kabuto_camera_inspection:
+        Option<Result<giants_game::kabuto_camera_inspection::Prepared, String>>,
     delphi_body: Option<Arc<giants_game::player_body::Prepared>>,
 
     delphi: Result<Option<giants_game::delphi_declared::Factory>, String>,
@@ -256,6 +258,40 @@ fn prepare_delphi(
     .map(Some)
 }
 impl Runtime {
+    /// Explicit diagnostic command, never ordinary startup or an initializer ack.
+    /// Retain a failed attempt so a later frame cannot replay its completed stores.
+    pub(crate) fn prepare_kabuto_camera_inspection(
+        &mut self,
+        executable: &std::path::Path,
+    ) -> Result<(), String> {
+        let active = self
+            .active
+            .as_mut()
+            .ok_or("Kabuto camera inspection mission absent")?;
+        if let Some(result) = &active.payload.kabuto_camera_inspection {
+            let prepared = result.as_ref().map_err(Clone::clone)?;
+            if active.player_owner()? != prepared.owner
+                || !prepared.current(&active.resident_states)
+            {
+                return Err("Kabuto camera inspection owner or header changed".into());
+            }
+            return Ok(());
+        }
+        let owner = active.player_owner()?;
+        let result = giants_game::kabuto_camera_inspection::Prepared::after_mode_one(
+            &mut active.resident_states,
+            owner,
+            executable,
+            [1920., 1080.],
+        );
+        let status = result.as_ref().map(|_| ()).map_err(Clone::clone);
+        active.payload.kabuto_camera_inspection = Some(result);
+        println!(
+            "mission_kabuto_camera_inspection ticket={} mode_request=1 unclipped=true native_startup_verified=false initializer_acknowledged=false ready=false result={status:?}",
+            active.ticket
+        );
+        status
+    }
     pub(crate) fn delphi_body(&self) -> Option<(u64, &giants_game::player_body::Prepared)> {
         let active = self.active.as_ref()?;
         let body = active.payload.delphi_body.as_deref()?;
@@ -1032,6 +1068,31 @@ impl Runtime {
             return Ok(None);
         };
         let asset = Arc::clone(active.payload.world.as_ref().map_err(Clone::clone)?);
+        if let Some(result) = &active.payload.kabuto_camera_inspection {
+            let camera = result.as_ref().map_err(Clone::clone)?;
+            if active.player_owner()? != camera.owner || !camera.current(&active.resident_states) {
+                return Err("Kabuto inspection camera owner or header changed".into());
+            }
+            let pose = camera.pose;
+            return Ok(Some(EnvironmentCandidate {
+                ticket: active.ticket,
+                asset,
+                camera: crate::validation_camera::ValidationCamera {
+                    view: crate::mecc_dev_scene::camera_view(
+                        Vec3::from(pose.eye),
+                        Vec3::from(pose.forward),
+                        Vec3::from(pose.up),
+                    )
+                    .to_cols_array(),
+                    projection: camera.projection.matrix,
+                    viewport: UVec4::new(0, 0, 1920, 1080),
+                },
+                models: Arc::clone(&active.payload.models),
+                eye: pose.eye,
+                lod_scale: 1.,
+                camera_source: "kabuto_profile_inspection",
+            }));
+        }
         // Gameplay-world inspection must not require a supported opening Flick.
         // This is only a declared-start inspection camera, not a playback bind.
         if let Ok(player) = &active.payload.player {
@@ -1261,6 +1322,7 @@ fn spawn(
     giants_game::resident_states::Session,
     ActorBindings,
 ) {
+    payload.kabuto_camera_inspection = None;
     let root = commands
         .spawn((
             MissionOwned(ticket),
@@ -2130,6 +2192,7 @@ fn drive(
                     player,
                     kabuto,
                     kabuto_body: None,
+                    kabuto_camera_inspection: None,
                     delphi_body: None,
 
                     delphi,
@@ -2529,6 +2592,7 @@ mod tests {
             player: Err("synthetic fixture has no player resources".into()),
             kabuto: Ok(None),
             kabuto_body: None,
+            kabuto_camera_inspection: None,
             delphi_body: None,
 
             delphi: Ok(None),
@@ -2788,6 +2852,14 @@ mod tests {
     #[test]
     #[ignore = "Requires GIANTS_KABUTO_ROOT; actual menu request, common spawn, cold ownership and second entry; no window or sound"]
     fn source_kabuto_menu_entry_constructs_owned_group_and_reenters() {
+        check_source_kabuto_menu_entry(false);
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_KABUTO_ROOT and GIANTS_KABUTO_EXECUTABLE; common menu/spawn and explicit mode-1 unclipped camera, stale-owner/return/re-entry, no GPU or gameplay claim"]
+    fn source_kabuto_inspection_camera_uses_owned_mode_profile_and_reenters() {
+        check_source_kabuto_menu_entry(true);
+    }
+    fn check_source_kabuto_menu_entry(camera: bool) {
         let root = std::path::PathBuf::from(std::env::var("GIANTS_KABUTO_ROOT").unwrap());
         let source = giants_game::world_source::resolve(&root, "Kstory1").unwrap();
         let menu = giants_game::mission_selection::MissionMenu::parse(
@@ -2804,6 +2876,9 @@ mod tests {
         let prepared = prepare_kabuto(&root, &plan, &packet).unwrap().unwrap();
         let start = prepared.declared_start().clone();
         let mut payload = payload();
+        if camera {
+            payload.world = Ok(Arc::new(giants_game::load_world(&root, "Kstory1").unwrap()));
+        }
         payload.packet = packet;
         payload.plan = plan;
         payload.kabuto = Ok(Some(prepared));
@@ -2811,7 +2886,7 @@ mod tests {
         let baseline = world.query::<Entity>().iter(&world).count();
         for ticket in [996, 997] {
             let mut queue = CommandQueue::default();
-            let (scene_root, _, blocked, mut residents, bindings) =
+            let (scene_root, actors, blocked, mut residents, bindings) =
                 spawn(&mut Commands::new(&mut queue, &world), ticket, &mut payload);
             queue.apply(&mut world);
             let owner = bindings
@@ -2827,7 +2902,8 @@ mod tests {
             let body = payload
                 .kabuto_body
                 .as_ref()
-                .unwrap_or_else(|| panic!("Kabuto body preparation refused: {blocked:?}"));
+                .unwrap_or_else(|| panic!("Kabuto body preparation refused: {blocked:?}"))
+                .clone();
             assert_eq!(body.owner, owner);
             assert!(body.current(&residents));
             assert!(!body.positions.is_empty());
@@ -2855,6 +2931,67 @@ mod tests {
                     .any(|s| s.starts_with("initial player construction:"))
             );
             assert_eq!(owner.ticket(), ticket);
+            if camera {
+                let mut runtime = Runtime {
+                    active: Some(Active {
+                        ticket,
+                        root: scene_root,
+                        actors,
+                        resident_states: residents,
+                        blocked,
+                        payload: std::mem::replace(&mut payload, self::payload()),
+                        start: StartState {
+                            intent: LaunchIntent::SavedMission,
+                            progress: Progress::load(None, None).unwrap(),
+                        },
+                        reported: false,
+                        pickup: None,
+                        variant_random: giants_game::audio_parameters::Random(1),
+                        audio_registry: None,
+                        bindings,
+                        controlled_mecc_owner: None,
+                        owned_mecc: None,
+                        landing: None,
+                    }),
+                    ..Default::default()
+                };
+                let executable =
+                    std::path::PathBuf::from(std::env::var_os("GIANTS_KABUTO_EXECUTABLE").unwrap());
+                runtime
+                    .prepare_kabuto_camera_inspection(&executable)
+                    .unwrap();
+                let candidate = runtime.environment_candidate().unwrap().unwrap();
+                assert_eq!(candidate.ticket, ticket);
+                assert_eq!(candidate.camera_source, "kabuto_profile_inspection");
+                assert!(candidate.eye.into_iter().all(f32::is_finite));
+                assert!(candidate.camera.projection.into_iter().all(f32::is_finite));
+                assert!(runtime.startup().is_err());
+                runtime
+                    .prepare_kabuto_camera_inspection(&executable)
+                    .unwrap();
+                let active = runtime.active.as_mut().unwrap();
+                assert!(body.current(&active.resident_states));
+                assert!(active.resident_states.camera_look_angle(owner).unwrap() < 0.);
+                assert_eq!(
+                    active
+                        .resident_states
+                        .kabuto_group(owner)
+                        .unwrap()
+                        .pending
+                        .len(),
+                    4
+                );
+                active.resident_states.clear();
+                assert!(runtime.environment_candidate().is_err());
+                assert!(
+                    runtime
+                        .prepare_kabuto_camera_inspection(&executable)
+                        .is_err()
+                );
+                let active = runtime.active.take().unwrap();
+                payload = active.payload;
+                residents = active.resident_states;
+            }
             residents.clear();
             assert!(!body.current(&residents));
             assert!(residents.get(owner).is_none());

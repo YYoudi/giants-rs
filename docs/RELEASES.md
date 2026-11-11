@@ -375,6 +375,33 @@ to Bevy, acquire startup words or acknowledge the mission's pending reset.
 Actual input/device, first animation/render and physical/controller wiring remain
 open. See [OWNED_CAMERA.md](OWNED_CAMERA.md).
 
+## Kabuto profile-camera GPU inspection - source only
+
+Kabuto is still unavailable through ordinary controls. A later source diagnostic
+connects the real cold owner, an explicitly supplied mode-1 command, external
+camera coefficients, separate look angle and size gain to the shared renderer.
+The reviewed capture shows the head/horns in frame; lower-body placement and
+scene discrepancies remain unverified. This is an unclipped static inspection:
+floor/chase/walls, native startup/warm ordering, live animation/input and all four
+initializer acknowledgements remain pending. See [BUILD.md](BUILD.md) for the
+local diagnostic. It is not included in Windows previews .9 or .10.
+
+Source `1799a51` (executable SHA256
+`c813602ea8e24b9c34259b01740bab7bf11cc3a0d85fe094eb140f8e0089a054`) passes the
+silent Kabuto GPU inspection and three 128-frame Mecc GPU ownership/draw/release
+cycles with supplied commands. The image and checks retain this exact build
+scope; no normal gameplay or full camera/fidelity claim follows. The earlier Mecc
+observer timeout is retained privately as failed coverage, not relabeled a pass.
+
+Combined source `5eb6752`, preserving the landing, NPC and timed-effect changes
+through main `6352afb`, passes 953 synthetic Rust tests (152 ignored), eight
+installed CPU controls spanning Kabuto camera/cold/App lifetimes, Delphi
+construction/profile reset, ordinary Mecc body/jet and NPC menu re-entry. Rustfmt,
+strict workspace Clippy, 44 Python checks and site/JavaScript checks pass. The
+merged landing driver remains absent in the Kabuto fixture; its ordinary Mecc
+behavior and the exact earlier GPU build scopes are preserved. These source
+checks do not reassign the `1799a51` image to this later combined revision.
+
 ## Kabuto owned camera header and cold context - source dependency
 
 Kabuto still has no ordinary playable entry or new download. The Session now
