@@ -43,6 +43,7 @@ pub use parent_binding::AttachmentWords;
 #[cfg(test)]
 mod delphi_target_tests;
 mod kabuto;
+mod mecc_collection;
 mod mecc_impact;
 mod mecc_smoke;
 pub use mecc_impact::Voice as MeccImpactVoice;

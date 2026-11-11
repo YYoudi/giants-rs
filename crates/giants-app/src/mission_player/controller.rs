@@ -57,6 +57,10 @@ pub(crate) struct Controller {
     subjective_draw_visible: Option<bool>,
 }
 impl Controller {
+    fn meat_probe() -> bool {
+        crate::frontend_scene::vimp_interaction_probe()
+            && std::env::var("GIANTS_MISSION_MEAT_PROBE").as_deref() == Ok("1")
+    }
     fn vimp_contact_probe() -> bool {
         crate::frontend_scene::vimp_interaction_probe()
             && std::env::var("GIANTS_MISSION_VIMP_CONTACT_PROBE").as_deref() == Ok("1")
@@ -685,7 +689,11 @@ pub(super) fn update(
                 axes = Vec2::ZERO;
                 thrust = false;
                 boost = false;
-                if let Some(target) = runtime.npc_target(controller.ticket) {
+                let meat_target = Controller::meat_probe()
+                    .then(|| runtime.meat_target(controller.ticket))
+                    .flatten();
+                if let Some(target) = meat_target.or_else(|| runtime.npc_target(controller.ticket))
+                {
                     let position = controller.state.mission_snapshot().0;
                     let dx = target[0] - position[0];
                     let dy = target[1] - position[1];
@@ -706,7 +714,9 @@ pub(super) fn update(
                         false,
                     );
                     if distance
-                        > if Controller::vimp_contact_probe() {
+                        > if meat_target.is_some() {
+                            2.
+                        } else if Controller::vimp_contact_probe() {
                             0.
                         } else {
                             60.
@@ -715,7 +725,8 @@ pub(super) fn update(
                         axes = Vec2::Y;
                         thrust = position[2] < target[2] + 80.
                             && controller.state.mission_snapshot().1 > 0.3
-                            && (!Controller::vimp_contact_probe() || distance > 120.);
+                            && (!Controller::vimp_contact_probe() || distance > 120.)
+                            && meat_target.is_none();
                         boost = distance > 300. && tick % 360 == 0;
                     }
                 }
@@ -871,6 +882,29 @@ pub(super) fn update(
                 );
             }
             controller.update_normal_jet(&mut runtime);
+            if !controller.owned_motion_failed && !controller.npc_failed {
+                match runtime.collect_normal_meat(
+                    controller.ticket,
+                    u64::from(controller.steps) + 1,
+                    1. / 120.,
+                ) {
+                    Ok(events) => {
+                        for event in events {
+                            audio.local.write(crate::mission_audio::Request {
+                                ticket: controller.ticket,
+                                event,
+                            });
+                        }
+                    }
+                    Err(error) => {
+                        controller.npc_failed = true;
+                        error!(
+                            "mission_meat_collection_refused ticket={} error={error}",
+                            controller.ticket
+                        );
+                    }
+                }
+            }
             let landing = controller.state.take_landing_impact();
             if !controller.landing_failed
                 && (landing.is_some() || runtime.normal_landing_has_work(controller.ticket))
@@ -909,6 +943,8 @@ pub(super) fn update(
             }
             let fire = if replay_running && crate::frontend_scene::vimp_interaction_probe() {
                 !Controller::vimp_contact_probe()
+                    && !(Controller::meat_probe()
+                        && runtime.meat_target(controller.ticket).is_some())
             } else if controller.fire_replay {
                 (60..300).contains(&tick)
             } else {
@@ -1141,6 +1177,19 @@ pub(super) fn update(
                             controller.ticket
                         );
                     } else if crate::frontend_scene::vimp_interaction_probe() {
+                        if Controller::meat_probe() {
+                            let (meat, chunks) = runtime
+                                .meat_status(controller.ticket)
+                                .expect("meat source state absent");
+                            assert!(
+                                chunks > 0 && meat > 0.,
+                                "ordinary navigation did not collect source meat"
+                            );
+                            println!(
+                                "mission_meat_input_probe_finished ticket={} carried={meat} chunks={chunks} supplied_controller=true forced_actor_pose=false os_input=false",
+                                controller.ticket
+                            );
+                        }
                         assert!(
                             pistol.fired >= 5,
                             "Vimp input probe produced too few actual pistol shots"

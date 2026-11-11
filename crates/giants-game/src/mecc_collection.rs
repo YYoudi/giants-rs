@@ -1,5 +1,8 @@
 //! Offline unparented Mecc collection services. Mission gates/context and audio
 //! are authoritative inputs; network ownership and chunk updates stay separate.
+//! Prototype PS2 search key: `mecc_collect_food`. The related PC callback is
+//! acquired independently; its PC/prototype attribution is probable.
+//! See docs/SYMBOL_NAVIGATION.md. No PS2 signature or layout is imported.
 use crate::{audio_parameters::Random, audio_sequence::Route, mission_notice, resident_states::Id};
 use giants_formats::gtext::Catalog;
 

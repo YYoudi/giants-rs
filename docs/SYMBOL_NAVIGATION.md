@@ -39,6 +39,16 @@ Older Rust names and private PC address aliases remain valid search routes.
 Finding a symbol here changes neither gameplay availability nor fidelity status.
 The runtime's detailed prerequisites remain in [BACKLOG.md](../BACKLOG.md).
 
+## Meat collection routes
+
+| Literal prototype PS2 symbol | Related Rust location | Attribution |
+| --- | --- | --- |
+| `mecc_collect_food` | [`Session::collect_vimp_chunk`](../crates/giants-game/src/resident_states.rs), [`mecc_collection`](../crates/giants-game/src/mecc_collection.rs) | **Probable** PC routine identity; offline unparented subset implemented. |
+| `mecc_check_food_chunk_collect` | [`mecc_periodic_scan::plan`](../crates/giants-game/src/mecc_periodic_scan.rs), [`Session::collect_nearby_vimp_chunks`](../crates/giants-game/src/resident_states/mecc_collection.rs) | **Probable** correspondence to an acquired PC primary block, not a separate established function. |
+
+See [MEAT_COLLECTION.md](MEAT_COLLECTION.md) for independent evidence, version
+differences, normal integration and the explicit disabled-objective boundary.
+
 ## Publication boundary
 
 This index publishes only selected names, reviewed navigation relationships and

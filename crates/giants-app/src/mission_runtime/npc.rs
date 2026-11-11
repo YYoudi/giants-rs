@@ -11,6 +11,7 @@ use std::collections::BTreeMap;
 use std::sync::Arc;
 mod auxiliary_draw;
 mod blood;
+pub(super) mod collection;
 pub(super) mod live;
 mod sounds;
 use live::Driver;
@@ -21,6 +22,8 @@ pub(super) struct State {
     fx: giants_game::vimp_death_fx::Runtime,
     proxy: giants_game::vimp_death_proxy::Factory,
     chunk_cursor: i32,
+    collection: Option<collection::Collection>,
+    collection_catalog: giants_formats::gtext::Catalog,
     factory: Factory,
     globals: giants_formats::global_data::GlobalData,
     expected: Vec<(Key, i32)>,
@@ -101,6 +104,11 @@ impl State {
             fx: giants_game::vimp_death_fx::Runtime::new(root, 0, plan.resources())?,
             proxy: giants_game::vimp_death_proxy::Factory::load(plan.resources())?,
             chunk_cursor: 1117,
+            collection: None,
+            collection_catalog: giants_formats::gtext::Catalog::parse(
+                &std::fs::read(root.join("Bin/GTextEnglish.bin")).map_err(|e| e.to_string())?,
+            )
+            .map_err(|e| e.to_string())?,
             factory,
             globals,
             expected,

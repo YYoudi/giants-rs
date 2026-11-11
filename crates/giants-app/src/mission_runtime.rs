@@ -1191,6 +1191,72 @@ impl Runtime {
         let a = self.active.as_ref().filter(|a| a.ticket == ticket)?;
         Some(a.payload.npcs.as_ref().ok()?.as_ref()?.reactions())
     }
+    pub(crate) fn meat_status(&self, ticket: u64) -> Option<(f32, u64)> {
+        let a = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket && a.owned_mecc.is_none())?;
+        Some((
+            a.resident_states.mecc_meat(a.player_owner().ok()?).ok()?,
+            a.payload.npcs.as_ref().ok()?.as_ref()?.collected_chunks(),
+        ))
+    }
+    pub(crate) fn collect_normal_meat(
+        &mut self,
+        ticket: u64,
+        step: u64,
+        seconds: f32,
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
+        let a = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("collection ticket absent")?;
+        let owner = a.player_owner()?;
+        if a.owned_mecc.is_some() || a.controlled_mecc_owner != Some(owner) {
+            return Err("collection requires ordinary controlled Mecc".into());
+        }
+        let Some(npc) = a.payload.npcs.as_mut().map_err(|e| e.clone())? else {
+            return Ok(vec![]);
+        };
+        let (_, clock) = a
+            .payload
+            .signals
+            .current()
+            .ok_or("collection clock absent")?;
+        let mut sounds = vec![];
+        npc.collect(
+            &mut a.resident_states,
+            npc::collection::Tick {
+                controlled: owner,
+                ticket,
+                step,
+                seconds,
+                now: clock.elapsed_seconds,
+            },
+            &mut a.variant_random,
+            &mut sounds,
+        )?;
+        Ok(sounds)
+    }
+    pub(crate) fn meat_target(&self, ticket: u64) -> Option<[f32; 3]> {
+        let a = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket && a.owned_mecc.is_none())?;
+        let p = a
+            .resident_states
+            .get(a.player_owner().ok()?)?
+            .construction_fields
+            .as_ref()?
+            .position;
+        a.payload
+            .npcs
+            .as_ref()
+            .ok()?
+            .as_ref()?
+            .meat_target(&a.resident_states, p)
+    }
     pub(crate) fn npc_hint(&self, ticket: u64) -> Option<String> {
         let a = self
             .active
@@ -1212,7 +1278,13 @@ impl Runtime {
             .get(a.player_owner().ok()?)?
             .construction_fields
             .as_ref()?;
-        npc.live_hint(&a.resident_states, player.position, player.angles[0])
+        let meat = a.resident_states.mecc_meat(a.player_owner().ok()?).ok()?;
+        let hint = npc
+            .live_hint(&a.resident_states, player.position, player.angles[0])
+            .unwrap_or_default();
+        Some(format!(
+            "Meat: {meat:.0} / 20 | Walk over settled meat to collect.\n{hint}"
+        ))
     }
     /// Copied canonical particles; this read neither advances clocks nor RNG.
     pub(crate) fn npc_blood_quads(&self, ticket: u64) -> Vec<giants_game::blood_particles::Quad> {
