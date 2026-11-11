@@ -26,6 +26,9 @@ pub struct Chunk {
     pub fade: f32,
     pub(crate) number: u64,
     pub(crate) failed: bool,
+    /// Host ownership witness set only by the acquired collection callback.
+    /// This is not a native field and never changes the dissolution value.
+    pub(crate) collected: bool,
 }
 pub struct Birth {
     pub position: [f32; 3],
@@ -175,6 +178,7 @@ impl<'a> Factory<'a> {
             fade: 0.,
             number: 0,
             failed: false,
+            collected: false,
         };
         let id = session.construct_vimp_chunk(
             Construction {
@@ -209,6 +213,9 @@ pub struct Environment<'a> {
     pub offline: bool,
 }
 impl Chunk {
+    pub fn collected(&self) -> bool {
+        self.collected
+    }
     pub fn number(&self) -> u64 {
         self.number
     }

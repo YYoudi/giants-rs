@@ -14,6 +14,12 @@ selects the source pickup cue and refreshes the carried-meat display. Collected
 pieces leave drawing immediately and retire through the existing owned-remains
 cleanup. Full inventory leaves pieces in the world to expire normally.
 
+Collected retirement has its own callback witness. Expiry still requires the
+actual completed fade; collection never sets that fade to simulate expiry.
+Both paths require the real external-owner release and recheck references before
+unlinking. The initial graphical candidate exposed the missing collected path;
+its refused cleanup is retained privately and is not publication acceptance.
+
 The source actor payload is the authority for carried meat. The hint text does
 not maintain another inventory. A new mission entry constructs a fresh player
 and collection scope; returning to the menu retires their existing owners.
@@ -40,6 +46,10 @@ and multiplayer variants remain unverified. PC and PS2 structure and call
 boundaries differ. Previous PC aliases remain in private identity-bound evidence.
 The public source search routes are in [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
 A name or attribution does not establish runtime fidelity.
+
+`vimpchunk_destroy__FP6OBJECT` is another verified literal ELF search key for the
+retirement investigation. Its exact relationship to the generic PC retirement
+service remains **unknown**; it does not authorize a guessed state destructor.
 
 ## Preview boundary
 

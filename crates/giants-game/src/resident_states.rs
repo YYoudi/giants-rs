@@ -4376,6 +4376,13 @@ impl Session {
                 .unwrap()
                 .object_flags |= 0x8000;
             self.residents
+                .get_mut(&item.serial)
+                .unwrap()
+                .vimp_chunk
+                .as_mut()
+                .unwrap()
+                .collected = true;
+            self.residents
                 .get_mut(&collector.serial)
                 .unwrap()
                 .seed

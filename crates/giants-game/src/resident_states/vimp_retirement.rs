@@ -11,6 +11,24 @@ impl Session {
         id: Id,
         services: &mut impl crate::actor_retirement::Services,
     ) -> Result<Counts, String> {
+        self.cleanup_retired_vimp_chunk(id, false, services)
+    }
+    /// Actual collection is a separate terminal reason. It must not simulate
+    /// expiry by changing fade/timer or skip real external-owner release.
+    /// Prototype PS2 search key: `vimpchunk_destroy`; exact attribution unknown.
+    pub fn cleanup_collected_vimp_chunk(
+        &mut self,
+        id: Id,
+        services: &mut impl crate::actor_retirement::Services,
+    ) -> Result<Counts, String> {
+        self.cleanup_retired_vimp_chunk(id, true, services)
+    }
+    fn cleanup_retired_vimp_chunk(
+        &mut self,
+        id: Id,
+        collected: bool,
+        services: &mut impl crate::actor_retirement::Services,
+    ) -> Result<Counts, String> {
         let preflight = |s: &Self, started: bool| -> Result<Counts, String> {
             let actor = s.get(id).ok_or("meat retirement actor absent or foreign")?;
             let chunk = actor
@@ -25,7 +43,8 @@ impl Session {
                 || actor.seed.storage.data().is_some()
                 || !actor.acquired_construction
                 || chunk.failed != started
-                || chunk.fade != 1.
+                || chunk.collected != collected
+                || (!collected && chunk.fade != 1.)
                 || fields.object_flags & 0x8000 == 0
                 || fields.control_flags & 2 != 0
                 || actor.attachment.is_some()
@@ -36,7 +55,7 @@ impl Session {
                 || s.links.memberships(id.serial)[0].1 != 0
             {
                 return Err(
-                    "meat retirement requires an expired unreferenced loose source chunk".into(),
+                    "meat retirement requires its witnessed terminal reason and unreferenced loose source ownership".into(),
                 );
             }
             Ok(Counts {

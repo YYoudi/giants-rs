@@ -156,13 +156,19 @@ impl State {
                     & 0x8000
                     != 0
                 {
-                    session.cleanup_expired_vimp_chunk(
-                        id,
-                        &mut Release {
-                            wounds: &mut self.blood.wounds,
-                            device,
-                        },
-                    )?;
+                    let mut release = Release {
+                        wounds: &mut self.blood.wounds,
+                        device,
+                    };
+                    if chunk.collected() {
+                        session.cleanup_collected_vimp_chunk(id, &mut release)?;
+                        println!(
+                            "mission_meat_retired ticket={} owner={id:?} reason=collected actual_external_release=true",
+                            frame.ticket
+                        );
+                    } else {
+                        session.cleanup_expired_vimp_chunk(id, &mut release)?;
+                    }
                 }
             } else if let Some(proxy) = session.vimp_death_proxy(id) {
                 session.advance_vimp_death_proxy_without_mana(
