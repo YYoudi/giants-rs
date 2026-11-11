@@ -123,6 +123,17 @@ proof of continuous Mecc OS-held flight; the next player delivery is unchanged.
 
 ## Flick timed queue ownership - intermediate dependency
 
+On the private local release of source `e579332` (executable SHA256
+`079988473143a53441b9359639964f271df0cec79bea7dd37ff47109069646d5`),
+actual menu clicks and OS Escape input exercise the first Story1 opening,
+early skip into Mecc control, menu return and second entry. The second entry
+reaches the natural terminal of all 14 directors with drained voices, then
+Mecc control and menu return. F10 closes the owned process/window. Both tickets
+release their tracked mission, film and text resources. The test is muted and
+does not certify audio mix, full timing/visual fidelity, later source changes
+or a new timed-effect backend. No replay environment or injected acknowledgements
+were used. This local interaction is not relabeled as a downloaded-preview check.
+
 No new normal controls, runtime capability or downloadable preview is claimed.
 The next common campaign FX dependency is the source-marked timed-shot queue,
 its virtual support and retirement child in the canonical mission Session.
@@ -155,6 +166,19 @@ mission: application reseeds and earlier draws still need their actual producers
 The retained preview's per-director random state is not a native fidelity proof.
 Both prototype PS2 resources were searched with pinned binary identities before
 this work; attribution stays unknown. Detailed records remain private.
+
+A follow-up separates the second discovered direct seed setter from normal
+mission loading. Native diagnostics identify demo playback, and ten bounded
+controls exercise its actual two-header branch and TLS setter: six preserve the
+first header's seed, including full-width values, and four short/version-invalid
+inputs stop before seeding. File I/O, world restoration and complete demo
+playback remain supplied or unexercised. Static entry/caller analysis also places
+the time-sampled setter in the application startup chain before the message
+loop, without a direct return edge from that loop to the seed call. This does
+not prove all indirect writers, actual thread scheduling or actor/effect draw
+interleaving. It changes no runtime code, downloadable preview or scene count;
+the next requirement remains the real shared RNG producer and its consumers.
+Prototype PS2 attribution remains unknown, separately from these PC observations.
 
 The combined source `b751ced` preserves main's concurrent NPC/camera work. Its
 GNU Windows executable SHA256 is
