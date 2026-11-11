@@ -16,6 +16,7 @@ use giants_game::{
 pub(crate) use replay::{
     capture_allowed as mission_capture_allowed, initial_body_inspection_present,
     initial_body_inspection_replay, install as install_mission_replay, owned_inspection_replay,
+    vimp_interaction_probe,
 };
 impl Scene {
     pub(crate) fn browse_preview_missions(&mut self) -> Result<(), String> {

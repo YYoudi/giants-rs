@@ -1333,3 +1333,16 @@ audio without a device or OS input. Neither certifies native complete-world
 admission or GPU fidelity. The optional private native selector comparison also
 requires `GIANTS_NPC_NOISE_ANIMATION_CONTROL` pointing to a reviewed private
 hex-case file; raw controls and original data stay outside Git.
+
+### Guarded first-living graphical diagnostic
+
+For a supplied-command GPU/audio check of the connected Story2 component, set
+`GIANTS_MISSION_REPLAY=showcase-mecc`, `GIANTS_SHOWCASE_WORLD=Story2` and
+`GIANTS_MISSION_VIMP_PROBE=1`. Run with `--offscreen --silent-capture
+--muted-transport` and a fresh user-data directory. This guard requires muted
+transport. The probe navigates toward the actual nearest Vimp using ordinary
+Mecc look/movement/jet/nitro/fire commands; it does not overwrite actor positions,
+poses or readiness. Capture waits for actual startle entry and return counters.
+This is supplied-command graphical evidence, not OS-held input or native
+complete-world scheduling equivalence. Normal Story2 controls enable the same
+partial living component without these diagnostic environment variables.

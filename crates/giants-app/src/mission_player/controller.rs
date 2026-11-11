@@ -303,7 +303,9 @@ impl Controller {
             landing_failed: false,
             landing_capture: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
                 == Ok("campaign-landing-pose"),
-            finish_step: if matches!(
+            finish_step: if crate::frontend_scene::vimp_interaction_probe() {
+                6000
+            } else if matches!(
                 std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
                 Ok("campaign-descent-pose" | "campaign-landing-pose")
             ) {
@@ -644,6 +646,36 @@ pub(super) fn update(
                     boost = tick == 32;
                 }
             }
+            if replay_running && crate::frontend_scene::vimp_interaction_probe() {
+                axes = Vec2::ZERO;
+                thrust = false;
+                boost = false;
+                if let Some(target) = runtime.npc_target(controller.ticket) {
+                    let position = controller.state.mission_snapshot().0;
+                    let dx = target[0] - position[0];
+                    let dy = target[1] - position[1];
+                    let distance = dx.hypot(dy);
+                    let camera = controller.state.subjective_inputs().0;
+                    let yaw = camera.angles[0].to_radians();
+                    let desired = dx.atan2(-dy);
+                    let pitch = (position[2] + 6. - target[2] - 4.).atan2(distance.max(1.));
+                    controller.state.mission_look(
+                        Vec2::new(
+                            (yaw - desired + std::f32::consts::PI)
+                                .rem_euclid(std::f32::consts::TAU)
+                                - std::f32::consts::PI,
+                            pitch + camera.angles[1].to_radians(),
+                        ),
+                        false,
+                    );
+                    if distance > 60. {
+                        axes = Vec2::Y;
+                        thrust = position[2] < target[2] + 80.
+                            && controller.state.mission_snapshot().1 > 0.3;
+                        boost = distance > 300. && tick % 360 == 0;
+                    }
+                }
+            }
             if controller.owned_backend {
                 let seconds = controller.remainder.min(0.1) as f32;
                 let delta = if controller.owned_replay && controller.owned_jet_probe {
@@ -831,7 +863,9 @@ pub(super) fn update(
                     );
                 }
             }
-            let fire = if controller.fire_replay {
+            let fire = if replay_running && crate::frontend_scene::vimp_interaction_probe() {
+                true
+            } else if controller.fire_replay {
                 (60..300).contains(&tick)
             } else {
                 !replay_running && controller.fire_press.take(held(Action::Fire))
@@ -984,7 +1018,19 @@ pub(super) fn update(
                 if controller.fire_replay {
                     let pistol = controller.pistol().unwrap();
                     let expected = if controller.finish_step == 64 { 1 } else { 4 };
-                    assert_eq!(pistol.fired, expected, "held pistol cadence failed");
+                    if crate::frontend_scene::vimp_interaction_probe() {
+                        assert!(
+                            pistol.fired >= 5,
+                            "Vimp input probe produced too few actual pistol shots"
+                        );
+                        println!(
+                            "mission_vimp_input_probe_finished ticket={} supplied_controller=true forced_actor_pose=false os_input=false reactions={:?}",
+                            controller.ticket,
+                            runtime.npc_reactions(controller.ticket)
+                        );
+                    } else {
+                        assert_eq!(pistol.fired, expected, "held pistol cadence failed");
+                    }
                     assert_eq!(pistol.fired, pistol.retired + pistol.shots.len() as u32);
                     println!(
                         "mission_player_fire_finished ticket={} shots={} retired={} active={} world_hits={} ground_hits={} initial_ammo_unchanged=true human_validation=false",

@@ -76,6 +76,27 @@ impl giants_game::positional_effect_audio::Service for Sounds {
     }
 }
 impl State {
+    pub(in crate::mission_runtime) fn live_target(
+        &self,
+        session: &Session,
+        position: [f32; 3],
+    ) -> Option<[f32; 3]> {
+        if self.driver.failure.is_some() {
+            return None;
+        }
+        self.driver
+            .children
+            .iter()
+            .filter_map(|&id| session.get(id)?.construction_fields.as_ref())
+            .min_by(|a, b| {
+                let distance = |p: [f32; 3]| (p[0] - position[0]).hypot(p[1] - position[1]);
+                distance(a.position).total_cmp(&distance(b.position))
+            })
+            .map(|f| f.position)
+    }
+    pub(in crate::mission_runtime) fn reactions(&self) -> (u64, u64) {
+        (self.driver.entered, self.driver.returned)
+    }
     pub(in crate::mission_runtime) fn live_hint(
         &self,
         session: &Session,

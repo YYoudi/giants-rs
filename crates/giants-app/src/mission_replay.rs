@@ -2,6 +2,9 @@
 //! Uses the real request and cancellation paths. Never sends readiness events,
 //! injects operating-system input or claims normal-game interaction fidelity.
 use super::*;
+pub(crate) fn vimp_interaction_probe() -> bool {
+    std::env::var("GIANTS_MISSION_VIMP_PROBE").as_deref() == Ok("1")
+}
 pub(crate) fn kabuto_body_inspection_replay() -> bool {
     matches!(
         std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
@@ -45,6 +48,17 @@ pub(crate) struct Replay {
     film_finished: bool,
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    if vimp_interaction_probe()
+        && (std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-mecc")
+            || std::env::var("GIANTS_SHOWCASE_WORLD").as_deref() != Ok("Story2")
+            || !app
+                .world()
+                .contains_resource::<crate::cinematic_audio::MutedTransport>())
+    {
+        return Err(
+            "Vimp input probe requires offscreen silent muted showcase-mecc on Story2".into(),
+        );
+    }
     if let Ok(tick) = std::env::var("GIANTS_PERSISTENT_SAMPLE_MIN_TICK")
         && (std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-persistent")
             || std::env::var_os("GIANTS_PERSISTENT_SAMPLE_SEQUENCE").is_none()
@@ -497,7 +511,12 @@ fn drive(
             let ready = if mode == "showcase-audio-cancel" {
                 false
             } else if mode == "showcase-mecc" {
-                playing && controllers.iter().any(|c| c.replay_done)
+                playing
+                    && controllers.iter().any(|c| c.replay_done)
+                    && (!vimp_interaction_probe()
+                        || runtime
+                            .npc_reactions(frontend.flow.ticket)
+                            .is_some_and(|(entered, returned)| entered > 0 && returned > 0))
             } else if mode == "showcase-persistent" {
                 opened
                     && std::env::var("GIANTS_PERSISTENT_SAMPLE_SEQUENCE").map_or(true, |wanted| {

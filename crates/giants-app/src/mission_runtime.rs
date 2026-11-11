@@ -1101,6 +1101,28 @@ impl Runtime {
             &mut a.variant_random,
         )
     }
+    pub(crate) fn npc_target(&self, ticket: u64) -> Option<[f32; 3]> {
+        let a = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket && a.owned_mecc.is_none())?;
+        let position = a
+            .resident_states
+            .get(a.player_owner().ok()?)?
+            .construction_fields
+            .as_ref()?
+            .position;
+        a.payload
+            .npcs
+            .as_ref()
+            .ok()?
+            .as_ref()?
+            .live_target(&a.resident_states, position)
+    }
+    pub(crate) fn npc_reactions(&self, ticket: u64) -> Option<(u64, u64)> {
+        let a = self.active.as_ref().filter(|a| a.ticket == ticket)?;
+        Some(a.payload.npcs.as_ref().ok()?.as_ref()?.reactions())
+    }
     pub(crate) fn npc_hint(&self, ticket: u64) -> Option<String> {
         let a = self
             .active
