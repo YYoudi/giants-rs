@@ -101,3 +101,43 @@ pub fn matrix(position: [f32; 3], angles: [f32; 3], scale: f32) -> Result<Matrix
     }
     Ok(Matrix { flags: 19, values })
 }
+/// Positional-wrapper angle inheritance. This is a direction basis retained
+/// by the context, distinct from the spawned object's translated affine.
+pub fn inherited_matrix(angles: [f32; 3]) -> Result<Matrix, &'static str> {
+    if angles
+        .into_iter()
+        .any(|v| !v.is_finite() || v.abs() > 1_000_000.)
+    {
+        return Err("effect inherited angles outside finite profile");
+    }
+    // The positional wrapper calls the scalar FSIN/FCOS producer, distinct
+    // from state78's SIMD update. Its final cosine remains wide until stores.
+    let rad = angles.map(|a| f64::from((f64::from(a) * f64::from(0.017453292f32)) as f32));
+    let sy = f64::from(rad[0].sin() as f32);
+    let cy = rad[0].cos();
+    let sp = f64::from(rad[1].sin() as f32);
+    let cp = f64::from(rad[1].cos() as f32);
+    let sr = f64::from(rad[2].sin() as f32);
+    let cr = f64::from(rad[2].cos() as f32);
+    Ok(Matrix {
+        flags: 1,
+        values: [
+            (cr * cy) as f32,
+            (-sp * sr * cy - sy * cp) as f32,
+            (sy * sp - sr * cy * cp) as f32,
+            0.,
+            (sy * cr) as f32,
+            (cy * cp - sy * sr * sp) as f32,
+            (-sy * sr * cp - cy * sp) as f32,
+            0.,
+            sr as f32,
+            (cr * sp) as f32,
+            (cr * cp) as f32,
+            0.,
+            0.,
+            0.,
+            0.,
+            0.,
+        ],
+    })
+}

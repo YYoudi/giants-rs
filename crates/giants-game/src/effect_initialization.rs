@@ -110,6 +110,21 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
     );
     let pistol_splash = ops.as_slice() == [0x2b, 3, 6, 0x37, 5, 0x46, 7, 2];
     let ghost = ops.as_slice() == [3, 6, 8, 0x49, 0x55, 4, 7, 0x4a, 2];
+    // Null-object preparation of the complete ordinary death-effect graph.
+    // Nested objects, decals and emitters are active-pass services: admitting
+    // their preparation does not acknowledge those consumers.
+    let death = matches!(
+        ops.as_slice(),
+        [3, 6, 4, 0x21, 0x70, 0x76, 0x27, 7, 2]
+            | [3, 6, 4, 0x21, 0x76, 0x27, 7, 2]
+            | [
+                3, 6, 0x21, 4, 0x33, 0x13, 0x69, 0x67, 0x12, 0x5f, 0x5c, 0x6f, 0x19, 0x5a, 7, 2
+            ]
+            | [3, 6, 4, 0x36, 7, 2]
+            | [3, 6, 5, 9, 0x12, 0x16, 0x0e, 0x5a, 7, 2]
+            | [3, 6, 4, 0x21, 0x10, 0x78, 7, 2]
+            | [3, 6, 4, 0x17, 0x1c, 0x79, 7, 2]
+    );
     if ghost {
         crate::vimp_ghost::Recipe::project(program)?;
     }
@@ -128,6 +143,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !impact_child
         && !pistol_splash
         && !ghost
+        && !death
     {
         return Err("effect initial skip pass outside acquired complete profile".into());
     }
@@ -161,11 +177,14 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
     for record in &program.records {
         if !matches!(
             record.opcode,
-            5 | 9 | 0x12 | 0x1c | 0x28 | 0x33 | 0x5c | 0x37 | 0x0f
+            5 | 9 | 0x12 | 0x1c | 0x28 | 0x33 | 0x5c | 0x37 | 0x0f | 0x6f | 0x79
         ) {
             continue;
         }
-        let at = if matches!(record.opcode, 5 | 9 | 0x12 | 0x1c | 0x33 | 0x37 | 0x0f) {
+        let at = if matches!(
+            record.opcode,
+            5 | 9 | 0x12 | 0x1c | 0x33 | 0x37 | 0x0f | 0x6f | 0x79
+        ) {
             1
         } else {
             record.bytes[1..]
@@ -220,7 +239,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         }
         if !matches!(
             record.opcode,
-            5 | 9 | 0x12 | 0x1c | 0x28 | 0x33 | 0x5c | 0x37 | 0x0f
+            5 | 9 | 0x12 | 0x1c | 0x28 | 0x33 | 0x5c | 0x37 | 0x0f | 0x6f | 0x79
         ) {
             continue;
         }
@@ -248,6 +267,97 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn death_trail_radius_is_sampled_without_an_active_emitter_and_is_atomic() {
+        let mut bytes = vec![3];
+        bytes.extend(42u32.to_le_bytes());
+        bytes.extend([6, 0x21, 4]);
+        for value in [4f32, 0., 3.5] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.push(0x33);
+        for value in [0f32, 180., 0., 180., 0., 180.] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.push(0x13);
+        bytes.extend([0; 8]);
+        for op in [0x69, 0x67] {
+            bytes.push(op);
+            bytes.extend(1f32.to_le_bytes());
+        }
+        bytes.push(0x12);
+        for value in [30f32, 40.] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.push(0x5f);
+        bytes.extend(1f32.to_le_bytes());
+        bytes.push(0x5c);
+        bytes.extend(b"synthetic\0");
+        for value in [0.01f32, 0.02, 0., 0., 0., 0.] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.push(0x6f);
+        for value in [0.3f32, 0.6] {
+            bytes.extend(value.to_le_bytes());
+        }
+        bytes.push(0x19);
+        bytes.extend(0.6f32.to_le_bytes());
+        bytes.push(0x5a);
+        bytes.extend(b"synthetic\0");
+        bytes.extend(4u32.to_le_bytes());
+        bytes.extend([7, 2]);
+        let mut program = giants_formats::effect_program::parse(&bytes).unwrap();
+        let mut random = Random(1);
+        let samples = skip(&program, &mut random).unwrap();
+        assert_eq!(
+            samples.iter().map(|i| i.opcode).collect::<Vec<_>>(),
+            [0x33, 0x33, 0x33, 0x12, 0x5c, 0x6f]
+        );
+        let mut expected = Random(1);
+        for _ in 0..6 {
+            expected.next_15();
+        }
+        assert_eq!(random.0, expected.0);
+        program
+            .records
+            .iter_mut()
+            .find(|r| r.opcode == 0x6f)
+            .unwrap()
+            .bytes[5..9]
+            .copy_from_slice(&f32::NAN.to_le_bytes());
+        assert!(skip(&program, &mut random).is_err());
+        assert_eq!(random.0, expected.0);
+    }
+
+    #[test]
+    fn death_drop_ranges_keep_their_order_before_absent_object_gates() {
+        let mut bytes = vec![3];
+        bytes.extend(42u32.to_le_bytes());
+        bytes.extend([6, 4]);
+        bytes.extend([0; 12]);
+        bytes.push(0x17);
+        bytes.extend(0u32.to_le_bytes());
+        for op in [0x1c, 0x79] {
+            bytes.push(op);
+            bytes.extend(0f32.to_le_bytes());
+            bytes.extend(32768f32.to_le_bytes());
+        }
+        bytes.extend([7, 2]);
+        let mut program = giants_formats::effect_program::parse(&bytes).unwrap();
+        let mut random = Random(1);
+        let samples = skip(&program, &mut random).unwrap();
+        assert_eq!(
+            samples
+                .iter()
+                .map(|i| (i.opcode, i.value))
+                .collect::<Vec<_>>(),
+            [(0x1c, 41.), (0x79, 18467.)]
+        );
+        let committed = random.0;
+        program.records[5].bytes[1..5].copy_from_slice(&f32::INFINITY.to_le_bytes());
+        assert!(skip(&program, &mut random).is_err());
+        assert_eq!(random.0, committed);
+    }
     #[test]
     fn damage_smoke_skip_consumes_one_interval_without_active_side_effects() {
         let mut bytes = vec![0x24];

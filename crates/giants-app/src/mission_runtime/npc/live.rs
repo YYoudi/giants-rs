@@ -63,18 +63,6 @@ impl giants_game::herd_generator::Ground for Floor<'_> {
         Ok(self.0.sample([p[0], p[1]])?.height)
     }
 }
-struct Sounds(Vec<(u32, [f32; 3])>);
-impl giants_game::positional_effect_audio::Service for Sounds {
-    fn request(&mut self, sound: u32, position: [f32; 3], _: &mut Random) -> Result<(), String> {
-        if !position.into_iter().all(f32::is_finite) {
-            return Err("NPC positional sound is nonfinite".into());
-        }
-        // Same queued transport as ordinary player cues; the AudioSink service
-        // alone acknowledges playback. Queueing never counts as an audible voice.
-        self.0.push((sound, position));
-        Ok(())
-    }
-}
 impl State {
     pub(in crate::mission_runtime) fn contact_snapshots(
         &mut self,
@@ -184,7 +172,7 @@ impl State {
         session: &mut Session,
         frame: Frame<'_>,
         random: &mut Random,
-    ) -> Result<Vec<(u32, [f32; 3])>, String> {
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
         self.view(session, frame.ticket)?;
         if !frame.world.name.eq_ignore_ascii_case("story2") {
             return Ok(vec![]);
@@ -206,7 +194,7 @@ impl State {
         session: &mut Session,
         frame: Frame<'_>,
         random: &mut Random,
-    ) -> Result<Vec<(u32, [f32; 3])>, String> {
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
         let bound = self.bound.as_mut().unwrap();
         if frame.controlled.ticket() != frame.ticket || session.get(frame.controlled).is_none() {
             return Err("NPC controlled owner absent or foreign".into());
@@ -230,6 +218,7 @@ impl State {
             giants_game::arithmetic::Precision::Double53,
         )?);
         let mut visited = BTreeSet::new();
+        let mut sounds = super::sounds::Sounds::default();
         loop {
             let next = session.list(0).into_iter().find(|id| {
                 !visited.contains(id) && (owned.contains(id) || self.driver.children.contains(id))
@@ -357,7 +346,7 @@ impl State {
                         stamp: &mut self.driver.stamp,
                     },
                     ground: &mut ground,
-                    recovery_sounds: None,
+                    recovery_sounds: Some(&mut sounds),
                 };
                 let actor_frame = giants_game::vimp_frame::Frame {
                     number,
@@ -394,10 +383,11 @@ impl State {
                 }
             }
         }
-        let mut sounds = Sounds(vec![]);
         let retired = bound
             .contexts
             .advance_positional_sounds(random, &mut sounds)?;
+        self.blood
+            .advance(session, frame.tick, frame.world, random)?;
         self.driver.sample = frame.sample;
         self.driver.number += 1;
         if self.driver.number == 1 || self.driver.number.is_multiple_of(600) {

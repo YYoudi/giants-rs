@@ -4896,7 +4896,7 @@ impl Session {
             };
             services
                 .effects
-                .death(DeathEffect { position, angle }, random)?;
+                .death(self, DeathEffect { position, angle }, random)?;
             let selector = if origin_stage == 1_f32.to_bits() {
                 0x607
             } else {

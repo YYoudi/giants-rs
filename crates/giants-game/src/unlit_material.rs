@@ -65,12 +65,13 @@ pub fn prepare_with_object_transparency(
         0x4033c => (false, 2),
         0x40334 => (false, 2),
         0x413bc => (true, 2),
+        0x411b4 => (true, 1),
         _ => return Err("unlit descriptor outside checked inspection programs"),
     };
     Ok(Profile {
         flags,
         vertex_rgb,
-        add_vertex_rgb: matches!(flags, 0x1094 | 0x41094 | 0x413bc),
+        add_vertex_rgb: matches!(flags, 0x1094 | 0x41094 | 0x413bc | 0x411b4),
         blend,
         texture_alpha,
         alpha: if blend == 0 {
@@ -101,6 +102,26 @@ pub fn static_texture_color(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn additive_rgb_ghost_keeps_material_floor_and_object_fade() {
+        let m = giants_formats::gbs::Material {
+            texture: "synthetic".into(),
+            bump_texture: String::new(),
+            flags: 0x40000011,
+            blend: 0.5,
+            falloff: 0.4,
+            colors: [0; 4],
+            power: 0.,
+        };
+        // Original renderer state application: ADD(texture,diffuse),
+        // SRCALPHA/ONE, factor alpha, depth test without depth writes.
+        for (transparency, alpha) in [(0., 152), (0.25, 152), (0.5, 127), (1., 0)] {
+            let p = prepare_with_object_transparency(&m, false, transparency).unwrap();
+            assert_eq!((p.flags, p.blend), (0x411b4, 1));
+            assert!(p.vertex_rgb && p.add_vertex_rgb && !p.texture_alpha);
+            assert_eq!(p.alpha, alpha as f32 / 255.);
+        }
+    }
     #[test]
     fn opaque_texture_times_vertex_color_keeps_the_unguarded_descriptor() {
         let m = giants_formats::gbs::Material {

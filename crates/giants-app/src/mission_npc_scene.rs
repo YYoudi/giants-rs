@@ -1,6 +1,7 @@
 //! Consume completed canonical Vimp poses in the common mission renderer.
 //! No actor birth, AI, animation clock or random draw occurs here.
 use crate::actor_scene::{self, Material};
+use crate::rigid_attachment_scene::Material as AuxiliaryMaterial;
 use bevy::{asset::RenderAssetUsages, ecs::system::SystemParam, prelude::*};
 use std::collections::{BTreeMap, BTreeSet};
 
@@ -9,6 +10,9 @@ impl bevy::app::Plugin for Plugin {
     fn build(&self, app: &mut App) {
         if !app.is_plugin_added::<MaterialPlugin<Material>>() {
             app.add_plugins(MaterialPlugin::<Material>::default());
+        }
+        if !app.is_plugin_added::<MaterialPlugin<AuxiliaryMaterial>>() {
+            app.add_plugins(MaterialPlugin::<AuxiliaryMaterial>::default());
         }
         app.init_resource::<State>().add_systems(
             Update,
@@ -21,10 +25,11 @@ impl bevy::app::Plugin for Plugin {
 struct Part {
     entity: Entity,
     mesh: Handle<Mesh>,
-    material: Handle<Material>,
+    material: PartMaterial,
     index: usize,
 }
 struct Object {
+    world: Option<Handle<bevy::render::storage::ShaderBuffer>>,
     geometry: std::sync::Arc<giants_game::scene_resources::ModelAsset>,
     images: Vec<Handle<Image>>,
     parts: Vec<Part>,
@@ -42,16 +47,32 @@ struct Gpu<'w> {
     meshes: ResMut<'w, Assets<Mesh>>,
     images: ResMut<'w, Assets<Image>>,
     materials: ResMut<'w, Assets<Material>>,
+    auxiliary_materials: ResMut<'w, Assets<AuxiliaryMaterial>>,
+    buffers: ResMut<'w, Assets<bevy::render::storage::ShaderBuffer>>,
+}
+enum PartMaterial {
+    Body(Handle<Material>),
+    Auxiliary(Handle<AuxiliaryMaterial>),
 }
 impl Gpu<'_> {
     fn remove(&mut self, commands: &mut Commands, object: Object) {
         for part in object.parts {
             commands.entity(part.entity).try_despawn();
             self.meshes.remove(part.mesh.id());
-            self.materials.remove(part.material.id());
+            match part.material {
+                PartMaterial::Body(handle) => {
+                    self.materials.remove(handle.id());
+                }
+                PartMaterial::Auxiliary(handle) => {
+                    self.auxiliary_materials.remove(handle.id());
+                }
+            }
         }
         for image in object.images {
             self.images.remove(image.id());
+        }
+        if let Some(buffer) = object.world {
+            self.buffers.remove(buffer.id());
         }
     }
 }
@@ -128,6 +149,10 @@ fn update(
             if let std::collections::btree_map::Entry::Vacant(entry) = state.objects.entry(draw.id)
             {
                 let object = entry.insert(Object {
+                    world: (draw.class != 8).then(|| {
+                        gpu.buffers
+                            .add(crate::source_view::uniform_buffer(&Mat4::IDENTITY))
+                    }),
                     geometry: draw.geometry.clone(),
                     images: vec![],
                     parts: vec![],
@@ -155,17 +180,31 @@ fn update(
                     // The mission binding already validates the RGB body path.
                     // Keep this consumer opaque; special/alpha passes require
                     // their own acquired submission rather than a guessed blend.
-                    if part.material.flags & 1 != 0
-                        || draw
-                            .geometry
-                            .alpha_textures
-                            .contains(&part.material.texture.to_ascii_lowercase())
+                    if draw.class == 8
+                        && (part.material.flags & 1 != 0
+                            || draw
+                                .geometry
+                                .alpha_textures
+                                .contains(&part.material.texture.to_ascii_lowercase()))
                     {
                         return Err(
                             "Vimp body requires an unsupported transparent/additive material"
                                 .into(),
                         );
                     }
+                    let profile = if draw.class == 8 {
+                        None
+                    } else {
+                        Some(
+                            giants_game::unlit_material::prepare_with_object_transparency(
+                                &part.material,
+                                draw.geometry
+                                    .alpha_textures
+                                    .contains(&part.material.texture.to_ascii_lowercase()),
+                                draw.transparency,
+                            )?,
+                        )
+                    };
                     let ids: Vec<_> = part
                         .triangles
                         .iter()
@@ -175,7 +214,9 @@ fn update(
                     let colors: Vec<_> = ids
                         .iter()
                         .map(|&i| {
-                            if part.material.flags & 0x20 != 0 {
+                            if profile.is_some_and(|p| p.vertex_rgb)
+                                || part.material.flags & 0x20 != 0
+                            {
                                 let c = draw.geometry.mesh.rgb[i];
                                 [
                                     c[0] as f32 / 255.,
@@ -201,35 +242,66 @@ fn update(
                     )
                     .with_inserted_attribute(Mesh::ATTRIBUTE_COLOR, colors);
                     let fog = scene.asset.config.fog;
-                    let material = actor_scene::Material::from(actor_scene::Bindings {
-                        texture: textures
-                            .get(&part.material.texture.to_ascii_lowercase())
-                            .ok_or("Vimp named texture absent")?
-                            .clone(),
-                        clip_from_bevy: view.buffer.clone(),
-                        validation: Vec4::new(
-                            1.,
-                            1. / camera.viewport.z as f32,
-                            -1. / camera.viewport.w as f32,
-                            1.,
-                        ),
-                        fog: Vec4::new(fog.start, fog.end, f32::from(!scene.no_fog), 0.),
-                        fog_color: Vec4::new(
-                            fog.color[0] as f32 / 255.,
-                            fog.color[1] as f32 / 255.,
-                            fog.color[2] as f32 / 255.,
-                            0.,
-                        ),
-                        blend: false,
-                        force_additive: false,
-                    });
+                    let material = if let Some(profile) = profile {
+                        PartMaterial::Auxiliary(
+                            gpu.auxiliary_materials.add(
+                                crate::rigid_attachment_scene::owned_material(
+                                    textures
+                                        .get(&part.material.texture.to_ascii_lowercase())
+                                        .ok_or("auxiliary named texture absent")?
+                                        .clone(),
+                                    view.buffer.clone(),
+                                    object.world.as_ref().unwrap().clone(),
+                                    profile,
+                                    false,
+                                    Vec4::new(
+                                        1. / camera.viewport.z as f32,
+                                        -1. / camera.viewport.w as f32,
+                                        fog.start,
+                                        fog.end,
+                                    ),
+                                    Vec3::from_array(fog.color.map(|v| v as f32 / 255.)),
+                                    !scene.no_fog,
+                                ),
+                            ),
+                        )
+                    } else {
+                        PartMaterial::Body(
+                            gpu.materials
+                                .add(actor_scene::Material::from(actor_scene::Bindings {
+                                    texture: textures
+                                        .get(&part.material.texture.to_ascii_lowercase())
+                                        .ok_or("Vimp named texture absent")?
+                                        .clone(),
+                                    clip_from_bevy: view.buffer.clone(),
+                                    validation: Vec4::new(
+                                        1.,
+                                        1. / camera.viewport.z as f32,
+                                        -1. / camera.viewport.w as f32,
+                                        1.,
+                                    ),
+                                    fog: Vec4::new(
+                                        fog.start,
+                                        fog.end,
+                                        f32::from(!scene.no_fog),
+                                        0.,
+                                    ),
+                                    fog_color: Vec4::new(
+                                        fog.color[0] as f32 / 255.,
+                                        fog.color[1] as f32 / 255.,
+                                        fog.color[2] as f32 / 255.,
+                                        0.,
+                                    ),
+                                    blend: false,
+                                    force_additive: false,
+                                })),
+                        )
+                    };
                     let mesh = gpu.meshes.add(mesh);
-                    let material = gpu.materials.add(material);
                     let entity = commands
                         .spawn((
                             crate::mission_runtime::MissionOwned(ticket),
                             Mesh3d(mesh.clone()),
-                            MeshMaterial3d(material.clone()),
                             Transform::from_translation(Vec3::new(
                                 draw.center[0],
                                 draw.center[2],
@@ -240,6 +312,18 @@ fn update(
                             Name::new(format!("Owned Vimp part {index}")),
                         ))
                         .id();
+                    match &material {
+                        PartMaterial::Body(handle) => {
+                            commands
+                                .entity(entity)
+                                .insert(MeshMaterial3d(handle.clone()));
+                        }
+                        PartMaterial::Auxiliary(handle) => {
+                            commands
+                                .entity(entity)
+                                .insert(MeshMaterial3d(handle.clone()));
+                        }
+                    }
                     object.parts.push(Part {
                         entity,
                         mesh,
@@ -260,20 +344,47 @@ fn update(
                     .get_mut(&part.mesh)
                     .ok_or("Vimp mesh removed")?
                     .insert_attribute(Mesh::ATTRIBUTE_POSITION, vertices(&draw, part.index)?);
-                let mut material = gpu
-                    .materials
-                    .get_mut(&part.material)
-                    .ok_or("Vimp material removed")?;
-                material.validation.y = 1. / camera.viewport.z as f32;
-                material.validation.z = -1. / camera.viewport.w as f32;
                 let fog = scene.asset.config.fog;
-                material.fog = Vec4::new(fog.start, fog.end, f32::from(!scene.no_fog), 0.);
-                material.fog_color = Vec4::new(
-                    fog.color[0] as f32 / 255.,
-                    fog.color[1] as f32 / 255.,
-                    fog.color[2] as f32 / 255.,
-                    0.,
-                );
+                match &part.material {
+                    PartMaterial::Body(handle) => {
+                        let mut material = gpu
+                            .materials
+                            .get_mut(handle)
+                            .ok_or("Vimp material removed")?;
+                        material.validation.y = 1. / camera.viewport.z as f32;
+                        material.validation.z = -1. / camera.viewport.w as f32;
+                        material.fog = Vec4::new(fog.start, fog.end, f32::from(!scene.no_fog), 0.);
+                        material.fog_color =
+                            Vec3::from_array(fog.color.map(|v| v as f32 / 255.)).extend(0.);
+                    }
+                    PartMaterial::Auxiliary(handle) => {
+                        let source = &draw.geometry.mesh.subobjects[part.index].material;
+                        let profile =
+                            giants_game::unlit_material::prepare_with_object_transparency(
+                                source,
+                                draw.geometry
+                                    .alpha_textures
+                                    .contains(&source.texture.to_ascii_lowercase()),
+                                draw.transparency,
+                            )?;
+                        let mut material = gpu
+                            .auxiliary_materials
+                            .get_mut(handle)
+                            .ok_or("auxiliary material removed")?;
+                        material.set_owned_profile(profile);
+                        material.set_draw_view(
+                            false,
+                            camera.viewport.z as f32,
+                            camera.viewport.w as f32,
+                        );
+                        material.set_owned_fog(
+                            fog.start,
+                            fog.end,
+                            Vec3::from_array(fog.color.map(|v| v as f32 / 255.)),
+                            !scene.no_fog,
+                        );
+                    }
+                }
                 if let Ok((mut visibility, mut transform)) = visuals.get_mut(part.entity) {
                     *visibility = Visibility::Visible;
                     transform.translation =
@@ -331,10 +442,15 @@ pub(crate) fn check_render_assets(
         .init_resource::<Assets<Mesh>>()
         .init_resource::<Assets<Image>>()
         .init_resource::<Assets<Material>>()
+        .init_resource::<Assets<AuxiliaryMaterial>>()
         .init_resource::<Assets<bevy::render::storage::ShaderBuffer>>()
         .init_resource::<State>()
         .init_resource::<crate::source_view::SourceView>()
         .add_systems(Update, update);
+    let base_buffers = app
+        .world()
+        .resource::<Assets<bevy::render::storage::ShaderBuffer>>()
+        .len();
     let external = app
         .world_mut()
         .spawn(Name::new("unrelated draw owner"))
@@ -350,7 +466,8 @@ pub(crate) fn check_render_assets(
     let meshes = app.world().resource::<Assets<Mesh>>().len();
     let images = app.world().resource::<Assets<Image>>().len();
     let materials = app.world().resource::<Assets<Material>>().len();
-    assert!(meshes >= count && images >= count && materials == meshes);
+    let auxiliary_materials = app.world().resource::<Assets<AuxiliaryMaterial>>().len();
+    assert!(meshes >= count && images >= count && materials + auxiliary_materials == meshes);
     let entity = app
         .world()
         .resource::<State>()
@@ -442,6 +559,17 @@ pub(crate) fn check_render_assets(
         assert!(app.world().resource::<Assets<Mesh>>().is_empty());
         assert!(app.world().resource::<Assets<Image>>().is_empty());
         assert!(app.world().resource::<Assets<Material>>().is_empty());
+        assert!(
+            app.world()
+                .resource::<Assets<AuxiliaryMaterial>>()
+                .is_empty()
+        );
+        assert_eq!(
+            app.world()
+                .resource::<Assets<bevy::render::storage::ShaderBuffer>>()
+                .len(),
+            base_buffers
+        );
         app.update();
         assert!(app.world().resource::<State>().objects.is_empty());
     }
@@ -454,6 +582,17 @@ pub(crate) fn check_render_assets(
     assert!(app.world().resource::<Assets<Mesh>>().is_empty());
     assert!(app.world().resource::<Assets<Image>>().is_empty());
     assert!(app.world().resource::<Assets<Material>>().is_empty());
+    assert!(
+        app.world()
+            .resource::<Assets<AuxiliaryMaterial>>()
+            .is_empty()
+    );
+    assert_eq!(
+        app.world()
+            .resource::<Assets<bevy::render::storage::ShaderBuffer>>()
+            .len(),
+        base_buffers
+    );
     assert!(app.world().resource::<State>().objects.is_empty());
     assert!(app.world().get_entity(external).is_ok());
     runtime

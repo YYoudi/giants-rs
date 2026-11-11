@@ -1,6 +1,6 @@
-//! Mission-owned blood service and batched clip-space billboards. Projectile
-//! eligibility and actor damage dispatch remain separate; the optional probe
-//! injects a synthetic burst, never a successful hit or mission readiness.
+//! Mission-owned clip-space blood billboards. Normal NPC particles are copied
+//! from the mission component, which alone advances their wounds and clocks.
+//! The optional probe retains its separate supplied-burst simulation.
 use bevy::{
     asset::RenderAssetUsages,
     mesh::{MeshVertexAttribute, MeshVertexBufferLayoutRef},
@@ -304,6 +304,17 @@ fn update(world: &mut World) {
             state.mounted.as_mut().expect("emitted pool").probe = true;
         }
     }
+    let npc_quads = world
+        .resource::<crate::mission_runtime::Runtime>()
+        .npc_blood_quads(ticket);
+    if !npc_quads.is_empty()
+        && world.resource::<State>().mounted.is_none()
+        && let Err(error) = mount(world, ticket)
+    {
+        eprintln!("mission_blood_mount_failed reason={error}");
+        world.write_message(AppExit::error());
+        return;
+    }
     if world.resource::<State>().mounted.is_none() {
         return;
     }
@@ -319,7 +330,7 @@ fn update(world: &mut World) {
             let mut state = world.resource_mut::<State>();
             let pose_frames = state.pose_frames;
             let m = state.mounted.as_mut().ok_or("blood pool absent")?;
-            if !m.probe || m.frames < pose_frames {
+            if m.bursts > 0 && (!m.probe || m.frames < pose_frames) {
                 let query = giants_game::terrain_queries::StaticTerrainQuery::new(
                     &asset.terrain,
                     (1. / f64::from(asset.terrain.spacing)) as f32,
@@ -342,7 +353,8 @@ fn update(world: &mut World) {
                 m.pool.purge();
                 m.frames += 1;
             }
-            let quads = m.pool.quads().collect::<Vec<_>>();
+            let mut quads = m.pool.quads().collect::<Vec<_>>();
+            quads.extend(npc_quads);
             if m.probe && m.frames >= pose_frames && quads.is_empty() {
                 return Err("blood diagnostic burst expired before its pose".into());
             }

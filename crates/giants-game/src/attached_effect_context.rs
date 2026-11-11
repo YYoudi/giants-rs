@@ -45,6 +45,7 @@ pub struct Context<K> {
     retained_smoke: Option<RetainedSmoke>,
     parent_lost: bool,
     immediate: Option<Immediate<K>>,
+    inherited_matrix: Option<crate::procedural_aim::Matrix>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum DamageSmokePhase {
@@ -101,6 +102,9 @@ impl<K> Context<K> {
     }
     pub fn flags(&self) -> u32 {
         self.flags
+    }
+    pub fn inherited_matrix(&self) -> Option<crate::procedural_aim::Matrix> {
+        self.inherited_matrix
     }
     pub fn emitted_objects(&self) -> usize {
         usize::from(self.retained_smoke.is_some())
@@ -705,6 +709,7 @@ impl<K: Copy + Eq> Pool<K> {
             retained_smoke: None,
             parent_lost: false,
             immediate: None,
+            inherited_matrix: None,
         };
         self.insert(context)
     }
@@ -759,6 +764,7 @@ impl<K: Copy + Eq> Pool<K> {
             retained_smoke: None,
             parent_lost: false,
             immediate: None,
+            inherited_matrix: None,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -822,6 +828,31 @@ impl<K: Copy + Eq> Pool<K> {
         }
         Ok(result)
     }
+    /// Immediate child with the actual positional wrapper's inherited basis.
+    /// Fixed own/parent references remain distinct; neither is a random range.
+    pub fn prepare_immediate_inherited_offset_invariant(
+        &mut self,
+        offset: u32,
+        input: ImmediateInput<K>,
+        matrix: crate::procedural_aim::Matrix,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        if matrix.flags != 1
+            || matrix.values.iter().any(|v| !v.is_finite())
+            || [3, 7, 11, 12, 13, 14, 15]
+                .into_iter()
+                .any(|i| matrix.values[i] != 0.)
+        {
+            return Err("immediate inherited basis outside positional angle profile".into());
+        }
+        let result = self.prepare_immediate_offset_invariant(offset, input, random)?;
+        if let Creation::Prepared(id) = result.0 {
+            let context = self.slots[id.slot].context.as_mut().unwrap();
+            context.flags |= 0x1000;
+            context.inherited_matrix = Some(matrix);
+        }
+        Ok(result)
+    }
     fn prepare_direct_position(
         &mut self,
         offset: Option<u32>,
@@ -878,6 +909,7 @@ impl<K: Copy + Eq> Pool<K> {
             retained_smoke: None,
             parent_lost: false,
             immediate: None,
+            inherited_matrix: None,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -988,6 +1020,7 @@ impl<K: Copy + Eq> Pool<K> {
             retained_smoke: None,
             parent_lost: false,
             immediate: None,
+            inherited_matrix: None,
         })?;
         *random = staged;
         Ok((creation, intervals))
@@ -1032,6 +1065,25 @@ impl<K: Copy + Eq> Pool<K> {
         };
         let entry_offset = entry.offset;
         self.prepare_positional_entry(name, position, (entry_index, entry_offset), image, random)
+    }
+    /// Named flags9 preparation. Angles create a retained direction basis;
+    /// they do not rotate the newborn object's identity/translation affine.
+    pub fn prepare_rotated_positional(
+        &mut self,
+        name: &str,
+        position: [f32; 3],
+        angles: [f32; 3],
+        selection: crate::effect_initialization::Selection,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        let matrix = crate::effect_orientation::inherited_matrix(angles)?;
+        let result = self.prepare_positional(name, position, selection, random)?;
+        if let Creation::Prepared(id) = result.0 {
+            let context = self.slots[id.slot].context.as_mut().unwrap();
+            context.flags |= 0x1000;
+            context.inherited_matrix = Some(matrix);
+        }
+        Ok(result)
     }
     /// Resolve the positional request only when both acquired quality/distance
     /// outcomes identify the same entry. No camera/load values are invented.
@@ -1086,6 +1138,7 @@ impl<K: Copy + Eq> Pool<K> {
             retained_smoke: None,
             parent_lost: false,
             immediate: None,
+            inherited_matrix: None,
         })?;
         *random = staged;
         Ok((creation, intervals))

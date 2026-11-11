@@ -28,6 +28,22 @@ still supply birth/admission/time and external-release boundaries; they do not
 establish a rendered ordinary lethal interaction. Complete death FX and the
 combined consumer remain the next delivery gate in BACKLOG.md.
 
+The common scene consumes the actual loose-meat affine and retained ghost ANM,
+with separate shared unlit materials, source transparency and per-owner buffer
+cleanup. Ghost RGB addition and additive blending retain the original checked
+renderer state program. Source asset controls pass; GPU and ordinary lethal
+acceptance remain pending. The NPC component owns attached wounds and blood
+particles; its renderer reads copied quads only. Injury/recovery sound requests
+use the existing actor-owned transport, with playback acknowledged only by its
+real sink consumer. The installed nonlethal bridge supplies a hit explicitly.
+
+Death effects receive the actual mutable Session for constructing their actors.
+Prepared full/lite and nested skip frames do not acknowledge active execution.
+The positional wrapper's inherited angle basis lives in its own payload field,
+distinct from the translated birth affine and from the state78 SIMD Euler path.
+Immediate child references remain the actual fixed own/parent pair. The complete
+active death graph remains the blocker for ordinary lethal hit dispatch.
+
 ## Current first-living integration candidate
 
 The active Mecc-loop delivery now composes actual Vimp threat consideration,

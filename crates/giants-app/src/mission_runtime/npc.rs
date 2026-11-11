@@ -7,22 +7,30 @@ use giants_game::{
     resident_states::{Id, Session},
     vimp_actor::Factory,
 };
+use std::collections::BTreeMap;
 use std::sync::Arc;
+mod auxiliary_draw;
+mod blood;
 pub(super) mod live;
+mod sounds;
 use live::Driver;
 
 pub(super) struct State {
     driver: Driver,
+    blood: blood::Blood,
     factory: Factory,
     globals: giants_formats::global_data::GlobalData,
     expected: Vec<(Key, i32)>,
     bound: Option<Binding>,
     geometry: Option<Arc<giants_game::scene_resources::ModelAsset>>,
+    auxiliary_geometry: BTreeMap<i32, Arc<giants_game::scene_resources::ModelAsset>>,
     contact_resources: Option<giants_game::vimp_contacts::Resources>,
 }
 
 /// A copied submission, not a second simulation or shared pose buffer.
 pub(crate) struct Draw {
+    pub class: i32,
+    pub transparency: f32,
     pub id: Id,
     pub frame: u64,
     pub geometry: Arc<giants_game::scene_resources::ModelAsset>,
@@ -42,6 +50,9 @@ pub(super) struct View {
     pub effect_contexts: usize,
 }
 impl State {
+    pub(super) fn blood_quads(&self) -> Vec<giants_game::blood_particles::Quad> {
+        self.blood.particles.quads().collect()
+    }
     pub fn prepare(root: &std::path::Path, plan: &Plan) -> Result<Option<Self>, String> {
         let mut expected: Vec<_> = plan
             .world_entries
@@ -78,11 +89,13 @@ impl State {
         let factory = Factory::load_registered(plan.resources())?;
         Ok(Some(Self {
             driver: Driver::default(),
+            blood: blood::Blood::new(&globals)?,
             factory,
             globals,
             expected,
             bound: None,
             geometry: None,
+            auxiliary_geometry: BTreeMap::new(),
             contact_resources: None,
         }))
     }
@@ -276,6 +289,8 @@ impl State {
                 })
                 .collect::<Result<Vec<_>, String>>()?;
             result.push(Draw {
+                class: 8,
+                transparency: 0.,
                 id,
                 frame: completed.number,
                 geometry: self.geometry.as_ref().unwrap().clone(),
@@ -283,6 +298,7 @@ impl State {
                 center,
             });
         }
+        result.extend(self.auxiliary_draws(session, resources)?);
         Ok(result)
     }
 }

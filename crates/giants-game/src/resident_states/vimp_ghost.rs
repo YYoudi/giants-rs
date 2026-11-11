@@ -1,5 +1,8 @@
 use super::*;
 impl Session {
+    pub fn vimp_ghost_number(&self, id: Id) -> Option<u64> {
+        self.get(id)?.vimp_ghost.as_ref().map(|m| m.number)
+    }
     pub(crate) fn construct_vimp_ghost(
         &mut self,
         input: Construction<'_>,

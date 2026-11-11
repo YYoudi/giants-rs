@@ -94,6 +94,30 @@ notification branch. Preserve that multiplayer prerequisite without inventing a
 local notification. Victim cleanup currently admits only successful death with
 actually empty native target-reference slots and real external release.
 
+The common NPC renderer now consumes actual current meat transforms and ghost
+ANM buffers, including material/object fade and the ghost's additive RGB mode.
+The latter has a six-case original-renderer state control; it is not pixel proof.
+Two installed source entries pass mesh/image/material/private-buffer ownership
+and return cleanup. Auxiliary births and callback admission remain supplied in
+that control; ordinary lethal rendering is still unavailable.
+
+The ordinary NPC component now owns wound/particle updates under its sampled
+clock, current joints, actual terrain and shared partial RNG. Its copied quads
+feed the existing blood renderer without a second particle simulation. Injury
+and recovery requests use the common actor-owned/positional sound transport.
+Two installed 6,000-frame entries with an explicitly supplied nonlethal hit each
+produce 68 blood-bearing frames, two recovery-stop requests and empty final
+wound/particle pools. This supplies trajectory/amount and observes queues, not
+ordinary pistol damage, GPU output or audible voices.
+
+Death preparation now traverses the complete full/lite, chunk, spray, blood,
+bounce and drop skip frames. Eight actual source preparations agree on RNG
+state and interval counts. Positional angle inheritance is separate from the
+newborn affine: 128 original-wrapper cases agree on 2,176 basis words. The
+immediate child retains fixed own-reference0/parent-reference11; those operands
+are not a random count/range. Active FX physics, emitter/bounce/decal consumers
+and the combined lethal scheduler remain required before ordinary damage.
+
 ## Current delivery - reliable Mecc loop and first living interaction
 
 Owner direction, 11 November 2026: the single integration agent now works in

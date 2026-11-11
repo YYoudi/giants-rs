@@ -84,6 +84,18 @@ pub struct Factory<'a> {
     next_class: i32,
 }
 impl<'a> Factory<'a> {
+    /// Restore the owning scene's acquired round-robin class cursor while
+    /// borrowing its resources for this batch; no class choice is resampled.
+    pub fn with_next_class(resources: &'a SceneResources, next_class: i32) -> Result<Self, String> {
+        if !(1117..=1119).contains(&next_class) {
+            return Err("chunk class cursor outside source rotation".into());
+        }
+        Ok(Self {
+            resources,
+            templates: BTreeMap::new(),
+            next_class,
+        })
+    }
     pub fn new(resources: &'a SceneResources) -> Self {
         Self {
             resources,

@@ -125,6 +125,24 @@ pub(crate) fn lifetime_flags(fields: &mut Fields, life: [f32; 3]) {
     }
 }
 impl<K> Initial<K> {
+    fn inherit_matrix(&mut self, matrix: Matrix) -> Result<(), String> {
+        let data = self
+            .seed
+            .storage
+            .data_mut()
+            .ok_or("inherited effect payload absent")?;
+        data[0x3c..0x40].copy_from_slice(&matrix.flags.to_le_bytes());
+        for (bytes, value) in data[0x40..0x80]
+            .as_chunks_mut::<4>()
+            .0
+            .iter_mut()
+            .zip(matrix.values)
+        {
+            bytes.copy_from_slice(&value.to_le_bytes());
+        }
+        self.fields.control_flags |= 0x800;
+        Ok(())
+    }
     /// The native size writer replaces the affine 3x4 and leaves its bottom row.
     pub(crate) fn size(&mut self, sizes: [f32; 2], interpolate: bool) -> Result<(), String> {
         if sizes.into_iter().any(|v| !v.is_finite() || v <= 0.) {
@@ -495,6 +513,27 @@ impl Template {
         }
         self.initial(origin, Placement::Position(point), context.flags(), false)
     }
+    pub fn rotated_positioned<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+    ) -> Result<Initial<K>, String> {
+        if !matches!(context.flags(), 0x1000 | 0x9000) {
+            return Err("rotated positional constructor context flags differ".into());
+        }
+        self.validate(context, 3, 1)?;
+        let point = context
+            .position()
+            .ok_or("rotated positional origin absent")?;
+        let mut initial =
+            self.initial(origin, Placement::Position(point), context.flags(), false)?;
+        initial.inherit_matrix(
+            context
+                .inherited_matrix()
+                .ok_or("rotated positional basis absent")?,
+        )?;
+        Ok(initial)
+    }
     /// Source3/6 creation under the immediate wrapper, before VM configuration,
     /// ordinary ANM, reference placement or its first state callback. This is
     /// not a permanent attached effect and does not acknowledge world admission.
@@ -503,7 +542,27 @@ impl Template {
         origin: Id,
         context: &Context<K>,
     ) -> Result<ImmediateInitial<K>, String> {
-        if !matches!(context.flags(), 2 | 0x8002) {
+        self.immediate_initial(origin, context, false)
+    }
+    pub fn immediate_inherited_positioned<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+    ) -> Result<ImmediateInitial<K>, String> {
+        self.immediate_initial(origin, context, true)
+    }
+    fn immediate_initial<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        inherited: bool,
+    ) -> Result<ImmediateInitial<K>, String> {
+        let flags = if inherited {
+            context.flags() & !0x1000
+        } else {
+            context.flags()
+        };
+        if !matches!(flags, 2 | 0x8002) || inherited != context.inherited_matrix().is_some() {
             return Err("immediate effect requires its acquired direct context flags".into());
         }
         let binding = context
@@ -525,6 +584,9 @@ impl Template {
             flags: 0x10,
             values: [0.; 16],
         };
+        if inherited {
+            actor.inherit_matrix(context.inherited_matrix().unwrap())?;
+        }
         Ok(ImmediateInitial {
             actor,
             binding,
@@ -536,6 +598,99 @@ impl Template {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "requires GIANTS_NPC_ROOT; actual death root/child constructor resources with supplied selection, position and angle; no active FX graph, placement or GPU"]
+    fn source_death_angle_basis_is_payload_inheritance_not_birth_rotation() {
+        let root = std::env::var_os("GIANTS_NPC_ROOT").unwrap();
+        let resources =
+            SceneResources::load(std::path::Path::new(&root), "w_Story2.bin", "English").unwrap();
+        let mut pool =
+            crate::attached_effect_context::Pool::<u32>::from_active_resources(17, &resources);
+        let mut random = crate::audio_parameters::Random(1);
+        let selection = crate::effect_initialization::Selection {
+            active_objects: 0,
+            quality: 1.,
+            lite_distance: 500.,
+            camera: [1., 2., 3.],
+            recipient_position: [1., 2., 3.],
+        };
+        let (crate::attached_effect_context::Creation::Prepared(origin), _) = pool
+            .prepare_rotated_positional(
+                "FXB_VIMP_death",
+                [1., 2., 3.],
+                [37.5, 0., 0.],
+                selection,
+                &mut random,
+            )
+            .unwrap()
+        else {
+            panic!("death context absent")
+        };
+        let context = pool.get(origin).unwrap();
+        let template = Template::load(&resources, 919).unwrap();
+        assert!(template.positioned(origin, context).is_err());
+        let actor = template.rotated_positioned(origin, context).unwrap();
+        assert_eq!(actor.fields.control_flags & 0x820, 0x820);
+        assert_eq!(actor.matrix.values[0], 1.);
+        assert_eq!(
+            [
+                actor.matrix.values[3],
+                actor.matrix.values[7],
+                actor.matrix.values[11]
+            ],
+            [1., 2., 3.]
+        );
+        let basis = context.inherited_matrix().unwrap();
+        assert_ne!(basis.values[0], actor.matrix.values[0]);
+        let data = actor.seed.storage.data().unwrap();
+        assert_eq!(u32::from_le_bytes(data[0x3c..0x40].try_into().unwrap()), 1);
+        assert_eq!(
+            data[0x40..0x80]
+                .as_chunks::<4>()
+                .0
+                .iter()
+                .map(|v| u32::from_le_bytes(*v))
+                .collect::<Vec<_>>(),
+            basis.values.map(f32::to_bits)
+        );
+        let image = &resources.classes.models.effects.last().unwrap().image;
+        let offset = image.find("FXB_chunk1").unwrap().1.offset;
+        let (crate::attached_effect_context::Creation::Prepared(child), intervals) = pool
+            .prepare_immediate_inherited_offset_invariant(
+                offset,
+                crate::attached_effect_context::ImmediateInput {
+                    binding: crate::attached_effect_context::Immediate {
+                        parent: 31,
+                        reference: 11,
+                        own_reference: 0,
+                    },
+                    position: [1., 2., 3.],
+                    object_flags: 0,
+                    render_flags: 0,
+                },
+                basis,
+                &mut random,
+            )
+            .unwrap()
+        else {
+            panic!("child context absent")
+        };
+        assert_eq!(intervals.len(), 6);
+        let context = pool.get(child).unwrap();
+        let template = Template::load(&resources, 906).unwrap();
+        assert!(template.immediate_positioned(child, context).is_err());
+        let initial = template
+            .immediate_inherited_positioned(child, context)
+            .unwrap();
+        assert_eq!(
+            (initial.binding.own_reference, initial.binding.reference),
+            (0, 11)
+        );
+        assert_eq!(initial.actor.fields.position, [0.; 3]);
+        assert_eq!(initial.actor.matrix.values.map(f32::to_bits), [0; 16]);
+        assert_eq!(initial.actor.fields.control_flags & 0x860, 0x860);
+        assert_eq!(pool.active(), [origin, child]);
+    }
     #[test]
     #[ignore = "requires GIANTS_MECC_WORLD_ROOT; immediate source resources/constructor prefix only, no live actor, placement or rendering"]
     fn source_immediate_particle_preserves_zero_birth_and_actual_reference_binding() {

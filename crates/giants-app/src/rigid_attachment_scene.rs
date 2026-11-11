@@ -63,6 +63,14 @@ impl From<&Bindings> for Key {
 }
 pub type Material = crate::source_view::UniformMaterial<Bindings, 12>;
 impl Bindings {
+    pub(crate) fn set_owned_fog(&mut self, start: f32, end: f32, rgb: Vec3, enabled: bool) {
+        self.pixel_fog.z = start;
+        self.pixel_fog.w = end;
+        self.color_alpha.x = rgb.x;
+        self.color_alpha.y = rgb.y;
+        self.color_alpha.z = rgb.z;
+        self.flags.y = f32::from(u8::from(enabled));
+    }
     pub(crate) fn set_owned_profile(&mut self, profile: Profile) {
         self.blend = profile.blend;
         self.color_alpha.w = profile.alpha;

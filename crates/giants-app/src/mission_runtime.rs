@@ -1056,7 +1056,7 @@ impl Runtime {
         &mut self,
         ticket: u64,
         objects: &[giants_game::actor_environment::Collider],
-    ) -> Result<Vec<(u32, [f32; 3])>, String> {
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
         let a = self
             .active
             .as_mut()
@@ -1145,6 +1145,15 @@ impl Runtime {
             .construction_fields
             .as_ref()?;
         npc.live_hint(&a.resident_states, player.position, player.angles[0])
+    }
+    /// Copied canonical particles; this read neither advances clocks nor RNG.
+    pub(crate) fn npc_blood_quads(&self, ticket: u64) -> Vec<giants_game::blood_particles::Quad> {
+        self.active
+            .as_ref()
+            .filter(|a| a.ticket == ticket)
+            .and_then(|a| a.payload.npcs.as_ref().ok()?.as_ref())
+            .map(npc::State::blood_quads)
+            .unwrap_or_default()
     }
     pub(crate) fn npc_draws(&mut self, ticket: u64) -> Result<Vec<NpcDraw>, String> {
         let active = self

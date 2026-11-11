@@ -1,5 +1,5 @@
-//! Ordinary offline Vimp damage with no source actor or impact point. The
-//! stationary impulse prefix is empty; blood, sounds and death services run.
+//! Ordinary offline Vimp damage, with optional actual partial-pistol trajectory
+//! and impact binding. FX, blood and sound consumers remain required services.
 use crate::{
     audio_parameters::Random, blood_particles, resident_states::Id, vimp_chunks, vimp_death_proxy,
 };
@@ -14,7 +14,12 @@ pub struct DeathEffect {
 /// The provider must consume the source death program, or report failure.
 /// A recorded zero-return request sink is only an explicit test boundary.
 pub trait Effects {
-    fn death(&mut self, effect: DeathEffect, random: &mut Random) -> Result<(), String>;
+    fn death(
+        &mut self,
+        session: &mut crate::resident_states::Session,
+        effect: DeathEffect,
+        random: &mut Random,
+    ) -> Result<(), String>;
 }
 pub trait Sounds {
     fn positional(

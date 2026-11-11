@@ -1253,10 +1253,10 @@ pub(super) fn update(
                 controller.state.mission_environment_colliders(),
             ) {
                 Ok(sounds) => {
-                    for (sound, position) in sounds {
+                    for event in sounds {
                         audio.local.write(crate::mission_audio::Request {
                             ticket: controller.ticket,
-                            event: crate::mission_audio::Event::NpcPosition { sound, position },
+                            event,
                         });
                     }
                 }
