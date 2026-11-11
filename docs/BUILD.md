@@ -51,6 +51,13 @@ coefficient tables, publish projection or complete activation.
 Default tests use synthetic inputs without installed game data. Ignored tests
 requiring external data or audio devices are not part of this portable check.
 
+The installed `source_normal_mecc_body_drives_jet_presentation_across_flight_and_release`
+control also exercises short keyboard/mouse fire down/up pairs using actual Bevy
+input flags and the installed pistol. It retains the press across zero-step host
+updates, consumes it once, respects the pistol's cooldown and drops pending input
+when disabled. These are supplied input flags; actual OS tap/re-entry checks on
+the identified common build remain separate.
+
 With compatible `GIANTS_DELPHI_ROOT`, run
 `cargo test --locked -p giants-app source_delphi_menu_entry --target x86_64-pc-windows-gnu -- --ignored`
 for common mission construction/role/re-entry checks. Its source menu request

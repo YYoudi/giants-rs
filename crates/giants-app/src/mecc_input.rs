@@ -77,6 +77,31 @@ pub fn pressed(
         }
     }
 }
+/// A host press can arrive and release between ordinary 120 Hz steps. Retain
+/// that edge until the next step; the pistol still owns its cooldown decision.
+#[derive(Default)]
+pub(crate) struct FirePress(bool);
+impl FirePress {
+    pub(crate) fn sample(
+        &mut self,
+        options: Option<&ControlOptions>,
+        keys: &ButtonInput<KeyCode>,
+        mouse: &ButtonInput<MouseButton>,
+        enabled: bool,
+    ) {
+        if enabled {
+            self.0 |= pressed(options, Action::Fire, keys, mouse, true);
+        } else {
+            self.clear();
+        }
+    }
+    pub(crate) fn take(&mut self, held: bool) -> bool {
+        std::mem::take(&mut self.0) || held
+    }
+    pub(crate) fn clear(&mut self) {
+        self.0 = false;
+    }
+}
 pub fn mouse_gain(options: Option<&ControlOptions>) -> f32 {
     0.0002 + options.map_or(0.5, |o| o.1) * 0.0036
 }

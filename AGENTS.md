@@ -16,6 +16,11 @@ evidence, not a delivered feature. Lead handoffs with what the owner can actuall
 launch/test, the exact build and controls, or the first remaining runtime blocker.
 The complete game remains the goal; never fake missing services to claim playability.
 
+Owner consolidation direction, 11 November 2026: the main lane works alone to
+harmonize all available Mecc, Delphi, NPC, Kabuto and Flick work in one main/build
+milestone. Follow the consolidation inventory and acceptance in BACKLOG.md;
+do not close that objective after another isolated Mecc preview or CPU-only merge.
+
 Work alone. Do not move other discussions' worktrees. Use codex/ branches for new
 work unless the owner requests main. Read PROGRESS.json, BACKLOG.md and docs/RELEASES.md.
 Keep README in English. Preserve the owner's approximate 99% AI-generated estimate

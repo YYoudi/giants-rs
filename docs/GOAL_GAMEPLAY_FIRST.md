@@ -18,6 +18,14 @@ complete the ongoing game reconstruction goal.
 
 ## Choose work in this order
 
+For the owner's 11 November consolidation objective, apply this order across the
+complete available work of all five lanes. Review their committed and unfinished
+work read-only, connect every genuinely available producer/consumer to the common
+application, and validate one coherent main/build/dashboard result before closing
+the objective. BACKLOG.md records the concrete inventory and remaining real
+dependencies. A separate Mecc preview or a set of CPU merges is not completion of
+this consolidation. The instruction creates no additional agents or worktree moves.
+
 1. **Make the ordinary playable path work.** Launch with a user-supplied
    installation, enter through the menu, use real keyboard/mouse controls, see
    the controlled character move and aim, use the camera and basic character

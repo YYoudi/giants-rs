@@ -4,7 +4,32 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
-## Current delivery priority - owner direction, 10 November 2026
+## Current consolidation - owner direction, 11 November 2026
+
+The main lane now consolidates all available work from Meccs, Delphi, NPCs,
+Kabuto and Flick Agent, alone. The result must be one coherent main/runtime,
+Windows download and matching dashboard. Review unfinished changes read-only
+and preserve each lane's worktree. Integrate/cable the acquired services rather
+than stopping after source merges, another Mecc-only snapshot or test counts.
+
+| Lane / shared area | Available work to reconcile | Integration acceptance |
+| --- | --- | --- |
+| Shared normal input | A short keyboard fire tap was lost on the local next-preview candidate. The host now retains the press until one simulation step; the installed pistol/cooldown control passes. | Repeat actual short taps and held/default-input checks on the final common executable; preserve focus/menu cancellation and native cooldown. |
+| Mecc | Existing normal terrain-landing actor/audio/renderer; ordered burst execution at `6760908`; unfinished immediate-child/random-parameter changes. | Review the unfinished source and connect supported impact children, real callbacks/audio/render and retirement from normal fire/contact. Keep fall damage/pain/death and genuinely missing providers explicit. |
+| Delphi | Ordered projection/activation, shared look angle, completed ANM body drawing through `cd52866`; unfinished generic-player-shell construction. | Reuse the actual generic/control/camera/player identities and entry ordering, publish projection/view and connect supported physical/animation/input phases. Do not substitute a late reset or a constructed body for admission. |
+| NPCs | Guarded state0 references, eventless animation, typed parented callbacks and class230 awakening/marker birth through `55cdae7`. | Compose the actual common caller, parent/child ownership and available population/render services; trace the first genuinely unacquired producer instead of default-success callbacks. |
+| Kabuto | Shared profile-camera rendering and pitch/provider ordering through `b39a455`. | Reuse the same camera lifecycle and actual owned body, then connect acquired startup/controller phases. Keep explicit inspection distinct from ordinary input and pending initializer gates. |
+| Flick | Canonical virtual-support timed storage and source-scoped cancellation already on main through `ed49d45`; actual skip/natural-completion/re-entry evidence. | Connect the normal dispatcher to the canonical owners and available clock/RNG/physical/render/expiry services. Do not turn an ordinary actor into a virtual support or certify original seed/timing from preview policy. |
+
+Before closing consolidation, account for each item: reviewed source identity,
+actual producer/consumer wiring, ordinary menu/controls or an explicitly labeled
+inspection route, combined lifecycle and interaction evidence, and the exact
+download containing it. Only truly unacquired dependencies may remain as named,
+reproducible blockers. Never invent providers or force readiness to hide them.
+Keep the complete game scope below. BACKLOG.md remains the detailed authority;
+the shared work-selection method is docs/GOAL_GAMEPLAY_FIRST.md.
+
+## Normal-path priority - owner direction, 10 November 2026
 
 Follow [GOAL_GAMEPLAY_FIRST.md](docs/GOAL_GAMEPLAY_FIRST.md). Preserve the full
 scope below and complete common player experiences before specialized variants.
@@ -20,7 +45,7 @@ and fuel45 after release. Runtime and selected cinematic source-terminal/re-entr
 checks also pass. None certifies sustained OS-held flight, landing or fidelity.
 Later main landing-effect work does not change this immutable executable.
 
-The next delivery is the continuous ordinary Mecc loop: stable real movement/aim,
+The first normal-path check is the continuous ordinary Mecc loop: stable real movement/aim,
 sustained thrust/nitro, release, visible descent and landing, then entry again.
 That whole interaction remains unverified; the 1,600-step installed CPU check
 selects descent41 without proving a real-input falling-pose image. Preserve the

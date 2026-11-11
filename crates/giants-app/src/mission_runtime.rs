@@ -3179,6 +3179,70 @@ mod tests {
         );
         let mut viewer =
             crate::mecc_dev_scene::State::load_mission(&root, &asset, &packet, &player).unwrap();
+        // Actual Bevy input semantics: a down/up pair in one host update has a
+        // press edge but no held level. Zero-step updates must not lose it, and
+        // consuming that edge must not auto-fire after the source cooldown.
+        viewer.sample_pose().unwrap();
+        let mut keys = ButtonInput::default();
+        let mut mouse = ButtonInput::default();
+        let mut controls = giants_game::control_options::ControlOptions::default();
+        assert!(controls.bind(0, 0, "KeyK"));
+        let mut fire_press = crate::mecc_input::FirePress::default();
+        keys.press(KeyCode::KeyK);
+        keys.release(KeyCode::KeyK);
+        assert!(!crate::mecc_input::pressed(
+            Some(&controls),
+            crate::mecc_input::Action::Fire,
+            &keys,
+            &mouse,
+            false,
+        ));
+        fire_press.sample(Some(&controls), &keys, &mouse, true);
+        keys.clear();
+        for _ in 0..3 {
+            fire_press.sample(Some(&controls), &keys, &mouse, true);
+        }
+        assert!(
+            viewer
+                .mission_fire_step(1. / 120., fire_press.take(false), &asset.terrain)
+                .unwrap()
+                .fired
+        );
+        for _ in 0..90 {
+            assert!(
+                !viewer
+                    .mission_fire_step(1. / 120., fire_press.take(false), &asset.terrain)
+                    .unwrap()
+                    .fired
+            );
+        }
+        mouse.press(MouseButton::Left);
+        mouse.release(MouseButton::Left);
+        fire_press.sample(None, &keys, &mouse, true);
+        assert!(
+            viewer
+                .mission_fire_step(1. / 120., fire_press.take(false), &asset.terrain)
+                .unwrap()
+                .fired
+        );
+        assert_eq!(viewer.mission_pistol.as_ref().unwrap().fired, 2);
+        mouse.clear();
+        mouse.press(MouseButton::Left);
+        mouse.release(MouseButton::Left);
+        fire_press.sample(None, &keys, &mouse, true);
+        fire_press.sample(None, &keys, &mouse, false);
+        for _ in 0..90 {
+            assert!(
+                !viewer
+                    .mission_fire_step(1. / 120., fire_press.take(false), &asset.terrain)
+                    .unwrap()
+                    .fired
+            );
+        }
+        assert_eq!(viewer.mission_pistol.as_ref().unwrap().fired, 2);
+        println!(
+            "normal_fire_press_control keyboard=1 mouse=1 lost_focus_discarded=true repeated_after_cooldown=false supplied_input_flags=true os_input=false"
+        );
         let mut payload = payload();
         payload.parameters = packet.slot_parameters(&root);
         payload.packet = packet;

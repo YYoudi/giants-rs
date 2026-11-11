@@ -24,6 +24,13 @@ method, not another feature backlog. Native-function work still follows
 [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md), including prototype PS2
 lookup, private evidence and explicit uncertainty.
 
+For the owner's 11 November consolidation, inspect the available work of all five
+lanes and finish the genuinely supported wiring before closing the objective.
+Record committed and unfinished source separately in the private inventory; keep
+other worktrees read-only. The resulting acceptance covers one common main/build/
+dashboard snapshot, not only merged helper APIs or another Mecc-only package.
+The concrete item inventory and proven remaining blockers belong in BACKLOG.md.
+
 ## Inspect a contribution before connecting it
 
 First identify the ordinary player action this contribution unlocks, its actual

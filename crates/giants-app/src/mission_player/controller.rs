@@ -20,6 +20,7 @@ pub(crate) struct Controller {
     remainder: f64,
     flight_audio_dt: f32,
     pending_boost: bool,
+    fire_press: crate::mecc_input::FirePress,
     steps: u32,
     replay: bool,
     staging_replay: bool,
@@ -246,6 +247,7 @@ impl Controller {
             remainder: 0.,
             flight_audio_dt: 0.,
             pending_boost: false,
+            fire_press: Default::default(),
             steps: 0,
             replay: matches!(
                 std::env::var("GIANTS_MISSION_REPLAY").ok().as_deref(),
@@ -416,6 +418,7 @@ pub(super) fn update(
             && (preview || controller.was_active || showcase.controls(frontend.flow.phase));
         let active = showcase.controls(frontend.flow.phase) || replay_running;
         if !active {
+            controller.fire_press.clear();
             // Subjective geometry belongs to the controlled view, including
             // the held weapon. Do not leave it floating during free inspection.
             for (_, mut visibility, _, gun, arms) in &mut draws {
@@ -443,6 +446,10 @@ pub(super) fn update(
             .iter()
             .any(|(w, c)| w.focused && c.grab_mode == bevy::window::CursorGrabMode::Locked);
         let controls = Some(frontend.mecc_controls());
+        let ordinary_input = focused && !replay_running && !controller.owned_backend;
+        controller
+            .fire_press
+            .sample(controls, &keys, &buttons, ordinary_input);
         let held =
             |action| focused && mecc_input::pressed(controls, action, &keys, &buttons, false);
         let mut axes = if focused {
@@ -797,7 +804,7 @@ pub(super) fn update(
             let fire = if controller.fire_replay {
                 (60..300).contains(&tick)
             } else {
-                !replay_running && held(Action::Fire)
+                !replay_running && controller.fire_press.take(held(Action::Fire))
             };
             controller.update_subjective(&prepared.prepared, &runtime, 1. / 120., fire);
             let footsteps = controller.state.mission_audio_steps();
