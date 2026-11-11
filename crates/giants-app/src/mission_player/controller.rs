@@ -712,8 +712,29 @@ pub(super) fn update(
                     let position = controller.state.mission_snapshot().0;
                     if controller.probe_route.is_none() {
                         controller.probe_route = Some(
-                            route_probe::Route::prepare(&scene.asset.terrain, position, goal)
-                                .expect("conservative terrain input route"),
+                            route_probe::Route::prepare(
+                                &scene.asset.terrain,
+                                position,
+                                goal,
+                                scene.asset.config.slope_thresholds[0],
+                            )
+                            .or_else(|_| {
+                                route_probe::Route::prepare(
+                                    &scene.asset.terrain,
+                                    position,
+                                    goal,
+                                    scene.asset.config.slope_thresholds[1],
+                                )
+                            })
+                            .or_else(|_| {
+                                route_probe::Route::prepare(
+                                    &scene.asset.terrain,
+                                    position,
+                                    goal,
+                                    0.2,
+                                )
+                            })
+                            .expect("sampled terrain input route with jet-assisted slopes"),
                         );
                     }
                     controller
@@ -774,12 +795,9 @@ pub(super) fn update(
                             thrust = false;
                         }
                         boost = distance > 300. && tick % 360 == 0;
-                        if return_target.is_some()
-                            && distance < 500.
-                            && target[2] - position[2] > 35.
-                        {
-                            axes = Vec2::ZERO;
+                        if return_target.is_some() && target[2] - position[2] > 8. {
                             thrust = true;
+                            boost = tick % 400 == 0;
                         }
                         if Controller::campaign_probe() {
                             let fuel = controller.state.mission_snapshot().1;
@@ -795,10 +813,11 @@ pub(super) fn update(
                             }
                             if tick % 600 == 0 {
                                 println!(
-                                    "mission_campaign_navigation ticket={} step={tick} position={position:?} target={target:?} fuel={fuel} recharge={} axes={axes:?} thrust={thrust} boost={boost} return_target={} supplied_input_only=true",
+                                    "mission_campaign_navigation ticket={} step={tick} position={position:?} target={target:?} fuel={fuel} recharge={} axes={axes:?} thrust={thrust} boost={boost} return_target={} physical={:?} supplied_input_only=true",
                                     controller.ticket,
                                     controller.probe_recharge,
-                                    return_target.is_some()
+                                    return_target.is_some(),
+                                    controller.state.mission_physical_snapshot()
                                 );
                             }
                         }

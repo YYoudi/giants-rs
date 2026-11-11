@@ -231,6 +231,14 @@ impl State {
             self.mesh_responses,
         )
     }
+    pub(crate) fn mission_physical_snapshot(&self) -> (u32, u32, bool, [f32; 3]) {
+        (
+            self.physics_flags,
+            self.support,
+            self.grounded,
+            self.motion.velocity,
+        )
+    }
     pub(crate) fn mission_fire_step(
         &mut self,
         dt: f32,

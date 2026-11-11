@@ -1,4 +1,4 @@
-//! Terrain route for the explicit offscreen input fixture only. This is not
+//! Sampled terrain route for the explicit offscreen input fixture only. This is not
 //! reconstructed NPC navigation, a mission predicate or an actor-position writer.
 use giants_formats::gti::Terrain;
 use giants_game::{arithmetic::Precision, terrain_queries::StaticTerrainQuery};
@@ -8,28 +8,33 @@ pub(super) struct Route {
     cursor: usize,
 }
 impl Route {
-    pub fn prepare(terrain: &Terrain, start: [f32; 3], goal: [f32; 3]) -> Result<Self, String> {
+    pub fn prepare(
+        terrain: &Terrain,
+        start: [f32; 3],
+        goal: [f32; 3],
+        minimum_normal: f32,
+    ) -> Result<Self, String> {
+        if !minimum_normal.is_finite() || minimum_normal <= 0. || minimum_normal > 1. {
+            return Err("invalid source walkable slope threshold".into());
+        }
+        let maximum_grade = (1. / (minimum_normal * minimum_normal) - 1.).sqrt() + 0.001;
         let query = StaticTerrainQuery::new(terrain, 1. / terrain.spacing, Precision::Double53)?;
-        let minimum = std::array::from_fn::<_, 2, _>(|i| {
-            (start[i].min(goal[i]) - 800.).max(terrain.origin[i] + terrain.spacing)
-        });
+        let minimum = std::array::from_fn::<_, 2, _>(|i| terrain.origin[i] + terrain.spacing);
         let maximum = std::array::from_fn::<_, 2, _>(|i| {
-            (start[i].max(goal[i]) + 800.).min(
-                terrain.origin[i]
-                    + (if i == 0 {
-                        terrain.width - 2
-                    } else {
-                        terrain.height - 2
-                    }) as f32
-                        * terrain.spacing,
-            )
+            terrain.origin[i]
+                + (if i == 0 {
+                    terrain.width - 2
+                } else {
+                    terrain.height - 2
+                }) as f32
+                    * terrain.spacing
         });
         let mut step = 8.;
         let dimensions = loop {
             let d = std::array::from_fn::<_, 2, _>(|i| {
                 ((maximum[i] - minimum[i]) / step).ceil().max(1.) as usize + 1
             });
-            if d[0] * d[1] <= 262144 {
+            if d[0] * d[1] <= 1000000 {
                 break d;
             }
             step *= 2.;
@@ -44,7 +49,7 @@ impl Route {
         let mut heights = vec![None; width * height];
         for (n, height) in heights.iter_mut().enumerate() {
             let sample = query.sample(point(n))?;
-            if sample.in_bounds && sample.height >= 0. && sample.plane[2] >= 0.8 {
+            if sample.in_bounds && sample.height >= 0. && sample.plane[2] >= minimum_normal {
                 *height = Some(sample.height);
             }
         }
@@ -61,7 +66,7 @@ impl Route {
                     distance(*a).total_cmp(&distance(*b))
                 })
                 .map(|(i, _)| i)
-                .ok_or("input route has no walkable terrain".into())
+                .ok_or("input route has no candidate terrain".into())
         };
         let first = closest(start)?;
         let last = closest(goal)?;
@@ -103,13 +108,13 @@ impl Route {
                     } else {
                         step
                     };
-                    if rise > length * 0.7 {
+                    if rise > length * maximum_grade {
                         continue;
                     }
                     let a = point(n);
                     let b = point(next);
                     let middle = query.sample([(a[0] + b[0]) * 0.5, (a[1] + b[1]) * 0.5])?;
-                    if !middle.in_bounds || middle.plane[2] < 0.8 {
+                    if !middle.in_bounds || middle.plane[2] < minimum_normal {
                         continue;
                     }
                     let value =
@@ -123,7 +128,7 @@ impl Route {
             }
         }
         if distance[last] == u64::MAX {
-            return Err("no conservative land route to declared destination".into());
+            return Err("no sampled input route to declared destination".into());
         }
         let mut indices = vec![last];
         while *indices.last().unwrap() != first {
@@ -139,7 +144,7 @@ impl Route {
             .collect::<Vec<_>>();
         points.push(goal);
         println!(
-            "mission_campaign_route points={} step={step} supplied_input_only=true terrain_sampled=true positions_written=false",
+            "mission_campaign_route points={} step={step} normal_threshold={minimum_normal} supplied_input_only=true terrain_sampled=true positions_written=false",
             points.len()
         );
         Ok(Self { points, cursor: 0 })
