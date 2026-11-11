@@ -58,6 +58,23 @@ class PublicSiteTests(unittest.TestCase):
         self.assertNotIn('Inside the preview', section)
         self.assertIn('ordinary gameplay availability unverified', hero)
 
+    def test_current_capture_requires_matching_source_tag_and_executable(self):
+        from tools.export_site import screenshots_html
+        preview = self.preview_fixture()
+        row = dict(title='Actual render', image='media/'+'b'*64+'.webp',
+                   caption='Supplied commands, fidelity unverified', commit=preview['source_commit'],
+                   preview_tag=preview['tag'], executable_sha256=preview['executable_sha256'])
+        section, hero = screenshots_html({'screenshots': [row]}, preview)
+        self.assertIn('Capture from the current Windows download', section)
+        self.assertIn('Current Windows preview capture', hero)
+        for field, value in [('commit', 'c'*40), ('preview_tag', 'preview-2026.11.09.11'),
+                             ('executable_sha256', 'd'*64)]:
+            with self.subTest(field=field):
+                stale = dict(row, **{field: value})
+                section, hero = screenshots_html({'screenshots': [stale]}, preview)
+                self.assertIn('Archived diagnostic capture', section)
+                self.assertNotIn('Current Windows preview capture', hero)
+
     def test_cinematic_inventory_exports_only_canonical_aggregate_fields(self):
         from tools.cinematic_inventory import public_summary
         from tools.export_site import cinematic_inventory

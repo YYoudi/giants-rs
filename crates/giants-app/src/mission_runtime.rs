@@ -609,6 +609,17 @@ impl Runtime {
         id: giants_game::resident_states::Id,
     ) -> Option<[f32; 3]> {
         let active = self.active.as_ref().filter(|a| a.ticket == ticket)?;
+        if active.resident_states.vimp(id).is_some() {
+            // Canonical completed NPC ownership supplies its current position;
+            // a living Vimp has no independent presentation-position mirror.
+            active.resident_states.completed_vimp_frame(id).ok()?;
+            let fields = active
+                .resident_states
+                .get(id)?
+                .construction_fields
+                .as_ref()?;
+            return (fields.object_flags & 0xc000 == 0).then_some(fields.position);
+        }
         if active.resident_states.positional_impact(id).is_some() {
             let fields = active
                 .resident_states

@@ -126,8 +126,13 @@ def gallery_data(root):
             if not re.fullmatch(r'media/[a-f0-9]{64}\.webp', name) or name not in data['images']:
                 raise ValueError('Unapproved gallery image')
     for row in data.get('screenshots', []):
-        if set(row) != {'title', 'image', 'caption', 'commit'}:
+        required = {'title', 'image', 'caption', 'commit'}
+        receipt = {'preview_tag', 'executable_sha256'}
+        if not required <= set(row) or set(row) - required not in (set(), receipt):
             raise ValueError('Unexpected screenshot field')
+        if receipt <= set(row) and (not re.fullmatch(r'preview-\d{4}\.\d{2}\.\d{2}(?:\.\d+)?', row['preview_tag'])
+                                  or not re.fullmatch(r'[a-f0-9]{64}', row['executable_sha256'])):
+            raise ValueError('Invalid screenshot preview receipt')
         if any(not isinstance(v, str) or PRIVATE.search(v) for v in row.values()):
             raise ValueError('Private path in screenshot')
         if (not re.fullmatch(r'media/[a-f0-9]{64}\.webp', row['image'])
@@ -142,17 +147,23 @@ def gallery_data(root):
     return data
 
 
-def screenshots_html(gallery):
+def screenshots_html(gallery, preview=None):
     rows = gallery.get('screenshots', [])
     if not rows:
         return '', '<figure id="hero-image" hidden></figure>'
     esc = html.escape
     cards = []
+    def current(row):
+        return bool(preview and row['commit'] == preview['source_commit']
+                    and row.get('preview_tag') == preview['tag']
+                    and row.get('executable_sha256') == preview['executable_sha256'])
     for row in rows:
+        availability = ('Capture from the current Windows download. The caption states its test conditions; visual fidelity remains unverified.'
+                        if current(row) else 'Archived diagnostic capture. Availability in the current download or ordinary gameplay is not established by this image.')
         cards.append(f'<figure class="build-capture"><a href="{row["image"]}" target="_blank" rel="noopener" aria-label="Open full-size image: {esc(row["title"])}">'
                      f'<img src="{row["image"]}" alt="{esc(row["title"])}" width="1920" height="1080" decoding="async"></a>'
                      f'<figcaption><h3>{esc(row["title"])}</h3>'
-                     '<p class="capture-availability">Archived diagnostic capture. Availability in the current download or ordinary gameplay is not established by this image.</p>'
+                     f'<p class="capture-availability">{availability}</p>'
                      f'<p>{esc(row["caption"])}</p>'
                      f'<a class="capture-revision" href="https://github.com/YYoudi/giants-rs/commit/{row["commit"]}">Recorded build {row["commit"][:7]} ↗</a></figcaption></figure>')
     section = ('<section id="latest-captures" aria-labelledby="latest-captures-title"><div class="section-heading"><div>'
@@ -161,8 +172,10 @@ def screenshots_html(gallery):
                '<p>These captures document specific development revisions, including scripted inspections. '
                'They do not certify ordinary gameplay in the latest Windows preview. Open an image for its full-size view and recorded revision. Visual fidelity remains unverified.</p>'
                f'<div class="capture-grid">{"".join(cards)}</div></section>')
+    identity = ('Current Windows preview capture · fidelity unverified' if current(rows[0])
+                else 'Archived diagnostic render · ordinary gameplay availability unverified')
     hero = (f'<figure id="hero-image"><img src="{rows[0]["image"]}" alt="" decoding="async">'
-            f'<figcaption>Archived diagnostic render · build {rows[0]["commit"][:7]} · ordinary gameplay availability unverified</figcaption></figure>')
+            f'<figcaption>{identity} · build {rows[0]["commit"][:7]}</figcaption></figure>')
     return section, hero
 
 
@@ -256,7 +269,7 @@ def export(output, root=ROOT):
     data = project(json.loads((root/'PROGRESS.json').read_text(encoding='utf8')))
     preview, preview_html = public_preview(root)
     gallery = gallery_data(root)
-    screenshots, hero = screenshots_html(gallery)
+    screenshots, hero = screenshots_html(gallery, preview)
     historical_hero, featured = featured_captures(gallery)
     if not screenshots and historical_hero:
         hero = f'<figure id="hero-image">{historical_hero}</figure>'

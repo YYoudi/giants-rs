@@ -518,6 +518,22 @@ fn normal_vimp_component_control(
                         kills += usize::from(dead);
                         sounds += events.len();
                         if dead {
+                            assert!(runtime.actor_audio_position(ticket, id).is_none());
+                        } else {
+                            let position = runtime
+                                .active
+                                .as_ref()
+                                .unwrap()
+                                .resident_states
+                                .get(id)
+                                .unwrap()
+                                .construction_fields
+                                .as_ref()
+                                .unwrap()
+                                .position;
+                            assert_eq!(runtime.actor_audio_position(ticket, id), Some(position));
+                        }
+                        if dead {
                             let contacts = runtime.npc_contact_snapshots(ticket).unwrap();
                             viewer.set_mission_contacts(ticket, contacts).unwrap();
                         }
