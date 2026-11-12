@@ -102,6 +102,15 @@ impl Fields {
                         (out.packed_parameters & 0xffff_00ff) | ((word(1)? & 0xff) << 8)
                 }
                 0x13 => out.animation_slot = u32::from(record.bytes[1]),
+                0x33..=0x35 => {
+                    // The acquired zero-operand profiles only OR the source
+                    // personality bits already projected above. Nonzero size
+                    // variants require their own acquired field preparation.
+                    // This does not allocate or admit a live footprint.
+                    if word(1)? != 0 || word(5)? != 0 {
+                        return Err("cold collider footprint size variant is unacquired".into());
+                    }
+                }
                 // Usage masks have their separate Instance owner. Texture
                 // descriptors and state effect-name bindings do not belong to
                 // this scalar collision projection; their services stay separate.

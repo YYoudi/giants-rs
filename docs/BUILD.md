@@ -1,5 +1,14 @@
 # Build on Windows with MinGW
 
+The active building work follows [BUILDINGS.md](BUILDINGS.md). Dependency checks:
+`cargo test --locked -p giants-game building_damage --target x86_64-pc-windows-gnu`.
+With a user-supplied installation configured in `GIANTS_BUILDING_ROOT`, run
+`cargo test --locked -p giants-game installed_houses_share_health_pose --target
+x86_64-pc-windows-gnu -- --ignored`. This checks source health deformation and
+consistent initial player/projectile geometry; it does not test ordinary damage,
+effects/audio, mission credit, retirement, GPU response or actual Windows input.
+Those remain required on the final identified menu-first executable.
+
 For meat collection, follow [MEAT_COLLECTION.md](MEAT_COLLECTION.md) and the
 identity-bound checks in [PREVIEW_NOTES.md](PREVIEW_NOTES.md). In normal Story2 /
 Starving!, hunt a Vimp, wait for settled meat, approach it and observe the carried

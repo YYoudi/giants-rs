@@ -69,6 +69,37 @@ fn flat_blocks(ops: &[u8]) -> bool {
     }
     blocks > 0 && ops.get(at..) == Some(&[2])
 }
+// Acquired compound stone-burst null pass. Every admitted block has a complete
+// source3 constructor and lifetime; positional sound is sampled before it.
+// The commands below skip their active stores/children on a null object. This
+// grants no active constructor, audio, texture, attachment or motion service.
+fn compound_blocks(ops: &[u8]) -> bool {
+    let mut at = usize::from(ops.first() == Some(&0x2b));
+    let mut blocks = 0;
+    while ops.get(at..at + 2) == Some(&[3, 6]) {
+        at += 2;
+        let start = at;
+        while ops
+            .get(at)
+            .is_some_and(|op| matches!(op, 4 | 0x1b | 0x21 | 0x17 | 0x10 | 0x29 | 0x0e))
+        {
+            at += 1;
+        }
+        let body = &ops[start..at];
+        if !body.contains(&4)
+            || (!body.contains(&0x10) && !body.contains(&0x29))
+            || ops.get(at) != Some(&7)
+        {
+            return false;
+        }
+        at += 1;
+        blocks += 1;
+        if blocks > 64 {
+            return false;
+        }
+    }
+    blocks >= 2 && ops.get(at..) == Some(&[2])
+}
 /// Admit the whole acquired frame, never a name, address or first opcode.
 /// Range operands are decoded and validated before any random state commits.
 pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, String> {
@@ -132,6 +163,12 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
             | [3, 6, 4, 0x21, 0x10, 0x78, 7, 2]
             | [3, 6, 4, 0x17, 0x1c, 0x79, 7, 2]
     );
+    let stone_child = matches!(
+        ops.as_slice(),
+        [3, 6, 4, 0x33, 0x1c, 0x13, 0x12, 0x0e, 0x19, 0x47, 7, 2]
+            | [3, 6, 5, 0x33, 0x1c, 0x13, 0x12, 0x0e, 0x19, 0x47, 7, 2]
+            | [3, 6, 0x33, 4, 9, 0x0e, 0x47, 7, 2]
+    );
     if ghost {
         crate::vimp_ghost::Recipe::project(program)?;
     }
@@ -152,6 +189,8 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !pistol_splash
         && !ghost
         && !death
+        && !compound_blocks(&ops)
+        && !stone_child
     {
         return Err("effect initial skip pass outside acquired complete profile".into());
     }
@@ -275,6 +314,48 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn compound_null_preparation_samples_sound_once_and_refuses_unknown_active_commands() {
+        let mut bytes = vec![0x2b];
+        bytes.extend(9u32.to_le_bytes());
+        bytes.extend(9u32.to_le_bytes());
+        for class in [10u32, 20] {
+            bytes.push(3);
+            bytes.extend(class.to_le_bytes());
+            bytes.extend([6, 0x21, 0x1b]);
+            bytes.extend(1f32.to_le_bytes());
+            bytes.push(4);
+            for value in [2f32, 0., 2.] {
+                bytes.extend(value.to_le_bytes());
+            }
+            bytes.push(0x10);
+            bytes.extend(0u32.to_le_bytes());
+            bytes.extend(b"synthetic_child\0");
+            bytes.extend(0u32.to_le_bytes());
+            bytes.push(7);
+        }
+        bytes.push(2);
+        let program = giants_formats::effect_program::parse(&bytes).unwrap();
+        let mut random = Random(17);
+        assert!(skip(&program, &mut random).unwrap().is_empty());
+        let mut expected = Random(17);
+        expected.next_15();
+        assert_eq!(random.0, expected.0);
+        // A late unsupported command must fail before the positional sound's
+        // preparation draw commits. It is not silently skipped as decoration.
+        let mut unsupported = program.clone();
+        let r = unsupported
+            .records
+            .iter_mut()
+            .rev()
+            .find(|r| r.opcode == 0x21)
+            .unwrap();
+        r.opcode = 0x16;
+        r.bytes[0] = 0x16;
+        let before = random.0;
+        assert!(skip(&unsupported, &mut random).is_err());
+        assert_eq!(random.0, before);
+    }
     #[test]
     fn death_trail_emission_window_is_sampled_without_an_active_emitter_and_is_atomic() {
         let mut bytes = vec![3];

@@ -24,6 +24,16 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed concurrent history: minimal unassigned Ripper/FX aliases and
+        # navigation prose only. This does not confirm identities or gameplay.
+        'aaa4e812aeac37c37de759e17eac26c4f6b2a6ff860bc22310b5d554c3619be5',
+        '38f1549bfb93f66e3db9cc5692d28c3e9ce9f125adeec2ab532098768c9165df',
+        '55e1e942fb5c0a0c0dea7a15490e1c40c1a497fb4eea09b07a774cf791c44e5d',
+        '1838eb8ef285d2d6694ae0bad8cf698bce43e4065ad6bbf233e77b50c2bd9164',
+        'b497d47f79eb19dd5b3455524821b5f5f7be528f6b730f569d31510aac582432',
+        'ca9102a7b7a15dca9445650493f64ac66ddc0585b274295b388ff873b795ef1f',
+        # Reviewed literal house search routes, unknown attribution; aliases unchanged.
+        'cc1455ed8f9482f0b38033862bac6ad8e6d5c694ee720eea79d7d6df7a289042',
         # Reviewed literal cinematic process/clock search routes; identities unknown.
         'ff17acf1136bcda4a7ab43810f0cec702b34b0caee3ffd8c71142484a174ab3d',
         # One independently reviewed, probable mission-proximity PC alias, with
@@ -80,6 +90,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
     },
     'docs/RECONSTRUCTION_METHOD.md': {
+        # Read-only procedure-entry guidance; existing reviewed aliases unchanged.
+        '74014108617eae1798deacd3bb76527bbcf437e723b0e7b4634ef7db17268ee2',
         # Central mission-method link only; reviewed attribution aliases unchanged.
         'a0c4addf0a738b4bf910f9f730d85fd8410c09ffed60c7ba683fd7de201a868a',
         # Searchable-source naming policy; existing attribution rows unchanged.

@@ -15,6 +15,46 @@ Initial coverage includes seven Vimp names and the two previously confirmed
 camera service identities; .11.4 adds the selected meat-collection search routes. Naming does not establish gameplay delivery; the
 separately validated ordinary integration and publication are recorded below.
 
+## Active objective - ordinary buildings, collision and damage reactions
+
+Owner direction, 12 November 2026: connect the buildings already drawn on maps
+to player/projectile collisions, hitboxes and source damage reactions. Preserve
+indestructible cases, successive damage states, disappearance/replacement,
+explosions, particles and sounds according to each acquired family. Work alone
+in the integration worktree, starting native work from prototype PS2 names.
+The delivered baseline remains preview .12.2; no building delivery is claimed yet.
+
+Current dependency milestone: acquired PC house damage/animation decisions agree
+on 3,080 private supplied contexts. Guarded zero-size class33..35 declarations
+and Bounds1/Pair2 solid admission restore preparation for the ordinary Smartie
+houses and selected walls; Raster3 preparation stays unresolved. State61 collision
+geometry now consumes its actual intact ANM/SKN and channel1 bounds. The installed
+control checks all six house variants, separate collision selection, changing
+health geometry and matching player/projectile triangles. No GPU/ordinary damage
+delivery is implied. Next: canonical live house owner and ordered compound stone
+bursts, actual audio/lifecycle/mission-credit sinks, then normal-game testing.
+
+1. Inventory authored classes/states and distinguish actual collider coverage
+   from visible geometry. Prioritize the ordinary Story1/Story2/Story5 entries.
+2. Acquire supported class/header/footprint fields and actual collision shapes.
+   Connect lateral/player/projectile queries with stable source and owner IDs.
+3. Bind real damage callbacks, health-animation/geometry updates and immutable
+   indestructibility/weapon gates. Update collision inputs with visual changes.
+4. Consume actual source effects, particles, sounds, replacements and retirement;
+   preserve mission signaling and shared world/clock/RNG/lifecycle ownership.
+5. Verify the complete ordinary interaction and common regressions on one
+   executable, with separate Windows input checks, then publish matching main,
+   Windows preview and dashboard, receipts/notices/checksums, independent
+   downloads, CI and served Pages. Follow docs/BUILDINGS.md.
+
+First evidence: private installed census confirms missing collision admission
+for many houses/walls. PC state61 house and state101 death-FX callback entries
+are located through their actual registration descriptors after literal PS2
+lookup. The new house decision kernel preserves source threshold/event ordering;
+3,080 supplied native contexts now match damage, animation fraction and ordered
+requests. All ordinary building consumers remain under development.
+No new PS2 attribution or building gameplay availability is confirmed.
+
 ## Delivered milestone - The Wife rescue and completion-film continuation
 
 Owner direction, 12 November 2026: make the ordinary The Wife rescue playable

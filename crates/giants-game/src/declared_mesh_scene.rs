@@ -86,13 +86,27 @@ fn prepare_profile(
             let context = plan.resources();
             let projection =
                 collider_init::cold_projection(context, source.class).map_err(|e| e.to_string())?;
-            let initial = projection.placed_with_scale(pose, scale_override)?;
+            let mut initial = projection.placed_with_scale(pose, scale_override)?;
+            if initial.state == 61 {
+                // The acquired first house callback selects health channel1.
+                // Its descriptor bounds and posed collision model must agree
+                // with the intact visual, rather than the serialized bind pose.
+                initial.fields.animation_slot = 1;
+            }
             if initial.fields.object_flags & 0x20 != 0 {
                 return Err("source cache producer required".into());
             }
-            if initial.fields.collision_flags & 8 != 0 && !platforms {
+            if initial.fields.collision_flags & 8 != 0
+                && initial.fields.collision_flags & (0x80000 | 0x100000) == 0
+                && !platforms
+            {
                 return Err("platform footprint preparation required".into());
             }
+            // Bounds1 / Pair2 take precedence over Raster3. Their acquired
+            // membership readers cannot return platform bit1, even when the
+            // declaration also has bit8. This admits the independently selected
+            // solid collision mesh, not a fabricated walkable roof. Raster3
+            // candidates still require their actual footprint producer.
             let radius = context
                 .collision_resource_bounds(source.class, Some(1))
                 .map_err(|e| e.to_string())?;
@@ -124,9 +138,19 @@ fn prepare_profile(
             let selection = context
                 .collision_model_mesh(source.class)
                 .map_err(|e| e.to_string())?;
-            let (name, mesh) = selection
+            let (name, mut mesh) = selection
                 .geometry
                 .ok_or("selected collision slot has no geometry")?;
+            if prepared.state == 61 {
+                let binding = context.classes.models.first_selection(source.class)
+                    .ok_or("house model selection absent")?
+                    .as_ref().map_err(Clone::clone)?;
+                let mut health = crate::model_pose::Prepared::load_normal_initial(
+                    context, 61, source.class, &binding.selection,
+                )?;
+                health.house_health(1.)?;
+                mesh.positions = health.positions(context, &name, &mesh)?;
+            }
             let m = crate::uncached_pose::matrix(
                 crate::uncached_pose::Pose {
                     position: prepared.fields.current,

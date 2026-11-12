@@ -202,6 +202,14 @@ impl Fields {
                 0x14 | 0x16 | 0x2a | 0x18 | 0x1b | 0x1d | 0x22 | 0x23 | 0x2f | 0x41 | 0x54
                 | 0x52 | 0x55 | 0x7e => {}
                 0x17 => out.scale = float(1)?,
+                0x33..=0x35 => {
+                    // Zero operands retain cold scalar fields; the actual
+                    // personality OR is applied below. Footprint ownership is
+                    // separate, and nonzero size variants remain unacquired.
+                    if word(1)? != 0 || word(5)? != 0 {
+                        return Err("actor footprint size variant is unacquired".into());
+                    }
+                }
                 0x19 => out.configuration[11] = word(1)?,
                 0x1a => {
                     if gunlist.len() == 16 {

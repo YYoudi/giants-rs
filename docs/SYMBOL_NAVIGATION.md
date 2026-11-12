@@ -123,6 +123,18 @@ relationship remains **unknown**. Find the PC reconstruction in
 `effect_actor::Template::surface_positioned` and `effect_surface`; do not replace
 it with the prototype's no-op behavior.
 
+## Building damage search routes
+
+The literal prototype PS2 names `house_process`, `house_shot` and
+`house_handle_destruction` lead to
+[`building_damage`](../crates/giants-game/src/building_damage.rs). All three
+function relationships remain **unknown**. The acquired debug-PC decision
+kernels preserve cumulative damage, health-animation thresholds and ordered
+effect/sound/mission/retirement requests. Their source/collider/render/audio
+consumers and initial registration are separate work; no ordinary building
+interaction or full callback implementation is established by these kernels.
+See [BUILDINGS.md](BUILDINGS.md) for the current integration acceptance.
+
 ## Publication boundary
 
 The literal prototype PS2 names `FLK_FlickProcess__FP9FLK_Flick`,
