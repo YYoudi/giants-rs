@@ -1340,7 +1340,20 @@ pub(super) fn update(
                                         .write(crate::mission_audio::Request { ticket, event });
                                 }
                             }
-                            Ok(None) => {}
+                            Ok(None) => {
+                                if replay_running
+                                    && crate::frontend_scene::building_interaction_probe()
+                                    && std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref()
+                                        == Ok("unchanged")
+                                    && controller.building_probe_target.is_some_and(|id| {
+                                        controller.state.buildings.probe_no_shot_hits(id) >= 3
+                                    })
+                                    && !controller.building_probe_terminal
+                                {
+                                    controller.building_probe_terminal = true;
+                                    controller.finish_step = tick + 60;
+                                }
+                            }
                             Err(error) => {
                                 controller.building_failed = true;
                                 error!(
@@ -1444,6 +1457,25 @@ pub(super) fn update(
                         );
                         let phase = std::env::var("GIANTS_MISSION_BUILDING_CAPTURE")
                             .unwrap_or_else(|_| "destroyed".into());
+                        if phase == "unchanged" {
+                            controller
+                                .state
+                                .buildings
+                                .verify_no_shot(
+                                    target,
+                                    controller.state.mission_colliders(),
+                                    &controller.state.projectile_objects,
+                                )
+                                .expect(
+                                    "no-shot source collision owners changed after actual hits",
+                                );
+                            assert_eq!(controller.state.buildings.effects.births, 0);
+                            println!(
+                                "mission_building_no_shot_verified ticket={} object={target} hits={} player_projectile_shapes_unchanged=true source_retirement=false source_bursts=0",
+                                controller.ticket,
+                                controller.state.buildings.probe_no_shot_hits(target)
+                            );
+                        }
                         if phase == "settled" {
                             assert_eq!(
                                 controller.state.buildings.effects.active(),
@@ -1456,7 +1488,7 @@ pub(super) fn update(
                             controller.ticket,
                             pistol.fired,
                             controller.state.buildings.probe_requires_contact(target),
-                            phase != "damaged",
+                            matches!(phase.as_str(), "destroyed" | "settled"),
                             controller.state.buildings.effects.births,
                             controller.state.buildings.effects.retired,
                             controller.state.buildings.effects.active()

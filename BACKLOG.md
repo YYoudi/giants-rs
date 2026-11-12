@@ -64,7 +64,14 @@ attributions. The independent original-PC comparisons (3,080 house / 7,000 death
 contexts) validate bounded decisions and service boundaries, not native fidelity.
 The complete building objective and whole-game scope remain active.
 
-The next concrete building consumer is the guard tower's actual state0
+Next local acceptance first verifies actual ordinary hits on a source state0
+surface that has no shot callback, preserving its admitted player/projectile
+geometry and showing that configured health does not make it destructible.
+The independently acquired original dispatcher passes eighteen bounded controls;
+the local observation remains pending exact-executable GPU acceptance. This does
+not update the delivered .13.1 receipt or waive combined regressions.
+
+The following concrete building consumer is the guard tower's actual state0
 replacement and compound source effects. Its bounded original-caller inheritance
 and individual effect-property dependencies are acquired privately; constructors,
 world/render/collision ownership, nested retirement and complete ordinary

@@ -1,5 +1,14 @@
 # Build on Windows with MinGW
 
+For the next source no-shot surface acceptance, the existing muted offscreen
+building input fixture accepts `GIANTS_MISSION_BUILDING_CAPTURE=unchanged`.
+It selects an already admitted source state0 mesh, supplies ordinary contact,
+retreat, look and pistol inputs, then requires three actual distinct projectile
+hits and unchanged player/projectile geometry. No health, collider, effect or
+readiness is written to reach that endpoint. This does not enable an action or
+make an unsupported callback indestructible; require real rendered acceptance
+on its own receipt and follow [BUILDINGS.md](BUILDINGS.md).
+
 For the initial static-shadow dependency, run `cargo test --locked -p
 giants-game actor_static_shadow --target x86_64-pc-windows-gnu`. Its optional
 `installed_entrance_retains_registered_shadow_and_shared_copy_identity` control

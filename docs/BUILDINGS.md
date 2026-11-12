@@ -204,6 +204,27 @@ these into a universal explosion or assume every visible building is destructibl
 
 ## Delivery evidence
 
+### Next acceptance: a source surface without a shot callback
+
+The acquired original-PC dispatcher checks its actual state descriptor before
+calling a shot callback. Eighteen private controls execute that dispatcher and
+the real descriptor table. State0 leaves the supplied actor byte-for-byte
+unchanged, including cases with configured health and large positive damage.
+Positive controls forward all six arguments into the original nonlethal house
+and scenery callbacks, which perform their real damage stores. Actor/payload,
+point, thresholds and arithmetic context are supplied; this is not a rendered
+gameplay test or a confirmed prototype PS2 identity.
+
+The next local app observation retains only already admitted initial state0
+surfaces. Configured health is recorded, never used to invent a damage policy.
+An absent acquired callback and an unsupported nonzero callback remain distinct.
+The ordinary pistol still stops at the actual projectile mesh. No health,
+geometry, effect or retirement request is fabricated. The `unchanged` diagnostic
+supplies the ordinary contact/retreat/aim/fire commands and must observe three
+distinct real projectile hits, unchanged player/projectile shapes and zero
+building burst births. Matching-executable GPU capture and normal-menu regression
+remain required; this source continuation does not update preview .13.1.
+
 ### Initial registered static-shadow dependency
 
 The ordinary entrance's source header contains a static-shadow declaration. It

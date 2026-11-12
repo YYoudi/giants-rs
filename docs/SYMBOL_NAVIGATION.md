@@ -162,6 +162,15 @@ and generated/dynamic copies stay distinct; shadow drawing and a new ordinary
 building delivery do not follow from the field preparation. Prior aliases remain
 unchanged, and detailed native records stay private.
 
+The literal prototype PS2 name `hurt_object` is an **unknown** search route to
+the separately acquired PC shot-dispatch boundary and
+[`mission_buildings/no_shot`](../crates/giants-app/src/mission_buildings/no_shot.rs).
+The original state0 descriptor has no callback function to attribute. Its
+unchanged-actor controls remain distinct from the original positive house and
+scenery callbacks, the ordinary hit adapter and pending rendered acceptance.
+This imports no prototype signature or layout and confirms no new identity.
+The exact PC dispatcher alias and both binary identities remain private.
+
 The literal prototype PS2 names `FLK_FlickProcess__FP9FLK_Flick`,
 `FLK_FlickUpdateTime__FP9FLK_Flickf` and `FlickAnimate__FP9FLK_Flick` are search
 routes to [`flick::Timeline`](../crates/giants-game/src/flick.rs),

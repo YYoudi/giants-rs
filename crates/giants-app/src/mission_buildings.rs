@@ -2,6 +2,7 @@
 //! `house_process`, `house_shot`, `house_handle_destruction`, `deathfx_logic`
 //! and `deathfx_shot` remain unknown PC attribution search routes.
 //! Other building families retain their collisions without a guessed callback.
+mod no_shot;
 use giants_game::{
     actor_fields::Fields,
     arithmetic::Precision,
@@ -48,6 +49,7 @@ struct Owner {
 }
 pub(crate) struct World {
     owners: BTreeMap<u32, Owner>,
+    no_shot: no_shot::Surfaces,
     thresholds: Thresholds,
     quality: f32,
     lite_distance: f32,
@@ -69,6 +71,7 @@ impl World {
         self.owners.contains_key(&object)
     }
     pub(crate) fn note_contact(&mut self, object: u32) {
+        self.no_shot.note_contact(object);
         if let Some(owner) = self.owners.get_mut(&object) {
             owner.contacts += 1;
             if owner.contacts == 1 {
@@ -80,7 +83,7 @@ impl World {
         }
     }
     pub(crate) fn probe_requires_contact(&self, object: u32) -> bool {
-        self.owners.get(&object).is_some_and(|o| o.physical)
+        self.owners.get(&object).is_some_and(|o| o.physical) || self.no_shot.physical(object)
     }
     /// Input fixture only: approach the Story2 small tower through the nearby
     /// entrance's declared origin. This returns a command destination, never an
@@ -101,13 +104,29 @@ impl World {
             .map(|o| o.fields.position)
     }
     pub(crate) fn probe_contacts(&self, object: u32) -> u64 {
-        self.owners.get(&object).map_or(0, |o| o.contacts)
+        self.owners
+            .get(&object)
+            .map_or_else(|| self.no_shot.contacts(object), |o| o.contacts)
+    }
+    pub(crate) fn probe_no_shot_hits(&self, object: u32) -> u32 {
+        self.no_shot.hits(object)
+    }
+    pub(crate) fn verify_no_shot(
+        &self,
+        object: u32,
+        players: &[giants_game::player_world_collision::Object],
+        projectiles: &[giants_game::projectile_world::Object],
+    ) -> Result<(), String> {
+        self.no_shot.verify(object, players, projectiles)
     }
     pub(crate) fn probe_target(
         &self,
         position: [f32; 3],
         selected: Option<u32>,
     ) -> Option<(u32, [f32; 3])> {
+        if std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref() == Ok("unchanged") {
+            return self.no_shot.target(position, selected);
+        }
         let (&id, owner) = if let Some(id) = selected {
             self.owners.get_key_value(&id)?
         } else {
@@ -309,6 +328,7 @@ impl World {
         );
         Ok(Self {
             owners,
+            no_shot: no_shot::Surfaces::prepare(plan, physical, colliders),
             thresholds,
             quality: globals.scalar(0x13e0).map_err(|e| e.to_string())?,
             lite_distance: globals.scalar(0x1570).map_err(|e| e.to_string())?,
@@ -324,6 +344,9 @@ impl World {
         residents: usize,
         random: &mut giants_game::audio_parameters::Random,
     ) -> Result<Option<HitResult>, String> {
+        if self.no_shot.note_hit(ticket, &hit) {
+            return Ok(None);
+        }
         if !self.owners.contains_key(&hit.object) {
             return Ok(None);
         }

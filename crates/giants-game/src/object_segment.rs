@@ -99,6 +99,11 @@ pub struct Mesh {
     local_pose: Option<crate::contact_pose::Cached>,
 }
 impl Mesh {
+    /// Already placed static geometry only. Cached local positions require
+    /// their real pose and must not be reported as world-space triangles.
+    pub fn static_world_triangles(&self) -> Option<&[[[f32; 3]; 3]]> {
+        self.local_pose.is_none().then_some(&self.triangles)
+    }
     pub(crate) fn validate_current_flags(&self, active: u32) -> Result<(), &'static str> {
         if self.local_pose.is_some() && active & 0x20 == 0 {
             return Err("cached contact mesh contradicts current actor flags");
