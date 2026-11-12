@@ -35,6 +35,7 @@ pub(crate) struct Controller {
     building_probe_target: Option<u32>,
     building_probe_progress: Option<[f32; 3]>,
     building_probe_stalled: bool,
+    building_probe_avoid_until: u32,
     building_probe_terminal: bool,
     // Input-fixture memory only: release RMB long enough to recharge, as a
     // player would. Never changes fuel, actor pose or the ordinary jet service.
@@ -420,6 +421,7 @@ impl Controller {
             building_probe_target: None,
             building_probe_progress: None,
             building_probe_stalled: false,
+            building_probe_avoid_until: 0,
             building_probe_terminal: false,
             probe_recharge: false,
             probe_route: None,
@@ -916,6 +918,11 @@ pub(super) fn update(
                                 (position[0] - older[0]).hypot(position[1] - older[1]) < 1.
                             });
                         controller.building_probe_progress = Some(position);
+                        if controller.building_probe_stalled
+                            && tick >= controller.building_probe_avoid_until
+                        {
+                            controller.building_probe_avoid_until = tick + 360;
+                        }
                     }
                     let approach = !physical
                         && controller
@@ -929,6 +936,12 @@ pub(super) fn update(
                         // or weaken a collision to complete the fixture.
                         thrust = (tick > 1200 && position[2] < target[2])
                             || controller.building_probe_stalled;
+                        if tick < controller.building_probe_avoid_until {
+                            // Keep ordinary input long enough to clear the
+                            // obstacle, rather than releasing on a small slide.
+                            axes = Vec2::new(-1., 1.);
+                            thrust = true;
+                        }
                     } else if distance < 70. {
                         axes = -Vec2::Y;
                     } else if !controller.building_probe_terminal {
