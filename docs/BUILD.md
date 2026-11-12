@@ -5,7 +5,9 @@ identity-bound checks in [PREVIEW_NOTES.md](PREVIEW_NOTES.md). In normal Story2 
 Starving!, hunt a Vimp, wait for settled meat, approach it and observe the carried
 count, pickup sound and disappearance. Return to the menu and enter a fresh
 mission. Full carried inventory must leave remaining pieces uncollected. The
-normal action needs no replay flags. Feeding and objective credit are not enabled.
+normal action needs no replay flags. For admitted source-owned mission objectives,
+follow [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md) and the current exact-build
+release notes; preview .11.4 remains the earlier uncredited collection build.
 
 The internal `GIANTS_MISSION_MEAT_PROBE=1` adds only supplied hunt/approach commands
 to the existing `GIANTS_MISSION_VIMP_PROBE=1` Story2 `showcase-mecc` replay. It
@@ -25,6 +27,19 @@ values supplied and no game helper replaced. These are dependencies: keep their
 source identity and supplied-input scope explicit. Preview .11.2 passes connected
 Story2 reaction/render/audio and common GPU/menu lifecycle checks; real OS-held
 flight and near-herd interaction on that executable remain unverified.
+
+For the Starving campaign input fixture, `GIANTS_MISSION_CAMPAIGN_PROBE=1` extends
+the existing muted offscreen Story2 hunt/collection probe through the authored
+return destination, normal next-ticket loading and the following source film's
+actual end. It supplies commands only, with no resource, position, readiness or
+film-terminal writes. Require twenty actually collected meat, both source
+producers, real old-ticket release, saved reached-entry bits, the next source film
+end and a fresh ordinary player with cleared meat. Other missions do not inherit
+this acceptance. The ignored `installed_round_trip_with_ordinary_motion` control
+accepts a private installation root and waypoint file to diagnose the same
+terrain-route input fixture without rendering; it never proves campaign or OS
+integration. Failed graphical candidates remain private and separate from the
+eventual delivery receipt.
 
 For the all-five consolidation, run the shared workspace checks below and the
 installed owner/normal-controller controls, including the generic player shell,

@@ -54,15 +54,17 @@ A name or attribution does not establish runtime fidelity.
 retirement investigation. Its exact relationship to the generic PC retirement
 service remains **unknown**; it does not authorize a guessed state destructor.
 
-## Preview boundary
+## Mission admission boundary
 
-The partial mission does not run the campaign objective VM. Its collection adapter
-explicitly chooses the acquired no-objective-credit branch, with no fabricated
-mission prefix, quota, gates, translated completion notice or successful quest.
-The unused credit accumulator and notice state belong only to that disabled
-preview adapter. This policy is not a reconstruction of native mission startup.
-Meat feeding, deposits, economy, replenishment and mission completion remain in
-[BACKLOG.md](../BACKLOG.md).
+The source-owned campaign subset is described centrally in
+[MISSION_PROGRESSION.md](MISSION_PROGRESSION.md). An admitted ordinary Gameplay
+record shares its actual collection quota and counter with its declared return
+destination. Collection credit alone cannot complete that record: the current
+player must also satisfy the acquired destination predicate. Inspection and
+unsupported records keep the explicit no-objective-credit preview branch. Earlier
+preview .11.4 always uses that uncredited branch; see the current download receipt
+for delivered availability. Feeding, deposits, economy and replenishment remain
+separate services in [BACKLOG.md](../BACKLOG.md).
 
 The callback requests its actual local-player pickup cue through the common
 sound transport. A queued request is not proof of a playing voice; graphical

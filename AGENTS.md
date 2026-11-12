@@ -20,11 +20,10 @@ Owner consolidation direction, 11 November 2026: the main lane works alone to
 harmonize all available Mecc, Delphi, NPC, Kabuto and Flick work in one main/build
 milestone. Follow the consolidation inventory and acceptance in BACKLOG.md;
 do not close that objective after another isolated Mecc preview or CPU-only merge.
-That consolidation shipped in preview .11.1. The owner's next objective is a
-reliable ordinary Mecc mission loop followed by a first living interaction,
-delivered through matching main/build/dashboard updates. Work alone in the
-background on this objective; retain the full game scope and follow the current
-delivery at the top of BACKLOG.md. Do not close it on dependency tests alone.
+That consolidation shipped in preview .11.1; the reliable ordinary Mecc/living
+interaction was extended through .11.4. Retain the full game scope and follow
+the current delivery at the top of BACKLOG.md. Do not close an active gameplay
+objective on dependency tests alone.
 
 The current owner objective extends that loop through Starving's twenty-meat
 return, its source cinematic continuation and the next ordinary mission. Follow

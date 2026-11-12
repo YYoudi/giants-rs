@@ -16,14 +16,13 @@ under this policy even when an older chat objective lists only some lanes or
 does not yet state this priority order. A documentation milestone does not
 complete the ongoing game reconstruction goal.
 
-After the delivered five-lane consolidation, the owner's current 11 November
-objective is one reliable ordinary Mecc mission loop followed by a first living
-interaction. Work alone and resolve its actual blocking producers. Prefer background
-work; the owner subsequently authorized necessary full-screen game tests on
-11 November. Keep sound muted and publish matching main/build/dashboard evidence
-when testable. The current
-delivery and prerequisites stay at the top of BACKLOG.md; this supersedes the
-earlier consolidation as the next work selection, while preserving full scope.
+The five-lane consolidation and first ordinary Mecc/living-interaction deliveries
+are historical milestones. The active Starving objective is defined at the top
+of BACKLOG.md, with shared mission methodology in
+[MISSION_PROGRESSION.md](MISSION_PROGRESSION.md). Work alone, prefer background
+work and keep sound muted. The owner authorized necessary full-screen game tests.
+Publish matching main/build/dashboard evidence when the complete selected path
+is testable; the complete game remains the broader scope.
 
 ## Choose work in this order
 

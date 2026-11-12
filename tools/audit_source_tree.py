@@ -23,6 +23,13 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Bind the exception to the exact Git blob bytes and its sole public path.
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
+    'docs/SYMBOL_NAVIGATION.md': {
+        # One independently reviewed, probable mission-proximity PC alias, with
+        # the prototype radius/PC AABB divergence and no exported native body.
+        '3fdd90bb86ddfe497ae92e08f4555fe7f43d01d0ec58525b52a99bd57aed84d2',
+        # Heading and mission-boundary cross-reference update only.
+        '225d9984e410f75aacc14d0909df94c3e23186cc55a08501c8b1d0ca2457b4d4',
+    },
     'docs/MECC_DESCENT_GUARD.md': {
         # Gameplay-first work-selection prose only; the reviewed alias is unchanged.
         '8a5e2f5f60606203255e389c489b0ed88ecf69566e77d52321231905e0fc589d',
@@ -32,6 +39,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
     },
     'docs/RECONSTRUCTION_METHOD.md': {
+        # Central mission-method link only; reviewed attribution aliases unchanged.
+        'a0c4addf0a738b4bf910f9f730d85fd8410c09ffed60c7ba683fd7de201a868a',
         # Searchable-source naming policy; existing attribution rows unchanged.
         '484ac3487d9ce9092f5ac771124701aee131802459afbcda2f3edfd414eb7e13',
         # Gameplay-first selection/handoff prose only; attribution rows are unchanged.

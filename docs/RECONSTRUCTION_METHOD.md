@@ -6,6 +6,11 @@ detailed backlog. A recovered name is neither an implementation nor a fidelity
 result. The PC binary under study remains the behavioral authority for its PC
 profile; prototype PS2 metadata is an independent source of naming evidence.
 
+For mission records, objective producers and cinematic/next-mission ownership,
+apply [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md). It specializes this method
+without replacing the required binary identities, name lookup or independent
+validation. Preserve its unbound predicates and version divergences in handoffs.
+
 ## Required function workflow
 
 First select the observable delivery and actual blocking dependency under

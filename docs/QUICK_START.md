@@ -69,13 +69,21 @@ the source jet models, acquired descent animation, base-pistol projectile and
 health/fuel gauges in snapshots that contain those integrations. No replay or
 experimental-backend flag is needed to activate supported normal controls.
 
-In snapshots containing the first Story2 Vimp interaction, open **Preview tools ->
-Browse all missions**, choose the Mecc mission **Starving!** (Story2), and skip
-its opening with Escape. Follow the F8 distance/turn hint toward a herd and shoot
-repeatedly nearby to trigger the partial startle/return behavior. The authored
-start is roughly 2,000 source units away. No diagnostic script enables this normal
-component. Other AI, combat damage, feeding and objectives remain incomplete;
-read the exact preview notes for its validation scope.
+For **Starving!** (Story2), open **Preview tools -> Browse all missions -> Mecc**.
+Let the opening finish, or skip it with Escape, then dismiss objectives when
+shown. Follow the F8 herd hint, hunt Vimps and walk over their settled meat.
+Previews containing the complete Starving return support twenty carried meat
+followed by return to the father on the starting plateau. The hint then points
+to that authored destination. Use jet/nitro and skirt steep cliffs on the way
+back. Satisfying the return starts the following record's cinematic, then resumes
+the player in **The Wife** with cleared meat. Read your ZIP's exact release notes:
+earlier .11.4 only collects meat and cannot complete this objective.
+
+No diagnostic script enables supported normal actions. Subsequent mission
+completion, live Smartie AI, other enemies, general feeding/economy and complete
+native world/inventory continuity remain incomplete. Authored herd declarations
+are used on supported Mecc maps; declarations on other character/multiplayer
+maps do not enable their gameplay.
 
 Read the release notes accompanying your ZIP for its exact runtime source,
 included features and actually completed checks. Current main, later captures

@@ -16,7 +16,7 @@ Rust implementations retain narrower, separately documented PC behavior.
 | `SetupCameraDataNormal` (base of the raw mangled symbol recorded centrally) | [`mecc_camera_update::State::advance`](../crates/giants-game/src/mecc_camera_update.rs) | Ordinary acquired camera profiles; also discoverable by Rustdoc alias. |
 | `chase_value_time` (literal ELF symbol) | [`mecc_camera_update::approach` / `approach_with_time`](../crates/giants-game/src/mecc_camera_update.rs) | Acquired camera call profile of the temporal-approach service. |
 
-## Vimp search routes awaiting attribution
+## Mission search route awaiting attribution
 
 The mission work also follows the literal prototype symbol
 `mission_check_obj_proximity__FP6OBJECT` (prototype address `0x0016d9e8`). Its
@@ -27,6 +27,8 @@ filter, carried-resource comparison and one-shot counter/notice behavior. The
 PC point/AABB fallback differs from the prototype's summed-radius test. The
 central method pins both binary digests; old PC aliases remain valid. See
 [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md) for the bounded runtime scope.
+
+## Vimp search routes awaiting attribution
 
 The following seven names are literal function names present in the pinned
 prototype ELF. Their existence is established; **their exact correspondence to
@@ -58,7 +60,7 @@ The runtime's detailed prerequisites remain in [BACKLOG.md](../BACKLOG.md).
 | `vimpchunk_destroy__FP6OBJECT` | [`Session::cleanup_collected_vimp_chunk`](../crates/giants-game/src/resident_states/vimp_retirement.rs) | **Unknown** relationship to generic PC retirement; no guessed state destructor. |
 
 See [MEAT_COLLECTION.md](MEAT_COLLECTION.md) for independent evidence, version
-differences, normal integration and the explicit disabled-objective boundary.
+differences, normal integration and the separately admitted objective boundary.
 
 ## Publication boundary
 

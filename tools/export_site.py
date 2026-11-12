@@ -14,6 +14,8 @@ FIELDS = ('id', 'kind', 'group', 'title', 'status', 'scope', 'detail')
 LABELS = {'done': 'Complete in stated scope', 'partial': 'Partial', 'todo': 'Not started'}
 PRIVATE = re.compile(r'[A-Za-z]:[\\/]|(?:evidence|\.local)[\\/]|Users[\\/]', re.I)
 PREVIEW_CHECKS = {
+    'starving_campaign_chain_gpu': 'Actual Starving hunt collects twenty meat, satisfies the authored return predicate and both objective producers, releases the old ticket, renders the following source film to its real end and resumes an ordinary player with cleared meat; supplied commands and real muted sinks',
+    'story5_authored_herds_gpu': 'Story5 source Mecc entry admits its two authored herds and nineteen markers, generates living Vimps and draws them through the shared mission component; supplied commands, not full Story5 mission acceptance',
     'story2_meat_collection_gpu': 'The ordinary Mecc controller collects actual settled Vimp meat, updates its carried count, retires the picked pieces and starts real muted pickup sinks; supplied navigation, no injected births or OS-held-input claim',
     'offscreen_menu_cycles': 'Offscreen development launches, menu return and re-entry',
     'selected_cinematic_transport': 'Selected-mission source-terminal/re-entry with muted real sinks',
@@ -30,6 +32,10 @@ PREVIEW_CHECKS = {
     'shared_body_focus_os': 'F7 focuses initial Delphi and Kabuto bodies from ordinary mission inspection; gameplay controls remain unavailable',
 }
 PREVIEW_LIMITS = {
+    'mission_objective_subset': 'Only admitted collection and stationary proximity producers are connected; moving, death, equipment and other mission conditions still require their actual owners',
+    'native_campaign_continuity': 'Next source mission loads a fresh scene/player and clears meat; complete native equipment restoration, persistent world and save-game continuity remain incomplete',
+    'meat_economy_outside_objectives': 'General feeding, deposits, economy and replenishment remain unavailable outside the admitted mission objective subset',
+    'other_actor_ai': 'Other actor AI, live Smartie animation and complete native-world admission remain incomplete; authored herd declarations alone do not enable Delphi, Kabuto or multiplayer gameplay',
     'meat_feeding_economy': 'Meat feeding, deposits, economy and campaign objective credit remain unavailable; the preview uses the explicit no-objective-credit branch',
     'ordinary_mecc_native_motion': 'Full native Mecc primary, damage and world scheduling remain incomplete',
     'delphi_gameplay': 'Delphi gameplay is not enabled',
