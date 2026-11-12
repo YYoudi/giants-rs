@@ -60,6 +60,18 @@ services are supplied. This does not execute pickup or establish live gameplay.
 Next: bind real source actor construction, clock/player fields, pickup services
 and visible carrying, alongside completing the film effects prerequisite.
 
+The timed-parent dependency now has a canonical `cinematic_timed` queue: actual
+FLK39 events construct Session bodies, reused slots retain their current source
+support, and expiration constructs the authored positional retirement child.
+Installed controls on the two source shotgun directors pass parent callbacks,
+real class828 child birth, duplicate/foreign-owner rejection and scoped cleanup.
+A separate unprovided-child control retains a real callback failure rather than
+acknowledging it. This queue is not yet the ordinary film/render consumer and
+does not make effects admission pass. Remaining work includes descendant world
+preparation/drawing, the source16/source5a blood callbacks and the common film
+driver. Source clocks, shared RNG, epochs and physical/environment caller inputs
+must come from their real owners; the dependency fixture supplies its own values.
+
 ## Delivered preview .12.1 Starving and shared mission progression
 
 Owner direction, 11 November 2026: complete the ordinary twenty-meat return,

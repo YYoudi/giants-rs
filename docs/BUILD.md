@@ -49,6 +49,13 @@ dependency. This is not a pickup/gameplay test. The ignored app control
 It currently fails the nonterminal-effects ownership requirement; retain that
 failure until actual owners are integrated. Neither this preparation nor the
 portable completion-receipt tests establish graphical mission acceptance.
+The separate ignored game control
+`installed_wife_timed_parents_have_canonical_bodies_and_scoped_cleanup` uses the
+same root variable. It verifies actual source shotgun-parent bodies, source
+retirement-child construction and scope cancellation, with supplied clock/RNG/
+epoch. It also checks that an unprovided child service remains a callback failure.
+It does not establish the ordinary film's detached-child preparation or drawing;
+the whole completion-preparation refusal above remains required.
 
 For the all-five consolidation, run the shared workspace checks below and the
 installed owner/normal-controller controls, including the generic player shell,

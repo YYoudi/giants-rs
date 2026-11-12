@@ -82,6 +82,12 @@ the complete gameplay path is not delivered yet.
 
 Preparation currently refuses three directors' nonterminal effects. Their actual
 dispatch, rendering/audio and retirement must be connected before admission.
+`cinematic_timed` now composes the existing acquired attached callbacks with
+canonical Session storage and source retirement-child construction. Its installed
+Wife control verifies the shotgun parents and child birth/cancellation; it does
+not advance detached children through their world finalizer, draw them, connect
+the ordinary film consumer or satisfy whole-film effects readiness. The composing
+world must supply the real shared RNG, clock, epoch and descendant services.
 The next record is `2b_2_returnwife`; it declares its own class216/state18 wife
 with selector3 near its selected player start. That actor must use the ordinary
 proximity/pickup services, rather than becoming an invented carried child or a

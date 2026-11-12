@@ -545,6 +545,10 @@ pub struct Session {
     mecc_target_range: Option<(Id, bool)>,
 }
 impl Session {
+    /// Identity of this owning mission scope; not an admission acknowledgement.
+    pub fn ticket(&self) -> u64 {
+        self.ticket
+    }
     pub fn new(ticket: u64) -> Self {
         Self {
             ticket,
