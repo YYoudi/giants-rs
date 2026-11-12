@@ -955,6 +955,39 @@ fn check_ground_prefix(runtime: &mut super::super::Runtime, ticket: u64, step: u
         .data()
         .unwrap()
         .to_vec();
+    // Actual source/list snapshots only. This does not supply the unknown
+    // cross-context world gate or acknowledge a hit/no-effect traversal.
+    let outer = f32::from_le_bytes(bytes[20..24].try_into().unwrap());
+    let source_context = session
+        .enemy_projectile(shot)
+        .unwrap()
+        .launch
+        .as_ref()
+        .unwrap()
+        .dispatch_context;
+    let radial_inventory = session
+        .list(1)
+        .into_iter()
+        .map(|id| {
+            let actor = session.radial_actor(id).unwrap();
+            let delta = std::array::from_fn::<_, 3, _>(|i| {
+                f64::from(actor.position[i]) - f64::from(fields.position[i])
+            });
+            let distance =
+                ((delta[0] * delta[0] + delta[1] * delta[1]) + delta[2] * delta[2]) as f32;
+            (
+                actor.class,
+                actor.state,
+                actor.context,
+                distance.sqrt(),
+                distance <= outer * outer,
+                actor.health,
+            )
+        })
+        .collect::<Vec<_>>();
+    println!(
+        "ripper_ground_radial_inventory ticket={ticket} step={step} source_context={source_context} outer={outer} actors={radial_inventory:?} world_gate_supplied=false damage_acknowledged=false"
+    );
     let mut services = Required {
         pool: component.contexts.as_mut().unwrap(),
         population: Population::new(ticket),
