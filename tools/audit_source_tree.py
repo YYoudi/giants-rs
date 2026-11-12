@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent effect-lane navigation: reviewed probable opcode block and
+        # explicit prototype-stub/PC-behavior divergence, same minimal PC alias.
+        '1a51cdd4703a5d425c901d99cacd504c620b9c398a0cb0dfe8c92c5d6e8b753c',
         # Reviewed literal ripper_shot search candidate and one retained PC alias;
         # explicitly unknown, no native body or detailed private evidence.
         '59317e0dbd9965e3e71770b97a367753556f8b73c1fe6f7efc6c218a915e7cad',
