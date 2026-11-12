@@ -214,6 +214,12 @@ loop. It also verifies duplicate/foreign refusal and retained failure at a real
 missing platform dependency. Bind it into the ordinary impact transaction next,
 with actual radial/active-hit/audio services and the surrounding frame schedule.
 The host's emptiness is not a render/audio availability acknowledgment.
+The refreshed ordinary supplied-input encounter still reaches a real class232
+ground contact and refuses the missing impact/damage/retirement transaction.
+First flight passes on two fresh tickets with the actual launch context; never
+derive that live value from a bare class template. The direct object-contact
+continuation is a separate PC path and cannot reuse the ground explosion or
+its ground-only cleanup preconditions without its own evidence.
 
 Earlier graphical failure: local source `a450206` admitted the authored Wife
 population but failed before capture: mixed positional sound requests exceeded

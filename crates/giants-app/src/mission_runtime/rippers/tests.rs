@@ -20,7 +20,7 @@ fn source_wife_markers_retire_through_the_ordinary_component_and_render_consumer
 }
 
 #[test]
-#[ignore = "Requires GIANTS_NPC_ROOT; acceptance frontier using supplied ordinary Mecc navigation, no OS input; currently fails at missing projectile scene/flight services"]
+#[ignore = "Requires GIANTS_NPC_ROOT; acceptance frontier using supplied ordinary Mecc navigation, no OS input; current frontier requires real impact/damage/retirement consumers"]
 fn diagnostic_wife_ripper_supplied_approach_reaches_contact() {
     current_frames(false, false, Approach::Contact);
 }
