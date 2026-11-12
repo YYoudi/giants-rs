@@ -41,7 +41,7 @@ terrain-route input fixture without rendering; it never proves campaign or OS
 integration. Failed graphical candidates remain private and separate from the
 eventual delivery receipt.
 
-For The Wife work in progress, `cargo test --locked -p giants-game smartie_follow
+For the .12.2 The Wife dependency controls, `cargo test --locked -p giants-game smartie_follow
 --target x86_64-pc-windows-gnu` exercises the ordinary selector3 selection
 dependency. This is not a pickup/gameplay test. The ignored app control
 `installed_wife_completion_has_real_prepared_render_and_effect_owners` uses

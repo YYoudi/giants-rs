@@ -15,22 +15,24 @@ described below is published under the owner's explicit authorization.
 
 [Quick start](docs/QUICK_START.md) · [Build](docs/BUILD.md) · [Release policy](docs/RELEASES.md)
 
-Current Windows download: [preview-2026.11.12.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.12.1).
-The common build now completes **Starving!**: hunt Vimps, walk over their settled
-meat until carrying twenty, then return to the father on the starting plateau.
-The source return condition starts the following mission's cinematic; its actual
-end resumes an ordinary Mecc in **The Wife**, with carried meat cleared.
-Open **Preview tools -> Browse all missions -> Mecc -> Starving!**. WASD/mouse,
-right mouse thrust, Space nitro, left mouse partial pistol, R view and Escape
-menu; F8 shows herd/meat and return hints. No replay flag enables these actions.
+Current Windows download: [preview-2026.11.12.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.12.2).
+The common build completes **The Wife**: reach its authored rescue destination,
+let the real six-director completion film finish, then continue into **The Road
+Home** with the nearby declared wife picked up and carried by the ordinary Mecc.
+The preceding **Starving!** twenty-meat hunt and return also remain supported.
+Open **Preview tools -> Browse all missions -> Mecc Story 2 -> The Wife**.
+WASD/mouse move and aim, hold right mouse for the jet, Space adds nitro, left
+mouse fires the partial pistol, R changes view and Escape returns to the menu
+(or explicitly skips a film). F8 toggles objective hints. No replay flag enables
+these actions, the rescue, pickup or continuation.
 
-The exact executable passes the complete rendered chain, cleanup and common GPU
-regressions with supplied commands and real muted sinks. Short actual Windows
-menu/input/re-entry checks are separate; an OS-played complete hunt and sustained
-held flight are not claimed. Herd admission follows source declarations, with
-Story2/Story5 populations checked. Other mission completion/AI, full native
-inventory/world continuity and Delphi/Kabuto gameplay remain incomplete. See
-[release notes](docs/PREVIEW_NOTES.md), the central
+The exact executable passes both rendered mission chains, real muted audio,
+source film terminals, cleanup and common GPU regressions with supplied commands.
+Separate actual Windows checks cover The Wife entry/skip/view/fire and two
+RoadHome pickups with clean returns. They do not establish a full OS-played
+rescue or sustained held flight. Other mission completion/AI, animation blending,
+full native inventory/world continuity, visual/audio fidelity and Delphi/Kabuto
+gameplay remain incomplete. See [release notes](docs/PREVIEW_NOTES.md), the central
 [mission method](docs/MISSION_PROGRESSION.md) and [BACKLOG.md](BACKLOG.md).
 
 Engine contributors can use the reviewed [original symbol navigation](docs/SYMBOL_NAVIGATION.md)
@@ -89,12 +91,12 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Campaigns and progression
 
-- [ ] **Complete Mecc campaign** — partial; Runtime integration. Preview .12.1 completes the ordinary Starving twenty-meat return and loads the following source cinematic/ordinary The Wife entry. Subsequent mission completion, all other encounters and the complete Mecc campaign remain partial. See MISSION_PROGRESSION.md and BACKLOG.md.
+- [ ] **Complete Mecc campaign** — partial; Runtime integration. Preview .12.1 completes Starving. Preview .12.2 validates the ordinary The Wife rescue, natural six-director completion film and following RoadHome entry with the declared wife picked up. The remaining Mecc missions, encounters and complete campaign remain partial. See MISSION_PROGRESSION.md and BACKLOG.md.
 - [ ] **Complete Delphi campaign** — todo; Runtime integration. All missions and character-specific objectives and encounters.
 - [ ] **Complete Kabuto campaign** — todo; Runtime integration. All missions, growth stages, encounters and ending.
-- [ ] **Mission objectives and scripts** — partial; Runtime integration. Preview .12.1 connects admitted source collection/stationary proximity producers, quota/counter/notices and real next-ticket/source-film continuation. Full Starving rendered chain passes; death/moving/equipment and other predicate/record types remain unbound. No general mission VM completion claim.
-- [ ] **Chapter and mission continuity** — partial; Runtime integration. Preview .12.1 loads the next source mission after Starving, clears meat and saves reached-entry bits after admission. Unpublished The Wife work adds the next record's own declared selector3 actor, ordinary proximity pickup and shared carrying/load/audio/notice consumers. Direct RoadHome GPU pickup passes; the complete rescue/film/next-entry chain is still under validation. Native equipment, persistent-world, score/census and full save-game continuity remain incomplete.
-- [ ] **Complete cinematic playback** — partial; Runtime integration. Public preview .12.1 retains partial source cinematic playback. Unpublished The Wife integration now prepares six completion directors with canonical Session effects, real support poses, source contact children and declared collision inputs. Earlier muted completion replays reach the last animation end with drained voices, visible canonical draws and scoped cleanup; they do not establish effect settlement. The ordinary candidate exposed a declaration-versus-reached-request barrier, now being corrected from the acquired PC retirement order. Ordinary rescue/next-wife integration, native clock/RNG interleaving, raster platform footprints and complete pixel fidelity remain unverified; zero complete films are certified. See BACKLOG.md and MISSION_PROGRESSION.md.
+- [ ] **Mission objectives and scripts** — partial; Runtime integration. Preview .12.1 connects source collection/stationary proximity producers, quota/counter/notices and next-ticket/source-film continuation. Preview .12.2 validates The Wife 1/1 rescue and its separate completion-film owner. Death/moving/equipment and other predicate/record types remain unbound; no general mission VM completion claim.
+- [ ] **Chapter and mission continuity** — partial; Runtime integration. Preview .12.2 validates The Wife rescue -> natural source completion film -> ordinary RoadHome player, with that record's own declared selector3 wife, real proximity pickup, carrying load, audio and notice consumers. Separate Windows entry/pickup/re-entry checks pass. Native equipment, persistent-world, score/census and full save-game continuity remain incomplete.
+- [ ] **Complete cinematic playback** — partial; Runtime integration. Preview .12.2 validates the six The Wife completion directors through their natural source end, with drained real muted voices, canonical Session effects, source support poses/contact children and actual declared collision inputs. Reached source requests are acknowledged by director/offset; future declarations do not extend the animation. Native clock/RNG interleaving, raster platform footprints, animation blending and complete visual/audio fidelity remain unverified. See BACKLOG.md and MISSION_PROGRESSION.md.
 - [ ] **Ending and credits flow** — todo; Runtime integration. Final sequence, credits presentation and return to menus.
 
 ### Meccs

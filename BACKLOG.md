@@ -15,13 +15,13 @@ Initial coverage includes seven Vimp names and the two previously confirmed
 camera service identities; .11.4 adds the selected meat-collection search routes. Naming does not establish gameplay delivery; the
 separately validated ordinary integration and publication are recorded below.
 
-## Active objective - The Wife rescue and completion-film continuation
+## Delivered milestone - The Wife rescue and completion-film continuation
 
 Owner direction, 12 November 2026: make the ordinary The Wife rescue playable
 through its source completion cinematic and the next mission, then publish
 matching main, Windows preview and dashboard. Work alone in the integration
-worktree. Preview .12.1 remains the delivered baseline; its next-entry acceptance
-does not establish completion of The Wife.
+worktree. The .12.2 acceptance below extends the .12.1 Starving baseline; the
+earlier preview's next-entry acceptance alone did not complete The Wife.
 
 1. Begin native work with prototype PS2 lookups and exact PC/prototype identities.
    Independently verify the authored proximity condition and completion lifecycle.
@@ -44,7 +44,7 @@ does not establish completion of The Wife.
 Private native research and raw mission/film inputs remain outside Git. A symbol
 name, CPU result or replay-only completion-film capture is not mission delivery.
 
-Work in progress, not a delivered preview: the common completion-film owner now
+Earlier dependency evidence, distinct from the later whole-chain acceptance: the common completion-film owner now
 prepares asynchronously and keeps the original gameplay admission. A receipt
 distinguishes a natural source end from a real user skip, and cannot reuse the
 opening film's terminal or bare cleanup. The installed six-director completion
@@ -52,21 +52,31 @@ preparation now admits all six directors through complete canonical effect
 profiles, actual class-zero cinematic supports, prepared root/descendant geometry
 and the real declared collision world. Missing world or geometry still refuses
 admission. Supplied source-event controls cover the mixed blood/shotgun family;
-Two offscreen muted completion-replay cycles now reach the actual final source
-end with drained voices, visible canonical draws for all six classes and complete
-scope/GPU-asset cleanup. This is supplied replay evidence, not ordinary rescue,
-RoadHome pickup, OS input or native pixel/cadence validation. No new preview is
-claimed.
+two earlier offscreen completion replays reached the final animation end with
+drained voices, visible canonical draws and scope/GPU-asset cleanup. Their
+inspection fallback did not establish whole-film effect settlement. The later
+ordinary candidate exposed the fifty-reached/fifty-one-declared barrier resolved
+by the common source-prefix contract. These earlier controls remain separate
+from the later .12.2 ordinary rescue/pickup and Windows acceptance below.
 
-Current ordinary-build blocker: the rescue and six completion directors run, but
-the unpublished candidate A waits for fifty-one declarations after only fifty
-source requests execute. Native cursor/clock/process review establishes retirement
-at animation completion even with a later wait pending. The common fix derives
-obligations from actual sampled source prefixes and checks per-offset consumer
-acknowledgments, retaining complete capability/world/geometry admission. It does
-not extend the film, force a last effect or special-case The Wife's count. See
-MISSION_PROGRESSION.md. Rendered full-chain acceptance on a new immutable build,
-OS checks, publication and served dashboard verification remain outstanding.
+Delivered in preview .12.2, runtime source `fccb0fb`: the actual rescue reaches
+1/1, all six completion directors reach their natural source terminal with fifty
+acknowledged reached requests and drained voices, then RoadHome's ordinary entry
+picks up its own declared wife with rendering, carrying load, audio and notice
+delivery. Old ticket/film/GPU scopes are cleared. Actual Windows checks separately
+cover entry, skip, view/fire and two ordinary RoadHome pickups with clean returns.
+Starving's complete twenty-meat return/next-film/player regression, Mecc cycles,
+landing, Vimp contact/death/collection-cancel, menu lifecycle and selected film
+transport pass on this executable. The package, checksums and current-build
+captures are pinned in RELEASES.md, PREVIEW_NOTES.md and the gallery manifest.
+The common source-prefix fix retains complete capability checks and native
+cursor/clock/retirement ordering; it adds no final effect or film extension.
+
+Remaining campaign work includes RoadHome's own completion, further authored
+conditions, failure/restart, other actor AI and native continuity. Waiting Smartie
+locomotion, carry blending, native RNG/clock interleaving, complete collision
+coverage and visual/audio fidelity remain open. This milestone does not enable
+Delphi/Kabuto gameplay or close the complete-game objective.
 
 The selector3 proximity-selection dependency is implemented in `smartie_follow`
 with the probable prototype search route `smartie_check_follow__FP6OBJECTf`.

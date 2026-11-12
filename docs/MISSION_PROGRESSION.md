@@ -6,10 +6,11 @@ extending native services. Availability is established by the exact public
 preview receipt, not by this design or a CPU comparison. The active acceptance
 and remaining work are in [BACKLOG.md](../BACKLOG.md).
 
-Preview .12.1 validates the complete ordinary Starving collection/return and the
-following record's source-film end and ordinary player entry. The exact receipt,
-supplied-command scope and separate short OS check are in
-[PREVIEW_NOTES.md](PREVIEW_NOTES.md). Subsequent mission completion remains open.
+Preview .12.2 validates Starving's ordinary collection/return and The Wife's
+authored rescue, natural six-director completion film and following RoadHome
+entry with its own declared wife picked up. The exact receipt, supplied-command
+scope and separate short OS checks are in [PREVIEW_NOTES.md](PREVIEW_NOTES.md).
+RoadHome completion, other mission predicates and full native continuity remain open.
 
 ## Separate declarations, predicates and transport
 
@@ -77,8 +78,9 @@ prepares the actual source chain asynchronously on the current mission ticket,
 then reuses the cinematic owner without granting new gameplay readiness. Only
 that completion owner's natural source terminal or an actual user skip can yield
 a continuation receipt. An earlier opening terminal, resource preparation, bare
-release or stale ticket cannot do so. These contracts have dependency tests;
-the complete gameplay path is not delivered yet.
+release or stale ticket cannot do so. Dependency tests cover these contracts;
+the complete ordinary .12.2 rescue/film/next-player path is validated separately
+on the receipt in PREVIEW_NOTES.md.
 
 Preparation admits nonterminal effects only with complete canonical family,
 geometry and world owners. Missing owners still refuse admission.
@@ -108,8 +110,8 @@ contract. Source class usage masks and absolute scale stores are prepared before
 bounds; texture descriptors and state-name callbacks are not implied by this
 collision projection. Installed Wife controls cover two shotgun plans through
 child lifetime/cancellation. Separate completion-replay GPU checks now cover
-the actual source event dispatch and visible canonical bodies; ordinary mission
-completion and native fidelity remain separate requirements.
+the actual source event dispatch and visible canonical bodies. The .12.2 ordinary
+mission chain supplies separate completion evidence; native fidelity remains open.
 
 The common film preparation now retains this declared collision world, and its
 timed consumer uses the active mission's actual Session, shared RNG, registered
@@ -153,7 +155,8 @@ This contract is common to mission films; no mission-specific count enables it.
 The Wife's installed preparation regression distinguishes all declared requests
 from the prefix reachable at its real animation bounds. This and the portable
 wait/offset controls are dependencies; full ordinary graphical acceptance and a
-matching immutable preview are still required. Prototype PS2 navigation candidates
+matching immutable preview are recorded for .12.2 in PREVIEW_NOTES.md and RELEASES.md.
+Prototype PS2 navigation candidates
 and their unresolved identities remain in SYMBOL_NAVIGATION.md.
 
 `effect_ground_emission` now retains the source16/source5a relationship separately

@@ -14,6 +14,8 @@ FIELDS = ('id', 'kind', 'group', 'title', 'status', 'scope', 'detail')
 LABELS = {'done': 'Complete in stated scope', 'partial': 'Partial', 'todo': 'Not started'}
 PRIVATE = re.compile(r'[A-Za-z]:[\\/]|(?:evidence|\.local)[\\/]|Users[\\/]', re.I)
 PREVIEW_CHECKS = {
+    'wife_campaign_chain_gpu': 'Actual The Wife rescue satisfies its authored 1/1 condition, plays the six-director completion film to its natural source end, releases the old ticket and enters The Road Home with the declared wife actually picked up, rendered and supplying carrying load, real muted audio and notice delivery; supplied commands, no forced pose/resource/readiness/film end',
+    'wife_short_input_os': 'Actual Windows menu entry into The Wife, opening skip, short keyboard input, view change and pistol/mouse pulses, followed by two ordinary RoadHome entries with visible wife pickup and clean menu return; the complete rescue and sustained held flight are not certified as OS-played interactions',
     'starving_short_input_os': 'Actual Windows menu entry/re-entry into Starving, short keyboard movement, view changes, pistol/jet mouse pulses and clean menu return; the complete hunt and sustained held flight are separately unverified as OS-played interactions',
     'starving_campaign_chain_gpu': 'Actual Starving hunt collects twenty meat, satisfies the authored return predicate and both objective producers, releases the old ticket, renders the following source film to its real end and resumes an ordinary player with cleared meat; supplied commands and real muted sinks',
     'story5_authored_herds_gpu': 'Story5 source Mecc entry admits its two authored herds, nineteen world markers and one mission marker, generates living Vimps and draws them through the shared mission component; supplied commands, not full Story5 mission acceptance',
@@ -33,6 +35,7 @@ PREVIEW_CHECKS = {
     'shared_body_focus_os': 'F7 focuses initial Delphi and Kabuto bodies from ordinary mission inspection; gameplay controls remain unavailable',
 }
 PREVIEW_LIMITS = {
+    'cinematic_native_fidelity': 'The Wife completion film reaches its source terminal; native timing/RNG interleaving, complete collision coverage, animation blending and full visual/audio fidelity remain unverified',
     'mission_objective_subset': 'Only admitted collection and stationary proximity producers are connected; moving, death, equipment and other mission conditions still require their actual owners',
     'native_campaign_continuity': 'Next source mission loads a fresh scene/player and clears meat; complete native equipment restoration, persistent world and save-game continuity remain incomplete',
     'meat_economy_outside_objectives': 'General feeding, deposits, economy and replenishment remain unavailable outside the admitted mission objective subset',

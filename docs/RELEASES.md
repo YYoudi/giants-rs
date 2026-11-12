@@ -1,5 +1,41 @@
 # Preview releases and milestone integration
 
+
+## Published preview .12.2 - The Wife rescue through The Road Home
+
+[Windows preview-2026.11.12.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.12.2)
+extends the common menu-first build through The Wife's actual 1/1 rescue,
+its natural six-director completion film and the following RoadHome entry.
+That source record's own nearby wife attaches through ordinary proximity pickup,
+with rendered carrying animation, load, real muted pickup sinks and notice
+consumption. No cinematic clone, pose/resource/readiness or terminal is injected.
+See PREVIEW_NOTES.md for normal menu entry, controls and the validation scope.
+
+The common completion owner retains the original gameplay admission and a
+source-end/explicit-skip receipt. Effect settlement compares actual sampled
+source prefixes with per-director/offset consumer acknowledgments, preserving
+all declaration capability/world/geometry checks and native retirement order.
+A later wait neither extends the animation nor fabricates a final effect.
+
+The exact executable passes the complete rendered Wife rescue/film/pickup chain,
+the preceding Starving twenty-meat return/next-film/player chain, common Mecc
+fire/jet/release cycles, landing, Vimp contact/death/collection-cancel, menu
+lifecycle and selected cinematic terminal/re-entry. Separate actual Windows
+checks cover The Wife entry/skip/view/fire and two ordinary RoadHome pickups
+with clean returns. Supplied-command chains do not establish full OS-played
+missions, sustained OS-held flight, audible parity or complete native fidelity.
+Waiting Smartie AI, carry blending, broader conditions/continuity and
+Delphi/Kabuto gameplay remain open. No new PS2 function attribution is confirmed.
+
+995 Rust / 181 ignored, 45 Python, fmt/strict Clippy. Technical collection:
+338 dependency / eleven toolchain notice entries, 29 system DLLs, zero package
+blockers. Two matching-executable captures are pinned in the gallery manifest;
+older captures retain their original receipts and scopes.
+
+Runtime source: `fccb0fbbb25fa30cb2eaf783d9f4a1968fc86b96`.
+Executable SHA256: `7e14a7b1b9538e1d0b5e557418f5021f6d48ac1acaa04425ebc301da8f1aea1b`.
+ZIP SHA256: `321606eebb82d114aefa84ad532ac48686d4b74a00a1af19df74caa9078dafd6`.
+
 ## Published preview .12.1 - Starving through the next mission
 
 [Windows preview-2026.11.12.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.12.1)

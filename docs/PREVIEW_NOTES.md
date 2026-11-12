@@ -1,84 +1,84 @@
-# Windows development preview - preview-2026.11.12.1
+# Windows development preview - preview-2026.11.12.2
 
-Runtime source: `7ae8043ad1b22792730ece7c3a3e58a19fa73ed6`.
-Executable SHA256: `984d782b3bcd8f20fbb186faee96628b0cf4eee73146a62a2b07b0ef7a83276d`.
+Runtime source: `fccb0fbbb25fa30cb2eaf783d9f4a1968fc86b96`.
+Executable SHA256: `7e14a7b1b9538e1d0b5e557418f5021f6d48ac1acaa04425ebc301da8f1aea1b`.
 
 Supply your own compatible PC installation. Original assets, executables and
 private research are excluded from this download.
 
-## Play Starving through the next mission
+## Play The Wife through its rescue and next mission
 
-Open **Preview tools -> Browse all missions -> Mecc -> Starving!** (Story2).
-Let its opening finish, or use Escape to skip it. Dismiss the objectives when
-shown. WASD/mouse move and aim, right mouse held uses the jet, Space adds nitro,
+Open **Preview tools -> Browse all missions -> Mecc Story 2 -> The Wife**.
+Let its opening finish, or press Escape to skip the opening. Dismiss objectives
+if shown. WASD/mouse move and aim, hold right mouse for the jet, Space adds nitro,
 left mouse fires the partial pistol, R changes view and Escape returns to the
-menu. F8 toggles the herd/meat and return-destination hints.
+menu. F8 toggles source objective hints. These actions need no replay script.
 
-Hunt Vimps, let their dropped meat settle, then walk over pieces to collect them.
-Collect twenty meat and return to the father at the starting plateau. The return
-hint changes to the actual authored destination once the quota is carried. Skirt
-steep cliffs and use the jet/nitro to return uphill. No replay or special script
-enables collection, objective credit, the return or continuation.
+Travel to the authored rescue destination. The hint provides distance/direction;
+use the jet for steep ground and recharge fuel on the ground. The real proximity
+predicate must succeed: approaching a similarly named actor elsewhere does not
+complete the rescue. The source objective advances to 1/1, then the actual
+six-director rescue cinematic plays. Let it finish naturally to exercise the full
+path. Escape remains a separate explicit user skip.
 
-The selected source record requires collection and return as separate producers.
-Its acquired PC proximity/resource predicate must succeed before the record can
-finish. Starving declares no separate ending film: the following Save Wife record
-provides the cinematic continuation. After its real source end, an ordinary Mecc
-player resumes in **The Wife**, with carried meat cleared. The independent preview
-profile records the next reached-entry bits; original saves remain untouched.
+After the film, **The Road Home (with someone's wife on your back)** loads its own
+source scene and ordinary player. The nearby declared wife attaches through the
+normal proximity pickup service, including source carrying animation, load,
+response audio and notice delivery. The carried actor is not a transferred film
+clone. No command, pose, resource or movie-end injection enables this behavior.
 
-## Shared mission and population foundation
+## Shared mission and cinematic foundation
 
-The common parser retains authored objective marks, placement identities, signed
-quota and ordered scenario records. A bounded campaign owner connects admitted
-collection/stationary destination producers to source notices and the ordinary
-ticket/film loader. Other predicate/record types keep explicit missing services.
-See MISSION_PROGRESSION.md in the source repository. This does not make subsequent
-missions complete: Save Wife's remaining interaction and completion are separate.
+The common mission owner retains source objective records, real producers,
+completion films and the next ticket. Cinematic effects retain their canonical
+Session owners, actual attachment points, source resources and collision inputs.
+Retirement distinguishes reached requests from unvisited future declarations:
+a later wait does not extend the animation or cause an extra effect to spawn.
+Unsupported resources/world/geometry still refuse admission. See
+MISSION_PROGRESSION.md and SYMBOL_NAVIGATION.md in the source repository.
 
-Herd admission follows source declarations rather than a Story2-only switch.
-The read-only census finds herds in 22 of 33 accepted loose worlds; declarations
-are not live coverage. The exact build also generates/draws living Vimps from
-Story5's two herds, nineteen world markers and one mission marker. Delphi, Kabuto and multiplayer gameplay
-remain unavailable, and missing authored markers are never invented.
+Starving's twenty-meat collection and return remain the preceding supported
+mission. Hunt Vimps, let dropped meat settle, approach pieces, then return twenty
+to the father at the starting plateau. Collection and return are separate source
+producers. Their completion continues into The Wife. General feeding/economy
+and other mission predicate types remain incomplete.
 
 ## Validation and limits
 
-The exact-build rendered Starving passage actually hunts/collects twenty meat,
-satisfies the authored return and shared 2/2 counter, releases the old ticket to
-zero entities, loads the following record, renders its four-director opening to
-its source terminal and resumes the ordinary player with zero meat. Actual muted
-pickup sinks and saved reached bits are observed. Commands are supplied; actor
-pose, resources, kills, readiness and film terminals are not forced.
+On this executable the rendered menu-to-mission chain reaches the real rescue,
+plays all six completion directors to their natural source end with drained
+voices and fifty acknowledged reachable effect requests, releases the old film
+and ticket scopes, and enters The Road Home with the actual declared wife,
+carrying load, real muted pickup sinks and delivered notice. All six supported
+effect classes submit visible canonical draws. The final capture shows the
+ordinary player with the wife. Navigation commands are supplied; the mission
+condition, actor state, readiness and film terminal are not forced.
 
-Post-pickup cancellation, living collision, first death, common Mecc/fire/jet/
-nitro/release/landing, menu lifecycle and selected cinematic transport controls
-pass on this same executable. The separate manual check exercises actual Windows
-menu/Starving entry, short input pulses, view changes, return and re-entry.
-It does not establish an OS-played twenty-meat mission or sustained held flight.
-Muted tests do not establish audible parity or complete visual/native fidelity.
+A separate actual Windows check exercises menu entry, opening skip, short W
+input, R view change, mouse pulses and a real pistol shot, then two ordinary
+RoadHome entries with visible pickup and clean menu return. It does not prove a
+complete OS-played rescue, sustained held flight or audible/native parity.
 
-The father's supported stationary selector uses its source start pose. Live
-Smartie animation/AI remains incomplete. The next record reloads a fresh scene
-and player; full native inventory restoration, persistent world/actor continuity,
-mission failure/restart, other objective types, other AI, general feeding/economy,
-Delphi/Kabuto gameplay and full campaign fidelity remain open. Death FX retain
-explicit host-frame, terrain-only contact and owner-lifetime splat policies.
+995 portable Rust passes / 181 ignored, 45 Python passes, formatting and strict
+workspace/all-target Clippy pass. Installed actor/pickup and whole-film
+capability controls are dependencies, not substitutes for the graphical chain.
 
-982 portable Rust passes / 169 ignored, 45 Python passes, formatting and strict
-workspace/all-target Clippy pass. The installed ordinary motion/rigid-admission
-round trip is a separate supplied-command CPU diagnostic. A private 6,000-context
-PC proximity comparison has zero selected differences; actor/classification,
-bounds, quota, suppression, formatting and text providers are supplied. It proves
-neither native mission initialization nor graphical fidelity.
+The stationary objective uses its authored pose. General Smartie AI, waiting
+locomotion, animation blending, complete native motion, campaign failure/restart,
+equipment/save-game restoration, persistent worlds, other mission predicates,
+Delphi/Kabuto gameplay and complete visual/audio fidelity remain open. The next
+scene is reloaded; complete native continuity is not claimed. Vimp death FX
+retain explicit host-frame/terrain-contact/owner-lifetime preview policies.
 
-Prototype PS2 lookup starts from `mission_check_obj_proximity__FP6OBJECT`.
-The reviewed PC relationship remains probable; its point/AABB fallback differs
-from the prototype's radius test. No new routine attribution is confirmed and no
-PS2 ABI or layout is imported. Raw corpus/tables/listings remain private.
+Prototype PS2 names are searched before native work. Relevant routes include
+`mission_check_obj_proximity__FP6OBJECT`, `smartie_check_follow__FP6OBJECTf`,
+`FLK_FlickProcess__FP9FLK_Flick` and `FLK_FlickUpdateTime__FP9FLK_Flickf`.
+Their reviewed attribution statuses remain distinct from runtime integration;
+no new confirmed function identity, prototype ABI or layout is imported here.
+Raw symbol tables, binaries and detailed research remain private.
 
 Technical collection: 338 dependency and eleven toolchain notice entries,
-29 system DLL imports, zero package blockers. The ZIP is receipt-bound and
-independently downloaded before and after publication. This does not establish
-third-party rights or comprehensive human review. The owner's approximate 99%
-AI-generated estimate remains an authorship estimate, never a completion metric.
+29 system DLL imports, zero technical package blockers. The ZIP is receipt-bound.
+These checks do not establish third-party rights or comprehensive human review.
+The owner's approximate 99% AI-generated estimate describes authorship and is
+never a completion metric.

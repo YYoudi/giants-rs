@@ -26,14 +26,13 @@ is testable; the complete game remains the broader scope.
 
 ## Choose work in this order
 
-The owner's 12 November objective is the complete ordinary The Wife rescue,
-its actual source completion cinematic and the following mission with the required
-state. Starving's twenty-meat return and following ordinary entry shipped in .12.1;
-that preview remains the delivered baseline. Extend the shared source mission,
-actor and film owners for The Wife, retaining them for future missions. Follow
-the active section of BACKLOG.md. Do not finish on a new CPU service, a recovered
-name, an isolated scene or a forced transition. Publication requires the complete
-testable path and matching main/build/dashboard evidence.
+The owner's 12 November The Wife delivery ships in preview .12.2: the ordinary
+rescue, natural source completion film and following RoadHome entry with its own
+declared wife picked up. Starving's twenty-meat return remains supported. Retain
+the shared source mission, actor and film owners for future missions and follow
+BACKLOG.md for remaining campaign coverage. Do not finish a future objective on a
+CPU service, recovered name, isolated scene or forced transition. Every delivery
+requires its complete testable path and matching main/build/dashboard evidence.
 
 For the owner's 11 November consolidation objective, apply this order across the
 complete available work of all five lanes. Review their committed and unfinished
