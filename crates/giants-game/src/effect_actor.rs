@@ -58,6 +58,7 @@ pub struct Configured<K> {
     pub(crate) immediate: Option<crate::attached_effect_context::Immediate<K>>,
     pub(crate) forward_only: bool,
     pub(crate) particle_contact: bool,
+    pub(crate) mixed_draw: bool,
 }
 fn object_values<const N: usize>(
     object: &[giants_formats::effect_program::Record],
@@ -223,6 +224,7 @@ impl<K> Initial<K> {
             immediate: None,
             forward_only: false,
             particle_contact: false,
+            mixed_draw: false,
         })
     }
     /// A view of the actual owned payload, never a second physical allocation.
@@ -741,6 +743,7 @@ impl Template {
         configured.immediate = Some(initial.binding);
         configured.forward_only = true;
         configured.particle_contact = true;
+        configured.mixed_draw = true;
         Ok(configured)
     }
     /// One acquired source3 root, including an intentionally hidden carrier.
@@ -825,6 +828,7 @@ impl Template {
             image,
         )?;
         configured.hidden = hidden;
+        configured.mixed_draw = true;
         Ok(configured)
     }
     /// One checked source3 object inside its actual mixed program. This does
@@ -869,6 +873,7 @@ impl Template {
             image,
         )?;
         configured.render = render;
+        configured.mixed_draw = true;
         Ok(configured)
     }
     pub fn load(resources: &SceneResources, class: i32) -> Result<Self, String> {

@@ -227,6 +227,13 @@ to [`mixed::Execution`](../crates/giants-game/src/attached_effect_context/mixed.
 This canonical source constructor owns root/child births, retained waits and
 context retirement. Its scoped PC controls do not establish body scheduling,
 render completion, damage, prototype signatures/layouts or a confirmed attribution.
+The literal prototype name `object_render__FP6OBJECTiG7f32quat` is an **unknown**
+search route to the acquired mixed-body draw view in
+[`timed_effect/draw`](../crates/giants-game/src/resident_states/timed_effect/draw.rs).
+The shared [`smoke_particle_draw::Geometry`](../crates/giants-game/src/smoke_particle_draw.rs)
+consumes that same prepared body's UV/vertical-alpha inputs. Construction alone
+does not admit drawing, and this wiring does not establish native queue/pixel
+fidelity or a prototype signature/layout correspondence.
 
 The literal prototype PS2 name `object_lock_logic` is an **unknown** search
 route to the acquired PC debug-1.1 helper at0x00473b30 and the canonical

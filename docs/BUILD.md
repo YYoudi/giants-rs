@@ -1566,6 +1566,10 @@ explicit prototype PS2 zero-threshold progress policy, without a fabricated
 debug-PC caller word or cinematic scope. Neither validates the native complete
 world walk, GPU rendering, body lifetime cleanup, ordinary impact or combat.
 Keep original controls/fixtures and extracted source inputs private.
+The source-world control also exercises the common unlit geometry consumer on 160
+render-input frames, including live UV offsets, vertex-alpha changes and hidden
+carrier omission. Actual Bevy display, queue order and reciprocal combat still
+require the identified game executable and rendered acceptance below.
 
 The canonical scroll/fade CPU control requires `GIANTS_NPC_ROOT` and a private
 `GIANTS_RIPPER_RENDER_CONTROLS` TSV produced from the pinned original PC controls:

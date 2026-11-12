@@ -7,6 +7,7 @@ use crate::{
     timed_effect_object::{Body, Boundary, Runtime, Step, Timed},
 };
 use giants_formats::effect_image::Image;
+mod draw;
 mod ground;
 mod immediate;
 mod preparation;
@@ -533,10 +534,10 @@ impl Session {
             .into_iter()
             .filter(|id| {
                 self.get(*id).is_some_and(|a| {
-                    a.timed_effect
-                        .as_ref()
-                        .is_some_and(|m| m.runtime.smoke_particle())
-                        || a.positional_impact.as_ref().is_some_and(|m| m.complete)
+                    a.timed_effect.as_ref().is_some_and(|m| {
+                        m.runtime.smoke_particle()
+                            || (m.runtime.mixed_draw() && m.cinematic_scope.is_none())
+                    }) || a.positional_impact.as_ref().is_some_and(|m| m.complete)
                 })
             })
             .collect()
@@ -547,6 +548,12 @@ impl Session {
     ) -> Result<Option<crate::smoke_particle_draw::State>, String> {
         if self.get(id).is_some_and(|a| a.positional_impact.is_some()) {
             self.positional_impact_draw_state(id)
+        } else if self
+            .get(id)
+            .and_then(|a| a.timed_effect.as_ref())
+            .is_some_and(|m| m.runtime.mixed_draw())
+        {
+            self.mixed_particle_draw_state(id)
         } else {
             self.smoke_particle_draw_state(id)
         }

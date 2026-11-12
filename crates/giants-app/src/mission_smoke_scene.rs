@@ -1,4 +1,4 @@
-//! Common mission consumer of canonical class867 smoke/impact actors; no
+//! Common mission consumer of canonical unlit smoke/mixed/impact actors; no
 //! simulation or RNG here. Their actual Session callbacks own all motion/fade.
 use crate::rigid_attachment_scene::{self, Material};
 use bevy::{
@@ -167,20 +167,12 @@ fn update(
                         .with_inserted_attribute(Mesh::ATTRIBUTE_POSITION, vec![[0.; 3]; ids.len()])
                         .with_inserted_attribute(
                             Mesh::ATTRIBUTE_UV_0,
-                            ids.iter().map(|i| model.mesh.uv[*i]).collect::<Vec<_>>(),
+                            ids.iter().map(|i| draw.frame.uv[*i]).collect::<Vec<_>>(),
                         )
                         .with_inserted_attribute(
                             Mesh::ATTRIBUTE_COLOR,
                             ids.iter()
-                                .map(|i| {
-                                    let c = model.mesh.rgb[*i];
-                                    [
-                                        c[0] as f32 / 255.,
-                                        c[1] as f32 / 255.,
-                                        c[2] as f32 / 255.,
-                                        1.,
-                                    ]
-                                })
+                                .map(|i| draw.frame.colors[*i])
                                 .collect::<Vec<_>>(),
                         );
                         let profile = *draw
@@ -258,11 +250,26 @@ fn update(
                     .get_mut(&part.mesh)
                     .ok_or("smoke mesh removed")?
                     .insert_attribute(Mesh::ATTRIBUTE_POSITION, positions);
+                let ids = model.mesh.subobjects[part.index].triangles.iter().flatten();
+                let uv = ids
+                    .clone()
+                    .map(|i| draw.frame.uv[usize::from(*i)])
+                    .collect::<Vec<_>>();
+                let colors = ids
+                    .map(|i| draw.frame.colors[usize::from(*i)])
+                    .collect::<Vec<_>>();
+                let mut mesh = gpu
+                    .meshes
+                    .get_mut(&part.mesh)
+                    .ok_or("particle mesh removed")?;
+                mesh.insert_attribute(Mesh::ATTRIBUTE_UV_0, uv);
+                mesh.insert_attribute(Mesh::ATTRIBUTE_COLOR, colors);
                 let mut material = gpu
                     .materials
                     .get_mut(&part.material)
                     .ok_or("smoke material removed")?;
                 material.set_owned_profile(draw.frame.profiles[part.index]);
+                material.set_owned_vertex_alpha(draw.frame.vertex_alpha);
                 material.set_draw_view(
                     draw.frame.front,
                     camera.viewport.z as f32,

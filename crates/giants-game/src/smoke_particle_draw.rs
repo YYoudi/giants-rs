@@ -1,4 +1,4 @@
-//! Shared class867 render inputs from canonical smoke and positional impact
+//! Shared unlit render inputs from canonical smoke, mixed and positional-impact
 //! actors, without a second clock or RNG. Their callback owners stay distinct.
 use crate::{
     resident_states::{Id, Session},
@@ -31,6 +31,10 @@ pub struct Frame {
     pub position: [f32; 3],
     pub front: bool,
     pub profiles: Vec<crate::unlit_material::Profile>,
+    /// Source vertex-reference order, distinct from the indexed position buffer.
+    pub uv: Vec<[f32; 2]>,
+    pub colors: Vec<[f32; 4]>,
+    pub vertex_alpha: bool,
 }
 impl Geometry {
     pub fn load(
@@ -136,6 +140,68 @@ impl Geometry {
         {
             return Err("smoke draw position buffer invalid".into());
         }
+        let response = session
+            .get(id)
+            .and_then(|a| a.construction_fields.as_ref())
+            .ok_or("particle render fields absent")?
+            .response_flags;
+        let offset = if response & 0x80000 != 0 {
+            Some(
+                session
+                    .timed_effect_uv_offset(id)
+                    .ok_or("particle scroll owner absent")?,
+            )
+        } else {
+            None
+        }; // Actual absence of a scroll command, not a provider default.
+        let vertical = if response & 0x40000 != 0 {
+            Some(
+                session
+                    .timed_effect_vertical_fade(id)
+                    .ok_or("particle vertical-fade owner absent")?,
+            )
+        } else {
+            None
+        };
+        let bounds = self.model.mesh.bounds().map_err(|e| e.to_string())?;
+        if self.model.mesh.uv.len() != self.model.mesh.indices.len()
+            || self.model.mesh.rgb.len() != self.model.mesh.indices.len()
+        {
+            return Err("particle vertex-reference attributes inconsistent".into());
+        }
+        let uv = if let Some(offset) = offset {
+            self.model
+                .mesh
+                .uv
+                .iter()
+                .map(|uv| std::array::from_fn(|i| (f64::from(uv[i]) + f64::from(offset[i])) as f32))
+                .collect()
+        } else {
+            self.model.mesh.uv.clone()
+        };
+        let colors = self
+            .model
+            .mesh
+            .rgb
+            .iter()
+            .enumerate()
+            .map(|(i, rgb)| {
+                let alpha = if let Some(values) = vertical {
+                    let position = positions
+                        .get(self.model.mesh.indices[i] as usize)
+                        .ok_or("particle position reference absent")?;
+                    crate::vertical_fade::alpha(position[2], [bounds[2], bounds[5]], values)?
+                } else {
+                    255
+                };
+                Ok([
+                    rgb[0] as f32 / 255.,
+                    rgb[1] as f32 / 255.,
+                    rgb[2] as f32 / 255.,
+                    alpha as f32 / 255.,
+                ])
+            })
+            .collect::<Result<Vec<_>, &'static str>>()?;
         let profiles = self
             .model
             .mesh
@@ -159,6 +225,9 @@ impl Geometry {
             position: state.position,
             front: state.personality & 4 == 0 && state.world.flags & 8 != 0,
             profiles,
+            uv,
+            colors,
+            vertex_alpha: vertical.is_some(),
         }))
     }
 }

@@ -95,6 +95,7 @@ pub(crate) struct Runtime {
     pub(crate) render: crate::effect_render_parameters::Parameters,
     pub(crate) hidden: bool,
     pub(crate) particle_contact: bool,
+    mixed_draw: bool,
     immediate_kind: bool,
     forward_speed: Option<u32>,
 
@@ -514,6 +515,7 @@ impl<K: Copy> Timed<K> {
                 hidden: configured.hidden,
                 immediate_kind: configured.immediate.is_some(),
                 particle_contact: configured.particle_contact,
+                mixed_draw: configured.mixed_draw,
                 forward_speed,
                 epoch: 0,
                 failure: None,
@@ -638,6 +640,9 @@ impl<K: Copy> Timed<K> {
 impl Runtime {
     pub(crate) fn expired_smoke(&self) -> bool {
         self.smoke_particle() && self.visual.expired() && self.idle() && self.failure.is_none()
+    }
+    pub(crate) fn mixed_draw(&self) -> bool {
+        self.mixed_draw
     }
 
     pub(crate) fn smoke_particle(&self) -> bool {

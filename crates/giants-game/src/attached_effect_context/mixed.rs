@@ -209,6 +209,16 @@ mod tests {
             )
             .unwrap();
             let mut callbacks = 0;
+            let mut geometry =
+                std::collections::BTreeMap::<Actor, crate::smoke_particle_draw::Geometry>::new();
+            for &id in executor.actors() {
+                assert!(session.particle_draw_ids().contains(&id));
+                assert!(session.particle_draw_state(id).unwrap().is_none());
+            }
+            let view = [
+                1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1.,
+            ]; // Supplied CPU camera.
+            let mut render_frames = 0;
             for frame in 0..4 {
                 for &id in executor.actors() {
                     session.begin_timed_positioned_frame(id).unwrap();
@@ -248,10 +258,41 @@ mod tests {
                     assert!(session.timed_effect_ordinary_header(id).unwrap().prepared);
                     assert!(session.timed_effect_failure(id).is_none());
                     assert!(session.timed_effect_immediate_binding(id).is_none());
+                    if session.timed_effect_hidden(id) == Some(true) {
+                        assert!(session.particle_draw_state(id).unwrap().is_none());
+                    } else {
+                        let model = geometry.entry(id).or_insert_with(|| {
+                            crate::smoke_particle_draw::Geometry::load(resources, &session, id, 0)
+                                .unwrap()
+                        });
+                        let draw = model.frame(&mut session, id, view).unwrap().unwrap();
+                        assert_eq!(draw.uv.len(), model.model.mesh.uv.len());
+                        assert_eq!(draw.colors.len(), model.model.mesh.rgb.len());
+                        assert_eq!(draw.vertex_alpha, model.class == 965);
+                        if draw.vertex_alpha {
+                            if frame == 0 {
+                                assert!(draw.colors.iter().all(|c| c[3] == 0.));
+                            } else {
+                                assert!(draw.colors.iter().any(|c| c[3] > 0.));
+                                assert_ne!(draw.uv, model.model.mesh.uv);
+                            }
+                        }
+                        render_frames += 1;
+                    }
                     callbacks += 1;
                 }
             }
             assert_eq!(callbacks, executor.actors().len() * 4);
+            assert_eq!(render_frames, (executor.actors().len() - 1) * 4);
+            eprintln!(
+                "mixed ordinary action={action} bodies={} callbacks={callbacks} render_input_frames={render_frames} colliders={} unprepared_platforms={} environments={} physical={} ground_queries={} gpu=false",
+                executor.actors().len(),
+                prepared.objects.len(),
+                prepared.unresolved.len(),
+                services.calls.environment,
+                services.calls.motion,
+                services.calls.callback_ground_queries
+            );
             assert!(services.calls.environment > 0);
             assert!(services.calls.callback_ground_queries > 0);
             assert!(services.calls.motion > 0);

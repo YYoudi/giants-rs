@@ -180,14 +180,20 @@ Current dependency: the canonical mixed construction executor now owns real
 root/child Session births, child-context retirement, source wait and delayed
 continuation/root-context retirement. All44 births match the original on2,596
 selected words and phase RNG; duplicate consumption/replay is refused. The
-first-phase bodies also pass168 ordinary source-world preparations with actual
+first-phase bodies also pass 168 ordinary source-world preparations with actual
 Wife terrain/colliders, common history/physical/finalization/reference services
 and an explicit existing prototype PS2 zero-threshold progress policy. No
 cinematic scope or invented PC caller word is supplied. Next connect this owner
-to the ordinary impact/body schedule, actual vertex renderer and body retirement,
+to the ordinary impact/body schedule and body retirement,
 then the active source-bearing Mecc/Vimp/Ripper hit consumers. The ordinary
 complete encounter/death, real Windows menu exit/reentry and identified final
 GNU build remain required; these CPU controls do not establish playability.
+The existing common unlit mission consumer now reads mixed bodies' actual
+Session UV/fade parameters and updates its vertex/color/material inputs, after
+real preparation and reference placement. No render-side simulation/RNG is added.
+The installed control covers 160 render-input frames and hidden-carrier omission,
+retaining actual declared colliders/unprepared-platform refusals. GPU pixels,
+native queue order and ordinary explosion/combat availability remain unverified.
 
 Earlier graphical failure: local source `a450206` admitted the authored Wife
 population but failed before capture: mixed positional sound requests exceeded

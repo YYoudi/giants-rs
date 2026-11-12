@@ -27,8 +27,20 @@ and collider preparation. Its 168 preparations use the common world services,
 without a cinematic scope. It explicitly selects the existing prototype PS2
 zero-threshold progress policy; no debug-PC caller bits are invented. This is a
 source-world service control, not a native whole-world schedule or GPU check.
-Ordinary impact still needs its actual program/body schedule, vertex consumers,
-retirement and reciprocal hit owners before complete encounter acceptance.
+Ordinary impact still needs its actual program/body schedule, body retirement
+and reciprocal hit owners before complete encounter acceptance.
+
+The common mission unlit consumer now accepts these canonical mixed bodies only
+after completed ordinary preparation and one-shot placement. Its current vertex
+references receive the same Session UV offsets and vertical-fade values; Bevy
+updates UV/color buffers and the existing vertex-alpha material branch. The
+renderer owns no simulation clock or RNG. Hidden carriers remain absent from
+draws. The installed source-world control produces 160 actual render-input frames,
+including initially transparent and subsequently changing gradient/UV data.
+It retains 9 declared colliders and 23 unresolved platform candidates: a needed
+unprepared platform still fails rather than becoming a default surface. This
+validates CPU input wiring, not actual rendered pixels, native queue order,
+complete world scheduling, body cleanup or ordinary reciprocal combat.
 
 The current immediate-particle dependency is CPU-validated, not an ordinary
 explosion delivery. The canonical timed owner now constructs the acquired
