@@ -48,9 +48,15 @@ Work in progress, not a delivered preview: the common completion-film owner now
 prepares asynchronously and keeps the original gameplay admission. A receipt
 distinguishes a natural source end from a real user skip, and cannot reuse the
 opening film's terminal or bare cleanup. The installed six-director completion
-preparation still refuses nonterminal effects in three directors. Implement their
-actual dispatch, visual/audio and scoped retirement owners before admitting this
-film; do not bypass the effects gate. No new runtime acceptance is claimed.
+preparation now admits all six directors through complete canonical effect
+profiles, actual class-zero cinematic supports, prepared root/descendant geometry
+and the real declared collision world. Missing world or geometry still refuses
+admission. Supplied source-event controls cover the mixed blood/shotgun family;
+Two offscreen muted completion-replay cycles now reach the actual final source
+end with drained voices, visible canonical draws for all six classes and complete
+scope/GPU-asset cleanup. This is supplied replay evidence, not ordinary rescue,
+RoadHome pickup, OS input or native pixel/cadence validation. No new preview is
+claimed.
 
 The selector3 proximity-selection dependency is implemented in `smartie_follow`
 with the probable prototype search route `smartie_check_follow__FP6OBJECTf`.
@@ -71,11 +77,10 @@ and routes its actual events through this queue using the mission Session/shared
 RNG, registered slow areas and composing epoch. The rigid renderer consumes the
 canonical body matrix, channels, scale, transparency and visibility, suppressing
 its independent viewer simulation for owned instances. Installed preparation
-passes for the two source shotgun directors and retains the whole-film refusal.
-No graphical acceptance is claimed for this wiring yet. Remaining work includes
-actual GPU/lifecycle validation, source16/source5a blood callbacks and the other
-source effect families. Native RNG phase, clock cadence and complete world/draw
-fidelity remain unverified; this does not make effects admission pass.
+now covers all six completion directors. Two offscreen completion-replay cycles
+exercise the canonical shotgun/blood families and their cleanup. The ordinary
+rescue/continuation and next wife actor remain required. Native RNG phase, clock
+cadence and complete world/draw fidelity remain unverified.
 
 The detached preparation's debug-PC caller-word dependency now has an explicit
 portable alternative: `PhysicalProgress::PrototypePs2Zero`, based on the
@@ -87,7 +92,7 @@ mandatory. The related `object_apply_location` identity is probable. This is a
 single threshold policy, not adoption of the PS2 layout or whole arithmetic.
 The generic MIPS suffix-emulation attempt fails and supplies no parity claim;
 the observation is from independent standard-instruction/body review. Normal
-graphical validation of detached-child preparation/render integration is pending.
+native fidelity of detached-child preparation/render integration remains unverified.
 
 The canonical descendant walk now performs common history, local-time sampling,
 physical/gravity callbacks and full finalization over supplied real terrain and
@@ -96,7 +101,7 @@ through the class828 child's lifetime and cleanup, with source platform candidat
 retained rather than an invented empty platform query. Candidate bounds exclude
 irrelevant points; an admitted unresolved footprint still refuses the query.
 The common film/render consumer is now wired as described above; its graphical
-validation and complete effect coverage remain pending.
+ordinary mission acceptance remains pending; the scoped replay result is above.
 
 The Story2 declaration census finds 48 platform-flag candidates. The candidate
 projection partitions non-raster footprint profiles from raster candidates;
@@ -119,10 +124,19 @@ actual terrain contact, affine/gravity and the real source surface-child factory
 then publishes the budget and non-respawn deletion mark. Installed supplied-frame
 controls cover the real child, its expiry and scope cleanup; a missing factory
 still refuses without consuming the budget. Ordinary film/render consumption
-remains unbound. Source3 roots under a Flick support require their actual support
+now uses the canonical owner. Source3 roots under a Flick support require their actual support
 snapshot and inheritance, rather than inventing a positional context conversion.
 The two prototype effect search routes remain unknown attributions. No new
 playable preview or complete-film admission is established by these dependencies.
+The common film now dispatches source3 ground, surface and fixed-curve roots into
+the same Session as timed attachments. Contact creates an actual surface child;
+the renderer reserves its source geometry but keeps it hidden until that child
+is born and prepared. Canonically owned groups do not run the separate inspection
+clock. A 317-frame supplied source-event composition covers six effect classes
+and two contact births; that control is not graphical or native-cadence evidence.
+The explicit completion film-cycle diagnostic exercises source end and re-entry,
+without gameplay admission or changing the authored mission condition.
+
 The specific ground-create helper has a probable relationship to the PC opcode5a
 block, not a separate PC function identity. The surface-orientation prototype
 helper is a stub; preserve the PC implementation and that platform divergence.

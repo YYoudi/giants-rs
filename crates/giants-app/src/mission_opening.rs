@@ -657,6 +657,11 @@ mod tests {
             .unwrap();
         prepared.prepare_render(&root, plan.resources(), &world.config);
         assert!(
+            !prepared.effects_bound(),
+            "actual world has not been prepared"
+        );
+        prepared.prepare_timed_world(&plan, &world.terrain);
+        assert!(
             prepared.effects_bound(),
             "source completion render: {:?}",
             prepared.render.as_ref().err()

@@ -85,6 +85,14 @@ claim. See [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md).
 
 ## Effect ground-contact routes
 
+The literal prototype search route `FLK_FxSpawn__FP9FLK_FlickiiiiPc`
+leads to `cinematic_support` and `cinematic_timed`. The PC cinematic effect
+caller uses a loaded scalar class-zero support and source actor/reference pose;
+the prototype uses a different support class and factorization. This is an
+unknown function attribution, not permission to import its class or layout.
+The source3 constructor snapshots the genuine support while preserving the
+attached creation context. A recovered spawn name does not certify film fidelity.
+
 The literal prototype symbols `fx_logic` and
 `fx_processOpCodes__FP6FxDataiP6OBJECT` lead to the related work in
 [`effect_ground_emission`](../crates/giants-game/src/effect_ground_emission.rs)

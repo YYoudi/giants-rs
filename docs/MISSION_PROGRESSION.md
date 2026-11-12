@@ -80,8 +80,8 @@ a continuation receipt. An earlier opening terminal, resource preparation, bare
 release or stale ticket cannot do so. These contracts have dependency tests;
 the complete gameplay path is not delivered yet.
 
-Preparation currently refuses three directors' nonterminal effects. Their actual
-dispatch, rendering/audio and retirement must be connected before admission.
+Preparation admits nonterminal effects only with complete canonical family,
+geometry and world owners. Missing owners still refuse admission.
 `cinematic_timed` now composes the existing acquired attached callbacks with
 canonical Session storage and source retirement-child construction. Its installed
 Wife controls verify shotgun parents, child birth/cancellation and detached-child
@@ -107,19 +107,25 @@ selected ahead of raster3 are explicitly excluded by the platform-membership
 contract. Source class usage masks and absolute scale stores are prepared before
 bounds; texture descriptors and state-name callbacks are not implied by this
 collision projection. Installed Wife controls cover two shotgun plans through
-child lifetime/cancellation, not ordinary film events or GPU rendering. The
-common movie effects gate remains unchanged while full effect coverage and
-runtime validation are incomplete.
+child lifetime/cancellation. Separate completion-replay GPU checks now cover
+the actual source event dispatch and visible canonical bodies; ordinary mission
+completion and native fidelity remain separate requirements.
 
 The common film preparation now retains this declared collision world, and its
 timed consumer uses the active mission's actual Session, shared RNG, registered
 slow areas and composing animation epoch. The rigid renderer selects the owned
 body's matrix, channels, scale, transparency and visibility, and suppresses its
 separate viewer simulation for that instance. An installed preparation control
-covers the two source shotgun directors and the retained whole-film refusal;
-graphical drawing, lifecycle and complete-film admission are not yet validated.
-Source16/source5a blood services and the remaining effect families are still
-prerequisites. Native clock/RNG interleaving and complete world/draw fidelity
+covers all six completion directors, including actual root/descendant geometry
+and refusal without the prepared world. Source3 roots use loaded class-zero
+cinematic supports and retain their actual attached contexts; source3 snapshots
+the support pose without inventing an ordinary parent link. Contact children
+reserve geometry but remain hidden until actual creation and finalization.
+Canonical groups do not also advance the inspection simulation. Two muted
+offscreen completion-replay cycles reach the actual source terminal with drained
+voices, all six effect classes visibly submitted and scope/GPU-asset cleanup.
+This does not exercise the ordinary rescue condition, next-player pickup or OS
+input. Native clock/RNG interleaving and complete world/draw fidelity
 remain unverified. The next mission declares no explicit opening film, so its
 ordinary entry cannot substitute for testing this completion film.
 

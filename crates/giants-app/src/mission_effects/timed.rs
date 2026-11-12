@@ -19,6 +19,16 @@ struct Active {
     number: u64,
 }
 impl Timed {
+    pub(super) fn expected(&self, director: usize) -> Option<usize> {
+        self.world.as_ref()?;
+        Some(self.bindings.get(director)?.as_ref()?.offsets().count())
+    }
+    pub(super) fn acknowledged(&self, director: usize, offset: usize) -> bool {
+        self.world.is_some()
+            && self.active.as_ref().is_some_and(|active| {
+                active.director == director && active.queue.dispatched_offset(offset)
+            })
+    }
     pub(super) fn new(
         bindings: Vec<Option<cinematic_timed::Bindings>>,
         world: Option<Arc<cinematic_timed::world::Prepared>>,
@@ -94,18 +104,21 @@ impl Timed {
             let delta=cinematic.animation_dt();
             let mut services=cinematic_timed::world::World::new(terrain,&world.objects,&[],&world.unresolved,delta,areas)?;
             // The actual existing children walk precedes this frame's new births.
-            active.queue.prepare_children(cinematic_timed::WorldStep {
+            let step=cinematic_timed::WorldStep {
                 number:active.number,global_seconds:delta,areas,
                 progress:giants_game::actor_finalization::PhysicalProgress::PrototypePs2Zero,
                 pc_argument:None,
-            },session,stamp,&mut services)?;
+            };
+            active.queue.prepare_children(step,session,stamp,&mut services)?;
             if active.revision!=cinematic.event_revision() {
                 for event in cinematic.events().iter().filter(|event|event.kind==giants_game::flick::EventKind::Effect) {
-                    active.queue.dispatch(binding,event.offset,resources,random,session)?;
+                    active.queue.dispatch_source(binding,event.offset,cinematic.event_seconds(),terrain,resources,random,session)?;
                     println!("mission_timed_dispatched ticket={ticket} director={director} offset={} objects={} source_event=true native_rng_phase_verified=false",event.offset,active.queue.objects());
                 }
                 active.revision=cinematic.event_revision();
             }
+            let born=active.queue.prepare_positioned_roots(step,session,stamp,resources,random,terrain,world)?;
+            if born>0 {println!("mission_source3_born ticket={ticket} director={director} frame={} count={born} canonical_body=true source_budget_committed=true",active.number);}
             active.queue.update_attached(binding,cinematic.pose_seconds(),delta,resources,random,session,stamp)?;
             if services.calls.motion>0 {
                 println!("mission_timed_world ticket={ticket} director={director} frame={} children={} physical_calls={} environment_calls={} platform_queries={} source_progress=prototype_zero",active.number,active.queue.children().len(),services.calls.motion,services.calls.environment,services.calls.platforms);

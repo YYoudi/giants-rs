@@ -233,6 +233,86 @@ fn initialize_physical(seed: &mut Seed) -> Result<(), String> {
     Ok(())
 }
 impl Template {
+    fn cinematic_source3(
+        &self,
+        origin: Id,
+        context: &Context<crate::resident_states::CinematicSupport>,
+        support: &crate::cinematic_support::Support,
+    ) -> Result<Initial<crate::resident_states::CinematicSupport>, String> {
+        if context.flags() != 0x8004
+            || context.recipient() != Some(support.owner())
+            || context.tag() != Some(u32::MAX)
+        {
+            return Err("source3 cinematic context differs from its actual support".into());
+        }
+        self.validate(context, 3, 1)?;
+        let mut initial = self.initial(
+            origin,
+            Placement::Position(support.position()),
+            context.flags(),
+            false,
+        )?;
+        // Native source3 snapshots the support point; it does not retain a
+        // parent/reference attachment. Its camera-relative inheritance remains.
+        if support.object_flags() & 0x400 != 0 {
+            initial.fields.object_flags |= 0x400;
+        }
+        Ok(initial)
+    }
+    pub fn ground_cinematic(
+        &self,
+        origin: Id,
+        context: &Context<crate::resident_states::CinematicSupport>,
+        support: &crate::cinematic_support::Support,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Configured<crate::resident_states::CinematicSupport>, String> {
+        self.ground_initial(
+            context,
+            self.cinematic_source3(origin, context, support)?,
+            random,
+        )
+    }
+    pub fn surface_cinematic(
+        &self,
+        origin: Id,
+        context: &Context<crate::resident_states::CinematicSupport>,
+        support: &crate::cinematic_support::Support,
+        random: &mut crate::audio_parameters::Random,
+        query: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+    ) -> Result<Configured<crate::resident_states::CinematicSupport>, String> {
+        self.surface_initial(
+            context,
+            self.cinematic_source3(origin, context, support)?,
+            random,
+            query,
+        )
+    }
+    pub fn curved_cinematic(
+        &self,
+        origin: Id,
+        context: &Context<crate::resident_states::CinematicSupport>,
+        support: &crate::cinematic_support::Support,
+    ) -> Result<Configured<crate::resident_states::CinematicSupport>, String> {
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        let ops = program.records.iter().map(|r| r.opcode).collect::<Vec<_>>();
+        if ops != [3, 6, 4, 0x36, 7, 2] && ops != [3, 6, 4, 0x17, 0x36, 7, 2] {
+            return Err("curved constructor outside acquired source36 frame".into());
+        }
+        let recipe = crate::released_effect::Recipe::project(program)?;
+        let mut initial = self.cinematic_source3(origin, context, support)?;
+        initial.fields.position[2] =
+            (f64::from(initial.fields.position[2]) + f64::from(recipe.initial_offset[2])) as f32;
+        initial.size([recipe.visual.start_size, recipe.visual.end_size], false)?;
+        if recipe.visual.start_size != recipe.visual.end_size {
+            initial.fields.control_flags |= 0x100000;
+        }
+        let mut configured = initial.timed(recipe.visual, context.source_image())?;
+        configured.visual = crate::effect_visual::Visual::with_size_curve(
+            recipe.visual,
+            crate::effect_visual::SizeCurve::EaseOut,
+        )?;
+        Ok(configured)
+    }
     /// Complete source3 surface frame, including its real terrain sample.
     /// A context already ran its null pass; this consumes only active ranges.
     /// Prototype search key `fx_orientToGround__FP10FXSTACKTAGf` is a stub;
@@ -242,13 +322,9 @@ impl Template {
         origin: Id,
         context: &Context<K>,
         random: &mut crate::audio_parameters::Random,
-        mut query: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+        query: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
     ) -> Result<Configured<K>, String> {
-        let program = context.program.as_ref().map_err(Clone::clone)?;
-        if program.records.iter().map(|r| r.opcode).collect::<Vec<_>>()
-            != [3, 6, 4, 0x17, 0x1c, 0x79, 7, 2]
-            || context.flags() & !0x1c000 != 0
-        {
+        if context.flags() & !0x1c000 != 0 {
             return Err("surface constructor outside acquired positional frame".into());
         }
         self.validate(context, 3, 1)?;
@@ -257,6 +333,27 @@ impl Template {
             .ok_or("surface context position absent")?;
         if !position.into_iter().all(f32::is_finite) {
             return Err("surface context position nonfinite".into());
+        }
+        let initial = self.initial(
+            origin,
+            Placement::Position(position),
+            context.flags(),
+            false,
+        )?;
+        self.surface_initial(context, initial, random, query)
+    }
+    fn surface_initial<K: Copy>(
+        &self,
+        context: &Context<K>,
+        mut initial: Initial<K>,
+        random: &mut crate::audio_parameters::Random,
+        mut query: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+    ) -> Result<Configured<K>, String> {
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        if program.records.iter().map(|r| r.opcode).collect::<Vec<_>>()
+            != [3, 6, 4, 0x17, 0x1c, 0x79, 7, 2]
+        {
+            return Err("surface constructor outside acquired source frame".into());
         }
         let image = context.source_image();
         let entry = image
@@ -276,12 +373,6 @@ impl Template {
             return Err("surface constructor requires one complete source object".into());
         }
         let object = &objects[0];
-        let mut initial = self.initial(
-            origin,
-            Placement::Position(position),
-            context.flags(),
-            false,
-        )?;
         // Source17 translates the current point without a history copy.
         initial.fields.position[2] =
             (f64::from(initial.fields.position[2]) + f64::from(object.height)) as f32;
@@ -331,6 +422,14 @@ impl Template {
         context: &Context<K>,
         random: &mut crate::audio_parameters::Random,
     ) -> Result<Configured<K>, String> {
+        self.ground_initial(context, self.positioned(origin, context)?, random)
+    }
+    fn ground_initial<K: Copy>(
+        &self,
+        context: &Context<K>,
+        mut initial: Initial<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Configured<K>, String> {
         let program = context.program.as_ref().map_err(Clone::clone)?;
         if program.records.iter().map(|r| r.opcode).collect::<Vec<_>>()
             != [3, 6, 5, 9, 0x12, 0x16, 0x0e, 0x5a, 7, 2]
@@ -355,7 +454,6 @@ impl Template {
         let source =
             crate::effect_ground_emission::Source::resolve(&object.object_services, &image)?
                 .ok_or("ground source callback configuration absent")?;
-        let mut initial = self.positioned(origin, context)?;
         let size = object.size.ok_or("ground source sizes absent")?;
         let life = object.lifetime.ok_or("ground source lifetime absent")?;
         initial.size(size, size[0] != size[1])?;

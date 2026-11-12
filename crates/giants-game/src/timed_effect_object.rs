@@ -243,6 +243,68 @@ impl<K: Copy> Timed<K> {
     }
 }
 
+impl Timed<crate::resident_states::CinematicSupport> {
+    pub fn curved_cinematic(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<crate::resident_states::CinematicSupport>,
+        support: &crate::cinematic_support::Support,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        let class = program
+            .records
+            .first()
+            .and_then(|r| r.bytes.get(1..5))
+            .ok_or("cinematic curved class absent")?;
+        let template = Template::load(resources, i32::from_le_bytes(class.try_into().unwrap()))?;
+        let configured = template.curved_cinematic(origin, context, support)?;
+        Self::new(template, configured)
+    }
+    pub fn ground_cinematic(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<crate::resident_states::CinematicSupport>,
+        support: &crate::cinematic_support::Support,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        let class = program
+            .records
+            .first()
+            .and_then(|r| r.bytes.get(1..5))
+            .ok_or("cinematic ground class absent")?;
+        let template = Template::load(resources, i32::from_le_bytes(class.try_into().unwrap()))?;
+        let mut staged = *random;
+        let configured = template.ground_cinematic(origin, context, support, &mut staged)?;
+        let body = Self::new(template, configured)?;
+        *random = staged;
+        Ok(body)
+    }
+    pub fn surface_cinematic(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<crate::resident_states::CinematicSupport>,
+        support: &crate::cinematic_support::Support,
+        random: &mut crate::audio_parameters::Random,
+        query: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        let class = program
+            .records
+            .first()
+            .and_then(|r| r.bytes.get(1..5))
+            .ok_or("cinematic surface class absent")?;
+        let template = Template::load(resources, i32::from_le_bytes(class.try_into().unwrap()))?;
+        let mut staged = *random;
+        let configured = template.surface_cinematic(origin, context, support, &mut staged, query);
+        *random = staged;
+        Self::new(template, configured?)
+    }
+}
+
 fn source_scope<K>(
     resources: &crate::scene_resources::SceneResources,
     context: &crate::attached_effect_context::Context<K>,

@@ -144,6 +144,7 @@ pub mod cinematic_fx;
 pub mod cinematic_offset;
 pub mod cinematic_persistent;
 pub mod cinematic_render_policy;
+pub mod cinematic_support;
 pub mod cinematic_timed;
 pub mod cinematic_viewport;
 pub mod control_layout;

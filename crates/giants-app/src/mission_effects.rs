@@ -54,15 +54,20 @@ impl State {
         if count == queue.objects() { count } else { 0 }
     }
     pub(crate) fn settled(&self) -> bool {
-        self.active.is_empty()
-            && self.bindings.iter().all(Result::is_ok)
-            && self.dispatched
-                == self
-                    .bindings
-                    .iter()
-                    .filter_map(|b| b.as_ref().ok())
+        let expected = self
+            .bindings
+            .iter()
+            .enumerate()
+            .map(|(director, binding)| {
+                binding
+                    .as_ref()
                     .map(Bindings::len)
-                    .sum::<usize>()
+                    .ok()
+                    .or_else(|| self.timed.expected(director))
+            })
+            .collect::<Option<Vec<_>>>();
+        self.active.is_empty()
+            && expected.is_some_and(|counts| self.dispatched == counts.iter().sum::<usize>())
     }
     pub(crate) fn new(ticket: u64, bindings: Vec<Result<Bindings, String>>) -> Self {
         Self {
@@ -265,6 +270,14 @@ pub(crate) fn update(
                     .ok_or("effect director not bound")?;
                 let binding = match binding {
                     Ok(binding) => binding,
+                    Err(_)
+                        if state
+                            .timed
+                            .acknowledged(cinematic.director_index(), event.offset) =>
+                    {
+                        state.dispatched += 1;
+                        continue;
+                    }
                     Err(error) if showcase.as_ref().is_some_and(|s| s.enabled()) => {
                         let reason = error.clone();
                         state.dispatch_persistent(

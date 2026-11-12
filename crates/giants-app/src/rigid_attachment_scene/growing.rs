@@ -59,6 +59,7 @@ pub(super) fn instances(scene: &mut Prepared) -> Result<Vec<(usize, usize)>, Str
                     parent: None,
                 }),
                 retirement_child: None,
+                canonical_only: false,
                 mixed: None,
                 detached: false,
                 creation_position: None,

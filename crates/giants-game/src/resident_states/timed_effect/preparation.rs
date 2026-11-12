@@ -7,6 +7,7 @@ use crate::{actor_environment, actor_finalization, collider_copy};
 /// physical velocity/plane and inline physics have their existing single owners.
 #[derive(Clone, Debug)]
 pub struct Header {
+    pub prepared: bool,
     pub model_rates: [f32; 4],
     pub previous_model_rates: [f32; 4],
     pub floor: f32,
@@ -23,6 +24,7 @@ impl Header {
     }
     pub(super) fn allocated() -> Self {
         Self {
+            prepared: false,
             model_rates: [0.; 4],
             previous_model_rates: [0.; 4],
             floor: 0.,
@@ -262,6 +264,7 @@ impl Session {
         actor.construction_fields.as_mut().unwrap().object_flags &= !0x40;
         let h = &mut actor.timed_effect.as_mut().unwrap().ordinary;
         h.preparing = true;
+        h.prepared = false;
         h.statistics = None;
         h.previous_model_rates = h.model_rates;
         let result = (|| {
@@ -398,6 +401,7 @@ impl Session {
                 pose: super::affine_pose_words(f),
                 external_orientation: f.object_flags & 0x10000 != 0,
             });
+            m.ordinary.prepared = true;
         }
         Ok(())
     }

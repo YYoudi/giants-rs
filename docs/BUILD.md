@@ -46,8 +46,8 @@ For The Wife work in progress, `cargo test --locked -p giants-game smartie_follo
 dependency. This is not a pickup/gameplay test. The ignored app control
 `installed_wife_completion_has_real_prepared_render_and_effect_owners` uses
 `GIANTS_MISSION_OWNED_ROOT` and prepares the actual six-director completion film.
-It currently fails the nonterminal-effects ownership requirement; retain that
-failure until actual owners are integrated. Neither this preparation nor the
+It requires canonical owners, actual root/child geometry and the prepared
+collision world for all six directors. Neither this preparation nor the
 portable completion-receipt tests establish graphical mission acceptance.
 The separate ignored game control
 `installed_wife_timed_parents_have_canonical_bodies_and_scoped_cleanup` uses the
@@ -74,9 +74,22 @@ The common movie consumer now routes the supported timed family through the
 mission's canonical Session and into the rigid renderer. Run the ignored app
 control `installed_wife_timed_world_and_render_owners_prepare_together` with
 `GIANTS_MISSION_OWNED_ROOT` to verify the actual render/world preparation and
-retained whole-film refusal. The installed child control above now exercises
+whole-film asset admission and refusal without the actual world. The installed child control above now exercises
 the same immutable world preparation. Neither control proves GPU drawing,
-ordinary mission completion or complete effects admission; those remain required.
+ordinary mission completion or native timing; those remain required.
+
+The ignored game controls
+`installed_source3_snapshots_real_class_zero_support_and_keeps_context_binding`
+and `installed_wife_mixed_source_events_have_canonical_roots_and_children` use
+the same root. They check real support/context identity and the mixed source
+event walk, respectively. Supplied clocks/RNG and source data are not GPU or OS
+input evidence. For a graphical completion-film/re-entry diagnostic, use
+`GIANTS_MISSION_REPLAY=showcase-film-cycles`,
+`GIANTS_MISSION_FILM_COMPLETION_REPLAY=1`, `GIANTS_SHOWCASE_WORLD=Story2` and
+`GIANTS_SHOWCASE_MISSION=1` with the ordinary menu executable, fresh user-data,
+`--offscreen --silent-capture --muted-transport`, `GIANTS_AUDIO_MUTE=1` and a
+new capture path. This selects the actual declared completion film for inspection;
+it does not complete the rescue condition or admit a player in that context.
 
 The ignored game control
 `installed_blood_body_uses_canonical_payload_and_requires_contact_services` uses

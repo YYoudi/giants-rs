@@ -30,7 +30,17 @@ impl Prepared {
         Ok(())
     }
     pub(crate) fn effects_bound(&self) -> bool {
-        self.effects.iter().all(Result::is_ok)
+        self.effects.iter().enumerate().all(|(director, terminal)| {
+            terminal.is_ok()
+                || self.timed_world.is_some()
+                    && self
+                        .timed
+                        .get(director)
+                        .and_then(Option::as_ref)
+                        .is_some_and(|binding| {
+                            self.rigid.covers_canonical_effects(director, binding)
+                        })
+        })
     }
     pub(crate) fn load(
         root: &std::path::Path,
@@ -443,8 +453,9 @@ mod tests {
             assert!(count > 0);
         }
         assert!(!prepared.timed_world.as_ref().unwrap().objects.is_empty());
-        // The blood family remains unresolved. Prepared timed geometry/world
-        // must not waive the independent complete-film effects requirement.
+        assert!(prepared.effects_bound());
+        // A prepared simulation cannot stand in for the missing actual world.
+        prepared.timed_world = None;
         assert!(!prepared.effects_bound());
     }
     use super::*;

@@ -483,6 +483,38 @@ impl<K: Copy + Eq> Pool<K> {
         Ok((creation, intervals))
     }
 
+    /// Named cinematic source3 frame. It keeps its actual attached binding;
+    /// source3 activation snapshots the real support, without context conversion.
+    pub fn prepare_cinematic_source3(
+        &mut self,
+        name: &str,
+        recipient: K,
+        recipient_flags: u32,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        let Some(image) = &self.image else {
+            return Ok((Creation::Absent, vec![]));
+        };
+        let Some((_, entry)) = image.find(name) else {
+            return Ok((Creation::Absent, vec![]));
+        };
+        let program = image.program(entry.offset).map_err(|e| e.to_string())?;
+        let ops = program.records.iter().map(|r| r.opcode).collect::<Vec<_>>();
+        if ops != [3, 6, 5, 9, 0x12, 0x16, 0x0e, 0x5a, 7, 2]
+            && ops != [3, 6, 4, 0x17, 0x1c, 0x79, 7, 2]
+            && ops != [3, 6, 4, 0x36, 7, 2]
+            && ops != [3, 6, 4, 0x17, 0x36, 7, 2]
+        {
+            return Err("cinematic source3 preparation outside acquired frame".into());
+        }
+        let (creation, intervals) =
+            self.prepare_extended_invariant(name, recipient, recipient_flags, u32::MAX, random)?;
+        if let Creation::Prepared(id) = creation {
+            self.slots[id.slot].context.as_mut().unwrap().flags = 0x8004;
+        }
+        Ok((creation, intervals))
+    }
+
     /// Private transaction staging for context preparation only. Existing
     /// identities keep their ticket/generation; no external update is replayed.
     pub(crate) fn staged_copy(&self) -> Self {

@@ -48,6 +48,12 @@ pub(crate) struct Replay {
     film_finished: bool,
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    if std::env::var_os("GIANTS_MISSION_FILM_COMPLETION_REPLAY").is_some()
+        && (std::env::var("GIANTS_MISSION_FILM_COMPLETION_REPLAY").as_deref() != Ok("1")
+            || std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-film-cycles"))
+    {
+        return Err("completion film diagnostic requires its explicit film-cycle replay".into());
+    }
     if vimp_interaction_probe()
         && (std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-mecc")
             || std::env::var("GIANTS_SHOWCASE_WORLD").as_deref() != Ok("Story2")
@@ -397,6 +403,9 @@ fn drive(
                 &mut images,
                 if mode == "showcase-persistent"
                     && std::env::var("GIANTS_PERSISTENT_SAMPLE_COMPLETION").as_deref() == Ok("1")
+                    || mode == "showcase-film-cycles"
+                        && std::env::var("GIANTS_MISSION_FILM_COMPLETION_REPLAY").as_deref()
+                            == Ok("1")
                 {
                     LaunchIntent::CompletionReplay
                 } else if std::env::var_os("GIANTS_SHOWCASE_WORLD").is_some() {

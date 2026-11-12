@@ -202,6 +202,7 @@ struct Instance {
     burst: Option<Burst>,
     emitted: Option<Emitted>,
     retirement_child: Option<usize>,
+    canonical_only: bool,
     mixed: Option<mixed::Slot>,
     detached: bool,
     creation_position: Option<[f32; 3]>,
@@ -399,6 +400,9 @@ impl Instance {
             .is_some_and(Released::uses_vertex_alpha)
     }
     fn visible(&self, cinematic: &crate::cinematic_camera::Cinematic) -> bool {
+        if self.canonical_only {
+            return false;
+        }
         if let Some(mixed) = &self.mixed {
             mixed.presentation.is_some_and(|p| p.visible)
         } else if let Some(emitted) = &self.emitted {
@@ -690,6 +694,7 @@ fn unlit_effect_instance(
         burst: None,
         emitted: None,
         retirement_child: None,
+        canonical_only: false,
         mixed: None,
         detached: false,
         creation_position: None,
@@ -794,6 +799,7 @@ fn periodic_instances(
                     parent: None,
                 }),
                 retirement_child: None,
+                canonical_only: false,
                 mixed: None,
                 detached: false,
                 creation_position: None,
@@ -979,6 +985,7 @@ fn burst_instances(
                 }),
                 emitted: None,
                 retirement_child: None,
+                canonical_only: false,
                 mixed: None,
                 detached: false,
                 creation_position: None,
@@ -1312,6 +1319,7 @@ fn particle_instance(
         burst: None,
         emitted: None,
         retirement_child: None,
+        canonical_only: false,
         mixed: None,
         detached: false,
         creation_position: None,
@@ -1407,6 +1415,25 @@ fn context_colors(
     .map_err(str::to_owned)
 }
 impl Scene {
+    /// Asset admission only; GPU upload and live drawing are checked separately.
+    pub(crate) fn covers_canonical_effects(
+        &self,
+        director: usize,
+        bindings: &giants_game::cinematic_timed::Bindings,
+    ) -> bool {
+        let Some(scene) = self.entry(director) else {
+            return false;
+        };
+        bindings.geometry_roles().all(|(offset, class)| {
+            scene.instances.iter().any(|instance| {
+                matches!(&instance.source, Source::Effect { request, class: actual, .. }
+                    if request.offset == offset && *actual == class)
+                    && !instance.geometry.positions.is_empty()
+                    && !instance.parts.is_empty()
+                    && !instance.source.asset().model.mesh.indices.is_empty()
+            })
+        })
+    }
     pub fn burst_audio_owner(
         &self,
         key: &crate::cinematic_effect_audio::Key,
@@ -1765,6 +1792,7 @@ impl Scene {
                         burst: None,
                         emitted: None,
                         retirement_child: None,
+                        canonical_only: false,
                         mixed: None,
                         detached: false,
                         creation_position: None,
@@ -2114,6 +2142,7 @@ impl Scene {
                         burst: None,
                         emitted: None,
                         retirement_child: None,
+                        canonical_only: false,
                         mixed: None,
                         detached: false,
                         creation_position: None,
@@ -2197,6 +2226,39 @@ impl Scene {
                                 mixed_error
                             ),
                         }
+                    }
+                }
+            }
+            if let Ok(bindings) = giants_game::cinematic_timed::Bindings::load(resources, &bytes) {
+                for request in giants_formats::flick::effect_commands(&bytes)? {
+                    if let Some(class) = bindings.contact_child_class(request.offset) {
+                        let program = resources
+                            .classes
+                            .models
+                            .first_program(class)
+                            .ok_or("canonical contact-child class absent")?
+                            .program
+                            .as_ref()
+                            .map_err(Clone::clone)?;
+                        let facing =
+                            giants_game::released_effect::state78_burst_facing(class, program)?;
+                        let mut child = unlit_effect_instance(
+                            class,
+                            facing,
+                            &request,
+                            constructed.clone(),
+                            &effects,
+                            resources,
+                            &mut registered,
+                        )?;
+                        child.canonical_only = true;
+                        child.detached = true;
+                        println!(
+                            "cinematic_contact_child_geometry sequence={} offset={} class={class} canonical_only=true body_born=false",
+                            segment.sequence(),
+                            request.offset
+                        );
+                        instances.push(child);
                     }
                 }
             }
@@ -2954,6 +3016,13 @@ pub fn update(
     }
     let mut seed = scene.effect_seed;
     let mut audio_requests = Vec::new();
+    let canonical_offsets = timed_frames
+        .keys()
+        .filter_map(|&index| match &scene.instances[index].source {
+            Source::Effect { request, .. } => Some(request.offset),
+            _ => None,
+        })
+        .collect::<BTreeSet<_>>();
     if let Err(error) = mixed::update(
         &mut scene,
         &cinematic,
@@ -2961,6 +3030,7 @@ pub fn update(
         animation_dt,
         &mut seed,
         &mut audio_requests,
+        &canonical_offsets,
     ) {
         error!("Mixed effect preview failed: {error}");
         exit.write(AppExit::Error(std::num::NonZeroU8::MIN));
