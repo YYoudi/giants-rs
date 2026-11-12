@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed class230 cooldown/retreat source links; attribution stays
+        # unknown and the existing minimal PC alias is unchanged.
+        '31cb1af7881794447c0af562f2ffed0428747a30fcf9e102caa83128029b72de',
         # Concurrent cinematic navigation: unknown prototype spawn route and
         # explicit support-class divergence; no native body or corpus export.
         '816a22fe27ee50d63ba1112fc44c811dd85a089ca25db342a3c9246d860da5ea',

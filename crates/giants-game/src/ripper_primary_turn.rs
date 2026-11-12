@@ -1,4 +1,4 @@
-//! Acquired ordinary class73 branches and class230 modes0/61..65 over current views.
+//! Acquired ordinary class73 branches and class230 modes0/61..66/71 over current views.
 //! Shared prefix/perception and sound tails retain their class differences.
 //! Later unsupported continuations require their actual services.
 //! Prototype PS2 search key: `ripper_move`; exact PC correspondence unknown.
@@ -12,6 +12,8 @@ use crate::{
     ripper_turn_completion::{self, Parameters},
     state23_entry::{self, Context, State as Entry},
 };
+mod cooldown;
+pub use cooldown::VariantCooldownContext;
 #[derive(Clone, Debug)]
 pub struct State<K, E> {
     pub entry: Entry,
@@ -1025,8 +1027,309 @@ mod tests {
             assert_eq!(services.0, calls);
         }
     }
+
+    #[derive(Default)]
+    struct CooldownAudio {
+        calls: u32,
+        fail: bool,
+    }
+    impl Services<u32, u32> for CooldownAudio {
+        fn owner_sound(
+            &mut self,
+            s: &State<u32, u32>,
+            cue: u32,
+            _: &mut Random,
+        ) -> Result<SoundOutcome, String> {
+            assert_eq!((s.entry.mode, cue), (66, 1248));
+            assert!(s.timer.is_sign_negative());
+            self.calls += 1;
+            if self.fail {
+                Err("actual supplied sound failure".into())
+            } else {
+                Ok(SoundOutcome::Suppressed)
+            }
+        }
+        fn remove_effect(
+            &mut self,
+            _: &State<u32, u32>,
+            _: u32,
+            _: &mut Random,
+        ) -> Result<(), String> {
+            Err("unexpected cooldown effect".into())
+        }
+    }
+    #[test]
+    fn variant_cooldown_obeys_exact_time_and_distance_boundaries() {
+        for (timer, seconds, distance, expected) in [
+            (0., 0., 80., 66),
+            (0.125, 0.125, 80., 66),
+            (0., 0.125, 34., 67),
+            (0., 0.125, 35., 71),
+        ] {
+            let mut s = state();
+            s.entry.class = 230;
+            s.entry.mode = 66;
+            s.timer = timer;
+            s.primary = [1, 0, 0, 0, 0, 0, 0, 0, 0];
+            let mut c = candidate();
+            c.position = [distance, 0., 0.];
+            let actors = [c];
+            let frame = Frame::new(&actors, &[42]).unwrap();
+            let mut m = Machine::new(s);
+            let mut r = Random(42);
+            let mut audio = CooldownAudio::default();
+            m.advance_variant_cooldown(
+                FrameInput {
+                    context: context(),
+                    frame: &frame,
+                    range: 1000.,
+                },
+                VariantCooldownContext {
+                    close_range: 35.,
+                    retreat_timer: [2., 6.],
+                    global_seconds: seconds,
+                    areas: &[],
+                },
+                &mut r,
+                &mut audio,
+            )
+            .unwrap();
+            assert_eq!(m.state().entry.mode, expected);
+            assert_eq!(audio.calls, u32::from(expected == 71));
+            let mut expected_random = Random(42);
+            if expected == 71 {
+                crate::vimp_response::random_delay(&mut expected_random, 2., 6.).unwrap();
+            }
+            assert_eq!(r.0, expected_random.0);
+        }
+    }
+    #[test]
+    fn variant_cooldown_uses_current_object_time_and_wide_expiry_before_store() {
+        let actors = [candidate()];
+        let frame = Frame::new(&actors, &[42]).unwrap();
+        for (owner, timer, seconds, expected) in [
+            (9, 0.015, 0.02, 66),
+            (4, 0.015, 0.02, 71),
+            (9, 0., f32::from_bits(1), 71),
+        ] {
+            let mut s = state();
+            s.entry.class = 230;
+            s.entry.mode = 66;
+            s.timer = timer;
+            s.primary = [1, 0, 0, 0, 0, 0, 0, 0, 0];
+            let areas = [crate::object_time::SlowArea {
+                source_owner: owner,
+                center: [0.; 3],
+                radius_squared: 1.,
+                factor: 0.5,
+            }];
+            let mut m = Machine::new(s);
+            let mut r = Random(1);
+            let mut audio = CooldownAudio::default();
+            m.advance_variant_cooldown(
+                FrameInput {
+                    context: context(),
+                    frame: &frame,
+                    range: 1000.,
+                },
+                VariantCooldownContext {
+                    close_range: 1.,
+                    retreat_timer: [2., 6.],
+                    global_seconds: seconds,
+                    areas: &areas,
+                },
+                &mut r,
+                &mut audio,
+            )
+            .unwrap();
+            assert_eq!(m.state().entry.mode, expected);
+            assert_eq!(audio.calls, u32::from(expected == 71));
+        }
+    }
+    #[test]
+    fn variant_cooldown_sound_failure_keeps_negative_timer_without_draw_or_replay() {
+        let actors = [candidate()];
+        let frame = Frame::new(&actors, &[42]).unwrap();
+        let mut s = state();
+        s.entry.class = 230;
+        s.entry.mode = 66;
+        s.timer = 0.;
+        s.primary = [1, 0, 0, 0, 0, 0, 0, 0, 0];
+        let mut m = Machine::new(s);
+        let mut r = Random(1);
+        let mut audio = CooldownAudio {
+            fail: true,
+            ..Default::default()
+        };
+        let input = FrameInput {
+            context: context(),
+            frame: &frame,
+            range: 1000.,
+        };
+        let p = VariantCooldownContext {
+            close_range: 1.,
+            retreat_timer: [2., 6.],
+            global_seconds: 0.1,
+            areas: &[],
+        };
+        assert!(
+            m.advance_variant_cooldown(input, p, &mut r, &mut audio)
+                .is_err()
+        );
+        assert_eq!(m.state().entry.mode, 66);
+        assert!(m.state().timer < 0.);
+        assert_eq!(r.0, 1);
+        assert!(!m.awaiting_motion());
+        assert!(
+            m.advance_variant_cooldown(input, p, &mut r, &mut audio)
+                .is_err()
+        );
+        assert_eq!(audio.calls, 1);
+        assert_eq!(r.0, 1);
+    }
+
+    #[derive(Default)]
+    struct RetreatAudio {
+        events: Vec<&'static str>,
+        fail_mark: bool,
+        fail_sound: bool,
+    }
+    impl Services<u32, u32> for RetreatAudio {
+        fn mark_surface_marker_retirement(&mut self, s: &State<u32, u32>) -> Result<(), String> {
+            assert_eq!(s.entry.mode, 71);
+            assert_ne!(s.steering.personality & 0x40, 0);
+            self.events.push("mark");
+            if self.fail_mark {
+                Err("actual marker mark failed".into())
+            } else {
+                Ok(())
+            }
+        }
+        fn owner_sound(
+            &mut self,
+            s: &State<u32, u32>,
+            cue: u32,
+            _: &mut Random,
+        ) -> Result<SoundOutcome, String> {
+            assert_eq!((s.entry.mode, cue), (71, 1235));
+            self.events.push("sound");
+            if self.fail_sound {
+                Err("actual retreat sound failed".into())
+            } else {
+                Ok(SoundOutcome::Suppressed)
+            }
+        }
+        fn remove_effect(
+            &mut self,
+            _: &State<u32, u32>,
+            _: u32,
+            _: &mut Random,
+        ) -> Result<(), String> {
+            Err("unexpected retreat effect".into())
+        }
+    }
+    #[test]
+    fn variant_retreat_obeys_strict_animation_threshold_and_completion_order() {
+        let actors = [candidate()];
+        let frame = Frame::new(&actors, &[42]).unwrap();
+        let threshold = 0.73333335_f32;
+        for (seconds, wrapped, events, mode, personality) in [
+            (threshold, false, vec![], 71, 0),
+            (
+                f32::from_bits(threshold.to_bits() + 1),
+                false,
+                vec!["mark"],
+                71,
+                0x40,
+            ),
+            (1., true, vec!["mark", "sound"], 61, 0x840),
+            (0., true, vec!["sound"], 61, 0x840),
+        ] {
+            let mut s = state();
+            s.entry.class = 230;
+            s.entry.mode = 71;
+            s.steering.personality = 0;
+            s.timer = 5.25;
+            s.primary = [
+                43,
+                seconds.to_bits(),
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                if wrapped { 2 } else { 0 },
+            ];
+            let mut m = Machine::new(s);
+            let mut r = Random(1);
+            let mut audio = RetreatAudio::default();
+            m.advance_variant_retreat(
+                FrameInput {
+                    context: context(),
+                    frame: &frame,
+                    range: 1000.,
+                },
+                &mut r,
+                &mut audio,
+            )
+            .unwrap();
+            assert_eq!(audio.events, events);
+            assert_eq!(
+                (m.state().entry.mode, m.state().steering.personality),
+                (mode, personality)
+            );
+            assert_eq!(m.state().timer, 5.25);
+            assert_eq!(r.0, 1);
+        }
+    }
+    #[test]
+    fn variant_retreat_latches_partial_mark_and_sound_failures_without_replay() {
+        let actors = [candidate()];
+        let frame = Frame::new(&actors, &[42]).unwrap();
+        for fail_mark in [false, true] {
+            let mut s = state();
+            s.entry.class = 230;
+            s.entry.mode = 71;
+            s.steering.personality = 0;
+            s.primary = [43, 1f32.to_bits(), 0, 0, 0, 0, 0, 0, 2];
+            let mut m = Machine::new(s);
+            let mut r = Random(1);
+            let mut audio = RetreatAudio {
+                fail_mark,
+                fail_sound: !fail_mark,
+                ..Default::default()
+            };
+            let input = FrameInput {
+                context: context(),
+                frame: &frame,
+                range: 1000.,
+            };
+            assert!(
+                m.advance_variant_retreat(input, &mut r, &mut audio)
+                    .is_err()
+            );
+            assert_eq!(
+                (m.state().entry.mode, m.state().steering.personality),
+                (71, 0x40)
+            );
+            assert_eq!(r.0, 1);
+            assert!(!m.awaiting_motion());
+            let events = audio.events.clone();
+            assert!(
+                m.advance_variant_retreat(input, &mut r, &mut audio)
+                    .is_err()
+            );
+            assert_eq!(audio.events, events);
+        }
+    }
 }
 pub trait Services<K, E> {
+    /// Read this owner's actual relation and mark a class219 child mode2 when
+    /// present. No unlink, callback completion or resource release is implied.
+    fn mark_surface_marker_retirement(&mut self, _state: &State<K, E>) -> Result<(), String> {
+        Err("actual surface marker retirement-mark provider unavailable".into())
+    }
     /// Passive query trace only. This acknowledges no terrain service and
     /// supplies no result; the real ground provider still owns the sample.
     fn observe_ground(&mut self, _state: &State<K, E>) {}
@@ -1102,6 +1405,8 @@ pub enum Outcome {
     CompletedVariantDecision,
     CompletedVariantPursuit,
     CompletedVariantAttack,
+    CompletedVariantCooldown,
+    CompletedVariantRetreat,
 }
 #[derive(Clone, Debug)]
 pub struct Machine<K, E> {
@@ -1273,6 +1578,8 @@ enum Branch<'a, K> {
     VariantDecision(VariantDecisionContext),
     VariantPursuit(VariantDecisionContext),
     VariantAttack(VariantAttackContext<'a, K>),
+    VariantCooldown(VariantCooldownContext<'a>),
+    VariantRetreat,
     Turn(Parameters),
     Pursuit(f32),
     Emergence(f32),
@@ -1307,6 +1614,24 @@ fn footsteps(primary: [u32; 9]) -> Result<bool, &'static str> {
         .any(|at| now >= at && previous < at))
 }
 impl<K: Copy + Ord, E: Copy> Machine<K, E> {
+    pub fn advance_variant_retreat(
+        &mut self,
+        input: FrameInput<'_, K>,
+        random: &mut Random,
+        services: &mut impl Services<K, E>,
+    ) -> Result<Outcome, String> {
+        if !f32::from_bits(self.state.primary[1]).is_finite() {
+            return Err("variant retreat current animation clock is nonfinite".into());
+        }
+        self.advance_inner(
+            input.context,
+            input.frame,
+            input.range,
+            Branch::VariantRetreat,
+            random,
+            services,
+        )
+    }
     pub fn advance_variant_attack(
         &mut self,
         input: FrameInput<'_, K>,
@@ -1633,6 +1958,8 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Branch::VariantDecision(_) => 63,
             Branch::VariantPursuit(_) => 64,
             Branch::VariantAttack(_) => 65,
+            Branch::VariantCooldown(_) => 66,
+            Branch::VariantRetreat => 71,
             Branch::Awakening(_) => {
                 if !matches!(original.entry.mode, 0 | 31) {
                     return Err("awakening primary requires mode0/31".into());
@@ -1657,6 +1984,8 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                 | Branch::VariantDecision(_)
                 | Branch::VariantPursuit(_)
                 | Branch::VariantAttack(_)
+                | Branch::VariantCooldown(_)
+                | Branch::VariantRetreat
         ) {
             230
         } else {
@@ -1797,6 +2126,56 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                     self.state = state;
                     self.failed = Some(error.clone());
                     return Err(error);
+                }
+            }
+        } else if let Branch::VariantRetreat = branch {
+            if f32::from_bits(state.primary[1]) > 0.73333335_f32 {
+                state.steering.personality |= 0x40;
+                if let Err(error) = services.mark_surface_marker_retirement(&state) {
+                    self.state = state;
+                    self.failed = Some(error.clone());
+                    return Err(error);
+                }
+            }
+            if state.primary[8] & 2 != 0 {
+                // The PC debug profile's ground-projection entry is a RET,
+                // as in the acquired class73 surfacing path. No guessed pose.
+                if let Err(error) = services.owner_sound(&state, 1235, random) {
+                    self.state = state;
+                    self.failed = Some(error.clone());
+                    return Err(error);
+                }
+                state.entry.mode = 61;
+                state.steering.personality |= 0x840;
+            }
+        } else if let Branch::VariantCooldown(parameters) = branch {
+            let plan = cooldown::prepare(&state, frame, parameters)?;
+            state.timer = plan.remaining;
+            if plan.expired {
+                if plan.close {
+                    state.entry.mode = 67;
+                } else {
+                    if let Err(error) = services.owner_sound(&state, 1248, random) {
+                        self.state = state;
+                        self.failed = Some(error.clone());
+                        return Err(error);
+                    }
+                    state.entry.mode = 71;
+                    // The same acquired PC interval helper already serves the
+                    // Vimp response. Retain its historical API and wide range
+                    // arithmetic; the actual EXE RNG is supplied by this owner.
+                    match crate::vimp_response::random_delay(
+                        random,
+                        parameters.retreat_timer[0],
+                        parameters.retreat_timer[1],
+                    ) {
+                        Ok(timer) => state.timer = timer,
+                        Err(error) => {
+                            self.state = state;
+                            self.failed = Some(error.clone());
+                            return Err(error);
+                        }
+                    }
                 }
             }
         } else if let Branch::VariantDecision(parameters) | Branch::VariantPursuit(parameters) =
@@ -2078,6 +2457,10 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Outcome::CompletedVariantPursuit
         } else if matches!(branch, Branch::VariantAttack(_)) {
             Outcome::CompletedVariantAttack
+        } else if matches!(branch, Branch::VariantCooldown(_)) {
+            Outcome::CompletedVariantCooldown
+        } else if matches!(branch, Branch::VariantRetreat) {
+            Outcome::CompletedVariantRetreat
         } else if matches!(branch, Branch::Awakening(_)) {
             Outcome::CompletedAwakening
         } else if mode == 32 {

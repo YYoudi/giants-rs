@@ -1,4 +1,4 @@
-//! Class230's owned mode0/61..65 callers and actual marker/projectile constructors. Later modes,
+//! Class230's owned mode0/61..66 callers and actual marker/projectile constructors. Other modes,
 //! live world admission and audio submission remain separate required services.
 use super::*;
 use crate::{
@@ -70,6 +70,24 @@ impl<S: Services<Id, Effect>> Services<Id, Effect> for Bridge<'_, '_, S> {
 }
 
 impl Session {
+    pub fn update_ripper_variant_cooldown(
+        &mut self,
+        id: Id,
+        input: FrameInput<'_, Id>,
+        parameters: crate::ripper_primary_turn::VariantCooldownContext<'_>,
+        random: &mut Random,
+        services: &mut impl Services<Id, Effect>,
+    ) -> Result<Outcome, String> {
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            services,
+            |_, machine, input, random, services| {
+                machine.advance_variant_cooldown(input, parameters, random, services)
+            },
+        )
+    }
     /// The owned primary reads target dimensions from this Session and launches
     /// through the same real state6 factory as the class73 caller.
     pub fn update_ripper_variant_attack(

@@ -96,21 +96,26 @@ and cannot replay or finalize as successful. A Ripper component/draw failure is
 reported and quarantined independently of Vimps. Prior audio transport requests
 survive a late callback refusal; queue submission does not establish a voice.
 
-The admitted ordinary primary subset is class73 modes0/31/32/33/34/44 and class230
-modes0/61/62/63/64/65, with class73 modes37/38/39 also dispatched through the
-owned attack caller. The shared persistent projectile factory now retains the
-actual mission resources and per-class templates across births. Ordinary primary
-launch calls real attached-FX preparation, positional sound submission and the
-current animated muzzle before constructing/launching class90 or class232. These are
-launch consumers, not a delivered projectile flight/impact path. A newly launched
-shot receives actual initial radius/terrain preparation and then explicitly
-refuses the absent current scene/flight/impact services. Earlier creations,
-preparations and sound requests remain consumed; component quarantine prevents
-replay. Later primary modes still refuse. Perception currently admits the actual controlled Mecc subset;
-other families are not represented by invented current providers. Dirt/event
-contexts can be prepared but have no active effect/particle scheduling here.
-Contacts, reciprocal combat, source death and cleanup remain required before
-claiming a playable Ripper encounter.
+The admitted ordinary primary subset is class73 modes0/31/32/33/34/44 and
+37/38/39, plus class230 modes0/61/62/63/64/65/66/71. Mode66 consumes actual object
+local time and its source retreat decision. Mode71 follows the current animation
+and marks only the actual class219 child when required; its common child frame
+and retirement batch still own release and unlinking. The acquired secondary
+selector also admits mode67 selected at the close-range boundary; its next
+primary remains unacquired.
+
+The persistent projectile factory retains actual mission resources/templates
+across births. Ordinary launch uses real attached-FX preparation, positional
+sound submission and the current animated muzzle for class90/232. A shot receives
+real initial radius/terrain preparation and advances against the current scene.
+Its animation/draw, actual contact reactions and damage remain required. Contacts
+and expiry stay pending instead of receiving a default successful reaction.
+Earlier creations, preparations and sound requests remain consumed on refusal;
+component quarantine prevents replay. Other primary modes still refuse.
+Perception currently admits the actual controlled Mecc subset; other families
+are not represented by invented current providers. Dirt/event contexts can be
+prepared but have no active effect/particle scheduling here. Reciprocal combat,
+source death and cleanup remain required before claiming a playable encounter.
 
 An installed-data control runs 180 supplied stationary-player frames on each
 of two fresh The Wife tickets. All five actors complete their frames and supply
@@ -153,11 +158,12 @@ health or readiness. The first run advanced the player approximately 1,502 units
 before class230 selected mode65 and the old ordinary dispatcher refused it.
 With the launch consumer, the same approach creates class232 at step2618 after
 approximately1,517 units. The current-scene flight consumer now advances the
-shot with actual history, rates and lifetime. The approach continues to step2653,
-where class230 selects mode66 and the unacquired ordinary secondary continuation
-refuses, after thirty-five completed flight samples. This diagnostic is still
-failing at that real frontier. It proves
-neither physical contact nor reciprocal combat or GPU fidelity. It is not included
+shot with actual history, rates and lifetime. With mode66 and mode71 connected,
+the approach reaches step2755 after approximately1,593 units of player movement.
+After137 flying samples, its next query returns a real ground contact. The
+required impact/damage/retirement continuation then refuses and remains pending.
+This diagnostic is still failing at that real frontier. It establishes a CPU
+terrain contact, not reciprocal actor contact, injury, death or GPU fidelity. It is not included
 in the passing `source_wife_` regression selector.
 
 The ordinary controller now publishes a Mecc dedicated-contact packet through
@@ -196,13 +202,29 @@ lifetime. Its fixture admits four actual rigid declarations, the controlled Mecc
 and five Rippers; it does not stage the Vimp component. This CPU control neither
 proves a graphical shot nor expands admission to the whole native world.
 The separate full-contact diagnostic continues beyond that first sample and
-still fails at mode66. Neither control establishes impact, reciprocal damage or
-source death.
+now stops at an actual pending ground contact. Neither control establishes a
+completed impact reaction, reciprocal damage or source death.
 
-Current-source validation passes 989 Rust tests / 178 ignored, five installed
-`source_wife_` controls, 45 Python tests and strict Clippy/format checks. The
-full-contact diagnostic's mode66 failure remains separate from those passing
-prerequisite controls; no rendered combat availability follows from these counts.
+Class230 mode66 preserves strict expiry before the rounded timer store,
+current-target range boundaries, the cue-before-retreat-delay order and the
+shared game RNG. A private exact-PC control matches485 selected callback
+snapshots (9,215 state words plus24 sound-request words), including no-target,
+zero-clock and boundary fixtures. Mode71 matches86 snapshots (1,634 state words,
+86 marker-mode words and8 sound-request words): the strict animation threshold,
+absent/different-class marker, actual marker mark and animation completion.
+These controls use supplied peer/clock/flat-world inputs and captured sound,
+not a live native world or audio-fidelity proof. No prototype PS2 attribution
+is promoted by these PC comparisons.
+
+The installed `source_variant_retreat_marks_owned_child_without_acknowledging_cleanup`
+control uses actual class230/219 constructors with explicit mode71/clock inputs.
+It checks the real reciprocal relation, marking without channel/retirement
+advancement, non-marker/absent relations, late sound failure and no replay.
+It does not establish natural marker retirement during an ordinary encounter.
+Current source passes994 Rust tests /179 ignored, five installed `source_wife_`
+controls, that additional owned-retreat control,45 Python tests and strict
+Clippy/format checks. The full-contact diagnostic's pending-ground failure remains
+separate; no rendered combat availability follows from these counts.
 Ripper projectile models (`ripspit` / `ripspitbig`) also exist; preparation alone
 does not establish their draw, movement or impacts. Source naming remains separate:
 no new prototype PS2 attribution is confirmed by this input diagnostic.

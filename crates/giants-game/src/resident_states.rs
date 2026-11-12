@@ -35,6 +35,7 @@ mod parented_frame_tests;
 mod passive_frame_tests;
 mod ripper_calls;
 mod ripper_contacts;
+mod ripper_retreat;
 mod ripper_variant;
 mod surface_frame;
 pub use surface_frame::{Frame as SurfaceMarkerFrame, View as SurfaceFrameView};

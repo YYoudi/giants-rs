@@ -308,6 +308,101 @@ fn source(resources: &SceneResources, ticket: u64, eligible: bool) -> (Session, 
 }
 
 #[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; explicit mode71/clock fixtures with actual linked marker constructors, not natural retreat or graphics"]
+fn source_variant_retreat_marks_owned_child_without_acknowledging_cleanup() {
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+    for case in 0..4 {
+        let (mut session, id, peer) = source(&resources, 740 + case, true);
+        let marker = if case < 2 {
+            let marker = crate::primary_surface_marker::Factory::new(&resources)
+                .construct(&mut session, id)
+                .unwrap();
+            session.prepare_surface_marker_world(marker).unwrap();
+            Some(marker)
+        } else {
+            None
+        };
+        let mut combat = session.state23_snapshot(id).unwrap();
+        combat.mode = 71;
+        combat.timer = 5.25;
+        if case == 3 {
+            combat.owner = Some((peer, 73));
+        }
+        let actor = session.residents.get_mut(&id.serial).unwrap();
+        actor.state23_combat = Some(combat);
+        actor.channels.as_mut().unwrap()[0] = [43, 1f32.to_bits(), 0, 0, 0, 0, 0, 0, 2];
+        // Calling outside the real parent callback must not mark a child.
+        assert!(session.mark_ripper_surface_marker_retirement(id).is_err());
+        let count = session.counts();
+        let before_peer = session.state23_snapshot(peer).unwrap().mode;
+        let marker_channels = marker.map(|m| session.get(m).unwrap().channels);
+        let subset = session.perception_subset(&[id, peer]).unwrap();
+        let frame = subset.frame().unwrap();
+        let input = FrameInput {
+            context: crate::state23_entry::Context {
+                paused: false,
+                native_mode: 0,
+                parent_state: None,
+                player: None,
+                delta: 0.016,
+            },
+            frame: &frame,
+            range: 10000.,
+        };
+        let mut random = Random(1);
+        let mut audio = Audio {
+            fail_play: if case == 1 { Some(1235) } else { None },
+            ..Default::default()
+        };
+        let result = session.update_ripper_variant_retreat(id, input, &mut random, &mut audio);
+        assert_eq!(result.is_err(), case == 1);
+        assert_eq!(random.0, 1);
+        assert_eq!(session.counts(), count);
+        assert_eq!(
+            session.state23_combat(id).unwrap().mode,
+            if case == 1 { 71 } else { 61 }
+        );
+        assert_eq!(audio.calls, [(true, 1235, 71)]);
+        assert_eq!(session.state23_snapshot(peer).unwrap().mode, before_peer);
+        if let Some(marker) = marker {
+            assert!(
+                matches!(session.surface_link(marker),Some(SurfaceLink::Marker{owner,mode:2,..}) if owner==id)
+            );
+            assert_eq!(
+                session.get(marker).unwrap().channels,
+                marker_channels.unwrap()
+            );
+            assert_eq!(
+                session
+                    .get(marker)
+                    .unwrap()
+                    .construction_fields
+                    .as_ref()
+                    .unwrap()
+                    .object_flags
+                    & 0x8000,
+                0
+            );
+            assert_eq!(session.surface_marker_frame(marker).unwrap().next_frame, 0);
+            assert!(
+                session
+                    .incoming_actor_references(marker)
+                    .unwrap()
+                    .contains(&id)
+            );
+        }
+        let calls = audio.calls.clone();
+        assert!(
+            session
+                .update_ripper_variant_retreat(id, input, &mut random, &mut audio)
+                .is_err()
+        );
+        assert_eq!(audio.calls, calls);
+    }
+}
+
+#[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; source class230, flat terrain/peer eligibility and audio suppression supplied, no ordinary gameplay"]
 fn source_variant_awakening_owns_marker_and_retains_late_failures() {
     let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());

@@ -76,8 +76,12 @@ signature, layout or implementation claim. The related shared launch bridge is
 [`primary_enemy_fire`](../crates/giants-game/src/primary_enemy_fire.rs); its PC
 helper at 0x004dbaf0 remains unassigned after prototype ripper/missile searches.
 A real actor launch does not establish ordinary projectile flight or damage.
-Both binary identities are pinned by
-the central method. Old address aliases remain valid.
+The class230 continuation adapters also lead to
+[`cooldown`](../crates/giants-game/src/ripper_primary_turn/cooldown.rs) and
+[`ripper_retreat`](../crates/giants-game/src/resident_states/ripper_retreat.rs):
+independently checked PC timer/animation/marker contracts, not newly confirmed
+prototype identities or complete combat delivery. Both binary identities are
+pinned by the central method. Old address aliases remain valid.
 
 `ripper_chase_location__FP6OBJECTP3P3Df` is another literal prototype search key
 in [`ripper_steering`](../crates/giants-game/src/ripper_steering.rs). Its exact PC

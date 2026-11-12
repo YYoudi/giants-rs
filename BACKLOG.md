@@ -76,9 +76,11 @@ retirement, not Ripper death. Prototype PS2 marker/cleanup attribution remains
 unassigned, including the additional literal `mound_*` search candidates.
 Current-scene flight local GNU build: source `225f6fa`, executable SHA256 prefix
 `b0f1d23f2929`, receipt independently checked; no new GPU encounter verification.
-Current source passes 989 Rust tests / 178 ignored, five installed The Wife
-controls, 45 Python tests and strict Clippy. The separate full-contact diagnostic
-still fails after thirty-five actual flight samples at class230 mode66.
+That build passed989 Rust tests /178 ignored and five installed The Wife
+controls. Current source additionally connects class230 modes66/71, passes994
+Rust tests /179 ignored, the five The Wife controls and one owned-retreat control,
+45 Python tests and strict Clippy. The separate full-contact diagnostic now
+reaches a real pending ground contact after137 flying samples at step2755.
 Latest GPU-checked local build (before current-scene flight): source `8e5d72b`, executable SHA256 prefix `865d6ad15293`,
 receipt independently checked. This compiles ordinary launch and current
 normal-Mecc dedicated contacts, but the exact supplied-input diagnostic still
@@ -115,9 +117,11 @@ submission and current animated muzzle; initial radius/terrain prepare succeeds.
 The current-scene flight consumer now advances the actual shot at step2618,
 retaining source declaration identities, real controller keys and current Mecc/
 NPC meshes. Its separate first-flight CPU control passes on two fresh tickets;
-the full-contact diagnostic continues to step2653 (about1,536 units moved), then
-refuses the class230 mode66 secondary continuation. No shot rendering, impact,
-reciprocal damage or death is accepted; all consumed prefixes remain retained.
+the full-contact diagnostic now consumes class230 modes66/71 and reaches an
+actual ground contact at step2755 (about1,593 units moved), after137 flying
+samples. Its impact/damage/retirement continuation remains pending. No shot
+rendering, impact reaction, reciprocal damage or death is accepted; all consumed
+prefixes remain retained.
 Class73 modes37..39 share this launch bridge but their ordinary encounter branch
 has not yet been observed. Launch/flight arithmetic is not a visible attack or damage delivery.
 The ordinary controller now provides the actual selected Mecc clip/clock to a
@@ -131,9 +135,15 @@ owned-list API, without a fabricated global vertex epoch or impact provider.
 Ground/object/declared contacts and expiry remain pending for real services;
 complete native population/interleaving and dynamic static-owner admission stay
 unverified. A failed peer packet cannot become an empty-world acknowledgement.
-Next: acquire/connect the reached class230 mode66 secondary and primary
-continuations, the projectile's actual ANM/body draw and source impact consumers,
-then active popup/dirt/projectile FX and later modes,
+Class230 cooldown/retreat now use actual object time, native cue/RNG ordering,
+the current animation threshold and the real class219 marker relation. Marking
+mode2 does not acknowledge child callback completion, cleanup or Ripper death.
+The private PC controls match485 cooldown and86 retreat callback snapshots;
+provided clocks/peer/flat-world inputs do not establish native world fidelity.
+No prototype PS2 correspondence is newly confirmed.
+Next: connect the projectile's actual ANM/body draw and the reached source ground
+impact reactions with genuine radial recipients/damage ownership, then active
+popup/dirt/projectile FX and remaining modes (including close-range primary67),
 then complete reciprocal contacts, target-to-damage dispatch and combat with
 source-specific sounds/blood/death/cleanup. Do not copy Vimp ghosts/meat or force
 movement, readiness or damage. Acceptance still requires an identified local

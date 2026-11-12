@@ -197,6 +197,51 @@ impl ActorWorldServices for Adapter<'_, '_> {
     }
 }
 impl Session {
+    /// PC class230 mode71 writes only its real class219 child's mode2. The
+    /// ordinary child frame and existing retirement batch still own closing,
+    /// event/reference completion, external release and unlinking.
+    pub(super) fn mark_ripper_surface_marker_retirement(
+        &mut self,
+        owner: Id,
+    ) -> Result<(), String> {
+        let source = self.ordinary_frame_actor(owner)?;
+        let combat = self.state23_snapshot(owner)?;
+        if source.class != 230 || !source.ripper_primary_running || combat.mode != 71 {
+            return Err(
+                "retreat marker mark requires the actual running class230 mode71 primary".into(),
+            );
+        }
+        let Some((marker, _)) = combat.owner else {
+            return Ok(());
+        };
+        let target = self
+            .get(marker)
+            .ok_or("retreat owner relation absent or foreign")?;
+        if target.class != 219 {
+            return Ok(());
+        }
+        let target = self.surface_frame_actor(marker)?;
+        let frame = target
+            .surface_frame
+            .as_ref()
+            .ok_or("retreat marker world not prepared")?;
+        if source.surface_link != Some(SurfaceLink::Owner { marker })
+            || !matches!(target.surface_link,Some(SurfaceLink::Marker{owner: actual,..}) if actual==owner)
+            || target.world_tick_running
+            || frame.view.failure.is_some()
+            || frame.view.cleanup_started
+        {
+            return Err(
+                "retreat marker lacks its actual reciprocal non-running state48 owner".into(),
+            );
+        }
+        let actor = self.residents.get_mut(&marker.serial).unwrap();
+        let Some(SurfaceLink::Marker { mode, .. }) = actor.surface_link.as_mut() else {
+            unreachable!()
+        };
+        *mode = 2;
+        Ok(())
+    }
     fn surface_frame_actor(&self, id: Id) -> Result<&Resident, String> {
         let actor = self
             .get(id)

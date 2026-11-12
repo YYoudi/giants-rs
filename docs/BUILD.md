@@ -209,7 +209,8 @@ It drives the same ordinary Mecc physics/contact publication and source Ripper
 component from The Wife's authored start, using supplied movement/look/jet levels.
 Run it by exact name with the GNU target and `-- --ignored --nocapture` to observe
 the next required consumer. It currently creates class232, advances its actual
-flight against the current scene and then refuses class230 mode66 at step2653. No NPC pose,
+flight against the current scene, consumes class230 modes66/71, then preserves
+a pending ground contact at step2755 until actual impact reactions exist. No NPC pose,
 mode, damage or readiness is assigned. It is not an OS-input/GPU encounter check
 and its failure must not be reported as a passing Ripper gameplay test.
 
@@ -220,6 +221,13 @@ no pending impact. The fixture uses the actual common rigid registry, dedicated
 Mecc packet and completed Ripper packets; it does not stage the Vimp component.
 This is a supplied-input CPU prerequisite, not a rendered/reciprocal encounter.
 The normal controller also supplies its real completed Vimp component packets.
+
+The ignored `source_variant_retreat_marks_owned_child_without_acknowledging_cleanup`
+in `giants-game` uses the same installation and GNU target. It supplies mode71/
+ANM-clock fixtures to actual class230/219 constructors, checking only the typed
+retirement mark, no premature channel/cleanup acknowledgement and late-failure
+prefix/no replay. Native cooldown/retreat comparisons remain private; they do
+not replace ordinary graphical encounter/death acceptance.
 
 With `GIANTS_NPC_ROOT`, run `source_surface_world` in `giants-game` and
 `source_wife_marker_children` in `giants-app`, using the same GNU target and
