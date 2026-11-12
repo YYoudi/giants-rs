@@ -1,5 +1,8 @@
 //! Versioned normal-Mecc health/shield arithmetic. Target eligibility, team rules,
 //! gyro redirection, voice/knockback and the death callback remain caller work.
+//! Prototype PS2 search key `mecc_shot` is an unknown hurt-callback attribution;
+//! the separate Rust `mecc_shot` module owns firing, not this recovered identity.
+//! See docs/SYMBOL_NAVIGATION.md; prior PC aliases remain valid.
 #[derive(Clone, Copy, Debug)]
 pub struct State {
     pub limit: f32,

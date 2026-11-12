@@ -256,6 +256,19 @@ branches are not admitted by this adapter. Direct PC/helper controls do not
 confirm a cross-platform attribution or the ordinary world schedule. No prototype
 signature/layout is imported and prior PC identifiers remain retained.
 
+## Mecc hurt search route
+
+The literal prototype PS2 name `mecc_shot` leads to
+[`mecc_hit_source`](../crates/giants-game/src/mecc_hit_source.rs) and
+[`mecc_damage`](../crates/giants-game/src/mecc_damage.rs). Its relationship to the
+independently traced debug-PC hurt callback at 0x0050c2a0 remains **unknown**.
+The separate Rust `mecc_shot` module owns weapon firing; its name does not assert
+this prototype identity. Source-gate and arithmetic controls do not supply full
+attributed health/impulse/voice/death execution or ordinary combat availability.
+The suppression snapshot has both console and temporary completion-countdown
+writers; neither generic film activity nor a value without its lifecycle supplies those owners.
+Prior PC aliases, raw names and uncertainty remain retained.
+
 ## Declared platform query route
 
 The literal prototype PS2 names `collgrid_make_grid` and

@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed Mecc hurt search route, explicitly separate from firing.
+        '5e82c7c946bcbf67d9a9f6819797f1b7e4fe454a4049572f4fbfb2bc649f7aac',
         # Reviewed mixed population host link; existing unknown identities kept.
         '7708ab21c2a4d160585947c987754d1d3642419e70c281d5fccf1bec57a5ab0e',
         # Reviewed static platform query routes and explicit unknown attribution.
