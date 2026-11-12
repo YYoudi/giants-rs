@@ -33,6 +33,8 @@ pub(crate) struct Controller {
     npc_failed: bool,
     building_failed: bool,
     building_probe_target: Option<u32>,
+    building_probe_progress: Option<[f32; 3]>,
+    building_probe_stalled: bool,
     building_probe_terminal: bool,
     // Input-fixture memory only: release RMB long enough to recharge, as a
     // player would. Never changes fuel, actor pose or the ordinary jet service.
@@ -416,6 +418,8 @@ impl Controller {
             npc_failed: false,
             building_failed: false,
             building_probe_target: None,
+            building_probe_progress: None,
+            building_probe_stalled: false,
             building_probe_terminal: false,
             probe_recharge: false,
             probe_route: None,
@@ -905,13 +909,26 @@ pub(super) fn update(
                     );
                     let contacts = controller.state.buildings.probe_contacts(id);
                     let physical = controller.state.buildings.probe_requires_contact(id);
+                    if tick % 120 == 0 {
+                        controller.building_probe_stalled = contacts == 0
+                            && physical
+                            && controller.building_probe_progress.is_some_and(|older| {
+                                (position[0] - older[0]).hypot(position[1] - older[1]) < 1.
+                            });
+                        controller.building_probe_progress = Some(position);
+                    }
                     let approach = !physical
                         && controller
                             .pistol()
                             .is_some_and(|p| distance > p.definition.range * 0.6);
                     if contacts == 0 && physical || approach {
                         axes = Vec2::Y;
-                        thrust = tick > 1200 && position[2] < target[2];
+                        // Supply the normal jet command when a newly solid
+                        // obstacle blocks the route, even if the final target
+                        // is downhill. Observe motion; do not move the actor
+                        // or weaken a collision to complete the fixture.
+                        thrust = (tick > 1200 && position[2] < target[2])
+                            || controller.building_probe_stalled;
                     } else if distance < 70. {
                         axes = -Vec2::Y;
                     } else if !controller.building_probe_terminal {

@@ -51,6 +51,14 @@ geometry can enter this player path; that does not admit the tower's unbound
 replacement/death effect or a generic actor platform. Real rendered contact and
 combined regressions remain required on the next executable before publication.
 
+The first wider-player candidate passes actual rendered contact/damage/expiry
+for the entrance, fence and house. Its old small-tower input fixture stalls at
+a now-solid source column: the diagnostic budget fails without reaching the
+tower. The following observer supplies ordinary jet input when actual movement
+stalls, including downhill targets. This changes navigation commands only,
+not the collider, source pose/health, readiness or source expiry. Retain the
+failed report and require the complete new passage on a new receipt.
+
 The literal prototype names `house_process`, `house_shot` and
 `house_handle_destruction` lead to `building_damage`. Their exact PC function
 identities remain **unknown** pending independent comparison. The acquired PC
