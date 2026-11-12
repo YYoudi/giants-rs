@@ -9,6 +9,22 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
+The combined main/NPC local build `0fd1cccbe5e736e57c408e87d9cf822a5fc67f14`,
+executable SHA256
+`121abb1e325a21b7ce697bce359110df6b24c6338de6cd929ffba32d6f8d33f3`,
+passes the supplied-input first-flight GPU check after the main mission/FX merge.
+It exits0 after4,521 steps, with1,681.1061 units of normal Mecc movement; the real
+class232 shot starts at4489 and reaches captured draw revision32 at4520.
+The reviewed image shows Mecc facing the Ripper and its projectile, with no
+audio failure or component quarantine in this bounded run. Its private capture
+SHA256 is `d70ce5022e7a2c19565fd78a74ca1fe189c1988acdef5c4fef4e10d61bdc29c7`.
+The preceding combined build `e764b7c` failed with audio backlog and no capture.
+Only the diagnostic pilot's supplied RMB release/refuel and hover thresholds
+changed; the ordinary jet, audio budget, NPC state and readiness rules did not.
+This is muted Vulkan with supplied commands, not Windows input, impact/damage,
+death or menu/re-entry acceptance. It does not establish full combat availability
+or a published preview. The earlier evidence below retains its original scope.
+
 An earlier supplied-input GPU attempt (`a450206`, local executable SHA256 prefix
 `19f651e9a211`) failed without a capture. A mixed positional-audio backlog closed
 the backend before the NPC impact adapters refused the missing audio ticket.

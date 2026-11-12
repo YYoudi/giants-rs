@@ -235,7 +235,14 @@ the pilot's single fuel/height thresholds allowed frame-by-frame RMB oscillation
 The probe now separates release/recharge and climb/hover thresholds, with input
 logging. Ordinary jet rules, audio caps and NPC state remain untouched. Rebuild
 and repeat before claiming a repaired combined graphical path; earlier `a6c99c7`
-evidence does not transfer to this executable.
+evidence does not transfer to this executable. The retry on `0fd1ccc` (executable
+SHA256 `121abb1e325a21b7ce697bce359110df6b24c6338de6cd929ffba32d6f8d33f3`)
+now exits0 after4,521 supplied-command steps and1,681.1061 units of movement.
+The actual class232 shot starts at4489 and its draw revision32 is captured at4520.
+The inspected image shows Mecc facing the Ripper and its projectile; no audio
+failure or component quarantine occurs in this bounded run. This repairs the
+combined first-flight diagnostic only, not impact, reciprocal combat, death or
+Windows/menu-reentry acceptance. Keep the failed attempt and both exact receipts.
 
 ### Earlier NPC milestones and their original evidence scopes
 
