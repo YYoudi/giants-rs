@@ -226,7 +226,24 @@ unassigned: literal `mound_move`, `mound_animselect` and `mound_shot` are additi
 search candidates, not confirmations. Generic cleanup names also remain unknown;
 see [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
 
-The latest local GNU executable, including current Ripper contact submissions,
+The most recent local build is source `7929cfce66fba4e3e06e28d830700b840567e4de`,
+executable SHA256
+`81de5af4767018cffd57506d53dbe7a1ace54cff8642a7a9791f0fece54ce4df`.
+The GNU receipt was independently checked. Its ordinary attack-launch bridge is
+compiled; its exact-name supplied-input diagnostic still fails at the documented
+scene/flight boundary. No Windows/GPU encounter check accompanies this build.
+Standard validation passes 987 Rust tests with 177 ignored, four installed
+`source_wife_` controls, 45 Python tests and strict Clippy/formatting; the failing
+approach diagnostic is separate from those passing results.
+
+Source-only deformation checks cover model6 across sixteen normal Mecc clips
+at eighty supplied times. They do not publish a current collision snapshot yet.
+Both projectile models are skinned with an animation descriptor; static or bind
+vertices cannot substitute for their animation. Some current rigid-scene entries
+have declaration identities without constructed Session actors. Preserve those
+distinct source keys rather than inventing canonical actor IDs for flight hits.
+
+The earlier contact-only local GNU executable,
 is built from source `c6e363c5a478bb89097970a38d28626d50e1b688`, SHA256
 `803f9ac4a956f69af3b4fc8eb226d1fca85821d2d0946bdfdd8e014fa002f3d8`.
 Its private build receipt was independently hash-checked. Use the ordinary

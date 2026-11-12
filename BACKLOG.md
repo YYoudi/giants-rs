@@ -74,7 +74,14 @@ release and individual unlink, preserving actual list order and late-failure
 prefixes without replay. The renderer consumes their removal; this is marker
 retirement, not Ripper death. Prototype PS2 marker/cleanup attribution remains
 unassigned, including the additional literal `mound_*` search candidates.
-Latest local GNU contact build: source `c6e363c`, executable SHA256 prefix
+Latest local build: source `7929cfc`, executable SHA256 prefix `81de5af47670`,
+receipt independently checked. This compiles real ordinary launch but the exact
+supplied-input diagnostic still fails before projectile scene/flight/impacts;
+no new GPU encounter acceptance. Standard 987 Rust/177 ignored and four installed
+`source_wife_` controls pass; the approach diagnostic is explicitly separate.
+The current rigid scene also includes source-declaration-only identities; do not
+fabricate Session actor IDs. Projectile models require their actual skin/ANM.
+Earlier GPU-checked contact build: source `c6e363c`, executable SHA256 prefix
 `803f9ac4a956`; receipt independently hash-checked. Actual Windows menu entry,
 Mecc movement tap, menu return and fresh re-entry pass on tickets1/3, including
 one skipped and one naturally finished four-director opening. Each entry has
