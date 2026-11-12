@@ -24,6 +24,10 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent minimal module identity/platform routes; relationships unknown,
+        # prior aliases unchanged, no extraction or live-delivery claim.
+        'b434786fb3d2623c653f9ae6154df0c6665c0853ebf647452bb614fe443900fd',
+        '7318289ec0febb0e42994630d51c5ed4fbaa0a877a19c431087f94a3d29cf26b',
         # Reviewed unknown death-FX navigation and runtime links; prior aliases unchanged.
         'afb941293abb3d32e8ad9786412ad7313fa74272812fd59b4834c70ecfd8ef2a',
         # Reviewed concurrent unknown FX routes only; existing PC aliases unchanged.
@@ -96,6 +100,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
     },
     'docs/RECONSTRUCTION_METHOD.md': {
+        # Dependency-module identity guidance only; reviewed aliases unchanged.
+        '85ac9cb7e1ddf1256cc141adfa4b823f9328cace3c93b13a0b1c5885c38875de',
         # Read-only procedure-entry guidance; existing reviewed aliases unchanged.
         '74014108617eae1798deacd3bb76527bbcf437e723b0e7b4634ef7db17268ee2',
         # Central mission-method link only; reviewed attribution aliases unchanged.

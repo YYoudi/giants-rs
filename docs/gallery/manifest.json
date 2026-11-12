@@ -4,6 +4,18 @@
   "encoding": "WebP quality 90; original dimensions; metadata stripped. Lossy display copies, not pixel-validation evidence.",
   "comparisons": [
     {
+      "title": "Ordinary house damage through retirement",
+      "level": "Starving / ordinary buildings",
+      "event": "Source health stages and final retirement",
+      "commit": "d5320b18cb352fbed05d882880974a0887152e5f",
+      "left": "media/555c1f8e593741a5903b3af5eeadd23c187d5281945e24460af4219e485b2c63.webp",
+      "right": "media/d4710d638d15205eda7b2d3997b22dd25a93c228b1e88970cddc7cbc91ec7fbc.webp",
+      "left_label": "After seven pistol hits: first damage stage",
+      "right_label": "After 28 hits and actual effect expiry",
+      "verification": "ORDINARY DAMAGE PIPELINE CHECKED; NATIVE FIDELITY OPEN",
+      "alignment": "Same source house and exact preview .12.3 executable, different live samples and camera positions; not pixel-aligned. Supplied normal movement/aim/fire commands, actual health/mesh/collider/effect/audio owners. The front house retires while its neighbor remains. No health or pose injection; full OS-aimed destruction and native visual/audio parity remain unverified."
+    },
+    {
       "title": "Correcting the shared flash scale",
       "level": "Cinematic effects",
       "event": "Separate effect support and carrier scale",
@@ -4189,9 +4201,36 @@
     "media/f9193ce1124ed682705639fe719cf3c50ced73b11f78696a18e26a38b42d3dcf.webp": "f9193ce1124ed682705639fe719cf3c50ced73b11f78696a18e26a38b42d3dcf",
     "media/821a4944b1436ed29eca6840d1c9d9b222dd9d1c5bf47e779ba5475c192d6bb6.webp": "821a4944b1436ed29eca6840d1c9d9b222dd9d1c5bf47e779ba5475c192d6bb6",
     "media/2e78aa81e7e9cabbabbc86bb4fe412e70bc93e8be8f95d5a3f3da657fb5fbd07.webp": "2e78aa81e7e9cabbabbc86bb4fe412e70bc93e8be8f95d5a3f3da657fb5fbd07",
-    "media/65f1882d19ebace68ff15cdf582f67348c07eb1e2964c08aead98a7f03cfb406.webp": "65f1882d19ebace68ff15cdf582f67348c07eb1e2964c08aead98a7f03cfb406"
+    "media/65f1882d19ebace68ff15cdf582f67348c07eb1e2964c08aead98a7f03cfb406.webp": "65f1882d19ebace68ff15cdf582f67348c07eb1e2964c08aead98a7f03cfb406",
+    "media/555c1f8e593741a5903b3af5eeadd23c187d5281945e24460af4219e485b2c63.webp": "555c1f8e593741a5903b3af5eeadd23c187d5281945e24460af4219e485b2c63",
+    "media/d4710d638d15205eda7b2d3997b22dd25a93c228b1e88970cddc7cbc91ec7fbc.webp": "d4710d638d15205eda7b2d3997b22dd25a93c228b1e88970cddc7cbc91ec7fbc",
+    "media/abb79713e439250d582f4c4994d9638d51eaea633d83bfa5ea31b78d10470425.webp": "abb79713e439250d582f4c4994d9638d51eaea633d83bfa5ea31b78d10470425"
   },
   "screenshots": [
+    {
+      "title": "House damage in the ordinary mission",
+      "image": "media/555c1f8e593741a5903b3af5eeadd23c187d5281945e24460af4219e485b2c63.webp",
+      "caption": "Seven actual pistol hits cross the first source health threshold. The individual house mesh changes and source debris is rendered. Supplied input; native fidelity remains open.",
+      "commit": "d5320b18cb352fbed05d882880974a0887152e5f",
+      "preview_tag": "preview-2026.11.12.3",
+      "executable_sha256": "d7c41dc916cceca3ec83f03278b91b8d75eb9805a1926cf5b4685ccc0ee80f7b"
+    },
+    {
+      "title": "Destroyed house after effect expiry",
+      "image": "media/d4710d638d15205eda7b2d3997b22dd25a93c228b1e88970cddc7cbc91ec7fbc.webp",
+      "caption": "28 ordinary pistol hits retire the front house; the neighboring house stays visible. All 124 source effect bodies expire on the actual mission clock. Supplied navigation/fire, not OS-played destruction.",
+      "commit": "d5320b18cb352fbed05d882880974a0887152e5f",
+      "preview_tag": "preview-2026.11.12.3",
+      "executable_sha256": "d7c41dc916cceca3ec83f03278b91b8d75eb9805a1926cf5b4685ccc0ee80f7b"
+    },
+    {
+      "title": "Projectile-only scenery retirement",
+      "image": "media/abb79713e439250d582f4c4994d9638d51eaea633d83bfa5ea31b78d10470425.webp",
+      "caption": "A source fence retires after three actual pistol hits and all 17 wood/smoke bodies expire. This projectile admission does not imply a player-blocking footprint. Supplied commands, native fidelity open.",
+      "commit": "d5320b18cb352fbed05d882880974a0887152e5f",
+      "preview_tag": "preview-2026.11.12.3",
+      "executable_sha256": "d7c41dc916cceca3ec83f03278b91b8d75eb9805a1926cf5b4685ccc0ee80f7b"
+    },
     {
       "title": "Preview .12.2: The Wife rescued, The Road Home resumed",
       "image": "media/2e78aa81e7e9cabbabbc86bb4fe412e70bc93e8be8f95d5a3f3da657fb5fbd07.webp",

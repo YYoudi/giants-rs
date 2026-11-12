@@ -1,7 +1,7 @@
 # Ordinary building collision and damage integration
 
-The owner requested this delivery after preview .12.2. It is not enabled in that
-download. BACKLOG.md owns detailed acceptance; RECONSTRUCTION_METHOD.md governs
+Preview .12.3 is the first bounded ordinary-building delivery; preview .12.2
+did not enable it. BACKLOG.md owns detailed acceptance; RECONSTRUCTION_METHOD.md governs
 every native acquisition, beginning with literal prototype PS2 names.
 
 The first observable delivery is walking against an authored building, hitting
@@ -70,8 +70,8 @@ operands and final RNG state. Constructors, active sound, child reference
 placement and ordinary updates remain required; this is not active effect
 execution evidence. The app now has a ticket-owned compound-burst consumer using
 the existing birth/reference, motion, terrain contact, orientation, ANM and
-numbered-texture kernels. The small/large source programs create25/49 bodies;
-the large source fireball advances its24 numbered textures. Hidden supports keep
+numbered-texture kernels. The small/large source programs create 25/49 bodies;
+the large source fireball advances its 24 numbered textures. Hidden supports keep
 their source birth roles; visible particles share the mission renderer and its
 normal GPU/audio cancellation. Actual mission clock/slow areas and the composing
 random stream are supplied by the runtime, not a new effect seed.
@@ -85,9 +85,8 @@ native state78 execution. The installed app control checks stage replacement,
 terminal collision exclusion, real source burst resources/texture progression,
 expiry and duplicate-hit suppression with supplied inputs; a receipt-bound muted GPU control now observes actual narrow player contact,
 28 ordinary pistol shots, all threshold stages, individual mesh changes,
-small/large bursts, positional sound sinks and terminal hiding. The explosion
-capture still needs visual review, expiry/cancellation checks and separate
-ordinary Windows interaction before delivery. The short Windows menu/entry/skip/
+small/large bursts, positional sound sinks and terminal hiding. Matching captures were visually reviewed. Actual-clock expiry and two live-effect
+cancellation/fresh-entry cycles pass on the delivered executable. The short Windows menu/entry/skip/
 return check passed, but absolute pointer automation produced unsuitable camera
 motion and does not establish aimed hits or a complete OS-played destruction.
 
@@ -101,8 +100,8 @@ The first complete local house GPU control now also waits for actual mission-clo
 expiry: 28 ordinary pistol shots, 124 source burst births, 124 retirements and zero
 remaining bodies. A separate 7-shot capture observes the first health stage. The
 house disappears while its neighboring house remains drawn. These are supplied
-command controls, not full Windows-played destruction, source visual parity or a
-public preview. An earlier expiry diagnostic incorrectly equated accelerated
+command controls, not full Windows-played destruction or source visual parity. Preview .12.3 includes this bounded ordinary path.
+An earlier expiry diagnostic incorrectly equated accelerated
 controller ticks with real mission time; it failed and was corrected to observe
 the actual effect owner. The clock was not replaced or accelerated to pass it.
 
@@ -119,7 +118,7 @@ the house callback. A zero limit and negative damage also differ from the house
 kernel. External effect/constructor/placement/special-action/retirement services
 remain observed or supplied boundaries in that comparison. The special class
 predicate used a supplied false result; the separate state60 payload transfer
-was excluded. No public tower damage delivery or PS2 identity is established.
+was excluded. This decision comparison alone establishes neither delivery nor a PS2 identity.
 The first local state101 consumer is now wired to ordinary hits for admitted
 unrestricted, nonreplacement classes with real mesh colliders. It retains rigid
 vertices for unskinned models and samples the shared health channel for animated
@@ -134,8 +133,9 @@ The independent projectile-only fence control creates and expires its 17 source
 wood/smoke bodies and retires its real projectile candidate, without adding any
 player/environment mesh membership. Those roles remain explicit on each owner.
 NPC collision keys reserve the union of static IDs, so the wider projectile list
-cannot alias a subsequently admitted living actor. GPU acceptance of the wider
-list remains required.
+cannot alias a subsequently admitted living actor. The delivered executable passes the wider-list house, tower and projectile-only
+fence GPU checks. Windows menu/entry/view/brief key/default-mouse fire and clean
+return/re-entry also pass; accurate OS-aimed destruction remains unverified.
 Restricted weapons, special class actions, replacements, older captured effect
 images and collision families without real mesh admission stay explicit needs.
 

@@ -22,53 +22,36 @@ to player/projectile collisions, hitboxes and source damage reactions. Preserve
 indestructible cases, successive damage states, disappearance/replacement,
 explosions, particles and sounds according to each acquired family. Work alone
 in the integration worktree, starting native work from prototype PS2 names.
-The delivered baseline remains preview .12.2; no building delivery is claimed yet.
+First bounded delivery: preview .12.3 connects ordinary state61 houses/walls
+and admitted unrestricted, nonreplacement state101 scenery to normal pistol hits,
+source health stages, individual GPU meshes, independent collision roles,
+captured bursts/positional sounds and terminal retirement. Projectile-only
+eligibility does not imply a physical player footprint. The exact executable
+passes house contact/28-shot/124-body expiry, small-tower contact/five-shot/29-body
+expiry, fence three-shot/17-body expiry, two live-effect cancellation/fresh-entry
+cycles, both mission chains and common Mecc/landing regressions. Actual Windows
+checks cover entry/skip/view/brief mapped-key and default-mouse fire, clean returns
+and re-entry; full OS-aimed destruction remains unverified. See BUILDINGS.md and
+PREVIEW_NOTES.md for receipts, partial FX policy and exact limits.
 
-Current dependency milestone: acquired PC house damage/animation decisions agree
-on 3,080 private supplied contexts. Guarded zero-size class33..35 declarations
-and Bounds1/Pair2 solid admission restore preparation for the ordinary Smartie
-houses and selected walls; Raster3 preparation stays unresolved. State61 collision
-geometry now consumes its actual intact ANM/SKN and channel1 bounds. The installed
-control checks all six house variants, separate collision selection, changing
-health geometry and matching player/projectile triangles. The ordinary house owner now routes real pistol hits, updates all three contact
-adapters and individual GPU meshes, consumes source compound bursts/positional
-sounds and excludes retired owners. A receipt-bound muted GPU control makes
-actual narrow player contact, fires 28 ordinary pistol shots and observes source
-health stages, small/large bursts, real audio sinks and retirement. This is supplied
-input evidence, not a complete OS-played interaction or a published delivery.
-Actual mission-clock expiry also passes: 124 births, 124 retirements, zero active.
-Visual review of the large explosion, cancellation/re-entry and regressions remain. Other building families and mode-gated mission credit remain
-open; the partial FX policy is documented in BUILDINGS.md.
+Remaining work, in player-impact order:
 
-1. Inventory authored classes/states and distinguish actual collider coverage
-   from visible geometry. Prioritize the ordinary Story1/Story2/Story5 entries.
-2. Acquire supported class/header/footprint fields and actual collision shapes.
-   Connect lateral/player/projectile queries with stable source and owner IDs.
-3. Bind real damage callbacks, health-animation/geometry updates and immutable
-   indestructibility/weapon gates. Update collision inputs with visual changes.
-4. Consume actual source effects, particles, sounds, replacements and retirement;
-   preserve mission signaling and shared world/clock/RNG/lifecycle ownership.
-5. Verify the complete ordinary interaction and common regressions on one
-   executable, with separate Windows input checks, then publish matching main,
-   Windows preview and dashboard, receipts/notices/checksums, independent
-   downloads, CI and served Pages. Follow docs/BUILDINGS.md.
+1. Acquire physical radial/Raster3 footprints and membership for still-passable
+   entrances/columns/walls, keeping projectile and player roles distinct.
+2. Connect the guard tower's actual replacement constructor, complex nested
+   effects and atomic visual/physical retirement. Do not flatten its program.
+3. Acquire restricted/special scenery and other base-building callbacks (including
+   states74/83/98), preserving weapon gates and authored indestructible cases.
+4. Bind actual building mission-death producers with their native global mode,
+   counter and response rules; do not infer credit from a model or health word.
+5. Extend exact-executable graphical and Windows acceptance to each new family,
+   publish coherent main/preview/dashboard milestones and retain precise limits.
 
-First evidence: private installed census confirms missing collision admission
-for many houses/walls. PC state61 house and state101 death-FX callback entries
-are located through their actual registration descriptors after literal PS2
-lookup. The new house decision kernel preserves source threshold/event ordering;
-3,080 supplied native contexts now match damage, animation fraction and ordered
-requests. The first ordinary state61 house consumer is locally connected; broader families remain under development.
-The separate state101 decision kernel agrees on 7,000 supplied PC contexts; captured
-wood/stone FX entries now feed a bounded ordinary state101 mesh owner. Its installed
-small-tower damage/29-body expiry control passes. The muted GPU route also passes
-actual contact, five ordinary shots, its sound sink and all 29 body retirements.
-Two live-effect house cancellation/fresh-entry cycles now pass on one receipt,
-including old-ticket GPU owner release and fresh damage state. A new independent
-projectile list expands the Story2 source candidate set to 65 without inventing
-player/footprint admission; a projectile-only fence's 17-body control passes.
-The wider-list GPU/Windows checks, physical radial/Raster3 families and replacement
-consumers remain required. No new PS2 attribution or public building delivery is confirmed.
+Every native continuation starts with literal prototype PS2 lookup and pinned
+binary identities. House/death-FX navigation routes remain unknown PC-to-PS2
+attributions. The independent original-PC comparisons (3,080 house / 7,000 death-FX
+contexts) validate bounded decisions and service boundaries, not native fidelity.
+The complete building objective and whole-game scope remain active.
 
 ## Delivered milestone - The Wife rescue and completion-film continuation
 

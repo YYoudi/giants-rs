@@ -1,84 +1,85 @@
-# Windows development preview - preview-2026.11.12.2
+# Windows development preview - preview-2026.11.12.3
 
-Runtime source: `fccb0fbbb25fa30cb2eaf783d9f4a1968fc86b96`.
-Executable SHA256: `7e14a7b1b9538e1d0b5e557418f5021f6d48ac1acaa04425ebc301da8f1aea1b`.
+Runtime source: `d5320b18cb352fbed05d882880974a0887152e5f`.
+Executable SHA256: `d7c41dc916cceca3ec83f03278b91b8d75eb9805a1926cf5b4685ccc0ee80f7b`.
 
 Supply your own compatible PC installation. Original assets, executables and
-private research are excluded from this download.
+private research are excluded from the download.
 
-## Play The Wife through its rescue and next mission
+## Test ordinary building damage
 
-Open **Preview tools -> Browse all missions -> Mecc Story 2 -> The Wife**.
-Let its opening finish, or press Escape to skip the opening. Dismiss objectives
-if shown. WASD/mouse move and aim, hold right mouse for the jet, Space adds nitro,
-left mouse fires the partial pistol, R changes view and Escape returns to the
-menu. F8 toggles source objective hints. These actions need no replay script.
+Open **Preview tools -> Browse all missions -> Mecc Story 2 -> Starving!**.
+Let the opening finish or press Escape to skip it. WASD/mouse move and aim,
+left mouse fires the partial pistol, hold right mouse for the jet, Space adds
+nitro, R changes view and Escape returns to the menu. No replay script or
+building flag enables collisions or damage.
 
-Travel to the authored rescue destination. The hint provides distance/direction;
-use the jet for steep ground and recharge fuel on the ground. The real proximity
-predicate must succeed: approaching a similarly named actor elsewhere does not
-complete the rescue. The source objective advances to 1/1, then the actual
-six-director rescue cinematic plays. Let it finish naturally to exercise the full
-path. Escape remains a separate explicit user skip.
+Shoot the ordinary Smartie houses: their source health animation changes the
+individual building through successive damage states, with stone/debris/smoke,
+positional sounds and final disappearance. Matching admitted player/environment
+and projectile shapes change with the visible mesh; neighboring houses retain
+their own health. Small towers and admitted wood/stone scenery use their own
+source limits and captured effects. Projectile-only fences can be shot without
+gaining an invented player-blocking footprint. Some visible buildings remain
+unsupported; a health field alone never makes a building destructible.
 
-After the film, **The Road Home (with someone's wife on your back)** loads its own
-source scene and ordinary player. The nearby declared wife attaches through the
-normal proximity pickup service, including source carrying animation, load,
-response audio and notice delivery. The carried actor is not a transferred film
-clone. No command, pose, resource or movie-end injection enables this behavior.
+The Story2 source entry prepares 65 independent projectile candidates and 56
+bounded damage owners across 15 classes. These are admission counts, not a
+whole-game coverage percentage. Physical radial/Raster3 shapes, complex guard
+tower replacement/effects, restricted-weapon/special scenery, other base-building
+families and building-objective death credit remain open. See BUILDINGS.md in
+the source repository for the shared contracts and remaining consumers.
 
-## Shared mission and cinematic foundation
+## Mission progression retained
 
-The common mission owner retains source objective records, real producers,
-completion films and the next ticket. Cinematic effects retain their canonical
-Session owners, actual attachment points, source resources and collision inputs.
-Retirement distinguishes reached requests from unvisited future declarations:
-a later wait does not extend the animation or cause an extra effect to spawn.
-Unsupported resources/world/geometry still refuse admission. See
-MISSION_PROGRESSION.md and SYMBOL_NAVIGATION.md in the source repository.
+Starving hunts and collects twenty settled meat, then requires returning to the
+father on the starting plateau. The authored collection/return predicates launch
+the next source film and continue into The Wife with cleared meat. In The Wife,
+reach the authored rescue destination: the 1/1 condition launches its actual
+six-director completion film. Its natural end enters The Road Home, whose nearby
+declared wife attaches through ordinary proximity pickup, carrying animation,
+load, response audio and notice delivery. F8 toggles objective hints. The next
+scene is reloaded; complete native inventory/world continuity is not claimed.
 
-Starving's twenty-meat collection and return remain the preceding supported
-mission. Hunt Vimps, let dropped meat settle, approach pieces, then return twenty
-to the father at the starting plateau. Collection and return are separate source
-producers. Their completion continues into The Wife. General feeding/economy
-and other mission predicate types remain incomplete.
+## Exact-executable validation and limits
 
-## Validation and limits
+Rendered supplied-command checks on this executable observe narrow player
+contact, 28 ordinary pistol shots, house health stages and retirement, 124 source
+effect births and all 124 expiries on the actual mission clock. A separate
+seven-shot capture shows the first damage stage. Small-tower contact/five-shot
+destruction expires all 29 bodies; projectile-only fence destruction takes three
+shots and expires all 17 bodies. Two house-damage/live-effect cancellation and
+fresh-entry cycles require old-ticket GPU/owned-entity release and intact fresh
+health. These checks neither inject health/pose nor force readiness/cleanup.
 
-On this executable the rendered menu-to-mission chain reaches the real rescue,
-plays all six completion directors to their natural source end with drained
-voices and fifty acknowledged reachable effect requests, releases the old film
-and ticket scopes, and enters The Road Home with the actual declared wife,
-carrying load, real muted pickup sinks and delivered notice. All six supported
-effect classes submit visible canonical draws. The final capture shows the
-ordinary player with the wife. Navigation commands are supplied; the mission
-condition, actor state, readiness and film terminal are not forced.
+Both complete Starving and The Wife rendered continuation chains pass again,
+including real muted sinks, natural source-film terminals, ticket release and
+the following ordinary player. Three common Mecc movement/fire/jet/nitro/release
+cycles and actual landing dust/audio also pass.
 
-A separate actual Windows check exercises menu entry, opening skip, short W
-input, R view change, mouse pulses and a real pistol shot, then two ordinary
-RoadHome entries with visible pickup and clean menu return. It does not prove a
-complete OS-played rescue, sustained held flight or audible/native parity.
+Separate actual Windows checks cover the normal menu, two Starving entries and
+opening skips, R view change, brief remapped-key fire, restored default-left-mouse
+fire, clean returns and close. They do not establish OS-aimed destruction,
+sustained held flight or full OS-played missions. Absolute pointer automation
+can produce unsuitable camera movement; supplied navigation remains separately
+labeled.
 
-995 portable Rust passes / 181 ignored, 45 Python passes, formatting and strict
-workspace/all-target Clippy pass. Installed actor/pickup and whole-film
-capability controls are dependencies, not substitutes for the graphical chain.
+Building effects retain an explicit partial host-frame, terrain-only,
+birth-reference and asynchronous positional-audio preview profile. Native
+complete-list/force/audio scheduling, pixel/audio parity, broad actor AI,
+animation blending, other mission predicates, campaign failure/save restoration,
+Delphi/Kabuto gameplay and complete fidelity remain incomplete.
 
-The stationary objective uses its authored pose. General Smartie AI, waiting
-locomotion, animation blending, complete native motion, campaign failure/restart,
-equipment/save-game restoration, persistent worlds, other mission predicates,
-Delphi/Kabuto gameplay and complete visual/audio fidelity remain open. The next
-scene is reloaded; complete native continuity is not claimed. Vimp death FX
-retain explicit host-frame/terrain-contact/owner-lifetime preview policies.
-
-Prototype PS2 names are searched before native work. Relevant routes include
-`mission_check_obj_proximity__FP6OBJECT`, `smartie_check_follow__FP6OBJECTf`,
-`FLK_FlickProcess__FP9FLK_Flick` and `FLK_FlickUpdateTime__FP9FLK_Flickf`.
-Their reviewed attribution statuses remain distinct from runtime integration;
-no new confirmed function identity, prototype ABI or layout is imported here.
-Raw symbol tables, binaries and detailed research remain private.
+1,005 portable Rust passes / 187 ignored, 45 Python passes, formatting and strict
+workspace/all-target Clippy pass. Private original-PC decision comparisons cover
+3,080 house and 7,000 separate death-FX contexts with no differences; external
+services there are observed/supplied boundaries, not live world execution.
+Prototype PS2 lookup precedes acquisition. Search routes include `house_process`,
+`house_shot`, `house_handle_destruction`, `deathfx_shot` and `deathfx_logic`.
+No new PC-to-PS2 identity is confirmed; no prototype ABI/layout is imported.
 
 Technical collection: 338 dependency and eleven toolchain notice entries,
-29 system DLL imports, zero technical package blockers. The ZIP is receipt-bound.
+29 system DLL imports. The ZIP is receipt-bound and must pass package validation.
 These checks do not establish third-party rights or comprehensive human review.
 The owner's approximate 99% AI-generated estimate describes authorship and is
 never a completion metric.

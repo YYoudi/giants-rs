@@ -1,5 +1,40 @@
 # Preview releases and milestone integration
 
+## Published preview .12.3 - ordinary building damage and collision owners
+
+[Windows preview-2026.11.12.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.12.3)
+connects admitted houses/walls and unrestricted, nonreplacement scenery to the
+normal pistol, source health stages, individual GPU geometry, independently
+admitted player/environment/projectile shapes, captured bursts, positional
+sounds and retirement. No replay flag enables the action. Story2 prepares 65
+projectile candidates and 56 bounded damage owners across 15 classes; this is
+an admission census, not whole-game completion. See BUILDINGS.md and PREVIEW_NOTES.md.
+
+The exact executable passes rendered house contact/28-shot/124-body expiry,
+small-tower contact/five-shot/29-body expiry, projectile-only fence three-shot/
+17-body expiry and two damaged/live-effect cancellation/fresh-entry cycles.
+Both complete Starving and The Wife continuation chains, three common Mecc cycles,
+landing and menu lifecycle pass again. These use supplied ordinary commands with
+actual state/effect/draw/audio owners, without pose/health/readiness injection.
+Separate actual Windows checks cover two ordinary entries, opening skips, view,
+brief remapped-key and restored default-mouse fire, clean returns and close.
+OS-aimed destruction, sustained held input and native fidelity remain unverified.
+
+Physical radial/Raster3 footprints, complex guard-tower replacement/effects,
+restricted/special scenery, other base-building callbacks and building mission
+death credit remain open. Source no-shot callbacks stay separate from configured
+health. Effects retain the documented partial host-frame/terrain-only/
+birth-reference/asynchronous-audio profile. No new PS2 identity is confirmed.
+
+1,005 Rust / 187 ignored, 45 Python, fmt/strict Clippy. Technical collection:
+338 dependency / eleven toolchain notices, 29 system DLLs, zero package blockers.
+Three matching-executable display copies and a house damage/retirement slider
+are pinned in the gallery; historical captures retain their original receipts.
+
+Runtime source: `d5320b18cb352fbed05d882880974a0887152e5f`.
+Executable SHA256: `d7c41dc916cceca3ec83f03278b91b8d75eb9805a1926cf5b4685ccc0ee80f7b`.
+ZIP SHA256: `7fbb4dc4447b42170553487941a52f702cce0cdc33525006602564efc7a4c8e6`.
+
 
 ## Published preview .12.2 - The Wife rescue through The Road Home
 

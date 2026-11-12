@@ -427,6 +427,15 @@
       "detail": "Owned mission inspection now uploads camera-selected body models from the Session shared pose bank. Native controls match 1,280 selections and 256 complete model snapshots; six recorded Bevy endpoints cover automatic, forced and absent models. Full world visibility, part/material admission, subjective drawing, lighting, scenery and fidelity remain incomplete. See docs/OWNED_MODEL_DRAW.md."
     },
     {
+      "id": "world-buildings",
+      "kind": "feature",
+      "group": "Interface, worlds and audio",
+      "title": "Scenery collisions and destruction",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Preview .12.3: The ordinary Mecc build connects admitted houses/walls, small towers and wood/stone scenery to pistol hits, source health states, individual render/collision changes, source bursts/sounds and retirement. Projectile targets have separate admission from player physics. Radial/Raster3 physical shapes, complex replacements, other base families and building-objective credit remain open. See BUILDINGS.md and BACKLOG.md."
+    },
+    {
       "id": "water-environment",
       "kind": "feature",
       "group": "Interface, worlds and audio",
