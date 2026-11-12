@@ -169,6 +169,14 @@ REVIEWED_ATTRIBUTION_LABELS = {
 # all-reference history review valid before that gallery update enters main;
 # this permits neither other images nor another path or modified bytes.
 REVIEWED_HISTORICAL_IMAGES = {
+    # Concurrent .13.1 Bevy display copies pinned by the reviewed manifest.
+    # VP8-only, visually reviewed; no research inputs or metadata imported.
+    'docs/gallery/media/4607b6cb426cc6c9f043f34a434a009f1680be56e8abaf427d262b5a08591455.webp':
+        '4607b6cb426cc6c9f043f34a434a009f1680be56e8abaf427d262b5a08591455',
+    'docs/gallery/media/9b97a6efb4a94e05cd5a191f930797e6def06291fcbc9141c11875681efdd42b.webp':
+        '9b97a6efb4a94e05cd5a191f930797e6def06291fcbc9141c11875681efdd42b',
+    'docs/gallery/media/d26e82e1c36918d3b5090e1a95b09da82f6a7b9f1fc7481d8c6048c35d2dc7f5.webp':
+        'd26e82e1c36918d3b5090e1a95b09da82f6a7b9f1fc7481d8c6048c35d2dc7f5',
     # Exact Bevy display copies pinned by the integration manifest at 863fa88.
     # Reviewed visually and as VP8-only files with no embedded metadata. Retain
     # all-reference audit coverage without importing that lane's publication.
