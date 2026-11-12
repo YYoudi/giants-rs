@@ -120,6 +120,25 @@ establish Ripper rendering or encounter acceptance.
 The prototype PS2 `ripper_animselect` candidate for the acquired PC secondary
 callback remains **unknown**, separately from this implementation result.
 
+The corrected local GNU executable is built from source
+`0273154203f2ff5143c2f8af1e9ecc603803d830`, SHA256
+`72ebdf7bbd39473af6c42dc654078edec4c2da5d105674a3bfa85b426225125d`.
+Its private build receipt was independently hash-checked. Use the ordinary
+**Load Single Player Game → Mecc Story 2 → The Wife** path, then let the film
+finish or use Escape to skip; Escape in gameplay returns to the mission menu.
+No script or Ripper activation variable is required. This is a local development
+build, with the incomplete continuations above, not a public preview.
+
+The first executable (`5fefde0`) reached ordinary Mecc gameplay with actual
+Windows clicks/Escape and five completed Ripper actors, but its common renderer
+refused the null-texture part. That failure is retained as a failed graphical
+check. The corrected executable passed the headless asset consumer; its next
+Windows check was stopped at the menu because another computer-use operation
+was active. Consequently neither corrected-build Ripper visibility, reciprocal
+encounter, death nor menu/re-entry acceptance is established yet. No new gallery
+capture or preview was published. The previous loading baseline below remains
+separate evidence.
+
 ### Intermediate local loading check
 
 GNU release source `364c3036672de870500d018f23f58a662e0b2fc7` produced executable

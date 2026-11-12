@@ -59,6 +59,10 @@ submissions per frame; repeated clock/ANM consumption is refused. GPU/input
 acceptance of this newer consumer remains separate. The admitted primary subset
 and explicit refusals are documented in docs/OWNED_NPCS.md; this is not yet a
 complete encounter. PS2 `ripper_animselect` attribution remains unknown.
+The corrected local build is source `0273154`, executable SHA256 prefix
+`72ebdf7bbd39`. A first real Windows entry exposed a null-texture binding refusal;
+the corrected route passes headless Bevy asset reuse/animated upload/cleanup.
+Corrected-build graphical encounter and menu/re-entry acceptance remain open.
 Next: acquire/connect surfacing/marker and ordinary firing/flight consumers,
 consume required class230 mode66 and later continuations,
 then connect collisions/targeting and reciprocal combat with
