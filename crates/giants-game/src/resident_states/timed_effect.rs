@@ -10,6 +10,7 @@ use giants_formats::effect_image::Image;
 mod preparation;
 pub use preparation::{
     Header as OrdinaryHeader, Input as Preparation, Services as PreparationServices,
+    SourceInput as SourcePreparation,
 };
 
 #[derive(Debug)]

@@ -81,7 +81,7 @@ mod vimp_vector_tests;
 pub use timed_effect::{
     OrdinaryHeader as TimedEffectOrdinaryHeader, PhysicalHeader as TimedEffectPhysicalHeader,
     Preparation as TimedEffectPreparation, PreparationServices as TimedEffectPreparationServices,
-    Services as TimedEffectServices,
+    Services as TimedEffectServices, SourcePreparation as TimedEffectSourcePreparation,
 };
 pub use vimp_vector::{Request as VimpVectorRequest, Services as VimpVectorServices};
 

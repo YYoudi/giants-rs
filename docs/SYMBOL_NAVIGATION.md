@@ -72,6 +72,17 @@ it does not perform pickup or establish runtime integration. Keep the mangled
 spelling as a search key; no equivalent Rust signature or platform layout is
 asserted. See [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md).
 
+## Physical finalization route
+
+The literal prototype symbol `object_apply_location` leads to
+[`actor_finalization::finalize_with_progress`](../crates/giants-game/src/actor_finalization.rs).
+Its relationship to the debug-PC finalizer is **probable**. The prototype's
+physical progress threshold starts at zero, whereas debug PC reuses its caller
+argument bits. The portable `PrototypePs2Zero` policy selects only that threshold;
+the default PC entry stays strict and other arithmetic remains independently
+scoped. This is not an imported signature/layout or whole-function PS2 parity
+claim. See [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md).
+
 ## Publication boundary
 
 This index publishes only selected names, reviewed navigation relationships and

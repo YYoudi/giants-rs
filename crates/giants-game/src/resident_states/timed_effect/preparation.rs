@@ -1,5 +1,5 @@
 //! Ordinary detached preparation over the canonical timed owner. World clocks,
-//! geometry, population and the acquired physical caller-slot word stay explicit.
+//! geometry, population and the selected physical progress semantics stay explicit.
 use super::{CinematicScope, Id, Placement, Session};
 use crate::{actor_environment, actor_finalization, collider_copy};
 
@@ -40,6 +40,24 @@ pub struct Input<'a> {
     pub finalization_time: actor_finalization::Time<'a>,
     /// Acquired PC caller argument, NOT a Rust identity, invented pointer or dt.
     pub physical_argument_word: u32,
+}
+/// Explicit portable progress policy, without manufacturing a PC argument word.
+/// All physical, environment, footprint and clock services remain mandatory.
+pub struct SourceInput<'a> {
+    pub seconds: f32,
+    pub finalization_time: actor_finalization::Time<'a>,
+    pub progress: actor_finalization::PhysicalProgress,
+    pub pc_argument: Option<u32>,
+}
+impl<'a> From<Input<'a>> for SourceInput<'a> {
+    fn from(input: Input<'a>) -> Self {
+        Self {
+            seconds: input.seconds,
+            finalization_time: input.finalization_time,
+            progress: actor_finalization::PhysicalProgress::PcCallerArgument,
+            pc_argument: Some(input.physical_argument_word),
+        }
+    }
 }
 pub trait Services: super::Services {
     fn release_footprint(
@@ -125,7 +143,7 @@ impl Session {
         if self.cinematic_timed_scope(id).is_some() {
             return Err("cinematic positional preparation needs its current source scope".into());
         }
-        self.prepare_timed_positioned_bound(id, input, stamp, services)
+        self.prepare_timed_positioned_bound(id, input.into(), stamp, services)
     }
     /// The acquired positional preparation still requires its actual physical,
     /// terrain/environment, clock and retirement providers. Only ownership is
@@ -141,12 +159,27 @@ impl Session {
         if scope.ticket != self.ticket || self.cinematic_timed_scope(id) != Some(scope) {
             return Err("cinematic positional preparation has a stale or foreign scope".into());
         }
+        self.prepare_timed_positioned_bound(id, input.into(), stamp, services)
+    }
+    /// Source-based progress semantics are selected visibly by the composing
+    /// game. This changes neither stock/terrain services nor scene readiness.
+    pub fn prepare_cinematic_timed_positioned_source(
+        &mut self,
+        id: Id,
+        scope: CinematicScope,
+        input: SourceInput<'_>,
+        stamp: &mut crate::animation_epoch::Stamp,
+        services: &mut impl Services,
+    ) -> Result<crate::timed_effect_object::Step, String> {
+        if scope.ticket != self.ticket || self.cinematic_timed_scope(id) != Some(scope) {
+            return Err("cinematic positional preparation has a stale or foreign scope".into());
+        }
         self.prepare_timed_positioned_bound(id, input, stamp, services)
     }
     fn prepare_timed_positioned_bound(
         &mut self,
         id: Id,
-        input: Input<'_>,
+        input: SourceInput<'_>,
         stamp: &mut crate::animation_epoch::Stamp,
         services: &mut impl Services,
     ) -> Result<crate::timed_effect_object::Step, String> {
@@ -180,7 +213,12 @@ impl Session {
             if !input.seconds.is_finite()
                 || input.seconds < 0.
                 || !input.finalization_time.global_seconds.is_finite()
-                || !f32::from_bits(input.physical_argument_word).is_finite()
+                || (matches!(
+                    input.progress,
+                    actor_finalization::PhysicalProgress::PcCallerArgument
+                ) && input
+                    .pc_argument
+                    .is_none_or(|word| !f32::from_bits(word).is_finite()))
             {
                 return Err("timed ordinary preparation outside finite time/caller profile".into());
             }
@@ -239,7 +277,7 @@ impl Session {
                     flags: m.matrix.flags,
                     matrix: m.matrix.values,
                 }),
-                physical_argument_word: Some(input.physical_argument_word),
+                physical_argument_word: input.pc_argument,
             };
             let p = crate::effect_actor::physical_data(&actor.seed)?;
             let word = |i: usize| u32::from_le_bytes(p[i * 4..i * 4 + 4].try_into().unwrap());
@@ -257,7 +295,12 @@ impl Session {
                 physics,
                 identity,
             };
-            let result = actor_finalization::finalize(state, input.finalization_time, &mut adapter);
+            let result = actor_finalization::finalize_with_progress(
+                state,
+                input.finalization_time,
+                input.progress,
+                &mut adapter,
+            );
             let physics = adapter.physics;
             match result {
                 Ok(state) => {

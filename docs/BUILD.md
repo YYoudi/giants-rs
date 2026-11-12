@@ -56,6 +56,11 @@ retirement-child construction and scope cancellation, with supplied clock/RNG/
 epoch. It also checks that an unprovided child service remains a callback failure.
 It does not establish the ordinary film's detached-child preparation or drawing;
 the whole completion-preparation refusal above remains required.
+`cargo test --locked -p giants-game actor_finalization --target
+x86_64-pc-windows-gnu` also checks explicit selection of the prototype-derived
+physical threshold with no fabricated PC argument. The historical default still
+refuses a missing caller word. This dependency test does not establish PS2
+whole-function execution, exact cross-platform numerics or ordinary film drawing.
 
 For the all-five consolidation, run the shared workspace checks below and the
 installed owner/normal-controller controls, including the generic player shell,

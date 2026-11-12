@@ -72,6 +72,18 @@ preparation/drawing, the source16/source5a blood callbacks and the common film
 driver. Source clocks, shared RNG, epochs and physical/environment caller inputs
 must come from their real owners; the dependency fixture supplies its own values.
 
+The detached preparation's debug-PC caller-word dependency now has an explicit
+portable alternative: `PhysicalProgress::PrototypePs2Zero`, based on the
+prototype's zero-initialized physical progress threshold. The historical PC
+finalizer still refuses a missing caller word. The new source preparation API
+can select the documented prototype threshold without storing a fabricated
+argument; actual clock, footprint, physical and environment services remain
+mandatory. The related `object_apply_location` identity is probable. This is a
+single threshold policy, not adoption of the PS2 layout or whole arithmetic.
+The generic MIPS suffix-emulation attempt fails and supplies no parity claim;
+the observation is from independent standard-instruction/body review. Normal
+detached-child preparation/render integration is still pending.
+
 ## Delivered preview .12.1 Starving and shared mission progression
 
 Owner direction, 11 November 2026: complete the ordinary twenty-meat return,

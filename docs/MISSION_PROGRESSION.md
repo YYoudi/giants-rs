@@ -88,6 +88,15 @@ Wife control verifies the shotgun parents and child birth/cancellation; it does
 not advance detached children through their world finalizer, draw them, connect
 the ordinary film consumer or satisfy whole-film effects readiness. The composing
 world must supply the real shared RNG, clock, epoch and descendant services.
+For the physical progress threshold only, the composing game may explicitly
+select `actor_finalization::PhysicalProgress::PrototypePs2Zero` through
+`TimedEffectSourcePreparation`. The prototype's related `object_apply_location`
+initializes this register to zero; debug PC instead reuses its original caller
+argument bits. The default PC finalizer and historical comparison entry remain
+strict. This source policy stores no invented native word and leaves mandatory
+environment/physical services intact. It retains PC arithmetic elsewhere;
+cross-platform numerical fidelity and generic MIPS suffix execution are not
+validated. The routine attribution is probable, not confirmed.
 The next record is `2b_2_returnwife`; it declares its own class216/state18 wife
 with selector3 near its selected player start. That actor must use the ordinary
 proximity/pickup services, rather than becoming an invented carried child or a

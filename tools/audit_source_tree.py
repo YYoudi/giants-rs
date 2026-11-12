@@ -31,6 +31,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         '225d9984e410f75aacc14d0909df94c3e23186cc55a08501c8b1d0ca2457b4d4',
         # Reviewed probable Smartie search route; existing PC alias unchanged.
         '5c74b545f08d84b522c809b3876449bd7efdb542321cb6bfdb4cffc8e718bd12',
+        # Reviewed probable finalization route and explicit platform divergence.
+        '73f6c89fb54c84a0d1afde6fecf09b99a8fef464342d94695472a3e9f2c66a94',
     },
     'docs/MECC_DESCENT_GUARD.md': {
         # Gameplay-first work-selection prose only; the reviewed alias is unchanged.
