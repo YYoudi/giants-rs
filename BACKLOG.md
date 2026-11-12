@@ -81,6 +81,11 @@ checks first draw, duplicate-clock refusal, next-step mesh update and cleanup.
 Private exact-PC kernel checks match99 non-retiring frames /5,247 words. This is
 CPU/asset evidence; a matching GPU projectile encounter remains unverified.
 Ground/object impact, expiry, reciprocal damage and source death remain open.
+Animated-projectile local GNU build: source `83aade9`, executable SHA256 prefix
+`ad3b4d88384d`; receipt and executable digest independently checked. Five The Wife
+controls and standard994 Rust /179 ignored,45 Python and strict Clippy pass.
+The exact contact diagnostic remains FAILED at the pending terrain contact;
+no new GPU projectile encounter acceptance or public preview.
 Cooldown/retreat local GNU build: source `857b591`, executable SHA256 prefix
 `8c0d5cad92cf`, receipt and executable digest independently checked. Includes the
 current-scene flight consumer and class230 modes66/71; no new GPU acceptance.

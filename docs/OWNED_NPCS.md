@@ -309,6 +309,19 @@ unassigned: literal `mound_move`, `mound_animselect` and `mound_shot` are additi
 search candidates, not confirmations. Generic cleanup names also remain unknown;
 see [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
 
+The animated-projectile local GNU build is source
+`83aade9bb5db5b0f5d5dfe5ccd444cb491a669fc`, executable SHA256
+`ad3b4d88384dcc85c623df72b0cad98dd94486e32a527e42d26f065d2dd5e488`.
+The receipt and executable digest were independently checked. It includes the
+flight-owned ANM/affine and source-skinned auxiliary draw consumer described above.
+The five installed The Wife controls pass, including two-ticket first-flight
+mesh/material update and renderer cleanup. The supplied full-contact diagnostic
+still fails at the same pending terrain contact at step2755 after137 flying
+samples; clocks and drawing do not substitute for impact services. There is no
+new GPU projectile/reciprocal encounter acceptance or published preview.
+Use **Load Single Player Game → Mecc Story 2 → The Wife** with the ordinary
+controls; neither AI nor projectile presentation needs a diagnostic flag.
+
 The cooldown/retreat local GNU build is source
 `857b59168c0664c109e299a919eec622fa02c049`, executable SHA256
 `8c0d5cad92cfec682e8f3ab723a4c2542e6d650c1138871ca26fa68168968ba5`.
