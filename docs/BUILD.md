@@ -1463,7 +1463,8 @@ hex-case file; raw controls and original data stay outside Git.
 The ordinary Ripper component needs no diagnostic flag. To supply only Mecc
 navigation/look/jet commands for a first-flight GPU check, set
 `GIANTS_MISSION_REPLAY=showcase-mecc`, `GIANTS_SHOWCASE_WORLD=Story2`,
-`GIANTS_SHOWCASE_MISSION=1` and `GIANTS_MISSION_RIPPER_PROBE=1`. Use a fresh
+`GIANTS_SHOWCASE_MISSION=1`, `GIANTS_MISSION_RIPPER_PROBE=1` and
+`GIANTS_AUDIO_MUTE=1`. Use a fresh
 user-data directory with `--offscreen --silent-capture --muted-transport --capture`.
 The guard refuses other missions, unmuted transport, owned-controller inspection
 and a simultaneous Vimp probe. The capture endpoint requires an actual canonical

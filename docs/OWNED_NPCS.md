@@ -9,6 +9,16 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
+The latest supplied-input GPU attempt (`a450206`, local executable SHA256 prefix
+`19f651e9a211`) failed without a capture. A mixed positional-audio backlog closed
+the backend before the NPC impact adapters refused the missing audio ticket.
+The latter error is a consequence, not permission to acknowledge an empty sink.
+The audio queue now batches consecutive already-prepared one-shot cues, retaining
+each cue, position, RNG order and real-sink start requirement. Cold/looping cues,
+actor/control commands and ticket boundaries still stop batching. The 256-request
+failure cap remains. A fresh identified graphical run must establish the result;
+this change alone establishes neither projectile visibility nor combat fidelity.
+
 The NPC lane stages a separate declaration-bound Ripper component in ordinary
 mission loading. The Wife has five canonical mission declarations: four class73
 and one class230, all state23. The component retains their exact source placement

@@ -22,6 +22,17 @@ ordinary interaction level as Vimps, starting with The Wife, then other declared
 maps. Main owns The Wife progression and common publication; the NPC lane must
 not replace that mission flow or publish another preview.
 
+Latest graphical frontier: local source `a450206` admitted the authored Wife
+population but failed before capture: mixed positional sound requests exceeded
+the bounded audio queue, closing its real backend and then quarantining both NPC
+components. This is a failed supplied-input GPU run, not an encounter pass.
+Prepared one-shot positional cues can now stage together in FIFO order while
+waiting for their actual sinks; cold/looping cues, controls and foreign tickets
+remain barriers. The queue cap and failure guards are unchanged. Rebuild and
+repeat the graphical approach before claiming this repair effective. Complete
+reciprocal damage, Ripper death and ordinary Windows menu/re-entry acceptance
+remain required; the projectile-only probe does not satisfy them.
+
 Prepared: a declaration-bound sibling component retains canonical Session
 identities and authored poses (The Wife: four class73 and one class230/state23).
 Installed two-ticket controls refuse substituted/duplicate/foreign/retired owners.
