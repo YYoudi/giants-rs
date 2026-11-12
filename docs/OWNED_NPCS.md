@@ -147,6 +147,32 @@ their observed RNG result without preparing immediate children early. These are
 supplied-resource/clock CPU controls, not the world schedule, vertex consumer,
 actual deletion, reciprocal combat or graphical acceptance of an explosion.
 
+`Timed::mixed_root_object` now constructs each acquired positional root prefix
+from its actual source offset and whole-program identity. It supports the fixed
+height/size root, ranged-size gravity roots, the scroll/fade body and the hidden
+carrier prefix. Hidden ownership is explicit: the source render mark is retained
+through the first callback, rather than making ordinary visible bodies accept
+that mark. It creates neither the carrier's required immediate children nor a
+wait acknowledgement, and does not consume the shared context.
+
+Twelve root snapshots across both explosions, including the actual delayed
+class814, match708 selected PC words: flags, pose/history, affine, size/lifetime,
+fade configuration and physical storage. The per-root RNG inputs are observed
+at native constructor boundaries after preceding children; those children are
+not emulated by this fixture. All42 initial native constructors preserve their
+incoming RNG; the configured ranged-size samples produce the observed suffixes.
+The original context wrapper also confirms suspension on zero/half steps and
+resumption at the exact wait deadline, creating class814 and returning its real
+context to the free list. A previous harness incorrectly assumed a strict
+deadline and reused an already retired context; that failed attempt is retained.
+The existing construction cursor's deadline rule already agrees and is unchanged.
+Their twelve first direct callbacks also match another708 selected words,
+including the hidden carrier's retained mark and the visible roots' ordinary
+first-frame transition. Physical, gravity and retirement services deliberately
+refuse calls in that first-frame fixture; none is acknowledged as available.
+This is root construction/context evidence, not whole canonical execution,
+ordinary physical callbacks, child reference placement, rendering or damage.
+
 The NPC lane stages a separate declaration-bound Ripper component in ordinary
 mission loading. The Wife has five canonical mission declarations: four class73
 and one class230, all state23. The component retains their exact source placement

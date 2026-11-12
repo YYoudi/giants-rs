@@ -89,6 +89,7 @@ pub(crate) struct Runtime {
     size_flag: u32,
     side_speed: Option<u32>,
     pub(crate) render: crate::effect_render_parameters::Parameters,
+    pub(crate) hidden: bool,
 
     pub epoch: u32,
     pub failure: Option<String>,
@@ -153,6 +154,36 @@ impl<K> Timed<K> {
     }
 }
 impl<K: Copy> Timed<K> {
+    /// Construct only this acquired root prefix. Source children/waits remain
+    /// mandatory work for its composing context; no whole-program acknowledgement.
+    pub fn mixed_root_object(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<K>,
+        offset: usize,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let record = context
+            .program
+            .as_ref()
+            .map_err(Clone::clone)?
+            .records
+            .iter()
+            .find(|r| r.offset == offset && r.opcode == 3)
+            .ok_or("mixed root constructor absent")?;
+        let class = i32::from_le_bytes(
+            record
+                .bytes
+                .get(1..5)
+                .ok_or("mixed root class absent")?
+                .try_into()
+                .unwrap(),
+        );
+        let template = Template::load(resources, class)?;
+        let configured = template.mixed_root_object(origin, context, offset, random)?;
+        Self::new(template, configured)
+    }
     /// Construct this one verified mixed-program object without consuming the
     /// context or acknowledging any other object, wait, renderer or world tick.
     /// Prototype PS2 `fx_move` / `fx_setupUVScrolling` / `fx_setupVerticleFade`
@@ -420,6 +451,7 @@ impl<K: Copy> Timed<K> {
                 size_flag,
                 side_speed,
                 render: configured.render,
+                hidden: configured.hidden,
                 epoch: 0,
                 failure: None,
                 pending: None,
@@ -691,7 +723,11 @@ impl Runtime {
                     0
                 }
             || (b.fields.control_flags & 1 != 0) != self.retirement.is_some()
-            || !matches!(b.render_flags & !0x8000, 0 | 0x1000)
+            || !matches!(
+                b.render_flags & !(0x8000 | if self.hidden { 0x10000 } else { 0 }),
+                0 | 0x1000
+            )
+            || (b.render_flags & 0x10000 != 0) != self.hidden
             || (b.render_flags & 0x8000 != 0) != self.side_speed.is_some()
             || self.side_speed.is_some_and(|side| word(data, 0xf4) != side)
             || [4, 0x10, 0x14].map(|at| word(data, at)) != self.immutable_words

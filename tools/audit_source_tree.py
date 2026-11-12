@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed mixed root constructor link; unknown attribution, no corpus.
+        'aaa4e812aeac37c37de759e17eac26c4f6b2a6ff860bc22310b5d554c3619be5',
         # Reviewed canonical scroll/fade parameter route; unknown attributions.
         '55e1e942fb5c0a0c0dea7a15490e1c40c1a497fb4eea09b07a774cf791c44e5d',
         # Reviewed pending scroll/fade navigation; unknown attributions, no corpus.

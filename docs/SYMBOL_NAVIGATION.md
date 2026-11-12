@@ -211,6 +211,14 @@ The current parameters come from the same Session body; vertex-buffer use,
 the other source bodies, delayed phase and whole mixed-program execution remain
 unbound. No prototype signature or memory layout is imported.
 
+`fx_processOpCodes__FP6FxDataiP6OBJECT` also remains an **unknown** search route
+to `Timed::mixed_root_object` in
+[`timed_effect_object`](../crates/giants-game/src/timed_effect_object.rs) and the
+checked source-offset constructors in `effect_actor`. The acquired PC root
+prefixes preserve their own positional, hidden and physical distinctions;
+constructing a root does not execute children, consume waits or acknowledge the
+whole program. Existing PC aliases remain unchanged.
+
 ## Publication boundary
 
 The literal prototype PS2 names `FLK_FlickProcess__FP9FLK_Flick`,

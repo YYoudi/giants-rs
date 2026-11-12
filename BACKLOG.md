@@ -252,6 +252,18 @@ fails rather than acknowledging deletion; failure is retained and replay refused
 Complete null-object preparation is admitted for the acquired explosion frames,
 with the observed preparation RNG checked. No early child preparation, whole-
 program/world scheduling, vertex rendering or ordinary damage is acknowledged.
+The remaining root families now have canonical source-offset constructors too:
+fixed height/size, ranged gravity and explicit hidden carrier ownership. Twelve
+original root snapshots, including the delayed class814, agree on708 selected
+words and observed per-constructor RNG prefixes/suffixes. The fixture supplies
+the prefixes after preceding children; it does not replace their mandatory work.
+Native context controls verify zero/half-step suspension, exact-deadline resume,
+the real delayed birth and context retirement. Canonical whole-program execution,
+immediate-child reference placement/contact and actual vertex/retirement consumers
+remain required before ordinary projectile impact can acknowledge these effects.
+Twelve original first callbacks agree on another708 words, preserving the hidden
+mark and ordinary visible-root first-frame gates without supplying physical or
+retirement success. The roots' later physical callbacks remain outside this check.
 
 The combined local build `e764b7c` (executable SHA256 prefix `2f6b5a16babd`)
 failed its first supplied-input GPU retry, exit101 without a capture: an audio

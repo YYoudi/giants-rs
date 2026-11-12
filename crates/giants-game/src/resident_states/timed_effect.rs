@@ -348,6 +348,9 @@ impl Session {
     pub fn timed_effect_render_flags(&self, id: Id) -> Option<u32> {
         Some(self.get(id)?.timed_effect.as_ref()?.render_flags)
     }
+    pub fn timed_effect_hidden(&self, id: Id) -> Option<bool> {
+        Some(self.get(id)?.timed_effect.as_ref()?.runtime.hidden)
+    }
     pub fn timed_effect_transparency(&self, id: Id) -> Option<f32> {
         Some(self.get(id)?.timed_effect.as_ref()?.runtime.transparency)
     }
@@ -938,6 +941,150 @@ mod tests {
         scene_resources::SceneResources,
     };
     type PhaseControls = Arc<std::collections::BTreeMap<(u32, u32, u32, u32), Vec<u32>>>;
+    #[test]
+    #[ignore = "Requires GIANTS_NPC_ROOT and GIANTS_RIPPER_ROOT_CONTROLS; original root birth snapshots and observed per-constructor RNG inputs, no whole VM/child/wait/world/render admission"]
+    fn canonical_mixed_roots_match_original_birth_fields_and_random_prefixes() {
+        struct Required;
+        impl Services for Required {
+            fn physical(&mut self, _: &mut Session, _: Id, _: f32) -> Result<(), String> {
+                Err("first root callback must not request physical integration".into())
+            }
+            fn gravity(&mut self, _: &mut Session, _: Id) -> Result<(), String> {
+                Err("first root callback must not request gravity".into())
+            }
+            fn retire(
+                &mut self,
+                _: &mut Session,
+                _: Id,
+                _: &Image,
+                _: Option<&crate::effect_scene::RetirementBinding>,
+            ) -> Result<(), String> {
+                Err("first root callback must not request retirement".into())
+            }
+        }
+        fn words(session: &Session, id: Id) -> Vec<u32> {
+            let actor = session.get(id).unwrap();
+            let fields = actor.construction_fields.as_ref().unwrap();
+            let metadata = actor.timed_effect.as_ref().unwrap();
+            let data = actor.seed.storage.data().unwrap();
+            let word = |at| u32::from_le_bytes(data[at..at + 4].try_into().unwrap());
+            let mut got = vec![
+                actor.class as u32,
+                fields.object_flags,
+                fields.response_flags,
+                fields.control_flags,
+                metadata.render_flags,
+                fields.scale.to_bits(),
+                metadata.runtime.transparency.to_bits(),
+            ];
+            got.extend(
+                fields
+                    .position
+                    .into_iter()
+                    .chain(fields.current)
+                    .chain(fields.previous)
+                    .chain(fields.angles)
+                    .map(f32::to_bits),
+            );
+            got.push(metadata.matrix.flags);
+            got.extend(metadata.matrix.values.map(f32::to_bits));
+            got.extend([4, 8, 0x10, 0x14].map(word));
+            got.extend(metadata.runtime.fade.map(f32::to_bits));
+            got.extend((0xa0..0xdc).step_by(4).map(word));
+            got
+        }
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+        let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let image = Arc::new(
+            resources
+                .classes
+                .models
+                .effects
+                .last()
+                .unwrap()
+                .image
+                .clone(),
+        );
+        let text =
+            std::fs::read_to_string(std::env::var_os("GIANTS_RIPPER_ROOT_CONTROLS").unwrap())
+                .unwrap();
+        let mut count = 0;
+        for line in text.lines() {
+            let mut parts = line.split_whitespace();
+            let name = parts.next().unwrap();
+            let expected = parts.map(|v| v.parse::<u32>().unwrap()).collect::<Vec<_>>();
+            let mut session = Session::new(600 + count);
+            let mut pool = Pool::<Id>::new(session.ticket(), Some(image.clone()));
+            let (Creation::Prepared(origin), _) = pool
+                .prepare_positional_invariant(name, [1.25, -2.5, 3.75], &mut Random(17))
+                .unwrap()
+            else {
+                panic!()
+            };
+            let context = pool.get(origin).unwrap();
+            let offset = context
+                .program
+                .as_ref()
+                .unwrap()
+                .records
+                .iter()
+                .find(|r| {
+                    r.opcode == 3
+                        && u32::from_le_bytes(r.bytes[1..5].try_into().unwrap()) == expected[0]
+                })
+                .unwrap()
+                .offset;
+            // Observed at the real PC constructor boundary after preceding
+            // children. This fixture does not replace their mandatory VM work.
+            let mut random = Random(expected[1]);
+            let owned = crate::timed_effect_object::Timed::mixed_root_object(
+                &resources,
+                origin,
+                context,
+                offset,
+                &mut random,
+            )
+            .unwrap();
+            let id = session.adopt_timed_positioned(owned).unwrap();
+            let got = words(&session, id);
+            assert_eq!(
+                &got,
+                &expected[3..62],
+                "source root {name} class {}",
+                expected[0]
+            );
+            assert_eq!(
+                random.0, expected[2],
+                "real source root RNG suffix {name} class {}",
+                expected[0]
+            );
+            assert_eq!(session.timed_effect_hidden(id), Some(expected[0] == 817));
+            assert!(session.timed_effect_failure(id).is_none());
+            assert_eq!(
+                session
+                    .advance_timed_effect(
+                        id,
+                        f32::from_bits(expected[62]),
+                        &mut Stamp::default(),
+                        &mut Required
+                    )
+                    .unwrap(),
+                Step::FirstFrame
+            );
+            assert_eq!(
+                &words(&session, id),
+                &expected[63..],
+                "original first root callback class {}",
+                expected[0]
+            );
+            assert!(
+                pool.get(origin).is_some(),
+                "a constructed root cannot acknowledge its shared context"
+            );
+            count += 1;
+        }
+        assert_eq!(count, 12);
+    }
     #[test]
     #[ignore = "Requires GIANTS_NPC_ROOT and GIANTS_RIPPER_RENDER_CONTROLS; original direct callback controls, supplied clocks/resources, no raster or whole mixed-program execution"]
     fn canonical_ripper_scroll_fade_matches_original_callbacks_and_keeps_retirement_failure() {

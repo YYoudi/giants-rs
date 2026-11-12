@@ -54,6 +54,26 @@ pub struct Configured<K> {
     pub(crate) ground: Option<crate::effect_ground_emission::Source>,
     pub(crate) source: Arc<giants_formats::effect_image::Image>,
     pub(crate) render: crate::effect_render_parameters::Parameters,
+    pub(crate) hidden: bool,
+}
+fn object_values<const N: usize>(
+    object: &[giants_formats::effect_program::Record],
+    index: usize,
+) -> Result<[f32; N], String> {
+    let bytes = &object
+        .get(index)
+        .ok_or("mixed root operand record absent")?
+        .bytes;
+    if bytes.len() != 1 + N * 4 {
+        return Err("mixed root operand framing differs".into());
+    }
+    let values = std::array::from_fn(|i| {
+        f32::from_le_bytes(bytes[1 + i * 4..5 + i * 4].try_into().unwrap())
+    });
+    if values.iter().any(|v| !v.is_finite()) {
+        return Err("mixed root operand nonfinite".into());
+    }
+    Ok(values)
 }
 
 /// Shared acquired callback entry, before lifetime, physical or ANM services.
@@ -196,6 +216,7 @@ impl<K> Initial<K> {
             ground: None,
             source,
             render: Default::default(),
+            hidden: false,
         })
     }
     /// A view of the actual owned payload, never a second physical allocation.
@@ -592,24 +613,28 @@ impl Template {
         *random = staged;
         Ok(configured)
     }
-    /// One checked source3 object inside its actual mixed program. This does
-    /// not consume the context, execute sibling objects or admit the program.
-    pub(crate) fn scrolling_vertical_object<K: Copy>(
+    /// Verify a block against its exact original program, not a caller slice.
+    fn checked_positioned_object<K: Copy>(
         &self,
-        origin: Id,
         context: &Context<K>,
         offset: usize,
-    ) -> Result<Configured<K>, String> {
+    ) -> Result<
+        (
+            Vec<giants_formats::effect_program::Record>,
+            Arc<giants_formats::effect_image::Image>,
+        ),
+        String,
+    > {
         if !matches!(context.flags(), 0 | 0x8000) {
-            return Err("scroll/fade object requires its acquired positional context".into());
+            return Err("mixed root requires its acquired positional context".into());
         }
         let image = context.source_image();
         let entry = image
             .entries
             .get(context.entry_index)
-            .ok_or("scroll/fade entry absent")?;
+            .ok_or("mixed root entry absent")?;
         if entry.offset != context.entry_offset {
-            return Err("scroll/fade entry differs".into());
+            return Err("mixed root entry differs".into());
         }
         let actual = image.program(entry.offset).map_err(|e| e.to_string())?;
         let program = context.program.as_ref().map_err(Clone::clone)?;
@@ -620,57 +645,145 @@ impl Template {
                 .zip(&actual.records)
                 .any(|(a, b)| a.offset != b.offset || a.opcode != b.opcode || a.bytes != b.bytes)
         {
-            return Err("scroll/fade program differs from the actual source image".into());
+            return Err("mixed root program differs from the actual source image".into());
         }
-        let object = actual
+        let start = actual
             .records
-            .windows(7)
-            .find(|r| r[0].offset == offset)
-            .ok_or("scroll/fade object offset absent")?;
-        if object.iter().map(|r| r.opcode).collect::<Vec<_>>() != [3, 6, 8, 0x46, 0x40, 4, 7]
+            .iter()
+            .position(|r| r.offset == offset && r.opcode == 3)
+            .ok_or("mixed root constructor offset absent")?;
+        let end = actual.records[start..]
+            .iter()
+            .position(|r| r.opcode == 7)
+            .ok_or("mixed root block end absent")?
+            + start;
+        let object = &actual.records[start..=end];
+        if object.get(1).map(|r| r.opcode) != Some(6)
             || i32::from_le_bytes(object[0].bytes[1..5].try_into().unwrap()) != self.fields.class
         {
-            return Err("scroll/fade object outside acquired source frame".into());
+            return Err("mixed root class/setup differs from source".into());
         }
-        let values = |record: usize, count: usize| -> Result<Vec<f32>, String> {
-            let bytes = &object[record].bytes;
-            if bytes.len() != 1 + count * 4 {
-                return Err("scroll/fade operand framing differs".into());
-            }
-            let out = bytes[1..]
-                .as_chunks::<4>()
-                .0
-                .iter()
-                .map(|v| f32::from_le_bytes(*v))
-                .collect::<Vec<_>>();
-            if out.iter().any(|v| !v.is_finite()) {
-                return Err("scroll/fade operand nonfinite".into());
-            }
-            Ok(out)
-        };
-        let position = context.position().ok_or("scroll/fade position absent")?;
+        let position = context.position().ok_or("mixed root position absent")?;
         if position.iter().any(|v| !v.is_finite()) {
-            return Err("scroll/fade position nonfinite".into());
+            return Err("mixed root position nonfinite".into());
+        }
+        Ok((object.to_vec(), image))
+    }
+    /// One acquired source3 root, including an intentionally hidden carrier.
+    /// Children remain mandatory work for the composing VM; this creates only
+    /// the parent prefix and never consumes the shared context or advances waits.
+    /// Prototype PS2 fx_processOpCodes remains an unknown PC correspondence.
+    pub(crate) fn mixed_root_object<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        offset: usize,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Configured<K>, String> {
+        let (object, image) = self.checked_positioned_object(context, offset)?;
+        let ops = object.iter().map(|r| r.opcode).collect::<Vec<_>>();
+        if ops == [3, 6, 8, 0x46, 0x40, 4, 7] {
+            return self.scrolling_vertical_object(origin, context, offset);
+        }
+        let fixed = ops == [3, 6, 0x17, 8, 4, 7];
+        let gravity = ops == [3, 6, 0x17, 0x0e, 9, 4, 7];
+        let hidden = ops.starts_with(&[3, 6, 0x21, 0x1b, 4])
+            && matches!(ops.len(), 17 | 27)
+            && ops[5..ops.len() - 1].iter().all(|&op| op == 0x10)
+            && ops.last() == Some(&7);
+        if !fixed && !gravity && !hidden {
+            return Err("mixed root outside acquired source frame".into());
         }
         let mut initial = self.initial(
             origin,
-            Placement::Position(position),
+            Placement::Position(context.position().unwrap()),
             context.flags(),
             false,
         )?;
-        let sizes: [f32; 2] = values(2, 2)?.try_into().unwrap();
+        let sizes: [f32; 2];
+        let life: [f32; 3];
+        if hidden {
+            initial.render_flags |= 0x10000;
+            initial.fields.object_flags |= 0x40000000;
+            sizes = [object_values::<1>(&object, 3)?[0]; 2];
+            initial.size(sizes, false)?;
+            life = object_values(&object, 4)?;
+        } else {
+            // Source17 adds to current position and updates affine translation;
+            // it does not advance either position-history field.
+            initial.fields.position[2] = (f64::from(initial.fields.position[2])
+                + f64::from(object_values::<1>(&object, 2)?[0]))
+                as f32;
+            for (at, value) in [3, 7, 11].into_iter().zip(initial.fields.position) {
+                initial.matrix.values[at] = value;
+            }
+            if gravity {
+                let mass = object_values::<1>(&object, 3)?[0];
+                initial.fields.control_flags |= 0x80;
+                initial.fields.object_flags &= !0x10;
+                initial.seed.storage.data_mut().unwrap()[0xa4..0xa8]
+                    .copy_from_slice(&mass.to_le_bytes());
+                let ranges = object_values::<4>(&object, 4)?;
+                // Source samples commit as they happen; later construction
+                // failures cannot rewind this actual composing stream.
+                sizes = [
+                    crate::timed_effect::sample(&mut random.0, [ranges[0], ranges[1]]),
+                    crate::timed_effect::sample(&mut random.0, [ranges[2], ranges[3]]),
+                ];
+                life = object_values(&object, 5)?;
+            } else {
+                sizes = object_values(&object, 3)?;
+                life = object_values(&object, 4)?;
+            }
+            if sizes[0] == sizes[1] {
+                return Err("mixed root equal-size interpolation profile not acquired".into());
+            }
+            initial.size(sizes, true)?;
+        }
+        let mut configured = initial.timed(
+            crate::effect_visual::Configuration {
+                lifetime: life[0],
+                fade_in: life[1],
+                fade_out_start: life[2],
+                start_size: sizes[0],
+                end_size: sizes[1],
+            },
+            image,
+        )?;
+        configured.hidden = hidden;
+        Ok(configured)
+    }
+    /// One checked source3 object inside its actual mixed program. This does
+    /// not consume the context, execute sibling objects or admit the program.
+    pub(crate) fn scrolling_vertical_object<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        offset: usize,
+    ) -> Result<Configured<K>, String> {
+        let (object, image) = self.checked_positioned_object(context, offset)?;
+        if object.iter().map(|r| r.opcode).collect::<Vec<_>>() != [3, 6, 8, 0x46, 0x40, 4, 7] {
+            return Err("scroll/fade object outside acquired source frame".into());
+        }
+        let mut initial = self.initial(
+            origin,
+            Placement::Position(context.position().unwrap()),
+            context.flags(),
+            false,
+        )?;
+        let sizes = object_values::<2>(&object, 2)?;
         if sizes[0] == sizes[1] {
             return Err("scroll/fade equal-size writer profile not acquired".into());
         }
         initial.size(sizes, true)?;
         let mut render = crate::effect_render_parameters::Parameters::default();
         for command in [
-            crate::effect_scene::RenderCommand::VerticalFade(values(3, 5)?.try_into().unwrap()),
-            crate::effect_scene::RenderCommand::UvScroll(values(4, 2)?.try_into().unwrap()),
+            crate::effect_scene::RenderCommand::VerticalFade(object_values(&object, 3)?),
+            crate::effect_scene::RenderCommand::UvScroll(object_values(&object, 4)?),
         ] {
             render.configure(&command, &mut initial.fields, &mut initial.seed)?;
         }
-        let life: [f32; 3] = values(5, 3)?.try_into().unwrap();
+        let life = object_values::<3>(&object, 5)?;
         let mut configured = initial.timed(
             crate::effect_visual::Configuration {
                 lifetime: life[0],

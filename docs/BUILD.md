@@ -1564,6 +1564,18 @@ retirement failure. It does not execute sibling objects, consume the mixed
 context, bind vertex output or establish an ordinary encounter. Keep the TSV,
 native executables, source inputs, raw records and reports private.
 
+The root-constructor comparison additionally uses private
+`GIANTS_RIPPER_ROOT_CONTROLS` and the same `GIANTS_NPC_ROOT`:
+
+```powershell
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu canonical_mixed_roots -- --ignored --nocapture
+```
+
+It compares twelve actual PC root births and observed RNG prefixes, including
+the delayed root. Prefixes after preceding children are supplied boundaries;
+this test does not execute those children, own the context wait, bind graphics
+or establish whole-program/world admission.
+
 The radial Session dependency has an optional installed control (same
 `GIANTS_NPC_ROOT` setup as the other NPC controls):
 
