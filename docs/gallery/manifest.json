@@ -4,18 +4,6 @@
   "encoding": "WebP quality 90; original dimensions; metadata stripped. Lossy display copies, not pixel-validation evidence.",
   "comparisons": [
     {
-      "title": "Ordinary house damage through retirement",
-      "level": "Starving / ordinary buildings",
-      "event": "Source health stages and final retirement",
-      "commit": "d5320b18cb352fbed05d882880974a0887152e5f",
-      "left": "media/555c1f8e593741a5903b3af5eeadd23c187d5281945e24460af4219e485b2c63.webp",
-      "right": "media/d4710d638d15205eda7b2d3997b22dd25a93c228b1e88970cddc7cbc91ec7fbc.webp",
-      "left_label": "After seven pistol hits: first damage stage",
-      "right_label": "After 28 hits and actual effect expiry",
-      "verification": "ORDINARY DAMAGE PIPELINE CHECKED; NATIVE FIDELITY OPEN",
-      "alignment": "Same source house and exact preview .12.3 executable, different live samples and camera positions; not pixel-aligned. Supplied normal movement/aim/fire commands, actual health/mesh/collider/effect/audio owners. The front house retires while its neighbor remains. No health or pose injection; full OS-aimed destruction and native visual/audio parity remain unverified."
-    },
-    {
       "title": "Correcting the shared flash scale",
       "level": "Cinematic effects",
       "event": "Separate effect support and carrier scale",
@@ -3667,6 +3655,18 @@
       "right_label": "Automatic setting 0: model 7 / 57 vertices",
       "verification": "BEVY RUNTIME CHECK; CAMPAIGN AND FIDELITY UNVERIFIED",
       "alignment": "Same experimental executable, actual menu mission request, supplied 128-step owned movement and generated camera endpoint. Only the inspection quality index changes. The original model selector is separately CPU-checked; these images compare two Bevy settings, not two implementation versions or an original-engine reference. Complete visibility, parts/material admission, subjective rendering, firing and world scheduling remain unfinished."
+    },
+    {
+      "title": "Ordinary house damage through retirement",
+      "level": "Starving / ordinary buildings",
+      "event": "Source health stages and final retirement",
+      "commit": "d5320b18cb352fbed05d882880974a0887152e5f",
+      "left": "media/555c1f8e593741a5903b3af5eeadd23c187d5281945e24460af4219e485b2c63.webp",
+      "right": "media/d4710d638d15205eda7b2d3997b22dd25a93c228b1e88970cddc7cbc91ec7fbc.webp",
+      "left_label": "After seven pistol hits: first damage stage",
+      "right_label": "After 28 hits and actual effect expiry",
+      "verification": "ORDINARY DAMAGE PIPELINE CHECKED; NATIVE FIDELITY OPEN",
+      "alignment": "Same source house and exact preview .12.3 executable, different live samples and camera positions; not pixel-aligned. Supplied normal movement/aim/fire commands, actual health/mesh/collider/effect/audio owners. The front house retires while its neighbor remains. No health or pose injection; full OS-aimed destruction and native visual/audio parity remain unverified."
     }
   ],
   "images": {
