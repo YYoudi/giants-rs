@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent cinematic navigation: unknown prototype spawn route and
+        # explicit support-class divergence; no native body or corpus export.
+        '816a22fe27ee50d63ba1112fc44c811dd85a089ca25db342a3c9246d860da5ea',
         # Reviewed launch-bridge cross-reference and unassigned helper address;
         # retained aliases/statuses, no new native body or corpus extraction.
         '01e32dd58e2c6046541c1faeb5280bc7ed1c4f4d4a19d0a29aa639420bc40daf',
