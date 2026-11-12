@@ -17,6 +17,54 @@ pub struct Input<I> {
     pub vimp_alert_range: f32,
 }
 
+/// A stronger, read-only proof: no actor can reach either radial side-effect
+/// radius, regardless of the unbound cross-context word or health eligibility.
+/// This does not supply a damage/alert consumer or acknowledge a hit. A possible
+/// callback returns false; an unavailable consumed input remains an error.
+pub fn no_effect_invariant<I>(
+    parameters: [f32; 5],
+    position: [f32; 3],
+    vimp_alert_range: Option<f32>,
+    actors: &[Actor<I>],
+) -> Result<bool, String> {
+    if parameters[3] == 0. {
+        return Ok(true);
+    }
+    if !parameters.into_iter().chain(position).all(f32::is_finite) {
+        return Err("radial no-effect proof requires finite source arithmetic".into());
+    }
+    let outer_squared = (f64::from(parameters[1]) * f64::from(parameters[1])) as f32;
+    if !outer_squared.is_finite() {
+        return Err("radial outer radius square overflow".into());
+    }
+    for actor in actors {
+        if actor.active & 0x4000c000 != 0 {
+            continue;
+        }
+        if !actor.position.into_iter().all(f32::is_finite) {
+            return Err("radial no-effect proof needs the current actor pose".into());
+        }
+        let delta: [f64; 3] =
+            std::array::from_fn(|i| f64::from(actor.position[i]) - f64::from(position[i]));
+        let distance = ((delta[0] * delta[0] + delta[1] * delta[1]) + delta[2] * delta[2]) as f32;
+        if !distance.is_finite() {
+            return Err("radial target distance overflow".into());
+        }
+        if distance <= outer_squared {
+            return Ok(false);
+        }
+        if actor.class == 8 {
+            let range = vimp_alert_range
+                .filter(|v| v.is_finite())
+                .ok_or("radial no-effect proof requires the actual Vimp alert range")?;
+            if f64::from(distance) < f64::from(range) * f64::from(range) {
+                return Ok(false);
+            }
+        }
+    }
+    Ok(true)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -148,6 +196,78 @@ mod tests {
         services.events.clear();
         Machine::default().run(input(), &mut services).unwrap();
         assert_eq!(services.events, [(0, 0), (2, 1)]);
+    }
+    #[test]
+    fn no_effect_proof_keeps_inclusive_hit_and_strict_alert_boundaries() {
+        let params = [0., 30., 50., -1., 50.];
+        let a = actor(1, 73, 30.);
+        assert!(!no_effect_invariant(params, [0.; 3], None, &[a]).unwrap());
+        let a = Actor {
+            position: [30.0001, 0., 0.],
+            health: None,
+            ..a
+        };
+        assert!(no_effect_invariant(params, [0.; 3], None, &[a]).unwrap());
+        let vimp = Actor {
+            class: 8,
+            position: [100., 0., 0.],
+            ..a
+        };
+        assert!(no_effect_invariant(params, [0.; 3], Some(100.), &[vimp]).unwrap());
+        assert!(!no_effect_invariant(params, [0.; 3], Some(100.001), &[vimp]).unwrap());
+        assert!(no_effect_invariant(params, [0.; 3], None, &[vimp]).is_err());
+        assert!(
+            no_effect_invariant(
+                params,
+                [0.; 3],
+                None,
+                &[Actor {
+                    active: 0x8000,
+                    ..vimp
+                }]
+            )
+            .unwrap()
+        );
+        assert!(
+            no_effect_invariant::<u32>(
+                [f32::NAN, f32::NAN, f32::NAN, -0., f32::NAN],
+                [f32::NAN; 3],
+                None,
+                &[]
+            )
+            .unwrap()
+        );
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_RADIAL_NO_EFFECT_CONTROLS; actual PC traversal returns or stops before a real counterexample callback; supplied headers/list/range, not a native world or gameplay"]
+    fn no_effect_proof_is_conservative_against_original_context_branches() {
+        let text =
+            std::fs::read_to_string(std::env::var_os("GIANTS_RADIAL_NO_EFFECT_CONTROLS").unwrap())
+                .unwrap();
+        let mut count = 0;
+        for line in text.lines() {
+            let row = line
+                .split_whitespace()
+                .map(|w| u32::from_str_radix(w, 16).unwrap())
+                .collect::<Vec<_>>();
+            assert_eq!(row.len(), 6);
+            let a = Actor {
+                class: row[0] as i32,
+                context: if row[2] != 0 { 100 } else { 0 },
+                active: if row[4] != 0 { 0x8000 } else { 0 },
+                ..actor(1, 73, f32::from_bits(row[1]))
+            };
+            let proof =
+                no_effect_invariant([0., 30., 50., -1., 50.], [0.; 3], Some(100.), &[a]).unwrap();
+            if proof {
+                assert_eq!(row[5], 1, "native callback reached at row {count}");
+            }
+            if row[2] == 0 && row[3] == 1 {
+                assert_eq!(proof, row[5] != 0);
+            }
+            count += 1;
+        }
+        assert_eq!(count, 80);
     }
 }
 

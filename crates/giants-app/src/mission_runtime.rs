@@ -2751,12 +2751,7 @@ fn spawn(
             .bind(ticket, &declared, &resident_states)
             .and_then(|view| {
                 let world = payload.world.as_ref().map_err(Clone::clone)?;
-                rippers.initialize(
-                    &mut resident_states,
-                    ticket,
-                    payload.plan.resources(),
-                    world,
-                )?;
+                rippers.initialize(&mut resident_states, ticket, &payload.plan, world)?;
                 Ok(Some(view))
             }),
         Ok(None) => Ok(None),
@@ -3328,6 +3323,9 @@ impl Runtime {
                     frame,
                 });
             }
+        }
+        if let Ok(Some(rippers)) = active.payload.rippers.as_mut() {
+            rippers.finish_impact_geometry(&mut active.resident_states)?;
         }
         Ok(Some((active.ticket, frames)))
     }

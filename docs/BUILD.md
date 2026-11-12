@@ -295,15 +295,13 @@ the same component without an activation variable; unsupported continuations
 remain explicit failures. See OWNED_NPCS.md for the admitted subset.
 
 The ignored `diagnostic_wife_ripper_supplied_approach_reaches_contact` in
-`giants-app` is a separate, currently failing acceptance-frontier diagnostic.
-It drives the same ordinary Mecc physics/contact publication and source Ripper
-component from The Wife's authored start, using supplied movement/look/jet levels.
-Run it by exact name with the GNU target and `-- --ignored --nocapture` to observe
-the next required consumer. It currently creates class232, advances its actual
-flight against the current scene, consumes class230 modes66/71, then preserves
-a pending ground contact at step2755 until actual impact reactions exist. No NPC pose,
-mode, damage or readiness is assigned. It is not an OS-input/GPU encounter check
-and its failure must not be reported as a passing Ripper gameplay test.
+`giants-app` now passes two supplied-input Wife entries: actual missed ground
+impact at step2755, then physical actor contact at3242. The longer
+`diagnostic_wife_ripper_supplied_encounter_reaches_active_combat` deliberately
+continues after contact and currently fails on the real class230 mode67 at3251.
+Run either by exact name with the GNU target and `-- --ignored --nocapture`.
+No NPC pose, mode, damage or readiness is assigned. These are CPU observations,
+not OS input, reciprocal combat/death or graphical encounter acceptance.
 
 The separate ignored `source_wife_ripper_launch_flies_against_current_scene`
 control reaches the first actual class232 flight sample on each of two fresh
@@ -1580,14 +1578,17 @@ native complete-world schedule. Full footprints and moving-world invalidation
 remain separate from this typed platform-bit projection.
 
 With `GIANTS_NPC_ROOT` set to the user installation, run
-`cargo test --locked -p giants-app --target x86_64-pc-windows-gnu source_wife_ground_continuation -- --ignored --nocapture`.
-This supplies ordinary Mecc navigation to a real ground contact, then explicitly
-continues the pending query through actual named-effect preparation and a
-deliberately failing radial dependency. Require retained context, unchanged
-history/lifetime, no premature mark or sound, and no repeated RNG/effect on retry.
-It does not enable ordinary impact, deliver damage, render an explosion or prove
-Windows input. The portable `ground_flight_continuation` game tests separately
-exercise retained-clock/countdown and failure ownership with synthetic services.
+`cargo test --locked -p giants-app --target x86_64-pc-windows-gnu source_wife_missed_ground_impact -- --ignored --nocapture`.
+It supplies normal Mecc navigation to the actual impact and requires canonical
+shot release, named body births, common particle geometry and positional audio
+transport on two fresh tickets. It does not prove playback, pixels or damage.
+The portable `ground_flight_continuation` controls retain failure/replay checks.
+The private original traversal control uses the absolute path
+`GIANTS_RADIAL_NO_EFFECT_CONTROLS` and the `no_effect_proof` game test selector with
+`-- --include-ignored --nocapture`. Its80 contexts return without side effects or
+stop before the genuine alert/hit callback in counterexamples; it does not supply
+an empty backend. Radius equality is a possible hit; Vimp alert comparison is
+strict and can precede damage. Unknown inputs remain errors.
 
 The private original-PC nonlethal Mecc hit control requires the absolute path
 `GIANTS_MECC_ENEMY_HIT_CONTROLS` and runs

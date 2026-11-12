@@ -24,11 +24,16 @@ fn source_wife_markers_retire_through_the_ordinary_component_and_render_consumer
 fn diagnostic_wife_ripper_supplied_approach_reaches_contact() {
     current_frames(false, false, Approach::Contact);
 }
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; supplied ordinary approach continues after physical contact to the active combat frontier, no GPU or OS proof"]
+fn diagnostic_wife_ripper_supplied_encounter_reaches_active_combat() {
+    current_frames(false, false, Approach::Encounter);
+}
 
 #[test]
-#[ignore = "Requires GIANTS_NPC_ROOT; real ordinary ground query then required-service continuation control; missing radial deliberately fails, no completed impact/GPU/OS proof"]
-fn source_wife_ground_continuation_retains_actual_effect_before_missing_radial() {
-    current_frames(false, false, Approach::GroundPrefix);
+#[ignore = "Requires GIANTS_NPC_ROOT; ordinary supplied navigation, actual missed ground blast, common effect geometry/audio transport/retirement; no playback, GPU, active damage or OS proof"]
+fn source_wife_missed_ground_impact_uses_common_effects_and_retirement() {
+    current_frames(false, false, Approach::GroundImpact);
 }
 
 #[derive(Clone, Copy)]
@@ -36,7 +41,8 @@ enum Approach {
     None,
     Contact,
     Flight,
-    GroundPrefix,
+    GroundImpact,
+    Encounter,
 }
 
 #[test]
@@ -831,11 +837,11 @@ fn source_wife_ripper_bindings_use_declared_owners_and_survive_no_ticket_reuse()
             assert!(previous.view(&session, ticket).is_err());
         }
         state
-            .initialize(&mut session, ticket, plan.resources(), &world)
+            .initialize(&mut session, ticket, &plan, &world)
             .unwrap();
         assert!(
             state
-                .initialize(&mut session, ticket, plan.resources(), &world)
+                .initialize(&mut session, ticket, &plan, &world)
                 .is_err()
         );
         for owner in &state.bound.as_ref().unwrap().1 {
@@ -879,172 +885,6 @@ fn source_wife_ripper_bindings_use_declared_owners_and_survive_no_ticket_reuse()
     }
 }
 
-// Continue the actually reached query boundary with the real FX owner and an
-// explicit failed radial dependency. This is not the ordinary app's hit backend.
-fn check_ground_prefix(runtime: &mut super::super::Runtime, ticket: u64, step: u64) {
-    use giants_game::{
-        attached_effect_context::{Creation, Pool, mixed::population::Population},
-        audio_parameters::Random,
-        enemy_projectile::{
-            EffectOutcome, FlightOutcome, GroundImpactServices, ImpactEffect, Phase, RadialRequest,
-            SoundOutcome,
-        },
-    };
-    struct Required<'a> {
-        pool: &'a mut Pool<Id>,
-        population: Population,
-        events: Vec<&'static str>,
-    }
-    impl GroundImpactServices for Required<'_> {
-        fn effect(
-            &mut self,
-            session: &mut Session,
-            request: ImpactEffect,
-            random: &mut Random,
-        ) -> Result<EffectOutcome, String> {
-            self.events.push("effect");
-            match self
-                .population
-                .prepare_impact(session, self.pool, &request, random)?
-            {
-                Creation::Prepared(_) => Ok(EffectOutcome::Prepared),
-                Creation::Absent => Err("authored explosion unexpectedly absent".into()),
-            }
-        }
-        fn radial(
-            &mut self,
-            _: &mut Session,
-            _: RadialRequest,
-            _: &mut Random,
-        ) -> Result<(), String> {
-            self.events.push("radial");
-            Err("required ordinary radial/world and active-hit consumers remain unbound".into())
-        }
-        fn sound(&mut self, _: &mut Session, _: u32, _: [f32; 3]) -> Result<SoundOutcome, String> {
-            panic!("sound must not run after a failed radial consumer")
-        }
-    }
-    let active = runtime.active.as_mut().unwrap();
-    let session = &mut active.resident_states;
-    let component = active.payload.rippers.as_mut().unwrap().as_mut().unwrap();
-    let shot = component
-        .driver
-        .flights
-        .keys()
-        .copied()
-        .find(|&id| {
-            matches!(
-                session.enemy_projectile(id).unwrap().pending_flight,
-                Some(FlightOutcome::GroundContact { .. })
-            )
-        })
-        .expect("actual ordinary ground contact");
-    let revision = session.enemy_projectile(shot).unwrap().flight_revision;
-    let fields = session
-        .get(shot)
-        .unwrap()
-        .construction_fields
-        .as_ref()
-        .unwrap()
-        .clone();
-    let bytes = session
-        .get(shot)
-        .unwrap()
-        .seed
-        .storage
-        .data()
-        .unwrap()
-        .to_vec();
-    // Actual source/list snapshots only. This does not supply the unknown
-    // cross-context world gate or acknowledge a hit/no-effect traversal.
-    let outer = f32::from_le_bytes(bytes[20..24].try_into().unwrap());
-    let source_context = session
-        .enemy_projectile(shot)
-        .unwrap()
-        .launch
-        .as_ref()
-        .unwrap()
-        .dispatch_context;
-    let radial_inventory = session
-        .list(1)
-        .into_iter()
-        .map(|id| {
-            let actor = session.radial_actor(id).unwrap();
-            let delta = std::array::from_fn::<_, 3, _>(|i| {
-                f64::from(actor.position[i]) - f64::from(fields.position[i])
-            });
-            let distance =
-                ((delta[0] * delta[0] + delta[1] * delta[1]) + delta[2] * delta[2]) as f32;
-            (
-                actor.class,
-                actor.state,
-                actor.context,
-                distance.sqrt(),
-                distance <= outer * outer,
-                actor.health,
-            )
-        })
-        .collect::<Vec<_>>();
-    println!(
-        "ripper_ground_radial_inventory ticket={ticket} step={step} source_context={source_context} outer={outer} actors={radial_inventory:?} world_gate_supplied=false damage_acknowledged=false"
-    );
-    let mut services = Required {
-        pool: component.contexts.as_mut().unwrap(),
-        population: Population::new(ticket),
-        events: vec![],
-    };
-    assert!(services.population.settled());
-    let error = session
-        .complete_enemy_projectile_ground_flight(shot, &mut active.variant_random, &mut services)
-        .unwrap_err();
-    assert!(error.contains("remain unbound"));
-    assert_eq!(services.events, ["effect", "radial"]);
-    assert!(!services.population.settled());
-    assert!(services.population.failure().is_none());
-    assert_eq!(services.population.actors().count(), 0); // prepared context, no invented bodies
-    assert_eq!(session.enemy_projectile(shot).unwrap().phase, Phase::Failed);
-    assert!(
-        session
-            .enemy_projectile(shot)
-            .unwrap()
-            .ground_impact
-            .is_none()
-    );
-    assert_eq!(
-        session.enemy_projectile(shot).unwrap().flight_revision,
-        revision
-    );
-    assert_eq!(
-        session.get(shot).unwrap().seed.storage.data().unwrap(),
-        bytes
-    );
-    let after = session
-        .get(shot)
-        .unwrap()
-        .construction_fields
-        .as_ref()
-        .unwrap();
-    assert_eq!(after.current, fields.current);
-    assert_eq!(after.previous, fields.previous);
-    assert_eq!(after.position, fields.position);
-    assert_eq!(after.object_flags & 0x8000, 0);
-    let rng = active.variant_random.0;
-    assert!(
-        session
-            .complete_enemy_projectile_ground_flight(
-                shot,
-                &mut active.variant_random,
-                &mut services
-            )
-            .is_err()
-    );
-    assert_eq!(active.variant_random.0, rng);
-    assert_eq!(services.events, ["effect", "radial"]);
-    println!(
-        "ripper_ground_continuation_control ticket={ticket} step={step} revision={revision} actual_contact=true actual_named_context_retained=true radial_missing=true tail_unconsumed=true replay_refused=true supplied_commands=true gpu=false os_input=false"
-    );
-}
-
 // Input fixture only: the actual player moves through its common physics and
 // publishes its current pose. No NPC pose, health, behavior or readiness is set.
 fn approach_ripper(
@@ -1064,6 +904,7 @@ fn approach_ripper(
         }
     }
     let mut minimum = f32::INFINITY;
+    let mut first_contact = None;
     let initial = viewer.mission_snapshot().0;
     for number in 181..=24180u64 {
         let contacts = runtime.ripper_contact_snapshots(ticket).unwrap();
@@ -1119,21 +960,14 @@ fn approach_ripper(
         runtime
             .publish_normal_projectile_scene(ticket, number, viewer.normal_projectile_registry())
             .unwrap();
-        if let Err(error) = runtime.advance_normal_rippers_with_retirement(
+        let result = runtime.advance_normal_rippers_with_retirement(
             ticket,
             number,
             viewer.camera().1,
             viewer.mission_environment_colliders(),
             &mut EmptyDevice,
-        ) {
-            if matches!(approach, Approach::GroundPrefix) {
-                assert!(
-                    error.contains("GroundContact"),
-                    "unexpected frontier: {error}"
-                );
-                check_ground_prefix(runtime, ticket, number);
-                return number;
-            }
+        );
+        if let Err(error) = &result {
             let active = runtime.active.as_ref().unwrap();
             let modes: Vec<_> = active
                 .resident_states
@@ -1169,6 +1003,34 @@ fn approach_ripper(
                 "Ripper approach frontier: step={number} nearest={distance} minimum={minimum} moved={} modes={modes:?} flights={flights:?} error={error}; supplied_player_input=true forced_npc_pose=false os_input=false",
                 Vec3::from(initial).distance(Vec3::from(position))
             );
+        }
+        let sounds = result.unwrap();
+        let (_, particles) = runtime
+            .smoke_draws(viewer.camera().0.view)
+            .unwrap()
+            .unwrap();
+        if matches!(approach, Approach::GroundImpact) {
+            let active = runtime.active.as_ref().unwrap();
+            let component = active.payload.rippers.as_ref().unwrap().as_ref().unwrap();
+            let effects = component.effects.as_ref().unwrap();
+            if let Some(shot) = effects.last_retired {
+                assert!(active.resident_states.get(shot).is_none());
+                assert!(!component.driver.projectiles.contains(&shot));
+                assert!(effects.births > 0);
+                assert!(!particles.is_empty());
+                assert!(
+                    sounds
+                        .iter()
+                        .any(|e| matches!(e, crate::mission_audio::Event::NpcPosition { .. }))
+                );
+                assert!(!component.driver.failed());
+                println!(
+                    "ripper_missed_ground_impact_control ticket={ticket} step={number} source_retired=true actual_radial_no_effect=true births={} actual_particle_geometry={} positional_transport=true actual_playback=false supplied_commands=true gpu=false os_input=false",
+                    effects.births,
+                    particles.len()
+                );
+                return number;
+            }
         }
         if matches!(approach, Approach::Flight) {
             let active = runtime.active.as_ref().unwrap();
@@ -1288,6 +1150,14 @@ fn approach_ripper(
             );
         }
         if viewer.mission_npc_contact_responses() > 0 {
+            if matches!(approach, Approach::Encounter) {
+                let at = *first_contact.get_or_insert(number);
+                assert!(
+                    number - at < 1200,
+                    "ordinary supplied encounter has not reached active damage within 1200 post-contact frames; no artificial damage/AI/pose supplied"
+                );
+                continue;
+            }
             println!(
                 "ripper_approach_contact ticket={ticket} step={number} minimum={minimum} supplied_controller=true reciprocal_combat_verified=false"
             );

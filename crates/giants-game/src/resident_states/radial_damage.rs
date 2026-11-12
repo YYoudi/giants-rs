@@ -152,6 +152,54 @@ impl Session {
         machine: &mut Machine,
         hits: &mut impl Hits,
     ) -> Result<(), String> {
+        self.validate_enemy_radial_request(&request)?;
+        machine.run(
+            Input {
+                source: request.source,
+                other: request.other,
+                position: request.position,
+                parameters: request.parameters.map(f32::from_bits),
+                context: request.context,
+                cross_context: environment.cross_context,
+                vimp_alert_range: environment.vimp_alert_range,
+            },
+            &mut World {
+                session: self,
+                hits,
+                elapsed_seconds: environment.elapsed_seconds,
+                cursor: None,
+            },
+        )
+    }
+    /// Prove an actual missed ground blast against the complete current owned
+    /// radial list. No context global, elapsed clock, health value, alert or hit
+    /// provider is invented. False still requires the real active continuation.
+    pub fn enemy_projectile_radial_no_effect_invariant(
+        &self,
+        request: &crate::enemy_projectile::RadialRequest,
+        vimp_alert_range: Option<f32>,
+    ) -> Result<bool, String> {
+        self.validate_enemy_radial_request(request)?;
+        let parameters = request.parameters.map(f32::from_bits);
+        if parameters[3] == 0. {
+            return Ok(true);
+        }
+        let actors = self
+            .list(LIST)
+            .into_iter()
+            .map(|id| self.radial_actor(id))
+            .collect::<Result<Vec<_>, _>>()?;
+        crate::radial_damage::no_effect_invariant(
+            parameters,
+            request.position,
+            vimp_alert_range,
+            &actors,
+        )
+    }
+    fn validate_enemy_radial_request(
+        &self,
+        request: &crate::enemy_projectile::RadialRequest,
+    ) -> Result<(), String> {
         let actor = self
             .get(request.source)
             .ok_or("radial source absent or foreign")?;
@@ -191,23 +239,7 @@ impl Session {
         {
             return Err("radial request differs from its actual ground-impact owner".into());
         }
-        machine.run(
-            Input {
-                source: request.source,
-                other: request.other,
-                position: request.position,
-                parameters: request.parameters.map(f32::from_bits),
-                context: request.context,
-                cross_context: environment.cross_context,
-                vimp_alert_range: environment.vimp_alert_range,
-            },
-            &mut World {
-                session: self,
-                hits,
-                elapsed_seconds: environment.elapsed_seconds,
-                cursor: None,
-            },
-        )
+        Ok(())
     }
 }
 

@@ -176,16 +176,30 @@ ordinary interaction level as Vimps, starting with The Wife, then other declared
 maps. Main owns The Wife progression and common publication; the NPC lane must
 not replace that mission flow or publish another preview.
 
-Current dependency: the canonical mixed construction executor now owns real
+Current ordinary milestone: the actual missed class232 ground shot now composes
+retained flight/query time, the named mixed-effect population, genuine whole-list
+no-effect proof, positional sound transport and canonical shot retirement.
+The common geometry consumer prepares its real body buffers before scoped cleanup.
+Source world clocks/RNG, current colliders and static declared platform queries
+remain explicit; changed inputs or a possible hit/Vimp alert cannot pass via this
+proof. Two supplied-input Wife entries reach impact step2755 with26 actual births
+and25 geometry frames, then physical actor contact at3242. The longer encounter
+now reaches the real class230 mode67 at3251 and refuses its unacquired continuation.
+Next acquire that close-range continuation and bind the genuine active-hit owners;
+complete reciprocal damage/death, an identified rendered GNU executable and actual
+Windows menu/reentry remain required. No preview/publication or complete encounter
+is established by these CPU controls.
+
+Earlier dependency evidence: the canonical mixed construction executor now owns real
 root/child Session births, child-context retirement, source wait and delayed
 continuation/root-context retirement. All44 births match the original on2,596
 selected words and phase RNG; duplicate consumption/replay is refused. The
 first-phase bodies also pass 168 ordinary source-world preparations with actual
 Wife terrain/colliders, common history/physical/finalization/reference services
 and an explicit existing prototype PS2 zero-threshold progress policy. No
-cinematic scope or invented PC caller word is supplied. Next connect this owner
-to the ordinary impact/body schedule and body retirement,
-then the active source-bearing Mecc/Vimp/Ripper hit consumers. The ordinary
+cinematic scope or invented PC caller word is supplied. The missed-shot host
+above now connects the ordinary impact/body schedule and body retirement;
+active source-bearing Mecc/Vimp/Ripper hit consumers remain required. The ordinary
 complete encounter/death, real Windows menu exit/reentry and identified final
 GNU build remain required; these CPU controls do not establish playability.
 The existing common unlit mission consumer now reads mixed bodies' actual
@@ -203,16 +217,16 @@ without supplying absent full-footprint/neighbor owners. Exact-PC controls cover
 1,024 selector cases and 420 raster cases. All 44 bodies then pass 9,853 ordinary
 preparations/current geometry frames to native-matched expiry and scoped resource
 cleanup. Existing footprints/building queries and changed/moving-world snapshots
-remain prerequisites. Next connect ordinary impact creation, context/body clocks,
-common render/audio and actual source-bearing radial hit consumers; construction,
-CPU cleanup and static declared queries do not certify those connections.
+remain prerequisites. The missed-shot host above now binds context/body clocks,
+common geometry and audio transport. Genuine radial hit consumers and complete
+rendered acceptance remain separate from construction/CPU cleanup evidence.
 The production `mixed::population::Population` now retains named prepared
 contexts through global-clock activation, object-local body preparation in
 Session common-list order and separate post-geometry cleanup. The lifetime
 control uses this owner for all44 bodies /9,853 callbacks, not a manual replay
 loop. It also verifies duplicate/foreign refusal and retained failure at a real
-missing platform dependency. Bind it into the ordinary impact transaction next,
-with actual radial/active-hit/audio services and the surrounding frame schedule.
+missing platform dependency. It is now bound into the ordinary missed-shot
+transaction and frame schedule above; active-hit services remain required.
 The host's emptiness is not a render/audio availability acknowledgment.
 The nonlethal offline `mecc_enemy_hit` composition now joins actual source-gate,
 health, kind0/2 impulse and pain/shared voice services with retained failure/no
@@ -221,20 +235,11 @@ direction, callback-wide versus health-only suppression, strict expired voice
 timers and post-hit health thresholds. This is not the ordinary damage adapter:
 bind canonical Session state and actual controller velocity/HUD, real world gates
 and audio; retain lethal/equipment/critical-voice continuations as dependencies.
-The common `complete_enemy_projectile_ground_flight` adapter now consumes the
-real pending terrain contact and retained query clock without a second query or
-caller-supplied replacement time. Both query APIs share this continuation;
-service failures retain their prefix and cannot replay. The ordinary application
-still needs the actual radial/active-hit/audio providers and effect frame binding.
-The explicit ground-prefix control uses real ordinary navigation/contact and
-named-effect preparation, then deliberately refuses the unbound radial consumer;
-it is not impact, damage, GPU or ordinary encounter acceptance.
-The refreshed ordinary supplied-input encounter still reaches a real class232
-ground contact and refuses the missing impact/damage/retirement transaction.
-First flight passes on two fresh tickets with the actual launch context; never
-derive that live value from a bare class template. The direct object-contact
-continuation is a separate PC path and cannot reuse the ground explosion or
-its ground-only cleanup preconditions without its own evidence.
+The common `complete_enemy_projectile_ground_flight` adapter consumes the actual
+pending terrain point and query clock once. The ordinary host now binds it for
+proven misses; possible active hits/alerts and distinct object-contact/expiry
+branches remain required consumers. Never derive current launch context from
+a bare class template or reuse ground-only cleanup for direct object contact.
 
 Earlier graphical failure: local source `a450206` admitted the authored Wife
 population but failed before capture: mixed positional sound requests exceeded
@@ -454,8 +459,9 @@ Earlier current-scene flight local GNU build: source `225f6fa`, executable SHA25
 That build passed989 Rust tests /178 ignored and five installed The Wife
 controls. Current source additionally connects class230 modes66/71 and acquires the radial
 request/signal dependencies, passes1000 Rust tests /180 ignored, the five The Wife controls and one owned-retreat control,
-45 Python tests and strict Clippy. The separate full-contact diagnostic now
-reaches a real pending ground contact after137 flying samples at step2755.
+45 Python tests and strict Clippy. The earlier full-contact diagnostic then
+reached a pending ground contact after137 flying samples at step2755; the ordinary
+missed-shot milestone above supersedes that frontier.
 Latest GPU-checked local build (before current-scene flight): source `8e5d72b`, executable SHA256 prefix `865d6ad15293`,
 receipt independently checked. This compiles ordinary launch and current
 normal-Mecc dedicated contacts, but the exact supplied-input diagnostic still
@@ -494,9 +500,9 @@ retaining source declaration identities, real controller keys and current Mecc/
 NPC meshes. Its separate first-flight CPU control passes on two fresh tickets;
 the full-contact diagnostic now consumes class230 modes66/71 and reaches an
 actual ground contact at step2755 (about1,593 units moved), after137 flying
-samples. Its impact/damage/retirement continuation remains pending. No shot
-rendering, impact reaction, reciprocal damage or death is accepted; all consumed
-prefixes remain retained.
+samples. That then-pending missed-ground continuation is now bound above; later
+local shot-render evidence is separately receipt-bound. Reciprocal damage/death
+and the mode67 close-range continuation remain required.
 Class73 modes37..39 share this launch bridge but their ordinary encounter branch
 has not yet been observed. Launch/flight arithmetic is not a visible attack or damage delivery.
 The ordinary controller now provides the actual selected Mecc clip/clock to a

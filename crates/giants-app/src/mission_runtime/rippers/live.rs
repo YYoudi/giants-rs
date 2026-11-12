@@ -689,7 +689,8 @@ impl State {
             }
         }
         self.advance_markers(session, frame, random, device)?;
-        self.advance_projectile_flight(session, frame)?;
+        self.advance_projectile_flight(session, frame, random, sounds, device)?;
+        self.advance_impact_effects(session, frame, random)?;
         if self.driver.sample.is_none() {
             println!(
                 "mission_ripper_component ticket={} completed_actors={} source=normal_mecc_component current_owned_pose=true perception=controlled_player_subset active_fx=false combat_complete=false native_world_verified=false",

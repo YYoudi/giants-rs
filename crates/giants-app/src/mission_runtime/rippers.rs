@@ -7,6 +7,7 @@ use giants_game::{
 };
 mod contacts;
 mod draw;
+mod impacts;
 pub(super) mod live;
 mod projectiles;
 
@@ -27,6 +28,7 @@ pub(super) struct State {
     globals: giants_formats::global_data::GlobalData,
     image: std::sync::Arc<giants_formats::effect_image::Image>,
     contexts: Option<giants_game::attached_effect_context::Pool<Id>>,
+    effects: Option<impacts::Effects>,
     driver: live::Driver,
     geometry: draw::Geometry,
     sounds: Vec<crate::mission_audio::Event>,
@@ -112,6 +114,7 @@ impl State {
             globals,
             image: std::sync::Arc::new(image.unwrap().clone()),
             contexts: None,
+            effects: None,
             driver: Default::default(),
             geometry: Default::default(),
             sounds: vec![],
@@ -133,7 +136,7 @@ impl State {
         &mut self,
         session: &mut Session,
         ticket: u64,
-        resources: &giants_game::scene_resources::SceneResources,
+        plan: &Plan,
         world: &giants_game::WorldAsset,
     ) -> Result<(), String> {
         self.view(session, ticket)?;
@@ -143,6 +146,8 @@ impl State {
             );
         }
         let result: Result<(), String> = (|| {
+            let resources = plan.resources();
+            self.effects = Some(impacts::Effects::load(ticket, plan, world)?);
             let terrain = giants_game::terrain_queries::StaticTerrainQuery::new(
                 &world.terrain,
                 1. / world.terrain.spacing,

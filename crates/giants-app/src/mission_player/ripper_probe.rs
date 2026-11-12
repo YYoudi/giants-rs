@@ -55,6 +55,7 @@ pub(super) struct Input {
     pub boost: bool,
     pub capture: bool,
     pub flight_revision: u64,
+    pub impact_step: Option<u64>,
 }
 /// Pilot input memory only. The ordinary controller still owns fuel, altitude,
 /// physics and sound. Separate release/hold thresholds prevent a supplied RMB
@@ -92,8 +93,15 @@ pub(super) fn input(
         axes: Vec2::ZERO,
         thrust: false,
         boost: false,
-        capture: snapshot.flight_revision >= flights()?,
+        capture: if std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_IMPACT").as_deref() == Ok("1") {
+            snapshot
+                .impact
+                .is_some_and(|(_, at)| u64::from(step) >= at + 16)
+        } else {
+            snapshot.flight_revision >= flights()?
+        },
         flight_revision: snapshot.flight_revision,
+        impact_step: snapshot.impact.map(|(_, at)| at),
     };
     if let Some(target) = snapshot.target {
         let dx = target[0] - position[0];
@@ -102,6 +110,7 @@ pub(super) fn input(
         let camera = state.subjective_inputs().0;
         let aim = snapshot
             .projectile
+            .or(snapshot.impact.map(|(position, _)| position))
             .unwrap_or([target[0], target[1], target[2] + 8.]);
         let desired = (aim[0] - position[0]).atan2(-(aim[1] - position[1]));
         let horizontal = (aim[0] - camera.position[0]).hypot(aim[1] - camera.position[1]);

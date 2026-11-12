@@ -1,5 +1,5 @@
-//! Ordinary launch and current-scene flight. Contact reactions, projectile
-//! damage and retirement remain explicit pending consumers. Successful flights
+//! Ordinary launch/current-scene flight and acquired missed-ground reactions.
+//! Active damage and other contact branches remain required consumers. Flights
 //! consume the real source ANM clock and current affine before body submission.
 use super::*;
 
@@ -42,6 +42,9 @@ impl State {
         &mut self,
         session: &mut Session,
         frame: &live::Frame<'_>,
+        random: &mut giants_game::audio_parameters::Random,
+        sounds: &mut Vec<crate::mission_audio::Event>,
+        device: &mut impl giants_game::actor_retirement::Services,
     ) -> Result<(), String> {
         let owners: std::collections::BTreeSet<_> = self
             .bound
@@ -148,6 +151,13 @@ impl State {
                     },
                     Scene::new(entries.clone())?,
                 )?;
+                if matches!(
+                    outcome,
+                    giants_game::enemy_projectile::FlightOutcome::GroundContact { .. }
+                ) {
+                    self.ground_impact(session, frame, id, random, sounds, device)?;
+                    continue;
+                }
                 if !matches!(
                     outcome,
                     giants_game::enemy_projectile::FlightOutcome::Flying

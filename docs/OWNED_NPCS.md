@@ -9,6 +9,24 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
+The ordinary component now handles an actual missed ground shot through the
+retained query clock, named effect population, positional sound transport and
+projectile retirement. A read-only proof checks the entire current owned radial
+list: no eligible side-effect radius may be reached, including Vimp alert range.
+It supplies no cross-context default, timer, fabricated health or empty hit sink.
+A possible hit/alert still requires its real consumer. Canonical mixed bodies
+use the shared RNG/clocks, current ordinary colliders and static declared platform
+projection; changed collider input refuses. The common particle geometry pass
+then owns post-preparation cleanup, independently of GPU/device availability.
+The supplied Wife control observes the real step2755 impact, 26 immediate births
+and 25 particle geometry frames, queued positional sound and actual shot release
+on two fresh entries. Continuing the same approach reaches physical actor contact
+at step3242. The longer encounter currently refuses the real class230 mode67
+at step3251; reciprocal damage/death and rendered encounter/menu acceptance remain
+open. Original native traversal controls cover 80 supplied contexts, including
+inclusive hit/strict alert boundaries and genuine callback counterexamples.
+These are runtime wiring and CPU observations, not a published preview or GPU pass.
+
 `mecc_enemy_hit::Machine` composes the independently acquired source gate,
 debug-PC health, direct/radial velocity addition and pain/shared voice tail for
 offline nonlethal class90/232 shots owned by a living state23 Ripper. It requires
@@ -27,10 +45,10 @@ delta and ordered slow areas: callers cannot replace the contact point or clock,
 rerun movement/history, or substitute object contact. Required effect, radial
 and sound services precede the original lifetime tail. Partial failures retain
 their side effects and forbid replay; successful marking still needs separate
-resource retirement. The ordinary application still refuses its unbound impact
-services. The explicit ground-prefix control continues that refusal with the
-real named-effect population and an intentionally failing radial consumer;
-prepared context ownership is not a completed explosion or available damage.
+resource retirement. The ordinary missed-shot host now binds those phases under
+the no-effect proof above. Active damage and the other contact/expiry families
+still require their acquired consumers; prepared context ownership alone is not
+available damage or proof of rendered pixels.
 
 The canonical mixed-program construction owner is now
 `attached_effect_context::mixed::Execution`. It consumes actual source records,
@@ -50,9 +68,9 @@ cleanup follow the actual Session common-list order within this owned cohort.
 The caller consumes prepared geometry before invoking cleanup. Duplicate frames,
 foreign pools/tickets and missing cleanup are refused before further work; late
 world failure retains the executed prefix and prohibits replay. No random stream,
-world service or render/audio acknowledgment is manufactured. The application
-must still bind this owner to the real impact transaction and surrounding frame
-schedule; this is not a complete native world/interleaving or combat delivery.
+world service or render/audio acknowledgment is manufactured. The ordinary
+missed-shot host now binds that owner to its impact and surrounding frame phases;
+this is not a complete native world/interleaving or combat delivery.
 
 An installed/native control compares all 44 medium/large births, including the
 two delayed bodies, on 2,596 selected words and both phase RNG results. A second
@@ -62,8 +80,8 @@ and collider preparation. Its 168 preparations use the common world services,
 without a cinematic scope. It explicitly selects the existing prototype PS2
 zero-threshold progress policy; no debug-PC caller bits are invented. This is a
 source-world service control, not a native whole-world schedule or GPU check.
-Ordinary impact still needs to bind the host phases, real world/audio consumers
-and reciprocal hit owners before complete encounter acceptance.
+The missed-shot host above binds the ordinary effect/world/audio transport phases.
+Reciprocal hit owners remain necessary for complete encounter acceptance.
 
 The common mission unlit consumer now accepts these canonical mixed bodies only
 after completed ordinary preparation and one-shot placement. Its current vertex
@@ -181,8 +199,9 @@ private image SHA256 is
 Original assets and evidence remain private. This is supplied-input, muted Vulkan
 render evidence before impact, with no Windows input, inflicted damage, Ripper
 death or menu/re-entry acceptance. It is not a published preview. Genuine radial
-impact, health/feedback and retirement consumers remain the next runtime gap;
-do not substitute an empty sink or acknowledge their completion.
+active-hit health/feedback and remaining contact consumers were the next gaps.
+The missed-ground host above supersedes that ground-impact refusal; it does not
+substitute an empty sink for genuine damage.
 
 The next radial bridge now reads the actual first additional Session list,
 retaining its registration node across callbacks and reading the next edge
@@ -459,10 +478,11 @@ approximately1,517 units. The current-scene flight consumer now advances the
 shot with actual history, rates and lifetime. With mode66 and mode71 connected,
 the approach reaches step2755 after approximately1,593 units of player movement.
 After137 flying samples, its next query returns a real ground contact. The
-required impact/damage/retirement continuation then refuses and remains pending.
-This diagnostic is still failing at that real frontier. It establishes a CPU
-terrain contact, not reciprocal actor contact, injury, death or GPU fidelity. It is not included
-in the passing `source_wife_` regression selector.
+then-missing impact/damage/retirement continuation refused and remained pending.
+That historical frontier is now superseded by the ordinary missed-shot host and
+physical-contact control above. The longer encounter's current frontier is
+class230 mode67, not this earlier terrain contact; injury, death and GPU fidelity
+remain unverified.
 
 The ordinary controller now publishes a Mecc dedicated-contact packet through
 `Session::controlled_mecc_contact_snapshot` before the Ripper component, using
@@ -542,9 +562,10 @@ It does not apply damage or publish associated-player retaliation. The literal
 prototype key `mecc_shot` remains an unknown correspondence; old PC aliases and
 raw-symbol uncertainty are retained privately.
 
-These dependencies are not yet a normal impact provider. The ordinary shot still
-retains its pending contact until genuine named FX, canonical list/health, alert,
-attributed Mecc/Vimp/Ripper hit callbacks, audio and retirement consumers compose.
+These dependencies do not yet provide genuine active hits. The ordinary missed
+shot now composes named FX, actual radial no-effect proof, sound transport and
+retirement; a possible alert or hit still requires canonical list/health and
+attributed Mecc/Vimp/Ripper consumers.
 The existing source-absent/nonlethal Mecc service cannot stand in for an attributed,
 directional kind2 blast, and partial-pistol serials cannot become canonical native
 projectiles merely to attach a damage source. GPU reciprocal combat/death remain
@@ -577,8 +598,9 @@ refusal, actual mesh movement on the next runtime step and renderer asset cleanu
 and five Rippers; it does not stage the Vimp component. This CPU control neither
 proves a graphical shot nor expands admission to the whole native world.
 The separate full-contact diagnostic continues beyond that first sample and
-now stops at an actual pending ground contact. Neither control establishes a
-completed impact reaction, reciprocal damage or source death.
+now consumes the actual missed ground impact and reaches physical actor contact.
+The longer encounter stops at class230 mode67. Neither control establishes
+reciprocal damage or source death.
 
 Class230 mode66 preserves strict expiry before the rounded timer store,
 current-target range boundaries, the cue-before-retreat-delay order and the
@@ -670,9 +692,10 @@ The animated-projectile local GNU build is source
 The receipt and executable digest were independently checked. It includes the
 flight-owned ANM/affine and source-skinned auxiliary draw consumer described above.
 The five installed The Wife controls pass, including two-ticket first-flight
-mesh/material update and renderer cleanup. The supplied full-contact diagnostic
-still fails at the same pending terrain contact at step2755 after137 flying
-samples; clocks and drawing do not substitute for impact services. There is no
+mesh/material update and renderer cleanup. On that earlier executable the supplied
+full-contact diagnostic failed at the pending terrain contact at step2755 after137
+flying samples. The newer missed-shot host above supersedes that CPU frontier;
+clocks and drawing alone do not substitute for impact services. There is no
 new GPU projectile/reciprocal encounter acceptance or published preview.
 Use **Load Single Player Game → Mecc Story 2 → The Wife** with the ordinary
 controls; neither AI nor projectile presentation needs a diagnostic flag.

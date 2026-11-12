@@ -4,6 +4,7 @@ pub(crate) struct RipperInputSnapshot {
     pub target: Option<[f32; 3]>,
     pub flight_revision: u64,
     pub projectile: Option<[f32; 3]>,
+    pub impact: Option<([f32; 3], u64)>,
 }
 impl Runtime {
     pub(crate) fn ripper_input_snapshot(
@@ -39,6 +40,10 @@ impl Runtime {
             target,
             flight_revision,
             projectile: projectile.map(|v| v.1),
+            impact: self
+                .active
+                .as_ref()
+                .and_then(|a| a.payload.rippers.as_ref().ok()?.as_ref()?.impact_snapshot()),
         })
     }
 }
