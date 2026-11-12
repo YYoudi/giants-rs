@@ -4184,9 +4184,36 @@
     "media/7c48b4bae8790a97f373b269e26ebfe530351fc2022d743cb90daa4c219abd99.webp": "7c48b4bae8790a97f373b269e26ebfe530351fc2022d743cb90daa4c219abd99",
     "media/22823537010e42ff3bfb07475ee3626717d5fe807ce29a5b6f522605ecabdb44.webp": "22823537010e42ff3bfb07475ee3626717d5fe807ce29a5b6f522605ecabdb44",
     "media/7ca448842d634d4f424d932d16626ed26eb6e5a049cac667dfccbb743c2a721f.webp": "7ca448842d634d4f424d932d16626ed26eb6e5a049cac667dfccbb743c2a721f",
-    "media/4be699e7451b35dfc70f8577fbbe7a13a4fcb73ba4b422983cd709ade8fbb168.webp": "4be699e7451b35dfc70f8577fbbe7a13a4fcb73ba4b422983cd709ade8fbb168"
+    "media/4be699e7451b35dfc70f8577fbbe7a13a4fcb73ba4b422983cd709ade8fbb168.webp": "4be699e7451b35dfc70f8577fbbe7a13a4fcb73ba4b422983cd709ade8fbb168",
+    "media/280e0928906a256afb199445fb49f12d126803e88e1baa4bbfd9f0a6d2e6c73a.webp": "280e0928906a256afb199445fb49f12d126803e88e1baa4bbfd9f0a6d2e6c73a",
+    "media/f9193ce1124ed682705639fe719cf3c50ced73b11f78696a18e26a38b42d3dcf.webp": "f9193ce1124ed682705639fe719cf3c50ced73b11f78696a18e26a38b42d3dcf",
+    "media/821a4944b1436ed29eca6840d1c9d9b222dd9d1c5bf47e779ba5475c192d6bb6.webp": "821a4944b1436ed29eca6840d1c9d9b222dd9d1c5bf47e779ba5475c192d6bb6"
   },
   "screenshots": [
+    {
+      "title": "Preview .12.1: Starving completed, The Wife resumed",
+      "image": "media/280e0928906a256afb199445fb49f12d126803e88e1baa4bbfd9f0a6d2e6c73a.webp",
+      "caption": "preview-2026.11.12.1; source 7ae8043. Actual Bevy GPU view after the complete twenty-meat hunt/return, source 2/2 objective counter, old-ticket release and following four-director opening terminal. This frame shows the next ordinary player with cleared meat. Supplied movement/fire, no forced pose/resource/readiness/film end; full native continuity and fidelity remain incomplete.",
+      "commit": "7ae8043ad1b22792730ece7c3a3e58a19fa73ed6",
+      "preview_tag": "preview-2026.11.12.1",
+      "executable_sha256": "984d782b3bcd8f20fbb186faee96628b0cf4eee73146a62a2b07b0ef7a83276d"
+    },
+    {
+      "title": "Preview .12.1: Starving Vimp death, ghost and meat",
+      "image": "media/f9193ce1124ed682705639fe719cf3c50ced73b11f78696a18e26a38b42d3dcf.webp",
+      "caption": "preview-2026.11.12.1; source 7ae8043. Actual Bevy GPU first-death frame from the normal partial-pistol hunt: visible Vimp corpse, ghost and meat, before collection. Same executable as the complete Starving chain. Supplied controller, real source owners and muted sinks; explicit host/terrain/splat policies and incomplete native fidelity.",
+      "commit": "7ae8043ad1b22792730ece7c3a3e58a19fa73ed6",
+      "preview_tag": "preview-2026.11.12.1",
+      "executable_sha256": "984d782b3bcd8f20fbb186faee96628b0cf4eee73146a62a2b07b0ef7a83276d"
+    },
+    {
+      "title": "Preview .12.1: Story5 authored herds in the shared runtime",
+      "image": "media/821a4944b1436ed29eca6840d1c9d9b222dd9d1c5bf47e779ba5475c192d6bb6.webp",
+      "caption": "preview-2026.11.12.1; source 7ae8043. Actual Bevy GPU view of the first Story5 Mecc entry. The shared component admits two source herds, nineteen world markers and one mission marker and generates/draws living Vimps. This is population/presentation evidence, not complete Story5 mission acceptance or other-character gameplay. Other staged actors remain inactive.",
+      "commit": "7ae8043ad1b22792730ece7c3a3e58a19fa73ed6",
+      "preview_tag": "preview-2026.11.12.1",
+      "executable_sha256": "984d782b3bcd8f20fbb186faee96628b0cf4eee73146a62a2b07b0ef7a83276d"
+    },
     {
       "title": "Preview .11.4: normal meat collection and carried count",
       "image": "media/7ca448842d634d4f424d932d16626ed26eb6e5a049cac667dfccbb743c2a721f.webp",

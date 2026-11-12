@@ -15,37 +15,59 @@ Initial coverage includes seven Vimp names and the two previously confirmed
 camera service identities; .11.4 adds the selected meat-collection search routes. Naming does not establish gameplay delivery; the
 separately validated ordinary integration and publication are recorded below.
 
-## Active objective - complete Starving! and shared mission progression
+## Current delivery - preview .12.1 Starving and shared mission progression
 
-Owner direction, 11 November 2026: deliver the ordinary Starving! chain through
-twenty meats, the genuine return-to-father condition, its source cinematic and
-the next scenario. Work alone in the integration worktree and publish matching
-main, Windows preview and dashboard after actual graphical acceptance. The
-downloadable .11.4 below remains the delivered baseline, with objective credit
-disabled; research or an isolated predicate must not promote its capabilities.
+Owner direction, 11 November 2026: complete the ordinary twenty-meat return,
+source cinematic continuation and next mission, then publish matching main,
+Windows preview and dashboard. Runtime `7ae8043`; immutable identities and
+acceptance: docs/PREVIEW_NOTES.md and docs/public-preview.json.
 
-1. Acquire the class11/state18 Smartie/father caller and genuine objective
-   initialization, predicates and counters from the exact PC profile, starting
-   with verified prototype PS2 names. Keep the collected amount, carried capacity,
-   objective quota and required/completed conditions distinct.
-2. Compose reusable source-owned mission records, event/condition services,
-   completion and next-scenario transitions. Preserve the existing source data
-   and state ownership; do not add a special `meat >= 20` shortcut that forces
-   readiness, teleports actors or bypasses dialogue/animation/transition gates.
-3. Bind the ordinary controller/NPCs, objective text, source films and real
-   next-mission loading, then exercise the complete menu-to-next-mission path.
-4. Audit and connect authored Vimp/herd declarations across supported maps.
-   The existing ordinary driver has an explicit Story2 guard. A read-only census
-   accepts 33 loose world streams and finds herd declarations in 22; campaign
-   and multiplayer declarations are not runtime coverage. Check mission-only
-   declarations, parameters, resources and actual generation before admission.
-   Delphi/Kabuto/multiplayer gameplay prerequisites remain explicit.
-5. Validate lifecycle, cancellation/re-entry, source notices and package receipts;
-   update the roadmap and public evidence only for the exact published build.
+Delivered: the normal source collection counter and carried quota feed the
+actual authored stationary destination predicate. The exact-build rendered hunt
+collects twenty meat, reaches the father destination, completes the shared 2/2
+counter, releases the old ticket to zero entities, loads Save Wife, renders its
+four-director opening to the actual source terminal and resumes an ordinary Mecc
+with cleared meat. Reached-entry bits are saved in the independent sidecar.
+No resource, pose, kill, readiness or film terminal is forced. The source has no
+separate Starving completion film; the following record supplies the cinematic.
 
-The central reconstruction and gameplay-first methods still apply. Private
-native inputs, extracted mission payloads, source text and detailed research
-stay outside Git. No new confirmed PS2 attribution is claimed by this objective.
+The common method is docs/MISSION_PROGRESSION.md. The parser retains objective
+marks/source identity, quota and ordered scenarios; bounded source predicates,
+notices and ordinary ticket/film owners are connected. Full native music/precheck,
+failure, equipment restoration and persistent-world continuity are not claimed.
+The father uses its supported source-selected stationary start pose; live Smartie
+animation and general AI remain open. The PC/prototype proximity relationship is
+probable, with the AABB/radius divergence preserved; no new confirmed attribution.
+
+Herd admission now follows declarations rather than a Story2 guard. A read-only
+census accepts 33 loose worlds and finds herds in 22. Exact-build GPU birth/live
+update/draw is checked on Story2 and Story5 (two herds / nineteen world markers plus one mission marker).
+Declaration counts are not full gameplay coverage or a census of archive-only
+streams. Other character/multiplayer prerequisites and missing markers remain
+explicit; no dummy populations are created.
+
+Post-pickup menu cleanup, living contacts (3,473 responses), first death,
+three ordinary Mecc/fire/jet/nitro/release cycles, landing, menu lifecycle and
+selected cinematic transport pass on this executable. Short OS menu/input/
+re-entry checks are separately scoped; the whole hunt uses supplied commands.
+982 Rust passes / 169 ignored, 45 Python, fmt/strict Clippy. The separate native
+predicate control compares 6,000 supplied contexts without selected differences.
+Failed route/render candidates remain private and do not contribute acceptance.
+
+Next, in gameplay order:
+
+1. Test the public Starving loop with normal controls and collect owner feedback;
+   retain exact-build evidence and distinguish sustained OS input from pulses.
+2. Acquire and connect Save Wife's real rescue/actor conditions and completion
+   film before advancing its campaign record. Start each dependency with the
+   prototype PS2 lookup, exact PC identity, aliases and independent evidence.
+3. Extend common moving/death/equipment predicates, completion-film/non-kind2
+   records, failure/restart and genuine native inventory/world continuity.
+4. Extend actual non-Mecc and multiplayer population owners only with their
+   player/clock/area/audio/lifecycle prerequisites; declarations alone do not
+   enable them. General feeding/economy and eligible mana remain separate.
+5. Preserve all remaining game scope below. A name, CPU service, source merge or
+   asset draw does not complete a gameplay feature or establish fidelity.
 
 ## Delivered preview .11.4 - ordinary meat collection
 

@@ -6,6 +6,11 @@ extending native services. Availability is established by the exact public
 preview receipt, not by this design or a CPU comparison. The active acceptance
 and remaining work are in [BACKLOG.md](../BACKLOG.md).
 
+Preview .12.1 validates the complete ordinary Starving collection/return and the
+following record's source-film end and ordinary player entry. The exact receipt,
+supplied-command scope and separate short OS check are in
+[PREVIEW_NOTES.md](PREVIEW_NOTES.md). Subsequent mission completion remains open.
+
 ## Separate declarations, predicates and transport
 
 The world supplies ordered scenario records and a separate mission-slot name
@@ -72,7 +77,10 @@ Mission declarations must be considered before deciding that a scene has no herd
 An audit found herd declarations in 22 of the 33 loose world files accepted by the
 reader. These include Mecc, Delphi, Kabuto and multiplayer worlds. Declaration
 counts are not live birth counts, and this is not a census of every archive-only
-stream. The ordinary live driver still requires its supported controlled-Mecc
+stream. Story5's first mission adds one marker to its nineteen world markers;
+the bound total is twenty. Exact-build graphical entry admits both herds and
+generates/draws nineteen living Vimps. This is not full Story5 mission acceptance.
+The ordinary live driver still requires its supported controlled-Mecc
 owner and real class resources, clocks, markers, areas, audio and retirement
 services. Removing the world-name restriction does not enable Delphi, Kabuto or
 multiplayer gameplay, or invent missing spawn markers.

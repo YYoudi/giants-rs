@@ -1,79 +1,84 @@
-# Windows development preview - preview-2026.11.11.4
+# Windows development preview - preview-2026.11.12.1
 
-Runtime source: `f92f7ad4f71b08f7d0638f11d73c44230379dbee`.
-Executable SHA256: `2d2219e6fae03ae07b5981d5b4b7c42cf9e04641529a287a632500c867447e16`.
+Runtime source: `7ae8043ad1b22792730ece7c3a3e58a19fa73ed6`.
+Executable SHA256: `984d782b3bcd8f20fbb186faee96628b0cf4eee73146a62a2b07b0ef7a83276d`.
 
 Supply your own compatible PC installation. Original assets, executables and
 private research are excluded from this download.
 
-## Try normal meat collection
+## Play Starving through the next mission
 
-Open **Preview tools -> Browse all missions -> Mecc -> Starving!** (Story2),
-enter the Mecc preview and skip the opening with Escape. WASD/mouse move and aim,
-right mouse uses the jet, Space adds nitro, left mouse fires the partial pistol,
-R changes view and Escape returns to the menu. F8 toggles the herd/meat hints.
-The authored start is roughly 2,000 source units from the herd.
+Open **Preview tools -> Browse all missions -> Mecc -> Starving!** (Story2).
+Let its opening finish, or use Escape to skip it. Dismiss the objectives when
+shown. WASD/mouse move and aim, right mouse held uses the jet, Space adds nitro,
+left mouse fires the partial pistol, R changes view and Escape returns to the
+menu. F8 toggles the herd/meat and return-destination hints.
 
-Shoot a Vimp, wait for its dropped meat to settle, then approach the pieces.
-Collection is automatic through the ordinary controller; there is no pickup
-script or special activation flag. The carried-meat count is shown in the hint
-overlay. The acquired PC callback accepts pieces while the carried amount is
-below 20; the final piece can take it above 20. Full inventory leaves remaining
-pieces to expire normally. Pickup plays its real local-player cue. Picked pieces
-stop drawing and retire through their actual owners, separately from expiry.
-Vimp collision, danger/hurt/recovery, blood/recoil, death sound/FX and ghosts remain
-connected to this same menu-first build.
+Hunt Vimps, let their dropped meat settle, then walk over pieces to collect them.
+Collect twenty meat and return to the father at the starting plateau. The return
+hint changes to the actual authored destination once the quota is carried. Skirt
+steep cliffs and use the jet/nitro to return uphill. No replay or special script
+enables collection, objective credit, the return or continuation.
 
-The prototype PS2 lookup began with the literal names `mecc_collect_food` and
-`mecc_check_food_chunk_collect`. Their PC relationships remain probable; the
-retirement search key remains unassigned. No new attribution is confirmed, and
-no PS2 ABI or layout is imported. See MEAT_COLLECTION.md and SYMBOL_NAVIGATION.md.
+The selected source record requires collection and return as separate producers.
+Its acquired PC proximity/resource predicate must succeed before the record can
+finish. Starving declares no separate ending film: the following Save Wife record
+provides the cinematic continuation. After its real source end, an ordinary Mecc
+player resumes in **The Wife**, with carried meat cleared. The independent preview
+profile records the next reached-entry bits; original saves remain untouched.
+
+## Shared mission and population foundation
+
+The common parser retains authored objective marks, placement identities, signed
+quota and ordered scenario records. A bounded campaign owner connects admitted
+collection/stationary destination producers to source notices and the ordinary
+ticket/film loader. Other predicate/record types keep explicit missing services.
+See MISSION_PROGRESSION.md in the source repository. This does not make subsequent
+missions complete: Save Wife's remaining interaction and completion are separate.
+
+Herd admission follows source declarations rather than a Story2-only switch.
+The read-only census finds herds in 22 of 33 accepted loose worlds; declarations
+are not live coverage. The exact build also generates/draws living Vimps from
+Story5's two herds, nineteen world markers and one mission marker. Delphi, Kabuto and multiplayer gameplay
+remain unavailable, and missing authored markers are never invented.
 
 ## Validation and limits
 
-On this exact executable, the graphical hunt collects 4 real dropped
-pieces, reaches carried amount 4, retires all 4 picked owners and
-starts real muted pickup sinks. The complete passage renders actual hurt/death,
-blood, ghosts, meat and FX without a component refusal. Cancellation after actual
-collection releases the session/audio and returns to zero remaining entities.
-The separate living-contact passage records 3219 player responses without
-shots or forced poses. First-death capture, three common Mecc/fire/jet cycles,
-actual landing/dust/audio, two menu lifecycle modes and full selected cinematic
-source-terminal/re-entry transport also pass on this executable.
+The exact-build rendered Starving passage actually hunts/collects twenty meat,
+satisfies the authored return and shared 2/2 counter, releases the old ticket to
+zero entities, loads the following record, renders its four-director opening to
+its source terminal and resumes the ordinary player with zero meat. Actual muted
+pickup sinks and saved reached bits are observed. Commands are supplied; actor
+pose, resources, kills, readiness and film terminals are not forced.
 
-Commands are supplied to the ordinary controller in these background graphical
-tests. Real OS-held input, audible parity, native timing and complete visual
-fidelity remain unverified. No manual Windows gameplay test is claimed for this
-executable. The initial local candidate exposed a collected-versus-expired cleanup
-refusal and was replaced; its evidence is not publication acceptance. A later
-three-cycle diagnostic exceeded its single-entry overall wall budget while the
-third source opening was still advancing. The diagnostic budget now scales with
-the requested cycles; actual source clocks, readiness and completion predicates
-are unchanged. Another graphical run exposed serial positional-audio
-backlog under a real burst. Consecutive same-cue fixed-position one-shots now
-stage together in request/RNG order, with real per-voice sink confirmation. Actor,
-reuse, control, other-cue and other-ticket requests stay ordered barriers; no
-queue limit is enlarged and no request is dropped or falsely acknowledged.
+Post-pickup cancellation, living collision, first death, common Mecc/fire/jet/
+nitro/release/landing, menu lifecycle and selected cinematic transport controls
+pass on this same executable. The separate manual check exercises actual Windows
+menu/Starving entry, short input pulses, view changes, return and re-entry.
+It does not establish an OS-played twenty-meat mission or sustained held flight.
+Muted tests do not establish audible parity or complete visual/native fidelity.
 
-979 portable Rust passes / 168 ignored; 45 Python passes; formatting and strict
-workspace/all-target Clippy pass. Fresh exact-PC controls compare 192 offline
-collection callbacks (319,008 selected words) and 602 proximity plans (2,007 words).
-The callback control additionally checks separate collected/expired retirement
-and one external release. Its supplied mission gates, births, clocks and external
-release are scoped CPU inputs, not graphical/sound proof. Pickup sinks and cleanup
-are independently observed in the graphical application.
+The father's supported stationary selector uses its source start pose. Live
+Smartie animation/AI remains incomplete. The next record reloads a fresh scene
+and player; full native inventory restoration, persistent world/actor continuity,
+mission failure/restart, other objective types, other AI, general feeding/economy,
+Delphi/Kabuto gameplay and full campaign fidelity remain open. Death FX retain
+explicit host-frame, terrain-only contact and owner-lifetime splat policies.
 
-Campaign objective credit is deliberately disabled because the preview has no
-running objective VM. No quota, mission prefix/gates or successful quest is
-fabricated. Feeding, deposits, economy, replenishment, Delphi mana, other staged
-AI, complete native world/Mecc primary and mission progression remain unavailable
-or incomplete. Death FX retain explicit host-frame scheduling, terrain-only
-contacts and source-owner-lifetime splat policies. Delphi/Kabuto retain initial
-body inspection; the separate cinematic census remains pinned to .7.
+982 portable Rust passes / 169 ignored, 45 Python passes, formatting and strict
+workspace/all-target Clippy pass. The installed ordinary motion/rigid-admission
+round trip is a separate supplied-command CPU diagnostic. A private 6,000-context
+PC proximity comparison has zero selected differences; actor/classification,
+bounds, quota, suppression, formatting and text providers are supplied. It proves
+neither native mission initialization nor graphical fidelity.
 
-Technical collection includes 338 dependency and eleven toolchain notice entries,
-29 system DLL imports and zero package blockers. The ZIP is bound to the compiler,
-linker, runtime-source and executable receipt and is downloaded independently
-before and after publication. This is technical validation, not third-party-rights
-clearance or comprehensive human review. The owner's approximate 99% AI-generated
-estimate remains an authorship estimate, never a completion metric.
+Prototype PS2 lookup starts from `mission_check_obj_proximity__FP6OBJECT`.
+The reviewed PC relationship remains probable; its point/AABB fallback differs
+from the prototype's radius test. No new routine attribution is confirmed and no
+PS2 ABI or layout is imported. Raw corpus/tables/listings remain private.
+
+Technical collection: 338 dependency and eleven toolchain notice entries,
+29 system DLL imports, zero package blockers. The ZIP is receipt-bound and
+independently downloaded before and after publication. This does not establish
+third-party rights or comprehensive human review. The owner's approximate 99%
+AI-generated estimate remains an authorship estimate, never a completion metric.

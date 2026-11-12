@@ -1,10 +1,11 @@
 # Non-player actors and player interactions
 
-Normal meat collection is delivered in preview .11.4 through the same partial
-Mecc controller. It uses the acquired scan/callback, source carried count, actual
-pickup sink and separate collected/expired cleanup. Campaign credit is explicitly
-disabled; feeding/economy and full native admission remain open. See
-[MEAT_COLLECTION.md](MEAT_COLLECTION.md) for the PS2 lookup, evidence and boundaries.
+Normal collection and the Starving twenty-meat return are connected to the common
+partial Mecc controller in preview .12.1. Inspection/unsupported records retain
+uncredited collection; general feeding/economy and full native admission remain
+open. Authored herd admission follows source declarations, with Story2 and Story5
+actual populations checked. See [MEAT_COLLECTION.md](MEAT_COLLECTION.md) and the
+central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidence.
 
 ## Ordinary Vimp collision, injury and death
 

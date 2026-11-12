@@ -5,6 +5,25 @@ Current work selection and delivery reporting follow
 interactions and their blockers. This direction does not expand any historical
 review, redistribution authorization or technical evidence recorded below.
 
+## Preview .12.1 mission-name and display-copy review - 12 November 2026
+
+The mission addition publishes one selected literal prototype PS2 name and its
+probable PC/Rust relationship, with independent semantic evidence and the
+PC AABB/prototype radius divergence. Prior aliases remain searchable. Exact Git
+blob reviews cover those minimal labels and the central-method cross-reference;
+there is no general exception for native listings or generated match tables.
+No new attribution is confirmed. Native bodies, raw tables, research inputs,
+private paths and supplier provenance remain excluded.
+
+Three actual matching-executable Bevy frames show next-mission resumption after
+the complete Starving chain, the first Vimp death/ghost/meat and a Story5 source
+entry with admitted authored herds. Only reviewed metadata-stripped WebP display
+copies pinned by digest enter the gallery. Source/tag/EXE receipts match the
+public ZIP; historical captures remain archived under their original receipts.
+This preserves the screenshot exception and does not expand redistribution rights
+or establish comprehensive human review/native fidelity. The approximate 99%
+AI-generated authorship estimate remains distinct from game completion.
+
 ## Preview .11.4 selected-name and display-copy review - 11 November 2026
 
 The collection addition publishes selected literal PS2 names, two probable

@@ -14,8 +14,9 @@ FIELDS = ('id', 'kind', 'group', 'title', 'status', 'scope', 'detail')
 LABELS = {'done': 'Complete in stated scope', 'partial': 'Partial', 'todo': 'Not started'}
 PRIVATE = re.compile(r'[A-Za-z]:[\\/]|(?:evidence|\.local)[\\/]|Users[\\/]', re.I)
 PREVIEW_CHECKS = {
+    'starving_short_input_os': 'Actual Windows menu entry/re-entry into Starving, short keyboard movement, view changes, pistol/jet mouse pulses and clean menu return; the complete hunt and sustained held flight are separately unverified as OS-played interactions',
     'starving_campaign_chain_gpu': 'Actual Starving hunt collects twenty meat, satisfies the authored return predicate and both objective producers, releases the old ticket, renders the following source film to its real end and resumes an ordinary player with cleared meat; supplied commands and real muted sinks',
-    'story5_authored_herds_gpu': 'Story5 source Mecc entry admits its two authored herds and nineteen markers, generates living Vimps and draws them through the shared mission component; supplied commands, not full Story5 mission acceptance',
+    'story5_authored_herds_gpu': 'Story5 source Mecc entry admits its two authored herds, nineteen world markers and one mission marker, generates living Vimps and draws them through the shared mission component; supplied commands, not full Story5 mission acceptance',
     'story2_meat_collection_gpu': 'The ordinary Mecc controller collects actual settled Vimp meat, updates its carried count, retires the picked pieces and starts real muted pickup sinks; supplied navigation, no injected births or OS-held-input claim',
     'offscreen_menu_cycles': 'Offscreen development launches, menu return and re-entry',
     'selected_cinematic_transport': 'Selected-mission source-terminal/re-entry with muted real sinks',

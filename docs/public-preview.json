@@ -1,10 +1,12 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.11.4",
-  "source_commit": "f92f7ad4f71b08f7d0638f11d73c44230379dbee",
-  "executable_sha256": "2d2219e6fae03ae07b5981d5b4b7c42cf9e04641529a287a632500c867447e16",
-  "archive_sha256": "f3f08708046315e05bb613c7365b222a901a5f0cbb012627b635b97592b89437",
+  "tag": "preview-2026.11.12.1",
+  "source_commit": "7ae8043ad1b22792730ece7c3a3e58a19fa73ed6",
+  "executable_sha256": "984d782b3bcd8f20fbb186faee96628b0cf4eee73146a62a2b07b0ef7a83276d",
+  "archive_sha256": "5a059712c979670d50d6164598f45e64cff87984c273e89fc331a1c0402aa36b",
   "checks": [
+    "starving_campaign_chain_gpu",
+    "story5_authored_herds_gpu",
     "offscreen_menu_cycles",
     "selected_cinematic_transport",
     "ordinary_mecc_cycles_gpu",
@@ -12,16 +14,18 @@
     "story2_vimp_reaction_gpu",
     "story2_vimp_combat_gpu",
     "story2_vimp_contact_gpu",
-    "story2_meat_collection_gpu"
+    "story2_meat_collection_gpu",
+    "starving_short_input_os"
   ],
   "limitations": [
+    "mission_objective_subset",
+    "native_campaign_continuity",
     "ordinary_mecc_native_motion",
-    "ordinary_controls_os_unverified",
     "delphi_gameplay",
     "kabuto_gameplay",
-    "npc_remaining_ai",
+    "other_actor_ai",
     "vimp_fx_preview_policy",
-    "meat_feeding_economy",
+    "meat_economy_outside_objectives",
     "full_game_fidelity"
   ]
 }

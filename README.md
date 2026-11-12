@@ -15,22 +15,27 @@ described below is published under the owner's explicit authorization.
 
 [Quick start](docs/QUICK_START.md) · [Build](docs/BUILD.md) · [Release policy](docs/RELEASES.md)
 
-Current Windows download: [preview-2026.11.11.4](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.11.4).
-The common build includes all five reviewed contribution lanes. Normal Mecc
-controls: WASD/mouse, right mouse thrust, Space nitro, left mouse partial pistol,
-R view and Escape menu. Preview tools -> Browse all missions -> Mecc -> Starving!
-supports Vimp collision, danger/hurt/death, blood/recoil, sounds, ghosts and meat.
-Shoot a Vimp, wait for its meat to settle, then approach the pieces to collect
-them automatically. The F8 hint overlay shows the carried count. No replay flag
-enables these actions. Exact-build graphical pickup and menu cleanup pass with
-supplied commands and real muted sinks; OS gameplay remains unverified. Feeding,
-economy, campaign objective credit, other AI and full native fidelity remain open.
-Delphi/Kabuto retain initial-body inspection. See [build notes](docs/PREVIEW_NOTES.md),
-[meat collection and PS2 evidence](docs/MEAT_COLLECTION.md) and [BACKLOG.md](BACKLOG.md).
+Current Windows download: [preview-2026.11.12.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.12.1).
+The common build now completes **Starving!**: hunt Vimps, walk over their settled
+meat until carrying twenty, then return to the father on the starting plateau.
+The source return condition starts the following mission's cinematic; its actual
+end resumes an ordinary Mecc in **The Wife**, with carried meat cleared.
+Open **Preview tools -> Browse all missions -> Mecc -> Starving!**. WASD/mouse,
+right mouse thrust, Space nitro, left mouse partial pistol, R view and Escape
+menu; F8 shows herd/meat and return hints. No replay flag enables these actions.
+
+The exact executable passes the complete rendered chain, cleanup and common GPU
+regressions with supplied commands and real muted sinks. Short actual Windows
+menu/input/re-entry checks are separate; an OS-played complete hunt and sustained
+held flight are not claimed. Herd admission follows source declarations, with
+Story2/Story5 populations checked. Other mission completion/AI, full native
+inventory/world continuity and Delphi/Kabuto gameplay remain incomplete. See
+[release notes](docs/PREVIEW_NOTES.md), the central
+[mission method](docs/MISSION_PROGRESSION.md) and [BACKLOG.md](BACKLOG.md).
 
 Engine contributors can use the reviewed [original symbol navigation](docs/SYMBOL_NAVIGATION.md)
-to find related Rust code from prototype PS2 names. Confirmed identities and
-unassigned search candidates are labeled separately.
+to find related Rust code from prototype PS2 names. Confirmed, probable and unknown
+attributions are labeled separately.
 
 The [main integration process](docs/INTEGRATION.md) connects the cinematic and
 character work to the shared application and validated Windows previews. CPU
@@ -84,11 +89,11 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Campaigns and progression
 
-- [ ] **Complete Mecc campaign** — partial; Runtime integration. All missions, allies, scripted sequences and chapter completion.
+- [ ] **Complete Mecc campaign** — partial; Runtime integration. Preview .12.1 completes the ordinary Starving twenty-meat return and loads the following source cinematic/ordinary The Wife entry. Subsequent mission completion, all other encounters and the complete Mecc campaign remain partial. See MISSION_PROGRESSION.md and BACKLOG.md.
 - [ ] **Complete Delphi campaign** — todo; Runtime integration. All missions and character-specific objectives and encounters.
 - [ ] **Complete Kabuto campaign** — todo; Runtime integration. All missions, growth stages, encounters and ending.
-- [ ] **Mission objectives and scripts** — partial; Runtime integration. Triggers, dialogue events, timers, escort/defence tasks, victory, failure and restart.
-- [ ] **Chapter and mission continuity** — partial; Runtime integration. Unlocks, entry/exit transitions and transfer of the required player state.
+- [ ] **Mission objectives and scripts** — partial; Runtime integration. Preview .12.1 connects admitted source collection/stationary proximity producers, quota/counter/notices and real next-ticket/source-film continuation. Full Starving rendered chain passes; death/moving/equipment and other predicate/record types remain unbound. No general mission VM completion claim.
+- [ ] **Chapter and mission continuity** — partial; Runtime integration. Preview .12.1 loads the next source mission after Starving, clears carried meat and saves reached-entry bits only after admission. Fresh scene/player reload is not full native equipment, persistent-world, score/census or save-game continuity.
 - [ ] **Complete cinematic playback** — partial; Runtime integration. Complete source-driven cinematic playback, voices, effects, transitions and cancellation. The common .11.4 executable passes selected full source-terminal/re-entry transport with real muted sinks and cleanup. Canonical virtual-support storage is acquired; the menu timed renderer still uses explicit preview playback/seed policy. Migration needs actual source clock/RNG interleaving, detached-child caller word and environment/footprint producers. The independent 545-source census remains pinned to .7; zero complete films are certified. See BACKLOG.md and PREVIEW_NOTES.md.
 - [ ] **Ending and credits flow** — todo; Runtime integration. Final sequence, credits presentation and return to menus.
 
@@ -138,7 +143,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 - [ ] **Complete mission actor population** — partial; Runtime integration. Spawn, activation, update order, attachments, lifecycle and removal for the required actors.
 - [ ] **Enemy and boss behaviour** — partial; Runtime integration. Complete enemy perception, navigation, attacks and mission integration remain open. Preview .11.4 connects the bounded Story2 Vimp danger/injury/death interaction; other staged AI remains inactive. Complete native-world admission and scheduling are unverified. See BACKLOG.md.
-- [ ] **Wildlife and non-player inhabitants** — partial; Runtime integration. Preview .11.4 adds ordinary settled-meat collection, source-owned carried count, real pickup cues and separate collected/expired retirement to the Story2 Vimp collision/hurt/death interaction. Actual graphical hunt, pickup and menu cleanup pass with supplied commands and real muted sinks. Feeding/economy, objective credit, Delphi mana, other AI and full native-world/fidelity remain open. See MEAT_COLLECTION.md and BACKLOG.md.
+- [ ] **Wildlife and non-player inhabitants** — partial; Runtime integration. Preview .12.1 retains ordinary Vimp contacts/hurt/death/blood/ghosts/meat and connects twenty-meat Starving collection/return. Authored herd admission replaces the Story2 guard; Story2 and Story5 actual GPU populations are checked. General economy, other AI, non-Mecc gameplay and full native-world/FX fidelity remain open.
 - [ ] **Complete projectile and damage rules** — partial; Runtime integration. Complete native damage, hit reactions, death, targeting and weapon interactions remain open. Download .11.1 has the ordinary partial Mecc pistol, source projectile presentation and acquired landing feedback. Short OS fire presses work; this does not establish native impact/damage behavior. Ordered burst and immediate-child services cannot run live until their canonical construction/command/contact/audio consumers exist.
 - [ ] **Injury, death and respawning** — partial; Runtime integration. Reactions, incapacitation, corpses/drops, recovery, player death and mode-specific respawn rules.
 

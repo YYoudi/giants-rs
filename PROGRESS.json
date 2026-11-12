@@ -10,7 +10,7 @@
       "title": "Complete Mecc campaign",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "All missions, allies, scripted sequences and chapter completion."
+      "detail": "Preview .12.1 completes the ordinary Starving twenty-meat return and loads the following source cinematic/ordinary The Wife entry. Subsequent mission completion, all other encounters and the complete Mecc campaign remain partial. See MISSION_PROGRESSION.md and BACKLOG.md."
     },
     {
       "id": "campaign-delphi",
@@ -37,7 +37,7 @@
       "title": "Mission objectives and scripts",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Triggers, dialogue events, timers, escort/defence tasks, victory, failure and restart."
+      "detail": "Preview .12.1 connects admitted source collection/stationary proximity producers, quota/counter/notices and real next-ticket/source-film continuation. Full Starving rendered chain passes; death/moving/equipment and other predicate/record types remain unbound. No general mission VM completion claim."
     },
     {
       "id": "mission-continuity",
@@ -46,7 +46,7 @@
       "title": "Chapter and mission continuity",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Unlocks, entry/exit transitions and transfer of the required player state."
+      "detail": "Preview .12.1 loads the next source mission after Starving, clears carried meat and saves reached-entry bits only after admission. Fresh scene/player reload is not full native equipment, persistent-world, score/census or save-game continuity."
     },
     {
       "id": "cinematics",
@@ -361,7 +361,7 @@
       "title": "Wildlife and non-player inhabitants",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .11.4 adds ordinary settled-meat collection, source-owned carried count, real pickup cues and separate collected/expired retirement to the Story2 Vimp collision/hurt/death interaction. Actual graphical hunt, pickup and menu cleanup pass with supplied commands and real muted sinks. Feeding/economy, objective credit, Delphi mana, other AI and full native-world/fidelity remain open. See MEAT_COLLECTION.md and BACKLOG.md."
+      "detail": "Preview .12.1 retains ordinary Vimp contacts/hurt/death/blood/ghosts/meat and connects twenty-meat Starving collection/return. Authored herd admission replaces the Story2 guard; Story2 and Story5 actual GPU populations are checked. General economy, other AI, non-Mecc gameplay and full native-world/FX fidelity remain open."
     },
     {
       "id": "combat",

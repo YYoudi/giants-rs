@@ -1,9 +1,33 @@
 # Preview releases and milestone integration
 
+## Published preview .12.1 - Starving through the next mission
+
+[Windows preview-2026.11.12.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.12.1)
+is the common download. Ordinary Starving hunts/collects twenty meat and requires
+the authored return to the father. It then loads the next source record's real
+four-director film and resumes the Mecc in The Wife with cleared meat. No replay
+flag enables the action. The complete rendered chain, old-ticket cleanup and
+reached sidecar pass; source pose/resources/readiness/film end are not forced.
+
+The reusable source objective/transition subset and remaining record predicates
+are documented in MISSION_PROGRESSION.md. Authored herds replace the Story2 guard;
+Story2 and Story5 actual GPU populations pass. Short OS menu/input/re-entry,
+collection cancellation, contacts, first death, common Mecc/landing, lifecycle
+and selected cinematic controls pass on this executable. The full hunt uses
+supplied commands; full native continuity and fidelity remain incomplete.
+982 Rust / 169 ignored, 45 Python, fmt/strict Clippy. No new confirmed PS2 pair.
+
+338 dependency / eleven toolchain notices, 29 system DLLs, zero technical blockers.
+Three matching-build captures are pinned; older captures retain their receipts.
+
+Runtime source: `7ae8043ad1b22792730ece7c3a3e58a19fa73ed6`.
+Executable SHA256: `984d782b3bcd8f20fbb186faee96628b0cf4eee73146a62a2b07b0ef7a83276d`.
+ZIP SHA256: `5a059712c979670d50d6164598f45e64cff87984c273e89fc331a1c0402aa36b`.
+
 ## Published preview .11.4 - ordinary meat collection
 
 [Windows preview-2026.11.11.4](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.11.4)
-is the common download. Story2 / Starving!: hunt a Vimp, let its meat settle and
+is the earlier pickup-only download. Story2 / Starving!: hunt a Vimp, let its meat settle and
 approach the pieces. The normal controller automatically collects them, shows
 the carried count, plays the source cue and retires picked owners separately
 from expiry. No script enables pickup. Feeding/economy and objective credit remain
