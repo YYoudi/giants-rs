@@ -1,6 +1,8 @@
-//! Acquired ordinary class73 branches and class230 mode0/61 over current views.
+//! Acquired ordinary class73 branches and class230 mode0/61/62/63 over current views.
 //! Shared prefix/perception and sound tails retain their class differences.
 //! Later unsupported continuations require their actual services.
+//! Prototype PS2 search key: `ripper_move`; exact PC correspondence unknown.
+//! PC debug-1.1 alias FUN_004d61f0 remains the acquired behavior reference.
 use crate::{
     audio_parameters::Random,
     enemy_projectile::SoundOutcome,
@@ -44,6 +46,13 @@ pub struct VariantAwakeningContext<'a> {
     pub camera_range: f32,
     pub global_seconds: f32,
     pub areas: &'a [crate::object_time::SlowArea],
+}
+/// Actual class-global radii used by class230 mode63. They must be read from
+/// the installed global data, not inferred from model size or class73 orbit.
+#[derive(Clone, Copy)]
+pub struct VariantDecisionContext {
+    pub close_range: f32,
+    pub fire_range: f32,
 }
 
 #[derive(Clone, Copy)]
@@ -461,6 +470,74 @@ mod tests {
             parent_present: false,
         }
     }
+    #[test]
+    fn variant_turn_consumes_current_channel_without_class73_effects_or_speed_restore() {
+        struct NoServices;
+        impl Services<u32, u32> for NoServices {
+            fn remove_effect(
+                &mut self,
+                _: &State<u32, u32>,
+                _: u32,
+                _: &mut Random,
+            ) -> Result<(), String> {
+                Err("unexpected effect removal".into())
+            }
+            fn owner_sound(
+                &mut self,
+                _: &State<u32, u32>,
+                _: u32,
+                _: &mut Random,
+            ) -> Result<SoundOutcome, String> {
+                Err("unexpected sound request".into())
+            }
+        }
+        for completed in [false, true] {
+            for has_target in [false, true] {
+                let mut s = state();
+                s.entry.class = 230;
+                s.entry.mode = 62;
+                s.entry.parameter = 17.;
+                s.retaliation = has_target.then_some(42);
+                s.effect = None;
+                s.primary = [0; 9];
+                s.primary[8] = if completed { 2 } else { 0 };
+                let actors = if has_target {
+                    vec![candidate()]
+                } else {
+                    vec![]
+                };
+                let order = if has_target { vec![42] } else { vec![] };
+                let frame = Frame::new(&actors, &order).unwrap();
+                let mut machine = Machine::new(s);
+                let mut random = Random(51);
+                let input = FrameInput {
+                    context: context(),
+                    frame: &frame,
+                    range: 500.,
+                };
+                assert_eq!(
+                    machine
+                        .advance_variant_turn(input, &mut random, &mut NoServices)
+                        .unwrap(),
+                    Outcome::CompletedVariantTurn
+                );
+                let result = machine.state();
+                assert_eq!(result.entry.mode, if completed { 63 } else { 62 });
+                assert_eq!(result.entry.parameter, 17.);
+                assert_eq!(result.steering.personality & 0x40, 0);
+                assert_eq!(result.entry.flags & 0x03000000, 0x01000000);
+                assert_eq!(result.steering.commands[2], 0);
+                assert_eq!(result.steering.commands[0], 32);
+                assert_eq!(random.0, 51);
+                assert!(machine.awaiting_motion());
+                assert!(
+                    machine
+                        .advance_variant_turn(input, &mut random, &mut NoServices)
+                        .is_err()
+                );
+            }
+        }
+    }
     fn context() -> Context {
         Context {
             paused: false,
@@ -468,6 +545,87 @@ mod tests {
             parent_state: None,
             player: None,
             delta: 0.1,
+        }
+    }
+    #[test]
+    fn variant_decision_preserves_radius_boundaries_and_latches_failed_lost_sound() {
+        struct LostSound(bool);
+        impl Services<u32, u32> for LostSound {
+            fn remove_effect(
+                &mut self,
+                _: &State<u32, u32>,
+                _: u32,
+                _: &mut Random,
+            ) -> Result<(), String> {
+                Err("unexpected removal".into())
+            }
+            fn owner_sound(
+                &mut self,
+                s: &State<u32, u32>,
+                cue: u32,
+                _: &mut Random,
+            ) -> Result<SoundOutcome, String> {
+                assert_eq!((s.entry.mode, cue), (63, 1248));
+                if self.0 {
+                    Err("supplied transport failure".into())
+                } else {
+                    Ok(SoundOutcome::Suppressed)
+                }
+            }
+        }
+        let parameters = VariantDecisionContext {
+            close_range: 10.,
+            fire_range: 20.,
+        };
+        for (distance, expected) in [(9.99, 67), (10., 65), (19.99, 65), (20., 64)] {
+            let mut candidate = candidate();
+            candidate.position = [distance, 0., 0.];
+            let actors = [candidate];
+            let frame = Frame::new(&actors, &[42]).unwrap();
+            let mut s = state();
+            s.entry.class = 230;
+            s.entry.mode = 63;
+            s.effect = None;
+            let mut m = Machine::new(s);
+            let mut random = Random(17);
+            m.advance_variant_decision(
+                FrameInput {
+                    context: context(),
+                    frame: &frame,
+                    range: 100.,
+                },
+                parameters,
+                &mut random,
+                &mut LostSound(true),
+            )
+            .unwrap();
+            assert_eq!(m.state().entry.mode, expected);
+            assert_eq!(random.0, 17);
+        }
+        let frame = Frame::new(&[], &[]).unwrap();
+        for fail in [false, true] {
+            let mut s = state();
+            s.entry.class = 230;
+            s.entry.mode = 63;
+            s.retaliation = None;
+            let mut m = Machine::new(s);
+            let mut random = Random(17);
+            let input = FrameInput {
+                context: context(),
+                frame: &frame,
+                range: 100.,
+            };
+            assert_eq!(
+                m.advance_variant_decision(input, parameters, &mut random, &mut LostSound(fail))
+                    .is_err(),
+                fail
+            );
+            assert_eq!(m.state().entry.mode, if fail { 63 } else { 71 });
+            assert_eq!(m.failure().is_some(), fail);
+            assert!(
+                m.advance_variant_decision(input, parameters, &mut random, &mut LostSound(false))
+                    .is_err()
+            );
         }
     }
     fn parameters() -> Parameters {
@@ -934,6 +1092,8 @@ pub enum Outcome {
     CompletedAwakening,
     CompletedAttack,
     CompletedVariantAwakening,
+    CompletedVariantTurn,
+    CompletedVariantDecision,
 }
 #[derive(Clone, Debug)]
 pub struct Machine<K, E> {
@@ -1101,6 +1261,8 @@ impl<K: Copy, E: Copy, S: Services<K, E>> crate::ripper_emergence::Services<K, E
 enum Branch<'a, K> {
     Awakening(AwakeningContext),
     VariantAwakening(VariantAwakeningContext<'a>),
+    VariantTurn,
+    VariantDecision(VariantDecisionContext),
     Turn(Parameters),
     Pursuit(f32),
     Emergence(f32),
@@ -1135,6 +1297,46 @@ fn footsteps(primary: [u32; 9]) -> Result<bool, &'static str> {
         .any(|at| now >= at && previous < at))
 }
 impl<K: Copy + Ord, E: Copy> Machine<K, E> {
+    pub fn advance_variant_decision(
+        &mut self,
+        input: FrameInput<'_, K>,
+        parameters: VariantDecisionContext,
+        random: &mut Random,
+        services: &mut impl Services<K, E>,
+    ) -> Result<Outcome, String> {
+        if ![parameters.close_range, parameters.fire_range]
+            .into_iter()
+            .all(|v| v.is_finite() && v >= 0.)
+        {
+            return Err("variant decision requires actual finite class radii".into());
+        }
+        self.advance_inner(
+            input.context,
+            input.frame,
+            input.range,
+            Branch::VariantDecision(parameters),
+            random,
+            services,
+        )
+    }
+    /// Class230 mode62 uses the current primary channel completion bit. This
+    /// produces steering only; motion, channel advancement and mode63 remain
+    /// separate consumers. No class73 speed restoration or dirt removal.
+    pub fn advance_variant_turn(
+        &mut self,
+        input: FrameInput<'_, K>,
+        random: &mut Random,
+        services: &mut impl Services<K, E>,
+    ) -> Result<Outcome, String> {
+        self.advance_inner(
+            input.context,
+            input.frame,
+            input.range,
+            Branch::VariantTurn,
+            random,
+            services,
+        )
+    }
     /// Class230's ordinary mode0/61 producer. Mode62 and subsequent behavior
     /// require their own continuations; marker construction is a real service.
     pub fn advance_variant_awakening(
@@ -1369,6 +1571,8 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                 }
                 original.entry.mode
             }
+            Branch::VariantTurn => 62,
+            Branch::VariantDecision(_) => 63,
             Branch::Awakening(_) => {
                 if !matches!(original.entry.mode, 0 | 31) {
                     return Err("awakening primary requires mode0/31".into());
@@ -1386,7 +1590,10 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                 original.entry.mode
             }
         };
-        let class = if matches!(branch, Branch::VariantAwakening(_)) {
+        let class = if matches!(
+            branch,
+            Branch::VariantAwakening(_) | Branch::VariantTurn | Branch::VariantDecision(_)
+        ) {
             230
         } else {
             73
@@ -1527,6 +1734,58 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                     self.failed = Some(error.clone());
                     return Err(error);
                 }
+            }
+        } else if let Branch::VariantDecision(parameters) = branch {
+            let target = state
+                .retaliation
+                .map(|id| frame.candidate(id))
+                .transpose()?;
+            let (lost, control) = crate::ripper_pursuit::target_control(
+                target,
+                state.entry.retained_timer,
+                state.entry.control,
+            )?;
+            state.entry.control = control;
+            if lost {
+                if let Err(error) = services.owner_sound(&state, 1248, random) {
+                    self.state = state;
+                    self.failed = Some(error.clone());
+                    return Err(error);
+                }
+                state.entry.mode = 71;
+                state.retaliation = None;
+            } else {
+                let target = target.unwrap();
+                let dx = f64::from(target.position[0]) - f64::from(state.entry.position[0]);
+                let dy = f64::from(target.position[1]) - f64::from(state.entry.position[1]);
+                let distance = (dx * dx + dy * dy) as f32;
+                if !distance.is_finite() {
+                    return Err("variant decision distance overflow".into());
+                }
+                state.entry.mode =
+                    if f64::from(distance) < f64::from(parameters.close_range).powi(2) {
+                        67
+                    } else if f64::from(distance) < f64::from(parameters.fire_range).powi(2) {
+                        65
+                    } else {
+                        64
+                    };
+            }
+        } else if let Branch::VariantTurn = branch {
+            let target = state
+                .retaliation
+                .map(|id| frame.candidate(id).map(|c| c.position))
+                .transpose()?
+                .unwrap_or([99999.; 3]);
+            // This branch retains the angular difference wide until the
+            // command input store, unlike class73's mode32 helper.
+            state.steering = crate::ripper_steering::aim_at_point(state.steering, target)?;
+            state.steering.personality &= !0x40;
+            state.entry.flags = state.steering.flags;
+            state.entry.packed =
+                u32::from_le_bytes(state.steering.commands[..4].try_into().unwrap());
+            if state.primary[8] & 2 != 0 {
+                state.entry.mode = 63;
             }
         } else if let Branch::Awakening(a) = branch {
             let target = state
@@ -1724,6 +1983,10 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
         self.completed = true;
         Ok(if matches!(branch, Branch::VariantAwakening(_)) {
             Outcome::CompletedVariantAwakening
+        } else if matches!(branch, Branch::VariantTurn) {
+            Outcome::CompletedVariantTurn
+        } else if matches!(branch, Branch::VariantDecision(_)) {
+            Outcome::CompletedVariantDecision
         } else if matches!(branch, Branch::Awakening(_)) {
             Outcome::CompletedAwakening
         } else if mode == 32 {

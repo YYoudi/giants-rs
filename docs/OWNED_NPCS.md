@@ -7,6 +7,35 @@ open. Authored herd admission follows source declarations, with Story2 and Story
 actual populations checked. See [MEAT_COLLECTION.md](MEAT_COLLECTION.md) and the
 central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidence.
 
+## Ripper integration in progress
+
+The NPC lane stages a separate declaration-bound Ripper component in ordinary
+mission loading. The Wife has five canonical mission declarations: four class73
+and one class230, all state23. The component retains their exact source placement
+and Session identity; it does not create a replacement population. Binding
+refuses missing, duplicate, substituted, foreign-ticket or retired owners.
+Other maps are selected by their declarations rather than a world-name switch.
+
+This binding alone admits no callbacks, completed pose, contact or gameplay.
+The first installed control covers constructor identities and two-ticket
+retirement/re-entry, without rendering or Windows input. The class230 owned
+primary now also has its mode62/63 continuations: current-channel completion
+drives the transition to63, whose actual class radii select the next mode.
+Target loss retains the required cue and failure latch. These use their own
+steering precision without class73 speed restoration or dirt retirement.
+A read-only exact-PC control agrees on 120 consecutive mode62/63 callback outputs
+(2,040 words before common motion), including the selection of mode65. Terrain,
+peer eligibility/placement, clocks and absent audio registry are supplied in
+that diagnostic; it is not an ordinary encounter.
+
+The next delivery is the normal menu-to-The Wife encounter, reusing the shared
+Mecc/Session clock, RNG, terrain, render, audio and retirement contracts. Missing
+class230 continuations, completed frame/pose ownership, contacts, reciprocal
+combat and source-specific death services remain prerequisites. No Vimp ghost
+or meat behavior is copied. Main retains mission progression and publication.
+The prototype PS2 `ripper_move` attribution is unknown; see
+[symbol navigation](SYMBOL_NAVIGATION.md) and the central reconstruction method.
+
 ## Ordinary Vimp collision, injury and death
 
 Preview .11.3 extends the ordinary Story2 component with completed

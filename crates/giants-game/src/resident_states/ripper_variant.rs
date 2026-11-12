@@ -1,4 +1,4 @@
-//! Class230's owned mode0/61 caller and actual marker constructor. Later modes,
+//! Class230's owned mode0/61/62/63 callers and actual marker constructor. Later modes,
 //! live world admission and audio submission remain separate required services.
 use super::*;
 use crate::{
@@ -70,6 +70,41 @@ impl<S: Services<Id, Effect>> Services<Id, Effect> for Bridge<'_, '_, S> {
 }
 
 impl Session {
+    pub fn update_ripper_variant_decision(
+        &mut self,
+        id: Id,
+        input: FrameInput<'_, Id>,
+        parameters: crate::ripper_primary_turn::VariantDecisionContext,
+        random: &mut Random,
+        services: &mut impl Services<Id, Effect>,
+    ) -> Result<Outcome, String> {
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            services,
+            |_, machine, input, random, services| {
+                machine.advance_variant_decision(input, parameters, random, services)
+            },
+        )
+    }
+    pub fn update_ripper_variant_turn(
+        &mut self,
+        id: Id,
+        input: FrameInput<'_, Id>,
+        random: &mut Random,
+        services: &mut impl Services<Id, Effect>,
+    ) -> Result<Outcome, String> {
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            services,
+            |_, machine, input, random, services| {
+                machine.advance_variant_turn(input, random, services)
+            },
+        )
+    }
     pub fn update_ripper_variant_awakening(
         &mut self,
         id: Id,

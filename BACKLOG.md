@@ -15,6 +15,30 @@ Initial coverage includes seven Vimp names and the two previously confirmed
 camera service identities; .11.4 adds the selected meat-collection search routes. Naming does not establish gameplay delivery; the
 separately validated ordinary integration and publication are recorded below.
 
+## NPC lane in progress - ordinary Rippers in The Wife
+
+Owner request, 12 November: integrate source-declared Rippers to the same concrete
+ordinary interaction level as Vimps, starting with The Wife, then other declared
+maps. Main owns The Wife progression and common publication; the NPC lane must
+not replace that mission flow or publish another preview.
+
+Prepared: a declaration-bound sibling component retains canonical Session
+identities and authored poses (The Wife: four class73 and one class230/state23).
+Installed two-ticket controls refuse substituted/duplicate/foreign/retired owners.
+Class230 modes62/63 now have owned primary callers; a private exact-PC control
+agrees on 120 consecutive callback outputs / 2,040 words before common motion,
+including transition to the source-selected mode65.
+This is CPU evidence, not a live encounter or fidelity acceptance. The prototype
+PS2 `ripper_move` correspondence remains unknown; aliases and lookup are retained.
+
+Next: consume actual class230 continuations and complete frame/pose ownership,
+then connect shared rendering, collisions/targeting and reciprocal combat with
+source-specific sounds/blood/death/cleanup. Do not copy Vimp ghosts/meat or force
+movement, readiness or damage. Acceptance still requires an identified local
+build, a rendered normal-menu encounter, reciprocal interactions, death, menu
+return and re-entry, separating supplied controls from actual Windows input.
+See docs/OWNED_NPCS.md. No Ripper gameplay availability is claimed yet.
+
 ## Current delivery - preview .12.1 Starving and shared mission progression
 
 Owner direction, 11 November 2026: complete the ordinary twenty-meat return,

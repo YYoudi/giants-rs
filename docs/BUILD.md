@@ -164,7 +164,10 @@ for actual class230 constructors, owned first primary and marker birth. Flat ter
 peer eligibility, clocks/camera and captured/suppressed audio are supplied. It
 checks conditional birth, exact copied/reciprocal ownership, post-entry clock
 selection, retained prefixes/late audio failure and replay/retirement refusal.
-It does not enable mode62 onward, state48 scheduling or ordinary NPC gameplay.
+  It does not enable state48 scheduling or ordinary NPC gameplay. The separate
+  synthetic `ripper_primary_turn::tests::variant_` controls cover class230
+  modes62/63, radius boundaries and retained lost-target audio failures;
+  they do not admit mode64 onward or a completed actor frame.
 
 With `GIANTS_NPC_ROOT`, run
 `cargo test --locked -p giants-game source_parented_state0 --target x86_64-pc-windows-gnu -- --ignored`
