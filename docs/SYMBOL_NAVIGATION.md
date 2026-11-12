@@ -143,6 +143,15 @@ See [BUILDINGS.md](BUILDINGS.md) for current integration evidence and acceptance
 
 ## Publication boundary
 
+`MeccPhysicsExApplyLocation` is an **unknown** prototype PS2 navigation route to
+the related player-location/object-walk work. The bounded independent initial
+mesh cohort is exposed by
+[`declared_mesh_scene::prepare_players`](../crates/giants-game/src/declared_mesh_scene.rs)
+and consumed through `player_world_collision`. Original-PC object-walk controls
+separate player mesh eligibility from generic actor footprints. They do not
+confirm this prototype identity, full native-world admission or platform
+behavior. Player, environment and projectile role ownership remains distinct.
+
 The literal prototype names `object_copy_personality` and `texture_add_file`
 provide **unknown** navigation routes for
 [`actor_static_shadow`](../crates/giants-game/src/actor_static_shadow.rs) and the

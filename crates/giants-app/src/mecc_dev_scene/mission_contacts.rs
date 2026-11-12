@@ -41,7 +41,7 @@ impl State {
             projectile.mesh =
                 giants_game::object_segment::Mesh::new(hit.object, hit.triangles.clone())?;
         }
-        if hit.physical {
+        if hit.environment {
             let environment = self
                 .environment_objects
                 .iter_mut()

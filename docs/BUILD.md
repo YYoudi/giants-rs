@@ -4,9 +4,9 @@ For the next initial static-shadow dependency, run `cargo test --locked -p
 giants-game actor_static_shadow --target x86_64-pc-windows-gnu`. Its optional
 `installed_entrance_retains_registered_shadow_and_shared_copy_identity` control
 uses `GIANTS_BUILDING_ROOT` and `-- --ignored`. The app's
-`installed_entrance_damage_retains_static_shadow_and_separate_physical_need`
+`installed_entrance_damage_updates_player_shape_without_inventing_environment_owner`
 control uses the same variable. These check initial fields/copies and supplied
-damage/geometry ownership, not GPU shadow drawing, Windows input or physical
+damage/geometry ownership, not GPU shadow drawing, Windows input or generic
 Raster3 admission; keep the current public preview receipt separate.
 
 The locally connected house owner also has an installed app control:

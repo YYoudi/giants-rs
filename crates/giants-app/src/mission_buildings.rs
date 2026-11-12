@@ -37,6 +37,7 @@ struct Class {
 }
 struct Owner {
     physical: bool,
+    environment: bool,
     contacts: u64,
     key: (bool, usize),
     fields: Fields,
@@ -55,6 +56,7 @@ pub(crate) struct World {
 }
 pub(crate) struct HitResult {
     pub physical: bool,
+    pub environment: bool,
     pub object: u32,
     pub active: u32,
     pub triangles: Vec<[[f32; 3]; 3]>,
@@ -129,6 +131,7 @@ impl World {
     pub(crate) fn prepare(
         plan: &giants_game::instances::Plan,
         physical: &giants_game::declared_mesh_scene::Prepared,
+        environment: &giants_game::declared_mesh_scene::Prepared,
         colliders: &giants_game::declared_mesh_scene::Prepared,
         globals: &giants_formats::global_data::GlobalData,
     ) -> Result<Self, String> {
@@ -261,6 +264,10 @@ impl World {
                 object.fields.id,
                 Owner {
                     physical: physical
+                        .objects
+                        .iter()
+                        .any(|o| o.fields.id == object.fields.id),
+                    environment: environment
                         .objects
                         .iter()
                         .any(|o| o.fields.id == object.fields.id),
@@ -436,6 +443,7 @@ impl World {
         );
         Ok(Some(HitResult {
             physical: owner.physical,
+            environment: owner.environment,
             object: hit.object,
             active: owner.fields.object_flags,
             triangles,
@@ -461,7 +469,7 @@ impl World {
 mod tests {
     #[test]
     #[ignore = "requires GIANTS_BUILDING_ROOT; source entrance hit/geometry only, no GPU or OS input"]
-    fn installed_entrance_damage_retains_static_shadow_and_separate_physical_need() {
+    fn installed_entrance_damage_updates_player_shape_without_inventing_environment_owner() {
         let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
         let menu = giants_game::mission_selection::MissionMenu::parse(
             &std::fs::read(root.join("Bin/w_Story2.bin")).unwrap(),
@@ -482,7 +490,8 @@ mod tests {
             .find(|(_, o)| o.fields.class == 544)
             .unwrap();
         assert!(owner.fields.shadow_texture.is_some());
-        assert!(!owner.physical);
+        assert!(owner.physical);
+        assert!(!owner.environment);
         let point = owner.fields.position;
         let damage = owner.damage.limit * 0.26;
         let before = state
@@ -513,7 +522,8 @@ mod tests {
             )
             .unwrap()
             .unwrap();
-        assert!(!result.physical);
+        assert!(result.physical);
+        assert!(!result.environment);
         assert!(result.update.geometry.is_some());
         assert_eq!(state.buildings.owners[&id].fraction, 0.75_f32.to_bits());
         state.apply_building_hit(&result).unwrap();
@@ -526,11 +536,11 @@ mod tests {
                 .active,
             before
         );
-        assert!(!state.mission_colliders().iter().any(|o| o.fields.id == id));
+        assert!(state.mission_colliders().iter().any(|o| o.fields.id == id));
     }
     #[test]
-    #[ignore = "requires GIANTS_BUILDING_ROOT; supplied projectile-only hit, no GPU or OS input"]
-    fn installed_fence_damage_does_not_invent_player_collision_membership() {
+    #[ignore = "requires GIANTS_BUILDING_ROOT; supplied hit, no GPU or OS input"]
+    fn installed_fence_damage_updates_player_without_inventing_environment_membership() {
         let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
         let menu = giants_game::mission_selection::MissionMenu::parse(
             &std::fs::read(root.join("Bin/w_Story2.bin")).unwrap(),
@@ -550,11 +560,12 @@ mod tests {
             .iter()
             .find(|(_, o)| o.fields.class == 512)
             .unwrap();
-        assert!(!owner.physical);
+        assert!(owner.physical);
+        assert!(!owner.environment);
         let point = owner.fields.position;
         let limit = owner.damage.limit;
         let count = state.mission_colliders().len();
-        assert!(!state.mission_colliders().iter().any(|o| o.fields.id == id));
+        assert!(state.mission_colliders().iter().any(|o| o.fields.id == id));
         let mut random = giants_game::audio_parameters::Random(17);
         let hit = giants_game::mecc_pistol::WorldHit {
             object: id,
@@ -572,12 +583,23 @@ mod tests {
             .hit(91, hit, point, 1, &mut random)
             .unwrap()
             .unwrap();
-        assert!(!result.physical);
+        assert!(result.physical);
+        assert!(!result.environment);
         assert!(result.update.geometry.is_none());
         assert_eq!(state.buildings.effects.births, 17);
         state.apply_building_hit(&result).unwrap();
         assert_eq!(state.mission_colliders().len(), count);
-        assert!(!state.mission_colliders().iter().any(|o| o.fields.id == id));
+        assert_ne!(
+            state
+                .mission_colliders()
+                .iter()
+                .find(|o| o.fields.id == id)
+                .unwrap()
+                .fields
+                .object_flags
+                & 0x8000,
+            0
+        );
         assert_ne!(
             state
                 .projectile_objects

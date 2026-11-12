@@ -36,8 +36,10 @@ PREVIEW_NOTES.md for receipts, partial FX policy and exact limits.
 
 Remaining work, in player-impact order:
 
-1. Acquire physical radial/Raster3 footprints and membership for still-passable
-   entrances/columns/walls, keeping projectile and player roles distinct.
+1. Validate and publish the independently acquired player mesh admission for
+   still-passable entrances/columns/walls/fences. Its object walk does not read
+   generic actor footprints; keep player, environment and projectile roles
+   distinct. Generic radial/Raster3 platform owners remain separate work.
 2. Connect the guard tower's actual replacement constructor, complex nested
    effects and atomic visual/physical retirement. Do not flatten its program.
 3. Acquire restricted/special scenery and other base-building callbacks (including
@@ -58,7 +60,12 @@ its real registered texture identity and shared-copy semantics instead of
 discarding the declaration. Missing-name placeholders and dynamic copies remain
 separate needs. 120 private PC/Rust contexts and an actual source registration/
 lookup/copy control pass. This does not update .12.3 or establish shadow drawing,
-physical Raster3 admission or a new ordinary gameplay acceptance. Follow the
+generic Raster3 admission or a new public gameplay acceptance. The initial local
+render candidate now observes seven ordinary hits/first damage and 28-hit
+retirement/124-body expiry on the entrance; its player collision belongs to the
+following independently acquired player-list change, not that older receipt.
+Twenty-eight original PC walk contexts confirm that generic footprint storage
+is not a prerequisite for the player-specific mesh query. Follow the
 next exact-executable checks and contracts in BUILDINGS.md.
 
 ## Delivered milestone - The Wife rescue and completion-film continuation

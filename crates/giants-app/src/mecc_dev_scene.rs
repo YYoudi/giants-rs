@@ -576,14 +576,22 @@ impl State {
         );
 
         let colliders = giants_game::declared_mesh_scene::prepare(&plan, &world.terrain);
+        let player_colliders =
+            giants_game::declared_mesh_scene::prepare_players(&plan, &world.terrain);
         let projectile_colliders =
             giants_game::declared_mesh_scene::prepare_projectiles(&plan, &world.terrain);
         let buildings = crate::mission_buildings::World::prepare(
             &plan,
+            &player_colliders,
             &colliders,
             &projectile_colliders,
             &globals,
         )?;
+        println!(
+            "mission_declared_player_meshes objects={} needs={} independent_environment_admission=true native_list_order=false",
+            player_colliders.objects.len(),
+            player_colliders.needs.len()
+        );
         println!(
             "mission_declared_projectiles objects={} needs={} independent_physics_admission=true native_list_order=false",
             projectile_colliders.objects.len(),
@@ -766,8 +774,8 @@ impl State {
                 },
             )
             .collect();
-        let static_mesh_objects = colliders.player_objects.len();
-        let next_contact_key = colliders
+        let static_mesh_objects = player_colliders.player_objects.len();
+        let next_contact_key = player_colliders
             .player_objects
             .iter()
             .map(|o| o.fields.id)
@@ -799,7 +807,7 @@ impl State {
                 .collect::<Result<Vec<_>, &'static str>>()?,
             static_projectile_objects: projectile_colliders.objects.len(),
             projectile_test: None,
-            mesh_objects: colliders.player_objects,
+            mesh_objects: player_colliders.player_objects,
             static_mesh_objects,
             npc_contact_keys: BTreeMap::new(),
             next_contact_key,

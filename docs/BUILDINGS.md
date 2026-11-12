@@ -18,18 +18,38 @@ houses/walls did not. The guarded cold projection now accepts the acquired
 zero-operand class shape declarations. Other size variants still fail. Bounds1
 and Pair2 precede Raster3 and cannot provide the platform membership bit; their
 independently selected solid meshes are now admitted without inventing roofs.
-Raster3 construction remains required for the physical platform/lateral paths of
-other entrances/columns/walls. The new independent projectile preparation uses
+In .12.3 that same restricted geometry preparation also limited player inputs.
+The independent projectile preparation uses
 its own source bit20000 eligibility and posed meshes, without granting a player
 footprint, lateral membership or a walkable roof. In the installed Story2 entry
 it prepares 65 projectile candidates, compared with the narrower physical set.
 Guard-tower health geometry is sampled at the actual intact channel; that only
 provides a hit shape, not its unbound replacement/death-effect services.
-Ordinary projectile response currently routes supported living NPC hits; drawing
+Ordinary projectile response routes supported living NPC hits; drawing
 a building alone provides no damage callback. The new ordinary adapter now owns
 admitted state61 houses and routes normal pistol hits to their source decisions,
 then replaces player/projectile/environment triangles and submits individual
 render-LOD deformation or retirement. Other state families remain separate.
+
+The next player-specific acquisition corrects that shared admission assumption.
+The original debug physical-player object walk accepts prepared mesh contacts
+independently of generic-object footprint storage and the old bit1008 filter.
+Twenty-eight private contexts execute its ordered walk and actual overlap/
+distance helpers, retaining supplied list/cached radius/quiet-mode and a recorded
+no-response narrow boundary. Null and unmapped footprint values are not read.
+This proves the bounded selection path, not supplied triangle geometry, whole
+world construction, generic platform behavior or a PS2 identity.
+
+`declared_mesh_scene::prepare_players` therefore has its own initial static
+building cohort. It preserves active/bit800 exclusions, actual posed meshes,
+source identity and old admitted geometry. New building profiles remain bounded
+to acquired initial states; live pose/cache producers are not guessed. The app
+keeps physical-player, generic environment and projectile membership separately.
+A damage transition updates each actually owned role, including player shapes
+that have no generic environment owner. Fences, entrance/columns and guard-tower
+geometry can enter this player path; that does not admit the tower's unbound
+replacement/death effect or a generic actor platform. Real rendered contact and
+combined regressions remain required on the next executable before publication.
 
 The literal prototype names `house_process`, `house_shot` and
 `house_handle_destruction` lead to `building_damage`. Their exact PC function
@@ -169,8 +189,8 @@ shared-texture fixture in that matrix is separate from an installed-data control
 that executes original registration/zeroing, source flag stores, lookup/comparator
 and the entrance's class/copy path with bounded file/memory services. This is a
 dependency, not a new published gameplay or shadow-fidelity result. Preview .12.3
-retains its recorded 56-owner coverage. The entrance still needs its actual
-physical footprint before player blocking can be claimed.
+retains its recorded 56-owner coverage. The following player-specific selection
+acquisition is separate from this header dependency and generic footprints.
 
 Dependency/native controls must retain exact binary identities and supplied
 services privately. Final acceptance requires the ordinary menu and controls,

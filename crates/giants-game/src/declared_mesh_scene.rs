@@ -35,7 +35,15 @@ pub struct Prepared {
 }
 
 pub fn prepare(plan: &Plan, terrain: &giants_formats::gti::Terrain) -> Prepared {
-    prepare_profile(plan, terrain, false, false)
+    prepare_profile(plan, terrain, Profile::Environment)
+}
+
+/// Initial static building meshes for the physical player's actual object walk.
+/// That walk does not read generic-object platform footprints. This grants no
+/// generic actor platform/radial service or live-world registration. Prototype
+/// PS2 `MeccPhysicsExApplyLocation` is an unknown attribution search route.
+pub fn prepare_players(plan: &Plan, terrain: &giants_formats::gti::Terrain) -> Prepared {
+    prepare_profile(plan, terrain, Profile::Player)
 }
 
 /// Source-declared platform geometry only. These are unresolved candidates,
@@ -45,20 +53,29 @@ pub fn prepare_platform_candidates(
     plan: &Plan,
     terrain: &giants_formats::gti::Terrain,
 ) -> Prepared {
-    prepare_profile(plan, terrain, true, false)
+    prepare_profile(plan, terrain, Profile::PlatformCandidates)
 }
 
 /// Projectile list admission is independent of player physics and footprint
 /// membership. These posed meshes do not grant lateral or platform response.
 pub fn prepare_projectiles(plan: &Plan, terrain: &giants_formats::gti::Terrain) -> Prepared {
-    prepare_profile(plan, terrain, false, true)
+    prepare_profile(plan, terrain, Profile::Projectiles)
+}
+
+enum Profile {
+    Environment,
+    Player,
+    PlatformCandidates,
+    Projectiles,
 }
 fn prepare_profile(
     plan: &Plan,
     terrain: &giants_formats::gti::Terrain,
-    platforms: bool,
-    projectiles: bool,
+    profile: Profile,
 ) -> Prepared {
+    let platforms = matches!(profile, Profile::PlatformCandidates);
+    let projectiles = matches!(profile, Profile::Projectiles);
+    let players = matches!(profile, Profile::Player);
     let mut output = Prepared {
         objects: vec![],
         records: vec![],
@@ -77,7 +94,7 @@ fn prepare_profile(
                 || if projectiles {
                     flags.personality & 0x20000 == 0
                 } else {
-                    flags.personality & 0x800 != 0 || flags.personality & 0x1008 == 0
+                    flags.personality & 0x800 != 0 || (!players && flags.personality & 0x1008 == 0)
                 }
             {
                 return Ok(None);
@@ -96,6 +113,16 @@ fn prepare_profile(
             let projection =
                 collider_init::cold_projection(context, source.class).map_err(|e| e.to_string())?;
             let mut initial = projection.placed_with_scale(pose, scale_override)?;
+            if players && flags.personality & 0x1008 == 0 && !matches!(initial.state, 61 | 101) {
+                // Widen the cold player cohort for the acquired building
+                // families, not arbitrary staged actors or scenery callbacks.
+                return Ok(None);
+            }
+            let extended_player = players && (flags.personality & 0x1008 == 0
+                || flags.personality & 8 != 0 && flags.personality & (0x80000 | 0x100000) == 0);
+            if extended_player && !matches!(initial.state, 0 | 61 | 101) {
+                return Err("player mesh declaration requires its live pose/state owner".into());
+            }
             if projectiles && !matches!(initial.state, 0 | 61 | 74 | 83 | 98 | 101 | 102) {
                 return Err("projectile declaration requires its live pose/state owner".into());
             }
@@ -112,7 +139,7 @@ fn prepare_profile(
             }
             if initial.fields.collision_flags & 8 != 0
                 && initial.fields.collision_flags & (0x80000 | 0x100000) == 0
-                && !platforms && !projectiles
+                && !platforms && !projectiles && !players
             {
                 return Err("platform footprint preparation required".into());
             }
@@ -285,8 +312,20 @@ mod projectile_tests {
         let plan = packet.instance_plan(&root, "English").unwrap();
         let world = packet.world_asset(&root).unwrap();
         let physical = super::prepare(&plan, &world.terrain);
+        let players = super::prepare_players(&plan, &world.terrain);
         let projectiles = super::prepare_projectiles(&plan, &world.terrain);
         assert!(projectiles.player_objects.is_empty());
+        for class in [512, 544, 549, 1050] {
+            assert!(players.records.iter().any(|r| r.class == class));
+        }
+        for old in &physical.objects {
+            let player = players
+                .objects
+                .iter()
+                .find(|p| p.fields.id == old.fields.id)
+                .unwrap();
+            assert_eq!(player.triangles, old.triangles);
+        }
         for class in [512, 544, 549, 1050] {
             let count = projectiles
                 .records
