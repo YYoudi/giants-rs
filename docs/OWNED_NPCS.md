@@ -9,6 +9,27 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
+The canonical mixed-program construction owner is now
+`attached_effect_context::mixed::Execution`. It consumes actual source records,
+creates root and immediate-child Session identities in source order, retires
+each completed child context and retains the root context across its declared
+wait. Zero/half-step suspension and exact-deadline continuation preserve the
+original RNG stream, construct the delayed body and actually retire the context.
+A second wrapper cannot consume an already-active context; failures retain the
+constructed prefix and prevent replay. Completion means source construction,
+not body lifetime, render readiness or damage completion.
+
+An installed/native control compares all 44 medium/large births, including the
+two delayed bodies, on 2,596 selected words and both phase RNG results. A second
+installed control runs four ordinary history/callback/finalization/placement
+passes over the first-phase bodies against The Wife's actual declared terrain
+and collider preparation. Its 168 preparations use the common world services,
+without a cinematic scope. It explicitly selects the existing prototype PS2
+zero-threshold progress policy; no debug-PC caller bits are invented. This is a
+source-world service control, not a native whole-world schedule or GPU check.
+Ordinary impact still needs its actual program/body schedule, vertex consumers,
+retirement and reciprocal hit owners before complete encounter acceptance.
+
 The current immediate-particle dependency is CPU-validated, not an ordinary
 explosion delivery. The canonical timed owner now constructs the acquired
 source-declared particles, retaining their actual temporary parent/reference
@@ -39,7 +60,7 @@ ground query and gravity, once per callback. It supplies no synthetic contact.
 The common static-world adapter now binds that required tail. This control uses
 supplied clocks, static/no-ripple terrain preparation and direct callbacks; it
 does not certify the complete world/preparation schedule or object population.
-Full mixed-program execution, graphics, damage and retirement still block impact.
+Live mixed-program scheduling, graphics, damage and retirement still block impact.
 No new PS2 attribution, executable or rendered encounter is established here.
 
 Enemy projectile impact preparation now has a typed mode8 entry. The PC request

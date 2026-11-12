@@ -176,6 +176,19 @@ ordinary interaction level as Vimps, starting with The Wife, then other declared
 maps. Main owns The Wife progression and common publication; the NPC lane must
 not replace that mission flow or publish another preview.
 
+Current dependency: the canonical mixed construction executor now owns real
+root/child Session births, child-context retirement, source wait and delayed
+continuation/root-context retirement. All44 births match the original on2,596
+selected words and phase RNG; duplicate consumption/replay is refused. The
+first-phase bodies also pass168 ordinary source-world preparations with actual
+Wife terrain/colliders, common history/physical/finalization/reference services
+and an explicit existing prototype PS2 zero-threshold progress policy. No
+cinematic scope or invented PC caller word is supplied. Next connect this owner
+to the ordinary impact/body schedule, actual vertex renderer and body retirement,
+then the active source-bearing Mecc/Vimp/Ripper hit consumers. The ordinary
+complete encounter/death, real Windows menu exit/reentry and identified final
+GNU build remain required; these CPU controls do not establish playability.
+
 Earlier graphical failure: local source `a450206` admitted the authored Wife
 population but failed before capture: mixed positional sound requests exceeded
 the bounded audio queue, closing its real backend and then quarantining both NPC

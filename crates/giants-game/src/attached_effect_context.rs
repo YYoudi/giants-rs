@@ -2,6 +2,7 @@
 //! A prepared entry alone implies no actor; active smoke records its Session owner.
 use giants_formats::{effect_image::Image, effect_program::Program};
 use std::sync::Arc;
+pub mod mixed;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Id {
     ticket: u64,

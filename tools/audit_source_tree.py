@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed canonical mixed construction/wait route; unknown attribution.
+        '3a4639af649016925f7e40e0074c93610161ce965d4671457179e584db7afd0d',
         # Reviewed positional impact mode8 entry; unknown wrapper attribution.
         '432dd2cc494e8f0e03ffb55a811f8e0f6bb3b2d99c8c4e748638ba811f02962d',
         # Concurrent reviewed building navigation: names/status only, no corpus.

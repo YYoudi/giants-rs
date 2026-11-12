@@ -1551,6 +1551,22 @@ hex-case file; raw controls and original data stay outside Git.
 
 ### Guarded Ripper projectile graphical diagnostic
 
+The canonical mixed construction control requires `GIANTS_NPC_ROOT` and private
+`GIANTS_RIPPER_EXECUTION_CONTROLS` from the pinned original PC controls:
+
+```powershell
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu installed_mixed_executor_matches_native -- --ignored --nocapture
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu installed_mixed_bodies_use_real_ordinary -- --ignored --nocapture
+```
+
+The first compares all44 canonical births, phase RNG, retained waits and actual
+context retirement. The second needs only the installed root and exercises168
+ordinary source-world preparations with real declared terrain/colliders and an
+explicit prototype PS2 zero-threshold progress policy, without a fabricated
+debug-PC caller word or cinematic scope. Neither validates the native complete
+world walk, GPU rendering, body lifetime cleanup, ordinary impact or combat.
+Keep original controls/fixtures and extracted source inputs private.
+
 The canonical scroll/fade CPU control requires `GIANTS_NPC_ROOT` and a private
 `GIANTS_RIPPER_RENDER_CONTROLS` TSV produced from the pinned original PC controls:
 

@@ -72,7 +72,7 @@ fn flat_blocks(ops: &[u8]) -> bool {
 // Complete acquired mixed explosion frame, including the delayed final body.
 // Null-object traversal skips immediate children; their real preparation is
 // later, between active parent commands. This admits no active FX service.
-fn ripper_explosion(ops: &[u8]) -> bool {
+pub(crate) fn ripper_explosion(ops: &[u8]) -> bool {
     const PREFIX: &[u8] = &[3, 6, 0x17, 8, 4, 7, 3, 6, 0x21, 0x1b, 4];
     const SUFFIX: &[u8] = &[
         7, 3, 6, 0x17, 0x0e, 9, 4, 7, 3, 6, 8, 0x46, 0x40, 4, 7, 3, 6, 0x17, 0x0e, 9, 4, 7, 0x0b,

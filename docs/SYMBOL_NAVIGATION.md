@@ -222,6 +222,11 @@ checked source-offset constructors in `effect_actor`. The acquired PC root
 prefixes preserve their own positional, hidden and physical distinctions;
 constructing a root does not execute children, consume waits or acknowledge the
 whole program. Existing PC aliases remain unchanged.
+Literal `fx_process_one` and `fx_logic` are additional **unknown** search routes
+to [`mixed::Execution`](../crates/giants-game/src/attached_effect_context/mixed.rs).
+This canonical source constructor owns root/child births, retained waits and
+context retirement. Its scoped PC controls do not establish body scheduling,
+render completion, damage, prototype signatures/layouts or a confirmed attribution.
 
 The literal prototype PS2 name `object_lock_logic` is an **unknown** search
 route to the acquired PC debug-1.1 helper at0x00473b30 and the canonical
