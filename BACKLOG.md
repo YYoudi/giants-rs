@@ -90,7 +90,17 @@ Exact PC common event calls return zero for actual absent state2/21/23 entries.
 Ripper partial-pistol selection explicitly reports its missing damage consumer;
 no Vimp damage callback, health change or kill credit is substituted. Collision
 submission is not a completed player/Ripper physical encounter or injury test.
-Next: connect ordinary firing/flight and active popup/dirt effect consumers,
+The ordinary approach diagnostic now reaches an actual class230 mode65 after
+source target acquisition. The newly connected primary attack bridge constructs
+class232 through the real factory, attached-FX preparation, positional sound
+submission and current animated muzzle; initial radius/terrain prepare succeeds.
+The input diagnostic still fails at the missing projectile scene/flight/impact
+consumer (step2618, about1,517 units moved), preserving the consumed prefix.
+Class73 modes37..39 share this launch bridge but their ordinary encounter branch
+has not yet been observed. Launch is not projectile movement or damage delivery.
+Next: provide current dedicated Mecc collision geometry (actual model6, not the
+render model0) and the actual static/NPC scene to flight, connect required impact
+and active popup/dirt/projectile FX consumers,
 consume required class230 mode66 and later continuations,
 then complete reciprocal contacts, target-to-damage dispatch and combat with
 source-specific sounds/blood/death/cleanup. Do not copy Vimp ghosts/meat or force

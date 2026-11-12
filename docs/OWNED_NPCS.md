@@ -97,8 +97,16 @@ reported and quarantined independently of Vimps. Prior audio transport requests
 survive a late callback refusal; queue submission does not establish a voice.
 
 The admitted ordinary primary subset is class73 modes0/31/32/33/34/44 and class230
-modes0/61/62/63/64. Later modes are explicit refusals, including ordinary primary
-fire, even where isolated owned callers already exist. Perception currently admits the actual controlled Mecc subset;
+modes0/61/62/63/64/65, with class73 modes37/38/39 also dispatched through the
+owned attack caller. The shared persistent projectile factory now retains the
+actual mission resources and per-class templates across births. Ordinary primary
+launch calls real attached-FX preparation, positional sound submission and the
+current animated muzzle before constructing/launching class90 or class232. These are
+launch consumers, not a delivered projectile flight/impact path. A newly launched
+shot receives actual initial radius/terrain preparation and then explicitly
+refuses the absent current scene/flight/impact services. Earlier creations,
+preparations and sound requests remain consumed; component quarantine prevents
+replay. Later primary modes still refuse. Perception currently admits the actual controlled Mecc subset;
 other families are not represented by invented current providers. Dirt/event
 contexts can be prepared but have no active effect/particle scheduling here.
 Contacts, reciprocal combat, source death and cleanup remain required before
@@ -137,6 +145,26 @@ whole-world parity. The installed four The Wife controls cover both classes,
 source-face segment intersections, shared scene registration, incomplete-history
 refusal and two-ticket lifecycle. The existing Vimp contact/re-entry regression
 passes after extracting the shared collision geometry consumer.
+
+The named ignored diagnostic `diagnostic_wife_ripper_supplied_approach_reaches_contact`
+drives the actual Mecc controller/terrain/collision path toward a current Ripper.
+It supplies player commands only, without assigning an NPC pose, mode, target,
+health or readiness. The first run advanced the player approximately 1,502 units
+before class230 selected mode65 and the old ordinary dispatcher refused it.
+With the launch consumer, the same approach creates class232 at step 2618 after
+approximately 1,517 units; its remaining scene/flight dependency then refuses.
+This diagnostic is intentionally still failing at that real frontier. It proves
+neither physical contact nor reciprocal combat or GPU fidelity. It is not included
+in the passing `source_wife_` regression selector.
+
+Resource inspection confirms that the Mecc's dedicated collision selection is
+model6 (`mc_l6`), distinct from the ordinary model-zero display. A flight consumer
+must obtain its current deformation and actual canonical identity alongside the
+existing static/NPC registry. It must not replace that geometry with model0,
+an invented empty world, a fabricated global vertex epoch or a ready result.
+Ripper projectile models (`ripspit` / `ripspitbig`) also exist; preparation alone
+does not establish their draw, movement or impacts. Source naming remains separate:
+no new prototype PS2 attribution is confirmed by this input diagnostic.
 
 A Ripper selected by the ordinary partial pistol is identified and reports the
 missing damage consumer without dispatching to the Vimp backend or inventing a

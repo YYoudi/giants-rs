@@ -200,6 +200,16 @@ Windows-input, reciprocal-combat or death check. The normal controller invokes
 the same component without an activation variable; unsupported continuations
 remain explicit failures. See OWNED_NPCS.md for the admitted subset.
 
+The ignored `diagnostic_wife_ripper_supplied_approach_reaches_contact` in
+`giants-app` is a separate, currently failing acceptance-frontier diagnostic.
+It drives the same ordinary Mecc physics/contact publication and source Ripper
+component from The Wife's authored start, using supplied movement/look/jet levels.
+Run it by exact name with the GNU target and `-- --ignored --nocapture` to observe
+the next required consumer. It currently reaches actual class232 launch, then
+refuses missing current projectile scene/flight/impact services. No NPC pose,
+mode, damage or readiness is assigned. It is not an OS-input/GPU encounter check
+and its failure must not be reported as a passing Ripper gameplay test.
+
 With `GIANTS_NPC_ROOT`, run `source_surface_world` in `giants-game` and
 `source_wife_marker_children` in `giants-app`, using the same GNU target and
 `-- --ignored`. The first control uses real source constructors/animations with

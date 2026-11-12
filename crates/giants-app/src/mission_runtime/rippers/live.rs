@@ -18,6 +18,7 @@ pub(super) struct Driver {
     completed: BTreeMap<Id, (u64, u32)>,
     failure: Option<String>,
     markers: BTreeSet<Id>,
+    pub(super) projectiles: BTreeSet<Id>,
 }
 impl Driver {
     pub(super) fn completed(&self, id: Id) -> Option<(u64, u32)> {
@@ -47,6 +48,7 @@ pub(in crate::mission_runtime) struct Frame<'a> {
     pub areas: &'a [giants_game::object_time::SlowArea],
     pub objects: &'a [giants_game::actor_environment::Collider],
     pub world: &'a giants_game::WorldAsset,
+    pub resources: &'a giants_game::scene_resources::SceneResources,
 }
 struct Callbacks<'a, 'f> {
     frame: &'a Frame<'f>,
@@ -58,6 +60,7 @@ struct Callbacks<'a, 'f> {
     identity: u32,
     epoch: Option<u32>,
     marker_factory: &'a mut giants_game::primary_surface_marker::Factory<'static>,
+    projectile_factory: &'a mut giants_game::primary_enemy_fire::Factory<'static>,
 }
 struct Services<'a> {
     owner: Id,
@@ -121,6 +124,76 @@ impl primary::Services<Id, giants_game::attached_effect_context::Id> for Service
                 sound: cue,
             });
         Ok(SoundOutcome::Submitted)
+    }
+}
+impl giants_game::primary_enemy_fire::Dependencies<giants_game::attached_effect_context::Id>
+    for Services<'_>
+{
+    fn prepare_effect(
+        &mut self,
+        session: &mut Session,
+        request: giants_game::enemy_projectile::EffectRequest<'_>,
+        random: &mut Random,
+    ) -> Result<giants_game::enemy_projectile::EffectOutcome, String> {
+        if request.flags != 4 {
+            return Err("Ripper launch FX differs from acquired attached flags4".into());
+        }
+        let fields = session
+            .get(request.recipient)
+            .and_then(|actor| actor.construction_fields.as_ref())
+            .ok_or("Ripper projectile FX recipient absent")?;
+        if !matches!(fields.class, 90 | 232) {
+            return Err("Ripper projectile FX recipient class differs".into());
+        }
+        let (created, _) = self.contexts.prepare_extended_invariant(
+            request.name,
+            request.recipient,
+            fields.object_flags,
+            request.tag,
+            random,
+        )?;
+        Ok(match created {
+            Creation::Absent => giants_game::enemy_projectile::EffectOutcome::Rejected,
+            Creation::Prepared(_) => giants_game::enemy_projectile::EffectOutcome::Prepared,
+        })
+    }
+    fn positional_sound(
+        &mut self,
+        _: &mut Session,
+        sound: u32,
+        position: [f32; 3],
+    ) -> Result<SoundOutcome, String> {
+        if !position.into_iter().all(f32::is_finite) {
+            return Err("Ripper launch sound position nonfinite".into());
+        }
+        self.sounds
+            .push(crate::mission_audio::Event::NpcPosition { sound, position });
+        Ok(SoundOutcome::Submitted)
+    }
+    fn owner_sound(
+        &mut self,
+        _: &mut Session,
+        owner: Id,
+        _: &primary::State<Id, giants_game::attached_effect_context::Id>,
+        cue: u32,
+        _: &mut Random,
+    ) -> Result<SoundOutcome, String> {
+        if owner != self.owner {
+            return Err("Ripper attack sound owner differs".into());
+        }
+        Ok(self.play(cue))
+    }
+    fn remove_effect(
+        &mut self,
+        _: &mut Session,
+        owner: Id,
+        effect: giants_game::attached_effect_context::Id,
+        _: &mut Random,
+    ) -> Result<(), String> {
+        if owner != self.owner {
+            return Err("Ripper attack effect owner differs".into());
+        }
+        self.contexts.release_prepared(effect).map(|_| ())
     }
 }
 impl giants_game::resident_states::State23AnimationServices for Services<'_> {
@@ -307,6 +380,29 @@ impl ActorWorldServices for Callbacks<'_, '_> {
                 self.random,
                 &mut services,
             )?,
+            (73, 37..=39) => session.update_ripper_attack(
+                id,
+                input,
+                giants_game::ripper_attack::Parameters::from_globals(self.globals)
+                    .map_err(|e| e.to_string())?,
+                self.projectile_factory,
+                self.random,
+                &mut services,
+            )?,
+            (230, 65) => session.update_ripper_variant_attack(
+                id,
+                input,
+                giants_game::ripper_attack::VariantParameters {
+                    close_range: scalar(0x3d8)?,
+                    reconsider_range: scalar(0x104)?,
+                    charge_percent: scalar(0x108)?,
+                    cooldown: scalar(0x10c)?,
+                    vertical_spread_percent: scalar(0x11c)?,
+                },
+                self.projectile_factory,
+                self.random,
+                &mut services,
+            )?,
             (230, 62) => {
                 session.update_ripper_variant_turn(id, input, self.random, &mut services)?
             }
@@ -356,7 +452,7 @@ impl ActorWorldServices for Callbacks<'_, '_> {
     fn secondary(&mut self, session: &mut Session, id: Id) -> Result<(), String> {
         let combat = session.state23_combat(id).ok_or("Ripper combat absent")?;
         let class = session.get(id).unwrap().class;
-        if !matches!((class, combat.mode), (73, 31..=34 | 44) | (230, 61..=65)) {
+        if !matches!((class, combat.mode), (73, 31..=34 | 37..=39 | 44) | (230, 61..=65)) {
             return Err("Ripper secondary requires an acquired ordinary selection".into());
         }
         let scalar = |offset| self.globals.scalar(offset).map_err(|e| e.to_string());
@@ -562,6 +658,7 @@ impl State {
                 identity,
                 epoch: None,
                 marker_factory: &mut self.marker_factory,
+                projectile_factory: &mut self.projectile_factory,
             };
             let outcome = session.update_actor_world(owner.id, &mut callbacks)?;
             if outcome != giants_game::actor_world_tick::Outcome::Updated {
@@ -576,6 +673,7 @@ impl State {
             }
         }
         self.advance_markers(session, frame, random, device)?;
+        self.require_projectile_flight(session, frame)?;
         if self.driver.sample.is_none() {
             println!(
                 "mission_ripper_component ticket={} completed_actors={} source=normal_mecc_component current_owned_pose=true perception=controlled_player_subset active_fx=false combat_complete=false native_world_verified=false",

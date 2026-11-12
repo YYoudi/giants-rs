@@ -1,25 +1,31 @@
-//! Source declaration coverage, not ordinary encounter acceptance.
+//! Source component controls and an explicit input frontier; no Windows or complete encounter proof.
 use super::*;
 
 #[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; ordinary supplied-input frame/pose control, no GPU or OS input"]
 fn source_wife_rippers_complete_current_frames_without_replaying_history() {
-    current_frames(false, false);
+    current_frames(false, false, false);
 }
 
 #[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; explicit real marker-constructor fixture in ordinary frame/render consumers, no GPU or natural awakening proof"]
 fn source_wife_marker_children_use_current_frames_and_common_render_assets() {
-    current_frames(true, false);
+    current_frames(true, false, false);
 }
 
 #[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; supplied source motion for explicit two-marker retirement fixture, headless assets only, not natural AI or OS input"]
 fn source_wife_markers_retire_through_the_ordinary_component_and_render_consumer() {
-    current_frames(true, true);
+    current_frames(true, true, false);
 }
 
-fn current_frames(marker_fixture: bool, retirement_fixture: bool) {
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; acceptance frontier using supplied ordinary Mecc navigation, no OS input; currently fails at missing projectile scene/flight services"]
+fn diagnostic_wife_ripper_supplied_approach_reaches_contact() {
+    current_frames(false, false, true);
+}
+
+fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixture: bool) {
     use crate::mission_runtime as runtime;
     use bevy::{ecs::world::CommandQueue, prelude::*};
     use std::sync::Arc;
@@ -252,6 +258,10 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool) {
                 .unwrap();
             assert!(duplicate.is_empty());
             assert_eq!(runtime.active.as_ref().unwrap().variant_random.0, before);
+        }
+        if approach_fixture {
+            approach_ripper(&mut runtime, &mut viewer, ticket, &asset);
+            continue;
         }
         if marker_fixture {
             let active = runtime.active.as_mut().unwrap();
@@ -627,4 +637,116 @@ fn source_wife_ripper_bindings_use_declared_owners_and_survive_no_ticket_reuse()
         assert!(state.view(&session, ticket).is_err());
         old = Some(state);
     }
+}
+
+// Input fixture only: the actual player moves through its common physics and
+// publishes its current pose. No NPC pose, health, behavior or readiness is set.
+fn approach_ripper(
+    runtime: &mut super::super::Runtime,
+    viewer: &mut crate::mecc_dev_scene::State,
+    ticket: u64,
+    asset: &giants_game::WorldAsset,
+) {
+    use bevy::prelude::*;
+    struct EmptyDevice;
+    impl giants_game::actor_retirement::Services for EmptyDevice {
+        fn release(&mut self, session: &mut Session, id: Id) -> Result<(), String> {
+            session.get(id).ok_or("CPU release owner absent")?;
+            // This device-free harness owns no actual queued/started voices.
+            Ok(())
+        }
+    }
+    let mut minimum = f32::INFINITY;
+    let initial = viewer.mission_snapshot().0;
+    for number in 181..=24180u64 {
+        let contacts = runtime.ripper_contact_snapshots(ticket).unwrap();
+        viewer.set_mission_contacts(ticket, contacts).unwrap();
+        let position = viewer.mission_snapshot().0;
+        let target = runtime
+            .npc_draws(ticket)
+            .unwrap()
+            .into_iter()
+            .filter(|d| matches!(d.class, 73 | 230))
+            .min_by(|a, b| {
+                let distance = |v: [f32; 3]| (v[0] - position[0]).hypot(v[1] - position[1]);
+                distance(a.center).total_cmp(&distance(b.center))
+            })
+            .expect("current Ripper approach target");
+        let dx = target.center[0] - position[0];
+        let dy = target.center[1] - position[1];
+        let distance = dx.hypot(dy);
+        minimum = minimum.min(distance);
+        let camera = viewer.subjective_inputs().0;
+        let yaw = camera.angles[0].to_radians();
+        let desired = dx.atan2(-dy);
+        viewer.mission_look(
+            Vec2::new(
+                (yaw - desired + std::f32::consts::PI).rem_euclid(std::f32::consts::TAU)
+                    - std::f32::consts::PI,
+                0.,
+            ),
+            false,
+        );
+        let axes = if distance > 5. { Vec2::Y } else { Vec2::ZERO };
+        let thrust = distance > 120.
+            && position[2] < target.center[2] + 60.
+            && viewer.mission_snapshot().1 > 10.;
+        let motion = viewer
+            .step(
+                0.016,
+                axes,
+                &asset.terrain,
+                thrust,
+                thrust && number.is_multiple_of(360),
+            )
+            .unwrap();
+        runtime
+            .sample_world_clock(ticket, 1000 + number as u32 * 16)
+            .unwrap();
+        runtime
+            .publish_controlled_mecc_motion(ticket, number, motion)
+            .unwrap();
+        if let Err(error) = runtime.advance_normal_rippers_with_retirement(
+            ticket,
+            number,
+            viewer.camera().1,
+            viewer.mission_environment_colliders(),
+            &mut EmptyDevice,
+        ) {
+            let active = runtime.active.as_ref().unwrap();
+            let modes: Vec<_> = active
+                .resident_states
+                .list(0)
+                .into_iter()
+                .filter_map(|id| {
+                    let actor = active.resident_states.get(id)?;
+                    matches!(actor.class, 73 | 230).then(|| {
+                        (
+                            actor.class,
+                            active.resident_states.state23_combat(id).map(|s| s.mode),
+                        )
+                    })
+                })
+                .collect();
+            panic!(
+                "Ripper approach frontier: step={number} nearest={distance} minimum={minimum} moved={} modes={modes:?} error={error}; supplied_player_input=true forced_npc_pose=false os_input=false",
+                Vec3::from(initial).distance(Vec3::from(position))
+            );
+        }
+        if number.is_multiple_of(600) {
+            println!(
+                "ripper_approach ticket={ticket} step={number} nearest={distance} minimum={minimum} player_contacts={} supplied_controller=true forced_npc_pose=false os_input=false",
+                viewer.mission_npc_contact_responses()
+            );
+        }
+        if viewer.mission_npc_contact_responses() > 0 {
+            println!(
+                "ripper_approach_contact ticket={ticket} step={number} minimum={minimum} supplied_controller=true reciprocal_combat_verified=false"
+            );
+            return;
+        }
+    }
+    panic!(
+        "Ripper approach never made contact; minimum={minimum} supplied_controller=true os_input=false"
+    );
 }

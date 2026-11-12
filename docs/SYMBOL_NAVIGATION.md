@@ -72,7 +72,11 @@ owned `Session` callers, including
 Its exact relationship to PC debug-1.1
 `FUN_004d61f0` remains **unknown**. The PC callback and its class-specific
 continuations remain independently acquired; the symbol does not transfer a PS2
-signature, layout or implementation claim. Both binary identities are pinned by
+signature, layout or implementation claim. The related shared launch bridge is
+[`primary_enemy_fire`](../crates/giants-game/src/primary_enemy_fire.rs); its PC
+helper at 0x004dbaf0 remains unassigned after prototype ripper/missile searches.
+A real actor launch does not establish ordinary projectile flight or damage.
+Both binary identities are pinned by
 the central method. Old address aliases remain valid.
 
 `ripper_chase_location__FP6OBJECTP3P3Df` is another literal prototype search key

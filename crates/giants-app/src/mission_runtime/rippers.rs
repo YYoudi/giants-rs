@@ -8,6 +8,7 @@ use giants_game::{
 mod contacts;
 mod draw;
 pub(super) mod live;
+mod projectiles;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 struct Declaration {
@@ -30,6 +31,7 @@ pub(super) struct State {
     geometry: draw::Geometry,
     sounds: Vec<crate::mission_audio::Event>,
     marker_factory: giants_game::primary_surface_marker::Factory<'static>,
+    projectile_factory: giants_game::primary_enemy_fire::Factory<'static>,
 }
 #[derive(Debug, PartialEq, Eq)]
 pub(super) struct View {
@@ -106,6 +108,9 @@ impl State {
             driver: Default::default(),
             geometry: Default::default(),
             sounds: vec![],
+            projectile_factory: giants_game::primary_enemy_fire::Factory::shared(
+                plan.resources().clone(),
+            ),
             marker_factory: giants_game::primary_surface_marker::Factory::shared(
                 plan.resources().clone(),
             ),

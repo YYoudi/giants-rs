@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed launch-bridge cross-reference and unassigned helper address;
+        # retained aliases/statuses, no new native body or corpus extraction.
+        '01e32dd58e2c6046541c1faeb5280bc7ed1c4f4d4a19d0a29aa639420bc40daf',
         # Concurrent effect-lane navigation: reviewed probable opcode block and
         # explicit prototype-stub/PC-behavior divergence, same minimal PC alias.
         '1a51cdd4703a5d425c901d99cacd504c620b9c398a0cb0dfe8c92c5d6e8b753c',

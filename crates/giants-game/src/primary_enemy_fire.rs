@@ -1,5 +1,7 @@
 //! Required-service bridge from the acquired primary to real owned state6
 //! construction and launch. Initialization and mission scheduling stay separate.
+//! Prototype PS2 `ripper_move` names related caller work; the exact relationship
+//! of PC debug-1.1 helper 0x004dbaf0 to prototype missile names stays unassigned.
 use crate::{
     actor_fields::Fields,
     arithmetic::Precision,
@@ -107,13 +109,35 @@ impl Template {
 /// Scoped to one immutable world-resource owner. Positive, negative and failed
 /// lookups are cached; none of them creates a projectile implicitly.
 pub struct Factory<'a> {
-    resources: &'a SceneResources,
+    resources: ResourceOwner<'a>,
     templates: BTreeMap<i32, Result<Option<Template>, String>>,
+}
+enum ResourceOwner<'a> {
+    Borrowed(&'a SceneResources),
+    Shared(Arc<SceneResources>),
+}
+impl ResourceOwner<'_> {
+    fn get(&self) -> &SceneResources {
+        match self {
+            Self::Borrowed(value) => value,
+            Self::Shared(value) => value,
+        }
+    }
+}
+impl Factory<'static> {
+    /// Retain the mission's actual immutable resources and per-class templates
+    /// across ordinary births. This acknowledges no projectile flight service.
+    pub fn shared(resources: Arc<SceneResources>) -> Self {
+        Self {
+            resources: ResourceOwner::Shared(resources),
+            templates: BTreeMap::new(),
+        }
+    }
 }
 impl<'a> Factory<'a> {
     pub fn new(resources: &'a SceneResources) -> Self {
         Self {
-            resources,
+            resources: ResourceOwner::Borrowed(resources),
             templates: BTreeMap::new(),
         }
     }
@@ -124,7 +148,7 @@ impl<'a> Factory<'a> {
         let value = self
             .templates
             .entry(class)
-            .or_insert_with(|| Template::load(self.resources, class));
+            .or_insert_with(|| Template::load(self.resources.get(), class));
         match value {
             Ok(Some(template)) => session
                 .construct_enemy_projectile(template.input())
