@@ -1,7 +1,8 @@
 # Ordinary building collision and damage integration
 
-Preview .12.3 is the first bounded ordinary-building delivery; preview .12.2
-did not enable it. BACKLOG.md owns detailed acceptance; RECONSTRUCTION_METHOD.md governs
+Preview .13.1 extends player collision and entrance damage. Preview .12.3 is
+the first bounded ordinary-building delivery; preview .12.2 did not enable it.
+BACKLOG.md owns detailed acceptance; RECONSTRUCTION_METHOD.md governs
 every native acquisition, beginning with literal prototype PS2 names.
 
 The first observable delivery is walking against an authored building, hitting
@@ -31,7 +32,7 @@ admitted state61 houses and routes normal pistol hits to their source decisions,
 then replaces player/projectile/environment triangles and submits individual
 render-LOD deformation or retirement. Other state families remain separate.
 
-The next player-specific acquisition corrects that shared admission assumption.
+The player-specific acquisition corrects that shared admission assumption.
 The original debug physical-player object walk accepts prepared mesh contacts
 independently of generic-object footprint storage and the old bit1008 filter.
 Twenty-eight private contexts execute its ordered walk and actual overlap/
@@ -48,16 +49,23 @@ keeps physical-player, generic environment and projectile membership separately.
 A damage transition updates each actually owned role, including player shapes
 that have no generic environment owner. Fences, entrance/columns and guard-tower
 geometry can enter this player path; that does not admit the tower's unbound
-replacement/death effect or a generic actor platform. Real rendered contact and
-combined regressions remain required on the next executable before publication.
+replacement/death effect or a generic actor platform. Preview .13.1 verifies the
+independent player path on its exact executable;
+whole-world and generic-platform coverage remain separate.
 
 The first wider-player candidate passes actual rendered contact/damage/expiry
 for the entrance, fence and house. Its old small-tower input fixture stalls at
-a now-solid source column: the diagnostic budget fails without reaching the
-tower. The following observer supplies ordinary jet input when actual movement
-stalls, including downhill targets. This changes navigation commands only,
-not the collider, source pose/health, readiness or source expiry. Retain the
-failed report and require the complete new passage on a new receipt.
+a now-solid source column. Two following jet/detour attempts also fail the
+diagnostic budget; they remain private failed evidence. The current fixture
+uses the nearest active physical entrance declared origin as a waypoint before
+approaching the tower, using ordinary movement/look commands. Its new exact
+executable reaches actual narrow tower contact, then five ordinary hits, all
+29 source effect births and actual-clock expiry. The same executable also passes
+entrance first-stage/retirement, fence and house contact/damage/expiry controls.
+It writes no pose, collider, health, fuel, readiness or expiry. Both mission
+chains, common Mecc/landing, two live-effect cleanup cycles,
+menu/cinematic controls and separate short Windows acceptance pass on that same
+executable. Full OS-aimed destruction and native fidelity remain unverified.
 
 The literal prototype names `house_process`, `house_shot` and
 `house_handle_destruction` lead to `building_damage`. Their exact PC function
@@ -157,11 +165,11 @@ supplied clock. A receipt-bound muted GPU control also makes real narrow player
 contact, destroys the small tower through five ordinary pistol shots, receives
 its source positional sound and observes all 29 bodies expire. This uses supplied
 commands and does not establish Windows-played combat or source visual fidelity.
-The independent projectile-only fence control creates and expires its 17 source
+In preview .12.3, the independent projectile-only fence control creates and expires its 17 source
 wood/smoke bodies and retires its real projectile candidate, without adding any
 player/environment mesh membership. Those roles remain explicit on each owner.
 NPC collision keys reserve the union of static IDs, so the wider projectile list
-cannot alias a subsequently admitted living actor. The delivered executable passes the wider-list house, tower and projectile-only
+cannot alias a subsequently admitted living actor. The .12.3 executable passes the wider-list house, tower and projectile-only
 fence GPU checks. Windows menu/entry/view/brief key/default-mouse fire and clean
 return/re-entry also pass; accurate OS-aimed destruction remains unverified.
 Restricted weapons, special class actions, replacements, older captured effect
@@ -172,6 +180,22 @@ stone/wood tower explosions are not the house's named stone program. The guard
 tower declares a distinct complex effect and replacement class; its burst
 preparation remains refused until those services are acquired and connected.
 
+The next private guard-effect dependency compares 36 original individual VM
+stores with a Rust property calculation, using installed source operands and
+the existing random sampler. Spin order, curved-size setup and distinct control/
+response stores agree in this bounded existing-actor profile. The list allocator
+and already-dirty control word are supplied, and execution stops before context
+finalization. This does not implement or validate the compound tower effect,
+its nested retirement programs, actual constructors, world physics or rendering.
+The replacement is a separate state0 source class; do not route it through the
+state61/101 health-animation helper. Preserve atomic constructor/render/collision
+replacement as a required ordinary runtime consumer. Sixteen additional private
+original-caller contexts pin the three inherited field stores before placement
+and the constructor/placement/old-retirement ordering; those external services
+remain supplied boundaries. Their field identities and actual new actor owner
+must be preserved, rather than assuming a complete pose copy or recycled ID.
+No new PS2 attribution is confirmed by these controls.
+
 Other literal search routes include `deathfx_shot`, `deathfx_logic`,
 `barracks_shot`, `bldg_subtract_energy` and the base-building callbacks. Their
 availability does not confirm a PC attribution. Generic death-FX declarations
@@ -180,11 +204,13 @@ these into a universal explosion or assume every visible building is destructibl
 
 ## Delivery evidence
 
-### Next dependency: initial registered static shadows
+### Initial registered static-shadow dependency
 
 The ordinary entrance's source header contains a static-shadow declaration. It
-was refused by the actor field reader, separately from its missing physical
-Raster3 owner. `actor_static_shadow` now retains the actual ordered registered
+was refused by the actor field reader. Its player mesh had also been limited
+by the older shared generic-environment admission; that independent selection
+path is acquired above, while generic Raster3 ownership remains separate.
+`actor_static_shadow` now retains the actual ordered registered
 texture identity, reciprocal and shared-copy ownership. Empty names clear the
 binding; missing registered names remain explicit placeholder-constructor needs.
 This does not render a shadow, infer native warmed texture flags or admit the
@@ -196,9 +222,9 @@ matching Rust reciprocals, bindings and class-specific direct flags. The supplie
 shared-texture fixture in that matrix is separate from an installed-data control
 that executes original registration/zeroing, source flag stores, lookup/comparator
 and the entrance's class/copy path with bounded file/memory services. This is a
-dependency, not a new published gameplay or shadow-fidelity result. Preview .12.3
-retains its recorded 56-owner coverage. The following player-specific selection
-acquisition is separate from this header dependency and generic footprints.
+dependency, not shadow drawing or fidelity. Preview .13.1 includes the entrance
+and 57 damage owners; preview .12.3 retains its recorded 56-owner coverage.
+The player-specific selection acquisition is separate from this header dependency and generic footprints.
 
 Dependency/native controls must retain exact binary identities and supplied
 services privately. Final acceptance requires the ordinary menu and controls,

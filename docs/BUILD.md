@@ -1,6 +1,6 @@
 # Build on Windows with MinGW
 
-For the next initial static-shadow dependency, run `cargo test --locked -p
+For the initial static-shadow dependency, run `cargo test --locked -p
 giants-game actor_static_shadow --target x86_64-pc-windows-gnu`. Its optional
 `installed_entrance_retains_registered_shadow_and_shared_copy_identity` control
 uses `GIANTS_BUILDING_ROOT` and `-- --ignored`. The app's

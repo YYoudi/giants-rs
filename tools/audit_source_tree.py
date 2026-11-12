@@ -24,6 +24,8 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed concurrent nonlethal Mecc composition route, still unknown.
+        '3bcb07ec1630417373e0141df1282d84357e28f9e79fc84b1256b72b1d34759e',
         # Unknown player mesh route and role boundaries; prior aliases unchanged.
         '2c3b3331dfb1987ef99acdc805c98795d167817d25ec23ed2f5522d5313fce71',
         # Initial static-shadow navigation only; existing reviewed aliases retained.

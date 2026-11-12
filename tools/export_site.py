@@ -14,6 +14,7 @@ FIELDS = ('id', 'kind', 'group', 'title', 'status', 'scope', 'detail')
 LABELS = {'done': 'Complete in stated scope', 'partial': 'Partial', 'todo': 'Not started'}
 PRIVATE = re.compile(r'[A-Za-z]:[\\/]|(?:evidence|\.local)[\\/]|Users[\\/]', re.I)
 PREVIEW_CHECKS = {
+    'building_player_meshes_gpu': 'Actual narrow player contacts on the entrance, fence, house and small tower; normal pistol damage updates each admitted player/projectile shape with its rendered mesh and retirement, with source effects and actual-clock expiry. Supplied commands; generic actor footprints and native fidelity remain separate',
     'building_house_damage_gpu': 'Ordinary pistol hits change individual source house health meshes and all admitted physical/projectile inputs, cross source thresholds, play real muted positional sinks and retire the house; supplied navigation/fire, no forced health/pose or native-fidelity claim',
     'building_scenery_damage_gpu': 'A small source tower receives real narrow player contact and five ordinary pistol hits, renders its own captured wood/stone burst and sound, then retires; all 29 effect bodies expire on the actual mission clock',
     'building_projectile_only_gpu': 'A source fence receives three ordinary pistol hits and its wood/smoke effect/sound, then retires with all 17 bodies expired; independent projectile eligibility does not establish player lateral/platform response',
@@ -40,7 +41,7 @@ PREVIEW_CHECKS = {
     'shared_body_focus_os': 'F7 focuses initial Delphi and Kabuto bodies from ordinary mission inspection; gameplay controls remain unavailable',
 }
 PREVIEW_LIMITS = {
-    'building_remaining_families': 'Physical radial/Raster3 footprints, large guard-tower replacement/complex FX, restricted-weapon/special scenery, other base-building callbacks and building-objective credit still require their real consumers; a configured health word alone does not imply destructibility',
+    'building_remaining_families': 'Generic actor radial/Raster3 platform owners, large guard-tower replacement/complex FX, restricted-weapon/special scenery, other base-building callbacks and building-objective credit still require their real consumers; a configured health word alone does not imply destructibility',
     'building_fx_policy': 'Building FX use source burst resources with an explicit partial host-frame, terrain-only, birth-reference and asynchronous-audio profile; native complete-list/force/audio scheduling and pixel/audio parity remain unverified',
     'cinematic_native_fidelity': 'The Wife completion film reaches its source terminal; native timing/RNG interleaving, complete collision coverage, animation blending and full visual/audio fidelity remain unverified',
     'mission_objective_subset': 'Only admitted collection and stationary proximity producers are connected; moving, death, equipment and other mission conditions still require their actual owners',

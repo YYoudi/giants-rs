@@ -3667,6 +3667,18 @@
       "right_label": "After 28 hits and actual effect expiry",
       "verification": "ORDINARY DAMAGE PIPELINE CHECKED; NATIVE FIDELITY OPEN",
       "alignment": "Same source house and exact preview .12.3 executable, different live samples and camera positions; not pixel-aligned. Supplied normal movement/aim/fire commands, actual health/mesh/collider/effect/audio owners. The front house retires while its neighbor remains. No health or pose injection; full OS-aimed destruction and native visual/audio parity remain unverified."
+    },
+    {
+      "title": "Entrance damage and retirement after actual player contact",
+      "level": "Starving / ordinary buildings",
+      "event": "Independent player collision and source damage",
+      "commit": "8d125f0b26ca9477747d75f521f76167038a0b0d",
+      "left": "media/4607b6cb426cc6c9f043f34a434a009f1680be56e8abaf427d262b5a08591455.webp",
+      "right": "media/d26e82e1c36918d3b5090e1a95b09da82f6a7b9f1fc7481d8c6048c35d2dc7f5.webp",
+      "left_label": "After contact and seven ordinary pistol hits",
+      "right_label": "After 28 hits and actual effect expiry",
+      "verification": "PLAYER CONTACT AND DAMAGE CHECKED; NATIVE FIDELITY OPEN",
+      "alignment": "Same source entrance and exact preview .13.1 executable, different live samples and camera positions; not pixel-aligned. Actual contact, source health/mesh/collision/effect/audio owners with supplied normal commands. The arch retires while detached columns remain independent. No pose, health or readiness injection; full OS-aimed destruction and native visual/audio parity remain unverified."
     }
   ],
   "images": {
@@ -4204,9 +4216,36 @@
     "media/65f1882d19ebace68ff15cdf582f67348c07eb1e2964c08aead98a7f03cfb406.webp": "65f1882d19ebace68ff15cdf582f67348c07eb1e2964c08aead98a7f03cfb406",
     "media/555c1f8e593741a5903b3af5eeadd23c187d5281945e24460af4219e485b2c63.webp": "555c1f8e593741a5903b3af5eeadd23c187d5281945e24460af4219e485b2c63",
     "media/d4710d638d15205eda7b2d3997b22dd25a93c228b1e88970cddc7cbc91ec7fbc.webp": "d4710d638d15205eda7b2d3997b22dd25a93c228b1e88970cddc7cbc91ec7fbc",
-    "media/abb79713e439250d582f4c4994d9638d51eaea633d83bfa5ea31b78d10470425.webp": "abb79713e439250d582f4c4994d9638d51eaea633d83bfa5ea31b78d10470425"
+    "media/abb79713e439250d582f4c4994d9638d51eaea633d83bfa5ea31b78d10470425.webp": "abb79713e439250d582f4c4994d9638d51eaea633d83bfa5ea31b78d10470425",
+    "media/4607b6cb426cc6c9f043f34a434a009f1680be56e8abaf427d262b5a08591455.webp": "4607b6cb426cc6c9f043f34a434a009f1680be56e8abaf427d262b5a08591455",
+    "media/d26e82e1c36918d3b5090e1a95b09da82f6a7b9f1fc7481d8c6048c35d2dc7f5.webp": "d26e82e1c36918d3b5090e1a95b09da82f6a7b9f1fc7481d8c6048c35d2dc7f5",
+    "media/9b97a6efb4a94e05cd5a191f930797e6def06291fcbc9141c11875681efdd42b.webp": "9b97a6efb4a94e05cd5a191f930797e6def06291fcbc9141c11875681efdd42b"
   },
   "screenshots": [
+    {
+      "title": "Entrance: real contact and first damage",
+      "image": "media/4607b6cb426cc6c9f043f34a434a009f1680be56e8abaf427d262b5a08591455.webp",
+      "caption": "Seven normal pistol hits after actual narrow player contact reach the first source health stage, with rendered stone debris. Supplied normal commands; no forced health/pose, shadow drawing or native fidelity claim.",
+      "commit": "8d125f0b26ca9477747d75f521f76167038a0b0d",
+      "preview_tag": "preview-2026.11.13.1",
+      "executable_sha256": "c9c5301a100dda2091977de56b0a278e633c1b1d9d670d4993c2ddfaccb3f390"
+    },
+    {
+      "title": "Entrance retired; columns stay independent",
+      "image": "media/d26e82e1c36918d3b5090e1a95b09da82f6a7b9f1fc7481d8c6048c35d2dc7f5.webp",
+      "caption": "28 normal pistol hits retire the arch; all 124 source bodies expire on the actual mission clock. Separate columns remain. Player/projectile collision owners update with the visible mesh. Supplied input, not full OS-played destruction.",
+      "commit": "8d125f0b26ca9477747d75f521f76167038a0b0d",
+      "preview_tag": "preview-2026.11.13.1",
+      "executable_sha256": "c9c5301a100dda2091977de56b0a278e633c1b1d9d670d4993c2ddfaccb3f390"
+    },
+    {
+      "title": "Fence: player collision and ordinary destruction",
+      "image": "media/9b97a6efb4a94e05cd5a191f930797e6def06291fcbc9141c11875681efdd42b.webp",
+      "caption": "Actual narrow player contact, three normal pistol hits, its captured wood/smoke burst and positional sink, then retirement and all 17 expiries. Player admission is independent of generic actor footprints. Supplied normal commands.",
+      "commit": "8d125f0b26ca9477747d75f521f76167038a0b0d",
+      "preview_tag": "preview-2026.11.13.1",
+      "executable_sha256": "c9c5301a100dda2091977de56b0a278e633c1b1d9d670d4993c2ddfaccb3f390"
+    },
     {
       "title": "House damage in the ordinary mission",
       "image": "media/555c1f8e593741a5903b3af5eeadd23c187d5281945e24460af4219e485b2c63.webp",

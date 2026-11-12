@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.12.3",
-  "source_commit": "d5320b18cb352fbed05d882880974a0887152e5f",
-  "executable_sha256": "d7c41dc916cceca3ec83f03278b91b8d75eb9805a1926cf5b4685ccc0ee80f7b",
-  "archive_sha256": "7fbb4dc4447b42170553487941a52f702cce0cdc33525006602564efc7a4c8e6",
+  "tag": "preview-2026.11.13.1",
+  "source_commit": "8d125f0b26ca9477747d75f521f76167038a0b0d",
+  "executable_sha256": "c9c5301a100dda2091977de56b0a278e633c1b1d9d670d4993c2ddfaccb3f390",
+  "archive_sha256": "50c7175569ffed63679463be9e894d1e38f7711cc48979ea26f546ef5945ceaa",
   "checks": [
+    "building_player_meshes_gpu",
     "building_house_damage_gpu",
     "building_scenery_damage_gpu",
-    "building_projectile_only_gpu",
     "building_cancel_reentry_gpu",
     "building_menu_fire_os",
     "wife_campaign_chain_gpu",

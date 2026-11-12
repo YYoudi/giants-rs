@@ -34,12 +34,21 @@ checks cover entry/skip/view/brief mapped-key and default-mouse fire, clean retu
 and re-entry; full OS-aimed destruction remains unverified. See BUILDINGS.md and
 PREVIEW_NOTES.md for receipts, partial FX policy and exact limits.
 
+Second bounded delivery: preview .13.1 adds independently acquired physical-player
+mesh admission for entrances, columns and fences, retaining separate generic
+actor and projectile roles. The static-shadow header dependency preserves the
+entrance's registered texture identity and shared copies. Story2 prepares 64
+player / 31 generic environment / 65 projectile meshes and 57 damage owners
+across 16 classes. Actual narrow contact, source damage, draw, muted sinks and
+expiry pass on entrance, house, fence and small tower, with both mission chains,
+common Mecc/landing, two live-effect cleanup cycles and separate short Windows
+input acceptance. No shadow drawing, generic platform or native fidelity follows.
+
 Remaining work, in player-impact order:
 
-1. Validate and publish the independently acquired player mesh admission for
-   still-passable entrances/columns/walls/fences. Its object walk does not read
-   generic actor footprints; keep player, environment and projectile roles
-   distinct. Generic radial/Raster3 platform owners remain separate work.
+1. Extend player mesh coverage beyond the bounded initial building profiles;
+   acquire missing live pose/cache/state providers. Keep the independently
+   verified player path separate from generic radial/Raster3 platform owners.
 2. Connect the guard tower's actual replacement constructor, complex nested
    effects and atomic visual/physical retirement. Do not flatten its program.
 3. Acquire restricted/special scenery and other base-building callbacks (including
@@ -55,18 +64,12 @@ attributions. The independent original-PC comparisons (3,080 house / 7,000 death
 contexts) validate bounded decisions and service boundaries, not native fidelity.
 The complete building objective and whole-game scope remain active.
 
-Next local dependency: the entrance's initial static-shadow header now retains
-its real registered texture identity and shared-copy semantics instead of
-discarding the declaration. Missing-name placeholders and dynamic copies remain
-separate needs. 120 private PC/Rust contexts and an actual source registration/
-lookup/copy control pass. This does not update .12.3 or establish shadow drawing,
-generic Raster3 admission or a new public gameplay acceptance. The initial local
-render candidate now observes seven ordinary hits/first damage and 28-hit
-retirement/124-body expiry on the entrance; its player collision belongs to the
-following independently acquired player-list change, not that older receipt.
-Twenty-eight original PC walk contexts confirm that generic footprint storage
-is not a prerequisite for the player-specific mesh query. Follow the
-next exact-executable checks and contracts in BUILDINGS.md.
+The next concrete building consumer is the guard tower's actual state0
+replacement and compound source effects. Its bounded original-caller inheritance
+and individual effect-property dependencies are acquired privately; constructors,
+world/render/collision ownership, nested retirement and complete ordinary
+acceptance remain required. Follow BUILDINGS.md and the mandatory prototype PS2
+lookup before continuing. The complete building objective remains active.
 
 ## Delivered milestone - The Wife rescue and completion-film continuation
 

@@ -1,5 +1,38 @@
 # Preview releases and milestone integration
 
+## Published preview .13.1 - physical entrances, columns and fences
+
+[Windows preview-2026.11.13.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.1)
+extends ordinary player contacts through an independently acquired source object
+walk. Entrances, columns and supported fences retain their own player geometry,
+without inventing generic actor footprints or walkable roofs. The entrance's
+registered static-shadow header/copy identity is retained; shadow drawing is
+not supplied. Source damage updates each actually admitted collision role and
+its individual render mesh together. Story2 prepares 64 player / 31 environment /
+65 projectile meshes and 57 bounded damage owners across 16 classes.
+
+The exact executable passes actual narrow contact and ordinary damage on the
+entrance (seven-hit first stage and 28-hit/124-body expiry), house (28/124), fence
+(three/17) and small tower (five/29). The tower input fixture now walks through
+the source entrance after earlier direct/detour attempts met actual obstacles.
+No pose, health, collider, fuel, readiness or expiry is forced. Both complete
+mission chains, common Mecc/landing, two live-effect cancellations, normal menu
+lifecycle and selected full cinematic/text/cleanup pass. Actual Windows checks
+cover short normal entry/re-entry, view and mapped-key/default-mouse fire;
+full OS-aimed destruction and sustained held input remain unverified.
+
+1,006 Rust / 189 ignored, 45 Python, fmt/strict Clippy. Technical collection:
+338 dependency / eleven toolchain notices, 29 system DLLs and no package blockers.
+New matching display copies show entrance damage/retirement with the comparison
+slider. Complex replacements/effects, other base callbacks, generic radial/
+Raster3 platforms and mission-death credit remain open. No new PS2 identity or
+native world/FX/audio/visual fidelity is confirmed. The building goal stays active.
+
+Runtime source: `8d125f0b26ca9477747d75f521f76167038a0b0d`.
+Executable SHA256: `c9c5301a100dda2091977de56b0a278e633c1b1d9d670d4993c2ddfaccb3f390`.
+ZIP SHA256: `50c7175569ffed63679463be9e894d1e38f7711cc48979ea26f546ef5945ceaa`.
+
+
 ## Published preview .12.3 - ordinary building damage and collision owners
 
 [Windows preview-2026.11.12.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.12.3)
