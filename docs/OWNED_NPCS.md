@@ -289,13 +289,18 @@ unassigned: literal `mound_move`, `mound_animselect` and `mound_shot` are additi
 search candidates, not confirmations. Generic cleanup names also remain unknown;
 see [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
 
-The current-scene flight local GNU build is source
-`225f6fa3ece4b2545745410e41a3d8a103c6e80f`, executable SHA256
+The cooldown/retreat local GNU build is source
+`857b59168c0664c109e299a919eec622fa02c049`, executable SHA256
+`8c0d5cad92cfec682e8f3ab723a4c2542e6d650c1138871ca26fa68168968ba5`.
+Its receipt and executable digest were independently checked. It includes the
+current-scene flight consumer and class230 modes66/71. Use the same ordinary
+menu path below. It has no new GPU encounter verification: the supplied-input
+full-contact diagnostic stops at a real pending terrain contact after137 flying
+samples at step2755. Projectile animation/draw and genuine impact, reciprocal
+damage and death consumers remain prerequisites. The earlier flight-only build
+was source `225f6fa3ece4b2545745410e41a3d8a103c6e80f`, executable SHA256
 `b0f1d23f2929b0615137a8016f0c6920ea9fc71b765cfb97da931d8b22041381`.
-Its receipt was independently checked. It includes the shared flight consumer,
-but has no new GPU encounter verification. Use the same ordinary menu path below;
-mode66, projectile animation/draw and real impact services remain prerequisites.
-The complete-contact diagnostic still fails after thirty-five flight samples.
+Neither local build is a published preview or complete encounter acceptance.
 
 The latest GPU-checked local build is source `8e5d72b004f7da6c7e92e215d8907b4be0c1cd8b`,
 executable SHA256

@@ -35,6 +35,10 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent minimal Smartie/Flick navigation additions, unknown
+        # attributions and existing aliases only; no native bodies or corpus.
+        '649c65e331b31019c5529089c3a134b48ca0f5e7fa38fab353773800a66fce71',
+        'ff17acf1136bcda4a7ab43810f0cec702b34b0caee3ffd8c71142484a174ab3d',
         # Reviewed class230 cooldown/retreat source links; attribution stays
         # unknown and the existing minimal PC alias is unchanged.
         '31cb1af7881794447c0af562f2ffed0428747a30fcf9e102caa83128029b72de',

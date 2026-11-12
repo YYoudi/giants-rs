@@ -74,7 +74,10 @@ release and individual unlink, preserving actual list order and late-failure
 prefixes without replay. The renderer consumes their removal; this is marker
 retirement, not Ripper death. Prototype PS2 marker/cleanup attribution remains
 unassigned, including the additional literal `mound_*` search candidates.
-Current-scene flight local GNU build: source `225f6fa`, executable SHA256 prefix
+Cooldown/retreat local GNU build: source `857b591`, executable SHA256 prefix
+`8c0d5cad92cf`, receipt and executable digest independently checked. Includes the
+current-scene flight consumer and class230 modes66/71; no new GPU acceptance.
+Earlier current-scene flight local GNU build: source `225f6fa`, executable SHA256 prefix
 `b0f1d23f2929`, receipt independently checked; no new GPU encounter verification.
 That build passed989 Rust tests /178 ignored and five installed The Wife
 controls. Current source additionally connects class230 modes66/71, passes994
