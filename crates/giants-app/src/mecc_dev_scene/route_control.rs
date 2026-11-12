@@ -32,6 +32,13 @@ fn installed_round_trip_with_ordinary_motion() {
     )
     .unwrap();
     let mut actor = State::load_mission(&root, &world, &packet, &player).unwrap();
+    // Preparation alone must not leave the whole ordinary rigid scene rejected
+    // when a newly supported source-selected stationary pose is present.
+    crate::static_scene::Scene::from_prepared(
+        std::sync::Arc::clone(&actor.rigid_source),
+        &world.config,
+    )
+    .unwrap();
     let mut steps = 0;
     for goal in points {
         let mut path =

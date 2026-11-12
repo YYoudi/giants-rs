@@ -223,6 +223,7 @@ impl Scene {
                         | "debug_normal_declared_start"
                         | "debug_initial_idle_tree"
                         | "debug_constructed_actor_start"
+                        | "source_stationary_smartie_selected_start"
                 )
             })
         }) {
