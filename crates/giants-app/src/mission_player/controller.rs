@@ -65,6 +65,13 @@ pub(crate) struct Controller {
     subjective_draw_visible: Option<bool>,
 }
 impl Controller {
+    pub(crate) fn building_cancel_snapshot(&self) -> Option<(u64, u64, usize)> {
+        (self.replay_done && self.building_probe_terminal && !self.building_failed).then_some((
+            self.state.buildings.effects.births,
+            self.state.buildings.effects.retired,
+            self.state.buildings.effects.active(),
+        ))
+    }
     pub(crate) fn building_effect_draws(
         &self,
         ticket: u64,

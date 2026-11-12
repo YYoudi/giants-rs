@@ -24,6 +24,12 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed unknown death-FX navigation and runtime links; prior aliases unchanged.
+        'afb941293abb3d32e8ad9786412ad7313fa74272812fd59b4834c70ecfd8ef2a',
+        # Reviewed concurrent unknown FX routes only; existing PC aliases unchanged.
+        '44e785ab0473ed1100e6f26d1475252f658dce7de8aba1627cb559e1a911f678',
+        '3a4639af649016925f7e40e0074c93610161ce965d4671457179e584db7afd0d',
+        '432dd2cc494e8f0e03ffb55a811f8e0f6bb3b2d99c8c4e748638ba811f02962d',
         # Reviewed concurrent history: minimal unassigned Ripper/FX aliases and
         # navigation prose only. This does not confirm identities or gameplay.
         'aaa4e812aeac37c37de759e17eac26c4f6b2a6ff860bc22310b5d554c3619be5',

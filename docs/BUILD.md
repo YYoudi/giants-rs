@@ -9,8 +9,16 @@ The explicit muted offscreen `showcase-mecc` Story2 replay can additionally use
 `damaged`, `destroyed` (default), or `settled`. It supplies only normal movement,
 look and fire commands and observes actual contact/health/retirement. It neither
 writes poses/health/resources nor enables the ordinary building feature. The
-settled phase also requires all actual burst bodies to expire. Keep its evidence
+settled phase also requires all actual burst bodies to expire. The optional
+`GIANTS_MISSION_BUILDING_CLASS` selects a positive authored class already admitted
+by the ordinary owner; e.g. 515 selects a small state101 tower, without changing
+its health, pose or collision. The default selects a house. Keep this evidence
 separate from real Windows inputs and source fidelity.
+`GIANTS_MISSION_BUILDING_CYCLES=2` additionally requests two ordinary cancellation/
+fresh-entry cycles after the selected live-effect stage; `settled` is refused.
+The observer requires real live particles at cancellation and waits for the
+normal runtime/environment/owned-entity release before the next request. It does
+not force destruction, cleanup, readiness or a new source terminal.
 
 The active building work follows [BUILDINGS.md](BUILDINGS.md). Dependency checks:
 `cargo test --locked -p giants-game building_damage --target x86_64-pc-windows-gnu`.

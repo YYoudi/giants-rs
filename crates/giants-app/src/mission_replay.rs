@@ -161,7 +161,7 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
     {
         return Err("owned-player-inspection requires the explicit owned Mecc backend".into());
     }
-    let cycles = match std::env::var("GIANTS_MISSION_REPLAY").ok().as_deref() {
+    let mut cycles = match std::env::var("GIANTS_MISSION_REPLAY").ok().as_deref() {
         None => return Ok(()),
         Some(
             "initial-player"
@@ -214,6 +214,18 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
         }
         Some(_) => return Err("unknown GIANTS_MISSION_REPLAY mode".into()),
     };
+    if let Ok(value) = std::env::var("GIANTS_MISSION_BUILDING_CYCLES") {
+        if value != "2"
+            || !building_interaction_probe()
+            || std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref() == Ok("settled")
+        {
+            return Err(
+                "building cancellation cycles require the explicit live-effect probe and value2"
+                    .into(),
+            );
+        }
+        cycles = 2;
+    }
     install_skip_probe(app);
     let entry = matches!(
         std::env::var("GIANTS_MISSION_REPLAY").ok().as_deref(),
@@ -488,6 +500,17 @@ fn drive(
                             return;
                         }
                     }
+                    if building_interaction_probe() && replay.cycles == 2 {
+                        replay.completed += 1;
+                        println!(
+                            "mission_building_cycle_released cycles={} remaining_entities=0 runtime_idle=true",
+                            replay.completed
+                        );
+                        if replay.completed < replay.cycles {
+                            replay.stage = 0;
+                            return;
+                        }
+                    }
                     replay.done = true;
                     println!(
                         "showcase_replay_cancelled remaining_entities=0 movie_released=true normal_ready_simulated=false"
@@ -735,6 +758,25 @@ fn drive(
             {
                 println!(
                     "mission_subjective_cancel_probe ticket={} controller_finished=true normal_ready_simulated=false",
+                    frontend.flow.ticket
+                );
+                cancel_mission(&mut frontend, &mut cancelled);
+                replay.stage = 2;
+                return;
+            }
+            if playing
+                && building_interaction_probe()
+                && replay.cycles == 2
+                && let Some((births, retired, active)) = controllers
+                    .iter()
+                    .find_map(|c| c.building_cancel_snapshot())
+            {
+                assert!(
+                    active > 0 && births > retired,
+                    "building cancellation diagnostic must retain actual live effects"
+                );
+                println!(
+                    "mission_building_cancel_requested ticket={} births={births} retired={retired} active={active} supplied_input_only=true",
                     frontend.flow.ticket
                 );
                 cancel_mission(&mut frontend, &mut cancelled);

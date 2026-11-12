@@ -110,8 +110,16 @@ fn update(
 ) {
     let ticket = runtime.active_ticket();
     if state.ticket != ticket {
+        let released_ticket = state.ticket;
+        let released = state.objects.len();
         for (_, object) in std::mem::take(&mut state.objects) {
             gpu.remove(&mut commands, object);
+        }
+        if let Some(old) = released_ticket {
+            println!(
+                "mission_npc_scene_released ticket={old} objects={released} remaining_draw_owners={} owned_gpu_removal=true",
+                state.objects.len()
+            );
         }
         state.ticket = ticket;
         state.failed = None;

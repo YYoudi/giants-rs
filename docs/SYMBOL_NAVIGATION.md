@@ -131,9 +131,15 @@ The literal prototype PS2 names `house_process`, `house_shot` and
 function relationships remain **unknown**. The acquired debug-PC decision
 kernels preserve cumulative damage, health-animation thresholds and ordered
 effect/sound/mission/retirement requests. Their source/collider/render/audio
-consumers and initial registration are separate work; no ordinary building
-interaction or full callback implementation is established by these kernels.
-See [BUILDINGS.md](BUILDINGS.md) for the current integration acceptance.
+consumers and initial registration remain separate contracts; these kernels
+alone establish neither ordinary interaction nor full callback execution.
+The literal names `deathfx_shot` and `deathfx_logic` also lead to the separate
+[`building_death_fx`](../crates/giants-game/src/building_death_fx.rs) decisions.
+Both PC relationships remain **unknown**. Their weapon gates, direct captured
+effect entries and replacement requests must not be replaced by universal house
+behavior. The ordinary adapters are in `mission_buildings`, with source health
+geometry in `building_geometry`; naming does not validate those consumers.
+See [BUILDINGS.md](BUILDINGS.md) for current integration evidence and acceptance.
 
 ## Publication boundary
 

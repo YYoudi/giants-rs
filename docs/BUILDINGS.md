@@ -92,8 +92,8 @@ global mode gates and an owned objective count; do not replace it with an
 unconditional counter or infer a building objective from a model name.
 
 The first complete local house GPU control now also waits for actual mission-clock
-expiry:28 ordinary pistol shots,124 source burst births,124 retirements and zero
-remaining bodies. A separate7-shot capture observes the first health stage. The
+expiry: 28 ordinary pistol shots, 124 source burst births, 124 retirements and zero
+remaining bodies. A separate 7-shot capture observes the first health stage. The
 house disappears while its neighboring house remains drawn. These are supplied
 command controls, not full Windows-played destruction, source visual parity or a
 public preview. An earlier expiry diagnostic incorrectly equated accelerated
@@ -105,7 +105,7 @@ configuration controls; ten supplied original-PC contexts cover existing bits.
 Their header-only projection does not create a footprint or a damage owner.
 It also admits the supported state61 wall class to the same local health owner.
 
-`building_death_fx` is the separate state101 decision dependency.7,000 supplied
+`building_death_fx` is the separate state101 decision dependency. 7,000 supplied
 original-PC contexts agree on accumulated damage, weapon gates and ordered
 threshold/death-effect, replacement and retirement requests. The native process
 uses the shared health-animation helper; its initial control word differs from
@@ -118,9 +118,12 @@ The first local state101 consumer is now wired to ordinary hits for admitted
 unrestricted, nonreplacement classes with real mesh colliders. It retains rigid
 vertices for unskinned models and samples the shared health channel for animated
 ones. The installed dependency control destroys the small tower through its
-actual50-point limit, creates its29 wood/stone/smoke bodies from the captured
+actual 50-point limit, creates its 29 wood/stone/smoke bodies from the captured
 direct effect entry, updates all physical owners and retires all bodies on a
-supplied clock. GPU/Windows acceptance remains required for this new family.
+supplied clock. A receipt-bound muted GPU control also makes real narrow player
+contact, destroys the small tower through five ordinary pistol shots, receives
+its source positional sound and observes all 29 bodies expire. This uses supplied
+commands and does not establish Windows-played combat or source visual fidelity.
 Restricted weapons, special class actions, replacements, older captured effect
 images and collision families without real mesh admission stay explicit needs.
 
