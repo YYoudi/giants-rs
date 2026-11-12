@@ -1579,6 +1579,16 @@ It supplies clocks and the explicit existing progress policy; it does not prove 
 native complete-world schedule. Full footprints and moving-world invalidation
 remain separate from this typed platform-bit projection.
 
+With `GIANTS_NPC_ROOT` set to the user installation, run
+`cargo test --locked -p giants-app --target x86_64-pc-windows-gnu source_wife_ground_continuation -- --ignored --nocapture`.
+This supplies ordinary Mecc navigation to a real ground contact, then explicitly
+continues the pending query through actual named-effect preparation and a
+deliberately failing radial dependency. Require retained context, unchanged
+history/lifetime, no premature mark or sound, and no repeated RNG/effect on retry.
+It does not enable ordinary impact, deliver damage, render an explosion or prove
+Windows input. The portable `ground_flight_continuation` game tests separately
+exercise retained-clock/countdown and failure ownership with synthetic services.
+
 For independently collected private exact-PC fixtures, set
 `GIANTS_PLATFORM_BITS_CONTROLS` and run
 `native_platform_bits_match_without_claiming_other_channels` (420 controls),

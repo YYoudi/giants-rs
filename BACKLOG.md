@@ -214,6 +214,14 @@ loop. It also verifies duplicate/foreign refusal and retained failure at a real
 missing platform dependency. Bind it into the ordinary impact transaction next,
 with actual radial/active-hit/audio services and the surrounding frame schedule.
 The host's emptiness is not a render/audio availability acknowledgment.
+The common `complete_enemy_projectile_ground_flight` adapter now consumes the
+real pending terrain contact and retained query clock without a second query or
+caller-supplied replacement time. Both query APIs share this continuation;
+service failures retain their prefix and cannot replay. The ordinary application
+still needs the actual radial/active-hit/audio providers and effect frame binding.
+The explicit ground-prefix control uses real ordinary navigation/contact and
+named-effect preparation, then deliberately refuses the unbound radial consumer;
+it is not impact, damage, GPU or ordinary encounter acceptance.
 The refreshed ordinary supplied-input encounter still reaches a real class232
 ground contact and refuses the missing impact/damage/retirement transaction.
 First flight passes on two fresh tickets with the actual launch context; never

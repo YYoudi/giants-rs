@@ -23,12 +23,20 @@ pub struct Metadata {
     /// Initial late collider snapshot, not current world bounds or a ready tick.
     pub initial_environment: Option<crate::collider_init::Instance>,
     pub pending_flight: Option<FlightOutcome>,
+    /// Only the actual ground query creates this continuation's clock. A caller
+    /// cannot replace the elapsed time/ordered areas after observing a contact.
+    pub(crate) ground_flight_clock: Option<GroundFlightClock>,
     /// Advances only after the actual terrain/object flight query publishes.
     pub flight_revision: u64,
     /// Object-local clock selected after the current flight, at its real pose.
     pub animation_seconds: Option<f32>,
     pub presentation: Option<Presentation>,
     pub presentation_failure: Option<String>,
+}
+#[derive(Clone, Debug)]
+pub(crate) struct GroundFlightClock {
+    pub seconds: f32,
+    pub areas: Vec<crate::object_time::SlowArea>,
 }
 /// Scoped clock/affine completion, not generic world-tick or impact readiness.
 #[derive(Clone, Copy, Debug)]
@@ -200,6 +208,7 @@ pub fn prepare(seed: &Seed, fields: &Fields) -> Result<Prepared, String> {
             ground_impact: None,
             initial_environment: None,
             pending_flight: None,
+            ground_flight_clock: None,
             flight_revision: 0,
             animation_seconds: None,
             presentation: None,

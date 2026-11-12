@@ -9,6 +9,17 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
+`Session::complete_enemy_projectile_ground_flight` continues an actual retained
+terrain contact from either flight-query API. The query retains its own global
+delta and ordered slow areas: callers cannot replace the contact point or clock,
+rerun movement/history, or substitute object contact. Required effect, radial
+and sound services precede the original lifetime tail. Partial failures retain
+their side effects and forbid replay; successful marking still needs separate
+resource retirement. The ordinary application still refuses its unbound impact
+services. The explicit ground-prefix control continues that refusal with the
+real named-effect population and an intentionally failing radial consumer;
+prepared context ownership is not a completed explosion or available damage.
+
 The canonical mixed-program construction owner is now
 `attached_effect_context::mixed::Execution`. It consumes actual source records,
 creates root and immediate-child Session identities in source order, retires

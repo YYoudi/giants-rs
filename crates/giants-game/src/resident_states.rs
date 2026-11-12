@@ -8459,7 +8459,14 @@ impl Session {
 
             Ok((serial(id)?, owner, objects, identities))
         })?;
-        self.finish_enemy_projectile_ground_flight(id, query_world, outcome, random, services)
+        if matches!(
+            outcome,
+            crate::enemy_projectile::FlightOutcome::GroundContact { .. }
+        ) {
+            self.complete_enemy_projectile_ground_flight(id, random, services)
+        } else {
+            Ok(outcome)
+        }
     }
     /// Use the ordinary scene's typed identities and actual current packets.
     /// This shares state6 flight/history/query with the owned-list API. Ground,
@@ -8665,6 +8672,13 @@ impl Session {
         launch.previous_rates = launch.rates;
         launch.rates = next.rates;
         meta.pending_flight = (!matches!(outcome, FlightOutcome::Flying)).then_some(outcome);
+        meta.ground_flight_clock =
+            matches!(outcome, FlightOutcome::GroundContact { .. }).then(|| {
+                crate::enemy_projectile::GroundFlightClock {
+                    seconds,
+                    areas: areas.to_vec(),
+                }
+            });
         if !matches!(
             outcome,
             FlightOutcome::ObjectContact { .. }
@@ -8675,22 +8689,32 @@ impl Session {
         }
         Ok(outcome)
     }
-    // Legacy owned-list API retains its immediate real ground reaction and
-    // countdown order. The ordinary scene API stops at an actual pending contact
-    // until its own acquired impact services exist; it supplies no stub backend.
-    fn finish_enemy_projectile_ground_flight(
+    /// Complete the ground contact retained by either real flight-query API.
+    /// Former Rust helper alias: `finish_enemy_projectile_ground_flight`.
+    /// Prototype PS2 ripper/enemy-shot searches remain unknown attributions.
+    /// Uses the query's point and clock, never another motion/query or a newly
+    /// supplied delta. Actual FX, radial and sound services precede the lifetime
+    /// tail; marking is distinct from later resource retirement. A failed
+    /// service retains its prefix and cannot be replayed through this adapter.
+    pub fn complete_enemy_projectile_ground_flight(
         &mut self,
         id: Id,
-        world: crate::enemy_projectile::SceneFlightWorld<'_, '_>,
-        mut outcome: crate::enemy_projectile::FlightOutcome,
         random: &mut crate::audio_parameters::Random,
         services: &mut impl crate::enemy_projectile::GroundImpactServices,
     ) -> Result<crate::enemy_projectile::FlightOutcome, String> {
         use crate::enemy_projectile::FlightOutcome;
-        if !matches!(outcome, FlightOutcome::GroundContact { .. }) {
-            return Ok(outcome);
-        }
         let actor = self.get(id).ok_or("post-query projectile absent")?;
+        let metadata = actor
+            .enemy_projectile
+            .as_ref()
+            .ok_or("enemy constructor absent")?;
+        let Some(FlightOutcome::GroundContact { point }) = metadata.pending_flight else {
+            return Err("ground continuation requires the actual pending terrain contact".into());
+        };
+        let clock = metadata
+            .ground_flight_clock
+            .clone()
+            .ok_or("ground continuation requires the original query clock")?;
         let payload = actor
             .seed
             .storage
@@ -8698,17 +8722,17 @@ impl Session {
             .ok_or("post-query payload absent")?;
         let lifetime = f32::from_le_bytes(payload[4..8].try_into().unwrap());
         let time = crate::enemy_flight::Time {
-            seconds: world.seconds,
+            seconds: clock.seconds,
             context: actor
                 .enemy_projectile
                 .as_ref()
                 .and_then(|m| m.launch.as_ref())
                 .ok_or("post-query launch absent")?
                 .dispatch_context,
-            areas: world.areas,
+            areas: &clock.areas,
         };
-        if let FlightOutcome::GroundContact { point } = outcome {
-            self.enemy_projectile_ground_impact(id, point, random, services)?;
+        self.enemy_projectile_ground_impact(id, point, random, services)?;
+        let result: Result<FlightOutcome, String> = (|| {
             let actor = self
                 .residents
                 .get_mut(&id.serial)
@@ -8727,11 +8751,23 @@ impl Session {
                 .copy_from_slice(&remaining.to_le_bytes());
             actor.enemy_projectile.as_mut().unwrap().pending_flight =
                 expired.then_some(FlightOutcome::Expired);
-            if expired {
-                outcome = FlightOutcome::Expired;
-            }
+            actor.enemy_projectile.as_mut().unwrap().ground_flight_clock = None;
+            Ok(if expired {
+                FlightOutcome::Expired
+            } else {
+                FlightOutcome::GroundContact { point }
+            })
+        })();
+        if let Err(error) = &result
+            && let Some(metadata) = self
+                .residents
+                .get_mut(&id.serial)
+                .and_then(|a| a.enemy_projectile.as_mut())
+        {
+            metadata.phase = crate::enemy_projectile::Phase::Failed;
+            metadata.failure = Some(error.clone());
         }
-        Ok(outcome)
+        result
     }
     /// Reaction at an externally established terrain-contact point. This does
     /// not fabricate a world query, run the remaining lifetime tail, or unlink
@@ -13853,6 +13889,143 @@ mod tests {
             )
             .unwrap();
         (shot, random)
+    }
+    // Explicit internal contact fixture: tests the continuation's ownership,
+    // not a terrain query, real damage service or ordinary gameplay.
+    fn pending_ground_fixture(
+        session: &mut Session,
+        lifetime: f32,
+    ) -> (Id, crate::audio_parameters::Random) {
+        let (shot, random) = impact_fixture(session);
+        let actor = session.residents.get_mut(&shot.serial).unwrap();
+        actor.seed.storage.data_mut().unwrap()[4..8].copy_from_slice(&lifetime.to_le_bytes());
+        let meta = actor.enemy_projectile.as_mut().unwrap();
+        meta.pending_flight = Some(crate::enemy_projectile::FlightOutcome::GroundContact {
+            point: [4., 5., 0.],
+        });
+        meta.ground_flight_clock = Some(crate::enemy_projectile::GroundFlightClock {
+            seconds: 0.2,
+            areas: vec![crate::object_time::SlowArea {
+                source_owner: 0,
+                center: [4., 5., 0.],
+                radius_squared: 1.,
+                factor: 0.25,
+            }],
+        });
+        (shot, random)
+    }
+    #[test]
+    fn ground_flight_continuation_consumes_original_clock_once_after_services() {
+        use crate::enemy_projectile::{FlightOutcome, Phase};
+        for lifetime in [0.1, 0.05, 0.] {
+            let mut session = Session::new(184);
+            let (shot, mut random) = pending_ground_fixture(&mut session, lifetime);
+            let before = session
+                .get(shot)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .clone();
+            let mut services = fire_services(1);
+            let outcome = session
+                .complete_enemy_projectile_ground_flight(shot, &mut random, &mut services)
+                .unwrap();
+            assert_eq!(services.events, ["impact_effect", "radial", "impact_sound"]);
+            let actor = session.get(shot).unwrap();
+            let fields = actor.construction_fields.as_ref().unwrap();
+            assert_eq!(fields.current, before.current);
+            assert_eq!(fields.previous, before.previous);
+            assert_eq!(fields.position, [4., 5., 0.]);
+            assert_ne!(fields.object_flags & 0x8000, 0);
+            let expected = (f64::from(lifetime) - f64::from(0.2f32) * 0.25) as f32;
+            assert_eq!(
+                f32::from_le_bytes(actor.seed.storage.data().unwrap()[4..8].try_into().unwrap())
+                    .to_bits(),
+                expected.to_bits()
+            );
+            assert_eq!(matches!(outcome, FlightOutcome::Expired), expected < 0.);
+            let meta = session.enemy_projectile(shot).unwrap();
+            assert_eq!(meta.phase, Phase::Retiring);
+            assert!(meta.ground_flight_clock.is_none());
+            assert_eq!(meta.pending_flight.is_some(), expected < 0.);
+            let rng = random.0;
+            let calls = services.events.clone();
+            assert!(
+                session
+                    .complete_enemy_projectile_ground_flight(shot, &mut random, &mut services)
+                    .is_err()
+            );
+            assert_eq!(random.0, rng);
+            assert_eq!(services.events, calls);
+        }
+    }
+    #[test]
+    fn ground_flight_continuation_refuses_missing_query_and_retains_failed_prefix() {
+        use crate::enemy_projectile::{FlightOutcome, Phase};
+        let mut session = Session::new(185);
+        let (shot, mut random) = impact_fixture(&mut session);
+        let mut services = fire_services(1);
+        let rng = random.0;
+        assert!(
+            session
+                .complete_enemy_projectile_ground_flight(shot, &mut random, &mut services)
+                .is_err()
+        );
+        assert_eq!(random.0, rng);
+        assert!(services.events.is_empty());
+        let (shot, mut random) = pending_ground_fixture(&mut session, 0.1);
+        let clock = session
+            .residents
+            .get_mut(&shot.serial)
+            .unwrap()
+            .enemy_projectile
+            .as_mut()
+            .unwrap()
+            .ground_flight_clock
+            .take();
+        assert!(
+            session
+                .complete_enemy_projectile_ground_flight(shot, &mut random, &mut services)
+                .is_err()
+        );
+        assert!(services.events.is_empty());
+        session
+            .residents
+            .get_mut(&shot.serial)
+            .unwrap()
+            .enemy_projectile
+            .as_mut()
+            .unwrap()
+            .ground_flight_clock = clock;
+        services.fail = Some("radial");
+        assert!(
+            session
+                .complete_enemy_projectile_ground_flight(shot, &mut random, &mut services)
+                .is_err()
+        );
+        assert_eq!(services.events, ["impact_effect", "radial"]);
+        let meta = session.enemy_projectile(shot).unwrap();
+        assert_eq!(meta.phase, Phase::Failed);
+        assert!(matches!(
+            meta.pending_flight,
+            Some(FlightOutcome::GroundContact { .. })
+        ));
+        assert!(meta.ground_flight_clock.is_some());
+        assert_eq!(
+            &session.get(shot).unwrap().seed.storage.data().unwrap()[4..8],
+            &0.1f32.to_le_bytes()
+        );
+        let rng = random.0;
+        let calls = services.events.clone();
+        services.fail = None;
+        assert!(
+            session
+                .complete_enemy_projectile_ground_flight(shot, &mut random, &mut services)
+                .is_err()
+        );
+        assert_eq!(random.0, rng);
+        assert_eq!(services.events, calls);
     }
     #[test]
     fn actual_impact_request_reaches_owned_radial_list_and_retains_hit_failure() {
