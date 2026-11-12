@@ -123,6 +123,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
     },
     'docs/RECONSTRUCTION_METHOD.md': {
+        # Reviewed module-identity requirement; prior attribution rows unchanged.
+        '85ac9cb7e1ddf1256cc141adfa4b823f9328cace3c93b13a0b1c5885c38875de',
         # Observed instruction versus indirect function-entry evidence;
         # existing reviewed attribution aliases remain unchanged.
         '74014108617eae1798deacd3bb76527bbcf437e723b0e7b4634ef7db17268ee2',
