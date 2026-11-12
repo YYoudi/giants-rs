@@ -26,6 +26,7 @@ pub(crate) struct CampaignCompletion {
 mod campaign;
 mod landing;
 mod npc;
+mod rippers;
 mod signals;
 pub(crate) use npc::{Draw as NpcDraw, DrawOwner as NpcDrawOwner};
 #[path = "mission_runtime/owned.rs"]
@@ -71,6 +72,7 @@ fn declaration_key(reference: &ActorRef) -> giants_game::declared_residents::Key
 struct Payload {
     signals: signals::State,
     npcs: Result<Option<npc::State>, String>,
+    rippers: Result<Option<rippers::State>, String>,
     impact_sounds: Vec<u32>,
     packet: Arc<PreparedMission>,
     plan: Plan,
@@ -2410,6 +2412,19 @@ fn spawn(
         Ok(None) => {}
         Err(error) => blocked.push(format!("NPC resource binding: {error}")),
     }
+    let ripper_binding = match &mut payload.rippers {
+        Ok(Some(rippers)) => rippers.bind(ticket, &declared, &resident_states).map(Some),
+        Ok(None) => Ok(None),
+        Err(error) => Err(error.clone()),
+    };
+    match ripper_binding {
+        Ok(Some(view)) => println!(
+            "mission_ripper_resources ticket={ticket} class73={} class230={} canonical_declarations=true callbacks_admitted=false rendered=false",
+            view.class73, view.class230
+        ),
+        Ok(None) => {}
+        Err(error) => blocked.push(format!("Ripper resource binding: {error}")),
+    }
     for record in declared.records {
         match record.result {
             Ok(id) => println!(
@@ -2589,6 +2604,7 @@ fn drive(
                 let kabuto = prepare_kabuto(&root, &plan, &packet);
                 let delphi = prepare_delphi(&root, &plan, &packet);
                 let npcs = npc::State::prepare(&root, &plan);
+                let rippers = rippers::State::prepare(&plan);
                 let player = giants_game::player_initial::Prepared::load(
                     &root,
                     &plan,
@@ -2641,6 +2657,7 @@ fn drive(
                 Ok(Payload {
                     signals: Default::default(),
                     npcs,
+                    rippers,
                     impact_sounds,
                     packet,
                     plan,
@@ -3024,6 +3041,7 @@ mod tests {
         Payload {
             signals: Default::default(),
             npcs: Ok(None),
+            rippers: Ok(None),
             impact_sounds: Vec::new(),
             dressing: None,
             opening_effects_bound: true,
