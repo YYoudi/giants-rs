@@ -36,6 +36,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         # Two reviewed literal FX search routes, both explicitly unknown;
         # existing PC alias unchanged, no native body or corpus exported.
         'de47ee624eb38830f889233c0eb6288dac84c2afda13239a5c5ff4fc6f81a89e',
+        # Reviewed ground-create block route (probable), shared flag route
+        # (unknown) and prototype surface-stub divergence; aliases unchanged.
+        '1a51cdd4703a5d425c901d99cacd504c620b9c398a0cb0dfe8c92c5d6e8b753c',
     },
     'docs/MECC_DESCENT_GUARD.md': {
         # Gameplay-first work-selection prose only; the reviewed alias is unchanged.

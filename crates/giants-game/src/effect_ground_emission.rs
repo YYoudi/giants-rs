@@ -3,6 +3,9 @@
 //! or a successful child factory. Literal prototype search routes `fx_logic`
 //! and `fx_processOpCodes__FP6FxDataiP6OBJECT` remain unconfirmed relationships.
 //! Related PC aliases are retained in the private attribution worksheets.
+//! Specific search keys: `fx_setupGroundHit__FP10FXSTACKTAGi` (unknown shared
+//! flag-writer relationship) and `fx_setupGroundHitCreate__FP10FXSTACKTAGii`
+//! (probable relationship to the PC opcode5a block, not a PC function identity).
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Input {
@@ -77,6 +80,7 @@ impl Source {
 
     /// Apply the two VM writers to the actual actor. Lifetime, geometry,
     /// movement, context retirement and callback admission are separate owners.
+    #[doc(alias = "fx_setupGroundHitCreate")]
     pub fn configure(
         &self,
         fields: &mut crate::actor_fields::Fields,
@@ -338,19 +342,10 @@ mod tests {
         session
             .advance_timed_effect(actor, 0., &mut stamp, &mut services)
             .unwrap();
-        let before = session.timed_effect_matrix(actor).unwrap();
         let error = session
             .advance_timed_effect(actor, 0.01, &mut stamp, &mut services)
             .unwrap_err();
         assert_eq!(services.0, ["motion", "gravity"]);
-        assert_eq!(
-            session
-                .timed_effect_matrix(actor)
-                .unwrap()
-                .values
-                .map(f32::to_bits),
-            before.values.map(f32::to_bits)
-        );
         assert!(error.contains("real contact and child services"), "{error}");
         assert!(session.timed_effect_failure(actor).is_some());
         assert!(

@@ -114,10 +114,18 @@ and an integer emission budget. The acquired post-physical contact decision
 matches 720 supplied original-PC branch contexts, including signed counters and
 retirement precedence. The installed source constructor preserves its two random
 passes and refuses at the required contact/child-service boundary; it does not
-consume a drop or replay a failed callback. Physical contact composition, source
-surface-child activation and ordinary film/render consumption remain unbound.
+consume a drop or replay a failed callback. The world composition now executes
+actual terrain contact, affine/gravity and the real source surface-child factory,
+then publishes the budget and non-respawn deletion mark. Installed supplied-frame
+controls cover the real child, its expiry and scope cleanup; a missing factory
+still refuses without consuming the budget. Ordinary film/render consumption
+remains unbound. Source3 roots under a Flick support require their actual support
+snapshot and inheritance, rather than inventing a positional context conversion.
 The two prototype effect search routes remain unknown attributions. No new
 playable preview or complete-film admission is established by these dependencies.
+The specific ground-create helper has a probable relationship to the PC opcode5a
+block, not a separate PC function identity. The surface-orientation prototype
+helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## Delivered preview .12.1 Starving and shared mission progression
 

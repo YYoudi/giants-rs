@@ -7,6 +7,7 @@ use crate::{
     timed_effect_object::{Body, Boundary, Runtime, Step, Timed},
 };
 use giants_formats::effect_image::Image;
+mod ground;
 mod preparation;
 pub use preparation::{
     Header as OrdinaryHeader, Input as Preparation, Services as PreparationServices,
@@ -23,6 +24,7 @@ pub(super) struct Metadata {
     physical: PhysicalHeader,
     motion_done: bool,
     gravity_done: bool,
+    ground_started: bool,
     ordinary: OrdinaryHeader,
     cinematic_scope: Option<CinematicScope>,
 }
@@ -284,6 +286,7 @@ impl Session {
             },
             motion_done: false,
             gravity_done: false,
+            ground_started: false,
             ordinary: OrdinaryHeader::allocated(),
             cinematic_scope,
         });
@@ -406,8 +409,7 @@ impl Session {
             .timed_effect
             .as_ref()
             .ok_or("timed gravity metadata absent")?;
-        let ground_before_affine = m.runtime.ground.is_some() && m.runtime.awaiting_physical();
-        if !(m.runtime.awaiting_gravity() || ground_before_affine)
+        if !m.runtime.awaiting_gravity()
             || !m.motion_done
             || m.gravity_done
             || actor
@@ -742,6 +744,7 @@ impl Session {
                 let m = actor.timed_effect.as_mut().unwrap();
                 m.motion_done = false;
                 m.gravity_done = false;
+                m.ground_started = false;
             }
             boundary
         };
@@ -760,20 +763,6 @@ impl Session {
             Boundary::Inactive => unreachable!(),
         };
         if boundary == Boundary::Physical {
-            if result.is_ok() {
-                let metadata = self.get(id).unwrap().timed_effect.as_ref().unwrap();
-                let ground = metadata
-                    .runtime
-                    .ground
-                    .as_ref()
-                    .map(|ground| (ground.clone(), metadata.runtime.source.clone()));
-                if let Some((ground, source)) = ground {
-                    result = services.gravity(self, id);
-                    if result.is_ok() {
-                        result = services.ground_contact(self, id, &source, &ground);
-                    }
-                }
-            }
             let actor = self
                 .residents
                 .get_mut(&id.serial)
@@ -786,18 +775,19 @@ impl Session {
             let (runtime, mut body) = borrow(actor, references)?;
             result = runtime.finish_motion(&mut body, result);
             self.refresh_timed_cache(id)?;
-            if result.is_ok()
-                && self
-                    .get(id)
-                    .unwrap()
-                    .timed_effect
-                    .as_ref()
-                    .unwrap()
+            if result.is_ok() {
+                result = services.gravity(self, id);
+            }
+            if result.is_ok() {
+                let metadata = self.get(id).unwrap().timed_effect.as_ref().unwrap();
+                let ground = metadata
                     .runtime
                     .ground
-                    .is_none()
-            {
-                result = services.gravity(self, id);
+                    .as_ref()
+                    .map(|ground| (ground.clone(), metadata.runtime.source.clone()));
+                if let Some((ground, source)) = ground {
+                    result = services.ground_contact(self, id, &source, &ground);
+                }
             }
         }
         self.get(id)

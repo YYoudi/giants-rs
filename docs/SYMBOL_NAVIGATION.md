@@ -94,6 +94,20 @@ whether to request a child and retire its parent; source names do not validate
 the physical query, child factory, whole callback or film integration. The
 source constructor retains its mutable budget in the canonical actor payload.
 
+The more specific literal `fx_setupGroundHitCreate__FP10FXSTACKTAGii` has a
+**probable block-level relationship** to the acquired PC opcode5a writer in
+`effect_ground_emission::Source::configure`. Independent body evidence includes
+lookup/result gating, emission-budget/child stores and the matching control
+flag. This is not a separate PC function identity or an equivalent signature;
+lookup-argument representation and platform layout remain distinct. The shared
+flag-writer route `fx_setupGroundHit__FP10FXSTACKTAGi` remains unknown.
+
+`fx_orientToGround__FP10FXSTACKTAGf` is a literal prototype stub; the related PC
+surface helper performs a real query, alignment and location update. Its
+relationship remains **unknown**. Find the PC reconstruction in
+`effect_actor::Template::surface_positioned` and `effect_surface`; do not replace
+it with the prototype's no-op behavior.
+
 ## Publication boundary
 
 This index publishes only selected names, reviewed navigation relationships and

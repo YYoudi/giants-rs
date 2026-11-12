@@ -809,6 +809,28 @@ impl<K: Copy + Eq> Pool<K> {
     ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
         self.prepare_direct_position(offset, position, 0, false, random)
     }
+    /// Acquired mode38 contact packet. These are its three inheritance bits,
+    /// distinct from the parent's render/header words and a context's flags.
+    pub fn prepare_ground_offset_invariant(
+        &mut self,
+        offset: u32,
+        request: crate::effect_ground_emission::Emission,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        if request.flags & !7 != 0 {
+            return Err("ground packet flags outside acquired profile".into());
+        }
+        let flags = if request.flags & 1 != 0 { 0x10000 } else { 0 }
+            | if request.flags & 2 != 0 { 0x4000 } else { 0 }
+            | if request.flags & 4 != 0 { 0x8000 } else { 0 };
+        self.prepare_direct_position(
+            Some(offset),
+            request.position.map(f32::from_bits),
+            flags,
+            true,
+            random,
+        )
+    }
     /// Acquired retirement-helper direct-offset mode38. The caller supplies the
     /// parent's current object/render fields, not a projected class template.
     /// Quality/load/camera producers are unnecessary only when both source

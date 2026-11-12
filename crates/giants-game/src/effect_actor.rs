@@ -233,6 +233,96 @@ fn initialize_physical(seed: &mut Seed) -> Result<(), String> {
     Ok(())
 }
 impl Template {
+    /// Complete source3 surface frame, including its real terrain sample.
+    /// A context already ran its null pass; this consumes only active ranges.
+    /// Prototype search key `fx_orientToGround__FP10FXSTACKTAGf` is a stub;
+    /// preserve the acquired PC query/alignment rather than importing that stub.
+    pub fn surface_positioned<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        random: &mut crate::audio_parameters::Random,
+        mut query: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+    ) -> Result<Configured<K>, String> {
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        if program.records.iter().map(|r| r.opcode).collect::<Vec<_>>()
+            != [3, 6, 4, 0x17, 0x1c, 0x79, 7, 2]
+            || context.flags() & !0x1c000 != 0
+        {
+            return Err("surface constructor outside acquired positional frame".into());
+        }
+        self.validate(context, 3, 1)?;
+        let position = context
+            .position()
+            .ok_or("surface context position absent")?;
+        if !position.into_iter().all(f32::is_finite) {
+            return Err("surface context position nonfinite".into());
+        }
+        let image = context.source_image();
+        let entry = image
+            .entries
+            .get(context.entry_index)
+            .ok_or("surface context entry absent")?;
+        if entry.offset != context.entry_offset {
+            return Err("surface context entry changed".into());
+        }
+        let plan = crate::effect_scene::Plan::project(&image, &entry.name)?;
+        let mut staged = *random;
+        let (objects, cursor) = plan.activate(&mut staged.0)?;
+        // Active draws precede the real surface query. A later query failure
+        // cannot rewind the composing world's already consumed stream.
+        *random = staged;
+        if objects.len() != 1 || cursor.remaining.is_some() || plan.requires_external_resume() {
+            return Err("surface constructor requires one complete source object".into());
+        }
+        let object = &objects[0];
+        let mut initial = self.initial(
+            origin,
+            Placement::Position(position),
+            context.flags(),
+            false,
+        )?;
+        // Source17 translates the current point without a history copy.
+        initial.fields.position[2] =
+            (f64::from(initial.fields.position[2]) + f64::from(object.height)) as f32;
+        let size = object.size.ok_or("surface source size absent")?;
+        initial.size(size, false)?;
+        let point = initial.fields.position;
+        let sample = query([point[0], point[1]])?;
+        let placement = crate::effect_surface::placement(
+            point,
+            sample.plane,
+            sample.height,
+            object
+                .surface_offset
+                .ok_or("surface source offset absent")?,
+        )?;
+        let matrix = crate::effect_surface::alignment_matrix(
+            initial.matrix,
+            [sample.plane[0], sample.plane[1], sample.plane[2]],
+            placement,
+        )?;
+        // Source79's location setter copies history, then the helper publishes
+        // the aligned affine's translation. No live spatial-list admission is
+        // implied by this unadvanced constructor.
+        initial.fields.previous = initial.fields.current;
+        initial.fields.position = placement.position;
+        initial.fields.current = placement.position;
+        initial.matrix = matrix;
+        let life = object.lifetime.ok_or("surface source lifetime absent")?;
+        let configured = initial.timed(
+            crate::effect_visual::Configuration {
+                lifetime: life[0],
+                fade_in: life[1],
+                fade_out_start: life[2],
+                start_size: size[0],
+                end_size: size[1],
+            },
+            image,
+        )?;
+        *random = staged;
+        Ok(configured)
+    }
     /// Active source3 ground-emission frame. Its context has already executed
     /// the null-object pass; only the active ranges are consumed here.
     pub fn ground_positioned<K: Copy>(
@@ -474,6 +564,12 @@ impl Template {
         // word as well as the render mark. Source24 is a separate constructor.
         if !attached && flags & 0x8000 != 0 {
             fields.response_flags |= 0x1000;
+        }
+        if !attached && flags & 0x4000 != 0 {
+            fields.response_flags |= 0x400;
+        }
+        if !attached && flags & 0x10000 != 0 {
+            fields.object_flags |= 0x400;
         }
         let mut matrix = Matrix {
             flags: 0x10,

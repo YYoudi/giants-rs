@@ -127,13 +127,27 @@ ordinary entry cannot substitute for testing this completion film.
 from the actual actor's inline integer budget. Its source3 constructor transfers
 the real body to the Session with separate null/active random passes. The contact
 boundary receives that Session and the exact source image/configuration after
-motion/gravity and before the affine writer; an absent provider is a retained
-failure. The physical provider must supply real floor/mesh contact before this
-gravity and emission stage. Existing no-ground profiles keep their bounded lane.
+motion, flagged terrain contact, affine publication and gravity; an absent
+provider is a retained failure. The callback's flagged terrain stage is distinct
+from the common mesh/platform finalization after the callback. The acquired
+affine helper builds the matrix; it does not resolve scene collisions. Keep
+these services separate when composing the callback and common finalization.
 The acquired decision covers a contact-gated child request, post-factory budget
-store and parent-retirement precedence. This is not live physical contact,
-surface-child activation, whole-callback parity or film acceptance. Prototype
+store and parent-retirement precedence. The supplied-frame installed composition
+now uses actual Story2 terrain/declared geometry, creates the source surface
+child, publishes the budget only after that real factory call and marks the
+non-respawn parent for deletion. Child lifetime and scope cleanup also pass.
+This does not establish whole-callback parity, normal film dispatch or GPU
+acceptance. Prototype
 `fx_logic` and `fx_processOpCodes__FP6FxDataiP6OBJECT` remain unknown relationships.
+
+The surface constructor uses its real terrain query and source79 alignment;
+it preserves source17 translation, setter history and sampled source1c size.
+Its callback has no invented movement flag. Mandatory query/factory failures
+retain the composing random stream's consumed draws and the parent's callback
+failure. The prototype's literal `fx_orientToGround__FP10FXSTACKTAGf` is a stub,
+whereas the PC helper performs placement/alignment; that platform difference
+must remain explicit. Symbols alone do not establish corresponding behavior.
 
 The next record is `2b_2_returnwife`; it declares its own class216/state18 wife
 with selector3 near its selected player start. That actor must use the ordinary

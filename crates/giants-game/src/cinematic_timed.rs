@@ -14,6 +14,7 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     sync::Arc,
 };
+pub mod ground_factory;
 pub mod world;
 
 pub struct Bindings {

@@ -82,6 +82,7 @@ pub(crate) struct Runtime {
     visual: crate::effect_visual::Visual,
     pub retirement: Option<RetirementBinding>,
     pub ground: Option<crate::effect_ground_emission::Source>,
+    physical_callback: bool,
     pub source: Arc<Image>,
     durations: Vec<Option<f32>>,
     immutable_words: [u32; 3],
@@ -202,6 +203,26 @@ impl<K: Copy> Timed<K> {
         *random = staged;
         Ok(owned)
     }
+    pub fn surface_positioned(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<K>,
+        random: &mut crate::audio_parameters::Random,
+        query: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        let class = program
+            .records
+            .first()
+            .and_then(|r| r.bytes.get(1..5))
+            .ok_or("surface class absent")?;
+        let template = Template::load(resources, i32::from_le_bytes(class.try_into().unwrap()))?;
+        let mut staged = *random;
+        let configured = template.surface_positioned(origin, context, &mut staged, query);
+        *random = staged;
+        Self::new(template, configured?)
+    }
     /// Acquired smoke descendant with explicit source-pool active RNG draws.
     pub fn smoke_positioned(
         resources: &crate::scene_resources::SceneResources,
@@ -268,6 +289,7 @@ impl<K: Copy> Timed<K> {
             _ => return Err("timed callback size curve outside acquired profile".into()),
         };
         let side_speed = (initial.fields.control_flags & 0x40 != 0).then(|| word(data, 0xf4));
+        let physical_callback = initial.fields.control_flags & 0x80 != 0;
         let references = Owned::new(template.specification.clone())?;
         let mut durations = vec![None; 256];
         for (&slot, d) in &template.specification.animations {
@@ -299,6 +321,7 @@ impl<K: Copy> Timed<K> {
                 visual: configured.visual,
                 retirement: configured.retirement,
                 ground: configured.ground,
+                physical_callback,
                 source: configured.source,
                 durations,
                 immutable_words,
@@ -384,22 +407,17 @@ impl<K: Copy> Timed<K> {
             Boundary::Inactive => unreachable!(),
         };
         if boundary == Boundary::Physical {
-            // Ground requests observe gravity/contact state before the affine
-            // writer. Keep the older no-ground profile's acquired lane intact.
-            if result.is_ok() && self.runtime.ground.is_some() {
+            result = {
+                let (runtime, mut body) = self.borrow();
+                runtime.finish_motion(&mut body, result)
+            };
+            if result.is_ok() {
                 result = services.gravity(&mut self.initial);
             }
             if result.is_ok()
                 && let Some(ground) = &self.runtime.ground
             {
                 result = services.ground_contact(&mut self.initial, &self.runtime.source, ground);
-            }
-            result = {
-                let (runtime, mut body) = self.borrow();
-                runtime.finish_motion(&mut body, result)
-            };
-            if result.is_ok() && self.runtime.ground.is_none() {
-                result = services.gravity(&mut self.initial);
             }
         }
         let (runtime, mut body) = self.borrow();
@@ -561,7 +579,7 @@ impl Runtime {
             } else {
                 0
             };
-        let physical = matches!(b.placement, crate::effect_actor::Placement::Position(_));
+        let physical = self.physical_callback;
         if b.seed.storage.profile() != crate::state_storage::Profile::Debug
             || b.seed.storage.state() != 78
             || data.len() != 268
@@ -571,6 +589,7 @@ impl Runtime {
             || b.fields.control_flags & !allowed != 0
             || b.fields.control_flags & 2 == 0
             || (b.fields.control_flags & 0x80 != 0) != physical
+            || (physical && !matches!(b.placement, crate::effect_actor::Placement::Position(_)))
             || (b.fields.control_flags & (8 | 0x100000))
                 != if self.immutable_words[1] != self.immutable_words[2] {
                     self.size_flag

@@ -84,8 +84,29 @@ pub struct Calls {
     pub environment: usize,
     pub platforms: usize,
     pub footprint_checks: usize,
+    pub callback_ground_queries: usize,
+}
+/// Concrete source-child and retirement owners. No default successful factory
+/// is installed; immutable terrain sampling remains this world's own service.
+pub trait GroundEffects {
+    fn emit(
+        &mut self,
+        session: &mut Session,
+        actor: Id,
+        image: &giants_formats::effect_image::Image,
+        source: &crate::effect_ground_emission::Source,
+        request: crate::effect_ground_emission::Emission,
+        terrain: &giants_formats::gti::Terrain,
+    ) -> Result<Id, String>;
+    fn retire(
+        &mut self,
+        session: &mut Session,
+        actor: Id,
+        request: crate::effect_ground_emission::Retirement,
+    ) -> Result<(), String>;
 }
 pub struct World<'a> {
+    ground_effects: Option<&'a mut dyn GroundEffects>,
     terrain: &'a giants_formats::gti::Terrain,
     query: StaticTerrainQuery<'a>,
     objects: &'a [actor_environment::Collider],
@@ -116,6 +137,7 @@ impl<'a> World<'a> {
             return Err("cinematic world requires finite actual clock/areas");
         }
         Ok(Self {
+            ground_effects: None,
             terrain,
             query: StaticTerrainQuery::new(terrain, 1. / terrain.spacing, Precision::Double53)?,
             objects,
@@ -125,6 +147,10 @@ impl<'a> World<'a> {
             areas,
             calls: Calls::default(),
         })
+    }
+    pub fn with_ground_effects(mut self, effects: &'a mut dyn GroundEffects) -> Self {
+        self.ground_effects = Some(effects);
+        self
     }
 }
 impl TimedEffectServices for World<'_> {
@@ -145,11 +171,56 @@ impl TimedEffectServices for World<'_> {
             self.areas,
         );
         self.calls.motion += 1;
-        session.advance_timed_effect_motion(actor, seconds)
+        session.advance_timed_effect_motion(actor, seconds)?;
+        if session.timed_effect_needs_ground(actor) {
+            let result = session.resolve_timed_effect_ground(actor, |xy| {
+                self.calls.callback_ground_queries += 1;
+                crate::physical_ground::Ground::from_sample(
+                    self.query.sample(xy)?,
+                    self.terrain.width,
+                )
+            })?;
+            debug_assert!(result.queries > 0);
+        }
+        Ok(())
     }
     fn gravity(&mut self, session: &mut Session, actor: Id) -> Result<(), String> {
         self.calls.gravity += 1;
         session.apply_timed_effect_gravity(actor)
+    }
+    fn ground_contact(
+        &mut self,
+        session: &mut Session,
+        actor: Id,
+        image: &giants_formats::effect_image::Image,
+        source: &crate::effect_ground_emission::Source,
+    ) -> Result<(), String> {
+        let decision = {
+            let (seed, fields) = session.timed_effect_contact_fields(actor)?;
+            source.decision(fields, seed)?
+        };
+        if let Some(request) = decision.emission {
+            let child = self
+                .ground_effects
+                .as_mut()
+                .ok_or("ground effect requires its real surface-child factory")?
+                .emit(session, actor, image, source, request, self.terrain)?;
+            if child == actor
+                || session.get(child).is_none()
+                || session.cinematic_timed_scope(child) != session.cinematic_timed_scope(actor)
+            {
+                return Err("ground child factory returned a foreign or absent owner".into());
+            }
+            let (seed, _) = session.timed_effect_contact_fields(actor)?;
+            source.emitted(seed, request)?;
+        }
+        if let Some(request) = decision.retirement {
+            self.ground_effects
+                .as_mut()
+                .ok_or("ground effect requires its contact-retirement owner")?
+                .retire(session, actor, request)?;
+        }
+        Ok(())
     }
     fn retire(
         &mut self,

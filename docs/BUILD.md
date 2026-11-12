@@ -92,6 +92,20 @@ control supplies a contact word to the constructed source body, verifies its
 cinematic response mark and checks budget publication/stale-completion rejection.
 Its supplied contact is not a successful world query or child creation.
 
+The ignored game controls
+`installed_blood_source_pose_uses_real_callback_terrain_before_child_refusal`
+and `installed_blood_contact_constructs_real_surface_child_and_retires_parent`
+use the same root variable. Both evaluate a supplied pose of the actual source
+film actor/reference and execute terrain queries over real Story2 data. The
+second supplies the concrete source surface-child factory, observes the actual
+budget decrement/deletion mark, advances the child through expiry and cancels
+the complete scope. The first requires refusal without that factory. The pose,
+frame clock and random stream are dependency inputs; these controls do not
+execute normal FLK dispatch, draw the scene or complete The Wife.
+`installed_surface_inheritance_and_late_query_rng_are_preserved` checks all eight
+contact-packet inheritance combinations against the actual surface constructor
+and verifies consumed null/active draws survive an injected late query failure.
+
 For the all-five consolidation, run the shared workspace checks below and the
 installed owner/normal-controller controls, including the generic player shell,
 ordered Delphi projection/body phase, typed state0 children, class230 awakening,
