@@ -51,9 +51,17 @@ actual Windows menu-to-The Wife entries and zero-entity returns, including one
 natural opening terminal. Canonical cold Ripper resources are initialized on
 both entries; Ripper callbacks/rendering remain inactive. This is loading
 regression coverage, not encounter/death acceptance. See docs/OWNED_NPCS.md.
-Next: connect the completed frame/pose/render consumer with the actual shared
-inputs, consume required class230 mode66 and later continuations,
-then connect shared rendering, collisions/targeting and reciprocal combat with
+The ordinary controller now invokes a bounded Ripper frame/pose consumer using
+current Mecc ownership, mission clocks/RNG and real terrain/rigid colliders.
+The common renderer accepts only completed class73/230 RGB poses. An installed
+two-ticket stationary-player control completes 180 frames with five CPU draw
+submissions per frame; repeated clock/ANM consumption is refused. GPU/input
+acceptance of this newer consumer remains separate. The admitted primary subset
+and explicit refusals are documented in docs/OWNED_NPCS.md; this is not yet a
+complete encounter. PS2 `ripper_animselect` attribution remains unknown.
+Next: acquire/connect surfacing/marker and ordinary firing/flight consumers,
+consume required class230 mode66 and later continuations,
+then connect collisions/targeting and reciprocal combat with
 source-specific sounds/blood/death/cleanup. Do not copy Vimp ghosts/meat or force
 movement, readiness or damage. Acceptance still requires an identified local
 build, a rendered normal-menu encounter, reciprocal interactions, death, menu

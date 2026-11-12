@@ -31,6 +31,7 @@ mod herd_frame_tests;
 mod parented_frame_tests;
 #[cfg(test)]
 mod passive_frame_tests;
+mod ripper_calls;
 mod ripper_variant;
 mod vimp_ghost;
 mod vimp_retirement;
@@ -457,6 +458,9 @@ pub struct Resident {
     ripper_primary:
         Option<crate::ripper_primary_turn::Machine<Id, crate::attached_effect_context::Id>>,
     ripper_primary_running: bool,
+    ripper_animation_consumed: bool,
+    ripper_animation_failed: bool,
+    ripper_animation_epoch: Option<u32>,
     controlled_motion: Option<crate::controlled_mecc::Owned>,
     finalization: Option<crate::resident_finalization::Owned>,
     world_tick: Option<crate::actor_world_tick::Tick>,
@@ -539,6 +543,7 @@ pub struct Session {
     kabuto_events: Option<crate::mecc_animation_events::Bank>,
     mecc_contact_materials: Option<Arc<crate::mecc_contact_materials::Catalog>>,
     vimp_events: Option<crate::mecc_animation_events::Bank>,
+    ripper_events: BTreeMap<i32, crate::mecc_animation_events::Bank>,
     mecc_countdown_world: Option<f32>,
     mecc_shot_record: Option<crate::mecc_shot::Record>,
     mecc_reticle_owner: Option<Id>,
@@ -564,6 +569,7 @@ impl Session {
             kabuto_events: None,
             mecc_contact_materials: None,
             vimp_events: None,
+            ripper_events: BTreeMap::new(),
             mecc_countdown_world: None,
             mecc_shot_record: None,
             mecc_reticle_owner: None,
@@ -697,6 +703,9 @@ impl Session {
                 ordinary_motion: None,
                 ripper_primary: None,
                 ripper_primary_running: false,
+                ripper_animation_consumed: false,
+                ripper_animation_failed: false,
+                ripper_animation_epoch: None,
                 controlled_motion: None,
                 finalization: None,
                 world_tick: None,
@@ -3124,6 +3133,9 @@ impl Session {
     /// not execute or acknowledge the primary behavior callback.
     pub fn begin_actor_frame_history(&mut self, id: Id) -> Result<(), String> {
         let actor = self.ordinary_frame_actor(id)?;
+        if actor.ripper_animation_failed {
+            return Err("Ripper ANM failed; fresh entry required".into());
+        }
         if actor.world_tick_running
             || actor
                 .world_tick
@@ -3154,6 +3166,7 @@ impl Session {
                     .ok_or("frame fields absent")?,
             )?;
         actor.world_tick = None;
+        actor.ripper_animation_consumed = false;
         Ok(())
     }
     pub fn actor_world_flags(&self, id: Id) -> Result<u32, String> {
@@ -3214,6 +3227,9 @@ impl Session {
         services: &mut impl crate::actor_finalization::Services,
     ) -> Result<(), String> {
         let actor = self.ordinary_frame_actor(id)?;
+        if actor.ripper_animation_failed {
+            return Err("Ripper ANM failed; finalization cannot acknowledge this frame".into());
+        }
         let mut state = actor
             .finalization
             .as_ref()
@@ -11222,6 +11238,7 @@ impl Session {
         self.delphi_events = None;
         self.mecc_contact_materials = None;
         self.vimp_events = None;
+        self.ripper_events.clear();
         self.mecc_reticle_owner = None;
         self.mecc_target_range = None;
         // A visitor or target provider can cancel while its phase is on the

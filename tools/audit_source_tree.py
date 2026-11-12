@@ -53,6 +53,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         # Adds one literal effect search key and an explicitly unknown PC
         # preparation alias; no effect/native body or corpus record is exported.
         'e5e1bb1d18f316137adb758d97c16f5fb7ad11ae4430292472b48c9e8c6c7a89',
+        # Reviewed unknown animation-navigation name/address and owned-caller
+        # link only; no new attribution, signature, native body or corpus rows.
+        'a1063f01eb56b87bf6ce00a783fddaeb092c1c40bd1f238e7ef5d865424a3917',
     },
     'docs/MECC_DESCENT_GUARD.md': {
         # Gameplay-first work-selection prose only; the reviewed alias is unchanged.

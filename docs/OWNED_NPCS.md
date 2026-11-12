@@ -57,7 +57,7 @@ prepared named FX, reference-derived launch, source ownership and retained late
 sound failure without another creation or RNG replay. Its mode65/channel and
 flat world are explicit diagnostic inputs and audio is suppressed. Prepared FX
 does not establish visible projectile effects or impact damage. Mode66 and later
-continuations and ordinary component scheduling remain prerequisites.
+continuations and the ordinary firing/flight consumer remain prerequisites.
 
 Actual declared Rippers retain recipient flag400. Exact-PC attached preparation
 maps that flag into context flag10000 while preserving the extended caller's
@@ -70,11 +70,49 @@ services. The prototype PS2 `fx_create` correspondence is unknown.
 
 The next delivery is the normal menu-to-The Wife encounter, reusing the shared
 Mecc/Session clock, RNG, terrain, render, audio and retirement contracts. Missing
-class230 continuations, completed frame/pose ownership, contacts, reciprocal
+class230 continuations, contacts, reciprocal
 combat and source-specific death services remain prerequisites. No Vimp ghost
 or meat behavior is copied. Main retains mission progression and publication.
 The prototype PS2 `ripper_move` attribution is unknown; see
 [symbol navigation](SYMBOL_NAVIGATION.md) and the central reconstruction method.
+
+### Ordinary Ripper frame and pose consumer
+
+The NPC branch now connects a bounded Ripper component to the ordinary partial
+Mecc controller, independently of herd availability. It uses canonical declared
+identities, current published Mecc motion and source camera, Session health,
+shared mission clock/slow areas and the existing mission RNG. Cohort position
+histories precede callbacks in current common-list order. Primary commands feed
+ordinary motion, secondary selection, ANM references/events, terrain/object
+finalization and current environment geometry. No supplied velocity or behavior
+mode replaces the primary. Its animation stamp is component-scoped; complete
+native world ordering and random-stream interleaving remain unverified.
+
+The common NPC renderer copies model-zero vertices only after successful world
+iteration and finalization, retaining the actual animation epoch and affine.
+The RGB body route now accepts class73/230 after resource validation. Cold or
+failed frames supply no draw. Late ANM failures retain consumed clocks/events
+and cannot replay or finalize as successful. A Ripper component/draw failure is
+reported and quarantined independently of Vimps. Prior audio transport requests
+survive a late callback refusal; queue submission does not establish a voice.
+
+The admitted ordinary primary subset is class73 modes0/31/32/33/34 and class230
+modes0/61/62/63/64. Later modes are explicit refusals, including the class73
+surfacing consumer and ordinary primary fire, even where isolated owned callers
+already exist. Perception currently admits the actual controlled Mecc subset;
+other families are not represented by invented current providers. Dirt/event
+contexts can be prepared but have no active effect/particle scheduling here.
+Contacts, reciprocal combat, source death and cleanup remain required before
+claiming a playable Ripper encounter.
+
+An installed-data control runs 180 supplied stationary-player frames on each
+of two fresh The Wife tickets. All five actors complete their frames and supply
+five nonempty class73/230 poses to the common CPU draw consumer. Repeated clock
+samples consume no additional RNG and repeated ANM consumption is refused.
+Source terrain and the controller's actual rigid colliders are used. This is a
+Rust composition control, without original execution, GPU or Windows input.
+The prototype PS2 `ripper_animselect` candidate for the acquired PC secondary
+callback remains **unknown**, separately from this implementation result.
 
 ### Intermediate local loading check
 

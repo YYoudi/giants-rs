@@ -67,7 +67,9 @@ differences, normal integration and the separately admitted objective boundary.
 The literal prototype PS2 symbol `ripper_move` is a navigation candidate for
 [`ripper_primary_turn`](../crates/giants-game/src/ripper_primary_turn.rs),
 [`ripper_attack`](../crates/giants-game/src/ripper_attack.rs) and their
-owned `Session` callers. Its exact relationship to PC debug-1.1
+owned `Session` callers, including
+[`ripper_calls`](../crates/giants-game/src/resident_states/ripper_calls.rs).
+Its exact relationship to PC debug-1.1
 `FUN_004d61f0` remains **unknown**. The PC callback and its class-specific
 continuations remain independently acquired; the symbol does not transfer a PS2
 signature, layout or implementation claim. Both binary identities are pinned by
@@ -77,6 +79,14 @@ the central method. Old address aliases remain valid.
 in [`ripper_steering`](../crates/giants-game/src/ripper_steering.rs). Its exact PC
 correspondence is **unknown**. The separately acquired PC angle helper alias
 `FUN_004dbd10` and the class230 primary caller remain the behavior references.
+
+## Ripper animation search route
+
+The literal prototype PS2 name `ripper_animselect` is a navigation candidate
+for `Session::update_state23_animation` and the separate ordinary ANM consumer
+in `ripper_calls`. Its correspondence to the PC debug-1.1 secondary callback
+at 0x004db670 remains **unknown**. Animation selection, clocks, reference/event
+evaluation and successful ordinary frame completion are distinct contracts.
 
 ## Attached effect preparation route
 

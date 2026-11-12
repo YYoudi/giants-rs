@@ -185,6 +185,15 @@ selection, retained prefixes/late audio failure and replay/retirement refusal.
   flag400 in extended prepared-context metadata, including unchanged RNG and
   the explicit refusal to call a merely prepared context an active effect.
 
+With the same installation, run
+`cargo test --locked -p giants-app source_wife_rippers_complete_current_frames --target x86_64-pc-windows-gnu -- --ignored`
+for the ordinary Ripper component's supplied stationary-player prefix: two
+fresh tickets, 180 frames each, five current CPU body submissions per frame,
+real terrain/rigid colliders and repeated clock/ANM refusal. This is not a GPU,
+Windows-input, reciprocal-combat or death check. The normal controller invokes
+the same component without an activation variable; unsupported continuations
+remain explicit failures. See OWNED_NPCS.md for the admitted subset.
+
 With `GIANTS_NPC_ROOT`, run
 `cargo test --locked -p giants-game source_parented_state0 --target x86_64-pc-windows-gnu -- --ignored`
 for the three acquired special children across two tickets. It supplies local

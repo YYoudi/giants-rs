@@ -1159,6 +1159,65 @@ impl Runtime {
             device,
         )
     }
+    pub(crate) fn advance_normal_rippers(
+        &mut self,
+        ticket: u64,
+        step: u64,
+        camera: [f32; 3],
+        objects: &[giants_game::actor_environment::Collider],
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
+        let a = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("Ripper mission ticket absent")?;
+        let owner = a.player_owner()?;
+        if a.owned_mecc.is_some() || a.controlled_mecc_owner != Some(owner) {
+            return Err("Ripper component requires ordinary Mecc motion ownership".into());
+        }
+        let Some(rippers) = a.payload.rippers.as_mut().map_err(|e| e.clone())? else {
+            return Ok(vec![]);
+        };
+        let (sample, clock) = a
+            .payload
+            .signals
+            .current()
+            .ok_or("Ripper shared clock absent")?;
+        let areas = a.payload.signals.areas.snapshot(|id| {
+            a.resident_states
+                .get(id)
+                .and_then(|a| a.construction_fields.as_ref())
+                .map(|f| f.dispatch_context)
+                .ok_or_else(|| "Ripper slow-area owner absent".into())
+        })?;
+        rippers.advance_live(
+            &mut a.resident_states,
+            rippers::live::Frame {
+                ticket,
+                sample,
+                step,
+                controlled: owner,
+                camera,
+                seconds: clock.seconds,
+                areas: &areas,
+                objects,
+                world: a.payload.world.as_ref().map_err(Clone::clone)?,
+                resources: a.payload.plan.resources(),
+            },
+            &mut a.variant_random,
+        )
+    }
+    pub(crate) fn take_normal_ripper_sounds(
+        &mut self,
+        ticket: u64,
+    ) -> Vec<crate::mission_audio::Event> {
+        self.active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .and_then(|a| a.payload.rippers.as_mut().ok()?.as_mut())
+            .map(rippers::State::take_sounds)
+            .unwrap_or_default()
+    }
     pub(crate) fn hit_normal_vimp(
         &mut self,
         ticket: u64,
@@ -1441,14 +1500,25 @@ impl Runtime {
             .as_mut()
             .filter(|a| a.ticket == ticket)
             .ok_or("NPC draw mission ticket absent")?;
-        match active.payload.npcs.as_mut().map_err(|e| e.clone())? {
+        let mut draws = match active.payload.npcs.as_mut().map_err(|e| e.clone())? {
             None => Ok(Vec::new()),
             Some(npcs) => npcs.draws(
                 &mut active.resident_states,
                 ticket,
                 active.payload.plan.resources(),
             ),
+        }?;
+        if let Some(rippers) = active.payload.rippers.as_mut().map_err(|e| e.clone())? {
+            match rippers.draws(
+                &mut active.resident_states,
+                ticket,
+                active.payload.plan.resources(),
+            ) {
+                Ok(ripper_draws) => draws.extend(ripper_draws),
+                Err(error) => rippers.refuse_draw(ticket, error),
+            }
         }
+        Ok(draws)
     }
     pub(crate) fn npc_contact_snapshots(
         &mut self,
@@ -2615,7 +2685,7 @@ fn drive(
                 let kabuto = prepare_kabuto(&root, &plan, &packet);
                 let delphi = prepare_delphi(&root, &plan, &packet);
                 let npcs = npc::State::prepare(&root, &plan);
-                let rippers = rippers::State::prepare(&plan);
+                let rippers = rippers::State::prepare(&root, &plan);
                 let player = giants_game::player_initial::Prepared::load(
                     &root,
                     &plan,

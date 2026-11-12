@@ -81,24 +81,7 @@ impl Session {
         random: &mut Random,
         dependencies: &mut impl crate::primary_enemy_fire::Dependencies<Effect>,
     ) -> Result<Outcome, String> {
-        self.validate_perception_frame(input.frame)?;
-        let shapes = input
-            .frame
-            .candidates()
-            .map(|candidate| {
-                let fields = self
-                    .get(candidate.id)
-                    .and_then(|a| a.construction_fields.as_ref())
-                    .ok_or("variant attack target fields absent or foreign")?;
-                Ok((
-                    candidate.id,
-                    crate::ripper_primary_turn::TargetShape {
-                        scale: fields.scale,
-                        center_offset: f32::from_bits(fields.configuration[22]),
-                    },
-                ))
-            })
-            .collect::<Result<std::collections::BTreeMap<_, _>, String>>()?;
+        let shapes = self.ripper_target_shapes(input.frame)?;
         self.update_ripper_owned_primary(
             id,
             input,

@@ -5,6 +5,8 @@ use giants_game::{
     instances::Plan,
     resident_states::{Id, Session},
 };
+mod draw;
+pub(super) mod live;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 struct Declaration {
@@ -20,6 +22,12 @@ pub(super) struct State {
     expected: Vec<Declaration>,
     bound: Option<(u64, Vec<Owner>)>,
     preparation: Option<Result<(), String>>,
+    globals: giants_formats::global_data::GlobalData,
+    image: std::sync::Arc<giants_formats::effect_image::Image>,
+    contexts: Option<giants_game::attached_effect_context::Pool<Id>>,
+    driver: live::Driver,
+    geometry: draw::Geometry,
+    sounds: Vec<crate::mission_audio::Event>,
 }
 #[derive(Debug, PartialEq, Eq)]
 pub(super) struct View {
@@ -27,7 +35,7 @@ pub(super) struct View {
     pub class230: usize,
 }
 impl State {
-    pub(super) fn prepare(plan: &Plan) -> Result<Option<Self>, String> {
+    pub(super) fn prepare(root: &std::path::Path, plan: &Plan) -> Result<Option<Self>, String> {
         let mut expected = Vec::new();
         for (index, entry) in plan.world_entries.iter().enumerate() {
             if matches!(entry.declaration.object_type, 73 | 230) {
@@ -59,10 +67,43 @@ impl State {
         if expected.iter().any(|d| !matches!(d.class, 73 | 230)) {
             return Err("Ripper declaration resolves to a different source class".into());
         }
+        let globals = giants_formats::global_data::parse(
+            &std::fs::read(root.join("Bin/GData.gbn")).map_err(|e| e.to_string())?,
+        )
+        .map_err(|e| e.to_string())?;
+        let models = &plan.resources().classes.models;
+        let mut image: Option<&giants_formats::effect_image::Image> = None;
+        for class in expected
+            .iter()
+            .map(|d| d.class)
+            .collect::<std::collections::BTreeSet<_>>()
+        {
+            let selected = models
+                .first_selection(class)
+                .ok_or("Ripper class selection absent")?
+                .as_ref()
+                .map_err(Clone::clone)?;
+            let definition = models
+                .specs
+                .get(&selected.spec_id)
+                .and_then(|s| s.first())
+                .ok_or("Ripper specification absent")?;
+            let captured = models.specification_effects(definition)?;
+            if image.is_some_and(|prior| !std::ptr::eq(prior, captured)) {
+                return Err("Ripper classes have different captured effect images".into());
+            }
+            image = Some(captured);
+        }
         Ok(Some(Self {
             expected,
             bound: None,
             preparation: None,
+            globals,
+            image: std::sync::Arc::new(image.unwrap().clone()),
+            contexts: None,
+            driver: Default::default(),
+            geometry: Default::default(),
+            sounds: vec![],
         }))
     }
     /// Prepare the real terrain/geometry and cold motion owners before a frame
@@ -98,6 +139,12 @@ impl State {
         // A late error may already have prepared preceding owners. Keep that
         // state, report failure and prohibit whole-component replay.
         self.preparation = Some(result.clone());
+        if result.is_ok() {
+            self.contexts = Some(giants_game::attached_effect_context::Pool::new(
+                ticket,
+                Some(self.image.clone()),
+            ));
+        }
         result
     }
     fn check(session: &Session, ticket: u64, owner: Owner) -> Result<(), String> {

@@ -1,4 +1,4 @@
-//! Consume completed canonical Vimp poses in the common mission renderer.
+//! Consume completed canonical NPC poses in the common mission renderer.
 //! No actor birth, AI, animation clock or random draw occurs here.
 use crate::actor_scene::{self, Material};
 use crate::rigid_attachment_scene::Material as AuxiliaryMaterial;
@@ -137,6 +137,10 @@ fn update(
         let mut draws = runtime.npc_draws(ticket)?;
         draws.extend(runtime.npc_effect_draws(ticket, camera.view)?);
         let vimp_count = draws.iter().filter(|draw| draw.class == 8).count();
+        let ripper_count = draws
+            .iter()
+            .filter(|draw| matches!(draw.class, 73 | 230))
+            .count();
         let meat_count = draws
             .iter()
             .filter(|draw| (1117..=1119).contains(&draw.class))
@@ -160,7 +164,7 @@ fn update(
             if let std::collections::btree_map::Entry::Vacant(entry) = state.objects.entry(draw.id)
             {
                 let object = entry.insert(Object {
-                    world: (draw.class != 8).then(|| {
+                    world: (!matches!(draw.class, 8 | 73 | 230)).then(|| {
                         gpu.buffers
                             .add(crate::source_view::uniform_buffer(&Mat4::IDENTITY))
                     }),
@@ -191,7 +195,7 @@ fn update(
                     // The mission binding already validates the RGB body path.
                     // Keep this consumer opaque; special/alpha passes require
                     // their own acquired submission rather than a guessed blend.
-                    if draw.class == 8
+                    if matches!(draw.class, 8 | 73 | 230)
                         && (part.material.flags & 1 != 0
                             || draw
                                 .geometry
@@ -199,11 +203,10 @@ fn update(
                                 .contains(&part.material.texture.to_ascii_lowercase()))
                     {
                         return Err(
-                            "Vimp body requires an unsupported transparent/additive material"
-                                .into(),
+                            "NPC body requires an unsupported transparent/additive material".into(),
                         );
                     }
-                    let profile = if draw.class == 8 {
+                    let profile = if matches!(draw.class, 8 | 73 | 230) {
                         None
                     } else {
                         Some(
@@ -406,7 +409,7 @@ fn update(
         if state.reported != state.objects.len() {
             state.reported = state.objects.len();
             println!(
-                "mission_npc_draw ticket={ticket} vimps={vimp_count} visuals={} effects={effect_count} meat={meat_count} ghosts={ghost_count} canonical_npc_poses=true fx_policy=partial_source_graph model_slot=0 simulation_in_renderer=false interaction_verified=false ready=false",
+                "mission_npc_draw ticket={ticket} vimps={vimp_count} rippers={ripper_count} visuals={} effects={effect_count} meat={meat_count} ghosts={ghost_count} canonical_npc_poses=true fx_policy=partial_source_graph model_slot=0 simulation_in_renderer=false interaction_verified=false ready=false",
                 state.reported
             );
         }

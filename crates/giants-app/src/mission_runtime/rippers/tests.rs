@@ -2,6 +2,169 @@
 use super::*;
 
 #[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; ordinary supplied-input frame/pose control, no GPU or OS input"]
+fn source_wife_rippers_complete_current_frames_without_replaying_history() {
+    use crate::mission_runtime as runtime;
+    use bevy::{ecs::world::CommandQueue, prelude::*};
+    use std::sync::Arc;
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let source = giants_game::world_source::resolve(&root, "Story2").unwrap();
+    let menu = giants_game::mission_selection::MissionMenu::parse(
+        &std::fs::read(root.join("Bin").join(source.catalog)).unwrap(),
+        u32::MAX,
+        true,
+    )
+    .unwrap();
+    let packet = Arc::new(
+        giants_game::mission_loading::prepare(&root, menu.request("Story2", 1).unwrap()).unwrap(),
+    );
+    let asset = Arc::new(packet.world_asset(&root).unwrap());
+    for ticket in [9401, 9402] {
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let mut payload = runtime::tests::payload();
+        payload.rippers = super::State::prepare(&root, &plan);
+        payload.player = giants_game::player_initial::Prepared::load(
+            &root,
+            &plan,
+            packet.world.as_ref().unwrap(),
+            packet.mission.as_ref().unwrap(),
+        )
+        .map(Arc::new)
+        .map_err(|e| e.to_string());
+        payload.world = Ok(asset.clone());
+        let mut viewer = crate::mecc_dev_scene::State::load_mission(
+            &root,
+            &asset,
+            &packet,
+            payload.player.as_ref().unwrap(),
+        )
+        .unwrap();
+        viewer.sample_pose().unwrap();
+        payload.plan = plan;
+        payload.packet = packet.clone();
+        let mut world = World::new();
+        let mut queue = CommandQueue::default();
+        let (scene_root, actors, blocked, residents, bindings) =
+            runtime::spawn(&mut Commands::new(&mut queue, &world), ticket, &mut payload);
+        queue.apply(&mut world);
+        let mut runtime = runtime::Runtime {
+            active: Some(runtime::Active {
+                ticket,
+                root: scene_root,
+                actors,
+                resident_states: residents,
+                blocked,
+                payload,
+                start: runtime::StartState {
+                    intent: giants_game::mission_loading::LaunchIntent::SavedMission,
+                    progress: giants_game::mission_selection::Progress::load(None, None).unwrap(),
+                },
+                reported: false,
+                pickup: None,
+                landing: None,
+                campaign: None,
+                variant_random: giants_game::audio_parameters::Random(1),
+                audio_registry: None,
+                bindings,
+                controlled_mecc_owner: None,
+                owned_mecc: None,
+            }),
+            ..Default::default()
+        };
+        assert!(runtime.npc_draws(ticket).unwrap().is_empty());
+        for number in 1..=180u64 {
+            runtime
+                .sample_world_clock(ticket, 1000 + number as u32 * 16)
+                .unwrap();
+            let motion = viewer
+                .step(0.016, Vec2::ZERO, &asset.terrain, false, false)
+                .unwrap();
+            runtime
+                .publish_controlled_mecc_motion(ticket, number, motion)
+                .unwrap();
+            runtime
+                .advance_normal_rippers(
+                    ticket,
+                    number,
+                    viewer.camera().1,
+                    viewer.mission_environment_colliders(),
+                )
+                .unwrap_or_else(|e| panic!("frame {number}: {e}"));
+            let draws = runtime.npc_draws(ticket).unwrap();
+            assert_eq!(
+                draws.len(),
+                5,
+                "five completed source Ripper poses must reach the common draw consumer"
+            );
+            assert!(
+                draws
+                    .iter()
+                    .all(|d| matches!(d.class, 73 | 230) && !d.positions.is_empty())
+            );
+            let active = runtime.active.as_mut().unwrap();
+            let rippers = active.payload.rippers.as_mut().unwrap().as_mut().unwrap();
+            assert_eq!(
+                rippers
+                    .bound
+                    .as_ref()
+                    .unwrap()
+                    .1
+                    .iter()
+                    .filter(|owner| rippers.driver.completed(owner.id).is_some())
+                    .count(),
+                5
+            );
+            for owner in &rippers.bound.as_ref().unwrap().1 {
+                assert_eq!(
+                    active
+                        .resident_states
+                        .actor_finalization(owner.id)
+                        .unwrap()
+                        .phase(),
+                    giants_game::resident_finalization::Phase::Idle
+                );
+                assert!(
+                    active
+                        .resident_states
+                        .advance_ripper_animation(
+                            owner.id,
+                            0.016,
+                            &mut giants_game::animation_epoch::Stamp::default(),
+                            rippers.contexts.as_mut().unwrap(),
+                            &mut active.variant_random
+                        )
+                        .is_err()
+                );
+            }
+            let before = active.variant_random.0;
+            let duplicate = runtime
+                .advance_normal_rippers(
+                    ticket,
+                    number,
+                    viewer.camera().1,
+                    viewer.mission_environment_colliders(),
+                )
+                .unwrap();
+            assert!(duplicate.is_empty());
+            assert_eq!(runtime.active.as_ref().unwrap().variant_random.0, before);
+        }
+        let active = runtime.active.as_mut().unwrap();
+        active.resident_states.clear();
+        assert!(
+            active
+                .payload
+                .rippers
+                .as_ref()
+                .unwrap()
+                .as_ref()
+                .unwrap()
+                .view(&active.resident_states, ticket)
+                .is_err()
+        );
+    }
+}
+
+#[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; declaration admission across authored Story2 scenarios, no live AI"]
 fn source_ripper_declarations_follow_each_authored_scenario() {
     let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
@@ -25,7 +188,7 @@ fn source_ripper_declarations_follow_each_authored_scenario() {
         let ticket = 9200 + index as u64;
         let mut session = Session::new(ticket);
         let report = giants_game::declared_residents::construct_acquired(&plan, &mut session);
-        let mut component = State::prepare(&plan).unwrap().unwrap();
+        let mut component = State::prepare(&root, &plan).unwrap().unwrap();
         let view = component.bind(ticket, &report, &session).unwrap();
         assert_eq!((view.class73, view.class230), expected);
         assert_eq!(
@@ -66,7 +229,7 @@ fn source_wife_ripper_bindings_use_declared_owners_and_survive_no_ticket_reuse()
     for ticket in [9101, 9102] {
         let mut session = Session::new(ticket);
         let mut report = giants_game::declared_residents::construct_acquired(&plan, &mut session);
-        let mut state = State::prepare(&plan).unwrap().unwrap();
+        let mut state = State::prepare(&root, &plan).unwrap().unwrap();
         assert_eq!(state.expected.len(), 5);
         assert!(state.expected.iter().all(|d| d.key.scope == Scope::Mission));
         let view = state.bind(ticket, &report, &session).unwrap();
@@ -122,7 +285,7 @@ fn source_wife_ripper_bindings_use_declared_owners_and_survive_no_ticket_reuse()
             .find(|r| r.key == first)
             .unwrap()
             .result = Ok(other);
-        let mut bad = State::prepare(&plan).unwrap().unwrap();
+        let mut bad = State::prepare(&root, &plan).unwrap().unwrap();
         assert!(bad.bind(ticket, &report, &session).is_err());
         assert!(bad.bound.is_none());
         session.clear();

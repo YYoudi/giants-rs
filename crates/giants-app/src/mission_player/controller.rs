@@ -31,6 +31,7 @@ pub(crate) struct Controller {
     owned_motion_failed: bool,
     world_signals_failed: bool,
     npc_failed: bool,
+    ripper_failed: bool,
     // Input-fixture memory only: release RMB long enough to recharge, as a
     // player would. Never changes fuel, actor pose or the ordinary jet service.
     probe_recharge: bool,
@@ -379,6 +380,7 @@ impl Controller {
             owned_motion_failed: false,
             world_signals_failed: false,
             npc_failed: false,
+            ripper_failed: false,
             probe_recharge: false,
             probe_route: None,
             initial,
@@ -1525,6 +1527,43 @@ pub(super) fn update(
                     controller.npc_failed = true;
                     error!(
                         "mission_vimp_component_refused ticket={} error={error}",
+                        controller.ticket
+                    );
+                }
+            }
+        }
+        if !controller.owned_backend
+            && controller.steps > 0
+            && !controller.owned_motion_failed
+            && !controller.world_signals_failed
+            && !controller.ripper_failed
+        {
+            match runtime.advance_normal_rippers(
+                controller.ticket,
+                u64::from(controller.steps),
+                controller.state.camera().1,
+                controller.state.mission_environment_colliders(),
+            ) {
+                Ok(sounds) => {
+                    for event in sounds {
+                        audio.local.write(crate::mission_audio::Request {
+                            ticket: controller.ticket,
+                            event,
+                        });
+                    }
+                }
+                Err(error) => {
+                    controller.ripper_failed = true;
+                    // Preserve transport submissions preceding a late callback
+                    // failure, without attempting that callback again.
+                    for event in runtime.take_normal_ripper_sounds(controller.ticket) {
+                        audio.local.write(crate::mission_audio::Request {
+                            ticket: controller.ticket,
+                            event,
+                        });
+                    }
+                    error!(
+                        "mission_ripper_component_refused ticket={} error={error}",
                         controller.ticket
                     );
                 }
