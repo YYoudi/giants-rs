@@ -28,8 +28,11 @@ the bounded audio queue, closing its real backend and then quarantining both NPC
 components. This is a failed supplied-input GPU run, not an encounter pass.
 Prepared one-shot positional cues can now stage together in FIFO order while
 waiting for their actual sinks; cold/looping cues, controls and foreign tickets
-remain barriers. The queue cap and failure guards are unchanged. Rebuild and
-repeat the graphical approach before claiming this repair effective. Complete
+remain barriers. The queue cap and failure guards are unchanged. Local build
+`a6c99c7` (SHA256 prefix `004165cacc0f`) repeats this supplied-input GPU approach
+successfully: five Rippers and fourteen Vimps, 4,375 controller steps, actual
+projectile draw revision32 and a reviewed capture, exit0. No audio failure or
+NPC quarantine occurs in this bounded run. Complete
 reciprocal damage, Ripper death and ordinary Windows menu/re-entry acceptance
 remain required; the projectile-only probe does not satisfy them.
 

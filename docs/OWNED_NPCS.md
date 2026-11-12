@@ -16,8 +16,23 @@ The latter error is a consequence, not permission to acknowledge an empty sink.
 The audio queue now batches consecutive already-prepared one-shot cues, retaining
 each cue, position, RNG order and real-sink start requirement. Cold/looping cues,
 actor/control commands and ticket boundaries still stop batching. The 256-request
-failure cap remains. A fresh identified graphical run must establish the result;
-this change alone establishes neither projectile visibility nor combat fidelity.
+failure cap remains.
+
+The fresh GNU build `a6c99c71a447bd385a41e3d2dc4828f3fd8c5a1f`, executable SHA256
+`004165cacc0f1abbf612891399b293e70b5cbc3cc6e4de08254a6e28b86adb0d`,
+finishes the same guarded GPU approach with exit0. It submits the actual five
+Rippers and fourteen Vimps, observes a canonical class232 projectile at step4343,
+then captures its draw revision32 at step4374. Supplied normal Mecc commands move
+the player 1,518.7316 units over 4,375 steps. The reviewed 1920x1080 image shows
+Mecc, a Ripper and its small blue/purple projectile ahead in the ordinary terrain.
+No audio failure or NPC quarantine is logged in this bounded run. The retained
+private image SHA256 is
+`361bdbfb5e3c772ea5b17b5efa46cc2e1c5f20d4b8714c0a009c1f7b3d8023e3`.
+Original assets and evidence remain private. This is supplied-input, muted Vulkan
+render evidence before impact, with no Windows input, inflicted damage, Ripper
+death or menu/re-entry acceptance. It is not a published preview. Genuine radial
+impact, health/feedback and retirement consumers remain the next runtime gap;
+do not substitute an empty sink or acknowledge their completion.
 
 The NPC lane stages a separate declaration-bound Ripper component in ordinary
 mission loading. The Wife has five canonical mission declarations: four class73

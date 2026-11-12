@@ -1460,6 +1460,18 @@ hex-case file; raw controls and original data stay outside Git.
 
 ### Guarded Ripper projectile graphical diagnostic
 
+For ordinary local testing, launch the receipt-bound executable with
+`--mecc-menu --data-root <your-installation> --user-data-root <test-profile>`.
+In **Preview tools → Browse all missions**, select **The Wife** in the Mecc
+campaign. Movement/aim, right mouse jet and Space nitro use the ordinary Mecc
+controller; Esc returns to the menu. Rippers are admitted by source declarations
+without any environment flag. This candidate currently supports their acquired
+movement and projectile flight before impact; explosions, reciprocal combat and
+death are unfinished. Do not treat a projectile contact quarantine as a kill or
+mission completion. The most recent identified supplied-input render result is
+recorded in [OWNED_NPCS.md](OWNED_NPCS.md); actual Windows encounter/death and
+return/re-entry still require acceptance on the final connected build.
+
 The ordinary Ripper component needs no diagnostic flag. To supply only Mecc
 navigation/look/jet commands for a first-flight GPU check, set
 `GIANTS_MISSION_REPLAY=showcase-mecc`, `GIANTS_SHOWCASE_WORLD=Story2`,
