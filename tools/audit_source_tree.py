@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent reviewed static-shadow routes, explicitly unknown.
+        '03e8861c2ecbe4903cf621c55c5db2fb033667893ec92292a22e8bc778b3851c',
         # Reviewed Mecc hurt search route, explicitly separate from firing.
         '5e82c7c946bcbf67d9a9f6819797f1b7e4fe454a4049572f4fbfb2bc649f7aac',
         # Reviewed mixed population host link; existing unknown identities kept.
