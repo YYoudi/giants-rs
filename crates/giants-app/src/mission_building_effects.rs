@@ -287,6 +287,14 @@ impl Runtime {
         let before = self.bodies.len();
         self.bodies.retain(|b| !b.playback.expired);
         self.retired += (before - self.bodies.len()) as u64;
+        if before != self.bodies.len() {
+            println!(
+                "mission_building_effect_retired ticket={ticket} sample={sample} world_delta={delta} births={} retired={} active={} actual_mission_clock=true",
+                self.births,
+                self.retired,
+                self.bodies.len()
+            );
+        }
         self.sample = Some(sample);
         Ok(())
     }

@@ -1,5 +1,17 @@
 # Build on Windows with MinGW
 
+The locally connected house owner also has an installed app control:
+`cargo test --locked -p giants-app installed_house_damage_updates_all_contact_owners
+--target x86_64-pc-windows-gnu -- --ignored`, using `GIANTS_BUILDING_ROOT`.
+It supplies hits and time and does not establish GPU or ordinary controls.
+The explicit muted offscreen `showcase-mecc` Story2 replay can additionally use
+`GIANTS_MISSION_BUILDING_PROBE=1`; `GIANTS_MISSION_BUILDING_CAPTURE` selects
+`damaged`, `destroyed` (default), or `settled`. It supplies only normal movement,
+look and fire commands and observes actual contact/health/retirement. It neither
+writes poses/health/resources nor enables the ordinary building feature. The
+settled phase also requires all actual burst bodies to expire. Keep its evidence
+separate from real Windows inputs and source fidelity.
+
 The active building work follows [BUILDINGS.md](BUILDINGS.md). Dependency checks:
 `cargo test --locked -p giants-game building_damage --target x86_64-pc-windows-gnu`.
 With a user-supplied installation configured in `GIANTS_BUILDING_ROOT`, run

@@ -630,6 +630,7 @@ pub(super) fn update(
                 1. / 60.
             } else if crate::frontend_scene::vimp_interaction_probe()
                 || crate::frontend_scene::objective_interaction_probe()
+                || crate::frontend_scene::building_interaction_probe()
             {
                 // Keep a many-actor/audio probe to one fixed step per render
                 // host frame. Accelerating four steps ahead of asynchronous
@@ -1295,8 +1296,11 @@ pub(super) fn update(
                                     };
                                     if reached {
                                         controller.building_probe_terminal = true;
-                                        controller.finish_step =
-                                            tick + if phase == "settled" { 1200 } else { 60 };
+                                        controller.finish_step = if phase == "settled" {
+                                            120000
+                                        } else {
+                                            tick + 60
+                                        };
                                     }
                                 }
                                 audio.building.write(result.update);
@@ -1669,6 +1673,18 @@ pub(super) fn update(
                 "mission_building_effect_refused ticket={} error={error}",
                 controller.ticket
             );
+        }
+        if replay_running
+            && crate::frontend_scene::building_interaction_probe()
+            && std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref() == Ok("settled")
+            && controller.building_probe_terminal
+            && !controller.building_failed
+            && controller.finish_step == 120000
+            && controller.state.buildings.effects.active() == 0
+        {
+            // Observe the actual mission-clock consumer, not an assumed ratio
+            // between supplied controller ticks and host elapsed time.
+            controller.finish_step = controller.steps + 1;
         }
         if !controller.owned_backend
             && controller.steps > 0

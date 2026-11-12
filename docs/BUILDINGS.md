@@ -72,13 +72,18 @@ random stream are supplied by the runtime, not a new effect seed.
 
 This remains an explicit partial preview profile: reference placement uses the
 checked birth pose, particle physics is terrain-only, and audio uses the existing
-asynchronous positional owner. Attraction to other character abilities, native
+asynchronous positional owner. External attraction forces, native
 interleaved audio RNG, full object-list scheduling and visual fidelity are not
 acknowledged by that consumer. Do not describe the birth projection as completed
 native state78 execution. The installed app control checks stage replacement,
 terminal collision exclusion, real source burst resources/texture progression,
-expiry and duplicate-hit suppression with supplied inputs; GPU and ordinary
-Windows interaction remain required before delivery.
+expiry and duplicate-hit suppression with supplied inputs; a receipt-bound muted GPU control now observes actual narrow player contact,
+28 ordinary pistol shots, all threshold stages, individual mesh changes,
+small/large bursts, positional sound sinks and terminal hiding. The explosion
+capture still needs visual review, expiry/cancellation checks and separate
+ordinary Windows interaction before delivery. The short Windows menu/entry/skip/
+return check passed, but absolute pointer automation produced unsuitable camera
+motion and does not establish aimed hits or a complete OS-played destruction.
 
 The acquired house retirement request sets a terminal active bit, excluding
 the owner from subsequent collision candidates. Actual world/resource cleanup

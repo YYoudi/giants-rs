@@ -52,6 +52,8 @@ pub(crate) fn apply_configuration_extension(
     };
     let integer = |bits| crate::arithmetic::integer_low_word(f64::from(f32::from_bits(bits)));
     match record.opcode {
+        0x49 => configuration[15] |= 0x0000_3c00,
+        0x4d => configuration[15] |= 0x03c0_0000,
         0x4e => configuration[16] |= 0xf0,
         0x15 => configuration[17] = word()?,
         0x4f => configuration[16] |= 0x0f,
@@ -140,7 +142,8 @@ impl DebugScalar {
                     out.configuration[20] = u32::from(state);
                 }
                 0x17 => out.scale_bits = word(1)?,
-                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x39 | 0x4e | 0x4f | 0x50 | 0x69 => {
+                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x39 | 0x49 | 0x4d | 0x4e | 0x4f | 0x50
+                | 0x69 => {
                     apply_configuration_extension(&mut out.configuration, record)
                         .map_err(|_| Need::Framing)?;
                 }
@@ -222,6 +225,21 @@ mod tests {
         let before = configuration;
         assert!(apply_configuration_extension(&mut configuration, &malformed).is_err());
         assert_eq!(configuration, before);
+    }
+    #[test]
+    fn building_response_policy_preserves_other_packed_controls() {
+        let program =
+            giants_formats::class_program::parse(&[0x49, 0x4d, 0x49, 0x4d, 0xff]).unwrap();
+        let mut configuration = initial_configuration();
+        configuration[15] = 0x8040_0003;
+        let before = configuration;
+        for record in &program.records[..4] {
+            apply_configuration_extension(&mut configuration, record).unwrap();
+        }
+        assert_eq!(configuration[15], 0x83c0_3c03);
+        for i in (0..30).filter(|i| *i != 15) {
+            assert_eq!(configuration[i], before[i]);
+        }
     }
     #[test]
     fn resource_or_state_dependency_prevents_a_ready_scalar_template() {

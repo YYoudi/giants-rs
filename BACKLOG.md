@@ -30,9 +30,15 @@ and Bounds1/Pair2 solid admission restore preparation for the ordinary Smartie
 houses and selected walls; Raster3 preparation stays unresolved. State61 collision
 geometry now consumes its actual intact ANM/SKN and channel1 bounds. The installed
 control checks all six house variants, separate collision selection, changing
-health geometry and matching player/projectile triangles. No GPU/ordinary damage
-delivery is implied. Next: canonical live house owner and ordered compound stone
-bursts, actual audio/lifecycle/mission-credit sinks, then normal-game testing.
+health geometry and matching player/projectile triangles. The ordinary house owner now routes real pistol hits, updates all three contact
+adapters and individual GPU meshes, consumes source compound bursts/positional
+sounds and excludes retired owners. A receipt-bound muted GPU control makes
+actual narrow player contact, fires28 ordinary pistol shots and observes source
+health stages, small/large bursts, real audio sinks and retirement. This is supplied
+input evidence, not a complete OS-played interaction or a published delivery.
+The captured explosion needs further visual review, followed by expiry/cancellation
+and regressions. Other building families and mode-gated mission credit remain
+open; the partial FX policy is documented in BUILDINGS.md.
 
 1. Inventory authored classes/states and distinguish actual collider coverage
    from visible geometry. Prioritize the ordinary Story1/Story2/Story5 entries.
@@ -52,7 +58,7 @@ for many houses/walls. PC state61 house and state101 death-FX callback entries
 are located through their actual registration descriptors after literal PS2
 lookup. The new house decision kernel preserves source threshold/event ordering;
 3,080 supplied native contexts now match damage, animation fraction and ordered
-requests. All ordinary building consumers remain under development.
+requests. The first ordinary state61 house consumer is locally connected; broader families remain under development.
 No new PS2 attribution or building gameplay availability is confirmed.
 
 ## Delivered milestone - The Wife rescue and completion-film continuation
