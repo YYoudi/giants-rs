@@ -4,6 +4,16 @@ use super::*;
 #[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; ordinary supplied-input frame/pose control, no GPU or OS input"]
 fn source_wife_rippers_complete_current_frames_without_replaying_history() {
+    current_frames(false);
+}
+
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; explicit real marker-constructor fixture in ordinary frame/render consumers, no GPU or natural awakening proof"]
+fn source_wife_marker_children_use_current_frames_and_common_render_assets() {
+    current_frames(true);
+}
+
+fn current_frames(marker_fixture: bool) {
     use crate::mission_runtime as runtime;
     use bevy::{ecs::world::CommandQueue, prelude::*};
     use std::sync::Arc;
@@ -148,11 +158,58 @@ fn source_wife_rippers_complete_current_frames_without_replaying_history() {
             assert!(duplicate.is_empty());
             assert_eq!(runtime.active.as_ref().unwrap().variant_random.0, before);
         }
+        if marker_fixture {
+            let active = runtime.active.as_mut().unwrap();
+            let state = active.payload.rippers.as_mut().unwrap().as_mut().unwrap();
+            let parents = state
+                .bound
+                .as_ref()
+                .unwrap()
+                .1
+                .iter()
+                .take(2)
+                .map(|owner| owner.id)
+                .collect::<Vec<_>>();
+            for parent in parents {
+                state
+                    .marker_factory
+                    .construct(&mut active.resident_states, parent)
+                    .unwrap();
+            }
+            runtime.sample_world_clock(ticket, 1000 + 181 * 16).unwrap();
+            let motion = viewer
+                .step(0.016, Vec2::ZERO, &asset.terrain, false, false)
+                .unwrap();
+            runtime
+                .publish_controlled_mecc_motion(ticket, 181, motion)
+                .unwrap();
+            runtime
+                .advance_normal_rippers(
+                    ticket,
+                    181,
+                    viewer.camera().1,
+                    viewer.mission_environment_colliders(),
+                )
+                .unwrap();
+            assert_eq!(
+                runtime
+                    .npc_draws(ticket)
+                    .unwrap()
+                    .iter()
+                    .filter(|draw| draw.class == 219)
+                    .count(),
+                2
+            );
+        }
         runtime = crate::mission_npc_scene::check_render_assets(
             runtime,
             asset.clone(),
             |runtime| {
-                for number in 181..=210u64 {
+                for number in if marker_fixture {
+                    182..=211u64
+                } else {
+                    181..=210u64
+                } {
                     runtime
                         .sample_world_clock(ticket, 1000 + number as u32 * 16)
                         .unwrap();

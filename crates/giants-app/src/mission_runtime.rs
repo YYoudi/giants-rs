@@ -1202,7 +1202,6 @@ impl Runtime {
                 areas: &areas,
                 objects,
                 world: a.payload.world.as_ref().map_err(Clone::clone)?,
-                resources: a.payload.plan.resources(),
             },
             &mut a.variant_random,
         )

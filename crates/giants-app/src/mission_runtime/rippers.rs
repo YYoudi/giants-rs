@@ -28,6 +28,7 @@ pub(super) struct State {
     driver: live::Driver,
     geometry: draw::Geometry,
     sounds: Vec<crate::mission_audio::Event>,
+    marker_factory: giants_game::primary_surface_marker::Factory<'static>,
 }
 #[derive(Debug, PartialEq, Eq)]
 pub(super) struct View {
@@ -104,6 +105,9 @@ impl State {
             driver: Default::default(),
             geometry: Default::default(),
             sounds: vec![],
+            marker_factory: giants_game::primary_surface_marker::Factory::shared(
+                plan.resources().clone(),
+            ),
         }))
     }
     /// Prepare the real terrain/geometry and cold motion owners before a frame

@@ -15,35 +15,51 @@ impl State {
             return Ok(vec![]);
         }
         let mut result = vec![];
-        for owner in &self.bound.as_ref().unwrap().1 {
-            let Some((number, epoch)) = self.driver.completed(owner.id) else {
+        let owners = self
+            .bound
+            .as_ref()
+            .unwrap()
+            .1
+            .iter()
+            .map(|owner| (owner.id, owner.declaration.class))
+            .chain(self.driver.markers().map(|id| (id, 219)))
+            .collect::<Vec<_>>();
+        for (id, class) in owners {
+            let Some((number, epoch)) = self.driver.completed(id) else {
                 continue;
             };
-            let actor = session.get(owner.id).ok_or("Ripper draw owner retired")?;
+            let actor = session.get(id).ok_or("Ripper draw owner retired")?;
             let fields = actor
                 .construction_fields
                 .as_ref()
                 .ok_or("Ripper draw fields absent")?;
-            if !giants_game::draw_routes::admit(23, fields.object_flags, 0).ordinary {
+            if !giants_game::draw_routes::admit(
+                u32::from(actor.seed.storage.state()),
+                fields.object_flags,
+                0,
+            )
+            .ordinary
+            {
                 continue;
             }
-            if session.actor_world_tick(owner.id)?.phase()
+            if session.actor_world_tick(id)?.phase()
                 != giants_game::actor_world_tick::Phase::Finished
-                || session.actor_finalization(owner.id)?.phase()
-                    != giants_game::resident_finalization::Phase::Idle
+                || (class != 219
+                    && session.actor_finalization(id)?.phase()
+                        != giants_game::resident_finalization::Phase::Idle)
+                || (class == 219 && session.surface_marker_frame(id)?.failure.is_some())
             {
                 return Err("Ripper draw requires a completed ordinary frame".into());
             }
-            let affine = session.actor_current_affine(owner.id)?;
+            let affine = session.actor_current_affine(id)?;
             if affine.flags & 8 != 0 {
                 return Err("Ripper mirrored culling consumer required".into());
             }
-            let class = owner.declaration.class;
             let center = fields.position;
             if let std::collections::btree_map::Entry::Vacant(entry) = self.geometry.0.entry(class)
             {
                 let specification = session
-                    .specification(owner.id)
+                    .specification(id)
                     .ok_or("Ripper draw specification absent")?;
                 let model = specification
                     .models
@@ -80,9 +96,9 @@ impl State {
                 }
                 entry.insert(Arc::new(geometry));
             }
-            session.prepare_actor_positions(owner.id, 0, epoch, false)?;
+            session.prepare_actor_positions(id, 0, epoch, false)?;
             let local = session
-                .actor_model_positions(owner.id, 0)?
+                .actor_model_positions(id, 0)?
                 .ok_or("Ripper animated positions absent")?;
             let matrix = affine.matrix[..12].try_into().unwrap();
             // Copy now: the next actor may reuse this shared model pose buffer.
@@ -100,7 +116,7 @@ impl State {
             result.push(super::super::npc::Draw {
                 class,
                 transparency: 0.,
-                id: super::super::npc::DrawOwner::Actor(owner.id),
+                id: super::super::npc::DrawOwner::Actor(id),
                 frame: number,
                 geometry: self.geometry.0[&class].clone(),
                 positions,

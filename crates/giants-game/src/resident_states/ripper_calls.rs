@@ -28,6 +28,24 @@ impl Session {
         {
             return Err("Ripper ANM requires unconsumed completed common motion".into());
         }
+        let rates = self.actor_motion(id)?.rates()[..3].try_into().unwrap();
+        self.advance_bound_ripper_animation(id, seconds, rates, stamp, contexts, random)
+    }
+    // Shared by the acquired stationary state48 child. Its frame owner supplies
+    // constructor-owned rates; no caller-provided pose or ready result enters.
+    pub(super) fn advance_bound_ripper_animation(
+        &mut self,
+        id: Id,
+        seconds: f32,
+        rates: [f32; 3],
+        stamp: &mut crate::animation_epoch::Stamp,
+        contexts: &mut crate::attached_effect_context::Pool<Id>,
+        random: &mut Random,
+    ) -> Result<Option<u32>, String> {
+        let actor = self.get(id).ok_or("Ripper/marker animation owner absent")?;
+        if actor.ripper_animation_consumed || actor.ripper_animation_failed {
+            return Err("Ripper/marker animation consumed or failed".into());
+        }
         let class = actor.class;
         let mut fields = actor
             .construction_fields
@@ -52,11 +70,10 @@ impl Session {
         for (&slot, descriptor) in &specification.animations {
             durations[usize::from(slot)] = Some(descriptor.template.duration);
         }
-        let model: [f32; 3] = self.actor_motion(id)?.rates()[..3].try_into().unwrap();
         let tick = crate::animation_channels::advance(
             &mut channels,
             &durations,
-            model,
+            rates,
             seconds,
             crate::arithmetic::Precision::Double53,
         )?;
@@ -68,7 +85,15 @@ impl Session {
             if tick.processed != 0 {
                 epoch = Some(stamp.advance());
                 references.update_current(&channels, epoch.unwrap())?;
-                let prior = self.actor_finalization(id)?.state();
+                let prior = if actor.seed.storage.state() == 48 {
+                    &actor
+                        .surface_frame
+                        .as_ref()
+                        .ok_or("marker frame absent")?
+                        .state
+                } else {
+                    self.actor_finalization(id)?.state()
+                };
                 bank.dispatch(
                     crate::mecc_animation_events::Input {
                         owner: id,

@@ -63,7 +63,15 @@ The corrected local build is source `0273154`, executable SHA256 prefix
 `72ebdf7bbd39`. A first real Windows entry exposed a null-texture binding refusal;
 the corrected route passes headless Bevy asset reuse/animated upload/cleanup.
 Corrected-build graphical encounter and menu/re-entry acceptance remain open.
-Next: acquire/connect surfacing/marker and ordinary firing/flight consumers,
+Class73 surfacing now binds the real popup preparation/reset/marker factory.
+Owned state48 children advance primary/secondary/full ANM/finalization and feed
+the common renderer. An exact-PC supplied marker sequence agrees on 69 frames /
+3,519 selected words; installed controls retain shared resources, late failures
+and headless asset cleanup with an explicit two-child constructor fixture.
+Natural awakening and GPU encounter acceptance remain open. Marked children
+remain reciprocal/owned until native individual cleanup is acquired; marking
+does not acknowledge destruction. Prototype PS2 marker attribution is unassigned.
+Next: acquire/connect individual marker cleanup and ordinary firing/flight consumers,
 consume required class230 mode66 and later continuations,
 then connect collisions/targeting and reciprocal combat with
 source-specific sounds/blood/death/cleanup. Do not copy Vimp ghosts/meat or force

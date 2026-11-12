@@ -33,6 +33,8 @@ mod parented_frame_tests;
 mod passive_frame_tests;
 mod ripper_calls;
 mod ripper_variant;
+mod surface_frame;
+pub use surface_frame::{Frame as SurfaceMarkerFrame, View as SurfaceFrameView};
 mod vimp_ghost;
 mod vimp_retirement;
 mod vimp_soul;
@@ -466,6 +468,7 @@ pub struct Resident {
     world_tick: Option<crate::actor_world_tick::Tick>,
     world_tick_running: bool,
     surface_link: Option<SurfaceLink>,
+    surface_frame: Option<surface_frame::Owned>,
 }
 #[derive(Clone, Debug)]
 struct OwnedAffine {
@@ -550,6 +553,12 @@ pub struct Session {
     mecc_target_range: Option<(Id, bool)>,
 }
 impl Session {
+    /// Stable local collision key for an actor still owned by this Session.
+    /// Typed ticket identity remains the authority across mission entries.
+    pub fn actor_collision_identity(&self, id: Id) -> Result<u32, String> {
+        self.get(id).ok_or("collision identity absent or foreign")?;
+        u32::try_from(id.serial).map_err(|_| "collision identity outside acquired range".into())
+    }
     pub fn new(ticket: u64) -> Self {
         Self {
             ticket,
@@ -711,6 +720,7 @@ impl Session {
                 world_tick: None,
                 world_tick_running: false,
                 surface_link: None,
+                surface_frame: None,
                 attachment: None,
                 retained_attachment_words: None,
                 pickup_notice_pending: false,
@@ -7402,6 +7412,9 @@ impl Session {
         let actor = self
             .get(id)
             .ok_or("surface update actor absent or foreign")?;
+        if actor.surface_frame.is_some() {
+            return Err("surface marker belongs to its owned world frame; isolated updates cannot interleave".into());
+        }
         let Some(SurfaceLink::Marker {
             owner,
             look_pitch,

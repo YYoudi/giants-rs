@@ -196,6 +196,16 @@ Windows-input, reciprocal-combat or death check. The normal controller invokes
 the same component without an activation variable; unsupported continuations
 remain explicit failures. See OWNED_NPCS.md for the admitted subset.
 
+With `GIANTS_NPC_ROOT`, run `source_surface_world` in `giants-game` and
+`source_wife_marker_children` in `giants-app`, using the same GNU target and
+`-- --ignored`. The first control uses real source constructors/animations with
+supplied parent motion, flat terrain and clocks; it covers current poses,
+enabled/disabled blending, retirement marking, late failure and replay refusal.
+The second explicitly constructs two callback children on The Wife's canonical
+parents and exercises their ordinary frame and common headless render consumers,
+shared resources, visibility and session cleanup. Neither establishes natural
+awakening, individual native destruction, GPU visibility or reciprocal combat.
+
 With `GIANTS_NPC_ROOT`, run
 `cargo test --locked -p giants-game source_parented_state0 --target x86_64-pc-windows-gnu -- --ignored`
 for the three acquired special children across two tickets. It supplies local

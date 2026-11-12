@@ -9,7 +9,7 @@ use giants_game::{
     resident_states::ActorWorldServices,
     ripper_primary_turn::{self as primary, FrameInput},
 };
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 #[derive(Default)]
 pub(super) struct Driver {
@@ -17,6 +17,7 @@ pub(super) struct Driver {
     stamp: Stamp,
     completed: BTreeMap<Id, (u64, u32)>,
     failure: Option<String>,
+    markers: BTreeSet<Id>,
 }
 impl Driver {
     pub(super) fn completed(&self, id: Id) -> Option<(u64, u32)> {
@@ -24,6 +25,9 @@ impl Driver {
     }
     pub(super) fn failed(&self) -> bool {
         self.failure.is_some()
+    }
+    pub(super) fn markers(&self) -> impl Iterator<Item = Id> + '_ {
+        self.markers.iter().copied()
     }
     pub(in crate::mission_runtime) fn refuse_draw(&mut self, ticket: u64, error: String) {
         if self.failure.is_none() {
@@ -43,7 +47,6 @@ pub(in crate::mission_runtime) struct Frame<'a> {
     pub areas: &'a [giants_game::object_time::SlowArea],
     pub objects: &'a [giants_game::actor_environment::Collider],
     pub world: &'a giants_game::WorldAsset,
-    pub resources: &'a giants_game::scene_resources::SceneResources,
 }
 struct Callbacks<'a, 'f> {
     frame: &'a Frame<'f>,
@@ -54,6 +57,7 @@ struct Callbacks<'a, 'f> {
     sounds: &'a mut Vec<crate::mission_audio::Event>,
     identity: u32,
     epoch: Option<u32>,
+    marker_factory: &'a mut giants_game::primary_surface_marker::Factory<'static>,
 }
 struct Services<'a> {
     owner: Id,
@@ -130,6 +134,55 @@ impl giants_game::resident_states::State23AnimationServices for Services<'_> {
         _: &mut Random,
     ) -> Result<giants_game::state23_animation::FireOutcome, String> {
         Err("Ripper secondary firing continuation is not admitted".into())
+    }
+}
+impl giants_game::primary_surface_marker::Dependencies<giants_game::attached_effect_context::Id>
+    for Services<'_>
+{
+    fn surface_popup(
+        &mut self,
+        session: &mut Session,
+        owner: Id,
+        state: &primary::State<Id, giants_game::attached_effect_context::Id>,
+        random: &mut Random,
+    ) -> Result<giants_game::enemy_projectile::EffectOutcome, String> {
+        if owner != self.owner || session.get(owner).is_none() {
+            return Err("surface FX owner differs from callback".into());
+        }
+        let (created, _) = self.contexts.prepare_positional_invariant(
+            "fx_ripper_popup",
+            state.entry.position,
+            random,
+        )?;
+        Ok(match created {
+            Creation::Absent => giants_game::enemy_projectile::EffectOutcome::Rejected,
+            Creation::Prepared(_) => giants_game::enemy_projectile::EffectOutcome::Prepared,
+        })
+    }
+    fn remove_effect(
+        &mut self,
+        _: &mut Session,
+        owner: Id,
+        effect: giants_game::attached_effect_context::Id,
+        _: &mut Random,
+    ) -> Result<(), String> {
+        if owner != self.owner {
+            return Err("surface retirement owner differs from callback".into());
+        }
+        self.contexts.release_prepared(effect).map(|_| ())
+    }
+    fn owner_sound(
+        &mut self,
+        _: &mut Session,
+        owner: Id,
+        _: &primary::State<Id, giants_game::attached_effect_context::Id>,
+        cue: u32,
+        _: &mut Random,
+    ) -> Result<SoundOutcome, String> {
+        if owner != self.owner {
+            return Err("surface sound owner differs from callback".into());
+        }
+        Ok(self.play(cue))
     }
 }
 impl ActorWorldServices for Callbacks<'_, '_> {
@@ -232,6 +285,15 @@ impl ActorWorldServices for Callbacks<'_, '_> {
                 self.random,
                 &mut services,
             )?,
+            (73, 44) => session.update_ripper_surfacing(
+                id,
+                input,
+                giants_game::ripper_turn_completion::Parameters::from_globals(self.globals)
+                    .map_err(|e| e.to_string())?,
+                self.random,
+                self.marker_factory,
+                &mut services,
+            )?,
             (230, 0 | 61) => session.update_ripper_variant_awakening(
                 id,
                 input,
@@ -241,7 +303,7 @@ impl ActorWorldServices for Callbacks<'_, '_> {
                     global_seconds: self.frame.seconds,
                     areas: self.frame.areas,
                 },
-                &mut giants_game::primary_surface_marker::Factory::new(self.frame.resources),
+                self.marker_factory,
                 self.random,
                 &mut services,
             )?,
@@ -472,6 +534,12 @@ impl State {
         for owner in &owners {
             session.begin_actor_frame_history(owner.id)?;
         }
+        for id in self.driver.markers.iter().copied() {
+            if session.actor_world_flags(id)? & 0xc000 == 0 {
+                let number = session.surface_marker_frame(id)?.next_frame;
+                session.begin_surface_marker_history(id, number)?;
+            }
+        }
         for owner in owners {
             let identity = u32::try_from(owner.declaration.key.index)
                 .map_err(|_| "Ripper identity overflow")?
@@ -491,6 +559,7 @@ impl State {
                 sounds,
                 identity,
                 epoch: None,
+                marker_factory: &mut self.marker_factory,
             };
             let outcome = session.update_actor_world(owner.id, &mut callbacks)?;
             if outcome != giants_game::actor_world_tick::Outcome::Updated {
@@ -504,6 +573,7 @@ impl State {
                 self.driver.completed.insert(owner.id, (number, epoch));
             }
         }
+        self.advance_markers(session, frame, random)?;
         if self.driver.sample.is_none() {
             println!(
                 "mission_ripper_component ticket={} completed_actors={} source=normal_mecc_component current_owned_pose=true perception=controlled_player_subset active_fx=false combat_complete=false native_world_verified=false",
@@ -512,6 +582,128 @@ impl State {
             );
         }
         self.driver.sample = Some(frame.sample);
+        Ok(())
+    }
+    fn advance_markers(
+        &mut self,
+        session: &mut Session,
+        frame: &Frame<'_>,
+        random: &mut Random,
+    ) -> Result<(), String> {
+        let owned: BTreeSet<_> = self
+            .bound
+            .as_ref()
+            .unwrap()
+            .1
+            .iter()
+            .map(|o| o.id)
+            .collect();
+        // Retain actual callback children; class alone never establishes ownership.
+        let markers = session.list(0).into_iter().filter(|&id| matches!(
+            session.surface_link(id), Some(giants_game::resident_states::SurfaceLink::Marker { owner, .. }) if owned.contains(&owner)
+        )).collect::<Vec<_>>();
+        let terrain = giants_game::terrain_queries::StaticTerrainQuery::new(
+            &frame.world.terrain,
+            1. / frame.world.terrain.spacing,
+            giants_game::arithmetic::Precision::Double53,
+        )?;
+        for id in markers {
+            if self.driver.markers.insert(id) {
+                if !self
+                    .marker_factory
+                    .captured_effect_image()?
+                    .same_image(&self.image)
+                {
+                    return Err(
+                        "surface event namespace differs from the owning context pool".into(),
+                    );
+                }
+                session.prepare_surface_marker_world(id)?;
+            }
+            if session.actor_world_flags(id)? & 0xc000 != 0 {
+                continue;
+            }
+            let fields = session
+                .get(id)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap();
+            let context = fields.dispatch_context;
+            let mut finalization = giants_game::actor_environment::FinalizationServices {
+                actor: session.actor_collision_identity(id)?,
+                state: 48,
+                slope_parameter: f32::from_bits(fields.configuration[11]),
+                physics: None,
+                skip_object_responses: false,
+                objects: frame.objects,
+                ground: |point| {
+                    giants_game::physical_ground::Ground::from_sample(
+                        terrain.sample(point)?,
+                        frame.world.terrain.width,
+                    )
+                },
+                platform: |point| {
+                    giants_game::platform_queries::sample_prepared(
+                        point,
+                        &[],
+                        giants_game::arithmetic::Precision::Double53,
+                    )
+                },
+                seconds: |position| {
+                    giants_game::object_time::seconds(
+                        frame.seconds,
+                        Some(giants_game::object_time::Sample {
+                            owner: context,
+                            position,
+                        }),
+                        None,
+                        frame.areas,
+                    )
+                },
+                release: |footprint: Option<u32>| {
+                    if footprint.is_none() {
+                        Ok(())
+                    } else {
+                        Err("surface footprint absent from partial scene registry".into())
+                    }
+                },
+                statistics: None,
+            };
+            let number = session.surface_marker_frame(id)?.next_frame;
+            let outcome = session.advance_surface_marker_world(
+                id,
+                giants_game::resident_states::SurfaceMarkerFrame {
+                    number,
+                    global_seconds: frame.seconds,
+                    areas: frame.areas,
+                    controlled: frame.controlled,
+                    delay: self.globals.scalar(0x3d4).map_err(|e| e.to_string())?,
+                    blending: giants_game::animation_channels::Blending::Disabled,
+                },
+                &mut self.driver.stamp,
+                self.contexts.as_mut().unwrap(),
+                random,
+                &mut finalization,
+            )?;
+            match outcome {
+                giants_game::actor_world_tick::Outcome::Updated => {
+                    if let Some(epoch) = session.surface_marker_frame(id)?.animation_epoch {
+                        self.driver.completed.insert(id, (number + 1, epoch));
+                    }
+                }
+                giants_game::actor_world_tick::Outcome::Inactive
+                    if session.actor_world_flags(id)? & 0x8000 != 0 =>
+                {
+                    self.driver.completed.remove(&id);
+                    println!(
+                        "mission_ripper_marker_marked ticket={} owner={id:?} destruction_complete=false",
+                        frame.ticket
+                    );
+                }
+                _ => return Err(format!("surface marker frame incomplete: {outcome:?}")),
+            }
+        }
         Ok(())
     }
 }

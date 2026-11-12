@@ -88,6 +88,13 @@ in `ripper_calls`. Its correspondence to the PC debug-1.1 secondary callback
 at 0x004db670 remains **unknown**. Animation selection, clocks, reference/event
 evaluation and successful ordinary frame completion are distinct contracts.
 
+The child marker primary/secondary at PC debug-1.1 0x004dc540/0x004dc630
+remain **unassigned** after prototype PS2 ripper/marker vocabulary searches.
+Their acquired Rust kernels are in `surface_marker`, with owned ordinary phases
+in [`surface_frame`](../crates/giants-game/src/resident_states/surface_frame.rs).
+The parent `ripper_move` candidate does not establish the children's identity
+or transfer prototype types/layouts to these PC consumers.
+
 ## Attached effect preparation route
 
 The literal prototype PS2 name `fx_create` is a search key for

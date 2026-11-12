@@ -96,10 +96,9 @@ and cannot replay or finalize as successful. A Ripper component/draw failure is
 reported and quarantined independently of Vimps. Prior audio transport requests
 survive a late callback refusal; queue submission does not establish a voice.
 
-The admitted ordinary primary subset is class73 modes0/31/32/33/34 and class230
-modes0/61/62/63/64. Later modes are explicit refusals, including the class73
-surfacing consumer and ordinary primary fire, even where isolated owned callers
-already exist. Perception currently admits the actual controlled Mecc subset;
+The admitted ordinary primary subset is class73 modes0/31/32/33/34/44 and class230
+modes0/61/62/63/64. Later modes are explicit refusals, including ordinary primary
+fire, even where isolated owned callers already exist. Perception currently admits the actual controlled Mecc subset;
 other families are not represented by invented current providers. Dirt/event
 contexts can be prepared but have no active effect/particle scheduling here.
 Contacts, reciprocal combat, source death and cleanup remain required before
@@ -119,6 +118,35 @@ attempt on source `5fefde0` exposed this missing null-texture binding and did no
 establish Ripper rendering or encounter acceptance.
 The prototype PS2 `ripper_animselect` candidate for the acquired PC secondary
 callback remains **unknown**, separately from this implementation result.
+
+The surfacing consumer now uses the real popup preparation, owned motion reset
+and persistent class219/state48 factory, including the class230 marker birth.
+The factory preserves one immutable specification/event identity across births;
+the child event namespace must match its actual context pool. Its new owned
+world consumer retains copied newborn history, then separate subsequent history,
+primary, secondary, ANM references/events, finalization and current affine. Late
+failures prohibit replay or interleaving isolated marker updates. The common
+renderer consumes completed marker poses through the acquired RGB body route.
+The component runs its Ripper cohort then its owned marker cohort; complete
+native world interleaving and newborn admission remain unverified.
+
+A private exact-PC control executes 69 actual marker primary/secondary/full ANM
+and finalization iterations through retirement marking. Rust agrees on 3,519
+selected mode/timer/flag/channel and position/history words. The parent birth
+pose, flat world, clock, enabled blending and one parent motion command are
+supplied. This is not a whole-header, reference-matrix, renderer or mission
+comparison. Installed controls additionally cover disabled/enabled blending,
+current animated geometry, late-finalization failure and replay refusal.
+An explicit two-child constructor fixture in The Wife checks shared event/model
+ownership and seven common headless Bevy visual owners across two tickets.
+It does not prove natural awakening, OS interaction or a complete encounter.
+The ordinary partial scene retains its disabled-blending policy.
+
+Marked children remain owned, hidden and reciprocal; no individual destruction
+or external release is acknowledged yet. They are released by whole-session
+cancellation. Native individual unlink/release, active popup/dirt effects,
+ordinary firing/flight, reciprocal damage and source death remain prerequisites.
+The marker's prototype PS2 attribution remains unassigned.
 
 The corrected local GNU executable is built from source
 `0273154203f2ff5143c2f8af1e9ecc603803d830`, SHA256

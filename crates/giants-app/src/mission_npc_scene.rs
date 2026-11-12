@@ -164,7 +164,7 @@ fn update(
             if let std::collections::btree_map::Entry::Vacant(entry) = state.objects.entry(draw.id)
             {
                 let object = entry.insert(Object {
-                    world: (!matches!(draw.class, 8 | 73 | 230)).then(|| {
+                    world: (!matches!(draw.class, 8 | 73 | 219 | 230)).then(|| {
                         gpu.buffers
                             .add(crate::source_view::uniform_buffer(&Mat4::IDENTITY))
                     }),
@@ -219,7 +219,7 @@ fn update(
                     // The mission binding already validates the RGB body path.
                     // Keep this consumer opaque; special/alpha passes require
                     // their own acquired submission rather than a guessed blend.
-                    if matches!(draw.class, 8 | 73 | 230)
+                    if matches!(draw.class, 8 | 73 | 219 | 230)
                         && (part.material.flags & 1 != 0
                             || draw
                                 .geometry
@@ -230,7 +230,7 @@ fn update(
                             "NPC body requires an unsupported transparent/additive material".into(),
                         );
                     }
-                    let profile = if matches!(draw.class, 8 | 73 | 230) {
+                    let profile = if matches!(draw.class, 8 | 73 | 219 | 230) {
                         None
                     } else {
                         Some(

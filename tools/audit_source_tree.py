@@ -56,6 +56,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         # Reviewed unknown animation-navigation name/address and owned-caller
         # link only; no new attribution, signature, native body or corpus rows.
         'a1063f01eb56b87bf6ce00a783fddaeb092c1c40bd1f238e7ef5d865424a3917',
+        # Adds reviewed unassigned state48 navigation addresses/module link;
+        # existing minimal aliases are unchanged, with no native body or table.
+        '10095ce35c431a67ebb92a38dfe5657e2ba9f6726a73ee274226d4871a7595bb',
         # Concurrent mission-lane revision: reviewed probable physical-finalizer
         # navigation/policy distinction; existing minimal PC aliases unchanged.
         '73f6c89fb54c84a0d1afde6fecf09b99a8fef464342d94695472a3e9f2c66a94',
