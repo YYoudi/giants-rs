@@ -14,7 +14,7 @@ use std::collections::{BTreeMap, BTreeSet};
 #[derive(Default)]
 pub(super) struct Driver {
     sample: Option<u64>,
-    stamp: Stamp,
+    pub(super) stamp: Stamp,
     completed: BTreeMap<Id, (u64, u32)>,
     failure: Option<String>,
     markers: BTreeSet<Id>,

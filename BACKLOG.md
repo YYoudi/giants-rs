@@ -74,6 +74,13 @@ release and individual unlink, preserving actual list order and late-failure
 prefixes without replay. The renderer consumes their removal; this is marker
 retirement, not Ripper death. Prototype PS2 marker/cleanup attribution remains
 unassigned, including the additional literal `mound_*` search candidates.
+Current NPC source additionally consumes each real projectile flight's local
+ANM clock, persistent epoch and affine, then submits source-skinned geometry to
+the common transparent/additive renderer. The installed two-ticket flight control
+checks first draw, duplicate-clock refusal, next-step mesh update and cleanup.
+Private exact-PC kernel checks match99 non-retiring frames /5,247 words. This is
+CPU/asset evidence; a matching GPU projectile encounter remains unverified.
+Ground/object impact, expiry, reciprocal damage and source death remain open.
 Cooldown/retreat local GNU build: source `857b591`, executable SHA256 prefix
 `8c0d5cad92cf`, receipt and executable digest independently checked. Includes the
 current-scene flight consumer and class230 modes66/71; no new GPU acceptance.

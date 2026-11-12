@@ -23,6 +23,18 @@ pub struct Metadata {
     /// Initial late collider snapshot, not current world bounds or a ready tick.
     pub initial_environment: Option<crate::collider_init::Instance>,
     pub pending_flight: Option<FlightOutcome>,
+    /// Advances only after the actual terrain/object flight query publishes.
+    pub flight_revision: u64,
+    /// Object-local clock selected after the current flight, at its real pose.
+    pub animation_seconds: Option<f32>,
+    pub presentation: Option<Presentation>,
+    pub presentation_failure: Option<String>,
+}
+/// Scoped clock/affine completion, not generic world-tick or impact readiness.
+#[derive(Clone, Copy, Debug)]
+pub struct Presentation {
+    pub flight_revision: u64,
+    pub epoch: Option<u32>,
 }
 /// Explicit single-player world view. The Session supplies its ordered owned
 /// object list; mission population completeness remains the caller's contract.
@@ -188,6 +200,10 @@ pub fn prepare(seed: &Seed, fields: &Fields) -> Result<Prepared, String> {
             ground_impact: None,
             initial_environment: None,
             pending_flight: None,
+            flight_revision: 0,
+            animation_seconds: None,
+            presentation: None,
+            presentation_failure: None,
         },
     })
 }

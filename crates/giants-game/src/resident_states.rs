@@ -25,6 +25,7 @@ mod contacts;
 #[cfg(test)]
 mod delphi_proximity_tests;
 mod dependency_order;
+mod enemy_projectile_presentation;
 mod herd_frame;
 #[cfg(test)]
 mod herd_frame_tests;
@@ -8538,6 +8539,7 @@ impl Session {
             || meta.initial_environment.is_none()
             || !matches!(terrain.precision(), crate::arithmetic::Precision::Double53)
             || meta.pending_flight.is_some()
+            || meta.presentation_failure.is_some()
             || actor.attachment.is_some()
             || actor.presentation_parent.is_some()
             || header.object_flags & 0xc000 != 0
@@ -8579,6 +8581,10 @@ impl Session {
         // Validate lifetime and clock before any external reaction or publication.
         crate::enemy_flight::countdown(lifetime, next.position, &time)?;
         let source = launch.source;
+        let flight_revision = meta
+            .flight_revision
+            .checked_add(1)
+            .ok_or("enemy projectile flight revision exhausted")?;
         let (projectile, owner, objects, identities) = candidates(self, source)?;
         // Position history is separate from the primary wrapper's rate history.
         header.previous = header.current;
@@ -8625,9 +8631,20 @@ impl Session {
         if matches!(outcome, FlightOutcome::Flying) && expired {
             outcome = FlightOutcome::Expired;
         }
+        let animation_seconds = crate::object_time::seconds(
+            seconds,
+            Some(crate::object_time::Sample {
+                owner: time.context,
+                position: header.position,
+            }),
+            None,
+            areas,
+        ) as f32;
         let actor = self.residents.get_mut(&id.serial).unwrap();
         actor.construction_fields = Some(header);
         let meta = actor.enemy_projectile.as_mut().unwrap();
+        meta.flight_revision = flight_revision;
+        meta.animation_seconds = Some(animation_seconds);
         let launch = meta.launch.as_mut().unwrap();
         launch.previous_rates = launch.rates;
         launch.rates = next.rates;

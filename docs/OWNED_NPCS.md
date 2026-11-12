@@ -56,8 +56,8 @@ the installed launch control separately checks real class232/state6 construction
 prepared named FX, reference-derived launch, source ownership and retained late
 sound failure without another creation or RNG replay. Its mode65/channel and
 flat world are explicit diagnostic inputs and audio is suppressed. Prepared FX
-does not establish visible projectile effects or impact damage. Mode66 and later
-continuations and the ordinary firing/flight consumer remain prerequisites.
+does not establish visible projectile effects or impact damage. Mode66/71 and ordinary firing/flight are now connected below; later attack
+continuations, impact reactions and reciprocal combat remain prerequisites.
 
 Actual declared Rippers retain recipient flag400. Exact-PC attached preparation
 maps that flag into context flag10000 while preserving the extended caller's
@@ -195,10 +195,30 @@ legacy owned-list API retains its immediate real ground-service/countdown order.
 A failed peer geometry producer is retained as an error until an actual shot
 needs it; it cannot become an empty scene or suppress unrelated Ripper frames.
 
+After a successful flight, `Session::advance_enemy_projectile_presentation`
+consumes its actual object-local clock and launch-owned rates, advances source
+ANM channels with the composing component's persistent stamp and runs the shared
+current-affine writer. A per-flight revision rejects duplicate or skipped passes;
+a late cache failure retains the clock prefix and latches replay. Draws validate
+that revision and affine, then copy source-skinned vertices immediately. They
+use the common transparent/additive auxiliary material program, not an opaque
+body substitute. The actual class90/232 specifications have no animation events
+or references; changed specifications requiring those services are refused.
+This scoped contract does not claim generic actor-world finalization, effects,
+impact readiness, damage, retirement or complete native scheduling.
+
+An independent exact-PC control matches the shared clock/affine kernels on99
+non-retiring source-created projectile frames:3,564 channel words and1,683 affine
+words with no difference. Its native flat-world and peer services are supplied;
+it is not graphical or ordinary encounter acceptance. Prototype PS2 animation
+and location search records are retained with their separate attribution scope;
+no new function relationship or platform signature is confirmed.
+
 The installed `source_wife_ripper_launch_flies_against_current_scene` control
 uses the same ordinary supplied-input approach on two fresh tickets, stopping
-only after a real class232 flight sample changes position/history and decreases
-lifetime. Its fixture admits four actual rigid declarations, the controlled Mecc
+after a real class232 flight sample changes position/history and decreases
+lifetime. It also checks source ANM/affine draw submission, duplicate-clock
+refusal, actual mesh movement on the next runtime step and renderer asset cleanup. Its fixture admits four actual rigid declarations, the controlled Mecc
 and five Rippers; it does not stage the Vimp component. This CPU control neither
 proves a graphical shot nor expands admission to the whole native world.
 The separate full-contact diagnostic continues beyond that first sample and
@@ -232,7 +252,7 @@ no new prototype PS2 attribution is confirmed by this input diagnostic.
 A Ripper selected by the ordinary partial pistol is identified and reports the
 missing damage consumer without dispatching to the Vimp backend or inventing a
 health change. Physical geometry and target selection do not deliver injury,
-knockback, blood, death or kill credit. Those consumers, projectile animation/draw, remaining attack modes
+knockback, blood, death or kill credit. Those consumers, GPU projectile acceptance, remaining attack modes
 and a rendered reciprocal encounter remain required; `ripper_shot` remains an
 unknown prototype PS2 search candidate for the separately acquired damage work.
 
@@ -283,8 +303,8 @@ replay. Neither control establishes natural awakening or actual device/GPU input
 Workspace validation: 987 Rust tests passed / 176 ignored, 45 Python tests passed,
 strict all-target Clippy and formatting passed.
 
-Active popup/dirt effects, ordinary firing/flight, reciprocal damage and source
-death remain prerequisites. The marker's prototype PS2 attribution remains
+Active popup/dirt effects, reciprocal damage and source death remain
+prerequisites; the ordinary firing/flight path is connected above. The marker's prototype PS2 attribution remains
 unassigned: literal `mound_move`, `mound_animselect` and `mound_shot` are additional
 search candidates, not confirmations. Generic cleanup names also remain unknown;
 see [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).

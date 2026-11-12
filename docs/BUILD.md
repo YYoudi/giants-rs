@@ -215,12 +215,15 @@ mode, damage or readiness is assigned. It is not an OS-input/GPU encounter check
 and its failure must not be reported as a passing Ripper gameplay test.
 
 The separate ignored `source_wife_ripper_launch_flies_against_current_scene`
-control stops after the first actual class232 flight sample on each of two fresh
+control reaches the first actual class232 flight sample on each of two fresh
 tickets. It requires changed current/history positions, decreased lifetime and
-no pending impact. The fixture uses the actual common rigid registry, dedicated
-Mecc packet and completed Ripper packets; it does not stage the Vimp component.
-This is a supplied-input CPU prerequisite, not a rendered/reciprocal encounter.
-The normal controller also supplies its real completed Vimp component packets.
+no pending impact, then consumes the flight-owned ANM clock/affine, checks source
+draw submission and duplicate-clock refusal, advances one more actual step and
+validates common renderer mesh updates and asset cleanup. The fixture uses the
+actual common rigid registry, dedicated Mecc packet and completed Ripper packets;
+it does not stage the Vimp component. This is supplied-input CPU/asset evidence,
+not a GPU or Windows-input reciprocal encounter. The normal controller also
+supplies its real completed Vimp component packets.
 
 The ignored `source_variant_retreat_marks_owned_child_without_acknowledging_cleanup`
 in `giants-game` uses the same installation and GNU target. It supplies mode71/

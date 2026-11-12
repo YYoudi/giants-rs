@@ -1,5 +1,6 @@
 //! Ordinary launch and current-scene flight. Contact reactions, projectile
-//! animation/draw, damage and retirement remain explicit pending consumers.
+//! damage and retirement remain explicit pending consumers. Successful flights
+//! consume the real source ANM clock and current affine before body submission.
 use super::*;
 
 impl State {
@@ -155,11 +156,12 @@ impl State {
                         "ordinary Ripper projectile has pending {outcome:?}; impact/damage/retirement consumers not connected"
                     ));
                 }
+                session.advance_enemy_projectile_presentation(id, &mut self.driver.stamp)?;
                 let count = self.driver.flights.entry(id).or_default();
                 *count += 1;
                 if *count == 1 {
                     println!(
-                        "mission_ripper_projectile_flight ticket={} owner={id:?} step={} objects={} current_scene=true visible_projectile=false damage=false",
+                        "mission_ripper_projectile_flight ticket={} owner={id:?} step={} objects={} current_scene=true animated_body_prepared=true damage=false",
                         frame.ticket,
                         frame.step,
                         entries.len()

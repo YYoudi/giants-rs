@@ -23,10 +23,26 @@ impl State {
             .iter()
             .map(|owner| (owner.id, owner.declaration.class))
             .chain(self.driver.markers().map(|id| (id, 219)))
+            .chain(
+                self.driver
+                    .projectiles
+                    .iter()
+                    .filter_map(|&id| session.get(id).map(|actor| (id, actor.class))),
+            )
             .collect::<Vec<_>>();
         for (id, class) in owners {
-            let Some((number, epoch)) = self.driver.completed(id) else {
-                continue;
+            let shot = matches!(class, 90 | 232);
+            let (number, epoch) = if shot {
+                let completed = session.enemy_projectile_presentation(id)?;
+                let Some(epoch) = completed.epoch else {
+                    continue;
+                };
+                (completed.flight_revision, epoch)
+            } else {
+                let Some(completed) = self.driver.completed(id) else {
+                    continue;
+                };
+                completed
             };
             let actor = session.get(id).ok_or("Ripper draw owner retired")?;
             let fields = actor
@@ -42,12 +58,13 @@ impl State {
             {
                 continue;
             }
-            if session.actor_world_tick(id)?.phase()
-                != giants_game::actor_world_tick::Phase::Finished
-                || (class != 219
-                    && session.actor_finalization(id)?.phase()
-                        != giants_game::resident_finalization::Phase::Idle)
-                || (class == 219 && session.surface_marker_frame(id)?.failure.is_some())
+            if !shot
+                && (session.actor_world_tick(id)?.phase()
+                    != giants_game::actor_world_tick::Phase::Finished
+                    || (class != 219
+                        && session.actor_finalization(id)?.phase()
+                            != giants_game::resident_finalization::Phase::Idle)
+                    || (class == 219 && session.surface_marker_frame(id)?.failure.is_some()))
             {
                 return Err("Ripper draw requires a completed ordinary frame".into());
             }
@@ -80,6 +97,19 @@ impl State {
                     );
                 }
                 for part in &geometry.mesh.subobjects {
+                    if shot {
+                        // The common auxiliary renderer retains the acquired
+                        // transparent/additive program, rather than an opaque
+                        // body approximation for the spit material.
+                        giants_game::unlit_material::prepare_with_object_transparency(
+                            &part.material,
+                            geometry
+                                .alpha_textures
+                                .contains(&part.material.texture.to_ascii_lowercase()),
+                            0.,
+                        )?;
+                        continue;
+                    }
                     let surface = giants_game::body_pipeline::preview_surface(
                         giants_game::body_pipeline::Normals {
                             prepare: false,

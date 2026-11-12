@@ -428,7 +428,51 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
             assert_eq!(runtime.active.as_ref().unwrap().variant_random.0, before);
         }
         if !matches!(approach_fixture, Approach::None) {
-            approach_ripper(&mut runtime, &mut viewer, ticket, &asset, approach_fixture);
+            let last = approach_ripper(&mut runtime, &mut viewer, ticket, &asset, approach_fixture);
+            if matches!(approach_fixture, Approach::Flight) {
+                // Real source spit textures/materials enter the same renderer
+                // resource path as ordinary actors. This checks assets and
+                // shader selection without claiming GPU/OS encounter evidence.
+                drop(crate::mission_npc_scene::check_render_assets(
+                    runtime,
+                    asset.clone(),
+                    |runtime| {
+                        let number = last + 1;
+                        runtime
+                            .sample_world_clock(ticket, 1000 + number as u32 * 16)
+                            .unwrap();
+                        let motion = viewer
+                            .step(0.016, Vec2::ZERO, &asset.terrain, false, false)
+                            .unwrap();
+                        runtime
+                            .publish_controlled_mecc_motion(ticket, number, motion)
+                            .unwrap();
+                        runtime
+                            .publish_normal_mecc_contact(
+                                ticket,
+                                number,
+                                viewer.normal_contact_sample().unwrap(),
+                            )
+                            .unwrap();
+                        runtime
+                            .publish_normal_projectile_scene(
+                                ticket,
+                                number,
+                                viewer.normal_projectile_registry(),
+                            )
+                            .unwrap();
+                        runtime
+                            .advance_normal_rippers(
+                                ticket,
+                                number,
+                                viewer.camera().1,
+                                viewer.mission_environment_colliders(),
+                            )
+                            .unwrap();
+                    },
+                    false,
+                ));
+            }
             continue;
         }
         if marker_fixture {
@@ -815,7 +859,7 @@ fn approach_ripper(
     ticket: u64,
     asset: &giants_game::WorldAsset,
     approach: Approach,
-) {
+) -> u64 {
     use bevy::prelude::*;
     struct EmptyDevice;
     impl giants_game::actor_retirement::Services for EmptyDevice {
@@ -945,11 +989,42 @@ fn approach_ripper(
                 let initial = f32::from_le_bytes(payload[..4].try_into().unwrap());
                 let remaining = f32::from_le_bytes(payload[4..8].try_into().unwrap());
                 assert!(remaining < initial);
-                println!(
-                    "ripper_first_flight_control ticket={ticket} step={number} class={} actual_history=true lifetime_decreased=true supplied_player_commands=true os_input=false gpu=false impact_verified=false",
-                    actor.class
+                let class = actor.class;
+                let channels = active.resident_states.get(shot).unwrap().channels.unwrap();
+                let completed = active
+                    .resident_states
+                    .enemy_projectile_presentation(shot)
+                    .unwrap();
+                assert_eq!(completed.flight_revision, count);
+                assert!(completed.epoch.is_some());
+                assert!(f32::from_bits(channels[0][1]) > 0.);
+                let draw = runtime
+                    .npc_draws(ticket)
+                    .unwrap()
+                    .into_iter()
+                    .find(|draw| draw.id == super::super::npc::DrawOwner::Actor(shot))
+                    .expect("actual flying spit must reach the common body draw consumer");
+                assert_eq!(draw.class, class);
+                assert_eq!(draw.frame, count);
+                assert!(draw.positions.iter().flatten().all(|v| v.is_finite()));
+                assert_eq!(draw.positions.len(), draw.geometry.mesh.positions.len());
+                let active = runtime.active.as_mut().unwrap();
+                let mut forbidden_stamp = giants_game::animation_epoch::Stamp(9876);
+                assert!(
+                    active
+                        .resident_states
+                        .advance_enemy_projectile_presentation(shot, &mut forbidden_stamp,)
+                        .is_err()
                 );
-                return;
+                assert_eq!(forbidden_stamp.0, 9876);
+                assert_eq!(
+                    active.resident_states.get(shot).unwrap().channels.unwrap(),
+                    channels
+                );
+                println!(
+                    "ripper_first_flight_control ticket={ticket} step={number} class={class} actual_history=true lifetime_decreased=true animated_source_draw=true duplicate_clock_refused=true supplied_player_commands=true os_input=false gpu=false impact_verified=false"
+                );
+                return number;
             }
         }
         if number.is_multiple_of(600) {
@@ -962,7 +1037,7 @@ fn approach_ripper(
             println!(
                 "ripper_approach_contact ticket={ticket} step={number} minimum={minimum} supplied_controller=true reciprocal_combat_verified=false"
             );
-            return;
+            return number;
         }
     }
     panic!(
