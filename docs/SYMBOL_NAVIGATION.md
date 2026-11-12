@@ -72,6 +72,11 @@ continuations remain independently acquired; the symbol does not transfer a PS2
 signature, layout or implementation claim. Both binary identities are pinned by
 the central method. Old address aliases remain valid.
 
+`ripper_chase_location__FP6OBJECTP3P3Df` is another literal prototype search key
+in [`ripper_steering`](../crates/giants-game/src/ripper_steering.rs). Its exact PC
+correspondence is **unknown**. The separately acquired PC angle helper alias
+`FUN_004dbd10` and the class230 primary caller remain the behavior references.
+
 ## Publication boundary
 
 This index publishes only selected names, reviewed navigation relationships and

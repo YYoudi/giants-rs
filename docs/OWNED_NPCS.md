@@ -22,7 +22,7 @@ These are authored declaration counts, not active or rendered populations.
 This binding alone admits no callbacks, completed pose, contact or gameplay.
 The first installed control covers constructor identities and two-ticket
 retirement/re-entry, without rendering or Windows input. The class230 owned
-primary now also has its mode62/63 continuations: current-channel completion
+primary now also has its mode62/63/64 continuations: current-channel completion
 drives the transition to63, whose actual class radii select the next mode.
 Target loss retains the required cue and failure latch. These use their own
 steering precision without class73 speed restoration or dirt retirement.
@@ -30,6 +30,14 @@ A read-only exact-PC control agrees on 120 consecutive mode62/63 callback output
 (2,040 words before common motion), including the selection of mode65. Terrain,
 peer eligibility/placement, clocks and absent audio registry are supplied in
 that diagnostic; it is not an ordinary encounter.
+
+A second control supplies a peer position change after actual target acquisition
+and compares 123 selected mode62/63/64 outputs (2,091 words, including three
+mode64 callbacks). Direct pursuit retains the source destination and personality,
+uses the acquired angle helper's narrowed return, and enters65 at the actual
+fire radius. This is a diagnostic peer input, not forced Ripper motion or a
+substitute for ordinary player interaction. Mode65 and subsequent services remain
+unavailable; the component does not acknowledge them.
 
 The next delivery is the normal menu-to-The Wife encounter, reusing the shared
 Mecc/Session clock, RNG, terrain, render, audio and retirement contracts. Missing

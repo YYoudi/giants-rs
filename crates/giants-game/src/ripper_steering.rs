@@ -1,5 +1,8 @@
 //! Acquired ordinary Ripper turn/pursuit command producers. Target selection,
 //! mode transitions, animation and effects remain upstream/downstream services.
+//! Prototype PS2 search key: `ripper_chase_location__FP6OBJECTP3P3Df`.
+//! Exact correspondence remains unknown; PC alias FUN_004dbd10 is retained for
+//! the acquired angle helper used by the direct class230 chase caller.
 #[derive(Clone, Copy, Debug)]
 pub struct State {
     pub position: [f32; 3],
@@ -78,6 +81,26 @@ pub fn turn_to_point(mut state: State, target: [f32; 3]) -> Result<State, &'stat
     validate(&state, target)?;
     turn(&mut state, target);
     state.personality &= !0x40;
+    Ok(state)
+}
+/// Class230 mode64's direct destination producer. The angle helper returns a
+/// stored f32 difference; no orbit or personality update occurs on this route.
+pub fn chase_location(mut state: State, target: [f32; 3]) -> Result<State, &'static str> {
+    validate(&state, target)?;
+    let dx = f64::from(target[0]) - f64::from(state.position[0]);
+    let dy = f64::from(target[1]) - f64::from(state.position[1]);
+    let distance = (dx * dx + dy * dy).sqrt() as f32;
+    if !distance.is_finite() {
+        return Err("direct chase distance overflow");
+    }
+    let error = turn(&mut state, target);
+    state.target_position = target;
+    state.flags |= 0x02000000;
+    state.commands[2] = if error.abs() < 10. {
+        command((f64::from(distance) * f64::from(0.1_f32)) as f32, 0.2)
+    } else {
+        3
+    };
     Ok(state)
 }
 /// Attack modes keep the angular difference wide until the command input

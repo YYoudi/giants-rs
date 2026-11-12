@@ -25,9 +25,12 @@ not replace that mission flow or publish another preview.
 Prepared: a declaration-bound sibling component retains canonical Session
 identities and authored poses (The Wife: four class73 and one class230/state23).
 Installed two-ticket controls refuse substituted/duplicate/foreign/retired owners.
-Class230 modes62/63 now have owned primary callers; a private exact-PC control
+Class230 modes62/63/64 now have owned primary callers; a private exact-PC control
 agrees on 120 consecutive callback outputs / 2,040 words before common motion,
 including transition to the source-selected mode65.
+A separate supplied moving-peer control agrees on 123 selected callback outputs /
+2,091 words, including three direct-pursuit mode64 callbacks. Neither control
+substitutes Ripper movement or establishes ordinary interaction.
 This is CPU evidence, not a live encounter or fidelity acceptance. The prototype
 PS2 `ripper_move` correspondence remains unknown; aliases and lookup are retained.
 

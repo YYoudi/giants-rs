@@ -1,4 +1,4 @@
-//! Acquired ordinary class73 branches and class230 mode0/61/62/63 over current views.
+//! Acquired ordinary class73 branches and class230 mode0/61/62/63/64 over current views.
 //! Shared prefix/perception and sound tails retain their class differences.
 //! Later unsupported continuations require their actual services.
 //! Prototype PS2 search key: `ripper_move`; exact PC correspondence unknown.
@@ -1094,6 +1094,7 @@ pub enum Outcome {
     CompletedVariantAwakening,
     CompletedVariantTurn,
     CompletedVariantDecision,
+    CompletedVariantPursuit,
 }
 #[derive(Clone, Debug)]
 pub struct Machine<K, E> {
@@ -1263,6 +1264,7 @@ enum Branch<'a, K> {
     VariantAwakening(VariantAwakeningContext<'a>),
     VariantTurn,
     VariantDecision(VariantDecisionContext),
+    VariantPursuit(VariantDecisionContext),
     Turn(Parameters),
     Pursuit(f32),
     Emergence(f32),
@@ -1297,6 +1299,25 @@ fn footsteps(primary: [u32; 9]) -> Result<bool, &'static str> {
         .any(|at| now >= at && previous < at))
 }
 impl<K: Copy + Ord, E: Copy> Machine<K, E> {
+    pub fn advance_variant_pursuit(
+        &mut self,
+        input: FrameInput<'_, K>,
+        parameters: VariantDecisionContext,
+        random: &mut Random,
+        services: &mut impl Services<K, E>,
+    ) -> Result<Outcome, String> {
+        if !parameters.fire_range.is_finite() || parameters.fire_range < 0. {
+            return Err("variant pursuit requires actual finite fire range".into());
+        }
+        self.advance_inner(
+            input.context,
+            input.frame,
+            input.range,
+            Branch::VariantPursuit(parameters),
+            random,
+            services,
+        )
+    }
     pub fn advance_variant_decision(
         &mut self,
         input: FrameInput<'_, K>,
@@ -1573,6 +1594,7 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             }
             Branch::VariantTurn => 62,
             Branch::VariantDecision(_) => 63,
+            Branch::VariantPursuit(_) => 64,
             Branch::Awakening(_) => {
                 if !matches!(original.entry.mode, 0 | 31) {
                     return Err("awakening primary requires mode0/31".into());
@@ -1592,7 +1614,10 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
         };
         let class = if matches!(
             branch,
-            Branch::VariantAwakening(_) | Branch::VariantTurn | Branch::VariantDecision(_)
+            Branch::VariantAwakening(_)
+                | Branch::VariantTurn
+                | Branch::VariantDecision(_)
+                | Branch::VariantPursuit(_)
         ) {
             230
         } else {
@@ -1735,7 +1760,9 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                     return Err(error);
                 }
             }
-        } else if let Branch::VariantDecision(parameters) = branch {
+        } else if let Branch::VariantDecision(parameters) | Branch::VariantPursuit(parameters) =
+            branch
+        {
             let target = state
                 .retaliation
                 .map(|id| frame.candidate(id))
@@ -1762,14 +1789,28 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                 if !distance.is_finite() {
                     return Err("variant decision distance overflow".into());
                 }
-                state.entry.mode =
-                    if f64::from(distance) < f64::from(parameters.close_range).powi(2) {
-                        67
-                    } else if f64::from(distance) < f64::from(parameters.fire_range).powi(2) {
-                        65
-                    } else {
-                        64
-                    };
+                if matches!(branch, Branch::VariantPursuit(_)) {
+                    state.steering =
+                        crate::ripper_steering::chase_location(state.steering, target.position)?;
+                    state.entry.flags = state.steering.flags;
+                    state.entry.packed =
+                        u32::from_le_bytes(state.steering.commands[..4].try_into().unwrap());
+                    state.entry.mode =
+                        if f64::from(distance) < f64::from(parameters.fire_range).powi(2) {
+                            65
+                        } else {
+                            64
+                        };
+                } else {
+                    state.entry.mode =
+                        if f64::from(distance) < f64::from(parameters.close_range).powi(2) {
+                            67
+                        } else if f64::from(distance) < f64::from(parameters.fire_range).powi(2) {
+                            65
+                        } else {
+                            64
+                        };
+                }
             }
         } else if let Branch::VariantTurn = branch {
             let target = state
@@ -1987,6 +2028,8 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Outcome::CompletedVariantTurn
         } else if matches!(branch, Branch::VariantDecision(_)) {
             Outcome::CompletedVariantDecision
+        } else if matches!(branch, Branch::VariantPursuit(_)) {
+            Outcome::CompletedVariantPursuit
         } else if matches!(branch, Branch::Awakening(_)) {
             Outcome::CompletedAwakening
         } else if mode == 32 {
