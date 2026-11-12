@@ -1,8 +1,9 @@
-//! Acquired ordinary class73 branches and class230 mode0/61/62/63/64 over current views.
+//! Acquired ordinary class73 branches and class230 modes0/61..65 over current views.
 //! Shared prefix/perception and sound tails retain their class differences.
 //! Later unsupported continuations require their actual services.
 //! Prototype PS2 search key: `ripper_move`; exact PC correspondence unknown.
-//! PC debug-1.1 alias FUN_004d61f0 remains the acquired behavior reference.
+//! PC debug-1.1 0x004d61f0 remains the acquired behavior reference; its previous
+//! alias is retained in docs/SYMBOL_NAVIGATION.md.
 use crate::{
     audio_parameters::Random,
     enemy_projectile::SoundOutcome,
@@ -31,6 +32,11 @@ pub struct TargetShape {
 #[derive(Clone, Copy)]
 pub struct AttackContext<'a, K> {
     pub parameters: crate::ripper_attack::Parameters,
+    pub target_shapes: &'a std::collections::BTreeMap<K, TargetShape>,
+}
+#[derive(Clone, Copy)]
+pub struct VariantAttackContext<'a, K> {
+    pub parameters: crate::ripper_attack::VariantParameters,
     pub target_shapes: &'a std::collections::BTreeMap<K, TargetShape>,
 }
 #[derive(Clone, Copy)]
@@ -1095,6 +1101,7 @@ pub enum Outcome {
     CompletedVariantTurn,
     CompletedVariantDecision,
     CompletedVariantPursuit,
+    CompletedVariantAttack,
 }
 #[derive(Clone, Debug)]
 pub struct Machine<K, E> {
@@ -1265,6 +1272,7 @@ enum Branch<'a, K> {
     VariantTurn,
     VariantDecision(VariantDecisionContext),
     VariantPursuit(VariantDecisionContext),
+    VariantAttack(VariantAttackContext<'a, K>),
     Turn(Parameters),
     Pursuit(f32),
     Emergence(f32),
@@ -1299,6 +1307,22 @@ fn footsteps(primary: [u32; 9]) -> Result<bool, &'static str> {
         .any(|at| now >= at && previous < at))
 }
 impl<K: Copy + Ord, E: Copy> Machine<K, E> {
+    pub fn advance_variant_attack(
+        &mut self,
+        input: FrameInput<'_, K>,
+        attack: VariantAttackContext<'_, K>,
+        random: &mut Random,
+        services: &mut impl Services<K, E>,
+    ) -> Result<Outcome, String> {
+        self.advance_inner(
+            input.context,
+            input.frame,
+            input.range,
+            Branch::VariantAttack(attack),
+            random,
+            services,
+        )
+    }
     pub fn advance_variant_pursuit(
         &mut self,
         input: FrameInput<'_, K>,
@@ -1595,6 +1619,7 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Branch::VariantTurn => 62,
             Branch::VariantDecision(_) => 63,
             Branch::VariantPursuit(_) => 64,
+            Branch::VariantAttack(_) => 65,
             Branch::Awakening(_) => {
                 if !matches!(original.entry.mode, 0 | 31) {
                     return Err("awakening primary requires mode0/31".into());
@@ -1618,6 +1643,7 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                 | Branch::VariantTurn
                 | Branch::VariantDecision(_)
                 | Branch::VariantPursuit(_)
+                | Branch::VariantAttack(_)
         ) {
             230
         } else {
@@ -1860,12 +1886,16 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                 return Err(error);
             }
             overlay_awakening(&mut state, inner.state());
-        } else if let Branch::Attack(attack) = branch {
+        } else if matches!(branch, Branch::Attack(_) | Branch::VariantAttack(_)) {
+            let shapes = match branch {
+                Branch::Attack(a) => a.target_shapes,
+                Branch::VariantAttack(a) => a.target_shapes,
+                _ => unreachable!(),
+            };
             let target = state
                 .retaliation
                 .map(|id| {
-                    let shape = attack
-                        .target_shapes
+                    let shape = shapes
                         .get(&id)
                         .ok_or("attack target shape absent from current frame")?;
                     Ok::<_, String>(crate::ripper_attack::Target {
@@ -1887,16 +1917,19 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                 },
                 timer: state.timer,
             });
-            let result = inner.advance(
-                target,
-                state.primary,
-                attack.parameters,
-                random,
-                &mut Adapter {
-                    state: &state,
-                    services,
-                },
-            );
+            let mut adapter = Adapter {
+                state: &state,
+                services,
+            };
+            let result = match branch {
+                Branch::Attack(a) => {
+                    inner.advance(target, state.primary, a.parameters, random, &mut adapter)
+                }
+                Branch::VariantAttack(a) => {
+                    inner.advance_variant(target, state.primary, a.parameters, random, &mut adapter)
+                }
+                _ => unreachable!(),
+            };
             if let Err(error) = result {
                 if inner.failure().is_some() {
                     overlay_attack(&mut state, inner.state());
@@ -2030,6 +2063,8 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Outcome::CompletedVariantDecision
         } else if matches!(branch, Branch::VariantPursuit(_)) {
             Outcome::CompletedVariantPursuit
+        } else if matches!(branch, Branch::VariantAttack(_)) {
+            Outcome::CompletedVariantAttack
         } else if matches!(branch, Branch::Awakening(_)) {
             Outcome::CompletedAwakening
         } else if mode == 32 {

@@ -8038,9 +8038,8 @@ impl Session {
             .construction_fields
             .as_ref()
             .ok_or("primary fire source fields absent")?;
-        if source.class != 73
-            || snapshot.entry.class != 73
-            || snapshot.entry.mode != 39
+        if !matches!((source.class, snapshot.entry.mode), (73, 39) | (230, 65))
+            || snapshot.entry.class != source.class
             || snapshot.entry.action != 0
             || f.action != 0
             || source

@@ -1,5 +1,8 @@
-//! Ordinary class73 attack modes37/38/39 after conditional perception.
+//! Ordinary class73 modes37/38/39 and class230 mode65 after conditional perception.
 //! Real firing and owner audio services are required. No mission readiness.
+//! Prototype PS2 search key: `ripper_move`; PC debug-1.1 0x004d61f0.
+//! The previous PC alias remains in docs/SYMBOL_NAVIGATION.md.
+//! The exact prototype-to-PC attribution remains unknown.
 use crate::{
     audio_parameters::Random, enemy_projectile::SoundOutcome, ripper_perception::Candidate,
     ripper_pursuit, ripper_steering, state23_animation::FireOutcome,
@@ -12,9 +15,133 @@ pub struct Parameters {
     pub vertical_spread_percent: f32,
     pub orbit: crate::ripper_turn_completion::Parameters,
 }
+/// Class230 mode65 reads these values from its actual global-data profile.
+#[derive(Clone, Copy, Debug)]
+pub struct VariantParameters {
+    pub close_range: f32,
+    pub reconsider_range: f32,
+    pub charge_percent: f32,
+    pub cooldown: f32,
+    pub vertical_spread_percent: f32,
+}
 #[cfg(test)]
 mod tests {
     use super::*;
+    fn variant_parameters() -> VariantParameters {
+        VariantParameters {
+            close_range: 5.,
+            reconsider_range: 20.,
+            charge_percent: 100.,
+            cooldown: 3.,
+            vertical_spread_percent: 10.,
+        }
+    }
+    struct VariantServices {
+        fires: usize,
+        fail: bool,
+    }
+    impl Services<u32> for VariantServices {
+        fn owner_sound(
+            &mut self,
+            _: &State<u32>,
+            _: u32,
+            _: &mut Random,
+        ) -> Result<SoundOutcome, String> {
+            Err("unexpected variant sound".into())
+        }
+        fn fire(
+            &mut self,
+            s: &State<u32>,
+            point: [f32; 3],
+            spread: f32,
+            _: &mut Random,
+        ) -> Result<FireOutcome, String> {
+            assert_eq!((s.actor.class, s.actor.mode), (230, 65));
+            assert_eq!(point, [1., 2., 13.]);
+            assert_eq!(spread, 10.);
+            self.fires += 1;
+            if self.fail {
+                Err("supplied launch failure".into())
+            } else {
+                Ok(FireOutcome::Spawned)
+            }
+        }
+    }
+    #[test]
+    fn variant_fire_crossing_uses_real_target_shape_and_retains_a_failed_attempt() {
+        for fail in [false, true] {
+            let mut s = state();
+            s.actor.class = 230;
+            s.actor.mode = 65;
+            let mut m = Machine::new(s);
+            let mut random = Random(17);
+            let mut services = VariantServices { fires: 0, fail };
+            let primary = [50, 0x3edd_ddde, 0x3edd_dddd, 0, 0, 0, 0, 0, 0];
+            let result = m.advance_variant(
+                Some(target()),
+                primary,
+                variant_parameters(),
+                &mut random,
+                &mut services,
+            );
+            assert_eq!(result.is_err(), fail);
+            assert_eq!(m.failure().is_some(), fail);
+            assert_eq!(m.state().actor.mode, 65);
+            assert_ne!(m.state().actor.steering.commands[0], 0);
+            assert_eq!(random.0, 17);
+            assert!(
+                m.advance_variant(
+                    Some(target()),
+                    primary,
+                    variant_parameters(),
+                    &mut random,
+                    &mut services
+                )
+                .is_err()
+            );
+            assert_eq!(services.fires, 1);
+        }
+    }
+    #[test]
+    fn variant_completed_attack_keeps_short_circuit_rng_and_actual_cooldown() {
+        for (distance, charge, expected, draws) in [
+            (4., 0., 67, false),
+            (5., 100., 67, true),
+            (19.99, 0., 66, true),
+            (20., 100., 66, false),
+        ] {
+            let mut s = state();
+            s.actor.class = 230;
+            s.actor.mode = 65;
+            let mut target = target();
+            target.actor.position = [distance, 0., 500.];
+            let mut m = Machine::new(s);
+            let mut random = Random(17);
+            let mut services = VariantServices {
+                fires: 0,
+                fail: true,
+            };
+            let p = VariantParameters {
+                charge_percent: charge,
+                ..variant_parameters()
+            };
+            m.advance_variant(
+                Some(target),
+                [50, 0, 0, 0, 0, 0, 0, 0, 2],
+                p,
+                &mut random,
+                &mut services,
+            )
+            .unwrap();
+            assert_eq!(m.state().actor.mode, expected);
+            assert_eq!(
+                m.state().timer,
+                if expected == 66 { p.cooldown } else { 0. }
+            );
+            assert_eq!(random.0 != 17, draws);
+            assert_eq!(services.fires, 0);
+        }
+    }
     fn state() -> State<u32> {
         State {
             actor: ripper_pursuit::State {
@@ -231,6 +358,119 @@ pub struct Machine<K> {
     consumed: bool,
 }
 impl<K: Copy + Ord> Machine<K> {
+    /// Ordinary class230 mode65. This is the primary's launch request, not its
+    /// secondary animation callback or an acknowledgement of a projectile hit.
+    pub fn advance_variant(
+        &mut self,
+        target: Option<Target<K>>,
+        primary: [u32; 9],
+        parameters: VariantParameters,
+        random: &mut Random,
+        services: &mut impl Services<K>,
+    ) -> Result<Outcome, String> {
+        if self.failed.is_some() || self.consumed {
+            return Err("variant attack continuation already consumed or failed".into());
+        }
+        if self.state.actor.class != 230 || self.state.actor.mode != 65 {
+            return Err("variant attack requires ordinary class230/mode65".into());
+        }
+        if self.state.actor.retaliation != target.as_ref().map(|t| t.actor.id) {
+            return Err("variant attack target identity absent or inconsistent".into());
+        }
+        let mut state = self.state.clone();
+        let (lost, control) = ripper_pursuit::target_control(
+            target.as_ref().map(|t| &t.actor),
+            state.actor.retained_timer,
+            state.actor.control,
+        )?;
+        state.actor.control = control;
+        if lost {
+            if let Err(error) = services.owner_sound(&state, 1248, random) {
+                return self.fail(state, error);
+            }
+            state.actor.mode = 71;
+            state.actor.retaliation = None;
+        } else {
+            let target = target.unwrap();
+            state.actor.steering =
+                ripper_steering::aim_at_point(state.actor.steering, target.actor.position)?;
+            if primary[8] & 2 == 0 {
+                let now = f32::from_bits(primary[1]);
+                let previous = f32::from_bits(primary[2]);
+                if !now.is_finite() || !previous.is_finite() {
+                    return Err("variant attack clock outside finite profile".into());
+                }
+                let at = f32::from_bits(0x3edd_ddde);
+                if previous < at && now >= at {
+                    let position = [
+                        target.actor.position[0],
+                        target.actor.position[1],
+                        (f64::from(target.actor.position[2])
+                            + f64::from(target.center_offset) * f64::from(target.scale))
+                            as f32,
+                    ];
+                    if !position
+                        .into_iter()
+                        .chain([
+                            target.scale,
+                            target.center_offset,
+                            parameters.vertical_spread_percent,
+                        ])
+                        .all(f32::is_finite)
+                    {
+                        return Err("variant attack fire target outside finite profile".into());
+                    }
+                    match services.fire(
+                        &state,
+                        position,
+                        parameters.vertical_spread_percent,
+                        random,
+                    ) {
+                        Ok(outcome) => {
+                            self.state = state;
+                            self.consumed = true;
+                            return Ok(Outcome::FireRequested(outcome));
+                        }
+                        Err(error) => return self.fail(state, error),
+                    }
+                }
+            } else {
+                if ![
+                    parameters.close_range,
+                    parameters.reconsider_range,
+                    parameters.charge_percent,
+                    parameters.cooldown,
+                ]
+                .into_iter()
+                .all(f32::is_finite)
+                {
+                    return Err("variant attack decision parameters outside finite profile".into());
+                }
+                let dx = f64::from(target.actor.position[0])
+                    - f64::from(state.actor.steering.position[0]);
+                let dy = f64::from(target.actor.position[1])
+                    - f64::from(state.actor.steering.position[1]);
+                let distance = (dx * dx + dy * dy) as f32;
+                if !distance.is_finite() {
+                    return Err("variant attack distance overflow".into());
+                }
+                if f64::from(distance) < f64::from(parameters.close_range).powi(2) {
+                    state.actor.mode = 67;
+                } else if f64::from(distance) >= f64::from(parameters.reconsider_range).powi(2)
+                    || f64::from(parameters.charge_percent)
+                        <= f64::from((random.next_15() * 100) >> 15)
+                {
+                    state.timer = parameters.cooldown;
+                    state.actor.mode = 66;
+                } else {
+                    state.actor.mode = 67;
+                }
+            }
+        }
+        self.state = state;
+        self.consumed = true;
+        Ok(Outcome::ContinuePrimaryTail)
+    }
     pub fn new(state: State<K>) -> Self {
         Self {
             state,

@@ -36,8 +36,21 @@ and compares 123 selected mode62/63/64 outputs (2,091 words, including three
 mode64 callbacks). Direct pursuit retains the source destination and personality,
 uses the acquired angle helper's narrowed return, and enters65 at the actual
 fire radius. This is a diagnostic peer input, not forced Ripper motion or a
-substitute for ordinary player interaction. Mode65 and subsequent services remain
-unavailable; the component does not acknowledge them.
+substitute for ordinary player interaction.
+
+The class230 mode65 primary now selects the actual firing clock crossing,
+target-centre height and class-specific launch/decision parameters. Its owned
+Session caller reads target dimensions from current identities and uses the
+shared state6 projectile factory, effect preparation, positional audio request
+and current animated muzzle reference. The exact-PC sequence agrees on 180
+selected non-firing callbacks / 3,420 words (including sixty mode65 callbacks).
+One actual native firing callback is excluded from that numerical comparison;
+the installed launch control separately checks real class232/state6 construction,
+prepared named FX, reference-derived launch, source ownership and retained late
+sound failure without another creation or RNG replay. Its mode65/channel and
+flat world are explicit diagnostic inputs and audio is suppressed. Prepared FX
+does not establish visible projectile effects or impact damage. Mode66 and later
+continuations and ordinary component scheduling remain prerequisites.
 
 The next delivery is the normal menu-to-The Wife encounter, reusing the shared
 Mecc/Session clock, RNG, terrain, render, audio and retirement contracts. Missing
@@ -481,7 +494,9 @@ a testable map.
 
 ## Class230 awakening through the owned primary - source dependency
 
-Story2 stages seven class73 and four class230 actors in state23. The existing
+The initial Story2/Starving record stages seven class73 and four class230 actors
+in state23; The Wife's separate declarations are documented at the top. This
+section retains the earlier awakening acquisition evidence. The existing
 primary machine now also admits class230 mode0/61 through its actual constructor,
 shared entry/perception and motion phases. The older Ripper identifiers remain
 aliases. This adds no whole-world callback admission or playable AI map.
@@ -516,9 +531,9 @@ observes thirteen destination writes and zero source writes, agreeing with the
 independent PC decompilation. Prototype PS2 lookups remain unknown, with no new
 confirmed attribution or imported signatures/layouts.
 
-Mode62 and subsequent continuations, the spawned state48 callback schedule,
+At that checkpoint, mode62 and subsequent continuations, the spawned state48 callback schedule,
 secondary/ANM/finalization, real player pose/vitals and complete ordered perception,
-actual voice/effect/RNG/clock producers and menu-to-mission interaction remain
+actual voice/effect/RNG/clock producers and menu-to-mission interaction remained
 required. Normal Mecc presentation is not a substitute for an up-to-date owned
 player view. Keep those refusals until main connects and verifies the real owners.
 

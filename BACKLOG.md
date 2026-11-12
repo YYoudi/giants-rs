@@ -31,6 +31,13 @@ including transition to the source-selected mode65.
 A separate supplied moving-peer control agrees on 123 selected callback outputs /
 2,091 words, including three direct-pursuit mode64 callbacks. Neither control
 substitutes Ripper movement or establishes ordinary interaction.
+Mode65 now uses its verified launch clock and class-specific decisions through
+an owned Session/factory caller. The PC sequence agrees on 180 selected non-firing
+callbacks / 3,420 words; one real native fire is excluded from that comparison.
+Installed diagnostics separately create the actual class232/state6 projectile,
+prepare its named effect, resolve the animated muzzle and retain a late audio
+failure without replay. The branch/channel entry and flat world are supplied,
+audio suppressed; no ordinary flight, hit or graphical acceptance is claimed.
 This is CPU evidence, not a live encounter or fidelity acceptance. The prototype
 PS2 `ripper_move` correspondence remains unknown; aliases and lookup are retained.
 
@@ -407,8 +414,10 @@ terrain, camera/clock/control, peer eligibility and diagnostic audio boundaries.
 It preserves class-specific sounds, the second clock query after context changes,
 and the unconditional real marker copy/link without resetting source motion.
 Failures retain published prefixes and a marker already born before audio failure;
-replay refuses. Mode62 onward, live player pose/vitals/perception inputs, owner audio,
-secondary/ANM/finalization and whole-world admission remain open. This enables no
+replay refuses. At this acquisition checkpoint, mode62 onward, live player
+pose/vitals/perception inputs, owner audio, secondary/ANM/finalization and
+whole-world admission remained open; current Ripper work is tracked at the top.
+This historical acquisition enables no
 ordinary NPC map and does not acknowledge a completed whole-world actor turn.
 
 

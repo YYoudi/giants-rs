@@ -46,6 +46,182 @@ impl Services<Id, Effect> for Audio {
     }
 }
 
+struct ShotServices {
+    effects: crate::attached_effect_context::Pool<Id>,
+    quality: f32,
+    lite_distance: f32,
+    prepared: Option<Id>,
+    cues: Vec<u32>,
+    fail_sound: bool,
+}
+impl crate::primary_enemy_fire::Dependencies<Effect> for ShotServices {
+    fn prepare_effect(
+        &mut self,
+        session: &mut Session,
+        request: crate::enemy_projectile::EffectRequest<'_>,
+        random: &mut Random,
+    ) -> Result<crate::enemy_projectile::EffectOutcome, String> {
+        assert_eq!(request.name, "fx_ripper_large_proj");
+        assert_eq!(request.flags, 4);
+        let fields = session
+            .get(request.recipient)
+            .unwrap()
+            .construction_fields
+            .as_ref()
+            .unwrap();
+        assert_eq!((fields.class, fields.action), (232, 1));
+        let (creation, _) = self.effects.prepare_extended(
+            request.name,
+            request.recipient,
+            fields.object_flags,
+            request.tag,
+            crate::effect_initialization::Selection {
+                active_objects: session.counts().residents as u32,
+                quality: self.quality,
+                lite_distance: self.lite_distance,
+                camera: [0.; 3],
+                recipient_position: fields.position,
+            },
+            random,
+        )?;
+        self.prepared = Some(request.recipient);
+        Ok(match creation {
+            crate::attached_effect_context::Creation::Prepared(_) => {
+                crate::enemy_projectile::EffectOutcome::Prepared
+            }
+            crate::attached_effect_context::Creation::Absent => {
+                crate::enemy_projectile::EffectOutcome::Rejected
+            }
+        })
+    }
+    fn positional_sound(
+        &mut self,
+        _: &mut Session,
+        cue: u32,
+        _: [f32; 3],
+    ) -> Result<SoundOutcome, String> {
+        assert!(matches!(cue, 1227 | 1228));
+        self.cues.push(cue);
+        if self.fail_sound {
+            Err("supplied sound transport failure".into())
+        } else {
+            Ok(SoundOutcome::Suppressed)
+        }
+    }
+}
+
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; supplied mode65/channel/flat terrain, real projectile/FX/reference owners, suppressed audio, no gameplay"]
+fn source_variant_primary_launch_owns_projectile_and_latches_late_failure() {
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+    let globals =
+        giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+            .unwrap();
+    let image = Arc::new(
+        giants_formats::effect_image::parse(
+            &std::fs::read(root.join("Bin/fx_world_dust.bin")).unwrap(),
+        )
+        .unwrap(),
+    );
+    let parameters = crate::ripper_attack::VariantParameters {
+        close_range: globals.scalar(0x3d8).unwrap(),
+        reconsider_range: globals.scalar(0x104).unwrap(),
+        charge_percent: globals.scalar(0x108).unwrap(),
+        cooldown: globals.scalar(0x10c).unwrap(),
+        vertical_spread_percent: globals.scalar(0x11c).unwrap(),
+    };
+    for (ticket, fail_sound) in [(9301, false), (9302, true)] {
+        let (mut session, id, peer) = source(&resources, ticket, true);
+        // Explicit diagnostic entry into the verified attack branch. This is
+        // not an ordinary producer of mode65, its clip or target acquisition.
+        let mut combat = session.state23_snapshot(id).unwrap();
+        combat.mode = 65;
+        combat.retaliation = Some(peer);
+        let actor = session.residents.get_mut(&id.serial).unwrap();
+        actor.state23_combat = Some(combat);
+        actor.channels.as_mut().unwrap()[0] = [50, 0x3edd_ddde, 0x3edd_dddd, 0, 0, 0, 0, 0, 0];
+        let subset = session.perception_subset(&[id, peer]).unwrap();
+        let frame = subset.frame().unwrap();
+        let input = FrameInput {
+            context: crate::state23_entry::Context {
+                paused: false,
+                native_mode: 0,
+                parent_state: None,
+                player: None,
+                delta: f64::from(1f32 / 60.),
+            },
+            frame: &frame,
+            range: globals.scalar(0xfc).unwrap(),
+        };
+        let mut services = ShotServices {
+            effects: crate::attached_effect_context::Pool::new(ticket, Some(image.clone())),
+            quality: globals.scalar(0x13e0).unwrap(),
+            lite_distance: globals.scalar(0x1570).unwrap(),
+            prepared: None,
+            cues: vec![],
+            fail_sound,
+        };
+        let mut factory = crate::primary_enemy_fire::Factory::new(&resources);
+        let mut random = Random(17);
+        let result = session.update_ripper_variant_attack(
+            id,
+            input,
+            parameters,
+            &mut factory,
+            &mut random,
+            &mut services,
+        );
+        assert_eq!(result.is_err(), fail_sound, "{result:?}");
+        let shot = services
+            .prepared
+            .expect("real projectile must reach effect preparation");
+        assert_eq!(session.get(shot).unwrap().class, 232);
+        assert_eq!(
+            session.enemy_projectile(shot).unwrap().phase,
+            if fail_sound {
+                crate::enemy_projectile::Phase::Failed
+            } else {
+                crate::enemy_projectile::Phase::Launched
+            }
+        );
+        assert_eq!(services.effects.active().len(), 1);
+        assert_eq!(services.cues.len(), 1);
+        let machine = session.ripper_primary(id).unwrap();
+        assert_eq!(machine.state().entry.mode, 65);
+        assert_eq!(machine.failure().is_some(), fail_sound);
+        if !fail_sound {
+            let launch = session
+                .enemy_projectile(shot)
+                .unwrap()
+                .launch
+                .as_ref()
+                .unwrap();
+            assert_eq!(launch.source, id);
+            assert!(launch.calculation.lifetime > 0.);
+        }
+        let count = session.counts();
+        let seed = random.0;
+        assert!(
+            session
+                .update_ripper_variant_attack(
+                    id,
+                    input,
+                    parameters,
+                    &mut factory,
+                    &mut random,
+                    &mut services
+                )
+                .is_err()
+        );
+        assert_eq!(session.counts(), count);
+        assert_eq!(random.0, seed);
+        assert_eq!(services.cues.len(), 1);
+        session.clear();
+        assert!(session.get(shot).is_none());
+    }
+}
+
 fn source(resources: &SceneResources, ticket: u64, eligible: bool) -> (Session, Id, Id) {
     let flat = giants_formats::gti::Terrain {
         source_flags: 0,

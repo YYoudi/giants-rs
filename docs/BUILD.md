@@ -171,7 +171,14 @@ selection, retained prefixes/late audio failure and replay/retirement refusal.
   five Story2 scenarios. Use `-- --ignored`; these tests enable no live AI.
   The synthetic `ripper_primary_turn::tests::variant_` controls cover class230
   modes62/63, radius boundaries and retained lost-target audio failures;
-  they do not admit mode64 onward or a completed actor frame.
+  they do not establish a completed actor frame. The synthetic `ripper_attack`
+  controls also cover class230 mode65 clock crossing, required-service failure
+  and the conditional post-animation RNG draw. With `GIANTS_NPC_ROOT`, run
+  `source_variant_primary_launch` in `giants-game` with `-- --ignored` for the
+  owned primary/factory launch and retained late sound failure. That control
+  supplies mode65/channel entry and flat terrain, prepares actual named FX,
+  uses current animated references and suppresses audio. It admits neither
+  ordinary NPC scheduling, visible FX nor projectile impact/damage.
 
 With `GIANTS_NPC_ROOT`, run
 `cargo test --locked -p giants-game source_parented_state0 --target x86_64-pc-windows-gnu -- --ignored`

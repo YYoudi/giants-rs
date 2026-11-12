@@ -1,4 +1,4 @@
-//! Class230's owned mode0/61/62/63/64 callers and actual marker constructor. Later modes,
+//! Class230's owned mode0/61..65 callers and actual marker/projectile constructors. Later modes,
 //! live world admission and audio submission remain separate required services.
 use super::*;
 use crate::{
@@ -70,6 +70,60 @@ impl<S: Services<Id, Effect>> Services<Id, Effect> for Bridge<'_, '_, S> {
 }
 
 impl Session {
+    /// The owned primary reads target dimensions from this Session and launches
+    /// through the same real state6 factory as the class73 caller.
+    pub fn update_ripper_variant_attack(
+        &mut self,
+        id: Id,
+        input: FrameInput<'_, Id>,
+        parameters: crate::ripper_attack::VariantParameters,
+        factory: &mut crate::primary_enemy_fire::Factory<'_>,
+        random: &mut Random,
+        dependencies: &mut impl crate::primary_enemy_fire::Dependencies<Effect>,
+    ) -> Result<Outcome, String> {
+        self.validate_perception_frame(input.frame)?;
+        let shapes = input
+            .frame
+            .candidates()
+            .map(|candidate| {
+                let fields = self
+                    .get(candidate.id)
+                    .and_then(|a| a.construction_fields.as_ref())
+                    .ok_or("variant attack target fields absent or foreign")?;
+                Ok((
+                    candidate.id,
+                    crate::ripper_primary_turn::TargetShape {
+                        scale: fields.scale,
+                        center_offset: f32::from_bits(fields.configuration[22]),
+                    },
+                ))
+            })
+            .collect::<Result<std::collections::BTreeMap<_, _>, String>>()?;
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            &mut (factory, dependencies),
+            |session, machine, input, random, (factory, dependencies)| {
+                let mut bridge = crate::primary_enemy_fire::Bridge::new(
+                    session,
+                    factory,
+                    id,
+                    crate::primary_enemy_fire::Scope::OwnedPrimary,
+                    *dependencies,
+                );
+                machine.advance_variant_attack(
+                    input,
+                    crate::ripper_primary_turn::VariantAttackContext {
+                        parameters,
+                        target_shapes: &shapes,
+                    },
+                    random,
+                    &mut bridge,
+                )
+            },
+        )
+    }
     pub fn update_ripper_variant_pursuit(
         &mut self,
         id: Id,

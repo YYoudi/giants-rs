@@ -65,7 +65,8 @@ differences, normal integration and the separately admitted objective boundary.
 ## Ripper search route awaiting attribution
 
 The literal prototype PS2 symbol `ripper_move` is a navigation candidate for
-[`ripper_primary_turn`](../crates/giants-game/src/ripper_primary_turn.rs) and its
+[`ripper_primary_turn`](../crates/giants-game/src/ripper_primary_turn.rs),
+[`ripper_attack`](../crates/giants-game/src/ripper_attack.rs) and their
 owned `Session` callers. Its exact relationship to PC debug-1.1
 `FUN_004d61f0` remains **unknown**. The PC callback and its class-specific
 continuations remain independently acquired; the symbol does not transfer a PS2

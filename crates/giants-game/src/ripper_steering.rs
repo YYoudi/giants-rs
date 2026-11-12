@@ -1,8 +1,9 @@
 //! Acquired ordinary Ripper turn/pursuit command producers. Target selection,
 //! mode transitions, animation and effects remain upstream/downstream services.
 //! Prototype PS2 search key: `ripper_chase_location__FP6OBJECTP3P3Df`.
-//! Exact correspondence remains unknown; PC alias FUN_004dbd10 is retained for
+//! Exact correspondence remains unknown; PC debug-1.1 0x004dbd10 is retained for
 //! the acquired angle helper used by the direct class230 chase caller.
+//! Its previous alias remains in docs/SYMBOL_NAVIGATION.md.
 #[derive(Clone, Copy, Debug)]
 pub struct State {
     pub position: [f32; 3],

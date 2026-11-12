@@ -23,12 +23,30 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Bind the exception to the exact Git blob bytes and its sole public path.
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
+    # Historical Rust module comments each contain exactly one reviewed PC
+    # navigation alias. No native body/listing or corpus extraction is present.
+    # Current source keeps addresses and routes full aliases to the minimal
+    # navigation document; these pins do not permit future source revisions.
+    'crates/giants-game/src/ripper_primary_turn.rs': {
+        '5f2656262ec4687a9cbb2aea9bfc4548b7b662b981fceae331014002a4a6f3f1',
+        'cc40f87c485effeebf7654b46e36c06c0939c2ddec1c05efa8e469922e5407d8',
+    },
+    'crates/giants-game/src/ripper_steering.rs': {
+        'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
+    },
     'docs/SYMBOL_NAVIGATION.md': {
         # One independently reviewed, probable mission-proximity PC alias, with
         # the prototype radius/PC AABB divergence and no exported native body.
         '3fdd90bb86ddfe497ae92e08f4555fe7f43d01d0ec58525b52a99bd57aed84d2',
         # Heading and mission-boundary cross-reference update only.
         '225d9984e410f75aacc14d0909df94c3e23186cc55a08501c8b1d0ca2457b4d4',
+        # Reviewed minimal Ripper navigation only: literal prototype names,
+        # retained PC aliases and explicitly unknown correspondences. No body,
+        # corpus rows, signatures or personal provenance are included.
+        'b26f4e3f7a7b03952d2eb8ec7372f605a6a41e1cfd0b75dad41a6bd6b348601c',
+        'bda631e89d7dc3dcbf4cfdc5367a7496ffc4a8c8e29baf6b40ab931f61af856a',
+        # Same reviewed names/aliases; adds the related attack module link.
+        'f7e4796f4304094585f3888c7ecc41a3ffaed9feb51ed56be75ce5dc4a464270',
     },
     'docs/MECC_DESCENT_GUARD.md': {
         # Gameplay-first work-selection prose only; the reviewed alias is unchanged.
