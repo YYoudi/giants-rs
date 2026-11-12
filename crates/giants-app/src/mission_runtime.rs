@@ -3288,6 +3288,21 @@ pub(crate) struct SmokeDraw {
     pub frame: giants_game::smoke_particle_draw::Frame,
 }
 impl Runtime {
+    /// Consume actual current particle geometry between ordinary simulation
+    /// steps, even if several steps precede one Bevy render update. The common
+    /// renderer may read the same completed inputs again; this acknowledges
+    /// neither a GPU upload nor device/display availability.
+    pub(crate) fn prepare_ripper_impact_geometry(&mut self, view: [f32; 16]) -> Result<(), String> {
+        let pending = self
+            .active
+            .as_ref()
+            .and_then(|active| active.payload.rippers.as_ref().ok()?.as_ref())
+            .is_some_and(rippers::State::impact_geometry_pending);
+        if pending {
+            self.smoke_draws(view)?;
+        }
+        Ok(())
+    }
     pub(crate) fn smoke_draws(
         &mut self,
         view: [f32; 16],

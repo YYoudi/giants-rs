@@ -189,6 +189,12 @@ Next acquire that close-range continuation and bind the genuine active-hit owner
 complete reciprocal damage/death, an identified rendered GNU executable and actual
 Windows menu/reentry remain required. No preview/publication or complete encounter
 is established by these CPU controls.
+The source `33b3168` graphical candidate displayed an explosion but refused a
+missing inter-step geometry/cleanup phase; it is not a pass. The corrective
+ordinary-controller path now invokes the common geometry consumer with the real
+camera between simulation steps. Its64-step renderer-gap control passes both
+tickets without replay or extra RNG. Rebuild and revalidate GPU output on that
+exact corrected source before transferring any graphical acceptance.
 
 Earlier dependency evidence: the canonical mixed construction executor now owns real
 root/child Session births, child-context retirement, source wait and delayed

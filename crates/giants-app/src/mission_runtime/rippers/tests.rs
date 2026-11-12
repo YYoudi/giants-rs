@@ -905,6 +905,7 @@ fn approach_ripper(
     }
     let mut minimum = f32::INFINITY;
     let mut first_contact = None;
+    let mut ground_at = None;
     let initial = viewer.mission_snapshot().0;
     for number in 181..=24180u64 {
         let contacts = runtime.ripper_contact_snapshots(ticket).unwrap();
@@ -1005,6 +1006,41 @@ fn approach_ripper(
             );
         }
         let sounds = result.unwrap();
+        let rng = runtime.active.as_ref().unwrap().variant_random.0;
+        runtime
+            .prepare_ripper_impact_geometry(viewer.camera().0.view)
+            .unwrap();
+        runtime
+            .prepare_ripper_impact_geometry(viewer.camera().0.view)
+            .unwrap();
+        assert_eq!(runtime.active.as_ref().unwrap().variant_random.0, rng);
+        if matches!(approach, Approach::GroundImpact) {
+            let component = runtime
+                .active
+                .as_ref()
+                .unwrap()
+                .payload
+                .rippers
+                .as_ref()
+                .unwrap()
+                .as_ref()
+                .unwrap();
+            if component.effects.as_ref().unwrap().last_retired.is_some() {
+                let at = *ground_at.get_or_insert(number);
+                if number == at {
+                    assert!(
+                        sounds
+                            .iter()
+                            .any(|e| matches!(e, crate::mission_audio::Event::NpcPosition { .. }))
+                    );
+                }
+                // Real simulation/geometry phases continue without a renderer
+                // update. Do not release the host guard via a fake render ack.
+                if number - at < 64 {
+                    continue;
+                }
+            }
+        }
         let (_, particles) = runtime
             .smoke_draws(viewer.camera().0.view)
             .unwrap()
@@ -1018,11 +1054,6 @@ fn approach_ripper(
                 assert!(!component.driver.projectiles.contains(&shot));
                 assert!(effects.births > 0);
                 assert!(!particles.is_empty());
-                assert!(
-                    sounds
-                        .iter()
-                        .any(|e| matches!(e, crate::mission_audio::Event::NpcPosition { .. }))
-                );
                 assert!(!component.driver.failed());
                 println!(
                     "ripper_missed_ground_impact_control ticket={ticket} step={number} source_retired=true actual_radial_no_effect=true births={} actual_particle_geometry={} positional_transport=true actual_playback=false supplied_commands=true gpu=false os_input=false",

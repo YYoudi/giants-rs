@@ -98,6 +98,11 @@ impl<D: giants_game::actor_retirement::Services> giants_game::actor_retirement::
     }
 }
 impl State {
+    pub(in crate::mission_runtime) fn impact_geometry_pending(&self) -> bool {
+        self.effects
+            .as_ref()
+            .is_some_and(|effects| effects.awaiting_geometry)
+    }
     pub(in crate::mission_runtime) fn impact_snapshot(&self) -> Option<([f32; 3], u64)> {
         self.effects.as_ref()?.last_impact
     }

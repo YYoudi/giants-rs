@@ -1581,7 +1581,9 @@ With `GIANTS_NPC_ROOT` set to the user installation, run
 `cargo test --locked -p giants-app --target x86_64-pc-windows-gnu source_wife_missed_ground_impact -- --ignored --nocapture`.
 It supplies normal Mecc navigation to the actual impact and requires canonical
 shot release, named body births, common particle geometry and positional audio
-transport on two fresh tickets. It does not prove playback, pixels or damage.
+transport on two fresh tickets. It then exercises64 simulation steps before a
+renderer update, using the ordinary per-step geometry/cleanup path and refusing
+extra RNG on repeated preparation. It does not prove playback, pixels or damage.
 The portable `ground_flight_continuation` controls retain failure/replay checks.
 The private original traversal control uses the absolute path
 `GIANTS_RADIAL_NO_EFFECT_CONTROLS` and the `no_effect_proof` game test selector with

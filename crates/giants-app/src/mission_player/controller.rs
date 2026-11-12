@@ -1658,13 +1658,16 @@ pub(super) fn update(
                         controller.state.camera().0.view,
                         local,
                         |device| {
-                            runtime.advance_normal_rippers_with_retirement(
+                            let sounds = runtime.advance_normal_rippers_with_retirement(
                                 controller.ticket,
                                 u64::from(controller.steps),
                                 controller.state.camera().1,
                                 controller.state.mission_environment_colliders(),
                                 device,
-                            )
+                            )?;
+                            runtime
+                                .prepare_ripper_impact_geometry(controller.state.camera().0.view)?;
+                            Ok(sounds)
                         },
                     )
                 });

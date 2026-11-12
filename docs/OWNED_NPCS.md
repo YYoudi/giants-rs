@@ -27,6 +27,17 @@ open. Original native traversal controls cover 80 supplied contexts, including
 inclusive hit/strict alert boundaries and genuine callback counterexamples.
 These are runtime wiring and CPU observations, not a published preview or GPU pass.
 
+The first graphical candidate at source `33b3168` rendered an explosion but
+quarantined the Ripper component when simulation advanced before the next render
+cleanup. It is a failed candidate despite a saved image and exit0. The ordinary
+controller now consumes the same real particle geometry between simulation steps
+using its actual camera, then runs scoped cleanup. The renderer can read the
+completed buffers again without owning simulation or RNG. The two-ticket CPU
+regression continues64 post-impact steps without a renderer update; it observes
+27 cumulative births,24 final body submissions and repeated preparation without
+RNG consumption. This repairs phase ownership; a new exact-build graphical run
+must independently validate the result.
+
 `mecc_enemy_hit::Machine` composes the independently acquired source gate,
 debug-PC health, direct/radial velocity addition and pain/shared voice tail for
 offline nonlethal class90/232 shots owned by a living state23 Ripper. It requires
