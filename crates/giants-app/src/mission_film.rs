@@ -12,11 +12,36 @@ pub(crate) struct Prepared {
     rigid: crate::rigid_attachment_scene::Scene,
     cube: bool,
     effects: Vec<Result<giants_game::cinematic_fx::Bindings, String>>,
+    effect_offsets: Vec<std::collections::BTreeSet<usize>>,
     persistent: Vec<Option<giants_game::cinematic_persistent::Bindings>>,
+    timed: Vec<Option<giants_game::cinematic_timed::Bindings>>,
+    timed_world: Option<std::sync::Arc<giants_game::cinematic_timed::world::Prepared>>,
 }
 impl Prepared {
+    pub(crate) fn prepare_timed_world(
+        &mut self,
+        plan: &giants_game::instances::Plan,
+        terrain: &giants_formats::gti::Terrain,
+    ) -> Result<(), String> {
+        if self.timed.iter().any(Option::is_some) {
+            self.timed_world = Some(std::sync::Arc::new(
+                giants_game::cinematic_timed::world::Prepared::load(plan, terrain)?,
+            ));
+        }
+        Ok(())
+    }
     pub(crate) fn effects_bound(&self) -> bool {
-        self.effects.iter().all(Result::is_ok)
+        self.effects.iter().enumerate().all(|(director, terminal)| {
+            terminal.is_ok()
+                || self.timed_world.is_some()
+                    && self
+                        .timed
+                        .get(director)
+                        .and_then(Option::as_ref)
+                        .is_some_and(|binding| {
+                            self.rigid.covers_canonical_effects(director, binding)
+                        })
+        })
     }
     pub(crate) fn load(
         root: &std::path::Path,
@@ -71,6 +96,16 @@ impl Prepared {
                 }
                 Ok(binding)
             }).collect::<Result<Vec<_>, String>>()?;
+            let timed = cinematic
+                .segments()
+                .iter()
+                .map(|segment| {
+                    let bytes =
+                        std::fs::read(giants_game::flick::sequence_path(root, segment.sequence())?)
+                            .map_err(|e| e.to_string())?;
+                    Ok(giants_game::cinematic_timed::Bindings::load(resources, &bytes).ok())
+                })
+                .collect::<Result<Vec<_>, String>>()?;
             Ok(Self {
                 actors,
                 gun,
@@ -80,7 +115,14 @@ impl Prepared {
                 rigid,
                 cube,
                 effects,
+                effect_offsets: cinematic
+                    .segments()
+                    .iter()
+                    .map(|segment| segment.expected_effect_offsets())
+                    .collect::<Result<_, _>>()?,
                 persistent,
+                timed,
+                timed_world: None,
             })
         })();
         result.map_err(|e| e.to_string())
@@ -235,7 +277,9 @@ pub(crate) fn prepare_gpu(world: &mut World) {
     world.insert_resource(prepared.rigid);
     world.insert_resource(
         crate::mission_effects::State::new(ticket, prepared.effects)
-            .with_persistent(prepared.persistent),
+            .with_source_offsets(prepared.effect_offsets)
+            .with_persistent(prepared.persistent)
+            .with_timed(prepared.timed, prepared.timed_world),
     );
     if let Some(sword) = prepared.sword {
         world.insert_resource(sword);
@@ -365,6 +409,95 @@ pub(crate) fn release(world: &mut World) {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    #[ignore = "requires GIANTS_MISSION_OWNED_ROOT; preparation is not graphical film acceptance"]
+    fn installed_wife_timed_world_and_render_owners_prepare_together() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_MISSION_OWNED_ROOT").unwrap());
+        let menu = giants_game::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin/w_Story2.bin")).unwrap(),
+            0,
+            true,
+        )
+        .unwrap();
+        let index = menu
+            .entries
+            .iter()
+            .position(|entry| entry.name == "2b_1_savewife")
+            .unwrap();
+        let packet =
+            giants_game::mission_loading::prepare(&root, menu.request("Story2", index).unwrap())
+                .unwrap();
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let world = packet.world_asset(&root).unwrap();
+        let selection = packet.completion(&root).unwrap();
+        let (cinematic, _) = crate::cinematic_camera::Cinematic::load(
+            &root,
+            crate::cinematic_camera::Load {
+                tick: None,
+                benchmark: false,
+                directors: 1,
+                sequence: selection.director.as_deref(),
+                full_chain: true,
+                preview: true,
+            },
+        )
+        .unwrap();
+        let mut prepared =
+            super::Prepared::load(&root, &cinematic, plan.resources(), &world.config).unwrap();
+        prepared.prepare_timed_world(&plan, &world.terrain).unwrap();
+        assert_eq!(prepared.timed.len(), 6);
+        // Preparation cannot advance the actual source cursor.
+        assert!(
+            prepared
+                .effect_offsets
+                .iter()
+                .all(|offsets| offsets.is_empty())
+        );
+        let reachable = cinematic
+            .segments()
+            .iter()
+            .map(|segment| {
+                let bytes = std::fs::read(
+                    giants_game::flick::sequence_path(&root, segment.sequence()).unwrap(),
+                )
+                .unwrap();
+                let timeline = giants_game::flick::Timeline::with_start(
+                    giants_formats::flick::parse_preview(&bytes).unwrap(),
+                    segment.animation().timeline[2],
+                    segment.animation().timeline[0],
+                )
+                .unwrap();
+                timeline
+                    .effect_offsets_through(segment.animation().timeline[1])
+                    .unwrap()
+            })
+            .collect::<Vec<_>>();
+        // All declarations remain bound, including a request after animation end.
+        assert_eq!(
+            reachable.iter().map(|offsets| offsets.len()).sum::<usize>(),
+            50
+        );
+        assert_eq!(reachable[2].len(), 13);
+        assert_eq!(prepared.timed[2].as_ref().unwrap().offsets().count(), 14);
+        for director in [2, 3] {
+            let binding = prepared.timed[director]
+                .as_ref()
+                .expect("source shotgun family");
+            let mut count = 0;
+            for offset in binding.offsets() {
+                if binding.role(offset, 829).is_some() {
+                    assert_eq!(binding.role(offset, 828), Some(false));
+                    count += 1;
+                }
+            }
+            assert!(count > 0);
+        }
+        assert!(!prepared.timed_world.as_ref().unwrap().objects.is_empty());
+        assert!(prepared.effects_bound());
+        // A prepared simulation cannot stand in for the missing actual world.
+        prepared.timed_world = None;
+        assert!(!prepared.effects_bound());
+    }
     use super::*;
     fn cached_probe() {}
     #[test]

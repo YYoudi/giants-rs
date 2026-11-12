@@ -264,7 +264,7 @@ pub(crate) fn update(world: &mut World) {
                 if world.resource::<State>().mode == Mode::Opening {
                     let finished = world
                         .get_resource::<crate::cinematic_camera::Cinematic>()
-                        .is_some_and(|c| c.end_reached());
+                        .is_some_and(|c| c.end_reached() && c.release_ready(false));
                     let voices = world.query_filtered::<Option<&AudioSink>, With<crate::cinematic_audio::PlayingVoice>>()
                         .iter(world).all(|s| s.is_some_and(|s| s.empty()));
                     if finished && voices {

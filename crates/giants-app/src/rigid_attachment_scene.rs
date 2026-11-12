@@ -202,6 +202,7 @@ struct Instance {
     burst: Option<Burst>,
     emitted: Option<Emitted>,
     retirement_child: Option<usize>,
+    canonical_only: bool,
     mixed: Option<mixed::Slot>,
     detached: bool,
     creation_position: Option<[f32; 3]>,
@@ -399,6 +400,9 @@ impl Instance {
             .is_some_and(Released::uses_vertex_alpha)
     }
     fn visible(&self, cinematic: &crate::cinematic_camera::Cinematic) -> bool {
+        if self.canonical_only {
+            return false;
+        }
         if let Some(mixed) = &self.mixed {
             mixed.presentation.is_some_and(|p| p.visible)
         } else if let Some(emitted) = &self.emitted {
@@ -441,7 +445,7 @@ impl Instance {
         tick: i32,
         view: [f32; 16],
     ) -> Result<([f32; 16], bool), String> {
-        self.render_matrix_with_world(animation, tick, view, None)
+        self.render_matrix_with_world(animation, tick, view, None, None)
     }
     fn render_matrix_with_world(
         &self,
@@ -449,6 +453,7 @@ impl Instance {
         tick: i32,
         view: [f32; 16],
         owned: Option<giants_game::procedural_aim::Matrix>,
+        owned_size: Option<f32>,
     ) -> Result<([f32; 16], bool), String> {
         let (mut binding, mut flags) = if let Some(matrix) = owned {
             (matrix.values, matrix.flags)
@@ -528,6 +533,7 @@ impl Instance {
             self.source.matrix(animation, tick)?
         };
         if let Some(timed) = &self.timed
+            && owned.is_none()
             && !self.detached
             && self.facing.is_none()
         {
@@ -554,7 +560,9 @@ impl Instance {
             flags = matrix.flags;
         }
         let (matrix, front) = if let Some(mut facing) = self.facing {
-            if let Some(mixed) = &self.mixed {
+            if let Some(size) = owned_size {
+                facing.scale = size;
+            } else if let Some(mixed) = &self.mixed {
                 facing.scale = mixed.presentation.map_or(1., |p| p.size);
             } else if let Some(emitted) = &self.emitted {
                 facing.scale = emitted.presentation.map_or(1., |p| p.size);
@@ -686,6 +694,7 @@ fn unlit_effect_instance(
         burst: None,
         emitted: None,
         retirement_child: None,
+        canonical_only: false,
         mixed: None,
         detached: false,
         creation_position: None,
@@ -790,6 +799,7 @@ fn periodic_instances(
                     parent: None,
                 }),
                 retirement_child: None,
+                canonical_only: false,
                 mixed: None,
                 detached: false,
                 creation_position: None,
@@ -975,6 +985,7 @@ fn burst_instances(
                 }),
                 emitted: None,
                 retirement_child: None,
+                canonical_only: false,
                 mixed: None,
                 detached: false,
                 creation_position: None,
@@ -1308,6 +1319,7 @@ fn particle_instance(
         burst: None,
         emitted: None,
         retirement_child: None,
+        canonical_only: false,
         mixed: None,
         detached: false,
         creation_position: None,
@@ -1403,6 +1415,25 @@ fn context_colors(
     .map_err(str::to_owned)
 }
 impl Scene {
+    /// Asset admission only; GPU upload and live drawing are checked separately.
+    pub(crate) fn covers_canonical_effects(
+        &self,
+        director: usize,
+        bindings: &giants_game::cinematic_timed::Bindings,
+    ) -> bool {
+        let Some(scene) = self.entry(director) else {
+            return false;
+        };
+        bindings.geometry_roles().all(|(offset, class)| {
+            scene.instances.iter().any(|instance| {
+                matches!(&instance.source, Source::Effect { request, class: actual, .. }
+                    if request.offset == offset && *actual == class)
+                    && !instance.geometry.positions.is_empty()
+                    && !instance.parts.is_empty()
+                    && !instance.source.asset().model.mesh.indices.is_empty()
+            })
+        })
+    }
     pub fn burst_audio_owner(
         &self,
         key: &crate::cinematic_effect_audio::Key,
@@ -1761,6 +1792,7 @@ impl Scene {
                         burst: None,
                         emitted: None,
                         retirement_child: None,
+                        canonical_only: false,
                         mixed: None,
                         detached: false,
                         creation_position: None,
@@ -2110,6 +2142,7 @@ impl Scene {
                         burst: None,
                         emitted: None,
                         retirement_child: None,
+                        canonical_only: false,
                         mixed: None,
                         detached: false,
                         creation_position: None,
@@ -2193,6 +2226,39 @@ impl Scene {
                                 mixed_error
                             ),
                         }
+                    }
+                }
+            }
+            if let Ok(bindings) = giants_game::cinematic_timed::Bindings::load(resources, &bytes) {
+                for request in giants_formats::flick::effect_commands(&bytes)? {
+                    if let Some(class) = bindings.contact_child_class(request.offset) {
+                        let program = resources
+                            .classes
+                            .models
+                            .first_program(class)
+                            .ok_or("canonical contact-child class absent")?
+                            .program
+                            .as_ref()
+                            .map_err(Clone::clone)?;
+                        let facing =
+                            giants_game::released_effect::state78_burst_facing(class, program)?;
+                        let mut child = unlit_effect_instance(
+                            class,
+                            facing,
+                            &request,
+                            constructed.clone(),
+                            &effects,
+                            resources,
+                            &mut registered,
+                        )?;
+                        child.canonical_only = true;
+                        child.detached = true;
+                        println!(
+                            "cinematic_contact_child_geometry sequence={} offset={} class={class} canonical_only=true body_born=false",
+                            segment.sequence(),
+                            request.offset
+                        );
+                        instances.push(child);
                     }
                 }
             }
@@ -2902,6 +2968,29 @@ pub fn update(
         }
     }
     let animation_dt = cinematic.animation_dt();
+    // Some(None) means an actual canonical family owns this draw but its body
+    // is not born/prepared yet. Never fall back to an independent viewer clock.
+    let timed_frames = scene
+        .instances
+        .iter()
+        .enumerate()
+        .filter_map(|(index, instance)| {
+            let Source::Effect { request, .. } = &instance.source else {
+                return None;
+            };
+            let frame = persistent.as_ref().and_then(|state| {
+                runtime.as_ref().and_then(|runtime| {
+                    state.timed_frame(
+                        runtime,
+                        cinematic.director_index(),
+                        request.offset,
+                        instance.source.class(),
+                    )
+                })
+            });
+            frame.map(|frame| (index, frame))
+        })
+        .collect::<BTreeMap<_, _>>();
     let animating = animation_dt > 0.
         && scene.instances.iter().any(|i| {
             (i.animation.is_some()
@@ -2927,6 +3016,13 @@ pub fn update(
     }
     let mut seed = scene.effect_seed;
     let mut audio_requests = Vec::new();
+    let canonical_offsets = timed_frames
+        .keys()
+        .filter_map(|&index| match &scene.instances[index].source {
+            Source::Effect { request, .. } => Some(request.offset),
+            _ => None,
+        })
+        .collect::<BTreeSet<_>>();
     if let Err(error) = mixed::update(
         &mut scene,
         &cinematic,
@@ -2934,6 +3030,7 @@ pub fn update(
         animation_dt,
         &mut seed,
         &mut audio_requests,
+        &canonical_offsets,
     ) {
         error!("Mixed effect preview failed: {error}");
         exit.write(AppExit::Error(std::num::NonZeroU8::MIN));
@@ -2944,7 +3041,10 @@ pub fn update(
     }
     // Retirement queues the child below. It receives its first positive viewer
     // callback on the next update; this is an explicit preview schedule.
-    for instance in &mut scene.instances {
+    for (index, instance) in scene.instances.iter_mut().enumerate() {
+        if timed_frames.contains_key(&index) {
+            continue;
+        }
         let root_reached = instance.released.as_ref().is_some_and(|r| {
             r.parent.is_none() && (reset || r.playback.visual.is_none() && !r.playback.expired)
         }) && instance.source.visible(&cinematic);
@@ -3073,6 +3173,9 @@ pub fn update(
     }
     let mut retirements = Vec::new();
     for (parent_index, instance) in scene.instances.iter_mut().enumerate() {
+        if timed_frames.contains_key(&parent_index) {
+            continue;
+        }
         let reached = instance.source.visible(&cinematic);
         if reset {
             instance.creation_position = None;
@@ -4019,8 +4122,10 @@ pub fn update(
             }),
             Source::Actor(_) => None,
         };
-        let active = instance.visible(&cinematic)
-            && owned.is_none_or(|frame| frame.is_some())
+        let active = timed_frames.get(&index).map_or_else(
+            || instance.visible(&cinematic),
+            |frame| frame.is_some_and(|frame| frame.object_flags & 0xc000 == 0),
+        ) && owned.is_none_or(|frame| frame.is_some())
             && match &instance.source {
                 Source::Actor(request) => cinematic.actor_visible(request.slot) == Some(true),
                 Source::Effect { .. } => true,
@@ -4031,7 +4136,13 @@ pub fn update(
         if reset {
             animation.reset();
         }
-        let advanced = if let Some(Some(frame)) = owned {
+        let advanced = if let Some(frame) = timed_frames.get(&index) {
+            if let Some(frame) = frame {
+                animation.clock = giants_game::animation_channels::clock(&frame.channels[0]);
+                animation.updates = u64::from(frame.epoch);
+            }
+            Ok(active && (animation_dt > 0. || reset))
+        } else if let Some(Some(frame)) = owned {
             // The owned object's channel is authoritative; do not tick a
             // second independent animation clock in the renderer.
             animation.clock = giants_game::animation_channels::clock(&frame.channels[0]);
@@ -4204,7 +4315,8 @@ pub fn update(
     let matrices = scene
         .instances
         .iter()
-        .map(|i| {
+        .enumerate()
+        .map(|(index, i)| {
             let owned = match &i.source {
                 Source::Effect { request, .. } => persistent
                     .as_ref()
@@ -4224,7 +4336,13 @@ pub fn update(
                 cinematic.animation(),
                 cinematic.tick(),
                 camera.view,
-                owned.map(|frame| frame.world),
+                timed_frames
+                    .get(&index)
+                    .and_then(|frame| frame.map(|frame| frame.world))
+                    .or_else(|| owned.map(|frame| frame.world)),
+                timed_frames
+                    .get(&index)
+                    .and_then(|frame| frame.map(|frame| frame.scale)),
             )
         })
         .collect::<Result<Vec<_>, _>>();
@@ -4271,7 +4389,10 @@ pub fn update(
                     }),
                     Source::Actor(_) => None,
                 };
-                let route_enabled = if instance.persistent_attachment {
+                let canonical = timed_frames.get(&draw.instance);
+                let route_enabled = if let Some(frame) = canonical {
+                    draw.route == 0 && frame.is_some_and(|frame| frame.object_flags & 0xc000 == 0)
+                } else if instance.persistent_attachment {
                     match owned {
                         Some(Some(frame)) => {
                             let eye = cinematic.camera().expect("prepared source camera").origin;
@@ -4305,14 +4426,33 @@ pub fn update(
                             })
                         })
                 };
-                *visibility = if instance.visible(&cinematic)
-                    && route_enabled
-                    && owned.is_none_or(|frame| frame.is_some())
+                let visible = canonical.map_or_else(
+                    || instance.visible(&cinematic),
+                    |frame| frame.is_some_and(|frame| frame.object_flags & 0xc000 == 0),
+                );
+                *visibility =
+                    if visible && route_enabled && owned.is_none_or(|frame| frame.is_some()) {
+                        Visibility::Inherited
+                    } else {
+                        Visibility::Hidden
+                    };
+                if let Some(Some(frame)) = canonical
+                    && (previous != *visibility || moved.contains(&draw.instance))
+                    && let Source::Effect { request, .. } = &instance.source
                 {
-                    Visibility::Inherited
-                } else {
-                    Visibility::Hidden
-                };
+                    println!(
+                        "mission_timed_draw ticket={} director={} offset={} class={} owner={:?} entity={:?} visible={} epoch={} matrix_bits={:?} canonical_body=true viewer_simulation=false native_pixels_verified=false",
+                        persistent.as_ref().unwrap().ticket(),
+                        cinematic.director_index(),
+                        request.offset,
+                        instance.source.class(),
+                        frame.owner,
+                        draw.entity,
+                        *visibility != Visibility::Hidden,
+                        frame.epoch,
+                        frame.world.values.map(f32::to_bits)
+                    );
+                }
                 if let Some(Some(frame)) = owned
                     && (previous != *visibility || frame.updates == 1)
                     && let Source::Effect { request, .. } = &instance.source
@@ -4537,7 +4677,11 @@ pub fn update(
         };
         let p = pixel(camera, scene.fog);
         let fog = if world.no_fog { 0. } else { 1. };
-        let opacity = if let Some(transparency) = scene.instances[draw.instance].transparency() {
+        let transparency = timed_frames
+            .get(&draw.instance)
+            .and_then(|frame| frame.map(|frame| frame.transparency))
+            .or_else(|| scene.instances[draw.instance].transparency());
+        let opacity = if let Some(transparency) = transparency {
             match giants_game::unlit_material::prepare_with_object_transparency(
                 &sub.material,
                 scene.instances[draw.instance]

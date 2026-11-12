@@ -102,8 +102,17 @@ impl Fields {
                         (out.packed_parameters & 0xffff_00ff) | ((word(1)? & 0xff) << 8)
                 }
                 0x13 => out.animation_slot = u32::from(record.bytes[1]),
-                0x17 | 0x1b | 0x1d | 0x1e | 0x23 | 0x25 | 0x2a | 0x31 | 0x4f | 0x50 | 0xff => {}
-                _ => return Err("cold collider command outside checked field profile".into()),
+                // Usage masks have their separate Instance owner. Texture
+                // descriptors and state effect-name bindings do not belong to
+                // this scalar collision projection; their services stay separate.
+                0x02 | 0x17 | 0x18 | 0x1b | 0x1d | 0x1e | 0x23 | 0x25 | 0x2a | 0x31 | 0x49
+                | 0x4d | 0x4f | 0x50 | 0x7b | 0xff => {}
+                other => {
+                    return Err(format!(
+                        "cold collider command {other:02x} outside checked field profile"
+                    )
+                    .into());
+                }
             }
         }
         let radius =

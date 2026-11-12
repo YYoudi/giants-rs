@@ -5,6 +5,7 @@ use giants_game::{
     cinematic_fx::{Bindings, TerminalProxy},
     flick::EventKind,
 };
+mod timed;
 #[derive(Resource)]
 pub(crate) struct State {
     ticket: u64,
@@ -14,8 +15,11 @@ pub(crate) struct State {
     generation: u64,
     dispatched: usize,
     retired: usize,
+    source_offsets: Option<Vec<std::collections::BTreeSet<usize>>>,
+    acknowledged_offsets: std::collections::BTreeSet<(usize, usize)>,
     persistent: Vec<Option<giants_game::cinematic_persistent::Bindings>>,
     persistent_queue: Option<(usize, giants_game::cinematic_persistent::Queue)>,
+    timed: timed::Timed,
 }
 impl State {
     pub(crate) fn ticket(&self) -> u64 {
@@ -52,15 +56,43 @@ impl State {
         if count == queue.objects() { count } else { 0 }
     }
     pub(crate) fn settled(&self) -> bool {
-        self.active.is_empty()
-            && self.bindings.iter().all(Result::is_ok)
-            && self.dispatched
-                == self
-                    .bindings
+        let (dispatched, expected, active) = self.completion_counts();
+        active == 0
+            && expected == Some(dispatched)
+            && self.source_offsets.as_ref().is_none_or(|directors| {
+                directors
                     .iter()
-                    .filter_map(|b| b.as_ref().ok())
+                    .enumerate()
+                    .flat_map(|(director, offsets)| {
+                        offsets.iter().map(move |offset| (director, *offset))
+                    })
+                    .eq(self.acknowledged_offsets.iter().copied())
+            })
+    }
+    pub(crate) fn completion_counts(&self) -> (usize, Option<usize>, usize) {
+        let expected = self
+            .bindings
+            .iter()
+            .enumerate()
+            .map(|(director, binding)| {
+                binding
+                    .as_ref()
                     .map(Bindings::len)
-                    .sum::<usize>()
+                    .ok()
+                    .or_else(|| self.timed.expected(director))
+            })
+            .collect::<Option<Vec<_>>>();
+        (
+            self.dispatched,
+            expected.and_then(|counts| match &self.source_offsets {
+                Some(offsets) if offsets.len() == counts.len() => {
+                    Some(offsets.iter().map(|s| s.len()).sum())
+                }
+                Some(_) => None,
+                None => Some(counts.iter().sum()),
+            }),
+            self.active.len(),
+        )
     }
     pub(crate) fn new(ticket: u64, bindings: Vec<Result<Bindings, String>>) -> Self {
         Self {
@@ -71,9 +103,51 @@ impl State {
             generation: 0,
             dispatched: 0,
             retired: 0,
+            source_offsets: None,
+            acknowledged_offsets: Default::default(),
             persistent: vec![],
             persistent_queue: None,
+            timed: timed::Timed::new(vec![], None),
         }
+    }
+    pub(crate) fn with_source_offsets(
+        mut self,
+        offsets: Vec<std::collections::BTreeSet<usize>>,
+    ) -> Self {
+        self.source_offsets = Some(offsets);
+        self
+    }
+    fn acknowledge(&mut self, director: usize, offset: usize) -> Result<(), String> {
+        if self.source_offsets.as_ref().is_some_and(|directors| {
+            !directors
+                .get(director)
+                .is_some_and(|offsets| offsets.contains(&offset))
+        }) {
+            return Err("effect request outside sampled source prefix".into());
+        }
+        if !self.acknowledged_offsets.insert((director, offset)) {
+            return Err("effect source request acknowledged twice".into());
+        }
+        self.dispatched += 1;
+        Ok(())
+    }
+    pub(crate) fn with_timed(
+        mut self,
+        bindings: Vec<Option<giants_game::cinematic_timed::Bindings>>,
+        world: Option<std::sync::Arc<giants_game::cinematic_timed::world::Prepared>>,
+    ) -> Self {
+        self.timed = timed::Timed::new(bindings, world);
+        self
+    }
+    pub(crate) fn timed_frame(
+        &self,
+        runtime: &crate::mission_runtime::Runtime,
+        director: usize,
+        offset: usize,
+        class: i32,
+    ) -> Option<Option<giants_game::cinematic_timed::Frame>> {
+        self.timed
+            .frame(self.ticket, runtime, director, offset, class)
     }
     pub(crate) fn with_persistent(
         mut self,
@@ -180,6 +254,9 @@ impl State {
         Ok(())
     }
     pub(crate) fn report_release(mut self, runtime: &mut crate::mission_runtime::Runtime) {
+        self.timed
+            .release(self.ticket, runtime)
+            .expect("owned timed scope release");
         self.release_persistent(runtime.cinematic_session_mut(self.ticket));
         println!(
             "mission_effects_released ticket={} dispatched={} retired={} active={} queue_owned=true",
@@ -197,9 +274,21 @@ pub(crate) fn update(
     mut exit: MessageWriter<AppExit>,
     mut showcase: Option<ResMut<crate::mission_showcase::State>>,
     mut runtime: ResMut<crate::mission_runtime::Runtime>,
+    world: Res<crate::world_scene::Scene>,
 ) {
     assert_eq!(owner.0, state.ticket);
     if cinematic.paused() {
+        return;
+    }
+    let ticket = state.ticket;
+    if let Err(error) = state
+        .timed
+        .update(ticket, &cinematic, &world.asset.terrain, &mut runtime)
+    {
+        error!("Mission timed owner failed: {error}");
+        if !showcase.as_mut().is_some_and(|s| s.playback_failed(&error)) {
+            exit.write(AppExit::Error(std::num::NonZeroU8::MIN));
+        }
         return;
     }
     let Some(session) = runtime.cinematic_session_mut(owner.0) else {
@@ -213,11 +302,21 @@ pub(crate) fn update(
         state.revision = 0;
         state.generation = cinematic.generation();
         state.dispatched = 0;
+        state.acknowledged_offsets.clear();
         state.retired = 0;
     }
     state.select_persistent(cinematic.director_index(), session);
     let result = (|| -> Result<(), String> {
         if state.revision != cinematic.event_revision() {
+            if state.source_offsets.is_some() {
+                state.source_offsets = Some(
+                    cinematic
+                        .segments()
+                        .iter()
+                        .map(|segment| segment.expected_effect_offsets())
+                        .collect::<Result<_, _>>()?,
+                );
+            }
             for event in cinematic
                 .events()
                 .iter()
@@ -229,6 +328,14 @@ pub(crate) fn update(
                     .ok_or("effect director not bound")?;
                 let binding = match binding {
                     Ok(binding) => binding,
+                    Err(_)
+                        if state
+                            .timed
+                            .acknowledged(cinematic.director_index(), event.offset) =>
+                    {
+                        state.acknowledge(cinematic.director_index(), event.offset)?;
+                        continue;
+                    }
                     Err(error) if showcase.as_ref().is_some_and(|s| s.enabled()) => {
                         let reason = error.clone();
                         state.dispatch_persistent(
@@ -277,7 +384,7 @@ pub(crate) fn update(
                         event.offset
                     );
                 }
-                state.dispatched += 1;
+                state.acknowledge(cinematic.director_index(), event.offset)?;
             }
             state.revision = cinematic.event_revision();
         }
@@ -330,5 +437,18 @@ mod tests {
         let state = State::new(7, vec![Err("unknown actor service".into())]);
         assert!(!state.settled());
         assert!(State::new(7, vec![]).settled());
+        let state = State::new(7, vec![Err("unknown actor service".into())])
+            .with_source_offsets(vec![Default::default()]);
+        assert!(!state.settled()); // empty reachable prefix cannot waive binding
+    }
+    #[test]
+    fn source_acknowledgments_require_each_offset_once() {
+        let mut state = State::new(7, vec![]).with_source_offsets(vec![[12, 32].into()]);
+        state.acknowledge(0, 12).unwrap();
+        assert!(state.acknowledge(0, 12).is_err());
+        assert!(state.acknowledge(1, 32).is_err());
+        assert!(state.acknowledge(0, 40).is_err());
+        assert_eq!(state.dispatched, 1);
+        assert!(!state.settled());
     }
 }

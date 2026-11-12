@@ -25,8 +25,10 @@ interaction was extended through .11.4. Retain the full game scope and follow
 the current delivery at the top of BACKLOG.md. Do not close an active gameplay
 objective on dependency tests alone.
 
-The current owner objective extends that loop through Starving's twenty-meat
-return, its source cinematic continuation and the next ordinary mission. Follow
+Starving's twenty-meat return shipped in .12.1. Preview .12.2 extends The Wife
+through its real rescue condition, natural completion cinematic and the following
+ordinary mission with its declared wife picked up. This is a bounded mission
+milestone, not the complete campaign or native fidelity. Follow
 docs/MISSION_PROGRESSION.md for the central mission method and BACKLOG.md for
 acceptance. Future missions must use their authored records and independently
 verified producers; never infer completion from a name, a capture or a test flag.

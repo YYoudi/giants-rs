@@ -41,6 +41,97 @@ terrain-route input fixture without rendering; it never proves campaign or OS
 integration. Failed graphical candidates remain private and separate from the
 eventual delivery receipt.
 
+For the .12.2 The Wife dependency controls, `cargo test --locked -p giants-game smartie_follow
+--target x86_64-pc-windows-gnu` exercises the ordinary selector3 selection
+dependency. This is not a pickup/gameplay test. The ignored app control
+`installed_wife_completion_has_real_prepared_render_and_effect_owners` uses
+`GIANTS_MISSION_OWNED_ROOT` and prepares the actual six-director completion film.
+It requires canonical owners, actual root/child geometry and the prepared
+collision world for all six directors. Neither this preparation nor the
+portable completion-receipt tests establish graphical mission acceptance.
+The ignored game control
+`installed_declared_wife_selects_actual_start_player_and_attaches_once` uses the
+same root and checks the next record's actual declared actor/player start,
+retained scan cooldown, typed ownership, pickup services, flag preservation and
+duplicate rejection. Its reference/clock/random inputs remain a CPU fixture.
+The ordinary whole-chain graphical diagnostic uses
+`GIANTS_MISSION_REPLAY=showcase-mecc`, `GIANTS_MISSION_OBJECTIVE_PROBE=1`,
+`GIANTS_SHOWCASE_WORLD=Story2`, `GIANTS_SHOWCASE_MISSION=1` and muted offscreen
+menu capture with a fresh user-data directory. It navigates through supplied
+Mecc commands toward admitted authored proximity targets; it does not alter
+poses, objective credit, resources or film ends. Its endpoint requires a new
+ordinary player and any required declared pickup. Inspect the real completion
+receipt/source terminal separately; the observer itself does not acknowledge it.
+The separate ignored game control
+`installed_wife_timed_parents_have_canonical_bodies_and_scoped_cleanup` uses the
+same root variable. It verifies actual source shotgun-parent bodies, source
+retirement-child construction and scope cancellation, with supplied clock/RNG/
+epoch. It also checks that an unprovided child service remains a callback failure.
+It does not establish the ordinary film's detached-child preparation or drawing;
+the whole completion-preparation refusal above remains required.
+`cargo test --locked -p giants-game actor_finalization --target
+x86_64-pc-windows-gnu` also checks explicit selection of the prototype-derived
+physical threshold with no fabricated PC argument. The historical default still
+refuses a missing caller word. This dependency test does not establish PS2
+whole-function execution, exact cross-platform numerics or ordinary film drawing.
+The ignored game control
+`installed_wife_children_use_actual_world_and_retained_platform_candidates`
+uses `GIANTS_MISSION_OWNED_ROOT` and drives the real class828 descendants through
+history, callback, physical/gravity and finalization stages on Story2 terrain and
+declared rigid geometry. It retains the 48 source platform-flag declarations,
+partitioning non-raster profiles from unresolved raster candidates. A point
+admitted by an unresolved footprint remains an error. These are supplied-frame
+dependency controls; graphical acceptance of the common consumer remains pending.
+
+The common movie consumer now routes the supported timed family through the
+mission's canonical Session and into the rigid renderer. Run the ignored app
+control `installed_wife_timed_world_and_render_owners_prepare_together` with
+`GIANTS_MISSION_OWNED_ROOT` to verify the actual render/world preparation and
+whole-film asset admission and refusal without the actual world. The installed child control above now exercises
+the same immutable world preparation. Neither control proves GPU drawing,
+ordinary mission completion or native timing; those remain required.
+
+The ignored game controls
+`installed_source3_snapshots_real_class_zero_support_and_keeps_context_binding`
+and `installed_wife_mixed_source_events_have_canonical_roots_and_children` use
+the same root. They check real support/context identity and the mixed source
+event walk, respectively. Supplied clocks/RNG and source data are not GPU or OS
+input evidence. For a graphical completion-film/re-entry diagnostic, use
+`GIANTS_MISSION_REPLAY=showcase-film-cycles`,
+`GIANTS_MISSION_FILM_COMPLETION_REPLAY=1`, `GIANTS_SHOWCASE_WORLD=Story2` and
+`GIANTS_SHOWCASE_MISSION=1` with the ordinary menu executable, fresh user-data,
+`--offscreen --silent-capture --muted-transport`, `GIANTS_AUDIO_MUTE=1` and a
+new capture path. This selects the actual declared completion film for inspection;
+it does not complete the rescue condition or admit a player in that context.
+
+The ignored game control
+`installed_blood_body_uses_canonical_payload_and_requires_contact_services` uses
+`GIANTS_MISSION_OWNED_ROOT` to construct the real source blood frame in a Session.
+It checks separate null/active random passes, the actual inline integer budget,
+single context consumption and a retained failure at missing contact services.
+It does not supply a live contact, instantiate a surface child, render blood or
+admit the completion film. The portable `effect_ground_emission` controls cover
+the ordered contact decision; the private original-PC comparison supplies its
+physical flags and intercepts factory/retirement calls rather than executing them.
+The separate ignored `installed_source_budget_changes_only_after_matching_completion`
+control supplies a contact word to the constructed source body, verifies its
+cinematic response mark and checks budget publication/stale-completion rejection.
+Its supplied contact is not a successful world query or child creation.
+
+The ignored game controls
+`installed_blood_source_pose_uses_real_callback_terrain_before_child_refusal`
+and `installed_blood_contact_constructs_real_surface_child_and_retires_parent`
+use the same root variable. Both evaluate a supplied pose of the actual source
+film actor/reference and execute terrain queries over real Story2 data. The
+second supplies the concrete source surface-child factory, observes the actual
+budget decrement/deletion mark, advances the child through expiry and cancels
+the complete scope. The first requires refusal without that factory. The pose,
+frame clock and random stream are dependency inputs; these controls do not
+execute normal FLK dispatch, draw the scene or complete The Wife.
+`installed_surface_inheritance_and_late_query_rng_are_preserved` checks all eight
+contact-packet inheritance combinations against the actual surface constructor
+and verifies consumed null/active draws survive an injected late query failure.
+
 For the all-five consolidation, run the shared workspace checks below and the
 installed owner/normal-controller controls, including the generic player shell,
 ordered Delphi projection/body phase, typed state0 children, class230 awakening,

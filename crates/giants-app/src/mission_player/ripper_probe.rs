@@ -27,7 +27,7 @@ fn check(
         || vimp
         || !(1..=120).contains(&flights)
     {
-        return Err("Ripper input probe requires muted showcase-mecc / Story2 mission1, the normal controller, no Vimp probe and capture revision1..120".into());
+        return Err("Ripper input probe requires muted showcase-mecc / Story2 mission1, the normal controller, no competing NPC/objective probe and capture revision1..120".into());
     }
     Ok(())
 }
@@ -44,7 +44,8 @@ pub(crate) fn validate(app: &App) -> Result<(), String> {
         app.world()
             .contains_resource::<crate::cinematic_audio::MutedTransport>(),
         std::env::var_os("GIANTS_MISSION_MECC_BACKEND").is_some(),
-        crate::frontend_scene::vimp_interaction_probe(),
+        crate::frontend_scene::vimp_interaction_probe()
+            || crate::frontend_scene::objective_interaction_probe(),
         flights()?,
     )
 }

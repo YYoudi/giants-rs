@@ -22,6 +22,7 @@ pub(crate) struct CampaignCompletion {
     pub carried: f32,
     pub counter: u32,
     pub required: i32,
+    pub film: Option<String>,
 }
 mod campaign;
 mod landing;
@@ -29,6 +30,7 @@ mod npc;
 mod ripper_probe;
 mod rippers;
 mod signals;
+mod smarties;
 pub(crate) use npc::{Draw as NpcDraw, DrawOwner as NpcDrawOwner};
 #[path = "mission_runtime/owned.rs"]
 mod owned;
@@ -95,6 +97,7 @@ struct Payload {
     delphi: Result<Option<giants_game::delphi_declared::Factory>, String>,
     controller: Result<Option<crate::mecc_dev_scene::State>, String>,
     carried: Result<Option<(usize, Arc<giants_game::carried_actor::Prepared>)>, String>,
+    smarties: Result<smarties::State, String>,
     dressing: Option<crate::mission_dressing::Prepared>,
     opening_effects_bound: bool,
 }
@@ -136,6 +139,7 @@ struct Active {
     reported: bool,
     pickup: Option<PickupPacket>,
     variant_random: giants_game::audio_parameters::Random,
+    cinematic_epoch: giants_game::animation_epoch::Stamp,
     audio_registry: Option<giants_game::gameplay_sound_bank::Registry>,
     bindings: ActorBindings,
     // Legacy motion publication is independent of constructor identity. The
@@ -173,7 +177,12 @@ impl Active {
     }
     fn carried_owner(&self) -> Result<Option<ActorId>, String> {
         let Some((_, prepared)) = self.payload.carried.as_ref().map_err(Clone::clone)? else {
-            return Ok(None);
+            return self
+                .payload
+                .smarties
+                .as_ref()
+                .map_err(Clone::clone)?
+                .carried(&self.resident_states);
         };
         self.bindings
             .carried
@@ -344,6 +353,38 @@ impl Runtime {
                 .as_mut()
                 .filter(|a| a.ticket == ticket)?
                 .resident_states,
+        )
+    }
+    pub(crate) fn with_cinematic_services<T>(
+        &mut self,
+        ticket: u64,
+        operation: impl FnOnce(
+            &mut giants_game::resident_states::Session,
+            &mut giants_game::audio_parameters::Random,
+            &mut giants_game::animation_epoch::Stamp,
+            &giants_game::scene_resources::SceneResources,
+            &[giants_game::object_time::SlowArea],
+        ) -> Result<T, String>,
+    ) -> Result<T, String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("cinematic service ticket absent")?;
+        let areas = active.payload.signals.areas.snapshot(|id| {
+            active
+                .resident_states
+                .get(id)
+                .and_then(|a| a.construction_fields.as_ref())
+                .map(|f| f.dispatch_context)
+                .ok_or_else(|| "cinematic slow-area owner absent".into())
+        })?;
+        operation(
+            &mut active.resident_states,
+            &mut active.variant_random,
+            &mut active.cinematic_epoch,
+            active.payload.plan.resources(),
+            &areas,
         )
     }
     fn initialize_owned_pickup(&mut self, ticket: u64) {
@@ -601,11 +642,7 @@ impl Runtime {
             .filter(|a| a.ticket == ticket)
             .ok_or("actor audio ticket absent")?;
         let parent = active.player_owner()?;
-        let child = if matches!(active.payload.carried, Ok(Some(_))) {
-            active.carried_owner()?
-        } else {
-            None
-        };
+        let child = active.carried_owner()?;
         active
             .resident_states
             .set_presentation_position(parent, Some(player))?;
@@ -885,8 +922,11 @@ impl Runtime {
         &self,
     ) -> Option<(u64, usize, Arc<giants_game::carried_actor::Prepared>)> {
         let active = self.active.as_ref()?;
-        let (offset, prepared) = active.payload.carried.as_ref().ok()?.as_ref()?;
-        Some((active.ticket, *offset, Arc::clone(prepared)))
+        if let Some((offset, prepared)) = active.payload.carried.as_ref().ok()?.as_ref() {
+            return Some((active.ticket, *offset, Arc::clone(prepared)));
+        }
+        let (offset, prepared) = active.payload.smarties.as_ref().ok()?.carried_asset()?;
+        Some((active.ticket, offset, prepared))
     }
     /// The preview consumes its resident's clock. Only its loaded clip is
     /// supplied; nonzero model-speed references require a future live consumer.
@@ -900,12 +940,22 @@ impl Runtime {
             .as_mut()
             .filter(|a| a.ticket == ticket)
             .ok_or("carried clock ticket absent")?;
-        let (_, prepared) = active
+        let prepared = active
             .payload
             .carried
             .as_ref()
-            .ok()
-            .and_then(|p| p.as_ref())
+            .map_err(Clone::clone)?
+            .as_ref()
+            .map(|(_, p)| Arc::clone(p))
+            .or_else(|| {
+                active
+                    .payload
+                    .smarties
+                    .as_ref()
+                    .ok()?
+                    .carried_asset()
+                    .map(|(_, p)| p)
+            })
             .ok_or("carried clip absent")?;
         let id = active
             .carried_owner()?
@@ -1377,9 +1427,6 @@ impl Runtime {
             mission,
             &packet.request.mission_name,
         )?;
-        if film.director.is_some() {
-            return Err("completion film requires the campaign film continuation owner".into());
-        }
         let next = world
             .scenarios
             .get(c.program.scenario_index + 1)
@@ -1408,9 +1455,86 @@ impl Runtime {
             carried,
             counter: c.progress.counter,
             required: c.program.required,
+            film: film.director,
         };
         a.campaign.as_mut().unwrap().as_mut().unwrap().queued = true;
         Ok(Some(result))
+    }
+    pub(crate) fn prepare_campaign_film(
+        &self,
+        ticket: u64,
+        root: &std::path::Path,
+    ) -> Result<mpsc::Receiver<Result<crate::mission_opening::Prepared, String>>, String> {
+        let a = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("completion preparation ticket absent")?;
+        if !a
+            .campaign
+            .as_ref()
+            .and_then(|c| c.as_ref().ok())
+            .is_some_and(|c| c.completed && c.queued)
+        {
+            return Err("completion preparation needs actual owned objectives".into());
+        }
+        let selection = a.payload.packet.completion(root)?;
+        if selection.director.is_none() {
+            return Err("completion source film absent".into());
+        }
+        let root = root.to_owned();
+        let resources = Arc::clone(a.payload.plan.resources());
+        let mission_bytes = a.payload.packet.mission_bytes.clone();
+        let world = Arc::clone(a.payload.world.as_ref().map_err(Clone::clone)?);
+        let (tx, rx) = mpsc::channel();
+        std::thread::spawn(move || {
+            let result = (|| {
+                let mut film =
+                    crate::mission_opening::Prepared::load(&root, selection.director.as_deref())?
+                        .ok_or("completion preparation produced no source film")?;
+                film.prepare_render(&root, &resources, &world.config);
+                let mission =
+                    giants_formats::mission::parse(&mission_bytes).map_err(|e| e.to_string())?;
+                let plan = giants_game::instances::Plan::prepare_scene(
+                    &resources,
+                    &mission,
+                    &world.config.placements,
+                );
+                film.prepare_timed_world(&plan, &world.terrain);
+                if !film.effects_bound() {
+                    return Err("completion rendering/effect owners are incomplete".into());
+                }
+                Ok(film)
+            })();
+            // A cancelled ticket drops this CPU-only result and all its resources.
+            let _ = tx.send(result);
+        });
+        Ok(rx)
+    }
+    pub(crate) fn install_campaign_film(
+        &mut self,
+        ticket: u64,
+        film: crate::mission_opening::Prepared,
+    ) -> Result<(), String> {
+        let a = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("completion installation ticket absent")?;
+        if !a
+            .campaign
+            .as_ref()
+            .and_then(|c| c.as_ref().ok())
+            .is_some_and(|c| c.completed && c.queued)
+        {
+            return Err("completion installation lost objective ownership".into());
+        }
+        let playback = a.payload.playback.as_mut().map_err(|e| e.clone())?;
+        if playback.is_some() {
+            return Err("completion cannot overwrite an unconsumed film".into());
+        }
+        *playback = Some(film);
+        Ok(())
     }
     pub(crate) fn collect_normal_meat(
         &mut self,
@@ -1492,14 +1616,19 @@ impl Runtime {
     pub(crate) fn campaign_return_target(&self, ticket: u64) -> Option<[f32; 3]> {
         let a = self.active.as_ref().filter(|a| a.ticket == ticket)?;
         let c = a.campaign.as_ref()?.as_ref().ok()?;
-        let carried = a.resident_states.mecc_meat(a.player_owner().ok()?).ok()?;
-        if f64::from(carried) < f64::from(c.program.quota?) {
-            return None;
-        }
         c.program
             .targets
             .iter()
-            .find(|(_, t)| t.response_flags & 15 == 4)
+            .find(|(_, t)| match t.response_flags & 15 {
+                1 => true,
+                4 => c.program.quota.is_none_or(|quota| {
+                    a.player_owner()
+                        .ok()
+                        .and_then(|id| a.resident_states.mecc_meat(id).ok())
+                        .is_some_and(|carried| f64::from(carried) >= f64::from(quota))
+                }),
+                _ => false,
+            })
             .map(|(_, t)| t.position)
     }
     pub(crate) fn npc_hint(&self, ticket: u64) -> Option<String> {
@@ -1514,6 +1643,15 @@ impl Runtime {
             .construction_fields
             .as_ref()?;
         let meat = a.resident_states.mecc_meat(a.player_owner().ok()?).ok()?;
+        let quota = a
+            .campaign
+            .as_ref()
+            .and_then(|c| c.as_ref().ok())
+            .and_then(|c| c.program.quota);
+        let inventory = quota.map_or_else(
+            || format!("Meat: {meat:.0}"),
+            |quota| format!("Meat: {meat:.0} / {quota}"),
+        );
         if let Some(target) = self.campaign_return_target(ticket) {
             let dx = target[0] - player.position[0];
             let dy = target[1] - player.position[1];
@@ -1529,7 +1667,7 @@ impl Runtime {
                 )
             };
             return Some(format!(
-                "Meat: {meat:.0} / 20 | Return to the objective destination.\nDestination: {:.0} units, {direction}.",
+                "{inventory} | Reach the objective destination.\nDestination: {:.0} units, {direction}.",
                 dx.hypot(dy)
             ));
         }
@@ -1537,7 +1675,7 @@ impl Runtime {
             .live_hint(&a.resident_states, player.position, player.angles[0])
             .unwrap_or_default();
         Some(format!(
-            "Meat: {meat:.0} / 20 | Walk over settled meat to collect.\n{hint}"
+            "{inventory} | Walk over settled meat to collect.\n{hint}"
         ))
     }
     /// Copied canonical particles; this read neither advances clocks nor RNG.
@@ -2558,6 +2696,14 @@ fn spawn(
     }
     let declared =
         giants_game::declared_residents::construct_acquired(&payload.plan, &mut resident_states);
+    match &payload.smarties {
+        Ok(smarties) => {
+            if let Err(error) = smarties.construct(&mut resident_states) {
+                blocked.push(format!("declared Smartie construction: {error}"));
+            }
+        }
+        Err(error) => blocked.push(format!("declared Smartie preparation: {error}")),
+    }
     let herd_declarations = declared
         .records
         .iter()
@@ -2752,6 +2898,7 @@ fn drive(
                     && let Ok(world) = &world
                 {
                     playback.prepare_render(&root, plan.resources(), &world.config);
+                    playback.prepare_timed_world(&plan, &world.terrain);
                 }
                 let parameters = packet.slot_parameters(&root);
                 let carried = (|| -> Result<_, String> {
@@ -2853,6 +3000,7 @@ fn drive(
                     .ok()
                     .and_then(|c| c.as_ref())
                     .map_or(Vec::new(), |s| s.impact_sound_ids());
+                let smarties = smarties::State::prepare(&root, &plan);
                 Ok(Payload {
                     signals: Default::default(),
                     npcs,
@@ -2877,6 +3025,7 @@ fn drive(
                     delphi,
                     controller,
                     carried,
+                    smarties,
                     dressing,
                     opening_effects_bound,
                 })
@@ -2935,6 +3084,7 @@ fn drive(
                     reported: false,
                     pickup: None,
                     variant_random: giants_game::audio_parameters::Random(1),
+                    cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                     audio_registry: None,
                     bindings,
                     controlled_mecc_owner: None,
@@ -3272,6 +3422,7 @@ mod tests {
             effect_proxies: Ok(Vec::new()),
             controller: Ok(None),
             carried: Ok(None),
+            smarties: Ok(Default::default()),
             player: Err("synthetic fixture has no player resources".into()),
             kabuto: Ok(None),
             kabuto_body: None,
@@ -3381,6 +3532,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 audio_registry: None,
                 bindings,
                 controlled_mecc_owner: None,
@@ -3634,6 +3786,7 @@ mod tests {
                         reported: false,
                         pickup: None,
                         variant_random: giants_game::audio_parameters::Random(1),
+                        cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                         audio_registry: None,
                         bindings,
                         controlled_mecc_owner: None,
@@ -3741,6 +3894,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 audio_registry: None,
                 bindings,
                 controlled_mecc_owner: None,
@@ -4108,6 +4262,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 audio_registry: None,
                 bindings,
                 controlled_mecc_owner: None,
@@ -4414,6 +4569,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 audio_registry: None,
                 bindings,
                 controlled_mecc_owner: None,
@@ -4912,6 +5068,7 @@ mod tests {
                     reported: false,
                     pickup: None,
                     variant_random: giants_game::audio_parameters::Random(1),
+                    cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                     audio_registry: None,
                     bindings,
                     controlled_mecc_owner: None,
@@ -4984,6 +5141,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 audio_registry: None,
                 bindings,
                 controlled_mecc_owner: None,
@@ -5083,6 +5241,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 audio_registry: None,
                 bindings,
                 controlled_mecc_owner: None,

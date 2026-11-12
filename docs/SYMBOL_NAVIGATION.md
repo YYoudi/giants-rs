@@ -136,8 +136,78 @@ writes the owned Vimp signal and requires attributed hit consumers. A completed
 name lookup or traversal calculation establishes neither a damage callback nor
 ordinary explosion/combat availability. Original PC aliases remain in the private
 identity-bound record; no prototype signature or layout is imported.
+## Smartie proximity route
+
+The literal prototype PS2 symbol `smartie_check_follow__FP6OBJECTf` leads to
+[`smartie_follow::smartie_check_follow`](../crates/giants-game/src/smartie_follow.rs).
+Its PC relationship is **probable**, not confirmed. The port admits the ordinary
+selector3/Mecc selection branch with explicit clock, actor and inventory inputs;
+it does not perform pickup or establish runtime integration. Keep the mangled
+spelling as a search key; no equivalent Rust signature or platform layout is
+asserted. See [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md).
+
+The literal routes `smartie_move` and `smartie_board_player__FP6OBJECTT0i`
+also lead to [`smartie_declared`](../crates/giants-game/src/smartie_declared.rs)
+and `Session::pickup_declared_mecc`. These function relationships remain
+**unknown**. The new ordinary composition retains authored actor identity,
+selector and flags and shares the acquired Mecc attachment services with
+command12. It does not establish complete Smartie AI or equivalent ABI/layout.
+
+## Physical finalization route
+
+The literal prototype symbol `object_apply_location` leads to
+[`actor_finalization::finalize_with_progress`](../crates/giants-game/src/actor_finalization.rs).
+Its relationship to the debug-PC finalizer is **probable**. The prototype's
+physical progress threshold starts at zero, whereas debug PC reuses its caller
+argument bits. The portable `PrototypePs2Zero` policy selects only that threshold;
+the default PC entry stays strict and other arithmetic remains independently
+scoped. This is not an imported signature/layout or whole-function PS2 parity
+claim. See [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md).
+
+## Effect ground-contact routes
+
+The literal prototype search route `FLK_FxSpawn__FP9FLK_FlickiiiiPc`
+leads to `cinematic_support` and `cinematic_timed`. The PC cinematic effect
+caller uses a loaded scalar class-zero support and source actor/reference pose;
+the prototype uses a different support class and factorization. This is an
+unknown function attribution, not permission to import its class or layout.
+The source3 constructor snapshots the genuine support while preserving the
+attached creation context. A recovered spawn name does not certify film fidelity.
+
+The literal prototype symbols `fx_logic` and
+`fx_processOpCodes__FP6FxDataiP6OBJECT` lead to the related work in
+[`effect_ground_emission`](../crates/giants-game/src/effect_ground_emission.rs)
+and the source constructor in `effect_actor::Template::ground_positioned`.
+Both relationships remain **unknown**. The acquired PC contact subset decides
+whether to request a child and retire its parent; source names do not validate
+the physical query, child factory, whole callback or film integration. The
+source constructor retains its mutable budget in the canonical actor payload.
+
+The more specific literal `fx_setupGroundHitCreate__FP10FXSTACKTAGii` has a
+**probable block-level relationship** to the acquired PC opcode5a writer in
+`effect_ground_emission::Source::configure`. Independent body evidence includes
+lookup/result gating, emission-budget/child stores and the matching control
+flag. This is not a separate PC function identity or an equivalent signature;
+lookup-argument representation and platform layout remain distinct. The shared
+flag-writer route `fx_setupGroundHit__FP10FXSTACKTAGi` remains unknown.
+
+`fx_orientToGround__FP10FXSTACKTAGf` is a literal prototype stub; the related PC
+surface helper performs a real query, alignment and location update. Its
+relationship remains **unknown**. Find the PC reconstruction in
+`effect_actor::Template::surface_positioned` and `effect_surface`; do not replace
+it with the prototype's no-op behavior.
 
 ## Publication boundary
+
+The literal prototype PS2 names `FLK_FlickProcess__FP9FLK_Flick`,
+`FLK_FlickUpdateTime__FP9FLK_Flickf` and `FlickAnimate__FP9FLK_Flick` are search
+routes to [`flick::Timeline`](../crates/giants-game/src/flick.rs),
+`cinematic_camera` and `mission_effects`. These relationships remain **unknown**,
+not confirmed function identities. The acquired PC command/clock/process call
+chain distinguishes reached requests from future declarations at animation
+retirement. Rust retains that distinction without importing prototype layouts,
+ABI or a guessed signature. See MISSION_PROGRESSION.md for the common runtime
+settlement contract; naming does not certify rendering, timing or mission completion.
 
 This index publishes only selected names, reviewed navigation relationships and
 attribution status. Binary/ELF inputs, raw tables, listings, matching outputs,

@@ -36,6 +36,7 @@ pub(crate) struct Controller {
     // player would. Never changes fuel, actor pose or the ordinary jet service.
     probe_recharge: bool,
     probe_route: Option<route_probe::Route>,
+    probe_escape: route_probe::Escape,
     owned_backend: bool,
     owned_audio_backend: bool,
     owned_jet_probe: bool,
@@ -98,7 +99,9 @@ impl Controller {
     }
 
     fn campaign_probe() -> bool {
-        Self::meat_probe() && std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1")
+        crate::frontend_scene::objective_interaction_probe()
+            || Self::meat_probe()
+                && std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1")
     }
     fn meat_probe() -> bool {
         crate::frontend_scene::vimp_interaction_probe()
@@ -252,6 +255,14 @@ impl Controller {
         child_seconds: f32,
     ) -> Result<[f32; 16], Box<dyn std::error::Error>> {
         self.state.carried_matrix(actor, child_seconds)
+    }
+    pub(crate) fn carried_parent_point(
+        &self,
+        actor: &giants_game::carried_actor::Prepared,
+    ) -> Result<[f32; 3], String> {
+        self.state
+            .carried_parent_point(actor)
+            .map_err(|e| e.to_string())
     }
     pub(crate) fn carried_matrix_from_reference(
         &self,
@@ -421,6 +432,7 @@ impl Controller {
             ripper_failed: false,
             probe_recharge: false,
             probe_route: None,
+            probe_escape: Default::default(),
             initial,
             minimum_fuel: 100.,
             maximum_height: initial[2],
@@ -502,6 +514,7 @@ pub(super) fn update(
         let preview =
             controller.staging_replay && scene.camera_source == "mission_player_inspection";
         let replay_running = controller.replay
+            && frontend.flow.phase != giants_game::mission_loading::Phase::Cinematic
             && (preview || controller.was_active || showcase.controls(frontend.flow.phase));
         let active = showcase.controls(frontend.flow.phase) || replay_running;
         if !active {
@@ -631,7 +644,10 @@ pub(super) fn update(
                 0.
             } else if controller.owned_replay {
                 1. / 60.
-            } else if crate::frontend_scene::vimp_interaction_probe() || ripper_probe::enabled() {
+            } else if crate::frontend_scene::vimp_interaction_probe()
+                || crate::frontend_scene::objective_interaction_probe()
+                || ripper_probe::enabled()
+            {
                 // Keep a many-actor/audio probe to one fixed step per render
                 // host frame. Accelerating four steps ahead of asynchronous
                 // sink creation stresses a different transport than normal input.
@@ -748,7 +764,10 @@ pub(super) fn update(
                     );
                 }
             }
-            if replay_running && crate::frontend_scene::vimp_interaction_probe() {
+            if replay_running
+                && (crate::frontend_scene::vimp_interaction_probe()
+                    || crate::frontend_scene::objective_interaction_probe())
+            {
                 axes = Vec2::ZERO;
                 thrust = false;
                 boost = false;
@@ -794,10 +813,11 @@ pub(super) fn update(
                         .next(position)
                         .unwrap_or(goal)
                 });
-                if let Some(target) = route_target
-                    .or(meat_target)
-                    .or_else(|| runtime.npc_target(controller.ticket))
-                {
+                if let Some(target) = route_target.or(meat_target).or_else(|| {
+                    (!crate::frontend_scene::objective_interaction_probe())
+                        .then(|| runtime.npc_target(controller.ticket))
+                        .flatten()
+                }) {
                     let position = controller.state.mission_snapshot().0;
                     let dx = target[0] - position[0];
                     let dy = target[1] - position[1];
@@ -842,11 +862,12 @@ pub(super) fn update(
                         if Controller::campaign_probe() {
                             let fuel = controller.state.mission_snapshot().1;
                             if return_target.is_some() {
-                                let commands = route_probe::commands(
+                                let pilot = &mut *controller;
+                                let commands = pilot.probe_escape.commands(
                                     position,
                                     target,
                                     fuel,
-                                    &mut controller.probe_recharge,
+                                    &mut pilot.probe_recharge,
                                 );
                                 axes = Vec2::from_array(commands.0);
                                 thrust = commands.1;
@@ -1087,7 +1108,9 @@ pub(super) fn update(
                     );
                 }
             }
-            let fire = if replay_running && crate::frontend_scene::vimp_interaction_probe() {
+            let fire = if replay_running && crate::frontend_scene::objective_interaction_probe() {
+                false
+            } else if replay_running && crate::frontend_scene::vimp_interaction_probe() {
                 !Controller::vimp_contact_probe()
                     && !(Controller::campaign_probe()
                         && runtime.campaign_return_target(controller.ticket).is_some())

@@ -409,6 +409,36 @@ impl<K: Copy + Eq> Pool<K> {
         Ok(owned)
     }
 
+    /// Transfer one configured positional ground-effect body. Physical/contact
+    /// and child services remain required by the canonical callback.
+    pub fn activate_ground_positioned(
+        &mut self,
+        id: Id,
+        resources: &crate::scene_resources::SceneResources,
+        random: &mut crate::audio_parameters::Random,
+        session: &mut crate::resident_states::Session,
+    ) -> Result<crate::resident_states::Id, String> {
+        if session.ticket() != self.ticket {
+            return Err("ground context and Session tickets differ".into());
+        }
+        let context = self
+            .get(id)
+            .ok_or("ground context absent, foreign or retired")?;
+        let mut staged = *random;
+        let body = crate::timed_effect_object::Timed::ground_positioned(
+            resources,
+            id,
+            context,
+            &mut staged,
+        )?;
+        let actor = session.adopt_timed_positioned(
+            body.map_parent(|_| unreachable!("validated positional ground body has no parent")),
+        )?;
+        self.release_prepared(id)?;
+        *random = staged;
+        Ok(actor)
+    }
+
     /// Flick mode1 supplies the measured parameter4 cinematic mark. The
     /// ordinary named preparation still checks the complete deferred program
     /// and requires identical normal/lite selection, without invented inputs.
@@ -453,6 +483,38 @@ impl<K: Copy + Eq> Pool<K> {
         }
         let (creation, intervals) =
             self.prepare_extended_invariant(name, recipient, recipient_flags, tag, random)?;
+        if let Creation::Prepared(id) = creation {
+            self.slots[id.slot].context.as_mut().unwrap().flags = 0x8004;
+        }
+        Ok((creation, intervals))
+    }
+
+    /// Named cinematic source3 frame. It keeps its actual attached binding;
+    /// source3 activation snapshots the real support, without context conversion.
+    pub fn prepare_cinematic_source3(
+        &mut self,
+        name: &str,
+        recipient: K,
+        recipient_flags: u32,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        let Some(image) = &self.image else {
+            return Ok((Creation::Absent, vec![]));
+        };
+        let Some((_, entry)) = image.find(name) else {
+            return Ok((Creation::Absent, vec![]));
+        };
+        let program = image.program(entry.offset).map_err(|e| e.to_string())?;
+        let ops = program.records.iter().map(|r| r.opcode).collect::<Vec<_>>();
+        if ops != [3, 6, 5, 9, 0x12, 0x16, 0x0e, 0x5a, 7, 2]
+            && ops != [3, 6, 4, 0x17, 0x1c, 0x79, 7, 2]
+            && ops != [3, 6, 4, 0x36, 7, 2]
+            && ops != [3, 6, 4, 0x17, 0x36, 7, 2]
+        {
+            return Err("cinematic source3 preparation outside acquired frame".into());
+        }
+        let (creation, intervals) =
+            self.prepare_extended_invariant(name, recipient, recipient_flags, u32::MAX, random)?;
         if let Creation::Prepared(id) = creation {
             self.slots[id.slot].context.as_mut().unwrap().flags = 0x8004;
         }
@@ -797,6 +859,28 @@ impl<K: Copy + Eq> Pool<K> {
         random: &mut crate::audio_parameters::Random,
     ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
         self.prepare_direct_position(offset, position, 0, false, random)
+    }
+    /// Acquired mode38 contact packet. These are its three inheritance bits,
+    /// distinct from the parent's render/header words and a context's flags.
+    pub fn prepare_ground_offset_invariant(
+        &mut self,
+        offset: u32,
+        request: crate::effect_ground_emission::Emission,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        if request.flags & !7 != 0 {
+            return Err("ground packet flags outside acquired profile".into());
+        }
+        let flags = if request.flags & 1 != 0 { 0x10000 } else { 0 }
+            | if request.flags & 2 != 0 { 0x4000 } else { 0 }
+            | if request.flags & 4 != 0 { 0x8000 } else { 0 };
+        self.prepare_direct_position(
+            Some(offset),
+            request.position.map(f32::from_bits),
+            flags,
+            true,
+            random,
+        )
     }
     /// Acquired retirement-helper direct-offset mode38. The caller supplies the
     /// parent's current object/render fields, not a projected class template.

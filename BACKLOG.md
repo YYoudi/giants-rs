@@ -15,6 +15,160 @@ Initial coverage includes seven Vimp names and the two previously confirmed
 camera service identities; .11.4 adds the selected meat-collection search routes. Naming does not establish gameplay delivery; the
 separately validated ordinary integration and publication are recorded below.
 
+## Delivered milestone - The Wife rescue and completion-film continuation
+
+Owner direction, 12 November 2026: make the ordinary The Wife rescue playable
+through its source completion cinematic and the next mission, then publish
+matching main, Windows preview and dashboard. Work alone in the integration
+worktree. The .12.2 acceptance below extends the .12.1 Starving baseline; the
+earlier preview's next-entry acceptance alone did not complete The Wife.
+
+1. Begin native work with prototype PS2 lookups and exact PC/prototype identities.
+   Independently verify the authored proximity condition and completion lifecycle.
+   The selected record declares one stationary mark1 destination and a separate
+   completion film; a moving rescue actor must not be invented from that mark.
+2. Acquire the cinematic's actual rescue/attachment and continuation effects.
+   The next source mission is The Road Home (`2b_2_returnwife`). It declares
+   a class216/state18/selector3 wife close to the selected player start, rather
+   than a PlayerChild12 passenger. Connect the real proximity/pickup path for
+   this actor; do not fabricate a passenger or transfer the cinematic clone.
+3. Extend the common campaign film/condition/transition owner using source records.
+   Require real rendering/audio/source end, cancellation and retirement. Preserve
+   the .12.1 Starving chain and unsupported predicates as explicit prerequisites.
+4. Validate the complete normal-menu rescue/film/next-player path on one receipt,
+   plus cleanup/re-entry, common regressions and separate Windows input checks.
+   Publish only the technically reviewed package and matching captures; verify
+   anonymous downloads, main CI and actual served Pages. Follow the central
+   method in docs/MISSION_PROGRESSION.md rather than duplicating its contracts.
+
+Private native research and raw mission/film inputs remain outside Git. A symbol
+name, CPU result or replay-only completion-film capture is not mission delivery.
+
+Earlier dependency evidence, distinct from the later whole-chain acceptance: the common completion-film owner now
+prepares asynchronously and keeps the original gameplay admission. A receipt
+distinguishes a natural source end from a real user skip, and cannot reuse the
+opening film's terminal or bare cleanup. The installed six-director completion
+preparation now admits all six directors through complete canonical effect
+profiles, actual class-zero cinematic supports, prepared root/descendant geometry
+and the real declared collision world. Missing world or geometry still refuses
+admission. Supplied source-event controls cover the mixed blood/shotgun family;
+two earlier offscreen completion replays reached the final animation end with
+drained voices, visible canonical draws and scope/GPU-asset cleanup. Their
+inspection fallback did not establish whole-film effect settlement. The later
+ordinary candidate exposed the fifty-reached/fifty-one-declared barrier resolved
+by the common source-prefix contract. These earlier controls remain separate
+from the later .12.2 ordinary rescue/pickup and Windows acceptance below.
+
+Delivered in preview .12.2, runtime source `fccb0fb`: the actual rescue reaches
+1/1, all six completion directors reach their natural source terminal with fifty
+acknowledged reached requests and drained voices, then RoadHome's ordinary entry
+picks up its own declared wife with rendering, carrying load, audio and notice
+delivery. Old ticket/film/GPU scopes are cleared. Actual Windows checks separately
+cover entry, skip, view/fire and two ordinary RoadHome pickups with clean returns.
+Starving's complete twenty-meat return/next-film/player regression, Mecc cycles,
+landing, Vimp contact/death/collection-cancel, menu lifecycle and selected film
+transport pass on this executable. The package, checksums and current-build
+captures are pinned in RELEASES.md, PREVIEW_NOTES.md and the gallery manifest.
+The common source-prefix fix retains complete capability checks and native
+cursor/clock/retirement ordering; it adds no final effect or film extension.
+
+Remaining campaign work includes RoadHome's own completion, further authored
+conditions, failure/restart, other actor AI and native continuity. Waiting Smartie
+locomotion, carry blending, native RNG/clock interleaving, complete collision
+coverage and visual/audio fidelity remain open. This milestone does not enable
+Delphi/Kabuto gameplay or close the complete-game objective.
+
+The selector3 proximity-selection dependency is implemented in `smartie_follow`
+with the probable prototype search route `smartie_check_follow__FP6OBJECTf`.
+A private comparison passes 1,794 supplied PC contexts, executing the acquired
+selection body and XYZ distance helper; timestep, classification and inventory
+services are supplied. This does not execute pickup or establish live gameplay.
+The unpublished runtime now constructs the authored selector3 actor with its
+source placement/writes and identity. Its ordinary proximity callback uses the
+actual player list, health, local-time sample and retained cooldown; the selected
+player's current animated reference supplies pickup. The common carry renderer,
+load, actual audio sinks and real mission-notice queue are connected. A direct
+RoadHome graphical entry shows the declared wife carried, with load and pickup
+sounds; it does not prove the preceding rescue/film transition or OS interaction.
+The ordinary whole-chain probe and release checks remain required. General
+Smartie AI, waiting locomotion, animation blending and native clock/RNG phase
+remain unverified. No class-name passenger or cinematic clone is transferred.
+
+The timed-parent dependency now has a canonical `cinematic_timed` queue: actual
+FLK39 events construct Session bodies, reused slots retain their current source
+support, and expiration constructs the authored positional retirement child.
+Installed controls on the two source shotgun directors pass parent callbacks,
+real class828 child birth, duplicate/foreign-owner rejection and scoped cleanup.
+A separate unprovided-child control retains a real callback failure rather than
+acknowledging it. The common film now prepares the timed family's declared world
+and routes its actual events through this queue using the mission Session/shared
+RNG, registered slow areas and composing epoch. The rigid renderer consumes the
+canonical body matrix, channels, scale, transparency and visibility, suppressing
+its independent viewer simulation for owned instances. Installed preparation
+now covers all six completion directors. Two offscreen completion-replay cycles
+exercise the canonical shotgun/blood families and their cleanup. The ordinary
+rescue/continuation and next wife actor remain required. Native RNG phase, clock
+cadence and complete world/draw fidelity remain unverified.
+
+The detached preparation's debug-PC caller-word dependency now has an explicit
+portable alternative: `PhysicalProgress::PrototypePs2Zero`, based on the
+prototype's zero-initialized physical progress threshold. The historical PC
+finalizer still refuses a missing caller word. The new source preparation API
+can select the documented prototype threshold without storing a fabricated
+argument; actual clock, footprint, physical and environment services remain
+mandatory. The related `object_apply_location` identity is probable. This is a
+single threshold policy, not adoption of the PS2 layout or whole arithmetic.
+The generic MIPS suffix-emulation attempt fails and supplies no parity claim;
+the observation is from independent standard-instruction/body review. Normal
+native fidelity of detached-child preparation/render integration remains unverified.
+
+The canonical descendant walk now performs common history, local-time sampling,
+physical/gravity callbacks and full finalization over supplied real terrain and
+declared collision geometry. An installed Wife control passes both shotgun plans
+through the class828 child's lifetime and cleanup, with source platform candidates
+retained rather than an invented empty platform query. Candidate bounds exclude
+irrelevant points; an admitted unresolved footprint still refuses the query.
+The common film/render consumer is now wired as described above; its graphical
+ordinary mission acceptance remains pending; the scoped replay result is above.
+
+The Story2 declaration census finds 48 platform-flag candidates. The candidate
+projection partitions non-raster footprint profiles from raster candidates;
+non-raster readers cannot supply the platform bit. Actual raster footprints and
+near-candidate admission remain unresolved. Newly reviewed class usage masks and
+an absolute declared-scale writer let the cold source bounds be prepared without
+discarding those declarations. Texture and state-name services remain separate
+from the scalar collision view. Private original-PC block controls cover usage
+stores and 512 absolute scale writes; no new PS2 function identity is confirmed.
+
+The blood dependency now has a source3 constructor using the existing ordered
+active-range interpreter and transferring the actual state78 payload into the
+Session. Source16/source5a configuration retains a separate source relationship
+and an integer emission budget. The acquired post-physical contact decision
+matches 720 supplied original-PC branch contexts, including signed counters and
+retirement precedence. The installed source constructor preserves its two random
+passes and refuses at the required contact/child-service boundary; it does not
+consume a drop or replay a failed callback. The world composition now executes
+actual terrain contact, affine/gravity and the real source surface-child factory,
+then publishes the budget and non-respawn deletion mark. Installed supplied-frame
+controls cover the real child, its expiry and scope cleanup; a missing factory
+still refuses without consuming the budget. Ordinary film/render consumption
+now uses the canonical owner. Source3 roots under a Flick support require their actual support
+snapshot and inheritance, rather than inventing a positional context conversion.
+The two prototype effect search routes remain unknown attributions. No new
+playable preview or complete-film admission is established by these dependencies.
+The common film now dispatches source3 ground, surface and fixed-curve roots into
+the same Session as timed attachments. Contact creates an actual surface child;
+the renderer reserves its source geometry but keeps it hidden until that child
+is born and prepared. Canonically owned groups do not run the separate inspection
+clock. A 317-frame supplied source-event composition covers six effect classes
+and two contact births; that control is not graphical or native-cadence evidence.
+The explicit completion film-cycle diagnostic exercises source end and re-entry,
+without gameplay admission or changing the authored mission condition.
+
+The specific ground-create helper has a probable relationship to the PC opcode5a
+block, not a separate PC function identity. The surface-orientation prototype
+helper is a stub; preserve the PC implementation and that platform divergence.
+
 ## NPC lane in progress - ordinary Rippers in The Wife
 
 Owner request, 12 November: integrate source-declared Rippers to the same concrete
@@ -217,7 +371,7 @@ build, a rendered normal-menu encounter, reciprocal interactions, death, menu
 return and re-entry, separating supplied controls from actual Windows input.
 See docs/OWNED_NPCS.md. No Ripper gameplay availability is claimed yet.
 
-## Current delivery - preview .12.1 Starving and shared mission progression
+## Delivered preview .12.1 Starving and shared mission progression
 
 Owner direction, 11 November 2026: complete the ordinary twenty-meat return,
 source cinematic continuation and next mission, then publish matching main,

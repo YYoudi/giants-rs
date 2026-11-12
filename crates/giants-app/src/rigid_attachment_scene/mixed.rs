@@ -488,6 +488,7 @@ fn prepare_inner(
                 burst: None,
                 emitted: None,
                 retirement_child: None,
+                canonical_only: false,
                 detached: false,
                 creation_position: None,
                 mixed: Some(Slot {
@@ -1008,6 +1009,7 @@ pub(super) fn update(
     dt: f32,
     seed: &mut u32,
     audio: &mut Vec<crate::cinematic_effect_audio::Request>,
+    canonical_offsets: &BTreeSet<usize>,
 ) -> Result<(), String> {
     if reset_generation {
         reset(scene);
@@ -1018,6 +1020,7 @@ pub(super) fn update(
     let mut pending: Vec<_> = scene
         .mixed
         .iter_mut()
+        .filter(|g| !canonical_group(g, canonical_offsets))
         .flat_map(|g| {
             g.contexts
                 .iter_mut()
@@ -1025,6 +1028,9 @@ pub(super) fn update(
         })
         .collect();
     for (index, group) in scene.mixed.iter_mut().enumerate() {
+        if canonical_group(group, canonical_offsets) {
+            continue;
+        }
         if let Some((queued, position)) = group.activation.take() {
             pending.push((index, queued, position));
         }
@@ -1058,6 +1064,9 @@ pub(super) fn update(
         );
     }
     for (index, group) in scene.mixed.iter_mut().enumerate() {
+        if canonical_group(group, canonical_offsets) {
+            continue;
+        }
         if group.triggered {
             if let Some(runtime) = &mut group.runtime {
                 let position = group
@@ -1187,6 +1196,9 @@ pub(super) fn update(
         }
     }
     for (index, group) in scene.mixed.iter_mut().enumerate() {
+        if canonical_group(group, canonical_offsets) {
+            continue;
+        }
         let Some(runtime) = &group.runtime else {
             continue;
         };
@@ -1354,6 +1366,10 @@ pub(super) fn update(
         };
     }
     Ok(())
+}
+
+fn canonical_group(group: &Group, offsets: &BTreeSet<usize>) -> bool {
+    matches!(&group.source,Source::Effect {request,..} if offsets.contains(&request.offset))
 }
 
 #[cfg(test)]

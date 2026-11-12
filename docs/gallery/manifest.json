@@ -4187,9 +4187,27 @@
     "media/4be699e7451b35dfc70f8577fbbe7a13a4fcb73ba4b422983cd709ade8fbb168.webp": "4be699e7451b35dfc70f8577fbbe7a13a4fcb73ba4b422983cd709ade8fbb168",
     "media/280e0928906a256afb199445fb49f12d126803e88e1baa4bbfd9f0a6d2e6c73a.webp": "280e0928906a256afb199445fb49f12d126803e88e1baa4bbfd9f0a6d2e6c73a",
     "media/f9193ce1124ed682705639fe719cf3c50ced73b11f78696a18e26a38b42d3dcf.webp": "f9193ce1124ed682705639fe719cf3c50ced73b11f78696a18e26a38b42d3dcf",
-    "media/821a4944b1436ed29eca6840d1c9d9b222dd9d1c5bf47e779ba5475c192d6bb6.webp": "821a4944b1436ed29eca6840d1c9d9b222dd9d1c5bf47e779ba5475c192d6bb6"
+    "media/821a4944b1436ed29eca6840d1c9d9b222dd9d1c5bf47e779ba5475c192d6bb6.webp": "821a4944b1436ed29eca6840d1c9d9b222dd9d1c5bf47e779ba5475c192d6bb6",
+    "media/2e78aa81e7e9cabbabbc86bb4fe412e70bc93e8be8f95d5a3f3da657fb5fbd07.webp": "2e78aa81e7e9cabbabbc86bb4fe412e70bc93e8be8f95d5a3f3da657fb5fbd07",
+    "media/65f1882d19ebace68ff15cdf582f67348c07eb1e2964c08aead98a7f03cfb406.webp": "65f1882d19ebace68ff15cdf582f67348c07eb1e2964c08aead98a7f03cfb406"
   },
   "screenshots": [
+    {
+      "title": "Preview .12.2: The Wife rescued, The Road Home resumed",
+      "image": "media/2e78aa81e7e9cabbabbc86bb4fe412e70bc93e8be8f95d5a3f3da657fb5fbd07.webp",
+      "caption": "preview-2026.11.12.2; source fccb0fb. Actual Bevy GPU frame after the authored 1/1 rescue, natural six-director completion film with drained voices and acknowledged reachable effects, old-ticket cleanup and next ordinary source entry. The nearby declared wife is actually picked up, rendered on the player, and supplies carrying load, pickup audio and notice delivery. Supplied navigation only; no forced pose, resource, readiness or film end. Unblended carry animation and complete native fidelity remain incomplete.",
+      "commit": "fccb0fbbb25fa30cb2eaf783d9f4a1968fc86b96",
+      "preview_tag": "preview-2026.11.12.2",
+      "executable_sha256": "7e14a7b1b9538e1d0b5e557418f5021f6d48ac1acaa04425ebc301da8f1aea1b"
+    },
+    {
+      "title": "Preview .12.2: Vimp combat and jet regression",
+      "image": "media/65f1882d19ebace68ff15cdf582f67348c07eb1e2964c08aead98a7f03cfb406.webp",
+      "caption": "preview-2026.11.12.2; source fccb0fb. Actual Bevy GPU first-death sample from the ordinary partial-controller hunt on the same executable as The Wife chain. The source herd, blood, ghost, meat and live jet are rendered with real muted sinks. Supplied movement/fire commands; this is a regression sample, not a newly completed NPC system or an OS-held-flight/native-fidelity claim.",
+      "commit": "fccb0fbbb25fa30cb2eaf783d9f4a1968fc86b96",
+      "preview_tag": "preview-2026.11.12.2",
+      "executable_sha256": "7e14a7b1b9538e1d0b5e557418f5021f6d48ac1acaa04425ebc301da8f1aea1b"
+    },
     {
       "title": "Preview .12.1: Starving completed, The Wife resumed",
       "image": "media/280e0928906a256afb199445fb49f12d126803e88e1baa4bbfd9f0a6d2e6c73a.webp",

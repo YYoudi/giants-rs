@@ -32,6 +32,14 @@ impl Segment {
     pub fn effect_sample(&self, offset: usize) -> Option<(f32, u64)> {
         self.effect_samples.get(&offset).copied()
     }
+    pub(crate) fn expected_effect_offsets(
+        &self,
+    ) -> Result<std::collections::BTreeSet<usize>, &'static str> {
+        self.timeline.last_sampled_tick().map_or_else(
+            || Ok(Default::default()),
+            |tick| self.timeline.effect_offsets_through(tick),
+        )
+    }
     fn step(&mut self, tick: i32, seconds: f32) -> Result<giants_game::flick::Step, &'static str> {
         let sounds = self.timeline.sound_requests().len();
         let credits = self.timeline.credits_requests().len();

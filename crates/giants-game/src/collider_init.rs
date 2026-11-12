@@ -26,6 +26,26 @@ pub struct DeclaredPose {
     pub pitch_roll: Option<[f32; 2]>,
 }
 impl ColdProjection {
+    /// Authored absolute scale store on a freshly copied declared instance,
+    /// before radius/bounds initialization. This does not multiply class scale
+    /// or claim a cached/live object's invalidation and callback services.
+    pub fn placed_with_scale(
+        &self,
+        pose: DeclaredPose,
+        scale: Option<f32>,
+    ) -> Result<Instance, &'static str> {
+        if scale.is_some_and(|value| !value.is_finite() || value <= 0.) {
+            return Err("declared collider scale outside finite positive profile");
+        }
+        let mut instance = self.placed(pose)?;
+        if let Some(scale) = scale {
+            if instance.fields.object_flags & 0x20 != 0 {
+                return Err("declared scale store requires the fresh uncached profile");
+            }
+            instance.fields.scale = scale;
+        }
+        Ok(instance)
+    }
     /// Fresh field copy followed by the declared pose stores. Scale modifiers,
     /// world registration and callbacks remain separate stages.
     pub fn placed(&self, pose: DeclaredPose) -> Result<Instance, &'static str> {
@@ -77,6 +97,8 @@ pub fn cold_projection(
     let mut usage = [0; 2];
     for command in &program.records {
         match command.opcode {
+            0x49 => usage[0] |= 0x3c00,
+            0x4d => usage[0] |= 0x03c0_0000,
             0x4f => usage[1] |= 0xf,
             0x50 => usage[1] |= 0xf00,
             _ => {}
@@ -260,6 +282,51 @@ pub fn initialize(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn declared_scale_replaces_the_class_value_only_on_a_fresh_valid_instance() {
+        let mut fields = Fields::zeroed();
+        fields.class = 3;
+        fields.scale = 2.;
+        let template = Instance {
+            fields,
+            state: 27,
+            usage: [0; 2],
+            footprint: 0,
+        };
+        let projection = ColdProjection {
+            template,
+            initial: template,
+        };
+        let pose = DeclaredPose {
+            class: 3,
+            position: [1., 2., 3.],
+            yaw: 90.,
+            pitch_roll: None,
+        };
+        assert_eq!(
+            projection
+                .placed_with_scale(pose, Some(0.5))
+                .unwrap()
+                .fields
+                .scale,
+            0.5
+        );
+        assert_eq!(
+            projection
+                .placed_with_scale(pose, None)
+                .unwrap()
+                .fields
+                .scale,
+            2.
+        );
+        assert_eq!(projection.template.fields.scale, 2.);
+        for scale in [0., -1., f32::NAN, f32::INFINITY] {
+            assert!(projection.placed_with_scale(pose, Some(scale)).is_err());
+        }
+        let mut cached = projection;
+        cached.template.fields.object_flags |= 0x20;
+        assert!(cached.placed_with_scale(pose, Some(0.5)).is_err());
+    }
     #[test]
     fn stale_bounds_and_contradictory_cache_are_rejected_before_ground_callbacks() {
         let mut fields = Fields::zeroed();

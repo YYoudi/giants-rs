@@ -7,9 +7,11 @@ use crate::{
     timed_effect_object::{Body, Boundary, Runtime, Step, Timed},
 };
 use giants_formats::effect_image::Image;
+mod ground;
 mod preparation;
 pub use preparation::{
     Header as OrdinaryHeader, Input as Preparation, Services as PreparationServices,
+    SourceInput as SourcePreparation,
 };
 
 #[derive(Debug)]
@@ -22,6 +24,7 @@ pub(super) struct Metadata {
     physical: PhysicalHeader,
     motion_done: bool,
     gravity_done: bool,
+    ground_started: bool,
     ordinary: OrdinaryHeader,
     cinematic_scope: Option<CinematicScope>,
 }
@@ -73,6 +76,15 @@ pub trait Services {
     fn physical(&mut self, session: &mut Session, actor: Id, seconds: f32) -> Result<(), String>;
     /// Runs after the actual affine has been published, before ANM.
     fn gravity(&mut self, session: &mut Session, actor: Id) -> Result<(), String>;
+    fn ground_contact(
+        &mut self,
+        _: &mut Session,
+        _: Id,
+        _: &Image,
+        _: &crate::effect_ground_emission::Source,
+    ) -> Result<(), String> {
+        Err("ground effect requires its real contact and child services".into())
+    }
     fn retire(
         &mut self,
         session: &mut Session,
@@ -274,6 +286,7 @@ impl Session {
             },
             motion_done: false,
             gravity_done: false,
+            ground_started: false,
             ordinary: OrdinaryHeader::allocated(),
             cinematic_scope,
         });
@@ -731,6 +744,7 @@ impl Session {
                 let m = actor.timed_effect.as_mut().unwrap();
                 m.motion_done = false;
                 m.gravity_done = false;
+                m.ground_started = false;
             }
             boundary
         };
@@ -763,6 +777,17 @@ impl Session {
             self.refresh_timed_cache(id)?;
             if result.is_ok() {
                 result = services.gravity(self, id);
+            }
+            if result.is_ok() {
+                let metadata = self.get(id).unwrap().timed_effect.as_ref().unwrap();
+                let ground = metadata
+                    .runtime
+                    .ground
+                    .as_ref()
+                    .map(|ground| (ground.clone(), metadata.runtime.source.clone()));
+                if let Some((ground, source)) = ground {
+                    result = services.ground_contact(self, id, &source, &ground);
+                }
             }
         }
         self.get(id)

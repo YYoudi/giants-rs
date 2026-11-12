@@ -49,9 +49,33 @@ pub trait Services {
     fn environment(&mut self, state: &mut State) -> Result<(), String>;
 }
 
+/// Only the physical progress threshold differs. All other arithmetic and
+/// services retain this module's acquired PC contract, not a PS2 ABI/layout.
+#[derive(Clone, Copy, Debug)]
+pub enum PhysicalProgress {
+    /// Exact debug-PC diagnostic behavior, requiring its actual argument word.
+    PcCallerArgument,
+    /// Portable policy from the prototype PS2 `object_apply_location` physical
+    /// branch: the preserved threshold register is initialized to zero before
+    /// that branch. The PC routine relationship remains probable. This does
+    /// not import the prototype's other arithmetic or certify whole fidelity.
+    PrototypePs2Zero,
+}
+
 pub fn finalize(
+    s: State,
+    time: Time<'_>,
+    services: &mut (impl Services + ?Sized),
+) -> Result<State, Failure> {
+    finalize_with_progress(s, time, PhysicalProgress::PcCallerArgument, services)
+}
+
+/// An explicit source-based policy is mandatory to depart from the historical
+/// PC behavior. No native address or fabricated caller argument is stored.
+pub fn finalize_with_progress(
     mut s: State,
     time: Time<'_>,
+    physical_progress: PhysicalProgress,
     services: &mut (impl Services + ?Sized),
 ) -> Result<State, Failure> {
     let f = &s.fields;
@@ -92,22 +116,27 @@ pub fn finalize(
     let threshold = if f.physical && s.parent_present {
         None
     } else if f.physical {
-        let Some(word) = s.physical_argument_word else {
-            return Err(failure(
-                s,
-                false,
-                "physical finalization needs acquired caller-slot semantics",
-            ));
-        };
-        let v = f32::from_bits(word);
-        if !v.is_finite() {
-            return Err(failure(
-                s,
-                false,
-                "physical caller-slot threshold outside finite profile",
-            ));
+        match physical_progress {
+            PhysicalProgress::PrototypePs2Zero => Some(0.),
+            PhysicalProgress::PcCallerArgument => {
+                let Some(word) = s.physical_argument_word else {
+                    return Err(failure(
+                        s,
+                        false,
+                        "physical finalization needs acquired caller-slot semantics",
+                    ));
+                };
+                let v = f32::from_bits(word);
+                if !v.is_finite() {
+                    return Err(failure(
+                        s,
+                        false,
+                        "physical caller-slot threshold outside finite profile",
+                    ));
+                }
+                Some(v)
+            }
         }
-        Some(v)
     } else {
         let dt = crate::object_time::seconds(
             time.global_seconds,
@@ -326,6 +355,24 @@ mod tests {
         assert_eq!(e.state.footprint, Some(7));
         assert!(svc.releases.is_empty());
         assert_eq!(svc.environment_calls, 0);
+    }
+    #[test]
+    fn prototype_physical_threshold_is_explicit_and_does_not_manufacture_pc_argument() {
+        let (mut state, mut services) = fixture();
+        state.fields.physical = true;
+        state.fields.current = [0.01, 0., 1.];
+        assert!(finalize(state.clone(), time(0.1), &mut services).is_err());
+        let result = finalize_with_progress(
+            state,
+            time(0.1),
+            PhysicalProgress::PrototypePs2Zero,
+            &mut services,
+        )
+        .unwrap();
+        assert_eq!(result.physical_argument_word, None);
+        assert_eq!(result.fields.current, [0.01, 0., 1.]);
+        assert_eq!(result.fields.object_flags & 0x40000, 0);
+        assert!(result.affine.is_some());
     }
     #[test]
     fn progress_uses_reference_position_saved_before_environment() {

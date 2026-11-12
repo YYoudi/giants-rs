@@ -12,7 +12,7 @@ impl bevy::app::Plugin for Plugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<State>().add_systems(
             Update,
-            (sync, apply_load, update, publish_audio)
+            (pickup_declared, sync, apply_load, update, publish_audio)
                 .chain()
                 .in_set(AudioUpdate)
                 .after(crate::mission_player::PlayerUpdate)
@@ -20,6 +20,36 @@ impl bevy::app::Plugin for Plugin {
                 .before(crate::source_view::ViewUpdate)
                 .run_if(crate::mecc_session::frontend_available),
         );
+    }
+}
+fn pickup_declared(
+    mut runtime: ResMut<Runtime>,
+    frontend: Res<crate::frontend_scene::Scene>,
+    showcase: Res<crate::mission_showcase::State>,
+    cinematic: Option<Res<crate::cinematic_camera::Cinematic>>,
+    players: Query<(
+        &crate::mission_runtime::PlayerInitial,
+        &crate::mission_player::Controller,
+    )>,
+    mut exit: MessageWriter<AppExit>,
+) {
+    if cinematic.is_some() || !showcase.controls(frontend.flow.phase) {
+        return;
+    }
+    let Some(ticket) = runtime.active_ticket() else {
+        return;
+    };
+    let Some((_, controller)) = players
+        .iter()
+        .find(|(p, c)| p.ticket == ticket && c.prepared(ticket))
+    else {
+        return;
+    };
+    if let Err(error) = runtime.advance_declared_smartie_pickup(ticket, |prepared| {
+        controller.carried_parent_point(prepared)
+    }) {
+        error!("Declared Smartie pickup failed: {error}");
+        exit.write(AppExit::Error(std::num::NonZeroU8::MIN));
     }
 }
 fn apply_load(

@@ -1,12 +1,13 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.12.1",
-  "source_commit": "7ae8043ad1b22792730ece7c3a3e58a19fa73ed6",
-  "executable_sha256": "984d782b3bcd8f20fbb186faee96628b0cf4eee73146a62a2b07b0ef7a83276d",
-  "archive_sha256": "5a059712c979670d50d6164598f45e64cff87984c273e89fc331a1c0402aa36b",
+  "tag": "preview-2026.11.12.2",
+  "source_commit": "fccb0fbbb25fa30cb2eaf783d9f4a1968fc86b96",
+  "executable_sha256": "7e14a7b1b9538e1d0b5e557418f5021f6d48ac1acaa04425ebc301da8f1aea1b",
+  "archive_sha256": "321606eebb82d114aefa84ad532ac48686d4b74a00a1af19df74caa9078dafd6",
   "checks": [
+    "wife_campaign_chain_gpu",
+    "wife_short_input_os",
     "starving_campaign_chain_gpu",
-    "story5_authored_herds_gpu",
     "offscreen_menu_cycles",
     "selected_cinematic_transport",
     "ordinary_mecc_cycles_gpu",
@@ -14,10 +15,10 @@
     "story2_vimp_reaction_gpu",
     "story2_vimp_combat_gpu",
     "story2_vimp_contact_gpu",
-    "story2_meat_collection_gpu",
-    "starving_short_input_os"
+    "story2_meat_collection_gpu"
   ],
   "limitations": [
+    "cinematic_native_fidelity",
     "mission_objective_subset",
     "native_campaign_continuity",
     "ordinary_mecc_native_motion",

@@ -64,6 +64,11 @@ impl Fields {
     /// The acquired generic player class has a real scalar declaration but no
     /// body specification. Do not manufacture a model to parse its header.
     pub(crate) fn load_player_shell(resources: &SceneResources) -> Result<Self, String> {
+        Self::load_class_zero(resources)
+    }
+    /// Shared scalar class0 header, also used by the native cinematic support.
+    /// Loading this header constructs neither a player nor an ordinary actor.
+    pub(crate) fn load_class_zero(resources: &SceneResources) -> Result<Self, String> {
         Self::load_inner(resources, 0, None)
     }
     fn load_inner(

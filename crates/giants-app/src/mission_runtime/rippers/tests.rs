@@ -98,6 +98,7 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
                 pickup: None,
                 landing: None,
                 campaign: None,
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 variant_random: giants_game::audio_parameters::Random(1),
                 audio_registry: None,
                 bindings,

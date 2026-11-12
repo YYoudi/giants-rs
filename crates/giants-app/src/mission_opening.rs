@@ -12,6 +12,17 @@ pub struct Prepared {
     render: Result<crate::mission_film::Prepared, String>,
 }
 impl Prepared {
+    pub(crate) fn prepare_timed_world(
+        &mut self,
+        plan: &giants_game::instances::Plan,
+        terrain: &giants_formats::gti::Terrain,
+    ) {
+        if let Ok(render) = &mut self.render
+            && let Err(error) = render.prepare_timed_world(plan, terrain)
+        {
+            println!("mission_timed_world_deferred reason={error:?} whole_film_ready=false");
+        }
+    }
     pub(crate) fn effects_bound(&self) -> bool {
         self.render.as_ref().is_ok_and(|r| r.effects_bound())
     }
@@ -63,6 +74,8 @@ pub(crate) struct State {
     mounted: Option<Mounted>,
     attempted: Option<u64>,
     terminal: Option<SourceTerminal>,
+    completion_ticket: Option<u64>,
+    skipped_ticket: Option<u64>,
 }
 /// Source-end and drained owned voices observed before transport retirement.
 /// This is not campaign readiness, native timing or complete film fidelity.
@@ -71,6 +84,18 @@ pub(crate) struct SourceTerminal {
     pub(crate) directors: usize,
     pub(crate) sequence: String,
     pub(crate) tick: i32,
+}
+/// Only this transport owner constructs completion receipts. An explicit user
+/// skip remains distinct from a naturally observed source terminal.
+#[derive(Clone, Copy)]
+pub(crate) struct CompletionReceipt {
+    ticket: u64,
+    pub source_end: bool,
+}
+impl CompletionReceipt {
+    pub(crate) fn ticket(self) -> u64 {
+        self.ticket
+    }
 }
 #[derive(Resource, Default)]
 struct SkipGesture {
@@ -110,12 +135,37 @@ struct Mounted {
     render_failed: bool,
 }
 impl State {
+    pub(crate) fn arm_completion(&mut self, ticket: u64) -> Result<(), String> {
+        if !self.idle() {
+            return Err("completion cannot replace a mounted film".into());
+        }
+        self.attempted = None;
+        self.terminal = None;
+        self.skipped_ticket = None;
+        self.completion_ticket = Some(ticket);
+        Ok(())
+    }
+    pub(crate) fn completion_finished(&self, ticket: u64) -> bool {
+        self.completion_ticket == Some(ticket)
+            && self.idle()
+            && (self.source_terminal(ticket).is_some() || self.skipped_ticket == Some(ticket))
+    }
+    pub(crate) fn completion_receipt(&self, ticket: u64) -> Option<CompletionReceipt> {
+        self.completion_finished(ticket).then(|| CompletionReceipt {
+            ticket,
+            source_end: self.source_terminal(ticket).is_some(),
+        })
+    }
     pub(crate) fn source_terminal(&self, ticket: u64) -> Option<&SourceTerminal> {
         self.terminal.as_ref().filter(|end| end.ticket == ticket)
     }
     fn begin_attempt(&mut self, ticket: u64) {
         self.attempted = Some(ticket);
         self.terminal = None;
+        self.skipped_ticket = None;
+        if self.completion_ticket != Some(ticket) {
+            self.completion_ticket = None;
+        }
     }
     pub(crate) fn attempted(&self, ticket: u64) -> bool {
         self.attempted == Some(ticket)
@@ -212,6 +262,7 @@ pub(crate) fn skip_input(world: &mut World) {
         .reset(MouseButton::Left);
     let phase = world.resource::<crate::frontend_scene::Scene>().flow.phase;
     if phase == Phase::Cinematic {
+        world.resource_mut::<State>().skipped_ticket = Some(ticket);
         release(world);
         world
             .write_message(crate::frontend_scene::MissionRuntimeEvent::CinematicSkipped { ticket });
@@ -262,7 +313,7 @@ fn release(world: &mut World) {
     // reproduce the terminal observation after this function removes the movie.
     let terminal = world
         .get_resource::<cinematic_camera::Cinematic>()
-        .filter(|movie| movie.end_reached())
+        .filter(|movie| movie.end_reached() && movie.release_ready(false))
         .map(|movie| SourceTerminal {
             ticket: mounted.ticket,
             directors: movie.segments().len(),
@@ -547,6 +598,77 @@ mod tests {
             Prepared::load(std::path::Path::new("missing-corpus"), None)
                 .unwrap()
                 .is_none()
+        );
+    }
+    #[test]
+    fn completion_receipt_cannot_reuse_the_opening_terminal_or_a_bare_release() {
+        let mut world = World::new();
+        world.init_resource::<State>();
+        world.init_resource::<Assets<AudioSource>>();
+        world.resource_mut::<State>().terminal = Some(SourceTerminal {
+            ticket: 7,
+            directors: 1,
+            sequence: "opening".into(),
+            tick: 100,
+        });
+        assert!(world.resource::<State>().completion_receipt(7).is_none());
+        world.resource_mut::<State>().arm_completion(7).unwrap();
+        assert!(world.resource::<State>().source_terminal(7).is_none());
+        world.insert_resource(Owner(7));
+        world.resource_mut::<State>().mounted = Some(Mounted {
+            ticket: 7,
+            cinematic: None,
+            assets: HashSet::new(),
+            inspecting: false,
+            was_running: false,
+            render_failed: false,
+        });
+        assert!(world.resource_mut::<State>().arm_completion(7).is_err());
+        release(&mut world);
+        assert!(world.resource::<State>().completion_receipt(7).is_none());
+        // A user-skip witness is a different outcome, never a source terminal.
+        world.resource_mut::<State>().skipped_ticket = Some(7);
+        let receipt = world.resource::<State>().completion_receipt(7).unwrap();
+        assert!(!receipt.source_end);
+        assert!(world.resource::<State>().source_terminal(7).is_none());
+        assert!(world.resource::<State>().completion_receipt(8).is_none());
+        world.resource_mut::<State>().begin_attempt(8);
+        assert!(world.resource::<State>().completion_receipt(7).is_none());
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_MISSION_OWNED_ROOT; source completion CPU preparation only, not rendered mission completion"]
+    fn installed_wife_completion_has_real_prepared_render_and_effect_owners() {
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_MISSION_OWNED_ROOT").unwrap());
+        let bytes = std::fs::read(root.join("Bin/w_Story2.bin")).unwrap();
+        let menu = giants_game::mission_selection::MissionMenu::parse(&bytes, 0, true).unwrap();
+        let index = menu
+            .entries
+            .iter()
+            .position(|m| m.name == "2b_1_savewife")
+            .unwrap();
+        let packet =
+            giants_game::mission_loading::prepare(&root, menu.request("Story2", index).unwrap())
+                .unwrap();
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let world = packet.world_asset(&root).unwrap();
+        let selection = packet.completion(&root).unwrap();
+        let mut prepared = Prepared::load(&root, selection.director.as_deref())
+            .unwrap()
+            .unwrap();
+        prepared.prepare_render(&root, plan.resources(), &world.config);
+        assert!(
+            !prepared.effects_bound(),
+            "actual world has not been prepared"
+        );
+        prepared.prepare_timed_world(&plan, &world.terrain);
+        assert!(
+            prepared.effects_bound(),
+            "source completion render: {:?}",
+            prepared.render.as_ref().err()
+        );
+        assert_eq!(prepared.cinematic.segments().len(), 6);
+        println!(
+            "wife_completion_source_prepared directors=6 effects_bound=true runtime_completion=false"
         );
     }
     #[test]

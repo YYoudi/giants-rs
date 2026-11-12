@@ -17,7 +17,7 @@ does not yet state this priority order. A documentation milestone does not
 complete the ongoing game reconstruction goal.
 
 The five-lane consolidation and first ordinary Mecc/living-interaction deliveries
-are historical milestones. The active Starving objective is defined at the top
+are historical milestones. The active mission objective is defined at the top
 of BACKLOG.md, with shared mission methodology in
 [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md). Work alone, prefer background
 work and keep sound muted. The owner authorized necessary full-screen game tests.
@@ -26,15 +26,13 @@ is testable; the complete game remains the broader scope.
 
 ## Choose work in this order
 
-The owner's subsequent 11 November objective is the complete ordinary Starving!
-mission chain: twenty meats returned to the father under the original verified
-conditions, its cinematic and the next scenario. Acquire and connect the common
-mission record/predicate/progression services this requires, retaining them for
-future missions. Audit actual authored Vimp generation beyond Story2. Follow the
-active section of BACKLOG.md; .11.4 is the immutable pickup-only baseline. Do not
-finish this objective on a new CPU service, a recovered name, an isolated scene
-or a transition forced from a resource counter. Publication requires the complete
-testable path and matching main/build/dashboard evidence.
+The owner's 12 November The Wife delivery ships in preview .12.2: the ordinary
+rescue, natural source completion film and following RoadHome entry with its own
+declared wife picked up. Starving's twenty-meat return remains supported. Retain
+the shared source mission, actor and film owners for future missions and follow
+BACKLOG.md for remaining campaign coverage. Do not finish a future objective on a
+CPU service, recovered name, isolated scene or forced transition. Every delivery
+requires its complete testable path and matching main/build/dashboard evidence.
 
 For the owner's 11 November consolidation objective, apply this order across the
 complete available work of all five lanes. Review their committed and unfinished

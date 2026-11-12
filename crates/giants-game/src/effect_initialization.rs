@@ -95,6 +95,13 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
     let positional_impact = ops.as_slice() == [3, 6, 0x83, 9, 4, 0x32, 7, 2];
     let sized_retirement = ops.as_slice() == [0x24, 6, 0x1c, 4, 0x0d, 7, 2];
     let fixed_size_gravity = ops.as_slice() == [3, 6, 8, 4, 0x0e, 7, 2];
+    let fixed_curved = matches!(
+        ops.as_slice(),
+        [3, 6, 4, 0x36, 7, 2] | [3, 6, 4, 0x17, 0x36, 7, 2]
+    );
+    if fixed_curved {
+        crate::released_effect::Recipe::project(program)?;
+    }
     let damage_smoke = ops.as_slice() == [0x24, 6, 0x21, 0x28, 0x49, 7, 0x4a, 2];
     let smoke_particle = ops.as_slice() == [3, 6, 4, 0x37, 0x0f, 0x80, 7, 2];
     // Complete source contact frames. Child commands are skipped here; each
@@ -137,6 +144,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !positional_impact
         && !sized_retirement
         && !fixed_size_gravity
+        && !fixed_curved
         && !damage_smoke
         && !smoke_particle
         && !pistol_burst

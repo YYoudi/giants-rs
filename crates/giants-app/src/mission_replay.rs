@@ -5,6 +5,9 @@ use super::*;
 pub(crate) fn vimp_interaction_probe() -> bool {
     std::env::var("GIANTS_MISSION_VIMP_PROBE").as_deref() == Ok("1")
 }
+pub(crate) fn objective_interaction_probe() -> bool {
+    std::env::var("GIANTS_MISSION_OBJECTIVE_PROBE").as_deref() == Ok("1")
+}
 pub(crate) fn kabuto_body_inspection_replay() -> bool {
     matches!(
         std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
@@ -49,6 +52,23 @@ pub(crate) struct Replay {
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
     crate::mission_player::ripper_probe::validate(app)?;
+    if std::env::var_os("GIANTS_MISSION_OBJECTIVE_PROBE").is_some()
+        && (!objective_interaction_probe()
+            || std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-mecc")
+            || !app
+                .world()
+                .contains_resource::<crate::cinematic_audio::MutedTransport>())
+    {
+        return Err(
+            "objective navigation probe requires its explicit muted offscreen Mecc replay".into(),
+        );
+    }
+    if std::env::var_os("GIANTS_MISSION_FILM_COMPLETION_REPLAY").is_some()
+        && (std::env::var("GIANTS_MISSION_FILM_COMPLETION_REPLAY").as_deref() != Ok("1")
+            || std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-film-cycles"))
+    {
+        return Err("completion film diagnostic requires its explicit film-cycle replay".into());
+    }
     if vimp_interaction_probe()
         && (std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-mecc")
             || std::env::var("GIANTS_SHOWCASE_WORLD").as_deref() != Ok("Story2")
@@ -334,7 +354,8 @@ fn drive(
     let mode = std::env::var("GIANTS_MISSION_REPLAY").unwrap();
     assert!(
         time.elapsed_secs()
-            < if std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1")
+            < if objective_interaction_probe()
+                || std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1")
                 || mode == "showcase-film-cycles"
             {
                 1800.
@@ -351,7 +372,9 @@ fn drive(
         if replay.stage == 0 {
             replay.film_finished = false;
             if replay.completed == 0 {
-                if std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1") {
+                if objective_interaction_probe()
+                    || std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1")
+                {
                     frontend
                         .browse_preview_missions()
                         .expect("ordinary preview profile/catalog path");
@@ -398,6 +421,9 @@ fn drive(
                 &mut images,
                 if mode == "showcase-persistent"
                     && std::env::var("GIANTS_PERSISTENT_SAMPLE_COMPLETION").as_deref() == Ok("1")
+                    || mode == "showcase-film-cycles"
+                        && std::env::var("GIANTS_MISSION_FILM_COMPLETION_REPLAY").as_deref()
+                            == Ok("1")
                 {
                     LaunchIntent::CompletionReplay
                 } else if std::env::var_os("GIANTS_SHOWCASE_WORLD").is_some() {
@@ -521,7 +547,26 @@ fn drive(
                 }
                 return;
             }
-            let ready = if mode == "showcase-audio-cancel" {
+            let ready = if objective_interaction_probe() {
+                let ready = frontend.flow.ticket > 1
+                    && playing
+                    && opening.idle()
+                    && environment.presentation_ready()
+                    && runtime.declared_pickup_ready(frontend.flow.ticket);
+                if ready {
+                    println!(
+                        "mission_objective_input_probe_finished ticket={} name={} ordinary_next_player=true declared_pickup_ready=true supplied_controller=true forced_pose=false os_input=false",
+                        frontend.flow.ticket,
+                        frontend
+                            .prepared_mission
+                            .as_ref()
+                            .unwrap()
+                            .request
+                            .mission_name
+                    );
+                }
+                ready
+            } else if mode == "showcase-audio-cancel" {
                 false
             } else if mode == "showcase-mecc"
                 && std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1")

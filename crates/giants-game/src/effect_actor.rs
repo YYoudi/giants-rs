@@ -51,6 +51,7 @@ pub struct Configured<K> {
     pub transparency: f32,
     pub visual: crate::effect_visual::Visual,
     pub retirement: Option<crate::effect_scene::RetirementBinding>,
+    pub(crate) ground: Option<crate::effect_ground_emission::Source>,
     pub(crate) source: Arc<giants_formats::effect_image::Image>,
 }
 
@@ -191,6 +192,7 @@ impl<K> Initial<K> {
             transparency: visual.transparency,
             visual,
             retirement: None,
+            ground: None,
             source,
         })
     }
@@ -231,6 +233,250 @@ fn initialize_physical(seed: &mut Seed) -> Result<(), String> {
     Ok(())
 }
 impl Template {
+    fn cinematic_source3(
+        &self,
+        origin: Id,
+        context: &Context<crate::resident_states::CinematicSupport>,
+        support: &crate::cinematic_support::Support,
+    ) -> Result<Initial<crate::resident_states::CinematicSupport>, String> {
+        if context.flags() != 0x8004
+            || context.recipient() != Some(support.owner())
+            || context.tag() != Some(u32::MAX)
+        {
+            return Err("source3 cinematic context differs from its actual support".into());
+        }
+        self.validate(context, 3, 1)?;
+        let mut initial = self.initial(
+            origin,
+            Placement::Position(support.position()),
+            context.flags(),
+            false,
+        )?;
+        // Native source3 snapshots the support point; it does not retain a
+        // parent/reference attachment. Its camera-relative inheritance remains.
+        if support.object_flags() & 0x400 != 0 {
+            initial.fields.object_flags |= 0x400;
+        }
+        Ok(initial)
+    }
+    pub fn ground_cinematic(
+        &self,
+        origin: Id,
+        context: &Context<crate::resident_states::CinematicSupport>,
+        support: &crate::cinematic_support::Support,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Configured<crate::resident_states::CinematicSupport>, String> {
+        self.ground_initial(
+            context,
+            self.cinematic_source3(origin, context, support)?,
+            random,
+        )
+    }
+    pub fn surface_cinematic(
+        &self,
+        origin: Id,
+        context: &Context<crate::resident_states::CinematicSupport>,
+        support: &crate::cinematic_support::Support,
+        random: &mut crate::audio_parameters::Random,
+        query: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+    ) -> Result<Configured<crate::resident_states::CinematicSupport>, String> {
+        self.surface_initial(
+            context,
+            self.cinematic_source3(origin, context, support)?,
+            random,
+            query,
+        )
+    }
+    pub fn curved_cinematic(
+        &self,
+        origin: Id,
+        context: &Context<crate::resident_states::CinematicSupport>,
+        support: &crate::cinematic_support::Support,
+    ) -> Result<Configured<crate::resident_states::CinematicSupport>, String> {
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        let ops = program.records.iter().map(|r| r.opcode).collect::<Vec<_>>();
+        if ops != [3, 6, 4, 0x36, 7, 2] && ops != [3, 6, 4, 0x17, 0x36, 7, 2] {
+            return Err("curved constructor outside acquired source36 frame".into());
+        }
+        let recipe = crate::released_effect::Recipe::project(program)?;
+        let mut initial = self.cinematic_source3(origin, context, support)?;
+        initial.fields.position[2] =
+            (f64::from(initial.fields.position[2]) + f64::from(recipe.initial_offset[2])) as f32;
+        initial.size([recipe.visual.start_size, recipe.visual.end_size], false)?;
+        if recipe.visual.start_size != recipe.visual.end_size {
+            initial.fields.control_flags |= 0x100000;
+        }
+        let mut configured = initial.timed(recipe.visual, context.source_image())?;
+        configured.visual = crate::effect_visual::Visual::with_size_curve(
+            recipe.visual,
+            crate::effect_visual::SizeCurve::EaseOut,
+        )?;
+        Ok(configured)
+    }
+    /// Complete source3 surface frame, including its real terrain sample.
+    /// A context already ran its null pass; this consumes only active ranges.
+    /// Prototype search key `fx_orientToGround__FP10FXSTACKTAGf` is a stub;
+    /// preserve the acquired PC query/alignment rather than importing that stub.
+    pub fn surface_positioned<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        random: &mut crate::audio_parameters::Random,
+        query: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+    ) -> Result<Configured<K>, String> {
+        if context.flags() & !0x1c000 != 0 {
+            return Err("surface constructor outside acquired positional frame".into());
+        }
+        self.validate(context, 3, 1)?;
+        let position = context
+            .position()
+            .ok_or("surface context position absent")?;
+        if !position.into_iter().all(f32::is_finite) {
+            return Err("surface context position nonfinite".into());
+        }
+        let initial = self.initial(
+            origin,
+            Placement::Position(position),
+            context.flags(),
+            false,
+        )?;
+        self.surface_initial(context, initial, random, query)
+    }
+    fn surface_initial<K: Copy>(
+        &self,
+        context: &Context<K>,
+        mut initial: Initial<K>,
+        random: &mut crate::audio_parameters::Random,
+        mut query: impl FnMut([f32; 2]) -> Result<crate::physical_ground::Ground, &'static str>,
+    ) -> Result<Configured<K>, String> {
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        if program.records.iter().map(|r| r.opcode).collect::<Vec<_>>()
+            != [3, 6, 4, 0x17, 0x1c, 0x79, 7, 2]
+        {
+            return Err("surface constructor outside acquired source frame".into());
+        }
+        let image = context.source_image();
+        let entry = image
+            .entries
+            .get(context.entry_index)
+            .ok_or("surface context entry absent")?;
+        if entry.offset != context.entry_offset {
+            return Err("surface context entry changed".into());
+        }
+        let plan = crate::effect_scene::Plan::project(&image, &entry.name)?;
+        let mut staged = *random;
+        let (objects, cursor) = plan.activate(&mut staged.0)?;
+        // Active draws precede the real surface query. A later query failure
+        // cannot rewind the composing world's already consumed stream.
+        *random = staged;
+        if objects.len() != 1 || cursor.remaining.is_some() || plan.requires_external_resume() {
+            return Err("surface constructor requires one complete source object".into());
+        }
+        let object = &objects[0];
+        // Source17 translates the current point without a history copy.
+        initial.fields.position[2] =
+            (f64::from(initial.fields.position[2]) + f64::from(object.height)) as f32;
+        let size = object.size.ok_or("surface source size absent")?;
+        initial.size(size, false)?;
+        let point = initial.fields.position;
+        let sample = query([point[0], point[1]])?;
+        let placement = crate::effect_surface::placement(
+            point,
+            sample.plane,
+            sample.height,
+            object
+                .surface_offset
+                .ok_or("surface source offset absent")?,
+        )?;
+        let matrix = crate::effect_surface::alignment_matrix(
+            initial.matrix,
+            [sample.plane[0], sample.plane[1], sample.plane[2]],
+            placement,
+        )?;
+        // Source79's location setter copies history, then the helper publishes
+        // the aligned affine's translation. No live spatial-list admission is
+        // implied by this unadvanced constructor.
+        initial.fields.previous = initial.fields.current;
+        initial.fields.position = placement.position;
+        initial.fields.current = placement.position;
+        initial.matrix = matrix;
+        let life = object.lifetime.ok_or("surface source lifetime absent")?;
+        let configured = initial.timed(
+            crate::effect_visual::Configuration {
+                lifetime: life[0],
+                fade_in: life[1],
+                fade_out_start: life[2],
+                start_size: size[0],
+                end_size: size[1],
+            },
+            image,
+        )?;
+        *random = staged;
+        Ok(configured)
+    }
+    /// Active source3 ground-emission frame. Its context has already executed
+    /// the null-object pass; only the active ranges are consumed here.
+    pub fn ground_positioned<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Configured<K>, String> {
+        self.ground_initial(context, self.positioned(origin, context)?, random)
+    }
+    fn ground_initial<K: Copy>(
+        &self,
+        context: &Context<K>,
+        mut initial: Initial<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Configured<K>, String> {
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        if program.records.iter().map(|r| r.opcode).collect::<Vec<_>>()
+            != [3, 6, 5, 9, 0x12, 0x16, 0x0e, 0x5a, 7, 2]
+        {
+            return Err("ground constructor outside acquired source frame".into());
+        }
+        let image = context.source_image();
+        let entry = image
+            .entries
+            .get(context.entry_index)
+            .ok_or("ground context entry absent")?;
+        if entry.offset != context.entry_offset {
+            return Err("ground context entry changed".into());
+        }
+        let plan = crate::effect_scene::Plan::project(&image, &entry.name)?;
+        let mut staged = *random;
+        let (objects, cursor) = plan.activate(&mut staged.0)?;
+        if objects.len() != 1 || cursor.remaining.is_some() || plan.requires_external_resume() {
+            return Err("ground constructor requires one complete source object".into());
+        }
+        let object = &objects[0];
+        let source =
+            crate::effect_ground_emission::Source::resolve(&object.object_services, &image)?
+                .ok_or("ground source callback configuration absent")?;
+        let size = object.size.ok_or("ground source sizes absent")?;
+        let life = object.lifetime.ok_or("ground source lifetime absent")?;
+        initial.size(size, size[0] != size[1])?;
+        let mut configured = initial.timed(
+            crate::effect_visual::Configuration {
+                lifetime: life[0],
+                fade_in: life[1],
+                fade_out_start: life[2],
+                start_size: size[0],
+                end_size: size[1],
+            },
+            image,
+        )?;
+        configured.initial.fields.object_flags &= !0x10;
+        configured.initial.fields.control_flags |= 0x80;
+        let data = configured.initial.seed.storage.data_mut().unwrap();
+        data[0x1c..0x20].copy_from_slice(&object.speed.to_le_bytes());
+        data[0xa4..0xa8].copy_from_slice(&object.gravity.to_le_bytes());
+        source.configure(&mut configured.initial.fields, &mut configured.initial.seed)?;
+        configured.ground = Some(source);
+        *random = staged;
+        Ok(configured)
+    }
     /// Consumes only the active size draw: context preparation already consumed
     /// its own draw. No context retirement, stock allocation or callback occurs.
     pub fn timed_attached<K: Copy>(
@@ -412,6 +658,17 @@ impl Template {
         fields.configuration[22] = 50f32.to_bits();
         fields.object_flags |= if attached { 0x40410030 } else { 0x40010030 };
         fields.control_flags |= 0x20;
+        // Source3 keeps the context's cinematic inheritance in the response
+        // word as well as the render mark. Source24 is a separate constructor.
+        if !attached && flags & 0x8000 != 0 {
+            fields.response_flags |= 0x1000;
+        }
+        if !attached && flags & 0x4000 != 0 {
+            fields.response_flags |= 0x400;
+        }
+        if !attached && flags & 0x10000 != 0 {
+            fields.object_flags |= 0x400;
+        }
         let mut matrix = Matrix {
             flags: 0x10,
             values: [0.; 16],

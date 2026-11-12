@@ -23,6 +23,50 @@ pub struct PlatformSample {
     pub object: Option<u32>,
 }
 
+/// Bounds/flags from a real declared collider whose footprint is not prepared.
+/// They can exclude a point, never assert footprint membership or a surface.
+pub struct UnpreparedPlatform {
+    pub id: u32,
+    pub object_flags: u32,
+    pub collision_flags: u32,
+    pub bounds_xy: [[f32; 2]; 2],
+}
+
+/// Preserve unknown footprint dependencies locally. An unresolved candidate
+/// outside the native expanded-XY admission box cannot affect this query.
+/// A candidate inside it is an error, not an invented empty platform list.
+pub fn sample_with_unprepared(
+    point: [f32; 3],
+    objects: &[PreparedPlatform<'_>],
+    unprepared: &[UnpreparedPlatform],
+    precision: Precision,
+) -> Result<PlatformSample, &'static str> {
+    if !point.iter().all(|v| v.is_finite()) {
+        return Err("non-finite platform point");
+    }
+    let r = |value| precision.round(value);
+    for object in unprepared {
+        if object.id == 0
+            || !object.bounds_xy.iter().flatten().all(|v| v.is_finite())
+            || object.bounds_xy[0][0] > object.bounds_xy[1][0]
+            || object.bounds_xy[0][1] > object.bounds_xy[1][1]
+        {
+            return Err("invalid unresolved platform identity/bounds");
+        }
+        if object.collision_flags & 8 != 0
+            && object.collision_flags & 0x800 == 0
+            && object.object_flags & 0x4000_c000 == 0
+            && r(f64::from(point[0]) - 0.5) <= f64::from(object.bounds_xy[1][0])
+            && r(f64::from(point[1]) - 0.5) <= f64::from(object.bounds_xy[1][1])
+            && f64::from(object.bounds_xy[0][0]) <= r(f64::from(point[0]) + 0.5)
+            && f64::from(object.bounds_xy[0][1]) <= r(f64::from(point[1]) + 0.5)
+        {
+            return Err("platform footprint required for this admitted source candidate");
+        }
+    }
+    sample_prepared(point, objects, precision)
+}
+
 pub fn sample_prepared(
     point: [f32; 3],
     objects: &[PreparedPlatform<'_>],
@@ -208,6 +252,21 @@ mod tests {
         assert_eq!(contact.z, 3.);
         assert_ne!(contact.flags & CONTACT_BIT, 0);
         assert_eq!(contact.plane, [0., 0., 1., -3.]);
+    }
+    #[test]
+    fn unresolved_source_platforms_refuse_admitted_points_including_expanded_boundary() {
+        let unknown = [UnpreparedPlatform {
+            id: 7,
+            object_flags: 0,
+            collision_flags: 8,
+            bounds_xy: [[10., 10.], [20., 20.]],
+        }];
+        let sample = |p| sample_with_unprepared(p, &[], &unknown, Precision::Double53);
+        assert!(sample([15., 15., 1_000_000.]).is_err());
+        assert!(sample([9.5, 15., -1_000_000.]).is_err());
+        assert!(sample([9.499, 15., 0.]).unwrap().object.is_none());
+        assert!(sample([15., 20.501, 0.]).unwrap().object.is_none());
+        assert!(sample([f32::NAN, 15., 0.]).is_err());
     }
     #[test]
     fn degenerate_and_reverse_faces_are_not_platforms() {

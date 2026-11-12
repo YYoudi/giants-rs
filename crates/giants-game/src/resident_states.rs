@@ -60,6 +60,7 @@ mod mecc_impact;
 mod mecc_smoke;
 pub use mecc_impact::Voice as MeccImpactVoice;
 mod reference_camera;
+mod smartie_follow;
 mod state18_reference_reset;
 mod subjective;
 mod timed_effect;
@@ -93,7 +94,7 @@ mod vimp_vector_tests;
 pub use timed_effect::{
     OrdinaryHeader as TimedEffectOrdinaryHeader, PhysicalHeader as TimedEffectPhysicalHeader,
     Preparation as TimedEffectPreparation, PreparationServices as TimedEffectPreparationServices,
-    Services as TimedEffectServices,
+    Services as TimedEffectServices, SourcePreparation as TimedEffectSourcePreparation,
 };
 pub use vimp_vector::{Request as VimpVectorRequest, Services as VimpVectorServices};
 
@@ -572,6 +573,10 @@ impl Session {
     pub fn actor_collision_identity(&self, id: Id) -> Result<u32, String> {
         self.get(id).ok_or("collision identity absent or foreign")?;
         u32::try_from(id.serial).map_err(|_| "collision identity outside acquired range".into())
+    }
+    /// Identity of this owning mission scope; not an admission acknowledgement.
+    pub fn ticket(&self) -> u64 {
+        self.ticket
     }
     pub fn new(ticket: u64) -> Self {
         Self {
@@ -10198,7 +10203,8 @@ impl Session {
         initial: crate::uncached_pose::Pose,
     ) -> Result<Id, String> {
         if key.scope != crate::declared_residents::Scope::Mission
-            || !matches!(input.seed.storage.state(), 0 | 23)
+            || !(matches!(input.seed.storage.state(), 0 | 23)
+                || input.seed.storage.state() == 18 && input.fields.action == 3)
             || initial.position.map(f32::to_bits) != input.fields.position.map(f32::to_bits)
             || initial.angles.map(f32::to_bits) != input.fields.angles.map(f32::to_bits)
         {
@@ -10369,6 +10375,30 @@ impl Session {
         time_word: u32,
         random_100: u32,
     ) -> Result<Vec<PickupService>, String> {
+        self.pickup_unattached(child, parent, point, time_word, random_100, false)
+    }
+    /// Ordinary selector3 actor, selected through its acquired proximity service.
+    /// Unlike command12, it retains its declared flags and selector.
+    pub fn pickup_declared_mecc(
+        &mut self,
+        child: Id,
+        parent: Id,
+        point: [f32; 3],
+        time_word: u32,
+        random_100: u32,
+    ) -> Result<Vec<PickupService>, String> {
+        self.pickup_unattached(child, parent, point, time_word, random_100, true)
+    }
+    #[allow(clippy::too_many_arguments)]
+    fn pickup_unattached(
+        &mut self,
+        child: Id,
+        parent: Id,
+        point: [f32; 3],
+        time_word: u32,
+        random_100: u32,
+        declared: bool,
+    ) -> Result<Vec<PickupService>, String> {
         use crate::smartie_carry as carry;
         if child == parent {
             return Err("pickup identities coincide".into());
@@ -10418,7 +10448,7 @@ impl Session {
         let mut actor = carry::Child {
             identity: child.serial,
             state: 18,
-            object_flags: fields.object_flags | 0x400,
+            object_flags: fields.object_flags | if declared { 0 } else { 0x400 },
             collision_flags: fields.configuration[14],
             behavior: 3,
             scale: fields.scale,
@@ -10432,7 +10462,7 @@ impl Session {
             footprint: None,
             has_links: false,
         };
-        if fields.action != 0 || fields.control_flags & 8 != 0 {
+        if fields.action != if declared { 3 } else { 0 } || fields.control_flags & 8 != 0 {
             return Err("pickup child outside fresh constructor action/control profile".into());
         }
         let mut owner = carry::Owner {

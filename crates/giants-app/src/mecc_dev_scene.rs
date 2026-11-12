@@ -1193,6 +1193,32 @@ impl State {
             child_seconds,
         )
     }
+    pub(crate) fn carried_parent_point(
+        &self,
+        actor: &giants_game::carried_actor::Prepared,
+    ) -> Result<[f32; 3], Box<dyn std::error::Error>> {
+        if let Some(frame) = &self.owned_pose {
+            let reference = frame
+                .references
+                .get(giants_game::smartie_carry::MECC_PARENT_REFERENCE as usize)
+                .ok_or("current carrying parent reference absent")?;
+            return Ok(giants_game::object_reference::point(
+                &giants_game::object_reference::Object {
+                    position: [frame.affine[3], frame.affine[7], frame.affine[11]],
+                    angles: [0.; 3],
+                    scale: 1.,
+                    flags: 0x20,
+                    cached: frame.affine,
+                    references: &[reference.values],
+                },
+                0,
+            )?);
+        }
+        let clip = &self.clips[&self.active_clip];
+        let tick =
+            giants_game::model_pose::seconds_tick(clip.animation.timeline, self.clock.seconds)?;
+        actor.parent_point(&clip.animation, &clip.tree, tick, self.object_matrix())
+    }
     pub fn combat_pose(&self) -> Result<([f32; 3], [f32; 3]), Box<dyn std::error::Error>> {
         if let Some(frame) = &self.owned_pose {
             if self.first_person {
