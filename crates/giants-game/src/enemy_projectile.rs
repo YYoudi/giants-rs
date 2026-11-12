@@ -1,6 +1,7 @@
 //! Owned class90/232 state6 copy at the enemy fire helper's pre-FX boundary.
 //! Ordered launch requires explicit effect/audio/reference providers. The
-//! state6 simulation, contact dispatch and damage eligibility remain pending.
+//! state6 flight can consume owned-list or ordinary-scene geometry. Contact
+//! reactions, projectile rendering and damage availability remain separate.
 use crate::{
     actor_fields::Fields,
     state_storage::{Profile, Seed},
@@ -34,6 +35,15 @@ pub struct FlightWorld<'a, 't> {
     pub force_vertices: bool,
     pub areas: &'a [crate::object_time::SlowArea],
 }
+/// A current ordinary scene supplies its own geometry packets; no native global
+/// vertex epoch is manufactured for a partial controller or rigid declaration.
+#[derive(Clone, Copy)]
+pub struct SceneFlightWorld<'a, 't> {
+    pub terrain: &'a crate::segment_queries::StaticCellQuery<'t>,
+    pub inverse_spacing: f32,
+    pub seconds: f32,
+    pub areas: &'a [crate::object_time::SlowArea],
+}
 /// Actual query boundary. Object hits and expiry require their own reactions;
 /// they are retained as pending and never acknowledged as successful damage.
 #[derive(Clone, Copy, Debug)]
@@ -44,6 +54,13 @@ pub enum FlightOutcome {
     },
     ObjectContact {
         target: crate::resident_states::Id,
+        point: [f32; 3],
+        tag: u32,
+    },
+    /// A prepared rigid declaration, not an invented Session actor. The caller
+    /// must acquire its actual impact/owner continuation before acknowledging it.
+    DeclaredContact {
+        target: crate::static_geometry::SourceKey,
         point: [f32; 3],
         tag: u32,
     },

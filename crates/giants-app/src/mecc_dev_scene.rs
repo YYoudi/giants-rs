@@ -49,6 +49,7 @@ pub struct State {
     environment_objects: Vec<giants_game::actor_environment::Collider>,
     pub(crate) projectile_objects: Vec<giants_game::projectile_world::Object>,
     static_projectile_objects: usize,
+    static_projectile_declarations: Vec<giants_game::static_geometry::SourceKey>,
     pub(crate) projectile_test: Option<([f32; 3], [f32; 3], u32)>,
     mesh_responses: u64,
     pub(crate) rigid_source: std::sync::Arc<giants_game::static_geometry::Scene>,
@@ -782,6 +783,7 @@ impl State {
                 })
                 .collect::<Result<Vec<_>, &'static str>>()?,
             static_projectile_objects: colliders.objects.len(),
+            static_projectile_declarations: colliders.records.iter().map(|r| r.key).collect(),
             projectile_test: None,
             mesh_objects: colliders.player_objects,
             static_mesh_objects,

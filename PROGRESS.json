@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Complete enemy perception, navigation, attacks and mission integration remain open. The public preview retains bounded ordinary Vimp interaction. The NPC development branch connects source-declared Ripper frames, body/contact submissions, the normal Mecc dedicated collision producer, owned launch preparation and local menu/re-entry checks; projectile flight/impacts, reciprocal Ripper combat and death are not delivered. Complete native-world admission and scheduling remain unverified. See BACKLOG.md."
+      "detail": "Complete enemy perception, navigation, attacks and mission integration remain open. The public preview retains bounded ordinary Vimp interaction. The NPC development branch connects source-declared Ripper frames, body/contact submissions, the normal Mecc dedicated collision producer, owned launch/current-scene flight arithmetic and local menu/re-entry checks; projectile animation/draw, impacts, reciprocal Ripper combat and death are not delivered. Complete native-world admission and scheduling remain unverified. See BACKLOG.md."
     },
     {
       "id": "wildlife",

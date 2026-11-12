@@ -8,6 +8,22 @@ pub(super) struct Contact {
 }
 
 impl State {
+    pub(crate) fn normal_projectile_registry(
+        &self,
+    ) -> giants_game::enemy_projectile_scene::Registry {
+        use giants_game::enemy_projectile_scene::{Entry, Registry, Target};
+        Registry {
+            declarations: self.projectile_objects[..self.static_projectile_objects]
+                .iter()
+                .zip(&self.static_projectile_declarations)
+                .map(|(object, key)| Entry {
+                    target: Target::Declaration(*key),
+                    object: object.clone(),
+                })
+                .collect(),
+            actors: self.npc_contact_keys.clone(),
+        }
+    }
     pub(crate) fn normal_contact_sample(
         &self,
     ) -> Result<giants_game::controlled_mecc_contacts::Sample<'_>, String> {

@@ -34,6 +34,11 @@ pub(super) struct State {
     projectile_factory: giants_game::primary_enemy_fire::Factory<'static>,
     controlled_contact_resources: Option<giants_game::controlled_mecc_contacts::Resources>,
     controlled_contact: Option<giants_game::controlled_mecc_contacts::Snapshot>,
+    projectile_scene: Option<(
+        u64,
+        giants_game::enemy_projectile_scene::Registry,
+        Result<Vec<giants_game::actor_contacts::Snapshot>, String>,
+    )>,
 }
 #[derive(Debug, PartialEq, Eq)]
 pub(super) struct View {
@@ -112,6 +117,7 @@ impl State {
             sounds: vec![],
             controlled_contact_resources: None,
             controlled_contact: None,
+            projectile_scene: None,
             projectile_factory: giants_game::primary_enemy_fire::Factory::shared(
                 plan.resources().clone(),
             ),

@@ -19,6 +19,7 @@ pub(super) struct Driver {
     failure: Option<String>,
     markers: BTreeSet<Id>,
     pub(super) projectiles: BTreeSet<Id>,
+    pub(super) flights: BTreeMap<Id, u64>,
 }
 impl Driver {
     pub(super) fn completed(&self, id: Id) -> Option<(u64, u32)> {
@@ -673,7 +674,7 @@ impl State {
             }
         }
         self.advance_markers(session, frame, random, device)?;
-        self.require_projectile_flight(session, frame)?;
+        self.advance_projectile_flight(session, frame)?;
         if self.driver.sample.is_none() {
             println!(
                 "mission_ripper_component ticket={} completed_actors={} source=normal_mecc_component current_owned_pose=true perception=controlled_player_subset active_fx=false combat_complete=false native_world_verified=false",

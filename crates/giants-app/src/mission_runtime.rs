@@ -1207,6 +1207,25 @@ impl Runtime {
             sample,
         )
     }
+    pub(crate) fn publish_normal_projectile_scene(
+        &mut self,
+        ticket: u64,
+        step: u64,
+        registry: giants_game::enemy_projectile_scene::Registry,
+    ) -> Result<(), String> {
+        // Keep a failed peer producer explicit, but only consume this dependency
+        // when an actual projectile needs a world query.
+        let peers = self.npc_contact_snapshots(ticket);
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("projectile scene mission absent")?;
+        if let Some(rippers) = active.payload.rippers.as_mut().map_err(|e| e.clone())? {
+            rippers.publish_projectile_scene(step, registry, peers);
+        }
+        Ok(())
+    }
     pub(crate) fn advance_normal_rippers_with_retirement(
         &mut self,
         ticket: u64,

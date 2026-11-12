@@ -74,7 +74,7 @@ release and individual unlink, preserving actual list order and late-failure
 prefixes without replay. The renderer consumes their removal; this is marker
 retirement, not Ripper death. Prototype PS2 marker/cleanup attribution remains
 unassigned, including the additional literal `mound_*` search candidates.
-Latest local build: source `8e5d72b`, executable SHA256 prefix `865d6ad15293`,
+Latest GPU-checked local build (before current-scene flight): source `8e5d72b`, executable SHA256 prefix `865d6ad15293`,
 receipt independently checked. This compiles ordinary launch and current
 normal-Mecc dedicated contacts, but the exact supplied-input diagnostic still
 fails before the ordered static/NPC projectile scene/flight/impacts;
@@ -107,20 +107,28 @@ The ordinary approach diagnostic now reaches an actual class230 mode65 after
 source target acquisition. The newly connected primary attack bridge constructs
 class232 through the real factory, attached-FX preparation, positional sound
 submission and current animated muzzle; initial radius/terrain prepare succeeds.
-The input diagnostic still fails at the missing projectile scene/flight/impact
-consumer (step2618, about1,517 units moved), preserving the consumed prefix.
+The current-scene flight consumer now advances the actual shot at step2618,
+retaining source declaration identities, real controller keys and current Mecc/
+NPC meshes. Its separate first-flight CPU control passes on two fresh tickets;
+the full-contact diagnostic continues to step2653 (about1,536 units moved), then
+refuses the class230 mode66 secondary continuation. No shot rendering, impact,
+reciprocal damage or death is accepted; all consumed prefixes remain retained.
 Class73 modes37..39 share this launch bridge but their ordinary encounter branch
-has not yet been observed. Launch is not projectile movement or damage delivery.
+has not yet been observed. Launch/flight arithmetic is not a visible attack or damage delivery.
 The ordinary controller now provides the actual selected Mecc clip/clock to a
 canonical, step-checked dedicated model6 contact producer. It runs the existing
 affine/bounds/skinning kernels without changing native channels, health or
 readiness; stale/foreign samples and descriptor mismatch refuse, and failed
 publication clears the old packet. This removes the Mecc geometry producer gap,
-not the flight or damage gap. No new prototype PS2 attribution is confirmed.
-Next: provide the actual ordered static/NPC scene alongside that Mecc packet to
-flight, retaining declaration-only identities, then connect required impact
-and active popup/dirt/projectile FX consumers,
-consume required class230 mode66 and later continuations,
+not a complete combat delivery. No new prototype PS2 attribution is confirmed.
+The new scene route shares the actual state6 flight/history/query path with the
+owned-list API, without a fabricated global vertex epoch or impact provider.
+Ground/object/declared contacts and expiry remain pending for real services;
+complete native population/interleaving and dynamic static-owner admission stay
+unverified. A failed peer packet cannot become an empty-world acknowledgement.
+Next: acquire/connect the reached class230 mode66 secondary and primary
+continuations, the projectile's actual ANM/body draw and source impact consumers,
+then active popup/dirt/projectile FX and later modes,
 then complete reciprocal contacts, target-to-damage dispatch and combat with
 source-specific sounds/blood/death/cleanup. Do not copy Vimp ghosts/meat or force
 movement, readiness or damage. Acceptance still requires an identified local

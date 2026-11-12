@@ -4,28 +4,41 @@ use super::*;
 #[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; ordinary supplied-input frame/pose control, no GPU or OS input"]
 fn source_wife_rippers_complete_current_frames_without_replaying_history() {
-    current_frames(false, false, false);
+    current_frames(false, false, Approach::None);
 }
 
 #[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; explicit real marker-constructor fixture in ordinary frame/render consumers, no GPU or natural awakening proof"]
 fn source_wife_marker_children_use_current_frames_and_common_render_assets() {
-    current_frames(true, false, false);
+    current_frames(true, false, Approach::None);
 }
 
 #[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; supplied source motion for explicit two-marker retirement fixture, headless assets only, not natural AI or OS input"]
 fn source_wife_markers_retire_through_the_ordinary_component_and_render_consumer() {
-    current_frames(true, true, false);
+    current_frames(true, true, Approach::None);
 }
 
 #[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; acceptance frontier using supplied ordinary Mecc navigation, no OS input; currently fails at missing projectile scene/flight services"]
 fn diagnostic_wife_ripper_supplied_approach_reaches_contact() {
-    current_frames(false, false, true);
+    current_frames(false, false, Approach::Contact);
 }
 
-fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixture: bool) {
+#[derive(Clone, Copy)]
+enum Approach {
+    None,
+    Contact,
+    Flight,
+}
+
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; supplied normal navigation to first real state6 flight, no impact or GPU/OS proof"]
+fn source_wife_ripper_launch_flies_against_current_scene() {
+    current_frames(false, false, Approach::Flight);
+}
+
+fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixture: Approach) {
     use crate::mission_runtime as runtime;
     use bevy::{ecs::world::CommandQueue, prelude::*};
     use std::sync::Arc;
@@ -414,8 +427,8 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
             assert!(duplicate.is_empty());
             assert_eq!(runtime.active.as_ref().unwrap().variant_random.0, before);
         }
-        if approach_fixture {
-            approach_ripper(&mut runtime, &mut viewer, ticket, &asset);
+        if !matches!(approach_fixture, Approach::None) {
+            approach_ripper(&mut runtime, &mut viewer, ticket, &asset, approach_fixture);
             continue;
         }
         if marker_fixture {
@@ -801,6 +814,7 @@ fn approach_ripper(
     viewer: &mut crate::mecc_dev_scene::State,
     ticket: u64,
     asset: &giants_game::WorldAsset,
+    approach: Approach,
 ) {
     use bevy::prelude::*;
     struct EmptyDevice;
@@ -864,6 +878,9 @@ fn approach_ripper(
         runtime
             .publish_normal_mecc_contact(ticket, number, viewer.normal_contact_sample().unwrap())
             .unwrap();
+        runtime
+            .publish_normal_projectile_scene(ticket, number, viewer.normal_projectile_registry())
+            .unwrap();
         if let Err(error) = runtime.advance_normal_rippers_with_retirement(
             ticket,
             number,
@@ -886,10 +903,54 @@ fn approach_ripper(
                     })
                 })
                 .collect();
+            let flights = active
+                .payload
+                .rippers
+                .as_ref()
+                .unwrap()
+                .as_ref()
+                .unwrap()
+                .driver
+                .flights
+                .iter()
+                .map(|(&id, &count)| {
+                    let actor = active.resident_states.get(id).unwrap();
+                    let fields = actor.construction_fields.as_ref().unwrap();
+                    (actor.class, count, fields.position, fields.current)
+                })
+                .collect::<Vec<_>>();
             panic!(
-                "Ripper approach frontier: step={number} nearest={distance} minimum={minimum} moved={} modes={modes:?} error={error}; supplied_player_input=true forced_npc_pose=false os_input=false",
+                "Ripper approach frontier: step={number} nearest={distance} minimum={minimum} moved={} modes={modes:?} flights={flights:?} error={error}; supplied_player_input=true forced_npc_pose=false os_input=false",
                 Vec3::from(initial).distance(Vec3::from(position))
             );
+        }
+        if matches!(approach, Approach::Flight) {
+            let active = runtime.active.as_ref().unwrap();
+            let component = active.payload.rippers.as_ref().unwrap().as_ref().unwrap();
+            if let Some((&shot, &count)) = component.driver.flights.first_key_value() {
+                assert_eq!(count, 1);
+                let actor = active.resident_states.get(shot).unwrap();
+                let fields = actor.construction_fields.as_ref().unwrap();
+                assert_ne!(
+                    fields.position.map(f32::to_bits),
+                    fields.current.map(f32::to_bits)
+                );
+                let metadata = active.resident_states.enemy_projectile(shot).unwrap();
+                assert_eq!(
+                    metadata.phase,
+                    giants_game::enemy_projectile::Phase::Launched
+                );
+                assert!(metadata.pending_flight.is_none());
+                let payload = actor.seed.storage.data().unwrap();
+                let initial = f32::from_le_bytes(payload[..4].try_into().unwrap());
+                let remaining = f32::from_le_bytes(payload[4..8].try_into().unwrap());
+                assert!(remaining < initial);
+                println!(
+                    "ripper_first_flight_control ticket={ticket} step={number} class={} actual_history=true lifetime_decreased=true supplied_player_commands=true os_input=false gpu=false impact_verified=false",
+                    actor.class
+                );
+                return;
+            }
         }
         if number.is_multiple_of(600) {
             println!(

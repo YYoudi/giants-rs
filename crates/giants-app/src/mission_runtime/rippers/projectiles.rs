@@ -1,8 +1,16 @@
-//! Real owned launch admission. A created projectile and prepared FX do not
-//! acknowledge current scene geometry, flight, impacts or damage consumers.
+//! Ordinary launch and current-scene flight. Contact reactions, projectile
+//! animation/draw, damage and retirement remain explicit pending consumers.
 use super::*;
 
 impl State {
+    pub(in crate::mission_runtime) fn publish_projectile_scene(
+        &mut self,
+        step: u64,
+        registry: giants_game::enemy_projectile_scene::Registry,
+        contacts: Result<Vec<giants_game::actor_contacts::Snapshot>, String>,
+    ) {
+        self.projectile_scene = Some((step, registry, contacts));
+    }
     pub(in crate::mission_runtime) fn publish_controlled_contact(
         &mut self,
         session: &mut Session,
@@ -29,7 +37,7 @@ impl State {
         )?);
         Ok(())
     }
-    pub(super) fn require_projectile_flight(
+    pub(super) fn advance_projectile_flight(
         &mut self,
         session: &mut Session,
         frame: &live::Frame<'_>,
@@ -76,13 +84,88 @@ impl State {
                     "Ripper projectile requires the current normal Mecc dedicated contact packet",
                 )?;
             session.controlled_mecc_motion(contact.owner, contact.step)?;
-            return Err(format!(
-                "Ripper projectile flight requires the ordered static/NPC scene and impact services; current normal Mecc dedicated contact is available (step={} slot={} tick={} center={:?}); no clear-world substitute",
-                contact.step,
-                contact.slot,
-                contact.tick,
-                contact.mesh.center()
-            ));
+            let (_, registry, peers) = self
+                .projectile_scene
+                .as_ref()
+                .filter(|(step, _, _)| *step == frame.step)
+                .ok_or("Ripper projectile requires the current ordinary scene registry")?;
+            use giants_game::enemy_projectile_scene::{Entry, Scene, Target};
+            let mut entries = registry.declarations.clone();
+            // Key1 is the partial controller's query-local player slot, not a
+            // Session serial. Prepared declaration keys start at2.
+            entries.push(Entry {
+                target: Target::Actor(contact.owner),
+                object: giants_game::projectile_world::Object {
+                    id: 1,
+                    parent: 0,
+                    active: contact.active,
+                    personality: contact.personality,
+                    bounds: contact.bounds,
+                    mesh: contact.mesh.clone(),
+                },
+            });
+            let peers = peers.as_ref().map_err(Clone::clone)?;
+            let snapshots = self.contact_snapshots(session, frame.ticket)?;
+            // Vimp packets come from the completed preceding component in this
+            // actual partial schedule; Ripper packets are copied after this turn.
+            let mut ordered = peers.iter().chain(snapshots.iter()).collect::<Vec<_>>();
+            let list = session.list(0);
+            ordered.sort_by_key(|s| list.iter().position(|id| *id == s.actor.id));
+            for snapshot in ordered {
+                let actor = snapshot.actor;
+                let key = *registry
+                    .actors
+                    .get(&actor.id)
+                    .ok_or("projectile NPC missing from common controller registry")?;
+                if actor.parent.is_some() {
+                    return Err("ordinary projectile parent binding not acquired".into());
+                }
+                entries.push(Entry {
+                    target: Target::Actor(actor.id),
+                    object: giants_game::projectile_world::Object {
+                        id: key,
+                        parent: 0,
+                        active: actor.flags.active,
+                        personality: actor.flags.personality,
+                        bounds: snapshot.bounds,
+                        mesh: snapshot.mesh.clone(),
+                    },
+                });
+            }
+            let query = giants_game::segment_queries::StaticCellQuery::new(
+                &frame.world.terrain,
+                giants_game::arithmetic::Precision::Double53,
+            )?;
+            for id in shots {
+                let outcome = session.advance_enemy_projectile_singleplayer_scene(
+                    id,
+                    giants_game::enemy_projectile::SceneFlightWorld {
+                        terrain: &query,
+                        inverse_spacing: 1. / frame.world.terrain.spacing,
+                        seconds: frame.seconds,
+                        areas: frame.areas,
+                    },
+                    Scene::new(entries.clone())?,
+                )?;
+                if !matches!(
+                    outcome,
+                    giants_game::enemy_projectile::FlightOutcome::Flying
+                ) {
+                    return Err(format!(
+                        "ordinary Ripper projectile has pending {outcome:?}; impact/damage/retirement consumers not connected"
+                    ));
+                }
+                let count = self.driver.flights.entry(id).or_default();
+                *count += 1;
+                if *count == 1 {
+                    println!(
+                        "mission_ripper_projectile_flight ticket={} owner={id:?} step={} objects={} current_scene=true visible_projectile=false damage=false",
+                        frame.ticket,
+                        frame.step,
+                        entries.len()
+                    );
+                }
+            }
         }
         Ok(())
     }

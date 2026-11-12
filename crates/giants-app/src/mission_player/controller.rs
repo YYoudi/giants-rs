@@ -1585,6 +1585,11 @@ pub(super) fn update(
                         u64::from(controller.steps),
                         controller.state.normal_contact_sample()?,
                     )?;
+                    runtime.publish_normal_projectile_scene(
+                        controller.ticket,
+                        u64::from(controller.steps),
+                        controller.state.normal_projectile_registry(),
+                    )?;
                     audio.owned.with_impact(
                         controller.ticket,
                         frontend.feedback_volume(),

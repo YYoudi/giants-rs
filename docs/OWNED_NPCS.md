@@ -151,9 +151,12 @@ drives the actual Mecc controller/terrain/collision path toward a current Ripper
 It supplies player commands only, without assigning an NPC pose, mode, target,
 health or readiness. The first run advanced the player approximately 1,502 units
 before class230 selected mode65 and the old ordinary dispatcher refused it.
-With the launch consumer, the same approach creates class232 at step 2618 after
-approximately 1,517 units; its remaining scene/flight dependency then refuses.
-This diagnostic is intentionally still failing at that real frontier. It proves
+With the launch consumer, the same approach creates class232 at step2618 after
+approximately1,517 units. The current-scene flight consumer now advances the
+shot with actual history, rates and lifetime. The approach continues to step2653,
+where class230 selects mode66 and the unacquired ordinary secondary continuation
+refuses, after thirty-five completed flight samples. This diagnostic is still
+failing at that real frontier. It proves
 neither physical contact nor reciprocal combat or GPU fidelity. It is not included
 in the passing `source_wife_` regression selector.
 
@@ -167,9 +170,39 @@ It does not change native ANM channels, health or environment readiness. Resourc
 ownership, foreign/stale steps, mismatched descriptors/trees and nonfinite time
 refuse; failed publication clears the previous packet. Installed controls also
 cross a current dedicated-model face with the shared segment consumer. The
-flight frontier requires this actual packet rather than a render model0, box,
-invented global vertex epoch or ready result. Ordered static/NPC scene admission,
-flight and impact consumers remain missing; this packet alone is not a hit.
+flight consumer requires this actual packet rather than a render model0, box,
+invented global vertex epoch or ready result. The ordinary scene now combines
+actual prepared rigid declaration geometry, the current Mecc packet and current
+completed Vimp/Ripper packets. Static source keys remain distinct from Session
+actor identities. Query keys retain the controller registry; admitted NPCs retain
+the common list order within the partial cohort. This is not complete native
+population, interleaving, live static-object simulation or damage availability.
+
+`Session::advance_enemy_projectile_singleplayer_scene` shares state6 arithmetic,
+terrain/object queries, history and pending-contact publication with the existing
+owned-list route. It validates actual resident flags/parents before publishing
+motion. Declaration hits retain a typed declaration target; neither a fabricated
+actor serial nor a global vertex epoch is required. Ground/object contacts and
+expiry remain pending for their required reactions. There is no placeholder
+impact provider, acknowledged clear world, damage or retirement success. The
+legacy owned-list API retains its immediate real ground-service/countdown order.
+A failed peer geometry producer is retained as an error until an actual shot
+needs it; it cannot become an empty scene or suppress unrelated Ripper frames.
+
+The installed `source_wife_ripper_launch_flies_against_current_scene` control
+uses the same ordinary supplied-input approach on two fresh tickets, stopping
+only after a real class232 flight sample changes position/history and decreases
+lifetime. Its fixture admits four actual rigid declarations, the controlled Mecc
+and five Rippers; it does not stage the Vimp component. This CPU control neither
+proves a graphical shot nor expands admission to the whole native world.
+The separate full-contact diagnostic continues beyond that first sample and
+still fails at mode66. Neither control establishes impact, reciprocal damage or
+source death.
+
+Current-source validation passes 989 Rust tests / 178 ignored, five installed
+`source_wife_` controls, 45 Python tests and strict Clippy/format checks. The
+full-contact diagnostic's mode66 failure remains separate from those passing
+prerequisite controls; no rendered combat availability follows from these counts.
 Ripper projectile models (`ripspit` / `ripspitbig`) also exist; preparation alone
 does not establish their draw, movement or impacts. Source naming remains separate:
 no new prototype PS2 attribution is confirmed by this input diagnostic.
@@ -177,7 +210,7 @@ no new prototype PS2 attribution is confirmed by this input diagnostic.
 A Ripper selected by the ordinary partial pistol is identified and reports the
 missing damage consumer without dispatching to the Vimp backend or inventing a
 health change. Physical geometry and target selection do not deliver injury,
-knockback, blood, death or kill credit. Those consumers, ordinary attack/flight
+knockback, blood, death or kill credit. Those consumers, projectile animation/draw, remaining attack modes
 and a rendered reciprocal encounter remain required; `ripper_shot` remains an
 unknown prototype PS2 search candidate for the separately acquired damage work.
 
@@ -234,10 +267,11 @@ unassigned: literal `mound_move`, `mound_animselect` and `mound_shot` are additi
 search candidates, not confirmations. Generic cleanup names also remain unknown;
 see [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
 
-The most recent local build is source `8e5d72b004f7da6c7e92e215d8907b4be0c1cd8b`,
+The latest GPU-checked local build is source `8e5d72b004f7da6c7e92e215d8907b4be0c1cd8b`,
 executable SHA256
 `865d6ad15293710bc14cc80d798aff819cb26104a7f04f1d77f6c84eef5a5c78`.
-The GNU receipt was independently checked. Its ordinary launch and normal-Mecc
+This build predates the current-scene flight consumer. The GNU receipt was
+independently checked. Its ordinary launch and normal-Mecc
 contact producer are compiled; the exact-name supplied-input diagnostic still
 fails at the ordered static/NPC scene/flight boundary. At step2618 it uses the
 actual moving controller clip2/tick2839 and current dedicated geometry. No

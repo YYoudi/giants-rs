@@ -8356,13 +8356,164 @@ impl Session {
         random: &mut crate::audio_parameters::Random,
         services: &mut impl crate::enemy_projectile::GroundImpactServices,
     ) -> Result<crate::enemy_projectile::FlightOutcome, String> {
-        use crate::enemy_projectile::{FlightOutcome, FlightWorld, Phase};
-        let FlightWorld {
+        let crate::enemy_projectile::FlightWorld {
             terrain,
             inverse_spacing,
             seconds,
             vertex_epoch,
             force_vertices,
+            areas,
+        } = world;
+        let query_world = crate::enemy_projectile::SceneFlightWorld {
+            terrain,
+            inverse_spacing,
+            seconds,
+            areas,
+        };
+        let outcome = self.advance_enemy_projectile_query(id, query_world, |session, source| {
+            let serial = |id: Id| {
+                u32::try_from(id.serial).map_err(|_| "flight identity outside acquired range")
+            };
+            let owner = serial(source)?;
+            let mut objects = vec![];
+            let mut identities = BTreeMap::new();
+            for candidate in session.list(1) {
+                let object = session.get(candidate).ok_or("unowned flight candidate")?;
+                let fields = object
+                    .construction_fields
+                    .as_ref()
+                    .ok_or("candidate fields absent")?
+                    .clone();
+                if object.presentation_parent.is_some() {
+                    return Err(
+                        "flight candidate requires an acquired native parent binding".into(),
+                    );
+                }
+                let parent = object
+                    .attachment
+                    .map(|p| serial(p.parent))
+                    .transpose()?
+                    .unwrap_or(0);
+                let key = serial(candidate)?;
+                if !crate::object_segment::projectile_candidate(
+                    serial(id)?,
+                    owner,
+                    key,
+                    parent,
+                    fields.object_flags,
+                    fields.configuration[14],
+                ) {
+                    continue;
+                }
+                let prepared = session.actor_environment(candidate)?;
+                let bounds = prepared.geometry_fields().bounds;
+                let mesh = if fields.configuration[14] & 0x1000000 != 0 {
+                    crate::object_segment::Mesh::new(key, vec![])?
+                } else {
+                    let slot = session
+                        .specification(candidate)
+                        .ok_or("candidate specification absent")?
+                        .metadata
+                        .selection
+                        .table()?
+                        .collision_slot()?;
+                    session.prepare_actor_positions(
+                        candidate,
+                        slot,
+                        vertex_epoch,
+                        force_vertices,
+                    )?;
+                    session.actor_current_contact_mesh(candidate)?
+                };
+                objects.push(crate::projectile_world::Object {
+                    id: key,
+                    parent,
+                    active: fields.object_flags,
+                    personality: fields.configuration[14],
+                    bounds: crate::volume_queries::Bounds {
+                        min: bounds[..3].try_into().unwrap(),
+                        max: bounds[3..].try_into().unwrap(),
+                    },
+                    mesh,
+                });
+                identities.insert(key, crate::enemy_projectile_scene::Target::Actor(candidate));
+            }
+
+            Ok((serial(id)?, owner, objects, identities))
+        })?;
+        self.finish_enemy_projectile_ground_flight(id, query_world, outcome, random, services)
+    }
+    /// Use the ordinary scene's typed identities and actual current packets.
+    /// This shares state6 flight/history/query with the owned-list API. Ground,
+    /// object and expiry reactions remain pending for actual downstream services;
+    /// no unavailable provider is substituted. The caller owns scene population
+    /// and current-pose scheduling.
+    pub fn advance_enemy_projectile_singleplayer_scene(
+        &mut self,
+        id: Id,
+        world: crate::enemy_projectile::SceneFlightWorld<'_, '_>,
+        scene: crate::enemy_projectile_scene::Scene,
+    ) -> Result<crate::enemy_projectile::FlightOutcome, String> {
+        self.advance_enemy_projectile_query(id, world, |session, source| {
+            use crate::enemy_projectile_scene::Target;
+            let owner = *scene
+                .keys
+                .get(&Target::Actor(source))
+                .ok_or("projectile source absent from ordinary scene")?;
+            for object in &scene.objects {
+                if let Target::Actor(actor) = scene.identities[&object.id] {
+                    let resident = session
+                        .get(actor)
+                        .ok_or("projectile scene actor absent or foreign")?;
+                    let fields = resident
+                        .construction_fields
+                        .as_ref()
+                        .ok_or("projectile scene actor fields absent")?;
+                    let parent = resident
+                        .attachment
+                        .map(|a| {
+                            scene
+                                .keys
+                                .get(&Target::Actor(a.parent))
+                                .copied()
+                                .ok_or("projectile scene actor parent absent")
+                        })
+                        .transpose()?
+                        .unwrap_or(0);
+                    if resident.presentation_parent.is_some()
+                        || parent != object.parent
+                        || fields.object_flags != object.active
+                        || fields.configuration[14] != object.personality
+                    {
+                        return Err("projectile scene actor fields or parent changed".into());
+                    }
+                }
+            }
+            Ok((u32::MAX, owner, scene.objects, scene.identities))
+        })
+    }
+    fn advance_enemy_projectile_query(
+        &mut self,
+        id: Id,
+        world: crate::enemy_projectile::SceneFlightWorld<'_, '_>,
+        candidates: impl FnOnce(
+            &mut Self,
+            Id,
+        ) -> Result<
+            (
+                u32,
+                u32,
+                Vec<crate::projectile_world::Object>,
+                BTreeMap<u32, crate::enemy_projectile_scene::Target>,
+            ),
+            String,
+        >,
+    ) -> Result<crate::enemy_projectile::FlightOutcome, String> {
+        use crate::enemy_projectile::{FlightOutcome, Phase, SceneFlightWorld};
+        let SceneFlightWorld {
+            terrain,
+            inverse_spacing,
+            seconds,
             areas,
         } = world;
         let actor = self.get(id).ok_or("flight projectile absent or foreign")?;
@@ -8426,65 +8577,8 @@ impl Session {
         )?;
         // Validate lifetime and clock before any external reaction or publication.
         crate::enemy_flight::countdown(lifetime, next.position, &time)?;
-        let serial =
-            |id: Id| u32::try_from(id.serial).map_err(|_| "flight identity outside acquired range");
-        let owner = serial(launch.source)?;
-        let mut objects = vec![];
-        let mut identities = BTreeMap::new();
-        for candidate in self.list(1) {
-            let object = self.get(candidate).ok_or("unowned flight candidate")?;
-            let fields = object
-                .construction_fields
-                .as_ref()
-                .ok_or("candidate fields absent")?
-                .clone();
-            if object.presentation_parent.is_some() {
-                return Err("flight candidate requires an acquired native parent binding".into());
-            }
-            let parent = object
-                .attachment
-                .map(|p| serial(p.parent))
-                .transpose()?
-                .unwrap_or(0);
-            let key = serial(candidate)?;
-            if !crate::object_segment::projectile_candidate(
-                serial(id)?,
-                owner,
-                key,
-                parent,
-                fields.object_flags,
-                fields.configuration[14],
-            ) {
-                continue;
-            }
-            let prepared = self.actor_environment(candidate)?;
-            let bounds = prepared.geometry_fields().bounds;
-            let mesh = if fields.configuration[14] & 0x1000000 != 0 {
-                crate::object_segment::Mesh::new(key, vec![])?
-            } else {
-                let slot = self
-                    .specification(candidate)
-                    .ok_or("candidate specification absent")?
-                    .metadata
-                    .selection
-                    .table()?
-                    .collision_slot()?;
-                self.prepare_actor_positions(candidate, slot, vertex_epoch, force_vertices)?;
-                self.actor_current_contact_mesh(candidate)?
-            };
-            objects.push(crate::projectile_world::Object {
-                id: key,
-                parent,
-                active: fields.object_flags,
-                personality: fields.configuration[14],
-                bounds: crate::volume_queries::Bounds {
-                    min: bounds[..3].try_into().unwrap(),
-                    max: bounds[3..].try_into().unwrap(),
-                },
-                mesh,
-            });
-            identities.insert(key, candidate);
-        }
+        let source = launch.source;
+        let (projectile, owner, objects, identities) = candidates(self, source)?;
         // Position history is separate from the primary wrapper's rate history.
         header.previous = header.current;
         header.current = header.position;
@@ -8495,17 +8589,28 @@ impl Session {
         header.configuration[14] = next.personality;
         let ground = terrain.segment(header.current, &mut header.position, inverse_spacing)?;
         let objects = crate::projectile_world::query(
-            serial(id)?,
+            projectile,
             owner,
             header.current,
             header.position,
             &objects,
         )?;
         let mut outcome = if let Some(target) = objects.selected {
-            FlightOutcome::ObjectContact {
-                target: identities[&target],
-                point: objects.point,
-                tag: objects.tag,
+            match identities[&target] {
+                crate::enemy_projectile_scene::Target::Actor(target) => {
+                    FlightOutcome::ObjectContact {
+                        target,
+                        point: objects.point,
+                        tag: objects.tag,
+                    }
+                }
+                crate::enemy_projectile_scene::Target::Declaration(target) => {
+                    FlightOutcome::DeclaredContact {
+                        target,
+                        point: objects.point,
+                        tag: objects.tag,
+                    }
+                }
             }
         } else if ground.is_some() {
             FlightOutcome::GroundContact {
@@ -8528,10 +8633,46 @@ impl Session {
         meta.pending_flight = (!matches!(outcome, FlightOutcome::Flying)).then_some(outcome);
         if !matches!(
             outcome,
-            FlightOutcome::ObjectContact { .. } | FlightOutcome::GroundContact { .. }
+            FlightOutcome::ObjectContact { .. }
+                | FlightOutcome::DeclaredContact { .. }
+                | FlightOutcome::GroundContact { .. }
         ) {
             actor.seed.storage.data_mut().unwrap()[4..8].copy_from_slice(&remaining.to_le_bytes());
         }
+        Ok(outcome)
+    }
+    // Legacy owned-list API retains its immediate real ground reaction and
+    // countdown order. The ordinary scene API stops at an actual pending contact
+    // until its own acquired impact services exist; it supplies no stub backend.
+    fn finish_enemy_projectile_ground_flight(
+        &mut self,
+        id: Id,
+        world: crate::enemy_projectile::SceneFlightWorld<'_, '_>,
+        mut outcome: crate::enemy_projectile::FlightOutcome,
+        random: &mut crate::audio_parameters::Random,
+        services: &mut impl crate::enemy_projectile::GroundImpactServices,
+    ) -> Result<crate::enemy_projectile::FlightOutcome, String> {
+        use crate::enemy_projectile::FlightOutcome;
+        if !matches!(outcome, FlightOutcome::GroundContact { .. }) {
+            return Ok(outcome);
+        }
+        let actor = self.get(id).ok_or("post-query projectile absent")?;
+        let payload = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("post-query payload absent")?;
+        let lifetime = f32::from_le_bytes(payload[4..8].try_into().unwrap());
+        let time = crate::enemy_flight::Time {
+            seconds: world.seconds,
+            context: actor
+                .enemy_projectile
+                .as_ref()
+                .and_then(|m| m.launch.as_ref())
+                .ok_or("post-query launch absent")?
+                .dispatch_context,
+            areas: world.areas,
+        };
         if let FlightOutcome::GroundContact { point } = outcome {
             self.enemy_projectile_ground_impact(id, point, random, services)?;
             let actor = self
@@ -13670,6 +13811,11 @@ mod tests {
         let (shot, mut random) = impact_fixture(&mut session);
         for pending in [
             FlightOutcome::Expired,
+            FlightOutcome::DeclaredContact {
+                target: (false, 0),
+                point: [4., 5., 0.],
+                tag: 0,
+            },
             FlightOutcome::ObjectContact {
                 target: shot,
                 point: [4., 5., 0.],

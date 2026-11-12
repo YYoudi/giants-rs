@@ -821,6 +821,7 @@ pub mod vimp_ghost;
 
 pub mod enemy_ballistic;
 pub mod enemy_projectile;
+pub mod enemy_projectile_scene;
 
 pub mod enemy_flight;
 

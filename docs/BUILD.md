@@ -208,10 +208,18 @@ The ignored `diagnostic_wife_ripper_supplied_approach_reaches_contact` in
 It drives the same ordinary Mecc physics/contact publication and source Ripper
 component from The Wife's authored start, using supplied movement/look/jet levels.
 Run it by exact name with the GNU target and `-- --ignored --nocapture` to observe
-the next required consumer. It currently reaches actual class232 launch, then
-refuses missing current projectile scene/flight/impact services. No NPC pose,
+the next required consumer. It currently creates class232, advances its actual
+flight against the current scene and then refuses class230 mode66 at step2653. No NPC pose,
 mode, damage or readiness is assigned. It is not an OS-input/GPU encounter check
 and its failure must not be reported as a passing Ripper gameplay test.
+
+The separate ignored `source_wife_ripper_launch_flies_against_current_scene`
+control stops after the first actual class232 flight sample on each of two fresh
+tickets. It requires changed current/history positions, decreased lifetime and
+no pending impact. The fixture uses the actual common rigid registry, dedicated
+Mecc packet and completed Ripper packets; it does not stage the Vimp component.
+This is a supplied-input CPU prerequisite, not a rendered/reciprocal encounter.
+The normal controller also supplies its real completed Vimp component packets.
 
 With `GIANTS_NPC_ROOT`, run `source_surface_world` in `giants-game` and
 `source_wife_marker_children` in `giants-app`, using the same GNU target and
