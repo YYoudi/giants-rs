@@ -1683,11 +1683,20 @@ In **Preview tools → Browse all missions**, select **The Wife** in the Mecc
 campaign. Movement/aim, right mouse jet and Space nitro use the ordinary Mecc
 controller; Esc returns to the menu. Rippers are admitted by source declarations
 without any environment flag. This candidate currently supports their acquired
-movement and projectile flight before impact; explosions, reciprocal combat and
-death are unfinished. Do not treat a projectile contact quarantine as a kill or
+movement, flight and the acquired missed-ground-shot host. Actual projectile-to-
+Mecc object contact, close-range mode67, reciprocal combat and death remain
+unfinished. The combined rendered run currently refuses the first of those;
+component-only CPU controls do not supply the live Vimp population. Do not treat a projectile contact quarantine as a kill or
 mission completion. The most recent identified supplied-input render result is
 recorded in [OWNED_NPCS.md](OWNED_NPCS.md); actual Windows encounter/death and
 return/re-entry still require acceptance on the final connected build.
+
+The optional `GIANTS_MISSION_RIPPER_CAPTURE_IMPACT=1` changes only the existing
+muted supplied-input diagnostic's capture condition to an actual ground reaction
+plus16 steps. It never activates Rippers or their effects. A genuine earlier
+object hit remains a required consumer; do not change actor poses or claim a
+saved image/exit0 as acceptance when a component refusal is logged. The corrected
+receipt and failed combined-game frontier are recorded in OWNED_NPCS.md.
 
 The ordinary Ripper component needs no diagnostic flag. To supply only Mecc
 navigation/look/jet commands for a first-flight GPU check, set

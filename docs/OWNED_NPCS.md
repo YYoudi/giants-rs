@@ -38,6 +38,22 @@ regression continues64 post-impact steps without a renderer update; it observes
 RNG consumption. This repairs phase ownership; a new exact-build graphical run
 must independently validate the result.
 
+The corrected local GNU executable is source
+`0714920d86eed8e7a2a3e5830be19b41a891ac42`, SHA256
+`9632deaa1a0d450f1846a89dda8bdf8dfeecd1bd800127e85d562d95aaa25e7e`.
+Its new supplied-input Vulkan run includes the normal Vimp population and actual
+29-object projectile scene. The first shot launches at step4513, then reaches
+an actual object contact with the controlled Mecc before any ground impact.
+The missing direct-hit continuation refuses, and the diagnostic terminates
+without a capture. This is a failed encounter, not acceptance of explosion
+rendering on the corrected executable. The earlier saved explosion image belongs
+to the failed `33b3168` candidate, not this receipt. The Ripper component CPU
+fixture excludes the live Vimp component; do not transfer its specific miss or
+physical-contact route to the combined game. Next connect projectile-to-Mecc
+object damage/retirement and the close-range mode67 path, preserving real world
+and controller owners. No new prototype PS2 attribution, actual Windows input,
+Ripper death, menu/reentry or public preview is established by these runs.
+
 `mecc_enemy_hit::Machine` composes the independently acquired source gate,
 debug-PC health, direct/radial velocity addition and pain/shared voice tail for
 offline nonlethal class90/232 shots owned by a living state23 Ripper. It requires

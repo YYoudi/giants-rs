@@ -195,6 +195,16 @@ ordinary-controller path now invokes the common geometry consumer with the real
 camera between simulation steps. Its64-step renderer-gap control passes both
 tickets without replay or extra RNG. Rebuild and revalidate GPU output on that
 exact corrected source before transferring any graphical acceptance.
+The corrected local GNU source `0714920` (SHA256 prefix `9632deaa1a0d`) reaches a
+genuine projectile object contact with the Mecc in the combined rendered game,
+before its first ground impact. That required direct-hit continuation refuses;
+the run terminates without capture. It does not validate the corrected explosion
+on GPU. The isolated CPU fixture lacks the live Vimp component and its exact
+miss/contact route must not stand in for this combined29-object scene.
+**First rendered blocker:** actual projectile-to-Mecc direct damage and source
+retirement. The source class230 mode67 continuation remains a separate observed
+CPU blocker. Connect both, reciprocal Ripper hurt/death and the remaining owners;
+do not reroute the pilot or force poses to hide active hits.
 
 Earlier dependency evidence: the canonical mixed construction executor now owns real
 root/child Session births, child-context retirement, source wait and delayed
