@@ -94,6 +94,7 @@ mod tests {
                 action,
                 shadow_reciprocal: 0.,
                 shadow: None,
+                shadow_texture: None,
                 gunlist: Default::default(),
                 channels: [[0; 9]; 4],
                 position: [1., 2., 3.],

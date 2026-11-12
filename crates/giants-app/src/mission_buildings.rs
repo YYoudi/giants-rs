@@ -460,6 +460,75 @@ impl World {
 #[cfg(test)]
 mod tests {
     #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; source entrance hit/geometry only, no GPU or OS input"]
+    fn installed_entrance_damage_retains_static_shadow_and_separate_physical_need() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let menu = giants_game::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin/w_Story2.bin")).unwrap(),
+            0,
+            true,
+        )
+        .unwrap();
+        let packet =
+            giants_game::mission_loading::prepare(&root, menu.request("Story2", 0).unwrap())
+                .unwrap();
+        let world = packet.world_asset(&root).unwrap();
+        let mut state =
+            crate::mecc_dev_scene::State::load_prepared(&root, &world, &packet).unwrap();
+        let (&id, owner) = state
+            .buildings
+            .owners
+            .iter()
+            .find(|(_, o)| o.fields.class == 544)
+            .unwrap();
+        assert!(owner.fields.shadow_texture.is_some());
+        assert!(!owner.physical);
+        let point = owner.fields.position;
+        let damage = owner.damage.limit * 0.26;
+        let before = state
+            .projectile_objects
+            .iter()
+            .find(|o| o.id == id)
+            .unwrap()
+            .active;
+        let mut random = giants_game::audio_parameters::Random(17);
+        let result = state
+            .buildings
+            .hit(
+                91,
+                giants_game::mecc_pistol::WorldHit {
+                    object: id,
+                    serial: 1,
+                    point,
+                    damage,
+                    older: point,
+                    motion: giants_game::damage_impulse::Motion {
+                        current: point,
+                        previous: point,
+                    },
+                },
+                point,
+                1,
+                &mut random,
+            )
+            .unwrap()
+            .unwrap();
+        assert!(!result.physical);
+        assert!(result.update.geometry.is_some());
+        assert_eq!(state.buildings.owners[&id].fraction, 0.75_f32.to_bits());
+        state.apply_building_hit(&result).unwrap();
+        assert_eq!(
+            state
+                .projectile_objects
+                .iter()
+                .find(|o| o.id == id)
+                .unwrap()
+                .active,
+            before
+        );
+        assert!(!state.mission_colliders().iter().any(|o| o.fields.id == id));
+    }
+    #[test]
     #[ignore = "requires GIANTS_BUILDING_ROOT; supplied projectile-only hit, no GPU or OS input"]
     fn installed_fence_damage_does_not_invent_player_collision_membership() {
         let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());

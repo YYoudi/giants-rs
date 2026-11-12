@@ -18,7 +18,7 @@ pub struct Fields {
     /// preserve their acquired copy/override semantics.
     pub dispatch_context: u32,
     /// Thirty source words, with pointer slots19/29 normalized to zero. The
-    /// gun list is owned below; string-bearing declarations remain refused.
+    /// gun list and registered static shadow are owned separately below.
     pub configuration: [u32; 30],
     pub scale: f32,
     pub object_flags: u32,
@@ -29,6 +29,10 @@ pub struct Fields {
     pub action: u32,
     pub shadow_reciprocal: f32,
     pub shadow: Option<Box<ShadowDescriptor>>,
+    /// Initial registered texture identity, shared across ordinary copies.
+    /// Shadow drawing, warmed descriptors and generated texture copies remain
+    /// separate. Exclusive with the private dynamic descriptor above.
+    pub shadow_texture: Option<Arc<crate::actor_static_shadow::RegisteredShadow>>,
     /// Immutable source-ordered class list; not an acquired player inventory.
     pub gunlist: Arc<[u32]>,
     pub channels: Channels,
@@ -117,6 +121,7 @@ impl Fields {
             action: 0,
             shadow_reciprocal: 0.,
             shadow: None,
+            shadow_texture: None,
             gunlist: Arc::from([]),
             channels: crate::actor_context::initial_channels(None, false),
             position: [0.; 3],
@@ -154,6 +159,13 @@ impl Fields {
                             ((f64::from(height) * f64::from(0.2f32)) as f32).to_bits();
                     }
                 }
+                2 => {
+                    let (reciprocal, binding) =
+                        crate::actor_static_shadow::prepare(record, &resources.classes.textures)?;
+                    out.shadow_reciprocal = reciprocal;
+                    out.shadow_texture = binding;
+                    out.shadow = None;
+                }
                 3 => {
                     let divisor = float(1)?;
                     if !divisor.is_finite() {
@@ -167,6 +179,7 @@ impl Fields {
                     out.shadow = Some(Box::new(ShadowDescriptor {
                         words: [0, 0, word(5)?, word(9)?, 5, 5, 0x0080_0020],
                     }));
+                    out.shadow_texture = None;
                 }
                 4 => {
                     out.configuration[1] = word(1)?;
@@ -283,6 +296,8 @@ impl Fields {
         self.object_flags |= 0x400;
         self.response_flags |= 0x2000_0000;
     }
+    /// Existing scalar/dynamic-shadow control view. A registered static shadow
+    /// has a separate typed identity and is not encoded as dynamic words here.
     pub fn words(&self) -> Vec<u32> {
         let mut words = self.configuration.to_vec();
         words.extend([
@@ -363,6 +378,7 @@ mod tests {
             control_flags: 0,
             action: 0,
             shadow_reciprocal: 0.01,
+            shadow_texture: None,
             shadow: Some(Box::new(ShadowDescriptor {
                 words: [123, 456, 6, 6, 99, 100, 0x00800020],
             })),

@@ -152,6 +152,26 @@ these into a universal explosion or assume every visible building is destructibl
 
 ## Delivery evidence
 
+### Next dependency: initial registered static shadows
+
+The ordinary entrance's source header contains a static-shadow declaration. It
+was refused by the actor field reader, separately from its missing physical
+Raster3 owner. `actor_static_shadow` now retains the actual ordered registered
+texture identity, reciprocal and shared-copy ownership. Empty names clear the
+binding; missing registered names remain explicit placeholder-constructor needs.
+This does not render a shadow, infer native warmed texture flags or admit the
+generated/dynamic private-copy branch. The existing dynamic-shadow descriptor
+remains a separate, exclusive field owner.
+
+Private original-PC controls cover 120 initial declaration/copy contexts, with
+matching Rust reciprocals, bindings and class-specific direct flags. The supplied
+shared-texture fixture in that matrix is separate from an installed-data control
+that executes original registration/zeroing, source flag stores, lookup/comparator
+and the entrance's class/copy path with bounded file/memory services. This is a
+dependency, not a new published gameplay or shadow-fidelity result. Preview .12.3
+retains its recorded 56-owner coverage. The entrance still needs its actual
+physical footprint before player blocking can be claimed.
+
 Dependency/native controls must retain exact binary identities and supplied
 services privately. Final acceptance requires the ordinary menu and controls,
 real player/projectile collisions, admitted damage transitions, actual effects

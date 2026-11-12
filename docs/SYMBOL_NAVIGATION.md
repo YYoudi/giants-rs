@@ -143,6 +143,16 @@ See [BUILDINGS.md](BUILDINGS.md) for current integration evidence and acceptance
 
 ## Publication boundary
 
+The literal prototype names `object_copy_personality` and `texture_add_file`
+provide **unknown** navigation routes for
+[`actor_static_shadow`](../crates/giants-game/src/actor_static_shadow.rs) and the
+registered resource retained by `actor_fields`. Initial source registration,
+class-header and copy controls do not confirm these function identities or
+prototype signatures/layouts. Static shared references, missing-name allocation
+and generated/dynamic copies stay distinct; shadow drawing and a new ordinary
+building delivery do not follow from the field preparation. Prior aliases remain
+unchanged, and detailed native records stay private.
+
 The literal prototype PS2 names `FLK_FlickProcess__FP9FLK_Flick`,
 `FLK_FlickUpdateTime__FP9FLK_Flickf` and `FlickAnimate__FP9FLK_Flick` are search
 routes to [`flick::Timeline`](../crates/giants-game/src/flick.rs),

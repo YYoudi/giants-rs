@@ -7,6 +7,7 @@ pub mod actor_fields;
 pub mod actor_finalization;
 pub mod actor_reference_detach;
 pub mod actor_references;
+pub mod actor_static_shadow;
 pub mod actor_surface_reset;
 pub mod actor_terrain;
 pub mod actor_velocity_impulse;

@@ -24,6 +24,10 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Initial static-shadow navigation only; existing reviewed aliases retained.
+        '03e8861c2ecbe4903cf621c55c5db2fb033667893ec92292a22e8bc778b3851c',
+        # Concurrent unknown Mecc hurt route; no source body or corpus exported.
+        '5e82c7c946bcbf67d9a9f6819797f1b7e4fe454a4049572f4fbfb2bc649f7aac',
         # Concurrent unknown context-population navigation; no native body.
         '7708ab21c2a4d160585947c987754d1d3642419e70c281d5fccf1bec57a5ab0e',
         # Concurrent minimal module identity/platform routes; relationships unknown,

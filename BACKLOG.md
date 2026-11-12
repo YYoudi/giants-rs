@@ -53,6 +53,14 @@ attributions. The independent original-PC comparisons (3,080 house / 7,000 death
 contexts) validate bounded decisions and service boundaries, not native fidelity.
 The complete building objective and whole-game scope remain active.
 
+Next local dependency: the entrance's initial static-shadow header now retains
+its real registered texture identity and shared-copy semantics instead of
+discarding the declaration. Missing-name placeholders and dynamic copies remain
+separate needs. 120 private PC/Rust contexts and an actual source registration/
+lookup/copy control pass. This does not update .12.3 or establish shadow drawing,
+physical Raster3 admission or a new ordinary gameplay acceptance. Follow the
+next exact-executable checks and contracts in BUILDINGS.md.
+
 ## Delivered milestone - The Wife rescue and completion-film continuation
 
 Owner direction, 12 November 2026: make the ordinary The Wife rescue playable

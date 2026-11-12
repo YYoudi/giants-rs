@@ -381,6 +381,7 @@ mod tests {
             action: 0,
             shadow_reciprocal: 0.,
             shadow: None,
+            shadow_texture: None,
             gunlist: Arc::from([]),
             channels: crate::actor_context::initial_channels(None, false),
             position: [0.; 3],
