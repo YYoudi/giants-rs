@@ -76,6 +76,24 @@ or meat behavior is copied. Main retains mission progression and publication.
 The prototype PS2 `ripper_move` attribution is unknown; see
 [symbol navigation](SYMBOL_NAVIGATION.md) and the central reconstruction method.
 
+### Intermediate local loading check
+
+GNU release source `364c3036672de870500d018f23f58a662e0b2fc7` produced executable
+SHA256 `7767186b1ce7b8d12a98ed152b1a5c1693233b2f0f371fc34c48dd30d45fd587`.
+Targeted Windows clicks selected **Load Single Player Game → Mecc Story 2 →
+The Wife** on that executable, with an independent test profile. Two separate
+entries each prepared four class73 and one class230 canonical owners. The first
+opening was skipped with Windows Escape; the second reached its actual source
+terminal and resumed the rendered ordinary Mecc scene. Escape returned each
+entry to the mission menu with zero remaining Bevy entities; F10 closed the game.
+Audio was muted and no replay/probe controller drove this check.
+
+This validates loading and cancellation with the new cold owners. Ripper
+callbacks and rendering remained explicitly inactive. No reciprocal encounter,
+Ripper death, held movement/input acceptance or audible fidelity is established.
+The local build/interaction receipts and logs remain private; no preview was
+published. The common integration lane still owns mission progression/publication.
+
 ## Ordinary Vimp collision, injury and death
 
 Preview .11.3 extends the ordinary Story2 component with completed

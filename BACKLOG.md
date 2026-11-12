@@ -46,7 +46,13 @@ PS2 `ripper_move` correspondence remains unknown; aliases and lookup are retaine
 
 Extended dirt-context preparation now retains the actual recipient mark, backed
 by an independent PC control; this acknowledges no emitted or rendered effect.
-Next: consume class230 mode66 and later continuations and complete frame/pose ownership,
+Local GNU build `364c303` / executable SHA256 prefix `7767186b1ce7` passes two
+actual Windows menu-to-The Wife entries and zero-entity returns, including one
+natural opening terminal. Canonical cold Ripper resources are initialized on
+both entries; Ripper callbacks/rendering remain inactive. This is loading
+regression coverage, not encounter/death acceptance. See docs/OWNED_NPCS.md.
+Next: connect the completed frame/pose/render consumer with the actual shared
+inputs, consume required class230 mode66 and later continuations,
 then connect shared rendering, collisions/targeting and reciprocal combat with
 source-specific sounds/blood/death/cleanup. Do not copy Vimp ghosts/meat or force
 movement, readiness or damage. Acceptance still requires an identified local
