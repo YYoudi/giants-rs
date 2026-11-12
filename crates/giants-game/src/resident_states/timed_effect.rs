@@ -26,6 +26,7 @@ pub(super) struct Metadata {
     motion_done: bool,
     gravity_done: bool,
     ground_started: bool,
+    particle_contact_done: bool,
     ordinary: OrdinaryHeader,
     cinematic_scope: Option<CinematicScope>,
     immediate: Option<crate::attached_effect_context::Immediate<Parent>>,
@@ -79,7 +80,7 @@ pub trait Services {
     /// Runs after the actual affine has been published, before ANM.
     fn gravity(&mut self, session: &mut Session, actor: Id) -> Result<(), String>;
     fn particle_contact(&mut self, _: &mut Session, _: Id) -> Result<(), String> {
-        Err("particle requires actual post-gravity terrain/object/contact services".into())
+        Err("particle requires its actual post-gravity ground-contact force owner".into())
     }
     fn ground_contact(
         &mut self,
@@ -308,6 +309,7 @@ impl Session {
             motion_done: false,
             gravity_done: false,
             ground_started: false,
+            particle_contact_done: false,
             ordinary: OrdinaryHeader::allocated(),
             cinematic_scope,
             immediate,
@@ -473,9 +475,9 @@ impl Session {
                 normal: [header.plane[0], header.plane[1], header.plane[2]],
                 gravity_mass: p[1],
                 mass: p[2],
-                friction_limit: p[9],
-                damping_xy: p[12],
-                damping_z: p[13],
+                friction_limit: p[12],
+                damping_xy: p[13],
+                damping_z: p[14],
                 force_time_limit: p[11],
                 object_flags: actor.construction_fields.as_ref().unwrap().object_flags,
                 physics_flags: words[0],
@@ -786,6 +788,7 @@ impl Session {
                 m.motion_done = false;
                 m.gravity_done = false;
                 m.ground_started = false;
+                m.particle_contact_done = false;
             }
             boundary
         };
@@ -1055,6 +1058,35 @@ mod tests {
                 .insert(row[0] as usize, row);
         }
         let mut checked = 0;
+        let motion_controls = std::env::var_os("GIANTS_RIPPER_PARTICLE_MOTION_CONTROLS")
+            .map(|path| std::fs::read_to_string(path).unwrap())
+            .map(|text| {
+                text.lines()
+                    .map(|line| {
+                        let mut parts = line.split_whitespace();
+                        let name = parts.next().unwrap().to_owned();
+                        let ordinal = parts.next().unwrap().parse::<usize>().unwrap();
+                        let frame = parts.next().unwrap().parse::<usize>().unwrap();
+                        let words = parts.map(|v| v.parse::<u32>().unwrap()).collect::<Vec<_>>();
+                        assert_eq!(words.len(), 70);
+                        ((name, ordinal, frame), words)
+                    })
+                    .collect::<std::collections::BTreeMap<_, _>>()
+            });
+        let terrain_bytes = std::fs::read(root.join("Bin/w_Story2.gzp")).unwrap();
+        let mut terrain = giants_formats::gti::parse(
+            &giants_formats::gzp::Archive::parse(&terrain_bytes)
+                .unwrap()
+                .read("Story2.gti")
+                .unwrap(),
+        )
+        .unwrap();
+        // Same supplied static/no-ripple terrain preparation as the PC fixture.
+        for tag in &mut terrain.tags {
+            if *tag == 7 {
+                *tag = 4;
+            }
+        }
         for (case, (name, expected)) in controls.into_iter().enumerate() {
             let mut session = Session::new(800 + case as u64);
             let mut pool = Pool::<Id>::new(session.ticket(), Some(image.clone()));
@@ -1176,6 +1208,44 @@ mod tests {
                 );
                 assert!(session.bind_immediate_timed(child).is_err());
                 assert!(session.timed_effect_failure(child).is_none());
+                if let Some(controls) = &motion_controls {
+                    let mut world = crate::cinematic_timed::world::World::new(
+                        &terrain,
+                        &[],
+                        &[],
+                        &[],
+                        0.01,
+                        &[],
+                    )
+                    .unwrap();
+                    for frame in 0..3 {
+                        session
+                            .advance_timed_effect(child, 0.01, &mut stamp, &mut world)
+                            .unwrap();
+                        let mut got = words(&session, child);
+                        let m = session.get(child).unwrap().timed_effect.as_ref().unwrap();
+                        got.extend(
+                            m.physical
+                                .velocity
+                                .into_iter()
+                                .chain(m.physical.previous_velocity)
+                                .chain([m.ordinary.floor])
+                                .chain(m.physical.plane)
+                                .map(f32::to_bits),
+                        );
+                        assert_eq!(
+                            &got,
+                            &controls[&(name.clone(), ordinal, frame)],
+                            "actual physical callback {name} child{ordinal} frame{frame}"
+                        );
+                        assert!(session.apply_timed_particle_contact(child).is_err());
+                    }
+                    assert_eq!(world.calls.motion, 3);
+                    assert_eq!(world.calls.gravity, 3);
+                    assert!(world.calls.callback_ground_queries >= 3);
+                    checked += 1;
+                    continue;
+                }
                 assert!(
                     session
                         .advance_timed_effect(child, 0.01, &mut stamp, &mut Required)

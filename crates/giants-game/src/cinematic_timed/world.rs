@@ -188,6 +188,9 @@ impl TimedEffectServices for World<'_> {
         self.calls.gravity += 1;
         session.apply_timed_effect_gravity(actor)
     }
+    fn particle_contact(&mut self, session: &mut Session, actor: Id) -> Result<(), String> {
+        session.apply_timed_particle_contact(actor)
+    }
     fn ground_contact(
         &mut self,
         session: &mut Session,

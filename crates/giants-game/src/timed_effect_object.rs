@@ -17,7 +17,7 @@ pub trait Services<K> {
     fn physical(&mut self, object: &mut Initial<K>, seconds: f32) -> Result<(), String>;
     fn gravity(&mut self, object: &mut Initial<K>) -> Result<(), String>;
     fn particle_contact(&mut self, _: &mut Initial<K>) -> Result<(), String> {
-        Err("particle requires actual post-gravity terrain/object/contact services".into())
+        Err("particle requires its actual post-gravity ground-contact force owner".into())
     }
     fn ground_contact(
         &mut self,

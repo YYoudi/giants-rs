@@ -275,9 +275,15 @@ reference selectors and constructor/final-stream RNG. Selectors vary with source
 declarations; do not hardcode reference1. The ordinary preparation tail uses the
 same helper, but this direct callback/helper control does not validate the whole
 world/preparation schedule. The next callback deliberately retains a missing
-physical-provider failure; post-gravity terrain/object contact has a separate
-required service with no default acknowledgment. Whole mixed-program ownership,
-real physical/contact, vertex and retirement consumers remain required before
+physical-provider failure. A further actual-Story2-terrain control compares96
+original physical callbacks on6,720 words, including velocities/plane/floor and
+forces:32 contact callbacks and64 airborne. The timed gravity adapter's incorrect
+friction/damping field selection is corrected; the shared kernel is unchanged.
+The common static-world adapter binds the actual once-per-callback contact-force
+tail after completed terrain/motion/gravity, with real payload parameters/flags.
+Supplied clocks/static-no-ripple terrain and direct callbacks do not certify the
+complete world/preparation walk or object population. Whole mixed-program ownership,
+actual world admission, vertex and retirement consumers remain required before
 ordinary impact, reciprocal damage/death and GPU/menu-reentry acceptance.
 
 The combined local build `e764b7c` (executable SHA256 prefix `2f6b5a16babd`)

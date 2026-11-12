@@ -1591,6 +1591,15 @@ the product mixed-program owner, native world/preparation schedule, post-gravity
 contact, vertex output, damage or retirement. No executable/GPU acceptance is
 implied. Keep its original controls and raw fixtures private.
 
+Set private `GIANTS_RIPPER_PARTICLE_MOTION_CONTROLS` as well to run the same
+constructor/placement path through three real static-world physical callbacks
+per child. This optional comparison checks96 callbacks against the original PC,
+including velocity, plane, floor and forces, with actual Story2 terrain and the
+same explicitly supplied static/no-ripple preparation. It binds the real common
+motion/terrain/gravity/contact-force consumers; no fake plane or force is used.
+It remains a direct-callback control, not the whole world/preparation schedule,
+object population, mixed-program lifecycle, renderer or combat acceptance.
+
 The radial Session dependency has an optional installed control (same
 `GIANTS_NPC_ROOT` setup as the other NPC controls):
 

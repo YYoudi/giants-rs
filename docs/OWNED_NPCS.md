@@ -26,10 +26,20 @@ All agree. Source resources, original memory/pools, clocks, quality and math mod
 are supplied boundaries. The canonical ordinary-preparation tail now calls this
 same placement helper, but the control exercises direct callbacks/helper calls;
 it does not validate the complete native world walk or preparation schedule.
-The next physical callback deliberately fails at its missing real provider and
-retains failure. Post-gravity terrain/object contact is a separate mandatory
-service; no default success or invented plane is supplied. Full mixed-program
-execution, graphics, contacts, damage and retirement still block ordinary impact.
+The missing-provider control deliberately fails the next physical callback and
+retains failure. A further supplied-static-world control now exercises three
+full original physical callbacks for each child against the actual Story2
+terrain. All96 callbacks match6,720 selected words, including current/previous
+velocity, contact plane, floor and inline forces. Thirty-two callbacks reach
+ground contact; the remaining64 are airborne. This exposed and corrected the
+timed adapter's friction/damping field selection; the shared gravity kernel is
+unchanged. The post-gravity contact tail uses the existing velocity-target force
+kernel with actual payload parameters and contact flags, after completed motion,
+ground query and gravity, once per callback. It supplies no synthetic contact.
+The common static-world adapter now binds that required tail. This control uses
+supplied clocks, static/no-ripple terrain preparation and direct callbacks; it
+does not certify the complete world/preparation schedule or object population.
+Full mixed-program execution, graphics, damage and retirement still block impact.
 No new PS2 attribution, executable or rendered encounter is established here.
 
 The combined main/NPC local build `0fd1cccbe5e736e57c408e87d9cf822a5fc67f14`,
