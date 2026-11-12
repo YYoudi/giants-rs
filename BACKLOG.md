@@ -265,6 +265,21 @@ Twelve original first callbacks agree on another708 words, preserving the hidden
 mark and ordinary visible-root first-frame gates without supplying physical or
 retirement success. The roots' later physical callbacks remain outside this check.
 
+Canonical immediate particles now retain their actual source-order construction,
+temporary parent/reference identities, forward launch, gravity and contact
+parameters. Actual current references drive shared one-shot relative-scale
+placement; it consumes the pending binding once and preserves launch for the
+next callback. A second callback before placement is refused. Thirty-two original
+children match birth/first/placed snapshots on5,664 selected words, plus speed,
+reference selectors and constructor/final-stream RNG. Selectors vary with source
+declarations; do not hardcode reference1. The ordinary preparation tail uses the
+same helper, but this direct callback/helper control does not validate the whole
+world/preparation schedule. The next callback deliberately retains a missing
+physical-provider failure; post-gravity terrain/object contact has a separate
+required service with no default acknowledgment. Whole mixed-program ownership,
+real physical/contact, vertex and retirement consumers remain required before
+ordinary impact, reciprocal damage/death and GPU/menu-reentry acceptance.
+
 The combined local build `e764b7c` (executable SHA256 prefix `2f6b5a16babd`)
 failed its first supplied-input GPU retry, exit101 without a capture: an audio
 backlog preceded both NPC quarantines. Logs show rapid jet start/stop cycles;

@@ -1576,6 +1576,21 @@ the delayed root. Prefixes after preceding children are supplied boundaries;
 this test does not execute those children, own the context wait, bind graphics
 or establish whole-program/world admission.
 
+The immediate-particle comparison uses private `GIANTS_RIPPER_BIND_CONTROLS`
+and `GIANTS_NPC_ROOT`:
+
+```powershell
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu canonical_immediate_particles_keep_source_random_order_and_actual_temporary_binding -- --ignored --nocapture
+```
+
+It reconstructs the first-phase source-order RNG through32 actual children,
+compares their birth/first-callback/one-shot placement fields and selectors,
+and refuses a second callback before real placement. It then requires the
+missing physical provider and verifies failure retention. It does not execute
+the product mixed-program owner, native world/preparation schedule, post-gravity
+contact, vertex output, damage or retirement. No executable/GPU acceptance is
+implied. Keep its original controls and raw fixtures private.
+
 The radial Session dependency has an optional installed control (same
 `GIANTS_NPC_ROOT` setup as the other NPC controls):
 

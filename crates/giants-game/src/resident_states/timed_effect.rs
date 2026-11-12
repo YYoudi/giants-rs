@@ -8,6 +8,7 @@ use crate::{
 };
 use giants_formats::effect_image::Image;
 mod ground;
+mod immediate;
 mod preparation;
 pub use preparation::{
     Header as OrdinaryHeader, Input as Preparation, Services as PreparationServices,
@@ -27,6 +28,7 @@ pub(super) struct Metadata {
     ground_started: bool,
     ordinary: OrdinaryHeader,
     cinematic_scope: Option<CinematicScope>,
+    immediate: Option<crate::attached_effect_context::Immediate<Parent>>,
 }
 /// A virtual Flick support must never be registered as an ordinary actor.
 #[derive(Clone, Copy, Debug)]
@@ -76,6 +78,9 @@ pub trait Services {
     fn physical(&mut self, session: &mut Session, actor: Id, seconds: f32) -> Result<(), String>;
     /// Runs after the actual affine has been published, before ANM.
     fn gravity(&mut self, session: &mut Session, actor: Id) -> Result<(), String>;
+    fn particle_contact(&mut self, _: &mut Session, _: Id) -> Result<(), String> {
+        Err("particle requires actual post-gravity terrain/object/contact services".into())
+    }
     fn ground_contact(
         &mut self,
         _: &mut Session,
@@ -134,6 +139,7 @@ fn borrow<'a>(
             references,
             placement: metadata.placement,
             render_flags: metadata.render_flags,
+            immediate_pending: metadata.immediate.is_some(),
         },
     ))
 }
@@ -177,7 +183,8 @@ impl Session {
         owned: Timed<K>,
         scope: CinematicScope,
     ) -> Result<Id, String> {
-        if scope.ticket != self.ticket
+        if owned.immediate.is_some()
+            || scope.ticket != self.ticket
             || !matches!(owned.initial.placement, Placement::Position(_))
             || owned.initial.render_flags != 0x1000
         {
@@ -222,6 +229,18 @@ impl Session {
             return Err("timed Session construction requires an unadvanced owner".into());
         }
         // Guard the same actual source fields/payload before any list publication.
+        if let Some(binding) = owned.immediate {
+            let Parent::Actor(parent) = binding.parent else {
+                return Err("ordinary particle needs a real canonical parent".into());
+            };
+            let parent = self
+                .get(parent)
+                .and_then(|a| a.timed_effect.as_ref())
+                .ok_or("immediate particle parent absent, foreign or not owned")?;
+            if parent.runtime.failure.is_some() {
+                return Err("immediate particle parent is quarantined".into());
+            }
+        }
         owned.runtime.preflight(&Body {
             velocity: owned.velocity.as_mut(),
             fields: &mut owned.initial.fields,
@@ -231,8 +250,10 @@ impl Session {
             references: &mut owned.references,
             placement: owned.initial.placement,
             render_flags: owned.initial.render_flags,
+            immediate_pending: owned.immediate.is_some(),
         })?;
         let Timed {
+            immediate,
             velocity,
             initial,
             runtime,
@@ -289,6 +310,7 @@ impl Session {
             ground_started: false,
             ordinary: OrdinaryHeader::allocated(),
             cinematic_scope,
+            immediate,
         });
         self.publish_staged(staged, id)
     }
@@ -797,6 +819,18 @@ impl Session {
             if result.is_ok() {
                 result = services.gravity(self, id);
             }
+            if result.is_ok()
+                && self
+                    .get(id)
+                    .unwrap()
+                    .timed_effect
+                    .as_ref()
+                    .unwrap()
+                    .runtime
+                    .particle_contact
+            {
+                result = services.particle_contact(self, id);
+            }
             if result.is_ok() {
                 let metadata = self.get(id).unwrap().timed_effect.as_ref().unwrap();
                 let ground = metadata
@@ -941,6 +975,228 @@ mod tests {
         scene_resources::SceneResources,
     };
     type PhaseControls = Arc<std::collections::BTreeMap<(u32, u32, u32, u32), Vec<u32>>>;
+    #[test]
+    #[ignore = "Requires GIANTS_NPC_ROOT and GIANTS_RIPPER_BIND_CONTROLS; actual source constructors/first callbacks/shared lock, no ordinary world/contact/render admission"]
+    fn canonical_immediate_particles_keep_source_random_order_and_actual_temporary_binding() {
+        struct Required;
+        impl Services for Required {
+            fn physical(&mut self, _: &mut Session, _: Id, _: f32) -> Result<(), String> {
+                Err("required actual physical service unavailable".into())
+            }
+            fn gravity(&mut self, _: &mut Session, _: Id) -> Result<(), String> {
+                Err("required actual gravity service unavailable".into())
+            }
+            fn retire(
+                &mut self,
+                _: &mut Session,
+                _: Id,
+                _: &Image,
+                _: Option<&crate::effect_scene::RetirementBinding>,
+            ) -> Result<(), String> {
+                Err("required actual retirement unavailable".into())
+            }
+        }
+        fn words(session: &Session, id: Id) -> Vec<u32> {
+            let actor = session.get(id).unwrap();
+            let f = actor.construction_fields.as_ref().unwrap();
+            let m = actor.timed_effect.as_ref().unwrap();
+            let d = actor.seed.storage.data().unwrap();
+            let word = |at| u32::from_le_bytes(d[at..at + 4].try_into().unwrap());
+            let mut out = vec![
+                actor.class as u32,
+                f.object_flags,
+                f.response_flags,
+                f.control_flags,
+                m.render_flags,
+                f.scale.to_bits(),
+                m.runtime.transparency.to_bits(),
+            ];
+            out.extend(
+                f.position
+                    .into_iter()
+                    .chain(f.current)
+                    .chain(f.previous)
+                    .chain(f.angles)
+                    .map(f32::to_bits),
+            );
+            out.push(m.matrix.flags);
+            out.extend(m.matrix.values.map(f32::to_bits));
+            out.extend([4, 8, 0x10, 0x14].map(word));
+            out.extend(m.runtime.fade.map(f32::to_bits));
+            out.extend((0xa0..0xdc).step_by(4).map(word));
+            out
+        }
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+        let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let image = Arc::new(
+            resources
+                .classes
+                .models
+                .effects
+                .last()
+                .unwrap()
+                .image
+                .clone(),
+        );
+        let text =
+            std::fs::read_to_string(std::env::var_os("GIANTS_RIPPER_BIND_CONTROLS").unwrap())
+                .unwrap();
+        let mut controls =
+            std::collections::BTreeMap::<String, std::collections::BTreeMap<usize, Vec<u32>>>::new(
+            );
+        for line in text.lines() {
+            let mut parts = line.split_whitespace();
+            let name = parts.next().unwrap().to_owned();
+            let row = parts.map(|v| v.parse().unwrap()).collect::<Vec<u32>>();
+            assert_eq!(row.len(), 183);
+            controls
+                .entry(name)
+                .or_default()
+                .insert(row[0] as usize, row);
+        }
+        let mut checked = 0;
+        for (case, (name, expected)) in controls.into_iter().enumerate() {
+            let mut session = Session::new(800 + case as u64);
+            let mut pool = Pool::<Id>::new(session.ticket(), Some(image.clone()));
+            let mut random = Random(17);
+            let (Creation::Prepared(origin), _) = pool
+                .prepare_positional_invariant(&name, [1.25, -2.5, 3.75], &mut random)
+                .unwrap()
+            else {
+                panic!()
+            };
+            let source = pool.get(origin).unwrap().program.as_ref().unwrap().clone();
+            let mut owners = Vec::new();
+            let mut children = Vec::new();
+            let mut at = 0;
+            while source.records[at].opcode != 0x0b {
+                let record = &source.records[at];
+                assert_eq!(record.opcode, 3);
+                let body = crate::timed_effect_object::Timed::mixed_root_object(
+                    &resources,
+                    origin,
+                    pool.get(origin).unwrap(),
+                    record.offset,
+                    &mut random,
+                )
+                .unwrap();
+                let parent = session.adopt_timed_positioned(body).unwrap();
+                owners.push(parent);
+                at += 2;
+                while source.records[at].opcode != 7 {
+                    let r = &source.records[at];
+                    if r.opcode == 0x10 {
+                        let end = r.bytes[5..].iter().position(|v| *v == 0).unwrap() + 5;
+                        let label = std::str::from_utf8(&r.bytes[5..end]).unwrap();
+                        let offset = image.find(label).unwrap().1.offset;
+                        let binding = crate::attached_effect_context::Immediate {
+                            parent,
+                            reference: u32::from_le_bytes(r.bytes[1..5].try_into().unwrap()),
+                            own_reference: u32::from_le_bytes(
+                                r.bytes[end + 1..end + 5].try_into().unwrap(),
+                            ),
+                        };
+                        let actor = session.get(parent).unwrap();
+                        let f = actor.construction_fields.as_ref().unwrap();
+                        let (Creation::Prepared(child_origin), _) = pool
+                            .prepare_immediate_offset_invariant(
+                                offset,
+                                crate::attached_effect_context::ImmediateInput {
+                                    binding,
+                                    position: f.position,
+                                    object_flags: f.object_flags,
+                                    render_flags: session
+                                        .timed_effect_render_flags(parent)
+                                        .unwrap(),
+                                },
+                                &mut random,
+                            )
+                            .unwrap()
+                        else {
+                            panic!()
+                        };
+                        let expected = &expected[&owners.len()];
+                        assert_eq!(random.0, expected[1], "actual child constructor RNG entry");
+                        assert_eq!(
+                            (binding.reference, binding.own_reference),
+                            (expected[2], expected[3])
+                        );
+                        let body = crate::timed_effect_object::Timed::immediate_particle_object(
+                            &resources,
+                            child_origin,
+                            pool.get(child_origin).unwrap(),
+                            &mut random,
+                        )
+                        .unwrap();
+                        let child = session.adopt_timed_positioned(body).unwrap();
+                        pool.release_prepared(child_origin).unwrap();
+                        assert_eq!(session.timed_effect_immediate_binding(child), Some(binding));
+                        assert_eq!(&words(&session, child), &expected[6..65]);
+                        let data = session.get(child).unwrap().seed.storage.data().unwrap();
+                        assert_eq!(
+                            u32::from_le_bytes(data[0x1c..0x20].try_into().unwrap()),
+                            expected[4]
+                        );
+                        children.push((child, owners.len()));
+                        owners.push(child);
+                    }
+                    at += 1;
+                }
+                at += 1;
+            }
+            assert_eq!(
+                random.0,
+                expected.values().next().unwrap()[5],
+                "complete source first-phase RNG"
+            );
+            let mut stamp = Stamp::default();
+            for &id in &owners {
+                assert_eq!(
+                    session
+                        .advance_timed_effect(id, 0.01, &mut stamp, &mut Required)
+                        .unwrap(),
+                    Step::FirstFrame
+                );
+            }
+            for (child, ordinal) in children {
+                let expected = &expected[&ordinal];
+                assert_eq!(&words(&session, child), &expected[65..124]);
+                assert!(
+                    session
+                        .advance_timed_effect(child, 0.01, &mut stamp, &mut Required)
+                        .unwrap_err()
+                        .contains("one-shot placement")
+                );
+                session.bind_immediate_timed(child).unwrap();
+                assert!(session.timed_effect_immediate_binding(child).is_none());
+                assert_eq!(
+                    &words(&session, child),
+                    &expected[124..],
+                    "actual one-shot lock {name} child{ordinal}"
+                );
+                assert!(session.bind_immediate_timed(child).is_err());
+                assert!(session.timed_effect_failure(child).is_none());
+                assert!(
+                    session
+                        .advance_timed_effect(child, 0.01, &mut stamp, &mut Required)
+                        .unwrap_err()
+                        .contains("physical service unavailable")
+                );
+                assert!(session.timed_effect_failure(child).is_some());
+                assert!(
+                    session
+                        .advance_timed_effect(child, 0.01, &mut stamp, &mut Required)
+                        .is_err()
+                );
+                checked += 1;
+            }
+            assert!(
+                pool.get(origin).is_some(),
+                "a constructor fixture cannot consume the mixed wait/context"
+            );
+        }
+        assert_eq!(checked, 32);
+    }
     #[test]
     #[ignore = "Requires GIANTS_NPC_ROOT and GIANTS_RIPPER_ROOT_CONTROLS; original root birth snapshots and observed per-constructor RNG inputs, no whole VM/child/wait/world/render admission"]
     fn canonical_mixed_roots_match_original_birth_fields_and_random_prefixes() {

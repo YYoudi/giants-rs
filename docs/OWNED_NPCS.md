@@ -9,6 +9,29 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
+The current immediate-particle dependency is CPU-validated, not an ordinary
+explosion delivery. The canonical timed owner now constructs the acquired
+source-declared particles, retaining their actual temporary parent/reference
+bindings, forward launch, gravity, contact parameters and source-order RNG.
+The constructor also preserves the PC one-shot placement mark; a second callback
+before its real placement is refused. Placement uses current canonical parent
+and child references through the shared relative-scale attachment math, consumes
+that binding once, and leaves launch pending for the next callback. Parent
+reference selectors vary with the declarations; they are not a fixed reference1.
+
+A private installed/native control compares32 children from both explosion
+programs at birth, first callback and actual one-shot placement:5,664 selected
+words, plus launch speed, reference selectors and constructor/final-stream RNG.
+All agree. Source resources, original memory/pools, clocks, quality and math mode
+are supplied boundaries. The canonical ordinary-preparation tail now calls this
+same placement helper, but the control exercises direct callbacks/helper calls;
+it does not validate the complete native world walk or preparation schedule.
+The next physical callback deliberately fails at its missing real provider and
+retains failure. Post-gravity terrain/object contact is a separate mandatory
+service; no default success or invented plane is supplied. Full mixed-program
+execution, graphics, contacts, damage and retirement still block ordinary impact.
+No new PS2 attribution, executable or rendered encounter is established here.
+
 The combined main/NPC local build `0fd1cccbe5e736e57c408e87d9cf822a5fc67f14`,
 executable SHA256
 `121abb1e325a21b7ce697bce359110df6b24c6338de6cd929ffba32d6f8d33f3`,

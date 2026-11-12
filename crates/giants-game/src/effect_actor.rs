@@ -55,6 +55,9 @@ pub struct Configured<K> {
     pub(crate) source: Arc<giants_formats::effect_image::Image>,
     pub(crate) render: crate::effect_render_parameters::Parameters,
     pub(crate) hidden: bool,
+    pub(crate) immediate: Option<crate::attached_effect_context::Immediate<K>>,
+    pub(crate) forward_only: bool,
+    pub(crate) particle_contact: bool,
 }
 fn object_values<const N: usize>(
     object: &[giants_formats::effect_program::Record],
@@ -217,6 +220,9 @@ impl<K> Initial<K> {
             source,
             render: Default::default(),
             hidden: false,
+            immediate: None,
+            forward_only: false,
+            particle_contact: false,
         })
     }
     /// A view of the actual owned payload, never a second physical allocation.
@@ -669,6 +675,74 @@ impl Template {
         }
         Ok((object.to_vec(), image))
     }
+    /// Acquired complete immediate particle setup only. The actual temporary
+    /// parent/ref binding survives construction; no placement, physical contact
+    /// or world/renderer availability is acknowledged here.
+    pub(crate) fn immediate_particle_object<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Configured<K>, String> {
+        let image = context.source_image();
+        let entry = image
+            .entries
+            .get(context.entry_index)
+            .ok_or("immediate particle entry absent")?;
+        if entry.offset != context.entry_offset {
+            return Err("immediate particle entry differs".into());
+        }
+        let actual = image.program(entry.offset).map_err(|e| e.to_string())?;
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        if actual.records.len() != program.records.len()
+            || actual
+                .records
+                .iter()
+                .zip(&program.records)
+                .any(|(a, b)| a.offset != b.offset || a.opcode != b.opcode || a.bytes != b.bytes)
+            || actual.records.iter().map(|r| r.opcode).collect::<Vec<_>>()
+                != [3, 6, 0x1c, 0x0e, 0x12, 5, 0x13, 0x19, 7, 2]
+        {
+            return Err("immediate particle outside acquired complete source frame".into());
+        }
+        let initial = self.immediate_positioned(origin, context)?;
+        let mut actor = initial.actor;
+        let size_range = object_values::<2>(&actual.records, 2)?;
+        let size = crate::timed_effect::sample(&mut random.0, size_range);
+        actor.size([size; 2], false)?;
+        let mass = object_values::<1>(&actual.records, 3)?[0];
+        actor.fields.control_flags |= 0x80;
+        actor.fields.object_flags &= !0x10;
+        actor.seed.storage.data_mut().unwrap()[0xa4..0xa8].copy_from_slice(&mass.to_le_bytes());
+        let speed_range = object_values::<2>(&actual.records, 4)?;
+        let speed = crate::timed_effect::sample(&mut random.0, speed_range);
+        actor.seed.storage.data_mut().unwrap()[0x1c..0x20].copy_from_slice(&speed.to_le_bytes());
+        let ranges = object_values::<6>(&actual.records, 5)?;
+        let life: [f32; 3] = std::array::from_fn(|i| {
+            crate::timed_effect::sample(&mut random.0, [ranges[i * 2], ranges[i * 2 + 1]])
+        });
+        let mut configured = actor.timed(
+            crate::effect_visual::Configuration {
+                lifetime: life[0],
+                fade_in: life[1],
+                fade_out_start: life[2],
+                start_size: size,
+                end_size: size,
+            },
+            image,
+        )?;
+        let drag = object_values::<2>(&actual.records, 6)?;
+        let restitution = object_values::<1>(&actual.records, 7)?[0];
+        let data = configured.initial.seed.storage.data_mut().unwrap();
+        data[0xd4..0xd8].copy_from_slice(&drag[0].to_le_bytes());
+        data[0xd8..0xdc].copy_from_slice(&drag[1].to_le_bytes());
+        data[0xac..0xb0].copy_from_slice(&restitution.to_le_bytes());
+        configured.initial.fields.control_flags |= 0x100;
+        configured.immediate = Some(initial.binding);
+        configured.forward_only = true;
+        configured.particle_contact = true;
+        Ok(configured)
+    }
     /// One acquired source3 root, including an intentionally hidden carrier.
     /// Children remain mandatory work for the composing VM; this creates only
     /// the parent prefix and never consumes the shared context or advances waits.
@@ -1048,6 +1122,7 @@ impl Template {
         let mut actor =
             self.initial(origin, Placement::Position([0.; 3]), context.flags(), false)?;
         actor.fields.control_flags |= 0x40;
+        actor.fields.response_flags |= 0x1000;
         // The immediate wrapper has not yet resolved either reference. Native
         // fresh storage retains all sixteen zero words even with identity flag10.
         actor.matrix = Matrix {

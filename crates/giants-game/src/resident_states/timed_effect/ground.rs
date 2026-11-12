@@ -7,7 +7,7 @@ impl Session {
     pub(crate) fn timed_effect_needs_ground(&self, id: Id) -> bool {
         self.get(id)
             .and_then(|a| a.timed_effect.as_ref())
-            .is_some_and(|m| m.runtime.ground.is_some())
+            .is_some_and(|m| m.runtime.ground.is_some() || m.runtime.particle_contact)
     }
 
     /// Execute the acquired repeated terrain query on the live body. Resetting
@@ -26,7 +26,7 @@ impl Session {
             .as_ref()
             .ok_or("ground effect metadata absent")?;
         if !m.runtime.awaiting_physical()
-            || m.runtime.ground.is_none()
+            || (m.runtime.ground.is_none() && !m.runtime.particle_contact)
             || m.runtime.failure.is_some()
             || !m.motion_done
             || m.ground_started

@@ -304,7 +304,7 @@ impl Session {
                 fields,
                 previous_physical_velocity: m.physical.previous_velocity,
                 friction: f32::from_bits(c[28]),
-                parent_present: false,
+                parent_present: m.immediate.is_some(),
                 footprint: m.ordinary.footprint,
                 affine: Some(crate::actor_affine::Cache {
                     flags: m.matrix.flags,
@@ -338,8 +338,17 @@ impl Session {
             match result {
                 Ok(state) => {
                     self.commit_timed_finalization(id, &state, physics, true)?;
-                    // The acquired attachment helper returns immediately without
-                    // a parent. No invented support or additional writer runs.
+                    if self
+                        .get(id)
+                        .unwrap()
+                        .timed_effect
+                        .as_ref()
+                        .unwrap()
+                        .immediate
+                        .is_some()
+                    {
+                        self.bind_immediate_timed(id)?;
+                    }
                     Ok(step)
                 }
                 Err(error) => {

@@ -219,6 +219,16 @@ prefixes preserve their own positional, hidden and physical distinctions;
 constructing a root does not execute children, consume waits or acknowledge the
 whole program. Existing PC aliases remain unchanged.
 
+The literal prototype PS2 name `object_lock_logic` is an **unknown** search
+route to the acquired PC debug-1.1 helper at0x00473b30 and the canonical
+[`immediate` placement adapter](../crates/giants-game/src/resident_states/timed_effect/immediate.rs).
+Its reviewed normal relative-scale branch uses the shared attachment math and
+actual current references, clears the temporary binding once and retains the
+next launch callback. Translation-only, absolute-scale and inherited-transparency
+branches are not admitted by this adapter. Direct PC/helper controls do not
+confirm a cross-platform attribution or the ordinary world schedule. No prototype
+signature/layout is imported and prior PC identifiers remain retained.
+
 ## Publication boundary
 
 The literal prototype PS2 names `FLK_FlickProcess__FP9FLK_Flick`,
