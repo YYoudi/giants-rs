@@ -67,8 +67,10 @@ pub(crate) struct HitResult {
     pub sounds: Vec<crate::mission_audio::Event>,
 }
 impl World {
-    pub(crate) fn contains(&self, object: u32) -> bool {
-        self.owners.contains_key(&object)
+    /// Actual narrow contacts may belong to damage owners or admitted no-shot
+    /// surfaces. Observation does not assign either a damage callback.
+    pub(crate) fn observes_contact(&self, object: u32) -> bool {
+        self.owners.contains_key(&object) || self.no_shot.physical(object)
     }
     pub(crate) fn note_contact(&mut self, object: u32) {
         self.no_shot.note_contact(object);

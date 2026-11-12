@@ -1686,7 +1686,7 @@ impl State {
             |object, response| {
                 if response.retry
                     && response.state.hit == object.fields.id
-                    && self.buildings.contains(object.fields.id)
+                    && self.buildings.observes_contact(object.fields.id)
                 {
                     building_contacts.push(object.fields.id);
                 }
