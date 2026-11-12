@@ -1179,6 +1179,34 @@ impl Runtime {
         }
         self.advance_normal_rippers_with_retirement(ticket, step, camera, objects, &mut Unavailable)
     }
+    /// Publish geometry from the same normal controller clock/clip as its body.
+    /// A stale packet is removed before any fallible work, never reused on error.
+    pub(crate) fn publish_normal_mecc_contact(
+        &mut self,
+        ticket: u64,
+        step: u64,
+        sample: giants_game::controlled_mecc_contacts::Sample<'_>,
+    ) -> Result<(), String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("Mecc contact mission ticket absent")?;
+        let owner = active.player_owner()?;
+        if active.owned_mecc.is_some() || active.controlled_mecc_owner != Some(owner) {
+            return Err("Mecc contacts require ordinary controller ownership".into());
+        }
+        let Some(rippers) = active.payload.rippers.as_mut().map_err(|e| e.clone())? else {
+            return Ok(());
+        };
+        rippers.publish_controlled_contact(
+            &mut active.resident_states,
+            owner,
+            step,
+            active.payload.plan.resources(),
+            sample,
+        )
+    }
     pub(crate) fn advance_normal_rippers_with_retirement(
         &mut self,
         ticket: u64,

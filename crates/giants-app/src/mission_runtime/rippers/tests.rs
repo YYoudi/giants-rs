@@ -127,6 +127,161 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
                 .publish_controlled_mecc_motion(ticket, number, motion)
                 .unwrap();
             runtime
+                .publish_normal_mecc_contact(
+                    ticket,
+                    number,
+                    viewer.normal_contact_sample().unwrap(),
+                )
+                .unwrap();
+            if number.is_multiple_of(30) {
+                let active = runtime.active.as_mut().unwrap();
+                let owner = active.player_owner().unwrap();
+                let state = active.payload.rippers.as_mut().unwrap().as_mut().unwrap();
+                let packet = state.controlled_contact.as_ref().unwrap();
+                assert_eq!((packet.owner, packet.step), (owner, number));
+                assert_eq!(
+                    packet.personality & 0x1000000,
+                    0,
+                    "Mecc requires a real mesh"
+                );
+                assert!(packet.active & 0x20 != 0, "actual affine writer ran");
+                let sample = viewer.normal_contact_sample().unwrap();
+                let channels = active.resident_states.get(owner).unwrap().channels;
+                let resources = state.controlled_contact_resources.as_ref().unwrap();
+                assert!(
+                    active
+                        .resident_states
+                        .controlled_mecc_contact_snapshot(owner, number - 1, resources, sample)
+                        .is_err()
+                );
+                assert!(
+                    Session::new(ticket + 100)
+                        .controlled_mecc_contact_snapshot(owner, number, resources, sample)
+                        .is_err()
+                );
+                let mut wrong = sample;
+                wrong.name = "unavailable_descriptor";
+                assert!(
+                    active
+                        .resident_states
+                        .controlled_mecc_contact_snapshot(owner, number, resources, wrong)
+                        .is_err()
+                );
+                wrong = sample;
+                wrong.seconds = f32::NAN;
+                assert!(
+                    active
+                        .resident_states
+                        .controlled_mecc_contact_snapshot(owner, number, resources, wrong)
+                        .is_err()
+                );
+                assert_eq!(
+                    active.resident_states.get(owner).unwrap().channels,
+                    channels,
+                    "contact composition cannot advance native ANM channels"
+                );
+                // A source-face crossing must hit the independently deformed
+                // dedicated model; using render LOD or a box would miss this check.
+                let spec = active.resident_states.specification(owner).unwrap();
+                let slot = spec
+                    .metadata
+                    .selection
+                    .table()
+                    .unwrap()
+                    .collision_slot()
+                    .unwrap();
+                assert_eq!(slot, 6);
+                assert_eq!(
+                    spec.models[slot]
+                        .as_ref()
+                        .unwrap()
+                        .prepared
+                        .mesh
+                        .positions
+                        .len(),
+                    151
+                );
+                let center = packet.mesh.center();
+                assert!(center.into_iter().all(f32::is_finite));
+                let descriptor = &spec.animations[&sample.slot];
+                let model = &spec.models[slot].as_ref().unwrap().prepared;
+                let positions = giants_game::skinning::positions_bound(
+                    model.skin.as_ref().unwrap(),
+                    &descriptor.animation,
+                    descriptor.template.bindings[slot].as_ref().unwrap(),
+                    packet.tick,
+                )
+                .unwrap();
+                let affine = active.resident_states.actor_current_affine(owner).unwrap();
+                let pose = giants_game::contact_pose::Cached::new(
+                    packet.active,
+                    affine.flags,
+                    affine.matrix,
+                )
+                .unwrap();
+                let points = model
+                    .mesh
+                    .subobjects
+                    .iter()
+                    .flat_map(|p| &p.triangles)
+                    .find_map(|face| {
+                        let vertices: [Vec3; 3] = std::array::from_fn(|i| {
+                            Vec3::from(
+                                pose.to_world(
+                                    positions
+                                        [usize::from(model.mesh.indices[usize::from(face[i])])],
+                                )
+                                .unwrap(),
+                            )
+                        });
+                        let normal = (vertices[1] - vertices[0]).cross(vertices[2] - vertices[0]);
+                        (normal.length_squared() > 0.01).then(|| {
+                            (
+                                (vertices[0] + vertices[1] + vertices[2]) / 3.,
+                                normal.normalize(),
+                            )
+                        })
+                    })
+                    .unwrap();
+                assert!(
+                    packet
+                        .mesh
+                        .hit(
+                            (points.0 + points.1 * 100.).to_array(),
+                            (points.0 - points.1 * 100.).to_array()
+                        )
+                        .unwrap()
+                        .is_some()
+                );
+                // Publication failure must remove the preceding packet, even
+                // when it was valid for this same step. Restore through the
+                // ordinary producer before running the Ripper component.
+                wrong = sample;
+                wrong.tree = "unavailable_tree";
+                assert!(
+                    runtime
+                        .publish_normal_mecc_contact(ticket, number, wrong)
+                        .is_err()
+                );
+                assert!(
+                    runtime
+                        .active
+                        .as_ref()
+                        .unwrap()
+                        .payload
+                        .rippers
+                        .as_ref()
+                        .unwrap()
+                        .as_ref()
+                        .unwrap()
+                        .controlled_contact
+                        .is_none()
+                );
+                runtime
+                    .publish_normal_mecc_contact(ticket, number, sample)
+                    .unwrap();
+            }
+            runtime
                 .advance_normal_rippers(
                     ticket,
                     number,
@@ -705,6 +860,9 @@ fn approach_ripper(
             .unwrap();
         runtime
             .publish_controlled_mecc_motion(ticket, number, motion)
+            .unwrap();
+        runtime
+            .publish_normal_mecc_contact(ticket, number, viewer.normal_contact_sample().unwrap())
             .unwrap();
         if let Err(error) = runtime.advance_normal_rippers_with_retirement(
             ticket,

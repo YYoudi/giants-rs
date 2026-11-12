@@ -3,6 +3,32 @@
 use super::*;
 
 impl State {
+    pub(in crate::mission_runtime) fn publish_controlled_contact(
+        &mut self,
+        session: &mut Session,
+        owner: Id,
+        step: u64,
+        resources: &giants_game::scene_resources::SceneResources,
+        sample: giants_game::controlled_mecc_contacts::Sample<'_>,
+    ) -> Result<(), String> {
+        self.controlled_contact = None;
+        if self.controlled_contact_resources.is_none() {
+            let spec = session
+                .specification(owner)
+                .ok_or("Mecc canonical contact specification absent")?
+                .clone();
+            self.controlled_contact_resources = Some(
+                giants_game::controlled_mecc_contacts::Resources::load(resources, spec)?,
+            );
+        }
+        self.controlled_contact = Some(session.controlled_mecc_contact_snapshot(
+            owner,
+            step,
+            self.controlled_contact_resources.as_ref().unwrap(),
+            sample,
+        )?);
+        Ok(())
+    }
     pub(super) fn require_projectile_flight(
         &mut self,
         session: &mut Session,
@@ -42,7 +68,21 @@ impl State {
             }
         }
         if !shots.is_empty() {
-            return Err("Ripper projectile flight requires current ordinary Mecc/static/NPC contact geometry and impact services; no clear-world substitute".into());
+            let contact = self
+                .controlled_contact
+                .as_ref()
+                .filter(|c| c.owner == frame.controlled && c.step == frame.step)
+                .ok_or(
+                    "Ripper projectile requires the current normal Mecc dedicated contact packet",
+                )?;
+            session.controlled_mecc_motion(contact.owner, contact.step)?;
+            return Err(format!(
+                "Ripper projectile flight requires the ordered static/NPC scene and impact services; current normal Mecc dedicated contact is available (step={} slot={} tick={} center={:?}); no clear-world substitute",
+                contact.step,
+                contact.slot,
+                contact.tick,
+                contact.mesh.center()
+            ));
         }
         Ok(())
     }

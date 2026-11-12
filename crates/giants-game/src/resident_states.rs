@@ -28,6 +28,7 @@ mod dependency_order;
 mod herd_frame;
 #[cfg(test)]
 mod herd_frame_tests;
+mod mecc_contacts;
 #[cfg(test)]
 mod parented_frame_tests;
 #[cfg(test)]

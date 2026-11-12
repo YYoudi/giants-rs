@@ -193,7 +193,10 @@ real terrain/rigid colliders and repeated clock/ANM refusal. Every thirty frames
 it also submits five dedicated contact models, tests supplied segments through
 current source faces and registers them with the ordinary Mecc scene. Cold,
 foreign, zero-number and unfinished-history snapshots refuse. These geometry
-controls do not prove a player collision or damage. Thirty further frames
+controls also exercise the normal Mecc's current dedicated-model packet, real
+affine writer, source-face crossings, stale/foreign/descriptor/time refusal,
+unchanged native ANM channels and clearing an old packet on publication failure.
+They do not prove a player collision or damage. Thirty further frames
 exercise common headless Bevy asset reuse, animated uploads, visibility and
 cleanup, including the acquired null-texture diffuse route. This is not a GPU,
 Windows-input, reciprocal-combat or death check. The normal controller invokes

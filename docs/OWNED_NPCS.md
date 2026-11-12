@@ -157,11 +157,18 @@ This diagnostic is intentionally still failing at that real frontier. It proves
 neither physical contact nor reciprocal combat or GPU fidelity. It is not included
 in the passing `source_wife_` regression selector.
 
-Resource inspection confirms that the Mecc's dedicated collision selection is
-model6 (`mc_l6`), distinct from the ordinary model-zero display. A flight consumer
-must obtain its current deformation and actual canonical identity alongside the
-existing static/NPC registry. It must not replace that geometry with model0,
-an invented empty world, a fabricated global vertex epoch or a ready result.
+The ordinary controller now publishes a Mecc dedicated-contact packet before
+the Ripper component, using its actual selected clip/tree and clock. The Session
+validates canonical class2 ownership and the contiguous current physics step,
+checks the prepared descriptor, runs its real affine writer, deforms collision
+model6 (`mc_l6`) through its own binding and computes source animation bounds.
+It does not change native ANM channels, health or environment readiness. Resource
+ownership, foreign/stale steps, mismatched descriptors/trees and nonfinite time
+refuse; failed publication clears the previous packet. Installed controls also
+cross a current dedicated-model face with the shared segment consumer. The
+flight frontier requires this actual packet rather than a render model0, box,
+invented global vertex epoch or ready result. Ordered static/NPC scene admission,
+flight and impact consumers remain missing; this packet alone is not a hit.
 Ripper projectile models (`ripspit` / `ripspitbig`) also exist; preparation alone
 does not establish their draw, movement or impacts. Source naming remains separate:
 no new prototype PS2 attribution is confirmed by this input diagnostic.
@@ -236,8 +243,10 @@ Standard validation passes 987 Rust tests with 177 ignored, four installed
 `source_wife_` controls, 45 Python tests and strict Clippy/formatting; the failing
 approach diagnostic is separate from those passing results.
 
-Source-only deformation checks cover model6 across sixteen normal Mecc clips
-at eighty supplied times. They do not publish a current collision snapshot yet.
+Earlier source-only deformation checks cover model6 across sixteen normal Mecc
+clips at eighty supplied times. The new ordinary contact producer uses the same
+prepared bindings with the actual controller sample; it does not acknowledge a
+complete native state2 callback or whole-world vertex scheduling.
 Both projectile models are skinned with an animation descriptor; static or bind
 vertices cannot substitute for their animation. Some current rigid-scene entries
 have declaration identities without constructed Session actors. Preserve those

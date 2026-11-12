@@ -32,6 +32,8 @@ pub(super) struct State {
     sounds: Vec<crate::mission_audio::Event>,
     marker_factory: giants_game::primary_surface_marker::Factory<'static>,
     projectile_factory: giants_game::primary_enemy_fire::Factory<'static>,
+    controlled_contact_resources: Option<giants_game::controlled_mecc_contacts::Resources>,
+    controlled_contact: Option<giants_game::controlled_mecc_contacts::Snapshot>,
 }
 #[derive(Debug, PartialEq, Eq)]
 pub(super) struct View {
@@ -108,6 +110,8 @@ impl State {
             driver: Default::default(),
             geometry: Default::default(),
             sounds: vec![],
+            controlled_contact_resources: None,
+            controlled_contact: None,
             projectile_factory: giants_game::primary_enemy_fire::Factory::shared(
                 plan.resources().clone(),
             ),

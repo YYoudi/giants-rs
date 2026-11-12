@@ -105,8 +105,14 @@ The input diagnostic still fails at the missing projectile scene/flight/impact
 consumer (step2618, about1,517 units moved), preserving the consumed prefix.
 Class73 modes37..39 share this launch bridge but their ordinary encounter branch
 has not yet been observed. Launch is not projectile movement or damage delivery.
-Next: provide current dedicated Mecc collision geometry (actual model6, not the
-render model0) and the actual static/NPC scene to flight, connect required impact
+The ordinary controller now provides the actual selected Mecc clip/clock to a
+canonical, step-checked dedicated model6 contact producer. It runs the existing
+affine/bounds/skinning kernels without changing native channels, health or
+readiness; stale/foreign samples and descriptor mismatch refuse, and failed
+publication clears the old packet. This removes the Mecc geometry producer gap,
+not the flight or damage gap. No new prototype PS2 attribution is confirmed.
+Next: provide the actual ordered static/NPC scene alongside that Mecc packet to
+flight, retaining declaration-only identities, then connect required impact
 and active popup/dirt/projectile FX consumers,
 consume required class230 mode66 and later continuations,
 then complete reciprocal contacts, target-to-damage dispatch and combat with

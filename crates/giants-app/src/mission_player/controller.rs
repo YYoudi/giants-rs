@@ -1580,6 +1580,11 @@ pub(super) fn update(
                 .normal_landing_owner(controller.ticket)
                 .ok_or("Ripper controlled owner absent".to_owned())
                 .and_then(|local| {
+                    runtime.publish_normal_mecc_contact(
+                        controller.ticket,
+                        u64::from(controller.steps),
+                        controller.state.normal_contact_sample()?,
+                    )?;
                     audio.owned.with_impact(
                         controller.ticket,
                         frontend.feedback_volume(),

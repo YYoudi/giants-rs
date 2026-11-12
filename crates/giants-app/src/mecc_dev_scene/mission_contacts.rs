@@ -8,6 +8,20 @@ pub(super) struct Contact {
 }
 
 impl State {
+    pub(crate) fn normal_contact_sample(
+        &self,
+    ) -> Result<giants_game::controlled_mecc_contacts::Sample<'_>, String> {
+        if self.owned_pose.is_some() {
+            return Err("normal contact sample cannot replace an owned state2 frame".into());
+        }
+        let clip = &self.clips[&self.active_clip];
+        Ok(giants_game::controlled_mecc_contacts::Sample {
+            slot: self.active_clip,
+            name: &clip.name,
+            tree: &clip.tree,
+            seconds: self.clock.seconds,
+        })
+    }
     pub(crate) fn mission_npc_contact_responses(&self) -> u64 {
         self.npc_mesh_responses
     }
