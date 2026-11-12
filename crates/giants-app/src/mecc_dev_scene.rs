@@ -38,6 +38,7 @@ pub(crate) fn camera_view(eye: Vec3, forward: Vec3, up: Vec3) -> Mat4 {
 
 #[derive(Resource)]
 pub struct State {
+    pub(crate) buildings: crate::mission_buildings::World,
     collision: giants_game::collision_radius::ColdProfile,
     collision_dimensions: [f32; 2],
     mesh_objects: Vec<giants_game::player_world_collision::Object>,
@@ -575,6 +576,7 @@ impl State {
         );
 
         let colliders = giants_game::declared_mesh_scene::prepare(&plan, &world.terrain);
+        let buildings = crate::mission_buildings::World::prepare(&plan, &colliders, &globals)?;
         println!(
             "mecc_dev_colliders objects={} triangles={} needs={} profile=declared_rigid native_list_order=false live_callbacks=false platform_support=false",
             colliders.objects.len(),
@@ -762,6 +764,7 @@ impl State {
             .checked_add(1)
             .ok_or("collision identity budget")?;
         let mut state = Self {
+            buildings,
             collision,
             collision_dimensions,
             projectile_objects: colliders
@@ -1609,6 +1612,7 @@ impl State {
         // Contact consumes the preceding model-speed field. Native derivation
         // occurs after contact, using its corrected current/previous positions.
         let mut npc_responses = 0u64;
+        let mut building_contacts = Vec::new();
         let response = giants_game::player_world_collision::resolve_for_actor_with_responses(
             1,
             giants_game::player_world_collision::Input {
@@ -1661,6 +1665,12 @@ impl State {
             |object, response| {
                 if response.retry
                     && response.state.hit == object.fields.id
+                    && self.buildings.contains(object.fields.id)
+                {
+                    building_contacts.push(object.fields.id);
+                }
+                if response.retry
+                    && response.state.hit == object.fields.id
                     && self
                         .npc_contact_keys
                         .values()
@@ -1675,6 +1685,9 @@ impl State {
             },
         )?;
         self.npc_mesh_responses += npc_responses;
+        for id in building_contacts {
+            self.buildings.note_contact(id);
+        }
         self.mesh_responses += u64::from(response.mesh_responses);
         let resolved = response.state;
         self.collision.radius = resolved.radius;

@@ -29,6 +29,7 @@ struct Part {
     index: usize,
 }
 struct Object {
+    textures: BTreeMap<String, Handle<Image>>,
     world: Option<Handle<bevy::render::storage::ShaderBuffer>>,
     geometry: std::sync::Arc<giants_game::scene_resources::ModelAsset>,
     images: Vec<Handle<Image>>,
@@ -96,6 +97,7 @@ fn vertices(draw: &crate::mission_runtime::NpcDraw, index: usize) -> Result<Vec<
         })
         .collect()
 }
+#[allow(clippy::too_many_arguments)] // Independent ECS scene, assets and completed pose sources.
 fn update(
     mut commands: Commands,
     mut runtime: ResMut<crate::mission_runtime::Runtime>,
@@ -104,6 +106,7 @@ fn update(
     mut state: ResMut<State>,
     mut gpu: Gpu,
     mut visuals: Query<(&mut Visibility, &mut Transform)>,
+    controllers: Query<&crate::mission_player::Controller>,
 ) {
     let ticket = runtime.active_ticket();
     if state.ticket != ticket {
@@ -136,6 +139,9 @@ fn update(
     let result = (|| -> Result<(), String> {
         let mut draws = runtime.npc_draws(ticket)?;
         draws.extend(runtime.npc_effect_draws(ticket, camera.view)?);
+        for controller in &controllers {
+            draws.extend(controller.building_effect_draws(ticket, camera.view)?);
+        }
         let vimp_count = draws.iter().filter(|draw| draw.class == 8).count();
         let meat_count = draws
             .iter()
@@ -144,7 +150,13 @@ fn update(
         let ghost_count = draws.iter().filter(|draw| draw.class == 859).count();
         let effect_count = draws
             .iter()
-            .filter(|draw| matches!(draw.id, crate::mission_runtime::NpcDrawOwner::Effect(_)))
+            .filter(|draw| {
+                matches!(
+                    draw.id,
+                    crate::mission_runtime::NpcDrawOwner::Effect(_)
+                        | crate::mission_runtime::NpcDrawOwner::BuildingEffect(_)
+                )
+            })
             .count();
         let present: BTreeSet<_> = draws.iter().map(|draw| draw.id).collect();
         let retired: Vec<_> = state
@@ -160,6 +172,7 @@ fn update(
             if let std::collections::btree_map::Entry::Vacant(entry) = state.objects.entry(draw.id)
             {
                 let object = entry.insert(Object {
+                    textures: BTreeMap::new(),
                     world: (draw.class != 8).then(|| {
                         gpu.buffers
                             .add(crate::source_view::uniform_buffer(&Mat4::IDENTITY))
@@ -187,6 +200,7 @@ fn update(
                     textures.insert(source.name.to_ascii_lowercase(), handle.clone());
                     object.images.push(handle);
                 }
+                object.textures = textures.clone();
                 for (index, part) in draw.geometry.mesh.subobjects.iter().enumerate() {
                     // The mission binding already validates the RGB body path.
                     // Keep this consumer opaque; special/alpha passes require
@@ -383,6 +397,14 @@ fn update(
                             .get_mut(handle)
                             .ok_or("auxiliary material removed")?;
                         material.set_owned_profile(profile);
+                        if let Some(name) = &draw.texture {
+                            let texture = object
+                                .textures
+                                .get(&name.to_ascii_lowercase())
+                                .ok_or("building animated texture was not prepared")?
+                                .clone();
+                            material.set_owned_texture(texture);
+                        }
                         material.set_draw_view(
                             false,
                             camera.viewport.z as f32,

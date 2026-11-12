@@ -2,6 +2,9 @@
 //! Uses the real request and cancellation paths. Never sends readiness events,
 //! injects operating-system input or claims normal-game interaction fidelity.
 use super::*;
+pub(crate) fn building_interaction_probe() -> bool {
+    std::env::var("GIANTS_MISSION_BUILDING_PROBE").as_deref() == Ok("1")
+}
 pub(crate) fn vimp_interaction_probe() -> bool {
     std::env::var("GIANTS_MISSION_VIMP_PROBE").as_deref() == Ok("1")
 }
@@ -51,6 +54,20 @@ pub(crate) struct Replay {
     film_finished: bool,
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    if std::env::var_os("GIANTS_MISSION_BUILDING_PROBE").is_some()
+        && (!building_interaction_probe()
+            || vimp_interaction_probe()
+            || objective_interaction_probe()
+            || std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-mecc")
+            || std::env::var("GIANTS_SHOWCASE_WORLD").as_deref() != Ok("Story2")
+            || !app
+                .world()
+                .contains_resource::<crate::cinematic_audio::MutedTransport>())
+    {
+        return Err(
+            "building input probe requires its exclusive muted offscreen Story2 Mecc replay".into(),
+        );
+    }
     if std::env::var_os("GIANTS_MISSION_OBJECTIVE_PROBE").is_some()
         && (!objective_interaction_probe()
             || std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-mecc")

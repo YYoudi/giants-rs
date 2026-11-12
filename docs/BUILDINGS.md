@@ -20,7 +20,10 @@ and Pair2 precede Raster3 and cannot provide the platform membership bit; their
 independently selected solid meshes are now admitted without inventing roofs.
 Raster3 construction remains required for other entrances/columns/walls.
 Ordinary projectile response currently routes supported living NPC hits; drawing
-a building provides no building damage callback or changing collider ownership.
+a building alone provides no damage callback. The new ordinary adapter now owns
+admitted state61 houses and routes normal pistol hits to their source decisions,
+then replaces player/projectile/environment triangles and submits individual
+render-LOD deformation or retirement. Other state families remain separate.
 
 The literal prototype names `house_process`, `house_shot` and
 `house_handle_destruction` lead to `building_damage`. Their exact PC function
@@ -46,7 +49,9 @@ and the independently selected collision slot. The initial state61 collider now
 uses its intact animated vertices and channel1 descriptor bounds, rather than
 the serialized bind pose. An installed control checks all six ordinary Smartie
 house variants against both player and projectile geometry. This preparation
-does not yet supply a live damage owner or establish graphical acceptance.
+does not by itself establish graphical acceptance. The new app house owner uses
+these same stages; each displayed house has separate mutable GPU meshes, tracked
+by the existing environment asset owner so cancellation releases them normally.
 
 The first stone-effect activation attempt was refused by the existing partial
 Vimp graph consumer. The actual source requests compound bursts with several
@@ -57,7 +62,23 @@ into one object. The compound null pass and three child profiles now agree with
 48 private original-PC flags8 preparation contexts, including ordered range
 operands and final RNG state. Constructors, active sound, child reference
 placement and ordinary updates remain required; this is not active effect
-execution evidence.
+execution evidence. The app now has a ticket-owned compound-burst consumer using
+the existing birth/reference, motion, terrain contact, orientation, ANM and
+numbered-texture kernels. The small/large source programs create25/49 bodies;
+the large source fireball advances its24 numbered textures. Hidden supports keep
+their source birth roles; visible particles share the mission renderer and its
+normal GPU/audio cancellation. Actual mission clock/slow areas and the composing
+random stream are supplied by the runtime, not a new effect seed.
+
+This remains an explicit partial preview profile: reference placement uses the
+checked birth pose, particle physics is terrain-only, and audio uses the existing
+asynchronous positional owner. Attraction to other character abilities, native
+interleaved audio RNG, full object-list scheduling and visual fidelity are not
+acknowledged by that consumer. Do not describe the birth projection as completed
+native state78 execution. The installed app control checks stage replacement,
+terminal collision exclusion, real source burst resources/texture progression,
+expiry and duplicate-hit suppression with supplied inputs; GPU and ordinary
+Windows interaction remain required before delivery.
 
 The acquired house retirement request sets a terminal active bit, excluding
 the owner from subsequent collision candidates. Actual world/resource cleanup

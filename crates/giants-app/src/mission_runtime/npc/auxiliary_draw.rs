@@ -38,6 +38,7 @@ impl State {
                     })
                     .collect::<Result<Vec<_>, String>>()?;
                 Ok(Draw {
+                    texture: None,
                     class: draw.class,
                     transparency: draw.transparency,
                     id: DrawOwner::Effect(draw.key),
@@ -167,6 +168,7 @@ impl State {
                 })
                 .collect::<Result<Vec<_>, String>>()?;
             draws.push(Draw {
+                texture: None,
                 class,
                 transparency,
                 id: DrawOwner::Actor(id),

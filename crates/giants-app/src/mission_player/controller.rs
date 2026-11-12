@@ -31,6 +31,9 @@ pub(crate) struct Controller {
     owned_motion_failed: bool,
     world_signals_failed: bool,
     npc_failed: bool,
+    building_failed: bool,
+    building_probe_target: Option<u32>,
+    building_probe_terminal: bool,
     // Input-fixture memory only: release RMB long enough to recharge, as a
     // player would. Never changes fuel, actor pose or the ordinary jet service.
     probe_recharge: bool,
@@ -60,6 +63,18 @@ pub(crate) struct Controller {
     subjective_last_slot: Option<u8>,
     subjective_updates: u32,
     subjective_draw_visible: Option<bool>,
+}
+impl Controller {
+    pub(crate) fn building_effect_draws(
+        &self,
+        ticket: u64,
+        view: [f32; 16],
+    ) -> Result<Vec<crate::mission_runtime::NpcDraw>, String> {
+        if self.ticket != ticket || self.building_failed {
+            return Ok(vec![]);
+        }
+        self.state.buildings.draws(view)
+    }
 }
 impl Controller {
     fn campaign_probe() -> bool {
@@ -344,7 +359,9 @@ impl Controller {
                 120000
             } else if Self::vimp_contact_probe() {
                 12000
-            } else if crate::frontend_scene::vimp_interaction_probe() {
+            } else if crate::frontend_scene::vimp_interaction_probe()
+                || crate::frontend_scene::building_interaction_probe()
+            {
                 6000
             } else if matches!(
                 std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
@@ -390,6 +407,9 @@ impl Controller {
             owned_motion_failed: false,
             world_signals_failed: false,
             npc_failed: false,
+            building_failed: false,
+            building_probe_target: None,
+            building_probe_terminal: false,
             probe_recharge: false,
             probe_route: None,
             probe_escape: Default::default(),
@@ -420,6 +440,7 @@ pub(super) struct HostTime<'w> {
 }
 #[derive(bevy::ecs::system::SystemParam)]
 pub(super) struct AudioRequests<'w, 's> {
+    building: MessageWriter<'w, crate::mission_buildings::Update>,
     local: MessageWriter<'w, crate::mission_audio::Request>,
     flight: MessageWriter<'w, crate::mission_flight_audio::Born>,
     owned: crate::mission_audio::OwnedAudio<'w, 's>,
@@ -630,6 +651,7 @@ pub(super) fn update(
             && !(controller.owned_backend && controller.owned_motion_failed)
         {
             let tick = controller.steps;
+            let mut building_fire = false;
             if replay_running {
                 let probe = std::env::var("GIANTS_SUBJECTIVE_PROBE").ok();
                 let toggle = match probe.as_deref() {
@@ -844,6 +866,52 @@ pub(super) fn update(
                     }
                 }
             }
+            if replay_running && crate::frontend_scene::building_interaction_probe() {
+                axes = Vec2::ZERO;
+                thrust = false;
+                boost = false;
+                let position = controller.state.mission_snapshot().0;
+                if let Some((id, target)) = controller
+                    .state
+                    .buildings
+                    .probe_target(position, controller.building_probe_target)
+                {
+                    controller.building_probe_target = Some(id);
+                    let camera = controller.state.subjective_inputs().0;
+                    let dx = target[0] - position[0];
+                    let dy = target[1] - position[1];
+                    let distance = dx.hypot(dy);
+                    let yaw = camera.angles[0].to_radians();
+                    let desired = dx.atan2(-dy);
+                    let horizontal =
+                        (target[0] - camera.position[0]).hypot(target[1] - camera.position[1]);
+                    let pitch = (camera.position[2] - target[2]).atan2(horizontal.max(1.));
+                    controller.state.mission_look(
+                        Vec2::new(
+                            (yaw - desired + std::f32::consts::PI)
+                                .rem_euclid(std::f32::consts::TAU)
+                                - std::f32::consts::PI,
+                            pitch + camera.angles[1].to_radians(),
+                        ),
+                        false,
+                    );
+                    let contacts = controller.state.buildings.probe_contacts(id);
+                    if contacts == 0 {
+                        axes = Vec2::Y;
+                        thrust = tick > 1200 && position[2] < target[2];
+                    } else if distance < 70. {
+                        axes = -Vec2::Y;
+                    } else {
+                        building_fire = true;
+                    }
+                    if tick % 600 == 0 {
+                        println!(
+                            "mission_building_input_probe ticket={} tick={tick} object={id} position={position:?} target={target:?} contacts={contacts} fire={building_fire} supplied_input_only=true",
+                            controller.ticket
+                        );
+                    }
+                }
+            }
             if controller.owned_backend {
                 let seconds = controller.remainder.min(0.1) as f32;
                 let delta = if controller.owned_replay && controller.owned_jet_probe {
@@ -1055,7 +1123,9 @@ pub(super) fn update(
                     );
                 }
             }
-            let fire = if replay_running && crate::frontend_scene::objective_interaction_probe() {
+            let fire = if replay_running && crate::frontend_scene::building_interaction_probe() {
+                building_fire
+            } else if replay_running && crate::frontend_scene::objective_interaction_probe() {
                 false
             } else if replay_running && crate::frontend_scene::vimp_interaction_probe() {
                 !Controller::vimp_contact_probe()
@@ -1197,6 +1267,39 @@ pub(super) fn update(
                                 error!("Vimp hit refused: {e}");
                             }
                         }
+                    } else if !controller.building_failed {
+                        let camera = controller.state.subjective_inputs().0.position;
+                        let ticket = controller.ticket;
+                        match runtime.hit_normal_building(
+                            ticket,
+                            &mut controller.state,
+                            hit,
+                            camera,
+                        ) {
+                            Ok(Some(result)) => {
+                                if replay_running
+                                    && crate::frontend_scene::building_interaction_probe()
+                                    && controller.building_probe_target == Some(result.object)
+                                    && result.update.geometry.is_none()
+                                {
+                                    controller.building_probe_terminal = true;
+                                    controller.finish_step = tick + 60;
+                                }
+                                audio.building.write(result.update);
+                                for event in result.sounds {
+                                    audio
+                                        .local
+                                        .write(crate::mission_audio::Request { ticket, event });
+                                }
+                            }
+                            Ok(None) => {}
+                            Err(error) => {
+                                controller.building_failed = true;
+                                error!(
+                                    "mission_building_hit_refused ticket={ticket} error={error}"
+                                );
+                            }
+                        }
                     }
                 }
                 for impact in result.impacts {
@@ -1212,7 +1315,7 @@ pub(super) fn update(
                     }
                     match impact {
                         giants_game::mecc_pistol::Impact::World(q) => println!(
-                            "mission_player_projectile_hit ticket={} object={:?} point={:?} tag={} damage_callback=false",
+                            "mission_player_projectile_hit ticket={} object={:?} point={:?} tag={} damage_dispatch=ordinary_supported_owner",
                             controller.ticket, q.selected, q.point, q.tag
                         ),
                         giants_game::mecc_pistol::Impact::Ground(point) => println!(
@@ -1280,7 +1383,21 @@ pub(super) fn update(
                 if controller.fire_replay {
                     let pistol = controller.pistol().unwrap();
                     let expected = if controller.finish_step == 64 { 1 } else { 4 };
-                    if Controller::vimp_contact_probe() {
+                    if crate::frontend_scene::building_interaction_probe() {
+                        assert!(
+                            controller.building_probe_terminal && !controller.building_failed,
+                            "building probe did not destroy its actual source target"
+                        );
+                        let target = controller.building_probe_target.expect("building target");
+                        assert!(
+                            controller.state.buildings.probe_contacts(target) > 0,
+                            "building probe never contacted its actual target mesh"
+                        );
+                        println!(
+                            "mission_building_input_probe_finished ticket={} object={target} shots={} source_retirement=true supplied_input_only=true os_input=false",
+                            controller.ticket, pistol.fired
+                        );
+                    } else if Controller::vimp_contact_probe() {
                         assert_eq!(
                             pistol.fired, 0,
                             "contact probe must retain living collision owners"
@@ -1509,6 +1626,21 @@ pub(super) fn update(
                     }
                 }
             }
+        }
+        if !controller.owned_backend
+            && !controller.world_signals_failed
+            && !controller.building_failed
+            && controller.steps > 0
+            && let Err(error) = runtime.advance_normal_building_effects(
+                controller.ticket,
+                &mut controller.state.buildings.effects,
+            )
+        {
+            controller.building_failed = true;
+            error!(
+                "mission_building_effect_refused ticket={} error={error}",
+                controller.ticket
+            );
         }
         if !controller.owned_backend
             && controller.steps > 0

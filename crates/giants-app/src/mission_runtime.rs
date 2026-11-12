@@ -1243,6 +1243,62 @@ impl Runtime {
             device,
         )
     }
+    pub(crate) fn hit_normal_building(
+        &mut self,
+        ticket: u64,
+        state: &mut crate::mecc_dev_scene::State,
+        hit: giants_game::mecc_pistol::WorldHit,
+        camera: [f32; 3],
+    ) -> Result<Option<crate::mission_buildings::HitResult>, String> {
+        let a = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("building hit ticket absent")?;
+        let owner = a.player_owner()?;
+        if a.owned_mecc.is_some() || a.controlled_mecc_owner != Some(owner) {
+            return Err("building hit requires its ordinary controlled Mecc".into());
+        }
+        let result = state.buildings.hit(
+            ticket,
+            hit,
+            camera,
+            a.resident_states.counts().residents,
+            &mut a.variant_random,
+        )?;
+        if let Some(result) = &result {
+            state.apply_building_hit(result)?;
+        }
+        Ok(result)
+    }
+    pub(crate) fn advance_normal_building_effects(
+        &self,
+        ticket: u64,
+        effects: &mut crate::mission_building_effects::Runtime,
+    ) -> Result<(), String> {
+        let a = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("building effect ticket absent")?;
+        let Some((sample, clock)) = a.payload.signals.current() else {
+            return Err("building effects require the actual mission clock".into());
+        };
+        let areas = a.payload.signals.areas.snapshot(|id| {
+            a.resident_states
+                .get(id)
+                .and_then(|actor| actor.construction_fields.as_ref())
+                .map(|f| f.dispatch_context)
+                .ok_or_else(|| "building slow-area owner absent".into())
+        })?;
+        effects.advance(
+            ticket,
+            sample,
+            clock.seconds,
+            &areas,
+            a.payload.world.as_ref().map_err(Clone::clone)?,
+        )
+    }
     pub(crate) fn npc_target(&self, ticket: u64) -> Option<[f32; 3]> {
         let a = self
             .active

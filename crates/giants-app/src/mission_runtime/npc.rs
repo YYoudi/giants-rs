@@ -35,6 +35,7 @@ pub(super) struct State {
 
 /// A copied submission, not a second simulation or shared pose buffer.
 pub(crate) struct Draw {
+    pub texture: Option<String>,
     pub class: i32,
     pub transparency: f32,
     pub id: DrawOwner,
@@ -45,6 +46,7 @@ pub(crate) struct Draw {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum DrawOwner {
+    BuildingEffect(u64),
     Actor(Id),
     Effect(giants_game::vimp_death_fx::Key),
 }
@@ -309,6 +311,7 @@ impl State {
                 })
                 .collect::<Result<Vec<_>, String>>()?;
             result.push(Draw {
+                texture: None,
                 class: 8,
                 transparency: 0.,
                 id: DrawOwner::Actor(id),

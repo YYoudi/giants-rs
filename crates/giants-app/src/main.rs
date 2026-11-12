@@ -51,6 +51,8 @@ mod mesh_scene;
 mod mission_ambient;
 mod mission_audio;
 mod mission_boot;
+mod mission_building_effects;
+mod mission_buildings;
 mod mission_campaign;
 mod mission_carry;
 mod mission_dressing;

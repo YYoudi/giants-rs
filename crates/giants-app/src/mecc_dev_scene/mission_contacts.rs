@@ -7,6 +7,47 @@ pub(super) struct Contact {
 }
 
 impl State {
+    pub(crate) fn apply_building_hit(
+        &mut self,
+        hit: &crate::mission_buildings::HitResult,
+    ) -> Result<(), String> {
+        let object = self
+            .mesh_objects
+            .iter_mut()
+            .find(|o| o.fields.id == hit.object)
+            .ok_or("building player collision identity missing")?;
+        object.fields.object_flags = hit.active;
+        object.triangles = hit
+            .triangles
+            .iter()
+            .zip(&hit.identities)
+            .map(
+                |(v, (part, ordinal))| giants_game::player_mesh_contact::Triangle {
+                    vertices: *v,
+                    part: *part,
+                    ordinal: *ordinal,
+                },
+            )
+            .collect();
+        let projectile = self
+            .projectile_objects
+            .iter_mut()
+            .find(|o| o.id == hit.object)
+            .ok_or("building projectile collision identity missing")?;
+        projectile.active = hit.active;
+        if !hit.triangles.is_empty() {
+            projectile.mesh =
+                giants_game::object_segment::Mesh::new(hit.object, hit.triangles.clone())?;
+        }
+        let environment = self
+            .environment_objects
+            .iter_mut()
+            .find(|o| o.mesh.fields.id == hit.object)
+            .ok_or("building environment collision identity missing")?;
+        environment.mesh.fields.object_flags = hit.active;
+        environment.mesh.triangles = hit.triangles.clone();
+        Ok(())
+    }
     pub(crate) fn mission_npc_contact_responses(&self) -> u64 {
         self.npc_mesh_responses
     }

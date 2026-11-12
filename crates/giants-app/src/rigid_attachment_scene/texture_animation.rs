@@ -5,7 +5,7 @@ use giants_game::{
     scene_resources::{ModelAsset, SceneResources},
 };
 
-pub(super) fn load(
+pub(crate) fn load(
     configuration: Configuration,
     model: &ModelAsset,
     resources: &SceneResources,

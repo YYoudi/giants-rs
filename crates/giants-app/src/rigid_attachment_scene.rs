@@ -5,7 +5,7 @@ pub(crate) mod capture;
 mod growing;
 mod mixed;
 mod projection;
-mod texture_animation;
+pub(crate) mod texture_animation;
 mod tracer;
 use bevy::{
     asset::RenderAssetUsages,
@@ -63,6 +63,9 @@ impl From<&Bindings> for Key {
 }
 pub type Material = crate::source_view::UniformMaterial<Bindings, 12>;
 impl Bindings {
+    pub(crate) fn set_owned_texture(&mut self, texture: Handle<Image>) {
+        self.texture = texture;
+    }
     pub(crate) fn set_owned_fog(&mut self, start: f32, end: f32, rgb: Vec3, enabled: bool) {
         self.pixel_fog.z = start;
         self.pixel_fog.w = end;
