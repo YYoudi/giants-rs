@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed mixed population host link; existing unknown identities kept.
+        '7708ab21c2a4d160585947c987754d1d3642419e70c281d5fccf1bec57a5ab0e',
         # Reviewed static platform query routes and explicit unknown attribution.
         'b434786fb3d2623c653f9ae6154df0c6665c0853ebf647452bb614fe443900fd',
         # Concurrent reviewed building-damage routes; no raw research included.

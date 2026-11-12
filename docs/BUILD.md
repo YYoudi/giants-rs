@@ -1572,8 +1572,10 @@ The longer source-world lifetime control additionally requires private
 `installed_mixed_lifetimes_release_actual_payloads_references_and_registrations`
 with the same cargo target and `-- --ignored --nocapture`. It composes the real
 Wife declared platform queries, current geometry, expiry and resource cleanup
-for 44 bodies / 9,853 callbacks. It supplies clocks and the explicit existing
-progress policy; it does not prove GPU output, ordinary impact, NPC death or the
+for 44 bodies / 9,853 callbacks through `mixed::population::Population`.
+It checks actual common-list callback order, duplicate frames, foreign tickets,
+post-geometry cleanup and a real missing-platform failure without replay.
+It supplies clocks and the explicit existing progress policy; it does not prove GPU output, ordinary impact, NPC death or the
 native complete-world schedule. Full footprints and moving-world invalidation
 remain separate from this typed platform-bit projection.
 

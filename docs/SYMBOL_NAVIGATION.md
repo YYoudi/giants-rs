@@ -225,8 +225,12 @@ whole program. Existing PC aliases remain unchanged.
 Literal `fx_process_one` and `fx_logic` are additional **unknown** search routes
 to [`mixed::Execution`](../crates/giants-game/src/attached_effect_context/mixed.rs).
 This canonical source constructor owns root/child births, retained waits and
-context retirement. Its scoped PC controls do not establish body scheduling,
-render completion, damage, prototype signatures/layouts or a confirmed attribution.
+context retirement. The related
+[`population::Population`](../crates/giants-game/src/attached_effect_context/mixed/population.rs)
+retains those actual contexts across caller frames, selects body-local clocks and
+owns separate cleanup over its Session cohort. Scoped controls do not establish
+complete native scheduling, render/audio completion, damage, prototype
+signatures/layouts or a confirmed attribution.
 The literal prototype name `object_render__FP6OBJECTiG7f32quat` is an **unknown**
 search route to the acquired mixed-body draw view in
 [`timed_effect/draw`](../crates/giants-game/src/resident_states/timed_effect/draw.rs).

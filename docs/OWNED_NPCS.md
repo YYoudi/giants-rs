@@ -19,6 +19,18 @@ A second wrapper cannot consume an already-active context; failures retain the
 constructed prefix and prevent replay. Completion means source construction,
 not body lifetime, render readiness or damage completion.
 
+`mixed::population::Population` now owns the following host phases over those
+canonical contexts and bodies. Named impact preparation retains a real context;
+activation consumes the caller's global clock, and each body independently
+selects object-local time from current fields/slow areas. Body callbacks and
+cleanup follow the actual Session common-list order within this owned cohort.
+The caller consumes prepared geometry before invoking cleanup. Duplicate frames,
+foreign pools/tickets and missing cleanup are refused before further work; late
+world failure retains the executed prefix and prohibits replay. No random stream,
+world service or render/audio acknowledgment is manufactured. The application
+must still bind this owner to the real impact transaction and surrounding frame
+schedule; this is not a complete native world/interleaving or combat delivery.
+
 An installed/native control compares all 44 medium/large births, including the
 two delayed bodies, on 2,596 selected words and both phase RNG results. A second
 installed control runs four ordinary history/callback/finalization/placement
@@ -27,7 +39,7 @@ and collider preparation. Its 168 preparations use the common world services,
 without a cinematic scope. It explicitly selects the existing prototype PS2
 zero-threshold progress policy; no debug-PC caller bits are invented. This is a
 source-world service control, not a native whole-world schedule or GPU check.
-Ordinary impact still needs its actual program/body schedule, body retirement
+Ordinary impact still needs to bind the host phases, real world/audio consumers
 and reciprocal hit owners before complete encounter acceptance.
 
 The common mission unlit consumer now accepts these canonical mixed bodies only

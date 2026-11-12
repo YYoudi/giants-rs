@@ -206,6 +206,14 @@ cleanup. Existing footprints/building queries and changed/moving-world snapshots
 remain prerequisites. Next connect ordinary impact creation, context/body clocks,
 common render/audio and actual source-bearing radial hit consumers; construction,
 CPU cleanup and static declared queries do not certify those connections.
+The production `mixed::population::Population` now retains named prepared
+contexts through global-clock activation, object-local body preparation in
+Session common-list order and separate post-geometry cleanup. The lifetime
+control uses this owner for all44 bodies /9,853 callbacks, not a manual replay
+loop. It also verifies duplicate/foreign refusal and retained failure at a real
+missing platform dependency. Bind it into the ordinary impact transaction next,
+with actual radial/active-hit/audio services and the surrounding frame schedule.
+The host's emptiness is not a render/audio availability acknowledgment.
 
 Earlier graphical failure: local source `a450206` admitted the authored Wife
 population but failed before capture: mixed positional sound requests exceeded

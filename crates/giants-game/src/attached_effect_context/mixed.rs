@@ -9,6 +9,7 @@ use crate::{
     scene_resources::SceneResources,
     timed_effect_object::Timed,
 };
+pub mod population;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Step {
@@ -346,16 +347,16 @@ mod lifetime_tests {
             let mut pool = Pool::<Actor>::from_active_resources(session.ticket(), resources);
             let mut random = Random(17); // Explicit source-control VM stream, not live-game initialization.
             let request = crate::enemy_projectile::impact_effect(action, position).unwrap();
-            let (Creation::Prepared(origin), _) = pool
-                .prepare_enemy_projectile_impact_invariant(&request, &mut random)
+            let mut population = population::Population::new(session.ticket());
+            let Creation::Prepared(origin) = population
+                .prepare_impact(&session, &mut pool, &request, &mut random)
                 .unwrap()
             else {
                 panic!()
             };
-            let mut execution = Execution::new(origin);
-            execution
-                .advance(&mut pool, &mut session, resources, 0., &mut random)
-                .unwrap();
+            assert!(pool.get(origin).is_some());
+            assert!(session.list(0).is_empty()); // Preparation is not activation.
+            let mut births = Vec::new();
             let mut services = crate::cinematic_timed::world::World::new(
                 &asset.terrain,
                 &prepared.objects,
@@ -376,50 +377,78 @@ mod lifetime_tests {
                 1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1.,
             ];
             for frame in 0..650 {
-                if frame > 0 && !execution.complete() {
-                    execution
-                        .advance(&mut pool, &mut session, resources, 0.01, &mut random)
-                        .unwrap();
+                let current = population
+                    .advance(
+                        &mut session,
+                        population::Frame {
+                            number: frame,
+                            global_seconds: 0.01,
+                            areas: &[],
+                            progress: crate::actor_finalization::PhysicalProgress::PrototypePs2Zero,
+                            pc_argument: None,
+                        },
+                        population::Update {
+                            pool: &mut pool,
+                            resources,
+                            random: &mut random,
+                            stamp: &mut stamp,
+                            world: &mut services,
+                        },
+                    )
+                    .unwrap();
+                if frame == 0 {
+                    let before = (
+                        random.0,
+                        stamp.0,
+                        services.calls.motion,
+                        services.calls.environment,
+                        session.list(0),
+                    );
+                    assert!(population.advance(&mut session,population::Frame { number:frame,global_seconds:0.01,areas:&[],progress:crate::actor_finalization::PhysicalProgress::PrototypePs2Zero,pc_argument:None },population::Update {pool:&mut pool,resources,random:&mut random,stamp:&mut stamp,world:&mut services}).is_err());
+                    assert!(
+                        population
+                            .prepare_impact(&session, &mut pool, &request, &mut random)
+                            .is_err()
+                    );
+                    let mut foreign = Session::new(99999);
+                    assert!(population.cleanup(&mut foreign, &pool).is_err());
+                    assert_eq!(
+                        before,
+                        (
+                            random.0,
+                            stamp.0,
+                            services.calls.motion,
+                            services.calls.environment,
+                            session.list(0)
+                        )
+                    );
+                    assert!(population.failure().is_none());
                 }
-                let mut expired = Vec::new();
-                for (ordinal, &id) in execution.actors().iter().enumerate() {
-                    let Some(actor) = session.get(id) else {
-                        continue;
-                    };
-                    let class = actor.class;
-                    weak.entry(id).or_insert_with(|| {
+                for id in current.born {
+                    births.push(id);
+                    weak.insert(
+                        id,
                         (
                             std::sync::Arc::downgrade(session.specification(id).unwrap()),
                             std::sync::Arc::downgrade(session.state_resources(id).unwrap()),
-                        )
-                    });
-                    assert!(session.destroy_expired_mixed_particle(id, &pool).is_err());
-                    session.begin_timed_positioned_frame(id).unwrap();
-                    let context = session
-                        .get(id)
-                        .unwrap()
-                        .construction_fields
-                        .as_ref()
-                        .unwrap()
-                        .dispatch_context;
-                    let step = session
-                        .prepare_timed_positioned_source(
-                            id,
-                            crate::resident_states::TimedEffectSourcePreparation {
-                                seconds: 0.01,
-                                finalization_time: crate::actor_finalization::Time {
-                                    global_seconds: 0.01,
-                                    context,
-                                    areas: &[],
-                                },
-                                progress:
-                                    crate::actor_finalization::PhysicalProgress::PrototypePs2Zero,
-                                pc_argument: None,
-                            },
-                            &mut stamp,
-                            &mut services,
-                        )
-                        .unwrap();
+                        ),
+                    );
+                }
+                let actual = current
+                    .callbacks
+                    .iter()
+                    .map(|(id, _)| *id)
+                    .collect::<Vec<_>>();
+                let expected_order = session
+                    .list(0)
+                    .into_iter()
+                    .filter(|id| actual.contains(id))
+                    .collect::<Vec<_>>();
+                assert_eq!(actual, expected_order);
+                for (id, step) in current.callbacks {
+                    let actor = session.get(id).unwrap();
+                    let ordinal = births.iter().position(|born| *born == id).unwrap();
+                    let class = actor.class;
                     *calls.entry(id).or_default() += 1;
                     if step == crate::timed_effect_object::Step::Marked {
                         assert_eq!(
@@ -429,7 +458,6 @@ mod lifetime_tests {
                             request.name
                         );
                         assert!(session.particle_draw_state(id).unwrap().is_none());
-                        expired.push(id);
                     } else if session.particle_draw_state(id).unwrap().is_some() {
                         let model = geometry.entry(id).or_insert_with(|| {
                             crate::smoke_particle_draw::Geometry::load(resources, &session, id, 0)
@@ -439,8 +467,9 @@ mod lifetime_tests {
                     }
                 }
                 let before = session.counts().residents;
-                for id in &expired {
-                    let result = session.destroy_expired_mixed_particle(*id, &pool).unwrap();
+                let expired = population.cleanup(&mut session, &pool).unwrap();
+                assert!(population.cleanup(&mut session, &pool).is_err());
+                for (id, result) in &expired {
                     assert_eq!(result.payload_bytes, 268);
                     assert!(session.get(*id).is_none());
                     let (spec, state) = weak.remove(id).unwrap();
@@ -453,11 +482,11 @@ mod lifetime_tests {
                     total += 1;
                 }
                 assert_eq!(session.counts().residents, before - expired.len());
-                if execution.complete() && session.list(0).is_empty() {
+                if population.settled() {
                     break;
                 }
             }
-            assert!(execution.complete());
+            assert!(population.settled());
             assert!(pool.active().is_empty());
             assert!(session.list(0).is_empty());
             assert_eq!(session.counts().payload_bytes, 0);
@@ -466,6 +495,102 @@ mod lifetime_tests {
             assert!(weak.is_empty());
             total_callbacks += calls.values().sum::<usize>();
         }
+        // A real missing platform producer is a retained failure, not an empty
+        // successful query. Retrying cannot consume clocks, RNG or callbacks.
+        let mut failed_session = Session::new(1991);
+        let mut failed_pool =
+            Pool::<Actor>::from_active_resources(failed_session.ticket(), resources);
+        let mut failed_population = population::Population::new(failed_session.ticket());
+        let mut random = Random(17);
+        let request = crate::enemy_projectile::impact_effect(0, position).unwrap();
+        failed_population
+            .prepare_impact(&failed_session, &mut failed_pool, &request, &mut random)
+            .unwrap();
+        let mut failed_world = crate::cinematic_timed::world::World::new(
+            &asset.terrain,
+            &prepared.objects,
+            &[],
+            &prepared.unresolved,
+            0.01,
+            &[],
+        )
+        .unwrap();
+        let mut stamp = crate::animation_epoch::Stamp::default();
+        let mut observed_failure = false;
+        for number in 0..650 {
+            let result = failed_population.advance(
+                &mut failed_session,
+                population::Frame {
+                    number,
+                    global_seconds: 0.01,
+                    areas: &[],
+                    progress: crate::actor_finalization::PhysicalProgress::PrototypePs2Zero,
+                    pc_argument: None,
+                },
+                population::Update {
+                    pool: &mut failed_pool,
+                    resources,
+                    random: &mut random,
+                    stamp: &mut stamp,
+                    world: &mut failed_world,
+                },
+            );
+            if let Err(error) = result {
+                assert!(error.contains("platform footprint required"), "{error}");
+                let before = (
+                    random.0,
+                    stamp.0,
+                    failed_world.calls.motion,
+                    failed_world.calls.environment,
+                    failed_session.list(0),
+                );
+                assert!(failed_population.actors().next().is_some());
+                assert_eq!(failed_population.failure(), Some(error.as_str()));
+                assert!(
+                    failed_population
+                        .advance(
+                            &mut failed_session,
+                            population::Frame {
+                                number: number + 1,
+                                global_seconds: 0.01,
+                                areas: &[],
+                                progress:
+                                    crate::actor_finalization::PhysicalProgress::PrototypePs2Zero,
+                                pc_argument: None
+                            },
+                            population::Update {
+                                pool: &mut failed_pool,
+                                resources,
+                                random: &mut random,
+                                stamp: &mut stamp,
+                                world: &mut failed_world
+                            }
+                        )
+                        .is_err()
+                );
+                assert!(
+                    failed_population
+                        .cleanup(&mut failed_session, &failed_pool)
+                        .is_err()
+                );
+                assert_eq!(
+                    before,
+                    (
+                        random.0,
+                        stamp.0,
+                        failed_world.calls.motion,
+                        failed_world.calls.environment,
+                        failed_session.list(0)
+                    )
+                );
+                observed_failure = true;
+                break;
+            }
+            failed_population
+                .cleanup(&mut failed_session, &failed_pool)
+                .unwrap();
+        }
+        assert!(observed_failure);
         assert_eq!(total, 44);
         assert_eq!(total_callbacks, 9853);
         eprintln!(
