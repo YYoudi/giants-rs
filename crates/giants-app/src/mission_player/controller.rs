@@ -801,7 +801,7 @@ pub(super) fn update(
                         }
                         if Controller::campaign_probe() {
                             let fuel = controller.state.mission_snapshot().1;
-                            if fuel < 10. {
+                            if fuel < if return_target.is_some() { 60. } else { 10. } {
                                 controller.probe_recharge = true;
                             }
                             if fuel >= 95. {
@@ -810,6 +810,9 @@ pub(super) fn update(
                             if controller.probe_recharge {
                                 thrust = false;
                                 boost = false;
+                                if return_target.is_some() {
+                                    axes = Vec2::ZERO;
+                                }
                             }
                             if tick % 600 == 0 {
                                 println!(
