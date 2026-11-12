@@ -576,7 +576,19 @@ impl State {
         );
 
         let colliders = giants_game::declared_mesh_scene::prepare(&plan, &world.terrain);
-        let buildings = crate::mission_buildings::World::prepare(&plan, &colliders, &globals)?;
+        let projectile_colliders =
+            giants_game::declared_mesh_scene::prepare_projectiles(&plan, &world.terrain);
+        let buildings = crate::mission_buildings::World::prepare(
+            &plan,
+            &colliders,
+            &projectile_colliders,
+            &globals,
+        )?;
+        println!(
+            "mission_declared_projectiles objects={} needs={} independent_physics_admission=true native_list_order=false",
+            projectile_colliders.objects.len(),
+            projectile_colliders.needs.len()
+        );
         println!(
             "mecc_dev_colliders objects={} triangles={} needs={} profile=declared_rigid native_list_order=false live_callbacks=false platform_support=false",
             colliders.objects.len(),
@@ -759,6 +771,7 @@ impl State {
             .player_objects
             .iter()
             .map(|o| o.fields.id)
+            .chain(projectile_colliders.objects.iter().map(|o| o.fields.id))
             .max()
             .unwrap_or(1)
             .checked_add(1)
@@ -767,7 +780,7 @@ impl State {
             buildings,
             collision,
             collision_dimensions,
-            projectile_objects: colliders
+            projectile_objects: projectile_colliders
                 .objects
                 .iter()
                 .map(|o| {
@@ -784,7 +797,7 @@ impl State {
                     })
                 })
                 .collect::<Result<Vec<_>, &'static str>>()?,
-            static_projectile_objects: colliders.objects.len(),
+            static_projectile_objects: projectile_colliders.objects.len(),
             projectile_test: None,
             mesh_objects: colliders.player_objects,
             static_mesh_objects,

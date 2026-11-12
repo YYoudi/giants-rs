@@ -18,7 +18,13 @@ houses/walls did not. The guarded cold projection now accepts the acquired
 zero-operand class shape declarations. Other size variants still fail. Bounds1
 and Pair2 precede Raster3 and cannot provide the platform membership bit; their
 independently selected solid meshes are now admitted without inventing roofs.
-Raster3 construction remains required for other entrances/columns/walls.
+Raster3 construction remains required for the physical platform/lateral paths of
+other entrances/columns/walls. The new independent projectile preparation uses
+its own source bit20000 eligibility and posed meshes, without granting a player
+footprint, lateral membership or a walkable roof. In the installed Story2 entry
+it prepares 65 projectile candidates, compared with the narrower physical set.
+Guard-tower health geometry is sampled at the actual intact channel; that only
+provides a hit shape, not its unbound replacement/death-effect services.
 Ordinary projectile response currently routes supported living NPC hits; drawing
 a building alone provides no damage callback. The new ordinary adapter now owns
 admitted state61 houses and routes normal pistol hits to their source decisions,
@@ -124,6 +130,12 @@ supplied clock. A receipt-bound muted GPU control also makes real narrow player
 contact, destroys the small tower through five ordinary pistol shots, receives
 its source positional sound and observes all 29 bodies expire. This uses supplied
 commands and does not establish Windows-played combat or source visual fidelity.
+The independent projectile-only fence control creates and expires its 17 source
+wood/smoke bodies and retires its real projectile candidate, without adding any
+player/environment mesh membership. Those roles remain explicit on each owner.
+NPC collision keys reserve the union of static IDs, so the wider projectile list
+cannot alias a subsequently admitted living actor. GPU acceptance of the wider
+list remains required.
 Restricted weapons, special class actions, replacements, older captured effect
 images and collision families without real mesh admission stay explicit needs.
 

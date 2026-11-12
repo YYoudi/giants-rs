@@ -63,7 +63,11 @@ The separate state101 decision kernel agrees on 7,000 supplied PC contexts; capt
 wood/stone FX entries now feed a bounded ordinary state101 mesh owner. Its installed
 small-tower damage/29-body expiry control passes. The muted GPU route also passes
 actual contact, five ordinary shots, its sound sink and all 29 body retirements.
-Windows checks, cancellation/re-entry, broader collision families and replacement
+Two live-effect house cancellation/fresh-entry cycles now pass on one receipt,
+including old-ticket GPU owner release and fresh damage state. A new independent
+projectile list expands the Story2 source candidate set to 65 without inventing
+player/footprint admission; a projectile-only fence's 17-body control passes.
+The wider-list GPU/Windows checks, physical radial/Raster3 families and replacement
 consumers remain required. No new PS2 attribution or public building delivery is confirmed.
 
 ## Delivered milestone - The Wife rescue and completion-film continuation

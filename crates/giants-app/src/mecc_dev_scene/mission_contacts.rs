@@ -11,24 +11,26 @@ impl State {
         &mut self,
         hit: &crate::mission_buildings::HitResult,
     ) -> Result<(), String> {
-        let object = self
-            .mesh_objects
-            .iter_mut()
-            .find(|o| o.fields.id == hit.object)
-            .ok_or("building player collision identity missing")?;
-        object.fields.object_flags = hit.active;
-        object.triangles = hit
-            .triangles
-            .iter()
-            .zip(&hit.identities)
-            .map(
-                |(v, (part, ordinal))| giants_game::player_mesh_contact::Triangle {
-                    vertices: *v,
-                    part: *part,
-                    ordinal: *ordinal,
-                },
-            )
-            .collect();
+        if hit.physical {
+            let object = self
+                .mesh_objects
+                .iter_mut()
+                .find(|o| o.fields.id == hit.object)
+                .ok_or("building player collision identity missing")?;
+            object.fields.object_flags = hit.active;
+            object.triangles = hit
+                .triangles
+                .iter()
+                .zip(&hit.identities)
+                .map(
+                    |(v, (part, ordinal))| giants_game::player_mesh_contact::Triangle {
+                        vertices: *v,
+                        part: *part,
+                        ordinal: *ordinal,
+                    },
+                )
+                .collect();
+        }
         let projectile = self
             .projectile_objects
             .iter_mut()
@@ -39,13 +41,15 @@ impl State {
             projectile.mesh =
                 giants_game::object_segment::Mesh::new(hit.object, hit.triangles.clone())?;
         }
-        let environment = self
-            .environment_objects
-            .iter_mut()
-            .find(|o| o.mesh.fields.id == hit.object)
-            .ok_or("building environment collision identity missing")?;
-        environment.mesh.fields.object_flags = hit.active;
-        environment.mesh.triangles = hit.triangles.clone();
+        if hit.physical {
+            let environment = self
+                .environment_objects
+                .iter_mut()
+                .find(|o| o.mesh.fields.id == hit.object)
+                .ok_or("building environment collision identity missing")?;
+            environment.mesh.fields.object_flags = hit.active;
+            environment.mesh.triangles = hit.triangles.clone();
+        }
         Ok(())
     }
     pub(crate) fn mission_npc_contact_responses(&self) -> u64 {

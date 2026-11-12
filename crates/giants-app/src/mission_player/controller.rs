@@ -904,7 +904,12 @@ pub(super) fn update(
                         false,
                     );
                     let contacts = controller.state.buildings.probe_contacts(id);
-                    if contacts == 0 {
+                    let physical = controller.state.buildings.probe_requires_contact(id);
+                    let approach = !physical
+                        && controller
+                            .pistol()
+                            .is_some_and(|p| distance > p.definition.range * 0.6);
+                    if contacts == 0 && physical || approach {
                         axes = Vec2::Y;
                         thrust = tick > 1200 && position[2] < target[2];
                     } else if distance < 70. {
@@ -1415,8 +1420,9 @@ pub(super) fn update(
                         );
                         let target = controller.building_probe_target.expect("building target");
                         assert!(
-                            controller.state.buildings.probe_contacts(target) > 0,
-                            "building probe never contacted its actual target mesh"
+                            !controller.state.buildings.probe_requires_contact(target)
+                                || controller.state.buildings.probe_contacts(target) > 0,
+                            "building probe never contacted its actual physical target mesh"
                         );
                         let phase = std::env::var("GIANTS_MISSION_BUILDING_CAPTURE")
                             .unwrap_or_else(|_| "destroyed".into());
@@ -1428,9 +1434,10 @@ pub(super) fn update(
                             );
                         }
                         println!(
-                            "mission_building_input_probe_finished ticket={} object={target} shots={} phase={phase} source_retirement={} births={} retired={} active={} supplied_input_only=true os_input=false",
+                            "mission_building_input_probe_finished ticket={} object={target} shots={} phase={phase} physical_admitted={} source_retirement={} births={} retired={} active={} supplied_input_only=true os_input=false",
                             controller.ticket,
                             pistol.fired,
+                            controller.state.buildings.probe_requires_contact(target),
                             phase != "damaged",
                             controller.state.buildings.effects.births,
                             controller.state.buildings.effects.retired,
