@@ -24,6 +24,19 @@ impl Stage {
         {
             return Err("house geometry requires source state61".into());
         }
+        Self::health(source, class, fraction)
+    }
+    /// The acquired house and state101 process callbacks use the same health
+    /// channel. Unskinned declared models keep their actual rigid vertices.
+    pub fn health(source: &SceneResources, class: i32, fraction: f32) -> Result<Self, String> {
+        let state = source
+            .class_state_seed(class)
+            .map_err(|e| e.to_string())?
+            .storage
+            .state();
+        if !matches!(state, 61 | 101) || !fraction.is_finite() || !(0. ..=1.).contains(&fraction) {
+            return Err("building health geometry outside acquired state/fraction profile".into());
+        }
         let binding = source
             .classes
             .models
@@ -31,13 +44,18 @@ impl Stage {
             .ok_or("house model table absent")?
             .as_ref()
             .map_err(Clone::clone)?;
-        let mut pose = crate::model_pose::Prepared::load_normal_initial(
-            source,
-            61,
-            class,
-            &binding.selection,
-        )?;
-        pose.house_health(fraction)?;
+        let pose = if binding.selection.animations.is_empty() {
+            None
+        } else {
+            let mut pose = crate::model_pose::Prepared::load_normal_initial(
+                source,
+                state,
+                class,
+                &binding.selection,
+            )?;
+            pose.house_health(fraction)?;
+            Some(pose)
+        };
         let collision_slot = binding
             .selection
             .table()
@@ -56,7 +74,15 @@ impl Stage {
                 .model_mesh_slot(class, slot)
                 .map_err(|e| e.to_string())?
                 .ok_or("house model slot absent")?;
-            mesh.positions = pose.positions(source, &name, &mesh)?;
+            if let Some(pose) = &pose {
+                mesh.positions = pose.positions(source, &name, &mesh)?;
+            } else if source
+                .archives
+                .members
+                .contains_key(&format!("{}.skn", name.to_ascii_lowercase()))
+            {
+                return Err("skinned building requires its health animation resource".into());
+            }
             positions.insert(slot, mesh.positions.clone());
             if slot == collision_slot {
                 identities = mesh
@@ -111,6 +137,26 @@ impl Stage {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; state101 health resources only, no gameplay"]
+    fn installed_state101_health_preserves_rigid_shapes_and_animated_damage() {
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_BUILDING_ROOT").unwrap());
+        let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        for class in [507, 514, 515, 1050] {
+            let intact = Stage::health(&resources, class, 1.).unwrap();
+            let damaged = Stage::health(&resources, class, 0.5).unwrap();
+            assert!(!intact.collision.is_empty());
+            assert_eq!(intact.collision_slot, damaged.collision_slot);
+            assert_eq!(intact.identities, damaged.identities);
+            if class == 1050 {
+                assert_ne!(intact.positions, damaged.positions);
+            } else {
+                assert_eq!(intact.positions, damaged.positions);
+                assert_eq!(intact.collision, damaged.collision);
+            }
+            assert!(Stage::house(&resources, class, 1.).is_err());
+        }
+    }
     #[test]
     #[ignore = "requires GIANTS_BUILDING_ROOT; source preparation only, not gameplay"]
     fn installed_houses_share_health_pose_with_the_declared_collision_selector() {

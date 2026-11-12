@@ -221,7 +221,7 @@ impl Fields {
                 // These records only advance the source cursor in this D build.
                 0x1c | 0x32 => {}
                 // State allocation and payload attributes have their own owner.
-                0x1e | 0x1f | 0x3c | 0x44 => {}
+                0x1e | 0x1f | 0x3c | 0x44 | 0x7a | 0x7b | 0x7c | 0x83 => {}
                 0x21 => {
                     let center = float(1)?;
                     out.configuration[22] = center.to_bits();

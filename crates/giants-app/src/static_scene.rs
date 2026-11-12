@@ -506,7 +506,7 @@ pub fn setup(
                 // Health deformation belongs to an instance, including every
                 // loaded LOD. Allocate before mission asset adoption so exit
                 // releases these buffers through the ordinary environment owner.
-                let mesh = if instance.initial_state == 61 {
+                let mesh = if matches!(instance.initial_state, 61 | 101) {
                     let copy = meshes.get(mesh).expect("prepared house mesh").clone();
                     let handle = meshes.add(copy);
                     owned.meshes.push(handle.id());

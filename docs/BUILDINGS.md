@@ -113,7 +113,17 @@ the house callback. A zero limit and negative damage also differ from the house
 kernel. External effect/constructor/placement/special-action/retirement services
 remain observed or supplied boundaries in that comparison. The special class
 predicate used a supplied false result; the separate state60 payload transfer
-was excluded. No ordinary tower damage delivery or PS2 identity is established.
+was excluded. No public tower damage delivery or PS2 identity is established.
+The first local state101 consumer is now wired to ordinary hits for admitted
+unrestricted, nonreplacement classes with real mesh colliders. It retains rigid
+vertices for unskinned models and samples the shared health channel for animated
+ones. The installed dependency control destroys the small tower through its
+actual50-point limit, creates its29 wood/stone/smoke bodies from the captured
+direct effect entry, updates all physical owners and retires all bodies on a
+supplied clock. GPU/Windows acceptance remains required for this new family.
+Restricted weapons, special class actions, replacements, older captured effect
+images and collision families without real mesh admission stay explicit needs.
+
 The source state bindings retain their registered image/entry: table/cart and
 stone/wood tower explosions are not the house's named stone program. The guard
 tower declares a distinct complex effect and replacement class; its burst

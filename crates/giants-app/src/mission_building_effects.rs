@@ -19,6 +19,7 @@ struct Model {
     geometry: Arc<ModelAsset>,
     actor: Arc<giants_game::actor_context::Class>,
     texture_names: Vec<String>,
+    texture_configuration: Option<giants_game::effect_texture_animation::Configuration>,
     context: u32,
 }
 struct Body {
@@ -76,6 +77,9 @@ impl Runtime {
     }
     fn model(&mut self, spawn: &giants_game::effect_burst::Spawn) -> Result<Arc<Model>, String> {
         if let Some(model) = self.models.get(&spawn.class) {
+            if model.texture_configuration != spawn.texture_animation {
+                return Err("building particle changed its cached texture configuration".into());
+            }
             return Ok(model.clone());
         }
         let image = &self
@@ -129,6 +133,7 @@ impl Runtime {
             geometry: Arc::new(geometry),
             actor,
             texture_names,
+            texture_configuration: spawn.texture_animation,
             context: fields.dispatch_context,
         });
         self.models.insert(spawn.class, model.clone());
@@ -153,8 +158,63 @@ impl Runtime {
         let (creation, _) = self
             .contexts
             .prepare_positional(label, point, selection, random)?;
+        self.consume_prepared(
+            ticket,
+            creation,
+            point,
+            match kind {
+                StoneEffect::Small => "Small",
+                StoneEffect::Large => "Large",
+            },
+            random,
+        )
+    }
+    /// Direct flags18 request from the class's captured registration namespace.
+    /// Refuse older images rather than backfilling a matching name/offset from
+    /// the current one. A future multi-image owner must retain that distinction.
+    pub(crate) fn emit_offset(
+        &mut self,
+        ticket: u64,
+        binding: &giants_game::model_registry::StateBinding,
+        point: [f32; 3],
+        random: &mut Random,
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
+        self.bind(ticket)?;
+        let giants_game::model_registry::StateTarget::Effect {
+            image,
+            entry,
+            offset,
+        } = binding.target.as_ref().map_err(Clone::clone)?
+        else {
+            return Err("building death-FX reference is not an effect".into());
+        };
+        let active = self
+            .source
+            .classes
+            .models
+            .effects
+            .last()
+            .ok_or("building direct FX image absent")?;
+        if &active.path != image
+            || active.image.entries.get(*entry).map(|e| e.offset) != Some(*offset)
+        {
+            return Err("building direct FX needs its older captured image owner".into());
+        }
+        let (creation, _) =
+            self.contexts
+                .prepare_positional_offset(Some(*offset), point, random)?;
+        self.consume_prepared(ticket, creation, point, "Direct", random)
+    }
+    fn consume_prepared(
+        &mut self,
+        ticket: u64,
+        creation: Creation,
+        point: [f32; 3],
+        kind: &str,
+        random: &mut Random,
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
         let Creation::Prepared(origin) = creation else {
-            return Err("source building stone burst absent".into());
+            return Err("source building burst absent".into());
         };
         let context = self
             .contexts
@@ -190,6 +250,10 @@ impl Runtime {
                 if sound.attached {
                     return Err("building FX needs its attached audio owner".into());
                 }
+                println!(
+                    "mission_building_sound_request ticket={ticket} sound={} point={point:?} route=position sink_acknowledged=false",
+                    sound.id
+                );
                 sounds.push(crate::mission_audio::Event::NpcPosition {
                     sound: sound.id,
                     position: point,
@@ -232,7 +296,7 @@ impl Runtime {
         }
         self.contexts.release_prepared(origin)?;
         println!(
-            "mission_building_burst ticket={ticket} kind={kind:?} bodies={} births={} policy=source_births_terrain_only native_fidelity=false",
+            "mission_building_burst ticket={ticket} kind={kind} bodies={} births={} policy=source_births_terrain_only native_fidelity=false",
             self.bodies.len(),
             self.births
         );

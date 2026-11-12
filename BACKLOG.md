@@ -60,8 +60,9 @@ lookup. The new house decision kernel preserves source threshold/event ordering;
 3,080 supplied native contexts now match damage, animation fraction and ordered
 requests. The first ordinary state61 house consumer is locally connected; broader families remain under development.
 The separate state101 decision kernel agrees on7,000 supplied PC contexts; captured
-wood/stone FX namespaces, replacement and geometry consumers still need ordinary
-integration. No new PS2 attribution or public building delivery is confirmed.
+wood/stone FX entries now feed a bounded ordinary state101 mesh owner. Its installed
+small-tower damage/29-body expiry control passes; GPU/Windows checks, broader
+collision families and replacement consumers remain required. No new PS2 attribution or public building delivery is confirmed.
 
 ## Delivered milestone - The Wife rescue and completion-film continuation
 

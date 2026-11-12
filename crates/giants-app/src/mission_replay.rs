@@ -54,6 +54,13 @@ pub(crate) struct Replay {
     film_finished: bool,
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    if let Ok(class) = std::env::var("GIANTS_MISSION_BUILDING_CLASS")
+        && (!building_interaction_probe() || !class.parse::<i32>().is_ok_and(|c| c > 0))
+    {
+        return Err(
+            "building target class requires its explicit probe and a positive source class".into(),
+        );
+    }
     if let Ok(phase) = std::env::var("GIANTS_MISSION_BUILDING_CAPTURE")
         && (!building_interaction_probe()
             || !matches!(phase.as_str(), "damaged" | "destroyed" | "settled"))
