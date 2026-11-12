@@ -74,6 +74,11 @@ release and individual unlink, preserving actual list order and late-failure
 prefixes without replay. The renderer consumes their removal; this is marker
 retirement, not Ripper death. Prototype PS2 marker/cleanup attribution remains
 unassigned, including the additional literal `mound_*` search candidates.
+Current-scene flight local GNU build: source `225f6fa`, executable SHA256 prefix
+`b0f1d23f2929`, receipt independently checked; no new GPU encounter verification.
+Current source passes 989 Rust tests / 178 ignored, five installed The Wife
+controls, 45 Python tests and strict Clippy. The separate full-contact diagnostic
+still fails after thirty-five actual flight samples at class230 mode66.
 Latest GPU-checked local build (before current-scene flight): source `8e5d72b`, executable SHA256 prefix `865d6ad15293`,
 receipt independently checked. This compiles ordinary launch and current
 normal-Mecc dedicated contacts, but the exact supplied-input diagnostic still

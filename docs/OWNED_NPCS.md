@@ -267,6 +267,14 @@ unassigned: literal `mound_move`, `mound_animselect` and `mound_shot` are additi
 search candidates, not confirmations. Generic cleanup names also remain unknown;
 see [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
 
+The current-scene flight local GNU build is source
+`225f6fa3ece4b2545745410e41a3d8a103c6e80f`, executable SHA256
+`b0f1d23f2929b0615137a8016f0c6920ea9fc71b765cfb97da931d8b22041381`.
+Its receipt was independently checked. It includes the shared flight consumer,
+but has no new GPU encounter verification. Use the same ordinary menu path below;
+mode66, projectile animation/draw and real impact services remain prerequisites.
+The complete-contact diagnostic still fails after thirty-five flight samples.
+
 The latest GPU-checked local build is source `8e5d72b004f7da6c7e92e215d8907b4be0c1cd8b`,
 executable SHA256
 `865d6ad15293710bc14cc80d798aff819cb26104a7f04f1d77f6c84eef5a5c78`.
