@@ -54,6 +54,14 @@ pub(crate) struct Replay {
     film_finished: bool,
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    if let Ok(phase) = std::env::var("GIANTS_MISSION_BUILDING_CAPTURE")
+        && (!building_interaction_probe()
+            || !matches!(phase.as_str(), "damaged" | "destroyed" | "settled"))
+    {
+        return Err(
+            "building capture phase requires its explicit probe and a supported phase".into(),
+        );
+    }
     if std::env::var_os("GIANTS_MISSION_BUILDING_PROBE").is_some()
         && (!building_interaction_probe()
             || vimp_interaction_probe()

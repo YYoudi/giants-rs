@@ -901,7 +901,7 @@ pub(super) fn update(
                         thrust = tick > 1200 && position[2] < target[2];
                     } else if distance < 70. {
                         axes = -Vec2::Y;
-                    } else {
+                    } else if !controller.building_probe_terminal {
                         building_fire = true;
                     }
                     if tick % 600 == 0 {
@@ -1280,10 +1280,24 @@ pub(super) fn update(
                                 if replay_running
                                     && crate::frontend_scene::building_interaction_probe()
                                     && controller.building_probe_target == Some(result.object)
-                                    && result.update.geometry.is_none()
+                                    && !controller.building_probe_terminal
                                 {
-                                    controller.building_probe_terminal = true;
-                                    controller.finish_step = tick + 60;
+                                    let phase = std::env::var("GIANTS_MISSION_BUILDING_CAPTURE")
+                                        .unwrap_or_else(|_| "destroyed".into());
+                                    let reached = if phase == "damaged" {
+                                        result
+                                            .update
+                                            .geometry
+                                            .as_ref()
+                                            .is_some_and(|g| g.fraction < 1.)
+                                    } else {
+                                        result.update.geometry.is_none()
+                                    };
+                                    if reached {
+                                        controller.building_probe_terminal = true;
+                                        controller.finish_step =
+                                            tick + if phase == "settled" { 1200 } else { 60 };
+                                    }
                                 }
                                 audio.building.write(result.update);
                                 for event in result.sounds {
@@ -1386,16 +1400,30 @@ pub(super) fn update(
                     if crate::frontend_scene::building_interaction_probe() {
                         assert!(
                             controller.building_probe_terminal && !controller.building_failed,
-                            "building probe did not destroy its actual source target"
+                            "building probe did not reach its observed source stage"
                         );
                         let target = controller.building_probe_target.expect("building target");
                         assert!(
                             controller.state.buildings.probe_contacts(target) > 0,
                             "building probe never contacted its actual target mesh"
                         );
+                        let phase = std::env::var("GIANTS_MISSION_BUILDING_CAPTURE")
+                            .unwrap_or_else(|_| "destroyed".into());
+                        if phase == "settled" {
+                            assert_eq!(
+                                controller.state.buildings.effects.active(),
+                                0,
+                                "building particles did not expire on the actual mission clock"
+                            );
+                        }
                         println!(
-                            "mission_building_input_probe_finished ticket={} object={target} shots={} source_retirement=true supplied_input_only=true os_input=false",
-                            controller.ticket, pistol.fired
+                            "mission_building_input_probe_finished ticket={} object={target} shots={} phase={phase} source_retirement={} births={} retired={} active={} supplied_input_only=true os_input=false",
+                            controller.ticket,
+                            pistol.fired,
+                            phase != "damaged",
+                            controller.state.buildings.effects.births,
+                            controller.state.buildings.effects.retired,
+                            controller.state.buildings.effects.active()
                         );
                     } else if Controller::vimp_contact_probe() {
                         assert_eq!(
