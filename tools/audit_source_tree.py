@@ -49,6 +49,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         # Historical/concurrent navigation versions: selected PC aliases only,
         # probable mission route and explicitly unknown Ripper/FX routes.
         # This label review certifies neither native behavior nor other branches.
+        # Reviewed concurrent Ripper navigation revision: the same minimal PC
+        # aliases, explicitly unknown relationships, no native extraction.
+        '31cb1af7881794447c0af562f2ffed0428747a30fcf9e102caa83128029b72de',
         '01e32dd58e2c6046541c1faeb5280bc7ed1c4f4d4a19d0a29aa639420bc40daf',
         '59317e0dbd9965e3e71770b97a367753556f8b73c1fe6f7efc6c218a915e7cad',
         '0d55775d69b6004163df1693a6a096fbfaef5ccdebcaa97aa98a9655a3c06369',
