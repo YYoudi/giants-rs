@@ -195,6 +195,42 @@ legacy owned-list API retains its immediate real ground-service/countdown order.
 A failed peer geometry producer is retained as an error until an actual shot
 needs it; it cannot become an empty scene or suppress unrelated Ripper frames.
 
+The next impact dependency is now independently acquired as `radial_damage`.
+It retains the actual ordered list traversal, context gate, four special-state
+predicates, active/health filters, stored 3D distance and radius arithmetic,
+strict Vimp-alert range and kind2 hit requests with the original point/tag. The
+eligible `other` identity ends the entire traversal, including outside hit range;
+an ineligible `other` does not. A zero slope returns before any world access.
+Callbacks read subsequent actors live, and callback failure retains its prefix
+and forbids replay. No default list, health, alert or hit provider is supplied.
+
+Private exact-PC traversal controls cover1,692 cases and689 outgoing requests
+with no differences, including radius boundaries, special states, contexts,
+health, list early return, 3D separation and zero slope. The four predicates
+were separately executed for all state values0..255. Actor headers, list/world
+inputs and outgoing capture-return sinks are explicit fixtures. These results
+validate requests and arithmetic, not applied damage or ordinary world coverage.
+Literal prototype PS2 search routes `hurt_object_do_multi` and `hurt_object`
+remain unknown correspondences; raw symbols and old PC aliases stay in private
+identity-bound records. No platform ABI/layout is transferred.
+
+`Session::record_vimp_radial_signal` supplies the separately acquired recipient
+writer: it copies a canonical source actor's actual current origin and the
+already-produced world elapsed time into the Vimp signal payload. The native
+writer changes only four words across64 controlled cases; an installed control
+checks real constructors, zero time, other-state preservation and foreign/retired
+source refusal. A zero clock stays zero; no invented timeout or forced movement
+substitutes for the later living response. The writer changes no mode, channels,
+health, RNG or readiness. Its prototype relationship is still unassigned.
+
+These dependencies are not yet a normal impact provider. The ordinary shot still
+retains its pending contact until genuine named FX, canonical list/health, alert,
+attributed Mecc/Vimp/Ripper hit callbacks, audio and retirement consumers compose.
+The existing source-absent/nonlethal Mecc service cannot stand in for an attributed,
+directional kind2 blast, and partial-pistol serials cannot become canonical native
+projectiles merely to attach a damage source. GPU reciprocal combat/death remain
+required. The main lane's mission objective and publication flow are unchanged.
+
 After a successful flight, `Session::advance_enemy_projectile_presentation`
 consumes its actual object-local clock and launch-owned rates, advances source
 ANM channels with the composing component's persistent stamp and runs the shared

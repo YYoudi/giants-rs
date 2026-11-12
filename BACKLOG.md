@@ -74,6 +74,14 @@ release and individual unlink, preserving actual list order and late-failure
 prefixes without replay. The renderer consumes their removal; this is marker
 retirement, not Ripper death. Prototype PS2 marker/cleanup attribution remains
 unassigned, including the additional literal `mound_*` search candidates.
+Impact dependencies acquired, still awaiting ordinary composition:
+`radial_damage` matches1,692 exact-PC traversal fixtures /689 outgoing requests;
+the owned Vimp signal writer has a real source-origin/time contract and installed
+constructor/preservation control. Neither is an impact/damage availability provider.
+Next connect actual Session list1/health and attributed kind2 hit services with
+named FX/audio and retirement. Do not reuse the source-absent nonlethal Mecc path
+as a Ripper blast sink or manufacture state77 identity from partial-pistol serials.
+Keep pending contact/expiry until those consumers exist; no clear-world fallback.
 Current NPC source additionally consumes each real projectile flight's local
 ANM clock, persistent epoch and affine, then submits source-skinned geometry to
 the common transparent/additive renderer. The installed two-ticket flight control

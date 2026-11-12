@@ -225,6 +225,15 @@ it does not stage the Vimp component. This is supplied-input CPU/asset evidence,
 not a GPU or Windows-input reciprocal encounter. The normal controller also
 supplies its real completed Vimp component packets.
 
+Run synthetic `radial_damage` tests in `giants-game` for callback ordering,
+whole-traversal early return, zero-slope no-world access, live next-target mutation,
+missing-health refusal and failure replay prevention. With `GIANTS_NPC_ROOT`, run
+`source_radial_signal_preserves_other_state_and_requires_owned_source` in the same
+crate/target with `-- --ignored`. It uses real Vimp/source constructors and copies
+only current source-origin/world-time signal fields, preserving other state.
+Private exact-PC traversal/signal controls remain separate; these commands do not
+supply normal impact, applied damage, FX, player health or GPU encounter acceptance.
+
 The ignored `source_variant_retreat_marks_owned_child_without_acknowledging_cleanup`
 in `giants-game` uses the same installation and GNU target. It supplies mode71/
 ANM-clock fixtures to actual class230/219 constructors, checking only the typed

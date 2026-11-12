@@ -41,6 +41,7 @@ mod ripper_variant;
 mod surface_frame;
 pub use surface_frame::{Frame as SurfaceMarkerFrame, View as SurfaceFrameView};
 mod vimp_ghost;
+mod vimp_radial_signal;
 mod vimp_retirement;
 mod vimp_soul;
 pub use cinematic_constant::{
