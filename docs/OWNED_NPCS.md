@@ -198,25 +198,31 @@ unassigned: literal `mound_move`, `mound_animselect` and `mound_shot` are additi
 search candidates, not confirmations. Generic cleanup names also remain unknown;
 see [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
 
-The latest local GNU executable, including individual marker retirement,
-is built from source `3a3b3ab7d2e8cca6a7ac2c8ac7db6ccd279f46f2`, SHA256
-`0fb0d8bcc44f3bf71915e9465cef77d336ff625bb2f7359a23a234b45cc856e4`.
+The latest local GNU executable, including current Ripper contact submissions,
+is built from source `c6e363c5a478bb89097970a38d28626d50e1b688`, SHA256
+`803f9ac4a956f69af3b4fc8eb226d1fca85821d2d0946bdfdd8e014fa002f3d8`.
 Its private build receipt was independently hash-checked. Use the ordinary
 **Load Single Player Game → Mecc Story 2 → The Wife** path, then let the film
 finish or use Escape to skip; Escape in gameplay returns to the mission menu.
 No script or Ripper activation variable is required. This is a local development
 build, with the incomplete continuations above, not a public preview.
 
-Actual Windows clicks/Escape on this build entered The Wife twice (fresh tickets
-1 and 3), displayed ordinary Mecc gameplay, returned to the mission menu and
-re-entered. A real movement tap was also supplied; F10 exited and the process/window
-closure was checked. Each entry submitted five completed source Rippers plus
-fourteen Vimps through the GPU scene without the earlier null-texture error.
-These are body submissions, not a close-up Ripper visibility or complete encounter
-check. No natural marker closing/individual retirement was observed on GPU.
-Initial Ripper sound reservations cancelled before playback; the missing active
-FX consumers remain explicit. Sound was muted. Reciprocal combat and source death
-remain unaccepted.
+Actual Windows clicks/Escape entered The Wife twice (fresh tickets1/3), displayed
+ordinary Mecc gameplay, returned to the mission menu and re-entered. The first
+opening was skipped; the second rendered all four directors and resumed Mecc
+naturally. A real movement tap was supplied; F10 exited and process/window closure
+was checked. Each entry submitted five completed source Rippers plus fourteen
+Vimps both to the GPU body scene and to the current contact registry, without a
+Ripper geometry/contact refusal. This verifies the connected registry, not a
+close-up Ripper view, physical encounter, reciprocal attack/damage or death.
+No natural marker closing/individual retirement was observed on GPU. Sound was
+muted, and active FX consumers remain missing. Initial Ripper sound reservations
+cancelled before playback, separately from the unknown FX scheduling fidelity.
+
+The earlier marker-retirement build `3a3b3ab` / SHA256
+`0fb0d8bcc44f3bf71915e9465cef77d336ff625bb2f7359a23a234b45cc856e4`
+passed its separate ordinary menu/re-entry and body-submission check. It did not
+include the new contact consumer or establish a complete Ripper encounter.
 
 The first executable (`5fefde0`) reached ordinary Mecc gameplay with actual
 Windows clicks/Escape and five completed Ripper actors, but its common renderer
@@ -226,7 +232,7 @@ Windows check was stopped at the menu because another computer-use operation
 was active. That failed attempt does not validate Ripper visibility, reciprocal encounter
 or death. The later `230826c` surfacing build received no Windows/GPU encounter
 check. The current menu/re-entry result above belongs only to the identified
-`3a3b3ab` executable and retains its encounter limits. No new gallery capture or
+`c6e363c` executable and retains its encounter limits. No new gallery capture or
 preview was published. The previous loading baseline below remains
 separate evidence.
 

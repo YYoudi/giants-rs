@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Complete enemy perception, navigation, attacks and mission integration remain open. Preview .11.4 connects the bounded Story2 Vimp danger/injury/death interaction; other staged AI remains inactive. Complete native-world admission and scheduling are unverified. See BACKLOG.md."
+      "detail": "Complete enemy perception, navigation, attacks and mission integration remain open. The public preview retains bounded ordinary Vimp interaction. The NPC development branch connects source-declared Ripper frames, body/contact submissions and local menu/re-entry checks; reciprocal Ripper combat and death are not delivered. Complete native-world admission and scheduling remain unverified. See BACKLOG.md."
     },
     {
       "id": "wildlife",

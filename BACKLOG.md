@@ -74,13 +74,14 @@ release and individual unlink, preserving actual list order and late-failure
 prefixes without replay. The renderer consumes their removal; this is marker
 retirement, not Ripper death. Prototype PS2 marker/cleanup attribution remains
 unassigned, including the additional literal `mound_*` search candidates.
-Local GNU marker-retirement build: source `3a3b3ab`, executable SHA256 prefix
-`0fb0d8bcc44f`; receipt independently hash-checked. Actual Windows menu/film skip,
-Mecc entry, menu return and fresh re-entry pass on tickets1/3, with five completed
-Ripper body submissions and fourteen Vimps per entry, no null-texture refusal.
-No close-up Ripper visibility, natural closing/retirement on GPU, reciprocal
-encounter or source death acceptance; no new public preview. Initial Ripper
-sound reservations cancel before playback while active FX consumers remain absent.
+Latest local GNU contact build: source `c6e363c`, executable SHA256 prefix
+`803f9ac4a956`; receipt independently hash-checked. Actual Windows menu entry,
+Mecc movement tap, menu return and fresh re-entry pass on tickets1/3, including
+one skipped and one naturally finished four-director opening. Each entry has
+five completed Ripper body/contact submissions and fourteen Vimps, without a
+Ripper geometry/contact refusal. No close-up Ripper visibility, physical encounter,
+natural marker retirement on GPU, reciprocal damage or source death acceptance;
+no new public preview. Initial sound reservations cancel before playback.
 Current source also submits completed class73/230 dedicated collision meshes
 and actual animation bounds to the common player/projectile registry, preserving
 Session list order across Vimps/Rippers and independent family quarantine.
@@ -91,7 +92,7 @@ no Vimp damage callback, health change or kill credit is substituted. Collision
 submission is not a completed player/Ripper physical encounter or injury test.
 Next: connect ordinary firing/flight and active popup/dirt effect consumers,
 consume required class230 mode66 and later continuations,
-then connect collisions/targeting and reciprocal combat with
+then complete reciprocal contacts, target-to-damage dispatch and combat with
 source-specific sounds/blood/death/cleanup. Do not copy Vimp ghosts/meat or force
 movement, readiness or damage. Acceptance still requires an identified local
 build, a rendered normal-menu encounter, reciprocal interactions, death, menu
