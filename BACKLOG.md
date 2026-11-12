@@ -194,6 +194,14 @@ real preparation and reference placement. No render-side simulation/RNG is added
 The installed control covers 160 render-input frames and hidden-carrier omission,
 retaining actual declared colliders/unprepared-platform refusals. GPU pixels,
 native queue order and ordinary explosion/combat availability remain unverified.
+The long lifetime frontier first exposed the vertical material's distinct native
+descriptor override at fade onset. Its bounded no-texture-alpha RGB-add program
+is now reconstructed against the exact debug renderer module, with real factor
+alpha and additive/deferred state. The next reached dependency is an actual
+platform footprint in The Wife. Bind its source selector/geometry/membership;
+retain unknown candidates and refuse missing owners. The long world-lifetime
+control remains an acceptance frontier, and scoped cleanup is not yet validated
+through that complete path.
 
 Earlier graphical failure: local source `a450206` admitted the authored Wife
 population but failed before capture: mixed positional sound requests exceeded

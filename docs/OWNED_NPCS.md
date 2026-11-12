@@ -42,6 +42,17 @@ unprepared platform still fails rather than becoming a default surface. This
 validates CPU input wiring, not actual rendered pixels, native queue order,
 complete world scheduling, body cleanup or ordinary reciprocal combat.
 
+The longer lifetime control exposed the vertical material's distinct descriptor
+path when object fade starts. It now uses the acquired deferred vertex-alpha
+override: RGB addition, diffuse alpha times the material/object factor and
+source-alpha/one blending with depth writes disabled. This is checked against
+the exact debug renderer module, separately from the executable; no prototype
+shader-name match or new attribution is established. Texture-alpha gradients and
+other gradient RGB programs still require their own evidence. The longer actual
+Wife-world path now reaches a required unprepared platform footprint. Its real
+selector, geometry and membership must be supplied before admitting that path;
+an empty platform list or asserted membership would not validate the lifetime.
+
 The current immediate-particle dependency is CPU-validated, not an ordinary
 explosion delivery. The canonical timed owner now constructs the acquired
 source-declared particles, retaining their actual temporary parent/reference

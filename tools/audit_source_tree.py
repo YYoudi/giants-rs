@@ -35,6 +35,10 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent reviewed building-damage routes; no raw research included.
+        'afb941293abb3d32e8ad9786412ad7313fa74272812fd59b4834c70ecfd8ef2a',
+        # Reviewed exact debug renderer identity and unknown gradient route.
+        '7318289ec0febb0e42994630d51c5ed4fbaa0a877a19c431087f94a3d29cf26b',
         # Reviewed canonical mixed draw and parameter-consumer route, unknown.
         '44e785ab0473ed1100e6f26d1475252f658dce7de8aba1627cb559e1a911f678',
         # Reviewed canonical mixed construction/wait route; unknown attribution.

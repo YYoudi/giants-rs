@@ -21,6 +21,9 @@ themselves. This task selection never waives the name lookup or evidence below.
 
 1. Pin the exact PC binary SHA256, profile, virtual address and previous aliases.
    Never transfer an address between retail/debug or other builds by proximity.
+   Pin native dependency modules separately: an executable digest does not
+   identify its renderer or audio DLL. Verify that module's addresses, layouts
+   and calling conventions before reusing a control from another profile.
 2. **Search prototype PS2 names before further analysis or implementation.**
    Search the literal ELF function names, candidate demangled names and relevant
    module vocabulary. For existing work, perform this lookup before the next

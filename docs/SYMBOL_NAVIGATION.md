@@ -234,6 +234,13 @@ The shared [`smoke_particle_draw::Geometry`](../crates/giants-game/src/smoke_par
 consumes that same prepared body's UV/vertical-alpha inputs. Construction alone
 does not admit drawing, and this wiring does not establish native queue/pixel
 fidelity or a prototype signature/layout correspondence.
+The related `unlit_material::prepare_with_vertical_alpha` path uses a separately
+pinned debug renderer module, SHA256
+`ae000c1aa2e90a321b89c38833dd1e0c933689425a92f9b089691f4d92399318`.
+Its shader-name lookup in the prototype PS2 returned no match; the relationship
+remains **unknown**. The acquired PC gradient descriptor differs from a plain
+material fade. Native state controls supply explicit capabilities and a recording
+device, and do not establish live renderer selection or GPU pixel fidelity.
 
 The literal prototype PS2 name `object_lock_logic` is an **unknown** search
 route to the acquired PC debug-1.1 helper at0x00473b30 and the canonical

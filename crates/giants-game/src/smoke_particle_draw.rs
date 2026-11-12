@@ -82,7 +82,12 @@ impl Geometry {
             return Err("smoke draw requires identical owned unlit static model".into());
         }
         for part in &model.mesh.subobjects {
-            crate::unlit_material::prepare_with_object_transparency(
+            let prepare = if session.timed_effect_vertical_fade(id).is_some() {
+                crate::unlit_material::prepare_with_vertical_alpha
+            } else {
+                crate::unlit_material::prepare_with_object_transparency
+            };
+            prepare(
                 &part.material,
                 model
                     .alpha_textures
@@ -208,7 +213,12 @@ impl Geometry {
             .subobjects
             .iter()
             .map(|part| {
-                crate::unlit_material::prepare_with_object_transparency(
+                let prepare = if vertical.is_some() {
+                    crate::unlit_material::prepare_with_vertical_alpha
+                } else {
+                    crate::unlit_material::prepare_with_object_transparency
+                };
+                prepare(
                     &part.material,
                     self.model
                         .alpha_textures
