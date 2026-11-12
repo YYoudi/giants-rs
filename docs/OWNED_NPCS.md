@@ -119,6 +119,32 @@ establish Ripper rendering or encounter acceptance.
 The prototype PS2 `ripper_animselect` candidate for the acquired PC secondary
 callback remains **unknown**, separately from this implementation result.
 
+The ordinary controller now also merges completed Ripper contact submissions
+with Vimps in actual Session common-list order. The shared `actor_contacts`
+packet retains `vimp_contacts::Snapshot` as an alias. Dedicated collision-model
+selection, current ANM vertex buffer, affine and acquired animation bounds feed
+the existing player ellipsoid and projectile segment consumers; render LOD or
+constructor meshes are not substitutes. Cold, foreign, zero-number, unfinished
+or failed frames refuse. Markers never enter this body-contact population.
+Stable scene keys retain separate typed actor identity and source class, and
+family quarantine clears that family's stale shapes while retaining the other.
+Ripper admission follows actual declarations without a map-name switch.
+
+The exact PC common collision-event dispatcher has absent entries for states2,
+21 and23. Three native calls independently return zero; this supports the
+unchanged common event response for these admitted families, not other NPCs or
+whole-world parity. The installed four The Wife controls cover both classes,
+source-face segment intersections, shared scene registration, incomplete-history
+refusal and two-ticket lifecycle. The existing Vimp contact/re-entry regression
+passes after extracting the shared collision geometry consumer.
+
+A Ripper selected by the ordinary partial pistol is identified and reports the
+missing damage consumer without dispatching to the Vimp backend or inventing a
+health change. Physical geometry and target selection do not deliver injury,
+knockback, blood, death or kill credit. Those consumers, ordinary attack/flight
+and a rendered reciprocal encounter remain required; `ripper_shot` remains an
+unknown prototype PS2 search candidate for the separately acquired damage work.
+
 The surfacing consumer now uses the real popup preparation, owned motion reset
 and persistent class219/state48 factory, including the class230 marker birth.
 The factory preserves one immutable specification/event identity across births;

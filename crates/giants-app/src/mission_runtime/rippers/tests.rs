@@ -88,6 +88,28 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool) {
             ..Default::default()
         };
         assert!(runtime.npc_draws(ticket).unwrap().is_empty());
+        assert!(runtime.ripper_contact_snapshots(ticket).unwrap().is_empty());
+        {
+            let active = runtime.active.as_mut().unwrap();
+            let id = active
+                .payload
+                .rippers
+                .as_ref()
+                .unwrap()
+                .as_ref()
+                .unwrap()
+                .bound
+                .as_ref()
+                .unwrap()
+                .1[0]
+                .id;
+            assert!(
+                active
+                    .resident_states
+                    .ripper_contact_snapshot(id, 1)
+                    .is_err()
+            );
+        }
         for number in 1..=180u64 {
             runtime
                 .sample_world_clock(ticket, 1000 + number as u32 * 16)
@@ -117,6 +139,73 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool) {
                     .iter()
                     .all(|d| matches!(d.class, 73 | 230) && !d.positions.is_empty())
             );
+            if number.is_multiple_of(30) {
+                let contacts = runtime.ripper_contact_snapshots(ticket).unwrap();
+                assert_eq!(contacts.len(), 5);
+                assert_eq!(contacts.iter().filter(|v| v.actor.class == 73).count(), 4);
+                assert_eq!(contacts.iter().filter(|v| v.actor.class == 230).count(), 1);
+                for snapshot in &contacts {
+                    assert_eq!(snapshot.frame, number);
+                    assert_eq!(snapshot.actor.state, 23);
+                    assert!(!snapshot.triangles.is_empty());
+                    // A supplied segment through an actual current source face
+                    // must be consumable by the shared projectile narrow phase.
+                    let triangle = snapshot
+                        .triangles
+                        .iter()
+                        .find(|t| {
+                            let a: [f32; 3] =
+                                std::array::from_fn(|i| t.vertices[1][i] - t.vertices[0][i]);
+                            let b: [f32; 3] =
+                                std::array::from_fn(|i| t.vertices[2][i] - t.vertices[0][i]);
+                            Vec3::from(a).cross(Vec3::from(b)).length_squared() > 0.01
+                        })
+                        .unwrap();
+                    let center = (Vec3::from(triangle.vertices[0])
+                        + Vec3::from(triangle.vertices[1])
+                        + Vec3::from(triangle.vertices[2]))
+                        / 3.;
+                    let normal = (Vec3::from(triangle.vertices[1])
+                        - Vec3::from(triangle.vertices[0]))
+                    .cross(Vec3::from(triangle.vertices[2]) - Vec3::from(triangle.vertices[0]))
+                    .normalize();
+                    assert!(
+                        snapshot
+                            .mesh
+                            .hit(
+                                (center + normal * 100.).to_array(),
+                                (center - normal * 100.).to_array()
+                            )
+                            .unwrap()
+                            .is_some()
+                    );
+                }
+                viewer.set_mission_contacts(ticket, contacts).unwrap();
+                let active = runtime.active.as_mut().unwrap();
+                let id = active
+                    .payload
+                    .rippers
+                    .as_ref()
+                    .unwrap()
+                    .as_ref()
+                    .unwrap()
+                    .bound
+                    .as_ref()
+                    .unwrap()
+                    .1[0]
+                    .id;
+                assert!(
+                    active
+                        .resident_states
+                        .ripper_contact_snapshot(id, 0)
+                        .is_err()
+                );
+                assert!(
+                    Session::new(ticket + 100)
+                        .ripper_contact_snapshot(id, number)
+                        .is_err()
+                );
+            }
             let active = runtime.active.as_mut().unwrap();
             let rippers = active.payload.rippers.as_mut().unwrap().as_mut().unwrap();
             assert_eq!(
@@ -372,6 +461,28 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool) {
             },
             false,
         );
+        // A new history phase invalidates both render-time and contact-time
+        // use of the old completed pose; do not substitute a constructor mesh.
+        {
+            let active = runtime.active.as_mut().unwrap();
+            let id = active
+                .payload
+                .rippers
+                .as_ref()
+                .unwrap()
+                .as_ref()
+                .unwrap()
+                .bound
+                .as_ref()
+                .unwrap()
+                .1[0]
+                .id;
+            active
+                .resident_states
+                .begin_actor_frame_history(id)
+                .unwrap();
+            assert!(runtime.ripper_contact_snapshots(ticket).is_err());
+        }
         let active = runtime.active.as_mut().unwrap();
         active.resident_states.clear();
         assert!(

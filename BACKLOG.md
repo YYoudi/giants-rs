@@ -81,6 +81,14 @@ Ripper body submissions and fourteen Vimps per entry, no null-texture refusal.
 No close-up Ripper visibility, natural closing/retirement on GPU, reciprocal
 encounter or source death acceptance; no new public preview. Initial Ripper
 sound reservations cancel before playback while active FX consumers remain absent.
+Current source also submits completed class73/230 dedicated collision meshes
+and actual animation bounds to the common player/projectile registry, preserving
+Session list order across Vimps/Rippers and independent family quarantine.
+The four installed The Wife controls and Vimp contact/re-entry regression pass.
+Exact PC common event calls return zero for actual absent state2/21/23 entries.
+Ripper partial-pistol selection explicitly reports its missing damage consumer;
+no Vimp damage callback, health change or kill credit is substituted. Collision
+submission is not a completed player/Ripper physical encounter or injury test.
 Next: connect ordinary firing/flight and active popup/dirt effect consumers,
 consume required class230 mode66 and later continuations,
 then connect collisions/targeting and reciprocal combat with

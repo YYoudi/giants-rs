@@ -1541,6 +1541,54 @@ impl Runtime {
         }
         Ok(draws)
     }
+    /// Preserve actual current common-list order across the admitted families.
+    /// A concatenated family order would change tie/scratch/contact behavior.
+    pub(crate) fn order_npc_contacts(
+        &self,
+        ticket: u64,
+        contacts: Vec<giants_game::actor_contacts::Snapshot>,
+    ) -> Result<Vec<giants_game::actor_contacts::Snapshot>, String> {
+        let active = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("NPC contact ordering ticket absent")?;
+        let mut pending = std::collections::BTreeMap::new();
+        for contact in contacts {
+            if contact.actor.id.ticket() != ticket
+                || pending.insert(contact.actor.id, contact).is_some()
+            {
+                return Err("NPC contact owner foreign or duplicated".into());
+            }
+        }
+        let ordered = active
+            .resident_states
+            .list(0)
+            .into_iter()
+            .filter_map(|id| pending.remove(&id))
+            .collect();
+        if !pending.is_empty() {
+            return Err("NPC contact owner absent from current common list".into());
+        }
+        Ok(ordered)
+    }
+    pub(crate) fn ripper_contact_snapshots(
+        &mut self,
+        ticket: u64,
+    ) -> Result<Vec<giants_game::actor_contacts::Snapshot>, String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("Ripper contact mission ticket absent")?;
+        if active.owned_mecc.is_some() {
+            return Ok(vec![]);
+        }
+        match active.payload.rippers.as_ref().map_err(Clone::clone)? {
+            None => Ok(vec![]),
+            Some(rippers) => rippers.contact_snapshots(&mut active.resident_states, ticket),
+        }
+    }
     pub(crate) fn npc_contact_snapshots(
         &mut self,
         ticket: u64,

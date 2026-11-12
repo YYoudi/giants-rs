@@ -2,6 +2,7 @@
 pub mod actor_affine;
 pub mod actor_attachment_bind;
 pub mod actor_common_motion;
+pub mod actor_contacts;
 pub mod actor_environment;
 pub mod actor_fields;
 pub mod actor_finalization;

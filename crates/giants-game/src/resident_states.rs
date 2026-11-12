@@ -21,6 +21,7 @@ pub use delphi_local_target::{
     Context as DelphiLocalTargetContext, Phase as DelphiLocalTargetPhase,
     Providers as DelphiLocalTargetProviders, View as DelphiLocalTargetView,
 };
+mod contacts;
 #[cfg(test)]
 mod delphi_proximity_tests;
 mod dependency_order;
@@ -32,6 +33,7 @@ mod parented_frame_tests;
 #[cfg(test)]
 mod passive_frame_tests;
 mod ripper_calls;
+mod ripper_contacts;
 mod ripper_variant;
 mod surface_frame;
 pub use surface_frame::{Frame as SurfaceMarkerFrame, View as SurfaceFrameView};

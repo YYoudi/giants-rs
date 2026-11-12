@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed literal ripper_shot search candidate and one retained PC alias;
+        # explicitly unknown, no native body or detailed private evidence.
+        '59317e0dbd9965e3e71770b97a367753556f8b73c1fe6f7efc6c218a915e7cad',
         # Concurrent mission-lane navigation variant: reviewed probable/unknown
         # Smartie, finalization and ground-effect routes; same minimal PC alias.
         'de47ee624eb38830f889233c0eb6288dac84c2afda13239a5c5ff4fc6f81a89e',

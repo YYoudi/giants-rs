@@ -1,6 +1,8 @@
 //! Debug-reference state23 damage callback. The caller owns typed actor
 //! references and executes services in order; a computed reaction is not a
 //! completed projectile hit, rendered death, or mission-progress update.
+//! Prototype PS2 search key `ripper_shot` is an unknown attribution to PC
+//! debug-1.1 0x004dafd0. See docs/SYMBOL_NAVIGATION.md; old aliases remain valid.
 use crate::audio_parameters::Random;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

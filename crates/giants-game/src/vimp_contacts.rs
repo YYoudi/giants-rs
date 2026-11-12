@@ -1,6 +1,6 @@
 //! Collision submissions from completed owned Vimp frames. These do not create
 //! list membership, advance animation or dispatch a hit.
-use crate::{resident_environment, resident_states::Id, specification};
+use crate::{resident_environment, specification};
 use std::sync::Arc;
 
 pub struct Resources {
@@ -23,11 +23,5 @@ impl Resources {
     }
 }
 
-pub struct Snapshot {
-    pub actor: crate::projectile_contacts::Actor<Id>,
-    pub frame: u64,
-    pub response_flags: u32,
-    pub bounds: crate::volume_queries::Bounds,
-    pub mesh: crate::object_segment::Mesh,
-    pub triangles: Vec<crate::player_mesh_contact::Triangle>,
-}
+/// Historical family entry retained for callers; geometry packets are shared.
+pub use crate::actor_contacts::Snapshot;

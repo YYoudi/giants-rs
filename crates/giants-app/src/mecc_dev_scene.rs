@@ -1631,6 +1631,9 @@ impl State {
                     Precision::Double53,
                 )
             },
+            // Exact PC debug-1.1 event dispatcher 0x004a0990 returns zero for
+            // actual absent state2/21/23 table entries (independently executed).
+            // This does not acknowledge callbacks for other NPC families.
             |_, _| Ok(false),
             |object, response| {
                 if response.retry
@@ -1641,7 +1644,7 @@ impl State {
                         .any(|&key| key == object.fields.id)
                 {
                     if response.reciprocal_hit {
-                        return Err("Vimp reciprocal contact requires its peer-reference owner");
+                        return Err("NPC reciprocal contact requires its peer-reference owner");
                     }
                     npc_responses += 1;
                 }

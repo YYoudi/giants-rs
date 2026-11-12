@@ -62,6 +62,41 @@ pub(crate) struct Controller {
     subjective_draw_visible: Option<bool>,
 }
 impl Controller {
+    fn refresh_contacts(
+        &mut self,
+        runtime: &mut crate::mission_runtime::Runtime,
+    ) -> Result<(), String> {
+        let mut contacts = Vec::new();
+        if !self.npc_failed {
+            match runtime.npc_contact_snapshots(self.ticket) {
+                Ok(vimps) => contacts.extend(vimps),
+                Err(error) => {
+                    self.npc_failed = true;
+                    error!(
+                        "mission_vimp_contacts_refused ticket={} error={error} fallback=false",
+                        self.ticket
+                    );
+                }
+            }
+        }
+        if !self.ripper_failed {
+            match runtime.ripper_contact_snapshots(self.ticket) {
+                Ok(rippers) => contacts.extend(rippers),
+                Err(error) => {
+                    self.ripper_failed = true;
+                    error!(
+                        "mission_ripper_contacts_refused ticket={} error={error} fallback=false",
+                        self.ticket
+                    );
+                }
+            }
+        }
+        // A quarantined family contributes no stale shapes. The other family's
+        // real completed submissions remain independent of that failure.
+        let contacts = runtime.order_npc_contacts(self.ticket, contacts)?;
+        self.state.set_mission_contacts(self.ticket, contacts)
+    }
+
     fn campaign_probe() -> bool {
         Self::meat_probe() && std::env::var("GIANTS_MISSION_CAMPAIGN_PROBE").as_deref() == Ok("1")
     }
@@ -492,18 +527,15 @@ pub(super) fn update(
             continue;
         }
         controller.was_active = true;
-        if !controller.owned_backend && !controller.npc_failed {
-            let ticket = controller.ticket;
-            let result = runtime
-                .npc_contact_snapshots(controller.ticket)
-                .and_then(|contacts| controller.state.set_mission_contacts(ticket, contacts));
-            if let Err(error) = result {
-                controller.npc_failed = true;
-                error!(
-                    "mission_vimp_contacts_refused ticket={} error={error} fallback=false",
-                    controller.ticket
-                );
-            }
+        if !controller.owned_backend
+            && let Err(error) = controller.refresh_contacts(&mut runtime)
+        {
+            controller.npc_failed = true;
+            controller.ripper_failed = true;
+            error!(
+                "mission_npc_contact_registry_refused ticket={} error={error} fallback=false",
+                controller.ticket
+            );
         }
         if !controller.world_signals_failed
             && let Err(error) = runtime
@@ -1117,6 +1149,16 @@ pub(super) fn update(
                 }
                 for hit in result.world_hits {
                     if let Some(owner) = controller.state.mission_npc_hit_owner(hit.object) {
+                        if matches!(
+                            controller.state.mission_npc_hit_class(hit.object),
+                            Some(73 | 230)
+                        ) {
+                            error!(
+                                "mission_ripper_hit_unavailable ticket={} owner={owner:?} projectile_serial={} reason=damage_consumer_not_connected damage_callback=false",
+                                controller.ticket, hit.serial
+                            );
+                            continue;
+                        }
                         let local = runtime
                             .normal_landing_owner(controller.ticket)
                             .ok_or_else(|| "NPC shooter absent".to_owned());
@@ -1158,16 +1200,12 @@ pub(super) fn update(
                                             controller.ticket, controller.finish_step
                                         );
                                     }
-                                    match runtime.npc_contact_snapshots(controller.ticket).and_then(
-                                        |contacts| {
-                                            let ticket = controller.ticket;
-                                            controller.state.set_mission_contacts(ticket, contacts)
-                                        },
-                                    ) {
+                                    match controller.refresh_contacts(&mut runtime) {
                                         Ok(()) => {}
                                         Err(e) => {
                                             controller.npc_failed = true;
-                                            error!("Vimp contacts after death: {e}");
+                                            controller.ripper_failed = true;
+                                            error!("NPC contact registry after Vimp death: {e}");
                                         }
                                     }
                                 }

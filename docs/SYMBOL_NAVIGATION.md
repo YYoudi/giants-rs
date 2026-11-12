@@ -80,6 +80,15 @@ in [`ripper_steering`](../crates/giants-game/src/ripper_steering.rs). Its exact 
 correspondence is **unknown**. The separately acquired PC angle helper alias
 `FUN_004dbd10` and the class230 primary caller remain the behavior references.
 
+## Ripper injury search route
+
+The literal prototype PS2 symbol `ripper_shot` is a search candidate for
+[`state23_damage`](../crates/giants-game/src/state23_damage.rs) and
+[`state23_hurt`](../crates/giants-game/src/state23_hurt.rs). Its relationship to
+PC debug-1.1 `FUN_004dafd0` remains **unknown**. Existing callback controls do not
+establish an ordinary partial-pistol hit adapter, lethal consumers, platform
+layout equivalence or a confirmed prototype attribution.
+
 ## Ripper animation search route
 
 The literal prototype PS2 name `ripper_animselect` is a navigation candidate
