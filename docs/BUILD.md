@@ -1566,6 +1566,24 @@ explicit prototype PS2 zero-threshold progress policy, without a fabricated
 debug-PC caller word or cinematic scope. Neither validates the native complete
 world walk, GPU rendering, body lifetime cleanup, ordinary impact or combat.
 Keep original controls/fixtures and extracted source inputs private.
+
+The longer source-world lifetime control additionally requires private
+`GIANTS_RIPPER_EXPIRY_CONTROLS`. Run
+`installed_mixed_lifetimes_release_actual_payloads_references_and_registrations`
+with the same cargo target and `-- --ignored --nocapture`. It composes the real
+Wife declared platform queries, current geometry, expiry and resource cleanup
+for 44 bodies / 9,853 callbacks. It supplies clocks and the explicit existing
+progress policy; it does not prove GPU output, ordinary impact, NPC death or the
+native complete-world schedule. Full footprints and moving-world invalidation
+remain separate from this typed platform-bit projection.
+
+For independently collected private exact-PC fixtures, set
+`GIANTS_PLATFORM_BITS_CONTROLS` and run
+`native_platform_bits_match_without_claiming_other_channels` (420 controls),
+then set `GIANTS_PLATFORM_SELECTOR_CONTROLS` and run
+`native_debug_selector_preserves_platform_and_building_gates` (1,024 controls),
+using the same target and ignored-test flags. No native fixture enters Git.
+
 The source-world control also exercises the common unlit geometry consumer on 160
 render-input frames, including live UV offsets, vertex-alpha changes and hidden
 carrier omission. Actual Bevy display, queue order and reciprocal combat still

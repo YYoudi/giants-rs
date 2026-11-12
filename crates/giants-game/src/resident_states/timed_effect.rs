@@ -618,22 +618,39 @@ impl Session {
         id: Id,
         contexts: &crate::attached_effect_context::Pool<Id>,
     ) -> Result<crate::timed_effect_object::Destruction, String> {
+        self.destroy_expired_positioned_particle(id, contexts, false)
+    }
+    /// Scoped expiry cleanup for acquired mixed bodies. This is not the global
+    /// native dead-object/parent-propagation walk. Pending dependents refuse.
+    pub fn destroy_expired_mixed_particle(
+        &mut self,
+        id: Id,
+        contexts: &crate::attached_effect_context::Pool<Id>,
+    ) -> Result<crate::timed_effect_object::Destruction, String> {
+        self.destroy_expired_positioned_particle(id, contexts, true)
+    }
+    fn destroy_expired_positioned_particle(
+        &mut self,
+        id: Id,
+        contexts: &crate::attached_effect_context::Pool<Id>,
+        mixed: bool,
+    ) -> Result<crate::timed_effect_object::Destruction, String> {
         let actor = self
             .get(id)
-            .ok_or("expired smoke actor absent or foreign")?;
+            .ok_or("expired particle actor absent or foreign")?;
         let m = actor
             .timed_effect
             .as_ref()
-            .ok_or("expired smoke ownership absent")?;
+            .ok_or("expired particle ownership absent")?;
         let fields = actor
             .construction_fields
             .as_ref()
-            .ok_or("expired smoke header absent")?;
+            .ok_or("expired particle header absent")?;
         let data = actor
             .seed
             .storage
             .data()
-            .ok_or("expired smoke payload absent")?;
+            .ok_or("expired particle payload absent")?;
         let lists = self
             .links
             .memberships(id.serial)
@@ -648,7 +665,11 @@ impl Session {
             .collect::<Vec<_>>();
         if self.common_walk_running
             || self.common_walk_failure.is_some()
-            || !m.runtime.expired_smoke()
+            || if mixed { !m.runtime.expired_mixed() } else { !m.runtime.expired_smoke() }
+            || m.cinematic_scope.is_some()
+            || m.immediate.is_some()
+            || m.ordinary.preparing()
+            || m.ordinary.footprint.is_some()
             || !matches!(m.placement, Placement::Position(_))
             || !contexts.retired(m.origin)
             || !contexts.uses_image(&m.runtime.source)
@@ -672,9 +693,13 @@ impl Session {
                     || other
                         .attachment
                         .is_some_and(|attachment| attachment.parent == id)
+                    || other.timed_effect.as_ref().is_some_and(|timed|
+                        timed.immediate.is_some_and(|binding|
+                            matches!(binding.parent, Parent::Actor(parent) if parent==id))
+                        || matches!(timed.placement,Placement::Attached {recipient:Parent::Actor(parent),..} if parent==id))
             })
         {
-            return Err("smoke destruction requires completed expiry, retired origin and acquired independent cleanup profile".into());
+            return Err("particle destruction requires completed expiry, retired origin and acquired independent cleanup profile".into());
         }
         let result = crate::timed_effect_object::Destruction {
             origin: m.origin,
@@ -689,21 +714,17 @@ impl Session {
             runtime.preflight(&body)?;
         }
         let actor = self.residents.get_mut(&id.serial).unwrap();
-        // All optional state-owned blocks are absent in this complete profile.
+        // The raw optional blocks are absent. The acquired fade allocation is
+        // typed Rust ownership; drop it before the inline payload, as in the
+        // state78 destructor. Mesh/specification and registration owners follow.
+        drop(actor.timed_effect.take());
         actor
             .seed
             .storage
             .transition_with(0, |_, _| Ok(()))
-            .expect("checked expired smoke teardown into empty storage is infallible");
+            .expect("checked expired particle teardown into empty storage is infallible");
         self.specifications.remove(&id.serial);
         self.state_resources.remove(&id.serial);
-        drop(
-            self.residents
-                .get_mut(&id.serial)
-                .unwrap()
-                .timed_effect
-                .take(),
-        );
         let removed = self.links.remove_object(id.serial);
         debug_assert_eq!(removed, result.registrations);
         self.residents.remove(&id.serial);

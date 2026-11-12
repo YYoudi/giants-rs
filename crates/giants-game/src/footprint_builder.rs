@@ -49,6 +49,44 @@ pub fn build_without_neighbors(
     build_with_neighbors(0, bounds_xy, triangles, precision, &mut [], ground)
 }
 
+/// Only raster platform membership, deliberately distinct from a complete
+/// footprint. It carries no solid, near-ground or reciprocal-neighbor state.
+/// `collgrid_make_grid` / `collgrid_forcemake_grid` are prototype PS2 search
+/// routes with unknown attribution; see the symbol navigation index.
+pub struct PlatformBits {
+    bytes: Vec<u8>,
+}
+impl PlatformBits {
+    pub fn contains(&self, point: [f32; 2], precision: Precision) -> Result<bool, &'static str> {
+        let [x, y] = footprint_cell(point, precision)?;
+        Ok(Bitmap::parse(&self.bytes)
+            .map_err(|_| "invalid owned platform bits")?
+            .platform_contains(x, y))
+    }
+}
+/// Project only bit1 of the acquired raster. Native terrain and neighbor writes
+/// cannot change this bit; this API neither supplies those services nor claims
+/// complete footprint construction or list registration. Eligibility and exact
+/// prepared geometry remain required inputs at the composing owner.
+pub fn platform_bits(
+    bounds_xy: [[f32; 2]; 2],
+    triangles: &[[[f32; 3]; 3]],
+    precision: Precision,
+) -> Result<Option<PlatformBits>, &'static str> {
+    Ok(
+        raster(bounds_xy, triangles, precision, RasterMode::PlatformOnly)?
+            .map(|bytes| PlatformBits { bytes }),
+    )
+}
+enum RasterMode<'a, 'b> {
+    PlatformOnly,
+    Full {
+        ground: &'a mut dyn FnMut([f32; 3]) -> Result<f32, &'static str>,
+        neighbors: &'a mut [Neighbor<'b>],
+        metadata: Vec<Option<[i16; 4]>>,
+    },
+}
+
 /// Build the current bitmap and mark bit3 in the first matching neighbor's
 /// bitmap. List order matters. Neighbor mutations before a callback error are
 /// retained; callers needing a transaction must supply copies explicitly.
@@ -92,6 +130,34 @@ pub fn build_with_neighbors(
             None
         };
         metadata.push(layout);
+    }
+    raster(
+        bounds_xy,
+        triangles,
+        precision,
+        RasterMode::Full {
+            ground: &mut ground,
+            neighbors,
+            metadata,
+        },
+    )
+}
+fn raster(
+    bounds_xy: [[f32; 2]; 2],
+    triangles: &[[[f32; 3]; 3]],
+    precision: Precision,
+    mut mode: RasterMode<'_, '_>,
+) -> Result<Option<Vec<u8>>, &'static str> {
+    if !bounds_xy
+        .iter()
+        .flatten()
+        .chain(triangles.iter().flatten().flatten())
+        .all(|v| v.is_finite())
+    {
+        return Err("non-finite raster input");
+    }
+    if bounds_xy[0][0] == bounds_xy[1][0] {
+        return Ok(None);
     }
     if (0..2).any(|i| bounds_xy[0][i] > bounds_xy[1][i]) || triangles.len() > 100_000 {
         return Err("invalid raster bounds or triangle budget");
@@ -193,50 +259,66 @@ pub fn build_with_neighbors(
                     if !z.is_finite() {
                         return Err("raster plane overflow");
                     }
-                    let terrain = ground([x, y, z])?;
-                    if !terrain.is_finite() {
-                        return Err("non-finite raster ground");
-                    }
-                    let dz = r(f64::from(z) - f64::from(terrain));
                     let pixel = &mut bytes[9
                         + ((i64::from(row - min[1]) * width) + i64::from(column - min[0]))
                             as usize];
-                    if normal[2] <= 0.64278f32 {
-                        if dz <= 8. {
-                            *pixel |= 1;
-                        }
-                    } else {
-                        *pixel |= 2;
-                        if (x == left || x == right)
-                            && (y == a[1] || y == c[1])
-                            && dz < 0.5
-                            && dz > -2.
-                        {
-                            *pixel |= 4;
-                        }
-                        for (neighbor, layout) in neighbors.iter_mut().zip(&metadata) {
-                            let Some([x0, y0, x1, y1]) = *layout else {
-                                continue;
-                            };
-                            if column < i32::from(x0)
-                                || column > i32::from(x1)
-                                || row < i32::from(y0)
-                                || row > i32::from(y1)
-                            {
-                                continue;
+                    match &mut mode {
+                        RasterMode::PlatformOnly => {
+                            if normal[2] > 0.64278f32 {
+                                *pixel |= 2;
                             }
-                            let index = 9
-                                + ((row - i32::from(y0)) * (i32::from(x1) - i32::from(x0) + 1)
-                                    + column
-                                    - i32::from(x0)) as usize;
-                            let other = &mut neighbor
-                                .footprint
-                                .as_deref_mut()
-                                .ok_or("missing validated footprint")?[index];
-                            if *other & 2 != 0 && *other & 4 == 0 {
-                                *other |= 8;
-                                *pixel |= 8;
-                                break;
+                        }
+                        RasterMode::Full {
+                            ground,
+                            neighbors,
+                            metadata,
+                        } => {
+                            let terrain = ground([x, y, z])?;
+                            if !terrain.is_finite() {
+                                return Err("non-finite raster ground");
+                            }
+                            let dz = r(f64::from(z) - f64::from(terrain));
+                            if normal[2] <= 0.64278f32 {
+                                if dz <= 8. {
+                                    *pixel |= 1;
+                                }
+                            } else {
+                                *pixel |= 2;
+                                if (x == left || x == right)
+                                    && (y == a[1] || y == c[1])
+                                    && dz < 0.5
+                                    && dz > -2.
+                                {
+                                    *pixel |= 4;
+                                }
+                                for (neighbor, layout) in neighbors.iter_mut().zip(metadata.iter())
+                                {
+                                    let Some([x0, y0, x1, y1]) = *layout else {
+                                        continue;
+                                    };
+                                    if column < i32::from(x0)
+                                        || column > i32::from(x1)
+                                        || row < i32::from(y0)
+                                        || row > i32::from(y1)
+                                    {
+                                        continue;
+                                    }
+                                    let index = 9
+                                        + ((row - i32::from(y0))
+                                            * (i32::from(x1) - i32::from(x0) + 1)
+                                            + column
+                                            - i32::from(x0))
+                                            as usize;
+                                    let other = &mut neighbor
+                                        .footprint
+                                        .as_deref_mut()
+                                        .ok_or("missing validated footprint")?[index];
+                                    if *other & 2 != 0 && *other & 4 == 0 {
+                                        *other |= 8;
+                                        *pixel |= 8;
+                                        break;
+                                    }
+                                }
                             }
                         }
                     }
@@ -262,6 +344,53 @@ mod tests {
     use super::*;
     use crate::collision_world::{ColliderFields, SourcePose, StaticCollider};
     use giants_formats::gbs::{Material, Mesh, Subobject};
+
+    #[test]
+    #[ignore = "requires private exact-PC raster controls"]
+    fn native_platform_bits_match_without_claiming_other_channels() {
+        let controls = std::fs::read_to_string(
+            std::env::var_os("GIANTS_PLATFORM_BITS_CONTROLS").expect("private controls path"),
+        )
+        .unwrap();
+        let mut count = 0;
+        for line in controls.lines() {
+            let mut words = line.split_whitespace();
+            let float = |value: &str| f32::from_bits(u32::from_str_radix(value, 16).unwrap());
+            let bounds =
+                std::array::from_fn(|_| std::array::from_fn(|_| float(words.next().unwrap())));
+            let size = words.next().unwrap().parse::<usize>().unwrap();
+            let triangles = (0..size)
+                .map(|_| {
+                    std::array::from_fn(|_| std::array::from_fn(|_| float(words.next().unwrap())))
+                })
+                .collect::<Vec<_>>();
+            let expected = words.next().unwrap();
+            assert!(words.next().is_none());
+            let bits = platform_bits(bounds, &triangles, Precision::Double53).unwrap();
+            if expected == "none" {
+                assert!(bits.is_none());
+            } else {
+                let bytes = (0..expected.len())
+                    .step_by(2)
+                    .map(|i| u8::from_str_radix(&expected[i..i + 2], 16).unwrap())
+                    .collect::<Vec<_>>();
+                let bits = bits.unwrap();
+                assert_eq!(bits.bytes, bytes, "native raster control {count}");
+                let map = Bitmap::parse(&bytes).unwrap();
+                for y in i32::from(map.bounds[1]) - 1..=i32::from(map.bounds[3]) + 1 {
+                    for x in i32::from(map.bounds[0]) - 1..=i32::from(map.bounds[2]) + 1 {
+                        assert_eq!(
+                            bits.contains([x as f32 * 5., y as f32 * 5.], Precision::Double53)
+                                .unwrap(),
+                            map.platform_contains(x, y)
+                        );
+                    }
+                }
+            }
+            count += 1;
+        }
+        assert_eq!(count, 420);
+    }
 
     #[test]
     fn constructed_bitmap_drives_existing_source_collider_membership() {

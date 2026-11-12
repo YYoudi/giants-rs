@@ -152,6 +152,7 @@ pub mod cinematic_viewport;
 pub mod control_layout;
 pub mod control_options;
 pub mod declared_mesh_scene;
+pub mod declared_platform_scene;
 pub mod decorations;
 pub mod delphi_animation_definitions;
 pub mod delphi_auxiliary_prefix;

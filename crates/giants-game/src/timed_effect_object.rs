@@ -641,6 +641,13 @@ impl Runtime {
     pub(crate) fn expired_smoke(&self) -> bool {
         self.smoke_particle() && self.visual.expired() && self.idle() && self.failure.is_none()
     }
+    pub(crate) fn expired_mixed(&self) -> bool {
+        self.mixed_draw
+            && self.retirement.is_none()
+            && self.visual.expired()
+            && self.idle()
+            && self.failure.is_none()
+    }
     pub(crate) fn mixed_draw(&self) -> bool {
         self.mixed_draw
     }

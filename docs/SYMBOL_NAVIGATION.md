@@ -252,6 +252,20 @@ branches are not admitted by this adapter. Direct PC/helper controls do not
 confirm a cross-platform attribution or the ordinary world schedule. No prototype
 signature/layout is imported and prior PC identifiers remain retained.
 
+## Declared platform query route
+
+The literal prototype PS2 names `collgrid_make_grid` and
+`collgrid_forcemake_grid` are **unknown** search routes to the independently
+acquired debug-PC selector at0x0040fff0 and raster at0x00410f40. Find the related
+Rust work in [`footprint_policy`](../crates/giants-game/src/footprint_policy.rs),
+[`footprint_builder::platform_bits`](../crates/giants-game/src/footprint_builder.rs)
+and [`declared_platform_scene`](../crates/giants-game/src/declared_platform_scene.rs).
+The typed projection supplies only platform membership over actual prepared
+geometry, not full footprints, neighbor mutations or registered world owners.
+Exact-PC controls and the static Wife-world body lifetime control do not confirm
+prototype function identities, signatures/layouts or ordinary combat delivery.
+Prior PC aliases remain retained; detailed records and native controls stay private.
+
 ## Publication boundary
 
 The literal prototype PS2 names `FLK_FlickProcess__FP9FLK_Flick`,

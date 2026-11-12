@@ -305,6 +305,175 @@ mod tests {
     }
 }
 
+#[cfg(test)]
+mod lifetime_tests {
+    use super::*;
+    #[test]
+    #[ignore = "Requires GIANTS_NPC_ROOT and private GIANTS_RIPPER_EXPIRY_CONTROLS; source-world lifetime/resource cleanup and original expiry counts, supplied clocks/progress, no GPU/global native walk or NPC death acceptance"]
+    fn installed_mixed_lifetimes_release_actual_payloads_references_and_registrations() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+        let menu = crate::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin/w_Story2.bin")).unwrap(),
+            u32::MAX,
+            true,
+        )
+        .unwrap();
+        let packet =
+            crate::mission_loading::prepare(&root, menu.request("Story2", 1).unwrap()).unwrap();
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let asset = packet.world_asset(&root).unwrap();
+        let prepared =
+            crate::cinematic_timed::world::Prepared::load(&plan, &asset.terrain).unwrap();
+        let platforms =
+            crate::declared_platform_scene::Prepared::load(&plan, &asset.terrain).unwrap();
+        let position = packet.player_start_candidate(&root).unwrap().position;
+        let resources = plan.resources();
+        let controls =
+            std::fs::read_to_string(std::env::var_os("GIANTS_RIPPER_EXPIRY_CONTROLS").unwrap())
+                .unwrap();
+        let mut expected = std::collections::BTreeMap::new();
+        for line in controls.lines() {
+            let p = line.split_whitespace().collect::<Vec<_>>();
+            expected.insert(
+                (p[0].to_owned(), p[1].parse::<usize>().unwrap()),
+                (p[2].parse::<i32>().unwrap(), p[3].parse::<usize>().unwrap()),
+            );
+        }
+        let mut total = 0;
+        let mut total_callbacks = 0;
+        for action in [0, 1] {
+            let mut session = Session::new(990 + u64::from(action));
+            let mut pool = Pool::<Actor>::from_active_resources(session.ticket(), resources);
+            let mut random = Random(17); // Explicit source-control VM stream, not live-game initialization.
+            let request = crate::enemy_projectile::impact_effect(action, position).unwrap();
+            let (Creation::Prepared(origin), _) = pool
+                .prepare_enemy_projectile_impact_invariant(&request, &mut random)
+                .unwrap()
+            else {
+                panic!()
+            };
+            let mut execution = Execution::new(origin);
+            execution
+                .advance(&mut pool, &mut session, resources, 0., &mut random)
+                .unwrap();
+            let mut services = crate::cinematic_timed::world::World::new(
+                &asset.terrain,
+                &prepared.objects,
+                &[],
+                &prepared.unresolved,
+                0.01,
+                &[],
+            )
+            .unwrap()
+            .with_declared_platforms(&platforms)
+            .unwrap();
+            let mut stamp = crate::animation_epoch::Stamp::default();
+            let mut calls = std::collections::BTreeMap::<Actor, usize>::new();
+            let mut geometry =
+                std::collections::BTreeMap::<Actor, crate::smoke_particle_draw::Geometry>::new();
+            let mut weak = std::collections::BTreeMap::new();
+            let view = [
+                1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1.,
+            ];
+            for frame in 0..650 {
+                if frame > 0 && !execution.complete() {
+                    execution
+                        .advance(&mut pool, &mut session, resources, 0.01, &mut random)
+                        .unwrap();
+                }
+                let mut expired = Vec::new();
+                for (ordinal, &id) in execution.actors().iter().enumerate() {
+                    let Some(actor) = session.get(id) else {
+                        continue;
+                    };
+                    let class = actor.class;
+                    weak.entry(id).or_insert_with(|| {
+                        (
+                            std::sync::Arc::downgrade(session.specification(id).unwrap()),
+                            std::sync::Arc::downgrade(session.state_resources(id).unwrap()),
+                        )
+                    });
+                    assert!(session.destroy_expired_mixed_particle(id, &pool).is_err());
+                    session.begin_timed_positioned_frame(id).unwrap();
+                    let context = session
+                        .get(id)
+                        .unwrap()
+                        .construction_fields
+                        .as_ref()
+                        .unwrap()
+                        .dispatch_context;
+                    let step = session
+                        .prepare_timed_positioned_source(
+                            id,
+                            crate::resident_states::TimedEffectSourcePreparation {
+                                seconds: 0.01,
+                                finalization_time: crate::actor_finalization::Time {
+                                    global_seconds: 0.01,
+                                    context,
+                                    areas: &[],
+                                },
+                                progress:
+                                    crate::actor_finalization::PhysicalProgress::PrototypePs2Zero,
+                                pc_argument: None,
+                            },
+                            &mut stamp,
+                            &mut services,
+                        )
+                        .unwrap();
+                    *calls.entry(id).or_default() += 1;
+                    if step == crate::timed_effect_object::Step::Marked {
+                        assert_eq!(
+                            (class, calls[&id]),
+                            expected[&(request.name.to_owned(), ordinal)],
+                            "actual expiry {} body{ordinal}",
+                            request.name
+                        );
+                        assert!(session.particle_draw_state(id).unwrap().is_none());
+                        expired.push(id);
+                    } else if session.particle_draw_state(id).unwrap().is_some() {
+                        let model = geometry.entry(id).or_insert_with(|| {
+                            crate::smoke_particle_draw::Geometry::load(resources, &session, id, 0)
+                                .unwrap()
+                        });
+                        assert!(model.frame(&mut session, id, view).unwrap().is_some());
+                    }
+                }
+                let before = session.counts().residents;
+                for id in &expired {
+                    let result = session.destroy_expired_mixed_particle(*id, &pool).unwrap();
+                    assert_eq!(result.payload_bytes, 268);
+                    assert!(session.get(*id).is_none());
+                    let (spec, state) = weak.remove(id).unwrap();
+                    assert!(spec.upgrade().is_none());
+                    assert!(state.upgrade().is_none());
+                    if let Some(model) = geometry.remove(id) {
+                        assert!(model.frame(&mut session, *id, view).is_err());
+                    }
+                    assert!(session.destroy_expired_mixed_particle(*id, &pool).is_err());
+                    total += 1;
+                }
+                assert_eq!(session.counts().residents, before - expired.len());
+                if execution.complete() && session.list(0).is_empty() {
+                    break;
+                }
+            }
+            assert!(execution.complete());
+            assert!(pool.active().is_empty());
+            assert!(session.list(0).is_empty());
+            assert_eq!(session.counts().payload_bytes, 0);
+            assert!(session.particle_draw_ids().is_empty());
+            assert!(geometry.is_empty());
+            assert!(weak.is_empty());
+            total_callbacks += calls.values().sum::<usize>();
+        }
+        assert_eq!(total, 44);
+        assert_eq!(total_callbacks, 9853);
+        eprintln!(
+            "mixed source lifetime bodies={total} callbacks={total_callbacks} resources_released=true gpu=false npc_death=false"
+        );
+    }
+}
+
 /// Own the real context across activations. A failure retains constructed
 /// actors, pending child context and consumed random prefix; replay is forbidden.
 /// Completion means source construction/context retirement, not effect lifetime.

@@ -197,11 +197,15 @@ native queue order and ordinary explosion/combat availability remain unverified.
 The long lifetime frontier first exposed the vertical material's distinct native
 descriptor override at fade onset. Its bounded no-texture-alpha RGB-add program
 is now reconstructed against the exact debug renderer module, with real factor
-alpha and additive/deferred state. The next reached dependency is an actual
-platform footprint in The Wife. Bind its source selector/geometry/membership;
-retain unknown candidates and refuse missing owners. The long world-lifetime
-control remains an acceptance frontier, and scoped cleanup is not yet validated
-through that complete path.
+alpha and additive/deferred state. The source-world query now binds actual
+non-building platform selection and a typed raster platform-bit projection,
+without supplying absent full-footprint/neighbor owners. Exact-PC controls cover
+1,024 selector cases and 420 raster cases. All 44 bodies then pass 9,853 ordinary
+preparations/current geometry frames to native-matched expiry and scoped resource
+cleanup. Existing footprints/building queries and changed/moving-world snapshots
+remain prerequisites. Next connect ordinary impact creation, context/body clocks,
+common render/audio and actual source-bearing radial hit consumers; construction,
+CPU cleanup and static declared queries do not certify those connections.
 
 Earlier graphical failure: local source `a450206` admitted the authored Wife
 population but failed before capture: mixed positional sound requests exceeded

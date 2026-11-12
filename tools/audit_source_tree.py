@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed static platform query routes and explicit unknown attribution.
+        'b434786fb3d2623c653f9ae6154df0c6665c0853ebf647452bb614fe443900fd',
         # Concurrent reviewed building-damage routes; no raw research included.
         'afb941293abb3d32e8ad9786412ad7313fa74272812fd59b4834c70ecfd8ef2a',
         # Reviewed exact debug renderer identity and unknown gradient route.

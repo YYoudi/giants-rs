@@ -48,10 +48,24 @@ override: RGB addition, diffuse alpha times the material/object factor and
 source-alpha/one blending with depth writes disabled. This is checked against
 the exact debug renderer module, separately from the executable; no prototype
 shader-name match or new attribution is established. Texture-alpha gradients and
-other gradient RGB programs still require their own evidence. The longer actual
-Wife-world path now reaches a required unprepared platform footprint. Its real
-selector, geometry and membership must be supplied before admitting that path;
-an empty platform list or asserted membership would not validate the lifetime.
+other gradient RGB programs still require their own evidence.
+
+The longer control now uses `declared_platform_scene::Prepared` with the actual
+source selector, terrain-plane gate and ordered transformed mesh. A distinct
+`PlatformBits` projection represents only raster platform membership; native
+terrain/neighbor writes cannot change that bit. It supplies neither full
+footprints nor neighbor/list ownership. Existing-footprint and building-query
+requirements remain unresolved. Matching candidate fields are required when
+binding this query owner to the world; the default unresolved path stays strict.
+The exact debug PC selector matches 1,024 controls and platform bits match 420
+native controls across terrain and neighbor inputs. This source-world composition
+then runs all 44 mixed bodies through 9,853 ordinary preparations, current geometry
+inputs, real expiry and scoped cleanup, releasing payloads/specification/state
+references/registrations and refusing stale owners. Native expiry/destructor
+controls remain separately scoped to direct callbacks and the global cleanup
+walk. This does not establish complete native world scheduling, GPU rendering,
+ordinary impact delivery or NPC death. Declared rigid projections require a new
+snapshot/invalidation contract before use with moving or changed world owners.
 
 The current immediate-particle dependency is CPU-validated, not an ordinary
 explosion delivery. The canonical timed owner now constructs the acquired
