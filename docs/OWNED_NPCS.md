@@ -148,9 +148,9 @@ cancellation. Native individual unlink/release, active popup/dirt effects,
 ordinary firing/flight, reciprocal damage and source death remain prerequisites.
 The marker's prototype PS2 attribution remains unassigned.
 
-The corrected local GNU executable is built from source
-`0273154203f2ff5143c2f8af1e9ecc603803d830`, SHA256
-`72ebdf7bbd39473af6c42dc654078edec4c2da5d105674a3bfa85b426225125d`.
+The latest local GNU executable, including owned surfacing/marker consumers,
+is built from source `230826c1ab581a4689427c1c305aa2c2515e69c0`, SHA256
+`0f32a697fddef3665788f6c03dba8a860fd2ba243d4c39bf3e391a8a2654a5da`.
 Its private build receipt was independently hash-checked. Use the ordinary
 **Load Single Player Game → Mecc Story 2 → The Wife** path, then let the film
 finish or use Escape to skip; Escape in gameplay returns to the mission menu.
@@ -160,10 +160,12 @@ build, with the incomplete continuations above, not a public preview.
 The first executable (`5fefde0`) reached ordinary Mecc gameplay with actual
 Windows clicks/Escape and five completed Ripper actors, but its common renderer
 refused the null-texture part. That failure is retained as a failed graphical
-check. The corrected executable passed the headless asset consumer; its next
+check. The earlier corrected executable (`0273154`) passed the headless asset consumer; its next
 Windows check was stopped at the menu because another computer-use operation
 was active. Consequently neither corrected-build Ripper visibility, reciprocal
-encounter, death nor menu/re-entry acceptance is established yet. No new gallery
+encounter, death nor menu/re-entry acceptance is established yet. The newer
+`230826c` surfacing build has not received a Windows/GPU encounter check.
+No new gallery
 capture or preview was published. The previous loading baseline below remains
 separate evidence.
 

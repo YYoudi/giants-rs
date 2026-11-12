@@ -71,6 +71,9 @@ and headless asset cleanup with an explicit two-child constructor fixture.
 Natural awakening and GPU encounter acceptance remain open. Marked children
 remain reciprocal/owned until native individual cleanup is acquired; marking
 does not acknowledge destruction. Prototype PS2 marker attribution is unassigned.
+Local GNU surfacing build: source `230826c`, executable SHA256 prefix
+`0f32a697fdde`; receipt independently hash-checked. No Windows/GPU encounter
+acceptance or new public preview accompanies this intermediate build.
 Next: acquire/connect individual marker cleanup and ordinary firing/flight consumers,
 consume required class230 mode66 and later continuations,
 then connect collisions/targeting and reciprocal combat with
