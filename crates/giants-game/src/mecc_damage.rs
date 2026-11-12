@@ -14,6 +14,7 @@ pub struct Hit {
     pub globally_disabled: bool,
     /// Historical name of the independently supplied suppression gate;
     /// live producer/lifecycle acquisition remains separate from this arithmetic.
+    /// The debug-reference writer is a console toggle, not film activity.
     pub cutscene: bool,
     /// Result of the separate attacker/team eligibility path.
     pub allowed: bool,

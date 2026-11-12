@@ -49,6 +49,14 @@ Ordinary state0 construction retains that header value once, and radial reads
 use its current class limit. Remaining unowned state families, the cross-context
 global's actual producer and attributed Mecc reaction/feedback still need binding
 before ordinary impact admission.
+The debug PC cross-context gate and the historically named Mecc `cutscene`
+suppression input now lead to the same acquired console-command handler.
+Independent menu-string and writer evidence identifies the former as the
+own-base damage toggle; the latter also clears player damage. Neither should be
+derived from a cinematic. Actual process defaults/command ownership and their
+ordinary runtime consumers still require binding. Also retain the source state0
+hit dispatcher and marker-state health prerequisites; a health view alone cannot
+acknowledge these damage callbacks.
 Do not initialize unknown live health to zero, skip those targets or replace
 required callbacks. The new adapter is an intermediate dependency, not an
 ordinary explosion or reciprocal-combat delivery.
