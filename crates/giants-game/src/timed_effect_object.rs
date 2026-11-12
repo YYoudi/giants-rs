@@ -88,6 +88,7 @@ pub(crate) struct Runtime {
     immutable_words: [u32; 3],
     size_flag: u32,
     side_speed: Option<u32>,
+    pub(crate) render: crate::effect_render_parameters::Parameters,
 
     pub epoch: u32,
     pub failure: Option<String>,
@@ -152,6 +153,35 @@ impl<K> Timed<K> {
     }
 }
 impl<K: Copy> Timed<K> {
+    /// Construct this one verified mixed-program object without consuming the
+    /// context or acknowledging any other object, wait, renderer or world tick.
+    /// Prototype PS2 `fx_move` / `fx_setupUVScrolling` / `fx_setupVerticleFade`
+    /// remain unknown attributions; this binds only the acquired PC frame.
+    pub fn scrolling_vertical_object(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<K>,
+        offset: usize,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        let record = program
+            .records
+            .iter()
+            .find(|r| r.offset == offset && r.opcode == 3)
+            .ok_or("scroll/fade source constructor absent")?;
+        let class = i32::from_le_bytes(
+            record
+                .bytes
+                .get(1..5)
+                .ok_or("scroll/fade class operand absent")?
+                .try_into()
+                .unwrap(),
+        );
+        let template = Template::load(resources, class)?;
+        let configured = template.scrolling_vertical_object(origin, context, offset)?;
+        Self::new(template, configured)
+    }
     /// Stage ownership while the caller retains the context transaction. The
     /// pool's consume method additionally guards and retires its live identity.
     pub fn attached(
@@ -389,6 +419,7 @@ impl<K: Copy> Timed<K> {
                 immutable_words,
                 size_flag,
                 side_speed,
+                render: configured.render,
                 epoch: 0,
                 failure: None,
                 pending: None,
@@ -628,7 +659,8 @@ impl Runtime {
             .storage
             .data()
             .ok_or("timed callback payload absent")?;
-        let allowed = 0x800000
+        let allowed = self.render.control_mask()
+            | 0x800000
             | 0x80
             | 0x20
             | self.size_flag
@@ -671,6 +703,7 @@ impl Runtime {
         if let Some(ground) = &self.ground {
             ground.decision(b.fields, b.seed)?;
         }
+        self.render.validate(b.fields, b.seed)?;
         Ok(())
     }
 
@@ -808,6 +841,9 @@ impl Runtime {
                 matrix.values[12..].copy_from_slice(&b.matrix.values[12..]);
                 *b.matrix = matrix;
                 self.matrix_written = true;
+            }
+            if next == VisualStep::VisibleState {
+                self.render.advance(b.fields, b.seed, seconds)?;
             }
             let tick = crate::animation_channels::advance(
                 b.channels_mut(),

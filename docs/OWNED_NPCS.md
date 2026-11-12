@@ -122,6 +122,31 @@ This bounded constructor comparison does not cover service failure prefixes,
 callbacks, the delayed phase, canonical Session adoption, vertex rendering,
 contacts, damage or an ordinary encounter. It confirms no new PS2 attribution.
 
+The source3 scroll/fade frame now has a bounded timed constructor that validates
+its actual record offset, complete source image/program, class and positional
+context. It does not consume the mixed context or create its siblings. The
+ordinary canonical timed owner can retain its UV/fade parameters; Session
+accessors read that same owner. UV advances in the actual payload and the
+single fade segment uses typed dynamic ownership, without a fabricated native
+pointer. Updates run before ANM on visible callbacks, skipping the first,
+inactive and expired cases. Equality with the fade duration remains active,
+including a zero delta, until a later positive delta passes it. The existing
+single-segment kernel previously retired at equality and is corrected.
+These current parameters do not acknowledge vertex-buffer use or make the whole
+explosion available. General ledger preview/surface/ground paths keep refusing
+their unbound renderer needs; multiple fade segments remain outside this owner.
+
+The original direct callback comparison covers176 frames across both source
+explosions, steady deltas and exact-duration/zero-delta boundaries. Twelve selected
+current words per frame agree with the canonical Session body: control flags,
+age, UV, fade time/values/active state, scale, transparency and response/render
+flags. Four real retirement requests deliberately reach a failing required
+consumer; the canonical owners retain failure, remain unmarked and refuse replay.
+Complete null-object preparation now admits these two source frames and preserves
+their observed RNG result without preparing immediate children early. These are
+supplied-resource/clock CPU controls, not the world schedule, vertex consumer,
+actual deletion, reciprocal combat or graphical acceptance of an explosion.
+
 The NPC lane stages a separate declaration-bound Ripper component in ordinary
 mission loading. The Wife has five canonical mission declarations: four class73
 and one class230, all state23. The component retains their exact source placement

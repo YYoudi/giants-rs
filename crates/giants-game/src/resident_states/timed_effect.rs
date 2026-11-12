@@ -329,6 +329,22 @@ impl Session {
     pub fn timed_effect_fade(&self, id: Id) -> Option<[f32; 4]> {
         Some(self.get(id)?.timed_effect.as_ref()?.runtime.fade)
     }
+    /// Current canonical parameters only; a renderer must consume this owner.
+    pub fn timed_effect_uv_offset(&self, id: Id) -> Option<[f32; 2]> {
+        let actor = self.get(id)?;
+        actor.timed_effect.as_ref()?.runtime.render.uv(&actor.seed)
+    }
+    pub fn timed_effect_vertical_fade(&self, id: Id) -> Option<[f32; 2]> {
+        Some(
+            self.get(id)?
+                .timed_effect
+                .as_ref()?
+                .runtime
+                .render
+                .fade()?
+                .values,
+        )
+    }
     pub fn timed_effect_render_flags(&self, id: Id) -> Option<u32> {
         Some(self.get(id)?.timed_effect.as_ref()?.render_flags)
     }
@@ -922,6 +938,159 @@ mod tests {
         scene_resources::SceneResources,
     };
     type PhaseControls = Arc<std::collections::BTreeMap<(u32, u32, u32, u32), Vec<u32>>>;
+    #[test]
+    #[ignore = "Requires GIANTS_NPC_ROOT and GIANTS_RIPPER_RENDER_CONTROLS; original direct callback controls, supplied clocks/resources, no raster or whole mixed-program execution"]
+    fn canonical_ripper_scroll_fade_matches_original_callbacks_and_keeps_retirement_failure() {
+        struct Required;
+        impl Services for Required {
+            fn physical(&mut self, _: &mut Session, _: Id, _: f32) -> Result<(), String> {
+                Err("unexpected physical service in nonphysical scroll/fade profile".into())
+            }
+            fn gravity(&mut self, _: &mut Session, _: Id) -> Result<(), String> {
+                Err("unexpected gravity service in nonphysical scroll/fade profile".into())
+            }
+            fn retire(
+                &mut self,
+                _: &mut Session,
+                _: Id,
+                _: &Image,
+                _: Option<&crate::effect_scene::RetirementBinding>,
+            ) -> Result<(), String> {
+                Err("required real retirement consumer deliberately unavailable".into())
+            }
+        }
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+        let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let image = Arc::new(
+            resources
+                .classes
+                .models
+                .effects
+                .last()
+                .unwrap()
+                .image
+                .clone(),
+        );
+        let controls =
+            std::fs::read_to_string(std::env::var_os("GIANTS_RIPPER_RENDER_CONTROLS").unwrap())
+                .unwrap();
+        let mut grouped = std::collections::BTreeMap::<u32, Vec<(String, Vec<u32>)>>::new();
+        for line in controls.lines() {
+            let mut parts = line.split_whitespace();
+            let name = parts.next().unwrap().to_owned();
+            let words = parts.map(|p| p.parse().unwrap()).collect::<Vec<u32>>();
+            assert_eq!(words.len(), 17);
+            grouped.entry(words[0]).or_default().push((name, words));
+        }
+        assert_eq!(grouped.len(), 4);
+        let mut callbacks = 0;
+        for (case, rows) in grouped {
+            let mut session = Session::new(100 + u64::from(case));
+            let mut pool = Pool::<Id>::new(session.ticket(), Some(image.clone()));
+            let mut random = Random(17);
+            let (Creation::Prepared(origin), _) = pool
+                .prepare_positional_invariant(&rows[0].0, [1.25, -2.5, 3.75], &mut random)
+                .unwrap()
+            else {
+                panic!()
+            };
+            assert_eq!(
+                random.0, rows[0].1[16],
+                "original complete null-object preparation"
+            );
+            let context = pool.get(origin).unwrap();
+            let program = context.program.as_ref().unwrap();
+            let offset = program
+                .records
+                .iter()
+                .find(|r| {
+                    r.opcode == 3 && i32::from_le_bytes(r.bytes[1..5].try_into().unwrap()) == 965
+                })
+                .unwrap()
+                .offset;
+            assert!(
+                crate::timed_effect_object::Timed::scrolling_vertical_object(
+                    &resources, origin, context, 0
+                )
+                .is_err()
+            );
+            let owned = crate::timed_effect_object::Timed::scrolling_vertical_object(
+                &resources, origin, context, offset,
+            )
+            .unwrap();
+            let id = session.adopt_timed_positioned(owned).unwrap();
+            assert!(
+                pool.get(origin).is_some(),
+                "one body does not finish its mixed context"
+            );
+            assert!(
+                Session::new(200 + u64::from(case))
+                    .timed_effect_uv_offset(id)
+                    .is_none()
+            );
+            let mut stamp = Stamp::default();
+            let mut terminal = false;
+            for (_, expected) in rows {
+                let result = session.advance_timed_effect(
+                    id,
+                    f32::from_bits(expected[2]),
+                    &mut stamp,
+                    &mut Required,
+                );
+                if expected[3] != 0 {
+                    assert!(result.unwrap_err().contains("deliberately unavailable"));
+                    terminal = true;
+                } else {
+                    result.unwrap();
+                }
+                let actor = session.get(id).unwrap();
+                let fields = actor.construction_fields.as_ref().unwrap();
+                let metadata = actor.timed_effect.as_ref().unwrap();
+                let fade = metadata.runtime.render.fade().unwrap();
+                let data = actor.seed.storage.data().unwrap();
+                let got = [
+                    fields.control_flags,
+                    u32::from_le_bytes(data[8..12].try_into().unwrap()),
+                    session.timed_effect_uv_offset(id).unwrap()[0].to_bits(),
+                    session.timed_effect_uv_offset(id).unwrap()[1].to_bits(),
+                    fade.elapsed.to_bits(),
+                    fade.values[0].to_bits(),
+                    fade.values[1].to_bits(),
+                    u32::from(fade.active),
+                    fields.scale.to_bits(),
+                    session.timed_effect_transparency(id).unwrap().to_bits(),
+                    fields.response_flags,
+                    metadata.render_flags,
+                ];
+                assert_eq!(
+                    &got,
+                    &expected[4..16],
+                    "native case {case} callback {}",
+                    expected[1]
+                );
+                callbacks += 1;
+            }
+            assert!(terminal);
+            assert!(session.timed_effect_failure(id).is_some());
+            assert_eq!(
+                session
+                    .get(id)
+                    .unwrap()
+                    .construction_fields
+                    .as_ref()
+                    .unwrap()
+                    .object_flags
+                    & 0x8000,
+                0
+            );
+            assert!(
+                session
+                    .advance_timed_effect(id, 0.01, &mut stamp, &mut Required)
+                    .is_err()
+            );
+        }
+        assert!(callbacks > 100);
+    }
     struct TerrainProvider<'a> {
         effects: Provider,
         terrain: &'a giants_formats::gti::Terrain,

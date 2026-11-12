@@ -53,6 +53,7 @@ pub struct Configured<K> {
     pub retirement: Option<crate::effect_scene::RetirementBinding>,
     pub(crate) ground: Option<crate::effect_ground_emission::Source>,
     pub(crate) source: Arc<giants_formats::effect_image::Image>,
+    pub(crate) render: crate::effect_render_parameters::Parameters,
 }
 
 /// Shared acquired callback entry, before lifetime, physical or ANM services.
@@ -194,6 +195,7 @@ impl<K> Initial<K> {
             retirement: None,
             ground: None,
             source,
+            render: Default::default(),
         })
     }
     /// A view of the actual owned payload, never a second physical allocation.
@@ -588,6 +590,98 @@ impl Template {
         data[0xa4..0xa8].copy_from_slice(&gravity.to_le_bytes());
         data[0xf4..0xf8].copy_from_slice(&side.to_le_bytes());
         *random = staged;
+        Ok(configured)
+    }
+    /// One checked source3 object inside its actual mixed program. This does
+    /// not consume the context, execute sibling objects or admit the program.
+    pub(crate) fn scrolling_vertical_object<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        offset: usize,
+    ) -> Result<Configured<K>, String> {
+        if !matches!(context.flags(), 0 | 0x8000) {
+            return Err("scroll/fade object requires its acquired positional context".into());
+        }
+        let image = context.source_image();
+        let entry = image
+            .entries
+            .get(context.entry_index)
+            .ok_or("scroll/fade entry absent")?;
+        if entry.offset != context.entry_offset {
+            return Err("scroll/fade entry differs".into());
+        }
+        let actual = image.program(entry.offset).map_err(|e| e.to_string())?;
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        if program.records.len() != actual.records.len()
+            || program
+                .records
+                .iter()
+                .zip(&actual.records)
+                .any(|(a, b)| a.offset != b.offset || a.opcode != b.opcode || a.bytes != b.bytes)
+        {
+            return Err("scroll/fade program differs from the actual source image".into());
+        }
+        let object = actual
+            .records
+            .windows(7)
+            .find(|r| r[0].offset == offset)
+            .ok_or("scroll/fade object offset absent")?;
+        if object.iter().map(|r| r.opcode).collect::<Vec<_>>() != [3, 6, 8, 0x46, 0x40, 4, 7]
+            || i32::from_le_bytes(object[0].bytes[1..5].try_into().unwrap()) != self.fields.class
+        {
+            return Err("scroll/fade object outside acquired source frame".into());
+        }
+        let values = |record: usize, count: usize| -> Result<Vec<f32>, String> {
+            let bytes = &object[record].bytes;
+            if bytes.len() != 1 + count * 4 {
+                return Err("scroll/fade operand framing differs".into());
+            }
+            let out = bytes[1..]
+                .as_chunks::<4>()
+                .0
+                .iter()
+                .map(|v| f32::from_le_bytes(*v))
+                .collect::<Vec<_>>();
+            if out.iter().any(|v| !v.is_finite()) {
+                return Err("scroll/fade operand nonfinite".into());
+            }
+            Ok(out)
+        };
+        let position = context.position().ok_or("scroll/fade position absent")?;
+        if position.iter().any(|v| !v.is_finite()) {
+            return Err("scroll/fade position nonfinite".into());
+        }
+        let mut initial = self.initial(
+            origin,
+            Placement::Position(position),
+            context.flags(),
+            false,
+        )?;
+        let sizes: [f32; 2] = values(2, 2)?.try_into().unwrap();
+        if sizes[0] == sizes[1] {
+            return Err("scroll/fade equal-size writer profile not acquired".into());
+        }
+        initial.size(sizes, true)?;
+        let mut render = crate::effect_render_parameters::Parameters::default();
+        for command in [
+            crate::effect_scene::RenderCommand::VerticalFade(values(3, 5)?.try_into().unwrap()),
+            crate::effect_scene::RenderCommand::UvScroll(values(4, 2)?.try_into().unwrap()),
+        ] {
+            render.configure(&command, &mut initial.fields, &mut initial.seed)?;
+        }
+        let life: [f32; 3] = values(5, 3)?.try_into().unwrap();
+        let mut configured = initial.timed(
+            crate::effect_visual::Configuration {
+                lifetime: life[0],
+                fade_in: life[1],
+                fade_out_start: life[2],
+                start_size: sizes[0],
+                end_size: sizes[1],
+            },
+            image,
+        )?;
+        configured.render = render;
         Ok(configured)
     }
     pub fn load(resources: &SceneResources, class: i32) -> Result<Self, String> {

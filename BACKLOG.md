@@ -238,6 +238,20 @@ sequences. At supplied seed17, ordered classes, final RNG and126 configured
 size/duration words match the ledger. This is constructor evidence with supplied
 resources/memory/pools/position/quality/TLS, not live Session execution, service
 failure-prefix coverage, delayed callbacks, render or damage admission.
+The scroll/fade source3 frame now has a bounded canonical timed constructor and
+owned callback parameters with Session accessors. This keeps UV in the real body
+payload and dynamic fade in typed ownership, with no invented native pointer.
+The first frame, lifetime expiry and inactive callbacks do not advance them;
+visible updates precede ANM. The exact-duration fade boundary is corrected:
+equality stays active, and a later positive delta retires the segment. Whole
+mixed-program execution, vertex consumption and impact admission remain open.
+Four private original direct-callback controls (176 frames/2,112 selected words)
+now match the canonical Session owner, including first/expired frames, steady
+clocks and exact-duration/zero-delta boundaries. Required retirement deliberately
+fails rather than acknowledging deletion; failure is retained and replay refused.
+Complete null-object preparation is admitted for the acquired explosion frames,
+with the observed preparation RNG checked. No early child preparation, whole-
+program/world scheduling, vertex rendering or ordinary damage is acknowledged.
 
 The combined local build `e764b7c` (executable SHA256 prefix `2f6b5a16babd`)
 failed its first supplied-input GPU retry, exit101 without a capture: an audio

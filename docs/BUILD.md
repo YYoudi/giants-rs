@@ -1551,6 +1551,19 @@ hex-case file; raw controls and original data stay outside Git.
 
 ### Guarded Ripper projectile graphical diagnostic
 
+The canonical scroll/fade CPU control requires `GIANTS_NPC_ROOT` and a private
+`GIANTS_RIPPER_RENDER_CONTROLS` TSV produced from the pinned original PC controls:
+
+```powershell
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu canonical_ripper_scroll_fade -- --ignored --nocapture
+```
+
+It compares one actual source3 object from each mixed explosion, complete
+null-object preparation and supplied-clock direct callbacks through required
+retirement failure. It does not execute sibling objects, consume the mixed
+context, bind vertex output or establish an ordinary encounter. Keep the TSV,
+native executables, source inputs, raw records and reports private.
+
 The radial Session dependency has an optional installed control (same
 `GIANTS_NPC_ROOT` setup as the other NPC controls):
 
