@@ -3,8 +3,6 @@
 //! it does not advance the campaign flow or synthesize readiness messages.
 use super::*;
 use bevy::input::mouse::AccumulatedMouseMotion;
-#[path = "route_probe.rs"]
-mod route_probe;
 type PlayerDraw<'a> = (
     &'a Mesh3d,
     &'a mut Visibility,
@@ -731,7 +729,7 @@ pub(super) fn update(
                                     &scene.asset.terrain,
                                     position,
                                     goal,
-                                    0.2,
+                                    0.35,
                                 )
                             })
                             .expect("sampled terrain input route with jet-assisted slopes"),
@@ -788,30 +786,29 @@ pub(super) fn update(
                             && controller.state.mission_snapshot().1 > 0.3
                             && (!Controller::vimp_contact_probe() || distance > 120.)
                             && meat_target.is_none();
-                        if return_target.is_some()
-                            && distance < 60.
-                            && position[2] >= target[2] - 10.
-                        {
-                            thrust = false;
-                        }
                         boost = distance > 300. && tick % 360 == 0;
-                        if return_target.is_some() && target[2] - position[2] > 8. {
-                            thrust = true;
-                            boost = tick % 400 == 0;
-                        }
                         if Controller::campaign_probe() {
                             let fuel = controller.state.mission_snapshot().1;
-                            if fuel < if return_target.is_some() { 60. } else { 10. } {
-                                controller.probe_recharge = true;
-                            }
-                            if fuel >= 95. {
-                                controller.probe_recharge = false;
-                            }
-                            if controller.probe_recharge {
-                                thrust = false;
-                                boost = false;
-                                if return_target.is_some() {
-                                    axes = Vec2::ZERO;
+                            if return_target.is_some() {
+                                let commands = route_probe::commands(
+                                    position,
+                                    target,
+                                    fuel,
+                                    &mut controller.probe_recharge,
+                                );
+                                axes = Vec2::from_array(commands.0);
+                                thrust = commands.1;
+                                boost = commands.2;
+                            } else {
+                                if fuel < 10. {
+                                    controller.probe_recharge = true;
+                                }
+                                if fuel >= 95. {
+                                    controller.probe_recharge = false;
+                                }
+                                if controller.probe_recharge {
+                                    thrust = false;
+                                    boost = false;
                                 }
                             }
                             if tick % 600 == 0 {

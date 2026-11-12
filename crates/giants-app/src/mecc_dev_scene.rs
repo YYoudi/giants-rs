@@ -4,6 +4,8 @@ use giants_game::{arithmetic::Precision, mecc_motion::Motion};
 use std::{collections::BTreeMap, path::Path};
 mod collision_replay;
 mod mission_contacts;
+#[cfg(test)]
+mod route_control;
 
 struct Clip {
     name: String,

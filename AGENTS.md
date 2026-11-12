@@ -26,6 +26,12 @@ delivered through matching main/build/dashboard updates. Work alone in the
 background on this objective; retain the full game scope and follow the current
 delivery at the top of BACKLOG.md. Do not close it on dependency tests alone.
 
+The current owner objective extends that loop through Starving's twenty-meat
+return, its source cinematic continuation and the next ordinary mission. Follow
+docs/MISSION_PROGRESSION.md for the central mission method and BACKLOG.md for
+acceptance. Future missions must use their authored records and independently
+verified producers; never infer completion from a name, a capture or a test flag.
+
 Work alone. Do not move other discussions' worktrees. Use codex/ branches for new
 work unless the owner requests main. Read PROGRESS.json, BACKLOG.md and docs/RELEASES.md.
 Keep README in English. Preserve the owner's approximate 99% AI-generated estimate

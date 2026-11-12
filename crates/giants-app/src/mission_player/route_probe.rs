@@ -3,7 +3,36 @@
 use giants_formats::gti::Terrain;
 use giants_game::{arithmetic::Precision, terrain_queries::StaticTerrainQuery};
 use std::{cmp::Reverse, collections::BinaryHeap};
-pub(super) struct Route {
+/// Supplied keyboard/jet levels only. Rest and boost use the ordinary resource
+/// service; no pose, velocity, fuel or campaign state is written here.
+pub(crate) fn commands(
+    position: [f32; 3],
+    target: [f32; 3],
+    fuel: f32,
+    recharge: &mut bool,
+) -> ([f32; 2], bool, bool) {
+    let gap = target[2] - position[2];
+    let distance = (target[0] - position[0]).hypot(target[1] - position[1]);
+    let mut axes = if gap > 35. && distance < 8. {
+        [0., 0.]
+    } else {
+        [0., 1.]
+    };
+    let mut thrust = gap > 15.;
+    if fuel < 10. {
+        *recharge = true;
+    }
+    if fuel >= 95. {
+        *recharge = false;
+    }
+    if *recharge {
+        axes = [0., 0.];
+        thrust = false;
+    }
+    (axes, thrust, thrust)
+}
+
+pub(crate) struct Route {
     points: Vec<[f32; 3]>,
     cursor: usize,
 }
