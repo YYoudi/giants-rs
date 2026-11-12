@@ -88,6 +88,7 @@ pub mod mecc_death;
 pub mod mecc_fire;
 pub mod mecc_fire_lock;
 pub mod mecc_fire_primary;
+pub mod mecc_hit_source;
 pub mod mecc_jet;
 pub mod mecc_jet_owned;
 pub mod mecc_jet_presentation;

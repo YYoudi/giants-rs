@@ -147,6 +147,13 @@ Next: missing comparisons / platform divergences / next behavioral control
 Publication: private by default / minimal-summary review if publication is needed
 ```
 
+Distinguish an observed instruction from an established function entry. A recorded
+indirect call target can establish the PC entry even when an analyzer has not
+defined a function there. Defining it in a private, read-only import does not
+establish a prototype correspondence, source signature or ABI. Retain the entry
+trace and analyzer limitations instead of treating a missing procedure as proof
+that the code or behavior does not exist.
+
 Link the existing private record instead of copying corpus excerpts into the
 handoff. On resume, verify that the recorded binary and source identities still
 apply; reuse a valid completed lookup rather than mechanically repeating it.

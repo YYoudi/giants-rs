@@ -152,6 +152,7 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
                 let state = active.payload.rippers.as_mut().unwrap().as_mut().unwrap();
                 let packet = state.controlled_contact.as_ref().unwrap();
                 assert_eq!((packet.owner, packet.step), (owner, number));
+                assert!(packet.radial_center.into_iter().all(f32::is_finite));
                 assert_eq!(
                     packet.personality & 0x1000000,
                     0,
@@ -989,6 +990,25 @@ fn approach_ripper(
                 let initial = f32::from_le_bytes(payload[..4].try_into().unwrap());
                 let remaining = f32::from_le_bytes(payload[4..8].try_into().unwrap());
                 assert!(remaining < initial);
+                let recipient = active.player_owner().unwrap();
+                let source_owner = metadata.launch.as_ref().unwrap().source;
+                let gate = active
+                    .resident_states
+                    .enemy_projectile_mecc_source(recipient, shot)
+                    .unwrap();
+                assert!(gate.damage_allowed);
+                assert_eq!(gate.retaliation, Some(source_owner));
+                assert!(
+                    active
+                        .resident_states
+                        .enemy_projectile_mecc_source(source_owner, shot)
+                        .is_err()
+                );
+                assert!(
+                    Session::new(ticket + 1)
+                        .enemy_projectile_mecc_source(recipient, shot)
+                        .is_err()
+                );
                 let class = actor.class;
                 let channels = active.resident_states.get(shot).unwrap().channels.unwrap();
                 let completed = active

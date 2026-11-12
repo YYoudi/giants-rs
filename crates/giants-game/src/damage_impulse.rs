@@ -1,5 +1,32 @@
 //! Shared hit-direction velocity addition. The caller owns source identity,
 //! current pose and any auxiliary-model center used by a radial hit.
+//! Prototype PS2 search routes `hurt_object` and
+//! `collision_hurt_object__F8HurtTypefP6OBJECTT2` remain unknown correspondences;
+//! the identity-bound PC aliases and independent controls stay private.
+
+/// Current ANM auxiliary-box center used by the radial branch. The caller
+/// supplies the actual selected descriptor's optional box and a current affine.
+/// No auxiliary descriptor (including slot254) uses the actor origin directly;
+/// the primary model box is deliberately not a substitute.
+pub fn radial_center(
+    origin: [f32; 3],
+    auxiliary: Option<[f32; 6]>,
+    pose: crate::contact_pose::Cached,
+) -> Result<[f32; 3], &'static str> {
+    let Some(bounds) = auxiliary else {
+        return if origin.into_iter().all(f32::is_finite) {
+            Ok(origin)
+        } else {
+            Err("radial origin outside finite profile")
+        };
+    };
+    if !bounds.into_iter().all(f32::is_finite) {
+        return Err("radial auxiliary bounds outside finite profile");
+    }
+    let center =
+        std::array::from_fn(|i| ((f64::from(bounds[i]) + f64::from(bounds[i + 3])) * 0.5) as f32);
+    pose.to_world(center)
+}
 #[derive(Clone, Copy, Debug)]
 pub struct Motion {
     pub current: [f32; 3],

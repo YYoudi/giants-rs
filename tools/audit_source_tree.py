@@ -97,6 +97,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
     },
     'docs/RECONSTRUCTION_METHOD.md': {
+        # Observed instruction versus indirect function-entry evidence;
+        # existing reviewed attribution aliases remain unchanged.
+        '74014108617eae1798deacd3bb76527bbcf437e723b0e7b4634ef7db17268ee2',
         # Central mission-method link only; reviewed attribution aliases unchanged.
         'a0c4addf0a738b4bf910f9f730d85fd8410c09ffed60c7ba683fd7de201a868a',
         # Searchable-source naming policy; existing attribution rows unchanged.

@@ -223,6 +223,27 @@ source refusal. A zero clock stays zero; no invented timeout or forced movement
 substitutes for the later living response. The writer changes no mode, channels,
 health, RNG or readiness. Its prototype relationship is still unassigned.
 
+The current normal Mecc contact packet additionally carries the actual radial
+impulse center: the selected ANM auxiliary box's midpoint transformed by the
+current actor affine. A missing auxiliary descriptor uses the actor origin,
+not a primary/render-mesh box or the center of a world AABB. Original PC impulse
+and transform executions match512 supplied box/cache/impact cases and3,072 center/
+velocity words. These are geometry/arithmetic controls, not applied health.
+
+The PC Mecc callback entry is now established by an actual indirect dispatch
+trace. `mecc_hit_source::singleplayer` reproduces its nonnegative-hit source gate,
+including one owner dereference, state2/44 context filtering and exact self-source
+exceptions. Private original-callback controls match1,536 cases /3,072 words under
+explicit inactive gates/equipment/voice fixtures. A denied health change still
+requires the callback's remaining flags, impulse and feedback; never drop a hit
+because this arithmetic gate is false. Multiplayer policy is not admitted here.
+`Session::enemy_projectile_mecc_source` validates an actual class90/232 shot and
+its current canonical Ripper owner against a real Mecc recipient. The two-ticket
+Wife flight control checks that relation and rejects foreign or non-Mecc IDs.
+It does not apply damage or publish associated-player retaliation. The literal
+prototype key `mecc_shot` remains an unknown correspondence; old PC aliases and
+raw-symbol uncertainty are retained privately.
+
 These dependencies are not yet a normal impact provider. The ordinary shot still
 retains its pending contact until genuine named FX, canonical list/health, alert,
 attributed Mecc/Vimp/Ripper hit callbacks, audio and retirement consumers compose.
@@ -277,7 +298,7 @@ control uses actual class230/219 constructors with explicit mode71/clock inputs.
 It checks the real reciprocal relation, marking without channel/retirement
 advancement, non-marker/absent relations, late sound failure and no replay.
 It does not establish natural marker retirement during an ordinary encounter.
-Current source passes998 Rust tests /180 ignored, five installed `source_wife_`
+Current source passes999 Rust tests /180 ignored, five installed `source_wife_`
 controls, the additional owned-retreat and radial-signal controls,45 Python tests and strict
 Clippy/format checks. The full-contact diagnostic's pending-ground failure remains
 separate; no rendered combat availability follows from these counts.

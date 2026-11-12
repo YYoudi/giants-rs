@@ -43,5 +43,8 @@ pub struct Snapshot {
     pub active: u32,
     pub personality: u32,
     pub bounds: crate::volume_queries::Bounds,
+    /// Actual current ANM auxiliary-box center for radial impulse consumers,
+    /// independently selected from the dedicated triangle mesh and its AABB.
+    pub radial_center: [f32; 3],
     pub mesh: crate::object_segment::Mesh,
 }

@@ -78,6 +78,10 @@ Impact dependencies acquired, still awaiting ordinary composition:
 `radial_damage` matches1,692 exact-PC traversal fixtures /689 outgoing requests;
 the owned Vimp signal writer has a real source-origin/time contract and installed
 constructor/preservation control. Neither is an impact/damage availability provider.
+The ordinary Mecc packet now publishes its actual ANM auxiliary-box radial center;
+512 native center/impulse controls pass. Canonical enemy-shot/Mecc attribution and
+its single-player source gate have1,536 original-callback controls and two-ticket
+Wife checks. These publish neither health changes nor a hit-service acknowledgement.
 Next connect actual Session list1/health and attributed kind2 hit services with
 named FX/audio and retirement. Do not reuse the source-absent nonlethal Mecc path
 as a Ripper blast sink or manufacture state77 identity from partial-pistol serials.
@@ -101,7 +105,7 @@ Earlier current-scene flight local GNU build: source `225f6fa`, executable SHA25
 `b0f1d23f2929`, receipt independently checked; no new GPU encounter verification.
 That build passed989 Rust tests /178 ignored and five installed The Wife
 controls. Current source additionally connects class230 modes66/71 and acquires the radial
-request/signal dependencies, passes998 Rust tests /180 ignored, the five The Wife controls and one owned-retreat control,
+request/signal dependencies, passes999 Rust tests /180 ignored, the five The Wife controls and one owned-retreat control,
 45 Python tests and strict Clippy. The separate full-contact diagnostic now
 reaches a real pending ground contact after137 flying samples at step2755.
 Latest GPU-checked local build (before current-scene flight): source `8e5d72b`, executable SHA256 prefix `865d6ad15293`,

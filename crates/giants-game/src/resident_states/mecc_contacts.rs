@@ -86,6 +86,11 @@ impl Session {
         )?;
         let pose =
             crate::contact_pose::Cached::new(fields.object_flags, affine.flags, affine.matrix)?;
+        let radial_center = crate::damage_impulse::radial_center(
+            fields.position,
+            model_bounds.current_auxiliary,
+            pose,
+        )?;
         let mesh = crate::object_segment::Mesh::from_local_positions(
             u32::try_from(id.serial).map_err(|_| "Mecc contact identity overflow")?,
             &specification.models[slot].as_ref().unwrap().prepared.mesh,
@@ -99,6 +104,7 @@ impl Session {
             tick,
             active: fields.object_flags,
             personality: fields.configuration[14],
+            radial_center,
             bounds: crate::volume_queries::Bounds {
                 min: bounds[..3].try_into().unwrap(),
                 max: bounds[3..].try_into().unwrap(),
