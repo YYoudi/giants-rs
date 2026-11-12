@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent reviewed player-mesh navigation route, explicitly unknown.
+        '2c3b3331dfb1987ef99acdc805c98795d167817d25ec23ed2f5522d5313fce71',
         # Concurrent reviewed static-shadow routes, explicitly unknown.
         '03e8861c2ecbe4903cf621c55c5db2fb033667893ec92292a22e8bc778b3851c',
         # Reviewed Mecc hurt search route, explicitly separate from firing.
