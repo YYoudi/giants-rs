@@ -111,6 +111,17 @@ consumers explicitly refuse these unbound renderer services. Ordinary impact
 admission still requires the live canonical program, body, render and retirement
 owners; this ledger is not their replacement.
 
+One supplied-seed PC control per explosion now executes original named
+preparation and the first activation through its actual nested child constructors,
+stopping at the source wait. The medium and large programs construct16 and26
+bodies respectively. Their ordered classes, final RNG and126 source-configured
+size/duration words agree with the Rust ledger. Source indexes, outer memory,
+textures, free pools, positional origin, quality, TLS/seed17 and math mode are
+supplied. Earlier harness stack/budget failures remain retained privately.
+This bounded constructor comparison does not cover service failure prefixes,
+callbacks, the delayed phase, canonical Session adoption, vertex rendering,
+contacts, damage or an ordinary encounter. It confirms no new PS2 attribution.
+
 The NPC lane stages a separate declaration-bound Ripper component in ordinary
 mission loading. The Wife has five canonical mission declarations: four class73
 and one class230, all state23. The component retains their exact source placement

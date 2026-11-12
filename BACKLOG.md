@@ -233,6 +233,11 @@ delayed phases project, and all referenced classes pass canonical template loadi
 The preview/surface/ground consumers refuse the unbound needs rather than hiding
 them. Actual mixed-program execution/Session births and renderer setup remain the
 first missing impact consumer; the ledger does not establish their availability.
+Original PC first-activation controls now reproduce the medium/large16/26 body
+sequences. At supplied seed17, ordered classes, final RNG and126 configured
+size/duration words match the ledger. This is constructor evidence with supplied
+resources/memory/pools/position/quality/TLS, not live Session execution, service
+failure-prefix coverage, delayed callbacks, render or damage admission.
 
 The combined local build `e764b7c` (executable SHA256 prefix `2f6b5a16babd`)
 failed its first supplied-input GPU retry, exit101 without a capture: an audio
