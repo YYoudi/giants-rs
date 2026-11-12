@@ -51,6 +51,7 @@ pub struct Configured<K> {
     pub transparency: f32,
     pub visual: crate::effect_visual::Visual,
     pub retirement: Option<crate::effect_scene::RetirementBinding>,
+    pub(crate) ground: Option<crate::effect_ground_emission::Source>,
     pub(crate) source: Arc<giants_formats::effect_image::Image>,
 }
 
@@ -191,6 +192,7 @@ impl<K> Initial<K> {
             transparency: visual.transparency,
             visual,
             retirement: None,
+            ground: None,
             source,
         })
     }
@@ -231,6 +233,62 @@ fn initialize_physical(seed: &mut Seed) -> Result<(), String> {
     Ok(())
 }
 impl Template {
+    /// Active source3 ground-emission frame. Its context has already executed
+    /// the null-object pass; only the active ranges are consumed here.
+    pub fn ground_positioned<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Configured<K>, String> {
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        if program.records.iter().map(|r| r.opcode).collect::<Vec<_>>()
+            != [3, 6, 5, 9, 0x12, 0x16, 0x0e, 0x5a, 7, 2]
+        {
+            return Err("ground constructor outside acquired source frame".into());
+        }
+        let image = context.source_image();
+        let entry = image
+            .entries
+            .get(context.entry_index)
+            .ok_or("ground context entry absent")?;
+        if entry.offset != context.entry_offset {
+            return Err("ground context entry changed".into());
+        }
+        let plan = crate::effect_scene::Plan::project(&image, &entry.name)?;
+        let mut staged = *random;
+        let (objects, cursor) = plan.activate(&mut staged.0)?;
+        if objects.len() != 1 || cursor.remaining.is_some() || plan.requires_external_resume() {
+            return Err("ground constructor requires one complete source object".into());
+        }
+        let object = &objects[0];
+        let source =
+            crate::effect_ground_emission::Source::resolve(&object.object_services, &image)?
+                .ok_or("ground source callback configuration absent")?;
+        let mut initial = self.positioned(origin, context)?;
+        let size = object.size.ok_or("ground source sizes absent")?;
+        let life = object.lifetime.ok_or("ground source lifetime absent")?;
+        initial.size(size, size[0] != size[1])?;
+        let mut configured = initial.timed(
+            crate::effect_visual::Configuration {
+                lifetime: life[0],
+                fade_in: life[1],
+                fade_out_start: life[2],
+                start_size: size[0],
+                end_size: size[1],
+            },
+            image,
+        )?;
+        configured.initial.fields.object_flags &= !0x10;
+        configured.initial.fields.control_flags |= 0x80;
+        let data = configured.initial.seed.storage.data_mut().unwrap();
+        data[0x1c..0x20].copy_from_slice(&object.speed.to_le_bytes());
+        data[0xa4..0xa8].copy_from_slice(&object.gravity.to_le_bytes());
+        source.configure(&mut configured.initial.fields, &mut configured.initial.seed)?;
+        configured.ground = Some(source);
+        *random = staged;
+        Ok(configured)
+    }
     /// Consumes only the active size draw: context preparation already consumed
     /// its own draw. No context retirement, stock allocation or callback occurs.
     pub fn timed_attached<K: Copy>(
@@ -412,6 +470,11 @@ impl Template {
         fields.configuration[22] = 50f32.to_bits();
         fields.object_flags |= if attached { 0x40410030 } else { 0x40010030 };
         fields.control_flags |= 0x20;
+        // Source3 keeps the context's cinematic inheritance in the response
+        // word as well as the render mark. Source24 is a separate constructor.
+        if !attached && flags & 0x8000 != 0 {
+            fields.response_flags |= 0x1000;
+        }
         let mut matrix = Matrix {
             flags: 0x10,
             values: [0.; 16],

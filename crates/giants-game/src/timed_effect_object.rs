@@ -16,6 +16,14 @@ pub trait Services<K> {
     /// Motion only. The affine store and required gravity phase follow it.
     fn physical(&mut self, object: &mut Initial<K>, seconds: f32) -> Result<(), String>;
     fn gravity(&mut self, object: &mut Initial<K>) -> Result<(), String>;
+    fn ground_contact(
+        &mut self,
+        _: &mut Initial<K>,
+        _: &Image,
+        _: &crate::effect_ground_emission::Source,
+    ) -> Result<(), String> {
+        Err("ground effect requires its real contact and child services".into())
+    }
     fn retire(
         &mut self,
         object: &Initial<K>,
@@ -73,6 +81,7 @@ pub(crate) struct Runtime {
     pub transparency: f32,
     visual: crate::effect_visual::Visual,
     pub retirement: Option<RetirementBinding>,
+    pub ground: Option<crate::effect_ground_emission::Source>,
     pub source: Arc<Image>,
     durations: Vec<Option<f32>>,
     immutable_words: [u32; 3],
@@ -173,6 +182,26 @@ impl<K: Copy> Timed<K> {
         let configured = template.gravity_positioned(origin, context)?;
         Self::new(template, configured)
     }
+    pub fn ground_positioned(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        let class = program
+            .records
+            .first()
+            .and_then(|r| r.bytes.get(1..5))
+            .ok_or("ground source class absent")?;
+        let template = Template::load(resources, i32::from_le_bytes(class.try_into().unwrap()))?;
+        let mut staged = *random;
+        let configured = template.ground_positioned(origin, context, &mut staged)?;
+        let owned = Self::new(template, configured)?;
+        *random = staged;
+        Ok(owned)
+    }
     /// Acquired smoke descendant with explicit source-pool active RNG draws.
     pub fn smoke_positioned(
         resources: &crate::scene_resources::SceneResources,
@@ -269,6 +298,7 @@ impl<K: Copy> Timed<K> {
                 transparency: configured.transparency,
                 visual: configured.visual,
                 retirement: configured.retirement,
+                ground: configured.ground,
                 source: configured.source,
                 durations,
                 immutable_words,
@@ -354,11 +384,21 @@ impl<K: Copy> Timed<K> {
             Boundary::Inactive => unreachable!(),
         };
         if boundary == Boundary::Physical {
+            // Ground requests observe gravity/contact state before the affine
+            // writer. Keep the older no-ground profile's acquired lane intact.
+            if result.is_ok() && self.runtime.ground.is_some() {
+                result = services.gravity(&mut self.initial);
+            }
+            if result.is_ok()
+                && let Some(ground) = &self.runtime.ground
+            {
+                result = services.ground_contact(&mut self.initial, &self.runtime.source, ground);
+            }
             result = {
                 let (runtime, mut body) = self.borrow();
                 runtime.finish_motion(&mut body, result)
             };
-            if result.is_ok() {
+            if result.is_ok() && self.runtime.ground.is_none() {
                 result = services.gravity(&mut self.initial);
             }
         }
@@ -515,7 +555,12 @@ impl Runtime {
             | 0x04
             | 0x02
             | 0x01
-            | if self.side_speed.is_some() { 0x40 } else { 0 };
+            | if self.side_speed.is_some() { 0x40 } else { 0 }
+            | if self.ground.is_some() {
+                0x0200_0200
+            } else {
+                0
+            };
         let physical = matches!(b.placement, crate::effect_actor::Placement::Position(_));
         if b.seed.storage.profile() != crate::state_storage::Profile::Debug
             || b.seed.storage.state() != 78
@@ -541,6 +586,9 @@ impl Runtime {
             || data[0xf8..0x10c].iter().any(|&b| b != 0)
         {
             return Err("timed callback outside acquired clock/payload/service profile".into());
+        }
+        if let Some(ground) = &self.ground {
+            ground.decision(b.fields, b.seed)?;
         }
         Ok(())
     }

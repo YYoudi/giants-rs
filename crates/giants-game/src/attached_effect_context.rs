@@ -409,6 +409,36 @@ impl<K: Copy + Eq> Pool<K> {
         Ok(owned)
     }
 
+    /// Transfer one configured positional ground-effect body. Physical/contact
+    /// and child services remain required by the canonical callback.
+    pub fn activate_ground_positioned(
+        &mut self,
+        id: Id,
+        resources: &crate::scene_resources::SceneResources,
+        random: &mut crate::audio_parameters::Random,
+        session: &mut crate::resident_states::Session,
+    ) -> Result<crate::resident_states::Id, String> {
+        if session.ticket() != self.ticket {
+            return Err("ground context and Session tickets differ".into());
+        }
+        let context = self
+            .get(id)
+            .ok_or("ground context absent, foreign or retired")?;
+        let mut staged = *random;
+        let body = crate::timed_effect_object::Timed::ground_positioned(
+            resources,
+            id,
+            context,
+            &mut staged,
+        )?;
+        let actor = session.adopt_timed_positioned(
+            body.map_parent(|_| unreachable!("validated positional ground body has no parent")),
+        )?;
+        self.release_prepared(id)?;
+        *random = staged;
+        Ok(actor)
+    }
+
     /// Flick mode1 supplies the measured parameter4 cinematic mark. The
     /// ordinary named preparation still checks the complete deferred program
     /// and requires identical normal/lite selection, without invented inputs.

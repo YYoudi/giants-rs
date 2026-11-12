@@ -83,6 +83,17 @@ the default PC entry stays strict and other arithmetic remains independently
 scoped. This is not an imported signature/layout or whole-function PS2 parity
 claim. See [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md).
 
+## Effect ground-contact routes
+
+The literal prototype symbols `fx_logic` and
+`fx_processOpCodes__FP6FxDataiP6OBJECT` lead to the related work in
+[`effect_ground_emission`](../crates/giants-game/src/effect_ground_emission.rs)
+and the source constructor in `effect_actor::Template::ground_positioned`.
+Both relationships remain **unknown**. The acquired PC contact subset decides
+whether to request a child and retire its parent; source names do not validate
+the physical query, child factory, whole callback or film integration. The
+source constructor retains its mutable budget in the canonical actor payload.
+
 ## Publication boundary
 
 This index publishes only selected names, reviewed navigation relationships and

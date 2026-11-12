@@ -74,6 +74,15 @@ pub trait Services {
     fn physical(&mut self, session: &mut Session, actor: Id, seconds: f32) -> Result<(), String>;
     /// Runs after the actual affine has been published, before ANM.
     fn gravity(&mut self, session: &mut Session, actor: Id) -> Result<(), String>;
+    fn ground_contact(
+        &mut self,
+        _: &mut Session,
+        _: Id,
+        _: &Image,
+        _: &crate::effect_ground_emission::Source,
+    ) -> Result<(), String> {
+        Err("ground effect requires its real contact and child services".into())
+    }
     fn retire(
         &mut self,
         session: &mut Session,
@@ -397,7 +406,8 @@ impl Session {
             .timed_effect
             .as_ref()
             .ok_or("timed gravity metadata absent")?;
-        if !m.runtime.awaiting_gravity()
+        let ground_before_affine = m.runtime.ground.is_some() && m.runtime.awaiting_physical();
+        if !(m.runtime.awaiting_gravity() || ground_before_affine)
             || !m.motion_done
             || m.gravity_done
             || actor
@@ -750,6 +760,20 @@ impl Session {
             Boundary::Inactive => unreachable!(),
         };
         if boundary == Boundary::Physical {
+            if result.is_ok() {
+                let metadata = self.get(id).unwrap().timed_effect.as_ref().unwrap();
+                let ground = metadata
+                    .runtime
+                    .ground
+                    .as_ref()
+                    .map(|ground| (ground.clone(), metadata.runtime.source.clone()));
+                if let Some((ground, source)) = ground {
+                    result = services.gravity(self, id);
+                    if result.is_ok() {
+                        result = services.ground_contact(self, id, &source, &ground);
+                    }
+                }
+            }
             let actor = self
                 .residents
                 .get_mut(&id.serial)
@@ -762,7 +786,17 @@ impl Session {
             let (runtime, mut body) = borrow(actor, references)?;
             result = runtime.finish_motion(&mut body, result);
             self.refresh_timed_cache(id)?;
-            if result.is_ok() {
+            if result.is_ok()
+                && self
+                    .get(id)
+                    .unwrap()
+                    .timed_effect
+                    .as_ref()
+                    .unwrap()
+                    .runtime
+                    .ground
+                    .is_none()
+            {
                 result = services.gravity(self, id);
             }
         }

@@ -78,6 +78,20 @@ retained whole-film refusal. The installed child control above now exercises
 the same immutable world preparation. Neither control proves GPU drawing,
 ordinary mission completion or complete effects admission; those remain required.
 
+The ignored game control
+`installed_blood_body_uses_canonical_payload_and_requires_contact_services` uses
+`GIANTS_MISSION_OWNED_ROOT` to construct the real source blood frame in a Session.
+It checks separate null/active random passes, the actual inline integer budget,
+single context consumption and a retained failure at missing contact services.
+It does not supply a live contact, instantiate a surface child, render blood or
+admit the completion film. The portable `effect_ground_emission` controls cover
+the ordered contact decision; the private original-PC comparison supplies its
+physical flags and intercepts factory/retirement calls rather than executing them.
+The separate ignored `installed_source_budget_changes_only_after_matching_completion`
+control supplies a contact word to the constructed source body, verifies its
+cinematic response mark and checks budget publication/stale-completion rejection.
+Its supplied contact is not a successful world query or child creation.
+
 For the all-five consolidation, run the shared workspace checks below and the
 installed owner/normal-controller controls, including the generic player shell,
 ordered Delphi projection/body phase, typed state0 children, class230 awakening,

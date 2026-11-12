@@ -33,6 +33,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         '5c74b545f08d84b522c809b3876449bd7efdb542321cb6bfdb4cffc8e718bd12',
         # Reviewed probable finalization route and explicit platform divergence.
         '73f6c89fb54c84a0d1afde6fecf09b99a8fef464342d94695472a3e9f2c66a94',
+        # Two reviewed literal FX search routes, both explicitly unknown;
+        # existing PC alias unchanged, no native body or corpus exported.
+        'de47ee624eb38830f889233c0eb6288dac84c2afda13239a5c5ff4fc6f81a89e',
     },
     'docs/MECC_DESCENT_GUARD.md': {
         # Gameplay-first work-selection prose only; the reviewed alias is unchanged.

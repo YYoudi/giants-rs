@@ -646,7 +646,10 @@ impl Plan {
             })
             .collect()
     }
-    fn activate(&self, seed: &mut u32) -> Result<(Vec<Construction>, Cursor), &'static str> {
+    pub(crate) fn activate(
+        &self,
+        seed: &mut u32,
+    ) -> Result<(Vec<Construction>, Cursor), &'static str> {
         let first = self.phases.first().ok_or("empty scene plan")?;
         Ok((
             first.create(seed)?,

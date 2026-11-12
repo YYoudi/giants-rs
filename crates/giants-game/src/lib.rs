@@ -774,6 +774,7 @@ pub mod effect_contact;
 pub mod effect_emission;
 pub mod effect_emitter;
 pub mod effect_emitter_runtime;
+pub mod effect_ground_emission;
 pub mod effect_orientation;
 pub mod effect_projectile;
 pub mod effect_reference_emission;

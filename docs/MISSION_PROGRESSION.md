@@ -122,6 +122,19 @@ Source16/source5a blood services and the remaining effect families are still
 prerequisites. Native clock/RNG interleaving and complete world/draw fidelity
 remain unverified. The next mission declares no explicit opening film, so its
 ordinary entry cannot substitute for testing this completion film.
+
+`effect_ground_emission` now retains the source16/source5a relationship separately
+from the actual actor's inline integer budget. Its source3 constructor transfers
+the real body to the Session with separate null/active random passes. The contact
+boundary receives that Session and the exact source image/configuration after
+motion/gravity and before the affine writer; an absent provider is a retained
+failure. The physical provider must supply real floor/mesh contact before this
+gravity and emission stage. Existing no-ground profiles keep their bounded lane.
+The acquired decision covers a contact-gated child request, post-factory budget
+store and parent-retirement precedence. This is not live physical contact,
+surface-child activation, whole-callback parity or film acceptance. Prototype
+`fx_logic` and `fx_processOpCodes__FP6FxDataiP6OBJECT` remain unknown relationships.
+
 The next record is `2b_2_returnwife`; it declares its own class216/state18 wife
 with selector3 near its selected player start. That actor must use the ordinary
 proximity/pickup services, rather than becoming an invented carried child or a

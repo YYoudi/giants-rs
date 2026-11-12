@@ -107,6 +107,18 @@ discarding those declarations. Texture and state-name services remain separate
 from the scalar collision view. Private original-PC block controls cover usage
 stores and 512 absolute scale writes; no new PS2 function identity is confirmed.
 
+The blood dependency now has a source3 constructor using the existing ordered
+active-range interpreter and transferring the actual state78 payload into the
+Session. Source16/source5a configuration retains a separate source relationship
+and an integer emission budget. The acquired post-physical contact decision
+matches 720 supplied original-PC branch contexts, including signed counters and
+retirement precedence. The installed source constructor preserves its two random
+passes and refuses at the required contact/child-service boundary; it does not
+consume a drop or replay a failed callback. Physical contact composition, source
+surface-child activation and ordinary film/render consumption remain unbound.
+The two prototype effect search routes remain unknown attributions. No new
+playable preview or complete-film admission is established by these dependencies.
+
 ## Delivered preview .12.1 Starving and shared mission progression
 
 Owner direction, 11 November 2026: complete the ordinary twenty-meat return,
