@@ -63,7 +63,10 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
     }
     if let Ok(phase) = std::env::var("GIANTS_MISSION_BUILDING_CAPTURE")
         && (!building_interaction_probe()
-            || !matches!(phase.as_str(), "damaged" | "destroyed" | "settled"))
+            || !matches!(
+                phase.as_str(),
+                "damaged" | "destroyed" | "settled" | "unchanged"
+            ))
     {
         return Err(
             "building capture phase requires its explicit probe and a supported phase".into(),
@@ -217,7 +220,10 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
     if let Ok(value) = std::env::var("GIANTS_MISSION_BUILDING_CYCLES") {
         if value != "2"
             || !building_interaction_probe()
-            || std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref() == Ok("settled")
+            || matches!(
+                std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref(),
+                Ok("settled" | "unchanged")
+            )
         {
             return Err(
                 "building cancellation cycles require the explicit live-effect probe and value2"
