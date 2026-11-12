@@ -169,6 +169,8 @@ selection, retained prefixes/late audio failure and replay/retirement refusal.
   `source_ripper_declarations` in `giants-app` cover canonical bindings,
   substituted-owner refusal and authored declaration counts across the first
   five Story2 scenarios. Use `-- --ignored`; these tests enable no live AI.
+  The Wife control also prepares cold affine/geometry/motion owners against the
+  actual terrain, checks unchanged placements and leaves history/callbacks idle.
   The synthetic `ripper_primary_turn::tests::variant_` controls cover class230
   modes62/63, radius boundaries and retained lost-target audio failures;
   they do not establish a completed actor frame. The synthetic `ripper_attack`

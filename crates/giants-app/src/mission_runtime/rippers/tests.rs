@@ -61,6 +61,7 @@ fn source_wife_ripper_bindings_use_declared_owners_and_survive_no_ticket_reuse()
     assert_eq!(request.mission_name, "2b_1_savewife");
     let packet = giants_game::mission_loading::prepare(&root, request).unwrap();
     let plan = packet.instance_plan(&root, "English").unwrap();
+    let world = packet.world_asset(&root).unwrap();
     let mut old: Option<State> = None;
     for ticket in [9101, 9102] {
         let mut session = Session::new(ticket);
@@ -81,6 +82,14 @@ fn source_wife_ripper_bindings_use_declared_owners_and_survive_no_ticket_reuse()
         if let Some(previous) = &old {
             assert!(previous.view(&session, ticket).is_err());
         }
+        state
+            .initialize(&mut session, ticket, plan.resources(), &world)
+            .unwrap();
+        assert!(
+            state
+                .initialize(&mut session, ticket, plan.resources(), &world)
+                .is_err()
+        );
         for owner in &state.bound.as_ref().unwrap().1 {
             let fields = session
                 .get(owner.id)
@@ -98,6 +107,11 @@ fn source_wife_ripper_bindings_use_declared_owners_and_survive_no_ticket_reuse()
             );
             assert_eq!(fields.angles[0].to_bits(), declaration.yaw.to_bits());
             assert!(session.ripper_primary(owner.id).is_err());
+            assert_eq!(
+                session.actor_finalization(owner.id).unwrap().phase(),
+                giants_game::resident_finalization::Phase::Idle
+            );
+            assert!(!session.actor_motion(owner.id).unwrap().awaiting_motion());
         }
         // Replacing a report ID by another real Ripper must not be accepted.
         let first = state.expected[0].key;

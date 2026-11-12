@@ -19,6 +19,13 @@ An installed census control binds each of the first five Story2 scenarios;
 their class73/class230 counts are respectively 7/4, 4/1, 7/1, 2/0 and 2/1.
 These are authored declaration counts, not active or rendered populations.
 
+Normal loading now also prepares each bound Ripper's actual affine, source
+geometry/terrain environment and cold finalization/motion ownership against the
+selected mission world. This starts no history, callback or animation clock.
+Initialization records failures and refuses a whole-component retry after a
+partial attempt. The Wife installed control preserves all five authored poses
+through this preparation and verifies idle owners over two fresh tickets.
+
 This binding alone admits no callbacks, completed pose, contact or gameplay.
 The first installed control covers constructor identities and two-ticket
 retirement/re-entry, without rendering or Windows input. The class230 owned

@@ -2413,13 +2413,24 @@ fn spawn(
         Err(error) => blocked.push(format!("NPC resource binding: {error}")),
     }
     let ripper_binding = match &mut payload.rippers {
-        Ok(Some(rippers)) => rippers.bind(ticket, &declared, &resident_states).map(Some),
+        Ok(Some(rippers)) => rippers
+            .bind(ticket, &declared, &resident_states)
+            .and_then(|view| {
+                let world = payload.world.as_ref().map_err(Clone::clone)?;
+                rippers.initialize(
+                    &mut resident_states,
+                    ticket,
+                    payload.plan.resources(),
+                    world,
+                )?;
+                Ok(Some(view))
+            }),
         Ok(None) => Ok(None),
         Err(error) => Err(error.clone()),
     };
     match ripper_binding {
         Ok(Some(view)) => println!(
-            "mission_ripper_resources ticket={ticket} class73={} class230={} canonical_declarations=true callbacks_admitted=false rendered=false",
+            "mission_ripper_resources ticket={ticket} class73={} class230={} canonical_declarations=true cold_resources_initialized=true callbacks_admitted=false rendered=false",
             view.class73, view.class230
         ),
         Ok(None) => {}

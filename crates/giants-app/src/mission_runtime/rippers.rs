@@ -19,6 +19,7 @@ struct Owner {
 pub(super) struct State {
     expected: Vec<Declaration>,
     bound: Option<(u64, Vec<Owner>)>,
+    preparation: Option<Result<(), String>>,
 }
 #[derive(Debug, PartialEq, Eq)]
 pub(super) struct View {
@@ -61,7 +62,43 @@ impl State {
         Ok(Some(Self {
             expected,
             bound: None,
+            preparation: None,
         }))
+    }
+    /// Prepare the real terrain/geometry and cold motion owners before a frame
+    /// starts. This advances no history, primary, animation or clock, and does
+    /// not acknowledge an active NPC or a completed renderable pose.
+    pub(super) fn initialize(
+        &mut self,
+        session: &mut Session,
+        ticket: u64,
+        resources: &giants_game::scene_resources::SceneResources,
+        world: &giants_game::WorldAsset,
+    ) -> Result<(), String> {
+        self.view(session, ticket)?;
+        if self.preparation.is_some() {
+            return Err(
+                "Ripper resource initialization already attempted; fresh entry required".into(),
+            );
+        }
+        let result: Result<(), String> = (|| {
+            let terrain = giants_game::terrain_queries::StaticTerrainQuery::new(
+                &world.terrain,
+                1. / world.terrain.spacing,
+                giants_game::arithmetic::Precision::Double53,
+            )?;
+            for owner in &self.bound.as_ref().unwrap().1 {
+                session.prepare_actor_affine(owner.id)?;
+                session.prepare_actor_environment(owner.id, resources, &terrain)?;
+                session.prepare_actor_finalization(owner.id)?;
+                session.prepare_actor_motion(owner.id)?;
+            }
+            Ok(())
+        })();
+        // A late error may already have prepared preceding owners. Keep that
+        // state, report failure and prohibit whole-component replay.
+        self.preparation = Some(result.clone());
+        result
     }
     fn check(session: &Session, ticket: u64, owner: Owner) -> Result<(), String> {
         let actor = session

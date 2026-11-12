@@ -25,6 +25,9 @@ not replace that mission flow or publish another preview.
 Prepared: a declaration-bound sibling component retains canonical Session
 identities and authored poses (The Wife: four class73 and one class230/state23).
 Installed two-ticket controls refuse substituted/duplicate/foreign/retired owners.
+Normal loading also prepares actual affine/terrain/geometry and cold motion /
+finalization owners, without starting history, callbacks or clocks. The Wife
+control retains the five source placements and refuses repeated initialization.
 Class230 modes62/63/64 now have owned primary callers; a private exact-PC control
 agrees on 120 consecutive callback outputs / 2,040 words before common motion,
 including transition to the source-selected mode65.
@@ -41,7 +44,9 @@ audio suppressed; no ordinary flight, hit or graphical acceptance is claimed.
 This is CPU evidence, not a live encounter or fidelity acceptance. The prototype
 PS2 `ripper_move` correspondence remains unknown; aliases and lookup are retained.
 
-Next: consume actual class230 continuations and complete frame/pose ownership,
+Extended dirt-context preparation now retains the actual recipient mark, backed
+by an independent PC control; this acknowledges no emitted or rendered effect.
+Next: consume class230 mode66 and later continuations and complete frame/pose ownership,
 then connect shared rendering, collisions/targeting and reciprocal combat with
 source-specific sounds/blood/death/cleanup. Do not copy Vimp ghosts/meat or force
 movement, readiness or damage. Acceptance still requires an identified local
