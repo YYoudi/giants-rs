@@ -240,6 +240,12 @@ impl<K: Copy + Eq> Services<crate::attached_effect_context::Id> for Prepared<'_,
         &mut self,
         level: u32,
     ) -> Result<Option<crate::attached_effect_context::Id>, String> {
+        // This adapter owns only the 0x20004 profile validated above. Extended
+        // preparation can retain inherited flags, but this caller provides no
+        // corresponding inherited-parameter/activation owner.
+        if self.source_flags & 0x400 != 0 {
+            return Err("damage smoke requires its inherited-parameter owner".into());
+        }
         let name = match level {
             1 => "FX_mecc_smoking_light",
             2 => "FX_mecc_smoking_medium",
