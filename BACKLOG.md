@@ -227,6 +227,12 @@ unknown. Next connect the six-body mixed explosion program through the common
 FX families (including its nested debris and unbound operations), then actual radial
 Mecc/Vimp/Ripper hit consumers, audio and retirement. Do not substitute one sprite,
 prepared-only context or passive no-effect result for this complete path.
+The construction ledger can now retain the actual UV-scroll/vertical-fade setup
+as ordered pending renderer needs. Both installed explosion closures and their
+delayed phases project, and all referenced classes pass canonical template loading.
+The preview/surface/ground consumers refuse the unbound needs rather than hiding
+them. Actual mixed-program execution/Session births and renderer setup remain the
+first missing impact consumer; the ledger does not establish their availability.
 
 The combined local build `e764b7c` (executable SHA256 prefix `2f6b5a16babd`)
 failed its first supplied-input GPU retry, exit101 without a capture: an audio

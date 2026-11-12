@@ -101,6 +101,16 @@ sprite cannot acknowledge that whole program. Main's effect and mission services
 are now preserved in this lane's baseline; the published preview receipt remains
 the main lane's unchanged artifact.
 
+The construction ledger now retains the source-ordered UV-scroll and vertical-
+fade setup as pending renderer commands, without consuming random samples or
+collapsing repeats. This lets both actual explosion programs be inspected through
+their delayed second phases and nested debris. All referenced class templates
+load through the canonical effect-template validator. No constructor or callback
+is acknowledged by this inspection: the visual-preview, surface and ground
+consumers explicitly refuse these unbound renderer services. Ordinary impact
+admission still requires the live canonical program, body, render and retirement
+owners; this ledger is not their replacement.
+
 The NPC lane stages a separate declaration-bound Ripper component in ordinary
 mission loading. The Wife has five canonical mission declarations: four class73
 and one class230, all state23. The component retains their exact source placement

@@ -197,6 +197,16 @@ relationship remains **unknown**. Find the PC reconstruction in
 `effect_actor::Template::surface_positioned` and `effect_surface`; do not replace
 it with the prototype's no-op behavior.
 
+The literal prototype PS2 symbols `fx_setupUVScrolling__FP10FXSTACKTAGff` and
+`fx_setupVerticleFade__FP10FXSTACKTAGfffff` are **unknown** attribution search
+routes to [`effect_scene::RenderCommand`](../crates/giants-game/src/effect_scene.rs).
+The PC construction ledger retains the actual source-ordered scroll/fade
+operands as pending services, including repeated setup. This is not callback,
+vertex-buffer or whole-program execution. The existing single-segment
+[`vertical_fade`](../crates/giants-game/src/vertical_fade.rs) remains a separate
+bounded PC kernel. Neither a recovered name nor command retention binds it to
+the mixed Ripper explosion. No prototype signature or memory layout is imported.
+
 ## Publication boundary
 
 The literal prototype PS2 names `FLK_FlickProcess__FP9FLK_Flick`,

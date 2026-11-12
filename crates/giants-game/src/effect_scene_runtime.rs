@@ -278,6 +278,9 @@ impl Body {
         birth: Matrix,
         pose: Option<crate::effect_animation::Playback>,
     ) -> Result<Self, &'static str> {
+        if !construction.object_services.render_commands.is_empty() {
+            return Err("mixed UV-scroll/vertical-fade render services not bound");
+        }
         if construction.lifetime.is_none()
             && (construction.physics_enabled || construction.spin != [0.; 3])
         {
@@ -572,6 +575,17 @@ mod tests {
             contacts: std::collections::BTreeMap::new(),
         };
         let (mut objects, _) = plan(1.).start(&mut 17).unwrap();
+        for command in [
+            crate::effect_scene::RenderCommand::UvScroll([0.25, -0.5]),
+            crate::effect_scene::RenderCommand::VerticalFade([1., 0., 0., 0., 0.7]),
+        ] {
+            let mut unsupported = objects[0].clone();
+            unsupported.object_services.render_commands.push(command);
+            assert!(matches!(
+                refs.body(unsupported, super::Matrix::identity()).as_ref().map(|_| ()),
+                Err(message) if message == "mixed UV-scroll/vertical-fade render services not bound"
+            ));
+        }
         objects[0].size = None;
         let point = [7., -11., 13.];
         let support = refs

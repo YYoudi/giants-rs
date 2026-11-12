@@ -373,6 +373,9 @@ impl Template {
             return Err("surface constructor requires one complete source object".into());
         }
         let object = &objects[0];
+        if !object.object_services.render_commands.is_empty() {
+            return Err("surface constructor requires unbound renderer setup".into());
+        }
         // Source17 translates the current point without a history copy.
         initial.fields.position[2] =
             (f64::from(initial.fields.position[2]) + f64::from(object.height)) as f32;
@@ -451,6 +454,9 @@ impl Template {
             return Err("ground constructor requires one complete source object".into());
         }
         let object = &objects[0];
+        if !object.object_services.render_commands.is_empty() {
+            return Err("ground constructor requires unbound renderer setup".into());
+        }
         let source =
             crate::effect_ground_emission::Source::resolve(&object.object_services, &image)?
                 .ok_or("ground source callback configuration absent")?;
