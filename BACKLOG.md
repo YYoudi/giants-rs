@@ -15,7 +15,35 @@ Initial coverage includes seven Vimp names and the two previously confirmed
 camera service identities; .11.4 adds the selected meat-collection search routes. Naming does not establish gameplay delivery; the
 separately validated ordinary integration and publication are recorded below.
 
-## Current delivery - preview .12.1 Starving and shared mission progression
+## Active objective - The Wife rescue and completion-film continuation
+
+Owner direction, 12 November 2026: make the ordinary The Wife rescue playable
+through its source completion cinematic and the next mission, then publish
+matching main, Windows preview and dashboard. Work alone in the integration
+worktree. Preview .12.1 remains the delivered baseline; its next-entry acceptance
+does not establish completion of The Wife.
+
+1. Begin native work with prototype PS2 lookups and exact PC/prototype identities.
+   Independently verify the authored proximity condition and completion lifecycle.
+   The selected record declares one stationary mark1 destination and a separate
+   completion film; a moving rescue actor must not be invented from that mark.
+2. Acquire the cinematic's actual rescue/attachment and continuation effects.
+   The Road Home does not declare a fresh carried child. Determine how the
+   required carried state is produced and retained before enabling continuation;
+   do not spawn a guessed child to reproduce an image.
+3. Extend the common campaign film/condition/transition owner using source records.
+   Require real rendering/audio/source end, cancellation and retirement. Preserve
+   the .12.1 Starving chain and unsupported predicates as explicit prerequisites.
+4. Validate the complete normal-menu rescue/film/next-player path on one receipt,
+   plus cleanup/re-entry, common regressions and separate Windows input checks.
+   Publish only the technically reviewed package and matching captures; verify
+   anonymous downloads, main CI and actual served Pages. Follow the central
+   method in docs/MISSION_PROGRESSION.md rather than duplicating its contracts.
+
+Private native research and raw mission/film inputs remain outside Git. A symbol
+name, CPU result or replay-only completion-film capture is not mission delivery.
+
+## Delivered preview .12.1 Starving and shared mission progression
 
 Owner direction, 11 November 2026: complete the ordinary twenty-meat return,
 source cinematic continuation and next mission, then publish matching main,
