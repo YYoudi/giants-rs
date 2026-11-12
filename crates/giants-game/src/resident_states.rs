@@ -452,10 +452,10 @@ pub struct Resident {
     mecc_damage_smoke: crate::mecc_damage_effect::State<crate::attached_effect_context::Id>,
     /// Native accumulated header damage, owned separately from the payload.
     mecc_damage: Option<f32>,
-    /// Generic header damage retained from the acquired ordinary state0
-    /// constructor. Registration alone supplies no value; state-specific
-    /// health owners and their mutations remain independent.
-    state0_damage: Option<f32>,
+    /// Generic header damage retained from acquired state0/state48 construction.
+    /// Historical private name: state0_damage. Registration supplies no value;
+    /// active state-specific health owners remain independent.
+    passive_damage: Option<f32>,
     mecc_physics_present: bool,
     mecc_physical_cycle: Option<crate::mecc_physical_cycle::Owned>,
     affine_cache: Option<OwnedAffine>,
@@ -713,7 +713,7 @@ impl Session {
                 mecc_contact: Default::default(),
                 mecc_damage_smoke: Default::default(),
                 mecc_damage: None,
-                state0_damage: None,
+                passive_damage: None,
                 mecc_physics_present: false,
                 mecc_physical_cycle: None,
                 affine_cache: None,
@@ -7100,6 +7100,7 @@ impl Session {
             .expect("staged surface marker");
         actor.channels = Some(channels);
         actor.acquired_construction = true;
+        actor.passive_damage = Some(0.);
         self.publish_staged(staged, id)
     }
     pub fn surface_link(&self, id: Id) -> Option<SurfaceLink> {
@@ -10118,7 +10119,7 @@ impl Session {
             // Actual pool construction clears this independent header word;
             // neither the class header nor the state0 copy replaces it.
             // This runs once before publication, never on a health read/tick.
-            actor.state0_damage = Some(0.);
+            actor.passive_damage = Some(0.);
         }
         self.publish_staged(staged, id)
     }
@@ -11747,10 +11748,14 @@ mod tests {
         // Supplied subsequent header writes: reading must neither reset damage
         // nor reuse a constructor-cached class limit. This is not a hit service.
         let actor = session.residents.get_mut(&id.serial).unwrap();
-        actor.state0_damage = Some(5.);
+        actor.passive_damage = Some(5.);
         actor.construction_fields.as_mut().unwrap().configuration[12] = 20f32.to_bits();
         assert_eq!(session.radial_actor(id).unwrap().health, Some([5., 20.]));
-        session.residents.get_mut(&id.serial).unwrap().state0_damage = None;
+        session
+            .residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .passive_damage = None;
         assert_eq!(session.radial_actor(id).unwrap().health, None);
         assert!(Session::new(992).radial_actor(id).is_err());
         session.clear();
@@ -13861,9 +13866,66 @@ mod tests {
         impl RadialHits for RequiredHit {
             fn damage(
                 &mut self,
-                _: &mut Session,
+                session: &mut Session,
                 hit: crate::radial_damage::Hit<Id>,
             ) -> Result<(), String> {
+                assert!(session.enemy_radial_passive_no_effect_singleplayer(hit)?);
+                let mut forged = hit;
+                forged.kind = 0;
+                assert!(
+                    session
+                        .enemy_radial_passive_no_effect_singleplayer(forged)
+                        .is_err()
+                );
+                forged = hit;
+                forged.source = hit.target;
+                assert!(
+                    session
+                        .enemy_radial_passive_no_effect_singleplayer(forged)
+                        .is_err()
+                );
+                let marker = fixture_actor(session, 219, 48);
+                session
+                    .residents
+                    .get_mut(&marker.serial)
+                    .unwrap()
+                    .construction_fields
+                    .as_mut()
+                    .unwrap()
+                    .configuration[12] = 100f32.to_bits();
+                let mut marker_hit = hit;
+                marker_hit.target = marker;
+                assert!(session.enemy_radial_passive_no_effect_singleplayer(marker_hit)?);
+                session
+                    .residents
+                    .get_mut(&marker.serial)
+                    .unwrap()
+                    .passive_damage = Some(100.);
+                assert!(!session.enemy_radial_passive_no_effect_singleplayer(marker_hit)?);
+                session
+                    .residents
+                    .get_mut(&marker.serial)
+                    .unwrap()
+                    .passive_damage = Some(0.);
+                session
+                    .residents
+                    .get_mut(&marker.serial)
+                    .unwrap()
+                    .construction_fields
+                    .as_mut()
+                    .unwrap()
+                    .object_flags |= 0x8000;
+                assert!(!session.enemy_radial_passive_no_effect_singleplayer(marker_hit)?);
+                let owner = session
+                    .enemy_projectile(hit.source)
+                    .unwrap()
+                    .launch
+                    .as_ref()
+                    .unwrap()
+                    .source;
+                let mut active_hit = hit;
+                active_hit.target = owner;
+                assert!(!session.enemy_radial_passive_no_effect_singleplayer(active_hit)?);
                 self.hits.push(hit);
                 Err("required attributed callback unavailable".into())
             }

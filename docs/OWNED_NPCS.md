@@ -61,6 +61,30 @@ attributed Mecc hit/feedback services still require connection before ordinary
 explosions. No new graphical or complete encounter acceptance is claimed for
 this intermediate bridge.
 
+The marker's generic header health is now owned too: its actual constructor and
+69 retained PC frames keep zero accumulated damage. The private historical
+`state0_damage` field is now the shared passive header owner, not a value created
+when health is queried. A living, unmarked state0 recipient has no hurt callback;
+class219/state48 uses an empty shared PC callback. In this explicit single-player
+profile, the complete wrapper's kill/counter tail is also inactive. The bounded
+no-effect result is invariant under either wrapper guard. Thirty-two original
+wrapper controls cover both recipient states, positive/negative amounts,
+source presence and both guards, preserving every recipient header byte; the
+empty callback and real tail are observed executing. The marker header is from
+actual construction; source/impact inputs and the SP mode are supplied.
+
+`Session::enemy_radial_passive_no_effect_singleplayer` validates the actual
+canonical impact source and this living passive profile. It neither assigns an
+unknown global nor supplies an empty hit backend for active/dead recipients.
+Other recipients return a requirement for their real consumer; absent/foreign
+sources and missing health remain errors. This does not complete ordinary damage.
+The next impact dependency also includes the real mixed explosion FX program:
+six source root bodies, nested debris and still-unbound operations must use the
+common canonical effect families. An attached preparation or one supported
+sprite cannot acknowledge that whole program. Main's effect and mission services
+are now preserved in this lane's baseline; the published preview receipt remains
+the main lane's unchanged artifact.
+
 The NPC lane stages a separate declaration-bound Ripper component in ordinary
 mission loading. The Wife has five canonical mission declarations: four class73
 and one class230, all state23. The component retains their exact source placement

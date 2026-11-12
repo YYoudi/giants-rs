@@ -176,7 +176,7 @@ ordinary interaction level as Vimps, starting with The Wife, then other declared
 maps. Main owns The Wife progression and common publication; the NPC lane must
 not replace that mission flow or publish another preview.
 
-Latest graphical frontier: local source `a450206` admitted the authored Wife
+Earlier graphical failure: local source `a450206` admitted the authored Wife
 population but failed before capture: mixed positional sound requests exceeded
 the bounded audio queue, closing its real backend and then quarantining both NPC
 components. This is a failed supplied-input GPU run, not an encounter pass.
@@ -214,6 +214,21 @@ acknowledge these damage callbacks.
 Do not initialize unknown live health to zero, skip those targets or replace
 required callbacks. The new adapter is an intermediate dependency, not an
 ordinary explosion or reciprocal-combat delivery.
+
+Current NPC baseline includes main `7e024ac` via merge `77078f9`, preserving its
+Wife progression, published receipt and canonical effect services. Five installed
+Wife NPC controls, the actual Smartie pickup and mixed canonical effects pass
+together. The passive header owner now also retains actual marker health, backed
+by69 PC frames. Thirty-two original wrapper controls establish the living passive
+no-effect case independently of its two guard words; active/dead recipients are
+not covered. The Session predicate authenticates the real enemy impact and
+cannot acknowledge an active damage backend. Prototype PS2 attribution remains
+unknown. Next connect the six-body mixed explosion program through the common
+FX families (including its nested debris and unbound operations), then actual radial
+Mecc/Vimp/Ripper hit consumers, audio and retirement. Do not substitute one sprite,
+prepared-only context or passive no-effect result for this complete path.
+
+### Earlier NPC milestones and their original evidence scopes
 
 Prepared: a declaration-bound sibling component retains canonical Session
 identities and authored poses (The Wife: four class73 and one class230/state23).

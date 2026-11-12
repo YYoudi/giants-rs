@@ -519,6 +519,25 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
                     .count(),
                 2
             );
+            let session = &runtime.active.as_ref().unwrap().resident_states;
+            for marker in session
+                .list(1)
+                .into_iter()
+                .filter(|&id| session.get(id).unwrap().class == 219)
+            {
+                let health = session.radial_actor(marker).unwrap().health.unwrap();
+                assert_eq!(health[0].to_bits(), 0);
+                assert_eq!(
+                    health[1].to_bits(),
+                    session
+                        .get(marker)
+                        .unwrap()
+                        .construction_fields
+                        .as_ref()
+                        .unwrap()
+                        .configuration[12]
+                );
+            }
         }
         runtime = crate::mission_npc_scene::check_render_assets(
             runtime,

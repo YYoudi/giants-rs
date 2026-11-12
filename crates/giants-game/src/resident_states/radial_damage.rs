@@ -22,6 +22,86 @@ pub trait Hits {
 const LIST: u32 = 1;
 
 impl Session {
+    /// Exact single-player passive case of the direct-hit wrapper. State0 has
+    /// no hurt callback; class219/state48 uses the empty shared callback. With
+    /// a living, unmarked recipient, neither callback, kill-credit nor terminal
+    /// counter tail can change the actor. This result is invariant under the
+    /// wrapper's global guards, so no unknown guard value is supplied here.
+    ///
+    /// True means a verified no-effect hit, never applied damage or an available
+    /// Mecc/Vimp/Ripper hit backend. False requires the actual other consumer.
+    /// The native network path is outside this explicitly single-player API.
+    pub fn enemy_radial_passive_no_effect_singleplayer(
+        &self,
+        hit: Hit<Id>,
+    ) -> Result<bool, String> {
+        let shot = self
+            .get(hit.source)
+            .ok_or("passive radial source absent or foreign")?;
+        let metadata = shot
+            .enemy_projectile
+            .as_ref()
+            .ok_or("passive hit requires an actual enemy projectile")?;
+        let fields = shot
+            .construction_fields
+            .as_ref()
+            .ok_or("passive radial source fields absent")?;
+        let launch = metadata
+            .launch
+            .as_ref()
+            .ok_or("passive radial source launch absent")?;
+        let owner = self
+            .get(launch.source)
+            .ok_or("passive radial Ripper owner absent")?;
+        let owner_fields = owner
+            .construction_fields
+            .as_ref()
+            .ok_or("passive radial owner fields absent")?;
+        if hit.kind != 2
+            || hit.tag != 0
+            || !hit.amount.is_finite()
+            || !hit.point.into_iter().all(f32::is_finite)
+            || !shot.acquired_construction
+            || shot.seed.storage.profile() != Profile::Debug
+            || !matches!(shot.class, 90 | 232)
+            || shot.seed.storage.state() != 6
+            || shot.seed.storage.data().is_none_or(|b| b.len() != 36)
+            || metadata.resource_class != shot.class
+            || metadata.phase != crate::enemy_projectile::Phase::ImpactServices
+            || metadata.failure.is_some()
+            || shot.attachment.is_some()
+            || shot.presentation_parent.is_some()
+            || fields.class != shot.class
+            || fields.configuration[20] != 6
+            || fields.position.map(f32::to_bits) != hit.point.map(f32::to_bits)
+            || !owner.acquired_construction
+            || owner.seed.storage.profile() != Profile::Debug
+            || !matches!(owner.class, 73 | 230)
+            || owner.seed.storage.state() != 23
+            || owner_fields.class != owner.class
+            || owner_fields.configuration[20] != 23
+        {
+            return Err("passive hit differs from its canonical single-player enemy impact".into());
+        }
+        let target = self
+            .get(hit.target)
+            .ok_or("passive radial recipient absent or foreign")?;
+        if !target.acquired_construction || target.seed.storage.profile() != Profile::Debug {
+            return Err("passive radial recipient construction not acquired".into());
+        }
+        if !(target.seed.storage.state() == 0
+            || target.class == 219 && target.seed.storage.state() == 48)
+        {
+            return Ok(false);
+        }
+        let actual = self.radial_actor(hit.target)?;
+        let [damage, limit] = actual.health.ok_or("passive header health not acquired")?;
+        if ![damage, limit].into_iter().all(f32::is_finite) {
+            return Err("passive header health outside finite profile".into());
+        }
+        Ok(damage < limit && actual.active & 0x8000 == 0)
+    }
+
     /// Read the current header and acquired health owner, never a render pose or
     /// a cached population census. Unsupported health stays absent; traversal
     /// refuses it only if the native eligibility path actually requires it.
@@ -44,8 +124,8 @@ impl Session {
             (8, 21) => actor
                 .vimp
                 .map(|v| [v.damage, f32::from_bits(fields.configuration[12])]),
-            (_, 0) => actor
-                .state0_damage
+            (_, 0) | (219, 48) => actor
+                .passive_damage
                 .map(|damage| [damage, f32::from_bits(fields.configuration[12])]),
             _ => None,
         };
