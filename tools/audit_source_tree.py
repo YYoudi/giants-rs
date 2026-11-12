@@ -35,6 +35,10 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed positional impact mode8 entry; unknown wrapper attribution.
+        '432dd2cc494e8f0e03ffb55a811f8e0f6bb3b2d99c8c4e748638ba811f02962d',
+        # Concurrent reviewed building navigation: names/status only, no corpus.
+        'cc1455ed8f9482f0b38033862bac6ad8e6d5c694ee720eea79d7d6df7a289042',
         # Reviewed immediate one-shot placement route; unknown attribution.
         '38f1549bfb93f66e3db9cc5692d28c3e9ce9f125adeec2ab532098768c9165df',
         # Reviewed mixed root constructor link; unknown attribution, no corpus.

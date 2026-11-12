@@ -125,6 +125,10 @@ The literal prototype PS2 name `fx_create` is a search key for
 Its correspondence to PC debug-1.1 `FUN_0044c0a0` is **unknown**. The acquired PC
 extended attached preparation preserves the recipient's flag400 as context
 flag10000. This establishes neither effect-object activation nor rendered FX.
+The enemy-projectile mode8 preparation entry uses the same acquired PC wrapper:
+mode8 selects positional input, separately from retained context flags. The
+bounded original control supplies camera/quality inputs; canonical invariant
+selection does not invent them. `fx_create` attribution remains **unknown**.
 
 ## Radial damage search route
 

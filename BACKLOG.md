@@ -285,6 +285,12 @@ Supplied clocks/static-no-ripple terrain and direct callbacks do not certify the
 complete world/preparation walk or object population. Whole mixed-program ownership,
 actual world admission, vertex and retirement consumers remain required before
 ordinary impact, reciprocal damage/death and GPU/menu-reentry acceptance.
+Typed enemy-impact preparation now distinguishes request mode8 (positional
+input) from retained context flags. Original mode8 controls match the acquired
+constructor/physical profile with supplied camera/quality boundaries. Canonical
+selection admits only invariant normal/lite identity; no missing camera/load
+producer is fabricated. The request's flag binding is acquired, but whole-program
+execution/render/retirement and the actual active hit consumers remain unbound.
 
 The combined local build `e764b7c` (executable SHA256 prefix `2f6b5a16babd`)
 failed its first supplied-input GPU retry, exit101 without a capture: an audio

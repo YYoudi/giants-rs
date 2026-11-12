@@ -1599,6 +1599,9 @@ same explicitly supplied static/no-ripple preparation. It binds the real common
 motion/terrain/gravity/contact-force consumers; no fake plane or force is used.
 It remains a direct-callback control, not the whole world/preparation schedule,
 object population, mixed-program lifecycle, renderer or combat acceptance.
+The constructor control uses the typed enemy-impact mode8 preparation entry.
+Its original mode8 motion fixture retains the supplied camera/quality boundary;
+the earlier mode28 fixture remains a separate supplied-prefix comparison.
 
 The radial Session dependency has an optional installed control (same
 `GIANTS_NPC_ROOT` setup as the other NPC controls):

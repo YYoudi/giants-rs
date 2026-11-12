@@ -1091,8 +1091,14 @@ mod tests {
             let mut session = Session::new(800 + case as u64);
             let mut pool = Pool::<Id>::new(session.ticket(), Some(image.clone()));
             let mut random = Random(17);
+            let request = crate::enemy_projectile::impact_effect(
+                u32::from(name == "fx_ripper_large_explode"),
+                [1.25, -2.5, 3.75],
+            )
+            .unwrap();
+            assert_eq!(request.name, name);
             let (Creation::Prepared(origin), _) = pool
-                .prepare_positional_invariant(&name, [1.25, -2.5, 3.75], &mut random)
+                .prepare_enemy_projectile_impact_invariant(&request, &mut random)
                 .unwrap()
             else {
                 panic!()

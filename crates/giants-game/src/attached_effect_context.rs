@@ -1178,6 +1178,19 @@ impl<K: Copy + Eq> Pool<K> {
         }
         Ok(result)
     }
+    /// Actual enemy-impact mode8 selects a positional input, not context flag8.
+    /// Prototype PS2 `fx_create` remains an unknown PC attribution. This prepares
+    /// only: the mixed program, callbacks and retirement still need real owners.
+    pub fn prepare_enemy_projectile_impact_invariant(
+        &mut self,
+        request: &crate::enemy_projectile::ImpactEffect,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        if request.flags != 8 {
+            return Err("enemy impact preparation requires acquired positional mode8".into());
+        }
+        self.prepare_positional_invariant(request.name, request.position, random)
+    }
     /// Resolve the positional request only when both acquired quality/distance
     /// outcomes identify the same entry. No camera/load values are invented.
     pub fn prepare_positional_invariant(

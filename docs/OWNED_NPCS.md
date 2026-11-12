@@ -42,6 +42,14 @@ does not certify the complete world/preparation schedule or object population.
 Full mixed-program execution, graphics, damage and retirement still block impact.
 No new PS2 attribution, executable or rendered encounter is established here.
 
+Enemy projectile impact preparation now has a typed mode8 entry. The PC request
+mode selects positional input; it is not context flag8 and supplies no inherited
+flags in this profile. An original mode8 control, with an explicit supplied
+camera/quality boundary, reproduces the same source construction and96 physical
+callbacks. Canonical preparation still requires normal/lite selection to resolve
+to the same actual entry; it invents no camera/load state. This prepares only the
+context. It does not acknowledge mixed-program execution, render or damage.
+
 The combined main/NPC local build `0fd1cccbe5e736e57c408e87d9cf822a5fc67f14`,
 executable SHA256
 `121abb1e325a21b7ce697bce359110df6b24c6338de6cd929ffba32d6f8d33f3`,
