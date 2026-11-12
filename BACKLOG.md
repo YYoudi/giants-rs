@@ -74,11 +74,17 @@ release and individual unlink, preserving actual list order and late-failure
 prefixes without replay. The renderer consumes their removal; this is marker
 retirement, not Ripper death. Prototype PS2 marker/cleanup attribution remains
 unassigned, including the additional literal `mound_*` search candidates.
-Latest local build: source `7929cfc`, executable SHA256 prefix `81de5af47670`,
-receipt independently checked. This compiles real ordinary launch but the exact
-supplied-input diagnostic still fails before projectile scene/flight/impacts;
+Latest local build: source `8e5d72b`, executable SHA256 prefix `865d6ad15293`,
+receipt independently checked. This compiles ordinary launch and current
+normal-Mecc dedicated contacts, but the exact supplied-input diagnostic still
+fails before the ordered static/NPC projectile scene/flight/impacts;
 no new GPU encounter acceptance. Standard 987 Rust/177 ignored and four installed
 `source_wife_` controls pass; the approach diagnostic is explicitly separate.
+Actual Windows menu/render checks on this build enter The Wife twice (tickets1/5,
+nineteen body/contact packets each), including its second natural film end,
+and release both Sessions to zero entities. The intervening Road Home selection
+also admits its authored eight Rippers and fourteen Vimps, without completing
+that mission. No Ripper/contact refusal; no reciprocal encounter/death acceptance.
 The current rigid scene also includes source-declaration-only identities; do not
 fabricate Session actor IDs. Projectile models require their actual skin/ANM.
 Earlier GPU-checked contact build: source `c6e363c`, executable SHA256 prefix

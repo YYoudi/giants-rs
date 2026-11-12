@@ -157,8 +157,9 @@ This diagnostic is intentionally still failing at that real frontier. It proves
 neither physical contact nor reciprocal combat or GPU fidelity. It is not included
 in the passing `source_wife_` regression selector.
 
-The ordinary controller now publishes a Mecc dedicated-contact packet before
-the Ripper component, using its actual selected clip/tree and clock. The Session
+The ordinary controller now publishes a Mecc dedicated-contact packet through
+`Session::controlled_mecc_contact_snapshot` before the Ripper component, using
+its actual selected clip/tree and clock. The Session
 validates canonical class2 ownership and the contiguous current physics step,
 checks the prepared descriptor, runs its real affine writer, deforms collision
 model6 (`mc_l6`) through its own binding and computes source animation bounds.
@@ -233,15 +234,30 @@ unassigned: literal `mound_move`, `mound_animselect` and `mound_shot` are additi
 search candidates, not confirmations. Generic cleanup names also remain unknown;
 see [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
 
-The most recent local build is source `7929cfce66fba4e3e06e28d830700b840567e4de`,
+The most recent local build is source `8e5d72b004f7da6c7e92e215d8907b4be0c1cd8b`,
 executable SHA256
-`81de5af4767018cffd57506d53dbe7a1ace54cff8642a7a9791f0fece54ce4df`.
-The GNU receipt was independently checked. Its ordinary attack-launch bridge is
-compiled; its exact-name supplied-input diagnostic still fails at the documented
-scene/flight boundary. No Windows/GPU encounter check accompanies this build.
+`865d6ad15293710bc14cc80d798aff819cb26104a7f04f1d77f6c84eef5a5c78`.
+The GNU receipt was independently checked. Its ordinary launch and normal-Mecc
+contact producer are compiled; the exact-name supplied-input diagnostic still
+fails at the ordered static/NPC scene/flight boundary. At step2618 it uses the
+actual moving controller clip2/tick2839 and current dedicated geometry. No
+projectile flight, reciprocal combat or death is accepted by this diagnostic.
 Standard validation passes 987 Rust tests with 177 ignored, four installed
 `source_wife_` controls, 45 Python tests and strict Clippy/formatting; the failing
 approach diagnostic is separate from those passing results.
+
+Actual Windows input on that executable enters The Wife through Load Single
+Player Game / Mecc Story2 / The Wife, skips the first opening with Escape,
+sends a movement tap and brief right-click, returns to the menu and enters
+The Wife again. The second four-director opening reaches its natural source end
+before the ordinary Mecc is observed. Tickets1/5 each submit nineteen current
+body/contact packets (fourteen Vimps and five Rippers), without a Ripper/contact
+refusal. An intermediate selection also opens The Road Home on ticket3 with
+twenty-two packets (fourteen/eight); this is admission, not mission completion.
+All three Sessions release to zero entities; F10 closes the owned test process.
+Audio is muted. These are menu/render/re-entry checks, not a close-up Ripper
+encounter, held flight, visible projectile, reciprocal damage or death test.
+No new screenshot is published and no competing preview is released.
 
 Earlier source-only deformation checks cover model6 across sixteen normal Mecc
 clips at eighty supplied times. The new ordinary contact producer uses the same
