@@ -126,6 +126,13 @@ REVIEWED_ATTRIBUTION_LABELS = {
 # all-reference history review valid before that gallery update enters main;
 # this permits neither other images nor another path or modified bytes.
 REVIEWED_HISTORICAL_IMAGES = {
+    # Exact Bevy display copies pinned by the integration manifest at 863fa88.
+    # Reviewed visually and as VP8-only files with no embedded metadata. Retain
+    # all-reference audit coverage without importing that lane's publication.
+    'docs/gallery/media/2e78aa81e7e9cabbabbc86bb4fe412e70bc93e8be8f95d5a3f3da657fb5fbd07.webp':
+        '2e78aa81e7e9cabbabbc86bb4fe412e70bc93e8be8f95d5a3f3da657fb5fbd07',
+    'docs/gallery/media/65f1882d19ebace68ff15cdf582f67348c07eb1e2964c08aead98a7f03cfb406.webp':
+        '65f1882d19ebace68ff15cdf582f67348c07eb1e2964c08aead98a7f03cfb406',
     'docs/gallery/media/0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4.webp':
         '0c974350a8c2e0089bd48ed425923f96febe559fafcd8599d01223b0311385e4',
     # Exact Bevy display copies pinned by the integration manifest at 078c8eb.
