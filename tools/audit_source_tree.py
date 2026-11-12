@@ -180,6 +180,15 @@ REVIEWED_HISTORICAL_IMAGES = {
         '82aeb77fb01574d9baac585fa0ad3b4c533afcdd91e40bb445913fe42fae8bfb',
     'docs/gallery/media/8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9.webp':
         '8da5780cdb6c29fc0298c8328aa2e8a392d025e5075db41351d9b2c3b1540cf9',
+    # Concurrent Bevy display copies pinned by the manifest at d03b4eb.
+    # Reviewed visually and as VP8-only files, with no embedded metadata.
+    # Preserve the integration lane's work without importing its publication.
+    'docs/gallery/media/555c1f8e593741a5903b3af5eeadd23c187d5281945e24460af4219e485b2c63.webp':
+        '555c1f8e593741a5903b3af5eeadd23c187d5281945e24460af4219e485b2c63',
+    'docs/gallery/media/abb79713e439250d582f4c4994d9638d51eaea633d83bfa5ea31b78d10470425.webp':
+        'abb79713e439250d582f4c4994d9638d51eaea633d83bfa5ea31b78d10470425',
+    'docs/gallery/media/d4710d638d15205eda7b2d3997b22dd25a93c228b1e88970cddc7cbc91ec7fbc.webp':
+        'd4710d638d15205eda7b2d3997b22dd25a93c228b1e88970cddc7cbc91ec7fbc',
 }
 
 
