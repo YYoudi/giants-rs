@@ -39,6 +39,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         # Reviewed ground-create block route (probable), shared flag route
         # (unknown) and prototype surface-stub divergence; aliases unchanged.
         '1a51cdd4703a5d425c901d99cacd504c620b9c398a0cb0dfe8c92c5d6e8b753c',
+        # Reviewed cinematic-support route and explicit platform divergence;
+        # prior PC alias unchanged, no native body or raw symbol table added.
+        '816a22fe27ee50d63ba1112fc44c811dd85a089ca25db342a3c9246d860da5ea',
     },
     'docs/MECC_DESCENT_GUARD.md': {
         # Gameplay-first work-selection prose only; the reviewed alias is unchanged.
