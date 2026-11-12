@@ -484,6 +484,7 @@ impl State {
         session: &mut Session,
         frame: Frame<'_>,
         random: &mut Random,
+        device: &mut impl giants_game::actor_retirement::Services,
     ) -> Result<Vec<crate::mission_audio::Event>, String> {
         self.view(session, frame.ticket)?;
         self.preparation
@@ -499,7 +500,7 @@ impl State {
         }
         session.controlled_mecc_motion(frame.controlled, frame.step)?;
         let mut sounds = self.take_sounds();
-        let result = self.advance_inner(session, &frame, random, &mut sounds);
+        let result = self.advance_inner(session, &frame, random, &mut sounds, device);
         self.sounds = sounds;
         if let Err(error) = &result {
             self.driver.failure = Some(error.clone());
@@ -513,6 +514,7 @@ impl State {
         frame: &Frame<'_>,
         random: &mut Random,
         sounds: &mut Vec<crate::mission_audio::Event>,
+        device: &mut impl giants_game::actor_retirement::Services,
     ) -> Result<(), String> {
         let owners = session
             .list(0)
@@ -573,7 +575,7 @@ impl State {
                 self.driver.completed.insert(owner.id, (number, epoch));
             }
         }
-        self.advance_markers(session, frame, random)?;
+        self.advance_markers(session, frame, random, device)?;
         if self.driver.sample.is_none() {
             println!(
                 "mission_ripper_component ticket={} completed_actors={} source=normal_mecc_component current_owned_pose=true perception=controlled_player_subset active_fx=false combat_complete=false native_world_verified=false",
@@ -589,6 +591,7 @@ impl State {
         session: &mut Session,
         frame: &Frame<'_>,
         random: &mut Random,
+        device: &mut impl giants_game::actor_retirement::Services,
     ) -> Result<(), String> {
         let owned: BTreeSet<_> = self
             .bound
@@ -607,6 +610,7 @@ impl State {
             1. / frame.world.terrain.spacing,
             giants_game::arithmetic::Precision::Double53,
         )?;
+        let mut marked = Vec::new();
         for id in markers {
             if self.driver.markers.insert(id) {
                 if !self
@@ -621,6 +625,9 @@ impl State {
                 session.prepare_surface_marker_world(id)?;
             }
             if session.actor_world_flags(id)? & 0xc000 != 0 {
+                if session.actor_world_flags(id)? & 0x8000 != 0 {
+                    marked.push(id);
+                }
                 continue;
             }
             let fields = session
@@ -696,13 +703,42 @@ impl State {
                     if session.actor_world_flags(id)? & 0x8000 != 0 =>
                 {
                     self.driver.completed.remove(&id);
-                    println!(
-                        "mission_ripper_marker_marked ticket={} owner={id:?} destruction_complete=false",
-                        frame.ticket
-                    );
+                    marked.push(id);
                 }
                 _ => return Err(format!("surface marker frame incomplete: {outcome:?}")),
             }
+        }
+        if !marked.is_empty() {
+            struct Retirement<'a, D> {
+                contexts: &'a mut giants_game::attached_effect_context::Pool<Id>,
+                device: &'a mut D,
+            }
+            impl<D: giants_game::actor_retirement::Services> giants_game::actor_retirement::Services
+                for Retirement<'_, D>
+            {
+                fn release(&mut self, session: &mut Session, id: Id) -> Result<(), String> {
+                    self.contexts.release_recipient_prepared(id)?;
+                    self.device.release(session, id)
+                }
+            }
+            let counts = session.cleanup_surface_markers(
+                &marked,
+                &mut Retirement {
+                    contexts: self
+                        .contexts
+                        .as_mut()
+                        .ok_or("Ripper contexts absent at retirement")?,
+                    device,
+                },
+            )?;
+            for id in marked {
+                self.driver.markers.remove(&id);
+                self.driver.completed.remove(&id);
+            }
+            println!(
+                "mission_ripper_markers_retired ticket={} residents={} registrations={} source=owned_completed_state48 source_death=false",
+                frame.ticket, counts.residents, counts.registrations
+            );
         }
         Ok(())
     }

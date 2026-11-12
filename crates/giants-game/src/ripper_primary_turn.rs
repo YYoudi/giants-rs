@@ -1461,6 +1461,19 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
     pub fn surface_marker(&self) -> Option<K> {
         self.surface_marker
     }
+    /// The common reference pass cleared the corresponding owned callback
+    /// relation. This is bookkeeping for that acquired operation, not a death
+    /// transition or an acknowledgement of actor/resource destruction.
+    pub(crate) fn forget_retired_surface_marker(&mut self, marker: K) -> Result<(), String>
+    where
+        K: PartialEq,
+    {
+        if self.surface_marker.is_some_and(|current| current != marker) {
+            return Err("surface marker alias belongs to another actor".into());
+        }
+        self.surface_marker = None;
+        Ok(())
+    }
     pub fn awaiting_motion(&self) -> bool {
         self.completed && self.failed.is_none()
     }

@@ -68,13 +68,16 @@ Owned state48 children advance primary/secondary/full ANM/finalization and feed
 the common renderer. An exact-PC supplied marker sequence agrees on 69 frames /
 3,519 selected words; installed controls retain shared resources, late failures
 and headless asset cleanup with an explicit two-child constructor fixture.
-Natural awakening and GPU encounter acceptance remain open. Marked children
-remain reciprocal/owned until native individual cleanup is acquired; marking
-does not acknowledge destruction. Prototype PS2 marker attribution is unassigned.
+Natural awakening and GPU encounter acceptance remain open. Completed marked
+state48 children now clear acquired callback references before real context/audio
+release and individual unlink, preserving actual list order and late-failure
+prefixes without replay. The renderer consumes their removal; this is marker
+retirement, not Ripper death. Prototype PS2 marker/cleanup attribution remains
+unassigned, including the additional literal `mound_*` search candidates.
 Local GNU surfacing build: source `230826c`, executable SHA256 prefix
 `0f32a697fdde`; receipt independently hash-checked. No Windows/GPU encounter
 acceptance or new public preview accompanies this intermediate build.
-Next: acquire/connect individual marker cleanup and ordinary firing/flight consumers,
+Next: connect ordinary firing/flight and active popup/dirt effect consumers,
 consume required class230 mode66 and later continuations,
 then connect collisions/targeting and reciprocal combat with
 source-specific sounds/blood/death/cleanup. Do not copy Vimp ghosts/meat or force

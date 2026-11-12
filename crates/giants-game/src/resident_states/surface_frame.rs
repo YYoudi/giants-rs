@@ -1,6 +1,8 @@
-//! Owned state48 child frames. Prototype PS2 ripper/marker name search remains
-//! unassigned for PC debug-1.1 0x004dc540/0x004dc630; no PS2 layout is imported.
+//! Owned state48 child frames. Prototype PS2 `mound_move` / `mound_animselect`
+//! are unassigned search candidates for PC debug-1.1 0x004dc540/0x004dc630;
+//! no prototype layout is imported. See the reviewed symbol navigation index.
 use super::*;
+mod retirement;
 #[cfg(test)]
 mod tests;
 
@@ -9,6 +11,7 @@ pub struct View {
     pub next_frame: u64,
     pub animation_epoch: Option<u32>,
     pub failure: Option<String>,
+    pub cleanup_started: bool,
 }
 #[derive(Debug)]
 pub(super) struct Owned {
@@ -279,6 +282,7 @@ impl Session {
                 next_frame: 0,
                 animation_epoch: None,
                 failure: None,
+                cleanup_started: false,
             },
             history: Some(0),
         };

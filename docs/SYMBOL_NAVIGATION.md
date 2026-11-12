@@ -89,11 +89,17 @@ at 0x004db670 remains **unknown**. Animation selection, clocks, reference/event
 evaluation and successful ordinary frame completion are distinct contracts.
 
 The child marker primary/secondary at PC debug-1.1 0x004dc540/0x004dc630
-remain **unassigned** after prototype PS2 ripper/marker vocabulary searches.
-Their acquired Rust kernels are in `surface_marker`, with owned ordinary phases
-in [`surface_frame`](../crates/giants-game/src/resident_states/surface_frame.rs).
-The parent `ripper_move` candidate does not establish the children's identity
-or transfer prototype types/layouts to these PC consumers.
+remain **unassigned**. The literal prototype PS2 symbols `mound_move`,
+`mound_animselect` and `mound_shot` are additional search candidates from the
+PC state's debug label. Their presence in the ELF is established, but the label
+and names alone do not confirm any PC correspondence. Their related PC kernels
+are in `surface_marker`, with owned ordinary phases and bounded retirement in
+[`surface_frame`](../crates/giants-game/src/resident_states/surface_frame.rs).
+Literal `object_destroy` and `object_free_all_allocated_data` remain **unknown**
+search candidates for the separately acquired common cleanup/reference/data
+release path at PC debug-1.1 0x0049de20/0x004a08d0/0x004a05d0.
+Old PC address aliases remain valid. These names establish neither equivalent
+signatures, prototype layouts nor complete gameplay availability.
 
 ## Attached effect preparation route
 

@@ -1159,12 +1159,33 @@ impl Runtime {
             device,
         )
     }
+    #[cfg(test)]
     pub(crate) fn advance_normal_rippers(
         &mut self,
         ticket: u64,
         step: u64,
         camera: [f32; 3],
         objects: &[giants_game::actor_environment::Collider],
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
+        struct Unavailable;
+        impl giants_game::actor_retirement::Services for Unavailable {
+            fn release(
+                &mut self,
+                _: &mut giants_game::resident_states::Session,
+                _: giants_game::resident_states::Id,
+            ) -> Result<(), String> {
+                Err("CPU Ripper component requires an explicit retirement device".into())
+            }
+        }
+        self.advance_normal_rippers_with_retirement(ticket, step, camera, objects, &mut Unavailable)
+    }
+    pub(crate) fn advance_normal_rippers_with_retirement(
+        &mut self,
+        ticket: u64,
+        step: u64,
+        camera: [f32; 3],
+        objects: &[giants_game::actor_environment::Collider],
+        device: &mut impl giants_game::actor_retirement::Services,
     ) -> Result<Vec<crate::mission_audio::Event>, String> {
         let a = self
             .active
@@ -1204,6 +1225,7 @@ impl Runtime {
                 world: a.payload.world.as_ref().map_err(Clone::clone)?,
             },
             &mut a.variant_random,
+            device,
         )
     }
     pub(crate) fn take_normal_ripper_sounds(

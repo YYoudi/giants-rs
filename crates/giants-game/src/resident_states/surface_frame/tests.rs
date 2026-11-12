@@ -284,6 +284,89 @@ fn source_surface_world_keeps_current_pose_and_latches_late_failure() {
                 .surface_marker_frame(marker)
                 .is_err()
         );
+        struct Release {
+            owner: Id,
+            calls: usize,
+            fail: bool,
+        }
+        impl crate::actor_retirement::Services for Release {
+            fn release(&mut self, session: &mut Session, marker: Id) -> Result<(), String> {
+                self.calls += 1;
+                assert!(session.get(marker).is_some());
+                assert!(session.surface_link(self.owner).is_none());
+                assert!(session.state23_combat(self.owner).unwrap().owner.is_none());
+                assert!(session.incoming_actor_references(marker)?.is_empty());
+                if self.fail {
+                    Err("injected surface external release failure".into())
+                } else {
+                    Ok(())
+                }
+            }
+        }
+        let mut release = Release {
+            owner: source,
+            calls: 0,
+            fail: blending == crate::animation_channels::Blending::Enabled,
+        };
+        let before = session.counts();
+        let result = session.cleanup_surface_marker(marker, &mut release);
+        if fail {
+            assert!(result.is_err());
+            assert_eq!(release.calls, 0);
+            assert_eq!(session.counts(), before);
+            assert!(session.surface_link(source).is_some());
+        } else if release.fail {
+            assert!(
+                result
+                    .unwrap_err()
+                    .contains("injected surface external release failure")
+            );
+            assert_eq!(release.calls, 1);
+            assert_eq!(session.counts(), before);
+            assert!(
+                session
+                    .surface_marker_frame(marker)
+                    .unwrap()
+                    .cleanup_started
+            );
+            assert!(
+                session
+                    .surface_marker_frame(marker)
+                    .unwrap()
+                    .failure
+                    .is_some()
+            );
+            assert!(
+                session
+                    .cleanup_surface_marker(marker, &mut release)
+                    .is_err()
+            );
+            assert_eq!(release.calls, 1);
+        } else {
+            assert_eq!(
+                result.unwrap(),
+                Counts {
+                    residents: 1,
+                    payload_bytes: 0,
+                    registrations: 3
+                }
+            );
+            assert_eq!(session.counts().residents, before.residents - 1);
+            assert!(session.get(marker).is_none());
+            assert!(session.surface_link(source).is_none());
+            assert!(
+                session
+                    .incoming_actor_references(source)
+                    .unwrap()
+                    .is_empty()
+            );
+            assert!(
+                session
+                    .cleanup_surface_marker(marker, &mut release)
+                    .is_err()
+            );
+            assert_eq!(release.calls, 1);
+        }
         session.clear();
         assert!(session.surface_marker_frame(marker).is_err());
     }

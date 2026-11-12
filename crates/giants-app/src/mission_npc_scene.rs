@@ -550,17 +550,40 @@ pub(crate) fn check_render_assets(
         "{:?}",
         app.world().resource::<State>().failed
     );
-    assert!(before.iter().any(|(handle, old)| {
-        app.world()
-            .resource::<Assets<Mesh>>()
-            .get(handle)
-            .unwrap()
-            .attribute(Mesh::ATTRIBUTE_POSITION)
-            .unwrap()
-            .as_float3()
-            .unwrap()
-            != old.as_slice()
-    }));
+    let live_meshes: Vec<_> = app
+        .world()
+        .resource::<State>()
+        .objects
+        .values()
+        .flat_map(|object| object.parts.iter().map(|part| part.mesh.id()))
+        .collect();
+    for (handle, _) in &before {
+        assert_eq!(
+            app.world().resource::<Assets<Mesh>>().get(handle).is_some(),
+            live_meshes.contains(&handle.id()),
+            "retired mesh must leave the asset store"
+        );
+    }
+    assert_eq!(
+        app.world().resource::<Assets<Mesh>>().len(),
+        live_meshes.len()
+    );
+    assert!(
+        before
+            .iter()
+            .filter(|(handle, _)| live_meshes.contains(&handle.id()))
+            .any(|(handle, old)| {
+                app.world()
+                    .resource::<Assets<Mesh>>()
+                    .get(handle)
+                    .unwrap()
+                    .attribute(Mesh::ATTRIBUTE_POSITION)
+                    .unwrap()
+                    .as_float3()
+                    .unwrap()
+                    != old.as_slice()
+            })
+    );
     let camera = app
         .world_mut()
         .resource_mut::<crate::world_scene::Scene>()
@@ -579,7 +602,18 @@ pub(crate) fn check_render_assets(
         app.world().get::<Visibility>(entity),
         Some(&Visibility::Visible)
     );
-    assert_eq!(app.world().resource::<Assets<Material>>().len(), materials);
+    if live_meshes.len() == meshes {
+        assert_eq!(app.world().resource::<Assets<Material>>().len(), materials);
+    } else {
+        assert!(live_meshes.len() < meshes);
+        assert!(app.world().resource::<Assets<Image>>().len() < images);
+        assert_eq!(
+            app.world().resource::<Assets<Material>>().len()
+                + app.world().resource::<Assets<AuxiliaryMaterial>>().len(),
+            live_meshes.len()
+        );
+        assert!(app.world().get_entity(external).is_ok());
+    }
     if remove_mesh {
         let handle = before[0].0.clone();
         app.world_mut()

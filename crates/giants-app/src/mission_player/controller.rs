@@ -1538,12 +1538,27 @@ pub(super) fn update(
             && !controller.world_signals_failed
             && !controller.ripper_failed
         {
-            match runtime.advance_normal_rippers(
-                controller.ticket,
-                u64::from(controller.steps),
-                controller.state.camera().1,
-                controller.state.mission_environment_colliders(),
-            ) {
+            let advanced = runtime
+                .normal_landing_owner(controller.ticket)
+                .ok_or("Ripper controlled owner absent".to_owned())
+                .and_then(|local| {
+                    audio.owned.with_impact(
+                        controller.ticket,
+                        frontend.feedback_volume(),
+                        controller.state.camera().0.view,
+                        local,
+                        |device| {
+                            runtime.advance_normal_rippers_with_retirement(
+                                controller.ticket,
+                                u64::from(controller.steps),
+                                controller.state.camera().1,
+                                controller.state.mission_environment_colliders(),
+                                device,
+                            )
+                        },
+                    )
+                });
+            match advanced {
                 Ok(sounds) => {
                     for event in sounds {
                         audio.local.write(crate::mission_audio::Request {

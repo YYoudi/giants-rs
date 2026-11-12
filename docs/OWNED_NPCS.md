@@ -142,11 +142,35 @@ ownership and seven common headless Bevy visual owners across two tickets.
 It does not prove natural awakening, OS interaction or a complete encounter.
 The ordinary partial scene retains its disabled-blending policy.
 
-Marked children remain owned, hidden and reciprocal; no individual destruction
-or external release is acknowledged yet. They are released by whole-session
-cancellation. Native individual unlink/release, active popup/dirt effects,
-ordinary firing/flight, reciprocal damage and source death remain prerequisites.
-The marker's prototype PS2 attribution remains unassigned.
+Completed, marked state48 children now have bounded individual retirement.
+The acquired PC reference pass clears the owner's callback link before object
+data/registration release. The owned consumer first validates the whole selected
+cohort and clears all those references in actual common-list order, then invokes
+the real recipient-context/audio release services, revalidates and removes each
+child's three registrations, state/specification and resident. It also clears
+the Rust primary machine's alias; the native retired pool may retain old bytes.
+No source actor death is implied. An external-release failure retains consumed
+reference changes, quarantines surviving owners and prohibits replay. The common
+renderer removes retired child assets while preserving the parents and unrelated
+entities; shared resources remain ticket-owned. Only the acquired eventless,
+payloadless state48 child and its exact reciprocal relation are admitted, with
+no global death cascade or copied Vimp ghost/meat behavior.
+
+The installed ordinary-component control uses two explicit children and supplied
+parent common-motion/finalization, then 500 further real component frames on each
+of two tickets. It observes both reference clears before the first test release,
+two residents/six registrations removed, seven headless visual owners reduced to
+five, retired mesh/image/material removal and an unrelated entity preserved.
+The isolated world control separately checks external-release failure and no
+replay. Neither control establishes natural awakening or actual device/GPU input.
+Workspace validation: 987 Rust tests passed / 176 ignored, 45 Python tests passed,
+strict all-target Clippy and formatting passed.
+
+Active popup/dirt effects, ordinary firing/flight, reciprocal damage and source
+death remain prerequisites. The marker's prototype PS2 attribution remains
+unassigned: literal `mound_move`, `mound_animselect` and `mound_shot` are additional
+search candidates, not confirmations. Generic cleanup names also remain unknown;
+see [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
 
 The latest local GNU executable, including owned surfacing/marker consumers,
 is built from source `230826c1ab581a4689427c1c305aa2c2515e69c0`, SHA256

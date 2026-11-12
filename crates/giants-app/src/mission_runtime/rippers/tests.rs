@@ -4,16 +4,22 @@ use super::*;
 #[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; ordinary supplied-input frame/pose control, no GPU or OS input"]
 fn source_wife_rippers_complete_current_frames_without_replaying_history() {
-    current_frames(false);
+    current_frames(false, false);
 }
 
 #[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; explicit real marker-constructor fixture in ordinary frame/render consumers, no GPU or natural awakening proof"]
 fn source_wife_marker_children_use_current_frames_and_common_render_assets() {
-    current_frames(true);
+    current_frames(true, false);
 }
 
-fn current_frames(marker_fixture: bool) {
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; supplied source motion for explicit two-marker retirement fixture, headless assets only, not natural AI or OS input"]
+fn source_wife_markers_retire_through_the_ordinary_component_and_render_consumer() {
+    current_frames(true, true);
+}
+
+fn current_frames(marker_fixture: bool, retirement_fixture: bool) {
     use crate::mission_runtime as runtime;
     use bevy::{ecs::world::CommandQueue, prelude::*};
     use std::sync::Arc;
@@ -205,7 +211,131 @@ fn current_frames(marker_fixture: bool) {
             runtime,
             asset.clone(),
             |runtime| {
-                for number in if marker_fixture {
+                let mut markers = Vec::new();
+                if retirement_fixture {
+                    let session = &mut runtime.active.as_mut().unwrap().resident_states;
+                    markers = session
+                        .list(0)
+                        .into_iter()
+                        .filter(|&id| session.get(id).unwrap().class == 219)
+                        .collect();
+                    // Explicit behavior-output fixture through the real common-motion
+                    // consumer. It neither supplies a pose nor proves natural awakening.
+                    let parents: Vec<_> = markers
+                        .iter()
+                        .map(|&id| match session.surface_link(id).unwrap() {
+                            giants_game::resident_states::SurfaceLink::Marker { owner, .. } => {
+                                owner
+                            }
+                            _ => panic!(),
+                        })
+                        .collect();
+                    for parent in parents {
+                        session.begin_actor_frame_history(parent).unwrap();
+                        session.begin_actor_motion_history(parent, [0; 8]).unwrap();
+                        session
+                            .advance_actor_common_motion(
+                                parent,
+                                giants_game::resident_motion::Commands {
+                                    bytes: [0, 0, 32, 0, 0, 0, 0, 0],
+                                    context: 99,
+                                    target_heading: 0.,
+                                    target_position: [0.; 2],
+                                },
+                                giants_game::resident_motion::Time {
+                                    seconds: 1.,
+                                    areas: &[],
+                                    control_factor: 1.,
+                                    running_factor: 1.,
+                                    skip_heading: false,
+                                    controlled_actor: false,
+                                },
+                            )
+                            .unwrap();
+                        let fields = session
+                            .get(parent)
+                            .unwrap()
+                            .construction_fields
+                            .as_ref()
+                            .unwrap();
+                        let context = fields.dispatch_context;
+                        let query = giants_game::terrain_queries::StaticTerrainQuery::new(
+                            &asset.terrain,
+                            1. / asset.terrain.spacing,
+                            giants_game::arithmetic::Precision::Double53,
+                        )
+                        .unwrap();
+                        let mut finalization =
+                            giants_game::actor_environment::FinalizationServices {
+                                actor: session.actor_collision_identity(parent).unwrap(),
+                                state: 23,
+                                slope_parameter: f32::from_bits(fields.configuration[11]),
+                                physics: None,
+                                skip_object_responses: false,
+                                objects: viewer.mission_environment_colliders(),
+                                ground: |point| {
+                                    giants_game::physical_ground::Ground::from_sample(
+                                        query.sample(point)?,
+                                        asset.terrain.width,
+                                    )
+                                },
+                                platform: |point| {
+                                    giants_game::platform_queries::sample_prepared(
+                                        point,
+                                        &[],
+                                        giants_game::arithmetic::Precision::Double53,
+                                    )
+                                },
+                                seconds: |_| 1.,
+                                release: |footprint: Option<u32>| {
+                                    if footprint.is_none() {
+                                        Ok(())
+                                    } else {
+                                        Err("fixture footprint registry absent".into())
+                                    }
+                                },
+                                statistics: None,
+                            };
+                        session
+                            .finalize_actor(
+                                parent,
+                                giants_game::actor_finalization::Time {
+                                    global_seconds: 1.,
+                                    context,
+                                    areas: &[],
+                                },
+                                &mut finalization,
+                            )
+                            .unwrap();
+                        session.refresh_actor_environment_geometry(parent).unwrap();
+                    }
+                }
+                struct Release {
+                    markers: Vec<Id>,
+                    released: Vec<Id>,
+                }
+                impl giants_game::actor_retirement::Services for Release {
+                    fn release(&mut self, session: &mut Session, id: Id) -> Result<(), String> {
+                        assert!(self.markers.contains(&id));
+                        assert!(!self.released.contains(&id));
+                        // Both simultaneous closing children lose incoming references
+                        // before the first external release, in current-list order.
+                        for &marker in &self.markers {
+                            if session.get(marker).is_some() {
+                                assert!(session.incoming_actor_references(marker)?.is_empty());
+                            }
+                        }
+                        self.released.push(id);
+                        Ok(())
+                    }
+                }
+                let mut release = Release {
+                    markers: markers.clone(),
+                    released: vec![],
+                };
+                for number in if retirement_fixture {
+                    182..=681u64
+                } else if marker_fixture {
                     182..=211u64
                 } else {
                     181..=210u64
@@ -220,13 +350,24 @@ fn current_frames(marker_fixture: bool) {
                         .publish_controlled_mecc_motion(ticket, number, motion)
                         .unwrap();
                     runtime
-                        .advance_normal_rippers(
+                        .advance_normal_rippers_with_retirement(
                             ticket,
                             number,
                             viewer.camera().1,
                             viewer.mission_environment_colliders(),
+                            &mut release,
                         )
                         .unwrap();
+                }
+                if retirement_fixture {
+                    assert_eq!(release.released, markers);
+                    let active = runtime.active.as_ref().unwrap();
+                    for marker in &markers {
+                        assert!(active.resident_states.get(*marker).is_none());
+                    }
+                    let state = active.payload.rippers.as_ref().unwrap().as_ref().unwrap();
+                    assert!(state.driver.markers().next().is_none());
+                    assert_eq!(runtime.npc_draws(ticket).unwrap().len(), 5);
                 }
             },
             false,

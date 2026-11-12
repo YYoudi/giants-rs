@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed literal mound and common cleanup search candidates, all unknown;
+        # retained minimal PC aliases only, with no new native body or corpus.
+        '0d55775d69b6004163df1693a6a096fbfaef5ccdebcaa97aa98a9655a3c06369',
         # One independently reviewed, probable mission-proximity PC alias, with
         # the prototype radius/PC AABB divergence and no exported native body.
         '3fdd90bb86ddfe497ae92e08f4555fe7f43d01d0ec58525b52a99bd57aed84d2',
