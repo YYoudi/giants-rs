@@ -24,6 +24,8 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed literal cinematic process/clock search routes; identities unknown.
+        'ff17acf1136bcda4a7ab43810f0cec702b34b0caee3ffd8c71142484a174ab3d',
         # One independently reviewed, probable mission-proximity PC alias, with
         # the prototype radius/PC AABB divergence and no exported native body.
         '3fdd90bb86ddfe497ae92e08f4555fe7f43d01d0ec58525b52a99bd57aed84d2',

@@ -17,11 +17,14 @@ struct State {
     finished: bool,
     refusal: Option<String>,
 }
+#[derive(Resource, Default)]
+struct EndObservation(Option<String>);
 pub struct Plugin;
 impl bevy::app::Plugin for Plugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<Automatic>()
             .init_resource::<State>()
+            .init_resource::<EndObservation>()
             .add_systems(
                 Update,
                 update
@@ -49,6 +52,7 @@ pub(crate) fn begin_completion(world: &mut World, ticket: u64) -> Result<(), Str
     Ok(())
 }
 pub(crate) fn update(world: &mut World) {
+    observe_end(world);
     if !world.resource::<Automatic>().0 {
         return;
     }
@@ -143,6 +147,67 @@ pub(crate) fn update(world: &mut World) {
                 "mission_runtime_cinematic_finished ticket={ticket} source_end=true voices_drained=true effects_settled=true"
             );
         }
+    }
+}
+/// Read-only barrier report. The observer cannot acknowledge any prerequisite.
+fn observe_end(world: &mut World) {
+    let Some(movie) = world.get_resource::<crate::cinematic_camera::Cinematic>() else {
+        return;
+    };
+    if movie.director_index() + 1 != movie.segments().len() {
+        return;
+    }
+    let movie = (
+        movie.sequence().to_owned(),
+        movie.end_reached(),
+        movie.release_ready(false),
+        movie.paused(),
+    );
+    let (ticket, phase) = {
+        let scene = world.resource::<crate::frontend_scene::Scene>();
+        (scene.flow.ticket, scene.flow.phase)
+    };
+    let effects = world
+        .get_resource::<crate::mission_effects::State>()
+        .map(|s| s.completion_counts());
+    let voices = world
+        .query_filtered::<Option<&AudioSink>, With<crate::cinematic_audio::PlayingVoice>>()
+        .iter(world)
+        .fold([0usize; 3], |mut n, s| {
+            n[0] += 1;
+            if let Some(s) = s {
+                if s.empty() {
+                    n[2] += 1;
+                }
+            } else {
+                n[1] += 1;
+            }
+            n
+        });
+    let resident = crate::mission_player::resident(world, ticket);
+    let automatic = world.resource::<Automatic>().0;
+    let state = world.resource::<State>();
+    let report = format!(
+        "mission_film_end_barrier ticket={ticket} phase={phase:?} sequence={} end={} release={} paused={} automatic={automatic} admitted={} controller={} finished={} resident={resident} pipelines={} environment={} effects={effects:?} voices_total={} missing_sinks={} empty_sinks={}",
+        movie.0,
+        movie.1,
+        movie.2,
+        movie.3,
+        state.admitted,
+        state.controller,
+        state.finished,
+        world.resource::<crate::PipelinesReady>().0,
+        world
+            .resource::<crate::mission_environment::State>()
+            .mounted_ticket()
+            == Some(ticket),
+        voices[0],
+        voices[1],
+        voices[2]
+    );
+    if world.resource::<EndObservation>().0.as_ref() != Some(&report) {
+        println!("{report}");
+        world.resource_mut::<EndObservation>().0 = Some(report);
     }
 }
 

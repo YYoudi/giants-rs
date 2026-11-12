@@ -161,6 +161,30 @@ impl Timeline {
     pub fn has_stepped(&self) -> bool {
         self.last_tick.is_some()
     }
+    pub fn last_sampled_tick(&self) -> Option<i32> {
+        self.last_tick
+    }
+    /// Reachable source effects at a supplied source sample, without advancing the
+    /// live cursor or allocating effects. Future waits remain unsatisfied.
+    /// Prototype PS2 lookup: FLK_FlickProcess__FP9FLK_Flick,
+    /// FLK_FlickUpdateTime__FP9FLK_Flickf and FlickAnimate__FP9FLK_Flick.
+    /// All relationships remain unknown; no prototype ABI/layout is imported.
+    /// The acquired PC process retires on animation completion even when the
+    /// command cursor is stopped at a later wait; declarations are not births.
+    pub fn effect_offsets_through(
+        &self,
+        sample_tick: i32,
+    ) -> Result<std::collections::BTreeSet<usize>, &'static str> {
+        let mut cursor =
+            Self::with_start(self.program.clone(), self.ticks_per_frame, self.start_tick)?;
+        Ok(cursor
+            .step(sample_tick)?
+            .events
+            .into_iter()
+            .filter(|event| event.kind == EventKind::Effect)
+            .map(|event| event.offset)
+            .collect())
+    }
     pub fn completion_hold(&self) -> Option<&str> {
         self.completion_hold.as_deref()
     }
@@ -466,6 +490,42 @@ pub fn sequence_path(
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn endpoint_includes_due_effect_but_never_dispatches_past_a_future_wait() {
+        use giants_formats::flick::{Command, Program};
+        let command = |offset, opcode, words| Command {
+            offset,
+            opcode,
+            words,
+            label: None,
+        };
+        let mut timeline = super::Timeline::new(
+            Program {
+                commands: vec![
+                    command(0, 9, vec![2]),
+                    command(12, 39, vec![]),
+                    command(20, 9, vec![3]),
+                    command(32, 39, vec![]),
+                    command(40, 5, vec![]),
+                ],
+                next: None,
+                program_end: 48,
+            },
+            160,
+        )
+        .unwrap();
+        assert_eq!(timeline.effect_offsets_through(320).unwrap(), [12].into());
+        assert!(!timeline.has_stepped()); // preparation cannot advance the live owner
+        assert!(timeline.step(319).unwrap().events.is_empty());
+        assert_eq!(timeline.last_sampled_tick(), Some(319));
+        assert_eq!(timeline.step(320).unwrap().events[0].offset, 12);
+        assert_eq!(timeline.last_sampled_tick(), Some(320));
+        assert!(timeline.step(320).unwrap().events.is_empty());
+        assert_eq!(
+            timeline.effect_offsets_through(480).unwrap(),
+            [12, 32].into()
+        );
+    }
     #[test]
     fn pending_numeric_sounds_are_ordered_once_and_reset_with_credits() {
         let commands = vec![

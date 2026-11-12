@@ -313,7 +313,7 @@ fn release(world: &mut World) {
     // reproduce the terminal observation after this function removes the movie.
     let terminal = world
         .get_resource::<cinematic_camera::Cinematic>()
-        .filter(|movie| movie.end_reached())
+        .filter(|movie| movie.end_reached() && movie.release_ready(false))
         .map(|movie| SourceTerminal {
             ticket: mounted.ticket,
             directors: movie.segments().len(),

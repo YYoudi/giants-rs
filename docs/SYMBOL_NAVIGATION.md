@@ -125,6 +125,16 @@ it with the prototype's no-op behavior.
 
 ## Publication boundary
 
+The literal prototype PS2 names `FLK_FlickProcess__FP9FLK_Flick`,
+`FLK_FlickUpdateTime__FP9FLK_Flickf` and `FlickAnimate__FP9FLK_Flick` are search
+routes to [`flick::Timeline`](../crates/giants-game/src/flick.rs),
+`cinematic_camera` and `mission_effects`. These relationships remain **unknown**,
+not confirmed function identities. The acquired PC command/clock/process call
+chain distinguishes reached requests from future declarations at animation
+retirement. Rust retains that distinction without importing prototype layouts,
+ABI or a guessed signature. See MISSION_PROGRESSION.md for the common runtime
+settlement contract; naming does not certify rendering, timing or mission completion.
+
 This index publishes only selected names, reviewed navigation relationships and
 attribution status. Binary/ELF inputs, raw tables, listings, matching outputs,
 disassembly and detailed research remain private. The central method pins the

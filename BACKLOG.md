@@ -58,6 +58,16 @@ scope/GPU-asset cleanup. This is supplied replay evidence, not ordinary rescue,
 RoadHome pickup, OS input or native pixel/cadence validation. No new preview is
 claimed.
 
+Current ordinary-build blocker: the rescue and six completion directors run, but
+the unpublished candidate A waits for fifty-one declarations after only fifty
+source requests execute. Native cursor/clock/process review establishes retirement
+at animation completion even with a later wait pending. The common fix derives
+obligations from actual sampled source prefixes and checks per-offset consumer
+acknowledgments, retaining complete capability/world/geometry admission. It does
+not extend the film, force a last effect or special-case The Wife's count. See
+MISSION_PROGRESSION.md. Rendered full-chain acceptance on a new immutable build,
+OS checks, publication and served dashboard verification remain outstanding.
+
 The selector3 proximity-selection dependency is implemented in `smartie_follow`
 with the probable prototype search route `smartie_check_follow__FP6OBJECTf`.
 A private comparison passes 1,794 supplied PC contexts, executing the acquired

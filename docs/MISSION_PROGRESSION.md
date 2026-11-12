@@ -121,13 +121,40 @@ and refusal without the prepared world. Source3 roots use loaded class-zero
 cinematic supports and retain their actual attached contexts; source3 snapshots
 the support pose without inventing an ordinary parent link. Contact children
 reserve geometry but remain hidden until actual creation and finalization.
-Canonical groups do not also advance the inspection simulation. Two muted
-offscreen completion-replay cycles reach the actual source terminal with drained
-voices, all six effect classes visibly submitted and scope/GPU-asset cleanup.
+Canonical groups do not also advance the inspection simulation. Two earlier muted
+offscreen completion-replay cycles reached the last director's animation end with
+drained voices, all six effect classes visibly submitted and scope/GPU-asset cleanup.
+Their inspection fallback did not prove whole-film effect settlement: the ordinary
+candidate subsequently stopped at fifty dispatched requests versus fifty-one
+declarations. That candidate is not accepted or published.
 This does not exercise the ordinary rescue condition, next-player pickup or OS
 input. Native clock/RNG interleaving and complete world/draw fidelity
 remain unverified. The next mission declares no explicit opening film, so its
 ordinary entry cannot substitute for testing this completion film.
+
+### Source cursor and retirement obligations
+
+The acquired PC process runs the command cursor, updates the director clock and
+retires the director when its animation is complete, unless the reached source
+completion label holds it. A wait later than animation completion does not extend
+the animation or cause its following declarations to execute. Do not force an
+extra endpoint dispatch or invent births to satisfy a declaration count.
+
+Prepare and validate every declaration's capabilities as before. Separately,
+derive the expected effect offsets from each actual director's last sampled
+source tick, using a separate non-allocating cursor over the same program. The
+ticket-owned effect consumer must acknowledge each reached director/offset once;
+missing, duplicate or unexpected acknowledgments refuse settlement. Preserve
+generation reset, active terminal retirement, audio drainage and source-end gates.
+An unvisited future declaration is not a missing live effect, while an unsupported
+binding remains an admission failure even if its current reachable prefix is empty.
+This contract is common to mission films; no mission-specific count enables it.
+
+The Wife's installed preparation regression distinguishes all declared requests
+from the prefix reachable at its real animation bounds. This and the portable
+wait/offset controls are dependencies; full ordinary graphical acceptance and a
+matching immutable preview are still required. Prototype PS2 navigation candidates
+and their unresolved identities remain in SYMBOL_NAVIGATION.md.
 
 `effect_ground_emission` now retains the source16/source5a relationship separately
 from the actual actor's inline integer budget. Its source3 constructor transfers

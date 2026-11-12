@@ -12,6 +12,7 @@ pub(crate) struct Prepared {
     rigid: crate::rigid_attachment_scene::Scene,
     cube: bool,
     effects: Vec<Result<giants_game::cinematic_fx::Bindings, String>>,
+    effect_offsets: Vec<std::collections::BTreeSet<usize>>,
     persistent: Vec<Option<giants_game::cinematic_persistent::Bindings>>,
     timed: Vec<Option<giants_game::cinematic_timed::Bindings>>,
     timed_world: Option<std::sync::Arc<giants_game::cinematic_timed::world::Prepared>>,
@@ -114,6 +115,11 @@ impl Prepared {
                 rigid,
                 cube,
                 effects,
+                effect_offsets: cinematic
+                    .segments()
+                    .iter()
+                    .map(|segment| segment.expected_effect_offsets())
+                    .collect::<Result<_, _>>()?,
                 persistent,
                 timed,
                 timed_world: None,
@@ -271,6 +277,7 @@ pub(crate) fn prepare_gpu(world: &mut World) {
     world.insert_resource(prepared.rigid);
     world.insert_resource(
         crate::mission_effects::State::new(ticket, prepared.effects)
+            .with_source_offsets(prepared.effect_offsets)
             .with_persistent(prepared.persistent)
             .with_timed(prepared.timed, prepared.timed_world),
     );
@@ -439,6 +446,39 @@ mod tests {
             super::Prepared::load(&root, &cinematic, plan.resources(), &world.config).unwrap();
         prepared.prepare_timed_world(&plan, &world.terrain).unwrap();
         assert_eq!(prepared.timed.len(), 6);
+        // Preparation cannot advance the actual source cursor.
+        assert!(
+            prepared
+                .effect_offsets
+                .iter()
+                .all(|offsets| offsets.is_empty())
+        );
+        let reachable = cinematic
+            .segments()
+            .iter()
+            .map(|segment| {
+                let bytes = std::fs::read(
+                    giants_game::flick::sequence_path(&root, segment.sequence()).unwrap(),
+                )
+                .unwrap();
+                let timeline = giants_game::flick::Timeline::with_start(
+                    giants_formats::flick::parse_preview(&bytes).unwrap(),
+                    segment.animation().timeline[2],
+                    segment.animation().timeline[0],
+                )
+                .unwrap();
+                timeline
+                    .effect_offsets_through(segment.animation().timeline[1])
+                    .unwrap()
+            })
+            .collect::<Vec<_>>();
+        // All declarations remain bound, including a request after animation end.
+        assert_eq!(
+            reachable.iter().map(|offsets| offsets.len()).sum::<usize>(),
+            50
+        );
+        assert_eq!(reachable[2].len(), 13);
+        assert_eq!(prepared.timed[2].as_ref().unwrap().offsets().count(), 14);
         for director in [2, 3] {
             let binding = prepared.timed[director]
                 .as_ref()
