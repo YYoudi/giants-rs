@@ -9,6 +9,74 @@ use crate::{
     terrain_queries::StaticTerrainQuery,
 };
 
+/// Immutable declared collision inputs retained with the film's preparation.
+/// Platform footprints are explicit unresolved dependencies, not fabricated hits.
+pub struct Prepared {
+    pub objects: Vec<actor_environment::Collider>,
+    pub unresolved: Vec<UnpreparedPlatform>,
+}
+impl Prepared {
+    pub fn load(
+        plan: &crate::instances::Plan,
+        terrain: &giants_formats::gti::Terrain,
+    ) -> Result<Self, String> {
+        let solids = crate::declared_mesh_scene::prepare(plan, terrain);
+        let platforms = crate::declared_mesh_scene::prepare_platform_candidates(plan, terrain);
+        if let Some(need) = platforms.needs.first() {
+            return Err(format!("source platform {:?}: {}", need.key, need.reason));
+        }
+        for need in &solids.needs {
+            let input = if need.key.0 {
+                plan.world_entries
+                    .get(need.key.1)
+                    .ok_or("world collider key absent")?
+                    .class_input()?
+            } else {
+                plan.entries
+                    .get(need.key.1)
+                    .ok_or("mission collider key absent")?
+                    .source
+                    .as_ref()
+                    .map_err(Clone::clone)?
+            };
+            if input.direct_flags.personality & 8 == 0 {
+                return Err(format!(
+                    "source collision geometry {:?}: {}",
+                    need.key, need.reason
+                ));
+            }
+        }
+        let unresolved = platforms
+            .objects
+            .iter()
+            .map(|object| UnpreparedPlatform {
+                id: object.fields.id,
+                object_flags: object.fields.object_flags,
+                collision_flags: object.fields.collision_flags,
+                bounds_xy: [
+                    [object.fields.bounds.min[0], object.fields.bounds.min[1]],
+                    [object.fields.bounds.max[0], object.fields.bounds.max[1]],
+                ],
+            })
+            .collect();
+        let objects = solids
+            .records
+            .iter()
+            .zip(solids.objects)
+            .map(|(record, mesh)| actor_environment::Collider {
+                class: record.class as u32,
+                state: record.instance.state,
+                volume: None,
+                mesh,
+            })
+            .collect();
+        Ok(Self {
+            objects,
+            unresolved,
+        })
+    }
+}
+
 #[derive(Default)]
 pub struct Calls {
     pub motion: usize,

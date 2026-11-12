@@ -68,7 +68,15 @@ history, callback, physical/gravity and finalization stages on Story2 terrain an
 declared rigid geometry. It retains the 48 source platform-flag declarations,
 partitioning non-raster profiles from unresolved raster candidates. A point
 admitted by an unresolved footprint remains an error. These are supplied-frame
-dependency controls; the common movie event/render consumer is still pending.
+dependency controls; graphical acceptance of the common consumer remains pending.
+
+The common movie consumer now routes the supported timed family through the
+mission's canonical Session and into the rigid renderer. Run the ignored app
+control `installed_wife_timed_world_and_render_owners_prepare_together` with
+`GIANTS_MISSION_OWNED_ROOT` to verify the actual render/world preparation and
+retained whole-film refusal. The installed child control above now exercises
+the same immutable world preparation. Neither control proves GPU drawing,
+ordinary mission completion or complete effects admission; those remain required.
 
 For the all-five consolidation, run the shared workspace checks below and the
 installed owner/normal-controller controls, including the generic player shell,

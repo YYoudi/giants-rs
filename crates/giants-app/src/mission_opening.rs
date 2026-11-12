@@ -12,6 +12,17 @@ pub struct Prepared {
     render: Result<crate::mission_film::Prepared, String>,
 }
 impl Prepared {
+    pub(crate) fn prepare_timed_world(
+        &mut self,
+        plan: &giants_game::instances::Plan,
+        terrain: &giants_formats::gti::Terrain,
+    ) {
+        if let Ok(render) = &mut self.render
+            && let Err(error) = render.prepare_timed_world(plan, terrain)
+        {
+            println!("mission_timed_world_deferred reason={error:?} whole_film_ready=false");
+        }
+    }
     pub(crate) fn effects_bound(&self) -> bool {
         self.render.as_ref().is_ok_and(|r| r.effects_bound())
     }

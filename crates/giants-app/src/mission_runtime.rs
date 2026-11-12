@@ -134,6 +134,7 @@ struct Active {
     reported: bool,
     pickup: Option<PickupPacket>,
     variant_random: giants_game::audio_parameters::Random,
+    cinematic_epoch: giants_game::animation_epoch::Stamp,
     audio_registry: Option<giants_game::gameplay_sound_bank::Registry>,
     bindings: ActorBindings,
     // Legacy motion publication is independent of constructor identity. The
@@ -342,6 +343,38 @@ impl Runtime {
                 .as_mut()
                 .filter(|a| a.ticket == ticket)?
                 .resident_states,
+        )
+    }
+    pub(crate) fn with_cinematic_services<T>(
+        &mut self,
+        ticket: u64,
+        operation: impl FnOnce(
+            &mut giants_game::resident_states::Session,
+            &mut giants_game::audio_parameters::Random,
+            &mut giants_game::animation_epoch::Stamp,
+            &giants_game::scene_resources::SceneResources,
+            &[giants_game::object_time::SlowArea],
+        ) -> Result<T, String>,
+    ) -> Result<T, String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("cinematic service ticket absent")?;
+        let areas = active.payload.signals.areas.snapshot(|id| {
+            active
+                .resident_states
+                .get(id)
+                .and_then(|a| a.construction_fields.as_ref())
+                .map(|f| f.dispatch_context)
+                .ok_or_else(|| "cinematic slow-area owner absent".into())
+        })?;
+        operation(
+            &mut active.resident_states,
+            &mut active.variant_random,
+            &mut active.cinematic_epoch,
+            active.payload.plan.resources(),
+            &areas,
         )
     }
     fn initialize_owned_pickup(&mut self, ticket: u64) {
@@ -1304,6 +1337,7 @@ impl Runtime {
         }
         let root = root.to_owned();
         let resources = Arc::clone(a.payload.plan.resources());
+        let mission_bytes = a.payload.packet.mission_bytes.clone();
         let world = Arc::clone(a.payload.world.as_ref().map_err(Clone::clone)?);
         let (tx, rx) = mpsc::channel();
         std::thread::spawn(move || {
@@ -1312,6 +1346,14 @@ impl Runtime {
                     crate::mission_opening::Prepared::load(&root, selection.director.as_deref())?
                         .ok_or("completion preparation produced no source film")?;
                 film.prepare_render(&root, &resources, &world.config);
+                let mission =
+                    giants_formats::mission::parse(&mission_bytes).map_err(|e| e.to_string())?;
+                let plan = giants_game::instances::Plan::prepare_scene(
+                    &resources,
+                    &mission,
+                    &world.config.placements,
+                );
+                film.prepare_timed_world(&plan, &world.terrain);
                 if !film.effects_bound() {
                     return Err("completion rendering/effect owners are incomplete".into());
                 }
@@ -2604,6 +2646,7 @@ fn drive(
                     && let Ok(world) = &world
                 {
                     playback.prepare_render(&root, plan.resources(), &world.config);
+                    playback.prepare_timed_world(&plan, &world.terrain);
                 }
                 let parameters = packet.slot_parameters(&root);
                 let carried = (|| -> Result<_, String> {
@@ -2785,6 +2828,7 @@ fn drive(
                     reported: false,
                     pickup: None,
                     variant_random: giants_game::audio_parameters::Random(1),
+                    cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                     audio_registry: None,
                     bindings,
                     controlled_mecc_owner: None,
@@ -3230,6 +3274,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 audio_registry: None,
                 bindings,
                 controlled_mecc_owner: None,
@@ -3483,6 +3528,7 @@ mod tests {
                         reported: false,
                         pickup: None,
                         variant_random: giants_game::audio_parameters::Random(1),
+                        cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                         audio_registry: None,
                         bindings,
                         controlled_mecc_owner: None,
@@ -3590,6 +3636,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 audio_registry: None,
                 bindings,
                 controlled_mecc_owner: None,
@@ -3957,6 +4004,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 audio_registry: None,
                 bindings,
                 controlled_mecc_owner: None,
@@ -4263,6 +4311,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 audio_registry: None,
                 bindings,
                 controlled_mecc_owner: None,
@@ -4761,6 +4810,7 @@ mod tests {
                     reported: false,
                     pickup: None,
                     variant_random: giants_game::audio_parameters::Random(1),
+                    cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                     audio_registry: None,
                     bindings,
                     controlled_mecc_owner: None,
@@ -4833,6 +4883,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 audio_registry: None,
                 bindings,
                 controlled_mecc_owner: None,
@@ -4932,6 +4983,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 variant_random: giants_game::audio_parameters::Random(1),
+                cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 audio_registry: None,
                 bindings,
                 controlled_mecc_owner: None,

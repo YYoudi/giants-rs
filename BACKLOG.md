@@ -66,11 +66,16 @@ support, and expiration constructs the authored positional retirement child.
 Installed controls on the two source shotgun directors pass parent callbacks,
 real class828 child birth, duplicate/foreign-owner rejection and scoped cleanup.
 A separate unprovided-child control retains a real callback failure rather than
-acknowledging it. This queue is not yet the ordinary film/render consumer and
-does not make effects admission pass. Remaining work includes descendant world
-preparation/drawing, the source16/source5a blood callbacks and the common film
-driver. Source clocks, shared RNG, epochs and physical/environment caller inputs
-must come from their real owners; the dependency fixture supplies its own values.
+acknowledging it. The common film now prepares the timed family's declared world
+and routes its actual events through this queue using the mission Session/shared
+RNG, registered slow areas and composing epoch. The rigid renderer consumes the
+canonical body matrix, channels, scale, transparency and visibility, suppressing
+its independent viewer simulation for owned instances. Installed preparation
+passes for the two source shotgun directors and retains the whole-film refusal.
+No graphical acceptance is claimed for this wiring yet. Remaining work includes
+actual GPU/lifecycle validation, source16/source5a blood callbacks and the other
+source effect families. Native RNG phase, clock cadence and complete world/draw
+fidelity remain unverified; this does not make effects admission pass.
 
 The detached preparation's debug-PC caller-word dependency now has an explicit
 portable alternative: `PhysicalProgress::PrototypePs2Zero`, based on the
@@ -82,7 +87,7 @@ mandatory. The related `object_apply_location` identity is probable. This is a
 single threshold policy, not adoption of the PS2 layout or whole arithmetic.
 The generic MIPS suffix-emulation attempt fails and supplies no parity claim;
 the observation is from independent standard-instruction/body review. Normal
-detached-child preparation/render integration is still pending.
+graphical validation of detached-child preparation/render integration is pending.
 
 The canonical descendant walk now performs common history, local-time sampling,
 physical/gravity callbacks and full finalization over supplied real terrain and
@@ -90,7 +95,8 @@ declared collision geometry. An installed Wife control passes both shotgun plans
 through the class828 child's lifetime and cleanup, with source platform candidates
 retained rather than an invented empty platform query. Candidate bounds exclude
 irrelevant points; an admitted unresolved footprint still refuses the query.
-This is dependency integration, not the ordinary film/render driver yet.
+The common film/render consumer is now wired as described above; its graphical
+validation and complete effect coverage remain pending.
 
 The Story2 declaration census finds 48 platform-flag candidates. The candidate
 projection partitions non-raster footprint profiles from raster candidates;

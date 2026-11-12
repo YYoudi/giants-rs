@@ -441,7 +441,7 @@ impl Instance {
         tick: i32,
         view: [f32; 16],
     ) -> Result<([f32; 16], bool), String> {
-        self.render_matrix_with_world(animation, tick, view, None)
+        self.render_matrix_with_world(animation, tick, view, None, None)
     }
     fn render_matrix_with_world(
         &self,
@@ -449,6 +449,7 @@ impl Instance {
         tick: i32,
         view: [f32; 16],
         owned: Option<giants_game::procedural_aim::Matrix>,
+        owned_size: Option<f32>,
     ) -> Result<([f32; 16], bool), String> {
         let (mut binding, mut flags) = if let Some(matrix) = owned {
             (matrix.values, matrix.flags)
@@ -528,6 +529,7 @@ impl Instance {
             self.source.matrix(animation, tick)?
         };
         if let Some(timed) = &self.timed
+            && owned.is_none()
             && !self.detached
             && self.facing.is_none()
         {
@@ -554,7 +556,9 @@ impl Instance {
             flags = matrix.flags;
         }
         let (matrix, front) = if let Some(mut facing) = self.facing {
-            if let Some(mixed) = &self.mixed {
+            if let Some(size) = owned_size {
+                facing.scale = size;
+            } else if let Some(mixed) = &self.mixed {
                 facing.scale = mixed.presentation.map_or(1., |p| p.size);
             } else if let Some(emitted) = &self.emitted {
                 facing.scale = emitted.presentation.map_or(1., |p| p.size);
@@ -2902,6 +2906,29 @@ pub fn update(
         }
     }
     let animation_dt = cinematic.animation_dt();
+    // Some(None) means an actual canonical family owns this draw but its body
+    // is not born/prepared yet. Never fall back to an independent viewer clock.
+    let timed_frames = scene
+        .instances
+        .iter()
+        .enumerate()
+        .filter_map(|(index, instance)| {
+            let Source::Effect { request, .. } = &instance.source else {
+                return None;
+            };
+            let frame = persistent.as_ref().and_then(|state| {
+                runtime.as_ref().and_then(|runtime| {
+                    state.timed_frame(
+                        runtime,
+                        cinematic.director_index(),
+                        request.offset,
+                        instance.source.class(),
+                    )
+                })
+            });
+            frame.map(|frame| (index, frame))
+        })
+        .collect::<BTreeMap<_, _>>();
     let animating = animation_dt > 0.
         && scene.instances.iter().any(|i| {
             (i.animation.is_some()
@@ -2944,7 +2971,10 @@ pub fn update(
     }
     // Retirement queues the child below. It receives its first positive viewer
     // callback on the next update; this is an explicit preview schedule.
-    for instance in &mut scene.instances {
+    for (index, instance) in scene.instances.iter_mut().enumerate() {
+        if timed_frames.contains_key(&index) {
+            continue;
+        }
         let root_reached = instance.released.as_ref().is_some_and(|r| {
             r.parent.is_none() && (reset || r.playback.visual.is_none() && !r.playback.expired)
         }) && instance.source.visible(&cinematic);
@@ -3073,6 +3103,9 @@ pub fn update(
     }
     let mut retirements = Vec::new();
     for (parent_index, instance) in scene.instances.iter_mut().enumerate() {
+        if timed_frames.contains_key(&parent_index) {
+            continue;
+        }
         let reached = instance.source.visible(&cinematic);
         if reset {
             instance.creation_position = None;
@@ -4019,8 +4052,10 @@ pub fn update(
             }),
             Source::Actor(_) => None,
         };
-        let active = instance.visible(&cinematic)
-            && owned.is_none_or(|frame| frame.is_some())
+        let active = timed_frames.get(&index).map_or_else(
+            || instance.visible(&cinematic),
+            |frame| frame.is_some_and(|frame| frame.object_flags & 0xc000 == 0),
+        ) && owned.is_none_or(|frame| frame.is_some())
             && match &instance.source {
                 Source::Actor(request) => cinematic.actor_visible(request.slot) == Some(true),
                 Source::Effect { .. } => true,
@@ -4031,7 +4066,13 @@ pub fn update(
         if reset {
             animation.reset();
         }
-        let advanced = if let Some(Some(frame)) = owned {
+        let advanced = if let Some(frame) = timed_frames.get(&index) {
+            if let Some(frame) = frame {
+                animation.clock = giants_game::animation_channels::clock(&frame.channels[0]);
+                animation.updates = u64::from(frame.epoch);
+            }
+            Ok(active && (animation_dt > 0. || reset))
+        } else if let Some(Some(frame)) = owned {
             // The owned object's channel is authoritative; do not tick a
             // second independent animation clock in the renderer.
             animation.clock = giants_game::animation_channels::clock(&frame.channels[0]);
@@ -4204,7 +4245,8 @@ pub fn update(
     let matrices = scene
         .instances
         .iter()
-        .map(|i| {
+        .enumerate()
+        .map(|(index, i)| {
             let owned = match &i.source {
                 Source::Effect { request, .. } => persistent
                     .as_ref()
@@ -4224,7 +4266,13 @@ pub fn update(
                 cinematic.animation(),
                 cinematic.tick(),
                 camera.view,
-                owned.map(|frame| frame.world),
+                timed_frames
+                    .get(&index)
+                    .and_then(|frame| frame.map(|frame| frame.world))
+                    .or_else(|| owned.map(|frame| frame.world)),
+                timed_frames
+                    .get(&index)
+                    .and_then(|frame| frame.map(|frame| frame.scale)),
             )
         })
         .collect::<Result<Vec<_>, _>>();
@@ -4271,7 +4319,10 @@ pub fn update(
                     }),
                     Source::Actor(_) => None,
                 };
-                let route_enabled = if instance.persistent_attachment {
+                let canonical = timed_frames.get(&draw.instance);
+                let route_enabled = if let Some(frame) = canonical {
+                    draw.route == 0 && frame.is_some_and(|frame| frame.object_flags & 0xc000 == 0)
+                } else if instance.persistent_attachment {
                     match owned {
                         Some(Some(frame)) => {
                             let eye = cinematic.camera().expect("prepared source camera").origin;
@@ -4305,14 +4356,33 @@ pub fn update(
                             })
                         })
                 };
-                *visibility = if instance.visible(&cinematic)
-                    && route_enabled
-                    && owned.is_none_or(|frame| frame.is_some())
+                let visible = canonical.map_or_else(
+                    || instance.visible(&cinematic),
+                    |frame| frame.is_some_and(|frame| frame.object_flags & 0xc000 == 0),
+                );
+                *visibility =
+                    if visible && route_enabled && owned.is_none_or(|frame| frame.is_some()) {
+                        Visibility::Inherited
+                    } else {
+                        Visibility::Hidden
+                    };
+                if let Some(Some(frame)) = canonical
+                    && (previous != *visibility || moved.contains(&draw.instance))
+                    && let Source::Effect { request, .. } = &instance.source
                 {
-                    Visibility::Inherited
-                } else {
-                    Visibility::Hidden
-                };
+                    println!(
+                        "mission_timed_draw ticket={} director={} offset={} class={} owner={:?} entity={:?} visible={} epoch={} matrix_bits={:?} canonical_body=true viewer_simulation=false native_pixels_verified=false",
+                        persistent.as_ref().unwrap().ticket(),
+                        cinematic.director_index(),
+                        request.offset,
+                        instance.source.class(),
+                        frame.owner,
+                        draw.entity,
+                        *visibility != Visibility::Hidden,
+                        frame.epoch,
+                        frame.world.values.map(f32::to_bits)
+                    );
+                }
                 if let Some(Some(frame)) = owned
                     && (previous != *visibility || frame.updates == 1)
                     && let Source::Effect { request, .. } = &instance.source
@@ -4537,7 +4607,11 @@ pub fn update(
         };
         let p = pixel(camera, scene.fog);
         let fog = if world.no_fog { 0. } else { 1. };
-        let opacity = if let Some(transparency) = scene.instances[draw.instance].transparency() {
+        let transparency = timed_frames
+            .get(&draw.instance)
+            .and_then(|frame| frame.map(|frame| frame.transparency))
+            .or_else(|| scene.instances[draw.instance].transparency());
+        let opacity = if let Some(transparency) = transparency {
             match giants_game::unlit_material::prepare_with_object_transparency(
                 &sub.material,
                 scene.instances[draw.instance]

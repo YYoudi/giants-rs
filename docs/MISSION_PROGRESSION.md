@@ -84,10 +84,10 @@ Preparation currently refuses three directors' nonterminal effects. Their actual
 dispatch, rendering/audio and retirement must be connected before admission.
 `cinematic_timed` now composes the existing acquired attached callbacks with
 canonical Session storage and source retirement-child construction. Its installed
-Wife control verifies the shotgun parents and child birth/cancellation; it does
-not advance detached children through their world finalizer, draw them, connect
-the ordinary film consumer or satisfy whole-film effects readiness. The composing
-world must supply the real shared RNG, clock, epoch and descendant services.
+Wife controls verify shotgun parents, child birth/cancellation and detached-child
+world finalization. They do not prove GPU drawing or whole-film effects readiness.
+The composing world must supply the real shared RNG, clock, epoch and descendant
+services; the consumer described below retains these ownership requirements.
 For the physical progress threshold only, the composing game may explicitly
 select `actor_finalization::PhysicalProgress::PrototypePs2Zero` through
 `TimedEffectSourcePreparation`. The prototype's related `object_apply_location`
@@ -108,7 +108,20 @@ contract. Source class usage masks and absolute scale stores are prepared before
 bounds; texture descriptors and state-name callbacks are not implied by this
 collision projection. Installed Wife controls cover two shotgun plans through
 child lifetime/cancellation, not ordinary film events or GPU rendering. The
-common movie effects gate remains unchanged until those consumers are connected.
+common movie effects gate remains unchanged while full effect coverage and
+runtime validation are incomplete.
+
+The common film preparation now retains this declared collision world, and its
+timed consumer uses the active mission's actual Session, shared RNG, registered
+slow areas and composing animation epoch. The rigid renderer selects the owned
+body's matrix, channels, scale, transparency and visibility, and suppresses its
+separate viewer simulation for that instance. An installed preparation control
+covers the two source shotgun directors and the retained whole-film refusal;
+graphical drawing, lifecycle and complete-film admission are not yet validated.
+Source16/source5a blood services and the remaining effect families are still
+prerequisites. Native clock/RNG interleaving and complete world/draw fidelity
+remain unverified. The next mission declares no explicit opening film, so its
+ordinary entry cannot substitute for testing this completion film.
 The next record is `2b_2_returnwife`; it declares its own class216/state18 wife
 with selector3 near its selected player start. That actor must use the ordinary
 proximity/pickup services, rather than becoming an invented carried child or a

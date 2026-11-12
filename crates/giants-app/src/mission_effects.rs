@@ -5,6 +5,7 @@ use giants_game::{
     cinematic_fx::{Bindings, TerminalProxy},
     flick::EventKind,
 };
+mod timed;
 #[derive(Resource)]
 pub(crate) struct State {
     ticket: u64,
@@ -16,6 +17,7 @@ pub(crate) struct State {
     retired: usize,
     persistent: Vec<Option<giants_game::cinematic_persistent::Bindings>>,
     persistent_queue: Option<(usize, giants_game::cinematic_persistent::Queue)>,
+    timed: timed::Timed,
 }
 impl State {
     pub(crate) fn ticket(&self) -> u64 {
@@ -73,7 +75,26 @@ impl State {
             retired: 0,
             persistent: vec![],
             persistent_queue: None,
+            timed: timed::Timed::new(vec![], None),
         }
+    }
+    pub(crate) fn with_timed(
+        mut self,
+        bindings: Vec<Option<giants_game::cinematic_timed::Bindings>>,
+        world: Option<std::sync::Arc<giants_game::cinematic_timed::world::Prepared>>,
+    ) -> Self {
+        self.timed = timed::Timed::new(bindings, world);
+        self
+    }
+    pub(crate) fn timed_frame(
+        &self,
+        runtime: &crate::mission_runtime::Runtime,
+        director: usize,
+        offset: usize,
+        class: i32,
+    ) -> Option<Option<giants_game::cinematic_timed::Frame>> {
+        self.timed
+            .frame(self.ticket, runtime, director, offset, class)
     }
     pub(crate) fn with_persistent(
         mut self,
@@ -180,6 +201,9 @@ impl State {
         Ok(())
     }
     pub(crate) fn report_release(mut self, runtime: &mut crate::mission_runtime::Runtime) {
+        self.timed
+            .release(self.ticket, runtime)
+            .expect("owned timed scope release");
         self.release_persistent(runtime.cinematic_session_mut(self.ticket));
         println!(
             "mission_effects_released ticket={} dispatched={} retired={} active={} queue_owned=true",
@@ -197,9 +221,21 @@ pub(crate) fn update(
     mut exit: MessageWriter<AppExit>,
     mut showcase: Option<ResMut<crate::mission_showcase::State>>,
     mut runtime: ResMut<crate::mission_runtime::Runtime>,
+    world: Res<crate::world_scene::Scene>,
 ) {
     assert_eq!(owner.0, state.ticket);
     if cinematic.paused() {
+        return;
+    }
+    let ticket = state.ticket;
+    if let Err(error) = state
+        .timed
+        .update(ticket, &cinematic, &world.asset.terrain, &mut runtime)
+    {
+        error!("Mission timed owner failed: {error}");
+        if !showcase.as_mut().is_some_and(|s| s.playback_failed(&error)) {
+            exit.write(AppExit::Error(std::num::NonZeroU8::MIN));
+        }
         return;
     }
     let Some(session) = runtime.cinematic_session_mut(owner.0) else {

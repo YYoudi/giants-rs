@@ -18,10 +18,21 @@ pub mod world;
 
 pub struct Bindings {
     requests: BTreeMap<usize, Request>,
+    classes: BTreeMap<usize, (i32, i32)>,
     actors: Projection,
     image: Arc<giants_formats::effect_image::Image>,
 }
 impl Bindings {
+    pub fn role(&self, offset: usize, class: i32) -> Option<bool> {
+        let &(parent, child) = self.classes.get(&offset)?;
+        if class == parent {
+            Some(true)
+        } else if class == child {
+            Some(false)
+        } else {
+            None
+        }
+    }
     pub fn offsets(&self) -> impl Iterator<Item = usize> + '_ {
         self.requests.keys().copied()
     }
@@ -43,6 +54,7 @@ impl Bindings {
         );
         let actors = crate::actor_links::Factory::new(resources, &image).project(bytes)?;
         let mut requests = BTreeMap::new();
+        let mut classes = BTreeMap::new();
         for request in crate::cinematic_fx::declarations(bytes, &metadata)? {
             crate::cinematic_fx::validate_request_prefix(&metadata, &actors, &request)?;
             if request.slot >= 0 {
@@ -62,9 +74,20 @@ impl Bindings {
                 recipe.validate_class(class)?;
                 crate::effect_actor::Template::load(resources, recipe.class)?;
                 // Check the source dependency without treating resolution as execution.
-                if image.find(&recipe.child).is_none() {
-                    return Err("timed cinematic retirement dependency absent".into());
+                let (_, child) = image
+                    .find(&recipe.child)
+                    .ok_or("timed cinematic retirement dependency absent")?;
+                let program = image.program(child.offset).map_err(|e| e.to_string())?;
+                if program.records.iter().map(|r| r.opcode).collect::<Vec<_>>()
+                    != [3, 6, 8, 4, 0x0e, 7, 2]
+                {
+                    return Err(
+                        "timed cinematic child requires its positioned callback profile".into(),
+                    );
                 }
+                let child = crate::released_effect::Recipe::project(&program)?;
+                crate::effect_actor::Template::load(resources, child.class)?;
+                classes.insert(request.command_offset, (recipe.class, child.class));
             }
             requests.insert(request.command_offset, request);
         }
@@ -73,6 +96,7 @@ impl Bindings {
         }
         Ok(Self {
             requests,
+            classes,
             actors,
             image,
         })
@@ -85,6 +109,7 @@ impl Bindings {
             supports: BTreeMap::new(),
             dispatched: BTreeSet::new(),
             children: Vec::new(),
+            child_sources: BTreeMap::new(),
             last_child_frame: None,
         }
     }
@@ -132,6 +157,7 @@ pub struct Queue {
     supports: BTreeMap<usize, usize>,
     dispatched: BTreeSet<usize>,
     children: Vec<Id>,
+    child_sources: BTreeMap<Id, usize>,
     last_child_frame: Option<u64>,
 }
 pub struct WorldStep<'a> {
@@ -142,6 +168,7 @@ pub struct WorldStep<'a> {
     pub pc_argument: Option<u32>,
 }
 /// A view of the canonical actor, not an independent visual simulation.
+#[derive(Clone, Copy)]
 pub struct Frame {
     pub owner: Id,
     pub world: Matrix,
@@ -149,6 +176,8 @@ pub struct Frame {
     pub transparency: f32,
     pub fade: [f32; 4],
     pub object_flags: u32,
+    pub scale: f32,
+    pub epoch: u32,
 }
 impl Queue {
     /// Advance existing descendants once per actual composing-world frame.
@@ -227,12 +256,17 @@ impl Queue {
             transparency: session.timed_effect_transparency(owner)?,
             fade: session.timed_effect_fade(owner)?,
             object_flags: actor.construction_fields.as_ref()?.object_flags,
+            scale: actor.construction_fields.as_ref()?.scale,
+            epoch: actor.mecc_animation_stamp,
         })
     }
     /// Source-created descendants still require ordinary positioned preparation
     /// and drawing. Their existence is not an acknowledgement of those phases.
     pub fn children(&self) -> &[Id] {
         &self.children
+    }
+    pub fn child_source(&self, child: Id) -> Option<usize> {
+        self.child_sources.get(&child).copied()
     }
     pub fn objects(&self) -> usize {
         self.objects.len()
@@ -346,6 +380,8 @@ impl Queue {
             transparency: session.timed_effect_transparency(owner)?,
             fade: session.timed_effect_fade(owner)?,
             object_flags: fields.object_flags,
+            scale: fields.scale,
+            epoch: actor.mecc_animation_stamp,
         })
     }
     /// Execute attached callbacks and consume each retirement into its actual
@@ -375,8 +411,11 @@ impl Queue {
             resources,
             random,
             children: &mut self.children,
+            child_sources: &mut self.child_sources,
+            source_offset: 0,
         };
-        for &(owner, support) in self.objects.values() {
+        for (&offset, &(owner, support)) in &self.objects {
+            services.source_offset = offset;
             let source = *self
                 .supports
                 .get(&support.slot)
@@ -403,6 +442,7 @@ impl Queue {
         self.objects.clear();
         self.supports.clear();
         self.children.clear();
+        self.child_sources.clear();
         for context in self.contexts.active().to_vec() {
             self.contexts.release_prepared(context)?;
         }
@@ -417,6 +457,8 @@ struct Retirement<'a> {
     resources: &'a SceneResources,
     random: &'a mut Random,
     children: &'a mut Vec<Id>,
+    child_sources: &'a mut BTreeMap<Id, usize>,
+    source_offset: usize,
 }
 impl TimedEffectServices for Retirement<'_> {
     fn physical(&mut self, _: &mut Session, _: Id, _: f32) -> Result<(), String> {
@@ -467,8 +509,9 @@ impl TimedEffectServices for Retirement<'_> {
                 return Err(error);
             }
         };
-        self.children
-            .push(session.adopt_cinematic_timed_positioned(owned, self.scope)?);
+        let child = session.adopt_cinematic_timed_positioned(owned, self.scope)?;
+        self.children.push(child);
+        self.child_sources.insert(child, self.source_offset);
         Ok(())
     }
 }
@@ -644,6 +687,10 @@ mod tests {
             assert_eq!(queue.children().len(), 1);
             let child = queue.children()[0];
             assert_eq!(session.get(child).unwrap().class, 828);
+            assert_eq!(queue.child_source(child), Some(offset));
+            assert_eq!(bindings.role(offset, 829), Some(true));
+            assert_eq!(bindings.role(offset, 828), Some(false));
+            assert_eq!(bindings.role(offset, 916), None);
             assert_eq!(session.cinematic_timed_scope(child).unwrap().generation, 5);
             assert_ne!(
                 session
@@ -695,6 +742,7 @@ mod tests {
         let plan = packet.instance_plan(&root, "English").unwrap();
         let resources = plan.resources();
         let world = crate::load_world(&root, "Story2").unwrap();
+        let prepared_world = world::Prepared::load(&plan, &world.terrain).unwrap();
         let solids = crate::declared_mesh_scene::prepare(&plan, &world.terrain);
         let platforms =
             crate::declared_mesh_scene::prepare_platform_candidates(&plan, &world.terrain);
@@ -734,6 +782,8 @@ mod tests {
             })
             .collect::<Vec<_>>();
         assert!(!objects.is_empty());
+        assert_eq!(prepared_world.objects.len(), objects.len());
+        assert_eq!(prepared_world.unresolved.len(), unresolved.len());
         for (director, name) in [(2, "story2_savewife_4"), (3, "story2_savewife_5")] {
             let bytes = std::fs::read(crate::flick::sequence_path(&root, name).unwrap()).unwrap();
             let bindings = Bindings::load(resources, &bytes).unwrap();
@@ -777,9 +827,15 @@ mod tests {
             let mut queries = 0;
             for number in 1..=80 {
                 let seconds = if number == 1 { 0. } else { 1. / 60. };
-                let mut services =
-                    world::World::new(&world.terrain, &objects, &[], &unresolved, seconds, &[])
-                        .unwrap();
+                let mut services = world::World::new(
+                    &world.terrain,
+                    &prepared_world.objects,
+                    &[],
+                    &prepared_world.unresolved,
+                    seconds,
+                    &[],
+                )
+                .unwrap();
                 queue
                     .prepare_children(
                         WorldStep {
