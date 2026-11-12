@@ -111,6 +111,12 @@ five nonempty class73/230 poses to the common CPU draw consumer. Repeated clock
 samples consume no additional RNG and repeated ANM consumption is refused.
 Source terrain and the controller's actual rigid colliders are used. This is a
 Rust composition control, without original execution, GPU or Windows input.
+Thirty further frames exercise the common headless Bevy asset consumer, changed
+animated vertices, buffer reuse, camera hiding/restoration and cleanup. The
+acquired untextured diffuse parts use the same unit texture/source-RGB path as
+cinematic bodies; a missing named image is still refused. The first Windows
+attempt on source `5fefde0` exposed this missing null-texture binding and did not
+establish Ripper rendering or encounter acceptance.
 The prototype PS2 `ripper_animselect` candidate for the acquired PC secondary
 callback remains **unknown**, separately from this implementation result.
 

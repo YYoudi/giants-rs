@@ -191,6 +191,30 @@ fn update(
                     textures.insert(source.name.to_ascii_lowercase(), handle.clone());
                     object.images.push(handle);
                 }
+                // The acquired null-texture diffuse profile reads source RGB.
+                // Reuse the body's unit sample; never replace a missing named
+                // image or admit another untextured material implicitly.
+                if draw
+                    .geometry
+                    .mesh
+                    .subobjects
+                    .iter()
+                    .any(|part| giants_game::body_pipeline::untextured_diffuse(&part.material))
+                {
+                    let handle = gpu.images.add(Image::new_fill(
+                        bevy::render::render_resource::Extent3d {
+                            width: 1,
+                            height: 1,
+                            depth_or_array_layers: 1,
+                        },
+                        bevy::render::render_resource::TextureDimension::D2,
+                        &[255, 255, 255, 255],
+                        bevy::render::render_resource::TextureFormat::Rgba8Unorm,
+                        RenderAssetUsages::default(),
+                    ));
+                    textures.insert(String::new(), handle.clone());
+                    object.images.push(handle);
+                }
                 for (index, part) in draw.geometry.mesh.subobjects.iter().enumerate() {
                     // The mission binding already validates the RGB body path.
                     // Keep this consumer opaque; special/alpha passes require
@@ -285,7 +309,7 @@ fn update(
                                 .add(actor_scene::Material::from(actor_scene::Bindings {
                                     texture: textures
                                         .get(&part.material.texture.to_ascii_lowercase())
-                                        .ok_or("Vimp named texture absent")?
+                                        .ok_or("NPC body texture binding absent")?
                                         .clone(),
                                     clip_from_bevy: view.buffer.clone(),
                                     validation: Vec4::new(
