@@ -161,6 +161,23 @@ proximity/pickup services, rather than becoming an invented carried child or a
 transferred cinematic actor. `smartie_follow::smartie_check_follow` implements
 the selector3/Mecc selection dependency, not actor construction or pickup.
 
+`smartie_declared::Prepared` constructs this supported authored state18 profile,
+including declaration identity, real class resources, pose and ordered mission
+writes. The ordinary runtime composes its proximity call with actual player
+health, retained payload cooldown and shared clock. Only a selected player with
+the real current reference can receive the actor. `pickup_declared_mecc` shares
+the acquired attachment kernel with command12 while retaining the declared
+selector/flags; it does not add command12's setup flag. Audio and mission notices
+use the same ticket-owned consumers as other interactions. The notice consumes
+the actual pending state; pickup does not invent objective credit.
+
+Direct RoadHome offscreen entry exercises visible carrying, load and actual muted
+pickup sinks. It is supplied-input evidence, not the preceding ordinary rescue
+transition or Windows input. The portable host clock supplies its real elapsed
+word, with native origin/interleaving unverified. Source idle AI and transition
+blending remain separate fidelity work; the common carry uses the existing
+unblended animation consumer. No complete Smartie primary is certified.
+
 The literal prototype search key `smartie_check_follow__FP6OBJECTf` is a probable
 relationship to the acquired PC selection service. Independent evidence includes
 the reset reference, cooldown, ordered player scan, occupancy gates and strict

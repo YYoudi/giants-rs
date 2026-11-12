@@ -42,6 +42,29 @@ REVIEWED_ATTRIBUTION_LABELS = {
         # Reviewed cinematic-support route and explicit platform divergence;
         # prior PC alias unchanged, no native body or raw symbol table added.
         '816a22fe27ee50d63ba1112fc44c811dd85a089ca25db342a3c9246d860da5ea',
+        # Reviewed declared-Smartie routes; the same probable PC alias remains.
+        '649c65e331b31019c5529089c3a134b48ca0f5e7fa38fab353773800a66fce71',
+        # Historical/concurrent navigation versions: selected PC aliases only,
+        # probable mission route and explicitly unknown Ripper/FX routes.
+        # This label review certifies neither native behavior nor other branches.
+        '01e32dd58e2c6046541c1faeb5280bc7ed1c4f4d4a19d0a29aa639420bc40daf',
+        '59317e0dbd9965e3e71770b97a367753556f8b73c1fe6f7efc6c218a915e7cad',
+        '0d55775d69b6004163df1693a6a096fbfaef5ccdebcaa97aa98a9655a3c06369',
+        '10095ce35c431a67ebb92a38dfe5657e2ba9f6726a73ee274226d4871a7595bb',
+        'a1063f01eb56b87bf6ce00a783fddaeb092c1c40bd1f238e7ef5d865424a3917',
+        'e5e1bb1d18f316137adb758d97c16f5fb7ad11ae4430292472b48c9e8c6c7a89',
+        'f7e4796f4304094585f3888c7ecc41a3ffaed9feb51ed56be75ce5dc4a464270',
+        'bda631e89d7dc3dcbf4cfdc5367a7496ffc4a8c8e29baf6b40ab931f61af856a',
+        'b26f4e3f7a7b03952d2eb8ec7372f605a6a41e1cfd0b75dad41a6bd6b348601c',
+    },
+    # Reviewed literal alias occurrences in Rust module documentation only.
+    # Exact bytes/path binding preserves every other publication-hazard check.
+    'crates/giants-game/src/ripper_primary_turn.rs': {
+        '5f2656262ec4687a9cbb2aea9bfc4548b7b662b981fceae331014002a4a6f3f1',
+        'cc40f87c485effeebf7654b46e36c06c0939c2ddec1c05efa8e469922e5407d8',
+    },
+    'crates/giants-game/src/ripper_steering.rs': {
+        'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/MECC_DESCENT_GUARD.md': {
         # Gameplay-first work-selection prose only; the reviewed alias is unchanged.

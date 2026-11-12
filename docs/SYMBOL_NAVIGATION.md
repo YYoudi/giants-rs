@@ -72,6 +72,13 @@ it does not perform pickup or establish runtime integration. Keep the mangled
 spelling as a search key; no equivalent Rust signature or platform layout is
 asserted. See [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md).
 
+The literal routes `smartie_move` and `smartie_board_player__FP6OBJECTT0i`
+also lead to [`smartie_declared`](../crates/giants-game/src/smartie_declared.rs)
+and `Session::pickup_declared_mecc`. These function relationships remain
+**unknown**. The new ordinary composition retains authored actor identity,
+selector and flags and shares the acquired Mecc attachment services with
+command12. It does not establish complete Smartie AI or equivalent ABI/layout.
+
 ## Physical finalization route
 
 The literal prototype symbol `object_apply_location` leads to

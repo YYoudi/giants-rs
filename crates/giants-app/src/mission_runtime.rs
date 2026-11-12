@@ -28,6 +28,7 @@ mod campaign;
 mod landing;
 mod npc;
 mod signals;
+mod smarties;
 pub(crate) use npc::{Draw as NpcDraw, DrawOwner as NpcDrawOwner};
 #[path = "mission_runtime/owned.rs"]
 mod owned;
@@ -93,6 +94,7 @@ struct Payload {
     delphi: Result<Option<giants_game::delphi_declared::Factory>, String>,
     controller: Result<Option<crate::mecc_dev_scene::State>, String>,
     carried: Result<Option<(usize, Arc<giants_game::carried_actor::Prepared>)>, String>,
+    smarties: Result<smarties::State, String>,
     dressing: Option<crate::mission_dressing::Prepared>,
     opening_effects_bound: bool,
 }
@@ -172,7 +174,12 @@ impl Active {
     }
     fn carried_owner(&self) -> Result<Option<ActorId>, String> {
         let Some((_, prepared)) = self.payload.carried.as_ref().map_err(Clone::clone)? else {
-            return Ok(None);
+            return self
+                .payload
+                .smarties
+                .as_ref()
+                .map_err(Clone::clone)?
+                .carried(&self.resident_states);
         };
         self.bindings
             .carried
@@ -632,11 +639,7 @@ impl Runtime {
             .filter(|a| a.ticket == ticket)
             .ok_or("actor audio ticket absent")?;
         let parent = active.player_owner()?;
-        let child = if matches!(active.payload.carried, Ok(Some(_))) {
-            active.carried_owner()?
-        } else {
-            None
-        };
+        let child = active.carried_owner()?;
         active
             .resident_states
             .set_presentation_position(parent, Some(player))?;
@@ -916,8 +919,11 @@ impl Runtime {
         &self,
     ) -> Option<(u64, usize, Arc<giants_game::carried_actor::Prepared>)> {
         let active = self.active.as_ref()?;
-        let (offset, prepared) = active.payload.carried.as_ref().ok()?.as_ref()?;
-        Some((active.ticket, *offset, Arc::clone(prepared)))
+        if let Some((offset, prepared)) = active.payload.carried.as_ref().ok()?.as_ref() {
+            return Some((active.ticket, *offset, Arc::clone(prepared)));
+        }
+        let (offset, prepared) = active.payload.smarties.as_ref().ok()?.carried_asset()?;
+        Some((active.ticket, offset, prepared))
     }
     /// The preview consumes its resident's clock. Only its loaded clip is
     /// supplied; nonzero model-speed references require a future live consumer.
@@ -931,12 +937,22 @@ impl Runtime {
             .as_mut()
             .filter(|a| a.ticket == ticket)
             .ok_or("carried clock ticket absent")?;
-        let (_, prepared) = active
+        let prepared = active
             .payload
             .carried
             .as_ref()
-            .ok()
-            .and_then(|p| p.as_ref())
+            .map_err(Clone::clone)?
+            .as_ref()
+            .map(|(_, p)| Arc::clone(p))
+            .or_else(|| {
+                active
+                    .payload
+                    .smarties
+                    .as_ref()
+                    .ok()?
+                    .carried_asset()
+                    .map(|(_, p)| p)
+            })
             .ok_or("carried clip absent")?;
         let id = active
             .carried_owner()?
@@ -1469,14 +1485,19 @@ impl Runtime {
     pub(crate) fn campaign_return_target(&self, ticket: u64) -> Option<[f32; 3]> {
         let a = self.active.as_ref().filter(|a| a.ticket == ticket)?;
         let c = a.campaign.as_ref()?.as_ref().ok()?;
-        let carried = a.resident_states.mecc_meat(a.player_owner().ok()?).ok()?;
-        if f64::from(carried) < f64::from(c.program.quota?) {
-            return None;
-        }
         c.program
             .targets
             .iter()
-            .find(|(_, t)| t.response_flags & 15 == 4)
+            .find(|(_, t)| match t.response_flags & 15 {
+                1 => true,
+                4 => c.program.quota.is_none_or(|quota| {
+                    a.player_owner()
+                        .ok()
+                        .and_then(|id| a.resident_states.mecc_meat(id).ok())
+                        .is_some_and(|carried| f64::from(carried) >= f64::from(quota))
+                }),
+                _ => false,
+            })
             .map(|(_, t)| t.position)
     }
     pub(crate) fn npc_hint(&self, ticket: u64) -> Option<String> {
@@ -1491,6 +1512,15 @@ impl Runtime {
             .construction_fields
             .as_ref()?;
         let meat = a.resident_states.mecc_meat(a.player_owner().ok()?).ok()?;
+        let quota = a
+            .campaign
+            .as_ref()
+            .and_then(|c| c.as_ref().ok())
+            .and_then(|c| c.program.quota);
+        let inventory = quota.map_or_else(
+            || format!("Meat: {meat:.0}"),
+            |quota| format!("Meat: {meat:.0} / {quota}"),
+        );
         if let Some(target) = self.campaign_return_target(ticket) {
             let dx = target[0] - player.position[0];
             let dy = target[1] - player.position[1];
@@ -1506,7 +1536,7 @@ impl Runtime {
                 )
             };
             return Some(format!(
-                "Meat: {meat:.0} / 20 | Return to the objective destination.\nDestination: {:.0} units, {direction}.",
+                "{inventory} | Reach the objective destination.\nDestination: {:.0} units, {direction}.",
                 dx.hypot(dy)
             ));
         }
@@ -1514,7 +1544,7 @@ impl Runtime {
             .live_hint(&a.resident_states, player.position, player.angles[0])
             .unwrap_or_default();
         Some(format!(
-            "Meat: {meat:.0} / 20 | Walk over settled meat to collect.\n{hint}"
+            "{inventory} | Walk over settled meat to collect.\n{hint}"
         ))
     }
     /// Copied canonical particles; this read neither advances clocks nor RNG.
@@ -2476,6 +2506,14 @@ fn spawn(
     }
     let declared =
         giants_game::declared_residents::construct_acquired(&payload.plan, &mut resident_states);
+    match &payload.smarties {
+        Ok(smarties) => {
+            if let Err(error) = smarties.construct(&mut resident_states) {
+                blocked.push(format!("declared Smartie construction: {error}"));
+            }
+        }
+        Err(error) => blocked.push(format!("declared Smartie preparation: {error}")),
+    }
     let herd_declarations = declared
         .records
         .iter()
@@ -2747,6 +2785,7 @@ fn drive(
                     .ok()
                     .and_then(|c| c.as_ref())
                     .map_or(Vec::new(), |s| s.impact_sound_ids());
+                let smarties = smarties::State::prepare(&root, &plan);
                 Ok(Payload {
                     signals: Default::default(),
                     npcs,
@@ -2770,6 +2809,7 @@ fn drive(
                     delphi,
                     controller,
                     carried,
+                    smarties,
                     dressing,
                     opening_effects_bound,
                 })
@@ -3165,6 +3205,7 @@ mod tests {
             effect_proxies: Ok(Vec::new()),
             controller: Ok(None),
             carried: Ok(None),
+            smarties: Ok(Default::default()),
             player: Err("synthetic fixture has no player resources".into()),
             kabuto: Ok(None),
             kabuto_body: None,

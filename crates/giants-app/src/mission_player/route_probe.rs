@@ -3,6 +3,43 @@
 use giants_formats::gti::Terrain;
 use giants_game::{arithmetic::Precision, terrain_queries::StaticTerrainQuery};
 use std::{cmp::Reverse, collections::BinaryHeap};
+/// Diagnostic pilot memory only. A stalled player tries held RMB/Space through
+/// the existing controls; collision geometry and actor state are never changed.
+#[derive(Default)]
+pub(crate) struct Escape {
+    sample: Option<[f32; 3]>,
+    still: u32,
+    lift: u32,
+}
+impl Escape {
+    pub fn commands(
+        &mut self,
+        position: [f32; 3],
+        target: [f32; 3],
+        fuel: f32,
+        recharge: &mut bool,
+    ) -> ([f32; 2], bool, bool) {
+        let mut input = commands(position, target, fuel, recharge);
+        let sample = self.sample.get_or_insert(position);
+        if (position[0] - sample[0]).hypot(position[1] - sample[1]) >= 3. {
+            *sample = position;
+            self.still = 0;
+        } else {
+            self.still = self.still.saturating_add(1);
+        }
+        if self.still >= 240 && self.lift == 0 && !*recharge && fuel >= 60. {
+            self.lift = 300;
+            self.still = 0;
+        }
+        if self.lift > 0 {
+            self.lift -= 1;
+            if !*recharge {
+                input = ([0., 1.], true, true);
+            }
+        }
+        input
+    }
+}
 /// Supplied keyboard/jet levels only. Rest and boost use the ordinary resource
 /// service; no pose, velocity, fuel or campaign state is written here.
 pub(crate) fn commands(

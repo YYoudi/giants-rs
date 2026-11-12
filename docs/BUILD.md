@@ -49,6 +49,19 @@ dependency. This is not a pickup/gameplay test. The ignored app control
 It requires canonical owners, actual root/child geometry and the prepared
 collision world for all six directors. Neither this preparation nor the
 portable completion-receipt tests establish graphical mission acceptance.
+The ignored game control
+`installed_declared_wife_selects_actual_start_player_and_attaches_once` uses the
+same root and checks the next record's actual declared actor/player start,
+retained scan cooldown, typed ownership, pickup services, flag preservation and
+duplicate rejection. Its reference/clock/random inputs remain a CPU fixture.
+The ordinary whole-chain graphical diagnostic uses
+`GIANTS_MISSION_REPLAY=showcase-mecc`, `GIANTS_MISSION_OBJECTIVE_PROBE=1`,
+`GIANTS_SHOWCASE_WORLD=Story2`, `GIANTS_SHOWCASE_MISSION=1` and muted offscreen
+menu capture with a fresh user-data directory. It navigates through supplied
+Mecc commands toward admitted authored proximity targets; it does not alter
+poses, objective credit, resources or film ends. Its endpoint requires a new
+ordinary player and any required declared pickup. Inspect the real completion
+receipt/source terminal separately; the observer itself does not acknowledge it.
 The separate ignored game control
 `installed_wife_timed_parents_have_canonical_bodies_and_scoped_cleanup` uses the
 same root variable. It verifies actual source shotgun-parent bodies, source

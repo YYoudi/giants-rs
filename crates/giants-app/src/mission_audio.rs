@@ -933,6 +933,12 @@ fn process(
                     None
                 }
                 Event::PendingActorNotice { child } => {
+                    if world
+                        .resource_mut::<crate::mission_runtime::Runtime>()
+                        .deliver_declared_pickup_notice(mounted.ticket, child)?
+                    {
+                        continue;
+                    }
                     println!(
                         "mission_actor_notice_pending ticket={} child={child:?} executed=false ready=false",
                         mounted.ticket

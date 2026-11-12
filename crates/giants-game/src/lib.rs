@@ -211,6 +211,7 @@ pub mod scenery;
 pub mod skinned_hit_point;
 pub mod skinning;
 pub mod smartie_carry;
+pub mod smartie_declared;
 pub mod smartie_drop;
 pub mod smartie_follow;
 pub mod static_geometry;

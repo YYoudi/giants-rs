@@ -63,8 +63,16 @@ with the probable prototype search route `smartie_check_follow__FP6OBJECTf`.
 A private comparison passes 1,794 supplied PC contexts, executing the acquired
 selection body and XYZ distance helper; timestep, classification and inventory
 services are supplied. This does not execute pickup or establish live gameplay.
-Next: bind real source actor construction, clock/player fields, pickup services
-and visible carrying, alongside completing the film effects prerequisite.
+The unpublished runtime now constructs the authored selector3 actor with its
+source placement/writes and identity. Its ordinary proximity callback uses the
+actual player list, health, local-time sample and retained cooldown; the selected
+player's current animated reference supplies pickup. The common carry renderer,
+load, actual audio sinks and real mission-notice queue are connected. A direct
+RoadHome graphical entry shows the declared wife carried, with load and pickup
+sounds; it does not prove the preceding rescue/film transition or OS interaction.
+The ordinary whole-chain probe and release checks remain required. General
+Smartie AI, waiting locomotion, animation blending and native clock/RNG phase
+remain unverified. No class-name passenger or cinematic clone is transferred.
 
 The timed-parent dependency now has a canonical `cinematic_timed` queue: actual
 FLK39 events construct Session bodies, reused slots retain their current source
