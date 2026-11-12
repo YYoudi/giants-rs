@@ -82,6 +82,24 @@ impl World {
     pub(crate) fn probe_requires_contact(&self, object: u32) -> bool {
         self.owners.get(&object).is_some_and(|o| o.physical)
     }
+    /// Input fixture only: approach the Story2 small tower through the nearby
+    /// entrance's declared origin. This returns a command destination, never an
+    /// actor placement, native navigation service or mission condition.
+    pub(crate) fn probe_entry_waypoint(&self, object: u32, position: [f32; 3]) -> Option<[f32; 3]> {
+        if self.owners.get(&object)?.fields.class != 515 {
+            return None;
+        }
+        self.owners
+            .values()
+            .filter(|o| o.fields.class == 544 && o.physical && o.fields.object_flags & 0x8000 == 0)
+            .min_by(|a, b| {
+                let d = |o: &Owner| {
+                    (o.fields.position[0] - position[0]).hypot(o.fields.position[1] - position[1])
+                };
+                d(a).total_cmp(&d(b))
+            })
+            .map(|o| o.fields.position)
+    }
     pub(crate) fn probe_contacts(&self, object: u32) -> u64 {
         self.owners.get(&object).map_or(0, |o| o.contacts)
     }
