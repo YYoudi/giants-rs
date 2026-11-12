@@ -74,9 +74,13 @@ release and individual unlink, preserving actual list order and late-failure
 prefixes without replay. The renderer consumes their removal; this is marker
 retirement, not Ripper death. Prototype PS2 marker/cleanup attribution remains
 unassigned, including the additional literal `mound_*` search candidates.
-Local GNU surfacing build: source `230826c`, executable SHA256 prefix
-`0f32a697fdde`; receipt independently hash-checked. No Windows/GPU encounter
-acceptance or new public preview accompanies this intermediate build.
+Local GNU marker-retirement build: source `3a3b3ab`, executable SHA256 prefix
+`0fb0d8bcc44f`; receipt independently hash-checked. Actual Windows menu/film skip,
+Mecc entry, menu return and fresh re-entry pass on tickets1/3, with five completed
+Ripper body submissions and fourteen Vimps per entry, no null-texture refusal.
+No close-up Ripper visibility, natural closing/retirement on GPU, reciprocal
+encounter or source death acceptance; no new public preview. Initial Ripper
+sound reservations cancel before playback while active FX consumers remain absent.
 Next: connect ordinary firing/flight and active popup/dirt effect consumers,
 consume required class230 mode66 and later continuations,
 then connect collisions/targeting and reciprocal combat with

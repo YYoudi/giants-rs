@@ -172,25 +172,36 @@ unassigned: literal `mound_move`, `mound_animselect` and `mound_shot` are additi
 search candidates, not confirmations. Generic cleanup names also remain unknown;
 see [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
 
-The latest local GNU executable, including owned surfacing/marker consumers,
-is built from source `230826c1ab581a4689427c1c305aa2c2515e69c0`, SHA256
-`0f32a697fddef3665788f6c03dba8a860fd2ba243d4c39bf3e391a8a2654a5da`.
+The latest local GNU executable, including individual marker retirement,
+is built from source `3a3b3ab7d2e8cca6a7ac2c8ac7db6ccd279f46f2`, SHA256
+`0fb0d8bcc44f3bf71915e9465cef77d336ff625bb2f7359a23a234b45cc856e4`.
 Its private build receipt was independently hash-checked. Use the ordinary
 **Load Single Player Game → Mecc Story 2 → The Wife** path, then let the film
 finish or use Escape to skip; Escape in gameplay returns to the mission menu.
 No script or Ripper activation variable is required. This is a local development
 build, with the incomplete continuations above, not a public preview.
 
+Actual Windows clicks/Escape on this build entered The Wife twice (fresh tickets
+1 and 3), displayed ordinary Mecc gameplay, returned to the mission menu and
+re-entered. A real movement tap was also supplied; F10 exited and the process/window
+closure was checked. Each entry submitted five completed source Rippers plus
+fourteen Vimps through the GPU scene without the earlier null-texture error.
+These are body submissions, not a close-up Ripper visibility or complete encounter
+check. No natural marker closing/individual retirement was observed on GPU.
+Initial Ripper sound reservations cancelled before playback; the missing active
+FX consumers remain explicit. Sound was muted. Reciprocal combat and source death
+remain unaccepted.
+
 The first executable (`5fefde0`) reached ordinary Mecc gameplay with actual
 Windows clicks/Escape and five completed Ripper actors, but its common renderer
 refused the null-texture part. That failure is retained as a failed graphical
 check. The earlier corrected executable (`0273154`) passed the headless asset consumer; its next
 Windows check was stopped at the menu because another computer-use operation
-was active. Consequently neither corrected-build Ripper visibility, reciprocal
-encounter, death nor menu/re-entry acceptance is established yet. The newer
-`230826c` surfacing build has not received a Windows/GPU encounter check.
-No new gallery
-capture or preview was published. The previous loading baseline below remains
+was active. That failed attempt does not validate Ripper visibility, reciprocal encounter
+or death. The later `230826c` surfacing build received no Windows/GPU encounter
+check. The current menu/re-entry result above belongs only to the identified
+`3a3b3ab` executable and retains its encounter limits. No new gallery capture or
+preview was published. The previous loading baseline below remains
 separate evidence.
 
 ### Intermediate local loading check

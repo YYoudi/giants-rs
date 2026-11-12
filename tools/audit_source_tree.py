@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent mission-lane navigation variant: reviewed probable/unknown
+        # Smartie, finalization and ground-effect routes; same minimal PC alias.
+        'de47ee624eb38830f889233c0eb6288dac84c2afda13239a5c5ff4fc6f81a89e',
         # Reviewed literal mound and common cleanup search candidates, all unknown;
         # retained minimal PC aliases only, with no new native body or corpus.
         '0d55775d69b6004163df1693a6a096fbfaef5ccdebcaa97aa98a9655a3c06369',
