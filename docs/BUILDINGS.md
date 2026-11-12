@@ -91,6 +91,34 @@ and mission-target credit remain distinct consumers. Mission credit has real
 global mode gates and an owned objective count; do not replace it with an
 unconditional counter or infer a building objective from a model name.
 
+The first complete local house GPU control now also waits for actual mission-clock
+expiry:28 ordinary pistol shots,124 source burst births,124 retirements and zero
+remaining bodies. A separate7-shot capture observes the first health stage. The
+house disappears while its neighboring house remains drawn. These are supplied
+command controls, not full Windows-played destruction, source visual parity or a
+public preview. An earlier expiry diagnostic incorrectly equated accelerated
+controller ticks with real mission time; it failed and was corrected to observe
+the actual effect owner. The clock was not replaced or accelerated to pass it.
+
+The acquired response-policy class commands now preserve independent packed
+configuration controls; ten supplied original-PC contexts cover existing bits.
+Their header-only projection does not create a footprint or a damage owner.
+It also admits the supported state61 wall class to the same local health owner.
+
+`building_death_fx` is the separate state101 decision dependency.7,000 supplied
+original-PC contexts agree on accumulated damage, weapon gates and ordered
+threshold/death-effect, replacement and retirement requests. The native process
+uses the shared health-animation helper; its initial control word differs from
+the house callback. A zero limit and negative damage also differ from the house
+kernel. External effect/constructor/placement/special-action/retirement services
+remain observed or supplied boundaries in that comparison. The special class
+predicate used a supplied false result; the separate state60 payload transfer
+was excluded. No ordinary tower damage delivery or PS2 identity is established.
+The source state bindings retain their registered image/entry: table/cart and
+stone/wood tower explosions are not the house's named stone program. The guard
+tower declares a distinct complex effect and replacement class; its burst
+preparation remains refused until those services are acquired and connected.
+
 Other literal search routes include `deathfx_shot`, `deathfx_logic`,
 `barracks_shot`, `bldg_subtract_energy` and the base-building callbacks. Their
 availability does not confirm a PC attribution. Generic death-FX declarations

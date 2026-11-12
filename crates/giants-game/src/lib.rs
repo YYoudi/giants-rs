@@ -875,4 +875,5 @@ pub mod slow_areas;
 pub mod vimp_active_response;
 pub mod world_noise;
 
+pub mod building_death_fx;
 pub mod vimp_death_fx;

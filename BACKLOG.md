@@ -36,8 +36,8 @@ sounds and excludes retired owners. A receipt-bound muted GPU control makes
 actual narrow player contact, fires28 ordinary pistol shots and observes source
 health stages, small/large bursts, real audio sinks and retirement. This is supplied
 input evidence, not a complete OS-played interaction or a published delivery.
-The captured explosion needs further visual review, followed by expiry/cancellation
-and regressions. Other building families and mode-gated mission credit remain
+Actual mission-clock expiry also passes:124 births,124 retirements, zero active.
+Visual review of the large explosion, cancellation/re-entry and regressions remain. Other building families and mode-gated mission credit remain
 open; the partial FX policy is documented in BUILDINGS.md.
 
 1. Inventory authored classes/states and distinguish actual collider coverage
@@ -59,7 +59,9 @@ are located through their actual registration descriptors after literal PS2
 lookup. The new house decision kernel preserves source threshold/event ordering;
 3,080 supplied native contexts now match damage, animation fraction and ordered
 requests. The first ordinary state61 house consumer is locally connected; broader families remain under development.
-No new PS2 attribution or building gameplay availability is confirmed.
+The separate state101 decision kernel agrees on7,000 supplied PC contexts; captured
+wood/stone FX namespaces, replacement and geometry consumers still need ordinary
+integration. No new PS2 attribution or public building delivery is confirmed.
 
 ## Delivered milestone - The Wife rescue and completion-film continuation
 
