@@ -13819,6 +13819,159 @@ mod tests {
             .unwrap();
         (shot, random)
     }
+    #[test]
+    fn actual_impact_request_reaches_owned_radial_list_and_retains_hit_failure() {
+        use crate::enemy_projectile::{GroundImpactServices, RadialRequest};
+        struct RequiredHit {
+            target: Id,
+            hits: Vec<crate::radial_damage::Hit<Id>>,
+            machine: crate::radial_damage::Machine,
+            effects: FireServices,
+        }
+        impl RadialHits for RequiredHit {
+            fn damage(
+                &mut self,
+                _: &mut Session,
+                hit: crate::radial_damage::Hit<Id>,
+            ) -> Result<(), String> {
+                self.hits.push(hit);
+                Err("required attributed callback unavailable".into())
+            }
+        }
+        impl GroundImpactServices for RequiredHit {
+            fn effect(
+                &mut self,
+                session: &mut Session,
+                request: crate::enemy_projectile::ImpactEffect,
+                random: &mut crate::audio_parameters::Random,
+            ) -> Result<crate::enemy_projectile::EffectOutcome, String> {
+                self.effects.effect(session, request, random)
+            }
+            fn radial(
+                &mut self,
+                session: &mut Session,
+                request: RadialRequest,
+                _: &mut crate::audio_parameters::Random,
+            ) -> Result<(), String> {
+                let environment = || RadialEnvironment {
+                    cross_context: true,
+                    vimp_alert_range: 100.,
+                    elapsed_seconds: 2.5,
+                };
+                let mut machine = std::mem::take(&mut self.machine);
+                for change in 0..4 {
+                    let mut forged = request.clone();
+                    match change {
+                        0 => forged.parameters[2] = 99f32.to_bits(),
+                        1 => forged.context ^= 1,
+                        2 => forged.position[0] += 1.,
+                        _ => forged.other = Some(self.target),
+                    }
+                    assert!(
+                        session
+                            .dispatch_enemy_projectile_radial(
+                                forged,
+                                environment(),
+                                &mut machine,
+                                self
+                            )
+                            .is_err()
+                    );
+                    assert_eq!(machine.phase(), crate::radial_damage::Phase::Fresh);
+                    assert!(self.hits.is_empty());
+                }
+                let result = session.dispatch_enemy_projectile_radial(
+                    request,
+                    environment(),
+                    &mut machine,
+                    self,
+                );
+                self.machine = machine;
+                result
+            }
+            fn sound(
+                &mut self,
+                _: &mut Session,
+                _: u32,
+                _: [f32; 3],
+            ) -> Result<crate::enemy_projectile::SoundOutcome, String> {
+                panic!("a failed required hit must not advance to sound")
+            }
+        }
+        let mut session = Session::new(993);
+        let (shot, mut random) = impact_fixture(&mut session);
+        let target = fixture_actor(&mut session, 79, 0);
+        session
+            .residents
+            .get_mut(&target.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap()
+            .configuration[12] = 100f32.to_bits();
+        // Explicit synthetic source parameters/registration, not an authored
+        // encounter or acknowledgement of a native/GPU hit service.
+        session
+            .links
+            .insert(1, target.serial, crate::object_links::Position::Tail);
+        let body = session
+            .residents
+            .get_mut(&shot.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap();
+        for (at, value) in [(12, 100f32), (20, 100.), (16, 12.), (32, 100.)] {
+            body[at..at + 4].copy_from_slice(&value.to_le_bytes());
+        }
+        let mut services = RequiredHit {
+            target,
+            hits: vec![],
+            machine: Default::default(),
+            effects: fire_services(1),
+        };
+        assert!(
+            session
+                .enemy_projectile_ground_impact(shot, [4., 5., 0.], &mut random, &mut services)
+                .is_err()
+        );
+        assert_eq!(services.hits.len(), 1);
+        let hit = services.hits[0];
+        assert_eq!(
+            (hit.target, hit.source, hit.kind, hit.amount),
+            (target, shot, 2, 12.)
+        );
+        assert_eq!(
+            services.machine.phase(),
+            crate::radial_damage::Phase::Failed
+        );
+        assert_eq!(
+            session.radial_actor(target).unwrap().health,
+            Some([0., 100.])
+        );
+        assert_eq!(
+            session.enemy_projectile(shot).unwrap().phase,
+            crate::enemy_projectile::Phase::Failed
+        );
+        assert_eq!(
+            session
+                .get(shot)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .object_flags
+                & 0x8000,
+            0
+        );
+        assert!(
+            session
+                .enemy_projectile_ground_impact(shot, [4., 5., 0.], &mut random, &mut services)
+                .is_err()
+        );
+        assert_eq!(services.hits.len(), 1);
+    }
     #[derive(Default)]
     struct RetirementMock {
         calls: usize,
