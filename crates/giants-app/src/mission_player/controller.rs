@@ -35,6 +35,7 @@ pub(crate) struct Controller {
     // Input-fixture memory only: release RMB long enough to recharge, as a
     // player would. Never changes fuel, actor pose or the ordinary jet service.
     probe_recharge: bool,
+    ripper_navigation: ripper_probe::Navigation,
     probe_route: Option<route_probe::Route>,
     probe_escape: route_probe::Escape,
     owned_backend: bool,
@@ -431,6 +432,7 @@ impl Controller {
             npc_failed: false,
             ripper_failed: false,
             probe_recharge: false,
+            ripper_navigation: Default::default(),
             probe_route: None,
             probe_escape: Default::default(),
             initial,
@@ -751,8 +753,14 @@ pub(super) fn update(
             }
             if replay_running && ripper_probe::enabled() {
                 let ticket = controller.ticket;
-                let input = ripper_probe::input(&mut controller.state, &mut runtime, ticket, tick)
-                    .expect("ordinary Ripper input diagnostic failed");
+                let Controller {
+                    state,
+                    ripper_navigation,
+                    ..
+                } = &mut *controller;
+                let input =
+                    ripper_probe::input(state, ripper_navigation, &mut runtime, ticket, tick)
+                        .expect("ordinary Ripper input diagnostic failed");
                 axes = input.axes;
                 thrust = input.thrust;
                 boost = input.boost;

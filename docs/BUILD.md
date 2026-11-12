@@ -1585,6 +1585,9 @@ projectile draw revision,80 by default; the optional
 `GIANTS_MISSION_RIPPER_CAPTURE_FLIGHTS` accepts1..120. It follows current source
 actors/projectiles through ordinary look commands, never assigning their pose,
 mode, target, health, clocks, readiness or birth. It does not fire the pistol.
+The supplied pilot uses release/refuel and hover-band input memory so one
+numeric threshold cannot alternate RMB every frame. These are diagnostic
+steering choices; they change no ordinary jet/fuel/physics or audio-budget rule.
 This is an intermediate supplied-input render diagnostic before impact, not
 reciprocal combat, death, mission completion or Windows-input acceptance. Retain
 the executable receipt and inspect the actual image; draw counters alone do not

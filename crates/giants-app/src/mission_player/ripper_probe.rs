@@ -56,8 +56,32 @@ pub(super) struct Input {
     pub capture: bool,
     pub flight_revision: u64,
 }
+/// Pilot input memory only. The ordinary controller still owns fuel, altitude,
+/// physics and sound. Separate release/hold thresholds prevent a supplied RMB
+/// command oscillating every frame at one numeric boundary.
+#[derive(Default)]
+pub(super) struct Navigation {
+    recharging: bool,
+    climbing: bool,
+}
+impl Navigation {
+    fn thrust(&mut self, distance: f32, relative_height: f32, fuel: f32) -> bool {
+        if fuel <= 10. {
+            self.recharging = true;
+        } else if fuel >= 90. {
+            self.recharging = false;
+        }
+        if distance <= 120. || relative_height >= 80. {
+            self.climbing = false;
+        } else if relative_height <= 40. {
+            self.climbing = true;
+        }
+        self.climbing && !self.recharging
+    }
+}
 pub(super) fn input(
     state: &mut crate::mecc_dev_scene::State,
+    navigation: &mut Navigation,
     runtime: &mut Runtime,
     ticket: u64,
     step: u32,
@@ -94,8 +118,18 @@ pub(super) fn input(
         if distance > 5. {
             input.axes = Vec2::Y;
         }
-        input.thrust =
-            distance > 120. && position[2] < target[2] + 60. && state.mission_snapshot().1 > 10.;
+        let previous = (navigation.recharging, navigation.climbing);
+        let fuel = state.mission_snapshot().1;
+        input.thrust = navigation.thrust(distance, position[2] - target[2], fuel);
+        if previous != (navigation.recharging, navigation.climbing) || step.is_multiple_of(240) {
+            println!(
+                "mission_ripper_supplied_jet ticket={ticket} step={step} fuel={fuel} relative_height={} held={} recharging={} climbing={} supplied_input_only=true os_input=false",
+                position[2] - target[2],
+                input.thrust,
+                navigation.recharging,
+                navigation.climbing
+            );
+        }
         input.boost = input.thrust && step.is_multiple_of(360);
     }
     Ok(input)
@@ -104,6 +138,23 @@ pub(super) fn input(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn supplied_jet_releases_until_refuelled_and_holds_across_hover_boundary() {
+        let mut navigation = Navigation::default();
+        assert!(navigation.thrust(300., 30., 100.));
+        for height in [59.9, 60.1, 59.9, 70.] {
+            assert!(navigation.thrust(300., height, 50.));
+        }
+        assert!(!navigation.thrust(300., 80., 50.));
+        assert!(!navigation.thrust(300., 60., 50.));
+        assert!(navigation.thrust(300., 40., 50.));
+        assert!(!navigation.thrust(300., 30., 10.));
+        for fuel in [10.1, 20., 89.9] {
+            assert!(!navigation.thrust(300., 30., fuel));
+        }
+        assert!(navigation.thrust(300., 30., 90.));
+        assert!(!navigation.thrust(120., 30., 100.));
+    }
     #[test]
     fn probe_refuses_other_transports_missions_and_controller_backends() {
         assert!(check("showcase-mecc", "Story2", Some(1), true, false, false, 80).is_ok());

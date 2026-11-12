@@ -228,6 +228,15 @@ FX families (including its nested debris and unbound operations), then actual ra
 Mecc/Vimp/Ripper hit consumers, audio and retirement. Do not substitute one sprite,
 prepared-only context or passive no-effect result for this complete path.
 
+The combined local build `e764b7c` (executable SHA256 prefix `2f6b5a16babd`)
+failed its first supplied-input GPU retry, exit101 without a capture: an audio
+backlog preceded both NPC quarantines. Logs show rapid jet start/stop cycles;
+the pilot's single fuel/height thresholds allowed frame-by-frame RMB oscillation.
+The probe now separates release/recharge and climb/hover thresholds, with input
+logging. Ordinary jet rules, audio caps and NPC state remain untouched. Rebuild
+and repeat before claiming a repaired combined graphical path; earlier `a6c99c7`
+evidence does not transfer to this executable.
+
 ### Earlier NPC milestones and their original evidence scopes
 
 Prepared: a declaration-bound sibling component retains canonical Session
