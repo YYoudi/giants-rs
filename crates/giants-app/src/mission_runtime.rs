@@ -26,6 +26,7 @@ pub(crate) struct CampaignCompletion {
 mod campaign;
 mod landing;
 mod npc;
+mod ripper_probe;
 mod rippers;
 mod signals;
 pub(crate) use npc::{Draw as NpcDraw, DrawOwner as NpcDrawOwner};

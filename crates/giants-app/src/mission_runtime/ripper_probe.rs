@@ -1,0 +1,44 @@
+//! Read-only input-diagnostic view of the same ordinary draw submissions.
+use super::*;
+pub(crate) struct RipperInputSnapshot {
+    pub target: Option<[f32; 3]>,
+    pub flight_revision: u64,
+    pub projectile: Option<[f32; 3]>,
+}
+impl Runtime {
+    pub(crate) fn ripper_input_snapshot(
+        &mut self,
+        ticket: u64,
+        position: [f32; 3],
+    ) -> Result<RipperInputSnapshot, String> {
+        let draws = self.npc_draws(ticket)?;
+        let target = draws
+            .iter()
+            .filter(|d| matches!(d.class, 73 | 230))
+            .min_by(|a, b| {
+                let distance = |p: [f32; 3]| (p[0] - position[0]).hypot(p[1] - position[1]);
+                distance(a.center).total_cmp(&distance(b.center))
+            })
+            .map(|d| d.center);
+        let session = &self
+            .active
+            .as_ref()
+            .ok_or("Ripper probe ticket absent")?
+            .resident_states;
+        let projectile = draws
+            .iter()
+            .filter_map(|d| {
+                let NpcDrawOwner::Actor(id) = d.id else {
+                    return None;
+                };
+                session.enemy_projectile(id).map(|_| (d.frame, d.center))
+            })
+            .max_by_key(|v| v.0);
+        let flight_revision = projectile.map_or(0, |v| v.0);
+        Ok(RipperInputSnapshot {
+            target,
+            flight_revision,
+            projectile: projectile.map(|v| v.1),
+        })
+    }
+}

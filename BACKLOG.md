@@ -105,7 +105,7 @@ Earlier current-scene flight local GNU build: source `225f6fa`, executable SHA25
 `b0f1d23f2929`, receipt independently checked; no new GPU encounter verification.
 That build passed989 Rust tests /178 ignored and five installed The Wife
 controls. Current source additionally connects class230 modes66/71 and acquires the radial
-request/signal dependencies, passes999 Rust tests /180 ignored, the five The Wife controls and one owned-retreat control,
+request/signal dependencies, passes1000 Rust tests /180 ignored, the five The Wife controls and one owned-retreat control,
 45 Python tests and strict Clippy. The separate full-contact diagnostic now
 reaches a real pending ground contact after137 flying samples at step2755.
 Latest GPU-checked local build (before current-scene flight): source `8e5d72b`, executable SHA256 prefix `865d6ad15293`,

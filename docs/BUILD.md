@@ -1458,6 +1458,25 @@ admission or GPU fidelity. The optional private native selector comparison also
 requires `GIANTS_NPC_NOISE_ANIMATION_CONTROL` pointing to a reviewed private
 hex-case file; raw controls and original data stay outside Git.
 
+### Guarded Ripper projectile graphical diagnostic
+
+The ordinary Ripper component needs no diagnostic flag. To supply only Mecc
+navigation/look/jet commands for a first-flight GPU check, set
+`GIANTS_MISSION_REPLAY=showcase-mecc`, `GIANTS_SHOWCASE_WORLD=Story2`,
+`GIANTS_SHOWCASE_MISSION=1` and `GIANTS_MISSION_RIPPER_PROBE=1`. Use a fresh
+user-data directory with `--offscreen --silent-capture --muted-transport --capture`.
+The guard refuses other missions, unmuted transport, owned-controller inspection
+and a simultaneous Vimp probe. The capture endpoint requires an actual canonical
+projectile draw revision,80 by default; the optional
+`GIANTS_MISSION_RIPPER_CAPTURE_FLIGHTS` accepts1..120. It follows current source
+actors/projectiles through ordinary look commands, never assigning their pose,
+mode, target, health, clocks, readiness or birth. It does not fire the pistol.
+This is an intermediate supplied-input render diagnostic before impact, not
+reciprocal combat, death, mission completion or Windows-input acceptance. Retain
+the executable receipt and inspect the actual image; draw counters alone do not
+establish a visible projectile or GPU fidelity. The full-contact diagnostic above
+must still continue to genuine impact/damage/retirement consumers.
+
 ### Guarded first-living graphical diagnostic
 
 For a supplied-command GPU/audio check of the connected Story2 component, set

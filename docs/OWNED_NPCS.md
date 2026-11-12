@@ -298,7 +298,7 @@ control uses actual class230/219 constructors with explicit mode71/clock inputs.
 It checks the real reciprocal relation, marking without channel/retirement
 advancement, non-marker/absent relations, late sound failure and no replay.
 It does not establish natural marker retirement during an ordinary encounter.
-Current source passes999 Rust tests /180 ignored, five installed `source_wife_`
+Current source passes1000 Rust tests /180 ignored, five installed `source_wife_`
 controls, the additional owned-retreat and radial-signal controls,45 Python tests and strict
 Clippy/format checks. The full-contact diagnostic's pending-ground failure remains
 separate; no rendered combat availability follows from these counts.

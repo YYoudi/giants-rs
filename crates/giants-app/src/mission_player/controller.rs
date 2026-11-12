@@ -347,25 +347,28 @@ impl Controller {
                         | "owned-player-inspection-cycles"
                 )
             ),
-            fire_replay: matches!(
-                std::env::var("GIANTS_MISSION_REPLAY").ok().as_deref(),
-                Some(
-                    "campaign-fire"
-                        | "campaign-fire-cycles"
-                        | "campaign-fire-pose"
-                        | "campaign-audio-cancel-cycles"
-                        | "campaign-audio-impact-cycles"
-                        | "campaign-flight-cycles"
-                        | "campaign-ambient-cycles"
-                        | "showcase-mecc"
-                )
-            ),
+            fire_replay: !ripper_probe::enabled()
+                && matches!(
+                    std::env::var("GIANTS_MISSION_REPLAY").ok().as_deref(),
+                    Some(
+                        "campaign-fire"
+                            | "campaign-fire-cycles"
+                            | "campaign-fire-pose"
+                            | "campaign-audio-cancel-cycles"
+                            | "campaign-audio-impact-cycles"
+                            | "campaign-flight-cycles"
+                            | "campaign-ambient-cycles"
+                            | "showcase-mecc"
+                    )
+                ),
             descent_capture: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
                 == Ok("campaign-descent-pose"),
             landing_failed: false,
             landing_capture: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
                 == Ok("campaign-landing-pose"),
-            finish_step: if Self::campaign_probe() {
+            finish_step: if ripper_probe::enabled() {
+                12000
+            } else if Self::campaign_probe() {
                 120000
             } else if Self::vimp_contact_probe() {
                 12000
@@ -628,7 +631,7 @@ pub(super) fn update(
                 0.
             } else if controller.owned_replay {
                 1. / 60.
-            } else if crate::frontend_scene::vimp_interaction_probe() {
+            } else if crate::frontend_scene::vimp_interaction_probe() || ripper_probe::enabled() {
                 // Keep a many-actor/audio probe to one fixed step per render
                 // host frame. Accelerating four steps ahead of asynchronous
                 // sink creation stresses a different transport than normal input.
@@ -728,6 +731,21 @@ pub(super) fn update(
                     axes = Vec2::ZERO;
                     thrust = (16..48).contains(&tick);
                     boost = tick == 32;
+                }
+            }
+            if replay_running && ripper_probe::enabled() {
+                let ticket = controller.ticket;
+                let input = ripper_probe::input(&mut controller.state, &mut runtime, ticket, tick)
+                    .expect("ordinary Ripper input diagnostic failed");
+                axes = input.axes;
+                thrust = input.thrust;
+                boost = input.boost;
+                if input.capture {
+                    controller.finish_step = tick + 1;
+                    println!(
+                        "mission_ripper_input_probe_observed ticket={ticket} step={tick} flight_revision={} supplied_mecc_commands=true forced_actor_pose=false os_input=false applied_damage=false",
+                        input.flight_revision
+                    );
                 }
             }
             if replay_running && crate::frontend_scene::vimp_interaction_probe() {
@@ -1295,7 +1313,20 @@ pub(super) fn update(
                     "ordinary sustained flight/release did not reach the acquired descent pose"
                 );
                 let distance = Vec3::from(position).distance(Vec3::from(controller.initial));
-                if controller.fire_replay {
+                if ripper_probe::enabled() {
+                    assert!(
+                        controller.finish_step < 12000,
+                        "ordinary Ripper navigation did not reach its actual projectile draw endpoint"
+                    );
+                    assert!(
+                        distance > 1. && controller.animated,
+                        "Ripper diagnostic did not use actual player movement/animation"
+                    );
+                    println!(
+                        "mission_ripper_input_probe_finished ticket={} steps={} distance={distance} supplied_commands=true forced_actor_pose=false os_input=false reciprocal_combat_verified=false",
+                        controller.ticket, controller.steps
+                    );
+                } else if controller.fire_replay {
                     let pistol = controller.pistol().unwrap();
                     let expected = if controller.finish_step == 64 { 1 } else { 4 };
                     if Controller::vimp_contact_probe() {

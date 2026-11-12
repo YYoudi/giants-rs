@@ -48,6 +48,7 @@ pub(crate) struct Replay {
     film_finished: bool,
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    crate::mission_player::ripper_probe::validate(app)?;
     if vimp_interaction_probe()
         && (std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-mecc")
             || std::env::var("GIANTS_SHOWCASE_WORLD").as_deref() != Ok("Story2")
