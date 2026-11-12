@@ -185,9 +185,9 @@ pub struct MeccDamageContext {
     /// required. This is not the startup no-play option or device muting.
     pub globally_disabled: bool,
     /// Historical label retained for compatibility. The acquired debug PC
-    /// writer is a console toggle that also clears player damage, rather than
-    /// a film-state producer. Its ordinary runtime owner is not yet bound.
-    /// Never derive this snapshot from cinematic activity.
+    /// word has a console toggle that clears player damage and a separate
+    /// temporary completion-countdown owner. Its shared runtime owner is not
+    /// yet bound; never derive this snapshot from cinematic activity alone.
     pub cutscene: bool,
     pub shield_percent: f32,
     pub ambient_voice_timer: f32,
