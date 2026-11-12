@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed source-bearing nonlethal Mecc hit composition, still unknown.
+        '3bcb07ec1630417373e0141df1282d84357e28f9e79fc84b1256b72b1d34759e',
         # Concurrent reviewed player-mesh navigation route, explicitly unknown.
         '2c3b3331dfb1987ef99acdc805c98795d167817d25ec23ed2f5522d5313fce71',
         # Concurrent reviewed static-shadow routes, explicitly unknown.

@@ -269,6 +269,13 @@ The suppression snapshot has both console and temporary completion-countdown
 writers; neither generic film activity nor a value without its lifecycle supplies those owners.
 Prior PC aliases, raw names and uncertainty remain retained.
 
+The same unknown route also leads to
+[`mecc_enemy_hit`](../crates/giants-game/src/mecc_enemy_hit.rs), the offline
+nonlethal class90/232 source-bearing kind0/2 composition of health, current
+direction and pain/shared voice consumers. Its supplied-world original-PC
+controls do not establish Session/controller binding, lethal services, shield/
+gyro/critical-voice coverage or ordinary combat availability.
+
 ## Declared platform query route
 
 The literal prototype PS2 names `collgrid_make_grid` and

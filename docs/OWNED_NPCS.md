@@ -9,6 +9,18 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
+`mecc_enemy_hit::Machine` composes the independently acquired source gate,
+debug-PC health, direct/radial velocity addition and pain/shared voice tail for
+offline nonlethal class90/232 shots owned by a living state23 Ripper. It requires
+actual source/recipient motion, current radial center, world gates and equipment
+state. A shared health-suppression gate does not suppress impulse and voices;
+global callback inhibition skips the whole receiver. Required associated-player
+and voice consumers run in native order. Failed consumers retain preceding state
+and RNG effects and cannot replay. Shield, gyro, critical-voice and lethal
+continuations remain explicit prerequisites, as do canonical Session health/
+timer publication and ordinary controller recoil/HUD consumption. This kernel
+alone does not acknowledge an ordinary hit backend.
+
 `Session::complete_enemy_projectile_ground_flight` continues an actual retained
 terrain contact from either flight-query API. The query retains its own global
 delta and ordered slow areas: callers cannot replace the contact point or clock,

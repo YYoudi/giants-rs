@@ -1589,6 +1589,17 @@ It does not enable ordinary impact, deliver damage, render an explosion or prove
 Windows input. The portable `ground_flight_continuation` game tests separately
 exercise retained-clock/countdown and failure ownership with synthetic services.
 
+The private original-PC nonlethal Mecc hit control requires the absolute path
+`GIANTS_MECC_ENEMY_HIT_CONTROLS` and runs
+`cargo test --locked -p giants-game --target x86_64-pc-windows-gnu mecc_enemy_hit -- --include-ignored --nocapture`.
+Its 32 rows compare source-bearing kind0/2 callback results: health/flags,
+nonzero direct/radial velocity, callback-reset word, pain/shared timers, RNG and ordered
+cue requests. The original target is a genuinely constructed cold Mecc; source
+headers, no-aux radial selection, pose, gates, timers and CRT thread state are
+supplied, and sound registries are empty. This proves neither live playback,
+world initialization, current ordinary geometry, canonical Session publication,
+controller consumption, lethal damage nor graphical encounter availability.
+
 For independently collected private exact-PC fixtures, set
 `GIANTS_PLATFORM_BITS_CONTROLS` and run
 `native_platform_bits_match_without_claiming_other_channels` (420 controls),

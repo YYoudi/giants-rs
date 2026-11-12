@@ -214,6 +214,13 @@ loop. It also verifies duplicate/foreign refusal and retained failure at a real
 missing platform dependency. Bind it into the ordinary impact transaction next,
 with actual radial/active-hit/audio services and the surrounding frame schedule.
 The host's emptiness is not a render/audio availability acknowledgment.
+The nonlethal offline `mecc_enemy_hit` composition now joins actual source-gate,
+health, kind0/2 impulse and pain/shared voice services with retained failure/no
+replay. Thirty-two supplied-world original-PC controls cover direct/radial
+direction, callback-wide versus health-only suppression, strict expired voice
+timers and post-hit health thresholds. This is not the ordinary damage adapter:
+bind canonical Session state and actual controller velocity/HUD, real world gates
+and audio; retain lethal/equipment/critical-voice continuations as dependencies.
 The common `complete_enemy_projectile_ground_flight` adapter now consumes the
 real pending terrain contact and retained query clock without a second query or
 caller-supplied replacement time. Both query APIs share this continuation;
