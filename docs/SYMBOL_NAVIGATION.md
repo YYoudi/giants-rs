@@ -62,6 +62,16 @@ The runtime's detailed prerequisites remain in [BACKLOG.md](../BACKLOG.md).
 See [MEAT_COLLECTION.md](MEAT_COLLECTION.md) for independent evidence, version
 differences, normal integration and the separately admitted objective boundary.
 
+## Smartie proximity route
+
+The literal prototype PS2 symbol `smartie_check_follow__FP6OBJECTf` leads to
+[`smartie_follow::smartie_check_follow`](../crates/giants-game/src/smartie_follow.rs).
+Its PC relationship is **probable**, not confirmed. The port admits the ordinary
+selector3/Mecc selection branch with explicit clock, actor and inventory inputs;
+it does not perform pickup or establish runtime integration. Keep the mangled
+spelling as a search key; no equivalent Rust signature or platform layout is
+asserted. See [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md).
+
 ## Publication boundary
 
 This index publishes only selected names, reviewed navigation relationships and

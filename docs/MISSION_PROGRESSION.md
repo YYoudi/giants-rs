@@ -70,6 +70,33 @@ The independent profile sidecar records reached-entry bits only after actual
 runtime admission. That operation makes no complete actor-census, score or native
 save-game claim. Original installations and saves remain read-only.
 
+## Completion-film extension in progress
+
+The Wife declares a separate six-director completion film. The shared extension
+prepares the actual source chain asynchronously on the current mission ticket,
+then reuses the cinematic owner without granting new gameplay readiness. Only
+that completion owner's natural source terminal or an actual user skip can yield
+a continuation receipt. An earlier opening terminal, resource preparation, bare
+release or stale ticket cannot do so. These contracts have dependency tests;
+the complete gameplay path is not delivered yet.
+
+Preparation currently refuses three directors' nonterminal effects. Their actual
+dispatch, rendering/audio and retirement must be connected before admission.
+The next record is `2b_2_returnwife`; it declares its own class216/state18 wife
+with selector3 near its selected player start. That actor must use the ordinary
+proximity/pickup services, rather than becoming an invented carried child or a
+transferred cinematic actor. `smartie_follow::smartie_check_follow` implements
+the selector3/Mecc selection dependency, not actor construction or pickup.
+
+The literal prototype search key `smartie_check_follow__FP6OBJECTf` is a probable
+relationship to the acquired PC selection service. Independent evidence includes
+the reset reference, cooldown, ordered player scan, occupancy gates and strict
+XYZ radius test. Its signature and object layout are not imported into Rust.
+The private 1,794-context PC comparison supplies timestep, classification and
+inventory services; it does not establish native live services or graphical
+acceptance. Keep the exact identities and detailed evidence private under the
+central reconstruction method.
+
 ## Population coverage
 
 Herd admission follows authored declarations rather than a Story2 name test.

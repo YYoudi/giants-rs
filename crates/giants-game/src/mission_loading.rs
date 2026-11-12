@@ -640,6 +640,11 @@ impl Flow {
     pub fn cinematic_finished(&mut self, ticket: u64) -> bool {
         self.advance(ticket, Phase::Cinematic, Phase::Objectives)
     }
+    /// Suspend an already admitted player for its owned completion film. This
+    /// preserves the existing readiness witness; it cannot grant readiness.
+    pub fn begin_completion_film(&mut self, ticket: u64) -> bool {
+        self.gameplay_ready && self.advance(ticket, Phase::Gameplay, Phase::Cinematic)
+    }
     /// A user skip ends presentation, without granting gameplay readiness.
     pub fn cinematic_skipped(&mut self, ticket: u64) -> bool {
         self.advance(ticket, Phase::Cinematic, Phase::Objectives)
@@ -677,6 +682,27 @@ impl Flow {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn completion_film_requires_current_gameplay_and_preserves_original_admission() {
+        let mut flow = Flow::default();
+        let ticket = flow.begin();
+        for _ in 0..3 {
+            flow.presented();
+        }
+        assert!(flow.prepared(ticket));
+        assert!(flow.runtime_ready(ticket, false, false));
+        assert!(!flow.begin_completion_film(ticket));
+        assert_eq!(flow.phase, Phase::Objectives);
+        assert!(flow.gameplay_ready(ticket));
+        assert!(flow.dismiss_objectives(ticket));
+        assert!(!flow.begin_completion_film(ticket + 1));
+        assert_eq!(flow.phase, Phase::Gameplay);
+        assert!(flow.begin_completion_film(ticket));
+        assert!(!flow.begin_completion_film(ticket));
+        assert!(flow.cinematic_finished(ticket));
+        // No new readiness callback is supplied by completion playback.
+        assert!(flow.dismiss_objectives(ticket));
+    }
     #[test]
     fn skipping_requires_current_cinematic_and_does_not_grant_a_controller() {
         let mut flow = Flow::default();

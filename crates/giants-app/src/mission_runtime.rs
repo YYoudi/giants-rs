@@ -22,6 +22,7 @@ pub(crate) struct CampaignCompletion {
     pub carried: f32,
     pub counter: u32,
     pub required: i32,
+    pub film: Option<String>,
 }
 mod campaign;
 mod landing;
@@ -1246,9 +1247,6 @@ impl Runtime {
             mission,
             &packet.request.mission_name,
         )?;
-        if film.director.is_some() {
-            return Err("completion film requires the campaign film continuation owner".into());
-        }
         let next = world
             .scenarios
             .get(c.program.scenario_index + 1)
@@ -1277,9 +1275,77 @@ impl Runtime {
             carried,
             counter: c.progress.counter,
             required: c.program.required,
+            film: film.director,
         };
         a.campaign.as_mut().unwrap().as_mut().unwrap().queued = true;
         Ok(Some(result))
+    }
+    pub(crate) fn prepare_campaign_film(
+        &self,
+        ticket: u64,
+        root: &std::path::Path,
+    ) -> Result<mpsc::Receiver<Result<crate::mission_opening::Prepared, String>>, String> {
+        let a = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("completion preparation ticket absent")?;
+        if !a
+            .campaign
+            .as_ref()
+            .and_then(|c| c.as_ref().ok())
+            .is_some_and(|c| c.completed && c.queued)
+        {
+            return Err("completion preparation needs actual owned objectives".into());
+        }
+        let selection = a.payload.packet.completion(root)?;
+        if selection.director.is_none() {
+            return Err("completion source film absent".into());
+        }
+        let root = root.to_owned();
+        let resources = Arc::clone(a.payload.plan.resources());
+        let world = Arc::clone(a.payload.world.as_ref().map_err(Clone::clone)?);
+        let (tx, rx) = mpsc::channel();
+        std::thread::spawn(move || {
+            let result = (|| {
+                let mut film =
+                    crate::mission_opening::Prepared::load(&root, selection.director.as_deref())?
+                        .ok_or("completion preparation produced no source film")?;
+                film.prepare_render(&root, &resources, &world.config);
+                if !film.effects_bound() {
+                    return Err("completion rendering/effect owners are incomplete".into());
+                }
+                Ok(film)
+            })();
+            // A cancelled ticket drops this CPU-only result and all its resources.
+            let _ = tx.send(result);
+        });
+        Ok(rx)
+    }
+    pub(crate) fn install_campaign_film(
+        &mut self,
+        ticket: u64,
+        film: crate::mission_opening::Prepared,
+    ) -> Result<(), String> {
+        let a = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("completion installation ticket absent")?;
+        if !a
+            .campaign
+            .as_ref()
+            .and_then(|c| c.as_ref().ok())
+            .is_some_and(|c| c.completed && c.queued)
+        {
+            return Err("completion installation lost objective ownership".into());
+        }
+        let playback = a.payload.playback.as_mut().map_err(|e| e.clone())?;
+        if playback.is_some() {
+            return Err("completion cannot overwrite an unconsumed film".into());
+        }
+        *playback = Some(film);
+        Ok(())
     }
     pub(crate) fn collect_normal_meat(
         &mut self,

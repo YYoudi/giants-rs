@@ -19,13 +19,39 @@ pub(crate) use replay::{
     vimp_interaction_probe,
 };
 impl Scene {
+    pub(crate) fn begin_campaign_film(
+        &mut self,
+        completion: &crate::mission_runtime::CampaignCompletion,
+    ) -> Result<(), String> {
+        if self
+            .prepared_mission
+            .as_ref()
+            .is_none_or(|p| p.request != completion.current)
+            || completion.film.is_none()
+            || !self.flow.begin_completion_film(completion.ticket)
+        {
+            return Err("completion film lost its admitted mission owner".into());
+        }
+        self.revision += 1;
+        Ok(())
+    }
     pub(crate) fn advance_campaign(
         &mut self,
         completion: &crate::mission_runtime::CampaignCompletion,
         images: &mut Assets<Image>,
+        film: Option<crate::mission_opening::CompletionReceipt>,
     ) -> Result<u64, String> {
+        let phase_admitted = if completion.film.is_some() {
+            film.is_some_and(|f| f.ticket() == completion.ticket)
+                && matches!(
+                    self.flow.phase,
+                    Phase::Cinematic | Phase::Objectives | Phase::Gameplay
+                )
+        } else {
+            film.is_none() && self.flow.phase == Phase::Gameplay
+        };
         if self.flow.ticket != completion.ticket
-            || self.flow.phase != Phase::Gameplay
+            || !phase_admitted
             || self
                 .prepared_mission
                 .as_ref()

@@ -28,9 +28,10 @@ does not establish completion of The Wife.
    The selected record declares one stationary mark1 destination and a separate
    completion film; a moving rescue actor must not be invented from that mark.
 2. Acquire the cinematic's actual rescue/attachment and continuation effects.
-   The Road Home does not declare a fresh carried child. Determine how the
-   required carried state is produced and retained before enabling continuation;
-   do not spawn a guessed child to reproduce an image.
+   The next source mission is The Road Home (`2b_2_returnwife`). It declares
+   a class216/state18/selector3 wife close to the selected player start, rather
+   than a PlayerChild12 passenger. Connect the real proximity/pickup path for
+   this actor; do not fabricate a passenger or transfer the cinematic clone.
 3. Extend the common campaign film/condition/transition owner using source records.
    Require real rendering/audio/source end, cancellation and retirement. Preserve
    the .12.1 Starving chain and unsupported predicates as explicit prerequisites.
@@ -42,6 +43,22 @@ does not establish completion of The Wife.
 
 Private native research and raw mission/film inputs remain outside Git. A symbol
 name, CPU result or replay-only completion-film capture is not mission delivery.
+
+Work in progress, not a delivered preview: the common completion-film owner now
+prepares asynchronously and keeps the original gameplay admission. A receipt
+distinguishes a natural source end from a real user skip, and cannot reuse the
+opening film's terminal or bare cleanup. The installed six-director completion
+preparation still refuses nonterminal effects in three directors. Implement their
+actual dispatch, visual/audio and scoped retirement owners before admitting this
+film; do not bypass the effects gate. No new runtime acceptance is claimed.
+
+The selector3 proximity-selection dependency is implemented in `smartie_follow`
+with the probable prototype search route `smartie_check_follow__FP6OBJECTf`.
+A private comparison passes 1,794 supplied PC contexts, executing the acquired
+selection body and XYZ distance helper; timestep, classification and inventory
+services are supplied. This does not execute pickup or establish live gameplay.
+Next: bind real source actor construction, clock/player fields, pickup services
+and visible carrying, alongside completing the film effects prerequisite.
 
 ## Delivered preview .12.1 Starving and shared mission progression
 

@@ -38,6 +38,16 @@ pub(crate) fn candidate(world: &World) -> bool {
             .startup()
             .is_ok_and(|s| s.is_some())
 }
+/// Re-arm only the film-end observer. The previously observed resident and
+/// controller admission remain required and are neither reset nor manufactured.
+pub(crate) fn begin_completion(world: &mut World, ticket: u64) -> Result<(), String> {
+    let mut state = world.resource_mut::<State>();
+    if state.ticket != Some(ticket) || !state.admitted || !state.controller {
+        return Err("completion end observer has no admitted controller".into());
+    }
+    state.finished = false;
+    Ok(())
+}
 pub(crate) fn update(world: &mut World) {
     if !world.resource::<Automatic>().0 {
         return;
@@ -133,5 +143,29 @@ pub(crate) fn update(world: &mut World) {
                 "mission_runtime_cinematic_finished ticket={ticket} source_end=true voices_drained=true effects_settled=true"
             );
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn completion_rearms_only_the_owned_end_observer() {
+        let mut world = World::new();
+        world.insert_resource(State {
+            ticket: Some(7),
+            admitted: true,
+            controller: true,
+            finished: true,
+            refusal: None,
+        });
+        assert!(begin_completion(&mut world, 8).is_err());
+        assert!(world.resource::<State>().finished);
+        begin_completion(&mut world, 7).unwrap();
+        let state = world.resource::<State>();
+        assert!(state.admitted && state.controller && !state.finished);
+        world.resource_mut::<State>().controller = false;
+        assert!(begin_completion(&mut world, 7).is_err());
+        assert!(!world.resource::<State>().controller);
     }
 }

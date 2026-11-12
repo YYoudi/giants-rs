@@ -41,6 +41,15 @@ terrain-route input fixture without rendering; it never proves campaign or OS
 integration. Failed graphical candidates remain private and separate from the
 eventual delivery receipt.
 
+For The Wife work in progress, `cargo test --locked -p giants-game smartie_follow
+--target x86_64-pc-windows-gnu` exercises the ordinary selector3 selection
+dependency. This is not a pickup/gameplay test. The ignored app control
+`installed_wife_completion_has_real_prepared_render_and_effect_owners` uses
+`GIANTS_MISSION_OWNED_ROOT` and prepares the actual six-director completion film.
+It currently fails the nonterminal-effects ownership requirement; retain that
+failure until actual owners are integrated. Neither this preparation nor the
+portable completion-receipt tests establish graphical mission acceptance.
+
 For the all-five consolidation, run the shared workspace checks below and the
 installed owner/normal-controller controls, including the generic player shell,
 ordered Delphi projection/body phase, typed state0 children, class230 awakening,
