@@ -126,6 +126,17 @@ Its correspondence to PC debug-1.1 `FUN_0044c0a0` is **unknown**. The acquired P
 extended attached preparation preserves the recipient's flag400 as context
 flag10000. This establishes neither effect-object activation nor rendered FX.
 
+## Radial damage search route
+
+The literal prototype PS2 symbols `hurt_object` and `hurt_object_do_multi`
+remain **unknown** correspondence candidates for [`radial_damage`](../crates/giants-game/src/radial_damage.rs)
+and its [`Session` adapter](../crates/giants-game/src/resident_states/radial_damage.rs).
+The latter reads actual ordered radial registrations and acquired live health,
+writes the owned Vimp signal and requires attributed hit consumers. A completed
+name lookup or traversal calculation establishes neither a damage callback nor
+ordinary explosion/combat availability. Original PC aliases remain in the private
+identity-bound record; no prototype signature or layout is imported.
+
 ## Publication boundary
 
 This index publishes only selected names, reviewed navigation relationships and

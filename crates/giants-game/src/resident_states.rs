@@ -17,10 +17,12 @@ mod delphi_camera;
 mod delphi_held;
 mod delphi_local_target;
 mod player_shell;
+mod radial_damage;
 pub use delphi_local_target::{
     Context as DelphiLocalTargetContext, Phase as DelphiLocalTargetPhase,
     Providers as DelphiLocalTargetProviders, View as DelphiLocalTargetView,
 };
+pub use radial_damage::{Environment as RadialEnvironment, Hits as RadialHits};
 mod contacts;
 #[cfg(test)]
 mod delphi_proximity_tests;
@@ -448,6 +450,10 @@ pub struct Resident {
     mecc_damage_smoke: crate::mecc_damage_effect::State<crate::attached_effect_context::Id>,
     /// Native accumulated header damage, owned separately from the payload.
     mecc_damage: Option<f32>,
+    /// Generic header damage retained from the acquired ordinary state0
+    /// constructor. Registration alone supplies no value; state-specific
+    /// health owners and their mutations remain independent.
+    state0_damage: Option<f32>,
     mecc_physics_present: bool,
     mecc_physical_cycle: Option<crate::mecc_physical_cycle::Owned>,
     affine_cache: Option<OwnedAffine>,
@@ -701,6 +707,7 @@ impl Session {
                 mecc_contact: Default::default(),
                 mecc_damage_smoke: Default::default(),
                 mecc_damage: None,
+                state0_damage: None,
                 mecc_physics_present: false,
                 mecc_physical_cycle: None,
                 affine_cache: None,
@@ -10099,11 +10106,14 @@ impl Session {
                 }
             }
         }
-        staged
-            .residents
-            .get_mut(&id.serial)
-            .expect("staged actor")
-            .acquired_construction = true;
+        let actor = staged.residents.get_mut(&id.serial).expect("staged actor");
+        actor.acquired_construction = true;
+        if actor.seed.storage.state() == 0 {
+            // Actual pool construction clears this independent header word;
+            // neither the class header nor the state0 copy replaces it.
+            // This runs once before publication, never on a health read/tick.
+            actor.state0_damage = Some(0.);
+        }
         self.publish_staged(staged, id)
     }
     fn publish_staged(&mut self, mut staged: Self, id: Id) -> Result<Id, String> {
@@ -11697,6 +11707,23 @@ mod tests {
     }
     fn animation_actor(session: &mut Session) -> Id {
         fixture_actor(session, 73, 23)
+    }
+    #[test]
+    fn constructed_state0_radial_health_is_retained_and_uses_current_limit() {
+        let mut session = Session::new(991);
+        let id = fixture_actor(&mut session, 79, 0);
+        assert_eq!(session.radial_actor(id).unwrap().health, Some([0., 0.]));
+        // Supplied subsequent header writes: reading must neither reset damage
+        // nor reuse a constructor-cached class limit. This is not a hit service.
+        let actor = session.residents.get_mut(&id.serial).unwrap();
+        actor.state0_damage = Some(5.);
+        actor.construction_fields.as_mut().unwrap().configuration[12] = 20f32.to_bits();
+        assert_eq!(session.radial_actor(id).unwrap().health, Some([5., 20.]));
+        session.residents.get_mut(&id.serial).unwrap().state0_damage = None;
+        assert_eq!(session.radial_actor(id).unwrap().health, None);
+        assert!(Session::new(992).radial_actor(id).is_err());
+        session.clear();
+        assert!(session.radial_actor(id).is_err());
     }
     #[test]
     fn mission_declaration_header_follows_validated_construction_and_preserves_scope() {

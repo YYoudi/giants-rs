@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed radial Session link: two literal prototype search names,
+        # unknown attribution and unchanged prior aliases; no corpus/listing.
+        'ca9102a7b7a15dca9445650493f64ac66ddc0585b274295b388ff873b795ef1f',
         # Concurrent minimal Smartie/Flick navigation additions, unknown
         # attributions and existing aliases only; no native bodies or corpus.
         '649c65e331b31019c5529089c3a134b48ca0f5e7fa38fab353773800a66fce71',

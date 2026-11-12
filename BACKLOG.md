@@ -36,6 +36,23 @@ NPC quarantine occurs in this bounded run. Complete
 reciprocal damage, Ripper death and ordinary Windows menu/re-entry acceptance
 remain required; the projectile-only probe does not satisfy them.
 
+The radial continuation now has a Session adapter for the actual first
+additional registration list (not common list0), post-callback node successors,
+current Mecc/Ripper/Vimp health owners and real Vimp signal stores. The state6
+request is checked against its actual impact phase, source payload, context and
+position; attributed hit callbacks and actual world gates remain mandatory.
+The initial installed Wife inventory exposed source-declared state0 recipients
+whose generic health header was absent. An independent PC constructor control
+now establishes its zero initial accumulated damage across18 supplied state0
+template/limit cases and poisoned free storage; the template damage is not copied.
+Ordinary state0 construction retains that header value once, and radial reads
+use its current class limit. Remaining unowned state families, the cross-context
+global's actual producer and attributed Mecc reaction/feedback still need binding
+before ordinary impact admission.
+Do not initialize unknown live health to zero, skip those targets or replace
+required callbacks. The new adapter is an intermediate dependency, not an
+ordinary explosion or reciprocal-combat delivery.
+
 Prepared: a declaration-bound sibling component retains canonical Session
 identities and authored poses (The Wife: four class73 and one class230/state23).
 Installed two-ticket controls refuse substituted/duplicate/foreign/retired owners.

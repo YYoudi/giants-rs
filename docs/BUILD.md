@@ -1460,6 +1460,16 @@ hex-case file; raw controls and original data stay outside Git.
 
 ### Guarded Ripper projectile graphical diagnostic
 
+The radial Session dependency has an optional installed control (same
+`GIANTS_NPC_ROOT` setup as the other NPC controls):
+
+```powershell
+cargo test --locked -p giants-game source_radial_world_alerts_actual_vimp_before_required_hit_failure --target x86_64-pc-windows-gnu -- --ignored --nocapture
+```
+
+It exercises real list/health/signal owners and a captured hit that deliberately
+fails. This is not a successful damage service, GPU test or ordinary explosion.
+
 For ordinary local testing, launch the receipt-bound executable with
 `--mecc-menu --data-root <your-installation> --user-data-root <test-profile>`.
 In **Preview tools → Browse all missions**, select **The Wife** in the Mecc

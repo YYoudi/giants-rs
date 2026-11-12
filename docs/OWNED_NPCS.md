@@ -9,7 +9,7 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
-The latest supplied-input GPU attempt (`a450206`, local executable SHA256 prefix
+An earlier supplied-input GPU attempt (`a450206`, local executable SHA256 prefix
 `19f651e9a211`) failed without a capture. A mixed positional-audio backlog closed
 the backend before the NPC impact adapters refused the missing audio ticket.
 The latter error is a consequence, not permission to acknowledge an empty sink.
@@ -33,6 +33,33 @@ render evidence before impact, with no Windows input, inflicted damage, Ripper
 death or menu/re-entry acceptance. It is not a published preview. Genuine radial
 impact, health/feedback and retirement consumers remain the next runtime gap;
 do not substitute an empty sink or acknowledge their completion.
+
+The next radial bridge now reads the actual first additional Session list,
+retaining its registration node across callbacks and reading the next edge
+afterward. It does not iterate common list0 or take a frozen actor census. Its
+live actor view uses current header positions/flags/context and acquired health
+owners for Mecc, Rippers and Vimps. Missing health stays absent and is refused if
+the eligibility path needs it; it never becomes an invented zero or dead actor.
+An actual state6 impact request must match the owned payload parameters, position,
+phase and launch context. Real Vimp signal stores precede the mandatory hit
+consumer. A late hit error retains those stores and the single-use failure latch.
+
+The installed Vimp/list/signal control passes with an explicitly failing captured
+hit consumer; it proves that failure is not acknowledged as damage. The Wife
+two-ticket first-flight control reads actual Mecc/Ripper health and inventories
+the dedicated list. Its initial inventory exposed additional authored state0
+recipients without a generic header-health owner. A separate exact-PC control
+executes real generic pool allocation/zeroing, class/state copies and insertion:
+18 cases retain zero accumulated damage despite poisoned free storage and varied
+template damage/limits. The state0 class selection and limits are supplied;
+outer allocation/archive choice/math mode remain control boundaries. This is
+constructor evidence, not a damage callback or native mission run. Ordinary
+state0 construction now retains that independent header once before publication;
+reads use current damage and class limit and never supply zero for missing data.
+Other unowned state families, the actual cross-context global producer and
+attributed Mecc hit/feedback services still require connection before ordinary
+explosions. No new graphical or complete encounter acceptance is claimed for
+this intermediate bridge.
 
 The NPC lane stages a separate declaration-bound Ripper component in ordinary
 mission loading. The Wife has five canonical mission declarations: four class73

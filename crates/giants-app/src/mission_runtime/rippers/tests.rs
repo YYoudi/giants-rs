@@ -992,6 +992,39 @@ fn approach_ripper(
                 assert!(remaining < initial);
                 let recipient = active.player_owner().unwrap();
                 let source_owner = metadata.launch.as_ref().unwrap().source;
+                for target in [recipient, source_owner] {
+                    let radial = active.resident_states.radial_actor(target).unwrap();
+                    let fields = active
+                        .resident_states
+                        .get(target)
+                        .unwrap()
+                        .construction_fields
+                        .as_ref()
+                        .unwrap();
+                    assert_eq!(
+                        radial.position.map(f32::to_bits),
+                        fields.position.map(f32::to_bits)
+                    );
+                    assert_eq!(radial.context, fields.dispatch_context);
+                    assert!(radial.health.unwrap().into_iter().all(f32::is_finite));
+                    assert!(active.resident_states.list(1).contains(&target));
+                }
+                let radial_inventory = active
+                    .resident_states
+                    .list(1)
+                    .into_iter()
+                    .map(|target| {
+                        let view = active.resident_states.radial_actor(target);
+                        (
+                            active.resident_states.get(target).unwrap().class,
+                            view.map(|v| (v.state, v.context, v.active, v.personality, v.health)),
+                        )
+                    })
+                    .collect::<Vec<_>>();
+                println!(
+                    "ripper_radial_owned_inventory ticket={ticket} current_source_context={} actors={radial_inventory:?} hit_consumers_verified=false",
+                    fields.dispatch_context
+                );
                 let gate = active
                     .resident_states
                     .enemy_projectile_mecc_source(recipient, shot)
