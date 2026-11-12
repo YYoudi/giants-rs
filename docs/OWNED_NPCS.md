@@ -15,6 +15,9 @@ and one class230, all state23. The component retains their exact source placemen
 and Session identity; it does not create a replacement population. Binding
 refuses missing, duplicate, substituted, foreign-ticket or retired owners.
 Other maps are selected by their declarations rather than a world-name switch.
+An installed census control binds each of the first five Story2 scenarios;
+their class73/class230 counts are respectively 7/4, 4/1, 7/1, 2/0 and 2/1.
+These are authored declaration counts, not active or rendered populations.
 
 This binding alone admits no callbacks, completed pose, contact or gameplay.
 The first installed control covers constructor identities and two-ticket

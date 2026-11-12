@@ -165,7 +165,11 @@ peer eligibility, clocks/camera and captured/suppressed audio are supplied. It
 checks conditional birth, exact copied/reciprocal ownership, post-entry clock
 selection, retained prefixes/late audio failure and replay/retirement refusal.
   It does not enable state48 scheduling or ordinary NPC gameplay. The separate
-  synthetic `ripper_primary_turn::tests::variant_` controls cover class230
+  With the same root, `source_wife_ripper_bindings` and
+  `source_ripper_declarations` in `giants-app` cover canonical bindings,
+  substituted-owner refusal and authored declaration counts across the first
+  five Story2 scenarios. Use `-- --ignored`; these tests enable no live AI.
+  The synthetic `ripper_primary_turn::tests::variant_` controls cover class230
   modes62/63, radius boundaries and retained lost-target audio failures;
   they do not admit mode64 onward or a completed actor frame.
 

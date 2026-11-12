@@ -2,6 +2,50 @@
 use super::*;
 
 #[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; declaration admission across authored Story2 scenarios, no live AI"]
+fn source_ripper_declarations_follow_each_authored_scenario() {
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let world = giants_game::world_source::resolve(&root, "Story2").unwrap();
+    let menu = giants_game::mission_selection::MissionMenu::parse(
+        &std::fs::read(root.join("Bin").join(world.catalog)).unwrap(),
+        u32::MAX,
+        true,
+    )
+    .unwrap();
+    for (index, expected) in [
+        (0, (7, 4)),
+        (1, (4, 1)),
+        (2, (7, 1)),
+        (3, (2, 0)),
+        (4, (2, 1)),
+    ] {
+        let request = menu.request("Story2", index).unwrap();
+        let packet = giants_game::mission_loading::prepare(&root, request).unwrap();
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let ticket = 9200 + index as u64;
+        let mut session = Session::new(ticket);
+        let report = giants_game::declared_residents::construct_acquired(&plan, &mut session);
+        let mut component = State::prepare(&plan).unwrap().unwrap();
+        let view = component.bind(ticket, &report, &session).unwrap();
+        assert_eq!((view.class73, view.class230), expected);
+        assert_eq!(
+            session
+                .list(0)
+                .iter()
+                .filter(|id| {
+                    session
+                        .get(**id)
+                        .is_some_and(|actor| matches!(actor.class, 73 | 230))
+                })
+                .count(),
+            expected.0 + expected.1
+        );
+        session.clear();
+        assert!(component.view(&session, ticket).is_err());
+    }
+}
+
+#[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; exact source mission declarations and constructor identity only"]
 fn source_wife_ripper_bindings_use_declared_owners_and_survive_no_ticket_reuse() {
     let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
