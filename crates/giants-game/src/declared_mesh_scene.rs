@@ -29,14 +29,36 @@ pub struct Prepared {
     pub records: Vec<Record>,
     pub needs: Vec<Need>,
     pub player_objects: Vec<crate::player_world_collision::Object>,
+    /// Declared fresh profiles selected ahead of raster3. Their footprint
+    /// membership reader cannot produce the platform bit; no geometry guessed.
+    pub platform_non_raster: usize,
 }
 
 pub fn prepare(plan: &Plan, terrain: &giants_formats::gti::Terrain) -> Prepared {
+    prepare_profile(plan, terrain, false)
+}
+
+/// Source-declared platform geometry only. These are unresolved candidates,
+/// not constructed footprints or admitted live platform surfaces. A consumer
+/// must not turn their presence into an empty successful platform query.
+pub fn prepare_platform_candidates(
+    plan: &Plan,
+    terrain: &giants_formats::gti::Terrain,
+) -> Prepared {
+    prepare_profile(plan, terrain, true)
+}
+
+fn prepare_profile(
+    plan: &Plan,
+    terrain: &giants_formats::gti::Terrain,
+    platforms: bool,
+) -> Prepared {
     let mut output = Prepared {
         objects: vec![],
         records: vec![],
         needs: vec![],
         player_objects: vec![],
+        platform_non_raster: 0,
     };
     let mut visit = |key: (bool, usize),
                      source: Result<&SourcePlacement, String>,
@@ -51,19 +73,24 @@ pub fn prepare(plan: &Plan, terrain: &giants_formats::gti::Terrain) -> Prepared 
             {
                 return Ok(None);
             }
+            if platforms && flags.personality & 8 == 0 {
+                return Ok(None);
+            }
+            if platforms && flags.personality & (0x80000 | 0x100000) != 0 {
+                // Footprint policy selects Bounds1 / Pair2 before Raster3.
+                // Neither reader profile can return platform bit1. A missing
+                // or height-refused footprint likewise cannot contribute it.
+                output.platform_non_raster += 1;
+                return Ok(None);
+            }
             let context = plan.resources();
             let projection =
                 collider_init::cold_projection(context, source.class).map_err(|e| e.to_string())?;
-            if scale_override
-                .is_some_and(|s| s.to_bits() != projection.template.fields.scale.to_bits())
-            {
-                return Err("declared scale modifier requires its checked writer".into());
-            }
-            let initial = projection.placed(pose)?;
+            let initial = projection.placed_with_scale(pose, scale_override)?;
             if initial.fields.object_flags & 0x20 != 0 {
                 return Err("source cache producer required".into());
             }
-            if initial.fields.collision_flags & 8 != 0 {
+            if initial.fields.collision_flags & 8 != 0 && !platforms {
                 return Err("platform footprint preparation required".into());
             }
             let radius = context

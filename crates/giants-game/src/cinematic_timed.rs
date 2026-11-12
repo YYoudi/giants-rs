@@ -14,6 +14,7 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     sync::Arc,
 };
+pub mod world;
 
 pub struct Bindings {
     requests: BTreeMap<usize, Request>,
@@ -84,6 +85,7 @@ impl Bindings {
             supports: BTreeMap::new(),
             dispatched: BTreeSet::new(),
             children: Vec::new(),
+            last_child_frame: None,
         }
     }
     fn placement(
@@ -130,6 +132,14 @@ pub struct Queue {
     supports: BTreeMap<usize, usize>,
     dispatched: BTreeSet<usize>,
     children: Vec<Id>,
+    last_child_frame: Option<u64>,
+}
+pub struct WorldStep<'a> {
+    pub number: u64,
+    pub global_seconds: f32,
+    pub areas: &'a [crate::object_time::SlowArea],
+    pub progress: crate::actor_finalization::PhysicalProgress,
+    pub pc_argument: Option<u32>,
 }
 /// A view of the canonical actor, not an independent visual simulation.
 pub struct Frame {
@@ -141,6 +151,84 @@ pub struct Frame {
     pub object_flags: u32,
 }
 impl Queue {
+    /// Advance existing descendants once per actual composing-world frame.
+    /// Call this before the parent walk if births enter the next frame's walk.
+    /// No clocks, footprints, collisions or environment outputs are defaulted.
+    pub fn prepare_children(
+        &mut self,
+        step: WorldStep<'_>,
+        session: &mut Session,
+        stamp: &mut crate::animation_epoch::Stamp,
+        services: &mut impl crate::resident_states::TimedEffectPreparationServices,
+    ) -> Result<(), String> {
+        if session.ticket() != self.scope.ticket
+            || self
+                .last_child_frame
+                .is_some_and(|last| step.number <= last)
+        {
+            return Err("cinematic child frame is foreign or already consumed".into());
+        }
+        if !step.global_seconds.is_finite() || step.global_seconds < 0. {
+            return Err("cinematic child frame requires finite nonnegative global time".into());
+        }
+        // A later failure retains completed callbacks and cannot replay the walk.
+        self.last_child_frame = Some(step.number);
+        for &id in &self.children {
+            let fields = session
+                .get(id)
+                .and_then(|a| a.construction_fields.as_ref())
+                .ok_or("cinematic child fields absent")?;
+            let context = fields.dispatch_context;
+            let seconds = crate::object_time::seconds(
+                step.global_seconds,
+                Some(crate::object_time::Sample {
+                    owner: context,
+                    position: fields.position,
+                }),
+                None,
+                step.areas,
+            ) as f32;
+            session.begin_cinematic_timed_frame(id, self.scope)?;
+            session.prepare_cinematic_timed_positioned_source(
+                id,
+                self.scope,
+                crate::resident_states::TimedEffectSourcePreparation {
+                    seconds,
+                    finalization_time: crate::actor_finalization::Time {
+                        global_seconds: step.global_seconds,
+                        context,
+                        areas: step.areas,
+                    },
+                    progress: step.progress,
+                    pc_argument: step.pc_argument,
+                },
+                stamp,
+                services,
+            )?;
+        }
+        Ok(())
+    }
+    pub fn child_frame(&self, owner: Id, session: &Session) -> Option<Frame> {
+        if !self.children.contains(&owner)
+            || session.cinematic_timed_scope(owner) != Some(self.scope)
+            || session.timed_effect_failure(owner).is_some()
+            || session
+                .timed_effect_ordinary_header(owner)?
+                .statistics
+                .is_none()
+        {
+            return None;
+        }
+        let actor = session.get(owner)?;
+        Some(Frame {
+            owner,
+            world: session.timed_effect_matrix(owner)?,
+            channels: actor.channels?,
+            transparency: session.timed_effect_transparency(owner)?,
+            fade: session.timed_effect_fade(owner)?,
+            object_flags: actor.construction_fields.as_ref()?.object_flags,
+        })
+    }
     /// Source-created descendants still require ordinary positioned preparation
     /// and drawing. Their existence is not an acknowledgement of those phases.
     pub fn children(&self) -> &[Id] {
@@ -590,5 +678,139 @@ mod tests {
         let bytes = std::fs::read(crate::flick::sequence_path(&root, "story2_savewife_6").unwrap())
             .unwrap();
         assert!(Bindings::load(resources, &bytes).is_err());
+    }
+
+    #[test]
+    #[ignore = "requires a user-supplied compatible installation"]
+    fn installed_wife_children_use_actual_world_and_retained_platform_candidates() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_MISSION_OWNED_ROOT").unwrap());
+        let menu = crate::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin/w_Story2.bin")).unwrap(),
+            0,
+            true,
+        )
+        .unwrap();
+        let packet =
+            crate::mission_loading::prepare(&root, menu.request("Story2", 1).unwrap()).unwrap();
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let resources = plan.resources();
+        let world = crate::load_world(&root, "Story2").unwrap();
+        let solids = crate::declared_mesh_scene::prepare(&plan, &world.terrain);
+        let platforms =
+            crate::declared_mesh_scene::prepare_platform_candidates(&plan, &world.terrain);
+        for need in &platforms.needs {
+            eprintln!("platform_candidate_need {:?}: {}", need.key, need.reason);
+        }
+        assert!(
+            platforms.needs.is_empty(),
+            "unbounded source platforms cannot be discarded"
+        );
+        assert_eq!(platforms.objects.len() + platforms.platform_non_raster, 48);
+        let unresolved = platforms
+            .objects
+            .iter()
+            .map(|object| crate::platform_queries::UnpreparedPlatform {
+                id: object.fields.id,
+                object_flags: object.fields.object_flags,
+                collision_flags: object.fields.collision_flags,
+                bounds_xy: [
+                    [object.fields.bounds.min[0], object.fields.bounds.min[1]],
+                    [object.fields.bounds.max[0], object.fields.bounds.max[1]],
+                ],
+            })
+            .collect::<Vec<_>>();
+        let objects = solids
+            .records
+            .iter()
+            .zip(&solids.objects)
+            .map(|(record, object)| crate::actor_environment::Collider {
+                class: record.class as u32,
+                state: record.instance.state,
+                volume: None,
+                mesh: crate::mecc_mesh_dispatch::MeshObject {
+                    fields: object.fields,
+                    triangles: object.triangles.clone(),
+                },
+            })
+            .collect::<Vec<_>>();
+        assert!(!objects.is_empty());
+        for (director, name) in [(2, "story2_savewife_4"), (3, "story2_savewife_5")] {
+            let bytes = std::fs::read(crate::flick::sequence_path(&root, name).unwrap()).unwrap();
+            let bindings = Bindings::load(resources, &bytes).unwrap();
+            let scope = CinematicScope {
+                ticket: 73,
+                director,
+                generation: 1,
+            };
+            let mut queue = bindings.queue(scope);
+            let mut session = Session::new(scope.ticket);
+            let mut random = Random(13); // Explicit dependency fixture input.
+            let mut stamp = crate::animation_epoch::Stamp::default();
+            let offset = bindings.offsets().next().unwrap();
+            queue
+                .dispatch(&bindings, offset, resources, &mut random, &mut session)
+                .unwrap();
+            queue
+                .update_attached(
+                    &bindings,
+                    0.,
+                    0.,
+                    resources,
+                    &mut random,
+                    &mut session,
+                    &mut stamp,
+                )
+                .unwrap();
+            queue
+                .update_attached(
+                    &bindings,
+                    0.02,
+                    1000.,
+                    resources,
+                    &mut random,
+                    &mut session,
+                    &mut stamp,
+                )
+                .unwrap();
+            let child = queue.children()[0];
+            assert!(queue.child_frame(child, &session).is_none());
+            let mut queries = 0;
+            for number in 1..=80 {
+                let seconds = if number == 1 { 0. } else { 1. / 60. };
+                let mut services =
+                    world::World::new(&world.terrain, &objects, &[], &unresolved, seconds, &[])
+                        .unwrap();
+                queue
+                    .prepare_children(
+                        WorldStep {
+                            number,
+                            global_seconds: seconds,
+                            areas: &[],
+                            progress: crate::actor_finalization::PhysicalProgress::PrototypePs2Zero,
+                            pc_argument: None,
+                        },
+                        &mut session,
+                        &mut stamp,
+                        &mut services,
+                    )
+                    .unwrap();
+                queries += services.calls.environment;
+                if number == 2 {
+                    assert!(queue.prepare_children(WorldStep {
+                        number,global_seconds:seconds,areas:&[],
+                        progress:crate::actor_finalization::PhysicalProgress::PrototypePs2Zero,
+                        pc_argument:None,
+                    },&mut session,&mut stamp,&mut services).is_err());
+                }
+                assert!(queue.child_frame(child, &session).is_some());
+            }
+            assert!(queries > 0);
+            assert_ne!(
+                queue.child_frame(child, &session).unwrap().object_flags & 0x8000,
+                0
+            );
+            queue.release(&mut session).unwrap();
+            assert!(session.get(child).is_none());
+        }
     }
 }

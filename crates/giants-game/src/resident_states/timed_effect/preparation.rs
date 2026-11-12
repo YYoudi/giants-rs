@@ -128,6 +128,36 @@ impl<S: Services> actor_finalization::Services for Adapter<'_, S> {
     }
 }
 impl Session {
+    /// Common history for this exact cinematic body's next owned frame. This
+    /// does not run its callback or make a failed preparation replayable.
+    pub fn begin_cinematic_timed_frame(
+        &mut self,
+        id: Id,
+        scope: CinematicScope,
+    ) -> Result<(), String> {
+        let actor = self.get(id).ok_or("cinematic timed history actor absent")?;
+        let metadata = actor
+            .timed_effect
+            .as_ref()
+            .ok_or("cinematic timed history metadata absent")?;
+        if scope.ticket != self.ticket
+            || metadata.cinematic_scope != Some(scope)
+            || !metadata.runtime.idle()
+            || metadata.runtime.failure.is_some()
+            || metadata.ordinary.preparing
+            || self.common_walk_running
+        {
+            return Err("cinematic timed history requires its idle current owner".into());
+        }
+        self.residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .ok_or("cinematic timed history fields absent")?
+            .advance_position_history();
+        Ok(())
+    }
     pub fn timed_effect_ordinary_header(&self, id: Id) -> Option<&Header> {
         Some(&self.get(id)?.timed_effect.as_ref()?.ordinary)
     }

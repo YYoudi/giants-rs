@@ -84,6 +84,23 @@ The generic MIPS suffix-emulation attempt fails and supplies no parity claim;
 the observation is from independent standard-instruction/body review. Normal
 detached-child preparation/render integration is still pending.
 
+The canonical descendant walk now performs common history, local-time sampling,
+physical/gravity callbacks and full finalization over supplied real terrain and
+declared collision geometry. An installed Wife control passes both shotgun plans
+through the class828 child's lifetime and cleanup, with source platform candidates
+retained rather than an invented empty platform query. Candidate bounds exclude
+irrelevant points; an admitted unresolved footprint still refuses the query.
+This is dependency integration, not the ordinary film/render driver yet.
+
+The Story2 declaration census finds 48 platform-flag candidates. The candidate
+projection partitions non-raster footprint profiles from raster candidates;
+non-raster readers cannot supply the platform bit. Actual raster footprints and
+near-candidate admission remain unresolved. Newly reviewed class usage masks and
+an absolute declared-scale writer let the cold source bounds be prepared without
+discarding those declarations. Texture and state-name services remain separate
+from the scalar collision view. Private original-PC block controls cover usage
+stores and 512 absolute scale writes; no new PS2 function identity is confirmed.
+
 ## Delivered preview .12.1 Starving and shared mission progression
 
 Owner direction, 11 November 2026: complete the ordinary twenty-meat return,

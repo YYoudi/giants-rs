@@ -61,6 +61,14 @@ x86_64-pc-windows-gnu` also checks explicit selection of the prototype-derived
 physical threshold with no fabricated PC argument. The historical default still
 refuses a missing caller word. This dependency test does not establish PS2
 whole-function execution, exact cross-platform numerics or ordinary film drawing.
+The ignored game control
+`installed_wife_children_use_actual_world_and_retained_platform_candidates`
+uses `GIANTS_MISSION_OWNED_ROOT` and drives the real class828 descendants through
+history, callback, physical/gravity and finalization stages on Story2 terrain and
+declared rigid geometry. It retains the 48 source platform-flag declarations,
+partitioning non-raster profiles from unresolved raster candidates. A point
+admitted by an unresolved footprint remains an error. These are supplied-frame
+dependency controls; the common movie event/render consumer is still pending.
 
 For the all-five consolidation, run the shared workspace checks below and the
 installed owner/normal-controller controls, including the generic player shell,

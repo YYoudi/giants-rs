@@ -97,6 +97,18 @@ strict. This source policy stores no invented native word and leaves mandatory
 environment/physical services intact. It retains PC arithmetic elsewhere;
 cross-platform numerical fidelity and generic MIPS suffix execution are not
 validated. The routine attribution is probable, not confirmed.
+
+Canonical timed descendants now have a once-per-world-frame preparation walk and
+a frame view qualified by actual completed finalization. Their world services
+execute the existing physical/gravity and terrain/environment kernels. Declared
+platform geometry is retained separately: unresolved footprints reject locally
+admitted points rather than becoming successful empty-world responses. Profiles
+selected ahead of raster3 are explicitly excluded by the platform-membership
+contract. Source class usage masks and absolute scale stores are prepared before
+bounds; texture descriptors and state-name callbacks are not implied by this
+collision projection. Installed Wife controls cover two shotgun plans through
+child lifetime/cancellation, not ordinary film events or GPU rendering. The
+common movie effects gate remains unchanged until those consumers are connected.
 The next record is `2b_2_returnwife`; it declares its own class216/state18 wife
 with selector3 near its selected player start. That actor must use the ordinary
 proximity/pickup services, rather than becoming an invented carried child or a
