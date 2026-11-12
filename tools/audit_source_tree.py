@@ -50,6 +50,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         # Concurrent mission-lane variant: the previous reviewed PC alias is
         # unchanged; adds a bounded, explicitly probable Smartie navigation key.
         '5c74b545f08d84b522c809b3876449bd7efdb542321cb6bfdb4cffc8e718bd12',
+        # Adds one literal effect search key and an explicitly unknown PC
+        # preparation alias; no effect/native body or corpus record is exported.
+        'e5e1bb1d18f316137adb758d97c16f5fb7ad11ae4430292472b48c9e8c6c7a89',
     },
     'docs/MECC_DESCENT_GUARD.md': {
         # Gameplay-first work-selection prose only; the reviewed alias is unchanged.

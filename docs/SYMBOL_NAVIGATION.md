@@ -78,6 +78,14 @@ in [`ripper_steering`](../crates/giants-game/src/ripper_steering.rs). Its exact 
 correspondence is **unknown**. The separately acquired PC angle helper alias
 `FUN_004dbd10` and the class230 primary caller remain the behavior references.
 
+## Attached effect preparation route
+
+The literal prototype PS2 name `fx_create` is a search key for
+[`attached_effect_context`](../crates/giants-game/src/attached_effect_context.rs).
+Its correspondence to PC debug-1.1 `FUN_0044c0a0` is **unknown**. The acquired PC
+extended attached preparation preserves the recipient's flag400 as context
+flag10000. This establishes neither effect-object activation nor rendered FX.
+
 ## Publication boundary
 
 This index publishes only selected names, reviewed navigation relationships and

@@ -179,6 +179,9 @@ selection, retained prefixes/late audio failure and replay/retirement refusal.
   supplies mode65/channel entry and flat terrain, prepares actual named FX,
   uses current animated references and suppresses audio. It admits neither
   ordinary NPC scheduling, visible FX nor projectile impact/damage.
+  `extended_attached_context` in `giants-game` checks preservation of recipient
+  flag400 in extended prepared-context metadata, including unchanged RNG and
+  the explicit refusal to call a merely prepared context an active effect.
 
 With `GIANTS_NPC_ROOT`, run
 `cargo test --locked -p giants-game source_parented_state0 --target x86_64-pc-windows-gnu -- --ignored`

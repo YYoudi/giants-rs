@@ -52,6 +52,15 @@ flat world are explicit diagnostic inputs and audio is suppressed. Prepared FX
 does not establish visible projectile effects or impact damage. Mode66 and later
 continuations and ordinary component scheduling remain prerequisites.
 
+Actual declared Rippers retain recipient flag400. Exact-PC attached preparation
+maps that flag into context flag10000 while preserving the extended caller's
+existing flag20000, recipient and tag. The shared context pool now retains this
+metadata instead of refusing these declarations. Native controls of the same
+dirt request with and without flag400 produce context flags30004 and20004;
+the inherited bit introduces no extra random draw. This prepares a context only:
+effect activation, emitted objects, particles and their renderer remain separate
+services. The prototype PS2 `fx_create` correspondence is unknown.
+
 The next delivery is the normal menu-to-The Wife encounter, reusing the shared
 Mecc/Session clock, RNG, terrain, render, audio and retirement contracts. Missing
 class230 continuations, completed frame/pose ownership, contacts, reciprocal

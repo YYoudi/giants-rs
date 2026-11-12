@@ -445,6 +445,12 @@ impl<K: Copy + Eq> Pool<K> {
         {
             return Err("cinematic random preparation outside acquired timed frame".into());
         }
+        // Timed cinematic activation still admits only its acquired flag8004
+        // profile. Do not discard newly retained extended inheritance metadata
+        // when replacing the preparation mark below.
+        if recipient_flags & 0x400 != 0 {
+            return Err("cinematic timed inheritance requires its activation owner".into());
+        }
         let (creation, intervals) =
             self.prepare_extended_invariant(name, recipient, recipient_flags, tag, random)?;
         if let Creation::Prepared(id) = creation {
@@ -516,6 +522,19 @@ impl<K: Copy + Eq> Pool<K> {
 /// followed by one hidden attached block with a fixed sound cue. Checking the
 /// complete body is essential: other blocks starting with24 execute RNG even
 /// during preparation. Neither names nor source offsets select this profile.
+/// PC debug-1.1 0x0044c0a0: the extended attached caller already supplies
+/// parameter bit8; recipient flag400 adds bit1, hence context flag10000.
+/// It does not copy an unknown actor parameter block. Prototype PS2 search
+/// key `fx_create` remains an unknown attribution; see symbol navigation.
+fn extended_flags(recipient_flags: u32) -> u32 {
+    0x20004
+        | if recipient_flags & 0x400 != 0 {
+            0x10000
+        } else {
+            0
+        }
+}
+
 fn is_deferred_program(program: &Program) -> bool {
     let ops: Vec<_> = program.records.iter().map(|r| r.opcode).collect();
     matches!(
@@ -938,15 +957,10 @@ impl<K: Copy + Eq> Pool<K> {
         else {
             return Ok((Creation::Absent, vec![]));
         };
-        if recipient_flags & 0x400 != 0 {
-            return Err(
-                "extended context requires acquired recipient parameter inheritance".into(),
-            );
-        }
         self.prepare_extended_entry(
             name,
-            recipient,
-            tag,
+            Binding::Attached { recipient, tag },
+            extended_flags(recipient_flags),
             (entry_index, entry.offset),
             image,
             random,
@@ -978,16 +992,11 @@ impl<K: Copy + Eq> Pool<K> {
         let Some((entry_index, entry)) = normal else {
             return Ok((Creation::Absent, vec![]));
         };
-        if recipient_flags & 0x400 != 0 {
-            return Err(
-                "extended context requires acquired recipient parameter inheritance".into(),
-            );
-        }
         let entry_offset = entry.offset;
         self.prepare_extended_entry(
             name,
-            recipient,
-            tag,
+            Binding::Attached { recipient, tag },
+            extended_flags(recipient_flags),
             (entry_index, entry_offset),
             image,
             random,
@@ -996,8 +1005,8 @@ impl<K: Copy + Eq> Pool<K> {
     fn prepare_extended_entry(
         &mut self,
         name: &str,
-        recipient: K,
-        tag: u32,
+        binding: Binding<K>,
+        flags: u32,
         entry: (usize, u32),
         image: Arc<Image>,
         random: &mut crate::audio_parameters::Random,
@@ -1010,13 +1019,13 @@ impl<K: Copy + Eq> Pool<K> {
         let count = name.len().min(label.len());
         label[..count].copy_from_slice(&name.as_bytes()[..count]);
         let creation = self.insert(Context {
-            binding: Binding::Attached { recipient, tag },
+            binding,
             label,
             entry_index,
             entry_offset,
             program: Ok(program),
             source: image,
-            flags: 0x20004,
+            flags,
             retained_smoke: None,
             parent_lost: false,
             immediate: None,
@@ -1302,6 +1311,54 @@ impl<K: Copy + Eq> Pool<K> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn extended_attached_context_preserves_the_recipient_flag400_without_extra_draws() {
+        for invariant in [false, true] {
+            let mut plain = Pool::new(950, Some(image()));
+            let mut inherited = Pool::new(951, Some(image()));
+            let mut a = crate::audio_parameters::Random(17);
+            let mut b = a;
+            let prepare =
+                |pool: &mut Pool<u32>, flags, random: &mut crate::audio_parameters::Random| {
+                    if invariant {
+                        pool.prepare_extended_invariant("A", 7, flags, 36, random)
+                    } else {
+                        pool.prepare_extended(
+                            "A",
+                            7,
+                            flags,
+                            36,
+                            crate::effect_initialization::Selection {
+                                active_objects: 0,
+                                quality: 1.,
+                                lite_distance: 10.,
+                                camera: [0.; 3],
+                                recipient_position: [0.; 3],
+                            },
+                            random,
+                        )
+                    }
+                };
+            let (Creation::Prepared(x), intervals_a) = prepare(&mut plain, 0x20, &mut a).unwrap()
+            else {
+                panic!()
+            };
+            let (Creation::Prepared(y), intervals_b) =
+                prepare(&mut inherited, 0x420, &mut b).unwrap()
+            else {
+                panic!()
+            };
+            assert_eq!(plain.get(x).unwrap().flags(), 0x20004);
+            let context = inherited.get(y).unwrap();
+            assert_eq!(context.flags(), 0x30004);
+            assert_eq!(context.recipient(), Some(7));
+            assert_eq!(context.tag(), Some(36));
+            assert_eq!(intervals_a.len(), intervals_b.len());
+            assert_eq!(a.0, b.0);
+            assert_eq!(context.emitted_objects(), 0);
+            assert!(context.require_first_update().is_err());
+        }
+    }
     fn timed_image(distinct_lite: bool) -> Arc<Image> {
         let offset = if distinct_lite { 17u32 } else { 6 };
         let mut payload = b"T\0".to_vec();
