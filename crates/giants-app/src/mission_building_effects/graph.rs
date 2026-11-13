@@ -319,17 +319,20 @@ impl Graph {
                     (model.geometry.clone(), positions, None)
                 }
             };
-            draws.push(crate::mission_runtime::NpcDraw {
-                rigid,
-                class: body.construction.class,
-                id: crate::mission_runtime::NpcDrawOwner::BuildingEffect(node.serial),
-                geometry,
-                positions,
-                frame: self.frame,
-                transparency: body.transparency(),
-                center: position,
-                texture: None,
-            });
+            draws.push(
+                crate::mission_runtime::NpcDraw {
+                    rigid,
+                    class: body.construction.class,
+                    id: crate::mission_runtime::NpcDrawOwner::BuildingEffect(node.serial),
+                    geometry,
+                    positions,
+                    frame: self.frame,
+                    transparency: body.transparency(),
+                    center: position,
+                    texture: None,
+                }
+                .with_source_rigid_material()?,
+            );
         }
         Ok(draws)
     }

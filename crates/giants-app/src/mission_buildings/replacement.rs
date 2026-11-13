@@ -312,7 +312,7 @@ impl Placed {
             .get(&usize::try_from(slot).map_err(|_| "replacement negative LOD")?)
             .ok_or("replacement selected LOD absent")?
             .clone();
-        Ok(crate::mission_runtime::NpcDraw {
+        crate::mission_runtime::NpcDraw {
             rigid: Some(crate::mission_runtime::NpcRigidProfile {
                 asset: asset.clone(),
                 matrix: self.matrix,
@@ -325,7 +325,8 @@ impl Placed {
             transparency: 0.,
             center: self.fields.position,
             texture: None,
-        })
+        }
+        .with_source_rigid_material()
     }
 }
 

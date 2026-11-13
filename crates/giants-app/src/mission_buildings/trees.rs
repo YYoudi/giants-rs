@@ -124,6 +124,27 @@ mod tests {
         assert_ne!(stump, id);
         assert_eq!(state.buildings.owners[&stump].fields.class, 664);
         assert_eq!(state.buildings.owners[&stump].damage.limit, 100.);
+        let draws = state
+            .buildings
+            .draws(
+                bevy::prelude::Mat4::IDENTITY.to_cols_array(),
+                Some((point, 1.)),
+            )
+            .unwrap();
+        let draw = draws
+            .iter()
+            .find(|d| d.class == 664)
+            .expect("stump shared render submission");
+        assert!(
+            draw.rigid.is_none(),
+            "unlit source must not require fabricated normals"
+        );
+        assert!(draw.positions.iter().flatten().all(|v| v.is_finite()));
+        assert!(
+            draw.positions
+                .iter()
+                .any(|v| (v[0] - point[0]).abs() < 100.)
+        );
         assert_eq!(
             state.buildings.owners[&stump].tree.unwrap()[4..],
             state.buildings.owners[&id].tree.unwrap()[4..]
