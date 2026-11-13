@@ -24,6 +24,8 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed bounded barracks navigation; existing aliases unchanged, identities unknown.
+        '6a6f4cc3338364fd742f50db811993a1709c0ed390d98fc397e847a9f1636a97',
         # Reviewed replacement constructor/bounds navigation; new identities unknown.
         '68be833a7ea484145b14dc1a3b98ed0e093bcfa48e0ebee68da7b522e3e259e8',
         # Reviewed concurrent unknown Mecc clock route; existing aliases unchanged.

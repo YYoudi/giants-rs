@@ -63,7 +63,7 @@ Display copies in the dashboard carry this same source/build identity.
 
 The next installed-data sample contains two state98 barracks, classes1060 and
 1226, already present in the independent player/projectile mesh preparation.
-Literal `barracks_shot`, `barracks_logic`, `barracks_alert_rippers` and related
+Literal `barracks_shot`, `barracks_logic`, `barracks_alert_rippers__FP6OBJECT` and related
 release names are checked against the prototype PS2 ELF, independently of the
 supplied CSV interpretation. The PC descriptor and its actual shot callback
 remain separately pinned in private evidence. These are unknown PC-to-PS2
@@ -127,6 +127,25 @@ ordinary producer must supply actual quality/load/camera inputs. Direct-offset
 preparation and supplied selection controls do not establish that producer.
 
 This continuation adds no ordinary barracks damage or new download capability.
+The `building_barracks` PC decision/alert kernels now match 69 original controls:
+55 callback/service-boundary contexts and fourteen complete nonlethal callbacks
+that execute the actual team helper, state23 predicate and horizontal squared
+distance helper over a nonempty supplied list. Reaperman alerts include the
+radius boundary and replace an existing target; the Ripper loop excludes that
+boundary and preserves existing targets. The acquired mode102 gates remain
+distinct from other modes. High vertical separation does not reject a nearby
+horizontal candidate. Damage is not clamped or passed through house stages.
+Alert writes precede accumulation; mission-count decrements follow successful
+requests, with failed prefixes retained rather than automatically replayed.
+The team helper's separate Reaperman-origin branches are outside this bounded
+building-origin kernel, not silently treated as equivalent.
+
+The next ordinary owner prerequisite is concrete: The Wife declares six class215
+state51 actors, while the common declaration constructor currently admits only
+its acquired state0/state23 and herd paths. Do not acknowledge building alerts
+against an empty or partial replacement list. Bind the actual construction,
+identity, payload/current-field and ordered-list providers, preserving their
+separate AI/frame readiness and the source selector's initial primary behavior.
 Complete the shared descendant/render consumers and the actual alert/mission/retirement
 owners, then validate damage, effects, sound, collision changes and cleanup through
 normal gameplay on one identified executable before extending the public snapshot.

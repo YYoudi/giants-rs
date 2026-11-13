@@ -81,8 +81,13 @@ Remaining work, in player-impact order:
    installed graphs pass supplied-flat-terrain preparation. Descendant activation
    and fading submissions now pass the three complete app graphs (60/60/123
    births and retirements); shader uniforms/blend updates have separate asset
-   controls. Complete named quality/distance selection, graphical/audio acceptance
-   and actual alerts before admitting
+   controls. The hit/alert decision kernels match 69 original contexts, including
+   actual horizontal distance and distinct Reaperman/Ripper edge/target rules.
+   The next owner prerequisite is The Wife's six declared class215/state51 actors,
+   outside the common constructor's current acquired profiles. Bind their actual
+   constructor/current fields and ordered list; never replace them with an empty
+   list. Complete named quality/distance selection, graphical/audio acceptance
+   and actual alert consumers before admitting
    ordinary damage. Existing tower geometry or the Vimp-specific effect route
    does not establish whole barracks acceptance. See BUILDINGS.md.
 4. Bind actual building mission-death producers with their native global mode,

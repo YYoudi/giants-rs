@@ -156,6 +156,16 @@ behavior. The ordinary adapters are in `mission_buildings`, with source health
 geometry in `building_geometry`; naming does not validate those consumers.
 See [BUILDINGS.md](BUILDINGS.md) for current integration evidence and acceptance.
 
+The literal prototype PS2 names `barracks_shot`,
+`barracks_alert_rippers__FP6OBJECT`, `rpman_alert_team__FP6OBJECTf` and
+`distancesq2d__FP3P3DT0` also lead to
+[`building_barracks`](../crates/giants-game/src/building_barracks.rs). These
+relationships remain **unknown**. The PC building-origin team branch and the
+inlined state23 alert loop retain different horizontal-radius and target rules.
+The Rust service boundary preserves ordered alerts, damage, effects/sounds,
+conditional mission requests and retirement. It neither constructs the missing
+mission actors nor establishes a complete world list or ordinary building hit.
+
 ## Publication boundary
 
 `MeccPhysicsExApplyLocation` is an **unknown** prototype PS2 navigation route to
