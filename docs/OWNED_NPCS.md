@@ -9,16 +9,21 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
-Current local frontier: source `501b628` enters The Wife through the ordinary
-menu and retains the supplied-command rendered missed-shot reaction validated
-on source `736ac96`. A longer supplied-input encounter processes two ground
-impacts, then refuses an expired class232 projectile. Expiry is the next observed
-runtime blocker; do not skip it or treat it as a ground-contact receipt. Required
-shared-world/startup-policy ownership, reciprocal injury, Ripper death and full
+Current local frontier: source `3297c8c`, GNU executable SHA256
+`7dbfc7408cc75ca0d21a43f283d4b86de7f45618413c6b56e506258f0eacd21e`,
+enters The Wife through the ordinary menu path. Its continuous rendered
+supplied-command encounter completes an actual class232 expiry at step4590,
+including source retirement without inventing ground contact. The following
+projectile contacts the controlled Mecc at step5035, where the actual shared-world
+failure/completion guard owner is still missing. The diagnostic exits101 with no
+capture, before damage publication. This is a failed whole-encounter candidate,
+not reciprocal combat acceptance or visually inspected expiry fidelity. The
+separately inspected missed-ground-shot result on `736ac96` remains historical.
+Shared-world/startup-policy ownership, reciprocal injury, Ripper death and full
 Windows encounter/menu acceptance remain open. No competing preview is published.
 
-The branch now implements the retained class90/232 expiry continuation, pending
-a fresh identified rendered encounter. It uses the actual recorded flight/clock;
+The branch implements the retained class90/232 expiry continuation, exercised by
+the identified encounter above. It uses the actual recorded flight/clock;
 no second query, invented ground point or extra time subtraction occurs. Sound
 precedes the named explosion and conditional radial service, then marking and a
 distinct expiry retirement. Ground-plus-expiry in one callback keeps both tails
@@ -31,6 +36,12 @@ observations supply actor/clock/TLS and unavailable sound/FX consumers; they are
 not a whole primary, full world, rendered effect or playback validation. The
 two-ticket missed-ground-shot regression also passes. Prototype PS2
 `projectile_logic`/`projectile_cleanup` remain unknown relationships.
+
+### Earlier dependency evidence
+
+The following records retain their original source/build boundaries. Later
+connections do not transfer graphical acceptance to those older executables;
+the current observed runtime frontier is the one stated above.
 
 The ordinary class230 mode67 primary now validates its current target, produces
 real turning/forward commands and selects mode68 or69 using the actual class
@@ -166,7 +177,8 @@ Clippy/formatting, the four canonical kind3 observations and the preceding49
 projectile dispatcher observations. The technical all-ref source audit has no
 findings. The adapter is not yet connected to ordinary shared-world/controller/
 audio providers, and this executable has no new rendered or Windows-input
-acceptance. The earlier combined-game first-hit failure is still authoritative.
+acceptance. The earlier combined-game first-hit failure belongs to that receipt;
+the current frontier is recorded at the start of this section.
 
 The local failure-producer build is source
 `ccc202f13b6266bd498cf120c0f6107cf6a03784`, executable SHA256

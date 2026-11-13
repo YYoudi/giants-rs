@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Complete enemy perception, navigation, attacks and mission integration remain open. The public preview retains bounded ordinary Vimp interaction. The NPC development branch connects source-declared Ripper frames, body/contact submissions, the normal Mecc dedicated collision producer, owned launch/current-scene flight arithmetic, class230 cooldown/retreat, animated source projectile submissions and earlier local menu/re-entry checks. Projectile GPU encounter acceptance, impacts, reciprocal Ripper combat and death remain open. Complete native-world admission and scheduling remain unverified. See BACKLOG.md."
+      "detail": "Complete enemy perception, navigation, attacks and mission integration remain open. The public preview retains bounded ordinary Vimp interaction. The NPC development branch connects source-declared Ripper frames, contacts, launch/flight and the actual missed-shot ground reaction. Local source 3297c8c also processes genuine projectile expiry/retirement in a rendered supplied-command Wife encounter, then refuses the next actual Mecc contact because shared-world failure/completion guards remain unbound. This failed whole-encounter candidate establishes no reciprocal injury, Ripper death, complete Windows encounter or native-world fidelity. See OWNED_NPCS.md and BACKLOG.md."
     },
     {
       "id": "wildlife",

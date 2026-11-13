@@ -171,22 +171,23 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
-Next observed NPC delivery: complete the actual class232 projectile expiry on
-the ordinary The Wife path, retaining its sound-before-explosion, conditional
-radial and marking/retirement order. A same-callback ground impact plus expiry
-must not silently discard the second tail or borrow a ground retirement receipt.
-Source `501b628` / executable
-`fbae253d1241982185f3c874b8800065258cf38159c843c5216660d4401cd670`
-processes two actual ground impacts in the continuous rendered supplied-input
-control, then refuses the third shot's expiry and exits101 without a capture.
-This is the last identified observed frontier, not a complete encounter. The
-branch now connects actual pending expiry to its own ordered sound/FX/radial/
-marking and retirement receipt, including the second tail after ground contact.
+Next observed NPC delivery: bind the genuine shared-world failure/completion
+guards required by an actual Ripper projectile contact with the normal Mecc.
+Source `3297c8c` / GNU executable
+`7dbfc7408cc75ca0d21a43f283d4b86de7f45618413c6b56e506258f0eacd21e`
+completes actual class232 expiry and retirement at step4590 in a continuous
+rendered supplied-command Wife encounter. The next shot contacts the actual
+controlled Mecc at step5035 and refuses the missing world owner before damage
+publication. Exit101/no capture is a failed whole-encounter candidate, not
+reciprocal damage or visually inspected expiry fidelity. Earlier `501b628`
+expiry refusal is superseded for this dependency only. The branch connects actual
+pending expiry to its own ordered sound/FX/radial/marking and retirement receipt,
+including the second tail after ground contact.
 Eighty original reached-tail observations and five synthetic controls pass;
 actor/clock/TLS and unavailable sound/FX consumers are supplied in those native
-controls. The real source ground regression passes on two tickets. Run a fresh
-identified continuous rendered encounter next; these dependencies establish no
-whole primary, playback, live hit or completed encounter. Prototype PS2
+controls. The real source ground regression passes on two tickets. The new
+rendered processing/retirement observation establishes no complete primary,
+playback parity, accepted live hit or completed encounter. Prototype PS2
 `projectile_logic`/`projectile_cleanup` remain unknown relationships. Actual shared-world
 guards, startup no-play ownership, reciprocal injury/death and full Windows
 encounter/menu acceptance remain required. Keep main's mission/publication lane

@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent reviewed replacement/FLK navigation; unknown identities,
+        # unchanged sole proximity alias and no raw research or corpus inputs.
+        '6a6f4cc3338364fd742f50db811993a1709c0ed390d98fc397e847a9f1636a97',
         # Reviewed unknown projectile expiry routes and supplied-tail limits.
         'ad285f02a66286912f63334114d7f8fb4e473c80677b5de16fd4df5d8b8efa24',
         # Reviewed ordinary hit-consumer wiring; world guards still unavailable.
