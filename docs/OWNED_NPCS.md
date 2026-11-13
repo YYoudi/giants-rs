@@ -9,6 +9,14 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
+Current local frontier: source `501b628` enters The Wife through the ordinary
+menu and retains the supplied-command rendered missed-shot reaction validated
+on source `736ac96`. A longer supplied-input encounter processes two ground
+impacts, then refuses an expired class232 projectile. Expiry is the next observed
+runtime blocker; do not skip it or treat it as a ground-contact receipt. Required
+shared-world/startup-policy ownership, reciprocal injury, Ripper death and full
+Windows encounter/menu acceptance remain open. No competing preview is published.
+
 The ordinary class230 mode67 primary now validates its current target, produces
 real turning/forward commands and selects mode68 or69 using the actual class
 parameters and shared RNG. It does not set actor positions. A strict melee-range
@@ -110,9 +118,9 @@ The prototype PS2 `mission_fail` relationship remains unknown. The timer caller
 also depends on actual failure-film declarations/ownership and the shared clock;
 its acquisition does not bind that producer or replace the campaign flow.
 
-The current isolated Wife approach consumes mode67 and its mode68 animation
+The earlier isolated Wife approach consumed mode67 and its mode68 animation
 selection at step3251, follows that attack through its real ANM clock, then
-refuses the missing kind3 hurt consumer at3293 with the source already in mode66.
+refused the missing kind3 hurt consumer at3293 with the source already in mode66.
 This diagnostic still fails; it is not a complete encounter pass. It supplies
 ordinary player commands, excludes the Vimp component and uses no GPU or OS input.
 
@@ -183,6 +191,24 @@ that diagnostic rather than permitting exit0 with a failed component. These
 checks change neither NPC admission nor ordinary player input/AI availability;
 positive damage alone is not proof of an attributed complete encounter.
 
+The subsequent diagnostic GNU build is source
+`501b628d937abfeac9de27ca20a6a2cc0bc3faed`, executable SHA256
+`fbae253d1241982185f3c874b8800065258cf38159c843c5216660d4401cd670`,
+Rust1.98.0/MinGW16.2.0. Workspace checks pass1,054 tests with216 ignored,
+strict Clippy and formatting. Its continuous rendered supplied-input control
+retires actual ground shots at steps4792 and5955, then refuses the third class232
+shot's expiration after its launch at6726. It exits101 without a capture; neither
+player damage nor Ripper death was reached. This is an incomplete encounter,
+separate from the corrected missed-ground-shot pass and from actual Windows input.
+
+Read-only exact-PC acquisition distinguishes expiry from ground contact: expiry
+requests sound before the explosion, then the conditional radial tail and marking.
+A ground impact followed by expiry in the same callback can reach a second tail;
+an already marked projectile does not establish that it is skipped. Preserve
+that ordering and distinct receipt/cleanup ownership in the next implementation.
+This static acquisition is not a native expiry control or confirmed prototype
+PS2 attribution. Detailed identity-bound lookups and old aliases remain private.
+
 The ordinary hit-consumer build is source
 `18316e77c19379002feb69b9d3d8c3cedc261a05`, executable SHA256
 `ac0c09121ce261730aaf9ca0b37d27fa99e8cffaabbaf5660d4f908461b87d71`,
@@ -193,8 +219,8 @@ unavailable; this local build is not a completed combat milestone or a published
 preview. No full encounter, Ripper death or new Windows-input acceptance follows
 from these checks.
 
-Earlier milestone evidence below includes the old mode67 frontier. The first
-combined-game graphical blocker remains direct projectile damage to the player;
+Earlier milestone evidence below includes the old mode67 frontier. An older
+combined-game graphical candidate stopped at direct projectile damage to the player;
 do not transfer the isolated Ripper-only approach or newer CPU selections to that
 rendered scene. Reciprocal injury, Ripper death and complete Windows encounter
 acceptance remain open. No new preview is published by this lane.

@@ -171,6 +171,21 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
+Next observed NPC delivery: complete the actual class232 projectile expiry on
+the ordinary The Wife path, retaining its sound-before-explosion, conditional
+radial and marking/retirement order. A same-callback ground impact plus expiry
+must not silently discard the second tail or borrow a ground retirement receipt.
+Source `501b628` / executable
+`fbae253d1241982185f3c874b8800065258cf38159c843c5216660d4401cd670`
+processes two actual ground impacts in the continuous rendered supplied-input
+control, then refuses the third shot's expiry and exits101 without a capture.
+This is the current observed frontier, not a complete encounter. Acquire/compare
+the native expiry contract next, beginning with prototype PS2 lookup/identities;
+the first static acquisition remains an unknown attribution. Actual shared-world
+guards, startup no-play ownership, reciprocal injury/death and full Windows
+encounter/menu acceptance remain required. Keep main's mission/publication lane
+separate and preserve its concurrent work.
+
 Owner request, 12 November: integrate source-declared Rippers to the same concrete
 ordinary interaction level as Vimps, starting with The Wife, then other declared
 maps. Main owns The Wife progression and common publication; the NPC lane must
@@ -202,8 +217,8 @@ continuations and bind the genuine active-hit owners;
 complete reciprocal damage/death, an identified rendered GNU executable and actual
 Windows menu/reentry remain required. No preview/publication or complete encounter
 is established by these CPU controls.
-The current isolated approach consumes mode67 plus the mode68 animation selection
-at3251, advances the real attack ANM, then still fails at3293 on the missing kind3
+The earlier isolated approach consumed mode67 plus the mode68 animation selection
+at3251, advanced the real attack ANM, then failed at3293 on the missing kind3
 hurt consumer, with the source already in mode66. It excludes the Vimp
 component and supplies player commands; no GPU or actual Windows encounter is
 established by this diagnostic. Do not reroute it to hide the pending attack.
