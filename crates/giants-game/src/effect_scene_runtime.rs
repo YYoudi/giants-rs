@@ -296,6 +296,9 @@ impl Body {
         pose: Option<crate::effect_animation::Playback>,
         contact: Option<crate::effect_contact::Seed>,
     ) -> Result<Self, &'static str> {
+        if !construction.object_services.render_commands.is_empty() {
+            return Err("mixed UV-scroll/vertical-fade render services not bound");
+        }
         let rigid_contact = (construction.object_services.source15
             || construction.object_services.source47 == Some(1))
             && matches!(construction.object_services.source47, None | Some(1))
