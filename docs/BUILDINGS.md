@@ -61,6 +61,15 @@ and identical actual player/projectile triangles, without granting a generic
 actor footprint or manufacturing a damage callback. Its exact-candidate rendered
 contact and no-damage checks remain required before publication.
 
+The installed added state0 sample is a small door, not a palisade. Its actual
+triangle centroids are below the terrain at this placement. A rendered input
+attempt observes fresh narrow floor support, but ordinary projectiles correctly
+hit the terrain before the selected mesh point; the three-hit diagnostic fails.
+Keep this admission census and bounded support observation distinct from a
+visible door/palisade shooting acceptance. Do not move source geometry, bypass
+terrain or invent a hit to make the diagnostic pass. The independently visible
+table remains the current no-shot projectile acceptance sample.
+
 The first wider-player candidate passes actual rendered contact/damage/expiry
 for the entrance, fence and house. Its old small-tower input fixture stalls at
 a now-solid source column. Two following jet/detour attempts also fail the
@@ -204,6 +213,20 @@ remain supplied boundaries. Their field identities and actual new actor owner
 must be preserved, rather than assuming a complete pose copy or recycled ID.
 No new PS2 attribution is confirmed by these controls.
 
+The construction ledger now retains these guard-program properties rather than
+refusing their framing: sampled spin, sampled increasing ease-in size and the
+source15/source47 requests. Thirty-six original active-store comparisons also
+agree with the compiled ledger's actual preparation and activation output;
+32 independent null-object controls pin the relevant preparation RNG draws.
+The zero source47 operand remains distinct from absence. The visual runtime
+explicitly refuses the two pending control consumers, rather than acknowledging
+their flags. The installed guard graph and its retirement programs can now be
+projected, but that does not activate them. The next concrete consumer is the
+source kind8 debris with lit meshes, physical contact and contact-triggered
+retirement into the multi-body dust program. Keep it separate from the existing
+kind6 terrain-only particle profile. Replacement construction, rendering,
+independent collision roles and complete ordinary GPU acceptance remain required.
+
 Other literal search routes include `deathfx_shot`, `deathfx_logic`,
 `barracks_shot`, `bldg_subtract_energy` and the base-building callbacks. Their
 availability does not confirm a PC attribution. Generic death-FX declarations
@@ -248,13 +271,13 @@ building bursts or retirement and a visually reviewed capture. That result
 belongs to its exact executable. The new state0 fence admission requires a fresh
 receipt and both no-shot samples plus combined regressions before publication.
 
-The next palisade diagnostic fails its budget because the observation counted
+The next small-door diagnostic fails its budget because the observation counted
 only blocking/retry responses. A low source mesh can supply floor support without
 a blocking retry. The new observation exposes fresh support computed by this
 actual mesh query, separately from any retained support ID; it changes no physics
 or geometry. Contact logs distinguish blocking from floor support. A focused
 control rejects a stale support ID with no triangles. A new executable must
-repeat both no-shot samples and combined regressions; the failed receipt is
+repeat the visible table no-shot sample and combined regressions; the failed receipt is
 retained privately and is not a published acceptance.
 
 ### Initial registered static-shadow dependency

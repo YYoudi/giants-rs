@@ -254,7 +254,7 @@ pub fn templates(plan: &Plan) -> Result<Vec<Vec<Construction>>, &'static str> {
 /// for a timed detached object without translation physics or surface alignment.
 /// Other transform owners remain explicit needs, independently of scalar size.
 pub fn curve_reference_pending(construction: &Construction) -> bool {
-    construction.size_opcode == Some(0x34)
+    matches!(construction.size_opcode, Some(0x34 | 0x35))
         && (construction.lifetime.is_none()
             || !matches!(construction.origin, Origin::Detached)
             || construction.physics_enabled
@@ -278,6 +278,10 @@ impl Body {
         birth: Matrix,
         pose: Option<crate::effect_animation::Playback>,
     ) -> Result<Self, &'static str> {
+        if construction.object_services.source15 || construction.object_services.source47.is_some()
+        {
+            return Err("effect source15/source47 active callback owner remains unbound");
+        }
         if construction.lifetime.is_none()
             && (construction.physics_enabled || construction.spin != [0.; 3])
         {
@@ -321,7 +325,7 @@ impl Body {
             Some(crate::effect_burst::Playback::with_size_curve(
                 spawn,
                 birth,
-                if construction.size_opcode == Some(0x34) {
+                if matches!(construction.size_opcode, Some(0x34 | 0x35)) {
                     crate::effect_visual::SizeCurve::EaseIn
                 } else {
                     crate::effect_visual::SizeCurve::Linear
@@ -564,6 +568,16 @@ impl Runtime {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn pending_guard_control_requests_do_not_become_successful_runtime_bodies() {
+        let (objects, _) = plan(1.).start(&mut 17).unwrap();
+        for (source15, source47) in [(true, None), (false, Some(0)), (false, Some(1))] {
+            let mut object = objects[0].clone();
+            object.object_services.source15 = source15;
+            object.object_services.source47 = source47;
+            assert!(super::Body::new(object, super::Matrix::identity(), None).is_err());
+        }
+    }
     #[test]
     fn unscaled_point_support_preserves_its_basis_for_child_references() {
         let refs = super::References {

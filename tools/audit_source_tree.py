@@ -24,6 +24,8 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed guard construction-ledger navigation; all new routes unknown.
+        '7656fa6dea7d487005fb3aa7f52ca5eb68e802ceba88e09ad9a454dcc4bacc50',
         # Reviewed concurrent unknown enemy-contact navigation; no native body.
         '8c9942d8203dea074fa21772306aa572c391baa9ee7793f25b9918df6d023c72',
         # Reviewed unknown no-shot dispatcher route; no native body or new alias.

@@ -109,6 +109,13 @@ whether to request a child and retire its parent; source names do not validate
 the physical query, child factory, whole callback or film integration. The
 source constructor retains its mutable budget in the canonical actor payload.
 
+The same unknown `fx_processOpCodes__FP6FxDataiP6OBJECT` route also reaches
+[`effect_scene`](../crates/giants-game/src/effect_scene.rs): its construction
+ledger retains the guard effect's sampled spin/curved size and pending
+source15/source47 requests. Parameter and RNG controls do not execute their
+physical, retirement, replacement or rendering consumers. No new identity or
+prototype signature/layout is asserted.
+
 The more specific literal `fx_setupGroundHitCreate__FP10FXSTACKTAGii` has a
 **probable block-level relationship** to the acquired PC opcode5a writer in
 `effect_ground_emission::Source::configure`. Independent body evidence includes

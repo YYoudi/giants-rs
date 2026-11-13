@@ -64,16 +64,23 @@ attributions. The independent original-PC comparisons (3,080 house / 7,000 death
 contexts) validate bounded decisions and service boundaries, not native fidelity.
 The complete building objective and whole-game scope remain active.
 
-Next local acceptance first verifies actual ordinary hits on a source state0
-surface that has no shot callback, preserving its admitted player/projectile
-geometry and showing that configured health does not make it destructible.
-The independently acquired original dispatcher passes eighteen bounded controls;
-the local observation remains pending exact-executable GPU acceptance. This does
-not update the delivered .13.1 receipt or waive combined regressions.
+Local source state0 table acceptance now passes actual player contact and three
+distinct normal projectile hits, unchanged player/projectile geometry and zero
+building bursts or retirement, with reviewed GPU capture. The original dispatcher
+also passes eighteen bounded controls. A new static admission sample is a small
+door buried beneath the terrain here, not a visible palisade: its actual fresh
+floor support is observed but terrain intercepts its attempted shots, so that
+diagnostic remains failed. Do not relabel it as a visible-building acceptance.
+The observation changes do not update .13.1 or waive combined regressions on the
+next meaningful runtime milestone.
 
 The following concrete building consumer is the guard tower's actual state0
 replacement and compound source effects. Its bounded original-caller inheritance
-and individual effect-property dependencies are acquired privately; constructors,
+and individual effect-property dependencies are acquired privately. The ledger
+now retains the guard graph's sampled spin/increasing curved size and pending
+source15/source47 requests, with 36 active-store and 32 null-pass comparisons.
+Next bind actual kind8 lit debris, physical contact and contact-triggered nested
+retirement; do not route it through the acquired kind6 particle profile. Constructors,
 world/render/collision ownership, nested retirement and complete ordinary
 acceptance remain required. Follow BUILDINGS.md and the mandatory prototype PS2
 lookup before continuing. The complete building objective remains active.

@@ -1,6 +1,9 @@
 //! Ordered construction of mixed attached/detached effect objects and waits.
 //! This is a construction ledger, not a service, motion or rendering backend.
 //! Service configuration remains explicit, including its source RNG consumption.
+//! Prototype PS2 `fx_processOpCodes__FP6FxDataiP6OBJECT` is an unknown PC
+//! attribution search route. The guard-building continuation preserves pending
+//! source15/source47 consumers; parsing their stores does not execute callbacks.
 use giants_formats::{effect_image::Image, effect_program::Record};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -150,6 +153,10 @@ pub struct ObjectServiceNeeds {
     /// Source49 registration; native association, resume and cleanup are pending.
     pub logged_context: bool,
     pub source16: bool,
+    /// Acquired control-word request, without its active callback consumer.
+    pub source15: bool,
+    /// Raw source47 operand, including zero; active response remains unbound.
+    pub source47: Option<u32>,
     pub source5a: Option<DeferredEffectBinding>,
     /// Named program configured for retirement; no callback is acknowledged.
     pub retirement: Option<RetirementBinding>,
@@ -158,6 +165,8 @@ impl ObjectServiceNeeds {
     pub fn pending_count(&self) -> usize {
         usize::from(self.logged_context)
             + usize::from(self.source16)
+            + usize::from(self.source15)
+            + usize::from(self.source47.is_some())
             + usize::from(self.source5a.is_some())
             + usize::from(self.retirement.is_some())
     }
@@ -211,7 +220,11 @@ enum Op {
     Lifetime([f32; 3]),
     RandomLifetime([[f32; 2]; 3]),
     RandomSizes([[f32; 2]; 2]),
+    RandomCurvedSizes([[f32; 2]; 2]),
+    RandomSpin([[f32; 2]; 3]),
     RandomSize([f32; 2]),
+    Source15,
+    Source47(u32),
     Source16,
     Source5a(DeferredEffectBinding),
     RandomGravity([f32; 2]),
@@ -440,6 +453,10 @@ impl Plan {
                     7 => break,
                     5 => Op::RandomLifetime(ranges(r)?),
                     9 => Op::RandomSizes(ranges(r)?),
+                    0x35 => Op::RandomCurvedSizes(ranges(r)?),
+                    0x33 => Op::RandomSpin(ranges(r)?),
+                    0x15 => Op::Source15,
+                    0x47 => Op::Source47(word(r, 1)?),
                     0x1c => Op::RandomSize(ranges::<1>(r)?[0]),
                     0x16 => Op::Source16,
                     0x5a => {
@@ -664,8 +681,8 @@ impl Plan {
 impl Op {
     fn preparation(&self, seed: &mut u32) {
         let additional = match self {
-            Self::RandomLifetime(_) => 3,
-            Self::RandomSizes(_) => 2,
+            Self::RandomLifetime(_) | Self::RandomSpin(_) => 3,
+            Self::RandomSizes(_) | Self::RandomCurvedSizes(_) => 2,
             Self::RandomGravity(_)
             | Self::RandomOffsetZ(_)
             | Self::RandomSize(_)
@@ -763,6 +780,18 @@ impl Object {
                     obj.size = Some(v);
                     obj.size_opcode = Some(9);
                 }
+                Op::RandomCurvedSizes(ranges) => {
+                    let v = ranges.map(|r| crate::timed_effect::sample(seed, r));
+                    if v.iter().any(|v| *v <= 0.) || v[1] < v[0] {
+                        return Err("scene sampled curve outside finite increasing-size profile");
+                    }
+                    obj.size = Some(v);
+                    obj.size_opcode = Some(0x35);
+                }
+                Op::RandomSpin(ranges) => {
+                    let [x, y, z] = ranges.map(|r| crate::timed_effect::sample(seed, r));
+                    obj.spin = [y, x, z];
+                }
                 Op::RandomSize(range) => {
                     let size = crate::timed_effect::sample(seed, *range);
                     if size <= 0. {
@@ -772,6 +801,8 @@ impl Object {
                     obj.size_opcode = Some(0x1c);
                 }
                 Op::Source16 => obj.object_services.source16 = true,
+                Op::Source15 => obj.object_services.source15 = true,
+                Op::Source47(value) => obj.object_services.source47 = Some(*value),
                 Op::Source5a(binding) => obj.object_services.source5a = Some(binding.clone()),
                 Op::RandomGravity(range) => {
                     obj.gravity = crate::timed_effect::sample(seed, *range);
@@ -918,6 +949,21 @@ mod tests {
             assert_eq!(objects[0].contact_requested, expected);
             assert!(!objects[0].physics_enabled);
         }
+    }
+    #[test]
+    fn guard_control_requests_stay_pending_including_the_zero_attribute() {
+        let mut bytes = object(913);
+        bytes.extend([0x15, 0x47]);
+        bytes.extend(0u32.to_le_bytes());
+        bytes.extend([7, 2]);
+        let plan = super::Plan::project(&image(&[("guard", bytes)]), "guard").unwrap();
+        let mut seed = 17;
+        let (objects, _) = plan.start(&mut seed).unwrap();
+        assert_eq!(seed, 17);
+        let needs = &objects[0].object_services;
+        assert!(needs.source15);
+        assert_eq!(needs.source47, Some(0));
+        assert_eq!(needs.pending_count(), 2);
     }
     #[test]
     fn external_hold_keeps_hidden_logged_object_and_never_expires_from_elapsed_time() {
@@ -1279,7 +1325,7 @@ mod tests {
             assert!(super::Plan::project(&image(&[("p", b)]), "p").is_err());
         }
         let mut b = object(1);
-        b.extend([0x15, 7, 2]);
+        b.extend([0x48, 7, 2]);
         assert!(super::Plan::project(&image(&[("p", b)]), "p").is_err());
     }
 }
