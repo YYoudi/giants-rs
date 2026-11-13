@@ -24,6 +24,13 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent minimal NPC route summaries reviewed for source hazards;
+        # this exception does not certify their gameplay or routine attribution.
+        'ae3da3f10926a48b01145f7041fa15f956d867d22a6e489f37112e0d0c9b995d',
+        '222cc399cefc344cf09a604de812bb122cdbecba72d8e7c9f136788674599ef2',
+        'ad285f02a66286912f63334114d7f8fb4e473c80677b5de16fd4df5d8b8efa24',
+        'ac744379ef67b62ca8bd309c66a61cc4206e8e4ab3b4b7fc52b1c95e2c3cd3ce',
+        'f2776022fa2db7dbb90551368f5867882e5e7855d00c9cf2f46f603a2d7b65e3',
         # Reviewed absent-audio/child navigation; no new PC aliases or identity claim.
         '8631261df31c821f1b1058169b7d35c72fa368ad7a1b69a68834092d94ba4fe9',
         # Reviewed initial/health and typed alert links; existing aliases unchanged.
@@ -133,6 +140,10 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
     },
     'docs/RECONSTRUCTION_METHOD.md': {
+        # Concurrent selected identity summaries, not native listings; hazard
+        # review alone does not independently validate the attribution claim.
+        '4aa97ef9c6c53297ca4bd7b94099b08401349bc1d42723852af6649f6f6d4df9',
+        '4f05affbf20c6abc35016e82c276dbb4315d0f16b1315943f813d776bccdf3a3',
         # Dependency-module identity guidance only; reviewed aliases unchanged.
         '85ac9cb7e1ddf1256cc141adfa4b823f9328cace3c93b13a0b1c5885c38875de',
         # Read-only procedure-entry guidance; existing reviewed aliases unchanged.

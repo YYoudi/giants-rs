@@ -368,9 +368,11 @@ impl Controller {
                 120000
             } else if Self::vimp_contact_probe() {
                 12000
-            } else if crate::frontend_scene::vimp_interaction_probe()
-                || crate::frontend_scene::building_interaction_probe()
-            {
+            } else if crate::frontend_scene::building_interaction_probe() {
+                // Diagnostic command budget includes the distant authored
+                // barracks route, normal weapon cooldowns and effect expiry.
+                24000
+            } else if crate::frontend_scene::vimp_interaction_probe() {
                 6000
             } else if matches!(
                 std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
@@ -996,8 +998,22 @@ pub(super) fn update(
                             .pistol()
                             .is_some_and(|p| distance > p.definition.range * 0.6);
                     if contacts == 0 && physical || approach {
-                        axes = Vec2::Y;
-                        thrust = tick > 1200 && position[2] < target[2];
+                        if controller.state.buildings.is_barracks(id) {
+                            let fuel = controller.state.mission_snapshot().1;
+                            let pilot = &mut *controller;
+                            let commands = pilot.probe_escape.commands(
+                                position,
+                                target,
+                                fuel,
+                                &mut pilot.probe_recharge,
+                            );
+                            axes = Vec2::from_array(commands.0);
+                            thrust = commands.1;
+                            boost = commands.2;
+                        } else {
+                            axes = Vec2::Y;
+                            thrust = tick > 1200 && position[2] < target[2];
+                        }
                     } else if distance < 70. {
                         axes = -Vec2::Y;
                     } else if !controller.building_probe_terminal {

@@ -239,6 +239,13 @@ counter success is fabricated. Later barracks spawning/AI remains unported.
 Validate normal pistol hits, effects, actual declared sound sinks, collision
 changes, cleanup and regressions on one identified rendered executable before
 extending the public snapshot. No new public download is delivered by these controls.
+The first receipt-bound rendered Ripper attempt reached the ordinary mission but
+its supplied straight-line pilot stalled on the departure terrain and exhausted
+its observation budget without a hit. It is a failed rendered control, not a
+damage/effect success. The diagnostic route now reuses the existing held-input
+escape/recharge pilot for barracks and a longer command budget; it changes no
+gameplay pose, fuel, collision, health or readiness. Repeated rendered acceptance
+on the resulting executable is still required.
 
 ## Acquisition history and bounded service evidence
 
