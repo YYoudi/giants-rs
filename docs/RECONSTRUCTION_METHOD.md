@@ -278,6 +278,36 @@ the discovery worksheet is immutable evidence, not the attribution authority.
 For the three confirmed rows above, use the reviewed rationale and scoped control
 receipts rather than silently editing the original searches to look confirmed.
 
+### Ripper corpse routine identity
+
+The reviewed debug-reference-1.1 PC helper at `0x004d92a0` corresponds to
+prototype PS2 `0x001b4940`, raw symbol `ripper_death_logic__FP6OBJECT`:
+**confirmed routine identity**. Both binaries use the SHA256 identities pinned
+above. The Rust entry is `ripper_corpse::ripper_death_logic`, bounded to PC
+class73/230; its previous PC aliases remain in [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
+The raw symbol is retained without asserting a decoded return type, ABI or Rust
+signature. The initial private unknown worksheet remains unchanged; a separate
+reviewed record holds this attribution and its counterevidence.
+
+Independent evidence combines the class-dependent mana parameter selection,
+global-clock countdown, negative-time bypass, zero-parameter removal,
+personality gate, conditional creation-result gate and final removal mark. The
+prototype's literal callee names independently establish clock, mana-activation
+and object-removal roles consistent with the acquired PC bodies. The two
+prototype `dead__FP6OBJECT` entries lack this class/conditional-mana call pattern
+and are rejected as alternatives to this PC helper. No automatic score,
+generated label or size similarity is used as confirmation.
+
+Standard MIPS control/FPU encodings were checked independently of the decoder's
+incorrect R5900 extension mnemonics; those mnemonics are excluded from evidence.
+No prototype execution or complete platform equivalence is claimed. Prototype
+field locations, register conventions and single-precision subtraction are not
+imported into the PC port, which retains its wide subtraction/rounded storage.
+540 original PC helper observations cover the acquired branch profile; actor,
+clock/configuration and either an original empty lookup or a supplied creation
+return remain control inputs. Positive mana creation, a complete primary,
+ordinary lethal integration, rendered death and cleanup remain unvalidated.
+
 ## Publication boundary
 
 Before publishing any additional attribution, select only the necessary binary

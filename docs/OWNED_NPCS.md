@@ -37,6 +37,34 @@ not a whole primary, full world, rendered effect or playback validation. The
 two-ticket missed-ground-shot regression also passes. Prototype PS2
 `projectile_logic`/`projectile_cleanup` remain unknown relationships.
 
+The acquired corpse continuation is also available as `ripper_corpse`, a
+dependency for the still-missing ordinary lethal path. It consumes the global
+clock, preserves the wide branch before rounding and distinguishes an actual
+conditional mana-creation request from marking for removal. A zero mana value
+can mark the body before countdown expiry; a nonzero value can retain it while
+the real recipient/creation consumer returns no result. Missing creation fails
+after the timer write, preserving external effects/RNG for the primary's failure
+latch. Marking is not canonical owner cleanup. This does not copy Vimp meat or
+ghost behavior, provide a lethal producer, acknowledge mana availability or
+connect mode94 to the normal primary. Prototype PS2
+`ripper_death_logic__FP6OBJECT` is a confirmed routine identity, separately from
+this runtime gap; the repeated `dead__FP6OBJECT` raw name is ambiguous. The
+540 original whole-helper observations use supplied actor/global-clock inputs;
+180 execute the original empty-recipient lookup and 360 supply the creation
+return at its actual call boundary. They do not validate positive native mana
+creation, a whole primary, rendered death or canonical cleanup.
+
+### Local menu test procedure
+
+Launch the identified local executable with `--mecc-menu --data-root <installation>
+--user-data-root <fresh-profile>`. Select Preview tools -> Browse all missions ->
+Mecc Story2 -> The Wife; allow the opening to finish or skip it with Escape.
+WASD/mouse move and aim, left mouse fires, right mouse uses the jet, Space adds
+nitro and R changes view. Escape returns to mission selection; select The Wife
+again to test a fresh ticket. These ordinary controls require no NPC activation
+flag. The current missing hit guards can still stop the Ripper component;
+following this procedure is not a completed encounter/death/reentry receipt.
+
 ### Earlier dependency evidence
 
 The following records retain their original source/build boundaries. Later

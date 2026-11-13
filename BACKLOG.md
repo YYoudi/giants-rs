@@ -193,6 +193,19 @@ guards, startup no-play ownership, reciprocal injury/death and full Windows
 encounter/menu acceptance remain required. Keep main's mission/publication lane
 separate and preserve its concurrent work.
 
+The corpse-helper dependency now has an explicit Rust contract in
+`ripper_corpse`: real global clock, conditional mana request and removal mark,
+separate from lethal damage and resource retirement. Connect it only after a
+genuine completed lethal callback and the real primary prefix. Its required
+nearby-recipient/mana factory, body-owner cleanup and positive rendered death
+remain open; never use a successful request or a removal bit as their receipt.
+The separately acquired lethal callback's chance-based drop is another path,
+not an excuse to duplicate corpse mana or copy Vimp ghosts/meat. Keep both PC
+contracts distinct. The corpse helper's `ripper_death_logic` identity is now
+confirmed by independent prototype/PC structure and callee evidence, not by a
+score; this does not confirm the separate lethal/drop producer or close any
+runtime acceptance requirement.
+
 Owner request, 12 November: integrate source-declared Rippers to the same concrete
 ordinary interaction level as Vimps, starting with The Wife, then other declared
 maps. Main owns The Wife progression and common publication; the NPC lane must

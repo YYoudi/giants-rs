@@ -15,6 +15,7 @@ Rust implementations retain narrower, separately documented PC behavior.
 | --- | --- | --- |
 | `SetupCameraDataNormal` (base of the raw mangled symbol recorded centrally) | [`mecc_camera_update::State::advance`](../crates/giants-game/src/mecc_camera_update.rs) | Ordinary acquired camera profiles; also discoverable by Rustdoc alias. |
 | `chase_value_time` (literal ELF symbol) | [`mecc_camera_update::approach` / `approach_with_time`](../crates/giants-game/src/mecc_camera_update.rs) | Acquired camera call profile of the temporal-approach service. |
+| `ripper_death_logic__FP6OBJECT` (raw symbol; base name `ripper_death_logic`) | [`ripper_corpse::ripper_death_logic`](../crates/giants-game/src/ripper_corpse.rs) | Confirmed routine identity; bounded PC class73/230 corpse helper, without ordinary lethal integration or positive mana-creation acceptance. |
 
 ## Mission search route awaiting attribution
 
@@ -96,6 +97,18 @@ The literal prototype PS2 symbol `ripper_shot` is a search candidate for
 PC debug-1.1 `FUN_004dafd0` remains **unknown**. Existing callback controls do not
 establish an ordinary partial-pistol hit adapter, lethal consumers, platform
 layout equivalence or a confirmed prototype attribution.
+
+The raw prototype symbol `ripper_death_logic__FP6OBJECT` leads to the acquired
+corpse helper in [`ripper_corpse`](../crates/giants-game/src/ripper_corpse.rs).
+Its correspondence to PC debug-1.1 `FUN_004d92a0` is **confirmed** from the
+class-dependent mana parameters, ordered clock/creation/removal branches and
+independent callee roles. See the central method's reviewed rationale. The
+separate raw symbol `dead__FP6OBJECT` occurs at two prototype addresses and is
+not a unique attribution. The PC helper's global countdown, conditional mana
+request and removal mark are distinct from lethal damage, successful creation,
+ordinary primary integration and canonical resource cleanup. No prototype
+signature or layout is imported; both binary identities and old aliases remain
+in the private record. This dependency does not establish a playable death.
 
 ## Ripper animation search route
 
