@@ -83,7 +83,11 @@ Next bind actual kind8 lit debris, physical contact and contact-triggered nested
 retirement; do not route it through the acquired kind6 particle profile. Actual
 replacement/debris render resources and the separately acquired opaque zero-blend
 texture-factor program now prepare, but dynamic GPU ownership and ordinary
-render acceptance remain unbound. Constructors,
+render acceptance remain unbound. The shared mission rigid draw consumer now
+owns actual source-local normal/material buffers and exact cleanup in code;
+its installed CPU ownership control is not an ordinary birth or GPU proof.
+Connect source kind8 physical/contact retirement and the actual world producer
+before counting it as a playable feature. Constructors,
 world/render/collision ownership, nested retirement and complete ordinary
 acceptance remain required. Follow BUILDINGS.md and the mandatory prototype PS2
 lookup before continuing. The complete building objective remains active.

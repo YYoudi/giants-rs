@@ -29,7 +29,7 @@ mod landing;
 mod npc;
 mod signals;
 mod smarties;
-pub(crate) use npc::{Draw as NpcDraw, DrawOwner as NpcDrawOwner};
+pub(crate) use npc::{Draw as NpcDraw, DrawOwner as NpcDrawOwner, RigidProfile as NpcRigidProfile};
 #[path = "mission_runtime/owned.rs"]
 mod owned;
 pub(crate) use owned::Input as OwnedMeccInput;

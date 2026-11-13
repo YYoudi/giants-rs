@@ -242,6 +242,16 @@ This remains resource/parameter evidence: dynamic GPU ownership, actual kind8
 physics/contact retirement, replacement construction and ordinary rendering are
 still required on a new executable before public delivery.
 
+The common mission draw consumer now has a source-local rigid normal profile,
+sharing the static renderer's actual lit/cube/texture-factor parameter builders.
+Immutable model resources are shared by identity. Rigid LOD changes replace their
+GPU owner without permitting frame regression; existing unlit submissions retain
+their separate path. A private installed CPU control creates, updates and removes
+the actual debris material/buffer owner and checks that a missing reflection
+resource refuses before allocating a parameter buffer. Ordinary world births,
+poses and complete rendered destruction remain unbound; these consumer changes
+are implemented-unverified gameplay, not a new public preview.
+
 Other literal search routes include `deathfx_shot`, `deathfx_logic`,
 `barracks_shot`, `bldg_subtract_energy` and the base-building callbacks. Their
 availability does not confirm a PC attribution. Generic death-FX declarations

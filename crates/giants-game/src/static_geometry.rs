@@ -14,7 +14,7 @@ enum PosePolicy {
 }
 pub type SourceKey = (bool, usize);
 pub struct Asset {
-    pub model: ModelAsset,
+    pub model: std::sync::Arc<ModelAsset>,
     pub normals: Option<Vec<[f32; 3]>>,
     pub initial_pose: Option<crate::model_pose::InitialPose>,
     pub reflection_descriptors: Vec<Option<crate::material_descriptor::Descriptor>>,
@@ -676,7 +676,7 @@ impl Scene {
                 prepared.push((
                     cache_key,
                     Asset {
-                        model,
+                        model: std::sync::Arc::new(model),
                         normals,
                         initial_pose: pose.as_ref().map(|p| p.pose.clone()),
                         reflection_descriptors,

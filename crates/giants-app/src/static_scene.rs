@@ -361,15 +361,32 @@ fn lit_parameters(
     instance: &Instance,
     world: &crate::world_scene::Scene,
 ) -> crate::gun_scene::Parameters {
+    rigid_lit_parameters(
+        asset,
+        part,
+        instance.matrix,
+        world,
+        &scene.lights,
+        scene.fog,
+    )
+}
+pub(crate) fn rigid_lit_parameters(
+    asset: &Asset,
+    part: usize,
+    matrix: [f32; 16],
+    world: &crate::world_scene::Scene,
+    lights: &[giants_game::lighting::Directional],
+    fog: giants_game::lighting::Fog,
+) -> crate::gun_scene::Parameters {
     crate::gun_scene::source_parameters(
         &asset.model.mesh.subobjects[part].material,
-        Mat4::from_cols_array(&instance.matrix).transpose(),
+        Mat4::from_cols_array(&matrix).transpose(),
         world
             .validation_camera
             .as_ref()
             .expect("Static source camera"),
-        &scene.lights,
-        scene.fog,
+        lights,
+        fog,
         world.no_fog,
     )
     .white_texture_factor(pass(asset, part) == giants_game::render_parts::Pass::TextureFormat)
@@ -401,6 +418,23 @@ fn cube_parameters(
     instance: &Instance,
     world: &crate::world_scene::Scene,
 ) -> crate::sword_scene::Parameters {
+    rigid_cube_parameters(
+        asset,
+        part,
+        instance.matrix,
+        world,
+        &scene.lights,
+        scene.fog,
+    )
+}
+pub(crate) fn rigid_cube_parameters(
+    asset: &Asset,
+    part: usize,
+    matrix: [f32; 16],
+    world: &crate::world_scene::Scene,
+    lights: &[giants_game::lighting::Directional],
+    fog: giants_game::lighting::Fog,
+) -> crate::sword_scene::Parameters {
     let (factor, blend) = asset
         .reflection_descriptor(part)
         .expect("Source auxiliary descriptor")
@@ -408,10 +442,10 @@ fn cube_parameters(
         .expect("Measured lit cube program");
     crate::sword_scene::source_parameters(
         &asset.model.mesh.subobjects[part].material,
-        Mat4::from_cols_array(&instance.matrix).transpose(),
+        Mat4::from_cols_array(&matrix).transpose(),
         world.validation_camera.as_ref().expect("Source camera"),
-        &scene.lights,
-        scene.fog,
+        lights,
+        fog,
         world.no_fog,
     )
     .cube_factor(Some(factor))

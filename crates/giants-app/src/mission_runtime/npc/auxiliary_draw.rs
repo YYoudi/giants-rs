@@ -38,6 +38,7 @@ impl State {
                     })
                     .collect::<Result<Vec<_>, String>>()?;
                 Ok(Draw {
+                    rigid: None,
                     texture: None,
                     class: draw.class,
                     transparency: draw.transparency,
@@ -168,6 +169,7 @@ impl State {
                 })
                 .collect::<Result<Vec<_>, String>>()?;
             draws.push(Draw {
+                rigid: None,
                 texture: None,
                 class,
                 transparency,

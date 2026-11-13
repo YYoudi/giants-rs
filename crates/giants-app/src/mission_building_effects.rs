@@ -412,6 +412,7 @@ impl Runtime {
                 })
                 .transpose()?;
             draws.push(crate::mission_runtime::NpcDraw {
+                rigid: None,
                 class: body.playback.spawn.class,
                 id: crate::mission_runtime::NpcDrawOwner::BuildingEffect(body.serial),
                 geometry,

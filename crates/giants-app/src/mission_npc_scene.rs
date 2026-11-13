@@ -4,6 +4,7 @@ use crate::actor_scene::{self, Material};
 use crate::rigid_attachment_scene::Material as AuxiliaryMaterial;
 use bevy::{asset::RenderAssetUsages, ecs::system::SystemParam, prelude::*};
 use std::collections::{BTreeMap, BTreeSet};
+mod rigid;
 
 pub struct Plugin;
 impl bevy::app::Plugin for Plugin {
@@ -13,6 +14,12 @@ impl bevy::app::Plugin for Plugin {
         }
         if !app.is_plugin_added::<MaterialPlugin<AuxiliaryMaterial>>() {
             app.add_plugins(MaterialPlugin::<AuxiliaryMaterial>::default());
+        }
+        if !app.is_plugin_added::<MaterialPlugin<crate::scenery_scene::Material>>() {
+            app.add_plugins(MaterialPlugin::<crate::scenery_scene::Material>::default());
+        }
+        if !app.is_plugin_added::<MaterialPlugin<crate::sword_scene::Material>>() {
+            app.add_plugins(MaterialPlugin::<crate::sword_scene::Material>::default());
         }
         app.init_resource::<State>().add_systems(
             Update,
@@ -29,6 +36,7 @@ struct Part {
     index: usize,
 }
 struct Object {
+    rigid: bool,
     textures: BTreeMap<String, Handle<Image>>,
     world: Option<Handle<bevy::render::storage::ShaderBuffer>>,
     geometry: std::sync::Arc<giants_game::scene_resources::ModelAsset>,
@@ -49,11 +57,14 @@ struct Gpu<'w> {
     images: ResMut<'w, Assets<Image>>,
     materials: ResMut<'w, Assets<Material>>,
     auxiliary_materials: ResMut<'w, Assets<AuxiliaryMaterial>>,
+    rigid_lit: ResMut<'w, Assets<crate::scenery_scene::Material>>,
+    rigid_cube: ResMut<'w, Assets<crate::sword_scene::Material>>,
     buffers: ResMut<'w, Assets<bevy::render::storage::ShaderBuffer>>,
 }
 enum PartMaterial {
     Body(Handle<Material>),
     Auxiliary(Handle<AuxiliaryMaterial>),
+    Rigid(rigid::Material),
 }
 impl Gpu<'_> {
     fn remove(&mut self, commands: &mut Commands, object: Object) {
@@ -67,6 +78,7 @@ impl Gpu<'_> {
                 PartMaterial::Auxiliary(handle) => {
                     self.auxiliary_materials.remove(handle.id());
                 }
+                PartMaterial::Rigid(material) => rigid::remove(self, material),
             }
         }
         for image in object.images {
@@ -107,6 +119,7 @@ fn update(
     mut gpu: Gpu,
     mut visuals: Query<(&mut Visibility, &mut Transform)>,
     controllers: Query<&crate::mission_player::Controller>,
+    cube: Option<Res<crate::reflection_cube::Build>>,
 ) {
     let ticket = runtime.active_ticket();
     if state.ticket != ticket {
@@ -176,12 +189,30 @@ fn update(
         for id in retired {
             gpu.remove(&mut commands, state.objects.remove(&id).unwrap());
         }
+        let lights = if draws.iter().any(|d| d.rigid.is_some()) {
+            giants_game::lighting::first_world(&scene.asset.config).map_err(|e| e.to_string())?
+        } else {
+            Vec::new()
+        };
         for draw in draws {
+            if let Some(old) = state.objects.get(&draw.id) {
+                if old.frame > draw.frame || old.rigid != draw.rigid.is_some() {
+                    return Err("mission draw profile changed or frame regressed".into());
+                }
+                if !std::sync::Arc::ptr_eq(&old.geometry, &draw.geometry) && old.rigid {
+                    let old = state
+                        .objects
+                        .remove(&draw.id)
+                        .expect("observed rigid LOD owner");
+                    gpu.remove(&mut commands, old);
+                }
+            }
             if let std::collections::btree_map::Entry::Vacant(entry) = state.objects.entry(draw.id)
             {
                 let object = entry.insert(Object {
+                    rigid: draw.rigid.is_some(),
                     textures: BTreeMap::new(),
-                    world: (draw.class != 8).then(|| {
+                    world: (draw.class != 8 && draw.rigid.is_none()).then(|| {
                         gpu.buffers
                             .add(crate::source_view::uniform_buffer(&Mat4::IDENTITY))
                     }),
@@ -225,7 +256,7 @@ fn update(
                                 .into(),
                         );
                     }
-                    let profile = if draw.class == 8 {
+                    let profile = if draw.class == 8 || draw.rigid.is_some() {
                         None
                     } else {
                         Some(
@@ -262,7 +293,7 @@ fn update(
                             }
                         })
                         .collect();
-                    let mesh = Mesh::new(
+                    let mut mesh = Mesh::new(
                         bevy::render::render_resource::PrimitiveTopology::TriangleList,
                         RenderAssetUsages::default(),
                     )
@@ -275,7 +306,18 @@ fn update(
                     )
                     .with_inserted_attribute(Mesh::ATTRIBUTE_COLOR, colors);
                     let fog = scene.asset.config.fog;
-                    let material = if let Some(profile) = profile {
+                    let material = if draw.rigid.is_some() {
+                        PartMaterial::Rigid(rigid::create(
+                            &draw,
+                            index,
+                            &mut mesh,
+                            &textures,
+                            &mut gpu,
+                            scene,
+                            &lights,
+                            cube.as_deref(),
+                        )?)
+                    } else if let Some(profile) = profile {
                         PartMaterial::Auxiliary(
                             gpu.auxiliary_materials.add(
                                 crate::rigid_attachment_scene::owned_material(
@@ -356,6 +398,9 @@ fn update(
                                 .entity(entity)
                                 .insert(MeshMaterial3d(handle.clone()));
                         }
+                        PartMaterial::Rigid(material) => {
+                            rigid::attach(&mut commands, entity, material)
+                        }
                     }
                     object.parts.push(Part {
                         entity,
@@ -425,6 +470,9 @@ fn update(
                             !scene.no_fog,
                         );
                     }
+                    PartMaterial::Rigid(material) => {
+                        rigid::update(&draw, part.index, material, &mut gpu, scene, &lights)?
+                    }
                 }
                 if let Ok((mut visibility, mut transform)) = visuals.get_mut(part.entity) {
                     *visibility = Visibility::Visible;
@@ -484,6 +532,8 @@ pub(crate) fn check_render_assets(
         .init_resource::<Assets<Image>>()
         .init_resource::<Assets<Material>>()
         .init_resource::<Assets<AuxiliaryMaterial>>()
+        .init_resource::<Assets<crate::scenery_scene::Material>>()
+        .init_resource::<Assets<crate::sword_scene::Material>>()
         .init_resource::<Assets<bevy::render::storage::ShaderBuffer>>()
         .init_resource::<State>()
         .init_resource::<crate::source_view::SourceView>()
