@@ -84,6 +84,9 @@ impl Bindings {
         };
         self.flags.z = f32::from(u8::from(profile.texture_alpha));
     }
+    pub(crate) fn set_owned_vertex_alpha(&mut self, enabled: bool) {
+        self.flags.w = f32::from(u8::from(enabled));
+    }
     pub(crate) fn set_draw_view(&mut self, front: bool, width: f32, height: f32) {
         self.front = front;
         self.pixel_fog.x = 1. / width;

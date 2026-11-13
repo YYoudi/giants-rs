@@ -1,6 +1,7 @@
 //! State6 list projection over supplied posed geometry and current object fields.
 //! Live list order, animation and impact services remain outside this query.
 use crate::{object_segment, volume_queries::Bounds};
+#[derive(Clone)]
 pub struct Object {
     pub id: u32,
     pub parent: u32,

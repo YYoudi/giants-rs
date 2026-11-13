@@ -2,6 +2,7 @@
 pub mod actor_affine;
 pub mod actor_attachment_bind;
 pub mod actor_common_motion;
+pub mod actor_contacts;
 pub mod actor_environment;
 pub mod actor_fields;
 pub mod actor_finalization;
@@ -85,9 +86,11 @@ pub mod mecc_countdowns;
 pub mod mecc_damage;
 pub mod mecc_damage_effect;
 pub mod mecc_death;
+pub mod mecc_enemy_hit;
 pub mod mecc_fire;
 pub mod mecc_fire_lock;
 pub mod mecc_fire_primary;
+pub mod mecc_hit_source;
 pub mod mecc_jet;
 pub mod mecc_jet_owned;
 pub mod mecc_jet_presentation;
@@ -151,6 +154,7 @@ pub mod cinematic_viewport;
 pub mod control_layout;
 pub mod control_options;
 pub mod declared_mesh_scene;
+pub mod declared_platform_scene;
 pub mod decorations;
 pub mod delphi_animation_definitions;
 pub mod delphi_auxiliary_prefix;
@@ -802,14 +806,17 @@ pub mod font_atlas;
 pub mod font_layout;
 pub mod font_rasterizer;
 pub mod message_presentation;
+pub mod mission_failure;
 pub mod mission_messages;
 pub mod mission_notice;
 pub mod mission_objectives;
+pub mod mission_timer;
 pub mod pose_mixing;
 pub mod released_effect;
 pub mod resident_states;
 pub mod ripper_attack;
 pub mod ripper_awakening;
+pub mod ripper_corpse;
 pub mod ripper_dirt;
 pub mod ripper_emergence;
 pub mod ripper_ground;
@@ -829,10 +836,14 @@ pub mod vimp_ghost;
 
 pub mod enemy_ballistic;
 pub mod enemy_projectile;
+pub mod enemy_projectile_scene;
+pub mod radial_damage;
 
 pub mod enemy_flight;
 
 pub mod controlled_mecc;
+pub mod controlled_mecc_contacts;
+pub mod controlled_mecc_hit_clock;
 
 pub mod vimp_actor;
 pub mod vimp_animation;
@@ -878,4 +889,5 @@ pub mod vimp_active_response;
 pub mod world_noise;
 
 pub mod building_death_fx;
+mod effect_render_parameters;
 pub mod vimp_death_fx;

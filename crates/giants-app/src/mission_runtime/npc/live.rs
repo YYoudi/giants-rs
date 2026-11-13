@@ -131,7 +131,10 @@ impl State {
         yaw: f32,
     ) -> Option<String> {
         if self.driver.failure.is_some() {
-            return Some("Vimp interaction unavailable this entry. Other AI inactive.".into());
+            return Some(
+                "Vimp interaction unavailable this entry. Other enemy behaviour is incomplete."
+                    .into(),
+            );
         }
         let nearest = self
             .driver
@@ -156,7 +159,7 @@ impl State {
             )
         };
         Some(format!(
-            "Vimps: {:.0} units, {direction}. Shoot to hunt; nearby shots startle the herd. Other AI inactive.",
+            "Vimps: {:.0} units, {direction}. Shoot to hunt; nearby shots startle the herd. Other enemy behaviour is incomplete.",
             dx.hypot(dy)
         ))
     }

@@ -1,4 +1,4 @@
-//! Class230's owned mode0/61 caller and actual marker constructor. Later modes,
+//! Class230's owned mode0/61..68 callers and actual marker/projectile constructors. Other modes,
 //! live world admission and audio submission remain separate required services.
 use super::*;
 use crate::{
@@ -70,6 +70,150 @@ impl<S: Services<Id, Effect>> Services<Id, Effect> for Bridge<'_, '_, S> {
 }
 
 impl Session {
+    pub fn update_ripper_variant_melee(
+        &mut self,
+        id: Id,
+        input: FrameInput<'_, Id>,
+        parameters: crate::ripper_primary_turn::VariantMeleeContext,
+        random: &mut Random,
+        services: &mut impl Services<Id, Effect>,
+    ) -> Result<Outcome, String> {
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            services,
+            |_, machine, input, random, services| {
+                machine.advance_variant_melee(input, parameters, random, services)
+            },
+        )
+    }
+    pub fn update_ripper_variant_close(
+        &mut self,
+        id: Id,
+        input: FrameInput<'_, Id>,
+        parameters: crate::ripper_primary_turn::VariantCloseContext,
+        random: &mut Random,
+        services: &mut impl Services<Id, Effect>,
+    ) -> Result<Outcome, String> {
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            services,
+            |_, machine, input, random, services| {
+                machine.advance_variant_close(input, parameters, random, services)
+            },
+        )
+    }
+    pub fn update_ripper_variant_cooldown(
+        &mut self,
+        id: Id,
+        input: FrameInput<'_, Id>,
+        parameters: crate::ripper_primary_turn::VariantCooldownContext<'_>,
+        random: &mut Random,
+        services: &mut impl Services<Id, Effect>,
+    ) -> Result<Outcome, String> {
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            services,
+            |_, machine, input, random, services| {
+                machine.advance_variant_cooldown(input, parameters, random, services)
+            },
+        )
+    }
+    /// The owned primary reads target dimensions from this Session and launches
+    /// through the same real state6 factory as the class73 caller.
+    pub fn update_ripper_variant_attack(
+        &mut self,
+        id: Id,
+        input: FrameInput<'_, Id>,
+        parameters: crate::ripper_attack::VariantParameters,
+        factory: &mut crate::primary_enemy_fire::Factory<'_>,
+        random: &mut Random,
+        dependencies: &mut impl crate::primary_enemy_fire::Dependencies<Effect>,
+    ) -> Result<Outcome, String> {
+        let shapes = self.ripper_target_shapes(input.frame)?;
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            &mut (factory, dependencies),
+            |session, machine, input, random, (factory, dependencies)| {
+                let mut bridge = crate::primary_enemy_fire::Bridge::new(
+                    session,
+                    factory,
+                    id,
+                    crate::primary_enemy_fire::Scope::OwnedPrimary,
+                    *dependencies,
+                );
+                machine.advance_variant_attack(
+                    input,
+                    crate::ripper_primary_turn::VariantAttackContext {
+                        parameters,
+                        target_shapes: &shapes,
+                    },
+                    random,
+                    &mut bridge,
+                )
+            },
+        )
+    }
+    pub fn update_ripper_variant_pursuit(
+        &mut self,
+        id: Id,
+        input: FrameInput<'_, Id>,
+        parameters: crate::ripper_primary_turn::VariantDecisionContext,
+        random: &mut Random,
+        services: &mut impl Services<Id, Effect>,
+    ) -> Result<Outcome, String> {
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            services,
+            |_, machine, input, random, services| {
+                machine.advance_variant_pursuit(input, parameters, random, services)
+            },
+        )
+    }
+    pub fn update_ripper_variant_decision(
+        &mut self,
+        id: Id,
+        input: FrameInput<'_, Id>,
+        parameters: crate::ripper_primary_turn::VariantDecisionContext,
+        random: &mut Random,
+        services: &mut impl Services<Id, Effect>,
+    ) -> Result<Outcome, String> {
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            services,
+            |_, machine, input, random, services| {
+                machine.advance_variant_decision(input, parameters, random, services)
+            },
+        )
+    }
+    pub fn update_ripper_variant_turn(
+        &mut self,
+        id: Id,
+        input: FrameInput<'_, Id>,
+        random: &mut Random,
+        services: &mut impl Services<Id, Effect>,
+    ) -> Result<Outcome, String> {
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            services,
+            |_, machine, input, random, services| {
+                machine.advance_variant_turn(input, random, services)
+            },
+        )
+    }
     pub fn update_ripper_variant_awakening(
         &mut self,
         id: Id,

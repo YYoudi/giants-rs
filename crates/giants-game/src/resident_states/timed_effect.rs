@@ -7,7 +7,9 @@ use crate::{
     timed_effect_object::{Body, Boundary, Runtime, Step, Timed},
 };
 use giants_formats::effect_image::Image;
+mod draw;
 mod ground;
+mod immediate;
 mod preparation;
 pub use preparation::{
     Header as OrdinaryHeader, Input as Preparation, Services as PreparationServices,
@@ -25,8 +27,10 @@ pub(super) struct Metadata {
     motion_done: bool,
     gravity_done: bool,
     ground_started: bool,
+    particle_contact_done: bool,
     ordinary: OrdinaryHeader,
     cinematic_scope: Option<CinematicScope>,
+    immediate: Option<crate::attached_effect_context::Immediate<Parent>>,
 }
 /// A virtual Flick support must never be registered as an ordinary actor.
 #[derive(Clone, Copy, Debug)]
@@ -76,6 +80,9 @@ pub trait Services {
     fn physical(&mut self, session: &mut Session, actor: Id, seconds: f32) -> Result<(), String>;
     /// Runs after the actual affine has been published, before ANM.
     fn gravity(&mut self, session: &mut Session, actor: Id) -> Result<(), String>;
+    fn particle_contact(&mut self, _: &mut Session, _: Id) -> Result<(), String> {
+        Err("particle requires its actual post-gravity ground-contact force owner".into())
+    }
     fn ground_contact(
         &mut self,
         _: &mut Session,
@@ -134,6 +141,7 @@ fn borrow<'a>(
             references,
             placement: metadata.placement,
             render_flags: metadata.render_flags,
+            immediate_pending: metadata.immediate.is_some(),
         },
     ))
 }
@@ -177,7 +185,8 @@ impl Session {
         owned: Timed<K>,
         scope: CinematicScope,
     ) -> Result<Id, String> {
-        if scope.ticket != self.ticket
+        if owned.immediate.is_some()
+            || scope.ticket != self.ticket
             || !matches!(owned.initial.placement, Placement::Position(_))
             || owned.initial.render_flags != 0x1000
         {
@@ -222,6 +231,18 @@ impl Session {
             return Err("timed Session construction requires an unadvanced owner".into());
         }
         // Guard the same actual source fields/payload before any list publication.
+        if let Some(binding) = owned.immediate {
+            let Parent::Actor(parent) = binding.parent else {
+                return Err("ordinary particle needs a real canonical parent".into());
+            };
+            let parent = self
+                .get(parent)
+                .and_then(|a| a.timed_effect.as_ref())
+                .ok_or("immediate particle parent absent, foreign or not owned")?;
+            if parent.runtime.failure.is_some() {
+                return Err("immediate particle parent is quarantined".into());
+            }
+        }
         owned.runtime.preflight(&Body {
             velocity: owned.velocity.as_mut(),
             fields: &mut owned.initial.fields,
@@ -231,8 +252,10 @@ impl Session {
             references: &mut owned.references,
             placement: owned.initial.placement,
             render_flags: owned.initial.render_flags,
+            immediate_pending: owned.immediate.is_some(),
         })?;
         let Timed {
+            immediate,
             velocity,
             initial,
             runtime,
@@ -287,8 +310,10 @@ impl Session {
             motion_done: false,
             gravity_done: false,
             ground_started: false,
+            particle_contact_done: false,
             ordinary: OrdinaryHeader::allocated(),
             cinematic_scope,
+            immediate,
         });
         self.publish_staged(staged, id)
     }
@@ -329,11 +354,36 @@ impl Session {
     pub fn timed_effect_fade(&self, id: Id) -> Option<[f32; 4]> {
         Some(self.get(id)?.timed_effect.as_ref()?.runtime.fade)
     }
+    /// Current canonical parameters only; a renderer must consume this owner.
+    pub fn timed_effect_uv_offset(&self, id: Id) -> Option<[f32; 2]> {
+        let actor = self.get(id)?;
+        actor.timed_effect.as_ref()?.runtime.render.uv(&actor.seed)
+    }
+    pub fn timed_effect_vertical_fade(&self, id: Id) -> Option<[f32; 2]> {
+        Some(
+            self.get(id)?
+                .timed_effect
+                .as_ref()?
+                .runtime
+                .render
+                .fade()?
+                .values,
+        )
+    }
     pub fn timed_effect_render_flags(&self, id: Id) -> Option<u32> {
         Some(self.get(id)?.timed_effect.as_ref()?.render_flags)
     }
     pub fn timed_effect_vertical(&self, id: Id) -> Option<crate::vertical_fade::Playback> {
-        self.get(id)?.timed_effect.as_ref()?.runtime.vertical
+        self.get(id)?
+            .timed_effect
+            .as_ref()?
+            .runtime
+            .render
+            .fade()
+            .copied()
+    }
+    pub fn timed_effect_hidden(&self, id: Id) -> Option<bool> {
+        Some(self.get(id)?.timed_effect.as_ref()?.runtime.hidden)
     }
     pub fn timed_effect_transparency(&self, id: Id) -> Option<f32> {
         Some(self.get(id)?.timed_effect.as_ref()?.runtime.transparency)
@@ -435,9 +485,9 @@ impl Session {
                 normal: [header.plane[0], header.plane[1], header.plane[2]],
                 gravity_mass: p[1],
                 mass: p[2],
-                friction_limit: p[9],
-                damping_xy: p[12],
-                damping_z: p[13],
+                friction_limit: p[12],
+                damping_xy: p[13],
+                damping_z: p[14],
                 force_time_limit: p[11],
                 object_flags: actor.construction_fields.as_ref().unwrap().object_flags,
                 physics_flags: words[0],
@@ -493,10 +543,10 @@ impl Session {
             .into_iter()
             .filter(|id| {
                 self.get(*id).is_some_and(|a| {
-                    a.timed_effect
-                        .as_ref()
-                        .is_some_and(|m| m.runtime.smoke_particle())
-                        || a.positional_impact.as_ref().is_some_and(|m| m.complete)
+                    a.timed_effect.as_ref().is_some_and(|m| {
+                        m.runtime.smoke_particle()
+                            || (m.runtime.mixed_draw() && m.cinematic_scope.is_none())
+                    }) || a.positional_impact.as_ref().is_some_and(|m| m.complete)
                 })
             })
             .collect()
@@ -507,6 +557,12 @@ impl Session {
     ) -> Result<Option<crate::smoke_particle_draw::State>, String> {
         if self.get(id).is_some_and(|a| a.positional_impact.is_some()) {
             self.positional_impact_draw_state(id)
+        } else if self
+            .get(id)
+            .and_then(|a| a.timed_effect.as_ref())
+            .is_some_and(|m| m.runtime.mixed_draw())
+        {
+            self.mixed_particle_draw_state(id)
         } else {
             self.smoke_particle_draw_state(id)
         }
@@ -571,22 +627,39 @@ impl Session {
         id: Id,
         contexts: &crate::attached_effect_context::Pool<Id>,
     ) -> Result<crate::timed_effect_object::Destruction, String> {
+        self.destroy_expired_positioned_particle(id, contexts, false)
+    }
+    /// Scoped expiry cleanup for acquired mixed bodies. This is not the global
+    /// native dead-object/parent-propagation walk. Pending dependents refuse.
+    pub fn destroy_expired_mixed_particle(
+        &mut self,
+        id: Id,
+        contexts: &crate::attached_effect_context::Pool<Id>,
+    ) -> Result<crate::timed_effect_object::Destruction, String> {
+        self.destroy_expired_positioned_particle(id, contexts, true)
+    }
+    fn destroy_expired_positioned_particle(
+        &mut self,
+        id: Id,
+        contexts: &crate::attached_effect_context::Pool<Id>,
+        mixed: bool,
+    ) -> Result<crate::timed_effect_object::Destruction, String> {
         let actor = self
             .get(id)
-            .ok_or("expired smoke actor absent or foreign")?;
+            .ok_or("expired particle actor absent or foreign")?;
         let m = actor
             .timed_effect
             .as_ref()
-            .ok_or("expired smoke ownership absent")?;
+            .ok_or("expired particle ownership absent")?;
         let fields = actor
             .construction_fields
             .as_ref()
-            .ok_or("expired smoke header absent")?;
+            .ok_or("expired particle header absent")?;
         let data = actor
             .seed
             .storage
             .data()
-            .ok_or("expired smoke payload absent")?;
+            .ok_or("expired particle payload absent")?;
         let lists = self
             .links
             .memberships(id.serial)
@@ -601,7 +674,11 @@ impl Session {
             .collect::<Vec<_>>();
         if self.common_walk_running
             || self.common_walk_failure.is_some()
-            || !m.runtime.expired_smoke()
+            || if mixed { !m.runtime.expired_mixed() } else { !m.runtime.expired_smoke() }
+            || m.cinematic_scope.is_some()
+            || m.immediate.is_some()
+            || m.ordinary.preparing()
+            || m.ordinary.footprint.is_some()
             || !matches!(m.placement, Placement::Position(_))
             || !contexts.retired(m.origin)
             || !contexts.uses_image(&m.runtime.source)
@@ -625,9 +702,13 @@ impl Session {
                     || other
                         .attachment
                         .is_some_and(|attachment| attachment.parent == id)
+                    || other.timed_effect.as_ref().is_some_and(|timed|
+                        timed.immediate.is_some_and(|binding|
+                            matches!(binding.parent, Parent::Actor(parent) if parent==id))
+                        || matches!(timed.placement,Placement::Attached {recipient:Parent::Actor(parent),..} if parent==id))
             })
         {
-            return Err("smoke destruction requires completed expiry, retired origin and acquired independent cleanup profile".into());
+            return Err("particle destruction requires completed expiry, retired origin and acquired independent cleanup profile".into());
         }
         let result = crate::timed_effect_object::Destruction {
             origin: m.origin,
@@ -642,21 +723,17 @@ impl Session {
             runtime.preflight(&body)?;
         }
         let actor = self.residents.get_mut(&id.serial).unwrap();
-        // All optional state-owned blocks are absent in this complete profile.
+        // The raw optional blocks are absent. The acquired fade allocation is
+        // typed Rust ownership; drop it before the inline payload, as in the
+        // state78 destructor. Mesh/specification and registration owners follow.
+        drop(actor.timed_effect.take());
         actor
             .seed
             .storage
             .transition_with(0, |_, _| Ok(()))
-            .expect("checked expired smoke teardown into empty storage is infallible");
+            .expect("checked expired particle teardown into empty storage is infallible");
         self.specifications.remove(&id.serial);
         self.state_resources.remove(&id.serial);
-        drop(
-            self.residents
-                .get_mut(&id.serial)
-                .unwrap()
-                .timed_effect
-                .take(),
-        );
         let removed = self.links.remove_object(id.serial);
         debug_assert_eq!(removed, result.registrations);
         self.residents.remove(&id.serial);
@@ -748,6 +825,7 @@ impl Session {
                 m.motion_done = false;
                 m.gravity_done = false;
                 m.ground_started = false;
+                m.particle_contact_done = false;
             }
             boundary
         };
@@ -780,6 +858,18 @@ impl Session {
             self.refresh_timed_cache(id)?;
             if result.is_ok() {
                 result = services.gravity(self, id);
+            }
+            if result.is_ok()
+                && self
+                    .get(id)
+                    .unwrap()
+                    .timed_effect
+                    .as_ref()
+                    .unwrap()
+                    .runtime
+                    .particle_contact
+            {
+                result = services.particle_contact(self, id);
             }
             if result.is_ok() {
                 let metadata = self.get(id).unwrap().timed_effect.as_ref().unwrap();
@@ -925,6 +1015,598 @@ mod tests {
         scene_resources::SceneResources,
     };
     type PhaseControls = Arc<std::collections::BTreeMap<(u32, u32, u32, u32), Vec<u32>>>;
+    #[test]
+    #[ignore = "Requires GIANTS_NPC_ROOT and GIANTS_RIPPER_BIND_CONTROLS; actual source constructors/first callbacks/shared lock, no ordinary world/contact/render admission"]
+    fn canonical_immediate_particles_keep_source_random_order_and_actual_temporary_binding() {
+        struct Required;
+        impl Services for Required {
+            fn physical(&mut self, _: &mut Session, _: Id, _: f32) -> Result<(), String> {
+                Err("required actual physical service unavailable".into())
+            }
+            fn gravity(&mut self, _: &mut Session, _: Id) -> Result<(), String> {
+                Err("required actual gravity service unavailable".into())
+            }
+            fn retire(
+                &mut self,
+                _: &mut Session,
+                _: Id,
+                _: &Image,
+                _: Option<&crate::effect_scene::RetirementBinding>,
+            ) -> Result<(), String> {
+                Err("required actual retirement unavailable".into())
+            }
+        }
+        fn words(session: &Session, id: Id) -> Vec<u32> {
+            let actor = session.get(id).unwrap();
+            let f = actor.construction_fields.as_ref().unwrap();
+            let m = actor.timed_effect.as_ref().unwrap();
+            let d = actor.seed.storage.data().unwrap();
+            let word = |at| u32::from_le_bytes(d[at..at + 4].try_into().unwrap());
+            let mut out = vec![
+                actor.class as u32,
+                f.object_flags,
+                f.response_flags,
+                f.control_flags,
+                m.render_flags,
+                f.scale.to_bits(),
+                m.runtime.transparency.to_bits(),
+            ];
+            out.extend(
+                f.position
+                    .into_iter()
+                    .chain(f.current)
+                    .chain(f.previous)
+                    .chain(f.angles)
+                    .map(f32::to_bits),
+            );
+            out.push(m.matrix.flags);
+            out.extend(m.matrix.values.map(f32::to_bits));
+            out.extend([4, 8, 0x10, 0x14].map(word));
+            out.extend(m.runtime.fade.map(f32::to_bits));
+            out.extend((0xa0..0xdc).step_by(4).map(word));
+            out
+        }
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+        let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let image = Arc::new(
+            resources
+                .classes
+                .models
+                .effects
+                .last()
+                .unwrap()
+                .image
+                .clone(),
+        );
+        let text =
+            std::fs::read_to_string(std::env::var_os("GIANTS_RIPPER_BIND_CONTROLS").unwrap())
+                .unwrap();
+        let mut controls =
+            std::collections::BTreeMap::<String, std::collections::BTreeMap<usize, Vec<u32>>>::new(
+            );
+        for line in text.lines() {
+            let mut parts = line.split_whitespace();
+            let name = parts.next().unwrap().to_owned();
+            let row = parts.map(|v| v.parse().unwrap()).collect::<Vec<u32>>();
+            assert_eq!(row.len(), 183);
+            controls
+                .entry(name)
+                .or_default()
+                .insert(row[0] as usize, row);
+        }
+        let mut checked = 0;
+        let motion_controls = std::env::var_os("GIANTS_RIPPER_PARTICLE_MOTION_CONTROLS")
+            .map(|path| std::fs::read_to_string(path).unwrap())
+            .map(|text| {
+                text.lines()
+                    .map(|line| {
+                        let mut parts = line.split_whitespace();
+                        let name = parts.next().unwrap().to_owned();
+                        let ordinal = parts.next().unwrap().parse::<usize>().unwrap();
+                        let frame = parts.next().unwrap().parse::<usize>().unwrap();
+                        let words = parts.map(|v| v.parse::<u32>().unwrap()).collect::<Vec<_>>();
+                        assert_eq!(words.len(), 70);
+                        ((name, ordinal, frame), words)
+                    })
+                    .collect::<std::collections::BTreeMap<_, _>>()
+            });
+        let terrain_bytes = std::fs::read(root.join("Bin/w_Story2.gzp")).unwrap();
+        let mut terrain = giants_formats::gti::parse(
+            &giants_formats::gzp::Archive::parse(&terrain_bytes)
+                .unwrap()
+                .read("Story2.gti")
+                .unwrap(),
+        )
+        .unwrap();
+        // Same supplied static/no-ripple terrain preparation as the PC fixture.
+        for tag in &mut terrain.tags {
+            if *tag == 7 {
+                *tag = 4;
+            }
+        }
+        for (case, (name, expected)) in controls.into_iter().enumerate() {
+            let mut session = Session::new(800 + case as u64);
+            let mut pool = Pool::<Id>::new(session.ticket(), Some(image.clone()));
+            let mut random = Random(17);
+            let request = crate::enemy_projectile::impact_effect(
+                u32::from(name == "fx_ripper_large_explode"),
+                [1.25, -2.5, 3.75],
+            )
+            .unwrap();
+            assert_eq!(request.name, name);
+            let (Creation::Prepared(origin), _) = pool
+                .prepare_enemy_projectile_impact_invariant(&request, &mut random)
+                .unwrap()
+            else {
+                panic!()
+            };
+            let source = pool.get(origin).unwrap().program.as_ref().unwrap().clone();
+            let mut owners = Vec::new();
+            let mut children = Vec::new();
+            let mut at = 0;
+            while source.records[at].opcode != 0x0b {
+                let record = &source.records[at];
+                assert_eq!(record.opcode, 3);
+                let body = crate::timed_effect_object::Timed::mixed_root_object(
+                    &resources,
+                    origin,
+                    pool.get(origin).unwrap(),
+                    record.offset,
+                    &mut random,
+                )
+                .unwrap();
+                let parent = session.adopt_timed_positioned(body).unwrap();
+                owners.push(parent);
+                at += 2;
+                while source.records[at].opcode != 7 {
+                    let r = &source.records[at];
+                    if r.opcode == 0x10 {
+                        let end = r.bytes[5..].iter().position(|v| *v == 0).unwrap() + 5;
+                        let label = std::str::from_utf8(&r.bytes[5..end]).unwrap();
+                        let offset = image.find(label).unwrap().1.offset;
+                        let binding = crate::attached_effect_context::Immediate {
+                            parent,
+                            reference: u32::from_le_bytes(r.bytes[1..5].try_into().unwrap()),
+                            own_reference: u32::from_le_bytes(
+                                r.bytes[end + 1..end + 5].try_into().unwrap(),
+                            ),
+                        };
+                        let actor = session.get(parent).unwrap();
+                        let f = actor.construction_fields.as_ref().unwrap();
+                        let (Creation::Prepared(child_origin), _) = pool
+                            .prepare_immediate_offset_invariant(
+                                offset,
+                                crate::attached_effect_context::ImmediateInput {
+                                    binding,
+                                    position: f.position,
+                                    object_flags: f.object_flags,
+                                    render_flags: session
+                                        .timed_effect_render_flags(parent)
+                                        .unwrap(),
+                                },
+                                &mut random,
+                            )
+                            .unwrap()
+                        else {
+                            panic!()
+                        };
+                        let expected = &expected[&owners.len()];
+                        assert_eq!(random.0, expected[1], "actual child constructor RNG entry");
+                        assert_eq!(
+                            (binding.reference, binding.own_reference),
+                            (expected[2], expected[3])
+                        );
+                        let body = crate::timed_effect_object::Timed::immediate_particle_object(
+                            &resources,
+                            child_origin,
+                            pool.get(child_origin).unwrap(),
+                            &mut random,
+                        )
+                        .unwrap();
+                        let child = session.adopt_timed_positioned(body).unwrap();
+                        pool.release_prepared(child_origin).unwrap();
+                        assert_eq!(session.timed_effect_immediate_binding(child), Some(binding));
+                        assert_eq!(&words(&session, child), &expected[6..65]);
+                        let data = session.get(child).unwrap().seed.storage.data().unwrap();
+                        assert_eq!(
+                            u32::from_le_bytes(data[0x1c..0x20].try_into().unwrap()),
+                            expected[4]
+                        );
+                        children.push((child, owners.len()));
+                        owners.push(child);
+                    }
+                    at += 1;
+                }
+                at += 1;
+            }
+            assert_eq!(
+                random.0,
+                expected.values().next().unwrap()[5],
+                "complete source first-phase RNG"
+            );
+            let mut stamp = Stamp::default();
+            for &id in &owners {
+                assert_eq!(
+                    session
+                        .advance_timed_effect(id, 0.01, &mut stamp, &mut Required)
+                        .unwrap(),
+                    Step::FirstFrame
+                );
+            }
+            for (child, ordinal) in children {
+                let expected = &expected[&ordinal];
+                assert_eq!(&words(&session, child), &expected[65..124]);
+                assert!(
+                    session
+                        .advance_timed_effect(child, 0.01, &mut stamp, &mut Required)
+                        .unwrap_err()
+                        .contains("one-shot placement")
+                );
+                session.bind_immediate_timed(child).unwrap();
+                assert!(session.timed_effect_immediate_binding(child).is_none());
+                assert_eq!(
+                    &words(&session, child),
+                    &expected[124..],
+                    "actual one-shot lock {name} child{ordinal}"
+                );
+                assert!(session.bind_immediate_timed(child).is_err());
+                assert!(session.timed_effect_failure(child).is_none());
+                if let Some(controls) = &motion_controls {
+                    let mut world = crate::cinematic_timed::world::World::new(
+                        &terrain,
+                        &[],
+                        &[],
+                        &[],
+                        0.01,
+                        &[],
+                    )
+                    .unwrap();
+                    for frame in 0..3 {
+                        session
+                            .advance_timed_effect(child, 0.01, &mut stamp, &mut world)
+                            .unwrap();
+                        let mut got = words(&session, child);
+                        let m = session.get(child).unwrap().timed_effect.as_ref().unwrap();
+                        got.extend(
+                            m.physical
+                                .velocity
+                                .into_iter()
+                                .chain(m.physical.previous_velocity)
+                                .chain([m.ordinary.floor])
+                                .chain(m.physical.plane)
+                                .map(f32::to_bits),
+                        );
+                        assert_eq!(
+                            &got,
+                            &controls[&(name.clone(), ordinal, frame)],
+                            "actual physical callback {name} child{ordinal} frame{frame}"
+                        );
+                        assert!(session.apply_timed_particle_contact(child).is_err());
+                    }
+                    assert_eq!(world.calls.motion, 3);
+                    assert_eq!(world.calls.gravity, 3);
+                    assert!(world.calls.callback_ground_queries >= 3);
+                    checked += 1;
+                    continue;
+                }
+                assert!(
+                    session
+                        .advance_timed_effect(child, 0.01, &mut stamp, &mut Required)
+                        .unwrap_err()
+                        .contains("physical service unavailable")
+                );
+                assert!(session.timed_effect_failure(child).is_some());
+                assert!(
+                    session
+                        .advance_timed_effect(child, 0.01, &mut stamp, &mut Required)
+                        .is_err()
+                );
+                checked += 1;
+            }
+            assert!(
+                pool.get(origin).is_some(),
+                "a constructor fixture cannot consume the mixed wait/context"
+            );
+        }
+        assert_eq!(checked, 32);
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_NPC_ROOT and GIANTS_RIPPER_ROOT_CONTROLS; original root birth snapshots and observed per-constructor RNG inputs, no whole VM/child/wait/world/render admission"]
+    fn canonical_mixed_roots_match_original_birth_fields_and_random_prefixes() {
+        struct Required;
+        impl Services for Required {
+            fn physical(&mut self, _: &mut Session, _: Id, _: f32) -> Result<(), String> {
+                Err("first root callback must not request physical integration".into())
+            }
+            fn gravity(&mut self, _: &mut Session, _: Id) -> Result<(), String> {
+                Err("first root callback must not request gravity".into())
+            }
+            fn retire(
+                &mut self,
+                _: &mut Session,
+                _: Id,
+                _: &Image,
+                _: Option<&crate::effect_scene::RetirementBinding>,
+            ) -> Result<(), String> {
+                Err("first root callback must not request retirement".into())
+            }
+        }
+        fn words(session: &Session, id: Id) -> Vec<u32> {
+            let actor = session.get(id).unwrap();
+            let fields = actor.construction_fields.as_ref().unwrap();
+            let metadata = actor.timed_effect.as_ref().unwrap();
+            let data = actor.seed.storage.data().unwrap();
+            let word = |at| u32::from_le_bytes(data[at..at + 4].try_into().unwrap());
+            let mut got = vec![
+                actor.class as u32,
+                fields.object_flags,
+                fields.response_flags,
+                fields.control_flags,
+                metadata.render_flags,
+                fields.scale.to_bits(),
+                metadata.runtime.transparency.to_bits(),
+            ];
+            got.extend(
+                fields
+                    .position
+                    .into_iter()
+                    .chain(fields.current)
+                    .chain(fields.previous)
+                    .chain(fields.angles)
+                    .map(f32::to_bits),
+            );
+            got.push(metadata.matrix.flags);
+            got.extend(metadata.matrix.values.map(f32::to_bits));
+            got.extend([4, 8, 0x10, 0x14].map(word));
+            got.extend(metadata.runtime.fade.map(f32::to_bits));
+            got.extend((0xa0..0xdc).step_by(4).map(word));
+            got
+        }
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+        let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let image = Arc::new(
+            resources
+                .classes
+                .models
+                .effects
+                .last()
+                .unwrap()
+                .image
+                .clone(),
+        );
+        let text =
+            std::fs::read_to_string(std::env::var_os("GIANTS_RIPPER_ROOT_CONTROLS").unwrap())
+                .unwrap();
+        let mut count = 0;
+        for line in text.lines() {
+            let mut parts = line.split_whitespace();
+            let name = parts.next().unwrap();
+            let expected = parts.map(|v| v.parse::<u32>().unwrap()).collect::<Vec<_>>();
+            let mut session = Session::new(600 + count);
+            let mut pool = Pool::<Id>::new(session.ticket(), Some(image.clone()));
+            let (Creation::Prepared(origin), _) = pool
+                .prepare_positional_invariant(name, [1.25, -2.5, 3.75], &mut Random(17))
+                .unwrap()
+            else {
+                panic!()
+            };
+            let context = pool.get(origin).unwrap();
+            let offset = context
+                .program
+                .as_ref()
+                .unwrap()
+                .records
+                .iter()
+                .find(|r| {
+                    r.opcode == 3
+                        && u32::from_le_bytes(r.bytes[1..5].try_into().unwrap()) == expected[0]
+                })
+                .unwrap()
+                .offset;
+            // Observed at the real PC constructor boundary after preceding
+            // children. This fixture does not replace their mandatory VM work.
+            let mut random = Random(expected[1]);
+            let owned = crate::timed_effect_object::Timed::mixed_root_object(
+                &resources,
+                origin,
+                context,
+                offset,
+                &mut random,
+            )
+            .unwrap();
+            let id = session.adopt_timed_positioned(owned).unwrap();
+            let got = words(&session, id);
+            assert_eq!(
+                &got,
+                &expected[3..62],
+                "source root {name} class {}",
+                expected[0]
+            );
+            assert_eq!(
+                random.0, expected[2],
+                "real source root RNG suffix {name} class {}",
+                expected[0]
+            );
+            assert_eq!(session.timed_effect_hidden(id), Some(expected[0] == 817));
+            assert!(session.timed_effect_failure(id).is_none());
+            assert_eq!(
+                session
+                    .advance_timed_effect(
+                        id,
+                        f32::from_bits(expected[62]),
+                        &mut Stamp::default(),
+                        &mut Required
+                    )
+                    .unwrap(),
+                Step::FirstFrame
+            );
+            assert_eq!(
+                &words(&session, id),
+                &expected[63..],
+                "original first root callback class {}",
+                expected[0]
+            );
+            assert!(
+                pool.get(origin).is_some(),
+                "a constructed root cannot acknowledge its shared context"
+            );
+            count += 1;
+        }
+        assert_eq!(count, 12);
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_NPC_ROOT and GIANTS_RIPPER_RENDER_CONTROLS; original direct callback controls, supplied clocks/resources, no raster or whole mixed-program execution"]
+    fn canonical_ripper_scroll_fade_matches_original_callbacks_and_keeps_retirement_failure() {
+        struct Required;
+        impl Services for Required {
+            fn physical(&mut self, _: &mut Session, _: Id, _: f32) -> Result<(), String> {
+                Err("unexpected physical service in nonphysical scroll/fade profile".into())
+            }
+            fn gravity(&mut self, _: &mut Session, _: Id) -> Result<(), String> {
+                Err("unexpected gravity service in nonphysical scroll/fade profile".into())
+            }
+            fn retire(
+                &mut self,
+                _: &mut Session,
+                _: Id,
+                _: &Image,
+                _: Option<&crate::effect_scene::RetirementBinding>,
+            ) -> Result<(), String> {
+                Err("required real retirement consumer deliberately unavailable".into())
+            }
+        }
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+        let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let image = Arc::new(
+            resources
+                .classes
+                .models
+                .effects
+                .last()
+                .unwrap()
+                .image
+                .clone(),
+        );
+        let controls =
+            std::fs::read_to_string(std::env::var_os("GIANTS_RIPPER_RENDER_CONTROLS").unwrap())
+                .unwrap();
+        let mut grouped = std::collections::BTreeMap::<u32, Vec<(String, Vec<u32>)>>::new();
+        for line in controls.lines() {
+            let mut parts = line.split_whitespace();
+            let name = parts.next().unwrap().to_owned();
+            let words = parts.map(|p| p.parse().unwrap()).collect::<Vec<u32>>();
+            assert_eq!(words.len(), 17);
+            grouped.entry(words[0]).or_default().push((name, words));
+        }
+        assert_eq!(grouped.len(), 4);
+        let mut callbacks = 0;
+        for (case, rows) in grouped {
+            let mut session = Session::new(100 + u64::from(case));
+            let mut pool = Pool::<Id>::new(session.ticket(), Some(image.clone()));
+            let mut random = Random(17);
+            let (Creation::Prepared(origin), _) = pool
+                .prepare_positional_invariant(&rows[0].0, [1.25, -2.5, 3.75], &mut random)
+                .unwrap()
+            else {
+                panic!()
+            };
+            assert_eq!(
+                random.0, rows[0].1[16],
+                "original complete null-object preparation"
+            );
+            let context = pool.get(origin).unwrap();
+            let program = context.program.as_ref().unwrap();
+            let offset = program
+                .records
+                .iter()
+                .find(|r| {
+                    r.opcode == 3 && i32::from_le_bytes(r.bytes[1..5].try_into().unwrap()) == 965
+                })
+                .unwrap()
+                .offset;
+            assert!(
+                crate::timed_effect_object::Timed::scrolling_vertical_object(
+                    &resources, origin, context, 0
+                )
+                .is_err()
+            );
+            let owned = crate::timed_effect_object::Timed::scrolling_vertical_object(
+                &resources, origin, context, offset,
+            )
+            .unwrap();
+            let id = session.adopt_timed_positioned(owned).unwrap();
+            assert!(
+                pool.get(origin).is_some(),
+                "one body does not finish its mixed context"
+            );
+            assert!(
+                Session::new(200 + u64::from(case))
+                    .timed_effect_uv_offset(id)
+                    .is_none()
+            );
+            let mut stamp = Stamp::default();
+            let mut terminal = false;
+            for (_, expected) in rows {
+                let result = session.advance_timed_effect(
+                    id,
+                    f32::from_bits(expected[2]),
+                    &mut stamp,
+                    &mut Required,
+                );
+                if expected[3] != 0 {
+                    assert!(result.unwrap_err().contains("deliberately unavailable"));
+                    terminal = true;
+                } else {
+                    result.unwrap();
+                }
+                let actor = session.get(id).unwrap();
+                let fields = actor.construction_fields.as_ref().unwrap();
+                let metadata = actor.timed_effect.as_ref().unwrap();
+                let fade = metadata.runtime.render.fade().unwrap();
+                let data = actor.seed.storage.data().unwrap();
+                let got = [
+                    fields.control_flags,
+                    u32::from_le_bytes(data[8..12].try_into().unwrap()),
+                    session.timed_effect_uv_offset(id).unwrap()[0].to_bits(),
+                    session.timed_effect_uv_offset(id).unwrap()[1].to_bits(),
+                    fade.elapsed.to_bits(),
+                    fade.values[0].to_bits(),
+                    fade.values[1].to_bits(),
+                    u32::from(fade.active),
+                    fields.scale.to_bits(),
+                    session.timed_effect_transparency(id).unwrap().to_bits(),
+                    fields.response_flags,
+                    metadata.render_flags,
+                ];
+                assert_eq!(
+                    &got,
+                    &expected[4..16],
+                    "native case {case} callback {}",
+                    expected[1]
+                );
+                callbacks += 1;
+            }
+            assert!(terminal);
+            assert!(session.timed_effect_failure(id).is_some());
+            assert_eq!(
+                session
+                    .get(id)
+                    .unwrap()
+                    .construction_fields
+                    .as_ref()
+                    .unwrap()
+                    .object_flags
+                    & 0x8000,
+                0
+            );
+            assert!(
+                session
+                    .advance_timed_effect(id, 0.01, &mut stamp, &mut Required)
+                    .is_err()
+            );
+        }
+        assert!(callbacks > 100);
+    }
     struct TerrainProvider<'a> {
         effects: Provider,
         terrain: &'a giants_formats::gti::Terrain,

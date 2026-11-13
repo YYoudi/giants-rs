@@ -141,6 +141,7 @@ impl OwnedAudio<'_, '_> {
             listener,
             local,
             assets,
+            local_playback: self.configuration.as_ref().map(|c| c.playback()),
         })
     }
 }
@@ -152,8 +153,42 @@ pub(crate) struct Device<'a, 'w, 's> {
     listener: [f32; 16],
     local: Id,
     assets: &'a mut Assets<crate::positional_pcm::Pcm>,
+    local_playback: Option<giants_game::startup_playback::Playback>,
+}
+impl giants_game::resident_states::MeccImpactVoice for Device<'_, '_, '_> {
+    fn play(&mut self, session: &Session, target: Id, cue: u32) -> Result<(), String> {
+        let playback = self
+            .local_playback
+            .ok_or("Mecc local voice requires the actual startup no-play policy owner")?;
+        // Reborrow the same live catalog, sinks, commands and RNG exclusively.
+        // The local voice adapter retains its routing/source/device checks.
+        let mut backend = ReservedDevice {
+            mounted: self.mounted,
+            sinks: self.sinks,
+            commands: self.commands,
+            effects: self.effects,
+            prepared_sound: None,
+        };
+        damage::SharedBackend::new(&mut backend)
+            .voice_with_playback(self.local, self.local.ticket(), playback)
+            .play(session, target, cue)
+    }
 }
 impl Device<'_, '_, '_> {
+    /// Carry an already acquired startup projection, independently of gain,
+    /// muting and sink readiness, for supplied-boundary controls only. Ordinary
+    /// launch carries its own configuration projection through OwnedAudio.
+    #[cfg(test)]
+    pub(crate) fn bind_local_playback(
+        &mut self,
+        playback: giants_game::startup_playback::Playback,
+    ) -> Result<(), String> {
+        if self.local_playback.is_some() {
+            return Err("Mecc local playback policy already bound for this device borrow".into());
+        }
+        self.local_playback = Some(playback);
+        Ok(())
+    }
     fn root(&self, s: &Session, id: Id) -> Result<Id, String> {
         match s.sound_route(
             id,

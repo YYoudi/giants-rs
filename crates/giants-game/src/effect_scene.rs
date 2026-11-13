@@ -152,6 +152,10 @@ pub struct Construction {
 }
 #[derive(Clone, Debug, Default)]
 pub struct ObjectServiceNeeds {
+    /// Source-ordered renderer setup, not executed by this construction ledger.
+    /// Keep repeated commands: scroll may replace an earlier setup, whereas
+    /// vertical fade appends segments. A consumer must bind the actual services.
+    pub render_commands: Vec<RenderCommand>,
     /// Source49 registration; native association, resume and cleanup are pending.
     pub logged_context: bool,
     pub source16: bool,
@@ -165,13 +169,24 @@ pub struct ObjectServiceNeeds {
 }
 impl ObjectServiceNeeds {
     pub fn pending_count(&self) -> usize {
-        usize::from(self.logged_context)
+        self.render_commands.len()
+            + usize::from(self.logged_context)
             + usize::from(self.source16)
             + usize::from(self.source15)
             + usize::from(self.source47.is_some())
             + usize::from(self.source5a.is_some())
             + usize::from(self.retirement.is_some())
     }
+}
+/// Prototype PS2 search keys `fx_setupUVScrolling` and `fx_setupVerticleFade`
+/// have unknown PC attribution. Operands here are from the PC source program;
+/// no prototype signature, layout or rendering completion is imported.
+#[derive(Clone, Debug, PartialEq)]
+pub enum RenderCommand {
+    UvScroll([f32; 2]),
+    /// The five PC operands in source order. Multi-segment callback ownership
+    /// and vertex-buffer application are separate from command retention.
+    VerticalFade([f32; 5]),
 }
 #[derive(Clone, Debug)]
 pub struct RetirementBinding {
@@ -217,6 +232,7 @@ impl ContextSound {
 }
 #[derive(Clone, Debug)]
 enum Op {
+    Render(RenderCommand),
     LogContext,
     Size(u8, [f32; 2]),
     Lifetime([f32; 3]),
@@ -456,6 +472,8 @@ impl Plan {
                 }
                 let op = match r.opcode {
                     7 => break,
+                    0x40 => Op::Render(RenderCommand::UvScroll(values(r)?)),
+                    0x46 => Op::Render(RenderCommand::VerticalFade(values(r)?)),
                     5 => Op::RandomLifetime(ranges(r)?),
                     9 => Op::RandomSizes(ranges(r)?),
                     0x35 => Op::RandomCurvedSizes(ranges(r)?),
@@ -784,6 +802,7 @@ impl Object {
         out.push(obj.clone());
         for op in &self.ops {
             match op {
+                Op::Render(command) => obj.object_services.render_commands.push(command.clone()),
                 Op::RandomLifetime(ranges) => {
                     let v = ranges.map(|r| crate::timed_effect::sample(seed, r));
                     if v[0] <= 0. || v[1] < 0. || v[2] < 0. {
@@ -1039,6 +1058,41 @@ mod tests {
             assert_eq!(objects[0].contact_requested, expected);
             assert!(!objects[0].physics_enabled);
         }
+    }
+    #[test]
+    fn renderer_setup_keeps_source_order_and_needs_without_consuming_random() {
+        let mut source = object(900);
+        let expected = [
+            super::RenderCommand::UvScroll([0.25, -0.5]),
+            super::RenderCommand::VerticalFade([1., 0., 0., 0., 0.7]),
+            super::RenderCommand::UvScroll([-0.75, 0.5]),
+            super::RenderCommand::VerticalFade([0., 0., 1., 0., 0.2]),
+        ];
+        for command in &expected {
+            match command {
+                super::RenderCommand::UvScroll(values) => {
+                    source.push(0x40);
+                    for value in values {
+                        source.extend(value.to_le_bytes());
+                    }
+                }
+                super::RenderCommand::VerticalFade(values) => {
+                    source.push(0x46);
+                    for value in values {
+                        source.extend(value.to_le_bytes());
+                    }
+                }
+            }
+        }
+        source.extend([7, 2]);
+        let plan =
+            super::Plan::project(&image(&[("render_setup", source)]), "render_setup").unwrap();
+        let mut random = 17;
+        let (objects, _) = plan.activate(&mut random).unwrap();
+        assert_eq!(random, 17);
+        assert_eq!(objects.len(), 1);
+        assert_eq!(objects[0].object_services.render_commands, expected);
+        assert_eq!(objects[0].object_services.pending_count(), 4);
     }
     #[test]
     fn guard_control_requests_stay_pending_including_the_zero_attribute() {

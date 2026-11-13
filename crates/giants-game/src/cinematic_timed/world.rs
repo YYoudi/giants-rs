@@ -106,6 +106,7 @@ pub trait GroundEffects {
     ) -> Result<(), String>;
 }
 pub struct World<'a> {
+    declared_platforms: Option<&'a crate::declared_platform_scene::Prepared>,
     ground_effects: Option<&'a mut dyn GroundEffects>,
     terrain: &'a giants_formats::gti::Terrain,
     query: StaticTerrainQuery<'a>,
@@ -137,6 +138,7 @@ impl<'a> World<'a> {
             return Err("cinematic world requires finite actual clock/areas");
         }
         Ok(Self {
+            declared_platforms: None,
             ground_effects: None,
             terrain,
             query: StaticTerrainQuery::new(terrain, 1. / terrain.spacing, Precision::Double53)?,
@@ -151,6 +153,16 @@ impl<'a> World<'a> {
     pub fn with_ground_effects(mut self, effects: &'a mut dyn GroundEffects) -> Self {
         self.ground_effects = Some(effects);
         self
+    }
+    pub fn with_declared_platforms(
+        mut self,
+        platforms: &'a crate::declared_platform_scene::Prepared,
+    ) -> Result<Self, &'static str> {
+        if !self.platforms.is_empty() || !platforms.matches_inputs(self.unresolved) {
+            return Err("declared platform projections do not match this world");
+        }
+        self.declared_platforms = Some(platforms);
+        Ok(self)
     }
 }
 impl TimedEffectServices for World<'_> {
@@ -187,6 +199,9 @@ impl TimedEffectServices for World<'_> {
     fn gravity(&mut self, session: &mut Session, actor: Id) -> Result<(), String> {
         self.calls.gravity += 1;
         session.apply_timed_effect_gravity(actor)
+    }
+    fn particle_contact(&mut self, session: &mut Session, actor: Id) -> Result<(), String> {
+        session.apply_timed_particle_contact(actor)
     }
     fn ground_contact(
         &mut self,
@@ -282,6 +297,9 @@ impl TimedEffectPreparationServices for World<'_> {
             },
             |point| {
                 self.calls.platforms += 1;
+                if let Some(platforms) = self.declared_platforms {
+                    return platforms.sample(point);
+                }
                 crate::platform_queries::sample_with_unprepared(
                     point,
                     self.platforms,

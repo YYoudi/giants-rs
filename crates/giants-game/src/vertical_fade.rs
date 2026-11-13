@@ -1,5 +1,6 @@
 //! One source vertical-fade segment, advanced only on visible state78 callbacks.
 //! Mesh bounds and deformed local Z are explicit inputs; no raster is inferred.
+//! Prototype PS2 `fx_move` / `fx_setupVerticleFade` remain unknown PC attributions.
 #[derive(Clone, Copy, Debug)]
 pub struct Configuration {
     pub start: [f32; 2],
@@ -119,5 +120,24 @@ mod tests {
             assert_eq!(alpha(z, [-2., 3.], [0.8, 0.2]).unwrap(), expected);
         }
         assert!(alpha(0., [0., 0.], [1., 0.]).is_err());
+    }
+    #[test]
+    fn exact_duration_and_zero_delta_keep_the_native_segment_active() {
+        let mut fade = Playback::new(Configuration {
+            start: [0.; 2],
+            end: [0., 1.],
+            duration: 0.1,
+        })
+        .unwrap();
+        fade.advance(0.1).unwrap();
+        assert!(fade.active);
+        assert_eq!(fade.elapsed.to_bits(), 0.1f32.to_bits());
+        assert_eq!(fade.values, [0., 1.]);
+        fade.advance(0.).unwrap();
+        assert!(fade.active);
+        fade.advance(0.01).unwrap();
+        assert!(!fade.active);
+        assert_eq!(fade.elapsed, 0.);
+        assert_eq!(fade.values, [0., 1.]);
     }
 }

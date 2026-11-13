@@ -1,24 +1,15 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.13.2",
-  "source_commit": "b633f810de881c45cea8b7fb24250ec0314d47b8",
-  "executable_sha256": "bebbc7adbbe4147079970b212a946a4c8750bb436eb8a39aa9d15f32c8c3e516",
-  "archive_sha256": "bb4be8546ba77943324a40670fae8d3435410b0ad884a49c0f3272cc81824741",
+  "tag": "preview-2026.11.13.3",
+  "source_commit": "941342bffca063b6fd78b520dccd5515153ecd94",
+  "executable_sha256": "9a9ae9a4ca1902ecd3c2c46b7d9faf5b9b922bacdf7d7be7cf53d9517d77c962",
+  "archive_sha256": "23343da26dbcdfdc0676e3df56f387f0ebf946e0ce8f568bb1a6ff6c97fa519c",
   "checks": [
-    "building_guard_replacement_gpu",
-    "building_indestructible_gpu",
-    "building_player_meshes_gpu",
-    "building_house_damage_gpu",
-    "building_scenery_damage_gpu",
-    "building_cancel_reentry_gpu",
-    "building_menu_fire_os",
-    "wife_campaign_chain_gpu",
-    "starving_campaign_chain_gpu",
-    "ordinary_mecc_cycles_gpu",
-    "ordinary_mecc_landing_gpu",
-    "offscreen_menu_cycles"
+    "ripper_movement_attack_gpu",
+    "normal_menu_visible"
   ],
   "limitations": [
+    "ripper_combat_incomplete",
     "building_remaining_families",
     "building_fx_policy",
     "cinematic_native_fidelity",

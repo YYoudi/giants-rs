@@ -21,6 +21,7 @@ pub struct Input {
     pub object_kind: u32,
     /// EAX of the separate building query, not a reconstructed energy policy.
     pub building_query: u32,
+    /// Ground-plane normal Z from the actual header, not a supplied global gate.
     pub zero_gate: f32,
     pub z: f32,
     pub floor: f32,
@@ -124,6 +125,43 @@ pub fn circle(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "requires private exact-PC selector controls"]
+    fn native_debug_selector_preserves_platform_and_building_gates() {
+        let text = std::fs::read_to_string(
+            std::env::var_os("GIANTS_PLATFORM_SELECTOR_CONTROLS")
+                .expect("private selector controls"),
+        )
+        .unwrap();
+        let mut count = 0;
+        for line in text.lines() {
+            let p = line.split_whitespace().collect::<Vec<_>>();
+            let w = |i| u32::from_str_radix(p[i], 16).unwrap();
+            let input = Input {
+                existing: w(1) != 0,
+                object_flags: w(2),
+                collision_flags: w(3),
+                object_kind: w(4),
+                building_query: w(5),
+                zero_gate: f32::from_bits(w(6)),
+                z: f32::from_bits(w(7)),
+                floor: f32::from_bits(w(8)),
+                ground_offset: f32::from_bits(w(9)),
+            };
+            let precision = match p[0] {
+                "24" => Precision::Single24,
+                "53" => Precision::Double53,
+                _ => panic!(),
+            };
+            assert_eq!(
+                select(input, precision).unwrap() as u32,
+                p[10].parse::<u32>().unwrap(),
+                "native selector case {count}"
+            );
+            count += 1;
+        }
+        assert_eq!(count, 1024);
+    }
     #[test]
     fn circle_retains_row_deltas_and_refuses_overflow() {
         let value = circle([0., 0.], 5., Precision::Double53).unwrap();

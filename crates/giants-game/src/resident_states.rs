@@ -20,22 +20,43 @@ mod delphi_camera;
 mod delphi_held;
 mod delphi_local_target;
 mod player_shell;
+mod radial_damage;
 pub use delphi_local_target::{
     Context as DelphiLocalTargetContext, Phase as DelphiLocalTargetPhase,
     Providers as DelphiLocalTargetProviders, View as DelphiLocalTargetView,
 };
+pub use radial_damage::{
+    Environment as RadialEnvironment, Hits as RadialHits, Obstacle as RadialNoEffectObstacle,
+};
+mod contacts;
 #[cfg(test)]
 mod delphi_proximity_tests;
 mod dependency_order;
+mod enemy_expiry;
+mod enemy_object_contact;
+mod enemy_projectile_presentation;
 mod herd_frame;
 #[cfg(test)]
 mod herd_frame_tests;
+mod mecc_contacts;
+mod mecc_enemy_hit;
+mod mecc_hit_source;
+pub use mecc_enemy_hit::{Gates as MeccEnemyHitGates, Services as MeccEnemyHitServices};
 #[cfg(test)]
 mod parented_frame_tests;
 #[cfg(test)]
 mod passive_frame_tests;
+mod ripper_calls;
+mod ripper_damage;
+mod ripper_melee;
+pub use ripper_melee::Services as RipperMeleeServices;
+mod ripper_contacts;
+mod ripper_retreat;
 mod ripper_variant;
+mod surface_frame;
+pub use surface_frame::{Frame as SurfaceMarkerFrame, View as SurfaceFrameView};
 mod vimp_ghost;
+mod vimp_radial_signal;
 mod vimp_retirement;
 mod vimp_soul;
 pub use cinematic_constant::{
@@ -175,9 +196,10 @@ pub struct MeccDamageContext {
     /// Shared native input/UI inhibition snapshot; its complete owner is still
     /// required. This is not the startup no-play option or device muting.
     pub globally_disabled: bool,
-    /// Historical label for the acquired suppression input. Its actual producer
-    /// and relationship to cinematic state remain unverified.
-    /// Do not derive this snapshot from film activity alone.
+    /// Historical label retained for compatibility. The acquired debug PC
+    /// word has a console toggle that clears player damage and a separate
+    /// temporary completion-countdown owner. Its shared runtime owner is not
+    /// yet bound; never derive this snapshot from cinematic activity alone.
     pub cutscene: bool,
     pub shield_percent: f32,
     pub ambient_voice_timer: f32,
@@ -259,6 +281,10 @@ pub enum PickupService {
 /// the callback's current state; its local fields are published only on success.
 /// External service effects are not rolled back on a later failure.
 pub trait State23Services {
+    /// The canonical victim exposes this callback prefix before the service.
+    /// Victim field writes belong to the callback; external/other-actor work
+    /// remains the service's responsibility. Projectile propagation uses the
+    /// dedicated contact/hit route rather than the direct callback entry.
     fn execute(
         &mut self,
         session: &mut Session,
@@ -357,20 +383,6 @@ impl<S: State23AnimationServices> crate::state23_animation::Services
         )
     }
 }
-struct State23Adapter<'a, S> {
-    session: &'a mut Session,
-    services: &'a mut S,
-}
-impl<S: State23Services> crate::state23_damage::Services<Id> for State23Adapter<'_, S> {
-    fn execute(
-        &mut self,
-        actor: &crate::state23_damage::State<Id>,
-        service: crate::state23_damage::Service<Id>,
-        random: &mut crate::audio_parameters::Random,
-    ) -> Result<(), String> {
-        self.services.execute(self.session, actor, service, random)
-    }
-}
 #[derive(Debug)]
 pub struct Resident {
     /// Retained source command7 scalar on acquired declared barracks. Its
@@ -431,6 +443,7 @@ pub struct Resident {
     /// acquired class215 payload. Raw constructor pointer slots stay zero.
     cold_alert_target: Option<Id>,
     barracks: Option<barracks::Owned>,
+    ripper_damage: ripper_damage::Owned,
     mecc_special: Option<crate::mecc_special::Initialized>,
     delphi_special: Option<crate::delphi_special::State>,
     delphi_copy_source: Option<crate::delphi_special::CopySource>,
@@ -449,6 +462,13 @@ pub struct Resident {
     mecc_damage_smoke: crate::mecc_damage_effect::State<crate::attached_effect_context::Id>,
     /// Native accumulated header damage, owned separately from the payload.
     mecc_damage: Option<f32>,
+    /// Acquired cold generic constructor clears both header relationships.
+    /// Registration and unrelated type changes do not supply this proof.
+    mecc_hit_relations_cleared: bool,
+    /// Generic header damage retained from acquired state0/state48 construction.
+    /// Historical private name: state0_damage. Registration supplies no value;
+    /// active state-specific health owners remain independent.
+    passive_damage: Option<f32>,
     mecc_physics_present: bool,
     mecc_physical_cycle: Option<crate::mecc_physical_cycle::Owned>,
     affine_cache: Option<OwnedAffine>,
@@ -468,11 +488,18 @@ pub struct Resident {
     ripper_primary:
         Option<crate::ripper_primary_turn::Machine<Id, crate::attached_effect_context::Id>>,
     ripper_primary_running: bool,
+    ripper_primary_epoch: u64,
+    ripper_melee: Option<ripper_melee::Attempt>,
+    ripper_animation_consumed: bool,
+    ripper_animation_failed: bool,
+    ripper_animation_epoch: Option<u32>,
     controlled_motion: Option<crate::controlled_mecc::Owned>,
+    controlled_hit_clock_sample: Option<u64>,
     finalization: Option<crate::resident_finalization::Owned>,
     world_tick: Option<crate::actor_world_tick::Tick>,
     world_tick_running: bool,
     surface_link: Option<SurfaceLink>,
+    surface_frame: Option<surface_frame::Owned>,
 }
 #[derive(Clone, Debug)]
 struct OwnedAffine {
@@ -550,12 +577,19 @@ pub struct Session {
     kabuto_events: Option<crate::mecc_animation_events::Bank>,
     mecc_contact_materials: Option<Arc<crate::mecc_contact_materials::Catalog>>,
     vimp_events: Option<crate::mecc_animation_events::Bank>,
+    ripper_events: BTreeMap<i32, crate::mecc_animation_events::Bank>,
     mecc_countdown_world: Option<f32>,
     mecc_shot_record: Option<crate::mecc_shot::Record>,
     mecc_reticle_owner: Option<Id>,
     mecc_target_range: Option<(Id, bool)>,
 }
 impl Session {
+    /// Stable local collision key for an actor still owned by this Session.
+    /// Typed ticket identity remains the authority across mission entries.
+    pub fn actor_collision_identity(&self, id: Id) -> Result<u32, String> {
+        self.get(id).ok_or("collision identity absent or foreign")?;
+        u32::try_from(id.serial).map_err(|_| "collision identity outside acquired range".into())
+    }
     /// Identity of this owning mission scope; not an admission acknowledgement.
     pub fn ticket(&self) -> u64 {
         self.ticket
@@ -579,6 +613,7 @@ impl Session {
             kabuto_events: None,
             mecc_contact_materials: None,
             vimp_events: None,
+            ripper_events: BTreeMap::new(),
             mecc_countdown_world: None,
             mecc_shot_record: None,
             mecc_reticle_owner: None,
@@ -680,7 +715,9 @@ impl Session {
                 state23_combat: None,
                 cold_alert_target: None,
                 barracks: None,
+                ripper_damage: Default::default(),
                 mecc_special: None,
+                mecc_hit_relations_cleared: false,
                 delphi_special: None,
                 delphi_copy_source: None,
                 delphi_copy_parameter: None,
@@ -697,6 +734,7 @@ impl Session {
                 mecc_contact: Default::default(),
                 mecc_damage_smoke: Default::default(),
                 mecc_damage: None,
+                passive_damage: None,
                 mecc_physics_present: false,
                 mecc_physical_cycle: None,
                 affine_cache: None,
@@ -715,11 +753,18 @@ impl Session {
                 ordinary_motion: None,
                 ripper_primary: None,
                 ripper_primary_running: false,
+                ripper_primary_epoch: 0,
+                ripper_melee: None,
+                ripper_animation_consumed: false,
+                ripper_animation_failed: false,
+                ripper_animation_epoch: None,
                 controlled_motion: None,
+                controlled_hit_clock_sample: None,
                 finalization: None,
                 world_tick: None,
                 world_tick_running: false,
                 surface_link: None,
+                surface_frame: None,
                 attachment: None,
                 retained_attachment_words: None,
                 pickup_notice_pending: false,
@@ -1015,6 +1060,9 @@ impl Session {
             // Exact cold generic allocation and complete D type change retain
             // the zero header damage. This is not a health reset for live actors.
             parent.mecc_damage = Some(0.);
+            // Original cold allocation explicitly clears associated-player and
+            // character-voice header words before the complete Mecc type change.
+            parent.mecc_hit_relations_cleared = true;
         }
         Ok(initialized)
     }
@@ -3013,6 +3061,10 @@ impl Session {
         state.steering.commands = self.actor_motion(id)?.commands();
         state.entry.packed = u32::from_le_bytes(state.steering.commands[..4].try_into().unwrap());
         state.primary = actor.channels.ok_or("primary channels absent")?[0];
+        let epoch = actor
+            .ripper_primary_epoch
+            .checked_add(1)
+            .ok_or("Ripper primary epoch exhausted")?;
         // Take only after all owned-view checks. A failed callback is always
         // returned to the resident, including its no-replay latch.
         let mut machine = self
@@ -3026,6 +3078,9 @@ impl Session {
             .get_mut(&id.serial)
             .unwrap()
             .ripper_primary_running = true;
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        actor.ripper_primary_epoch = epoch;
+        actor.ripper_melee = None;
         let result = (|| {
             machine.refresh_owned_frame(state)?;
             let outcome = callback(self, &mut machine, input, random, services);
@@ -3053,7 +3108,13 @@ impl Session {
             actor.state23_combat = Some(combat);
             outcome
         })();
-        let actor = self.residents.get_mut(&id.serial).unwrap();
+        if self.ticket != id.ticket {
+            return Err("owned primary scope replaced during its callback".into());
+        }
+        let actor = self
+            .residents
+            .get_mut(&id.serial)
+            .ok_or("owned primary source removed during its callback")?;
         actor.ripper_primary_running = false;
         actor.ripper_primary = Some(machine);
         result
@@ -3089,6 +3150,7 @@ impl Session {
         Ok(())
     }
     fn ordinary_frame_actor(&self, id: Id) -> Result<&Resident, String> {
+        self.check_ripper_damage_available(id)?;
         let actor = self
             .get(id)
             .ok_or("ordinary frame actor absent or foreign")?;
@@ -3142,6 +3204,9 @@ impl Session {
     /// not execute or acknowledge the primary behavior callback.
     pub fn begin_actor_frame_history(&mut self, id: Id) -> Result<(), String> {
         let actor = self.ordinary_frame_actor(id)?;
+        if actor.ripper_animation_failed {
+            return Err("Ripper ANM failed; fresh entry required".into());
+        }
         if actor.world_tick_running
             || actor
                 .world_tick
@@ -3172,6 +3237,7 @@ impl Session {
                     .ok_or("frame fields absent")?,
             )?;
         actor.world_tick = None;
+        actor.ripper_animation_consumed = false;
         Ok(())
     }
     pub fn actor_world_flags(&self, id: Id) -> Result<u32, String> {
@@ -3232,6 +3298,9 @@ impl Session {
         services: &mut impl crate::actor_finalization::Services,
     ) -> Result<(), String> {
         let actor = self.ordinary_frame_actor(id)?;
+        if actor.ripper_animation_failed {
+            return Err("Ripper ANM failed; finalization cannot acknowledge this frame".into());
+        }
         let mut state = actor
             .finalization
             .as_ref()
@@ -3401,6 +3470,7 @@ impl Session {
         random: &mut crate::audio_parameters::Random,
         services: &mut impl State23AnimationServices,
     ) -> Result<(), String> {
+        self.check_ripper_damage_available(id)?;
         let mut combat = self.state23_snapshot(id)?;
         let actor = self.get(id).ok_or("animation actor absent")?;
         if actor.state23_animation_failed {
@@ -3565,92 +3635,6 @@ impl Session {
     }
     pub fn enemy_projectile(&self, id: Id) -> Option<&crate::enemy_projectile::Metadata> {
         self.get(id)?.enemy_projectile.as_ref()
-    }
-    /// Owned callback consumer, not the general projectile-hit wrapper.
-    /// Services must be available before calling. On service failure the local
-    /// actor is not published, but earlier external effects/RNG are not undone;
-    /// callers must not blindly retry a partially executed service sequence.
-    pub fn damage_state23(
-        &mut self,
-        id: Id,
-        amount: f32,
-        source: Option<Id>,
-        context: crate::state23_damage::Context,
-        random: &mut crate::audio_parameters::Random,
-        services: &mut impl State23Services,
-    ) -> Result<crate::state23_damage::Outcome, String> {
-        use crate::state23_damage::Source;
-        let actor = self
-            .get(id)
-            .ok_or("damage target is not owned by this ticket")?;
-        if actor.seed.storage.state() != 23
-            || !matches!(actor.class, 73 | 230)
-            || !actor.acquired_construction
-            || self.specification(id).is_none()
-            || self.state_resources(id).is_none()
-        {
-            return Err("damage target lacks acquired state23 construction".into());
-        }
-        let source = source
-            .map(|id| {
-                let actor = self
-                    .get(id)
-                    .ok_or("damage source is not owned by this ticket")?;
-                if let Some(projectile) = &actor.basic_projectile {
-                    return Err(if projectile.launch.is_some() {
-                        "launched projectile requires acquired contact/hit dispatch before damage"
-                    } else {
-                        "constructed projectile requires acquired launch/owner initialization before damage"
-                    }.into());
-                }
-                if actor.enemy_projectile.is_some() {
-                    return Err("constructed enemy projectile requires its ordered launch and hit dispatch before damage".into());
-                }
-                if !actor.acquired_construction
-                    || actor.construction_fields.is_none()
-                    || self.specification(id).is_none()
-                    || self.state_resources(id).is_none()
-                {
-                    return Err(
-                        "damage source requires a complete acquired constructor".to_string()
-                    );
-                }
-                Ok(Source {
-                    id,
-                    state: u32::from(actor.seed.storage.state()),
-                    owner: actor
-                        .state23_combat
-                        .as_ref()
-                        .and_then(|s| s.owner.map(|(id, _)| id)),
-                })
-            })
-            .transpose()?;
-        let mut state = self.state23_snapshot(id)?;
-        let outcome = crate::state23_damage::apply(
-            &mut state,
-            amount,
-            source,
-            context,
-            random,
-            &mut State23Adapter {
-                session: self,
-                services,
-            },
-        )?;
-        let actor = self
-            .residents
-            .get_mut(&id.serial)
-            .ok_or("damage service removed its callback actor before publication")?;
-        let fields = actor
-            .construction_fields
-            .as_mut()
-            .ok_or("damage service removed its callback fields before publication")?;
-        fields.object_flags = state.flags;
-        fields.configuration[14] = state.personality;
-        fields.control_flags = state.control;
-        fields.action = state.action;
-        actor.state23_combat = Some(state);
-        Ok(outcome)
     }
     /// Build all owned resources before making an actor visible to this session.
     /// Reuse the individual binding guards in an isolated staging session. Failed
@@ -7072,6 +7056,7 @@ impl Session {
             .expect("staged surface marker");
         actor.channels = Some(channels);
         actor.acquired_construction = true;
+        actor.passive_damage = Some(0.);
         self.publish_staged(staged, id)
     }
     pub fn surface_link(&self, id: Id) -> Option<SurfaceLink> {
@@ -7404,6 +7389,9 @@ impl Session {
         let actor = self
             .get(id)
             .ok_or("surface update actor absent or foreign")?;
+        if actor.surface_frame.is_some() {
+            return Err("surface marker belongs to its owned world frame; isolated updates cannot interleave".into());
+        }
         let Some(SurfaceLink::Marker {
             owner,
             look_pitch,
@@ -8056,9 +8044,8 @@ impl Session {
             .construction_fields
             .as_ref()
             .ok_or("primary fire source fields absent")?;
-        if source.class != 73
-            || snapshot.entry.class != 73
-            || snapshot.entry.mode != 39
+        if !matches!((source.class, snapshot.entry.mode), (73, 39) | (230, 65))
+            || snapshot.entry.class != source.class
             || snapshot.entry.action != 0
             || f.action != 0
             || source
@@ -8343,13 +8330,171 @@ impl Session {
         random: &mut crate::audio_parameters::Random,
         services: &mut impl crate::enemy_projectile::GroundImpactServices,
     ) -> Result<crate::enemy_projectile::FlightOutcome, String> {
-        use crate::enemy_projectile::{FlightOutcome, FlightWorld, Phase};
-        let FlightWorld {
+        let crate::enemy_projectile::FlightWorld {
             terrain,
             inverse_spacing,
             seconds,
             vertex_epoch,
             force_vertices,
+            areas,
+        } = world;
+        let query_world = crate::enemy_projectile::SceneFlightWorld {
+            terrain,
+            inverse_spacing,
+            seconds,
+            areas,
+        };
+        let outcome = self.advance_enemy_projectile_query(id, query_world, |session, source| {
+            let serial = |id: Id| {
+                u32::try_from(id.serial).map_err(|_| "flight identity outside acquired range")
+            };
+            let owner = serial(source)?;
+            let mut objects = vec![];
+            let mut identities = BTreeMap::new();
+            for candidate in session.list(1) {
+                let object = session.get(candidate).ok_or("unowned flight candidate")?;
+                let fields = object
+                    .construction_fields
+                    .as_ref()
+                    .ok_or("candidate fields absent")?
+                    .clone();
+                if object.presentation_parent.is_some() {
+                    return Err(
+                        "flight candidate requires an acquired native parent binding".into(),
+                    );
+                }
+                let parent = object
+                    .attachment
+                    .map(|p| serial(p.parent))
+                    .transpose()?
+                    .unwrap_or(0);
+                let key = serial(candidate)?;
+                if !crate::object_segment::projectile_candidate(
+                    serial(id)?,
+                    owner,
+                    key,
+                    parent,
+                    fields.object_flags,
+                    fields.configuration[14],
+                ) {
+                    continue;
+                }
+                let prepared = session.actor_environment(candidate)?;
+                let bounds = prepared.geometry_fields().bounds;
+                let mesh = if fields.configuration[14] & 0x1000000 != 0 {
+                    crate::object_segment::Mesh::new(key, vec![])?
+                } else {
+                    let slot = session
+                        .specification(candidate)
+                        .ok_or("candidate specification absent")?
+                        .metadata
+                        .selection
+                        .table()?
+                        .collision_slot()?;
+                    session.prepare_actor_positions(
+                        candidate,
+                        slot,
+                        vertex_epoch,
+                        force_vertices,
+                    )?;
+                    session.actor_current_contact_mesh(candidate)?
+                };
+                objects.push(crate::projectile_world::Object {
+                    id: key,
+                    parent,
+                    active: fields.object_flags,
+                    personality: fields.configuration[14],
+                    bounds: crate::volume_queries::Bounds {
+                        min: bounds[..3].try_into().unwrap(),
+                        max: bounds[3..].try_into().unwrap(),
+                    },
+                    mesh,
+                });
+                identities.insert(key, crate::enemy_projectile_scene::Target::Actor(candidate));
+            }
+
+            Ok((serial(id)?, owner, objects, identities))
+        })?;
+        if matches!(
+            outcome,
+            crate::enemy_projectile::FlightOutcome::GroundContact { .. }
+        ) {
+            self.complete_enemy_projectile_ground_flight(id, random, services)
+        } else {
+            Ok(outcome)
+        }
+    }
+    /// Use the ordinary scene's typed identities and actual current packets.
+    /// This shares state6 flight/history/query with the owned-list API. Ground,
+    /// object and expiry reactions remain pending for actual downstream services;
+    /// no unavailable provider is substituted. The caller owns scene population
+    /// and current-pose scheduling.
+    pub fn advance_enemy_projectile_singleplayer_scene(
+        &mut self,
+        id: Id,
+        world: crate::enemy_projectile::SceneFlightWorld<'_, '_>,
+        scene: crate::enemy_projectile_scene::Scene,
+    ) -> Result<crate::enemy_projectile::FlightOutcome, String> {
+        self.advance_enemy_projectile_query(id, world, |session, source| {
+            use crate::enemy_projectile_scene::Target;
+            let owner = *scene
+                .keys
+                .get(&Target::Actor(source))
+                .ok_or("projectile source absent from ordinary scene")?;
+            for object in &scene.objects {
+                if let Target::Actor(actor) = scene.identities[&object.id] {
+                    let resident = session
+                        .get(actor)
+                        .ok_or("projectile scene actor absent or foreign")?;
+                    let fields = resident
+                        .construction_fields
+                        .as_ref()
+                        .ok_or("projectile scene actor fields absent")?;
+                    let parent = resident
+                        .attachment
+                        .map(|a| {
+                            scene
+                                .keys
+                                .get(&Target::Actor(a.parent))
+                                .copied()
+                                .ok_or("projectile scene actor parent absent")
+                        })
+                        .transpose()?
+                        .unwrap_or(0);
+                    if resident.presentation_parent.is_some()
+                        || parent != object.parent
+                        || fields.object_flags != object.active
+                        || fields.configuration[14] != object.personality
+                    {
+                        return Err("projectile scene actor fields or parent changed".into());
+                    }
+                }
+            }
+            Ok((u32::MAX, owner, scene.objects, scene.identities))
+        })
+    }
+    fn advance_enemy_projectile_query(
+        &mut self,
+        id: Id,
+        world: crate::enemy_projectile::SceneFlightWorld<'_, '_>,
+        candidates: impl FnOnce(
+            &mut Self,
+            Id,
+        ) -> Result<
+            (
+                u32,
+                u32,
+                Vec<crate::projectile_world::Object>,
+                BTreeMap<u32, crate::enemy_projectile_scene::Target>,
+            ),
+            String,
+        >,
+    ) -> Result<crate::enemy_projectile::FlightOutcome, String> {
+        use crate::enemy_projectile::{FlightOutcome, Phase, SceneFlightWorld};
+        let SceneFlightWorld {
+            terrain,
+            inverse_spacing,
+            seconds,
             areas,
         } = world;
         let actor = self.get(id).ok_or("flight projectile absent or foreign")?;
@@ -8373,6 +8518,7 @@ impl Session {
             || meta.initial_environment.is_none()
             || !matches!(terrain.precision(), crate::arithmetic::Precision::Double53)
             || meta.pending_flight.is_some()
+            || meta.presentation_failure.is_some()
             || actor.attachment.is_some()
             || actor.presentation_parent.is_some()
             || header.object_flags & 0xc000 != 0
@@ -8413,65 +8559,12 @@ impl Session {
         )?;
         // Validate lifetime and clock before any external reaction or publication.
         crate::enemy_flight::countdown(lifetime, next.position, &time)?;
-        let serial =
-            |id: Id| u32::try_from(id.serial).map_err(|_| "flight identity outside acquired range");
-        let owner = serial(launch.source)?;
-        let mut objects = vec![];
-        let mut identities = BTreeMap::new();
-        for candidate in self.list(1) {
-            let object = self.get(candidate).ok_or("unowned flight candidate")?;
-            let fields = object
-                .construction_fields
-                .as_ref()
-                .ok_or("candidate fields absent")?
-                .clone();
-            if object.presentation_parent.is_some() {
-                return Err("flight candidate requires an acquired native parent binding".into());
-            }
-            let parent = object
-                .attachment
-                .map(|p| serial(p.parent))
-                .transpose()?
-                .unwrap_or(0);
-            let key = serial(candidate)?;
-            if !crate::object_segment::projectile_candidate(
-                serial(id)?,
-                owner,
-                key,
-                parent,
-                fields.object_flags,
-                fields.configuration[14],
-            ) {
-                continue;
-            }
-            let prepared = self.actor_environment(candidate)?;
-            let bounds = prepared.geometry_fields().bounds;
-            let mesh = if fields.configuration[14] & 0x1000000 != 0 {
-                crate::object_segment::Mesh::new(key, vec![])?
-            } else {
-                let slot = self
-                    .specification(candidate)
-                    .ok_or("candidate specification absent")?
-                    .metadata
-                    .selection
-                    .table()?
-                    .collision_slot()?;
-                self.prepare_actor_positions(candidate, slot, vertex_epoch, force_vertices)?;
-                self.actor_current_contact_mesh(candidate)?
-            };
-            objects.push(crate::projectile_world::Object {
-                id: key,
-                parent,
-                active: fields.object_flags,
-                personality: fields.configuration[14],
-                bounds: crate::volume_queries::Bounds {
-                    min: bounds[..3].try_into().unwrap(),
-                    max: bounds[3..].try_into().unwrap(),
-                },
-                mesh,
-            });
-            identities.insert(key, candidate);
-        }
+        let source = launch.source;
+        let flight_revision = meta
+            .flight_revision
+            .checked_add(1)
+            .ok_or("enemy projectile flight revision exhausted")?;
+        let (projectile, owner, objects, identities) = candidates(self, source)?;
         // Position history is separate from the primary wrapper's rate history.
         header.previous = header.current;
         header.current = header.position;
@@ -8482,17 +8575,28 @@ impl Session {
         header.configuration[14] = next.personality;
         let ground = terrain.segment(header.current, &mut header.position, inverse_spacing)?;
         let objects = crate::projectile_world::query(
-            serial(id)?,
+            projectile,
             owner,
             header.current,
             header.position,
             &objects,
         )?;
         let mut outcome = if let Some(target) = objects.selected {
-            FlightOutcome::ObjectContact {
-                target: identities[&target],
-                point: objects.point,
-                tag: objects.tag,
+            match identities[&target] {
+                crate::enemy_projectile_scene::Target::Actor(target) => {
+                    FlightOutcome::ObjectContact {
+                        target,
+                        point: objects.point,
+                        tag: objects.tag,
+                    }
+                }
+                crate::enemy_projectile_scene::Target::Declaration(target) => {
+                    FlightOutcome::DeclaredContact {
+                        target,
+                        point: objects.point,
+                        tag: objects.tag,
+                    }
+                }
             }
         } else if ground.is_some() {
             FlightOutcome::GroundContact {
@@ -8506,21 +8610,85 @@ impl Session {
         if matches!(outcome, FlightOutcome::Flying) && expired {
             outcome = FlightOutcome::Expired;
         }
+        let animation_seconds = crate::object_time::seconds(
+            seconds,
+            Some(crate::object_time::Sample {
+                owner: time.context,
+                position: header.position,
+            }),
+            None,
+            areas,
+        ) as f32;
         let actor = self.residents.get_mut(&id.serial).unwrap();
         actor.construction_fields = Some(header);
         let meta = actor.enemy_projectile.as_mut().unwrap();
+        meta.flight_revision = flight_revision;
+        meta.animation_seconds = Some(animation_seconds);
         let launch = meta.launch.as_mut().unwrap();
         launch.previous_rates = launch.rates;
         launch.rates = next.rates;
         meta.pending_flight = (!matches!(outcome, FlightOutcome::Flying)).then_some(outcome);
+        meta.ground_flight_clock =
+            matches!(outcome, FlightOutcome::GroundContact { .. }).then(|| {
+                crate::enemy_projectile::GroundFlightClock {
+                    seconds,
+                    areas: areas.to_vec(),
+                }
+            });
         if !matches!(
             outcome,
-            FlightOutcome::ObjectContact { .. } | FlightOutcome::GroundContact { .. }
+            FlightOutcome::ObjectContact { .. }
+                | FlightOutcome::DeclaredContact { .. }
+                | FlightOutcome::GroundContact { .. }
         ) {
             actor.seed.storage.data_mut().unwrap()[4..8].copy_from_slice(&remaining.to_le_bytes());
         }
-        if let FlightOutcome::GroundContact { point } = outcome {
-            self.enemy_projectile_ground_impact(id, point, random, services)?;
+        Ok(outcome)
+    }
+    /// Complete the ground contact retained by either real flight-query API.
+    /// Former Rust helper alias: `finish_enemy_projectile_ground_flight`.
+    /// Prototype PS2 ripper/enemy-shot searches remain unknown attributions.
+    /// Uses the query's point and clock, never another motion/query or a newly
+    /// supplied delta. Actual FX, radial and sound services precede the lifetime
+    /// tail; marking is distinct from later resource retirement. A failed
+    /// service retains its prefix and cannot be replayed through this adapter.
+    pub fn complete_enemy_projectile_ground_flight(
+        &mut self,
+        id: Id,
+        random: &mut crate::audio_parameters::Random,
+        services: &mut impl crate::enemy_projectile::GroundImpactServices,
+    ) -> Result<crate::enemy_projectile::FlightOutcome, String> {
+        use crate::enemy_projectile::FlightOutcome;
+        let actor = self.get(id).ok_or("post-query projectile absent")?;
+        let metadata = actor
+            .enemy_projectile
+            .as_ref()
+            .ok_or("enemy constructor absent")?;
+        let Some(FlightOutcome::GroundContact { point }) = metadata.pending_flight else {
+            return Err("ground continuation requires the actual pending terrain contact".into());
+        };
+        let clock = metadata
+            .ground_flight_clock
+            .clone()
+            .ok_or("ground continuation requires the original query clock")?;
+        let payload = actor
+            .seed
+            .storage
+            .data()
+            .ok_or("post-query payload absent")?;
+        let lifetime = f32::from_le_bytes(payload[4..8].try_into().unwrap());
+        let time = crate::enemy_flight::Time {
+            seconds: clock.seconds,
+            context: actor
+                .enemy_projectile
+                .as_ref()
+                .and_then(|m| m.launch.as_ref())
+                .ok_or("post-query launch absent")?
+                .dispatch_context,
+            areas: &clock.areas,
+        };
+        self.enemy_projectile_ground_impact(id, point, random, services)?;
+        let result: Result<FlightOutcome, String> = (|| {
             let actor = self
                 .residents
                 .get_mut(&id.serial)
@@ -8539,11 +8707,23 @@ impl Session {
                 .copy_from_slice(&remaining.to_le_bytes());
             actor.enemy_projectile.as_mut().unwrap().pending_flight =
                 expired.then_some(FlightOutcome::Expired);
-            if expired {
-                outcome = FlightOutcome::Expired;
-            }
+            actor.enemy_projectile.as_mut().unwrap().ground_flight_clock = None;
+            Ok(if expired {
+                FlightOutcome::Expired
+            } else {
+                FlightOutcome::GroundContact { point }
+            })
+        })();
+        if let Err(error) = &result
+            && let Some(metadata) = self
+                .residents
+                .get_mut(&id.serial)
+                .and_then(|a| a.enemy_projectile.as_mut())
+        {
+            metadata.phase = crate::enemy_projectile::Phase::Failed;
+            metadata.failure = Some(error.clone());
         }
-        Ok(outcome)
+        result
     }
     /// Reaction at an externally established terrain-contact point. This does
     /// not fabricate a world query, run the remaining lifetime tail, or unlink
@@ -8765,6 +8945,9 @@ impl Session {
             {
                 refers |= target == id;
             }
+            if let Some(melee) = &actor.ripper_melee {
+                refers |= melee.target == id && melee.phase != ripper_melee::Phase::Complete;
+            }
             if refers {
                 incoming.push(Id {
                     ticket: self.ticket,
@@ -8778,6 +8961,7 @@ impl Session {
         &self,
         id: Id,
         phase: crate::enemy_projectile::Phase,
+        reaction: crate::enemy_projectile::RetirementKind,
     ) -> Result<Counts, String> {
         let actor = self.get(id).ok_or("retirement actor absent or foreign")?;
         let metadata = actor
@@ -8795,7 +8979,24 @@ impl Session {
             || actor.seed.storage.state() != 6
             || actor.seed.storage.data().is_none_or(|b| b.len() != 36)
             || metadata.phase != phase
-            || metadata.ground_impact.is_none()
+            || match reaction {
+                crate::enemy_projectile::RetirementKind::Ground => {
+                    metadata.ground_impact.is_none()
+                        || metadata.object_impact.is_some()
+                        || metadata.expiry_impact.is_some()
+                }
+                crate::enemy_projectile::RetirementKind::Object => {
+                    metadata.object_impact.is_none()
+                        || metadata.ground_impact.is_some()
+                        || metadata.expiry_impact.is_some()
+                }
+                crate::enemy_projectile::RetirementKind::Expiry => {
+                    metadata.expiry_impact.as_ref().is_none_or(|receipt| {
+                        receipt.after_ground != metadata.ground_impact.is_some()
+                    }) || metadata.object_impact.is_some()
+                        || metadata.expiry_attempt.is_none()
+                }
+            }
             || metadata.pending_flight.is_some()
             || fields.object_flags & 0x8000 == 0
             || actor.attachment.is_some()
@@ -8803,7 +9004,7 @@ impl Session {
             || self.specification(id).is_none()
             || self.state_resources(id).is_none()
         {
-            return Err("enemy cleanup outside acquired marked terrain-retirement profile".into());
+            return Err("enemy cleanup outside its acquired marked reaction profile".into());
         }
         if self.declarations.values().any(|value| *value == id)
             || !self.incoming_actor_references(id)?.is_empty()
@@ -8831,8 +9032,58 @@ impl Session {
         id: Id,
         services: &mut impl crate::enemy_projectile::RetirementServices,
     ) -> Result<Counts, String> {
+        self.cleanup_enemy_projectile_reaction(
+            id,
+            crate::enemy_projectile::RetirementKind::Ground,
+            services,
+        )
+    }
+    /// Same constructor/resource teardown, admitted only by the distinct actual
+    /// positive object-contact receipt. Ground evidence cannot substitute for it.
+    pub fn cleanup_enemy_projectile_object_contact(
+        &mut self,
+        id: Id,
+        services: &mut impl crate::enemy_projectile::RetirementServices,
+    ) -> Result<Counts, String> {
+        self.cleanup_enemy_projectile_reaction(
+            id,
+            crate::enemy_projectile::RetirementKind::Object,
+            services,
+        )
+    }
+    /// Unlink only after the actual expiry tail and its required consumers.
+    /// A terrain or object-contact receipt cannot satisfy this contract.
+    pub fn cleanup_enemy_projectile_expiry(
+        &mut self,
+        id: Id,
+        services: &mut impl crate::enemy_projectile::RetirementServices,
+    ) -> Result<Counts, String> {
+        self.cleanup_enemy_projectile_reaction(
+            id,
+            crate::enemy_projectile::RetirementKind::Expiry,
+            services,
+        )
+    }
+    fn cleanup_enemy_projectile_reaction(
+        &mut self,
+        id: Id,
+        reaction: crate::enemy_projectile::RetirementKind,
+        services: &mut impl crate::enemy_projectile::RetirementServices,
+    ) -> Result<Counts, String> {
         use crate::enemy_projectile::Phase;
-        let expected = self.enemy_cleanup_preflight(id, Phase::Retiring)?;
+        let expected = self.enemy_cleanup_preflight(id, Phase::Retiring, reaction)?;
+        let expiry_token = if matches!(reaction, crate::enemy_projectile::RetirementKind::Expiry) {
+            Some(
+                self.enemy_projectile(id)
+                    .unwrap()
+                    .expiry_attempt
+                    .as_ref()
+                    .unwrap()
+                    .clone(),
+            )
+        } else {
+            None
+        };
         self.residents
             .get_mut(&id.serial)
             .unwrap()
@@ -8842,7 +9093,15 @@ impl Session {
             .phase = Phase::CleanupServices;
         let result: Result<Counts, String> = (|| {
             services.release(self, id)?;
-            self.enemy_cleanup_preflight(id, Phase::CleanupServices)?;
+            if let Some(expected) = &expiry_token
+                && !self
+                    .enemy_projectile(id)
+                    .and_then(|meta| meta.expiry_attempt.as_ref())
+                    .is_some_and(|actual| Arc::ptr_eq(expected, actual))
+            {
+                return Err("expiry retirement scope was removed or replaced".into());
+            }
+            self.enemy_cleanup_preflight(id, Phase::CleanupServices, reaction)?;
             let removed = self.links.remove_object(id.serial);
             assert_eq!(removed, expected.registrations);
             self.specifications
@@ -8858,6 +9117,13 @@ impl Session {
         })();
         if let Err(error) = &result
             && let Some(actor) = self.residents.get_mut(&id.serial)
+            && expiry_token.as_ref().is_none_or(|expected| {
+                actor
+                    .enemy_projectile
+                    .as_ref()
+                    .and_then(|meta| meta.expiry_attempt.as_ref())
+                    .is_some_and(|actual| Arc::ptr_eq(expected, actual))
+            })
         {
             let metadata = actor.enemy_projectile.as_mut().unwrap();
             metadata.phase = Phase::Failed;
@@ -9721,6 +9987,7 @@ impl Session {
                     "attached state23 credit member requires typed attachment integration".into(),
                 );
             }
+            self.check_ripper_damage_available(who)?;
             states.push(self.state23_snapshot(who)?);
         }
         let victim_index = states
@@ -9936,11 +10203,14 @@ impl Session {
                 }
             }
         }
-        staged
-            .residents
-            .get_mut(&id.serial)
-            .expect("staged actor")
-            .acquired_construction = true;
+        let actor = staged.residents.get_mut(&id.serial).expect("staged actor");
+        actor.acquired_construction = true;
+        if actor.seed.storage.state() == 0 {
+            // Actual pool construction clears this independent header word;
+            // neither the class header nor the state0 copy replaces it.
+            // This runs once before publication, never on a health read/tick.
+            actor.passive_damage = Some(0.);
+        }
         self.publish_staged(staged, id)
     }
     fn publish_staged(&mut self, mut staged: Self, id: Id) -> Result<Id, String> {
@@ -11306,6 +11576,7 @@ impl Session {
         self.delphi_events = None;
         self.mecc_contact_materials = None;
         self.vimp_events = None;
+        self.ripper_events.clear();
         self.mecc_reticle_owner = None;
         self.mecc_target_range = None;
         // A visitor or target provider can cancel while its phase is on the
@@ -11319,6 +11590,12 @@ impl Session {
 #[cfg(test)]
 mod tests {
     use super::*;
+    include!("resident_states/ripper_damage_tests.rs");
+    include!("resident_states/enemy_expiry_tests.rs");
+    mod object_contact {
+        use super::*;
+        include!("resident_states/enemy_object_contact_tests.rs");
+    }
     #[test]
     fn local_target_publication_owns_links_preserves_payload_and_replaces_misses() {
         let mut session = Session::new(921);
@@ -11769,6 +12046,27 @@ mod tests {
     }
     fn animation_actor(session: &mut Session) -> Id {
         fixture_actor(session, 73, 23)
+    }
+    #[test]
+    fn constructed_state0_radial_health_is_retained_and_uses_current_limit() {
+        let mut session = Session::new(991);
+        let id = fixture_actor(&mut session, 79, 0);
+        assert_eq!(session.radial_actor(id).unwrap().health, Some([0., 0.]));
+        // Supplied subsequent header writes: reading must neither reset damage
+        // nor reuse a constructor-cached class limit. This is not a hit service.
+        let actor = session.residents.get_mut(&id.serial).unwrap();
+        actor.passive_damage = Some(5.);
+        actor.construction_fields.as_mut().unwrap().configuration[12] = 20f32.to_bits();
+        assert_eq!(session.radial_actor(id).unwrap().health, Some([5., 20.]));
+        session
+            .residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .passive_damage = None;
+        assert_eq!(session.radial_actor(id).unwrap().health, None);
+        assert!(Session::new(992).radial_actor(id).is_err());
+        session.clear();
+        assert!(session.radial_actor(id).is_err());
     }
     #[test]
     fn mission_declaration_header_follows_validated_construction_and_preserves_scope() {
@@ -13863,6 +14161,353 @@ mod tests {
             .unwrap();
         (shot, random)
     }
+    // Explicit internal contact fixture: tests the continuation's ownership,
+    // not a terrain query, real damage service or ordinary gameplay.
+    fn pending_ground_fixture(
+        session: &mut Session,
+        lifetime: f32,
+    ) -> (Id, crate::audio_parameters::Random) {
+        let (shot, random) = impact_fixture(session);
+        let actor = session.residents.get_mut(&shot.serial).unwrap();
+        actor.seed.storage.data_mut().unwrap()[4..8].copy_from_slice(&lifetime.to_le_bytes());
+        let meta = actor.enemy_projectile.as_mut().unwrap();
+        meta.pending_flight = Some(crate::enemy_projectile::FlightOutcome::GroundContact {
+            point: [4., 5., 0.],
+        });
+        meta.ground_flight_clock = Some(crate::enemy_projectile::GroundFlightClock {
+            seconds: 0.2,
+            areas: vec![crate::object_time::SlowArea {
+                source_owner: 0,
+                center: [4., 5., 0.],
+                radius_squared: 1.,
+                factor: 0.25,
+            }],
+        });
+        (shot, random)
+    }
+    #[test]
+    fn ground_flight_continuation_consumes_original_clock_once_after_services() {
+        use crate::enemy_projectile::{FlightOutcome, Phase};
+        for lifetime in [0.1, 0.05, 0.] {
+            let mut session = Session::new(184);
+            let (shot, mut random) = pending_ground_fixture(&mut session, lifetime);
+            let before = session
+                .get(shot)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .clone();
+            let mut services = fire_services(1);
+            let outcome = session
+                .complete_enemy_projectile_ground_flight(shot, &mut random, &mut services)
+                .unwrap();
+            assert_eq!(services.events, ["impact_effect", "radial", "impact_sound"]);
+            let actor = session.get(shot).unwrap();
+            let fields = actor.construction_fields.as_ref().unwrap();
+            assert_eq!(fields.current, before.current);
+            assert_eq!(fields.previous, before.previous);
+            assert_eq!(fields.position, [4., 5., 0.]);
+            assert_ne!(fields.object_flags & 0x8000, 0);
+            let expected = (f64::from(lifetime) - f64::from(0.2f32) * 0.25) as f32;
+            assert_eq!(
+                f32::from_le_bytes(actor.seed.storage.data().unwrap()[4..8].try_into().unwrap())
+                    .to_bits(),
+                expected.to_bits()
+            );
+            assert_eq!(matches!(outcome, FlightOutcome::Expired), expected < 0.);
+            let meta = session.enemy_projectile(shot).unwrap();
+            assert_eq!(meta.phase, Phase::Retiring);
+            assert!(meta.ground_flight_clock.is_none());
+            assert_eq!(meta.pending_flight.is_some(), expected < 0.);
+            let rng = random.0;
+            let calls = services.events.clone();
+            assert!(
+                session
+                    .complete_enemy_projectile_ground_flight(shot, &mut random, &mut services)
+                    .is_err()
+            );
+            assert_eq!(random.0, rng);
+            assert_eq!(services.events, calls);
+        }
+    }
+    #[test]
+    fn ground_flight_continuation_refuses_missing_query_and_retains_failed_prefix() {
+        use crate::enemy_projectile::{FlightOutcome, Phase};
+        let mut session = Session::new(185);
+        let (shot, mut random) = impact_fixture(&mut session);
+        let mut services = fire_services(1);
+        let rng = random.0;
+        assert!(
+            session
+                .complete_enemy_projectile_ground_flight(shot, &mut random, &mut services)
+                .is_err()
+        );
+        assert_eq!(random.0, rng);
+        assert!(services.events.is_empty());
+        let (shot, mut random) = pending_ground_fixture(&mut session, 0.1);
+        let clock = session
+            .residents
+            .get_mut(&shot.serial)
+            .unwrap()
+            .enemy_projectile
+            .as_mut()
+            .unwrap()
+            .ground_flight_clock
+            .take();
+        assert!(
+            session
+                .complete_enemy_projectile_ground_flight(shot, &mut random, &mut services)
+                .is_err()
+        );
+        assert!(services.events.is_empty());
+        session
+            .residents
+            .get_mut(&shot.serial)
+            .unwrap()
+            .enemy_projectile
+            .as_mut()
+            .unwrap()
+            .ground_flight_clock = clock;
+        services.fail = Some("radial");
+        assert!(
+            session
+                .complete_enemy_projectile_ground_flight(shot, &mut random, &mut services)
+                .is_err()
+        );
+        assert_eq!(services.events, ["impact_effect", "radial"]);
+        let meta = session.enemy_projectile(shot).unwrap();
+        assert_eq!(meta.phase, Phase::Failed);
+        assert!(matches!(
+            meta.pending_flight,
+            Some(FlightOutcome::GroundContact { .. })
+        ));
+        assert!(meta.ground_flight_clock.is_some());
+        assert_eq!(
+            &session.get(shot).unwrap().seed.storage.data().unwrap()[4..8],
+            &0.1f32.to_le_bytes()
+        );
+        let rng = random.0;
+        let calls = services.events.clone();
+        services.fail = None;
+        assert!(
+            session
+                .complete_enemy_projectile_ground_flight(shot, &mut random, &mut services)
+                .is_err()
+        );
+        assert_eq!(random.0, rng);
+        assert_eq!(services.events, calls);
+    }
+    #[test]
+    fn actual_impact_request_reaches_owned_radial_list_and_retains_hit_failure() {
+        use crate::enemy_projectile::{GroundImpactServices, RadialRequest};
+        struct RequiredHit {
+            target: Id,
+            hits: Vec<crate::radial_damage::Hit<Id>>,
+            machine: crate::radial_damage::Machine,
+            effects: FireServices,
+        }
+        impl RadialHits for RequiredHit {
+            fn damage(
+                &mut self,
+                session: &mut Session,
+                hit: crate::radial_damage::Hit<Id>,
+            ) -> Result<(), String> {
+                assert!(session.enemy_radial_passive_no_effect_singleplayer(hit)?);
+                let mut forged = hit;
+                forged.kind = 0;
+                assert!(
+                    session
+                        .enemy_radial_passive_no_effect_singleplayer(forged)
+                        .is_err()
+                );
+                forged = hit;
+                forged.source = hit.target;
+                assert!(
+                    session
+                        .enemy_radial_passive_no_effect_singleplayer(forged)
+                        .is_err()
+                );
+                let marker = fixture_actor(session, 219, 48);
+                session
+                    .residents
+                    .get_mut(&marker.serial)
+                    .unwrap()
+                    .construction_fields
+                    .as_mut()
+                    .unwrap()
+                    .configuration[12] = 100f32.to_bits();
+                let mut marker_hit = hit;
+                marker_hit.target = marker;
+                assert!(session.enemy_radial_passive_no_effect_singleplayer(marker_hit)?);
+                session
+                    .residents
+                    .get_mut(&marker.serial)
+                    .unwrap()
+                    .passive_damage = Some(100.);
+                assert!(!session.enemy_radial_passive_no_effect_singleplayer(marker_hit)?);
+                session
+                    .residents
+                    .get_mut(&marker.serial)
+                    .unwrap()
+                    .passive_damage = Some(0.);
+                session
+                    .residents
+                    .get_mut(&marker.serial)
+                    .unwrap()
+                    .construction_fields
+                    .as_mut()
+                    .unwrap()
+                    .object_flags |= 0x8000;
+                assert!(!session.enemy_radial_passive_no_effect_singleplayer(marker_hit)?);
+                let owner = session
+                    .enemy_projectile(hit.source)
+                    .unwrap()
+                    .launch
+                    .as_ref()
+                    .unwrap()
+                    .source;
+                let mut active_hit = hit;
+                active_hit.target = owner;
+                assert!(!session.enemy_radial_passive_no_effect_singleplayer(active_hit)?);
+                self.hits.push(hit);
+                Err("required attributed callback unavailable".into())
+            }
+        }
+        impl GroundImpactServices for RequiredHit {
+            fn effect(
+                &mut self,
+                session: &mut Session,
+                request: crate::enemy_projectile::ImpactEffect,
+                random: &mut crate::audio_parameters::Random,
+            ) -> Result<crate::enemy_projectile::EffectOutcome, String> {
+                self.effects.effect(session, request, random)
+            }
+            fn radial(
+                &mut self,
+                session: &mut Session,
+                request: RadialRequest,
+                _: &mut crate::audio_parameters::Random,
+            ) -> Result<(), String> {
+                let environment = || RadialEnvironment {
+                    cross_context: true,
+                    vimp_alert_range: 100.,
+                    elapsed_seconds: 2.5,
+                };
+                let mut machine = std::mem::take(&mut self.machine);
+                for change in 0..4 {
+                    let mut forged = request.clone();
+                    match change {
+                        0 => forged.parameters[2] = 99f32.to_bits(),
+                        1 => forged.context ^= 1,
+                        2 => forged.position[0] += 1.,
+                        _ => forged.other = Some(self.target),
+                    }
+                    assert!(
+                        session
+                            .dispatch_enemy_projectile_radial(
+                                forged,
+                                environment(),
+                                &mut machine,
+                                self
+                            )
+                            .is_err()
+                    );
+                    assert_eq!(machine.phase(), crate::radial_damage::Phase::Fresh);
+                    assert!(self.hits.is_empty());
+                }
+                let result = session.dispatch_enemy_projectile_radial(
+                    request,
+                    environment(),
+                    &mut machine,
+                    self,
+                );
+                self.machine = machine;
+                result
+            }
+            fn sound(
+                &mut self,
+                _: &mut Session,
+                _: u32,
+                _: [f32; 3],
+            ) -> Result<crate::enemy_projectile::SoundOutcome, String> {
+                panic!("a failed required hit must not advance to sound")
+            }
+        }
+        let mut session = Session::new(993);
+        let (shot, mut random) = impact_fixture(&mut session);
+        let target = fixture_actor(&mut session, 79, 0);
+        session
+            .residents
+            .get_mut(&target.serial)
+            .unwrap()
+            .construction_fields
+            .as_mut()
+            .unwrap()
+            .configuration[12] = 100f32.to_bits();
+        // Explicit synthetic source parameters/registration, not an authored
+        // encounter or acknowledgement of a native/GPU hit service.
+        session
+            .links
+            .insert(1, target.serial, crate::object_links::Position::Tail);
+        let body = session
+            .residents
+            .get_mut(&shot.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap();
+        for (at, value) in [(12, 100f32), (20, 100.), (16, 12.), (32, 100.)] {
+            body[at..at + 4].copy_from_slice(&value.to_le_bytes());
+        }
+        let mut services = RequiredHit {
+            target,
+            hits: vec![],
+            machine: Default::default(),
+            effects: fire_services(1),
+        };
+        assert!(
+            session
+                .enemy_projectile_ground_impact(shot, [4., 5., 0.], &mut random, &mut services)
+                .is_err()
+        );
+        assert_eq!(services.hits.len(), 1);
+        let hit = services.hits[0];
+        assert_eq!(
+            (hit.target, hit.source, hit.kind, hit.amount),
+            (target, shot, 2, 12.)
+        );
+        assert_eq!(
+            services.machine.phase(),
+            crate::radial_damage::Phase::Failed
+        );
+        assert_eq!(
+            session.radial_actor(target).unwrap().health,
+            Some([0., 100.])
+        );
+        assert_eq!(
+            session.enemy_projectile(shot).unwrap().phase,
+            crate::enemy_projectile::Phase::Failed
+        );
+        assert_eq!(
+            session
+                .get(shot)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .object_flags
+                & 0x8000,
+            0
+        );
+        assert!(
+            session
+                .enemy_projectile_ground_impact(shot, [4., 5., 0.], &mut random, &mut services)
+                .is_err()
+        );
+        assert_eq!(services.hits.len(), 1);
+    }
     #[derive(Default)]
     struct RetirementMock {
         calls: usize,
@@ -13903,6 +14548,11 @@ mod tests {
         let (shot, mut random) = impact_fixture(&mut session);
         for pending in [
             FlightOutcome::Expired,
+            FlightOutcome::DeclaredContact {
+                target: (false, 0),
+                point: [4., 5., 0.],
+                tag: 0,
+            },
             FlightOutcome::ObjectContact {
                 target: shot,
                 point: [4., 5., 0.],

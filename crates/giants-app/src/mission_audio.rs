@@ -653,9 +653,9 @@ fn drain_actor_stops(
     }
     Ok(())
 }
-/// Stage consecutive same-cue fixed-position one-shots in request order. Their
+/// Stage consecutive prepared fixed-position one-shots in request order. Their
 /// independent voices can acquire sinks together; none is acknowledged here.
-/// Actor/reuse, control, other-cue and other-ticket requests remain barriers.
+/// Actor/reuse, control, cold/looping cues and other tickets remain barriers.
 fn stage_position_batch(
     world: &mut World,
     mounted: &mut Mounted,
@@ -664,6 +664,9 @@ fn stage_position_batch(
     requests: &mut VecDeque<Request>,
     voices: &mut VecDeque<u32>,
 ) -> Result<(), String> {
+    if !mounted.sources.get(&sound).is_some_and(|s| s.words[0] == 0) {
+        return Ok(());
+    }
     while voices.len() < 64 {
         let Some(Request {
             ticket,
@@ -676,10 +679,12 @@ fn stage_position_batch(
         else {
             break;
         };
-        if *ticket != mounted.ticket || *next != sound {
+        if *ticket != mounted.ticket || !mounted.sources.get(next).is_some_and(|s| s.words[0] == 0)
+        {
             break;
         }
         let position = *position;
+        let sound = *next;
         requests.pop_front();
         let voice = stage_actor(world, mounted, sound, effects, Some(position), None)?;
         voices.push_back(voice);
@@ -1175,8 +1180,13 @@ fn process(
                     if positional { "attached" } else { "local_root" }
                 );
             }
-            Action::Position(sound, _) => {
+            Action::Position(_, _) => {
                 while !pending.voices.is_empty() {
+                    let sound = mounted
+                        .voices
+                        .get(pending.voices.front().unwrap())
+                        .ok_or("staged position voice disappeared")?
+                        .sound;
                     Device {
                         world,
                         mounted,
@@ -1843,9 +1853,13 @@ mod tests {
         let mut sequential = fixture(baseline.world_mut(), 99);
         let sound = 0x5b0;
         let positions = (0..14).map(|i| [i as f32, 2., 3.]).collect::<Vec<_>>();
+        let sounds = (0..14)
+            .map(|i| if i % 2 == 0 { sound } else { 0x5b3 })
+            .collect::<Vec<_>>();
         let mut requests = positions
             .iter()
-            .map(|&position| Request {
+            .zip(&sounds)
+            .map(|(&position, &sound)| Request {
                 ticket: 98,
                 event: Event::NpcPosition { sound, position },
             })
@@ -1872,8 +1886,9 @@ mod tests {
         .unwrap();
         let pending = mounted.pending.as_ref().unwrap();
         assert_eq!(pending.voices.len(), positions.len());
-        for (&voice, &position) in pending.voices.iter().zip(&positions) {
+        for ((&voice, &position), &sound) in pending.voices.iter().zip(&positions).zip(&sounds) {
             let v = &mounted.voices[&voice];
+            assert_eq!(v.sound, sound);
             assert_eq!(v.spatial.as_ref().unwrap().position, position);
             assert!(!v.ready && !v.started);
             stage_actor(
@@ -1913,6 +1928,39 @@ mod tests {
                 .is_empty()
         );
     }
+    #[test]
+    fn positional_batch_preserves_cold_loop_and_ticket_barriers() {
+        for (next_sound, next_ticket) in [(0xffff, 98), (0x5b1, 98), (0x5b3, 99)] {
+            let mut app = App::new();
+            app.add_plugins((MinimalPlugins, AssetPlugin::default()))
+                .init_asset::<AudioSource>()
+                .init_asset::<crate::positional_pcm::Pcm>();
+            let mut mounted = fixture(app.world_mut(), 98);
+            let mut voices = VecDeque::new();
+            let mut requests = VecDeque::from([Request {
+                ticket: next_ticket,
+                event: Event::NpcPosition {
+                    sound: next_sound,
+                    position: [1.; 3],
+                },
+            }]);
+            let random_before = mounted.audio_random.0;
+            stage_position_batch(
+                app.world_mut(),
+                &mut mounted,
+                0x5b0,
+                0.75,
+                &mut requests,
+                &mut voices,
+            )
+            .unwrap();
+            assert_eq!(requests.len(), 1);
+            assert!(voices.is_empty() && mounted.voices.is_empty());
+            assert_eq!(mounted.audio_random.0, random_before);
+            release(app.world_mut(), mounted);
+        }
+    }
+
     #[test]
     fn no_audio_backend_never_acknowledges_and_backlog_is_bounded() {
         let mut app = App::new();

@@ -1,12 +1,43 @@
 use super::*;
-use giants_game::{resident_states::Id, vimp_contacts::Snapshot};
+use giants_game::{actor_contacts::Snapshot, resident_states::Id};
 
 pub(super) struct Contact {
     pub key: u32,
     pub owner: Id,
+    pub class: i32,
 }
 
 impl State {
+    pub(crate) fn normal_projectile_registry(
+        &self,
+    ) -> giants_game::enemy_projectile_scene::Registry {
+        use giants_game::enemy_projectile_scene::{Entry, Registry, Target};
+        Registry {
+            declarations: self.projectile_objects[..self.static_projectile_objects]
+                .iter()
+                .zip(&self.static_projectile_declarations)
+                .map(|(object, key)| Entry {
+                    target: Target::Declaration(*key),
+                    object: object.clone(),
+                })
+                .collect(),
+            actors: self.npc_contact_keys.clone(),
+        }
+    }
+    pub(crate) fn normal_contact_sample(
+        &self,
+    ) -> Result<giants_game::controlled_mecc_contacts::Sample<'_>, String> {
+        if self.owned_pose.is_some() {
+            return Err("normal contact sample cannot replace an owned state2 frame".into());
+        }
+        let clip = &self.clips[&self.active_clip];
+        Ok(giants_game::controlled_mecc_contacts::Sample {
+            slot: self.active_clip,
+            name: &clip.name,
+            tree: &clip.tree,
+            seconds: self.clock.seconds,
+        })
+    }
     pub(crate) fn apply_building_hit(
         &mut self,
         hit: &crate::mission_buildings::HitResult,
@@ -110,11 +141,10 @@ impl State {
             let actor = snapshot.actor;
             if actor.id.ticket() != ticket
                 || !seen.insert(actor.id)
-                || actor.class != 8
-                || actor.state != 21
+                || !matches!((actor.class, actor.state), (8, 21) | (73 | 230, 23))
                 || actor.parent.is_some()
             {
-                return Err("mission contact identity or acquired Vimp profile differs".into());
+                return Err("mission contact identity or acquired NPC profile differs".into());
             }
             if actor.flags.active & 0x4000_c000 != 0 {
                 continue;
@@ -169,7 +199,18 @@ impl State {
             contacts.push(Contact {
                 key,
                 owner: actor.id,
+                class: actor.class,
             });
+        }
+        if next != self.next_contact_key {
+            println!(
+                "mission_npc_contacts ticket={ticket} vimps={} rippers={} source=current_dedicated_collision_models damage_admission=vimp_only native_world_verified=false",
+                contacts.iter().filter(|contact| contact.class == 8).count(),
+                contacts
+                    .iter()
+                    .filter(|contact| matches!(contact.class, 73 | 230))
+                    .count()
+            );
         }
         self.mesh_objects.truncate(self.static_mesh_objects);
         self.mesh_objects.extend(objects);
@@ -180,6 +221,13 @@ impl State {
         self.npc_contact_keys = keys;
         self.next_contact_key = next;
         Ok(())
+    }
+
+    pub(crate) fn mission_npc_hit_class(&self, key: u32) -> Option<i32> {
+        self.npc_contacts
+            .iter()
+            .find(|contact| contact.key == key)
+            .map(|contact| contact.class)
     }
 
     pub(crate) fn mission_npc_hit_owner(&self, key: u32) -> Option<Id> {

@@ -156,6 +156,7 @@ fn source_owned_mecc_damage_voice_uses_real_local_sinks_and_unique_reuse() {
             ..default()
         },
     ));
+    app.init_resource::<Assets<crate::positional_pcm::Pcm>>();
     let mut mounted = mount_bank(app.world_mut(), 872, bank).unwrap();
     reserve(app.world_mut(), &mut mounted).unwrap();
     reserve_damage(app.world_mut(), &mut mounted).unwrap();
@@ -253,6 +254,23 @@ fn source_owned_mecc_damage_voice_uses_real_local_sinks_and_unique_reuse() {
                 shared.jet().play(0x5b3, 872, Route::Local)?;
                 Ok(())
             })
+            .unwrap();
+        // The ordinary Ripper path reborrows this same local backend from its
+        // impact/retirement device. Reusing the actual unique voice must add
+        // neither a start nor audio RNG draws, and still needs the live sink.
+        audio
+            .with_impact(
+                872,
+                0.75,
+                Mat4::IDENTITY.to_cols_array(),
+                source,
+                |device| {
+                    let mut playback = giants_game::startup_playback::Playback::default();
+                    playback.begin_configuration(); // Supplied context, not App initialization.
+                    device.bind_local_playback(playback)?;
+                    device.play(&session, source, shared_cue)
+                },
+            )
             .unwrap();
         let mounted = audio.engine.mounted.as_ref().unwrap();
         assert_eq!(mounted.started, 5);

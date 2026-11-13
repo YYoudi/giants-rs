@@ -21,6 +21,9 @@ themselves. This task selection never waives the name lookup or evidence below.
 
 1. Pin the exact PC binary SHA256, profile, virtual address and previous aliases.
    Never transfer an address between retail/debug or other builds by proximity.
+   Pin native dependency modules separately: an executable digest does not
+   identify its renderer or audio DLL. Verify that module's addresses, layouts
+   and calling conventions before reusing a control from another profile.
 2. **Search prototype PS2 names before further analysis or implementation.**
    Search the literal ELF function names, candidate demangled names and relevant
    module vocabulary. For existing work, perform this lookup before the next
@@ -147,6 +150,13 @@ Next: missing comparisons / platform divergences / next behavioral control
 Publication: private by default / minimal-summary review if publication is needed
 ```
 
+Distinguish an observed instruction from an established function entry. A recorded
+indirect call target can establish the PC entry even when an analyzer has not
+defined a function there. Defining it in a private, read-only import does not
+establish a prototype correspondence, source signature or ABI. Retain the entry
+trace and analyzer limitations instead of treating a missing procedure as proof
+that the code or behavior does not exist.
+
 Link the existing private record instead of copying corpus excerpts into the
 handoff. On resume, verify that the recorded binary and source identities still
 apply; reuse a valid completed lookup rather than mechanically repeating it.
@@ -267,6 +277,40 @@ and retain that older relationship as historical. A worksheet's default
 the discovery worksheet is immutable evidence, not the attribution authority.
 For the three confirmed rows above, use the reviewed rationale and scoped control
 receipts rather than silently editing the original searches to look confirmed.
+
+### Ripper corpse routine identity
+
+The reviewed debug-reference-1.1 PC helper at `0x004d92a0` corresponds to
+prototype PS2 `0x001b4940`, raw symbol `ripper_death_logic__FP6OBJECT`:
+**confirmed routine identity**. Both binaries use the SHA256 identities pinned
+above. The Rust entry is `ripper_corpse::ripper_death_logic`, bounded to PC
+class73/230; its previous PC aliases remain in [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
+The raw symbol is retained without asserting a decoded return type, ABI or Rust
+signature. The initial private unknown worksheet remains unchanged; a separate
+reviewed record holds this attribution and its counterevidence.
+
+Independent evidence combines the class-dependent mana parameter selection,
+global-clock countdown, negative-time bypass, zero-parameter removal,
+callback-control gate, conditional creation-result gate and final removal mark. The
+prototype's literal callee names independently establish clock, mana-activation
+and object-removal roles consistent with the acquired PC bodies. The two
+prototype `dead__FP6OBJECT` entries lack this class/conditional-mana call pattern
+and are rejected as alternatives to this PC helper. No automatic score,
+generated label or size similarity is used as confirmation.
+
+Standard MIPS control/FPU encodings were checked independently of the decoder's
+incorrect R5900 extension mnemonics; those mnemonics are excluded from evidence.
+No prototype execution or complete platform equivalence is claimed. Prototype
+field locations, register conventions and single-precision subtraction are not
+imported into the PC port, which retains its wide subtraction/rounded storage.
+540 original PC helper observations cover the acquired branch profile; actor,
+clock/configuration and either an original empty lookup or a supplied creation
+return remain control inputs. Positive mana creation, a complete primary,
+ordinary lethal integration, rendered death and cleanup remain unvalidated.
+Twenty-four further original observations vary callback control independently
+of death personality. Their counterexample rejects an adapter that consults
+the personality bit instead. The lethal header countdown is also separate from
+the living AI payload timer; a future owned primary must preserve that boundary.
 
 ## Publication boundary
 

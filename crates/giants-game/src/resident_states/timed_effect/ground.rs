@@ -4,10 +4,67 @@ use super::*;
 use crate::physical_ground;
 
 impl Session {
+    /// Actual ground-contact velocity-target force tail after gravity. Terrain
+    /// contact comes from this callback's completed ground stage, never a guess.
+    pub fn apply_timed_particle_contact(&mut self, id: Id) -> Result<(), String> {
+        let actor = self
+            .get(id)
+            .ok_or("particle contact actor absent or foreign")?;
+        let m = actor
+            .timed_effect
+            .as_ref()
+            .ok_or("particle contact owner absent")?;
+        if !m.runtime.particle_contact
+            || !m.runtime.awaiting_gravity()
+            || m.runtime.failure.is_some()
+            || !m.motion_done
+            || !m.gravity_done
+            || !m.ground_started
+            || m.particle_contact_done
+        {
+            return Err("particle ground-contact force is not pending".into());
+        }
+        let data = actor.seed.storage.data().ok_or("particle payload absent")?;
+        let word = |at| u32::from_le_bytes(data[at..at + 4].try_into().unwrap());
+        let flags = word(0xa0);
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("particle fields absent")?;
+        if fields.control_flags & 0x2000700 != 0x100 {
+            return Err("particle contact outside acquired bounce-only profile".into());
+        }
+        let output = if flags & 0xc == 0xc {
+            Some(crate::mecc_control_force::apply(
+                crate::mecc_control_force::Input {
+                    desired_velocity: [0.; 3],
+                    velocity: m.physical.velocity,
+                    force: [word(0xb8), word(0xbc), word(0xc0)].map(f32::from_bits),
+                    gain: f32::from_bits(word(0x28)),
+                    slope_power: f32::from_bits(word(0x2c)),
+                    mass: f32::from_bits(word(0xa8)),
+                    force_time_limit: f32::from_bits(word(0xcc)),
+                },
+                crate::arithmetic::Precision::Double53,
+            )?)
+        } else {
+            None
+        };
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        actor.timed_effect.as_mut().unwrap().particle_contact_done = true;
+        if let Some(output) = output {
+            let data = actor.seed.storage.data_mut().unwrap();
+            for (i, v) in output.force.into_iter().enumerate() {
+                data[0xb8 + i * 4..0xbc + i * 4].copy_from_slice(&v.to_le_bytes());
+            }
+            data[0xcc..0xd0].copy_from_slice(&output.force_time_limit.to_le_bytes());
+        }
+        Ok(())
+    }
     pub(crate) fn timed_effect_needs_ground(&self, id: Id) -> bool {
         self.get(id)
             .and_then(|a| a.timed_effect.as_ref())
-            .is_some_and(|m| m.runtime.ground.is_some())
+            .is_some_and(|m| m.runtime.ground.is_some() || m.runtime.particle_contact)
     }
 
     /// Execute the acquired repeated terrain query on the live body. Resetting
@@ -26,7 +83,7 @@ impl Session {
             .as_ref()
             .ok_or("ground effect metadata absent")?;
         if !m.runtime.awaiting_physical()
-            || m.runtime.ground.is_none()
+            || (m.runtime.ground.is_none() && !m.runtime.particle_contact)
             || m.runtime.failure.is_some()
             || !m.motion_done
             || m.ground_started

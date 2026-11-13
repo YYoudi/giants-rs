@@ -15,7 +15,7 @@ described below is published under the owner's explicit authorization.
 
 [Quick start](docs/QUICK_START.md) · [Build](docs/BUILD.md) · [Release policy](docs/RELEASES.md)
 
-Current Windows download: [preview-2026.11.13.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.2).
+Current Windows download: [preview-2026.11.13.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.3).
 Ordinary guard towers now receive pistol damage, shed source debris/particles
 with positional sound and leave an independently colliding base. Try **Mecc
 Story 2 -> The Road Home** through the mission browser. Earlier entrance,
@@ -146,7 +146,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 ### Actors and shared combat
 
 - [ ] **Complete mission actor population** — partial; Runtime integration. Spawn, activation, update order, attachments, lifecycle and removal for the required actors.
-- [ ] **Enemy and boss behaviour** — partial; Runtime integration. Complete enemy perception, navigation, attacks and mission integration remain open. Preview .11.4 connects the bounded Story2 Vimp danger/injury/death interaction; other staged AI remains inactive. Complete native-world admission and scheduling are unverified. See BACKLOG.md.
+- [ ] **Enemy and boss behaviour** — partial; Runtime integration. Preview .13.3 connects source-declared Ripper awakening, movement, emergence, animation and ranged projectile attacks to the ordinary menu-to-game runtime, alongside current main building interactions. An identified rendered The Wife route observes a classic Ripper move about147 units and fire. Unsupported actor/projectile callbacks are isolated without invented damage, death or fresh animation/contact acknowledgments. Reciprocal injury, lethal combat, special close attacks, broader perception and full Windows encounter/re-entry remain incomplete. See OWNED_NPCS.md and BACKLOG.md.
 - [ ] **Wildlife and non-player inhabitants** — partial; Runtime integration. Preview .12.1 retains ordinary Vimp contacts/hurt/death/blood/ghosts/meat and connects twenty-meat Starving collection/return. Authored herd admission replaces the Story2 guard; Story2 and Story5 actual GPU populations are checked. General economy, other AI, non-Mecc gameplay and full native-world/FX fidelity remain open.
 - [ ] **Complete projectile and damage rules** — partial; Runtime integration. Complete native damage, hit reactions, death, targeting and weapon interactions remain open. Download .11.1 has the ordinary partial Mecc pistol, source projectile presentation and acquired landing feedback. Short OS fire presses work; this does not establish native impact/damage behavior. Ordered burst and immediate-child services cannot run live until their canonical construction/command/contact/audio consumers exist.
 - [ ] **Injury, death and respawning** — partial; Runtime integration. Reactions, incapacitation, corpses/drops, recovery, player death and mode-specific respawn rules.

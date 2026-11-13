@@ -290,6 +290,12 @@ A bare PowerShell command can finish before the child and close its redirected
 stdout; that is not a reliable CLI exit/output check. The Windows workflow waits
 and captures the child's `--help` result explicitly.
 
+`cargo test --locked -p giants-game mission_timer --target x86_64-pc-windows-gnu`
+runs the synthetic countdown/display-gate controls. The ignored original-PC
+comparison additionally needs private helper and caller-gate tables. These
+controls do not establish live timer initialization, film/menu consumption,
+display cadence or ordinary Ripper damage; see OWNED_NPCS.md.
+
 The installed `source_camera_profile_reads_current_headers_and_checked_shared_states`
 control uses `GIANTS_MECC_WORLD_ROOT`. It reads actual Mecc Session headers and
 separate controlled-state inputs, then checks live variant changes, foreign/retired
@@ -356,7 +362,96 @@ for actual class230 constructors, owned first primary and marker birth. Flat ter
 peer eligibility, clocks/camera and captured/suppressed audio are supplied. It
 checks conditional birth, exact copied/reciprocal ownership, post-entry clock
 selection, retained prefixes/late audio failure and replay/retirement refusal.
-It does not enable mode62 onward, state48 scheduling or ordinary NPC gameplay.
+  It does not enable state48 scheduling or ordinary NPC gameplay. The separate
+  With the same root, `source_wife_ripper_bindings` and
+  `source_ripper_declarations` in `giants-app` cover canonical bindings,
+  substituted-owner refusal and authored declaration counts across the first
+  five Story2 scenarios. Use `-- --ignored`; these tests enable no live AI.
+  The Wife control also prepares cold affine/geometry/motion owners against the
+  actual terrain, checks unchanged placements and leaves history/callbacks idle.
+  The synthetic `ripper_primary_turn::tests::variant_` controls cover class230
+  modes62/63, radius boundaries and retained lost-target audio failures;
+  they do not establish a completed actor frame. The synthetic `ripper_attack`
+  controls also cover class230 mode65 clock crossing, required-service failure
+  and the conditional post-animation RNG draw. With `GIANTS_NPC_ROOT`, run
+  `source_variant_primary_launch` in `giants-game` with `-- --ignored` for the
+  owned primary/factory launch and retained late sound failure. That control
+  supplies mode65/channel entry and flat terrain, prepares actual named FX,
+  uses current animated references and suppresses audio. It admits neither
+  ordinary NPC scheduling, visible FX nor projectile impact/damage.
+  `extended_attached_context` in `giants-game` checks preservation of recipient
+  flag400 in extended prepared-context metadata, including unchanged RNG and
+  the explicit refusal to call a merely prepared context an active effect.
+
+With the same installation, run
+`cargo test --locked -p giants-app source_wife_rippers_complete_current_frames --target x86_64-pc-windows-gnu -- --ignored`
+for the ordinary Ripper component's supplied stationary-player prefix: two
+fresh tickets, 180 frames each, five current CPU body submissions per frame,
+real terrain/rigid colliders and repeated clock/ANM refusal. Every thirty frames
+it also submits five dedicated contact models, tests supplied segments through
+current source faces and registers them with the ordinary Mecc scene. Cold,
+foreign, zero-number and unfinished-history snapshots refuse. These geometry
+controls also exercise the normal Mecc's current dedicated-model packet, real
+affine writer, source-face crossings, stale/foreign/descriptor/time refusal,
+unchanged native ANM channels and clearing an old packet on publication failure.
+They do not prove a player collision or damage. Thirty further frames
+exercise common headless Bevy asset reuse, animated uploads, visibility and
+cleanup, including the acquired null-texture diffuse route. This is not a GPU,
+Windows-input, reciprocal-combat or death check. The normal controller invokes
+the same component without an activation variable; unsupported continuations
+remain explicit failures. See OWNED_NPCS.md for the admitted subset.
+
+The ignored `diagnostic_wife_ripper_supplied_approach_reaches_contact` in
+`giants-app` now passes two supplied-input Wife entries: actual missed ground
+impact at step2755, then physical actor contact at3242. The longer
+`diagnostic_wife_ripper_supplied_encounter_reaches_active_combat` deliberately
+continues after contact and currently fails on the real class230 mode67 at3251.
+Run either by exact name with the GNU target and `-- --ignored --nocapture`.
+No NPC pose, mode, damage or readiness is assigned. These are CPU observations,
+not OS input, reciprocal combat/death or graphical encounter acceptance.
+
+The separate ignored `source_wife_ripper_launch_flies_against_current_scene`
+control reaches the first actual class232 flight sample on each of two fresh
+tickets. It requires changed current/history positions, decreased lifetime and
+no pending impact, then consumes the flight-owned ANM clock/affine, checks source
+draw submission and duplicate-clock refusal, advances one more actual step and
+validates common renderer mesh updates and asset cleanup. The fixture uses the
+actual common rigid registry, dedicated Mecc packet and completed Ripper packets;
+it does not stage the Vimp component. This is supplied-input CPU/asset evidence,
+not a GPU or Windows-input reciprocal encounter. The normal controller also
+supplies its real completed Vimp component packets.
+
+Run synthetic `radial_damage` tests in `giants-game` for callback ordering,
+whole-traversal early return, zero-slope no-world access, live next-target mutation,
+missing-health refusal and failure replay prevention. With `GIANTS_NPC_ROOT`, run
+`source_radial_signal_preserves_other_state_and_requires_owned_source` in the same
+crate/target with `-- --ignored`. It uses real Vimp/source constructors and copies
+only current source-origin/world-time signal fields, preserving other state.
+Private exact-PC traversal/signal controls remain separate; these commands do not
+supply normal impact, applied damage, FX, player health or GPU encounter acceptance.
+
+The ignored `source_variant_retreat_marks_owned_child_without_acknowledging_cleanup`
+in `giants-game` uses the same installation and GNU target. It supplies mode71/
+ANM-clock fixtures to actual class230/219 constructors, checking only the typed
+retirement mark, no premature channel/cleanup acknowledgement and late-failure
+prefix/no replay. Native cooldown/retreat comparisons remain private; they do
+not replace ordinary graphical encounter/death acceptance.
+
+With `GIANTS_NPC_ROOT`, run `source_surface_world` in `giants-game` and
+`source_wife_marker_children` in `giants-app`, using the same GNU target and
+`-- --ignored`. The first control uses real source constructors/animations with
+supplied parent motion, flat terrain and clocks; it covers current poses,
+enabled/disabled blending, retirement marking, exact-reference clearing before
+external release, successful individual retirement and late failure/replay refusal.
+The second explicitly constructs two callback children on The Wife's canonical
+parents and exercises their ordinary frame and common headless render consumers,
+shared resources, visibility and session cleanup. Also run
+`source_wife_markers_retire` in `giants-app` with the same options: this adds supplied
+parent common-motion commands to the explicit two-child fixture, then exercises
+the ordinary component's closing/retirement path and headless child asset removal.
+It uses an explicit test release device; the normal controller supplies the actual
+owned audio device. None establishes natural awakening, GPU visibility, actual
+Windows input, reciprocal combat or source actor death.
 
 With `GIANTS_NPC_ROOT`, run
 `cargo test --locked -p giants-game source_parented_state0 --target x86_64-pc-windows-gnu -- --ignored`
@@ -1558,6 +1653,178 @@ audio without a device or OS input. Neither certifies native complete-world
 admission or GPU fidelity. The optional private native selector comparison also
 requires `GIANTS_NPC_NOISE_ANIMATION_CONTROL` pointing to a reviewed private
 hex-case file; raw controls and original data stay outside Git.
+
+### Guarded Ripper projectile graphical diagnostic
+
+The canonical mixed construction control requires `GIANTS_NPC_ROOT` and private
+`GIANTS_RIPPER_EXECUTION_CONTROLS` from the pinned original PC controls:
+
+```powershell
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu installed_mixed_executor_matches_native -- --ignored --nocapture
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu installed_mixed_bodies_use_real_ordinary -- --ignored --nocapture
+```
+
+The first compares all44 canonical births, phase RNG, retained waits and actual
+context retirement. The second needs only the installed root and exercises168
+ordinary source-world preparations with real declared terrain/colliders and an
+explicit prototype PS2 zero-threshold progress policy, without a fabricated
+debug-PC caller word or cinematic scope. Neither validates the native complete
+world walk, GPU rendering, body lifetime cleanup, ordinary impact or combat.
+Keep original controls/fixtures and extracted source inputs private.
+
+The longer source-world lifetime control additionally requires private
+`GIANTS_RIPPER_EXPIRY_CONTROLS`. Run
+`installed_mixed_lifetimes_release_actual_payloads_references_and_registrations`
+with the same cargo target and `-- --ignored --nocapture`. It composes the real
+Wife declared platform queries, current geometry, expiry and resource cleanup
+for 44 bodies / 9,853 callbacks through `mixed::population::Population`.
+It checks actual common-list callback order, duplicate frames, foreign tickets,
+post-geometry cleanup and a real missing-platform failure without replay.
+It supplies clocks and the explicit existing progress policy; it does not prove GPU output, ordinary impact, NPC death or the
+native complete-world schedule. Full footprints and moving-world invalidation
+remain separate from this typed platform-bit projection.
+
+With `GIANTS_NPC_ROOT` set to the user installation, run
+`cargo test --locked -p giants-app --target x86_64-pc-windows-gnu source_wife_missed_ground_impact -- --ignored --nocapture`.
+It supplies normal Mecc navigation to the actual impact and requires canonical
+shot release, named body births, common particle geometry and positional audio
+transport on two fresh tickets. It then exercises64 simulation steps before a
+renderer update, using the ordinary per-step geometry/cleanup path and refusing
+extra RNG on repeated preparation. It does not prove playback, pixels or damage.
+The portable `ground_flight_continuation` controls retain failure/replay checks.
+The private original traversal control uses the absolute path
+`GIANTS_RADIAL_NO_EFFECT_CONTROLS` and the `no_effect_proof` game test selector with
+`-- --include-ignored --nocapture`. Its80 contexts return without side effects or
+stop before the genuine alert/hit callback in counterexamples; it does not supply
+an empty backend. Radius equality is a possible hit; Vimp alert comparison is
+strict and can precede damage. Unknown inputs remain errors.
+
+The private original-PC nonlethal Mecc hit control requires the absolute path
+`GIANTS_MECC_ENEMY_HIT_CONTROLS` and runs
+`cargo test --locked -p giants-game --target x86_64-pc-windows-gnu mecc_enemy_hit -- --include-ignored --nocapture`.
+Its 32 rows compare source-bearing kind0/2 callback results: health/flags,
+nonzero direct/radial velocity, callback-reset word, pain/shared timers, RNG and ordered
+cue requests. The original target is a genuinely constructed cold Mecc; source
+headers, no-aux radial selection, pose, gates, timers and CRT thread state are
+supplied, and sound registries are empty. This proves neither live playback,
+world initialization, current ordinary geometry, canonical Session publication,
+controller consumption, lethal damage nor graphical encounter availability.
+
+For independently collected private exact-PC fixtures, set
+`GIANTS_PLATFORM_BITS_CONTROLS` and run
+`native_platform_bits_match_without_claiming_other_channels` (420 controls),
+then set `GIANTS_PLATFORM_SELECTOR_CONTROLS` and run
+`native_debug_selector_preserves_platform_and_building_gates` (1,024 controls),
+using the same target and ignored-test flags. No native fixture enters Git.
+
+The source-world control also exercises the common unlit geometry consumer on 160
+render-input frames, including live UV offsets, vertex-alpha changes and hidden
+carrier omission. Actual Bevy display, queue order and reciprocal combat still
+require the identified game executable and rendered acceptance below.
+
+The canonical scroll/fade CPU control requires `GIANTS_NPC_ROOT` and a private
+`GIANTS_RIPPER_RENDER_CONTROLS` TSV produced from the pinned original PC controls:
+
+```powershell
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu canonical_ripper_scroll_fade -- --ignored --nocapture
+```
+
+It compares one actual source3 object from each mixed explosion, complete
+null-object preparation and supplied-clock direct callbacks through required
+retirement failure. It does not execute sibling objects, consume the mixed
+context, bind vertex output or establish an ordinary encounter. Keep the TSV,
+native executables, source inputs, raw records and reports private.
+
+The root-constructor comparison additionally uses private
+`GIANTS_RIPPER_ROOT_CONTROLS` and the same `GIANTS_NPC_ROOT`:
+
+```powershell
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu canonical_mixed_roots -- --ignored --nocapture
+```
+
+It compares twelve actual PC root births and observed RNG prefixes, including
+the delayed root. Prefixes after preceding children are supplied boundaries;
+this test does not execute those children, own the context wait, bind graphics
+or establish whole-program/world admission.
+
+The immediate-particle comparison uses private `GIANTS_RIPPER_BIND_CONTROLS`
+and `GIANTS_NPC_ROOT`:
+
+```powershell
+cargo test --locked -p giants-game --target x86_64-pc-windows-gnu canonical_immediate_particles_keep_source_random_order_and_actual_temporary_binding -- --ignored --nocapture
+```
+
+It reconstructs the first-phase source-order RNG through32 actual children,
+compares their birth/first-callback/one-shot placement fields and selectors,
+and refuses a second callback before real placement. It then requires the
+missing physical provider and verifies failure retention. It does not execute
+the product mixed-program owner, native world/preparation schedule, post-gravity
+contact, vertex output, damage or retirement. No executable/GPU acceptance is
+implied. Keep its original controls and raw fixtures private.
+
+Set private `GIANTS_RIPPER_PARTICLE_MOTION_CONTROLS` as well to run the same
+constructor/placement path through three real static-world physical callbacks
+per child. This optional comparison checks96 callbacks against the original PC,
+including velocity, plane, floor and forces, with actual Story2 terrain and the
+same explicitly supplied static/no-ripple preparation. It binds the real common
+motion/terrain/gravity/contact-force consumers; no fake plane or force is used.
+It remains a direct-callback control, not the whole world/preparation schedule,
+object population, mixed-program lifecycle, renderer or combat acceptance.
+The constructor control uses the typed enemy-impact mode8 preparation entry.
+Its original mode8 motion fixture retains the supplied camera/quality boundary;
+the earlier mode28 fixture remains a separate supplied-prefix comparison.
+
+The radial Session dependency has an optional installed control (same
+`GIANTS_NPC_ROOT` setup as the other NPC controls):
+
+```powershell
+cargo test --locked -p giants-game source_radial_world_alerts_actual_vimp_before_required_hit_failure --target x86_64-pc-windows-gnu -- --ignored --nocapture
+```
+
+It exercises real list/health/signal owners and a captured hit that deliberately
+fails. This is not a successful damage service, GPU test or ordinary explosion.
+
+For ordinary local testing, launch the receipt-bound executable with
+`--mecc-menu --data-root <your-installation> --user-data-root <test-profile>`.
+In **Preview tools → Browse all missions**, select **The Wife** in the Mecc
+campaign. Movement/aim, right mouse jet and Space nitro use the ordinary Mecc
+controller; Esc returns to the menu. Rippers are admitted by source declarations
+without any environment flag. This candidate currently supports their acquired
+movement, flight and the acquired missed-ground-shot host. Actual projectile-to-
+Mecc object contact, close-range mode67, reciprocal combat and death remain
+unfinished. The combined rendered run currently refuses the first of those;
+component-only CPU controls do not supply the live Vimp population. Do not treat a projectile contact quarantine as a kill or
+mission completion. The most recent identified supplied-input render result is
+recorded in [OWNED_NPCS.md](OWNED_NPCS.md); actual Windows encounter/death and
+return/re-entry still require acceptance on the final connected build.
+
+The optional `GIANTS_MISSION_RIPPER_CAPTURE_IMPACT=1` changes only the existing
+muted supplied-input diagnostic's capture condition to an actual ground reaction
+plus16 steps. It never activates Rippers or their effects. A genuine earlier
+object hit remains a required consumer; do not change actor poses or claim a
+saved image/exit0 as acceptance when a component refusal is logged. The corrected
+receipt and failed combined-game frontier are recorded in OWNED_NPCS.md.
+
+The ordinary Ripper component needs no diagnostic flag. To supply only Mecc
+navigation/look/jet commands for a first-flight GPU check, set
+`GIANTS_MISSION_REPLAY=showcase-mecc`, `GIANTS_SHOWCASE_WORLD=Story2`,
+`GIANTS_SHOWCASE_MISSION=1`, `GIANTS_MISSION_RIPPER_PROBE=1` and
+`GIANTS_AUDIO_MUTE=1`. Use a fresh
+user-data directory with `--offscreen --silent-capture --muted-transport --capture`.
+The guard refuses other missions, unmuted transport, owned-controller inspection
+and a simultaneous Vimp probe. The capture endpoint requires an actual canonical
+projectile draw revision,80 by default; the optional
+`GIANTS_MISSION_RIPPER_CAPTURE_FLIGHTS` accepts1..120. It follows current source
+actors/projectiles through ordinary look commands, never assigning their pose,
+mode, target, health, clocks, readiness or birth. It does not fire the pistol.
+The supplied pilot uses release/refuel and hover-band input memory so one
+numeric threshold cannot alternate RMB every frame. These are diagnostic
+steering choices; they change no ordinary jet/fuel/physics or audio-budget rule.
+This is an intermediate supplied-input render diagnostic before impact, not
+reciprocal combat, death, mission completion or Windows-input acceptance. Retain
+the executable receipt and inspect the actual image; draw counters alone do not
+establish a visible projectile or GPU fidelity. The full-contact diagnostic above
+must still continue to genuine impact/damage/retirement consumers.
 
 ### Guarded first-living graphical diagnostic
 

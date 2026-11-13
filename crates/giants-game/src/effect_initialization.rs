@@ -69,6 +69,24 @@ fn flat_blocks(ops: &[u8]) -> bool {
     }
     blocks > 0 && ops.get(at..) == Some(&[2])
 }
+// Complete acquired mixed explosion frame, including the delayed final body.
+// Null-object traversal skips immediate children; their real preparation is
+// later, between active parent commands. This admits no active FX service.
+pub(crate) fn ripper_explosion(ops: &[u8]) -> bool {
+    const PREFIX: &[u8] = &[3, 6, 0x17, 8, 4, 7, 3, 6, 0x21, 0x1b, 4];
+    const SUFFIX: &[u8] = &[
+        7, 3, 6, 0x17, 0x0e, 9, 4, 7, 3, 6, 8, 0x46, 0x40, 4, 7, 3, 6, 0x17, 0x0e, 9, 4, 7, 0x0b,
+        3, 6, 0x17, 0x0e, 9, 4, 7, 2,
+    ];
+    if !ops.starts_with(PREFIX) {
+        return false;
+    }
+    let children = ops[PREFIX.len()..]
+        .iter()
+        .take_while(|&&op| op == 0x10)
+        .count();
+    matches!(children, 11 | 21) && &ops[PREFIX.len() + children..] == SUFFIX
+}
 // Acquired compound stone-burst null pass. Every admitted block has a complete
 // source3 constructor and lifetime; positional sound is sampled before it.
 // The commands below skip their active stores/children on a null object. This
@@ -161,6 +179,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         ops.as_slice(),
         [3, 6, 4, 0x33, 0x1c, 0x13, 0x12, 0x0e, 0x19, 7, 2] | [3, 6, 5, 8, 0x0e, 7, 2]
     );
+    let immediate_particle = ops.as_slice() == [3, 6, 0x1c, 0x0e, 0x12, 5, 0x13, 0x19, 7, 2];
     let pistol_splash = ops.as_slice() == [0x2b, 3, 6, 0x37, 5, 0x46, 7, 2];
     let detached_vertical = ops.as_slice() == [3, 6, 0x37, 5, 0x46, 7, 2];
     if detached_vertical {
@@ -219,10 +238,12 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !smoke_particle
         && !pistol_burst
         && !impact_child
+        && !immediate_particle
         && !pistol_splash
         && !detached_vertical
         && !ghost
         && !death
+        && !ripper_explosion(&ops)
         && !compound_blocks(&ops)
         && !stone_child
         && !barracks_child

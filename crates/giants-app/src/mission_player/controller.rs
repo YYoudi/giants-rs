@@ -31,6 +31,7 @@ pub(crate) struct Controller {
     owned_motion_failed: bool,
     world_signals_failed: bool,
     npc_failed: bool,
+    ripper_failed: bool,
     building_failed: bool,
     building_probe_target: Option<u32>,
     building_probe_entry: Option<[f32; 3]>,
@@ -38,6 +39,7 @@ pub(crate) struct Controller {
     // Input-fixture memory only: release RMB long enough to recharge, as a
     // player would. Never changes fuel, actor pose or the ordinary jet service.
     probe_recharge: bool,
+    ripper_navigation: ripper_probe::Navigation,
     probe_route: Option<route_probe::Route>,
     probe_escape: route_probe::Escape,
     owned_backend: bool,
@@ -66,6 +68,41 @@ pub(crate) struct Controller {
     subjective_draw_visible: Option<bool>,
 }
 impl Controller {
+    fn refresh_contacts(
+        &mut self,
+        runtime: &mut crate::mission_runtime::Runtime,
+    ) -> Result<(), String> {
+        let mut contacts = Vec::new();
+        if !self.npc_failed {
+            match runtime.npc_contact_snapshots(self.ticket) {
+                Ok(vimps) => contacts.extend(vimps),
+                Err(error) => {
+                    self.npc_failed = true;
+                    error!(
+                        "mission_vimp_contacts_refused ticket={} error={error} fallback=false",
+                        self.ticket
+                    );
+                }
+            }
+        }
+        if !self.ripper_failed {
+            match runtime.ripper_contact_snapshots(self.ticket) {
+                Ok(rippers) => contacts.extend(rippers),
+                Err(error) => {
+                    self.ripper_failed = true;
+                    error!(
+                        "mission_ripper_contacts_refused ticket={} error={error} fallback=false",
+                        self.ticket
+                    );
+                }
+            }
+        }
+        // A quarantined family contributes no stale shapes. The other family's
+        // real completed submissions remain independent of that failure.
+        let contacts = runtime.order_npc_contacts(self.ticket, contacts)?;
+        self.state.set_mission_contacts(self.ticket, contacts)
+    }
+
     pub(crate) fn building_cancel_snapshot(&self) -> Option<(u64, u64, usize)> {
         (self.replay_done && self.building_probe_terminal && !self.building_failed).then_some((
             self.state.buildings.effects.births,
@@ -346,25 +383,28 @@ impl Controller {
                         | "owned-player-inspection-cycles"
                 )
             ),
-            fire_replay: matches!(
-                std::env::var("GIANTS_MISSION_REPLAY").ok().as_deref(),
-                Some(
-                    "campaign-fire"
-                        | "campaign-fire-cycles"
-                        | "campaign-fire-pose"
-                        | "campaign-audio-cancel-cycles"
-                        | "campaign-audio-impact-cycles"
-                        | "campaign-flight-cycles"
-                        | "campaign-ambient-cycles"
-                        | "showcase-mecc"
-                )
-            ),
+            fire_replay: !ripper_probe::enabled()
+                && matches!(
+                    std::env::var("GIANTS_MISSION_REPLAY").ok().as_deref(),
+                    Some(
+                        "campaign-fire"
+                            | "campaign-fire-cycles"
+                            | "campaign-fire-pose"
+                            | "campaign-audio-cancel-cycles"
+                            | "campaign-audio-impact-cycles"
+                            | "campaign-flight-cycles"
+                            | "campaign-ambient-cycles"
+                            | "showcase-mecc"
+                    )
+                ),
             descent_capture: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
                 == Ok("campaign-descent-pose"),
             landing_failed: false,
             landing_capture: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
                 == Ok("campaign-landing-pose"),
-            finish_step: if Self::campaign_probe() {
+            finish_step: if ripper_probe::enabled() {
+                12000
+            } else if Self::campaign_probe() {
                 120000
             } else if Self::vimp_contact_probe() {
                 12000
@@ -418,11 +458,13 @@ impl Controller {
             owned_motion_failed: false,
             world_signals_failed: false,
             npc_failed: false,
+            ripper_failed: false,
             building_failed: false,
             building_probe_target: None,
             building_probe_entry: None,
             building_probe_terminal: false,
             probe_recharge: false,
+            ripper_navigation: Default::default(),
             probe_route: None,
             probe_escape: Default::default(),
             initial,
@@ -536,18 +578,15 @@ pub(super) fn update(
             continue;
         }
         controller.was_active = true;
-        if !controller.owned_backend && !controller.npc_failed {
-            let ticket = controller.ticket;
-            let result = runtime
-                .npc_contact_snapshots(controller.ticket)
-                .and_then(|contacts| controller.state.set_mission_contacts(ticket, contacts));
-            if let Err(error) = result {
-                controller.npc_failed = true;
-                error!(
-                    "mission_vimp_contacts_refused ticket={} error={error} fallback=false",
-                    controller.ticket
-                );
-            }
+        if !controller.owned_backend
+            && let Err(error) = controller.refresh_contacts(&mut runtime)
+        {
+            controller.npc_failed = true;
+            controller.ripper_failed = true;
+            error!(
+                "mission_npc_contact_registry_refused ticket={} error={error} fallback=false",
+                controller.ticket
+            );
         }
         if !controller.world_signals_failed
             && let Err(error) = runtime
@@ -672,6 +711,7 @@ pub(super) fn update(
                 1. / 60.
             } else if crate::frontend_scene::vimp_interaction_probe()
                 || crate::frontend_scene::objective_interaction_probe()
+                || ripper_probe::enabled()
                 || crate::frontend_scene::building_interaction_probe()
             {
                 // Keep a many-actor/audio probe to one fixed step per render
@@ -774,6 +814,27 @@ pub(super) fn update(
                     axes = Vec2::ZERO;
                     thrust = (16..48).contains(&tick);
                     boost = tick == 32;
+                }
+            }
+            if replay_running && ripper_probe::enabled() {
+                let ticket = controller.ticket;
+                let Controller {
+                    state,
+                    ripper_navigation,
+                    ..
+                } = &mut *controller;
+                let input =
+                    ripper_probe::input(state, ripper_navigation, &mut runtime, ticket, tick)
+                        .expect("ordinary Ripper input diagnostic failed");
+                axes = input.axes;
+                thrust = input.thrust;
+                boost = input.boost;
+                if input.capture {
+                    controller.finish_step = tick + 1;
+                    println!(
+                        "mission_ripper_input_probe_observed ticket={ticket} step={tick} flight_revision={} impact_step={:?} supplied_mecc_commands=true forced_actor_pose=false os_input=false applied_damage=false",
+                        input.flight_revision, input.impact_step
+                    );
                 }
             }
             if replay_running
@@ -1386,6 +1447,16 @@ pub(super) fn update(
                 }
                 for hit in result.world_hits {
                     if let Some(owner) = controller.state.mission_npc_hit_owner(hit.object) {
+                        if matches!(
+                            controller.state.mission_npc_hit_class(hit.object),
+                            Some(73 | 230)
+                        ) {
+                            error!(
+                                "mission_ripper_hit_unavailable ticket={} owner={owner:?} projectile_serial={} reason=damage_consumer_not_connected damage_callback=false",
+                                controller.ticket, hit.serial
+                            );
+                            continue;
+                        }
                         let local = runtime
                             .normal_landing_owner(controller.ticket)
                             .ok_or_else(|| "NPC shooter absent".to_owned());
@@ -1427,16 +1498,12 @@ pub(super) fn update(
                                             controller.ticket, controller.finish_step
                                         );
                                     }
-                                    match runtime.npc_contact_snapshots(controller.ticket).and_then(
-                                        |contacts| {
-                                            let ticket = controller.ticket;
-                                            controller.state.set_mission_contacts(ticket, contacts)
-                                        },
-                                    ) {
+                                    match controller.refresh_contacts(&mut runtime) {
                                         Ok(()) => {}
                                         Err(e) => {
                                             controller.npc_failed = true;
-                                            error!("Vimp contacts after death: {e}");
+                                            controller.ripper_failed = true;
+                                            error!("NPC contact registry after Vimp death: {e}");
                                         }
                                     }
                                 }
@@ -1589,7 +1656,20 @@ pub(super) fn update(
                     "ordinary sustained flight/release did not reach the acquired descent pose"
                 );
                 let distance = Vec3::from(position).distance(Vec3::from(controller.initial));
-                if controller.fire_replay {
+                if ripper_probe::enabled() {
+                    assert!(
+                        controller.finish_step < 12000,
+                        "ordinary Ripper navigation did not reach its actual projectile draw endpoint"
+                    );
+                    assert!(
+                        distance > 1. && controller.animated,
+                        "Ripper diagnostic did not use actual player movement/animation"
+                    );
+                    println!(
+                        "mission_ripper_input_probe_finished ticket={} steps={} distance={distance} supplied_commands=true forced_actor_pose=false os_input=false reciprocal_combat_verified=false",
+                        controller.ticket, controller.steps
+                    );
+                } else if controller.fire_replay {
                     let pistol = controller.pistol().unwrap();
                     let expected = if controller.finish_step == 64 { 1 } else { 4 };
                     if crate::frontend_scene::building_interaction_probe() {
@@ -1919,6 +1999,19 @@ pub(super) fn update(
             && controller.steps > 0
             && !controller.owned_motion_failed
             && !controller.world_signals_failed
+            && let Err(error) = runtime
+                .advance_normal_mecc_hit_clock(controller.ticket, u64::from(controller.steps))
+        {
+            controller.world_signals_failed = true;
+            error!(
+                "mission_mecc_hit_clock_refused ticket={} error={error}",
+                controller.ticket
+            );
+        }
+        if !controller.owned_backend
+            && controller.steps > 0
+            && !controller.owned_motion_failed
+            && !controller.world_signals_failed
             && !controller.npc_failed
         {
             let advanced = runtime
@@ -1953,6 +2046,73 @@ pub(super) fn update(
                     error!(
                         "mission_vimp_component_refused ticket={} error={error}",
                         controller.ticket
+                    );
+                }
+            }
+        }
+        if !controller.owned_backend
+            && controller.steps > 0
+            && !controller.owned_motion_failed
+            && !controller.world_signals_failed
+            && !controller.ripper_failed
+        {
+            let advanced = runtime
+                .normal_landing_owner(controller.ticket)
+                .ok_or("Ripper controlled owner absent".to_owned())
+                .and_then(|local| {
+                    runtime.publish_normal_mecc_contact(
+                        controller.ticket,
+                        u64::from(controller.steps),
+                        controller.state.normal_contact_sample()?,
+                    )?;
+                    runtime.publish_normal_projectile_scene(
+                        controller.ticket,
+                        u64::from(controller.steps),
+                        controller.state.normal_projectile_registry(),
+                    )?;
+                    audio.owned.with_impact(
+                        controller.ticket,
+                        frontend.feedback_volume(),
+                        controller.state.camera().0.view,
+                        local,
+                        |device| {
+                            let view = controller.state.camera().0.view;
+                            let ticket = controller.ticket;
+                            let step = u64::from(controller.steps);
+                            let frame = controller.state.enemy_hit_frame()?;
+                            let sounds = runtime
+                                .advance_normal_rippers_with_player(ticket, step, frame, device)?;
+                            runtime.prepare_ripper_impact_geometry(view)?;
+                            Ok(sounds)
+                        },
+                    )
+                });
+            match advanced {
+                Ok(sounds) => {
+                    for event in sounds {
+                        audio.local.write(crate::mission_audio::Request {
+                            ticket: controller.ticket,
+                            event,
+                        });
+                    }
+                }
+                Err(error) => {
+                    controller.ripper_failed = true;
+                    // Preserve transport submissions preceding a late callback
+                    // failure, without attempting that callback again.
+                    for event in runtime.take_normal_ripper_sounds(controller.ticket) {
+                        audio.local.write(crate::mission_audio::Request {
+                            ticket: controller.ticket,
+                            event,
+                        });
+                    }
+                    error!(
+                        "mission_ripper_component_refused ticket={} error={error}",
+                        controller.ticket
+                    );
+                    assert!(
+                        !ripper_probe::enabled(),
+                        "Ripper supplied-input diagnostic reached a refused ordinary component: {error}"
                     );
                 }
             }

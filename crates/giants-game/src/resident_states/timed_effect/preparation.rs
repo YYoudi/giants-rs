@@ -130,6 +130,11 @@ impl<S: Services> actor_finalization::Services for Adapter<'_, S> {
     }
 }
 impl Session {
+    /// Ordinary body history; the composing frame owner controls cadence, as
+    /// for cinematic history. This does not complete preparation or a callback.
+    pub fn begin_timed_positioned_frame(&mut self, id: Id) -> Result<(), String> {
+        self.begin_timed_history(id, None)
+    }
     /// Common history for this exact cinematic body's next owned frame. This
     /// does not run its callback or make a failed preparation replayable.
     pub fn begin_cinematic_timed_frame(
@@ -137,13 +142,16 @@ impl Session {
         id: Id,
         scope: CinematicScope,
     ) -> Result<(), String> {
+        self.begin_timed_history(id, Some(scope))
+    }
+    fn begin_timed_history(&mut self, id: Id, scope: Option<CinematicScope>) -> Result<(), String> {
         let actor = self.get(id).ok_or("cinematic timed history actor absent")?;
         let metadata = actor
             .timed_effect
             .as_ref()
             .ok_or("cinematic timed history metadata absent")?;
-        if scope.ticket != self.ticket
-            || metadata.cinematic_scope != Some(scope)
+        if scope.is_some_and(|scope| scope.ticket != self.ticket)
+            || metadata.cinematic_scope != scope
             || !metadata.runtime.idle()
             || metadata.runtime.failure.is_some()
             || metadata.ordinary.preparing
@@ -176,6 +184,20 @@ impl Session {
             return Err("cinematic positional preparation needs its current source scope".into());
         }
         self.prepare_timed_positioned_bound(id, input.into(), stamp, services)
+    }
+    /// Ordinary caller with an explicitly selected portable progress policy.
+    /// This does not manufacture the debug-PC caller word or a cinematic scope.
+    pub fn prepare_timed_positioned_source(
+        &mut self,
+        id: Id,
+        input: SourceInput<'_>,
+        stamp: &mut crate::animation_epoch::Stamp,
+        services: &mut impl Services,
+    ) -> Result<crate::timed_effect_object::Step, String> {
+        if self.cinematic_timed_scope(id).is_some() {
+            return Err("ordinary positional preparation has a cinematic owner".into());
+        }
+        self.prepare_timed_positioned_bound(id, input, stamp, services)
     }
     /// The acquired positional preparation still requires its actual physical,
     /// terrain/environment, clock and retirement providers. Only ownership is
@@ -304,7 +326,7 @@ impl Session {
                 fields,
                 previous_physical_velocity: m.physical.previous_velocity,
                 friction: f32::from_bits(c[28]),
-                parent_present: false,
+                parent_present: m.immediate.is_some(),
                 footprint: m.ordinary.footprint,
                 affine: Some(crate::actor_affine::Cache {
                     flags: m.matrix.flags,
@@ -338,8 +360,17 @@ impl Session {
             match result {
                 Ok(state) => {
                     self.commit_timed_finalization(id, &state, physics, true)?;
-                    // The acquired attachment helper returns immediately without
-                    // a parent. No invented support or additional writer runs.
+                    if self
+                        .get(id)
+                        .unwrap()
+                        .timed_effect
+                        .as_ref()
+                        .unwrap()
+                        .immediate
+                        .is_some()
+                    {
+                        self.bind_immediate_timed(id)?;
+                    }
                     Ok(step)
                 }
                 Err(error) => {

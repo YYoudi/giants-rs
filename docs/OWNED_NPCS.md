@@ -7,6 +7,1353 @@ open. Authored herd admission follows source declarations, with Story2 and Story
 actual populations checked. See [MEAT_COLLECTION.md](MEAT_COLLECTION.md) and the
 central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidence.
 
+## Main integration of Ripper movement and attacks
+
+The source integration combines the existing ordinary Ripper component with
+current main, preserving building collision, damage, destruction and replacement
+services. Declared class73/230 actors share the normal Mecc Session, source
+placements, perception of the controlled player, primary/animation/motion
+services and ordinary NPC renderer. Their acquired ranged attacks construct and
+fly actual owned projectiles; ground reactions retain the existing named effects
+and positional audio. No flag or script enables these actors in normal play.
+
+A missing projectile impact consumer now quarantines that projectile, retaining
+its canonical partial state until mission retirement. It stops neither unrelated
+living AI nor later shots, acknowledges no damage, invents no death/retirement
+and never replays the failed callback. Full component faults and unsupported
+primary continuations remain explicit failures. Close melee and reciprocal
+injury/death are not delivered by visible ranged attack feedback.
+
+Test from the normal menu: Preview tools -> Browse all missions -> Mecc Story2
+-> The Wife. Skip the opening with Escape if desired, then approach the declared
+Rippers using WASD/mouse and right mouse jet. Left mouse fires the partial player
+pistol; R changes view. Escape returns to mission selection for a fresh entry.
+Preview .13.3 is bound to runtime source `941342b` and executable SHA256
+`9a9ae9a4ca1902ecd3c2c46b7d9faf5b9b922bacdf7d7be7cf53d9517d77c962`.
+Its rendered supplied-command Wife route exits0 after about142 seconds. One
+classic Ripper moves about147 horizontal source units, emerges and launches an
+actual class90 shot after the unsupported variant is isolated. The private
+capture was inspected. No NPC state/pose/health/readiness was injected. This is
+not reciprocal combat, a death or full Windows-input/menu lifecycle acceptance.
+The normal visible menu renders without any probe flag; physical Escape stops
+computer use before mission-input/re-entry checks. See PREVIEW_NOTES.md.
+
+The awakening and projectile-effect preparation now use the real frame camera,
+loaded quality/distance constants and canonical resident population. The earlier
+invariant-only selector was an actual awakening blocker for ordinary Rippers.
+Unsupported actor continuations retain their last completed visual submission
+with its old frame number; their next AI/animation/contact frame is not supplied.
+Linked markers stay owned until scope retirement, with no fake per-marker cleanup.
+
+## Historical Ripper integration receipts
+
+Earlier startup-policy build: source `b7cc590`, GNU executable SHA256
+`b85fff99053befbe50c6e7b5b330e559eadcd41d3afe46972fc765ce9396d7cb`.
+Its continuous supplied-command Wife encounter processes five ground impacts
+and an actual expiry at step6238, without an NPC refusal or observed radial
+obstacle. It reaches the step12000 diagnostic deadline without the requested
+canonical Mecc-damage endpoint (exit101, about180 seconds, no capture). The
+historical generic draw-endpoint error text names that diagnostic deadline;
+it does not establish an NPC draw failure or an actual hit. Reciprocal combat,
+death, full encounter/menu lifecycle and Windows-input acceptance remain open.
+
+A separate rendered supplied-command control on the same executable reaches
+an actual class232 ground impact at step4694 and exits0 after about116 seconds.
+The inspected private capture shows the ground explosion and particles ahead
+of the Mecc, with health100. Capture SHA256:
+`4ec746105f3c302dfc0e8a721e9a1444aa9577a626724b2d1f7bb67bea39a2c5`.
+This establishes visible missed-shot feedback, not a positive radial effect,
+injury voice, Ripper death, full fidelity or actual Windows-held input. The new
+capture and raw receipt remain private; no competing preview/gallery is published.
+
+The startup wiring passes1,071 Rust tests with218 ignored, strict Clippy and
+formatting, plus45 Python controls. Actual executable checks also retain the
+unsupported-option rejection for native no-play/safe-mode tokens. No new
+prototype PS2 function identity is confirmed; the separately confirmed corpse
+helper below remains the current Ripper identity attribution.
+
+Earlier rendered diagnostic build: source `6354f1d`, GNU executable SHA256
+`cd1d57ba0e8016fcf467081ef513c8b912aa81e9fd25456fd24ebcca3760877f`.
+Two continuous supplied-command Wife encounters exercise the unchanged ordinary
+runtime. The first processes six actual ground impacts and one expiry without
+an NPC refusal, then reaches the diagnostic deadline at step12000 without the
+requested Mecc-damage endpoint (exit101, about176 seconds, no capture). The second
+reaches a real projectile-to-controlled-Mecc contact at step6473 and refuses the
+missing shared-world failure/completion guards before publishing damage (exit101,
+about150 seconds, no capture). Neither run reproduces a radial proof obstacle.
+These are failed complete-encounter candidates, not reciprocal combat, visual
+fidelity or Windows-input acceptance.
+
+The earlier source `f9c1a63`, executable SHA256
+`a83a23cb50d8901ffc69162f7a1712b9126e515ec6b9f10f6d43ce970e5a17e9`,
+refuses the radial no-effect invariant after about145 seconds, without a capture.
+A possible actor hit or Vimp alert cannot be excluded, but actual eligibility
+and positive hit/alert consumption remain unresolved. The conservative proof
+now reports the first actual owned-list obstacle, including optional observed
+health, dispatch contexts and distance/bound. This diagnostic neither evaluates
+native eligibility nor binds the unprovided global context word. Its predicate,
+ordering, zero-slope and masked-actor lazy inputs remain unchanged. No obstacle
+identity has yet been observed on the identified diagnostic executable.
+
+Ordinary launch now supplies the configuration-start no-play projection to the
+shared local impact-voice device, independently of gain, capture muting and real
+sink readiness. See [the local voice contract](OWNED_MECC_CONTACT.md#ordinary-configuration-start-projection).
+This removes one missing input; it does not provide shared-world guards, actual
+voice playback, damage, death or a completed encounter. The current rendered
+receipt exercises startup wiring but reaches no actual local impact-voice callback; it does not establish injury-voice playback.
+
+The earlier source `3297c8c`, GNU executable SHA256
+`7dbfc7408cc75ca0d21a43f283d4b86de7f45618413c6b56e506258f0eacd21e`,
+enters The Wife through the ordinary menu path. Its continuous rendered
+supplied-command encounter completes an actual class232 expiry at step4590,
+including source retirement without inventing ground contact. The following
+projectile contacts the controlled Mecc at step5035, where the actual shared-world
+failure/completion guard owner is still missing. The diagnostic exits101 with no
+capture, before damage publication. This is a failed whole-encounter candidate,
+not reciprocal combat acceptance or visually inspected expiry fidelity. The
+separately inspected missed-ground-shot result on `736ac96` remains historical.
+Shared-world ownership, broader startup-policy coverage, reciprocal injury, Ripper death and full
+Windows encounter/menu acceptance remain open. No competing preview is published.
+
+The branch implements the retained class90/232 expiry continuation, exercised by
+the identified `3297c8c` encounter above. It uses the actual recorded flight/clock;
+no second query, invented ground point or extra time subtraction occurs. Sound
+precedes the named explosion and conditional radial service, then marking and a
+distinct expiry retirement. Ground-plus-expiry in one callback keeps both tails
+and receipts. Radial work still requires its actual complete-list no-effect proof
+or a genuine active consumer. Partial service effects/RNG survive failure;
+attempt identity prevents replay or mutation/removal of a replacement session.
+Five synthetic controls and eighty original reached-tail observations pass,
+including both cue selections, radial gates and already marked sources. Native
+observations supply actor/clock/TLS and unavailable sound/FX consumers; they are
+not a whole primary, full world, rendered effect or playback validation. The
+two-ticket missed-ground-shot regression also passes. Prototype PS2
+`projectile_logic`/`projectile_cleanup` remain unknown relationships.
+
+The acquired corpse continuation is also available as `ripper_corpse`, a
+dependency for the still-missing ordinary lethal path. It consumes the global
+clock, preserves the wide branch before rounding and distinguishes an actual
+conditional mana-creation request from marking for removal. A zero mana value
+can mark the body before countdown expiry; a nonzero value can retain it while
+the real recipient/creation consumer returns no result. Missing creation fails
+after the timer write, preserving external effects/RNG for the primary's failure
+latch. Marking is not canonical owner cleanup. This does not copy Vimp meat or
+ghost behavior, provide a lethal producer, acknowledge mana availability or
+connect mode94 to the normal primary. Prototype PS2
+`ripper_death_logic__FP6OBJECT` is a confirmed routine identity, separately from
+this runtime gap; the repeated `dead__FP6OBJECT` raw name is ambiguous. The
+540 original whole-helper observations use supplied actor/global-clock inputs;
+180 execute the original empty-recipient lookup and 360 supply the creation
+return at its actual call boundary. They do not validate positive native mana
+creation, a whole primary, rendered death or canonical cleanup.
+Twenty-four further original observations and a failing-before/fixed-after
+regression separate the callback-control creation gate from death personality.
+The corpse header countdown must also remain distinct from the living AI timer.
+The corrected corpse-only source `9731676` passes1,062 workspace tests with218 ignored, the564
+original observations and three synthetic controls, strict Clippy/formatting and
+the45 Python controls. These results do not extend the rendered encounter receipt.
+
+The owned direct damage callback now publishes its actual current prefix before
+external services and retains the last prefix, health and external RNG effects
+on failure. A failed actor cannot replay damage or continue ordinary primary/ANM
+work. A private attempt identity prevents publication or failure poisoning after
+the Session is replaced, including colliding numeric actor IDs. Invalid bounded
+inputs fail before the attempt starts; a successful callback permits the next
+genuine hit. If the lethal effect fails before the source assigns its death mode,
+the adapter retains accumulated damage without inventing mode94 or a completed
+death. Three synthetic failures reproduce on the previous adapter; the corrective
+checks also cover reentry, successful repeated callbacks and class230's distinct
+action1 prefix. These are supplied-service controls, not ordinary pistol, blood,
+lethal-service or rendered encounter acceptance. The direct callback still
+refuses launched projectile sources; their actual contact/hit route is required.
+Source `f9c1a63` passes1,069 workspace tests with218 ignored, seven synthetic owned
+damage checks, strict Clippy/formatting and45 Python checks. The supplied-command
+GPU refusal above does not establish an ordinary invocation of this direct
+callback or a positive damage/death result.
+
+### Shared-world timer dependency
+
+`mission_timer` acquires the PC countdown helper and the separate positive-time
+call gate from its display caller. The failed/edit guards suppress the helper
+before its null-object clock read. A reached update stores the subtracted timer
+before consulting the selected mission's failure-film declaration. An empty
+film requests the real failure producer; a nonempty film requests its actual
+start. Only a successful request permits the native retry reset, and only a
+successful film start sets the film-started word. An already-started expiry
+requires the failure-menu owner. Missing metadata or a consumer retains the
+reached prefix; the scheduler must quarantine failed attempts rather than replay
+partial external work.
+
+The outer display gate is equally important: it calls the helper only while
+failure is clear and time is strictly positive. A zero/negative/unordered timer
+must not become a failure request on every ordinary game tick. The acquired
+caller performs rendering and countdown display; an earlier private Mecc-primary
+label was incorrect and remains retained as a historical alias. The new gate
+is not that complete display callback or a measured Bevy scheduling cadence.
+
+192 exact-PC helper controls execute the real clock and failure helper, with
+supplied selected-slot/counter/clock inputs and film/menu effect boundaries.
+Sixteen further original caller-slice controls stop before helper/continuation,
+including signed zero, nonfinite inputs and failure suppression. They agree with
+the bounded Rust contracts; positive infinity admits the caller gate but remains
+outside finite active Rust arithmetic. These controls do not acquire live timer
+initialization, authored command18 handling, film playback, failure UI/restart,
+shared-world guard availability or any additional rendered encounter. There is
+no default constructor or ordinary admission for missing timer state/providers.
+The existing identified build and rendered receipts above remain unchanged.
+Prototype PS2 `mission_fail_flick__Fv` remains an unknown search relationship,
+not a newly confirmed identity or an imported signature/layout.
+
+### Local menu test procedure
+
+Launch the identified local executable with `--mecc-menu --data-root <installation>
+--user-data-root <fresh-profile>`. Select Preview tools -> Browse all missions ->
+Mecc Story2 -> The Wife; allow the opening to finish or skip it with Escape.
+WASD/mouse move and aim, left mouse fires, right mouse uses the jet, Space adds
+nitro and R changes view. Escape returns to mission selection; select The Wife
+again to test a fresh ticket. These ordinary controls require no NPC activation
+flag. The current missing hit guards can still stop the Ripper component;
+following this procedure is not a completed encounter/death/reentry receipt.
+
+### Earlier dependency evidence
+
+The following records retain their original source/build boundaries. Later
+connections do not transfer graphical acceptance to those older executables;
+the current observed runtime frontier is the one stated above.
+
+The ordinary class230 mode67 primary now validates its current target, produces
+real turning/forward commands and selects mode68 or69 using the actual class
+parameters and shared RNG. It does not set actor positions. A strict melee-range
+boundary consumes no draw. The required cue runs before selecting mode68; a cue
+failure retains steering and the consumed draw, latching against replay. Six
+private original whole-primary controls cover both selections, equal/outside
+range, missing target and turning. Two synthetic controls check strict selection
+and retained cue failure. Six further original secondary controls match the first
+two channels with disabled blending, including the actual slots10/51 selected by
+mode68/69. Those selections now use the existing ordinary secondary/ANM path;
+mode69 and actual melee hurt remain required as described below.
+These controls use supplied target/mode/seed inputs after native mode66 in a flat
+world with an empty sound registry. They are neither natural encounter nor GPU
+acceptance. `ripper_move`, `ripper_chase_location` and `ripper_animselect` remain
+unknown prototype PS2 correspondence routes, with earlier PC aliases retained.
+
+The ordinary mode68 primary now faces its current living target without forward
+input or a destination write, waits for the actual primary-channel finished flag,
+then returns to mode66. Only a target strictly inside its three-dimensional melee
+range produces the required kind3 hurt request, using the real class-global damage.
+This differs from the planar approach decision and from a kind0 projectile hit;
+no projectile, hitpoint, health subtraction or hurt acknowledgment is fabricated.
+Missing hurt ownership retains the preceding mode/steering and latches failure.
+Six complete original primaries cover waiting, turning, lost target and non-hits
+at equal/outside range or a vertical separation. A seventh original control stops
+at the actual kind3 service entry without returning a result. Rust matches that
+pre-hurt state and refuses the absent consumer; this is not a completed hurt call.
+Two synthetic controls check the finished/range gates and retained failure.
+
+The offline `mecc_enemy_hit` composition also admits an actual class73/230
+state23 source with kind3 and no projectile owner or hitpoint. Projectile kind0/2
+and direct kind3 identities cannot be exchanged. Eight private complete original
+melee-dispatch controls match its nonlethal Mecc health, flags, directional impulse,
+reset and RNG across callback-wide inhibition and health-only suppression. Their
+world guards, source motion and dormant voice timers are supplied. The generic
+dispatcher's post-hurt mission tail also runs on this path; projectile cleanup
+must not substitute for it.
+
+`Session::update_ripper_variant_melee_with_mecc` now connects the actual owned
+class230 mode68 callback to canonical cold-Mecc health, velocity and voice-clock
+publication. A separate melee attempt binds its target, controlled-motion step
+and current primary epoch. Its controller response validates that active receiver
+and epoch; a projectile receipt, stale epoch, delayed delivery or double copy is
+refused. No projectile metadata, query point or projectile retirement is created.
+Required world, controller, voice and generic post-hurt consumers run in order.
+Late failures retain already published health/velocity/timers/RNG and latch the
+primary against replay. Incomplete attempts retain their target reference; a
+completed receipt preserves historical identity without adding a strong reference.
+Scope cancellation cannot restore the removed source or accept its old response.
+
+Five supplied-frame controls cover publication/order, health-only copies for
+stationary sources, suppression/immunity, late dependency failures and scope
+cancellation. Four private original class230
+dispatcher observations also match this canonical composition. These tests supply
+the owned frame/mode/finished-channel boundary and all service consumers. The
+ordinary host now borrows the real partial controller's health/velocity and
+immutable collision world separately, without a copied player/world. The current
+scene's real object contact enters the canonical kind0 wrapper, and class230
+mode68 enters the canonical kind3 composition. Each retains its distinct source
+validation and post-hurt/retirement contract. Possible mission/credit work still
+requires its real owner; only a checked no-effect terminal is admitted.
+
+The common impact/retirement device also reborrows the actual local-voice catalog,
+sinks and audio RNG. A missing ready sink remains an error, distinct from a real
+catalog miss; a real-device muted control checks unique-voice reuse without a
+new start or RNG draw.
+The local voice adapter additionally requires an explicitly supplied startup
+no-play projection; neither a default playback value nor mute/sink readiness
+supplies that owner. Ordinary startup has not bound it. The audio controls supply
+their startup boundary independently and do not establish App initialization.
+The two-ticket current-frame control uses the new ordinary
+controller borrow with an explicitly unavailable sound/retirement device, so it
+establishes no hit or playback. World failure/completion and edit/health-suppression
+guards remain explicitly unavailable. An attempted hit latches their error before
+Mecc damage publication; this wiring does not acknowledge guard availability,
+ordinary injury, full native interleaving or a rendered encounter.
+
+Shared failure-gate acquisition now identifies a further prerequisite on The
+Wife. The exact PC callback table and parsed class program link state51 to the
+source Reaperman family; the selected mission declares six such actors. This is
+a PC class/state relationship, not a confirmed prototype PS2 routine attribution.
+Static acquisition finds both a path-progress failure route and a separate
+failure arm in that callback family. A null path, a zero-initialized payload or
+the controlled Mecc still being alive therefore does not establish that the
+shared failure flag is clear. Preserve the actual mode/activation and mutation
+owners before binding the ordinary hit host. The related actor behavior and full
+shared-world lifecycle remain unbound; no gameplay availability follows from this
+read-only metadata/control-flow acquisition.
+
+`mission_failure::State::request` now acquires the shared failure producer as a
+separate dependency. Signed objective counts and the completion word gate its
+failure flag/time writes; the strict delay compares the wide sum while retaining
+rounded storage. Negative samples and repeated actual invocations are preserved.
+Its menu-required result acknowledges no UI, flag reset or restart. Four synthetic
+controls and 250 private exact-PC observations pass, including 28 stops at the
+real failure-menu entry before its effects. These use supplied shared state;
+the module supplies no default world initialization or ordinary guard readiness.
+The prototype PS2 `mission_fail` relationship remains unknown. The timer caller
+also depends on actual failure-film declarations/ownership and the shared clock;
+its acquisition does not bind that producer or replace the campaign flow.
+
+The earlier isolated Wife approach consumed mode67 and its mode68 animation
+selection at step3251, followed that attack through its real ANM clock, then
+refused the missing kind3 hurt consumer at3293 with the source already in mode66.
+That diagnostic failed; it was not a complete encounter pass. It supplied
+ordinary player commands, excludes the Vimp component and uses no GPU or OS input.
+
+The local GNU build for the preceding mode67/health-response milestone is source
+`9a537e987598c7f07578cb30066bf6927ae85e3d`, executable SHA256
+`f5b603687e3639fb22a8a45a8ed33673b77d0063b412867159f4f043a7a11f9a`,
+Rust1.98.0/MinGW16.2.0. Its receipt is local; no download is published. Workspace
+checks pass1,041 tests with212 ignored, plus strict Clippy and formatting. There
+is no new graphical or Windows-input acceptance on this executable. Use the
+ordinary menu procedure below for The Wife; no NPC activation flag is required.
+The earlier clock lifecycle and failed combined encounter retain their own builds.
+
+The newer local mode68/kind3-kernel GNU build is source
+`525b0a47437a0d148fb71523c8077f4c96caffa4`, executable SHA256
+`53b9b6a275a3db0dab5790b5eb1cf419949c8999b985c8c907bc59e0e1561ffd`,
+Rust1.98.0/MinGW16.2.0. Workspace checks pass1,044 tests with214 ignored;
+strict Clippy, formatting, the eight kind3 controls, earlier32 kernel controls
+and48 canonical projectile-dispatch controls pass. The ordinary kind3 consumer
+remains absent, and the supplied isolated encounter still fails at3293. No new
+GPU, OS-input, reciprocal injury or Ripper-death acceptance is claimed on this
+executable. It is a local handoff receipt, with no concurrent preview publication.
+
+The subsequent canonical-melee local GNU build is source
+`a84e174d6e2057ee1a751aa5893a68fec835283f`, executable SHA256
+`7b64c7882f3cf40ebb942c8a9f65b81348b504f0a178f4b3c7d794f5e1aa2bbd`,
+Rust1.98.0/MinGW16.2.0. It passes1,049 workspace tests with215 ignored, strict
+Clippy/formatting, the four canonical kind3 observations and the preceding49
+projectile dispatcher observations. The technical all-ref source audit has no
+findings. The adapter is not yet connected to ordinary shared-world/controller/
+audio providers, and this executable has no new rendered or Windows-input
+acceptance. The earlier combined-game first-hit failure belongs to that receipt;
+the current frontier is recorded at the start of this section.
+
+The local failure-producer build is source
+`ccc202f13b6266bd498cf120c0f6107cf6a03784`, executable SHA256
+`1522f83db52b53f06f64b9553e6150a2c8b69ead261974b81749ee9a2e125f70`,
+Rust1.98.0/MinGW16.2.0. Its receipt remains local. Workspace checks pass1,053
+tests with216 ignored, strict Clippy, formatting and45 Python tests. The
+identity-bound failure controls pass250 original observations; the source audit
+at that commit scans1,274 reachable commits/7,116 blobs with zero findings.
+This dependency build has no new graphical or Windows-input acceptance and
+does not bind the ordinary world guards. No competing preview is published.
+
+The extended rendered pass on the later hit-consumer build exposed another
+effect-frame ownership error: world samples can advance while the controller's
+fixed physics step stays unchanged. Mixed impact bodies now use the shared world
+sample as their cohort-frame identity, retaining that sample's actual seconds.
+The installed two-ticket ground-impact control reproduces the old refusal with
+three fresh world samples over one unchanged real motion/contact packet, then
+passes after the correction with actual geometry/cleanup and no fabricated player
+step. A zero process exit or saved image from the earlier failing rendered pass
+does not establish a healthy NPC component or a completed encounter.
+
+The corrected local source `736ac96a60522155e76fe0089f7daa08b83b581d` builds
+executable SHA256
+`78119c7d1d10b97dba3fafa29a71400e2b8456a2a80b9a1e913071e9e25e4f83`.
+Its supplied-command rendered ground-impact control reaches actual launch4524,
+ground contact4705, projectile retirement and capture4722 with the five Rippers
+and fourteen Vimps still submitted. The private image visibly contains the
+explosion, and logs contain no component refusal. It establishes this missed-shot
+reaction and continued geometry phase, not reciprocal damage, Ripper death,
+whole native fidelity or OS-played encounter/menu acceptance. No image or preview
+is published by this lane.
+
+The internal supplied-input diagnostic also gains a read-only endpoint on
+positive canonical Mecc damage, retaining unavailable health until the actual
+controlled owner is published. A refused ordinary Ripper component now fails
+that diagnostic rather than permitting exit0 with a failed component. These
+checks change neither NPC admission nor ordinary player input/AI availability;
+positive damage alone is not proof of an attributed complete encounter.
+
+The subsequent diagnostic GNU build is source
+`501b628d937abfeac9de27ca20a6a2cc0bc3faed`, executable SHA256
+`fbae253d1241982185f3c874b8800065258cf38159c843c5216660d4401cd670`,
+Rust1.98.0/MinGW16.2.0. Workspace checks pass1,054 tests with216 ignored,
+strict Clippy and formatting. Its continuous rendered supplied-input control
+retires actual ground shots at steps4792 and5955, then refuses the third class232
+shot's expiration after its launch at6726. It exits101 without a capture; neither
+player damage nor Ripper death was reached. This is an incomplete encounter,
+separate from the corrected missed-ground-shot pass and from actual Windows input.
+
+Read-only exact-PC acquisition distinguishes expiry from ground contact: expiry
+requests sound before the explosion, then the conditional radial tail and marking.
+A ground impact followed by expiry in the same callback can reach a second tail;
+an already marked projectile does not establish that it is skipped. Preserve
+that ordering and distinct receipt/cleanup ownership in the implementation.
+This static acquisition is not a native expiry control or confirmed prototype
+PS2 attribution. Detailed identity-bound lookups and old aliases remain private.
+
+The ordinary hit-consumer build is source
+`18316e77c19379002feb69b9d3d8c3cedc261a05`, executable SHA256
+`ac0c09121ce261730aaf9ca0b37d27fa99e8cffaabbaf5660d4f908461b87d71`,
+Rust1.98.0/MinGW16.2.0. Workspace checks pass1,054 tests with216 ignored,
+strict Clippy, formatting and45 Python tests. The source two-ticket frame control
+and muted real-device voice reuse pass. The source-backed world guards remain
+unavailable; this local build is not a completed combat milestone or a published
+preview. No full encounter, Ripper death or new Windows-input acceptance follows
+from these checks.
+
+Earlier milestone evidence below includes the old mode67 frontier. An older
+combined-game graphical candidate stopped at direct projectile damage to the player;
+do not transfer the isolated Ripper-only approach or newer CPU selections to that
+rendered scene. Reciprocal injury, Ripper death and complete Windows encounter
+acceptance remain open. No new preview is published by this lane.
+
+The ordinary component now handles an actual missed ground shot through the
+retained query clock, named effect population, positional sound transport and
+projectile retirement. A read-only proof checks the entire current owned radial
+list: no eligible side-effect radius may be reached, including Vimp alert range.
+It supplies no cross-context default, timer, fabricated health or empty hit sink.
+A possible hit/alert still requires its real consumer. Canonical mixed bodies
+use the shared RNG/clocks, current ordinary colliders and static declared platform
+projection; changed collider input refuses. The common particle geometry pass
+then owns post-preparation cleanup, independently of GPU/device availability.
+The supplied Wife control observes the real step2755 impact, 26 immediate births
+and 25 particle geometry frames, queued positional sound and actual shot release
+on two fresh entries. Continuing the same approach reaches physical actor contact
+at step3242. That earlier longer encounter refused the real class230 mode67
+at step3251; reciprocal damage/death and rendered encounter/menu acceptance remain
+open. Original native traversal controls cover 80 supplied contexts, including
+inclusive hit/strict alert boundaries and genuine callback counterexamples.
+These are runtime wiring and CPU observations, not a published preview or GPU pass.
+
+The first graphical candidate at source `33b3168` rendered an explosion but
+quarantined the Ripper component when simulation advanced before the next render
+cleanup. It is a failed candidate despite a saved image and exit0. The ordinary
+controller now consumes the same real particle geometry between simulation steps
+using its actual camera, then runs scoped cleanup. The renderer can read the
+completed buffers again without owning simulation or RNG. The two-ticket CPU
+regression continues64 post-impact steps without a renderer update; it observes
+27 cumulative births,24 final body submissions and repeated preparation without
+RNG consumption. This repairs phase ownership; a new exact-build graphical run
+must independently validate the result.
+
+The corrected local GNU executable is source
+`0714920d86eed8e7a2a3e5830be19b41a891ac42`, SHA256
+`9632deaa1a0d450f1846a89dda8bdf8dfeecd1bd800127e85d562d95aaa25e7e`.
+Its new supplied-input Vulkan run includes the normal Vimp population and actual
+29-object projectile scene. The first shot launches at step4513, then reaches
+an actual object contact with the controlled Mecc before any ground impact.
+The missing direct-hit continuation refuses, and the diagnostic terminates
+without a capture. This is a failed encounter, not acceptance of explosion
+rendering on the corrected executable. The earlier saved explosion image belongs
+to the failed `33b3168` candidate, not this receipt. The Ripper component CPU
+fixture excludes the live Vimp component; do not transfer its specific miss or
+physical-contact route to the combined game. Next connect projectile-to-Mecc
+object damage/retirement and the selected close-range attack paths, preserving real world
+and controller owners. No new prototype PS2 attribution, actual Windows input,
+Ripper death, menu/reentry or public preview is established by these runs.
+
+`mecc_enemy_hit::Machine` composes the independently acquired source gate,
+debug-PC health, direct/radial velocity addition and pain/shared voice tail for
+offline nonlethal class90/232 shots owned by a living state23 Ripper, and direct
+class73/230 kind3 requests under the bounded source profile above. It requires
+actual source/recipient motion, current radial center, world gates and equipment
+state. A shared health-suppression gate does not suppress impulse and voices;
+global callback inhibition skips the whole receiver. Required associated-player
+and voice consumers run in native order. Failed consumers retain preceding state
+and RNG effects and cannot replay. Shield, gyro, critical-voice and lethal
+continuations remain explicit prerequisites. Canonical Session publication is
+now provided by the adapter below; ordinary controller recoil/HUD and real world
+gates still need their live consumers. This kernel alone does not acknowledge an
+ordinary hit backend.
+
+`Session::damage_mecc_from_enemy_object` binds that receiver to the real pending
+kind0 contact, canonical accumulated damage/flags/shield/reset fields, retained
+pain/shared timers and the current controlled-motion step. An original cold
+constructor write trace independently establishes the cleared associated-player
+and character-voice links; the adapter preserves only that acquired empty-link
+profile, without inventing a player-record layout. State publishes before the
+required recoil and local-cue consumers. Late failures retain health, velocity,
+timers and RNG and latch the projectile receiver against replay. Source marking
+and terminal processing remain in the enclosing direct wrapper. A callback-wide
+inhibition still returns before the receiver's state/timer/impulse work.
+
+The 48 private original dispatcher controls now also match this cold Session
+adapter, including its actual canonical health and motion publication. Three
+synthetic controls cover consumer ordering, successful voice timing and retained
+gate/controller/voice failures. Their gates, controller sinks and cue consumers
+are supplied fixtures. The ordinary host still needs source-backed shared-world
+initialization/transitions and actual recoil/audio consumers; this API does not
+acknowledge their presence. The voice-clock producer is now bound below.
+
+The required controller consumer now receives an opaque `HitResponse` containing
+both actual before/after health and velocity. A health-only change must be copied
+even when impulse leaves velocity unchanged; damage is not subtracted a second
+time. The response validates the actual source/recipient, active callback, current
+pose/step and canonical after state. A changed local before state, replay or late
+delivery after source retirement is refused. The partial controller has the copy
+method, but its ordinary direct-hit host remains unbound pending real world gates
+and cue transport. This is not an ordinary damage availability acknowledgment.
+One additional private original-PC zero-direction control matches the complete
+dispatcher response, including damage with unchanged velocity. Two synthetic
+controls exercise health-only copy and rejection of a desynchronized controller.
+These controls supply their world gates; they add no rendered encounter result
+or confirmed prototype PS2 attribution.
+
+The ordinary partial controller now advances its actual Mecc pain/shared voice
+countdowns through `controlled_mecc_hit_clock::Clock`, before the admitted NPC
+consumers. It uses the same live global clock sample, independently of NPC
+availability. Multiple fixed physics steps and repeated preparation within one
+sample do not subtract the frame delta twice. The acquired PC initialized shared
+value is **ten seconds**, not zero. The application retains the actual post-cue
+value before Session teardown and transfers it into the next fresh mission;
+menu idle time does not advance it. This does not change the separate experimental
+owned-primary clock policy or acknowledge complete native primary scheduling.
+
+Thirty-six private controls execute the original countdown fragment and both
+original global-clock calls, matching canonical Session field publication. Three
+synthetic controls cover sample deduplication, foreign ownership, reentry, actual
+post-cue reset and retained failures. An installed Wife control uses two fresh
+Session identities under one application clock, 120 real sampled-clock/controller
+updates, duplicate calls and actual scope teardown, with no RNG consumption. Its
+first produced global delta is 25ms; it is not replaced with a zero delta.
+These are CPU/runtime binding controls, not a new rendered encounter or OS-input
+acceptance. Real world gates and recoil/audio consumers still block direct hits.
+
+A separate visible Windows run validates this clock lifecycle on local GNU source
+`42dcd04765fdca1ba496f095949c0d7d059d9376`, executable SHA256
+`d14eea1cc791ead4b7508e2679a99e5eaf01b5a278d051ff3b4ab8e49d6b2666`.
+Actual Windows clicks follow Preview tools -> Browse all missions -> Mecc Story2
+-> The Wife. Escape skips the first opening and reaches rendered ordinary Mecc
+gameplay; Escape returns to mission selection. Selecting The Wife again reaches
+its opening and ordinary gameplay under a fresh ticket, then Escape returns again.
+The two real Session tickets are1 and3. The second clock starts from the actual
+first released value minus its actual first global delta, rather than resetting
+to ten or clamping a negative timer. No clock/NPC component refusal occurs in
+this idle lifecycle. The exact test window is then closed and its process is no
+longer running; a numeric exit code was not retained and is not claimed.
+
+Launch through the ordinary `--mecc-menu --data-root <installation>
+--user-data-root <fresh profile>` path. This Windows run uses no replay/probe or
+NPC activation flags; `GIANTS_AUDIO_MUTE=1` only silences the real audio services.
+It exercises menu/entry/reentry with actual OS input, without gameplay pose,
+health or readiness writes. It does not exercise held movement, jet, firing,
+a complete Ripper encounter, reciprocal injury or Ripper death. The earlier
+combined-game direct-contact failure remains the combat frontier; do not transfer
+its supplied encounter or explosion observations to this newer clock executable.
+This is a local build and bounded lifecycle result, not a published preview.
+
+`Session::complete_enemy_projectile_object_contact` now owns the separate
+positive class90/232 direct-contact continuation. It consumes the actual retained
+actor identity, hitpoint and tag, reads damage from the source header, and calls
+required world-gate, hurt and terminal consumers in native order. Secondary
+immunity returns early; primary immunity skips hurt/mark but retains the terminal
+tail. Callback-wide Mecc inhibition can skip the receiver while the wrapper still
+marks the projectile. This branch neither creates the ground explosion nor
+subtracts the ground lifetime tail. Its distinct object receipt admits
+`cleanup_enemy_projectile_object_contact`; neither cleanup API accepts the other
+reaction's receipt. Failures retain earlier service/RNG/mark effects and prohibit
+replay. A completed receipt releases the pending target reference, preserving its
+historical identity without making it a transform parent.
+
+Forty-eight complete original-PC dispatcher controls match the composed Rust
+continuation and nonlethal receiver across supplied failure/completion guards,
+callback inhibition, health-only suppression and both immunity flags. They
+compare damage, flags, velocity, source position/lifetime/mark, reset word, RNG
+and reached callback/terminal counts. These supplied headers/world guards are
+private controls, not producers for ordinary gameplay. The new continuation is
+not yet bound into the ordinary direct-hit host: actual shared world-state
+ownership, controller recoil consumption and real cue transport
+remain the next requirements. The latest graphical failure and exact
+executable above remain authoritative; no new encounter or death pass is claimed.
+
+`Session::complete_enemy_projectile_ground_flight` continues an actual retained
+terrain contact from either flight-query API. The query retains its own global
+delta and ordered slow areas: callers cannot replace the contact point or clock,
+rerun movement/history, or substitute object contact. Required effect, radial
+and sound services precede the original lifetime tail. Partial failures retain
+their side effects and forbid replay; successful marking still needs separate
+resource retirement. The ordinary missed-shot host now binds those phases under
+the no-effect proof above. Active damage and the other contact/expiry families
+still require their acquired consumers; prepared context ownership alone is not
+available damage or proof of rendered pixels.
+
+The canonical mixed-program construction owner is now
+`attached_effect_context::mixed::Execution`. It consumes actual source records,
+creates root and immediate-child Session identities in source order, retires
+each completed child context and retains the root context across its declared
+wait. Zero/half-step suspension and exact-deadline continuation preserve the
+original RNG stream, construct the delayed body and actually retire the context.
+A second wrapper cannot consume an already-active context; failures retain the
+constructed prefix and prevent replay. Completion means source construction,
+not body lifetime, render readiness or damage completion.
+
+`mixed::population::Population` now owns the following host phases over those
+canonical contexts and bodies. Named impact preparation retains a real context;
+activation consumes the caller's global clock, and each body independently
+selects object-local time from current fields/slow areas. Body callbacks and
+cleanup follow the actual Session common-list order within this owned cohort.
+The caller consumes prepared geometry before invoking cleanup. Duplicate frames,
+foreign pools/tickets and missing cleanup are refused before further work; late
+world failure retains the executed prefix and prohibits replay. No random stream,
+world service or render/audio acknowledgment is manufactured. The ordinary
+missed-shot host now binds that owner to its impact and surrounding frame phases;
+this is not a complete native world/interleaving or combat delivery.
+
+An installed/native control compares all 44 medium/large births, including the
+two delayed bodies, on 2,596 selected words and both phase RNG results. A second
+installed control runs four ordinary history/callback/finalization/placement
+passes over the first-phase bodies against The Wife's actual declared terrain
+and collider preparation. Its 168 preparations use the common world services,
+without a cinematic scope. It explicitly selects the existing prototype PS2
+zero-threshold progress policy; no debug-PC caller bits are invented. This is a
+source-world service control, not a native whole-world schedule or GPU check.
+The missed-shot host above binds the ordinary effect/world/audio transport phases.
+Reciprocal hit owners remain necessary for complete encounter acceptance.
+
+The common mission unlit consumer now accepts these canonical mixed bodies only
+after completed ordinary preparation and one-shot placement. Its current vertex
+references receive the same Session UV offsets and vertical-fade values; Bevy
+updates UV/color buffers and the existing vertex-alpha material branch. The
+renderer owns no simulation clock or RNG. Hidden carriers remain absent from
+draws. The installed source-world control produces 160 actual render-input frames,
+including initially transparent and subsequently changing gradient/UV data.
+It retains 9 declared colliders and 23 unresolved platform candidates: a needed
+unprepared platform still fails rather than becoming a default surface. This
+validates CPU input wiring, not actual rendered pixels, native queue order,
+complete world scheduling, body cleanup or ordinary reciprocal combat.
+
+The longer lifetime control exposed the vertical material's distinct descriptor
+path when object fade starts. It now uses the acquired deferred vertex-alpha
+override: RGB addition, diffuse alpha times the material/object factor and
+source-alpha/one blending with depth writes disabled. This is checked against
+the exact debug renderer module, separately from the executable; no prototype
+shader-name match or new attribution is established. Texture-alpha gradients and
+other gradient RGB programs still require their own evidence.
+
+The longer control now uses `declared_platform_scene::Prepared` with the actual
+source selector, terrain-plane gate and ordered transformed mesh. A distinct
+`PlatformBits` projection represents only raster platform membership; native
+terrain/neighbor writes cannot change that bit. It supplies neither full
+footprints nor neighbor/list ownership. Existing-footprint and building-query
+requirements remain unresolved. Matching candidate fields are required when
+binding this query owner to the world; the default unresolved path stays strict.
+The exact debug PC selector matches 1,024 controls and platform bits match 420
+native controls across terrain and neighbor inputs. This source-world composition
+then runs all 44 mixed bodies through 9,853 ordinary preparations, current geometry
+inputs, real expiry and scoped cleanup, releasing payloads/specification/state
+references/registrations and refusing stale owners. Native expiry/destructor
+controls remain separately scoped to direct callbacks and the global cleanup
+walk. This does not establish complete native world scheduling, GPU rendering,
+ordinary impact delivery or NPC death. Declared rigid projections require a new
+snapshot/invalidation contract before use with moving or changed world owners.
+
+The current immediate-particle dependency is CPU-validated, not an ordinary
+explosion delivery. The canonical timed owner now constructs the acquired
+source-declared particles, retaining their actual temporary parent/reference
+bindings, forward launch, gravity, contact parameters and source-order RNG.
+The constructor also preserves the PC one-shot placement mark; a second callback
+before its real placement is refused. Placement uses current canonical parent
+and child references through the shared relative-scale attachment math, consumes
+that binding once, and leaves launch pending for the next callback. Parent
+reference selectors vary with the declarations; they are not a fixed reference1.
+
+A private installed/native control compares32 children from both explosion
+programs at birth, first callback and actual one-shot placement:5,664 selected
+words, plus launch speed, reference selectors and constructor/final-stream RNG.
+All agree. Source resources, original memory/pools, clocks, quality and math mode
+are supplied boundaries. The canonical ordinary-preparation tail now calls this
+same placement helper, but the control exercises direct callbacks/helper calls;
+it does not validate the complete native world walk or preparation schedule.
+The missing-provider control deliberately fails the next physical callback and
+retains failure. A further supplied-static-world control now exercises three
+full original physical callbacks for each child against the actual Story2
+terrain. All96 callbacks match6,720 selected words, including current/previous
+velocity, contact plane, floor and inline forces. Thirty-two callbacks reach
+ground contact; the remaining64 are airborne. This exposed and corrected the
+timed adapter's friction/damping field selection; the shared gravity kernel is
+unchanged. The post-gravity contact tail uses the existing velocity-target force
+kernel with actual payload parameters and contact flags, after completed motion,
+ground query and gravity, once per callback. It supplies no synthetic contact.
+The common static-world adapter now binds that required tail. This control uses
+supplied clocks, static/no-ripple terrain preparation and direct callbacks; it
+does not certify the complete world/preparation schedule or object population.
+Live mixed-program scheduling, graphics, damage and retirement still block impact.
+No new PS2 attribution, executable or rendered encounter is established here.
+
+Enemy projectile impact preparation now has a typed mode8 entry. The PC request
+mode selects positional input; it is not context flag8 and supplies no inherited
+flags in this profile. An original mode8 control, with an explicit supplied
+camera/quality boundary, reproduces the same source construction and96 physical
+callbacks. Canonical preparation still requires normal/lite selection to resolve
+to the same actual entry; it invents no camera/load state. This prepares only the
+context. It does not acknowledge mixed-program execution, render or damage.
+
+The combined main/NPC local build `0fd1cccbe5e736e57c408e87d9cf822a5fc67f14`,
+executable SHA256
+`121abb1e325a21b7ce697bce359110df6b24c6338de6cd929ffba32d6f8d33f3`,
+passes the supplied-input first-flight GPU check after the main mission/FX merge.
+It exits0 after4,521 steps, with1,681.1061 units of normal Mecc movement; the real
+class232 shot starts at4489 and reaches captured draw revision32 at4520.
+The reviewed image shows Mecc facing the Ripper and its projectile, with no
+audio failure or component quarantine in this bounded run. Its private capture
+SHA256 is `d70ce5022e7a2c19565fd78a74ca1fe189c1988acdef5c4fef4e10d61bdc29c7`.
+The preceding combined build `e764b7c` failed with audio backlog and no capture.
+Only the diagnostic pilot's supplied RMB release/refuel and hover thresholds
+changed; the ordinary jet, audio budget, NPC state and readiness rules did not.
+This is muted Vulkan with supplied commands, not Windows input, impact/damage,
+death or menu/re-entry acceptance. It does not establish full combat availability
+or a published preview. The earlier evidence below retains its original scope.
+
+An earlier supplied-input GPU attempt (`a450206`, local executable SHA256 prefix
+`19f651e9a211`) failed without a capture. A mixed positional-audio backlog closed
+the backend before the NPC impact adapters refused the missing audio ticket.
+The latter error is a consequence, not permission to acknowledge an empty sink.
+The audio queue now batches consecutive already-prepared one-shot cues, retaining
+each cue, position, RNG order and real-sink start requirement. Cold/looping cues,
+actor/control commands and ticket boundaries still stop batching. The 256-request
+failure cap remains.
+
+The fresh GNU build `a6c99c71a447bd385a41e3d2dc4828f3fd8c5a1f`, executable SHA256
+`004165cacc0f1abbf612891399b293e70b5cbc3cc6e4de08254a6e28b86adb0d`,
+finishes the same guarded GPU approach with exit0. It submits the actual five
+Rippers and fourteen Vimps, observes a canonical class232 projectile at step4343,
+then captures its draw revision32 at step4374. Supplied normal Mecc commands move
+the player 1,518.7316 units over 4,375 steps. The reviewed 1920x1080 image shows
+Mecc, a Ripper and its small blue/purple projectile ahead in the ordinary terrain.
+No audio failure or NPC quarantine is logged in this bounded run. The retained
+private image SHA256 is
+`361bdbfb5e3c772ea5b17b5efa46cc2e1c5f20d4b8714c0a009c1f7b3d8023e3`.
+Original assets and evidence remain private. This is supplied-input, muted Vulkan
+render evidence before impact, with no Windows input, inflicted damage, Ripper
+death or menu/re-entry acceptance. It is not a published preview. Genuine radial
+active-hit health/feedback and remaining contact consumers were the next gaps.
+The missed-ground host above supersedes that ground-impact refusal; it does not
+substitute an empty sink for genuine damage.
+
+The next radial bridge now reads the actual first additional Session list,
+retaining its registration node across callbacks and reading the next edge
+afterward. It does not iterate common list0 or take a frozen actor census. Its
+live actor view uses current header positions/flags/context and acquired health
+owners for Mecc, Rippers and Vimps. Missing health stays absent and is refused if
+the eligibility path needs it; it never becomes an invented zero or dead actor.
+An actual state6 impact request must match the owned payload parameters, position,
+phase and launch context. Real Vimp signal stores precede the mandatory hit
+consumer. A late hit error retains those stores and the single-use failure latch.
+
+The installed Vimp/list/signal control passes with an explicitly failing captured
+hit consumer; it proves that failure is not acknowledged as damage. The Wife
+two-ticket first-flight control reads actual Mecc/Ripper health and inventories
+the dedicated list. Its initial inventory exposed additional authored state0
+recipients without a generic header-health owner. A separate exact-PC control
+executes real generic pool allocation/zeroing, class/state copies and insertion:
+18 cases retain zero accumulated damage despite poisoned free storage and varied
+template damage/limits. The state0 class selection and limits are supplied;
+outer allocation/archive choice/math mode remain control boundaries. This is
+constructor evidence, not a damage callback or native mission run. Ordinary
+state0 construction now retains that independent header once before publication;
+reads use current damage and class limit and never supply zero for missing data.
+Other unowned state families, the actual cross-context global producer and
+attributed Mecc hit/feedback services still require connection before ordinary
+explosions. No new graphical or complete encounter acceptance is claimed for
+this intermediate bridge.
+
+The marker's generic header health is now owned too: its actual constructor and
+69 retained PC frames keep zero accumulated damage. The private historical
+`state0_damage` field is now the shared passive header owner, not a value created
+when health is queried. A living, unmarked state0 recipient has no hurt callback;
+class219/state48 uses an empty shared PC callback. In this explicit single-player
+profile, the complete wrapper's kill/counter tail is also inactive. The bounded
+no-effect result is invariant under either wrapper guard. Thirty-two original
+wrapper controls cover both recipient states, positive/negative amounts,
+source presence and both guards, preserving every recipient header byte; the
+empty callback and real tail are observed executing. The marker header is from
+actual construction; source/impact inputs and the SP mode are supplied.
+
+`Session::enemy_radial_passive_no_effect_singleplayer` validates the actual
+canonical impact source and this living passive profile. It neither assigns an
+unknown global nor supplies an empty hit backend for active/dead recipients.
+Other recipients return a requirement for their real consumer; absent/foreign
+sources and missing health remain errors. This does not complete ordinary damage.
+The next impact dependency also includes the real mixed explosion FX program:
+six source root bodies, nested debris and still-unbound operations must use the
+common canonical effect families. An attached preparation or one supported
+sprite cannot acknowledge that whole program. Main's effect and mission services
+are now preserved in this lane's baseline; the published preview receipt remains
+the main lane's unchanged artifact.
+
+The construction ledger now retains the source-ordered UV-scroll and vertical-
+fade setup as pending renderer commands, without consuming random samples or
+collapsing repeats. This lets both actual explosion programs be inspected through
+their delayed second phases and nested debris. All referenced class templates
+load through the canonical effect-template validator. No constructor or callback
+is acknowledged by this inspection: the visual-preview, surface and ground
+consumers explicitly refuse these unbound renderer services. Ordinary impact
+admission still requires the live canonical program, body, render and retirement
+owners; this ledger is not their replacement.
+
+One supplied-seed PC control per explosion now executes original named
+preparation and the first activation through its actual nested child constructors,
+stopping at the source wait. The medium and large programs construct16 and26
+bodies respectively. Their ordered classes, final RNG and126 source-configured
+size/duration words agree with the Rust ledger. Source indexes, outer memory,
+textures, free pools, positional origin, quality, TLS/seed17 and math mode are
+supplied. Earlier harness stack/budget failures remain retained privately.
+This bounded constructor comparison does not cover service failure prefixes,
+callbacks, the delayed phase, canonical Session adoption, vertex rendering,
+contacts, damage or an ordinary encounter. It confirms no new PS2 attribution.
+
+The source3 scroll/fade frame now has a bounded timed constructor that validates
+its actual record offset, complete source image/program, class and positional
+context. It does not consume the mixed context or create its siblings. The
+ordinary canonical timed owner can retain its UV/fade parameters; Session
+accessors read that same owner. UV advances in the actual payload and the
+single fade segment uses typed dynamic ownership, without a fabricated native
+pointer. Updates run before ANM on visible callbacks, skipping the first,
+inactive and expired cases. Equality with the fade duration remains active,
+including a zero delta, until a later positive delta passes it. The existing
+single-segment kernel previously retired at equality and is corrected.
+These current parameters do not acknowledge vertex-buffer use or make the whole
+explosion available. General ledger preview/surface/ground paths keep refusing
+their unbound renderer needs; multiple fade segments remain outside this owner.
+
+The original direct callback comparison covers176 frames across both source
+explosions, steady deltas and exact-duration/zero-delta boundaries. Twelve selected
+current words per frame agree with the canonical Session body: control flags,
+age, UV, fade time/values/active state, scale, transparency and response/render
+flags. Four real retirement requests deliberately reach a failing required
+consumer; the canonical owners retain failure, remain unmarked and refuse replay.
+Complete null-object preparation now admits these two source frames and preserves
+their observed RNG result without preparing immediate children early. These are
+supplied-resource/clock CPU controls, not the world schedule, vertex consumer,
+actual deletion, reciprocal combat or graphical acceptance of an explosion.
+
+`Timed::mixed_root_object` now constructs each acquired positional root prefix
+from its actual source offset and whole-program identity. It supports the fixed
+height/size root, ranged-size gravity roots, the scroll/fade body and the hidden
+carrier prefix. Hidden ownership is explicit: the source render mark is retained
+through the first callback, rather than making ordinary visible bodies accept
+that mark. It creates neither the carrier's required immediate children nor a
+wait acknowledgement, and does not consume the shared context.
+
+Twelve root snapshots across both explosions, including the actual delayed
+class814, match708 selected PC words: flags, pose/history, affine, size/lifetime,
+fade configuration and physical storage. The per-root RNG inputs are observed
+at native constructor boundaries after preceding children; those children are
+not emulated by this fixture. All42 initial native constructors preserve their
+incoming RNG; the configured ranged-size samples produce the observed suffixes.
+The original context wrapper also confirms suspension on zero/half steps and
+resumption at the exact wait deadline, creating class814 and returning its real
+context to the free list. A previous harness incorrectly assumed a strict
+deadline and reused an already retired context; that failed attempt is retained.
+The existing construction cursor's deadline rule already agrees and is unchanged.
+Their twelve first direct callbacks also match another708 selected words,
+including the hidden carrier's retained mark and the visible roots' ordinary
+first-frame transition. Physical, gravity and retirement services deliberately
+refuse calls in that first-frame fixture; none is acknowledged as available.
+This is root construction/context evidence, not whole canonical execution,
+ordinary physical callbacks, child reference placement, rendering or damage.
+
+The NPC lane stages a separate declaration-bound Ripper component in ordinary
+mission loading. The Wife has five canonical mission declarations: four class73
+and one class230, all state23. The component retains their exact source placement
+and Session identity; it does not create a replacement population. Binding
+refuses missing, duplicate, substituted, foreign-ticket or retired owners.
+Other maps are selected by their declarations rather than a world-name switch.
+An installed census control binds each of the first five Story2 scenarios;
+their class73/class230 counts are respectively 7/4, 4/1, 7/1, 2/0 and 2/1.
+These are authored declaration counts, not active or rendered populations.
+
+Normal loading now also prepares each bound Ripper's actual affine, source
+geometry/terrain environment and cold finalization/motion ownership against the
+selected mission world. This starts no history, callback or animation clock.
+Initialization records failures and refuses a whole-component retry after a
+partial attempt. The Wife installed control preserves all five authored poses
+through this preparation and verifies idle owners over two fresh tickets.
+
+This binding alone admits no callbacks, completed pose, contact or gameplay.
+The first installed control covers constructor identities and two-ticket
+retirement/re-entry, without rendering or Windows input. The class230 owned
+primary now also has its mode62/63/64 continuations: current-channel completion
+drives the transition to63, whose actual class radii select the next mode.
+Target loss retains the required cue and failure latch. These use their own
+steering precision without class73 speed restoration or dirt retirement.
+A read-only exact-PC control agrees on 120 consecutive mode62/63 callback outputs
+(2,040 words before common motion), including the selection of mode65. Terrain,
+peer eligibility/placement, clocks and absent audio registry are supplied in
+that diagnostic; it is not an ordinary encounter.
+
+A second control supplies a peer position change after actual target acquisition
+and compares 123 selected mode62/63/64 outputs (2,091 words, including three
+mode64 callbacks). Direct pursuit retains the source destination and personality,
+uses the acquired angle helper's narrowed return, and enters65 at the actual
+fire radius. This is a diagnostic peer input, not forced Ripper motion or a
+substitute for ordinary player interaction.
+
+The class230 mode65 primary now selects the actual firing clock crossing,
+target-centre height and class-specific launch/decision parameters. Its owned
+Session caller reads target dimensions from current identities and uses the
+shared state6 projectile factory, effect preparation, positional audio request
+and current animated muzzle reference. The exact-PC sequence agrees on 180
+selected non-firing callbacks / 3,420 words (including sixty mode65 callbacks).
+One actual native firing callback is excluded from that numerical comparison;
+the installed launch control separately checks real class232/state6 construction,
+prepared named FX, reference-derived launch, source ownership and retained late
+sound failure without another creation or RNG replay. Its mode65/channel and
+flat world are explicit diagnostic inputs and audio is suppressed. Prepared FX
+does not establish visible projectile effects or impact damage. Mode66/71 and ordinary firing/flight are now connected below; later attack
+continuations, impact reactions and reciprocal combat remain prerequisites.
+
+Actual declared Rippers retain recipient flag400. Exact-PC attached preparation
+maps that flag into context flag10000 while preserving the extended caller's
+existing flag20000, recipient and tag. The shared context pool now retains this
+metadata instead of refusing these declarations. Native controls of the same
+dirt request with and without flag400 produce context flags30004 and20004;
+the inherited bit introduces no extra random draw. This prepares a context only:
+effect activation, emitted objects, particles and their renderer remain separate
+services. The prototype PS2 `fx_create` correspondence is unknown.
+
+The next delivery is the normal menu-to-The Wife encounter, reusing the shared
+Mecc/Session clock, RNG, terrain, render, audio and retirement contracts. Missing
+class230 continuations, contacts, reciprocal
+combat and source-specific death services remain prerequisites. No Vimp ghost
+or meat behavior is copied. Main retains mission progression and publication.
+The prototype PS2 `ripper_move` attribution is unknown; see
+[symbol navigation](SYMBOL_NAVIGATION.md) and the central reconstruction method.
+
+### Ordinary Ripper frame and pose consumer
+
+The NPC branch now connects a bounded Ripper component to the ordinary partial
+Mecc controller, independently of herd availability. It uses canonical declared
+identities, current published Mecc motion and source camera, Session health,
+shared mission clock/slow areas and the existing mission RNG. Cohort position
+histories precede callbacks in current common-list order. Primary commands feed
+ordinary motion, secondary selection, ANM references/events, terrain/object
+finalization and current environment geometry. No supplied velocity or behavior
+mode replaces the primary. Its animation stamp is component-scoped; complete
+native world ordering and random-stream interleaving remain unverified.
+
+The common NPC renderer copies model-zero vertices only after successful world
+iteration and finalization, retaining the actual animation epoch and affine.
+The RGB body route now accepts class73/230 after resource validation. Cold or
+failed frames supply no draw. Late ANM failures retain consumed clocks/events
+and cannot replay or finalize as successful. A Ripper component/draw failure is
+reported and quarantined independently of Vimps. Prior audio transport requests
+survive a late callback refusal; queue submission does not establish a voice.
+
+The admitted ordinary primary subset is class73 modes0/31/32/33/34/44 and
+37/38/39, plus class230 modes0/61/62/63/64/65/66/67/68/71. Mode66 consumes actual object
+local time and its source retreat decision. Mode71 follows the current animation
+and marks only the actual class219 child when required; its common child frame
+and retirement batch still own release and unlinking. The acquired secondary
+selector also admits mode68/69 selected by the acquired mode67 primary; the
+mode68 kind3 hurt consumer and mode69 primary continuation remain required.
+
+The persistent projectile factory retains actual mission resources/templates
+across births. Ordinary launch uses real attached-FX preparation, positional
+sound submission and the current animated muzzle for class90/232. A shot receives
+real initial radius/terrain preparation and advances against the current scene.
+Its animation/draw, actual contact reactions and damage remain required. Contacts
+and expiry stay pending instead of receiving a default successful reaction.
+Earlier creations, preparations and sound requests remain consumed on refusal;
+component quarantine prevents replay. Other primary modes still refuse.
+Perception currently admits the actual controlled Mecc subset; other families
+are not represented by invented current providers. Dirt/event contexts can be
+prepared but have no active effect/particle scheduling here. Reciprocal combat,
+source death and cleanup remain required before claiming a playable encounter.
+
+An installed-data control runs 180 supplied stationary-player frames on each
+of two fresh The Wife tickets. All five actors complete their frames and supply
+five nonempty class73/230 poses to the common CPU draw consumer. Repeated clock
+samples consume no additional RNG and repeated ANM consumption is refused.
+Source terrain and the controller's actual rigid colliders are used. This is a
+Rust composition control, without original execution, GPU or Windows input.
+Thirty further frames exercise the common headless Bevy asset consumer, changed
+animated vertices, buffer reuse, camera hiding/restoration and cleanup. The
+acquired untextured diffuse parts use the same unit texture/source-RGB path as
+cinematic bodies; a missing named image is still refused. The first Windows
+attempt on source `5fefde0` exposed this missing null-texture binding and did not
+establish Ripper rendering or encounter acceptance.
+The prototype PS2 `ripper_animselect` candidate for the acquired PC secondary
+callback remains **unknown**, separately from this implementation result.
+
+The ordinary controller now also merges completed Ripper contact submissions
+with Vimps in actual Session common-list order. The shared `actor_contacts`
+packet retains `vimp_contacts::Snapshot` as an alias. Dedicated collision-model
+selection, current ANM vertex buffer, affine and acquired animation bounds feed
+the existing player ellipsoid and projectile segment consumers; render LOD or
+constructor meshes are not substitutes. Cold, foreign, zero-number, unfinished
+or failed frames refuse. Markers never enter this body-contact population.
+Stable scene keys retain separate typed actor identity and source class, and
+family quarantine clears that family's stale shapes while retaining the other.
+Ripper admission follows actual declarations without a map-name switch.
+
+The exact PC common collision-event dispatcher has absent entries for states2,
+21 and23. Three native calls independently return zero; this supports the
+unchanged common event response for these admitted families, not other NPCs or
+whole-world parity. The installed four The Wife controls cover both classes,
+source-face segment intersections, shared scene registration, incomplete-history
+refusal and two-ticket lifecycle. The existing Vimp contact/re-entry regression
+passes after extracting the shared collision geometry consumer.
+
+The named ignored diagnostic `diagnostic_wife_ripper_supplied_approach_reaches_contact`
+drives the actual Mecc controller/terrain/collision path toward a current Ripper.
+It supplies player commands only, without assigning an NPC pose, mode, target,
+health or readiness. The first run advanced the player approximately 1,502 units
+before class230 selected mode65 and the old ordinary dispatcher refused it.
+With the launch consumer, the same approach creates class232 at step2618 after
+approximately1,517 units. The current-scene flight consumer now advances the
+shot with actual history, rates and lifetime. With mode66 and mode71 connected,
+the approach reaches step2755 after approximately1,593 units of player movement.
+After137 flying samples, its next query returns a real ground contact. The
+then-missing impact/damage/retirement continuation refused and remained pending.
+That historical frontier is now superseded by the ordinary missed-shot host and
+physical-contact control above. The longer encounter's current frontier is
+the class230 mode68 kind3 hurt request after mode67, rather than this earlier terrain contact; injury, death and GPU fidelity
+remain unverified.
+
+The ordinary controller now publishes a Mecc dedicated-contact packet through
+`Session::controlled_mecc_contact_snapshot` before the Ripper component, using
+its actual selected clip/tree and clock. The Session
+validates canonical class2 ownership and the contiguous current physics step,
+checks the prepared descriptor, runs its real affine writer, deforms collision
+model6 (`mc_l6`) through its own binding and computes source animation bounds.
+It does not change native ANM channels, health or environment readiness. Resource
+ownership, foreign/stale steps, mismatched descriptors/trees and nonfinite time
+refuse; failed publication clears the previous packet. Installed controls also
+cross a current dedicated-model face with the shared segment consumer. The
+flight consumer requires this actual packet rather than a render model0, box,
+invented global vertex epoch or ready result. The ordinary scene now combines
+actual prepared rigid declaration geometry, the current Mecc packet and current
+completed Vimp/Ripper packets. Static source keys remain distinct from Session
+actor identities. Query keys retain the controller registry; admitted NPCs retain
+the common list order within the partial cohort. This is not complete native
+population, interleaving, live static-object simulation or damage availability.
+
+`Session::advance_enemy_projectile_singleplayer_scene` shares state6 arithmetic,
+terrain/object queries, history and pending-contact publication with the existing
+owned-list route. It validates actual resident flags/parents before publishing
+motion. Declaration hits retain a typed declaration target; neither a fabricated
+actor serial nor a global vertex epoch is required. Ground/object contacts and
+expiry remain pending for their required reactions. There is no placeholder
+impact provider, acknowledged clear world, damage or retirement success. The
+legacy owned-list API retains its immediate real ground-service/countdown order.
+A failed peer geometry producer is retained as an error until an actual shot
+needs it; it cannot become an empty scene or suppress unrelated Ripper frames.
+
+The next impact dependency is now independently acquired as `radial_damage`.
+It retains the actual ordered list traversal, context gate, four special-state
+predicates, active/health filters, stored 3D distance and radius arithmetic,
+strict Vimp-alert range and kind2 hit requests with the original point/tag. The
+eligible `other` identity ends the entire traversal, including outside hit range;
+an ineligible `other` does not. A zero slope returns before any world access.
+Callbacks read subsequent actors live, and callback failure retains its prefix
+and forbids replay. No default list, health, alert or hit provider is supplied.
+
+Private exact-PC traversal controls cover1,692 cases and689 outgoing requests
+with no differences, including radius boundaries, special states, contexts,
+health, list early return, 3D separation and zero slope. The four predicates
+were separately executed for all state values0..255. Actor headers, list/world
+inputs and outgoing capture-return sinks are explicit fixtures. These results
+validate requests and arithmetic, not applied damage or ordinary world coverage.
+Literal prototype PS2 search routes `hurt_object_do_multi` and `hurt_object`
+remain unknown correspondences; raw symbols and old PC aliases stay in private
+identity-bound records. No platform ABI/layout is transferred.
+
+`Session::record_vimp_radial_signal` supplies the separately acquired recipient
+writer: it copies a canonical source actor's actual current origin and the
+already-produced world elapsed time into the Vimp signal payload. The native
+writer changes only four words across64 controlled cases; an installed control
+checks real constructors, zero time, other-state preservation and foreign/retired
+source refusal. A zero clock stays zero; no invented timeout or forced movement
+substitutes for the later living response. The writer changes no mode, channels,
+health, RNG or readiness. Its prototype relationship is still unassigned.
+
+The current normal Mecc contact packet additionally carries the actual radial
+impulse center: the selected ANM auxiliary box's midpoint transformed by the
+current actor affine. A missing auxiliary descriptor uses the actor origin,
+not a primary/render-mesh box or the center of a world AABB. Original PC impulse
+and transform executions match512 supplied box/cache/impact cases and3,072 center/
+velocity words. These are geometry/arithmetic controls, not applied health.
+
+The PC Mecc callback entry is now established by an actual indirect dispatch
+trace. `mecc_hit_source::singleplayer` reproduces its nonnegative-hit source gate,
+including one owner dereference, state2/44 context filtering and exact self-source
+exceptions. Private original-callback controls match1,536 cases /3,072 words under
+explicit inactive gates/equipment/voice fixtures. A denied health change still
+requires the callback's remaining flags, impulse and feedback; never drop a hit
+because this arithmetic gate is false. Multiplayer policy is not admitted here.
+`Session::enemy_projectile_mecc_source` validates an actual class90/232 shot and
+its current canonical Ripper owner against a real Mecc recipient. The two-ticket
+Wife flight control checks that relation and rejects foreign or non-Mecc IDs.
+It does not apply damage or publish associated-player retaliation. The literal
+prototype key `mecc_shot` remains an unknown correspondence; old PC aliases and
+raw-symbol uncertainty are retained privately.
+
+These dependencies do not yet provide genuine active hits. The ordinary missed
+shot now composes named FX, actual radial no-effect proof, sound transport and
+retirement; a possible alert or hit still requires canonical list/health and
+attributed Mecc/Vimp/Ripper consumers.
+The existing source-absent/nonlethal Mecc service cannot stand in for an attributed,
+directional kind2 blast, and partial-pistol serials cannot become canonical native
+projectiles merely to attach a damage source. GPU reciprocal combat/death remain
+required. The main lane's mission objective and publication flow are unchanged.
+
+After a successful flight, `Session::advance_enemy_projectile_presentation`
+consumes its actual object-local clock and launch-owned rates, advances source
+ANM channels with the composing component's persistent stamp and runs the shared
+current-affine writer. A per-flight revision rejects duplicate or skipped passes;
+a late cache failure retains the clock prefix and latches replay. Draws validate
+that revision and affine, then copy source-skinned vertices immediately. They
+use the common transparent/additive auxiliary material program, not an opaque
+body substitute. The actual class90/232 specifications have no animation events
+or references; changed specifications requiring those services are refused.
+This scoped contract does not claim generic actor-world finalization, effects,
+impact readiness, damage, retirement or complete native scheduling.
+
+An independent exact-PC control matches the shared clock/affine kernels on99
+non-retiring source-created projectile frames:3,564 channel words and1,683 affine
+words with no difference. Its native flat-world and peer services are supplied;
+it is not graphical or ordinary encounter acceptance. Prototype PS2 animation
+and location search records are retained with their separate attribution scope;
+no new function relationship or platform signature is confirmed.
+
+The installed `source_wife_ripper_launch_flies_against_current_scene` control
+uses the same ordinary supplied-input approach on two fresh tickets, stopping
+after a real class232 flight sample changes position/history and decreases
+lifetime. It also checks source ANM/affine draw submission, duplicate-clock
+refusal, actual mesh movement on the next runtime step and renderer asset cleanup. Its fixture admits four actual rigid declarations, the controlled Mecc
+and five Rippers; it does not stage the Vimp component. This CPU control neither
+proves a graphical shot nor expands admission to the whole native world.
+The separate full-contact diagnostic continues beyond that first sample and
+now consumes the actual missed ground impact and reaches physical actor contact.
+That earlier longer encounter stopped at class230 mode67. Neither control establishes
+reciprocal damage or source death.
+
+Class230 mode66 preserves strict expiry before the rounded timer store,
+current-target range boundaries, the cue-before-retreat-delay order and the
+shared game RNG. A private exact-PC control matches485 selected callback
+snapshots (9,215 state words plus24 sound-request words), including no-target,
+zero-clock and boundary fixtures. Mode71 matches86 snapshots (1,634 state words,
+86 marker-mode words and8 sound-request words): the strict animation threshold,
+absent/different-class marker, actual marker mark and animation completion.
+These controls use supplied peer/clock/flat-world inputs and captured sound,
+not a live native world or audio-fidelity proof. No prototype PS2 attribution
+is promoted by these PC comparisons.
+
+The installed `source_variant_retreat_marks_owned_child_without_acknowledging_cleanup`
+control uses actual class230/219 constructors with explicit mode71/clock inputs.
+It checks the real reciprocal relation, marking without channel/retirement
+advancement, non-marker/absent relations, late sound failure and no replay.
+It does not establish natural marker retirement during an ordinary encounter.
+Current source passes1000 Rust tests /180 ignored, five installed `source_wife_`
+controls, the additional owned-retreat and radial-signal controls,45 Python tests and strict
+Clippy/format checks. The full-contact diagnostic's pending-ground failure remains
+separate; no rendered combat availability follows from these counts.
+Ripper projectile models (`ripspit` / `ripspitbig`) also exist; preparation alone
+does not establish their draw, movement or impacts. Source naming remains separate:
+no new prototype PS2 attribution is confirmed by this input diagnostic.
+
+A Ripper selected by the ordinary partial pistol is identified and reports the
+missing damage consumer without dispatching to the Vimp backend or inventing a
+health change. Physical geometry and target selection do not deliver injury,
+knockback, blood, death or kill credit. Those consumers, GPU projectile acceptance, remaining attack modes
+and a rendered reciprocal encounter remain required; `ripper_shot` remains an
+unknown prototype PS2 search candidate for the separately acquired damage work.
+
+The surfacing consumer now uses the real popup preparation, owned motion reset
+and persistent class219/state48 factory, including the class230 marker birth.
+The factory preserves one immutable specification/event identity across births;
+the child event namespace must match its actual context pool. Its new owned
+world consumer retains copied newborn history, then separate subsequent history,
+primary, secondary, ANM references/events, finalization and current affine. Late
+failures prohibit replay or interleaving isolated marker updates. The common
+renderer consumes completed marker poses through the acquired RGB body route.
+The component runs its Ripper cohort then its owned marker cohort; complete
+native world interleaving and newborn admission remain unverified.
+
+A private exact-PC control executes 69 actual marker primary/secondary/full ANM
+and finalization iterations through retirement marking. Rust agrees on 3,519
+selected mode/timer/flag/channel and position/history words. The parent birth
+pose, flat world, clock, enabled blending and one parent motion command are
+supplied. This is not a whole-header, reference-matrix, renderer or mission
+comparison. Installed controls additionally cover disabled/enabled blending,
+current animated geometry, late-finalization failure and replay refusal.
+An explicit two-child constructor fixture in The Wife checks shared event/model
+ownership and seven common headless Bevy visual owners across two tickets.
+It does not prove natural awakening, OS interaction or a complete encounter.
+The ordinary partial scene retains its disabled-blending policy.
+
+Completed, marked state48 children now have bounded individual retirement.
+The acquired PC reference pass clears the owner's callback link before object
+data/registration release. The owned consumer first validates the whole selected
+cohort and clears all those references in actual common-list order, then invokes
+the real recipient-context/audio release services, revalidates and removes each
+child's three registrations, state/specification and resident. It also clears
+the Rust primary machine's alias; the native retired pool may retain old bytes.
+No source actor death is implied. An external-release failure retains consumed
+reference changes, quarantines surviving owners and prohibits replay. The common
+renderer removes retired child assets while preserving the parents and unrelated
+entities; shared resources remain ticket-owned. Only the acquired eventless,
+payloadless state48 child and its exact reciprocal relation are admitted, with
+no global death cascade or copied Vimp ghost/meat behavior.
+
+The installed ordinary-component control uses two explicit children and supplied
+parent common-motion/finalization, then 500 further real component frames on each
+of two tickets. It observes both reference clears before the first test release,
+two residents/six registrations removed, seven headless visual owners reduced to
+five, retired mesh/image/material removal and an unrelated entity preserved.
+The isolated world control separately checks external-release failure and no
+replay. Neither control establishes natural awakening or actual device/GPU input.
+Workspace validation: 987 Rust tests passed / 176 ignored, 45 Python tests passed,
+strict all-target Clippy and formatting passed.
+
+Active popup/dirt effects, reciprocal damage and source death remain
+prerequisites; the ordinary firing/flight path is connected above. The marker's prototype PS2 attribution remains
+unassigned: literal `mound_move`, `mound_animselect` and `mound_shot` are additional
+search candidates, not confirmations. Generic cleanup names also remain unknown;
+see [SYMBOL_NAVIGATION.md](SYMBOL_NAVIGATION.md).
+
+The animated-projectile local GNU build is source
+`83aade9bb5db5b0f5d5dfe5ccd444cb491a669fc`, executable SHA256
+`ad3b4d88384dcc85c623df72b0cad98dd94486e32a527e42d26f065d2dd5e488`.
+The receipt and executable digest were independently checked. It includes the
+flight-owned ANM/affine and source-skinned auxiliary draw consumer described above.
+The five installed The Wife controls pass, including two-ticket first-flight
+mesh/material update and renderer cleanup. On that earlier executable the supplied
+full-contact diagnostic failed at the pending terrain contact at step2755 after137
+flying samples. The newer missed-shot host above supersedes that CPU frontier;
+clocks and drawing alone do not substitute for impact services. There is no
+new GPU projectile/reciprocal encounter acceptance or published preview.
+Use **Load Single Player Game → Mecc Story 2 → The Wife** with the ordinary
+controls; neither AI nor projectile presentation needs a diagnostic flag.
+
+The cooldown/retreat local GNU build is source
+`857b59168c0664c109e299a919eec622fa02c049`, executable SHA256
+`8c0d5cad92cfec682e8f3ab723a4c2542e6d650c1138871ca26fa68168968ba5`.
+Its receipt and executable digest were independently checked. It includes the
+current-scene flight consumer and class230 modes66/71. Use the same ordinary
+menu path below. It has no new GPU encounter verification: the supplied-input
+full-contact diagnostic stops at a real pending terrain contact after137 flying
+samples at step2755. Projectile animation/draw and genuine impact, reciprocal
+damage and death consumers remain prerequisites. The earlier flight-only build
+was source `225f6fa3ece4b2545745410e41a3d8a103c6e80f`, executable SHA256
+`b0f1d23f2929b0615137a8016f0c6920ea9fc71b765cfb97da931d8b22041381`.
+Neither local build is a published preview or complete encounter acceptance.
+
+The latest GPU-checked local build is source `8e5d72b004f7da6c7e92e215d8907b4be0c1cd8b`,
+executable SHA256
+`865d6ad15293710bc14cc80d798aff819cb26104a7f04f1d77f6c84eef5a5c78`.
+This build predates the current-scene flight consumer. The GNU receipt was
+independently checked. Its ordinary launch and normal-Mecc
+contact producer are compiled; the exact-name supplied-input diagnostic still
+fails at the ordered static/NPC scene/flight boundary. At step2618 it uses the
+actual moving controller clip2/tick2839 and current dedicated geometry. No
+projectile flight, reciprocal combat or death is accepted by this diagnostic.
+Standard validation passes 987 Rust tests with 177 ignored, four installed
+`source_wife_` controls, 45 Python tests and strict Clippy/formatting; the failing
+approach diagnostic is separate from those passing results.
+
+Actual Windows input on that executable enters The Wife through Load Single
+Player Game / Mecc Story2 / The Wife, skips the first opening with Escape,
+sends a movement tap and brief right-click, returns to the menu and enters
+The Wife again. The second four-director opening reaches its natural source end
+before the ordinary Mecc is observed. Tickets1/5 each submit nineteen current
+body/contact packets (fourteen Vimps and five Rippers), without a Ripper/contact
+refusal. An intermediate selection also opens The Road Home on ticket3 with
+twenty-two packets (fourteen/eight); this is admission, not mission completion.
+All three Sessions release to zero entities; F10 closes the owned test process.
+Audio is muted. These are menu/render/re-entry checks, not a close-up Ripper
+encounter, held flight, visible projectile, reciprocal damage or death test.
+No new screenshot is published and no competing preview is released.
+
+Earlier source-only deformation checks cover model6 across sixteen normal Mecc
+clips at eighty supplied times. The new ordinary contact producer uses the same
+prepared bindings with the actual controller sample; it does not acknowledge a
+complete native state2 callback or whole-world vertex scheduling.
+Both projectile models are skinned with an animation descriptor; static or bind
+vertices cannot substitute for their animation. Some current rigid-scene entries
+have declaration identities without constructed Session actors. Preserve those
+distinct source keys rather than inventing canonical actor IDs for flight hits.
+
+The earlier contact-only local GNU executable,
+is built from source `c6e363c5a478bb89097970a38d28626d50e1b688`, SHA256
+`803f9ac4a956f69af3b4fc8eb226d1fca85821d2d0946bdfdd8e014fa002f3d8`.
+Its private build receipt was independently hash-checked. Use the ordinary
+**Load Single Player Game → Mecc Story 2 → The Wife** path, then let the film
+finish or use Escape to skip; Escape in gameplay returns to the mission menu.
+No script or Ripper activation variable is required. This is a local development
+build, with the incomplete continuations above, not a public preview.
+
+Actual Windows clicks/Escape entered The Wife twice (fresh tickets1/3), displayed
+ordinary Mecc gameplay, returned to the mission menu and re-entered. The first
+opening was skipped; the second rendered all four directors and resumed Mecc
+naturally. A real movement tap was supplied; F10 exited and process/window closure
+was checked. Each entry submitted five completed source Rippers plus fourteen
+Vimps both to the GPU body scene and to the current contact registry, without a
+Ripper geometry/contact refusal. This verifies the connected registry, not a
+close-up Ripper view, physical encounter, reciprocal attack/damage or death.
+No natural marker closing/individual retirement was observed on GPU. Sound was
+muted, and active FX consumers remain missing. Initial Ripper sound reservations
+cancelled before playback, separately from the unknown FX scheduling fidelity.
+
+The earlier marker-retirement build `3a3b3ab` / SHA256
+`0fb0d8bcc44f3bf71915e9465cef77d336ff625bb2f7359a23a234b45cc856e4`
+passed its separate ordinary menu/re-entry and body-submission check. It did not
+include the new contact consumer or establish a complete Ripper encounter.
+
+The first executable (`5fefde0`) reached ordinary Mecc gameplay with actual
+Windows clicks/Escape and five completed Ripper actors, but its common renderer
+refused the null-texture part. That failure is retained as a failed graphical
+check. The earlier corrected executable (`0273154`) passed the headless asset consumer; its next
+Windows check was stopped at the menu because another computer-use operation
+was active. That failed attempt does not validate Ripper visibility, reciprocal encounter
+or death. The later `230826c` surfacing build received no Windows/GPU encounter
+check. The current menu/re-entry result above belongs only to the identified
+`c6e363c` executable and retains its encounter limits. No new gallery capture or
+preview was published. The previous loading baseline below remains
+separate evidence.
+
+### Intermediate local loading check
+
+GNU release source `364c3036672de870500d018f23f58a662e0b2fc7` produced executable
+SHA256 `7767186b1ce7b8d12a98ed152b1a5c1693233b2f0f371fc34c48dd30d45fd587`.
+Targeted Windows clicks selected **Load Single Player Game → Mecc Story 2 →
+The Wife** on that executable, with an independent test profile. Two separate
+entries each prepared four class73 and one class230 canonical owners. The first
+opening was skipped with Windows Escape; the second reached its actual source
+terminal and resumed the rendered ordinary Mecc scene. Escape returned each
+entry to the mission menu with zero remaining Bevy entities; F10 closed the game.
+Audio was muted and no replay/probe controller drove this check.
+
+This validates loading and cancellation with the new cold owners. Ripper
+callbacks and rendering remained explicitly inactive. No reciprocal encounter,
+Ripper death, held movement/input acceptance or audible fidelity is established.
+The local build/interaction receipts and logs remain private; no preview was
+published. The common integration lane still owns mission progression/publication.
+
 ## Ordinary Vimp collision, injury and death
 
 Preview .11.3 extends the ordinary Story2 component with completed
@@ -441,7 +1788,9 @@ a testable map.
 
 ## Class230 awakening through the owned primary - source dependency
 
-Story2 stages seven class73 and four class230 actors in state23. The existing
+The initial Story2/Starving record stages seven class73 and four class230 actors
+in state23; The Wife's separate declarations are documented at the top. This
+section retains the earlier awakening acquisition evidence. The existing
 primary machine now also admits class230 mode0/61 through its actual constructor,
 shared entry/perception and motion phases. The older Ripper identifiers remain
 aliases. This adds no whole-world callback admission or playable AI map.
@@ -476,9 +1825,9 @@ observes thirteen destination writes and zero source writes, agreeing with the
 independent PC decompilation. Prototype PS2 lookups remain unknown, with no new
 confirmed attribution or imported signatures/layouts.
 
-Mode62 and subsequent continuations, the spawned state48 callback schedule,
+At that checkpoint, mode62 and subsequent continuations, the spawned state48 callback schedule,
 secondary/ANM/finalization, real player pose/vitals and complete ordered perception,
-actual voice/effect/RNG/clock producers and menu-to-mission interaction remain
+actual voice/effect/RNG/clock producers and menu-to-mission interaction remained
 required. Normal Mecc presentation is not a substitute for an up-to-date owned
 player view. Keep those refusals until main connects and verifies the real owners.
 

@@ -1,4 +1,5 @@
-//! Acquired offline, nonlethal kind-16 damage voice tail. Health is committed by
+//! Acquired offline, nonlethal positive-hit voice tail (kinds0/2/16).
+//! Health is committed by
 //! the caller before entry. A required cue is an external service, not playback.
 use crate::audio_parameters::Random;
 

@@ -124,47 +124,7 @@ impl Session {
             matrix,
             crate::arithmetic::Precision::Double53,
         )?;
-        let slot = specification.metadata.selection.table()?.collision_slot()?;
-        self.prepare_actor_positions(id, slot, completed.animation_epoch, false)?;
-        let local = self
-            .actor_model_positions(id, slot)?
-            .ok_or("Vimp collision positions absent")?;
-        let model = specification
-            .models
-            .get(slot)
-            .and_then(Option::as_ref)
-            .ok_or("Vimp dedicated collision model absent")?;
-        let mut triangles = Vec::new();
-        for (part, object) in model.prepared.mesh.subobjects.iter().enumerate() {
-            for (ordinal, face) in object.triangles.iter().enumerate() {
-                let mut vertices = [[0.; 3]; 3];
-                for (point, &index) in vertices.iter_mut().zip(face) {
-                    let index = *model
-                        .prepared
-                        .mesh
-                        .indices
-                        .get(usize::from(index))
-                        .ok_or("Vimp collision triangle index absent")?;
-                    let position = *local
-                        .get(usize::from(index))
-                        .ok_or("Vimp collision triangle vertex absent")?;
-                    *point = crate::footprint_builder::transform_cached(
-                        matrix,
-                        position,
-                        crate::arithmetic::Precision::Double53,
-                    )?;
-                }
-                triangles.push(crate::player_mesh_contact::Triangle {
-                    vertices,
-                    part: u32::try_from(part).map_err(|_| "Vimp collision part overflow")?,
-                    ordinal: u32::try_from(ordinal)
-                        .map_err(|_| "Vimp collision ordinal overflow")?,
-                });
-            }
-        }
-        let pose =
-            crate::contact_pose::Cached::new(fields.object_flags, affine.flags, affine.matrix)?;
-        let mesh = self.actor_contact_mesh(id, pose)?;
+        let (mesh, triangles) = self.contact_geometry(id, completed.animation_epoch)?;
         Ok(crate::vimp_contacts::Snapshot {
             actor: crate::projectile_contacts::Actor {
                 id,

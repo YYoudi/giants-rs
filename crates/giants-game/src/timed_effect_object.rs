@@ -16,6 +16,9 @@ pub trait Services<K> {
     /// Motion only. The affine store and required gravity phase follow it.
     fn physical(&mut self, object: &mut Initial<K>, seconds: f32) -> Result<(), String>;
     fn gravity(&mut self, object: &mut Initial<K>) -> Result<(), String>;
+    fn particle_contact(&mut self, _: &mut Initial<K>) -> Result<(), String> {
+        Err("particle requires its actual post-gravity ground-contact force owner".into())
+    }
     fn ground_contact(
         &mut self,
         _: &mut Initial<K>,
@@ -50,6 +53,7 @@ pub(crate) struct Body<'a, K> {
     pub velocity: Option<&'a mut [f32; 3]>,
     pub placement: crate::effect_actor::Placement<K>,
     pub render_flags: u32,
+    pub immediate_pending: bool,
 }
 impl<K> Body<'_, K> {
     fn channels(&self) -> &crate::animation_channels::Channels {
@@ -83,12 +87,17 @@ pub(crate) struct Runtime {
     pub retirement: Option<RetirementBinding>,
     pub ground: Option<crate::effect_ground_emission::Source>,
     physical_callback: bool,
-    pub vertical: Option<crate::vertical_fade::Playback>,
     pub source: Arc<Image>,
     durations: Vec<Option<f32>>,
     immutable_words: [u32; 3],
     size_flag: u32,
     side_speed: Option<u32>,
+    pub(crate) render: crate::effect_render_parameters::Parameters,
+    pub(crate) hidden: bool,
+    pub(crate) particle_contact: bool,
+    mixed_draw: bool,
+    immediate_kind: bool,
+    forward_speed: Option<u32>,
 
     pub epoch: u32,
     pub failure: Option<String>,
@@ -112,6 +121,7 @@ pub struct Destruction {
     pub registrations: usize,
 }
 pub struct Timed<K> {
+    pub(crate) immediate: Option<crate::attached_effect_context::Immediate<K>>,
     pub(crate) velocity: Option<[f32; 3]>,
     pub(crate) initial: Initial<K>,
     pub(crate) runtime: Runtime,
@@ -121,6 +131,7 @@ impl<K> Timed<K> {
     /// Move the actual body into another typed owner domain without cloning its
     /// payload, references, callback state or random stream.
     pub(crate) fn map_parent<L>(self, parent: impl FnOnce(K) -> L) -> Timed<L> {
+        let mut parent = Some(parent);
         let placement = match self.initial.placement {
             crate::effect_actor::Placement::Attached {
                 recipient,
@@ -128,7 +139,7 @@ impl<K> Timed<K> {
                 tag,
                 opaque,
             } => crate::effect_actor::Placement::Attached {
-                recipient: parent(recipient),
+                recipient: parent.take().unwrap()(recipient),
                 reference,
                 tag,
                 opaque,
@@ -138,6 +149,13 @@ impl<K> Timed<K> {
             }
         };
         Timed {
+            immediate: self
+                .immediate
+                .map(|binding| crate::attached_effect_context::Immediate {
+                    parent: parent.take().unwrap()(binding.parent),
+                    reference: binding.reference,
+                    own_reference: binding.own_reference,
+                }),
             velocity: self.velocity,
             initial: Initial {
                 origin: self.initial.origin,
@@ -153,6 +171,93 @@ impl<K> Timed<K> {
     }
 }
 impl<K: Copy> Timed<K> {
+    /// One immediate source particle with an owned temporary parent binding.
+    /// First-frame placement and real later contact remain required consumers.
+    pub fn immediate_particle_object(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let record = context
+            .program
+            .as_ref()
+            .map_err(Clone::clone)?
+            .records
+            .first()
+            .ok_or("immediate particle source empty")?;
+        let class = i32::from_le_bytes(
+            record
+                .bytes
+                .get(1..5)
+                .ok_or("immediate particle class absent")?
+                .try_into()
+                .unwrap(),
+        );
+        let template = Template::load(resources, class)?;
+        let configured = template.immediate_particle_object(origin, context, random)?;
+        Self::new(template, configured)
+    }
+    /// Construct only this acquired root prefix. Source children/waits remain
+    /// mandatory work for its composing context; no whole-program acknowledgement.
+    pub fn mixed_root_object(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<K>,
+        offset: usize,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let record = context
+            .program
+            .as_ref()
+            .map_err(Clone::clone)?
+            .records
+            .iter()
+            .find(|r| r.offset == offset && r.opcode == 3)
+            .ok_or("mixed root constructor absent")?;
+        let class = i32::from_le_bytes(
+            record
+                .bytes
+                .get(1..5)
+                .ok_or("mixed root class absent")?
+                .try_into()
+                .unwrap(),
+        );
+        let template = Template::load(resources, class)?;
+        let configured = template.mixed_root_object(origin, context, offset, random)?;
+        Self::new(template, configured)
+    }
+    /// Construct this one verified mixed-program object without consuming the
+    /// context or acknowledging any other object, wait, renderer or world tick.
+    /// Prototype PS2 `fx_move` / `fx_setupUVScrolling` / `fx_setupVerticleFade`
+    /// remain unknown attributions; this binds only the acquired PC frame.
+    pub fn scrolling_vertical_object(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<K>,
+        offset: usize,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        let record = program
+            .records
+            .iter()
+            .find(|r| r.offset == offset && r.opcode == 3)
+            .ok_or("scroll/fade source constructor absent")?;
+        let class = i32::from_le_bytes(
+            record
+                .bytes
+                .get(1..5)
+                .ok_or("scroll/fade class operand absent")?
+                .try_into()
+                .unwrap(),
+        );
+        let template = Template::load(resources, class)?;
+        let configured = template.scrolling_vertical_object(origin, context, offset)?;
+        Self::new(template, configured)
+    }
     /// Stage ownership while the caller retains the context transaction. The
     /// pool's consume method additionally guards and retires its live identity.
     pub fn attached(
@@ -368,7 +473,22 @@ impl<K: Copy> Timed<K> {
             crate::effect_visual::SizeCurve::EaseOut => 0x100000,
             _ => return Err("timed callback size curve outside acquired profile".into()),
         };
-        let side_speed = (initial.fields.control_flags & 0x40 != 0).then(|| word(data, 0xf4));
+        if configured.immediate.is_some()
+            && !matches!(
+                initial.placement,
+                crate::effect_actor::Placement::Position(_)
+            )
+        {
+            return Err("immediate particle cannot also have a persistent attachment".into());
+        }
+        let side_speed = (initial.render_flags & 0x8000 != 0).then(|| word(data, 0xf4));
+        let forward_speed = configured.forward_only.then(|| word(data, 0x1c));
+        if configured.forward_only != configured.immediate.is_some()
+            || (configured.particle_contact
+                && (configured.ground.is_some() || !configured.forward_only))
+        {
+            return Err("timed launch/contact ownership outside acquired profile".into());
+        }
         let physical_callback = initial.fields.control_flags & 0x80 != 0;
         let references = Owned::new(template.specification.clone())?;
         let mut durations = vec![None; 256];
@@ -387,8 +507,9 @@ impl<K: Copy> Timed<K> {
             ),
         };
         let mut owned = Self {
+            immediate: configured.immediate,
             initial: configured.initial,
-            velocity: side_speed.map(|_| [0.; 3]),
+            velocity: (side_speed.is_some() || forward_speed.is_some()).then_some([0.; 3]),
             references,
             runtime: Runtime {
                 class: template.fields.class,
@@ -402,12 +523,17 @@ impl<K: Copy> Timed<K> {
                 retirement: configured.retirement,
                 ground: configured.ground,
                 physical_callback,
-                vertical: configured.vertical,
                 source: configured.source,
                 durations,
                 immutable_words,
                 size_flag,
                 side_speed,
+                render: configured.render,
+                hidden: configured.hidden,
+                immediate_kind: configured.immediate.is_some(),
+                particle_contact: configured.particle_contact,
+                mixed_draw: configured.mixed_draw,
+                forward_speed,
                 epoch: 0,
                 failure: None,
                 pending: None,
@@ -429,6 +555,7 @@ impl<K: Copy> Timed<K> {
                 references: &mut self.references,
                 placement: self.initial.placement,
                 render_flags: self.initial.render_flags,
+                immediate_pending: self.immediate.is_some(),
             },
         )
     }
@@ -495,6 +622,9 @@ impl<K: Copy> Timed<K> {
             if result.is_ok() {
                 result = services.gravity(&mut self.initial);
             }
+            if result.is_ok() && self.runtime.particle_contact {
+                result = services.particle_contact(&mut self.initial);
+            }
             if result.is_ok()
                 && let Some(ground) = &self.runtime.ground
             {
@@ -527,6 +657,16 @@ impl<K: Copy> Timed<K> {
 impl Runtime {
     pub(crate) fn expired_smoke(&self) -> bool {
         self.smoke_particle() && self.visual.expired() && self.idle() && self.failure.is_none()
+    }
+    pub(crate) fn expired_mixed(&self) -> bool {
+        self.mixed_draw
+            && self.retirement.is_none()
+            && self.visual.expired()
+            && self.idle()
+            && self.failure.is_none()
+    }
+    pub(crate) fn mixed_draw(&self) -> bool {
+        self.mixed_draw
     }
 
     pub(crate) fn smoke_particle(&self) -> bool {
@@ -647,15 +787,20 @@ impl Runtime {
             .storage
             .data()
             .ok_or("timed callback payload absent")?;
-        let allowed = 0x800000
+        let allowed = self.render.control_mask()
+            | 0x800000
             | 0x80
             | 0x20
             | self.size_flag
             | 0x04
             | 0x02
             | 0x01
-            | if self.side_speed.is_some() { 0x40 } else { 0 }
-            | if self.vertical.is_some() { 0x200000 } else { 0 }
+            | if self.side_speed.is_some() || self.forward_speed.is_some() {
+                0x40
+            } else {
+                0
+            }
+            | if self.particle_contact { 0x100 } else { 0 }
             | if self.ground.is_some() {
                 0x0200_0200
             } else {
@@ -670,8 +815,6 @@ impl Runtime {
             || b.channels().iter().any(|c| c[4] != 0 || c[5] != 0)
             || b.fields.control_flags & !allowed != 0
             || b.fields.control_flags & 2 == 0
-            || (b.fields.control_flags & 0x200000 != 0)
-                != self.vertical.as_ref().is_some_and(|v| v.active)
             || (b.fields.control_flags & 0x80 != 0) != physical
             || (physical && !matches!(b.placement, crate::effect_actor::Placement::Position(_)))
             || (b.fields.control_flags & (8 | 0x100000))
@@ -681,9 +824,19 @@ impl Runtime {
                     0
                 }
             || (b.fields.control_flags & 1 != 0) != self.retirement.is_some()
-            || !matches!(b.render_flags & !0x8000, 0 | 0x1000)
+            || !matches!(
+                b.render_flags & !(0x8000 | if self.hidden { 0x10000 } else { 0 }),
+                0 | 0x1000
+            )
+            || (b.render_flags & 0x10000 != 0) != self.hidden
             || (b.render_flags & 0x8000 != 0) != self.side_speed.is_some()
             || self.side_speed.is_some_and(|side| word(data, 0xf4) != side)
+            || self
+                .forward_speed
+                .is_some_and(|speed| word(data, 0x1c) != speed)
+            || (b.fields.control_flags & 0x100 != 0) != self.particle_contact
+            || (self.immediate_kind
+                && (b.fields.response_flags & 0x1000 != 0) != b.immediate_pending)
             || [4, 0x10, 0x14].map(|at| word(data, at)) != self.immutable_words
             || word(data, 8) != self.visual.age.to_bits()
             || data[0xf8..0x10c].iter().any(|&b| b != 0)
@@ -693,6 +846,7 @@ impl Runtime {
         if let Some(ground) = &self.ground {
             ground.decision(b.fields, b.seed)?;
         }
+        self.render.validate(b.fields, b.seed)?;
         Ok(())
     }
 
@@ -709,6 +863,12 @@ impl Runtime {
         self.preflight(b)?;
         if b.fields.object_flags & 0xc000 != 0 {
             return Ok(Boundary::Inactive);
+        }
+        if b.immediate_pending && b.fields.control_flags & 0x20 == 0 {
+            return Err(
+                "immediate particle requires its real one-shot placement before another callback"
+                    .into(),
+            );
         }
         let mut visual = self.visual.clone();
         let next = visual.advance(seconds)?;
@@ -831,13 +991,8 @@ impl Runtime {
                 *b.matrix = matrix;
                 self.matrix_written = true;
             }
-            if next == VisualStep::VisibleState
-                && let Some(vertical) = &mut self.vertical
-            {
-                vertical.advance(seconds)?;
-                if !vertical.active {
-                    b.fields.control_flags &= !0x200000;
-                }
+            if next == VisualStep::VisibleState {
+                self.render.advance(b.fields, b.seed, seconds)?;
             }
             let tick = crate::animation_channels::advance(
                 b.channels_mut(),

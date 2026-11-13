@@ -3,6 +3,8 @@ use bevy::{asset::RenderAssetUsages, input::mouse::AccumulatedMouseMotion, prelu
 use giants_game::{arithmetic::Precision, mecc_motion::Motion};
 use std::{collections::BTreeMap, path::Path};
 mod collision_replay;
+mod enemy_response;
+pub(crate) use enemy_response::{EnemyFrame, EnemyReceiver};
 mod mission_contacts;
 #[cfg(test)]
 mod route_control;
@@ -50,6 +52,7 @@ pub struct State {
     environment_objects: Vec<giants_game::actor_environment::Collider>,
     pub(crate) projectile_objects: Vec<giants_game::projectile_world::Object>,
     static_projectile_objects: usize,
+    static_projectile_declarations: Vec<giants_game::static_geometry::SourceKey>,
     pub(crate) projectile_test: Option<([f32; 3], [f32; 3], u32)>,
     mesh_responses: u64,
     pub(crate) rigid_source: std::sync::Arc<giants_game::static_geometry::Scene>,
@@ -807,6 +810,11 @@ impl State {
                 })
                 .collect::<Result<Vec<_>, &'static str>>()?,
             static_projectile_objects: projectile_colliders.objects.len(),
+            static_projectile_declarations: projectile_colliders
+                .records
+                .iter()
+                .map(|r| r.key)
+                .collect(),
             projectile_test: None,
             mesh_objects: player_colliders.player_objects,
             static_mesh_objects,
@@ -1683,6 +1691,9 @@ impl State {
                     Precision::Double53,
                 )
             },
+            // Exact PC debug-1.1 event dispatcher 0x004a0990 returns zero for
+            // actual absent state2/21/23 table entries (independently executed).
+            // This does not acknowledge callbacks for other NPC families.
             |_, _| Ok(false),
             |object, response| {
                 let blocking = response.retry && response.state.hit == object.fields.id;
@@ -1699,7 +1710,7 @@ impl State {
                         .any(|&key| key == object.fields.id)
                 {
                     if response.reciprocal_hit {
-                        return Err("Vimp reciprocal contact requires its peer-reference owner");
+                        return Err("NPC reciprocal contact requires its peer-reference owner");
                     }
                     npc_responses += 1;
                 }

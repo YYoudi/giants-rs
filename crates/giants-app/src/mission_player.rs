@@ -8,6 +8,7 @@ use bevy::{asset::RenderAssetUsages, prelude::*};
 use std::collections::BTreeMap;
 mod controller;
 pub(crate) mod jet;
+pub(crate) mod ripper_probe;
 pub(crate) mod route_probe;
 pub(crate) use controller::Controller;
 

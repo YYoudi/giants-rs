@@ -1,6 +1,7 @@
 //! Owned class90/232 state6 copy at the enemy fire helper's pre-FX boundary.
 //! Ordered launch requires explicit effect/audio/reference providers. The
-//! state6 simulation, contact dispatch and damage eligibility remain pending.
+//! state6 flight can consume owned-list or ordinary-scene geometry. Contact
+//! reactions, projectile rendering and damage availability remain separate.
 use crate::{
     actor_fields::Fields,
     state_storage::{Profile, Seed},
@@ -19,9 +20,33 @@ pub struct Metadata {
     pub launch: Option<Launch>,
     pub failure: Option<String>,
     pub ground_impact: Option<GroundImpact>,
+    pub object_impact: Option<ObjectImpact>,
+    pub expiry_impact: Option<ExpiryImpact>,
+    pub(crate) expiry_attempt: Option<std::sync::Arc<()>>,
+    pub(crate) mecc_receiver: Option<crate::mecc_enemy_hit::Phase>,
     /// Initial late collider snapshot, not current world bounds or a ready tick.
     pub initial_environment: Option<crate::collider_init::Instance>,
     pub pending_flight: Option<FlightOutcome>,
+    /// Only the actual ground query creates this continuation's clock. A caller
+    /// cannot replace the elapsed time/ordered areas after observing a contact.
+    pub(crate) ground_flight_clock: Option<GroundFlightClock>,
+    /// Advances only after the actual terrain/object flight query publishes.
+    pub flight_revision: u64,
+    /// Object-local clock selected after the current flight, at its real pose.
+    pub animation_seconds: Option<f32>,
+    pub presentation: Option<Presentation>,
+    pub presentation_failure: Option<String>,
+}
+#[derive(Clone, Debug)]
+pub(crate) struct GroundFlightClock {
+    pub seconds: f32,
+    pub areas: Vec<crate::object_time::SlowArea>,
+}
+/// Scoped clock/affine completion, not generic world-tick or impact readiness.
+#[derive(Clone, Copy, Debug)]
+pub struct Presentation {
+    pub flight_revision: u64,
+    pub epoch: Option<u32>,
 }
 /// Explicit single-player world view. The Session supplies its ordered owned
 /// object list; mission population completeness remains the caller's contract.
@@ -32,6 +57,15 @@ pub struct FlightWorld<'a, 't> {
     /// Actual mission vertex epoch and cache gate, not inferred from elapsed time.
     pub vertex_epoch: u32,
     pub force_vertices: bool,
+    pub areas: &'a [crate::object_time::SlowArea],
+}
+/// A current ordinary scene supplies its own geometry packets; no native global
+/// vertex epoch is manufactured for a partial controller or rigid declaration.
+#[derive(Clone, Copy)]
+pub struct SceneFlightWorld<'a, 't> {
+    pub terrain: &'a crate::segment_queries::StaticCellQuery<'t>,
+    pub inverse_spacing: f32,
+    pub seconds: f32,
     pub areas: &'a [crate::object_time::SlowArea],
 }
 /// Actual query boundary. Object hits and expiry require their own reactions;
@@ -47,6 +81,13 @@ pub enum FlightOutcome {
         point: [f32; 3],
         tag: u32,
     },
+    /// A prepared rigid declaration, not an invented Session actor. The caller
+    /// must acquire its actual impact/owner continuation before acknowledging it.
+    DeclaredContact {
+        target: crate::static_geometry::SourceKey,
+        point: [f32; 3],
+        tag: u32,
+    },
     Expired,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -56,6 +97,8 @@ pub enum Phase {
     Failed,
     Launched,
     ImpactServices,
+    ObjectImpactServices,
+    ExpiryServices,
     Retiring,
     CleanupServices,
 }
@@ -169,8 +212,17 @@ pub fn prepare(seed: &Seed, fields: &Fields) -> Result<Prepared, String> {
             launch: None,
             failure: None,
             ground_impact: None,
+            object_impact: None,
+            expiry_impact: None,
+            expiry_attempt: None,
+            mecc_receiver: None,
             initial_environment: None,
             pending_flight: None,
+            ground_flight_clock: None,
+            flight_revision: 0,
+            animation_seconds: None,
+            presentation: None,
+            presentation_failure: None,
         },
     })
 }
@@ -180,6 +232,58 @@ pub struct GroundImpact {
     pub effect: EffectOutcome,
     pub sound: Option<SoundOutcome>,
     pub cue: Option<u32>,
+}
+/// Expiration has its own ordering and retirement proof. An earlier ground
+/// reaction can coexist; neither that receipt nor a direct hit substitutes.
+#[derive(Clone, Debug)]
+pub struct ExpiryImpact {
+    pub effect: EffectOutcome,
+    pub sound: Option<SoundOutcome>,
+    pub cue: Option<u32>,
+    pub radial: bool,
+    pub after_ground: bool,
+}
+/// A completed positive direct contact. Target identity is historical evidence,
+/// not an owned transform/attachment reference. The pending query owns the live
+/// target reference until this continuation completes.
+#[derive(Clone, Copy, Debug)]
+pub struct ObjectImpact {
+    pub source: crate::resident_states::Id,
+    pub target: crate::resident_states::Id,
+    pub point: [f32; 3],
+    pub tag: u32,
+    pub amount: f32,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ObjectContactOutcome {
+    Retained,
+    Marked,
+}
+/// Real single-player direct-hit consumers. World suppression is queried before
+/// callback dispatch. Terminal processing follows the actual source mark; no
+/// default world guards, damage backend or mission owner are supplied here.
+pub trait ObjectImpactServices {
+    fn world_suppressed(
+        &mut self,
+        session: &crate::resident_states::Session,
+    ) -> Result<bool, String>;
+    fn hurt(
+        &mut self,
+        session: &mut crate::resident_states::Session,
+        request: ObjectImpact,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(), String>;
+    fn terminal(
+        &mut self,
+        session: &mut crate::resident_states::Session,
+        target: crate::resident_states::Id,
+    ) -> Result<(), String>;
+}
+#[derive(Clone, Copy)]
+pub(crate) enum RetirementKind {
+    Ground,
+    Object,
+    Expiry,
 }
 #[derive(Clone, Debug)]
 pub struct ImpactEffect {

@@ -84,6 +84,7 @@ mod sky_scene;
 mod source_instances;
 mod source_view;
 mod spear_scene;
+mod startup_configuration;
 mod static_scene;
 mod sun_glare_scene;
 mod sword_scene;
@@ -173,6 +174,7 @@ fn main() {
     }
 }
 fn launch(arguments: Vec<std::ffi::OsString>) -> Result<(), Box<dyn std::error::Error>> {
+    let configuration = startup_configuration::Configuration::begin();
     let mut root = std::env::var_os("GIANTS_DATA_ROOT").map(PathBuf::from);
     let mut user_data_root = std::env::var_os("GIANTS_USER_DATA_ROOT").map(PathBuf::from);
     let mut capture = None;
@@ -1323,6 +1325,7 @@ fn launch(arguments: Vec<std::ffi::OsString>) -> Result<(), Box<dyn std::error::
         plugins
     };
     let mut app = App::new();
+    app.insert_resource(configuration);
     app.insert_resource(Capture {
         effect_activation: capture_effect_activation,
         after_seconds: capture_after_seconds,

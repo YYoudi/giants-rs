@@ -32,25 +32,7 @@ pub fn prepare_with_object_transparency(
     texture_alpha: bool,
     transparency: f32,
 ) -> Result<Profile, &'static str> {
-    if !(0. ..=1.).contains(&transparency) {
-        return Err("unlit object transparency outside unit profile");
-    }
-    let falloff = if transparency != 0. && transparency > m.falloff {
-        transparency
-    } else {
-        m.falloff
-    };
-    let pass = crate::render_parts::material_pass(falloff, texture_alpha);
-    let (flags, constant, _) =
-        crate::material_descriptor::inspection_base(crate::material_descriptor::InspectionInput {
-            part_flags: m.flags,
-            blend: m.blend,
-            falloff,
-            has_texture: !m.texture.is_empty(),
-            texture_alpha,
-            fog: true,
-            pass_mask: pass.mask(),
-        })?;
+    let (flags, constant) = descriptor(m, texture_alpha, transparency, None)?;
     let (vertex_rgb, blend) = match flags {
         0x1094 => (true, 0),
         0x41094 => (true, 0),
@@ -81,6 +63,65 @@ pub fn prepare_with_object_transparency(
         },
     })
 }
+/// Acquired neutral vertical-alpha program: the object mark forces deferred
+/// routing and overrides alpha mode before native descriptor application. The
+/// exact debug renderer selects RGB addition, diffuse-alpha times factor,
+/// source-alpha/one blending and disabled depth writes. Texture-alpha gradients
+/// and other RGB programs remain outside this deliberately bounded profile.
+pub fn prepare_with_vertical_alpha(
+    m: &giants_formats::gbs::Material,
+    texture_alpha: bool,
+    transparency: f32,
+) -> Result<Profile, &'static str> {
+    if texture_alpha {
+        return Err("vertical-alpha texture program outside acquired profile");
+    }
+    let (base, constant) = descriptor(
+        m,
+        false,
+        transparency,
+        Some(crate::render_parts::Pass::ObjectOrMaterial),
+    )?;
+    let flags = (base & !0x900) | 0x50600;
+    if flags != 0x516b4 {
+        return Err("vertical-alpha RGB program outside acquired profile");
+    }
+    Ok(Profile {
+        flags,
+        vertex_rgb: true,
+        add_vertex_rgb: true,
+        blend: 1,
+        alpha: (constant >> 24) as f32 / 255.,
+        texture_alpha: false,
+    })
+}
+fn descriptor(
+    m: &giants_formats::gbs::Material,
+    texture_alpha: bool,
+    transparency: f32,
+    pass: Option<crate::render_parts::Pass>,
+) -> Result<(u32, u32), &'static str> {
+    if !(0. ..=1.).contains(&transparency) {
+        return Err("unlit object transparency outside unit profile");
+    }
+    let falloff = if transparency != 0. && transparency > m.falloff {
+        transparency
+    } else {
+        m.falloff
+    };
+    let pass = pass.unwrap_or_else(|| crate::render_parts::material_pass(falloff, texture_alpha));
+    let (flags, constant, _) =
+        crate::material_descriptor::inspection_base(crate::material_descriptor::InspectionInput {
+            part_flags: m.flags,
+            blend: m.blend,
+            falloff,
+            has_texture: !m.texture.is_empty(),
+            texture_alpha,
+            fog: true,
+            pass_mask: pass.mask(),
+        })?;
+    Ok((flags, constant))
+}
 
 /// Static neutral-object capability with the existing common RGB shader.
 /// Texture alpha is retained; no material/object opacity or special blend mode
@@ -102,6 +143,36 @@ pub fn static_texture_color(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn vertical_alpha_uses_native_additive_program_and_factor() {
+        let m = giants_formats::gbs::Material {
+            texture: "synthetic".into(),
+            bump_texture: String::new(),
+            flags: 0x40000010,
+            blend: 0.5,
+            falloff: 0.,
+            colors: [0; 4],
+            power: 0.,
+        };
+        // Exact debug renderer state controls: RGB texture+diffuse, alpha
+        // diffuse*factor, SRCALPHA/ONE and depth writes off, not plain alpha.
+        for (opacity, factor) in [
+            (0., 127),
+            (0.019999964, 249),
+            (0.5, 127),
+            (0.75, 63),
+            (1., 0),
+        ] {
+            let profile = prepare_with_vertical_alpha(&m, false, opacity).unwrap();
+            assert_eq!((profile.flags, profile.blend), (0x516b4, 1));
+            assert!(profile.vertex_rgb && profile.add_vertex_rgb && !profile.texture_alpha);
+            assert_eq!(profile.alpha, factor as f32 / 255.);
+        }
+        assert!(prepare_with_vertical_alpha(&m, true, 0.5).is_err());
+        let mut other = m;
+        other.flags = 0x40000000;
+        assert!(prepare_with_vertical_alpha(&other, false, 0.5).is_err());
+    }
     #[test]
     fn additive_rgb_ghost_keeps_material_floor_and_object_fade() {
         let m = giants_formats::gbs::Material {

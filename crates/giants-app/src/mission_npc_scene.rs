@@ -1,4 +1,4 @@
-//! Consume completed canonical Vimp poses in the common mission renderer.
+//! Consume completed canonical NPC poses in the common mission renderer.
 //! No actor birth, AI, animation clock or random draw occurs here.
 use crate::actor_scene::{self, Material};
 use crate::rigid_attachment_scene::Material as AuxiliaryMaterial;
@@ -166,6 +166,10 @@ fn update(
             draws.extend(controller.building_effect_draws(ticket, camera.view, detail)?);
         }
         let vimp_count = draws.iter().filter(|draw| draw.class == 8).count();
+        let ripper_count = draws
+            .iter()
+            .filter(|draw| matches!(draw.class, 73 | 230))
+            .count();
         let meat_count = draws
             .iter()
             .filter(|draw| (1117..=1119).contains(&draw.class))
@@ -214,10 +218,11 @@ fn update(
                 let object = entry.insert(Object {
                     rigid: draw.rigid.is_some(),
                     textures: BTreeMap::new(),
-                    world: (draw.class != 8 && draw.rigid.is_none()).then(|| {
-                        gpu.buffers
-                            .add(crate::source_view::uniform_buffer(&Mat4::IDENTITY))
-                    }),
+                    world: (!matches!(draw.class, 8 | 73 | 219 | 230) && draw.rigid.is_none())
+                        .then(|| {
+                            gpu.buffers
+                                .add(crate::source_view::uniform_buffer(&Mat4::IDENTITY))
+                        }),
                     geometry: draw.geometry.clone(),
                     images: vec![],
                     parts: vec![],
@@ -241,12 +246,36 @@ fn update(
                     textures.insert(source.name.to_ascii_lowercase(), handle.clone());
                     object.images.push(handle);
                 }
+                // The acquired null-texture diffuse profile reads source RGB.
+                // Reuse the body's unit sample; never replace a missing named
+                // image or admit another untextured material implicitly.
+                if draw
+                    .geometry
+                    .mesh
+                    .subobjects
+                    .iter()
+                    .any(|part| giants_game::body_pipeline::untextured_diffuse(&part.material))
+                {
+                    let handle = gpu.images.add(Image::new_fill(
+                        bevy::render::render_resource::Extent3d {
+                            width: 1,
+                            height: 1,
+                            depth_or_array_layers: 1,
+                        },
+                        bevy::render::render_resource::TextureDimension::D2,
+                        &[255, 255, 255, 255],
+                        bevy::render::render_resource::TextureFormat::Rgba8Unorm,
+                        RenderAssetUsages::default(),
+                    ));
+                    textures.insert(String::new(), handle.clone());
+                    object.images.push(handle);
+                }
                 object.textures = textures.clone();
                 for (index, part) in draw.geometry.mesh.subobjects.iter().enumerate() {
                     // The mission binding already validates the RGB body path.
                     // Keep this consumer opaque; special/alpha passes require
                     // their own acquired submission rather than a guessed blend.
-                    if draw.class == 8
+                    if matches!(draw.class, 8 | 73 | 219 | 230)
                         && (part.material.flags & 1 != 0
                             || draw
                                 .geometry
@@ -254,23 +283,23 @@ fn update(
                                 .contains(&part.material.texture.to_ascii_lowercase()))
                     {
                         return Err(
-                            "Vimp body requires an unsupported transparent/additive material"
-                                .into(),
+                            "NPC body requires an unsupported transparent/additive material".into(),
                         );
                     }
-                    let profile = if draw.class == 8 || draw.rigid.is_some() {
-                        None
-                    } else {
-                        Some(
-                            giants_game::unlit_material::prepare_with_object_transparency(
-                                &part.material,
-                                draw.geometry
-                                    .alpha_textures
-                                    .contains(&part.material.texture.to_ascii_lowercase()),
-                                draw.transparency,
-                            )?,
-                        )
-                    };
+                    let profile =
+                        if matches!(draw.class, 8 | 73 | 219 | 230) || draw.rigid.is_some() {
+                            None
+                        } else {
+                            Some(
+                                giants_game::unlit_material::prepare_with_object_transparency(
+                                    &part.material,
+                                    draw.geometry
+                                        .alpha_textures
+                                        .contains(&part.material.texture.to_ascii_lowercase()),
+                                    draw.transparency,
+                                )?,
+                            )
+                        };
                     let ids: Vec<_> = part
                         .triangles
                         .iter()
@@ -348,7 +377,7 @@ fn update(
                                 .add(actor_scene::Material::from(actor_scene::Bindings {
                                     texture: textures
                                         .get(&part.material.texture.to_ascii_lowercase())
-                                        .ok_or("Vimp named texture absent")?
+                                        .ok_or("NPC body texture binding absent")?
                                         .clone(),
                                     clip_from_bevy: view.buffer.clone(),
                                     validation: Vec4::new(
@@ -494,7 +523,7 @@ fn update(
         if state.reported != state.objects.len() {
             state.reported = state.objects.len();
             println!(
-                "mission_npc_draw ticket={ticket} vimps={vimp_count} visuals={} effects={effect_count} meat={meat_count} ghosts={ghost_count} canonical_npc_poses=true fx_policy=partial_source_graph model_slot=0 simulation_in_renderer=false interaction_verified=false ready=false",
+                "mission_npc_draw ticket={ticket} vimps={vimp_count} rippers={ripper_count} visuals={} effects={effect_count} meat={meat_count} ghosts={ghost_count} canonical_npc_poses=true fx_policy=partial_source_graph model_slot=0 simulation_in_renderer=false interaction_verified=false ready=false",
                 state.reported
             );
         }
@@ -613,17 +642,40 @@ pub(crate) fn check_render_assets(
         "{:?}",
         app.world().resource::<State>().failed
     );
-    assert!(before.iter().any(|(handle, old)| {
-        app.world()
-            .resource::<Assets<Mesh>>()
-            .get(handle)
-            .unwrap()
-            .attribute(Mesh::ATTRIBUTE_POSITION)
-            .unwrap()
-            .as_float3()
-            .unwrap()
-            != old.as_slice()
-    }));
+    let live_meshes: Vec<_> = app
+        .world()
+        .resource::<State>()
+        .objects
+        .values()
+        .flat_map(|object| object.parts.iter().map(|part| part.mesh.id()))
+        .collect();
+    for (handle, _) in &before {
+        assert_eq!(
+            app.world().resource::<Assets<Mesh>>().get(handle).is_some(),
+            live_meshes.contains(&handle.id()),
+            "retired mesh must leave the asset store"
+        );
+    }
+    assert_eq!(
+        app.world().resource::<Assets<Mesh>>().len(),
+        live_meshes.len()
+    );
+    assert!(
+        before
+            .iter()
+            .filter(|(handle, _)| live_meshes.contains(&handle.id()))
+            .any(|(handle, old)| {
+                app.world()
+                    .resource::<Assets<Mesh>>()
+                    .get(handle)
+                    .unwrap()
+                    .attribute(Mesh::ATTRIBUTE_POSITION)
+                    .unwrap()
+                    .as_float3()
+                    .unwrap()
+                    != old.as_slice()
+            })
+    );
     let camera = app
         .world_mut()
         .resource_mut::<crate::world_scene::Scene>()
@@ -642,7 +694,18 @@ pub(crate) fn check_render_assets(
         app.world().get::<Visibility>(entity),
         Some(&Visibility::Visible)
     );
-    assert_eq!(app.world().resource::<Assets<Material>>().len(), materials);
+    if live_meshes.len() == meshes {
+        assert_eq!(app.world().resource::<Assets<Material>>().len(), materials);
+    } else {
+        assert!(live_meshes.len() < meshes);
+        assert!(app.world().resource::<Assets<Image>>().len() < images);
+        assert_eq!(
+            app.world().resource::<Assets<Material>>().len()
+                + app.world().resource::<Assets<AuxiliaryMaterial>>().len(),
+            live_meshes.len()
+        );
+        assert!(app.world().get_entity(external).is_ok());
+    }
     if remove_mesh {
         let handle = before[0].0.clone();
         app.world_mut()

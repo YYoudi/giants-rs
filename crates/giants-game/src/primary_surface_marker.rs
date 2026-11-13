@@ -69,23 +69,61 @@ impl Template {
     }
 }
 pub struct Factory<'a> {
-    resources: &'a SceneResources,
+    resources: ResourceOwner<'a>,
     template: Option<Result<Template, String>>,
+}
+enum ResourceOwner<'a> {
+    Borrowed(&'a SceneResources),
+    Shared(Arc<SceneResources>),
+}
+impl ResourceOwner<'_> {
+    fn get(&self) -> &SceneResources {
+        match self {
+            Self::Borrowed(value) => value,
+            Self::Shared(value) => value,
+        }
+    }
+}
+impl Factory<'static> {
+    /// Preserve one immutable specification/event identity across ordinary
+    /// births without borrowing the mission payload from inside itself.
+    pub fn shared(resources: Arc<SceneResources>) -> Self {
+        Self {
+            resources: ResourceOwner::Shared(resources),
+            template: None,
+        }
+    }
 }
 impl<'a> Factory<'a> {
     pub fn new(resources: &'a SceneResources) -> Self {
         Self {
-            resources,
+            resources: ResourceOwner::Borrowed(resources),
             template: None,
         }
     }
     pub fn cached(&self) -> bool {
         self.template.is_some()
     }
+    /// Actual registered namespace used while preparing this marker's events.
+    /// Callers must not execute their offsets against another parent's image.
+    pub fn captured_effect_image(&self) -> Result<&giants_formats::effect_image::Image, String> {
+        let models = &self.resources.get().classes.models;
+        let selected = models
+            .first_selection(219)
+            .ok_or("surface marker selection absent")?
+            .as_ref()
+            .map_err(Clone::clone)?;
+        let definition = models
+            .specs
+            .get(&selected.spec_id)
+            .and_then(|definitions| definitions.first())
+            .ok_or("surface marker specification absent")?;
+        models.specification_effects(definition)
+    }
     pub fn construct(&mut self, session: &mut Session, owner: Id) -> Result<Id, String> {
         let template = self
             .template
-            .get_or_insert_with(|| Template::load(self.resources));
+            .get_or_insert_with(|| Template::load(self.resources.get()));
         match template {
             Ok(template) => session.construct_linked_surface_marker(owner, template.input()),
             Err(error) => Err(error.clone()),

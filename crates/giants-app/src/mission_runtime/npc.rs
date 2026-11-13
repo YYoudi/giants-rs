@@ -34,6 +34,7 @@ pub(super) struct State {
 }
 
 /// A copied submission, not a second simulation or shared pose buffer.
+#[derive(Clone)]
 pub(crate) struct Draw {
     /// Source-local normal geometry with an actual current world matrix.
     /// Existing unlit world-space submissions retain their separate path.
@@ -47,6 +48,7 @@ pub(crate) struct Draw {
     pub positions: Vec<[f32; 3]>,
     pub center: [f32; 3],
 }
+#[derive(Clone)]
 pub(crate) struct RigidProfile {
     pub asset: Arc<giants_game::static_geometry::Asset>,
     pub matrix: [f32; 16],

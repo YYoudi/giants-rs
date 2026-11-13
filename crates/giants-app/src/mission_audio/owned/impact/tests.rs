@@ -40,6 +40,112 @@ fn reservations_without_device_stay_unstarted_and_consume_no_audio_rng() {
 
 struct AnchorAudioDisabled;
 #[test]
+fn shared_impact_device_keeps_local_voice_missing_sink_and_catalog_miss_distinct() {
+    use giants_game::resident_states::MeccImpactVoice;
+    let mut world = World::new();
+    world.init_resource::<Assets<AudioSource>>();
+    world.init_resource::<Assets<crate::positional_pcm::Pcm>>();
+    let mut mounted = crate::mission_audio::tests::fixture(&mut world, 976);
+    let base = &mounted.sources[&0x5f7];
+    mounted.sources.insert(
+        1504,
+        Source {
+            handle: base.handle.clone(),
+            pcm: base.pcm.clone(),
+            words: base.words,
+            channels: base.channels,
+            rate: base.rate,
+            frames: base.frames,
+        },
+    );
+    // Explicit synthetic catalog misses, separate from a prepared source whose
+    // reserved voice has no actual sink. Neither is a playback acknowledgment.
+    mounted
+        .unavailable
+        .extend(DAMAGE_SOUNDS.into_iter().filter(|s| *s != 1504));
+    reserve_damage(&mut world, &mut mounted).unwrap();
+    world.insert_resource(Engine {
+        mounted: Some(mounted),
+        ..default()
+    });
+    let seed = giants_game::state_storage::Seed::from_program_for(
+        &giants_formats::class_program::parse(&[0x1e, 0, 0xff]).unwrap(),
+        giants_game::state_storage::Profile::Debug,
+        Precision::Double53,
+    )
+    .unwrap();
+    let mut session = Session::new(976);
+    let local = session
+        .register(
+            2,
+            &seed,
+            &[],
+            giants_game::object_lists::DirectFlags::default(),
+        )
+        .unwrap();
+    let peer = session
+        .register(
+            2,
+            &seed,
+            &[],
+            giants_game::object_lists::DirectFlags::default(),
+        )
+        .unwrap();
+    let mut state = SystemState::<OwnedAudio>::new(&mut world);
+    state
+        .get_mut(&mut world)
+        .unwrap()
+        .with_impact(976, 0.75, Mat4::IDENTITY.to_cols_array(), local, |device| {
+            assert!(
+                device
+                    .play(&session, local, 1504)
+                    .unwrap_err()
+                    .contains("startup no-play")
+            );
+            let mut playback = giants_game::startup_playback::Playback::default();
+            playback.begin_configuration(); // Supplied startup boundary for this control only.
+            device.bind_local_playback(playback)?;
+            assert!(device.bind_local_playback(playback).is_err());
+            assert!(device.play(&session, local, 1504).is_err());
+            device.play(&session, local, 1686)?;
+            assert!(device.play(&session, peer, 1504).is_err());
+            assert_eq!(device.mounted.started, 0);
+            assert_eq!(device.mounted.audio_random.0, 1);
+            assert!(
+                device
+                    .mounted
+                    .voices
+                    .values()
+                    .all(|v| !v.started && v.deferred_parameters)
+            );
+            Ok(())
+        })
+        .unwrap();
+    // The same provider sees the actual launch configuration when present.
+    // Zero gain is not native no-play: the prepared source still requires a
+    // real sink, whereas an explicit catalog miss consumes no voice or RNG.
+    world.insert_resource(crate::startup_configuration::Configuration::begin());
+    state
+        .get_mut(&mut world)
+        .unwrap()
+        .with_impact(976, 0., Mat4::IDENTITY.to_cols_array(), local, |device| {
+            assert!(!device.local_playback.unwrap().suppressed());
+            let error = device.play(&session, local, 1504).unwrap_err();
+            assert!(!error.contains("startup no-play"), "{error}");
+            assert!(
+                device
+                    .bind_local_playback(device.local_playback.unwrap())
+                    .is_err()
+            );
+            device.play(&session, local, 1686)?;
+            assert_eq!(device.mounted.started, 0);
+            assert_eq!(device.mounted.audio_random.0, 1);
+            Ok(())
+        })
+        .unwrap();
+}
+
+#[test]
 fn retirement_cancels_unstarted_actor_voice_without_acknowledging_a_sink() {
     let mut world = World::new();
     world.init_resource::<Assets<AudioSource>>();

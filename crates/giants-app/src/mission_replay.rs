@@ -54,6 +54,7 @@ pub(crate) struct Replay {
     film_finished: bool,
 }
 pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    crate::mission_player::ripper_probe::validate(app)?;
     if let Ok(class) = std::env::var("GIANTS_MISSION_BUILDING_CLASS")
         && (!building_interaction_probe() || !class.parse::<i32>().is_ok_and(|c| c > 0))
     {
