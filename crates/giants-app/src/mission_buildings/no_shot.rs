@@ -114,13 +114,14 @@ impl Surfaces {
     pub(super) fn hits(&self, id: u32) -> u32 {
         self.0.get(&id).map_or(0, |s| s.hits)
     }
-    pub(super) fn note_contact(&mut self, id: u32) {
+    pub(super) fn note_contact(&mut self, id: u32, support: bool) {
         if let Some(s) = self.0.get_mut(&id) {
             s.contacts += 1;
             if s.contacts == 1 {
                 println!(
-                    "mission_building_player_contact object={id} class={} actual_narrow_phase=true source_no_shot=true",
-                    s.class
+                    "mission_building_player_contact object={id} class={} actual_narrow_phase=true source_no_shot=true kind={}",
+                    s.class,
+                    if support { "floor-support" } else { "blocking" }
                 );
             }
         }

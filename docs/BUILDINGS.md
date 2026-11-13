@@ -248,6 +248,15 @@ building bursts or retirement and a visually reviewed capture. That result
 belongs to its exact executable. The new state0 fence admission requires a fresh
 receipt and both no-shot samples plus combined regressions before publication.
 
+The next palisade diagnostic fails its budget because the observation counted
+only blocking/retry responses. A low source mesh can supply floor support without
+a blocking retry. The new observation exposes fresh support computed by this
+actual mesh query, separately from any retained support ID; it changes no physics
+or geometry. Contact logs distinguish blocking from floor support. A focused
+control rejects a stale support ID with no triangles. A new executable must
+repeat both no-shot samples and combined regressions; the failed receipt is
+retained privately and is not a published acceptance.
+
 ### Initial registered static-shadow dependency
 
 The ordinary entrance's source header contains a static-shadow declaration. It

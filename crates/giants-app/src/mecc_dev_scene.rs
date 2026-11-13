@@ -1684,11 +1684,11 @@ impl State {
             },
             |_, _| Ok(false),
             |object, response| {
-                if response.retry
-                    && response.state.hit == object.fields.id
+                let blocking = response.retry && response.state.hit == object.fields.id;
+                if (blocking || response.support_contact)
                     && self.buildings.observes_contact(object.fields.id)
                 {
-                    building_contacts.push(object.fields.id);
+                    building_contacts.push((object.fields.id, !blocking));
                 }
                 if response.retry
                     && response.state.hit == object.fields.id
@@ -1706,8 +1706,8 @@ impl State {
             },
         )?;
         self.npc_mesh_responses += npc_responses;
-        for id in building_contacts {
-            self.buildings.note_contact(id);
+        for (id, support) in building_contacts {
+            self.buildings.note_contact(id, support);
         }
         self.mesh_responses += u64::from(response.mesh_responses);
         let resolved = response.state;

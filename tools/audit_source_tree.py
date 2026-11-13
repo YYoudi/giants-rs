@@ -24,6 +24,8 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed concurrent unknown enemy-contact navigation; no native body.
+        '8c9942d8203dea074fa21772306aa572c391baa9ee7793f25b9918df6d023c72',
         # Reviewed unknown no-shot dispatcher route; no native body or new alias.
         'fec0bcb9d32839696060f3d3d3ed4c24ac2d15f49e923a271613cfb9edf3939c',
         # Reviewed concurrent nonlethal Mecc composition route, still unknown.

@@ -72,14 +72,15 @@ impl World {
     pub(crate) fn observes_contact(&self, object: u32) -> bool {
         self.owners.contains_key(&object) || self.no_shot.physical(object)
     }
-    pub(crate) fn note_contact(&mut self, object: u32) {
-        self.no_shot.note_contact(object);
+    pub(crate) fn note_contact(&mut self, object: u32, support: bool) {
+        self.no_shot.note_contact(object, support);
         if let Some(owner) = self.owners.get_mut(&object) {
             owner.contacts += 1;
             if owner.contacts == 1 {
                 println!(
-                    "mission_building_player_contact object={object} class={} actual_narrow_phase=true",
-                    owner.fields.class
+                    "mission_building_player_contact object={object} class={} actual_narrow_phase=true kind={}",
+                    owner.fields.class,
+                    if support { "floor-support" } else { "blocking" }
                 );
             }
         }
