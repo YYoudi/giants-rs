@@ -909,9 +909,48 @@ pub(super) fn update(
                     let distance = dx.hypot(dy);
                     let yaw = camera.angles[0].to_radians();
                     let desired = dx.atan2(-dy);
+                    let contacts = controller.state.buildings.probe_contacts(id);
+                    let physical = controller.state.buildings.probe_requires_contact(id);
+                    // Supplied input fixture only. The current partial pistol
+                    // converges on a distant camera point; a thin surface can
+                    // lie above its actual muzzle ray. Aim through the real
+                    // muzzle using ordinary look commands, without writing a
+                    // projectile, pose, collider or gameplay aim producer.
+                    let aim = if std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref()
+                        == Ok("unchanged")
+                        && contacts > 0
+                        && distance >= 70.
+                    {
+                        let (muzzle, current_aim) = controller
+                            .state
+                            .combat_pose()
+                            .expect("building input fixture requires the actual pistol muzzle");
+                        let muzzle = Vec3::from(muzzle);
+                        let eye = Vec3::from(camera.position);
+                        let direction = (Vec3::from(target) - muzzle)
+                            .try_normalize()
+                            .expect("building input fixture target coincides with the muzzle");
+                        let offset = muzzle - eye;
+                        let along = offset.dot(direction);
+                        let radius = Vec3::from(current_aim).distance(eye);
+                        let discriminant =
+                            along * along + radius * radius - offset.length_squared();
+                        assert!(
+                            discriminant.is_finite() && discriminant >= 0.,
+                            "building input fixture aim sphere has no forward intersection"
+                        );
+                        (muzzle + direction * (-along + discriminant.sqrt())).to_array()
+                    } else {
+                        target
+                    };
                     let horizontal =
-                        (target[0] - camera.position[0]).hypot(target[1] - camera.position[1]);
-                    let pitch = (camera.position[2] - target[2]).atan2(horizontal.max(1.));
+                        (aim[0] - camera.position[0]).hypot(aim[1] - camera.position[1]);
+                    let pitch = (camera.position[2] - aim[2]).atan2(horizontal.max(1.));
+                    let desired = if aim != target {
+                        (aim[0] - camera.position[0]).atan2(-(aim[1] - camera.position[1]))
+                    } else {
+                        desired
+                    };
                     controller.state.mission_look(
                         Vec2::new(
                             (yaw - desired + std::f32::consts::PI)
@@ -921,8 +960,6 @@ pub(super) fn update(
                         ),
                         false,
                     );
-                    let contacts = controller.state.buildings.probe_contacts(id);
-                    let physical = controller.state.buildings.probe_requires_contact(id);
                     let approach = !physical
                         && controller
                             .pistol()

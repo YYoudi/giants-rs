@@ -225,6 +225,15 @@ distinct real projectile hits, unchanged player/projectile shapes and zero
 building burst births. Matching-executable GPU capture and normal-menu regression
 remain required; this source continuation does not update preview .13.1.
 
+The first admitted graphical attempt reaches actual player contact, but its
+camera-centred aiming commands send the partial pistol below the thin canopy;
+the real shots hit terrain behind it and the diagnostic fails its budget. The
+next input fixture compensates using the actual muzzle and current camera aim
+producer, supplying only look commands. It does not change the game's aiming
+service or projectile trajectory. Require three actual hits and the unchanged
+geometry endpoint on a new receipt; complete native crosshair/arm aiming is
+still separate work.
+
 ### Initial registered static-shadow dependency
 
 The ordinary entrance's source header contains a static-shadow declaration. It
