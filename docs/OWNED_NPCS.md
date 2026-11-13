@@ -60,6 +60,20 @@ The corrected dependency passes1,062 workspace tests with218 ignored, the564
 original observations and three synthetic controls, strict Clippy/formatting and
 the45 Python controls. These results do not extend the rendered encounter receipt.
 
+The owned direct damage callback now publishes its actual current prefix before
+external services and retains the last prefix, health and external RNG effects
+on failure. A failed actor cannot replay damage or continue ordinary primary/ANM
+work. A private attempt identity prevents publication or failure poisoning after
+the Session is replaced, including colliding numeric actor IDs. Invalid bounded
+inputs fail before the attempt starts; a successful callback permits the next
+genuine hit. If the lethal effect fails before the source assigns its death mode,
+the adapter retains accumulated damage without inventing mode94 or a completed
+death. Three synthetic failures reproduce on the previous adapter; the corrective
+checks also cover reentry, successful repeated callbacks and class230's distinct
+action1 prefix. These are supplied-service controls, not ordinary pistol, blood,
+lethal-service or rendered encounter acceptance. The direct callback still
+refuses launched projectile sources; their actual contact/hit route is required.
+
 ### Local menu test procedure
 
 Launch the identified local executable with `--mecc-menu --data-root <installation>

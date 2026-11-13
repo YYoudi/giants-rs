@@ -42,6 +42,7 @@ mod parented_frame_tests;
 #[cfg(test)]
 mod passive_frame_tests;
 mod ripper_calls;
+mod ripper_damage;
 mod ripper_melee;
 pub use ripper_melee::Services as RipperMeleeServices;
 mod ripper_contacts;
@@ -275,6 +276,10 @@ pub enum PickupService {
 /// the callback's current state; its local fields are published only on success.
 /// External service effects are not rolled back on a later failure.
 pub trait State23Services {
+    /// The canonical victim exposes this callback prefix before the service.
+    /// Victim field writes belong to the callback; external/other-actor work
+    /// remains the service's responsibility. Projectile propagation uses the
+    /// dedicated contact/hit route rather than the direct callback entry.
     fn execute(
         &mut self,
         session: &mut Session,
@@ -373,20 +378,6 @@ impl<S: State23AnimationServices> crate::state23_animation::Services
         )
     }
 }
-struct State23Adapter<'a, S> {
-    session: &'a mut Session,
-    services: &'a mut S,
-}
-impl<S: State23Services> crate::state23_damage::Services<Id> for State23Adapter<'_, S> {
-    fn execute(
-        &mut self,
-        actor: &crate::state23_damage::State<Id>,
-        service: crate::state23_damage::Service<Id>,
-        random: &mut crate::audio_parameters::Random,
-    ) -> Result<(), String> {
-        self.services.execute(self.session, actor, service, random)
-    }
-}
 #[derive(Debug)]
 pub struct Resident {
     herd: Option<crate::herd_generator::Owned>,
@@ -440,6 +431,7 @@ pub struct Resident {
     /// Acquired callback fields and typed relationships, separate from raw
     /// constructor bytes. No native pointer is encoded as an owned identity.
     state23_combat: Option<crate::state23_damage::State<Id>>,
+    ripper_damage: ripper_damage::Owned,
     mecc_special: Option<crate::mecc_special::Initialized>,
     delphi_special: Option<crate::delphi_special::State>,
     delphi_copy_source: Option<crate::delphi_special::CopySource>,
@@ -708,6 +700,7 @@ impl Session {
                 construction_fields: None,
                 camera_look_angle: None,
                 state23_combat: None,
+                ripper_damage: Default::default(),
                 mecc_special: None,
                 mecc_hit_relations_cleared: false,
                 delphi_special: None,
@@ -3142,6 +3135,7 @@ impl Session {
         Ok(())
     }
     fn ordinary_frame_actor(&self, id: Id) -> Result<&Resident, String> {
+        self.check_ripper_damage_available(id)?;
         let actor = self
             .get(id)
             .ok_or("ordinary frame actor absent or foreign")?;
@@ -3461,6 +3455,7 @@ impl Session {
         random: &mut crate::audio_parameters::Random,
         services: &mut impl State23AnimationServices,
     ) -> Result<(), String> {
+        self.check_ripper_damage_available(id)?;
         let mut combat = self.state23_snapshot(id)?;
         let actor = self.get(id).ok_or("animation actor absent")?;
         if actor.state23_animation_failed {
@@ -3625,92 +3620,6 @@ impl Session {
     }
     pub fn enemy_projectile(&self, id: Id) -> Option<&crate::enemy_projectile::Metadata> {
         self.get(id)?.enemy_projectile.as_ref()
-    }
-    /// Owned callback consumer, not the general projectile-hit wrapper.
-    /// Services must be available before calling. On service failure the local
-    /// actor is not published, but earlier external effects/RNG are not undone;
-    /// callers must not blindly retry a partially executed service sequence.
-    pub fn damage_state23(
-        &mut self,
-        id: Id,
-        amount: f32,
-        source: Option<Id>,
-        context: crate::state23_damage::Context,
-        random: &mut crate::audio_parameters::Random,
-        services: &mut impl State23Services,
-    ) -> Result<crate::state23_damage::Outcome, String> {
-        use crate::state23_damage::Source;
-        let actor = self
-            .get(id)
-            .ok_or("damage target is not owned by this ticket")?;
-        if actor.seed.storage.state() != 23
-            || !matches!(actor.class, 73 | 230)
-            || !actor.acquired_construction
-            || self.specification(id).is_none()
-            || self.state_resources(id).is_none()
-        {
-            return Err("damage target lacks acquired state23 construction".into());
-        }
-        let source = source
-            .map(|id| {
-                let actor = self
-                    .get(id)
-                    .ok_or("damage source is not owned by this ticket")?;
-                if let Some(projectile) = &actor.basic_projectile {
-                    return Err(if projectile.launch.is_some() {
-                        "launched projectile requires acquired contact/hit dispatch before damage"
-                    } else {
-                        "constructed projectile requires acquired launch/owner initialization before damage"
-                    }.into());
-                }
-                if actor.enemy_projectile.is_some() {
-                    return Err("constructed enemy projectile requires its ordered launch and hit dispatch before damage".into());
-                }
-                if !actor.acquired_construction
-                    || actor.construction_fields.is_none()
-                    || self.specification(id).is_none()
-                    || self.state_resources(id).is_none()
-                {
-                    return Err(
-                        "damage source requires a complete acquired constructor".to_string()
-                    );
-                }
-                Ok(Source {
-                    id,
-                    state: u32::from(actor.seed.storage.state()),
-                    owner: actor
-                        .state23_combat
-                        .as_ref()
-                        .and_then(|s| s.owner.map(|(id, _)| id)),
-                })
-            })
-            .transpose()?;
-        let mut state = self.state23_snapshot(id)?;
-        let outcome = crate::state23_damage::apply(
-            &mut state,
-            amount,
-            source,
-            context,
-            random,
-            &mut State23Adapter {
-                session: self,
-                services,
-            },
-        )?;
-        let actor = self
-            .residents
-            .get_mut(&id.serial)
-            .ok_or("damage service removed its callback actor before publication")?;
-        let fields = actor
-            .construction_fields
-            .as_mut()
-            .ok_or("damage service removed its callback fields before publication")?;
-        fields.object_flags = state.flags;
-        fields.configuration[14] = state.personality;
-        fields.control_flags = state.control;
-        fields.action = state.action;
-        actor.state23_combat = Some(state);
-        Ok(outcome)
     }
     /// Build all owned resources before making an actor visible to this session.
     /// Reuse the individual binding guards in an isolated staging session. Failed
@@ -10056,6 +9965,7 @@ impl Session {
                     "attached state23 credit member requires typed attachment integration".into(),
                 );
             }
+            self.check_ripper_damage_available(who)?;
             states.push(self.state23_snapshot(who)?);
         }
         let victim_index = states
@@ -11625,6 +11535,7 @@ impl Session {
 #[cfg(test)]
 mod tests {
     use super::*;
+    include!("resident_states/ripper_damage_tests.rs");
     include!("resident_states/enemy_expiry_tests.rs");
     mod object_contact {
         use super::*;

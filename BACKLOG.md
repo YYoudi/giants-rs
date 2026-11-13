@@ -206,6 +206,20 @@ confirmed by independent prototype/PC structure and callee evidence, not by a
 score; this does not confirm the separate lethal/drop producer or close any
 runtime acceptance requirement.
 
+The owned direct state23 damage adapter now retains canonical partial callback
+fields and RNG effects on external failure, refuses replay/ordinary continuation
+of a failed actor and rejects stale publication into a replaced Session. Scalar
+preflight is shared with the acquired kernel; it does not mutate or quarantine an
+unstarted callback. Successful calls rearm for later genuine hits. A missing
+lethal effect retains the earlier health write without synthesizing the later
+mode94/death receipt. Three previous-adapter counterexamples fail before the fix.
+These supplied-service checks do not connect the ordinary Mecc partial-pistol
+serial to a launched state77 actor. Birth, parent/reference/owner and one actual
+trajectory must be established at fire time; do not manufacture an actor at the
+impact or substitute the Mecc for the projectile source. Shared-world guards,
+real injury/blood/lethal consumers and full rendered encounter acceptance remain
+open. Main's progression/publication lane remains unchanged.
+
 Owner request, 12 November: integrate source-declared Rippers to the same concrete
 ordinary interaction level as Vimps, starting with The Wife, then other declared
 maps. Main owns The Wife progression and common publication; the NPC lane must

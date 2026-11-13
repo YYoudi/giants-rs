@@ -120,18 +120,13 @@ fn choice(random: &mut Random) -> bool {
     ((random.next_15() * 100) >> 15) >= 50
 }
 
-/// Callback only: global suppression, hierarchy redirection, source cleanup,
-/// kill credit, mission accounting and notice dispatch belong to the wrapper.
-/// Scalar inputs are bounded to finite values. The wide sum selects the death
-/// branch before the stored f32 damage is rounded, as in the native callback.
-pub fn apply<I: Copy + Eq>(
-    actor: &mut State<I>,
+/// Validate the bounded callback before an owned service attempt starts.
+/// None is the original already-dead return; this publishes no actor or service.
+pub(crate) fn validate<I>(
+    actor: &State<I>,
     amount: f32,
-    source: Option<Source<I>>,
     context: Context,
-    random: &mut Random,
-    services: &mut impl Services<I>,
-) -> Result<Outcome, String> {
+) -> Result<Option<f64>, String> {
     if !matches!(actor.class, 73 | 230)
         || ![
             actor.limit,
@@ -148,7 +143,7 @@ pub fn apply<I: Copy + Eq>(
         return Err("damage requires finite debug state23 class73/230 fields".into());
     }
     if actor.damage >= actor.limit {
-        return Ok(Outcome::AlreadyDead);
+        return Ok(None);
     }
     let sum = f64::from(actor.damage) + f64::from(amount);
     if !(sum as f32).is_finite() {
@@ -158,6 +153,24 @@ pub fn apply<I: Copy + Eq>(
     if actor.action == 100 && actor.group.is_none() && sum >= f64::from(actor.limit) {
         return Err("lethal action100 requires a typed group reference".into());
     }
+    Ok(Some(sum))
+}
+
+/// Callback only: global suppression, hierarchy redirection, source cleanup,
+/// kill credit, mission accounting and notice dispatch belong to the wrapper.
+/// Scalar inputs are bounded to finite values. The wide sum selects the death
+/// branch before the stored f32 damage is rounded, as in the native callback.
+pub fn apply<I: Copy + Eq>(
+    actor: &mut State<I>,
+    amount: f32,
+    source: Option<Source<I>>,
+    context: Context,
+    random: &mut Random,
+    services: &mut impl Services<I>,
+) -> Result<Outcome, String> {
+    let Some(sum) = validate(actor, amount, context)? else {
+        return Ok(Outcome::AlreadyDead);
+    };
     if actor.action == 1 {
         if let Some(source) = source {
             actor.retaliation = source.owner;

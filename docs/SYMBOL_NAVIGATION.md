@@ -97,6 +97,10 @@ The literal prototype PS2 symbol `ripper_shot` is a search candidate for
 PC debug-1.1 `FUN_004dafd0` remains **unknown**. Existing callback controls do not
 establish an ordinary partial-pistol hit adapter, lethal consumers, platform
 layout equivalence or a confirmed prototype attribution.
+The same unknown route now also leads to the scoped direct callback in
+[`resident_states::ripper_damage`](../crates/giants-game/src/resident_states/ripper_damage.rs).
+Its canonical partial publication and failure/replacement protection do not
+establish an ordinary pistol hit, positive lethal services or a playable death.
 
 The raw prototype symbol `ripper_death_logic__FP6OBJECT` leads to the acquired
 corpse helper in [`ripper_corpse`](../crates/giants-game/src/ripper_corpse.rs).

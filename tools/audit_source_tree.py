@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed unknown Ripper damage callback route; scoped publication and
+        # failure limits only, existing bounded aliases unchanged.
+        'ae3da3f10926a48b01145f7041fa15f956d867d22a6e489f37112e0d0c9b995d',
         # Concurrent reviewed cold-profile navigation only; same sole reviewed
         # proximity alias, no AI/service availability or raw corpus claim.
         'bbdbe2d9f091996caed85d59c3805619961c7915c37dc075b35d54a884ef4128',
