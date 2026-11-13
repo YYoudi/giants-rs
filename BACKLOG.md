@@ -66,6 +66,14 @@ Remaining work, in player-impact order:
 
 1. Extend player collision/damage coverage beyond the admitted building profiles;
    acquire missing live pose/cache/state providers without inventing footprints.
+   The read-only catalogue audit now covers all 56 nonempty contexts of the
+   inspected installation (246 classes including nonbuildings), beyond the
+   original five-scene sample. Selected cold declaration gaps are pub53/state7,
+   drop-off834/state74 projectile admission and barracks686/state98. These are
+   acquisition candidates, not verified runtime behavior. Keep raw tables private
+   and the distinction between declared/prepared/rendered/damage-admitted in
+   BUILDINGS.md; no initial state83 declaration was found in this sample, which
+   says nothing about dynamic creation or other installations.
 2. Extend replacement and nested effects beyond the acquired 1127/1129 constructor
    profiles and rendered 1050 ->1127 acceptance. Preserve actual role/health/
    history ownership, complete cleanup and distinct source programs.

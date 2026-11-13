@@ -282,6 +282,30 @@ credit or complete native-world/visual fidelity. Combined regressions, live
 cancellation/fresh entry and separate Windows acceptance remain required before
 publication; .13.2 remains the public build.
 
+## Installed catalogue coverage audit
+
+A read-only continuation now visits all 56 nonempty mission/catalogue contexts
+in the inspected installation, using the same world list and mission parser as
+the browser. All instance plans prepare; their 246 distinct classes include
+actors and other objects, not 246 building families. The audit compares source
+declarations and the independently prepared player, projectile and generic
+environment mesh roles. It does not establish runtime drawing, warm callbacks,
+damage admission, mission playability or native population completeness. Detailed
+per-placement tables and installation inputs remain private.
+
+This broadens the earlier five-scene sample. Declared house/state61, scenery/
+state101 and barracks/state98 families recur across the campaigns; The Wife's
+rendered acceptance does not certify every instance. Selected next dependencies
+include class53/state7's pub cold-shape declaration, class834/state74's drop-off
+projectile declaration and class686/state98's barracks cold-shape declaration.
+Their unacquired declaration commands remain explicit preparation limits; no
+generic box, damage policy or successful callback substitutes for them. The
+father's separate class1354/state74 mesh remains independently prepared. No
+state83 instance appears in these initial catalogue declarations; dynamic
+creation, base-building and other installations remain separate audit work.
+Future native acquisition of these dependencies still starts with prototype
+PS2 name lookup under RECONSTRUCTION_METHOD.md.
+
 ## Acquisition history and bounded service evidence
 
 The chronological dependency notes below retain earlier failures and boundaries.
