@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent reviewed no-shot building route; unknown, no raw research.
+        'fec0bcb9d32839696060f3d3d3ed4c24ac2d15f49e923a271613cfb9edf3939c',
         # Reviewed direct object-contact route and distinct receipt; unknown.
         '8c9942d8203dea074fa21772306aa572c391baa9ee7793f25b9918df6d023c72',
         # Reviewed source-bearing nonlethal Mecc hit composition, still unknown.
