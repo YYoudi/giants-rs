@@ -11,6 +11,8 @@ The existing muted Story2 mission1 Ripper input diagnostic additionally accepts
 actor and `GIANTS_MISSION_RIPPER_CAPTURE_RETREAT=1` to wait for the same actor's
 observed43-to31 transition. This supplies player commands only and enables no
 ordinary actor. A diagnostic deadline remains a failure, not capture acceptance.
+Its jet pilot uses actual local terrain clearance, rather than the distant
+target's altitude, so a low target does not prevent climbing the departure ridge.
 
 The optional `cargo test --locked -p giants-game source_kind3_accepts --target
 x86_64-pc-windows-gnu -- --ignored` control uses `GIANTS_NPC_ROOT`. It constructs

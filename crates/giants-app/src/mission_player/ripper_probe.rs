@@ -206,10 +206,13 @@ pub(super) fn input(
         }
         let previous = (navigation.recharging, navigation.climbing);
         let fuel = state.mission_snapshot().1;
-        input.thrust = navigation.thrust(distance, position[2] - target[2], fuel);
+        // Input pilot only: use the actual local terrain clearance. A distant
+        // low target cannot justify walking into the departure ridge forever.
+        let clearance = position[2] - snapshot.floor_height;
+        input.thrust = navigation.thrust(distance, clearance, fuel);
         if previous != (navigation.recharging, navigation.climbing) || step.is_multiple_of(240) {
             println!(
-                "mission_ripper_supplied_jet ticket={ticket} step={step} fuel={fuel} relative_height={} held={} recharging={} climbing={} supplied_input_only=true os_input=false",
+                "mission_ripper_supplied_jet ticket={ticket} step={step} fuel={fuel} relative_height={} terrain_clearance={clearance} held={} recharging={} climbing={} supplied_input_only=true os_input=false",
                 position[2] - target[2],
                 input.thrust,
                 navigation.recharging,

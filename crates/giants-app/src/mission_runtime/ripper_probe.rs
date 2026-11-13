@@ -5,6 +5,7 @@ pub(crate) struct RipperInputSnapshot {
     pub target_actor: Option<giants_game::resident_states::Id>,
     pub target_position: Option<[f32; 3]>,
     pub target_mode: Option<u32>,
+    pub floor_height: f32,
     pub projectile_source: Option<giants_game::resident_states::Id>,
     pub flight_revision: u64,
     pub projectile: Option<[f32; 3]>,
@@ -48,6 +49,13 @@ impl Runtime {
             .filter(|active| active.ticket == ticket)
             .ok_or("Ripper probe ticket absent")?;
         let session = &active.resident_states;
+        let world = active.payload.world.as_ref().map_err(Clone::clone)?;
+        let terrain = giants_game::terrain_queries::StaticTerrainQuery::new(
+            &world.terrain,
+            1. / world.terrain.spacing,
+            giants_game::arithmetic::Precision::Double53,
+        )?;
+        let floor_height = terrain.sample([position[0], position[1]])?.height;
         let projectile = draws
             .iter()
             .filter_map(|d| {
@@ -79,6 +87,7 @@ impl Runtime {
                     .map(|f| f.position)
             }),
             target_mode: target_actor.and_then(|id| session.state23_combat(id).map(|s| s.mode)),
+            floor_height,
             projectile_source: projectile.map(|v| v.2),
             flight_revision,
             projectile: projectile.map(|v| v.1),
