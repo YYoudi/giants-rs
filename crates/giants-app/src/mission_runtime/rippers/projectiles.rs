@@ -44,7 +44,7 @@ impl State {
         frame: &live::Frame<'_>,
         random: &mut giants_game::audio_parameters::Random,
         sounds: &mut Vec<crate::mission_audio::Event>,
-        device: &mut impl giants_game::actor_retirement::Services,
+        device: &mut impl super::combat::Services,
     ) -> Result<(), String> {
         let owners: std::collections::BTreeSet<_> = self
             .bound
@@ -158,9 +158,39 @@ impl State {
                     self.ground_impact(session, frame, id, random, sounds, device)?;
                     continue;
                 }
+                if matches!(
+                    outcome,
+                    giants_game::enemy_projectile::FlightOutcome::ObjectContact { .. }
+                ) {
+                    let result = session.complete_enemy_projectile_object_contact(
+                        id,
+                        random,
+                        &mut super::combat::Object {
+                            device,
+                            step: frame.step,
+                            source: id,
+                        },
+                    )?;
+                    if result == giants_game::enemy_projectile::ObjectContactOutcome::Marked {
+                        session.cleanup_enemy_projectile_object_contact(
+                            id,
+                            &mut super::impacts::Retirement {
+                                contexts: self
+                                    .contexts
+                                    .as_mut()
+                                    .ok_or("Ripper object retirement contexts absent")?,
+                                device,
+                            },
+                        )?;
+                        self.driver.projectiles.remove(&id);
+                        self.driver.flights.remove(&id);
+                        continue;
+                    }
+                }
                 if !matches!(
                     outcome,
                     giants_game::enemy_projectile::FlightOutcome::Flying
+                        | giants_game::enemy_projectile::FlightOutcome::ObjectContact { .. }
                 ) {
                     return Err(format!(
                         "ordinary Ripper projectile has pending {outcome:?}; impact/damage/retirement consumers not connected"

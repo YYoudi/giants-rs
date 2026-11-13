@@ -5,6 +5,7 @@ use giants_game::{
     instances::Plan,
     resident_states::{Id, Session},
 };
+pub(super) mod combat;
 mod contacts;
 mod draw;
 mod impacts;

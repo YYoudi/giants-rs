@@ -64,9 +64,22 @@ stationary sources, suppression/immunity, late dependency failures and scope
 cancellation. Four private original class230
 dispatcher observations also match this canonical composition. These tests supply
 the owned frame/mode/finished-channel boundary and all service consumers. The
-ordinary host still needs its real shared-world guards and controller/audio
-providers; this API alone does not acknowledge their availability or a rendered
-hit. The older kind0 projectile adapter keeps its distinct source validation.
+ordinary host now borrows the real partial controller's health/velocity and
+immutable collision world separately, without a copied player/world. The current
+scene's real object contact enters the canonical kind0 wrapper, and class230
+mode68 enters the canonical kind3 composition. Each retains its distinct source
+validation and post-hurt/retirement contract. Possible mission/credit work still
+requires its real owner; only a checked no-effect terminal is admitted.
+
+The common impact/retirement device also reborrows the actual local-voice catalog,
+sinks and audio RNG. A missing ready sink remains an error, distinct from a real
+catalog miss; a real-device muted control checks unique-voice reuse without a
+new start or RNG draw. The two-ticket current-frame control uses the new ordinary
+controller borrow with an explicitly unavailable sound/retirement device, so it
+establishes no hit or playback. World failure/completion and edit/health-suppression
+guards remain explicitly unavailable. An attempted hit latches their error before
+Mecc damage publication; this wiring does not acknowledge guard availability,
+ordinary injury, full native interleaving or a rendered encounter.
 
 Shared failure-gate acquisition now identifies a further prerequisite on The
 Wife. The exact PC callback table and parsed class program link state51 to the

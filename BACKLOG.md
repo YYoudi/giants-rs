@@ -235,8 +235,15 @@ cold-Mecc health/velocity/timer publication and required controller/voice/post-h
 consumers. No projectile metadata or cleanup is substituted. Five supplied-frame
 controls and four original class230 dispatcher observations pass; late failures
 retain earlier publication and refuse replay, while scope cancellation cannot
-restore the source. Bind real shared-world/controller/audio providers in the
-ordinary host next; these controls do not prove rendered injury or availability.
+restore the source. The ordinary host now supplies the actual borrowed controller
+response and shared local-voice/retirement device for canonical object and mode68
+melee consumers. The real scene contact is not requeried or converted into a
+ground impact. Retained contacts keep their projectile; marked contacts use their
+distinct object-retirement receipt. Source-backed shared-world guards remain
+explicitly unavailable; no normal hit is acknowledged. A source two-ticket frame
+control and real muted unique-voice reuse pass on the new adapters, separately
+from complete damage/encounter acceptance. Bind the actual shared-world owners
+next; these controls do not prove rendered injury or ordinary combat availability.
 Failure-gate prerequisite: exact-PC callback dispatch and parsed source programs
 identify state51/Reaperman actors on The Wife (six declarations). Static acquisition
 finds a path-progress failure route and another failure arm. Do not substitute a

@@ -62,11 +62,74 @@ struct Callbacks<'a, 'f> {
     epoch: Option<u32>,
     marker_factory: &'a mut giants_game::primary_surface_marker::Factory<'static>,
     projectile_factory: &'a mut giants_game::primary_enemy_fire::Factory<'static>,
+    combat: &'a mut dyn super::combat::Services,
 }
 struct Services<'a> {
     owner: Id,
     contexts: &'a mut Pool<Id>,
     sounds: &'a mut Vec<crate::mission_audio::Event>,
+}
+struct Melee<'a, 's> {
+    primary: &'a mut Services<'s>,
+    combat: &'a mut dyn super::combat::Services,
+}
+type PrimaryState = primary::State<Id, giants_game::attached_effect_context::Id>;
+impl primary::Services<Id, giants_game::attached_effect_context::Id> for Melee<'_, '_> {
+    fn owner_sound(
+        &mut self,
+        state: &PrimaryState,
+        cue: u32,
+        random: &mut Random,
+    ) -> Result<SoundOutcome, String> {
+        primary::Services::owner_sound(self.primary, state, cue, random)
+    }
+    fn stop_owner_sound(
+        &mut self,
+        state: &PrimaryState,
+        cue: u32,
+        random: &mut Random,
+    ) -> Result<SoundOutcome, String> {
+        primary::Services::stop_owner_sound(self.primary, state, cue, random)
+    }
+    fn remove_effect(
+        &mut self,
+        state: &PrimaryState,
+        effect: giants_game::attached_effect_context::Id,
+        random: &mut Random,
+    ) -> Result<(), String> {
+        primary::Services::remove_effect(self.primary, state, effect, random)
+    }
+}
+impl giants_game::resident_states::MeccEnemyHitServices for Melee<'_, '_> {
+    fn gates(
+        &mut self,
+        session: &Session,
+        target: Id,
+    ) -> Result<giants_game::resident_states::MeccEnemyHitGates, String> {
+        self.combat.gates(session, target)
+    }
+    fn recoil(
+        &mut self,
+        session: &Session,
+        response: giants_game::controlled_mecc::HitResponse,
+    ) -> Result<(), String> {
+        self.combat.recoil(session, response)
+    }
+    fn voice(&mut self, session: &Session, target: Id, cue: u32) -> Result<(), String> {
+        self.combat.voice(session, target, cue)
+    }
+}
+impl giants_game::resident_states::RipperMeleeServices for Melee<'_, '_> {
+    fn world_suppressed(&mut self, session: &Session) -> Result<bool, String> {
+        self.combat.world_suppressed(session)
+    }
+    fn terminal(&mut self, session: &mut Session, source: Id, target: Id) -> Result<(), String> {
+        if session.ripper_melee_terminal_no_effect(source, target)? {
+            Ok(())
+        } else {
+            Err("Ripper melee requires its actual mission/credit terminal consumer".into())
+        }
+    }
 }
 impl Services<'_> {
     fn play(&mut self, cue: u32) -> SoundOutcome {
@@ -429,15 +492,19 @@ impl ActorWorldServices for Callbacks<'_, '_> {
                 self.random,
                 &mut services,
             )?,
-            (230, 68) => session.update_ripper_variant_melee(
+            (230, 68) => session.update_ripper_variant_melee_with_mecc(
                 id,
                 input,
                 primary::VariantMeleeContext {
                     attack_range: scalar(0x118)?,
                     damage: scalar(0x3dc)?,
                 },
+                self.frame.step,
                 self.random,
-                &mut services,
+                &mut Melee {
+                    primary: &mut services,
+                    combat: self.combat,
+                },
             )?,
             (230, 62) => {
                 session.update_ripper_variant_turn(id, input, self.random, &mut services)?
@@ -616,7 +683,7 @@ impl State {
         session: &mut Session,
         frame: Frame<'_>,
         random: &mut Random,
-        device: &mut impl giants_game::actor_retirement::Services,
+        device: &mut impl super::combat::Services,
     ) -> Result<Vec<crate::mission_audio::Event>, String> {
         self.view(session, frame.ticket)?;
         self.preparation
@@ -646,7 +713,7 @@ impl State {
         frame: &Frame<'_>,
         random: &mut Random,
         sounds: &mut Vec<crate::mission_audio::Event>,
-        device: &mut impl giants_game::actor_retirement::Services,
+        device: &mut impl super::combat::Services,
     ) -> Result<(), String> {
         let owners = session
             .list(0)
@@ -695,6 +762,7 @@ impl State {
                 epoch: None,
                 marker_factory: &mut self.marker_factory,
                 projectile_factory: &mut self.projectile_factory,
+                combat: device,
             };
             let outcome = session.update_actor_world(owner.id, &mut callbacks)?;
             if outcome != giants_game::actor_world_tick::Outcome::Updated {

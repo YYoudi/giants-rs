@@ -153,6 +153,22 @@ pub(crate) struct Device<'a, 'w, 's> {
     local: Id,
     assets: &'a mut Assets<crate::positional_pcm::Pcm>,
 }
+impl giants_game::resident_states::MeccImpactVoice for Device<'_, '_, '_> {
+    fn play(&mut self, session: &Session, target: Id, cue: u32) -> Result<(), String> {
+        // Reborrow the same live catalog, sinks, commands and RNG exclusively.
+        // The local voice adapter retains its routing/source/device checks.
+        let mut backend = ReservedDevice {
+            mounted: self.mounted,
+            sinks: self.sinks,
+            commands: self.commands,
+            effects: self.effects,
+            prepared_sound: None,
+        };
+        damage::SharedBackend::new(&mut backend)
+            .voice(self.local, self.local.ticket())
+            .play(session, target, cue)
+    }
+}
 impl Device<'_, '_, '_> {
     fn root(&self, s: &Session, id: Id) -> Result<Id, String> {
         match s.sound_route(

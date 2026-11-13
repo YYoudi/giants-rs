@@ -85,9 +85,9 @@ impl GroundImpactServices for Impact<'_> {
         Ok(SoundOutcome::Submitted)
     }
 }
-struct Retirement<'a, D> {
-    contexts: &'a mut Pool<Id>,
-    device: &'a mut D,
+pub(super) struct Retirement<'a, D> {
+    pub(super) contexts: &'a mut Pool<Id>,
+    pub(super) device: &'a mut D,
 }
 impl<D: giants_game::actor_retirement::Services> giants_game::actor_retirement::Services
     for Retirement<'_, D>

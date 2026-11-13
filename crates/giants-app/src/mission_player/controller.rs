@@ -1671,15 +1671,13 @@ pub(super) fn update(
                         controller.state.camera().0.view,
                         local,
                         |device| {
-                            let sounds = runtime.advance_normal_rippers_with_retirement(
-                                controller.ticket,
-                                u64::from(controller.steps),
-                                controller.state.camera().1,
-                                controller.state.mission_environment_colliders(),
-                                device,
-                            )?;
-                            runtime
-                                .prepare_ripper_impact_geometry(controller.state.camera().0.view)?;
+                            let view = controller.state.camera().0.view;
+                            let ticket = controller.ticket;
+                            let step = u64::from(controller.steps);
+                            let frame = controller.state.enemy_hit_frame()?;
+                            let sounds = runtime
+                                .advance_normal_rippers_with_player(ticket, step, frame, device)?;
+                            runtime.prepare_ripper_impact_geometry(view)?;
                             Ok(sounds)
                         },
                     )

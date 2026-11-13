@@ -1,6 +1,18 @@
 //! Source component controls and an explicit input frontier; no Windows or complete encounter proof.
 use super::*;
 
+struct MissingCombatDevice;
+impl giants_game::actor_retirement::Services for MissingCombatDevice {
+    fn release(&mut self, _: &mut Session, _: Id) -> Result<(), String> {
+        Err("frame-only control has no retirement device".into())
+    }
+}
+impl giants_game::resident_states::MeccImpactVoice for MissingCombatDevice {
+    fn play(&mut self, _: &Session, _: Id, _: u32) -> Result<(), String> {
+        Err("frame-only control has no voice device".into())
+    }
+}
+
 #[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; ordinary supplied-input frame/pose control, no GPU or OS input"]
 fn source_wife_rippers_complete_current_frames_without_replaying_history() {
@@ -309,14 +321,22 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
                     .publish_normal_mecc_contact(ticket, number, sample)
                     .unwrap();
             }
-            runtime
-                .advance_normal_rippers(
+            let result = if !marker_fixture && matches!(approach_fixture, Approach::None) {
+                runtime.advance_normal_rippers_with_player(
+                    ticket,
+                    number,
+                    viewer.enemy_hit_frame().unwrap(),
+                    &mut MissingCombatDevice,
+                )
+            } else {
+                runtime.advance_normal_rippers(
                     ticket,
                     number,
                     viewer.camera().1,
                     viewer.mission_environment_colliders(),
                 )
-                .unwrap_or_else(|e| panic!("frame {number}: {e}"));
+            };
+            result.unwrap_or_else(|e| panic!("frame {number}: {e}"));
             let draws = runtime.npc_draws(ticket).unwrap();
             assert_eq!(
                 draws.len(),

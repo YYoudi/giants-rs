@@ -1279,6 +1279,7 @@ impl Runtime {
         }
         Ok(())
     }
+    #[cfg(test)]
     pub(crate) fn advance_normal_rippers_with_retirement(
         &mut self,
         ticket: u64,
@@ -1286,6 +1287,47 @@ impl Runtime {
         camera: [f32; 3],
         objects: &[giants_game::actor_environment::Collider],
         device: &mut impl giants_game::actor_retirement::Services,
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
+        self.advance_normal_rippers_with_combat(
+            ticket,
+            step,
+            camera,
+            objects,
+            &mut rippers::combat::RetirementOnly(device),
+        )
+    }
+    pub(crate) fn advance_normal_rippers_with_player(
+        &mut self,
+        ticket: u64,
+        step: u64,
+        frame: crate::mecc_dev_scene::EnemyFrame<'_>,
+        device: &mut (
+                 impl giants_game::actor_retirement::Services
+                 + giants_game::resident_states::MeccImpactVoice
+             ),
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
+        let owner = self
+            .normal_landing_owner(ticket)
+            .ok_or("Ripper controlled Mecc absent")?;
+        self.advance_normal_rippers_with_combat(
+            ticket,
+            step,
+            frame.camera,
+            frame.objects,
+            &mut rippers::combat::Normal {
+                owner,
+                receiver: frame.receiver,
+                device,
+            },
+        )
+    }
+    fn advance_normal_rippers_with_combat(
+        &mut self,
+        ticket: u64,
+        step: u64,
+        camera: [f32; 3],
+        objects: &[giants_game::actor_environment::Collider],
+        device: &mut impl rippers::combat::Services,
     ) -> Result<Vec<crate::mission_audio::Event>, String> {
         let a = self
             .active

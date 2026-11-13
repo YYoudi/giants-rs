@@ -4,6 +4,7 @@ use giants_game::{arithmetic::Precision, mecc_motion::Motion};
 use std::{collections::BTreeMap, path::Path};
 mod collision_replay;
 mod enemy_response;
+pub(crate) use enemy_response::{EnemyFrame, EnemyReceiver};
 mod mission_contacts;
 #[cfg(test)]
 mod route_control;
