@@ -140,12 +140,24 @@ requests, with failed prefixes retained rather than automatically replayed.
 The team helper's separate Reaperman-origin branches are outside this bounded
 building-origin kernel, not silently treated as equivalent.
 
-The next ordinary owner prerequisite is concrete: The Wife declares six class215
-state51 actors, while the common declaration constructor currently admits only
-its acquired state0/state23 and herd paths. Do not acknowledge building alerts
-against an empty or partial replacement list. Bind the actual construction,
-identity, payload/current-field and ordered-list providers, preserving their
-separate AI/frame readiness and the source selector's initial primary behavior.
+The Wife declares six class215/state51 actors. Their class program exposed a
+previously unsupported vector record: the PC parser only advances over its three
+raw words. Twelve original controls retain the complete header, neighboring
+stores and cursor, including nonfinite operand bits. The source class then
+loads without inventing fields. Complete native cold constructors for class215,
+1060 and1226 match 357 projected Rust words across flags, normalized configuration,
+channels, scale and the zeroed 576-byte state51 payload. Resource-pointer identity,
+mission placement and first callbacks remain separate contracts.
+
+The common declaration path now constructs these specific class/state pairs,
+retaining their real mission identity, authored placement and list ownership.
+An installed The Wife control owns all six Reapermen and both barracks without
+acknowledging a world tick. Other state51/98 classes and unbound common F4
+placement values remain excluded. This cold construction does not run primary
+AI, emit sound or make an alert sink successful. Bind the actual typed target
+references and current-field/list providers; do not acknowledge building alerts
+against an empty or partial replacement list. Preserve separate AI/frame readiness
+and the source selector's initial primary behavior.
 Complete the shared descendant/render consumers and the actual alert/mission/retirement
 owners, then validate damage, effects, sound, collision changes and cleanup through
 normal gameplay on one identified executable before extending the public snapshot.

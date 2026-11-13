@@ -12,7 +12,7 @@ fn candidate(position: [f32; 3], data: Data<u32>) -> Candidate<u32> {
 }
 fn reaper(target: Option<u32>) -> Data<u32> {
     Data::Reaperman {
-        phase: 0,
+        opaque_0: 0,
         target,
         flags_1b8: 0,
         opaque_1f0: 0,

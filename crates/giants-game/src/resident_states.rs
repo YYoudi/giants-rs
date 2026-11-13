@@ -9812,7 +9812,11 @@ impl Session {
             && input.seed.storage.state() == 1
             && input.seed.storage.profile() == Profile::Debug
             && writes.is_empty();
-        if (!matches!(input.seed.storage.state(), 0 | 2 | 18 | 23) && !kabuto_cold)
+        if (!(crate::declared_residents::constructor_profile(
+            input.class,
+            input.seed.storage.state(),
+        ) || matches!(input.seed.storage.state(), 2 | 18))
+            && !kabuto_cold)
             || !input.seed.diagnostics.is_empty()
         {
             return Err(
@@ -10000,8 +10004,10 @@ impl Session {
         initial: crate::uncached_pose::Pose,
     ) -> Result<Id, String> {
         if key.scope != crate::declared_residents::Scope::Mission
-            || !(matches!(input.seed.storage.state(), 0 | 23)
-                || input.seed.storage.state() == 18 && input.fields.action == 3)
+            || !(crate::declared_residents::constructor_profile(
+                input.class,
+                input.seed.storage.state(),
+            ) || input.seed.storage.state() == 18 && input.fields.action == 3)
             || initial.position.map(f32::to_bits) != input.fields.position.map(f32::to_bits)
             || initial.angles.map(f32::to_bits) != input.fields.angles.map(f32::to_bits)
         {

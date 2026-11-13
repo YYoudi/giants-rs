@@ -83,10 +83,12 @@ Remaining work, in player-impact order:
    births and retirements); shader uniforms/blend updates have separate asset
    controls. The hit/alert decision kernels match 69 original contexts, including
    actual horizontal distance and distinct Reaperman/Ripper edge/target rules.
-   The next owner prerequisite is The Wife's six declared class215/state51 actors,
-   outside the common constructor's current acquired profiles. Bind their actual
-   constructor/current fields and ordered list; never replace them with an empty
-   list. Complete named quality/distance selection, graphical/audio acceptance
+   The Wife's six declared class215/state51 actors and both barracks now have
+   acquired cold constructors/identities/list membership; the cursor-only class
+   record and native copy/payload controls precede this admission. Bind their
+   actual typed target references and current-field/list consumers without
+   acknowledging AI/frame readiness or replacing them with an empty list.
+   Complete named quality/distance selection, graphical/audio acceptance
    and actual alert consumers before admitting
    ordinary damage. Existing tower geometry or the Vimp-specific effect route
    does not establish whole barracks acceptance. See BUILDINGS.md.

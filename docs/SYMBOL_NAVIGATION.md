@@ -217,6 +217,13 @@ admission remain separate evidence. Logical old-object/source aliases do not
 assign semantics to the original opaque word. Naming is not native fidelity or
 ordinary build acceptance; see [BUILDINGS.md](BUILDINGS.md).
 
+The same constructor/copy routes also lead to
+[`declared_residents`](../crates/giants-game/src/declared_residents.rs) and
+[`actor_fields`](../crates/giants-game/src/actor_fields.rs), including the bounded
+cold class215/state51 and class1060/1226/state98 profiles. These remain unknown
+attributions; cold identities, payloads and list registration do not acknowledge
+NPC AI, a world tick or the ordinary building-hit consumers.
+
 This index publishes only selected names, reviewed navigation relationships and
 attribution status. Binary/ELF inputs, raw tables, listings, matching outputs,
 disassembly and detailed research remain private. The central method pins the

@@ -115,7 +115,8 @@ pub enum Data<K> {
         target: Option<K>,
     },
     Reaperman {
-        phase: u32,
+        /// Observed zero-word eligibility gate, without assigning an AI phase.
+        opaque_0: u32,
         target: Option<K>,
         /// Retained words from the acquired PC mode102 gate. No broader
         /// personality, readiness or pointer-layout interpretation is assigned.
@@ -170,7 +171,7 @@ pub fn alert_team_from_building<K: Copy>(
             continue;
         }
         let Data::Reaperman {
-            phase,
+            opaque_0,
             target: current,
             flags_1b8,
             opaque_1f0,
@@ -179,7 +180,7 @@ pub fn alert_team_from_building<K: Copy>(
         else {
             unreachable!()
         };
-        if *phase != 0
+        if *opaque_0 != 0
             || candidate.mode == 102
                 && (*opaque_1f0 != 0
                     || *flags_1b8 & 1 == 0

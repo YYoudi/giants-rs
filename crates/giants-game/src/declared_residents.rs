@@ -1,6 +1,8 @@
 //! Construct acquired state profiles from source declarations, including the
 //! acquired herd/marker world properties. Other world modifiers, native load
 //! flags, behavior and mission readiness remain separate.
+//! Prototype PS2 `object_allocate_type` and `object_copy_personality` remain
+//! unknown-attribution navigation routes to this bounded cold construction.
 use crate::{
     actor_fields::Fields,
     instances::Plan,
@@ -50,6 +52,14 @@ struct Template {
     resources: Arc<state_resources::Prepared>,
     fields: Fields,
 }
+// Cold constructor coverage is separate from callback/frame admission. These
+// additional class/state pairs have independently checked native copy/payload
+// profiles; do not extend all state51/98 classes from a shared numeric state.
+pub(crate) fn constructor_profile(class: i32, state: u8) -> bool {
+    matches!(state, 0 | 23)
+        || class == 215 && state == 51
+        || matches!(class, 1060 | 1226) && state == 98
+}
 impl Template {
     fn load(resources: &SceneResources, class: i32) -> Result<Self, String> {
         let program = resources
@@ -65,8 +75,8 @@ impl Template {
             Profile::Debug,
             crate::arithmetic::Precision::Double53,
         )?;
-        if !matches!(seed.storage.state(), 0 | 23)
-            || (seed.storage.state() == 0 && seed.storage.data().is_some())
+        if !constructor_profile(class, seed.storage.state())
+            || (matches!(seed.storage.state(), 0 | 98) && seed.storage.data().is_some())
             || !seed.diagnostics.is_empty()
         {
             return Err("declared template has unsupported state data".into());
@@ -110,6 +120,11 @@ impl Template {
         if source.mission_word_174.is_some() {
             return Err("declared actor word174 consumer is not implemented".into());
         }
+        if matches!(self.seed.storage.state(), 51 | 98) && source.mission_values_f4.is_some() {
+            return Err(
+                "cold alert/building actor common F4 placement values remain unbound".into(),
+            );
+        }
         if source.direct_flags != self.flags {
             return Err("declared actor flags override is not constructed".into());
         }
@@ -151,8 +166,14 @@ pub fn construct_zero(plan: &Plan, session: &mut Session) -> Report {
     construct_states(plan, session, |state| state == 0, false)
 }
 pub fn construct_acquired(plan: &Plan, session: &mut Session) -> Report {
-    construct_states(plan, session, |state| matches!(state, 0 | 23), true)
+    construct_states(
+        plan,
+        session,
+        |state| matches!(state, 0 | 23 | 51 | 98),
+        true,
+    )
 }
+
 fn construct_states(
     plan: &Plan,
     session: &mut Session,
@@ -190,7 +211,8 @@ fn construct_states(
         if herd_placement.is_none()
             && let Ok(s) = &source
             && let Ok(seed) = &s.state_seed
-            && !acquired(seed.storage.state())
+            && (!acquired(seed.storage.state())
+                || !constructor_profile(s.class, seed.storage.state()))
         {
             report.other_states += 1;
             continue;
@@ -277,4 +299,62 @@ fn construct_states(
         });
     }
     report
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; The Wife cold actor identities/payloads/list ownership, not first primary/AI/audio/GPU readiness"]
+    fn installed_wife_alert_actors_and_barracks_have_cold_owned_construction() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let menu = crate::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin/w_Story2.bin")).unwrap(),
+            0,
+            true,
+        )
+        .unwrap();
+        let packet =
+            crate::mission_loading::prepare(&root, menu.request("Story2", 1).unwrap()).unwrap();
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let mut session = Session::new(411);
+        let report = construct_acquired(&plan, &mut session);
+        let records = report
+            .records
+            .iter()
+            .filter(|r| matches!(r.class, Some(215 | 1060 | 1226)))
+            .collect::<Vec<_>>();
+        assert_eq!(records.len(), 8);
+        assert_eq!(records.iter().filter(|r| r.class == Some(215)).count(), 6);
+        for record in records {
+            let id = record
+                .result
+                .as_ref()
+                .unwrap_or_else(|e| panic!("{:?}: {e}", record.key));
+            let actor = session.get(*id).unwrap();
+            let fields = actor.construction_fields.as_ref().unwrap();
+            let source = plan.entries[record.key.index].source.as_ref().unwrap();
+            assert_eq!(record.key.scope, Scope::Mission);
+            assert_eq!(fields.position, source.position);
+            assert_eq!(
+                fields.action,
+                u32::from(source.mission_selector.unwrap_or(0))
+            );
+            assert!(session.list(1).contains(id));
+            assert!(session.actor_world_tick(*id).is_err());
+            match actor.class {
+                215 => {
+                    assert_eq!(actor.seed.storage.state(), 51);
+                    let data = actor.seed.storage.data().unwrap();
+                    assert_eq!(data.len(), 576);
+                    assert!(data.iter().all(|b| *b == 0));
+                }
+                1060 | 1226 => {
+                    assert_eq!(actor.seed.storage.state(), 98);
+                    assert!(actor.seed.storage.data().is_none());
+                }
+                _ => unreachable!(),
+            }
+        }
+    }
 }
