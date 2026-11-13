@@ -1,5 +1,17 @@
 # Build on Windows with MinGW
 
+For the local classic Ripper retreat, run `cargo test --locked -p giants-game
+classic_retreat --target x86_64-pc-windows-gnu`. The optional
+`source_classic_retreat_marks_real_child_and_restores_buried_parameter` test
+uses `GIANTS_NPC_ROOT` and `-- --ignored`; `native_classic_retreat_controls`
+uses private identity-bound `GIANTS_RIPPER_RETREAT_CONTROLS` with supplied phase
+inputs. None of these CPU checks establishes ordinary combat or rendering.
+The existing muted Story2 mission1 Ripper input diagnostic additionally accepts
+`GIANTS_MISSION_RIPPER_TARGET_CLASS=73` (or230) to select an actually declared
+actor and `GIANTS_MISSION_RIPPER_CAPTURE_RETREAT=1` to wait for the same actor's
+observed43-to31 transition. This supplies player commands only and enables no
+ordinary actor. A diagnostic deadline remains a failure, not capture acceptance.
+
 The optional `cargo test --locked -p giants-game source_kind3_accepts --target
 x86_64-pc-windows-gnu -- --ignored` control uses `GIANTS_NPC_ROOT`. It constructs
 the installed surface marker on a supplied mode68 attacker, verifies that the

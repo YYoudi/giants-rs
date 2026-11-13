@@ -71,6 +71,34 @@ rendered receipt remains scoped as stated above. Required next runtime work is
 the actual shared-world guards, player projectile source and the reached classic
 attack-exit/animation continuation; special variant attacks and death remain open.
 
+### Classic attack-exit continuation (local, graphical acceptance pending)
+
+The ordinary class73 driver now connects mode43 to the acquired classic retreat
+helper. It requests the real reciprocal marker's closing mode strictly after
+the source animation threshold, then updates the actor personality; the variant
+retains its different write order. On a completed animation the classic uses its
+own cue, returns to mode31 and restores the source buried-speed parameter.
+Common motion, animation and marker retirement remain their existing owners.
+No position is forced and marking the child does not acknowledge its cleanup.
+The secondary adapter also admits the actual retreat animation instead of
+quarantining that actor at the attack exit.
+
+Sixteen original-PC helper contexts cover absent/present marker, unfinished/
+finished animation and the strict threshold boundary. The real no-op ground
+hook and absent-descriptor sound function execute; actor/target headers and
+channel samples are supplied. Rust comparisons retain those outcomes, while
+separate late-service failures check partial writes and no replay. An installed
+control uses the actual class73/marker constructors and checks the shared owner
+bridge, parameter restoration and retained child ownership. This is not whole
+native-world or ordinary graphical acceptance. Prototype PS2 `ripper_move`
+remains an unknown attribution for the classic helper and enclosing callback.
+
+The optional diagnostic can select an already present class73 or class230 actor.
+Its retreat endpoint observes the same owned actor change from43 to31; its
+pursuit displacement uses canonical actor positions, separately from animated
+draw centers. These are player-input diagnostics only, not feature switches,
+NPC pose writes, actual Windows inputs or an injury/death receipt.
+
 ## Historical Ripper integration receipts
 
 Earlier startup-policy build: source `b7cc590`, GNU executable SHA256

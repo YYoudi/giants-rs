@@ -197,7 +197,7 @@ impl ActorWorldServices for Adapter<'_, '_> {
     }
 }
 impl Session {
-    /// PC class230 mode71 writes only its real class219 child's mode2. The
+    /// PC class73 mode43 / class230 mode71 write only their real child's mode2. The
     /// ordinary child frame and existing retirement batch still own closing,
     /// event/reference completion, external release and unlinking.
     pub(super) fn mark_ripper_surface_marker_retirement(
@@ -206,9 +206,11 @@ impl Session {
     ) -> Result<(), String> {
         let source = self.ordinary_frame_actor(owner)?;
         let combat = self.state23_snapshot(owner)?;
-        if source.class != 230 || !source.ripper_primary_running || combat.mode != 71 {
+        if !matches!((source.class, combat.mode), (73, 43) | (230, 71))
+            || !source.ripper_primary_running
+        {
             return Err(
-                "retreat marker mark requires the actual running class230 mode71 primary".into(),
+                "retreat marker mark requires the actual running class73 mode43 or class230 mode71 primary".into(),
             );
         }
         let Some((marker, _)) = combat.owner else {

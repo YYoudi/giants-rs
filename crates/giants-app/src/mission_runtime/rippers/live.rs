@@ -459,6 +459,13 @@ impl ActorWorldServices for Callbacks<'_, '_> {
                 self.random,
                 &mut services,
             )?,
+            (73, 43) => session.update_ripper_retreat(
+                id,
+                input,
+                scalar(0x288)?,
+                self.random,
+                &mut services,
+            )?,
             (73, 44) => session.update_ripper_surfacing(
                 id,
                 input,
@@ -593,8 +600,12 @@ impl ActorWorldServices for Callbacks<'_, '_> {
         let selection = self.effect_selection(session, id)?;
         let combat = session.state23_combat(id).ok_or("Ripper combat absent")?;
         let class = session.get(id).unwrap().class;
-        if !matches!((class, combat.mode), (73, 31..=34 | 37..=39 | 44) | (230, 61..=69 | 71)) {
-            return Err("Ripper secondary requires an acquired ordinary selection".into());
+        if !matches!((class, combat.mode), (73, 31..=34 | 37..=39 | 43..=44) | (230, 61..=69 | 71))
+        {
+            return Err(format!(
+                "Ripper class{class} mode{} secondary requires an acquired ordinary selection",
+                combat.mode
+            ));
         }
         let scalar = |offset| self.globals.scalar(offset).map_err(|e| e.to_string());
         session.update_state23_animation(

@@ -273,6 +273,11 @@ pursuit diagnostic fails its endpoint and exposes a later classic secondary
 selection refusal after repeated shots. Acquire and connect the reached classic
 attack-exit/animation continuation before claiming sustained encounters; preserve
 the short published receipt and do not weaken its diagnostic to obtain success.
+The class73 mode43 primary and secondary are now locally connected, including
+the real reciprocal marker close, source animation threshold, class-specific
+sound and buried-speed restoration. Sixteen original helper contexts and the
+installed owner test pass; rendered acceptance remains pending. The real world
+combat guards, player projectile source, special attacks and death remain open.
 
 Next NPC delivery: acquire and connect the genuine shared-world guards that
 block reciprocal contact, alongside the actual radial recipients and positive

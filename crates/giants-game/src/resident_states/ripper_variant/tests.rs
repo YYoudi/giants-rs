@@ -223,6 +223,14 @@ fn source_variant_primary_launch_owns_projectile_and_latches_late_failure() {
 }
 
 fn source(resources: &SceneResources, ticket: u64, eligible: bool) -> (Session, Id, Id) {
+    source_for_class(resources, ticket, eligible, 230)
+}
+fn source_for_class(
+    resources: &SceneResources,
+    ticket: u64,
+    eligible: bool,
+    owner_class: i32,
+) -> (Session, Id, Id) {
     let flat = giants_formats::gti::Terrain {
         source_flags: 0,
         width: 5,
@@ -241,7 +249,10 @@ fn source(resources: &SceneResources, ticket: u64, eligible: bool) -> (Session, 
         crate::terrain_queries::StaticTerrainQuery::new(&flat, 0.001, Precision::Double53).unwrap();
     let mut session = Session::new(ticket);
     let mut ids = Vec::new();
-    for (i, class) in [230, 73].into_iter().enumerate() {
+    for (i, class) in [owner_class, if owner_class == 230 { 73 } else { 230 }]
+        .into_iter()
+        .enumerate()
+    {
         let program = resources
             .classes
             .models
@@ -399,6 +410,93 @@ fn source_variant_retreat_marks_owned_child_without_acknowledging_cleanup() {
                 .is_err()
         );
         assert_eq!(audio.calls, calls);
+    }
+}
+
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; supplied mode43/finished channel and actual source marker constructor, not a natural encounter or completed cleanup"]
+fn source_classic_retreat_marks_real_child_and_restores_buried_parameter() {
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+    for fail in [false, true] {
+        let (mut session, id, peer) =
+            source_for_class(&resources, 1900 + u64::from(fail), false, 73);
+        let marker = crate::primary_surface_marker::Factory::new(&resources)
+            .construct(&mut session, id)
+            .unwrap();
+        session.prepare_surface_marker_world(marker).unwrap();
+        let mut combat = session.state23_snapshot(id).unwrap();
+        combat.mode = 43;
+        let actor = session.residents.get_mut(&id.serial).unwrap();
+        actor.state23_combat = Some(combat);
+        actor.channels.as_mut().unwrap()[0] = [43, 1f32.to_bits(), 0, 0, 0, 0, 0, 0, 2];
+        assert!(session.mark_ripper_surface_marker_retirement(id).is_err());
+        let count = session.counts();
+        let position = session
+            .get(id)
+            .unwrap()
+            .construction_fields
+            .as_ref()
+            .unwrap()
+            .position;
+        let subset = session.perception_subset(&[id, peer]).unwrap();
+        let frame = subset.frame().unwrap();
+        let mut random = Random(1);
+        let mut audio = Audio {
+            fail_play: if fail { Some(1258) } else { None },
+            ..Default::default()
+        };
+        let result = session.update_ripper_retreat(
+            id,
+            FrameInput {
+                context: crate::state23_entry::Context {
+                    paused: false,
+                    native_mode: 0,
+                    parent_state: None,
+                    player: None,
+                    delta: 0.016,
+                },
+                frame: &frame,
+                range: 10000.,
+            },
+            50.,
+            &mut random,
+            &mut audio,
+        );
+        assert_eq!(result.is_err(), fail);
+        assert_eq!(audio.calls, [(true, 1258, 43)]);
+        assert_eq!(
+            session.state23_combat(id).unwrap().mode,
+            if fail { 43 } else { 31 }
+        );
+        assert!(
+            matches!(session.surface_link(marker), Some(SurfaceLink::Marker { owner, mode: 2, .. }) if owner == id)
+        );
+        assert_eq!(
+            session.state23_combat(id).unwrap().owner,
+            Some((marker, 219))
+        );
+        assert_eq!(
+            session
+                .get(id)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .position,
+            position
+        );
+        assert_eq!(session.counts(), count);
+        assert_eq!(random.0, 1);
+        // Marker closing/finalization/release remain their own later owners.
+        assert_eq!(session.surface_marker_frame(marker).unwrap().next_frame, 0);
+        if !fail {
+            let state = session.ripper_primary(id).unwrap().state();
+            assert_eq!(
+                state.entry.parameter,
+                (f64::from(state.entry.saved_parameter) * 0.5) as f32
+            );
+        }
     }
 }
 

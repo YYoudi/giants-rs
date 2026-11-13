@@ -135,7 +135,7 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
         assert!(runtime.npc_draws(ticket).unwrap().is_empty());
         assert!(
             runtime
-                .ripper_input_snapshot(ticket, viewer.mission_snapshot().0)
+                .ripper_input_snapshot(ticket, viewer.mission_snapshot().0, None)
                 .unwrap()
                 .mecc_damage
                 .is_none()
@@ -347,7 +347,7 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
             if number == 1 {
                 assert_eq!(
                     runtime
-                        .ripper_input_snapshot(ticket, viewer.mission_snapshot().0)
+                        .ripper_input_snapshot(ticket, viewer.mission_snapshot().0, None)
                         .unwrap()
                         .mecc_damage,
                     Some(0.)

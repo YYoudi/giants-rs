@@ -98,6 +98,7 @@ mod tests {
     use crate::ripper_perception::Candidate;
     include!("ripper_primary_turn/close_tests.rs");
     include!("ripper_primary_turn/melee_tests.rs");
+    include!("ripper_primary_turn/retreat_tests.rs");
     struct Backend {
         removals: u32,
         sounds: u32,
@@ -1437,6 +1438,7 @@ pub enum Outcome {
     CompletedVariantClose,
     CompletedVariantMelee,
     CompletedVariantRetreat,
+    CompletedRetreat,
 }
 #[derive(Clone, Debug)]
 pub struct Machine<K, E> {
@@ -1612,6 +1614,7 @@ enum Branch<'a, K> {
     VariantClose(VariantCloseContext),
     VariantMelee(VariantMeleeContext),
     VariantRetreat,
+    Retreat(f32),
     Turn(Parameters),
     Pursuit(f32),
     Emergence(f32),
@@ -1646,6 +1649,28 @@ fn footsteps(primary: [u32; 9]) -> Result<bool, &'static str> {
         .any(|at| now >= at && previous < at))
 }
 impl<K: Copy + Ord, E: Copy> Machine<K, E> {
+    /// Ordinary class73 mode43. Prototype PS2 `ripper_move` is an unknown
+    /// navigation relationship; the PC helper and its former aliases remain
+    /// distinct from the enclosing primary. No actor position is supplied.
+    pub fn advance_retreat(
+        &mut self,
+        input: FrameInput<'_, K>,
+        buried_speed_percent: f32,
+        random: &mut Random,
+        services: &mut impl Services<K, E>,
+    ) -> Result<Outcome, String> {
+        if !buried_speed_percent.is_finite() {
+            return Err("classic retreat requires its actual finite buried speed parameter".into());
+        }
+        self.advance_inner(
+            input.context,
+            input.frame,
+            input.range,
+            Branch::Retreat(buried_speed_percent),
+            random,
+            services,
+        )
+    }
     pub fn advance_variant_melee(
         &mut self,
         input: FrameInput<'_, K>,
@@ -2032,6 +2057,7 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Branch::VariantClose(_) => 67,
             Branch::VariantMelee(_) => 68,
             Branch::VariantRetreat => 71,
+            Branch::Retreat(_) => 43,
             Branch::Awakening(_) => {
                 if !matches!(original.entry.mode, 0 | 31) {
                     return Err("awakening primary requires mode0/31".into());
@@ -2202,10 +2228,19 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                     return Err(error);
                 }
             }
-        } else if let Branch::VariantRetreat = branch {
+        } else if matches!(branch, Branch::Retreat(_) | Branch::VariantRetreat) {
+            let classic = matches!(branch, Branch::Retreat(_));
             if f32::from_bits(state.primary[1]) > 0.73333335_f32 {
+                // The classic helper marks the child BEFORE storing its own
+                // personality. The variant does the reverse; retain both
+                // partial-effect orders when the real child service fails.
+                if classic && let Err(error) = services.mark_surface_marker_retirement(&state) {
+                    self.state = state;
+                    self.failed = Some(error.clone());
+                    return Err(error);
+                }
                 state.steering.personality |= 0x40;
-                if let Err(error) = services.mark_surface_marker_retirement(&state) {
+                if !classic && let Err(error) = services.mark_surface_marker_retirement(&state) {
                     self.state = state;
                     self.failed = Some(error.clone());
                     return Err(error);
@@ -2214,12 +2249,14 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             if state.primary[8] & 2 != 0 {
                 // The PC debug profile's ground-projection entry is a RET,
                 // as in the acquired class73 surfacing path. No guessed pose.
-                if let Err(error) = services.owner_sound(&state, 1235, random) {
+                if let Err(error) =
+                    services.owner_sound(&state, if classic { 1258 } else { 1235 }, random)
+                {
                     self.state = state;
                     self.failed = Some(error.clone());
                     return Err(error);
                 }
-                state.entry.mode = 61;
+                state.entry.mode = if classic { 31 } else { 61 };
                 state.steering.personality |= 0x840;
             }
         } else if let Branch::VariantCooldown(parameters) = branch {
@@ -2602,6 +2639,7 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
         let reduced = match branch {
             Branch::Emergence(p) => Some(p),
             Branch::Awakening(a) => Some(a.buried_speed_percent),
+            Branch::Retreat(p) => Some(p),
             _ => None,
         };
         if let Some(percent) = reduced
@@ -2631,6 +2669,8 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Outcome::CompletedVariantMelee
         } else if matches!(branch, Branch::VariantRetreat) {
             Outcome::CompletedVariantRetreat
+        } else if matches!(branch, Branch::Retreat(_)) {
+            Outcome::CompletedRetreat
         } else if matches!(branch, Branch::Awakening(_)) {
             Outcome::CompletedAwakening
         } else if mode == 32 {
