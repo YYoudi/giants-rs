@@ -246,6 +246,10 @@ damage/effect success. The diagnostic route now reuses the existing held-input
 escape/recharge pilot for barracks and a longer command budget; it changes no
 gameplay pose, fuel, collision, health or readiness. Repeated rendered acceptance
 on the resulting executable is still required.
+The next escape-only pilot also exhausted its longer budget at the same departure
+ridge, despite observed jet ascent. The building pilot now reuses the existing
+sampled-terrain route generator before applying those same ordinary input levels.
+Both failed receipts remain retained; neither establishes a building hit.
 
 ## Acquisition history and bounded service evidence
 

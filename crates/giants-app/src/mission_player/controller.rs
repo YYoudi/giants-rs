@@ -935,14 +935,44 @@ pub(super) fn update(
                             controller.ticket
                         );
                     }
+                    let contacts = controller.state.buildings.probe_contacts(id);
                     let target = controller.building_probe_entry.unwrap_or(target);
+                    let target = if contacts == 0 && controller.state.buildings.is_barracks(id) {
+                        if controller.probe_route.is_none() {
+                            controller.probe_route = Some(
+                                [
+                                    scene.asset.config.slope_thresholds[0],
+                                    scene.asset.config.slope_thresholds[1],
+                                    0.35,
+                                ]
+                                .into_iter()
+                                .find_map(|normal| {
+                                    route_probe::Route::prepare(
+                                        &scene.asset.terrain,
+                                        position,
+                                        target,
+                                        normal,
+                                    )
+                                    .ok()
+                                })
+                                .expect("sampled terrain input route to the authored barracks"),
+                            );
+                        }
+                        controller
+                            .probe_route
+                            .as_mut()
+                            .unwrap()
+                            .next(position)
+                            .unwrap_or(target)
+                    } else {
+                        target
+                    };
                     let camera = controller.state.subjective_inputs().0;
                     let dx = target[0] - position[0];
                     let dy = target[1] - position[1];
                     let distance = dx.hypot(dy);
                     let yaw = camera.angles[0].to_radians();
                     let desired = dx.atan2(-dy);
-                    let contacts = controller.state.buildings.probe_contacts(id);
                     let physical = controller.state.buildings.probe_requires_contact(id);
                     // Supplied input fixture only. The current partial pistol
                     // converges on a distant camera point; a thin surface can
