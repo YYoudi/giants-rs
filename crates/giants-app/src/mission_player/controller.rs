@@ -791,9 +791,15 @@ pub(super) fn update(
                     ripper_navigation,
                     ..
                 } = &mut *controller;
-                let input =
-                    ripper_probe::input(state, ripper_navigation, &mut runtime, ticket, tick)
-                        .expect("ordinary Ripper input diagnostic failed");
+                let input = ripper_probe::input(
+                    state,
+                    ripper_navigation,
+                    &mut runtime,
+                    ticket,
+                    tick,
+                    &scene.asset.terrain,
+                )
+                .expect("ordinary Ripper input diagnostic failed");
                 axes = input.axes;
                 thrust = input.thrust;
                 boost = input.boost;

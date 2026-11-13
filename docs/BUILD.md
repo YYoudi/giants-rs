@@ -13,6 +13,9 @@ observed43-to31 transition. This supplies player commands only and enables no
 ordinary actor. A diagnostic deadline remains a failure, not capture acceptance.
 Its jet pilot uses actual local terrain clearance, rather than the distant
 target's altitude, so a low target does not prevent climbing the departure ridge.
+The retreat diagnostic reuses the terrain-route and obstacle-escape input pilot
+for the distant approach. This changes supplied player commands, never NPC AI,
+colliders or actor positions; route failure remains an explicit test failure.
 
 The optional `cargo test --locked -p giants-game source_kind3_accepts --target
 x86_64-pc-windows-gnu -- --ignored` control uses `GIANTS_NPC_ROOT`. It constructs

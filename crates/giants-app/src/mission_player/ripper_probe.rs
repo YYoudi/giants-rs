@@ -81,6 +81,10 @@ pub(super) struct Navigation {
     chase_first_shot: Option<u32>,
     previous_target_mode: Option<u32>,
     retreat_completed: bool,
+    route: Option<super::route_probe::Route>,
+    route_actor: Option<giants_game::resident_states::Id>,
+    approach_done: bool,
+    escape: super::route_probe::Escape,
 }
 impl Navigation {
     fn thrust(&mut self, distance: f32, relative_height: f32, fuel: f32) -> bool {
@@ -103,6 +107,7 @@ pub(super) fn input(
     runtime: &mut Runtime,
     ticket: u64,
     step: u32,
+    terrain: &giants_formats::gti::Terrain,
 ) -> Result<Input, String> {
     let position = state.mission_snapshot().0;
     let snapshot = runtime.ripper_input_snapshot(ticket, position, target_class()?)?;
@@ -170,8 +175,28 @@ pub(super) fn input(
         let dx = target[0] - position[0];
         let dy = target[1] - position[1];
         let distance = dx.hypot(dy);
+        let waypoint = if retreat && !navigation.approach_done && distance > 250. {
+            if navigation.route_actor != snapshot.target_actor {
+                navigation.route = Some(super::route_probe::Route::prepare(
+                    terrain,
+                    position,
+                    snapshot.target_position.unwrap_or(target),
+                    0.35,
+                )?);
+                navigation.route_actor = snapshot.target_actor;
+            }
+            navigation
+                .route
+                .as_mut()
+                .and_then(|route| route.next(position))
+        } else {
+            navigation.approach_done |= retreat;
+            None
+        };
         let camera = state.subjective_inputs().0;
-        let aim = if chase
+        let aim = if let Some(waypoint) = waypoint {
+            waypoint
+        } else if chase
             || std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CONTINUATION").as_deref() == Ok("1")
         {
             [target[0], target[1], target[2] + 8.]
@@ -209,17 +234,27 @@ pub(super) fn input(
         // Input pilot only: use the actual local terrain clearance. A distant
         // low target cannot justify walking into the departure ridge forever.
         let clearance = position[2] - snapshot.floor_height;
-        input.thrust = navigation.thrust(distance, clearance, fuel);
+        if let Some(waypoint) = waypoint {
+            let (axes, thrust, boost) =
+                navigation
+                    .escape
+                    .commands(position, waypoint, fuel, &mut navigation.recharging);
+            input.axes = Vec2::from_array(axes);
+            input.thrust = thrust;
+            input.boost = boost;
+        } else {
+            input.thrust = navigation.thrust(distance, clearance, fuel);
+            input.boost = input.thrust && step.is_multiple_of(360);
+        }
         if previous != (navigation.recharging, navigation.climbing) || step.is_multiple_of(240) {
             println!(
-                "mission_ripper_supplied_jet ticket={ticket} step={step} fuel={fuel} relative_height={} terrain_clearance={clearance} held={} recharging={} climbing={} supplied_input_only=true os_input=false",
+                "mission_ripper_supplied_jet ticket={ticket} step={step} fuel={fuel} relative_height={} terrain_clearance={clearance} held={} recharging={} climbing={} player={position:?} waypoint={waypoint:?} supplied_input_only=true os_input=false",
                 position[2] - target[2],
                 input.thrust,
                 navigation.recharging,
                 navigation.climbing
             );
         }
-        input.boost = input.thrust && step.is_multiple_of(360);
     }
     Ok(input)
 }
