@@ -1042,8 +1042,9 @@ pub(super) fn update(
                     // lie above its actual muzzle ray. Aim through the real
                     // muzzle using ordinary look commands, without writing a
                     // projectile, pose, collider or gameplay aim producer.
-                    let aim = if std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref()
+                    let aim = if (std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref()
                         == Ok("unchanged")
+                        || controller.state.buildings.probe_thin_tree(id))
                         && contacts > 0
                         && distance >= 70.
                     {
