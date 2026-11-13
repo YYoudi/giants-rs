@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Complete enemy perception, navigation, attacks and mission integration remain open. The public preview retains bounded ordinary Vimp interaction. The NPC development branch connects source-declared Ripper frames, contacts, launch/flight, actual missed-shot ground reactions and projectile expiry. Diagnostic build 6354f1d reaches a real Mecc contact but refuses missing shared-world guards before damage; a second supplied-command attempt reaches its deadline. Neither identifies the earlier radial-proof obstacle. Startup policy now feeds shared local impact audio independently of muting; actual radial eligibility and hit/Vimp-alert consumers, canonical player-projectile birth, reciprocal injury, Ripper death and complete Windows encounter/menu acceptance remain open. See OWNED_NPCS.md and BACKLOG.md."
+      "detail": "Complete enemy perception, navigation, attacks and mission integration remain open. The public preview retains bounded ordinary Vimp interaction. The NPC development branch connects source-declared Ripper frames, contacts, launch/flight, missed-shot ground reactions and expiry. Startup-policy build b7cc590 has an inspected rendered ground explosion; its longer supplied-command encounter reaches its deadline without Mecc injury. Earlier diagnostic build 6354f1d reaches a real Mecc contact but refuses missing shared-world guards. Actual radial eligibility and hit/Vimp-alert consumers, canonical player-projectile birth, reciprocal injury, Ripper death and complete Windows encounter/menu acceptance remain open. See OWNED_NPCS.md and BACKLOG.md."
     },
     {
       "id": "wildlife",

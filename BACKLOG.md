@@ -182,6 +182,14 @@ a capture. No radial obstacle identity was observed. The earlier `f9c1a63`
 radial-proof refusal remains unresolved, without positive eligibility or effects.
 The new diagnostic preserves the complete conservative predicate; do not weaken
 it or supply an unbound context word to obtain a hit/alert receipt.
+Startup-policy build `b7cc590` / GNU executable
+`b85fff99053befbe50c6e7b5b330e559eadcd41d3afe46972fc765ce9396d7cb`
+renders five ground impacts and actual expiry at step6238, then reaches its
+step12000 Mecc-damage diagnostic deadline without injury (exit101, about180
+seconds, no capture or NPC refusal). No radial obstacle identity is observed.
+A second control on the same executable exits0 with an inspected visible ground
+explosion after actual impact4694. This is missed-shot feedback only, with health100;
+no reciprocal combat, death or full Windows/menu acceptance is established.
 Ordinary configuration startup now carries its actual reset projection into
 local impact audio. Gain/muting cannot select native no-play; real sinks and
 catalog ownership remain separate. This is not damage/death or full encounter

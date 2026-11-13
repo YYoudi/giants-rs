@@ -9,7 +9,32 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
-Latest rendered diagnostic build: source `6354f1d`, GNU executable SHA256
+Current startup-policy build: source `b7cc590`, GNU executable SHA256
+`b85fff99053befbe50c6e7b5b330e559eadcd41d3afe46972fc765ce9396d7cb`.
+Its continuous supplied-command Wife encounter processes five ground impacts
+and an actual expiry at step6238, without an NPC refusal or observed radial
+obstacle. It reaches the step12000 diagnostic deadline without the requested
+canonical Mecc-damage endpoint (exit101, about180 seconds, no capture). The
+historical generic draw-endpoint error text names that diagnostic deadline;
+it does not establish an NPC draw failure or an actual hit. Reciprocal combat,
+death, full encounter/menu lifecycle and Windows-input acceptance remain open.
+
+A separate rendered supplied-command control on the same executable reaches
+an actual class232 ground impact at step4694 and exits0 after about116 seconds.
+The inspected private capture shows the ground explosion and particles ahead
+of the Mecc, with health100. Capture SHA256:
+`4ec746105f3c302dfc0e8a721e9a1444aa9577a626724b2d1f7bb67bea39a2c5`.
+This establishes visible missed-shot feedback, not a positive radial effect,
+injury voice, Ripper death, full fidelity or actual Windows-held input. The new
+capture and raw receipt remain private; no competing preview/gallery is published.
+
+The startup wiring passes1,071 Rust tests with218 ignored, strict Clippy and
+formatting, plus45 Python controls. Actual executable checks also retain the
+unsupported-option rejection for native no-play/safe-mode tokens. No new
+prototype PS2 function identity is confirmed; the separately confirmed corpse
+helper below remains the current Ripper identity attribution.
+
+Earlier rendered diagnostic build: source `6354f1d`, GNU executable SHA256
 `cd1d57ba0e8016fcf467081ef513c8b912aa81e9fd25456fd24ebcca3760877f`.
 Two continuous supplied-command Wife encounters exercise the unchanged ordinary
 runtime. The first processes six actual ground impacts and one expiry without
@@ -36,8 +61,8 @@ Ordinary launch now supplies the configuration-start no-play projection to the
 shared local impact-voice device, independently of gain, capture muting and real
 sink readiness. See [the local voice contract](OWNED_MECC_CONTACT.md#ordinary-configuration-start-projection).
 This removes one missing input; it does not provide shared-world guards, actual
-voice playback, damage, death or a completed encounter. The build/encounter
-receipts above precede this startup wiring until a new receipt is recorded.
+voice playback, damage, death or a completed encounter. The current rendered receipt exercises startup wiring but reaches no actual
+local impact-voice callback; it does not establish injury-voice playback.
 
 The earlier source `3297c8c`, GNU executable SHA256
 `7dbfc7408cc75ca0d21a43f283d4b86de7f45618413c6b56e506258f0eacd21e`,
