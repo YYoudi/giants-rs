@@ -4,6 +4,7 @@ use crate::actor_scene::{self, Material};
 use crate::rigid_attachment_scene::Material as AuxiliaryMaterial;
 use bevy::{asset::RenderAssetUsages, ecs::system::SystemParam, prelude::*};
 use std::collections::{BTreeMap, BTreeSet};
+mod rigid;
 
 pub struct Plugin;
 impl bevy::app::Plugin for Plugin {
@@ -13,6 +14,12 @@ impl bevy::app::Plugin for Plugin {
         }
         if !app.is_plugin_added::<MaterialPlugin<AuxiliaryMaterial>>() {
             app.add_plugins(MaterialPlugin::<AuxiliaryMaterial>::default());
+        }
+        if !app.is_plugin_added::<MaterialPlugin<crate::scenery_scene::Material>>() {
+            app.add_plugins(MaterialPlugin::<crate::scenery_scene::Material>::default());
+        }
+        if !app.is_plugin_added::<MaterialPlugin<crate::sword_scene::Material>>() {
+            app.add_plugins(MaterialPlugin::<crate::sword_scene::Material>::default());
         }
         app.init_resource::<State>().add_systems(
             Update,
@@ -29,6 +36,8 @@ struct Part {
     index: usize,
 }
 struct Object {
+    rigid: bool,
+    textures: BTreeMap<String, Handle<Image>>,
     world: Option<Handle<bevy::render::storage::ShaderBuffer>>,
     geometry: std::sync::Arc<giants_game::scene_resources::ModelAsset>,
     images: Vec<Handle<Image>>,
@@ -48,11 +57,14 @@ struct Gpu<'w> {
     images: ResMut<'w, Assets<Image>>,
     materials: ResMut<'w, Assets<Material>>,
     auxiliary_materials: ResMut<'w, Assets<AuxiliaryMaterial>>,
+    rigid_lit: ResMut<'w, Assets<crate::scenery_scene::Material>>,
+    rigid_cube: ResMut<'w, Assets<crate::sword_scene::Material>>,
     buffers: ResMut<'w, Assets<bevy::render::storage::ShaderBuffer>>,
 }
 enum PartMaterial {
     Body(Handle<Material>),
     Auxiliary(Handle<AuxiliaryMaterial>),
+    Rigid(rigid::Material),
 }
 impl Gpu<'_> {
     fn remove(&mut self, commands: &mut Commands, object: Object) {
@@ -66,6 +78,7 @@ impl Gpu<'_> {
                 PartMaterial::Auxiliary(handle) => {
                     self.auxiliary_materials.remove(handle.id());
                 }
+                PartMaterial::Rigid(material) => rigid::remove(self, material),
             }
         }
         for image in object.images {
@@ -96,19 +109,31 @@ fn vertices(draw: &crate::mission_runtime::NpcDraw, index: usize) -> Result<Vec<
         })
         .collect()
 }
+#[allow(clippy::too_many_arguments)] // Independent ECS scene, assets and completed pose sources.
 fn update(
     mut commands: Commands,
     mut runtime: ResMut<crate::mission_runtime::Runtime>,
     scene: Option<Res<crate::world_scene::Scene>>,
+    environment: Option<Res<crate::mission_environment::State>>,
     view: Res<crate::source_view::SourceView>,
     mut state: ResMut<State>,
     mut gpu: Gpu,
     mut visuals: Query<(&mut Visibility, &mut Transform)>,
+    controllers: Query<&crate::mission_player::Controller>,
+    cube: Option<Res<crate::reflection_cube::Build>>,
 ) {
     let ticket = runtime.active_ticket();
     if state.ticket != ticket {
+        let released_ticket = state.ticket;
+        let released = state.objects.len();
         for (_, object) in std::mem::take(&mut state.objects) {
             gpu.remove(&mut commands, object);
+        }
+        if let Some(old) = released_ticket {
+            println!(
+                "mission_npc_scene_released ticket={old} objects={released} remaining_draw_owners={} owned_gpu_removal=true",
+                state.objects.len()
+            );
         }
         state.ticket = ticket;
         state.failed = None;
@@ -136,6 +161,10 @@ fn update(
     let result = (|| -> Result<(), String> {
         let mut draws = runtime.npc_draws(ticket)?;
         draws.extend(runtime.npc_effect_draws(ticket, camera.view)?);
+        let detail = environment.as_ref().and_then(|e| e.source_detail(ticket));
+        for controller in &controllers {
+            draws.extend(controller.building_effect_draws(ticket, camera.view, detail)?);
+        }
         let vimp_count = draws.iter().filter(|draw| draw.class == 8).count();
         let ripper_count = draws
             .iter()
@@ -148,7 +177,13 @@ fn update(
         let ghost_count = draws.iter().filter(|draw| draw.class == 859).count();
         let effect_count = draws
             .iter()
-            .filter(|draw| matches!(draw.id, crate::mission_runtime::NpcDrawOwner::Effect(_)))
+            .filter(|draw| {
+                matches!(
+                    draw.id,
+                    crate::mission_runtime::NpcDrawOwner::Effect(_)
+                        | crate::mission_runtime::NpcDrawOwner::BuildingEffect(_)
+                )
+            })
             .count();
         let present: BTreeSet<_> = draws.iter().map(|draw| draw.id).collect();
         let retired: Vec<_> = state
@@ -160,14 +195,34 @@ fn update(
         for id in retired {
             gpu.remove(&mut commands, state.objects.remove(&id).unwrap());
         }
+        let lights = if draws.iter().any(|d| d.rigid.is_some()) {
+            giants_game::lighting::first_world(&scene.asset.config).map_err(|e| e.to_string())?
+        } else {
+            Vec::new()
+        };
         for draw in draws {
+            if let Some(old) = state.objects.get(&draw.id) {
+                if old.frame > draw.frame || old.rigid != draw.rigid.is_some() {
+                    return Err("mission draw profile changed or frame regressed".into());
+                }
+                if !std::sync::Arc::ptr_eq(&old.geometry, &draw.geometry) && old.rigid {
+                    let old = state
+                        .objects
+                        .remove(&draw.id)
+                        .expect("observed rigid LOD owner");
+                    gpu.remove(&mut commands, old);
+                }
+            }
             if let std::collections::btree_map::Entry::Vacant(entry) = state.objects.entry(draw.id)
             {
                 let object = entry.insert(Object {
-                    world: (!matches!(draw.class, 8 | 73 | 219 | 230)).then(|| {
-                        gpu.buffers
-                            .add(crate::source_view::uniform_buffer(&Mat4::IDENTITY))
-                    }),
+                    rigid: draw.rigid.is_some(),
+                    textures: BTreeMap::new(),
+                    world: (!matches!(draw.class, 8 | 73 | 219 | 230) && draw.rigid.is_none())
+                        .then(|| {
+                            gpu.buffers
+                                .add(crate::source_view::uniform_buffer(&Mat4::IDENTITY))
+                        }),
                     geometry: draw.geometry.clone(),
                     images: vec![],
                     parts: vec![],
@@ -215,6 +270,7 @@ fn update(
                     textures.insert(String::new(), handle.clone());
                     object.images.push(handle);
                 }
+                object.textures = textures.clone();
                 for (index, part) in draw.geometry.mesh.subobjects.iter().enumerate() {
                     // The mission binding already validates the RGB body path.
                     // Keep this consumer opaque; special/alpha passes require
@@ -230,19 +286,20 @@ fn update(
                             "NPC body requires an unsupported transparent/additive material".into(),
                         );
                     }
-                    let profile = if matches!(draw.class, 8 | 73 | 219 | 230) {
-                        None
-                    } else {
-                        Some(
-                            giants_game::unlit_material::prepare_with_object_transparency(
-                                &part.material,
-                                draw.geometry
-                                    .alpha_textures
-                                    .contains(&part.material.texture.to_ascii_lowercase()),
-                                draw.transparency,
-                            )?,
-                        )
-                    };
+                    let profile =
+                        if matches!(draw.class, 8 | 73 | 219 | 230) || draw.rigid.is_some() {
+                            None
+                        } else {
+                            Some(
+                                giants_game::unlit_material::prepare_with_object_transparency(
+                                    &part.material,
+                                    draw.geometry
+                                        .alpha_textures
+                                        .contains(&part.material.texture.to_ascii_lowercase()),
+                                    draw.transparency,
+                                )?,
+                            )
+                        };
                     let ids: Vec<_> = part
                         .triangles
                         .iter()
@@ -267,7 +324,7 @@ fn update(
                             }
                         })
                         .collect();
-                    let mesh = Mesh::new(
+                    let mut mesh = Mesh::new(
                         bevy::render::render_resource::PrimitiveTopology::TriangleList,
                         RenderAssetUsages::default(),
                     )
@@ -280,7 +337,18 @@ fn update(
                     )
                     .with_inserted_attribute(Mesh::ATTRIBUTE_COLOR, colors);
                     let fog = scene.asset.config.fog;
-                    let material = if let Some(profile) = profile {
+                    let material = if draw.rigid.is_some() {
+                        PartMaterial::Rigid(rigid::create(
+                            &draw,
+                            index,
+                            &mut mesh,
+                            &textures,
+                            &mut gpu,
+                            scene,
+                            &lights,
+                            cube.as_deref(),
+                        )?)
+                    } else if let Some(profile) = profile {
                         PartMaterial::Auxiliary(
                             gpu.auxiliary_materials.add(
                                 crate::rigid_attachment_scene::owned_material(
@@ -361,6 +429,9 @@ fn update(
                                 .entity(entity)
                                 .insert(MeshMaterial3d(handle.clone()));
                         }
+                        PartMaterial::Rigid(material) => {
+                            rigid::attach(&mut commands, entity, material)
+                        }
                     }
                     object.parts.push(Part {
                         entity,
@@ -368,6 +439,14 @@ fn update(
                         material,
                         index,
                     });
+                }
+                if draw.rigid.is_some() {
+                    println!(
+                        "mission_rigid_draw_owned ticket={ticket} class={} owner={:?} parts={} source_local_geometry=true",
+                        draw.class,
+                        draw.id,
+                        object.parts.len()
+                    );
                 }
             }
             let object = state.objects.get_mut(&draw.id).unwrap();
@@ -410,6 +489,14 @@ fn update(
                             .get_mut(handle)
                             .ok_or("auxiliary material removed")?;
                         material.set_owned_profile(profile);
+                        if let Some(name) = &draw.texture {
+                            let texture = object
+                                .textures
+                                .get(&name.to_ascii_lowercase())
+                                .ok_or("building animated texture was not prepared")?
+                                .clone();
+                            material.set_owned_texture(texture);
+                        }
                         material.set_draw_view(
                             false,
                             camera.viewport.z as f32,
@@ -421,6 +508,9 @@ fn update(
                             Vec3::from_array(fog.color.map(|v| v as f32 / 255.)),
                             !scene.no_fog,
                         );
+                    }
+                    PartMaterial::Rigid(material) => {
+                        rigid::update(&draw, part.index, material, &mut gpu, scene, &lights)?
                     }
                 }
                 if let Ok((mut visibility, mut transform)) = visuals.get_mut(part.entity) {
@@ -481,6 +571,8 @@ pub(crate) fn check_render_assets(
         .init_resource::<Assets<Image>>()
         .init_resource::<Assets<Material>>()
         .init_resource::<Assets<AuxiliaryMaterial>>()
+        .init_resource::<Assets<crate::scenery_scene::Material>>()
+        .init_resource::<Assets<crate::sword_scene::Material>>()
         .init_resource::<Assets<bevy::render::storage::ShaderBuffer>>()
         .init_resource::<State>()
         .init_resource::<crate::source_view::SourceView>()

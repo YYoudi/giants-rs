@@ -1,4 +1,4 @@
-//! Static terrain contact for source-requested state78 kind6 and kind7 bodies.
+//! Static terrain contact for source-requested state78 kind6, kind7 and bounded kind8 bodies.
 //! Object volumes, world forces, sound and impact services remain upstream.
 use crate::{arithmetic::Precision, physical_ground};
 
@@ -18,6 +18,20 @@ impl Seed {
         program: &giants_formats::class_program::Program,
     ) -> Result<Self, &'static str> {
         Self::from_kind(program, 7)
+    }
+    /// Positional rigid debris: the source kind8 constructor uses the same
+    /// physical defaults. Other scale/attachment profiles remain unbound.
+    pub fn from_rigid_class(
+        program: &giants_formats::class_program::Program,
+    ) -> Result<Self, &'static str> {
+        let seed = Self::from_kind(program, 8)?;
+        if seed.class_scale != 1. {
+            return Err("rigid contact inherited scale profile unavailable");
+        }
+        Ok(seed)
+    }
+    pub fn rigid(self) -> bool {
+        self.kind == 8
     }
     fn from_kind(
         program: &giants_formats::class_program::Program,
@@ -54,7 +68,11 @@ impl Seed {
         })
     }
     pub fn instantiate(self, spawn: &crate::effect_burst::Spawn) -> Result<State, &'static str> {
-        if self.kind != 6 || !spawn.contact_requested || !spawn.physics_enabled {
+        if !matches!(self.kind, 6 | 8)
+            || (self.kind == 8 && spawn.attribute != Some(1))
+            || !spawn.contact_requested
+            || !spawn.physics_enabled
+        {
             return Err("effect contact requires source request and movement gates");
         }
         if !spawn.size_configured && spawn.visual.start_size.to_bits() != self.class_scale.to_bits()

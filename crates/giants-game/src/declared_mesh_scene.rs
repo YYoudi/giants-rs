@@ -35,7 +35,15 @@ pub struct Prepared {
 }
 
 pub fn prepare(plan: &Plan, terrain: &giants_formats::gti::Terrain) -> Prepared {
-    prepare_profile(plan, terrain, false)
+    prepare_profile(plan, terrain, Profile::Environment)
+}
+
+/// Initial static building meshes for the physical player's actual object walk.
+/// That walk does not read generic-object platform footprints. This grants no
+/// generic actor platform/radial service or live-world registration. Prototype
+/// PS2 `MeccPhysicsExApplyLocation` is an unknown attribution search route.
+pub fn prepare_players(plan: &Plan, terrain: &giants_formats::gti::Terrain) -> Prepared {
+    prepare_profile(plan, terrain, Profile::Player)
 }
 
 /// Source-declared platform geometry only. These are unresolved candidates,
@@ -45,14 +53,29 @@ pub fn prepare_platform_candidates(
     plan: &Plan,
     terrain: &giants_formats::gti::Terrain,
 ) -> Prepared {
-    prepare_profile(plan, terrain, true)
+    prepare_profile(plan, terrain, Profile::PlatformCandidates)
 }
 
+/// Projectile list admission is independent of player physics and footprint
+/// membership. These posed meshes do not grant lateral or platform response.
+pub fn prepare_projectiles(plan: &Plan, terrain: &giants_formats::gti::Terrain) -> Prepared {
+    prepare_profile(plan, terrain, Profile::Projectiles)
+}
+
+enum Profile {
+    Environment,
+    Player,
+    PlatformCandidates,
+    Projectiles,
+}
 fn prepare_profile(
     plan: &Plan,
     terrain: &giants_formats::gti::Terrain,
-    platforms: bool,
+    profile: Profile,
 ) -> Prepared {
+    let platforms = matches!(profile, Profile::PlatformCandidates);
+    let projectiles = matches!(profile, Profile::Projectiles);
+    let players = matches!(profile, Profile::Player);
     let mut output = Prepared {
         objects: vec![],
         records: vec![],
@@ -68,8 +91,11 @@ fn prepare_profile(
             let source = source?;
             let flags = source.direct_flags;
             if flags.active & 0x4000_c000 != 0
-                || flags.personality & 0x800 != 0
-                || flags.personality & 0x1008 == 0
+                || if projectiles {
+                    flags.personality & 0x20000 == 0
+                } else {
+                    flags.personality & 0x800 != 0 || (!players && flags.personality & 0x1008 == 0)
+                }
             {
                 return Ok(None);
             }
@@ -86,13 +112,51 @@ fn prepare_profile(
             let context = plan.resources();
             let projection =
                 collider_init::cold_projection(context, source.class).map_err(|e| e.to_string())?;
-            let initial = projection.placed_with_scale(pose, scale_override)?;
+            let mut initial = projection.placed_with_scale(pose, scale_override)?;
+            if players && flags.personality & 0x1008 == 0 && !matches!(initial.state, 0 | 61 | 101) {
+                // Only acquired building callbacks and callbackless state0 can
+                // extend this initial cohort; other live states remain separate.
+                return Ok(None);
+            }
+            let static_no_callback = players && flags.personality & 0x1008 == 0 && initial.state == 0;
+            if static_no_callback {
+                let binding = context.classes.models.first_selection(source.class)
+                    .ok_or("static no-callback model selection absent")?
+                    .as_ref().map_err(Clone::clone)?;
+                if !binding.selection.animations.is_empty() {
+                    return Err("state0 player mesh requires its actual animation owner".into());
+                }
+            }
+            let extended_player = players && (flags.personality & 0x1008 == 0
+                || flags.personality & 8 != 0 && flags.personality & (0x80000 | 0x100000) == 0);
+            if extended_player && !matches!(initial.state, 0 | 61 | 101) {
+                return Err("player mesh declaration requires its live pose/state owner".into());
+            }
+            if projectiles && !matches!(initial.state, 0 | 61 | 74 | 83 | 98 | 101 | 102) {
+                return Err("projectile declaration requires its live pose/state owner".into());
+            }
+            if initial.state == 61 || initial.state == 101 && !context.classes.models
+                .first_selection(source.class).ok_or("building selection absent")?
+                .as_ref().map_err(Clone::clone)?.selection.animations.is_empty() {
+                // The acquired first house callback selects health channel1.
+                // Its descriptor bounds and posed collision model must agree
+                // with the intact visual, rather than the serialized bind pose.
+                initial.fields.animation_slot = 1;
+            }
             if initial.fields.object_flags & 0x20 != 0 {
                 return Err("source cache producer required".into());
             }
-            if initial.fields.collision_flags & 8 != 0 && !platforms {
+            if initial.fields.collision_flags & 8 != 0
+                && initial.fields.collision_flags & (0x80000 | 0x100000) == 0
+                && !platforms && !projectiles && !players
+            {
                 return Err("platform footprint preparation required".into());
             }
+            // Bounds1 / Pair2 take precedence over Raster3. Their acquired
+            // membership readers cannot return platform bit1, even when the
+            // declaration also has bit8. This admits the independently selected
+            // solid collision mesh, not a fabricated walkable roof. Raster3
+            // candidates still require their actual footprint producer.
             let radius = context
                 .collision_resource_bounds(source.class, Some(1))
                 .map_err(|e| e.to_string())?;
@@ -124,9 +188,26 @@ fn prepare_profile(
             let selection = context
                 .collision_model_mesh(source.class)
                 .map_err(|e| e.to_string())?;
-            let (name, mesh) = selection
+            let (name, mut mesh) = selection
                 .geometry
                 .ok_or("selected collision slot has no geometry")?;
+            if static_no_callback && context.archives.members.contains_key(&format!("{}.skn", name.to_ascii_lowercase())) {
+                return Err("state0 player mesh requires its actual skin/pose owner".into());
+            }
+            if matches!(prepared.state, 61 | 101) {
+                let binding = context.classes.models.first_selection(source.class)
+                    .ok_or("building model selection absent")?
+                    .as_ref().map_err(Clone::clone)?;
+                if !binding.selection.animations.is_empty() {
+                    let mut health = crate::model_pose::Prepared::load_normal_initial(
+                        context, prepared.state as u8, source.class, &binding.selection,
+                    )?;
+                    health.house_health(1.)?;
+                    mesh.positions = health.positions(context, &name, &mesh)?;
+                } else if context.archives.members.contains_key(&format!("{}.skn",name.to_ascii_lowercase())) {
+                    return Err("skinned building requires its health animation resource".into());
+                }
+            }
             let m = crate::uncached_pose::matrix(
                 crate::uncached_pose::Pose {
                     position: prepared.fields.current,
@@ -185,7 +266,9 @@ fn prepare_profile(
         })();
         match result {
             Ok(Some((record, object, player_object))) => {
-                output.player_objects.push(player_object);
+                if !projectiles {
+                    output.player_objects.push(player_object);
+                }
                 output.objects.push(object);
                 output.records.push(record);
             }
@@ -222,4 +305,103 @@ fn prepare_profile(
         );
     }
     output
+}
+
+#[cfg(test)]
+mod projectile_tests {
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; source projectile meshes only, no runtime hits"]
+    fn installed_projectile_admission_is_distinct_from_player_footprints() {
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_BUILDING_ROOT").unwrap());
+        let menu = crate::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin/w_Story2.bin")).unwrap(),
+            0,
+            true,
+        )
+        .unwrap();
+        let packet =
+            crate::mission_loading::prepare(&root, menu.request("Story2", 0).unwrap()).unwrap();
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let world = packet.world_asset(&root).unwrap();
+        let physical = super::prepare(&plan, &world.terrain);
+        let players = super::prepare_players(&plan, &world.terrain);
+        let projectiles = super::prepare_projectiles(&plan, &world.terrain);
+        assert!(projectiles.player_objects.is_empty());
+        for class in [511, 512, 544, 549, 1050] {
+            assert!(players.records.iter().any(|r| r.class == class));
+        }
+        let (record, player) = players
+            .records
+            .iter()
+            .zip(&players.objects)
+            .find(|(r, _)| r.class == 511)
+            .unwrap();
+        assert_eq!(record.instance.state, 0);
+        assert_ne!(
+            crate::object_lists::membership(
+                record.class,
+                record.instance.state,
+                crate::object_lists::DirectFlags {
+                    active: record.instance.fields.object_flags,
+                    personality: record.instance.fields.collision_flags
+                }
+            ) & 0x10,
+            0
+        );
+        let projectile = projectiles
+            .objects
+            .iter()
+            .find(|o| o.fields.id == player.fields.id)
+            .unwrap();
+        assert_eq!(player.triangles, projectile.triangles);
+        assert!(!physical.records.iter().any(|r| r.class == 511));
+        for old in &physical.objects {
+            let player = players
+                .objects
+                .iter()
+                .find(|p| p.fields.id == old.fields.id)
+                .unwrap();
+            assert_eq!(player.triangles, old.triangles);
+        }
+        for class in [512, 544, 549, 1050] {
+            let count = projectiles
+                .records
+                .iter()
+                .filter(|r| r.class == class)
+                .count();
+            assert!(
+                count > 0,
+                "missing projectile class{class}; {} declarations still need owners",
+                projectiles.needs.len()
+            );
+            assert!(!physical.records.iter().any(|r| r.class == class));
+        }
+        for (record, object) in projectiles.records.iter().zip(&projectiles.objects) {
+            assert_ne!(object.fields.collision_flags & 0x20000, 0);
+            assert!(!object.triangles.is_empty());
+            if record.class == 1050 {
+                let f = record.instance.fields;
+                let matrix = crate::uncached_pose::matrix(
+                    crate::uncached_pose::Pose {
+                        position: f.current,
+                        angles: f.angles,
+                        scale: f.scale,
+                    },
+                    crate::arithmetic::Precision::Double53,
+                )
+                .unwrap();
+                let pose = crate::collision_world::SourcePose {
+                    basis: [
+                        matrix[0], matrix[1], matrix[2], matrix[4], matrix[5], matrix[6],
+                        matrix[8], matrix[9], matrix[10],
+                    ],
+                    position: f.current,
+                };
+                let stage =
+                    crate::building_geometry::Stage::health(plan.resources(), record.class, 1.)
+                        .unwrap();
+                assert_eq!(object.triangles, stage.placed(pose).unwrap());
+            }
+        }
+    }
 }

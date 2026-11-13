@@ -15,25 +15,27 @@ described below is published under the owner's explicit authorization.
 
 [Quick start](docs/QUICK_START.md) · [Build](docs/BUILD.md) · [Release policy](docs/RELEASES.md)
 
-Current Windows download: [preview-2026.11.12.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.12.2).
-The common build completes **The Wife**: reach its authored rescue destination,
-let the real six-director completion film finish, then continue into **The Road
-Home** with the nearby declared wife picked up and carried by the ordinary Mecc.
-The preceding **Starving!** twenty-meat hunt and return also remain supported.
-Open **Preview tools -> Browse all missions -> Mecc Story 2 -> The Wife**.
-WASD/mouse move and aim, hold right mouse for the jet, Space adds nitro, left
-mouse fires the partial pistol, R changes view and Escape returns to the menu
-(or explicitly skips a film). F8 toggles objective hints. No replay flag enables
-these actions, the rescue, pickup or continuation.
+Current Windows download: [preview-2026.11.13.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.2).
+Ordinary guard towers now receive pistol damage, shed source debris/particles
+with positional sound and leave an independently colliding base. Try **Mecc
+Story 2 -> The Road Home** through the mission browser. Earlier entrance,
+house, fence and small-tower damage/collision remains available. Other building
+families, weapon gates and mission death-credit remain incomplete; see
+[building coverage](docs/BUILDINGS.md).
 
-The exact executable passes both rendered mission chains, real muted audio,
-source film terminals, cleanup and common GPU regressions with supplied commands.
-Separate actual Windows checks cover The Wife entry/skip/view/fire and two
-RoadHome pickups with clean returns. They do not establish a full OS-played
-rescue or sustained held flight. Other mission completion/AI, animation blending,
-full native inventory/world continuity, visual/audio fidelity and Delphi/Kabuto
-gameplay remain incomplete. See [release notes](docs/PREVIEW_NOTES.md), the central
-[mission method](docs/MISSION_PROGRESSION.md) and [BACKLOG.md](BACKLOG.md).
+Open **Preview tools -> Browse all missions -> Mecc Story 2 -> Starving!**.
+WASD/mouse move and aim, left mouse fires, hold right mouse for the jet, Space
+adds nitro, R changes view and Escape returns to the menu or skips a film.
+No replay flag enables building damage. **Starving!** still supports the actual
+twenty-meat return; **The Wife** supports rescue, natural completion film and
+the following **The Road Home** with its declared wife picked up.
+
+The exact executable passes rendered building damage/expiry/cancellation checks,
+both mission chains and common Mecc regressions with supplied commands and real
+muted sinks. Separate actual Windows checks cover menu entry/re-entry, opening
+skip, view and brief configured-key/default-mouse fire. Full OS-played destruction,
+native visual/audio fidelity and complete gameplay remain unverified. See
+[release notes](docs/PREVIEW_NOTES.md) and [BACKLOG.md](BACKLOG.md).
 
 Engine contributors can use the reviewed [original symbol navigation](docs/SYMBOL_NAVIGATION.md)
 to find related Rust code from prototype PS2 names. Confirmed, probable and unknown
@@ -144,7 +146,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 ### Actors and shared combat
 
 - [ ] **Complete mission actor population** — partial; Runtime integration. Spawn, activation, update order, attachments, lifecycle and removal for the required actors.
-- [ ] **Enemy and boss behaviour** — partial; Runtime integration. Complete enemy perception, navigation, attacks and mission integration remain open. The public preview retains bounded ordinary Vimp interaction. The NPC development branch connects source-declared Ripper frames, contacts, launch/flight, missed-shot ground reactions and expiry. Startup-policy build b7cc590 has an inspected rendered ground explosion; its longer supplied-command encounter reaches its deadline without Mecc injury. Earlier diagnostic build 6354f1d reaches a real Mecc contact but refuses missing shared-world guards. Actual radial eligibility and hit/Vimp-alert consumers, canonical player-projectile birth, reciprocal injury, Ripper death and complete Windows encounter/menu acceptance remain open. See OWNED_NPCS.md and BACKLOG.md.
+- [ ] **Enemy and boss behaviour** — partial; Runtime integration. Source integration connects declared Ripper movement, animation, controlled-Mecc perception, pursuit and ranged attack/projectile flight to the ordinary menu-to-game runtime, together with current main building interactions. Unsupported projectile impacts are quarantined individually without acknowledging damage or freezing independent AI. Reciprocal injury, lethal combat, broader perception and full encounter fidelity remain incomplete. Download availability is established only by a matching preview receipt; see OWNED_NPCS.md and BACKLOG.md.
 - [ ] **Wildlife and non-player inhabitants** — partial; Runtime integration. Preview .12.1 retains ordinary Vimp contacts/hurt/death/blood/ghosts/meat and connects twenty-meat Starving collection/return. Authored herd admission replaces the Story2 guard; Story2 and Story5 actual GPU populations are checked. General economy, other AI, non-Mecc gameplay and full native-world/FX fidelity remain open.
 - [ ] **Complete projectile and damage rules** — partial; Runtime integration. Complete native damage, hit reactions, death, targeting and weapon interactions remain open. Download .11.1 has the ordinary partial Mecc pistol, source projectile presentation and acquired landing feedback. Short OS fire presses work; this does not establish native impact/damage behavior. Ordered burst and immediate-child services cannot run live until their canonical construction/command/contact/audio consumers exist.
 - [ ] **Injury, death and respawning** — partial; Runtime integration. Reactions, incapacitation, corpses/drops, recovery, player death and mode-specific respawn rules.
@@ -156,6 +158,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 - [ ] **All gameplay camera modes** — partial; Runtime integration. Complete source-driven player/cinematic cameras and projection across characters remain the scope. Download .11.1 retains the ordinary Mecc R view toggle and offers F7 initial Delphi/Kabuto body inspection from the normal mission browser. Kabuto reads actual owned look/size with a compatible external profile; free navigation/R reset retain inspection projection. Two OS entries per character pass. Native projection reset, same-identity player entry, startup gates and other playable controllers remain unfinished.
 - [ ] **Character HUDs, maps and objectives** — partial; Runtime integration. Health, fuel, magic, adrenaline, weapons, items, resources, targeting, map, notifications and score.
 - [ ] **Complete world and actor rendering** — partial; Runtime integration. Owned mission inspection now uploads camera-selected body models from the Session shared pose bank. Native controls match 1,280 selections and 256 complete model snapshots; six recorded Bevy endpoints cover automatic, forced and absent models. Full world visibility, part/material admission, subjective drawing, lighting, scenery and fidelity remain incomplete. See docs/OWNED_MODEL_DRAW.md.
+- [ ] **Scenery collisions and destruction** — partial; Runtime integration. Preview .13.2 adds ordinary guard-tower damage, mixed rigid debris/particle descendants, positional sound, retirement and an independently colliding source replacement base. It retains separate player/projectile/environment roles, earlier entrance/house/fence/tower reactions and an unchanged source state0 table under actual hits. Other replacements, restricted/special callbacks, generic radial/Raster3 platforms and mission death-credit remain open. See BUILDINGS.md and BACKLOG.md.
 - [ ] **Water and environmental presentation** — partial; Runtime integration. Waves, reflections, sky, fog, vegetation and environment interactions.
 - [ ] **Animations and active effects** — partial; Runtime integration. Preview .11.4 retains normal Mecc jet/projectile/landing feedback and adds actual Vimp hurt, blood, death FX, animated ghost and meat to the common renderer. Exact-build supplied-command GPU passages pass with real muted sinks. Death FX retain explicit host-frame/terrain/splat preview policies. Other AI, full native material/timing fidelity and cinematic world producers remain open.
 - [ ] **Music, voices and gameplay audio** — partial; Runtime integration. Music, dialogue/subtitles, footsteps, weapons, spells, ambience, spatial mixing and stopping/releasing sounds.

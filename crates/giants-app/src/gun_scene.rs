@@ -71,6 +71,15 @@ impl Parameters {
         self.pixel_power.w = if enabled { 1. } else { 0. };
         self
     }
+    /// Opaque texture-times-white program, with the independently acquired
+    /// no-specular draw state. A zero cube factor is a different program.
+    pub(crate) fn opaque_texture_factor_only(mut self, enabled: bool) -> Self {
+        if enabled {
+            self.pixel_power.w = 2.;
+            self.specular = Vec4::ZERO;
+        }
+        self
+    }
     pub(crate) fn untextured(mut self, enabled: bool) -> Self {
         if enabled {
             self.pixel_power.w = -1.;

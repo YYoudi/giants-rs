@@ -376,6 +376,7 @@ mod tests {
             action: 0,
             shadow_reciprocal: 0.,
             shadow: None,
+            shadow_texture: None,
             gunlist: std::sync::Arc::from([]),
             channels,
             position: [0.; 3],

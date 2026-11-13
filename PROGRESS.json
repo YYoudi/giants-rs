@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Complete enemy perception, navigation, attacks and mission integration remain open. The public preview retains bounded ordinary Vimp interaction. The NPC development branch connects source-declared Ripper frames, contacts, launch/flight, missed-shot ground reactions and expiry. Startup-policy build b7cc590 has an inspected rendered ground explosion; its longer supplied-command encounter reaches its deadline without Mecc injury. Earlier diagnostic build 6354f1d reaches a real Mecc contact but refuses missing shared-world guards. Actual radial eligibility and hit/Vimp-alert consumers, canonical player-projectile birth, reciprocal injury, Ripper death and complete Windows encounter/menu acceptance remain open. See OWNED_NPCS.md and BACKLOG.md."
+      "detail": "Source integration connects declared Ripper movement, animation, controlled-Mecc perception, pursuit and ranged attack/projectile flight to the ordinary menu-to-game runtime, together with current main building interactions. Unsupported projectile impacts are quarantined individually without acknowledging damage or freezing independent AI. Reciprocal injury, lethal combat, broader perception and full encounter fidelity remain incomplete. Download availability is established only by a matching preview receipt; see OWNED_NPCS.md and BACKLOG.md."
     },
     {
       "id": "wildlife",
@@ -425,6 +425,15 @@
       "status": "partial",
       "scope": "Runtime integration",
       "detail": "Owned mission inspection now uploads camera-selected body models from the Session shared pose bank. Native controls match 1,280 selections and 256 complete model snapshots; six recorded Bevy endpoints cover automatic, forced and absent models. Full world visibility, part/material admission, subjective drawing, lighting, scenery and fidelity remain incomplete. See docs/OWNED_MODEL_DRAW.md."
+    },
+    {
+      "id": "world-buildings",
+      "kind": "feature",
+      "group": "Interface, worlds and audio",
+      "title": "Scenery collisions and destruction",
+      "status": "partial",
+      "scope": "Runtime integration",
+      "detail": "Preview .13.2 adds ordinary guard-tower damage, mixed rigid debris/particle descendants, positional sound, retirement and an independently colliding source replacement base. It retains separate player/projectile/environment roles, earlier entrance/house/fence/tower reactions and an unchanged source state0 table under actual hits. Other replacements, restricted/special callbacks, generic radial/Raster3 platforms and mission death-credit remain open. See BUILDINGS.md and BACKLOG.md."
     },
     {
       "id": "water-environment",

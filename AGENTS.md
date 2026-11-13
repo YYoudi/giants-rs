@@ -25,6 +25,11 @@ interaction was extended through .11.4. Retain the full game scope and follow
 the current delivery at the top of BACKLOG.md. Do not close an active gameplay
 objective on dependency tests alone.
 
+Current owner objective: ordinary buildings already drawn on the maps must gain
+source-owned player/projectile collision, damage/indestructibility, progressive
+states, effects/audio and retirement. Follow docs/BUILDINGS.md and the active
+BACKLOG.md acceptance; CPU decisions and static meshes are dependencies only.
+
 Starving's twenty-meat return shipped in .12.1. Preview .12.2 extends The Wife
 through its real rescue condition, natural completion cinematic and the following
 ordinary mission with its declared wife picked up. This is a bounded mission

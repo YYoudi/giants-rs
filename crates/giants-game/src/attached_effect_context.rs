@@ -542,6 +542,67 @@ impl<K: Copy + Eq> Pool<K> {
             active: self.active.clone(),
         }
     }
+    /// Transfer the actual prepared positional context into the mixed visual
+    /// preview. Resources/profiles are checked before releasing its generation;
+    /// activation consumes only active RNG, never another named skip traversal.
+    /// Other native world, sound, nested-factory and rendering consumers remain
+    /// explicit needs on the returned constructions.
+    pub fn consume_positional_scene(
+        &mut self,
+        id: Id,
+        resources: &crate::scene_resources::SceneResources,
+        terrain: Arc<giants_formats::gti::Terrain>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<
+        (
+            crate::effect_scene_runtime::Runtime,
+            crate::effect_scene_runtime::References,
+        ),
+        String,
+    > {
+        let context = self
+            .get(id)
+            .ok_or("positional scene context absent, foreign or retired")?;
+        if context.flags() != 0
+            || context.immediate().is_some()
+            || context.inherited_matrix().is_some()
+        {
+            return Err("positional scene requires acquired flags0 noninherited context".into());
+        }
+        let position = context.position().ok_or("positional scene origin absent")?;
+        let entry = context
+            .source
+            .entries
+            .get(context.entry_index)
+            .ok_or("positional scene entry absent")?;
+        if entry.offset != context.entry_offset {
+            return Err("positional scene source identity changed".into());
+        }
+        let plan = Arc::new(
+            crate::effect_scene::Plan::project(&context.source, &entry.name)
+                .map_err(str::to_owned)?,
+        );
+        let phases = crate::effect_scene_runtime::templates(&plan).map_err(str::to_owned)?;
+        let inverse_spacing = 1. / terrain.spacing;
+        let references =
+            crate::effect_scene_runtime::References::load(resources, &context.source, &phases)?
+                .with_static_surface(terrain, inverse_spacing)?
+                .with_static_contacts(resources, &phases)?;
+        for phase in &phases {
+            references.validate(phase)?;
+        }
+        let mut staged = *random;
+        let runtime = crate::effect_scene_runtime::Runtime::prepared_positioned(
+            plan,
+            &references,
+            position,
+            &mut staged.0,
+        )?;
+        self.release_prepared(id)?;
+        *random = staged;
+        Ok((runtime, references))
+    }
+
     /// Consume a positional flat burst into source-configured birth descriptors
     /// and reference-resolved matrices. This creates no mission actor identities,
     /// does not tick particles and does not acknowledge collision/audio services.

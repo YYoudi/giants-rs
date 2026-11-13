@@ -87,10 +87,56 @@ pub(crate) fn ripper_explosion(ops: &[u8]) -> bool {
         .count();
     matches!(children, 11 | 21) && &ops[PREFIX.len() + children..] == SUFFIX
 }
+// Acquired compound stone-burst null pass. Every admitted block has a complete
+// source3 constructor and lifetime; positional sound is sampled before it.
+// The commands below skip their active stores/children on a null object. This
+// grants no active constructor, audio, texture, attachment or motion service.
+fn compound_blocks(ops: &[u8]) -> bool {
+    let mut at = usize::from(ops.first() == Some(&0x2b));
+    let mut blocks = 0;
+    while ops.get(at..at + 2) == Some(&[3, 6]) {
+        at += 2;
+        let start = at;
+        while ops
+            .get(at)
+            .is_some_and(|op| matches!(op, 4 | 0x1b | 0x21 | 0x17 | 0x10 | 0x29 | 0x0e))
+        {
+            at += 1;
+        }
+        let body = &ops[start..at];
+        if !body.contains(&4)
+            || (!body.contains(&0x10) && !body.contains(&0x29))
+            || ops.get(at) != Some(&7)
+        {
+            return false;
+        }
+        at += 1;
+        blocks += 1;
+        if blocks > 64 {
+            return false;
+        }
+    }
+    blocks >= 2 && ops.get(at..) == Some(&[2])
+}
+// Complete dust context: a hidden fixed-size/lifetime reference parent with
+// immediate children, followed by one increasing-size/gravity visual. The
+// acquired source35 null gate consumes two ranges, independently of creation.
+fn curved_dust_blocks(ops: &[u8]) -> bool {
+    if !ops.starts_with(&[3, 6, 0x1b, 0x21, 4]) {
+        return false;
+    }
+    let children = ops[5..].iter().take_while(|&&op| op == 0x10).count();
+    children > 0
+        && children <= 64
+        && ops.get(5 + children..) == Some(&[7, 3, 6, 0x35, 4, 0x0f, 7, 2])
+}
 /// Admit the whole acquired frame, never a name, address or first opcode.
 /// Range operands are decoded and validated before any random state commits.
 pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, String> {
     let ops = program.records.iter().map(|r| r.opcode).collect::<Vec<_>>();
+    // Source fixed start/end size and fixed lifetime both skip active stores
+    // without an RNG draw. Preserve this complete positional frame.
+    let fixed_sizes = ops.as_slice() == [3, 6, 8, 4, 7, 2];
     let old = matches!(
         ops.as_slice(),
         [2] | [0x24, 6, 0x1b, 7, 2] | [0x24, 6, 0x1b, 0x27, 7, 2]
@@ -151,10 +197,18 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
             | [3, 6, 4, 0x21, 0x10, 0x78, 7, 2]
             | [3, 6, 4, 0x17, 0x1c, 0x79, 7, 2]
     );
+    let stone_child = matches!(
+        ops.as_slice(),
+        [3, 6, 4, 0x33, 0x1c, 0x13, 0x12, 0x0e, 0x19, 0x47, 7, 2]
+            | [3, 6, 5, 0x33, 0x1c, 0x13, 0x12, 0x0e, 0x19, 0x47, 7, 2]
+            | [3, 6, 0x33, 4, 9, 0x0e, 0x47, 7, 2]
+            | [3, 6, 4, 0x33, 0x1c, 0x13, 0x12, 0x0e, 0x19, 7, 2]
+    );
     if ghost {
         crate::vimp_ghost::Recipe::project(program)?;
     }
     if !old
+        && !fixed_sizes
         && !ranged
         && !flat_blocks(&ops)
         && !sound_block
@@ -173,6 +227,9 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !ghost
         && !death
         && !ripper_explosion(&ops)
+        && !compound_blocks(&ops)
+        && !stone_child
+        && !curved_dust_blocks(&ops)
     {
         return Err("effect initial skip pass outside acquired complete profile".into());
     }
@@ -206,13 +263,13 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
     for record in &program.records {
         if !matches!(
             record.opcode,
-            5 | 9 | 0x12 | 0x1c | 0x28 | 0x33 | 0x5c | 0x37 | 0x0f | 0x6f | 0x79
+            5 | 9 | 0x12 | 0x1c | 0x28 | 0x33 | 0x35 | 0x5c | 0x37 | 0x0f | 0x6f | 0x79
         ) {
             continue;
         }
         let at = if matches!(
             record.opcode,
-            5 | 9 | 0x12 | 0x1c | 0x33 | 0x37 | 0x0f | 0x6f | 0x79
+            5 | 9 | 0x12 | 0x1c | 0x33 | 0x35 | 0x37 | 0x0f | 0x6f | 0x79
         ) {
             1
         } else {
@@ -236,7 +293,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         // object gate. Preserve their order within the same source record.
         for at in (0..if matches!(record.opcode, 5 | 0x33) {
             3
-        } else if matches!(record.opcode, 9 | 0x37) {
+        } else if matches!(record.opcode, 9 | 0x35 | 0x37) {
             2
         } else {
             1
@@ -268,13 +325,13 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         }
         if !matches!(
             record.opcode,
-            5 | 9 | 0x12 | 0x1c | 0x28 | 0x33 | 0x5c | 0x37 | 0x0f | 0x6f | 0x79
+            5 | 9 | 0x12 | 0x1c | 0x28 | 0x33 | 0x35 | 0x5c | 0x37 | 0x0f | 0x6f | 0x79
         ) {
             continue;
         }
         for _ in 0..if matches!(record.opcode, 5 | 0x33) {
             3
-        } else if matches!(record.opcode, 9 | 0x37) {
+        } else if matches!(record.opcode, 9 | 0x35 | 0x37) {
             2
         } else {
             1
@@ -296,6 +353,95 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn curved_dust_skip_samples_two_size_ranges_and_gravity_without_children() {
+        let mut bytes = vec![3];
+        bytes.extend(1u32.to_le_bytes());
+        bytes.extend([6, 0x1b]);
+        bytes.extend(1f32.to_le_bytes());
+        bytes.extend([0x21, 4]);
+        for v in [3f32, 0., 0.] {
+            bytes.extend(v.to_le_bytes());
+        }
+        bytes.push(0x10);
+        bytes.extend(0u32.to_le_bytes());
+        bytes.extend(b"synthetic_child\0");
+        bytes.extend(0u32.to_le_bytes());
+        bytes.extend([7, 3]);
+        bytes.extend(2u32.to_le_bytes());
+        bytes.extend([6, 0x35]);
+        for v in [10f32, 12., 40., 45.] {
+            bytes.extend(v.to_le_bytes());
+        }
+        bytes.push(4);
+        for v in [3f32, 0., 0.] {
+            bytes.extend(v.to_le_bytes());
+        }
+        bytes.push(0x0f);
+        for v in [-0.2f32, -0.1] {
+            bytes.extend(v.to_le_bytes());
+        }
+        bytes.extend([7, 2]);
+        let program = giants_formats::effect_program::parse(&bytes).unwrap();
+        let mut random = Random(17);
+        let intervals = skip(&program, &mut random).unwrap();
+        assert_eq!(
+            intervals.iter().map(|i| i.opcode).collect::<Vec<_>>(),
+            [0x35, 0x35, 0x0f]
+        );
+        let mut expected = Random(17);
+        for _ in 0..3 {
+            expected.next_15();
+        }
+        assert_eq!(random.0, expected.0);
+        let mut unsupported = program;
+        unsupported.records.last_mut().unwrap().opcode = 0x15;
+        let before = random.0;
+        assert!(skip(&unsupported, &mut random).is_err());
+        assert_eq!(random.0, before);
+    }
+    #[test]
+    fn compound_null_preparation_samples_sound_once_and_refuses_unknown_active_commands() {
+        let mut bytes = vec![0x2b];
+        bytes.extend(9u32.to_le_bytes());
+        bytes.extend(9u32.to_le_bytes());
+        for class in [10u32, 20] {
+            bytes.push(3);
+            bytes.extend(class.to_le_bytes());
+            bytes.extend([6, 0x21, 0x1b]);
+            bytes.extend(1f32.to_le_bytes());
+            bytes.push(4);
+            for value in [2f32, 0., 2.] {
+                bytes.extend(value.to_le_bytes());
+            }
+            bytes.push(0x10);
+            bytes.extend(0u32.to_le_bytes());
+            bytes.extend(b"synthetic_child\0");
+            bytes.extend(0u32.to_le_bytes());
+            bytes.push(7);
+        }
+        bytes.push(2);
+        let program = giants_formats::effect_program::parse(&bytes).unwrap();
+        let mut random = Random(17);
+        assert!(skip(&program, &mut random).unwrap().is_empty());
+        let mut expected = Random(17);
+        expected.next_15();
+        assert_eq!(random.0, expected.0);
+        // A late unsupported command must fail before the positional sound's
+        // preparation draw commits. It is not silently skipped as decoration.
+        let mut unsupported = program.clone();
+        let r = unsupported
+            .records
+            .iter_mut()
+            .rev()
+            .find(|r| r.opcode == 0x21)
+            .unwrap();
+        r.opcode = 0x16;
+        r.bytes[0] = 0x16;
+        let before = random.0;
+        assert!(skip(&unsupported, &mut random).is_err());
+        assert_eq!(random.0, before);
+    }
     #[test]
     fn death_trail_emission_window_is_sampled_without_an_active_emitter_and_is_atomic() {
         let mut bytes = vec![3];

@@ -22,11 +22,11 @@ impl References {
         if self.surface.is_none() {
             return Err("mixed static contact surface absent".into());
         }
-        for object in phases
-            .iter()
-            .flatten()
-            .filter(|o| o.contact_requested && o.physics_enabled && o.lifetime.is_some())
-        {
+        for object in phases.iter().flatten().filter(|o| {
+            (o.contact_requested || o.object_services.source47 == Some(1))
+                && o.physics_enabled
+                && o.lifetime.is_some()
+        }) {
             if let std::collections::btree_map::Entry::Vacant(entry) =
                 self.contacts.entry(object.class)
             {
@@ -39,7 +39,12 @@ impl References {
                     .as_ref()
                     .map_err(Clone::clone)?;
                 entry.insert(
-                    crate::effect_contact::Seed::from_class(program).map_err(str::to_owned)?,
+                    if object.object_services.source47 == Some(1) {
+                        crate::effect_contact::Seed::from_rigid_class(program)
+                    } else {
+                        crate::effect_contact::Seed::from_class(program)
+                    }
+                    .map_err(str::to_owned)?,
                 );
             }
         }
@@ -122,7 +127,8 @@ impl References {
             .map(crate::effect_animation::Playback::fresh_instance)
             .transpose()?;
         let profile = self.contacts.get(&construction.class).copied();
-        let mut body = Body::new(construction, matrix, pose).map_err(str::to_owned)?;
+        let mut body =
+            Body::with_contact(construction, matrix, pose, profile).map_err(str::to_owned)?;
         if let Some(playback) = &mut body.finite
             && playback.spawn.contact_requested
             && playback.spawn.physics_enabled
@@ -254,7 +260,7 @@ pub fn templates(plan: &Plan) -> Result<Vec<Vec<Construction>>, &'static str> {
 /// for a timed detached object without translation physics or surface alignment.
 /// Other transform owners remain explicit needs, independently of scalar size.
 pub fn curve_reference_pending(construction: &Construction) -> bool {
-    construction.size_opcode == Some(0x34)
+    matches!(construction.size_opcode, Some(0x34 | 0x35))
         && (construction.lifetime.is_none()
             || !matches!(construction.origin, Origin::Detached)
             || construction.physics_enabled
@@ -273,13 +279,37 @@ impl Body {
     pub fn playback(&self) -> Option<&crate::effect_burst::Playback> {
         self.finite.as_ref()
     }
+    #[cfg(test)]
     fn new(
         construction: Construction,
         birth: Matrix,
         pose: Option<crate::effect_animation::Playback>,
     ) -> Result<Self, &'static str> {
+        Self::with_contact(construction, birth, pose, None)
+    }
+    fn with_contact(
+        construction: Construction,
+        birth: Matrix,
+        pose: Option<crate::effect_animation::Playback>,
+        contact: Option<crate::effect_contact::Seed>,
+    ) -> Result<Self, &'static str> {
         if !construction.object_services.render_commands.is_empty() {
             return Err("mixed UV-scroll/vertical-fade render services not bound");
+        }
+        let rigid_contact = construction.object_services.source15
+            && construction.object_services.source47 == Some(1)
+            && construction.physics_enabled
+            && construction.lifetime.is_some()
+            && matches!(
+                construction.origin,
+                Origin::Detached | Origin::Immediate { .. }
+            )
+            && contact.is_some_and(crate::effect_contact::Seed::rigid);
+        if (construction.object_services.source15
+            || construction.object_services.source47.is_some())
+            && !rigid_contact
+        {
+            return Err("effect source15/source47 active callback owner remains unbound");
         }
         if construction.lifetime.is_none()
             && (construction.physics_enabled || construction.spin != [0.; 3])
@@ -310,9 +340,9 @@ impl Body {
                 physics_enabled: construction.physics_enabled,
                 damping: construction.damping,
                 bounce: construction.bounce,
-                contact_requested: construction.contact_requested,
+                contact_requested: construction.contact_requested || rigid_contact,
                 parameter_b0: 1f32.to_bits(),
-                attribute: None,
+                attribute: rigid_contact.then_some(1),
                 sounds: Vec::new(),
                 retained_sound: None,
                 texture_animation: None,
@@ -324,7 +354,7 @@ impl Body {
             Some(crate::effect_burst::Playback::with_size_curve(
                 spawn,
                 birth,
-                if construction.size_opcode == Some(0x34) {
+                if matches!(construction.size_opcode, Some(0x34 | 0x35)) {
                     crate::effect_visual::SizeCurve::EaseIn
                 } else {
                     crate::effect_visual::SizeCurve::Linear
@@ -357,7 +387,7 @@ impl Body {
     /// is invented.
     pub fn reference_point(&self, index: usize) -> Result<[f32; 3], String> {
         if self.curve_pending {
-            return Err("mixed guide reference curve34 scale pending".into());
+            return Err("mixed guide reference curve34/35 scale pending".into());
         }
         let local = self.local_reference(index)?.values;
         crate::render_sort::world_point(
@@ -370,9 +400,31 @@ impl Body {
     pub fn pose_seconds(&self) -> Option<f32> {
         self.pose.as_ref().map(|p| p.clock.seconds)
     }
+    /// Acquired source35 detached visual with gravity-only translation. Its
+    /// cached affine/lifetime/motion projection is independent of the still
+    /// unbound animated guide-reference service; do not use visibility to
+    /// acknowledge that service. Contact, spin, direction, surface and other
+    /// object services stay outside this combined profile.
+    pub fn free_curve35_projection(&self) -> bool {
+        let c = &self.construction;
+        c.size_opcode == Some(0x35)
+            && matches!(c.origin, Origin::Detached)
+            && c.lifetime.is_some()
+            && c.physics_enabled
+            && c.gravity.is_finite()
+            && c.speed == 0.
+            && !c.direction_requested
+            && c.spin == [0.; 3]
+            && c.damping == [0.; 2]
+            && !c.contact_requested
+            && c.bounce == 0.
+            && c.surface_offset.is_none()
+            && c.services.is_empty()
+            && c.object_services.pending_count() == 0
+    }
     pub fn visible(&self) -> bool {
         !self.construction.hidden
-            && !self.curve_pending
+            && (!self.curve_pending || self.free_curve35_projection())
             && self.finite.as_ref().is_none_or(|p| !p.expired)
     }
     pub fn expired(&self) -> bool {
@@ -391,7 +443,8 @@ impl Body {
         self.finite.as_ref().and_then(|p| p.angles)
     }
 }
-/// A configured child requested at lifetime expiry, before child activation.
+/// A configured child requested at lifetime expiry or admitted ground retirement,
+/// before child activation.
 /// Detail selection, context allocation and renderer/service completion remain
 /// the caller's responsibility. No elapsed-time substitute for other deletion
 /// paths is introduced here.
@@ -418,6 +471,30 @@ impl Runtime {
     ) -> Result<Self, String> {
         let (plan, objects, cursor) = queued.activate(seed).map_err(str::to_owned)?;
         let matrices = references.matrices(&objects, owner, position)?;
+        let bodies = objects
+            .into_iter()
+            .zip(matrices)
+            .map(|(o, m)| references.body(o, m))
+            .collect::<Result<Vec<_>, _>>()?;
+        Ok(Self {
+            plan,
+            cursor,
+            bodies: vec![bodies],
+            retirements: Vec::new(),
+        })
+    }
+    /// Transfer an already prepared positional context. The pool, which owns
+    /// the source image/entry identity, is the only caller; do not consume the
+    /// preparation RNG a second time. This supplies preview bodies, not native
+    /// world-service acknowledgements or descendant activation.
+    pub(crate) fn prepared_positioned(
+        plan: Arc<Plan>,
+        references: &References,
+        position: [f32; 3],
+        seed: &mut u32,
+    ) -> Result<Self, String> {
+        let (objects, cursor) = plan.activate(seed).map_err(str::to_owned)?;
+        let matrices = references.matrices(&objects, Matrix::identity(), position)?;
         let bodies = objects
             .into_iter()
             .zip(matrices)
@@ -468,6 +545,21 @@ impl Runtime {
         position: [f32; 3],
         seed: &mut u32,
     ) -> Result<Option<usize>, String> {
+        let phase = self.advance_context_phase(dt, references, owner, position, seed)?;
+        self.advance_bodies_with_references(dt, references)?;
+        Ok(phase)
+    }
+    /// Advance context waits/births independently of individual object clocks.
+    /// The caller must then execute body callbacks once with their actual
+    /// resolved timesteps. This does not acknowledge a native scheduler.
+    pub fn advance_context_phase(
+        &mut self,
+        dt: f32,
+        references: &References,
+        owner: Matrix,
+        position: [f32; 3],
+        seed: &mut u32,
+    ) -> Result<Option<usize>, String> {
         let mut phase = None;
         if let Some(objects) = self
             .cursor
@@ -483,13 +575,23 @@ impl Runtime {
             phase = Some(self.bodies.len());
             self.bodies.push(bodies);
         }
-        self.advance_bodies_with_references(dt, references)?;
         Ok(phase)
     }
     pub fn advance_bodies_with_references(
         &mut self,
         dt: f32,
         references: &References,
+    ) -> Result<(), String> {
+        self.advance_bodies_resolved(dt, references, |_, delta| Ok(delta))
+    }
+    /// Resolve each body's timestep from its real class context/current point;
+    /// context waits retain their separate caller-supplied clock. Errors leave
+    /// the consumed prefix intact for quarantine, never automatic replay.
+    pub fn advance_bodies_resolved(
+        &mut self,
+        dt: f32,
+        references: &References,
+        resolve: impl FnMut(&Body, f32) -> Result<f32, String>,
     ) -> Result<(), String> {
         let query = if self
             .bodies
@@ -513,7 +615,7 @@ impl Runtime {
         } else {
             None
         };
-        self.advance_body_callbacks(dt, query.as_ref())
+        self.advance_body_callbacks_resolved(dt, query.as_ref(), resolve)
     }
     /// Separate initial body callbacks from the context's first wait. This
     /// preserves the existing preview convention without consuming that wait.
@@ -525,9 +627,24 @@ impl Runtime {
         dt: f32,
         query: Option<&(crate::terrain_queries::StaticTerrainQuery<'_>, usize)>,
     ) -> Result<(), String> {
+        self.advance_body_callbacks_resolved(dt, query, |_, delta| Ok(delta))
+    }
+    fn advance_body_callbacks_resolved(
+        &mut self,
+        dt: f32,
+        query: Option<&(crate::terrain_queries::StaticTerrainQuery<'_>, usize)>,
+        mut resolve: impl FnMut(&Body, f32) -> Result<f32, String>,
+    ) -> Result<(), String> {
         for (phase, bodies) in self.bodies.iter_mut().enumerate() {
             for (object, body) in bodies.iter_mut().enumerate() {
                 let was_expired = body.expired();
+                if was_expired {
+                    continue;
+                }
+                let dt = resolve(body, dt)?;
+                if !dt.is_finite() || dt < 0. {
+                    return Err("mixed body clock outside finite nonnegative profile".into());
+                }
                 if let Some(p) = &mut body.finite {
                     if p.contact.is_some() {
                         let (query, width) = query.ok_or("mixed bound contact query absent")?;
@@ -540,6 +657,27 @@ impl Runtime {
                         .map_err(str::to_owned)?;
                     } else {
                         p.advance_free(dt).map_err(str::to_owned)?;
+                    }
+                }
+                if !was_expired
+                    && body.construction.object_services.source15
+                    && let Some(p) = &mut body.finite
+                    && let Some(contact) = &p.contact
+                {
+                    let decision = crate::effect_ground_emission::decide(
+                        crate::effect_ground_emission::Input {
+                            control_flags: 0x400,
+                            response_flags: 0,
+                            object_flags: 0,
+                            physical_flags: contact.flags,
+                            remaining: 0,
+                            effect: 0,
+                            position: p.motion.position.map(f32::to_bits),
+                        },
+                    )
+                    .map_err(str::to_owned)?;
+                    if decision.retirement.is_some() {
+                        p.expired = true;
                     }
                 }
                 if !was_expired
@@ -567,6 +705,256 @@ impl Runtime {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; prepared context transfer only, no GPU or ordinary acceptance"]
+    fn installed_guard_prepared_transfer_preserves_rng_source_pose_and_generation() {
+        use crate::{
+            attached_effect_context::{Creation, Pool},
+            audio_parameters::Random,
+        };
+        use std::sync::Arc;
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let resources =
+            crate::scene_resources::SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let image = &resources.classes.models.effects.last().unwrap().image;
+        let (_, entry) = image.find("fx_guard_tower_1").unwrap();
+        let plan = super::Plan::project(image, &entry.name).unwrap();
+        let mut expected_seed = 17;
+        let (expected, _) = plan.start(&mut expected_seed).unwrap();
+        let terrain = Arc::new(giants_formats::gti::Terrain {
+            source_flags: 3,
+            width: 2,
+            height: 2,
+            origin: [-10000.; 2],
+            spacing: 10000.,
+            height_bounds: [0.; 2],
+            fallback_texture: String::new(),
+            heights: vec![0.; 4],
+            colors: vec![],
+            tags: vec![5; 4],
+            consumed_bytes: 0,
+            opaque_tail: vec![],
+        });
+        let mut pool = Pool::<u64>::from_active_resources(41, &resources);
+        let mut random = Random(17);
+        let (Creation::Prepared(id), _) = pool
+            .prepare_positional_offset(Some(entry.offset), [1., 2., 100.], &mut random)
+            .unwrap()
+        else {
+            panic!("actual context absent")
+        };
+        let (runtime, refs) = pool
+            .consume_positional_scene(id, &resources, terrain.clone(), &mut random)
+            .unwrap();
+        assert_eq!(random.0, expected_seed);
+        assert_eq!(runtime.bodies[0].len(), expected.len());
+        assert!(pool.get(id).is_none());
+        let committed = random.0;
+        assert!(
+            pool.consume_positional_scene(id, &resources, terrain, &mut random)
+                .is_err()
+        );
+        assert_eq!(random.0, committed);
+        let matrices = refs
+            .matrices(&expected, super::Matrix::identity(), [1., 2., 100.])
+            .unwrap();
+        for ((body, expected), matrix) in runtime.bodies[0].iter().zip(expected).zip(matrices) {
+            assert_eq!(body.construction.class, expected.class);
+            assert_eq!(body.matrix().unwrap().values, matrix.values);
+            if body.construction.object_services.source15 {
+                assert!(body.playback().unwrap().contact.is_some());
+                assert!(matches!(
+                    body.construction.origin,
+                    super::Origin::Immediate { .. }
+                ));
+            }
+        }
+    }
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; original class/effect with supplied flat terrain, no GPU/factory acceptance"]
+    fn installed_rigid_contact_requests_retirement_once_at_actual_ground_position() {
+        use std::sync::Arc;
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let resources =
+            crate::scene_resources::SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let image = &resources
+            .classes
+            .models
+            .effects
+            .iter()
+            .find(|e| e.image.find("fx_tower_debri_1").is_some())
+            .unwrap()
+            .image;
+        let plan = Arc::new(super::Plan::project(image, "fx_tower_debri_1").unwrap());
+        let phases = super::templates(&plan).unwrap();
+        let terrain = giants_formats::gti::Terrain {
+            source_flags: 3,
+            width: 2,
+            height: 2,
+            origin: [-10000.; 2],
+            spacing: 10000.,
+            height_bounds: [0.; 2],
+            fallback_texture: String::new(),
+            heights: vec![0.; 4],
+            colors: vec![],
+            tags: vec![5; 4],
+            consumed_bytes: 0,
+            opaque_tail: vec![],
+        };
+        let refs = super::References::load(&resources, image, &phases)
+            .unwrap()
+            .with_static_surface(Arc::new(terrain), 0.0001)
+            .unwrap()
+            .with_static_contacts(&resources, &phases)
+            .unwrap();
+        refs.validate(&phases[0]).unwrap();
+        let mut seed = 17;
+        let mut runtime = super::Runtime::start(
+            plan,
+            &refs,
+            super::Matrix::identity(),
+            [1., 2., 100.],
+            &mut seed,
+        )
+        .unwrap();
+        let callback_seed = seed;
+        assert!(runtime.bodies[0][0].construction.object_services.source15);
+        assert!(
+            runtime.bodies[0][0]
+                .construction
+                .object_services
+                .retirement
+                .is_some()
+        );
+        for dt in [0.01, 0.01]
+            .into_iter()
+            .chain(std::iter::repeat_n(0.02, 500))
+        {
+            runtime
+                .advance(
+                    dt,
+                    &refs,
+                    super::Matrix::identity(),
+                    [1., 2., 100.],
+                    &mut seed,
+                )
+                .unwrap();
+            if runtime.bodies[0][0].expired() {
+                break;
+            }
+        }
+        let p = runtime.bodies[0][0].playback().unwrap();
+        assert!(p.expired && p.visual.age < 2.);
+        assert_eq!(p.motion.position, [1., 2., 0.]);
+        assert_ne!(p.contact.as_ref().unwrap().flags & 4, 0);
+        assert_eq!(seed, callback_seed);
+        let position = p.motion.position;
+        let requests = runtime.take_retirements();
+        assert_eq!(requests.len(), 1);
+        assert_eq!(requests[0].position, position);
+        runtime
+            .advance(
+                0.02,
+                &refs,
+                super::Matrix::identity(),
+                [1., 2., 100.],
+                &mut seed,
+            )
+            .unwrap();
+        assert!(runtime.take_retirements().is_empty());
+    }
+    #[test]
+    fn body_clocks_are_independent_of_context_waits_and_retired_instances() {
+        let refs = super::References {
+            classes: std::collections::BTreeMap::new(),
+            surface: None,
+            contacts: std::collections::BTreeMap::new(),
+        };
+        let mut seed = 17;
+        let mut runtime = super::Runtime::start(
+            std::sync::Arc::new(plan(1.)),
+            &refs,
+            super::Matrix::identity(),
+            [0.; 3],
+            &mut seed,
+        )
+        .unwrap();
+        let mut second = runtime.bodies[0][0].construction.clone();
+        second.class = 99;
+        runtime.bodies[0].push(super::Body::new(second, super::Matrix::identity(), None).unwrap());
+        runtime
+            .advance_bodies_resolved(0.01, &refs, |_, dt| Ok(dt))
+            .unwrap();
+        runtime
+            .advance_bodies_resolved(0.06, &refs, |body, dt| {
+                Ok(if body.construction.class == 99 {
+                    dt * 2.
+                } else {
+                    dt
+                })
+            })
+            .unwrap();
+        assert!(!runtime.bodies[0][0].expired());
+        assert!(runtime.bodies[0][1].expired());
+        assert_eq!(runtime.bodies[0][0].playback().unwrap().visual.age, 0.06);
+        assert!(
+            runtime
+                .advance_context_phase(0.6, &refs, super::Matrix::identity(), [0.; 3], &mut seed)
+                .unwrap()
+                .is_none()
+        );
+        assert_eq!(runtime.bodies[0][0].playback().unwrap().visual.age, 0.06);
+        runtime
+            .advance_bodies_resolved(0.01, &refs, |body, dt| {
+                assert_ne!(body.construction.class, 99);
+                Ok(dt)
+            })
+            .unwrap();
+        assert!(
+            runtime
+                .advance_context_phase(0.41, &refs, super::Matrix::identity(), [0.; 3], &mut seed)
+                .unwrap()
+                .is_some()
+        );
+        let before = runtime.bodies[0][0].playback().unwrap().visual.age;
+        assert!(
+            runtime
+                .advance_bodies_resolved(0.01, &refs, |_, _| Ok(f32::NAN))
+                .is_err()
+        );
+        assert_eq!(runtime.bodies[0][0].playback().unwrap().visual.age, before);
+    }
+    #[test]
+    fn moving_curve35_visual_does_not_acknowledge_guide_references() {
+        let (mut objects, _) = plan(1.).start(&mut 17).unwrap();
+        let mut object = objects.remove(0);
+        object.size_opcode = Some(0x35);
+        object.size = Some([10., 40.]);
+        object.lifetime = Some([3., 0., 0.]);
+        object.physics_enabled = true;
+        object.gravity = -0.2;
+        object.contact_requested = false;
+        object.bounce = 0.;
+        object.damping = [0.; 2];
+        let body = super::Body::new(object.clone(), super::Matrix::identity(), None).unwrap();
+        assert!(body.curve_pending);
+        assert!(body.visible());
+        assert!(body.reference_point(0).unwrap_err().contains("curve34/35"));
+        object.speed = 1.;
+        let unsupported = super::Body::new(object, super::Matrix::identity(), None).unwrap();
+        assert!(!unsupported.visible());
+        assert!(!unsupported.free_curve35_projection());
+    }
+    #[test]
+    fn pending_guard_control_requests_do_not_become_successful_runtime_bodies() {
+        let (objects, _) = plan(1.).start(&mut 17).unwrap();
+        for (source15, source47) in [(true, None), (false, Some(0)), (false, Some(1))] {
+            let mut object = objects[0].clone();
+            object.object_services.source15 = source15;
+            object.object_services.source47 = source47;
+            assert!(super::Body::new(object, super::Matrix::identity(), None).is_err());
+        }
+    }
     #[test]
     fn unscaled_point_support_preserves_its_basis_for_child_references() {
         let refs = super::References {

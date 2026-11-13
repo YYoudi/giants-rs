@@ -38,6 +38,80 @@ impl State {
             seconds: self.clock.seconds,
         })
     }
+    pub(crate) fn apply_building_hit(
+        &mut self,
+        hit: &crate::mission_buildings::HitResult,
+    ) -> Result<(), String> {
+        // Allocate from the same monotonic namespace as NPC contact keys.
+        // Validate the fresh object before publishing either collision state.
+        let replacement = if let Some(index) = hit.replacement {
+            let id = self.next_contact_key;
+            let next = id
+                .checked_add(1)
+                .ok_or("replacement collision identity overflow")?;
+            if self.mesh_objects.iter().any(|o| o.fields.id == id)
+                || self.projectile_objects.iter().any(|o| o.id == id)
+            {
+                return Err("replacement collision identity occupied".into());
+            }
+            Some((
+                index,
+                id,
+                next,
+                self.buildings.replacement_player(index, id)?,
+            ))
+        } else {
+            None
+        };
+        if hit.physical {
+            let object = self
+                .mesh_objects
+                .iter_mut()
+                .find(|o| o.fields.id == hit.object)
+                .ok_or("building player collision identity missing")?;
+            object.fields.object_flags = hit.active;
+            object.triangles = hit
+                .triangles
+                .iter()
+                .zip(&hit.identities)
+                .map(
+                    |(v, (part, ordinal))| giants_game::player_mesh_contact::Triangle {
+                        vertices: *v,
+                        part: *part,
+                        ordinal: *ordinal,
+                    },
+                )
+                .collect();
+        }
+        let projectile = self
+            .projectile_objects
+            .iter_mut()
+            .find(|o| o.id == hit.object)
+            .ok_or("building projectile collision identity missing")?;
+        projectile.active = hit.active;
+        if !hit.triangles.is_empty() {
+            projectile.mesh =
+                giants_game::object_segment::Mesh::new(hit.object, hit.triangles.clone())?;
+        }
+        if hit.environment {
+            let environment = self
+                .environment_objects
+                .iter_mut()
+                .find(|o| o.mesh.fields.id == hit.object)
+                .ok_or("building environment collision identity missing")?;
+            environment.mesh.fields.object_flags = hit.active;
+            environment.mesh.triangles = hit.triangles.clone();
+        }
+        if let Some((index, id, next, player)) = replacement {
+            self.buildings.publish_replacement(index, id)?;
+            // Persistent building objects precede the transient NPC suffix.
+            // The next NPC snapshot must not truncate this new owner away.
+            self.mesh_objects.insert(self.static_mesh_objects, player);
+            self.static_mesh_objects += 1;
+            self.next_contact_key = next;
+        }
+        Ok(())
+    }
     pub(crate) fn mission_npc_contact_responses(&self) -> u64 {
         self.npc_mesh_responses
     }

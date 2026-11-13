@@ -28,6 +28,9 @@ pub struct Output {
     pub state: State,
     pub retry: bool,
     pub reciprocal_hit: bool,
+    /// Fresh support from this mesh query, never a retained prior support ID.
+    /// Observation only; this does not change the acquired collision response.
+    pub support_contact: bool,
 }
 fn dot(a: [f64; 3], b: [f64; 3]) -> f64 {
     (a[0] * b[0] + a[1] * b[1]) + a[2] * b[2]
@@ -205,6 +208,7 @@ pub fn resolve_with_event(
         state,
         retry: false,
         reciprocal_hit: false,
+        support_contact: false,
     };
     if wall < 0.99 {
         let contact_plane = plane(wall_point, wall);
@@ -245,6 +249,8 @@ pub fn resolve_with_event(
             out.reciprocal_hit = object_response_flags & 0x10 != 0;
         }
     }
+    out.support_contact =
+        floor < 1.15 && out.state.support == object && out.state.physics_flags & 0x20 != 0;
     if !out
         .state
         .current
@@ -257,4 +263,45 @@ pub fn resolve_with_event(
         return Err("player contact overflow");
     }
     Ok(out)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn fresh_support_without_retry_is_distinct_from_a_retained_support_id() {
+        let state = State {
+            current: [0.; 3],
+            previous: [0.; 3],
+            velocity: [0.; 3],
+            scale: 1.,
+            radius: 1.,
+            height: 2.,
+            floor: 0.,
+            plane: [0., 0., 1., 0.],
+            physics_flags: 0,
+            support: 0,
+            hit: 0,
+            support_part: 0,
+            support_triangle: 0,
+            restitution: 0.,
+            retention: 1.,
+        };
+        let triangles = [Triangle {
+            vertices: [[-10., -10., 0.1], [10., -10., 0.1], [0., 10., 0.1]],
+            part: 3,
+            ordinal: 4,
+        }];
+        let fresh = resolve(state, 77, 0, &triangles, || Ok(false)).unwrap();
+        assert!(fresh.support_contact);
+        assert!(!fresh.retry);
+        assert_eq!(
+            (fresh.state.support_part, fresh.state.support_triangle),
+            (3, 4)
+        );
+        let retained = resolve(fresh.state, 77, 0, &[], || Ok(false)).unwrap();
+        assert_eq!(retained.state.support, 77);
+        assert!(!retained.support_contact);
+    }
 }

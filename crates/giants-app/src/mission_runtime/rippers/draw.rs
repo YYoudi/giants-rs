@@ -27,6 +27,7 @@ impl State {
                 self.driver
                     .projectiles
                     .iter()
+                    .filter(|id| !self.driver.projectile_failures.contains_key(id))
                     .filter_map(|&id| session.get(id).map(|actor| (id, actor.class))),
             )
             .collect::<Vec<_>>();
@@ -144,6 +145,8 @@ impl State {
                 })
                 .collect::<Result<Vec<_>, String>>()?;
             result.push(super::super::npc::Draw {
+                rigid: None,
+                texture: None,
                 class,
                 transparency: 0.,
                 id: super::super::npc::DrawOwner::Actor(id),

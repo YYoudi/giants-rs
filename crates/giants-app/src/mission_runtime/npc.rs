@@ -35,6 +35,10 @@ pub(super) struct State {
 
 /// A copied submission, not a second simulation or shared pose buffer.
 pub(crate) struct Draw {
+    /// Source-local normal geometry with an actual current world matrix.
+    /// Existing unlit world-space submissions retain their separate path.
+    pub rigid: Option<RigidProfile>,
+    pub texture: Option<String>,
     pub class: i32,
     pub transparency: f32,
     pub id: DrawOwner,
@@ -43,8 +47,14 @@ pub(crate) struct Draw {
     pub positions: Vec<[f32; 3]>,
     pub center: [f32; 3],
 }
+pub(crate) struct RigidProfile {
+    pub asset: Arc<giants_game::static_geometry::Asset>,
+    pub matrix: [f32; 16],
+}
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum DrawOwner {
+    BuildingEffect(u64),
+    BuildingReplacement(u64),
     Actor(Id),
     Effect(giants_game::vimp_death_fx::Key),
 }
@@ -309,6 +319,8 @@ impl State {
                 })
                 .collect::<Result<Vec<_>, String>>()?;
             result.push(Draw {
+                rigid: None,
+                texture: None,
                 class: 8,
                 transparency: 0.,
                 id: DrawOwner::Actor(id),

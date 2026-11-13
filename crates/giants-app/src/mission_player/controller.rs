@@ -32,6 +32,10 @@ pub(crate) struct Controller {
     world_signals_failed: bool,
     npc_failed: bool,
     ripper_failed: bool,
+    building_failed: bool,
+    building_probe_target: Option<u32>,
+    building_probe_entry: Option<[f32; 3]>,
+    building_probe_terminal: bool,
     // Input-fixture memory only: release RMB long enough to recharge, as a
     // player would. Never changes fuel, actor pose or the ordinary jet service.
     probe_recharge: bool,
@@ -99,6 +103,26 @@ impl Controller {
         self.state.set_mission_contacts(self.ticket, contacts)
     }
 
+    pub(crate) fn building_cancel_snapshot(&self) -> Option<(u64, u64, usize)> {
+        (self.replay_done && self.building_probe_terminal && !self.building_failed).then_some((
+            self.state.buildings.effects.births,
+            self.state.buildings.effects.retired,
+            self.state.buildings.effects.active(),
+        ))
+    }
+    pub(crate) fn building_effect_draws(
+        &self,
+        ticket: u64,
+        view: [f32; 16],
+        detail: Option<([f32; 3], f32)>,
+    ) -> Result<Vec<crate::mission_runtime::NpcDraw>, String> {
+        if self.ticket != ticket || self.building_failed {
+            return Ok(vec![]);
+        }
+        self.state.buildings.draws(view, detail)
+    }
+}
+impl Controller {
     fn campaign_probe() -> bool {
         crate::frontend_scene::objective_interaction_probe()
             || Self::meat_probe()
@@ -384,7 +408,9 @@ impl Controller {
                 120000
             } else if Self::vimp_contact_probe() {
                 12000
-            } else if crate::frontend_scene::vimp_interaction_probe() {
+            } else if crate::frontend_scene::vimp_interaction_probe()
+                || crate::frontend_scene::building_interaction_probe()
+            {
                 6000
             } else if matches!(
                 std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
@@ -431,6 +457,10 @@ impl Controller {
             world_signals_failed: false,
             npc_failed: false,
             ripper_failed: false,
+            building_failed: false,
+            building_probe_target: None,
+            building_probe_entry: None,
+            building_probe_terminal: false,
             probe_recharge: false,
             ripper_navigation: Default::default(),
             probe_route: None,
@@ -462,6 +492,7 @@ pub(super) struct HostTime<'w> {
 }
 #[derive(bevy::ecs::system::SystemParam)]
 pub(super) struct AudioRequests<'w, 's> {
+    building: MessageWriter<'w, crate::mission_buildings::Update>,
     local: MessageWriter<'w, crate::mission_audio::Request>,
     flight: MessageWriter<'w, crate::mission_flight_audio::Born>,
     owned: crate::mission_audio::OwnedAudio<'w, 's>,
@@ -649,6 +680,7 @@ pub(super) fn update(
             } else if crate::frontend_scene::vimp_interaction_probe()
                 || crate::frontend_scene::objective_interaction_probe()
                 || ripper_probe::enabled()
+                || crate::frontend_scene::building_interaction_probe()
             {
                 // Keep a many-actor/audio probe to one fixed step per render
                 // host frame. Accelerating four steps ahead of asynchronous
@@ -670,6 +702,7 @@ pub(super) fn update(
             && !(controller.owned_backend && controller.owned_motion_failed)
         {
             let tick = controller.steps;
+            let mut building_fire = false;
             if replay_running {
                 let probe = std::env::var("GIANTS_SUBJECTIVE_PROBE").ok();
                 let toggle = match probe.as_deref() {
@@ -905,6 +938,144 @@ pub(super) fn update(
                     }
                 }
             }
+            if replay_running && crate::frontend_scene::building_interaction_probe() {
+                axes = Vec2::ZERO;
+                thrust = false;
+                boost = false;
+                let position = controller.state.mission_snapshot().0;
+                if let Some((id, target)) = controller
+                    .state
+                    .buildings
+                    .probe_target(position, controller.building_probe_target)
+                {
+                    if controller.building_probe_target.is_none() {
+                        controller.building_probe_entry = controller
+                            .state
+                            .buildings
+                            .probe_entry_waypoint(id, position);
+                    }
+                    controller.building_probe_target = Some(id);
+                    if controller.building_probe_entry.is_some_and(|entry| {
+                        (entry[0] - position[0]).hypot(entry[1] - position[1]) < 4.
+                    }) {
+                        controller.building_probe_entry = None;
+                        println!(
+                            "mission_building_entry_waypoint_reached ticket={} supplied_input_only=true positions_written=false",
+                            controller.ticket
+                        );
+                    }
+                    let target = controller.building_probe_entry.unwrap_or(target);
+                    let camera = controller.state.subjective_inputs().0;
+                    let dx = target[0] - position[0];
+                    let dy = target[1] - position[1];
+                    let distance = dx.hypot(dy);
+                    let yaw = camera.angles[0].to_radians();
+                    let desired = dx.atan2(-dy);
+                    let contacts = controller.state.buildings.probe_contacts(id);
+                    let physical = controller.state.buildings.probe_requires_contact(id);
+                    // Supplied input fixture only. The current partial pistol
+                    // converges on a distant camera point; a thin surface can
+                    // lie above its actual muzzle ray. Aim through the real
+                    // muzzle using ordinary look commands, without writing a
+                    // projectile, pose, collider or gameplay aim producer.
+                    let aim = if std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref()
+                        == Ok("unchanged")
+                        && contacts > 0
+                        && distance >= 70.
+                    {
+                        let (muzzle, current_aim) = controller
+                            .state
+                            .combat_pose()
+                            .expect("building input fixture requires the actual pistol muzzle");
+                        let muzzle = Vec3::from(muzzle);
+                        let eye = Vec3::from(camera.position);
+                        let direction = (Vec3::from(target) - muzzle)
+                            .try_normalize()
+                            .expect("building input fixture target coincides with the muzzle");
+                        let offset = muzzle - eye;
+                        let along = offset.dot(direction);
+                        let radius = Vec3::from(current_aim).distance(eye);
+                        let discriminant =
+                            along * along + radius * radius - offset.length_squared();
+                        assert!(
+                            discriminant.is_finite() && discriminant >= 0.,
+                            "building input fixture aim sphere has no forward intersection"
+                        );
+                        (muzzle + direction * (-along + discriminant.sqrt())).to_array()
+                    } else {
+                        target
+                    };
+                    let horizontal =
+                        (aim[0] - camera.position[0]).hypot(aim[1] - camera.position[1]);
+                    let pitch = (camera.position[2] - aim[2]).atan2(horizontal.max(1.));
+                    let desired = if aim != target {
+                        (aim[0] - camera.position[0]).atan2(-(aim[1] - camera.position[1]))
+                    } else {
+                        desired
+                    };
+                    controller.state.mission_look(
+                        Vec2::new(
+                            (yaw - desired + std::f32::consts::PI)
+                                .rem_euclid(std::f32::consts::TAU)
+                                - std::f32::consts::PI,
+                            pitch + camera.angles[1].to_radians(),
+                        ),
+                        false,
+                    );
+                    let approach = !physical
+                        && controller
+                            .pistol()
+                            .is_some_and(|p| distance > p.definition.range * 0.6);
+                    if contacts == 0 && physical || approach {
+                        axes = Vec2::Y;
+                        thrust = tick > 1200 && position[2] < target[2];
+                    } else if distance < 70. {
+                        axes = -Vec2::Y;
+                    } else if !controller.building_probe_terminal {
+                        building_fire = true;
+                    }
+                    if tick % 600 == 0 {
+                        println!(
+                            "mission_building_input_probe ticket={} tick={tick} object={id} position={position:?} target={target:?} contacts={contacts} fire={building_fire} supplied_input_only=true",
+                            controller.ticket
+                        );
+                    }
+                } else if controller.building_probe_terminal
+                    && std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref() == Ok("settled")
+                    && let Some((id, target, contacts)) = controller
+                        .building_probe_target
+                        .and_then(|old| controller.state.buildings.probe_replacement(old))
+                {
+                    // Post-destruction acceptance uses ordinary movement only.
+                    // Keep the old shot target as the historical alias and
+                    // observe a fresh contact against the new collision ID.
+                    let camera = controller.state.subjective_inputs().0;
+                    let dx = target[0] - position[0];
+                    let dy = target[1] - position[1];
+                    let distance = dx.hypot(dy);
+                    let desired = dx.atan2(-dy);
+                    let yaw = camera.angles[0].to_radians();
+                    controller.state.mission_look(
+                        Vec2::new(
+                            (yaw - desired + std::f32::consts::PI)
+                                .rem_euclid(std::f32::consts::TAU)
+                                - std::f32::consts::PI,
+                            camera.angles[1].to_radians(),
+                        ),
+                        false,
+                    );
+                    if contacts == 0 {
+                        axes = Vec2::Y;
+                    } else if distance < 70. {
+                        axes = -Vec2::Y;
+                    }
+                    if tick % 600 == 0 {
+                        println!(
+                            "mission_building_replacement_input_probe object={id} tick={tick} position={position:?} target={target:?} contacts={contacts} supplied_input_only=true"
+                        );
+                    }
+                }
+            }
             if controller.owned_backend {
                 let seconds = controller.remainder.min(0.1) as f32;
                 let delta = if controller.owned_replay && controller.owned_jet_probe {
@@ -1116,7 +1287,9 @@ pub(super) fn update(
                     );
                 }
             }
-            let fire = if replay_running && crate::frontend_scene::objective_interaction_probe() {
+            let fire = if replay_running && crate::frontend_scene::building_interaction_probe() {
+                building_fire
+            } else if replay_running && crate::frontend_scene::objective_interaction_probe() {
                 false
             } else if replay_running && crate::frontend_scene::vimp_interaction_probe() {
                 !Controller::vimp_contact_probe()
@@ -1264,6 +1437,69 @@ pub(super) fn update(
                                 error!("Vimp hit refused: {e}");
                             }
                         }
+                    } else if !controller.building_failed {
+                        let camera = controller.state.subjective_inputs().0.position;
+                        let ticket = controller.ticket;
+                        match runtime.hit_normal_building(
+                            ticket,
+                            &mut controller.state,
+                            hit,
+                            camera,
+                        ) {
+                            Ok(Some(result)) => {
+                                if replay_running
+                                    && crate::frontend_scene::building_interaction_probe()
+                                    && controller.building_probe_target == Some(result.object)
+                                    && !controller.building_probe_terminal
+                                {
+                                    let phase = std::env::var("GIANTS_MISSION_BUILDING_CAPTURE")
+                                        .unwrap_or_else(|_| "destroyed".into());
+                                    let reached = if phase == "damaged" {
+                                        result
+                                            .update
+                                            .geometry
+                                            .as_ref()
+                                            .is_some_and(|g| g.fraction < 1.)
+                                    } else {
+                                        result.update.geometry.is_none()
+                                    };
+                                    if reached {
+                                        controller.building_probe_terminal = true;
+                                        controller.finish_step = if phase == "settled" {
+                                            120000
+                                        } else {
+                                            tick + 60
+                                        };
+                                    }
+                                }
+                                audio.building.write(result.update);
+                                for event in result.sounds {
+                                    audio
+                                        .local
+                                        .write(crate::mission_audio::Request { ticket, event });
+                                }
+                            }
+                            Ok(None) => {
+                                if replay_running
+                                    && crate::frontend_scene::building_interaction_probe()
+                                    && std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref()
+                                        == Ok("unchanged")
+                                    && controller.building_probe_target.is_some_and(|id| {
+                                        controller.state.buildings.probe_no_shot_hits(id) >= 3
+                                    })
+                                    && !controller.building_probe_terminal
+                                {
+                                    controller.building_probe_terminal = true;
+                                    controller.finish_step = tick + 60;
+                                }
+                            }
+                            Err(error) => {
+                                controller.building_failed = true;
+                                error!(
+                                    "mission_building_hit_refused ticket={ticket} error={error}"
+                                );
+                            }
+                        }
                     }
                 }
                 for impact in result.impacts {
@@ -1279,7 +1515,7 @@ pub(super) fn update(
                     }
                     match impact {
                         giants_game::mecc_pistol::Impact::World(q) => println!(
-                            "mission_player_projectile_hit ticket={} object={:?} point={:?} tag={} damage_callback=false",
+                            "mission_player_projectile_hit ticket={} object={:?} point={:?} tag={} damage_dispatch=ordinary_supported_owner",
                             controller.ticket, q.selected, q.point, q.tag
                         ),
                         giants_game::mecc_pistol::Impact::Ground(point) => println!(
@@ -1360,7 +1596,59 @@ pub(super) fn update(
                 } else if controller.fire_replay {
                     let pistol = controller.pistol().unwrap();
                     let expected = if controller.finish_step == 64 { 1 } else { 4 };
-                    if Controller::vimp_contact_probe() {
+                    if crate::frontend_scene::building_interaction_probe() {
+                        assert!(
+                            controller.building_probe_terminal && !controller.building_failed,
+                            "building probe did not reach its observed source stage"
+                        );
+                        let target = controller.building_probe_target.expect("building target");
+                        assert!(
+                            !controller.state.buildings.probe_requires_contact(target)
+                                || controller.state.buildings.probe_contacts(target) > 0,
+                            "building probe never contacted its actual physical target mesh"
+                        );
+                        let phase = std::env::var("GIANTS_MISSION_BUILDING_CAPTURE")
+                            .unwrap_or_else(|_| "destroyed".into());
+                        if phase == "unchanged" {
+                            controller
+                                .state
+                                .buildings
+                                .verify_no_shot(
+                                    target,
+                                    controller.state.mission_colliders(),
+                                    &controller.state.projectile_objects,
+                                )
+                                .expect(
+                                    "no-shot source collision owners changed after actual hits",
+                                );
+                            assert_eq!(controller.state.buildings.effects.births, 0);
+                            println!(
+                                "mission_building_no_shot_verified ticket={} object={target} hits={} player_projectile_shapes_unchanged=true source_retirement=false source_bursts=0",
+                                controller.ticket,
+                                controller.state.buildings.probe_no_shot_hits(target)
+                            );
+                        }
+                        if phase == "settled" {
+                            controller.state.buildings.verify_replacement_contact(
+                                target, controller.state.mission_colliders(), &controller.state.projectile_objects,
+                            ).expect("replacement did not receive its actual independent player contact");
+                            assert_eq!(
+                                controller.state.buildings.effects.active(),
+                                0,
+                                "building particles did not expire on the actual mission clock"
+                            );
+                        }
+                        println!(
+                            "mission_building_input_probe_finished ticket={} object={target} shots={} phase={phase} physical_admitted={} source_retirement={} births={} retired={} active={} supplied_input_only=true os_input=false",
+                            controller.ticket,
+                            pistol.fired,
+                            controller.state.buildings.probe_requires_contact(target),
+                            matches!(phase.as_str(), "destroyed" | "settled"),
+                            controller.state.buildings.effects.births,
+                            controller.state.buildings.effects.retired,
+                            controller.state.buildings.effects.active()
+                        );
+                    } else if Controller::vimp_contact_probe() {
                         assert_eq!(
                             pistol.fired, 0,
                             "contact probe must retain living collision owners"
@@ -1589,6 +1877,47 @@ pub(super) fn update(
                     }
                 }
             }
+        }
+        if !controller.owned_backend
+            && !controller.world_signals_failed
+            && !controller.building_failed
+            && controller.steps > 0
+        {
+            match runtime.advance_normal_building_effects(
+                controller.ticket,
+                &mut controller.state.buildings.effects,
+            ) {
+                Ok(events) => {
+                    for event in events {
+                        audio.local.write(crate::mission_audio::Request {
+                            ticket: controller.ticket,
+                            event,
+                        });
+                    }
+                }
+                Err(error) => {
+                    controller.building_failed = true;
+                    error!(
+                        "mission_building_effect_refused ticket={} error={error}",
+                        controller.ticket
+                    );
+                }
+            }
+        }
+        if replay_running
+            && crate::frontend_scene::building_interaction_probe()
+            && std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref() == Ok("settled")
+            && controller.building_probe_terminal
+            && !controller.building_failed
+            && controller.finish_step == 120000
+            && controller.state.buildings.effects.active() == 0
+            && controller
+                .building_probe_target
+                .is_none_or(|old| controller.state.buildings.replacement_contact_ready(old))
+        {
+            // Observe the actual mission-clock consumer, not an assumed ratio
+            // between supplied controller ticks and host elapsed time.
+            controller.finish_step = controller.steps + 1;
         }
         if !controller.owned_backend
             && controller.steps > 0

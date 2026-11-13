@@ -14,9 +14,10 @@ use giants_game::{
     profile_store::Profiles,
 };
 pub(crate) use replay::{
-    capture_allowed as mission_capture_allowed, initial_body_inspection_present,
-    initial_body_inspection_replay, install as install_mission_replay, objective_interaction_probe,
-    owned_inspection_replay, vimp_interaction_probe,
+    building_interaction_probe, capture_allowed as mission_capture_allowed,
+    initial_body_inspection_present, initial_body_inspection_replay,
+    install as install_mission_replay, objective_interaction_probe, owned_inspection_replay,
+    vimp_interaction_probe,
 };
 impl Scene {
     pub(crate) fn begin_campaign_film(

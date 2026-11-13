@@ -23,7 +23,8 @@ impl bevy::app::Plugin for Plugin {
         if !app.is_plugin_added::<MaterialPlugin<actor_scene::LitMaterial>>() {
             app.add_plugins(MaterialPlugin::<actor_scene::LitMaterial>::default());
         }
-        app.init_resource::<State>()
+        app.add_message::<crate::mission_buildings::Update>()
+            .init_resource::<State>()
             .add_systems(
                 Update,
                 (sync, controller::update)
@@ -38,6 +39,13 @@ impl bevy::app::Plugin for Plugin {
                 opening_visibility
                     .after(PlayerUpdate)
                     .after(crate::mission_opening::OpeningUpdate),
+            )
+            .add_systems(
+                Update,
+                crate::static_scene::house_updates
+                    .after(PlayerUpdate)
+                    .before(crate::source_view::ViewUpdate)
+                    .run_if(crate::mecc_session::frontend_available),
             );
     }
 }

@@ -1,5 +1,112 @@
 # Preview releases and milestone integration
 
+## Published preview .13.2 - guard destruction, source debris and solid replacement
+
+[Windows preview-2026.11.13.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.2)
+connects ordinary guard-tower damage to its actual compound debris/particle
+program, positional sound and separately constructed replacement base. The base
+keeps its own player collision after the old tower and effects retire; its source
+flags do not grant the old projectile/generic membership. No feature-enable
+script is needed. Try **Preview tools -> Browse all missions -> Mecc Story 2 ->
+The Road Home**. Seven ordinary pistol hits reach the first stage; thirty destroy
+the tested guard. Existing entrance/house/fence/small-tower reactions remain.
+
+Exact-executable rendered supplied-command checks observe five rigid debris
+pieces, 85 total source births/85 retirements, actual muted positional sinks and
+24 fresh replacement contacts. Two live guard cancellations/fresh entries release
+all old owners. The indestructible source state0 table retains unchanged geometry
+after three real hits. Story2 prepares 65 player /31 generic environment /65
+projectile meshes and 59 damage owners across 18 classes. Both mission chains,
+common Mecc/landing, prior buildings and menu/cinematic regressions pass. Separate
+short Windows inputs pass; full OS-aimed destruction remains unverified.
+
+1,013 Rust /196 ignored, 45 Python, fmt/strict all-target Clippy. Technical notice
+collection: 338 dependency /eleven toolchain entries, 29 system DLL imports and
+no package blockers. Matching dashboard display copies show debris, the retained
+base and the unchanged table. The shared rigid renderer uses the active ordinary
+mission environment camera/LOD. Earlier blocked routes and the missing-camera
+render attempt remain failed controls, superseded only by repeated acceptance.
+
+Replacement preparation is bounded to 1127/1129; rendered acceptance covers
+1050 ->1127. Other replacements, restricted/special callbacks, states74/83/98,
+generic radial/Raster3 platforms, building mission-death credit and full native
+effects/physics/visual/audio fidelity remain open. Prototype PS2 lookup preceded
+acquisition; new allocation/copy/bounds/effect routes remain unknown attributions.
+No new cross-platform identity is confirmed. The building goal stays active.
+
+Runtime source: `b633f810de881c45cea8b7fb24250ec0314d47b8`.
+Executable SHA256: `bebbc7adbbe4147079970b212a946a4c8750bb436eb8a39aa9d15f32c8c3e516`.
+ZIP SHA256: `bb4be8546ba77943324a40670fae8d3435410b0ad884a49c0f3272cc81824741`.
+
+
+## Published preview .13.1 - physical entrances, columns and fences
+
+[Windows preview-2026.11.13.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.1)
+extends ordinary player contacts through an independently acquired source object
+walk. Entrances, columns and supported fences retain their own player geometry,
+without inventing generic actor footprints or walkable roofs. The entrance's
+registered static-shadow header/copy identity is retained; shadow drawing is
+not supplied. Source damage updates each actually admitted collision role and
+its individual render mesh together. Story2 prepares 64 player / 31 environment /
+65 projectile meshes and 57 bounded damage owners across 16 classes.
+
+The exact executable passes actual narrow contact and ordinary damage on the
+entrance (seven-hit first stage and 28-hit/124-body expiry), house (28/124), fence
+(three/17) and small tower (five/29). The tower input fixture now walks through
+the source entrance after earlier direct/detour attempts met actual obstacles.
+No pose, health, collider, fuel, readiness or expiry is forced. Both complete
+mission chains, common Mecc/landing, two live-effect cancellations, normal menu
+lifecycle and selected full cinematic/text/cleanup pass. Actual Windows checks
+cover short normal entry/re-entry, view and mapped-key/default-mouse fire;
+full OS-aimed destruction and sustained held input remain unverified.
+
+1,006 Rust / 189 ignored, 45 Python, fmt/strict Clippy. Technical collection:
+338 dependency / eleven toolchain notices, 29 system DLLs and no package blockers.
+New matching display copies show entrance damage/retirement with the comparison
+slider. Complex replacements/effects, other base callbacks, generic radial/
+Raster3 platforms and mission-death credit remain open. No new PS2 identity or
+native world/FX/audio/visual fidelity is confirmed. The building goal stays active.
+
+Runtime source: `8d125f0b26ca9477747d75f521f76167038a0b0d`.
+Executable SHA256: `c9c5301a100dda2091977de56b0a278e633c1b1d9d670d4993c2ddfaccb3f390`.
+ZIP SHA256: `50c7175569ffed63679463be9e894d1e38f7711cc48979ea26f546ef5945ceaa`.
+
+
+## Published preview .12.3 - ordinary building damage and collision owners
+
+[Windows preview-2026.11.12.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.12.3)
+connects admitted houses/walls and unrestricted, nonreplacement scenery to the
+normal pistol, source health stages, individual GPU geometry, independently
+admitted player/environment/projectile shapes, captured bursts, positional
+sounds and retirement. No replay flag enables the action. Story2 prepares 65
+projectile candidates and 56 bounded damage owners across 15 classes; this is
+an admission census, not whole-game completion. See BUILDINGS.md and PREVIEW_NOTES.md.
+
+The exact executable passes rendered house contact/28-shot/124-body expiry,
+small-tower contact/five-shot/29-body expiry, projectile-only fence three-shot/
+17-body expiry and two damaged/live-effect cancellation/fresh-entry cycles.
+Both complete Starving and The Wife continuation chains, three common Mecc cycles,
+landing and menu lifecycle pass again. These use supplied ordinary commands with
+actual state/effect/draw/audio owners, without pose/health/readiness injection.
+Separate actual Windows checks cover two ordinary entries, opening skips, view,
+brief remapped-key and restored default-mouse fire, clean returns and close.
+OS-aimed destruction, sustained held input and native fidelity remain unverified.
+
+Physical radial/Raster3 footprints, complex guard-tower replacement/effects,
+restricted/special scenery, other base-building callbacks and building mission
+death credit remain open. Source no-shot callbacks stay separate from configured
+health. Effects retain the documented partial host-frame/terrain-only/
+birth-reference/asynchronous-audio profile. No new PS2 identity is confirmed.
+
+1,005 Rust / 187 ignored, 45 Python, fmt/strict Clippy. Technical collection:
+338 dependency / eleven toolchain notices, 29 system DLLs, zero package blockers.
+Three matching-executable display copies and a house damage/retirement slider
+are pinned in the gallery; historical captures retain their original receipts.
+
+Runtime source: `d5320b18cb352fbed05d882880974a0887152e5f`.
+Executable SHA256: `d7c41dc916cceca3ec83f03278b91b8d75eb9805a1926cf5b4685ccc0ee80f7b`.
+ZIP SHA256: `7fbb4dc4447b42170553487941a52f702cce0cdc33525006602564efc7a4c8e6`.
+
 
 ## Published preview .12.2 - The Wife rescue through The Road Home
 

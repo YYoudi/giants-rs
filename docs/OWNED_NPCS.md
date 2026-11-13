@@ -7,6 +7,32 @@ open. Authored herd admission follows source declarations, with Story2 and Story
 actual populations checked. See [MEAT_COLLECTION.md](MEAT_COLLECTION.md) and the
 central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidence.
 
+## Main integration of Ripper movement and attacks
+
+The source integration combines the existing ordinary Ripper component with
+current main, preserving building collision, damage, destruction and replacement
+services. Declared class73/230 actors share the normal Mecc Session, source
+placements, perception of the controlled player, primary/animation/motion
+services and ordinary NPC renderer. Their acquired ranged attacks construct and
+fly actual owned projectiles; ground reactions retain the existing named effects
+and positional audio. No flag or script enables these actors in normal play.
+
+A missing projectile impact consumer now quarantines that projectile, retaining
+its canonical partial state until mission retirement. It stops neither unrelated
+living AI nor later shots, acknowledges no damage, invents no death/retirement
+and never replays the failed callback. Full component faults and unsupported
+primary continuations remain explicit failures. Close melee and reciprocal
+injury/death are not delivered by visible ranged attack feedback.
+
+Test from the normal menu: Preview tools -> Browse all missions -> Mecc Story2
+-> The Wife. Skip the opening with Escape if desired, then approach the declared
+Rippers using WASD/mouse and right mouse jet. Left mouse fires the partial player
+pistol; R changes view. Escape returns to mission selection for a fresh entry.
+The source integration candidate still needs its own identified build and
+rendered/Windows-input receipt before those checks can be claimed. Historical
+receipts below remain separate; an older public preview does not gain this code
+from a source merge alone.
+
 ## Ripper integration in progress
 
 Current startup-policy build: source `b7cc590`, GNU executable SHA256

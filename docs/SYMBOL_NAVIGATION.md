@@ -204,6 +204,21 @@ whether to request a child and retire its parent; source names do not validate
 the physical query, child factory, whole callback or film integration. The
 source constructor retains its mutable budget in the canonical actor payload.
 
+The same unknown `fx_processOpCodes__FP6FxDataiP6OBJECT` route also reaches
+[`effect_scene`](../crates/giants-game/src/effect_scene.rs): its construction
+ledger retains the guard effect's sampled spin/curved size and pending
+source15/source47 requests. Parameter and RNG controls do not execute their
+physical, retirement, replacement or rendering consumers. No new identity or
+prototype signature/layout is asserted.
+
+The literal `object_render__FP6OBJECTiG7f32quat` is an **unknown** route for
+[`static_geometry::Scene::constructed_rigid_draw`](../crates/giants-game/src/static_geometry/constructed.rs).
+This new Rust composition reuses acquired source resources, LODs and material
+profiles for already constructed rigid owners. It is not one attributed PC
+function or proof of construction, collision registration or GPU execution.
+The separately pinned renderer module's shader/material/cube name lookup has no
+prototype match; its bounded material controls confirm no new PS2 identity.
+
 The more specific literal `fx_setupGroundHitCreate__FP10FXSTACKTAGii` has a
 **probable block-level relationship** to the acquired PC opcode5a writer in
 `effect_ground_emission::Source::configure`. Independent body evidence includes
@@ -352,6 +367,53 @@ boundary are independently acquired PC behavior. Private controls stop before
 that menu's effects; this establishes neither its UI/restart owner nor live
 world initialization, guards or ordinary Ripper combat. Earlier PC aliases remain
 in the private identity-bound record; no PS2 signature/layout is imported.
+## Building damage search routes
+
+The literal prototype PS2 names `house_process`, `house_shot` and
+`house_handle_destruction` lead to
+[`building_damage`](../crates/giants-game/src/building_damage.rs). All three
+function relationships remain **unknown**. The acquired debug-PC decision
+kernels preserve cumulative damage, health-animation thresholds and ordered
+effect/sound/mission/retirement requests. Their source/collider/render/audio
+consumers and initial registration remain separate contracts; these kernels
+alone establish neither ordinary interaction nor full callback execution.
+The literal names `deathfx_shot` and `deathfx_logic` also lead to the separate
+[`building_death_fx`](../crates/giants-game/src/building_death_fx.rs) decisions.
+Both PC relationships remain **unknown**. Their weapon gates, direct captured
+effect entries and replacement requests must not be replaced by universal house
+behavior. The ordinary adapters are in `mission_buildings`, with source health
+geometry in `building_geometry`; naming does not validate those consumers.
+See [BUILDINGS.md](BUILDINGS.md) for current integration evidence and acceptance.
+
+## Publication boundary
+
+`MeccPhysicsExApplyLocation` is an **unknown** prototype PS2 navigation route to
+the related player-location/object-walk work. The bounded independent initial
+mesh cohort is exposed by
+[`declared_mesh_scene::prepare_players`](../crates/giants-game/src/declared_mesh_scene.rs)
+and consumed through `player_world_collision`. Original-PC object-walk controls
+separate player mesh eligibility from generic actor footprints. They do not
+confirm this prototype identity, full native-world admission or platform
+behavior. Player, environment and projectile role ownership remains distinct.
+
+The literal prototype names `object_copy_personality` and `texture_add_file`
+provide **unknown** navigation routes for
+[`actor_static_shadow`](../crates/giants-game/src/actor_static_shadow.rs) and the
+registered resource retained by `actor_fields`. Initial source registration,
+class-header and copy controls do not confirm these function identities or
+prototype signatures/layouts. Static shared references, missing-name allocation
+and generated/dynamic copies stay distinct; shadow drawing and a new ordinary
+building delivery do not follow from the field preparation. Prior aliases remain
+unchanged, and detailed native records stay private.
+
+The literal prototype PS2 name `hurt_object` is an **unknown** search route to
+the separately acquired PC shot-dispatch boundary and
+[`mission_buildings/no_shot`](../crates/giants-app/src/mission_buildings/no_shot.rs).
+The original state0 descriptor has no callback function to attribute. Its
+unchanged-actor controls remain distinct from the original positive house and
+scenery callbacks, the ordinary hit adapter and pending rendered acceptance.
+This imports no prototype signature or layout and confirms no new identity.
+The exact PC dispatcher alias and both binary identities remain private.
 
 The literal prototype PS2 names `FLK_FlickProcess__FP9FLK_Flick`,
 `FLK_FlickUpdateTime__FP9FLK_Flickf` and `FlickAnimate__FP9FLK_Flick` are search
@@ -370,6 +432,16 @@ metadata and required failure/film/menu consumers. Original controlled slices
 do not establish full display scheduling, live timer initialization, those
 consumers' availability or ordinary Ripper injury. Prior aliases remain private;
 no prototype signature or layout is imported.
+The literal prototype PS2 names `object_allocate_type`, `object_copy_personality`,
+`object_copy_activedata`, `object_copy_posdirinfo` and `object_bbox_to_world_bbox`
+lead to the bounded ordinary replacement owner in
+[`mission_buildings::replacement`](../crates/giants-app/src/mission_buildings/replacement.rs)
+and its shared class/header/bounds projections. These relationships remain
+**unknown** PC identities. Constructor fields, acquired inheritance, placement
+history, bounds inputs, independent physical/render identities and later world
+admission remain separate evidence. Logical old-object/source aliases do not
+assign semantics to the original opaque word. Naming is not native fidelity or
+ordinary build acceptance; see [BUILDINGS.md](BUILDINGS.md).
 
 This index publishes only selected names, reviewed navigation relationships and
 attribution status. Binary/ELF inputs, raw tables, listings, matching outputs,

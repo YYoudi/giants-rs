@@ -1,5 +1,60 @@
 # Build on Windows with MinGW
 
+For the next source no-shot surface acceptance, the existing muted offscreen
+building input fixture accepts `GIANTS_MISSION_BUILDING_CAPTURE=unchanged`.
+It selects an already admitted source state0 mesh, supplies ordinary contact,
+retreat, look and pistol inputs, then requires three actual distinct projectile
+hits and unchanged player/projectile geometry. No health, collider, effect or
+readiness is written to reach that endpoint. This does not enable an action or
+make an unsupported callback indestructible; require real rendered acceptance
+on its own receipt and follow [BUILDINGS.md](BUILDINGS.md).
+
+For the initial static-shadow dependency, run `cargo test --locked -p
+giants-game actor_static_shadow --target x86_64-pc-windows-gnu`. Its optional
+`installed_entrance_retains_registered_shadow_and_shared_copy_identity` control
+uses `GIANTS_BUILDING_ROOT` and `-- --ignored`. The app's
+`installed_entrance_damage_updates_player_shape_without_inventing_environment_owner`
+control uses the same variable. These check initial fields/copies and supplied
+damage/geometry ownership, not GPU shadow drawing, Windows input or generic
+Raster3 admission; keep the current public preview receipt separate.
+
+The mixed guard effect owner has the optional installed control
+`cargo test --locked -p giants-app installed_guard_graph --target
+x86_64-pc-windows-gnu -- --ignored`, using `GIANTS_BUILDING_ROOT`. It checks real
+source graph resources, lit/unlit draw submissions, contact/lifetime descendants,
+clock idempotence, context cleanup and ticket isolation under supplied emission
+and time. It does not enable the still-excluded guard damage/replacement callback
+or prove GPU/ordinary-input acceptance. Follow [BUILDINGS.md](BUILDINGS.md).
+
+The locally connected house owner also has an installed app control:
+`cargo test --locked -p giants-app installed_house_damage_updates_all_contact_owners
+--target x86_64-pc-windows-gnu -- --ignored`, using `GIANTS_BUILDING_ROOT`.
+It supplies hits and time and does not establish GPU or ordinary controls.
+The explicit muted offscreen `showcase-mecc` Story2 replay can additionally use
+`GIANTS_MISSION_BUILDING_PROBE=1`; `GIANTS_MISSION_BUILDING_CAPTURE` selects
+`damaged`, `destroyed` (default), or `settled`. It supplies only normal movement,
+look and fire commands and observes actual contact/health/retirement. It neither
+writes poses/health/resources nor enables the ordinary building feature. The
+settled phase also requires all actual burst bodies to expire. The optional
+`GIANTS_MISSION_BUILDING_CLASS` selects a positive authored class already admitted
+by the ordinary owner; e.g. 515 selects a small state101 tower, without changing
+its health, pose or collision. The default selects a house. Keep this evidence
+separate from real Windows inputs and source fidelity.
+`GIANTS_MISSION_BUILDING_CYCLES=2` additionally requests two ordinary cancellation/
+fresh-entry cycles after the selected live-effect stage; `settled` is refused.
+The observer requires real live particles at cancellation and waits for the
+normal runtime/environment/owned-entity release before the next request. It does
+not force destruction, cleanup, readiness or a new source terminal.
+
+The active building work follows [BUILDINGS.md](BUILDINGS.md). Dependency checks:
+`cargo test --locked -p giants-game building_damage --target x86_64-pc-windows-gnu`.
+With a user-supplied installation configured in `GIANTS_BUILDING_ROOT`, run
+`cargo test --locked -p giants-game installed_houses_share_health_pose --target
+x86_64-pc-windows-gnu -- --ignored`. This checks source health deformation and
+consistent initial player/projectile geometry; it does not test ordinary damage,
+effects/audio, mission credit, retirement, GPU response or actual Windows input.
+Those remain required on the final identified menu-first executable.
+
 For meat collection, follow [MEAT_COLLECTION.md](MEAT_COLLECTION.md) and the
 identity-bound checks in [PREVIEW_NOTES.md](PREVIEW_NOTES.md). In normal Story2 /
 Starving!, hunt a Vimp, wait for settled meat, approach it and observe the carried

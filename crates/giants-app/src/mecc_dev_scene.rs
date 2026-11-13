@@ -40,6 +40,7 @@ pub(crate) fn camera_view(eye: Vec3, forward: Vec3, up: Vec3) -> Mat4 {
 
 #[derive(Resource)]
 pub struct State {
+    pub(crate) buildings: crate::mission_buildings::World,
     collision: giants_game::collision_radius::ColdProfile,
     collision_dimensions: [f32; 2],
     mesh_objects: Vec<giants_game::player_world_collision::Object>,
@@ -578,6 +579,28 @@ impl State {
         );
 
         let colliders = giants_game::declared_mesh_scene::prepare(&plan, &world.terrain);
+        let player_colliders =
+            giants_game::declared_mesh_scene::prepare_players(&plan, &world.terrain);
+        let projectile_colliders =
+            giants_game::declared_mesh_scene::prepare_projectiles(&plan, &world.terrain);
+        let buildings = crate::mission_buildings::World::prepare(
+            &plan,
+            &player_colliders,
+            &colliders,
+            &projectile_colliders,
+            &globals,
+            &world.terrain,
+        )?;
+        println!(
+            "mission_declared_player_meshes objects={} needs={} independent_environment_admission=true native_list_order=false",
+            player_colliders.objects.len(),
+            player_colliders.needs.len()
+        );
+        println!(
+            "mission_declared_projectiles objects={} needs={} independent_physics_admission=true native_list_order=false",
+            projectile_colliders.objects.len(),
+            projectile_colliders.needs.len()
+        );
         println!(
             "mecc_dev_colliders objects={} triangles={} needs={} profile=declared_rigid native_list_order=false live_callbacks=false platform_support=false",
             colliders.objects.len(),
@@ -755,19 +778,21 @@ impl State {
                 },
             )
             .collect();
-        let static_mesh_objects = colliders.player_objects.len();
-        let next_contact_key = colliders
+        let static_mesh_objects = player_colliders.player_objects.len();
+        let next_contact_key = player_colliders
             .player_objects
             .iter()
             .map(|o| o.fields.id)
+            .chain(projectile_colliders.objects.iter().map(|o| o.fields.id))
             .max()
             .unwrap_or(1)
             .checked_add(1)
             .ok_or("collision identity budget")?;
         let mut state = Self {
+            buildings,
             collision,
             collision_dimensions,
-            projectile_objects: colliders
+            projectile_objects: projectile_colliders
                 .objects
                 .iter()
                 .map(|o| {
@@ -784,10 +809,14 @@ impl State {
                     })
                 })
                 .collect::<Result<Vec<_>, &'static str>>()?,
-            static_projectile_objects: colliders.objects.len(),
-            static_projectile_declarations: colliders.records.iter().map(|r| r.key).collect(),
+            static_projectile_objects: projectile_colliders.objects.len(),
+            static_projectile_declarations: projectile_colliders
+                .records
+                .iter()
+                .map(|r| r.key)
+                .collect(),
             projectile_test: None,
-            mesh_objects: colliders.player_objects,
+            mesh_objects: player_colliders.player_objects,
             static_mesh_objects,
             npc_contact_keys: BTreeMap::new(),
             next_contact_key,
@@ -1613,6 +1642,7 @@ impl State {
         // Contact consumes the preceding model-speed field. Native derivation
         // occurs after contact, using its corrected current/previous positions.
         let mut npc_responses = 0u64;
+        let mut building_contacts = Vec::new();
         let response = giants_game::player_world_collision::resolve_for_actor_with_responses(
             1,
             giants_game::player_world_collision::Input {
@@ -1666,6 +1696,12 @@ impl State {
             // This does not acknowledge callbacks for other NPC families.
             |_, _| Ok(false),
             |object, response| {
+                let blocking = response.retry && response.state.hit == object.fields.id;
+                if (blocking || response.support_contact)
+                    && self.buildings.observes_contact(object.fields.id)
+                {
+                    building_contacts.push((object.fields.id, !blocking));
+                }
                 if response.retry
                     && response.state.hit == object.fields.id
                     && self
@@ -1682,6 +1718,9 @@ impl State {
             },
         )?;
         self.npc_mesh_responses += npc_responses;
+        for (id, support) in building_contacts {
+            self.buildings.note_contact(id, support);
+        }
         self.mesh_responses += u64::from(response.mesh_responses);
         let resolved = response.state;
         self.collision.radius = resolved.radius;

@@ -19,6 +19,8 @@ pub(super) struct Driver {
     failure: Option<String>,
     markers: BTreeSet<Id>,
     pub(super) projectiles: BTreeSet<Id>,
+    pub(super) projectile_failures: BTreeMap<Id, String>,
+    pub(super) last_quarantine_step: Option<u64>,
     pub(super) flights: BTreeMap<Id, u64>,
 }
 impl Driver {
@@ -672,6 +674,10 @@ impl ActorWorldServices for Callbacks<'_, '_> {
     }
 }
 impl State {
+    pub(in crate::mission_runtime) fn quarantine_step(&self) -> Option<u64> {
+        self.driver.last_quarantine_step
+    }
+
     pub(in crate::mission_runtime) fn refuse_draw(&mut self, ticket: u64, error: String) {
         self.driver.refuse_draw(ticket, error);
     }

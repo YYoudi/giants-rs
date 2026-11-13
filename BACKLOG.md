@@ -15,6 +15,77 @@ Initial coverage includes seven Vimp names and the two previously confirmed
 camera service identities; .11.4 adds the selected meat-collection search routes. Naming does not establish gameplay delivery; the
 separately validated ordinary integration and publication are recorded below.
 
+## Active objective - ordinary buildings, collision and damage reactions
+
+Owner direction, 12 November 2026: connect the buildings already drawn on maps
+to player/projectile collisions, hitboxes and source damage reactions. Preserve
+indestructible cases, successive damage states, disappearance/replacement,
+explosions, particles and sounds according to each acquired family. Work alone
+in the integration worktree, starting native work from prototype PS2 names.
+First bounded delivery: preview .12.3 connects ordinary state61 houses/walls
+and admitted unrestricted, nonreplacement state101 scenery to normal pistol hits,
+source health stages, individual GPU meshes, independent collision roles,
+captured bursts/positional sounds and terminal retirement. Projectile-only
+eligibility does not imply a physical player footprint. The exact executable
+passes house contact/28-shot/124-body expiry, small-tower contact/five-shot/29-body
+expiry, fence three-shot/17-body expiry, two live-effect cancellation/fresh-entry
+cycles, both mission chains and common Mecc/landing regressions. Actual Windows
+checks cover entry/skip/view/brief mapped-key and default-mouse fire, clean returns
+and re-entry; full OS-aimed destruction remains unverified. See BUILDINGS.md and
+PREVIEW_NOTES.md for receipts, partial FX policy and exact limits.
+
+Second bounded delivery: preview .13.1 adds independently acquired physical-player
+mesh admission for entrances, columns and fences, retaining separate generic
+actor and projectile roles. The static-shadow header dependency preserves the
+entrance's registered texture identity and shared copies. Story2 prepares 64
+player / 31 generic environment / 65 projectile meshes and 57 damage owners
+across 16 classes. Actual narrow contact, source damage, draw, muted sinks and
+expiry pass on entrance, house, fence and small tower, with both mission chains,
+common Mecc/landing, two live-effect cleanup cycles and separate short Windows
+input acceptance. No shadow drawing, generic platform or native fidelity follows.
+
+Third bounded delivery: preview .13.2 adds the ordinary guard tower's source
+mixed effect graph and independent replacement. RoadHome's actual authored start
+reaches class1050 using normal movement/look/jet/fire: seven shots reach its first
+stage; thirty destroy it. Five rigid debris pieces render, source descendants
+total 85 births/85 retirements, positional audio uses the actual muted sink and
+the replacement base1127 retains its own player mesh with 24 fresh contacts after
+effect expiry. It inherits no old projectile/generic role. Two live destruction/
+cancellation/fresh-entry cycles release ticket/effect/GPU owners. Story2 prepares
+65 player /31 environment /65 projectile meshes and 59 damage owners/18 classes.
+The source state0 table also keeps unchanged geometry after three actual hits.
+
+The same executable passes previous entrance/house/fence/small-tower reactions,
+both mission chains, common Mecc/landing and menu/cinematic regressions. Actual
+Windows checks are separately scoped in PREVIEW_NOTES.md; supplied ordinary
+commands do not establish OS-aimed destruction or native visual/audio fidelity.
+Earlier blocked direct routes and missing-camera attempts remain failed history.
+The shared rigid draw now uses the actual ordinary mission environment eye/LOD.
+
+Remaining work, in player-impact order:
+
+1. Extend player collision/damage coverage beyond the admitted building profiles;
+   acquire missing live pose/cache/state providers without inventing footprints.
+2. Extend replacement and nested effects beyond the acquired 1127/1129 constructor
+   profiles and rendered 1050 ->1127 acceptance. Preserve actual role/health/
+   history ownership, complete cleanup and distinct source programs.
+3. Acquire restricted/special scenery and other base-building callbacks (including
+   states74/83/98), preserving weapon gates and authored indestructible cases.
+4. Bind actual building mission-death producers with their native global mode,
+   counter and response rules; do not infer credit from a model or health word.
+5. Acquire generic radial/Raster3 platform owners and broader effects-world
+   scheduling, contacts and audio; retain the explicit partial preview policies.
+6. Extend exact-executable graphical and Windows acceptance to each new family
+   and publish coherent main/preview/dashboard milestones with precise limits.
+
+Every native continuation starts with literal prototype PS2 lookup and pinned
+binary identities. New guard allocation/copy/placement/bounds/effect names remain
+unknown PC-to-PS2 attributions. Independent original-PC comparisons cover bounded
+source decisions, callbacks and explicitly supplied services, not complete native
+world execution. See BUILDINGS.md for acquisition history and failed controls.
+The buried class511 door remains a failed shooting diagnostic, not a palisade
+acceptance. The complete building objective and whole-game scope remain active.
+
 ## Delivered milestone - The Wife rescue and completion-film continuation
 
 Owner direction, 12 November 2026: make the ordinary The Wife rescue playable
@@ -170,6 +241,15 @@ block, not a separate PC function identity. The surface-orientation prototype
 helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
+
+Owner priority, 13 November: integrate the already working movement/attacks into
+the common main build now, rather than delaying them for more native dependency
+acquisitions. The integration merges current main building interactions with
+the ordinary Ripper driver and isolates failed projectile impacts from living
+AI. Verify the combined executable graphically and through menu/re-entry before
+publication. Preserve explicit missing reciprocal damage/death/close-melee and
+native fidelity limits; no invented guard/provider or forced NPC motion.
+
 
 Next NPC delivery: acquire and connect the genuine shared-world guards that
 block reciprocal contact, alongside the actual radial recipients and positive

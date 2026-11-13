@@ -117,6 +117,46 @@ pub struct Prepared {
     animation: Animation,
 }
 impl Prepared {
+    /// Source house callback's normalized health clock, consumed through the
+    /// shared channel selection/update kernels. This selects neither a render
+    /// LOD nor a replacement model. The caller still owns damage and services.
+    pub fn house_health(&mut self, fraction: f32) -> Result<(), String> {
+        if !fraction.is_finite() || !(0. ..=1.).contains(&fraction) {
+            return Err("house health clock outside normalized profile".into());
+        }
+        let mut channels = crate::actor_context::initial_channels(None, false);
+        crate::animation_channels::select_primary(
+            &mut channels,
+            crate::animation_channels::Request {
+                slot: 1,
+                flags: 0x84,
+                speed_source: 0,
+                reference_speed: 0.,
+                blend_seconds: 0.,
+            },
+            crate::animation_channels::Blending::Disabled,
+        )
+        .map_err(str::to_owned)?;
+        channels[0][1] = fraction.to_bits();
+        let duration = crate::animation_template::duration(
+            self.animation.timeline,
+            crate::arithmetic::Precision::Double53,
+        )
+        .map_err(|e| e.to_string())?;
+        crate::animation_channels::advance(
+            &mut channels,
+            &[None, Some(duration)],
+            [0.; 3],
+            0.,
+            crate::arithmetic::Precision::Double53,
+        )
+        .map_err(str::to_owned)?;
+        self.pose.seconds = f32::from_bits(channels[0][1]);
+        self.pose.tick =
+            seconds_tick(self.animation.timeline, self.pose.seconds).map_err(str::to_owned)?;
+        self.pose.profile = "source_house_health_channel";
+        Ok(())
+    }
     /// Declared base channel at its source start, before live state82 callbacks.
     /// This is an explicit construction preview, not normal animation timing.
     pub fn load_base_preview(

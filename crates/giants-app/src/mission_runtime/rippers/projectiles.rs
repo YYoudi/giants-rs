@@ -58,10 +58,11 @@ impl State {
             .list(0)
             .into_iter()
             .filter(|&id| {
-                session
-                    .enemy_projectile(id)
-                    .and_then(|p| p.launch.as_ref())
-                    .is_some_and(|launch| owners.contains(&launch.source))
+                !self.driver.projectile_failures.contains_key(&id)
+                    && session
+                        .enemy_projectile(id)
+                        .and_then(|p| p.launch.as_ref())
+                        .is_some_and(|launch| owners.contains(&launch.source))
             })
             .collect();
         let terrain = giants_game::terrain_queries::StaticTerrainQuery::new(
@@ -73,9 +74,10 @@ impl State {
             if self.driver.projectiles.insert(id) {
                 session.prepare_enemy_projectile_environment(id, frame.resources, &terrain)?;
                 println!(
-                    "mission_ripper_projectile_launched ticket={} owner={id:?} class={} source=ordinary_primary current_muzzle=true prepared_fx_only=true flight_complete=false",
+                    "mission_ripper_projectile_launched ticket={} owner={id:?} class={} step={} source=ordinary_primary current_muzzle=true prepared_fx_only=true flight_complete=false",
                     frame.ticket,
-                    session.get(id).unwrap().class
+                    session.get(id).unwrap().class,
+                    frame.step
                 );
             }
         }
@@ -155,14 +157,22 @@ impl State {
                     outcome,
                     giants_game::enemy_projectile::FlightOutcome::GroundContact { .. }
                 ) {
-                    self.ground_impact(session, frame, id, random, sounds, device)?;
+                    if let Err(error) =
+                        self.ground_impact(session, frame, id, random, sounds, device)
+                    {
+                        self.quarantine_projectile(frame, id, error);
+                    }
                     continue;
                 }
                 if matches!(
                     outcome,
                     giants_game::enemy_projectile::FlightOutcome::Expired
                 ) {
-                    self.expire_projectile(session, frame, id, random, sounds, device)?;
+                    if let Err(error) =
+                        self.expire_projectile(session, frame, id, random, sounds, device)
+                    {
+                        self.quarantine_projectile(frame, id, error);
+                    }
                     continue;
                 }
                 if let giants_game::enemy_projectile::FlightOutcome::ObjectContact {
@@ -177,7 +187,18 @@ impl State {
                             step: frame.step,
                             source: id,
                         },
-                    ).map_err(|error| format!("Ripper object contact source={id:?} target={target:?} step={}: {error}", frame.step))?;
+                    );
+                    let result = match result {
+                        Ok(result) => result,
+                        Err(error) => {
+                            self.quarantine_projectile(
+                                frame,
+                                id,
+                                format!("object contact target={target:?}: {error}"),
+                            );
+                            continue;
+                        }
+                    };
                     if result == giants_game::enemy_projectile::ObjectContactOutcome::Marked {
                         session.cleanup_enemy_projectile_object_contact(
                             id,
@@ -217,5 +238,18 @@ impl State {
             }
         }
         Ok(())
+    }
+
+    // An unavailable impact consumer fails this shot, not every independent
+    // living actor. Retain its canonical partial state for scope retirement;
+    // never replay, draw it as flying, mark a fake death or acknowledge damage.
+    fn quarantine_projectile(&mut self, frame: &live::Frame<'_>, id: Id, error: String) {
+        eprintln!(
+            "mission_ripper_projectile_quarantined ticket={} step={} owner={id:?} error={error} damage_acknowledged=false retained_until_mission_retirement=true independent_ai_continues=true",
+            frame.ticket, frame.step
+        );
+        self.driver.projectile_failures.insert(id, error);
+        self.driver.last_quarantine_step = Some(frame.step);
+        self.driver.flights.remove(&id);
     }
 }

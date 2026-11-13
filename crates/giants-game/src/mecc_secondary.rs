@@ -773,6 +773,7 @@ mod tests {
             action: 0,
             shadow_reciprocal: 0.,
             shadow: None,
+            shadow_texture: None,
             gunlist: Default::default(),
             channels,
             position: [0., 0., 10.],

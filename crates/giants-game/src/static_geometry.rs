@@ -5,6 +5,7 @@ use crate::{
     scene_resources::{ModelAsset, SceneResources, SourcePlacement, TextureEncoding},
 };
 use std::collections::{BTreeMap, BTreeSet};
+mod constructed;
 #[derive(Clone, Copy)]
 enum PosePolicy {
     Benchmark,
@@ -13,10 +14,12 @@ enum PosePolicy {
 }
 pub type SourceKey = (bool, usize);
 pub struct Asset {
-    pub model: ModelAsset,
+    pub model: std::sync::Arc<ModelAsset>,
     pub normals: Option<Vec<[f32; 3]>>,
     pub initial_pose: Option<crate::model_pose::InitialPose>,
     pub reflection_descriptors: Vec<Option<crate::material_descriptor::Descriptor>>,
+    /// Actual per-part zero-blend texture-factor program, without diffuse/cube.
+    pub texture_factor_only: Vec<bool>,
 }
 pub struct Vertices {
     pub positions: Vec<[f32; 3]>,
@@ -545,11 +548,21 @@ impl Scene {
                     model.mesh.positions = pose.positions(resources, name, &model.mesh)?;
                 }
                 let mut reflection_descriptors = Vec::new();
+                let mut texture_factors = Vec::new();
                 for part in &model.mesh.subobjects {
+                    let texture_factor = model.mesh.normal_count != 0
+                        && crate::material_descriptor::opaque_zero_blend_texture_factor(
+                            &part.material,
+                            model
+                                .alpha_textures
+                                .contains(&part.material.texture.to_ascii_lowercase()),
+                        );
+                    texture_factors.push(texture_factor);
                     if !matches!(
                         part.material.flags,
                         0x40000000 | 0x40000002 | 0x40000020 | 0xc0000020 | 0x50000020 | 0xd0000020
-                    ) {
+                    ) && !texture_factor
+                    {
                         // Material capability does not depend on whether the
                         // independently selected pose uses benchmark warmup.
                         let known_normal_surface = matches!(
@@ -592,7 +605,9 @@ impl Scene {
                             .alpha_textures
                             .contains(&part.material.texture.to_ascii_lowercase()),
                     );
-                    let descriptor = if part.material.flags & 0x10000000 != 0 {
+                    let descriptor = if texture_factor {
+                        None
+                    } else if part.material.flags & 0x10000000 != 0 {
                         if model.mesh.normal_count == 0 {
                             return Err("auxiliary material requires normals".into());
                         }
@@ -661,10 +676,11 @@ impl Scene {
                 prepared.push((
                     cache_key,
                     Asset {
-                        model,
+                        model: std::sync::Arc::new(model),
                         normals,
                         initial_pose: pose.as_ref().map(|p| p.pose.clone()),
                         reflection_descriptors,
+                        texture_factor_only: texture_factors,
                     },
                 ));
             }

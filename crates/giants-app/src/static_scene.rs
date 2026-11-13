@@ -22,6 +22,7 @@ pub struct Materials<'w> {
     buffers: ResMut<'w, Assets<bevy::render::storage::ShaderBuffer>>,
 }
 struct Rendered {
+    mesh: Handle<Mesh>,
     entity: Entity,
     instance: usize,
     slot: usize,
@@ -49,6 +50,7 @@ pub fn needs_setup(scene: Res<Scene>, existing: Query<(), With<RenderedRigid>>) 
 }
 #[derive(Resource)]
 pub struct Scene {
+    retired_houses: BTreeSet<giants_game::static_geometry::SourceKey>,
     source: std::sync::Arc<giants_game::static_geometry::Scene>,
     lights: Vec<giants_game::lighting::Directional>,
     fog: giants_game::lighting::Fog,
@@ -230,6 +232,7 @@ impl Scene {
             return Err("mission rigid inspection rejects benchmark animation poses".into());
         }
         Ok(Self {
+            retired_houses: BTreeSet::new(),
             ordinary: Ordinary::new(&source, config),
             source,
             lights: giants_game::lighting::first_world(config).map_err(|e| e.to_string())?,
@@ -273,6 +276,7 @@ impl Scene {
         let lights = giants_game::lighting::first_world(config)?;
         let fog = config.fog;
         Ok(Self {
+            retired_houses: BTreeSet::new(),
             ordinary: Ordinary::new(&source, config),
             source: std::sync::Arc::new(source),
             lights,
@@ -357,18 +361,36 @@ fn lit_parameters(
     instance: &Instance,
     world: &crate::world_scene::Scene,
 ) -> crate::gun_scene::Parameters {
+    rigid_lit_parameters(
+        asset,
+        part,
+        instance.matrix,
+        world,
+        &scene.lights,
+        scene.fog,
+    )
+}
+pub(crate) fn rigid_lit_parameters(
+    asset: &Asset,
+    part: usize,
+    matrix: [f32; 16],
+    world: &crate::world_scene::Scene,
+    lights: &[giants_game::lighting::Directional],
+    fog: giants_game::lighting::Fog,
+) -> crate::gun_scene::Parameters {
     crate::gun_scene::source_parameters(
         &asset.model.mesh.subobjects[part].material,
-        Mat4::from_cols_array(&instance.matrix).transpose(),
+        Mat4::from_cols_array(&matrix).transpose(),
         world
             .validation_camera
             .as_ref()
             .expect("Static source camera"),
-        &scene.lights,
-        scene.fog,
+        lights,
+        fog,
         world.no_fog,
     )
     .white_texture_factor(pass(asset, part) == giants_game::render_parts::Pass::TextureFormat)
+    .opaque_texture_factor_only(asset.texture_factor_only[part])
     .untextured(giants_game::body_pipeline::untextured_diffuse(
         &asset.model.mesh.subobjects[part].material,
     ))
@@ -396,6 +418,23 @@ fn cube_parameters(
     instance: &Instance,
     world: &crate::world_scene::Scene,
 ) -> crate::sword_scene::Parameters {
+    rigid_cube_parameters(
+        asset,
+        part,
+        instance.matrix,
+        world,
+        &scene.lights,
+        scene.fog,
+    )
+}
+pub(crate) fn rigid_cube_parameters(
+    asset: &Asset,
+    part: usize,
+    matrix: [f32; 16],
+    world: &crate::world_scene::Scene,
+    lights: &[giants_game::lighting::Directional],
+    fog: giants_game::lighting::Fog,
+) -> crate::sword_scene::Parameters {
     let (factor, blend) = asset
         .reflection_descriptor(part)
         .expect("Source auxiliary descriptor")
@@ -403,10 +442,10 @@ fn cube_parameters(
         .expect("Measured lit cube program");
     crate::sword_scene::source_parameters(
         &asset.model.mesh.subobjects[part].material,
-        Mat4::from_cols_array(&instance.matrix).transpose(),
+        Mat4::from_cols_array(&matrix).transpose(),
         world.validation_camera.as_ref().expect("Source camera"),
-        &scene.lights,
-        scene.fog,
+        lights,
+        fog,
         world.no_fog,
     )
     .cube_factor(Some(factor))
@@ -499,6 +538,17 @@ pub fn setup(
                 let Some(mesh) = mesh_handles.get(&(key, part)) else {
                     continue;
                 };
+                // Health deformation belongs to an instance, including every
+                // loaded LOD. Allocate before mission asset adoption so exit
+                // releases these buffers through the ordinary environment owner.
+                let mesh = if matches!(instance.initial_state, 61 | 101) {
+                    let copy = meshes.get(mesh).expect("prepared house mesh").clone();
+                    let handle = meshes.add(copy);
+                    owned.meshes.push(handle.id());
+                    handle
+                } else {
+                    mesh.clone()
+                };
                 let texture = textures
                     .get(&(key, sub.material.texture.to_ascii_lowercase()))
                     .cloned();
@@ -577,6 +627,7 @@ pub fn setup(
                     MaterialHandle::Cube(handle) => owned.cube.push(handle.id()),
                 }
                 rendered.push(Rendered {
+                    mesh: mesh.clone(),
                     entity,
                     instance: index,
                     slot: *slot,
@@ -656,6 +707,7 @@ pub fn apply_view(
         let instance = &scene.source.instances[rendered.instance];
         let asset = &scene.source.assets[&(instance.class, rendered.slot)];
         let selected = admission.show
+            && !scene.retired_houses.contains(&instance.key)
             && details[rendered.instance] == Ok(rendered.slot)
             && admission
                 .ordinary
@@ -698,4 +750,72 @@ pub fn apply_view(
         }
     }
     visible
+}
+
+/// Update the owned per-instance meshes, retaining material and LOD routing.
+/// The same source health sample has already replaced the physical inputs.
+pub(crate) fn house_updates(
+    mut updates: MessageReader<crate::mission_buildings::Update>,
+    runtime: Res<crate::mission_runtime::Runtime>,
+    scene: Option<ResMut<Scene>>,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut visibility: Query<&mut Visibility>,
+) {
+    let Some(mut scene) = scene else {
+        updates.clear();
+        return;
+    };
+    for update in updates.read() {
+        if runtime.active_ticket() != Some(update.ticket) {
+            continue;
+        }
+        let mut count = 0;
+        for rendered in &scene.rendered {
+            let instance = &scene.source.instances[rendered.instance];
+            if instance.key != update.key || instance.class != update.class {
+                continue;
+            }
+            if let Some(stage) = &update.geometry {
+                let Some(positions) = stage.positions.get(&rendered.slot) else {
+                    error!(
+                        "mission_building_draw_refused ticket={} missing_slot={}",
+                        update.ticket, rendered.slot
+                    );
+                    continue;
+                };
+                let asset = &scene.source.assets[&(instance.class, rendered.slot)];
+                let part = &asset.model.mesh.subobjects[rendered.part];
+                let posed = part
+                    .triangles
+                    .iter()
+                    .flatten()
+                    .map(|i| {
+                        let p = positions[usize::from(asset.model.mesh.indices[usize::from(*i)])];
+                        if asset.normals.is_some() {
+                            p
+                        } else {
+                            [p[0], p[2], -p[1]]
+                        }
+                    })
+                    .collect::<Vec<_>>();
+                if let Some(mut mesh) = meshes.get_mut(&rendered.mesh) {
+                    mesh.insert_attribute(Mesh::ATTRIBUTE_POSITION, posed);
+                    count += 1;
+                }
+            } else if let Ok(mut visible) = visibility.get_mut(rendered.entity) {
+                *visible = Visibility::Hidden;
+                count += 1;
+            }
+        }
+        if update.geometry.is_none() {
+            scene.retired_houses.insert(update.key);
+        }
+        println!(
+            "mission_building_draw ticket={} key={:?} class={} parts={count} retired={}",
+            update.ticket,
+            update.key,
+            update.class,
+            update.geometry.is_none()
+        );
+    }
 }

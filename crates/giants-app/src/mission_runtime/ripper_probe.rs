@@ -7,6 +7,7 @@ pub(crate) struct RipperInputSnapshot {
     pub impact: Option<([f32; 3], u64)>,
     /// Absent before the actual partial-controller owner is published.
     pub mecc_damage: Option<f32>,
+    pub quarantine_step: Option<u64>,
 }
 impl Runtime {
     pub(crate) fn ripper_input_snapshot(
@@ -40,6 +41,13 @@ impl Runtime {
             .max_by_key(|v| v.0);
         let flight_revision = projectile.map_or(0, |v| v.0);
         Ok(RipperInputSnapshot {
+            quarantine_step: active
+                .payload
+                .rippers
+                .as_ref()
+                .ok()
+                .and_then(|r| r.as_ref())
+                .and_then(|r| r.quarantine_step()),
             target,
             flight_revision,
             projectile: projectile.map(|v| v.1),
