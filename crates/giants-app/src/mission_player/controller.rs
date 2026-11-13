@@ -558,6 +558,31 @@ pub(super) fn update(
             );
         }
         let focused = windows.iter().any(|(w, _)| w.focused);
+        if !controller.owned_backend
+            && !controller.building_failed
+            && !controller.world_signals_failed
+        {
+            let mut events = Vec::new();
+            if let Err(error) = runtime.initialize_normal_buildings(
+                controller.ticket,
+                &mut controller.state.buildings,
+                &mut events,
+            ) {
+                controller.building_failed = true;
+                error!(
+                    "mission_building_initial_refused ticket={} error={error}",
+                    controller.ticket
+                );
+            }
+            // Preserve accepted requests even if a later owner refused its
+            // initial branch. Backend starts remain separately observable.
+            for event in events {
+                audio.local.write(crate::mission_audio::Request {
+                    ticket: controller.ticket,
+                    event,
+                });
+            }
+        }
         let look_ready = windows
             .iter()
             .any(|(w, c)| w.focused && c.grab_mode == bevy::window::CursorGrabMode::Locked);

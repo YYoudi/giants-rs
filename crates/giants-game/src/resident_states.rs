@@ -9,6 +9,7 @@ use crate::{
 };
 use std::collections::BTreeMap;
 use std::sync::Arc;
+mod barracks;
 mod building_alert;
 mod camera_mode;
 mod camera_profile;
@@ -425,6 +426,7 @@ pub struct Resident {
     /// Typed alert relation before state23 combat publication, or for the
     /// acquired class215 payload. Raw constructor pointer slots stay zero.
     cold_alert_target: Option<Id>,
+    barracks: Option<barracks::Owned>,
     mecc_special: Option<crate::mecc_special::Initialized>,
     delphi_special: Option<crate::delphi_special::State>,
     delphi_copy_source: Option<crate::delphi_special::CopySource>,
@@ -672,6 +674,7 @@ impl Session {
                 camera_look_angle: None,
                 state23_combat: None,
                 cold_alert_target: None,
+                barracks: None,
                 mecc_special: None,
                 delphi_special: None,
                 delphi_copy_source: None,
@@ -8678,6 +8681,10 @@ impl Session {
             if actor.seed.storage.state() != 23 || actor.state23_combat.is_none() {
                 refers |= actor.cold_alert_target == Some(id);
             }
+            refers |= actor
+                .barracks
+                .as_ref()
+                .is_some_and(|b| b.state.target == Some(id));
             if let Some(target) = actor.mecc_local_target {
                 refers |= target.links.contains(&Some(id));
             }
@@ -11626,6 +11633,41 @@ mod tests {
             assert!(session.state23_combat(actor).is_none());
             assert_eq!(session.incoming_actor_references(target).unwrap(), [actor]);
         }
+    }
+    #[test]
+    fn barracks_initial_sound_failure_keeps_prefix_and_refuses_replay() {
+        let mut session = Session::new(210);
+        let owner = fixture_actor(&mut session, 1060, 98);
+        let mut requests = 0;
+        let stock = crate::building_barracks::InitialParameters {
+            mini: 3,
+            barracks: 7,
+            health: crate::building_damage::Thresholds([75., 50., 15., 0.]),
+        };
+        assert!(
+            session
+                .initialize_barracks(owner, stock, false, &mut |id, cue| {
+                    assert_eq!((id, cue), (owner, 0x6bf));
+                    requests += 1;
+                    Err("object audio transport unavailable".into())
+                })
+                .is_err()
+        );
+        assert!(session.barracks_state(owner).is_err());
+        let actor = session.get(owner).unwrap();
+        assert_eq!(actor.barracks.as_ref().unwrap().state.phase, 1);
+        assert_eq!(actor.barracks.as_ref().unwrap().state.remaining, 0);
+        assert_eq!(actor.channels.unwrap()[0][1], 1_f32.to_bits());
+        assert!(session.actor_world_tick(owner).is_err());
+        assert!(
+            session
+                .initialize_barracks(owner, stock, false, &mut |_, _| {
+                    requests += 1;
+                    Ok(())
+                })
+                .is_err()
+        );
+        assert_eq!(requests, 1);
     }
     fn fixture_actor(session: &mut Session, class: i32, state: u8) -> Id {
         use crate::model_registry::{ClassProgram, ModelRegistry};

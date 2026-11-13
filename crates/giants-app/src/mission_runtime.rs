@@ -675,6 +675,14 @@ impl Runtime {
                 .as_ref()?;
             return (fields.object_flags & 0x8000 == 0).then_some(fields.position);
         }
+        if active.resident_states.barracks_state(id).is_ok() {
+            let fields = active
+                .resident_states
+                .get(id)?
+                .construction_fields
+                .as_ref()?;
+            return (fields.object_flags & 0x8000 == 0).then_some(fields.position);
+        }
         active.resident_states.presentation_position(id)
     }
     pub(crate) fn actor_sound_route(
@@ -1242,6 +1250,22 @@ impl Runtime {
             &mut a.variant_random,
             device,
         )
+    }
+    pub(crate) fn initialize_normal_buildings(
+        &mut self,
+        ticket: u64,
+        buildings: &mut crate::mission_buildings::World,
+        events: &mut Vec<crate::mission_audio::Event>,
+    ) -> Result<(), String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("building initial ticket absent")?;
+        active.player_owner()?;
+        buildings
+            .barracks_initial
+            .start(&mut active.resident_states, events)
     }
     pub(crate) fn hit_normal_building(
         &mut self,

@@ -96,6 +96,13 @@ Remaining work, in player-impact order:
    The Wife supplied-request controls pass without modifying pointer bytes or
    acknowledging AI frames. Bind the real shooter/player, radius globals and
    complete source-eligible admission at the ordinary shot owner next.
+   Initial source selector/stock/channel setup now belongs to each canonical
+   barracks owner and runs at ordinary-control entry, with its object-owned
+   audio request routed through the common actor backend. Seventy-two original
+   initial controls include the real final health-animation helper. This is
+   implemented but awaits ordinary rendered/device acceptance; later spawning/AI
+   remains separate. Connect the actual shot/health/effect/mission/retirement
+   consumers before claiming this building family delivered.
 4. Bind actual building mission-death producers with their native global mode,
    counter and response rules; do not infer credit from a model or health word.
 5. Acquire generic radial/Raster3 platform owners and broader effects-world

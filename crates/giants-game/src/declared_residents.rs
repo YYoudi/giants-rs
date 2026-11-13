@@ -411,5 +411,57 @@ mod tests {
             );
         }
         assert_eq!(session.list(1), list);
+        let globals =
+            giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+                .unwrap();
+        let stock = crate::building_barracks::InitialParameters::load(&globals).unwrap();
+        let mut requested = Vec::new();
+        for owner in list
+            .iter()
+            .copied()
+            .filter(|id| matches!(session.get(*id).unwrap().class, 1060 | 1226))
+            .collect::<Vec<_>>()
+        {
+            assert!(
+                !session
+                    .initialize_barracks(owner, stock, true, &mut |id, cue| {
+                        requested.push((id, cue));
+                        Ok(())
+                    })
+                    .unwrap()
+            );
+            assert!(session.barracks_state(owner).is_err());
+            assert!(
+                session
+                    .initialize_barracks(owner, stock, false, &mut |id, cue| {
+                        requested.push((id, cue));
+                        Ok(())
+                    })
+                    .unwrap()
+            );
+            let state = session.barracks_state(owner).unwrap();
+            let actor = session.get(owner).unwrap();
+            let expected = if actor.class == 1060 {
+                (0, stock.mini, 0x6bf)
+            } else {
+                (4, 12, 0x4db)
+            };
+            assert_eq!(
+                (state.selector, state.remaining, requested.last().unwrap().1),
+                expected
+            );
+            assert_eq!((state.phase, state.damage), (1, 0.));
+            assert_eq!(actor.channels.unwrap()[0][1], 1_f32.to_bits());
+            assert_eq!(actor.channels.unwrap()[0][8], 0x184);
+            assert!(session.actor_world_tick(owner).is_err());
+            assert!(
+                session
+                    .initialize_barracks(owner, stock, false, &mut |_, _| Err(
+                        "must not replay".into()
+                    ))
+                    .is_err()
+            );
+        }
+        assert_eq!(requested.len(), 2);
     }
 }

@@ -46,6 +46,12 @@ The optional `installed_wife_alert_actors_and_barracks_have_cold_owned_construct
 control uses `GIANTS_BUILDING_ROOT` and `-- --ignored`; it also submits alerts to
 the real nonempty constructor list. It supplies requests/targets, does not run
 NPC AI and does not establish an ordinary building hit or GPU/audio acceptance.
+That control also checks canonical initial selector/stock/channels, suppression
+and duplicate refusal. The app control
+`installed_barracks_initial_queues_real_owner_sounds_once` uses the same variable
+and `-- --ignored` to check authored-owner completeness, real audio resource
+resolution and once-only object-owned requests. Device sinks and ordinary
+rendered hit acceptance remain separate requirements.
 
 The ordinary house owner also has an installed app control:
 `cargo test --locked -p giants-app installed_house_damage_updates_all_contact_owners

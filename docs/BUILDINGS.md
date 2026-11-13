@@ -168,6 +168,32 @@ source-eligible admission, actual shooter/player identity, radius globals and
 source initialization. Never substitute an empty or partial replacement list.
 Preserve separate AI/frame readiness and the source selector's initial primary
 behavior.
+The initial branch is now implemented on the canonical mission owner and called
+when ordinary controls become active, after the opening film. Source integer
+stock globals drive the mini/full variant; the Ripper variant retains its
+literal stock. Selector remapping, zero damage, numeric ANM1/flags84/frame1 and
+the zero-damage health-animation suffix are separate from later spawning/AI.
+Seventy-two original controls now execute that real suffix, rather than only
+supplying its return: both zero and positive limits retain frame1/bit80 and the
+initialized stock. The earlier controlled nonzero helper return remains a supplied
+boundary case, not a claim about a fresh live building. The health-frame helper
+now retains the original wide intermediate precision rather than the house
+rounding policy: a controlled 24/100 damage case stays at frame1 while the house
+consumer selects its damaged fraction. Sixty-four complete original helper
+controls also include a second threshold profile: fresh zero damage can select
+a different fraction with different thresholds. Initialization therefore loads
+the actual health thresholds alongside the integer stock globals; it does not
+hardcode frame1 as the final result. Ordinary damage/geometry consumption remains
+separate from these numeric controls.
+
+The ordinary initial owner submits object-owned audio requests through the common
+actor sound path, with the actual source identity and position. Request acceptance
+does not claim a backend voice; device/ordinary rendered acceptance remains open
+for this continuation. Suppression leaves the initial attempt available, repeated
+initialization is refused after consumption, and failed sound requests retain
+their prefix without replay. Authored keys are checked before the first owner
+starts; missing construction cannot become an empty successful start. The common
+controller forwards earlier accepted requests even if a later owner fails.
 Complete the shared descendant/render consumers and the actual alert/mission/retirement
 owners, then validate damage, effects, sound, collision changes and cleanup through
 normal gameplay on one identified executable before extending the public snapshot.

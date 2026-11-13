@@ -2,6 +2,7 @@
 //! `house_process`, `house_shot`, `house_handle_destruction`, `deathfx_logic`
 //! and `deathfx_shot` remain unknown PC attribution search routes.
 //! Other building families retain their collisions without a guessed callback.
+mod barracks;
 mod no_shot;
 mod replacement;
 use giants_game::{
@@ -50,6 +51,7 @@ struct Owner {
     fraction: u32,
 }
 pub(crate) struct World {
+    pub(crate) barracks_initial: barracks::Initial,
     owners: BTreeMap<u32, Owner>,
     no_shot: no_shot::Surfaces,
     replacements: Vec<replacement::Placed>,
@@ -368,6 +370,7 @@ impl World {
             classes.len()
         );
         Ok(Self {
+            barracks_initial: barracks::Initial::prepare(plan, globals)?,
             owners,
             no_shot: no_shot::Surfaces::prepare(plan, physical, colliders),
             replacements: vec![],

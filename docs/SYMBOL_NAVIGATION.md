@@ -156,7 +156,7 @@ behavior. The ordinary adapters are in `mission_buildings`, with source health
 geometry in `building_geometry`; naming does not validate those consumers.
 See [BUILDINGS.md](BUILDINGS.md) for current integration evidence and acceptance.
 
-The literal prototype PS2 names `barracks_shot`,
+The literal prototype PS2 names `barracks_logic`, `barracks_shot`,
 `barracks_alert_rippers__FP6OBJECT`, `rpman_alert_team__FP6OBJECTf` and
 `distancesq2d__FP3P3DT0` also lead to
 [`building_barracks`](../crates/giants-game/src/building_barracks.rs). These
@@ -165,6 +165,14 @@ inlined state23 alert loop retain different horizontal-radius and target rules.
 The Rust service boundary preserves ordered alerts, damage, effects/sounds,
 conditional mission requests and retirement. It neither constructs the missing
 mission actors nor establishes a complete world list or ordinary building hit.
+The canonical initial owner is in
+[`resident_states::barracks`](../crates/giants-game/src/resident_states/barracks.rs),
+with typed list alerts in
+[`resident_states::building_alert`](../crates/giants-game/src/resident_states/building_alert.rs).
+Initial selector/stock/channel setup and the health-frame helper use actual source
+globals; their numeric contracts do not acknowledge later spawning/AI, a world
+tick, rendered damage or an audio backend start. These routes remain unknown
+attributions, independently of their PC controls.
 
 ## Publication boundary
 

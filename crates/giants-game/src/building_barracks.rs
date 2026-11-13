@@ -32,6 +32,144 @@ impl Explosion {
         }
     }
 }
+/// Actual stock and health-animation globals, not inferred defaults or an
+/// actor census. All three thresholds remain owned by their source consumer.
+#[derive(Clone, Copy, Debug)]
+pub struct InitialParameters {
+    pub mini: i32,
+    pub barracks: i32,
+    pub health: crate::building_damage::Thresholds,
+}
+impl InitialParameters {
+    pub fn load(data: &giants_formats::global_data::GlobalData) -> Result<Self, String> {
+        let word = |offset: usize| {
+            data.words
+                .get(offset / 4)
+                .copied()
+                .map(|v| v as i32)
+                .ok_or_else(|| "barracks initial stock global absent".to_owned())
+        };
+        Ok(Self {
+            mini: word(0xca0)?,
+            barracks: word(0x5c8)?,
+            health: crate::building_damage::Thresholds::load(data)?,
+        })
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct HealthFrame {
+    pub fraction: f32,
+    pub terminal: bool,
+}
+/// Acquired PC health-animation suffix reached by `barracks_logic` (unknown
+/// attribution). Keep intermediate division/subtraction/products wide until
+/// the selected fraction is stored. This deliberately differs from the house
+/// callback's rounding. Neither a selected frame nor terminal health retires an
+/// actor or acknowledges its primary/world services.
+pub fn health_frame(
+    damage: f32,
+    limit: f32,
+    thresholds: crate::building_damage::Thresholds,
+) -> Result<HealthFrame, String> {
+    if ![damage, limit]
+        .into_iter()
+        .chain(thresholds.0)
+        .all(f32::is_finite)
+        || damage < 0.
+        || limit < 0.
+    {
+        return Err("barracks health frame outside finite nonnegative profile".into());
+    }
+    let remaining = 1. - f64::from(damage) / f64::from(limit);
+    if remaining <= 0. {
+        return Ok(HealthFrame {
+            fraction: 0.,
+            terminal: true,
+        });
+    }
+    let adjusted = remaining - 0.01_f64;
+    for index in [2, 1, 0] {
+        let boundary = f64::from(thresholds.0[index]) * f64::from(0.01_f32);
+        if adjusted <= boundary {
+            return Ok(HealthFrame {
+                fraction: boundary as f32,
+                terminal: false,
+            });
+        }
+    }
+    // Zero/zero is unordered and selects no damaged fraction in the original.
+    Ok(HealthFrame {
+        fraction: 1.,
+        terminal: false,
+    })
+}
+/// Required object-owned sound request. Acceptance is distinct from the
+/// subsequent audio device start; do not replace it with positional audio.
+pub trait InitialSound<K> {
+    fn object_sound(&mut self, state: &State<K>, cue: u32) -> Result<(), String>;
+}
+/// Acquired initial branch of `barracks_logic` (unknown attribution), including
+/// its actual zero-damage health-animation suffix. This updates numeric channels,
+/// not evaluated poses, a world tick, spawning or subsequent primary behavior.
+/// On error retain this completed prefix and latch failure at the owning caller.
+pub fn initialize<K>(
+    state: &mut State<K>,
+    class: i32,
+    stock: InitialParameters,
+    suppressed: bool,
+    channels: &mut crate::animation_channels::Channels,
+    sound: &mut impl InitialSound<K>,
+) -> Result<bool, String> {
+    if suppressed {
+        return Ok(false);
+    }
+    if state.phase != 0
+        || !matches!(class, 686 | 1060 | 1226)
+        || !matches!(state.selector, 0..=5)
+        || !state.limit.is_finite()
+        || state.limit < 0.
+        || !stock.health.0.into_iter().all(f32::is_finite)
+    {
+        return Err("barracks initialization outside acquired fresh class/selector profile".into());
+    }
+    state.phase = 1;
+    state.damage = 0.;
+    crate::animation_channels::select_primary(
+        channels,
+        crate::animation_channels::Request {
+            slot: 1,
+            flags: 0x84,
+            speed_source: 0,
+            reference_speed: 0.,
+            blend_seconds: 0.,
+        },
+        crate::animation_channels::Blending::Disabled,
+    )?;
+    channels[0][1] = 1_f32.to_bits();
+    let (cue, remaining) = if matches!(state.selector, 0 | 2 | 4) {
+        state.selector = match class {
+            1060 => 0,
+            686 => 2,
+            _ => 4,
+        };
+        match state.selector {
+            0 => (0x6bf, stock.mini),
+            2 => (0x6bf, stock.barracks),
+            _ => (0x4db, 12),
+        }
+    } else {
+        (if state.selector == 5 { 0x4db } else { 0x6bf }, 0)
+    };
+    sound.object_sound(state, cue)?;
+    state.remaining = remaining;
+    let health = health_frame(state.damage, state.limit, stock.health)?;
+    channels[0][1] = health.fraction.to_bits();
+    channels[0][8] |= 0x80;
+    if health.terminal {
+        state.remaining = 0;
+    }
+    Ok(true)
+}
 /// Each service must use its real owner. The caller must preflight every
 /// required consumer before admitting ordinary damage; an error retains the
 /// already completed prefix and must not be replayed as a fresh hit.
