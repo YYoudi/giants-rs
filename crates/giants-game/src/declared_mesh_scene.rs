@@ -113,10 +113,19 @@ fn prepare_profile(
             let projection =
                 collider_init::cold_projection(context, source.class).map_err(|e| e.to_string())?;
             let mut initial = projection.placed_with_scale(pose, scale_override)?;
-            if players && flags.personality & 0x1008 == 0 && !matches!(initial.state, 61 | 101) {
-                // Widen the cold player cohort for the acquired building
-                // families, not arbitrary staged actors or scenery callbacks.
+            if players && flags.personality & 0x1008 == 0 && !matches!(initial.state, 0 | 61 | 101) {
+                // Only acquired building callbacks and callbackless state0 can
+                // extend this initial cohort; other live states remain separate.
                 return Ok(None);
+            }
+            let static_no_callback = players && flags.personality & 0x1008 == 0 && initial.state == 0;
+            if static_no_callback {
+                let binding = context.classes.models.first_selection(source.class)
+                    .ok_or("static no-callback model selection absent")?
+                    .as_ref().map_err(Clone::clone)?;
+                if !binding.selection.animations.is_empty() {
+                    return Err("state0 player mesh requires its actual animation owner".into());
+                }
             }
             let extended_player = players && (flags.personality & 0x1008 == 0
                 || flags.personality & 8 != 0 && flags.personality & (0x80000 | 0x100000) == 0);
@@ -182,6 +191,9 @@ fn prepare_profile(
             let (name, mut mesh) = selection
                 .geometry
                 .ok_or("selected collision slot has no geometry")?;
+            if static_no_callback && context.archives.members.contains_key(&format!("{}.skn", name.to_ascii_lowercase())) {
+                return Err("state0 player mesh requires its actual skin/pose owner".into());
+            }
             if matches!(prepared.state, 61 | 101) {
                 let binding = context.classes.models.first_selection(source.class)
                     .ok_or("building model selection absent")?
@@ -315,9 +327,34 @@ mod projectile_tests {
         let players = super::prepare_players(&plan, &world.terrain);
         let projectiles = super::prepare_projectiles(&plan, &world.terrain);
         assert!(projectiles.player_objects.is_empty());
-        for class in [512, 544, 549, 1050] {
+        for class in [511, 512, 544, 549, 1050] {
             assert!(players.records.iter().any(|r| r.class == class));
         }
+        let (record, player) = players
+            .records
+            .iter()
+            .zip(&players.objects)
+            .find(|(r, _)| r.class == 511)
+            .unwrap();
+        assert_eq!(record.instance.state, 0);
+        assert_ne!(
+            crate::object_lists::membership(
+                record.class,
+                record.instance.state,
+                crate::object_lists::DirectFlags {
+                    active: record.instance.fields.object_flags,
+                    personality: record.instance.fields.collision_flags
+                }
+            ) & 0x10,
+            0
+        );
+        let projectile = projectiles
+            .objects
+            .iter()
+            .find(|o| o.fields.id == player.fields.id)
+            .unwrap();
+        assert_eq!(player.triangles, projectile.triangles);
+        assert!(!physical.records.iter().any(|r| r.class == 511));
         for old in &physical.objects {
             let player = players
                 .objects

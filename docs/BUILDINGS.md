@@ -53,6 +53,14 @@ replacement/death effect or a generic actor platform. Preview .13.1 verifies the
 independent player path on its exact executable;
 whole-world and generic-platform coverage remain separate.
 
+The next candidate extends that same independent player walk to initial state0
+meshes without a shot callback. The newly admitted profile requires actual
+unanimated, unskinned and uncached geometry; missing live pose providers still
+refuse admission. The installed fence control retains source list membership
+and identical actual player/projectile triangles, without granting a generic
+actor footprint or manufacturing a damage callback. Its exact-candidate rendered
+contact and no-damage checks remain required before publication.
+
 The first wider-player candidate passes actual rendered contact/damage/expiry
 for the entrance, fence and house. Its old small-tower input fixture stalls at
 a now-solid source column. Two following jet/detour attempts also fail the
@@ -233,6 +241,12 @@ producer, supplying only look commands. It does not change the game's aiming
 service or projectile trajectory. Require three actual hits and the unchanged
 geometry endpoint on a new receipt; complete native crosshair/arm aiming is
 still separate work.
+
+The following private receipt passes actual player contact and three distinct
+projectile hits on the source canopy, with unchanged collision geometry, no
+building bursts or retirement and a visually reviewed capture. That result
+belongs to its exact executable. The new state0 fence admission requires a fresh
+receipt and both no-shot samples plus combined regressions before publication.
 
 ### Initial registered static-shadow dependency
 
