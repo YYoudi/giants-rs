@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent reviewed guard-effect ledger route; explicit unknown.
+        '7656fa6dea7d487005fb3aa7f52ca5eb68e802ceba88e09ad9a454dcc4bacc50',
         # Reviewed literal Mecc logic countdown route; unknown, no raw corpus.
         '4d9c6df516e0d4ae3d05fd233345f2c4eab68042fec4368ae797a25117aafd44',
         # Reviewed canonical cold Mecc hit publication route; still unknown.
