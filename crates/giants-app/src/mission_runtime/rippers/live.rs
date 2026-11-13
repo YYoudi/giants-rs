@@ -70,6 +70,7 @@ struct Callbacks<'a, 'f> {
 }
 struct Services<'a> {
     owner: Id,
+    selection: giants_game::effect_initialization::Selection,
     contexts: &'a mut Pool<Id>,
     sounds: &'a mut Vec<crate::mission_audio::Event>,
 }
@@ -152,11 +153,15 @@ impl primary::Services<Id, giants_game::attached_effect_context::Id> for Service
         state: &primary::State<Id, giants_game::attached_effect_context::Id>,
         random: &mut Random,
     ) -> Result<Option<giants_game::attached_effect_context::Id>, String> {
-        let (creation, _) = self.contexts.prepare_extended_invariant(
+        let (creation, _) = self.contexts.prepare_extended(
             "fx_ripper_dirt",
             self.owner,
             state.entry.flags,
             u32::MAX,
+            giants_game::effect_initialization::Selection {
+                recipient_position: state.entry.position,
+                ..self.selection
+            },
             random,
         )?;
         Ok(match creation {
@@ -213,11 +218,17 @@ impl giants_game::primary_enemy_fire::Dependencies<giants_game::attached_effect_
         if !matches!(fields.class, 90 | 232) {
             return Err("Ripper projectile FX recipient class differs".into());
         }
-        let (created, _) = self.contexts.prepare_extended_invariant(
+        let (created, _) = self.contexts.prepare_extended(
             request.name,
             request.recipient,
             fields.object_flags,
             request.tag,
+            giants_game::effect_initialization::Selection {
+                active_objects: u32::try_from(session.counts().residents)
+                    .map_err(|_| "Ripper FX count overflow")?,
+                recipient_position: fields.position,
+                ..self.selection
+            },
             random,
         )?;
         Ok(match created {
@@ -326,6 +337,26 @@ impl giants_game::primary_surface_marker::Dependencies<giants_game::attached_eff
         Ok(self.play(cue))
     }
 }
+impl Callbacks<'_, '_> {
+    fn effect_selection(
+        &self,
+        session: &Session,
+        id: Id,
+    ) -> Result<giants_game::effect_initialization::Selection, String> {
+        let fields = session
+            .get(id)
+            .and_then(|actor| actor.construction_fields.as_ref())
+            .ok_or("Ripper effect recipient fields absent")?;
+        Ok(giants_game::effect_initialization::Selection {
+            active_objects: u32::try_from(session.counts().residents)
+                .map_err(|_| "Ripper FX count overflow")?,
+            quality: self.globals.scalar(0x13e0).map_err(|e| e.to_string())?,
+            lite_distance: self.globals.scalar(0x1570).map_err(|e| e.to_string())?,
+            camera: self.frame.camera,
+            recipient_position: fields.position,
+        })
+    }
+}
 impl ActorWorldServices for Callbacks<'_, '_> {
     fn controlled_actor(&self) -> Option<Id> {
         Some(self.frame.controlled)
@@ -373,8 +404,10 @@ impl ActorWorldServices for Callbacks<'_, '_> {
             frame: &perception,
             range: scalar(if class == 73 { 0xe0 } else { 0xfc })?,
         };
+        let selection = self.effect_selection(session, id)?;
         let mut services = Services {
             owner: id,
+            selection,
             contexts: self.contexts,
             sounds: self.sounds,
         };
@@ -557,6 +590,7 @@ impl ActorWorldServices for Callbacks<'_, '_> {
         )
     }
     fn secondary(&mut self, session: &mut Session, id: Id) -> Result<(), String> {
+        let selection = self.effect_selection(session, id)?;
         let combat = session.state23_combat(id).ok_or("Ripper combat absent")?;
         let class = session.get(id).unwrap().class;
         if !matches!((class, combat.mode), (73, 31..=34 | 37..=39 | 44) | (230, 61..=69 | 71)) {
@@ -579,6 +613,7 @@ impl ActorWorldServices for Callbacks<'_, '_> {
             self.random,
             &mut Services {
                 owner: id,
+                selection,
                 contexts: self.contexts,
                 sounds: self.sounds,
             },
