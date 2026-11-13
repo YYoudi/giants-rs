@@ -1208,6 +1208,11 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
     pub fn state(&self) -> &State<K, E> {
         &self.state
     }
+    /// The owned world-list alert writes this relation between callbacks. It
+    /// neither consumes a primary nor acknowledges motion or another phase.
+    pub(crate) fn bind_alert_target(&mut self, target: K) {
+        self.state.retaliation = Some(target);
+    }
     pub fn failure(&self) -> Option<&str> {
         self.failed.as_deref()
     }

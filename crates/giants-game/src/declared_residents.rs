@@ -356,5 +356,60 @@ mod tests {
                 _ => unreachable!(),
             }
         }
+        // Supplied alert requests over the actual constructed nonempty list.
+        // These identities are test targets, not a fabricated player binding.
+        let list = session.list(1);
+        let rippers: Vec<_> = list
+            .iter()
+            .copied()
+            .filter(|id| session.get(*id).unwrap().seed.storage.state() == 23)
+            .collect();
+        let team: Vec<_> = list
+            .iter()
+            .copied()
+            .filter(|id| session.get(*id).unwrap().class == 215)
+            .collect();
+        let building = list
+            .iter()
+            .copied()
+            .find(|id| session.get(*id).unwrap().class == 1060)
+            .unwrap();
+        assert_eq!(team.len(), 6);
+        assert!(rippers.len() >= 2);
+        let (first, second) = (rippers[0], rippers[1]);
+        session
+            .alert_team_from_building(building, 100_000., first)
+            .unwrap();
+        session
+            .alert_rippers_from_building(building, 100_000., first)
+            .unwrap();
+        for id in team.iter().chain(&rippers) {
+            assert_eq!(session.building_alert_target(*id).unwrap(), Some(first));
+        }
+        session
+            .alert_team_from_building(building, 100_000., second)
+            .unwrap();
+        session
+            .alert_rippers_from_building(building, 100_000., second)
+            .unwrap();
+        for id in &team {
+            assert_eq!(session.building_alert_target(*id).unwrap(), Some(second));
+            let actor = session.get(*id).unwrap();
+            assert_eq!(
+                actor.construction_fields.as_ref().unwrap().control_flags & 0x21,
+                0x21
+            );
+            assert_eq!(actor.seed.storage.data().unwrap()[4..8], [0; 4]);
+            assert!(session.actor_world_tick(*id).is_err());
+        }
+        for id in &rippers {
+            assert_eq!(session.building_alert_target(*id).unwrap(), Some(first));
+            assert!(session.state23_combat(*id).is_none());
+            assert_eq!(
+                session.get(*id).unwrap().seed.storage.data().unwrap()[12..16],
+                [0; 4]
+            );
+        }
+        assert_eq!(session.list(1), list);
     }
 }

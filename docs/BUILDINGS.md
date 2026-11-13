@@ -154,10 +154,20 @@ retaining their real mission identity, authored placement and list ownership.
 An installed The Wife control owns all six Reapermen and both barracks without
 acknowledging a world tick. Other state51/98 classes and unbound common F4
 placement values remain excluded. This cold construction does not run primary
-AI, emit sound or make an alert sink successful. Bind the actual typed target
-references and current-field/list providers; do not acknowledge building alerts
-against an empty or partial replacement list. Preserve separate AI/frame readiness
-and the source selector's initial primary behavior.
+AI or emit sound. The acquired building-origin helpers now consume the actual
+owned constructor list and current header/payload fields. Targets use typed
+mission identities, remain visible to retirement-reference checks and survive
+later Ripper primary binding. Already prepared machines receive the same target
+without consuming a callback or motion phase. A malformed, foreign or failed
+owner refuses the operation before any candidate is changed. Installed The Wife
+controls exercise the nonempty list, all six team targets and existing Ripper
+targets; raw pointer slots and list registration remain unchanged. Alert requests
+and target identities in that control are supplied, not ordinary shots or a
+controlled-player producer. The ordinary caller must still establish complete
+source-eligible admission, actual shooter/player identity, radius globals and
+source initialization. Never substitute an empty or partial replacement list.
+Preserve separate AI/frame readiness and the source selector's initial primary
+behavior.
 Complete the shared descendant/render consumers and the actual alert/mission/retirement
 owners, then validate damage, effects, sound, collision changes and cleanup through
 normal gameplay on one identified executable before extending the public snapshot.

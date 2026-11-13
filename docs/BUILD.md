@@ -40,6 +40,13 @@ fading draw submissions, and quantized shader uniforms/blend-mode updates and
 buffer release. Requests, selection inputs and clocks are supplied. They do not
 enable ordinary barracks damage, render GPU pixels or validate Windows input.
 
+`cargo test --locked -p giants-game building_alert --target
+x86_64-pc-windows-gnu` checks typed target retention, preflight and primary binding.
+The optional `installed_wife_alert_actors_and_barracks_have_cold_owned_construction`
+control uses `GIANTS_BUILDING_ROOT` and `-- --ignored`; it also submits alerts to
+the real nonempty constructor list. It supplies requests/targets, does not run
+NPC AI and does not establish an ordinary building hit or GPU/audio acceptance.
+
 The ordinary house owner also has an installed app control:
 `cargo test --locked -p giants-app installed_house_damage_updates_all_contact_owners
 --target x86_64-pc-windows-gnu -- --ignored`, using `GIANTS_BUILDING_ROOT`.

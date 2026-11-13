@@ -85,13 +85,17 @@ Remaining work, in player-impact order:
    actual horizontal distance and distinct Reaperman/Ripper edge/target rules.
    The Wife's six declared class215/state51 actors and both barracks now have
    acquired cold constructors/identities/list membership; the cursor-only class
-   record and native copy/payload controls precede this admission. Bind their
-   actual typed target references and current-field/list consumers without
-   acknowledging AI/frame readiness or replacing them with an empty list.
+   record and native copy/payload controls precede this admission. Their typed
+   alert consumers preserve separate AI/frame readiness and actual list order.
    Complete named quality/distance selection, graphical/audio acceptance
-   and actual alert consumers before admitting
+   and ordinary alert admission before admitting
    ordinary damage. Existing tower geometry or the Vimp-specific effect route
    does not establish whole barracks acceptance. See BUILDINGS.md.
+   Typed alert consumers now retain targets over the actual constructor list,
+   preserve existing Ripper targets and replace eligible team targets. Installed
+   The Wife supplied-request controls pass without modifying pointer bytes or
+   acknowledging AI frames. Bind the real shooter/player, radius globals and
+   complete source-eligible admission at the ordinary shot owner next.
 4. Bind actual building mission-death producers with their native global mode,
    counter and response rules; do not infer credit from a model or health word.
 5. Acquire generic radial/Raster3 platform owners and broader effects-world
