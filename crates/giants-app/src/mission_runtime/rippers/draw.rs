@@ -2,7 +2,10 @@
 use super::*;
 use std::{collections::BTreeMap, sync::Arc};
 #[derive(Default)]
-pub(super) struct Geometry(BTreeMap<i32, Arc<giants_game::scene_resources::ModelAsset>>);
+pub(super) struct Geometry(
+    BTreeMap<i32, Arc<giants_game::scene_resources::ModelAsset>>,
+    BTreeMap<Id, super::super::npc::Draw>,
+);
 impl State {
     pub(in crate::mission_runtime) fn draws(
         &mut self,
@@ -32,6 +35,14 @@ impl State {
             )
             .collect::<Vec<_>>();
         for (id, class) in owners {
+            if self.driver.actor_failures.contains_key(&id) {
+                // Hold the last actually completed submission, with its old
+                // frame number. This acknowledges no new AI/ANM/contact frame.
+                if let Some(last) = self.geometry.1.get(&id) {
+                    result.push(last.clone());
+                }
+                continue;
+            }
             let shot = matches!(class, 90 | 232);
             let (number, epoch) = if shot {
                 let completed = session.enemy_projectile_presentation(id)?;
@@ -144,7 +155,7 @@ impl State {
                     Ok([p[0], p[2], -p[1]])
                 })
                 .collect::<Result<Vec<_>, String>>()?;
-            result.push(super::super::npc::Draw {
+            let draw = super::super::npc::Draw {
                 rigid: None,
                 texture: None,
                 class,
@@ -154,7 +165,11 @@ impl State {
                 geometry: self.geometry.0[&class].clone(),
                 positions,
                 center,
-            });
+            };
+            if matches!(class, 73 | 230) {
+                self.geometry.1.insert(id, draw.clone());
+            }
+            result.push(draw);
         }
         Ok(result)
     }

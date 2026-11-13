@@ -21,7 +21,8 @@ pub(super) struct Driver {
     pub(super) projectiles: BTreeSet<Id>,
     pub(super) projectile_failures: BTreeMap<Id, String>,
     pub(super) first_quarantine_step: Option<u64>,
-    actor_failures: BTreeMap<Id, String>,
+    pub(super) actor_failures: BTreeMap<Id, String>,
+    held_markers: BTreeSet<Id>,
     pub(super) flights: BTreeMap<Id, u64>,
 }
 impl Driver {
@@ -678,6 +679,9 @@ impl State {
     pub(in crate::mission_runtime) fn quarantine_step(&self) -> Option<u64> {
         self.driver.first_quarantine_step
     }
+    pub(in crate::mission_runtime) fn actor_quarantined(&self, id: Id) -> bool {
+        self.driver.actor_failures.contains_key(&id)
+    }
 
     pub(in crate::mission_runtime) fn refuse_draw(&mut self, ticket: u64, error: String) {
         self.driver.refuse_draw(ticket, error);
@@ -784,6 +788,7 @@ impl State {
                         frame.ticket, frame.step, owner.id, owner.declaration.class
                     );
                     self.driver.actor_failures.insert(owner.id, error);
+                    self.driver.first_quarantine_step.get_or_insert(frame.step);
                     self.driver.completed.remove(&owner.id);
                     continue;
                 }
@@ -853,6 +858,18 @@ impl State {
         )?;
         let mut marked = Vec::new();
         for id in markers {
+            if matches!(session.surface_link(id), Some(giants_game::resident_states::SurfaceLink::Marker { owner, .. }) if self.driver.actor_failures.contains_key(&owner))
+            {
+                self.driver.markers.remove(&id);
+                self.driver.completed.remove(&id);
+                if self.driver.held_markers.insert(id) {
+                    eprintln!(
+                        "mission_ripper_marker_held ticket={} owner={id:?} reason=quarantined_parent retained_until_mission_retirement=true cleanup_acknowledged=false",
+                        frame.ticket
+                    );
+                }
+                continue;
+            }
             if self.driver.markers.insert(id) {
                 if !self
                     .marker_factory

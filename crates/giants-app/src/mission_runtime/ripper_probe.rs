@@ -16,9 +16,17 @@ impl Runtime {
         position: [f32; 3],
     ) -> Result<RipperInputSnapshot, String> {
         let draws = self.npc_draws(ticket)?;
+        let component = self
+            .active
+            .as_ref()
+            .and_then(|a| a.payload.rippers.as_ref().ok()?.as_ref());
         let target = draws
             .iter()
             .filter(|d| matches!(d.class, 73 | 230))
+            .filter(|d| match d.id {
+                NpcDrawOwner::Actor(id) => component.is_some_and(|c| !c.actor_quarantined(id)),
+                _ => false,
+            })
             .min_by(|a, b| {
                 let distance = |p: [f32; 3]| (p[0] - position[0]).hypot(p[1] - position[1]);
                 distance(a.center).total_cmp(&distance(b.center))
