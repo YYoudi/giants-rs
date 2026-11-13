@@ -127,6 +127,16 @@ findings. The adapter is not yet connected to ordinary shared-world/controller/
 audio providers, and this executable has no new rendered or Windows-input
 acceptance. The earlier combined-game first-hit failure is still authoritative.
 
+The local failure-producer build is source
+`ccc202f13b6266bd498cf120c0f6107cf6a03784`, executable SHA256
+`1522f83db52b53f06f64b9553e6150a2c8b69ead261974b81749ee9a2e125f70`,
+Rust1.98.0/MinGW16.2.0. Its receipt remains local. Workspace checks pass1,053
+tests with216 ignored, strict Clippy, formatting and45 Python tests. The
+identity-bound failure controls pass250 original observations; the source audit
+at that commit scans1,274 reachable commits/7,116 blobs with zero findings.
+This dependency build has no new graphical or Windows-input acceptance and
+does not bind the ordinary world guards. No competing preview is published.
+
 Earlier milestone evidence below includes the old mode67 frontier. The first
 combined-game graphical blocker remains direct projectile damage to the player;
 do not transfer the isolated Ripper-only approach or newer CPU selections to that
