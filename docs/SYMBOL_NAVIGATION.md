@@ -311,6 +311,15 @@ Prior PC aliases remain retained; detailed records and native controls stay priv
 
 ## Publication boundary
 
+The literal prototype PS2 route `mission_fail` leads to
+[`mission_failure::State::request`](../crates/giants-game/src/mission_failure.rs),
+whose correspondence to the acquired PC failure producer remains **unknown**.
+Signed-count gates, shared failure/time writes and the required failure-menu
+boundary are independently acquired PC behavior. Private controls stop before
+that menu's effects; this establishes neither its UI/restart owner nor live
+world initialization, guards or ordinary Ripper combat. Earlier PC aliases remain
+in the private identity-bound record; no PS2 signature/layout is imported.
+
 The literal prototype PS2 names `FLK_FlickProcess__FP9FLK_Flick`,
 `FLK_FlickUpdateTime__FP9FLK_Flickf` and `FlickAnimate__FP9FLK_Flick` are search
 routes to [`flick::Timeline`](../crates/giants-game/src/flick.rs),

@@ -246,6 +246,18 @@ activation and mutation lifecycle together with the existing timer/player failur
 and completion guards. This PC relationship adds no confirmed prototype PS2
 correspondence or ordinary damage availability; detailed records stay private.
 
+The shared failure producer is now acquired in `mission_failure::State::request`:
+signed counts/completion gating, failure/time publication and strict wide delay
+are checked against 250 original observations plus four synthetic controls.
+Twenty-eight observations stop at the required failure-menu entry before UI
+effects. No default initialization, flag-clear acknowledgment, restart or live
+guard provider is supplied. The timer caller's actual film/clock ownership and
+the actors' failure requests remain integration prerequisites. Prototype PS2
+`mission_fail` is an unknown search route; no new confirmed attribution or
+rendered encounter is claimed. Keep this dependency separate from main's campaign
+flow and bind actual world/controller/audio consumers before rerunning the
+combined encounter, reciprocal injury, Ripper death and menu/reentry acceptance.
+
 Earlier dependency evidence: the canonical mixed construction executor now owns real
 root/child Session births, child-context retirement, source wait and delayed
 continuation/root-context retirement. All44 births match the original on2,596

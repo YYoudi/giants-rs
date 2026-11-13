@@ -80,6 +80,18 @@ owners before binding the ordinary hit host. The related actor behavior and full
 shared-world lifecycle remain unbound; no gameplay availability follows from this
 read-only metadata/control-flow acquisition.
 
+`mission_failure::State::request` now acquires the shared failure producer as a
+separate dependency. Signed objective counts and the completion word gate its
+failure flag/time writes; the strict delay compares the wide sum while retaining
+rounded storage. Negative samples and repeated actual invocations are preserved.
+Its menu-required result acknowledges no UI, flag reset or restart. Four synthetic
+controls and 250 private exact-PC observations pass, including 28 stops at the
+real failure-menu entry before its effects. These use supplied shared state;
+the module supplies no default world initialization or ordinary guard readiness.
+The prototype PS2 `mission_fail` relationship remains unknown. The timer caller
+also depends on actual failure-film declarations/ownership and the shared clock;
+its acquisition does not bind that producer or replace the campaign flow.
+
 The current isolated Wife approach consumes mode67 and its mode68 animation
 selection at step3251, follows that attack through its real ANM clock, then
 refuses the missing kind3 hurt consumer at3293 with the source already in mode66.
