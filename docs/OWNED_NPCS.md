@@ -9,6 +9,33 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
+The ordinary class230 mode67 primary now validates its current target, produces
+real turning/forward commands and selects mode68 or69 using the actual class
+parameters and shared RNG. It does not set actor positions. A strict melee-range
+boundary consumes no draw. The required cue runs before selecting mode68; a cue
+failure retains steering and the consumed draw, latching against replay. Six
+private original whole-primary controls cover both selections, equal/outside
+range, missing target and turning. Two synthetic controls check strict selection
+and retained cue failure. Six further original secondary controls match the first
+two channels with disabled blending, including the actual slots10/51 selected by
+mode68/69. Those selections now use the existing ordinary secondary/ANM path;
+their subsequent primary attack/damage continuations remain required.
+These controls use supplied target/mode/seed inputs after native mode66 in a flat
+world with an empty sound registry. They are neither natural encounter nor GPU
+acceptance. `ripper_move`, `ripper_chase_location` and `ripper_animselect` remain
+unknown prototype PS2 correspondence routes, with earlier PC aliases retained.
+
+The current isolated Wife approach consumes mode67 and its mode68 animation
+selection at step3251, then refuses the still-missing mode68 primary at3252.
+This diagnostic still fails; it is not a complete encounter pass. It supplies
+ordinary player commands, excludes the Vimp component and uses no GPU or OS input.
+
+Earlier milestone evidence below includes the old mode67 frontier. The first
+combined-game graphical blocker remains direct projectile damage to the player;
+do not transfer the isolated Ripper-only approach or newer CPU selections to that
+rendered scene. Reciprocal injury, Ripper death and complete Windows encounter
+acceptance remain open. No new preview is published by this lane.
+
 The ordinary component now handles an actual missed ground shot through the
 retained query clock, named effect population, positional sound transport and
 projectile retirement. A read-only proof checks the entire current owned radial
@@ -21,7 +48,7 @@ then owns post-preparation cleanup, independently of GPU/device availability.
 The supplied Wife control observes the real step2755 impact, 26 immediate births
 and 25 particle geometry frames, queued positional sound and actual shot release
 on two fresh entries. Continuing the same approach reaches physical actor contact
-at step3242. The longer encounter currently refuses the real class230 mode67
+at step3242. That earlier longer encounter refused the real class230 mode67
 at step3251; reciprocal damage/death and rendered encounter/menu acceptance remain
 open. Original native traversal controls cover 80 supplied contexts, including
 inclusive hit/strict alert boundaries and genuine callback counterexamples.
@@ -50,7 +77,7 @@ rendering on the corrected executable. The earlier saved explosion image belongs
 to the failed `33b3168` candidate, not this receipt. The Ripper component CPU
 fixture excludes the live Vimp component; do not transfer its specific miss or
 physical-contact route to the combined game. Next connect projectile-to-Mecc
-object damage/retirement and the close-range mode67 path, preserving real world
+object damage/retirement and the selected close-range attack paths, preserving real world
 and controller owners. No new prototype PS2 attribution, actual Windows input,
 Ripper death, menu/reentry or public preview is established by these runs.
 
@@ -542,12 +569,12 @@ reported and quarantined independently of Vimps. Prior audio transport requests
 survive a late callback refusal; queue submission does not establish a voice.
 
 The admitted ordinary primary subset is class73 modes0/31/32/33/34/44 and
-37/38/39, plus class230 modes0/61/62/63/64/65/66/71. Mode66 consumes actual object
+37/38/39, plus class230 modes0/61/62/63/64/65/66/67/71. Mode66 consumes actual object
 local time and its source retreat decision. Mode71 follows the current animation
 and marks only the actual class219 child when required; its common child frame
 and retirement batch still own release and unlinking. The acquired secondary
-selector also admits mode67 selected at the close-range boundary; its next
-primary remains unacquired.
+selector also admits mode68/69 selected by the acquired mode67 primary; the
+mode68/69 primary continuations remain unacquired.
 
 The persistent projectile factory retains actual mission resources/templates
 across births. Ordinary launch uses real attached-FX preparation, positional
@@ -609,7 +636,7 @@ After137 flying samples, its next query returns a real ground contact. The
 then-missing impact/damage/retirement continuation refused and remained pending.
 That historical frontier is now superseded by the ordinary missed-shot host and
 physical-contact control above. The longer encounter's current frontier is
-class230 mode67, not this earlier terrain contact; injury, death and GPU fidelity
+the selected class230 mode68 primary after mode67, rather than this earlier terrain contact; injury, death and GPU fidelity
 remain unverified.
 
 The ordinary controller now publishes a Mecc dedicated-contact packet through
@@ -727,7 +754,7 @@ and five Rippers; it does not stage the Vimp component. This CPU control neither
 proves a graphical shot nor expands admission to the whole native world.
 The separate full-contact diagnostic continues beyond that first sample and
 now consumes the actual missed ground impact and reaches physical actor contact.
-The longer encounter stops at class230 mode67. Neither control establishes
+That earlier longer encounter stopped at class230 mode67. Neither control establishes
 reciprocal damage or source death.
 
 Class230 mode66 preserves strict expiry before the rounded timer store,

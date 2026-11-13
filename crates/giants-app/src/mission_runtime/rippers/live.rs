@@ -419,6 +419,16 @@ impl ActorWorldServices for Callbacks<'_, '_> {
             (230, 71) => {
                 session.update_ripper_variant_retreat(id, input, self.random, &mut services)?
             }
+            (230, 67) => session.update_ripper_variant_close(
+                id,
+                input,
+                primary::VariantCloseContext {
+                    attack_range: scalar(0x118)?,
+                    alternate_threshold: scalar(0x128)?,
+                },
+                self.random,
+                &mut services,
+            )?,
             (230, 62) => {
                 session.update_ripper_variant_turn(id, input, self.random, &mut services)?
             }
@@ -468,7 +478,7 @@ impl ActorWorldServices for Callbacks<'_, '_> {
     fn secondary(&mut self, session: &mut Session, id: Id) -> Result<(), String> {
         let combat = session.state23_combat(id).ok_or("Ripper combat absent")?;
         let class = session.get(id).unwrap().class;
-        if !matches!((class, combat.mode), (73, 31..=34 | 37..=39 | 44) | (230, 61..=67 | 71)) {
+        if !matches!((class, combat.mode), (73, 31..=34 | 37..=39 | 44) | (230, 61..=69 | 71)) {
             return Err("Ripper secondary requires an acquired ordinary selection".into());
         }
         let scalar = |offset| self.globals.scalar(offset).map_err(|e| e.to_string());

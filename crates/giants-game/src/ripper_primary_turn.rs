@@ -1,4 +1,4 @@
-//! Acquired ordinary class73 branches and class230 modes0/61..66/71 over current views.
+//! Acquired ordinary class73 branches and class230 modes0/61..67/71 over current views.
 //! Shared prefix/perception and sound tails retain their class differences.
 //! Later unsupported continuations require their actual services.
 //! Prototype PS2 search key: `ripper_move`; exact PC correspondence unknown.
@@ -63,6 +63,14 @@ pub struct VariantDecisionContext {
     pub fire_range: f32,
 }
 
+/// Actual class-global melee range and alternate-attack decision threshold.
+/// These are separate from the earlier approach/fire selection radii.
+#[derive(Clone, Copy)]
+pub struct VariantCloseContext {
+    pub attack_range: f32,
+    pub alternate_threshold: f32,
+}
+
 #[derive(Clone, Copy)]
 pub struct AwakeningFrame<'a, K> {
     pub context: Context,
@@ -81,6 +89,7 @@ pub struct FrameInput<'a, K> {
 mod tests {
     use super::*;
     use crate::ripper_perception::Candidate;
+    include!("ripper_primary_turn/close_tests.rs");
     struct Backend {
         removals: u32,
         sounds: u32,
@@ -1406,6 +1415,7 @@ pub enum Outcome {
     CompletedVariantPursuit,
     CompletedVariantAttack,
     CompletedVariantCooldown,
+    CompletedVariantClose,
     CompletedVariantRetreat,
 }
 #[derive(Clone, Debug)]
@@ -1579,6 +1589,7 @@ enum Branch<'a, K> {
     VariantPursuit(VariantDecisionContext),
     VariantAttack(VariantAttackContext<'a, K>),
     VariantCooldown(VariantCooldownContext<'a>),
+    VariantClose(VariantCloseContext),
     VariantRetreat,
     Turn(Parameters),
     Pursuit(f32),
@@ -1614,6 +1625,25 @@ fn footsteps(primary: [u32; 9]) -> Result<bool, &'static str> {
         .any(|at| now >= at && previous < at))
 }
 impl<K: Copy + Ord, E: Copy> Machine<K, E> {
+    pub fn advance_variant_close(
+        &mut self,
+        input: FrameInput<'_, K>,
+        parameters: VariantCloseContext,
+        random: &mut Random,
+        services: &mut impl Services<K, E>,
+    ) -> Result<Outcome, String> {
+        if !parameters.attack_range.is_finite() || !parameters.alternate_threshold.is_finite() {
+            return Err("variant close requires actual finite class-global parameters".into());
+        }
+        self.advance_inner(
+            input.context,
+            input.frame,
+            input.range,
+            Branch::VariantClose(parameters),
+            random,
+            services,
+        )
+    }
     pub fn advance_variant_retreat(
         &mut self,
         input: FrameInput<'_, K>,
@@ -1959,6 +1989,7 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Branch::VariantPursuit(_) => 64,
             Branch::VariantAttack(_) => 65,
             Branch::VariantCooldown(_) => 66,
+            Branch::VariantClose(_) => 67,
             Branch::VariantRetreat => 71,
             Branch::Awakening(_) => {
                 if !matches!(original.entry.mode, 0 | 31) {
@@ -1985,6 +2016,7 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                 | Branch::VariantPursuit(_)
                 | Branch::VariantAttack(_)
                 | Branch::VariantCooldown(_)
+                | Branch::VariantClose(_)
                 | Branch::VariantRetreat
         ) {
             230
@@ -2230,6 +2262,52 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                         };
                 }
             }
+        } else if let Branch::VariantClose(parameters) = branch {
+            let target = state
+                .retaliation
+                .map(|id| frame.candidate(id))
+                .transpose()?;
+            let (lost, control) = crate::ripper_pursuit::target_control(
+                target,
+                state.entry.retained_timer,
+                state.entry.control,
+            )?;
+            state.entry.control = control;
+            if lost {
+                if let Err(error) = services.owner_sound(&state, 1248, random) {
+                    self.state = state;
+                    self.failed = Some(error.clone());
+                    return Err(error);
+                }
+                state.entry.mode = 71;
+                state.retaliation = None;
+            } else {
+                let target = target.unwrap();
+                let dx = f64::from(target.position[0]) - f64::from(state.entry.position[0]);
+                let dy = f64::from(target.position[1]) - f64::from(state.entry.position[1]);
+                let distance = (dx * dx + dy * dy) as f32;
+                if !distance.is_finite() {
+                    return Err("variant close distance overflow".into());
+                }
+                state.steering =
+                    crate::ripper_steering::close_chase(state.steering, target.position)?;
+                state.entry.flags = state.steering.flags;
+                state.entry.packed =
+                    u32::from_le_bytes(state.steering.commands[..4].try_into().unwrap());
+                if f64::from(distance) < f64::from(parameters.attack_range).powi(2) {
+                    let roll = (random.next_15() * 100) >> 15;
+                    if parameters.alternate_threshold <= roll as f32 {
+                        if let Err(error) = services.owner_sound(&state, 1231, random) {
+                            self.state = state;
+                            self.failed = Some(error.clone());
+                            return Err(error);
+                        }
+                        state.entry.mode = 68;
+                    } else {
+                        state.entry.mode = 69;
+                    }
+                }
+            }
         } else if let Branch::VariantTurn = branch {
             let target = state
                 .retaliation
@@ -2459,6 +2537,8 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Outcome::CompletedVariantAttack
         } else if matches!(branch, Branch::VariantCooldown(_)) {
             Outcome::CompletedVariantCooldown
+        } else if matches!(branch, Branch::VariantClose(_)) {
+            Outcome::CompletedVariantClose
         } else if matches!(branch, Branch::VariantRetreat) {
             Outcome::CompletedVariantRetreat
         } else if matches!(branch, Branch::Awakening(_)) {

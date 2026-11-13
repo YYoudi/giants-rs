@@ -104,6 +104,19 @@ pub fn chase_location(mut state: State, target: [f32; 3]) -> Result<State, &'sta
     };
     Ok(state)
 }
+/// Class230 mode67 keeps the previous forward command outside the angular
+/// threshold. Within it the source writes full forward input, without an
+/// orbit, distance-scaled speed or a forced position update.
+pub fn close_chase(mut state: State, target: [f32; 3]) -> Result<State, &'static str> {
+    validate(&state, target)?;
+    let error = turn(&mut state, target);
+    if error.abs() < 10. {
+        state.commands[2] = 32;
+    }
+    state.target_position = target;
+    state.flags |= 0x02000000;
+    Ok(state)
+}
 /// Attack modes keep the angular difference wide until the command input
 /// store, and preserve personality. Their producer differs from mode32.
 pub fn aim_at_point(mut state: State, target: [f32; 3]) -> Result<State, &'static str> {

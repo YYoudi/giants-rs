@@ -184,11 +184,21 @@ Source world clocks/RNG, current colliders and static declared platform queries
 remain explicit; changed inputs or a possible hit/Vimp alert cannot pass via this
 proof. Two supplied-input Wife entries reach impact step2755 with26 actual births
 and25 geometry frames, then physical actor contact at3242. The longer encounter
-now reaches the real class230 mode67 at3251 and refuses its unacquired continuation.
-Next acquire that close-range continuation and bind the genuine active-hit owners;
+previously reached class230 mode67 at3251 and refused its continuation. That primary
+is now connected to real target validation, steering commands and shared-RNG
+mode68/69 selection. Six original whole-primary controls and six secondary
+first-two-channel controls pass; required cue failures retain prior steering/RNG.
+The ordinary secondary admits those actual animation selections, while subsequent
+mode68/69 primary attack/damage continuations remain unacquired. These supplied
+controls establish no complete rendered encounter. Next connect those attack
+continuations and bind the genuine active-hit owners;
 complete reciprocal damage/death, an identified rendered GNU executable and actual
 Windows menu/reentry remain required. No preview/publication or complete encounter
 is established by these CPU controls.
+The current isolated approach consumes mode67 plus the mode68 animation selection
+at3251 and still fails at3252 on the missing mode68 primary. It excludes the Vimp
+component and supplies player commands; no GPU or actual Windows encounter is
+established by this diagnostic. Do not reroute it to hide the pending attack.
 The source `33b3168` graphical candidate displayed an explosion but refused a
 missing inter-step geometry/cleanup phase; it is not a pass. The corrective
 ordinary-controller path now invokes the common geometry consumer with the real
@@ -202,8 +212,9 @@ the run terminates without capture. It does not validate the corrected explosion
 on GPU. The isolated CPU fixture lacks the live Vimp component and its exact
 miss/contact route must not stand in for this combined29-object scene.
 **First rendered blocker:** actual projectile-to-Mecc direct damage and source
-retirement. The source class230 mode67 continuation remains a separate observed
-CPU blocker. Connect both, reciprocal Ripper hurt/death and the remaining owners;
+retirement. After the acquired class230 mode67 decision, its selected mode68/69
+primary continuation remains a separate required consumer. Connect both,
+reciprocal Ripper hurt/death and the remaining owners;
 do not reroute the pilot or force poses to hide active hits.
 
 Earlier dependency evidence: the canonical mixed construction executor now owns real
@@ -552,7 +563,7 @@ the full-contact diagnostic now consumes class230 modes66/71 and reaches an
 actual ground contact at step2755 (about1,593 units moved), after137 flying
 samples. That then-pending missed-ground continuation is now bound above; later
 local shot-render evidence is separately receipt-bound. Reciprocal damage/death
-and the mode67 close-range continuation remain required.
+and the selected mode68/69 close-range attack continuations remain required.
 Class73 modes37..39 share this launch bridge but their ordinary encounter branch
 has not yet been observed. Launch/flight arithmetic is not a visible attack or damage delivery.
 The ordinary controller now provides the actual selected Mecc clip/clock to a
