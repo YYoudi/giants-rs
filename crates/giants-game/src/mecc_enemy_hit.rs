@@ -1,4 +1,4 @@
-//! Source-bearing, offline normal-Mecc nonlethal kind0/2 receiver.
+//! Source-bearing, offline normal-Mecc nonlethal projectile or kind3 melee receiver.
 //! Prototype PS2 `mecc_shot` is an unknown hurt-callback correspondence;
 //! `mecc_shot.rs` separately owns firing. Source identity, current geometry,
 //! equipment and world gates must come from their real owners. This composes
@@ -104,15 +104,21 @@ impl Machine {
         if request.globally_disabled {
             return Ok(());
         }
-        if request.recipient.class != 2
-            || request.recipient.state != 2
-            || !matches!(request.source.actor.class, 90 | 232)
-            || request.source.actor.state != 6
-            || request
+        let projectile = matches!(request.kind, 0 | 2)
+            && matches!(request.source.actor.class, 90 | 232)
+            && request.source.actor.state == 6
+            && request
                 .source
                 .owner
-                .is_none_or(|owner| !matches!(owner.class, 73 | 230) || owner.state != 23)
-            || !matches!(request.kind, 0 | 2)
+                .is_some_and(|owner| matches!(owner.class, 73 | 230) && owner.state == 23);
+        let melee = request.kind == 3
+            && matches!(request.source.actor.class, 73 | 230)
+            && request.source.actor.state == 23
+            && request.source.owner.is_none()
+            && request.impact.is_none();
+        if request.recipient.class != 2
+            || request.recipient.state != 2
+            || !(projectile || melee)
             || !request.amount.is_finite()
             || request.amount < 0.
             || !state.health.alive()
@@ -120,7 +126,7 @@ impl Machine {
             || request.gyro_present
             || request.critical_voice_present
         {
-            return Err("Mecc enemy hit requires live unshielded non-gyro normal kind0/2 without critical-voice owner".into());
+            return Err("Mecc enemy hit requires live unshielded non-gyro normal projectile kind0/2 or direct Ripper kind3 without critical-voice owner".into());
         }
         let gate = mecc_hit_source::singleplayer(request.recipient, Some(request.source));
         let health = state.health.apply_for(

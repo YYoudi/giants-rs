@@ -224,6 +224,13 @@ retirement. After the acquired class230 mode67/68 decisions, actual kind3 melee
 hurt and the mode69 primary remain separate required consumers. Connect both,
 reciprocal Ripper hurt/death and the remaining owners;
 do not reroute the pilot or force poses to hide active hits.
+The offline nonlethal Mecc receiver now distinguishes direct class73/230 state23
+kind3 from owned projectile kind0/2. Eight complete original melee-dispatch controls
+match health/flags/impulse/reset/RNG with supplied gates and dormant voice timers;
+a synthetic identity test rejects exchanging those source/kind families. This
+does not bind the canonical Session/controller adapter or ordinary kind3 service.
+Preserve the generic post-hurt mission
+tail separately from projectile cleanup when connecting the canonical adapter.
 
 Earlier dependency evidence: the canonical mixed construction executor now owns real
 root/child Session births, child-context retirement, source wait and delayed

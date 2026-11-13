@@ -38,13 +38,23 @@ at the actual kind3 service entry without returning a result. Rust matches that
 pre-hurt state and refuses the absent consumer; this is not a completed hurt call.
 Two synthetic controls check the finished/range gates and retained failure.
 
+The offline `mecc_enemy_hit` composition also admits an actual class73/230
+state23 source with kind3 and no projectile owner or hitpoint. Projectile kind0/2
+and direct kind3 identities cannot be exchanged. Eight private complete original
+melee-dispatch controls match its nonlethal Mecc health, flags, directional impulse,
+reset and RNG across callback-wide inhibition and health-only suppression. Their
+world guards, source motion and dormant voice timers are supplied; they do not
+install the canonical Session/controller adapter or an ordinary melee provider.
+The generic dispatcher's post-hurt mission
+tail also runs on this path; projectile cleanup must not substitute for it.
+
 The current isolated Wife approach consumes mode67 and its mode68 animation
 selection at step3251, follows that attack through its real ANM clock, then
 refuses the missing kind3 hurt consumer at3293 with the source already in mode66.
 This diagnostic still fails; it is not a complete encounter pass. It supplies
 ordinary player commands, excludes the Vimp component and uses no GPU or OS input.
 
-The local GNU build for this decision/response milestone is source
+The local GNU build for the preceding mode67/health-response milestone is source
 `9a537e987598c7f07578cb30066bf6927ae85e3d`, executable SHA256
 `f5b603687e3639fb22a8a45a8ed33673b77d0063b412867159f4f043a7a11f9a`,
 Rust1.98.0/MinGW16.2.0. Its receipt is local; no download is published. Workspace
@@ -106,7 +116,8 @@ Ripper death, menu/reentry or public preview is established by these runs.
 
 `mecc_enemy_hit::Machine` composes the independently acquired source gate,
 debug-PC health, direct/radial velocity addition and pain/shared voice tail for
-offline nonlethal class90/232 shots owned by a living state23 Ripper. It requires
+offline nonlethal class90/232 shots owned by a living state23 Ripper, and direct
+class73/230 kind3 requests under the bounded source profile above. It requires
 actual source/recipient motion, current radial center, world gates and equipment
 state. A shared health-suppression gate does not suppress impulse and voices;
 global callback inhibition skips the whole receiver. Required associated-player

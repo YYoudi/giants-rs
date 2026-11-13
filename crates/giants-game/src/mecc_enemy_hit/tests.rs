@@ -1,4 +1,84 @@
 use super::*;
+#[test]
+fn projectile_and_melee_identities_cannot_be_exchanged() {
+    for melee_from_shot in [true, false] {
+        let mut request = request();
+        request.kind = if melee_from_shot { 3 } else { 0 };
+        request.impact = None;
+        if !melee_from_shot {
+            request.source = mecc_hit_source::Source {
+                actor: actor(3, 230, 23, 100),
+                owner: None,
+            };
+        }
+        let mut current = state();
+        let mut random = Random(17);
+        let mut sink = Sink {
+            cues: vec![],
+            fail_at: None,
+        };
+        let before = words(current, random, &sink);
+        assert!(
+            Machine::default()
+                .run(&mut current, request, &mut random, &mut sink)
+                .is_err()
+        );
+        assert_eq!(words(current, random, &sink), before);
+    }
+}
+#[test]
+#[ignore = "Requires GIANTS_MECC_KIND3_CONTROLS; private complete original melee dispatcher over supplied class73/230 state23 sources and guards; not an ordinary provider"]
+fn native_mecc_kind3_receiver_controls() {
+    let contents = std::fs::read_to_string(
+        std::env::var("GIANTS_MECC_KIND3_CONTROLS").expect("private kind3 controls path"),
+    )
+    .unwrap();
+    let mut count = 0;
+    for line in contents
+        .lines()
+        .filter(|line| !line.is_empty() && !line.starts_with('#'))
+    {
+        let row: Vec<u32> = line
+            .split_whitespace()
+            .map(|s| u32::from_str_radix(s, 16).unwrap())
+            .collect();
+        assert_eq!(row.len(), 20);
+        let mut request = request();
+        request.kind = 3;
+        request.source = mecc_hit_source::Source {
+            actor: actor(3, row[19] as i32, 23, 100),
+            owner: None,
+        };
+        request.amount = 35.;
+        request.impact = None;
+        request.globally_disabled = row[2] != 0;
+        request.suppressed = row[3] != 0;
+        let mut current = state();
+        current.pain_timer = 0.;
+        current.shared_timer = 0.;
+        let mut random = Random(17);
+        let mut sink = Sink {
+            cues: vec![],
+            fail_at: None,
+        };
+        let mut machine = Machine::default();
+        machine
+            .run(&mut current, request, &mut random, &mut sink)
+            .unwrap();
+        let mut actual = vec![current.health.damage.to_bits(), current.health.flags];
+        actual.extend(current.velocity.map(f32::to_bits));
+        assert_eq!(
+            actual,
+            row[5..10],
+            "original kind3 health/impulse row {count}"
+        );
+        assert_eq!((current.callback_reset_word, random.0), (row[15], row[16]));
+        assert!(sink.cues.is_empty());
+        assert_eq!(machine.phase(), Phase::Complete);
+        count += 1;
+    }
+    assert_eq!(count, 8);
+}
 struct Sink {
     cues: Vec<u32>,
     fail_at: Option<usize>,
