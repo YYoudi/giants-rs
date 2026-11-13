@@ -237,6 +237,14 @@ controls and four original class230 dispatcher observations pass; late failures
 retain earlier publication and refuse replay, while scope cancellation cannot
 restore the source. Bind real shared-world/controller/audio providers in the
 ordinary host next; these controls do not prove rendered injury or availability.
+Failure-gate prerequisite: exact-PC callback dispatch and parsed source programs
+identify state51/Reaperman actors on The Wife (six declarations). Static acquisition
+finds a path-progress failure route and another failure arm. Do not substitute a
+Vimp attribution, null-path-only proof, zeroed payload or living-player predicate
+for the actual shared failure owner. Next establish these actors' actual mode/
+activation and mutation lifecycle together with the existing timer/player failure
+and completion guards. This PC relationship adds no confirmed prototype PS2
+correspondence or ordinary damage availability; detailed records stay private.
 
 Earlier dependency evidence: the canonical mixed construction executor now owns real
 root/child Session births, child-context retirement, source wait and delayed

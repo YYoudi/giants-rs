@@ -68,6 +68,18 @@ ordinary host still needs its real shared-world guards and controller/audio
 providers; this API alone does not acknowledge their availability or a rendered
 hit. The older kind0 projectile adapter keeps its distinct source validation.
 
+Shared failure-gate acquisition now identifies a further prerequisite on The
+Wife. The exact PC callback table and parsed class program link state51 to the
+source Reaperman family; the selected mission declares six such actors. This is
+a PC class/state relationship, not a confirmed prototype PS2 routine attribution.
+Static acquisition finds both a path-progress failure route and a separate
+failure arm in that callback family. A null path, a zero-initialized payload or
+the controlled Mecc still being alive therefore does not establish that the
+shared failure flag is clear. Preserve the actual mode/activation and mutation
+owners before binding the ordinary hit host. The related actor behavior and full
+shared-world lifecycle remain unbound; no gameplay availability follows from this
+read-only metadata/control-flow acquisition.
+
 The current isolated Wife approach consumes mode67 and its mode68 animation
 selection at step3251, follows that attack through its real ANM clock, then
 refuses the missing kind3 hurt consumer at3293 with the source already in mode66.
