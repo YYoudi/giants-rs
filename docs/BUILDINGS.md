@@ -194,9 +194,51 @@ initialization is refused after consumption, and failed sound requests retain
 their prefix without replay. Authored keys are checked before the first owner
 starts; missing construction cannot become an empty successful start. The common
 controller forwards earlier accepted requests even if a later owner fails.
-Complete the shared descendant/render consumers and the actual alert/mission/retirement
-owners, then validate damage, effects, sound, collision changes and cleanup through
-normal gameplay on one identified executable before extending the public snapshot.
+The ordinary shot adapter now resolves each projectile mesh back to its canonical
+mission declaration, uses the actual controlled player for hit attribution and
+executes the ordered alert/damage/audio/effect/retirement contract. Before starting,
+it checks source-declared eligible actors against constructor list membership;
+the live helper also sees actual subsequent registrations. Health receipts update
+the individual visual and each independently admitted player/projectile geometry.
+Initial geometry receives the same treatment before the first input. The scene's
+health copy is a presentation receipt, not a second damage simulation. Retirement
+marks the actual source header; it does not invent a native list/resource destructor.
+
+The installed normal-runtime control supplies twenty 25-damage hits to the 500-HP
+mini barracks and sixteen to the 400-HP Ripper barracks. It checks canonical
+identity/target/phase/health, source stages, actor-bound versus positional audio
+requests, physical/projectile retirement and effect expiry. With its actual
+supplied camera, adaptive selection uses the four-object mini Lite program and
+the Ripper program: 127 cumulative births/127 retirements. These are supplied
+contacts/damage/time, not normal pistol inputs, device starts or GPU acceptance.
+Source integer stock, quality/distance/radius globals and geometry/audio resources
+come from the installation. Whole original-world population/scheduling fidelity
+does not follow from the current runtime's owned population.
+
+Two requested sound IDs are absent from this mission's registered catalog. Ten
+complete original object/position wrapper controls show missing bank, filename,
+sample or suppression returns no voice without backend dispatch; declared but
+unreadable resources still fail preparation. The shared audio consumer preserves
+the requested ID and records source absence rather than substituting a sound or
+acknowledging a nonexistent sink. Prototype PS2 `sound_play_obj` and
+`sound_play_3dpos` remain unknown attribution routes.
+
+The mini Lite program also names absent immediate children. The complete original
+VM, with its actual four class constructors, creates four objects and consumes no
+extra random draws for those absent children. All four first matrices and the RNG
+agree with Rust (72 projected words). A failed earlier native fixture omitted two
+required class templates; it is not evidence of an original-game crash. The shared
+scene parser now preserves absent child operands and creates no substitute; an
+existing unsupported child still refuses admission. Full/Lite source selection
+remains active. Separate complete named-creation controls return no context for
+the missing names, with the original diagnostic, unchanged pool and RNG.
+
+The Wife's two source instances are unmarked for mission-death credit. Cases that
+need the still-unbound mission counter are excluded before ordinary damage; no
+counter success is fabricated. Later barracks spawning/AI remains unported.
+Validate normal pistol hits, effects, actual declared sound sinks, collision
+changes, cleanup and regressions on one identified rendered executable before
+extending the public snapshot. No new public download is delivered by these controls.
 
 ## Acquisition history and bounded service evidence
 

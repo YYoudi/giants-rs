@@ -24,6 +24,8 @@ pub(crate) struct CampaignCompletion {
     pub required: i32,
     pub film: Option<String>,
 }
+#[cfg(test)]
+mod barracks_tests;
 mod campaign;
 mod landing;
 mod npc;
@@ -1254,8 +1256,9 @@ impl Runtime {
     pub(crate) fn initialize_normal_buildings(
         &mut self,
         ticket: u64,
-        buildings: &mut crate::mission_buildings::World,
+        state: &mut crate::mecc_dev_scene::State,
         events: &mut Vec<crate::mission_audio::Event>,
+        updates: &mut Vec<crate::mission_buildings::Update>,
     ) -> Result<(), String> {
         let active = self
             .active
@@ -1263,9 +1266,20 @@ impl Runtime {
             .filter(|a| a.ticket == ticket)
             .ok_or("building initial ticket absent")?;
         active.player_owner()?;
-        buildings
+        if state
+            .buildings
             .barracks_initial
-            .start(&mut active.resident_states, events)
+            .start(&mut active.resident_states, events)?
+        {
+            for receipt in state
+                .buildings
+                .initial_barracks_updates(ticket, &active.resident_states)?
+            {
+                state.apply_building_hit(&receipt)?;
+                updates.push(receipt.update);
+            }
+        }
+        Ok(())
     }
     pub(crate) fn hit_normal_building(
         &mut self,
@@ -1283,13 +1297,24 @@ impl Runtime {
         if a.owned_mecc.is_some() || a.controlled_mecc_owner != Some(owner) {
             return Err("building hit requires its ordinary controlled Mecc".into());
         }
-        let result = state.buildings.hit(
-            ticket,
-            hit,
-            camera,
-            a.resident_states.counts().residents,
-            &mut a.variant_random,
-        )?;
+        let result = if state.buildings.is_barracks(hit.object) {
+            state.buildings.hit_barracks(
+                ticket,
+                hit,
+                camera,
+                &mut a.resident_states,
+                owner,
+                &mut a.variant_random,
+            )?
+        } else {
+            state.buildings.hit(
+                ticket,
+                hit,
+                camera,
+                a.resident_states.counts().residents,
+                &mut a.variant_random,
+            )?
+        };
         if let Some(result) = &result {
             state.apply_building_hit(result)?;
         }

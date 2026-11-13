@@ -185,6 +185,21 @@ impl Runtime {
             random,
         )
     }
+    /// Source-named barracks request with actual adaptive selection inputs.
+    pub(crate) fn emit_barracks(
+        &mut self,
+        ticket: u64,
+        kind: giants_game::building_barracks::Explosion,
+        point: [f32; 3],
+        selection: giants_game::effect_initialization::Selection,
+        random: &mut Random,
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
+        self.bind(ticket)?;
+        let (creation, _) =
+            self.contexts
+                .prepare_positional(kind.name(), point, selection, random)?;
+        self.consume_prepared(ticket, creation, point, kind.name(), random)
+    }
     /// Direct flags18 request from the class's captured registration namespace.
     /// Refuse older images rather than backfilling a matching name/offset from
     /// the current one. A future multi-image owner must retain that distinction.

@@ -108,6 +108,43 @@ pub fn health_frame(
 pub trait InitialSound<K> {
     fn object_sound(&mut self, state: &State<K>, cue: u32) -> Result<(), String>;
 }
+#[derive(Clone, Copy, Debug)]
+pub struct InitialVariant {
+    pub selector: i32,
+    pub cue: u32,
+    pub remaining: i32,
+}
+/// Shared initial selector/stock projection; this performs no callback or audio.
+pub fn initial_variant(
+    class: i32,
+    selector: i32,
+    parameters: InitialParameters,
+) -> Result<InitialVariant, String> {
+    if !matches!(class, 686 | 1060 | 1226) || !matches!(selector, 0..=5) {
+        return Err("barracks variant outside acquired class/selector profile".into());
+    }
+    let selector = if matches!(selector, 0 | 2 | 4) {
+        match class {
+            1060 => 0,
+            686 => 2,
+            _ => 4,
+        }
+    } else {
+        selector
+    };
+    let (cue, remaining) = match selector {
+        0 => (0x6bf, parameters.mini),
+        2 => (0x6bf, parameters.barracks),
+        4 => (0x4db, 12),
+        5 => (0x4db, 0),
+        _ => (0x6bf, 0),
+    };
+    Ok(InitialVariant {
+        selector,
+        cue,
+        remaining,
+    })
+}
 /// Acquired initial branch of `barracks_logic` (unknown attribution), including
 /// its actual zero-damage health-animation suffix. This updates numeric channels,
 /// not evaluated poses, a world tick, spawning or subsequent primary behavior.
@@ -146,22 +183,10 @@ pub fn initialize<K>(
         crate::animation_channels::Blending::Disabled,
     )?;
     channels[0][1] = 1_f32.to_bits();
-    let (cue, remaining) = if matches!(state.selector, 0 | 2 | 4) {
-        state.selector = match class {
-            1060 => 0,
-            686 => 2,
-            _ => 4,
-        };
-        match state.selector {
-            0 => (0x6bf, stock.mini),
-            2 => (0x6bf, stock.barracks),
-            _ => (0x4db, 12),
-        }
-    } else {
-        (if state.selector == 5 { 0x4db } else { 0x6bf }, 0)
-    };
-    sound.object_sound(state, cue)?;
-    state.remaining = remaining;
+    let variant = initial_variant(class, state.selector, stock)?;
+    state.selector = variant.selector;
+    sound.object_sound(state, variant.cue)?;
+    state.remaining = variant.remaining;
     let health = health_frame(state.damage, state.limit, stock.health)?;
     channels[0][1] = health.fraction.to_bits();
     channels[0][8] |= 0x80;

@@ -24,6 +24,8 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed absent-audio/child navigation; no new PC aliases or identity claim.
+        '8631261df31c821f1b1058169b7d35c72fa368ad7a1b69a68834092d94ba4fe9',
         # Reviewed initial/health and typed alert links; existing aliases unchanged.
         '5885a61f14fbe0e83d2db9cad27abaed9a5d5596e2471014a69cf0e8ee1b1832',
         # Reviewed cold constructor links; identities and callback readiness remain unknown.

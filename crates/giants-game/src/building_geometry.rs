@@ -26,15 +26,19 @@ impl Stage {
         }
         Self::health(source, class, fraction)
     }
-    /// The acquired house and state101 process callbacks use the same health
-    /// channel. Unskinned declared models keep their actual rigid vertices.
+    /// Acquired house/state101 and the admitted state98 classes use the same
+    /// numeric health channel. Each caller supplies its own acquired fraction;
+    /// barracks retain their distinct arithmetic. Unskinned models stay rigid.
     pub fn health(source: &SceneResources, class: i32, fraction: f32) -> Result<Self, String> {
         let state = source
             .class_state_seed(class)
             .map_err(|e| e.to_string())?
             .storage
             .state();
-        if !matches!(state, 61 | 101) || !fraction.is_finite() || !(0. ..=1.).contains(&fraction) {
+        if !(matches!(state, 61 | 101) || state == 98 && matches!(class, 1060 | 1226))
+            || !fraction.is_finite()
+            || !(0. ..=1.).contains(&fraction)
+        {
             return Err("building health geometry outside acquired state/fraction profile".into());
         }
         let binding = source

@@ -4,6 +4,40 @@
 use super::*;
 use std::collections::BTreeSet;
 impl Runtime {
+    /// Resolve both real adaptive variants from the active registration image.
+    /// These are named requests, not fabricated state-payload bindings.
+    pub(crate) fn preflight_barracks(
+        &mut self,
+        kind: giants_game::building_barracks::Explosion,
+    ) -> Result<(), String> {
+        let active = self
+            .source
+            .classes
+            .models
+            .effects
+            .last()
+            .ok_or("named building effect image absent")?;
+        let mut offsets = Vec::new();
+        for lite in [false, true] {
+            let (_, entry) = active
+                .image
+                .adaptive_find(kind.name(), lite)
+                .map_err(|e| e.to_string())?
+                .ok_or("named building effect variant absent")?;
+            if !offsets.contains(&entry.offset) {
+                offsets.push(entry.offset);
+            }
+        }
+        for offset in offsets {
+            if !self.checked_graphs.contains(&offset) {
+                let mut staged = Runtime::new(self.source.clone(), self.terrain.clone());
+                staged.bind(0)?;
+                staged.check_graph(offset, &mut BTreeSet::new(), &mut BTreeMap::new())?;
+                self.checked_graphs.insert(offset);
+            }
+        }
+        Ok(())
+    }
     pub(crate) fn preflight_offset(
         &mut self,
         binding: &giants_game::model_registry::StateBinding,

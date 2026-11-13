@@ -53,6 +53,17 @@ and `-- --ignored` to check authored-owner completeness, real audio resource
 resolution and once-only object-owned requests. Device sinks and ordinary
 rendered hit acceptance remain separate requirements.
 
+The optional app control
+`installed_normal_barracks_hits_update_owned_health_geometry_and_retire_effects`
+uses `GIANTS_BUILDING_ROOT` and `-- --ignored`. It uses the normal runtime and
+actual canonical owners but supplies contact/damage/time. It checks initial
+geometry publication, source stages/retirement, distinct actor/position sound
+requests including source absence, adaptive named FX and complete expiry. It
+does not establish a device start, rendered ordinary pistol hit or Windows input.
+`cargo test --locked -p giants-game absent_immediate_entries --target
+x86_64-pc-windows-gnu` checks the shared missing-child parser/creation boundary;
+existing unsupported child programs must still refuse admission.
+
 The ordinary house owner also has an installed app control:
 `cargo test --locked -p giants-app installed_house_damage_updates_all_contact_owners
 --target x86_64-pc-windows-gnu -- --ignored`, using `GIANTS_BUILDING_ROOT`.

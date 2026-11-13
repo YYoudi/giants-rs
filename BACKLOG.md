@@ -95,14 +95,19 @@ Remaining work, in player-impact order:
    preserve existing Ripper targets and replace eligible team targets. Installed
    The Wife supplied-request controls pass without modifying pointer bytes or
    acknowledging AI frames. Bind the real shooter/player, radius globals and
-   complete source-eligible admission at the ordinary shot owner next.
+   complete source-eligible admission at the ordinary shot owner; the current
+   continuation now binds these through canonical mission identities.
    Initial source selector/stock/channel setup now belongs to each canonical
    barracks owner and runs at ordinary-control entry, with its object-owned
    audio request routed through the common actor backend. Seventy-two original
    initial controls include the real final health-animation helper. This is
    implemented but awaits ordinary rendered/device acceptance; later spawning/AI
-   remains separate. Connect the actual shot/health/effect/mission/retirement
-   consumers before claiming this building family delivered.
+   remains separate. The ordinary shot/health/geometry/alert/effect/retirement
+   adapters now compose in an installed normal-runtime control with supplied
+   impacts: twenty mini /sixteen Ripper hits at 25 damage, source Lite/full
+   selection, real audio resource presence/absence and 127 effect births/retirements.
+   Complete rendered normal pistol/device/cleanup and Windows acceptance next.
+   Source-marked mission-death credit remains unbound and is not fabricated.
 4. Bind actual building mission-death producers with their native global mode,
    counter and response rules; do not infer credit from a model or health word.
 5. Acquire generic radial/Raster3 platform owners and broader effects-world

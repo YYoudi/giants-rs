@@ -563,16 +563,21 @@ pub(super) fn update(
             && !controller.world_signals_failed
         {
             let mut events = Vec::new();
+            let mut updates = Vec::new();
             if let Err(error) = runtime.initialize_normal_buildings(
                 controller.ticket,
-                &mut controller.state.buildings,
+                &mut controller.state,
                 &mut events,
+                &mut updates,
             ) {
                 controller.building_failed = true;
                 error!(
                     "mission_building_initial_refused ticket={} error={error}",
                     controller.ticket
                 );
+            }
+            for update in updates {
+                audio.building.write(update);
             }
             // Preserve accepted requests even if a later owner refused its
             // initial branch. Backend starts remain separately observable.

@@ -10,6 +10,7 @@ use crate::{
 use std::collections::BTreeMap;
 use std::sync::Arc;
 mod barracks;
+pub use barracks::{Attack as BarracksAttack, Effects as BarracksEffects};
 mod building_alert;
 mod camera_mode;
 mod camera_profile;

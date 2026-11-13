@@ -173,6 +173,14 @@ Initial selector/stock/channel setup and the health-frame helper use actual sour
 globals; their numeric contracts do not acknowledge later spawning/AI, a world
 tick, rendered damage or an audio backend start. These routes remain unknown
 attributions, independently of their PC controls.
+The literal prototype PS2 names `sound_play_obj` and `sound_play_3dpos` also
+provide **unknown** navigation routes to the object/position request adapter in
+[`mission_buildings::barracks`](../crates/giants-app/src/mission_buildings/barracks.rs).
+Independent PC controls retain the absent-descriptor no-voice branch; neither
+an accepted request nor a missing source establishes backend playback. The shared
+[`effect_scene`](../crates/giants-game/src/effect_scene.rs) continuation preserves
+the original absent immediate-child branch without inventing a child or a random
+draw. These bounded contracts do not confirm cross-platform identities or ABI.
 
 ## Publication boundary
 
