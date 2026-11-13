@@ -150,6 +150,16 @@ at that commit scans1,274 reachable commits/7,116 blobs with zero findings.
 This dependency build has no new graphical or Windows-input acceptance and
 does not bind the ordinary world guards. No competing preview is published.
 
+The ordinary hit-consumer build is source
+`18316e77c19379002feb69b9d3d8c3cedc261a05`, executable SHA256
+`ac0c09121ce261730aaf9ca0b37d27fa99e8cffaabbaf5660d4f908461b87d71`,
+Rust1.98.0/MinGW16.2.0. Workspace checks pass1,054 tests with216 ignored,
+strict Clippy, formatting and45 Python tests. The source two-ticket frame control
+and muted real-device voice reuse pass. The source-backed world guards remain
+unavailable; this local build is not a completed combat milestone or a published
+preview. No full encounter, Ripper death or new Windows-input acceptance follows
+from these checks.
+
 Earlier milestone evidence below includes the old mode67 frontier. The first
 combined-game graphical blocker remains direct projectile damage to the player;
 do not transfer the isolated Ripper-only approach or newer CPU selections to that

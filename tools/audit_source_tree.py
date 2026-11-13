@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed ordinary hit-consumer wiring; world guards still unavailable.
+        'ac744379ef67b62ca8bd309c66a61cc4206e8e4ab3b4b7fc52b1c95e2c3cd3ce',
         # Reviewed unknown mission-failure search route and supplied boundaries.
         'f2776022fa2db7dbb90551368f5867882e5e7855d00c9cf2f46f603a2d7b65e3',
         # Concurrent reviewed source-replacement navigation; explicit unknown.

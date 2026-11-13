@@ -295,6 +295,12 @@ of the direct dispatch and nonlethal receiver do not confirm a prototype functio
 identity or install ordinary world/Mecc reaction providers. Previous identifiers,
 raw symbols and demangling uncertainty remain in the private lookup records.
 
+These unknown routes also lead to the ordinary
+[`rippers::combat`](../crates/giants-app/src/mission_runtime/rippers/combat.rs)
+consumer wiring and its mode68 melee adapter. They borrow the current partial
+Mecc health/velocity and real shared audio device. Shared-world guards remain
+unavailable; this names no confirmed PS2 identity and establishes no rendered hit.
+
 ## Declared platform query route
 
 The literal prototype PS2 names `collgrid_make_grid` and
