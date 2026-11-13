@@ -28,14 +28,26 @@ Test from the normal menu: Preview tools -> Browse all missions -> Mecc Story2
 -> The Wife. Skip the opening with Escape if desired, then approach the declared
 Rippers using WASD/mouse and right mouse jet. Left mouse fires the partial player
 pistol; R changes view. Escape returns to mission selection for a fresh entry.
-The source integration candidate still needs its own identified build and
-rendered/Windows-input receipt before those checks can be claimed. Historical
-receipts below remain separate; an older public preview does not gain this code
-from a source merge alone.
+Preview .13.3 is bound to runtime source `941342b` and executable SHA256
+`9a9ae9a4ca1902ecd3c2c46b7d9faf5b9b922bacdf7d7be7cf53d9517d77c962`.
+Its rendered supplied-command Wife route exits0 after about142 seconds. One
+classic Ripper moves about147 horizontal source units, emerges and launches an
+actual class90 shot after the unsupported variant is isolated. The private
+capture was inspected. No NPC state/pose/health/readiness was injected. This is
+not reciprocal combat, a death or full Windows-input/menu lifecycle acceptance.
+The normal visible menu renders without any probe flag; physical Escape stops
+computer use before mission-input/re-entry checks. See PREVIEW_NOTES.md.
 
-## Ripper integration in progress
+The awakening and projectile-effect preparation now use the real frame camera,
+loaded quality/distance constants and canonical resident population. The earlier
+invariant-only selector was an actual awakening blocker for ordinary Rippers.
+Unsupported actor continuations retain their last completed visual submission
+with its old frame number; their next AI/animation/contact frame is not supplied.
+Linked markers stay owned until scope retirement, with no fake per-marker cleanup.
 
-Current startup-policy build: source `b7cc590`, GNU executable SHA256
+## Historical Ripper integration receipts
+
+Earlier startup-policy build: source `b7cc590`, GNU executable SHA256
 `b85fff99053befbe50c6e7b5b330e559eadcd41d3afe46972fc765ce9396d7cb`.
 Its continuous supplied-command Wife encounter processes five ground impacts
 and an actual expiry at step6238, without an NPC refusal or observed radial

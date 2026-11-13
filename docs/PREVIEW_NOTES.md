@@ -1,3 +1,58 @@
+# Windows development preview - preview-2026.11.13.3
+
+Runtime source: `941342bffca063b6fd78b520dccd5515153ecd94`.
+Executable SHA256: `9a9ae9a4ca1902ecd3c2c46b7d9faf5b9b922bacdf7d7be7cf53d9517d77c962`.
+
+Supply your own compatible PC installation. Original assets, executables,
+captures and private research are excluded from this independent runtime ZIP.
+
+## Test ordinary Ripper movement and ranged attacks
+
+Open **Preview tools -> Browse all missions -> Mecc Story 2 -> The Wife**.
+Let the opening finish or press Escape to skip it. Approach the declared Rippers
+with WASD/mouse and the right-mouse jet. Left mouse fires the partial player
+pistol, Space adds nitro, R changes view and Escape returns to mission selection.
+No NPC flag or replay script is required for their ordinary admission or AI.
+
+The connected source Rippers can awaken, move, emerge, animate and launch their
+owned projectiles. The actual camera, loaded effect-quality constants and owned
+population now select their awakening effects; an unprovided selector previously
+stopped the ordinary Rippers before their movement. Their Session, terrain,
+player contacts, clocks, RNG, rendering and audio are shared with the main build.
+Existing building collision/damage/destruction/replacement services are retained.
+
+This is **movement and ranged-attack feedback, not complete reciprocal combat**.
+Player-pistol Ripper injury, enemy-hit shared guards, lethal reactions and full
+Ripper cleanup remain incomplete. An unsupported projectile consumer retains
+that failed shot until mission retirement without acknowledging damage. An
+unsupported actor continuation stops that actor and holds its last completed
+visual submission, without acknowledging a new animation/contact frame; other
+actors keep running. The variant's special close attacks remain unsupported.
+Do not interpret a held model, missing health change or quarantined shot as death.
+
+## Exact validation scope
+
+The identified executable passes a continuous rendered supplied-command The Wife
+route through a classic Ripper's approximately147-unit horizontal movement,
+emergence and actual class90 shot after the variant's unsupported branch is
+isolated. The private capture was inspected and the process exits0. The commands
+move/look/jet only the Mecc; no NPC pose, mode, health or availability is injected.
+Earlier failed candidates exposed the awakening-selector and shared-failure
+isolation gaps; their failures are not acceptance receipts.
+
+A separate visible launch with no replay/probe flags renders the normal menu.
+Windows control was then stopped by physical Escape; full Windows-held movement,
+mission entry/re-entry and an OS-played encounter are **not** validated here.
+There is no new damage/death or whole-game/native-fidelity acceptance.
+
+1,094 Rust tests /234 ignored,45 Python, formatting and strict Clippy pass on the
+combined integration. Installed source controls cover Ripper ground impacts on
+two tickets and house collision/damage/source-effect expiry. No new prototype PS2
+function attribution is confirmed. The approximately99% AI-generated estimate
+and absence of comprehensive human review remain unchanged.
+
+## Retained earlier main delivery
+
 # Windows development preview - preview-2026.11.13.2
 
 Runtime source: `b633f810de881c45cea8b7fb24250ec0314d47b8`.

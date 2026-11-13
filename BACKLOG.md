@@ -242,6 +242,19 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
+Delivered movement/attack-feedback milestone, preview .13.3: runtime `941342b`,
+executable `9a9ae9a4ca1902ecd3c2c46b7d9faf5b9b922bacdf7d7be7cf53d9517d77c962`.
+The combined main candidate preserves building interactions. Its rendered Wife
+route observes approximately147 units of actual classic-Ripper horizontal motion,
+emergence and a class90 launch after isolating an unsupported variant. Exit0 and
+an inspected private capture establish that bounded path, with supplied Mecc
+commands only. Normal visible menu rendering is separate; physical Escape stops
+computer use before Windows mission/re-entry verification. Full NPC goal remains
+open: reciprocal health/impacts/lethal/cleanup, special close attacks, other maps
+and complete graphical/Windows encounter-menu-reentry acceptance. The source
+quality/camera/population producer removes the actual awakening blocker; no
+native service or availability was fabricated. See PREVIEW_NOTES.md.
+
 Owner priority, 13 November: integrate the already working movement/attacks into
 the common main build now, rather than delaying them for more native dependency
 acquisitions. The integration merges current main building interactions with

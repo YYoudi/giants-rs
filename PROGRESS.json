@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Source integration connects declared Ripper movement, animation, controlled-Mecc perception, pursuit and ranged attack/projectile flight to the ordinary menu-to-game runtime, together with current main building interactions. Unsupported projectile impacts are quarantined individually without acknowledging damage or freezing independent AI. Reciprocal injury, lethal combat, broader perception and full encounter fidelity remain incomplete. Download availability is established only by a matching preview receipt; see OWNED_NPCS.md and BACKLOG.md."
+      "detail": "Preview .13.3 connects source-declared Ripper awakening, movement, emergence, animation and ranged projectile attacks to the ordinary menu-to-game runtime, alongside current main building interactions. An identified rendered The Wife route observes a classic Ripper move about147 units and fire. Unsupported actor/projectile callbacks are isolated without invented damage, death or fresh animation/contact acknowledgments. Reciprocal injury, lethal combat, special close attacks, broader perception and full Windows encounter/re-entry remain incomplete. See OWNED_NPCS.md and BACKLOG.md."
     },
     {
       "id": "wildlife",

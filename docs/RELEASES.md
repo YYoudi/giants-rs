@@ -1,5 +1,27 @@
 # Preview releases and milestone integration
 
+## Published preview .13.3 - ordinary Ripper movement and ranged attacks
+
+[Windows preview-2026.11.13.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.3)
+connects the NPC lane to current main, preserving the .13.2 building interactions.
+The Wife's ordinary classic Ripper moves, emerges and launches its real shot in
+the identified rendered route; supplied commands act only on the Mecc. Camera,
+source quality/distance and owned population now feed awakening effect selection.
+Unsupported callbacks retain partial ownership and no longer cancel independent
+AI. A held last-completed pose is not a fresh AI/animation/contact acknowledgment.
+
+This does not deliver reciprocal damage/death, variant special close attacks,
+full native fidelity or a complete Windows encounter/menu lifecycle. The normal
+visible menu renders without probe flags, then physical Escape stops computer
+use before mission-input acceptance. Raw captures/research remain private.
+
+Runtime source: `941342bffca063b6fd78b520dccd5515153ecd94`.
+Executable SHA256: `9a9ae9a4ca1902ecd3c2c46b7d9faf5b9b922bacdf7d7be7cf53d9517d77c962`.
+1,094 Rust /234 ignored,45 Python, fmt/strict Clippy; installed ground-impact and
+house regressions pass. No new prototype PS2 identity is confirmed. Refer to
+PREVIEW_NOTES.md and OWNED_NPCS.md for exact testing and remaining prerequisites.
+
+
 ## Published preview .13.2 - guard destruction, source debris and solid replacement
 
 [Windows preview-2026.11.13.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.2)
