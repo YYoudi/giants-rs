@@ -71,6 +71,13 @@ Remaining work, in player-impact order:
    history ownership, complete cleanup and distinct source programs.
 3. Acquire restricted/special scenery and other base-building callbacks (including
    states74/83/98), preserving weapon gates and authored indestructible cases.
+   The next visible state98 family is The Wife's two barracks. Their source
+   shot path wakes the building, alerts nearby actors, selects its own hit/death
+   sounds and explosion family, then performs its conditional mission requests
+   and retirement. Preserve the source selector's initialization/remapping.
+   Its immediate debris variant passes an additional context transform; acquire
+   that consumer before admitting the whole explosion. Existing tower geometry
+   or the Vimp-specific effect route does not establish this shared capability.
 4. Bind actual building mission-death producers with their native global mode,
    counter and response rules; do not infer credit from a model or health word.
 5. Acquire generic radial/Raster3 platform owners and broader effects-world

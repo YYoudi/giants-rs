@@ -59,6 +59,42 @@ Windows menu/entry/view/fire/return/re-entry checks pass. See PREVIEW_NOTES.md
 for their limits; sustained held input and OS-aimed destruction remain unverified.
 Display copies in the dashboard carry this same source/build identity.
 
+## Next ordinary family: The Wife barracks (not delivered)
+
+The next installed-data sample contains two state98 barracks, classes1060 and
+1226, already present in the independent player/projectile mesh preparation.
+Literal `barracks_shot`, `barracks_logic`, `barracks_alert_rippers` and related
+release names are checked against the prototype PS2 ELF, independently of the
+supplied CSV interpretation. The PC descriptor and its actual shot callback
+remain separately pinned in private evidence. These are unknown PC-to-PS2
+attributions; matching names and related constants do not import an ABI/layout.
+
+The acquired PC shot control flow retains an initial dead/health guard, source
+target fallback, activity transition and ordered team/nearby-Ripper alerts before
+damage accumulation. Nonlethal hits request the variant's object-bound sound.
+Lethal hits select its named explosion and positional sound, conditionally emit
+mission requests according to the source selector/flags/count, and retire it.
+The initial primary callback remaps particular class/selector combinations and
+initializes stock. Do not apply house health-animation stages or supply a guessed
+stock, player identity, empty actor list or mission-success acknowledgement.
+
+All three declared explosion families encounter the common immediate-child
+variant absent from the mixed-scene consumer. Private original-VM controls
+confirm the same parent/program/reference operands as the existing child path,
+but an additional context-transform argument is passed to the real factory.
+The factory copies that transform and preserves its distinct context mode.
+Six bounded active-dispatch controls execute the original string reader and
+comparison, retain the source operands and consume no RNG at this boundary.
+They stop at child construction: they do not prove child transforms, callbacks,
+complete explosion scheduling or rendering. The context transform's initialized
+contents and its use by the child remain required acquisitions. The Vimp-specific
+route is separate; treating the commands as interchangeable is not sufficient.
+
+This continuation adds no ordinary barracks damage or new download capability.
+Complete the shared child/context consumer and the actual alert/mission/retirement
+owners, then validate damage, effects, sound, collision changes and cleanup through
+normal gameplay on one identified executable before extending the public snapshot.
+
 ## Acquisition history and bounded service evidence
 
 The chronological dependency notes below retain earlier failures and boundaries.
