@@ -106,6 +106,29 @@ first produced global delta is 25ms; it is not replaced with a zero delta.
 These are CPU/runtime binding controls, not a new rendered encounter or OS-input
 acceptance. Real world gates and recoil/audio consumers still block direct hits.
 
+A separate visible Windows run validates this clock lifecycle on local GNU source
+`42dcd04765fdca1ba496f095949c0d7d059d9376`, executable SHA256
+`d14eea1cc791ead4b7508e2679a99e5eaf01b5a278d051ff3b4ab8e49d6b2666`.
+Actual Windows clicks follow Preview tools -> Browse all missions -> Mecc Story2
+-> The Wife. Escape skips the first opening and reaches rendered ordinary Mecc
+gameplay; Escape returns to mission selection. Selecting The Wife again reaches
+its opening and ordinary gameplay under a fresh ticket, then Escape returns again.
+The two real Session tickets are1 and3. The second clock starts from the actual
+first released value minus its actual first global delta, rather than resetting
+to ten or clamping a negative timer. No clock/NPC component refusal occurs in
+this idle lifecycle. The exact test window is then closed and its process is no
+longer running; a numeric exit code was not retained and is not claimed.
+
+Launch through the ordinary `--mecc-menu --data-root <installation>
+--user-data-root <fresh profile>` path. This Windows run uses no replay/probe or
+NPC activation flags; `GIANTS_AUDIO_MUTE=1` only silences the real audio services.
+It exercises menu/entry/reentry with actual OS input, without gameplay pose,
+health or readiness writes. It does not exercise held movement, jet, firing,
+a complete Ripper encounter, reciprocal injury or Ripper death. The earlier
+combined-game direct-contact failure remains the combat frontier; do not transfer
+its supplied encounter or explosion observations to this newer clock executable.
+This is a local build and bounded lifecycle result, not a published preview.
+
 `Session::complete_enemy_projectile_object_contact` now owns the separate
 positive class90/232 direct-contact continuation. It consumes the actual retained
 actor identity, hitpoint and tag, reads damage from the source header, and calls

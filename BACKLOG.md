@@ -270,6 +270,12 @@ validate field publication, duplicate refusal and retained ownership without RNG
 draws; these are not rendered combat acceptance. Next bind actual world guards,
 controller recoil and cue transport;
 retain the actual combined-game object-contact failure as the graphical frontier.
+Local GNU source42dcd04 (executable SHA256 prefix d14eea1cc791) additionally passes
+actual Windows menu/Wife/return/reentry clock lifecycle, with retained negative
+shared time across fresh tickets1/3 and no clock/NPC component refusal while idle.
+No replay/probe/actor-state writes are used. This is not reciprocal combat/death
+acceptance or a new preview; see docs/OWNED_NPCS.md for the exact receipt, controls
+and missing numeric process-exit observation.
 See docs/OWNED_NPCS.md for receipt separation, immunity and failure semantics.
 The common `complete_enemy_projectile_ground_flight` adapter consumes the actual
 pending terrain point and query clock once. The ordinary host now binds it for
