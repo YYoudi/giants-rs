@@ -17,6 +17,18 @@ separately validated ordinary integration and publication are recorded below.
 
 ## Active objective - ordinary buildings, collision and damage reactions
 
+Owner feedback, 13 November: add source destructible trees and fix the ordinary
+RoadHome return while carrying the wife. Keep both in the next delivery's
+acceptance. RoadHome's authored destination/film exist, but absent-opening
+admission leaves it in preview and prevents objective evaluation. The fresh-slot
+default is now acquired and connected; rendered completion is still pending.
+See MISSION_PROGRESSION.md. Tree/state60 uses the acquired common damage callback,
+but its live physical/render owners, wood effect and distinct replacement/data
+transfer still need integration. Do not apply house health-animation stages or
+declare every foliage class destructible. Retain the Story4 missing cold owner
+regression before publishing the new barracks work; the previous public .13.2
+receipt remains separate.
+
 Owner direction, 12 November 2026: connect the buildings already drawn on maps
 to player/projectile collisions, hitboxes and source damage reactions. Preserve
 indestructible cases, successive damage states, disappearance/replacement,

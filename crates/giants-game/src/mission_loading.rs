@@ -380,7 +380,9 @@ impl PreparedMission {
     }
     pub fn opening(&self, root: &Path) -> Result<crate::mission_cinematics::Opening, String> {
         self.validate_inputs(root)?;
-        crate::mission_cinematics::select(
+        // These validated serialized inputs construct fresh owned mission state;
+        // no native saved slot or previous mission storage is restored here.
+        crate::mission_cinematics::select_fresh_world(
             self.world.as_ref().ok_or("prepared world missing")?,
             self.mission.as_ref().ok_or("prepared mission missing")?,
             &self.request.mission_name,

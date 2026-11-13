@@ -284,6 +284,16 @@ publication; .13.2 remains the public build.
 
 ## Installed catalogue coverage audit
 
+Owner feedback adds ordinary destructible trees to the next integration work.
+The selected tree/state60 descriptor uses the same PC shot callback as the
+acquired scenery service. Its source replacement, wood effect and tree-specific
+payload inheritance remain separate consumers. Existing animated foliage does
+not establish projectile/player collision, damage, retirement or replacement;
+tree health does not imply house-style model stages. Other foliage states retain
+their own contracts. Prototype `tree_process`, `tree_init` and `collision_wood`
+are lookup routes, not confirmed PC identities. Original callback evidence and
+resource tables remain private; no tree gameplay acceptance is claimed yet.
+
 A read-only continuation now visits all 56 nonempty mission/catalogue contexts
 in the inspected installation, using the same world list and mission parser as
 the browser. All instance plans prepare; their 246 distinct classes include

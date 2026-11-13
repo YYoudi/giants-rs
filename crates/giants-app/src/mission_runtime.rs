@@ -1111,8 +1111,8 @@ impl Runtime {
             return Err("mission proxy34 requires an owned actor-service backend".into());
         }
         let opening = p.opening.as_ref().map_err(Clone::clone)?;
-        if opening.director.is_none() && opening.source_offset.is_none() {
-            return Err("absent opening request does not establish native defaults".into());
+        if opening.director.is_none() && !opening.allows_no_director_start() {
+            return Err("opening requires an initialized fresh slot or explicit request".into());
         }
         if !p.opening_effects_bound {
             return Err("opening renderer or effect dispatch is incomplete; preview only".into());

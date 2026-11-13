@@ -9,6 +9,15 @@ pub struct Opening {
     pub raw_name: Option<[u8; 32]>,
     pub world_index: Option<usize>,
     pub director: Option<String>,
+    fresh_default_empty: bool,
+}
+impl Opening {
+    /// No film is required by an explicit empty request, or by the acquired
+    /// zero-initialized slot of a freshly loaded world catalogue. Unknown prior
+    /// native slot storage must not use this as an acknowledgement.
+    pub fn allows_no_director_start(&self) -> bool {
+        self.director.is_none() && (self.source_offset.is_some() || self.fresh_default_empty)
+    }
 }
 pub fn select(world: &WorldConfig, mission: &Mission, name: &str) -> Result<Opening, String> {
     let slot = crate::mission_slot::index(world, name)?;
@@ -17,6 +26,20 @@ pub fn select(world: &WorldConfig, mission: &Mission, name: &str) -> Result<Open
         .last()
         .map(|r| (r.source_offset, r.name));
     resolve(world, slot, request, "startup")
+}
+/// Fresh catalogue/mission loading only, not restoration of native slot memory.
+/// The acquired PC world-list constructor clears every slot; command21 may
+/// subsequently replace its opening name. Scenario startup accepts an empty
+/// name without a movie request. Prototype PS2 `read_world_list` and
+/// `scenerio_start_mission__Fv` remain unknown-attribution navigation routes.
+pub fn select_fresh_world(
+    world: &WorldConfig,
+    mission: &Mission,
+    name: &str,
+) -> Result<Opening, String> {
+    let mut opening = select(world, mission, name)?;
+    opening.fresh_default_empty = opening.source_offset.is_none();
+    Ok(opening)
 }
 /// The last command25 write supplies the completion film in this mission slot.
 /// Selecting it does not complete the mission or reconstruct native replay state.
@@ -40,6 +63,7 @@ fn resolve(
         raw_name: None,
         world_index: None,
         director: None,
+        fresh_default_empty: false,
     };
     let Some((offset, raw)) = request else {
         return Ok(out); // No claim about constructor defaults or absence of a movie.
@@ -186,6 +210,7 @@ mod tests {
         assert_eq!(selection.source_offset, Some(38));
         assert!(selection.raw_name.is_some());
         assert!(selection.director.is_none());
+        assert!(selection.allows_no_director_start());
         bytes[39..71].fill(b'X');
         let mission = giants_formats::mission::parse(&bytes).unwrap();
         assert!(
@@ -209,6 +234,14 @@ mod tests {
                 .director
                 .is_none()
         );
+        let unknown = select(&world, &mission, "Selected").unwrap();
+        assert!(!unknown.allows_no_director_start());
+        let fresh = select_fresh_world(&world, &mission, "Selected").unwrap();
+        assert!(fresh.allows_no_director_start());
+        assert!(fresh.source_offset.is_none());
+        assert!(fresh.raw_name.is_none());
+        assert!(fresh.world_index.is_none());
+        assert!(select_fresh_world(&world, &mission, "selected").is_err());
         let replay = select_completion(&world, &mission, "Selected").unwrap();
         assert_eq!(replay.mission_slot, 1);
         assert_eq!(replay.source_offset, Some(38));

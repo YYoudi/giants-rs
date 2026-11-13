@@ -608,21 +608,40 @@ fn drive(
                 return;
             }
             let ready = if objective_interaction_probe() {
+                // Input fixture endpoint only. The return test keeps ordinary
+                // movement running past the initial wife pickup; only an actual
+                // source transition to the following mission ends the run.
+                let return_probe =
+                    std::env::var("GIANTS_MISSION_RETURN_WIFE_PROBE").as_deref() == Ok("1");
+                let endpoint = if return_probe {
+                    frontend
+                        .prepared_mission
+                        .as_ref()
+                        .is_some_and(|p| p.request.world == "Story2" && p.request.menu_index == 3)
+                } else {
+                    runtime.declared_pickup_ready(frontend.flow.ticket)
+                };
                 let ready = frontend.flow.ticket > 1
                     && playing
                     && opening.idle()
                     && environment.presentation_ready()
-                    && runtime.declared_pickup_ready(frontend.flow.ticket);
+                    && endpoint;
                 if ready {
+                    let label = if return_probe {
+                        "mission_return_wife_input_probe_finished"
+                    } else {
+                        "mission_objective_input_probe_finished"
+                    };
                     println!(
-                        "mission_objective_input_probe_finished ticket={} name={} ordinary_next_player=true declared_pickup_ready=true supplied_controller=true forced_pose=false os_input=false",
+                        "{label} ticket={} name={} ordinary_next_player=true declared_pickup_ready={} supplied_controller=true forced_pose=false os_input=false",
                         frontend.flow.ticket,
                         frontend
                             .prepared_mission
                             .as_ref()
                             .unwrap()
                             .request
-                            .mission_name
+                            .mission_name,
+                        runtime.declared_pickup_ready(frontend.flow.ticket)
                     );
                 }
                 ready

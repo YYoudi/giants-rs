@@ -28,6 +28,22 @@ PC point/AABB fallback differs from the prototype's summed-radius test. The
 central method pins both binary digests; old PC aliases remain valid. See
 [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md) for the bounded runtime scope.
 
+## Fresh startup and tree search routes awaiting attribution
+
+The literal prototype names `read_world_list` and
+`scenerio_start_mission__Fv` also lead to
+[`mission_cinematics::select_fresh_world`](../crates/giants-game/src/mission_cinematics.rs)
+and the ordinary startup guard. Their PC identities remain **unknown**. Original
+PC controls establish fresh empty slot initialization and the empty-opening
+startup branch, with explicit external service boundaries. They do not establish
+native continuity or public RoadHome completion; see MISSION_PROGRESSION.md.
+
+Tree integration begins with the literal prototype search routes `tree_process`,
+`tree_init` and `collision_wood__FP6OBJECT`. Their PC attributions remain
+**unknown**. See [BUILDINGS.md](BUILDINGS.md) for the pending shared damage,
+physical/render, wood-effect and replacement integration; current animated
+foliage is not a delivered destructible-tree service.
+
 ## Vimp search routes awaiting attribution
 
 The following seven names are literal function names present in the pinned

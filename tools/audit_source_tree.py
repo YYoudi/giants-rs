@@ -24,6 +24,8 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed fresh-slot and pending-tree routes; no new confirmed identity.
+        '6a2c8a08a3d3678d0b9c5b035ab2775fa267a94a33f8a4492fab3a5555c61093',
         # Concurrent minimal NPC route summaries reviewed for source hazards;
         # this exception does not certify their gameplay or routine attribution.
         'ae3da3f10926a48b01145f7041fa15f956d867d22a6e489f37112e0d0c9b995d',

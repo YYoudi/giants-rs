@@ -12,6 +12,31 @@ entry with its own declared wife picked up. The exact receipt, supplied-command
 scope and separate short OS checks are in [PREVIEW_NOTES.md](PREVIEW_NOTES.md).
 RoadHome completion, other mission predicates and full native continuity remain open.
 
+### RoadHome return correction in progress
+
+The owner's ordinary test reaches RoadHome with its declared wife carried, but
+arrival does not start the completion film. The destination and completion-film
+request are present in the source records. The current blocker is earlier:
+RoadHome has no opening request, and the old admission guard leaves that entry
+in preview rather than gameplay, suppressing objective evaluation.
+
+The acquired PC world-list constructor clears all mission slots. An original
+constructor control with the installed catalogue observes 992 empty opening
+fields across 31 worlds; six scenario-start controls distinguish empty and named
+requests while retaining supplied file, loader and activation boundaries. Empty
+opening names do not request a film and still reach the activation service.
+This does not validate native world/music prechecks or whole mission execution.
+Prototype PS2 `read_world_list` and `scenerio_start_mission__Fv` remain unknown
+PC-to-PS2 attributions.
+
+`mission_cinematics::select_fresh_world` now represents that acquired empty
+default for freshly constructed serialized inputs. It preserves the absence of
+command21 and keeps unknown prior slot storage distinct. Completion selection
+does not inherit this startup proof. The ordinary admission guard uses the
+result without inventing a film or acknowledging unrelated prerequisites.
+Core checks pass; rendered carried return, natural completion-film transport and
+following mission acceptance remain pending on a new executable.
+
 ## Separate declarations, predicates and transport
 
 The world supplies ordered scenario records and a separate mission-slot name
