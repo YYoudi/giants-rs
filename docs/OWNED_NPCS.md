@@ -165,6 +165,24 @@ passes after the correction with actual geometry/cleanup and no fabricated playe
 step. A zero process exit or saved image from the earlier failing rendered pass
 does not establish a healthy NPC component or a completed encounter.
 
+The corrected local source `736ac96a60522155e76fe0089f7daa08b83b581d` builds
+executable SHA256
+`78119c7d1d10b97dba3fafa29a71400e2b8456a2a80b9a1e913071e9e25e4f83`.
+Its supplied-command rendered ground-impact control reaches actual launch4524,
+ground contact4705, projectile retirement and capture4722 with the five Rippers
+and fourteen Vimps still submitted. The private image visibly contains the
+explosion, and logs contain no component refusal. It establishes this missed-shot
+reaction and continued geometry phase, not reciprocal damage, Ripper death,
+whole native fidelity or OS-played encounter/menu acceptance. No image or preview
+is published by this lane.
+
+The internal supplied-input diagnostic also gains a read-only endpoint on
+positive canonical Mecc damage, retaining unavailable health until the actual
+controlled owner is published. A refused ordinary Ripper component now fails
+that diagnostic rather than permitting exit0 with a failed component. These
+checks change neither NPC admission nor ordinary player input/AI availability;
+positive damage alone is not proof of an attributed complete encounter.
+
 The ordinary hit-consumer build is source
 `18316e77c19379002feb69b9d3d8c3cedc261a05`, executable SHA256
 `ac0c09121ce261730aaf9ca0b37d27fa99e8cffaabbaf5660d4f908461b87d71`,

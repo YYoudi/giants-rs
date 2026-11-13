@@ -93,7 +93,11 @@ pub(super) fn input(
         axes: Vec2::ZERO,
         thrust: false,
         boost: false,
-        capture: if std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_IMPACT").as_deref() == Ok("1") {
+        // Read-only endpoints over ordinary consumers. No damage, impact or
+        // availability is supplied by selecting a diagnostic capture target.
+        capture: if std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_HIT").as_deref() == Ok("1") {
+            snapshot.mecc_damage.is_some_and(|damage| damage > 0.)
+        } else if std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_IMPACT").as_deref() == Ok("1") {
             snapshot
                 .impact
                 .is_some_and(|(_, at)| u64::from(step) >= at + 16)

@@ -44,7 +44,7 @@ impl<D: giants_game::actor_retirement::Services> giants_game::actor_retirement::
 #[cfg(test)]
 impl<D: giants_game::actor_retirement::Services> Services for RetirementOnly<'_, D> {
     fn world_suppressed(&mut self, _: &Session) -> Result<bool, String> {
-        Err("Ripper object hit requires actual shared-world failure/completion guards".into())
+        Err("Ripper hit requires actual shared-world failure/completion guards".into())
     }
 }
 
@@ -93,7 +93,7 @@ impl<D: giants_game::actor_retirement::Services + giants_game::resident_states::
         }
         // The campaign's portable counter and a living Mecc cannot substitute
         // for this native owner. No clear snapshot or readiness is fabricated.
-        Err("Ripper object hit requires actual shared-world failure/completion guards".into())
+        Err("Ripper hit requires actual shared-world failure/completion guards".into())
     }
 }
 

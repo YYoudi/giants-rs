@@ -5,6 +5,8 @@ pub(crate) struct RipperInputSnapshot {
     pub flight_revision: u64,
     pub projectile: Option<[f32; 3]>,
     pub impact: Option<([f32; 3], u64)>,
+    /// Absent before the actual partial-controller owner is published.
+    pub mecc_damage: Option<f32>,
 }
 impl Runtime {
     pub(crate) fn ripper_input_snapshot(
@@ -21,11 +23,12 @@ impl Runtime {
                 distance(a.center).total_cmp(&distance(b.center))
             })
             .map(|d| d.center);
-        let session = &self
+        let active = self
             .active
             .as_ref()
-            .ok_or("Ripper probe ticket absent")?
-            .resident_states;
+            .filter(|active| active.ticket == ticket)
+            .ok_or("Ripper probe ticket absent")?;
+        let session = &active.resident_states;
         let projectile = draws
             .iter()
             .filter_map(|d| {
@@ -40,6 +43,10 @@ impl Runtime {
             target,
             flight_revision,
             projectile: projectile.map(|v| v.1),
+            mecc_damage: active
+                .controlled_mecc_owner
+                .map(|owner| session.mecc_health(owner).map(|health| health.damage))
+                .transpose()?,
             impact: self
                 .active
                 .as_ref()

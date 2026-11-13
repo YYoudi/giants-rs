@@ -252,6 +252,14 @@ passes afterward through actual geometry/cleanup over three such samples.
 Recheck the exact corrected build in rendering; the earlier exit0 capture still
 contained a component refusal. Ordinary world guards and the explicit startup
 no-play policy remain unbound; do not infer availability from ready audio sinks.
+Corrected source `736ac96`, executable SHA256
+`78119c7d1d10b97dba3fafa29a71400e2b8456a2a80b9a1e913071e9e25e4f83`,
+passes the supplied-command rendered missed-ground-shot control: launch4524,
+contact4705, retirement/capture4722, five Rippers/fourteen Vimps retained and no
+component refusal. The private image shows the explosion. This is separate from
+active damage, Ripper death, OS input and full encounter/menu acceptance. The
+internal diagnostic can now continue to canonical positive Mecc damage and
+fails on an ordinary component refusal; it supplies no health, readiness or AI.
 Failure-gate prerequisite: exact-PC callback dispatch and parsed source programs
 identify state51/Reaperman actors on The Wife (six declarations). Static acquisition
 finds a path-progress failure route and another failure arm. Do not substitute a

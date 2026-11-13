@@ -158,10 +158,10 @@ impl State {
                     self.ground_impact(session, frame, id, random, sounds, device)?;
                     continue;
                 }
-                if matches!(
-                    outcome,
-                    giants_game::enemy_projectile::FlightOutcome::ObjectContact { .. }
-                ) {
+                if let giants_game::enemy_projectile::FlightOutcome::ObjectContact {
+                    target, ..
+                } = outcome
+                {
                     let result = session.complete_enemy_projectile_object_contact(
                         id,
                         random,
@@ -170,7 +170,7 @@ impl State {
                             step: frame.step,
                             source: id,
                         },
-                    )?;
+                    ).map_err(|error| format!("Ripper object contact source={id:?} target={target:?} step={}: {error}", frame.step))?;
                     if result == giants_game::enemy_projectile::ObjectContactOutcome::Marked {
                         session.cleanup_enemy_projectile_object_contact(
                             id,

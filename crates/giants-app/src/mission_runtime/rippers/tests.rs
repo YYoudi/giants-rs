@@ -133,6 +133,13 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
             ..Default::default()
         };
         assert!(runtime.npc_draws(ticket).unwrap().is_empty());
+        assert!(
+            runtime
+                .ripper_input_snapshot(ticket, viewer.mission_snapshot().0)
+                .unwrap()
+                .mecc_damage
+                .is_none()
+        );
         assert!(runtime.ripper_contact_snapshots(ticket).unwrap().is_empty());
         {
             let active = runtime.active.as_mut().unwrap();
@@ -337,6 +344,15 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
                 )
             };
             result.unwrap_or_else(|e| panic!("frame {number}: {e}"));
+            if number == 1 {
+                assert_eq!(
+                    runtime
+                        .ripper_input_snapshot(ticket, viewer.mission_snapshot().0)
+                        .unwrap()
+                        .mecc_damage,
+                    Some(0.)
+                );
+            }
             let draws = runtime.npc_draws(ticket).unwrap();
             assert_eq!(
                 draws.len(),

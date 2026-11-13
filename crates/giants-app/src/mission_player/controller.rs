@@ -1705,6 +1705,10 @@ pub(super) fn update(
                         "mission_ripper_component_refused ticket={} error={error}",
                         controller.ticket
                     );
+                    assert!(
+                        !ripper_probe::enabled(),
+                        "Ripper supplied-input diagnostic reached a refused ordinary component: {error}"
+                    );
                 }
             }
         }
