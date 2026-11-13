@@ -119,9 +119,9 @@ also depends on actual failure-film declarations/ownership and the shared clock;
 its acquisition does not bind that producer or replace the campaign flow.
 
 The earlier isolated Wife approach consumed mode67 and its mode68 animation
-selection at step3251, follows that attack through its real ANM clock, then
+selection at step3251, followed that attack through its real ANM clock, then
 refused the missing kind3 hurt consumer at3293 with the source already in mode66.
-This diagnostic still fails; it is not a complete encounter pass. It supplies
+That diagnostic failed; it was not a complete encounter pass. It supplied
 ordinary player commands, excludes the Vimp component and uses no GPU or OS input.
 
 The local GNU build for the preceding mode67/health-response milestone is source
