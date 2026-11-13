@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent reviewed cold-profile navigation only; same sole reviewed
+        # proximity alias, no AI/service availability or raw corpus claim.
+        'bbdbe2d9f091996caed85d59c3805619961c7915c37dc075b35d54a884ef4128',
         # Reviewed confirmed corpse identity, independent rationale and explicit
         # runtime limits; prior PC alias, no corpus or native body.
         '222cc399cefc344cf09a604de812bb122cdbecba72d8e7c9f136788674599ef2',
@@ -161,6 +164,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'ec1186bdfc4d82c4a070d6fb6caf83008aa7d97d7446f86f4eb6744a9dd1c75b',
     },
     'docs/RECONSTRUCTION_METHOD.md': {
+        # Reviewed independent control/personality counterexample and timer
+        # ownership distinction; existing bounded identity/aliases unchanged.
+        '4aa97ef9c6c53297ca4bd7b94099b08401349bc1d42723852af6649f6f6d4df9',
         # Reviewed bounded corpse identity and independently written evidence,
         # explicit arithmetic/layout differences; existing aliases unchanged.
         '4f05affbf20c6abc35016e82c276dbb4315d0f16b1315943f813d776bccdf3a3',

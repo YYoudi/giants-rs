@@ -53,6 +53,12 @@ this runtime gap; the repeated `dead__FP6OBJECT` raw name is ambiguous. The
 180 execute the original empty-recipient lookup and 360 supply the creation
 return at its actual call boundary. They do not validate positive native mana
 creation, a whole primary, rendered death or canonical cleanup.
+Twenty-four further original observations and a failing-before/fixed-after
+regression separate the callback-control creation gate from death personality.
+The corpse header countdown must also remain distinct from the living AI timer.
+The corrected dependency passes1,062 workspace tests with218 ignored, the564
+original observations and three synthetic controls, strict Clippy/formatting and
+the45 Python controls. These results do not extend the rendered encounter receipt.
 
 ### Local menu test procedure
 

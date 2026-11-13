@@ -45,6 +45,30 @@ const PARAMETERS: Parameters = Parameters {
 };
 
 #[test]
+fn creation_gate_reads_callback_control_independently_of_death_personality() {
+    for (control, personality, expected_calls, expected) in [
+        (8, 0xe00, 0, Outcome::Retained),
+        (0, 0xe08, 1, Outcome::Marked),
+    ] {
+        let mut state = corpse();
+        state.control = control;
+        state.personality = personality;
+        let mut factory = Mana {
+            calls: 0,
+            accepted: true,
+            fail: false,
+        };
+        assert_eq!(
+            ripper_death_logic(&mut state, 0.25, PARAMETERS, &mut Random(17), &mut factory)
+                .unwrap(),
+            expected
+        );
+        assert_eq!(factory.calls, expected_calls);
+        assert_eq!(state.timer, 0.75);
+    }
+}
+
+#[test]
 fn missing_creation_retains_consumed_clock_and_external_rng_without_marking() {
     let mut state = corpse();
     let mut random = Random(17);
@@ -89,7 +113,7 @@ fn living_invalid_or_uncompleted_death_cannot_consume_clock_or_request_creation(
 }
 
 #[test]
-#[ignore = "requires GIANTS_RIPPER_CORPSE_CONTROL: private original whole-helper observations; supplied corpse/global clock and original empty lookup or supplied creation return, no positive native creation, primary, GPU or lifecycle proof"]
+#[ignore = "requires GIANTS_RIPPER_CORPSE_CONTROL and GIANTS_RIPPER_CORPSE_FIELD_CONTROL: private original whole-helper observations; supplied corpse/global clock and original empty lookup or supplied creation return, no positive native creation, primary, GPU or lifecycle proof"]
 fn original_corpse_helper_observations() {
     let path = std::env::var("GIANTS_RIPPER_CORPSE_CONTROL").unwrap();
     let source = std::fs::read_to_string(path).unwrap();
@@ -103,7 +127,10 @@ fn original_corpse_helper_observations() {
         let mut state = corpse();
         state.class = words[0] as i32;
         state.timer = f32::from_bits(words[1]);
-        state.personality = words[3];
+        // Native corpus column3 is the actual callback-control word. Its
+        // original local harness variable was misleadingly named personality.
+        state.control = words[3];
+        state.personality = 0;
         let amount = f32::from_bits(words[4]);
         let parameters = Parameters {
             large_mana: if state.class == 230 { amount } else { 42. },
@@ -135,4 +162,57 @@ fn original_corpse_helper_observations() {
         cases += 1;
     }
     assert_eq!(cases, 540);
+    let source =
+        std::fs::read_to_string(std::env::var("GIANTS_RIPPER_CORPSE_FIELD_CONTROL").unwrap())
+            .unwrap();
+    let mut fields = 0;
+    for line in source.lines().filter(|line| !line.trim().is_empty()) {
+        let w: Vec<u32> = line
+            .split_whitespace()
+            .map(|v| u32::from_str_radix(v, 16).unwrap())
+            .collect();
+        assert_eq!(w.len(), 11);
+        let mut state = corpse();
+        state.class = w[0] as i32;
+        state.timer = f32::from_bits(w[1]);
+        state.control = w[3];
+        state.personality = w[4];
+        let parameters = Parameters {
+            large_mana: if state.class == 230 {
+                f32::from_bits(w[5])
+            } else {
+                42.
+            },
+            medium_mana: if state.class == 73 {
+                f32::from_bits(w[5])
+            } else {
+                43.
+            },
+        };
+        let mut factory = Mana {
+            calls: 0,
+            accepted: w[6] != 0,
+            fail: false,
+        };
+        let result = ripper_death_logic(
+            &mut state,
+            f32::from_bits(w[2]),
+            parameters,
+            &mut Random(17),
+            &mut factory,
+        )
+        .unwrap();
+        assert_eq!(
+            [
+                state.timer.to_bits(),
+                state.flags,
+                factory.calls,
+                u32::from(result == Outcome::Marked)
+            ],
+            w[7..],
+            "independent field case {fields}"
+        );
+        fields += 1;
+    }
+    assert_eq!(fields, 24);
 }

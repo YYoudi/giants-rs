@@ -291,7 +291,7 @@ reviewed record holds this attribution and its counterevidence.
 
 Independent evidence combines the class-dependent mana parameter selection,
 global-clock countdown, negative-time bypass, zero-parameter removal,
-personality gate, conditional creation-result gate and final removal mark. The
+callback-control gate, conditional creation-result gate and final removal mark. The
 prototype's literal callee names independently establish clock, mana-activation
 and object-removal roles consistent with the acquired PC bodies. The two
 prototype `dead__FP6OBJECT` entries lack this class/conditional-mana call pattern
@@ -307,6 +307,10 @@ imported into the PC port, which retains its wide subtraction/rounded storage.
 clock/configuration and either an original empty lookup or a supplied creation
 return remain control inputs. Positive mana creation, a complete primary,
 ordinary lethal integration, rendered death and cleanup remain unvalidated.
+Twenty-four further original observations vary callback control independently
+of death personality. Their counterexample rejects an adapter that consults
+the personality bit instead. The lethal header countdown is also separate from
+the living AI payload timer; a future owned primary must preserve that boundary.
 
 ## Publication boundary
 

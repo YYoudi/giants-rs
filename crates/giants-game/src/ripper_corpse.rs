@@ -32,6 +32,9 @@ pub enum Outcome {
 
 /// Continue a genuine completed class73/230 lethal callback. This helper uses
 /// the global clock (null object/position), unlike living object-local timers.
+/// `corpse.timer` is the lethal callback's header countdown, distinct from the
+/// living AI payload timer. The creation gate reads `control`, independently
+/// of the personality bits changed by the lethal callback.
 /// It stores the rounded timer but branches on the wide subtraction. A zero
 /// mana parameter retires immediately, including before the timer expires.
 ///
@@ -76,7 +79,7 @@ pub fn ripper_death_logic<I: Copy>(
             parameters.medium_mana
         };
         if amount != 0.
-            && (corpse.personality & 8 != 0 || !services.create_mana(corpse, amount, random)?)
+            && (corpse.control & 8 != 0 || !services.create_mana(corpse, amount, random)?)
         {
             return Ok(Outcome::Retained);
         }
