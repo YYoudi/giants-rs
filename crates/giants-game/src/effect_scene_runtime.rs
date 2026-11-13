@@ -520,6 +520,21 @@ impl Runtime {
         position: [f32; 3],
         seed: &mut u32,
     ) -> Result<Option<usize>, String> {
+        let phase = self.advance_context_phase(dt, references, owner, position, seed)?;
+        self.advance_bodies_with_references(dt, references)?;
+        Ok(phase)
+    }
+    /// Advance context waits/births independently of individual object clocks.
+    /// The caller must then execute body callbacks once with their actual
+    /// resolved timesteps. This does not acknowledge a native scheduler.
+    pub fn advance_context_phase(
+        &mut self,
+        dt: f32,
+        references: &References,
+        owner: Matrix,
+        position: [f32; 3],
+        seed: &mut u32,
+    ) -> Result<Option<usize>, String> {
         let mut phase = None;
         if let Some(objects) = self
             .cursor
@@ -535,13 +550,23 @@ impl Runtime {
             phase = Some(self.bodies.len());
             self.bodies.push(bodies);
         }
-        self.advance_bodies_with_references(dt, references)?;
         Ok(phase)
     }
     pub fn advance_bodies_with_references(
         &mut self,
         dt: f32,
         references: &References,
+    ) -> Result<(), String> {
+        self.advance_bodies_resolved(dt, references, |_, delta| Ok(delta))
+    }
+    /// Resolve each body's timestep from its real class context/current point;
+    /// context waits retain their separate caller-supplied clock. Errors leave
+    /// the consumed prefix intact for quarantine, never automatic replay.
+    pub fn advance_bodies_resolved(
+        &mut self,
+        dt: f32,
+        references: &References,
+        resolve: impl FnMut(&Body, f32) -> Result<f32, String>,
     ) -> Result<(), String> {
         let query = if self
             .bodies
@@ -565,7 +590,7 @@ impl Runtime {
         } else {
             None
         };
-        self.advance_body_callbacks(dt, query.as_ref())
+        self.advance_body_callbacks_resolved(dt, query.as_ref(), resolve)
     }
     /// Separate initial body callbacks from the context's first wait. This
     /// preserves the existing preview convention without consuming that wait.
@@ -577,9 +602,24 @@ impl Runtime {
         dt: f32,
         query: Option<&(crate::terrain_queries::StaticTerrainQuery<'_>, usize)>,
     ) -> Result<(), String> {
+        self.advance_body_callbacks_resolved(dt, query, |_, delta| Ok(delta))
+    }
+    fn advance_body_callbacks_resolved(
+        &mut self,
+        dt: f32,
+        query: Option<&(crate::terrain_queries::StaticTerrainQuery<'_>, usize)>,
+        mut resolve: impl FnMut(&Body, f32) -> Result<f32, String>,
+    ) -> Result<(), String> {
         for (phase, bodies) in self.bodies.iter_mut().enumerate() {
             for (object, body) in bodies.iter_mut().enumerate() {
                 let was_expired = body.expired();
+                if was_expired {
+                    continue;
+                }
+                let dt = resolve(body, dt)?;
+                if !dt.is_finite() || dt < 0. {
+                    return Err("mixed body clock outside finite nonnegative profile".into());
+                }
                 if let Some(p) = &mut body.finite {
                     if p.contact.is_some() {
                         let (query, width) = query.ok_or("mixed bound contact query absent")?;
@@ -797,6 +837,67 @@ mod tests {
             )
             .unwrap();
         assert!(runtime.take_retirements().is_empty());
+    }
+    #[test]
+    fn body_clocks_are_independent_of_context_waits_and_retired_instances() {
+        let refs = super::References {
+            classes: std::collections::BTreeMap::new(),
+            surface: None,
+            contacts: std::collections::BTreeMap::new(),
+        };
+        let mut seed = 17;
+        let mut runtime = super::Runtime::start(
+            std::sync::Arc::new(plan(1.)),
+            &refs,
+            super::Matrix::identity(),
+            [0.; 3],
+            &mut seed,
+        )
+        .unwrap();
+        let mut second = runtime.bodies[0][0].construction.clone();
+        second.class = 99;
+        runtime.bodies[0].push(super::Body::new(second, super::Matrix::identity(), None).unwrap());
+        runtime
+            .advance_bodies_resolved(0.01, &refs, |_, dt| Ok(dt))
+            .unwrap();
+        runtime
+            .advance_bodies_resolved(0.06, &refs, |body, dt| {
+                Ok(if body.construction.class == 99 {
+                    dt * 2.
+                } else {
+                    dt
+                })
+            })
+            .unwrap();
+        assert!(!runtime.bodies[0][0].expired());
+        assert!(runtime.bodies[0][1].expired());
+        assert_eq!(runtime.bodies[0][0].playback().unwrap().visual.age, 0.06);
+        assert!(
+            runtime
+                .advance_context_phase(0.6, &refs, super::Matrix::identity(), [0.; 3], &mut seed)
+                .unwrap()
+                .is_none()
+        );
+        assert_eq!(runtime.bodies[0][0].playback().unwrap().visual.age, 0.06);
+        runtime
+            .advance_bodies_resolved(0.01, &refs, |body, dt| {
+                assert_ne!(body.construction.class, 99);
+                Ok(dt)
+            })
+            .unwrap();
+        assert!(
+            runtime
+                .advance_context_phase(0.41, &refs, super::Matrix::identity(), [0.; 3], &mut seed)
+                .unwrap()
+                .is_some()
+        );
+        let before = runtime.bodies[0][0].playback().unwrap().visual.age;
+        assert!(
+            runtime
+                .advance_bodies_resolved(0.01, &refs, |_, _| Ok(f32::NAN))
+                .is_err()
+        );
+        assert_eq!(runtime.bodies[0][0].playback().unwrap().visual.age, before);
     }
     #[test]
     fn pending_guard_control_requests_do_not_become_successful_runtime_bodies() {

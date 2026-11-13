@@ -273,8 +273,12 @@ profiles before releasing that generation, and commits active RNG only on succes
 An installed full-guard control checks source birth matrices, equivalent named
 preparation RNG and refusal of a second transfer with unchanged RNG. This does
 not satisfy returned sound/nested/world needs, activate descendants or publish a
-canonical actor. The ordinary building consumer still needs the real graph,
-replacement and collision owners before admitting the guard damage callback.
+canonical actor. The runtime also exposes separate context-wait advancement and per-body clock
+resolution. A focused control checks distinct object times, unchanged context
+waits, skipped retired instances and refusal of invalid time before mutation.
+The ordinary consumer must supply actual class/current-position slow-area inputs;
+this API does not claim an acquired native scheduler. It still needs the real
+graph, replacement and collision owners before admitting the guard damage callback.
 
 Other literal search routes include `deathfx_shot`, `deathfx_logic`,
 `barracks_shot`, `bldg_subtract_energy` and the base-building callbacks. Their
