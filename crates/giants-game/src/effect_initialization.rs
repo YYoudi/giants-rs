@@ -162,6 +162,10 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         [3, 6, 4, 0x33, 0x1c, 0x13, 0x12, 0x0e, 0x19, 7, 2] | [3, 6, 5, 8, 0x0e, 7, 2]
     );
     let pistol_splash = ops.as_slice() == [0x2b, 3, 6, 0x37, 5, 0x46, 7, 2];
+    let detached_vertical = ops.as_slice() == [3, 6, 0x37, 5, 0x46, 7, 2];
+    if detached_vertical {
+        crate::released_effect::Recipe::project(program)?;
+    }
     let ghost = ops.as_slice() == [3, 6, 8, 0x49, 0x55, 4, 7, 0x4a, 2];
     // Null-object preparation of the complete ordinary death-effect graph.
     // Nested objects, decals and emitters are active-pass services: admitting
@@ -216,6 +220,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !pistol_burst
         && !impact_child
         && !pistol_splash
+        && !detached_vertical
         && !ghost
         && !death
         && !compound_blocks(&ops)

@@ -30,6 +30,7 @@ enum Kind {
     Ground,
     Surface,
     Curved,
+    DetachedVertical,
 }
 impl Bindings {
     /// Every visible root and descendant needs its own prepared render consumer.
@@ -82,8 +83,8 @@ impl Bindings {
         for request in crate::cinematic_fx::declarations(bytes, &metadata)? {
             crate::cinematic_fx::validate_request_prefix(&metadata, &actors, &request)?;
             if request.slot >= 0 {
-                if request.mode != 1 {
-                    return Err("timed cinematic owner requires attached mode1".into());
+                if request.mode > 1 {
+                    return Err("timed cinematic owner requires acquired mode0 or mode1".into());
                 }
                 let program = resources.bound_effect_program(&request.target(resources)?)?;
                 let ops = program.records.iter().map(|r| r.opcode).collect::<Vec<_>>();
@@ -156,11 +157,30 @@ impl Bindings {
                     } else if ops == [3, 6, 4, 0x36, 7, 2] || ops == [3, 6, 4, 0x17, 0x36, 7, 2] {
                         crate::released_effect::Recipe::project(&program)?;
                         (Kind::Curved, None)
+                    } else if request.mode == 0 && ops == [3, 6, 0x37, 5, 0x46, 7, 2] {
+                        crate::released_effect::Recipe::project(&program)?;
+                        // Both quality/distance branches must select this same
+                        // source entry before the detached request is admitted.
+                        if image
+                            .adaptive_find(name, false)
+                            .map_err(|e| e.to_string())?
+                            .map(|(_, e)| e.offset)
+                            != image
+                                .adaptive_find(name, true)
+                                .map_err(|e| e.to_string())?
+                                .map(|(_, e)| e.offset)
+                        {
+                            return Err("detached effect requires live quality selection".into());
+                        }
+                        (Kind::DetachedVertical, None)
                     } else {
                         return Err("cinematic source program has no canonical family owner".into());
                     };
                     (kind, root, child)
                 };
+                if request.mode == 0 && kind != Kind::DetachedVertical {
+                    return Err("detached cinematic program has no acquired owner".into());
+                }
                 crate::effect_actor::Template::load(resources, root)?;
                 if let Some(child) = child {
                     crate::effect_actor::Template::load(resources, child)?;
@@ -260,9 +280,39 @@ pub struct Frame {
     pub channels: crate::animation_channels::Channels,
     pub transparency: f32,
     pub fade: [f32; 4],
+    pub vertical: Option<crate::vertical_fade::Playback>,
+    pub render_flags: u32,
     pub object_flags: u32,
     pub scale: f32,
     pub epoch: u32,
+}
+impl Frame {
+    /// These fresh effect constructors register no cinematic exclusions or
+    /// camera-owner slot. Retain the ordinary range gate on its own traversal.
+    pub fn draw_routes(
+        &self,
+        class: i32,
+        eye: [f32; 3],
+        range: f32,
+    ) -> Result<crate::draw_routes::Routes, &'static str> {
+        crate::draw_routes::with_ordinary_admission(
+            &crate::cinematic_ordinary::Input {
+                class,
+                state: 78,
+                flick_slot: -1,
+                exclusion_words: [0; 3],
+                position: [
+                    self.world.values[3],
+                    self.world.values[7],
+                    self.world.values[11],
+                ],
+                eye,
+                range,
+            },
+            self.object_flags,
+            self.render_flags,
+        )
+    }
 }
 impl Queue {
     /// Advance existing descendants once per actual composing-world frame.
@@ -342,6 +392,8 @@ impl Queue {
             channels: actor.channels?,
             transparency: session.timed_effect_transparency(owner)?,
             fade: session.timed_effect_fade(owner)?,
+            vertical: session.timed_effect_vertical(owner),
+            render_flags: session.timed_effect_render_flags(owner)?,
             object_flags: actor.construction_fields.as_ref()?.object_flags,
             scale: actor.construction_fields.as_ref()?.scale,
             epoch: actor.mecc_animation_stamp,
@@ -525,6 +577,30 @@ impl Queue {
             .kinds
             .get(&offset)
             .ok_or("cinematic family absent")?;
+        if kind == Kind::DetachedVertical {
+            let source = source
+                .as_ref()
+                .ok_or("detached effect requires actual reached source frame")?;
+            let (Creation::Prepared(context), _) =
+                self.contexts
+                    .prepare_cinematic_positional(name, source.position(), random)?
+            else {
+                return Err("detached cinematic source context absent".into());
+            };
+            let result = (|| {
+                let body = crate::timed_effect_object::Timed::random_vertical_positioned(
+                    resources,
+                    context,
+                    self.contexts.get(context).ok_or("detached context lost")?,
+                    random,
+                )?;
+                session.adopt_cinematic_timed_positioned(body, self.scope)
+            })();
+            self.contexts.release_prepared(context)?;
+            self.positioned.insert(offset, result?);
+            self.dispatched.insert(offset);
+            return Ok(());
+        }
         if kind != Kind::Attached {
             let (seconds, terrain) = frame.ok_or("source3 requires actual source frame")?;
             let _ = seconds;
@@ -577,7 +653,7 @@ impl Queue {
                             },
                         )
                     }
-                    Kind::Attached => unreachable!(),
+                    Kind::Attached | Kind::DetachedVertical => unreachable!(),
                 }?;
                 session.adopt_cinematic_timed_positioned(body, self.scope)
             })();
@@ -665,6 +741,8 @@ impl Queue {
             channels: actor.channels?,
             transparency: session.timed_effect_transparency(owner)?,
             fade: session.timed_effect_fade(owner)?,
+            vertical: session.timed_effect_vertical(owner),
+            render_flags: session.timed_effect_render_flags(owner)?,
             object_flags: fields.object_flags,
             scale: fields.scale,
             epoch: actor.mecc_animation_stamp,
@@ -806,6 +884,146 @@ impl TimedEffectServices for Retirement<'_> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "requires GIANTS_MISSION_OWNED_ROOT; installed detached source owner, not GPU or complete mission acceptance"]
+    fn installed_return_wife_detached_splash_owns_fade_lifetime_and_cleanup() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_MISSION_OWNED_ROOT").unwrap());
+        let menu = crate::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin/w_Story2.bin")).unwrap(),
+            0,
+            true,
+        )
+        .unwrap();
+        let packet =
+            crate::mission_loading::prepare(&root, menu.request("Story2", 2).unwrap()).unwrap();
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let resources = plan.resources();
+        let scene = packet.world_asset(&root).unwrap();
+        let world = world::Prepared::load(&plan, &scene.terrain).unwrap();
+        let bytes =
+            std::fs::read(crate::flick::sequence_path(&root, "story2_returnwife_9").unwrap())
+                .unwrap();
+        let binding = Bindings::load(resources, &bytes).unwrap();
+        let animation = crate::animation::load_director(&root, "story2_returnwife_9").unwrap();
+        let [start, end, tpf, fps] = animation.timeline;
+        let mut timeline = crate::flick::Timeline::with_start(
+            giants_formats::flick::parse_preview(&bytes).unwrap(),
+            tpf,
+            start,
+        )
+        .unwrap();
+        let scope = CinematicScope {
+            ticket: 93,
+            director: 8,
+            generation: 1,
+        };
+        let mut queue = binding.queue(scope);
+        let mut session = Session::new(scope.ticket);
+        let mut random = Random(43); // Supplied composing stream; no live seed claim.
+        let mut stamp = crate::animation_epoch::Stamp::default();
+        let mut owner = None;
+        let mut observed_fade = false;
+        let mut initial_position = None;
+        let frames =
+            (((end - start) as f64 / f64::from(tpf) / f64::from(fps)) * 60.).ceil() as u64 + 180;
+        for number in 1..=frames {
+            let seconds = ((number - 1) as f64 / 60.) as f32;
+            let tick = (start as f64 + f64::from(seconds) * f64::from(tpf) * f64::from(fps))
+                .min(f64::from(end)) as i32;
+            let delta = if number == 1 { 0. } else { 1. / 60. };
+            let step = WorldStep {
+                number,
+                global_seconds: delta,
+                areas: &[],
+                progress: crate::actor_finalization::PhysicalProgress::PrototypePs2Zero,
+                pc_argument: None,
+            };
+            let mut services = world::World::new(
+                &scene.terrain,
+                &world.objects,
+                &[],
+                &world.unresolved,
+                delta,
+                &[],
+            )
+            .unwrap();
+            queue
+                .prepare_children(step, &mut session, &mut stamp, &mut services)
+                .unwrap();
+            let events = timeline.step(tick).unwrap();
+            for event in events
+                .events
+                .iter()
+                .filter(|e| e.kind == crate::flick::EventKind::Effect)
+            {
+                queue
+                    .dispatch_source(
+                        &binding,
+                        event.offset,
+                        seconds,
+                        &scene.terrain,
+                        resources,
+                        &mut random,
+                        &mut session,
+                    )
+                    .unwrap();
+                assert_eq!(queue.contexts(), 0);
+                let before = random.0;
+                assert!(
+                    queue
+                        .dispatch_source(
+                            &binding,
+                            event.offset,
+                            seconds,
+                            &scene.terrain,
+                            resources,
+                            &mut random,
+                            &mut session
+                        )
+                        .is_err()
+                );
+                assert_eq!(random.0, before);
+            }
+            queue
+                .prepare_positioned_roots(
+                    step,
+                    &mut session,
+                    &mut stamp,
+                    resources,
+                    &mut random,
+                    &scene.terrain,
+                    &world,
+                )
+                .unwrap();
+            for offset in binding.offsets() {
+                if let Some(frame) = queue.frame(offset, &session) {
+                    assert_eq!(session.get(frame.owner).unwrap().class, 966);
+                    owner = Some(frame.owner);
+                    assert_eq!(frame.render_flags, 0x1000);
+                    let position = [
+                        frame.world.values[3],
+                        frame.world.values[7],
+                        frame.world.values[11],
+                    ];
+                    assert_eq!(*initial_position.get_or_insert(position), position);
+                    let fade = frame.vertical.unwrap();
+                    observed_fade |= fade.elapsed > 0. && fade.values != [0.; 2];
+                }
+            }
+        }
+        assert!(observed_fade);
+        assert_eq!(queue.dispatched(), 1);
+        let owner = owner.expect("actual detached splash birth");
+        assert!(
+            session
+                .get(owner)
+                .is_none_or(|a| a.construction_fields.as_ref().unwrap().object_flags & 0x8000 != 0)
+        );
+        assert_eq!(queue.children().len(), 0);
+        assert_eq!(queue.release(&mut session).unwrap(), 1);
+        assert!(session.get(owner).is_none());
+        assert_eq!(queue.contexts(), 0);
+    }
     #[test]
     #[ignore = "requires GIANTS_MISSION_OWNED_ROOT; source timeline/real world with supplied clock/RNG, not GPU or mission acceptance"]
     fn installed_wife_mixed_source_events_have_canonical_roots_and_children() {

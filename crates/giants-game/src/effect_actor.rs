@@ -52,6 +52,7 @@ pub struct Configured<K> {
     pub visual: crate::effect_visual::Visual,
     pub retirement: Option<crate::effect_scene::RetirementBinding>,
     pub(crate) ground: Option<crate::effect_ground_emission::Source>,
+    pub(crate) vertical: Option<crate::vertical_fade::Playback>,
     pub(crate) source: Arc<giants_formats::effect_image::Image>,
 }
 
@@ -193,6 +194,7 @@ impl<K> Initial<K> {
             visual,
             retirement: None,
             ground: None,
+            vertical: None,
             source,
         })
     }
@@ -286,6 +288,40 @@ impl Template {
             random,
             query,
         )
+    }
+    /// Detached FLK_FxSpawn splash frame. Prototype navigation candidates
+    /// `fx_processOpCodes` / `fx_setupVerticleFade` remain unknown attributions.
+    /// The reached reference position is captured once; no parent is retained.
+    pub fn random_vertical_positioned<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Configured<K>, String> {
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        if program.records.iter().map(|r| r.opcode).collect::<Vec<_>>()
+            != [3, 6, 0x37, 5, 0x46, 7, 2]
+        {
+            return Err("vertical constructor outside acquired single-segment frame".into());
+        }
+        let recipe = crate::released_effect::Recipe::project(program)?;
+        let mut initial = self.positioned(origin, context)?;
+        let configuration = recipe.activate_configuration(&mut random.0);
+        initial.size([configuration.start_size, configuration.end_size], false)?;
+        if configuration.start_size != configuration.end_size {
+            initial.fields.control_flags |= 0x100000;
+        }
+        initial.fields.control_flags |= 0x200000;
+        initial.fields.response_flags |= 0x40000;
+        let mut configured = initial.timed(configuration, context.source_image())?;
+        configured.visual = crate::effect_visual::Visual::with_size_curve(
+            configuration,
+            crate::effect_visual::SizeCurve::EaseOut,
+        )?;
+        configured.vertical = Some(crate::vertical_fade::Playback::new(
+            recipe.vertical_fade.ok_or("vertical segment absent")?,
+        )?);
+        Ok(configured)
     }
     pub fn curved_cinematic(
         &self,

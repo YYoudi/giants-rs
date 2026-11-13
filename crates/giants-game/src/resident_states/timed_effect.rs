@@ -332,6 +332,9 @@ impl Session {
     pub fn timed_effect_render_flags(&self, id: Id) -> Option<u32> {
         Some(self.get(id)?.timed_effect.as_ref()?.render_flags)
     }
+    pub fn timed_effect_vertical(&self, id: Id) -> Option<crate::vertical_fade::Playback> {
+        self.get(id)?.timed_effect.as_ref()?.runtime.vertical
+    }
     pub fn timed_effect_transparency(&self, id: Id) -> Option<f32> {
         Some(self.get(id)?.timed_effect.as_ref()?.runtime.transparency)
     }

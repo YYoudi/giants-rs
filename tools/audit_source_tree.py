@@ -24,6 +24,8 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed detached vertical-fade route; no new PC aliases or identity.
+        '9fd50c038add1f37d5876955b261138a33fda7a568ce79046756671fba08f2a8',
         # Reviewed fresh-slot and pending-tree routes; no new confirmed identity.
         '6a2c8a08a3d3678d0b9c5b035ab2775fa267a94a33f8a4492fab3a5555c61093',
         # Concurrent minimal NPC route summaries reviewed for source hazards;

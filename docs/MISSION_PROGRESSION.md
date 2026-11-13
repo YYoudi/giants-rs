@@ -14,6 +14,18 @@ RoadHome completion, other mission predicates and full native continuity remain 
 
 ### RoadHome return correction in progress
 
+The fresh-slot correction now reaches ordinary carrying, the authored return
+counter and the actual completion request in a rendered input replay. Preparation
+then refused the detached splash in the return film. Its source mode0 now has a
+canonical positioned state78 owner: one reached reference snapshot, separate
+null/active random draws, a single vertical-fade segment, source lifetime,
+render routes and scoped retirement. The exact-duration segment stays active
+until strictly past its duration, as independently observed in the pinned PC
+callback. An installed source-timeline control passes creation/fade/expiry and
+cleanup without a viewer simulation. This remains an unpublished dependency;
+the complete rendered return film and next ordinary mission must still pass.
+
+
 The owner's ordinary test reaches RoadHome with its declared wife carried, but
 arrival does not start the completion film. The destination and completion-film
 request are present in the source records. The current blocker is earlier:

@@ -4265,10 +4265,20 @@ pub fn update(
                 );
             }
         }
-        if let Some(vertical) = scene.instances[draw.instance]
-            .released
-            .as_ref()
-            .and_then(|r| r.playback.vertical.as_ref())
+        if let Some(vertical) = timed_frames
+            .get(&draw.instance)
+            .and_then(|frame| frame.as_ref())
+            .and_then(|frame| frame.vertical.as_ref())
+            .or_else(|| {
+                // Canonical offsets never advance a second preview fade clock.
+                if timed_frames.contains_key(&draw.instance) {
+                    return None;
+                }
+                scene.instances[draw.instance]
+                    .released
+                    .as_ref()
+                    .and_then(|r| r.playback.vertical.as_ref())
+            })
         {
             let asset = scene.instances[draw.instance].source.asset();
             let sub = &asset.model.mesh.subobjects[draw.part];
@@ -4394,7 +4404,25 @@ pub fn update(
                 };
                 let canonical = timed_frames.get(&draw.instance);
                 let route_enabled = if let Some(frame) = canonical {
-                    draw.route == 0 && frame.is_some_and(|frame| frame.object_flags & 0xc000 == 0)
+                    match frame {
+                        Some(frame) if frame.vertical.is_some() => {
+                            let eye = cinematic.camera().expect("prepared source camera").origin;
+                            match frame.draw_routes(
+                                instance.source.class(),
+                                eye,
+                                cinematic.ordinary_range(),
+                            ) {
+                                Ok(routes) => routes.mask() & draw.route != 0,
+                                Err(error) => {
+                                    error!("Detached timed effect admission failed: {error}");
+                                    exit.write(AppExit::Error(std::num::NonZeroU8::MIN));
+                                    return;
+                                }
+                            }
+                        }
+                        Some(frame) => draw.route == 0 && frame.object_flags & 0xc000 == 0,
+                        None => false,
+                    }
                 } else if instance.persistent_attachment {
                     match owned {
                         Some(Some(frame)) => {

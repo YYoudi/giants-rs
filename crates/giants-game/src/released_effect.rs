@@ -149,6 +149,13 @@ impl Recipe {
         for range in random.ranges {
             crate::timed_effect::sample(seed, range);
         }
+        self.activate_configuration(seed)
+    }
+    /// Active VM pass only: the context owner has already consumed skip draws.
+    pub(crate) fn activate_configuration(&self, seed: &mut u32) -> Configuration {
+        let Some(random) = &self.random else {
+            return self.visual;
+        };
         let values = random
             .ranges
             .map(|range| crate::timed_effect::sample(seed, range));

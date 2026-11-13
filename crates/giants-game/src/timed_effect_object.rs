@@ -83,6 +83,7 @@ pub(crate) struct Runtime {
     pub retirement: Option<RetirementBinding>,
     pub ground: Option<crate::effect_ground_emission::Source>,
     physical_callback: bool,
+    pub vertical: Option<crate::vertical_fade::Playback>,
     pub source: Arc<Image>,
     durations: Vec<Option<f32>>,
     immutable_words: [u32; 3],
@@ -182,6 +183,23 @@ impl<K: Copy> Timed<K> {
         let template = Template::load(resources, recipe.class)?;
         let configured = template.gravity_positioned(origin, context)?;
         Self::new(template, configured)
+    }
+    pub fn random_vertical_positioned(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let recipe = crate::released_effect::Recipe::project(
+            context.program.as_ref().map_err(Clone::clone)?,
+        )?;
+        let template = Template::load(resources, recipe.class)?;
+        let mut staged = *random;
+        let configured = template.random_vertical_positioned(origin, context, &mut staged)?;
+        let body = Self::new(template, configured)?;
+        *random = staged;
+        Ok(body)
     }
     pub fn ground_positioned(
         resources: &crate::scene_resources::SceneResources,
@@ -384,6 +402,7 @@ impl<K: Copy> Timed<K> {
                 retirement: configured.retirement,
                 ground: configured.ground,
                 physical_callback,
+                vertical: configured.vertical,
                 source: configured.source,
                 durations,
                 immutable_words,
@@ -636,6 +655,7 @@ impl Runtime {
             | 0x02
             | 0x01
             | if self.side_speed.is_some() { 0x40 } else { 0 }
+            | if self.vertical.is_some() { 0x200000 } else { 0 }
             | if self.ground.is_some() {
                 0x0200_0200
             } else {
@@ -650,6 +670,8 @@ impl Runtime {
             || b.channels().iter().any(|c| c[4] != 0 || c[5] != 0)
             || b.fields.control_flags & !allowed != 0
             || b.fields.control_flags & 2 == 0
+            || (b.fields.control_flags & 0x200000 != 0)
+                != self.vertical.as_ref().is_some_and(|v| v.active)
             || (b.fields.control_flags & 0x80 != 0) != physical
             || (physical && !matches!(b.placement, crate::effect_actor::Placement::Position(_)))
             || (b.fields.control_flags & (8 | 0x100000))
@@ -808,6 +830,14 @@ impl Runtime {
                 matrix.values[12..].copy_from_slice(&b.matrix.values[12..]);
                 *b.matrix = matrix;
                 self.matrix_written = true;
+            }
+            if next == VisualStep::VisibleState
+                && let Some(vertical) = &mut self.vertical
+            {
+                vertical.advance(seconds)?;
+                if !vertical.active {
+                    b.fields.control_flags &= !0x200000;
+                }
             }
             let tick = crate::animation_channels::advance(
                 b.channels_mut(),

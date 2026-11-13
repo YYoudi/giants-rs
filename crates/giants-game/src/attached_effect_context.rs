@@ -483,6 +483,20 @@ impl<K: Copy + Eq> Pool<K> {
         Ok((creation, intervals))
     }
 
+    /// FLK detached mode0 supplies flags28: explicit position plus cinematic
+    /// attribute4, giving source-context flag8000. No recipient is retained.
+    pub fn prepare_cinematic_positional(
+        &mut self,
+        name: &str,
+        position: [f32; 3],
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(Creation, Vec<crate::effect_initialization::Interval>), String> {
+        let result = self.prepare_positional_invariant(name, position, random)?;
+        if let Creation::Prepared(id) = result.0 {
+            self.slots[id.slot].context.as_mut().unwrap().flags = 0x8000;
+        }
+        Ok(result)
+    }
     /// Named cinematic source3 frame. It keeps its actual attached binding;
     /// source3 activation snapshots the real support, without context conversion.
     pub fn prepare_cinematic_source3(

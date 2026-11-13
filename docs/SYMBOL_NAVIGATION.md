@@ -106,6 +106,16 @@ the default PC entry stays strict and other arithmetic remains independently
 scoped. This is not an imported signature/layout or whole-function PS2 parity
 claim. See [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md).
 
+## Detached cinematic splash route
+
+The literal prototype name `fx_setupVerticleFade__FP10FXSTACKTAGfffff`
+leads to `vertical_fade`, `effect_actor::Template::random_vertical_positioned`
+and `cinematic_timed`. This remains an **unknown** PC attribution. The bounded
+PC single-segment initializer/callback has independent controls including the
+exact-duration boundary; the installed detached source event has canonical
+creation, fade, lifetime and scoped cleanup controls. These do not establish
+native scheduling, pixels, full film completion or any imported PS2 layout.
+
 ## Effect ground-contact routes
 
 The literal prototype search route `FLK_FxSpawn__FP9FLK_FlickiiiiPc`

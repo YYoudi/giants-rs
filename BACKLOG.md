@@ -21,7 +21,10 @@ Owner feedback, 13 November: add source destructible trees and fix the ordinary
 RoadHome return while carrying the wife. Keep both in the next delivery's
 acceptance. RoadHome's authored destination/film exist, but absent-opening
 admission leaves it in preview and prevents objective evaluation. The fresh-slot
-default is now acquired and connected; rendered completion is still pending.
+default is now acquired and connected; a rendered ordinary return reaches its
+completion request. Its detached splash dependency now has a canonical owner
+and installed lifetime/fade/cleanup control; full rendered film/next-mission
+completion is still pending.
 See MISSION_PROGRESSION.md. Tree/state60 uses the acquired common damage callback,
 but its live physical/render owners, wood effect and distinct replacement/data
 transfer still need integration. Do not apply house health-animation stages or
