@@ -14,6 +14,8 @@ FIELDS = ('id', 'kind', 'group', 'title', 'status', 'scope', 'detail')
 LABELS = {'done': 'Complete in stated scope', 'partial': 'Partial', 'todo': 'Not started'}
 PRIVATE = re.compile(r'[A-Za-z]:[\\/]|(?:evidence|\.local)[\\/]|Users[\\/]', re.I)
 PREVIEW_CHECKS = {
+    'ripper_movement_attack_gpu': 'The Wife ordinary classic Ripper moves about147 source units, emerges and launches an actual owned projectile in the rendered common runtime; supplied Mecc commands only, no forced NPC state or reciprocal-damage claim',
+    'normal_menu_visible': 'The same executable renders its normal Windows menu without replay or NPC activation flags; computer use stops before mission-input and re-entry acceptance',
     'building_guard_replacement_gpu': 'Ordinary guard damage, five rigid debris pieces, nested source particles and positional sound; 85 births/85 retirements and 24 fresh contacts on the independent source base after expiry. Supplied normal controls, not OS-aimed destruction or native fidelity',
     'building_indestructible_gpu': 'The source state0 table receives actual narrow player contact and three distinct normal pistol hits while keeping unchanged geometry, with no burst or retirement',
     'building_player_meshes_gpu': 'Actual narrow player contacts on the entrance, fence, house and small tower; normal pistol damage updates each admitted player/projectile shape with its rendered mesh and retirement, with source effects and actual-clock expiry. Supplied commands; generic actor footprints and native fidelity remain separate',
@@ -43,6 +45,7 @@ PREVIEW_CHECKS = {
     'shared_body_focus_os': 'F7 focuses initial Delphi and Kabuto bodies from ordinary mission inspection; gameplay controls remain unavailable',
 }
 PREVIEW_LIMITS = {
+    'ripper_combat_incomplete': 'Reciprocal Ripper injury/death, special close attacks and full encounter/menu re-entry remain incomplete. Unsupported actors hold only their last completed visual pose and supply no fresh contacts; failed projectiles acknowledge no damage',
     'building_remaining_families': 'Generic actor radial/Raster3 platform owners, replacements beyond the acquired profiles, restricted-weapon/special scenery, other base-building callbacks and building-objective credit still require their real consumers; a configured health word alone does not imply destructibility',
     'building_fx_policy': 'Building FX use source burst and acquired mixed-scene resources with an explicit partial host-frame, terrain-only, birth-reference and asynchronous-audio profile; native complete-list/force/audio scheduling and pixel/audio parity remain unverified',
     'cinematic_native_fidelity': 'The Wife completion film reaches its source terminal; native timing/RNG interleaving, complete collision coverage, animation blending and full visual/audio fidelity remain unverified',
