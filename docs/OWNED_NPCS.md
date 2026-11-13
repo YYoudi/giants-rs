@@ -30,6 +30,15 @@ selection at step3251, then refuses the still-missing mode68 primary at3252.
 This diagnostic still fails; it is not a complete encounter pass. It supplies
 ordinary player commands, excludes the Vimp component and uses no GPU or OS input.
 
+The local GNU build for this decision/response milestone is source
+`9a537e987598c7f07578cb30066bf6927ae85e3d`, executable SHA256
+`f5b603687e3639fb22a8a45a8ed33673b77d0063b412867159f4f043a7a11f9a`,
+Rust1.98.0/MinGW16.2.0. Its receipt is local; no download is published. Workspace
+checks pass1,041 tests with212 ignored, plus strict Clippy and formatting. There
+is no new graphical or Windows-input acceptance on this executable. Use the
+ordinary menu procedure below for The Wife; no NPC activation flag is required.
+The earlier clock lifecycle and failed combined encounter retain their own builds.
+
 Earlier milestone evidence below includes the old mode67 frontier. The first
 combined-game graphical blocker remains direct projectile damage to the player;
 do not transfer the isolated Ripper-only approach or newer CPU selections to that
