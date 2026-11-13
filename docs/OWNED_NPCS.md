@@ -93,6 +93,16 @@ remains absent, and the supplied isolated encounter still fails at3293. No new
 GPU, OS-input, reciprocal injury or Ripper-death acceptance is claimed on this
 executable. It is a local handoff receipt, with no concurrent preview publication.
 
+The subsequent canonical-melee local GNU build is source
+`a84e174d6e2057ee1a751aa5893a68fec835283f`, executable SHA256
+`7b64c7882f3cf40ebb942c8a9f65b81348b504f0a178f4b3c7d794f5e1aa2bbd`,
+Rust1.98.0/MinGW16.2.0. It passes1,049 workspace tests with215 ignored, strict
+Clippy/formatting, the four canonical kind3 observations and the preceding49
+projectile dispatcher observations. The technical all-ref source audit has no
+findings. The adapter is not yet connected to ordinary shared-world/controller/
+audio providers, and this executable has no new rendered or Windows-input
+acceptance. The earlier combined-game first-hit failure is still authoritative.
+
 Earlier milestone evidence below includes the old mode67 frontier. The first
 combined-game graphical blocker remains direct projectile damage to the player;
 do not transfer the isolated Ripper-only approach or newer CPU selections to that
