@@ -183,6 +183,14 @@ REVIEWED_ATTRIBUTION_LABELS = {
 # all-reference history review valid before that gallery update enters main;
 # this permits neither other images nor another path or modified bytes.
 REVIEWED_HISTORICAL_IMAGES = {
+    # Concurrent .13.2 display copies pinned by the manifest at eafa3e4.
+    # Visually reviewed VP8-only images; exact hashes, without embedded metadata.
+    'docs/gallery/media/06cf7a33aca7f6605075996727045686d1a03931c3643177e08329adc5633464.webp':
+        '06cf7a33aca7f6605075996727045686d1a03931c3643177e08329adc5633464',
+    'docs/gallery/media/53d6fc48475f3b3770d82c43232dce7fa8f60b7e2233536e1b55fba50cbd55be.webp':
+        '53d6fc48475f3b3770d82c43232dce7fa8f60b7e2233536e1b55fba50cbd55be',
+    'docs/gallery/media/cf69f85e72326b3a0f05140bea912776df93d9e607b05f77e75288e988782a29.webp':
+        'cf69f85e72326b3a0f05140bea912776df93d9e607b05f77e75288e988782a29',
     # Concurrent .13.1 Bevy display copies pinned by the reviewed manifest.
     # VP8-only, visually reviewed; no research inputs or metadata imported.
     'docs/gallery/media/4607b6cb426cc6c9f043f34a434a009f1680be56e8abaf427d262b5a08591455.webp':
