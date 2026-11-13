@@ -9,7 +9,16 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
-Current local frontier: source `3297c8c`, GNU executable SHA256
+Current local frontier: source `f9c1a63`, GNU executable SHA256
+`a83a23cb50d8901ffc69162f7a1712b9126e515ec6b9f10f6d43ce970e5a17e9`,
+enters The Wife in the continuous rendered supplied-command control, then refuses
+the radial no-effect invariant: a possible actor hit or Vimp alert cannot be
+excluded. It exits101 after about145 seconds without a capture. Actual radial
+eligibility and positive hit/alert consumption remain unresolved; the refusal
+does not prove that a Vimp was alerted or an actor hurt. This is a failed complete
+encounter candidate, with no new pixel-fidelity or Windows-input acceptance.
+
+The earlier source `3297c8c`, GNU executable SHA256
 `7dbfc7408cc75ca0d21a43f283d4b86de7f45618413c6b56e506258f0eacd21e`,
 enters The Wife through the ordinary menu path. Its continuous rendered
 supplied-command encounter completes an actual class232 expiry at step4590,
@@ -23,7 +32,7 @@ Shared-world/startup-policy ownership, reciprocal injury, Ripper death and full
 Windows encounter/menu acceptance remain open. No competing preview is published.
 
 The branch implements the retained class90/232 expiry continuation, exercised by
-the identified encounter above. It uses the actual recorded flight/clock;
+the identified `3297c8c` encounter above. It uses the actual recorded flight/clock;
 no second query, invented ground point or extra time subtraction occurs. Sound
 precedes the named explosion and conditional radial service, then marking and a
 distinct expiry retirement. Ground-plus-expiry in one callback keeps both tails
@@ -56,7 +65,7 @@ creation, a whole primary, rendered death or canonical cleanup.
 Twenty-four further original observations and a failing-before/fixed-after
 regression separate the callback-control creation gate from death personality.
 The corpse header countdown must also remain distinct from the living AI timer.
-The corrected dependency passes1,062 workspace tests with218 ignored, the564
+The corrected corpse-only source `9731676` passes1,062 workspace tests with218 ignored, the564
 original observations and three synthetic controls, strict Clippy/formatting and
 the45 Python controls. These results do not extend the rendered encounter receipt.
 
@@ -73,6 +82,10 @@ checks also cover reentry, successful repeated callbacks and class230's distinct
 action1 prefix. These are supplied-service controls, not ordinary pistol, blood,
 lethal-service or rendered encounter acceptance. The direct callback still
 refuses launched projectile sources; their actual contact/hit route is required.
+Source `f9c1a63` passes1,069 workspace tests with218 ignored, seven synthetic owned
+damage checks, strict Clippy/formatting and45 Python checks. The supplied-command
+GPU refusal above does not establish an ordinary invocation of this direct
+callback or a positive damage/death result.
 
 ### Local menu test procedure
 

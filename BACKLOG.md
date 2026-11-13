@@ -171,9 +171,16 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
-Next observed NPC delivery: bind the genuine shared-world failure/completion
-guards required by an actual Ripper projectile contact with the normal Mecc.
-Source `3297c8c` / GNU executable
+Next observed NPC delivery: resolve the actual radial recipients and required
+hit/Vimp-alert consumers on the ordinary Wife path. Source `f9c1a63` / GNU
+executable `a83a23cb50d8901ffc69162f7a1712b9126e515ec6b9f10f6d43ce970e5a17e9`
+reaches the radial no-effect refusal in a continuous rendered supplied-command
+encounter, exiting101 after about145 seconds with no capture. A possible hit or
+alert cannot be excluded; actual eligibility is not yet established. Do not
+weaken the proof, supply an unbound context word or turn that refusal into a
+positive hit/alert receipt. Actual clock/context/health consumers remain required.
+The genuine shared-world failure/completion guards required by direct Mecc
+contact also remain unbound. Earlier source `3297c8c` / GNU executable
 `7dbfc7408cc75ca0d21a43f283d4b86de7f45618413c6b56e506258f0eacd21e`
 completes actual class232 expiry and retirement at step4590 in a continuous
 rendered supplied-command Wife encounter. The next shot contacts the actual
