@@ -384,7 +384,7 @@ impl Body {
     /// is invented.
     pub fn reference_point(&self, index: usize) -> Result<[f32; 3], String> {
         if self.curve_pending {
-            return Err("mixed guide reference curve34 scale pending".into());
+            return Err("mixed guide reference curve34/35 scale pending".into());
         }
         let local = self.local_reference(index)?.values;
         crate::render_sort::world_point(
@@ -397,9 +397,31 @@ impl Body {
     pub fn pose_seconds(&self) -> Option<f32> {
         self.pose.as_ref().map(|p| p.clock.seconds)
     }
+    /// Acquired source35 detached visual with gravity-only translation. Its
+    /// cached affine/lifetime/motion projection is independent of the still
+    /// unbound animated guide-reference service; do not use visibility to
+    /// acknowledge that service. Contact, spin, direction, surface and other
+    /// object services stay outside this combined profile.
+    pub fn free_curve35_projection(&self) -> bool {
+        let c = &self.construction;
+        c.size_opcode == Some(0x35)
+            && matches!(c.origin, Origin::Detached)
+            && c.lifetime.is_some()
+            && c.physics_enabled
+            && c.gravity.is_finite()
+            && c.speed == 0.
+            && !c.direction_requested
+            && c.spin == [0.; 3]
+            && c.damping == [0.; 2]
+            && !c.contact_requested
+            && c.bounce == 0.
+            && c.surface_offset.is_none()
+            && c.services.is_empty()
+            && c.object_services.pending_count() == 0
+    }
     pub fn visible(&self) -> bool {
         !self.construction.hidden
-            && !self.curve_pending
+            && (!self.curve_pending || self.free_curve35_projection())
             && self.finite.as_ref().is_none_or(|p| !p.expired)
     }
     pub fn expired(&self) -> bool {
@@ -898,6 +920,27 @@ mod tests {
                 .is_err()
         );
         assert_eq!(runtime.bodies[0][0].playback().unwrap().visual.age, before);
+    }
+    #[test]
+    fn moving_curve35_visual_does_not_acknowledge_guide_references() {
+        let (mut objects, _) = plan(1.).start(&mut 17).unwrap();
+        let mut object = objects.remove(0);
+        object.size_opcode = Some(0x35);
+        object.size = Some([10., 40.]);
+        object.lifetime = Some([3., 0., 0.]);
+        object.physics_enabled = true;
+        object.gravity = -0.2;
+        object.contact_requested = false;
+        object.bounce = 0.;
+        object.damping = [0.; 2];
+        let body = super::Body::new(object.clone(), super::Matrix::identity(), None).unwrap();
+        assert!(body.curve_pending);
+        assert!(body.visible());
+        assert!(body.reference_point(0).unwrap_err().contains("curve34/35"));
+        object.speed = 1.;
+        let unsupported = super::Body::new(object, super::Matrix::identity(), None).unwrap();
+        assert!(!unsupported.visible());
+        assert!(!unsupported.free_curve35_projection());
     }
     #[test]
     fn pending_guard_control_requests_do_not_become_successful_runtime_bodies() {

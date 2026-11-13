@@ -586,6 +586,7 @@ impl State {
             &colliders,
             &projectile_colliders,
             &globals,
+            &world.terrain,
         )?;
         println!(
             "mission_declared_player_meshes objects={} needs={} independent_environment_admission=true native_list_order=false",

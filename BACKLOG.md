@@ -95,10 +95,16 @@ exercising rigid draws. Connect the actual world producer and descendants before
 counting this as a playable feature. The actual positional context can now transfer its source image/entry once
 without repeating preparation RNG; its installed full-guard control passes.
 Context waits and per-body clocks now have separate checked entry points; the
-ordinary consumer must bind actual mission/object-time inputs. The ordinary graph
-consumer remains required. Constructors,
-world/render/collision ownership, nested retirement and complete ordinary
-acceptance remain required. Follow BUILDINGS.md and the mandatory prototype PS2
+ordinary consumer must bind actual mission/object-time inputs. The mixed mission graph consumer now retains lit/unlit draws, individual object
+times, shared mission RNG, positional sound requests and actual contact/lifetime
+descendants. Its complete installed guard/resource/expiry/duplicate-clock control
+passes after acquiring the dust preparation and bounded moving source35 visual;
+152 independent original callback comparisons agree, with guide references still
+pending. Full descendant preflight checks resources/services, invariant selection,
+cycles and population before damage admission. This is supplied emission/clock
+and CPU draw evidence; the guard callback remains excluded. Bind its actual
+replacement constructor and independent physical/render identities next, then
+complete ordinary exact-build acceptance. Follow BUILDINGS.md and the mandatory prototype PS2
 lookup before continuing. The complete building objective remains active.
 
 ## Delivered milestone - The Wife rescue and completion-film continuation

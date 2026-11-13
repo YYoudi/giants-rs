@@ -1272,13 +1272,13 @@ impl Runtime {
         Ok(result)
     }
     pub(crate) fn advance_normal_building_effects(
-        &self,
+        &mut self,
         ticket: u64,
         effects: &mut crate::mission_building_effects::Runtime,
-    ) -> Result<(), String> {
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
         let a = self
             .active
-            .as_ref()
+            .as_mut()
             .filter(|a| a.ticket == ticket)
             .ok_or("building effect ticket absent")?;
         let Some((sample, clock)) = a.payload.signals.current() else {
@@ -1292,11 +1292,14 @@ impl Runtime {
                 .ok_or_else(|| "building slow-area owner absent".into())
         })?;
         effects.advance(
-            ticket,
-            sample,
-            clock.seconds,
-            &areas,
-            a.payload.world.as_ref().map_err(Clone::clone)?,
+            crate::mission_building_effects::Frame {
+                ticket,
+                sample,
+                delta: clock.seconds,
+                areas: &areas,
+                world: a.payload.world.as_ref().map_err(Clone::clone)?,
+            },
+            &mut a.variant_random,
         )
     }
     pub(crate) fn npc_target(&self, ticket: u64) -> Option<[f32; 3]> {

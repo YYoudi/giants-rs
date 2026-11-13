@@ -77,11 +77,12 @@ impl Controller {
         &self,
         ticket: u64,
         view: [f32; 16],
+        detail: Option<([f32; 3], f32)>,
     ) -> Result<Vec<crate::mission_runtime::NpcDraw>, String> {
         if self.ticket != ticket || self.building_failed {
             return Ok(vec![]);
         }
-        self.state.buildings.draws(view)
+        self.state.buildings.draws(view, detail)
     }
 }
 impl Controller {
@@ -1764,16 +1765,27 @@ pub(super) fn update(
             && !controller.world_signals_failed
             && !controller.building_failed
             && controller.steps > 0
-            && let Err(error) = runtime.advance_normal_building_effects(
+        {
+            match runtime.advance_normal_building_effects(
                 controller.ticket,
                 &mut controller.state.buildings.effects,
-            )
-        {
-            controller.building_failed = true;
-            error!(
-                "mission_building_effect_refused ticket={} error={error}",
-                controller.ticket
-            );
+            ) {
+                Ok(events) => {
+                    for event in events {
+                        audio.local.write(crate::mission_audio::Request {
+                            ticket: controller.ticket,
+                            event,
+                        });
+                    }
+                }
+                Err(error) => {
+                    controller.building_failed = true;
+                    error!(
+                        "mission_building_effect_refused ticket={} error={error}",
+                        controller.ticket
+                    );
+                }
+            }
         }
         if replay_running
             && crate::frontend_scene::building_interaction_probe()

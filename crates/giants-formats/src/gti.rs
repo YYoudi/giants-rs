@@ -38,6 +38,7 @@ pub fn face_class_with_thresholds(
     };
     Ok(direction + if z >= thresholds[1] { 0 } else { 4 })
 }
+#[derive(Clone)]
 pub struct Terrain {
     /// Original header flags. Bit0 consumers are not inferred from RGB decoding.
     pub source_flags: u8,

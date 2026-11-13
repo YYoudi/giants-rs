@@ -18,6 +18,14 @@ control uses the same variable. These check initial fields/copies and supplied
 damage/geometry ownership, not GPU shadow drawing, Windows input or generic
 Raster3 admission; keep the current public preview receipt separate.
 
+The mixed guard effect owner has the optional installed control
+`cargo test --locked -p giants-app installed_guard_graph --target
+x86_64-pc-windows-gnu -- --ignored`, using `GIANTS_BUILDING_ROOT`. It checks real
+source graph resources, lit/unlit draw submissions, contact/lifetime descendants,
+clock idempotence, context cleanup and ticket isolation under supplied emission
+and time. It does not enable the still-excluded guard damage/replacement callback
+or prove GPU/ordinary-input acceptance. Follow [BUILDINGS.md](BUILDINGS.md).
+
 The locally connected house owner also has an installed app control:
 `cargo test --locked -p giants-app installed_house_damage_updates_all_contact_owners
 --target x86_64-pc-windows-gnu -- --ignored`, using `GIANTS_BUILDING_ROOT`.

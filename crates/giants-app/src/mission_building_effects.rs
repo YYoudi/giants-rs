@@ -14,6 +14,7 @@ use giants_game::{
     scene_resources::{ModelAsset, SceneResources, TextureEncoding},
 };
 use std::{collections::BTreeMap, sync::Arc};
+mod graph;
 
 struct Model {
     geometry: Arc<ModelAsset>,
@@ -21,6 +22,7 @@ struct Model {
     texture_names: Vec<String>,
     texture_configuration: Option<giants_game::effect_texture_animation::Configuration>,
     context: u32,
+    object_flags: u32,
 }
 struct Body {
     serial: u64,
@@ -29,12 +31,22 @@ struct Body {
     animation: Option<giants_game::effect_animation::Playback>,
     frame: u64,
 }
+pub(crate) struct Frame<'a> {
+    pub ticket: u64,
+    pub sample: u64,
+    pub delta: f32,
+    pub areas: &'a [giants_game::object_time::SlowArea],
+    pub world: &'a giants_game::WorldAsset,
+}
 pub(crate) struct Runtime {
     image: Option<Arc<giants_formats::effect_image::Image>>,
     source: Arc<SceneResources>,
     contexts: Pool<u64>,
     models: BTreeMap<i32, Arc<Model>>,
     bodies: Vec<Body>,
+    graphs: Vec<graph::Graph>,
+    checked_graphs: std::collections::BTreeSet<u32>,
+    terrain: Arc<giants_formats::gti::Terrain>,
     ticket: Option<u64>,
     next: u64,
     sample: Option<u64>,
@@ -42,7 +54,10 @@ pub(crate) struct Runtime {
     pub(crate) retired: u64,
 }
 impl Runtime {
-    pub(crate) fn new(source: Arc<SceneResources>) -> Self {
+    pub(crate) fn new(
+        source: Arc<SceneResources>,
+        terrain: Arc<giants_formats::gti::Terrain>,
+    ) -> Self {
         Self {
             image: source
                 .classes
@@ -54,6 +69,9 @@ impl Runtime {
             source,
             models: BTreeMap::new(),
             bodies: vec![],
+            graphs: vec![],
+            checked_graphs: std::collections::BTreeSet::new(),
+            terrain,
             ticket: None,
             next: 0,
             sample: None,
@@ -62,13 +80,13 @@ impl Runtime {
         }
     }
     pub(crate) fn active(&self) -> usize {
-        self.bodies.len()
+        self.bodies.len() + self.graphs.iter().map(graph::Graph::active).sum::<usize>()
     }
     fn bind(&mut self, ticket: u64) -> Result<(), String> {
         if self.ticket == Some(ticket) {
             return Ok(());
         }
-        if self.ticket.is_some() || !self.bodies.is_empty() {
+        if self.ticket.is_some() || !self.bodies.is_empty() || !self.graphs.is_empty() {
             return Err("building burst belongs to another mission ticket".into());
         }
         self.contexts = Pool::from_active_resources(ticket, &self.source);
@@ -111,9 +129,6 @@ impl Runtime {
             .model_slot_for_body(spawn.class, 0, TextureEncoding::Rgb565OrArgb4444)
             .map_err(|e| e.to_string())?
             .ok_or("building FX source model absent")?;
-        if geometry.mesh.normal_count != 0 {
-            return Err("building burst needs its lit model consumer".into());
-        }
         let texture_names = if let Some(configuration) = spawn.texture_animation {
             if geometry.mesh.subobjects.len() != 1 {
                 return Err("building animated texture needs separate material routing".into());
@@ -135,6 +150,7 @@ impl Runtime {
             texture_names,
             texture_configuration: spawn.texture_animation,
             context: fields.dispatch_context,
+            object_flags: fields.object_flags,
         });
         self.models.insert(spawn.class, model.clone());
         Ok(model)
@@ -200,6 +216,7 @@ impl Runtime {
         {
             return Err("building direct FX needs its older captured image owner".into());
         }
+        self.preflight_offset(binding)?;
         let (creation, _) =
             self.contexts
                 .prepare_positional_offset(Some(*offset), point, random)?;
@@ -231,8 +248,10 @@ impl Runtime {
         if entry.offset != context.entry_offset {
             return Err("building captured effect selection changed".into());
         }
-        let plan =
-            giants_game::effect_burst::Plan::project(&image, &entry.name).map_err(str::to_owned)?;
+        let plan = match giants_game::effect_burst::Plan::project(&image, &entry.name) {
+            Ok(plan) => plan,
+            Err(_) => return self.consume_mixed(ticket, origin, point, random),
+        };
         let spawns = plan.create_active(&mut random.0).map_err(str::to_owned)?;
         if self.bodies.len() + spawns.len() > 4096 {
             return Err("building FX owned body budget exceeded".into());
@@ -260,6 +279,9 @@ impl Runtime {
                 });
             }
             let model = self.model(&spawn)?;
+            if model.geometry.mesh.normal_count != 0 {
+                return Err("building flat burst needs its mixed lit consumer".into());
+            }
             let mut playback = Playback::new(spawn, matrix).map_err(str::to_owned)?;
             if playback.spawn.contact_requested {
                 let program = self
@@ -304,14 +326,18 @@ impl Runtime {
     }
     pub(crate) fn advance(
         &mut self,
-        ticket: u64,
-        sample: u64,
-        delta: f32,
-        areas: &[giants_game::object_time::SlowArea],
-        world: &giants_game::WorldAsset,
-    ) -> Result<(), String> {
+        frame: Frame<'_>,
+        random: &mut Random,
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
+        let Frame {
+            ticket,
+            sample,
+            delta,
+            areas,
+            world,
+        } = frame;
         if self.sample == Some(sample) {
-            return Ok(());
+            return Ok(vec![]);
         }
         self.bind(ticket)?;
         let query = giants_game::terrain_queries::StaticTerrainQuery::new(
@@ -359,12 +385,14 @@ impl Runtime {
                 self.bodies.len()
             );
         }
+        let sounds = self.advance_graphs(ticket, sample, delta, areas, random)?;
         self.sample = Some(sample);
-        Ok(())
+        Ok(sounds)
     }
     pub(crate) fn draws(
         &self,
         view: [f32; 16],
+        detail: Option<([f32; 3], f32)>,
     ) -> Result<Vec<crate::mission_runtime::NpcDraw>, String> {
         let mut draws = vec![];
         for body in &self.bodies {
@@ -422,6 +450,9 @@ impl Runtime {
                 center: body.playback.motion.position,
                 texture,
             });
+        }
+        for graph in &self.graphs {
+            draws.extend(graph.draws(view, detail)?);
         }
         Ok(draws)
     }

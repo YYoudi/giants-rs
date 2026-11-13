@@ -174,6 +174,7 @@ impl World {
         environment: &giants_game::declared_mesh_scene::Prepared,
         colliders: &giants_game::declared_mesh_scene::Prepared,
         globals: &giants_formats::global_data::GlobalData,
+        terrain: &giants_formats::gti::Terrain,
     ) -> Result<Self, String> {
         let source = plan.resources();
         let thresholds = Thresholds::load(globals)?;
@@ -335,7 +336,10 @@ impl World {
             thresholds,
             quality: globals.scalar(0x13e0).map_err(|e| e.to_string())?,
             lite_distance: globals.scalar(0x1570).map_err(|e| e.to_string())?,
-            effects: crate::mission_building_effects::Runtime::new(source.clone()),
+            effects: crate::mission_building_effects::Runtime::new(
+                source.clone(),
+                Arc::new(terrain.clone()),
+            ),
             failure: None,
         })
     }
@@ -504,8 +508,9 @@ impl World {
     pub(crate) fn draws(
         &self,
         view: [f32; 16],
+        detail: Option<([f32; 3], f32)>,
     ) -> Result<Vec<crate::mission_runtime::NpcDraw>, String> {
-        self.effects.draws(view)
+        self.effects.draws(view, detail)
     }
 }
 
@@ -658,7 +663,16 @@ mod tests {
             state
                 .buildings
                 .effects
-                .advance(91, sample, 1. / 120., &[], &world)
+                .advance(
+                    crate::mission_building_effects::Frame {
+                        ticket: 91,
+                        sample,
+                        delta: 1. / 120.,
+                        areas: &[],
+                        world: &world,
+                    },
+                    &mut random,
+                )
                 .unwrap();
         }
         assert_eq!(state.buildings.effects.active(), 0);
@@ -732,7 +746,16 @@ mod tests {
             state
                 .buildings
                 .effects
-                .advance(91, sample, 1. / 120., &[], &world)
+                .advance(
+                    crate::mission_building_effects::Frame {
+                        ticket: 91,
+                        sample,
+                        delta: 1. / 120.,
+                        areas: &[],
+                        world: &world,
+                    },
+                    &mut random,
+                )
                 .unwrap();
         }
         assert_eq!(state.buildings.effects.active(), 0);
@@ -836,11 +859,20 @@ mod tests {
             state
                 .buildings
                 .effects
-                .advance(91, sample, 1. / 60., &[], &world)
+                .advance(
+                    crate::mission_building_effects::Frame {
+                        ticket: 91,
+                        sample,
+                        delta: 1. / 60.,
+                        areas: &[],
+                        world: &world,
+                    },
+                    &mut random,
+                )
                 .unwrap();
             for draw in state
                 .buildings
-                .draws(bevy::prelude::Mat4::IDENTITY.to_cols_array())
+                .draws(bevy::prelude::Mat4::IDENTITY.to_cols_array(), None)
                 .unwrap()
             {
                 if let Some(texture) = draw.texture {

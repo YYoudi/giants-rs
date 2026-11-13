@@ -280,6 +280,38 @@ The ordinary consumer must supply actual class/current-position slow-area inputs
 this API does not claim an acquired native scheduler. It still needs the real
 graph, replacement and collision owners before admitting the guard damage callback.
 
+The mission effect owner now consumes a complete mixed positional graph on the
+fallback from the acquired flat burst profile. It retains separate source-local
+lit rigid draws and existing unlit particles, actual source LOD/camera inputs,
+individual class/current-position object clocks, the common mission RNG and
+once-only clock samples. Retirement requests prepare their captured descendants
+at the actual current point through the acquired invariant selection/inheritance
+boundary; they are not flattened into an unrelated particle burst. Positional
+context sound requests use the ordinary mission audio route.
+
+Admission checks the complete descendant graph for unsupported services, resource
+and material profiles, inherited flags, external waits, cycles/depth and bounded
+transitive population before an ordinary damage owner can call it. The installed
+control constructs the actual guard context, obtains five lit debris draws and
+unlit draws, creates its dust and sparkle descendants, observes complete expiry,
+releases all contexts/draws and refuses reuse across tickets. Repeated clock
+samples neither advance bodies nor consume RNG. This remains supplied emission,
+time and CPU draw/resource evidence; the guard damage callback is still excluded
+until its replacement owner/collision roles and ordinary rendering are bound.
+
+The first attempt fails at the dust preparation frame. Its acquired null pass
+now retains two source35 size ranges and one gravity range; unknown complete
+frames still refuse before RNG commit. The next attempt retains the guide
+reference limitation on the moving source35 visual. An independent original-PC
+comparison then agrees over 152 complete callbacks, including age, size, cached
+affine matrix, motion and retirement. That bounded gravity-only detached visual
+is now drawable while its guide-reference service remains pending. A third
+attempt exposes the final fixed-size sparkle preparation frame; admitting that
+complete constant frame adds no RNG draw. The full installed graph then passes.
+These controls supply native terrain/empty character lists, clocks, pools,
+model/render handles and final retirement boundary. They establish no GPU,
+ordinary destruction, native cadence, whole-world/audio or visual fidelity.
+
 Other literal search routes include `deathfx_shot`, `deathfx_logic`,
 `barracks_shot`, `bldg_subtract_energy` and the base-building callbacks. Their
 availability does not confirm a PC attribution. Generic death-FX declarations
