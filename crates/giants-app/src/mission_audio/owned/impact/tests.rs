@@ -96,6 +96,16 @@ fn shared_impact_device_keeps_local_voice_missing_sink_and_catalog_miss_distinct
         .get_mut(&mut world)
         .unwrap()
         .with_impact(976, 0.75, Mat4::IDENTITY.to_cols_array(), local, |device| {
+            assert!(
+                device
+                    .play(&session, local, 1504)
+                    .unwrap_err()
+                    .contains("startup no-play")
+            );
+            let mut playback = giants_game::startup_playback::Playback::default();
+            playback.begin_configuration(); // Supplied startup boundary for this control only.
+            device.bind_local_playback(playback)?;
+            assert!(device.bind_local_playback(playback).is_err());
             assert!(device.play(&session, local, 1504).is_err());
             device.play(&session, local, 1686)?;
             assert!(device.play(&session, peer, 1504).is_err());

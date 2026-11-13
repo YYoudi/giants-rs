@@ -74,7 +74,12 @@ requires its real owner; only a checked no-effect terminal is admitted.
 The common impact/retirement device also reborrows the actual local-voice catalog,
 sinks and audio RNG. A missing ready sink remains an error, distinct from a real
 catalog miss; a real-device muted control checks unique-voice reuse without a
-new start or RNG draw. The two-ticket current-frame control uses the new ordinary
+new start or RNG draw.
+The local voice adapter additionally requires an explicitly supplied startup
+no-play projection; neither a default playback value nor mute/sink readiness
+supplies that owner. Ordinary startup has not bound it. The audio controls supply
+their startup boundary independently and do not establish App initialization.
+The two-ticket current-frame control uses the new ordinary
 controller borrow with an explicitly unavailable sound/retirement device, so it
 establishes no hit or playback. World failure/completion and edit/health-suppression
 guards remain explicitly unavailable. An attempted hit latches their error before

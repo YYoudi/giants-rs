@@ -264,7 +264,12 @@ fn source_owned_mecc_damage_voice_uses_real_local_sinks_and_unique_reuse() {
                 0.75,
                 Mat4::IDENTITY.to_cols_array(),
                 source,
-                |device| device.play(&session, source, shared_cue),
+                |device| {
+                    let mut playback = giants_game::startup_playback::Playback::default();
+                    playback.begin_configuration(); // Supplied context, not App initialization.
+                    device.bind_local_playback(playback)?;
+                    device.play(&session, source, shared_cue)
+                },
             )
             .unwrap();
         let mounted = audio.engine.mounted.as_ref().unwrap();
