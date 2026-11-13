@@ -24,6 +24,11 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed replacement constructor/bounds navigation; new identities unknown.
+        '68be833a7ea484145b14dc1a3b98ed0e093bcfa48e0ebee68da7b522e3e259e8',
+        # Reviewed concurrent unknown Mecc clock route; existing aliases unchanged.
+        '4d9c6df516e0d4ae3d05fd233345f2c4eab68042fec4368ae797a25117aafd44',
+
         # Reviewed rigid render projection and no-match shader navigation only.
         'f1ddb3f0b5d77a3402f1754c5462c3d40917f4ed233c7836b0adb74c447975fa',
         # Reviewed concurrent cold-player publication navigation; identity unknown.
