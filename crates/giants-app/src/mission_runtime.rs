@@ -26,6 +26,7 @@ pub(crate) struct CampaignCompletion {
 }
 mod campaign;
 mod landing;
+mod mecc_hit_clock;
 mod npc;
 mod ripper_probe;
 mod rippers;
@@ -197,6 +198,7 @@ impl Active {
 }
 #[derive(Resource, Default)]
 pub struct Runtime {
+    normal_mecc_hit_clock: giants_game::controlled_mecc_hit_clock::Clock,
     pending: Option<Pending>,
     active: Option<Active>,
     handled: Option<u64>,
@@ -2010,6 +2012,21 @@ fn clear(runtime: &mut Runtime, commands: &mut Commands) {
     runtime.failure = None;
     runtime.smoke_geometry.clear();
     if let Some(mut active) = runtime.active.take() {
+        match runtime
+            .normal_mecc_hit_clock
+            .release(&active.resident_states, active.ticket)
+        {
+            Ok(true) => println!(
+                "mission_mecc_hit_clock_released ticket={} shared_bits={} retained_for_next_session=true",
+                active.ticket,
+                runtime.normal_mecc_hit_clock.saved().to_bits()
+            ),
+            Ok(false) => {}
+            Err(error) => error!(
+                "mission_mecc_hit_clock_release_refused ticket={} error={error}",
+                active.ticket
+            ),
+        }
         let (field_actors, field_guns, field_shadows) = active.resident_states.actor_field_counts();
         let (released_state_sets, released_state_references) =
             active.resident_states.state_resource_counts();

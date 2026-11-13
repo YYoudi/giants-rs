@@ -836,6 +836,7 @@ pub mod enemy_flight;
 
 pub mod controlled_mecc;
 pub mod controlled_mecc_contacts;
+pub mod controlled_mecc_hit_clock;
 
 pub mod vimp_actor;
 pub mod vimp_animation;

@@ -261,8 +261,14 @@ Session Mecc adapter now reads/publishes real health, current controlled velocit
 pain/shared timers and reset fields, with mandatory gate/recoil/cue consumers.
 Original constructor writes establish its empty associated-player/character-voice
 profile. The same48 controls now also match this Session composition; synthetic
-consumer failures preserve prior work and prohibit replay. Next bind actual world
-guards, live voice-clock production, controller recoil and cue transport;
+consumer failures preserve prior work and prohibit replay. The ordinary partial
+Mecc now binds pain/shared voice countdowns to its actual global clock sample,
+once per sample despite multiple physics steps. Its acquired shared initial value
+is ten seconds and its actual post-cue value survives Session teardown/reentry.
+Thirty-six original-prefix controls and a two-ticket installed Wife control
+validate field publication, duplicate refusal and retained ownership without RNG
+draws; these are not rendered combat acceptance. Next bind actual world guards,
+controller recoil and cue transport;
 retain the actual combined-game object-contact failure as the graphical frontier.
 See docs/OWNED_NPCS.md for receipt separation, immunity and failure semantics.
 The common `complete_enemy_projectile_ground_flight` adapter consumes the actual

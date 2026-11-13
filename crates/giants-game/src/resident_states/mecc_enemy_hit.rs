@@ -24,6 +24,49 @@ pub trait Services {
 }
 
 impl Session {
+    /// Partial-controller prefix over the actual shared world-clock sample.
+    /// Multiple fixed physics steps within one sample must not subtract the
+    /// frame delta repeatedly. The full primary owns its separate clock path.
+    pub(crate) fn advance_controlled_mecc_hit_clock(
+        &mut self,
+        target: Id,
+        step: u64,
+        sample: u64,
+        seconds: f32,
+    ) -> Result<bool, String> {
+        self.controlled_mecc_motion(target, step)?;
+        self.mecc_health(target)?;
+        let actor = self.get(target).unwrap();
+        if sample == 0 || actor.mecc_physics_present || !actor.mecc_hit_relations_cleared {
+            return Err(
+                "controlled Mecc hit clock needs its actual cold partial-controller sample".into(),
+            );
+        }
+        if !seconds.is_finite() || seconds < 0. {
+            return Err("controlled Mecc hit clock needs finite nonnegative global seconds".into());
+        }
+        if let Some(previous) = actor.controlled_hit_clock_sample {
+            if sample < previous {
+                return Err("controlled Mecc hit clock sample is stale".into());
+            }
+            if sample == previous {
+                return Ok(false);
+            }
+        }
+        let world = self
+            .mecc_countdown_world
+            .ok_or("controlled Mecc shared voice clock absent")?;
+        let payload = actor.seed.storage.data().unwrap();
+        let pain = f32::from_le_bytes(payload[0x1fc..0x200].try_into().unwrap());
+        let output = crate::mecc_countdowns::advance(world, pain, seconds)?;
+        let actor = self.residents.get_mut(&target.serial).unwrap();
+        actor.seed.storage.data_mut().unwrap()[0x1fc..0x200]
+            .copy_from_slice(&output.actor.to_le_bytes());
+        actor.controlled_hit_clock_sample = Some(sample);
+        self.mecc_countdown_world = Some(output.world);
+        Ok(true)
+    }
+
     /// Positive kind0 callback for its actual pending projectile contact with
     /// the ordinary controller's current cold Mecc. Canonical health, reset,
     /// timers and velocity publish before cue transport. The source wrapper

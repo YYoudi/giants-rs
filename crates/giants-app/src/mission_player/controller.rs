@@ -1594,6 +1594,19 @@ pub(super) fn update(
             && controller.steps > 0
             && !controller.owned_motion_failed
             && !controller.world_signals_failed
+            && let Err(error) = runtime
+                .advance_normal_mecc_hit_clock(controller.ticket, u64::from(controller.steps))
+        {
+            controller.world_signals_failed = true;
+            error!(
+                "mission_mecc_hit_clock_refused ticket={} error={error}",
+                controller.ticket
+            );
+        }
+        if !controller.owned_backend
+            && controller.steps > 0
+            && !controller.owned_motion_failed
+            && !controller.world_signals_failed
             && !controller.npc_failed
         {
             let advanced = runtime

@@ -3,6 +3,9 @@ use crate::{audio_parameters::Random, controlled_mecc::Frame};
 // Explicit cold construction and current motion fixture. Required world gates,
 // controller and cue consumers below are supplied controls, not game services.
 fn controlled_fixture(session: &mut Session) -> (Id, Id, Random) {
+    controlled_fixture_with_clock(session, Some(0.))
+}
+fn controlled_fixture_with_clock(session: &mut Session, shared: Option<f32>) -> (Id, Id, Random) {
     let mut templates = Session::new(1100);
     let children = [84, 85, 781].map(|class| fixture_actor(&mut templates, class, 0));
     let child_seed = seed(0);
@@ -61,7 +64,9 @@ fn controlled_fixture(session: &mut Session) -> (Id, Id, Random) {
             },
         )
         .unwrap();
-    session.prepare_mecc_countdown_world(0.).unwrap();
+    if let Some(value) = shared {
+        session.prepare_mecc_countdown_world(value).unwrap();
+    }
     session
         .residents
         .get_mut(&target.serial)
@@ -326,6 +331,140 @@ fn canonical_direct_successful_voice_keeps_separate_timer_publication() {
     let body = session.get(target).unwrap().seed.storage.data().unwrap();
     assert!(f32::from_le_bytes(body[0x1fc..0x200].try_into().unwrap()) >= 1.);
     assert_ne!(random.0, 17);
+}
+
+#[test]
+fn normal_hit_clock_consumes_samples_once_and_keeps_shared_value_on_reentry() {
+    use crate::controlled_mecc_hit_clock::Clock;
+    let mut clock = Clock::default();
+    assert_eq!(clock.saved(), 10.);
+    let mut first = Session::new(1301);
+    let (_, target, random) = controlled_fixture_with_clock(&mut first, None);
+    assert!(clock.advance(&mut first, target, 1, 1, 0.25).unwrap());
+    assert_eq!(first.mecc_countdown_world(), Some(9.75));
+    assert!(!clock.advance(&mut first, target, 1, 1, 0.25).unwrap());
+    let frame = first.controlled_mecc_motion(target, 1).unwrap().frame;
+    first
+        .publish_controlled_mecc_motion(
+            target,
+            2,
+            Frame {
+                before: frame.position,
+                ..frame
+            },
+        )
+        .unwrap();
+    assert!(!clock.advance(&mut first, target, 2, 1, 0.25).unwrap());
+    assert!(clock.advance(&mut first, target, 2, 2, 0.5).unwrap());
+    assert_eq!(first.mecc_countdown_world(), Some(9.25));
+    let body = first.get(target).unwrap().seed.storage.data().unwrap();
+    assert_eq!(
+        f32::from_le_bytes(body[0x1fc..0x200].try_into().unwrap()),
+        -0.75
+    );
+    assert_eq!(random.0, 17);
+    assert!(clock.release(&first, target.ticket()).unwrap());
+    first.clear();
+    let mut second = Session::new(1302);
+    let (_, target2, _) = controlled_fixture_with_clock(&mut second, None);
+    assert!(clock.advance(&mut second, target2, 1, 1, 0.125).unwrap());
+    assert_eq!(second.mecc_countdown_world(), Some(9.125));
+    assert!(clock.release(&second, target2.ticket()).unwrap());
+    assert_eq!(clock.saved(), 9.125);
+}
+
+#[test]
+fn normal_hit_clock_preserves_actual_post_cue_reset_and_refuses_foreign_owners() {
+    use crate::controlled_mecc_hit_clock::Clock;
+    let mut clock = Clock::default();
+    let mut session = Session::new(1303);
+    let (shot, target, mut random) = controlled_fixture_with_clock(&mut session, None);
+    clock.advance(&mut session, target, 1, 1, 10.25).unwrap();
+    let mut foreign = Session::new(1304);
+    let (_, other, _) = controlled_fixture_with_clock(&mut foreign, None);
+    assert!(clock.advance(&mut foreign, other, 1, 1, 0.25).is_err());
+    assert!(foreign.mecc_countdown_world().is_none());
+    assert!(clock.release(&session, other.ticket()).is_err());
+    assert!(clock.release(&foreign, target.ticket()).is_err());
+    let mut services = Direct {
+        source: Some(shot),
+        ..Default::default()
+    };
+    session
+        .complete_enemy_projectile_object_contact(shot, &mut random, &mut services)
+        .unwrap();
+    assert_eq!(services.receiver.cues.len(), 2);
+    assert_eq!(session.mecc_countdown_world(), Some(10.));
+    assert!(clock.release(&session, target.ticket()).unwrap());
+    assert_eq!(clock.saved(), 10.);
+    assert!(clock.failure().is_none());
+}
+
+#[test]
+fn normal_hit_clock_never_replaces_an_unowned_timer_and_latches_late_refusal() {
+    use crate::controlled_mecc_hit_clock::Clock;
+    let mut clock = Clock::default();
+    let mut occupied = Session::new(1305);
+    let (_, target, _) = controlled_fixture(&mut occupied);
+    assert!(clock.advance(&mut occupied, target, 1, 1, 0.25).is_err());
+    assert_eq!(occupied.mecc_countdown_world(), Some(0.));
+    assert_eq!(clock.saved(), 10.);
+    let mut session = Session::new(1306);
+    let (_, target, _) = controlled_fixture_with_clock(&mut session, None);
+    assert!(clock.advance(&mut session, target, 1, 2, 0.25).unwrap());
+    assert!(clock.advance(&mut session, target, 1, 1, 0.25).is_err());
+    assert!(clock.failure().is_some());
+    assert_eq!(session.mecc_countdown_world(), Some(9.75));
+    assert!(clock.advance(&mut session, target, 1, 3, 0.25).is_err());
+    assert!(clock.release(&session, target.ticket()).unwrap());
+    assert_eq!(clock.saved(), 9.75);
+    assert!(clock.failure().is_some());
+}
+
+#[test]
+#[ignore = "Requires GIANTS_MECC_HIT_CLOCK_CONTROLS; private original countdown fragment with two original global-clock calls"]
+fn native_normal_hit_clock_prefix_controls() {
+    let contents =
+        std::fs::read_to_string(std::env::var("GIANTS_MECC_HIT_CLOCK_CONTROLS").unwrap()).unwrap();
+    let mut count = 0;
+    for line in contents
+        .lines()
+        .filter(|l| !l.is_empty() && !l.starts_with('#'))
+    {
+        let words: Vec<u32> = line
+            .split_whitespace()
+            .map(|s| u32::from_str_radix(s, 16).unwrap())
+            .collect();
+        assert_eq!(words.len(), 5);
+        let mut session = Session::new(1400 + count);
+        let (_, target, _) =
+            controlled_fixture_with_clock(&mut session, Some(f32::from_bits(words[0])));
+        session
+            .residents
+            .get_mut(&target.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()[0x1fc..0x200]
+            .copy_from_slice(&words[1].to_le_bytes());
+        assert!(
+            session
+                .advance_controlled_mecc_hit_clock(target, 1, 1, f32::from_bits(words[2]))
+                .unwrap()
+        );
+        let body = session.get(target).unwrap().seed.storage.data().unwrap();
+        assert_eq!(
+            [
+                session.mecc_countdown_world().unwrap().to_bits(),
+                u32::from_le_bytes(body[0x1fc..0x200].try_into().unwrap())
+            ],
+            words[3..],
+            "native clock row {count}"
+        );
+        count += 1;
+    }
+    assert_eq!(count, 36);
 }
 
 #[test]

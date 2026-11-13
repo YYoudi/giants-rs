@@ -280,6 +280,12 @@ The canonical cold-player publication adapter is
 It retains the same **unknown** prototype relationship and requires real world,
 controller and audio consumers. Original constructor/control evidence is kept
 private; no associated-player layout is inferred from a null relationship.
+The literal `mecc_logic` is an **unknown** search route to the independently
+acquired countdown fragment in
+[`controlled_mecc_hit_clock`](../crates/giants-game/src/controlled_mecc_hit_clock.rs)
+and its ordinary partial-controller clock binding. The PC shared initializer and
+both original clock calls stay distinct from full primary/world scheduling;
+their controls do not confirm a prototype function identity or ABI/layout.
 
 The literal `hurt_object` search route also reaches
 [`resident_states::enemy_object_contact`](../crates/giants-game/src/resident_states/enemy_object_contact.rs),

@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed literal Mecc logic countdown route; unknown, no raw corpus.
+        '4d9c6df516e0d4ae3d05fd233345f2c4eab68042fec4368ae797a25117aafd44',
         # Reviewed canonical cold Mecc hit publication route; still unknown.
         '3c630d00d511a4255f590c5c25d92e95965f23b1858583b5aef2f66916a5c912',
         # Concurrent reviewed no-shot building route; unknown, no raw research.

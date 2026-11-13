@@ -83,8 +83,28 @@ adapter, including its actual canonical health and motion publication. Three
 synthetic controls cover consumer ordering, successful voice timing and retained
 gate/controller/voice failures. Their gates, controller sinks and cue consumers
 are supplied fixtures. The ordinary host still needs source-backed shared-world
-initialization/transitions, the partial controller's live voice-clock production
-and actual recoil/audio consumers; this API does not acknowledge their presence.
+initialization/transitions and actual recoil/audio consumers; this API does not
+acknowledge their presence. The voice-clock producer is now bound below.
+
+The ordinary partial controller now advances its actual Mecc pain/shared voice
+countdowns through `controlled_mecc_hit_clock::Clock`, before the admitted NPC
+consumers. It uses the same live global clock sample, independently of NPC
+availability. Multiple fixed physics steps and repeated preparation within one
+sample do not subtract the frame delta twice. The acquired PC initialized shared
+value is **ten seconds**, not zero. The application retains the actual post-cue
+value before Session teardown and transfers it into the next fresh mission;
+menu idle time does not advance it. This does not change the separate experimental
+owned-primary clock policy or acknowledge complete native primary scheduling.
+
+Thirty-six private controls execute the original countdown fragment and both
+original global-clock calls, matching canonical Session field publication. Three
+synthetic controls cover sample deduplication, foreign ownership, reentry, actual
+post-cue reset and retained failures. An installed Wife control uses two fresh
+Session identities under one application clock, 120 real sampled-clock/controller
+updates, duplicate calls and actual scope teardown, with no RNG consumption. Its
+first produced global delta is 25ms; it is not replaced with a zero delta.
+These are CPU/runtime binding controls, not a new rendered encounter or OS-input
+acceptance. Real world gates and recoil/audio consumers still block direct hits.
 
 `Session::complete_enemy_projectile_object_contact` now owns the separate
 positive class90/232 direct-contact continuation. It consumes the actual retained
@@ -105,8 +125,8 @@ callback inhibition, health-only suppression and both immunity flags. They
 compare damage, flags, velocity, source position/lifetime/mark, reset word, RNG
 and reached callback/terminal counts. These supplied headers/world guards are
 private controls, not producers for ordinary gameplay. The new continuation is
-not yet bound into the ordinary direct-hit host: actual shared world-state and
-voice-clock ownership, controller recoil consumption and real cue transport
+not yet bound into the ordinary direct-hit host: actual shared world-state
+ownership, controller recoil consumption and real cue transport
 remain the next requirements. The latest graphical failure and exact
 executable above remain authoritative; no new encounter or death pass is claimed.
 
