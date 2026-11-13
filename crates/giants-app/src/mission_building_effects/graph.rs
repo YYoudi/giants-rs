@@ -96,6 +96,11 @@ impl Graph {
             let geometry = if c.hidden {
                 Geometry::Hidden
             } else if model.geometry.mesh.normal_count != 0 {
+                if c.lifetime.is_some_and(|[duration, fade_in, fade_out]| {
+                    fade_in > 0. || fade_out > 0. && fade_out < duration
+                }) {
+                    return Err("building rigid effect needs its fading material".into());
+                }
                 if model.actor.flags.personality & 0x84 != 0 {
                     return Err("building rigid effect needs its facing owner".into());
                 }
@@ -419,6 +424,113 @@ impl Runtime {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; installed app graph admission, including pending rigid fades, no building hits/GPU/OS/audio sink"]
+    fn installed_barracks_graphs_keep_unbound_rigid_fades_out_of_admission() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let menu = giants_game::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin/w_Story2.bin")).unwrap(),
+            0,
+            true,
+        )
+        .unwrap();
+        let packet =
+            giants_game::mission_loading::prepare(&root, menu.request("Story2", 1).unwrap())
+                .unwrap();
+        let world = packet.world_asset(&root).unwrap();
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let mut pending_fades = 0;
+        for (name, class) in [
+            ("fx_minibarracks", 1060),
+            ("fx_barracks", 1060),
+            ("fx_ripperbarracks", 1226),
+        ] {
+            let point = plan
+                .entries
+                .iter()
+                .find(|p| p.serialized.object_type == class)
+                .unwrap()
+                .serialized
+                .position;
+            let source = plan.resources().clone();
+            let image = source.classes.models.effects.last().unwrap();
+            let (entry, definition) = image.image.find(name).unwrap();
+            // Supplied direct program request from the real active image;
+            // this is not a captured state98 payload or a building hit.
+            let binding = giants_game::model_registry::StateBinding {
+                offset: 0,
+                key: giants_game::state_storage::ReferenceKey::Effect(name.into()),
+                target: Ok(giants_game::model_registry::StateTarget::Effect {
+                    image: image.path.clone(),
+                    entry,
+                    offset: definition.offset,
+                }),
+            };
+            let mut runtime = Runtime::new(source, Arc::new(world.terrain.clone()));
+            runtime.bind(91).unwrap();
+            if let Err(error) = runtime.preflight_offset(&binding) {
+                assert_eq!(error, "building rigid effect needs its fading material");
+                assert_eq!(runtime.active(), 0);
+                assert_eq!((runtime.births, runtime.retired), (0, 0));
+                assert!(runtime.contexts.active().is_empty());
+                pending_fades += 1;
+                continue;
+            }
+            let mut random = Random(17);
+            let (creation, _) = runtime
+                .contexts
+                .prepare_positional(
+                    name,
+                    point,
+                    giants_game::effect_initialization::Selection {
+                        active_objects: 0,
+                        quality: 1.,
+                        lite_distance: 10000.,
+                        camera: point,
+                        recipient_position: point,
+                    },
+                    &mut random,
+                )
+                .unwrap();
+            let events = runtime
+                .consume_prepared(91, creation, point, "BarracksControl", &mut random)
+                .unwrap();
+            assert!(!events.is_empty());
+            let initial = runtime.births;
+            let camera = Some(([point[0], point[1] - 200., point[2] + 30.], 1.));
+            let draws = runtime
+                .draws(bevy::prelude::Mat4::IDENTITY.to_cols_array(), camera)
+                .unwrap();
+            assert!(draws.iter().any(|d| d.rigid.is_some()));
+            assert!(draws.iter().any(|d| d.rigid.is_none()));
+            for sample in 0..3600 {
+                runtime
+                    .advance(
+                        super::super::Frame {
+                            ticket: 91,
+                            sample,
+                            delta: 1. / 60.,
+                            areas: &[],
+                            world: &world,
+                        },
+                        &mut random,
+                    )
+                    .unwrap();
+                runtime
+                    .draws(bevy::prelude::Mat4::IDENTITY.to_cols_array(), camera)
+                    .unwrap();
+                if runtime.active() == 0 {
+                    break;
+                }
+            }
+            assert!(runtime.births > initial);
+            assert_eq!(runtime.active(), 0);
+            assert_eq!(runtime.births, runtime.retired);
+            assert!(runtime.graphs.is_empty());
+            assert!(runtime.contexts.active().is_empty());
+        }
+        assert!(pending_fades > 0);
+    }
     #[test]
     #[ignore = "requires GIANTS_BUILDING_ROOT; source mixed graph/terrain/resource ownership, no GPU/OS/audio-sink acceptance"]
     fn installed_guard_graph_draws_lit_debris_and_consumes_actual_contact_descendants() {

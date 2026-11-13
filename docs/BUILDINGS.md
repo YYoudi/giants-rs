@@ -78,20 +78,49 @@ The initial primary callback remaps particular class/selector combinations and
 initializes stock. Do not apply house health-animation stages or supply a guessed
 stock, player identity, empty actor list or mission-success acknowledgement.
 
-All three declared explosion families encounter the common immediate-child
-variant absent from the mixed-scene consumer. Private original-VM controls
+All three declared explosion families use a distinct immediate-child variant.
+Private original-VM controls
 confirm the same parent/program/reference operands as the existing child path,
 but an additional context-transform argument is passed to the real factory.
 The factory copies that transform and preserves its distinct context mode.
 Six bounded active-dispatch controls execute the original string reader and
 comparison, retain the source operands and consume no RNG at this boundary.
-They stop at child construction: they do not prove child transforms, callbacks,
-complete explosion scheduling or rendering. The context transform's initialized
-contents and its use by the child remain required acquisitions. The Vimp-specific
-route is separate; treating the commands as interchangeable is not sufficient.
+Those six controls stop at child construction. A subsequent original full-graph
+control constructs all 35 miniature-barracks objects and refreshes their actual
+source references. Rust matches all initial matrix words and the final RNG state.
+The unrotated positional context contains a literal zero-filled, flags-zero
+frame; this remains distinct from an absent frame. A separately supplied rotated
+frame changes initial velocity without changing reference placement or the
+object's own Euler extraction. Six original callback frames match Rust across
+the two frame inputs. This does not establish rotated-root mixed-scene support;
+the context-pool transfer still rejects inherited/rotated roots.
+
+The common construction ledger now preserves this child mode explicitly.
+The bounded positional consumer binds its actual zero context frame and admits
+the separately checked rigid contact variants: ground retirement with the
+source retirement request, and rebound/lifetime expiry without that request.
+Private original comparisons match 204 and 264 callback frames respectively,
+including below-ground initial placement, force, velocity, contact flags and
+retirement. A failed fixture that translated an already rounded birth position
+is retained; the corrected fixture recomputes the source references from the
+new root point. An installed-resource control prepares all three complete graphs
+on supplied flat terrain and checks the distinct retirement behavior. Child
+activation, renderer resources, audio and ordinary damage acceptance remain
+separate; these controls do not establish a delivered barracks explosion.
+
+The context-pool null pass also admits the bounded, independently observed
+debris/smoke/flash frames. Three additional original complete constructors match
+Rust births, source reference matrices and RNG for the required particle and
+retirement contexts. The app-level graph test exposes the next render blocker:
+some rigid pieces require object fading, which the shared lit renderer does not
+yet support. Admission now rejects this before allocating live bodies, rather
+than failing halfway through a destruction. Do not bypass the fade or substitute
+opaque debris. Named root selection also has distinct lite entries; the eventual
+ordinary producer must supply actual quality/load/camera inputs. Direct-offset
+preparation and supplied selection controls do not establish that producer.
 
 This continuation adds no ordinary barracks damage or new download capability.
-Complete the shared child/context consumer and the actual alert/mission/retirement
+Complete the shared descendant/render consumers and the actual alert/mission/retirement
 owners, then validate damage, effects, sound, collision changes and cleanup through
 normal gameplay on one identified executable before extending the public snapshot.
 

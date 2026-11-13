@@ -23,7 +23,9 @@ impl References {
             return Err("mixed static contact surface absent".into());
         }
         for object in phases.iter().flatten().filter(|o| {
-            (o.contact_requested || o.object_services.source47 == Some(1))
+            (o.contact_requested
+                || o.object_services.source15
+                || o.object_services.source47 == Some(1))
                 && o.physics_enabled
                 && o.lifetime.is_some()
         }) {
@@ -39,7 +41,7 @@ impl References {
                     .as_ref()
                     .map_err(Clone::clone)?;
                 entry.insert(
-                    if object.object_services.source47 == Some(1) {
+                    if object.object_services.source15 || object.object_services.source47 == Some(1) {
                         crate::effect_contact::Seed::from_rigid_class(program)
                     } else {
                         crate::effect_contact::Seed::from_class(program)
@@ -166,6 +168,7 @@ impl References {
                     parent,
                     reference,
                     own_reference,
+                    ..
                 } => {
                     if parent >= index {
                         return Err("mixed parent construction order invalid".into());
@@ -293,8 +296,9 @@ impl Body {
         pose: Option<crate::effect_animation::Playback>,
         contact: Option<crate::effect_contact::Seed>,
     ) -> Result<Self, &'static str> {
-        let rigid_contact = construction.object_services.source15
-            && construction.object_services.source47 == Some(1)
+        let rigid_contact = (construction.object_services.source15
+            || construction.object_services.source47 == Some(1))
+            && matches!(construction.object_services.source47, None | Some(1))
             && construction.physics_enabled
             && construction.lifetime.is_some()
             && matches!(
@@ -314,7 +318,7 @@ impl Body {
             return Err("duration-free dynamic effect callback pending");
         }
         let curve_pending = curve_reference_pending(&construction);
-        let finite = if let Some([lifetime, fade_in, fade_out_start]) = construction.lifetime {
+        let mut finite = if let Some([lifetime, fade_in, fade_out_start]) = construction.lifetime {
             let size = construction.size.unwrap_or([1.; 2]);
             let spawn = crate::effect_burst::Spawn {
                 class: construction.class,
@@ -339,7 +343,7 @@ impl Body {
                 bounce: construction.bounce,
                 contact_requested: construction.contact_requested || rigid_contact,
                 parameter_b0: 1f32.to_bits(),
-                attribute: rigid_contact.then_some(1),
+                attribute: construction.object_services.source47,
                 sounds: Vec::new(),
                 retained_sound: None,
                 texture_animation: None,
@@ -360,6 +364,25 @@ impl Body {
         } else {
             None
         };
+        if matches!(
+            construction.origin,
+            Origin::Immediate {
+                inherit_context: true,
+                ..
+            }
+        ) {
+            // This mixed scene's admitted positional contexts have no supplied
+            // orientation. Native source70 nevertheless copies their literal
+            // zero-initialized frame, unlike source10's null frame. Rotated
+            // root contexts remain rejected by the pool's transfer boundary.
+            finite
+                .as_mut()
+                .ok_or("inherited duration-free effect callback pending")?
+                .bind_inherited_direction(Matrix {
+                    flags: 0,
+                    values: [0.; 16],
+                })?;
+        }
         Ok(Self {
             construction,
             finite,
@@ -702,6 +725,108 @@ impl Runtime {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; complete installed barracks construction/contact graph on supplied flat terrain, no building damage/GPU acceptance"]
+    fn installed_barracks_inherited_children_keep_distinct_ground_retirement() {
+        use std::sync::Arc;
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let resources =
+            crate::scene_resources::SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let image = &resources.classes.models.effects.last().unwrap().image;
+        for name in ["fx_minibarracks", "fx_barracks", "fx_ripperbarracks"] {
+            let plan = Arc::new(super::Plan::project(image, name).unwrap());
+            let phases = super::templates(&plan).unwrap();
+            let terrain = giants_formats::gti::Terrain {
+                source_flags: 3,
+                width: 2,
+                height: 2,
+                origin: [-10000.; 2],
+                spacing: 10000.,
+                height_bounds: [0.; 2],
+                fallback_texture: String::new(),
+                heights: vec![0.; 4],
+                colors: vec![],
+                tags: vec![5; 4],
+                consumed_bytes: 0,
+                opaque_tail: vec![],
+            };
+            let terrain = Arc::new(terrain);
+            let refs = super::References::load(&resources, image, &phases)
+                .unwrap()
+                .with_static_surface(terrain.clone(), 0.0001)
+                .unwrap()
+                .with_static_contacts(&resources, &phases)
+                .unwrap();
+            refs.validate(&phases[0]).unwrap();
+            let mut expected_seed = 17;
+            let (expected, _) = plan.start(&mut expected_seed).unwrap();
+            let mut pool =
+                crate::attached_effect_context::Pool::<u64>::from_active_resources(41, &resources);
+            let mut random = crate::audio_parameters::Random(17);
+            let (crate::attached_effect_context::Creation::Prepared(id), _) = pool
+                .prepare_positional_offset(
+                    Some(image.find(name).unwrap().1.offset),
+                    [1., 2., -100.],
+                    &mut random,
+                )
+                .unwrap()
+            else {
+                panic!("actual direct program context absent")
+            };
+            let (mut runtime, refs) = pool
+                .consume_positional_scene(id, &resources, terrain, &mut random)
+                .unwrap();
+            assert_eq!(random.0, expected_seed);
+            assert!(pool.active().is_empty());
+            assert_eq!(runtime.bodies[0].len(), expected.len());
+            let mut seed = random.0;
+            let initial_seed = seed;
+            let inherited = runtime.bodies[0]
+                .iter()
+                .filter(|body| {
+                    matches!(
+                        body.construction.origin,
+                        super::Origin::Immediate {
+                            inherit_context: true,
+                            ..
+                        }
+                    )
+                })
+                .count();
+            assert_eq!(inherited, 11);
+            for _ in 0..2 {
+                runtime
+                    .advance(
+                        0.01,
+                        &refs,
+                        super::Matrix::identity(),
+                        [1., 2., -100.],
+                        &mut seed,
+                    )
+                    .unwrap();
+            }
+            assert_eq!(seed, initial_seed);
+            if name == "fx_minibarracks" {
+                let retire_on_ground = runtime.bodies[0]
+                    .iter()
+                    .find(|b| b.construction.class == 1377)
+                    .unwrap();
+                assert!(retire_on_ground.expired());
+                let rebound = runtime.bodies[0]
+                    .iter()
+                    .find(|b| b.construction.class == 1379)
+                    .unwrap();
+                assert!(!rebound.expired());
+                assert_ne!(
+                    rebound.playback().unwrap().contact.as_ref().unwrap().flags & 4,
+                    0
+                );
+            }
+            let requests = runtime.take_retirements();
+            assert!(!requests.is_empty());
+            assert!(runtime.take_retirements().is_empty());
+        }
+    }
     #[test]
     #[ignore = "requires GIANTS_BUILDING_ROOT; prepared context transfer only, no GPU or ordinary acceptance"]
     fn installed_guard_prepared_transfer_preserves_rng_source_pose_and_generation() {
@@ -1120,6 +1245,7 @@ mod tests {
                 parent: 0,
                 reference: 0,
                 own_reference: 0,
+                inherit_context: false,
             },
         ] {
             let mut unsupported = construction.clone();

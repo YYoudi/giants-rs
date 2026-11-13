@@ -46,6 +46,9 @@ pub struct Visual {
 }
 
 impl Visual {
+    pub(crate) fn first_frame_consumed(&self) -> bool {
+        !self.first_frame
+    }
     pub(crate) fn control_flags(&self) -> u32 {
         2 | if self.fading_in { 0x800000 } else { 0 }
             | if self.fading_out { 4 } else { 0 }

@@ -81,13 +81,13 @@ fn compound_blocks(ops: &[u8]) -> bool {
         let start = at;
         while ops
             .get(at)
-            .is_some_and(|op| matches!(op, 4 | 0x1b | 0x21 | 0x17 | 0x10 | 0x29 | 0x0e))
+            .is_some_and(|op| matches!(op, 4 | 0x1b | 0x21 | 0x17 | 0x10 | 0x70 | 0x29 | 0x0e))
         {
             at += 1;
         }
         let body = &ops[start..at];
         if !body.contains(&4)
-            || (!body.contains(&0x10) && !body.contains(&0x29))
+            || (!body.contains(&0x10) && !body.contains(&0x70) && !body.contains(&0x29))
             || ops.get(at) != Some(&7)
         {
             return false;
@@ -185,6 +185,18 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
             | [3, 6, 0x33, 4, 9, 0x0e, 0x47, 7, 2]
             | [3, 6, 4, 0x33, 0x1c, 0x13, 0x12, 0x0e, 0x19, 7, 2]
     );
+    // Complete immediate rigid-debris null frames observed through the original
+    // barracks graph constructors. Source70's context copy is active-only;
+    // source32's angular samples also remain behind the active-object gate.
+    let barracks_child = matches!(
+        ops.as_slice(),
+        [3, 6, 0x12, 0x32, 0x0e, 0x15, 0x0d, 4, 7, 2]
+            | [3, 6, 0x1c, 0x12, 0x32, 0x0e, 0x19, 0x47, 5, 7, 2]
+            | [3, 6, 0x12, 0x32, 0x1c, 4, 0x0e, 0x15, 7, 2]
+            | [3, 6, 9, 5, 0x0f, 0x0d, 7, 2]
+            | [3, 6, 0x1c, 5, 7, 2]
+            | [3, 6, 4, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 7, 2]
+    );
     if ghost {
         crate::vimp_ghost::Recipe::project(program)?;
     }
@@ -208,6 +220,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !death
         && !compound_blocks(&ops)
         && !stone_child
+        && !barracks_child
         && !curved_dust_blocks(&ops)
     {
         return Err("effect initial skip pass outside acquired complete profile".into());

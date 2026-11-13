@@ -17,6 +17,8 @@ pub enum Origin {
         parent: usize,
         reference: u32,
         own_reference: u32,
+        /// Source70 copies the parent context frame; source10 passes no frame.
+        inherit_context: bool,
     },
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -242,6 +244,7 @@ enum Op {
     Child {
         reference: u32,
         own_reference: u32,
+        inherit_context: bool,
         program: Box<Plan>,
     },
 }
@@ -557,7 +560,7 @@ impl Plan {
                     0x1e => service(ServiceKind::RangedEmission, r)?,
                     0x28 => service(ServiceKind::Source28, r)?,
                     0x57 => service(ServiceKind::Source57, r)?,
-                    0x10 => {
+                    0x10 | 0x70 => {
                         let end = r.bytes[5..]
                             .iter()
                             .position(|b| *b == 0)
@@ -582,6 +585,7 @@ impl Plan {
                         Op::Child {
                             reference: word(r, 1)?,
                             own_reference: word(r, end + 1)?,
+                            inherit_context: r.opcode == 0x70,
                             program: Box::new(child),
                         }
                     }
@@ -862,6 +866,7 @@ impl Object {
                 Op::Child {
                     reference,
                     own_reference,
+                    inherit_context,
                     program,
                 } => {
                     program.prepare(seed);
@@ -871,6 +876,7 @@ impl Object {
                             parent: index,
                             reference: *reference,
                             own_reference: *own_reference,
+                            inherit_context: *inherit_context,
                         }),
                         out,
                     )?;
@@ -910,6 +916,36 @@ impl Cursor {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn immediate_frame_inheritance_preserves_factory_mode_and_rng_order() {
+        let child = vec![3, 2, 0, 0, 0, 6, 7, 2];
+        let make = |opcode| {
+            let mut parent = object(1);
+            parent.push(opcode);
+            parent.extend(3u32.to_le_bytes());
+            parent.extend(b"child\0");
+            parent.extend(4u32.to_le_bytes());
+            parent.extend([7, 2]);
+            image(&[("parent", parent), ("child", child.clone())])
+        };
+        let mut seeds = [17; 2];
+        for (index, opcode) in [0x10, 0x70].into_iter().enumerate() {
+            let plan = super::Plan::project(&make(opcode), "parent").unwrap();
+            let (objects, cursor) = plan.start(&mut seeds[index]).unwrap();
+            assert!(cursor.remaining.is_none());
+            assert_eq!(objects.len(), 2);
+            assert_eq!(
+                objects[1].origin,
+                super::Origin::Immediate {
+                    parent: 0,
+                    reference: 3,
+                    own_reference: 4,
+                    inherit_context: opcode == 0x70,
+                }
+            );
+        }
+        assert_eq!(seeds[0], seeds[1]);
+    }
     fn image(programs: &[(&str, Vec<u8>)]) -> giants_formats::effect_image::Image {
         let size: usize = programs.iter().map(|(n, _)| n.len() + 5).sum();
         let mut table = Vec::new();
@@ -1296,7 +1332,8 @@ mod tests {
             super::Origin::Immediate {
                 parent: 0,
                 reference: 7,
-                own_reference: 0
+                own_reference: 0,
+                inherit_context: false,
             }
         );
         let mut expected = 1u32;

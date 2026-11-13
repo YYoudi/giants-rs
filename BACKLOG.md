@@ -75,9 +75,14 @@ Remaining work, in player-impact order:
    shot path wakes the building, alerts nearby actors, selects its own hit/death
    sounds and explosion family, then performs its conditional mission requests
    and retirement. Preserve the source selector's initialization/remapping.
-   Its immediate debris variant passes an additional context transform; acquire
-   that consumer before admitting the whole explosion. Existing tower geometry
-   or the Vimp-specific effect route does not establish this shared capability.
+   Its immediate debris variant now retains its context mode and literal zero
+   positional frame in the shared consumer. Original full-graph births/RNG and
+   the selected ground-retirement/rebound trajectories match Rust; all three
+   installed graphs pass supplied-flat-terrain preparation. Complete descendant
+   activation, rigid-material fading, named quality/distance selection,
+   graphical/audio ownership and actual alerts before admitting
+   ordinary damage. Existing tower geometry or the Vimp-specific effect route
+   does not establish whole barracks acceptance. See BUILDINGS.md.
 4. Bind actual building mission-death producers with their native global mode,
    counter and response rules; do not infer credit from a model or health word.
 5. Acquire generic radial/Raster3 platform owners and broader effects-world
