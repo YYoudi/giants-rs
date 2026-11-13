@@ -11,6 +11,7 @@ use giants_game::{
 
 pub(crate) struct Initial {
     keys: Vec<Key>,
+    opaque_words: Vec<Option<u32>>,
     stock: InitialParameters,
     consumed: bool,
     failure: Option<String>,
@@ -41,6 +42,22 @@ impl Initial {
                 index,
             });
         let keys: Vec<_> = world.chain(mission).collect();
+        let opaque_words = keys
+            .iter()
+            .map(|key| {
+                if key.scope == Scope::World {
+                    Ok(plan.world_entries[key.index]
+                        .class_input()?
+                        .mission_word_174)
+                } else {
+                    Ok(plan.entries[key.index]
+                        .source
+                        .as_ref()
+                        .map_err(Clone::clone)?
+                        .mission_word_174)
+                }
+            })
+            .collect::<Result<Vec<_>, String>>()?;
         let mut alert_keys = Vec::new();
         for (key, class) in plan
             .world_entries
@@ -97,6 +114,7 @@ impl Initial {
         }
         Ok(Self {
             keys,
+            opaque_words,
             stock: InitialParameters::load(globals)?,
             consumed: false,
             failure: None,
@@ -125,10 +143,20 @@ impl Initial {
         let owners = self
             .keys
             .iter()
-            .map(|key| {
-                session
+            .zip(&self.opaque_words)
+            .map(|(key, expected)| -> Result<_, String> {
+                let id = session
                     .declaration(*key)
-                    .ok_or_else(|| format!("barracks source owner missing: {key:?}"))
+                    .ok_or_else(|| format!("barracks source owner missing: {key:?}"))?;
+                if session
+                    .get(id)
+                    .ok_or("barracks source resident absent")?
+                    .declared_word_174
+                    != *expected
+                {
+                    return Err("barracks source opaque declaration word was not retained".into());
+                }
+                Ok(id)
             })
             .collect::<Result<Vec<_>, _>>()?;
         // Exact authored keys, including declarations that failed construction:
@@ -449,6 +477,62 @@ mod tests {
                 unreachable!()
             };
             assert!(session.barracks_state(owner).is_err());
+        }
+    }
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; installed cold mission metadata/initial branches, not GPU or mission acceptance"]
+    fn installed_following_mission_barracks_retain_opaque_command7_and_initialize() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let globals =
+            giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+                .unwrap();
+        for (world, index) in [("Story2", 3), ("Story4", 0)] {
+            let menu = giants_game::mission_selection::MissionMenu::parse(
+                &std::fs::read(root.join(format!("Bin/w_{world}.bin"))).unwrap(),
+                0,
+                true,
+            )
+            .unwrap();
+            let packet =
+                giants_game::mission_loading::prepare(&root, menu.request(world, index).unwrap())
+                    .unwrap();
+            let plan = packet.instance_plan(&root, "English").unwrap();
+            let mut session = Session::new(413);
+            let report = giants_game::declared_residents::construct_acquired(&plan, &mut session);
+            let mut count = 0;
+            for (index, entry) in plan.entries.iter().enumerate() {
+                let source = entry.source.as_ref().unwrap();
+                if !matches!(source.class, 1060 | 1226) {
+                    continue;
+                }
+                let key = Key {
+                    scope: Scope::Mission,
+                    index,
+                };
+                let record = report.records.iter().find(|r| r.key == key).unwrap();
+                let id = *record.result.as_ref().unwrap();
+                assert_eq!(session.declaration(key), Some(id));
+                assert_eq!(
+                    session.get(id).unwrap().declared_word_174,
+                    source.mission_word_174
+                );
+                if source.mission_word_174.is_some() {
+                    count += 1;
+                }
+            }
+            assert!(count > 0, "expected actual source command7 in {world}");
+            let mut initial = Initial::prepare(&plan, &globals).unwrap();
+            let mut events = vec![];
+            assert!(initial.start(&mut session, &mut events).unwrap());
+            for key in &initial.keys {
+                let id = session.declaration(*key).unwrap();
+                assert_eq!(session.barracks_state(id).unwrap().phase, 1);
+                // Retention does not admit the still-unbound later AI walk.
+                assert!(session.actor_world_tick(id).is_err());
+            }
+            assert!(!initial.start(&mut session, &mut events).unwrap());
+            session.clear();
+            assert_eq!(session.declaration_count(), 0);
         }
     }
 }

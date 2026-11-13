@@ -28,6 +28,7 @@ impl State {
                 id,
                 next,
                 self.buildings.replacement_player(index, id)?,
+                self.buildings.replacement_projectile(index, id)?,
             ))
         } else {
             None
@@ -71,12 +72,17 @@ impl State {
             environment.mesh.fields.object_flags = hit.active;
             environment.mesh.triangles = hit.triangles.clone();
         }
-        if let Some((index, id, next, player)) = replacement {
+        if let Some((index, id, next, player, projectile)) = replacement {
             self.buildings.publish_replacement(index, id)?;
             // Persistent building objects precede the transient NPC suffix.
             // The next NPC snapshot must not truncate this new owner away.
             self.mesh_objects.insert(self.static_mesh_objects, player);
             self.static_mesh_objects += 1;
+            if let Some(projectile) = projectile {
+                self.projectile_objects
+                    .insert(self.static_projectile_objects, projectile);
+                self.static_projectile_objects += 1;
+            }
             self.next_contact_key = next;
         }
         Ok(())

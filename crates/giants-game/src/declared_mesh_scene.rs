@@ -113,7 +113,7 @@ fn prepare_profile(
             let projection =
                 collider_init::cold_projection(context, source.class).map_err(|e| e.to_string())?;
             let mut initial = projection.placed_with_scale(pose, scale_override)?;
-            if players && flags.personality & 0x1008 == 0 && !matches!(initial.state, 0 | 61 | 101) {
+            if players && flags.personality & 0x1008 == 0 && !matches!(initial.state, 0 | 60 | 61 | 101) {
                 // Only acquired building callbacks and callbackless state0 can
                 // extend this initial cohort; other live states remain separate.
                 return Ok(None);
@@ -129,11 +129,14 @@ fn prepare_profile(
             }
             let extended_player = players && (flags.personality & 0x1008 == 0
                 || flags.personality & 8 != 0 && flags.personality & (0x80000 | 0x100000) == 0);
-            if extended_player && !matches!(initial.state, 0 | 61 | 101) {
+            if extended_player && !matches!(initial.state, 0 | 60 | 61 | 101) {
                 return Err("player mesh declaration requires its live pose/state owner".into());
             }
-            if projectiles && !matches!(initial.state, 0 | 61 | 74 | 83 | 98 | 101 | 102) {
+            if projectiles && !matches!(initial.state, 0 | 60 | 61 | 74 | 83 | 98 | 101 | 102) {
                 return Err("projectile declaration requires its live pose/state owner".into());
+            }
+            if initial.state == 60 && source.class != 102 {
+                return Err("declared tree requires its acquired class/pose owner".into());
             }
             if initial.state == 61 || initial.state == 101 && !context.classes.models
                 .first_selection(source.class).ok_or("building selection absent")?
@@ -207,6 +210,14 @@ fn prepare_profile(
                 } else if context.archives.members.contains_key(&format!("{}.skn",name.to_ascii_lowercase())) {
                     return Err("skinned building requires its health animation resource".into());
                 }
+            }
+            if prepared.state == 60 {
+                let binding = context.classes.models.first_selection(source.class)
+                    .ok_or("tree selection absent")?.as_ref().map_err(Clone::clone)?;
+                let pose = crate::model_pose::Prepared::load_normal_initial(
+                    context, 60, source.class, &binding.selection,
+                )?;
+                mesh.positions = pose.positions(context, &name, &mesh)?;
             }
             let m = crate::uncached_pose::matrix(
                 crate::uncached_pose::Pose {

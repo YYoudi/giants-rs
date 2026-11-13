@@ -41,7 +41,10 @@ impl bevy::app::Plugin for Plugin {
             )
             .add_systems(
                 Update,
-                crate::static_scene::house_updates
+                (
+                    crate::static_scene::house_updates,
+                    crate::foliage_scene::building_updates,
+                )
                     .after(PlayerUpdate)
                     .before(crate::source_view::ViewUpdate)
                     .run_if(crate::mecc_session::frontend_available),

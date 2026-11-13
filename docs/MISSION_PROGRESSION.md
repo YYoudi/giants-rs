@@ -14,40 +14,43 @@ RoadHome completion, other mission predicates and full native continuity remain 
 
 ### RoadHome return correction in progress
 
-The fresh-slot correction now reaches ordinary carrying, the authored return
-counter and the actual completion request in a rendered input replay. Preparation
-then refused the detached splash in the return film. Its source mode0 now has a
-canonical positioned state78 owner: one reached reference snapshot, separate
-null/active random draws, a single vertical-fade segment, source lifetime,
-render routes and scoped retirement. The exact-duration segment stays active
-until strictly past its duration, as independently observed in the pinned PC
-callback. An installed source-timeline control passes creation/fade/expiry and
-cleanup without a viewer simulation. This remains an unpublished dependency;
-the complete rendered return film and next ordinary mission must still pass.
+The original failure was admission: RoadHome declares no opening film, and the
+old guard left the player in preview, suppressing objective evaluation. The
+acquired PC world-list constructor clears fresh mission slots; controls observe
+992 empty fields across 31 installed worlds. Six bounded scenario-start controls
+distinguish empty/named requests and retain external loader/activation boundaries.
+`mission_cinematics::select_fresh_world` now admits that acquired fresh default
+without inventing command21, restoring prior native storage or relaxing other
+prerequisites. Completion selection does not inherit this startup proof.
+Prototype `read_world_list` and `scenerio_start_mission__Fv` remain unknown
+PC attributions; native music/world prechecks remain separate.
 
+The ordinary rendered return now picks up the declared wife, carries her to the
+authored destination, completes the real 1/1 counter, plays the source return film
+through its natural end and loads the following source mission. This control
+uses runtime `cb3f5891801c3513e63b5c343e3b7d22e73731b6`, executable SHA256
+`b3b58d4c0dc62a2913cfa60bb90fa40a64ea31b73eb447179855d89f275c2cf2`.
+It is not yet a passing delivery: following-mission barracks initialization was
+refused. Keep that failed combined result and the previous empty-opening/effect
+refusals, rather than reporting a wholly passing chain.
 
-The owner's ordinary test reaches RoadHome with its declared wife carried, but
-arrival does not start the completion film. The destination and completion-film
-request are present in the source records. The current blocker is earlier:
-RoadHome has no opening request, and the old admission guard leaves that entry
-in preview rather than gameplay, suppressing objective evaluation.
+The return-film splash now has a canonical positioned state78 owner. It snapshots
+the reached source reference, keeps separate skip/active random draws, advances
+one vertical-fade segment and its real lifetime, supplies both source render
+routes and retires with its scope. The exact-duration fade segment stays active
+until strictly past its duration, independently observed in the pinned PC callback.
+Installed source-timeline controls pass fade/expiry/cleanup; actual canonical
+splash draws occur during the rendered return film. Native scheduling and pixels
+remain unverified.
 
-The acquired PC world-list constructor clears all mission slots. An original
-constructor control with the installed catalogue observes 992 empty opening
-fields across 31 worlds; six scenario-start controls distinguish empty and named
-requests while retaining supplied file, loader and activation boundaries. Empty
-opening names do not request a film and still reach the activation service.
-This does not validate native world/music prechecks or whole mission execution.
-Prototype PS2 `read_world_list` and `scenerio_start_mission__Fv` remain unknown
-PC-to-PS2 attributions.
-
-`mission_cinematics::select_fresh_world` now represents that acquired empty
-default for freshly constructed serialized inputs. It preserves the absence of
-command21 and keeps unknown prior slot storage distinct. Completion selection
-does not inherit this startup proof. The ordinary admission guard uses the
-result without inventing a film or acknowledging unrelated prerequisites.
-Core checks pass; rendered carried return, natural completion-film transport and
-following mission acceptance remain pending on a new executable.
+The following-mission refusal concerns source command7's opaque scalar on the
+admitted cold barracks. Its exact source value is now retained with its actual
+canonical declaration and checked before initialization. Independent native
+handler controls establish only the scalar store/cursor step, not its unknown
+semantic meaning. Installed following-Story2 and Story4 controls initialize every
+authored barracks while retaining that value and the later AI refusal. Other
+states and F4 overrides keep their existing guards. A new combined rendered
+return/re-entry regression is still required before publication.
 
 ## Separate declarations, predicates and transport
 

@@ -21,13 +21,17 @@ Owner feedback, 13 November: add source destructible trees and fix the ordinary
 RoadHome return while carrying the wife. Keep both in the next delivery's
 acceptance. RoadHome's authored destination/film exist, but absent-opening
 admission leaves it in preview and prevents objective evaluation. The fresh-slot
-default is now acquired and connected; a rendered ordinary return reaches its
-completion request. Its detached splash dependency now has a canonical owner
-and installed lifetime/fade/cleanup control; full rendered film/next-mission
-completion is still pending.
+default and detached splash owner now pass the actual carried return and
+natural completion-film transport on an unpublished executable. That run exposes
+a following-mission barracks refusal: its source command7 scalar is now retained
+and checked on canonical owners, with installed Story2/Story4 initialization
+controls. A new combined rendered chain is still required.
 See MISSION_PROGRESSION.md. Tree/state60 uses the acquired common damage callback,
-but its live physical/render owners, wood effect and distinct replacement/data
-transfer still need integration. Do not apply house health-animation stages or
+and the bounded palm/stump owners now pass installed supplied-hit controls:
+separate player/projectile meshes, source wood graph (17 births/17 retirements),
+fifteen-word replacement transfer and independent stump damage. Foliage retirement
+is connected; ordinary rendered acceptance remains pending. Collision currently
+uses the acquired initial idle pose; live wind/collision cadence remains unverified. Do not apply house health-animation stages or
 declare every foliage class destructible. Retain the Story4 missing cold owner
 regression before publishing the new barracks work; the previous public .13.2
 receipt remains separate.

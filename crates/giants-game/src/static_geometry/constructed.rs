@@ -40,7 +40,13 @@ impl Scene {
             .find(|r| r.opcode == 0x36)
             .and_then(|r| r.bytes.get(1))
             .copied();
-        if state != 0 && !(state == 78 && kind == Some(8)) {
+        let idle_stump = state == 60
+            && class == 664
+            && seed
+                .storage
+                .data()
+                .is_some_and(|d| d.len() == 76 && d.iter().all(|b| *b == 0));
+        if state != 0 && !(state == 78 && kind == Some(8)) && !idle_stump {
             return Err("constructed rigid draw outside static/state78-kind8 profile".into());
         }
         let binding = resources

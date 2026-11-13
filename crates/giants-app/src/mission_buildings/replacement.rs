@@ -15,6 +15,7 @@ pub(super) struct Template {
     bounds: giants_formats::world_bounds::Resolved,
     instance: static_geometry::Instance,
     assets: BTreeMap<usize, Arc<static_geometry::Asset>>,
+    tree_class: Option<Arc<Class>>,
 }
 pub(super) struct Placed {
     template: Arc<Template>,
@@ -24,6 +25,7 @@ pub(super) struct Placed {
     pub(super) replaces: u32,
     pub(super) alias: static_geometry::SourceKey,
     pub(super) contacts: u64,
+    tree: Option<[u32; 19]>,
     matrix: [f32; 16],
     bounds: [f32; 6],
     triangles: Vec<[[f32; 3]; 3]>,
@@ -33,21 +35,26 @@ impl Template {
     pub(super) fn load(source: &SceneResources, class: i32) -> Result<Arc<Self>, String> {
         // These source classes have independent constructor/header controls.
         // Do not relax all callbackless ANM declarations into this cohort.
-        if !matches!(class, 1127 | 1129) {
+        if !matches!(class, 664 | 1127 | 1129) {
             return Err("replacement constructor requires an acquired class profile".into());
         }
         let specification = giants_game::specification::Prepared::load_registered(source, class)?;
         let fields = Fields::load(source, class, &specification)?;
         let cold = giants_game::collider_init::cold_projection(source, class)
             .map_err(|e| e.to_string())?;
-        if cold.initial.state != 0
+        let tree_class = if class == 664 {
+            Some(trees::class(source, 664)?)
+        } else {
+            None
+        };
+        if cold.initial.state != if class == 664 { 60 } else { 0 }
             || cold.initial.usage != [0; 2]
             || cold.initial.fields.physical
             || fields.object_flags != 0
             || fields.control_flags != 0
             || fields.response_flags != 0
-            || fields.configuration[14] != 0
-            || fields.channels[0][0] != 1
+            || fields.configuration[14] != if class == 664 { 0x20042 } else { 0 }
+            || fields.channels[0][0] != if class == 664 { 254 } else { 1 }
             || fields.channels[1..].iter().any(|c| c[0] != 254)
         {
             return Err("replacement needs its actual callback/physics/role constructor".into());
@@ -95,15 +102,32 @@ impl Template {
             bounds,
             instance,
             assets,
+            tree_class,
         }))
     }
     pub(super) fn place(
         self: &Arc<Self>,
         old: &Fields,
+        old_tree: Option<[u32; 19]>,
         alias: static_geometry::SourceKey,
         replaces: u32,
         serial: u64,
     ) -> Result<Placed, String> {
+        let tree = self
+            .tree_class
+            .as_ref()
+            .map(|class| {
+                let mut payload = class.tree.ok_or("replacement tree payload absent")?;
+                let old = old_tree.ok_or("tree replacement needs source state60 payload")?;
+                // Native shared shot copies exactly fifteen words, preserving the
+                // new class's replacement/effect/restriction prefix.
+                payload[4..].copy_from_slice(&old[4..]);
+                if payload[9] & 4 != 0 {
+                    return Err("falling replacement needs its acquired pose owner".into());
+                }
+                Ok::<_, String>(payload)
+            })
+            .transpose()?;
         let mut fields = self.fields.clone();
         // Acquired caller stores only yaw/scale and an opaque source word.
         // The latter has no invented native meaning here: retain logical
@@ -164,6 +188,7 @@ impl Template {
             replaces,
             alias,
             contacts: 0,
+            tree,
             matrix,
             bounds,
             triangles,
@@ -172,6 +197,60 @@ impl Template {
     }
 }
 impl Placed {
+    pub(super) fn projectile(
+        &self,
+        id: u32,
+    ) -> Result<Option<giants_game::projectile_world::Object>, String> {
+        if self.fields.configuration[14] & 0x20000 == 0 {
+            return Ok(None);
+        }
+        Ok(Some(giants_game::projectile_world::Object {
+            id,
+            parent: 0,
+            active: self.fields.object_flags,
+            personality: self.fields.configuration[14],
+            bounds: giants_game::volume_queries::Bounds {
+                min: self.bounds[..3].try_into().unwrap(),
+                max: self.bounds[3..].try_into().unwrap(),
+            },
+            mesh: giants_game::object_segment::Mesh::new(id, self.triangles.clone())?,
+        }))
+    }
+    pub(super) fn damage_owner(
+        &self,
+        lineage: giants_game::declared_residents::Key,
+    ) -> Option<Owner> {
+        let class = self.template.tree_class.clone()?;
+        Some(Owner {
+            physical: true,
+            environment: false,
+            contacts: 0,
+            key: self.alias,
+            declaration: lineage,
+            fields: self.fields.clone(),
+            damage: House {
+                damage: 0.,
+                limit: f32::from_bits(self.fields.configuration[12]),
+            },
+            class,
+            pose: SourcePose {
+                basis: [
+                    self.matrix[0],
+                    self.matrix[1],
+                    self.matrix[2],
+                    self.matrix[4],
+                    self.matrix[5],
+                    self.matrix[6],
+                    self.matrix[8],
+                    self.matrix[9],
+                    self.matrix[10],
+                ],
+                position: self.fields.position,
+            },
+            fraction: 1f32.to_bits(),
+            tree: self.tree,
+        })
+    }
     pub(super) fn player(
         &self,
         id: u32,
@@ -423,7 +502,7 @@ mod tests {
             old.object_flags = 0x400;
             old.response_flags = 0x1000;
             old.configuration[12] = 999f32.to_bits();
-            let r = template.place(&old, (false, 123), 77, 1).unwrap();
+            let r = template.place(&old, None, (false, 123), 77, 1).unwrap();
             assert_eq!(
                 r.fields.angles,
                 [45., template.fields.angles[1], template.fields.angles[2]]

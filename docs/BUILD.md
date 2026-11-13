@@ -1,5 +1,13 @@
 # Build on Windows with MinGW
 
+The optional app controls
+`installed_palm_damage_keeps_source_stump_owner_and_independent_hits` and
+`installed_following_mission_barracks_retain_opaque_command7_and_initialize`
+use `GIANTS_BUILDING_ROOT` and `-- --ignored`. They exercise installed declarations
+under supplied hits/time, canonical metadata, complete wood-effect expiry and
+replacement collision ownership. These are intermediate CPU controls; normal
+menu/input/render and campaign regressions remain required.
+
 For source no-shot surface checks, the existing muted offscreen
 building input fixture accepts `GIANTS_MISSION_BUILDING_CAPTURE=unchanged`.
 It selects an already admitted source state0 mesh, supplies ordinary contact,

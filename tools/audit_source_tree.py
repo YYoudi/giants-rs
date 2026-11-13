@@ -24,6 +24,8 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed palm/stump and opaque source scalar routes; identities unknown.
+        '2238304170349433dab36ecf8f1727afc81e7d8e8fd3086d7aaf3e0a59c35777',
         # Reviewed detached vertical-fade route; no new PC aliases or identity.
         '9fd50c038add1f37d5876955b261138a33fda7a568ce79046756671fba08f2a8',
         # Reviewed fresh-slot and pending-tree routes; no new confirmed identity.

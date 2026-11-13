@@ -41,8 +41,12 @@ native continuity or public RoadHome completion; see MISSION_PROGRESSION.md.
 Tree integration begins with the literal prototype search routes `tree_process`,
 `tree_init` and `collision_wood__FP6OBJECT`. Their PC attributions remain
 **unknown**. See [BUILDINGS.md](BUILDINGS.md) for the pending shared damage,
-physical/render, wood-effect and replacement integration; current animated
-foliage is not a delivered destructible-tree service.
+physical/render, wood-effect and replacement integration. The bounded source
+palm/stump implementation is in `mission_buildings::trees`; its installed owner
+controls do not yet establish a delivered rendered feature. The unknown literal
+`mission_init__FPc` route also reaches source command7 retention in
+`declared_residents` / `resident_states`; no meaning or PS2 layout is inferred
+for that opaque PC scalar.
 
 ## Vimp search routes awaiting attribution
 

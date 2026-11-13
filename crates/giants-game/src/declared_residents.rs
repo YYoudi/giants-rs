@@ -117,7 +117,11 @@ impl Template {
         pitch_roll: Option<[f32; 2]>,
         writes: &[&giants_formats::mission::StateWriteKind],
     ) -> Result<Id, String> {
-        if source.mission_word_174.is_some() {
+        if source.mission_word_174.is_some()
+            && !(key.scope == Scope::Mission
+                && self.seed.storage.state() == 98
+                && matches!(source.class, 1060 | 1226))
+        {
             return Err("declared actor word174 consumer is not implemented".into());
         }
         if matches!(self.seed.storage.state(), 51 | 98) && source.mission_values_f4.is_some() {
@@ -152,11 +156,15 @@ impl Template {
             state_resources: self.resources.clone(),
             fields,
         };
-        if key.scope == Scope::Mission {
+        let id = if key.scope == Scope::Mission {
             session.construct_mission_declaration_with_pose(key, input, writes, initial)
         } else {
             session.construct_declaration_with_state_writes(key, input, writes)
+        }?;
+        if let Some(value) = source.mission_word_174 {
+            session.retain_barracks_word_174(key, id, value)?;
         }
+        Ok(id)
     }
 }
 

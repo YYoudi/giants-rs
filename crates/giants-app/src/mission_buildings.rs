@@ -5,6 +5,7 @@
 mod barracks;
 mod no_shot;
 mod replacement;
+mod trees;
 use giants_game::{
     actor_fields::Fields,
     arithmetic::Precision,
@@ -39,6 +40,7 @@ struct Class {
     fields: Fields,
     stages: BTreeMap<u32, Arc<Stage>>,
     replacement: Option<Arc<replacement::Template>>,
+    tree: Option<[u32; 19]>,
 }
 struct Owner {
     physical: bool,
@@ -53,6 +55,7 @@ struct Owner {
     class: Arc<Class>,
     pose: SourcePose,
     fraction: u32,
+    tree: Option<[u32; 19]>,
 }
 pub(crate) struct World {
     pub(crate) barracks_initial: barracks::Initial,
@@ -212,12 +215,22 @@ impl World {
             Arc::new(terrain.clone()),
         );
         for (record, object) in colliders.records.iter().zip(&colliders.objects) {
-            if !matches!(record.instance.state, 61 | 98 | 101) {
+            if !matches!(record.instance.state, 60 | 61 | 98 | 101) {
                 continue;
             }
             let prepared = (|| -> Result<Arc<Class>, String> {
                 if let Some(c) = classes.get(&record.class) {
                     return Ok(c.clone());
+                }
+                if record.instance.state == 60 {
+                    let c = trees::class(source, record.class)?;
+                    if let Policy::Scenery { effects, .. } = &c.policy {
+                        for binding in effects.values() {
+                            effect_runtime.preflight_offset(binding)?;
+                        }
+                    }
+                    classes.insert(record.class, c.clone());
+                    return Ok(c);
                 }
                 let specification =
                     giants_game::specification::Prepared::load_registered(source, record.class)?;
@@ -329,6 +342,7 @@ impl World {
                     fields,
                     stages,
                     replacement,
+                    tree: None,
                 });
                 classes.insert(record.class, c.clone());
                 Ok(c)
@@ -412,7 +426,9 @@ impl World {
                 damage: 0.,
                 limit: f32::from_bits(fields.configuration[12]),
             };
-            let fraction = if matches!(class.policy, Policy::Barracks) {
+            let fraction = if class.tree.is_some() {
+                1.
+            } else if matches!(class.policy, Policy::Barracks) {
                 giants_game::building_barracks::health_frame(0., damage.limit, thresholds)?.fraction
             } else {
                 damage.animation_fraction(thresholds)?
@@ -442,6 +458,7 @@ impl World {
                     declaration,
                     fields,
                     damage,
+                    tree: class.tree,
                     class,
                     fraction,
                     pose: SourcePose {
@@ -452,7 +469,7 @@ impl World {
             );
         }
         println!(
-            "mission_buildings_prepared owners={} classes={} callbacks=source_house_bounded_state101_and_canonical_barracks other_families=false",
+            "mission_buildings_prepared owners={} classes={} callbacks=source_house_bounded_state101_palm_and_canonical_barracks other_families=false",
             owners.len(),
             classes.len()
         );
@@ -574,8 +591,13 @@ impl World {
                             .map_err(|_| "replacement serial overflow")?
                             .checked_add(1)
                             .ok_or("replacement serial overflow")?;
-                        let placed =
-                            template.place(&owner.fields, owner.key, hit.object, serial)?;
+                        let placed = template.place(
+                            &owner.fields,
+                            owner.tree,
+                            owner.key,
+                            hit.object,
+                            serial,
+                        )?;
                         self.replacements.push(placed);
                         replacement = Some(index);
                     }
@@ -615,7 +637,12 @@ impl World {
                 },
             }
         }
-        let fraction = owner.damage.animation_fraction(self.thresholds)?.to_bits();
+        let fraction = if owner.tree.is_some() {
+            1.
+        } else {
+            owner.damage.animation_fraction(self.thresholds)?
+        }
+        .to_bits();
         let stage = owner
             .class
             .stages
@@ -623,6 +650,13 @@ impl World {
             .ok_or("building health pose absent")?
             .clone();
         let retired = owner.fields.object_flags & 0x8000 != 0;
+        if let Some(r) = self
+            .replacements
+            .iter_mut()
+            .find(|r| r.object == Some(hit.object))
+        {
+            r.fields.object_flags = owner.fields.object_flags;
+        }
         let geometry = (!retired).then(|| stage.clone());
         let triangles = if retired {
             vec![]
@@ -661,7 +695,11 @@ impl World {
         detail: Option<([f32; 3], f32)>,
     ) -> Result<Vec<crate::mission_runtime::NpcDraw>, String> {
         let mut draws = self.effects.draws(view, detail)?;
-        for replacement in &self.replacements {
+        for replacement in self
+            .replacements
+            .iter()
+            .filter(|r| r.fields.object_flags & 0x8000 == 0)
+        {
             draws.push(replacement.draw(detail)?);
         }
         Ok(draws)
@@ -689,13 +727,18 @@ impl World {
                 || !players
                     .iter()
                     .any(|p| p.fields.id == id && !p.triangles.is_empty())
-                || projectiles.iter().any(|p| p.id == id)
+                || projectiles
+                    .iter()
+                    .any(|p| p.id == id && p.active & 0x8000 == 0)
+                    != (r.fields.configuration[14] & 0x20000 != 0)
             {
                 return Err("replacement actual contact/independent collision roles absent".into());
             }
             println!(
-                "mission_building_replacement_verified old_object={old} object={id} class={} contacts={} independent_player_mesh=true projectile=false actual_narrow_phase=true",
-                r.fields.class, r.contacts
+                "mission_building_replacement_verified old_object={old} object={id} class={} contacts={} independent_player_mesh=true projectile={} actual_narrow_phase=true",
+                r.fields.class,
+                r.contacts,
+                r.fields.configuration[14] & 0x20000 != 0
             );
         }
         Ok(())
@@ -710,6 +753,16 @@ impl World {
             .ok_or("replacement instance absent")?
             .player(id)
     }
+    pub(crate) fn replacement_projectile(
+        &self,
+        index: usize,
+        id: u32,
+    ) -> Result<Option<giants_game::projectile_world::Object>, String> {
+        self.replacements
+            .get(index)
+            .ok_or("replacement absent")?
+            .projectile(id)
+    }
     pub(crate) fn publish_replacement(&mut self, index: usize, id: u32) -> Result<(), String> {
         if self.observes_contact(id) {
             return Err("replacement world identity already used".into());
@@ -721,10 +774,22 @@ impl World {
         if r.object.is_some() || id == r.replaces {
             return Err("replacement publication repeated/reused".into());
         }
+        let lineage = self
+            .owners
+            .get(&r.replaces)
+            .ok_or("replacement source lineage absent")?
+            .declaration;
+        if let Some(owner) = r.damage_owner(lineage) {
+            self.owners.insert(id, owner);
+        }
         r.object = Some(id);
         println!(
-            "mission_building_replacement object={id} old_object={} class={} alias={:?} serial={} player=true projectile=false environment=false independent_identity=true native_fidelity=false",
-            r.replaces, r.fields.class, r.alias, r.serial
+            "mission_building_replacement object={id} old_object={} class={} alias={:?} serial={} player=true projectile={} environment=false independent_identity=true native_fidelity=false",
+            r.replaces,
+            r.fields.class,
+            r.alias,
+            r.serial,
+            r.fields.configuration[14] & 0x20000 != 0
         );
         Ok(())
     }

@@ -282,6 +282,33 @@ credit or complete native-world/visual fidelity. Combined regressions, live
 cancellation/fresh entry and separate Windows acceptance remain required before
 publication; .13.2 remains the public build.
 
+## Palm/stump continuation (unpublished)
+
+The admitted state60 palm class now uses its independently selected source
+collision model, shared acquired shot decisions and source health10. A supplied
+ordinary-pistol damage12 destroys it and requests its real wood effect and
+replacement664. The replacement retains its own health100, player/projectile
+roles and identity; nine further damage12 hits retire it without inventing a
+second wood effect. The original shared callback's state60-only fifteen-word
+tail transfer is independently controlled; the new class's four-word prefix is
+preserved. The idle replacement has no invented house health stage or animation.
+
+The ordinary foliage render owner consumes retirement by the exact declaration
+key and keeps all old parts hidden through later wind/LOD updates. The installed
+CPU integration control observes the complete source wood graph, object sound
+requests, 17 births/17 retirements and persistent replacement roles across NPC
+contact refresh. This is not yet rendered acceptance. Collision uses the acquired
+initial idle tree pose; ongoing wind/collision clock alignment, heavy-actor
+felling, other tree classes and complete native fidelity remain open. A native
+callback or symbol name alone does not extend this scope.
+
+The following-mission/Story4 cold barracks regression now retains the exact
+source command7 scalar with its canonical owner before initialization. Its
+semantic meaning remains unknown; it is neither dropped nor assigned a guessed
+behavior. Actual-key/value checks precede the initial walk. F4 overrides and
+other unacquired states remain refused. Installed source initialization passes;
+combined rendered regressions remain required before publication.
+
 ## Installed catalogue coverage audit
 
 Owner feedback adds ordinary destructible trees to the next integration work.

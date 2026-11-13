@@ -8,6 +8,7 @@ pub struct Scene {
     last_camera: Option<([f32; 16], [f32; 16])>,
     mesh_cache: std::collections::BTreeMap<(usize, usize), Handle<Mesh>>,
     preview_seconds: f32,
+    retired: std::collections::BTreeSet<(bool, usize)>,
 }
 struct Part {
     entity: Entity,
@@ -64,6 +65,7 @@ impl Scene {
             last_camera: None,
             mesh_cache: Default::default(),
             preview_seconds: 0.,
+            retired: Default::default(),
         })
     }
 }
@@ -306,6 +308,43 @@ fn source_camera(
         lod_scale: 1.,
     })
 }
+/// Ordinary tree retirement consumes the same source key as collision/damage.
+/// Keep every rendered part hidden across later wind/LOD updates.
+pub(crate) fn building_updates(
+    mut updates: MessageReader<crate::mission_buildings::Update>,
+    runtime: Res<crate::mission_runtime::Runtime>,
+    scene: Option<ResMut<Scene>>,
+    mut visibility: Query<&mut Visibility>,
+) {
+    let Some(mut scene) = scene else {
+        updates.clear();
+        return;
+    };
+    for update in updates.read() {
+        if runtime.active_ticket() != Some(update.ticket)
+            || update.class != 102
+            || update.geometry.is_some()
+        {
+            continue;
+        }
+        scene.retired.insert(update.key);
+        let mut count = 0;
+        for rendered in &scene.rendered {
+            let source = &scene.source.instances[rendered.instance];
+            if source.class == 102
+                && (source.from_world, source.source_offset) == update.key
+                && let Ok(mut visible) = visibility.get_mut(rendered.entity)
+            {
+                *visible = Visibility::Hidden;
+                count += 1;
+            }
+        }
+        println!(
+            "mission_tree_draw ticket={} key={:?} class=102 parts={count} retired=true source_identity=true",
+            update.ticket, update.key
+        );
+    }
+}
 pub fn update(
     mut scene: ResMut<Scene>,
     cine: Option<Res<crate::cinematic_camera::Cinematic>>,
@@ -343,6 +382,12 @@ pub fn update(
     let scene = &mut *scene;
     for rendered in &scene.rendered {
         let instance = &scene.source.instances[rendered.instance];
+        if scene
+            .retired
+            .contains(&(instance.from_world, instance.source_offset))
+        {
+            continue;
+        }
         if instance.class != 102 {
             if let Ok(mut transform) = transforms.get_mut(rendered.entity) {
                 *transform = sort_transform(

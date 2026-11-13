@@ -373,6 +373,9 @@ impl<S: State23Services> crate::state23_damage::Services<Id> for State23Adapter<
 }
 #[derive(Debug)]
 pub struct Resident {
+    /// Retained source command7 scalar on acquired declared barracks. Its
+    /// semantics and consumers outside this profile remain unknown.
+    pub declared_word_174: Option<u32>,
     herd: Option<crate::herd_generator::Owned>,
     herd_frame: Option<crate::herd_frame::Owned>,
     herd_marker: Option<crate::herd_markers::Marker>,
@@ -644,6 +647,7 @@ impl Session {
         self.residents.insert(
             serial,
             Resident {
+                declared_word_174: None,
                 herd: None,
                 herd_marker: None,
                 vimp: None,
@@ -10053,6 +10057,33 @@ impl Session {
     }
     pub fn declaration(&self, key: crate::declared_residents::Key) -> Option<Id> {
         self.declarations.get(&key).copied()
+    }
+    /// Preserve command7 after declaration construction, before any callback.
+    /// Prototype PS2 `mission_init` is an unknown attribution navigation route;
+    /// retain this PC scalar without importing a platform field interpretation.
+    pub(crate) fn retain_barracks_word_174(
+        &mut self,
+        key: crate::declared_residents::Key,
+        id: Id,
+        value: u32,
+    ) -> Result<(), String> {
+        if key.scope != crate::declared_residents::Scope::Mission
+            || self.declaration(key) != Some(id)
+        {
+            return Err("opaque mission word requires its actual declaration".into());
+        }
+        let resident = self
+            .residents
+            .get_mut(&id.serial)
+            .ok_or("opaque mission word actor absent")?;
+        if !matches!(resident.class, 1060 | 1226)
+            || resident.seed.storage.state() != 98
+            || resident.declared_word_174.is_some()
+        {
+            return Err("opaque mission word outside acquired cold barracks profile".into());
+        }
+        resident.declared_word_174 = Some(value);
+        Ok(())
     }
     pub fn declaration_count(&self) -> usize {
         self.declarations.len()
