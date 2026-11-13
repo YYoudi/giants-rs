@@ -2,6 +2,8 @@
 use super::*;
 pub(crate) struct RipperInputSnapshot {
     pub target: Option<[f32; 3]>,
+    pub target_actor: Option<giants_game::resident_states::Id>,
+    pub projectile_source: Option<giants_game::resident_states::Id>,
     pub flight_revision: u64,
     pub projectile: Option<[f32; 3]>,
     pub impact: Option<([f32; 3], u64)>,
@@ -30,8 +32,12 @@ impl Runtime {
             .min_by(|a, b| {
                 let distance = |p: [f32; 3]| (p[0] - position[0]).hypot(p[1] - position[1]);
                 distance(a.center).total_cmp(&distance(b.center))
-            })
-            .map(|d| d.center);
+            });
+        let target_actor = target.and_then(|d| match d.id {
+            NpcDrawOwner::Actor(id) => Some(id),
+            _ => None,
+        });
+        let target = target.map(|d| d.center);
         let active = self
             .active
             .as_ref()
@@ -44,7 +50,10 @@ impl Runtime {
                 let NpcDrawOwner::Actor(id) = d.id else {
                     return None;
                 };
-                session.enemy_projectile(id).map(|_| (d.frame, d.center))
+                session
+                    .enemy_projectile(id)
+                    .and_then(|p| p.launch.as_ref())
+                    .map(|p| (d.frame, d.center, p.source))
             })
             .max_by_key(|v| v.0);
         let flight_revision = projectile.map_or(0, |v| v.0);
@@ -57,6 +66,8 @@ impl Runtime {
                 .and_then(|r| r.as_ref())
                 .and_then(|r| r.quarantine_step()),
             target,
+            target_actor,
+            projectile_source: projectile.map(|v| v.2),
             flight_revision,
             projectile: projectile.map(|v| v.1),
             mecc_damage: active

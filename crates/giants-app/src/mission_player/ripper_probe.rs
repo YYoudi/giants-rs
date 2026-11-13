@@ -64,6 +64,9 @@ pub(super) struct Input {
 pub(super) struct Navigation {
     recharging: bool,
     climbing: bool,
+    chase_actor: Option<giants_game::resident_states::Id>,
+    chase_origin: Option<[f32; 3]>,
+    chase_first_shot: Option<u32>,
 }
 impl Navigation {
     fn thrust(&mut self, distance: f32, relative_height: f32, fuel: f32) -> bool {
@@ -89,14 +92,33 @@ pub(super) fn input(
 ) -> Result<Input, String> {
     let position = state.mission_snapshot().0;
     let snapshot = runtime.ripper_input_snapshot(ticket, position)?;
+    let chase = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CHASE").as_deref() == Ok("1");
+    if chase && navigation.chase_actor != snapshot.target_actor {
+        navigation.chase_actor = snapshot.target_actor;
+        navigation.chase_origin = snapshot.target;
+        navigation.chase_first_shot = None;
+    }
+    if chase
+        && snapshot.projectile_source.is_some()
+        && snapshot.projectile_source == snapshot.target_actor
+    {
+        navigation.chase_first_shot.get_or_insert(step);
+    }
+    let chase_moved = navigation
+        .chase_origin
+        .zip(snapshot.target)
+        .is_some_and(|(a, b)| (a[0] - b[0]).hypot(a[1] - b[1]) >= 20.);
     let mut input = Input {
         axes: Vec2::ZERO,
         thrust: false,
         boost: false,
         // Read-only endpoints over ordinary consumers. No damage, impact or
         // availability is supplied by selecting a diagnostic capture target.
-        capture: if std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CONTINUATION").as_deref()
-            == Ok("1")
+        capture: if chase {
+            chase_moved
+                && snapshot.flight_revision >= flights()?
+                && snapshot.projectile_source == snapshot.target_actor
+        } else if std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CONTINUATION").as_deref() == Ok("1")
         {
             snapshot
                 .quarantine_step
@@ -119,15 +141,16 @@ pub(super) fn input(
         let dy = target[1] - position[1];
         let distance = dx.hypot(dy);
         let camera = state.subjective_inputs().0;
-        let aim =
-            if std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CONTINUATION").as_deref() == Ok("1") {
-                [target[0], target[1], target[2] + 8.]
-            } else {
-                snapshot
-                    .projectile
-                    .or(snapshot.impact.map(|(position, _)| position))
-                    .unwrap_or([target[0], target[1], target[2] + 8.])
-            };
+        let aim = if chase
+            || std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CONTINUATION").as_deref() == Ok("1")
+        {
+            [target[0], target[1], target[2] + 8.]
+        } else {
+            snapshot
+                .projectile
+                .or(snapshot.impact.map(|(position, _)| position))
+                .unwrap_or([target[0], target[1], target[2] + 8.])
+        };
         let desired = (aim[0] - position[0]).atan2(-(aim[1] - position[1]));
         let horizontal = (aim[0] - camera.position[0]).hypot(aim[1] - camera.position[1]);
         let pitch = (camera.position[2] - aim[2]).atan2(horizontal.max(1.));
@@ -142,6 +165,14 @@ pub(super) fn input(
         );
         if distance > 5. {
             input.axes = Vec2::Y;
+        }
+        // Supplied player retreat; never an NPC position or mode write.
+        if chase && let Some(first) = navigation.chase_first_shot {
+            if step < first + 240 {
+                input.axes = Vec2::NEG_Y;
+            } else if distance < 200. {
+                input.axes = Vec2::ZERO;
+            }
         }
         let previous = (navigation.recharging, navigation.climbing);
         let fuel = state.mission_snapshot().1;
