@@ -18,6 +18,21 @@ pub trait Hits {
     fn damage(&mut self, session: &mut Session, hit: Hit<Id>) -> Result<(), String>;
 }
 
+/// Observed obstacle to the universal no-effect proof. This does not resolve
+/// native context/health eligibility or acknowledge an active hit/alert sink.
+#[derive(Clone, Copy, Debug)]
+pub struct Obstacle {
+    pub actor: Id,
+    pub class: i32,
+    pub state: u32,
+    pub health: Option<[f32; 2]>,
+    pub actor_context: u32,
+    pub request_context: u32,
+    pub reason: crate::radial_damage::PossibleEffect,
+    pub distance_squared: f32,
+    pub bound_squared: f64,
+}
+
 // The original radial head is the first additional list, not common list0.
 const LIST: u32 = 1;
 
@@ -179,22 +194,45 @@ impl Session {
         request: &crate::enemy_projectile::RadialRequest,
         vimp_alert_range: Option<f32>,
     ) -> Result<bool, String> {
+        Ok(self
+            .enemy_projectile_radial_no_effect_obstacle(request, vimp_alert_range)?
+            .is_none())
+    }
+    pub fn enemy_projectile_radial_no_effect_obstacle(
+        &self,
+        request: &crate::enemy_projectile::RadialRequest,
+        vimp_alert_range: Option<f32>,
+    ) -> Result<Option<Obstacle>, String> {
         self.validate_enemy_radial_request(request)?;
         let parameters = request.parameters.map(f32::from_bits);
         if parameters[3] == 0. {
-            return Ok(true);
+            return Ok(None);
         }
         let actors = self
             .list(LIST)
             .into_iter()
             .map(|id| self.radial_actor(id))
             .collect::<Result<Vec<_>, _>>()?;
-        crate::radial_damage::no_effect_invariant(
+        Ok(crate::radial_damage::no_effect_obstacle(
             parameters,
             request.position,
             vimp_alert_range,
             &actors,
-        )
+        )?
+        .map(|obstacle| {
+            let actor = &actors[obstacle.index];
+            Obstacle {
+                actor: actor.id,
+                class: actor.class,
+                state: actor.state,
+                health: actor.health,
+                actor_context: actor.context,
+                request_context: request.context,
+                reason: obstacle.reason,
+                distance_squared: obstacle.distance_squared,
+                bound_squared: obstacle.bound_squared,
+            }
+        }))
     }
     fn validate_enemy_radial_request(
         &self,

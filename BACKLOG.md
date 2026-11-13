@@ -179,6 +179,12 @@ encounter, exiting101 after about145 seconds with no capture. A possible hit or
 alert cannot be excluded; actual eligibility is not yet established. Do not
 weaken the proof, supply an unbound context word or turn that refusal into a
 positive hit/alert receipt. Actual clock/context/health consumers remain required.
+The read-only proof now reports the first actual list member blocking it, with
+observed optional health/context and the radial/alert bound. Run this diagnostic
+on an identified executable next. An obstacle remains a failed universal proof,
+not a positive eligibility or effect receipt; the acceptance predicate has not
+been relaxed. Preserve native clock/context requirements when wiring the real
+consumer selected from that observation.
 The genuine shared-world failure/completion guards required by direct Mecc
 contact also remain unbound. Earlier source `3297c8c` / GNU executable
 `7dbfc7408cc75ca0d21a43f283d4b86de7f45618413c6b56e506258f0eacd21e`

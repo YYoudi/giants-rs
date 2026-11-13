@@ -71,8 +71,12 @@ impl GroundImpactServices for Impact<'_> {
         _: &mut Random,
     ) -> Result<(), String> {
         let range = self.globals.scalar(0x9c0).map_err(|e| e.to_string())?;
-        if !session.enemy_projectile_radial_no_effect_invariant(&request, Some(range))? {
-            return Err("ordinary Ripper blast requires an actual active-hit or Vimp-alert consumer; no-effect invariant does not hold".into());
+        if let Some(obstacle) =
+            session.enemy_projectile_radial_no_effect_obstacle(&request, Some(range))?
+        {
+            return Err(format!(
+                "ordinary Ripper blast requires an actual active-hit or Vimp-alert consumer; no-effect invariant does not hold; obstacle={obstacle:?}; eligibility=not_evaluated"
+            ));
         }
         Ok(())
     }

@@ -18,6 +18,15 @@ eligibility and positive hit/alert consumption remain unresolved; the refusal
 does not prove that a Vimp was alerted or an actor hurt. This is a failed complete
 encounter candidate, with no new pixel-fidelity or Windows-input acceptance.
 
+The conservative radial proof now reports its first actual owned-list obstacle:
+actor identity/class/state, observed optional health and dispatch contexts,
+distance and the exceeded proof condition. These values explain a refusal only;
+they do not evaluate native eligibility, bind the unprovided global context word,
+emit an alert or acknowledge damage. The predicate, ordering and boundaries are
+unchanged, including the zero-slope and masked-actor lazy inputs. The diagnostic
+must be exercised on a fresh identified rendered candidate before choosing an
+active consumer; do not infer one from the earlier undifferentiated refusal.
+
 The earlier source `3297c8c`, GNU executable SHA256
 `7dbfc7408cc75ca0d21a43f283d4b86de7f45618413c6b56e506258f0eacd21e`,
 enters The Wife through the ordinary menu path. Its continuous rendered

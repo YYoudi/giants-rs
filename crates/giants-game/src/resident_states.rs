@@ -22,7 +22,9 @@ pub use delphi_local_target::{
     Context as DelphiLocalTargetContext, Phase as DelphiLocalTargetPhase,
     Providers as DelphiLocalTargetProviders, View as DelphiLocalTargetView,
 };
-pub use radial_damage::{Environment as RadialEnvironment, Hits as RadialHits};
+pub use radial_damage::{
+    Environment as RadialEnvironment, Hits as RadialHits, Obstacle as RadialNoEffectObstacle,
+};
 mod contacts;
 #[cfg(test)]
 mod delphi_proximity_tests;

@@ -27,8 +27,33 @@ pub fn no_effect_invariant<I>(
     vimp_alert_range: Option<f32>,
     actors: &[Actor<I>],
 ) -> Result<bool, String> {
+    Ok(no_effect_obstacle(parameters, position, vimp_alert_range, actors)?.is_none())
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum PossibleEffect {
+    DamageRadius,
+    VimpAlertRadius,
+}
+
+/// The first obstacle to this conservative proof, not an eligible actor, an
+/// executed side effect or a positive callback receipt. List order is retained.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct NoEffectObstacle {
+    pub index: usize,
+    pub reason: PossibleEffect,
+    pub distance_squared: f32,
+    pub bound_squared: f64,
+}
+
+pub fn no_effect_obstacle<I>(
+    parameters: [f32; 5],
+    position: [f32; 3],
+    vimp_alert_range: Option<f32>,
+    actors: &[Actor<I>],
+) -> Result<Option<NoEffectObstacle>, String> {
     if parameters[3] == 0. {
-        return Ok(true);
+        return Ok(None);
     }
     if !parameters.into_iter().chain(position).all(f32::is_finite) {
         return Err("radial no-effect proof requires finite source arithmetic".into());
@@ -37,7 +62,7 @@ pub fn no_effect_invariant<I>(
     if !outer_squared.is_finite() {
         return Err("radial outer radius square overflow".into());
     }
-    for actor in actors {
+    for (index, actor) in actors.iter().enumerate() {
         if actor.active & 0x4000c000 != 0 {
             continue;
         }
@@ -51,18 +76,28 @@ pub fn no_effect_invariant<I>(
             return Err("radial target distance overflow".into());
         }
         if distance <= outer_squared {
-            return Ok(false);
+            return Ok(Some(NoEffectObstacle {
+                index,
+                reason: PossibleEffect::DamageRadius,
+                distance_squared: distance,
+                bound_squared: f64::from(outer_squared),
+            }));
         }
         if actor.class == 8 {
             let range = vimp_alert_range
                 .filter(|v| v.is_finite())
                 .ok_or("radial no-effect proof requires the actual Vimp alert range")?;
             if f64::from(distance) < f64::from(range) * f64::from(range) {
-                return Ok(false);
+                return Ok(Some(NoEffectObstacle {
+                    index,
+                    reason: PossibleEffect::VimpAlertRadius,
+                    distance_squared: distance,
+                    bound_squared: f64::from(range) * f64::from(range),
+                }));
             }
         }
     }
-    Ok(true)
+    Ok(None)
 }
 
 #[cfg(test)]
@@ -236,6 +271,68 @@ mod tests {
                 &[]
             )
             .unwrap()
+        );
+    }
+
+    #[test]
+    fn obstacle_is_a_proof_failure_and_not_a_positive_eligibility_receipt() {
+        let mut actors = vec![actor(1, 73, 1000.), actor(2, 8, 50.), actor(3, 73, 10.)];
+        for a in &mut actors {
+            a.context = 0;
+        }
+        actors[1].health = Some([10., 10.]);
+        let mut i = input();
+        i.context = 0;
+        i.cross_context = false;
+        let obstacle = no_effect_obstacle(i.parameters, i.position, Some(100.), &actors)
+            .unwrap()
+            .unwrap();
+        assert_eq!(
+            (obstacle.index, obstacle.reason),
+            (1, PossibleEffect::VimpAlertRadius)
+        );
+        assert_eq!(
+            (obstacle.distance_squared, obstacle.bound_squared),
+            (2500., 10_000.)
+        );
+        assert!(!no_effect_invariant(i.parameters, i.position, Some(100.), &actors).unwrap());
+        let mut actual = world(actors);
+        Machine::default().run(i, &mut actual).unwrap();
+        assert!(actual.events.iter().all(|event| event.0 == 0));
+    }
+
+    #[test]
+    fn obstacle_preserves_mask_and_inclusive_damage_boundary_without_health_or_alert_input() {
+        let masked = Actor {
+            active: 0x4000_0000,
+            position: [f32::NAN; 3],
+            ..actor(1, 8, 0.)
+        };
+        let target = Actor {
+            health: None,
+            ..actor(2, 73, 30.)
+        };
+        let obstacle =
+            no_effect_obstacle([0., 30., 50., -1., 50.], [0.; 3], None, &[masked, target])
+                .unwrap()
+                .unwrap();
+        assert_eq!(
+            (obstacle.index, obstacle.reason),
+            (1, PossibleEffect::DamageRadius)
+        );
+        assert_eq!(
+            (obstacle.distance_squared, obstacle.bound_squared),
+            (900., 900.)
+        );
+        assert!(
+            no_effect_obstacle::<u32>(
+                [f32::NAN, f32::NAN, f32::NAN, -0., f32::NAN],
+                [f32::NAN; 3],
+                None,
+                &[]
+            )
+            .unwrap()
+            .is_none()
         );
     }
     #[test]
