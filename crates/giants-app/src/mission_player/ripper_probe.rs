@@ -119,10 +119,15 @@ pub(super) fn input(
         let dy = target[1] - position[1];
         let distance = dx.hypot(dy);
         let camera = state.subjective_inputs().0;
-        let aim = snapshot
-            .projectile
-            .or(snapshot.impact.map(|(position, _)| position))
-            .unwrap_or([target[0], target[1], target[2] + 8.]);
+        let aim =
+            if std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CONTINUATION").as_deref() == Ok("1") {
+                [target[0], target[1], target[2] + 8.]
+            } else {
+                snapshot
+                    .projectile
+                    .or(snapshot.impact.map(|(position, _)| position))
+                    .unwrap_or([target[0], target[1], target[2] + 8.])
+            };
         let desired = (aim[0] - position[0]).atan2(-(aim[1] - position[1]));
         let horizontal = (aim[0] - camera.position[0]).hypot(aim[1] - camera.position[1]);
         let pitch = (camera.position[2] - aim[2]).atan2(horizontal.max(1.));

@@ -20,7 +20,8 @@ pub(super) struct Driver {
     markers: BTreeSet<Id>,
     pub(super) projectiles: BTreeSet<Id>,
     pub(super) projectile_failures: BTreeMap<Id, String>,
-    pub(super) last_quarantine_step: Option<u64>,
+    pub(super) first_quarantine_step: Option<u64>,
+    actor_failures: BTreeMap<Id, String>,
     pub(super) flights: BTreeMap<Id, u64>,
 }
 impl Driver {
@@ -675,7 +676,7 @@ impl ActorWorldServices for Callbacks<'_, '_> {
 }
 impl State {
     pub(in crate::mission_runtime) fn quarantine_step(&self) -> Option<u64> {
-        self.driver.last_quarantine_step
+        self.driver.first_quarantine_step
     }
 
     pub(in crate::mission_runtime) fn refuse_draw(&mut self, ticket: u64, error: String) {
@@ -739,7 +740,9 @@ impl State {
         }
         // All owned position histories precede this component's callbacks.
         for owner in &owners {
-            session.begin_actor_frame_history(owner.id)?;
+            if !self.driver.actor_failures.contains_key(&owner.id) {
+                session.begin_actor_frame_history(owner.id)?;
+            }
         }
         for id in self.driver.markers.iter().copied() {
             if session.actor_world_flags(id)? & 0xc000 == 0 {
@@ -748,6 +751,9 @@ impl State {
             }
         }
         for owner in owners {
+            if self.driver.actor_failures.contains_key(&owner.id) {
+                continue;
+            }
             let identity = u32::try_from(owner.declaration.key.index)
                 .map_err(|_| "Ripper identity overflow")?
                 .checked_add(2)
@@ -770,7 +776,18 @@ impl State {
                 projectile_factory: &mut self.projectile_factory,
                 combat: device,
             };
-            let outcome = session.update_actor_world(owner.id, &mut callbacks)?;
+            let outcome = match session.update_actor_world(owner.id, &mut callbacks) {
+                Ok(outcome) => outcome,
+                Err(error) => {
+                    eprintln!(
+                        "mission_ripper_actor_quarantined ticket={} step={} owner={:?} class={} error={error} frame_acknowledged=false independent_ai_continues=true",
+                        frame.ticket, frame.step, owner.id, owner.declaration.class
+                    );
+                    self.driver.actor_failures.insert(owner.id, error);
+                    self.driver.completed.remove(&owner.id);
+                    continue;
+                }
+            };
             if outcome != giants_game::actor_world_tick::Outcome::Updated {
                 return Err(format!(
                     "Ripper frame did not complete ordinary finalization: {outcome:?}"
@@ -780,6 +797,21 @@ impl State {
             if let Some(epoch) = callbacks.epoch {
                 let number = self.driver.completed.get(&owner.id).map_or(1, |v| v.0 + 1);
                 self.driver.completed.insert(owner.id, (number, epoch));
+            }
+            if frame.step.is_multiple_of(240)
+                && let Some(fields) = session
+                    .get(owner.id)
+                    .and_then(|actor| actor.construction_fields.as_ref())
+            {
+                println!(
+                    "mission_ripper_motion ticket={} step={} owner={:?} class={} position={:?} mode={:?} completed_frame=true forced_pose=false",
+                    frame.ticket,
+                    frame.step,
+                    owner.id,
+                    owner.declaration.class,
+                    fields.position,
+                    session.state23_combat(owner.id).map(|state| state.mode)
+                );
             }
         }
         self.advance_markers(session, frame, random, device)?;

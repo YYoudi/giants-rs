@@ -249,7 +249,7 @@ impl State {
             frame.ticket, frame.step
         );
         self.driver.projectile_failures.insert(id, error);
-        self.driver.last_quarantine_step = Some(frame.step);
+        self.driver.first_quarantine_step.get_or_insert(frame.step);
         self.driver.flights.remove(&id);
     }
 }
