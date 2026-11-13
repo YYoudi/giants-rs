@@ -20,6 +20,7 @@ pub struct Metadata {
     pub launch: Option<Launch>,
     pub failure: Option<String>,
     pub ground_impact: Option<GroundImpact>,
+    pub object_impact: Option<ObjectImpact>,
     /// Initial late collider snapshot, not current world bounds or a ready tick.
     pub initial_environment: Option<crate::collider_init::Instance>,
     pub pending_flight: Option<FlightOutcome>,
@@ -93,6 +94,7 @@ pub enum Phase {
     Failed,
     Launched,
     ImpactServices,
+    ObjectImpactServices,
     Retiring,
     CleanupServices,
 }
@@ -206,6 +208,7 @@ pub fn prepare(seed: &Seed, fields: &Fields) -> Result<Prepared, String> {
             launch: None,
             failure: None,
             ground_impact: None,
+            object_impact: None,
             initial_environment: None,
             pending_flight: None,
             ground_flight_clock: None,
@@ -222,6 +225,47 @@ pub struct GroundImpact {
     pub effect: EffectOutcome,
     pub sound: Option<SoundOutcome>,
     pub cue: Option<u32>,
+}
+/// A completed positive direct contact. Target identity is historical evidence,
+/// not an owned transform/attachment reference. The pending query owns the live
+/// target reference until this continuation completes.
+#[derive(Clone, Copy, Debug)]
+pub struct ObjectImpact {
+    pub source: crate::resident_states::Id,
+    pub target: crate::resident_states::Id,
+    pub point: [f32; 3],
+    pub tag: u32,
+    pub amount: f32,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ObjectContactOutcome {
+    Retained,
+    Marked,
+}
+/// Real single-player direct-hit consumers. World suppression is queried before
+/// callback dispatch. Terminal processing follows the actual source mark; no
+/// default world guards, damage backend or mission owner are supplied here.
+pub trait ObjectImpactServices {
+    fn world_suppressed(
+        &mut self,
+        session: &crate::resident_states::Session,
+    ) -> Result<bool, String>;
+    fn hurt(
+        &mut self,
+        session: &mut crate::resident_states::Session,
+        request: ObjectImpact,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<(), String>;
+    fn terminal(
+        &mut self,
+        session: &mut crate::resident_states::Session,
+        target: crate::resident_states::Id,
+    ) -> Result<(), String>;
+}
+#[derive(Clone, Copy)]
+pub(crate) enum RetirementKind {
+    Ground,
+    Object,
 }
 #[derive(Clone, Debug)]
 pub struct ImpactEffect {

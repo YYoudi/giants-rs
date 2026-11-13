@@ -27,6 +27,7 @@ mod contacts;
 #[cfg(test)]
 mod delphi_proximity_tests;
 mod dependency_order;
+mod enemy_object_contact;
 mod enemy_projectile_presentation;
 mod herd_frame;
 #[cfg(test)]
@@ -8995,6 +8996,7 @@ impl Session {
         &self,
         id: Id,
         phase: crate::enemy_projectile::Phase,
+        reaction: crate::enemy_projectile::RetirementKind,
     ) -> Result<Counts, String> {
         let actor = self.get(id).ok_or("retirement actor absent or foreign")?;
         let metadata = actor
@@ -9012,7 +9014,14 @@ impl Session {
             || actor.seed.storage.state() != 6
             || actor.seed.storage.data().is_none_or(|b| b.len() != 36)
             || metadata.phase != phase
-            || metadata.ground_impact.is_none()
+            || match reaction {
+                crate::enemy_projectile::RetirementKind::Ground => {
+                    metadata.ground_impact.is_none() || metadata.object_impact.is_some()
+                }
+                crate::enemy_projectile::RetirementKind::Object => {
+                    metadata.object_impact.is_none() || metadata.ground_impact.is_some()
+                }
+            }
             || metadata.pending_flight.is_some()
             || fields.object_flags & 0x8000 == 0
             || actor.attachment.is_some()
@@ -9020,7 +9029,7 @@ impl Session {
             || self.specification(id).is_none()
             || self.state_resources(id).is_none()
         {
-            return Err("enemy cleanup outside acquired marked terrain-retirement profile".into());
+            return Err("enemy cleanup outside its acquired marked reaction profile".into());
         }
         if self.declarations.values().any(|value| *value == id)
             || !self.incoming_actor_references(id)?.is_empty()
@@ -9048,8 +9057,33 @@ impl Session {
         id: Id,
         services: &mut impl crate::enemy_projectile::RetirementServices,
     ) -> Result<Counts, String> {
+        self.cleanup_enemy_projectile_reaction(
+            id,
+            crate::enemy_projectile::RetirementKind::Ground,
+            services,
+        )
+    }
+    /// Same constructor/resource teardown, admitted only by the distinct actual
+    /// positive object-contact receipt. Ground evidence cannot substitute for it.
+    pub fn cleanup_enemy_projectile_object_contact(
+        &mut self,
+        id: Id,
+        services: &mut impl crate::enemy_projectile::RetirementServices,
+    ) -> Result<Counts, String> {
+        self.cleanup_enemy_projectile_reaction(
+            id,
+            crate::enemy_projectile::RetirementKind::Object,
+            services,
+        )
+    }
+    fn cleanup_enemy_projectile_reaction(
+        &mut self,
+        id: Id,
+        reaction: crate::enemy_projectile::RetirementKind,
+        services: &mut impl crate::enemy_projectile::RetirementServices,
+    ) -> Result<Counts, String> {
         use crate::enemy_projectile::Phase;
-        let expected = self.enemy_cleanup_preflight(id, Phase::Retiring)?;
+        let expected = self.enemy_cleanup_preflight(id, Phase::Retiring, reaction)?;
         self.residents
             .get_mut(&id.serial)
             .unwrap()
@@ -9059,7 +9093,7 @@ impl Session {
             .phase = Phase::CleanupServices;
         let result: Result<Counts, String> = (|| {
             services.release(self, id)?;
-            self.enemy_cleanup_preflight(id, Phase::CleanupServices)?;
+            self.enemy_cleanup_preflight(id, Phase::CleanupServices, reaction)?;
             let removed = self.links.remove_object(id.serial);
             assert_eq!(removed, expected.registrations);
             self.specifications
@@ -11507,6 +11541,10 @@ impl Session {
 #[cfg(test)]
 mod tests {
     use super::*;
+    mod object_contact {
+        use super::*;
+        include!("resident_states/enemy_object_contact_tests.rs");
+    }
     #[test]
     fn local_target_publication_owns_links_preserves_payload_and_replaces_misses() {
         let mut session = Session::new(921);

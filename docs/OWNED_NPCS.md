@@ -66,6 +66,30 @@ continuations remain explicit prerequisites, as do canonical Session health/
 timer publication and ordinary controller recoil/HUD consumption. This kernel
 alone does not acknowledge an ordinary hit backend.
 
+`Session::complete_enemy_projectile_object_contact` now owns the separate
+positive class90/232 direct-contact continuation. It consumes the actual retained
+actor identity, hitpoint and tag, reads damage from the source header, and calls
+required world-gate, hurt and terminal consumers in native order. Secondary
+immunity returns early; primary immunity skips hurt/mark but retains the terminal
+tail. Callback-wide Mecc inhibition can skip the receiver while the wrapper still
+marks the projectile. This branch neither creates the ground explosion nor
+subtracts the ground lifetime tail. Its distinct object receipt admits
+`cleanup_enemy_projectile_object_contact`; neither cleanup API accepts the other
+reaction's receipt. Failures retain earlier service/RNG/mark effects and prohibit
+replay. A completed receipt releases the pending target reference, preserving its
+historical identity without making it a transform parent.
+
+Forty-eight complete original-PC dispatcher controls match the composed Rust
+continuation and nonlethal receiver across supplied failure/completion guards,
+callback inhibition, health-only suppression and both immunity flags. They
+compare damage, flags, velocity, source position/lifetime/mark, reset word, RNG
+and reached callback/terminal counts. These supplied headers/world guards are
+private controls, not producers for ordinary gameplay. The new continuation is
+not yet bound into the ordinary direct-hit host: canonical Mecc health/timer and
+controller recoil publication, actual shared world-state ownership and real cue
+transport remain the next requirements. The latest graphical failure and exact
+executable above remain authoritative; no new encounter or death pass is claimed.
+
 `Session::complete_enemy_projectile_ground_flight` continues an actual retained
 terrain contact from either flight-query API. The query retains its own global
 delta and ordered slow areas: callers cannot replace the contact point or clock,

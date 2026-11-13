@@ -25,7 +25,10 @@ impl Session {
             || source.seed.storage.state() != 6
             || source.seed.storage.data().is_none_or(|b| b.len() != 36)
             || metadata.resource_class != source.class
-            || !matches!(metadata.phase, Phase::Launched | Phase::ImpactServices)
+            || !matches!(
+                metadata.phase,
+                Phase::Launched | Phase::ImpactServices | Phase::ObjectImpactServices
+            )
             || metadata.failure.is_some()
             || source.attachment.is_some()
             || source.presentation_parent.is_some()

@@ -251,6 +251,15 @@ direction, callback-wide versus health-only suppression, strict expired voice
 timers and post-hit health thresholds. This is not the ordinary damage adapter:
 bind canonical Session state and actual controller velocity/HUD, real world gates
 and audio; retain lethal/equipment/critical-voice continuations as dependencies.
+The distinct positive object-contact Session continuation and object-only
+retirement now preserve the real query identity/point/tag and direct wrapper
+ordering, independently of the ground reaction. Forty-eight complete original-PC
+controls match damage/impulse/flags, source mark/position/lifetime, reset/RNG and
+reached callback/terminal counts with explicitly supplied guards. This is an
+intermediate consumer contract, not an ordinary hit backend. Next bind real world
+guards, canonical Mecc state/controller recoil and cue transport to this adapter;
+retain the actual combined-game object-contact failure as the graphical frontier.
+See docs/OWNED_NPCS.md for receipt separation, immunity and failure semantics.
 The common `complete_enemy_projectile_ground_flight` adapter consumes the actual
 pending terrain point and query clock once. The ordinary host now binds it for
 proven misses; possible active hits/alerts and distinct object-contact/expiry

@@ -276,6 +276,14 @@ direction and pain/shared voice consumers. Its supplied-world original-PC
 controls do not establish Session/controller binding, lethal services, shield/
 gyro/critical-voice coverage or ordinary combat availability.
 
+The literal `hurt_object` search route also reaches
+[`resident_states::enemy_object_contact`](../crates/giants-game/src/resident_states/enemy_object_contact.rs),
+the independently acquired positive class90/232 object-hit wrapper and distinct
+retirement receipt. This relationship remains **unknown**. Original-PC controls
+of the direct dispatch and nonlethal receiver do not confirm a prototype function
+identity or install ordinary world/Mecc reaction providers. Previous identifiers,
+raw symbols and demangling uncertainty remain in the private lookup records.
+
 ## Declared platform query route
 
 The literal prototype PS2 names `collgrid_make_grid` and
