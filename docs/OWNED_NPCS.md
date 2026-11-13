@@ -43,10 +43,30 @@ state23 source with kind3 and no projectile owner or hitpoint. Projectile kind0/
 and direct kind3 identities cannot be exchanged. Eight private complete original
 melee-dispatch controls match its nonlethal Mecc health, flags, directional impulse,
 reset and RNG across callback-wide inhibition and health-only suppression. Their
-world guards, source motion and dormant voice timers are supplied; they do not
-install the canonical Session/controller adapter or an ordinary melee provider.
-The generic dispatcher's post-hurt mission
-tail also runs on this path; projectile cleanup must not substitute for it.
+world guards, source motion and dormant voice timers are supplied. The generic
+dispatcher's post-hurt mission tail also runs on this path; projectile cleanup
+must not substitute for it.
+
+`Session::update_ripper_variant_melee_with_mecc` now connects the actual owned
+class230 mode68 callback to canonical cold-Mecc health, velocity and voice-clock
+publication. A separate melee attempt binds its target, controlled-motion step
+and current primary epoch. Its controller response validates that active receiver
+and epoch; a projectile receipt, stale epoch, delayed delivery or double copy is
+refused. No projectile metadata, query point or projectile retirement is created.
+Required world, controller, voice and generic post-hurt consumers run in order.
+Late failures retain already published health/velocity/timers/RNG and latch the
+primary against replay. Incomplete attempts retain their target reference; a
+completed receipt preserves historical identity without adding a strong reference.
+Scope cancellation cannot restore the removed source or accept its old response.
+
+Five supplied-frame controls cover publication/order, health-only copies for
+stationary sources, suppression/immunity, late dependency failures and scope
+cancellation. Four private original class230
+dispatcher observations also match this canonical composition. These tests supply
+the owned frame/mode/finished-channel boundary and all service consumers. The
+ordinary host still needs its real shared-world guards and controller/audio
+providers; this API alone does not acknowledge their availability or a rendered
+hit. The older kind0 projectile adapter keeps its distinct source validation.
 
 The current isolated Wife approach consumes mode67 and its mode68 animation
 selection at step3251, follows that attack through its real ANM clock, then

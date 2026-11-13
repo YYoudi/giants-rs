@@ -228,9 +228,15 @@ The offline nonlethal Mecc receiver now distinguishes direct class73/230 state23
 kind3 from owned projectile kind0/2. Eight complete original melee-dispatch controls
 match health/flags/impulse/reset/RNG with supplied gates and dormant voice timers;
 a synthetic identity test rejects exchanging those source/kind families. This
-does not bind the canonical Session/controller adapter or ordinary kind3 service.
-Preserve the generic post-hurt mission
-tail separately from projectile cleanup when connecting the canonical adapter.
+does not establish an ordinary kind3 service. The canonical class230 mode68
+`update_ripper_variant_melee_with_mecc` adapter is now provided: actual active
+primary/finished-channel/target/range checks, a separate epoch-bound melee attempt,
+cold-Mecc health/velocity/timer publication and required controller/voice/post-hurt
+consumers. No projectile metadata or cleanup is substituted. Five supplied-frame
+controls and four original class230 dispatcher observations pass; late failures
+retain earlier publication and refuse replay, while scope cancellation cannot
+restore the source. Bind real shared-world/controller/audio providers in the
+ordinary host next; these controls do not prove rendered injury or availability.
 
 Earlier dependency evidence: the canonical mixed construction executor now owns real
 root/child Session births, child-context retirement, source wait and delayed

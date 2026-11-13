@@ -41,6 +41,8 @@ mod parented_frame_tests;
 #[cfg(test)]
 mod passive_frame_tests;
 mod ripper_calls;
+mod ripper_melee;
+pub use ripper_melee::Services as RipperMeleeServices;
 mod ripper_contacts;
 mod ripper_retreat;
 mod ripper_variant;
@@ -481,6 +483,8 @@ pub struct Resident {
     ripper_primary:
         Option<crate::ripper_primary_turn::Machine<Id, crate::attached_effect_context::Id>>,
     ripper_primary_running: bool,
+    ripper_primary_epoch: u64,
+    ripper_melee: Option<ripper_melee::Attempt>,
     ripper_animation_consumed: bool,
     ripper_animation_failed: bool,
     ripper_animation_epoch: Option<u32>,
@@ -740,6 +744,8 @@ impl Session {
                 ordinary_motion: None,
                 ripper_primary: None,
                 ripper_primary_running: false,
+                ripper_primary_epoch: 0,
+                ripper_melee: None,
                 ripper_animation_consumed: false,
                 ripper_animation_failed: false,
                 ripper_animation_epoch: None,
@@ -3046,6 +3052,10 @@ impl Session {
         state.steering.commands = self.actor_motion(id)?.commands();
         state.entry.packed = u32::from_le_bytes(state.steering.commands[..4].try_into().unwrap());
         state.primary = actor.channels.ok_or("primary channels absent")?[0];
+        let epoch = actor
+            .ripper_primary_epoch
+            .checked_add(1)
+            .ok_or("Ripper primary epoch exhausted")?;
         // Take only after all owned-view checks. A failed callback is always
         // returned to the resident, including its no-replay latch.
         let mut machine = self
@@ -3059,6 +3069,9 @@ impl Session {
             .get_mut(&id.serial)
             .unwrap()
             .ripper_primary_running = true;
+        let actor = self.residents.get_mut(&id.serial).unwrap();
+        actor.ripper_primary_epoch = epoch;
+        actor.ripper_melee = None;
         let result = (|| {
             machine.refresh_owned_frame(state)?;
             let outcome = callback(self, &mut machine, input, random, services);
@@ -3086,7 +3099,13 @@ impl Session {
             actor.state23_combat = Some(combat);
             outcome
         })();
-        let actor = self.residents.get_mut(&id.serial).unwrap();
+        if self.ticket != id.ticket {
+            return Err("owned primary scope replaced during its callback".into());
+        }
+        let actor = self
+            .residents
+            .get_mut(&id.serial)
+            .ok_or("owned primary source removed during its callback")?;
         actor.ripper_primary_running = false;
         actor.ripper_primary = Some(machine);
         result
@@ -8993,6 +9012,9 @@ impl Session {
                     .and_then(|m| m.pending_flight)
             {
                 refers |= target == id;
+            }
+            if let Some(melee) = &actor.ripper_melee {
+                refers |= melee.target == id && melee.phase != ripper_melee::Phase::Complete;
             }
             if refers {
                 incoming.push(Id {

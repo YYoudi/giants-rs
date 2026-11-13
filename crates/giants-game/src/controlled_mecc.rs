@@ -48,6 +48,12 @@ pub struct HitResponse {
     pub(crate) step: u64,
     pub(crate) before: HitState,
     pub(crate) after: HitState,
+    pub(crate) origin: HitOrigin,
+}
+#[derive(Clone, Copy, Debug)]
+pub(crate) enum HitOrigin {
+    Projectile,
+    RipperMelee { epoch: u64 },
 }
 impl HitResponse {
     pub fn source(self) -> crate::resident_states::Id {
@@ -84,16 +90,28 @@ impl HitResponse {
                     .into(),
             );
         }
-        let meta = session
-            .enemy_projectile(self.source)
-            .ok_or("Mecc response source absent")?;
-        if meta.phase != Phase::ObjectImpactServices
-            || meta.mecc_receiver != Some(crate::mecc_enemy_hit::Phase::Running)
-            || !matches!(meta.pending_flight, Some(FlightOutcome::ObjectContact {target,..}) if target == self.owner)
-        {
-            return Err("Mecc response needs its actual active source callback".into());
+        match self.origin {
+            HitOrigin::Projectile => {
+                let meta = session
+                    .enemy_projectile(self.source)
+                    .ok_or("Mecc response source absent")?;
+                if meta.phase != Phase::ObjectImpactServices
+                    || meta.mecc_receiver != Some(crate::mecc_enemy_hit::Phase::Running)
+                    || !matches!(meta.pending_flight, Some(FlightOutcome::ObjectContact {target,..}) if target == self.owner)
+                {
+                    return Err("Mecc response needs its actual active source callback".into());
+                }
+                session.enemy_projectile_mecc_source(self.owner, self.source)?;
+            }
+            HitOrigin::RipperMelee { epoch } => {
+                session.validate_ripper_melee_response(
+                    self.source,
+                    self.owner,
+                    self.step,
+                    epoch,
+                )?;
+            }
         }
-        session.enemy_projectile_mecc_source(self.owner, self.source)?;
         let actual = session.controlled_mecc_motion(self.owner, self.step)?;
         if actual.frame.position.map(f32::to_bits) != pose.position.map(f32::to_bits)
             || actual.frame.angles.map(f32::to_bits) != pose.angles.map(f32::to_bits)

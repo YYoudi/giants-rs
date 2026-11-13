@@ -4,6 +4,7 @@ use crate::enemy_projectile::{
 mod canonical_mecc {
     use super::*;
     include!("mecc_enemy_hit_tests.rs");
+    include!("ripper_melee_tests.rs");
 }
 
 // Supplied query and service fixture, not ordinary gameplay or collision proof.

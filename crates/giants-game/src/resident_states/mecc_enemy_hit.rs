@@ -22,6 +22,13 @@ pub trait Services {
     ) -> Result<(), String>;
     fn voice(&mut self, session: &Session, target: Id, cue: u32) -> Result<(), String>;
 }
+pub(super) struct Hit {
+    pub source: Id,
+    pub target: Id,
+    pub amount: f32,
+    pub point: Option<[f32; 3]>,
+    pub origin: crate::controlled_mecc::HitOrigin,
+}
 
 impl Session {
     /// Partial-controller prefix over the actual shared world-clock sample.
@@ -107,7 +114,18 @@ impl Session {
             .as_mut()
             .unwrap()
             .mecc_receiver = Some(receiver::Phase::Running);
-        let result = self.damage_mecc_from_enemy_object_inner(request, step, random, services);
+        let result = self.damage_mecc_from_source_inner(
+            Hit {
+                source: request.source,
+                target: request.target,
+                amount: request.amount,
+                point: Some(request.point),
+                origin: crate::controlled_mecc::HitOrigin::Projectile,
+            },
+            step,
+            random,
+            services,
+        );
         if let Some(meta) = self
             .residents
             .get_mut(&request.source.serial)
@@ -126,9 +144,9 @@ impl Session {
         result
     }
 
-    fn damage_mecc_from_enemy_object_inner(
+    pub(super) fn damage_mecc_from_source_inner(
         &mut self,
-        request: enemy_projectile::ObjectImpact,
+        request: Hit,
         step: u64,
         random: &mut Random,
         services: &mut impl Services,
@@ -165,28 +183,34 @@ impl Session {
         };
         let source = self.get(request.source).unwrap();
         let source_fields = source.construction_fields.as_ref().unwrap();
-        let owner_id = source
-            .enemy_projectile
-            .as_ref()
-            .unwrap()
-            .launch
-            .as_ref()
-            .unwrap()
-            .source;
-        let owner = self.get(owner_id).unwrap();
+        let owner = match request.origin {
+            crate::controlled_mecc::HitOrigin::Projectile => {
+                let id = source
+                    .enemy_projectile
+                    .as_ref()
+                    .unwrap()
+                    .launch
+                    .as_ref()
+                    .unwrap()
+                    .source;
+                let actor = self.get(id).ok_or("enemy projectile owner absent")?;
+                Some(crate::mecc_hit_source::Actor {
+                    id,
+                    class: actor.class,
+                    state: 23,
+                    context: actor.construction_fields.as_ref().unwrap().dispatch_context,
+                })
+            }
+            crate::controlled_mecc::HitOrigin::RipperMelee { .. } => None,
+        };
         let source_identity = crate::mecc_hit_source::Source {
             actor: crate::mecc_hit_source::Actor {
                 id: request.source,
                 class: source.class,
-                state: 6,
+                state: if owner.is_some() { 6 } else { 23 },
                 context: source_fields.dispatch_context,
             },
-            owner: Some(crate::mecc_hit_source::Actor {
-                id: owner_id,
-                class: owner.class,
-                state: 23,
-                context: owner.construction_fields.as_ref().unwrap().dispatch_context,
-            }),
+            owner,
         };
         let source_motion = crate::damage_impulse::Motion {
             current: source_fields.position,
@@ -208,6 +232,7 @@ impl Session {
             step,
             services,
             source: request.source,
+            origin: request.origin,
             controller: crate::controlled_mecc::HitState {
                 health,
                 velocity: motion.velocity,
@@ -219,7 +244,14 @@ impl Session {
                 recipient,
                 source: source_identity,
                 associated_player: None,
-                kind: 0,
+                kind: if matches!(
+                    request.origin,
+                    crate::controlled_mecc::HitOrigin::Projectile
+                ) {
+                    0
+                } else {
+                    3
+                },
                 amount: request.amount,
                 globally_disabled: false,
                 suppressed: gates.health_suppressed,
@@ -227,7 +259,7 @@ impl Session {
                 critical_voice_present: false,
                 recipient_motion,
                 source_motion,
-                impact: Some(request.point),
+                impact: request.point,
                 // Kind0 consumes source motion; the radial center is not read.
                 radial_center: recipient_motion.current,
             },
@@ -268,6 +300,7 @@ struct Bridge<'a, S> {
     step: u64,
     services: &'a mut S,
     source: Id,
+    origin: crate::controlled_mecc::HitOrigin,
     controller: crate::controlled_mecc::HitState,
 }
 impl<S: Services> Bridge<'_, S> {
@@ -285,6 +318,7 @@ impl<S: Services> Bridge<'_, S> {
                     step: self.step,
                     before: self.controller,
                     after,
+                    origin: self.origin,
                 },
             )?;
             self.controller = after;

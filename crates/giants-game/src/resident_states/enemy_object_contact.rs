@@ -24,6 +24,9 @@ impl Session {
         {
             return Err("terminal proof requires its actual active object continuation".into());
         }
+        self.post_hurt_target_no_effect(target)
+    }
+    pub(super) fn post_hurt_target_no_effect(&self, target: Id) -> Result<bool, String> {
         let actor = self
             .get(target)
             .ok_or("terminal target absent or foreign")?;
