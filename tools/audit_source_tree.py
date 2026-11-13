@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed unknown countdown/display-call navigation; bounded controls,
+        # unchanged prior PC aliases and no raw corpus or scheduling claim.
+        '821c62611732793b89a4fc561cf9624b412a0fbac463594eb75455245ebef702',
         # Concurrent reviewed barracks audio/effect navigation; unknown
         # identities, prior proximity alias only, no raw research inputs.
         '8631261df31c821f1b1058169b7d35c72fa368ad7a1b69a68834092d94ba4fe9',

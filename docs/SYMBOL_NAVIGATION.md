@@ -363,6 +363,14 @@ retirement. Rust retains that distinction without importing prototype layouts,
 ABI or a guessed signature. See MISSION_PROGRESSION.md for the common runtime
 settlement contract; naming does not certify rendering, timing or mission completion.
 
+The literal prototype PS2 name `mission_fail_flick__Fv` is an **unknown**
+search route to [`mission_timer`](../crates/giants-game/src/mission_timer.rs).
+The PC countdown and display-call gate retain separate clocks, selected-source
+metadata and required failure/film/menu consumers. Original controlled slices
+do not establish full display scheduling, live timer initialization, those
+consumers' availability or ordinary Ripper injury. Prior aliases remain private;
+no prototype signature or layout is imported.
+
 This index publishes only selected names, reviewed navigation relationships and
 attribution status. Binary/ELF inputs, raw tables, listings, matching outputs,
 disassembly and detailed research remain private. The central method pins the

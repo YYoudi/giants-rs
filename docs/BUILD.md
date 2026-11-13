@@ -189,6 +189,12 @@ A bare PowerShell command can finish before the child and close its redirected
 stdout; that is not a reliable CLI exit/output check. The Windows workflow waits
 and captures the child's `--help` result explicitly.
 
+`cargo test --locked -p giants-game mission_timer --target x86_64-pc-windows-gnu`
+runs the synthetic countdown/display-gate controls. The ignored original-PC
+comparison additionally needs private helper and caller-gate tables. These
+controls do not establish live timer initialization, film/menu consumption,
+display cadence or ordinary Ripper damage; see OWNED_NPCS.md.
+
 The installed `source_camera_profile_reads_current_headers_and_checked_shared_states`
 control uses `GIANTS_MECC_WORLD_ROOT`. It reads actual Mecc Session headers and
 separate controlled-state inputs, then checks live variant changes, foreign/retired

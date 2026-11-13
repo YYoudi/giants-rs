@@ -61,8 +61,8 @@ Ordinary launch now supplies the configuration-start no-play projection to the
 shared local impact-voice device, independently of gain, capture muting and real
 sink readiness. See [the local voice contract](OWNED_MECC_CONTACT.md#ordinary-configuration-start-projection).
 This removes one missing input; it does not provide shared-world guards, actual
-voice playback, damage, death or a completed encounter. The current rendered receipt exercises startup wiring but reaches no actual
-local impact-voice callback; it does not establish injury-voice playback.
+voice playback, damage, death or a completed encounter. The current rendered
+receipt exercises startup wiring but reaches no actual local impact-voice callback; it does not establish injury-voice playback.
 
 The earlier source `3297c8c`, GNU executable SHA256
 `7dbfc7408cc75ca0d21a43f283d4b86de7f45618413c6b56e506258f0eacd21e`,
@@ -74,7 +74,7 @@ failure/completion guard owner is still missing. The diagnostic exits101 with no
 capture, before damage publication. This is a failed whole-encounter candidate,
 not reciprocal combat acceptance or visually inspected expiry fidelity. The
 separately inspected missed-ground-shot result on `736ac96` remains historical.
-Shared-world/startup-policy ownership, reciprocal injury, Ripper death and full
+Shared-world ownership, broader startup-policy coverage, reciprocal injury, Ripper death and full
 Windows encounter/menu acceptance remain open. No competing preview is published.
 
 The branch implements the retained class90/232 expiry continuation, exercised by
@@ -132,6 +132,39 @@ Source `f9c1a63` passes1,069 workspace tests with218 ignored, seven synthetic ow
 damage checks, strict Clippy/formatting and45 Python checks. The supplied-command
 GPU refusal above does not establish an ordinary invocation of this direct
 callback or a positive damage/death result.
+
+### Shared-world timer dependency
+
+`mission_timer` acquires the PC countdown helper and the separate positive-time
+call gate from its display caller. The failed/edit guards suppress the helper
+before its null-object clock read. A reached update stores the subtracted timer
+before consulting the selected mission's failure-film declaration. An empty
+film requests the real failure producer; a nonempty film requests its actual
+start. Only a successful request permits the native retry reset, and only a
+successful film start sets the film-started word. An already-started expiry
+requires the failure-menu owner. Missing metadata or a consumer retains the
+reached prefix; the scheduler must quarantine failed attempts rather than replay
+partial external work.
+
+The outer display gate is equally important: it calls the helper only while
+failure is clear and time is strictly positive. A zero/negative/unordered timer
+must not become a failure request on every ordinary game tick. The acquired
+caller performs rendering and countdown display; an earlier private Mecc-primary
+label was incorrect and remains retained as a historical alias. The new gate
+is not that complete display callback or a measured Bevy scheduling cadence.
+
+192 exact-PC helper controls execute the real clock and failure helper, with
+supplied selected-slot/counter/clock inputs and film/menu effect boundaries.
+Sixteen further original caller-slice controls stop before helper/continuation,
+including signed zero, nonfinite inputs and failure suppression. They agree with
+the bounded Rust contracts; positive infinity admits the caller gate but remains
+outside finite active Rust arithmetic. These controls do not acquire live timer
+initialization, authored command18 handling, film playback, failure UI/restart,
+shared-world guard availability or any additional rendered encounter. There is
+no default constructor or ordinary admission for missing timer state/providers.
+The existing identified build and rendered receipts above remain unchanged.
+Prototype PS2 `mission_fail_flick__Fv` remains an unknown search relationship,
+not a newly confirmed identity or an imported signature/layout.
 
 ### Local menu test procedure
 

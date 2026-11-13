@@ -194,6 +194,16 @@ Ordinary configuration startup now carries its actual reset projection into
 local impact audio. Gain/muting cannot select native no-play; real sinks and
 catalog ownership remain separate. This is not damage/death or full encounter
 acceptance; see OWNED_NPCS.md and OWNED_MECC_CONTACT.md for evidence boundaries.
+The shared-world timer dependency now has an acquired countdown helper and the
+separate strictly-positive display-call gate. 192 original helper contexts and
+16 original gate contexts agree; film/menu effects and input ownership remain
+supplied. Missing consumers retain partial timer/failure effects instead of
+acknowledging reset or film start. This is not a live timer owner: actual
+initialization, authored command18 execution, display cadence, failure UI/restart
+and common world guards remain prerequisites. Do not call a zero timer each
+fixed tick or use absence of command18 as a live-zero receipt. The private
+Mecc-primary caller label is corrected to a display-phase caller, with its alias
+preserved. See OWNED_NPCS.md; no rendered acceptance is extended by these controls.
 The genuine shared-world failure/completion guards required by direct Mecc
 contact also remain unbound. Earlier source `3297c8c` / GNU executable
 `7dbfc7408cc75ca0d21a43f283d4b86de7f45618413c6b56e506258f0eacd21e`
