@@ -433,7 +433,7 @@
       "title": "Scenery collisions and destruction",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .13.1 extends ordinary player collisions to admitted entrances, columns and fences, separately from generic actor footprints. The entrance and existing houses/towers/scenery receive normal pistol hits, source health meshes, effects/sounds and retirement with matching collision changes. Complex replacements, other base families, generic radial/Raster3 platforms and building-objective credit remain open. See BUILDINGS.md and BACKLOG.md."
+      "detail": "Preview .13.2 adds ordinary guard-tower damage, mixed rigid debris/particle descendants, positional sound, retirement and an independently colliding source replacement base. It retains separate player/projectile/environment roles, earlier entrance/house/fence/tower reactions and an unchanged source state0 table under actual hits. Other replacements, restricted/special callbacks, generic radial/Raster3 platforms and mission death-credit remain open. See BUILDINGS.md and BACKLOG.md."
     },
     {
       "id": "water-environment",

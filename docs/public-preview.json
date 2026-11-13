@@ -1,10 +1,12 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.13.1",
-  "source_commit": "8d125f0b26ca9477747d75f521f76167038a0b0d",
-  "executable_sha256": "c9c5301a100dda2091977de56b0a278e633c1b1d9d670d4993c2ddfaccb3f390",
-  "archive_sha256": "50c7175569ffed63679463be9e894d1e38f7711cc48979ea26f546ef5945ceaa",
+  "tag": "preview-2026.11.13.2",
+  "source_commit": "b633f810de881c45cea8b7fb24250ec0314d47b8",
+  "executable_sha256": "bebbc7adbbe4147079970b212a946a4c8750bb436eb8a39aa9d15f32c8c3e516",
+  "archive_sha256": "bb4be8546ba77943324a40670fae8d3435410b0ad884a49c0f3272cc81824741",
   "checks": [
+    "building_guard_replacement_gpu",
+    "building_indestructible_gpu",
     "building_player_meshes_gpu",
     "building_house_damage_gpu",
     "building_scenery_damage_gpu",

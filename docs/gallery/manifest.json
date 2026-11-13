@@ -3679,6 +3679,18 @@
       "right_label": "After 28 hits and actual effect expiry",
       "verification": "PLAYER CONTACT AND DAMAGE CHECKED; NATIVE FIDELITY OPEN",
       "alignment": "Same source entrance and exact preview .13.1 executable, different live samples and camera positions; not pixel-aligned. Actual contact, source health/mesh/collision/effect/audio owners with supplied normal commands. The arch retires while detached columns remain independent. No pose, health or readiness injection; full OS-aimed destruction and native visual/audio parity remain unverified."
+    },
+    {
+      "title": "Guard debris and persistent replacement base",
+      "level": "RoadHome / ordinary buildings",
+      "event": "Source destruction and independent player collision",
+      "commit": "b633f810de881c45cea8b7fb24250ec0314d47b8",
+      "left": "media/06cf7a33aca7f6605075996727045686d1a03931c3643177e08329adc5633464.webp",
+      "right": "media/cf69f85e72326b3a0f05140bea912776df93d9e607b05f77e75288e988782a29.webp",
+      "left_label": "Flying roof debris after lethal damage",
+      "right_label": "Base after actual effect expiry and fresh contact",
+      "verification": "SOURCE REACTION AND BASE CONTACT CHECKED; NATIVE FIDELITY OPEN",
+      "alignment": "Exact preview .13.2 executable, different live samples and camera positions; not pixel-aligned. The first view is aimed upward and shows flying roof debris at left. The second shows the retained base after all 85 source effects expire and the player contacts its own new mesh. Supplied ordinary movement/look/jet/fire, no forced pose, health, collision or expiry; OS-aimed destruction and native visual/audio parity remain unverified."
     }
   ],
   "images": {
@@ -4219,9 +4231,36 @@
     "media/abb79713e439250d582f4c4994d9638d51eaea633d83bfa5ea31b78d10470425.webp": "abb79713e439250d582f4c4994d9638d51eaea633d83bfa5ea31b78d10470425",
     "media/4607b6cb426cc6c9f043f34a434a009f1680be56e8abaf427d262b5a08591455.webp": "4607b6cb426cc6c9f043f34a434a009f1680be56e8abaf427d262b5a08591455",
     "media/d26e82e1c36918d3b5090e1a95b09da82f6a7b9f1fc7481d8c6048c35d2dc7f5.webp": "d26e82e1c36918d3b5090e1a95b09da82f6a7b9f1fc7481d8c6048c35d2dc7f5",
-    "media/9b97a6efb4a94e05cd5a191f930797e6def06291fcbc9141c11875681efdd42b.webp": "9b97a6efb4a94e05cd5a191f930797e6def06291fcbc9141c11875681efdd42b"
+    "media/9b97a6efb4a94e05cd5a191f930797e6def06291fcbc9141c11875681efdd42b.webp": "9b97a6efb4a94e05cd5a191f930797e6def06291fcbc9141c11875681efdd42b",
+    "media/cf69f85e72326b3a0f05140bea912776df93d9e607b05f77e75288e988782a29.webp": "cf69f85e72326b3a0f05140bea912776df93d9e607b05f77e75288e988782a29",
+    "media/06cf7a33aca7f6605075996727045686d1a03931c3643177e08329adc5633464.webp": "06cf7a33aca7f6605075996727045686d1a03931c3643177e08329adc5633464",
+    "media/53d6fc48475f3b3770d82c43232dce7fa8f60b7e2233536e1b55fba50cbd55be.webp": "53d6fc48475f3b3770d82c43232dce7fa8f60b7e2233536e1b55fba50cbd55be"
   },
   "screenshots": [
+    {
+      "title": "Guard destroyed; its base stays solid",
+      "image": "media/cf69f85e72326b3a0f05140bea912776df93d9e607b05f77e75288e988782a29.webp",
+      "caption": "After thirty ordinary pistol hits and all 85 source effect expiries, the separately rendered base keeps its own player mesh; 24 fresh narrow contacts observed. RoadHome, supplied normal controls. Whole native physics/visual fidelity remains unverified.",
+      "commit": "b633f810de881c45cea8b7fb24250ec0314d47b8",
+      "preview_tag": "preview-2026.11.13.2",
+      "executable_sha256": "bebbc7adbbe4147079970b212a946a4c8750bb436eb8a39aa9d15f32c8c3e516"
+    },
+    {
+      "title": "Guard destruction: actual flying roof debris",
+      "image": "media/06cf7a33aca7f6605075996727045686d1a03931c3643177e08329adc5633464.webp",
+      "caption": "The detached roof is visible at the left of this upward live camera sample. Five rigid debris pieces and source particles are owned separately; 85 source births/retirements are checked across the sequence. Supplied ordinary controls, not OS-played destruction or frame-aligned native comparison.",
+      "commit": "b633f810de881c45cea8b7fb24250ec0314d47b8",
+      "preview_tag": "preview-2026.11.13.2",
+      "executable_sha256": "bebbc7adbbe4147079970b212a946a4c8750bb436eb8a39aa9d15f32c8c3e516"
+    },
+    {
+      "title": "Source table remains intact under actual hits",
+      "image": "media/53d6fc48475f3b3770d82c43232dce7fa8f60b7e2233536e1b55fba50cbd55be.webp",
+      "caption": "Actual narrow player contact and three distinct ordinary pistol hits leave this source state0 table geometry unchanged, with no building bursts or retirement. The umbrella is separate. Supplied normal controls; source health alone never grants destructibility.",
+      "commit": "b633f810de881c45cea8b7fb24250ec0314d47b8",
+      "preview_tag": "preview-2026.11.13.2",
+      "executable_sha256": "bebbc7adbbe4147079970b212a946a4c8750bb436eb8a39aa9d15f32c8c3e516"
+    },
     {
       "title": "Entrance: real contact and first damage",
       "image": "media/4607b6cb426cc6c9f043f34a434a009f1680be56e8abaf427d262b5a08591455.webp",

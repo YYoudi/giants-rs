@@ -1,7 +1,9 @@
 # Ordinary building collision and damage integration
 
-Preview .13.1 extends player collision and entrance damage. Preview .12.3 is
-the first bounded ordinary-building delivery; preview .12.2 did not enable it.
+Preview .13.2 adds guard destruction/replacement to the .13.1 player collision
+and entrance-damage delivery. Exact regression acceptance is recorded below.
+Preview .12.3 was the first bounded ordinary-building delivery; preview .12.2
+did not enable it.
 BACKLOG.md owns detailed acceptance; RECONSTRUCTION_METHOD.md governs
 every native acquisition, beginning with literal prototype PS2 names.
 
@@ -10,6 +12,58 @@ its actual collision shape with the normal weapon, and seeing the supported
 source reaction through damage stages and retirement. Source data must decide
 indestructibility, weapon restrictions, thresholds, animation, replacement,
 effects and sounds. A static mesh, model name or LOD label cannot establish them.
+
+## Published .13.2 ordinary guard acceptance
+
+The exact published preview uses source `b633f810de881c45cea8b7fb24250ec0314d47b8`,
+executable SHA256
+`bebbc7adbbe4147079970b212a946a4c8750bb436eb8a39aa9d15f32c8c3e516`.
+Normal menu selection of RoadHome, movement/look/jet and pistol commands reach
+the authored guard (1050). Seven hits reach its first source stage; thirty
+destroy it. Its five independently lit debris draws and source positional sink
+are observed, followed by actual nested dust/sparkle requests: 85 births and 85
+retirements on the mission clock. The independently rendered source base (1127)
+retains a fresh physical-player identity after effect expiry; 24 narrow contacts
+observe that new mesh. Its own source flags grant no projectile/generic role.
+Two live destruction/cancellation/fresh-entry cycles release the old ticket,
+effects and GPU resources. No script is needed to enable damage in normal play.
+
+These are rendered supplied ordinary controls, not OS-held input, complete native
+world execution or visual/audio fidelity. The first direct Starving route and
+the earlier missing-camera render attempt remain failed controls. The current
+renderer uses the actual mounted ordinary mission eye/LOD, after the opening
+owner is released. The source state0 table separately preserves its collision
+geometry after three actual hits, with no burst or retirement.
+
+Preparation is bounded to replacement classes 1127/1129; ordinary graphical
+acceptance covers 1050 -> 1127. Other replacements, restricted/special callbacks,
+states74/83/98, generic radial/Raster3 platforms and mission death-credit remain
+open. Replacement health/defaults come from its own source constructor. Only
+the acquired yaw/scale and placement/history inputs are copied; pointer-bearing
+or opaque native fields are not assigned invented meanings. Source-local rigid
+draws and this player mesh do not establish canonical actor/world completeness.
+
+Each acquisition started with literal prototype PS2 lookup. Searchable routes
+include `object_allocate_type`, `object_copy_personality`,
+`object_copy_activedata`, `object_copy_posdirinfo`, `object_bbox_to_world_bbox`,
+`deathfx_shot` and `deathfx_logic`; all new PC-to-PS2 attributions remain unknown.
+Private exact-binary comparisons separately cover constructor/placement fields,
+supplied-bound transforms, callback motion and source birth matrices/RNG.
+Supplying resource headers or flat terrain does not validate their native
+producers, complete-list scheduling, audio timing or full collision coverage.
+
+The exact executable also passes the existing entrance/house/fence/small-tower
+reactions, both complete mission chains, common Mecc movement/fire/jet cycles,
+landing, menu lifecycle and selected full cinematic/text/cleanup. Separate short
+Windows menu/entry/view/fire/return/re-entry checks pass. See PREVIEW_NOTES.md
+for their limits; sustained held input and OS-aimed destruction remain unverified.
+Display copies in the dashboard carry this same source/build identity.
+
+## Acquisition history and bounded service evidence
+
+The chronological dependency notes below retain earlier failures and boundaries.
+References to then-unbound guard consumers are superseded only for the exact
+bounded .13.2 delivery above; they do not extend the historical .13.1 receipt.
 
 ## Current evidence and first missing consumers
 
@@ -24,8 +78,9 @@ The independent projectile preparation uses
 its own source bit20000 eligibility and posed meshes, without granting a player
 footprint, lateral membership or a walkable roof. In the installed Story2 entry
 it prepares 65 projectile candidates, compared with the narrower physical set.
-Guard-tower health geometry is sampled at the actual intact channel; that only
-provides a hit shape, not its unbound replacement/death-effect services.
+Guard-tower health geometry is sampled at the actual intact channel; this
+provided only a hit shape in .13.1. The bounded continuation above connects
+its distinct replacement/death-effect services.
 Ordinary projectile response routes supported living NPC hits; drawing
 a building alone provides no damage callback. The new ordinary adapter now owns
 admitted state61 houses and routes normal pistol hits to their source decisions,
@@ -48,8 +103,8 @@ to acquired initial states; live pose/cache producers are not guessed. The app
 keeps physical-player, generic environment and projectile membership separately.
 A damage transition updates each actually owned role, including player shapes
 that have no generic environment owner. Fences, entrance/columns and guard-tower
-geometry can enter this player path; that does not admit the tower's unbound
-replacement/death effect or a generic actor platform. Preview .13.1 verifies the
+geometry can enter this player path. Guard replacement/death effects require
+their separate acquired consumers below; generic actor platforms remain separate. Preview .13.1 verifies the
 independent player path on its exact executable;
 whole-world and generic-platform coverage remain separate.
 

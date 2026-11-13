@@ -44,76 +44,47 @@ expiry pass on entrance, house, fence and small tower, with both mission chains,
 common Mecc/landing, two live-effect cleanup cycles and separate short Windows
 input acceptance. No shadow drawing, generic platform or native fidelity follows.
 
+Third bounded delivery: preview .13.2 adds the ordinary guard tower's source
+mixed effect graph and independent replacement. RoadHome's actual authored start
+reaches class1050 using normal movement/look/jet/fire: seven shots reach its first
+stage; thirty destroy it. Five rigid debris pieces render, source descendants
+total 85 births/85 retirements, positional audio uses the actual muted sink and
+the replacement base1127 retains its own player mesh with 24 fresh contacts after
+effect expiry. It inherits no old projectile/generic role. Two live destruction/
+cancellation/fresh-entry cycles release ticket/effect/GPU owners. Story2 prepares
+65 player /31 environment /65 projectile meshes and 59 damage owners/18 classes.
+The source state0 table also keeps unchanged geometry after three actual hits.
+
+The same executable passes previous entrance/house/fence/small-tower reactions,
+both mission chains, common Mecc/landing and menu/cinematic regressions. Actual
+Windows checks are separately scoped in PREVIEW_NOTES.md; supplied ordinary
+commands do not establish OS-aimed destruction or native visual/audio fidelity.
+Earlier blocked direct routes and missing-camera attempts remain failed history.
+The shared rigid draw now uses the actual ordinary mission environment eye/LOD.
+
 Remaining work, in player-impact order:
 
-1. Extend player mesh coverage beyond the bounded initial building profiles;
-   acquire missing live pose/cache/state providers. Keep the independently
-   verified player path separate from generic radial/Raster3 platform owners.
-2. Connect the guard tower's actual replacement constructor, complex nested
-   effects and atomic visual/physical retirement. Do not flatten its program.
+1. Extend player collision/damage coverage beyond the admitted building profiles;
+   acquire missing live pose/cache/state providers without inventing footprints.
+2. Extend replacement and nested effects beyond the acquired 1127/1129 constructor
+   profiles and rendered 1050 ->1127 acceptance. Preserve actual role/health/
+   history ownership, complete cleanup and distinct source programs.
 3. Acquire restricted/special scenery and other base-building callbacks (including
    states74/83/98), preserving weapon gates and authored indestructible cases.
 4. Bind actual building mission-death producers with their native global mode,
    counter and response rules; do not infer credit from a model or health word.
-5. Extend exact-executable graphical and Windows acceptance to each new family,
-   publish coherent main/preview/dashboard milestones and retain precise limits.
+5. Acquire generic radial/Raster3 platform owners and broader effects-world
+   scheduling, contacts and audio; retain the explicit partial preview policies.
+6. Extend exact-executable graphical and Windows acceptance to each new family
+   and publish coherent main/preview/dashboard milestones with precise limits.
 
 Every native continuation starts with literal prototype PS2 lookup and pinned
-binary identities. House/death-FX navigation routes remain unknown PC-to-PS2
-attributions. The independent original-PC comparisons (3,080 house / 7,000 death-FX
-contexts) validate bounded decisions and service boundaries, not native fidelity.
-The complete building objective and whole-game scope remain active.
-
-Local source state0 table acceptance now passes actual player contact and three
-distinct normal projectile hits, unchanged player/projectile geometry and zero
-building bursts or retirement, with reviewed GPU capture. The original dispatcher
-also passes eighteen bounded controls. A new static admission sample is a small
-door buried beneath the terrain here, not a visible palisade: its actual fresh
-floor support is observed but terrain intercepts its attempted shots, so that
-diagnostic remains failed. Do not relabel it as a visible-building acceptance.
-The observation changes do not update .13.1 or waive combined regressions on the
-next meaningful runtime milestone.
-
-The following concrete building consumer is the guard tower's actual state0
-replacement and compound source effects. Its bounded original-caller inheritance
-and individual effect-property dependencies are acquired privately. The ledger
-now retains the guard graph's sampled spin/increasing curved size and pending
-source15/source47 requests, with 36 active-store and 32 null-pass comparisons.
-The bounded kind8 contact consumer now passes 74 positional-root and 103 actual
-immediate-child callback comparisons against the original flat-terrain fixture,
-plus all 29 full-guard birth matrices/RNG. An installed control retains exactly
-one retirement request at impact before lifetime expiry. Bind its actual lit
-draw and nested descendant factory next; keep the kind8 profile distinct from
-kind6 and preserve unsupported requests. Actual
-replacement/debris render resources and the separately acquired opaque zero-blend
-texture-factor program now prepare, but dynamic GPU ownership and ordinary
-render acceptance remain unbound. The shared mission rigid draw consumer now
-owns actual source-local normal/material buffers and exact cleanup in code;
-its installed CPU ownership control is not an ordinary birth or GPU proof.
-The new renderer receipt passes the ordinary offscreen lifecycle, without
-exercising rigid draws. Connect the actual world producer and descendants before
-counting this as a playable feature. The actual positional context can now transfer its source image/entry once
-without repeating preparation RNG; its installed full-guard control passes.
-Context waits and per-body clocks now have separate checked entry points; the
-ordinary consumer must bind actual mission/object-time inputs. The mixed mission graph consumer now retains lit/unlit draws, individual object
-times, shared mission RNG, positional sound requests and actual contact/lifetime
-descendants. Its complete installed guard/resource/expiry/duplicate-clock control
-passes after acquiring the dust preparation and bounded moving source35 visual;
-152 independent original callback comparisons agree, with guide references still
-pending. Full descendant preflight checks resources/services, invariant selection,
-cycles and population before damage admission. This is supplied emission/clock
-and CPU draw evidence. The next continuation now admits the bounded replacement
-constructor and guard callback after full effect/resource preflight. The new
-class retains its own defaults, acquired yaw/scale/position and logical aliases,
-a fresh player collision ID and independent rigid draw owner; NPC refreshes
-preserve it and generic/projectile roles remain absent. Installed supplied-hit/
-time controls pass staging, old retirement, replacement identity/roles, complete
-effect expiry and retained new draws. The settled input observer additionally
-requires an actual new-mesh contact. Complete ordinary exact-build/GPU and
-Windows acceptance next, then publish matching main/preview/dashboard. Native
-bounds-header population, opaque-word semantics and world scheduling remain
-explicit limits, not completed actor services. Follow BUILDINGS.md and the mandatory prototype PS2
-lookup before continuing. The complete building objective remains active.
+binary identities. New guard allocation/copy/placement/bounds/effect names remain
+unknown PC-to-PS2 attributions. Independent original-PC comparisons cover bounded
+source decisions, callbacks and explicitly supplied services, not complete native
+world execution. See BUILDINGS.md for acquisition history and failed controls.
+The buried class511 door remains a failed shooting diagnostic, not a palisade
+acceptance. The complete building objective and whole-game scope remain active.
 
 ## Delivered milestone - The Wife rescue and completion-film continuation
 

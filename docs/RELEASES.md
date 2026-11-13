@@ -1,5 +1,44 @@
 # Preview releases and milestone integration
 
+## Published preview .13.2 - guard destruction, source debris and solid replacement
+
+[Windows preview-2026.11.13.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.2)
+connects ordinary guard-tower damage to its actual compound debris/particle
+program, positional sound and separately constructed replacement base. The base
+keeps its own player collision after the old tower and effects retire; its source
+flags do not grant the old projectile/generic membership. No feature-enable
+script is needed. Try **Preview tools -> Browse all missions -> Mecc Story 2 ->
+The Road Home**. Seven ordinary pistol hits reach the first stage; thirty destroy
+the tested guard. Existing entrance/house/fence/small-tower reactions remain.
+
+Exact-executable rendered supplied-command checks observe five rigid debris
+pieces, 85 total source births/85 retirements, actual muted positional sinks and
+24 fresh replacement contacts. Two live guard cancellations/fresh entries release
+all old owners. The indestructible source state0 table retains unchanged geometry
+after three real hits. Story2 prepares 65 player /31 generic environment /65
+projectile meshes and 59 damage owners across 18 classes. Both mission chains,
+common Mecc/landing, prior buildings and menu/cinematic regressions pass. Separate
+short Windows inputs pass; full OS-aimed destruction remains unverified.
+
+1,013 Rust /196 ignored, 45 Python, fmt/strict all-target Clippy. Technical notice
+collection: 338 dependency /eleven toolchain entries, 29 system DLL imports and
+no package blockers. Matching dashboard display copies show debris, the retained
+base and the unchanged table. The shared rigid renderer uses the active ordinary
+mission environment camera/LOD. Earlier blocked routes and the missing-camera
+render attempt remain failed controls, superseded only by repeated acceptance.
+
+Replacement preparation is bounded to 1127/1129; rendered acceptance covers
+1050 ->1127. Other replacements, restricted/special callbacks, states74/83/98,
+generic radial/Raster3 platforms, building mission-death credit and full native
+effects/physics/visual/audio fidelity remain open. Prototype PS2 lookup preceded
+acquisition; new allocation/copy/bounds/effect routes remain unknown attributions.
+No new cross-platform identity is confirmed. The building goal stays active.
+
+Runtime source: `b633f810de881c45cea8b7fb24250ec0314d47b8`.
+Executable SHA256: `bebbc7adbbe4147079970b212a946a4c8750bb436eb8a39aa9d15f32c8c3e516`.
+ZIP SHA256: `bb4be8546ba77943324a40670fae8d3435410b0ad884a49c0f3272cc81824741`.
+
+
 ## Published preview .13.1 - physical entrances, columns and fences
 
 [Windows preview-2026.11.13.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.1)

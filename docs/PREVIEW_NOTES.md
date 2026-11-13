@@ -1,7 +1,7 @@
-# Windows development preview - preview-2026.11.13.1
+# Windows development preview - preview-2026.11.13.2
 
-Runtime source: `8d125f0b26ca9477747d75f521f76167038a0b0d`.
-Executable SHA256: `c9c5301a100dda2091977de56b0a278e633c1b1d9d670d4993c2ddfaccb3f390`.
+Runtime source: `b633f810de881c45cea8b7fb24250ec0314d47b8`.
+Executable SHA256: `bebbc7adbbe4147079970b212a946a4c8750bb436eb8a39aa9d15f32c8c3e516`.
 
 Supply your own compatible PC installation. Original assets, executables and
 private research are excluded from the download.
@@ -22,16 +22,25 @@ objects. Houses and small towers retain their own health, effects and retirement
 Player, generic environment and projectile memberships remain separate; the
 player path does not invent generic footprints or walkable roofs.
 
-The Story2 entry prepares 64 physical-player meshes, 31 generic environment
-meshes, 65 projectile candidates and 57 bounded damage owners across 16 classes.
-These are admission counts, not whole-game coverage. The entrance's registered
-static-shadow identity is retained across initial actor copies; shadow drawing,
-missing-name placeholders and dynamic copies remain separate work.
+The guard tower now receives normal pistol damage, spawns its actual mixed
+debris/particle graph and positional sound, and is replaced by its own source
+base. The base retains independent player collision after the effects expire;
+it does not inherit the old tower's projectile membership. To try this nearby,
+select **Mecc Story 2 -> The Road Home**, then use ordinary movement/jet/aim to
+reach the guard tower. Seven hits reach its first health stage; thirty destroy
+it. No script enables this feature.
 
-Complex guard-tower replacement/effects, restricted-weapon/special scenery,
-other base-building callbacks, generic actor radial/Raster3 platform owners and
-building-objective death credit remain open. A health field alone never makes
-a building destructible. See BUILDINGS.md for the shared contracts and limits.
+The Story2 entry prepares 65 physical-player meshes, 31 generic environment
+meshes, 65 projectile candidates and 59 bounded damage owners across 18 classes.
+These are admission counts, not whole-game coverage. The source state0 table
+retains contact and unchanged geometry after three actual hits: a health word
+does not establish destructibility. The entrance's registered static-shadow
+identity is retained; shadow drawing remains separate.
+
+Replacement preparation is bounded to source classes 1127/1129; rendered guard
+acceptance covers class 1050 -> 1127, not every variant. Restricted-weapon/special
+scenery, other base-building callbacks, generic radial/Raster3 platform owners,
+mission-death credit and complete native effects/physics remain open.
 
 ## Mission progression retained
 
@@ -51,10 +60,13 @@ entrance, house, fence and small tower. Seven ordinary pistol hits reach the
 entrance's first stage; 28 retire it with all 124 source effect bodies expired.
 House retirement also takes 28 hits/124 expiries; the small tower takes five
 hits/29 expiries, the fence three hits/17 expiries. All observe actual draw and
-muted positional sinks. Two damaged/live-effect cancellation and fresh-entry
-cycles release old ticket/GPU owners and restart with intact source health.
-The tower fixture travels through the source entrance; its earlier straight
-route was correctly stopped by a newly solid column. These checks supply normal
+muted positional sinks. The guard's 30 hits create five rigid debris pieces
+and its separately rendered base. Actual source descendants bring the graph to
+85 births/85 retirements, with no active effect left; 24 fresh narrow contacts
+observe the base's own player mesh. Two guard-destruction/live-effect cancellation
+and fresh-entry cycles release all old effect/GPU owners. The shared rigid renderer
+uses the active ordinary mission camera/LOD after the opening owner is released.
+The tower fixture travels through the source entrance. These checks supply normal
 commands without pose, health, collider, fuel, readiness or expiry injection.
 
 Both complete Starving and The Wife rendered continuation chains pass again,
@@ -75,14 +87,16 @@ complete-list/force/audio scheduling, pixel/audio parity, broad actor AI,
 animation blending, other mission predicates, campaign failure/save restoration,
 Delphi/Kabuto gameplay and complete fidelity remain incomplete.
 
-1,006 portable Rust passes / 189 ignored, 45 Python passes, formatting and strict
+1,013 portable Rust passes / 196 ignored, 45 Python passes, formatting and strict
 workspace/all-target Clippy pass. Independent original-PC controls cover the
 bounded player selection walk, registered shadow lookup/header/copies and the
 previous house/death-FX decisions; supplied/observed service boundaries do not
 establish full native world execution. Prototype PS2 lookup precedes acquisition.
 Search routes include `MeccPhysicsExApplyLocation`, `object_copy_personality`,
 `texture_add_file`, `house_process`, `house_shot`, `house_handle_destruction`,
-`deathfx_shot` and `deathfx_logic`. No new PC-to-PS2 identity is confirmed; no
+`deathfx_shot`, `deathfx_logic`, `object_allocate_type`,
+`object_copy_activedata`, `object_copy_posdirinfo` and
+`object_bbox_to_world_bbox`. No new PC-to-PS2 identity is confirmed; no
 prototype ABI/layout is imported.
 
 Technical collection: 338 dependency and eleven toolchain notice entries,

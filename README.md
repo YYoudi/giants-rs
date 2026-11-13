@@ -15,13 +15,13 @@ described below is published under the owner's explicit authorization.
 
 [Quick start](docs/QUICK_START.md) · [Build](docs/BUILD.md) · [Release policy](docs/RELEASES.md)
 
-Current Windows download: [preview-2026.11.13.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.1).
-Entrances, columns and supported fences now block ordinary player mesh contacts.
-The entrance, houses and small towers receive normal pistol damage, change their
-individual source health meshes and admitted collision shapes, then retire with
-source debris/smoke and positional sounds. Generic actor footprints remain
-separate. Complex replacements, other base families and building-objective credit
-remain incomplete; see [building coverage](docs/BUILDINGS.md).
+Current Windows download: [preview-2026.11.13.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.2).
+Ordinary guard towers now receive pistol damage, shed source debris/particles
+with positional sound and leave an independently colliding base. Try **Mecc
+Story 2 -> The Road Home** through the mission browser. Earlier entrance,
+house, fence and small-tower damage/collision remains available. Other building
+families, weapon gates and mission death-credit remain incomplete; see
+[building coverage](docs/BUILDINGS.md).
 
 Open **Preview tools -> Browse all missions -> Mecc Story 2 -> Starving!**.
 WASD/mouse move and aim, left mouse fires, hold right mouse for the jet, Space
@@ -158,7 +158,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 - [ ] **All gameplay camera modes** — partial; Runtime integration. Complete source-driven player/cinematic cameras and projection across characters remain the scope. Download .11.1 retains the ordinary Mecc R view toggle and offers F7 initial Delphi/Kabuto body inspection from the normal mission browser. Kabuto reads actual owned look/size with a compatible external profile; free navigation/R reset retain inspection projection. Two OS entries per character pass. Native projection reset, same-identity player entry, startup gates and other playable controllers remain unfinished.
 - [ ] **Character HUDs, maps and objectives** — partial; Runtime integration. Health, fuel, magic, adrenaline, weapons, items, resources, targeting, map, notifications and score.
 - [ ] **Complete world and actor rendering** — partial; Runtime integration. Owned mission inspection now uploads camera-selected body models from the Session shared pose bank. Native controls match 1,280 selections and 256 complete model snapshots; six recorded Bevy endpoints cover automatic, forced and absent models. Full world visibility, part/material admission, subjective drawing, lighting, scenery and fidelity remain incomplete. See docs/OWNED_MODEL_DRAW.md.
-- [ ] **Scenery collisions and destruction** — partial; Runtime integration. Preview .13.1 extends ordinary player collisions to admitted entrances, columns and fences, separately from generic actor footprints. The entrance and existing houses/towers/scenery receive normal pistol hits, source health meshes, effects/sounds and retirement with matching collision changes. Complex replacements, other base families, generic radial/Raster3 platforms and building-objective credit remain open. See BUILDINGS.md and BACKLOG.md.
+- [ ] **Scenery collisions and destruction** — partial; Runtime integration. Preview .13.2 adds ordinary guard-tower damage, mixed rigid debris/particle descendants, positional sound, retirement and an independently colliding source replacement base. It retains separate player/projectile/environment roles, earlier entrance/house/fence/tower reactions and an unchanged source state0 table under actual hits. Other replacements, restricted/special callbacks, generic radial/Raster3 platforms and mission death-credit remain open. See BUILDINGS.md and BACKLOG.md.
 - [ ] **Water and environmental presentation** — partial; Runtime integration. Waves, reflections, sky, fog, vegetation and environment interactions.
 - [ ] **Animations and active effects** — partial; Runtime integration. Preview .11.4 retains normal Mecc jet/projectile/landing feedback and adds actual Vimp hurt, blood, death FX, animated ghost and meat to the common renderer. Exact-build supplied-command GPU passages pass with real muted sinks. Death FX retain explicit host-frame/terrain/splat preview policies. Other AI, full native material/timing fidelity and cinematic world producers remain open.
 - [ ] **Music, voices and gameplay audio** — partial; Runtime integration. Music, dialogue/subtitles, footsteps, weapons, spells, ambience, spatial mixing and stopping/releasing sounds.
