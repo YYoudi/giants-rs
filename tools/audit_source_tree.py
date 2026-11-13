@@ -35,6 +35,9 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Concurrent reviewed barracks audio/effect navigation; unknown
+        # identities, prior proximity alias only, no raw research inputs.
+        '8631261df31c821f1b1058169b7d35c72fa368ad7a1b69a68834092d94ba4fe9',
         # Concurrent reviewed barracks logic/initial-owner search routes;
         # explicitly unknown, same prior proximity alias, no corpus inputs.
         '5885a61f14fbe0e83d2db9cad27abaed9a5d5596e2471014a69cf0e8ee1b1832',
