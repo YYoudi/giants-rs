@@ -251,6 +251,23 @@ ridge, despite observed jet ascent. The building pilot now reuses the existing
 sampled-terrain route generator before applying those same ordinary input levels.
 Both failed receipts remain retained; neither establishes a building hit.
 
+The sampled-route executable (`41bd7938ed3279ba5d2168f690cc41876a275ba7`,
+SHA256 `d39f53fde20ac1f0a53dcd47d9cb0c557582c65a2d5be89a474fc9d137df06b3`)
+now passes the first rendered Ripper-barracks control. From The Wife's authored
+start, supplied ordinary movement/look/jet inputs reach class1226, record real
+narrow player contact and retreat for normal pistol fire. Nine actual hits
+accumulate 108 damage against its 400 limit and publish the source 0.75 health
+stage to the visible individual mesh. The captured frame was inspected. These
+are supplied controls through the ordinary owners, not Windows-held inputs or
+native fidelity. A fresh run then reaches successive source stages and destroys
+the same barracks with 34 actual hits (408 accumulated damage). Its fifteen old
+parts are hidden; independently owned rigid debris and smoke render, with 42
+effect births, five retirements and 37 still active at the inspected capture.
+The declared graph sound1551 reaches an actual muted audio sink. Missing variant
+sounds remain absent. This early destruction capture does not prove complete
+expiry. Expiry, mini-barracks acceptance and combined regressions on this
+executable remain required before publication; .13.2 remains the public build.
+
 ## Acquisition history and bounded service evidence
 
 The chronological dependency notes below retain earlier failures and boundaries.

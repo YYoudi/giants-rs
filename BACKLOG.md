@@ -106,7 +106,12 @@ Remaining work, in player-impact order:
    adapters now compose in an installed normal-runtime control with supplied
    impacts: twenty mini /sixteen Ripper hits at 25 damage, source Lite/full
    selection, real audio resource presence/absence and 127 effect births/retirements.
-   Complete rendered normal pistol/device/cleanup and Windows acceptance next.
+   The first rendered ordinary Ripper-barracks controls now pass real player
+   contact, nine-shot first stage and 34-shot destruction, hidden old parts,
+   independent debris/smoke drawing and the declared muted audio sink on one
+   executable. See BUILDINGS.md for the exact source/hash and retained failed
+   routes. Complete expiry, mini-barracks, combined regressions/cleanup and
+   separate Windows acceptance before publication.
    Source-marked mission-death credit remains unbound and is not fabricated.
 4. Bind actual building mission-death producers with their native global mode,
    counter and response rules; do not infer credit from a model or health word.
