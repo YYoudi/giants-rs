@@ -37,6 +37,6 @@ fn unit(v:vec3<f32>)->vec3<f32>{let n=length(v);if(n==0.0){return vec3<f32>(0.0)
     // contribute. No source texture is supplied for this profile.
     if(material.pixel_power.w<0.0){encoded=in.diffuse;}
     if(material.fog.z>0.0){let visible=clamp((material.fog.y-in.eye_depth)/(material.fog.y-material.fog.x),0.0,1.0);encoded=mix(material.fog_color.rgb,encoded,visible);}
-    let alpha=select(1.0,texel.a,material.pixel_power.w>0.0);
+    let alpha=select(1.0,texel.a,material.pixel_power.w==1.0);
     return vec4<f32>(encoded,alpha*material.composition.x);
 }

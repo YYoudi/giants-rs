@@ -227,6 +227,21 @@ retirement into the multi-body dust program. Keep it separate from the existing
 kind6 terrain-only particle profile. Replacement construction, rendering,
 independent collision roles and complete ordinary GPU acceptance remain required.
 
+The next shared render-resource projection prepares actual rigid replacement
+and kind8 debris classes without inventing a mission record or a pose callback.
+All selected model slots are unskinned; their ANM declarations alone do not
+require vertex deformation under the acquired skeleton gate. The first installed
+attempt exposes a missing zero-blend material program. Three private original
+renderer controls, including full draw-state preparation with explicit device
+capabilities, distinguish texture-times-white from both ordinary and zero-factor
+cube programs. The new bounded opaque profile disables specular and later/alpha
+stages; it does not approximate the missing program with a zero cube factor.
+Installed preparation now retains both replacement classes and all five lit
+debris classes, their actual LODs/material distinctions and supplied matrices.
+This remains resource/parameter evidence: dynamic GPU ownership, actual kind8
+physics/contact retirement, replacement construction and ordinary rendering are
+still required on a new executable before public delivery.
+
 Other literal search routes include `deathfx_shot`, `deathfx_logic`,
 `barracks_shot`, `bldg_subtract_energy` and the base-building callbacks. Their
 availability does not confirm a PC attribution. Generic death-FX declarations

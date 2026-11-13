@@ -24,6 +24,10 @@ RESTRICTED = {'.exe', '.dll', '.gzp', '.bin', '.dmp', '.zip', '.png', '.jpg',
 # Other hazard patterns remain active even for this reviewed document.
 REVIEWED_ATTRIBUTION_LABELS = {
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed rigid render projection and no-match shader navigation only.
+        'f1ddb3f0b5d77a3402f1754c5462c3d40917f4ed233c7836b0adb74c447975fa',
+        # Reviewed concurrent cold-player publication navigation; identity unknown.
+        '3c630d00d511a4255f590c5c25d92e95965f23b1858583b5aef2f66916a5c912',
         # Reviewed guard construction-ledger navigation; all new routes unknown.
         '7656fa6dea7d487005fb3aa7f52ca5eb68e802ceba88e09ad9a454dcc4bacc50',
         # Reviewed concurrent unknown enemy-contact navigation; no native body.

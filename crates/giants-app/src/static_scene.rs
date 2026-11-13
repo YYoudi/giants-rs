@@ -373,6 +373,7 @@ fn lit_parameters(
         world.no_fog,
     )
     .white_texture_factor(pass(asset, part) == giants_game::render_parts::Pass::TextureFormat)
+    .opaque_texture_factor_only(asset.texture_factor_only[part])
     .untextured(giants_game::body_pipeline::untextured_diffuse(
         &asset.model.mesh.subobjects[part].material,
     ))

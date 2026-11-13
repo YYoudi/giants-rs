@@ -80,7 +80,10 @@ and individual effect-property dependencies are acquired privately. The ledger
 now retains the guard graph's sampled spin/increasing curved size and pending
 source15/source47 requests, with 36 active-store and 32 null-pass comparisons.
 Next bind actual kind8 lit debris, physical contact and contact-triggered nested
-retirement; do not route it through the acquired kind6 particle profile. Constructors,
+retirement; do not route it through the acquired kind6 particle profile. Actual
+replacement/debris render resources and the separately acquired opaque zero-blend
+texture-factor program now prepare, but dynamic GPU ownership and ordinary
+render acceptance remain unbound. Constructors,
 world/render/collision ownership, nested retirement and complete ordinary
 acceptance remain required. Follow BUILDINGS.md and the mandatory prototype PS2
 lookup before continuing. The complete building objective remains active.

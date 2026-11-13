@@ -116,6 +116,14 @@ source15/source47 requests. Parameter and RNG controls do not execute their
 physical, retirement, replacement or rendering consumers. No new identity or
 prototype signature/layout is asserted.
 
+The literal `object_render__FP6OBJECTiG7f32quat` is an **unknown** route for
+[`static_geometry::Scene::constructed_rigid_draw`](../crates/giants-game/src/static_geometry/constructed.rs).
+This new Rust composition reuses acquired source resources, LODs and material
+profiles for already constructed rigid owners. It is not one attributed PC
+function or proof of construction, collision registration or GPU execution.
+The separately pinned renderer module's shader/material/cube name lookup has no
+prototype match; its bounded material controls confirm no new PS2 identity.
+
 The more specific literal `fx_setupGroundHitCreate__FP10FXSTACKTAGii` has a
 **probable block-level relationship** to the acquired PC opcode5a writer in
 `effect_ground_emission::Source::configure`. Independent body evidence includes

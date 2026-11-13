@@ -82,6 +82,12 @@ pub fn object_base(
     inspection_base(input)
 }
 impl Descriptor {
+    /// Acquired opaque zero-blend normal-material program: texture times white
+    /// factor, alpha and subsequent stages disabled. This is distinct from a
+    /// cube program whose factor alpha happens to be zero.
+    pub fn texture_factor_only(self) -> bool {
+        self.auxiliary && self.flags == 0x63017 && self.constant == 0x00ffffff
+    }
     /// Explicit native reflection composition: 0 opaque, 1 additive, 2 alpha.
     pub fn cube_blend_profile(self) -> Result<(f32, u8), &'static str> {
         if self.auxiliary && self.flags == 0x473b7 {
@@ -106,6 +112,42 @@ impl Descriptor {
         }
         Ok((self.constant >> 24) as f32 / 255.)
     }
+}
+/// Bounded source input for the independently recorded zero-blend program.
+/// Other material/texture combinations retain their existing capability checks.
+pub fn opaque_zero_blend_texture_factor(
+    material: &giants_formats::gbs::Material,
+    texture_alpha: bool,
+) -> bool {
+    if material.flags != 0x50000000
+        || material.blend != 0.
+        || material.falloff != 0.
+        || material.texture.is_empty()
+        || texture_alpha
+    {
+        return false;
+    }
+    let Ok((base_flags, constant, constant_guard)) = inspection_base(InspectionInput {
+        part_flags: material.flags,
+        blend: material.blend,
+        falloff: material.falloff,
+        has_texture: true,
+        texture_alpha,
+        fog: true,
+        pass_mask: 1,
+    }) else {
+        return false;
+    };
+    lit(LitInput {
+        part_flags: material.flags,
+        base_flags,
+        constant,
+        constant_guard,
+        mode: 0x5000,
+        toggle: false,
+        force_auxiliary: false,
+    })
+    .texture_factor_only()
 }
 /// Source material blend scalar to the native high-byte constant. This bounded
 /// profile uses 53-bit multiplication followed by truncation, without clamping.
@@ -150,6 +192,31 @@ pub fn lit(input: LitInput) -> Descriptor {
 #[cfg(test)]
 mod object_transparency_tests {
     use super::*;
+    #[test]
+    fn opaque_zero_blend_is_texture_factor_not_a_zero_alpha_cube_program() {
+        let source = giants_formats::gbs::Material {
+            flags: 0x50000000,
+            falloff: 0.,
+            blend: 0.,
+            texture: "synthetic".into(),
+            bump_texture: String::new(),
+            colors: [0; 4],
+            power: 0.,
+        };
+        assert!(opaque_zero_blend_texture_factor(&source, false));
+        assert!(!opaque_zero_blend_texture_factor(&source, true));
+        let mut cube = source;
+        cube.blend = 1.;
+        assert!(!opaque_zero_blend_texture_factor(&cube, false));
+        assert!(
+            !Descriptor {
+                flags: 0x47097,
+                constant: 0x00ffffff,
+                auxiliary: true
+            }
+            .texture_factor_only()
+        );
+    }
     #[test]
     fn object_override_retains_stronger_material_transparency_and_quantizes() {
         let input = InspectionInput {
