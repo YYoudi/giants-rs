@@ -998,7 +998,9 @@ pub(super) fn update(
                     }
                     let contacts = controller.state.buildings.probe_contacts(id);
                     let target = controller.building_probe_entry.unwrap_or(target);
-                    let target = if contacts == 0 && controller.state.buildings.is_barracks(id) {
+                    let target = if contacts == 0
+                        && controller.state.buildings.probe_terrain_route(id)
+                    {
                         if controller.probe_route.is_none() {
                             controller.probe_route = Some(
                                 [
@@ -1016,7 +1018,7 @@ pub(super) fn update(
                                     )
                                     .ok()
                                 })
-                                .expect("sampled terrain input route to the authored barracks"),
+                                .expect("sampled terrain input route to the authored damage owner"),
                             );
                         }
                         controller
@@ -1089,7 +1091,7 @@ pub(super) fn update(
                             .pistol()
                             .is_some_and(|p| distance > p.definition.range * 0.6);
                     if contacts == 0 && physical || approach {
-                        if controller.state.buildings.is_barracks(id) {
+                        if controller.state.buildings.probe_terrain_route(id) {
                             let fuel = controller.state.mission_snapshot().1;
                             let pilot = &mut *controller;
                             let commands = pilot.probe_escape.commands(

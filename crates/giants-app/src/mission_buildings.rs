@@ -118,6 +118,10 @@ impl World {
     pub(crate) fn probe_requires_contact(&self, object: u32) -> bool {
         self.owners.get(&object).is_some_and(|o| o.physical) || self.no_shot.physical(object)
     }
+    /// Input navigation only, never an ordinary gameplay capability gate.
+    pub(crate) fn probe_terrain_route(&self, object: u32) -> bool {
+        self.is_barracks(object) || self.owners.get(&object).is_some_and(|o| o.tree.is_some())
+    }
     /// Input fixture only: approach the Story2 small tower through the nearby
     /// entrance's declared origin. This returns a command destination, never an
     /// actor placement, native navigation service or mission condition.
