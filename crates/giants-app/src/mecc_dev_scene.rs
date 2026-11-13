@@ -3,6 +3,7 @@ use bevy::{asset::RenderAssetUsages, input::mouse::AccumulatedMouseMotion, prelu
 use giants_game::{arithmetic::Precision, mecc_motion::Motion};
 use std::{collections::BTreeMap, path::Path};
 mod collision_replay;
+mod enemy_response;
 mod mission_contacts;
 #[cfg(test)]
 mod route_control;

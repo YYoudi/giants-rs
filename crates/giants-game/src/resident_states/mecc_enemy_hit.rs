@@ -13,12 +13,12 @@ pub struct Gates {
 /// default guards, copied controller, synthetic voice acceptance or device.
 pub trait Services {
     fn gates(&mut self, session: &Session, target: Id) -> Result<Gates, String>;
+    /// Copy the actual health/velocity response, including health-only changes.
+    /// This is not a request to subtract damage again or move the player.
     fn recoil(
         &mut self,
         session: &Session,
-        target: Id,
-        step: u64,
-        velocity: [f32; 3],
+        response: crate::controlled_mecc::HitResponse,
     ) -> Result<(), String>;
     fn voice(&mut self, session: &Session, target: Id, cue: u32) -> Result<(), String>;
 }
@@ -207,7 +207,11 @@ impl Session {
             target: request.target,
             step,
             services,
-            controller_velocity: motion.velocity,
+            source: request.source,
+            controller: crate::controlled_mecc::HitState {
+                health,
+                velocity: motion.velocity,
+            },
         };
         let result = machine.run(
             &mut state,
@@ -235,7 +239,7 @@ impl Session {
             .session
             .publish_enemy_mecc_state(request.target, step, state)?;
         result?;
-        bridge.recoil(state.velocity)
+        bridge.recoil(state)
     }
 
     fn publish_enemy_mecc_state(
@@ -263,14 +267,27 @@ struct Bridge<'a, S> {
     target: Id,
     step: u64,
     services: &'a mut S,
-    controller_velocity: [f32; 3],
+    source: Id,
+    controller: crate::controlled_mecc::HitState,
 }
 impl<S: Services> Bridge<'_, S> {
-    fn recoil(&mut self, velocity: [f32; 3]) -> Result<(), String> {
-        if velocity.map(f32::to_bits) != self.controller_velocity.map(f32::to_bits) {
-            self.services
-                .recoil(self.session, self.target, self.step, velocity)?;
-            self.controller_velocity = velocity;
+    fn recoil(&mut self, state: receiver::State) -> Result<(), String> {
+        let after = crate::controlled_mecc::HitState {
+            health: state.health,
+            velocity: state.velocity,
+        };
+        if !after.same_bits(self.controller) {
+            self.services.recoil(
+                self.session,
+                crate::controlled_mecc::HitResponse {
+                    source: self.source,
+                    owner: self.target,
+                    step: self.step,
+                    before: self.controller,
+                    after,
+                },
+            )?;
+            self.controller = after;
         }
         Ok(())
     }
@@ -282,7 +299,7 @@ impl<S: Services> receiver::Services<Id> for Bridge<'_, S> {
     fn voice(&mut self, cue: u32, state: &receiver::State, _: &Random) -> Result<(), String> {
         self.session
             .publish_enemy_mecc_state(self.target, self.step, *state)?;
-        self.recoil(state.velocity)?;
+        self.recoil(*state)?;
         self.services.voice(self.session, self.target, cue)
     }
 }

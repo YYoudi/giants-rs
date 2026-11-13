@@ -277,6 +277,14 @@ No replay/probe/actor-state writes are used. This is not reciprocal combat/death
 acceptance or a new preview; see docs/OWNED_NPCS.md for the exact receipt, controls
 and missing numeric process-exit observation.
 See docs/OWNED_NPCS.md for receipt separation, immunity and failure semantics.
+The controller handoff now carries an opaque health/velocity before/after response,
+including health-only changes without impulse. It checks the live callback,
+identity, pose/current step and both canonical/local state before copying once.
+The partial-controller copy method is implemented but remains unbound until real
+world guards and cue transport exist. One private original zero-direction control
+and two synthetic health-only/desynchronization controls pass; they are not a
+rendered hit or death. Preserve this response when binding the actual host rather
+than invoking the scripted development damage path or subtracting damage twice.
 The common `complete_enemy_projectile_ground_flight` adapter consumes the actual
 pending terrain point and query clock once. The ordinary host now binds it for
 proven misses; possible active hits/alerts and distinct object-contact/expiry

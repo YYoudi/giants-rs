@@ -99,6 +99,8 @@ struct Receiver {
     fail: Option<&'static str>,
     events: Vec<&'static str>,
     cues: Vec<u32>,
+    responses: Vec<crate::controlled_mecc::HitResponse>,
+    local: Option<crate::controlled_mecc::HitState>,
 }
 impl MeccEnemyHitServices for Receiver {
     fn gates(&mut self, _: &Session, _: Id) -> Result<MeccEnemyHitGates, String> {
@@ -114,11 +116,13 @@ impl MeccEnemyHitServices for Receiver {
     fn recoil(
         &mut self,
         session: &Session,
-        target: Id,
-        step: u64,
-        velocity: [f32; 3],
+        response: crate::controlled_mecc::HitResponse,
     ) -> Result<(), String> {
+        let target = response.owner();
+        let step = response.step();
+        let velocity = response.after().velocity;
         self.events.push("recoil");
+        self.responses.push(response);
         assert_eq!(
             session.mecc_health(target)?.damage,
             if self.suppressed { 0. } else { 20. }
@@ -127,7 +131,7 @@ impl MeccEnemyHitServices for Receiver {
             session.controlled_mecc_motion(target, step)?.frame.velocity,
             velocity
         );
-        assert_ne!(velocity, [1., 2., 3.]);
+        assert!(!response.before().same_bits(response.after()));
         assert_eq!(
             session
                 .get(target)
@@ -140,6 +144,38 @@ impl MeccEnemyHitServices for Receiver {
         );
         if self.fail == Some("recoil") {
             return Err("supplied controller failure".into());
+        }
+        if let Some(local) = self.local {
+            let pose = crate::controlled_mecc::HitPose {
+                position: [8., 10., 4.],
+                angles: [0.; 3],
+                scale: 1.5,
+            };
+            assert!(
+                response
+                    .validate_controller(session, response.source(), pose, local)
+                    .is_err()
+            );
+            assert!(
+                response
+                    .validate_controller(
+                        session,
+                        target,
+                        crate::controlled_mecc::HitPose {
+                            position: [9., 10., 4.],
+                            ..pose
+                        },
+                        local
+                    )
+                    .is_err()
+            );
+            let after = response.validate_controller(session, target, pose, local)?;
+            self.local = Some(after);
+            assert!(
+                response
+                    .validate_controller(session, target, pose, after)
+                    .is_err()
+            );
         }
         Ok(())
     }
@@ -334,6 +370,95 @@ fn canonical_direct_successful_voice_keeps_separate_timer_publication() {
 }
 
 #[test]
+fn canonical_response_transfers_health_without_impulse_before_source_retirement() {
+    use crate::controlled_mecc::{HitPose, HitState};
+    let mut session = Session::new(1501);
+    let (shot, target, mut random) = controlled_fixture(&mut session);
+    let f = session
+        .residents
+        .get_mut(&shot.serial)
+        .unwrap()
+        .construction_fields
+        .as_mut()
+        .unwrap();
+    f.current = f.position;
+    let before = HitState {
+        health: session.mecc_health(target).unwrap(),
+        velocity: [1., 2., 3.],
+    };
+    let mut services = Direct {
+        source: Some(shot),
+        receiver: Receiver {
+            local: Some(before),
+            ..Default::default()
+        },
+        ..Default::default()
+    };
+    session
+        .complete_enemy_projectile_object_contact(shot, &mut random, &mut services)
+        .unwrap();
+    assert_eq!(services.receiver.events, ["gates", "recoil"]);
+    let local = services.receiver.local.unwrap();
+    assert_eq!(local.health.damage, 20.);
+    assert_eq!(local.health.flags, 16);
+    assert_eq!(local.velocity, before.velocity);
+    assert_eq!(random.0, 17);
+    let receipt = services.receiver.responses[0];
+    assert_eq!(receipt.source(), shot);
+    assert_eq!(receipt.owner(), target);
+    assert!(
+        receipt
+            .validate_controller(
+                &session,
+                target,
+                HitPose {
+                    position: [8., 10., 4.],
+                    angles: [0.; 3],
+                    scale: 1.5
+                },
+                before
+            )
+            .is_err()
+    );
+}
+
+#[test]
+fn canonical_response_refuses_a_desynchronized_controller_without_overwriting_it() {
+    use crate::controlled_mecc::HitState;
+    let mut session = Session::new(1502);
+    let (shot, target, mut random) = controlled_fixture(&mut session);
+    let mut health = session.mecc_health(target).unwrap();
+    health.damage = 10.; // Explicit local-consumer mismatch, not a game hit.
+    let local = HitState {
+        health,
+        velocity: [1., 2., 3.],
+    };
+    let mut services = Direct {
+        source: Some(shot),
+        receiver: Receiver {
+            local: Some(local),
+            ..Default::default()
+        },
+        ..Default::default()
+    };
+    assert!(
+        session
+            .complete_enemy_projectile_object_contact(shot, &mut random, &mut services)
+            .is_err()
+    );
+    assert!(services.receiver.local.unwrap().same_bits(local));
+    assert_eq!(session.mecc_health(target).unwrap().damage, 20.);
+    assert_eq!(session.enemy_projectile(shot).unwrap().phase, Phase::Failed);
+    assert_eq!(services.terminal_count, 0);
+    assert!(
+        session
+            .complete_enemy_projectile_object_contact(shot, &mut random, &mut services)
+            .is_err()
+    );
+    assert_eq!(services.receiver.events, ["gates", "recoil"]);
+}
+
+#[test]
 fn normal_hit_clock_consumes_samples_once_and_keeps_shared_value_on_reentry() {
     use crate::controlled_mecc_hit_clock::Clock;
     let mut clock = Clock::default();
@@ -471,6 +596,17 @@ fn native_normal_hit_clock_prefix_controls() {
 #[ignore = "Requires GIANTS_ENEMY_OBJECT_CONTROLS; actual cold Session receiver and private original dispatcher observations"]
 fn native_canonical_direct_dispatcher_controls() {
     let path = std::env::var("GIANTS_ENEMY_OBJECT_CONTROLS").expect("private controls path");
+    compare_native_direct_dispatcher_controls(&path, 48, false);
+}
+
+#[test]
+#[ignore = "Requires GIANTS_ENEMY_ZERO_MOTION_CONTROLS; private original zero-direction response observation"]
+fn native_canonical_zero_motion_direct_dispatcher_control() {
+    let path = std::env::var("GIANTS_ENEMY_ZERO_MOTION_CONTROLS").expect("private controls path");
+    compare_native_direct_dispatcher_controls(&path, 1, true);
+}
+
+fn compare_native_direct_dispatcher_controls(path: &str, expected: u64, zero_motion: bool) {
     let contents = std::fs::read_to_string(path).unwrap();
     let mut count = 0;
     for line in contents
@@ -484,6 +620,16 @@ fn native_canonical_direct_dispatcher_controls() {
         assert_eq!(words.len(), 19);
         let mut session = Session::new(1200 + count);
         let (shot, target, mut random) = controlled_fixture(&mut session);
+        if zero_motion {
+            let fields = session
+                .residents
+                .get_mut(&shot.serial)
+                .unwrap()
+                .construction_fields
+                .as_mut()
+                .unwrap();
+            fields.current = fields.position;
+        }
         let f = session
             .residents
             .get_mut(&target.serial)
@@ -548,5 +694,5 @@ fn native_canonical_direct_dispatcher_controls() {
         );
         count += 1;
     }
-    assert_eq!(count, 48);
+    assert_eq!(count, expected);
 }

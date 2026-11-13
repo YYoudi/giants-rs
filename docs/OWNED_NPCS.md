@@ -86,6 +86,20 @@ are supplied fixtures. The ordinary host still needs source-backed shared-world
 initialization/transitions and actual recoil/audio consumers; this API does not
 acknowledge their presence. The voice-clock producer is now bound below.
 
+The required controller consumer now receives an opaque `HitResponse` containing
+both actual before/after health and velocity. A health-only change must be copied
+even when impulse leaves velocity unchanged; damage is not subtracted a second
+time. The response validates the actual source/recipient, active callback, current
+pose/step and canonical after state. A changed local before state, replay or late
+delivery after source retirement is refused. The partial controller has the copy
+method, but its ordinary direct-hit host remains unbound pending real world gates
+and cue transport. This is not an ordinary damage availability acknowledgment.
+One additional private original-PC zero-direction control matches the complete
+dispatcher response, including damage with unchanged velocity. Two synthetic
+controls exercise health-only copy and rejection of a desynchronized controller.
+These controls supply their world gates; they add no rendered encounter result
+or confirmed prototype PS2 attribution.
+
 The ordinary partial controller now advances its actual Mecc pain/shared voice
 countdowns through `controlled_mecc_hit_clock::Clock`, before the admitted NPC
 consumers. It uses the same live global clock sample, independently of NPC
