@@ -275,6 +275,11 @@ nonlethal class90/232 source-bearing kind0/2 composition of health, current
 direction and pain/shared voice consumers. Its supplied-world original-PC
 controls do not establish Session/controller binding, lethal services, shield/
 gyro/critical-voice coverage or ordinary combat availability.
+The canonical cold-player publication adapter is
+[`resident_states::mecc_enemy_hit`](../crates/giants-game/src/resident_states/mecc_enemy_hit.rs).
+It retains the same **unknown** prototype relationship and requires real world,
+controller and audio consumers. Original constructor/control evidence is kept
+private; no associated-player layout is inferred from a null relationship.
 
 The literal `hurt_object` search route also reaches
 [`resident_states::enemy_object_contact`](../crates/giants-game/src/resident_states/enemy_object_contact.rs),

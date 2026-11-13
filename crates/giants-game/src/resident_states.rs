@@ -33,7 +33,9 @@ mod herd_frame;
 #[cfg(test)]
 mod herd_frame_tests;
 mod mecc_contacts;
+mod mecc_enemy_hit;
 mod mecc_hit_source;
+pub use mecc_enemy_hit::{Gates as MeccEnemyHitGates, Services as MeccEnemyHitServices};
 #[cfg(test)]
 mod parented_frame_tests;
 #[cfg(test)]
@@ -453,6 +455,9 @@ pub struct Resident {
     mecc_damage_smoke: crate::mecc_damage_effect::State<crate::attached_effect_context::Id>,
     /// Native accumulated header damage, owned separately from the payload.
     mecc_damage: Option<f32>,
+    /// Acquired cold generic constructor clears both header relationships.
+    /// Registration and unrelated type changes do not supply this proof.
+    mecc_hit_relations_cleared: bool,
     /// Generic header damage retained from acquired state0/state48 construction.
     /// Historical private name: state0_damage. Registration supplies no value;
     /// active state-specific health owners remain independent.
@@ -698,6 +703,7 @@ impl Session {
                 camera_look_angle: None,
                 state23_combat: None,
                 mecc_special: None,
+                mecc_hit_relations_cleared: false,
                 delphi_special: None,
                 delphi_copy_source: None,
                 delphi_copy_parameter: None,
@@ -1037,6 +1043,9 @@ impl Session {
             // Exact cold generic allocation and complete D type change retain
             // the zero header damage. This is not a health reset for live actors.
             parent.mecc_damage = Some(0.);
+            // Original cold allocation explicitly clears associated-player and
+            // character-voice header words before the complete Mecc type change.
+            parent.mecc_hit_relations_cleared = true;
         }
         Ok(initialized)
     }

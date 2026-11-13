@@ -62,9 +62,29 @@ state. A shared health-suppression gate does not suppress impulse and voices;
 global callback inhibition skips the whole receiver. Required associated-player
 and voice consumers run in native order. Failed consumers retain preceding state
 and RNG effects and cannot replay. Shield, gyro, critical-voice and lethal
-continuations remain explicit prerequisites, as do canonical Session health/
-timer publication and ordinary controller recoil/HUD consumption. This kernel
-alone does not acknowledge an ordinary hit backend.
+continuations remain explicit prerequisites. Canonical Session publication is
+now provided by the adapter below; ordinary controller recoil/HUD and real world
+gates still need their live consumers. This kernel alone does not acknowledge an
+ordinary hit backend.
+
+`Session::damage_mecc_from_enemy_object` binds that receiver to the real pending
+kind0 contact, canonical accumulated damage/flags/shield/reset fields, retained
+pain/shared timers and the current controlled-motion step. An original cold
+constructor write trace independently establishes the cleared associated-player
+and character-voice links; the adapter preserves only that acquired empty-link
+profile, without inventing a player-record layout. State publishes before the
+required recoil and local-cue consumers. Late failures retain health, velocity,
+timers and RNG and latch the projectile receiver against replay. Source marking
+and terminal processing remain in the enclosing direct wrapper. A callback-wide
+inhibition still returns before the receiver's state/timer/impulse work.
+
+The 48 private original dispatcher controls now also match this cold Session
+adapter, including its actual canonical health and motion publication. Three
+synthetic controls cover consumer ordering, successful voice timing and retained
+gate/controller/voice failures. Their gates, controller sinks and cue consumers
+are supplied fixtures. The ordinary host still needs source-backed shared-world
+initialization/transitions, the partial controller's live voice-clock production
+and actual recoil/audio consumers; this API does not acknowledge their presence.
 
 `Session::complete_enemy_projectile_object_contact` now owns the separate
 positive class90/232 direct-contact continuation. It consumes the actual retained
@@ -85,9 +105,9 @@ callback inhibition, health-only suppression and both immunity flags. They
 compare damage, flags, velocity, source position/lifetime/mark, reset word, RNG
 and reached callback/terminal counts. These supplied headers/world guards are
 private controls, not producers for ordinary gameplay. The new continuation is
-not yet bound into the ordinary direct-hit host: canonical Mecc health/timer and
-controller recoil publication, actual shared world-state ownership and real cue
-transport remain the next requirements. The latest graphical failure and exact
+not yet bound into the ordinary direct-hit host: actual shared world-state and
+voice-clock ownership, controller recoil consumption and real cue transport
+remain the next requirements. The latest graphical failure and exact
 executable above remain authoritative; no new encounter or death pass is claimed.
 
 `Session::complete_enemy_projectile_ground_flight` continues an actual retained

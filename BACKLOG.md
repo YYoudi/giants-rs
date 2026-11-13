@@ -256,8 +256,13 @@ retirement now preserve the real query identity/point/tag and direct wrapper
 ordering, independently of the ground reaction. Forty-eight complete original-PC
 controls match damage/impulse/flags, source mark/position/lifetime, reset/RNG and
 reached callback/terminal counts with explicitly supplied guards. This is an
-intermediate consumer contract, not an ordinary hit backend. Next bind real world
-guards, canonical Mecc state/controller recoil and cue transport to this adapter;
+intermediate consumer contract, not an ordinary hit backend. The canonical cold
+Session Mecc adapter now reads/publishes real health, current controlled velocity,
+pain/shared timers and reset fields, with mandatory gate/recoil/cue consumers.
+Original constructor writes establish its empty associated-player/character-voice
+profile. The same48 controls now also match this Session composition; synthetic
+consumer failures preserve prior work and prohibit replay. Next bind actual world
+guards, live voice-clock production, controller recoil and cue transport;
 retain the actual combined-game object-contact failure as the graphical frontier.
 See docs/OWNED_NPCS.md for receipt separation, immunity and failure semantics.
 The common `complete_enemy_projectile_ground_flight` adapter consumes the actual

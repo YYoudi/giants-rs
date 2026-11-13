@@ -21,6 +21,7 @@ pub struct Metadata {
     pub failure: Option<String>,
     pub ground_impact: Option<GroundImpact>,
     pub object_impact: Option<ObjectImpact>,
+    pub(crate) mecc_receiver: Option<crate::mecc_enemy_hit::Phase>,
     /// Initial late collider snapshot, not current world bounds or a ready tick.
     pub initial_environment: Option<crate::collider_init::Instance>,
     pub pending_flight: Option<FlightOutcome>,
@@ -209,6 +210,7 @@ pub fn prepare(seed: &Seed, fields: &Fields) -> Result<Prepared, String> {
             failure: None,
             ground_impact: None,
             object_impact: None,
+            mecc_receiver: None,
             initial_environment: None,
             pending_flight: None,
             ground_flight_clock: None,

@@ -1,6 +1,10 @@
 use crate::enemy_projectile::{
     FlightOutcome, ObjectContactOutcome, ObjectImpact, ObjectImpactServices, Phase,
 };
+mod canonical_mecc {
+    use super::*;
+    include!("mecc_enemy_hit_tests.rs");
+}
 
 // Supplied query and service fixture, not ordinary gameplay or collision proof.
 fn fixture(session: &mut Session) -> (Id, Id, crate::audio_parameters::Random) {

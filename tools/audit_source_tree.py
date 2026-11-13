@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed canonical cold Mecc hit publication route; still unknown.
+        '3c630d00d511a4255f590c5c25d92e95965f23b1858583b5aef2f66916a5c912',
         # Concurrent reviewed no-shot building route; unknown, no raw research.
         'fec0bcb9d32839696060f3d3d3ed4c24ac2d15f49e923a271613cfb9edf3939c',
         # Reviewed direct object-contact route and distinct receipt; unknown.
