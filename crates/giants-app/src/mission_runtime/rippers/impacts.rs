@@ -212,7 +212,10 @@ impl State {
         let prepared = effects.population.advance(
             session,
             population::Frame {
-                number: frame.step,
+                // This is the common-world cohort frame, not the controlled
+                // Mecc's fixed physics step. A world sample can advance while
+                // that step is unchanged; seconds still use that world sample.
+                number: frame.sample,
                 global_seconds: frame.seconds,
                 areas: frame.areas,
                 progress: giants_game::actor_finalization::PhysicalProgress::PrototypePs2Zero,

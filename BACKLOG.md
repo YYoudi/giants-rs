@@ -244,6 +244,14 @@ explicitly unavailable; no normal hit is acknowledged. A source two-ticket frame
 control and real muted unique-voice reuse pass on the new adapters, separately
 from complete damage/encounter acceptance. Bind the actual shared-world owners
 next; these controls do not prove rendered injury or ordinary combat availability.
+The extended hit-host graphical control exposed reused mixed-effect frame IDs
+when world time advanced with an unchanged fixed Mecc step. Use the common world
+sample for effect cohort identity, keeping controlled step IDs for controller/
+hit ownership. A two-ticket source control fails before this correction and
+passes afterward through actual geometry/cleanup over three such samples.
+Recheck the exact corrected build in rendering; the earlier exit0 capture still
+contained a component refusal. Ordinary world guards and the explicit startup
+no-play policy remain unbound; do not infer availability from ready audio sinks.
 Failure-gate prerequisite: exact-PC callback dispatch and parsed source programs
 identify state51/Reaperman actors on The Wife (six declarations). Static acquisition
 finds a path-progress failure route and another failure arm. Do not substitute a

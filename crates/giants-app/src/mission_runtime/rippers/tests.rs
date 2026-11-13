@@ -1053,6 +1053,39 @@ fn approach_ripper(
                             .iter()
                             .any(|e| matches!(e, crate::mission_audio::Event::NpcPosition { .. }))
                     );
+                    // Real world samples can advance while fixed player
+                    // physics retains its last step (also at a capture pause).
+                    // Keep the actual motion/contact packet; do not synthesize
+                    // a player update just to make an effect frame unique.
+                    for extra in 1..=3 {
+                        runtime
+                            .sample_world_clock(ticket, 1000 + number as u32 * 16 + extra)
+                            .unwrap();
+                        runtime
+                            .advance_normal_rippers_with_retirement(
+                                ticket,
+                                number,
+                                viewer.camera().1,
+                                viewer.mission_environment_colliders(),
+                                &mut EmptyDevice,
+                            )
+                            .unwrap();
+                        runtime
+                            .prepare_ripper_impact_geometry(viewer.camera().0.view)
+                            .unwrap();
+                        let state = runtime
+                            .active
+                            .as_ref()
+                            .unwrap()
+                            .payload
+                            .rippers
+                            .as_ref()
+                            .unwrap()
+                            .as_ref()
+                            .unwrap();
+                        assert!(!state.driver.failed());
+                        assert!(!state.impact_geometry_pending());
+                    }
                 }
                 // Real simulation/geometry phases continue without a renderer
                 // update. Do not release the host guard via a fake render ack.

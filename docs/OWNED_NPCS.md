@@ -155,6 +155,16 @@ at that commit scans1,274 reachable commits/7,116 blobs with zero findings.
 This dependency build has no new graphical or Windows-input acceptance and
 does not bind the ordinary world guards. No competing preview is published.
 
+The extended rendered pass on the later hit-consumer build exposed another
+effect-frame ownership error: world samples can advance while the controller's
+fixed physics step stays unchanged. Mixed impact bodies now use the shared world
+sample as their cohort-frame identity, retaining that sample's actual seconds.
+The installed two-ticket ground-impact control reproduces the old refusal with
+three fresh world samples over one unchanged real motion/contact packet, then
+passes after the correction with actual geometry/cleanup and no fabricated player
+step. A zero process exit or saved image from the earlier failing rendered pass
+does not establish a healthy NPC component or a completed encounter.
+
 The ordinary hit-consumer build is source
 `18316e77c19379002feb69b9d3d8c3cedc261a05`, executable SHA256
 `ac0c09121ce261730aaf9ca0b37d27fa99e8cffaabbaf5660d4f908461b87d71`,
