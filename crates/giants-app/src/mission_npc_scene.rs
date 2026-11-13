@@ -114,7 +114,7 @@ fn update(
     mut commands: Commands,
     mut runtime: ResMut<crate::mission_runtime::Runtime>,
     scene: Option<Res<crate::world_scene::Scene>>,
-    cinematic: Option<Res<crate::cinematic_camera::Cinematic>>,
+    environment: Option<Res<crate::mission_environment::State>>,
     view: Res<crate::source_view::SourceView>,
     mut state: ResMut<State>,
     mut gpu: Gpu,
@@ -161,10 +161,7 @@ fn update(
     let result = (|| -> Result<(), String> {
         let mut draws = runtime.npc_draws(ticket)?;
         draws.extend(runtime.npc_effect_draws(ticket, camera.view)?);
-        let detail = cinematic
-            .as_ref()
-            .and_then(|c| c.camera().ok())
-            .map(|c| (c.origin, c.lod_scale));
+        let detail = environment.as_ref().and_then(|e| e.source_detail(ticket));
         for controller in &controllers {
             draws.extend(controller.building_effect_draws(ticket, camera.view, detail)?);
         }

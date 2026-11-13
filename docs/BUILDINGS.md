@@ -340,6 +340,17 @@ fresh narrow contact. No pose, damage, collision or readiness is injected by
 that observer. GPU rendering, ordinary input acceptance and publication still
 require the new exact executable; public preview .13.1 remains unchanged.
 
+The first exact-build guard attempt follows a direct Starving route and is
+blocked by another real tower before firing; it remains failed. The next
+attempt uses RoadHome's authored mission start without moving the player or
+changing collision. Seven ordinary hits reach the first source stage. The
+lethal attempt constructs the replacement and emits sound, but drawing refuses
+because the normal game has retired the cinematic camera resource. The shared
+mission draw consumer now reads the completed mounted environment eye/LOD,
+identically to the ordinary static scenery path. Repeat the complete guard
+render/contact/expiry acceptance on the new receipt; the earlier capture is
+not evidence that its missing replacement or debris were rendered.
+
 Other literal search routes include `deathfx_shot`, `deathfx_logic`,
 `barracks_shot`, `bldg_subtract_energy` and the base-building callbacks. Their
 availability does not confirm a PC attribution. Generic death-FX declarations

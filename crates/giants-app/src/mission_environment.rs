@@ -130,6 +130,14 @@ impl State {
         self.inspecting = true;
         true
     }
+    /// The same completed eye/LOD profile consumed by ordinary static draws.
+    /// Gameplay must not depend on a retired cinematic-camera resource.
+    pub(crate) fn source_detail(&self, ticket: u64) -> Option<([f32; 3], f32)> {
+        self.mounted
+            .as_ref()
+            .filter(|m| m.ticket == ticket)
+            .map(|m| (m.eye, m.lod_scale))
+    }
     pub(crate) fn follow(&mut self, ticket: u64, eye: [f32; 3]) {
         if let Some(mounted) = self.mounted.as_mut().filter(|m| m.ticket == ticket) {
             mounted.eye = eye;
