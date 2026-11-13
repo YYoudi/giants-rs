@@ -1,4 +1,4 @@
-//! Acquired ordinary class73 branches and class230 modes0/61..67/71 over current views.
+//! Acquired ordinary class73 branches and class230 modes0/61..68/71 over current views.
 //! Shared prefix/perception and sound tails retain their class differences.
 //! Later unsupported continuations require their actual services.
 //! Prototype PS2 search key: `ripper_move`; exact PC correspondence unknown.
@@ -70,6 +70,13 @@ pub struct VariantCloseContext {
     pub attack_range: f32,
     pub alternate_threshold: f32,
 }
+/// Actual melee reach and class-global damage; neither comes from model size
+/// or projectile damage. Kind3 hurt remains a required consumer.
+#[derive(Clone, Copy)]
+pub struct VariantMeleeContext {
+    pub attack_range: f32,
+    pub damage: f32,
+}
 
 #[derive(Clone, Copy)]
 pub struct AwakeningFrame<'a, K> {
@@ -90,6 +97,7 @@ mod tests {
     use super::*;
     use crate::ripper_perception::Candidate;
     include!("ripper_primary_turn/close_tests.rs");
+    include!("ripper_primary_turn/melee_tests.rs");
     struct Backend {
         removals: u32,
         sounds: u32,
@@ -1399,6 +1407,17 @@ pub trait Services<K, E> {
     ) -> Result<crate::state23_animation::FireOutcome, String> {
         Err("actual primary projectile service unavailable".into())
     }
+    /// The source has already changed to mode66 when this kind3 request runs.
+    /// No hitpoint/projectile is invented, and absent hurt ownership refuses.
+    fn melee(
+        &mut self,
+        _state: &State<K, E>,
+        _target: K,
+        _amount: f32,
+        _random: &mut Random,
+    ) -> Result<(), String> {
+        Err("actual Ripper kind3 melee hurt service unavailable".into())
+    }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Outcome {
@@ -1416,6 +1435,7 @@ pub enum Outcome {
     CompletedVariantAttack,
     CompletedVariantCooldown,
     CompletedVariantClose,
+    CompletedVariantMelee,
     CompletedVariantRetreat,
 }
 #[derive(Clone, Debug)]
@@ -1590,6 +1610,7 @@ enum Branch<'a, K> {
     VariantAttack(VariantAttackContext<'a, K>),
     VariantCooldown(VariantCooldownContext<'a>),
     VariantClose(VariantCloseContext),
+    VariantMelee(VariantMeleeContext),
     VariantRetreat,
     Turn(Parameters),
     Pursuit(f32),
@@ -1625,6 +1646,25 @@ fn footsteps(primary: [u32; 9]) -> Result<bool, &'static str> {
         .any(|at| now >= at && previous < at))
 }
 impl<K: Copy + Ord, E: Copy> Machine<K, E> {
+    pub fn advance_variant_melee(
+        &mut self,
+        input: FrameInput<'_, K>,
+        parameters: VariantMeleeContext,
+        random: &mut Random,
+        services: &mut impl Services<K, E>,
+    ) -> Result<Outcome, String> {
+        if !parameters.attack_range.is_finite() || !parameters.damage.is_finite() {
+            return Err("variant melee requires actual finite class-global parameters".into());
+        }
+        self.advance_inner(
+            input.context,
+            input.frame,
+            input.range,
+            Branch::VariantMelee(parameters),
+            random,
+            services,
+        )
+    }
     pub fn advance_variant_close(
         &mut self,
         input: FrameInput<'_, K>,
@@ -1990,6 +2030,7 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Branch::VariantAttack(_) => 65,
             Branch::VariantCooldown(_) => 66,
             Branch::VariantClose(_) => 67,
+            Branch::VariantMelee(_) => 68,
             Branch::VariantRetreat => 71,
             Branch::Awakening(_) => {
                 if !matches!(original.entry.mode, 0 | 31) {
@@ -2017,6 +2058,7 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                 | Branch::VariantAttack(_)
                 | Branch::VariantCooldown(_)
                 | Branch::VariantClose(_)
+                | Branch::VariantMelee(_)
                 | Branch::VariantRetreat
         ) {
             230
@@ -2308,6 +2350,52 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                     }
                 }
             }
+        } else if let Branch::VariantMelee(parameters) = branch {
+            let target = state
+                .retaliation
+                .map(|id| frame.candidate(id))
+                .transpose()?;
+            let (lost, control) = crate::ripper_pursuit::target_control(
+                target,
+                state.entry.retained_timer,
+                state.entry.control,
+            )?;
+            state.entry.control = control;
+            if lost {
+                if let Err(error) = services.owner_sound(&state, 1248, random) {
+                    self.state = state;
+                    self.failed = Some(error.clone());
+                    return Err(error);
+                }
+                state.entry.mode = 71;
+                state.retaliation = None;
+            } else {
+                let target = target.unwrap();
+                state.steering =
+                    crate::ripper_steering::face_contact_target(state.steering, target.position)?;
+                state.entry.flags = state.steering.flags;
+                state.entry.packed =
+                    u32::from_le_bytes(state.steering.commands[..4].try_into().unwrap());
+                if state.primary[8] & 2 != 0 {
+                    let delta = std::array::from_fn::<_, 3, _>(|i| {
+                        f64::from(target.position[i]) - f64::from(state.entry.position[i])
+                    });
+                    let distance =
+                        ((delta[0] * delta[0] + delta[1] * delta[1]) + delta[2] * delta[2]) as f32;
+                    if !distance.is_finite() {
+                        return Err("variant melee distance overflow".into());
+                    }
+                    state.entry.mode = 66;
+                    if f64::from(distance) < f64::from(parameters.attack_range).powi(2)
+                        && let Err(error) =
+                            services.melee(&state, target.id, parameters.damage, random)
+                    {
+                        self.state = state;
+                        self.failed = Some(error.clone());
+                        return Err(error);
+                    }
+                }
+            }
         } else if let Branch::VariantTurn = branch {
             let target = state
                 .retaliation
@@ -2539,6 +2627,8 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Outcome::CompletedVariantCooldown
         } else if matches!(branch, Branch::VariantClose(_)) {
             Outcome::CompletedVariantClose
+        } else if matches!(branch, Branch::VariantMelee(_)) {
+            Outcome::CompletedVariantMelee
         } else if matches!(branch, Branch::VariantRetreat) {
             Outcome::CompletedVariantRetreat
         } else if matches!(branch, Branch::Awakening(_)) {

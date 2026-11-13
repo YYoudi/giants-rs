@@ -117,6 +117,13 @@ pub fn close_chase(mut state: State, target: [f32; 3]) -> Result<State, &'static
     state.flags |= 0x02000000;
     Ok(state)
 }
+/// Class230 mode68 calls the stored-angle helper with an actual target point.
+/// It produces turning only: no forward input, destination or personality write.
+pub fn face_contact_target(mut state: State, target: [f32; 3]) -> Result<State, &'static str> {
+    validate(&state, target)?;
+    turn(&mut state, target);
+    Ok(state)
+}
 /// Attack modes keep the angular difference wide until the command input
 /// store, and preserve personality. Their producer differs from mode32.
 pub fn aim_at_point(mut state: State, target: [f32; 3]) -> Result<State, &'static str> {

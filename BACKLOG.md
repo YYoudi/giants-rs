@@ -189,14 +189,22 @@ is now connected to real target validation, steering commands and shared-RNG
 mode68/69 selection. Six original whole-primary controls and six secondary
 first-two-channel controls pass; required cue failures retain prior steering/RNG.
 The ordinary secondary admits those actual animation selections, while subsequent
-mode68/69 primary attack/damage continuations remain unacquired. These supplied
+mode69 primary and actual melee hurt remain unacquired. The ordinary mode68
+primary now faces its living target, waits for the actual ANM finished flag and
+returns to66 before a possible kind3 hurt request. Strict full three-dimensional
+range and actual class-global damage are preserved, separately from planar
+approach/projectile contact. Six complete original controls plus one actual
+pre-hurt service boundary match Rust; that boundary stops without a fabricated
+native return and proves no damage delivery. Required consumer failure retains
+mode/steering and forbids replay. These supplied
 controls establish no complete rendered encounter. Next connect those attack
 continuations and bind the genuine active-hit owners;
 complete reciprocal damage/death, an identified rendered GNU executable and actual
 Windows menu/reentry remain required. No preview/publication or complete encounter
 is established by these CPU controls.
 The current isolated approach consumes mode67 plus the mode68 animation selection
-at3251 and still fails at3252 on the missing mode68 primary. It excludes the Vimp
+at3251, advances the real attack ANM, then still fails at3293 on the missing kind3
+hurt consumer, with the source already in mode66. It excludes the Vimp
 component and supplies player commands; no GPU or actual Windows encounter is
 established by this diagnostic. Do not reroute it to hide the pending attack.
 The source `33b3168` graphical candidate displayed an explosion but refused a
@@ -212,8 +220,8 @@ the run terminates without capture. It does not validate the corrected explosion
 on GPU. The isolated CPU fixture lacks the live Vimp component and its exact
 miss/contact route must not stand in for this combined29-object scene.
 **First rendered blocker:** actual projectile-to-Mecc direct damage and source
-retirement. After the acquired class230 mode67 decision, its selected mode68/69
-primary continuation remains a separate required consumer. Connect both,
+retirement. After the acquired class230 mode67/68 decisions, actual kind3 melee
+hurt and the mode69 primary remain separate required consumers. Connect both,
 reciprocal Ripper hurt/death and the remaining owners;
 do not reroute the pilot or force poses to hide active hits.
 

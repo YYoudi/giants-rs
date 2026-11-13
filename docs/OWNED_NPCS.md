@@ -19,14 +19,28 @@ range, missing target and turning. Two synthetic controls check strict selection
 and retained cue failure. Six further original secondary controls match the first
 two channels with disabled blending, including the actual slots10/51 selected by
 mode68/69. Those selections now use the existing ordinary secondary/ANM path;
-their subsequent primary attack/damage continuations remain required.
+mode69 and actual melee hurt remain required as described below.
 These controls use supplied target/mode/seed inputs after native mode66 in a flat
 world with an empty sound registry. They are neither natural encounter nor GPU
 acceptance. `ripper_move`, `ripper_chase_location` and `ripper_animselect` remain
 unknown prototype PS2 correspondence routes, with earlier PC aliases retained.
 
+The ordinary mode68 primary now faces its current living target without forward
+input or a destination write, waits for the actual primary-channel finished flag,
+then returns to mode66. Only a target strictly inside its three-dimensional melee
+range produces the required kind3 hurt request, using the real class-global damage.
+This differs from the planar approach decision and from a kind0 projectile hit;
+no projectile, hitpoint, health subtraction or hurt acknowledgment is fabricated.
+Missing hurt ownership retains the preceding mode/steering and latches failure.
+Six complete original primaries cover waiting, turning, lost target and non-hits
+at equal/outside range or a vertical separation. A seventh original control stops
+at the actual kind3 service entry without returning a result. Rust matches that
+pre-hurt state and refuses the absent consumer; this is not a completed hurt call.
+Two synthetic controls check the finished/range gates and retained failure.
+
 The current isolated Wife approach consumes mode67 and its mode68 animation
-selection at step3251, then refuses the still-missing mode68 primary at3252.
+selection at step3251, follows that attack through its real ANM clock, then
+refuses the missing kind3 hurt consumer at3293 with the source already in mode66.
 This diagnostic still fails; it is not a complete encounter pass. It supplies
 ordinary player commands, excludes the Vimp component and uses no GPU or OS input.
 
@@ -578,12 +592,12 @@ reported and quarantined independently of Vimps. Prior audio transport requests
 survive a late callback refusal; queue submission does not establish a voice.
 
 The admitted ordinary primary subset is class73 modes0/31/32/33/34/44 and
-37/38/39, plus class230 modes0/61/62/63/64/65/66/67/71. Mode66 consumes actual object
+37/38/39, plus class230 modes0/61/62/63/64/65/66/67/68/71. Mode66 consumes actual object
 local time and its source retreat decision. Mode71 follows the current animation
 and marks only the actual class219 child when required; its common child frame
 and retirement batch still own release and unlinking. The acquired secondary
 selector also admits mode68/69 selected by the acquired mode67 primary; the
-mode68/69 primary continuations remain unacquired.
+mode68 kind3 hurt consumer and mode69 primary continuation remain required.
 
 The persistent projectile factory retains actual mission resources/templates
 across births. Ordinary launch uses real attached-FX preparation, positional
@@ -645,7 +659,7 @@ After137 flying samples, its next query returns a real ground contact. The
 then-missing impact/damage/retirement continuation refused and remained pending.
 That historical frontier is now superseded by the ordinary missed-shot host and
 physical-contact control above. The longer encounter's current frontier is
-the selected class230 mode68 primary after mode67, rather than this earlier terrain contact; injury, death and GPU fidelity
+the class230 mode68 kind3 hurt request after mode67, rather than this earlier terrain contact; injury, death and GPU fidelity
 remain unverified.
 
 The ordinary controller now publishes a Mecc dedicated-contact packet through

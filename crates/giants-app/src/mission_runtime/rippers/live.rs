@@ -429,6 +429,16 @@ impl ActorWorldServices for Callbacks<'_, '_> {
                 self.random,
                 &mut services,
             )?,
+            (230, 68) => session.update_ripper_variant_melee(
+                id,
+                input,
+                primary::VariantMeleeContext {
+                    attack_range: scalar(0x118)?,
+                    damage: scalar(0x3dc)?,
+                },
+                self.random,
+                &mut services,
+            )?,
             (230, 62) => {
                 session.update_ripper_variant_turn(id, input, self.random, &mut services)?
             }
