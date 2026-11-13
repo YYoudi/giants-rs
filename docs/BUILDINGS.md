@@ -218,9 +218,9 @@ refusing their framing: sampled spin, sampled increasing ease-in size and the
 source15/source47 requests. Thirty-six original active-store comparisons also
 agree with the compiled ledger's actual preparation and activation output;
 32 independent null-object controls pin the relevant preparation RNG draws.
-The zero source47 operand remains distinct from absence. The visual runtime
-explicitly refuses the two pending control consumers, rather than acknowledging
-their flags. The installed guard graph and its retirement programs can now be
+The zero source47 operand remains distinct from absence. The visual runtime refuses unbound control consumers. Its bounded kind8 path
+now requires both the actual unit contact request and an independently admitted
+class contact profile; zero and unsupported requests remain refused. The installed guard graph and its retirement programs can now be
 projected, but that does not activate them. The next concrete consumer is the
 source kind8 debris with lit meshes, physical contact and contact-triggered
 retirement into the multi-body dust program. Keep it separate from the existing
@@ -238,9 +238,8 @@ cube programs. The new bounded opaque profile disables specular and later/alpha
 stages; it does not approximate the missing program with a zero cube factor.
 Installed preparation now retains both replacement classes and all five lit
 debris classes, their actual LODs/material distinctions and supplied matrices.
-This remains resource/parameter evidence: dynamic GPU ownership, actual kind8
-physics/contact retirement, replacement construction and ordinary rendering are
-still required on a new executable before public delivery.
+This remains resource/parameter evidence. Replacement construction and ordinary
+rendering still require a new exact-executable acceptance before public delivery.
 
 The common mission draw consumer now has a source-local rigid normal profile,
 sharing the static renderer's actual lit/cube/texture-factor parameter builders.
@@ -251,6 +250,21 @@ the actual debris material/buffer owner and checks that a missing reflection
 resource refuses before allocating a parameter buffer. Ordinary world births,
 poses and complete rendered destruction remain unbound; these consumer changes
 are implemented-unverified gameplay, not a new public preview.
+
+The next kind8 contact dependency now executes acquired integration, terrain
+response, gravity and first-contact retirement instead of treating flags as
+completed services. Private original controls compare 74 positional-root steps
+and 103 steps of an actual immediate child from the complete guard context,
+with no differing age/position/velocity/force/contact/retirement words. All 29
+birth matrices and final preparation/activation RNG also agree independently.
+The supplied flat terrain, clock, pools, model/render handles, empty native
+character lists and final retirement boundary limit these comparisons. A second
+below-ground birth confirms first-frame deferral. The installed Rust control
+retains one request at the actual impact position, before the source lifetime,
+and rejects repeated retirement. Descendant activation remains the caller's
+responsibility. This is CPU dependency evidence, not ordinary destruction or
+native world/FX fidelity. The common renderer's new receipt passes its offscreen
+menu/entry/return lifecycle; it does not validate the new rigid draw on screen.
 
 Other literal search routes include `deathfx_shot`, `deathfx_logic`,
 `barracks_shot`, `bldg_subtract_energy` and the base-building callbacks. Their
@@ -281,29 +295,21 @@ distinct real projectile hits, unchanged player/projectile shapes and zero
 building burst births. Matching-executable GPU capture and normal-menu regression
 remain required; this source continuation does not update preview .13.1.
 
-The first admitted graphical attempt reaches actual player contact, but its
-camera-centred aiming commands send the partial pistol below the thin canopy;
-the real shots hit terrain behind it and the diagnostic fails its budget. The
-next input fixture compensates using the actual muzzle and current camera aim
-producer, supplying only look commands. It does not change the game's aiming
-service or projectile trajectory. Require three actual hits and the unchanged
-geometry endpoint on a new receipt; complete native crosshair/arm aiming is
-still separate work.
+The visible source table (class752) passes actual player contact and three
+projectile hits, with unchanged collision geometry, no bursts/retirement and a
+reviewed capture. Earlier notes incorrectly called this mesh a canopy; the
+umbrella is separate geometry. The ordinary look-only input fixture compensates
+for the partial pistol's actual muzzle/camera parallax, without changing aiming
+or projectile behavior. Complete native crosshair/arm aiming remains separate.
 
-The following private receipt passes actual player contact and three distinct
-projectile hits on the source canopy, with unchanged collision geometry, no
-building bursts or retirement and a visually reviewed capture. That result
-belongs to its exact executable. The new state0 fence admission requires a fresh
-receipt and both no-shot samples plus combined regressions before publication.
-
-The next small-door diagnostic fails its budget because the observation counted
-only blocking/retry responses. A low source mesh can supply floor support without
-a blocking retry. The new observation exposes fresh support computed by this
-actual mesh query, separately from any retained support ID; it changes no physics
-or geometry. Contact logs distinguish blocking from floor support. A focused
-control rejects a stale support ID with no triangles. A new executable must
-repeat the visible table no-shot sample and combined regressions; the failed receipt is
-retained privately and is not a published acceptance.
+The state0 mesh admission also retains the small door (class511), rather than a
+palisade. Its diagnostic observes actual fresh floor support, separately from a
+retained support ID; it changes no physics. A focused control rejects stale
+support with empty geometry. This placement's mesh is entirely below terrain:
+terrain correctly intercepts the attempted shots and the graphical diagnostic
+remains failed. It is not visible-building or palisade acceptance. Preserve that
+failure and repeat combined regressions on the next meaningful runtime receipt;
+none of this continuation updates the public .13.1 delivery.
 
 ### Initial registered static-shadow dependency
 

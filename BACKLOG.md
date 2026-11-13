@@ -79,15 +79,20 @@ replacement and compound source effects. Its bounded original-caller inheritance
 and individual effect-property dependencies are acquired privately. The ledger
 now retains the guard graph's sampled spin/increasing curved size and pending
 source15/source47 requests, with 36 active-store and 32 null-pass comparisons.
-Next bind actual kind8 lit debris, physical contact and contact-triggered nested
-retirement; do not route it through the acquired kind6 particle profile. Actual
+The bounded kind8 contact consumer now passes 74 positional-root and 103 actual
+immediate-child callback comparisons against the original flat-terrain fixture,
+plus all 29 full-guard birth matrices/RNG. An installed control retains exactly
+one retirement request at impact before lifetime expiry. Bind its actual lit
+draw and nested descendant factory next; keep the kind8 profile distinct from
+kind6 and preserve unsupported requests. Actual
 replacement/debris render resources and the separately acquired opaque zero-blend
 texture-factor program now prepare, but dynamic GPU ownership and ordinary
 render acceptance remain unbound. The shared mission rigid draw consumer now
 owns actual source-local normal/material buffers and exact cleanup in code;
 its installed CPU ownership control is not an ordinary birth or GPU proof.
-Connect source kind8 physical/contact retirement and the actual world producer
-before counting it as a playable feature. Constructors,
+The new renderer receipt passes the ordinary offscreen lifecycle, without
+exercising rigid draws. Connect the actual world producer and descendants before
+counting this as a playable feature. Constructors,
 world/render/collision ownership, nested retirement and complete ordinary
 acceptance remain required. Follow BUILDINGS.md and the mandatory prototype PS2
 lookup before continuing. The complete building objective remains active.
