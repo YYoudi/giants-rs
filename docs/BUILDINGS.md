@@ -111,11 +111,18 @@ separate; these controls do not establish a delivered barracks explosion.
 The context-pool null pass also admits the bounded, independently observed
 debris/smoke/flash frames. Three additional original complete constructors match
 Rust births, source reference matrices and RNG for the required particle and
-retirement contexts. The app-level graph test exposes the next render blocker:
-some rigid pieces require object fading, which the shared lit renderer does not
-yet support. Admission now rejects this before allocating live bodies, rather
-than failing halfway through a destruction. Do not bypass the fade or substitute
-opaque debris. Named root selection also has distinct lite entries; the eventual
+retirement contexts. The app-level graph test exposed a missing rigid-object
+fading consumer. The shared renderer now uses the acquired object/material
+transparency override and quantized alpha, updates blend mode with the current
+uniform, and preserves the separately checked reflection programs. The three
+installed graphs prepare fading submissions and retire all descendants: 60, 60
+and 123 total births/retirements under supplied clocks and selection inputs.
+An asset ownership control checks half/fully transparent/back-to-opaque uniform
+updates and buffer release. The guard's opaque zero-blend auxiliary fallback
+still refuses an unsupported fade; it is not replaced by another RGB program.
+Unbound material compositions remain admission errors before live allocation.
+These are application/resource controls, not rendered pixels or building-hit
+acceptance. Named root selection also has distinct lite entries; the eventual
 ordinary producer must supply actual quality/load/camera inputs. Direct-offset
 preparation and supplied selection controls do not establish that producer.
 

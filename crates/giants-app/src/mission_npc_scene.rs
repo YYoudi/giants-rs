@@ -4,7 +4,7 @@ use crate::actor_scene::{self, Material};
 use crate::rigid_attachment_scene::Material as AuxiliaryMaterial;
 use bevy::{asset::RenderAssetUsages, ecs::system::SystemParam, prelude::*};
 use std::collections::{BTreeMap, BTreeSet};
-mod rigid;
+pub(crate) mod rigid;
 
 pub struct Plugin;
 impl bevy::app::Plugin for Plugin {

@@ -1,6 +1,6 @@
 # Build on Windows with MinGW
 
-For the next source no-shot surface acceptance, the existing muted offscreen
+For source no-shot surface checks, the existing muted offscreen
 building input fixture accepts `GIANTS_MISSION_BUILDING_CAPTURE=unchanged`.
 It selects an already admitted source state0 mesh, supplies ordinary contact,
 retreat, look and pistol inputs, then requires three actual distinct projectile
@@ -23,10 +23,24 @@ The mixed guard effect owner has the optional installed control
 x86_64-pc-windows-gnu -- --ignored`, using `GIANTS_BUILDING_ROOT`. It checks real
 source graph resources, lit/unlit draw submissions, contact/lifetime descendants,
 clock idempotence, context cleanup and ticket isolation under supplied emission
-and time. It does not enable the still-excluded guard damage/replacement callback
-or prove GPU/ordinary-input acceptance. Follow [BUILDINGS.md](BUILDINGS.md).
+and time. It does not itself prove GPU/ordinary-input acceptance; preview .13.2
+records the separately delivered guard damage/replacement path. Follow
+[BUILDINGS.md](BUILDINGS.md).
 
-The locally connected house owner also has an installed app control:
+The barracks effect continuation uses the same installation variable:
+
+```powershell
+cargo test --locked -p giants-game installed_barracks_inherited --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-app installed_barracks_graphs --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-app installed_rigid_material_owners --target x86_64-pc-windows-gnu -- --ignored
+```
+
+These check prepared contexts/contact variants, complete descendant graphs with
+fading draw submissions, and quantized shader uniforms/blend-mode updates and
+buffer release. Requests, selection inputs and clocks are supplied. They do not
+enable ordinary barracks damage, render GPU pixels or validate Windows input.
+
+The ordinary house owner also has an installed app control:
 `cargo test --locked -p giants-app installed_house_damage_updates_all_contact_owners
 --target x86_64-pc-windows-gnu -- --ignored`, using `GIANTS_BUILDING_ROOT`.
 It supplies hits and time and does not establish GPU or ordinary controls.

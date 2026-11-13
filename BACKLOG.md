@@ -78,9 +78,11 @@ Remaining work, in player-impact order:
    Its immediate debris variant now retains its context mode and literal zero
    positional frame in the shared consumer. Original full-graph births/RNG and
    the selected ground-retirement/rebound trajectories match Rust; all three
-   installed graphs pass supplied-flat-terrain preparation. Complete descendant
-   activation, rigid-material fading, named quality/distance selection,
-   graphical/audio ownership and actual alerts before admitting
+   installed graphs pass supplied-flat-terrain preparation. Descendant activation
+   and fading submissions now pass the three complete app graphs (60/60/123
+   births and retirements); shader uniforms/blend updates have separate asset
+   controls. Complete named quality/distance selection, graphical/audio acceptance
+   and actual alerts before admitting
    ordinary damage. Existing tower geometry or the Vimp-specific effect route
    does not establish whole barracks acceptance. See BUILDINGS.md.
 4. Bind actual building mission-death producers with their native global mode,
