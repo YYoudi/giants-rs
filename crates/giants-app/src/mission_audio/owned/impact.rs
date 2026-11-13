@@ -141,7 +141,7 @@ impl OwnedAudio<'_, '_> {
             listener,
             local,
             assets,
-            local_playback: None,
+            local_playback: self.configuration.as_ref().map(|c| c.playback()),
         })
     }
 }
@@ -176,7 +176,9 @@ impl giants_game::resident_states::MeccImpactVoice for Device<'_, '_, '_> {
 }
 impl Device<'_, '_, '_> {
     /// Carry an already acquired startup projection, independently of gain,
-    /// muting and sink readiness. Ordinary startup has not supplied it yet.
+    /// muting and sink readiness, for supplied-boundary controls only. Ordinary
+    /// launch carries its own configuration projection through OwnedAudio.
+    #[cfg(test)]
     pub(crate) fn bind_local_playback(
         &mut self,
         playback: giants_game::startup_playback::Playback,

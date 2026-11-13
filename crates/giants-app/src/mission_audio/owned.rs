@@ -100,6 +100,7 @@ fn reserve_local(
 #[derive(bevy::ecs::system::SystemParam)]
 pub(crate) struct OwnedAudio<'w, 's> {
     engine: ResMut<'w, Engine>,
+    configuration: Option<Res<'w, crate::startup_configuration::Configuration>>,
     sinks: Query<'w, 's, &'static mut AudioSink>,
     commands: Commands<'w, 's>,
     positional_assets: Option<ResMut<'w, Assets<crate::positional_pcm::Pcm>>>,

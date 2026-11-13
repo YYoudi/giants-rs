@@ -121,6 +121,28 @@ fn shared_impact_device_keeps_local_voice_missing_sink_and_catalog_miss_distinct
             Ok(())
         })
         .unwrap();
+    // The same provider sees the actual launch configuration when present.
+    // Zero gain is not native no-play: the prepared source still requires a
+    // real sink, whereas an explicit catalog miss consumes no voice or RNG.
+    world.insert_resource(crate::startup_configuration::Configuration::begin());
+    state
+        .get_mut(&mut world)
+        .unwrap()
+        .with_impact(976, 0., Mat4::IDENTITY.to_cols_array(), local, |device| {
+            assert!(!device.local_playback.unwrap().suppressed());
+            let error = device.play(&session, local, 1504).unwrap_err();
+            assert!(!error.contains("startup no-play"), "{error}");
+            assert!(
+                device
+                    .bind_local_playback(device.local_playback.unwrap())
+                    .is_err()
+            );
+            device.play(&session, local, 1686)?;
+            assert_eq!(device.mounted.started, 0);
+            assert_eq!(device.mounted.audio_random.0, 1);
+            Ok(())
+        })
+        .unwrap();
 }
 
 #[test]

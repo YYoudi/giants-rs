@@ -9,23 +9,35 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Ripper integration in progress
 
-Current local frontier: source `f9c1a63`, GNU executable SHA256
-`a83a23cb50d8901ffc69162f7a1712b9126e515ec6b9f10f6d43ce970e5a17e9`,
-enters The Wife in the continuous rendered supplied-command control, then refuses
-the radial no-effect invariant: a possible actor hit or Vimp alert cannot be
-excluded. It exits101 after about145 seconds without a capture. Actual radial
-eligibility and positive hit/alert consumption remain unresolved; the refusal
-does not prove that a Vimp was alerted or an actor hurt. This is a failed complete
-encounter candidate, with no new pixel-fidelity or Windows-input acceptance.
+Latest rendered diagnostic build: source `6354f1d`, GNU executable SHA256
+`cd1d57ba0e8016fcf467081ef513c8b912aa81e9fd25456fd24ebcca3760877f`.
+Two continuous supplied-command Wife encounters exercise the unchanged ordinary
+runtime. The first processes six actual ground impacts and one expiry without
+an NPC refusal, then reaches the diagnostic deadline at step12000 without the
+requested Mecc-damage endpoint (exit101, about176 seconds, no capture). The second
+reaches a real projectile-to-controlled-Mecc contact at step6473 and refuses the
+missing shared-world failure/completion guards before publishing damage (exit101,
+about150 seconds, no capture). Neither run reproduces a radial proof obstacle.
+These are failed complete-encounter candidates, not reciprocal combat, visual
+fidelity or Windows-input acceptance.
 
-The conservative radial proof now reports its first actual owned-list obstacle:
-actor identity/class/state, observed optional health and dispatch contexts,
-distance and the exceeded proof condition. These values explain a refusal only;
-they do not evaluate native eligibility, bind the unprovided global context word,
-emit an alert or acknowledge damage. The predicate, ordering and boundaries are
-unchanged, including the zero-slope and masked-actor lazy inputs. The diagnostic
-must be exercised on a fresh identified rendered candidate before choosing an
-active consumer; do not infer one from the earlier undifferentiated refusal.
+The earlier source `f9c1a63`, executable SHA256
+`a83a23cb50d8901ffc69162f7a1712b9126e515ec6b9f10f6d43ce970e5a17e9`,
+refuses the radial no-effect invariant after about145 seconds, without a capture.
+A possible actor hit or Vimp alert cannot be excluded, but actual eligibility
+and positive hit/alert consumption remain unresolved. The conservative proof
+now reports the first actual owned-list obstacle, including optional observed
+health, dispatch contexts and distance/bound. This diagnostic neither evaluates
+native eligibility nor binds the unprovided global context word. Its predicate,
+ordering, zero-slope and masked-actor lazy inputs remain unchanged. No obstacle
+identity has yet been observed on the identified diagnostic executable.
+
+Ordinary launch now supplies the configuration-start no-play projection to the
+shared local impact-voice device, independently of gain, capture muting and real
+sink readiness. See [the local voice contract](OWNED_MECC_CONTACT.md#ordinary-configuration-start-projection).
+This removes one missing input; it does not provide shared-world guards, actual
+voice playback, damage, death or a completed encounter. The build/encounter
+receipts above precede this startup wiring until a new receipt is recorded.
 
 The earlier source `3297c8c`, GNU executable SHA256
 `7dbfc7408cc75ca0d21a43f283d4b86de7f45618413c6b56e506258f0eacd21e`,

@@ -171,20 +171,21 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
-Next observed NPC delivery: resolve the actual radial recipients and required
-hit/Vimp-alert consumers on the ordinary Wife path. Source `f9c1a63` / GNU
-executable `a83a23cb50d8901ffc69162f7a1712b9126e515ec6b9f10f6d43ce970e5a17e9`
-reaches the radial no-effect refusal in a continuous rendered supplied-command
-encounter, exiting101 after about145 seconds with no capture. A possible hit or
-alert cannot be excluded; actual eligibility is not yet established. Do not
-weaken the proof, supply an unbound context word or turn that refusal into a
-positive hit/alert receipt. Actual clock/context/health consumers remain required.
-The read-only proof now reports the first actual list member blocking it, with
-observed optional health/context and the radial/alert bound. Run this diagnostic
-on an identified executable next. An obstacle remains a failed universal proof,
-not a positive eligibility or effect receipt; the acceptance predicate has not
-been relaxed. Preserve native clock/context requirements when wiring the real
-consumer selected from that observation.
+Next NPC delivery: acquire and connect the genuine shared-world guards that
+block reciprocal contact, alongside the actual radial recipients and positive
+hit/Vimp-alert consumers. Source `6354f1d` / GNU executable
+`cd1d57ba0e8016fcf467081ef513c8b912aa81e9fd25456fd24ebcca3760877f`
+renders two supplied-command Wife attempts: one reaches its diagnostic deadline
+after six ground impacts and one expiry; the other contacts the controlled Mecc
+at step6473 and refuses the missing guards before damage. Both exit101 without
+a capture. No radial obstacle identity was observed. The earlier `f9c1a63`
+radial-proof refusal remains unresolved, without positive eligibility or effects.
+The new diagnostic preserves the complete conservative predicate; do not weaken
+it or supply an unbound context word to obtain a hit/alert receipt.
+Ordinary configuration startup now carries its actual reset projection into
+local impact audio. Gain/muting cannot select native no-play; real sinks and
+catalog ownership remain separate. This is not damage/death or full encounter
+acceptance; see OWNED_NPCS.md and OWNED_MECC_CONTACT.md for evidence boundaries.
 The genuine shared-world failure/completion guards required by direct Mecc
 contact also remain unbound. Earlier source `3297c8c` / GNU executable
 `7dbfc7408cc75ca0d21a43f283d4b86de7f45618413c6b56e506258f0eacd21e`

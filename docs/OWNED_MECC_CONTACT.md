@@ -1483,3 +1483,31 @@ dust cloud; no landing refusal occurs. Both installed-resource lifecycle checks
 pass on the combined source, including a full1600-step ordinary flight/landing
 and canonical draw/retirement with a supplied test transport. That CPU transport
 is separate from the real muted device exercised by the GPU diagnostic.
+
+## Ordinary configuration-start projection
+
+Ordinary `launch` now begins the narrow configuration projection before option
+dispatch and inserts that owner into the App. The impact audio SystemParam
+borrows it read-only; a caller-created World without this owner still refuses
+local voice policy rather than deriving it from gain, sink readiness or capture
+muting. The ordinary reset enables playback policy; it does not acknowledge
+playback or acquire a missing sink. A synthetic control checks both absence and
+presence on the same device provider, including zero gain, a prepared source
+without a sink and an explicit catalog miss, with no started voice or RNG draw.
+
+Fresh exact-PC observations execute the complete original reset prefix up to
+its first configuration-provider call, with four poisoned input patterns and
+no replaced helpers. They independently confirm the no-play reset, and separate
+it from the untouched failure/completion/edit words. This is prefix evidence,
+not completed configuration loading, device initialization or a live world flag
+snapshot. The related prototype PS2 lookup remains unknown; no new routine
+identity is confirmed. Existing private address aliases and candidate raw
+symbols remain retained with the exact binary identities.
+
+The Rust CLI continues to reject unsupported native no-play/safe-mode options;
+it neither scans data-path values as options nor claims the other safe-mode
+side effects. Adding those options later must dispatch complete option tokens
+through the same startup owner. This connection is limited to the shared local
+impact-voice path; it does not implement global suppression for every sound
+wrapper or jet sequence. Shared mission guards, reciprocal damage and ordinary
+Ripper death remain separate runtime prerequisites.

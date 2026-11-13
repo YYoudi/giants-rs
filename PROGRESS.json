@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Complete enemy perception, navigation, attacks and mission integration remain open. The public preview retains bounded ordinary Vimp interaction. The NPC development branch connects source-declared Ripper frames, contacts, launch/flight, actual missed-shot ground reactions and projectile expiry. The identified rendered candidate f9c1a63 refuses its radial no-effect proof; actual eligibility and required hit/Vimp-alert consumers remain unresolved. Read-only diagnostics now identify the owned actor blocking that proof without acknowledging an effect. Direct Mecc world guards, canonical player-projectile birth, reciprocal injury, Ripper death and complete Windows encounter/menu acceptance remain open. See OWNED_NPCS.md and BACKLOG.md."
+      "detail": "Complete enemy perception, navigation, attacks and mission integration remain open. The public preview retains bounded ordinary Vimp interaction. The NPC development branch connects source-declared Ripper frames, contacts, launch/flight, actual missed-shot ground reactions and projectile expiry. Diagnostic build 6354f1d reaches a real Mecc contact but refuses missing shared-world guards before damage; a second supplied-command attempt reaches its deadline. Neither identifies the earlier radial-proof obstacle. Startup policy now feeds shared local impact audio independently of muting; actual radial eligibility and hit/Vimp-alert consumers, canonical player-projectile birth, reciprocal injury, Ripper death and complete Windows encounter/menu acceptance remain open. See OWNED_NPCS.md and BACKLOG.md."
     },
     {
       "id": "wildlife",
