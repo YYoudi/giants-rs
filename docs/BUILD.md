@@ -1,5 +1,12 @@
 # Build on Windows with MinGW
 
+The optional `cargo test --locked -p giants-game source_kind3_accepts --target
+x86_64-pc-windows-gnu -- --ignored` control uses `GIANTS_NPC_ROOT`. It constructs
+the installed surface marker on a supplied mode68 attacker, verifies that the
+kind3 response retains the Ripper as source, and refuses a broken reciprocal
+link before services. World/receiver gates and the actor frame are supplied;
+this does not establish ordinary damage, a rendered encounter or Windows input.
+
 For the next source no-shot surface acceptance, the existing muted offscreen
 building input fixture accepts `GIANTS_MISSION_BUILDING_CAPTURE=unchanged`.
 It selects an already admitted source state0 mesh, supplies ordinary contact,

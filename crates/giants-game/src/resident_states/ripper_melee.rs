@@ -2,6 +2,8 @@
 //! Prototype PS2 ripper_move/mecc_shot/hurt_object remain unknown name routes.
 //! This supplies no world gates, controller, sound device or mission terminal.
 use super::*;
+// Prototype PS2 search routes `ripper_move` and `hurt_object` remain unknown
+// correspondences. The surface relationship below is the acquired PC contract.
 use crate::{audio_parameters::Random, controlled_mecc::HitOrigin, ripper_primary_turn as primary};
 type Effect = crate::attached_effect_context::Id;
 type State = primary::State<Id, Effect>;
@@ -202,6 +204,29 @@ impl Session {
         let actor = self.ordinary_frame_actor(source)?;
         let fields = actor.construction_fields.as_ref().unwrap();
         let combat = self.state23_snapshot(source)?;
+        // The surface callback link is not the transform/firing parent. An
+        // ordinarily surfaced Ripper retains this reciprocal marker while it
+        // attacks. Accept only the actual owned constructor relationship;
+        // arbitrary callback-owner words are still outside this adapter.
+        let surface_link_matches = match (combat.owner, actor.surface_link) {
+            (None, None) => true,
+            (Some((marker, 219)), Some(SurfaceLink::Owner { marker: linked }))
+                if marker == linked =>
+            {
+                self.get(marker).is_some_and(|marker| {
+                    marker.acquired_construction
+                        && marker.class == 219
+                        && marker.seed.storage.profile() == Profile::Debug
+                        && marker.seed.storage.state() == 48
+                        && marker.constructor_mask == 0x11
+                        && matches!(marker.surface_link,
+                            Some(SurfaceLink::Marker { owner, .. }) if owner == source)
+                        && marker.attachment.is_none()
+                        && marker.presentation_parent.is_none()
+                })
+            }
+            _ => false,
+        };
         let delta = std::array::from_fn::<_, 3, _>(|i| {
             f64::from(recipient.construction_fields.as_ref().unwrap().position[i])
                 - f64::from(fields.position[i])
@@ -218,7 +243,7 @@ impl Session {
             || actor.attachment.is_some()
             || actor.presentation_parent.is_some()
             || combat.mode != 68
-            || combat.owner.is_some()
+            || !surface_link_matches
             || combat.parent.is_some()
             || !combat.damage.is_finite()
             || !combat.limit.is_finite()

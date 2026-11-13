@@ -45,6 +45,32 @@ Unsupported actor continuations retain their last completed visual submission
 with its old frame number; their next AI/animation/contact frame is not supplied.
 Linked markers stay owned until scope retirement, with no fake per-marker cleanup.
 
+### Surface-linked melee correction (not a new combat delivery)
+
+The kind3 receiver now accepts a genuinely constructed, reciprocally linked
+class219/state48 surface marker on the attacking Ripper. This callback relation
+is separate from a transform parent and does not change the hit source to the
+marker. The previous blanket rejection excluded ordinarily surfaced attackers.
+Missing, foreign or broken reciprocal relationships still fail before world,
+health or controller services. The existing real world guards remain mandatory.
+
+Four additional original-PC observations with a supplied marker header produce
+the same health, impulse, reset, RNG and callback visits as the prior no-marker
+controls. These are bounded kind3 controls, not a natural encounter. The installed
+Rust regression constructs the real marker and checks successful supplied-guard
+delivery, retained ownership and refusal of a broken reverse link. The five
+existing canonical kind3 controls also pass. Prototype PS2 `ripper_move`,
+`hurt_object` and `mecc_shot` remain unknown relationships for these entries;
+no new attribution or platform-layout transfer is claimed.
+
+A longer supplied-command pursuit attempt on the published .13.3 executable
+exits101 at its diagnostic deadline without a capture. It observes later shots
+and a classic actor subsequently refused by the secondary-selection adapter.
+It does not establish pursuit acceptance or sustained combat. The short .13.3
+rendered receipt remains scoped as stated above. Required next runtime work is
+the actual shared-world guards, player projectile source and the reached classic
+attack-exit/animation continuation; special variant attacks and death remain open.
+
 ## Historical Ripper integration receipts
 
 Earlier startup-policy build: source `b7cc590`, GNU executable SHA256

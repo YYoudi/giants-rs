@@ -269,6 +269,42 @@ fn canonical_kind3_copies_actual_health_velocity_once_and_finishes_generic_tail(
             .contains(&source)
     );
 }
+
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; actual marker constructor with supplied mode68, frame and receiver guards, not ordinary combat acceptance"]
+fn source_kind3_accepts_reciprocal_surface_marker_without_using_it_as_hit_owner() {
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let resources =
+        crate::scene_resources::SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+    for broken in [false, true] {
+        let mut session = Session::new(1840 + u64::from(broken));
+        let (source, target, mut random) = canonical_melee_fixture(&mut session);
+        let marker = crate::primary_surface_marker::Factory::new(&resources)
+            .construct(&mut session, source)
+            .unwrap();
+        let links = (session.surface_link(source), session.surface_link(marker));
+        if broken {
+            session.residents.get_mut(&marker.serial).unwrap().surface_link = None;
+        }
+        let mut host = CanonicalMeleeHost {
+            local: Some(local_melee_state(&session, target)),
+            ..Default::default()
+        };
+        let result = run_canonical_melee(&mut session, source, target, &mut random, &mut host);
+        if broken {
+            assert!(result.is_err());
+            assert!(host.events.is_empty());
+            assert_eq!(session.mecc_health(target).unwrap().damage, 0.);
+        } else {
+            result.unwrap();
+            assert_eq!(host.events, ["world", "gates", "recoil", "terminal"]);
+            assert_eq!(session.mecc_health(target).unwrap().damage, 35.);
+            assert_eq!(session.state23_combat(source).unwrap().owner, Some((marker, 219)));
+            assert_eq!((session.surface_link(source), session.surface_link(marker)), links);
+            assert_eq!(host.response.unwrap().source(), source);
+        }
+    }
+}
 #[test]
 #[ignore = "Requires GIANTS_MECC_KIND3_CONTROLS; private original class230 kind3 dispatcher comparisons with supplied owned mode68/frame and all consumer gates; not ordinary gameplay"]
 fn native_canonical_kind3_controls() {

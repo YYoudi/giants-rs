@@ -264,6 +264,16 @@ publication. Preserve explicit missing reciprocal damage/death/close-melee and
 native fidelity limits; no invented guard/provider or forced NPC motion.
 
 
+The surface-linked kind3 adapter now accepts the actual reciprocal class219
+marker instead of rejecting every callback owner. Original-PC supplied-marker
+controls preserve the four prior receiver results; the installed Rust regression
+checks the real constructor, source attribution and broken-link refusal. This is
+a corrected dependency, not newly available ordinary damage. The longer .13.3
+pursuit diagnostic fails its endpoint and exposes a later classic secondary
+selection refusal after repeated shots. Acquire and connect the reached classic
+attack-exit/animation continuation before claiming sustained encounters; preserve
+the short published receipt and do not weaken its diagnostic to obtain success.
+
 Next NPC delivery: acquire and connect the genuine shared-world guards that
 block reciprocal contact, alongside the actual radial recipients and positive
 hit/Vimp-alert consumers. Source `6354f1d` / GNU executable
