@@ -54,6 +54,7 @@ pub(crate) struct RigidProfile {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum DrawOwner {
     BuildingEffect(u64),
+    BuildingReplacement(u64),
     Actor(Id),
     Effect(giants_game::vimp_death_fx::Key),
 }

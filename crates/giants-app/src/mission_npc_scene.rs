@@ -414,6 +414,14 @@ fn update(
                         index,
                     });
                 }
+                if draw.rigid.is_some() {
+                    println!(
+                        "mission_rigid_draw_owned ticket={ticket} class={} owner={:?} parts={} source_local_geometry=true",
+                        draw.class,
+                        draw.id,
+                        object.parts.len()
+                    );
+                }
             }
             let object = state.objects.get_mut(&draw.id).unwrap();
             if !std::sync::Arc::ptr_eq(&object.geometry, &draw.geometry)

@@ -3,6 +3,7 @@
 //! and `deathfx_shot` remain unknown PC attribution search routes.
 //! Other building families retain their collisions without a guessed callback.
 mod no_shot;
+mod replacement;
 use giants_game::{
     actor_fields::Fields,
     arithmetic::Precision,
@@ -35,6 +36,7 @@ struct Class {
     policy: Policy,
     fields: Fields,
     stages: BTreeMap<u32, Arc<Stage>>,
+    replacement: Option<Arc<replacement::Template>>,
 }
 struct Owner {
     physical: bool,
@@ -50,6 +52,7 @@ struct Owner {
 pub(crate) struct World {
     owners: BTreeMap<u32, Owner>,
     no_shot: no_shot::Surfaces,
+    replacements: Vec<replacement::Placed>,
     thresholds: Thresholds,
     quality: f32,
     lite_distance: f32,
@@ -65,15 +68,32 @@ pub(crate) struct HitResult {
     pub identities: Vec<(u32, u32)>,
     pub update: Update,
     pub sounds: Vec<crate::mission_audio::Event>,
+    pub replacement: Option<usize>,
 }
 impl World {
     /// Actual narrow contacts may belong to damage owners or admitted no-shot
     /// surfaces. Observation does not assign either a damage callback.
     pub(crate) fn observes_contact(&self, object: u32) -> bool {
-        self.owners.contains_key(&object) || self.no_shot.physical(object)
+        self.owners.contains_key(&object)
+            || self.no_shot.physical(object)
+            || self.replacements.iter().any(|r| r.object == Some(object))
     }
     pub(crate) fn note_contact(&mut self, object: u32, support: bool) {
         self.no_shot.note_contact(object, support);
+        if let Some(replacement) = self
+            .replacements
+            .iter_mut()
+            .find(|r| r.object == Some(object))
+        {
+            replacement.contacts += 1;
+            if replacement.contacts == 1 {
+                println!(
+                    "mission_building_replacement_contact object={object} class={} actual_narrow_phase=true kind={}",
+                    replacement.fields.class,
+                    if support { "floor-support" } else { "blocking" }
+                );
+            }
+        }
         if let Some(owner) = self.owners.get_mut(&object) {
             owner.contacts += 1;
             if owner.contacts == 1 {
@@ -180,6 +200,10 @@ impl World {
         let thresholds = Thresholds::load(globals)?;
         let mut classes = BTreeMap::<i32, Arc<Class>>::new();
         let mut owners = BTreeMap::new();
+        let mut effect_runtime = crate::mission_building_effects::Runtime::new(
+            source.clone(),
+            Arc::new(terrain.clone()),
+        );
         for (record, object) in colliders.records.iter().zip(&colliders.objects) {
             if !matches!(record.instance.state, 61 | 101) {
                 continue;
@@ -215,10 +239,8 @@ impl World {
                             );
                         }
                     }
-                    if word(0) > 0 || record.class == 0x2a5 || word(3) != 0 {
-                        return Err(
-                            "scenery replacement/special/weapon owner remains required".into()
-                        );
+                    if record.class == 0x2a5 || word(3) != 0 {
+                        return Err("scenery special/weapon owner remains required".into());
                     }
                     for effect in effects.values() {
                         effect.target.as_ref().map_err(Clone::clone)?;
@@ -235,6 +257,20 @@ impl World {
                         effects,
                     }
                 };
+                let replacement = if let Policy::Scenery {
+                    configuration,
+                    effects,
+                } = &policy
+                    && configuration.replacement > 0
+                {
+                    let template = replacement::Template::load(source, configuration.replacement)?;
+                    for effect in effects.values() {
+                        effect_runtime.preflight_offset(effect)?;
+                    }
+                    Some(template)
+                } else {
+                    None
+                };
                 let mut stages = BTreeMap::new();
                 for fraction in [1., 0.].into_iter().chain(
                     thresholds.0[..3]
@@ -250,6 +286,7 @@ impl World {
                     policy,
                     fields,
                     stages,
+                    replacement,
                 });
                 classes.insert(record.class, c.clone());
                 Ok(c)
@@ -333,13 +370,11 @@ impl World {
         Ok(Self {
             owners,
             no_shot: no_shot::Surfaces::prepare(plan, physical, colliders),
+            replacements: vec![],
             thresholds,
             quality: globals.scalar(0x13e0).map_err(|e| e.to_string())?,
             lite_distance: globals.scalar(0x1570).map_err(|e| e.to_string())?,
-            effects: crate::mission_building_effects::Runtime::new(
-                source.clone(),
-                Arc::new(terrain.clone()),
-            ),
+            effects: effect_runtime,
             failure: None,
         })
     }
@@ -413,6 +448,7 @@ impl World {
             }
         };
         let mut sounds = vec![];
+        let mut replacement = None;
         for request in requests {
             match request {
                 Reaction::Scenery(request) => match request {
@@ -430,8 +466,27 @@ impl World {
                         sounds.extend(self.effects.emit_offset(ticket, binding, point, random)?);
                     }
                     death_fx::Request::Retire => owner.fields.object_flags |= 0x8000,
-                    death_fx::Request::SpecialDeath | death_fx::Request::Replace { .. } => {
-                        return Err("scenery replacement/special service is not bound".into());
+                    death_fx::Request::Replace { class } => {
+                        let template = owner
+                            .class
+                            .replacement
+                            .as_ref()
+                            .ok_or("scenery replacement constructor absent")?;
+                        if template.fields.class != class {
+                            return Err("replacement source class changed".into());
+                        }
+                        let index = self.replacements.len();
+                        let serial = u64::try_from(index)
+                            .map_err(|_| "replacement serial overflow")?
+                            .checked_add(1)
+                            .ok_or("replacement serial overflow")?;
+                        let placed =
+                            template.place(&owner.fields, owner.key, hit.object, serial)?;
+                        self.replacements.push(placed);
+                        replacement = Some(index);
+                    }
+                    death_fx::Request::SpecialDeath => {
+                        return Err("scenery special service is not bound".into());
                     }
                 },
                 Reaction::House(request) => match request {
@@ -503,6 +558,7 @@ impl World {
                 geometry,
             },
             sounds,
+            replacement,
         }))
     }
     pub(crate) fn draws(
@@ -510,7 +566,73 @@ impl World {
         view: [f32; 16],
         detail: Option<([f32; 3], f32)>,
     ) -> Result<Vec<crate::mission_runtime::NpcDraw>, String> {
-        self.effects.draws(view, detail)
+        let mut draws = self.effects.draws(view, detail)?;
+        for replacement in &self.replacements {
+            draws.push(replacement.draw(detail)?);
+        }
+        Ok(draws)
+    }
+    pub(crate) fn probe_replacement(&self, old: u32) -> Option<(u32, [f32; 3], u64)> {
+        let r = self.replacements.iter().find(|r| r.replaces == old)?;
+        Some((r.object?, r.fields.position, r.contacts))
+    }
+    pub(crate) fn replacement_contact_ready(&self, old: u32) -> bool {
+        self.replacements
+            .iter()
+            .filter(|r| r.replaces == old)
+            .all(|r| r.object.is_some() && r.contacts > 0)
+    }
+    pub(crate) fn verify_replacement_contact(
+        &self,
+        old: u32,
+        players: &[giants_game::player_world_collision::Object],
+        projectiles: &[giants_game::projectile_world::Object],
+    ) -> Result<(), String> {
+        for r in self.replacements.iter().filter(|r| r.replaces == old) {
+            let id = r.object.ok_or("replacement physical owner unpublished")?;
+            if id == old
+                || r.contacts == 0
+                || !players
+                    .iter()
+                    .any(|p| p.fields.id == id && !p.triangles.is_empty())
+                || projectiles.iter().any(|p| p.id == id)
+            {
+                return Err("replacement actual contact/independent collision roles absent".into());
+            }
+            println!(
+                "mission_building_replacement_verified old_object={old} object={id} class={} contacts={} independent_player_mesh=true projectile=false actual_narrow_phase=true",
+                r.fields.class, r.contacts
+            );
+        }
+        Ok(())
+    }
+    pub(crate) fn replacement_player(
+        &self,
+        index: usize,
+        id: u32,
+    ) -> Result<giants_game::player_world_collision::Object, String> {
+        self.replacements
+            .get(index)
+            .ok_or("replacement instance absent")?
+            .player(id)
+    }
+    pub(crate) fn publish_replacement(&mut self, index: usize, id: u32) -> Result<(), String> {
+        if self.observes_contact(id) {
+            return Err("replacement world identity already used".into());
+        }
+        let r = self
+            .replacements
+            .get_mut(index)
+            .ok_or("replacement instance absent")?;
+        if r.object.is_some() || id == r.replaces {
+            return Err("replacement publication repeated/reused".into());
+        }
+        r.object = Some(id);
+        println!(
+            "mission_building_replacement object={id} old_object={} class={} alias={:?} serial={} player=true projectile=false environment=false independent_identity=true native_fidelity=false",
+            r.replaces, r.fields.class, r.alias, r.serial
+        );
+        Ok(())
     }
 }
 

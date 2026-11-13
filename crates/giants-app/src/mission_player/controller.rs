@@ -979,6 +979,40 @@ pub(super) fn update(
                             controller.ticket
                         );
                     }
+                } else if controller.building_probe_terminal
+                    && std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref() == Ok("settled")
+                    && let Some((id, target, contacts)) = controller
+                        .building_probe_target
+                        .and_then(|old| controller.state.buildings.probe_replacement(old))
+                {
+                    // Post-destruction acceptance uses ordinary movement only.
+                    // Keep the old shot target as the historical alias and
+                    // observe a fresh contact against the new collision ID.
+                    let camera = controller.state.subjective_inputs().0;
+                    let dx = target[0] - position[0];
+                    let dy = target[1] - position[1];
+                    let distance = dx.hypot(dy);
+                    let desired = dx.atan2(-dy);
+                    let yaw = camera.angles[0].to_radians();
+                    controller.state.mission_look(
+                        Vec2::new(
+                            (yaw - desired + std::f32::consts::PI)
+                                .rem_euclid(std::f32::consts::TAU)
+                                - std::f32::consts::PI,
+                            camera.angles[1].to_radians(),
+                        ),
+                        false,
+                    );
+                    if contacts == 0 {
+                        axes = Vec2::Y;
+                    } else if distance < 70. {
+                        axes = -Vec2::Y;
+                    }
+                    if tick % 600 == 0 {
+                        println!(
+                            "mission_building_replacement_input_probe object={id} tick={tick} position={position:?} target={target:?} contacts={contacts} supplied_input_only=true"
+                        );
+                    }
                 }
             }
             if controller.owned_backend {
@@ -1515,6 +1549,9 @@ pub(super) fn update(
                             );
                         }
                         if phase == "settled" {
+                            controller.state.buildings.verify_replacement_contact(
+                                target, controller.state.mission_colliders(), &controller.state.projectile_objects,
+                            ).expect("replacement did not receive its actual independent player contact");
                             assert_eq!(
                                 controller.state.buildings.effects.active(),
                                 0,
@@ -1794,6 +1831,9 @@ pub(super) fn update(
             && !controller.building_failed
             && controller.finish_step == 120000
             && controller.state.buildings.effects.active() == 0
+            && controller
+                .building_probe_target
+                .is_none_or(|old| controller.state.buildings.replacement_contact_ready(old))
         {
             // Observe the actual mission-clock consumer, not an assumed ratio
             // between supplied controller ticks and host elapsed time.

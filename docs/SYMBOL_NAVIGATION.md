@@ -196,6 +196,17 @@ retirement. Rust retains that distinction without importing prototype layouts,
 ABI or a guessed signature. See MISSION_PROGRESSION.md for the common runtime
 settlement contract; naming does not certify rendering, timing or mission completion.
 
+The literal prototype PS2 names `object_allocate_type`, `object_copy_personality`,
+`object_copy_activedata`, `object_copy_posdirinfo` and `object_bbox_to_world_bbox`
+lead to the bounded ordinary replacement owner in
+[`mission_buildings::replacement`](../crates/giants-app/src/mission_buildings/replacement.rs)
+and its shared class/header/bounds projections. These relationships remain
+**unknown** PC identities. Constructor fields, acquired inheritance, placement
+history, bounds inputs, independent physical/render identities and later world
+admission remain separate evidence. Logical old-object/source aliases do not
+assign semantics to the original opaque word. Naming is not native fidelity or
+ordinary build acceptance; see [BUILDINGS.md](BUILDINGS.md).
+
 This index publishes only selected names, reviewed navigation relationships and
 attribution status. Binary/ELF inputs, raw tables, listings, matching outputs,
 disassembly and detailed research remain private. The central method pins the

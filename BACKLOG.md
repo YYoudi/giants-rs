@@ -102,9 +102,17 @@ passes after acquiring the dust preparation and bounded moving source35 visual;
 152 independent original callback comparisons agree, with guide references still
 pending. Full descendant preflight checks resources/services, invariant selection,
 cycles and population before damage admission. This is supplied emission/clock
-and CPU draw evidence; the guard callback remains excluded. Bind its actual
-replacement constructor and independent physical/render identities next, then
-complete ordinary exact-build acceptance. Follow BUILDINGS.md and the mandatory prototype PS2
+and CPU draw evidence. The next continuation now admits the bounded replacement
+constructor and guard callback after full effect/resource preflight. The new
+class retains its own defaults, acquired yaw/scale/position and logical aliases,
+a fresh player collision ID and independent rigid draw owner; NPC refreshes
+preserve it and generic/projectile roles remain absent. Installed supplied-hit/
+time controls pass staging, old retirement, replacement identity/roles, complete
+effect expiry and retained new draws. The settled input observer additionally
+requires an actual new-mesh contact. Complete ordinary exact-build/GPU and
+Windows acceptance next, then publish matching main/preview/dashboard. Native
+bounds-header population, opaque-word semantics and world scheduling remain
+explicit limits, not completed actor services. Follow BUILDINGS.md and the mandatory prototype PS2
 lookup before continuing. The complete building objective remains active.
 
 ## Delivered milestone - The Wife rescue and completion-film continuation

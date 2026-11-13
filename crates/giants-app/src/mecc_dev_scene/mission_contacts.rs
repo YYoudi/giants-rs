@@ -11,6 +11,27 @@ impl State {
         &mut self,
         hit: &crate::mission_buildings::HitResult,
     ) -> Result<(), String> {
+        // Allocate from the same monotonic namespace as NPC contact keys.
+        // Validate the fresh object before publishing either collision state.
+        let replacement = if let Some(index) = hit.replacement {
+            let id = self.next_contact_key;
+            let next = id
+                .checked_add(1)
+                .ok_or("replacement collision identity overflow")?;
+            if self.mesh_objects.iter().any(|o| o.fields.id == id)
+                || self.projectile_objects.iter().any(|o| o.id == id)
+            {
+                return Err("replacement collision identity occupied".into());
+            }
+            Some((
+                index,
+                id,
+                next,
+                self.buildings.replacement_player(index, id)?,
+            ))
+        } else {
+            None
+        };
         if hit.physical {
             let object = self
                 .mesh_objects
@@ -49,6 +70,14 @@ impl State {
                 .ok_or("building environment collision identity missing")?;
             environment.mesh.fields.object_flags = hit.active;
             environment.mesh.triangles = hit.triangles.clone();
+        }
+        if let Some((index, id, next, player)) = replacement {
+            self.buildings.publish_replacement(index, id)?;
+            // Persistent building objects precede the transient NPC suffix.
+            // The next NPC snapshot must not truncate this new owner away.
+            self.mesh_objects.insert(self.static_mesh_objects, player);
+            self.static_mesh_objects += 1;
+            self.next_contact_key = next;
         }
         Ok(())
     }

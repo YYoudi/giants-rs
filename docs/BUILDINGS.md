@@ -194,8 +194,10 @@ images and collision families without real mesh admission stay explicit needs.
 
 The source state bindings retain their registered image/entry: table/cart and
 stone/wood tower explosions are not the house's named stone program. The guard
-tower declares a distinct complex effect and replacement class; its burst
-preparation remains refused until those services are acquired and connected.
+tower declares a distinct complex effect and replacement class. Its initial
+burst preparation was refused while those consumers were absent; the current
+continuation below binds the bounded replacement and full effect graph in code,
+with ordinary exact-build acceptance still required.
 
 The next private guard-effect dependency compares 36 original individual VM
 stores with a Rust property calculation, using installed source operands and
@@ -296,8 +298,8 @@ control constructs the actual guard context, obtains five lit debris draws and
 unlit draws, creates its dust and sparkle descendants, observes complete expiry,
 releases all contexts/draws and refuses reuse across tickets. Repeated clock
 samples neither advance bodies nor consume RNG. This remains supplied emission,
-time and CPU draw/resource evidence; the guard damage callback is still excluded
-until its replacement owner/collision roles and ordinary rendering are bound.
+time and CPU draw/resource evidence; the next replacement continuation binds the guard damage callback after full
+resource/descendant admission. Ordinary exact-build acceptance remains required.
 
 The first attempt fails at the dust preparation frame. Its acquired null pass
 now retains two source35 size ranges and one gravity range; unknown complete
@@ -311,6 +313,32 @@ complete constant frame adds no RNG draw. The full installed graph then passes.
 These controls supply native terrain/empty character lists, clocks, pools,
 model/render handles and final retirement boundary. They establish no GPU,
 ordinary destruction, native cadence, whole-world/audio or visual fidelity.
+
+The ordinary state101 owner now admits the independently acquired static
+replacement classes after complete effect-graph and replacement-resource
+preflight. A lethal hit constructs the new class from its own header/channels,
+retains the acquired yaw/scale/position stores and logical old-object/source
+aliases, then retires the old visual and each old collision role. It allocates a
+fresh player collision ID from the common monotonic namespace. The new player
+mesh is persistent across NPC snapshot refreshes, while its absent source
+generic/projectile roles remain absent. Rendering uses a separate replacement
+owner and the source-local rigid material/LOD consumer. Health and pitch/roll
+are not copied from the destroyed tower; an opaque native word retains unknown
+semantics rather than an invented Rust field meaning.
+
+The acquired constructor/header/configuration/placement composition agrees with
+original controls. Bounds are a separate phase: the debug placement's optional
+last helper is a no-op. A private comparison of the actual debug bbox/uncached
+transform uses explicitly supplied source primary/auxiliary bounds headers;
+those headers' native population remains outside that control. This is bounded
+preview world ownership, not canonical actor/list scheduling or native fidelity.
+Installed supplied-hit/time controls check staged damage, old retirement, fresh
+identity/roles, preservation across NPC refresh, full effect expiry, distinct
+draw identities and retained replacement rendering. The ordinary `settled`
+input observer now additionally walks into the actual new mesh and requires its
+fresh narrow contact. No pose, damage, collision or readiness is injected by
+that observer. GPU rendering, ordinary input acceptance and publication still
+require the new exact executable; public preview .13.1 remains unchanged.
 
 Other literal search routes include `deathfx_shot`, `deathfx_logic`,
 `barracks_shot`, `bldg_subtract_energy` and the base-building callbacks. Their
