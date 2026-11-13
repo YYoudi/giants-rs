@@ -143,7 +143,11 @@ impl State {
                 giants_game::arithmetic::Precision::Double53,
             )?;
             for id in shots {
-                let outcome = session.advance_enemy_projectile_singleplayer_scene(
+                // A refused source/query belongs to this shot. A source may
+                // have left the completed-contact cohort after a later actor
+                // failure; never fabricate its current packet or stop peers.
+                // Prototype `projectile_logic` is an unknown attribution route.
+                let outcome = match session.advance_enemy_projectile_singleplayer_scene(
                     id,
                     giants_game::enemy_projectile::SceneFlightWorld {
                         terrain: &query,
@@ -152,7 +156,13 @@ impl State {
                         areas: frame.areas,
                     },
                     Scene::new(entries.clone())?,
-                )?;
+                ) {
+                    Ok(outcome) => outcome,
+                    Err(error) => {
+                        self.quarantine_projectile(frame, id, error);
+                        continue;
+                    }
+                };
                 if matches!(
                     outcome,
                     giants_game::enemy_projectile::FlightOutcome::GroundContact { .. }
