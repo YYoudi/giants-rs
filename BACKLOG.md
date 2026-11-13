@@ -110,8 +110,13 @@ Remaining work, in player-impact order:
    contact, nine-shot first stage and 34-shot destruction, hidden old parts,
    independent debris/smoke drawing and the declared muted audio sink on one
    executable. See BUILDINGS.md for the exact source/hash and retained failed
-   routes. Complete expiry, mini-barracks, combined regressions/cleanup and
-   separate Windows acceptance before publication.
+   routes. Separate rendered expiry controls now observe 123/123 Ripper and
+   60/60 mini-barracks effect births/retirements, with zero active effects. The
+   mini barracks passes contact, eleven-shot first stage and 42-shot destruction,
+   hidden old parts, distinct debris/smoke and declared muted sound sinks. All
+   six phase captures were inspected. Complete combined regressions, live
+   cancellation/fresh-entry cleanup and separate Windows acceptance before
+   publication; later spawning/AI and mission-death credit remain unbound.
    Source-marked mission-death credit remains unbound and is not fabricated.
 4. Bind actual building mission-death producers with their native global mode,
    counter and response rules; do not infer credit from a model or health word.

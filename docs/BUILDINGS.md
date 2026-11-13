@@ -264,9 +264,23 @@ the same barracks with 34 actual hits (408 accumulated damage). Its fifteen old
 parts are hidden; independently owned rigid debris and smoke render, with 42
 effect births, five retirements and 37 still active at the inspected capture.
 The declared graph sound1551 reaches an actual muted audio sink. Missing variant
-sounds remain absent. This early destruction capture does not prove complete
-expiry. Expiry, mini-barracks acceptance and combined regressions on this
-executable remain required before publication; .13.2 remains the public build.
+sounds remain absent. A separate rendered run then observes all 123 births and
+123 retirements on the actual mission clock, with zero active effects and a
+clear inspected final frame.
+
+The same executable also reaches The Wife's mini barracks (class1060) from the
+authored start using supplied ordinary controls. Actual narrow player contact
+precedes eleven pistol hits reaching 132/500 damage and the first 0.75 stage.
+Forty-two hits accumulate 504 damage and retire the building: its twenty old
+parts hide, while its own rigid debris/smoke render and declared hit/death sounds
+reach muted device sinks. The early destruction capture has 35 births/five
+retirements; the separate complete-expiry run records 60 births/60 retirements
+and zero active effects. All six damaged/destruction/settled captures across
+the two buildings were inspected. These checks do not establish Windows-held
+input, audible parity, later barracks spawning, NPC AI frames, mission-death
+credit or complete native-world/visual fidelity. Combined regressions, live
+cancellation/fresh entry and separate Windows acceptance remain required before
+publication; .13.2 remains the public build.
 
 ## Acquisition history and bounded service evidence
 
