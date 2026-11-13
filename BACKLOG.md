@@ -92,7 +92,9 @@ owns actual source-local normal/material buffers and exact cleanup in code;
 its installed CPU ownership control is not an ordinary birth or GPU proof.
 The new renderer receipt passes the ordinary offscreen lifecycle, without
 exercising rigid draws. Connect the actual world producer and descendants before
-counting this as a playable feature. Constructors,
+counting this as a playable feature. The actual positional context can now transfer its source image/entry once
+without repeating preparation RNG; its installed full-guard control passes.
+The ordinary graph consumer remains required. Constructors,
 world/render/collision ownership, nested retirement and complete ordinary
 acceptance remain required. Follow BUILDINGS.md and the mandatory prototype PS2
 lookup before continuing. The complete building objective remains active.

@@ -458,6 +458,30 @@ impl Runtime {
             retirements: Vec::new(),
         })
     }
+    /// Transfer an already prepared positional context. The pool, which owns
+    /// the source image/entry identity, is the only caller; do not consume the
+    /// preparation RNG a second time. This supplies preview bodies, not native
+    /// world-service acknowledgements or descendant activation.
+    pub(crate) fn prepared_positioned(
+        plan: Arc<Plan>,
+        references: &References,
+        position: [f32; 3],
+        seed: &mut u32,
+    ) -> Result<Self, String> {
+        let (objects, cursor) = plan.activate(seed).map_err(str::to_owned)?;
+        let matrices = references.matrices(&objects, Matrix::identity(), position)?;
+        let bodies = objects
+            .into_iter()
+            .zip(matrices)
+            .map(|(o, m)| references.body(o, m))
+            .collect::<Result<Vec<_>, _>>()?;
+        Ok(Self {
+            plan,
+            cursor,
+            bodies: vec![bodies],
+            retirements: Vec::new(),
+        })
+    }
     pub fn start(
         plan: Arc<Plan>,
         references: &References,
@@ -616,6 +640,71 @@ impl Runtime {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; prepared context transfer only, no GPU or ordinary acceptance"]
+    fn installed_guard_prepared_transfer_preserves_rng_source_pose_and_generation() {
+        use crate::{
+            attached_effect_context::{Creation, Pool},
+            audio_parameters::Random,
+        };
+        use std::sync::Arc;
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let resources =
+            crate::scene_resources::SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let image = &resources.classes.models.effects.last().unwrap().image;
+        let (_, entry) = image.find("fx_guard_tower_1").unwrap();
+        let plan = super::Plan::project(image, &entry.name).unwrap();
+        let mut expected_seed = 17;
+        let (expected, _) = plan.start(&mut expected_seed).unwrap();
+        let terrain = Arc::new(giants_formats::gti::Terrain {
+            source_flags: 3,
+            width: 2,
+            height: 2,
+            origin: [-10000.; 2],
+            spacing: 10000.,
+            height_bounds: [0.; 2],
+            fallback_texture: String::new(),
+            heights: vec![0.; 4],
+            colors: vec![],
+            tags: vec![5; 4],
+            consumed_bytes: 0,
+            opaque_tail: vec![],
+        });
+        let mut pool = Pool::<u64>::from_active_resources(41, &resources);
+        let mut random = Random(17);
+        let (Creation::Prepared(id), _) = pool
+            .prepare_positional_offset(Some(entry.offset), [1., 2., 100.], &mut random)
+            .unwrap()
+        else {
+            panic!("actual context absent")
+        };
+        let (runtime, refs) = pool
+            .consume_positional_scene(id, &resources, terrain.clone(), &mut random)
+            .unwrap();
+        assert_eq!(random.0, expected_seed);
+        assert_eq!(runtime.bodies[0].len(), expected.len());
+        assert!(pool.get(id).is_none());
+        let committed = random.0;
+        assert!(
+            pool.consume_positional_scene(id, &resources, terrain, &mut random)
+                .is_err()
+        );
+        assert_eq!(random.0, committed);
+        let matrices = refs
+            .matrices(&expected, super::Matrix::identity(), [1., 2., 100.])
+            .unwrap();
+        for ((body, expected), matrix) in runtime.bodies[0].iter().zip(expected).zip(matrices) {
+            assert_eq!(body.construction.class, expected.class);
+            assert_eq!(body.matrix().unwrap().values, matrix.values);
+            if body.construction.object_services.source15 {
+                assert!(body.playback().unwrap().contact.is_some());
+                assert!(matches!(
+                    body.construction.origin,
+                    super::Origin::Immediate { .. }
+                ));
+            }
+        }
+    }
     #[test]
     #[ignore = "requires GIANTS_BUILDING_ROOT; original class/effect with supplied flat terrain, no GPU/factory acceptance"]
     fn installed_rigid_contact_requests_retirement_once_at_actual_ground_position() {

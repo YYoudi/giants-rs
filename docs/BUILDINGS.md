@@ -266,6 +266,16 @@ responsibility. This is CPU dependency evidence, not ordinary destruction or
 native world/FX fidelity. The common renderer's new receipt passes its offscreen
 menu/entry/return lifecycle; it does not validate the new rigid draw on screen.
 
+The positional pool can now transfer its exact prepared source image/entry into
+this mixed preview without repeating the null-object RNG traversal. It requires
+a flags0 noninherited positional context, validates all phases and contact/resource
+profiles before releasing that generation, and commits active RNG only on success.
+An installed full-guard control checks source birth matrices, equivalent named
+preparation RNG and refusal of a second transfer with unchanged RNG. This does
+not satisfy returned sound/nested/world needs, activate descendants or publish a
+canonical actor. The ordinary building consumer still needs the real graph,
+replacement and collision owners before admitting the guard damage callback.
+
 Other literal search routes include `deathfx_shot`, `deathfx_logic`,
 `barracks_shot`, `bldg_subtract_energy` and the base-building callbacks. Their
 availability does not confirm a PC attribution. Generic death-FX declarations
