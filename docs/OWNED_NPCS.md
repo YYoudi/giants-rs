@@ -17,6 +17,21 @@ runtime blocker; do not skip it or treat it as a ground-contact receipt. Require
 shared-world/startup-policy ownership, reciprocal injury, Ripper death and full
 Windows encounter/menu acceptance remain open. No competing preview is published.
 
+The branch now implements the retained class90/232 expiry continuation, pending
+a fresh identified rendered encounter. It uses the actual recorded flight/clock;
+no second query, invented ground point or extra time subtraction occurs. Sound
+precedes the named explosion and conditional radial service, then marking and a
+distinct expiry retirement. Ground-plus-expiry in one callback keeps both tails
+and receipts. Radial work still requires its actual complete-list no-effect proof
+or a genuine active consumer. Partial service effects/RNG survive failure;
+attempt identity prevents replay or mutation/removal of a replacement session.
+Five synthetic controls and eighty original reached-tail observations pass,
+including both cue selections, radial gates and already marked sources. Native
+observations supply actor/clock/TLS and unavailable sound/FX consumers; they are
+not a whole primary, full world, rendered effect or playback validation. The
+two-ticket missed-ground-shot regression also passes. Prototype PS2
+`projectile_logic`/`projectile_cleanup` remain unknown relationships.
+
 The ordinary class230 mode67 primary now validates its current target, produces
 real turning/forward commands and selects mode68 or69 using the actual class
 parameters and shared RNG. It does not set actor positions. A strict melee-range
@@ -205,7 +220,7 @@ Read-only exact-PC acquisition distinguishes expiry from ground contact: expiry
 requests sound before the explosion, then the conditional radial tail and marking.
 A ground impact followed by expiry in the same callback can reach a second tail;
 an already marked projectile does not establish that it is skipped. Preserve
-that ordering and distinct receipt/cleanup ownership in the next implementation.
+that ordering and distinct receipt/cleanup ownership in the implementation.
 This static acquisition is not a native expiry control or confirmed prototype
 PS2 attribution. Detailed identity-bound lookups and old aliases remain private.
 

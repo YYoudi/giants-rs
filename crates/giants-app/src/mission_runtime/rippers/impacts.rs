@@ -19,6 +19,7 @@ pub(super) struct Effects {
     platforms: giants_game::declared_platform_scene::Prepared,
     awaiting_geometry: bool,
     pub(super) last_retired: Option<Id>,
+    pub(super) last_expired: Option<Id>,
     last_impact: Option<([f32; 3], u64)>,
     pub(super) births: usize,
 }
@@ -34,6 +35,7 @@ impl Effects {
             platforms: giants_game::declared_platform_scene::Prepared::load(plan, &world.terrain)?,
             awaiting_geometry: false,
             last_retired: None,
+            last_expired: None,
             last_impact: None,
             births: 0,
         })
@@ -137,10 +139,16 @@ impl State {
             outcome,
             giants_game::enemy_projectile::FlightOutcome::Expired
         ) {
-            return Err(
-                "Ripper ground-impact lifetime expiry requires its actual separate continuation"
-                    .into(),
-            );
+            session.complete_enemy_projectile_expiry(
+                id,
+                random,
+                &mut Impact {
+                    population: &mut effects.population,
+                    contexts,
+                    globals: &self.globals,
+                    sounds,
+                },
+            )?;
         }
         let position = session
             .get(id)
@@ -149,13 +157,58 @@ impl State {
             .as_ref()
             .unwrap()
             .position;
-        session.cleanup_enemy_projectile(id, &mut Retirement { contexts, device })?;
+        if matches!(
+            outcome,
+            giants_game::enemy_projectile::FlightOutcome::Expired
+        ) {
+            session.cleanup_enemy_projectile_expiry(id, &mut Retirement { contexts, device })?;
+            effects.last_expired = Some(id);
+        } else {
+            session.cleanup_enemy_projectile(id, &mut Retirement { contexts, device })?;
+        }
         effects.last_retired = Some(id);
         effects.last_impact = Some((position, frame.step));
         self.driver.projectiles.remove(&id);
         self.driver.flights.remove(&id);
         println!(
             "mission_ripper_ground_impact ticket={} step={} owner={id:?} actual_radial_list_no_effect=true effect_context_prepared=true positional_sound_submitted=true source_retired=true bodies_pending=true",
+            frame.ticket, frame.step
+        );
+        Ok(())
+    }
+    pub(super) fn expire_projectile(
+        &mut self,
+        session: &mut Session,
+        frame: &live::Frame<'_>,
+        id: Id,
+        random: &mut Random,
+        sounds: &mut Vec<crate::mission_audio::Event>,
+        device: &mut impl giants_game::actor_retirement::Services,
+    ) -> Result<(), String> {
+        let effects = self
+            .effects
+            .as_mut()
+            .ok_or("Ripper expiry effect owner absent")?;
+        let contexts = self
+            .contexts
+            .as_mut()
+            .ok_or("Ripper expiry contexts absent")?;
+        session.complete_enemy_projectile_expiry(
+            id,
+            random,
+            &mut Impact {
+                population: &mut effects.population,
+                contexts,
+                globals: &self.globals,
+                sounds,
+            },
+        )?;
+        session.cleanup_enemy_projectile_expiry(id, &mut Retirement { contexts, device })?;
+        effects.last_expired = Some(id);
+        self.driver.projectiles.remove(&id);
+        self.driver.flights.remove(&id);
+        println!(
+            "mission_ripper_projectile_expired ticket={} step={} owner={id:?} actual_expiry=true sound_before_fx=true required_radial_completed_or_skipped=true source_retired=true ground_contact_invented=false",
             frame.ticket, frame.step
         );
         Ok(())

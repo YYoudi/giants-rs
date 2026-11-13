@@ -301,6 +301,16 @@ consumer wiring and its mode68 melee adapter. They borrow the current partial
 Mecc health/velocity and real shared audio device. Shared-world guards remain
 unavailable; this names no confirmed PS2 identity and establishes no rendered hit.
 
+## Projectile expiry routes
+
+The literal prototype PS2 names `projectile_logic` and `projectile_cleanup`
+are **unknown** search routes to
+[`resident_states::enemy_expiry`](../crates/giants-game/src/resident_states/enemy_expiry.rs).
+The acquired PC expiry fragment requests sound before FX and conditional radial
+work, then marks for its distinct retirement. Supplied-tail controls do not
+confirm a PS2 routine identity, a whole primary or ordinary combat availability.
+Prior PC aliases and raw-symbol/demangling uncertainty remain private.
+
 ## Declared platform query route
 
 The literal prototype PS2 names `collgrid_make_grid` and

@@ -179,9 +179,15 @@ Source `501b628` / executable
 `fbae253d1241982185f3c874b8800065258cf38159c843c5216660d4401cd670`
 processes two actual ground impacts in the continuous rendered supplied-input
 control, then refuses the third shot's expiry and exits101 without a capture.
-This is the current observed frontier, not a complete encounter. Acquire/compare
-the native expiry contract next, beginning with prototype PS2 lookup/identities;
-the first static acquisition remains an unknown attribution. Actual shared-world
+This is the last identified observed frontier, not a complete encounter. The
+branch now connects actual pending expiry to its own ordered sound/FX/radial/
+marking and retirement receipt, including the second tail after ground contact.
+Eighty original reached-tail observations and five synthetic controls pass;
+actor/clock/TLS and unavailable sound/FX consumers are supplied in those native
+controls. The real source ground regression passes on two tickets. Run a fresh
+identified continuous rendered encounter next; these dependencies establish no
+whole primary, playback, live hit or completed encounter. Prototype PS2
+`projectile_logic`/`projectile_cleanup` remain unknown relationships. Actual shared-world
 guards, startup no-play ownership, reciprocal injury/death and full Windows
 encounter/menu acceptance remain required. Keep main's mission/publication lane
 separate and preserve its concurrent work.

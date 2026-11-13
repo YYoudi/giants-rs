@@ -226,7 +226,17 @@ impl Session {
             || !matches!(actor.class, 90 | 232)
             || body.len() != 36
             || metadata.resource_class != actor.class
-            || metadata.phase != crate::enemy_projectile::Phase::ImpactServices
+            || !match metadata.phase {
+                crate::enemy_projectile::Phase::ImpactServices => true,
+                crate::enemy_projectile::Phase::ExpiryServices => {
+                    metadata.expiry_attempt.is_some()
+                        && matches!(
+                            metadata.pending_flight,
+                            Some(crate::enemy_projectile::FlightOutcome::Expired)
+                        )
+                }
+                _ => false,
+            }
             || metadata.failure.is_some()
             || actor.attachment.is_some()
             || actor.presentation_parent.is_some()
@@ -237,7 +247,9 @@ impl Session {
                     .map(|at| u32::from_le_bytes(body[at..at + 4].try_into().unwrap()))
             || request.other.is_some()
         {
-            return Err("radial request differs from its actual ground-impact owner".into());
+            return Err(
+                "radial request differs from its actual ground/expiry reaction owner".into(),
+            );
         }
         Ok(())
     }

@@ -158,6 +158,13 @@ impl State {
                     self.ground_impact(session, frame, id, random, sounds, device)?;
                     continue;
                 }
+                if matches!(
+                    outcome,
+                    giants_game::enemy_projectile::FlightOutcome::Expired
+                ) {
+                    self.expire_projectile(session, frame, id, random, sounds, device)?;
+                    continue;
+                }
                 if let giants_game::enemy_projectile::FlightOutcome::ObjectContact {
                     target, ..
                 } = outcome

@@ -27,6 +27,7 @@ mod contacts;
 #[cfg(test)]
 mod delphi_proximity_tests;
 mod dependency_order;
+mod enemy_expiry;
 mod enemy_object_contact;
 mod enemy_projectile_presentation;
 mod herd_frame;
@@ -9049,10 +9050,20 @@ impl Session {
             || metadata.phase != phase
             || match reaction {
                 crate::enemy_projectile::RetirementKind::Ground => {
-                    metadata.ground_impact.is_none() || metadata.object_impact.is_some()
+                    metadata.ground_impact.is_none()
+                        || metadata.object_impact.is_some()
+                        || metadata.expiry_impact.is_some()
                 }
                 crate::enemy_projectile::RetirementKind::Object => {
-                    metadata.object_impact.is_none() || metadata.ground_impact.is_some()
+                    metadata.object_impact.is_none()
+                        || metadata.ground_impact.is_some()
+                        || metadata.expiry_impact.is_some()
+                }
+                crate::enemy_projectile::RetirementKind::Expiry => {
+                    metadata.expiry_impact.as_ref().is_none_or(|receipt| {
+                        receipt.after_ground != metadata.ground_impact.is_some()
+                    }) || metadata.object_impact.is_some()
+                        || metadata.expiry_attempt.is_none()
                 }
             }
             || metadata.pending_flight.is_some()
@@ -9109,6 +9120,19 @@ impl Session {
             services,
         )
     }
+    /// Unlink only after the actual expiry tail and its required consumers.
+    /// A terrain or object-contact receipt cannot satisfy this contract.
+    pub fn cleanup_enemy_projectile_expiry(
+        &mut self,
+        id: Id,
+        services: &mut impl crate::enemy_projectile::RetirementServices,
+    ) -> Result<Counts, String> {
+        self.cleanup_enemy_projectile_reaction(
+            id,
+            crate::enemy_projectile::RetirementKind::Expiry,
+            services,
+        )
+    }
     fn cleanup_enemy_projectile_reaction(
         &mut self,
         id: Id,
@@ -9117,6 +9141,18 @@ impl Session {
     ) -> Result<Counts, String> {
         use crate::enemy_projectile::Phase;
         let expected = self.enemy_cleanup_preflight(id, Phase::Retiring, reaction)?;
+        let expiry_token = if matches!(reaction, crate::enemy_projectile::RetirementKind::Expiry) {
+            Some(
+                self.enemy_projectile(id)
+                    .unwrap()
+                    .expiry_attempt
+                    .as_ref()
+                    .unwrap()
+                    .clone(),
+            )
+        } else {
+            None
+        };
         self.residents
             .get_mut(&id.serial)
             .unwrap()
@@ -9126,6 +9162,14 @@ impl Session {
             .phase = Phase::CleanupServices;
         let result: Result<Counts, String> = (|| {
             services.release(self, id)?;
+            if let Some(expected) = &expiry_token
+                && !self
+                    .enemy_projectile(id)
+                    .and_then(|meta| meta.expiry_attempt.as_ref())
+                    .is_some_and(|actual| Arc::ptr_eq(expected, actual))
+            {
+                return Err("expiry retirement scope was removed or replaced".into());
+            }
             self.enemy_cleanup_preflight(id, Phase::CleanupServices, reaction)?;
             let removed = self.links.remove_object(id.serial);
             assert_eq!(removed, expected.registrations);
@@ -9142,6 +9186,13 @@ impl Session {
         })();
         if let Err(error) = &result
             && let Some(actor) = self.residents.get_mut(&id.serial)
+            && expiry_token.as_ref().is_none_or(|expected| {
+                actor
+                    .enemy_projectile
+                    .as_ref()
+                    .and_then(|meta| meta.expiry_attempt.as_ref())
+                    .is_some_and(|actual| Arc::ptr_eq(expected, actual))
+            })
         {
             let metadata = actor.enemy_projectile.as_mut().unwrap();
             metadata.phase = Phase::Failed;
@@ -11574,6 +11625,7 @@ impl Session {
 #[cfg(test)]
 mod tests {
     use super::*;
+    include!("resident_states/enemy_expiry_tests.rs");
     mod object_contact {
         use super::*;
         include!("resident_states/enemy_object_contact_tests.rs");

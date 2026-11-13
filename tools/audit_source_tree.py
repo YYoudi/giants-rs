@@ -35,6 +35,8 @@ REVIEWED_ATTRIBUTION_LABELS = {
         'fd9d4c969e0366239611982359a37c4c8ecb42642c12310dc54bc5462a345dc9',
     },
     'docs/SYMBOL_NAVIGATION.md': {
+        # Reviewed unknown projectile expiry routes and supplied-tail limits.
+        'ad285f02a66286912f63334114d7f8fb4e473c80677b5de16fd4df5d8b8efa24',
         # Reviewed ordinary hit-consumer wiring; world guards still unavailable.
         'ac744379ef67b62ca8bd309c66a61cc4206e8e4ab3b4b7fc52b1c95e2c3cd3ce',
         # Reviewed unknown mission-failure search route and supplied boundaries.

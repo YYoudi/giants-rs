@@ -21,6 +21,8 @@ pub struct Metadata {
     pub failure: Option<String>,
     pub ground_impact: Option<GroundImpact>,
     pub object_impact: Option<ObjectImpact>,
+    pub expiry_impact: Option<ExpiryImpact>,
+    pub(crate) expiry_attempt: Option<std::sync::Arc<()>>,
     pub(crate) mecc_receiver: Option<crate::mecc_enemy_hit::Phase>,
     /// Initial late collider snapshot, not current world bounds or a ready tick.
     pub initial_environment: Option<crate::collider_init::Instance>,
@@ -96,6 +98,7 @@ pub enum Phase {
     Launched,
     ImpactServices,
     ObjectImpactServices,
+    ExpiryServices,
     Retiring,
     CleanupServices,
 }
@@ -210,6 +213,8 @@ pub fn prepare(seed: &Seed, fields: &Fields) -> Result<Prepared, String> {
             failure: None,
             ground_impact: None,
             object_impact: None,
+            expiry_impact: None,
+            expiry_attempt: None,
             mecc_receiver: None,
             initial_environment: None,
             pending_flight: None,
@@ -227,6 +232,16 @@ pub struct GroundImpact {
     pub effect: EffectOutcome,
     pub sound: Option<SoundOutcome>,
     pub cue: Option<u32>,
+}
+/// Expiration has its own ordering and retirement proof. An earlier ground
+/// reaction can coexist; neither that receipt nor a direct hit substitutes.
+#[derive(Clone, Debug)]
+pub struct ExpiryImpact {
+    pub effect: EffectOutcome,
+    pub sound: Option<SoundOutcome>,
+    pub cue: Option<u32>,
+    pub radial: bool,
+    pub after_ground: bool,
 }
 /// A completed positive direct contact. Target identity is historical evidence,
 /// not an owned transform/attachment reference. The pending query owns the live
@@ -268,6 +283,7 @@ pub trait ObjectImpactServices {
 pub(crate) enum RetirementKind {
     Ground,
     Object,
+    Expiry,
 }
 #[derive(Clone, Debug)]
 pub struct ImpactEffect {
