@@ -63,6 +63,16 @@ is no new graphical or Windows-input acceptance on this executable. Use the
 ordinary menu procedure below for The Wife; no NPC activation flag is required.
 The earlier clock lifecycle and failed combined encounter retain their own builds.
 
+The newer local mode68/kind3-kernel GNU build is source
+`525b0a47437a0d148fb71523c8077f4c96caffa4`, executable SHA256
+`53b9b6a275a3db0dab5790b5eb1cf419949c8999b985c8c907bc59e0e1561ffd`,
+Rust1.98.0/MinGW16.2.0. Workspace checks pass1,044 tests with214 ignored;
+strict Clippy, formatting, the eight kind3 controls, earlier32 kernel controls
+and48 canonical projectile-dispatch controls pass. The ordinary kind3 consumer
+remains absent, and the supplied isolated encounter still fails at3293. No new
+GPU, OS-input, reciprocal injury or Ripper-death acceptance is claimed on this
+executable. It is a local handoff receipt, with no concurrent preview publication.
+
 Earlier milestone evidence below includes the old mode67 frontier. The first
 combined-game graphical blocker remains direct projectile damage to the player;
 do not transfer the isolated Ripper-only approach or newer CPU selections to that
