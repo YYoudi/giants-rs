@@ -107,6 +107,12 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('67e98798a96ac460d3afcda1fab6d139ec49c948a5d91b3d9af7c216d8065015')
 
 
+# Reviewed minimal navigation aliases in two concurrent history blobs and
+# the .14.1 status-only index update; all other hazard rules stay active.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('29020fa098f26746f2dc8e3fc585de038c3693bdf42bab05f205ac7fd7218f4b')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('0841b622e3a2fcbb568ecfa343295a1285218a96ae8b8b00ad309982326d2736')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('bab1a95dbc653b862c479c1f0d4f02907e542586cbc25c4d5985c86484ef4998')
+
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;
