@@ -23,6 +23,43 @@ pub(super) struct Effects {
     last_impact: Option<([f32; 3], u64)>,
     pub(super) births: usize,
 }
+/// Keep cached platform geometry exact while binding non-platform contacts to
+/// their actual current ordinary owner. No empty scene or guessed footprint is
+/// substituted, and source list order is retained among platform candidates.
+fn same_static_platform_projection(
+    initial: &[giants_game::actor_environment::Collider],
+    current: &[giants_game::actor_environment::Collider],
+) -> bool {
+    let mut initial = initial
+        .iter()
+        .filter(|a| a.mesh.fields.collision_flags & 8 != 0);
+    let mut current = current
+        .iter()
+        .filter(|a| a.mesh.fields.collision_flags & 8 != 0);
+    loop {
+        match (initial.next(), current.next()) {
+            (None, None) => return true,
+            (Some(a), Some(b)) => {
+                let (x, y) = (a.mesh.fields, b.mesh.fields);
+                if a.class != b.class
+                    || a.state != b.state
+                    || x.id != y.id
+                    || x.parent != y.parent
+                    || x.object_flags != y.object_flags
+                    || x.collision_flags != y.collision_flags
+                    || x.has_model != y.has_model
+                    || x.bounds.min != y.bounds.min
+                    || x.bounds.max != y.bounds.max
+                    || a.mesh.triangles != b.mesh.triangles
+                {
+                    return false;
+                }
+            }
+            _ => return false,
+        }
+    }
+}
+
 impl Effects {
     pub(super) fn load(
         ticket: u64,
@@ -230,31 +267,13 @@ impl State {
         if effects.population.settled() {
             return Ok(());
         }
-        // The acquired platform projection is static. Refuse changed ordinary
-        // collider inputs instead of silently using the initial scene snapshot.
-        let same = effects.world.objects.len() == frame.objects.len()
-            && effects
-                .world
-                .objects
-                .iter()
-                .zip(frame.objects)
-                .all(|(a, b)| {
-                    let (x, y) = (a.mesh.fields, b.mesh.fields);
-                    a.class == b.class
-                        && a.state == b.state
-                        && x.id == y.id
-                        && x.parent == y.parent
-                        && x.object_flags == y.object_flags
-                        && x.collision_flags == y.collision_flags
-                        && x.has_model == y.has_model
-                        && x.bounds.min == y.bounds.min
-                        && x.bounds.max == y.bounds.max
-                        && a.mesh.triangles == b.mesh.triangles
-                });
-        if !same {
+        // Only the cached platform footprint/geometry requires the static
+        // projection. Ordinary solids below use the actual current controller
+        // meshes, including canonical barracks initialization and damage.
+        // Retain exact platform guards and all unresolved source candidates.
+        if !same_static_platform_projection(&effects.world.objects, frame.objects) {
             return Err(
-                "Ripper effect static-world projection differs from current ordinary colliders"
-                    .into(),
+                "Ripper effect declared platform changed; current footprint owner required".into(),
             );
         }
         let mut world = giants_game::cinematic_timed::world::World::new(
@@ -310,5 +329,49 @@ impl State {
         )?;
         effects.awaiting_geometry = false;
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    fn collider(id: u32, collision_flags: u32) -> giants_game::actor_environment::Collider {
+        giants_game::actor_environment::Collider {
+            class: 1060,
+            state: 98,
+            volume: None,
+            mesh: giants_game::mecc_mesh_dispatch::MeshObject {
+                fields: giants_game::mecc_collision_candidates::Object {
+                    id,
+                    parent: 0,
+                    has_model: true,
+                    object_flags: 16,
+                    collision_flags,
+                    bounds: giants_game::volume_queries::Bounds {
+                        min: [0.; 3],
+                        max: [1.; 3],
+                    },
+                },
+                triangles: vec![[[0., 0., 0.], [1., 0., 0.], [0., 1., 0.]]],
+            },
+        }
+    }
+    #[test]
+    fn current_solid_changes_do_not_stale_platform_footprints_but_platform_changes_do() {
+        let initial = [collider(1, 0x21000), collider(2, 8)];
+        let mut current = [collider(1, 0x21000), collider(2, 8)];
+        current[0].mesh.fields.object_flags = 1072;
+        current[0].mesh.triangles[0][1][2] = 0.25;
+        assert!(same_static_platform_projection(&initial, &current));
+        assert!(same_static_platform_projection(&initial, &current[1..]));
+        current[1].mesh.triangles[0][1][2] = 0.25;
+        assert!(!same_static_platform_projection(&initial, &current));
+        current[1] = collider(2, 8);
+        current[1].mesh.fields.object_flags |= 0x8000;
+        assert!(!same_static_platform_projection(&initial, &current));
+        assert!(!same_static_platform_projection(&initial, &current[..1]));
+        current[1] = collider(2, 8);
+        current[0].mesh.fields.collision_flags |= 8;
+        assert!(!same_static_platform_projection(&initial, &current));
     }
 }
