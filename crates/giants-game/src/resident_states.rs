@@ -48,6 +48,7 @@ mod parented_frame_tests;
 mod passive_frame_tests;
 mod ripper_calls;
 mod ripper_damage;
+mod ripper_health_drop;
 pub use ripper_damage::{PartialPistolContact, PartialPistolServices};
 mod ripper_melee;
 pub use ripper_melee::Services as RipperMeleeServices;
@@ -411,6 +412,7 @@ pub struct Resident {
     vimp_vector_running: bool,
     vimp_threat_failure: Option<String>,
     vimp_death_proxy: Option<crate::vimp_death_proxy::Proxy>,
+    ripper_health_drop: Option<crate::ripper_health_drop::Owned>,
     pub class: i32,
     pub seed: Seed,
     /// Captured identities only; no native pointers or allocated services.
@@ -708,6 +710,7 @@ impl Session {
                 vimp_scalar_steps: [0; 2],
                 vimp_recovery_primaries: 0,
                 vimp_death_proxy: None,
+                ripper_health_drop: None,
                 class,
                 seed,
                 bindings: bindings.to_vec(),

@@ -821,6 +821,7 @@ pub mod ripper_corpse;
 pub mod ripper_dirt;
 pub mod ripper_emergence;
 pub mod ripper_ground;
+pub mod ripper_health_drop;
 pub mod ripper_perception;
 pub mod ripper_primary_turn;
 pub mod ripper_pursuit;

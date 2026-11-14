@@ -321,6 +321,18 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
+NPC branch dependency: the source-owned health-object factory now constructs
+class785/cold0 ->state37 inside a real lethal callback scope, prepares the actual
+mode4 health context and preserves failed prefixes/identities without retry.
+Installed medium/large controls and original mode4 null-pass controls support
+this dependency only. Main still rejects lethal contacts; no new death, loot,
+rendered item or preview availability is claimed. The required installed global
+drop probability is100, so do not bypass the health object to ship a visual kill.
+Resume actual item primary/collection, active source56 health FX, death effects/
+audio, source references, corpse primary and retirement, then the complete
+rendered encounter and real Windows lifecycle. OWNED_NPCS.md records the scope;
+repeat prototype PS2 lookup before every native continuation.
+
 Continuation `f940069` fixes a concrete freeze: an unsupported lethal pistol
 contact is rejected before the victim's callback attempt, preserving its living
 AI instead of quarantining it. The exact local rendered executable passes actual

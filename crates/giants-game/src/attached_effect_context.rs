@@ -678,13 +678,14 @@ fn is_deferred_program(program: &Program) -> bool {
     matches!(
         ops.as_slice(),
         [2] | [0x24, 6, 0x1b, 7, 2] | [0x24, 6, 0x1b, 0x27, 7, 2]
-    ) || (ops.as_slice() == [0x0b, 0x24, 6, 0x21, 0x2c, 7, 2]
-        && program.records[0]
-            .bytes
-            .get(1..5)
-            .and_then(|b| b.try_into().ok())
-            .map(f32::from_le_bytes)
-            .is_some_and(|wait| wait.is_finite() && wait >= 0.))
+    ) || crate::effect_initialization::health_attachment(&ops)
+        || (ops.as_slice() == [0x0b, 0x24, 6, 0x21, 0x2c, 7, 2]
+            && program.records[0]
+                .bytes
+                .get(1..5)
+                .and_then(|b| b.try_into().ok())
+                .map(f32::from_le_bytes)
+                .is_some_and(|wait| wait.is_finite() && wait >= 0.))
 }
 struct Slot<K> {
     generation: u64,

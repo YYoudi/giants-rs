@@ -34,6 +34,14 @@ unfinished scopes; do not discard failed or interrupted evidence.
 
 ## Optional installed reconstruction controls
 
+The NPC branch additionally provides the ignored game control
+`source_ripper_health_drop_birth_preserves_real_prefix_and_failed_scope` with
+`GIANTS_NPC_ROOT` set to the compatible user installation. It constructs the
+source medium/large health object during an actual callback, resolves its mode4
+context and verifies late failure retention. Stop/blood remain supplied test
+boundaries and death FX deliberately refuses; this is neither a kill test nor
+ordinary gameplay acceptance. See OWNED_NPCS.md before continuing this dependency.
+
 The optional app controls
 `installed_palm_damage_keeps_source_stump_owner_and_independent_hits` and
 `installed_following_mission_barracks_retain_opaque_command7_and_initialize`

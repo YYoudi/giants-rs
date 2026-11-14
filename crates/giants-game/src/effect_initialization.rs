@@ -130,6 +130,15 @@ fn curved_dust_blocks(ops: &[u8]) -> bool {
         && children <= 64
         && ops.get(5 + children..) == Some(&[7, 3, 6, 0x35, 4, 0x0f, 7, 2])
 }
+// Complete source health-attachment frames. The original mode4 wrapper and
+// null-object VM traverse their fixed scale/periodic-child commands without
+// actor creation or RNG. Active source56 emission remains a separate service.
+pub(crate) fn health_attachment(ops: &[u8]) -> bool {
+    matches!(
+        ops,
+        [0x24, 6, 0x1b, 0x56, 0x56, 0x56, 7, 2] | [0x24, 6, 0x56, 0x56, 0x56, 7, 2]
+    )
+}
 /// Admit the whole acquired frame, never a name, address or first opcode.
 /// Range operands are decoded and validated before any random state commits.
 pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, String> {
@@ -224,6 +233,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         crate::vimp_ghost::Recipe::project(program)?;
     }
     if !old
+        && !health_attachment(&ops)
         && !fixed_sizes
         && !ranged
         && !flat_blocks(&ops)

@@ -9,6 +9,42 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Main integration of Ripper movement and attacks
 
+### Lethal dependency in progress: owned health-object birth
+
+The NPC branch now contains `ripper_health_drop::Factory`, called only inside
+an actual acquired class73/230 lethal callback attempt. It constructs source
+class785 from its installed empty cold0 resources, retains constructor list and
+specification ownership, transitions to state37 and publishes only the source
+position write. The typed source identity remains separate from normalized raw
+pointer slots. Tag36, owner-exclusion timer1, lifetime30 and the integer quantities
+from the actual global table are retained. Mode4 health FX preparation precedes
+the class-specific amount/control suffix. A late effect failure retains the item,
+RNG and callback prefix, marks the incomplete birth and prevents replay.
+
+Installed controls exercise both classes with genuine health-symbol resolution,
+and an explicitly supplied effect failure after a random draw. Supplied stop/
+blood boundaries and a deliberately missing death-effect consumer keep this a
+constructor/failure control, not an ordinary death or rendered item. Both original
+PC named mode4 wrappers and null-object VM passes also execute for the installed
+health programs: two preparations and two empty-context cleanups, with no actor
+creation or RNG call. Their complete deferred frames are now admitted by the
+common preparator. Active periodic-child emission is still unimplemented here.
+
+Native continuation began with prototype PS2 lookup. The literal
+`ripper_drop_health__FP6OBJECT` is an **unknown** navigation candidate for this
+work; neither that name nor `ripper_shot` is a confirmed PC attribution. The
+existing confirmed `ripper_death_logic__FP6OBJECT` identity remains separate.
+The pinned PC state37 primary was inspected for the next required item update;
+its generic item path does not establish a one-to-one prototype identity.
+
+This dependency is isolated on the NPC branch. Main's identified build and its
+living-AI continuation remain the delivered runtime. The normal pistol still
+rejects lethal Ripper contacts before the callback. Next connect actual health
+item update/collection and active FX, death FX/audio and owned target/effect/
+marker services, mode94 primary/corpse handling and retirement, then verify a
+complete ordinary encounter/death/menu/re-entry on an identified executable.
+No health item, death or loot is activated by a script or diagnostic flag.
+
 ### Keep living AI active at an unsupported lethal contact
 
 Source `f940069e1147284fc27e136167b5289804d99cfb`, GNU executable SHA256

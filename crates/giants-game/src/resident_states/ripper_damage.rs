@@ -40,6 +40,11 @@ impl<S: State23Services> state23_damage::Services<Id> for Adapter<'_, S> {
 }
 
 impl Session {
+    pub(super) fn ripper_damage_is_running(&self, id: Id) -> bool {
+        self.get(id).is_some_and(|actor| {
+            actor.ripper_damage.active.is_some() && actor.ripper_damage.failed.is_none()
+        })
+    }
     pub fn state23_damage_failure(&self, id: Id) -> Option<&str> {
         self.get(id)?.ripper_damage.failed.as_deref()
     }
