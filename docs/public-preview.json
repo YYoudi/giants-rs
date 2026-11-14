@@ -8,7 +8,9 @@
     "palm_stump_gpu",
     "road_home_return_gpu",
     "building_guard_replacement_gpu",
-    "building_house_damage_gpu"
+    "building_house_damage_gpu",
+    "barracks_damage_gpu",
+    "barracks_cancel_reentry_gpu"
   ],
   "limitations": [
     "palm_remaining_profiles",

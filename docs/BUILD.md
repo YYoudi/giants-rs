@@ -1,5 +1,13 @@
 # Build on Windows with MinGW
 
+For long rendered acceptance, keep each receipt-bound run in a fresh private
+output directory with separate logs, terminal report and process identity.
+Prefer a hidden independent background launcher for long serial suites. Before
+restarting after a lost tool session, check the recorded PID and exact command
+line to avoid duplicate games. A missing terminal report establishes neither
+a native crash nor a passing run. Preserve completed cases and resume only the
+unfinished scopes; do not discard failed or interrupted evidence.
+
 The optional app controls
 `installed_palm_damage_keeps_source_stump_owner_and_independent_hits` and
 `installed_following_mission_barracks_retain_opaque_command7_and_initialize`

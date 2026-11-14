@@ -118,6 +118,8 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('bab1a95dbc653b862c
 # all-reference history review valid before that gallery update enters main;
 # this permits neither other images nor another path or modified bytes.
 REVIEWED_HISTORICAL_IMAGES = {
+    # Visually reviewed .14.1 carried-wife Bevy display copy, no metadata.
+    'docs/gallery/media/a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3.webp': 'a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3',
     # Reviewed .14.1 Bevy display copies; exact metadata-free WebP bytes.
     'docs/gallery/media/1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f.webp': '1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f',
     'docs/gallery/media/89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a.webp': '89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a',
