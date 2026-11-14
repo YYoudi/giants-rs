@@ -9,6 +9,43 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Main integration of Ripper movement and attacks
 
+### Partial-pistol Ripper receiver (local, rendered acceptance pending)
+
+The ordinary selected pistol now binds to the constructed controlled Mecc before
+its first motion. Each emitted class38 shot retains its actual definition,
+damage, range flags and camera origin until contact. An immutable `OwnedHit`
+receipt keeps its partial serial distinct from every Session actor ID. Changed
+public hit fields, missing source/camera, late shooter replacement and repeated
+owner/serial contacts are refused. Development reset clears this provenance;
+it cannot manufacture a fresh actor/firing epoch. Existing synthetic/legacy hits
+carry no receipt and cannot enter the new Ripper receiver.
+
+The bounded receiver checks the actual completed Ripper pose, current controlled
+shooter, persistent process guards, source range gate and ordinary single-player
+wrapper. Its callback projection uses a separate `PartialShot` reference for the
+verified class38 source-kind/owner reads; it never allocates or claims a canonical
+state77 projectile. Actor references in resulting state/audio stay actual Session
+IDs. Nonlethal health, stopped/queued actor sounds, blood and source propagation
+use the acquired PC callback; previous victim/cohort/queue/pool/RNG changes survive
+late failure without replay. Lethal, detached/forwarded and unsupported families
+remain refused, not converted to a successful death or generic projectile.
+
+Where the Vimp component exists, Ripper hits use that same blood particle pool,
+capacity, update and renderer. Ripper-only scenes use their own configured mission
+pool. No second producing pool is introduced in mixed scenes. Unsupported actor
+callbacks quarantine that actor while independent AI continues.
+
+Sixteen original-PC callback controls cover both classes, source attribution,
+action transitions, neighbor propagation and existing credit preservation, with
+matching state/RNG/cues. They supply source77/cohort fields, zero-count blood and
+an absent sound registry; they establish neither native projectile construction
+nor rendered blood/audio. Literal prototype PS2 `ripper_shot` remains unknown;
+the private worksheet retains pinned binary identities and old PC aliases.
+The new `GIANTS_MISSION_RIPPER_CAPTURE_PISTOL=1` diagnostic supplies only normal
+Mecc commands and requires actual nonlethal canonical Ripper damage, a still-live
+completed target and blood quads. Ordinary firing needs no diagnostic variable.
+Verify the exact rebuilt executable before claiming this interaction delivered.
+
 ### Persistent damage-guard ownership and rendered nonlethal injury
 
 The continuation source `b74bee8a81a8d02e0c1b438df66144259cb53fe7`, GNU

@@ -1,5 +1,14 @@
 # Build on Windows with MinGW
 
+The ordinary-pistol Ripper diagnostic adds
+`GIANTS_MISSION_RIPPER_CAPTURE_PISTOL=1` to the existing muted Story2 mission1
+supplied-input fixture. It uses actual movement/look/jet/fire and requires an
+authentic emitted shot's canonical nonlethal Ripper damage, an active completed
+target and shared blood quads. This flag enables no ordinary actor or damage
+service. The optional `native_partial_pistol_callback_controls` game test uses
+private `GIANTS_RIPPER_PISTOL_CALLBACK_CONTROLS` with `-- --ignored`; its original
+source/cohort/zero-blood/no-registry fixtures are CPU evidence only.
+
 The Ripper hit diagnostic's `GIANTS_MISSION_RIPPER_CAPTURE_HIT=1` endpoint has
 priority over its shared chase navigation. It requires positive canonical damage,
 an actual matching controller health decrease visible after rounding, and 240

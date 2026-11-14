@@ -242,6 +242,17 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
+Local continuation: the ordinary partial pistol now carries an immutable actual
+emission/contact receipt into the nonlethal Ripper callback, source retaliation,
+shared blood and audio queue. It preserves source class/amount/range/camera,
+current actor ownership, guards and failed-attempt retention without inventing a
+canonical state77 actor. Sixteen original callback/cohort controls and emission
+provenance tests pass. Render the real Wife approach/fire/blood path on the exact
+new executable next; CPU controls alone do not deliver reciprocal combat.
+Ripper lethal services, player lethal continuation and the full death/menu loop
+remain required. Keep the prototype PS2 lookup step before native continuation;
+no new naming attribution is confirmed. See OWNED_NPCS.md for precise scope.
+
 Delivered movement/attack-feedback milestone, preview .13.3: runtime `941342b`,
 executable `9a9ae9a4ca1902ecd3c2c46b7d9faf5b9b922bacdf7d7be7cf53d9517d77c962`.
 The combined main candidate preserves building interactions. Its rendered Wife
