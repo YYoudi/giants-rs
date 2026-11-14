@@ -199,7 +199,7 @@ pub(super) fn input(
             matching_injury
                 && navigation
                     .damage_seen_at
-                    .is_some_and(|at| step.saturating_sub(at) >= 2)
+                    .is_some_and(|at| step.saturating_sub(at) >= 240)
         } else if chase {
             chase_moved
                 && snapshot.flight_revision >= flights()?

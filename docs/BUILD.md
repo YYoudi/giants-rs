@@ -52,8 +52,8 @@ exact-build receipt separate from CPU and real Windows-input evidence.
 
 The Ripper hit diagnostic's `GIANTS_MISSION_RIPPER_CAPTURE_HIT=1` endpoint has
 priority over its shared chase navigation. It requires positive canonical damage,
-an actual matching controller health decrease visible after rounding, and two
-following ordinary frames for HUD publication. A pursuit capture, a Session-only
+an actual matching controller health decrease visible after rounding, and 240
+following ordinary fixed steps for HUD publication and attack continuation. A pursuit capture, a Session-only
 mutation or a refused controller response is not injury acceptance. Ordinary
 admission and attacks require none of these diagnostic variables.
 

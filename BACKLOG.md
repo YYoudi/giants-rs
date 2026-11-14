@@ -435,6 +435,21 @@ voice quarantines the attacker after the accepted injury. Connect that requested
 voice through the actual shared transport next, then repeat the complete attack
 cycle before broadening to unrelated services. Preview .13.3 remains unchanged.
 
+The next source `b74bee8` / executable SHA256
+`c5d413c1c1b4880b04824a8dbb58a5529a6bcb0786d1ac99f7beb97e394776bf`
+passes the longer rendered test (exit0, about170 seconds, inspected HUD25).
+The same actual classic actor162 completes three melee hits: health100 ->75 ->50
+->25, with actual muted local sinks for cues1504/1685/1505 and a completed actor
+frame after its first injury. Shared pain-source reservation now runs for the
+ordinary controller, without inspection flags or a no-op voice acknowledgment.
+The fourth attack reaches the explicit unimplemented player-lethal continuation
+and quarantines this attacker, preserving health25. Next direct combat work is
+that real continuation and the source-bearing player-pistol/Ripper injury/death
+path; retain unknown attributions and prototype PS2 lookup. No complete encounter,
+death, drops, Windows fight or new public preview is claimed. The preceding
+`2893dc5` executable separately passes actual Windows entry/skip/view/menu/fresh
+entry/cleanup; see OWNED_NPCS.md for the exact evidence separation.
+
 Next NPC delivery: finish rendered reciprocal contact through the connected
 bounded guard owner, alongside the actual radial recipients and positive
 hit/Vimp-alert consumers. Source `6354f1d` / GNU executable
