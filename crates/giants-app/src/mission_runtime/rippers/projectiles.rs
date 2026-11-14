@@ -230,9 +230,12 @@ impl State {
                     giants_game::enemy_projectile::FlightOutcome::Flying
                         | giants_game::enemy_projectile::FlightOutcome::ObjectContact { .. }
                 ) {
-                    return Err(format!(
-                        "ordinary Ripper projectile has pending {outcome:?}; impact/damage/retirement consumers not connected"
-                    ));
+                    self.quarantine_projectile(
+                        frame,
+                        id,
+                        format!("ordinary Ripper projectile has pending {outcome:?}; impact/damage/retirement consumers not connected"),
+                    );
+                    continue;
                 }
                 session.advance_enemy_projectile_presentation(id, &mut self.driver.stamp)?;
                 let count = self.driver.flights.entry(id).or_default();
