@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .13.3 connected authored Ripper awakening, movement, emergence and ranged shots. Newer source has locally rendered repeated melee damage to Mecc and authentic partial-pistol Ripper injury, shared blood and attached sound. These additions are outside the .14.1 executable. Lethal combat, death/cleanup, special close attacks and full Windows encounters remain incomplete. See OWNED_NPCS.md and BACKLOG.md."
+      "detail": "Preview .13.3 connected authored Ripper awakening, movement, emergence and ranged shots. Newer source has locally rendered repeated melee damage to Mecc and authentic partial-pistol Ripper injury, shared blood and attached sound. A rendered continuation also verifies repeated injury and rejection of an unsupported lethal shot while retaining 240 later living primary steps. These additions are outside the .14.1 executable. Lethal combat, death/cleanup, special close attacks and full Windows encounters remain incomplete. See OWNED_NPCS.md and BACKLOG.md."
     },
     {
       "id": "wildlife",

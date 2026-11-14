@@ -9,6 +9,42 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Main integration of Ripper movement and attacks
 
+### Keep living AI active at an unsupported lethal contact
+
+Source `f940069e1147284fc27e136167b5289804d99cfb`, GNU executable SHA256
+`97b0b88ab9c7ae105078afd22dbfd514a92a4067a40777dd8ab7f2af853a4334`,
+fixes an ordinary pistol contact that previously quarantined the entire victim
+when its missing lethal services were reached. The contact now has an explicit
+unsupported-lethal result before opening a callback attempt. Its shot is consumed;
+the callback changes no damage or RNG and emits no death services. The living owner keeps its
+primary, animation, collision and audio. Actual failures after callback execution
+still retain their partial prefix and quarantine the affected actor.
+
+The rendered Wife run passes (exit0, about158 seconds; image inspected): genuine
+shots 4/5/6 hit classic actor163, with damage 0 ->12 ->24 ->36 against its actual
+limit40. Shot 8 reaches the unsupported lethal contact at step10229. The same
+actor completes primary step10469, 240 steps later, without quarantine; damage
+remains36. A subsequent actual class90 launch at10398 and ground reaction at10470
+are logged. Hurt/fire cues use actual attached muted sinks. The image shows the
+living Ripper above Mecc. Commands are supplied normal player inputs, not Windows
+combat, and no NPC pose/health/RNG is injected. This is an AI-continuation fix;
+Ripper death, drops and the full reciprocal lethal encounter remain incomplete.
+
+The same executable separately passes actual Windows menu entry, both opening
+Escape skips, default left-mouse shot1 on each of tickets1/3, return/re-entry and
+second return. Each ticket releases185 residents with zero remaining resident
+bytes/registrations/entities/audio assets. Audio requests were still pending at
+both returns; the common transport keeps only its current wanted ticket. This is
+ordinary Windows menu/fire/lifecycle evidence, not an OS-aimed Ripper fight.
+
+All 1,116 portable Rust tests, strict Clippy, formatting and the installed two-ticket
+frame/audio-owner control pass. The source-history scan reports no findings.
+The prototype PS2 lookup was repeated against both pinned identities before
+resuming the callback. `ripper_shot` remains unknown; no new attribution is
+confirmed. The earlier confirmed corpse-helper identity does not supply its
+missing ordinary lethal producers. The public .14.1 executable is older; no
+competing preview was published from this NPC lane.
+
 ### Partial-pistol Ripper receiver (local rendered nonlethal injury)
 
 The merged continuation source `282417b52cbca5ac7f2b33433fc08850feac1a47`, GNU

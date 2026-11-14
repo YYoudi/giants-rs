@@ -321,6 +321,16 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
+Continuation `f940069` fixes a concrete freeze: an unsupported lethal pistol
+contact is rejected before the victim's callback attempt, preserving its living
+AI instead of quarantining it. The exact local rendered executable passes actual
+damage 0 ->12 ->24 ->36, then a rejected lethal shot and240 following completed
+primary steps on the same declared actor, plus a later ordinary launch/ground
+reaction. See OWNED_NPCS.md for the receipt and scoped graphical evidence.
+Death/drop services remain the next NPC work; do not claim a kill, silently reduce
+health, or divert into unrelated dependencies. This source is newer than public
+preview .14.1; the main integration lane retains common preview publication.
+
 Local continuation: the ordinary partial pistol now carries an immutable actual
 emission/contact receipt into the nonlethal Ripper callback, source retaliation,
 shared blood and audio queue. It preserves source class/amount/range/camera,

@@ -59,6 +59,12 @@ service. The optional `native_partial_pistol_callback_controls` game test uses
 private `GIANTS_RIPPER_PISTOL_CALLBACK_CONTROLS` with `-- --ignored`; its original
 source/cohort/zero-blood/no-registry fixtures are CPU evidence only.
 
+The optional `GIANTS_MISSION_RIPPER_CAPTURE_LETHAL_BOUNDARY=1` instead keeps
+supplying ordinary fire until a genuine emitted shot reaches the unsupported
+lethal service. It then stops firing and requires240 later completed primary
+steps on that living actor, without quarantine. This tests rejection/continuation;
+it enables no actors or death behavior and is not a lethal-combat acceptance.
+
 The Ripper hit diagnostic's `GIANTS_MISSION_RIPPER_CAPTURE_HIT=1` endpoint has
 priority over its shared chase navigation. It requires positive canonical damage,
 an actual matching controller health decrease visible after rounding, and 240
@@ -1900,13 +1906,14 @@ In **Preview tools → Browse all missions**, select **The Wife** in the Mecc
 campaign. Movement/aim, right mouse jet and Space nitro use the ordinary Mecc
 controller; Esc returns to the menu. Rippers are admitted by source declarations
 without any environment flag. This candidate currently supports their acquired
-movement, flight and the acquired missed-ground-shot host. Actual projectile-to-
-Mecc object contact, close-range mode67, reciprocal combat and death remain
-unfinished. The combined rendered run currently refuses the first of those;
-component-only CPU controls do not supply the live Vimp population. Do not treat a projectile contact quarantine as a kill or
-mission completion. The most recent identified supplied-input render result is
-recorded in [OWNED_NPCS.md](OWNED_NPCS.md); actual Windows encounter/death and
-return/re-entry still require acceptance on the final connected build.
+movement, flight, missed-ground-shot reactions and bounded nonlethal damage in
+both directions, including shared blood and actual muted audio sinks. These
+newer source additions are outside the .14.1 downloadable executable. Ripper
+lethal services, player lethal continuation and special close attacks remain
+unfinished. An unsupported hit is not a kill or mission completion. The exact
+builds, rendered supplied-command results and separate ordinary Windows
+menu/fire/re-entry checks are recorded in [OWNED_NPCS.md](OWNED_NPCS.md).
+A complete encounter/death still requires acceptance on the final connected build.
 
 The optional `GIANTS_MISSION_RIPPER_CAPTURE_IMPACT=1` changes only the existing
 muted supplied-input diagnostic's capture condition to an actual ground reaction
