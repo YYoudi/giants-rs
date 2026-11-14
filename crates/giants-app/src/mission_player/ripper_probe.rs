@@ -85,6 +85,7 @@ pub(super) struct Navigation {
     route_actor: Option<giants_game::resident_states::Id>,
     approach_done: bool,
     escape: super::route_probe::Escape,
+    close_origin: Option<[f32; 3]>,
 }
 impl Navigation {
     fn thrust(&mut self, distance: f32, relative_height: f32, fuel: f32) -> bool {
@@ -112,14 +113,26 @@ pub(super) fn input(
     let position = state.mission_snapshot().0;
     let snapshot = runtime.ripper_input_snapshot(ticket, position, target_class()?)?;
     let retreat = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_RETREAT").as_deref() == Ok("1");
+    let close = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CLASSIC_CLOSE").as_deref() == Ok("1");
+    let routed = retreat || close;
     let chase =
-        retreat || std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CHASE").as_deref() == Ok("1");
+        routed || std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CHASE").as_deref() == Ok("1");
     if chase && navigation.chase_actor != snapshot.target_actor {
         navigation.chase_actor = snapshot.target_actor;
         navigation.chase_origin = snapshot.target_position;
         navigation.chase_first_shot = None;
         navigation.previous_target_mode = None;
         navigation.retreat_completed = false;
+        navigation.close_origin = None;
+    }
+    if close {
+        if snapshot.target_mode == Some(41) {
+            if navigation.close_origin.is_none() {
+                navigation.close_origin = snapshot.target_position;
+            }
+        } else {
+            navigation.close_origin = None;
+        }
     }
     if retreat {
         if navigation.previous_target_mode == Some(43) && snapshot.target_mode == Some(31) {
@@ -147,7 +160,14 @@ pub(super) fn input(
         boost: false,
         // Read-only endpoints over ordinary consumers. No damage, impact or
         // availability is supplied by selecting a diagnostic capture target.
-        capture: if retreat {
+        capture: if close {
+            snapshot.target_mode == Some(41)
+                && snapshot.target_has_launch
+                && navigation
+                    .close_origin
+                    .zip(snapshot.target_position)
+                    .is_some_and(|(a, b)| (a[0] - b[0]).hypot(a[1] - b[1]) >= 20.)
+        } else if retreat {
             navigation.retreat_completed
         } else if chase {
             chase_moved
@@ -175,7 +195,7 @@ pub(super) fn input(
         let dx = target[0] - position[0];
         let dy = target[1] - position[1];
         let distance = dx.hypot(dy);
-        let waypoint = if retreat && !navigation.approach_done && distance > 250. {
+        let waypoint = if routed && !navigation.approach_done && distance > 250. {
             if navigation.route_actor != snapshot.target_actor {
                 navigation.route = Some(super::route_probe::Route::prepare(
                     terrain,
@@ -190,7 +210,7 @@ pub(super) fn input(
                 .as_mut()
                 .and_then(|route| route.next(position))
         } else {
-            navigation.approach_done |= retreat;
+            navigation.approach_done |= routed;
             None
         };
         let camera = state.subjective_inputs().0;

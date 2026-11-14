@@ -278,6 +278,14 @@ the real reciprocal marker close, source animation threshold, class-specific
 sound and buried-speed restoration. Sixteen original helper contexts and the
 installed owner test pass; rendered acceptance remains pending. The real world
 combat guards, player projectile source, special attacks and death remain open.
+The routed `d56a0e8` Wife GPU attempt reaches classic actor162 and real class90
+launches, then refuses mode41 at step10204 (exit101/no capture). That reached
+close-pursuit primary/secondary is now locally connected with18 bounded native
+helper comparisons and source-owned target tests. It retains actual movement
+commands, horizontal range and cues. Mode42 entry animation is admitted; its
+primary and genuine kind3 injury consumer remain the next classic encounter
+blocker, alongside the shared-world guards. No completed melee or new public
+preview is claimed; see OWNED_NPCS.md for precise evidence and limitations.
 
 Next NPC delivery: acquire and connect the genuine shared-world guards that
 block reciprocal contact, alongside the actual radial recipients and positive

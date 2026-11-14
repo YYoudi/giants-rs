@@ -9,6 +9,24 @@ use crate::{
 type Effect = crate::attached_effect_context::Id;
 
 impl Session {
+    pub fn update_ripper_classic_close(
+        &mut self,
+        id: Id,
+        input: FrameInput<'_, Id>,
+        attack_range: f32,
+        random: &mut Random,
+        services: &mut impl Services<Id, Effect>,
+    ) -> Result<Outcome, String> {
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            services,
+            |_, machine, input, random, services| {
+                machine.advance_classic_close(input, attack_range, random, services)
+            },
+        )
+    }
     /// Source ANM channels/references/events after the completed common motion,
     /// before finalization. Prototype PS2 search key `ripper_animselect` remains
     /// an unknown attribution (PC debug-1.1 secondary 0x004db670).

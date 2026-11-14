@@ -501,6 +501,98 @@ fn source_classic_retreat_marks_real_child_and_restores_buried_parameter() {
 }
 
 #[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; source constructors with supplied mode41/target and actual owned primary, not a natural encounter or completed melee"]
+fn source_classic_close_keeps_owner_and_uses_actual_target_before_motion() {
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+    for near in [false, true] {
+        let (mut session, id, peer) =
+            source_for_class(&resources, 1920 + u64::from(near), true, 73);
+        let marker = crate::primary_surface_marker::Factory::new(&resources)
+            .construct(&mut session, id)
+            .unwrap();
+        let mut combat = session.state23_snapshot(id).unwrap();
+        combat.mode = 41;
+        combat.retaliation = Some(peer);
+        session
+            .residents
+            .get_mut(&id.serial)
+            .unwrap()
+            .state23_combat = Some(combat);
+        let initial = session
+            .get(id)
+            .unwrap()
+            .construction_fields
+            .as_ref()
+            .unwrap()
+            .position;
+        let target = session
+            .get(peer)
+            .unwrap()
+            .construction_fields
+            .as_ref()
+            .unwrap()
+            .position;
+        let subset = session.perception_subset(&[id, peer]).unwrap();
+        let frame = subset.frame().unwrap();
+        let mut random = Random(1);
+        let mut audio = Audio::default();
+        session
+            .update_ripper_classic_close(
+                id,
+                FrameInput {
+                    context: crate::state23_entry::Context {
+                        paused: false,
+                        native_mode: 0,
+                        parent_state: None,
+                        player: None,
+                        delta: 0.016,
+                    },
+                    frame: &frame,
+                    range: 10000.,
+                },
+                if near { 10000. } else { 0. },
+                &mut random,
+                &mut audio,
+            )
+            .unwrap();
+        assert_eq!(
+            session.state23_combat(id).unwrap().mode,
+            if near { 42 } else { 41 }
+        );
+        assert_eq!(
+            session
+                .ripper_primary(id)
+                .unwrap()
+                .state()
+                .steering
+                .target_position,
+            target
+        );
+        assert_eq!(
+            session
+                .get(id)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .position,
+            initial
+        );
+        assert_eq!(
+            session.state23_combat(id).unwrap().owner,
+            Some((marker, 219))
+        );
+        assert_eq!(
+            audio.calls,
+            if near { vec![(true, 1254, 41)] } else { vec![] }
+        );
+        assert_eq!(random.0, 1);
+        assert!(session.ripper_primary(id).unwrap().awaiting_motion());
+    }
+}
+
+#[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; source class230, flat terrain/peer eligibility and audio suppression supplied, no ordinary gameplay"]
 fn source_variant_awakening_owns_marker_and_retains_late_failures() {
     let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());

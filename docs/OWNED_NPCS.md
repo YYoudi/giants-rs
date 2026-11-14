@@ -99,6 +99,34 @@ pursuit displacement uses canonical actor positions, separately from animated
 draw centers. These are player-input diagnostics only, not feature switches,
 NPC pose writes, actual Windows inputs or an injury/death receipt.
 
+### Classic close pursuit after ranged fire (local)
+
+The routed rendered Wife attempt on source `d56a0e8` reaches the declared classic
+Ripper, observes its actual class90 shots and then exposes an unsupported mode41
+secondary selection. It exits101 without the retreat capture; this is a failed
+whole-encounter receipt, not graphical retreat acceptance. The earlier direct
+approaches on `00be6f7` and `0483def` remain navigation failures without captures.
+
+The ordinary driver now connects mode41 to the acquired stored-angle pursuit:
+current target validation, forward command only inside the source angular gate,
+actual destination, strict horizontal attack range and its class-specific cues.
+Loss of the target requests mode43; entering range requests mode42. The mode42
+animation selection is acquired, but its following primary/melee dispatch is
+still required. This does not fabricate damage or a completed attack callback.
+Eighteen original helper contexts cover angles, distance boundaries, a vertically
+separated target, inactive/dead targets and the controlled-player suppression
+branch. Actor/target headers, globals and sound-registry absence are supplied.
+Rust compares the acquired steering/decisions, checks late audio failure without
+replay and uses installed constructors for the owned primary/target relation.
+Prototype PS2 lookup via `ripper_move` and the `ripper_chase` prefix supplies
+navigation candidates only; attribution remains unknown.
+
+The read-only close-pursuit endpoint requires a real launch attributed to the
+same actor and at least20 horizontal units of canonical displacement within its
+continuous mode41 phase. It changes neither the attack range nor actor fields.
+Rendered acceptance of this new continuation remains pending; reciprocal damage,
+death, special attacks, other maps and full Windows/menu lifecycle remain open.
+
 ## Historical Ripper integration receipts
 
 Earlier startup-policy build: source `b7cc590`, GNU executable SHA256

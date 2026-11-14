@@ -83,10 +83,12 @@ The class230 cooldown and class73/class230 retreat adapters also lead to
 independently checked PC timer/animation/marker contracts, not newly confirmed
 prototype identities or complete combat delivery. Both binary identities are
 pinned by the central method. Old address aliases remain valid.
-The classic mode43 helper is distinct from its enclosing primary: source
+The classic mode41/mode43 helper is distinct from its enclosing primary: source
 marker-before-personality ordering, its own cue and buried-speed restoration
 remain separate from the variant's mode71 contract. Their `ripper_move`
 navigation relationship remains unknown; see [OWNED_NPCS.md](OWNED_NPCS.md).
+The same route reaches the classic stored-angle close pursuit and horizontal
+attack selection, without establishing its subsequent melee or world guards.
 
 `ripper_chase_location__FP6OBJECTP3P3Df` is another literal prototype search key
 in [`ripper_steering`](../crates/giants-game/src/ripper_steering.rs). Its exact PC

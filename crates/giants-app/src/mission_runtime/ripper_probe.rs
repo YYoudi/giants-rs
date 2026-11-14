@@ -6,6 +6,7 @@ pub(crate) struct RipperInputSnapshot {
     pub target_position: Option<[f32; 3]>,
     pub target_mode: Option<u32>,
     pub floor_height: f32,
+    pub target_has_launch: bool,
     pub projectile_source: Option<giants_game::resident_states::Id>,
     pub flight_revision: u64,
     pub projectile: Option<[f32; 3]>,
@@ -88,6 +89,14 @@ impl Runtime {
             }),
             target_mode: target_actor.and_then(|id| session.state23_combat(id).map(|s| s.mode)),
             floor_height,
+            target_has_launch: target_actor.is_some_and(|target| {
+                session.list(0).into_iter().any(|id| {
+                    session
+                        .enemy_projectile(id)
+                        .and_then(|p| p.launch.as_ref())
+                        .is_some_and(|launch| launch.source == target)
+                })
+            }),
             projectile_source: projectile.map(|v| v.2),
             flight_revision,
             projectile: projectile.map(|v| v.1),

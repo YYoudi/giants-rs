@@ -73,6 +73,7 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
                                '6a2c8a08a3d3678d0b9c5b035ab2775fa267a94a33f8a4492fab3a5555c61093',
                                '2238304170349433dab36ecf8f1727afc81e7d8e8fd3086d7aaf3e0a59c35777',
                                '0841b622e3a2fcbb568ecfa343295a1285218a96ae8b8b00ad309982326d2736',
+                               '29020fa098f26746f2dc8e3fc585de038c3693bdf42bab05f205ac7fd7218f4b',
                                '67e98798a96ac460d3afcda1fab6d139ec49c948a5d91b3d9af7c216d8065015',
                                '9fd50c038add1f37d5876955b261138a33fda7a568ce79046756671fba08f2a8',
                                '6a6f4cc3338364fd742f50db811993a1709c0ed390d98fc397e847a9f1636a97',

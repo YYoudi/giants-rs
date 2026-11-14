@@ -1,5 +1,15 @@
 # Build on Windows with MinGW
 
+The local mode41 continuation has `cargo test --locked -p giants-game
+classic_close --target x86_64-pc-windows-gnu`. The optional
+`native_classic_close_controls` test uses private identity-bound
+`GIANTS_RIPPER_CLASSIC_CLOSE_CONTROLS`; `source_classic_close_keeps_owner_and_uses_actual_target_before_motion`
+uses `GIANTS_NPC_ROOT` and `-- --ignored`. These are supplied-phase controls.
+The existing Ripper input diagnostic accepts
+`GIANTS_MISSION_RIPPER_CAPTURE_CLASSIC_CLOSE=1` with target class73 to require
+that actor's actual launch and at least20 units of continuous mode41 movement.
+It reuses the sampled player approach and writes no NPC state or attack range.
+
 For the local classic Ripper retreat, run `cargo test --locked -p giants-game
 classic_retreat --target x86_64-pc-windows-gnu`. The optional
 `source_classic_retreat_marks_real_child_and_restores_buried_parameter` test

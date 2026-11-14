@@ -99,6 +99,7 @@ mod tests {
     include!("ripper_primary_turn/close_tests.rs");
     include!("ripper_primary_turn/melee_tests.rs");
     include!("ripper_primary_turn/retreat_tests.rs");
+    include!("ripper_primary_turn/classic_close_tests.rs");
     struct Backend {
         removals: u32,
         sounds: u32,
@@ -1439,6 +1440,7 @@ pub enum Outcome {
     CompletedVariantMelee,
     CompletedVariantRetreat,
     CompletedRetreat,
+    CompletedClassicClose,
 }
 #[derive(Clone, Debug)]
 pub struct Machine<K, E> {
@@ -1615,6 +1617,7 @@ enum Branch<'a, K> {
     VariantMelee(VariantMeleeContext),
     VariantRetreat,
     Retreat(f32),
+    ClassicClose(f32),
     Turn(Parameters),
     Pursuit(f32),
     Emergence(f32),
@@ -1649,6 +1652,28 @@ fn footsteps(primary: [u32; 9]) -> Result<bool, &'static str> {
         .any(|at| now >= at && previous < at))
 }
 impl<K: Copy + Ord, E: Copy> Machine<K, E> {
+    /// Classic mode41 uses stored-angle close steering, its actual horizontal
+    /// attack range and source cues. Prototype PS2 `ripper_move` remains an
+    /// unknown correspondence, distinct from the enclosing callback identity.
+    pub fn advance_classic_close(
+        &mut self,
+        input: FrameInput<'_, K>,
+        attack_range: f32,
+        random: &mut Random,
+        services: &mut impl Services<K, E>,
+    ) -> Result<Outcome, String> {
+        if !attack_range.is_finite() {
+            return Err("classic close requires its actual finite attack range".into());
+        }
+        self.advance_inner(
+            input.context,
+            input.frame,
+            input.range,
+            Branch::ClassicClose(attack_range),
+            random,
+            services,
+        )
+    }
     /// Ordinary class73 mode43. Prototype PS2 `ripper_move` is an unknown
     /// navigation relationship; the PC helper and its former aliases remain
     /// distinct from the enclosing primary. No actor position is supplied.
@@ -2058,6 +2083,7 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Branch::VariantMelee(_) => 68,
             Branch::VariantRetreat => 71,
             Branch::Retreat(_) => 43,
+            Branch::ClassicClose(_) => 41,
             Branch::Awakening(_) => {
                 if !matches!(original.entry.mode, 0 | 31) {
                     return Err("awakening primary requires mode0/31".into());
@@ -2227,6 +2253,47 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                     self.failed = Some(error.clone());
                     return Err(error);
                 }
+            }
+        } else if let Branch::ClassicClose(attack_range) = branch {
+            let target = state
+                .retaliation
+                .map(|id| frame.candidate(id))
+                .transpose()?;
+            let (lost, control) = crate::ripper_pursuit::target_control(
+                target,
+                state.entry.retained_timer,
+                state.entry.control,
+            )?;
+            state.entry.control = control;
+            let result = (|| {
+                if lost {
+                    services.owner_sound(&state, 1269, random)?;
+                    state.entry.mode = 43;
+                    state.retaliation = None;
+                } else {
+                    let target = target.unwrap();
+                    state.steering =
+                        crate::ripper_steering::close_chase(state.steering, target.position)?;
+                    state.entry.flags = state.steering.flags;
+                    state.entry.packed =
+                        u32::from_le_bytes(state.steering.commands[..4].try_into().unwrap());
+                    let dx = f64::from(target.position[0]) - f64::from(state.entry.position[0]);
+                    let dy = f64::from(target.position[1]) - f64::from(state.entry.position[1]);
+                    let distance = (dx * dx + dy * dy) as f32;
+                    if !distance.is_finite() {
+                        return Err("classic close distance overflow".into());
+                    }
+                    if f64::from(distance) < f64::from(attack_range).powi(2) {
+                        services.owner_sound(&state, 1254, random)?;
+                        state.entry.mode = 42;
+                    }
+                }
+                Ok::<_, String>(())
+            })();
+            if let Err(error) = result {
+                self.state = state;
+                self.failed = Some(error.clone());
+                return Err(error);
             }
         } else if matches!(branch, Branch::Retreat(_) | Branch::VariantRetreat) {
             let classic = matches!(branch, Branch::Retreat(_));
@@ -2671,6 +2738,8 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Outcome::CompletedVariantRetreat
         } else if matches!(branch, Branch::Retreat(_)) {
             Outcome::CompletedRetreat
+        } else if matches!(branch, Branch::ClassicClose(_)) {
+            Outcome::CompletedClassicClose
         } else if matches!(branch, Branch::Awakening(_)) {
             Outcome::CompletedAwakening
         } else if mode == 32 {
