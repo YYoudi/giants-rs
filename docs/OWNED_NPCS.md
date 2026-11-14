@@ -62,10 +62,13 @@ A subsequent original control constructs the actual class785/state37 parent
 with mask0 and executes both attached health constructors/six registrations.
 Position, clock, quality and outer heap/texture storage remain supplied controls.
 This still does not establish live parent/world-affine resolution or child
-scheduling. A cache-only probe leaves the cold item's bounds zero; this is a
-missing late-initialization step, not a verified no-contact result or permission
-to invent a pickup radius. Actual geometry initialization and the ordinary
-contact/collection path remain required.
+scheduling. A cache-only probe leaves the cold item's bounds zero; a subsequent
+supplied initializer/bounds composition still yields zero-width points. These
+controls do not establish the ordinary item's usable volume or absence of one.
+Verify actual model/resource presence and complete primary/finalization ordering;
+do not invent a pickup radius. The original overlap predicate rejects zero X
+width, as the existing common kernel already does. Actual ordinary geometry,
+contact and collection remain required.
 
 The pinned PC state37 primary was inspected for the next required item update;
 its generic item path does not establish a one-to-one prototype identity.

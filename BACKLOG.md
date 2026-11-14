@@ -332,9 +332,9 @@ health emission/collection remains unconnected. Actual debug item36 family
 metadata and current owned Mecc/item eligibility are now retained and checked;
 six original eligibility controls execute after the genuine weapon dispatcher.
 The health constructor now retains its explicit mask0/common-list-only source
-request. Contact needs the real late geometry initializer: cold zero bounds after
-a cache-only probe are not no-contact evidence and must not become a guessed
-pickup radius. Contact, healing and retirement remain required. Main still rejects lethal contacts; no new death, loot,
+request. Contact needs the actual geometry/resource presence and frame ordering:
+zero-width bounds in the current supplied controls are not ordinary no-contact
+evidence and must not become a guessed pickup radius. Contact, healing and retirement remain required. Main still rejects lethal contacts; no new death, loot,
 rendered item or preview availability is claimed. The required installed global
 drop probability is100, so do not bypass the health object to ship a visual kill.
 Resume actual item primary/collection, active source56 health FX, death effects/
